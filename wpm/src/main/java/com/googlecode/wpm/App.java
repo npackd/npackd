@@ -4,6 +4,14 @@ import java.awt.BorderLayout;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.Proxy;
+import java.net.ProxySelector;
+import java.net.URISyntaxException;
+import java.net.URL;
+import java.net.URLConnection;
+import java.util.List;
 import javax.swing.BorderFactory;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
@@ -17,6 +25,36 @@ import javax.swing.border.Border;
  */
 class App {
     private static JFrame mainFrame;
+
+    /**
+     * Rethrows an exception as an I/O exception
+     *
+     * @param ex cause
+     * @throws IOException ex
+     */
+    private static void rethrowAsIOException(URISyntaxException ex) 
+            throws IOException {
+        throw (IOException) new IOException().initCause(ex);
+    }
+
+    /**
+     * Opens an URL using all the defined proxies.
+     * 
+     * @param url an URL
+     * @return stream
+     */
+    public static InputStream readURL(URL url) throws IOException {
+        InputStream r = null;
+        try {
+            List<Proxy> proxies = ProxySelector.getDefault().
+                    select(url.toURI());
+            URLConnection urlc = url.openConnection(proxies.get(0));
+            r = urlc.getInputStream();
+        } catch (URISyntaxException ex) {
+            App.rethrowAsIOException(ex);
+        }
+        return r;
+    }
 
     /**
      * @return program files directory

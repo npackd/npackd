@@ -52,7 +52,7 @@ public class PackageVersion {
                 FileOutputStream os = new FileOutputStream(tmp);
                 try {
                     job.setHint("Starting the download");
-                    InputStream is = url.openStream();
+                    InputStream is = App.readURL(url);
                     try {
                         job.setHint("Downloading");
                         copy(is, os, job.createSubJob());

@@ -70,7 +70,7 @@ public class Repository {
      */
     public static Repository load(URL url) throws IOException {
         try {
-            InputStream is = url.openStream();
+            InputStream is = App.readURL(url);
             DocumentBuilder db = DocumentBuilderFactory.newInstance().newDocumentBuilder();
             Document d = db.parse(is);
             Element root = d.getDocumentElement();
