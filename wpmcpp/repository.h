@@ -9,8 +9,10 @@ class Repository
 private:
     static Repository* def;
 
-    QList<PackageVersion> pvs;
 public:
+    /** package versions */
+    QList<PackageVersion> packageVersions;
+
     Repository();
 
     static Repository* getDefault();

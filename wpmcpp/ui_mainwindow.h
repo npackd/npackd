@@ -1,7 +1,7 @@
 /********************************************************************************
 ** Form generated from reading UI file 'mainwindow.ui'
 **
-** Created: Sun 20. Jun 18:59:10 2010
+** Created: Mon 21. Jun 18:41:06 2010
 **      by: Qt User Interface Compiler version 4.6.3
 **
 ** WARNING! All changes made in this file will be lost when recompiling UI file!
@@ -36,6 +36,8 @@ class Ui_MainWindow
 {
 public:
     QAction *actionExit;
+    QAction *actionInstall;
+    QAction *actionUninstall;
     QWidget *centralWidget;
     QHBoxLayout *horizontalLayout;
     QTabWidget *tabWidget;
@@ -61,6 +63,10 @@ public:
         MainWindow->resize(617, 400);
         actionExit = new QAction(MainWindow);
         actionExit->setObjectName(QString::fromUtf8("actionExit"));
+        actionInstall = new QAction(MainWindow);
+        actionInstall->setObjectName(QString::fromUtf8("actionInstall"));
+        actionUninstall = new QAction(MainWindow);
+        actionUninstall->setObjectName(QString::fromUtf8("actionUninstall"));
         centralWidget = new QWidget(MainWindow);
         centralWidget->setObjectName(QString::fromUtf8("centralWidget"));
         horizontalLayout = new QHBoxLayout(centralWidget);
@@ -76,7 +82,14 @@ public:
         verticalLayout_2->setContentsMargins(11, 11, 11, 11);
         verticalLayout_2->setObjectName(QString::fromUtf8("verticalLayout_2"));
         tableWidget = new QTableWidget(tab);
+        if (tableWidget->columnCount() < 1)
+            tableWidget->setColumnCount(1);
+        if (tableWidget->rowCount() < 1)
+            tableWidget->setRowCount(1);
         tableWidget->setObjectName(QString::fromUtf8("tableWidget"));
+        tableWidget->setEnabled(true);
+        tableWidget->setRowCount(1);
+        tableWidget->setColumnCount(1);
 
         verticalLayout_2->addWidget(tableWidget);
 
@@ -131,8 +144,11 @@ public:
         MainWindow->setStatusBar(statusBar);
 
         menuBar->addAction(menuFile->menuAction());
+        menuFile->addAction(actionInstall);
+        menuFile->addAction(actionUninstall);
         menuFile->addAction(actionExit);
-        mainToolBar->addAction(actionExit);
+        mainToolBar->addAction(actionInstall);
+        mainToolBar->addAction(actionUninstall);
 
         retranslateUi(MainWindow);
         QObject::connect(actionExit, SIGNAL(activated()), MainWindow, SLOT(close()));
@@ -147,6 +163,8 @@ public:
     {
         MainWindow->setWindowTitle(QApplication::translate("MainWindow", "MainWindow", 0, QApplication::UnicodeUTF8));
         actionExit->setText(QApplication::translate("MainWindow", "Exit", 0, QApplication::UnicodeUTF8));
+        actionInstall->setText(QApplication::translate("MainWindow", "Install", 0, QApplication::UnicodeUTF8));
+        actionUninstall->setText(QApplication::translate("MainWindow", "Uninstall", 0, QApplication::UnicodeUTF8));
         tabWidget->setTabText(tabWidget->indexOf(tab), QApplication::translate("MainWindow", "Tab 1", 0, QApplication::UnicodeUTF8));
         label->setText(QApplication::translate("MainWindow", "TextLabel", 0, QApplication::UnicodeUTF8));
         pushButton_3->setText(QApplication::translate("MainWindow", "PushButton", 0, QApplication::UnicodeUTF8));

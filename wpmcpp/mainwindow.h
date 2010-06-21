@@ -7,6 +7,9 @@ namespace Ui {
     class MainWindow;
 }
 
+/**
+ * Main window.
+ */
 class MainWindow : public QMainWindow {
     Q_OBJECT
 public:
@@ -19,6 +22,9 @@ protected:
 private:
     Ui::MainWindow *ui;
 
+    /**
+     * Fills the table with known package versions.
+     */
     void fillList();
 private slots:
     void on_actionExit_triggered();

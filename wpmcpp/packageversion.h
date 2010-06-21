@@ -9,9 +9,11 @@ class PackageVersion
 private:
     int* parts;
     int nparts;
-    QString package;
 public:
-    PackageVersion();
+    /** complete package name like net.sourceforge.NotepadPlusPlus */
+    QString package;
+
+    PackageVersion(const QString& package);
     virtual ~PackageVersion();
 };
 
