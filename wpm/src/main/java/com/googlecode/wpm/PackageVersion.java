@@ -72,6 +72,10 @@ public class PackageVersion {
                 }
 
                 job.setHint("Unpacking");
+                File d = getDirectory();
+                if (!d.mkdirs())
+                    throw new IOException("Cannot create directory: " + d);
+
                 unzip(new FileInputStream(tmp), job.createSubJob());
                 this.installed = true;
                 this.installedValid = true;
