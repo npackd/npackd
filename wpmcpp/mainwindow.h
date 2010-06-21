@@ -34,6 +34,7 @@ private:
      */
     PackageVersion* getSelectedPackageVersion();
 private slots:
+    void on_actionInstall_activated();
     void on_tableWidget_itemSelectionChanged();
     void on_actionUninstall_activated();
     void on_MainWindow_destroyed();

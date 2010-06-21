@@ -4,6 +4,8 @@
 #include "qxml.h"
 #include "qstring.h"
 #include "qmetatype.h"
+#include "qdir.h"
+#include "qurl.h"
 
 class PackageVersion
 {
@@ -17,6 +19,31 @@ public:
     PackageVersion();
     PackageVersion(const QString& package);
     virtual ~PackageVersion();
+
+    /**
+     * @return true if this package version is installed
+     */
+    bool installed();
+
+    /**
+     * @return directory where this package version should be installed
+     */
+    QDir getDirectory();
+
+    /**
+     * @return package version as a string (like "1.2.3")
+     */
+    QString getVersionString();
+
+    /**
+     * .zip file for downloading
+     */
+    QUrl download;
+
+    /**
+     * Installs this application.
+     */
+    void install();
 };
 
 Q_DECLARE_METATYPE(PackageVersion);

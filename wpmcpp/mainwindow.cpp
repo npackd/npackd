@@ -12,6 +12,8 @@ MainWindow::MainWindow(QWidget *parent) :
 {
     ui->setupUi(this);
     this->ui->tableWidget->setEditTriggers(QTableWidget::NoEditTriggers);
+    this->on_tableWidget_itemSelectionChanged();
+    this->ui->tableWidget->setColumnWidth(0, 400);
     fillList();
 }
 
@@ -77,6 +79,12 @@ void MainWindow::on_actionUninstall_activated()
 
 void MainWindow::on_tableWidget_itemSelectionChanged()
 {
-    this->ui->actionInstall->setEnabled(true);
-    this->ui->actionUninstall->setEnabled(true);
+    PackageVersion* pv = getSelectedPackageVersion();
+    this->ui->actionInstall->setEnabled(pv && !pv->installed());
+    this->ui->actionUninstall->setEnabled(pv && pv->installed());
+}
+
+void MainWindow::on_actionInstall_activated()
+{
+    getSelectedPackageVersion()->install();
 }
