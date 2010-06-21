@@ -1,7 +1,7 @@
 /****************************************************************************
 ** Meta object code from reading C++ file 'mainwindow.h'
 **
-** Created: Mon 21. Jun 18:35:24 2010
+** Created: Mon 21. Jun 20:52:30 2010
 **      by: The Qt Meta Object Compiler version 62 (Qt 4.6.3)
 **
 ** WARNING! All changes made in this file will be lost!
@@ -23,7 +23,7 @@ static const uint qt_meta_data_MainWindow[] = {
        4,       // revision
        0,       // classname
        0,    0, // classinfo
-       1,   14, // methods
+       4,   14, // methods
        0,    0, // properties
        0,    0, // enums/sets
        0,    0, // constructors
@@ -32,12 +32,18 @@ static const uint qt_meta_data_MainWindow[] = {
 
  // slots: signature, parameters, type, tag, flags
       12,   11,   11,   11, 0x08,
+      50,   11,   11,   11, 0x08,
+      81,   11,   11,   11, 0x08,
+     107,   11,   11,   11, 0x08,
 
        0        // eod
 };
 
 static const char qt_meta_stringdata_MainWindow[] = {
-    "MainWindow\0\0on_actionExit_triggered()\0"
+    "MainWindow\0\0on_tableWidget_itemSelectionChanged()\0"
+    "on_actionUninstall_activated()\0"
+    "on_MainWindow_destroyed()\0"
+    "on_actionExit_triggered()\0"
 };
 
 const QMetaObject MainWindow::staticMetaObject = {
@@ -69,10 +75,13 @@ int MainWindow::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
         return _id;
     if (_c == QMetaObject::InvokeMetaMethod) {
         switch (_id) {
-        case 0: on_actionExit_triggered(); break;
+        case 0: on_tableWidget_itemSelectionChanged(); break;
+        case 1: on_actionUninstall_activated(); break;
+        case 2: on_MainWindow_destroyed(); break;
+        case 3: on_actionExit_triggered(); break;
         default: ;
         }
-        _id -= 1;
+        _id -= 4;
     }
     return _id;
 }

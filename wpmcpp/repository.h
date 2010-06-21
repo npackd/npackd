@@ -4,17 +4,28 @@
 #include <qlist.h>
 #include "packageversion.h"
 
+/**
+ * A repository is a list of packages and package versions.
+ */
 class Repository
 {
 private:
     static Repository* def;
-
 public:
-    /** package versions */
-    QList<PackageVersion> packageVersions;
+    /**
+     * Package versions.
+     * TODO: does this leak memory?
+     */
+    QList<PackageVersion*> packageVersions;
 
+    /**
+     * Creates an empty repository.
+     */
     Repository();
 
+    /**
+     * @return default repository
+     */
     static Repository* getDefault();
 };
 

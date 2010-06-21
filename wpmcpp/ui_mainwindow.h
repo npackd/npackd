@@ -1,7 +1,7 @@
 /********************************************************************************
 ** Form generated from reading UI file 'mainwindow.ui'
 **
-** Created: Mon 21. Jun 18:41:06 2010
+** Created: Mon 21. Jun 20:32:57 2010
 **      by: Qt User Interface Compiler version 4.6.3
 **
 ** WARNING! All changes made in this file will be lost when recompiling UI file!
@@ -152,6 +152,8 @@ public:
 
         retranslateUi(MainWindow);
         QObject::connect(actionExit, SIGNAL(activated()), MainWindow, SLOT(close()));
+        QObject::connect(actionInstall, SIGNAL(activated()), MainWindow, SLOT(install()));
+        QObject::connect(actionUninstall, SIGNAL(activated()), MainWindow, SLOT(uninstall()));
 
         tabWidget->setCurrentIndex(0);
 

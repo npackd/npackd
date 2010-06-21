@@ -8,6 +8,14 @@ PackageVersion::PackageVersion(const QString& package)
     this->package = package;
 }
 
+PackageVersion::PackageVersion()
+{
+    this->parts = new int[1];
+    this->parts[0] = 1;
+    this->nparts = 1;
+    this->package = "unknown";
+}
+
 PackageVersion::~PackageVersion()
 {
     delete[] this->parts;
