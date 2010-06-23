@@ -1,8 +1,10 @@
 #include <windows.h>
 #include <shlobj.h>
+
 #include "repository.h"
 #include "qhttp.h"
 #include "qtemporaryfile.h"
+#include "downloader.h"
 
 Repository* Repository::def = 0;
 
@@ -32,18 +34,11 @@ QString Repository::getProgramFilesDir()
 
 QTemporaryFile* Repository::download(const QUrl &url)
 {
-    QHttp http;
-    // TODO: connect(&http, SIGNAL(requestFinished(int, bool)), this, SLOT(httpRequestFinished(int, bool)));
-
-    http.setHost(url.host(), url.port(80));
-
-    if (!url.userName().isEmpty()) {
-        http.setUser(url.userName(), url.password());
-    }
-
     QTemporaryFile* file = new QTemporaryFile();
-    file->open();
-    http.get(url.path(), file);
+    file->open(); // TODO: handle return value
+
+    Downloader d;
+    d.download(url, file);
     file->close();
 
     return file;

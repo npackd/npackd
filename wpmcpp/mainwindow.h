@@ -2,8 +2,11 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
+#include <qprogressdialog.h>
+#include <qtimer.h>
 
 #include "packageversion.h"
+#include "job.h"
 
 namespace Ui {
     class MainWindow;
@@ -18,11 +21,19 @@ public:
     MainWindow(QWidget *parent = 0);
     ~MainWindow();
 
+    /**
+     * Blocks until the job is completed.
+     *
+     * @param job a job
+     */
+    void waitFor(Job* job);
 protected:
     void changeEvent(QEvent *e);
-
+private slots:
+    void jobChanged(void* job);
 private:
     Ui::MainWindow *ui;
+    QProgressDialog* pd;
 
     /**
      * Fills the table with known package versions.

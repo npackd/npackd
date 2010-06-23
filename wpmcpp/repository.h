@@ -13,6 +13,7 @@
 class Repository
 {
 private:
+    // TODO: this is never freed
     static Repository* def;
 public:
     /**

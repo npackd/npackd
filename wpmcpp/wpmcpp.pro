@@ -9,9 +9,11 @@ SOURCES += main.cpp \
     mainwindow.cpp \
     packageversion.cpp \
     repository.cpp \
-    job.cpp
+    job.cpp \
+    downloader.cpp
 HEADERS += mainwindow.h \
     packageversion.h \
     repository.h \
-    job.h
+    job.h \
+    downloader.h
 FORMS += mainwindow.ui

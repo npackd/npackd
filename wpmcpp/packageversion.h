@@ -44,6 +44,11 @@ public:
      * Installs this application.
      */
     void install();
+
+    /**
+     * Uninstalls this package version.
+     */
+    void uninstall();
 };
 
 Q_DECLARE_METATYPE(PackageVersion);

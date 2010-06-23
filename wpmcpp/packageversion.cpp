@@ -31,6 +31,11 @@ bool PackageVersion::installed()
     return getDirectory().exists();
 }
 
+void PackageVersion::uninstall()
+{
+    // TODO
+}
+
 QDir PackageVersion::getDirectory()
 {
     QString pf = Repository::getProgramFilesDir();

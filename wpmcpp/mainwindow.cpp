@@ -1,10 +1,47 @@
 #include <qabstractitemview.h>
 #include <qmessagebox.h>
 #include <qvariant.h>
+#include <qprogressdialog.h>
+#include <qwaitcondition.h>
+#include <qthread.h>
+#include <windows.h>
+#include <qtimer.h>
+#include <qdebug.h>
 
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 #include "repository.h"
+#include "job.h"
+
+class InstallThread: public QThread
+{
+    PackageVersion* pv;
+    bool install;
+    Job* job;
+public:
+    InstallThread(PackageVersion* pv, bool install, Job* job);
+
+    void run();
+};
+
+InstallThread::InstallThread(PackageVersion *pv, bool install, Job* job)
+{
+    this->pv = pv;
+    this->install = install;
+    this->job = job;
+}
+
+void InstallThread::run()
+{
+    job->nsteps = 1;
+    qDebug() << "InstallThread::run.1";
+    if (this->install)
+        pv->install();
+    else
+        pv->uninstall();
+    qDebug() << "InstallThread::run.2";
+    job->done(1);
+}
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -20,6 +57,30 @@ MainWindow::MainWindow(QWidget *parent) :
 MainWindow::~MainWindow()
 {
     delete ui;
+}
+
+void MainWindow::waitFor(Job* job)
+{
+    pd = new QProgressDialog("Please wait...", "Cancel", 0, 100, this);
+    pd->setCancelButton(0);
+    pd->setWindowModality(Qt::WindowModal);
+
+    connect(job, SIGNAL(changed(void*)), this, SLOT(jobChanged(void*)));
+
+    // TODO: connect(http, SIGNAL(dataReadProgress(int, int)),
+    //        this, SLOT(updateDataReadProgress(int, int)));
+    pd->show(); // TODO: pd - memory leak?
+    //delete pd;
+}
+
+void MainWindow::jobChanged(void* job_)
+{
+    Job* job = (Job*) job_;
+    if (job->getProgress() >= job->nsteps) {
+        delete pd;
+    } else {
+        pd->setLabelText(job->hint);
+    }
 }
 
 PackageVersion* MainWindow::getSelectedPackageVersion()
@@ -86,5 +147,13 @@ void MainWindow::on_tableWidget_itemSelectionChanged()
 
 void MainWindow::on_actionInstall_activated()
 {
-    getSelectedPackageVersion()->install();
+    // TODO: getSelectedPackageVersion()->install();
+    PackageVersion* pv = getSelectedPackageVersion();
+    Job* job = new Job();
+    InstallThread* it = new InstallThread(pv, true, job);
+    it->start(); // TODO: low priority
+    // TODO: memory leak: it
+
+    waitFor(job);
+    // TODO: delete job;
 }
