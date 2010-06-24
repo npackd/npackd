@@ -49,6 +49,11 @@ public:
      * Uninstalls this package version.
      */
     void uninstall();
+
+    /* TODO comment
+      */
+    bool MakezipDir( QString dirtozip ) ;
+    bool  UnzipTo( QString zipfile, QString outputdir ) ;
 };
 
 Q_DECLARE_METATYPE(PackageVersion);
