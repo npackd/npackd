@@ -99,13 +99,16 @@ void MainWindow::fillList()
 {
     QTableWidget* t = this->ui->tableWidget;
 
+    t->clear();
+
     Repository* r = Repository::getDefault();
 
     t->setColumnCount(1);
     t->setRowCount(r->packageVersions.count());
     for (int i = 0; i < r->packageVersions.count(); i++) {
         PackageVersion* pv = r->packageVersions.at(i);
-        QTableWidgetItem *newItem = new QTableWidgetItem(pv->package);
+        QTableWidgetItem *newItem = new QTableWidgetItem(pv->package + " " +
+                pv->getVersionString() + " " + (pv->installed() ? "": "[installed]"));
         newItem->setData(Qt::UserRole, qVariantFromValue((void*) pv));
         t->setItem(i, 0, newItem);
     }
@@ -135,7 +138,17 @@ void MainWindow::on_MainWindow_destroyed()
 
 void MainWindow::on_actionUninstall_activated()
 {
-    QMessageBox::about(this, "Windows Package Manager", "AHA");
+    // TODO: getSelectedPackageVersion()->install();
+    PackageVersion* pv = getSelectedPackageVersion();
+    Job* job = new Job();
+    InstallThread* it = new InstallThread(pv, false, job);
+    it->start(); // TODO: low priority
+    // TODO: memory leak: it
+
+    waitFor(job);
+
+    fillList();
+    // TODO: delete job;
 }
 
 void MainWindow::on_tableWidget_itemSelectionChanged()
@@ -155,5 +168,7 @@ void MainWindow::on_actionInstall_activated()
     // TODO: memory leak: it
 
     waitFor(job);
+
+    fillList();
     // TODO: delete job;
 }

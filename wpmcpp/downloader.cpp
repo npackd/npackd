@@ -22,7 +22,7 @@ Downloader::~Downloader()
 
 bool Downloader::download(const QUrl& url, QTemporaryFile* file)
 {
-    qDebug() << "Downloader::download.1";
+    qDebug() << "Downloader::download.1" << url;
     this->file = file;
 
     QHttp::ConnectionMode mode = url.scheme().toLower() == "https" ?
@@ -65,7 +65,7 @@ void Downloader::cancelDownload()
 
 void Downloader::httpRequestFinished(int requestId, bool error)
 {
-    qDebug() << "Downloader::httpRequestFinished";
+    qDebug() << "Downloader::httpRequestFinished" << error;
     if (requestId != httpGetId)
         return;
 
@@ -75,7 +75,7 @@ void Downloader::httpRequestFinished(int requestId, bool error)
 
  void Downloader::readResponseHeader(const QHttpResponseHeader &responseHeader)
  {
-     qDebug() << "Downloader::readResponseHeader";
+     qDebug() << "Downloader::readResponseHeader" << responseHeader.statusCode();
      if (responseHeader.statusCode() != 200) {
          // TODO: tr("Download failed: %1.").arg(responseHeader.reasonPhrase()));
          http->abort();

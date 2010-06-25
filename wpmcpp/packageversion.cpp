@@ -36,7 +36,42 @@ bool PackageVersion::installed()
 
 void PackageVersion::uninstall()
 {
-    // TODO
+    QDir d = getDirectory();
+    if (d.exists())
+        RemoveDirectory(d); // TODO: handle errors
+}
+
+bool PackageVersion::RemoveDirectory(QDir &aDir)
+{
+    // TODO: verify the implementation
+    bool has_err = false;
+    if (aDir.exists())//QDir::NoDotAndDotDot
+    {
+        QFileInfoList entries = aDir.entryInfoList(QDir::NoDotAndDotDot |
+                                                   QDir::Dirs | QDir::Files);
+        int count = entries.size();
+        for (int idx = 0; idx < count; idx++)
+        {
+            QFileInfo entryInfo = entries[idx];
+            QString path = entryInfo.absoluteFilePath();
+            if (entryInfo.isDir())
+            {
+                QDir dd(path);
+                has_err = RemoveDirectory(dd);
+            }
+            else
+            {
+                QFile file(path);
+                if (!file.remove())
+                    has_err = true;
+            }
+            if (has_err)
+                break;
+        }
+        if (!aDir.rmdir(aDir.absolutePath()))
+            has_err = true;
+    }
+    return(has_err);
 }
 
 QDir PackageVersion::getDirectory()
@@ -62,6 +97,7 @@ void PackageVersion::install()
 {
     qDebug() << "install.1";
     if (!installed()) {
+        // TODO: error handling/free memory
         qDebug() << "install.2";
         QDir d = getDirectory();
         qDebug() << "install.dir=" << d;
@@ -71,11 +107,18 @@ void PackageVersion::install()
         qDebug() << "install.4";
         d.mkdir(this->package + "-" + this->getVersionString());
         qDebug() << "install.5";
+        qDebug() << "install.6 " << f->size() << d.absolutePath();
+
+        d.mkdir(d.absolutePath());
+        UnzipTo(f->fileName(), d.absolutePath() + "\\");
+        delete f;
     }
 }
 
 bool PackageVersion::MakezipDir( QString dirtozip )
 {
+    // TODO: verify the implementation
+    // TODO: this method is not used. Remove?
     const QString cartella = QDir::currentPath();
     char c;
     QString zipfile;
@@ -140,13 +183,12 @@ bool PackageVersion::MakezipDir( QString dirtozip )
     QDir::setCurrent(cartella);
     return true;
     }
-
-
-
+    return true;
 }
 
-bool  PackageVersion::UnzipTo( QString zipfile, QString outputdir )
+bool PackageVersion::UnzipTo(QString zipfile, QString outputdir)
 {
+    // TODO: verify the implementation
     QuaZip zip(zipfile);
     bool extractsuccess = false;
     zip.open(QuaZip::mdUnzip);

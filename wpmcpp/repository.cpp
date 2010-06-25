@@ -11,9 +11,9 @@ Repository* Repository::def = 0;
 Repository::Repository()
 {
     // TODO: remove later
-    PackageVersion* a = new PackageVersion(QString("net.sourceforge.NotepadPlusPlus"));
-    a->download.setUrl("http://sourceforge.net/projects/notepad-plus/files/notepad%2B%2B%20releases%20binary/npp%205.6.8%20bin/npp.5.6.8.bin.zip/download");
-
+    PackageVersion* a = new PackageVersion(QString("com.dependencywalker.DependencyWalker"));
+    //a->download.setUrl("http://sourceforge.net/projects/notepad-plus/files/notepad%2B%2B%20releases%20binary/npp%205.6.8%20bin/npp.5.6.8.bin.zip/download");
+    a->download.setUrl("http://www.dependencywalker.com/depends22_x86.zip");
     this->packageVersions.append(a);
 }
 

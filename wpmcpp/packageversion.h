@@ -53,7 +53,13 @@ public:
     /* TODO comment
       */
     bool MakezipDir( QString dirtozip ) ;
+
+    /* TODO comment
+      */
     bool  UnzipTo( QString zipfile, QString outputdir ) ;
+
+    /** TODO: comment */
+    bool RemoveDirectory(QDir &aDir);
 };
 
 Q_DECLARE_METATYPE(PackageVersion);
