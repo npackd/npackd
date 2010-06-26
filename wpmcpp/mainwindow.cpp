@@ -53,7 +53,10 @@ MainWindow::MainWindow(QWidget *parent) :
 {
     ui->setupUi(this);
     setWindowTitle("Windows Package Manager");
+
     this->ui->tableWidget->setEditTriggers(QTableWidget::NoEditTriggers);
+    this->ui->tableWidget->setSelectionMode(QAbstractItemView::SingleSelection);
+
     this->ui->tabWidget->setTabText(0, "Packages");
     this->ui->tabWidget->setTabText(1, "Settings");
 
