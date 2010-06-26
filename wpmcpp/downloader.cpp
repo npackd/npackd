@@ -43,6 +43,7 @@ bool Downloader::download(const QUrl& url, QTemporaryFile* file)
     connect(http, SIGNAL(authenticationRequired(const QString &, quint16, QAuthenticator *)),
             this, SLOT(slotAuthenticationRequired(const QString &, quint16, QAuthenticator *)));
 
+    // TODO: proxy: http://stackoverflow.com/questions/932824/how-do-i-get-the-system-proxy-using-qt
     // TODO: timeout: http://stackoverflow.com/questions/250757/blocking-a-qt-application-during-downloading-a-short-file
 
     qDebug() << "Downloader::download.2";

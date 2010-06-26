@@ -28,6 +28,21 @@ public:
     Repository();
 
     /**
+     * Loads the content from the URL.
+     */
+    void load();
+
+    /**
+     * @return newly created object pointing to the repository or 0
+     */
+    static QUrl* getRepositoryURL();
+
+    /*
+     * TODO: comment
+     */
+    static void setRepositoryURL(QUrl& url);
+
+    /**
      * @return default repository
      */
     static Repository* getDefault();

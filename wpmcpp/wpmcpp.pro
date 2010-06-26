@@ -19,4 +19,6 @@ HEADERS += mainwindow.h \
 FORMS += mainwindow.ui
 INCLUDEPATH += C:\Users\t\libs\quazip-0.2.3\quazip C:\Users\t\libs\zlib-1.2.5
 LIBS += C:\Users\t\libs\quazip-0.2.3\quazip\debug\libquazip.a C:\Users\t\libs\zlib-1.2.5\libz.a
+CONFIG += embed_manifest_exe
+
 

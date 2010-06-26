@@ -27,9 +27,13 @@ public:
      * @param job a job
      */
     void waitFor(Job* job);
+
+    /** todo comment */
+    void loadRepository();
 protected:
     void changeEvent(QEvent *e);
 private slots:
+    void on_pushButton_3_clicked();
     void jobChanged(void* job);
 private:
     Ui::MainWindow *ui;

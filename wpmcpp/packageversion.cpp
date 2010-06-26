@@ -29,9 +29,32 @@ PackageVersion::~PackageVersion()
     delete[] this->parts;
 }
 
+void PackageVersion::setVersion(int a, int b)
+{
+    delete[] this->parts;
+    this->parts = new int[2];
+    this->parts[0] = a;
+    this->parts[1] = b;
+    this->nparts = 2;
+}
+
+void PackageVersion::setVersion(QString& v)
+{
+    delete[] this->parts;
+    QStringList sl = v.split(".", QString::KeepEmptyParts);
+
+    this->parts = new int[sl.count()];
+    this->nparts = sl.count();
+    for (int i = 0; i < sl.count(); i++) {
+        this->parts[i] = sl.at(i).toInt();
+    }
+}
+
 bool PackageVersion::installed()
 {
-    return getDirectory().exists();
+    QDir d = getDirectory();
+    d.refresh();
+    return d.exists();
 }
 
 void PackageVersion::uninstall()

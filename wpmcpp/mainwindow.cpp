@@ -35,10 +35,14 @@ void InstallThread::run()
 {
     job->nsteps = 1;
     qDebug() << "InstallThread::run.1";
-    if (this->install)
-        pv->install();
-    else
-        pv->uninstall();
+    if (pv) {
+        if (this->install)
+            pv->install();
+        else
+            pv->uninstall();
+    } else {
+        Repository::getDefault()->load();
+    }
     qDebug() << "InstallThread::run.2";
     job->done(1);
 }
@@ -48,7 +52,21 @@ MainWindow::MainWindow(QWidget *parent) :
     ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
+    setWindowTitle("Windows Package Manager");
     this->ui->tableWidget->setEditTriggers(QTableWidget::NoEditTriggers);
+    this->ui->tabWidget->setTabText(0, "Packages");
+    this->ui->tabWidget->setTabText(1, "Settings");
+
+    QUrl* url = Repository::getRepositoryURL();
+    if (url) {
+        this->ui->lineEditRepository->setText(url->toString());
+        delete url;
+    } else {
+        QMessageBox::critical(this,
+                "Error", "The repository URL is not valid. Please change it on the settings tab.",
+                QMessageBox::Ok);
+    }
+
     this->on_tableWidget_itemSelectionChanged();
     this->ui->tableWidget->setColumnWidth(0, 400);
     fillList();
@@ -63,21 +81,19 @@ void MainWindow::waitFor(Job* job)
 {
     pd = new QProgressDialog("Please wait...", "Cancel", 0, 100, this);
     pd->setCancelButton(0);
-    pd->setWindowModality(Qt::WindowModal);
+    pd->setModal(true);
 
     connect(job, SIGNAL(changed(void*)), this, SLOT(jobChanged(void*)));
 
-    // TODO: connect(http, SIGNAL(dataReadProgress(int, int)),
-    //        this, SLOT(updateDataReadProgress(int, int)));
-    pd->show(); // TODO: pd - memory leak?
-    //delete pd;
+    pd->exec();
+    delete pd;
 }
 
 void MainWindow::jobChanged(void* job_)
 {
     Job* job = (Job*) job_;
     if (job->getProgress() >= job->nsteps) {
-        delete pd;
+        pd->done(0);
     } else {
         pd->setLabelText(job->hint);
     }
@@ -97,9 +113,10 @@ PackageVersion* MainWindow::getSelectedPackageVersion()
 
 void MainWindow::fillList()
 {
+    qDebug() << "MainWindow::fillList";
     QTableWidget* t = this->ui->tableWidget;
 
-    t->clear();
+    t->clearContents();
 
     Repository* r = Repository::getDefault();
 
@@ -107,8 +124,13 @@ void MainWindow::fillList()
     t->setRowCount(r->packageVersions.count());
     for (int i = 0; i < r->packageVersions.count(); i++) {
         PackageVersion* pv = r->packageVersions.at(i);
-        QTableWidgetItem *newItem = new QTableWidgetItem(pv->package + " " +
-                pv->getVersionString() + " " + (pv->installed() ? "": "[installed]"));
+        QString s;
+        s.append(pv->package);
+        s.append(" ");
+        s.append(pv->getVersionString());
+        if (pv->installed())
+            s.append(" [installed]");
+        QTableWidgetItem *newItem = new QTableWidgetItem(s);
         newItem->setData(Qt::UserRole, qVariantFromValue((void*) pv));
         t->setItem(i, 0, newItem);
     }
@@ -158,6 +180,20 @@ void MainWindow::on_tableWidget_itemSelectionChanged()
     this->ui->actionUninstall->setEnabled(pv && pv->installed());
 }
 
+void MainWindow::loadRepository()
+{
+    // TODO: getSelectedPackageVersion()->install();
+    Job* job = new Job();
+    InstallThread* it = new InstallThread(0, true, job);
+    it->start(); // TODO: low priority
+    // TODO: memory leak: it
+
+    waitFor(job);
+
+    fillList();
+    // TODO: delete job;
+}
+
 void MainWindow::on_actionInstall_activated()
 {
     // TODO: getSelectedPackageVersion()->install();
@@ -171,4 +207,16 @@ void MainWindow::on_actionInstall_activated()
 
     fillList();
     // TODO: delete job;
+}
+
+void MainWindow::on_pushButton_3_clicked()
+{
+    QUrl url(this->ui->lineEditRepository->text().trimmed());
+    if (url.isValid()) {
+        Repository::setRepositoryURL(url);
+        loadRepository();
+    } else {
+        QMessageBox::critical(this,
+                "Error", "The URL is not valid", QMessageBox::Ok);
+    }
 }

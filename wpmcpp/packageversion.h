@@ -21,6 +21,16 @@ public:
     virtual ~PackageVersion();
 
     /**
+     * TODO:  comment
+     */
+    void setVersion(int a, int b);
+
+    /**
+     * TODO:  comment
+     */
+    void setVersion(QString& version);
+
+    /**
      * @return true if this package version is installed
      */
     bool installed();
