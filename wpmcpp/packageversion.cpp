@@ -1,10 +1,15 @@
-#include "packageversion.h"
+#include <windows.h>
+#include <shellapi.h>
+#include <shlobj.h>
+
 #include "repository.h"
 #include "qurl.h"
 #include "QtDebug"
 
 #include "quazip.h"
 #include "quazipfile.h"
+
+#include "packageversion.h"
 
 PackageVersion::PackageVersion(const QString& package)
 {
@@ -254,5 +259,58 @@ bool PackageVersion::unzip(QString zipfile, QString outputdir, QString* errMsg)
         }
     zip.close();
 
-return extractsuccess;
+    return extractsuccess;
+}
+
+/**
+  * TODO: correct
+// CreateLink - uses the Shell's IShellLink and IPersistFile interfaces
+//   to create and store a shortcut to the specified object.
+// Returns the result of calling the member functions of the interfaces.
+// lpszPathObj - address of a buffer containing the path of the object.
+// lpszPathLink - address of a buffer containing the path where the
+//   Shell link is to be stored.
+// lpszDesc - address of a buffer containing the description of the
+//   Shell link.
+ */
+HRESULT CreateLink(LPCWSTR lpszPathObj,
+    LPCSTR lpszPathLink, LPCWSTR lpszDesc)
+{
+    HRESULT hres;
+    IShellLink* psl;
+
+    CoInitialize( NULL );
+
+    // Get a pointer to the IShellLink interface.
+    hres = CoCreateInstance(CLSID_ShellLink, NULL,
+        CLSCTX_INPROC_SERVER, IID_IShellLink, (LPVOID *) &psl);
+    if (SUCCEEDED(hres)) {
+        IPersistFile* ppf;
+
+        // Set the path to the shortcut target and add the
+        // description.
+        psl->SetPath(lpszPathObj);
+        psl->SetDescription(lpszDesc);
+
+       // Query IShellLink for the IPersistFile interface for saving the
+       // shortcut in persistent storage.
+        hres = psl->QueryInterface(IID_IPersistFile,
+            (LPVOID*)&ppf);
+
+        if (SUCCEEDED(hres)) {
+            WCHAR wsz[MAX_PATH];
+
+            // Ensure that the string is Unicode.
+            MultiByteToWideChar(CP_ACP, 0, lpszPathLink, -1,
+                wsz, MAX_PATH);
+
+            // Save the link by calling IPersistFile::Save.
+            hres = ppf->Save(wsz, TRUE);
+            ppf->Release();
+        }
+  else printf( "failed 2\n");
+        psl->Release();
+    }
+ else printf( "failed 1\n" );
+    return hres;
 }
