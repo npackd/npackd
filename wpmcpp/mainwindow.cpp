@@ -37,9 +37,10 @@ void InstallThread::run()
     qDebug() << "InstallThread::run.1";
     if (pv) {
         QString errMsg;
-        if (this->install)
-            pv->install(&errMsg);
-        else
+        if (this->install) {
+            if (!pv->install(&errMsg))
+                job->setErrorMessage(errMsg);
+        } else
             pv->uninstall();
     } else {
         Repository::getDefault()->load();
@@ -81,7 +82,7 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
-void MainWindow::waitFor(Job* job)
+bool MainWindow::waitFor(Job* job)
 {
     // TODO: closing the dialog crashes the app
     pd = new QProgressDialog("Please wait...", "Cancel", 0, 100, this);
@@ -92,6 +93,15 @@ void MainWindow::waitFor(Job* job)
 
     pd->exec();
     delete pd;
+
+    if (!job->getErrorMessage().isEmpty()) {
+        QMessageBox::critical(this,
+                "Error", job->getErrorMessage(),
+                QMessageBox::Ok);
+        return false;
+    } else {
+        return true;
+    }
 }
 
 void MainWindow::jobChanged(void* job_)

@@ -28,3 +28,15 @@ void Job::setHint(const QString &hint)
 
     emit changed(this);
 }
+
+QString Job::getErrorMessage() const
+{
+    return this->errorMessage;
+}
+
+void Job::setErrorMessage(const QString &errorMessage)
+{
+    this->errorMessage = errorMessage;
+
+    emit changed(this);
+}

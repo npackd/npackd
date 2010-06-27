@@ -22,11 +22,15 @@ public:
     ~MainWindow();
 
     /**
-     * Blocks until the job is completed.
+     * Blocks until the job is completed. Shows an error
+     * message dialog if the job was completed with an
+     * error.
      *
      * @param job a job
+     * @return true if the job has completed successfully
+     *     (no error and not cancelled)
      */
-    void waitFor(Job* job);
+    bool waitFor(Job* job);
 
     /** todo comment */
     void loadRepository();

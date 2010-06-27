@@ -77,36 +77,37 @@ void Downloader::httpRequestFinished(int requestId, bool error)
     this->successful = true;
 }
 
- void Downloader::readResponseHeader(const QHttpResponseHeader &responseHeader)
- {
-     qDebug() << "Downloader::readResponseHeader" << responseHeader.statusCode();
-     if (responseHeader.statusCode() != 200) {
-         this->errMsg->append("Error code: ").append(responseHeader.statusCode()).append(
-                 "; ").append(responseHeader.reasonPhrase());
-         http->abort();
-         return;
-     }
- }
+void Downloader::readResponseHeader(const QHttpResponseHeader &responseHeader)
+{
+    qDebug() << "Downloader::readResponseHeader" << responseHeader.statusCode();
+    if (responseHeader.statusCode() != 200) {
+        this->errMsg->append("Error code: ").append(
+                QString("%1").arg(responseHeader.statusCode())).append(
+                "; ").append(responseHeader.reasonPhrase());
+        http->abort();
+        return;
+    }
+}
 
- void Downloader::updateDataReadProgress(int bytesRead, int totalBytes)
- {
-     qDebug() << "Downloader::updateDataReadProgress";
+void Downloader::updateDataReadProgress(int bytesRead, int totalBytes)
+{
+    qDebug() << "Downloader::updateDataReadProgress";
 
-     // TODO: progressDialog->setMaximum(totalBytes);
-     // TODO: progressDialog->setValue(bytesRead);
- }
+    // TODO: progressDialog->setMaximum(totalBytes);
+    // TODO: progressDialog->setValue(bytesRead);
+}
 
- void Downloader::slotAuthenticationRequired(const QString &hostName, quint16, QAuthenticator *authenticator)
- {
-     qDebug() << "Downloader::slotAuthenticationRequired";
-     // TODO: QDialog dlg;
-     // TODO: Ui::Dialog ui;
-     // TODO: ui.setupUi(&dlg);
-     // TODO: dlg.adjustSize();
-     // TODO: ui.siteDescription->setText(tr("%1 at %2").arg(authenticator->realm()).arg(hostName));
-    /*// TODO:
-     if (dlg.exec() == QDialog::Accepted) {
-         authenticator->setUser(ui.userEdit->text());
-         authenticator->setPassword(ui.passwordEdit->text());
-     }*/
- }
+void Downloader::slotAuthenticationRequired(const QString &hostName, quint16, QAuthenticator *authenticator)
+{
+    qDebug() << "Downloader::slotAuthenticationRequired";
+    // TODO: QDialog dlg;
+    // TODO: Ui::Dialog ui;
+    // TODO: ui.setupUi(&dlg);
+    // TODO: dlg.adjustSize();
+    // TODO: ui.siteDescription->setText(tr("%1 at %2").arg(authenticator->realm()).arg(hostName));
+   /*// TODO:
+    if (dlg.exec() == QDialog::Accepted) {
+        authenticator->setUser(ui.userEdit->text());
+        authenticator->setPassword(ui.passwordEdit->text());
+    }*/
+}

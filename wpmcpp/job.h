@@ -17,6 +17,8 @@ private:
 
     /** description of the current state */
     QString hint;
+
+    QString errorMessage;
 public:
     /** number of steps. Initialized with 1. */
     int nsteps;
@@ -44,6 +46,17 @@ public:
      * @param hint new hint
      */
     void setHint(const QString& hint);
+
+    /**
+     * @return error message. If the error message is not empty, the
+     *     job ended with an error.
+     */
+    QString getErrorMessage() const;
+
+    /**
+     * @param errorMessage new error message
+     */
+    void setErrorMessage(const QString &errorMessage);
 signals:
     /**
      * This signal will be fired each time something in this object
