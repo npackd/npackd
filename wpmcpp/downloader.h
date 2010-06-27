@@ -8,6 +8,9 @@
 #include "qobject.h"
 #include "qwaitcondition.h"
 
+/**
+ * Blocks execution and downloads a file over http.
+ */
 class Downloader: QObject
 {
     Q_OBJECT
@@ -17,21 +20,38 @@ class Downloader: QObject
     int httpGetId;
     QTemporaryFile* file;
     bool completed;
-public:
-    Downloader();
-    Downloader(const Downloader& d);
-    ~Downloader();
-
-    // TODO: document
-    bool download(const QUrl& url, QTemporaryFile* f);
-    void cancelDownload();
+    QString* errMsg;
 private slots:
     void httpRequestFinished(int requestId, bool error);
     void updateDataReadProgress(int bytesRead, int totalBytes);
     void readResponseHeader(const QHttpResponseHeader &responseHeader);
     void slotAuthenticationRequired(const QString &hostName, quint16, QAuthenticator *authenticator);
-};
+public:
+    /**
+     * Creates a new object. The object can be reused for downloading
+     * multiple files on the same thread.
+     */
+    Downloader();
 
-Q_DECLARE_METATYPE(Downloader);
+    /**
+     * Destroys the downloader.
+     */
+    ~Downloader();
+
+    /**
+     * Downloads an URL.
+     *
+     * @param url this URL will be downloaded
+     * @param f the data will be stored here
+     * @param errMsg error message will be stored here
+     * @return true if the URL was downloaded successfully
+     */
+    bool download(const QUrl& url, QTemporaryFile* f, QString* errMsg);
+
+    /**
+     * Cancels the running download.
+     */
+    void cancelDownload();
+};
 
 #endif // DOWNLOADER_H

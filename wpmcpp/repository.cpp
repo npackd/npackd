@@ -14,12 +14,6 @@ Repository* Repository::def = 0;
 
 Repository::Repository()
 {
-    /*// TODO: remove later
-    PackageVersion* a = new PackageVersion(QString("com.dependencywalker.DependencyWalker"));
-    //a->download.setUrl("http://sourceforge.net/projects/notepad-plus/files/notepad%2B%2B%20releases%20binary/npp%205.6.8%20bin/npp.5.6.8.bin.zip/download");
-    a->download.setUrl("http://www.dependencywalker.com/depends22_x86.zip");
-    a->setVersion(2, 2);
-    this->packageVersions.append(a);*/
 }
 
 void Repository::load()
@@ -27,7 +21,8 @@ void Repository::load()
     this->packageVersions.clear();
     QUrl* url = getRepositoryURL();
     if (url) {
-        QTemporaryFile* f = download(*url); // TODO: error handling
+        QString errMsg;
+        QTemporaryFile* f = download(*url, &errMsg); // TODO: error handling
         QDomDocument doc;
         QString errorMsg;
         int errorLine;
@@ -85,14 +80,19 @@ QString Repository::getProgramFilesDir()
     return  QString::fromUtf16 (reinterpret_cast<ushort*>(dir));
 }
 
-QTemporaryFile* Repository::download(const QUrl &url)
+QTemporaryFile* Repository::download(const QUrl &url, QString* errMsg)
 {
     QTemporaryFile* file = new QTemporaryFile();
     file->open(); // TODO: handle return value
 
     Downloader d;
-    d.download(url, file);
+    bool r = d.download(url, file, errMsg);
     file->close();
+
+    if (!r) {
+        delete file;
+        file = 0;
+    }
 
     return file;
 }

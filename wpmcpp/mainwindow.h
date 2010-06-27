@@ -33,7 +33,7 @@ public:
 protected:
     void changeEvent(QEvent *e);
 private slots:
-    void on_pushButton_3_clicked();
+    void on_pushButtonSaveSettings_clicked();
     void jobChanged(void* job);
 private:
     Ui::MainWindow *ui;
@@ -52,7 +52,6 @@ private slots:
     void on_actionInstall_activated();
     void on_tableWidget_itemSelectionChanged();
     void on_actionUninstall_activated();
-    void on_MainWindow_destroyed();
     void on_actionExit_triggered();
 };
 

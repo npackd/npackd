@@ -54,9 +54,10 @@ public:
 
     /**
      * @param this URL will be downloaded
-     * @return temporary file
+     * @param errMsg error message will be stored here
+     * @return temporary file or 0 if an error occured
      */
-    static QTemporaryFile* download(const QUrl& url);
+    static QTemporaryFile* download(const QUrl& url, QString* errMsg);
 };
 
 #endif // REPOSITORY_H

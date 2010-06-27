@@ -36,8 +36,9 @@ void InstallThread::run()
     job->nsteps = 1;
     qDebug() << "InstallThread::run.1";
     if (pv) {
+        QString errMsg;
         if (this->install)
-            pv->install();
+            pv->install(&errMsg);
         else
             pv->uninstall();
     } else {
@@ -99,7 +100,7 @@ void MainWindow::jobChanged(void* job_)
     if (job->getProgress() >= job->nsteps) {
         pd->done(0);
     } else {
-        pd->setLabelText(job->hint);
+        pd->setLabelText(job->getHint());
     }
 }
 
@@ -167,12 +168,7 @@ void MainWindow::changeEvent(QEvent *e)
 
 void MainWindow::on_actionExit_triggered()
 {
-    
-}
-
-void MainWindow::on_MainWindow_destroyed()
-{
-
+    this->close();
 }
 
 void MainWindow::on_actionUninstall_activated()
@@ -180,14 +176,14 @@ void MainWindow::on_actionUninstall_activated()
     PackageVersion* pv = getSelectedPackageVersion();
     Job* job = new Job();
     InstallThread* it = new InstallThread(pv, false, job);
-    it->setPriority(QThread::LowestPriority);
     it->start();
+    it->setPriority(QThread::LowestPriority);
 
     waitFor(job);
     delete it;
 
     fillList();
-    // TODO: delete job;
+    delete job;
 }
 
 void MainWindow::on_tableWidget_itemSelectionChanged()
@@ -201,14 +197,14 @@ void MainWindow::loadRepository()
 {
     Job* job = new Job();
     InstallThread* it = new InstallThread(0, true, job);
-    it->setPriority(QThread::LowestPriority);
     it->start();
+    it->setPriority(QThread::LowestPriority);
 
     waitFor(job);
     delete it;
 
     fillList();
-    // TODO: delete job;
+    delete job;
 }
 
 void MainWindow::on_actionInstall_activated()
@@ -216,17 +212,18 @@ void MainWindow::on_actionInstall_activated()
     PackageVersion* pv = getSelectedPackageVersion();
     Job* job = new Job();
     InstallThread* it = new InstallThread(pv, true, job);
-    it->setPriority(QThread::LowestPriority);
     it->start();
+    it->setPriority(QThread::LowestPriority);
 
     waitFor(job);
     delete it;
 
     fillList();
-    // TODO: delete job;
+    delete job;
 }
 
-void MainWindow::on_pushButton_3_clicked()
+
+void MainWindow::on_pushButtonSaveSettings_clicked()
 {
     QUrl url(this->ui->lineEditRepository->text().trimmed());
     if (url.isValid()) {

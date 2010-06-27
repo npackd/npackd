@@ -1,7 +1,7 @@
 /********************************************************************************
 ** Form generated from reading UI file 'mainwindow.ui'
 **
-** Created: Sat 26. Jun 22:33:07 2010
+** Created: Sun 27. Jun 22:40:49 2010
 **      by: Qt User Interface Compiler version 4.6.3
 **
 ** WARNING! All changes made in this file will be lost when recompiling UI file!
@@ -50,7 +50,7 @@ public:
     QHBoxLayout *horizontalLayout_2;
     QLabel *label;
     QLineEdit *lineEditRepository;
-    QPushButton *pushButton_3;
+    QPushButton *pushButtonSaveSettings;
     QTextBrowser *textBrowser;
     QSpacerItem *verticalSpacer;
     QMenuBar *menuBar;
@@ -118,10 +118,10 @@ public:
 
         verticalLayout->addLayout(horizontalLayout_2);
 
-        pushButton_3 = new QPushButton(tab_2);
-        pushButton_3->setObjectName(QString::fromUtf8("pushButton_3"));
+        pushButtonSaveSettings = new QPushButton(tab_2);
+        pushButtonSaveSettings->setObjectName(QString::fromUtf8("pushButtonSaveSettings"));
 
-        verticalLayout->addWidget(pushButton_3);
+        verticalLayout->addWidget(pushButtonSaveSettings);
 
         textBrowser = new QTextBrowser(tab_2);
         textBrowser->setObjectName(QString::fromUtf8("textBrowser"));
@@ -158,11 +158,8 @@ public:
         mainToolBar->addAction(actionUninstall);
 
         retranslateUi(MainWindow);
-        QObject::connect(actionExit, SIGNAL(activated()), MainWindow, SLOT(close()));
-        QObject::connect(actionInstall, SIGNAL(activated()), MainWindow, SLOT(install()));
-        QObject::connect(actionUninstall, SIGNAL(activated()), MainWindow, SLOT(uninstall()));
 
-        tabWidget->setCurrentIndex(0);
+        tabWidget->setCurrentIndex(1);
 
 
         QMetaObject::connectSlotsByName(MainWindow);
@@ -176,7 +173,7 @@ public:
         actionUninstall->setText(QApplication::translate("MainWindow", "Uninstall", 0, QApplication::UnicodeUTF8));
         tabWidget->setTabText(tabWidget->indexOf(tab), QApplication::translate("MainWindow", "Tab 1", 0, QApplication::UnicodeUTF8));
         label->setText(QApplication::translate("MainWindow", "Repository:", 0, QApplication::UnicodeUTF8));
-        pushButton_3->setText(QApplication::translate("MainWindow", "Save", 0, QApplication::UnicodeUTF8));
+        pushButtonSaveSettings->setText(QApplication::translate("MainWindow", "Save", 0, QApplication::UnicodeUTF8));
         textBrowser->setHtml(QApplication::translate("MainWindow", "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
 "<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css\">\n"
 "p, li { white-space: pre-wrap; }\n"

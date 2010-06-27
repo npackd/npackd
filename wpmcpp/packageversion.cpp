@@ -116,9 +116,11 @@ QString PackageVersion::getVersionString()
     return r;
 }
 
-void PackageVersion::install()
+bool PackageVersion::install(QString* errMsg)
 {
     qDebug() << "install.1";
+    bool result = false;
+    errMsg->clear();
     if (!installed()) {
         // TODO: error handling/free memory
         qDebug() << "install.2";
@@ -126,16 +128,27 @@ void PackageVersion::install()
         qDebug() << "install.dir=" << d;
 
         qDebug() << "install.3";
-        QTemporaryFile* f = Repository::download(this->download);
-        qDebug() << "install.4";
-        d.mkdir(this->package + "-" + this->getVersionString());
-        qDebug() << "install.5";
-        qDebug() << "install.6 " << f->size() << d.absolutePath();
+        QTemporaryFile* f = Repository::download(this->download, errMsg);
+        if (f) {
+            qDebug() << "install.4";
+            if (d.mkdir(d.absolutePath())) {
+                qDebug() << "install.5";
+                qDebug() << "install.6 " << f->size() << d.absolutePath();
 
-        d.mkdir(d.absolutePath());
-        UnzipTo(f->fileName(), d.absolutePath() + "\\");
-        delete f;
+                if (unzip(f->fileName(), d.absolutePath() + "\\", errMsg))
+                    result = true;
+                else {
+                    // TODO: delete the directory
+                }
+            } else {
+                errMsg->append("Cannot create directory: ").append(d.absolutePath());
+            }
+            delete f;
+        }
+    } else {
+        result = true;
     }
+    return result;
 }
 
 bool PackageVersion::MakezipDir( QString dirtozip )
@@ -209,7 +222,7 @@ bool PackageVersion::MakezipDir( QString dirtozip )
     return true;
 }
 
-bool PackageVersion::UnzipTo(QString zipfile, QString outputdir)
+bool PackageVersion::unzip(QString zipfile, QString outputdir, QString* errMsg)
 {
     // TODO: verify the implementation
     QuaZip zip(zipfile);

@@ -12,6 +12,8 @@ class PackageVersion
 private:
     int* parts;
     int nparts;
+
+    bool unzip(QString zipfile, QString outputdir, QString* errMsg);
 public:
     /** complete package name like net.sourceforge.NotepadPlusPlus */
     QString package;
@@ -52,8 +54,11 @@ public:
 
     /**
      * Installs this application.
+     *
+     * @param errMsg an error message will be stored here
+     * @return true if the package was installed successfully
      */
-    void install();
+    bool install(QString* errMsg);
 
     /**
      * Uninstalls this package version.
@@ -63,10 +68,6 @@ public:
     /* TODO comment
       */
     bool MakezipDir( QString dirtozip ) ;
-
-    /* TODO comment
-      */
-    bool  UnzipTo( QString zipfile, QString outputdir ) ;
 
     /** TODO: comment */
     bool RemoveDirectory(QDir &aDir);

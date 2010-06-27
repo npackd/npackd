@@ -16,3 +16,15 @@ int Job::getProgress() const
 {
     return this->progress;
 }
+
+QString Job::getHint() const
+{
+    return this->hint;
+}
+
+void Job::setHint(const QString &hint)
+{
+    this->hint = hint;
+
+    emit changed(this);
+}

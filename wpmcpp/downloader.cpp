@@ -1,18 +1,15 @@
-#include "downloader.h"
 #include "qobject.h"
 #include "qdebug.h"
 #include "qwaitcondition.h"
 #include "qmutex.h"
 #include "qapplication.h"
+#include "qnetworkproxy.h"
+
+#include "downloader.h"
 
 Downloader::Downloader()
 {
     http = 0;
-}
-
-Downloader::Downloader(const Downloader &d)
-{
-    http = 0; // TODO: copy data?
 }
 
 Downloader::~Downloader()
@@ -20,8 +17,11 @@ Downloader::~Downloader()
     delete http;
 }
 
-bool Downloader::download(const QUrl& url, QTemporaryFile* file)
+bool Downloader::download(const QUrl& url, QTemporaryFile* file, QString* errMsg)
 {
+    this->errMsg = errMsg;
+    errMsg->clear();
+
     qDebug() << "Downloader::download.1" << url;
     this->file = file;
 
@@ -43,8 +43,10 @@ bool Downloader::download(const QUrl& url, QTemporaryFile* file)
     connect(http, SIGNAL(authenticationRequired(const QString &, quint16, QAuthenticator *)),
             this, SLOT(slotAuthenticationRequired(const QString &, quint16, QAuthenticator *)));
 
-    // TODO: proxy: http://stackoverflow.com/questions/932824/how-do-i-get-the-system-proxy-using-qt
-    // TODO: timeout: http://stackoverflow.com/questions/250757/blocking-a-qt-application-during-downloading-a-short-file
+    /* TODO is it necessary additionally to QNetworkProxyFactory::setUseSystemConfiguration ( bool enable )?
+    QNetworkProxyQuery npq(url);
+    QList<QNetworkProxy> listOfProxies = QNetworkProxyFactory::systemProxyForQuery(npq);
+    */
 
     qDebug() << "Downloader::download.2";
     httpGetId = http->get(url.path(), file);
@@ -52,7 +54,8 @@ bool Downloader::download(const QUrl& url, QTemporaryFile* file)
     qDebug() << "Downloader::download.3";
 
     while (!completed) {
-        QApplication::instance()->processEvents(QEventLoop::WaitForMoreEvents | QEventLoop::ExcludeUserInputEvents);
+        QApplication::instance()->processEvents(
+                QEventLoop::WaitForMoreEvents | QEventLoop::ExcludeUserInputEvents);
     }
 
     return successful;
@@ -78,7 +81,8 @@ void Downloader::httpRequestFinished(int requestId, bool error)
  {
      qDebug() << "Downloader::readResponseHeader" << responseHeader.statusCode();
      if (responseHeader.statusCode() != 200) {
-         // TODO: tr("Download failed: %1.").arg(responseHeader.reasonPhrase()));
+         this->errMsg->append("Error code: ").append(responseHeader.statusCode()).append(
+                 "; ").append(responseHeader.reasonPhrase());
          http->abort();
          return;
      }
@@ -100,7 +104,7 @@ void Downloader::httpRequestFinished(int requestId, bool error)
      // TODO: ui.setupUi(&dlg);
      // TODO: dlg.adjustSize();
      // TODO: ui.siteDescription->setText(tr("%1 at %2").arg(authenticator->realm()).arg(hostName));
-/*// TODO:
+    /*// TODO:
      if (dlg.exec() == QDialog::Accepted) {
          authenticator->setUser(ui.userEdit->text());
          authenticator->setPassword(ui.passwordEdit->text());

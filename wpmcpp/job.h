@@ -14,10 +14,10 @@ class Job: public QObject
 private:
     /** progress */
     int progress;
-public:
+
     /** description of the current state */
     QString hint;
-
+public:
     /** number of steps. Initialized with 1. */
     int nsteps;
 
@@ -34,8 +34,23 @@ public:
      * @return progress of this job
      */
     int getProgress() const;
+
+    /**
+     * @return current hint
+     */
+    QString getHint() const;
+
+    /**
+     * @param hint new hint
+     */
+    void setHint(const QString& hint);
 signals:
-    // TODO: comments
+    /**
+     * This signal will be fired each time something in this object
+     * changes (progress, hint etc.).
+     *
+     * @param job *Job = this
+     */
     void changed(void* job);
 };
 
