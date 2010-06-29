@@ -14,6 +14,7 @@ private:
     int nparts;
 
     bool unzip(QString zipfile, QString outputdir, QString* errMsg);
+    bool removeDirectory(QDir &aDir, QString* errMsg);
 public:
     /** complete package name like net.sourceforge.NotepadPlusPlus */
     QString package;
@@ -23,12 +24,17 @@ public:
     virtual ~PackageVersion();
 
     /**
-     * TODO:  comment
+     * Changes the version.
+     *
+     * @param a first version number
+     * @param b second (minor) version number part
      */
     void setVersion(int a, int b);
 
     /**
-     * TODO:  comment
+     * Changes the version
+     *
+     * @param version "1.2.3"
      */
     void setVersion(QString& version);
 
@@ -62,15 +68,15 @@ public:
 
     /**
      * Uninstalls this package version.
+     *
+     * @param errMsg error message
+     * @return true if the application was uninstalled successfully
      */
-    void uninstall();
+    bool uninstall(QString* errMsg);
 
     /* TODO comment
       */
-    bool MakezipDir( QString dirtozip ) ;
-
-    /** TODO: comment */
-    bool RemoveDirectory(QDir &aDir);
+    bool MakezipDir(QString dirtozip) ;
 };
 
 Q_DECLARE_METATYPE(PackageVersion);

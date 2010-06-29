@@ -29,8 +29,11 @@ public:
 
     /**
      * Loads the content from the URL.
+     *
+     * @param errMsg the error message will be stored here
+     * @return true if the repository was loaded successfully
      */
-    void load();
+    bool load(QString* errMsg);
 
     /**
      * @return newly created object pointing to the repository or 0

@@ -35,15 +35,18 @@ void InstallThread::run()
 {
     job->nsteps = 1;
     qDebug() << "InstallThread::run.1";
+    QString errMsg;
     if (pv) {
-        QString errMsg;
         if (this->install) {
             if (!pv->install(&errMsg))
                 job->setErrorMessage(errMsg);
-        } else
-            pv->uninstall();
+        } else {
+            if (!pv->uninstall(&errMsg))
+                job->setErrorMessage(errMsg);
+        }
     } else {
-        Repository::getDefault()->load();
+        if (!Repository::getDefault()->load(&errMsg))
+            job->setErrorMessage(errMsg);
     }
     qDebug() << "InstallThread::run.2";
     job->done(1);
@@ -162,6 +165,7 @@ void MainWindow::fillList()
         newItem->setData(Qt::UserRole, qVariantFromValue((void*) pv));
         t->setItem(i, 2, newItem);
     }
+    qDebug() << "MainWindow::fillList.2";
 }
 
 void MainWindow::changeEvent(QEvent *e)
@@ -190,6 +194,7 @@ void MainWindow::on_actionUninstall_activated()
     it->setPriority(QThread::LowestPriority);
 
     waitFor(job);
+    it->wait();
     delete it;
 
     fillList();
@@ -211,6 +216,7 @@ void MainWindow::loadRepository()
     it->setPriority(QThread::LowestPriority);
 
     waitFor(job);
+    it->wait();
     delete it;
 
     fillList();
@@ -226,6 +232,7 @@ void MainWindow::on_actionInstall_activated()
     it->setPriority(QThread::LowestPriority);
 
     waitFor(job);
+    it->wait();
     delete it;
 
     fillList();

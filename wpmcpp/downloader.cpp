@@ -38,10 +38,13 @@ bool Downloader::download(const QUrl& url, QTemporaryFile* file, QString* errMsg
             this, SLOT(httpRequestFinished(int, bool)));
     connect(http, SIGNAL(dataReadProgress(int, int)),
             this, SLOT(updateDataReadProgress(int, int)));
-    connect(http, SIGNAL(responseHeaderReceived(const QHttpResponseHeader &)),
+    connect(http, SIGNAL(responseHeaderReceived(
+            const QHttpResponseHeader &)),
             this, SLOT(readResponseHeader(const QHttpResponseHeader &)));
-    connect(http, SIGNAL(authenticationRequired(const QString &, quint16, QAuthenticator *)),
-            this, SLOT(slotAuthenticationRequired(const QString &, quint16, QAuthenticator *)));
+    connect(http, SIGNAL(authenticationRequired(
+            const QString &, quint16, QAuthenticator *)),
+            this, SLOT(slotAuthenticationRequired(
+            const QString &, quint16, QAuthenticator *)));
 
     /* TODO is it necessary additionally to QNetworkProxyFactory::setUseSystemConfiguration ( bool enable )?
     QNetworkProxyQuery npq(url);
@@ -91,21 +94,17 @@ void Downloader::readResponseHeader(const QHttpResponseHeader &responseHeader)
 
 void Downloader::updateDataReadProgress(int bytesRead, int totalBytes)
 {
-    qDebug() << "Downloader::updateDataReadProgress";
-
-    // TODO: progressDialog->setMaximum(totalBytes);
-    // TODO: progressDialog->setValue(bytesRead);
 }
 
 void Downloader::slotAuthenticationRequired(const QString &hostName, quint16, QAuthenticator *authenticator)
 {
     qDebug() << "Downloader::slotAuthenticationRequired";
-    // TODO: QDialog dlg;
-    // TODO: Ui::Dialog ui;
-    // TODO: ui.setupUi(&dlg);
-    // TODO: dlg.adjustSize();
-    // TODO: ui.siteDescription->setText(tr("%1 at %2").arg(authenticator->realm()).arg(hostName));
-   /*// TODO:
+    /* TODO: authentication
+    QDialog dlg;
+    Ui::Dialog ui;
+    ui.setupUi(&dlg);
+    dlg.adjustSize();
+    ui.siteDescription->setText(tr("%1 at %2").arg(authenticator->realm()).arg(hostName));
     if (dlg.exec() == QDialog::Accepted) {
         authenticator->setUser(ui.userEdit->text());
         authenticator->setPassword(ui.passwordEdit->text());

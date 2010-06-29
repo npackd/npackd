@@ -16,37 +16,48 @@ Repository::Repository()
 {
 }
 
-void Repository::load()
+bool Repository::load(QString* errMsg)
 {
     this->packageVersions.clear();
     QUrl* url = getRepositoryURL();
+    bool r = false;
+    errMsg->clear();
     if (url) {
-        QString errMsg;
-        QTemporaryFile* f = download(*url, &errMsg); // TODO: error handling
-        QDomDocument doc;
-        QString errorMsg;
-        int errorLine;
-        int errorColumn;
-        // TODO: error handling
-        if (doc.setContent(f, &errorMsg, &errorLine, &errorColumn)) {
-            QDomElement root = doc.documentElement();
-            for(QDomNode n = root.firstChild(); !n.isNull(); n = n.nextSibling()) {
-                if (n.isElement()) {
-                    QDomElement e = n.toElement();
-                    if (e.nodeName() == "version") {
-                        PackageVersion* a = new PackageVersion(e.attribute("package"));
-                        //a->download.setUrl("http://sourceforge.net/projects/notepad-plus/files/notepad%2B%2B%20releases%20binary/npp%205.6.8%20bin/npp.5.6.8.bin.zip/download");
-                        QString url = e.elementsByTagName("url").at(0).firstChild().nodeValue();
-                        a->download.setUrl(url);
-                        QString name = e.attribute("name", "1.0");
-                        a->setVersion(name);
-                        this->packageVersions.append(a);
+        QTemporaryFile* f = download(*url, errMsg);
+        if (f) {
+            QDomDocument doc;
+            int errorLine;
+            int errorColumn;
+            if (doc.setContent(f, errMsg, &errorLine, &errorColumn)) {
+                QDomElement root = doc.documentElement();
+                for(QDomNode n = root.firstChild(); !n.isNull();
+                        n = n.nextSibling()) {
+                    if (n.isElement()) {
+                        QDomElement e = n.toElement();
+                        if (e.nodeName() == "version") {
+                            PackageVersion* a = new PackageVersion(
+                                    e.attribute("package"));
+                            QString url = e.elementsByTagName("url").at(0).
+                                          firstChild().nodeValue();
+                            a->download.setUrl(url);
+                            QString name = e.attribute("name", "1.0");
+                            a->setVersion(name);
+                            this->packageVersions.append(a);
+                        }
                     }
                 }
+                r = true;
+            } else {
+                errMsg->prepend("XML parsing failed: ");
             }
+            delete f;
+        } else {
+            errMsg->prepend("Download failed: ");
         }
-        delete f;
+    } else {
+        errMsg->append("No repository defined");
     }
+    return r;
 }
 
 QUrl* Repository::getRepositoryURL()
@@ -82,17 +93,21 @@ QString Repository::getProgramFilesDir()
 
 QTemporaryFile* Repository::download(const QUrl &url, QString* errMsg)
 {
+    errMsg->clear();
     QTemporaryFile* file = new QTemporaryFile();
-    file->open(); // TODO: handle return value
+    if (file->open()) {
+        Downloader d;
+        bool r = d.download(url, file, errMsg);
+        file->close();
 
-    Downloader d;
-    bool r = d.download(url, file, errMsg);
-    file->close();
-
-    if (!r) {
+        if (!r) {
+            delete file;
+            file = 0;
+        }
+    } else {
+        errMsg->append("Error opening file: ").append(file->fileName());
         delete file;
         file = 0;
     }
-
     return file;
 }

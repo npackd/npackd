@@ -32,7 +32,6 @@ public:
      */
     bool waitFor(Job* job);
 
-    /** todo comment */
     void loadRepository();
 protected:
     void changeEvent(QEvent *e);

@@ -62,44 +62,56 @@ bool PackageVersion::installed()
     return d.exists();
 }
 
-void PackageVersion::uninstall()
+bool PackageVersion::uninstall(QString* errMsg)
 {
     QDir d = getDirectory();
-    if (d.exists())
-        RemoveDirectory(d); // TODO: handle errors
+    if (d.exists()) {
+        return removeDirectory(d, errMsg);
+    } else {
+        return true;
+    }
 }
 
-bool PackageVersion::RemoveDirectory(QDir &aDir)
+bool PackageVersion::removeDirectory(QDir &aDir, QString* errMsg)
 {
-    // TODO: verify the implementation
-    bool has_err = false;
-    if (aDir.exists())//QDir::NoDotAndDotDot
-    {
-        QFileInfoList entries = aDir.entryInfoList(QDir::NoDotAndDotDot |
-                                                   QDir::Dirs | QDir::Files);
+    bool ok = true;
+    if (aDir.exists()) {
+        QFileInfoList entries = aDir.entryInfoList(
+                QDir::NoDotAndDotDot |
+                QDir::Dirs | QDir::Files);
         int count = entries.size();
-        for (int idx = 0; idx < count; idx++)
-        {
+        for (int idx = 0; idx < count; idx++) {
             QFileInfo entryInfo = entries[idx];
             QString path = entryInfo.absoluteFilePath();
-            if (entryInfo.isDir())
-            {
+            if (entryInfo.isDir()) {
                 QDir dd(path);
-                has_err = RemoveDirectory(dd);
-            }
-            else
-            {
+                ok = removeDirectory(dd, errMsg);
+                if (!ok)
+                    qDebug() << "PackageVersion::removeDirectory.3" << *errMsg;
+            } else {
                 QFile file(path);
-                if (!file.remove())
-                    has_err = true;
+                ok = file.remove();
+                if (!ok) {
+                    ok = false;
+                    errMsg->clear();
+                    errMsg->append("Cannot delete the file: ").append(path);
+                    qDebug() << "PackageVersion::removeDirectory.1" << *errMsg;
+                }
             }
-            if (has_err)
+            if (!ok)
                 break;
         }
-        if (!aDir.rmdir(aDir.absolutePath()))
-            has_err = true;
+        if (ok && !aDir.rmdir(aDir.absolutePath())) {
+            qDebug() << "PackageVersion::removeDirectory.2";
+            ok = false;
+            errMsg->clear();
+            errMsg->append("Cannot delete the directory: ").append(
+                    aDir.absolutePath());
+        }
     }
-    return(has_err);
+    qDebug() << "PackageVersion::removeDirectory: " << aDir << " " << ok <<
+            *errMsg;
+    return ok;
 }
 
 QDir PackageVersion::getDirectory()
