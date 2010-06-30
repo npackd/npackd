@@ -7,6 +7,7 @@
 #include "downloader.h"
 #include "qsettings.h"
 #include "qdom.h"
+#include "qdebug.h"
 
 #include "downloader.h"
 
@@ -24,7 +25,9 @@ bool Repository::load(QString* errMsg)
     errMsg->clear();
     if (url) {
         QTemporaryFile* f = download(*url, errMsg);
+        qDebug() << "Repository::load.1";
         if (f) {
+            qDebug() << "Repository::load.2";
             QDomDocument doc;
             int errorLine;
             int errorColumn;
@@ -57,6 +60,7 @@ bool Repository::load(QString* errMsg)
     } else {
         errMsg->append("No repository defined");
     }
+    qDebug() << "Repository::load.3 " << r;
     return r;
 }
 

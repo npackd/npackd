@@ -7,6 +7,10 @@
 #include <windows.h>
 #include <qtimer.h>
 #include <qdebug.h>
+#include <QObject>
+#include <QString>
+#include <QStringList>
+#include <QRegExp>
 
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
@@ -77,7 +81,15 @@ MainWindow::MainWindow(QWidget *parent) :
 
     this->on_tableWidget_itemSelectionChanged();
     this->ui->tableWidget->setColumnWidth(0, 400);
-    fillList();
+
+    this->pd = 0;
+
+    QTimer *pTimer = new QTimer(this);
+    pTimer->setSingleShot(true);
+    connect(pTimer, SIGNAL(timeout()), this,
+            SLOT(onShow()));
+
+    pTimer->start(0);
 }
 
 MainWindow::~MainWindow()
@@ -94,26 +106,39 @@ bool MainWindow::waitFor(Job* job)
 
     connect(job, SIGNAL(changed(void*)), this, SLOT(jobChanged(void*)));
 
+    qDebug() << "MainWindow::waitFor.1";
+
     pd->exec();
     delete pd;
+    pd = 0;
 
+    qDebug() << "MainWindow::waitFor.2";
     if (!job->getErrorMessage().isEmpty()) {
+        qDebug() << "MainWindow::waitFor.3";
         QMessageBox::critical(this,
                 "Error", job->getErrorMessage(),
                 QMessageBox::Ok);
+        qDebug() << "MainWindow::waitFor.4";
         return false;
     } else {
         return true;
     }
 }
 
+void MainWindow::onShow()
+{
+    loadRepository();
+}
+
 void MainWindow::jobChanged(void* job_)
 {
     Job* job = (Job*) job_;
-    if (job->getProgress() >= job->nsteps) {
-        pd->done(0);
-    } else {
-        pd->setLabelText(job->getHint());
+    if (pd) {
+        if (job->getProgress() >= job->nsteps) {
+            pd->done(0);
+        } else {
+            pd->setLabelText(job->getHint());
+        }
     }
 }
 
@@ -221,6 +246,8 @@ void MainWindow::loadRepository()
 
     fillList();
     delete job;
+
+    qDebug() << "MainWindow::loadRepository";
 }
 
 void MainWindow::on_actionInstall_activated()
@@ -250,4 +277,5 @@ void MainWindow::on_pushButtonSaveSettings_clicked()
         QMessageBox::critical(this,
                 "Error", "The URL is not valid", QMessageBox::Ok);
     }
+    qDebug() << "MainWindow::on_pushButtonSaveSettings_clicked";
 }

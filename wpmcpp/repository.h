@@ -41,7 +41,9 @@ public:
     static QUrl* getRepositoryURL();
 
     /*
-     * TODO: comment
+     * Changes the default repository url.
+     *
+     * @param url new URL
      */
     static void setRepositoryURL(QUrl& url);
 

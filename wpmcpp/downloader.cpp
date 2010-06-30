@@ -46,10 +46,11 @@ bool Downloader::download(const QUrl& url, QTemporaryFile* file, QString* errMsg
             this, SLOT(slotAuthenticationRequired(
             const QString &, quint16, QAuthenticator *)));
 
-    /* TODO is it necessary additionally to QNetworkProxyFactory::setUseSystemConfiguration ( bool enable )?
     QNetworkProxyQuery npq(url);
-    QList<QNetworkProxy> listOfProxies = QNetworkProxyFactory::systemProxyForQuery(npq);
-    */
+    QList<QNetworkProxy> listOfProxies =
+            QNetworkProxyFactory::systemProxyForQuery(npq);
+
+    http->setProxy(listOfProxies[0]);
 
     qDebug() << "Downloader::download.2";
     httpGetId = http->get(url.path(), file);
@@ -77,11 +78,14 @@ void Downloader::httpRequestFinished(int requestId, bool error)
         return;
 
     this->completed = true;
-    this->successful = true;
+    this->successful = !error;
+    if (error)
+        this->errMsg->append(this->http->errorString());
 }
 
 void Downloader::readResponseHeader(const QHttpResponseHeader &responseHeader)
 {
+    // for testing: *((char*) 0) = 0;
     qDebug() << "Downloader::readResponseHeader" << responseHeader.statusCode();
     if (responseHeader.statusCode() != 200) {
         this->errMsg->append("Error code: ").append(
@@ -96,7 +100,8 @@ void Downloader::updateDataReadProgress(int bytesRead, int totalBytes)
 {
 }
 
-void Downloader::slotAuthenticationRequired(const QString &hostName, quint16, QAuthenticator *authenticator)
+void Downloader::slotAuthenticationRequired(const QString &hostName,
+        quint16, QAuthenticator *authenticator)
 {
     qDebug() << "Downloader::slotAuthenticationRequired";
     /* TODO: authentication

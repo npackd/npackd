@@ -8,6 +8,5 @@ int main(int argc, char *argv[])
     QNetworkProxyFactory::setUseSystemConfiguration(true);
     MainWindow w;
     w.show();
-    w.loadRepository(); // TODO: handle errors
-    return a.exec();
+    return QApplication::exec();
 }

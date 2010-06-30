@@ -38,6 +38,7 @@ protected:
 private slots:
     void on_pushButtonSaveSettings_clicked();
     void jobChanged(void* job);
+    void onShow();
 private:
     Ui::MainWindow *ui;
     QProgressDialog* pd;
