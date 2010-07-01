@@ -24,7 +24,7 @@ bool Repository::load(QString* errMsg)
     bool r = false;
     errMsg->clear();
     if (url) {
-        QTemporaryFile* f = download(*url, errMsg);
+        QTemporaryFile* f = Downloader::download(*url, errMsg);
         qDebug() << "Repository::load.1";
         if (f) {
             qDebug() << "Repository::load.2";
@@ -95,23 +95,3 @@ QString Repository::getProgramFilesDir()
     return  QString::fromUtf16 (reinterpret_cast<ushort*>(dir));
 }
 
-QTemporaryFile* Repository::download(const QUrl &url, QString* errMsg)
-{
-    errMsg->clear();
-    QTemporaryFile* file = new QTemporaryFile();
-    if (file->open()) {
-        Downloader d;
-        bool r = d.download(url, file, errMsg);
-        file->close();
-
-        if (!r) {
-            delete file;
-            file = 0;
-        }
-    } else {
-        errMsg->append("Error opening file: ").append(file->fileName());
-        delete file;
-        file = 0;
-    }
-    return file;
-}

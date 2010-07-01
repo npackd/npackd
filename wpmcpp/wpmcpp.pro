@@ -21,7 +21,8 @@ INCLUDEPATH += C:\Users\t\libs\quazip-0.2.3\quazip C:\Users\t\libs\zlib-1.2.5
 LIBS += C:\Users\t\libs\quazip-0.2.3\quazip\debug\libquazip.a \
     C:\Users\t\libs\zlib-1.2.5\libz.a \
     C:\Qt\2010.03\mingw\lib\libole32.a \
-    C:\Qt\2010.03\mingw\lib\libuuid.a
+    C:\Qt\2010.03\mingw\lib\libuuid.a \
+    C:\Qt\2010.03\mingw\lib\libwininet.a
 CONFIG += embed_manifest_exe
 
 

@@ -1,6 +1,7 @@
 #include <windows.h>
 #include <shellapi.h>
 #include <shlobj.h>
+#include <wininet.h>
 
 #include "repository.h"
 #include "qurl.h"
@@ -10,6 +11,8 @@
 #include "quazipfile.h"
 
 #include "packageversion.h"
+#include "job.h"
+#include "downloader.h"
 
 PackageVersion::PackageVersion(const QString& package)
 {
@@ -145,7 +148,7 @@ bool PackageVersion::install(QString* errMsg)
         qDebug() << "install.dir=" << d;
 
         qDebug() << "install.3";
-        QTemporaryFile* f = Repository::download(this->download, errMsg);
+        QTemporaryFile* f = Downloader::download(this->download, errMsg);
         if (f) {
             qDebug() << "install.4";
             if (d.mkdir(d.absolutePath())) {
@@ -326,3 +329,4 @@ HRESULT CreateLink(LPCWSTR lpszPathObj,
  else printf( "failed 1\n" );
     return hres;
 }
+

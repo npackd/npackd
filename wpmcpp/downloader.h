@@ -52,6 +52,13 @@ public:
      * Cancels the running download.
      */
     void cancelDownload();
+
+    /**
+     * @param this URL will be downloaded
+     * @param errMsg error message will be stored here
+     * @return temporary file or 0 if an error occured
+     */
+    static QTemporaryFile* download(const QUrl& url, QString* errMsg);
 };
 
 #endif // DOWNLOADER_H

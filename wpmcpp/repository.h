@@ -56,13 +56,6 @@ public:
      * @return directory like "C:\Program Files"
      */
     static QString getProgramFilesDir();
-
-    /**
-     * @param this URL will be downloaded
-     * @param errMsg error message will be stored here
-     * @return temporary file or 0 if an error occured
-     */
-    static QTemporaryFile* download(const QUrl& url, QString* errMsg);
 };
 
 #endif // REPOSITORY_H
