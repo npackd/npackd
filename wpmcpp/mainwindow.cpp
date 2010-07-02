@@ -37,23 +37,25 @@ InstallThread::InstallThread(PackageVersion *pv, bool install, Job* job)
 
 void InstallThread::run()
 {
-    job->nsteps = 1;
     qDebug() << "InstallThread::run.1";
     QString errMsg;
     if (pv) {
         if (this->install) {
-            if (!pv->install(&errMsg))
+            if (!pv->install(job, &errMsg))
                 job->setErrorMessage(errMsg);
         } else {
+            job->setAmountOfWork(1);
             if (!pv->uninstall(&errMsg))
                 job->setErrorMessage(errMsg);
+            job->done(-1);
         }
     } else {
+        job->setAmountOfWork(1);
         if (!Repository::getDefault()->load(&errMsg))
             job->setErrorMessage(errMsg);
+        job->done(-1);
     }
     qDebug() << "InstallThread::run.2";
-    job->done(1);
 }
 
 MainWindow::MainWindow(QWidget *parent) :
@@ -132,9 +134,11 @@ void MainWindow::onShow()
 
 void MainWindow::jobChanged(void* job_)
 {
+    qDebug() << "MainWindow::jobChanged";
+
     Job* job = (Job*) job_;
     if (pd) {
-        if (job->getProgress() >= job->nsteps) {
+        if (job->getProgress() >= job->getAmountOfWork()) {
             pd->done(0);
         } else {
             pd->setLabelText(job->getHint());

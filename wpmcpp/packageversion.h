@@ -7,6 +7,8 @@
 #include "qdir.h"
 #include "qurl.h"
 
+#include "job.h"
+
 class PackageVersion
 {
 private:
@@ -61,10 +63,11 @@ public:
     /**
      * Installs this application.
      *
+     * @param job job for this method
      * @param errMsg an error message will be stored here
      * @return true if the package was installed successfully
      */
-    bool install(QString* errMsg);
+    bool install(Job* job, QString* errMsg);
 
     /**
      * Uninstalls this package version.

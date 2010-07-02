@@ -136,8 +136,11 @@ QString PackageVersion::getVersionString()
     return r;
 }
 
-bool PackageVersion::install(QString* errMsg)
+bool PackageVersion::install(Job* job, QString* errMsg)
 {
+    job->setHint("Preparing");
+    job->setAmountOfWork(10);
+
     qDebug() << "install.1";
     bool result = false;
     errMsg->clear();
@@ -148,16 +151,21 @@ bool PackageVersion::install(QString* errMsg)
         qDebug() << "install.dir=" << d;
 
         qDebug() << "install.3";
-        QTemporaryFile* f = Downloader::download(this->download, errMsg);
+        job->setHint("Downloading");
+        Job* djob = job->newSubJob(6);
+        QTemporaryFile* f = Downloader::download(djob, this->download, errMsg);
+        delete djob;
         if (f) {
+            job->setHint("Extracting files");
             qDebug() << "install.4";
             if (d.mkdir(d.absolutePath())) {
                 qDebug() << "install.5";
                 qDebug() << "install.6 " << f->size() << d.absolutePath();
 
-                if (unzip(f->fileName(), d.absolutePath() + "\\", errMsg))
+                if (unzip(f->fileName(), d.absolutePath() + "\\", errMsg)) {
                     result = true;
-                else {
+                    job->done(-1);
+                } else {
                     // TODO: delete the directory
                 }
             } else {
@@ -167,6 +175,7 @@ bool PackageVersion::install(QString* errMsg)
         }
     } else {
         result = true;
+        job->done(-1);
     }
     return result;
 }

@@ -24,7 +24,9 @@ bool Repository::load(QString* errMsg)
     bool r = false;
     errMsg->clear();
     if (url) {
-        QTemporaryFile* f = Downloader::download(*url, errMsg);
+        Job job;
+        job.setHint("Downloading the repository");
+        QTemporaryFile* f = Downloader::download(&job, *url, errMsg);
         qDebug() << "Repository::load.1";
         if (f) {
             qDebug() << "Repository::load.2";

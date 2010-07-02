@@ -19,16 +19,32 @@ private:
     QString hint;
 
     QString errorMessage;
-public:
+
     /** number of steps. Initialized with 1. */
     int nsteps;
 
+    Job* parentJob;
+
+    QString parentHintStart;
+    int subJobSteps;
+    int subJobStart;
+
+    void updateParentHint();
+    void updateParentProgress();
+public:
     Job();
+
+    /**
+     * @param nsteps number of steps in this job for the created sub-job
+     * @return child job with parent=this
+     */
+    Job* newSubJob(int nsteps);
 
     /**
      * Changes the progress.
      *
-     * @param n number of steps done (additionally)
+     * @param n number of steps done (additionally) or -1 if the job is
+     *     completed
      */
     void done(int n);
 
@@ -48,6 +64,11 @@ public:
     void setHint(const QString& hint);
 
     /**
+     * @param progress new progress
+     */
+    void setProgress(int progress);
+
+    /**
      * @return error message. If the error message is not empty, the
      *     job ended with an error.
      */
@@ -57,6 +78,16 @@ public:
      * @param errorMessage new error message
      */
     void setErrorMessage(const QString &errorMessage);
+
+    /**
+     * @param n new amount of steps in this job
+     */
+    void setAmountOfWork(int n);
+
+    /**
+     * @return amount of steps in this job
+     */
+    int getAmountOfWork();
 signals:
     /**
      * This signal will be fired each time something in this object
