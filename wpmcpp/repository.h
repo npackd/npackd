@@ -30,10 +30,9 @@ public:
     /**
      * Loads the content from the URL.
      *
-     * @param errMsg the error message will be stored here
-     * @return true if the repository was loaded successfully
+     * @param job job for this method
      */
-    bool load(QString* errMsg);
+    void load(Job* job);
 
     /**
      * @return newly created object pointing to the repository or 0

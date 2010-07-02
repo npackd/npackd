@@ -10,9 +10,12 @@
 #include "quazip.h"
 #include "quazipfile.h"
 
+#include "zlib.h"
+
 #include "packageversion.h"
 #include "job.h"
 #include "downloader.h"
+#include "wpmutils.h"
 
 /**
  * Uses the Shell's IShellLink and IPersistFile interfaces
@@ -25,7 +28,7 @@
  * @param lpszDesc - address of a buffer containing the description of the
  *   Shell link.
  */
-HRESULT CreateLink(LPCWSTR lpszPathObj, LPCSTR lpszPathLink, LPCWSTR lpszDesc)
+HRESULT CreateLink(LPCWSTR lpszPathObj, LPCWSTR lpszPathLink, LPCWSTR lpszDesc)
 {
     HRESULT hres;
     IShellLink* psl;
@@ -47,14 +50,8 @@ HRESULT CreateLink(LPCWSTR lpszPathObj, LPCSTR lpszPathLink, LPCWSTR lpszDesc)
         hres = psl->QueryInterface(IID_IPersistFile, (LPVOID*)&ppf);
 
         if (SUCCEEDED(hres)) {
-            WCHAR wsz[MAX_PATH];
-
-            // Ensure that the string is Unicode.
-            MultiByteToWideChar(CP_ACP, 0, lpszPathLink, -1,
-                    wsz, MAX_PATH);
-
             // Save the link by calling IPersistFile::Save.
-            hres = ppf->Save(wsz, TRUE);
+            hres = ppf->Save(lpszPathLink, TRUE);
             ppf->Release();
         }
         psl->Release();
@@ -113,56 +110,20 @@ bool PackageVersion::installed()
     return d.exists();
 }
 
-bool PackageVersion::uninstall(QString* errMsg)
+void PackageVersion::uninstall(Job* job)
 {
+    job->setAmountOfWork(1);
     QDir d = getDirectory();
     if (d.exists()) {
-        return removeDirectory(d, errMsg);
+        QString errMsg;
+        bool r = WPMUtils::removeDirectory(d, &errMsg);
+        if (r)
+            job->done(-1);
+        else
+            job->setErrorMessage(errMsg);
     } else {
-        return true;
+        job->done(-1);
     }
-}
-
-bool PackageVersion::removeDirectory(QDir &aDir, QString* errMsg)
-{
-    bool ok = true;
-    if (aDir.exists()) {
-        QFileInfoList entries = aDir.entryInfoList(
-                QDir::NoDotAndDotDot |
-                QDir::Dirs | QDir::Files);
-        int count = entries.size();
-        for (int idx = 0; idx < count; idx++) {
-            QFileInfo entryInfo = entries[idx];
-            QString path = entryInfo.absoluteFilePath();
-            if (entryInfo.isDir()) {
-                QDir dd(path);
-                ok = removeDirectory(dd, errMsg);
-                if (!ok)
-                    qDebug() << "PackageVersion::removeDirectory.3" << *errMsg;
-            } else {
-                QFile file(path);
-                ok = file.remove();
-                if (!ok) {
-                    ok = false;
-                    errMsg->clear();
-                    errMsg->append("Cannot delete the file: ").append(path);
-                    qDebug() << "PackageVersion::removeDirectory.1" << *errMsg;
-                }
-            }
-            if (!ok)
-                break;
-        }
-        if (ok && !aDir.rmdir(aDir.absolutePath())) {
-            qDebug() << "PackageVersion::removeDirectory.2";
-            ok = false;
-            errMsg->clear();
-            errMsg->append("Cannot delete the directory: ").append(
-                    aDir.absolutePath());
-        }
-    }
-    qDebug() << "PackageVersion::removeDirectory: " << aDir << " " << ok <<
-            *errMsg;
-    return ok;
 }
 
 QDir PackageVersion::getDirectory()
@@ -194,25 +155,28 @@ bool PackageVersion::createShortcuts(QString *errMsg)
         p.prepend(d.absolutePath());
         QString from = "c:\\Users\\t\\Desktop";
         from.append("\\");
-        from.append(ifile);
-        HRESULT r = CreateLink((WCHAR*) p.utf16(),
-                               from.toUtf8().constData(),
+        from.append(ifile.replace('\\', "_").replace('/', '_'));
+        from.append(".lnk");
+        qDebug() << "createShortcuts " << ifile << " " << p << " " <<
+                from;
+        HRESULT r = CreateLink((WCHAR*) p.replace('/', '\\').utf16(),
+                               (WCHAR*) from.utf16(),
                                (WCHAR*) ifile.utf16());
         // TODO: error message
-        if (!SUCCEEDED(r))
+        if (!SUCCEEDED(r)) {
+            qDebug() << "shortcut creation failed";
             return false;
+        }
     }
     return true;
 }
 
-bool PackageVersion::install(Job* job, QString* errMsg)
+void PackageVersion::install(Job* job)
 {
     job->setHint("Preparing");
     job->setAmountOfWork(10);
 
     qDebug() << "install.1";
-    bool result = false;
-    errMsg->clear();
     if (!installed()) {
         // TODO: error handling/free memory
         qDebug() << "install.2";
@@ -222,7 +186,8 @@ bool PackageVersion::install(Job* job, QString* errMsg)
         qDebug() << "install.3";
         job->setHint("Downloading");
         Job* djob = job->newSubJob(6);
-        QTemporaryFile* f = Downloader::download(djob, this->download, errMsg);
+        QString errMsg;
+        QTemporaryFile* f = Downloader::download(djob, this->download);
         delete djob;
         if (f) {
             job->setHint("Extracting files");
@@ -231,127 +196,60 @@ bool PackageVersion::install(Job* job, QString* errMsg)
                 qDebug() << "install.5";
                 qDebug() << "install.6 " << f->size() << d.absolutePath();
 
-                if (unzip(f->fileName(), d.absolutePath() + "\\", errMsg)) {
-                    result = true;
+                if (unzip(f->fileName(), d.absolutePath() + "\\", &errMsg)) {
                     QString err;
                     this->createShortcuts(&err); // ignore errors
                     job->done(-1);
                 } else {
-                    // TODO: delete the directory
+                    job->setErrorMessage(QString(
+                            "Error unzipping file into directory %0: %1").
+                                         arg(d.absolutePath()).arg(errMsg));
+                    WPMUtils::removeDirectory(d, &errMsg); // ignore errors
                 }
             } else {
-                errMsg->append("Cannot create directory: ").append(d.absolutePath());
+                job->setErrorMessage(QString("Cannot create directory: %0").
+                        arg(d.absolutePath()));
             }
             delete f;
+        } else {
+            job->setErrorMessage(errMsg);
         }
     } else {
-        result = true;
         job->done(-1);
     }
-    return result;
-}
-
-bool PackageVersion::MakezipDir( QString dirtozip )
-{
-    // TODO: verify the implementation
-    // TODO: this method is not used. Remove?
-    const QString cartella = QDir::currentPath();
-    char c;
-    QString zipfile;
-    QString ultimacartellaaperta = dirtozip.left(dirtozip.lastIndexOf("/"))+"/";
-    QDir dir(ultimacartellaaperta);
-    QString dirname = dir.dirName();
-    zipfile = dirname.append(".zip");
-    if (dir.exists())
-    {
-       QuaZip zip(zipfile);
-       if(!zip.open(QuaZip::mdCreate)) {
-       qWarning("testCreate(): zip.open(): %d", zip.getZipError());
-       return false;
-       }
-
-      QFile inFile;
-      QuaZipFile outFile(&zip);
-      const QFileInfoList list = dir.entryInfoList();
-      QFileInfo fi;
-
-      for (int l = 0; l < list.size(); l++)
-      {
-         fi = list.at(l);
-         if (fi.isDir() && fi.fileName() != "." && fi.fileName() != "..") {
-             /* dir */
-         }  else if (fi.isFile() and fi.fileName() != zipfile ) {
-             // TODO: CoPrint(QString("File on dirzip : %1").arg( fi.fileName() ),1);
-              QDir::setCurrent(dir.absolutePath());
-               inFile.setFileName(fi.fileName());
-               if(!inFile.open(QIODevice::ReadOnly)) {
-                  qWarning("testCreate(): inFile.open(): %s", inFile.errorString().toLocal8Bit().constData());
-                   return false;
-                }
-               if(!outFile.open(QIODevice::WriteOnly, QuaZipNewInfo(inFile.fileName(), inFile.fileName()))) {
-               qWarning("testCreate(): outFile.open(): %d", outFile.getZipError());
-               return false;
-               }
-                while(inFile.getChar(&c)&&outFile.putChar(c));
-                if(outFile.getZipError()!=UNZ_OK) {
-                  qWarning("testCreate(): outFile.putChar(): %d", outFile.getZipError());
-                  return false;
-                }
-                outFile.close();
-                if(outFile.getZipError()!=UNZ_OK) {
-                  qWarning("testCreate(): outFile.close(): %d", outFile.getZipError());
-                  return false;
-                }
-                inFile.close();
-
-         }
-
-      }
-
-        zip.close();
-          if(zip.getZipError()!=0) {
-          qWarning("testCreate(): zip.close(): %d", zip.getZipError());
-          QDir::setCurrent(cartella);
-          return false;
-          }
-          // TODO: CoPrint(QString("Successful created zip file on:"),1);
-    // TODO: CoPrint(QString("%2/%1").arg( zipfile ).arg(cartella),1);
-    QDir::setCurrent(cartella);
-    return true;
-    }
-    return true;
 }
 
 bool PackageVersion::unzip(QString zipfile, QString outputdir, QString* errMsg)
 {
-    // TODO: verify the implementation
     QuaZip zip(zipfile);
     bool extractsuccess = false;
-    zip.open(QuaZip::mdUnzip);
+    if (!zip.open(QuaZip::mdUnzip)) {
+        errMsg->append(QString("Cannot open the ZIP file %1: %2").
+                       arg(zipfile).arg(zip.getZipError()));
+        return false;
+    }
     QuaZipFile file(&zip);
-       for(bool more=zip.goToFirstFile(); more; more=zip.goToNextFile()) {
-           file.open(QIODevice::ReadOnly);
-           QString name = zip.getCurrentFileName();
-                   name.prepend(outputdir);   /* extract to path ....... */
-           QFile meminfo(name);
-           QFileInfo infofile(meminfo);
-           QDir dira(infofile.absolutePath());
-           if ( dira.mkpath(infofile.absolutePath()) ) {
-           /* dir is exist*/
-           //////qDebug() << "### name  " << name;
-           /////qDebug() << "### namedir yes  " << infofile.absolutePath();
-               if ( meminfo.open(QIODevice::ReadWrite) ) {
-               meminfo.write(file.readAll());   /* write */
-               meminfo.close();
-               extractsuccess = true;
-               //////////RegisterImage(name);
-               }
-           } else {
-             file.close();
-             return false;
-           }
-           file.close(); // do not forget to close!
+    for (bool more = zip.goToFirstFile(); more; more = zip.goToNextFile()) {
+        file.open(QIODevice::ReadOnly);
+        QString name = zip.getCurrentFileName();
+        name.prepend(outputdir); /* extract to path ....... */
+        QFile meminfo(name);
+        QFileInfo infofile(meminfo);
+        QDir dira(infofile.absolutePath());
+        if (dira.mkpath(infofile.absolutePath())) {
+            if (meminfo.open(QIODevice::ReadWrite)) {
+                meminfo.write(file.readAll());  /* write */
+                meminfo.close();
+                extractsuccess = true;
+            }
+        } else {
+            errMsg->append(QString("Cannot create directory %1").arg(
+                    infofile.absolutePath()));
+            file.close();
+            return false;
         }
+        file.close(); // do not forget to close!
+    }
     zip.close();
 
     return extractsuccess;

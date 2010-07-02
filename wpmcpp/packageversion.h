@@ -17,7 +17,6 @@ private:
     int nparts;
 
     bool unzip(QString zipfile, QString outputdir, QString* errMsg);
-    bool removeDirectory(QDir &aDir, QString* errMsg);
     bool createShortcuts(QString* errMsg);
 public:
     /** complete package name like net.sourceforge.NotepadPlusPlus */
@@ -69,23 +68,15 @@ public:
      * Installs this application.
      *
      * @param job job for this method
-     * @param errMsg an error message will be stored here
-     * @return true if the package was installed successfully
      */
-    bool install(Job* job, QString* errMsg);
+    void install(Job* job);
 
     /**
      * Uninstalls this package version.
      *
-     * @param errMsg error message
-     * @return true if the application was uninstalled successfully
+     * @param job job for this method
      */
-    bool uninstall(QString* errMsg);
-
-    /**
-     * Creates a zip file
-     */
-    bool MakezipDir(QString dirtozip) ;
+    void uninstall(Job* job);
 };
 
 Q_DECLARE_METATYPE(PackageVersion);

@@ -36,23 +36,24 @@ PackageVersion* createPackageVersion(QDomElement* e)
     return a;
 }
 
-bool Repository::load(QString* errMsg)
+void Repository::load(Job* job)
 {
+    job->setAmountOfWork(100);
     this->packageVersions.clear();
     QUrl* url = getRepositoryURL();
-    bool r = false;
-    errMsg->clear();
     if (url) {
-        Job job;
-        job.setHint("Downloading the repository");
-        QTemporaryFile* f = Downloader::download(&job, *url, errMsg);
+        job->setHint("Downloading");
+        Job* djob = job->newSubJob(50);
+        QTemporaryFile* f = Downloader::download(djob, *url);
         qDebug() << "Repository::load.1";
         if (f) {
+            job->setHint("Parsing the content");
             qDebug() << "Repository::load.2";
             QDomDocument doc;
             int errorLine;
             int errorColumn;
-            if (doc.setContent(f, errMsg, &errorLine, &errorColumn)) {
+            QString errMsg;
+            if (doc.setContent(f, &errMsg, &errorLine, &errorColumn)) {
                 QDomElement root = doc.documentElement();
                 for(QDomNode n = root.firstChild(); !n.isNull();
                         n = n.nextSibling()) {
@@ -64,19 +65,21 @@ bool Repository::load(QString* errMsg)
                         }
                     }
                 }
-                r = true;
+                job->done(-1);
             } else {
-                errMsg->prepend("XML parsing failed: ");
+                job->setErrorMessage(QString("XML parsing failed: %1").
+                                     arg(errMsg));
             }
             delete f;
         } else {
-            errMsg->prepend("Download failed: ");
+            job->setErrorMessage(QString("Download failed: %2").
+                    arg(djob->getErrorMessage()));
         }
+        delete djob;
     } else {
-        errMsg->append("No repository defined");
+        job->setErrorMessage("No repository defined");
     }
-    qDebug() << "Repository::load.3 " << r;
-    return r;
+    qDebug() << "Repository::load.3";
 }
 
 QUrl* Repository::getRepositoryURL()

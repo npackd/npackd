@@ -38,8 +38,6 @@ bool downloadWin(Job* job, const QUrl& url, QTemporaryFile* file,
     HINTERNET hConnectHandle, hResourceHandle;
     unsigned int dwError, dwErrorCode;
 
-    // TODO: https
-
     QString server = url.host();
     QString resource = url.path();
 
@@ -188,21 +186,23 @@ bool downloadWin(Job* job, const QUrl& url, QTemporaryFile* file,
     return true;
 }
 
-QTemporaryFile* Downloader::download(Job* job, const QUrl &url, QString* errMsg)
+QTemporaryFile* Downloader::download(Job* job, const QUrl &url)
 {
-    errMsg->clear();
     QTemporaryFile* file = new QTemporaryFile();
     if (file->open()) {
         QString mime;
-        bool r = downloadWin(job, url, file, &mime, errMsg);
+        QString errMsg;
+        bool r = downloadWin(job, url, file, &mime, &errMsg);
         file->close();
 
         if (!r) {
+            job->setErrorMessage(errMsg);
             delete file;
             file = 0;
         }
     } else {
-        errMsg->append("Error opening file: ").append(file->fileName());
+        job->setErrorMessage(QString("Error opening file: %1").
+                arg(file->fileName()));
         delete file;
         file = 0;
     }

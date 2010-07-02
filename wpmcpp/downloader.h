@@ -19,11 +19,10 @@ class Downloader: QObject
 public:
     /**
      * @param job job for this method
-     * @param this URL will be downloaded
-     * @param errMsg error message will be stored here
+     * @param url this URL will be downloaded
      * @return temporary file or 0 if an error occured
      */
-    static QTemporaryFile* download(Job* job, const QUrl& url, QString* errMsg);
+    static QTemporaryFile* download(Job* job, const QUrl& url);
 };
 
 #endif // DOWNLOADER_H

@@ -43,19 +43,12 @@ void InstallThread::run()
     QString errMsg;
     if (pv) {
         if (this->install) {
-            if (!pv->install(job, &errMsg))
-                job->setErrorMessage(errMsg);
+            pv->install(job);
         } else {
-            job->setAmountOfWork(1);
-            if (!pv->uninstall(&errMsg))
-                job->setErrorMessage(errMsg);
-            job->done(-1);
+            pv->uninstall(job);
         }
     } else {
-        job->setAmountOfWork(1);
-        if (!Repository::getDefault()->load(&errMsg))
-            job->setErrorMessage(errMsg);
-        job->done(-1);
+        Repository::getDefault()->load(job);
     }
 
     CoUninitialize();
@@ -106,7 +99,6 @@ MainWindow::~MainWindow()
 
 bool MainWindow::waitFor(Job* job)
 {
-    // TODO: closing the dialog crashes the app
     pd = new QProgressDialog("Please wait...", "Cancel", 0, 100, this);
     pd->setCancelButton(0);
     pd->setModal(true);
@@ -143,7 +135,8 @@ void MainWindow::jobChanged(void* job_)
 
     Job* job = (Job*) job_;
     if (pd) {
-        if (job->getProgress() >= job->getAmountOfWork()) {
+        if (job->getProgress() >= job->getAmountOfWork() ||
+                !job->getErrorMessage().isEmpty()) {
             pd->done(0);
         } else {
             pd->setLabelText(job->getHint());
