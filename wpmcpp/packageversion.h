@@ -6,6 +6,7 @@
 #include "qmetatype.h"
 #include "qdir.h"
 #include "qurl.h"
+#include "qstringlist.h"
 
 #include "job.h"
 
@@ -17,9 +18,13 @@ private:
 
     bool unzip(QString zipfile, QString outputdir, QString* errMsg);
     bool removeDirectory(QDir &aDir, QString* errMsg);
+    bool createShortcuts(QString* errMsg);
 public:
     /** complete package name like net.sourceforge.NotepadPlusPlus */
     QString package;
+
+    /** important files (shortcuts for these will be created in the menu) */
+    QStringList importantFiles;
 
     PackageVersion();
     PackageVersion(const QString& package);
@@ -77,8 +82,9 @@ public:
      */
     bool uninstall(QString* errMsg);
 
-    /* TODO comment
-      */
+    /**
+     * Creates a zip file
+     */
     bool MakezipDir(QString dirtozip) ;
 };
 

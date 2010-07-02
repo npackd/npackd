@@ -14,6 +14,54 @@
 #include "job.h"
 #include "downloader.h"
 
+/**
+ * Uses the Shell's IShellLink and IPersistFile interfaces
+ *   to create and store a shortcut to the specified object.
+ *
+ * @return the result of calling the member functions of the interfaces.
+ * @param lpszPathObj - address of a buffer containing the path of the object.
+ * @param lpszPathLink - address of a buffer containing the path where the
+ *   Shell link is to be stored.
+ * @param lpszDesc - address of a buffer containing the description of the
+ *   Shell link.
+ */
+HRESULT CreateLink(LPCWSTR lpszPathObj, LPCSTR lpszPathLink, LPCWSTR lpszDesc)
+{
+    HRESULT hres;
+    IShellLink* psl;
+
+    // Get a pointer to the IShellLink interface.
+    hres = CoCreateInstance(CLSID_ShellLink, NULL,
+            CLSCTX_INPROC_SERVER, IID_IShellLink, (LPVOID *) &psl);
+
+    if (SUCCEEDED(hres)) {
+        IPersistFile* ppf;
+
+        // Set the path to the shortcut target and add the
+        // description.
+        psl->SetPath(lpszPathObj);
+        psl->SetDescription(lpszDesc);
+
+        // Query IShellLink for the IPersistFile interface for saving the
+        // shortcut in persistent storage.
+        hres = psl->QueryInterface(IID_IPersistFile, (LPVOID*)&ppf);
+
+        if (SUCCEEDED(hres)) {
+            WCHAR wsz[MAX_PATH];
+
+            // Ensure that the string is Unicode.
+            MultiByteToWideChar(CP_ACP, 0, lpszPathLink, -1,
+                    wsz, MAX_PATH);
+
+            // Save the link by calling IPersistFile::Save.
+            hres = ppf->Save(wsz, TRUE);
+            ppf->Release();
+        }
+        psl->Release();
+    }
+    return hres;
+}
+
 PackageVersion::PackageVersion(const QString& package)
 {
     this->parts = new int[1];
@@ -136,6 +184,27 @@ QString PackageVersion::getVersionString()
     return r;
 }
 
+bool PackageVersion::createShortcuts(QString *errMsg)
+{
+    QDir d = getDirectory();
+    for (int i = 0; i < this->importantFiles.count(); i++) {
+        QString ifile = this->importantFiles.at(i);
+        QString p(ifile);
+        p.prepend("\\");
+        p.prepend(d.absolutePath());
+        QString from = "c:\\Users\\t\\Desktop";
+        from.append("\\");
+        from.append(ifile);
+        HRESULT r = CreateLink((WCHAR*) p.utf16(),
+                               from.toUtf8().constData(),
+                               (WCHAR*) ifile.utf16());
+        // TODO: error message
+        if (!SUCCEEDED(r))
+            return false;
+    }
+    return true;
+}
+
 bool PackageVersion::install(Job* job, QString* errMsg)
 {
     job->setHint("Preparing");
@@ -164,6 +233,8 @@ bool PackageVersion::install(Job* job, QString* errMsg)
 
                 if (unzip(f->fileName(), d.absolutePath() + "\\", errMsg)) {
                     result = true;
+                    QString err;
+                    this->createShortcuts(&err); // ignore errors
                     job->done(-1);
                 } else {
                     // TODO: delete the directory
@@ -284,58 +355,5 @@ bool PackageVersion::unzip(QString zipfile, QString outputdir, QString* errMsg)
     zip.close();
 
     return extractsuccess;
-}
-
-/**
-  * TODO: correct
-// CreateLink - uses the Shell's IShellLink and IPersistFile interfaces
-//   to create and store a shortcut to the specified object.
-// Returns the result of calling the member functions of the interfaces.
-// lpszPathObj - address of a buffer containing the path of the object.
-// lpszPathLink - address of a buffer containing the path where the
-//   Shell link is to be stored.
-// lpszDesc - address of a buffer containing the description of the
-//   Shell link.
- */
-HRESULT CreateLink(LPCWSTR lpszPathObj,
-    LPCSTR lpszPathLink, LPCWSTR lpszDesc)
-{
-    HRESULT hres;
-    IShellLink* psl;
-
-    CoInitialize( NULL );
-
-    // Get a pointer to the IShellLink interface.
-    hres = CoCreateInstance(CLSID_ShellLink, NULL,
-        CLSCTX_INPROC_SERVER, IID_IShellLink, (LPVOID *) &psl);
-    if (SUCCEEDED(hres)) {
-        IPersistFile* ppf;
-
-        // Set the path to the shortcut target and add the
-        // description.
-        psl->SetPath(lpszPathObj);
-        psl->SetDescription(lpszDesc);
-
-       // Query IShellLink for the IPersistFile interface for saving the
-       // shortcut in persistent storage.
-        hres = psl->QueryInterface(IID_IPersistFile,
-            (LPVOID*)&ppf);
-
-        if (SUCCEEDED(hres)) {
-            WCHAR wsz[MAX_PATH];
-
-            // Ensure that the string is Unicode.
-            MultiByteToWideChar(CP_ACP, 0, lpszPathLink, -1,
-                wsz, MAX_PATH);
-
-            // Save the link by calling IPersistFile::Save.
-            hres = ppf->Save(wsz, TRUE);
-            ppf->Release();
-        }
-  else printf( "failed 2\n");
-        psl->Release();
-    }
- else printf( "failed 1\n" );
-    return hres;
 }
 

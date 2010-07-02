@@ -37,6 +37,8 @@ InstallThread::InstallThread(PackageVersion *pv, bool install, Job* job)
 
 void InstallThread::run()
 {
+    CoInitialize(NULL);
+
     qDebug() << "InstallThread::run.1";
     QString errMsg;
     if (pv) {
@@ -55,6 +57,9 @@ void InstallThread::run()
             job->setErrorMessage(errMsg);
         job->done(-1);
     }
+
+    CoUninitialize();
+
     qDebug() << "InstallThread::run.2";
 }
 

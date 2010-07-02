@@ -17,6 +17,25 @@ Repository::Repository()
 {
 }
 
+PackageVersion* createPackageVersion(QDomElement* e)
+{
+    PackageVersion* a = new PackageVersion(
+            e->attribute("package"));
+    QString url = e->elementsByTagName("url").at(0).
+                  firstChild().nodeValue();
+    a->download.setUrl(url);
+    QString name = e->attribute("name", "1.0");
+    a->setVersion(name);
+
+    QDomNodeList ifiles = e->elementsByTagName("important-file");
+    for (int i = 0; i < ifiles.count(); i++) {
+        QString p = ifiles.at(i).toElement().attribute("name", "a");
+        a->importantFiles.append(p);
+    }
+
+    return a;
+}
+
 bool Repository::load(QString* errMsg)
 {
     this->packageVersions.clear();
@@ -40,14 +59,8 @@ bool Repository::load(QString* errMsg)
                     if (n.isElement()) {
                         QDomElement e = n.toElement();
                         if (e.nodeName() == "version") {
-                            PackageVersion* a = new PackageVersion(
-                                    e.attribute("package"));
-                            QString url = e.elementsByTagName("url").at(0).
-                                          firstChild().nodeValue();
-                            a->download.setUrl(url);
-                            QString name = e.attribute("name", "1.0");
-                            a->setVersion(name);
-                            this->packageVersions.append(a);
+                            this->packageVersions.append(
+                                    createPackageVersion(&e));
                         }
                     }
                 }
