@@ -66,6 +66,7 @@ PackageVersion::PackageVersion(const QString& package)
     this->nparts = 1;
     this->package = package;
     this->download = QUrl("http://www.younamehere.com/download.zip");
+    this->type = 0;
 }
 
 PackageVersion::PackageVersion()
@@ -75,6 +76,7 @@ PackageVersion::PackageVersion()
     this->nparts = 1;
     this->package = "unknown";
     this->download = QUrl("http://www.younamehere.com/download.zip");
+    this->type = 0;
 }
 
 PackageVersion::~PackageVersion()
@@ -128,8 +130,8 @@ void PackageVersion::uninstall(Job* job)
 
 QDir PackageVersion::getDirectory()
 {
-    QString pf = Repository::getProgramFilesDir();
-    QDir d(pf + "\\wpm\\" + this->package + "-" +
+    QString pf = WPMUtils::getProgramFilesDir();
+    QDir d(pf + "\\WPM\\" + this->package + "-" +
            this->getVersionString());
     return d;
 }
@@ -153,7 +155,7 @@ bool PackageVersion::createShortcuts(QString *errMsg)
         QString p(ifile);
         p.prepend("\\");
         p.prepend(d.absolutePath());
-        QString from = "c:\\Users\\t\\Desktop";
+        QString from = WPMUtils::getProgramShortcutsDir();
         from.append("\\");
         from.append(ifile.replace('\\', "_").replace('/', '_'));
         from.append(".lnk");
@@ -190,25 +192,41 @@ void PackageVersion::install(Job* job)
         QTemporaryFile* f = Downloader::download(djob, this->download);
         delete djob;
         if (f) {
-            job->setHint("Extracting files");
-            qDebug() << "install.4";
-            if (d.mkdir(d.absolutePath())) {
-                qDebug() << "install.5";
-                qDebug() << "install.6 " << f->size() << d.absolutePath();
+            if (this->type == 0) {
+                job->setHint("Extracting files");
+                qDebug() << "install.4";
+                if (d.mkdir(d.absolutePath())) {
+                    qDebug() << "install.5";
+                    qDebug() << "install.6 " << f->size() << d.absolutePath();
 
-                if (unzip(f->fileName(), d.absolutePath() + "\\", &errMsg)) {
-                    QString err;
-                    this->createShortcuts(&err); // ignore errors
-                    job->done(-1);
+                    if (unzip(f->fileName(), d.absolutePath() + "\\", &errMsg)) {
+                        QString err;
+                        this->createShortcuts(&err); // ignore errors
+                        job->done(-1);
+                    } else {
+                        job->setErrorMessage(QString(
+                                "Error unzipping file into directory %0: %1").
+                                             arg(d.absolutePath()).arg(errMsg));
+                        WPMUtils::removeDirectory(d, &errMsg); // ignore errors
+                    }
                 } else {
-                    job->setErrorMessage(QString(
-                            "Error unzipping file into directory %0: %1").
-                                         arg(d.absolutePath()).arg(errMsg));
-                    WPMUtils::removeDirectory(d, &errMsg); // ignore errors
+                    job->setErrorMessage(QString("Cannot create directory: %0").
+                            arg(d.absolutePath()));
                 }
             } else {
-                job->setErrorMessage(QString("Cannot create directory: %0").
-                        arg(d.absolutePath()));
+                job->setHint("Copying the file");
+                QString t = d.absolutePath();
+                t.append("\\");
+                QString fn = this->download.toString();
+                QStringList parts = fn.split('\\');
+                t.append(parts.at(parts.count() - 1));
+                if (!CopyFileW((WCHAR*) f->fileName().utf16(),
+                               (WCHAR*) t.utf16(), false)) {
+                    WPMUtils::formatMessage(GetLastError(), &errMsg);
+                    job->setErrorMessage(errMsg);
+                } else {
+                    job->done(-1);
+                }
             }
             delete f;
         } else {

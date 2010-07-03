@@ -25,6 +25,9 @@ public:
     /** important files (shortcuts for these will be created in the menu) */
     QStringList importantFiles;
 
+    /** 0 = zip file, 1 = one file */
+    int type;
+
     PackageVersion();
     PackageVersion(const QString& package);
     virtual ~PackageVersion();

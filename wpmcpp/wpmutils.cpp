@@ -1,3 +1,7 @@
+#include <windows.h>
+#include <shellapi.h>
+#include <shlobj.h>
+
 #include "qdebug.h"
 #include "qdir.h"
 #include "qstring.h"
@@ -7,6 +11,35 @@
 
 WPMUtils::WPMUtils()
 {
+}
+
+QString WPMUtils::getProgramFilesDir()
+{
+    WCHAR dir[MAX_PATH];
+    SHGetFolderPath(0, CSIDL_PROGRAM_FILES, NULL, 0, dir);
+    return  QString::fromUtf16(reinterpret_cast<ushort*>(dir));
+}
+
+void WPMUtils::formatMessage(DWORD err, QString* errMsg)
+{
+    HLOCAL pBuffer;
+    DWORD n = FormatMessageW(FORMAT_MESSAGE_ALLOCATE_BUFFER |
+                   FORMAT_MESSAGE_FROM_SYSTEM,
+                   0, err, 0, (LPTSTR)&pBuffer, 0, 0);
+    if (n == 0)
+        errMsg->append(QString("Error %1").arg(err));
+    else {
+        errMsg->setUtf16((ushort*) pBuffer, n);
+        LocalFree(pBuffer);
+    }
+}
+
+
+QString WPMUtils::getProgramShortcutsDir()
+{
+    WCHAR dir[MAX_PATH];
+    SHGetFolderPath(0, CSIDL_PROGRAMS, NULL, 0, dir);
+    return  QString::fromUtf16(reinterpret_cast<ushort*>(dir));
 }
 
 bool WPMUtils::removeDirectory(QDir &aDir, QString *errMsg)

@@ -10,23 +10,10 @@
 
 #include "downloader.h"
 #include "job.h"
-
-void formatMessage(DWORD err, QString* errMsg)
-{
-    HLOCAL pBuffer;
-    DWORD n = FormatMessageW(FORMAT_MESSAGE_ALLOCATE_BUFFER |
-                   FORMAT_MESSAGE_FROM_SYSTEM,
-                   0, err, 0, (LPTSTR)&pBuffer, 0, 0);
-    if (n == 0)
-        errMsg->append(QString("Error %1").arg(err));
-    else {
-        errMsg->setUtf16((ushort*) pBuffer, n);
-        LocalFree(pBuffer);
-    }
-}
+#include "wpmutils.h"
 
 bool downloadWin(Job* job, const QUrl& url, QTemporaryFile* file,
-    QString* mime, QString* errMsg)
+    QString* mime, QString* contentDisposition, QString* errMsg)
 {
     qDebug() << "download.1";
 
@@ -59,7 +46,7 @@ bool downloadWin(Job* job, const QUrl& url, QTemporaryFile* file,
     qDebug() << "download.2";
 
     if (internet == 0) {
-        formatMessage(GetLastError(), errMsg);
+        WPMUtils::formatMessage(GetLastError(), errMsg);
         return false;
     }
 
@@ -76,7 +63,7 @@ bool downloadWin(Job* job, const QUrl& url, QTemporaryFile* file,
     qDebug() << "download.3";
 
     if (hConnectHandle == 0) {
-        formatMessage(GetLastError(), errMsg);
+        WPMUtils::formatMessage(GetLastError(), errMsg);
         return false;
     }
 
@@ -88,7 +75,7 @@ bool downloadWin(Job* job, const QUrl& url, QTemporaryFile* file,
                                       INTERNET_FLAG_KEEP_CONNECTION |
                                       INTERNET_FLAG_DONT_CACHE, 0);
     if (hResourceHandle == 0) {
-        formatMessage(GetLastError(), errMsg);
+        WPMUtils::formatMessage(GetLastError(), errMsg);
         return false;
     }
 
@@ -97,7 +84,7 @@ bool downloadWin(Job* job, const QUrl& url, QTemporaryFile* file,
         qDebug() << "download.5.1";
 
         if (!HttpSendRequestW(hResourceHandle, 0, 0, 0, 0)) {
-            formatMessage(GetLastError(), errMsg);
+            WPMUtils::formatMessage(GetLastError(), errMsg);
             return false;
         }
 
@@ -127,13 +114,26 @@ bool downloadWin(Job* job, const QUrl& url, QTemporaryFile* file,
     index = 0;
     if (!HttpQueryInfoW(hResourceHandle, HTTP_QUERY_CONTENT_TYPE,
             &mimeBuffer, &bufferLength, &index)) {
-        formatMessage(GetLastError(), errMsg);
+        WPMUtils::formatMessage(GetLastError(), errMsg);
         return false;
     }
     mime->setUtf16((ushort*) mimeBuffer, bufferLength / 2);
     qDebug() << "downloadWin.mime=" << *mime;
     if (job)
         job->done(1);
+
+    WCHAR cdBuffer[1024];
+    wcscpy(cdBuffer, L"Content-Disposition");
+    bufferLength = sizeof(cdBuffer);
+    index = 0;
+    if (HttpQueryInfoW(hResourceHandle, HTTP_QUERY_CUSTOM,
+            &cdBuffer, &bufferLength, &index)) {
+        contentDisposition->setUtf16((ushort*) cdBuffer, bufferLength / 2);
+        qDebug() << "downloadWin.cd=" << *contentDisposition;
+    } else {
+        if (GetLastError() == ERROR_HTTP_HEADER_NOT_FOUND)
+            qDebug() << "downloadWin.content-disposition not found  ";
+    }
 
     WCHAR contentLengthBuffer[100];
     bufferLength = sizeof(contentLengthBuffer);
@@ -157,7 +157,7 @@ bool downloadWin(Job* job, const QUrl& url, QTemporaryFile* file,
     do {
         if (!InternetReadFile(hResourceHandle, &buffer,
                 sizeof(buffer), &bufferLength)) {
-            formatMessage(GetLastError(), errMsg);
+            WPMUtils::formatMessage(GetLastError(), errMsg);
             return false;
         }
         file->write(buffer, bufferLength);
@@ -192,7 +192,9 @@ QTemporaryFile* Downloader::download(Job* job, const QUrl &url)
     if (file->open()) {
         QString mime;
         QString errMsg;
-        bool r = downloadWin(job, url, file, &mime, &errMsg);
+        QString contentDisposition;
+        bool r = downloadWin(job, url, file, &mime, &contentDisposition,
+                             &errMsg);
         file->close();
 
         if (!r) {

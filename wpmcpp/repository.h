@@ -50,11 +50,6 @@ public:
      * @return default repository
      */
     static Repository* getDefault();
-
-    /**
-     * @return directory like "C:\Program Files"
-     */
-    static QString getProgramFilesDir();
 };
 
 #endif // REPOSITORY_H

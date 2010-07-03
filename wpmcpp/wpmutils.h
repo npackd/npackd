@@ -1,6 +1,8 @@
 #ifndef WPMUTILS_H
 #define WPMUTILS_H
 
+#include <windows.h>
+
 #include "qstring.h"
 #include "qdir.h"
 
@@ -20,6 +22,24 @@ public:
      * @return true if no errors occured
      */
     static bool removeDirectory(QDir &aDir, QString* errMsg);
+
+    /**
+     * @return directory like "C:\Program Files"
+     */
+    static QString getProgramFilesDir();
+
+    /**
+     * @return directory like "C:\Users\t\Start Menu\Programs"
+     */
+    static QString getProgramShortcutsDir();
+
+    /**
+     * Formats a Windows error message.
+     *
+     * @param err see GetLastError()
+     * @param errMsg the message will be stored her
+     */
+    static void formatMessage(DWORD err, QString* errMsg);
 };
 
 #endif // WPMUTILS_H

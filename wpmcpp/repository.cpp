@@ -27,6 +27,12 @@ PackageVersion* createPackageVersion(QDomElement* e)
     QString name = e->attribute("name", "1.0");
     a->setVersion(name);
 
+    QString type = e->attribute("type", "zip");
+    if (type == "one-file")
+        a->type = 1;
+    else
+        a->type = 0;
+
     QDomNodeList ifiles = e->elementsByTagName("important-file");
     for (int i = 0; i < ifiles.count(); i++) {
         QString p = ifiles.at(i).toElement().attribute("name", "a");
@@ -55,7 +61,7 @@ void Repository::load(Job* job)
             QString errMsg;
             if (doc.setContent(f, &errMsg, &errorLine, &errorColumn)) {
                 QDomElement root = doc.documentElement();
-                for(QDomNode n = root.firstChild(); !n.isNull();
+                for (QDomNode n = root.firstChild(); !n.isNull();
                         n = n.nextSibling()) {
                     if (n.isElement()) {
                         QDomElement e = n.toElement();
@@ -106,10 +112,4 @@ Repository* Repository::getDefault()
     return def;
 }
 
-QString Repository::getProgramFilesDir()
-{
-    WCHAR dir[MAX_PATH];
-    SHGetFolderPath(0, CSIDL_PROGRAM_FILES, NULL, 0, dir);
-    return  QString::fromUtf16 (reinterpret_cast<ushort*>(dir));
-}
 
