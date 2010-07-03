@@ -35,8 +35,14 @@ PackageVersion* createPackageVersion(QDomElement* e)
 
     QDomNodeList ifiles = e->elementsByTagName("important-file");
     for (int i = 0; i < ifiles.count(); i++) {
-        QString p = ifiles.at(i).toElement().attribute("name", "a");
+        QDomElement e = ifiles.at(i).toElement();
+        QString p = e.attribute("path", "");
+        if (p.isEmpty())
+            p = e.attribute("name", "");
         a->importantFiles.append(p);
+
+        QString title = e.attribute("title", p);
+        a->importantFilesTitles.append(title);
     }
 
     return a;

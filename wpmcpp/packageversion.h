@@ -25,12 +25,20 @@ public:
     /** important files (shortcuts for these will be created in the menu) */
     QStringList importantFiles;
 
+    /** titles for the important files */
+    QStringList importantFilesTitles;
+
     /** 0 = zip file, 1 = one file */
     int type;
 
     PackageVersion();
     PackageVersion(const QString& package);
     virtual ~PackageVersion();
+
+    /**
+     * @return only the last part of the package name (without a dot)
+     */
+    QString getShortPackageName();
 
     /**
      * Changes the version.

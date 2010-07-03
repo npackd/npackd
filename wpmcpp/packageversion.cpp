@@ -19,14 +19,14 @@
 
 /**
  * Uses the Shell's IShellLink and IPersistFile interfaces
- *   to create and store a shortcut to the specified object.
+ * to create and store a shortcut to the specified object.
  *
  * @return the result of calling the member functions of the interfaces.
  * @param lpszPathObj - address of a buffer containing the path of the object.
  * @param lpszPathLink - address of a buffer containing the path where the
- *   Shell link is to be stored.
+ *      Shell link is to be stored.
  * @param lpszDesc - address of a buffer containing the description of the
- *   Shell link.
+ *      Shell link.
  */
 HRESULT CreateLink(LPCWSTR lpszPathObj, LPCWSTR lpszPathLink, LPCWSTR lpszDesc)
 {
@@ -77,6 +77,12 @@ PackageVersion::PackageVersion()
     this->package = "unknown";
     this->download = QUrl("http://www.younamehere.com/download.zip");
     this->type = 0;
+}
+
+QString PackageVersion::getShortPackageName()
+{
+    QStringList sl = this->package.split(".");
+    return sl.last();
 }
 
 PackageVersion::~PackageVersion()
@@ -152,18 +158,33 @@ bool PackageVersion::createShortcuts(QString *errMsg)
     QDir d = getDirectory();
     for (int i = 0; i < this->importantFiles.count(); i++) {
         QString ifile = this->importantFiles.at(i);
+        QString ift = this->importantFilesTitles.at(i);
+
         QString p(ifile);
         p.prepend("\\");
         p.prepend(d.absolutePath());
+
         QString from = WPMUtils::getProgramShortcutsDir();
         from.append("\\");
-        from.append(ifile.replace('\\', "_").replace('/', '_'));
+        from.append(ift);
+        from.append(" (");
+        from.append(this->getShortPackageName());
+        from.append(" ");
+        from.append(this->getVersionString());
+        from.append(")");
         from.append(".lnk");
         qDebug() << "createShortcuts " << ifile << " " << p << " " <<
                 from;
+
+        QString desc(ift);
+        desc.append(" (");
+        desc.append(this->package);
+        desc.append(" ");
+        desc.append(this->getVersionString());
+        desc.append(")");
         HRESULT r = CreateLink((WCHAR*) p.replace('/', '\\').utf16(),
                                (WCHAR*) from.utf16(),
-                               (WCHAR*) ifile.utf16());
+                               (WCHAR*) desc.utf16());
         // TODO: error message
         if (!SUCCEEDED(r)) {
             qDebug() << "shortcut creation failed";
@@ -221,6 +242,7 @@ void PackageVersion::install(Job* job)
                                    (WCHAR*) t.replace('/', '\\').utf16(), false)) {
                         WPMUtils::formatMessage(GetLastError(), &errMsg);
                         job->setErrorMessage(errMsg);
+                        WPMUtils::removeDirectory(d, &errMsg); // ignore errors
                     } else {
                         QString err;
                         this->createShortcuts(&err); // ignore errors
