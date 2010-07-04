@@ -20,6 +20,14 @@ QString WPMUtils::getProgramFilesDir()
     return  QString::fromUtf16(reinterpret_cast<ushort*>(dir));
 }
 
+bool WPMUtils::isUnder(QString &file, QString &dir)
+{
+    QString f = file.replace('/', '\\').toLower();
+    QString d = dir.replace('/', '\\').toLower();
+
+    return f.startsWith(d);
+}
+
 void WPMUtils::formatMessage(DWORD err, QString* errMsg)
 {
     HLOCAL pBuffer;

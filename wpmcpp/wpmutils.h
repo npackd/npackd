@@ -40,6 +40,15 @@ public:
      * @param errMsg the message will be stored her
      */
     static void formatMessage(DWORD err, QString* errMsg);
+
+    /**
+     * Checks whether a file is somewhere in a directory (at any level). The
+     * directory must exist.
+     *
+     * @param file the file
+     * @param dir the directory
+     */
+    static bool isUnder(QString& file, QString& dir);
 };
 
 #endif // WPMUTILS_H

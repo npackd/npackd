@@ -18,6 +18,7 @@ private:
 
     bool unzip(QString zipfile, QString outputdir, QString* errMsg);
     bool createShortcuts(QString* errMsg);
+    void deleteShortcuts();
 public:
     /** complete package name like net.sourceforge.NotepadPlusPlus */
     QString package;
