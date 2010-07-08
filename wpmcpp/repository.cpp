@@ -17,6 +17,12 @@ Repository::Repository()
 {
 }
 
+Repository::~Repository()
+{
+    qDeleteAll(this->packages);
+    qDeleteAll(this->packageVersions);
+}
+
 PackageVersion* createPackageVersion(QDomElement* e)
 {
     PackageVersion* a = new PackageVersion(

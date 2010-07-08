@@ -64,7 +64,6 @@ MainWindow::MainWindow(QWidget *parent) :
     setWindowTitle("Windows Package Manager");
 
     this->ui->tableWidget->setEditTriggers(QTableWidget::NoEditTriggers);
-    this->ui->tableWidget->setSelectionMode(QAbstractItemView::SingleSelection);
 
     this->ui->tabWidget->setTabText(0, "Packages");
     this->ui->tabWidget->setTabText(1, "Settings");
@@ -81,6 +80,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
     this->on_tableWidget_itemSelectionChanged();
     this->ui->tableWidget->setColumnWidth(0, 400);
+    this->ui->tableWidget->sortItems(0);
 
     this->pd = 0;
 
@@ -162,6 +162,7 @@ void MainWindow::fillList()
     QTableWidget* t = this->ui->tableWidget;
 
     t->clearContents();
+    t->setSortingEnabled(false);
 
     Repository* r = Repository::getDefault();
 
@@ -187,6 +188,7 @@ void MainWindow::fillList()
         else
             packageTitle = pv->package;
         newItem = new QTableWidgetItem(packageTitle);
+        newItem->setStatusTip(pv->package);
         newItem->setData(Qt::UserRole, qVariantFromValue((void*) pv));
         t->setItem(i, 0, newItem);
 
@@ -198,6 +200,7 @@ void MainWindow::fillList()
         newItem->setData(Qt::UserRole, qVariantFromValue((void*) pv));
         t->setItem(i, 2, newItem);
     }
+    t->setSortingEnabled(true);
     qDebug() << "MainWindow::fillList.2";
 }
 

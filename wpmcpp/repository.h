@@ -38,6 +38,8 @@ public:
      */
     Repository();
 
+    ~Repository();
+
     /**
      * Loads the content from the URL.
      *
