@@ -11,13 +11,16 @@ SOURCES += main.cpp \
     repository.cpp \
     job.cpp \
     downloader.cpp \
-    wpmutils.cpp
+    wpmutils.cpp \
+    package.cpp
 HEADERS += mainwindow.h \
     packageversion.h \
     repository.h \
     job.h \
     downloader.h \
-    wpmutils.h
+    wpmutils.h \
+    ../package.h \
+    package.h
 FORMS += mainwindow.ui
 INCLUDEPATH += C:\Users\t\libs\quazip-0.2.3\quazip \
     C:\Users\t\libs\zlib-1.2.5

@@ -179,8 +179,14 @@ void MainWindow::fillList()
     t->setRowCount(r->packageVersions.count());
     for (int i = 0; i < r->packageVersions.count(); i++) {
         PackageVersion* pv = r->packageVersions.at(i);
+        Package* p = r->findPackage(pv->package);
 
-        newItem = new QTableWidgetItem(pv->package);
+        QString packageTitle;
+        if (p)
+            packageTitle = p->title;
+        else
+            packageTitle = pv->package;
+        newItem = new QTableWidgetItem(packageTitle);
         newItem->setData(Qt::UserRole, qVariantFromValue((void*) pv));
         t->setItem(i, 0, newItem);
 

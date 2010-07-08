@@ -48,6 +48,26 @@ PackageVersion* createPackageVersion(QDomElement* e)
     return a;
 }
 
+Package* Repository::createPackage(QDomElement* e)
+{
+    QString name = e->attribute("name");
+    Package* a = new Package(name, name);
+    QDomNodeList nl = e->elementsByTagName("title");
+    if (nl.count() != 0)
+        a->title = nl.at(0).firstChild().nodeValue();
+
+    return a;
+}
+
+Package* Repository::findPackage(QString& name)
+{
+    for (int i = 0; i < this->packages.count(); i++) {
+        if (this->packages.at(i)->name == name)
+            return this->packages.at(i);
+    }
+    return 0;
+}
+
 void Repository::load(Job* job)
 {
     job->setAmountOfWork(100);
@@ -74,6 +94,9 @@ void Repository::load(Job* job)
                         if (e.nodeName() == "version") {
                             this->packageVersions.append(
                                     createPackageVersion(&e));
+                        } else if (e.nodeName() == "package") {
+                            this->packages.append(
+                                    createPackage(&e));
                         }
                     }
                 }
