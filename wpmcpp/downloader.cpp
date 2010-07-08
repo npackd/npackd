@@ -7,13 +7,18 @@
 #include "qmutex.h"
 #include "qapplication.h"
 #include "qnetworkproxy.h"
+#include "qwidget.h"
 
 #include "downloader.h"
 #include "job.h"
 #include "wpmutils.h"
 
+/**
+ * @param parentWindow window handle or 0 if not UI is required
+ */
 bool downloadWin(Job* job, const QUrl& url, QTemporaryFile* file,
-    QString* mime, QString* contentDisposition, QString* errMsg)
+        QString* mime, QString* contentDisposition, QString* errMsg,
+        HWND parentWindow=0)
 {
     qDebug() << "download.1";
 
@@ -97,11 +102,14 @@ bool downloadWin(Job* job, const QUrl& url, QTemporaryFile* file,
             dwErrorCode = GetLastError();
 
         void* p;
-        dwError = InternetErrorDlg(0, //TODO: window handle
+        DWORD flags = FLAGS_ERROR_UI_FILTER_FOR_ERRORS |
+                      FLAGS_ERROR_UI_FLAGS_CHANGE_OPTIONS |
+                      FLAGS_ERROR_UI_FLAGS_GENERATE_DATA;
+        if (parentWindow == 0)
+            flags |= FLAGS_ERROR_UI_FLAGS_NO_UI;
+        dwError = InternetErrorDlg(parentWindow,
                     hResourceHandle, dwErrorCode,
-                                   FLAGS_ERROR_UI_FILTER_FOR_ERRORS |
-                                   FLAGS_ERROR_UI_FLAGS_CHANGE_OPTIONS |
-                                   FLAGS_ERROR_UI_FLAGS_GENERATE_DATA,
+                                   flags,
                                    &p);
     } while (dwError == ERROR_INTERNET_FORCE_RETRY);
     if (job)
@@ -193,8 +201,14 @@ QTemporaryFile* Downloader::download(Job* job, const QUrl &url)
         QString mime;
         QString errMsg;
         QString contentDisposition;
+        HWND hwnd;
+        QWidget* w = QApplication::activeWindow();
+        if (w)
+            hwnd = w->winId();
+        else
+            hwnd = 0;
         bool r = downloadWin(job, url, file, &mime, &contentDisposition,
-                             &errMsg);
+                             &errMsg, hwnd);
         file->close();
 
         if (!r) {
