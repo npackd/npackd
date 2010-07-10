@@ -142,6 +142,8 @@ void MainWindow::jobChanged(void* job_)
         } else {
             pd->setLabelText(job->getHint());
         }
+        pd->setMaximum(job->getAmountOfWork());
+        pd->setValue(job->getProgress());
     }
 }
 
