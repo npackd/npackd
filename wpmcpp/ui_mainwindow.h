@@ -1,7 +1,7 @@
 /********************************************************************************
 ** Form generated from reading UI file 'mainwindow.ui'
 **
-** Created: Sat 10. Jul 11:09:59 2010
+** Created: Sat 10. Jul 11:13:05 2010
 **      by: Qt User Interface Compiler version 4.6.3
 **
 ** WARNING! All changes made in this file will be lost when recompiling UI file!
@@ -160,6 +160,7 @@ public:
         menuBar->addAction(menuFile->menuAction());
         menuFile->addAction(actionInstall);
         menuFile->addAction(actionUninstall);
+        menuFile->addAction(actionGotoPackageURL);
         menuFile->addAction(actionExit);
         mainToolBar->addAction(actionInstall);
         mainToolBar->addAction(actionUninstall);
