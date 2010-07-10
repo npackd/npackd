@@ -189,7 +189,7 @@ void MainWindow::fillList()
         else
             packageTitle = pv->package;
         newItem = new QTableWidgetItem(packageTitle);
-        newItem->setStatusTip(pv->package);
+        newItem->setStatusTip(pv->download.toString() + " " + pv->package);
         newItem->setData(Qt::UserRole, qVariantFromValue((void*) pv));
         t->setItem(i, 0, newItem);
 
@@ -243,7 +243,11 @@ void MainWindow::on_tableWidget_itemSelectionChanged()
     PackageVersion* pv = getSelectedPackageVersion();
     this->ui->actionInstall->setEnabled(pv && !pv->installed());
     this->ui->actionUninstall->setEnabled(pv && pv->installed());
-    Package* p = Repository::getDefault()->findPackage(pv->package);
+    Package* p;
+    if (pv)
+        p = Repository::getDefault()->findPackage(pv->package);
+    else
+        p = 0;
     this->ui->actionGotoPackageURL->setEnabled(pv && p &&
             QUrl(p->url).isValid());
 }
