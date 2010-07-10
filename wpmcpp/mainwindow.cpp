@@ -11,6 +11,7 @@
 #include <QString>
 #include <QStringList>
 #include <QRegExp>
+#include "qdesktopservices.h"
 
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
@@ -242,6 +243,9 @@ void MainWindow::on_tableWidget_itemSelectionChanged()
     PackageVersion* pv = getSelectedPackageVersion();
     this->ui->actionInstall->setEnabled(pv && !pv->installed());
     this->ui->actionUninstall->setEnabled(pv && pv->installed());
+    Package* p = Repository::getDefault()->findPackage(pv->package);
+    this->ui->actionGotoPackageURL->setEnabled(pv && p &&
+            QUrl(p->url).isValid());
 }
 
 void MainWindow::loadRepository()
@@ -289,4 +293,18 @@ void MainWindow::on_pushButtonSaveSettings_clicked()
                 "Error", "The URL is not valid", QMessageBox::Ok);
     }
     qDebug() << "MainWindow::on_pushButtonSaveSettings_clicked";
+}
+
+void MainWindow::on_actionGotoPackageURL_triggered()
+{
+    PackageVersion* pv = getSelectedPackageVersion();
+    if (pv) {
+        Package* p = Repository::getDefault()->findPackage(pv->package);
+        if (p) {
+            QUrl url(p->url);
+            if (url.isValid()) {
+                QDesktopServices::openUrl(url);
+            }
+        }
+    }
 }

@@ -37,6 +37,11 @@ public:
     virtual ~PackageVersion();
 
     /**
+     * @return package title
+     */
+    QString getPackageTitle();
+
+    /**
      * @return only the last part of the package name (without a dot)
      */
     QString getShortPackageName();

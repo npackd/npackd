@@ -15,6 +15,9 @@ public:
     /** short program title (1 line) like "Gimp" */
     QString title;
 
+    /** web page associated with this piece of software. May be empty. */
+    QString url;
+
     Package(QString& name, QString& title);
 };
 

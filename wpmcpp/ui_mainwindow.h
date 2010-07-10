@@ -1,7 +1,7 @@
 /********************************************************************************
 ** Form generated from reading UI file 'mainwindow.ui'
 **
-** Created: Thu 8. Jul 16:48:22 2010
+** Created: Sat 10. Jul 11:09:59 2010
 **      by: Qt User Interface Compiler version 4.6.3
 **
 ** WARNING! All changes made in this file will be lost when recompiling UI file!
@@ -39,6 +39,7 @@ public:
     QAction *actionExit;
     QAction *actionInstall;
     QAction *actionUninstall;
+    QAction *actionGotoPackageURL;
     QWidget *centralWidget;
     QHBoxLayout *horizontalLayout;
     QTabWidget *tabWidget;
@@ -69,6 +70,8 @@ public:
         actionInstall->setObjectName(QString::fromUtf8("actionInstall"));
         actionUninstall = new QAction(MainWindow);
         actionUninstall->setObjectName(QString::fromUtf8("actionUninstall"));
+        actionGotoPackageURL = new QAction(MainWindow);
+        actionGotoPackageURL->setObjectName(QString::fromUtf8("actionGotoPackageURL"));
         centralWidget = new QWidget(MainWindow);
         centralWidget->setObjectName(QString::fromUtf8("centralWidget"));
         horizontalLayout = new QHBoxLayout(centralWidget);
@@ -160,6 +163,7 @@ public:
         menuFile->addAction(actionExit);
         mainToolBar->addAction(actionInstall);
         mainToolBar->addAction(actionUninstall);
+        mainToolBar->addAction(actionGotoPackageURL);
 
         retranslateUi(MainWindow);
 
@@ -175,6 +179,7 @@ public:
         actionExit->setText(QApplication::translate("MainWindow", "Exit", 0, QApplication::UnicodeUTF8));
         actionInstall->setText(QApplication::translate("MainWindow", "Install", 0, QApplication::UnicodeUTF8));
         actionUninstall->setText(QApplication::translate("MainWindow", "Uninstall", 0, QApplication::UnicodeUTF8));
+        actionGotoPackageURL->setText(QApplication::translate("MainWindow", "Go To Package Page", 0, QApplication::UnicodeUTF8));
         tabWidget->setTabText(tabWidget->indexOf(tab), QApplication::translate("MainWindow", "Tab 1", 0, QApplication::UnicodeUTF8));
         label->setText(QApplication::translate("MainWindow", "Repository:", 0, QApplication::UnicodeUTF8));
         pushButtonSaveSettings->setText(QApplication::translate("MainWindow", "Save", 0, QApplication::UnicodeUTF8));

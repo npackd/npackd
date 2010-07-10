@@ -36,6 +36,7 @@ public:
 protected:
     void changeEvent(QEvent *e);
 private slots:
+    void on_actionGotoPackageURL_triggered();
     void on_pushButtonSaveSettings_clicked();
     void jobChanged(void* job);
     void onShow();

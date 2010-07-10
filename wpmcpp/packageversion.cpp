@@ -16,6 +16,7 @@
 #include "job.h"
 #include "downloader.h"
 #include "wpmutils.h"
+#include "repository.h"
 
 /**
  * Uses the Shell's IShellLink and IPersistFile interfaces
@@ -155,6 +156,19 @@ QString PackageVersion::getVersionString()
     return r;
 }
 
+QString PackageVersion::getPackageTitle()
+{
+    Repository* rep = Repository::getDefault();
+
+    QString pn;
+    Package* package = rep->findPackage(this->package);
+    if (package)
+        pn = package->title;
+    else
+        pn = this->package;
+    return pn;
+}
+
 bool PackageVersion::createShortcuts(QString *errMsg)
 {
     QDir d = getDirectory();
@@ -170,7 +184,7 @@ bool PackageVersion::createShortcuts(QString *errMsg)
         from.append("\\");
         from.append(ift);
         from.append(" (");
-        from.append(this->getShortPackageName());
+        from.append(this->getPackageTitle());
         from.append(" ");
         from.append(this->getVersionString());
         from.append(")");
@@ -180,7 +194,7 @@ bool PackageVersion::createShortcuts(QString *errMsg)
 
         QString desc(ift);
         desc.append(" (");
-        desc.append(this->package);
+        desc.append(package);
         desc.append(" ");
         desc.append(this->getVersionString());
         desc.append(")");
