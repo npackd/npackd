@@ -1,3 +1,5 @@
+#include <math.h>
+
 #include <windows.h>
 #include <wininet.h>
 
@@ -22,8 +24,6 @@ bool downloadWin(Job* job, const QUrl& url, QTemporaryFile* file,
 {
     qDebug() << "download.1";
 
-    // const double second = 1.0 / 24 / 60 / 60;
-
     void* internet;
     DWORD bufferLength, index;
     char buffer[512 * 1024];
@@ -33,12 +33,8 @@ bool downloadWin(Job* job, const QUrl& url, QTemporaryFile* file,
     QString server = url.host();
     QString resource = url.path();
 
-    // TODO: int r, r2;
     int contentLength;
     int64_t alreadyRead;
-    double lastHintUpdated;
-
-    lastHintUpdated = 0;
 
     if (job) {
         job->setAmountOfWork(105);
@@ -171,14 +167,9 @@ bool downloadWin(Job* job, const QUrl& url, QTemporaryFile* file,
         file->write(buffer, bufferLength);
         alreadyRead += bufferLength;
         if ((job != 0) && (contentLength > 0)) {
-            // TODO: Job.Progress := Round(4 + (AlreadyRead / ContentLength) * 100);
-            /* TODO: if (Now - LastHintUpdated > Second) {
-                d1 := AlreadyRead;
-                d2 := ContentLength;*/
-                job->setHint(QString("%0 of %1 Bytes").arg(alreadyRead).
-                             arg(contentLength));
-                /*LastHintUpdated := Now;
-            }*/
+            job->setProgress(lround(4 + alreadyRead * 100.0 / contentLength));
+            job->setHint(QString("%0 of %1 Bytes").arg(alreadyRead).
+                         arg(contentLength));
         }
     } while (bufferLength != 0);
 
