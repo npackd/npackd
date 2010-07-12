@@ -75,7 +75,8 @@ MainWindow::MainWindow(QWidget *parent) :
         delete url;
     } else {
         QMessageBox::critical(this,
-                "Error", "The repository URL is not valid. Please change it on the settings tab.",
+                "Error",
+                "The repository URL is not valid. Please change it on the settings tab.",
                 QMessageBox::Ok);
     }
 
