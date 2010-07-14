@@ -172,13 +172,14 @@ QString PackageVersion::getPackageTitle()
 bool PackageVersion::createShortcuts(QString *errMsg)
 {
     QDir d = getDirectory();
+    Package* p = Repository::getDefault()->findPackage(this->package);
     for (int i = 0; i < this->importantFiles.count(); i++) {
         QString ifile = this->importantFiles.at(i);
         QString ift = this->importantFilesTitles.at(i);
 
-        QString p(ifile);
-        p.prepend("\\");
-        p.prepend(d.absolutePath());
+        QString path(ifile);
+        path.prepend("\\");
+        path.prepend(d.absolutePath());
 
         QString from = WPMUtils::getProgramShortcutsDir();
         from.append("\\");
@@ -192,13 +193,12 @@ bool PackageVersion::createShortcuts(QString *errMsg)
         qDebug() << "createShortcuts " << ifile << " " << p << " " <<
                 from;
 
-        QString desc(ift);
-        desc.append(" (");
-        desc.append(package);
-        desc.append(" ");
-        desc.append(this->getVersionString());
-        desc.append(")");
-        HRESULT r = CreateLink((WCHAR*) p.replace('/', '\\').utf16(),
+        QString desc;
+        if (p)
+            desc = p->description;
+        if (desc.isEmpty())
+            desc = this->package;
+        HRESULT r = CreateLink((WCHAR*) path.replace('/', '\\').utf16(),
                                (WCHAR*) from.utf16(),
                                (WCHAR*) desc.utf16());
         // TODO: error message
