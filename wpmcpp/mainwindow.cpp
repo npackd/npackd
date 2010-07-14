@@ -79,7 +79,9 @@ MainWindow::MainWindow(QWidget *parent) :
     delete url;
 
     this->on_tableWidget_itemSelectionChanged();
-    this->ui->tableWidget->setColumnWidth(0, 400);
+    this->ui->tableWidget->setColumnCount(4);
+    this->ui->tableWidget->setColumnWidth(0, 150);
+    this->ui->tableWidget->setColumnWidth(1, 300);
     this->ui->tableWidget->sortItems(0);
 
     this->pd = 0;
@@ -168,16 +170,19 @@ void MainWindow::fillList()
 
     Repository* r = Repository::getDefault();
 
-    t->setColumnCount(3);
+    t->setColumnCount(4);
 
-    QTableWidgetItem *newItem = new QTableWidgetItem("Package");
+    QTableWidgetItem *newItem = new QTableWidgetItem("Title");
     t->setHorizontalHeaderItem(0, newItem);
 
-    newItem = new QTableWidgetItem("Version");
+    newItem = new QTableWidgetItem("Description");
     t->setHorizontalHeaderItem(1, newItem);
 
-    newItem = new QTableWidgetItem("Status");
+    newItem = new QTableWidgetItem("Version");
     t->setHorizontalHeaderItem(2, newItem);
+
+    newItem = new QTableWidgetItem("Status");
+    t->setHorizontalHeaderItem(3, newItem);
 
     t->setRowCount(r->packageVersions.count());
     for (int i = 0; i < r->packageVersions.count(); i++) {
@@ -189,20 +194,27 @@ void MainWindow::fillList()
             packageTitle = p->title;
         else
             packageTitle = pv->package;
-        if (p && !p->description.isEmpty())
-            packageTitle += " - " + p->description;
         newItem = new QTableWidgetItem(packageTitle);
         newItem->setStatusTip(pv->download.toString() + " " + pv->package);
         newItem->setData(Qt::UserRole, qVariantFromValue((void*) pv));
         t->setItem(i, 0, newItem);
 
-        newItem = new QTableWidgetItem(pv->getVersionString());
+        QString desc;
+        if (p)
+            desc = p->description;
+        if (desc.isEmpty())
+            desc = pv->package;
+        newItem = new QTableWidgetItem(desc);
         newItem->setData(Qt::UserRole, qVariantFromValue((void*) pv));
         t->setItem(i, 1, newItem);
 
-        newItem = new QTableWidgetItem(pv->installed() ? "installed": "");
+        newItem = new QTableWidgetItem(pv->getVersionString());
         newItem->setData(Qt::UserRole, qVariantFromValue((void*) pv));
         t->setItem(i, 2, newItem);
+
+        newItem = new QTableWidgetItem(pv->installed() ? "installed": "");
+        newItem->setData(Qt::UserRole, qVariantFromValue((void*) pv));
+        t->setItem(i, 3, newItem);
     }
     t->setSortingEnabled(true);
     qDebug() << "MainWindow::fillList.2";
