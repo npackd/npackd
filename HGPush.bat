@@ -1,0 +1,2 @@
+hg push
+pause
