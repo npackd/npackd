@@ -70,15 +70,13 @@ MainWindow::MainWindow(QWidget *parent) :
     this->ui->tabWidget->setTabText(1, "Settings");
 
     QUrl* url = Repository::getRepositoryURL();
-    if (url) {
-        this->ui->lineEditRepository->setText(url->toString());
-        delete url;
-    } else {
-        QMessageBox::critical(this,
-                "Error",
-                "The repository URL is not valid. Please change it on the settings tab.",
-                QMessageBox::Ok);
+    if (!url) {
+        url = new QUrl(
+                "http://windows-package-manager.googlecode.com/hg/repository/Rep.xml");
+        Repository::setRepositoryURL(*url);
     }
+    this->ui->lineEditRepository->setText(url->toString());
+    delete url;
 
     this->on_tableWidget_itemSelectionChanged();
     this->ui->tableWidget->setColumnWidth(0, 400);
