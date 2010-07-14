@@ -64,6 +64,9 @@ Package* Repository::createPackage(QDomElement* e)
     nl = e->elementsByTagName("url");
     if (nl.count() != 0)
         a->url = nl.at(0).firstChild().nodeValue();
+    nl = e->elementsByTagName("description");
+    if (nl.count() != 0)
+        a->description = nl.at(0).firstChild().nodeValue();
 
     return a;
 }

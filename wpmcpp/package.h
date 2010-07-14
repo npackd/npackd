@@ -18,6 +18,9 @@ public:
     /** web page associated with this piece of software. May be empty. */
     QString url;
 
+    /** description. May contain multiple lines and paragraphs. */
+    QString description;
+
     Package(QString& name, QString& title);
 };
 

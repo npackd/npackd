@@ -193,6 +193,8 @@ void MainWindow::fillList()
             packageTitle = pv->package;
         newItem = new QTableWidgetItem(packageTitle);
         newItem->setStatusTip(pv->download.toString() + " " + pv->package);
+        if (p && !p->description.isEmpty())
+            newItem->setToolTip(p->description);
         newItem->setData(Qt::UserRole, qVariantFromValue((void*) pv));
         t->setItem(i, 0, newItem);
 
