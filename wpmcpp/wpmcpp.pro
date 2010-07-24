@@ -12,7 +12,8 @@ SOURCES += main.cpp \
     job.cpp \
     downloader.cpp \
     wpmutils.cpp \
-    package.cpp
+    package.cpp \
+    progressdialog.cpp
 HEADERS += mainwindow.h \
     packageversion.h \
     repository.h \
@@ -20,8 +21,10 @@ HEADERS += mainwindow.h \
     downloader.h \
     wpmutils.h \
     ../package.h \
-    package.h
-FORMS += mainwindow.ui
+    package.h \
+    progressdialog.h
+FORMS += mainwindow.ui \
+    progressdialog.ui
 INCLUDEPATH += C:\Users\t\libs\quazip-0.2.3\quazip \
     C:\Users\t\libs\zlib-1.2.5
 LIBS += C:\Users\t\libs\quazip-0.2.3\quazip\debug\libquazip.a \

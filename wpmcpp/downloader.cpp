@@ -19,9 +19,12 @@
  * @param parentWindow window handle or 0 if not UI is required
  */
 bool downloadWin(Job* job, const QUrl& url, QTemporaryFile* file,
-        QString* mime, QString* contentDisposition, QString* errMsg,
+        QString* mime, QString* contentDisposition,
         HWND parentWindow=0)
 {
+    if (job)
+        job->setCancellable(true);
+
     qDebug() << "download.1";
 
     void* internet;
@@ -47,7 +50,10 @@ bool downloadWin(Job* job, const QUrl& url, QTemporaryFile* file,
     qDebug() << "download.2";
 
     if (internet == 0) {
-        WPMUtils::formatMessage(GetLastError(), errMsg);
+        QString errMsg;
+        WPMUtils::formatMessage(GetLastError(), &errMsg);
+        job->setErrorMessage(errMsg);
+        job->complete();
         return false;
     }
 
@@ -64,7 +70,16 @@ bool downloadWin(Job* job, const QUrl& url, QTemporaryFile* file,
     qDebug() << "download.3";
 
     if (hConnectHandle == 0) {
-        WPMUtils::formatMessage(GetLastError(), errMsg);
+        QString errMsg;
+        WPMUtils::formatMessage(GetLastError(), &errMsg);
+        job->setErrorMessage(errMsg);
+        job->complete();
+        return false;
+    }
+
+    if (job && job->isCancelled()) {
+        InternetCloseHandle(internet);
+        job->complete();
         return false;
     }
 
@@ -76,7 +91,10 @@ bool downloadWin(Job* job, const QUrl& url, QTemporaryFile* file,
                                       INTERNET_FLAG_KEEP_CONNECTION |
                                       INTERNET_FLAG_DONT_CACHE, 0);
     if (hResourceHandle == 0) {
-        WPMUtils::formatMessage(GetLastError(), errMsg);
+        QString errMsg;
+        WPMUtils::formatMessage(GetLastError(), &errMsg);
+        job->setErrorMessage(errMsg);
+        job->complete();
         return false;
     }
 
@@ -85,7 +103,10 @@ bool downloadWin(Job* job, const QUrl& url, QTemporaryFile* file,
         qDebug() << "download.5.1";
 
         if (!HttpSendRequestW(hResourceHandle, 0, 0, 0, 0)) {
-            WPMUtils::formatMessage(GetLastError(), errMsg);
+            QString errMsg;
+            WPMUtils::formatMessage(GetLastError(), &errMsg);
+            job->setErrorMessage(errMsg);
+            job->complete();
             return false;
         }
 
@@ -118,7 +139,10 @@ bool downloadWin(Job* job, const QUrl& url, QTemporaryFile* file,
     index = 0;
     if (!HttpQueryInfoW(hResourceHandle, HTTP_QUERY_CONTENT_TYPE,
             &mimeBuffer, &bufferLength, &index)) {
-        WPMUtils::formatMessage(GetLastError(), errMsg);
+        QString errMsg;
+        WPMUtils::formatMessage(GetLastError(), &errMsg);
+        job->setErrorMessage(errMsg);
+        job->complete();
         return false;
     }
     mime->setUtf16((ushort*) mimeBuffer, bufferLength / 2);
@@ -161,7 +185,10 @@ bool downloadWin(Job* job, const QUrl& url, QTemporaryFile* file,
     do {
         if (!InternetReadFile(hResourceHandle, &buffer,
                 sizeof(buffer), &bufferLength)) {
-            WPMUtils::formatMessage(GetLastError(), errMsg);
+            QString errMsg;
+            WPMUtils::formatMessage(GetLastError(), &errMsg);
+            job->setErrorMessage(errMsg);
+            job->complete();
             return false;
         }
         file->write(buffer, bufferLength);
@@ -170,6 +197,11 @@ bool downloadWin(Job* job, const QUrl& url, QTemporaryFile* file,
             job->setProgress(lround(4 + alreadyRead * 100.0 / contentLength));
             job->setHint(QString("%0 of %1 Bytes").arg(alreadyRead).
                          arg(contentLength));
+        }
+        if (job && job->isCancelled()) {
+            InternetCloseHandle(internet);
+            job->complete();
+            return false;
         }
     } while (bufferLength != 0);
 
@@ -182,6 +214,8 @@ bool downloadWin(Job* job, const QUrl& url, QTemporaryFile* file,
 
     qDebug() << "download.8";
 
+    job->complete();
+
     return true;
 }
 
@@ -190,7 +224,6 @@ QTemporaryFile* Downloader::download(Job* job, const QUrl &url)
     QTemporaryFile* file = new QTemporaryFile();
     if (file->open()) {
         QString mime;
-        QString errMsg;
         QString contentDisposition;
         HWND hwnd;
         QWidget* w = QApplication::activeWindow();
@@ -199,11 +232,10 @@ QTemporaryFile* Downloader::download(Job* job, const QUrl &url)
         else
             hwnd = 0;
         bool r = downloadWin(job, url, file, &mime, &contentDisposition,
-                             &errMsg, hwnd);
+                             hwnd);
         file->close();
 
         if (!r) {
-            job->setErrorMessage(errMsg);
             delete file;
             file = 0;
         }
@@ -212,6 +244,7 @@ QTemporaryFile* Downloader::download(Job* job, const QUrl &url)
                 arg(file->fileName()));
         delete file;
         file = 0;
+        job->complete();
     }
     return file;
 }

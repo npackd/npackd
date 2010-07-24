@@ -127,6 +127,8 @@ void Repository::load(Job* job)
         job->setErrorMessage("No repository defined");
     }
     qDebug() << "Repository::load.3";
+
+    job->complete();
 }
 
 QUrl* Repository::getRepositoryURL()

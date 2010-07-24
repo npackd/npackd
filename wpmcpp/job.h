@@ -29,10 +29,54 @@ private:
     int subJobSteps;
     int subJobStart;
 
+    /** true if the user presses the "cancel" button. */
+    bool cancelRequested;
+
+    /** if true, this job can be cancelled */
+    bool cancellable;
+
+    bool completed;
+
     void updateParentHint();
     void updateParentProgress();
+public slots:
+    void parentJobChanged();
 public:
     Job();
+
+    /**
+     * @return true if this job was completed: with or without an error. If a
+     *     user cancells this job and it is not yet completed it means that the
+     *     cancelling is in progress.
+     */
+    bool isCompleted();
+
+    /**
+     * This must be called in order to complete the job. done(0) completes
+     * the job automatically.
+     */
+    void complete();
+
+    /**
+     * @param true if this task can be cancelled
+     */
+    void setCancellable(bool v);
+
+    /**
+     * @return true if this task can be cancelled. This value can change during
+     *     a job lifecycle
+     */
+    bool isCancellable();
+
+    /**
+     * Request cancelling of this job.
+     */
+    void cancel();
+
+    /**
+     * @return true if this job was cancelled.
+     */
+    bool isCancelled();
 
     /**
      * @param nsteps number of steps in this job for the created sub-job
@@ -92,10 +136,8 @@ signals:
     /**
      * This signal will be fired each time something in this object
      * changes (progress, hint etc.).
-     *
-     * @param job *Job = this
      */
-    void changed(void* job);
+    void changed();
 };
 
 #endif // JOB_H

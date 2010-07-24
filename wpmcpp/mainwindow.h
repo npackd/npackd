@@ -7,6 +7,7 @@
 
 #include "packageversion.h"
 #include "job.h"
+#include "progressdialog.h"
 
 namespace Ui {
     class MainWindow;
@@ -38,11 +39,9 @@ protected:
 private slots:
     void on_actionGotoPackageURL_triggered();
     void on_pushButtonSaveSettings_clicked();
-    void jobChanged(void* job);
     void onShow();
 private:
     Ui::MainWindow *ui;
-    QProgressDialog* pd;
 
     /**
      * Fills the table with known package versions.

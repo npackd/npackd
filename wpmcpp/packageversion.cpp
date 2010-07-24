@@ -135,6 +135,8 @@ void PackageVersion::uninstall(Job* job)
     } else {
         job->done(-1);
     }
+
+    job->complete();
 }
 
 QDir PackageVersion::getDirectory()
@@ -217,6 +219,8 @@ void PackageVersion::install(Job* job)
 
     qDebug() << "install.1";
     if (!installed()) {
+        job->setCancellable(true);
+
         // TODO: error handling/free memory
         qDebug() << "install.2";
         QDir d = getDirectory();
@@ -228,6 +232,8 @@ void PackageVersion::install(Job* job)
         QString errMsg;
         QTemporaryFile* f = Downloader::download(djob, this->download);
         delete djob;
+
+        job->setCancellable(false);
         if (f) {
             if (d.mkdir(d.absolutePath())) {
                 if (this->type == 0) {
@@ -276,6 +282,8 @@ void PackageVersion::install(Job* job)
     } else {
         job->done(-1);
     }
+
+    job->complete();
 }
 
 bool PackageVersion::unzip(QString zipfile, QString outputdir, QString* errMsg)

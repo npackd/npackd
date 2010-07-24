@@ -17,6 +17,7 @@
 #include "ui_mainwindow.h"
 #include "repository.h"
 #include "job.h"
+#include "progressdialog.h"
 
 class InstallThread: public QThread
 {
@@ -84,8 +85,6 @@ MainWindow::MainWindow(QWidget *parent) :
     this->ui->tableWidget->setColumnWidth(1, 300);
     this->ui->tableWidget->sortItems(0);
 
-    this->pd = 0;
-
     QTimer *pTimer = new QTimer(this);
     pTimer->setSingleShot(true);
     connect(pTimer, SIGNAL(timeout()), this,
@@ -101,11 +100,9 @@ MainWindow::~MainWindow()
 
 bool MainWindow::waitFor(Job* job)
 {
-    pd = new QProgressDialog("Please wait...", "Cancel", 0, 100, this);
-    pd->setCancelButton(0);
+    ProgressDialog* pd;
+    pd = new ProgressDialog(this, job);
     pd->setModal(true);
-
-    connect(job, SIGNAL(changed(void*)), this, SLOT(jobChanged(void*)));
 
     qDebug() << "MainWindow::waitFor.1";
 
@@ -114,12 +111,12 @@ bool MainWindow::waitFor(Job* job)
     pd = 0;
 
     qDebug() << "MainWindow::waitFor.2";
-    if (!job->getErrorMessage().isEmpty()) {
-        qDebug() << "MainWindow::waitFor.3";
+    if (job->isCancelled())
+        return false;
+    else if (!job->getErrorMessage().isEmpty()) {
         QMessageBox::critical(this,
                 "Error", job->getErrorMessage(),
                 QMessageBox::Ok);
-        qDebug() << "MainWindow::waitFor.4";
         return false;
     } else {
         return true;
@@ -129,23 +126,6 @@ bool MainWindow::waitFor(Job* job)
 void MainWindow::onShow()
 {
     loadRepository();
-}
-
-void MainWindow::jobChanged(void* job_)
-{
-    qDebug() << "MainWindow::jobChanged";
-
-    Job* job = (Job*) job_;
-    if (pd) {
-        if (job->getProgress() >= job->getAmountOfWork() ||
-                !job->getErrorMessage().isEmpty()) {
-            pd->done(0);
-        } else {
-            pd->setLabelText(job->getHint());
-        }
-        pd->setMaximum(job->getAmountOfWork());
-        pd->setValue(job->getProgress());
-    }
 }
 
 PackageVersion* MainWindow::getSelectedPackageVersion()
@@ -240,17 +220,26 @@ void MainWindow::on_actionExit_triggered()
 void MainWindow::on_actionUninstall_activated()
 {
     PackageVersion* pv = getSelectedPackageVersion();
-    Job* job = new Job();
-    InstallThread* it = new InstallThread(pv, false, job);
-    it->start();
-    it->setPriority(QThread::LowestPriority);
+    QString msg("The directory %1 will be completely deleted. \n"
+            "There is no way to restore the files. \n"
+            "Are you sure?");
+    msg = msg.arg(pv->getDirectory().absolutePath());
+    QMessageBox::StandardButton b = QMessageBox::warning(this,
+            "Uninstall",
+            msg, QMessageBox::Yes | QMessageBox::No);
+    if (b == QMessageBox::Yes) {
+        Job* job = new Job();
+        InstallThread* it = new InstallThread(pv, false, job);
+        it->start();
+        it->setPriority(QThread::LowestPriority);
 
-    waitFor(job);
-    it->wait();
-    delete it;
+        waitFor(job);
+        it->wait();
+        delete it;
 
-    fillList();
-    delete job;
+        fillList();
+        delete job;
+    }
 }
 
 void MainWindow::on_tableWidget_itemSelectionChanged()
