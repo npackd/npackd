@@ -24,6 +24,14 @@ public:
     static bool removeDirectory(QDir &aDir, QString* errMsg);
 
     /**
+     * Finds the parent directory for a path.
+     *
+     * @param path a directory
+     * @return parent directory without an ending \\
+     */
+    static QString parentDirectory(const QString& path);
+
+    /**
      * @return directory like "C:\Program Files"
      */
     static QString getProgramFilesDir();

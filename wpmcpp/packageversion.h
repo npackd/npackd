@@ -21,6 +21,7 @@ private:
     bool createShortcuts(QString* errMsg);
     void deleteShortcuts();
     bool saveFiles(QString* errMsg);
+    bool executeFile(QString& path, QString* errMsg);
 public:
     /** complete package name like net.sourceforge.NotepadPlusPlus */
     QString package;

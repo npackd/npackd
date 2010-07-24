@@ -13,6 +13,14 @@ WPMUtils::WPMUtils()
 {
 }
 
+QString WPMUtils::parentDirectory(const QString& path)
+{
+    QString p = path;
+    p = p.replace('/', '\\');
+    int index = p.lastIndexOf('\\');
+    return p.left(index);
+}
+
 QString WPMUtils::getProgramFilesDir()
 {
     WCHAR dir[MAX_PATH];

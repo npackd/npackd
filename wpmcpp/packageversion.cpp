@@ -7,10 +7,10 @@
 #include "qurl.h"
 #include "QtDebug"
 #include "qiodevice.h"
+#include "qprocess.h"
 
 #include "quazip.h"
 #include "quazipfile.h"
-
 #include "zlib.h"
 
 #include "packageversion.h"
@@ -123,19 +123,37 @@ bool PackageVersion::installed()
 
 void PackageVersion::uninstall(Job* job)
 {
-    job->setAmountOfWork(2);
-    deleteShortcuts();
-    job->done(1);
+    job->setAmountOfWork(3);
     QDir d = getDirectory();
-    if (d.exists()) {
-        QString errMsg;
-        bool r = WPMUtils::removeDirectory(d, &errMsg);
-        if (r) {
-            job->done(-1);
-        } else
+
+    QString errMsg;
+    QString p = d.absolutePath() + "\\.WPM\\Uninstall.bat";
+    if (QFile::exists(p)) {
+        job->setHint("Running the uninstallation script");
+        if (this->executeFile(p, &errMsg)) {
+            job->done(1);
+        } else {
             job->setErrorMessage(errMsg);
+        }
     } else {
-        job->done(-1);
+        job->done(1);
+    }
+
+    if (job->getErrorMessage().isEmpty()) {
+        deleteShortcuts();
+        job->done(1);
+    }
+
+    if (job->getErrorMessage().isEmpty()) {
+        if (d.exists()) {
+            bool r = WPMUtils::removeDirectory(d, &errMsg);
+            if (r) {
+                job->done(-1);
+            } else
+                job->setErrorMessage(errMsg);
+        } else {
+            job->done(-1);
+        }
     }
 
     job->complete();
@@ -274,6 +292,20 @@ void PackageVersion::install(Job* job)
                 if (job->getErrorMessage().isEmpty()) {
                     if (!this->saveFiles(&errMsg)) {
                         job->setErrorMessage(errMsg);
+                        job->done(1);
+                    }
+                }
+                if (job->getErrorMessage().isEmpty()) {
+                    QString p = getDirectory().absolutePath() +
+                                "\\.WPM\\Install.bat";
+                    if (QFile::exists(p)) {
+                        job->setHint("Running the installation script");
+                        if (this->executeFile(p, &errMsg)) {
+                            job->done(-1);
+                        } else {
+                            job->setErrorMessage(errMsg);
+                        }
+                    } else {
                         job->done(-1);
                     }
                 }
@@ -335,17 +367,49 @@ bool PackageVersion::saveFiles(QString* errMsg)
     for (int i = 0; i < this->files.count(); i++) {
         PackageVersionFile* f = this->files.at(i);
         QString fullPath = d.absolutePath() + "\\" + f->path;
-        QFile file(fullPath);
-        if (file.open(QIODevice::WriteOnly | QIODevice::Truncate)) {
-            QTextStream stream(&file);
-            stream << f->content;
-            file.close();
-            success = true;
+        QString fullDir = WPMUtils::parentDirectory(fullPath);
+        if (d.mkpath(fullDir)) {
+            QFile file(fullPath);
+            if (file.open(QIODevice::WriteOnly | QIODevice::Truncate)) {
+                QTextStream stream(&file);
+                stream << f->content;
+                file.close();
+                success = true;
+            } else {
+                *errMsg = QString("Could not create file %1").arg(
+                        fullPath);
+                break;
+            }
         } else {
-            *errMsg = QString("Could not create file %1").arg(
-                    fullPath);
+            *errMsg = QString("Could not create directory %1").arg(
+                    fullDir);
             break;
         }
+    }
+    return success;
+}
+
+bool PackageVersion::executeFile(QString& path, QString* errMsg)
+{
+    bool success = false;
+    QDir d = this->getDirectory();
+    QProcess p(0);
+    QStringList params;
+    p.setWorkingDirectory(d.absolutePath());
+    QString exe = d.absolutePath() + "\\" + path;
+    p.start(exe, params);
+
+    // 5 minutes
+    if (p.waitForFinished(300000)){
+        if (p.exitCode() != 0) {
+            *errMsg = QString("Process %1 exited with the code %2").arg(
+                    exe).arg(p.exitCode());
+        } else {
+            success = true;
+        }
+    } else {
+        *errMsg = QString("Timeout waiting for %1 to finish").arg(
+                exe);
     }
     return success;
 }
