@@ -20,16 +20,16 @@ private:
     static Repository* def;
 
     static Package* createPackage(QDomElement* e);
+    static PackageVersionFile* createPackageVersionFile(QDomElement* e);
+    static PackageVersion* createPackageVersion(QDomElement* e);
 public:
     /**
      * Package versions.
-     * TODO: does this leak memory?
      */
     QList<PackageVersion*> packageVersions;
 
     /**
      * Packages.
-     * TODO: does this leak memory?
      */
     QList<Package*> packages;
 

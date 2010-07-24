@@ -6,6 +6,7 @@
 #include "repository.h"
 #include "qurl.h"
 #include "QtDebug"
+#include "qiodevice.h"
 
 #include "quazip.h"
 #include "quazipfile.h"
@@ -88,6 +89,7 @@ QString PackageVersion::getShortPackageName()
 
 PackageVersion::~PackageVersion()
 {
+    qDeleteAll(this->files);
     delete[] this->parts;
 }
 
@@ -215,7 +217,7 @@ bool PackageVersion::createShortcuts(QString *errMsg)
 void PackageVersion::install(Job* job)
 {
     job->setHint("Preparing");
-    job->setAmountOfWork(10);
+    job->setAmountOfWork(100);
 
     qDebug() << "install.1";
     if (!installed()) {
@@ -228,7 +230,7 @@ void PackageVersion::install(Job* job)
 
         qDebug() << "install.3";
         job->setHint("Downloading");
-        Job* djob = job->newSubJob(6);
+        Job* djob = job->newSubJob(60);
         QString errMsg;
         QTemporaryFile* f = Downloader::download(djob, this->download);
         delete djob;
@@ -238,20 +240,18 @@ void PackageVersion::install(Job* job)
             if (d.mkdir(d.absolutePath())) {
                 if (this->type == 0) {
                     job->setHint("Extracting files");
-                    qDebug() << "install.4";
-                        qDebug() << "install.5";
-                        qDebug() << "install.6 " << f->size() << d.absolutePath();
+                    qDebug() << "install.6 " << f->size() << d.absolutePath();
 
-                        if (unzip(f->fileName(), d.absolutePath() + "\\", &errMsg)) {
-                            QString err;
-                            this->createShortcuts(&err); // ignore errors
-                            job->done(-1);
-                        } else {
-                            job->setErrorMessage(QString(
-                                    "Error unzipping file into directory %0: %1").
-                                                 arg(d.absolutePath()).arg(errMsg));
-                            WPMUtils::removeDirectory(d, &errMsg); // ignore errors
-                        }
+                    if (unzip(f->fileName(), d.absolutePath() + "\\", &errMsg)) {
+                        QString err;
+                        this->createShortcuts(&err); // ignore errors
+                        job->done(30);
+                    } else {
+                        job->setErrorMessage(QString(
+                                "Error unzipping file into directory %0: %1").
+                                             arg(d.absolutePath()).arg(errMsg));
+                        WPMUtils::removeDirectory(d, &errMsg); // ignore errors
+                    }
                 } else {
                     job->setHint("Copying the file");
                     QString t = d.absolutePath();
@@ -268,6 +268,12 @@ void PackageVersion::install(Job* job)
                     } else {
                         QString err;
                         this->createShortcuts(&err); // ignore errors
+                        job->done(30);
+                    }
+                }
+                if (job->getErrorMessage().isEmpty()) {
+                    if (!this->saveFiles(&errMsg)) {
+                        job->setErrorMessage(errMsg);
                         job->done(-1);
                     }
                 }
@@ -320,6 +326,28 @@ bool PackageVersion::unzip(QString zipfile, QString outputdir, QString* errMsg)
     zip.close();
 
     return extractsuccess;
+}
+
+bool PackageVersion::saveFiles(QString* errMsg)
+{
+    bool success = false;
+    QDir d = this->getDirectory();
+    for (int i = 0; i < this->files.count(); i++) {
+        PackageVersionFile* f = this->files.at(i);
+        QString fullPath = d.absolutePath() + "\\" + f->path;
+        QFile file(fullPath);
+        if (file.open(QIODevice::WriteOnly | QIODevice::Truncate)) {
+            QTextStream stream(&file);
+            stream << f->content;
+            file.close();
+            success = true;
+        } else {
+            *errMsg = QString("Could not create file %1").arg(
+                    fullPath);
+            break;
+        }
+    }
+    return success;
 }
 
 void PackageVersion::deleteShortcuts()

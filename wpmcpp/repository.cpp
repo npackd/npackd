@@ -1,7 +1,6 @@
 #include <windows.h>
 #include <shlobj.h>
 
-#include "repository.h"
 #include "qhttp.h"
 #include "qtemporaryfile.h"
 #include "downloader.h"
@@ -9,7 +8,9 @@
 #include "qdom.h"
 #include "qdebug.h"
 
+#include "repository.h"
 #include "downloader.h"
+#include "packageversionfile.h"
 
 Repository* Repository::def = 0;
 
@@ -23,7 +24,7 @@ Repository::~Repository()
     qDeleteAll(this->packageVersions);
 }
 
-PackageVersion* createPackageVersion(QDomElement* e)
+PackageVersion* Repository::createPackageVersion(QDomElement* e)
 {
     PackageVersion* a = new PackageVersion(
             e->attribute("package"));
@@ -51,6 +52,12 @@ PackageVersion* createPackageVersion(QDomElement* e)
         a->importantFilesTitles.append(title);
     }
 
+    QDomNodeList files = e->elementsByTagName("file");
+    for (int i = 0; i < files.count(); i++) {
+        QDomElement e = files.at(i).toElement();
+        a->files.append(createPackageVersionFile(&e));
+    }
+
     return a;
 }
 
@@ -67,6 +74,15 @@ Package* Repository::createPackage(QDomElement* e)
     nl = e->elementsByTagName("description");
     if (nl.count() != 0)
         a->description = nl.at(0).firstChild().nodeValue();
+
+    return a;
+}
+
+PackageVersionFile* Repository::createPackageVersionFile(QDomElement* e)
+{
+    QString path = e->attribute("path");
+    QString content = e->firstChild().nodeValue();
+    PackageVersionFile* a = new PackageVersionFile(path, content);
 
     return a;
 }

@@ -9,6 +9,7 @@
 #include "qstringlist.h"
 
 #include "job.h"
+#include "packageversionfile.h"
 
 class PackageVersion
 {
@@ -19,6 +20,7 @@ private:
     bool unzip(QString zipfile, QString outputdir, QString* errMsg);
     bool createShortcuts(QString* errMsg);
     void deleteShortcuts();
+    bool saveFiles(QString* errMsg);
 public:
     /** complete package name like net.sourceforge.NotepadPlusPlus */
     QString package;
@@ -28,6 +30,11 @@ public:
 
     /** titles for the important files */
     QStringList importantFilesTitles;
+
+    /**
+     * Packages.
+     */
+    QList<PackageVersionFile*> files;
 
     /** 0 = zip file, 1 = one file */
     int type;
