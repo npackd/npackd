@@ -459,6 +459,11 @@
         <url>http://www.7-zip.org/</url>
         <description>command line file archiver</description>
     </package>
+    <package name="org.7-zip.SevenZIP">
+        <title>7-ZIP</title>
+        <url>http://www.7-zip.org/</url>
+        <description>file archiver</description>
+    </package>
     <package name="org.7-zip.SevenZIPInstaller">
         <title>7-ZIP installer</title>
         <url>http://www.7-zip.org/</url>
@@ -943,6 +948,14 @@
     <version name="7.3.6.4" package="com.aim.AIMInstaller" type="one-file">
         <important-file path="Install_AIM.exe" title="Installer"/>
         <url>http://download.newaol.com/aim/win95/Install_AIM.exe</url>
+    </version>
+    <version name="4.65" package="org.7-zip.SevenZIP" type="one-file">
+        <file path=".WPM\Install.bat">7z465.exe /S /D=%CD%</file>
+        <!--
+        this NSIS-based installer does not support silent uninstallation-->
+        <file path=".WPM\Uninstall.bat">uninst.exe /S</file>
+<!--        -->
+        <url>http://downloads.sourceforge.net/project/sevenzip/7-Zip/4.65/7z465.exe?use_mirror=netcologne&amp;83156013</url>
     </version>
     <version name="4.65" package="org.7-zip.SevenZIPInstaller" type="one-file">
         <important-file path="7z465.exe" title="Installer"/>

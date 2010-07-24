@@ -127,8 +127,8 @@ void PackageVersion::uninstall(Job* job)
     QDir d = getDirectory();
 
     QString errMsg;
-    QString p = d.absolutePath() + "\\.WPM\\Uninstall.bat";
-    if (QFile::exists(p)) {
+    QString p = ".WPM\\Uninstall.bat";
+    if (QFile::exists(d.absolutePath() + "\\" + p)) {
         job->setHint("Running the uninstallation script");
         if (this->executeFile(p, &errMsg)) {
             job->done(1);
@@ -296,9 +296,9 @@ void PackageVersion::install(Job* job)
                     }
                 }
                 if (job->getErrorMessage().isEmpty()) {
-                    QString p = getDirectory().absolutePath() +
-                                "\\.WPM\\Install.bat";
-                    if (QFile::exists(p)) {
+                    QString p = ".WPM\\Install.bat";
+                    if (QFile::exists(getDirectory().absolutePath() +
+                            "\\" + p)) {
                         job->setHint("Running the installation script");
                         if (this->executeFile(p, &errMsg)) {
                             job->done(-1);
