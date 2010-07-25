@@ -1045,18 +1045,24 @@
     </version>
     <!--
         see ftp://ftp.adobe.com/pub/adobe/reader/win/9.x/9.3/ for
-        available versions
-    -->
+        available versions.
+        /quiet switch does not work for Adobe Reader
     <version name="9.3.3" package="com.adobe.AdobeReader"
             type="one-file">
-        <file path=".WPM\Install.bat">msiexec.exe /i /quiet /norestart AdbeRdr930_en_US.msi TARGETDIR=.</file>
-        <file path=".WPM\Uninstall.bat">msiexec.exe /x /quiet /norestart AdbeRdr930_en_US.msi</file>
+        <file path=".WPM\Install.bat">msiexec.exe /quiet /norestart /i AdbeRdr930_en_US.msi TARGETDIR=.</file>
+        <file path=".WPM\Uninstall.bat">msiexec.exe /quiet /norestart /x AdbeRdr930_en_US.msi</file>
         <url>http://ardownload.adobe.com/pub/adobe/reader/win/9.x/9.3/enu/AdbeRdr930_en_US.msi</url>
     </version>
+    -->
     <version name="9.3.0" package="com.adobe.AdobeReaderInstaller"
             type="one-file">
-        <important-file path="AdbeRdr930_de_DE.exe" title="Installer"/>
-        <url>http://ardownload.adobe.com/pub/adobe/reader/win/9.x/9.3/deu/AdbeRdr930_de_DE.exe</url>
+        <important-file path="AdbeRdr930_en_US.exe" title="Installer"/>
+        <url>http://ardownload.adobe.com/pub/adobe/reader/win/9.x/9.3/enu/AdbeRdr930_en_US.exe</url>
+    </version>
+    <version name="9.3.3" package="com.adobe.AdobeReaderInstaller"
+            type="one-file">
+        <important-file path="AdbeRdr933_en_US.exe" title="Installer"/>
+        <url>http://ardownload.adobe.com/pub/adobe/reader/win/9.x/9.3.3/enu/AdbeRdr933_en_US.exe</url>
     </version>
     <version name="2.7.1" package="net.sourceforge.pidgin.Pidgin"
             type="one-file">
