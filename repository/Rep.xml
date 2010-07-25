@@ -1046,14 +1046,12 @@
     <!--
         see ftp://ftp.adobe.com/pub/adobe/reader/win/9.x/9.3/ for
         available versions.
-        /quiet switch does not work for Adobe Reader
-    <version name="9.3.3" package="com.adobe.AdobeReader"
-            type="one-file">
-        <file path=".WPM\Install.bat">msiexec.exe /quiet /norestart /i AdbeRdr930_en_US.msi TARGETDIR=.</file>
-        <file path=".WPM\Uninstall.bat">msiexec.exe /quiet /norestart /x AdbeRdr930_en_US.msi</file>
+    -->
+    <version name="9.3.0" package="com.adobe.AdobeReader" type="one-file">
+        <file path=".WPM\Install.bat">msiexec.exe /qb! /norestart /i AdbeRdr930_en_US.msi TARGETDIR="%CD%" ALLUSERS=1</file>
+        <file path=".WPM\Uninstall.bat">msiexec.exe /qb! /norestart /x AdbeRdr930_en_US.msi</file>
         <url>http://ardownload.adobe.com/pub/adobe/reader/win/9.x/9.3/enu/AdbeRdr930_en_US.msi</url>
     </version>
-    -->
     <version name="9.3.0" package="com.adobe.AdobeReaderInstaller"
             type="one-file">
         <important-file path="AdbeRdr930_en_US.exe" title="Installer"/>
