@@ -1,7 +1,7 @@
 /********************************************************************************
 ** Form generated from reading UI file 'progressdialog.ui'
 **
-** Created: Sat 24. Jul 17:26:23 2010
+** Created: Sun 25. Jul 10:20:14 2010
 **      by: Qt User Interface Compiler version 4.6.3
 **
 ** WARNING! All changes made in this file will be lost when recompiling UI file!
@@ -107,9 +107,9 @@ public:
     {
         ProgressDialog->setWindowTitle(QApplication::translate("ProgressDialog", "Progress", 0, QApplication::UnicodeUTF8));
         label->setText(QApplication::translate("ProgressDialog", "Step:", 0, QApplication::UnicodeUTF8));
-        labelStep->setText(QApplication::translate("ProgressDialog", "TextLabel", 0, QApplication::UnicodeUTF8));
+        labelStep->setText(QApplication::translate("ProgressDialog", "-", 0, QApplication::UnicodeUTF8));
         label_2->setText(QApplication::translate("ProgressDialog", "Elapsed Time:", 0, QApplication::UnicodeUTF8));
-        labelElapsed->setText(QApplication::translate("ProgressDialog", "TextLabel", 0, QApplication::UnicodeUTF8));
+        labelElapsed->setText(QApplication::translate("ProgressDialog", "-", 0, QApplication::UnicodeUTF8));
         pushButtonCancel->setText(QApplication::translate("ProgressDialog", "Cancel", 0, QApplication::UnicodeUTF8));
     } // retranslateUi
 
