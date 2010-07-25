@@ -16,6 +16,9 @@
 #include "wpmutils.h"
 
 /**
+ * TODO: handle redirects explicitely so that the file name could be derived
+ *    from the last URL:
+ *    http://www.experts-exchange.com/Programming/System/Windows__Programming/MFC/Q_20096714.html
  * @param parentWindow window handle or 0 if not UI is required
  */
 bool downloadWin(Job* job, const QUrl& url, QTemporaryFile* file,
