@@ -574,6 +574,11 @@
         <url>http://www.mingw.org/</url>
         <description>minimalist GNU</description>
     </package>
+    <package name="org.mozilla.Firefox">
+        <title>Firefox</title>
+        <url>http://www.mozilla-europe.org/en/firefox/</url>
+        <description>web browser</description>
+    </package>
     <package name="org.mozilla.FirefoxInstaller">
         <title>Firefox installer</title>
         <url>http://www.mozilla-europe.org/en/firefox/</url>
@@ -1160,6 +1165,20 @@
     <version name="1.2.2" package="dk.po.dxgettext.DXGetTextInstaller" type="one-file">
         <important-file path="dxgettext-1.2.2.exe" title="Installer"/>
         <url>http://downloads.sourceforge.net/project/dxgettext/For%20Delphi%20and%20C%2B%2B%20Builder/1.2.2/dxgettext-1.2.2.exe?use_mirror=puzzle&amp;48855804</url>
+    </version>
+    <version name="3.6.4" package="org.mozilla.Firefox" type="one-file">
+        <!--
+            see https://wiki.mozilla.org/Installer:Command_Line_Arguments
+            for more information
+        -->
+        <file path=".WPM\Install.bat">echo [Install] > .WPM\FF.ini
+echo InstallDirectoryPath=%CD% >> .WPM\FF.ini
+echo QuickLaunchShortcut=false >> .WPM\FF.ini
+echo DesktopShortcut=false >> .WPM\FF.ini
+"Firefox Setup 3.6.4.exe" /INI=.WPM\FF.ini
+</file>
+        <file path=".WPM\Uninstall.bat">uninstall\helper.exe /S</file>
+        <url>http://mirror.switch.ch/ftp/mirror/mozilla/firefox/releases/3.6.4/win32/en-US/Firefox%20Setup%203.6.4.exe</url>
     </version>
     <version name="3.6.4" package="org.mozilla.FirefoxInstaller" type="one-file">
         <important-file path="Firefox Setup 3.6.4.exe" title="Installer"/>
