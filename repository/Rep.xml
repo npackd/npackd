@@ -14,6 +14,11 @@
         <url>http://www.activestate.com/activeperl</url>
         <description>Perl programming language</description>
     </package>
+    <package name="com.adobe.AdobeReader">
+        <title>Adobe Reader</title>
+        <url>http://get.adobe.com/de/reader/</url>
+        <description>PDF viewer</description>
+    </package>
     <package name="com.adobe.AdobeReaderInstaller">
         <title>Adobe Reader installer</title>
         <url>http://get.adobe.com/de/reader/</url>
@@ -1037,6 +1042,16 @@
             type="one-file">
         <important-file path="GoogleDesktopSetup.exe" title="Installer"/>
         <url>http://dl.google.com/dl/desktop/R/de/GoogleDesktopSetup.exe</url>
+    </version>
+    <!--
+        see ftp://ftp.adobe.com/pub/adobe/reader/win/9.x/9.3/ for
+        available versions
+    -->
+    <version name="9.3.3" package="com.adobe.AdobeReader"
+            type="one-file">
+        <file path=".WPM\Install.bat">msiexec.exe /i /quiet /norestart AdbeRdr930_en_US.msi TARGETDIR=.</file>
+        <file path=".WPM\Uninstall.bat">msiexec.exe /x /quiet /norestart AdbeRdr930_en_US.msi</file>
+        <url>http://ardownload.adobe.com/pub/adobe/reader/win/9.x/9.3/enu/AdbeRdr930_en_US.msi</url>
     </version>
     <version name="9.3.0" package="com.adobe.AdobeReaderInstaller"
             type="one-file">
