@@ -251,6 +251,10 @@ void PackageVersion::install(Job* job)
         Job* djob = job->newSubJob(60);
         QString errMsg;
         QTemporaryFile* f = Downloader::download(djob, this->download);
+        qDebug() << "install.3.2 " << (f == 0) << djob->getErrorMessage();
+        if (!djob->getErrorMessage().isEmpty())
+            job->setErrorMessage(QString("Download failed: %1").arg(
+                    djob->getErrorMessage()));
         delete djob;
 
         job->setCancellable(false);
@@ -314,8 +318,6 @@ void PackageVersion::install(Job* job)
                         arg(d.absolutePath()));
             }
             delete f;
-        } else {
-            job->setErrorMessage(errMsg);
         }
     } else {
         job->done(-1);
