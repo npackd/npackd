@@ -1166,11 +1166,11 @@
         <important-file path="dxgettext-1.2.2.exe" title="Installer"/>
         <url>http://downloads.sourceforge.net/project/dxgettext/For%20Delphi%20and%20C%2B%2B%20Builder/1.2.2/dxgettext-1.2.2.exe?use_mirror=puzzle&amp;48855804</url>
     </version>
+    <!--
+        see https://wiki.mozilla.org/Installer:Command_Line_Arguments
+        for more information
+    -->
     <version name="3.6.4" package="org.mozilla.Firefox" type="one-file">
-        <!--
-            see https://wiki.mozilla.org/Installer:Command_Line_Arguments
-            for more information
-        -->
         <file path=".WPM\Install.bat">echo [Install] > .WPM\FF.ini
 echo InstallDirectoryPath=%CD% >> .WPM\FF.ini
 echo QuickLaunchShortcut=false >> .WPM\FF.ini
@@ -1179,6 +1179,16 @@ echo DesktopShortcut=false >> .WPM\FF.ini
 </file>
         <file path=".WPM\Uninstall.bat">uninstall\helper.exe /S</file>
         <url>http://download.oldapps.com/Firefox/Firefox%20Setup%203.6.4.exe</url>
+    </version>
+    <version name="3.6.8" package="org.mozilla.Firefox" type="one-file">
+        <file path=".WPM\Install.bat">echo [Install] > .WPM\FF.ini
+echo InstallDirectoryPath=%CD% >> .WPM\FF.ini
+echo QuickLaunchShortcut=false >> .WPM\FF.ini
+echo DesktopShortcut=false >> .WPM\FF.ini
+"Firefox Setup 3.6.8.exe" /INI="%CD%\.WPM\FF.ini"
+</file>
+        <file path=".WPM\Uninstall.bat">uninstall\helper.exe /S</file>
+        <url>http://download.oldapps.com/Firefox/Firefox%20Setup%203.6.8.exe</url>
     </version>
     <version name="3.6.4" package="org.mozilla.FirefoxInstaller" type="one-file">
         <important-file path="Firefox Setup 3.6.4.exe" title="Installer"/>
