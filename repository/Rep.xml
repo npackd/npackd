@@ -289,6 +289,11 @@
         <url>http://rocketdock.com/</url>
         <description>program dock</description>
     </package>
+    <package name="com.selenic.mercurial.Mercurial">
+        <title>Mercurial</title>
+        <url>http://mercurial.selenic.com/</url>
+        <description>file versioning</description>
+    </package>
     <package name="com.selenic.mercurial.MercurialInstaller">
         <title>Mercurial installer</title>
         <url>http://mercurial.selenic.com/</url>
@@ -1218,6 +1223,12 @@
         <important-file path="lukeall-0.9.9.jar" title="Luke"/>
         <!-- not supported dependency package="JRE" name="6"/ -->
         <url>http://www.getopt.org/luke/luke-0.9.9/lukeall-0.9.9.jar</url>
+    </version>
+    <version name="1.6.0" package="com.selenic.mercurial.Mercurial"
+            type="one-file">
+        <file path=".WPM\Install.bat">msiexec.exe /qb! /norestart /i mercurial-1.6.0.msi TARGETDIR="%CD%" ALLUSERS=1</file>
+        <file path=".WPM\Uninstall.bat">msiexec.exe /qb! /norestart /x mercurial-1.6.0.msi</file>
+        <url>http://bitbucket.org/tortoisehg/thg-winbuild/downloads/mercurial-1.6.0.msi</url>
     </version>
     <version name="1.6.0" package="com.selenic.mercurial.MercurialInstaller"
             type="one-file">
