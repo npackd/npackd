@@ -209,6 +209,11 @@
         <url>http://technet.microsoft.com/en-us/sysinternals/bb896645.aspx</url>
         <description>OS process monitor</description>
     </package>
+    <package name="com.microsoft.WindowsServer2003ResourceKitToolsInstaller">
+        <title>Windows Server 2003 Resource Kit Tools</title>
+        <url>http://www.microsoft.com/downloads/details.aspx?familyid=9d467a69-57ff-4ae7-96ee-b18c4790cffd&amp;displaylang=en</url>
+        <description>command line tools</description>
+    </package>
     <package name="com.microsoft.SyncToyInstaller">
         <title>SyncToy installer</title>
         <url>http://www.microsoft.com/downloads/details.aspx?familyid=e0fc1154-c975-4814-9649-cce41af06eb7&amp;displaylang=en</url>
@@ -324,7 +329,7 @@
         <url>http://technet.microsoft.com/en-us/sysinternals/bb896655.aspx</url>
         <description>OS handle viewer</description>
     </package>
-    <package name="com.utorrent.uTorrent">
+    <package name="com.utorrent.UTorrent">
         <title>µTorrent</title>
         <url>http://www.utorrent.com/</url>
         <description>torrent client</description>
@@ -705,6 +710,12 @@
     of a package should stay together. Newer versions should appear under older
     ones.
     -->
+    <version name="2003"
+            package="com.microsoft.WindowsServer2003ResourceKitToolsInstaller"
+            type="one-file">
+        <important-file path="rktools.exe" title="Installer"/>
+        <url>http://download.microsoft.com/download/8/e/c/8ec3a7d8-05b4-440a-a71e-ca3ee25fe057/rktools.exe</url>
+    </version>
     <version name="1.4.9" package="org.gnupg.GnuPG" type="one-file">
         <file path=".WPM\Install.bat">gnupg-w32cli-1.4.9.exe /S /D=%CD%</file>
         <file path=".WPM\Uninstall.bat">uninst-gnupg.exe /S</file>
@@ -1418,9 +1429,13 @@ echo DesktopShortcut=false >> .WPM\FF.ini
         <!-- not supported dependency package="JRE" name="6"/-->
         <url>http://apache.autinity.de/tomcat/tomcat-7/v7.0.0-beta/bin/apache-tomcat-7.0.0.zip</url>
     </version>
-    <version name="2.0.2" package="com.utorrent.uTorrent" type="one-file">
-        <important-file path="utorrent.exe" title="µTorrent"/>
+    <version name="2.0.2" package="com.utorrent.UTorrent" type="one-file">
+        <important-file path="utorrent.exe" title="Installer"/>
         <url>http://download.utorrent.com/2.0.2/utorrent.exe</url>
+    </version>
+    <version name="2.0.3" package="com.utorrent.UTorrent" type="one-file">
+        <important-file path="utorrent.exe" title="Installer"/>
+        <url>http://download.utorrent.com/2.0.3/utorrent.exe</url>
     </version>
     <version name="1.1.2" package="info.windirstat.WinDirStat">
         <important-file path="windirstat1_1_1-exe-unicode\windirstat.exe"
