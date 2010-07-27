@@ -139,7 +139,6 @@ PackageVersion* MainWindow::getSelectedPackageVersion()
     return 0;
 }
 
-
 void MainWindow::fillList()
 {
     qDebug() << "MainWindow::fillList";
