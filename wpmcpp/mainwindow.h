@@ -37,6 +37,8 @@ public:
 protected:
     void changeEvent(QEvent *e);
 private slots:
+    void on_comboBoxStatus_currentIndexChanged(int index);
+    void on_comboBox_activated(int index);
     void on_actionGotoPackageURL_triggered();
     void on_pushButtonSaveSettings_clicked();
     void onShow();

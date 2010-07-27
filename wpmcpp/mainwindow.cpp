@@ -164,9 +164,20 @@ void MainWindow::fillList()
     newItem = new QTableWidgetItem("Status");
     t->setHorizontalHeaderItem(3, newItem);
 
+    int statusFilter = this->ui->comboBoxStatus->currentIndex();
+
     t->setRowCount(r->packageVersions.count());
+
+    int n = 0;
     for (int i = 0; i < r->packageVersions.count(); i++) {
         PackageVersion* pv = r->packageVersions.at(i);
+
+        bool installed = pv->installed();
+
+        if ((statusFilter == 1 && installed) ||
+                (statusFilter == 2 && !installed))
+            continue;
+
         Package* p = r->findPackage(pv->package);
 
         QString packageTitle;
@@ -177,7 +188,7 @@ void MainWindow::fillList()
         newItem = new QTableWidgetItem(packageTitle);
         newItem->setStatusTip(pv->download.toString() + " " + pv->package);
         newItem->setData(Qt::UserRole, qVariantFromValue((void*) pv));
-        t->setItem(i, 0, newItem);
+        t->setItem(n, 0, newItem);
 
         QString desc;
         if (p)
@@ -186,16 +197,19 @@ void MainWindow::fillList()
             desc = pv->package;
         newItem = new QTableWidgetItem(desc);
         newItem->setData(Qt::UserRole, qVariantFromValue((void*) pv));
-        t->setItem(i, 1, newItem);
+        t->setItem(n, 1, newItem);
 
         newItem = new QTableWidgetItem(pv->getVersionString());
         newItem->setData(Qt::UserRole, qVariantFromValue((void*) pv));
-        t->setItem(i, 2, newItem);
+        t->setItem(n, 2, newItem);
 
-        newItem = new QTableWidgetItem(pv->installed() ? "installed": "");
+        newItem = new QTableWidgetItem(installed ? "installed": "");
         newItem->setData(Qt::UserRole, qVariantFromValue((void*) pv));
-        t->setItem(i, 3, newItem);
+        t->setItem(n, 3, newItem);
+
+        n++;
     }
+    t->setRowCount(n);
     t->setSortingEnabled(true);
     qDebug() << "MainWindow::fillList.2";
 }
@@ -315,4 +329,13 @@ void MainWindow::on_actionGotoPackageURL_triggered()
             }
         }
     }
+}
+
+void MainWindow::on_comboBox_activated(int index)
+{
+}
+
+void MainWindow::on_comboBoxStatus_currentIndexChanged(int index)
+{
+    this->fillList();
 }

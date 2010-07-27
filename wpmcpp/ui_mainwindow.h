@@ -1,7 +1,7 @@
 /********************************************************************************
 ** Form generated from reading UI file 'mainwindow.ui'
 **
-** Created: Tue 13. Jul 22:11:31 2010
+** Created: Tue 27. Jul 18:59:35 2010
 **      by: Qt User Interface Compiler version 4.6.3
 **
 ** WARNING! All changes made in this file will be lost when recompiling UI file!
@@ -14,6 +14,9 @@
 #include <QtGui/QAction>
 #include <QtGui/QApplication>
 #include <QtGui/QButtonGroup>
+#include <QtGui/QComboBox>
+#include <QtGui/QDockWidget>
+#include <QtGui/QFormLayout>
 #include <QtGui/QHBoxLayout>
 #include <QtGui/QHeaderView>
 #include <QtGui/QLabel>
@@ -41,7 +44,7 @@ public:
     QAction *actionUninstall;
     QAction *actionGotoPackageURL;
     QWidget *centralWidget;
-    QHBoxLayout *horizontalLayout;
+    QVBoxLayout *verticalLayout_3;
     QTabWidget *tabWidget;
     QWidget *tab;
     QVBoxLayout *verticalLayout_2;
@@ -58,6 +61,11 @@ public:
     QMenu *menuFile;
     QToolBar *mainToolBar;
     QStatusBar *statusBar;
+    QDockWidget *dockWidget;
+    QWidget *dockWidgetContents;
+    QFormLayout *formLayout;
+    QLabel *label_2;
+    QComboBox *comboBoxStatus;
 
     void setupUi(QMainWindow *MainWindow)
     {
@@ -74,10 +82,10 @@ public:
         actionGotoPackageURL->setObjectName(QString::fromUtf8("actionGotoPackageURL"));
         centralWidget = new QWidget(MainWindow);
         centralWidget->setObjectName(QString::fromUtf8("centralWidget"));
-        horizontalLayout = new QHBoxLayout(centralWidget);
-        horizontalLayout->setSpacing(6);
-        horizontalLayout->setContentsMargins(11, 11, 11, 11);
-        horizontalLayout->setObjectName(QString::fromUtf8("horizontalLayout"));
+        verticalLayout_3 = new QVBoxLayout(centralWidget);
+        verticalLayout_3->setSpacing(6);
+        verticalLayout_3->setContentsMargins(11, 11, 11, 11);
+        verticalLayout_3->setObjectName(QString::fromUtf8("verticalLayout_3"));
         tabWidget = new QTabWidget(centralWidget);
         tabWidget->setObjectName(QString::fromUtf8("tabWidget"));
         tab = new QWidget();
@@ -141,7 +149,7 @@ public:
 
         tabWidget->addTab(tab_2, QString());
 
-        horizontalLayout->addWidget(tabWidget);
+        verticalLayout_3->addWidget(tabWidget);
 
         MainWindow->setCentralWidget(centralWidget);
         menuBar = new QMenuBar(MainWindow);
@@ -156,6 +164,29 @@ public:
         statusBar = new QStatusBar(MainWindow);
         statusBar->setObjectName(QString::fromUtf8("statusBar"));
         MainWindow->setStatusBar(statusBar);
+        dockWidget = new QDockWidget(MainWindow);
+        dockWidget->setObjectName(QString::fromUtf8("dockWidget"));
+        dockWidget->setFloating(false);
+        dockWidget->setFeatures(QDockWidget::DockWidgetFloatable);
+        dockWidgetContents = new QWidget();
+        dockWidgetContents->setObjectName(QString::fromUtf8("dockWidgetContents"));
+        formLayout = new QFormLayout(dockWidgetContents);
+        formLayout->setSpacing(6);
+        formLayout->setContentsMargins(11, 11, 11, 11);
+        formLayout->setObjectName(QString::fromUtf8("formLayout"));
+        formLayout->setFieldGrowthPolicy(QFormLayout::AllNonFixedFieldsGrow);
+        label_2 = new QLabel(dockWidgetContents);
+        label_2->setObjectName(QString::fromUtf8("label_2"));
+
+        formLayout->setWidget(0, QFormLayout::LabelRole, label_2);
+
+        comboBoxStatus = new QComboBox(dockWidgetContents);
+        comboBoxStatus->setObjectName(QString::fromUtf8("comboBoxStatus"));
+
+        formLayout->setWidget(0, QFormLayout::FieldRole, comboBoxStatus);
+
+        dockWidget->setWidget(dockWidgetContents);
+        MainWindow->addDockWidget(static_cast<Qt::DockWidgetArea>(1), dockWidget);
 
         menuBar->addAction(menuFile->menuAction());
         menuFile->addAction(actionInstall);
@@ -192,6 +223,14 @@ public:
 "<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:8pt;\">http://code.google.com/p/windows-package-manager/</span></p></body></html>", 0, QApplication::UnicodeUTF8));
         tabWidget->setTabText(tabWidget->indexOf(tab_2), QApplication::translate("MainWindow", "Tab 2", 0, QApplication::UnicodeUTF8));
         menuFile->setTitle(QApplication::translate("MainWindow", "File", 0, QApplication::UnicodeUTF8));
+        dockWidget->setWindowTitle(QApplication::translate("MainWindow", "Filter", 0, QApplication::UnicodeUTF8));
+        label_2->setText(QApplication::translate("MainWindow", "Status:", 0, QApplication::UnicodeUTF8));
+        comboBoxStatus->clear();
+        comboBoxStatus->insertItems(0, QStringList()
+         << QApplication::translate("MainWindow", "All", 0, QApplication::UnicodeUTF8)
+         << QApplication::translate("MainWindow", "Not Installed", 0, QApplication::UnicodeUTF8)
+         << QApplication::translate("MainWindow", "Installed", 0, QApplication::UnicodeUTF8)
+        );
     } // retranslateUi
 
 };
