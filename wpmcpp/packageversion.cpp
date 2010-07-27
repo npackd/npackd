@@ -129,7 +129,7 @@ QString PackageVersion::getFullText()
         r.append(" ");
         r.append(this->getVersionString());
 
-        this->fullText = r;
+        this->fullText = r.toLower();
     }
     return this->fullText;
 }

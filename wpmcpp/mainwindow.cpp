@@ -165,7 +165,7 @@ void MainWindow::fillList()
 
     int statusFilter = this->ui->comboBoxStatus->currentIndex();
     QStringList textFilter =
-            this->ui->lineEditText->text().simplified().split(" ");
+            this->ui->lineEditText->text().toLower().simplified().split(" ");
 
     t->setRowCount(r->packageVersions.count());
 

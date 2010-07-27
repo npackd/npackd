@@ -87,7 +87,8 @@ public:
     QString getVersionString();
 
     /**
-     * @return description that can be used for the full-text search
+     * @return description that can be used for the full-text search in lower
+     *     case
      */
     QString getFullText();
 
