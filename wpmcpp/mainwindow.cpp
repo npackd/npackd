@@ -164,6 +164,8 @@ void MainWindow::fillList()
     t->setHorizontalHeaderItem(3, newItem);
 
     int statusFilter = this->ui->comboBoxStatus->currentIndex();
+    QStringList textFilter =
+            this->ui->lineEditText->text().simplified().split(" ");
 
     t->setRowCount(r->packageVersions.count());
 
@@ -173,8 +175,21 @@ void MainWindow::fillList()
 
         bool installed = pv->installed();
 
+        // filter by status
         if ((statusFilter == 1 && installed) ||
                 (statusFilter == 2 && !installed))
+            continue;
+
+        // filter by text
+        QString fullText = pv->getFullText();
+        bool b = true;
+        for (int i = 0; i < textFilter.count(); i++) {
+            if (fullText.indexOf(textFilter.at(i)) < 0) {
+                b = false;
+                break;
+            }
+        }
+        if (!b)
             continue;
 
         Package* p = r->findPackage(pv->package);
@@ -335,6 +350,11 @@ void MainWindow::on_comboBox_activated(int index)
 }
 
 void MainWindow::on_comboBoxStatus_currentIndexChanged(int index)
+{
+    this->fillList();
+}
+
+void MainWindow::on_lineEditText_textChanged(QString )
 {
     this->fillList();
 }

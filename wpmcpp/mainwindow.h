@@ -37,6 +37,7 @@ public:
 protected:
     void changeEvent(QEvent *e);
 private slots:
+    void on_lineEditText_textChanged(QString );
     void on_comboBoxStatus_currentIndexChanged(int index);
     void on_comboBox_activated(int index);
     void on_actionGotoPackageURL_triggered();

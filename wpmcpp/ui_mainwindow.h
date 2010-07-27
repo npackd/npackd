@@ -1,7 +1,7 @@
 /********************************************************************************
 ** Form generated from reading UI file 'mainwindow.ui'
 **
-** Created: Tue 27. Jul 18:59:35 2010
+** Created: Tue 27. Jul 19:22:50 2010
 **      by: Qt User Interface Compiler version 4.6.3
 **
 ** WARNING! All changes made in this file will be lost when recompiling UI file!
@@ -66,6 +66,8 @@ public:
     QFormLayout *formLayout;
     QLabel *label_2;
     QComboBox *comboBoxStatus;
+    QLabel *label_3;
+    QLineEdit *lineEditText;
 
     void setupUi(QMainWindow *MainWindow)
     {
@@ -185,6 +187,16 @@ public:
 
         formLayout->setWidget(0, QFormLayout::FieldRole, comboBoxStatus);
 
+        label_3 = new QLabel(dockWidgetContents);
+        label_3->setObjectName(QString::fromUtf8("label_3"));
+
+        formLayout->setWidget(1, QFormLayout::LabelRole, label_3);
+
+        lineEditText = new QLineEdit(dockWidgetContents);
+        lineEditText->setObjectName(QString::fromUtf8("lineEditText"));
+
+        formLayout->setWidget(1, QFormLayout::FieldRole, lineEditText);
+
         dockWidget->setWidget(dockWidgetContents);
         MainWindow->addDockWidget(static_cast<Qt::DockWidgetArea>(1), dockWidget);
 
@@ -231,6 +243,7 @@ public:
          << QApplication::translate("MainWindow", "Not Installed", 0, QApplication::UnicodeUTF8)
          << QApplication::translate("MainWindow", "Installed", 0, QApplication::UnicodeUTF8)
         );
+        label_3->setText(QApplication::translate("MainWindow", "Text:", 0, QApplication::UnicodeUTF8));
     } // retranslateUi
 
 };

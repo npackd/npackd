@@ -114,6 +114,26 @@ void PackageVersion::setVersion(QString& v)
     }
 }
 
+QString PackageVersion::getFullText()
+{
+    if (this->fullText.isEmpty()) {
+        Repository* rep = Repository::getDefault();
+        Package* package = rep->findPackage(this->package);
+        QString r = this->package;
+        if (package) {
+            r.append(" ");
+            r.append(package->title);
+            r.append(" ");
+            r.append(package->description);
+        }
+        r.append(" ");
+        r.append(this->getVersionString());
+
+        this->fullText = r;
+    }
+    return this->fullText;
+}
+
 bool PackageVersion::installed()
 {
     QDir d = getDirectory();

@@ -22,6 +22,8 @@ private:
     void deleteShortcuts();
     bool saveFiles(QString* errMsg);
     bool executeFile(QString& path, QString* errMsg);
+
+    QString fullText;
 public:
     /** complete package name like net.sourceforge.NotepadPlusPlus */
     QString package;
@@ -83,6 +85,11 @@ public:
      * @return package version as a string (like "1.2.3")
      */
     QString getVersionString();
+
+    /**
+     * @return description that can be used for the full-text search
+     */
+    QString getFullText();
 
     /**
      * .zip file for downloading
