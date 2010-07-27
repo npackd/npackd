@@ -18,6 +18,7 @@
 #include "downloader.h"
 #include "wpmutils.h"
 #include "repository.h"
+#include "version.h"
 
 /**
  * Uses the Shell's IShellLink and IPersistFile interfaces
@@ -63,9 +64,6 @@ HRESULT CreateLink(LPCWSTR lpszPathObj, LPCWSTR lpszPathLink, LPCWSTR lpszDesc)
 
 PackageVersion::PackageVersion(const QString& package)
 {
-    this->parts = new int[1];
-    this->parts[0] = 1;
-    this->nparts = 1;
     this->package = package;
     this->download = QUrl("http://www.younamehere.com/download.zip");
     this->type = 0;
@@ -73,9 +71,6 @@ PackageVersion::PackageVersion(const QString& package)
 
 PackageVersion::PackageVersion()
 {
-    this->parts = new int[1];
-    this->parts[0] = 1;
-    this->nparts = 1;
     this->package = "unknown";
     this->download = QUrl("http://www.younamehere.com/download.zip");
     this->type = 0;
@@ -90,28 +85,6 @@ QString PackageVersion::getShortPackageName()
 PackageVersion::~PackageVersion()
 {
     qDeleteAll(this->files);
-    delete[] this->parts;
-}
-
-void PackageVersion::setVersion(int a, int b)
-{
-    delete[] this->parts;
-    this->parts = new int[2];
-    this->parts[0] = a;
-    this->parts[1] = b;
-    this->nparts = 2;
-}
-
-void PackageVersion::setVersion(QString& v)
-{
-    delete[] this->parts;
-    QStringList sl = v.split(".", QString::KeepEmptyParts);
-
-    this->parts = new int[sl.count()];
-    this->nparts = sl.count();
-    for (int i = 0; i < sl.count(); i++) {
-        this->parts[i] = sl.at(i).toInt();
-    }
 }
 
 QString PackageVersion::getFullText()
@@ -127,7 +100,7 @@ QString PackageVersion::getFullText()
             r.append(package->description);
         }
         r.append(" ");
-        r.append(this->getVersionString());
+        r.append(this->version.getVersionString());
 
         this->fullText = r.toLower();
     }
@@ -183,19 +156,8 @@ QDir PackageVersion::getDirectory()
 {
     QString pf = WPMUtils::getProgramFilesDir();
     QDir d(pf + "\\WPM\\" + this->package + "-" +
-           this->getVersionString());
+           this->version.getVersionString());
     return d;
-}
-
-QString PackageVersion::getVersionString()
-{
-    QString r;
-    for (int i = 0; i < this->nparts; i++) {
-        if (i != 0)
-            r.append(".");
-        r.append(QString("%1").arg(this->parts[i]));
-    }
-    return r;
 }
 
 QString PackageVersion::getPackageTitle()
@@ -229,7 +191,7 @@ bool PackageVersion::createShortcuts(QString *errMsg)
         from.append(" (");
         from.append(this->getPackageTitle());
         from.append(" ");
-        from.append(this->getVersionString());
+        from.append(this->version.getVersionString());
         from.append(")");
         from.append(".lnk");
         qDebug() << "createShortcuts " << ifile << " " << p << " " <<

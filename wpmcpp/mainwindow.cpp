@@ -175,7 +175,7 @@ void MainWindow::fillList()
 
         bool installed = pv->installed();
 
-        // filter by status
+        // filter by status (1, 2)
         if ((statusFilter == 1 && installed) ||
                 (statusFilter == 2 && !installed))
             continue;
@@ -190,6 +190,13 @@ void MainWindow::fillList()
             }
         }
         if (!b)
+            continue;
+
+        PackageVersion* newest = r->findNewestPackageVersion(pv->package);
+        bool updateAvailable = newest->version.compare(pv->version) > 0;
+
+        // filter by status (3)
+        if (statusFilter == 3 && (!installed || !updateAvailable))
             continue;
 
         Package* p = r->findPackage(pv->package);
@@ -213,11 +220,17 @@ void MainWindow::fillList()
         newItem->setData(Qt::UserRole, qVariantFromValue((void*) pv));
         t->setItem(n, 1, newItem);
 
-        newItem = new QTableWidgetItem(pv->getVersionString());
+        newItem = new QTableWidgetItem(pv->version.getVersionString());
         newItem->setData(Qt::UserRole, qVariantFromValue((void*) pv));
         t->setItem(n, 2, newItem);
 
-        newItem = new QTableWidgetItem(installed ? "installed": "");
+        newItem = new QTableWidgetItem("");
+        QString status = installed ? "installed": "";
+        if (installed && updateAvailable) {
+            newItem->setBackgroundColor(QColor(255, 0xc7, 0xc7));
+            status += ", update available";
+        }
+        newItem->setText(status);
         newItem->setData(Qt::UserRole, qVariantFromValue((void*) pv));
         t->setItem(n, 3, newItem);
 

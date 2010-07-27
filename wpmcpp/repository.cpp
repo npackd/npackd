@@ -24,6 +24,21 @@ Repository::~Repository()
     qDeleteAll(this->packageVersions);
 }
 
+PackageVersion* Repository::findNewestPackageVersion(QString &name)
+{
+    PackageVersion* r = 0;
+
+    for (int i = 0; i < this->packageVersions.count(); i++) {
+        PackageVersion* p = this->packageVersions.at(i);
+        if (p->package == name) {
+            if (r == 0 || p->version.compare(r->version) > 0) {
+                r = p;
+            }
+        }
+    }
+    return r;
+}
+
 PackageVersion* Repository::createPackageVersion(QDomElement* e)
 {
     PackageVersion* a = new PackageVersion(
@@ -32,7 +47,7 @@ PackageVersion* Repository::createPackageVersion(QDomElement* e)
                   firstChild().nodeValue();
     a->download.setUrl(url);
     QString name = e->attribute("name", "1.0");
-    a->setVersion(name);
+    a->version.setVersion(name);
 
     QString type = e->attribute("type", "zip");
     if (type == "one-file")

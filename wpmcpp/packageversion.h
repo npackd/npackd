@@ -10,13 +10,11 @@
 
 #include "job.h"
 #include "packageversionfile.h"
+#include "version.h"
 
 class PackageVersion
 {
 private:
-    int* parts;
-    int nparts;
-
     bool unzip(QString zipfile, QString outputdir, QString* errMsg);
     bool createShortcuts(QString* errMsg);
     void deleteShortcuts();
@@ -25,6 +23,9 @@ private:
 
     QString fullText;
 public:
+    /** package version */
+    Version version;
+
     /** complete package name like net.sourceforge.NotepadPlusPlus */
     QString package;
 
@@ -57,21 +58,6 @@ public:
     QString getShortPackageName();
 
     /**
-     * Changes the version.
-     *
-     * @param a first version number
-     * @param b second (minor) version number part
-     */
-    void setVersion(int a, int b);
-
-    /**
-     * Changes the version
-     *
-     * @param version "1.2.3"
-     */
-    void setVersion(QString& version);
-
-    /**
      * @return true if this package version is installed
      */
     bool installed();
@@ -80,11 +66,6 @@ public:
      * @return directory where this package version should be installed
      */
     QDir getDirectory();
-
-    /**
-     * @return package version as a string (like "1.2.3")
-     */
-    QString getVersionString();
 
     /**
      * @return description that can be used for the full-text search in lower

@@ -56,6 +56,14 @@ public:
     Package* findPackage(QString& name);
 
     /**
+     * Find the newest available package version.
+     *
+     * @param name name of the package like "org.server.Word"
+     * @return found package or 0
+     */
+    PackageVersion* findNewestPackageVersion(QString& name);
+
+    /**
      * @return newly created object pointing to the repository or 0
      */
     static QUrl* getRepositoryURL();

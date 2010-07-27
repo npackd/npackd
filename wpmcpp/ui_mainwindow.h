@@ -1,7 +1,7 @@
 /********************************************************************************
 ** Form generated from reading UI file 'mainwindow.ui'
 **
-** Created: Tue 27. Jul 19:22:50 2010
+** Created: Tue 27. Jul 21:46:29 2010
 **      by: Qt User Interface Compiler version 4.6.3
 **
 ** WARNING! All changes made in this file will be lost when recompiling UI file!
@@ -109,6 +109,7 @@ public:
         tableWidget->setSortingEnabled(true);
         tableWidget->setRowCount(1);
         tableWidget->setColumnCount(1);
+        tableWidget->verticalHeader()->setDefaultSectionSize(35);
 
         verticalLayout_2->addWidget(tableWidget);
 
@@ -242,6 +243,7 @@ public:
          << QApplication::translate("MainWindow", "All", 0, QApplication::UnicodeUTF8)
          << QApplication::translate("MainWindow", "Not Installed", 0, QApplication::UnicodeUTF8)
          << QApplication::translate("MainWindow", "Installed", 0, QApplication::UnicodeUTF8)
+         << QApplication::translate("MainWindow", "Installed, Update Available", 0, QApplication::UnicodeUTF8)
         );
         label_3->setText(QApplication::translate("MainWindow", "Text:", 0, QApplication::UnicodeUTF8));
     } // retranslateUi
