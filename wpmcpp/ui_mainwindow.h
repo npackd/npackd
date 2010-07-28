@@ -1,7 +1,7 @@
 /********************************************************************************
 ** Form generated from reading UI file 'mainwindow.ui'
 **
-** Created: Tue 27. Jul 21:46:29 2010
+** Created: Wed 28. Jul 14:13:46 2010
 **      by: Qt User Interface Compiler version 4.6.3
 **
 ** WARNING! All changes made in this file will be lost when recompiling UI file!
@@ -17,7 +17,6 @@
 #include <QtGui/QComboBox>
 #include <QtGui/QDockWidget>
 #include <QtGui/QFormLayout>
-#include <QtGui/QHBoxLayout>
 #include <QtGui/QHeaderView>
 #include <QtGui/QLabel>
 #include <QtGui/QLineEdit>
@@ -25,7 +24,6 @@
 #include <QtGui/QMenu>
 #include <QtGui/QMenuBar>
 #include <QtGui/QPushButton>
-#include <QtGui/QSpacerItem>
 #include <QtGui/QStatusBar>
 #include <QtGui/QTabWidget>
 #include <QtGui/QTableWidget>
@@ -50,13 +48,11 @@ public:
     QVBoxLayout *verticalLayout_2;
     QTableWidget *tableWidget;
     QWidget *tab_2;
-    QVBoxLayout *verticalLayout;
-    QHBoxLayout *horizontalLayout_2;
+    QFormLayout *formLayout_2;
     QLabel *label;
     QLineEdit *lineEditRepository;
-    QPushButton *pushButtonSaveSettings;
     QTextBrowser *textBrowser;
-    QSpacerItem *verticalSpacer;
+    QPushButton *pushButtonSaveSettings;
     QMenuBar *menuBar;
     QMenu *menuFile;
     QToolBar *mainToolBar;
@@ -116,39 +112,29 @@ public:
         tabWidget->addTab(tab, QString());
         tab_2 = new QWidget();
         tab_2->setObjectName(QString::fromUtf8("tab_2"));
-        verticalLayout = new QVBoxLayout(tab_2);
-        verticalLayout->setSpacing(6);
-        verticalLayout->setContentsMargins(11, 11, 11, 11);
-        verticalLayout->setObjectName(QString::fromUtf8("verticalLayout"));
-        horizontalLayout_2 = new QHBoxLayout();
-        horizontalLayout_2->setSpacing(6);
-        horizontalLayout_2->setObjectName(QString::fromUtf8("horizontalLayout_2"));
+        formLayout_2 = new QFormLayout(tab_2);
+        formLayout_2->setSpacing(6);
+        formLayout_2->setContentsMargins(11, 11, 11, 11);
+        formLayout_2->setObjectName(QString::fromUtf8("formLayout_2"));
         label = new QLabel(tab_2);
         label->setObjectName(QString::fromUtf8("label"));
 
-        horizontalLayout_2->addWidget(label);
+        formLayout_2->setWidget(0, QFormLayout::LabelRole, label);
 
         lineEditRepository = new QLineEdit(tab_2);
         lineEditRepository->setObjectName(QString::fromUtf8("lineEditRepository"));
 
-        horizontalLayout_2->addWidget(lineEditRepository);
-
-
-        verticalLayout->addLayout(horizontalLayout_2);
-
-        pushButtonSaveSettings = new QPushButton(tab_2);
-        pushButtonSaveSettings->setObjectName(QString::fromUtf8("pushButtonSaveSettings"));
-
-        verticalLayout->addWidget(pushButtonSaveSettings);
+        formLayout_2->setWidget(0, QFormLayout::FieldRole, lineEditRepository);
 
         textBrowser = new QTextBrowser(tab_2);
         textBrowser->setObjectName(QString::fromUtf8("textBrowser"));
 
-        verticalLayout->addWidget(textBrowser);
+        formLayout_2->setWidget(2, QFormLayout::SpanningRole, textBrowser);
 
-        verticalSpacer = new QSpacerItem(20, 40, QSizePolicy::Minimum, QSizePolicy::Expanding);
+        pushButtonSaveSettings = new QPushButton(tab_2);
+        pushButtonSaveSettings->setObjectName(QString::fromUtf8("pushButtonSaveSettings"));
 
-        verticalLayout->addItem(verticalSpacer);
+        formLayout_2->setWidget(3, QFormLayout::LabelRole, pushButtonSaveSettings);
 
         tabWidget->addTab(tab_2, QString());
 
@@ -212,7 +198,7 @@ public:
 
         retranslateUi(MainWindow);
 
-        tabWidget->setCurrentIndex(0);
+        tabWidget->setCurrentIndex(1);
 
 
         QMetaObject::connectSlotsByName(MainWindow);
@@ -227,13 +213,13 @@ public:
         actionGotoPackageURL->setText(QApplication::translate("MainWindow", "Go To Package Page", 0, QApplication::UnicodeUTF8));
         tabWidget->setTabText(tabWidget->indexOf(tab), QApplication::translate("MainWindow", "Tab 1", 0, QApplication::UnicodeUTF8));
         label->setText(QApplication::translate("MainWindow", "Repository:", 0, QApplication::UnicodeUTF8));
-        pushButtonSaveSettings->setText(QApplication::translate("MainWindow", "Save", 0, QApplication::UnicodeUTF8));
         textBrowser->setHtml(QApplication::translate("MainWindow", "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
 "<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css\">\n"
 "p, li { white-space: pre-wrap; }\n"
 "</style></head><body style=\" font-family:'MS Shell Dlg 2'; font-size:8.25pt; font-weight:400; font-style:normal;\">\n"
 "<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:8pt;\">You can find the list of available repositories at</span></p>\n"
 "<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:8pt;\">http://code.google.com/p/windows-package-manager/</span></p></body></html>", 0, QApplication::UnicodeUTF8));
+        pushButtonSaveSettings->setText(QApplication::translate("MainWindow", "Save", 0, QApplication::UnicodeUTF8));
         tabWidget->setTabText(tabWidget->indexOf(tab_2), QApplication::translate("MainWindow", "Tab 2", 0, QApplication::UnicodeUTF8));
         menuFile->setTitle(QApplication::translate("MainWindow", "File", 0, QApplication::UnicodeUTF8));
         dockWidget->setWindowTitle(QApplication::translate("MainWindow", "Filter", 0, QApplication::UnicodeUTF8));
