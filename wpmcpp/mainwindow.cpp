@@ -18,6 +18,7 @@
 #include "repository.h"
 #include "job.h"
 #include "progressdialog.h"
+#include "settingsdialog.h"
 
 class InstallThread: public QThread
 {
@@ -67,16 +68,12 @@ MainWindow::MainWindow(QWidget *parent) :
 
     this->ui->tableWidget->setEditTriggers(QTableWidget::NoEditTriggers);
 
-    this->ui->tabWidget->setTabText(0, "Packages");
-    this->ui->tabWidget->setTabText(1, "Settings");
-
     QUrl* url = Repository::getRepositoryURL();
     if (!url) {
         url = new QUrl(
                 "http://windows-package-manager.googlecode.com/hg/repository/Rep.xml");
         Repository::setRepositoryURL(*url);
     }
-    this->ui->lineEditRepository->setText(url->toString());
     delete url;
 
     this->on_tableWidget_itemSelectionChanged();
@@ -333,15 +330,6 @@ void MainWindow::on_actionInstall_activated()
 
 void MainWindow::on_pushButtonSaveSettings_clicked()
 {
-    QUrl url(this->ui->lineEditRepository->text().trimmed());
-    if (url.isValid()) {
-        Repository::setRepositoryURL(url);
-        loadRepository();
-    } else {
-        QMessageBox::critical(this,
-                "Error", "The URL is not valid", QMessageBox::Ok);
-    }
-    qDebug() << "MainWindow::on_pushButtonSaveSettings_clicked";
 }
 
 void MainWindow::on_actionGotoPackageURL_triggered()
@@ -370,4 +358,24 @@ void MainWindow::on_comboBoxStatus_currentIndexChanged(int index)
 void MainWindow::on_lineEditText_textChanged(QString )
 {
     this->fillList();
+}
+
+void MainWindow::on_actionSettings_triggered()
+{
+    SettingsDialog d;
+
+    QUrl* url = Repository::getRepositoryURL();
+    if (url)
+        d.setRepositoryURL(url->toString());
+
+    if (d.exec() == QDialog::Accepted) {
+        QUrl url(d.getRepositoryURL());
+        if (url.isValid()) {
+            Repository::setRepositoryURL(url);
+            loadRepository();
+        } else {
+            QMessageBox::critical(this,
+                    "Error", "The URL is not valid", QMessageBox::Ok);
+        }
+    }
 }

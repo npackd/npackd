@@ -1,7 +1,7 @@
 /********************************************************************************
 ** Form generated from reading UI file 'mainwindow.ui'
 **
-** Created: Wed 28. Jul 14:13:46 2010
+** Created: Wed 28. Jul 23:14:16 2010
 **      by: Qt User Interface Compiler version 4.6.3
 **
 ** WARNING! All changes made in this file will be lost when recompiling UI file!
@@ -17,17 +17,15 @@
 #include <QtGui/QComboBox>
 #include <QtGui/QDockWidget>
 #include <QtGui/QFormLayout>
+#include <QtGui/QFrame>
 #include <QtGui/QHeaderView>
 #include <QtGui/QLabel>
 #include <QtGui/QLineEdit>
 #include <QtGui/QMainWindow>
 #include <QtGui/QMenu>
 #include <QtGui/QMenuBar>
-#include <QtGui/QPushButton>
 #include <QtGui/QStatusBar>
-#include <QtGui/QTabWidget>
 #include <QtGui/QTableWidget>
-#include <QtGui/QTextBrowser>
 #include <QtGui/QToolBar>
 #include <QtGui/QVBoxLayout>
 #include <QtGui/QWidget>
@@ -41,18 +39,12 @@ public:
     QAction *actionInstall;
     QAction *actionUninstall;
     QAction *actionGotoPackageURL;
+    QAction *actionSettings;
     QWidget *centralWidget;
     QVBoxLayout *verticalLayout_3;
-    QTabWidget *tabWidget;
-    QWidget *tab;
-    QVBoxLayout *verticalLayout_2;
+    QFrame *frame;
+    QVBoxLayout *verticalLayout;
     QTableWidget *tableWidget;
-    QWidget *tab_2;
-    QFormLayout *formLayout_2;
-    QLabel *label;
-    QLineEdit *lineEditRepository;
-    QTextBrowser *textBrowser;
-    QPushButton *pushButtonSaveSettings;
     QMenuBar *menuBar;
     QMenu *menuFile;
     QToolBar *mainToolBar;
@@ -69,7 +61,7 @@ public:
     {
         if (MainWindow->objectName().isEmpty())
             MainWindow->setObjectName(QString::fromUtf8("MainWindow"));
-        MainWindow->resize(617, 400);
+        MainWindow->resize(620, 406);
         actionExit = new QAction(MainWindow);
         actionExit->setObjectName(QString::fromUtf8("actionExit"));
         actionInstall = new QAction(MainWindow);
@@ -78,21 +70,23 @@ public:
         actionUninstall->setObjectName(QString::fromUtf8("actionUninstall"));
         actionGotoPackageURL = new QAction(MainWindow);
         actionGotoPackageURL->setObjectName(QString::fromUtf8("actionGotoPackageURL"));
+        actionSettings = new QAction(MainWindow);
+        actionSettings->setObjectName(QString::fromUtf8("actionSettings"));
         centralWidget = new QWidget(MainWindow);
         centralWidget->setObjectName(QString::fromUtf8("centralWidget"));
         verticalLayout_3 = new QVBoxLayout(centralWidget);
         verticalLayout_3->setSpacing(6);
         verticalLayout_3->setContentsMargins(11, 11, 11, 11);
         verticalLayout_3->setObjectName(QString::fromUtf8("verticalLayout_3"));
-        tabWidget = new QTabWidget(centralWidget);
-        tabWidget->setObjectName(QString::fromUtf8("tabWidget"));
-        tab = new QWidget();
-        tab->setObjectName(QString::fromUtf8("tab"));
-        verticalLayout_2 = new QVBoxLayout(tab);
-        verticalLayout_2->setSpacing(6);
-        verticalLayout_2->setContentsMargins(11, 11, 11, 11);
-        verticalLayout_2->setObjectName(QString::fromUtf8("verticalLayout_2"));
-        tableWidget = new QTableWidget(tab);
+        frame = new QFrame(centralWidget);
+        frame->setObjectName(QString::fromUtf8("frame"));
+        frame->setFrameShape(QFrame::StyledPanel);
+        frame->setFrameShadow(QFrame::Raised);
+        verticalLayout = new QVBoxLayout(frame);
+        verticalLayout->setSpacing(6);
+        verticalLayout->setContentsMargins(11, 11, 11, 11);
+        verticalLayout->setObjectName(QString::fromUtf8("verticalLayout"));
+        tableWidget = new QTableWidget(frame);
         if (tableWidget->columnCount() < 1)
             tableWidget->setColumnCount(1);
         if (tableWidget->rowCount() < 1)
@@ -107,43 +101,15 @@ public:
         tableWidget->setColumnCount(1);
         tableWidget->verticalHeader()->setDefaultSectionSize(35);
 
-        verticalLayout_2->addWidget(tableWidget);
+        verticalLayout->addWidget(tableWidget);
 
-        tabWidget->addTab(tab, QString());
-        tab_2 = new QWidget();
-        tab_2->setObjectName(QString::fromUtf8("tab_2"));
-        formLayout_2 = new QFormLayout(tab_2);
-        formLayout_2->setSpacing(6);
-        formLayout_2->setContentsMargins(11, 11, 11, 11);
-        formLayout_2->setObjectName(QString::fromUtf8("formLayout_2"));
-        label = new QLabel(tab_2);
-        label->setObjectName(QString::fromUtf8("label"));
 
-        formLayout_2->setWidget(0, QFormLayout::LabelRole, label);
-
-        lineEditRepository = new QLineEdit(tab_2);
-        lineEditRepository->setObjectName(QString::fromUtf8("lineEditRepository"));
-
-        formLayout_2->setWidget(0, QFormLayout::FieldRole, lineEditRepository);
-
-        textBrowser = new QTextBrowser(tab_2);
-        textBrowser->setObjectName(QString::fromUtf8("textBrowser"));
-
-        formLayout_2->setWidget(2, QFormLayout::SpanningRole, textBrowser);
-
-        pushButtonSaveSettings = new QPushButton(tab_2);
-        pushButtonSaveSettings->setObjectName(QString::fromUtf8("pushButtonSaveSettings"));
-
-        formLayout_2->setWidget(3, QFormLayout::LabelRole, pushButtonSaveSettings);
-
-        tabWidget->addTab(tab_2, QString());
-
-        verticalLayout_3->addWidget(tabWidget);
+        verticalLayout_3->addWidget(frame);
 
         MainWindow->setCentralWidget(centralWidget);
         menuBar = new QMenuBar(MainWindow);
         menuBar->setObjectName(QString::fromUtf8("menuBar"));
-        menuBar->setGeometry(QRect(0, 0, 617, 21));
+        menuBar->setGeometry(QRect(0, 0, 620, 21));
         menuFile = new QMenu(menuBar);
         menuFile->setObjectName(QString::fromUtf8("menuFile"));
         MainWindow->setMenuBar(menuBar);
@@ -191,15 +157,13 @@ public:
         menuFile->addAction(actionInstall);
         menuFile->addAction(actionUninstall);
         menuFile->addAction(actionGotoPackageURL);
+        menuFile->addAction(actionSettings);
         menuFile->addAction(actionExit);
         mainToolBar->addAction(actionInstall);
         mainToolBar->addAction(actionUninstall);
         mainToolBar->addAction(actionGotoPackageURL);
 
         retranslateUi(MainWindow);
-
-        tabWidget->setCurrentIndex(1);
-
 
         QMetaObject::connectSlotsByName(MainWindow);
     } // setupUi
@@ -211,16 +175,7 @@ public:
         actionInstall->setText(QApplication::translate("MainWindow", "Install", 0, QApplication::UnicodeUTF8));
         actionUninstall->setText(QApplication::translate("MainWindow", "Uninstall", 0, QApplication::UnicodeUTF8));
         actionGotoPackageURL->setText(QApplication::translate("MainWindow", "Go To Package Page", 0, QApplication::UnicodeUTF8));
-        tabWidget->setTabText(tabWidget->indexOf(tab), QApplication::translate("MainWindow", "Tab 1", 0, QApplication::UnicodeUTF8));
-        label->setText(QApplication::translate("MainWindow", "Repository:", 0, QApplication::UnicodeUTF8));
-        textBrowser->setHtml(QApplication::translate("MainWindow", "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
-"<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css\">\n"
-"p, li { white-space: pre-wrap; }\n"
-"</style></head><body style=\" font-family:'MS Shell Dlg 2'; font-size:8.25pt; font-weight:400; font-style:normal;\">\n"
-"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:8pt;\">You can find the list of available repositories at</span></p>\n"
-"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:8pt;\">http://code.google.com/p/windows-package-manager/</span></p></body></html>", 0, QApplication::UnicodeUTF8));
-        pushButtonSaveSettings->setText(QApplication::translate("MainWindow", "Save", 0, QApplication::UnicodeUTF8));
-        tabWidget->setTabText(tabWidget->indexOf(tab_2), QApplication::translate("MainWindow", "Tab 2", 0, QApplication::UnicodeUTF8));
+        actionSettings->setText(QApplication::translate("MainWindow", "Settings", 0, QApplication::UnicodeUTF8));
         menuFile->setTitle(QApplication::translate("MainWindow", "File", 0, QApplication::UnicodeUTF8));
         dockWidget->setWindowTitle(QApplication::translate("MainWindow", "Filter", 0, QApplication::UnicodeUTF8));
         label_2->setText(QApplication::translate("MainWindow", "Status:", 0, QApplication::UnicodeUTF8));

@@ -15,7 +15,8 @@ SOURCES += main.cpp \
     package.cpp \
     progressdialog.cpp \
     packageversionfile.cpp \
-    version.cpp
+    version.cpp \
+    settingsdialog.cpp
 HEADERS += mainwindow.h \
     packageversion.h \
     repository.h \
@@ -26,9 +27,11 @@ HEADERS += mainwindow.h \
     package.h \
     progressdialog.h \
     packageversionfile.h \
-    version.h
+    version.h \
+    settingsdialog.h
 FORMS += mainwindow.ui \
-    progressdialog.ui
+    progressdialog.ui \
+    settingsdialog.ui
 INCLUDEPATH += C:\Users\t\libs\quazip-0.2.3\quazip \
     C:\Users\t\libs\zlib-1.2.5
 LIBS += C:\Users\t\libs\quazip-0.2.3\quazip\debug\libquazip.a \
