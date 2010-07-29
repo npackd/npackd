@@ -1,7 +1,7 @@
 /********************************************************************************
 ** Form generated from reading UI file 'mainwindow.ui'
 **
-** Created: Wed 28. Jul 23:14:16 2010
+** Created: Thu 29. Jul 00:03:24 2010
 **      by: Qt User Interface Compiler version 4.6.3
 **
 ** WARNING! All changes made in this file will be lost when recompiling UI file!
@@ -86,6 +86,7 @@ public:
         verticalLayout->setSpacing(6);
         verticalLayout->setContentsMargins(11, 11, 11, 11);
         verticalLayout->setObjectName(QString::fromUtf8("verticalLayout"));
+        verticalLayout->setContentsMargins(0, 0, 0, 1);
         tableWidget = new QTableWidget(frame);
         if (tableWidget->columnCount() < 1)
             tableWidget->setColumnCount(1);
@@ -94,6 +95,7 @@ public:
         tableWidget->setObjectName(QString::fromUtf8("tableWidget"));
         tableWidget->setEnabled(true);
         tableWidget->setMouseTracking(true);
+        tableWidget->setFrameShape(QFrame::StyledPanel);
         tableWidget->setSelectionMode(QAbstractItemView::SingleSelection);
         tableWidget->setSelectionBehavior(QAbstractItemView::SelectRows);
         tableWidget->setSortingEnabled(true);
