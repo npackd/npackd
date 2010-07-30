@@ -724,8 +724,13 @@
         <url>http://www.py2exe.org/</url>
         <description>Python EXE creator</description>
     </package>
+    <package name="org.python.Python">
+        <title>Python</title>
+        <url>http://www.python.org/</url>
+        <description>programming language</description>
+    </package>
     <package name="org.python.PythonInstaller">
-        <title>Python installer</title>
+        <title>Python installer (deprecated, use the non-installer package instead)</title>
         <url>http://www.python.org/</url>
         <description>programming language</description>
     </package>
@@ -1588,6 +1593,11 @@ echo DesktopShortcut=false >> .WPM\FF.ini
     <version name="2.91" package="com.microsoft.ProcessMonitor">
         <important-file path="Procmon.exe" title="Process Monitor"/>
         <url>http://download.sysinternals.com/Files/ProcessMonitor.zip</url>
+    </version>
+    <version name="3.1.2" package="org.python.Python" type="one-file">
+        <file path=".WPM\Install.bat">msiexec.exe /qb! /norestart /i python-3.1.2.msi TARGETDIR="%CD%" ALLUSERS=1</file>
+        <file path=".WPM\Uninstall.bat">msiexec.exe /qb! /norestart /x python-3.1.2.msi</file>
+        <url>http://www.python.org/ftp/python/3.1.2/python-3.1.2.msi</url>
     </version>
     <version name="3.1.2" package="org.python.PythonInstaller" type="one-file">
         <important-file path="python-3.1.2.msi" title="Installer"/>
