@@ -114,7 +114,12 @@ Package* Repository::findPackage(QString& name)
 void Repository::load(Job* job)
 {
     job->setAmountOfWork(100);
+
+    qDeleteAll(this->packages);
+    this->packages.clear();
+    qDeleteAll(this->packageVersions);
     this->packageVersions.clear();
+
     QUrl* url = getRepositoryURL();
     if (url) {
         job->setHint("Downloading");
