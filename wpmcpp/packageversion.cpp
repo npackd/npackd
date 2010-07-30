@@ -132,6 +132,9 @@ void PackageVersion::uninstall(Job* job)
         job->done(1);
     }
 
+    // Uninstall.bat may have deleted some files
+    d.refresh();
+
     if (job->getErrorMessage().isEmpty()) {
         deleteShortcuts();
         job->done(1);
