@@ -744,8 +744,13 @@
         <url>http://www.winpcap.org/</url>
         <description>network layer</description>
     </package>
+    <package name="org.wireshark.Wireshark">
+        <title>Wireshark</title>
+        <url>http://www.wireshark.org/</url>
+        <description>network protocol analyzer</description>
+    </package>
     <package name="org.wireshark.WiresharkInstaller">
-        <title>Wireshark installer</title>
+        <title>Wireshark installer (deprecated, use the non-installer package instead)</title>
         <url>http://www.wireshark.org/</url>
         <description>network protocol analyzer</description>
     </package>
@@ -1581,6 +1586,11 @@ echo DesktopShortcut=false >> .WPM\FF.ini
         <important-file path="WinMerge-2.12.4-exe\WinMergeU.exe"
                 title="WinMerge"/>
         <url>http://downloads.sourceforge.net/project/winmerge/1.%20Stable%20versions/2.12.4/WinMerge-2.12.4-exe.zip?87978824</url>
+    </version>
+    <version name="1.2.9" package="org.wireshark.Wireshark" type="one-file">
+        <file path=".WPM\Install.bat">wireshark-win32-1.2.9.exe /S /D=%CD%</file>
+        <file path=".WPM\Uninstall.bat">uninstall.exe /S</file>
+        <url>http://media-2.cacetech.com/wireshark/win32/wireshark-win32-1.2.9.exe</url>
     </version>
     <version name="1.2.9" package="org.wireshark.WiresharkInstaller" type="one-file">
         <important-file path="wireshark-win32-1.2.9.exe" title="Installer"/>
