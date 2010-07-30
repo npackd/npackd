@@ -77,7 +77,7 @@ bool WPMUtils::removeDirectory(QDir &aDir, QString *errMsg)
             } else {
                 QFile file(path);
                 ok = file.remove();
-                if (!ok) {
+                if (!ok && file.exists()) {
                     ok = false;
                     errMsg->clear();
                     errMsg->append("Cannot delete the file: ").append(path);
