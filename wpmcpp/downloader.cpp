@@ -28,7 +28,7 @@ bool downloadWin(Job* job, const QUrl& url, QTemporaryFile* file,
     if (job)
         job->setCancellable(true);
 
-    qDebug() << "download.1";
+    // qDebug() << "download.1";
 
     void* internet;
     DWORD bufferLength, index;
@@ -50,7 +50,7 @@ bool downloadWin(Job* job, const QUrl& url, QTemporaryFile* file,
     internet = InternetOpenW(L"WPM", INTERNET_OPEN_TYPE_PRECONFIG,
             0, 0, 0);
 
-    qDebug() << "download.2";
+    // qDebug() << "download.2";
 
     if (internet == 0) {
         QString errMsg;
@@ -70,7 +70,7 @@ bool downloadWin(Job* job, const QUrl& url, QTemporaryFile* file,
                                      0,
                                      INTERNET_SERVICE_HTTP,
                                      0, 0);
-    qDebug() << "download.3";
+    // qDebug() << "download.3";
 
     if (hConnectHandle == 0) {
         QString errMsg;
@@ -86,7 +86,7 @@ bool downloadWin(Job* job, const QUrl& url, QTemporaryFile* file,
         return false;
     }
 
-    qDebug() << "download.4";
+    // qDebug() << "download.4";
 
     hResourceHandle = HttpOpenRequestW(hConnectHandle, L"GET",
                                       (WCHAR*) resource.utf16(),
@@ -101,9 +101,9 @@ bool downloadWin(Job* job, const QUrl& url, QTemporaryFile* file,
         return false;
     }
 
-    qDebug() << "download.5";
+    // qDebug() << "download.5";
     do {
-        qDebug() << "download.5.1";
+        // qDebug() << "download.5.1";
 
         if (!HttpSendRequestW(hResourceHandle, 0, 0, 0, 0)) {
             QString errMsg;
@@ -135,7 +135,7 @@ bool downloadWin(Job* job, const QUrl& url, QTemporaryFile* file,
     if (job)
         job->done(1);
 
-    qDebug() << "download.6";
+    // qDebug() << "download.6";
 
     WCHAR mimeBuffer[1024];
     bufferLength = sizeof(mimeBuffer);
@@ -149,7 +149,7 @@ bool downloadWin(Job* job, const QUrl& url, QTemporaryFile* file,
         return false;
     }
     mime->setUtf16((ushort*) mimeBuffer, bufferLength / 2);
-    qDebug() << "downloadWin.mime=" << *mime;
+    // qDebug() << "downloadWin.mime=" << *mime;
     if (job)
         job->done(1);
 
@@ -160,7 +160,7 @@ bool downloadWin(Job* job, const QUrl& url, QTemporaryFile* file,
     if (HttpQueryInfoW(hResourceHandle, HTTP_QUERY_CUSTOM,
             &cdBuffer, &bufferLength, &index)) {
         contentDisposition->setUtf16((ushort*) cdBuffer, bufferLength / 2);
-        qDebug() << "downloadWin.cd=" << *contentDisposition;
+        // qDebug() << "downloadWin.cd=" << *contentDisposition;
     } else {
         if (GetLastError() == ERROR_HTTP_HEADER_NOT_FOUND)
             qDebug() << "downloadWin.content-disposition not found  ";
@@ -174,15 +174,15 @@ bool downloadWin(Job* job, const QUrl& url, QTemporaryFile* file,
             contentLengthBuffer, &bufferLength, &index)) {
         QString s;
         s.setUtf16((ushort*) contentLengthBuffer, bufferLength / 2);
-        qDebug() << "download.6.2 " << s;
+        // qDebug() << "download.6.2 " << s;
         bool ok;
         contentLength = s.toInt(&ok, 10);
         if (!ok)
             contentLength = 0;
-        qDebug() << "download.6.2 " << contentLength;
+        // qDebug() << "download.6.2 " << contentLength;
     }
 
-    qDebug() << "download.7";
+    // qDebug() << "download.7";
 
     alreadyRead = 0;
     do {
@@ -215,7 +215,7 @@ bool downloadWin(Job* job, const QUrl& url, QTemporaryFile* file,
     if (job)
         job->done(-1);
 
-    qDebug() << "download.8";
+    // qDebug() << "download.8";
 
     job->complete();
 

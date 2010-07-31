@@ -55,7 +55,7 @@ void Job::cancel()
 
 void Job::parentJobChanged()
 {
-    qDebug() << "Job::parentJobChanged";
+    // qDebug() << "Job::parentJobChanged";
     Job* job = parentJob;
     if (job->isCancelled() && !this->isCancelled())
         this->cancel();

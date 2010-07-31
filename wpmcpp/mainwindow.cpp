@@ -59,6 +59,26 @@ void InstallThread::run()
     qDebug() << "InstallThread::run.2";
 }
 
+bool MainWindow::winEvent(MSG* message, long* result)
+{    
+    if (message->message == WM_ICONTRAY) {
+        qDebug() << "MainWindow::winEvent " << message->lParam;
+        switch (message->lParam) {
+            case (LPARAM) NIN_BALLOONUSERCLICK:
+                this->prepare();
+                ((QApplication*) QApplication::instance())->
+                        setQuitOnLastWindowClosed(true);
+                this->show();
+                break;
+            case (LPARAM) NIN_BALLOONTIMEOUT:
+                ((QApplication*) QApplication::instance())->quit();
+                break;
+        }
+        return true;
+    }
+    return false;
+}
+
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow)
@@ -81,7 +101,10 @@ MainWindow::MainWindow(QWidget *parent) :
     this->ui->tableWidget->setColumnWidth(0, 150);
     this->ui->tableWidget->setColumnWidth(1, 300);
     this->ui->tableWidget->sortItems(0);
+}
 
+void MainWindow::prepare()
+{
     QTimer *pTimer = new QTimer(this);
     pTimer->setSingleShot(true);
     connect(pTimer, SIGNAL(timeout()), this,

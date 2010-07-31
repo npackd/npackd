@@ -111,6 +111,20 @@ Package* Repository::findPackage(QString& name)
     return 0;
 }
 
+int Repository::countUpdates()
+{
+    int r = 0;
+    for (int i = 0; i < this->packageVersions.count(); i++) {
+        PackageVersion* p = this->packageVersions.at(i);
+        if (p->installed()) {
+            PackageVersion* newest = findNewestPackageVersion(p->package);
+            if (newest->version.compare(p->version) > 0 && !newest->installed())
+                r++;
+        }
+    }
+    return r;
+}
+
 void Repository::load(Job* job)
 {
     job->setAmountOfWork(100);

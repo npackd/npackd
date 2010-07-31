@@ -41,6 +41,13 @@ public:
     ~Repository();
 
     /**
+     * Counts the number of installed packages that can be updated.
+     *
+     * @return the number
+     */
+    int countUpdates();
+
+    /**
      * Loads the content from the URL.
      *
      * @param job job for this method

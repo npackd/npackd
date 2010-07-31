@@ -1,6 +1,8 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
+#include <windows.h>
+
 #include <QMainWindow>
 #include <qprogressdialog.h>
 #include <qtimer.h>
@@ -13,6 +15,16 @@ namespace Ui {
     class MainWindow;
 }
 
+const UINT WM_ICONTRAY = WM_USER + 1;
+
+const UINT NIN_BALLOONSHOW = WM_USER + 2;
+const UINT NIN_BALLOONHIDE = WM_USER + 3;
+const UINT NIN_BALLOONTIMEOUT = WM_USER + 4;
+const UINT NIN_BALLOONUSERCLICK = WM_USER + 5;
+const UINT NIN_SELECT = WM_USER + 0;
+const UINT NINF_KEY = 1;
+const UINT NIN_KEYSELECT = NIN_SELECT or NINF_KEY;
+
 /**
  * Main window.
  */
@@ -21,6 +33,13 @@ class MainWindow : public QMainWindow {
 public:
     MainWindow(QWidget *parent = 0);
     ~MainWindow();
+
+    bool winEvent(MSG* message, long* result);
+
+    /**
+     * Prepares the UI after the constructor was called.
+     */
+    void prepare();
 
     /**
      * Blocks until the job is completed. Shows an error
