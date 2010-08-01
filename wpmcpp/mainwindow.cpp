@@ -62,9 +62,10 @@ void InstallThread::run()
 bool MainWindow::winEvent(MSG* message, long* result)
 {    
     if (message->message == WM_ICONTRAY) {
-        qDebug() << "MainWindow::winEvent " << message->lParam;
+        // qDebug() << "MainWindow::winEvent " << message->lParam;
         switch (message->lParam) {
             case (LPARAM) NIN_BALLOONUSERCLICK:
+                this->ui->comboBoxStatus->setCurrentIndex(3);
                 this->prepare();
                 ((QApplication*) QApplication::instance())->
                         setQuitOnLastWindowClosed(true);

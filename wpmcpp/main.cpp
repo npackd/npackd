@@ -33,25 +33,32 @@ int main(int argc, char *argv[])
             nid.uCallbackMessage = WM_ICONTRAY;
             nid.hIcon = LoadIconW(0,
                             IDI_APPLICATION);
-            QString tip = QString("%1 updates found").arg(nupdates);
-            wcsncpy(nid.szTip, L"Windows Package Manager",
+            qDebug() << "main().1 icon" << nid.hIcon;
+            QString tip = QString("%1 update(s) found").arg(nupdates);
+            QString txt = QString("Windows Package Manager found %1 update(s). "
+                    "Click here to review and install.").arg(nupdates);
+
+            wcsncpy(nid.szTip, (wchar_t*) tip.utf16(),
                     sizeof(nid.szTip) / sizeof(nid.szTip[0]) - 1);
-            /*nid.dwState = 0;
-            nid.dwStateMask = 0;
-            */
-            wcsncpy(nid.szInfo, (wchar_t*) tip.utf16(),
+            wcsncpy(nid.szInfo, (wchar_t*) txt.utf16(),
                     sizeof(nid.szInfo) / sizeof(nid.szInfo[0]) - 1);
             nid.uVersion = 3; // NOTIFYICON_VERSION
-            wcscpy(nid.szInfoTitle, L"Windows Package Manager");
-            nid.dwInfoFlags = 1; // NIIF_INFO
+            wcsncpy(nid.szInfoTitle, (wchar_t*) tip.utf16(),
+                    sizeof(nid.szInfoTitle) / sizeof(nid.szInfoTitle[0]) - 1);
+            nid.dwInfoFlags = 4; // NIIF_USER
             nid.uTimeout = 30000;
 
             if (!Shell_NotifyIconW(NIM_ADD, &nid))
                 qDebug() << "Shell_NotifyIconW failed";
+            int r = a.exec();
+            if (!Shell_NotifyIconW(NIM_DELETE, &nid))
+                qDebug() << "Shell_NotifyIconW failed";
+            return r;
         }
+        return 0;
     } else {
         w.prepare();
         w.showMaximized();
+        return QApplication::exec();
     }
-    return QApplication::exec();
 }

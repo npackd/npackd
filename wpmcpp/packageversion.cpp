@@ -192,8 +192,11 @@ bool PackageVersion::createShortcuts(QString *errMsg)
         from.append("\\");
         from.append(ift);
         from.append(" (");
-        from.append(this->getPackageTitle());
-        from.append(" ");
+        QString pt = this->getPackageTitle();
+        if (pt != ift) {
+            from.append(pt);
+            from.append(" ");
+        }
         from.append(this->version.getVersionString());
         from.append(")");
         from.append(".lnk");
