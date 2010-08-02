@@ -5,14 +5,15 @@
     <ROW Property="ARPCOMMENTS" Value="This installer database contains the logic and data required to install [|ProductName] [|ProductVersion]." ValueLocId="*"/>
     <ROW Property="ARPHELPLINK" Value="http://code.google.com/p/windows-package-manager/"/>
     <ROW Property="ARPNOMODIFY" MultiBuildValue="DefaultBuild:1"/>
+    <ROW Property="ARPPRODUCTICON" Value="app.exe" Type="8"/>
     <ROW Property="ARPURLINFOABOUT" Value="http://code.google.com/p/windows-package-manager/"/>
     <ROW Property="BannerBitmap" MultiBuildValue="DefaultBuild:banner_image.jpg" Type="1"/>
     <ROW Property="DialogBitmap" MultiBuildValue="DefaultBuild:dialog_image.jpg" Type="1"/>
     <ROW Property="Manufacturer" Value="WPM" ValueLocId="*"/>
-    <ROW Property="ProductCode" Value="1033:{EE238521-90BD-4970-9F15-611689C6C54A} " Type="16"/>
+    <ROW Property="ProductCode" Value="1033:{0FE42B26-683A-43CD-8362-DAAB35BB95F7} " Type="16"/>
     <ROW Property="ProductLanguage" Value="1033"/>
     <ROW Property="ProductName" Value="Windows Package Manager" ValueLocId="*"/>
-    <ROW Property="ProductVersion" Value="1.10.1"/>
+    <ROW Property="ProductVersion" Value="1.11.0"/>
     <ROW Property="SecureCustomProperties" Value="OLDPRODUCTS;AI_NEWERPRODUCTFOUND"/>
     <ROW Property="UpgradeCode" Value="{EABC4270-7D7F-47BF-B388-AC63606E8DAC}"/>
     <ROW Property="WindowsFamily9X" MultiBuildValue="DefaultBuild:Windows 9x/ME" ValueLocId="-"/>
@@ -46,7 +47,7 @@
     <ROW File="libgcc_s_dw2_1.dll" Component_="libgcc_s_dw2_1.dll" FileName="libgcc~1.dll|libgcc_s_dw2-1.dll" Attributes="0" SourcePath="..\..\..\..\..\Qt\2010.03\mingw\bin\libgcc_s_dw2-1.dll" SelfReg="false" Sequence="5"/>
     <ROW File="mingwm10.dll" Component_="mingwm10.dll" FileName="mingwm10.dll" Attributes="0" SourcePath="..\..\..\..\..\Qt\2010.03\mingw\bin\mingwm10.dll" SelfReg="false" Sequence="4"/>
     <ROW File="quazip.dll" Component_="quazip.dll" FileName="quazip.dll" Attributes="0" SourcePath="..\..\..\libs\quazip-0.2.3\quazip\release\quazip.dll" SelfReg="false" Sequence="2"/>
-    <ROW File="wpmcpp.exe" Component_="wpmcpp.exe" FileName="wpmcpp.exe" Attributes="0" SourcePath="release\wpmcpp.exe" SelfReg="false" Sequence="1"/>
+    <ROW File="wpmcpp.exe" Component_="wpmcpp.exe" FileName="wpm.exe" Attributes="0" SourcePath="release\wpmcpp.exe" SelfReg="false" Sequence="1"/>
     <ROW File="zlib1.dll" Component_="zlib1.dll" FileName="zlib1.dll" Attributes="0" SourcePath="..\..\..\libs\zlib-1.2.5\zlib1.dll" SelfReg="false" Sequence="3"/>
   </COMPONENT>
   <COMPONENT cid="caphyon.advinst.msicomp.BuildComponent">
@@ -96,6 +97,9 @@
     <ROW Action="SET_APPDIR" Type="307" Source="APPDIR" Target="[ProgramFilesFolder][Manufacturer]\[ProductName]"/>
     <ROW Action="SET_SHORTCUTDIR" Type="307" Source="SHORTCUTDIR" Target="[ProgramMenuFolder][ProductName]"/>
     <ROW Action="SET_TARGETDIR_TO_APPDIR" Type="51" Source="TARGETDIR" Target="[APPDIR]"/>
+  </COMPONENT>
+  <COMPONENT cid="caphyon.advinst.msicomp.MsiIconsComponent">
+    <ROW Name="app.exe" SourcePath="app.ico" Index="0"/>
   </COMPONENT>
   <COMPONENT cid="caphyon.advinst.msicomp.MsiInstExSeqComponent">
     <ROW Action="AI_DOWNGRADE" Condition="AI_NEWERPRODUCTFOUND AND (UILevel &lt;&gt; 5)" Sequence="210"/>
