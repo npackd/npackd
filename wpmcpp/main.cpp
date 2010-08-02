@@ -22,7 +22,7 @@ int main(int argc, char *argv[])
         Repository* r = Repository::getDefault();
         r->load(&job);
         int nupdates = r->countUpdates();
-        if (job.getErrorMessage().isEmpty() && nupdates == 0) {
+        if (job.getErrorMessage().isEmpty() && nupdates > 0) {
             a.setQuitOnLastWindowClosed(false);
             NOTIFYICONDATAW nid;
             memset(&nid, 0, sizeof(nid));
@@ -31,8 +31,8 @@ int main(int argc, char *argv[])
             nid.uID = 0;
             nid.uFlags = NIF_MESSAGE + NIF_ICON + NIF_TIP + NIF_INFO;
             nid.uCallbackMessage = WM_ICONTRAY;
-            nid.hIcon = LoadIconW(0,
-                            IDI_APPLICATION);
+            nid.hIcon = LoadIconW(GetModuleHandle(0),
+                            L"IDI_ICON1");
             qDebug() << "main().1 icon" << nid.hIcon;
             QString tip = QString("%1 update(s) found").arg(nupdates);
             QString txt = QString("Windows Package Manager found %1 update(s). "
@@ -45,7 +45,7 @@ int main(int argc, char *argv[])
             nid.uVersion = 3; // NOTIFYICON_VERSION
             wcsncpy(nid.szInfoTitle, (wchar_t*) tip.utf16(),
                     sizeof(nid.szInfoTitle) / sizeof(nid.szInfoTitle[0]) - 1);
-            nid.dwInfoFlags = 4; // NIIF_USER
+            nid.dwInfoFlags = 1; // NIIF_INFO
             nid.uTimeout = 30000;
 
             if (!Shell_NotifyIconW(NIM_ADD, &nid))
