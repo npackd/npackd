@@ -33,7 +33,8 @@ FORMS += mainwindow.ui \
     progressdialog.ui \
     settingsdialog.ui
 INCLUDEPATH += C:\Users\t\libs\quazip-0.2.3\quazip \
-    C:\Users\t\libs\zlib-1.2.5
+    C:\Users\t\libs\zlib-1.2.5 \
+    "C:\Program Files\Microsoft SDKs\Windows\v7.0\Include"
 LIBS += C:\Users\t\libs\quazip-0.2.3\quazip\debug\libquazip.a \
     C:\Users\t\libs\zlib-1.2.5\libz.a \
     C:\Qt\2010.03\mingw\lib\libole32.a \

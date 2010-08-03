@@ -9,16 +9,15 @@
 
 #include "wpmutils.h"
 
-/* Task creation
-#include <windows.h>
-#include <initguid.h>
-#include <ole2.h>
-#include <mstask.h>
-#include <msterr.h>
-#include <objidl.h>
-#include <wchar.h>
-#include <stdio.h>
-*/
+
+//#include <windows.h>
+//#include <initguid.h>
+//#include <ole2.h>
+//#include <mstask.h>
+//#include <msterr.h>
+//#include <objidl.h>
+//#include <wchar.h>
+//#include <stdio.h>
 
 WPMUtils::WPMUtils()
 {
