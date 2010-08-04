@@ -219,6 +219,11 @@
         <url>http://msdn.microsoft.com/en-us/library/ms669985(VS.85).aspx</url>
         <description>HTML Help authoring tool</description>
     </package>
+    <package name="com.microsoft.OLEView">
+        <title>OLE/COM Object Viewer</title>
+        <url>http://www.microsoft.com/downloads/details.aspx?familyid=5233b70d-d9b2-4cb5-aeb6-45664be858b6&amp;displaylang=en</url>
+        <description>OLE/COM object viewer</description>
+    </package>
     <package name="com.microsoft.PowerPointViewerInstaller">
         <title>PowerPoint Viewer installer</title>
         <url>http://www.microsoft.com/downloads/details.aspx?displaylang=en&amp;FamilyID=048dc840-14e1-467d-8dca-19d2a8fd7485</url>
@@ -850,6 +855,12 @@
     of a package should stay together. Newer versions should appear under older
     ones.
     -->
+    <version name="1.0.0.1" package="com.microsoft.OLEView">
+        <file path=".WPM\Install.bat">oleview_setup.exe /C /T:"%DIR%\.WPM"
+msiexec.exe /qb! /norestart /i .WPM\oleview.msi TARGETDIR="%CD%" ALLUSERS=1</file>
+        <file path=".WPM\Uninstall.bat">msiexec.exe /qb! /norestart /x .WPM\oleview.msi</file>
+        <url>http://download.microsoft.com/download/win2000platform/oleview/1.00.0.1/NT5/EN-US/oleview_setup.exe</url>
+    </version>
     <version name="3.2" package="com.microsoft.TCPView">
         <important-file path="Tcpview.exe" title="TCPView"/>
         <url>http://download.sysinternals.com/Files/TCPView.zip</url>
@@ -918,6 +929,7 @@
         <file path=".WPM\Uninstall.bat">un_SuperOrcaSetup_21233.exe /Silent /Hide</file>
         <url>http://www.pantaray.com/SuperOrcaSetup.exe</url>
     </version>
+    <!-- silent installation shows many dialogs -->
     <version name="2003"
             package="com.microsoft.WindowsServer2003ResourceKitToolsInstaller"
             type="one-file">
