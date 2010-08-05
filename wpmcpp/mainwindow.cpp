@@ -221,6 +221,10 @@ void MainWindow::fillList()
         if (statusFilter == 3 && (!installed || !updateAvailable))
             continue;
 
+        // filter by status (4)
+        if (statusFilter == 4 && !(installed || !updateAvailable))
+            continue;
+
         Package* p = r->findPackage(pv->package);
 
         QString packageTitle;

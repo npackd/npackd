@@ -1,7 +1,7 @@
 /********************************************************************************
 ** Form generated from reading UI file 'mainwindow.ui'
 **
-** Created: Thu 29. Jul 00:03:24 2010
+** Created: Thu 5. Aug 23:07:43 2010
 **      by: Qt User Interface Compiler version 4.6.3
 **
 ** WARNING! All changes made in this file will be lost when recompiling UI file!
@@ -187,8 +187,12 @@ public:
          << QApplication::translate("MainWindow", "Not Installed", 0, QApplication::UnicodeUTF8)
          << QApplication::translate("MainWindow", "Installed", 0, QApplication::UnicodeUTF8)
          << QApplication::translate("MainWindow", "Installed, Update Available", 0, QApplication::UnicodeUTF8)
+         << QApplication::translate("MainWindow", "Newest or Installed", 0, QApplication::UnicodeUTF8)
         );
         label_3->setText(QApplication::translate("MainWindow", "Text:", 0, QApplication::UnicodeUTF8));
+#ifndef QT_NO_TOOLTIP
+        lineEditText->setToolTip(QApplication::translate("MainWindow", "Enter here your search text. You can enter multiple words if a package should contain all of them. The search is case insensitive. No special characters are filtered out.", 0, QApplication::UnicodeUTF8));
+#endif // QT_NO_TOOLTIP
     } // retranslateUi
 
 };
