@@ -22,6 +22,8 @@ private:
     static Package* createPackage(QDomElement* e);
     static PackageVersionFile* createPackageVersionFile(QDomElement* e);
     static PackageVersion* createPackageVersion(QDomElement* e);
+
+    void loadOne(QUrl* url, Job* job);
 public:
     /**
      * Package versions.
@@ -71,16 +73,16 @@ public:
     PackageVersion* findNewestPackageVersion(QString& name);
 
     /**
-     * @return newly created object pointing to the repository or 0
+     * @return newly created object pointing to the repositories
      */
-    static QUrl* getRepositoryURL();
+    static QList<QUrl*> getRepositoryURLs();
 
     /*
      * Changes the default repository url.
      *
-     * @param url new URL
+     * @param urls new URLs
      */
-    static void setRepositoryURL(QUrl& url);
+    static void setRepositoryURLs(QList<QUrl*>& urls);
 
     /**
      * @return default repository

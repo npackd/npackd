@@ -52,7 +52,10 @@ public:
      */
     bool waitFor(Job* job);
 
-    void loadRepository();
+    /**
+     * Load the content of all defined repositories and updates the UI.
+     */
+    void loadRepositories();
 protected:
     void changeEvent(QEvent *e);
 private slots:

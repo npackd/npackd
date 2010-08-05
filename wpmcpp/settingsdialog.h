@@ -2,6 +2,7 @@
 #define SETTINGSDIALOG_H
 
 #include <QDialog>
+#include "qstringlist.h"
 
 namespace Ui {
     class SettingsDialog;
@@ -14,14 +15,14 @@ public:
     ~SettingsDialog();
 
     /**
-     * @return repository URL
+     * @return repository URLs
      */
-    QString getRepositoryURL();
+    QStringList getRepositoryURLs();
 
     /**
-     * @param url new repository URL
+     * @param urls new repository URL
      */
-    void setRepositoryURL(const QString& url);
+    void setRepositoryURLs(const QStringList& urls);
 protected:
     void changeEvent(QEvent *e);
 

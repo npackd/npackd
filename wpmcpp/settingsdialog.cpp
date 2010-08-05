@@ -29,12 +29,14 @@ void SettingsDialog::changeEvent(QEvent *e)
     }
 }
 
-QString SettingsDialog::getRepositoryURL()
+QStringList SettingsDialog::getRepositoryURLs()
 {
-    return this->ui->lineEditRepository->text().trimmed();
+    QString txt = this->ui->textEditReps->toPlainText().trimmed();
+    QStringList sl = txt.split("\r\n");
+    return sl;
 }
 
-void SettingsDialog::setRepositoryURL(const QString &url)
+void SettingsDialog::setRepositoryURLs(const QStringList &urls)
 {
-    this->ui->lineEditRepository->setText(url);
+    this->ui->textEditReps->setText(urls.join("\r\n"));
 }

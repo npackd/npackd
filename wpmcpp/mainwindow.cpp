@@ -89,13 +89,14 @@ MainWindow::MainWindow(QWidget *parent) :
 
     this->ui->tableWidget->setEditTriggers(QTableWidget::NoEditTriggers);
 
-    QUrl* url = Repository::getRepositoryURL();
-    if (!url) {
-        url = new QUrl(
-                "http://windows-package-manager.googlecode.com/hg/repository/Rep.xml");
-        Repository::setRepositoryURL(*url);
+    QList<QUrl*> urls = Repository::getRepositoryURLs();
+    if (urls.count() == 0) {
+        urls.append(new QUrl(
+                "http://windows-package-manager.googlecode.com/hg/repository/Rep.xml"));
+        Repository::setRepositoryURLs(urls);
     }
-    delete url;
+    qDeleteAll(urls);
+    urls.clear();
 
     this->on_tableWidget_itemSelectionChanged();
     this->ui->tableWidget->setColumnCount(4);
@@ -146,7 +147,7 @@ bool MainWindow::waitFor(Job* job)
 
 void MainWindow::onShow()
 {
-    loadRepository();
+    loadRepositories();
 }
 
 PackageVersion* MainWindow::getSelectedPackageVersion()
@@ -318,7 +319,7 @@ void MainWindow::on_tableWidget_itemSelectionChanged()
             QUrl(p->url).isValid());
 }
 
-void MainWindow::loadRepository()
+void MainWindow::loadRepositories()
 {
     Job* job = new Job();
     InstallThread* it = new InstallThread(0, true, job);
@@ -388,18 +389,41 @@ void MainWindow::on_actionSettings_triggered()
 {
     SettingsDialog d;
 
-    QUrl* url = Repository::getRepositoryURL();
-    if (url)
-        d.setRepositoryURL(url->toString());
+    QList<QUrl*> urls = Repository::getRepositoryURLs();
+    QStringList list;
+    for (int i = 0; i < urls.count(); i++) {
+        list.append(urls.at(i)->toString());
+    }
+    d.setRepositoryURLs(list);
+
+    qDeleteAll(urls);
+    urls.clear();
 
     if (d.exec() == QDialog::Accepted) {
-        QUrl url(d.getRepositoryURL());
-        if (url.isValid()) {
-            Repository::setRepositoryURL(url);
-            loadRepository();
-        } else {
+        list = d.getRepositoryURLs();
+        if (list.count() == 0) {
             QMessageBox::critical(this,
-                    "Error", "The URL is not valid", QMessageBox::Ok);
+                    "Error", "No repositories defined", QMessageBox::Ok);
+        } else {
+            QString err;
+            for (int i = 0; i < list.count(); i++) {
+                QUrl* url = new QUrl(list.at(i));
+                urls.append(url);
+                if (!url->isValid()) {
+                    err = QString("%1 is not a valid repository address").arg(
+                            list.at(i));
+                    break;
+                }
+            }
+            if (err.isEmpty()) {
+                Repository::setRepositoryURLs(urls);
+                loadRepositories();
+            } else {
+                QMessageBox::critical(this,
+                        "Error", err, QMessageBox::Ok);
+            }
+            qDeleteAll(urls);
+            urls.clear();
         }
     }
 }

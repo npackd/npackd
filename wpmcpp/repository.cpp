@@ -127,74 +127,118 @@ int Repository::countUpdates()
 
 void Repository::load(Job* job)
 {
-    job->setAmountOfWork(100);
-
     qDeleteAll(this->packages);
     this->packages.clear();
     qDeleteAll(this->packageVersions);
     this->packageVersions.clear();
 
-    QUrl* url = getRepositoryURL();
-    if (url) {
-        job->setHint("Downloading");
-        Job* djob = job->newSubJob(50);
-        QTemporaryFile* f = Downloader::download(djob, *url);
-        qDebug() << "Repository::load.1";
-        if (f) {
-            job->setHint("Parsing the content");
-            qDebug() << "Repository::load.2";
-            QDomDocument doc;
-            int errorLine;
-            int errorColumn;
-            QString errMsg;
-            if (doc.setContent(f, &errMsg, &errorLine, &errorColumn)) {
-                QDomElement root = doc.documentElement();
-                for (QDomNode n = root.firstChild(); !n.isNull();
-                        n = n.nextSibling()) {
-                    if (n.isElement()) {
-                        QDomElement e = n.toElement();
-                        if (e.nodeName() == "version") {
-                            this->packageVersions.append(
-                                    createPackageVersion(&e));
-                        } else if (e.nodeName() == "package") {
-                            this->packages.append(
-                                    createPackage(&e));
-                        }
-                    }
-                }
-                job->done(-1);
-            } else {
-                job->setErrorMessage(QString("XML parsing failed: %1").
-                                     arg(errMsg));
+    QList<QUrl*> urls = getRepositoryURLs();
+    if (urls.count() > 0) {
+        job->setAmountOfWork(100 * urls.count() + 1);
+        for (int i = 0; i < urls.count(); i++) {
+            Job* s = job->newSubJob(100);
+            loadOne(urls.at(i), s);
+            if (!s->getErrorMessage().isEmpty()) {
+                job->setErrorMessage(QString(
+                        "Error loading the repository %1: %2").arg(
+                        urls.at(i)->toString()).arg(
+                        s->getErrorMessage()));
+                delete s;
+                break;
             }
-            delete f;
-        } else {
-            job->setErrorMessage(QString("Download failed: %2").
-                    arg(djob->getErrorMessage()));
+            delete s;
+
+            if (job->isCancelled())
+                break;
         }
-        delete djob;
     } else {
-        job->setErrorMessage("No repository defined");
+        job->setErrorMessage("No repositories defined");
     }
     qDebug() << "Repository::load.3";
+
+    qDeleteAll(urls);
+    urls.clear();
 
     job->complete();
 }
 
-QUrl* Repository::getRepositoryURL()
-{
-    QSettings s("WPM", "Windows Package Manager");
-    QString v = s.value("repository", "").toString();
-    if (v != "")
-        return new QUrl(v);
-    else
-        return 0;
+void Repository::loadOne(QUrl* url, Job* job) {
+    job->setAmountOfWork(100);
+    job->setHint("Downloading");
+    Job* djob = job->newSubJob(50);
+    QTemporaryFile* f = Downloader::download(djob, *url);
+    qDebug() << "Repository::load.1";
+    if (f) {
+        job->setHint("Parsing the content");
+        qDebug() << "Repository::load.2";
+        QDomDocument doc;
+        int errorLine;
+        int errorColumn;
+        QString errMsg;
+        if (doc.setContent(f, &errMsg, &errorLine, &errorColumn)) {
+            QDomElement root = doc.documentElement();
+            for (QDomNode n = root.firstChild(); !n.isNull();
+                    n = n.nextSibling()) {
+                if (n.isElement()) {
+                    QDomElement e = n.toElement();
+                    if (e.nodeName() == "version") {
+                        this->packageVersions.append(
+                                createPackageVersion(&e));
+                    } else if (e.nodeName() == "package") {
+                        this->packages.append(
+                                createPackage(&e));
+                    }
+                }
+            }
+            job->done(-1);
+        } else {
+            job->setErrorMessage(QString("XML parsing failed: %1").
+                                 arg(errMsg));
+        }
+        delete f;
+    } else {
+        job->setErrorMessage(QString("Download failed: %2").
+                arg(djob->getErrorMessage()));
+    }
+    delete djob;
+
+    job->complete();
 }
 
-void Repository::setRepositoryURL(QUrl& url)
+
+QList<QUrl*> Repository::getRepositoryURLs()
+{
+    QList<QUrl*> r;
+    QSettings s("WPM", "Windows Package Manager");
+
+    int size = s.beginReadArray("repositories");
+    for (int i = 0; i < size; ++i) {
+        s.setArrayIndex(i);
+        QString v = s.value("repository").toString();
+        r.append(new QUrl(v));
+    }
+    s.endArray();
+
+    if (size == 0) {
+        QString v = s.value("repository", "").toString();
+        if (v != "") {
+            r.append(new QUrl(v));
+            setRepositoryURLs(r);
+        }
+    }
+    
+    return r;
+}
+
+void Repository::setRepositoryURLs(QList<QUrl*>& urls)
 {
     QSettings s("WPM", "Windows Package Manager");
-    s.setValue("repository", url.toString());
+    s.beginWriteArray("repositories", urls.count());
+    for (int i = 0; i < urls.count(); ++i) {
+        s.setArrayIndex(i);
+        s.setValue("repository", urls.at(i)->toString());
+    }
+    s.endArray();
 }
 
 Repository* Repository::getDefault()
