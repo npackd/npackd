@@ -2,6 +2,7 @@
 #include <shellapi.h>
 #include <shlobj.h>
 #include <wininet.h>
+#include <stdlib.h>
 
 #include "repository.h"
 #include "qurl.h"
@@ -116,7 +117,7 @@ bool PackageVersion::installed()
 
 void PackageVersion::uninstall(Job* job)
 {
-    job->setAmountOfWork(3);
+    job->setAmountOfWork(4);
     QDir d = getDirectory();
 
     QString errMsg;
@@ -143,6 +144,11 @@ void PackageVersion::uninstall(Job* job)
     if (job->getErrorMessage().isEmpty()) {
         if (d.exists()) {
             bool r = WPMUtils::removeDirectory(d, &errMsg);
+            job->done(1);
+            if (!r) {
+                Sleep(5000); // 5 Seconds
+                r = WPMUtils::removeDirectory(d, &errMsg);
+            }
             if (r) {
                 job->done(-1);
             } else
