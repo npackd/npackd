@@ -43,7 +43,7 @@ PackageVersion* Repository::findNewestPackageVersion(QString &name)
 
 PackageVersion* Repository::createPackageVersion(QDomElement* e)
 {
-    qDebug() << "Repository::createPackageVersion.1" << e->attribute("package");
+    // qDebug() << "Repository::createPackageVersion.1" << e->attribute("package");
 
     PackageVersion* a = new PackageVersion(
             e->attribute("package"));
