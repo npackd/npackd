@@ -24,7 +24,13 @@ private:
     static PackageVersion* createPackageVersion(QDomElement* e);
 
     void loadOne(QUrl* url, Job* job);
+    void addUnknownExistingPackages();
 public:
+    /**
+     * @return C:\Program Files\WPM - repository directory
+     */
+    QDir getDirectory();
+
     /**
      * Package versions.
      */
@@ -68,9 +74,18 @@ public:
      * Find the newest available package version.
      *
      * @param name name of the package like "org.server.Word"
-     * @return found package or 0
+     * @return found package version or 0
      */
     PackageVersion* findNewestPackageVersion(QString& name);
+
+    /**
+     * Find the newest available package version.
+     *
+     * @param package name of the package like "org.server.Word"
+     * @param version package version
+     * @return found package version or 0
+     */
+    PackageVersion* findPackageVersion(QString& package, Version& version);
 
     /**
      * @return newly created object pointing to the repositories

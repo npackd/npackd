@@ -1,6 +1,7 @@
 #include <math.h>
 
 #include "qdebug.h"
+#include "qmutex.h"
 
 #include "job.h"
 

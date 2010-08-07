@@ -22,6 +22,14 @@ public:
     QString description;
 
     Package(QString& name, QString& title);
+
+    /**
+     * Checks whether the specified value is a valid package name.
+     *
+     * @param a string that should be checked
+     * @return true if name is a valid package name
+     */
+    static bool isValidName(QString& name);
 };
 
 #endif // PACKAGE_H

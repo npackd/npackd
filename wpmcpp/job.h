@@ -4,6 +4,7 @@
 #include <qstring.h>
 #include <qobject.h>
 #include "qmetatype.h"
+#include "qmutex.h"
 
 /**
  * A long-running task.
@@ -12,6 +13,8 @@ class Job: public QObject
 {
     Q_OBJECT
 private:
+    QMutex mutex;
+
     /** progress */
     int progress;
 

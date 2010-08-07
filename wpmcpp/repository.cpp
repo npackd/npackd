@@ -11,6 +11,8 @@
 #include "repository.h"
 #include "downloader.h"
 #include "packageversionfile.h"
+#include "wpmutils.h"
+#include "version.h"
 
 Repository* Repository::def = 0;
 
@@ -41,6 +43,8 @@ PackageVersion* Repository::findNewestPackageVersion(QString &name)
 
 PackageVersion* Repository::createPackageVersion(QDomElement* e)
 {
+    qDebug() << "Repository::createPackageVersion.1" << e->attribute("package");
+
     PackageVersion* a = new PackageVersion(
             e->attribute("package"));
     QString url = e->elementsByTagName("url").at(0).
@@ -73,6 +77,7 @@ PackageVersion* Repository::createPackageVersion(QDomElement* e)
         a->files.append(createPackageVersionFile(&e));
     }
 
+    qDebug() << "Repository::createPackageVersion.2";
     return a;
 }
 
@@ -125,6 +130,65 @@ int Repository::countUpdates()
     return r;
 }
 
+QDir Repository::getDirectory()
+{
+    QString pf = WPMUtils::getProgramFilesDir();
+    QDir d(pf + "\\WPM");
+    return d;
+}
+
+PackageVersion* Repository::findPackageVersion(QString& package,
+        Version& version)
+{
+    PackageVersion* r = 0;
+
+    for (int i = 0; i < this->packageVersions.count(); i++) {
+        PackageVersion* p = this->packageVersions.at(i);
+        if (p->package == package && p->version.compare(version) == 0) {
+            r = p;
+            break;
+        }
+    }
+    return r;
+}
+
+void Repository::addUnknownExistingPackages()
+{
+    QDir aDir = getDirectory();
+    if (aDir.exists()) {
+        QFileInfoList entries = aDir.entryInfoList(
+                QDir::NoDotAndDotDot |
+                QDir::Dirs);
+        int count = entries.size();
+        for (int idx = 0; idx < count; idx++) {
+            QFileInfo entryInfo = entries[idx];
+            QString fn = entryInfo.fileName();
+            QStringList sl = fn.split('-');
+            if (sl.count() == 2) {
+                QString package = sl.at(0);
+                if (Package::isValidName(package)) {
+                    QString version_ = sl.at(1);
+                    Version version;
+                    if (version.setVersion(version_)) {
+                        if (this->findPackage(package) == 0) {
+                            QString title = package +
+                                    " (unknown in current repositories)";
+                            Package* p = new Package(package,
+                                    title);
+                            this->packages.append(p);
+                        }
+                        if (this->findPackageVersion(package, version) == 0) {
+                            PackageVersion* pv = new PackageVersion(package);
+                            pv->version = version;
+                            this->packageVersions.append(pv);
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
 void Repository::load(Job* job)
 {
     qDeleteAll(this->packages);
@@ -155,6 +219,9 @@ void Repository::load(Job* job)
         job->setErrorMessage("No repositories defined");
     }
     qDebug() << "Repository::load.3";
+
+    job->setHint("Scanning for installed package versions");
+    addUnknownExistingPackages();
 
     qDeleteAll(urls);
     urls.clear();

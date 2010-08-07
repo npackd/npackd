@@ -264,7 +264,7 @@ void MainWindow::fillList()
     }
     t->setRowCount(n);
     t->setSortingEnabled(true);
-    qDebug() << "MainWindow::fillList.2";
+    // qDebug() << "MainWindow::fillList.2";
 }
 
 void MainWindow::changeEvent(QEvent *e)

@@ -48,6 +48,7 @@ void ProgressDialog::jobChanged()
         ui->progressBar->setValue(job->getProgress());
         ui->pushButtonCancel->setEnabled(job->isCancellable() &&
                 !job->isCancelled());
+
     }
 }
 

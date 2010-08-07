@@ -16,14 +16,18 @@ public:
 
     Version(const Version& v);
 
+    Version& operator =(const Version& v);
+
     ~Version();
 
     /**
      * Changes the version
      *
      * @param version "1.2.3"
+     * @return true if it was a valid version. The internal value is not changed
+     *     if a not-valid version was supplied
      */
-    void setVersion(QString& version);
+    bool setVersion(QString& version);
 
     /**
      * Changes the version.

@@ -17,6 +17,17 @@ Version::Version(const Version &v)
     memcpy(parts, v.parts, sizeof(parts[0]) * nparts);
 }
 
+Version& Version::operator =(const Version& v)
+{
+    if (this != &v) {
+        delete[] this->parts;
+        this->parts = new int[v.nparts];
+        this->nparts = v.nparts;
+        memcpy(parts, v.parts, sizeof(parts[0]) * nparts);
+    }
+    return *this;
+}
+
 Version::~Version()
 {
     delete[] this->parts;
@@ -31,16 +42,32 @@ void Version::setVersion(int a, int b)
     this->nparts = 2;
 }
 
-void Version::setVersion(QString& v)
+bool Version::setVersion(QString& v)
 {
-    delete[] this->parts;
-    QStringList sl = v.split(".", QString::KeepEmptyParts);
+    bool result = false;
+    if (!v.trimmed().isEmpty()) {
+        QStringList sl = v.split(".", QString::KeepEmptyParts);
 
-    this->parts = new int[sl.count()];
-    this->nparts = sl.count();
-    for (int i = 0; i < sl.count(); i++) {
-        this->parts[i] = sl.at(i).toInt();
+        if (sl.count() > 0) {
+            bool ok = true;
+            for (int i = 0; i < sl.count(); i++) {
+                sl.at(i).toInt(&ok);
+                if (!ok)
+                    break;
+            }
+
+            if (ok) {
+                delete[] this->parts;
+                this->parts = new int[sl.count()];
+                this->nparts = sl.count();
+                for (int i = 0; i < sl.count(); i++) {
+                    this->parts[i] = sl.at(i).toInt();
+                }
+                result = true;
+            }
+        }
     }
+    return result;
 }
 
 QString Version::getVersionString()
