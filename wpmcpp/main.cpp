@@ -8,9 +8,18 @@
 #include "qnetworkproxy.h"
 
 #include "repository.h"
+#include "wpmutils.h"
 
 int main(int argc, char *argv[])
 {
+    /* currently this prints only the file names without the whole path
+       for 64-bit Windows cause WPM is a 32-bit process
+    QStringList files = WPMUtils::getProcessFiles();
+    for (int i = 0; i < files.count(); i++) {
+        qDebug() << files.at(i);
+    }
+    */
+
     QApplication a(argc, argv);
     QNetworkProxyFactory::setUseSystemConfiguration(true);
 

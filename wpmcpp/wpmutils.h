@@ -57,6 +57,16 @@ public:
      * @param dir the directory
      */
     static bool isUnder(QString& file, QString& dir);
+
+    /**
+     * @return full paths to files locked because of running processes
+     */
+    static QStringList getProcessFiles();
+
+    /**
+     * @return all modules (full file names) for the given process ID
+     */
+    static QStringList ListProcessModules(DWORD dwPID);
 };
 
 #endif // WPMUTILS_H
