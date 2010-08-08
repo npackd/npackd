@@ -299,8 +299,13 @@
         <url>http://www.mythicsoft.com/page.aspx?type=agentransack&amp;page=home</url>
         <description>file search</description>
     </package>
+    <package name="com.netstumbler.NetStumbler">
+        <title>NetStumbler</title>
+        <url>http://www.netstumbler.com/</url>
+        <description>WLAN scanner</description>
+    </package>
     <package name="com.netstumbler.NetStumblerInstaller">
-        <title>NetStumbler installer</title>
+        <title>NetStumbler installer (deprecated, use the non-installer package instead)</title>
         <url>http://www.netstumbler.com/</url>
         <description>WLAN scanner</description>
     </package>
@@ -1097,6 +1102,7 @@ msiexec.exe /qb! /norestart /i .WPM\oleview.msi TARGETDIR="%CD%" ALLUSERS=1</fil
         <important-file path="HandBrake-0.9.4-Win_GUI.exe" title="Installer"/>
         <url>http://downloads.sourceforge.net/project/handbrake/0.9.4/HandBrake-0.9.4-Win_GUI.exe?ts=1278845734</url>
     </version>
+    <!-- NSIS-based installer that does not support /S -->
     <version name="5.1.6" package="org.mingw.MinGWInstaller"
             type="one-file">
         <important-file path="MinGW-5.1.6.exe" title="Installer"/>
@@ -1435,6 +1441,12 @@ set d=%ProgramFiles%
             type="one-file">
         <important-file path="streamripper-windows-installer-1.64.6.exe" title="Installer"/>
         <url>http://downloads.sourceforge.net/project/streamripper/streamripper%20%28current%29/1.64.6/streamripper-windows-installer-1.64.6.exe?96133631</url>
+    </version>
+    <version name="0.4" package="com.netstumbler.NetStumbler"
+            type="one-file">
+        <file path=".WPM\Install.bat">netstumblerinstaller_0_4_0.exe /S /D=%CD%</file>
+        <file path=".WPM\Uninstall.bat">uninst.exe /S</file>
+        <url>http://downloads.netstumbler.com/downloads/netstumblerinstaller_0_4_0.exe</url>
     </version>
     <version name="0.4" package="com.netstumbler.NetStumblerInstaller"
             type="one-file">
