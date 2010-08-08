@@ -449,8 +449,13 @@
         <url>http://dxgettext.po.dk/</url>
         <description>gettext for Delphi</description>
     </package>
-    <package name="fr.handbreak.HandBrakeInstaller">
-        <title>HandBrake installer</title>
+    <package name="fr.handbrake.HandBrake">
+        <title>HandBrake</title>
+        <url>http://handbrake.fr/</url>
+        <description>video encoding</description>
+    </package>
+    <package name="fr.handbrake.HandBrakeInstaller">
+        <title>HandBrake installer (deprecated, use the non-installer package instead)</title>
         <url>http://handbrake.fr/</url>
         <description>video encoding</description>
     </package>
@@ -1076,7 +1081,13 @@ msiexec.exe /qb! /norestart /i .WPM\oleview.msi TARGETDIR="%CD%" ALLUSERS=1</fil
         <important-file path="cdbxpp.exe" title="CDBurnerXP"/>
         <url>http://download.cdburnerxp.se/portable/CDBurnerXP-4.3.7.2316.zip</url>
     </version>
-    <version name="0.9.4" package="fr.handbreak.HandBrakeInstaller"
+    <version name="0.9.4" package="fr.handbrake.HandBrake"
+            type="one-file">
+        <file path=".WPM\Install.bat">HandBrake-0.9.4-Win_GUI.exe /S /D=%CD%</file>
+        <file path=".WPM\Uninstall.bat">uninst.exe /S</file>
+        <url>http://downloads.sourceforge.net/project/handbrake/0.9.4/HandBrake-0.9.4-Win_GUI.exe?ts=1278845734</url>
+    </version>
+    <version name="0.9.4" package="fr.handbrake.HandBrakeInstaller"
             type="one-file">
         <important-file path="HandBrake-0.9.4-Win_GUI.exe" title="Installer"/>
         <url>http://downloads.sourceforge.net/project/handbrake/0.9.4/HandBrake-0.9.4-Win_GUI.exe?ts=1278845734</url>
