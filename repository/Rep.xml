@@ -789,8 +789,13 @@
         <url>http://www.netbeans.org</url>
         <description>IDE</description>
     </package>
+    <package name="org.openoffice.OpenOffice">
+        <title>OpenOffice</title>
+        <url>http://www.openoffice.org/</url>
+        <description>office software</description>
+    </package>
     <package name="org.openoffice.OpenOfficeInstaller">
-        <title>OpenOffice installer</title>
+        <title>OpenOffice installer (deprecated, use the non-installer package instead)</title>
         <url>http://www.openoffice.org/</url>
         <description>office software</description>
     </package>
@@ -1869,6 +1874,11 @@ echo DesktopShortcut=false >> .WPM\FF.ini
     <version name="1.0" package="com.nvu.NVU">
         <important-file path="nvu-1.0\nvu.exe" title="NVU"/>
         <url>http://downloads.mozdev.org/nvude/1.0/win32/nvu-1.0-win32-de-DE.zip</url>
+    </version>
+    <version name="3.2.1" package="org.openoffice.OpenOffice" type="one-file">
+        <file path=".WPM\Install.bat">OOo_3.2.1_Win_x86_install_en-GB.exe /S /D=%CD%</file>
+        <file path=".WPM\Uninstall.bat">msiexec.exe /qb! /norestart /x{B0C536A0-13F5-4949-A7C7-16486B2B046F}</file>
+        <url>http://download.services.openoffice.org/files/localized/en-GB/3.2.1/OOo_3.2.1_Win_x86_install_en-GB.exe</url>
     </version>
     <version name="3.2.1" package="org.openoffice.OpenOfficeInstaller" type="one-file">
         <important-file path="OOo_3.2.1_Win_x86_install_en-GB.exe"
