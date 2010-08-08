@@ -124,11 +124,7 @@ void PackageVersion::uninstall(Job* job)
     QString p = ".WPM\\Uninstall.bat";
     if (QFile::exists(d.absolutePath() + "\\" + p)) {
         job->setHint("Running the uninstallation script");
-        if (this->executeFile(p, &errMsg)) {
-            job->done(1);
-        } else {
-            job->setErrorMessage(errMsg);
-        }
+        this->executeFile(p, &errMsg); // ignore errors
     } else {
         job->done(1);
     }
@@ -235,7 +231,6 @@ void PackageVersion::install(Job* job)
     if (!installed()) {
         job->setCancellable(true);
 
-        // TODO: error handling/free memory
         qDebug() << "install.2";
         QDir d = getDirectory();
         qDebug() << "install.dir=" << d;
@@ -302,6 +297,7 @@ void PackageVersion::install(Job* job)
                             job->done(-1);
                         } else {
                             job->setErrorMessage(errMsg);
+                            WPMUtils::removeDirectory(d, &errMsg); // ignore errors
                         }
                     } else {
                         job->done(-1);
