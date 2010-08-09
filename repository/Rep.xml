@@ -184,8 +184,13 @@
         <url>http://earth.google.com/intl/en/</url>
         <description>3D map software</description>
     </package>
+    <package name="com.google.Picasa">
+        <title>Picasa</title>
+        <url>http://picasa.google.com/</url>
+        <description>photo editing software</description>
+    </package>
     <package name="com.google.PicasaInstaller">
-        <title>Picasa installer</title>
+        <title>Picasa installer (deprecated, use the non-installer package instead)</title>
         <url>http://picasa.google.com/</url>
         <description>photo editing software</description>
     </package>
@@ -1621,6 +1626,20 @@ set d=%ProgramFiles%
             type="one-file">
         <important-file path="spybotsd162.exe" title="Installer"/>
         <url>http://www.spybotupdates.com/files/spybotsd162.exe</url>
+    </version>
+    <version name="3.6" package="com.google.Picasa"
+            type="one-file">
+        <file path=".WPM\Install.bat">picasa36-setup.exe /S /L</file>
+        <!--
+            this cannot be used for side-by-side installation of Picasa
+            3.6 and 3.5
+        -->
+        <file path=".WPM\Uninstall.bat">set d=%ProgramFiles(x86)%
+if "%d%" NEQ "" goto n
+set d=%ProgramFiles%
+:n
+"%d%\Google\Picasa3\Uninstall.exe" /S</file>
+        <url>http://dl.google.com/picasa/picasa36-setup.exe</url>
     </version>
     <version name="3.6" package="com.google.PicasaInstaller"
             type="one-file">
