@@ -2,6 +2,7 @@
 #include "ui_settingsdialog.h"
 
 #include "qmessagebox.h"
+#include "qdesktopservices.h"
 
 #include "repository.h"
 
@@ -31,12 +32,17 @@ void SettingsDialog::changeEvent(QEvent *e)
 
 QStringList SettingsDialog::getRepositoryURLs()
 {
-    QString txt = this->ui->textEditReps->toPlainText().trimmed();
-    QStringList sl = txt.split("\r\n");
+    QString txt = this->ui->plainTextEditReps->toPlainText().trimmed();
+    QStringList sl = txt.split("\n", QString::SkipEmptyParts);
     return sl;
 }
 
 void SettingsDialog::setRepositoryURLs(const QStringList &urls)
 {
-    this->ui->textEditReps->setText(urls.join("\r\n"));
+    this->ui->plainTextEditReps->setPlainText(urls.join("\r\n"));
+}
+
+void SettingsDialog::on_textBrowser_anchorClicked(QUrl url)
+{
+    QDesktopServices::openUrl(url);
 }
