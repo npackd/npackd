@@ -239,8 +239,13 @@
         <url>http://www.microsoft.com/downloads/details.aspx?familyid=5233b70d-d9b2-4cb5-aeb6-45664be858b6&amp;displaylang=en</url>
         <description>OLE/COM object viewer</description>
     </package>
+    <package name="com.microsoft.PowerPointViewer">
+        <title>PowerPoint Viewer</title>
+        <url>http://www.microsoft.com/downloads/details.aspx?displaylang=en&amp;FamilyID=048dc840-14e1-467d-8dca-19d2a8fd7485</url>
+        <description>PowerPoint viewer</description>
+    </package>
     <package name="com.microsoft.PowerPointViewerInstaller">
-        <title>PowerPoint Viewer installer</title>
+        <title>PowerPoint Viewer installer (deprecated, use the non-installer package instead)</title>
         <url>http://www.microsoft.com/downloads/details.aspx?displaylang=en&amp;FamilyID=048dc840-14e1-467d-8dca-19d2a8fd7485</url>
         <description>PowerPoint viewer</description>
     </package>
@@ -1375,6 +1380,12 @@ set d=%ProgramFiles%
             type="one-file">
         <important-file path="ExcelViewer.exe" title="Installer"/>
         <url>http://download.microsoft.com/download/e/a/9/ea913c8b-51a7-41b7-8697-9f0d0a7274aa/ExcelViewer.exe</url>
+    </version>
+    <version name="12.0.4518.1014" package="com.microsoft.PowerPointViewer"
+            type="one-file">
+        <file path=".WPM\Install.bat">PowerPointViewer.exe /quiet</file>
+        <file path=".WPM\Uninstall.bat">msiexec.exe /qb! /norestart /x{95120000-00AF-0409-0000-0000000FF1CE}</file>
+        <url>http://download.microsoft.com/download/f/5/a/f5a3df76-d856-4a61-a6bd-722f52a5be26/PowerPointViewer.exe</url>
     </version>
     <version name="12.0.4518.1014" package="com.microsoft.PowerPointViewerInstaller"
             type="one-file">
