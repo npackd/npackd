@@ -112,6 +112,16 @@ QString WPMUtils::getProgramShortcutsDir()
     return  QString::fromUtf16(reinterpret_cast<ushort*>(dir));
 }
 
+bool WPMUtils::removeDirectory2(QDir &d, QString *errMsg)
+{
+    bool r = WPMUtils::removeDirectory(d, errMsg);
+    if (!r) {
+        Sleep(5000); // 5 Seconds
+        r = WPMUtils::removeDirectory(d, errMsg);
+    }
+    return r;
+}
+
 bool WPMUtils::removeDirectory(QDir &aDir, QString *errMsg)
 {
     bool ok = true;

@@ -24,6 +24,16 @@ public:
     static bool removeDirectory(QDir &aDir, QString* errMsg);
 
     /**
+     * Deletes a directory. If something cannot be deleted, it waits and
+     * tries to delete the directory again.
+     *
+     * @param aDir this directory will be deleted
+     * @param errMsg error message will be stored here
+     * @return true if no errors occured
+     */
+    static bool removeDirectory2(QDir &aDir, QString* errMsg);
+
+    /**
      * Finds the parent directory for a path.
      *
      * @param path a directory

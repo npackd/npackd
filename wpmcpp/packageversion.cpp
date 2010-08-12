@@ -261,7 +261,7 @@ void PackageVersion::install(Job* job)
                         job->setErrorMessage(QString(
                                 "Error unzipping file into directory %0: %1").
                                              arg(d.absolutePath()).arg(errMsg));
-                        WPMUtils::removeDirectory(d, &errMsg); // ignore errors
+                        WPMUtils::removeDirectory2(d, &errMsg); // ignore errors
                     }
                 } else {
                     job->setHint("Copying the file");
@@ -275,7 +275,7 @@ void PackageVersion::install(Job* job)
                                    (WCHAR*) t.replace('/', '\\').utf16(), false)) {
                         WPMUtils::formatMessage(GetLastError(), &errMsg);
                         job->setErrorMessage(errMsg);
-                        WPMUtils::removeDirectory(d, &errMsg); // ignore errors
+                        WPMUtils::removeDirectory2(d, &errMsg); // ignore errors
                     } else {
                         QString err;
                         this->createShortcuts(&err); // ignore errors
@@ -297,7 +297,9 @@ void PackageVersion::install(Job* job)
                             job->done(-1);
                         } else {
                             job->setErrorMessage(errMsg);
-                            WPMUtils::removeDirectory(d, &errMsg); // ignore errors
+
+                            // ignore errors
+                            WPMUtils::removeDirectory2(d, &errMsg);
                         }
                     } else {
                         job->done(-1);
