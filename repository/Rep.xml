@@ -809,8 +809,13 @@
         <url>http://www.mozilla-europe.org/en/firefox/</url>
         <description>web browser</description>
     </package>
+    <package name="org.mozilla.Thunderbird">
+        <title>Thunderbird</title>
+        <url>http://www.mozilla.org/projects/thunderbird/</url>
+        <description>mail</description>
+    </package>
     <package name="org.mozilla.ThunderbirdInstaller">
-        <title>Thunderbird installer</title>
+        <title>Thunderbird installer (deprecated, use the non-installer package instead)</title>
         <url>http://www.mozilla.org/projects/thunderbird/</url>
         <description>mail</description>
     </package>
@@ -1537,6 +1542,28 @@ set d=%ProgramFiles%
             type="one-file">
         <important-file path="World_Wind_1.4.0_Full.exe" title="Installer"/>
         <url>http://downloads.sourceforge.net/project/nasa-exp/World%20Wind%20.NET/1.4/World_Wind_1.4.0_Full.exe?57516095</url>
+    </version>
+    <version name="3.1" package="org.mozilla.Thunderbird"
+            type="one-file">
+        <file path=".WPM\Install.bat">echo [Install] > .WPM\FF.ini
+echo InstallDirectoryPath=%CD% >> .WPM\FF.ini
+echo QuickLaunchShortcut=false >> .WPM\FF.ini
+echo DesktopShortcut=false >> .WPM\FF.ini
+"Thunderbird Setup 3.1.exe" /INI="%CD%\.WPM\FF.ini"
+</file>
+        <file path=".WPM\Uninstall.bat">uninstall\helper.exe /S</file>
+        <url>http://ankeena.mozilla.org/pub/mozilla.org//thunderbird/releases/3.1/win32/en-US/Thunderbird%20Setup%203.1.exe</url>
+    </version>
+    <version name="3.1.2" package="org.mozilla.Thunderbird"
+            type="one-file">
+        <file path=".WPM\Install.bat">echo [Install] > .WPM\FF.ini
+echo InstallDirectoryPath=%CD% >> .WPM\FF.ini
+echo QuickLaunchShortcut=false >> .WPM\FF.ini
+echo DesktopShortcut=false >> .WPM\FF.ini
+"Thunderbird Setup 3.1.2.exe" /INI="%CD%\.WPM\FF.ini"
+</file>
+        <file path=".WPM\Uninstall.bat">uninstall\helper.exe /S</file>
+        <url>http://jp-nii01.mozilla.org/pub/mozilla.org/thunderbird/releases/3.1.2/win32/en-US/Thunderbird%20Setup%203.1.2.exe</url>
     </version>
     <version name="3.1" package="org.mozilla.ThunderbirdInstaller"
             type="one-file">
