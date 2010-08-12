@@ -13,24 +13,19 @@ class Job: public QObject
 {
     Q_OBJECT
 private:
-    QMutex mutex;
-
-    /** progress */
-    int progress;
+    /** progress 0...1 */
+    double progress;
 
     /** description of the current state */
     QString hint;
 
     QString errorMessage;
 
-    /** number of steps. Initialized with 1. */
-    int nsteps;
-
     Job* parentJob;
 
     QString parentHintStart;
-    int subJobSteps;
-    int subJobStart;
+    double subJobSteps;
+    double subJobStart;
 
     /** true if the user presses the "cancel" button. */
     bool cancelRequested;
@@ -85,20 +80,12 @@ public:
      * @param nsteps number of steps in this job for the created sub-job
      * @return child job with parent=this
      */
-    Job* newSubJob(int nsteps);
+    Job* newSubJob(double nsteps);
 
     /**
-     * Changes the progress.
-     *
-     * @param n number of steps done (additionally) or -1 if the job is
-     *     completed
+     * @return progress of this job (0...1)
      */
-    void done(int n);
-
-    /**
-     * @return progress of this job
-     */
-    int getProgress() const;
+    double getProgress() const;
 
     /**
      * @return current hint
@@ -111,9 +98,12 @@ public:
     void setHint(const QString& hint);
 
     /**
-     * @param progress new progress
+     * Sets the progress. The value is only informational. You have to
+     * call complete() at the end anyway.
+     *
+     * @param progress new progress (0...1)
      */
-    void setProgress(int progress);
+    void setProgress(double progress);
 
     /**
      * @return error message. If the error message is not empty, the
@@ -125,16 +115,6 @@ public:
      * @param errorMessage new error message
      */
     void setErrorMessage(const QString &errorMessage);
-
-    /**
-     * @param n new amount of steps in this job
-     */
-    void setAmountOfWork(int n);
-
-    /**
-     * @return amount of steps in this job
-     */
-    int getAmountOfWork();
 signals:
     /**
      * This signal will be fired each time something in this object

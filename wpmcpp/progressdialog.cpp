@@ -1,4 +1,5 @@
 #include <time.h>
+#include <math.h>
 
 #include "qdebug.h"
 #include "QTime"
@@ -44,8 +45,8 @@ void ProgressDialog::jobChanged()
             time(&this->started);
             ui->labelElapsed->setText("-");
         }
-        ui->progressBar->setMaximum(job->getAmountOfWork());
-        ui->progressBar->setValue(job->getProgress());
+        ui->progressBar->setMaximum(10000);
+        ui->progressBar->setValue(lround(job->getProgress() * 10000));
         ui->pushButtonCancel->setEnabled(job->isCancellable() &&
                 !job->isCancelled());
 

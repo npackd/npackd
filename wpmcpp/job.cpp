@@ -8,8 +8,7 @@
 
 Job::Job()
 {
-    this->progress = 0;
-    this->nsteps = 1;
+    this->progress = 0.0;
     this->parentJob = 0;
     this->cancelRequested = false;
     this->cancellable = false;
@@ -62,7 +61,7 @@ void Job::parentJobChanged()
         this->cancel();
 }
 
-Job* Job::newSubJob(int nsteps)
+Job* Job::newSubJob(double nsteps)
 {
     Job* r = new Job();
     r->parentJob = this;
@@ -82,11 +81,9 @@ bool Job::isCompleted()
     return this->completed;
 }
 
-void Job::setProgress(int progress)
+void Job::setProgress(double progress)
 {
     this->progress = progress;
-    if (this->progress >= this->nsteps)
-        this->completed = true;
 
     emit changed();
 
@@ -98,38 +95,12 @@ void Job::updateParentProgress()
 {
     if (parentJob) {
         double d = this->subJobStart +
-                ((double) this->getProgress()) /
-                this->getAmountOfWork() * this->subJobSteps;
-        // Debug: qDebug() << "updateParentProgress " << this->subJobStart << " " <<
-        //        lround(d) << " " << this->getProgress();
-        parentJob->setProgress(lround(d));
+                this->getProgress() * this->subJobSteps;
+        parentJob->setProgress(d);
     }
 }
 
-void Job::done(int n)
-{
-    if (n < 0)
-        setProgress(nsteps);
-    else
-        setProgress(getProgress() + n);
-}
-
-int Job::getAmountOfWork()
-{
-    return nsteps;
-}
-
-void Job::setAmountOfWork(int n)
-{
-    this->nsteps = n;
-
-    emit changed();
-
-    updateParentProgress();
-    updateParentHint();
-}
-
-int Job::getProgress() const
+double Job::getProgress() const
 {
     return this->progress;
 }
@@ -151,7 +122,7 @@ void Job::setHint(const QString &hint)
 void Job::updateParentHint()
 {
     if (parentJob) {
-        if (getProgress() >= getAmountOfWork())
+        if (isCompleted())
             parentJob->setHint(parentHintStart);
         else
             parentJob->setHint(parentHintStart + " / " + this->hint);

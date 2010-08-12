@@ -198,9 +198,8 @@ void Repository::load(Job* job)
 
     QList<QUrl*> urls = getRepositoryURLs();
     if (urls.count() > 0) {
-        job->setAmountOfWork(100 * urls.count() + 1);
         for (int i = 0; i < urls.count(); i++) {
-            Job* s = job->newSubJob(100);
+            Job* s = job->newSubJob(1 / urls.count());
             loadOne(urls.at(i), s);
             if (!s->getErrorMessage().isEmpty()) {
                 job->setErrorMessage(QString(
@@ -230,9 +229,8 @@ void Repository::load(Job* job)
 }
 
 void Repository::loadOne(QUrl* url, Job* job) {
-    job->setAmountOfWork(100);
     job->setHint("Downloading");
-    Job* djob = job->newSubJob(50);
+    Job* djob = job->newSubJob(0.90);
     QTemporaryFile* f = Downloader::download(djob, *url);
     qDebug() << "Repository::load.1";
     if (f) {
@@ -257,7 +255,7 @@ void Repository::loadOne(QUrl* url, Job* job) {
                     }
                 }
             }
-            job->done(-1);
+            job->setProgress(1);
         } else {
             job->setErrorMessage(QString("XML parsing failed: %1").
                                  arg(errMsg));

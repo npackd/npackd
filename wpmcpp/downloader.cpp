@@ -43,7 +43,6 @@ bool downloadWin(Job* job, const QUrl& url, QTemporaryFile* file,
     int64_t alreadyRead;
 
     if (job) {
-        job->setAmountOfWork(105);
         job->setHint("Connecting");
     }
 
@@ -61,7 +60,7 @@ bool downloadWin(Job* job, const QUrl& url, QTemporaryFile* file,
     }
 
     if (job)
-        job->done(1);
+        job->setProgress(0.01);
 
     hConnectHandle = InternetConnectW(internet,
                                      (WCHAR*) server.utf16(),
@@ -133,7 +132,7 @@ bool downloadWin(Job* job, const QUrl& url, QTemporaryFile* file,
                                    &p);
     } while (dwError == ERROR_INTERNET_FORCE_RETRY);
     if (job)
-        job->done(1);
+        job->setProgress(0.03);
 
     // qDebug() << "download.6";
 
@@ -151,7 +150,7 @@ bool downloadWin(Job* job, const QUrl& url, QTemporaryFile* file,
     mime->setUtf16((ushort*) mimeBuffer, bufferLength / 2);
     // qDebug() << "downloadWin.mime=" << *mime;
     if (job)
-        job->done(1);
+        job->setProgress(0.04);
 
     WCHAR cdBuffer[1024];
     wcscpy(cdBuffer, L"Content-Disposition");
@@ -197,7 +196,8 @@ bool downloadWin(Job* job, const QUrl& url, QTemporaryFile* file,
         file->write(buffer, bufferLength);
         alreadyRead += bufferLength;
         if ((job != 0) && (contentLength > 0)) {
-            job->setProgress(lround(4 + alreadyRead * 100.0 / contentLength));
+            job->setProgress(0.04 +
+                    ((double) alreadyRead / contentLength) * 0.95);
             job->setHint(QString("%0 of %1 Bytes").arg(alreadyRead).
                          arg(contentLength));
         }
@@ -213,7 +213,7 @@ bool downloadWin(Job* job, const QUrl& url, QTemporaryFile* file,
     InternetCloseHandle(internet);
 
     if (job)
-        job->done(-1);
+        job->setProgress(1);
 
     // qDebug() << "download.8";
 

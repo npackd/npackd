@@ -117,7 +117,6 @@ bool PackageVersion::installed()
 
 void PackageVersion::uninstall(Job* job)
 {
-    job->setAmountOfWork(4);
     QDir d = getDirectory();
 
     QString errMsg;
@@ -126,7 +125,7 @@ void PackageVersion::uninstall(Job* job)
         job->setHint("Running the uninstallation script");
         this->executeFile(p, &errMsg); // ignore errors
     } else {
-        job->done(1);
+        job->setProgress(0.25);
     }
 
     // Uninstall.bat may have deleted some files
@@ -134,23 +133,23 @@ void PackageVersion::uninstall(Job* job)
 
     if (job->getErrorMessage().isEmpty()) {
         deleteShortcuts();
-        job->done(1);
+        job->setProgress(0.5);
     }
 
     if (job->getErrorMessage().isEmpty()) {
         if (d.exists()) {
             bool r = WPMUtils::removeDirectory(d, &errMsg);
-            job->done(1);
+            job->setProgress(0.75);
             if (!r) {
                 Sleep(5000); // 5 Seconds
                 r = WPMUtils::removeDirectory(d, &errMsg);
             }
             if (r) {
-                job->done(-1);
+                job->setProgress(1);
             } else
                 job->setErrorMessage(errMsg);
         } else {
-            job->done(-1);
+            job->setProgress(1);
         }
     }
 
@@ -225,7 +224,6 @@ bool PackageVersion::createShortcuts(QString *errMsg)
 void PackageVersion::install(Job* job)
 {
     job->setHint("Preparing");
-    job->setAmountOfWork(100);
 
     qDebug() << "install.1";
     if (!installed()) {
@@ -237,7 +235,7 @@ void PackageVersion::install(Job* job)
 
         qDebug() << "install.3";
         job->setHint("Downloading");
-        Job* djob = job->newSubJob(60);
+        Job* djob = job->newSubJob(0.60);
         QString errMsg;
         QTemporaryFile* f = Downloader::download(djob, this->download);
         qDebug() << "install.3.2 " << (f == 0) << djob->getErrorMessage();
@@ -256,7 +254,7 @@ void PackageVersion::install(Job* job)
                     if (unzip(f->fileName(), d.absolutePath() + "\\", &errMsg)) {
                         QString err;
                         this->createShortcuts(&err); // ignore errors
-                        job->done(30);
+                        job->setProgress(0.90);
                     } else {
                         job->setErrorMessage(QString(
                                 "Error unzipping file into directory %0: %1").
@@ -279,13 +277,13 @@ void PackageVersion::install(Job* job)
                     } else {
                         QString err;
                         this->createShortcuts(&err); // ignore errors
-                        job->done(30);
+                        job->setProgress(0.90);
                     }
                 }
                 if (job->getErrorMessage().isEmpty()) {
                     if (!this->saveFiles(&errMsg)) {
                         job->setErrorMessage(errMsg);
-                        job->done(1);
+                        job->setProgress(1);
                     }
                 }
                 if (job->getErrorMessage().isEmpty()) {
@@ -294,7 +292,7 @@ void PackageVersion::install(Job* job)
                             "\\" + p)) {
                         job->setHint("Running the installation script");
                         if (this->executeFile(p, &errMsg)) {
-                            job->done(-1);
+                            job->setProgress(1);
                         } else {
                             job->setErrorMessage(errMsg);
 
@@ -302,7 +300,7 @@ void PackageVersion::install(Job* job)
                             WPMUtils::removeDirectory2(d, &errMsg);
                         }
                     } else {
-                        job->done(-1);
+                        job->setProgress(1);
                     }
                 }
             } else {
@@ -312,7 +310,7 @@ void PackageVersion::install(Job* job)
             delete f;
         }
     } else {
-        job->done(-1);
+        job->setProgress(1);
     }
 
     job->complete();
