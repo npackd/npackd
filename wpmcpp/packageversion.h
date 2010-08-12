@@ -91,6 +91,13 @@ public:
      * @param job job for this method
      */
     void uninstall(Job* job);
+
+    /**
+     * Updates this version to the newest available.
+     *
+     * @param job job for this method
+     */
+    void update(Job* job);
 };
 
 Q_DECLARE_METATYPE(PackageVersion);

@@ -90,12 +90,12 @@ int Version::compare(const Version &other) const
     int r = 0;
     for (int i = 0; i < nmax; i++) {
         int a;
-        if (i < nparts)
+        if (i < this->nparts)
             a = this->parts[i];
         else
             a = 0;
         int b;
-        if (i < nparts)
+        if (i < other.nparts)
             b = other.parts[i];
         else
             b = 0;

@@ -1,7 +1,7 @@
 /********************************************************************************
 ** Form generated from reading UI file 'mainwindow.ui'
 **
-** Created: Thu Aug 12 21:20:29 2010
+** Created: Thu Aug 12 23:10:38 2010
 **      by: Qt User Interface Compiler version 4.6.3
 **
 ** WARNING! All changes made in this file will be lost when recompiling UI file!
@@ -40,6 +40,7 @@ public:
     QAction *actionUninstall;
     QAction *actionGotoPackageURL;
     QAction *actionSettings;
+    QAction *actionUpdate;
     QWidget *centralWidget;
     QVBoxLayout *verticalLayout_3;
     QFrame *frame;
@@ -72,6 +73,8 @@ public:
         actionGotoPackageURL->setObjectName(QString::fromUtf8("actionGotoPackageURL"));
         actionSettings = new QAction(MainWindow);
         actionSettings->setObjectName(QString::fromUtf8("actionSettings"));
+        actionUpdate = new QAction(MainWindow);
+        actionUpdate->setObjectName(QString::fromUtf8("actionUpdate"));
         centralWidget = new QWidget(MainWindow);
         centralWidget->setObjectName(QString::fromUtf8("centralWidget"));
         verticalLayout_3 = new QVBoxLayout(centralWidget);
@@ -158,11 +161,15 @@ public:
         menuBar->addAction(menuFile->menuAction());
         menuFile->addAction(actionInstall);
         menuFile->addAction(actionUninstall);
+        menuFile->addAction(actionUpdate);
+        menuFile->addSeparator();
         menuFile->addAction(actionGotoPackageURL);
         menuFile->addAction(actionSettings);
         menuFile->addAction(actionExit);
         mainToolBar->addAction(actionInstall);
         mainToolBar->addAction(actionUninstall);
+        mainToolBar->addAction(actionUpdate);
+        mainToolBar->addSeparator();
         mainToolBar->addAction(actionGotoPackageURL);
 
         retranslateUi(MainWindow);
@@ -178,6 +185,7 @@ public:
         actionUninstall->setText(QApplication::translate("MainWindow", "Uninstall", 0, QApplication::UnicodeUTF8));
         actionGotoPackageURL->setText(QApplication::translate("MainWindow", "Go To Package Page", 0, QApplication::UnicodeUTF8));
         actionSettings->setText(QApplication::translate("MainWindow", "Settings", 0, QApplication::UnicodeUTF8));
+        actionUpdate->setText(QApplication::translate("MainWindow", "Update", 0, QApplication::UnicodeUTF8));
         menuFile->setTitle(QApplication::translate("MainWindow", "File", 0, QApplication::UnicodeUTF8));
         dockWidget->setWindowTitle(QApplication::translate("MainWindow", "Filter", 0, QApplication::UnicodeUTF8));
         label_2->setText(QApplication::translate("MainWindow", "Status:", 0, QApplication::UnicodeUTF8));

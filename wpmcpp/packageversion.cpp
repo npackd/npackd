@@ -115,6 +115,30 @@ bool PackageVersion::installed()
     return d.exists();
 }
 
+void PackageVersion::update(Job* job)
+{
+    job->setCancellable(true);
+    Repository* r = Repository::getDefault();
+    PackageVersion* newest = r->findNewestPackageVersion(this->package);
+    if (newest->version.compare(this->version) > 0 && !newest->installed()) {
+        job->setHint("Uninstalling the old version");
+        Job* sub = job->newSubJob(0.1);
+        uninstall(sub);
+        if (sub->getErrorMessage().isEmpty() && !job->isCancelled()) {
+            delete sub;
+            job->setHint("Installing the new version");
+            sub = job->newSubJob(0.9);
+            newest->install(sub);
+            delete sub;
+        } else {
+            delete sub;
+        }
+    } else {
+        job->setProgress(1);
+    }
+    job->complete();
+}
+
 void PackageVersion::uninstall(Job* job)
 {
     QDir d = getDirectory();

@@ -23,15 +23,18 @@
 class InstallThread: public QThread
 {
     PackageVersion* pv;
-    bool install;
+
+    // 0 = uninstall, 1 = install, 2 = update
+    int install;
+
     Job* job;
 public:
-    InstallThread(PackageVersion* pv, bool install, Job* job);
+    InstallThread(PackageVersion* pv, int install, Job* job);
 
     void run();
 };
 
-InstallThread::InstallThread(PackageVersion *pv, bool install, Job* job)
+InstallThread::InstallThread(PackageVersion *pv, int install, Job* job)
 {
     this->pv = pv;
     this->install = install;
@@ -45,10 +48,16 @@ void InstallThread::run()
     qDebug() << "InstallThread::run.1";
     QString errMsg;
     if (pv) {
-        if (this->install) {
-            pv->install(job);
-        } else {
+        switch (this->install) {
+        case 0:
             pv->uninstall(job);
+            break;
+        case 1:
+            pv->install(job);
+            break;
+        case 2:
+            pv->update(job);
+            break;
         }
     } else {
         Repository::getDefault()->load(job);
@@ -296,7 +305,7 @@ void MainWindow::on_actionUninstall_activated()
             msg, QMessageBox::Yes | QMessageBox::No);
     if (b == QMessageBox::Yes) {
         Job* job = new Job();
-        InstallThread* it = new InstallThread(pv, false, job);
+        InstallThread* it = new InstallThread(pv, 0, job);
         it->start();
         it->setPriority(QThread::LowestPriority);
 
@@ -314,6 +323,17 @@ void MainWindow::on_tableWidget_itemSelectionChanged()
     PackageVersion* pv = getSelectedPackageVersion();
     this->ui->actionInstall->setEnabled(pv && !pv->installed());
     this->ui->actionUninstall->setEnabled(pv && pv->installed());
+
+    if (pv) {
+        Repository* r = Repository::getDefault();
+        PackageVersion* newest = r->findNewestPackageVersion(pv->package);
+        this->ui->actionUpdate->setEnabled(
+                newest->version.compare(pv->version) > 0 &&
+                !newest->installed());
+    } else {
+        this->ui->actionUpdate->setEnabled(false);
+    }
+
     Package* p;
     if (pv)
         p = Repository::getDefault()->findPackage(pv->package);
@@ -326,7 +346,7 @@ void MainWindow::on_tableWidget_itemSelectionChanged()
 void MainWindow::loadRepositories()
 {
     Job* job = new Job();
-    InstallThread* it = new InstallThread(0, true, job);
+    InstallThread* it = new InstallThread(0, 0, job);
     it->start();
     it->setPriority(QThread::LowestPriority);
 
@@ -344,7 +364,7 @@ void MainWindow::on_actionInstall_activated()
 {
     PackageVersion* pv = getSelectedPackageVersion();
     Job* job = new Job();
-    InstallThread* it = new InstallThread(pv, true, job);
+    InstallThread* it = new InstallThread(pv, 1, job);
     it->start();
     it->setPriority(QThread::LowestPriority);
 
@@ -429,5 +449,36 @@ void MainWindow::on_actionSettings_triggered()
             qDeleteAll(urls);
             urls.clear();
         }
+    }
+}
+
+void MainWindow::on_actionUpdate_triggered()
+{
+    PackageVersion* pv = getSelectedPackageVersion();
+    Repository* r = Repository::getDefault();
+    PackageVersion* newest = r->findNewestPackageVersion(pv->package);
+    QString msg("This will uninstall the current version\n"
+            "and install the newest available (%1).\n"
+            "The directory %2 will be completely deleted. \n"
+            "There is no way to restore the files. \n"
+            "Are you sure?");
+    msg = msg.arg(newest->version.getVersionString()).
+            arg(pv->getDirectory().absolutePath());
+
+    QMessageBox::StandardButton b = QMessageBox::warning(this,
+            "Update",
+            msg, QMessageBox::Yes | QMessageBox::No);
+    if (b == QMessageBox::Yes) {
+        Job* job = new Job();
+        InstallThread* it = new InstallThread(pv, 2, job);
+        it->start();
+        it->setPriority(QThread::LowestPriority);
+
+        waitFor(job);
+        it->wait();
+        delete it;
+
+        fillList();
+        delete job;
     }
 }
