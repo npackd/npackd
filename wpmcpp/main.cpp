@@ -20,6 +20,8 @@ int main(int argc, char *argv[])
     }
     */
 
+    LoadLibrary(L"exchndl.dll");
+
     QApplication a(argc, argv);
     QNetworkProxyFactory::setUseSystemConfiguration(true);
 
