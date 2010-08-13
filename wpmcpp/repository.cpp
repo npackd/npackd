@@ -77,7 +77,7 @@ PackageVersion* Repository::createPackageVersion(QDomElement* e)
         a->files.append(createPackageVersionFile(&e));
     }
 
-    qDebug() << "Repository::createPackageVersion.2";
+    // qDebug() << "Repository::createPackageVersion.2";
     return a;
 }
 
