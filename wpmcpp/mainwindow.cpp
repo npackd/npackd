@@ -249,8 +249,6 @@ void MainWindow::fillList()
         QString desc;
         if (p)
             desc = p->description;
-        if (desc.isEmpty())
-            desc = pv->package;
         newItem = new QTableWidgetItem(desc);
         newItem->setData(Qt::UserRole, qVariantFromValue((void*) pv));
         t->setItem(n, 1, newItem);
