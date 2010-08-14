@@ -294,8 +294,13 @@
         <url>http://www.microsoft.com/downloads/details.aspx?displaylang=en&amp;FamilyID=d88e4542-b174-4198-ae31-6884e9edd524</url>
         <description>Visio viewer</description>
     </package>
+    <package name="com.microsoft.WordViewer">
+        <title>Word Viewer</title>
+        <url>http://www.microsoft.com/downloads/details.aspx?displaylang=en&amp;FamilyID=3657ce88-7cfa-457a-9aec-f4f827f20cac</url>
+        <description>Word viewer</description>
+    </package>
     <package name="com.microsoft.WordViewerInstaller">
-        <title>Word Viewer installer</title>
+        <title>Word Viewer installer (deprecated, use the non-installer package instead)</title>
         <url>http://www.microsoft.com/downloads/details.aspx?displaylang=en&amp;FamilyID=3657ce88-7cfa-457a-9aec-f4f827f20cac</url>
         <description>Word viewer</description>
     </package>
@@ -1411,6 +1416,12 @@ set d=%ProgramFiles%
             type="one-file">
         <important-file path="abiword-setup-2.8.6.exe" title="Installer"/>
         <url>http://www.abisource.com/downloads/abiword/2.8.6/Windows/abiword-setup-2.8.6.exe</url>
+    </version>
+    <version name="12.0.6038.3000" package="com.microsoft.WordViewer"
+            type="one-file">
+        <file path=".WPM\Install.bat">wordview_en-us.exe /quiet /norestart</file>
+        <file path=".WPM\Uninstall.bat">msiexec.exe /qb! /norestart /x{90850409-6000-11D3-8CFE-0150048383C9}</file>
+        <url>http://download.microsoft.com/download/6/a/6/6a689355-b155-4fa7-ad8a-dfe150fe7ac6/wordview_en-us.exe</url>
     </version>
     <version name="12.0.6038.3000" package="com.microsoft.WordViewerInstaller"
             type="one-file">
