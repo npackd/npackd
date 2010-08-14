@@ -172,7 +172,7 @@ PackageVersion* MainWindow::getSelectedPackageVersion()
 
 void MainWindow::fillList()
 {
-    qDebug() << "MainWindow::fillList";
+    // qDebug() << "MainWindow::fillList";
     QTableWidget* t = this->ui->tableWidget;
 
     t->clearContents();
