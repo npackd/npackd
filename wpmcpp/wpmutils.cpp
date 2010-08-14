@@ -159,8 +159,8 @@ bool WPMUtils::removeDirectory(QDir &aDir, QString *errMsg)
                     aDir.absolutePath());
         }
     }
-    qDebug() << "PackageVersion::removeDirectory: " << aDir << " " << ok <<
-            *errMsg;
+    // qDebug() << "PackageVersion::removeDirectory: " << aDir << " " << ok <<
+    //        *errMsg;
     return ok;
 }
 

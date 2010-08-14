@@ -156,7 +156,8 @@ void PackageVersion::uninstall(Job* job)
     d.refresh();
 
     if (job->getErrorMessage().isEmpty()) {
-        deleteShortcuts();
+        QDir d(WPMUtils::getProgramShortcutsDir());
+        deleteShortcuts(d);
         job->setProgress(0.5);
     }
 
@@ -430,7 +431,7 @@ bool PackageVersion::executeFile(QString& path, QString* errMsg)
     return success;
 }
 
-void PackageVersion::deleteShortcuts()
+void PackageVersion::deleteShortcuts(QDir& d)
 {
     // Get a pointer to the IShellLink interface.
     IShellLink* psl;
@@ -440,40 +441,43 @@ void PackageVersion::deleteShortcuts()
     if (SUCCEEDED(hres)) {
         QDir instDir = getDirectory();
         QString instPath = instDir.absolutePath();
-        QDir d(WPMUtils::getProgramShortcutsDir());
         QFileInfoList entries = d.entryInfoList(
-                QDir::NoDotAndDotDot | QDir::Files);
+                QDir::NoDotAndDotDot | QDir::Files | QDir::Dirs);
         int count = entries.size();
         for (int idx = 0; idx < count; idx++) {
             QFileInfo entryInfo = entries[idx];
             QString path = entryInfo.absoluteFilePath();
+            if (entryInfo.isDir()) {
+                QDir dd(path);
+                deleteShortcuts(dd);
+            } else {
+                IPersistFile* ppf;
 
-            IPersistFile* ppf;
+                // Query IShellLink for the IPersistFile interface for saving the
+                // shortcut in persistent storage.
+                hres = psl->QueryInterface(IID_IPersistFile, (LPVOID*)&ppf);
 
-            // Query IShellLink for the IPersistFile interface for saving the
-            // shortcut in persistent storage.
-            hres = psl->QueryInterface(IID_IPersistFile, (LPVOID*)&ppf);
-
-            if (SUCCEEDED(hres)) {
-                // Save the link by calling IPersistFile::Save.
-                hres = ppf->Load((WCHAR*) path.utf16(), STGM_READ);
                 if (SUCCEEDED(hres)) {
-                    WCHAR info[MAX_PATH + 1];
-                    hres = psl->GetPath(info, MAX_PATH,
-                            (WIN32_FIND_DATAW*) 0, SLGP_UNCPRIORITY);
+                    // Save the link by calling IPersistFile::Save.
+                    hres = ppf->Load((WCHAR*) path.utf16(), STGM_READ);
                     if (SUCCEEDED(hres)) {
-                        QString targetPath;
-                        targetPath.setUtf16((ushort*) info, wcslen(info));
-                        qDebug() << "deleteShortcuts " << targetPath << " " <<
-                                instPath;
-                        if (WPMUtils::isUnder(targetPath,
-                                              instPath)) {
-                            bool ok = QFile::remove(path);
-                            qDebug() << "deleteShortcuts true" << ok;
+                        WCHAR info[MAX_PATH + 1];
+                        hres = psl->GetPath(info, MAX_PATH,
+                                (WIN32_FIND_DATAW*) 0, SLGP_UNCPRIORITY);
+                        if (SUCCEEDED(hres)) {
+                            QString targetPath;
+                            targetPath.setUtf16((ushort*) info, wcslen(info));
+                            qDebug() << "deleteShortcuts " << targetPath << " " <<
+                                    instPath;
+                            if (WPMUtils::isUnder(targetPath,
+                                                  instPath)) {
+                                bool ok = QFile::remove(path);
+                                qDebug() << "deleteShortcuts true" << ok;
+                            }
                         }
                     }
+                    ppf->Release();
                 }
-                ppf->Release();
             }
         }
         psl->Release();

@@ -17,7 +17,7 @@ class PackageVersion
 private:
     bool unzip(QString zipfile, QString outputdir, QString* errMsg);
     bool createShortcuts(QString* errMsg);
-    void deleteShortcuts();
+    void deleteShortcuts(QDir& d);
     bool saveFiles(QString* errMsg);
     bool executeFile(QString& path, QString* errMsg);
 
