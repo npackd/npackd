@@ -467,12 +467,12 @@ void PackageVersion::deleteShortcuts(QDir& d)
                         if (SUCCEEDED(hres)) {
                             QString targetPath;
                             targetPath.setUtf16((ushort*) info, wcslen(info));
-                            qDebug() << "deleteShortcuts " << targetPath << " " <<
-                                    instPath;
+                            // qDebug() << "deleteShortcuts " << targetPath << " " <<
+                            //        instPath;
                             if (WPMUtils::isUnder(targetPath,
                                                   instPath)) {
                                 bool ok = QFile::remove(path);
-                                qDebug() << "deleteShortcuts true" << ok;
+                                // qDebug() << "deleteShortcuts true" << ok;
                             }
                         }
                     }
