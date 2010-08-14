@@ -159,6 +159,10 @@ void PackageVersion::uninstall(Job* job)
         QDir d(WPMUtils::getProgramShortcutsDir());
         deleteShortcuts(d);
         job->setProgress(0.5);
+
+        QDir d2(WPMUtils::getCommonProgramShortcutsDir());
+        deleteShortcuts(d2);
+        job->setProgress(0.6);
     }
 
     if (job->getErrorMessage().isEmpty()) {
@@ -447,6 +451,7 @@ void PackageVersion::deleteShortcuts(QDir& d)
         for (int idx = 0; idx < count; idx++) {
             QFileInfo entryInfo = entries[idx];
             QString path = entryInfo.absoluteFilePath();
+            // qDebug() << "PackageVersion::deleteShortcuts " << path;
             if (entryInfo.isDir()) {
                 QDir dd(path);
                 deleteShortcuts(dd);

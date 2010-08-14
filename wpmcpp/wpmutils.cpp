@@ -112,6 +112,13 @@ QString WPMUtils::getProgramShortcutsDir()
     return  QString::fromUtf16(reinterpret_cast<ushort*>(dir));
 }
 
+QString WPMUtils::getCommonProgramShortcutsDir()
+{
+    WCHAR dir[MAX_PATH];
+    SHGetFolderPath(0, CSIDL_COMMON_PROGRAMS, NULL, 0, dir);
+    return  QString::fromUtf16(reinterpret_cast<ushort*>(dir));
+}
+
 bool WPMUtils::removeDirectory2(QDir &d, QString *errMsg)
 {
     bool r = WPMUtils::removeDirectory(d, errMsg);

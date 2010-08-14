@@ -20,6 +20,12 @@ int main(int argc, char *argv[])
     }
     */
 
+    /* test
+    QString fn("C:\\Program Files (x86)\\wpm\\no.itefix.CWRsyncServer-4.0.4\\Bin\\PrepUploadDir.exe");
+    QString p("C:\\Program Files (x86)\\WPM\\no.itefix.CWRsyncServer-4.0.4");
+    qDebug() << WPMUtils::isUnder(fn, p);
+    */
+
     LoadLibrary(L"exchndl.dll");
 
     QApplication a(argc, argv);

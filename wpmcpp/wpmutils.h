@@ -52,6 +52,12 @@ public:
     static QString getProgramShortcutsDir();
 
     /**
+     * @return directory like
+     *     "C:\Documents and Settings\All Users\Start Menu\Programs"
+     */
+    static QString getCommonProgramShortcutsDir();
+
+    /**
      * Formats a Windows error message.
      *
      * @param err see GetLastError()
