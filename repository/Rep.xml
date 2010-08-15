@@ -1315,11 +1315,14 @@ set d=%ProgramFiles%
         <important-file path="Launchy2.5.exe" title="Installer"/>
         <url>http://downloads.sourceforge.net/project/launchy/Launchy%20for%20Windows/0.5/Launchy2.5.exe?71004567</url>
     </version>
+    <!--
+        the installation does not work if the target directory already exists
+    -->
     <version name="2.1" package="com.codesector.TeraCopy" type="one-file">
         <file path=".WPM\Install2.bat">
 ren teracopy.exe teracopyi.exe
-teracopyi.exe /SP- /VERYSILENT /SUPPRESSMSGBOXES /NOCANCEL /NORESTART /DIR="%CD%"</file>
-        <file path=".WPM\Uninstall.bat">unins000.exe /VERYSILENT /SUPPRESSMSGBOXES /NORESTART</file>
+teracopyi.exe /SP- /VERYSILENT /SUPPRESSMSGBOXES /NOCANCEL /NORESTART /DIR="%CD%\Files"</file>
+        <file path=".WPM\Uninstall.bat">Files\unins000.exe /VERYSILENT /SUPPRESSMSGBOXES /NORESTART</file>
         <url>http://www.codesector.com/files/teracopy.exe</url>
     </version>
     <version name="2.1" package="com.codesector.TeraCopyInstaller"
