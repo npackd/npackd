@@ -1317,7 +1317,9 @@ set d=%ProgramFiles%
     </version>
     <version name="2.1" package="com.codesector.TeraCopy"
             type="one-file">
-        <file path=".WPM\Install.bat">teracopy.exe /SP- /VERYSILENT /SUPPRESSMSGBOXES /NOCANCEL /NORESTART /DIR="%CD%"</file>
+        <file path=".WPM\Install.bat">ren teracopy.exe teracopyi.exe
+teracopyi.exe /SP- /VERYSILENT /SUPPRESSMSGBOXES /NOCANCEL /NORESTART /DIR="%CD%"
+del teracopyi.exe</file>
         <file path=".WPM\Uninstall.bat">unins000.exe /VERYSILENT /SUPPRESSMSGBOXES /NORESTART</file>
         <url>http://www.codesector.com/files/teracopy.exe</url>
     </version>
