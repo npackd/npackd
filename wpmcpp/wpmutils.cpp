@@ -14,7 +14,7 @@
 //#include <windows.h>
 //#include <initguid.h>
 //#include <ole2.h>
-#include <mstask.h>
+//#include <mstask.h>
 //#include <msterr.h>
 //#include <objidl.h>
 //#include <wchar.h>
