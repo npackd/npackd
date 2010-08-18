@@ -1,5 +1,6 @@
 #include <time.h>
 #include <math.h>
+#include <windows.h>
 
 #include "qdebug.h"
 #include "QTime"
@@ -19,6 +20,7 @@ ProgressDialog::ProgressDialog(QWidget *parent, Job* job) :
 
     connect(job, SIGNAL(changed()), this, SLOT(jobChanged()),
             Qt::QueuedConnection);
+    EnableMenuItem(GetSystemMenu(this->winId(), false), SC_CLOSE, MF_GRAYED);
 }
 
 void ProgressDialog::jobChanged()
