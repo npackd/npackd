@@ -13,12 +13,12 @@
 int main(int argc, char *argv[])
 {
     /* currently this prints only the file names without the whole path
-       for 64-bit Windows cause WPM is a 32-bit process
+       for 64-bit Windows cause WPM is a 32-bit process*/
     QStringList files = WPMUtils::getProcessFiles();
     for (int i = 0; i < files.count(); i++) {
         qDebug() << files.at(i);
     }
-    */
+    /**/
 
     /* test
     QString fn("C:\\Program Files (x86)\\wpm\\no.itefix.CWRsyncServer-4.0.4\\Bin\\PrepUploadDir.exe");

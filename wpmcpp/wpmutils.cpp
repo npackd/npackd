@@ -1,6 +1,9 @@
+#define _WIN32_WINNT 0x0501
+
 #include <windows.h>
 #include <shellapi.h>
 #include <shlobj.h>
+#include <psapi.h>
 
 #include "qdebug.h"
 #include "qdir.h"
@@ -63,8 +66,8 @@ void WPMUtils::formatMessage(DWORD err, QString* errMsg)
 
 //  Forward declarations:
 BOOL ListProcessModules( DWORD dwPID );
-void printError( TCHAR* msg );
 
+// see also http://msdn.microsoft.com/en-us/library/ms683217(v=VS.85).aspx
 QStringList WPMUtils::getProcessFiles()
 {
     QStringList result;
@@ -94,6 +97,8 @@ QStringList WPMUtils::getProcessFiles()
         QString exeFile;
         exeFile.setUtf16((ushort*) pe32.szExeFile, wcslen(pe32.szExeFile));
         result.append(exeFile);
+
+        // GetProcessImageFileNameW(pe32.);
 
         // List the modules and threads associated with this process
         QStringList modules = ListProcessModules(pe32.th32ProcessID);
