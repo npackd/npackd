@@ -79,6 +79,7 @@ bool MainWindow::winEvent(MSG* message, long* result)
                 ((QApplication*) QApplication::instance())->
                         setQuitOnLastWindowClosed(true);
                 this->showMaximized();
+                this->activateWindow();
                 break;
             case (LPARAM) NIN_BALLOONTIMEOUT:
                 ((QApplication*) QApplication::instance())->quit();
