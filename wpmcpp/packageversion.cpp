@@ -156,6 +156,7 @@ void PackageVersion::uninstall(Job* job)
     d.refresh();
 
     if (job->getErrorMessage().isEmpty()) {
+        job->setHint("Deleting shortcuts");
         QDir d(WPMUtils::getProgramShortcutsDir());
         deleteShortcuts(d);
         job->setProgress(0.5);
@@ -167,6 +168,7 @@ void PackageVersion::uninstall(Job* job)
 
     if (job->getErrorMessage().isEmpty()) {
         if (d.exists()) {
+            job->setHint("Deleting files");
             bool r = WPMUtils::removeDirectory(d, &errMsg);
             job->setProgress(0.75);
             if (!r) {

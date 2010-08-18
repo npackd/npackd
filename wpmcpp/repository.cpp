@@ -199,6 +199,8 @@ void Repository::load(Job* job)
     QList<QUrl*> urls = getRepositoryURLs();
     if (urls.count() > 0) {
         for (int i = 0; i < urls.count(); i++) {
+            job->setHint(QString("Repository %1 of %2").arg(i + 1).
+                         arg(urls.count()));
             Job* s = job->newSubJob(1 / urls.count());
             loadOne(urls.at(i), s);
             if (!s->getErrorMessage().isEmpty()) {

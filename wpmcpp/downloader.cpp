@@ -198,7 +198,7 @@ bool downloadWin(Job* job, const QUrl& url, QTemporaryFile* file,
         if ((job != 0) && (contentLength > 0)) {
             job->setProgress(0.04 +
                     ((double) alreadyRead / contentLength) * 0.95);
-            job->setHint(QString("%0 of %1 Bytes").arg(alreadyRead).
+            job->setHint(QString("%L0 of %L1 Bytes").arg(alreadyRead).
                          arg(contentLength));
         }
         if (job && job->isCancelled()) {
