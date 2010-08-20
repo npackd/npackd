@@ -340,6 +340,8 @@ void MainWindow::on_tableWidget_itemSelectionChanged()
         p = 0;
     this->ui->actionGotoPackageURL->setEnabled(pv && p &&
             QUrl(p->url).isValid());
+
+    this->ui->actionTest_Download_Site->setEnabled(pv != 0);
 }
 
 void MainWindow::loadRepositories()
@@ -479,5 +481,17 @@ void MainWindow::on_actionUpdate_triggered()
 
         fillList();
         delete job;
+    }
+}
+
+void MainWindow::on_actionTest_Download_Site_triggered()
+{
+    PackageVersion* pv = getSelectedPackageVersion();
+    if (pv) {
+        QString s = "http://www.urlvoid.com/scan/" + pv->download.host();
+        QUrl url(s);
+        if (url.isValid()) {
+            QDesktopServices::openUrl(url);
+        }
     }
 }

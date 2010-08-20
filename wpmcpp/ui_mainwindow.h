@@ -1,7 +1,7 @@
 /********************************************************************************
 ** Form generated from reading UI file 'mainwindow.ui'
 **
-** Created: Thu Aug 12 23:10:38 2010
+** Created: Fri Aug 20 22:09:37 2010
 **      by: Qt User Interface Compiler version 4.6.3
 **
 ** WARNING! All changes made in this file will be lost when recompiling UI file!
@@ -41,6 +41,7 @@ public:
     QAction *actionGotoPackageURL;
     QAction *actionSettings;
     QAction *actionUpdate;
+    QAction *actionTest_Download_Site;
     QWidget *centralWidget;
     QVBoxLayout *verticalLayout_3;
     QFrame *frame;
@@ -75,6 +76,8 @@ public:
         actionSettings->setObjectName(QString::fromUtf8("actionSettings"));
         actionUpdate = new QAction(MainWindow);
         actionUpdate->setObjectName(QString::fromUtf8("actionUpdate"));
+        actionTest_Download_Site = new QAction(MainWindow);
+        actionTest_Download_Site->setObjectName(QString::fromUtf8("actionTest_Download_Site"));
         centralWidget = new QWidget(MainWindow);
         centralWidget->setObjectName(QString::fromUtf8("centralWidget"));
         verticalLayout_3 = new QVBoxLayout(centralWidget);
@@ -164,6 +167,8 @@ public:
         menuFile->addAction(actionUpdate);
         menuFile->addSeparator();
         menuFile->addAction(actionGotoPackageURL);
+        menuFile->addAction(actionTest_Download_Site);
+        menuFile->addSeparator();
         menuFile->addAction(actionSettings);
         menuFile->addAction(actionExit);
         mainToolBar->addAction(actionInstall);
@@ -186,6 +191,7 @@ public:
         actionGotoPackageURL->setText(QApplication::translate("MainWindow", "Go To Package Page", 0, QApplication::UnicodeUTF8));
         actionSettings->setText(QApplication::translate("MainWindow", "Settings", 0, QApplication::UnicodeUTF8));
         actionUpdate->setText(QApplication::translate("MainWindow", "Update", 0, QApplication::UnicodeUTF8));
+        actionTest_Download_Site->setText(QApplication::translate("MainWindow", "Test Download Site", 0, QApplication::UnicodeUTF8));
         menuFile->setTitle(QApplication::translate("MainWindow", "File", 0, QApplication::UnicodeUTF8));
         dockWidget->setWindowTitle(QApplication::translate("MainWindow", "Filter", 0, QApplication::UnicodeUTF8));
         label_2->setText(QApplication::translate("MainWindow", "Status:", 0, QApplication::UnicodeUTF8));
