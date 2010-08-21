@@ -1,7 +1,7 @@
 /********************************************************************************
 ** Form generated from reading UI file 'progressdialog.ui'
 **
-** Created: Thu Aug 12 21:20:29 2010
+** Created: Sat Aug 21 17:28:16 2010
 **      by: Qt User Interface Compiler version 4.6.3
 **
 ** WARNING! All changes made in this file will be lost when recompiling UI file!
@@ -35,6 +35,8 @@ public:
     QLabel *labelStep;
     QLabel *label_2;
     QLabel *labelElapsed;
+    QLabel *label_3;
+    QLabel *label_remainingTime;
     QProgressBar *progressBar;
     QSpacerItem *verticalSpacer;
     QHBoxLayout *horizontalLayout;
@@ -45,7 +47,7 @@ public:
     {
         if (ProgressDialog->objectName().isEmpty())
             ProgressDialog->setObjectName(QString::fromUtf8("ProgressDialog"));
-        ProgressDialog->resize(317, 116);
+        ProgressDialog->resize(339, 135);
         verticalLayout = new QVBoxLayout(ProgressDialog);
         verticalLayout->setObjectName(QString::fromUtf8("verticalLayout"));
         formLayout = new QFormLayout();
@@ -69,6 +71,16 @@ public:
         labelElapsed->setObjectName(QString::fromUtf8("labelElapsed"));
 
         formLayout->setWidget(1, QFormLayout::FieldRole, labelElapsed);
+
+        label_3 = new QLabel(ProgressDialog);
+        label_3->setObjectName(QString::fromUtf8("label_3"));
+
+        formLayout->setWidget(2, QFormLayout::LabelRole, label_3);
+
+        label_remainingTime = new QLabel(ProgressDialog);
+        label_remainingTime->setObjectName(QString::fromUtf8("label_remainingTime"));
+
+        formLayout->setWidget(2, QFormLayout::FieldRole, label_remainingTime);
 
 
         verticalLayout->addLayout(formLayout);
@@ -110,6 +122,8 @@ public:
         labelStep->setText(QApplication::translate("ProgressDialog", "-", 0, QApplication::UnicodeUTF8));
         label_2->setText(QApplication::translate("ProgressDialog", "Elapsed Time:", 0, QApplication::UnicodeUTF8));
         labelElapsed->setText(QApplication::translate("ProgressDialog", "-", 0, QApplication::UnicodeUTF8));
+        label_3->setText(QApplication::translate("ProgressDialog", "Remaining Time:", 0, QApplication::UnicodeUTF8));
+        label_remainingTime->setText(QApplication::translate("ProgressDialog", "-", 0, QApplication::UnicodeUTF8));
         pushButtonCancel->setText(QApplication::translate("ProgressDialog", "Cancel", 0, QApplication::UnicodeUTF8));
     } // retranslateUi
 

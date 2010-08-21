@@ -36,13 +36,26 @@ void ProgressDialog::jobChanged()
             time_t now;
             time(&now);
             time_t diff = difftime(now, started);
+
             int sec = diff % 60;
             diff /= 60;
             int min = diff % 60;
             diff /= 60;
             int h = diff;
+
             QTime e(h, min, sec);
             ui->labelElapsed->setText(e.toString());
+
+            diff = difftime(now, started);
+            diff = lround(diff * (1 / job->getProgress() - 1));
+            sec = diff % 60;
+            diff /= 60;
+            min = diff % 60;
+            diff /= 60;
+            h = diff;
+
+            QTime r(h, min, sec);
+            ui->label_remainingTime->setText(r.toString());
         } else {
             time(&this->started);
             ui->labelElapsed->setText("-");

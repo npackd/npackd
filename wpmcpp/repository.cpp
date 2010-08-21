@@ -219,7 +219,8 @@ void Repository::load(Job* job)
     } else {
         job->setErrorMessage("No repositories defined");
     }
-    qDebug() << "Repository::load.3";
+
+    // qDebug() << "Repository::load.3";
 
     job->setHint("Scanning for installed package versions");
     addUnknownExistingPackages();
@@ -234,10 +235,10 @@ void Repository::loadOne(QUrl* url, Job* job) {
     job->setHint("Downloading");
     Job* djob = job->newSubJob(0.90);
     QTemporaryFile* f = Downloader::download(djob, *url);
-    qDebug() << "Repository::load.1";
+    // qDebug() << "Repository::loadOne.1";
     if (f) {
         job->setHint("Parsing the content");
-        qDebug() << "Repository::load.2";
+        // qDebug() << "Repository::loadOne.2";
         QDomDocument doc;
         int errorLine;
         int errorColumn;
