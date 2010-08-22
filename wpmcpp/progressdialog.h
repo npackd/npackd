@@ -27,7 +27,10 @@ public:
     ProgressDialog(QWidget *parent, Job* job);
 
     ~ProgressDialog();
+public Q_SLOTS:
+    void reject();
 private slots:
+    void on_ProgressDialog_rejected();
     void on_pushButtonCancel_clicked();
     void jobChanged();
 };

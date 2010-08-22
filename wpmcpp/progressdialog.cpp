@@ -5,6 +5,8 @@
 #include "qdebug.h"
 #include "QTime"
 #include "qapplication.h"
+#include "qdialog.h"
+#include <QCloseEvent>
 
 #include "progressdialog.h"
 #include "ui_progressdialog.h"
@@ -21,6 +23,11 @@ ProgressDialog::ProgressDialog(QWidget *parent, Job* job) :
     connect(job, SIGNAL(changed()), this, SLOT(jobChanged()),
             Qt::QueuedConnection);
     EnableMenuItem(GetSystemMenu(this->winId(), false), SC_CLOSE, MF_GRAYED);
+}
+
+void ProgressDialog::reject()
+{
+
 }
 
 void ProgressDialog::jobChanged()
@@ -89,4 +96,9 @@ void ProgressDialog::on_pushButtonCancel_clicked()
 {
     ui->pushButtonCancel->setEnabled(false);
     job->cancel();
+}
+
+void ProgressDialog::on_ProgressDialog_rejected()
+{
+
 }

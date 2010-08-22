@@ -1,7 +1,7 @@
 /********************************************************************************
 ** Form generated from reading UI file 'progressdialog.ui'
 **
-** Created: Sat Aug 21 17:28:16 2010
+** Created: Sun Aug 22 16:56:12 2010
 **      by: Qt User Interface Compiler version 4.6.3
 **
 ** WARNING! All changes made in this file will be lost when recompiling UI file!
@@ -103,6 +103,7 @@ public:
 
         pushButtonCancel = new QPushButton(ProgressDialog);
         pushButtonCancel->setObjectName(QString::fromUtf8("pushButtonCancel"));
+        pushButtonCancel->setDefault(true);
 
         horizontalLayout->addWidget(pushButtonCancel);
 
