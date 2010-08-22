@@ -1,5 +1,3 @@
-#define _WIN32_WINNT 0x0501
-
 #include <windows.h>
 #include <shellapi.h>
 #include <shlobj.h>
@@ -42,10 +40,12 @@ QString WPMUtils::getProgramFilesDir()
     return  QString::fromUtf16(reinterpret_cast<ushort*>(dir));
 }
 
-bool WPMUtils::isUnder(QString &file, QString &dir)
+bool WPMUtils::isUnder(const QString &file, const QString &dir)
 {
-    QString f = file.replace('/', '\\').toLower();
-    QString d = dir.replace('/', '\\').toLower();
+    QString f = file;
+    QString d = dir;
+    f = f.replace('/', '\\').toLower();
+    d = d.replace('/', '\\').toLower();
 
     return f.startsWith(d);
 }
@@ -64,50 +64,68 @@ void WPMUtils::formatMessage(DWORD err, QString* errMsg)
     }
 }
 
-//  Forward declarations:
-BOOL ListProcessModules( DWORD dwPID );
-
 // see also http://msdn.microsoft.com/en-us/library/ms683217(v=VS.85).aspx
 QStringList WPMUtils::getProcessFiles()
 {
-    QStringList result;
+    QStringList r;
 
-    HANDLE hProcessSnap;
-    PROCESSENTRY32 pe32;
+    OSVERSIONINFO osvi;
+    osvi.dwOSVersionInfoSize = sizeof(OSVERSIONINFO);
+    GetVersionEx(&osvi);
 
-    // Take a snapshot of all processes in the system.
-    hProcessSnap = CreateToolhelp32Snapshot(TH32CS_SNAPPROCESS, 0);
-    if (hProcessSnap == INVALID_HANDLE_VALUE) {
-        return result;
+    // >= Windows Vista
+    if (osvi.dwMajorVersion >= 6) {
+        BOOL WINAPI (*lpfQueryFullProcessImageName)(
+                HANDLE, DWORD, LPTSTR, PDWORD);
+
+        HINSTANCE hInstLib = LoadLibraryA("KERNEL32.DLL");
+        lpfQueryFullProcessImageName =
+                (BOOL (WINAPI*) (HANDLE, DWORD, LPTSTR, PDWORD))
+                GetProcAddress(hInstLib, "QueryFullProcessImageNameW");
+
+        DWORD aiPID[1000], iCb = 1000;
+        DWORD iCbneeded;
+        if (!EnumProcesses(aiPID, iCb, &iCbneeded)) {
+            FreeLibrary(hInstLib);
+            return r;
+        }
+
+        // How many processes are there?
+        int iNumProc = iCbneeded / sizeof(DWORD);
+
+        // Get and match the name of each process
+        for (int i = 0; i < iNumProc; i++) {
+            // First, get a handle to the process
+            HANDLE hProc = OpenProcess(
+                    PROCESS_QUERY_INFORMATION | PROCESS_VM_READ,
+                    FALSE, aiPID[i]);
+
+            // Now, get the process name
+            if (hProc) {
+                HMODULE hMod;
+                if (EnumProcessModules(hProc, &hMod, sizeof(hMod), &iCbneeded)) {
+                    if (iCbneeded != 0) {
+                        HMODULE* modules = new HMODULE[iCbneeded / sizeof(HMODULE)];
+                        if (EnumProcessModules(hProc, modules, iCbneeded,
+                                &iCbneeded)) {
+                            DWORD len = MAX_PATH;
+                            WCHAR szName[MAX_PATH];
+                            if (lpfQueryFullProcessImageName(hProc, 0, szName,
+                                    &len)) {
+                                QString s;
+                                s.setUtf16((ushort*) szName, len);
+                                r.append(s);
+                            }
+                        }
+                        delete[] modules;
+                    }
+                }
+                CloseHandle(hProc);
+            }
+        }
+        FreeLibrary(hInstLib);
     }
-
-    // Set the size of the structure before using it.
-    pe32.dwSize = sizeof(PROCESSENTRY32);
-
-    // Retrieve information about the first process,
-    // and exit if unsuccessful
-    if (!Process32First(hProcessSnap, &pe32)) {
-        CloseHandle(hProcessSnap); // clean the snapshot object
-        return result;
-    }
-
-    // Now walk the snapshot of processes, and
-    // display information about each process in turn
-    do {
-        QString exeFile;
-        exeFile.setUtf16((ushort*) pe32.szExeFile, wcslen(pe32.szExeFile));
-        result.append(exeFile);
-
-        // GetProcessImageFileNameW(pe32.);
-
-        // List the modules and threads associated with this process
-        QStringList modules = ListProcessModules(pe32.th32ProcessID);
-        result.append(modules);
-    } while(Process32Next(hProcessSnap, &pe32));
-
-    CloseHandle(hProcessSnap);
-
-    return result;
+    return r;
 }
 
 QString WPMUtils::getProgramShortcutsDir()
@@ -265,39 +283,3 @@ int main2(int argc, char **argv)
   return 0;
 }
 */
-
-
-QStringList WPMUtils::ListProcessModules(DWORD dwPID)
-{
-    QStringList result;
-
-    HANDLE hModuleSnap = INVALID_HANDLE_VALUE;
-    MODULEENTRY32 me32;
-
-    // Take a snapshot of all modules in the specified process.
-    hModuleSnap = CreateToolhelp32Snapshot(TH32CS_SNAPMODULE, dwPID);
-    if (hModuleSnap == INVALID_HANDLE_VALUE) {
-        return result;
-    }
-
-    // Set the size of the structure before using it.
-    me32.dwSize = sizeof(MODULEENTRY32);
-
-    // Retrieve information about the first module,
-    // and exit if unsuccessful
-    if (!Module32First(hModuleSnap, &me32)) {
-        CloseHandle(hModuleSnap); // clean the snapshot object
-        return result;
-    }
-
-    // Now walk the module list of the process,
-    // and display information about each module
-    do {
-        QString path;
-        path.setUtf16((ushort*) me32.szModule, wcslen(me32.szModule));
-    } while( Module32Next(hModuleSnap, &me32));
-
-    CloseHandle(hModuleSnap);
-
-    return result;
-}

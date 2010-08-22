@@ -412,6 +412,19 @@ bool PackageVersion::saveFiles(QString* errMsg)
     return success;
 }
 
+QStringList PackageVersion::findLockedFiles()
+{
+    QStringList files = WPMUtils::getProcessFiles();
+    QStringList r;
+    QString dir = getDirectory().absolutePath();
+    for (int i = 0; i < files.count(); i++) {        
+        if (WPMUtils::isUnder(files.at(i), dir)) {
+            r.append(files.at(i));
+        }
+    }
+    return r;
+}
+
 bool PackageVersion::executeFile(QString& path, QString* errMsg)
 {
     bool success = false;
@@ -478,7 +491,7 @@ void PackageVersion::deleteShortcuts(QDir& d)
                             //        instPath;
                             if (WPMUtils::isUnder(targetPath,
                                                   instPath)) {
-                                bool ok = QFile::remove(path);
+                                QFile::remove(path);
                                 // qDebug() << "deleteShortcuts true" << ok;
                             }
                         }

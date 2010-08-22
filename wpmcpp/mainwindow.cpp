@@ -295,25 +295,37 @@ void MainWindow::on_actionExit_triggered()
 void MainWindow::on_actionUninstall_activated()
 {
     PackageVersion* pv = getSelectedPackageVersion();
-    QString msg("The directory %1 will be completely deleted. \n"
-            "There is no way to restore the files. \n"
-            "Are you sure?");
-    msg = msg.arg(pv->getDirectory().absolutePath());
-    QMessageBox::StandardButton b = QMessageBox::warning(this,
-            "Uninstall",
-            msg, QMessageBox::Yes | QMessageBox::No);
-    if (b == QMessageBox::Yes) {
-        Job* job = new Job();
-        InstallThread* it = new InstallThread(pv, 0, job);
-        it->start();
-        it->setPriority(QThread::LowestPriority);
+    QStringList locked = pv->findLockedFiles();
+    if (locked.size() > 0) {
+        QString locked_ = locked.join(", \n");
+        QString msg("The package cannot be uninstalled because "
+                "the following files are in use "
+                "(please close the corresponding applications): \n"
+                "%1");
+        QMessageBox::critical(this,
+                "Uninstall",
+                msg.arg(locked_));
+    } else {
+        QString msg("The directory %1 will be completely deleted. \n"
+                "There is no way to restore the files. \n"
+                "Are you sure?");
+        msg = msg.arg(pv->getDirectory().absolutePath());
+        QMessageBox::StandardButton b = QMessageBox::warning(this,
+                "Uninstall",
+                msg, QMessageBox::Yes | QMessageBox::No);
+        if (b == QMessageBox::Yes) {
+            Job* job = new Job();
+            InstallThread* it = new InstallThread(pv, 0, job);
+            it->start();
+            it->setPriority(QThread::LowestPriority);
 
-        waitFor(job);
-        it->wait();
-        delete it;
+            waitFor(job);
+            it->wait();
+            delete it;
 
-        fillList();
-        delete job;
+            fillList();
+            delete job;
+        }
     }
 }
 

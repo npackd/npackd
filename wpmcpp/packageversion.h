@@ -20,7 +20,6 @@ private:
     void deleteShortcuts(QDir& d);
     bool saveFiles(QString* errMsg);
     bool executeFile(QString& path, QString* errMsg);
-
     QString fullText;
 public:
     /** package version */
@@ -98,6 +97,11 @@ public:
      * @param job job for this method
      */
     void update(Job* job);
+
+    /**
+     * @return files currenly locked in this package directory
+     */
+    QStringList findLockedFiles();
 };
 
 Q_DECLARE_METATYPE(PackageVersion);

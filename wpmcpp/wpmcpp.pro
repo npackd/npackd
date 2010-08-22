@@ -38,6 +38,7 @@ LIBS += C:\Users\t\libs\quazip-0.2.3\quazip\debug\libquazip.a \
     C:\Users\t\libs\zlib-1.2.5\libz.a \
     C:\Qt\2010.03\mingw\lib\libole32.a \
     C:\Qt\2010.03\mingw\lib\libuuid.a \
-    C:\Qt\2010.03\mingw\lib\libwininet.a
+    C:\Qt\2010.03\mingw\lib\libwininet.a \
+    C:\Qt\2010.03\mingw\lib\libpsapi.a
 CONFIG += embed_manifest_exe
 RC_FILE = wpmcpp.rc
