@@ -306,8 +306,10 @@ void MainWindow::on_actionUninstall_activated()
                 "Uninstall",
                 msg.arg(locked_));
     } else {
-        QString msg("The directory %1 will be completely deleted. \n"
-                "There is no way to restore the files. \n"
+        QString msg("The directory \n"
+                "%1 \n"
+                "will be completely deleted. "
+                "There is no way to restore the files. "
                 "Are you sure?");
         msg = msg.arg(pv->getDirectory().absolutePath());
         QMessageBox::StandardButton b = QMessageBox::warning(this,
