@@ -472,10 +472,10 @@ void MainWindow::on_actionUpdate_triggered()
     PackageVersion* pv = getSelectedPackageVersion();
     Repository* r = Repository::getDefault();
     PackageVersion* newest = r->findNewestPackageVersion(pv->package);
-    QString msg("This will uninstall the current version\n"
-            "and install the newest available (%1).\n"
-            "The directory %2 will be completely deleted. \n"
-            "There is no way to restore the files. \n"
+    QString msg("This will uninstall the current version "
+            "and install the newest available (%1). "
+            "The directory \n%2 \nwill be completely deleted. "
+            "There is no way to restore the files. "
             "Are you sure?");
     msg = msg.arg(newest->version.getVersionString()).
             arg(pv->getDirectory().absolutePath());
