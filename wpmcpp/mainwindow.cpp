@@ -300,14 +300,13 @@ void MainWindow::on_actionUninstall_activated()
         QString locked_ = locked.join(", \n");
         QString msg("The package cannot be uninstalled because "
                 "the following files are in use "
-                "(please close the corresponding applications): \n"
+                "(please close the corresponding applications): "
                 "%1");
         QMessageBox::critical(this,
                 "Uninstall",
                 msg.arg(locked_));
     } else {
-        QString msg("The directory \n"
-                "%1 \n"
+        QString msg("The directory %1 "
                 "will be completely deleted. "
                 "There is no way to restore the files. "
                 "Are you sure?");
@@ -475,7 +474,7 @@ void MainWindow::on_actionUpdate_triggered()
     PackageVersion* newest = r->findNewestPackageVersion(pv->package);
     QString msg("This will uninstall the current version "
             "and install the newest available (%1). "
-            "The directory \n%2 \nwill be completely deleted. "
+            "The directory %2 will be completely deleted. "
             "There is no way to restore the files. "
             "Are you sure?");
     msg = msg.arg(newest->version.getVersionString()).
