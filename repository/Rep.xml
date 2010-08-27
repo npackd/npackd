@@ -1092,7 +1092,11 @@
     -->
     <version name="0.7.110" package="com.dropbox.Dropbox" type="one-file">
         <file path=".WPM\Install.bat">"Dropbox 0.7.110.exe" /S /D=%CD%</file>
-        <file path=".WPM\Uninstall.bat">Uninstall.exe /S</file>
+        <file path=".WPM\Uninstall.bat">Uninstall.exe /S
+taskkill.exe /f /im explorer.exe
+del DropboxExt.13.dll
+del DropboxExt64.13.dll
+explorer.exe</file>
         <url>http://cdn.dropbox.com/Dropbox%200.7.110.exe</url>
     </version>
     <version name="1.89" package="com.revouninstaller.Revo" type="one-file">
