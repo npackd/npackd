@@ -341,6 +341,7 @@ void MainWindow::on_tableWidget_itemSelectionChanged()
         Repository* r = Repository::getDefault();
         PackageVersion* newest = r->findNewestPackageVersion(pv->package);
         this->ui->actionUpdate->setEnabled(
+                pv->installed() &&
                 newest->version.compare(pv->version) > 0 &&
                 !newest->installed());
     } else {
