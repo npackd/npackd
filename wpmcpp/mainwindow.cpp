@@ -130,10 +130,10 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
-bool MainWindow::waitFor(Job* job)
+bool MainWindow::waitFor(Job* job, QString& title)
 {
     ProgressDialog* pd;
-    pd = new ProgressDialog(this, job);
+    pd = new ProgressDialog(this, job, title);
     pd->setModal(true);
 
     qDebug() << "MainWindow::waitFor.1";
@@ -320,7 +320,8 @@ void MainWindow::on_actionUninstall_activated()
             it->start();
             it->setPriority(QThread::LowestPriority);
 
-            waitFor(job);
+            QString title("Uninstalling");
+            waitFor(job, title);
             it->wait();
             delete it;
 
@@ -365,7 +366,8 @@ void MainWindow::loadRepositories()
     it->start();
     it->setPriority(QThread::LowestPriority);
 
-    waitFor(job);
+    QString title("Loading repositories");
+    waitFor(job, title);
     it->wait();
     delete it;
 
@@ -383,7 +385,8 @@ void MainWindow::on_actionInstall_activated()
     it->start();
     it->setPriority(QThread::LowestPriority);
 
-    waitFor(job);
+    QString title("Installing");
+    waitFor(job, title);
     it->wait();
     delete it;
 
@@ -489,7 +492,8 @@ void MainWindow::on_actionUpdate_triggered()
         it->start();
         it->setPriority(QThread::LowestPriority);
 
-        waitFor(job);
+        QString title("Updating");
+        waitFor(job, title);
         it->wait();
         delete it;
 

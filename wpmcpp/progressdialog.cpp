@@ -12,11 +12,12 @@
 #include "ui_progressdialog.h"
 #include "job.h"
 
-ProgressDialog::ProgressDialog(QWidget *parent, Job* job) :
+ProgressDialog::ProgressDialog(QWidget *parent, Job* job, QString& title) :
     QDialog(parent),
     ui(new Ui::ProgressDialog)
 {
     ui->setupUi(this);
+    this->setWindowTitle(title);
     this->job = job;
     this->started = 0;
 

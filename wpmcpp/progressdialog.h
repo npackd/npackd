@@ -23,8 +23,9 @@ public:
     /**
      * @param parent parent widget
      * @param job a job reference (not freed here)
+     * @param title dialog title
      */
-    ProgressDialog(QWidget *parent, Job* job);
+    ProgressDialog(QWidget *parent, Job* job, QString& title);
 
     ~ProgressDialog();
 public Q_SLOTS:

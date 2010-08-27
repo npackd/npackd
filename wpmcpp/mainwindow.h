@@ -49,8 +49,9 @@ public:
      * @param job a job
      * @return true if the job has completed successfully
      *     (no error and not cancelled)
+     * @param title dialog title
      */
-    bool waitFor(Job* job);
+    bool waitFor(Job* job, QString& title);
 
     /**
      * Load the content of all defined repositories and updates the UI.
