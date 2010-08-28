@@ -1092,8 +1092,8 @@
     -->
 
     <!--
-        Installation starts Dropbox. Un-installation fails because a .dll is
-        locked by explorer.exe.
+        on Windows XP Explorer locks the installation directory somehow =>
+        un-installation fails.
     -->
     <version name="0.7.110" package="com.dropbox.Dropbox" type="one-file">
         <file path=".WPM\Install.bat">"Dropbox 0.7.110.exe" /S /D=%CD%
@@ -1102,10 +1102,7 @@ taskkill /f /im dropbox.exe</file>
 taskkill /f /fi "IMAGENAME eq explorer.exe"
 del DropboxExt.13.dll
 del DropboxExt64.13.dll
-rem the next command prevents explorer.exe from locking the current directory
-rem under Windows XP
-cd /
-start "" explorer.exe</file>
+explorer.exe</file>
         <url>http://cdn.dropbox.com/Dropbox%200.7.110.exe</url>
         <sha1>b5cdb5160d063427c403af280d48e91478042bc0</sha1>
     </version>
