@@ -1090,17 +1090,27 @@
     of a package should stay together. Newer versions should appear under older
     ones.
     -->
+
+    <!--
+        Installation starts Dropbox. Un-installation fails because a .dll is
+        locked by explorer.exe.
+    -->
     <version name="0.7.110" package="com.dropbox.Dropbox" type="one-file">
-        <file path=".WPM\Install.bat">"Dropbox 0.7.110.exe" /S /D=%CD%</file>
-        <file path=".WPM\Uninstall.bat">Uninstall.exe /S</file>
+        <file path=".WPM\Install.bat">"Dropbox 0.7.110.exe" /S /D=%CD%
+taskkill /f /im dropbox.exe</file>
+        <file path=".WPM\Uninstall.bat">Uninstall.exe /S
+taskkill /f /fi "IMAGENAME eq explorer.exe"
+explorer.exe</file>
         <url>http://cdn.dropbox.com/Dropbox%200.7.110.exe</url>
         <sha1>b5cdb5160d063427c403af280d48e91478042bc0</sha1>
     </version>
+    
     <version name="1.89" package="com.revouninstaller.Revo" type="one-file">
         <file path=".WPM\Install.bat">revosetup.exe /S /D=%CD%</file>
         <file path=".WPM\Uninstall.bat">uninst.exe /S</file>
         <url>http://c0464521.cdn.cloudfiles.rackspacecloud.com/revosetup.exe</url>
     </version>
+
     <!-- no silent installation
     <version name="7.0" package="org.truecrypt.TrueCrypt" type="one-file">
         <file path=".WPM\Install.bat">TrueCrypt_Setup_7.0.exe /S /D=%CD%</file>
