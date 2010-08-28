@@ -280,7 +280,7 @@ void PackageVersion::install(Job* job)
             if (!this->sha1.isEmpty()) {
                 job->setHint("Computing hash sum");
                 QString h = WPMUtils::sha1(f->fileName());
-                if (h != this->sha1) {
+                if (h.toLower() != this->sha1.toLower()) {
                     job->setErrorMessage(QString("Hash sum %1 found, but %2 "
                             "was expected. The file has changed.").arg(h).
                             arg(this->sha1));
