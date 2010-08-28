@@ -9,6 +9,8 @@
 #include "QtDebug"
 #include "qiodevice.h"
 #include "qprocess.h"
+#include "qmessagebox.h"
+#include "qapplication.h"
 
 #include "quazip.h"
 #include "quazipfile.h"
@@ -148,9 +150,8 @@ void PackageVersion::uninstall(Job* job)
     if (QFile::exists(d.absolutePath() + "\\" + p)) {
         job->setHint("Running the uninstallation script");
         this->executeFile(p, &errMsg); // ignore errors
-    } else {
-        job->setProgress(0.25);
     }
+    job->setProgress(0.25);
 
     // Uninstall.bat may have deleted some files
     d.refresh();
@@ -159,11 +160,19 @@ void PackageVersion::uninstall(Job* job)
         job->setHint("Deleting shortcuts");
         QDir d(WPMUtils::getProgramShortcutsDir());
         deleteShortcuts(d);
-        job->setProgress(0.5);
+        job->setProgress(0.3);
 
         QDir d2(WPMUtils::getCommonProgramShortcutsDir());
         deleteShortcuts(d2);
-        job->setProgress(0.6);
+        job->setProgress(0.35);
+
+        QDir d3(WPMUtils::getShellDir(CSIDL_DESKTOP));
+        deleteShortcuts(d3);
+        job->setProgress(0.40);
+
+        QDir d4(WPMUtils::getShellDir(CSIDL_COMMON_DESKTOPDIRECTORY));
+        deleteShortcuts(d4);
+        job->setProgress(0.45);
     }
 
     if (job->getErrorMessage().isEmpty()) {
@@ -336,8 +345,12 @@ void PackageVersion::install(Job* job)
                             job->setHint("Running the installation script");
                             if (this->executeFile(p, &errMsg)) {
                                 job->setProgress(0.99);
+                                job->setHint(QString("Deleting desktop shortcuts %1").
+                                             arg(WPMUtils::getShellDir(CSIDL_DESKTOP)));
                                 QDir d2(WPMUtils::getShellDir(CSIDL_DESKTOP));
                                 deleteShortcuts(d2);
+                                QDir d3(WPMUtils::getShellDir(CSIDL_COMMON_DESKTOPDIRECTORY));
+                                deleteShortcuts(d3);
                                 job->setProgress(1);
                             } else {
                                 job->setErrorMessage(errMsg);
