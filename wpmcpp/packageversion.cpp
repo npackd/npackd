@@ -335,6 +335,9 @@ void PackageVersion::install(Job* job)
                                 "\\" + p)) {
                             job->setHint("Running the installation script");
                             if (this->executeFile(p, &errMsg)) {
+                                job->setProgress(0.99);
+                                QDir d2(WPMUtils::getShellDir(CSIDL_DESKTOP));
+                                deleteShortcuts(d2);
                                 job->setProgress(1);
                             } else {
                                 job->setErrorMessage(errMsg);

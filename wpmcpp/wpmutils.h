@@ -58,6 +58,13 @@ public:
     static QString getCommonProgramShortcutsDir();
 
     /**
+     * @param type a CSIDL constant like CSIDL_COMMON_PROGRAMS
+     * @return directory like
+     *     "C:\Documents and Settings\All Users\Start Menu\Programs"
+     */
+    static QString getShellDir(int type);
+
+    /**
      * Formats a Windows error message.
      *
      * @param err see GetLastError()

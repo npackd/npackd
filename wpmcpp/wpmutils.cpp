@@ -144,6 +144,13 @@ QString WPMUtils::getCommonProgramShortcutsDir()
     return  QString::fromUtf16(reinterpret_cast<ushort*>(dir));
 }
 
+QString WPMUtils::getShellDir(int type)
+{
+    WCHAR dir[MAX_PATH];
+    SHGetFolderPath(0, type, NULL, 0, dir);
+    return QString::fromUtf16(reinterpret_cast<ushort*>(dir));
+}
+
 QString WPMUtils::sha1(const QString& filename)
 {
     QFile file(filename);
