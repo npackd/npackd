@@ -1521,12 +1521,18 @@ msiexec.exe /qn /norestart /i .WPM\oleview.msi TARGETDIR="%CD%" ALLUSERS=1</file
         <important-file path="MinGW-5.1.6.exe" title="Installer"/>
         <url>http://downloads.sourceforge.net/project/mingw/Automated%20MinGW%20Installer/MinGW%205.1.6/MinGW-5.1.6.exe?ts=1278845509</url>
     </version>
+
+    <!--
+        Starts the program after installation
+    -->
     <version name="2.1.6" package="net.sourceforge.aresgalaxy.AresRegular"
             type="one-file">
-        <file path=".WPM\Install.bat">aresregular216_installer.exe /S /D=%CD%</file>
+        <file path=".WPM\Install.bat">aresregular216_installer.exe /S /D=%CD%
+taskkill /f /im ares.exe</file>
         <file path=".WPM\Uninstall.bat">Uninstall.exe /S</file>
         <url>http://downloads.sourceforge.net/project/aresgalaxy/aresgalaxy/AresRegular216_07102010/aresregular216_installer.exe?ts=1278845109</url>
     </version>
+
     <version name="2.1.6" package="net.sourceforge.aresgalaxy.AresRegularInstaller"
             type="one-file">
         <important-file path="aresregular216_installer.exe" title="Installer"/>
