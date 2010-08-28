@@ -53,6 +53,10 @@ PackageVersion* Repository::createPackageVersion(QDomElement* e)
     QString name = e->attribute("name", "1.0");
     a->version.setVersion(name);
 
+    QDomNodeList sha1 = e->elementsByTagName("sha1");
+    if (sha1.count() > 0)
+        a->sha1 = sha1.at(0).firstChild().nodeValue();
+
     QString type = e->attribute("type", "zip");
     if (type == "one-file")
         a->type = 1;

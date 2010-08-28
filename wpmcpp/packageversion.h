@@ -42,6 +42,9 @@ public:
     /** 0 = zip file, 1 = one file */
     int type;
 
+    /** SHA1 for the installation file or empty if not defined */
+    QString sha1;
+
     PackageVersion();
     PackageVersion(const QString& package);
     virtual ~PackageVersion();

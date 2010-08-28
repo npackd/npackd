@@ -78,6 +78,14 @@ public:
      * @return full paths to files locked because of running processes
      */
     static QStringList getProcessFiles();
+
+    /**
+     * Computes SHA1 hash for a file
+     *
+     * @param filename name of the file
+     * @return SHA1 or "" in case of an error
+     */
+    static QString sha1(const QString& filename);
 };
 
 #endif // WPMUTILS_H

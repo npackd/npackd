@@ -256,20 +256,20 @@ void PackageVersion::install(Job* job)
 {
     job->setHint("Preparing");
 
-    qDebug() << "install.1";
+    // qDebug() << "install.1";
     if (!installed()) {
         job->setCancellable(true);
 
-        qDebug() << "install.2";
+        // qDebug() << "install.2";
         QDir d = getDirectory();
-        qDebug() << "install.dir=" << d;
+        // qDebug() << "install.dir=" << d;
 
-        qDebug() << "install.3";
+        // qDebug() << "install.3";
         job->setHint("Downloading");
         Job* djob = job->newSubJob(0.60);
         QString errMsg;
         QTemporaryFile* f = Downloader::download(djob, this->download);
-        qDebug() << "install.3.2 " << (f == 0) << djob->getErrorMessage();
+        // qDebug() << "install.3.2 " << (f == 0) << djob->getErrorMessage();
         if (!djob->getErrorMessage().isEmpty())
             job->setErrorMessage(QString("Download failed: %1").arg(
                     djob->getErrorMessage()));
@@ -277,66 +277,79 @@ void PackageVersion::install(Job* job)
 
         job->setCancellable(false);
         if (f) {
-            if (d.mkdir(d.absolutePath())) {
-                if (this->type == 0) {
-                    job->setHint("Extracting files");
-                    qDebug() << "install.6 " << f->size() << d.absolutePath();
+            if (!this->sha1.isEmpty()) {
+                job->setHint("Computing hash sum");
+                QString h = WPMUtils::sha1(f->fileName());
+                if (h != this->sha1) {
+                    job->setErrorMessage(QString("Hash sum %1 found, but %2 "
+                            "was expected. The file has changed.").arg(h).
+                            arg(this->sha1));
+                }
+            }
+            job->setProgress(0.7);
 
-                    if (unzip(f->fileName(), d.absolutePath() + "\\", &errMsg)) {
-                        QString err;
-                        this->createShortcuts(&err); // ignore errors
-                        job->setProgress(0.90);
-                    } else {
-                        job->setErrorMessage(QString(
-                                "Error unzipping file into directory %0: %1").
-                                             arg(d.absolutePath()).arg(errMsg));
-                        WPMUtils::removeDirectory2(d, &errMsg); // ignore errors
-                    }
-                } else {
-                    job->setHint("Copying the file");
-                    QString t = d.absolutePath();
-                    t.append("\\");
-                    QString fn = this->download.path();
-                    QStringList parts = fn.split('/');
-                    t.append(parts.at(parts.count() - 1));
-                    qDebug() << "install " << t.replace('/', '\\');
-                    if (!CopyFileW((WCHAR*) f->fileName().utf16(),
-                                   (WCHAR*) t.replace('/', '\\').utf16(), false)) {
-                        WPMUtils::formatMessage(GetLastError(), &errMsg);
-                        job->setErrorMessage(errMsg);
-                        WPMUtils::removeDirectory2(d, &errMsg); // ignore errors
-                    } else {
-                        QString err;
-                        this->createShortcuts(&err); // ignore errors
-                        job->setProgress(0.90);
-                    }
-                }
-                if (job->getErrorMessage().isEmpty()) {
-                    if (!this->saveFiles(&errMsg)) {
-                        job->setErrorMessage(errMsg);
-                        job->setProgress(1);
-                    }
-                }
-                if (job->getErrorMessage().isEmpty()) {
-                    QString p = ".WPM\\Install.bat";
-                    if (QFile::exists(getDirectory().absolutePath() +
-                            "\\" + p)) {
-                        job->setHint("Running the installation script");
-                        if (this->executeFile(p, &errMsg)) {
-                            job->setProgress(1);
+            if (job->getErrorMessage().isEmpty()) {
+                if (d.mkdir(d.absolutePath())) {
+                    if (this->type == 0) {
+                        job->setHint("Extracting files");
+                        qDebug() << "install.6 " << f->size() << d.absolutePath();
+
+                        if (unzip(f->fileName(), d.absolutePath() + "\\", &errMsg)) {
+                            QString err;
+                            this->createShortcuts(&err); // ignore errors
+                            job->setProgress(0.90);
                         } else {
-                            job->setErrorMessage(errMsg);
-
-                            // ignore errors
-                            WPMUtils::removeDirectory2(d, &errMsg);
+                            job->setErrorMessage(QString(
+                                    "Error unzipping file into directory %0: %1").
+                                                 arg(d.absolutePath()).arg(errMsg));
+                            WPMUtils::removeDirectory2(d, &errMsg); // ignore errors
                         }
                     } else {
-                        job->setProgress(1);
+                        job->setHint("Copying the file");
+                        QString t = d.absolutePath();
+                        t.append("\\");
+                        QString fn = this->download.path();
+                        QStringList parts = fn.split('/');
+                        t.append(parts.at(parts.count() - 1));
+                        qDebug() << "install " << t.replace('/', '\\');
+                        if (!CopyFileW((WCHAR*) f->fileName().utf16(),
+                                       (WCHAR*) t.replace('/', '\\').utf16(), false)) {
+                            WPMUtils::formatMessage(GetLastError(), &errMsg);
+                            job->setErrorMessage(errMsg);
+                            WPMUtils::removeDirectory2(d, &errMsg); // ignore errors
+                        } else {
+                            QString err;
+                            this->createShortcuts(&err); // ignore errors
+                            job->setProgress(0.90);
+                        }
                     }
+                    if (job->getErrorMessage().isEmpty()) {
+                        if (!this->saveFiles(&errMsg)) {
+                            job->setErrorMessage(errMsg);
+                            job->setProgress(1);
+                        }
+                    }
+                    if (job->getErrorMessage().isEmpty()) {
+                        QString p = ".WPM\\Install.bat";
+                        if (QFile::exists(getDirectory().absolutePath() +
+                                "\\" + p)) {
+                            job->setHint("Running the installation script");
+                            if (this->executeFile(p, &errMsg)) {
+                                job->setProgress(1);
+                            } else {
+                                job->setErrorMessage(errMsg);
+
+                                // ignore errors
+                                WPMUtils::removeDirectory2(d, &errMsg);
+                            }
+                        } else {
+                            job->setProgress(1);
+                        }
+                    }
+                } else {
+                    job->setErrorMessage(QString("Cannot create directory: %0").
+                            arg(d.absolutePath()));
                 }
-            } else {
-                job->setErrorMessage(QString("Cannot create directory: %0").
-                        arg(d.absolutePath()));
             }
             delete f;
         }

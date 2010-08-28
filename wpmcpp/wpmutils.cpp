@@ -7,6 +7,8 @@
 #include "qdir.h"
 #include "qstring.h"
 #include "qfile.h"
+#include <QCryptographicHash>
+#include <QFile>
 
 #include "wpmutils.h"
 
@@ -140,6 +142,31 @@ QString WPMUtils::getCommonProgramShortcutsDir()
     WCHAR dir[MAX_PATH];
     SHGetFolderPath(0, CSIDL_COMMON_PROGRAMS, NULL, 0, dir);
     return  QString::fromUtf16(reinterpret_cast<ushort*>(dir));
+}
+
+QString WPMUtils::sha1(const QString& filename)
+{
+    QFile file(filename);
+    if (!file.open(QIODevice::ReadOnly))
+         return "";
+
+    QCryptographicHash hash(QCryptographicHash::Sha1);
+    char buffer[8192];
+    bool err = false;
+    while (!file.atEnd()) {
+        qint64 r = file.read(buffer, sizeof(buffer));
+        if (r < 0) {
+            err = true;
+            break;
+        }
+        hash.addData(buffer, r);
+    }
+    file.close(); // when your done.
+
+    if (err)
+        return "";
+    else
+        return hash.result().toHex();
 }
 
 bool WPMUtils::removeDirectory2(QDir &d, QString *errMsg)
