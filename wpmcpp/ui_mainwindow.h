@@ -1,7 +1,7 @@
 /********************************************************************************
 ** Form generated from reading UI file 'mainwindow.ui'
 **
-** Created: Fri Aug 20 22:09:37 2010
+** Created: Sat Aug 28 23:18:38 2010
 **      by: Qt User Interface Compiler version 4.6.3
 **
 ** WARNING! All changes made in this file will be lost when recompiling UI file!
@@ -68,14 +68,26 @@ public:
         actionExit->setObjectName(QString::fromUtf8("actionExit"));
         actionInstall = new QAction(MainWindow);
         actionInstall->setObjectName(QString::fromUtf8("actionInstall"));
+        QIcon icon;
+        icon.addFile(QString::fromUtf8("edit_add.png"), QSize(), QIcon::Normal, QIcon::Off);
+        actionInstall->setIcon(icon);
         actionUninstall = new QAction(MainWindow);
         actionUninstall->setObjectName(QString::fromUtf8("actionUninstall"));
+        QIcon icon1;
+        icon1.addFile(QString::fromUtf8("stop.png"), QSize(), QIcon::Normal, QIcon::Off);
+        actionUninstall->setIcon(icon1);
         actionGotoPackageURL = new QAction(MainWindow);
         actionGotoPackageURL->setObjectName(QString::fromUtf8("actionGotoPackageURL"));
+        QIcon icon2;
+        icon2.addFile(QString::fromUtf8("internet&networking.png"), QSize(), QIcon::Normal, QIcon::Off);
+        actionGotoPackageURL->setIcon(icon2);
         actionSettings = new QAction(MainWindow);
         actionSettings->setObjectName(QString::fromUtf8("actionSettings"));
         actionUpdate = new QAction(MainWindow);
         actionUpdate->setObjectName(QString::fromUtf8("actionUpdate"));
+        QIcon icon3;
+        icon3.addFile(QString::fromUtf8("agt_reload.png"), QSize(), QIcon::Normal, QIcon::Off);
+        actionUpdate->setIcon(icon3);
         actionTest_Download_Site = new QAction(MainWindow);
         actionTest_Download_Site->setObjectName(QString::fromUtf8("actionTest_Download_Site"));
         centralWidget = new QWidget(MainWindow);
@@ -123,6 +135,8 @@ public:
         MainWindow->setMenuBar(menuBar);
         mainToolBar = new QToolBar(MainWindow);
         mainToolBar->setObjectName(QString::fromUtf8("mainToolBar"));
+        mainToolBar->setIconSize(QSize(32, 32));
+        mainToolBar->setToolButtonStyle(Qt::ToolButtonTextUnderIcon);
         MainWindow->addToolBar(Qt::TopToolBarArea, mainToolBar);
         statusBar = new QStatusBar(MainWindow);
         statusBar->setObjectName(QString::fromUtf8("statusBar"));
