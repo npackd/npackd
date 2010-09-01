@@ -47,17 +47,6 @@ public:
     static QString getProgramFilesDir();
 
     /**
-     * @return directory like "C:\Users\t\Start Menu\Programs"
-     */
-    static QString getProgramShortcutsDir();
-
-    /**
-     * @return directory like
-     *     "C:\Documents and Settings\All Users\Start Menu\Programs"
-     */
-    static QString getCommonProgramShortcutsDir();
-
-    /**
      * @param type a CSIDL constant like CSIDL_COMMON_PROGRAMS
      * @return directory like
      *     "C:\Documents and Settings\All Users\Start Menu\Programs"

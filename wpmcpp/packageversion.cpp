@@ -158,11 +158,11 @@ void PackageVersion::uninstall(Job* job)
 
     if (job->getErrorMessage().isEmpty()) {
         job->setHint("Deleting shortcuts");
-        QDir d(WPMUtils::getProgramShortcutsDir());
+        QDir d(WPMUtils::getShellDir(CSIDL_PROGRAMS));
         deleteShortcuts(d);
         job->setProgress(0.3);
 
-        QDir d2(WPMUtils::getCommonProgramShortcutsDir());
+        QDir d2(WPMUtils::getShellDir(CSIDL_COMMON_PROGRAMS));
         deleteShortcuts(d2);
         job->setProgress(0.35);
 
@@ -229,7 +229,7 @@ bool PackageVersion::createShortcuts(QString *errMsg)
         path.prepend("\\");
         path.prepend(d.absolutePath());
 
-        QString from = WPMUtils::getProgramShortcutsDir();
+        QString from = WPMUtils::getShellDir(CSIDL_PROGRAMS);
         from.append("\\");
         from.append(ift);
         from.append(" (");

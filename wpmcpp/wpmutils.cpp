@@ -130,20 +130,6 @@ QStringList WPMUtils::getProcessFiles()
     return r;
 }
 
-QString WPMUtils::getProgramShortcutsDir()
-{
-    WCHAR dir[MAX_PATH];
-    SHGetFolderPath(0, CSIDL_PROGRAMS, NULL, 0, dir);
-    return  QString::fromUtf16(reinterpret_cast<ushort*>(dir));
-}
-
-QString WPMUtils::getCommonProgramShortcutsDir()
-{
-    WCHAR dir[MAX_PATH];
-    SHGetFolderPath(0, CSIDL_COMMON_PROGRAMS, NULL, 0, dir);
-    return  QString::fromUtf16(reinterpret_cast<ushort*>(dir));
-}
-
 QString WPMUtils::getShellDir(int type)
 {
     WCHAR dir[MAX_PATH];
