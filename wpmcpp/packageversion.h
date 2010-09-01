@@ -20,6 +20,7 @@ private:
     void deleteShortcuts(QDir& d);
     bool saveFiles(QString* errMsg);
     bool executeFile(QString& path, QString* errMsg);
+    void deleteShortcuts(bool menu, bool desktop, bool quickLaunch);
     QString fullText;
 public:
     /** package version */

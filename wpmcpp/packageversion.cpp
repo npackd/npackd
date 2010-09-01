@@ -141,6 +141,34 @@ void PackageVersion::update(Job* job)
     job->complete();
 }
 
+void PackageVersion::deleteShortcuts(bool menu, bool desktop, bool quickLaunch)
+{
+    if (menu) {
+        QDir d(WPMUtils::getShellDir(CSIDL_PROGRAMS));
+        deleteShortcuts(d);
+
+        QDir d2(WPMUtils::getShellDir(CSIDL_COMMON_PROGRAMS));
+        deleteShortcuts(d2);
+    }
+
+    if (desktop) {
+        QDir d3(WPMUtils::getShellDir(CSIDL_DESKTOP));
+        deleteShortcuts(d3);
+
+        QDir d4(WPMUtils::getShellDir(CSIDL_COMMON_DESKTOPDIRECTORY));
+        deleteShortcuts(d4);
+    }
+
+    if (quickLaunch) {
+        const char* A = "\\Microsoft\\Internet Explorer\\Quick Launch";
+        QDir d3(WPMUtils::getShellDir(CSIDL_APPDATA) + A);
+        deleteShortcuts(d3);
+
+        QDir d4(WPMUtils::getShellDir(CSIDL_COMMON_APPDATA) + A);
+        deleteShortcuts(d4);
+    }
+}
+
 void PackageVersion::uninstall(Job* job)
 {
     QDir d = getDirectory();
@@ -158,20 +186,7 @@ void PackageVersion::uninstall(Job* job)
 
     if (job->getErrorMessage().isEmpty()) {
         job->setHint("Deleting shortcuts");
-        QDir d(WPMUtils::getShellDir(CSIDL_PROGRAMS));
-        deleteShortcuts(d);
-        job->setProgress(0.3);
-
-        QDir d2(WPMUtils::getShellDir(CSIDL_COMMON_PROGRAMS));
-        deleteShortcuts(d2);
-        job->setProgress(0.35);
-
-        QDir d3(WPMUtils::getShellDir(CSIDL_DESKTOP));
-        deleteShortcuts(d3);
-        job->setProgress(0.40);
-
-        QDir d4(WPMUtils::getShellDir(CSIDL_COMMON_DESKTOPDIRECTORY));
-        deleteShortcuts(d4);
+        deleteShortcuts(true, true, true);
         job->setProgress(0.45);
     }
 
@@ -347,10 +362,7 @@ void PackageVersion::install(Job* job)
                                 job->setProgress(0.99);
                                 job->setHint(QString("Deleting desktop shortcuts %1").
                                              arg(WPMUtils::getShellDir(CSIDL_DESKTOP)));
-                                QDir d2(WPMUtils::getShellDir(CSIDL_DESKTOP));
-                                deleteShortcuts(d2);
-                                QDir d3(WPMUtils::getShellDir(CSIDL_COMMON_DESKTOPDIRECTORY));
-                                deleteShortcuts(d3);
+                                deleteShortcuts(false, true, true);
                                 job->setProgress(1);
                             } else {
                                 job->setErrorMessage(errMsg);
