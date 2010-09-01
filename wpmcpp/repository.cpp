@@ -41,6 +41,21 @@ PackageVersion* Repository::findNewestPackageVersion(QString &name)
     return r;
 }
 
+PackageVersion* Repository::findNewestInstalledPackageVersion(QString &name)
+{
+    PackageVersion* r = 0;
+
+    for (int i = 0; i < this->packageVersions.count(); i++) {
+        PackageVersion* p = this->packageVersions.at(i);
+        if (p->package == name && p->installed()) {
+            if (r == 0 || p->version.compare(r->version) > 0) {
+                r = p;
+            }
+        }
+    }
+    return r;
+}
+
 PackageVersion* Repository::createPackageVersion(QDomElement* e)
 {
     // qDebug() << "Repository::createPackageVersion.1" << e->attribute("package");

@@ -340,14 +340,16 @@ void MainWindow::on_tableWidget_itemSelectionChanged()
     if (pv) {
         Repository* r = Repository::getDefault();
         PackageVersion* newest = r->findNewestPackageVersion(pv->package);
+        PackageVersion* newesti = r->findNewestInstalledPackageVersion(
+                pv->package);
         this->ui->actionUpdate->setEnabled(
-                pv->installed() &&
-                newest->version.compare(pv->version) > 0 &&
-                !newest->installed());
+                newest != 0 && newesti != 0 &&
+                newest->version.compare(newesti->version) > 0);
     } else {
         this->ui->actionUpdate->setEnabled(false);
     }
 
+    // enable "Go To Package Page"
     Package* p;
     if (pv)
         p = Repository::getDefault()->findPackage(pv->package);
@@ -475,20 +477,22 @@ void MainWindow::on_actionUpdate_triggered()
     PackageVersion* pv = getSelectedPackageVersion();
     Repository* r = Repository::getDefault();
     PackageVersion* newest = r->findNewestPackageVersion(pv->package);
-    QString msg("This will uninstall the current version "
-            "and install the newest available (%1). "
-            "The directory %2 will be completely deleted. "
+    PackageVersion* newesti = r->findNewestInstalledPackageVersion(pv->package);
+    QString msg("This will uninstall the current version (%1) "
+            "and install the newest available (%2). "
+            "The directory %3 will be completely deleted. "
             "There is no way to restore the files. "
             "Are you sure?");
-    msg = msg.arg(newest->version.getVersionString()).
-            arg(pv->getDirectory().absolutePath());
+    msg = msg.arg(newesti->version.getVersionString()).
+            arg(newest->version.getVersionString()).
+            arg(newesti->getDirectory().absolutePath());
 
     QMessageBox::StandardButton b = QMessageBox::warning(this,
             "Update",
             msg, QMessageBox::Yes | QMessageBox::No);
     if (b == QMessageBox::Yes) {
         Job* job = new Job();
-        InstallThread* it = new InstallThread(pv, 2, job);
+        InstallThread* it = new InstallThread(newesti, 2, job);
         it->start();
         it->setPriority(QThread::LowestPriority);
 

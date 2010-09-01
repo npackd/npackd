@@ -79,6 +79,14 @@ public:
     PackageVersion* findNewestPackageVersion(QString& name);
 
     /**
+     * Find the newest installed package version.
+     *
+     * @param name name of the package like "org.server.Word"
+     * @return found package version or 0
+     */
+    PackageVersion* findNewestInstalledPackageVersion(QString& name);
+
+    /**
      * Find the newest available package version.
      *
      * @param package name of the package like "org.server.Word"
