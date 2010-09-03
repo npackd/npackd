@@ -1338,12 +1338,17 @@ start "" /D\ explorer.exe</file>
     <version name="3.6.2" package="com.xxcopy.XXCopy">
         <url>http://xxcopy.com/download/xxfw3062.zip</url>
     </version>
+
+    <!--
+        the installation does not respect TARGETDIR
+    -->
     <version name="1.0.0.1" package="com.microsoft.OLEView" type="one-file">
         <file path=".WPM\Install.bat">oleview_setup.exe /C "/T:%CD%\.WPM"
 msiexec.exe /qn /norestart /i .WPM\oleview.msi TARGETDIR="%CD%" ALLUSERS=1</file>
         <file path=".WPM\Uninstall.bat">msiexec.exe /qn /norestart /x .WPM\oleview.msi</file>
         <url>http://download.microsoft.com/download/win2000platform/oleview/1.00.0.1/NT5/EN-US/oleview_setup.exe</url>
     </version>
+
     <version name="3.2" package="com.microsoft.TCPView">
         <important-file path="Tcpview.exe" title="TCPView"/>
         <url>http://download.sysinternals.com/Files/TCPView.zip</url>
@@ -2670,11 +2675,16 @@ echo DesktopShortcut=false >> .WPM\FF.ini
         <important-file path="nvu-1.0\nvu.exe" title="NVU"/>
         <url>http://downloads.mozdev.org/nvude/1.0/win32/nvu-1.0-win32-de-DE.zip</url>
     </version>
+
+    <!--
+        the uninstallation opens a web page in the browser
+    -->
     <version name="3.2.1" package="org.openoffice.OpenOffice" type="one-file">
         <file path=".WPM\Install.bat">OOo_3.2.1_Win_x86_install_en-GB.exe /S /D=%CD%</file>
         <file path=".WPM\Uninstall.bat">msiexec.exe /qn /norestart /x{B0C536A0-13F5-4949-A7C7-16486B2B046F}</file>
         <url>http://download.services.openoffice.org/files/localized/en-GB/3.2.1/OOo_3.2.1_Win_x86_install_en-GB.exe</url>
     </version>
+
     <version name="3.2.1" package="org.openoffice.OpenOfficeInstaller" type="one-file">
         <important-file path="OOo_3.2.1_Win_x86_install_en-GB.exe"
                 title="Installer"/>
