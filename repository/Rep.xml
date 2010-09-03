@@ -1695,11 +1695,14 @@ taskkill /f /im ares.exe</file>
         <important-file path="CuteWriter.exe" title="Installer"/>
         <url>http://www.cutepdf.com/download/CuteWriter.exe</url>
     </version>
+
+    <!-- installation shows a progress dialog. Needs at least XP SP3 -->
     <version name="3.5.5" package="net.getpaint.PaintDotNet">
         <file path=".WPM\Install.bat">Paint.NET.3.5.5.Install.exe /auto "TARGETDIR=%CD%" JPGPNGBMPEDITOR=0 TGAEDITOR=0 DESKTOPSHORTCUT=0 CHECKFORUPDATES=0</file>
         <file path=".WPM\Uninstall.bat">msiexec.exe /qn /norestart /x{F0E2B312-D7FD-4349-A9B6-E90B36DB1BD1}</file>
         <url>http://www.dotpdn.com/files/Paint.NET.3.5.5.Install.zip</url>
     </version>
+
     <version name="3.5.5" package="net.getpaint.PaintDotNetInstaller">
         <important-file path="Paint.NET.3.5.5.Install.exe" title="Installer"/>
         <url>http://www.dotpdn.com/files/Paint.NET.3.5.5.Install.zip</url>
@@ -1815,12 +1818,20 @@ teracopyi.exe /SP- /VERYSILENT /SUPPRESSMSGBOXES /NOCANCEL /NORESTART /DIR="%CD%
         <important-file path="SetupImgBurn_2.5.1.0.exe" title="Installer"/>
         <url>http://download.imgburn.com/SetupImgBurn_2.5.1.0.exe</url>
     </version>
+
+    <!--
+        the installation shows a progress dialog
+    -->
     <version name="10.60" package="com.opera.Opera" type="one-file">
         <!-- somehow this triple double quotes work here -->
         <file path=".WPM\Install.bat">Opera_1060_int_Setup.exe /S /v"/qn /norestart INSTALLDIR="""%CD%""" ALLUSERS=1"</file>
         <file path=".WPM\Uninstall.bat">MsiExec.exe /qn /norestart /X{1D2C96C3-A3F3-49E7-B839-95279DED837F}</file>
         <url>http://get5.opera.com/pub/opera/win/1060/int/Opera_1060_int_Setup.exe</url>
     </version>
+
+    <!--
+        the installation shows a progress dialog
+    -->
     <version name="10.61" package="com.opera.Opera" type="one-file">
         <!-- somehow this triple double quotes work here -->
         <file path=".WPM\Install.bat">Opera_1061_int_Setup.exe /S /v"/qn /norestart INSTALLDIR="""%CD%""" ALLUSERS=1"</file>
@@ -2652,6 +2663,12 @@ echo DesktopShortcut=false >> .WPM\FF.ini
                 title="NetBeans"/>
         <!-- not supported dependency package="JDK" name="6"/ -->
         <url>http://bits.netbeans.org/netbeans/6.9.1/community/fcs/zip/netbeans-6.9.1-201008030030-ml-java.zip</url>
+    </version>
+    <version name="6.5.1" package="org.netbeans.NetBeansMLJavaSE">
+        <important-file path="netbeans\bin\netbeans.exe"
+                title="NetBeans"/>
+        <!-- not supported dependency package="JDK" name="6"/ -->
+        <url>http://services.netbeans.org/bouncer/index.php?product=netbeans-6.5.1-ml-javase&amp;os=zip</url>
     </version>
     <version name="6.7.1" package="org.netbeans.NetBeansMLJavaSE">
         <important-file path="netbeans\bin\netbeans.exe"
