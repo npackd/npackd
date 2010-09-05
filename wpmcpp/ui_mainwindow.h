@@ -1,7 +1,7 @@
 /********************************************************************************
 ** Form generated from reading UI file 'mainwindow.ui'
 **
-** Created: Sun Sep 5 10:41:03 2010
+** Created: Sun Sep 5 13:53:20 2010
 **      by: Qt User Interface Compiler version 4.6.3
 **
 ** WARNING! All changes made in this file will be lost when recompiling UI file!
@@ -204,12 +204,17 @@ public:
         MainWindow->setWindowTitle(QApplication::translate("MainWindow", "MainWindow", 0, QApplication::UnicodeUTF8));
         actionExit->setText(QApplication::translate("MainWindow", "&Exit", 0, QApplication::UnicodeUTF8));
         actionInstall->setText(QApplication::translate("MainWindow", "&Install", 0, QApplication::UnicodeUTF8));
+        actionInstall->setShortcut(QApplication::translate("MainWindow", "Ctrl+I", 0, QApplication::UnicodeUTF8));
         actionUninstall->setText(QApplication::translate("MainWindow", "U&ninstall", 0, QApplication::UnicodeUTF8));
+        actionUninstall->setShortcut(QApplication::translate("MainWindow", "Ctrl+N", 0, QApplication::UnicodeUTF8));
         actionGotoPackageURL->setText(QApplication::translate("MainWindow", "&Go To Package Page", 0, QApplication::UnicodeUTF8));
         actionGotoPackageURL->setShortcut(QApplication::translate("MainWindow", "Ctrl+G", 0, QApplication::UnicodeUTF8));
         actionSettings->setText(QApplication::translate("MainWindow", "&Settings", 0, QApplication::UnicodeUTF8));
+        actionSettings->setShortcut(QApplication::translate("MainWindow", "Ctrl+S", 0, QApplication::UnicodeUTF8));
         actionUpdate->setText(QApplication::translate("MainWindow", "&Update", 0, QApplication::UnicodeUTF8));
+        actionUpdate->setShortcut(QApplication::translate("MainWindow", "Ctrl+U", 0, QApplication::UnicodeUTF8));
         actionTest_Download_Site->setText(QApplication::translate("MainWindow", "&Test Download Site", 0, QApplication::UnicodeUTF8));
+        actionTest_Download_Site->setShortcut(QApplication::translate("MainWindow", "Ctrl+T", 0, QApplication::UnicodeUTF8));
         menuFile->setTitle(QApplication::translate("MainWindow", "&File", 0, QApplication::UnicodeUTF8));
         dockWidget->setWindowTitle(QApplication::translate("MainWindow", "Filter", 0, QApplication::UnicodeUTF8));
         label_2->setText(QApplication::translate("MainWindow", "Status:", 0, QApplication::UnicodeUTF8));
