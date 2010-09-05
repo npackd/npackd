@@ -1,7 +1,7 @@
 /********************************************************************************
 ** Form generated from reading UI file 'mainwindow.ui'
 **
-** Created: Sun Sep 5 13:53:20 2010
+** Created: Sun Sep 5 16:58:23 2010
 **      by: Qt User Interface Compiler version 4.6.3
 **
 ** WARNING! All changes made in this file will be lost when recompiling UI file!
@@ -135,6 +135,7 @@ public:
         MainWindow->setMenuBar(menuBar);
         mainToolBar = new QToolBar(MainWindow);
         mainToolBar->setObjectName(QString::fromUtf8("mainToolBar"));
+        mainToolBar->setMovable(false);
         mainToolBar->setIconSize(QSize(32, 32));
         mainToolBar->setToolButtonStyle(Qt::ToolButtonTextUnderIcon);
         MainWindow->addToolBar(Qt::TopToolBarArea, mainToolBar);
@@ -144,7 +145,8 @@ public:
         dockWidget = new QDockWidget(MainWindow);
         dockWidget->setObjectName(QString::fromUtf8("dockWidget"));
         dockWidget->setFloating(false);
-        dockWidget->setFeatures(QDockWidget::DockWidgetFloatable);
+        dockWidget->setFeatures(QDockWidget::NoDockWidgetFeatures);
+        dockWidget->setAllowedAreas(Qt::AllDockWidgetAreas);
         dockWidgetContents = new QWidget();
         dockWidgetContents->setObjectName(QString::fromUtf8("dockWidgetContents"));
         formLayout = new QFormLayout(dockWidgetContents);
