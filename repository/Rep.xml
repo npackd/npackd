@@ -269,6 +269,11 @@
         <url>http://www.microsoft.com/downloads/details.aspx?familyid=5233b70d-d9b2-4cb5-aeb6-45664be858b6&amp;displaylang=en</url>
         <description>OLE/COM object viewer</description>
     </package>
+    <package name="com.microsoft.LogParser">
+        <title>Log Parser</title>
+        <url>http://www.microsoft.com/downloads/details.aspx?FamilyID=890cd06b-abf8-4c25-91b2-f8d975cf8c07&amp;displaylang=en</url>
+        <description>text file analysis</description>
+    </package>
     <package name="com.microsoft.PowerPointViewer">
         <title>PowerPoint Viewer</title>
         <url>http://www.microsoft.com/downloads/details.aspx?displaylang=en&amp;FamilyID=048dc840-14e1-467d-8dca-19d2a8fd7485</url>
@@ -1121,6 +1126,14 @@
     ones.
     -->
 
+    <version name="2.2" package="com.microsoft.LogParser"
+            type="one-file">
+        <file path=".WPM\Install.bat">msiexec.exe /qn /norestart /i LogParser.msi TARGETDIR="%CD%" ALLUSERS=1</file>
+        <file path=".WPM\Uninstall.bat">msiexec.exe /qn /norestart /x LogParser.msi</file>
+        <url>http://download.microsoft.com/download/f/f/1/ff1819f9-f702-48a5-bbc7-c9656bc74de8/LogParser.msi</url>
+        <sha1>da0d08b14246fd25569443c5612cd78c42cea47f</sha1>
+    </version>
+
     <version name="2.0.50727.42" package="com.microsoft.DotNetRedistributable"
             type="one-file">
         <file path=".WPM\Install.bat">dotnetfx.exe /C /T:"%CD%\f"
@@ -1129,7 +1142,8 @@ f\install.exe /Q</file>
         <url>http://download.microsoft.com/download/5/6/7/567758a3-759e-473e-bf8f-52154438565a/dotnetfx.exe</url>
         <sha1>a3625c59d7a2995fb60877b5f5324892a1693b2a</sha1>
     </version>
-    
+
+    <!-- the uninstallation shows multiple dialogs -->
     <version name="0.9.28.2" package="org.freepascal.lazarus.Lazarus"
             type="one-file">
         <file path=".WPM\Install.bat">lazarus-0.9.28.2-fpc-2.2.4-win32.exe /SP- /VERYSILENT /SUPPRESSMSGBOXES /NOCANCEL /NORESTART /DIR="%CD%"</file>
