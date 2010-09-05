@@ -1,7 +1,7 @@
 /********************************************************************************
 ** Form generated from reading UI file 'mainwindow.ui'
 **
-** Created: Sun Sep 5 16:58:23 2010
+** Created: Sun Sep 5 17:01:27 2010
 **      by: Qt User Interface Compiler version 4.6.3
 **
 ** WARNING! All changes made in this file will be lost when recompiling UI file!
@@ -176,6 +176,10 @@ public:
 
         dockWidget->setWidget(dockWidgetContents);
         MainWindow->addDockWidget(static_cast<Qt::DockWidgetArea>(1), dockWidget);
+#ifndef QT_NO_SHORTCUT
+        label_2->setBuddy(comboBoxStatus);
+        label_3->setBuddy(lineEditText);
+#endif // QT_NO_SHORTCUT
 
         menuBar->addAction(menuFile->menuAction());
         menuFile->addAction(actionInstall);
@@ -219,7 +223,7 @@ public:
         actionTest_Download_Site->setShortcut(QApplication::translate("MainWindow", "Ctrl+T", 0, QApplication::UnicodeUTF8));
         menuFile->setTitle(QApplication::translate("MainWindow", "&File", 0, QApplication::UnicodeUTF8));
         dockWidget->setWindowTitle(QApplication::translate("MainWindow", "Filter", 0, QApplication::UnicodeUTF8));
-        label_2->setText(QApplication::translate("MainWindow", "Status:", 0, QApplication::UnicodeUTF8));
+        label_2->setText(QApplication::translate("MainWindow", "&Status:", 0, QApplication::UnicodeUTF8));
         comboBoxStatus->clear();
         comboBoxStatus->insertItems(0, QStringList()
          << QApplication::translate("MainWindow", "All", 0, QApplication::UnicodeUTF8)
@@ -228,7 +232,7 @@ public:
          << QApplication::translate("MainWindow", "Installed, Update Available", 0, QApplication::UnicodeUTF8)
          << QApplication::translate("MainWindow", "Newest or Installed", 0, QApplication::UnicodeUTF8)
         );
-        label_3->setText(QApplication::translate("MainWindow", "Text:", 0, QApplication::UnicodeUTF8));
+        label_3->setText(QApplication::translate("MainWindow", "&Text:", 0, QApplication::UnicodeUTF8));
 #ifndef QT_NO_TOOLTIP
         lineEditText->setToolTip(QApplication::translate("MainWindow", "Enter here your search text. You can enter multiple words if a package should contain all of them. The search is case insensitive. No special characters are filtered out.", 0, QApplication::UnicodeUTF8));
 #endif // QT_NO_TOOLTIP
