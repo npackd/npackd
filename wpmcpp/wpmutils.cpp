@@ -55,9 +55,18 @@ bool WPMUtils::isUnder(const QString &file, const QString &dir)
 void WPMUtils::formatMessage(DWORD err, QString* errMsg)
 {
     HLOCAL pBuffer;
-    DWORD n = FormatMessageW(FORMAT_MESSAGE_ALLOCATE_BUFFER |
-                   FORMAT_MESSAGE_FROM_SYSTEM,
-                   0, err, 0, (LPTSTR)&pBuffer, 0, 0);
+    DWORD n;
+    if (err >= 12001 && err <= 12156) {
+        // wininet.dll-errors
+        n = FormatMessageW(FORMAT_MESSAGE_ALLOCATE_BUFFER |
+                       FORMAT_MESSAGE_FROM_HMODULE,
+                       GetModuleHandle(L"wininet.dll"),
+                       err, 0, (LPTSTR)&pBuffer, 0, 0);
+    } else {
+        n = FormatMessageW(FORMAT_MESSAGE_ALLOCATE_BUFFER |
+                       FORMAT_MESSAGE_FROM_SYSTEM,
+                       0, err, 0, (LPTSTR)&pBuffer, 0, 0);
+    }
     if (n == 0)
         errMsg->append(QString("Error %1").arg(err));
     else {
