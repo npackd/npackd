@@ -1431,11 +1431,17 @@ msiexec.exe /qn /norestart /i .WPM\oleview.msi TARGETDIR="%CD%" ALLUSERS=1</file
     <version name="5.1.50" package="com.mysql.MySQLCommunityServer">
         <url>http://www.mysql.com/get/Downloads/MySQL-5.1/mysql-noinstall-5.1.50-win32.zip/from/http://sunsite.informatik.rwth-aachen.de/mysql/</url>
     </version>
+
+    <!--
+        the installation shows 2 confirmation dialogs, the uninstallation shows
+        one
+    -->
     <version name="2.0.1060" package="com.debugmode.Wink">
         <file path=".WPM\Install.bat">wink20.exe /S /D=%CD%</file>
         <file path=".WPM\Uninstall.bat">uninst.exe /S</file>
         <url>http://www.digital2b.com/mirror_wink/wink20.zip</url>
     </version>
+
     <version name="1.0.3.8" package="org.bluemars.ClipX" type="one-file">
         <file path=".WPM\Install.bat">clipx-1.0.3.8-setup.exe /S /D=%CD%</file>
         <file path=".WPM\Uninstall.bat">uninstall.exe /S</file>
@@ -2829,17 +2835,12 @@ echo DesktopShortcut=false >> .WPM\FF.ini
                 title="WinDirStat"/>
         <url>http://downloads.sourceforge.net/project/windirstat/windirstat/1.1.1%20%28historical%29/windirstat1_1_1-exe-unicode.zip?67105539</url>
     </version>
+
+    <!-- requires MFC71U.dll -->
     <version name="2.12.4" package="org.winmerge.WinMerge">
         <important-file path="WinMerge-2.12.4-exe\WinMergeU.exe"
                 title="WinMerge"/>
         <url>http://downloads.sourceforge.net/project/winmerge/1.%20Stable%20versions/2.12.4/WinMerge-2.12.4-exe.zip?87978824</url>
-    </version>
-
-    <!-- depends on PCap -->
-    <version name="1.2.9" package="org.wireshark.Wireshark" type="one-file">
-        <file path=".WPM\Install.bat">wireshark-win32-1.2.9.exe /S /D=%CD%</file>
-        <file path=".WPM\Uninstall.bat">uninstall.exe /S</file>
-        <url>http://media-2.cacetech.com/wireshark/win32/wireshark-win32-1.2.9.exe</url>
     </version>
 
     <!-- depends on PCap -->
