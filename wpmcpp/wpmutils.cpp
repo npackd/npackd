@@ -48,6 +48,8 @@ bool WPMUtils::isUnder(const QString &file, const QString &dir)
     QString d = dir;
     f = f.replace('/', '\\').toLower();
     d = d.replace('/', '\\').toLower();
+    if (!d.endsWith('\\'))
+        d = d + "\\";
 
     return f.startsWith(d);
 }
