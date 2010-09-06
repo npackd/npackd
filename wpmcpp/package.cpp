@@ -1,6 +1,6 @@
 #include "package.h"
 
-Package::Package(QString& name, QString& title)
+Package::Package(const QString& name, const QString& title)
 {
     this->name = name;
     this->title = title;

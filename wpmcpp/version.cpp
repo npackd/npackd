@@ -42,6 +42,16 @@ void Version::setVersion(int a, int b)
     this->nparts = 2;
 }
 
+void Version::setVersion(int a, int b, int c)
+{
+    delete[] this->parts;
+    this->parts = new int[3];
+    this->parts[0] = a;
+    this->parts[1] = b;
+    this->parts[2] = c;
+    this->nparts = 3;
+}
+
 bool Version::setVersion(QString& v)
 {
     bool result = false;
@@ -79,6 +89,11 @@ QString Version::getVersionString()
         r.append(QString("%1").arg(this->parts[i]));
     }
     return r;
+}
+
+int Version::getNParts() const
+{
+    return this->nparts;
 }
 
 int Version::compare(const Version &other) const

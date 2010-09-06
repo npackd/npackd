@@ -24,8 +24,12 @@ class InstallThread: public QThread
 {
     PackageVersion* pv;
 
-    // 0 = uninstall, 1 = install, 2 = update
-    int install;
+    // 0 = uninstall
+    // 1 = install
+    // 2 = update,
+    // 3 = recognize installed applications + load repositories
+    // 4 = load repositories
+    int type;
 
     Job* job;
 public:
@@ -34,10 +38,10 @@ public:
     void run();
 };
 
-InstallThread::InstallThread(PackageVersion *pv, int install, Job* job)
+InstallThread::InstallThread(PackageVersion *pv, int type, Job* job)
 {
     this->pv = pv;
-    this->install = install;
+    this->type = type;
     this->job = job;
 }
 
@@ -46,21 +50,32 @@ void InstallThread::run()
     CoInitialize(NULL);
 
     qDebug() << "InstallThread::run.1";
-    QString errMsg;
-    if (pv) {
-        switch (this->install) {
-        case 0:
-            pv->uninstall(job);
-            break;
-        case 1:
-            pv->install(job);
-            break;
-        case 2:
-            pv->update(job);
-            break;
-        }
-    } else {
+    switch (this->type) {
+    case 0:
+        pv->uninstall(job);
+        break;
+    case 1:
+        pv->install(job);
+        break;
+    case 2:
+        pv->update(job);
+        break;
+    case 3: {
+        job->setHint("Searching for installed applications");
+        Job* sub = job->newSubJob(0.1);
+        Repository::getDefault()->recognize(sub);
+        delete sub;
+
+        job->setHint("Loading repositories");
+        sub = job->newSubJob(0.9);
+        Repository::getDefault()->load(sub);
+        delete sub;
+        job->complete();
+        break;
+    }
+    case 4:
         Repository::getDefault()->load(job);
+        break;
     }
 
     CoUninitialize();
@@ -157,7 +172,7 @@ bool MainWindow::waitFor(Job* job, QString& title)
 
 void MainWindow::onShow()
 {
-    loadRepositories();
+    recognizeAndloadRepositories();
 }
 
 PackageVersion* MainWindow::getSelectedPackageVersion()
@@ -335,9 +350,11 @@ void MainWindow::on_tableWidget_itemSelectionChanged()
 {
     PackageVersion* pv = getSelectedPackageVersion();
     this->ui->actionInstall->setEnabled(pv && !pv->installed());
-    this->ui->actionUninstall->setEnabled(pv && pv->installed());
+    this->ui->actionUninstall->setEnabled(pv && pv->installed() &&
+            pv->package != "com.microsoft.Windows");
 
-    if (pv) {
+    // "Update"
+    if (pv && pv->package != "com.microsoft.Windows") {
         Repository* r = Repository::getDefault();
         PackageVersion* newest = r->findNewestPackageVersion(pv->package);
         PackageVersion* newesti = r->findNewestInstalledPackageVersion(
@@ -361,10 +378,26 @@ void MainWindow::on_tableWidget_itemSelectionChanged()
     this->ui->actionTest_Download_Site->setEnabled(pv != 0);
 }
 
+void MainWindow::recognizeAndloadRepositories()
+{
+    Job* job = new Job();
+    InstallThread* it = new InstallThread(0, 3, job);
+    it->start();
+    it->setPriority(QThread::LowestPriority);
+
+    QString title("Initializing");
+    waitFor(job, title);
+    it->wait();
+    delete it;
+
+    fillList();
+    delete job;
+}
+
 void MainWindow::loadRepositories()
 {
     Job* job = new Job();
-    InstallThread* it = new InstallThread(0, 0, job);
+    InstallThread* it = new InstallThread(0, 4, job);
     it->start();
     it->setPriority(QThread::LowestPriority);
 

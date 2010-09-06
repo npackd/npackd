@@ -18,6 +18,7 @@ Repository* Repository::def = 0;
 
 Repository::Repository()
 {
+    this->addWindowsPackage();
 }
 
 Repository::~Repository()
@@ -26,7 +27,7 @@ Repository::~Repository()
     qDeleteAll(this->packageVersions);
 }
 
-PackageVersion* Repository::findNewestPackageVersion(QString &name)
+PackageVersion* Repository::findNewestPackageVersion(const QString &name)
 {
     PackageVersion* r = 0;
 
@@ -149,6 +150,64 @@ int Repository::countUpdates()
     return r;
 }
 
+void Repository::recognize(Job* job)
+{
+    job->setProgress(0);
+    job->setCancellable(true);
+
+    job->setHint("Recognizing Windows version");
+    if (this->findNewestPackageVersion("com.microsoft.Windows") == 0) {
+        OSVERSIONINFO osvi;
+        osvi.dwOSVersionInfoSize = sizeof(OSVERSIONINFO);
+        GetVersionEx(&osvi);
+        PackageVersion* pv = new PackageVersion("com.microsoft.Windows");
+        pv->version.setVersion(osvi.dwMajorVersion, osvi.dwMinorVersion,
+                osvi.dwBuildNumber);
+        this->packageVersions.append(pv);
+        QDir d = pv->getDirectory();
+        if (!d.exists())
+            d.mkpath(d.absolutePath());
+    }
+    job->setProgress(0.5);
+
+    if (!job->isCancelled()) {
+        job->setHint("Searching for Java installations");
+        HKEY hk;
+        if (RegOpenKeyEx(HKEY_LOCAL_MACHINE,
+                L"Software\\JavaSoft\\Java Runtime Environment",
+                0, KEY_READ, &hk) == ERROR_SUCCESS) {
+            WCHAR name[255];
+            int index = 0;
+            while (true) {
+                DWORD nameSize = sizeof(name) / sizeof(name[0]);
+                LONG r = RegEnumKeyEx(hk, index, name, &nameSize,
+                        0, 0, 0, 0);
+                if (r == ERROR_SUCCESS) {
+                    QString v;
+                    v.setUtf16((ushort*) name, nameSize);
+                    v = v.replace('_', '.');
+                    Version v_;
+                    if (v_.setVersion(v) && v_.getNParts() > 2) {
+                        PackageVersion* pv = new PackageVersion(
+                                "com.oracle.JRE");
+                        pv->version = v_;
+                        this->packageVersions.append(pv);
+                        QDir d = pv->getDirectory();
+                        if (!d.exists())
+                            d.mkpath(d.absolutePath());
+                    }
+                } else if (r == ERROR_NO_MORE_ITEMS) {
+                    break;
+                }
+                index++;
+            }
+            RegCloseKey(hk);
+        }
+        job->setProgress(1);
+    }
+    job->complete();
+}
+
 QDir Repository::getDirectory()
 {
     QString pf = WPMUtils::getProgramFilesDir();
@@ -208,12 +267,22 @@ void Repository::addUnknownExistingPackages()
     }
 }
 
+void Repository::addWindowsPackage()
+{
+    Package* p = new Package("com.microsoft.Windows", "Windows");
+    p->url = "http://www.microsoft.com/windows/";
+    p->description = "Operating system";
+    this->packages.append(p);
+}
+
 void Repository::load(Job* job)
 {
     qDeleteAll(this->packages);
     this->packages.clear();
     qDeleteAll(this->packageVersions);
     this->packageVersions.clear();
+
+    addWindowsPackage();
 
     QList<QUrl*> urls = getRepositoryURLs();
     if (urls.count() > 0) {

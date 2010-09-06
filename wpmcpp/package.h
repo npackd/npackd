@@ -21,7 +21,7 @@ public:
     /** description. May contain multiple lines and paragraphs. */
     QString description;
 
-    Package(QString& name, QString& title);
+    Package(const QString& name, const QString& title);
 
     /**
      * Checks whether the specified value is a valid package name.

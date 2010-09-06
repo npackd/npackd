@@ -1,7 +1,7 @@
 /********************************************************************************
 ** Form generated from reading UI file 'mainwindow.ui'
 **
-** Created: Sun Sep 5 17:01:27 2010
+** Created: Mon Sep 6 22:04:19 2010
 **      by: Qt User Interface Compiler version 4.6.3
 **
 ** WARNING! All changes made in this file will be lost when recompiling UI file!
@@ -209,15 +209,33 @@ public:
     {
         MainWindow->setWindowTitle(QApplication::translate("MainWindow", "MainWindow", 0, QApplication::UnicodeUTF8));
         actionExit->setText(QApplication::translate("MainWindow", "&Exit", 0, QApplication::UnicodeUTF8));
+#ifndef QT_NO_TOOLTIP
+        actionExit->setToolTip(QApplication::translate("MainWindow", "Exits the application", 0, QApplication::UnicodeUTF8));
+#endif // QT_NO_TOOLTIP
         actionInstall->setText(QApplication::translate("MainWindow", "&Install", 0, QApplication::UnicodeUTF8));
+#ifndef QT_NO_TOOLTIP
+        actionInstall->setToolTip(QApplication::translate("MainWindow", "Installs the selected version of a package", 0, QApplication::UnicodeUTF8));
+#endif // QT_NO_TOOLTIP
         actionInstall->setShortcut(QApplication::translate("MainWindow", "Ctrl+I", 0, QApplication::UnicodeUTF8));
         actionUninstall->setText(QApplication::translate("MainWindow", "U&ninstall", 0, QApplication::UnicodeUTF8));
+#ifndef QT_NO_TOOLTIP
+        actionUninstall->setToolTip(QApplication::translate("MainWindow", "Uninstalls the currently selected version of a package", 0, QApplication::UnicodeUTF8));
+#endif // QT_NO_TOOLTIP
         actionUninstall->setShortcut(QApplication::translate("MainWindow", "Ctrl+N", 0, QApplication::UnicodeUTF8));
         actionGotoPackageURL->setText(QApplication::translate("MainWindow", "&Go To Package Page", 0, QApplication::UnicodeUTF8));
+#ifndef QT_NO_TOOLTIP
+        actionGotoPackageURL->setToolTip(QApplication::translate("MainWindow", "Go to the package web site", 0, QApplication::UnicodeUTF8));
+#endif // QT_NO_TOOLTIP
         actionGotoPackageURL->setShortcut(QApplication::translate("MainWindow", "Ctrl+G", 0, QApplication::UnicodeUTF8));
         actionSettings->setText(QApplication::translate("MainWindow", "&Settings", 0, QApplication::UnicodeUTF8));
+#ifndef QT_NO_TOOLTIP
+        actionSettings->setToolTip(QApplication::translate("MainWindow", "Shows program settings", 0, QApplication::UnicodeUTF8));
+#endif // QT_NO_TOOLTIP
         actionSettings->setShortcut(QApplication::translate("MainWindow", "Ctrl+S", 0, QApplication::UnicodeUTF8));
         actionUpdate->setText(QApplication::translate("MainWindow", "&Update", 0, QApplication::UnicodeUTF8));
+#ifndef QT_NO_TOOLTIP
+        actionUpdate->setToolTip(QApplication::translate("MainWindow", "Updates the currently selected package to the newest available version", 0, QApplication::UnicodeUTF8));
+#endif // QT_NO_TOOLTIP
         actionUpdate->setShortcut(QApplication::translate("MainWindow", "Ctrl+U", 0, QApplication::UnicodeUTF8));
         actionTest_Download_Site->setText(QApplication::translate("MainWindow", "&Test Download Site", 0, QApplication::UnicodeUTF8));
         actionTest_Download_Site->setShortcut(QApplication::translate("MainWindow", "Ctrl+T", 0, QApplication::UnicodeUTF8));

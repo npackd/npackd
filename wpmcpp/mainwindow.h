@@ -57,6 +57,8 @@ public:
      * Load the content of all defined repositories and updates the UI.
      */
     void loadRepositories();
+
+    void recognizeAndloadRepositories();
 protected:
     void changeEvent(QEvent *e);
 private slots:

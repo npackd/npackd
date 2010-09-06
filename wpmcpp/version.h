@@ -38,6 +38,15 @@ public:
     void setVersion(int a, int b);
 
     /**
+     * Changes the version.
+     *
+     * @param a first version number
+     * @param b second version number part
+     * @param c third (minor) version number part
+     */
+    void setVersion(int a, int b, int c);
+
+    /**
      * @return package version as a string (like "1.2.3")
      */
     QString getVersionString();
@@ -49,6 +58,12 @@ public:
      * @return <0, 0 or >0
      */
     int compare(const Version& other) const;
+
+    /**
+     * @return number of parts in this version number. Returns 1 for the
+     *     version "0"
+     */
+    int getNParts() const;
 };
 
 #endif // VERSION_H

@@ -25,7 +25,15 @@ private:
 
     void loadOne(QUrl* url, Job* job);
     void addUnknownExistingPackages();
+    void addWindowsPackage();
 public:
+    /**
+     * Recognizes applications installed without WPM.
+     *
+     * @param job job object
+     */
+    void recognize(Job* job);
+
     /**
      * @return C:\Program Files\WPM - repository directory
      */
@@ -76,7 +84,7 @@ public:
      * @param name name of the package like "org.server.Word"
      * @return found package version or 0
      */
-    PackageVersion* findNewestPackageVersion(QString& name);
+    PackageVersion* findNewestPackageVersion(const QString& name);
 
     /**
      * Find the newest installed package version.

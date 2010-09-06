@@ -69,10 +69,11 @@ Job* Job::newSubJob(double nsteps)
     r->subJobStart = this->getProgress();
     r->parentHintStart = hint;
 
-    bool success = connect(this, SIGNAL(changed()),
+    // bool success =
+    connect(this, SIGNAL(changed()),
                            r, SLOT(parentJobChanged()),
                            Qt::DirectConnection);
-    qDebug() << "Job::newSubJob " << success;
+    // qDebug() << "Job::newSubJob " << success;
     return r;
 }
 
