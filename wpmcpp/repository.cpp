@@ -155,23 +155,36 @@ void Repository::recognize(Job* job)
     job->setProgress(0);
     job->setCancellable(true);
 
-    job->setHint("Recognizing Windows version");
-    if (this->findNewestPackageVersion("com.microsoft.Windows") == 0) {
-        OSVERSIONINFO osvi;
-        osvi.dwOSVersionInfoSize = sizeof(OSVERSIONINFO);
-        GetVersionEx(&osvi);
-        PackageVersion* pv = new PackageVersion("com.microsoft.Windows");
-        pv->version.setVersion(osvi.dwMajorVersion, osvi.dwMinorVersion,
-                osvi.dwBuildNumber);
+    job->setHint("Detecting Windows");
+    OSVERSIONINFO osvi;
+    osvi.dwOSVersionInfoSize = sizeof(OSVERSIONINFO);
+    GetVersionEx(&osvi);
+    Version v;
+    v.setVersion(osvi.dwMajorVersion, osvi.dwMinorVersion,
+            osvi.dwBuildNumber);
+    PackageVersion* pv = this->findPackageVersion(
+            "com.microsoft.Windows", v);
+    if (!pv) {
+        pv = new PackageVersion("com.microsoft.Windows");
+        pv->version = v;
         this->packageVersions.append(pv);
-        QDir d = pv->getDirectory();
-        if (!d.exists())
-            d.mkpath(d.absolutePath());
+    }
+    QDir d = pv->getDirectory();
+    if (!d.exists())
+        d.mkpath(d.absolutePath());
+    for (int i = 0; i < this->packageVersions.count(); i++) {
+        pv = this->packageVersions.at(i);
+        if (pv->package == "com.microsoft.Windows" &&
+            pv->version != v && pv->installed()) {
+            Job* sub = new Job();
+            pv->uninstall(sub);
+            delete sub;
+        }
     }
     job->setProgress(0.5);
 
     if (!job->isCancelled()) {
-        job->setHint("Searching for Java installations");
+        job->setHint("Detecting Java");
         HKEY hk;
         if (RegOpenKeyEx(HKEY_LOCAL_MACHINE,
                 L"Software\\JavaSoft\\Java Runtime Environment",
@@ -183,15 +196,17 @@ void Repository::recognize(Job* job)
                 LONG r = RegEnumKeyEx(hk, index, name, &nameSize,
                         0, 0, 0, 0);
                 if (r == ERROR_SUCCESS) {
-                    QString v;
-                    v.setUtf16((ushort*) name, nameSize);
-                    v = v.replace('_', '.');
-                    Version v_;
-                    if (v_.setVersion(v) && v_.getNParts() > 2) {
-                        PackageVersion* pv = new PackageVersion(
-                                "com.oracle.JRE");
-                        pv->version = v_;
-                        this->packageVersions.append(pv);
+                    QString v_;
+                    v_.setUtf16((ushort*) name, nameSize);
+                    v_ = v_.replace('_', '.');
+                    if (v.setVersion(v_) && v.getNParts() > 2) {
+                        pv = this->findPackageVersion("com.oracle.JRE",
+                                v);
+                        if (!pv) {
+                            pv = new PackageVersion("com.oracle.JRE");
+                            pv->version = v;
+                            this->packageVersions.append(pv);
+                        }
                         QDir d = pv->getDirectory();
                         if (!d.exists())
                             d.mkpath(d.absolutePath());
@@ -215,8 +230,8 @@ QDir Repository::getDirectory()
     return d;
 }
 
-PackageVersion* Repository::findPackageVersion(QString& package,
-        Version& version)
+PackageVersion* Repository::findPackageVersion(const QString& package,
+        const Version& version)
 {
     PackageVersion* r = 0;
 

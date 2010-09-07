@@ -101,7 +101,8 @@ public:
      * @param version package version
      * @return found package version or 0
      */
-    PackageVersion* findPackageVersion(QString& package, Version& version);
+    PackageVersion* findPackageVersion(const QString& package,
+            const Version& version);
 
     /**
      * @return newly created object pointing to the repositories

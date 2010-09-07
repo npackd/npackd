@@ -68,14 +68,12 @@ HRESULT CreateLink(LPCWSTR lpszPathObj, LPCWSTR lpszPathLink, LPCWSTR lpszDesc)
 PackageVersion::PackageVersion(const QString& package)
 {
     this->package = package;
-    this->download = QUrl("http://www.younamehere.com/download.zip");
     this->type = 0;
 }
 
 PackageVersion::PackageVersion()
 {
     this->package = "unknown";
-    this->download = QUrl("http://www.younamehere.com/download.zip");
     this->type = 0;
 }
 
