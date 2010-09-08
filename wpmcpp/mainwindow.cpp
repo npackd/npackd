@@ -275,7 +275,13 @@ void MainWindow::fillList()
         t->setItem(n, 2, newItem);
 
         newItem = new QTableWidgetItem("");
-        QString status = installed ? "installed": "";
+        QString status;
+        if (installed) {
+            if (pv->external)
+                status = "installed externally";
+            else
+                status = "installed";
+        }
         if (installed && updateAvailable) {
             newItem->setBackgroundColor(QColor(255, 0xc7, 0xc7));
             status += ", update available";

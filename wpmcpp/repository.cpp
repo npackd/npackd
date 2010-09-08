@@ -194,9 +194,12 @@ void Repository::recognize(Job* job)
                         if (!pv) {
                             pv = new PackageVersion("com.oracle.JRE");
                             pv->version = v;
+                            pv->external = true;
                             this->packageVersions.append(pv);
+                        } else {
+                            if (!pv->installed())
+                                pv->external = true;
                         }
-                        pv->external = true;
                     }
                 } else if (r == ERROR_NO_MORE_ITEMS) {
                     break;
