@@ -61,15 +61,16 @@ void InstallThread::run()
         pv->update(job);
         break;
     case 3: {
+        job->setHint("Loading repositories");
+        Job* sub = job->newSubJob(0.9);
+        Repository::getDefault()->load(sub);
+        delete sub;
+
         job->setHint("Searching for installed applications");
-        Job* sub = job->newSubJob(0.1);
+        sub = job->newSubJob(0.1);
         Repository::getDefault()->recognize(sub);
         delete sub;
 
-        job->setHint("Loading repositories");
-        sub = job->newSubJob(0.9);
-        Repository::getDefault()->load(sub);
-        delete sub;
         job->complete();
         break;
     }
@@ -351,10 +352,10 @@ void MainWindow::on_tableWidget_itemSelectionChanged()
     PackageVersion* pv = getSelectedPackageVersion();
     this->ui->actionInstall->setEnabled(pv && !pv->installed());
     this->ui->actionUninstall->setEnabled(pv && pv->installed() &&
-            pv->package != "com.microsoft.Windows");
+            !pv->external);
 
     // "Update"
-    if (pv && pv->package != "com.microsoft.Windows") {
+    if (pv && !pv->external) {
         Repository* r = Repository::getDefault();
         PackageVersion* newest = r->findNewestPackageVersion(pv->package);
         PackageVersion* newesti = r->findNewestInstalledPackageVersion(
@@ -375,7 +376,8 @@ void MainWindow::on_tableWidget_itemSelectionChanged()
     this->ui->actionGotoPackageURL->setEnabled(pv && p &&
             QUrl(p->url).isValid());
 
-    this->ui->actionTest_Download_Site->setEnabled(pv != 0);
+    this->ui->actionTest_Download_Site->setEnabled(pv && p &&
+            QUrl(p->url).isValid());
 }
 
 void MainWindow::recognizeAndloadRepositories()

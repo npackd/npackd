@@ -69,12 +69,14 @@ PackageVersion::PackageVersion(const QString& package)
 {
     this->package = package;
     this->type = 0;
+    this->external = false;
 }
 
 PackageVersion::PackageVersion()
 {
     this->package = "unknown";
     this->type = 0;
+    this->external = false;
 }
 
 QString PackageVersion::getShortPackageName()
@@ -110,9 +112,13 @@ QString PackageVersion::getFullText()
 
 bool PackageVersion::installed()
 {
-    QDir d = getDirectory();
-    d.refresh();
-    return d.exists();
+    if (external) {
+        return true;
+    } else {
+        QDir d = getDirectory();
+        d.refresh();
+        return d.exists();
+    }
 }
 
 void PackageVersion::update(Job* job)
@@ -169,6 +175,12 @@ void PackageVersion::deleteShortcuts(bool menu, bool desktop, bool quickLaunch)
 
 void PackageVersion::uninstall(Job* job)
 {
+    if (external) {
+        job->setProgress(1);
+        job->complete();
+        return;
+    }
+
     QDir d = getDirectory();
 
     QString errMsg;
@@ -279,7 +291,7 @@ void PackageVersion::install(Job* job)
     job->setHint("Preparing");
 
     // qDebug() << "install.1";
-    if (!installed()) {
+    if (!installed() && !external) {
         job->setCancellable(true);
 
         // qDebug() << "install.2";

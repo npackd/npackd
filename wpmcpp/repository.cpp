@@ -169,18 +169,7 @@ void Repository::recognize(Job* job)
         pv->version = v;
         this->packageVersions.append(pv);
     }
-    QDir d = pv->getDirectory();
-    if (!d.exists())
-        d.mkpath(d.absolutePath());
-    for (int i = 0; i < this->packageVersions.count(); i++) {
-        pv = this->packageVersions.at(i);
-        if (pv->package == "com.microsoft.Windows" &&
-            pv->version != v && pv->installed()) {
-            Job* sub = new Job();
-            pv->uninstall(sub);
-            delete sub;
-        }
-    }
+    pv->external = true;
     job->setProgress(0.5);
 
     if (!job->isCancelled()) {
@@ -207,9 +196,7 @@ void Repository::recognize(Job* job)
                             pv->version = v;
                             this->packageVersions.append(pv);
                         }
-                        QDir d = pv->getDirectory();
-                        if (!d.exists())
-                            d.mkpath(d.absolutePath());
+                        pv->external = true;
                     }
                 } else if (r == ERROR_NO_MORE_ITEMS) {
                     break;
@@ -222,7 +209,7 @@ void Repository::recognize(Job* job)
     }
 
     // for .NET see
-    // http://stackoverflow.com/questions/199080/how-to-detect-what-net-framework-versions-and-service-packs-are-installed
+    // h*ttp://stackoverflow.com/questions/199080/how-to-detect-what-net-framework-versions-and-service-packs-are-installed
     if (!job->isCancelled()) {
         job->setHint("Detecting .NET");
         job->setProgress(1);

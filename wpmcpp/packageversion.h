@@ -46,6 +46,13 @@ public:
     /** SHA1 for the installation file or empty if not defined */
     QString sha1;
 
+    /**
+     * this value is true for packages not installed through WPM, but detected
+     * later. Those packages cannot be uninstalled, but are used for
+     * dependencies.
+     */
+    bool external;
+
     PackageVersion();
     PackageVersion(const QString& package);
     virtual ~PackageVersion();
