@@ -302,7 +302,7 @@ void Repository::load(Job* job)
         for (int i = 0; i < urls.count(); i++) {
             job->setHint(QString("Repository %1 of %2").arg(i + 1).
                          arg(urls.count()));
-            Job* s = job->newSubJob(1 / urls.count());
+            Job* s = job->newSubJob(0.9 / urls.count());
             loadOne(urls.at(i), s);
             if (!s->getErrorMessage().isEmpty()) {
                 job->setErrorMessage(QString(
@@ -319,6 +319,7 @@ void Repository::load(Job* job)
         }
     } else {
         job->setErrorMessage("No repositories defined");
+        job->setProgress(0.9);
     }
 
     // qDebug() << "Repository::load.3";
@@ -328,6 +329,11 @@ void Repository::load(Job* job)
 
     qDeleteAll(urls);
     urls.clear();
+
+    job->setHint("Detecting software");
+    Job* sub = job->newSubJob(0.1);
+    recognize(sub);
+    delete sub;
 
     job->complete();
 }

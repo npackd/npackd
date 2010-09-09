@@ -26,14 +26,14 @@ private:
     void loadOne(QUrl* url, Job* job);
     void addUnknownExistingPackages();
     void addWindowsPackage();
-public:
+
     /**
      * Recognizes applications installed without WPM.
      *
      * @param job job object
      */
     void recognize(Job* job);
-
+public:
     /**
      * @return C:\Program Files\WPM - repository directory
      */

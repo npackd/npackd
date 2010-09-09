@@ -27,8 +27,7 @@ class InstallThread: public QThread
     // 0 = uninstall
     // 1 = install
     // 2 = update,
-    // 3 = recognize installed applications + load repositories
-    // 4 = load repositories
+    // 3, 4 = recognize installed applications + load repositories
     int type;
 
     Job* job;
@@ -60,20 +59,7 @@ void InstallThread::run()
     case 2:
         pv->update(job);
         break;
-    case 3: {
-        job->setHint("Loading repositories");
-        Job* sub = job->newSubJob(0.9);
-        Repository::getDefault()->load(sub);
-        delete sub;
-
-        job->setHint("Searching for installed applications");
-        sub = job->newSubJob(0.1);
-        Repository::getDefault()->recognize(sub);
-        delete sub;
-
-        job->complete();
-        break;
-    }
+    case 3:
     case 4:
         Repository::getDefault()->load(job);
         break;
