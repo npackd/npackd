@@ -1946,6 +1946,18 @@ start "" /D\ explorer.exe</file>
         <file path=".WPM\Uninstall.bat">MsiExec.exe /qn /norestart /X{6D482078-8D15-4FD3-B838-C7B49174650F}</file>
         <url>http://get4.opera.com/pub/opera/win/1061/int/Opera_1061_int_Setup.exe</url>
     </version>
+
+    <!--
+        the installation shows a progress dialog
+    -->
+    <version name="10.62" package="com.opera.Opera" type="one-file">
+        <!-- somehow this triple double quotes work here -->
+        <file path=".WPM\Install.bat">Opera_1062_int_Setup.exe /S /v"/qn /norestart INSTALLDIR="""%CD%""" ALLUSERS=1"</file>
+        <file path=".WPM\Uninstall.bat">MsiExec.exe /qn /norestart /X{}</file>
+        <url>http://get8.opera.com/pub/opera/win/1062/int/Opera_1062_int_Setup.exe</url>
+        <sha1>659b7a6185f41f9ede5d022ea9f5742f7ea1b719</sha1>
+    </version>
+
     <version name="10.60" package="com.opera.OperaInstaller"
             type="one-file">
         <important-file path="Opera_1060_int_Setup.exe" title="Installer"/>
