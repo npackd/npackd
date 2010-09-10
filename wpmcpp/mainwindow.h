@@ -71,6 +71,10 @@ private slots:
     void on_actionGotoPackageURL_triggered();
     void on_pushButtonSaveSettings_clicked();
     void onShow();
+    void on_actionInstall_activated();
+    void on_tableWidget_itemSelectionChanged();
+    void on_actionUninstall_activated();
+    void on_actionExit_triggered();
 private:
     Ui::MainWindow *ui;
 
@@ -83,11 +87,11 @@ private:
      * @return selected package version or null.
      */
     PackageVersion* getSelectedPackageVersion();
-private slots:
-    void on_actionInstall_activated();
-    void on_tableWidget_itemSelectionChanged();
-    void on_actionUninstall_activated();
-    void on_actionExit_triggered();
+
+    /**
+     * @param pv a version or 0
+     */
+    void selectPackageVersion(PackageVersion* pv);
 };
 
 #endif // MAINWINDOW_H

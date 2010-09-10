@@ -18,7 +18,6 @@ Repository* Repository::def = 0;
 
 Repository::Repository()
 {
-    this->addWindowsPackage();
 }
 
 Repository::~Repository()
@@ -127,7 +126,7 @@ PackageVersionFile* Repository::createPackageVersionFile(QDomElement* e)
     return a;
 }
 
-Package* Repository::findPackage(QString& name)
+Package* Repository::findPackage(const QString& name)
 {
     for (int i = 0; i < this->packages.count(); i++) {
         if (this->packages.at(i)->name == name)
@@ -156,6 +155,12 @@ void Repository::recognize(Job* job)
     job->setCancellable(true);
 
     job->setHint("Detecting Windows");
+    if (!this->findPackage("com.microsoft.Windows")) {
+        Package* p = new Package("com.microsoft.Windows", "Windows");
+        p->url = "http://www.microsoft.com/windows/";
+        p->description = "Operating system";
+        this->packages.append(p);
+    }
     OSVERSIONINFO osvi;
     osvi.dwOSVersionInfoSize = sizeof(OSVERSIONINFO);
     GetVersionEx(&osvi);
@@ -174,6 +179,12 @@ void Repository::recognize(Job* job)
 
     if (!job->isCancelled()) {
         job->setHint("Detecting Java");
+        if (!this->findPackage("com.oracle.JRE")) {
+            Package* p = new Package("com.oracle.JRE", "JRE");
+            p->url = "http://www.java.com/";
+            p->description = "Java runtime";
+            this->packages.append(p);
+        }
         HKEY hk;
         if (RegOpenKeyEx(HKEY_LOCAL_MACHINE,
                 L"Software\\JavaSoft\\Java Runtime Environment",
@@ -280,22 +291,12 @@ void Repository::addUnknownExistingPackages()
     }
 }
 
-void Repository::addWindowsPackage()
-{
-    Package* p = new Package("com.microsoft.Windows", "Windows");
-    p->url = "http://www.microsoft.com/windows/";
-    p->description = "Operating system";
-    this->packages.append(p);
-}
-
 void Repository::load(Job* job)
 {
     qDeleteAll(this->packages);
     this->packages.clear();
     qDeleteAll(this->packageVersions);
     this->packageVersions.clear();
-
-    addWindowsPackage();
 
     QList<QUrl*> urls = getRepositoryURLs();
     if (urls.count() > 0) {

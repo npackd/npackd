@@ -76,7 +76,7 @@ public:
      * @param name name of the package like "org.server.Word"
      * @return found package or 0
      */
-    Package* findPackage(QString& name);
+    Package* findPackage(const QString& name);
 
     /**
      * Find the newest available package version.

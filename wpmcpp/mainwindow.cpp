@@ -162,6 +162,19 @@ void MainWindow::onShow()
     recognizeAndloadRepositories();
 }
 
+void MainWindow::selectPackageVersion(PackageVersion* pv)
+{
+    for (int i = 0; i < this->ui->tableWidget->rowCount(); i++) {
+        const QVariant v = this->ui->tableWidget->item(i, 0)->
+                data(Qt::UserRole);
+        PackageVersion* f = (PackageVersion *) v.value<void*>();
+        if (f == pv) {
+            this->ui->tableWidget->selectRow(i);
+            break;
+        }
+    }
+}
+
 PackageVersion* MainWindow::getSelectedPackageVersion()
 {
     QList<QTableWidgetItem*> sel = this->ui->tableWidget->selectedItems();
@@ -334,6 +347,7 @@ void MainWindow::on_actionUninstall_activated()
             delete it;
 
             fillList();
+            selectPackageVersion(pv);
             delete job;
         }
     }
@@ -420,6 +434,7 @@ void MainWindow::on_actionInstall_activated()
     delete it;
 
     fillList();
+    selectPackageVersion(pv);
     delete job;
 }
 
@@ -529,6 +544,7 @@ void MainWindow::on_actionUpdate_triggered()
         delete it;
 
         fillList();
+        selectPackageVersion(pv);
         delete job;
     }
 }
