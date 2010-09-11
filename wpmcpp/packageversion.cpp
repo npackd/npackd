@@ -148,10 +148,10 @@ void PackageVersion::update(Job* job)
 void PackageVersion::deleteShortcuts(bool menu, bool desktop, bool quickLaunch)
 {
     if (menu) {
-        QDir d(WPMUtils::getShellDir(CSIDL_PROGRAMS));
+        QDir d(WPMUtils::getShellDir(CSIDL_STARTMENU));
         deleteShortcuts(d);
 
-        QDir d2(WPMUtils::getShellDir(CSIDL_COMMON_PROGRAMS));
+        QDir d2(WPMUtils::getShellDir(CSIDL_COMMON_STARTMENU));
         deleteShortcuts(d2);
     }
 
@@ -254,7 +254,7 @@ bool PackageVersion::createShortcuts(QString *errMsg)
         path.prepend("\\");
         path.prepend(d.absolutePath());
 
-        QString from = WPMUtils::getShellDir(CSIDL_PROGRAMS);
+        QString from = WPMUtils::getShellDir(CSIDL_COMMON_STARTMENU);
         from.append("\\");
         from.append(ift);
         from.append(" (");
