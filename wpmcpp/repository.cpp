@@ -223,7 +223,7 @@ void Repository::recognize(Job* job)
     }
 
     // for .NET see
-    // h*ttp://stackoverflow.com/questions/199080/how-to-detect-what-net-framework-versions-and-service-packs-are-installed
+    // http://stackoverflow.com/questions/199080/how-to-detect-what-net-framework-versions-and-service-packs-are-installed
     if (!job->isCancelled()) {
         job->setHint("Detecting .NET");
         job->setProgress(1);
