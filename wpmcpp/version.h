@@ -29,7 +29,7 @@ public:
      * @return true if it was a valid version. The internal value is not changed
      *     if a not-valid version was supplied
      */
-    bool setVersion(QString& version);
+    bool setVersion(const QString& version);
 
     /**
      * Changes the version.

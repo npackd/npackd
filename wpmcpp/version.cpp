@@ -57,7 +57,7 @@ void Version::setVersion(int a, int b, int c)
     this->nparts = 3;
 }
 
-bool Version::setVersion(QString& v)
+bool Version::setVersion(const QString& v)
 {
     bool result = false;
     if (!v.trimmed().isEmpty()) {
