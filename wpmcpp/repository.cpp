@@ -226,9 +226,60 @@ void Repository::recognize(Job* job)
     // http://stackoverflow.com/questions/199080/how-to-detect-what-net-framework-versions-and-service-packs-are-installed
     if (!job->isCancelled()) {
         job->setHint("Detecting .NET");
-        job->setProgress(1);
+        Job* sub = job->newSubJob(0.25);
+        detectDotNet(sub);
+        delete sub;
     }
 
+    job->complete();
+}
+
+void Repository::detectDotNet(Job* job)
+{
+    if (!this->findPackage("com.microsoft.DotNetRedistributable")) {
+        Package* p = new Package("com.microsoft.DotNetRedistributable",
+                ".NET redistributable runtime");
+        p->url = "http://www.microsoft.com/downloads/details.aspx?FamilyID=0856eacb-4362-4b0d-8edd-aab15c5e04f5&amp;displaylang=en";
+        p->description = ".NET runtime";
+        this->packages.append(p);
+    }
+    HKEY hk;
+    if (RegOpenKeyEx(HKEY_LOCAL_MACHINE,
+            L"Software\\Microsoft\\NET Framework Setup\\NDP",
+            0, KEY_READ, &hk) == ERROR_SUCCESS) {
+        WCHAR name[255];
+        int index = 0;
+        while (true) {
+            DWORD nameSize = sizeof(name) / sizeof(name[0]);
+            LONG r = RegEnumKeyEx(hk, index, name, &nameSize,
+                    0, 0, 0, 0);
+            if (r == ERROR_SUCCESS) {
+                QString v_;
+                v_.setUtf16((ushort*) name, nameSize);
+                Version v;
+                if (v_.startsWith("v") && v.setVersion(
+                        v_.right(v_.length() - 1))) {
+                    PackageVersion* pv = this->findPackageVersion(
+                            "com.microsoft.DotNetRedistributable", v);
+                    if (!pv) {
+                        pv = new PackageVersion(
+                                "com.microsoft.DotNetRedistributable");
+                        pv->version = v;
+                        pv->external = true;
+                        this->packageVersions.append(pv);
+                    } else {
+                        if (!pv->installed())
+                            pv->external = true;
+                    }
+                }
+            } else if (r == ERROR_NO_MORE_ITEMS) {
+                break;
+            }
+            index++;
+        }
+        RegCloseKey(hk);
+    }
+    job->setProgress(1);
     job->complete();
 }
 

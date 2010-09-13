@@ -27,6 +27,8 @@ private:
     void addUnknownExistingPackages();
     void addWindowsPackage();
 
+    void detectDotNet(Job* job);
+
     /**
      * Recognizes applications installed without WPM.
      *
