@@ -33,8 +33,10 @@
  *      Shell link is to be stored.
  * @param lpszDesc - address of a buffer containing the description of the
  *      Shell link.
+ * @param workingDir working directory
  */
-HRESULT CreateLink(LPCWSTR lpszPathObj, LPCWSTR lpszPathLink, LPCWSTR lpszDesc)
+HRESULT CreateLink(LPCWSTR lpszPathObj, LPCWSTR lpszPathLink, LPCWSTR lpszDesc,
+        LPCWSTR workingDir)
 {
     HRESULT hres;
     IShellLink* psl;
@@ -50,6 +52,7 @@ HRESULT CreateLink(LPCWSTR lpszPathObj, LPCWSTR lpszPathLink, LPCWSTR lpszDesc)
         // description.
         psl->SetPath(lpszPathObj);
         psl->SetDescription(lpszDesc);
+        psl->SetWorkingDirectory(workingDir);
 
         // Query IShellLink for the IPersistFile interface for saving the
         // shortcut in persistent storage.
@@ -253,6 +256,11 @@ bool PackageVersion::createShortcuts(QString *errMsg)
         QString path(ifile);
         path.prepend("\\");
         path.prepend(d.absolutePath());
+        path = path.replace('/' , '\\');
+
+        QString workingDir = path;
+        int pos = workingDir.lastIndexOf('\\');
+        workingDir.chop(workingDir.length() - pos);
 
         QString from = WPMUtils::getShellDir(CSIDL_COMMON_STARTMENU);
         from.append("\\");
@@ -276,8 +284,9 @@ bool PackageVersion::createShortcuts(QString *errMsg)
             desc = this->package;
         HRESULT r = CreateLink((WCHAR*) path.replace('/', '\\').utf16(),
                                (WCHAR*) from.utf16(),
-                               (WCHAR*) desc.utf16());
-        // TODO: error message
+                               (WCHAR*) desc.utf16(),
+                               (WCHAR*) workingDir.utf16());
+
         if (!SUCCEEDED(r)) {
             qDebug() << "shortcut creation failed";
             return false;
