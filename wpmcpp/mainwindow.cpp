@@ -423,19 +423,28 @@ void MainWindow::loadRepositories()
 void MainWindow::on_actionInstall_activated()
 {
     PackageVersion* pv = getSelectedPackageVersion();
-    Job* job = new Job();
-    InstallThread* it = new InstallThread(pv, 1, job);
-    it->start();
-    it->setPriority(QThread::LowestPriority);
 
-    QString title("Installing");
-    waitFor(job, title);
-    it->wait();
-    delete it;
+    Dependency* d = pv->findFirstUnsatisfiedDependency();
+    if (d) {
+        QMessageBox::critical(this,
+                "Error", QString("This package depends on %1, "
+                "but it is not installed").arg(d->toString()),
+                QMessageBox::Ok);
+    } else {
+        Job* job = new Job();
+        InstallThread* it = new InstallThread(pv, 1, job);
+        it->start();
+        it->setPriority(QThread::LowestPriority);
 
-    fillList();
-    selectPackageVersion(pv);
-    delete job;
+        QString title("Installing");
+        waitFor(job, title);
+        it->wait();
+        delete it;
+
+        fillList();
+        selectPackageVersion(pv);
+        delete job;
+    }
 }
 
 

@@ -64,6 +64,11 @@ public:
     virtual ~PackageVersion();
 
     /**
+     * @return first unsatisfied dependency or 0
+     */
+    Dependency* findFirstUnsatisfiedDependency();
+
+    /**
      * @return package title
      */
     QString getPackageTitle();

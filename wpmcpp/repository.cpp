@@ -99,7 +99,9 @@ PackageVersion* Repository::createPackageVersion(QDomElement* e)
     QDomNodeList deps = e->elementsByTagName("dependency");
     for (int i = 0; i < deps.count(); i++) {
         QDomElement e = deps.at(i).toElement();
-        a->dependencies.append(createDependency(&e));
+        Dependency* d = createDependency(&e);
+        if (d)
+            a->dependencies.append(d);
     }
 
     // qDebug() << "Repository::createPackageVersion.2";

@@ -34,6 +34,16 @@ public:
      * @return true if the version can be used for this dependency
      */
     bool test(const Version& v);
+
+    /**
+     * @return true if a package, that satisfies this dependency, is installed
+     */
+    bool isInstalled();
+
+    /**
+     * @return human readable representation of this dependency
+     */
+    QString toString();
 };
 
 #endif // DEPENDENCY_H

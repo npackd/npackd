@@ -233,6 +233,19 @@ QDir PackageVersion::getDirectory()
     return d;
 }
 
+Dependency* PackageVersion::findFirstUnsatisfiedDependency()
+{
+    Dependency* r = 0;
+    for (int i = 0; i < this->dependencies.count(); i++) {
+        Dependency* d = this->dependencies.at(i);
+        if (!d->isInstalled()) {
+            r = d;
+            break;
+        }
+    }
+    return r;
+}
+
 QString PackageVersion::getPackageTitle()
 {
     Repository* rep = Repository::getDefault();
