@@ -136,11 +136,15 @@ PackageVersionFile* Repository::createPackageVersionFile(QDomElement* e)
 
 Dependency* Repository::createDependency(QDomElement* e)
 {
+    // qDebug() << "Repository::createDependency";
+
     QString package = e->attribute("package").trimmed();
 
     QString versions = e->attribute("versions").trimmed();
 
     bool minIncluded, maxIncluded;
+
+    // qDebug() << "Repository::createDependency.1" << versions;
 
     if (versions.startsWith('['))
         minIncluded = true;
@@ -150,13 +154,17 @@ Dependency* Repository::createDependency(QDomElement* e)
         return 0;
     versions.remove(0, 1);
 
+    // qDebug() << "Repository::createDependency.1.1" << versions;
+
     if (versions.endsWith(']'))
         maxIncluded = true;
-    else if (versions.startsWith(')'))
+    else if (versions.endsWith(')'))
         maxIncluded = false;
     else
         return 0;
     versions.chop(1);
+
+    // qDebug() << "Repository::createDependency.2";
 
     QStringList parts = versions.split(',');
     if (parts.count() != 2)
@@ -173,6 +181,9 @@ Dependency* Repository::createDependency(QDomElement* e)
     d->min = min;
     d->maxIncluded = maxIncluded;
     d->max = max;
+
+    // qDebug() << d->toString();
+
     return d;
 }
 

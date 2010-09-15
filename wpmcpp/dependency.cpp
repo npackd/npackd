@@ -35,7 +35,7 @@ QString Dependency::toString()
 
     res.append(this->max.getVersionString());
 
-    if (minIncluded)
+    if (maxIncluded)
         res.append(']');
     else
         res.append(')');

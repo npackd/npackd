@@ -48,7 +48,7 @@ void InstallThread::run()
 {
     CoInitialize(NULL);
 
-    qDebug() << "InstallThread::run.1";
+    // qDebug() << "InstallThread::run.1";
     switch (this->type) {
     case 0:
         pv->uninstall(job);
@@ -67,7 +67,7 @@ void InstallThread::run()
 
     CoUninitialize();
 
-    qDebug() << "InstallThread::run.2";
+    // qDebug() << "InstallThread::run.2";
 }
 
 bool MainWindow::winEvent(MSG* message, long* result)
@@ -138,13 +138,13 @@ bool MainWindow::waitFor(Job* job, QString& title)
     pd = new ProgressDialog(this, job, title);
     pd->setModal(true);
 
-    qDebug() << "MainWindow::waitFor.1";
+    // qDebug() << "MainWindow::waitFor.1";
 
     pd->exec();
     delete pd;
     pd = 0;
 
-    qDebug() << "MainWindow::waitFor.2";
+    // qDebug() << "MainWindow::waitFor.2";
     if (job->isCancelled())
         return false;
     else if (!job->getErrorMessage().isEmpty()) {
