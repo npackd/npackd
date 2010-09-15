@@ -178,64 +178,119 @@ void Repository::recognize(Job* job)
     job->setProgress(0.5);
 
     if (!job->isCancelled()) {
-        job->setHint("Detecting Java");
-        if (!this->findPackage("com.oracle.JRE")) {
-            Package* p = new Package("com.oracle.JRE", "JRE");
-            p->url = "http://www.java.com/";
-            p->description = "Java runtime";
-            this->packages.append(p);
-        }
-        HKEY hk;
-        if (RegOpenKeyEx(HKEY_LOCAL_MACHINE,
-                L"Software\\JavaSoft\\Java Runtime Environment",
-                0, KEY_READ, &hk) == ERROR_SUCCESS) {
-            WCHAR name[255];
-            int index = 0;
-            while (true) {
-                DWORD nameSize = sizeof(name) / sizeof(name[0]);
-                LONG r = RegEnumKeyEx(hk, index, name, &nameSize,
-                        0, 0, 0, 0);
-                if (r == ERROR_SUCCESS) {
-                    QString v_;
-                    v_.setUtf16((ushort*) name, nameSize);
-                    v_ = v_.replace('_', '.');
-                    if (v.setVersion(v_) && v.getNParts() > 2) {
-                        pv = this->findPackageVersion("com.oracle.JRE",
-                                v);
-                        if (!pv) {
-                            pv = new PackageVersion("com.oracle.JRE");
-                            pv->version = v;
-                            pv->external = true;
-                            this->packageVersions.append(pv);
-                        } else {
-                            if (!pv->installed())
-                                pv->external = true;
-                        }
-                    }
-                } else if (r == ERROR_NO_MORE_ITEMS) {
-                    break;
-                }
-                index++;
-            }
-            RegCloseKey(hk);
-        }
+        job->setHint("Detecting JRE");
+        detectJRE();
         job->setProgress(0.75);
     }
 
-    // for .NET see
-    // http://stackoverflow.com/questions/199080/how-to-detect-what-net-framework-versions-and-service-packs-are-installed
+    if (!job->isCancelled()) {
+        job->setHint("Detecting JDK");
+        detectJDK();
+        job->setProgress(0.8);
+    }
+
     if (!job->isCancelled()) {
         job->setHint("Detecting .NET");
-        Job* sub = job->newSubJob(0.25);
-        detectDotNet(sub);
-        delete sub;
+        detectDotNet();
+        job->setProgress(1);
     }
 
     job->complete();
 }
 
-void Repository::detectDotNet(Job* job)
+void Repository::detectJRE()
 {
+    if (!this->findPackage("com.oracle.JRE")) {
+        Package* p = new Package("com.oracle.JRE", "JRE");
+        p->url = "http://www.java.com/";
+        p->description = "Java runtime";
+        this->packages.append(p);
+    }
+    HKEY hk;
+    if (RegOpenKeyEx(HKEY_LOCAL_MACHINE,
+            L"Software\\JavaSoft\\Java Runtime Environment",
+            0, KEY_READ, &hk) == ERROR_SUCCESS) {
+        WCHAR name[255];
+        int index = 0;
+        while (true) {
+            DWORD nameSize = sizeof(name) / sizeof(name[0]);
+            LONG r = RegEnumKeyEx(hk, index, name, &nameSize,
+                    0, 0, 0, 0);
+            if (r == ERROR_SUCCESS) {
+                QString v_;
+                v_.setUtf16((ushort*) name, nameSize);
+                v_ = v_.replace('_', '.');
+                Version v;
+                if (v.setVersion(v_) && v.getNParts() > 2) {
+                    PackageVersion* pv =
+                            this->findPackageVersion("com.oracle.JRE", v);
+                    if (!pv) {
+                        pv = new PackageVersion("com.oracle.JRE");
+                        pv->version = v;
+                        pv->external = true;
+                        this->packageVersions.append(pv);
+                    } else {
+                        if (!pv->installed())
+                            pv->external = true;
+                    }
+                }
+            } else if (r == ERROR_NO_MORE_ITEMS) {
+                break;
+            }
+            index++;
+        }
+        RegCloseKey(hk);
+    }
+}
+
+void Repository::detectJDK()
+{
+    if (!this->findPackage("com.oracle.JDK")) {
+        Package* p = new Package("com.oracle.JDK", "JDK");
+        p->url = "http://www.oracle.com/technetwork/java/javase/overview/index.html";
+        p->description = "Java development kit";
+        this->packages.append(p);
+    }
+    HKEY hk;
+    if (RegOpenKeyEx(HKEY_LOCAL_MACHINE,
+            L"Software\\JavaSoft\\Java Development Kit",
+            0, KEY_READ, &hk) == ERROR_SUCCESS) {
+        WCHAR name[255];
+        int index = 0;
+        while (true) {
+            DWORD nameSize = sizeof(name) / sizeof(name[0]);
+            LONG r = RegEnumKeyEx(hk, index, name, &nameSize,
+                    0, 0, 0, 0);
+            if (r == ERROR_SUCCESS) {
+                QString v_;
+                v_.setUtf16((ushort*) name, nameSize);
+                v_ = v_.replace('_', '.');
+                Version v;
+                if (v.setVersion(v_) && v.getNParts() > 2) {
+                    PackageVersion* pv =
+                            this->findPackageVersion("com.oracle.JDK", v);
+                    if (!pv) {
+                        pv = new PackageVersion("com.oracle.JDK");
+                        pv->version = v;
+                        pv->external = true;
+                        this->packageVersions.append(pv);
+                    } else {
+                        if (!pv->installed())
+                            pv->external = true;
+                    }
+                }
+            } else if (r == ERROR_NO_MORE_ITEMS) {
+                break;
+            }
+            index++;
+        }
+        RegCloseKey(hk);
+    }
+}
+
+void Repository::detectDotNet()
+{
+    // http://stackoverflow.com/questions/199080/how-to-detect-what-net-framework-versions-and-service-packs-are-installed
     if (!this->findPackage("com.microsoft.DotNetRedistributable")) {
         Package* p = new Package("com.microsoft.DotNetRedistributable",
                 ".NET redistributable runtime");
@@ -279,8 +334,6 @@ void Repository::detectDotNet(Job* job)
         }
         RegCloseKey(hk);
     }
-    job->setProgress(1);
-    job->complete();
 }
 
 QDir Repository::getDirectory()
