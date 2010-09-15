@@ -96,6 +96,12 @@ PackageVersion* Repository::createPackageVersion(QDomElement* e)
         a->files.append(createPackageVersionFile(&e));
     }
 
+    QDomNodeList deps = e->elementsByTagName("dependency");
+    for (int i = 0; i < deps.count(); i++) {
+        QDomElement e = deps.at(i).toElement();
+        a->dependencies.append(createDependency(&e));
+    }
+
     // qDebug() << "Repository::createPackageVersion.2";
     return a;
 }
@@ -124,6 +130,48 @@ PackageVersionFile* Repository::createPackageVersionFile(QDomElement* e)
     PackageVersionFile* a = new PackageVersionFile(path, content);
 
     return a;
+}
+
+Dependency* Repository::createDependency(QDomElement* e)
+{
+    QString package = e->attribute("package").trimmed();
+
+    QString versions = e->attribute("versions").trimmed();
+
+    bool minIncluded, maxIncluded;
+
+    if (versions.startsWith('['))
+        minIncluded = true;
+    else if (versions.startsWith('('))
+        minIncluded = false;
+    else
+        return 0;
+    versions.remove(0, 1);
+
+    if (versions.endsWith(']'))
+        maxIncluded = true;
+    else if (versions.startsWith(')'))
+        maxIncluded = false;
+    else
+        return 0;
+    versions.chop(1);
+
+    QStringList parts = versions.split(',');
+    if (parts.count() != 2)
+        return 0;
+
+    Version min, max;
+    if (!min.setVersion(parts.at(0).trimmed()) ||
+            !max.setVersion(parts.at(1).trimmed()))
+        return 0;
+
+    Dependency* d = new Dependency();
+    d->package = package;
+    d->minIncluded = minIncluded;
+    d->min = min;
+    d->maxIncluded = maxIncluded;
+    d->max = max;
+    return d;
 }
 
 Package* Repository::findPackage(const QString& name)
@@ -290,8 +338,10 @@ void Repository::detectJDK()
 
 void Repository::detectDotNet()
 {
+    QString packageName("com.microsoft.DotNetRedistributable");
+
     // http://stackoverflow.com/questions/199080/how-to-detect-what-net-framework-versions-and-service-packs-are-installed
-    if (!this->findPackage("com.microsoft.DotNetRedistributable")) {
+    if (!this->findPackage(packageName)) {
         Package* p = new Package("com.microsoft.DotNetRedistributable",
                 ".NET redistributable runtime");
         p->url = "http://www.microsoft.com/downloads/details.aspx?FamilyID=0856eacb-4362-4b0d-8edd-aab15c5e04f5&amp;displaylang=en";
@@ -315,10 +365,9 @@ void Repository::detectDotNet()
                 if (v_.startsWith("v") && v.setVersion(
                         v_.right(v_.length() - 1))) {
                     PackageVersion* pv = this->findPackageVersion(
-                            "com.microsoft.DotNetRedistributable", v);
+                            packageName, v);
                     if (!pv) {
-                        pv = new PackageVersion(
-                                "com.microsoft.DotNetRedistributable");
+                        pv = new PackageVersion(packageName);
                         pv->version = v;
                         pv->external = true;
                         this->packageVersions.append(pv);

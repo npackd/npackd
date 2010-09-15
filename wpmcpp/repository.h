@@ -21,6 +21,7 @@ private:
 
     static Package* createPackage(QDomElement* e);
     static PackageVersionFile* createPackageVersionFile(QDomElement* e);
+    static Dependency* createDependency(QDomElement* e);
     static PackageVersion* createPackageVersion(QDomElement* e);
 
     void loadOne(QUrl* url, Job* job);

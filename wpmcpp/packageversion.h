@@ -11,6 +11,7 @@
 #include "job.h"
 #include "packageversionfile.h"
 #include "version.h"
+#include "dependency.h"
 
 class PackageVersion
 {
@@ -39,6 +40,11 @@ public:
      * Packages.
      */
     QList<PackageVersionFile*> files;
+
+    /**
+     * Dependencies.
+     */
+    QList<Dependency*> dependencies;
 
     /** 0 = zip file, 1 = one file */
     int type;
