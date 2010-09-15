@@ -23,6 +23,7 @@ private:
     bool executeFile(QString& path, QString* errMsg);
     void deleteShortcuts(bool menu, bool desktop, bool quickLaunch);
     QString fullText;
+    void installDeps(Job* job);
 public:
     /** package version */
     Version version;
@@ -64,6 +65,15 @@ public:
     virtual ~PackageVersion();
 
     /**
+     * @param r list of packages that should be installed before this one is
+     *     installed (will be filled by this method)
+     * @param unsatisfiedDeps this dependencies cannot be installed (are not
+     *     available)
+     */
+    void getInstallFirstPackages(QList<PackageVersion*>& r,
+            QList<Dependency*>& unsatisfiedDeps);
+
+    /**
      * @return first unsatisfied dependency or 0
      */
     Dependency* findFirstUnsatisfiedDependency();
@@ -77,6 +87,11 @@ public:
      * @return only the last part of the package name (without a dot)
      */
     QString getShortPackageName();
+
+    /**
+     * @return human readable title for this package version
+     */
+    QString toString();
 
     /**
      * @return true if this package version is installed

@@ -58,6 +58,21 @@ bool Dependency::isInstalled()
     return res;
 }
 
+PackageVersion* Dependency::findBestMatchToInstall()
+{
+    Repository* r = Repository::getDefault();
+    PackageVersion* res = 0;
+    for (int i = 0; i < r->packageVersions.count(); i++) {
+        PackageVersion* pv = r->packageVersions.at(i);
+        if (pv->package == this->package && this->test(pv->version) &&
+                !pv->external) {
+            if (res == 0 || pv->version.compare(res->version) > 0)
+                res = pv;
+        }
+    }
+    return res;
+}
+
 bool Dependency::test(const Version& v)
 {
     int a = v.compare(this->min);

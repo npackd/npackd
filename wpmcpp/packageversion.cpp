@@ -82,6 +82,11 @@ PackageVersion::PackageVersion()
     this->external = false;
 }
 
+QString PackageVersion::toString()
+{
+    return this->getPackageTitle() + " " + this->version.getVersionString();
+}
+
 QString PackageVersion::getShortPackageName()
 {
     QStringList sl = this->package.split(".");
@@ -233,6 +238,58 @@ QDir PackageVersion::getDirectory()
     return d;
 }
 
+void PackageVersion::getInstallFirstPackages(QList<PackageVersion*>& r,
+        QList<Dependency*>& unsatisfiedDeps)
+{
+    // the following loop can install more dependencies than absolutely
+    // necessary
+    // Example:
+    // A -> B
+    // A -> C
+    // B -> D [1, 2)
+    // C -> D [1, 3)
+    // => both D-2 and D-3 will be installed
+
+    for (int i = 0; i < this->dependencies.count(); i++) {
+        Dependency* d = this->dependencies.at(i);
+        if (!d->isInstalled()) {
+            PackageVersion* pv = d->findBestMatchToInstall();
+            if (!pv) {
+                unsatisfiedDeps.append(d);
+            } else {
+                if (!r.contains(pv)) {
+                    r.append(pv);
+                    pv->getInstallFirstPackages(r, unsatisfiedDeps);
+                }
+            }
+        }
+    }
+}
+
+void PackageVersion::installDeps(Job *job)
+{
+    job->setCancellable(true);
+    job->setHint("Computing dependencies");
+    QList<PackageVersion*> r;
+    QList<Dependency*> unsatisfiedDeps;
+    this->getInstallFirstPackages(r, unsatisfiedDeps);
+    job->setProgress(0.1);
+
+    for (int i = 0; i< r.count(); i++) {
+        if (job->isCancelled())
+            break;
+
+        PackageVersion* pv = r.at(i);
+        job->setHint(QString("Installing %1").arg(pv->toString()));
+        Job* sub = job->newSubJob(0.9 / r.count());
+        pv->install(sub);
+        delete sub;
+    }
+    job->setProgress(1);
+
+    job->complete();
+}
+
 Dependency* PackageVersion::findFirstUnsatisfiedDependency()
 {
     Dependency* r = 0;
@@ -317,23 +374,31 @@ void PackageVersion::install(Job* job)
     if (!installed() && !external) {
         job->setCancellable(true);
 
+        job->setHint("Installing dependencies");
+        Job* djob = job->newSubJob(0.30);
+        installDeps(djob);
+        delete djob;
+
         // qDebug() << "install.2";
         QDir d = getDirectory();
         // qDebug() << "install.dir=" << d;
 
         // qDebug() << "install.3";
-        job->setHint("Downloading");
-        Job* djob = job->newSubJob(0.60);
+        QTemporaryFile* f = 0;
         QString errMsg;
-        QTemporaryFile* f = Downloader::download(djob, this->download);
-        // qDebug() << "install.3.2 " << (f == 0) << djob->getErrorMessage();
-        if (!djob->getErrorMessage().isEmpty())
-            job->setErrorMessage(QString("Download failed: %1").arg(
-                    djob->getErrorMessage()));
-        delete djob;
+        if (!job->isCancelled()) {
+            job->setHint("Downloading");
+            djob = job->newSubJob(0.30);
+            f = Downloader::download(djob, this->download);
+            // qDebug() << "install.3.2 " << (f == 0) << djob->getErrorMessage();
+            if (!djob->getErrorMessage().isEmpty())
+                job->setErrorMessage(QString("Download failed: %1").arg(
+                        djob->getErrorMessage()));
+            delete djob;
+        }
 
         job->setCancellable(false);
-        if (f) {
+        if (!job->isCancelled() && f) {
             if (!this->sha1.isEmpty()) {
                 job->setHint("Computing hash sum");
                 QString h = WPMUtils::sha1(f->fileName());

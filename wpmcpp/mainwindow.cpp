@@ -424,11 +424,17 @@ void MainWindow::on_actionInstall_activated()
 {
     PackageVersion* pv = getSelectedPackageVersion();
 
-    Dependency* d = pv->findFirstUnsatisfiedDependency();
-    if (d) {
+    QList<PackageVersion*> r;
+    QList<Dependency*> unsatisfiedDeps;
+    pv->getInstallFirstPackages(r, unsatisfiedDeps);
+
+    if (unsatisfiedDeps.count() > 0) {
+        Dependency* d = unsatisfiedDeps.at(0);
         QMessageBox::critical(this,
-                "Error", QString("This package depends on %1, "
-                "but it is not installed").arg(d->toString()),
+                "Error", QString("%1 dependencies cannot be satisfied. "
+                "This package depends on %2, "
+                "but it is not available.").arg(unsatisfiedDeps.count()).
+                arg(d->toString()),
                 QMessageBox::Ok);
     } else {
         Job* job = new Job();
