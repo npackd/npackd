@@ -154,25 +154,31 @@ void PackageVersion::update(Job* job)
     job->complete();
 }
 
-void PackageVersion::deleteShortcuts(bool menu, bool desktop, bool quickLaunch)
+void PackageVersion::deleteShortcuts(Job* job,
+        bool menu, bool desktop, bool quickLaunch)
 {
     if (menu) {
+        job->setHint("Start menu");
         QDir d(WPMUtils::getShellDir(CSIDL_STARTMENU));
         deleteShortcuts(d);
 
         QDir d2(WPMUtils::getShellDir(CSIDL_COMMON_STARTMENU));
         deleteShortcuts(d2);
     }
+    job->setProgress(0.33);
 
     if (desktop) {
+        job->setHint("Desktop");
         QDir d3(WPMUtils::getShellDir(CSIDL_DESKTOP));
         deleteShortcuts(d3);
 
         QDir d4(WPMUtils::getShellDir(CSIDL_COMMON_DESKTOPDIRECTORY));
         deleteShortcuts(d4);
     }
+    job->setProgress(0.66);
 
     if (quickLaunch) {
+        job->setHint("Quick launch bar");
         const char* A = "\\Microsoft\\Internet Explorer\\Quick Launch";
         QDir d3(WPMUtils::getShellDir(CSIDL_APPDATA) + A);
         deleteShortcuts(d3);
@@ -180,6 +186,9 @@ void PackageVersion::deleteShortcuts(bool menu, bool desktop, bool quickLaunch)
         QDir d4(WPMUtils::getShellDir(CSIDL_COMMON_APPDATA) + A);
         deleteShortcuts(d4);
     }
+    job->setProgress(1);
+
+    job->complete();
 }
 
 void PackageVersion::uninstall(Job* job)
@@ -205,8 +214,9 @@ void PackageVersion::uninstall(Job* job)
 
     if (job->getErrorMessage().isEmpty()) {
         job->setHint("Deleting shortcuts");
-        deleteShortcuts(true, true, true);
-        job->setProgress(0.45);
+        Job* sub = job->newSubJob(0.20);
+        deleteShortcuts(sub, true, true, true);
+        delete sub;
     }
 
     if (job->getErrorMessage().isEmpty()) {
@@ -236,6 +246,39 @@ QDir PackageVersion::getDirectory()
     QDir d(pf + "\\WPM\\" + this->package + "-" +
            this->version.getVersionString());
     return d;
+}
+
+void PackageVersion::getUninstallFirstPackages(QList<PackageVersion*>& res)
+{
+    Repository* r = Repository::getDefault();
+
+    for (int i = 0; i < r->packageVersions.count(); i++) {
+        PackageVersion* pv = r->packageVersions.at(i);
+        if (pv->installed()) {
+            for (int j = 0; j < pv->dependencies.count(); j++) {
+                Dependency* d = pv->dependencies.at(j);
+                if (d->package == this->package && d->test(this->version)) {
+                    QList<PackageVersion*> matches;
+                    d->findAllInstalledMatches(matches);
+
+                    // will there still be a package for this dependency?
+                    bool stillOK = false;
+                    for (int k = 0; k < matches.count(); k++) {
+                        PackageVersion* match = matches.at(k);
+                        if (match != this && !res.contains(match)) {
+                            stillOK = true;
+                            break;
+                        }
+                    }
+
+                    if (!stillOK && !res.contains(pv)) {
+                        res.prepend(pv);
+                        pv->getUninstallFirstPackages(res);
+                    }
+                }
+            }
+        }
+    }
 }
 
 void PackageVersion::getInstallFirstPackages(QList<PackageVersion*>& r,
@@ -457,11 +500,12 @@ void PackageVersion::install(Job* job)
                                 "\\" + p)) {
                             job->setHint("Running the installation script");
                             if (this->executeFile(p, &errMsg)) {
-                                job->setProgress(0.99);
+                                job->setProgress(0.95);
                                 job->setHint(QString("Deleting desktop shortcuts %1").
                                              arg(WPMUtils::getShellDir(CSIDL_DESKTOP)));
-                                deleteShortcuts(false, true, true);
-                                job->setProgress(1);
+                                Job* sub = job->newSubJob(0.05);
+                                deleteShortcuts(sub, false, true, true);
+                                delete sub;
                             } else {
                                 job->setErrorMessage(errMsg);
 

@@ -58,6 +58,18 @@ bool Dependency::isInstalled()
     return res;
 }
 
+void Dependency::findAllInstalledMatches(QList<PackageVersion*>& res)
+{
+    Repository* r = Repository::getDefault();
+    for (int i = 0; i < r->packageVersions.count(); i++) {
+        PackageVersion* pv = r->packageVersions.at(i);
+        if (pv->package == this->package && this->test(pv->version) &&
+                pv->installed()) {
+            res.append(pv);
+        }
+    }
+}
+
 PackageVersion* Dependency::findBestMatchToInstall()
 {
     Repository* r = Repository::getDefault();

@@ -327,28 +327,55 @@ void MainWindow::on_actionUninstall_activated()
                 "Uninstall",
                 msg.arg(locked_));
     } else {
-        QString msg("The directory %1 "
-                "will be completely deleted. "
-                "There is no way to restore the files. "
-                "Are you sure?");
-        msg = msg.arg(pv->getDirectory().absolutePath());
-        QMessageBox::StandardButton b = QMessageBox::warning(this,
-                "Uninstall",
-                msg, QMessageBox::Yes | QMessageBox::No);
-        if (b == QMessageBox::Yes) {
-            Job* job = new Job();
-            InstallThread* it = new InstallThread(pv, 0, job);
-            it->start();
-            it->setPriority(QThread::LowestPriority);
+        QList<PackageVersion*> r;
+        pv->getUninstallFirstPackages(r);
 
-            QString title("Uninstalling");
-            waitFor(job, title);
-            it->wait();
-            delete it;
+        bool depsOK = true;
 
-            fillList();
-            selectPackageVersion(pv);
-            delete job;
+        if (r.count() > 0) {
+            QString names;
+            for (int i = 0; i < r.count(); i++) {
+                if (i != 0)
+                    names.append(", ");
+                names.append(r.at(i)->toString());
+                if (i > 5) {
+                    names.append("...");
+                    break;
+                }
+            }
+            QMessageBox::StandardButton b = QMessageBox::warning(this,
+                    "Uninstall",
+                    QString("% dependant packages must also be uninstalled. "
+                    "Are you sure?"), QMessageBox::Yes | QMessageBox::No);
+            if (b != QMessageBox::Yes) {
+                depsOK = false;
+            }
+        }
+
+        if (depsOK) {
+            QString msg("The directory %1 "
+                    "will be completely deleted. "
+                    "There is no way to restore the files. "
+                    "Are you sure?");
+            msg = msg.arg(pv->getDirectory().absolutePath());
+            QMessageBox::StandardButton b = QMessageBox::warning(this,
+                    "Uninstall",
+                    msg, QMessageBox::Yes | QMessageBox::No);
+            if (b == QMessageBox::Yes) {
+                Job* job = new Job();
+                InstallThread* it = new InstallThread(pv, 0, job);
+                it->start();
+                it->setPriority(QThread::LowestPriority);
+
+                QString title("Uninstalling");
+                waitFor(job, title);
+                it->wait();
+                delete it;
+
+                fillList();
+                selectPackageVersion(pv);
+                delete job;
+            }
         }
     }
 }

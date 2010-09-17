@@ -21,7 +21,7 @@ private:
     void deleteShortcuts(QDir& d);
     bool saveFiles(QString* errMsg);
     bool executeFile(QString& path, QString* errMsg);
-    void deleteShortcuts(bool menu, bool desktop, bool quickLaunch);
+    void deleteShortcuts(Job* job, bool menu, bool desktop, bool quickLaunch);
     QString fullText;
     void installDeps(Job* job);
 public:
@@ -63,6 +63,13 @@ public:
     PackageVersion();
     PackageVersion(const QString& package);
     virtual ~PackageVersion();
+
+    /**
+     * @param res list of packages that should be uninstalled before this one is
+     *     uninstalled (will be filled by this method). The packages should
+     *     be uninstalled in the order they are in r.
+     */
+    void getUninstallFirstPackages(QList<PackageVersion*>& res);
 
     /**
      * @param r list of packages that should be installed before this one is

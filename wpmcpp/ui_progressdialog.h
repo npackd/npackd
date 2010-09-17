@@ -1,7 +1,7 @@
 /********************************************************************************
 ** Form generated from reading UI file 'progressdialog.ui'
 **
-** Created: Sun Aug 22 16:56:12 2010
+** Created: Thu Sep 16 20:25:48 2010
 **      by: Qt User Interface Compiler version 4.6.3
 **
 ** WARNING! All changes made in this file will be lost when recompiling UI file!
@@ -59,6 +59,7 @@ public:
 
         labelStep = new QLabel(ProgressDialog);
         labelStep->setObjectName(QString::fromUtf8("labelStep"));
+        labelStep->setWordWrap(true);
 
         formLayout->setWidget(0, QFormLayout::FieldRole, labelStep);
 

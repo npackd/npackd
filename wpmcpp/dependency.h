@@ -38,6 +38,12 @@ public:
     bool test(const Version& v);
 
     /**
+     * @param res all package versions that match this dependency and are
+     *     installed will be stored here
+     */
+    void findAllInstalledMatches(QList<PackageVersion*>& res);
+
+    /**
      * @return the newest package version that matches this dependency by
      *     being installed. Never returns externally installed packages.
      */
