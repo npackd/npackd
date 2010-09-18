@@ -23,7 +23,6 @@ private:
     bool executeFile(QString& path, QString* errMsg);
     void deleteShortcuts(Job* job, bool menu, bool desktop, bool quickLaunch);
     QString fullText;
-    void installDeps(Job* job);
 public:
     /** package version */
     Version version;
@@ -63,6 +62,20 @@ public:
     PackageVersion();
     PackageVersion(const QString& package);
     virtual ~PackageVersion();
+
+    /**
+     * Installs necessary dependencies.
+     *
+     * @param job job
+     */
+    void installDeps(Job* job);
+
+    /**
+     * Uninstalls dependant packages.
+     *
+     * @param job job
+     */
+    void uninstallDeps(Job* job);
 
     /**
      * @param res list of packages that should be uninstalled before this one is

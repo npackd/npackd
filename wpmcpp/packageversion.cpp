@@ -318,17 +318,49 @@ void PackageVersion::installDeps(Job *job)
     this->getInstallFirstPackages(r, unsatisfiedDeps);
     job->setProgress(0.1);
 
-    for (int i = 0; i< r.count(); i++) {
-        if (job->isCancelled())
-            break;
+    if (r.count() > 0) {
+        for (int i = 0; i< r.count(); i++) {
+            if (job->isCancelled() || !job->getErrorMessage().isEmpty())
+                break;
 
-        PackageVersion* pv = r.at(i);
-        job->setHint(QString("Installing %1").arg(pv->toString()));
-        Job* sub = job->newSubJob(0.9 / r.count());
-        pv->install(sub);
-        delete sub;
+            PackageVersion* pv = r.at(i);
+            job->setHint(QString("Installing %1").arg(pv->toString()));
+            Job* sub = job->newSubJob(0.9 / r.count());
+            pv->install(sub);
+            delete sub;
+        }
+    } else {
+        job->setProgress(1);
     }
-    job->setProgress(1);
+
+    job->complete();
+}
+
+void PackageVersion::uninstallDeps(Job *job)
+{
+    job->setCancellable(true);
+    job->setHint("Computing dependencies");
+    QList<PackageVersion*> r;
+    getUninstallFirstPackages(r);
+    job->setProgress(0.1);
+
+    if (r.count() > 0) {
+        job->setHint("Uninstalling dependant packages");
+        for (int i = 0; i < r.count(); i++) {
+            if (job->isCancelled() || !job->getErrorMessage().isEmpty())
+                break;
+
+            PackageVersion* pv = r.at(i);
+            job->setHint(QString("Installing %1").arg(pv->toString()));
+            Job* sub = job->newSubJob(0.9 / r.count());
+            r.at(i)->uninstall(sub);
+            delete sub;
+            if (!job->getErrorMessage().isEmpty())
+                break;
+        }
+    } else {
+        job->setProgress(1);
+    }
 
     job->complete();
 }
@@ -417,11 +449,6 @@ void PackageVersion::install(Job* job)
     if (!installed() && !external) {
         job->setCancellable(true);
 
-        job->setHint("Installing dependencies");
-        Job* djob = job->newSubJob(0.30);
-        installDeps(djob);
-        delete djob;
-
         // qDebug() << "install.2";
         QDir d = getDirectory();
         // qDebug() << "install.dir=" << d;
@@ -431,7 +458,7 @@ void PackageVersion::install(Job* job)
         QString errMsg;
         if (!job->isCancelled()) {
             job->setHint("Downloading");
-            djob = job->newSubJob(0.30);
+            Job* djob = job->newSubJob(0.60);
             f = Downloader::download(djob, this->download);
             // qDebug() << "install.3.2 " << (f == 0) << djob->getErrorMessage();
             if (!djob->getErrorMessage().isEmpty())

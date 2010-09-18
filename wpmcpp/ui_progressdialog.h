@@ -1,7 +1,7 @@
 /********************************************************************************
 ** Form generated from reading UI file 'progressdialog.ui'
 **
-** Created: Thu Sep 16 20:25:48 2010
+** Created: Sat Sep 18 18:06:16 2010
 **      by: Qt User Interface Compiler version 4.6.3
 **
 ** WARNING! All changes made in this file will be lost when recompiling UI file!
@@ -38,7 +38,6 @@ public:
     QLabel *label_3;
     QLabel *label_remainingTime;
     QProgressBar *progressBar;
-    QSpacerItem *verticalSpacer;
     QHBoxLayout *horizontalLayout;
     QSpacerItem *horizontalSpacer;
     QPushButton *pushButtonCancel;
@@ -47,7 +46,8 @@ public:
     {
         if (ProgressDialog->objectName().isEmpty())
             ProgressDialog->setObjectName(QString::fromUtf8("ProgressDialog"));
-        ProgressDialog->resize(339, 135);
+        ProgressDialog->resize(396, 164);
+        ProgressDialog->setAutoFillBackground(false);
         verticalLayout = new QVBoxLayout(ProgressDialog);
         verticalLayout->setObjectName(QString::fromUtf8("verticalLayout"));
         formLayout = new QFormLayout();
@@ -59,6 +59,11 @@ public:
 
         labelStep = new QLabel(ProgressDialog);
         labelStep->setObjectName(QString::fromUtf8("labelStep"));
+        QSizePolicy sizePolicy(QSizePolicy::Preferred, QSizePolicy::Maximum);
+        sizePolicy.setHorizontalStretch(0);
+        sizePolicy.setVerticalStretch(0);
+        sizePolicy.setHeightForWidth(labelStep->sizePolicy().hasHeightForWidth());
+        labelStep->setSizePolicy(sizePolicy);
         labelStep->setWordWrap(true);
 
         formLayout->setWidget(0, QFormLayout::FieldRole, labelStep);
@@ -92,10 +97,6 @@ public:
 
         verticalLayout->addWidget(progressBar);
 
-        verticalSpacer = new QSpacerItem(20, 40, QSizePolicy::Minimum, QSizePolicy::Expanding);
-
-        verticalLayout->addItem(verticalSpacer);
-
         horizontalLayout = new QHBoxLayout();
         horizontalLayout->setObjectName(QString::fromUtf8("horizontalLayout"));
         horizontalSpacer = new QSpacerItem(40, 20, QSizePolicy::Expanding, QSizePolicy::Minimum);
@@ -111,6 +112,7 @@ public:
 
         verticalLayout->addLayout(horizontalLayout);
 
+        verticalLayout->setStretch(0, 1);
 
         retranslateUi(ProgressDialog);
 

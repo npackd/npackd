@@ -50,12 +50,42 @@ void InstallThread::run()
 
     // qDebug() << "InstallThread::run.1";
     switch (this->type) {
-    case 0:
-        pv->uninstall(job);
+    case 0: {
+        job->setCancellable(true);
+
+        job->setHint("Uninstalling dependant packages");
+        Job* sub = job->newSubJob(0.3);
+        pv->uninstallDeps(sub);
+        delete sub;
+
+        if (!job->isCancelled() && job->getErrorMessage().isEmpty()) {
+            job->setHint("Uninstalling");
+            sub = job->newSubJob(0.7);
+            pv->uninstall(sub);
+            delete sub;
+        }
+
+        job->complete();
         break;
-    case 1:
-        pv->install(job);
+    }
+    case 1: {
+        job->setCancellable(true);
+
+        job->setHint("Installing dependencies");
+        Job* djob = job->newSubJob(0.30);
+        pv->installDeps(djob);
+        delete djob;
+
+        if (!job->isCancelled() && job->getErrorMessage().isEmpty()) {
+            job->setHint("Installing");
+            djob = job->newSubJob(0.70);
+            pv->install(djob);
+            delete djob;
+        }
+
+        job->complete();
         break;
+    }
     case 2:
         pv->update(job);
         break;
@@ -330,7 +360,7 @@ void MainWindow::on_actionUninstall_activated()
         QList<PackageVersion*> r;
         pv->getUninstallFirstPackages(r);
 
-        bool depsOK = true;
+        bool ok;
 
         if (r.count() > 0) {
             QString names;
@@ -345,14 +375,15 @@ void MainWindow::on_actionUninstall_activated()
             }
             QMessageBox::StandardButton b = QMessageBox::warning(this,
                     "Uninstall",
-                    QString("% dependant packages must also be uninstalled. "
-                    "Are you sure?"), QMessageBox::Yes | QMessageBox::No);
-            if (b != QMessageBox::Yes) {
-                depsOK = false;
-            }
-        }
-
-        if (depsOK) {
+                    QString("%1 dependant packages must also be uninstalled: "
+                    "%2. The corresponding directories "
+                    "will be completely deleted. "
+                    "There is no way to restore the files. "
+                    "Are you sure?").arg(r.count()).arg(names).
+                    arg(pv->getDirectory().absolutePath()),
+                    QMessageBox::Yes | QMessageBox::No);
+            ok = b == QMessageBox::Yes;
+        } else {
             QString msg("The directory %1 "
                     "will be completely deleted. "
                     "There is no way to restore the files. "
@@ -361,21 +392,23 @@ void MainWindow::on_actionUninstall_activated()
             QMessageBox::StandardButton b = QMessageBox::warning(this,
                     "Uninstall",
                     msg, QMessageBox::Yes | QMessageBox::No);
-            if (b == QMessageBox::Yes) {
-                Job* job = new Job();
-                InstallThread* it = new InstallThread(pv, 0, job);
-                it->start();
-                it->setPriority(QThread::LowestPriority);
+            ok = b == QMessageBox::Yes;
+        }
 
-                QString title("Uninstalling");
-                waitFor(job, title);
-                it->wait();
-                delete it;
+        if (ok) {
+            Job* job = new Job();
+            InstallThread* it = new InstallThread(pv, 0, job);
+            it->start();
+            it->setPriority(QThread::LowestPriority);
 
-                fillList();
-                selectPackageVersion(pv);
-                delete job;
-            }
+            QString title("Uninstalling");
+            waitFor(job, title);
+            it->wait();
+            delete it;
+
+            fillList();
+            selectPackageVersion(pv);
+            delete job;
         }
     }
 }
