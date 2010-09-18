@@ -456,12 +456,21 @@ void MainWindow::on_actionInstall_activated()
     pv->getInstallFirstPackages(r, unsatisfiedDeps);
 
     if (unsatisfiedDeps.count() > 0) {
-        Dependency* d = unsatisfiedDeps.at(0);
+        QString names;
+        for (int i = 0; i < unsatisfiedDeps.count(); i++) {
+            if (i != 0)
+                names.append(", ");
+            names.append(unsatisfiedDeps.at(i)->toString());
+            if (i > 5) {
+                names.append("...");
+                break;
+            }
+        }
         QMessageBox::critical(this,
                 "Error", QString("%1 dependencies cannot be satisfied. "
                 "This package depends on %2, "
-                "but it is not available.").arg(unsatisfiedDeps.count()).
-                arg(d->toString()),
+                "which are not available.").arg(unsatisfiedDeps.count()).
+                arg(names),
                 QMessageBox::Ok);
     } else {
         Job* job = new Job();
