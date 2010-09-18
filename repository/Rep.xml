@@ -289,6 +289,11 @@
         <url>http://www.microsoft.com/downloads/details.aspx?FamilyID=890cd06b-abf8-4c25-91b2-f8d975cf8c07&amp;displaylang=en</url>
         <description>text file analysis</description>
     </package>
+    <package name="com.microsoft.PathManager">
+        <title>Path Manager</title>
+        <url>http://www.microsoft.com/downloads/details.aspx?displaylang=en&amp;FamilyID=048dc840-14e1-467d-8dca-19d2a8fd7485</url>
+        <description>Adds or removes components of the system or user path</description>
+    </package>
     <package name="com.microsoft.PowerPointViewer">
         <title>PowerPoint Viewer</title>
         <url>http://www.microsoft.com/downloads/details.aspx?displaylang=en&amp;FamilyID=048dc840-14e1-467d-8dca-19d2a8fd7485</url>
@@ -1160,6 +1165,13 @@
     of a package should stay together. Newer versions should appear under older
     ones.
     -->
+
+    <version name="1.0.0.1" package="com.microsoft.PathManager">
+        <file path=".WPM\Install.bat">pathman_setup.EXE /Q /C /T:"%DIR%\.WPM\MSI"
+msiexec.exe /a .WPM\MSI\pathman.msi /qb TARGETDIR="%DIR%"</file>
+        <url>http://download.microsoft.com/download/win2000platform/pathman/1.00.0.1/NT5/EN-US/pathman_setup.EXE</url>
+        <sha1>6fa6f7a54d45db2cc5a5115addceeb075531d584</sha1>
+    </version>
 
     <version name="2.20.1.3" package="org.gtk.GTKPlus">
         <url>http://ftp.gnome.org/pub/gnome/binaries/win32/gtk+/2.20/gtk+_2.20.1-3_win32.zip</url>
