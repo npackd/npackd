@@ -99,7 +99,3 @@ void ProgressDialog::on_pushButtonCancel_clicked()
     job->cancel();
 }
 
-void ProgressDialog::on_ProgressDialog_rejected()
-{
-
-}

@@ -522,11 +522,6 @@ void MainWindow::on_actionInstall_activated()
     }
 }
 
-
-void MainWindow::on_pushButtonSaveSettings_clicked()
-{
-}
-
 void MainWindow::on_actionGotoPackageURL_triggered()
 {
     PackageVersion* pv = getSelectedPackageVersion();
@@ -539,10 +534,6 @@ void MainWindow::on_actionGotoPackageURL_triggered()
             }
         }
     }
-}
-
-void MainWindow::on_comboBox_activated(int index)
-{
 }
 
 void MainWindow::on_comboBoxStatus_currentIndexChanged(int index)

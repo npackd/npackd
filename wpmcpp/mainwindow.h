@@ -67,9 +67,7 @@ private slots:
     void on_actionSettings_triggered();
     void on_lineEditText_textChanged(QString );
     void on_comboBoxStatus_currentIndexChanged(int index);
-    void on_comboBox_activated(int index);
     void on_actionGotoPackageURL_triggered();
-    void on_pushButtonSaveSettings_clicked();
     void onShow();
     void on_actionInstall_activated();
     void on_tableWidget_itemSelectionChanged();
