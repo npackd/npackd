@@ -10,6 +10,16 @@ Version::Version()
     this->nparts = 2;
 }
 
+Version::Version(const QString &v)
+{
+    this->parts = new int[2];
+    this->parts[0] = 1;
+    this->parts[1] = 0;
+    this->nparts = 2;
+
+    setVersion(v);
+}
+
 Version::Version(int a, int b)
 {
     this->parts = new int[2];

@@ -13,6 +13,7 @@
 #include "packageversionfile.h"
 #include "wpmutils.h"
 #include "version.h"
+#include "msi.h"
 
 Repository* Repository::def = 0;
 
@@ -253,6 +254,12 @@ void Repository::recognize(Job* job)
     if (!job->isCancelled()) {
         job->setHint("Detecting .NET");
         detectDotNet();
+        job->setProgress(0.9);
+    }
+
+    if (!job->isCancelled()) {
+        job->setHint("Detecting .NET");
+        detectMSIProducts();
         job->setProgress(1);
     }
 
@@ -349,6 +356,20 @@ void Repository::detectJDK()
     }
 }
 
+void Repository::versionDetected(const QString &package, const Version &v)
+{
+    PackageVersion* pv = findPackageVersion(package, v);
+    if (pv) {
+        if (!pv->installed())
+            pv->external = true;
+    } else {
+        pv = new PackageVersion(package);
+        pv->version = v;
+        pv->external = true;
+        this->packageVersions.append(pv);
+    }
+}
+
 void Repository::detectOneDotNet(HKEY hk2, const QString& keyName)
 {
     QString packageName("com.microsoft.DotNetRedistributable");
@@ -400,12 +421,21 @@ void Repository::detectOneDotNet(HKEY hk2, const QString& keyName)
     }
 }
 
-void Repository::detectDotNet()
+void Repository::detectMSIProducts()
 {
-    QString packageName("com.microsoft.DotNetRedistributable");
+    QStringList guids = WPMUtils::findInstalledMSIProducts();
 
     // Detecting VisualC++ runtimes:
     // http://blogs.msdn.com/b/astebner/archive/2009/01/29/9384143.aspx
+    if (guids.contains("{FF66E9F6-83E7-3A3E-AF14-8DE9A809A6A4}")) {
+        this->versionDetected("com.microsoft.VisualCPPRedistributable",
+                Version("9.0.21022.8"));
+    }
+}
+
+void Repository::detectDotNet()
+{
+    QString packageName("com.microsoft.DotNetRedistributable");
 
     // http://stackoverflow.com/questions/199080/how-to-detect-what-net-framework-versions-and-service-packs-are-installed
     if (!this->findPackage(packageName)) {

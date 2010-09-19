@@ -91,6 +91,11 @@ public:
      * @return value or "" if an error has occured
      */
     static QString regQueryValue(HKEY hk, const QString& var);
+
+    /**
+     * @return GUIDs for installed products (MSI)
+     */
+    static QStringList findInstalledMSIProducts();
 };
 
 #endif // WPMUTILS_H

@@ -13,6 +13,7 @@
 #include "wpmutils.h"
 
 #include <tlhelp32.h>
+#include "msi.h"
 
 //#include <windows.h>
 //#include <initguid.h>
@@ -146,6 +147,23 @@ QString WPMUtils::getShellDir(int type)
     WCHAR dir[MAX_PATH];
     SHGetFolderPath(0, type, NULL, 0, dir);
     return QString::fromUtf16(reinterpret_cast<ushort*>(dir));
+}
+
+QStringList WPMUtils::findInstalledMSIProducts()
+{
+    QStringList result;
+    WCHAR buf[39];
+    int index = 0;
+    while (true) {
+        UINT r = MsiEnumProducts(index, buf);
+        if (r != ERROR_SUCCESS)
+            break;
+        QString v;
+        v.setUtf16((ushort*) buf, 38);
+        result.append(v);
+        index++;
+    }
+    return result;
 }
 
 QString WPMUtils::regQueryValue(HKEY hk, const QString &var)

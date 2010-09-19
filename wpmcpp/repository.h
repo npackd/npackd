@@ -30,7 +30,10 @@ private:
     void addUnknownExistingPackages();
     void addWindowsPackage();
 
+    void versionDetected(const QString& package, const Version& v);
+
     void detectOneDotNet(HKEY hk2, const QString& keyName);
+    void detectMSIProducts();
     void detectDotNet();
     void detectJRE();
     void detectJDK();
