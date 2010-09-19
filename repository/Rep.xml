@@ -2457,6 +2457,23 @@ echo DesktopShortcut=false >> .WPM\FF.ini
         <sha1>a6eba36a8d40c4e35bdfa9802a3ec0a7e9ee559d</sha1>
     </version>
 
+    <!--
+        see http://www.mirrorservice.org/sites/releases.mozilla.org/pub/mozilla.org//thunderbird/releases/
+        for available releases
+    -->
+    <version name="3.1.4" package="org.mozilla.Thunderbird"
+            type="one-file">
+        <file path=".WPM\Install.bat">echo [Install] > .WPM\FF.ini
+echo InstallDirectoryPath=%CD% >> .WPM\FF.ini
+echo QuickLaunchShortcut=false >> .WPM\FF.ini
+echo DesktopShortcut=false >> .WPM\FF.ini
+"Thunderbird Setup 3.1.4.exe" /INI="%CD%\.WPM\FF.ini"
+</file>
+        <file path=".WPM\Uninstall.bat">uninstall\helper.exe /S</file>
+        <url>http://www.mirrorservice.org/sites/releases.mozilla.org/pub/mozilla.org/thunderbird/releases/3.1.4/win32/en-US/Thunderbird%20Setup%203.1.4.exe</url>
+        <sha1>a6eba36a8d40c4e35bdfa9802a3ec0a7e9ee559d</sha1>
+    </version>
+
     <version name="3.1" package="org.mozilla.ThunderbirdInstaller"
             type="one-file">
         <important-file path="Thunderbird Setup 3.1.exe" title="Installer"/>
