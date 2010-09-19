@@ -14,6 +14,14 @@ public:
      */
     Version();
 
+    /**
+     * Initialization with a.b
+     *
+     * @param a major version number
+     * @param b minor version number
+     */
+    Version(int a, int b);
+
     Version(const Version& v);
 
     Version& operator =(const Version& v);

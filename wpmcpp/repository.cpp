@@ -349,9 +349,63 @@ void Repository::detectJDK()
     }
 }
 
+void Repository::detectOneDotNet(HKEY hk2, const QString& keyName)
+{
+    QString packageName("com.microsoft.DotNetRedistributable");
+    Version keyVersion;
+
+    Version oneOne(1, 1);
+    Version four(4, 0);
+    Version two(2, 0);
+
+    Version v;
+    bool found = false;
+    if (keyName.startsWith("v") && keyVersion.setVersion(
+            keyName.right(keyName.length() - 1))) {
+        if (keyVersion.compare(oneOne) < 0) {
+            // not yet implemented
+        } else if (keyVersion.compare(two) < 0) {
+            v = keyVersion;
+            found = true;
+        } else if (keyVersion.compare(four) < 0) {
+            QString value_ = WPMUtils::regQueryValue(hk2, "Version");
+            if (v.setVersion(value_)) {
+                found = true;
+            }
+        } else {
+            HKEY hk3;
+            if (RegOpenKeyExW(hk2, L"Full",
+                    0, KEY_READ, &hk3) == ERROR_SUCCESS) {
+                QString value_ = WPMUtils::regQueryValue(hk3, "Version");
+                if (v.setVersion(value_)) {
+                    found = true;
+                }
+                RegCloseKey(hk2);
+            }
+        }
+    }
+
+    if (found) {
+        PackageVersion* pv = this->findPackageVersion(
+                packageName, v);
+        if (!pv) {
+            pv = new PackageVersion(packageName);
+            pv->version = v;
+            pv->external = true;
+            this->packageVersions.append(pv);
+        } else {
+            if (!pv->installed())
+                pv->external = true;
+        }
+    }
+}
+
 void Repository::detectDotNet()
 {
     QString packageName("com.microsoft.DotNetRedistributable");
+
+    // Detecting VisualC++ runtimes:
+    // http://blogs.msdn.com/b/astebner/archive/2009/01/29/9384143.aspx
 
     // http://stackoverflow.com/questions/199080/how-to-detect-what-net-framework-versions-and-service-packs-are-installed
     if (!this->findPackage(packageName)) {
@@ -377,16 +431,11 @@ void Repository::detectDotNet()
                 Version v;
                 if (v_.startsWith("v") && v.setVersion(
                         v_.right(v_.length() - 1))) {
-                    PackageVersion* pv = this->findPackageVersion(
-                            packageName, v);
-                    if (!pv) {
-                        pv = new PackageVersion(packageName);
-                        pv->version = v;
-                        pv->external = true;
-                        this->packageVersions.append(pv);
-                    } else {
-                        if (!pv->installed())
-                            pv->external = true;
+                    HKEY hk2;
+                    if (RegOpenKeyExW(hk, (WCHAR*) v_.utf16(),
+                            0, KEY_READ, &hk2) == ERROR_SUCCESS) {
+                        detectOneDotNet(hk2, v_);
+                        RegCloseKey(hk2);
                     }
                 }
             } else if (r == ERROR_NO_MORE_ITEMS) {

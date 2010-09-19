@@ -10,6 +10,14 @@ Version::Version()
     this->nparts = 2;
 }
 
+Version::Version(int a, int b)
+{
+    this->parts = new int[2];
+    this->parts[0] = a;
+    this->parts[1] = b;
+    this->nparts = 2;
+}
+
 Version::Version(const Version &v)
 {
     this->parts = new int[v.nparts];

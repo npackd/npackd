@@ -82,6 +82,15 @@ public:
      * @return SHA1 or "" in case of an error
      */
     static QString sha1(const QString& filename);
+
+    /**
+     * Reads a value from the registry.
+     *
+     * @param hk open key
+     * @param var name of the REG_SZ-Variable
+     * @return value or "" if an error has occured
+     */
+    static QString regQueryValue(HKEY hk, const QString& var);
 };
 
 #endif // WPMUTILS_H

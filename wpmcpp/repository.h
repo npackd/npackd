@@ -1,6 +1,8 @@
 #ifndef REPOSITORY_H
 #define REPOSITORY_H
 
+#include <windows.h>
+
 #include "qfile.h"
 #include "qlist.h"
 #include "qurl.h"
@@ -28,6 +30,7 @@ private:
     void addUnknownExistingPackages();
     void addWindowsPackage();
 
+    void detectOneDotNet(HKEY hk2, const QString& keyName);
     void detectDotNet();
     void detectJRE();
     void detectJDK();

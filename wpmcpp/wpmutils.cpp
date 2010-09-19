@@ -148,6 +148,18 @@ QString WPMUtils::getShellDir(int type)
     return QString::fromUtf16(reinterpret_cast<ushort*>(dir));
 }
 
+QString WPMUtils::regQueryValue(HKEY hk, const QString &var)
+{
+    QString value_;
+    char value[255];
+    DWORD valueSize = sizeof(value);
+    if (RegQueryValueEx(hk, (WCHAR*) var.utf16(), 0, 0, (BYTE*) value,
+            &valueSize) == ERROR_SUCCESS) {
+        value_.setUtf16((ushort*) value, valueSize / 2 - 1);
+    }
+    return value_;
+}
+
 QString WPMUtils::sha1(const QString& filename)
 {
     QFile file(filename);
