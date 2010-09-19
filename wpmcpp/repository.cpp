@@ -431,6 +431,14 @@ void Repository::detectMSIProducts()
         this->versionDetected("com.microsoft.VisualCPPRedistributable",
                 Version("9.0.21022.8"));
     }
+    if (guids.contains("{9A25302D-30C0-39D9-BD6F-21E6EC160475}")) {
+        this->versionDetected("com.microsoft.VisualCPPRedistributable",
+                Version("9.0.30729.17"));
+    }
+    if (guids.contains("{1F1C2DFC-2D24-3E06-BCB8-725134ADF989}")) {
+        this->versionDetected("com.microsoft.VisualCPPRedistributable",
+                Version("9.0.30729.4148"));
+    }
 }
 
 void Repository::detectDotNet()
