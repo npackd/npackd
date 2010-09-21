@@ -64,6 +64,13 @@ public:
     virtual ~PackageVersion();
 
     /**
+     * Downloads the package and computes its SHA1.
+     *
+     * @return SHA1
+     */
+    QString downloadAndComputeSHA1(Job* job);
+
+    /**
      * Installs necessary dependencies.
      *
      * @param job job

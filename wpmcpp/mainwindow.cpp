@@ -13,6 +13,7 @@
 #include <QRegExp>
 #include <qdatetime.h>
 #include "qdesktopservices.h"
+#include <qinputdialog.h>
 
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
@@ -29,10 +30,14 @@ class InstallThread: public QThread
     // 1 = install
     // 2 = update,
     // 3, 4 = recognize installed applications + load repositories
+    // 5 = download the package and compute it's SHA1
     int type;
 
     Job* job;
 public:
+    /** computed SHA1 will be stored here (type == 5) */
+    QString sha1;
+
     InstallThread(PackageVersion* pv, int install, Job* job);
 
     void run();
@@ -93,6 +98,9 @@ void InstallThread::run()
     case 3:
     case 4:
         Repository::getDefault()->load(job);
+        break;
+    case 5:
+        this->sha1 = pv->downloadAndComputeSHA1(job);
         break;
     }
 
@@ -163,7 +171,7 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
-bool MainWindow::waitFor(Job* job, QString& title)
+bool MainWindow::waitFor(Job* job, const QString& title)
 {
     ProgressDialog* pd;
     pd = new ProgressDialog(this, job, title);
@@ -442,6 +450,7 @@ void MainWindow::on_tableWidget_itemSelectionChanged()
     this->ui->actionInstall->setEnabled(pv && !pv->installed());
     this->ui->actionUninstall->setEnabled(pv && pv->installed() &&
             !pv->external);
+    this->ui->actionCompute_SHA1->setEnabled(pv && pv->download.isValid());
 
     // "Update"
     if (pv && !pv->external) {
@@ -657,4 +666,29 @@ void MainWindow::on_actionTest_Download_Site_triggered()
             QDesktopServices::openUrl(url);
         }
     }
+}
+
+void MainWindow::on_actionCompute_SHA1_triggered()
+{
+    PackageVersion* pv = getSelectedPackageVersion();
+    Job* job = new Job();
+    InstallThread* it = new InstallThread(pv, 5, job);
+    it->start();
+    it->setPriority(QThread::LowestPriority);
+
+    waitFor(job, "Compute SHA1");
+    it->wait();
+
+    if (!job->isCancelled() && job->getErrorMessage().isEmpty()) {
+        bool ok;
+        QInputDialog::getText(this, "SHA1",
+                QString("SHA1 for %1:").arg(pv->toString()), QLineEdit::Normal,
+                it->sha1, &ok);
+    } else if (!job->getErrorMessage().isEmpty()) {
+        QMessageBox::critical(this,
+                "Error", job->getErrorMessage(), QMessageBox::Ok);
+    }
+
+    delete it;
+    delete job;
 }

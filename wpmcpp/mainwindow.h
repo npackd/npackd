@@ -51,7 +51,7 @@ public:
      *     (no error and not cancelled)
      * @param title dialog title
      */
-    bool waitFor(Job* job, QString& title);
+    bool waitFor(Job* job, const QString& title);
 
     /**
      * Load the content of all defined repositories and updates the UI.
@@ -62,6 +62,7 @@ public:
 protected:
     void changeEvent(QEvent *e);
 private slots:
+    void on_actionCompute_SHA1_triggered();
     void on_actionTest_Download_Site_triggered();
     void on_actionUpdate_triggered();
     void on_actionSettings_triggered();

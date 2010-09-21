@@ -309,6 +309,35 @@ void PackageVersion::getInstallFirstPackages(QList<PackageVersion*>& r,
     }
 }
 
+QString PackageVersion::downloadAndComputeSHA1(Job* job)
+{
+    QString r;
+
+    job->setCancellable(true);
+
+    job->setHint("Downloading");
+    QTemporaryFile* f = 0;
+    Job* djob = job->newSubJob(0.95);
+    f = Downloader::download(djob, this->download);
+    if (!djob->getErrorMessage().isEmpty())
+        job->setErrorMessage(QString("Download failed: %1").arg(
+                djob->getErrorMessage()));
+    delete djob;
+
+    if (!job->isCancelled() && job->getErrorMessage().isEmpty()) {
+        job->setHint("Computing SHA1");
+        r = WPMUtils::sha1(f->fileName());
+        job->setProgress(1);
+    }
+
+    if (f)
+        delete f;
+
+    job->complete();
+
+    return r;
+}
+
 void PackageVersion::installDeps(Job *job)
 {
     job->setCancellable(true);

@@ -12,7 +12,7 @@
 #include "ui_progressdialog.h"
 #include "job.h"
 
-ProgressDialog::ProgressDialog(QWidget *parent, Job* job, QString& title) :
+ProgressDialog::ProgressDialog(QWidget *parent, Job* job, const QString& title) :
     QDialog(parent),
     ui(new Ui::ProgressDialog)
 {
