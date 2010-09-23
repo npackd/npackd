@@ -11,6 +11,8 @@
 
 #include "package.h"
 #include "packageversion.h"
+#include "node.h"
+#include "digraph.h"
 
 /**
  * A repository is a list of packages and package versions.
@@ -20,6 +22,8 @@ class Repository
 private:
     // TODO: this is never freed
     static Repository* def;
+
+    Digraph* installedGraph;
 
     static Package* createPackage(QDomElement* e);
     static PackageVersionFile* createPackageVersionFile(QDomElement* e);
@@ -66,6 +70,22 @@ public:
     Repository();
 
     ~Repository();
+
+    /**
+     * @return digraph with installed package versions. Each Node.userData is
+     *     of type PackageVersion* and represents an installed package version.
+     *     The memory should not be freed. The first object in the list has
+     *     the userData==0 and represents the user which "depends" on a list
+     *     of packages (uses some programs).
+     */
+    Digraph* getInstalledGraph();
+
+    /**
+     * This method should always be called after something was installed or
+     * uninstalled so that the Repository object can re-calculate some internal
+     * data.
+     */
+    void somethingWasInstalledOrUninstalled();
 
     /**
      * Counts the number of installed packages that can be updated.

@@ -238,6 +238,7 @@ void PackageVersion::uninstall(Job* job)
     }
 
     if (job->getErrorMessage().isEmpty()) {
+        Repository::getDefault()->somethingWasInstalledOrUninstalled();
         if (d.exists()) {
             job->setHint("Deleting files");
             bool r = WPMUtils::removeDirectory(d, &errMsg);
@@ -529,6 +530,7 @@ void PackageVersion::install(Job* job)
 
             if (job->getErrorMessage().isEmpty()) {
                 if (d.mkdir(d.absolutePath())) {
+                    Repository::getDefault()->somethingWasInstalledOrUninstalled();
                     if (this->type == 0) {
                         job->setHint("Extracting files");
                         qDebug() << "install.6 " << f->size() << d.absolutePath();

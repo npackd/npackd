@@ -50,6 +50,12 @@ public:
     PackageVersion* findBestMatchToInstall();
 
     /**
+     * @return the newest package version that matches this dependency by
+     *     being installed.
+     */
+    PackageVersion* findHighestInstalledMatch();
+
+    /**
      * @return true if a package, that satisfies this dependency, is installed
      */
     bool isInstalled();

@@ -19,10 +19,50 @@ Repository* Repository::def = 0;
 
 Repository::Repository()
 {
+    this->installedGraph = 0;
+}
+
+Digraph* Repository::getInstalledGraph()
+{
+    if (!this->installedGraph) {
+        this->installedGraph = new Digraph();
+        Node* user = this->installedGraph->addNode(0);
+        for (int i = 0; i < this->packageVersions.count(); i++) {
+            PackageVersion* pv = this->packageVersions.at(i);
+            if (pv->installed()) {
+                Node* n = this->installedGraph->addNode(pv);
+                user->to.append(n);
+            }
+        }
+
+        for (int i = 1; i < this->installedGraph->nodes.count(); i++) {
+            Node* n = this->installedGraph->nodes.at(i);
+            PackageVersion* pv = (PackageVersion*) n->userData;
+            for (int j = 0; j < pv->dependencies.count(); j++) {
+                Dependency* d = pv->dependencies.at(j);
+                PackageVersion* pv2 = d->findHighestInstalledMatch();
+                Node* n2 = this->installedGraph->findNodeByUserData(pv2);
+                if (!n2) {
+                    n2 = this->installedGraph->addNode(pv2);
+                }
+                n->to.append(n2);
+            }
+        }
+    }
+    return this->installedGraph;
+}
+
+void Repository::somethingWasInstalledOrUninstalled()
+{
+    if (this->installedGraph) {
+        delete this->installedGraph;
+        this->installedGraph = 0;
+    }
 }
 
 Repository::~Repository()
 {
+    delete this->installedGraph;
     qDeleteAll(this->packages);
     qDeleteAll(this->packageVersions);
 }
@@ -237,6 +277,7 @@ void Repository::recognize(Job* job)
         this->packageVersions.append(pv);
     }
     pv->external = true;
+    somethingWasInstalledOrUninstalled();
     job->setProgress(0.5);
 
     if (!job->isCancelled()) {
@@ -301,6 +342,7 @@ void Repository::detectJRE()
                         if (!pv->installed())
                             pv->external = true;
                     }
+                    somethingWasInstalledOrUninstalled();
                 }
             } else if (r == ERROR_NO_MORE_ITEMS) {
                 break;
@@ -346,6 +388,7 @@ void Repository::detectJDK()
                         if (!pv->installed())
                             pv->external = true;
                     }
+                    somethingWasInstalledOrUninstalled();
                 }
             } else if (r == ERROR_NO_MORE_ITEMS) {
                 break;
@@ -368,6 +411,7 @@ void Repository::versionDetected(const QString &package, const Version &v)
         pv->external = true;
         this->packageVersions.append(pv);
     }
+    somethingWasInstalledOrUninstalled();
 }
 
 void Repository::detectOneDotNet(HKEY hk2, const QString& keyName)
@@ -418,6 +462,7 @@ void Repository::detectOneDotNet(HKEY hk2, const QString& keyName)
             if (!pv->installed())
                 pv->external = true;
         }
+        somethingWasInstalledOrUninstalled();
     }
 }
 
@@ -536,6 +581,7 @@ void Repository::addUnknownExistingPackages()
                             PackageVersion* pv = new PackageVersion(package);
                             pv->version = version;
                             this->packageVersions.append(pv);
+                            somethingWasInstalledOrUninstalled();
                         }
                     }
                 }
@@ -550,6 +596,7 @@ void Repository::load(Job* job)
     this->packages.clear();
     qDeleteAll(this->packageVersions);
     this->packageVersions.clear();
+    delete this->installedGraph;
 
     QList<QUrl*> urls = getRepositoryURLs();
     if (urls.count() > 0) {
@@ -613,6 +660,7 @@ void Repository::loadOne(QUrl* url, Job* job) {
                     if (e.nodeName() == "version") {
                         this->packageVersions.append(
                                 createPackageVersion(&e));
+                        somethingWasInstalledOrUninstalled();
                     } else if (e.nodeName() == "package") {
                         this->packages.append(
                                 createPackage(&e));

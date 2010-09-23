@@ -85,6 +85,19 @@ PackageVersion* Dependency::findBestMatchToInstall()
     return res;
 }
 
+PackageVersion* Dependency::findHighestInstalledMatch()
+{
+    QList<PackageVersion*> list;
+    findAllInstalledMatches(list);
+    PackageVersion* res = 0;
+    for (int i = 0; i < list.count(); i++) {
+        PackageVersion* pv = list.at(i);
+        if (res == 0 || pv->version.compare(res->version) > 0)
+            res = pv;
+    }
+    return res;
+}
+
 bool Dependency::test(const Version& v)
 {
     int a = v.compare(this->min);

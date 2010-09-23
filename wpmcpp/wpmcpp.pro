@@ -17,7 +17,9 @@ SOURCES += main.cpp \
     packageversionfile.cpp \
     version.cpp \
     settingsdialog.cpp \
-    dependency.cpp
+    dependency.cpp \
+    node.cpp \
+    digraph.cpp
 HEADERS += mainwindow.h \
     packageversion.h \
     repository.h \
@@ -30,7 +32,9 @@ HEADERS += mainwindow.h \
     version.h \
     settingsdialog.h \
     dependency.h \
-    msi.h
+    msi.h \
+    node.h \
+    digraph.h
 FORMS += mainwindow.ui \
     progressdialog.ui \
     settingsdialog.ui
