@@ -64,6 +64,14 @@ public:
     virtual ~PackageVersion();
 
     /**
+     * Renames the directory for this package to a temporary name and then
+     * renames it back.
+     *
+     * @return true if the renaming was OK (the directory is not locked)
+     */
+    bool isDirectoryLocked();
+
+    /**
      * Downloads the package and computes its SHA1.
      *
      * @return SHA1

@@ -82,6 +82,24 @@ PackageVersion::PackageVersion()
     this->external = false;
 }
 
+bool PackageVersion::isDirectoryLocked()
+{
+    QDir d = getDirectory();
+    QDateTime now = QDateTime::currentDateTime();
+    QString newName = QString("%1-%2").arg(d.absolutePath()).arg(now.toTime_t());
+
+    if (!d.rename(d.absolutePath(), newName)) {
+        return true;
+    }
+
+    if (!d.rename(newName, d.absolutePath())) {
+        return true;
+    }
+
+    return false;
+}
+
+
 QString PackageVersion::toString()
 {
     return this->getPackageTitle() + " " + this->version.getVersionString();

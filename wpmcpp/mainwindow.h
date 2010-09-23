@@ -61,6 +61,8 @@ public:
     void recognizeAndloadRepositories();
 protected:
     void changeEvent(QEvent *e);
+    void process(const QList<PackageVersion*>& uninstall,
+            const QList<PackageVersion*>& install);
 private slots:
     void on_actionCompute_SHA1_triggered();
     void on_actionTest_Download_Site_triggered();

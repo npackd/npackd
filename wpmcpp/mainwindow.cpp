@@ -26,9 +26,7 @@ class InstallThread: public QThread
 {
     PackageVersion* pv;
 
-    // 0 = uninstall
-    // 1 = install
-    // 2 = update,
+    // 0, 1, 2 = install/uninstall
     // 3, 4 = recognize installed applications + load repositories
     // 5 = download the package and compute it's SHA1
     int type;
@@ -38,7 +36,9 @@ public:
     /** computed SHA1 will be stored here (type == 5) */
     QString sha1;
 
-    InstallThread(PackageVersion* pv, int install, Job* job);
+    QList<PackageVersion*> uninstall, install;
+
+    InstallThread(PackageVersion* pv, int type, Job* job);
 
     void run();
 };
@@ -56,45 +56,34 @@ void InstallThread::run()
 
     // qDebug() << "InstallThread::run.1";
     switch (this->type) {
-    case 0: {
+    case 0:
+    case 1:
+    case 2: {
         job->setCancellable(true);
 
-        job->setHint("Uninstalling dependant packages");
-        Job* sub = job->newSubJob(0.3);
-        pv->uninstallDeps(sub);
-        delete sub;
+        int n = uninstall.count() + install.count();
 
-        if (!job->isCancelled() && job->getErrorMessage().isEmpty()) {
-            job->setHint("Uninstalling");
-            sub = job->newSubJob(0.7);
+        for (int i = 0; i < this->uninstall.count(); i++) {
+            PackageVersion* pv = uninstall.at(i);
+            job->setHint(QString("Uninstalling %1").arg(pv->toString()));
+            Job* sub = job->newSubJob(1 / n);
             pv->uninstall(sub);
             delete sub;
         }
 
-        job->complete();
-        break;
-    }
-    case 1: {
-        job->setCancellable(true);
-
-        job->setHint("Installing dependencies");
-        Job* djob = job->newSubJob(0.30);
-        pv->installDeps(djob);
-        delete djob;
-
         if (!job->isCancelled() && job->getErrorMessage().isEmpty()) {
-            job->setHint("Installing");
-            djob = job->newSubJob(0.70);
-            pv->install(djob);
-            delete djob;
+            for (int i = 0; i < this->install.count(); i++) {
+                PackageVersion* pv = install.at(i);
+                job->setHint(QString("Installing %1").arg(pv->toString()));
+                Job* sub = job->newSubJob(1 / n);
+                pv->install(sub);
+                delete sub;
+            }
         }
 
         job->complete();
         break;
     }
-    case 2:
-        pv->update(job);
-        break;
     case 3:
     case 4:
         Repository::getDefault()->load(job);
@@ -335,6 +324,22 @@ void MainWindow::fillList()
     // qDebug() << "MainWindow::fillList.2";
 }
 
+void MainWindow::process(const QList<PackageVersion *> &uninstall,
+        const QList<PackageVersion *> &install)
+{
+    Job* job = new Job();
+    InstallThread* it = new InstallThread(0, 1, job);
+    it->uninstall = uninstall;
+    it->install = install;
+    it->start();
+    it->setPriority(QThread::LowestPriority);
+
+    waitFor(job, "Installing");
+    it->wait();
+    delete it;
+    delete job;
+}
+
 void MainWindow::changeEvent(QEvent *e)
 {
     QMainWindow::changeEvent(e);
@@ -368,11 +373,8 @@ void MainWindow::on_actionUninstall_activated()
         return;
     }
 
-    QDir d = pv->getDirectory();
-    QDateTime now = QDateTime::currentDateTime();
-    QString newName = QString("%1-%2").arg(d.absolutePath()).arg(now.toTime_t());
-
-    if (!d.rename(d.absolutePath(), newName)) {
+    if (pv->isDirectoryLocked()) {
+        QDir d = pv->getDirectory();
         QString msg("The package cannot be uninstalled because "
                 "some files or directories under %1 are in use.");
         QMessageBox::critical(this,
@@ -381,13 +383,6 @@ void MainWindow::on_actionUninstall_activated()
         return;
     }
 
-    if (!d.rename(newName, d.absolutePath())) {
-        QString msg("Failed to rename %1 to %2.");
-        QMessageBox::critical(this,
-                "Uninstall",
-                msg.arg(newName).arg(d.absolutePath()));
-        return;
-    }
 
     QList<PackageVersion*> r;
     pv->getUninstallFirstPackages(r);
@@ -428,19 +423,12 @@ void MainWindow::on_actionUninstall_activated()
     }
 
     if (ok) {
-        Job* job = new Job();
-        InstallThread* it = new InstallThread(pv, 0, job);
-        it->start();
-        it->setPriority(QThread::LowestPriority);
+        r.append(pv);
 
-        QString title("Uninstalling");
-        waitFor(job, title);
-        it->wait();
-        delete it;
-
+        QList<PackageVersion*> install;
+        process(r, install);
         fillList();
         selectPackageVersion(pv);
-        delete job;
     }
 }
 
@@ -538,19 +526,11 @@ void MainWindow::on_actionInstall_activated()
                 arg(names),
                 QMessageBox::Ok);
     } else {
-        Job* job = new Job();
-        InstallThread* it = new InstallThread(pv, 1, job);
-        it->start();
-        it->setPriority(QThread::LowestPriority);
-
-        QString title("Installing");
-        waitFor(job, title);
-        it->wait();
-        delete it;
-
+        QList<PackageVersion*> uninstall;
+        r.append(pv);
+        process(uninstall, r);
         fillList();
         selectPackageVersion(pv);
-        delete job;
     }
 }
 
@@ -640,19 +620,12 @@ void MainWindow::on_actionUpdate_triggered()
             "Update",
             msg, QMessageBox::Yes | QMessageBox::No);
     if (b == QMessageBox::Yes) {
-        Job* job = new Job();
-        InstallThread* it = new InstallThread(newesti, 2, job);
-        it->start();
-        it->setPriority(QThread::LowestPriority);
-
-        QString title("Updating");
-        waitFor(job, title);
-        it->wait();
-        delete it;
-
+        QList<PackageVersion*> uninstall, install;
+        uninstall.append(newesti);
+        install.append(newest);
+        process(uninstall, install);
         fillList();
-        selectPackageVersion(pv);
-        delete job;
+        selectPackageVersion(newest);
     }
 }
 
