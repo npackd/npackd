@@ -21,6 +21,7 @@
 #include "job.h"
 #include "progressdialog.h"
 #include "settingsdialog.h"
+#include "wpmutils.h"
 
 class InstallThread: public QThread
 {
@@ -327,17 +328,123 @@ void MainWindow::fillList()
 void MainWindow::process(const QList<PackageVersion *> &uninstall,
         const QList<PackageVersion *> &install)
 {
-    Job* job = new Job();
-    InstallThread* it = new InstallThread(0, 1, job);
-    it->uninstall = uninstall;
-    it->install = install;
-    it->start();
-    it->setPriority(QThread::LowestPriority);
+    PackageVersion* sel = getSelectedPackageVersion();
 
-    waitFor(job, "Installing");
-    it->wait();
-    delete it;
-    delete job;
+    QStringList locked = WPMUtils::getProcessFiles();
+    QStringList lockedUninstall;
+    for (int j = 0; j < uninstall.size(); j++) {
+        PackageVersion* pv = uninstall.at(j);
+        QString path = pv->getDirectory().absolutePath();
+        for (int i = 0; i < locked.size(); i++) {
+            if (WPMUtils::isUnder(locked.at(i), path)) {
+                lockedUninstall.append(locked.at(i));
+            }
+        }
+    }
+
+    if (lockedUninstall.size() > 0) {
+        QString locked_ = lockedUninstall.join(", \n");
+        QString msg("The packages cannot be uninstalled because "
+                "the following files are in use "
+                "(please close the corresponding applications): "
+                "%1");
+        QMessageBox::critical(this,
+                "Uninstall", msg.arg(locked_));
+        return;
+    }
+
+    for (int i = 0; i < uninstall.count(); i++) {
+        PackageVersion* pv = uninstall.at(i);
+        if (pv->isDirectoryLocked()) {
+            QDir d = pv->getDirectory();
+            QString msg("The package %1 cannot be uninstalled because "
+                    "some files or directories under %2 are in use.");
+            QMessageBox::critical(this,
+                    "Uninstall", msg.arg(pv->toString()).
+                    arg(d.absolutePath()));
+            return;
+        }
+    }
+
+    QString names;
+    for (int i = 0; i < uninstall.count(); i++) {
+        if (i != 0)
+            names.append(", ");
+        names.append(uninstall.at(i)->toString());
+        if (i > 5) {
+            names.append("...");
+            break;
+        }
+    }
+    QString installNames;
+    for (int i = 0; i < install.count(); i++) {
+        if (i != 0)
+            installNames.append(", ");
+        installNames.append(install.at(i)->toString());
+        if (i > 5) {
+            installNames.append("...");
+            break;
+        }
+    }
+
+    QMessageBox::StandardButton b;
+    QString msg;
+    if (install.count() == 1 && uninstall.count() == 0) {
+        b = QMessageBox::Yes;
+    } else if (install.count() == 0 && uninstall.count() == 1) {
+        msg = QString("The package %1 will be uninstalled. "
+                "The corresponding directory %2 "
+                "will be completely deleted. "
+                "There is no way to restore the files. "
+                "Are you sure?").
+                arg(uninstall.at(0)->toString()).arg(uninstall.at(0)->
+                getDirectory().absolutePath());
+        b = QMessageBox::warning(this,
+                "Uninstall", msg, QMessageBox::Yes | QMessageBox::No);
+    } else if (install.count() > 0 && uninstall.count() == 0) {
+        msg = QString("%1 packages will be installed: %2. "
+                "Are you sure?").
+                arg(install.count()).arg(installNames);
+        b = QMessageBox::warning(this,
+                "Install", msg, QMessageBox::Yes | QMessageBox::No);
+    } else if (install.count() == 0 && uninstall.count() > 0) {
+        msg = QString("%1 packages will be uninstalled: %2. "
+                "The corresponding directories "
+                "will be completely deleted. "
+                "There is no way to restore the files. "
+                "Are you sure?").
+                arg(uninstall.count()).arg(names);
+        b = QMessageBox::warning(this,
+                "Uninstall", msg, QMessageBox::Yes | QMessageBox::No);
+    } else {
+        msg = QString("%1 packages will be uninstalled: "
+            "%2 and %3 packages will be installed: %4. "
+            "The corresponding directories "
+            "will be completely deleted. "
+            "There is no way to restore the files. "
+            "Are you sure?").arg(uninstall.count()).arg(names).
+            arg(install.count()).arg(installNames);
+        b = QMessageBox::warning(this,
+                "Uninstall", msg, QMessageBox::Yes | QMessageBox::No);
+    }
+
+
+    if (b == QMessageBox::Yes) {
+        Job* job = new Job();
+        InstallThread* it = new InstallThread(0, 1, job);
+        it->uninstall = uninstall;
+        it->install = install;
+        it->start();
+        it->setPriority(QThread::LowestPriority);
+
+        waitFor(job, "Installing");
+        it->wait();
+        delete it;
+        delete job;
+
+        fillList();
+        selectPackageVersion(sel);
+    }
 }
 
 void MainWindow::changeEvent(QEvent *e)
@@ -360,76 +467,13 @@ void MainWindow::on_actionExit_triggered()
 void MainWindow::on_actionUninstall_activated()
 {
     PackageVersion* pv = getSelectedPackageVersion();
-    QStringList locked = pv->findLockedFiles();
-    if (locked.size() > 0) {
-        QString locked_ = locked.join(", \n");
-        QString msg("The package cannot be uninstalled because "
-                "the following files are in use "
-                "(please close the corresponding applications): "
-                "%1");
-        QMessageBox::critical(this,
-                "Uninstall",
-                msg.arg(locked_));
-        return;
-    }
-
-    if (pv->isDirectoryLocked()) {
-        QDir d = pv->getDirectory();
-        QString msg("The package cannot be uninstalled because "
-                "some files or directories under %1 are in use.");
-        QMessageBox::critical(this,
-                "Uninstall",
-                msg.arg(d.absolutePath()));
-        return;
-    }
-
-
     QList<PackageVersion*> r;
     pv->getUninstallFirstPackages(r);
 
-    bool ok;
+    r.append(pv);
 
-    if (r.count() > 0) {
-        QString names;
-        for (int i = 0; i < r.count(); i++) {
-            if (i != 0)
-                names.append(", ");
-            names.append(r.at(i)->toString());
-            if (i > 5) {
-                names.append("...");
-                break;
-            }
-        }
-        QMessageBox::StandardButton b = QMessageBox::warning(this,
-                "Uninstall",
-                QString("%1 dependant packages must also be uninstalled: "
-                "%2. The corresponding directories "
-                "will be completely deleted. "
-                "There is no way to restore the files. "
-                "Are you sure?").arg(r.count()).arg(names).
-                arg(pv->getDirectory().absolutePath()),
-                QMessageBox::Yes | QMessageBox::No);
-        ok = b == QMessageBox::Yes;
-    } else {
-        QString msg("The directory %1 "
-                "will be completely deleted. "
-                "There is no way to restore the files. "
-                "Are you sure?");
-        msg = msg.arg(pv->getDirectory().absolutePath());
-        QMessageBox::StandardButton b = QMessageBox::warning(this,
-                "Uninstall",
-                msg, QMessageBox::Yes | QMessageBox::No);
-        ok = b == QMessageBox::Yes;
-    }
-
-    if (ok) {
-        r.append(pv);
-
-        QList<PackageVersion*> install;
-        process(r, install);
-        fillList();
-        selectPackageVersion(pv);
-    }
+    QList<PackageVersion*> install;
+    process(r, install);
 }
 
 void MainWindow::on_tableWidget_itemSelectionChanged()
@@ -529,8 +573,6 @@ void MainWindow::on_actionInstall_activated()
         QList<PackageVersion*> uninstall;
         r.append(pv);
         process(uninstall, r);
-        fillList();
-        selectPackageVersion(pv);
     }
 }
 
@@ -607,26 +649,11 @@ void MainWindow::on_actionUpdate_triggered()
     Repository* r = Repository::getDefault();
     PackageVersion* newest = r->findNewestPackageVersion(pv->package);
     PackageVersion* newesti = r->findNewestInstalledPackageVersion(pv->package);
-    QString msg("This will uninstall the current version (%1) "
-            "and install the newest available (%2). "
-            "The directory %3 will be completely deleted. "
-            "There is no way to restore the files. "
-            "Are you sure?");
-    msg = msg.arg(newesti->version.getVersionString()).
-            arg(newest->version.getVersionString()).
-            arg(newesti->getDirectory().absolutePath());
 
-    QMessageBox::StandardButton b = QMessageBox::warning(this,
-            "Update",
-            msg, QMessageBox::Yes | QMessageBox::No);
-    if (b == QMessageBox::Yes) {
-        QList<PackageVersion*> uninstall, install;
-        uninstall.append(newesti);
-        install.append(newest);
-        process(uninstall, install);
-        fillList();
-        selectPackageVersion(newest);
-    }
+    QList<PackageVersion*> uninstall, install;
+    uninstall.append(newesti);
+    install.append(newest);
+    process(uninstall, install);
 }
 
 void MainWindow::on_actionTest_Download_Site_triggered()
