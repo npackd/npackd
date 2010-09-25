@@ -5,6 +5,25 @@
 
 #include "job.h"
 
+JobState::JobState()
+{
+    this->cancellable = false;
+    this->cancelRequested = false;
+    this->completed = false;
+    this->errorMessage = "";
+    this->hint = "";
+    this->progress = 0;
+}
+
+JobState::JobState(const JobState& s)
+{
+    this->cancellable = s.cancellable;
+    this->cancelRequested = s.cancelRequested;
+    this->completed = s.completed;
+    this->errorMessage = s.errorMessage;
+    this->hint = s.hint;
+    this->progress = s.progress;
+}
 
 Job::Job()
 {
@@ -19,14 +38,14 @@ void Job::complete()
 {
     if (!this->completed) {
         this->completed = true;
-        emit changed();
+        fireChange();
     }
 }
 
 void Job::setCancellable(bool v)
 {
     this->cancellable = v;
-    emit changed();
+    fireChange();
 }
 
 bool Job::isCancellable()
@@ -48,16 +67,15 @@ void Job::cancel()
         if (parentJob)
             parentJob->cancel();
 
-        emit changed();
+        fireChange();
         qDebug() << "Job::cancel.3";
     }
 }
 
-void Job::parentJobChanged()
+void Job::parentJobChanged(const JobState& s)
 {
     // qDebug() << "Job::parentJobChanged";
-    Job* job = parentJob;
-    if (job->isCancelled() && !this->isCancelled())
+    if (s.cancelRequested && !this->isCancelled())
         this->cancel();
 }
 
@@ -70,9 +88,9 @@ Job* Job::newSubJob(double nsteps)
     r->parentHintStart = hint;
 
     // bool success =
-    connect(this, SIGNAL(changed()),
-                           r, SLOT(parentJobChanged()),
-                           Qt::DirectConnection);
+    connect(this, SIGNAL(changed(const JobState&)),
+            r, SLOT(parentJobChanged(const JobState&)),
+            Qt::DirectConnection);
     // qDebug() << "Job::newSubJob " << success;
     return r;
 }
@@ -82,11 +100,23 @@ bool Job::isCompleted()
     return this->completed;
 }
 
+void Job::fireChange()
+{
+    JobState state;
+    state.cancellable = this->cancellable;
+    state.cancelRequested = this->cancelRequested;
+    state.completed = this->completed;
+    state.errorMessage = this->errorMessage;
+    state.hint = this->hint;
+    state.progress = this->progress;
+    emit changed(state);
+}
+
 void Job::setProgress(double progress)
 {
     this->progress = progress;
 
-    emit changed();
+    fireChange();
 
     updateParentProgress();
     updateParentHint();
@@ -115,7 +145,7 @@ void Job::setHint(const QString &hint)
 {
     this->hint = hint;
 
-    emit changed();
+    fireChange();
 
     updateParentHint();
 }
@@ -139,7 +169,7 @@ void Job::setErrorMessage(const QString &errorMessage)
 {
     this->errorMessage = errorMessage;
 
-    emit changed();
+    fireChange();
 
     if (parentJob && parentJob->getErrorMessage().isEmpty())
         parentJob->setErrorMessage(errorMessage);

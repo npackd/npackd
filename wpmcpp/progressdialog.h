@@ -32,7 +32,7 @@ public Q_SLOTS:
     void reject();
 private slots:
     void on_pushButtonCancel_clicked();
-    void jobChanged();
+    void jobChanged(const JobState& s);
 };
 
 #endif // PROGRESSDIALOG_H

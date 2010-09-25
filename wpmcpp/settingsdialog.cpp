@@ -52,7 +52,3 @@ void SettingsDialog::setRepositoryURLs(const QStringList &urls)
     this->ui->plainTextEditReps->setPlainText(urls.join("\r\n"));
 }
 
-void SettingsDialog::on_textBrowser_anchorClicked(QUrl url)
-{
-    QDesktopServices::openUrl(url);
-}

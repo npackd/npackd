@@ -4,11 +4,13 @@
 #include <shellapi.h>
 
 #include <QtGui/QApplication>
+#include "QMetaType"
 #include "mainwindow.h"
 #include "qnetworkproxy.h"
 
 #include "repository.h"
 #include "wpmutils.h"
+#include "job.h"
 
 int main(int argc, char *argv[])
 {
@@ -22,6 +24,8 @@ int main(int argc, char *argv[])
 
     QApplication a(argc, argv);
     QNetworkProxyFactory::setUseSystemConfiguration(true);
+
+    qRegisterMetaType<JobState>("JobState");
 
     MainWindow w;
     if (a.arguments().count() == 2 && a.arguments().at(1) ==

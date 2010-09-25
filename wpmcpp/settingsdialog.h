@@ -39,9 +39,6 @@ protected:
 
 private:
     Ui::SettingsDialog *ui;
-
-private slots:
-    void on_textBrowser_anchorClicked(QUrl url);
 };
 
 #endif // SETTINGSDIALOG_H

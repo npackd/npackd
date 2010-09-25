@@ -21,7 +21,8 @@ ProgressDialog::ProgressDialog(QWidget *parent, Job* job, const QString& title) 
     this->job = job;
     this->started = 0;
 
-    connect(job, SIGNAL(changed()), this, SLOT(jobChanged()),
+    connect(job, SIGNAL(changed(const JobState&)), this,
+            SLOT(jobChanged(const JobState&)),
             Qt::QueuedConnection);
     EnableMenuItem(GetSystemMenu(this->winId(), false), SC_CLOSE, MF_GRAYED);
 }
@@ -31,15 +32,14 @@ void ProgressDialog::reject()
 
 }
 
-void ProgressDialog::jobChanged()
+void ProgressDialog::jobChanged(const JobState& s)
 {
     // Debug: qDebug() << "ProgressDialog::jobChanged";
 
-    Job* job = (Job*) QObject::sender();
-    if (job->isCompleted()) {
-        this->done(job->isCancelled() ? Rejected : Accepted);
+    if (s.completed) {
+        this->done(s.cancelRequested ? Rejected : Accepted);
     } else {
-        ui->labelStep->setText(job->getHint());
+        ui->labelStep->setText(s.hint);
         if (started != 0) {
             time_t now;
             time(&now);
@@ -55,7 +55,7 @@ void ProgressDialog::jobChanged()
             ui->labelElapsed->setText(e.toString());
 
             diff = difftime(now, started);
-            diff = lround(diff * (1 / job->getProgress() - 1));
+            diff = lround(diff * (1 / s.progress - 1));
             sec = diff % 60;
             diff /= 60;
             min = diff % 60;
@@ -69,9 +69,9 @@ void ProgressDialog::jobChanged()
             ui->labelElapsed->setText("-");
         }
         ui->progressBar->setMaximum(10000);
-        ui->progressBar->setValue(lround(job->getProgress() * 10000));
-        ui->pushButtonCancel->setEnabled(job->isCancellable() &&
-                !job->isCancelled());
+        ui->progressBar->setValue(lround(s.progress * 10000));
+        ui->pushButtonCancel->setEnabled(s.cancellable &&
+                !s.cancelRequested);
 
     }
 }

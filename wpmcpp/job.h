@@ -5,6 +5,26 @@
 #include <qobject.h>
 #include "qmetatype.h"
 #include "qmutex.h"
+#include "qqueue.h"
+
+/**
+ * This class is used to exchange data about a Job between threads.
+ */
+class JobState: public QObject {
+    Q_OBJECT
+public:
+    double progress;
+    QString hint;
+    QString errorMessage;
+    bool cancelRequested;
+    bool cancellable;
+    bool completed;
+
+    JobState();
+    JobState(const JobState& s);
+};
+
+Q_DECLARE_METATYPE(JobState)
 
 /**
  * A long-running task.
@@ -37,8 +57,9 @@ private:
 
     void updateParentHint();
     void updateParentProgress();
+    void fireChange();
 public slots:
-    void parentJobChanged();
+    void parentJobChanged(const JobState& s);
 public:
     Job();
 
@@ -120,7 +141,7 @@ signals:
      * This signal will be fired each time something in this object
      * changes (progress, hint etc.).
      */
-    void changed();
+    void changed(const JobState& s);
 };
 
 #endif // JOB_H
