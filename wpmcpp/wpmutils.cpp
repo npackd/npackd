@@ -82,7 +82,7 @@ void WPMUtils::formatMessage(DWORD err, QString* errMsg)
 
 QString WPMUtils::getInstallationDirectory()
 {
-    QSettings s("WPM", "Windows Package Manager");
+    QSettings s(QSettings::SystemScope, "WPM", "Windows Package Manager");
     QString v = s.value("path", "").toString();
     if (v.isEmpty()) {
         v = WPMUtils::getProgramFilesDir() + "\\WPM";
@@ -96,7 +96,7 @@ QString WPMUtils::getInstallationDirectory()
  */
 void WPMUtils::setInstallationDirectory(const QString& dir)
 {
-    QSettings s("WPM", "Windows Package Manager");
+    QSettings s(QSettings::SystemScope, "WPM", "Windows Package Manager");
     s.setValue("path", dir);
 }
 
