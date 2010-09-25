@@ -24,6 +24,16 @@ public:
      * @param urls new repository URL
      */
     void setRepositoryURLs(const QStringList& urls);
+
+    /**
+     * @return installation directory
+     */
+    QString getInstallationDirectory();
+
+    /**
+     * @param dir installation directory
+     */
+    void setInstallationDirectory(const QString& dir);
 protected:
     void changeEvent(QEvent *e);
 

@@ -37,6 +37,16 @@ QStringList SettingsDialog::getRepositoryURLs()
     return sl;
 }
 
+QString SettingsDialog::getInstallationDirectory()
+{
+    return this->ui->lineEditDir->text();
+}
+
+void SettingsDialog::setInstallationDirectory(const QString& dir)
+{
+    this->ui->lineEditDir->setText(dir);
+}
+
 void SettingsDialog::setRepositoryURLs(const QStringList &urls)
 {
     this->ui->plainTextEditReps->setPlainText(urls.join("\r\n"));

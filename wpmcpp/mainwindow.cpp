@@ -610,15 +610,24 @@ void MainWindow::on_actionSettings_triggered()
         list.append(urls.at(i)->toString());
     }
     d.setRepositoryURLs(list);
-
     qDeleteAll(urls);
     urls.clear();
+
+    d.setInstallationDirectory(WPMUtils::getInstallationDirectory());
 
     if (d.exec() == QDialog::Accepted) {
         list = d.getRepositoryURLs();
         if (list.count() == 0) {
             QMessageBox::critical(this,
                     "Error", "No repositories defined", QMessageBox::Ok);
+        } else if (d.getInstallationDirectory().isEmpty()) {
+            QMessageBox::critical(this,
+                    "Error", "The installation directory cannot be empty",
+                    QMessageBox::Ok);
+        } else if (!QDir(d.getInstallationDirectory()).exists()) {
+            QMessageBox::critical(this,
+                    "Error", "The installation directory does not exist",
+                    QMessageBox::Ok);
         } else {
             QString err;
             for (int i = 0; i < list.count(); i++) {
@@ -631,6 +640,7 @@ void MainWindow::on_actionSettings_triggered()
                 }
             }
             if (err.isEmpty()) {
+                WPMUtils::setInstallationDirectory(d.getInstallationDirectory());
                 Repository::setRepositoryURLs(urls);
                 loadRepositories();
             } else {

@@ -532,8 +532,7 @@ void Repository::detectDotNet()
 
 QDir Repository::getDirectory()
 {
-    QString pf = WPMUtils::getProgramFilesDir();
-    QDir d(pf + "\\WPM");
+    QDir d(WPMUtils::getInstallationDirectory());
     return d;
 }
 

@@ -71,6 +71,17 @@ public:
     static bool isUnder(const QString& file, const QString& dir);
 
     /**
+     * @return directory where the packages will be installed. Typically
+     *     c:\program files\WPM
+     */
+    static QString getInstallationDirectory();
+
+    /**
+     * see getInstallationDirectory()
+     */
+    static void setInstallationDirectory(const QString& dir);
+
+    /**
      * @return full paths to files locked because of running processes
      */
     static QStringList getProcessFiles();

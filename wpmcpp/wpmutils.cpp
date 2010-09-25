@@ -9,6 +9,8 @@
 #include "qfile.h"
 #include <QCryptographicHash>
 #include <QFile>
+#include "qsettings.h"
+#include "qvariant.h"
 
 #include "wpmutils.h"
 
@@ -76,6 +78,26 @@ void WPMUtils::formatMessage(DWORD err, QString* errMsg)
         errMsg->setUtf16((ushort*) pBuffer, n);
         LocalFree(pBuffer);
     }
+}
+
+QString WPMUtils::getInstallationDirectory()
+{
+    QSettings s("WPM", "Windows Package Manager");
+    QString v = s.value("path", "").toString();
+    if (v.isEmpty()) {
+        v = WPMUtils::getProgramFilesDir() + "\\WPM";
+        s.setValue("path", v);
+    }
+    return v;
+}
+
+/**
+ * see getInstallationDirectory()
+ */
+void WPMUtils::setInstallationDirectory(const QString& dir)
+{
+    QSettings s("WPM", "Windows Package Manager");
+    s.setValue("path", dir);
 }
 
 // see also http://msdn.microsoft.com/en-us/library/ms683217(v=VS.85).aspx
