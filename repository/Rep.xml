@@ -397,7 +397,12 @@
     <package name="com.nokia.QtCreator">
         <title>Qt Creator</title>
         <url>http://qt.nokia.com/products/developer-tools/developer-tools</url>
-        <description>EXPERIMENTAL: needs the Windows Package Manager 1.14 to function properly. C++ IDE</description>
+        <description>C++ IDE</description>
+    </package>
+    <package name="com.nokia.QtCreatorInstaller">
+        <title>Qt Creator installer</title>
+        <url>http://qt.nokia.com/products/developer-tools/developer-tools</url>
+        <description>C++ IDE</description>
     </package>
     <package name="com.ntwind.TaskSwitchXP">
         <title>TaskSwitchXP</title>
@@ -1191,10 +1196,11 @@
     ones.
     -->
 
-    <version name="2.0.1" package="com.nokia.QtCreator"
+    <!-- NSIS-based installer does not respect the /D option -->
+    <version name="2.0.1" package="com.nokia.QtCreatorInstaller"
             type="one-file">
-        <file path=".WPM\Install.bat">qt-creator-win-opensource-2.0.1.exe /S /D=%CD%</file>
-        <file path=".WPM\Uninstall.bat">uninst.exe /S</file>
+        <important-file path="qt-creator-win-opensource-2.0.1.exe"
+                title="Installer"/>
         <url>http://get.qt.nokia.com/qtcreator/qt-creator-win-opensource-2.0.1.exe</url>
         <sha1>d5fae06fd422f0b1daeeb8741c51d76faccfb703</sha1>
     </version>
