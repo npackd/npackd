@@ -27,11 +27,6 @@ public:
     QQueue<FileLoaderItem> work;
 
     /**
-     * Completed items are removed from "work" and placed here.
-     */
-    QQueue<FileLoaderItem> done;
-
-    /**
      * The thread is not started.
      */
     FileLoader();
