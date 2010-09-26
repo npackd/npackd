@@ -35,6 +35,8 @@ class MainWindow : public QMainWindow {
 private:
     QMap<QString, QIcon> icons;
     FileLoader fileLoader;
+
+    void updateIcons();
 public:
     MainWindow(QWidget *parent = 0);
     ~MainWindow();

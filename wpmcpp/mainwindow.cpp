@@ -121,6 +121,24 @@ bool MainWindow::winEvent(MSG* message, long* result)
     return false;
 }
 
+void MainWindow::updateIcons()
+{
+    Repository* r = Repository::getDefault();
+    for (int i = 0; i < this->ui->tableWidget->rowCount(); i++) {
+        QTableWidgetItem *item = ui->tableWidget->item(i, 0);
+        const QVariant v = item->data(Qt::UserRole);
+        PackageVersion* pv = (PackageVersion *) v.value<void*>();
+        Package* p = r->findPackage(pv->package);
+
+        if (p) {
+            if (!p->icon.isEmpty() && this->icons.contains(p->icon)) {
+                QIcon icon = this->icons[p->icon];
+                item->setIcon(icon);
+            }
+        }
+    }
+}
+
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow)
@@ -140,9 +158,10 @@ MainWindow::MainWindow(QWidget *parent) :
     urls.clear();
 
     this->on_tableWidget_itemSelectionChanged();
-    this->ui->tableWidget->setColumnCount(4);
-    this->ui->tableWidget->setColumnWidth(0, 150);
-    this->ui->tableWidget->setColumnWidth(1, 300);
+    this->ui->tableWidget->setColumnCount(5);
+    this->ui->tableWidget->setColumnWidth(0, 40);
+    this->ui->tableWidget->setColumnWidth(1, 150);
+    this->ui->tableWidget->setColumnWidth(2, 300);
     this->ui->tableWidget->sortItems(0);
     this->ui->tableWidget->setIconSize(QSize(32, 32));
 
@@ -154,12 +173,16 @@ MainWindow::MainWindow(QWidget *parent) :
 
 void MainWindow::iconDownloaded(const FileLoaderItem& it)
 {
-    qDebug() << "MainWindow::iconDownloaded " << it.url;
     if (it.f) {
         qDebug() << "MainWindow::iconDownloaded.2 " << it.url;
-        // TODO: the file will never be deleted
-        QIcon icon(it.f->fileName());
-        this->icons.insert(it.url, icon);
+        QPixmap pm(it.f->fileName());
+        delete it.f;
+        if (!pm.isNull()) {
+            QIcon icon(pm);
+            icon.detach();
+            this->icons.insert(it.url, icon);
+            updateIcons();
+        }
     }
 }
 
@@ -244,19 +267,19 @@ void MainWindow::fillList()
 
     t->setColumnCount(5);
 
-    QTableWidgetItem *newItem = new QTableWidgetItem("Title");
+    QTableWidgetItem *newItem = new QTableWidgetItem("Icon");
     t->setHorizontalHeaderItem(0, newItem);
 
-    newItem = new QTableWidgetItem("Description");
+    newItem = new QTableWidgetItem("Title");
     t->setHorizontalHeaderItem(1, newItem);
 
-    newItem = new QTableWidgetItem("Version");
+    newItem = new QTableWidgetItem("Description");
     t->setHorizontalHeaderItem(2, newItem);
 
-    newItem = new QTableWidgetItem("Status");
+    newItem = new QTableWidgetItem("Version");
     t->setHorizontalHeaderItem(3, newItem);
 
-    newItem = new QTableWidgetItem("Icon");
+    newItem = new QTableWidgetItem("Status");
     t->setHorizontalHeaderItem(4, newItem);
 
     int statusFilter = this->ui->comboBoxStatus->currentIndex();
@@ -301,6 +324,16 @@ void MainWindow::fillList()
 
         Package* p = r->findPackage(pv->package);
 
+        newItem = new QTableWidgetItem("");
+        newItem->setData(Qt::UserRole, qVariantFromValue((void*) pv));
+        if (p) {
+            if (!p->icon.isEmpty() && this->icons.contains(p->icon)) {
+                QIcon icon = this->icons[p->icon];
+                newItem->setIcon(icon);
+            }
+        }
+        t->setItem(n, 0, newItem);
+
         QString packageTitle;
         if (p)
             packageTitle = p->title;
@@ -309,18 +342,18 @@ void MainWindow::fillList()
         newItem = new QTableWidgetItem(packageTitle);
         newItem->setStatusTip(pv->download.toString() + " " + pv->package);
         newItem->setData(Qt::UserRole, qVariantFromValue((void*) pv));
-        t->setItem(n, 0, newItem);
+        t->setItem(n, 1, newItem);
 
         QString desc;
         if (p)
             desc = p->description;
         newItem = new QTableWidgetItem(desc);
         newItem->setData(Qt::UserRole, qVariantFromValue((void*) pv));
-        t->setItem(n, 1, newItem);
+        t->setItem(n, 2, newItem);
 
         newItem = new QTableWidgetItem(pv->version.getVersionString());
         newItem->setData(Qt::UserRole, qVariantFromValue((void*) pv));
-        t->setItem(n, 2, newItem);
+        t->setItem(n, 3, newItem);
 
         newItem = new QTableWidgetItem("");
         QString status;
@@ -336,16 +369,6 @@ void MainWindow::fillList()
         }
         newItem->setText(status);
         newItem->setData(Qt::UserRole, qVariantFromValue((void*) pv));
-        t->setItem(n, 3, newItem);
-
-        newItem = new QTableWidgetItem("");
-        newItem->setData(Qt::UserRole, qVariantFromValue((void*) pv));
-        if (p) {
-            if (!p->icon.isEmpty() && this->icons.contains(p->icon)) {
-                QIcon icon = this->icons[p->icon];
-                newItem->setIcon(icon);
-            }
-        }
         t->setItem(n, 4, newItem);
 
         n++;
