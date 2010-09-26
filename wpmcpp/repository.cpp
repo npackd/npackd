@@ -162,6 +162,9 @@ Package* Repository::createPackage(QDomElement* e)
     nl = e->elementsByTagName("description");
     if (nl.count() != 0)
         a->description = nl.at(0).firstChild().nodeValue();
+    nl = e->elementsByTagName("icon");
+    if (nl.count() != 0)
+        a->icon = nl.at(0).firstChild().nodeValue();
 
     return a;
 }

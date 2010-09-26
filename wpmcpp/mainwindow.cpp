@@ -144,6 +144,20 @@ MainWindow::MainWindow(QWidget *parent) :
     this->ui->tableWidget->setColumnWidth(0, 150);
     this->ui->tableWidget->setColumnWidth(1, 300);
     this->ui->tableWidget->sortItems(0);
+
+    connect(&this->fileLoader, SIGNAL(downloaded(const FileLoaderItem&)), this,
+            SLOT(iconDownloaded(const FileLoaderItem&)),
+            Qt::QueuedConnection);
+    this->fileLoader.start(QThread::LowestPriority);
+}
+
+void MainWindow::iconDownloaded(const FileLoaderItem& it)
+{
+    if (it.f) {
+        // TODO: the file will never be deleted
+        QIcon icon(it.f->fileName());
+        this->icons.insert(it.url, icon);
+    }
 }
 
 void MainWindow::prepare()
@@ -225,7 +239,7 @@ void MainWindow::fillList()
 
     Repository* r = Repository::getDefault();
 
-    t->setColumnCount(4);
+    t->setColumnCount(5);
 
     QTableWidgetItem *newItem = new QTableWidgetItem("Title");
     t->setHorizontalHeaderItem(0, newItem);
@@ -238,6 +252,9 @@ void MainWindow::fillList()
 
     newItem = new QTableWidgetItem("Status");
     t->setHorizontalHeaderItem(3, newItem);
+
+    newItem = new QTableWidgetItem("Icon");
+    t->setHorizontalHeaderItem(4, newItem);
 
     int statusFilter = this->ui->comboBoxStatus->currentIndex();
     QStringList textFilter =
@@ -317,6 +334,14 @@ void MainWindow::fillList()
         newItem->setText(status);
         newItem->setData(Qt::UserRole, qVariantFromValue((void*) pv));
         t->setItem(n, 3, newItem);
+
+        newItem = new QTableWidgetItem("");
+        newItem->setData(Qt::UserRole, qVariantFromValue((void*) pv));
+        if (this->icons.contains(pv->package)) {
+            QIcon icon = this->icons[pv->package];
+            newItem->setIcon(icon);
+        }
+        t->setItem(n, 4, newItem);
 
         n++;
     }
@@ -541,6 +566,15 @@ void MainWindow::loadRepositories()
     fillList();
     delete job;
 
+    Repository* r = Repository::getDefault();
+    for (int i = 0; i < r->packages.count(); i++) {
+        Package* p = r->packages.at(i);
+        if (!p->icon.isEmpty()) {
+            FileLoaderItem it;
+            it.url = p->icon;
+            this->fileLoader.work.append(it);
+        }
+    }
     qDebug() << "MainWindow::loadRepository";
 }
 

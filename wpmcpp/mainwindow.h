@@ -6,10 +6,12 @@
 #include <QMainWindow>
 #include <qprogressdialog.h>
 #include <qtimer.h>
+#include "qmap.h"
 
 #include "packageversion.h"
 #include "job.h"
 #include "progressdialog.h"
+#include "fileloader.h"
 
 namespace Ui {
     class MainWindow;
@@ -30,6 +32,10 @@ const UINT NIN_KEYSELECT = NIN_SELECT or NINF_KEY;
  */
 class MainWindow : public QMainWindow {
     Q_OBJECT
+private:
+    QMap<QString, QIcon> icons;
+    FileLoader fileLoader;
+    void iconDownloaded(const FileLoaderItem& it);
 public:
     MainWindow(QWidget *parent = 0);
     ~MainWindow();

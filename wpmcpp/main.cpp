@@ -11,6 +11,7 @@
 #include "repository.h"
 #include "wpmutils.h"
 #include "job.h"
+#include "fileloader.h"
 
 int main(int argc, char *argv[])
 {
@@ -26,6 +27,7 @@ int main(int argc, char *argv[])
     QNetworkProxyFactory::setUseSystemConfiguration(true);
 
     qRegisterMetaType<JobState>("JobState");
+    qRegisterMetaType<FileLoaderItem>("FileLoaderItem");
 
     MainWindow w;
     if (a.arguments().count() == 2 && a.arguments().at(1) ==
