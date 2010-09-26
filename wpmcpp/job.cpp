@@ -60,15 +60,15 @@ bool Job::isCancelled()
 
 void Job::cancel()
 {
-    qDebug() << "Job::cancel";
+    // qDebug() << "Job::cancel";
     if (this->cancellable && !this->cancelRequested) {
         this->cancelRequested = true;
-        qDebug() << "Job::cancel.2";
+        // qDebug() << "Job::cancel.2";
         if (parentJob)
             parentJob->cancel();
 
         fireChange();
-        qDebug() << "Job::cancel.3";
+        // qDebug() << "Job::cancel.3";
     }
 }
 

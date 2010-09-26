@@ -1,7 +1,7 @@
 /********************************************************************************
 ** Form generated from reading UI file 'settingsdialog.ui'
 **
-** Created: Sat Sep 25 10:34:03 2010
+** Created: Sat Sep 25 16:25:11 2010
 **      by: Qt User Interface Compiler version 4.6.3
 **
 ** WARNING! All changes made in this file will be lost when recompiling UI file!
@@ -33,16 +33,16 @@ public:
     QFrame *frame;
     QFormLayout *formLayout;
     QLabel *label;
-    QPlainTextEdit *plainTextEditReps;
     QLabel *label_2;
     QLineEdit *lineEditDir;
+    QPlainTextEdit *plainTextEditReps;
     QDialogButtonBox *buttonBox;
 
     void setupUi(QDialog *SettingsDialog)
     {
         if (SettingsDialog->objectName().isEmpty())
             SettingsDialog->setObjectName(QString::fromUtf8("SettingsDialog"));
-        SettingsDialog->resize(486, 343);
+        SettingsDialog->resize(544, 368);
         QSizePolicy sizePolicy(QSizePolicy::Preferred, QSizePolicy::Fixed);
         sizePolicy.setHorizontalStretch(0);
         sizePolicy.setVerticalStretch(0);
@@ -62,6 +62,16 @@ public:
 
         formLayout->setWidget(0, QFormLayout::LabelRole, label);
 
+        label_2 = new QLabel(frame);
+        label_2->setObjectName(QString::fromUtf8("label_2"));
+
+        formLayout->setWidget(2, QFormLayout::LabelRole, label_2);
+
+        lineEditDir = new QLineEdit(frame);
+        lineEditDir->setObjectName(QString::fromUtf8("lineEditDir"));
+
+        formLayout->setWidget(2, QFormLayout::FieldRole, lineEditDir);
+
         plainTextEditReps = new QPlainTextEdit(frame);
         plainTextEditReps->setObjectName(QString::fromUtf8("plainTextEditReps"));
         QSizePolicy sizePolicy1(QSizePolicy::Expanding, QSizePolicy::Expanding);
@@ -71,17 +81,7 @@ public:
         plainTextEditReps->setSizePolicy(sizePolicy1);
         plainTextEditReps->setLineWrapMode(QPlainTextEdit::NoWrap);
 
-        formLayout->setWidget(0, QFormLayout::FieldRole, plainTextEditReps);
-
-        label_2 = new QLabel(frame);
-        label_2->setObjectName(QString::fromUtf8("label_2"));
-
-        formLayout->setWidget(1, QFormLayout::LabelRole, label_2);
-
-        lineEditDir = new QLineEdit(frame);
-        lineEditDir->setObjectName(QString::fromUtf8("lineEditDir"));
-
-        formLayout->setWidget(1, QFormLayout::FieldRole, lineEditDir);
+        formLayout->setWidget(1, QFormLayout::SpanningRole, plainTextEditReps);
 
 
         verticalLayout->addWidget(frame);
@@ -108,6 +108,19 @@ public:
     {
         SettingsDialog->setWindowTitle(QApplication::translate("SettingsDialog", "Settings", 0, QApplication::UnicodeUTF8));
         label->setText(QApplication::translate("SettingsDialog", "Repositories:", 0, QApplication::UnicodeUTF8));
+        label_2->setText(QApplication::translate("SettingsDialog", "Installation Directory:", 0, QApplication::UnicodeUTF8));
+#ifndef QT_NO_TOOLTIP
+        lineEditDir->setToolTip(QApplication::translate("SettingsDialog", "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
+"<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css\">\n"
+"p, li { white-space: pre-wrap; }\n"
+"</style></head><body style=\" font-family:'MS Shell Dlg 2'; font-size:8.25pt; font-weight:400; font-style:normal;\">\n"
+"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:8pt;\">This is the directory where all downloaded packages will be installed. There are only a few reasons to change this value:</span></p>\n"
+"<ul style=\"margin-top: 0px; margin-bottom: 0px; margin-left: 0px; margin-right: 0px; -qt-list-indent: 1;\"><li style=\" font-size:8pt;\" style=\" margin-top:12px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">there is not enough space on C:    </li>\n"
+"<li style=\" font-size:8pt;\" style=\" margin-top:0px; margin-bottom:0px; margin-left:0px"
+                        "; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">the default installation path is too long    </li>\n"
+"<li style=\" font-size:8pt;\" style=\" margin-top:0px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">some packages require that the installation path does not contain spaces</li></ul>\n"
+"<p style=\" margin-top:0px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:8pt;\">You will have to uninstall all packages first, change this value and re-install them again.</span></p></body></html>", 0, QApplication::UnicodeUTF8));
+#endif // QT_NO_TOOLTIP
 #ifndef QT_NO_TOOLTIP
         plainTextEditReps->setToolTip(QApplication::translate("SettingsDialog", "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
 "<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css\">\n"
@@ -124,19 +137,6 @@ public:
 "<p style=\"-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; marg"
                         "in-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-size:8pt;\"></p>\n"
 "<p style=\"-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-size:8pt;\"></p></body></html>", 0, QApplication::UnicodeUTF8));
-#endif // QT_NO_TOOLTIP
-        label_2->setText(QApplication::translate("SettingsDialog", "Installation Directory:", 0, QApplication::UnicodeUTF8));
-#ifndef QT_NO_TOOLTIP
-        lineEditDir->setToolTip(QApplication::translate("SettingsDialog", "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
-"<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css\">\n"
-"p, li { white-space: pre-wrap; }\n"
-"</style></head><body style=\" font-family:'MS Shell Dlg 2'; font-size:8.25pt; font-weight:400; font-style:normal;\">\n"
-"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:8pt;\">This is the directory where all downloaded packages will be installed. There are only a few reasons to change this value:</span></p>\n"
-"<ul style=\"margin-top: 0px; margin-bottom: 0px; margin-left: 0px; margin-right: 0px; -qt-list-indent: 1;\"><li style=\" font-size:8pt;\" style=\" margin-top:12px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">there is not enough space on C:    </li>\n"
-"<li style=\" font-size:8pt;\" style=\" margin-top:0px; margin-bottom:0px; margin-left:0px"
-                        "; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">the default installation path is too long    </li>\n"
-"<li style=\" font-size:8pt;\" style=\" margin-top:0px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">some packages require that the installation path does not contain spaces</li></ul>\n"
-"<p style=\" margin-top:0px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:8pt;\">You will have to uninstall all packages first, change this value and re-install them again.</span></p></body></html>", 0, QApplication::UnicodeUTF8));
 #endif // QT_NO_TOOLTIP
     } // retranslateUi
 
