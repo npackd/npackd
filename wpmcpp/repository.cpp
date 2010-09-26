@@ -163,8 +163,10 @@ Package* Repository::createPackage(QDomElement* e)
     if (nl.count() != 0)
         a->description = nl.at(0).firstChild().nodeValue();
     nl = e->elementsByTagName("icon");
-    if (nl.count() != 0)
+    if (nl.count() != 0) {
         a->icon = nl.at(0).firstChild().nodeValue();
+        qDebug() << "Repository::createPackage.icon" << a->icon;
+    }
 
     return a;
 }

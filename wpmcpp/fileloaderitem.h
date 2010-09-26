@@ -3,6 +3,7 @@
 
 #include "qobject.h"
 #include "qtemporaryfile.h"
+#include "qmetatype.h"
 
 /**
  * A work item for FileLoader.

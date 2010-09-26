@@ -144,6 +144,7 @@ MainWindow::MainWindow(QWidget *parent) :
     this->ui->tableWidget->setColumnWidth(0, 150);
     this->ui->tableWidget->setColumnWidth(1, 300);
     this->ui->tableWidget->sortItems(0);
+    this->ui->tableWidget->setIconSize(QSize(32, 32));
 
     connect(&this->fileLoader, SIGNAL(downloaded(const FileLoaderItem&)), this,
             SLOT(iconDownloaded(const FileLoaderItem&)),
@@ -153,7 +154,9 @@ MainWindow::MainWindow(QWidget *parent) :
 
 void MainWindow::iconDownloaded(const FileLoaderItem& it)
 {
+    qDebug() << "MainWindow::iconDownloaded " << it.url;
     if (it.f) {
+        qDebug() << "MainWindow::iconDownloaded.2 " << it.url;
         // TODO: the file will never be deleted
         QIcon icon(it.f->fileName());
         this->icons.insert(it.url, icon);
@@ -337,9 +340,11 @@ void MainWindow::fillList()
 
         newItem = new QTableWidgetItem("");
         newItem->setData(Qt::UserRole, qVariantFromValue((void*) pv));
-        if (this->icons.contains(pv->package)) {
-            QIcon icon = this->icons[pv->package];
-            newItem->setIcon(icon);
+        if (p) {
+            if (!p->icon.isEmpty() && this->icons.contains(p->icon)) {
+                QIcon icon = this->icons[p->icon];
+                newItem->setIcon(icon);
+            }
         }
         t->setItem(n, 4, newItem);
 
@@ -549,22 +554,6 @@ void MainWindow::recognizeAndloadRepositories()
 
     fillList();
     delete job;
-}
-
-void MainWindow::loadRepositories()
-{
-    Job* job = new Job();
-    InstallThread* it = new InstallThread(0, 4, job);
-    it->start();
-    it->setPriority(QThread::LowestPriority);
-
-    QString title("Loading repositories");
-    waitFor(job, title);
-    it->wait();
-    delete it;
-
-    fillList();
-    delete job;
 
     Repository* r = Repository::getDefault();
     for (int i = 0; i < r->packages.count(); i++) {
@@ -572,6 +561,7 @@ void MainWindow::loadRepositories()
         if (!p->icon.isEmpty()) {
             FileLoaderItem it;
             it.url = p->icon;
+            qDebug() << "MainWindow::loadRepository " << it.url;
             this->fileLoader.work.append(it);
         }
     }
@@ -676,7 +666,7 @@ void MainWindow::on_actionSettings_triggered()
             if (err.isEmpty()) {
                 WPMUtils::setInstallationDirectory(d.getInstallationDirectory());
                 Repository::setRepositoryURLs(urls);
-                loadRepositories();
+                recognizeAndloadRepositories();
             } else {
                 QMessageBox::critical(this,
                         "Error", err, QMessageBox::Ok);

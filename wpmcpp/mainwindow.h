@@ -35,7 +35,6 @@ class MainWindow : public QMainWindow {
 private:
     QMap<QString, QIcon> icons;
     FileLoader fileLoader;
-    void iconDownloaded(const FileLoaderItem& it);
 public:
     MainWindow(QWidget *parent = 0);
     ~MainWindow();
@@ -59,11 +58,6 @@ public:
      */
     bool waitFor(Job* job, const QString& title);
 
-    /**
-     * Load the content of all defined repositories and updates the UI.
-     */
-    void loadRepositories();
-
     void recognizeAndloadRepositories();
 protected:
     void changeEvent(QEvent *e);
@@ -82,6 +76,7 @@ private slots:
     void on_tableWidget_itemSelectionChanged();
     void on_actionUninstall_activated();
     void on_actionExit_triggered();
+    void iconDownloaded(const FileLoaderItem& it);
 private:
     Ui::MainWindow *ui;
 
