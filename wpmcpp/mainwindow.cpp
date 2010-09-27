@@ -162,8 +162,8 @@ MainWindow::MainWindow(QWidget *parent) :
     this->ui->tableWidget->setColumnWidth(0, 40);
     this->ui->tableWidget->setColumnWidth(1, 150);
     this->ui->tableWidget->setColumnWidth(2, 300);
-    this->ui->tableWidget->sortItems(0);
     this->ui->tableWidget->setIconSize(QSize(32, 32));
+    this->ui->tableWidget->sortItems(1);
 
     connect(&this->fileLoader, SIGNAL(downloaded(const FileLoaderItem&)), this,
             SLOT(iconDownloaded(const FileLoaderItem&)),
