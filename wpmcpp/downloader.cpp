@@ -160,9 +160,6 @@ bool downloadWin(Job* job, const QUrl& url, QTemporaryFile* file,
             &cdBuffer, &bufferLength, &index)) {
         contentDisposition->setUtf16((ushort*) cdBuffer, bufferLength / 2);
         // qDebug() << "downloadWin.cd=" << *contentDisposition;
-    } else {
-        if (GetLastError() == ERROR_HTTP_HEADER_NOT_FOUND)
-            qDebug() << "downloadWin.content-disposition not found  ";
     }
 
     WCHAR contentLengthBuffer[100];
