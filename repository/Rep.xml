@@ -2237,6 +2237,17 @@ start "" /D\ explorer.exe</file>
         <sha1>659b7a6185f41f9ede5d022ea9f5742f7ea1b719</sha1>
     </version>
 
+    <!--
+        the installation shows a progress dialog
+    -->
+    <version name="10.63" package="com.opera.Opera" type="one-file">
+        <!-- somehow this triple double quotes work here -->
+        <file path=".WPM\Install.bat">Opera_1063_int_Setup.exe /S /v"/qn /norestart INSTALLDIR="""%CD%""" ALLUSERS=1"</file>
+        <file path=".WPM\Uninstall.bat">MsiExec.exe /qn /norestart /X{18E65799-76BD-46EF-9E53-972FE5A40736}</file>
+        <url>http://get1.opera.com/pub/opera/win/1063/int/Opera_1063_int_Setup.exe</url>
+        <sha1>69638f4e9b807ece50cf7d8e5501b20b12f72f8b</sha1>
+    </version>
+
     <version name="3.3.6.1" package="com.autoitscript.AutoItFull"
             type="one-file">
         <file path=".WPM\Install.bat">autoit-v3-setup.exe /S /D=%CD%</file>
