@@ -18,7 +18,7 @@ void FileLoader::run()
             Sleep(1000);
         else {
             FileLoaderItem it = this->work.dequeue();
-            qDebug() << "FileLoader::run " << it.url;
+            // qDebug() << "FileLoader::run " << it.url;
             Job* job = new Job();
             it.f = Downloader::download(job, it.url);
 
