@@ -174,7 +174,7 @@ MainWindow::MainWindow(QWidget *parent) :
 void MainWindow::iconDownloaded(const FileLoaderItem& it)
 {
     if (it.f) {
-        qDebug() << "MainWindow::iconDownloaded.2 " << it.url;
+        // qDebug() << "MainWindow::iconDownloaded.2 " << it.url;
         QPixmap pm(it.f->fileName());
         delete it.f;
         if (!pm.isNull()) {
