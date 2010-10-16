@@ -584,7 +584,7 @@ void MainWindow::recognizeAndloadRepositories()
         if (!p->icon.isEmpty()) {
             FileLoaderItem it;
             it.url = p->icon;
-            qDebug() << "MainWindow::loadRepository " << it.url;
+            // qDebug() << "MainWindow::loadRepository " << it.url;
             this->fileLoader.work.append(it);
         }
     }
