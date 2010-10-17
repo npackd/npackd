@@ -589,7 +589,7 @@ void MainWindow::recognizeAndloadRepositories()
             this->fileLoader.work.append(it);
         }
     }
-    qDebug() << "MainWindow::loadRepository";
+    // qDebug() << "MainWindow::loadRepository";
 }
 
 void MainWindow::on_actionInstall_activated()
