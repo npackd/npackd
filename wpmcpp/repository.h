@@ -39,8 +39,8 @@ private:
     void detectOneDotNet(HKEY hk2, const QString& keyName);
     void detectMSIProducts();
     void detectDotNet();
-    void detectJRE();
-    void detectJDK();
+    void detectJRE(bool w64bit);
+    void detectJDK(bool w64bit);
 
     /**
      * Recognizes applications installed without WPM.

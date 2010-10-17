@@ -15,6 +15,11 @@ private:
     WPMUtils();
 public:
     /**
+     * @return true if this program is running on a 64-bit Windows
+     */
+    static bool is64BitWindows();
+
+    /**
      * Deletes a directory
      *
      * @param aDir this directory will be deleted

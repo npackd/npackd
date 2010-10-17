@@ -235,6 +235,27 @@ bool WPMUtils::removeDirectory2(QDir &d, QString *errMsg)
     return r;
 }
 
+bool WPMUtils::is64BitWindows()
+{
+    // 32-bit programs run on both 32-bit and 64-bit Windows
+    // so must sniff
+    WINBASEAPI BOOL WINAPI (*lpfIsWow64Process) (HANDLE,PBOOL);
+
+    HINSTANCE hInstLib = LoadLibraryA("KERNEL32.DLL");
+    lpfIsWow64Process =
+            (BOOL (WINAPI *) (HANDLE,PBOOL))
+            GetProcAddress(hInstLib, "IsWow64Process");
+    bool ret;
+    if (lpfIsWow64Process) {
+        BOOL f64 = FALSE;
+        ret = lpfIsWow64Process(GetCurrentProcess(), &f64) && f64;
+    } else {
+        ret = false;
+    }
+    FreeLibrary(hInstLib);
+    return ret;
+}
+
 bool WPMUtils::removeDirectory(QDir &aDir, QString *errMsg)
 {
     bool ok = true;

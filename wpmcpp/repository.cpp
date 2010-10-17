@@ -287,13 +287,17 @@ void Repository::recognize(Job* job)
 
     if (!job->isCancelled()) {
         job->setHint("Detecting JRE");
-        detectJRE();
+        detectJRE(false);
+        if (WPMUtils::is64BitWindows())
+            detectJRE(true);
         job->setProgress(0.75);
     }
 
     if (!job->isCancelled()) {
         job->setHint("Detecting JDK");
-        detectJDK();
+        detectJDK(false);
+        if (WPMUtils::is64BitWindows())
+            detectJDK(true);
         job->setProgress(0.8);
     }
 
@@ -312,7 +316,7 @@ void Repository::recognize(Job* job)
     job->complete();
 }
 
-void Repository::detectJRE()
+void Repository::detectJRE(bool w64bit)
 {
     if (!this->findPackage("com.oracle.JRE")) {
         Package* p = new Package("com.oracle.JRE", "JRE");
@@ -321,9 +325,11 @@ void Repository::detectJRE()
         this->packages.append(p);
     }
     HKEY hk;
+    const REGSAM KEY_WOW64_64KEY = 0x0100;
     if (RegOpenKeyEx(HKEY_LOCAL_MACHINE,
             L"Software\\JavaSoft\\Java Runtime Environment",
-            0, KEY_READ, &hk) == ERROR_SUCCESS) {
+            0, KEY_READ | (w64bit ? KEY_WOW64_64KEY : 0),
+            &hk) == ERROR_SUCCESS) {
         WCHAR name[255];
         int index = 0;
         while (true) {
@@ -358,7 +364,7 @@ void Repository::detectJRE()
     }
 }
 
-void Repository::detectJDK()
+void Repository::detectJDK(bool w64bit)
 {
     if (!this->findPackage("com.oracle.JDK")) {
         Package* p = new Package("com.oracle.JDK", "JDK");
@@ -367,9 +373,11 @@ void Repository::detectJDK()
         this->packages.append(p);
     }
     HKEY hk;
+    const REGSAM KEY_WOW64_64KEY = 0x0100;
     if (RegOpenKeyEx(HKEY_LOCAL_MACHINE,
             L"Software\\JavaSoft\\Java Development Kit",
-            0, KEY_READ, &hk) == ERROR_SUCCESS) {
+            0, KEY_READ | (w64bit ? KEY_WOW64_64KEY : 0),
+            &hk) == ERROR_SUCCESS) {
         WCHAR name[255];
         int index = 0;
         while (true) {
