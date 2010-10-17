@@ -340,7 +340,8 @@ void MainWindow::fillList()
         else
             packageTitle = pv->package;
         newItem = new QTableWidgetItem(packageTitle);
-        newItem->setStatusTip(pv->download.toString() + " " + pv->package);
+        newItem->setStatusTip(pv->download.toString() + " " + pv->package +
+                " " + pv->sha1);
         newItem->setData(Qt::UserRole, qVariantFromValue((void*) pv));
         t->setItem(n, 1, newItem);
 
