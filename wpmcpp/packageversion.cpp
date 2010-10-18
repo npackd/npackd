@@ -467,8 +467,8 @@ bool PackageVersion::createShortcuts(QString *errMsg)
         from.append(this->version.getVersionString());
         from.append(")");
         from.append(".lnk");
-        qDebug() << "createShortcuts " << ifile << " " << p << " " <<
-                from;
+        // qDebug() << "createShortcuts " << ifile << " " << p << " " <<
+        //         from;
 
         QString desc;
         if (p)
