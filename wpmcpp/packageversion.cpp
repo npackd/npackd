@@ -520,7 +520,8 @@ void PackageVersion::install(Job* job)
                 job->setHint("Computing hash sum");
                 QString h = WPMUtils::sha1(f->fileName());
                 if (h.toLower() != this->sha1.toLower()) {
-                    job->setErrorMessage(QString("Hash sum %1 found, but %2 "
+                    job->setErrorMessage(QString(
+                            "Hash sum (SHA1) %1 found, but %2 "
                             "was expected. The file has changed.").arg(h).
                             arg(this->sha1));
                 }
@@ -532,7 +533,7 @@ void PackageVersion::install(Job* job)
                     Repository::getDefault()->somethingWasInstalledOrUninstalled();
                     if (this->type == 0) {
                         job->setHint("Extracting files");
-                        qDebug() << "install.6 " << f->size() << d.absolutePath();
+                        // qDebug() << "install.6 " << f->size() << d.absolutePath();
 
                         if (unzip(f->fileName(), d.absolutePath() + "\\", &errMsg)) {
                             QString err;
@@ -551,7 +552,7 @@ void PackageVersion::install(Job* job)
                         QString fn = this->download.path();
                         QStringList parts = fn.split('/');
                         t.append(parts.at(parts.count() - 1));
-                        qDebug() << "install " << t.replace('/', '\\');
+                        // qDebug() << "install " << t.replace('/', '\\');
                         if (!CopyFileW((WCHAR*) f->fileName().utf16(),
                                        (WCHAR*) t.replace('/', '\\').utf16(), false)) {
                             WPMUtils::formatMessage(GetLastError(), &errMsg);
