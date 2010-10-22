@@ -270,8 +270,8 @@ bool WPMUtils::removeDirectory(QDir &aDir, QString *errMsg)
             if (entryInfo.isDir()) {
                 QDir dd(path);
                 ok = removeDirectory(dd, errMsg);
-                if (!ok)
-                    qDebug() << "PackageVersion::removeDirectory.3" << *errMsg;
+                // if (!ok)
+                //    qDebug() << "WPMUtils::removeDirectory.3" << *errMsg;
             } else {
                 QFile file(path);
                 ok = file.remove();
@@ -279,14 +279,14 @@ bool WPMUtils::removeDirectory(QDir &aDir, QString *errMsg)
                     ok = false;
                     errMsg->clear();
                     errMsg->append("Cannot delete the file: ").append(path);
-                    qDebug() << "PackageVersion::removeDirectory.1" << *errMsg;
+                    // qDebug() << "WPMUtils::removeDirectory.1" << *errMsg;
                 }
             }
             if (!ok)
                 break;
         }
         if (ok && !aDir.rmdir(aDir.absolutePath())) {
-            qDebug() << "PackageVersion::removeDirectory.2";
+            // qDebug() << "WPMUtils::removeDirectory.2";
             ok = false;
             errMsg->clear();
             errMsg->append("Cannot delete the directory: ").append(

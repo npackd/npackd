@@ -46,7 +46,8 @@ bool downloadWin(Job* job, const QUrl& url, QTemporaryFile* file,
         job->setHint("Connecting");
     }
 
-    internet = InternetOpenW(L"WPM", INTERNET_OPEN_TYPE_PRECONFIG,
+    internet = InternetOpenW(L"Windows Package Manager",
+            INTERNET_OPEN_TYPE_PRECONFIG,
             0, 0, 0);
 
     // qDebug() << "download.2";
