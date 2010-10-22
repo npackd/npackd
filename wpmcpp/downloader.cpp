@@ -64,7 +64,9 @@ bool downloadWin(Job* job, const QUrl& url, QTemporaryFile* file,
 
     hConnectHandle = InternetConnectW(internet,
                                      (WCHAR*) server.utf16(),
-                                     INTERNET_INVALID_PORT_NUMBER,
+                                     url.scheme() == "https" ?
+                                     INTERNET_DEFAULT_HTTPS_PORT :
+                                     INTERNET_DEFAULT_HTTP_PORT,
                                      0,
                                      0,
                                      INTERNET_SERVICE_HTTP,
@@ -88,10 +90,11 @@ bool downloadWin(Job* job, const QUrl& url, QTemporaryFile* file,
     // qDebug() << "download.4";
 
     hResourceHandle = HttpOpenRequestW(hConnectHandle, L"GET",
-                                      (WCHAR*) resource.utf16(),
-                                      0, 0, 0,
-                                      INTERNET_FLAG_KEEP_CONNECTION |
-                                      INTERNET_FLAG_DONT_CACHE, 0);
+            (WCHAR*) resource.utf16(),
+            0, 0, 0,
+            (url.scheme() == "https" ? INTERNET_FLAG_SECURE : 0) |
+            INTERNET_FLAG_KEEP_CONNECTION |
+            INTERNET_FLAG_DONT_CACHE, 0);
     if (hResourceHandle == 0) {
         QString errMsg;
         WPMUtils::formatMessage(GetLastError(), &errMsg);
