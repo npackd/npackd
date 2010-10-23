@@ -1169,6 +1169,11 @@
         <url>http://www.vim.org/</url>
         <description>text editor</description>
     </package>
+    <package name="org.vim.VimInstaller">
+        <title>Vim installer</title>
+        <url>http://www.vim.org/</url>
+        <description>text editor</description>
+    </package>
     <package name="org.virtualbox.VirtualBoxInstaller">
         <title>VirtualBox installer</title>
         <url>http://www.virtualbox.org/</url>
@@ -1548,10 +1553,21 @@ start "" /D\ explorer.exe</file>
         <sha1>6e37c98c251a2d82e054de40b2013361f9c4aed8</sha1>
     </version>
 
-    <!-- installation shows 2 confirmation dialogs -->
+    <!--
+        installation shows 2 confirmation dialogs and does not respect the /D
+        option
+    -->
+    <!--
     <version name="7.3" package="org.vim.Vim" type="one-file">
         <file path=".WPM\Install.bat">gvim73.exe /S /D=%CD%</file>
         <file path=".WPM\Uninstall.bat">uninst.exe /S _?=%CD%</file>
+        <url>http://wpm.freehostingcloud.com/files/gvim73.exe</url>
+        <sha1>e3f082369051a496a75680462b494b26324e796c</sha1>
+    </version>
+    -->
+
+    <version name="7.3" package="org.vim.VimInstaller" type="one-file">
+        <important-file path="gvim73.exe" title="Installer"/>
         <url>http://wpm.freehostingcloud.com/files/gvim73.exe</url>
         <sha1>e3f082369051a496a75680462b494b26324e796c</sha1>
     </version>
