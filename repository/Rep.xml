@@ -904,6 +904,11 @@
         <!-- s. https://sourceforge.net/projects/sevenzip/forums/forum/45797/topic/3872661/index/page/1 -->
         <icon>http://wpmfiles.1free.ws/icons/org.7-zip.SevenZip.png</icon>
     </package>
+    <package name="org.apache.subversion.Subversion">
+        <title>Subversion</title>
+        <url>http://subversion.apache.org/</url>
+        <description>source version control</description>
+    </package>
     <package name="org.apache.tomcat.Tomcat">
         <title>Tomcat</title>
         <url>http://tomcat.apache.org/</url>
@@ -1240,6 +1245,14 @@
     of a package should stay together. Newer versions should appear under older
     ones.
     -->
+
+    <version name="1.6.13" package="org.apache.subversion.Subversion"
+            type="one-file">
+        <file path=".WPM\Install.bat">msiexec.exe /qn /norestart /i Slik-Subversion-1.6.13-win32.msi INSTALLDIR="%CD%" ALLUSERS=1</file>
+        <file path=".WPM\Uninstall.bat">msiexec.exe /qn /norestart /x Slik-Subversion-1.6.13-win32.msi</file>
+        <url>http://www.sliksvn.com/pub/Slik-Subversion-1.6.13-win32.msi</url>
+        <sha1>7e43dffeb71dea867631429ad6a751e8a09ee75d</sha1>
+    </version>
 
     <!-- NSIS-based installer does not respect the /D option -->
     <version name="2.0.1" package="com.nokia.QtCreatorInstaller"
