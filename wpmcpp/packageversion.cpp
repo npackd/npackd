@@ -241,12 +241,8 @@ void PackageVersion::uninstall(Job* job)
         Repository::getDefault()->somethingWasInstalledOrUninstalled();
         if (d.exists()) {
             job->setHint("Deleting files");
-            bool r = WPMUtils::removeDirectory(d, &errMsg);
-            job->setProgress(0.75);
-            if (!r) {
-                Sleep(5000); // 5 Seconds
-                r = WPMUtils::removeDirectory(d, &errMsg);
-            }
+            Job* rjob = job->newSubJob(0.55);
+            bool r = WPMUtils::removeDirectory2(rjob, d, &errMsg);
             if (r) {
                 job->setProgress(1);
             } else
@@ -543,7 +539,10 @@ void PackageVersion::install(Job* job)
                             job->setErrorMessage(QString(
                                     "Error unzipping file into directory %0: %1").
                                                  arg(d.absolutePath()).arg(errMsg));
-                            WPMUtils::removeDirectory2(d, &errMsg); // ignore errors
+                            Job* rjob = new Job();
+                            WPMUtils::removeDirectory2(rjob,
+                                    d, &errMsg); // ignore errors
+                            delete rjob;
                         }
                     } else {
                         job->setHint("Copying the file");
@@ -557,7 +556,10 @@ void PackageVersion::install(Job* job)
                                        (WCHAR*) t.replace('/', '\\').utf16(), false)) {
                             WPMUtils::formatMessage(GetLastError(), &errMsg);
                             job->setErrorMessage(errMsg);
-                            WPMUtils::removeDirectory2(d, &errMsg); // ignore errors
+                            Job* rjob = new Job();
+                            WPMUtils::removeDirectory2(rjob,
+                                    d, &errMsg); // ignore errors
+                            delete rjob;
                         } else {
                             QString err;
                             this->createShortcuts(&err); // ignore errors
@@ -586,7 +588,9 @@ void PackageVersion::install(Job* job)
                                 job->setErrorMessage(errMsg);
 
                                 // ignore errors
-                                WPMUtils::removeDirectory2(d, &errMsg);
+                                Job* rjob = new Job();
+                                WPMUtils::removeDirectory2(rjob, d, &errMsg);
+                                delete rjob;
                             }
                         } else {
                             job->setProgress(1);

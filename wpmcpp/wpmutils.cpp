@@ -225,14 +225,28 @@ QString WPMUtils::sha1(const QString& filename)
         return hash.result().toHex();
 }
 
-bool WPMUtils::removeDirectory2(QDir &d, QString *errMsg)
+bool WPMUtils::removeDirectory2(Job* job, QDir &d, QString *errMsg)
 {
-    bool r = WPMUtils::removeDirectory(d, errMsg);
-    if (!r) {
+    Job* sub = job->newSubJob(0.3);
+    WPMUtils::removeDirectory(sub, d);
+    delete sub;
+    if (!sub->getErrorMessage().isEmpty()) {
+        job->setProgress(0.3);
         Sleep(5000); // 5 Seconds
-        r = WPMUtils::removeDirectory(d, errMsg);
+        job->setProgress(0.6);
+
+        sub = job->newSubJob(0.4);
+        WPMUtils::removeDirectory(sub, d);
+        delete sub;
+    } else{
+        job->setProgress(1);
     }
-    return r;
+    job->complete();
+
+    errMsg->clear();
+    errMsg->append(job->getErrorMessage());
+
+    return job->getErrorMessage().isEmpty();
 }
 
 bool WPMUtils::is64BitWindows()
@@ -256,9 +270,8 @@ bool WPMUtils::is64BitWindows()
     return ret;
 }
 
-bool WPMUtils::removeDirectory(QDir &aDir, QString *errMsg)
+void WPMUtils::removeDirectory(Job* job, QDir &aDir)
 {
-    bool ok = true;
     if (aDir.exists()) {
         QFileInfoList entries = aDir.entryInfoList(
                 QDir::NoDotAndDotDot |
@@ -269,33 +282,38 @@ bool WPMUtils::removeDirectory(QDir &aDir, QString *errMsg)
             QString path = entryInfo.absoluteFilePath();
             if (entryInfo.isDir()) {
                 QDir dd(path);
-                ok = removeDirectory(dd, errMsg);
+                Job* sub = job->newSubJob(idx / ((double) count + 1));
+                removeDirectory(sub, dd);
+                delete sub;
                 // if (!ok)
                 //    qDebug() << "WPMUtils::removeDirectory.3" << *errMsg;
             } else {
                 QFile file(path);
-                ok = file.remove();
-                if (!ok && file.exists()) {
-                    ok = false;
-                    errMsg->clear();
-                    errMsg->append("Cannot delete the file: ").append(path);
+                if (!file.remove() && file.exists()) {
+                    job->setErrorMessage(QString("Cannot delete the file: %1").
+                            arg(path));
                     // qDebug() << "WPMUtils::removeDirectory.1" << *errMsg;
+                } else {
+                    job->setProgress(idx / ((double) count + 1));
                 }
             }
-            if (!ok)
+            if (!job->getErrorMessage().isEmpty())
                 break;
         }
-        if (ok && !aDir.rmdir(aDir.absolutePath())) {
-            // qDebug() << "WPMUtils::removeDirectory.2";
-            ok = false;
-            errMsg->clear();
-            errMsg->append("Cannot delete the directory: ").append(
-                    aDir.absolutePath());
+
+        if (job->getErrorMessage().isEmpty()) {
+            if (!aDir.rmdir(aDir.absolutePath()))
+                // qDebug() << "WPMUtils::removeDirectory.2";
+                job->setErrorMessage(QString("Cannot delete the directory: %1").
+                        arg(aDir.absolutePath()));
+            else
+                job->setProgress(1);
         }
+    } else {
+        job->setProgress(1);
     }
-    // qDebug() << "PackageVersion::removeDirectory: " << aDir << " " << ok <<
-    //        *errMsg;
-    return ok;
+
+    job->complete();
 }
 
 /* Task creation

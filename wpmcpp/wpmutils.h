@@ -6,6 +6,8 @@
 #include "qstring.h"
 #include "qdir.h"
 
+#include "job.h"
+
 /**
  * Some utility methods.
  */
@@ -22,21 +24,21 @@ public:
     /**
      * Deletes a directory
      *
+     * @param job progress for this task
      * @param aDir this directory will be deleted
-     * @param errMsg error message will be stored here
-     * @return true if no errors occured
      */
-    static bool removeDirectory(QDir &aDir, QString* errMsg);
+    static void removeDirectory(Job* job, QDir &aDir);
 
     /**
      * Deletes a directory. If something cannot be deleted, it waits and
      * tries to delete the directory again.
      *
+     * @param job progress for this task
      * @param aDir this directory will be deleted
      * @param errMsg error message will be stored here
      * @return true if no errors occured
      */
-    static bool removeDirectory2(QDir &aDir, QString* errMsg);
+    static bool removeDirectory2(Job* job, QDir &aDir, QString* errMsg);
 
     /**
      * Finds the parent directory for a path.

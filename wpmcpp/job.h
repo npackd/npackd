@@ -71,8 +71,8 @@ public:
     bool isCompleted();
 
     /**
-     * This must be called in order to complete the job. done(0) completes
-     * the job automatically.
+     * This must be called in order to complete the job regardless of
+     * setProgress.
      */
     void complete();
 

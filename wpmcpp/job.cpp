@@ -153,7 +153,7 @@ void Job::setHint(const QString &hint)
 void Job::updateParentHint()
 {
     if (parentJob) {
-        if (isCompleted())
+        if (isCompleted() || this->hint.isEmpty())
             parentJob->setHint(parentHintStart);
         else
             parentJob->setHint(parentHintStart + " / " + this->hint);
