@@ -198,6 +198,9 @@ void MainWindow::prepare()
 
 MainWindow::~MainWindow()
 {
+    this->fileLoader.terminated = 1;
+    if (!this->fileLoader.wait(1000))
+        this->fileLoader.terminate();
     delete ui;
 }
 
