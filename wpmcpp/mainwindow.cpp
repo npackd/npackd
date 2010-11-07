@@ -221,7 +221,9 @@ bool MainWindow::waitFor(Job* job, const QString& title)
         return false;
     else if (!job->getErrorMessage().isEmpty()) {
         QMessageBox::critical(this,
-                "Error", job->getErrorMessage(),
+                "Error", QString("%1: %2").
+                arg(job->getHint()).
+                arg(job->getErrorMessage()),
                 QMessageBox::Ok);
         return false;
     } else {
@@ -745,9 +747,6 @@ void MainWindow::on_actionCompute_SHA1_triggered()
         QInputDialog::getText(this, "SHA1",
                 QString("SHA1 for %1:").arg(pv->toString()), QLineEdit::Normal,
                 it->sha1, &ok);
-    } else if (!job->getErrorMessage().isEmpty()) {
-        QMessageBox::critical(this,
-                "Error", job->getErrorMessage(), QMessageBox::Ok);
     }
 
     delete it;
