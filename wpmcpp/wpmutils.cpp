@@ -282,7 +282,7 @@ void WPMUtils::removeDirectory(Job* job, QDir &aDir)
             QString path = entryInfo.absoluteFilePath();
             if (entryInfo.isDir()) {
                 QDir dd(path);
-                Job* sub = job->newSubJob(idx / ((double) count + 1));
+                Job* sub = job->newSubJob(1 / ((double) count + 1));
                 removeDirectory(sub, dd);
                 delete sub;
                 // if (!ok)
