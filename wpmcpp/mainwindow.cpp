@@ -461,13 +461,13 @@ void MainWindow::process(const QList<PackageVersion *> &uninstall,
         b = QMessageBox::warning(this,
                 "Uninstall", msg, QMessageBox::Yes | QMessageBox::No);
     } else if (install.count() > 0 && uninstall.count() == 0) {
-        msg = QString("%1 packages will be installed: %2. "
+        msg = QString("%1 package(s) will be installed: %2. "
                 "Are you sure?").
                 arg(install.count()).arg(installNames);
         b = QMessageBox::warning(this,
                 "Install", msg, QMessageBox::Yes | QMessageBox::No);
     } else if (install.count() == 0 && uninstall.count() > 0) {
-        msg = QString("%1 packages will be uninstalled: %2. "
+        msg = QString("%1 package(s) will be uninstalled: %2. "
                 "The corresponding directories "
                 "will be completely deleted. "
                 "There is no way to restore the files. "
@@ -476,8 +476,8 @@ void MainWindow::process(const QList<PackageVersion *> &uninstall,
         b = QMessageBox::warning(this,
                 "Uninstall", msg, QMessageBox::Yes | QMessageBox::No);
     } else {
-        msg = QString("%1 packages will be uninstalled: "
-            "%2 and %3 packages will be installed: %4. "
+        msg = QString("%1 package(s) will be uninstalled: "
+            "%2 and %3 package(s) will be installed: %4. "
             "The corresponding directories "
             "will be completely deleted. "
             "There is no way to restore the files. "
