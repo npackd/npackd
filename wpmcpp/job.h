@@ -62,6 +62,7 @@ public slots:
     void parentJobChanged(const JobState& s);
 public:
     Job();
+    ~Job();
 
     /**
      * @return true if this job was completed: with or without an error. If a
