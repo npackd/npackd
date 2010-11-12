@@ -46,7 +46,7 @@ bool downloadWin(Job* job, const QUrl& url, QTemporaryFile* file,
         job->setHint("Connecting");
     }
 
-    internet = InternetOpenW(L"Windows Package Manager",
+    internet = InternetOpenW(L"Npackd",
             INTERNET_OPEN_TYPE_PRECONFIG,
             0, 0, 0);
 
