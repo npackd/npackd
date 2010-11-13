@@ -50,7 +50,7 @@ int main(int argc, char *argv[])
                             L"IDI_ICON1");
             qDebug() << "main().1 icon" << nid.hIcon;
             QString tip = QString("%1 update(s) found").arg(nupdates);
-            QString txt = QString("Windows Package Manager found %1 update(s). "
+            QString txt = QString("Npackd found %1 update(s). "
                     "Click here to review and install.").arg(nupdates);
 
             wcsncpy(nid.szTip, (wchar_t*) tip.utf16(),

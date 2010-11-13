@@ -147,7 +147,7 @@ MainWindow::MainWindow(QWidget *parent) :
     ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
-    setWindowTitle("Windows Package Manager");
+    setWindowTitle("Npackd");
 
     this->ui->tableWidget->setEditTriggers(QTableWidget::NoEditTriggers);
 
