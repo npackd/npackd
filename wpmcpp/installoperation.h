@@ -1,6 +1,8 @@
 #ifndef INSTALLOPERATION_H
 #define INSTALLOPERATION_H
 
+#include "qlist.h"
+
 #include "packageversion.h"
 
 /**
@@ -16,6 +18,13 @@ public:
     bool install;
 
     InstallOperation();
+
+    /**
+     * Simplifies a list of operations.
+     *
+     * @param ops a list of operations
+     */
+    static void simplify(QList<InstallOperation*> ops);
 };
 
 #endif // INSTALLOPERATION_H
