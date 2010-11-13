@@ -67,15 +67,16 @@ void InstallThread::run()
 
         for (int i = 0; i < this->install.count(); i++) {
             InstallOperation* op = install.at(i);
+            PackageVersion* pv = op->packageVersion;
             if (op->install)
                 job->setHint(QString("Installing %1").arg(
-                        op->packageVersion->toString()));
+                        pv->toString()));
             else
                 job->setHint(QString("Uninstalling %1").arg(
-                        op->packageVersion->toString()));
+                        pv->toString()));
             Job* sub = job->newSubJob(1.0 / n);
             if (op->install)
-                pv->uninstall(sub);
+                pv->install(sub);
             else
                 pv->uninstall(sub);
             delete sub;

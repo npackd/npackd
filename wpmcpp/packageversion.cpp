@@ -339,33 +339,43 @@ QString PackageVersion::planInstallation(QList<PackageVersion*>& installed,
 QString PackageVersion::planUninstallation(QList<PackageVersion*>& installed,
         QList<InstallOperation*>& ops)
 {
+    // qDebug() << "PackageVersion::planUninstallation()" << this->toString();
     QString res;
 
-    for (int i = 0; i < installed.count(); i++) {
-        PackageVersion* pv = installed.at(i);
-        if (pv != this) {
-            for (int j = 0; j < pv->dependencies.count(); j++) {
-                Dependency* d = pv->dependencies.at(j);
-                if (d->package == this->package && d->test(this->version)) {
-                    int n = 0;
-                    for (int k = 0; k < installed.count(); k++) {
-                        PackageVersion* pv2 = installed.at(k);
-                        if (d->package == pv2->package && d->test(pv2->version)) {
-                            n++;
+    // this loop ensures that all the items in "installed" are processed
+    // even if changes in the list were done in nested calls to
+    // "planUninstallation"
+    while (true) {
+        int oldCount = installed.count();
+        for (int i = 0; i < installed.count(); i++) {
+            PackageVersion* pv = installed.at(i);
+            if (pv != this) {
+                for (int j = 0; j < pv->dependencies.count(); j++) {
+                    Dependency* d = pv->dependencies.at(j);
+                    if (d->package == this->package && d->test(this->version)) {
+                        int n = 0;
+                        for (int k = 0; k < installed.count(); k++) {
+                            PackageVersion* pv2 = installed.at(k);
+                            if (d->package == pv2->package && d->test(pv2->version)) {
+                                n++;
+                            }
+                            if (n > 1)
+                                break;
                         }
-                        if (n > 1)
-                            break;
-                    }
-                    if (n <= 1) {
-                        res = planUninstallation(installed, ops);
-                        if (!res.isEmpty())
-                            break;
+                        if (n <= 1) {
+                            res = pv->planUninstallation(installed, ops);
+                            if (!res.isEmpty())
+                                break;
+                        }
                     }
                 }
+                if (!res.isEmpty())
+                    break;
             }
-            if (!res.isEmpty())
-                break;
         }
+
+        if (oldCount == installed.count() || !res.isEmpty())
+            break;
     }
 
     if (res.isEmpty()) {
@@ -373,6 +383,7 @@ QString PackageVersion::planUninstallation(QList<PackageVersion*>& installed,
         op->install = false;
         op->packageVersion = this;
         ops.append(op);
+        installed.removeOne(this);
     }
 
     return res;
