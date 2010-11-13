@@ -22,6 +22,39 @@ Repository::Repository()
     this->installedGraph = 0;
 }
 
+QList<PackageVersion*> Repository::getInstalled()
+{
+    QList<PackageVersion*> ret;
+
+    QDir aDir = getDirectory();
+    if (aDir.exists()) {
+        QFileInfoList entries = aDir.entryInfoList(
+                QDir::NoDotAndDotDot |
+                QDir::Dirs);
+        int count = entries.size();
+        for (int idx = 0; idx < count; idx++) {
+            QFileInfo entryInfo = entries[idx];
+            QString fn = entryInfo.fileName();
+            QStringList sl = fn.split('-');
+            if (sl.count() == 2) {
+                QString package = sl.at(0);
+                if (Package::isValidName(package)) {
+                    QString version_ = sl.at(1);
+                    Version version;
+                    if (version.setVersion(version_)) {
+                        PackageVersion* pv =
+                                this->findPackageVersion(package, version);
+                        if (pv)
+                            ret.append(pv);
+                    }
+                }
+            }
+        }
+    }
+
+    return ret;
+}
+
 Digraph* Repository::getInstalledGraph()
 {
     if (!this->installedGraph) {

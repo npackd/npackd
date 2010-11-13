@@ -295,6 +295,44 @@ void PackageVersion::getUninstallFirstPackages(QList<PackageVersion*>& res)
     }
 }
 
+QString PackageVersion::planInstallation(QList<PackageVersion*>& installed,
+        QList<InstallOperation*>& ops)
+{
+    QString res;
+
+    for (int i = 0; i < this->dependencies.count(); i++) {
+        Dependency* d = this->dependencies.at(i);
+        bool depok = false;
+        for (int j = 0; j < installed.size(); j++) {
+            PackageVersion* pv = installed.at(j);
+            if (pv->package == d->package && d->test(pv->version)) {
+                depok = true;
+                break;
+            }
+        }
+        if (!depok) {
+            PackageVersion* pv = d->findBestMatchToInstall();
+            if (!pv) {
+                res = QString("Unsatisfied dependency: %1").
+                           arg(d->toString());
+                break;
+            } else {
+                res = pv->planInstallation(installed, ops);
+                if (!res.isEmpty())
+                    break;
+            }
+        }
+    }
+
+    InstallOperation* io = new InstallOperation();
+    io->install = true;
+    io->packageVersion = this;
+    ops.append(io);
+    installed.append(this);
+
+    return res;
+}
+
 void PackageVersion::getInstallFirstPackages(QList<PackageVersion*>& r,
         QList<Dependency*>& unsatisfiedDeps)
 {

@@ -12,6 +12,10 @@
 #include "packageversionfile.h"
 #include "version.h"
 #include "dependency.h"
+#include "digraph.h"
+#include "installoperation.h"
+
+class InstallOperation;
 
 class PackageVersion
 {
@@ -88,6 +92,7 @@ public:
     /**
      * Uninstalls dependant packages.
      *
+     * @param state current state of the system (installed package versions)
      * @param job job
      */
     void uninstallDeps(Job* job);
@@ -107,6 +112,18 @@ public:
      */
     void getInstallFirstPackages(QList<PackageVersion*>& r,
             QList<Dependency*>& unsatisfiedDeps);
+
+    /**
+     * Plans installation of this package and all the dependencies recursively.
+     *
+     * @param installed list of installed packages. This list should be
+     *     consulted instead of .installed() and will be updated and contains
+     *     all installed package versions after the process
+     * @param op necessary operations should be added here
+     * @return error message or ""
+     */
+    QString planInstallation(QList<PackageVersion*>& installed,
+            QList<InstallOperation*>& ops);
 
     /**
      * @return first unsatisfied dependency or 0

@@ -72,6 +72,15 @@ public:
     ~Repository();
 
     /**
+     * Finds all installed packages. This method lists all directories in the
+     * installation directory and finds the corresponding package versions
+     *
+     * @return the list of installed package versions (the objects should not
+     *     be freed)
+     */
+    QList<PackageVersion*> getInstalled();
+
+    /**
      * @return digraph with installed package versions. Each Node.userData is
      *     of type PackageVersion* and represents an installed package version.
      *     The memory should not be freed. The first object in the list has
