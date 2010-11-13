@@ -305,7 +305,8 @@ QString PackageVersion::planInstallation(QList<PackageVersion*>& installed,
         bool depok = false;
         for (int j = 0; j < installed.size(); j++) {
             PackageVersion* pv = installed.at(j);
-            if (pv->package == d->package && d->test(pv->version)) {
+            if (pv != this && pv->package == d->package &&
+                    d->test(pv->version)) {
                 depok = true;
                 break;
             }
@@ -324,11 +325,55 @@ QString PackageVersion::planInstallation(QList<PackageVersion*>& installed,
         }
     }
 
-    InstallOperation* io = new InstallOperation();
-    io->install = true;
-    io->packageVersion = this;
-    ops.append(io);
-    installed.append(this);
+    if (res.isEmpty()) {
+        InstallOperation* io = new InstallOperation();
+        io->install = true;
+        io->packageVersion = this;
+        ops.append(io);
+        installed.append(this);
+    }
+
+    return res;
+}
+
+QString PackageVersion::planUninstallation(QList<PackageVersion*>& installed,
+        QList<InstallOperation*>& ops)
+{
+    QString res;
+
+    for (int i = 0; i < installed.count(); i++) {
+        PackageVersion* pv = installed.at(i);
+        if (pv != this) {
+            for (int j = 0; j < pv->dependencies.count(); j++) {
+                Dependency* d = pv->dependencies.at(j);
+                if (d->package == this->package && d->test(this->version)) {
+                    int n = 0;
+                    for (int k = 0; k < installed.count(); k++) {
+                        PackageVersion* pv2 = installed.at(k);
+                        if (d->package == pv2->package && d->test(pv2->version)) {
+                            n++;
+                        }
+                        if (n > 1)
+                            break;
+                    }
+                    if (n <= 1) {
+                        res = planUninstallation(installed, ops);
+                        if (!res.isEmpty())
+                            break;
+                    }
+                }
+            }
+            if (!res.isEmpty())
+                break;
+        }
+    }
+
+    if (res.isEmpty()) {
+        InstallOperation* op = new InstallOperation();
+        op->install = false;
+        op->packageVersion = this;
+        ops.append(op);
+    }
 
     return res;
 }

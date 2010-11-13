@@ -126,6 +126,18 @@ public:
             QList<InstallOperation*>& ops);
 
     /**
+     * Plans un-installation of this package and all the dependent recursively.
+     *
+     * @param installed list of installed packages. This list should be
+     *     consulted instead of .installed() and will be updated and contains
+     *     all installed package versions after the process
+     * @param op necessary operations should be added here
+     * @return error message or ""
+     */
+    QString planUninstallation(QList<PackageVersion*>& installed,
+            QList<InstallOperation*>& ops);
+
+    /**
      * @return first unsatisfied dependency or 0
      */
     Dependency* findFirstUnsatisfiedDependency();
