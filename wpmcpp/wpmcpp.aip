@@ -9,10 +9,10 @@
     <ROW Property="ARPURLINFOABOUT" Value="http://code.google.com/p/windows-package-manager/"/>
     <ROW Property="BannerBitmap" MultiBuildValue="DefaultBuild:banner_image.jpg" Type="1"/>
     <ROW Property="DialogBitmap" MultiBuildValue="DefaultBuild:dialog_image.jpg" Type="1"/>
-    <ROW Property="Manufacturer" Value="WPM" ValueLocId="*"/>
+    <ROW Property="Manufacturer" Value="Npackd" ValueLocId="*"/>
     <ROW Property="ProductCode" Value="1033:{390B06A1-8F53-40D8-9D98-A0D880B96206} " Type="16"/>
     <ROW Property="ProductLanguage" Value="1033"/>
-    <ROW Property="ProductName" Value="Windows Package Manager" ValueLocId="*"/>
+    <ROW Property="ProductName" Value="Npackd" ValueLocId="*"/>
     <ROW Property="ProductVersion" Value="1.14.0"/>
     <ROW Property="SecureCustomProperties" Value="OLDPRODUCTS;AI_NEWERPRODUCTFOUND"/>
     <ROW Property="UpgradeCode" Value="{EABC4270-7D7F-47BF-B388-AC63606E8DAC}"/>
@@ -56,7 +56,7 @@
     <ROW File="mingwm10.dll" Component_="mingwm10.dll" FileName="mingwm10.dll" Attributes="0" SourcePath="..\..\..\..\..\Qt\2010.03\mingw\bin\mingwm10.dll" SelfReg="false" Sequence="4"/>
     <ROW File="quazip.dll" Component_="quazip.dll" FileName="quazip.dll" Attributes="0" SourcePath="..\..\..\libs\quazip-0.2.3\quazip\release\quazip.dll" SelfReg="false" Sequence="2"/>
     <ROW File="stop.png" Component_="LICENSE.txt" FileName="stop.png" Attributes="0" SourcePath="stop.png" SelfReg="false" Sequence="15"/>
-    <ROW File="wpmcpp.exe" Component_="wpmcpp.exe" FileName="wpm.exe" Attributes="0" SourcePath="release\wpmcpp.exe" SelfReg="false" Sequence="1"/>
+    <ROW File="wpmcpp.exe" Component_="wpmcpp.exe" FileName="npackdg.exe" Attributes="0" SourcePath="release\wpmcpp.exe" SelfReg="false" Sequence="1"/>
     <ROW File="zlib1.dll" Component_="zlib1.dll" FileName="zlib1.dll" Attributes="0" SourcePath="..\..\..\libs\zlib-1.2.5\zlib1.dll" SelfReg="false" Sequence="3"/>
   </COMPONENT>
   <COMPONENT cid="caphyon.advinst.msicomp.BuildComponent">
@@ -112,20 +112,20 @@
   </COMPONENT>
   <COMPONENT cid="caphyon.advinst.msicomp.MsiInstExSeqComponent">
     <ROW Action="AI_DOWNGRADE" Condition="AI_NEWERPRODUCTFOUND AND (UILevel &lt;&gt; 5)" Sequence="210"/>
-    <ROW Action="AI_RESTORE_LOCATION" Condition="APPDIR=&quot;&quot;" Sequence="749"/>
+    <ROW Action="AI_RESTORE_LOCATION" Condition="APPDIR=&quot;&quot;" Sequence="748"/>
     <ROW Action="AI_STORE_LOCATION" Condition="Not Installed" Sequence="1501"/>
     <ROW Action="AI_PREPARE_UPGRADE" Condition="AI_UPGRADE=&quot;No&quot; AND (Not Installed)" Sequence="1399"/>
     <ROW Action="AI_ResolveKnownFolders" Sequence="51"/>
   </COMPONENT>
   <COMPONENT cid="caphyon.advinst.msicomp.MsiInstallUISequenceComponent">
-    <ROW Action="AI_RESTORE_LOCATION" Condition="APPDIR=&quot;&quot;" Sequence="749"/>
+    <ROW Action="AI_RESTORE_LOCATION" Condition="APPDIR=&quot;&quot;" Sequence="748"/>
     <ROW Action="AI_ResolveKnownFolders" Sequence="51"/>
   </COMPONENT>
   <COMPONENT cid="caphyon.advinst.msicomp.MsiLaunchConditionsComponent">
     <ROW Condition="VersionNT" Description="[ProductName] cannot be installed on [WindowsFamily9X]" DescriptionLocId="AI.LaunchCondition.No9X" IsPredefined="true" Builds="DefaultBuild"/>
   </COMPONENT>
   <COMPONENT cid="caphyon.advinst.msicomp.MsiShortsComponent">
-    <ROW Shortcut="Windows_Package_Manager" Directory_="SHORTCUTDIR" Name="Window~1|Windows Package Manager" Component_="wpmcpp.exe" Target="[#wpmcpp.exe]" Description="Installs and uninstalls programs (packages)" Hotkey="0" IconIndex="0" ShowCmd="1" WkDir="APPDIR"/>
+    <ROW Shortcut="Windows_Package_Manager" Directory_="SHORTCUTDIR" Name="Npackd" Component_="wpmcpp.exe" Target="[#wpmcpp.exe]" Description="Installs and uninstalls programs (packages)" Hotkey="0" IconIndex="0" ShowCmd="1" WkDir="APPDIR"/>
   </COMPONENT>
   <COMPONENT cid="caphyon.advinst.msicomp.MsiThemeComponent">
     <ATTRIBUTE name="UsedTheme" value="classic"/>
