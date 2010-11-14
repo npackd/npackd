@@ -521,7 +521,7 @@ void MainWindow::process(const QList<InstallOperation*> &install)
         it->start();
         it->setPriority(QThread::LowestPriority);
 
-        waitFor(job, "Installing");
+        waitFor(job, "Install/Uninstall");
         it->wait();
         delete it;
         delete job;

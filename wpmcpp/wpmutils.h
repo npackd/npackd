@@ -7,6 +7,7 @@
 #include "qdir.h"
 
 #include "job.h"
+#include "version.h"
 
 /**
  * Some utility methods.
@@ -114,6 +115,12 @@ public:
      * @return GUIDs for installed products (MSI)
      */
     static QStringList findInstalledMSIProducts();
+
+    /**
+     * @param path .DLL file path
+     * @return version number or 0.0 it it cannot be determined
+     */
+    static Version getDLLVersion(const QString& path);
 };
 
 #endif // WPMUTILS_H

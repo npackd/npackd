@@ -39,6 +39,7 @@ private:
     void detectOneDotNet(HKEY hk2, const QString& keyName);
     void detectMSIProducts();
     void detectDotNet();
+    void detectMicrosoftInstaller();
     void detectJRE(bool w64bit);
     void detectJDK(bool w64bit);
 

@@ -2,6 +2,8 @@
 #include <shellapi.h>
 #include <shlobj.h>
 #include <psapi.h>
+#include <tlhelp32.h>
+#include <msi.h>
 
 #include "qdebug.h"
 #include "qdir.h"
@@ -13,9 +15,7 @@
 #include "qvariant.h"
 
 #include "wpmutils.h"
-
-#include <tlhelp32.h>
-#include "msi.h"
+#include "version.h"
 
 //#include <windows.h>
 //#include <initguid.h>
@@ -169,6 +169,32 @@ QString WPMUtils::getShellDir(int type)
     WCHAR dir[MAX_PATH];
     SHGetFolderPath(0, type, NULL, 0, dir);
     return QString::fromUtf16(reinterpret_cast<ushort*>(dir));
+}
+
+Version WPMUtils::getDLLVersion(const QString &path)
+{
+    Version res(0, 0);
+
+    DWORD dwVerHnd;
+    DWORD size;
+    size = GetFileVersionInfoSize((LPWSTR) path.utf16(), &dwVerHnd);
+    if (size != 0) {
+        void* mem = malloc(size);
+        if (GetFileVersionInfo((LPWSTR) path.utf16(), 0, size, mem)) {
+            VS_FIXEDFILEINFO *pFileInfo;
+            unsigned int bufLen;
+            if (VerQueryValue(mem, (WCHAR*) L"\\", (LPVOID *) &pFileInfo,
+                    &bufLen)) {
+                res.setVersion(HIWORD(pFileInfo->dwFileVersionMS),
+                        LOWORD(pFileInfo->dwFileVersionMS),
+                        HIWORD(pFileInfo->dwFileVersionLS),
+                        LOWORD(pFileInfo->dwFileVersionLS));
+            }
+        }
+        free(mem);
+    }
+
+    return res;
 }
 
 QStringList WPMUtils::findInstalledMSIProducts()

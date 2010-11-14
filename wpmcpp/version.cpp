@@ -75,6 +75,17 @@ void Version::setVersion(int a, int b, int c)
     this->nparts = 3;
 }
 
+void Version::setVersion(int a, int b, int c, int d)
+{
+    delete[] this->parts;
+    this->parts = new int[4];
+    this->parts[0] = a;
+    this->parts[1] = b;
+    this->parts[2] = c;
+    this->parts[3] = d;
+    this->nparts = 4;
+}
+
 bool Version::setVersion(const QString& v)
 {
     bool result = false;

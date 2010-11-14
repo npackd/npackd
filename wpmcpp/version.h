@@ -62,6 +62,16 @@ public:
     void setVersion(int a, int b, int c);
 
     /**
+     * Changes the version.
+     *
+     * @param a first version number
+     * @param b second version number part
+     * @param c third version number part
+     * @param d 4th (minor) version number part
+     */
+    void setVersion(int a, int b, int c, int d);
+
+    /**
      * @return package version as a string (like "1.2.3")
      */
     QString getVersionString();

@@ -294,6 +294,14 @@ void Repository::recognize(Job* job)
     job->setProgress(0);
     job->setCancellable(true);
 
+    if (!this->findPackage("com.microsoft.WindowsInstaller")) {
+        Package* p = new Package("com.microsoft.WindowsInstaller",
+                "Windows Installer");
+        p->url = "http://msdn.microsoft.com/en-us/library/cc185688(VS.85).aspx";
+        p->description = "Package manager";
+        this->packages.append(p);
+    }
+
     job->setHint("Detecting Windows");
     if (!this->findPackage("com.microsoft.Windows")) {
         Package* p = new Package("com.microsoft.Windows", "Windows");
@@ -343,6 +351,12 @@ void Repository::recognize(Job* job)
     if (!job->isCancelled()) {
         job->setHint("Detecting .NET");
         detectMSIProducts();
+        job->setProgress(0.95);
+    }
+
+    if (!job->isCancelled()) {
+        job->setHint("Detecting Windows Installer");
+        detectMicrosoftInstaller();
         job->setProgress(1);
     }
 
@@ -573,6 +587,15 @@ void Repository::detectDotNet()
             index++;
         }
         RegCloseKey(hk);
+    }
+}
+
+void Repository::detectMicrosoftInstaller()
+{
+    Version v = WPMUtils::getDLLVersion("MSI.dll");
+    Version nullNull(0, 0);
+    if (v.compare(nullNull) > 0) {
+        this->versionDetected("com.microsoft.WindowsInstaller", v);
     }
 }
 
