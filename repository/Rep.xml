@@ -3752,4 +3752,15 @@ start "" /D\ explorer.exe</file>
         <url>http://download.tuxfamily.org/notepadplus/5.8.3/npp.5.8.3.Installer.exe</url>
         <sha1>fb6f53b73eb5f9395014c2adf16d71f4e47bba4d</sha1>
     </version>
+    <version name="5.8.4" package="net.sourceforge.NotepadPlusPlus"
+            type="one-file">
+        <file path=".WPM\Install.bat">npp.5.8.4.Installer.exe /S /D=%CD%</file>
+        <file path=".WPM\Uninstall.bat">uninstall.exe /S _?=%CD%
+taskkill /f /fi "IMAGENAME eq explorer.exe"
+del NppShell_01.dll
+rem start explorer from the root directory so it does not lock this one
+start "" /D\ explorer.exe</file>
+        <url>http://download.tuxfamily.org/notepadplus/5.8.4/npp.5.8.4.Installer.exe</url>
+        <sha1>aa82a698af2d9547f78d3c8dfcbb18393fef6d1e</sha1>
+    </version>
 </root>
