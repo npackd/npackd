@@ -1,7 +1,7 @@
 /********************************************************************************
 ** Form generated from reading UI file 'progressdialog.ui'
 **
-** Created: Sun Sep 26 17:36:57 2010
+** Created: Sun 14. Nov 18:56:22 2010
 **      by: Qt User Interface Compiler version 4.6.3
 **
 ** WARNING! All changes made in this file will be lost when recompiling UI file!
@@ -93,7 +93,7 @@ public:
 
         progressBar = new QProgressBar(ProgressDialog);
         progressBar->setObjectName(QString::fromUtf8("progressBar"));
-        progressBar->setValue(24);
+        progressBar->setValue(0);
 
         verticalLayout->addWidget(progressBar);
 
