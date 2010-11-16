@@ -919,6 +919,11 @@
         <!-- s. https://sourceforge.net/projects/sevenzip/forums/forum/45797/topic/3872661/index/page/1 -->
         <icon>http://wpmfiles.1free.ws/icons/org.7-zip.SevenZip.png</icon>
     </package>
+    <package name="org.apache.httpd.HTTPServer">
+        <title>Apache HTTP Server</title>
+        <url>http://httpd.apache.org</url>
+        <description>HTTP server</description>
+    </package>
     <package name="org.apache.subversion.Subversion">
         <title>Subversion</title>
         <url>http://subversion.apache.org/</url>
@@ -1310,6 +1315,18 @@
         <sha1>a7cc1ce2b99b408d1bbea9a3b4520fcaf26783b3</sha1>
     </version>
     -->
+
+    <!--
+        The installation opens 2 console windows. The configuration is
+            not valid due to the missing domain name and should be fixed manually.
+    -->
+    <version name="2.2.17" package="org.apache.httpd.HTTPServer"
+			type="one-file">
+		<file path=".WPM\Install.bat">msiexec.exe /qn /norestart /i httpd-2.2.17-win32-x86-openssl-0.9.8o.msi INSTALLDIR="%CD%" ALLUSERS=1</file>
+        <file path=".WPM\Uninstall.bat">msiexec.exe /qn /norestart /x httpd-2.2.17-win32-x86-openssl-0.9.8o.msi</file>
+        <url>http://thatinfo.info/apache//httpd/binaries/win32/httpd-2.2.17-win32-x86-openssl-0.9.8o.msi</url>
+		<sha1>2aa9d9cbc8cb50e19eef0c49fe6272029f6e092e</sha1>
+    </version>
 
     <!-- different versions distributed from the same URL -->
     <version name="2.26.0" package="org.pygtk.PyGObject" type="one-file">
