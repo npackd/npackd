@@ -63,7 +63,7 @@ public:
     void recognizeAndloadRepositories();
 protected:
     void changeEvent(QEvent *e);
-    void process(const QList<InstallOperation*>& install);
+    void process(QList<InstallOperation*>& install);
 private slots:
     void on_actionCompute_SHA1_triggered();
     void on_actionTest_Download_Site_triggered();

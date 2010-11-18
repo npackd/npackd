@@ -387,8 +387,20 @@ void MainWindow::fillList()
     // qDebug() << "MainWindow::fillList.2";
 }
 
-void MainWindow::process(const QList<InstallOperation*> &install)
+void MainWindow::process(QList<InstallOperation*> &install)
 {
+    // reoder the operations if a package is updated. In this case it is better
+    // to uninstall the old first and then install the new one.
+    if (install.size() == 2) {
+        InstallOperation* first = install.at(0);
+        InstallOperation* second = install.at(1);
+        if (first->packageVersion->package == second->packageVersion->package &&
+                first->install && !second->install) {
+            install.insert(0, second);
+            install.removeAt(2);
+        }
+    }
+
     PackageVersion* sel = getSelectedPackageVersion();
 
     QStringList locked = WPMUtils::getProcessFiles();

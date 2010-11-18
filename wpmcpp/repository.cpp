@@ -52,6 +52,14 @@ QList<PackageVersion*> Repository::getInstalled()
         }
     }
 
+    Repository* r = Repository::getDefault();
+    for (int i = 0; i < r->packageVersions.count(); i++) {
+        PackageVersion* pv = r->packageVersions.at(i);
+        if (pv->external) {
+            ret.append(pv);
+        }
+    }
+
     return ret;
 }
 
