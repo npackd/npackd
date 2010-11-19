@@ -3124,6 +3124,19 @@ set d=%ProgramFiles%
 "%d%\Google\Picasa3\Uninstall.exe" /S</file>
         <url>http://dl.google.com/picasa/picasa36-setup.exe</url>
     </version>
+    <version name="3.8" package="com.google.Picasa"
+            type="one-file">
+        <file path=".WPM\Install.bat">picasa38-setup.exe /S /L</file>
+        <!--
+            this cannot be used for side-by-side installation of Picasa
+        -->
+        <file path=".WPM\Uninstall.bat">set d=%ProgramFiles(x86)%
+if "%d%" NEQ "" goto n
+set d=%ProgramFiles%
+:n
+"%d%\Google\Picasa3\Uninstall.exe" /S</file>
+        <url>http://dl.google.com/picasa/picasa38-setup.exe</url>
+    </version>
 
     <!-- does not seem to work if installed silently -->
     <version name="7.6.6" package="com.apple.QuickTimeInstaller"
