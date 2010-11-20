@@ -3012,6 +3012,7 @@ echo DesktopShortcut=false >> .WPM\FF.ini
         <url>http://www.feedreader.com/releases/FeedReader314Setup.zip</url>
         <sha1>f3b5447cc20e373a6c82871537805e52a4b238b4</sha1>
     </version>
+
     <version name="4.1.2" package="org.winpcap.WinPcapInstaller"
             type="one-file">
         <important-file path="WinPcap_4_1_2.exe" title="WinPcap"/>
@@ -3736,20 +3737,27 @@ echo DesktopShortcut=false >> .WPM\FF.ini
         <sha1>da39a3ee5e6b4b0d3255bfef95601890afd80709</sha1>
     </version>
 
-    <!-- depends on PCap. The uninstallation shows a confirmation dialog -->
+    <!-- 
+        the uninstallation shows a confirmation dialog. Wireshark depends
+        on Pcap which has no silent installation
+    -->
     <version name="1.4.0" package="org.wireshark.Wireshark" type="one-file">
         <file path=".WPM\Install.bat">wireshark-win32-1.4.0.exe /S /D=%CD%</file>
-        <file path=".WPM\Uninstall.bat">uninstall.exe /S</file>
+        <file path=".WPM\Uninstall.bat">uninstall.exe /S _=%CD%</file>
         <url>http://media-2.cacetech.com/wireshark/win32/wireshark-win32-1.4.0.exe</url>
         <sha1>01ab870fddd7813c52d5d233a20e709d36be6457</sha1>
     </version>
-
-    <!-- depends on PCap. The uninstallation shows a confirmation dialog -->
     <version name="1.4.1" package="org.wireshark.Wireshark" type="one-file">
         <file path=".WPM\Install.bat">wireshark-win32-1.4.1.exe /S /D=%CD%</file>
-        <file path=".WPM\Uninstall.bat">uninstall.exe /S</file>
+        <file path=".WPM\Uninstall.bat">uninstall.exe /S _=%CD%</file>
         <url>http://media-2.cacetech.com/wireshark/win32/wireshark-win32-1.4.1.exe</url>
         <sha1>34a739a799688a26ea8128ce7352b20e473872c2</sha1>
+    </version>
+    <version name="1.4.2" package="org.wireshark.Wireshark" type="one-file">
+        <file path=".WPM\Install.bat">wireshark-win32-1.4.2.exe /S /D=%CD%</file>
+        <file path=".WPM\Uninstall.bat">uninstall.exe /S _=%CD%</file>
+        <url>http://media-2.cacetech.com/wireshark/win32/wireshark-win32-1.4.2.exe</url>
+        <sha1>1ce53d26e48272548698bec0bd51f57440d2158f</sha1>
     </version>
     
     <version name="1.1" package="com.symbolclick.XMLMarker" type="one-file">
