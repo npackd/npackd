@@ -805,3 +805,9 @@ void MainWindow::on_actionCompute_SHA1_triggered()
     delete it;
     delete job;
 }
+
+void MainWindow::on_actionAbout_triggered()
+{
+    QUrl url("http://code.google.com/p/windows-package-manager");
+    QDesktopServices::openUrl(url);
+}

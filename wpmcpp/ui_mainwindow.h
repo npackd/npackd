@@ -1,7 +1,7 @@
 /********************************************************************************
 ** Form generated from reading UI file 'mainwindow.ui'
 **
-** Created: Sun Sep 26 17:36:57 2010
+** Created: Sat 20. Nov 16:09:17 2010
 **      by: Qt User Interface Compiler version 4.6.3
 **
 ** WARNING! All changes made in this file will be lost when recompiling UI file!
@@ -43,6 +43,7 @@ public:
     QAction *actionUpdate;
     QAction *actionTest_Download_Site;
     QAction *actionCompute_SHA1;
+    QAction *actionAbout;
     QWidget *centralWidget;
     QVBoxLayout *verticalLayout_3;
     QFrame *frame;
@@ -51,6 +52,7 @@ public:
     QMenuBar *menuBar;
     QMenu *menuFile;
     QMenu *menuExpert;
+    QMenu *menuHelp;
     QToolBar *mainToolBar;
     QStatusBar *statusBar;
     QDockWidget *dockWidget;
@@ -94,6 +96,8 @@ public:
         actionTest_Download_Site->setObjectName(QString::fromUtf8("actionTest_Download_Site"));
         actionCompute_SHA1 = new QAction(MainWindow);
         actionCompute_SHA1->setObjectName(QString::fromUtf8("actionCompute_SHA1"));
+        actionAbout = new QAction(MainWindow);
+        actionAbout->setObjectName(QString::fromUtf8("actionAbout"));
         centralWidget = new QWidget(MainWindow);
         centralWidget->setObjectName(QString::fromUtf8("centralWidget"));
         verticalLayout_3 = new QVBoxLayout(centralWidget);
@@ -138,6 +142,8 @@ public:
         menuFile->setObjectName(QString::fromUtf8("menuFile"));
         menuExpert = new QMenu(menuBar);
         menuExpert->setObjectName(QString::fromUtf8("menuExpert"));
+        menuHelp = new QMenu(menuBar);
+        menuHelp->setObjectName(QString::fromUtf8("menuHelp"));
         MainWindow->setMenuBar(menuBar);
         mainToolBar = new QToolBar(MainWindow);
         mainToolBar->setObjectName(QString::fromUtf8("mainToolBar"));
@@ -189,6 +195,7 @@ public:
 
         menuBar->addAction(menuFile->menuAction());
         menuBar->addAction(menuExpert->menuAction());
+        menuBar->addAction(menuHelp->menuAction());
         menuFile->addAction(actionInstall);
         menuFile->addAction(actionUninstall);
         menuFile->addAction(actionUpdate);
@@ -199,6 +206,7 @@ public:
         menuFile->addAction(actionSettings);
         menuFile->addAction(actionExit);
         menuExpert->addAction(actionCompute_SHA1);
+        menuHelp->addAction(actionAbout);
         mainToolBar->addAction(actionInstall);
         mainToolBar->addAction(actionUninstall);
         mainToolBar->addAction(actionUpdate);
@@ -252,8 +260,13 @@ public:
         actionCompute_SHA1->setToolTip(QApplication::translate("MainWindow", "Download the selected package and computes the SHA1 checksum of the file", 0, QApplication::UnicodeUTF8));
 #endif // QT_NO_TOOLTIP
         actionCompute_SHA1->setShortcut(QApplication::translate("MainWindow", "Ctrl+H", 0, QApplication::UnicodeUTF8));
+        actionAbout->setText(QApplication::translate("MainWindow", "About", 0, QApplication::UnicodeUTF8));
+#ifndef QT_NO_TOOLTIP
+        actionAbout->setToolTip(QApplication::translate("MainWindow", "About the program", 0, QApplication::UnicodeUTF8));
+#endif // QT_NO_TOOLTIP
         menuFile->setTitle(QApplication::translate("MainWindow", "&File", 0, QApplication::UnicodeUTF8));
-        menuExpert->setTitle(QApplication::translate("MainWindow", "Expert", 0, QApplication::UnicodeUTF8));
+        menuExpert->setTitle(QApplication::translate("MainWindow", "&Expert", 0, QApplication::UnicodeUTF8));
+        menuHelp->setTitle(QApplication::translate("MainWindow", "&Help", 0, QApplication::UnicodeUTF8));
         dockWidget->setWindowTitle(QApplication::translate("MainWindow", "Filter", 0, QApplication::UnicodeUTF8));
         label_2->setText(QApplication::translate("MainWindow", "&Status:", 0, QApplication::UnicodeUTF8));
         comboBoxStatus->clear();
