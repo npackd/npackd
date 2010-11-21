@@ -82,11 +82,18 @@ void WPMUtils::formatMessage(DWORD err, QString* errMsg)
 
 QString WPMUtils::getInstallationDirectory()
 {
-    QSettings s(QSettings::SystemScope, "WPM", "Windows Package Manager");
-    QString v = s.value("path", "").toString();
+    QSettings s1(QSettings::SystemScope, "Npackd", "Npackd");
+    QString v = s1.value("path", "").toString();
     if (v.isEmpty()) {
-        v = WPMUtils::getProgramFilesDir() + "\\WPM";
-        s.setValue("path", v);
+        QSettings s(QSettings::SystemScope, "WPM", "Windows Package Manager");
+        v = s.value("path", "").toString();
+        if (v.isEmpty()) {
+            v = WPMUtils::getProgramFilesDir() + "\\WPM";
+            QDir dir(v);
+            if (!dir.exists())
+                v = WPMUtils::getProgramFilesDir() + "\\Npackd";
+        }
+        s1.setValue("path", v);
     }
     return v;
 }
@@ -96,7 +103,7 @@ QString WPMUtils::getInstallationDirectory()
  */
 void WPMUtils::setInstallationDirectory(const QString& dir)
 {
-    QSettings s(QSettings::SystemScope, "WPM", "Windows Package Manager");
+    QSettings s(QSettings::SystemScope, "Npackd", "Npackd");
     s.setValue("path", dir);
 }
 

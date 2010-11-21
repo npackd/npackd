@@ -764,22 +764,33 @@ void Repository::loadOne(QUrl* url, Job* job) {
 QList<QUrl*> Repository::getRepositoryURLs()
 {
     QList<QUrl*> r;
-    QSettings s("WPM", "Windows Package Manager");
-
-    int size = s.beginReadArray("repositories");
+    QSettings s1("Npackd", "Npackd");
+    int size = s1.beginReadArray("repositories");
     for (int i = 0; i < size; ++i) {
-        s.setArrayIndex(i);
-        QString v = s.value("repository").toString();
+        s1.setArrayIndex(i);
+        QString v = s1.value("repository").toString();
         r.append(new QUrl(v));
     }
-    s.endArray();
+    s1.endArray();
 
     if (size == 0) {
-        QString v = s.value("repository", "").toString();
-        if (v != "") {
+        QSettings s("WPM", "Windows Package Manager");
+
+        int size = s.beginReadArray("repositories");
+        for (int i = 0; i < size; ++i) {
+            s.setArrayIndex(i);
+            QString v = s.value("repository").toString();
             r.append(new QUrl(v));
-            setRepositoryURLs(r);
         }
+        s.endArray();
+
+        if (size == 0) {
+            QString v = s.value("repository", "").toString();
+            if (v != "") {
+                r.append(new QUrl(v));
+            }
+        }
+        setRepositoryURLs(r);
     }
     
     return r;
@@ -787,7 +798,7 @@ QList<QUrl*> Repository::getRepositoryURLs()
 
 void Repository::setRepositoryURLs(QList<QUrl*>& urls)
 {
-    QSettings s("WPM", "Windows Package Manager");
+    QSettings s("Npackd", "Npackd");
     s.beginWriteArray("repositories", urls.count());
     for (int i = 0; i < urls.count(); ++i) {
         s.setArrayIndex(i);
