@@ -149,6 +149,7 @@ PackageVersion* Repository::createPackageVersion(QDomElement* e)
     a->download.setUrl(url);
     QString name = e->attribute("name", "1.0");
     a->version.setVersion(name);
+    a->version.normalize();
 
     QDomNodeList sha1 = e->elementsByTagName("sha1");
     if (sha1.count() > 0)
@@ -327,6 +328,7 @@ void Repository::recognize(Job* job)
             "com.microsoft.Windows", v);
     if (!pv) {
         pv = new PackageVersion("com.microsoft.Windows");
+        v.normalize();
         pv->version = v;
         this->packageVersions.append(pv);
     }
@@ -407,6 +409,7 @@ void Repository::detectJRE(bool w64bit)
                             this->findPackageVersion("com.oracle.JRE", v);
                     if (!pv) {
                         pv = new PackageVersion("com.oracle.JRE");
+                        v.normalize();
                         pv->version = v;
                         pv->external = true;
                         this->packageVersions.append(pv);
@@ -468,6 +471,7 @@ void Repository::detectJDK(bool w64bit)
                             this->findPackageVersion("com.oracle.JDK", v);
                     if (!pv) {
                         pv = new PackageVersion("com.oracle.JDK");
+                        v.normalize();
                         pv->version = v;
                         pv->external = true;
                         this->packageVersions.append(pv);
@@ -495,6 +499,7 @@ void Repository::versionDetected(const QString &package, const Version &v)
     } else {
         pv = new PackageVersion(package);
         pv->version = v;
+        pv->version.normalize();
         pv->external = true;
         this->packageVersions.append(pv);
     }
@@ -542,6 +547,7 @@ void Repository::detectOneDotNet(HKEY hk2, const QString& keyName)
                 packageName, v);
         if (!pv) {
             pv = new PackageVersion(packageName);
+            v.normalize();
             pv->version = v;
             pv->external = true;
             this->packageVersions.append(pv);
@@ -674,6 +680,7 @@ void Repository::addUnknownExistingPackages()
                         }
                         if (this->findPackageVersion(package, version) == 0) {
                             PackageVersion* pv = new PackageVersion(package);
+                            version.normalize();
                             pv->version = version;
                             this->packageVersions.append(pv);
                             somethingWasInstalledOrUninstalled();

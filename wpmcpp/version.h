@@ -89,6 +89,12 @@ public:
      *     version "0"
      */
     int getNParts() const;
+
+    /**
+     * Normalizes this object by cutting the trailing zeros. For example "1.2.0"
+     * will be changed to "1.2"
+     */
+    void normalize();
 };
 
 #endif // VERSION_H

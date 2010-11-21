@@ -57,7 +57,7 @@ public:
     QDir getDirectory();
 
     /**
-     * Package versions.
+     * Package versions. All version numbers should be normalized.
      */
     QList<PackageVersion*> packageVersions;
 

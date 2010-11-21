@@ -130,6 +130,27 @@ int Version::getNParts() const
     return this->nparts;
 }
 
+void Version::normalize()
+{
+    int n = 0;
+    for (int i = this->nparts - 1; i > 0; i--) {
+        if (this->parts[i] == 0)
+            n++;
+        else
+            break;
+    }
+
+    if (n > 0) {
+        int* newParts = new int[this->nparts - n];
+        memmove(newParts, this->parts, sizeof(int) *
+                (this->nparts - n));
+        delete[] this->parts;
+        this->parts = newParts;
+        this->nparts = this->nparts - n;
+    }
+}
+
+
 int Version::compare(const Version &other) const
 {
     int nmax = nparts;
