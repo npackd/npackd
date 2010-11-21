@@ -150,6 +150,11 @@ void Version::normalize()
     }
 }
 
+bool Version::isNormalized() const
+{
+    return this->parts[this->nparts - 1] != 0;
+}
+
 
 int Version::compare(const Version &other) const
 {

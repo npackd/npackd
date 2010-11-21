@@ -678,12 +678,18 @@ void Repository::addUnknownExistingPackages()
                                     title);
                             this->packages.append(p);
                         }
-                        if (this->findPackageVersion(package, version) == 0) {
-                            PackageVersion* pv = new PackageVersion(package);
+                        PackageVersion* pv;
+                        pv = this->findPackageVersion(package, version);
+                        if (pv == 0) {
+                            pv = new PackageVersion(package);
                             version.normalize();
                             pv->version = version;
+                            pv->external = !version.isNormalized();
                             this->packageVersions.append(pv);
                             somethingWasInstalledOrUninstalled();
+                        } else {
+                            if (!version.isNormalized())
+                                pv->external = true;
                         }
                     }
                 }

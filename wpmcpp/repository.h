@@ -45,7 +45,7 @@ private:
     void detectNpackd();
 
     /**
-     * Recognizes applications installed without WPM.
+     * Recognizes applications installed without Npackd.
      *
      * @param job job object
      */

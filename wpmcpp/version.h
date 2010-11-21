@@ -95,6 +95,12 @@ public:
      * will be changed to "1.2"
      */
     void normalize();
+
+    /**
+     * @return true if this version number is normalized (does not contain
+     *     trailing zeros)
+     */
+    bool isNormalized() const;
 };
 
 #endif // VERSION_H
