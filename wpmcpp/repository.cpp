@@ -351,6 +351,12 @@ void Repository::recognize(Job* job)
     }
 
     if (!job->isCancelled()) {
+        job->setHint("Detecting Npackd");
+        detectNpackd();
+        job->setProgress(0.85);
+    }
+
+    if (!job->isCancelled()) {
         job->setHint("Detecting .NET");
         detectDotNet();
         job->setProgress(0.9);
@@ -417,6 +423,19 @@ void Repository::detectJRE(bool w64bit)
         }
         RegCloseKey(hk);
     }
+}
+
+void Repository::detectNpackd()
+{
+    if (!this->findPackage("com.googlecode.windows-package-manager.Npackd")) {
+        Package* p = new Package("com.googlecode.windows-package-manager.Npackd",
+                "Npackd");
+        p->url = "http://code.google.com/p/windows-package-manager/";
+        p->description = "package manager";
+        this->packages.append(p);
+    }
+    this->versionDetected("com.googlecode.windows-package-manager.Npackd",
+            Version("1.14.1"));
 }
 
 void Repository::detectJDK(bool w64bit)

@@ -42,6 +42,7 @@ private:
     void detectMicrosoftInstaller();
     void detectJRE(bool w64bit);
     void detectJDK(bool w64bit);
+    void detectNpackd();
 
     /**
      * Recognizes applications installed without WPM.

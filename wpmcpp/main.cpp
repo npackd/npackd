@@ -21,6 +21,12 @@ int main(int argc, char *argv[])
     qDebug() << WPMUtils::isUnder(fn, p);
     */
 
+
+    // removes the current directory from the default DLL search order. This
+    // helps against viruses.
+    // requires 0x0502
+    // SetDllDirectory("");
+
     LoadLibrary(L"exchndl.dll");
 
     QApplication a(argc, argv);
