@@ -46,9 +46,10 @@ QString Dependency::toString()
 bool Dependency::isInstalled()
 {
     Repository* r = Repository::getDefault();
+    QList<PackageVersion*> installed = r->getInstalled();
     bool res = false;
-    for (int i = 0; i < r->packageVersions.count(); i++) {
-        PackageVersion* pv = r->packageVersions.at(i);
+    for (int i = 0; i < installed.count(); i++) {
+        PackageVersion* pv = installed.at(i);
         if (pv->package == this->package && pv->installed() &&
                 this->test(pv->version)) {
             res = true;
@@ -61,13 +62,57 @@ bool Dependency::isInstalled()
 void Dependency::findAllInstalledMatches(QList<PackageVersion*>& res)
 {
     Repository* r = Repository::getDefault();
-    for (int i = 0; i < r->packageVersions.count(); i++) {
-        PackageVersion* pv = r->packageVersions.at(i);
-        if (pv->package == this->package && this->test(pv->version) &&
-                pv->installed()) {
+    QList<PackageVersion*> installed = r->getInstalled();
+    for (int i = 0; i < installed.count(); i++) {
+        PackageVersion* pv = installed.at(i);
+        if (pv->package == this->package && this->test(pv->version)) {
             res.append(pv);
         }
     }
+}
+
+bool Dependency::setVersions(const QString versions)
+{
+    QString versions_ = versions;
+
+    bool minIncluded_, maxIncluded_;
+
+    // qDebug() << "Repository::createDependency.1" << versions;
+
+    if (versions_.startsWith('['))
+        minIncluded_ = true;
+    else if (versions_.startsWith('('))
+        minIncluded_ = false;
+    else
+        return false;
+    versions_.remove(0, 1);
+
+    // qDebug() << "Repository::createDependency.1.1" << versions;
+
+    if (versions_.endsWith(']'))
+        maxIncluded_ = true;
+    else if (versions_.endsWith(')'))
+        maxIncluded_ = false;
+    else
+        return false;
+    versions_.chop(1);
+
+    // qDebug() << "Repository::createDependency.2";
+
+    QStringList parts = versions_.split(',');
+    if (parts.count() != 2)
+        return false;
+
+    Version min_, max_;
+    if (!min_.setVersion(parts.at(0).trimmed()) ||
+            !max_.setVersion(parts.at(1).trimmed()))
+        return false;
+    this->minIncluded = minIncluded_;
+    this->min = min_;
+    this->maxIncluded = maxIncluded_;
+    this->max = max_;
+
+    return true;
 }
 
 PackageVersion* Dependency::findBestMatchToInstall()

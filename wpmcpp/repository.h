@@ -31,10 +31,10 @@ private:
     static PackageVersion* createPackageVersion(QDomElement* e);
 
     void loadOne(QUrl* url, Job* job);
-    void addUnknownExistingPackages();
-    void addWindowsPackage();
 
     void versionDetected(const QString& package, const Version& v);
+
+    void addWindowsPackage();
 
     void detectOneDotNet(HKEY hk2, const QString& keyName);
     void detectMSIProducts();
@@ -43,13 +43,6 @@ private:
     void detectJRE(bool w64bit);
     void detectJDK(bool w64bit);
     void detectNpackd();
-
-    /**
-     * Recognizes applications installed without Npackd.
-     *
-     * @param job job object
-     */
-    void recognize(Job* job);
 public:
     /**
      * @return C:\Program Files\WPM - repository directory
@@ -72,6 +65,18 @@ public:
     Repository();
 
     ~Repository();
+
+    /**
+     * Adds unknown in the repository, but installed packages.
+     */
+    void addUnknownExistingPackages();
+
+    /**
+     * Recognizes applications installed without Npackd.
+     *
+     * @param job job object
+     */
+    void recognize(Job* job);
 
     /**
      * Finds all installed packages. This method lists all directories in the

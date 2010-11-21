@@ -23,6 +23,9 @@
 #include "settingsdialog.h"
 #include "wpmutils.h"
 #include "installoperation.h"
+#include "downloader.h"
+
+extern HWND defaultPasswordWindow;
 
 class InstallThread: public QThread
 {
@@ -213,6 +216,7 @@ bool MainWindow::waitFor(Job* job, const QString& title)
     pd = new ProgressDialog(this, job, title);
     pd->setModal(true);
 
+    defaultPasswordWindow = pd->winId();
     // qDebug() << "MainWindow::waitFor.1";
 
     pd->exec();

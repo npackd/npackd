@@ -1,7 +1,6 @@
 #include <windows.h>
 #include <shlobj.h>
 
-#include "qhttp.h"
 #include "qtemporaryfile.h"
 #include "downloader.h"
 #include "qsettings.h"
@@ -44,8 +43,12 @@ QList<PackageVersion*> Repository::getInstalled()
                     if (version.setVersion(version_)) {
                         PackageVersion* pv =
                                 this->findPackageVersion(package, version);
-                        if (pv)
-                            ret.append(pv);
+                        if (!pv) {
+                            pv = new PackageVersion(package);
+                            pv->version = version;
+                            this->packageVersions.append(pv);
+                        }
+                        ret.append(pv);
                     }
                 }
             }
@@ -228,47 +231,14 @@ Dependency* Repository::createDependency(QDomElement* e)
 
     QString package = e->attribute("package").trimmed();
 
-    QString versions = e->attribute("versions").trimmed();
-
-    bool minIncluded, maxIncluded;
-
-    // qDebug() << "Repository::createDependency.1" << versions;
-
-    if (versions.startsWith('['))
-        minIncluded = true;
-    else if (versions.startsWith('('))
-        minIncluded = false;
-    else
-        return 0;
-    versions.remove(0, 1);
-
-    // qDebug() << "Repository::createDependency.1.1" << versions;
-
-    if (versions.endsWith(']'))
-        maxIncluded = true;
-    else if (versions.endsWith(')'))
-        maxIncluded = false;
-    else
-        return 0;
-    versions.chop(1);
-
-    // qDebug() << "Repository::createDependency.2";
-
-    QStringList parts = versions.split(',');
-    if (parts.count() != 2)
-        return 0;
-
-    Version min, max;
-    if (!min.setVersion(parts.at(0).trimmed()) ||
-            !max.setVersion(parts.at(1).trimmed()))
-        return 0;
-
     Dependency* d = new Dependency();
     d->package = package;
-    d->minIncluded = minIncluded;
-    d->min = min;
-    d->maxIncluded = maxIncluded;
-    d->max = max;
+    if (d->setVersions(e->attribute("versions")))
+        return d;
+    else {
+        delete d;
+        return 0;
+    }
 
     // qDebug() << d->toString();
 

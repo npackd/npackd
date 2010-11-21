@@ -9,8 +9,6 @@
 #include "QtDebug"
 #include "qiodevice.h"
 #include "qprocess.h"
-#include "qmessagebox.h"
-#include "qapplication.h"
 
 #include "quazip.h"
 #include "quazipfile.h"
@@ -222,8 +220,8 @@ void PackageVersion::uninstall(Job* job)
     QString errMsg;
     QString p = ".WPM\\Uninstall.bat";
     if (QFile::exists(d.absolutePath() + "\\" + p)) {
-        job->setHint("Running the uninstallation script");
-        this->executeFile(p, &errMsg); // ignore errors
+        job->setHint("Running the uninstallation script (this may take up to 5 minutes)");
+        this->executeFile(p, &errMsg, 300000); // ignore errors
     }
     job->setProgress(0.25);
 
@@ -670,8 +668,8 @@ void PackageVersion::install(Job* job)
                         QString p = ".WPM\\Install.bat";
                         if (QFile::exists(getDirectory().absolutePath() +
                                 "\\" + p)) {
-                            job->setHint("Running the installation script");
-                            if (this->executeFile(p, &errMsg)) {
+                            job->setHint("Running the installation script (this may take up to 5 minutes)");
+                            if (this->executeFile(p, &errMsg, 300000)) {
                                 job->setProgress(0.95);
                                 job->setHint(QString("Deleting desktop shortcuts %1").
                                              arg(WPMUtils::getShellDir(CSIDL_DESKTOP)));
@@ -782,7 +780,7 @@ QStringList PackageVersion::findLockedFiles()
     return r;
 }
 
-bool PackageVersion::executeFile(QString& path, QString* errMsg)
+bool PackageVersion::executeFile(QString& path, QString* errMsg, int timeout)
 {
     bool success = false;
     QDir d = this->getDirectory();
@@ -793,7 +791,7 @@ bool PackageVersion::executeFile(QString& path, QString* errMsg)
     p.start(exe, params);
 
     // 5 minutes
-    if (p.waitForFinished(300000)){
+    if (p.waitForFinished(timeout)) {
         if (p.exitCode() != 0) {
             *errMsg = QString("Process %1 exited with the code %2").arg(
                     exe).arg(p.exitCode());

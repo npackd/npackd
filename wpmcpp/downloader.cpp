@@ -7,13 +7,12 @@
 #include "qdebug.h"
 #include "qwaitcondition.h"
 #include "qmutex.h"
-#include "qapplication.h"
-#include "qnetworkproxy.h"
-#include "qwidget.h"
 
 #include "downloader.h"
 #include "job.h"
 #include "wpmutils.h"
+
+HWND defaultPasswordWindow = 0;
 
 /**
  * TODO: handle redirects explicitely so that the file name could be derived
@@ -229,14 +228,8 @@ QTemporaryFile* Downloader::download(Job* job, const QUrl &url)
     if (file->open()) {
         QString mime;
         QString contentDisposition;
-        HWND hwnd;
-        QWidget* w = QApplication::activeWindow();
-        if (w)
-            hwnd = w->winId();
-        else
-            hwnd = 0;
         bool r = downloadWin(job, url, file, &mime, &contentDisposition,
-                             hwnd);
+                             defaultPasswordWindow);
         file->close();
 
         if (!r) {

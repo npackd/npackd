@@ -3,7 +3,7 @@
 #include <shlobj.h>
 #include <psapi.h>
 #include <tlhelp32.h>
-#include <msi.h>
+#include "msi.h"
 
 #include "qdebug.h"
 #include "qdir.h"

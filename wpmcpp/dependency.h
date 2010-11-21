@@ -50,8 +50,15 @@ public:
     PackageVersion* findBestMatchToInstall();
 
     /**
-     * @return the newest package version that matches this dependency by
-     *     being installed.
+     * Changes the versions.
+     *
+     * @param versions something like "[2.12, 3.4)"
+     */
+    bool setVersions(const QString versions);
+
+    /**
+     * @return the newest package version that matches this dependency and are
+     *     installed
      */
     PackageVersion* findHighestInstalledMatch();
 
