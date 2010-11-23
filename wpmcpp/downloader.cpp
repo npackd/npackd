@@ -59,11 +59,11 @@ bool downloadWin(Job* job, const QUrl& url, QTemporaryFile* file,
     if (job)
         job->setProgress(0.01);
 
+    INTERNET_PORT port = url.port(url.scheme() == "https" ?
+            INTERNET_DEFAULT_HTTPS_PORT: INTERNET_DEFAULT_HTTP_PORT);
     hConnectHandle = InternetConnectW(internet,
                                      (WCHAR*) server.utf16(),
-                                     url.scheme() == "https" ?
-                                     INTERNET_DEFAULT_HTTPS_PORT :
-                                     INTERNET_DEFAULT_HTTP_PORT,
+                                     port,
                                      0,
                                      0,
                                      INTERNET_SERVICE_HTTP,
