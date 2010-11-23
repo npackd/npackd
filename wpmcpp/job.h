@@ -28,6 +28,32 @@ Q_DECLARE_METATYPE(JobState)
 
 /**
  * A long-running task.
+ *
+ * A task is typically defined as a function with the following signature:
+ *     void longRunning(Job* job)
+ *
+ * The implementation follows this pattern:
+ * {
+ *     for (int i = 0; i < 100; i++) {
+ *        if (job->isCancelled())
+ *            break;
+ *        job->setHint(QString("Processing step %1").arg(i));
+ *        .... do some work here
+ *        job->setProgress(((double) i) / 100);
+ *     }
+ *     job->completed();
+ * }
+ *
+ * The function is called like this:
+ * Job* job = new Job(); // or job = mainJob->createSubJob();
+ * longRunning(job);
+ * if (job->isCancelled()) {
+ *     ....
+ * } else if (!job->getErrorMessage().isEmpty()) {
+ *    ....
+ * } else {
+ *     ....
+ * }
  */
 class Job: public QObject
 {
