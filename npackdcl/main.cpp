@@ -50,7 +50,7 @@ int main(int argc, char *argv[])
     if (params.count() == 4) {
         QString p2 = params.at(2);
         QString p3 = params.at(3);
-        if (params.at(1) == "find" && p2.startsWith("--package=") &&
+        if (params.at(1) == "path" && p2.startsWith("--package=") &&
                 p3.startsWith("--versions=")) {
             QString package = p2.right(p2.length() - 10);
             if (!Package::isValidName(package)) {
