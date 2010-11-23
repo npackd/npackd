@@ -70,9 +70,7 @@ void ProgressDialog::jobChanged(const JobState& s)
         }
         ui->progressBar->setMaximum(10000);
         ui->progressBar->setValue(lround(s.progress * 10000));
-        ui->pushButtonCancel->setEnabled(s.cancellable &&
-                !s.cancelRequested);
-
+        ui->pushButtonCancel->setEnabled(!s.cancelRequested);
     }
 }
 

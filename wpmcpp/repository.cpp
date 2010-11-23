@@ -271,7 +271,6 @@ int Repository::countUpdates()
 void Repository::recognize(Job* job)
 {
     job->setProgress(0);
-    job->setCancellable(true);
 
     if (!this->findPackage("com.microsoft.WindowsInstaller")) {
         Package* p = new Package("com.microsoft.WindowsInstaller",

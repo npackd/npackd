@@ -64,8 +64,6 @@ void InstallThread::run()
     case 0:
     case 1:
     case 2: {
-        job->setCancellable(true);
-
         int n = install.count();
 
         for (int i = 0; i < this->install.count(); i++) {

@@ -24,9 +24,6 @@ bool downloadWin(Job* job, const QUrl& url, QTemporaryFile* file,
         QString* mime, QString* contentDisposition,
         HWND parentWindow=0)
 {
-    if (job)
-        job->setCancellable(true);
-
     // qDebug() << "download.1";
 
     void* internet;

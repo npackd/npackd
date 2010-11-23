@@ -149,7 +149,6 @@ bool PackageVersion::installed()
 
 void PackageVersion::update(Job* job)
 {
-    job->setCancellable(true);
     Repository* r = Repository::getDefault();
     PackageVersion* newest = r->findNewestPackageVersion(this->package);
     if (newest->version.compare(this->version) > 0 && !newest->installed()) {
@@ -422,8 +421,6 @@ QString PackageVersion::downloadAndComputeSHA1(Job* job)
 {
     QString r;
 
-    job->setCancellable(true);
-
     job->setHint("Downloading");
     QTemporaryFile* f = 0;
     Job* djob = job->newSubJob(0.95);
@@ -449,7 +446,6 @@ QString PackageVersion::downloadAndComputeSHA1(Job* job)
 
 void PackageVersion::installDeps(Job *job)
 {
-    job->setCancellable(true);
     job->setHint("Computing dependencies");
     QList<PackageVersion*> r;
     QList<Dependency*> unsatisfiedDeps;
@@ -476,7 +472,6 @@ void PackageVersion::installDeps(Job *job)
 
 void PackageVersion::uninstallDeps(Job *job)
 {
-    job->setCancellable(true);
     job->setHint("Computing dependencies");
     QList<PackageVersion*> r;
     getUninstallFirstPackages(r);
@@ -589,9 +584,6 @@ void PackageVersion::install(Job* job)
         return;
     }
 
-    // qDebug() << "install.1";
-    job->setCancellable(true);
-
     // qDebug() << "install.2";
     QDir d = getDirectory();
     // qDebug() << "install.dir=" << d;
@@ -610,7 +602,6 @@ void PackageVersion::install(Job* job)
         delete djob;
     }
 
-    job->setCancellable(false);
     if (!job->isCancelled() && f) {
         if (!this->sha1.isEmpty()) {
             job->setHint("Computing hash sum");
@@ -800,8 +791,7 @@ void PackageVersion::executeFile(Job* job, QString& path)
     while (true) {
         if (job->isCancelled()) {
             if (p.state() == QProcess::Running)
-                p.kill();
-            break;
+                p.terminate();
         }
         if (p.waitForFinished(5000) || p.state() == QProcess::NotRunning) {
             job->setProgress(1);
@@ -817,7 +807,7 @@ void PackageVersion::executeFile(Job* job, QString& path)
         if (percents > 0.9)
             percents = 0.9;
         job->setProgress(percents);
-        job->setHint(QString("%1 seconds").arg(seconds));
+        job->setHint(QString("%1 minutes").arg(seconds / 60));
     }
     job->complete();
 }

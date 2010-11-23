@@ -7,7 +7,6 @@
 
 JobState::JobState()
 {
-    this->cancellable = false;
     this->cancelRequested = false;
     this->completed = false;
     this->errorMessage = "";
@@ -17,7 +16,6 @@ JobState::JobState()
 
 JobState::JobState(const JobState& s)
 {
-    this->cancellable = s.cancellable;
     this->cancelRequested = s.cancelRequested;
     this->completed = s.completed;
     this->errorMessage = s.errorMessage;
@@ -30,7 +28,6 @@ Job::Job()
     this->progress = 0.0;
     this->parentJob = 0;
     this->cancelRequested = false;
-    this->cancellable = false;
     this->completed = false;
 }
 
@@ -49,17 +46,6 @@ void Job::complete()
     }
 }
 
-void Job::setCancellable(bool v)
-{
-    this->cancellable = v;
-    fireChange();
-}
-
-bool Job::isCancellable()
-{
-    return this->cancellable;
-}
-
 bool Job::isCancelled()
 {
     return this->cancelRequested;
@@ -68,7 +54,7 @@ bool Job::isCancelled()
 void Job::cancel()
 {
     // qDebug() << "Job::cancel";
-    if (this->cancellable && !this->cancelRequested) {
+    if (!this->cancelRequested) {
         this->cancelRequested = true;
         // qDebug() << "Job::cancel.2";
         if (parentJob)
@@ -110,7 +96,6 @@ bool Job::isCompleted()
 void Job::fireChange()
 {
     JobState state;
-    state.cancellable = this->cancellable;
     state.cancelRequested = this->cancelRequested;
     state.completed = this->completed;
     state.errorMessage = this->errorMessage;

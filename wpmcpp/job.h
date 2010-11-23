@@ -17,7 +17,6 @@ public:
     QString hint;
     QString errorMessage;
     bool cancelRequested;
-    bool cancellable;
     bool completed;
 
     JobState();
@@ -76,9 +75,6 @@ private:
     /** true if the user presses the "cancel" button. */
     bool cancelRequested;
 
-    /** if true, this job can be cancelled */
-    bool cancellable;
-
     bool completed;
 
     void updateParentHint();
@@ -102,17 +98,6 @@ public:
      * setProgress.
      */
     void complete();
-
-    /**
-     * @param true if this task can be cancelled
-     */
-    void setCancellable(bool v);
-
-    /**
-     * @return true if this task can be cancelled. This value can change during
-     *     a job lifecycle
-     */
-    bool isCancellable();
 
     /**
      * Request cancelling of this job.
