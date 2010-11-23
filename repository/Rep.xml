@@ -284,6 +284,11 @@
         <url>http://msdn.microsoft.com/en-us/library/ms669985(VS.85).aspx</url>
         <description>HTML Help authoring tool</description>
     </package>
+    <package name="com.microsoft.MSXML">
+        <title>Microsoft Core XML Services (MSXML)</title>
+        <url>http://www.microsoft.com/downloads/en/details.aspx?FamilyID=993c0bcf-3bcf-4009-be21-27e85e1857b1#Overview</url>
+        <description>XML library</description>
+    </package>
     <package name="com.microsoft.OLEView">
         <title>OLE/COM Object Viewer</title>
         <url>http://www.microsoft.com/downloads/details.aspx?familyid=5233b70d-d9b2-4cb5-aeb6-45664be858b6&amp;displaylang=en</url>
@@ -1318,6 +1323,13 @@
     of a package should stay together. Newer versions should appear under older
     ones.
     -->
+    <version name="6.0.3883" package="com.microsoft.MSXML">
+		<file path=".WPM\Install.bat">msiexec.exe /qn /norestart /i msxml6.msi TARGETDIR="%CD%" ALLUSERS=1</file>
+        <file path=".WPM\Uninstall.bat">msiexec.exe /qn /norestart /x msxml6.msi</file>
+        <url>http://download.microsoft.com/download/2/e/0/2e01308a-e17f-4bf9-bf48-161356cf9c81/msxml6.msi</url>
+		<sha1>2308743ddb4cb56ae910e461eeb3eab0a9e58058</sha1>
+    </version>
+
     <version name="2.4.12" package="org.xmlsoft.LibXML">
         <url>http://downloads.sourceforge.net/project/gnuwin32/libxml/2.4.12-1/libxml2-2.4.12-bin.zip?ts=1290170817</url>
         <sha1>537ed7ec7c44535c6fa1a58e48a66fb544d1f827</sha1>
