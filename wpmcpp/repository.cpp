@@ -272,14 +272,6 @@ void Repository::recognize(Job* job)
 {
     job->setProgress(0);
 
-    if (!this->findPackage("com.microsoft.WindowsInstaller")) {
-        Package* p = new Package("com.microsoft.WindowsInstaller",
-                "Windows Installer");
-        p->url = "http://msdn.microsoft.com/en-us/library/cc185688(VS.85).aspx";
-        p->description = "Package manager";
-        this->packages.append(p);
-    }
-
     job->setHint("Detecting Windows");
     if (!this->findPackage("com.microsoft.Windows")) {
         Package* p = new Package("com.microsoft.Windows", "Windows");
@@ -342,6 +334,12 @@ void Repository::recognize(Job* job)
     if (!job->isCancelled()) {
         job->setHint("Detecting Windows Installer");
         detectMicrosoftInstaller();
+        job->setProgress(0.97);
+    }
+
+    if (!job->isCancelled()) {
+        job->setHint("Detecting Microsoft Core XML Services (MSXML)");
+        detectMSXML();
         job->setProgress(1);
     }
 
@@ -594,10 +592,56 @@ void Repository::detectDotNet()
 
 void Repository::detectMicrosoftInstaller()
 {
+    if (!this->findPackage("com.microsoft.WindowsInstaller")) {
+        Package* p = new Package("com.microsoft.WindowsInstaller",
+                "Windows Installer");
+        p->url = "http://msdn.microsoft.com/en-us/library/cc185688(VS.85).aspx";
+        p->description = "Package manager";
+        this->packages.append(p);
+    }
+
     Version v = WPMUtils::getDLLVersion("MSI.dll");
     Version nullNull(0, 0);
     if (v.compare(nullNull) > 0) {
         this->versionDetected("com.microsoft.WindowsInstaller", v);
+    }
+}
+
+void Repository::detectMSXML()
+{
+    if (!this->findPackage("com.microsoft.MSXML")) {
+        Package* p = new Package("com.microsoft.MSXML",
+                "Microsoft Core XML Services (MSXML)");
+        p->url = "http://www.microsoft.com/downloads/en/details.aspx?FamilyID=993c0bcf-3bcf-4009-be21-27e85e1857b1#Overview";
+        p->description = "XML library";
+        this->packages.append(p);
+    }
+
+    Version v = WPMUtils::getDLLVersion("msxml.dll");
+    Version nullNull(0, 0);
+    if (v.compare(nullNull) > 0) {
+        this->versionDetected("com.microsoft.MSXML", v);
+    }
+    v = WPMUtils::getDLLVersion("msxml2.dll");
+    if (v.compare(nullNull) > 0) {
+        this->versionDetected("com.microsoft.MSXML", v);
+    }
+    v = WPMUtils::getDLLVersion("msxml3.dll");
+    if (v.compare(nullNull) > 0) {
+        v.prepend(3);
+        this->versionDetected("com.microsoft.MSXML", v);
+    }
+    v = WPMUtils::getDLLVersion("msxml4.dll");
+    if (v.compare(nullNull) > 0) {
+        this->versionDetected("com.microsoft.MSXML", v);
+    }
+    v = WPMUtils::getDLLVersion("msxml5.dll");
+    if (v.compare(nullNull) > 0) {
+        this->versionDetected("com.microsoft.MSXML", v);
+    }
+    v = WPMUtils::getDLLVersion("msxml6.dll");
+    if (v.compare(nullNull) > 0) {
+        this->versionDetected("com.microsoft.MSXML", v);
     }
 }
 

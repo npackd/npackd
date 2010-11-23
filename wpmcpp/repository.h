@@ -40,6 +40,7 @@ private:
     void detectMSIProducts();
     void detectDotNet();
     void detectMicrosoftInstaller();
+    void detectMSXML();
     void detectJRE(bool w64bit);
     void detectJDK(bool w64bit);
     void detectNpackd();

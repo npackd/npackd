@@ -77,6 +77,14 @@ public:
     QString getVersionString();
 
     /**
+     * Prepends a number before the version.
+     * Example: Version("1.2").prepend(5) => "5.1.2"
+     *
+     * @param number this number will be prepended
+     */
+    void prepend(int number);
+
+    /**
      * Compares this version with another one.
      *
      * @param other other version

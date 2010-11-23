@@ -114,6 +114,17 @@ bool Version::setVersion(const QString& v)
     return result;
 }
 
+void Version::prepend(int number)
+{
+    int* newParts = new int[this->nparts + 1];
+    newParts[0] = number;
+    memmove(newParts + 1, this->parts, sizeof(int) *
+            (this->nparts));
+    delete[] this->parts;
+    this->parts = newParts;
+    this->nparts = this->nparts + 1;
+}
+
 QString Version::getVersionString()
 {
     QString r;
