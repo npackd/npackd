@@ -34,11 +34,11 @@ QList<PackageVersion*> Repository::getInstalled()
         for (int idx = 0; idx < count; idx++) {
             QFileInfo entryInfo = entries[idx];
             QString fn = entryInfo.fileName();
-            QStringList sl = fn.split('-');
-            if (sl.count() == 2) {
-                QString package = sl.at(0);
+            int p = fn.lastIndexOf('-');
+            if (p > 0) {
+                QString package = fn.left(p);
                 if (Package::isValidName(package)) {
-                    QString version_ = sl.at(1);
+                    QString version_ = fn.right(fn.length() - p - 1);
                     Version version;
                     if (version.setVersion(version_)) {
                         PackageVersion* pv =
