@@ -1,7 +1,7 @@
 /********************************************************************************
 ** Form generated from reading UI file 'progressdialog.ui'
 **
-** Created: Sun 21. Nov 22:52:19 2010
+** Created: Wed 24. Nov 21:11:36 2010
 **      by: Qt User Interface Compiler version 4.6.3
 **
 ** WARNING! All changes made in this file will be lost when recompiling UI file!

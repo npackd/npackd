@@ -642,37 +642,15 @@ void MainWindow::on_actionInstall_activated()
     PackageVersion* pv = getSelectedPackageVersion();
 
     QList<PackageVersion*> r;
-    QList<Dependency*> unsatisfiedDeps;
-    pv->getInstallFirstPackages(r, unsatisfiedDeps);
-
-    if (unsatisfiedDeps.count() > 0) {
-        QString names;
-        for (int i = 0; i < unsatisfiedDeps.count(); i++) {
-            if (i != 0)
-                names.append(", ");
-            names.append(unsatisfiedDeps.at(i)->toString());
-            if (i > 5) {
-                names.append("...");
-                break;
-            }
-        }
+    QList<InstallOperation*> ops;
+    QList<PackageVersion*> installed =
+            Repository::getDefault()->getInstalled();
+    QString err = pv->planInstallation(installed, ops);
+    if (err.isEmpty())
+        process(ops);
+    else
         QMessageBox::critical(this,
-                "Error", QString("%1 dependencies cannot be satisfied. "
-                "This package depends on %2, "
-                "which are not available.").arg(unsatisfiedDeps.count()).
-                arg(names),
-                QMessageBox::Ok);
-    } else {
-        QList<InstallOperation*> ops;
-        QList<PackageVersion*> installed =
-                Repository::getDefault()->getInstalled();
-        QString err = pv->planInstallation(installed, ops);
-        if (err.isEmpty())
-            process(ops);
-        else
-            QMessageBox::critical(this,
-                    "Uninstall", err, QMessageBox::Ok);
-    }
+                "Uninstall", err, QMessageBox::Ok);
 }
 
 void MainWindow::on_actionGotoPackageURL_triggered()

@@ -262,39 +262,6 @@ QDir PackageVersion::getDirectory()
     return d;
 }
 
-void PackageVersion::getUninstallFirstPackages(QList<PackageVersion*>& res)
-{
-    Repository* r = Repository::getDefault();
-
-    for (int i = 0; i < r->packageVersions.count(); i++) {
-        PackageVersion* pv = r->packageVersions.at(i);
-        if (pv->installed()) {
-            for (int j = 0; j < pv->dependencies.count(); j++) {
-                Dependency* d = pv->dependencies.at(j);
-                if (d->package == this->package && d->test(this->version)) {
-                    QList<PackageVersion*> matches;
-                    d->findAllInstalledMatches(matches);
-
-                    // will there still be a package for this dependency?
-                    bool stillOK = false;
-                    for (int k = 0; k < matches.count(); k++) {
-                        PackageVersion* match = matches.at(k);
-                        if (match != this && !res.contains(match)) {
-                            stillOK = true;
-                            break;
-                        }
-                    }
-
-                    if (!stillOK && !res.contains(pv)) {
-                        res.prepend(pv);
-                        pv->getUninstallFirstPackages(res);
-                    }
-                }
-            }
-        }
-    }
-}
-
 QString PackageVersion::planInstallation(QList<PackageVersion*>& installed,
         QList<InstallOperation*>& ops)
 {
@@ -389,34 +356,6 @@ QString PackageVersion::planUninstallation(QList<PackageVersion*>& installed,
     return res;
 }
 
-void PackageVersion::getInstallFirstPackages(QList<PackageVersion*>& r,
-        QList<Dependency*>& unsatisfiedDeps)
-{
-    // the following loop can install more dependencies than absolutely
-    // necessary
-    // Example:
-    // A -> B
-    // A -> C
-    // B -> D [1, 2)
-    // C -> D [1, 3)
-    // => both D-2 and D-3 will be installed
-
-    for (int i = 0; i < this->dependencies.count(); i++) {
-        Dependency* d = this->dependencies.at(i);
-        if (!d->isInstalled()) {
-            PackageVersion* pv = d->findBestMatchToInstall();
-            if (!pv) {
-                unsatisfiedDeps.append(d);
-            } else {
-                if (!r.contains(pv)) {
-                    r.append(pv);
-                    pv->getInstallFirstPackages(r, unsatisfiedDeps);
-                }
-            }
-        }
-    }
-}
-
 QString PackageVersion::downloadAndComputeSHA1(Job* job)
 {
     QString r;
@@ -441,73 +380,6 @@ QString PackageVersion::downloadAndComputeSHA1(Job* job)
 
     job->complete();
 
-    return r;
-}
-
-void PackageVersion::installDeps(Job *job)
-{
-    job->setHint("Computing dependencies");
-    QList<PackageVersion*> r;
-    QList<Dependency*> unsatisfiedDeps;
-    this->getInstallFirstPackages(r, unsatisfiedDeps);
-    job->setProgress(0.1);
-
-    if (r.count() > 0) {
-        for (int i = 0; i< r.count(); i++) {
-            if (job->isCancelled() || !job->getErrorMessage().isEmpty())
-                break;
-
-            PackageVersion* pv = r.at(i);
-            job->setHint(QString("Installing %1").arg(pv->toString()));
-            Job* sub = job->newSubJob(0.9 / r.count());
-            pv->install(sub);
-            delete sub;
-        }
-    } else {
-        job->setProgress(1);
-    }
-
-    job->complete();
-}
-
-void PackageVersion::uninstallDeps(Job *job)
-{
-    job->setHint("Computing dependencies");
-    QList<PackageVersion*> r;
-    getUninstallFirstPackages(r);
-    job->setProgress(0.1);
-
-    if (r.count() > 0) {
-        job->setHint("Uninstalling dependant packages");
-        for (int i = 0; i < r.count(); i++) {
-            if (job->isCancelled() || !job->getErrorMessage().isEmpty())
-                break;
-
-            PackageVersion* pv = r.at(i);
-            job->setHint(QString("Installing %1").arg(pv->toString()));
-            Job* sub = job->newSubJob(0.9 / r.count());
-            r.at(i)->uninstall(sub);
-            delete sub;
-            if (!job->getErrorMessage().isEmpty())
-                break;
-        }
-    } else {
-        job->setProgress(1);
-    }
-
-    job->complete();
-}
-
-Dependency* PackageVersion::findFirstUnsatisfiedDependency()
-{
-    Dependency* r = 0;
-    for (int i = 0; i < this->dependencies.count(); i++) {
-        Dependency* d = this->dependencies.at(i);
-        if (!d->isInstalled()) {
-            r = d;
-            break;
-        }
-    }
     return r;
 }
 

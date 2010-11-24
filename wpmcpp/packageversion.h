@@ -83,37 +83,6 @@ public:
     QString downloadAndComputeSHA1(Job* job);
 
     /**
-     * Installs necessary dependencies.
-     *
-     * @param job job
-     */
-    void installDeps(Job* job);
-
-    /**
-     * Uninstalls dependant packages.
-     *
-     * @param state current state of the system (installed package versions)
-     * @param job job
-     */
-    void uninstallDeps(Job* job);
-
-    /**
-     * @param res list of packages that should be uninstalled before this one is
-     *     uninstalled (will be filled by this method). The packages should
-     *     be uninstalled in the order they are in r.
-     */
-    void getUninstallFirstPackages(QList<PackageVersion*>& res);
-
-    /**
-     * @param r list of packages that should be installed before this one is
-     *     installed (will be filled by this method)
-     * @param unsatisfiedDeps this dependencies cannot be installed (are not
-     *     available)
-     */
-    void getInstallFirstPackages(QList<PackageVersion*>& r,
-            QList<Dependency*>& unsatisfiedDeps);
-
-    /**
      * Plans installation of this package and all the dependencies recursively.
      *
      * @param installed list of installed packages. This list should be
@@ -136,11 +105,6 @@ public:
      */
     QString planUninstallation(QList<PackageVersion*>& installed,
             QList<InstallOperation*>& ops);
-
-    /**
-     * @return first unsatisfied dependency or 0
-     */
-    Dependency* findFirstUnsatisfiedDependency();
 
     /**
      * @return package title
