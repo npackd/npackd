@@ -14,6 +14,9 @@
 #include <qdatetime.h>
 #include "qdesktopservices.h"
 #include <qinputdialog.h>
+#include <qfiledialog.h>
+#include <qtextstream.h>
+#include <qiodevice.h>
 
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
@@ -34,10 +37,16 @@ class InstallThread: public QThread
     // 0, 1, 2 = install/uninstall
     // 3, 4 = recognize installed applications + load repositories
     // 5 = download the package and compute it's SHA1
+    // 6 = test repositories
     int type;
 
     Job* job;
+
+    void testRepositories();
 public:
+    // name of the log file for type=6
+    QString logFile;
+
     /** computed SHA1 will be stored here (type == 5) */
     QString sha1;
 
@@ -53,6 +62,48 @@ InstallThread::InstallThread(PackageVersion *pv, int type, Job* job)
     this->pv = pv;
     this->type = type;
     this->job = job;
+}
+
+void InstallThread::testRepositories()
+{
+    QFile f(this->logFile);
+
+    if (!f.open(QIODevice::WriteOnly | QIODevice::Append)) {
+        job->setErrorMessage(QString("Failed to open the log file %1").
+                arg(this->logFile));
+        job->complete();
+    } else {
+        QTextStream ts(&f);
+        Repository* r = Repository::getDefault();
+        double step = 1.0 / r->packageVersions.count();
+        for (int i = 0; i < r->packageVersions.count(); i++) {
+            PackageVersion* pv = r->packageVersions.at(i);
+
+            if (job->isCancelled())
+                break;
+
+            if (!pv->download.isEmpty()) {
+                job->setHint(QString("Downloading %1").arg(pv->toString()));
+                Job* djob = job->newSubJob(step);
+                QTemporaryFile* f = Downloader::download(djob, pv->download);
+                if (!djob->getErrorMessage().isEmpty()) {
+                    ts << QString("Download of %1 failed: %2").
+                            arg(pv->toString()).
+                            arg(djob->getErrorMessage()) << endl;
+                }
+                delete f;
+                delete djob;
+                job->setErrorMessage("");
+            }
+
+            if (job->isCancelled() || !job->getErrorMessage().isEmpty())
+                break;
+
+            job->setProgress(i * step);
+        }
+        f.close();
+        job->complete();
+    }
 }
 
 void InstallThread::run()
@@ -95,6 +146,9 @@ void InstallThread::run()
         break;
     case 5:
         this->sha1 = pv->downloadAndComputeSHA1(job);
+        break;
+    case 6:
+        testRepositories();
         break;
     }
 
@@ -790,4 +844,23 @@ void MainWindow::on_actionAbout_triggered()
 {
     QUrl url("http://code.google.com/p/windows-package-manager");
     QDesktopServices::openUrl(url);
+}
+
+void MainWindow::on_actionTest_Repositories_triggered()
+{
+    QString fn = QFileDialog::getSaveFileName(this,
+            tr("Save Log File"),
+            "", tr("Log Files (*.log)"));
+    if (!fn.isEmpty()) {
+        Job* job = new Job();
+        InstallThread* it = new InstallThread(0, 6, job);
+        it->logFile = fn;
+        it->start();
+        it->setPriority(QThread::LowestPriority);
+
+        waitFor(job, "Test Repositories");
+        it->wait();
+        delete it;
+        delete job;
+    }
 }

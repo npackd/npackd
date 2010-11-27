@@ -65,6 +65,7 @@ protected:
     void changeEvent(QEvent *e);
     void process(QList<InstallOperation*>& install);
 private slots:
+    void on_actionTest_Repositories_triggered();
     void on_actionAbout_triggered();
     void on_actionCompute_SHA1_triggered();
     void on_actionTest_Download_Site_triggered();

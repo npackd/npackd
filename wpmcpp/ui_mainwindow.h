@@ -1,7 +1,7 @@
 /********************************************************************************
 ** Form generated from reading UI file 'mainwindow.ui'
 **
-** Created: Wed 24. Nov 21:11:36 2010
+** Created: Fri 26. Nov 23:25:06 2010
 **      by: Qt User Interface Compiler version 4.6.3
 **
 ** WARNING! All changes made in this file will be lost when recompiling UI file!
@@ -44,6 +44,7 @@ public:
     QAction *actionTest_Download_Site;
     QAction *actionCompute_SHA1;
     QAction *actionAbout;
+    QAction *actionTest_Repositories;
     QWidget *centralWidget;
     QVBoxLayout *verticalLayout_3;
     QFrame *frame;
@@ -98,6 +99,8 @@ public:
         actionCompute_SHA1->setObjectName(QString::fromUtf8("actionCompute_SHA1"));
         actionAbout = new QAction(MainWindow);
         actionAbout->setObjectName(QString::fromUtf8("actionAbout"));
+        actionTest_Repositories = new QAction(MainWindow);
+        actionTest_Repositories->setObjectName(QString::fromUtf8("actionTest_Repositories"));
         centralWidget = new QWidget(MainWindow);
         centralWidget->setObjectName(QString::fromUtf8("centralWidget"));
         verticalLayout_3 = new QVBoxLayout(centralWidget);
@@ -206,6 +209,7 @@ public:
         menuFile->addAction(actionSettings);
         menuFile->addAction(actionExit);
         menuExpert->addAction(actionCompute_SHA1);
+        menuExpert->addAction(actionTest_Repositories);
         menuHelp->addAction(actionAbout);
         mainToolBar->addAction(actionInstall);
         mainToolBar->addAction(actionUninstall);
@@ -263,6 +267,10 @@ public:
         actionAbout->setText(QApplication::translate("MainWindow", "About", 0, QApplication::UnicodeUTF8));
 #ifndef QT_NO_TOOLTIP
         actionAbout->setToolTip(QApplication::translate("MainWindow", "About the program", 0, QApplication::UnicodeUTF8));
+#endif // QT_NO_TOOLTIP
+        actionTest_Repositories->setText(QApplication::translate("MainWindow", "Test Repositories", 0, QApplication::UnicodeUTF8));
+#ifndef QT_NO_TOOLTIP
+        actionTest_Repositories->setToolTip(QApplication::translate("MainWindow", "Test Repositories", 0, QApplication::UnicodeUTF8));
 #endif // QT_NO_TOOLTIP
         menuFile->setTitle(QApplication::translate("MainWindow", "&File", 0, QApplication::UnicodeUTF8));
         menuExpert->setTitle(QApplication::translate("MainWindow", "&Expert", 0, QApplication::UnicodeUTF8));
