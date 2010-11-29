@@ -11,7 +11,7 @@
 void usage()
 {
     std::cout << "Npackd command line tool" << std::endl;
-    std::cout << "Usage: npackdcl path --package=<package> --versions=<versions> [--set-var=<shell variable>]" << std::endl;
+    std::cout << "Usage: npackdcl path --package=<package> --versions=<versions>" << std::endl;
     /*std::cout << "or" << std::endl;
     std::cout << "Usage: npackdcl list" << std::endl;
     std::cout << "or" << std::endl;
@@ -50,7 +50,6 @@ int main(int argc, char *argv[])
     if (params.at(1) == "path") {
         QString package;
         QString versions;
-        QString setvar;
 
         for (int i = 2; i < params.count(); i++) {
             QString p = params.at(i);
@@ -58,8 +57,6 @@ int main(int argc, char *argv[])
                 package = p.right(p.length() - 10);
             } else if (p.startsWith("--versions=")) {
                 versions = p.right(p.length() - 11);
-            } else if (p.startsWith("--set-var=")) {
-                setvar = p.right(p.length() - 10);
             } else {
                 std::cerr << "Unknown argument: " << qPrintable(p) << std::endl;
                 usage();
@@ -74,7 +71,6 @@ int main(int argc, char *argv[])
                 usage();
                 r = 1;
             } else {
-
                 // debug: std::cout <<  qPrintable(package) << " " << qPrintable(versions);
                 Dependency d;
                 d.package = package;
@@ -87,13 +83,6 @@ int main(int argc, char *argv[])
                     PackageVersion* pv = d.findHighestInstalledMatch();
                     if (pv) {
                         std::cout << qPrintable(pv->getDirectory().absolutePath()) << std::endl;
-                        if (!setvar.isEmpty())
-                            SetEnvironmentVariableW((WCHAR*) setvar.utf16(),
-                                    (WCHAR*) pv->getDirectory().absolutePath().utf16());
-                    } else {
-                        if (!setvar.isEmpty())
-                            SetEnvironmentVariableW(
-                                    (WCHAR*) setvar.utf16(), L"");
                     }
                 }
             }
