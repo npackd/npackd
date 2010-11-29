@@ -11,7 +11,7 @@
 void usage()
 {
     std::cout << "Npackd command line tool" << std::endl;
-    std::cout << "Usage: npackdcl path --package=<package> --versions=<versions>" << std::endl;
+    std::cout << "Usage: npackdcl path --package=<package> --versions=<versions> [--set-var=<shell variable>]" << std::endl;
     /*std::cout << "or" << std::endl;
     std::cout << "Usage: npackdcl list" << std::endl;
     std::cout << "or" << std::endl;
@@ -47,18 +47,34 @@ int main(int argc, char *argv[])
     delete job;
     rep->addUnknownExistingPackages();
 
-    if (params.count() == 4 && params.at(1) == "path") {
-        QString p2 = params.at(2);
-        QString p3 = params.at(3);
-        if (p2.startsWith("--package=") &&
-                p3.startsWith("--versions=")) {
-            QString package = p2.right(p2.length() - 10);
+    if (params.at(1) == "path") {
+        QString package;
+        QString versions;
+        QString setvar;
+
+        for (int i = 2; i < params.count(); i++) {
+            QString p = params.at(i);
+            if (p.startsWith("--package=")) {
+                package = p.right(p.length() - 10);
+            } else if (p.startsWith("--versions=")) {
+                versions = p.right(p.length() - 11);
+            } else if (p.startsWith("--set-var=")) {
+                setvar = p.right(p.length() - 10);
+            } else {
+                std::cerr << "Unknown argument: " << qPrintable(p) << std::endl;
+                usage();
+                r = 1;
+                break;
+            }
+        }
+
+        if (r == 0) {
             if (!Package::isValidName(package)) {
                 std::cerr << "Invalid package name: " << qPrintable(package) << std::endl;
                 usage();
                 r = 1;
             } else {
-                QString versions = p3.right(p3.length() - 11);
+
                 // debug: std::cout <<  qPrintable(package) << " " << qPrintable(versions);
                 Dependency d;
                 d.package = package;
@@ -69,14 +85,18 @@ int main(int argc, char *argv[])
                 } else {
                     // debug: std::cout << "Versions: " << qPrintable(d.toString()) << std::endl;
                     PackageVersion* pv = d.findHighestInstalledMatch();
-                    if (pv)
+                    if (pv) {
                         std::cout << qPrintable(pv->getDirectory().absolutePath()) << std::endl;
+                        if (!setvar.isEmpty())
+                            SetEnvironmentVariableW((WCHAR*) setvar.utf16(),
+                                    (WCHAR*) pv->getDirectory().absolutePath().utf16());
+                    } else {
+                        if (!setvar.isEmpty())
+                            SetEnvironmentVariableW(
+                                    (WCHAR*) setvar.utf16(), L"");
+                    }
                 }
             }
-        } else {
-            std::cerr << "Wrong arguments" << std::endl;
-            usage();
-            r = 1;
         }
     /*
     } else if (params.count() == 2 && params.at(1) == "list") {
