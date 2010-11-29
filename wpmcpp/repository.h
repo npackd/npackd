@@ -46,7 +46,7 @@ private:
     void detectNpackd();
 public:
     /**
-     * @return C:\Program Files\WPM - repository directory
+     * @return C:\Program Files\Npackd - repository directory
      */
     QDir getDirectory();
 

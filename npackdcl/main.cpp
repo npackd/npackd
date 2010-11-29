@@ -11,11 +11,11 @@
 void usage()
 {
     std::cout << "Npackd command line tool" << std::endl;
-    std::cout << "Usage: npackdcl find --package=<package> --versions=<versions>" << std::endl;
-    std::cout << "or" << std::endl;
+    std::cout << "Usage: npackdcl path --package=<package> --versions=<versions>" << std::endl;
+    /*std::cout << "or" << std::endl;
     std::cout << "Usage: npackdcl list" << std::endl;
     std::cout << "or" << std::endl;
-    std::cout << "Usage: npackdcl info" << std::endl;
+    std::cout << "Usage: npackdcl info" << std::endl;*/
 }
 
 int main(int argc, char *argv[])
@@ -47,14 +47,14 @@ int main(int argc, char *argv[])
     delete job;
     rep->addUnknownExistingPackages();
 
-    if (params.count() == 4) {
+    if (params.count() == 4 && params.at(1) == "path") {
         QString p2 = params.at(2);
         QString p3 = params.at(3);
-        if (params.at(1) == "path" && p2.startsWith("--package=") &&
+        if (p2.startsWith("--package=") &&
                 p3.startsWith("--versions=")) {
             QString package = p2.right(p2.length() - 10);
             if (!Package::isValidName(package)) {
-                std::cout << "Invalid package name: " << qPrintable(package) << std::endl;
+                std::cerr << "Invalid package name: " << qPrintable(package) << std::endl;
                 usage();
                 r = 1;
             } else {
@@ -63,7 +63,7 @@ int main(int argc, char *argv[])
                 Dependency d;
                 d.package = package;
                 if (!d.setVersions(versions)) {
-                    std::cout << "Cannot parse versions: " << qPrintable(versions) << std::endl;
+                    std::cerr << "Cannot parse versions: " << qPrintable(versions) << std::endl;
                     usage();
                     r = 1;
                 } else {
@@ -71,15 +71,14 @@ int main(int argc, char *argv[])
                     PackageVersion* pv = d.findHighestInstalledMatch();
                     if (pv)
                         std::cout << qPrintable(pv->getDirectory().absolutePath()) << std::endl;
-                    else
-                        std::cout << "Nothing found" << std::endl;
                 }
             }
         } else {
-            std::cout << "Wrong arguments" << std::endl;
+            std::cerr << "Wrong arguments" << std::endl;
             usage();
             r = 1;
         }
+    /*
     } else if (params.count() == 2 && params.at(1) == "list") {
         QList<PackageVersion*> installed = rep->getInstalled();
         for (int i = 0; i < installed.count(); i++) {
@@ -92,9 +91,9 @@ int main(int argc, char *argv[])
                 qPrintable(rep->getDirectory().absolutePath()) << std::endl;
         QList<PackageVersion*> installed = rep->getInstalled();
         std::cout << "Number of installed packages: " <<
-                installed.count() << std::endl;
+                installed.count() << std::endl;*/
     } else {
-        std::cout << "Wrong arguments" << std::endl;
+        std::cerr << "Wrong arguments" << std::endl;
         usage();
         r = 1;
     }

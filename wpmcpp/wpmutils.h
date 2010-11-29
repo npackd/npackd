@@ -80,7 +80,7 @@ public:
 
     /**
      * @return directory where the packages will be installed. Typically
-     *     c:\program files\WPM
+     *     c:\program files\Npackd
      */
     static QString getInstallationDirectory();
 
