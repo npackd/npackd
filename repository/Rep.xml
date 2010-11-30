@@ -1563,6 +1563,23 @@ echo clearing the error code from pathman.exe</file>
     </version>
 
     <version name="3.2.4.1.1" package="org.gramps_project.Gramps">
+        <file path="gramps.bat">set npackdcl=..\com.googlecode.windows-package-manager.NpackdCL-1\npackdcl.exe
+set onecmd="%npackdcl%" "path" "--package=org.python.Python" "--versions=[2.5,3)"
+for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set pythondir=%%x
+set onecmd="%npackdcl%" "path" "--package=org.gtk.GTKPlusBundle" "--versions=[2.22.0,2.23)"
+for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set gtkplusbundledir=%%x
+set onecmd="%npackdcl%" "path" "--package=org.pygtk.PyGTK" "--versions=[2.22,2.23)"
+for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set pygtkdir=%%x
+set onecmd="%npackdcl%" "path" "--package=org.pygtk.PyGObject" "--versions=[2.26,2.27)"
+for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set pygobjectdir=%%x
+set onecmd="%npackdcl%" "path" "--package=org.pygtk.PyCairo" "--versions=[1.8.10,1.8.11)"
+for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set pycairodir=%%x
+
+set pythonpath=%pygtkdir%\Lib\site-packages\gtk-2.0;%pygobjectdir%\Lib\site-packages;%pycairodir%\Lib\site-packages
+set path=%gtkplusbundledir%\bin
+"%pythondir%\python.exe" gramps.py
+pause
+</file>
         <important-file path="gramps.bat" title="GRAMPS"/>
         <url>http://wpm.freehostingcloud.com/files/org.gramps_project.Gramps-3.2.4.1.1.zip</url>
         <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1, 1]"/>
