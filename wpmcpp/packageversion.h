@@ -165,13 +165,6 @@ public:
     void uninstall(Job* job);
 
     /**
-     * Updates this version to the newest available.
-     *
-     * @param job job for this method
-     */
-    //void update(Job* job);
-
-    /**
      * @return files currenly locked in this package directory
      */
     QStringList findLockedFiles();

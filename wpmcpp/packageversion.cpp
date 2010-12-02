@@ -155,7 +155,7 @@ void PackageVersion::registerFileHandlers()
     HKEY hkeyClasses;
     if (RegOpenKeyEx(HKEY_LOCAL_MACHINE,
                 L"SOFTWARE\\Classes",
-                0, KEY_READ | (w64bit ? KEY_WOW64_64KEY : 0),
+                0, KEY_CREATE_SUB_KEY | KEY_WRITE | (w64bit ? KEY_WOW64_64KEY : 0),
                 &hkeyClasses) != ERROR_SUCCESS)
         return;
 
@@ -168,13 +168,16 @@ void PackageVersion::registerFileHandlers()
         QString key = "Applications\\" + progId +
                 "\\shell";
         HKEY hkey;
-        if (RegCreateKeyExW(hkeyClasses, (WCHAR*) key.utf16(),
-                0, 0, 0, 0, 0, &hkey, 0) == ERROR_SUCCESS) {
+        long res;
+        res = RegCreateKeyExW(hkeyClasses, (WCHAR*) key.utf16(),
+                              0, 0, 0, KEY_WRITE, 0, &hkey, 0);
+        if (res == ERROR_SUCCESS) {
             RegCloseKey(hkey);
 
             key = fh->extension + "\\OpenWithProgids";
-            if (RegCreateKeyExW(hkeyClasses, (WCHAR*) key.utf16(),
-                    0, 0, 0, 0, 0, &hkey, 0) == ERROR_SUCCESS) {
+            res = RegCreateKeyExW(hkeyClasses, (WCHAR*) key.utf16(),
+                                       0, 0, 0, KEY_WRITE, 0, &hkey, 0);
+            if (res == ERROR_SUCCESS) {
                 RegSetValueEx(hkey, (WCHAR*) progId.utf16(), 0,
                         REG_BINARY, 0, 0);
                 RegCloseKey(hkey);
