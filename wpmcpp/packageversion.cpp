@@ -218,7 +218,10 @@ void PackageVersion::uninstall(Job* job)
     QDir d = getDirectory();
 
     QString errMsg;
-    QString p = ".WPM\\Uninstall.bat";
+    QString p = ".Npackd\\Uninstall.bat";
+    if (!QFile::exists(d.absolutePath() + "\\" + p)) {
+        p = ".WPM\\Uninstall.bat";
+    }
     if (QFile::exists(d.absolutePath() + "\\" + p)) {
         job->setHint("Running the uninstallation script (this may take some time)");
         Job* sub = job->newSubJob(0.25);
@@ -536,7 +539,11 @@ void PackageVersion::install(Job* job)
                     }
                 }
                 if (job->getErrorMessage().isEmpty()) {
-                    QString p = ".WPM\\Install.bat";
+                    QString p = ".Npackd\\Install.bat";
+                    if (!QFile::exists(getDirectory().absolutePath() +
+                            "\\" + p)) {
+                        p = ".WPM\\Install.bat";
+                    }
                     if (QFile::exists(getDirectory().absolutePath() +
                             "\\" + p)) {
                         job->setHint("Running the installation script (this may take some time)");
