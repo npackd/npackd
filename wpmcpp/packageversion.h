@@ -169,7 +169,7 @@ public:
      *
      * @param job job for this method
      */
-    void update(Job* job);
+    //void update(Job* job);
 
     /**
      * @return files currenly locked in this package directory

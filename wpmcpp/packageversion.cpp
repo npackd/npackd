@@ -148,29 +148,6 @@ bool PackageVersion::installed()
     }
 }
 
-void PackageVersion::update(Job* job)
-{
-    Repository* r = Repository::getDefault();
-    PackageVersion* newest = r->findNewestPackageVersion(this->package);
-    if (newest->version.compare(this->version) > 0 && !newest->installed()) {
-        job->setHint("Uninstalling the old version");
-        Job* sub = job->newSubJob(0.1);
-        uninstall(sub);
-        if (sub->getErrorMessage().isEmpty() && !job->isCancelled()) {
-            delete sub;
-            job->setHint("Installing the new version");
-            sub = job->newSubJob(0.9);
-            newest->install(sub);
-            delete sub;
-        } else {
-            delete sub;
-        }
-    } else {
-        job->setProgress(1);
-    }
-    job->complete();
-}
-
 void PackageVersion::registerFileHandlers()
 {
     const REGSAM KEY_WOW64_64KEY = 0x0100;
@@ -506,19 +483,20 @@ void PackageVersion::install(Job* job)
 
     // qDebug() << "install.3";
     QTemporaryFile* f = 0;
-    QString errMsg;
-    if (!job->isCancelled()) {
+
+    if (!job->isCancelled() && job->getErrorMessage().isEmpty()) {
         job->setHint("Downloading");
         Job* djob = job->newSubJob(0.60);
         f = Downloader::download(djob, this->download);
+
         // qDebug() << "install.3.2 " << (f == 0) << djob->getErrorMessage();
-        if (!djob->getErrorMessage().isEmpty())
+        if (f == 0)
             job->setErrorMessage(QString("Download failed: %1").arg(
                     djob->getErrorMessage()));
         delete djob;
     }
 
-    if (!job->isCancelled() && f) {
+    if (!job->isCancelled() && job->getErrorMessage().isEmpty()) {
         if (!this->sha1.isEmpty()) {
             job->setHint("Computing hash sum");
             QString h = WPMUtils::sha1(f->fileName());
@@ -527,95 +505,114 @@ void PackageVersion::install(Job* job)
                         "Hash sum (SHA1) %1 found, but %2 "
                         "was expected. The file has changed.").arg(h).
                         arg(this->sha1));
-            }
-        }
-        job->setProgress(0.7);
-
-        if (job->getErrorMessage().isEmpty()) {
-            if (d.mkdir(d.absolutePath())) {
-                Repository::getDefault()->somethingWasInstalledOrUninstalled();
-                if (this->type == 0) {
-                    job->setHint("Extracting files");
-                    // qDebug() << "install.6 " << f->size() << d.absolutePath();
-
-                    if (unzip(f->fileName(), d.absolutePath() + "\\", &errMsg)) {
-                        QString err;
-                        this->createShortcuts(&err); // ignore errors
-                        job->setProgress(0.90);
-                    } else {
-                        job->setErrorMessage(QString(
-                                "Error unzipping file into directory %0: %1").
-                                             arg(d.absolutePath()).arg(errMsg));
-                        Job* rjob = new Job();
-                        WPMUtils::removeDirectory2(rjob,
-                                d, &errMsg); // ignore errors
-                        delete rjob;
-                    }
-                } else {
-                    job->setHint("Copying the file");
-                    QString t = d.absolutePath();
-                    t.append("\\");
-                    QString fn = this->download.path();
-                    QStringList parts = fn.split('/');
-                    t.append(parts.at(parts.count() - 1));
-                    // qDebug() << "install " << t.replace('/', '\\');
-                    if (!CopyFileW((WCHAR*) f->fileName().utf16(),
-                                   (WCHAR*) t.replace('/', '\\').utf16(), false)) {
-                        WPMUtils::formatMessage(GetLastError(), &errMsg);
-                        job->setErrorMessage(errMsg);
-                        Job* rjob = new Job();
-                        WPMUtils::removeDirectory2(rjob,
-                                d, &errMsg); // ignore errors
-                        delete rjob;
-                    } else {
-                        QString err;
-                        this->createShortcuts(&err); // ignore errors
-                        job->setProgress(0.90);
-                    }
-                }
-                if (job->getErrorMessage().isEmpty()) {
-                    if (!this->saveFiles(&errMsg)) {
-                        job->setErrorMessage(errMsg);
-                        job->setProgress(1);
-                    }
-                }
-                if (job->getErrorMessage().isEmpty()) {
-                    QString p = ".Npackd\\Install.bat";
-                    if (!QFile::exists(getDirectory().absolutePath() +
-                            "\\" + p)) {
-                        p = ".WPM\\Install.bat";
-                    }
-                    if (QFile::exists(getDirectory().absolutePath() +
-                            "\\" + p)) {
-                        job->setHint("Running the installation script (this may take some time)");
-                        Job* exec = job->newSubJob(0.05);
-                        this->executeFile(exec, p);
-                        delete exec;
-                        if (job->getErrorMessage().isEmpty() &&
-                                !job->isCancelled()) {
-                            job->setProgress(0.95);
-                            job->setHint(QString("Deleting desktop shortcuts %1").
-                                         arg(WPMUtils::getShellDir(CSIDL_DESKTOP)));
-                            Job* sub = job->newSubJob(0.05);
-                            deleteShortcuts(sub, false, true, true);
-                            delete sub;
-                        } else {
-                            // ignore errors
-                            Job* rjob = new Job();
-                            WPMUtils::removeDirectory2(rjob, d, &errMsg);
-                            delete rjob;
-                        }
-                    } else {
-                        job->setProgress(1);
-                    }
-                }
             } else {
-                job->setErrorMessage(QString("Cannot create directory: %0").
-                        arg(d.absolutePath()));
+                job->setProgress(0.7);
+            }
+        } else {
+            job->setProgress(0.7);
+        }
+    }
+
+    if (!job->isCancelled() && job->getErrorMessage().isEmpty()) {
+        if (!d.mkdir(d.absolutePath())) {
+            job->setErrorMessage(QString("Cannot create directory: %0").
+                    arg(d.absolutePath()));
+        } else {
+            job->setProgress(0.71);
+        }
+    }
+
+    if (!job->isCancelled() && job->getErrorMessage().isEmpty()) {
+        Repository::getDefault()->somethingWasInstalledOrUninstalled();
+        if (this->type == 0) {
+            QString errMsg;
+            job->setHint("Extracting files");
+            // qDebug() << "install.6 " << f->size() << d.absolutePath();
+
+            if (unzip(f->fileName(), d.absolutePath() + "\\", &errMsg)) {
+                job->setProgress(0.80);
+            } else {
+                job->setErrorMessage(QString(
+                        "Error unzipping file into directory %0: %1").
+                                     arg(d.absolutePath()).arg(errMsg));
+            }
+        } else {
+            job->setHint("Copying the file");
+            QString t = d.absolutePath();
+            t.append("\\");
+            QString fn = this->download.path();
+            QStringList parts = fn.split('/');
+            t.append(parts.at(parts.count() - 1));
+            // qDebug() << "install " << t.replace('/', '\\');
+
+            QString errMsg;
+            if (!CopyFileW((WCHAR*) f->fileName().utf16(),
+                           (WCHAR*) t.replace('/', '\\').utf16(), false)) {
+                WPMUtils::formatMessage(GetLastError(), &errMsg);
+                job->setErrorMessage(errMsg);
+            } else {
+                job->setProgress(0.80);
             }
         }
-        delete f;
     }
+
+    if (!job->isCancelled() && job->getErrorMessage().isEmpty()) {
+        QString err;
+        this->createShortcuts(&err); // ignore errors
+        if (err.isEmpty())
+            job->setProgress(0.9);
+        else
+            job->setErrorMessage(err);
+    }
+
+    if (!job->isCancelled() && job->getErrorMessage().isEmpty()) {
+        QString errMsg;
+        if (!this->saveFiles(&errMsg)) {
+            job->setErrorMessage(errMsg);
+        } else {
+            job->setProgress(0.91);
+        }
+    }
+
+    if (!job->isCancelled() && job->getErrorMessage().isEmpty()) {
+        QString p = ".Npackd\\Install.bat";
+        if (!QFile::exists(getDirectory().absolutePath() +
+                "\\" + p)) {
+            p = ".WPM\\Install.bat";
+        }
+        if (QFile::exists(getDirectory().absolutePath() +
+                "\\" + p)) {
+            job->setHint("Running the installation script (this may take some time)");
+            Job* exec = job->newSubJob(0.04);
+            this->executeFile(exec, p);
+            delete exec;
+        } else {
+            job->setProgress(0.95);
+        }
+    }
+
+    if (job->getErrorMessage().isEmpty() && !job->isCancelled()) {
+        job->setHint(QString("Deleting desktop shortcuts %1").
+                     arg(WPMUtils::getShellDir(CSIDL_DESKTOP)));
+        Job* sub = job->newSubJob(0.04);
+        deleteShortcuts(sub, false, true, true);
+        delete sub;
+    }
+
+    if (job->getErrorMessage().isEmpty() && !job->isCancelled()) {
+        registerFileHandlers();
+        job->setProgress(1);
+    }
+
+    if (!job->getErrorMessage().isEmpty()) {
+        // ignore errors
+        Job* rjob = new Job();
+        QString errMsg;
+        WPMUtils::removeDirectory2(rjob, d, &errMsg);
+        delete rjob;
+    }
+
+    delete f;
 
     job->complete();
 }

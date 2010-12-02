@@ -262,16 +262,16 @@ bool WPMUtils::removeDirectory2(Job* job, QDir &d, QString *errMsg)
 {
     Job* sub = job->newSubJob(0.3);
     WPMUtils::removeDirectory(sub, d);
-    delete sub;
     if (!sub->getErrorMessage().isEmpty()) {
+        delete sub;
         job->setProgress(0.3);
         Sleep(5000); // 5 Seconds
         job->setProgress(0.6);
 
         sub = job->newSubJob(0.4);
         WPMUtils::removeDirectory(sub, d);
-        delete sub;
     } else{
+        delete sub;
         job->setProgress(1);
     }
     job->complete();
