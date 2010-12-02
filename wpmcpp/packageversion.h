@@ -14,6 +14,7 @@
 #include "dependency.h"
 #include "digraph.h"
 #include "installoperation.h"
+#include "fileextensionhandler.h"
 
 class InstallOperation;
 
@@ -27,6 +28,8 @@ private:
     void executeFile(Job* job, QString& path);
     void deleteShortcuts(Job* job, bool menu, bool desktop, bool quickLaunch);
     QString fullText;
+    void registerFileHandlers();
+    void unregisterFileHandlers();
 public:
     /** package version */
     Version version;
@@ -49,6 +52,11 @@ public:
      * Dependencies.
      */
     QList<Dependency*> dependencies;
+
+    /**
+     * file handlers
+     */
+    QList<FileExtensionHandler*> fileHandlers;
 
     /** 0 = zip file, 1 = one file */
     int type;

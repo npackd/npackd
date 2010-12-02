@@ -3206,9 +3206,9 @@ echo DesktopShortcut=false >> .WPM\FF.ini
         <url>http://download.newaol.com/aim/win95/Install_AIM.exe</url>
     </version>
     
-	<version name="4.65" package="org.7-zip.SevenZIP" type="one-file">
+    <version name="4.65" package="org.7-zip.SevenZIP" type="one-file">
         <file path=".WPM\Install.bat">7z465.exe /S /D=%CD%</file>
-		<file path=".WPM\Uninstall.bat">Uninstall.exe /S _?=%CD%
+        <file path=".WPM\Uninstall.bat">Uninstall.exe /S _?=%CD%
 taskkill /f /fi "IMAGENAME eq explorer.exe"
 del 7-zip.dll
 rem start explorer from the root directory so it does not lock this one
@@ -3218,13 +3218,17 @@ start "" /D\ explorer.exe</file>
     </version>
     <version name="9.20" package="org.7-zip.SevenZIP" type="one-file">
         <file path=".WPM\Install.bat">7z920.exe /S /D=%CD%</file>
-		<file path=".WPM\Uninstall.bat">Uninstall.exe /S _?=%CD%
+        <file path=".WPM\Uninstall.bat">Uninstall.exe /S _?=%CD%
 taskkill /f /fi "IMAGENAME eq explorer.exe"
 del 7-zip.dll
 rem start explorer from the root directory so it does not lock this one
 start "" /D\ explorer.exe</file>
         <url>http://downloads.sourceforge.net/project/sevenzip/7-Zip/9.20/7z920.exe?ts=1290159584</url>
         <sha1>55283ad59439134673fc32fc097bdd9ae920fbc6</sha1>
+        <file-handler>
+            <extension>.zip</extension>
+            <executable>7zFM.exe</executable>
+        </file-handler>
     </version>
 
     <version name="2.46" package="net.sourceforge.nsis">

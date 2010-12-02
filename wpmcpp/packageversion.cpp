@@ -114,6 +114,7 @@ PackageVersion::~PackageVersion()
 {
     qDeleteAll(this->files);
     qDeleteAll(this->dependencies);
+    qDeleteAll(this->fileHandlers);
 }
 
 QString PackageVersion::getFullText()
@@ -168,6 +169,46 @@ void PackageVersion::update(Job* job)
         job->setProgress(1);
     }
     job->complete();
+}
+
+void PackageVersion::registerFileHandlers()
+{
+    const REGSAM KEY_WOW64_64KEY = 0x0100;
+    bool w64bit = WPMUtils::is64BitWindows();
+    HKEY hkeyClasses;
+    if (RegOpenKeyEx(HKEY_LOCAL_MACHINE,
+                L"SOFTWARE\\Classes",
+                0, KEY_READ | (w64bit ? KEY_WOW64_64KEY : 0),
+                &hkeyClasses) != ERROR_SUCCESS)
+        return;
+
+    for (int i = 0; i < this->fileHandlers.count(); i++) {
+        FileExtensionHandler* fh = this->fileHandlers.at(i);
+
+        QString progId = this->package + "-" +
+                this->version.getVersionString() + "-" +
+                fh->program.replace('\\', '-').replace('/', '-');
+        QString key = "Applications\\" + progId +
+                "\\shell";
+        HKEY hkey;
+        if (RegCreateKeyExW(hkeyClasses, (WCHAR*) key.utf16(),
+                0, 0, 0, 0, 0, &hkey, 0) == ERROR_SUCCESS) {
+            RegCloseKey(hkey);
+
+            key = fh->extension + "\\OpenWithProgids";
+            if (RegCreateKeyExW(hkeyClasses, (WCHAR*) key.utf16(),
+                    0, 0, 0, 0, 0, &hkey, 0) == ERROR_SUCCESS) {
+                RegSetValueEx(hkey, (WCHAR*) progId.utf16(), 0,
+                        REG_BINARY, 0, 0);
+                RegCloseKey(hkey);
+            }
+        }
+    }
+}
+
+void PackageVersion::unregisterFileHandlers()
+{
+
 }
 
 void PackageVersion::deleteShortcuts(Job* job,

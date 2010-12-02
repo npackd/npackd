@@ -13,6 +13,7 @@
 #include "wpmutils.h"
 #include "version.h"
 #include "msi.h"
+#include "fileextensionhandler.h"
 
 Repository* Repository::def = 0;
 
@@ -174,6 +175,16 @@ PackageVersion* Repository::createPackageVersion(QDomElement* e)
 
         QString title = e.attribute("title", p);
         a->importantFilesTitles.append(title);
+    }
+
+    QDomNodeList nl = e->elementsByTagName("file-handler");
+    for (int i = 0; i < nl.count(); i++) {
+        QDomElement e = nl.at(i).toElement();
+        QString ext = e.elementsByTagName("extension").at(0).firstChild().
+                      nodeValue();
+        QString prg = e.elementsByTagName("executable").at(0).firstChild().
+                      nodeValue();
+        a->fileHandlers.append(new FileExtensionHandler(ext, prg));
     }
 
     QDomNodeList files = e->elementsByTagName("file");

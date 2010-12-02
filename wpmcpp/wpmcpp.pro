@@ -22,7 +22,8 @@ SOURCES += main.cpp \
     digraph.cpp \
     fileloader.cpp \
     fileloaderitem.cpp \
-    installoperation.cpp
+    installoperation.cpp \
+    fileextensionhandler.cpp
 HEADERS += mainwindow.h \
     packageversion.h \
     repository.h \
@@ -40,7 +41,8 @@ HEADERS += mainwindow.h \
     digraph.h \
     fileloader.h \
     fileloaderitem.h \
-    installoperation.h
+    installoperation.h \
+    fileextensionhandler.h
 FORMS += mainwindow.ui \
     progressdialog.ui \
     settingsdialog.ui
