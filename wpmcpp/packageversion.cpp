@@ -159,36 +159,89 @@ void PackageVersion::registerFileHandlers()
                 &hkeyClasses) != ERROR_SUCCESS)
         return;
 
+    QDir dir = getDirectory();
     for (int i = 0; i < this->fileHandlers.count(); i++) {
         FileExtensionHandler* fh = this->fileHandlers.at(i);
 
-        QString progId = this->package + "-" +
+        QString prg = fh->program;
+        prg.replace('\\', '-').replace('/', '-');
+        QString progId = "Npackd-" + this->package + "-" +
                 this->version.getVersionString() + "-" +
-                fh->program.replace('\\', '-').replace('/', '-');
-        QString key = "Applications\\" + progId +
-                "\\shell";
-        HKEY hkey;
-        long res;
-        res = RegCreateKeyExW(hkeyClasses, (WCHAR*) key.utf16(),
-                              0, 0, 0, KEY_WRITE, 0, &hkey, 0);
-        if (res == ERROR_SUCCESS) {
-            RegCloseKey(hkey);
+                prg;
 
-            key = fh->extension + "\\OpenWithProgids";
+        QString openKey = "Applications\\" + progId +
+                          "\\shell\\open";
+        QString commandKey = openKey + "\\command";
+        HKEY hkey;
+        long res = RegCreateKeyExW(hkeyClasses, (WCHAR*) commandKey.utf16(),
+                              0, 0, 0, KEY_WRITE, 0, &hkey, 0);
+        if (res != ERROR_SUCCESS)
+            continue;
+
+        // Windows 7: no "Open With" is shown if the path contains /
+        // instead of
+        QString cmd = "\"" + dir.absolutePath() + "\\" + fh->program +
+                "\" \"%1\"";
+        cmd.replace('/', '\\');
+        RegSetValueEx(hkey, 0, 0, REG_SZ, (BYTE*) cmd.utf16(),
+                cmd.length() * 2 + 2);
+        RegCloseKey(hkey);
+
+        res = RegOpenKeyEx(hkeyClasses, (WCHAR*) openKey.utf16(), 0,
+                KEY_WRITE, &hkey);
+        if (res == ERROR_SUCCESS) {
+            QString s = fh->title;
+            RegSetValueEx(hkey, L"FriendlyAppName", 0, REG_SZ, (BYTE*) s.utf16(),
+                    s.length() * 2 + 2);
+            RegCloseKey(hkey);
+        }
+
+        for (int j = 0; j < fh->extensions.count(); j++) {
+            // OpenWithProgids does not work on Windows 7 if OpenWithList is
+            // also defined:
+            // http://msdn.microsoft.com/en-us/library/bb166549.aspx#2
+            QString key = fh->extensions.at(j) + "\\OpenWithList\\" + progId;
             res = RegCreateKeyExW(hkeyClasses, (WCHAR*) key.utf16(),
                                        0, 0, 0, KEY_WRITE, 0, &hkey, 0);
             if (res == ERROR_SUCCESS) {
-                RegSetValueEx(hkey, (WCHAR*) progId.utf16(), 0,
-                        REG_BINARY, 0, 0);
                 RegCloseKey(hkey);
             }
         }
     }
+    SHChangeNotify(SHCNE_ASSOCCHANGED, SHCNF_IDLIST, 0, 0);
 }
 
 void PackageVersion::unregisterFileHandlers()
 {
+    const REGSAM KEY_WOW64_64KEY = 0x0100;
+    bool w64bit = WPMUtils::is64BitWindows();
+    HKEY hkeyClasses;
+    if (RegOpenKeyEx(HKEY_LOCAL_MACHINE,
+                L"SOFTWARE\\Classes",
+                0, KEY_WRITE | (w64bit ? KEY_WOW64_64KEY : 0),
+                &hkeyClasses) != ERROR_SUCCESS)
+        return;
 
+    for (int i = 0; i < this->fileHandlers.count(); i++) {
+        FileExtensionHandler* fh = this->fileHandlers.at(i);
+
+        QString prg = fh->program;
+        prg.replace('\\', '-').replace('/', '-');
+        QString progId = "Npackd-" + this->package + "-" +
+                this->version.getVersionString() + "-" +
+                prg;
+        QString key = "Applications\\" + progId;
+        WPMUtils::regDeleteTree(hkeyClasses, key);
+
+        for (int j = 0; j < fh->extensions.count(); j++) {
+            // OpenWithProgids does not work on Windows 7 if OpenWithList is
+            // also defined:
+            // http://msdn.microsoft.com/en-us/library/bb166549.aspx#2
+            key = fh->extensions.at(j) + "\\OpenWithList\\" + progId;
+            WPMUtils::regDeleteTree(hkeyClasses, key);
+        }
+    }
+    SHChangeNotify(SHCNE_ASSOCCHANGED, SHCNF_IDLIST, 0, 0);
 }
 
 void PackageVersion::deleteShortcuts(Job* job,
@@ -256,9 +309,15 @@ void PackageVersion::uninstall(Job* job)
 
     if (job->getErrorMessage().isEmpty()) {
         job->setHint("Deleting shortcuts");
-        Job* sub = job->newSubJob(0.20);
+        Job* sub = job->newSubJob(0.19);
         deleteShortcuts(sub, true, true, true);
         delete sub;
+    }
+
+    if (job->getErrorMessage().isEmpty()) {
+        job->setHint("Deleting file associations");
+        unregisterFileHandlers();
+        job->setProgress(0.45);
     }
 
     if (job->getErrorMessage().isEmpty()) {
@@ -603,6 +662,7 @@ void PackageVersion::install(Job* job)
     }
 
     if (job->getErrorMessage().isEmpty() && !job->isCancelled()) {
+        job->setHint("Creating file associations");
         registerFileHandlers();
         job->setProgress(1);
     }

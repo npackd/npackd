@@ -180,11 +180,19 @@ PackageVersion* Repository::createPackageVersion(QDomElement* e)
     QDomNodeList nl = e->elementsByTagName("file-handler");
     for (int i = 0; i < nl.count(); i++) {
         QDomElement e = nl.at(i).toElement();
-        QString ext = e.elementsByTagName("extension").at(0).firstChild().
-                      nodeValue();
         QString prg = e.elementsByTagName("executable").at(0).firstChild().
-                      nodeValue();
-        a->fileHandlers.append(new FileExtensionHandler(ext, prg));
+                      nodeValue().trimmed();
+        QString title = e.elementsByTagName("title").at(0).firstChild().
+                      nodeValue().trimmed();
+        FileExtensionHandler* fh = new FileExtensionHandler(prg);
+        fh->title = title;
+        a->fileHandlers.append(fh);
+
+        QDomNodeList nl2 = e.elementsByTagName("extension");
+        for (int j = 0; j < nl2.count(); j++) {
+            QString ext = nl2.at(j).firstChild().nodeValue().trimmed();
+            fh->extensions.append(ext);
+        }
     }
 
     QDomNodeList files = e->elementsByTagName("file");

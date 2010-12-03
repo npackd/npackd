@@ -2,12 +2,16 @@
 #define FILEEXTENSIONHANDLER_H
 
 #include "qstring.h"
+#include "qstringlist.h"
 
 class FileExtensionHandler
 {
 public:
     /** file extension. e.g. ".zip" */
-    QString extension;
+    QStringList extensions;
+
+    /** title */
+    QString title;
 
     /**
      * program that will be started with a file name as the only parameter -
@@ -15,7 +19,10 @@ public:
      */
     QString program;
 
-    FileExtensionHandler(const QString extension, const QString program);
+    /**
+     * @param program program path relative to the installation directory
+     */
+    FileExtensionHandler(const QString program);
 };
 
 #endif // FILEEXTENSIONHANDLER_H
