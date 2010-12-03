@@ -476,7 +476,7 @@ void MainWindow::process(QList<InstallOperation*> &install)
 
     if (lockedUninstall.size() > 0) {
         QString locked_ = lockedUninstall.join(", \n");
-        QString msg("The packages cannot be uninstalled because "
+        QString msg("The package(s) cannot be uninstalled because "
                 "the following files are in use "
                 "(please close the corresponding applications): "
                 "%1");

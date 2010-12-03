@@ -191,6 +191,11 @@ void PackageVersion::registerFileHandlers()
                 KEY_WRITE, &hkey);
         if (res == ERROR_SUCCESS) {
             QString s = fh->title;
+            if (s.contains(this->getPackageTitle()))
+                s = s + " (" + this->version.getVersionString() + ")";
+            else
+                s = s + " (" + this->getPackageTitle() + " " +
+                        this->version.getVersionString() + ")";
             RegSetValueEx(hkey, L"FriendlyAppName", 0, REG_SZ, (BYTE*) s.utf16(),
                     s.length() * 2 + 2);
             RegCloseKey(hkey);
