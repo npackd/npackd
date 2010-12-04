@@ -132,6 +132,14 @@ QString PackageVersion::getFullText()
         r.append(" ");
         r.append(this->version.getVersionString());
 
+        for (int i = 0; i < this->fileHandlers.count(); i++) {
+            FileExtensionHandler* fh = this->fileHandlers.at(i);
+            r.append(" ");
+            r.append(fh->title);
+            r.append(" ");
+            r.append(fh->extensions.join(" "));
+        }
+
         this->fullText = r.toLower();
     }
     return this->fullText;
@@ -553,7 +561,7 @@ void PackageVersion::install(Job* job)
 
     if (!job->isCancelled() && job->getErrorMessage().isEmpty()) {
         job->setHint("Downloading");
-        Job* djob = job->newSubJob(0.60);
+        Job* djob = job->newSubJob(0.58);
         f = Downloader::download(djob, this->download);
 
         // qDebug() << "install.3.2 " << (f == 0) << djob->getErrorMessage();
@@ -573,10 +581,10 @@ void PackageVersion::install(Job* job)
                         "was expected. The file has changed.").arg(h).
                         arg(this->sha1));
             } else {
-                job->setProgress(0.7);
+                job->setProgress(0.64);
             }
         } else {
-            job->setProgress(0.7);
+            job->setProgress(0.64);
         }
     }
 
@@ -585,7 +593,7 @@ void PackageVersion::install(Job* job)
             job->setErrorMessage(QString("Cannot create directory: %0").
                     arg(d.absolutePath()));
         } else {
-            job->setProgress(0.71);
+            job->setProgress(0.65);
         }
     }
 
@@ -597,7 +605,7 @@ void PackageVersion::install(Job* job)
             // qDebug() << "install.6 " << f->size() << d.absolutePath();
 
             if (unzip(f->fileName(), d.absolutePath() + "\\", &errMsg)) {
-                job->setProgress(0.80);
+                job->setProgress(0.74);
             } else {
                 job->setErrorMessage(QString(
                         "Error unzipping file into directory %0: %1").
@@ -618,7 +626,7 @@ void PackageVersion::install(Job* job)
                 WPMUtils::formatMessage(GetLastError(), &errMsg);
                 job->setErrorMessage(errMsg);
             } else {
-                job->setProgress(0.80);
+                job->setProgress(0.74);
             }
         }
     }
@@ -627,7 +635,7 @@ void PackageVersion::install(Job* job)
         QString err;
         this->createShortcuts(&err); // ignore errors
         if (err.isEmpty())
-            job->setProgress(0.9);
+            job->setProgress(0.84);
         else
             job->setErrorMessage(err);
     }
@@ -637,7 +645,7 @@ void PackageVersion::install(Job* job)
         if (!this->saveFiles(&errMsg)) {
             job->setErrorMessage(errMsg);
         } else {
-            job->setProgress(0.91);
+            job->setProgress(0.85);
         }
     }
 
@@ -650,7 +658,7 @@ void PackageVersion::install(Job* job)
         if (QFile::exists(getDirectory().absolutePath() +
                 "\\" + p)) {
             job->setHint("Running the installation script (this may take some time)");
-            Job* exec = job->newSubJob(0.04);
+            Job* exec = job->newSubJob(0.1);
             this->executeFile(exec, p);
             delete exec;
         } else {

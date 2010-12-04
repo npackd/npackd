@@ -65,6 +65,11 @@ public:
     QString sha1;
 
     /**
+     * .zip file for downloading
+     */
+    QUrl download;
+
+    /**
      * this value is true for packages not installed through WPM, but detected
      * later. Those packages cannot be uninstalled, but are used for
      * dependencies.
@@ -144,11 +149,6 @@ public:
      *     case
      */
     QString getFullText();
-
-    /**
-     * .zip file for downloading
-     */
-    QUrl download;
 
     /**
      * Installs this application.
