@@ -314,7 +314,7 @@ void PackageVersion::uninstall(Job* job)
         if (!d.exists(".Npackd"))
             d.mkdir(".Npackd");
         Job* sub = job->newSubJob(0.25);
-        this->executeFile(sub, p + " > .Npackd\\Uninstall.log"); // ignore errors
+        this->executeFile(sub, p, ".Npackd\\Uninstall.log");
         delete sub;
     }
     job->setProgress(0.25);
@@ -663,7 +663,7 @@ void PackageVersion::install(Job* job)
             Job* exec = job->newSubJob(0.1);
             if (!d.exists(".Npackd"))
                 d.mkdir(".Npackd");
-            this->executeFile(exec, p + " > .Npackd\\Install.log");
+            this->executeFile(exec, p, ".Npackd\\Install.log");
             delete exec;
         } else {
             job->setProgress(0.95);
@@ -775,10 +775,12 @@ QStringList PackageVersion::findLockedFiles()
     return r;
 }
 
-void PackageVersion::executeFile(Job* job, const QString& path)
+void PackageVersion::executeFile(Job* job, const QString& path,
+        const QString& outputFile)
 {
     QDir d = this->getDirectory();
     QProcess p(0);
+    p.setProcessChannelMode(QProcess::MergedChannels);
     QStringList params;
     p.setWorkingDirectory(d.absolutePath());
     QString exe = d.absolutePath() + "\\" + path;
@@ -796,6 +798,11 @@ void PackageVersion::executeFile(Job* job, const QString& path)
                 job->setErrorMessage(
                         QString("Process %1 exited with the code %2").arg(
                         exe).arg(p.exitCode()));
+            }
+            QFile f(d.absolutePath() + "\\" + outputFile);
+            if (f.open(QIODevice::WriteOnly)) {
+                f.write(p.readAll());
+                f.close();
             }
             break;
         }

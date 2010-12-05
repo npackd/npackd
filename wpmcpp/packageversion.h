@@ -25,7 +25,7 @@ private:
     bool createShortcuts(QString* errMsg);
     void deleteShortcuts(QDir& d);
     bool saveFiles(QString* errMsg);
-    void executeFile(Job* job, const QString& path);
+    void executeFile(Job* job, const QString& path, const QString& outputFile);
     void deleteShortcuts(Job* job, bool menu, bool desktop, bool quickLaunch);
     QString fullText;
     void registerFileHandlers();
