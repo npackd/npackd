@@ -1288,7 +1288,7 @@
     <package name="org.vim.Vim">
         <title>Vim</title>
         <url>http://www.vim.org/</url>
-        <description>text editor</description>
+        <description>WARNING! This package requires Vim runtime in version 7.3 to be installed. Text editor</description>
         <!-- GPLv2 -->
         <icon>http://wpm.freehostingcloud.com/picons/org.vim.VimInstaller.png</icon>
     </package>
@@ -1296,6 +1296,13 @@
         <title>Vim installer</title>
         <url>http://www.vim.org/</url>
         <description>text editor</description>
+        <!-- GPLv2 -->
+        <icon>http://wpm.freehostingcloud.com/picons/org.vim.VimInstaller.png</icon>
+    </package>
+    <package name="org.vim.VimRuntime">
+        <title>Vim runtime</title>
+        <url>http://www.vim.org/</url>
+        <description>runtime for Vim</description>
         <!-- GPLv2 -->
         <icon>http://wpm.freehostingcloud.com/picons/org.vim.VimInstaller.png</icon>
     </package>
@@ -1963,24 +1970,26 @@ start "" /D\ explorer.exe</file>
         <sha1>6e37c98c251a2d82e054de40b2013361f9c4aed8</sha1>
     </version>
 
-    <!--
-        TODO: installation shows 2 confirmation dialogs
-        and does not respect the /D option
-    -->
-    <!--
-    <version name="7.3" package="org.vim.Vim" type="one-file">
-        <file path=".WPM\Install.bat">gvim73.exe /S /D=%CD%</file>
-        <file path=".WPM\Uninstall.bat">uninst.exe /S _?=%CD%</file>
-        <url>http://wpm.freehostingcloud.com/files/gvim73.exe</url>
-        <sha1>e3f082369051a496a75680462b494b26324e796c</sha1>
+    <version name="7.3" package="org.vim.VimRuntime">
+        <url>http://ftp.vim.org/pub/vim/pc/vim73rt.zip</url>
+        <sha1>687f43e1cbd9b058bddf673e812853028f0c79a7</sha1>
     </version>
-    -->
 
+    <version name="7.3" package="org.vim.Vim">
+        <file path=".WPM\Install.bat">xcopy ..\org.vim.VimRuntime-7.3\* . /E /H</file>
+        <important-file path="vim\vim73\gvim.exe" title="Vim"/>
+        <url>http://ftp.vim.org/pub/vim/pc/gvim73.zip</url>
+        <sha1>038bce3d5025eb30413d587f6f3a586bee38db8e</sha1>
+        <dependency package="org.vim.VimRuntime" versions="[7.3, 7.3]"/>
+    </version>
+
+    <!-- not necessary anymore
     <version name="7.3" package="org.vim.VimInstaller" type="one-file">
         <important-file path="gvim73.exe" title="Installer"/>
         <url>http://wpm.freehostingcloud.com/files/gvim73.exe</url>
         <sha1>e3f082369051a496a75680462b494b26324e796c</sha1>
     </version>
+    -->
 
     <version name="1.3.3.14" package="net.scribus.Scribus" type="one-file">
         <file path=".WPM\Install.bat">scribus-1.3.3.14-win32-install.exe /S /D=%CD%</file>
