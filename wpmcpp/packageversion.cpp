@@ -311,8 +311,10 @@ void PackageVersion::uninstall(Job* job)
     }
     if (QFile::exists(d.absolutePath() + "\\" + p)) {
         job->setHint("Running the uninstallation script (this may take some time)");
+        if (!d.exists(".Npackd"))
+            d.mkdir(".Npackd");
         Job* sub = job->newSubJob(0.25);
-        this->executeFile(sub, p); // ignore errors
+        this->executeFile(sub, p + " > .Npackd\\Uninstall.log"); // ignore errors
         delete sub;
     }
     job->setProgress(0.25);
@@ -659,7 +661,9 @@ void PackageVersion::install(Job* job)
                 "\\" + p)) {
             job->setHint("Running the installation script (this may take some time)");
             Job* exec = job->newSubJob(0.1);
-            this->executeFile(exec, p);
+            if (!d.exists(".Npackd"))
+                d.mkdir(".Npackd");
+            this->executeFile(exec, p + " > .Npackd\\Install.log");
             delete exec;
         } else {
             job->setProgress(0.95);
@@ -771,7 +775,7 @@ QStringList PackageVersion::findLockedFiles()
     return r;
 }
 
-void PackageVersion::executeFile(Job* job, QString& path)
+void PackageVersion::executeFile(Job* job, const QString& path)
 {
     QDir d = this->getDirectory();
     QProcess p(0);
