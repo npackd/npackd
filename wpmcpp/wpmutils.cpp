@@ -287,7 +287,7 @@ QString WPMUtils::sha1(const QString& filename)
         return hash.result().toHex();
 }
 
-bool WPMUtils::removeDirectory2(Job* job, QDir &d, QString *errMsg)
+void WPMUtils::removeDirectory2(Job* job, QDir &d)
 {
     Job* sub = job->newSubJob(0.3);
     WPMUtils::removeDirectory(sub, d);
@@ -304,11 +304,6 @@ bool WPMUtils::removeDirectory2(Job* job, QDir &d, QString *errMsg)
         job->setProgress(1);
     }
     job->complete();
-
-    errMsg->clear();
-    errMsg->append(job->getErrorMessage());
-
-    return job->getErrorMessage().isEmpty();
 }
 
 bool WPMUtils::is64BitWindows()

@@ -145,6 +145,8 @@ public:
     QString getErrorMessage() const;
 
     /**
+     * Sets an error message for this job.
+     *
      * @param errorMessage new error message
      */
     void setErrorMessage(const QString &errorMessage);

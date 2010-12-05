@@ -304,7 +304,6 @@ void PackageVersion::uninstall(Job* job)
 
     QDir d = getDirectory();
 
-    QString errMsg;
     QString p = ".Npackd\\Uninstall.bat";
     if (!QFile::exists(d.absolutePath() + "\\" + p)) {
         p = ".WPM\\Uninstall.bat";
@@ -340,11 +339,8 @@ void PackageVersion::uninstall(Job* job)
         if (d.exists()) {
             job->setHint("Deleting files");
             Job* rjob = job->newSubJob(0.55);
-            bool r = WPMUtils::removeDirectory2(rjob, d, &errMsg);
-            if (r) {
-                job->setProgress(1);
-            } else
-                job->setErrorMessage(errMsg);
+            WPMUtils::removeDirectory2(rjob, d);
+            delete rjob;
         } else {
             job->setProgress(1);
         }
@@ -687,8 +683,7 @@ void PackageVersion::install(Job* job)
     if (!job->getErrorMessage().isEmpty()) {
         // ignore errors
         Job* rjob = new Job();
-        QString errMsg;
-        WPMUtils::removeDirectory2(rjob, d, &errMsg);
+        WPMUtils::removeDirectory2(rjob, d);
         delete rjob;
     }
 

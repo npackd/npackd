@@ -36,10 +36,8 @@ public:
      *
      * @param job progress for this task
      * @param aDir this directory will be deleted
-     * @param errMsg error message will be stored here
-     * @return true if no errors occured
      */
-    static bool removeDirectory2(Job* job, QDir &aDir, QString* errMsg);
+    static void removeDirectory2(Job* job, QDir &aDir);
 
     /**
      * Finds the parent directory for a path.
