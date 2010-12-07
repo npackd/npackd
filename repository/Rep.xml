@@ -4138,6 +4138,7 @@ start "" /D\ explorer.exe</file>
         <url>http://www.spybotupdates.com/files/spybotsd162.exe</url>
         <sha1>0f5961ea37eb9f9e2a3545264ee219562bbe6d29</sha1>
     </version>
+    
     <version name="3.6" package="com.google.Picasa"
             type="one-file">
         <file path=".WPM\Install.bat">picasa36-setup.exe /S /L</file>
@@ -4151,6 +4152,13 @@ set d=%ProgramFiles%
 :n
 "%d%\Google\Picasa3\Uninstall.exe" /S</file>
         <url>http://dl.google.com/picasa/picasa36-setup.exe</url>
+        <!-- TODO: does not install into the right directory
+        <file-handler>
+            <title>Picasa</title>
+            <executable>7zFM.exe</executable>
+            <extension>.001</extension>
+        </file-handler>
+        -->
     </version>
     <version name="3.8" package="com.google.Picasa"
             type="one-file">
@@ -4237,18 +4245,33 @@ set d=%ProgramFiles%
         <file path=".WPM\Uninstall.bat">msiexec.exe /qn /norestart /x AdbeRdr930_en_US.msi</file>
         <url>http://ardownload.adobe.com/pub/adobe/reader/win/9.x/9.3/enu/AdbeRdr930_en_US.msi</url>
         <sha1>8d27189bd6d8e44449913705f0b958ee858d2fd8</sha1>
+        <file-handler>
+            <title>Adobe Reader</title>
+            <executable>Reader\AcroRd32.exe</executable>
+            <extension>.pdf</extension>
+        </file-handler>
     </version>
     <version name="9.4" package="com.adobe.AdobeReader" type="one-file">
         <file path=".WPM\Install.bat">AdbeRdr940_en_US.exe /sAll /rs /msi"ALLUSERS=1"</file>
         <file path=".WPM\Uninstall.bat">msiexec.exe /qn /norestart /X{AC76BA86-7AD7-1033-7B44-A94000000001}</file>
         <url>http://ardownload.adobe.com/pub/adobe/reader/win/9.x/9.4.0/en_US/AdbeRdr940_en_US.exe</url>
         <sha1>4652a454056b2323097a6357292db3af239bb610</sha1>
+        <file-handler>
+            <title>Adobe Reader</title>
+            <executable>Reader\AcroRd32.exe</executable>
+            <extension>.pdf</extension>
+        </file-handler>
     </version>
     <version name="10" package="com.adobe.AdobeReader" type="one-file">
         <file path=".WPM\Install.bat">AdbeRdr1000_en_US.exe /sAll /rs /msi ALLUSERS=1 INSTALLDIR="%CD%"</file>
         <file path=".WPM\Uninstall.bat">msiexec.exe /qn /norestart /X{AC76BA86-7AD7-1033-7B44-AA0000000001}</file>
         <url>http://ardownload.adobe.com/pub/adobe/reader/win/10.x/10.0.0/en_US/AdbeRdr1000_en_US.exe</url>
         <sha1>1100efaca4a4e480ede0cbda6ce9ed63f7f14d20</sha1>
+        <file-handler>
+            <title>Adobe Reader</title>
+            <executable>Reader\AcroRd32.exe</executable>
+            <extension>.pdf</extension>
+        </file-handler>
     </version>
 
     <version name="2.7.1" package="net.sourceforge.pidgin.Pidgin"
@@ -4314,6 +4337,12 @@ set d=%ProgramFiles%
         <file path=".WPM\Uninstall.bat">uninstall.exe -q</file>
         <url>http://downloads.sourceforge.net/project/azureus/vuze/Vuze_4510/Vuze_4510b_windows.exe?ts=1287936071</url>
         <sha1>e0d1e6dfacfc4807a6bba5e6d5ba34040835d73c</sha1>
+        <file-handler>
+            <title>Vuze</title>
+            <executable>Azureus.exe</executable>
+            <extension>.vuze</extension>
+            <extension>.vuz</extension>
+        </file-handler>
     </version>
 
     <version name="2010.762" package="com.mythicsoft.AgentRansack"
@@ -4418,6 +4447,20 @@ echo DesktopShortcut=false >> .WPM\FF.ini
         <file path=".WPM\Uninstall.bat">uninstall\helper.exe /S</file>
         <url>http://wpm.freehostingcloud.com/files/org.mozilla.Firefox-3.6.10.exe</url>
         <sha1>b1be5982250d1f3009d597d58b7e06009d716cee</sha1>
+        <file-handler>
+            <title>Firefox</title>
+            <executable>firefox.exe</executable>
+            <extension>.html</extension>
+            <extension>.htm</extension>
+            <extension>.xhtml</extension>
+            <extension>.gif</extension>
+            <extension>.png</extension>
+            <extension>.ico</extension>
+            <extension>.jpeg</extension>
+            <extension>.jpg</extension>
+            <extension>.txt</extension>
+            <extension>.xml</extension>
+        </file-handler>
     </version>
     <version name="3.6.11" package="org.mozilla.Firefox" type="one-file">
         <important-file path="firefox.exe" title="Firefox"/>
@@ -4430,6 +4473,20 @@ echo DesktopShortcut=false >> .WPM\FF.ini
         <file path=".WPM\Uninstall.bat">uninstall\helper.exe /S</file>
         <url>http://wpm.freehostingcloud.com/files/org.mozilla.Firefox-3.6.11.exe</url>
         <sha1>85c4eb67f12b5fec23e5e76579f79d978cb833a9</sha1>
+        <file-handler>
+            <title>Firefox</title>
+            <executable>firefox.exe</executable>
+            <extension>.html</extension>
+            <extension>.htm</extension>
+            <extension>.xhtml</extension>
+            <extension>.gif</extension>
+            <extension>.png</extension>
+            <extension>.ico</extension>
+            <extension>.jpeg</extension>
+            <extension>.jpg</extension>
+            <extension>.txt</extension>
+            <extension>.xml</extension>
+        </file-handler>
     </version>
     <version name="3.6.12" package="org.mozilla.Firefox" type="one-file">
         <important-file path="firefox.exe" title="Firefox"/>
@@ -4442,6 +4499,20 @@ echo DesktopShortcut=false >> .WPM\FF.ini
         <file path=".WPM\Uninstall.bat">uninstall\helper.exe /S</file>
         <url>http://wpm.freehostingcloud.com/files/org.mozilla.Firefox-3.6.12.exe</url>
         <sha1>c10562f70de6e0dc656a949931ef9f479623fcd6</sha1>
+        <file-handler>
+            <title>Firefox</title>
+            <executable>firefox.exe</executable>
+            <extension>.html</extension>
+            <extension>.htm</extension>
+            <extension>.xhtml</extension>
+            <extension>.gif</extension>
+            <extension>.png</extension>
+            <extension>.ico</extension>
+            <extension>.jpeg</extension>
+            <extension>.jpg</extension>
+            <extension>.txt</extension>
+            <extension>.xml</extension>
+        </file-handler>
     </version>
 
     <version name="1.33" package="org.gexperts.GExpertsDelphi7Installer"
