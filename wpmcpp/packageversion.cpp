@@ -314,6 +314,8 @@ void PackageVersion::uninstall(Job* job)
             d.mkdir(".Npackd");
         Job* sub = job->newSubJob(0.25);
         this->executeFile(sub, p, ".Npackd\\Uninstall.log");
+        if (!sub->getErrorMessage().isEmpty())
+            job->setErrorMessage(sub->getErrorMessage());
         delete sub;
     }
     job->setProgress(0.25);
@@ -340,6 +342,8 @@ void PackageVersion::uninstall(Job* job)
             job->setHint("Deleting files");
             Job* rjob = job->newSubJob(0.55);
             WPMUtils::removeDirectory2(rjob, d);
+            if (!rjob->getErrorMessage().isEmpty())
+                job->setErrorMessage(rjob->getErrorMessage());
             delete rjob;
         } else {
             job->setProgress(1);
@@ -563,9 +567,8 @@ void PackageVersion::install(Job* job)
         f = Downloader::download(djob, this->download);
 
         // qDebug() << "install.3.2 " << (f == 0) << djob->getErrorMessage();
-        if (f == 0)
-            job->setErrorMessage(QString("Download failed: %1").arg(
-                    djob->getErrorMessage()));
+        if (!djob->getErrorMessage().isEmpty())
+            job->setErrorMessage(djob->getErrorMessage());
         delete djob;
     }
 
@@ -660,6 +663,8 @@ void PackageVersion::install(Job* job)
             if (!d.exists(".Npackd"))
                 d.mkdir(".Npackd");
             this->executeFile(exec, p, ".Npackd\\Install.log");
+            if (!exec->getErrorMessage().isEmpty())
+                job->setErrorMessage(exec->getErrorMessage());
             delete exec;
         } else {
             job->setProgress(0.95);

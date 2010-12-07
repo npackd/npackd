@@ -783,6 +783,8 @@ void Repository::loadOne(QUrl* url, Job* job) {
     job->setHint("Downloading");
     Job* djob = job->newSubJob(0.90);
     QTemporaryFile* f = Downloader::download(djob, *url);
+    if (!djob->getErrorMessage().isEmpty())
+        job->setErrorMessage(djob->getErrorMessage());
     // qDebug() << "Repository::loadOne.1";
     if (f) {
         job->setHint("Parsing the content");

@@ -163,7 +163,4 @@ void Job::setErrorMessage(const QString &errorMessage)
     this->errorMessage = errorMessage;
 
     fireChange();
-
-    if (parentJob && parentJob->getErrorMessage().isEmpty())
-        parentJob->setErrorMessage(errorMessage);
 }

@@ -299,6 +299,8 @@ void WPMUtils::removeDirectory2(Job* job, QDir &d)
 
         sub = job->newSubJob(0.4);
         WPMUtils::removeDirectory(sub, d);
+        if (!sub->getErrorMessage().isEmpty())
+            job->setErrorMessage(sub->getErrorMessage());
     } else{
         delete sub;
         job->setProgress(1);
@@ -341,6 +343,8 @@ void WPMUtils::removeDirectory(Job* job, QDir &aDir)
                 QDir dd(path);
                 Job* sub = job->newSubJob(1 / ((double) count + 1));
                 removeDirectory(sub, dd);
+                if (!sub->getErrorMessage().isEmpty())
+                    job->setErrorMessage(sub->getErrorMessage());
                 delete sub;
                 // if (!ok)
                 //    qDebug() << "WPMUtils::removeDirectory.3" << *errMsg;

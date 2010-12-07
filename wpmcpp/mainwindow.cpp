@@ -93,7 +93,6 @@ void InstallThread::testRepositories()
                 }
                 delete f;
                 delete djob;
-                job->setErrorMessage("");
             }
 
             if (job->isCancelled() || !job->getErrorMessage().isEmpty())
@@ -131,6 +130,8 @@ void InstallThread::run()
                 pv->install(sub);
             else
                 pv->uninstall(sub);
+            if (!sub->getErrorMessage().isEmpty())
+                job->setErrorMessage(sub->getErrorMessage());
             delete sub;
 
             if (!job->getErrorMessage().isEmpty())
