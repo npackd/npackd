@@ -5650,7 +5650,8 @@ if errorlevel 1 goto err
 
 set KEY=Npackd-net.sourceforge.NotepadPlusPlus-5.8.5-notepad++.exe
 reg add HKLM\SOFTWARE\Classes\Applications\%KEY%\shell\open /v FriendlyAppName /d "Notepad++ (5.8.5)" /f
-reg add HKLM\SOFTWARE\Classes\Applications\%KEY%\shell\open\command /d ""%CD%\notepad++.exe" "%%1"" /f
+set c=\"%CD%\notepad++.exe\" \"%%1\"
+reg add HKLM\SOFTWARE\Classes\Applications\%KEY%\shell\open\command /d "%c%" /f
 for %%g in (txt log ini h hpp hxx c cpp cxx cc m java cs pas inc html htm php phtml js jsp asp css xml sh bsh nsi nsh lua pl pm py as mx vb vbs f for f90 f95 f2k tex sql nfo mak) do reg add HKLM\SOFTWARE\Classes\.%%g\OpenWithList\%key% /f
 
 :err
@@ -5659,7 +5660,7 @@ for %%g in (txt log ini h hpp hxx c cpp cxx cc m java cs pas inc html htm php ph
 if errorlevel 1 goto err
 
 set key=Npackd-net.sourceforge.NotepadPlusPlus-5.8.5-notepad++.exe
-reg delete HKLM\SOFTWARE\Classes\Applications\%KEY%\shell\open /f
+reg delete HKLM\SOFTWARE\Classes\Applications\%KEY% /f
 for %%g in (txt log ini h hpp hxx c cpp cxx cc m java cs pas inc html htm php phtml js jsp asp css xml sh bsh nsi nsh lua pl pm py as mx vb vbs f for f90 f95 f2k tex sql nfo mak) do reg delete HKLM\SOFTWARE\Classes\.%%g\OpenWithList\%key% /f
 
 taskkill /f /fi "IMAGENAME eq explorer.exe"
