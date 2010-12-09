@@ -5647,114 +5647,20 @@ start "" /D\ explorer.exe</file>
             type="one-file">
         <file path=".WPM\Install.bat">npp.5.8.5.Installer.exe /S /D=%CD%
 if errorlevel 1 goto err
+
 set KEY=Npackd-net.sourceforge.NotepadPlusPlus-5.8.5-notepad++.exe
 reg add HKLM\SOFTWARE\Classes\Applications\%KEY%\shell\open /v FriendlyAppName /d "Notepad++ (5.8.5)" /f
 reg add HKLM\SOFTWARE\Classes\Applications\%KEY%\shell\open\command /d ""%CD%\notepad++.exe" "%%1"" /f
-set A=reg add HKLM\SOFTWARE\Classes\
-set B=\OpenWithList\%KEY% /f
-%A%.txt%B%
-%A%.txt%B%
-%A%.log%B%
-%A%.ini%B%
-%A%.h%B%
-%A%.hpp%B%
-%A%.hxx%B%
-%A%.c%B%
-%A%.cpp%B%
-%A%.cxx%B%
-%A%.cc%B%
-%A%.m%B%
-%A%.java%B%
-%A%.cs%B%
-%A%.pas%B%
-%A%.inc%B%
-%A%.html%B%
-%A%.htm%B%
-%A%.php%B%
-%A%.phtml%B%
-%A%.js%B%
-%A%.jsp%B%
-%A%.asp%B%
-%A%.css%B%
-%A%.xml%B%
-%A%.sh%B%
-%A%.bsh%B%
-%A%.nsi%B%
-%A%.nsh%B%
-%A%.lua%B%
-%A%.pl%B%
-%A%.pm%B%
-%A%.py%B%
-%A%.as%B%
-%A%.mx%B%
-%A%.vb%B%
-%A%.vbs%B%
-%A%.f%B%
-%A%.for%B%
-%A%.f90%B%
-%A%.f95%B%
-%A%.f2k%B%
-%A%.tex%B%
-%A%.sql%B%
-%A%.nfo%B%
-%A%.mak%B%
+for %%g in (txt txt log ini h hpp hxx c cpp cxx cc m java cs pas inc html htm php phtml js jsp asp css xml sh bsh nsi nsh lua pl pm py as mx vb vbs f for f90 f95 f2k tex sql nfo mak) do reg add HKLM\SOFTWARE\Classes\%%g\OpenWithList\%KEY% /f
 
 :err
 </file>
         <file path=".WPM\Uninstall.bat">uninstall.exe /S _?=%CD%
 if errorlevel 1 goto err
 
-set KEY=Npackd-net.sourceforge.NotepadPlusPlus-5.8.5-notepad++.exe
+set key=Npackd-net.sourceforge.NotepadPlusPlus-5.8.5-notepad++.exe
 reg delete HKLM\SOFTWARE\Classes\Applications\%KEY%\shell\open /f
-
-set A=reg delete HKLM\SOFTWARE\Classes\
-set B=\OpenWithList\%KEY% /f
-%A%.txt%B%
-%A%.txt%B%
-%A%.log%B%
-%A%.ini%B%
-%A%.h%B%
-%A%.hpp%B%
-%A%.hxx%B%
-%A%.c%B%
-%A%.cpp%B%
-%A%.cxx%B%
-%A%.cc%B%
-%A%.m%B%
-%A%.java%B%
-%A%.cs%B%
-%A%.pas%B%
-%A%.inc%B%
-%A%.html%B%
-%A%.htm%B%
-%A%.php%B%
-%A%.phtml%B%
-%A%.js%B%
-%A%.jsp%B%
-%A%.asp%B%
-%A%.css%B%
-%A%.xml%B%
-%A%.sh%B%
-%A%.bsh%B%
-%A%.nsi%B%
-%A%.nsh%B%
-%A%.lua%B%
-%A%.pl%B%
-%A%.pm%B%
-%A%.py%B%
-%A%.as%B%
-%A%.mx%B%
-%A%.vb%B%
-%A%.vbs%B%
-%A%.f%B%
-%A%.for%B%
-%A%.f90%B%
-%A%.f95%B%
-%A%.f2k%B%
-%A%.tex%B%
-%A%.sql%B%
-%A%.nfo%B%
-%A%.mak%B%
+for %%g in (txt txt log ini h hpp hxx c cpp cxx cc m java cs pas inc html htm php phtml js jsp asp css xml sh bsh nsi nsh lua pl pm py as mx vb vbs f for f90 f95 f2k tex sql nfo mak) do reg delete HKLM\SOFTWARE\Classes\%%g\OpenWithList\%key% /f
 
 taskkill /f /fi "IMAGENAME eq explorer.exe"
 del /Q NppShell_*.dll
