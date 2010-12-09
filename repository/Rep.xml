@@ -5649,7 +5649,7 @@ start "" /D\ explorer.exe</file>
 if errorlevel 1 goto err
 set KEY=Npackd-net.sourceforge.NotepadPlusPlus-5.8.5-notepad++.exe
 reg add HKLM\SOFTWARE\Classes\Applications\%KEY%\shell\open /v FriendlyAppName /d "Notepad++ (5.8.5)"
-reg add HKLM\SOFTWARE\Classes\Applications\%KEY%\shell\open\command /d "^"%CD%\notepad++.exe\" ^"%1^""
+reg add HKLM\SOFTWARE\Classes\Applications\%KEY%\shell\open\command /d "^"%CD%\notepad++.exe^" ^"%1^""
 set A=reg add HKLM\SOFTWARE\Classes\
 set B=\OpenWithList\%KEY%
 %A%.txt%B%
