@@ -1377,8 +1377,6 @@
     The package versions are not sorted by the package, but different version
     of a package should stay together. Newer versions should appear under older
     ones.
-
-    TODO: log msiexec.exe output
     -->
 
     <!--
@@ -1746,8 +1744,8 @@ pause
     <!-- TODO: does not install in the specified directory -->
     <version name="2.2" package="com.microsoft.LogParser"
             type="one-file">
-        <file path=".WPM\Install.bat">msiexec.exe /qn /norestart /i LogParser.msi INSTALLDIR="%CD%" ALLUSERS=1</file>
-        <file path=".WPM\Uninstall.bat">msiexec.exe /qn /norestart /x LogParser.msi</file>
+        <file path=".WPM\Install.bat">msiexec.exe /qn /norestart /Lime .WPM\MSI.log /i LogParser.msi INSTALLDIR="%CD%" ALLUSERS=1</file>
+        <file path=".WPM\Uninstall.bat">msiexec.exe /qn /norestart /Lime .WPM\MSI.log /x LogParser.msi</file>
         <url>http://download.microsoft.com/download/f/f/1/ff1819f9-f702-48a5-bbc7-c9656bc74de8/LogParser.msi</url>
         <sha1>da0d08b14246fd25569443c5612cd78c42cea47f</sha1>
     </version>
@@ -1764,7 +1762,7 @@ f\install.exe /Q</file>
     <version name="4.0.30319.1" package="com.microsoft.DotNetRedistributable"
             type="one-file">
         <file path=".WPM\Install.bat">dotNetFx40_Full_x86_x64.exe /norestart /q</file>
-        <file path=".WPM\Uninstall.bat">msiexec.exe /qn /norestart /x{0A0CADCF-78DA-33C4-A350-CD51849B9702}</file>
+        <file path=".WPM\Uninstall.bat">msiexec.exe /qn /norestart /Lime .WPM\MSI.log /x{0A0CADCF-78DA-33C4-A350-CD51849B9702}</file>
         <url>http://download.microsoft.com/download/9/5/A/95A9616B-7A37-4AF6-BC36-D6EA96C8DAAE/dotNetFx40_Full_x86_x64.exe</url>
         <sha1>58da3d74db353aad03588cbb5cea8234166d8b99</sha1>
     </version>
@@ -1813,7 +1811,7 @@ f\install.exe /Q</file>
             package="com.microsoft.VisualCPPRedistributable"
             type="one-file">
         <file path=".WPM\Install.bat">vcredist_x86.exe /q</file>
-        <file path=".WPM\Uninstall.bat">MsiExec.exe /X{A49F249F-0C91-497F-86DF-B2585E8E76B7}</file>
+        <file path=".WPM\Uninstall.bat">MsiExec.exe /Lime .WPM\MSI.log /X{A49F249F-0C91-497F-86DF-B2585E8E76B7}</file>
         <url>http://download.microsoft.com/download/d/3/4/d342efa6-3266-4157-a2ec-5174867be706/vcredist_x86.exe</url>
         <sha1>47fba37de95fa0e2328cf2e5c8ebb954c4b7b93c</sha1>
     </version>
@@ -2233,8 +2231,8 @@ start "" /D\ explorer.exe</file>
     -->
     <version name="1.0.0.1" package="com.microsoft.OLEView" type="one-file">
         <file path=".WPM\Install.bat">oleview_setup.exe /C "/T:%CD%\.WPM"
-msiexec.exe /qn /norestart /i .WPM\oleview.msi TARGETDIR="%CD%" ALLUSERS=1</file>
-        <file path=".WPM\Uninstall.bat">msiexec.exe /qn /norestart /x .WPM\oleview.msi</file>
+msiexec.exe /qn /norestart /Lime .WPM\MSI.log /i .WPM\oleview.msi TARGETDIR="%CD%" ALLUSERS=1</file>
+        <file path=".WPM\Uninstall.bat">msiexec.exe /qn /norestart /Lime .WPM\MSI.log /x .WPM\oleview.msi</file>
         <url>http://download.microsoft.com/download/win2000platform/oleview/1.00.0.1/NT5/EN-US/oleview_setup.exe</url>
         <sha1>07ee66105f30884b2daa12c6d46c83e201a98f38</sha1>
     </version>
@@ -3104,8 +3102,8 @@ msiexec.exe /qn /norestart /i .WPM\oleview.msi TARGETDIR="%CD%" ALLUSERS=1</file
 
     <version name="2.55" package="com.tracker-software.PDFXChangeViewer"
             type="one-file">
-        <file path=".WPM\Install.bat">msiexec.exe /qn /norestart /i PXCViewer_x86.msi TARGETDIR="%CD%" ALLUSERS=1</file>
-        <file path=".WPM\Uninstall.bat">msiexec.exe /qn /norestart /x PXCViewer_x86.msi</file>
+        <file path=".WPM\Install.bat">msiexec.exe /qn /norestart /Lime .WPM\MSI.log /i PXCViewer_x86.msi TARGETDIR="%CD%" ALLUSERS=1</file>
+        <file path=".WPM\Uninstall.bat">msiexec.exe /qn /norestart /Lime .WPM\MSI.log /x PXCViewer_x86.msi</file>
         <url>http://wpm.freehostingcloud.com/files/PXCViewer_x86.msi</url>
         <sha1>1c8b62fa5d12f6e84052f2d860518b94e4abd457</sha1>
         <!-- TODO: <file-handler>
@@ -3116,8 +3114,8 @@ msiexec.exe /qn /norestart /i .WPM\oleview.msi TARGETDIR="%CD%" ALLUSERS=1</file
     </version>
     <version name="2.57" package="com.tracker-software.PDFXChangeViewer"
             type="one-file">
-        <file path=".WPM\Install.bat">msiexec.exe /qn /norestart /i PXCViewer_x86-2.57.msi TARGETDIR="%CD%" ALLUSERS=1</file>
-        <file path=".WPM\Uninstall.bat">msiexec.exe /qn /norestart /x PXCViewer_x86-2.57.msi</file>
+        <file path=".WPM\Install.bat">msiexec.exe /qn /norestart /Lime .WPM\MSI.log /i PXCViewer_x86-2.57.msi TARGETDIR="%CD%" ALLUSERS=1</file>
+        <file path=".WPM\Uninstall.bat">msiexec.exe /qn /norestart /Lime .WPM\MSI.log /x PXCViewer_x86-2.57.msi</file>
         <url>http://wpm.freehostingcloud.com/files/PXCViewer_x86-2.57.msi</url>
         <sha1>7deb10de3c1a61ee905fcca23da8d4ec3fb661e8</sha1>
         <!-- TODO: <file-handler>
@@ -3128,8 +3126,8 @@ msiexec.exe /qn /norestart /i .WPM\oleview.msi TARGETDIR="%CD%" ALLUSERS=1</file
     </version>
     <version name="2.58.188" package="com.tracker-software.PDFXChangeViewer"
             type="one-file">
-        <file path=".WPM\Install.bat">msiexec.exe /qn /norestart /i PXCViewer_x86.msi TARGETDIR="%CD%" ALLUSERS=1</file>
-        <file path=".WPM\Uninstall.bat">msiexec.exe /qn /norestart /x PXCViewer_x86.msi</file>
+        <file path=".WPM\Install.bat">msiexec.exe /qn /norestart /Lime .WPM\MSI.log /i PXCViewer_x86.msi TARGETDIR="%CD%" ALLUSERS=1</file>
+        <file path=".WPM\Uninstall.bat">msiexec.exe /qn /norestart /Lime .WPM\MSI.log /x PXCViewer_x86.msi</file>
         <url>http://c1236872.cdn.cloudfiles.rackspacecloud.com/PXCViewer_x86.msi</url>
         <sha1>efa34a9f975906b7f43ade6560375b4d27f1c990</sha1>
         <!-- TODO: <file-handler>
@@ -3145,8 +3143,8 @@ msiexec.exe /qn /norestart /i .WPM\oleview.msi TARGETDIR="%CD%" ALLUSERS=1</file
     <version name="7.7"
             package="com.advancedinstaller.AdvancedInstallerFreeware"
             type="one-file">
-        <file path=".WPM\Install.bat">msiexec.exe /qn /norestart /i advinst.msi TARGETDIR="%CD%" ALLUSERS=1</file>
-        <file path=".WPM\Uninstall.bat">msiexec.exe /qn /norestart /x advinst.msi</file>
+        <file path=".WPM\Install.bat">msiexec.exe /qn /norestart /Lime .WPM\MSI.log /i advinst.msi TARGETDIR="%CD%" ALLUSERS=1</file>
+        <file path=".WPM\Uninstall.bat">msiexec.exe /qn /norestart /Lime .WPM\MSI.log /x advinst.msi</file>
         <url>http://www.advancedinstaller.com/downloads/advinst.msi</url>
         <!-- TODO: TARGETDIR= does not work
         <file-handler>
@@ -3399,7 +3397,7 @@ taskkill /f /im ares.exe</file>
     <!-- TODO: installation shows a progress dialog -->
     <version name="3.5.5" package="net.getpaint.PaintDotNet">
         <file path=".WPM\Install.bat">Paint.NET.3.5.5.Install.exe /auto "TARGETDIR=%CD%" JPGPNGBMPEDITOR=0 TGAEDITOR=0 DESKTOPSHORTCUT=0 CHECKFORUPDATES=0</file>
-        <file path=".WPM\Uninstall.bat">msiexec.exe /qn /norestart /x{F0E2B312-D7FD-4349-A9B6-E90B36DB1BD1}</file>
+        <file path=".WPM\Uninstall.bat">msiexec.exe /qn /norestart /Lime .WPM\MSI.log /x{F0E2B312-D7FD-4349-A9B6-E90B36DB1BD1}</file>
         <url>http://www.dotpdn.com/files/Paint.NET.3.5.5.Install.zip</url>
         <dependency package="com.microsoft.DotNetRedistributable"
                 versions="[3.5, 4)"/>
@@ -3407,7 +3405,7 @@ taskkill /f /im ares.exe</file>
     </version>
     <version name="3.5.6" package="net.getpaint.PaintDotNet">
         <file path=".WPM\Install.bat">Paint.NET.3.5.6.Install.exe /auto "TARGETDIR=%CD%" JPGPNGBMPEDITOR=0 TGAEDITOR=0 DESKTOPSHORTCUT=0 CHECKFORUPDATES=0</file>
-        <file path=".WPM\Uninstall.bat">msiexec.exe /qn /norestart /x{639673E9-D53F-44F4-A046-485C8A6ADA15}</file>
+        <file path=".WPM\Uninstall.bat">msiexec.exe /qn /norestart /Lime .WPM\MSI.log /x{639673E9-D53F-44F4-A046-485C8A6ADA15}</file>
         <url>http://www.dotpdn.com/files/Paint.NET.3.5.6.Install.zip</url>
         <dependency package="com.microsoft.DotNetRedistributable"
                 versions="[3.5, 4)"/>
@@ -3562,28 +3560,28 @@ start "" /D\ explorer.exe</file>
     <version name="10.60" package="com.opera.Opera" type="one-file">
         <!-- somehow this triple double quotes work here -->
         <file path=".WPM\Install.bat">Opera_1060_int_Setup.exe /S /v"/qn /norestart INSTALLDIR="""%CD%""" ALLUSERS=1"</file>
-        <file path=".WPM\Uninstall.bat">MsiExec.exe /qn /norestart /X{1D2C96C3-A3F3-49E7-B839-95279DED837F}</file>
+        <file path=".WPM\Uninstall.bat">MsiExec.exe /qn /norestart /Lime .WPM\MSI.log /X{1D2C96C3-A3F3-49E7-B839-95279DED837F}</file>
         <url>http://get5.opera.com/pub/opera/win/1060/int/Opera_1060_int_Setup.exe</url>
         <sha1>3f8d9d5d004c43b7be057f5c2625484398c9aa7e</sha1>
     </version>
     <version name="10.61" package="com.opera.Opera" type="one-file">
         <!-- somehow this triple double quotes work here -->
         <file path=".WPM\Install.bat">Opera_1061_int_Setup.exe /S /v"/qn /norestart INSTALLDIR="""%CD%""" ALLUSERS=1"</file>
-        <file path=".WPM\Uninstall.bat">MsiExec.exe /qn /norestart /X{6D482078-8D15-4FD3-B838-C7B49174650F}</file>
+        <file path=".WPM\Uninstall.bat">MsiExec.exe /qn /norestart /Lime .WPM\MSI.log /X{6D482078-8D15-4FD3-B838-C7B49174650F}</file>
         <url>http://get4.opera.com/pub/opera/win/1061/int/Opera_1061_int_Setup.exe</url>
         <sha1>f1b69fcb8901bb800fd59b3ce3c846c9af932982</sha1>
     </version>
     <version name="10.62" package="com.opera.Opera" type="one-file">
         <!-- somehow this triple double quotes work here -->
         <file path=".WPM\Install.bat">Opera_1062_int_Setup.exe /S /v"/qn /norestart INSTALLDIR="""%CD%""" ALLUSERS=1"</file>
-        <file path=".WPM\Uninstall.bat">MsiExec.exe /qn /norestart /X{18E65799-76BD-46EF-9E53-972FE5A40736}</file>
+        <file path=".WPM\Uninstall.bat">MsiExec.exe /qn /norestart /Lime .WPM\MSI.log /X{18E65799-76BD-46EF-9E53-972FE5A40736}</file>
         <url>http://get8.opera.com/pub/opera/win/1062/int/Opera_1062_int_Setup.exe</url>
         <sha1>659b7a6185f41f9ede5d022ea9f5742f7ea1b719</sha1>
     </version>
     <version name="10.63" package="com.opera.Opera" type="one-file">
         <!-- somehow this triple double quotes work here -->
         <file path=".WPM\Install.bat">Opera_1063_int_Setup.exe /S /v"/qn /norestart INSTALLDIR="""%CD%""" ALLUSERS=1"</file>
-        <file path=".WPM\Uninstall.bat">MsiExec.exe /qn /norestart /X{87CC8013-56D1-43E1-A0A5-AD406B4EBA95}</file>
+        <file path=".WPM\Uninstall.bat">MsiExec.exe /qn /norestart /Lime .WPM\MSI.log /X{87CC8013-56D1-43E1-A0A5-AD406B4EBA95}</file>
         <url>http://get1.opera.com/pub/opera/win/1063/int/Opera_1063_int_Setup.exe</url>
         <sha1>69638f4e9b807ece50cf7d8e5501b20b12f72f8b</sha1>
     </version>
@@ -3662,7 +3660,7 @@ start "" /D\ explorer.exe</file>
     <version name="12.0.6038.3000" package="com.microsoft.WordViewer"
             type="one-file">
         <file path=".WPM\Install.bat">wordview_en-us.exe /quiet /norestart</file>
-        <file path=".WPM\Uninstall.bat">msiexec.exe /qn /norestart /x{90850409-6000-11D3-8CFE-0150048383C9}</file>
+        <file path=".WPM\Uninstall.bat">msiexec.exe /qn /norestart /Lime .WPM\MSI.log /x{90850409-6000-11D3-8CFE-0150048383C9}</file>
         <url>http://download.microsoft.com/download/6/a/6/6a689355-b155-4fa7-ad8a-dfe150fe7ac6/wordview_en-us.exe</url>
         <sha1>e6dfdc8a1545d45ef5840ba513a5c4036bf154bc</sha1>
     </version>
@@ -3673,7 +3671,7 @@ start "" /D\ explorer.exe</file>
     <version name="12.0.4518.1071" package="com.microsoft.ExcelViewer"
             type="one-file">
         <file path=".WPM\Install.bat">ExcelViewer.exe /quiet /norestart</file>
-        <file path=".WPM\Uninstall.bat">msiexec.exe /qn /norestart /x{95120000-003F-0409-0000-0000000FF1CE}</file>
+        <file path=".WPM\Uninstall.bat">msiexec.exe /qn /norestart /Lime .WPM\MSI.log /x{95120000-003F-0409-0000-0000000FF1CE}</file>
         <url>http://download.microsoft.com/download/e/a/9/ea913c8b-51a7-41b7-8697-9f0d0a7274aa/ExcelViewer.exe</url>
         <sha1>610cdc9a6684a5ef57ee5b4c1ca127384f3fb7e1</sha1>
     </version>
@@ -3681,7 +3679,7 @@ start "" /D\ explorer.exe</file>
     <version name="12.0.4518.1014" package="com.microsoft.PowerPointViewer"
             type="one-file">
         <file path=".WPM\Install.bat">PowerPointViewer.exe /quiet</file>
-        <file path=".WPM\Uninstall.bat">msiexec.exe /qn /norestart /x{95120000-00AF-0409-0000-0000000FF1CE}</file>
+        <file path=".WPM\Uninstall.bat">msiexec.exe /qn /norestart /Lime .WPM\MSI.log /x{95120000-00AF-0409-0000-0000000FF1CE}</file>
         <url>http://download.microsoft.com/download/f/5/a/f5a3df76-d856-4a61-a6bd-722f52a5be26/PowerPointViewer.exe</url>
         <sha1>5644d4efa439180c3cecceaa4c2c3639f99cfb6c</sha1>
     </version>
@@ -3689,14 +3687,14 @@ start "" /D\ explorer.exe</file>
     <version name="12.0.4518.1014" package="com.microsoft.VisioViewer"
             type="one-file">
         <file path=".WPM\Install.bat">visioviewer.exe /quiet</file>
-        <file path=".WPM\Uninstall.bat">msiexec.exe /qn /norestart /x{95120000-0052-0409-0000-0000000FF1CE}</file>
+        <file path=".WPM\Uninstall.bat">msiexec.exe /qn /norestart /Lime .WPM\MSI.log /x{95120000-0052-0409-0000-0000000FF1CE}</file>
         <url>http://download.microsoft.com/download/6/f/5/6f569198-e7d0-49af-b162-54a11f38d301/visioviewer.exe</url>
         <sha1>59b0e7d2406bdfb157e46b44909cca223b4aedeb</sha1>
     </version>
     <version name="14.0.4730.1010" package="com.microsoft.VisioViewer"
             type="one-file">
         <file path=".WPM\Install.bat">visioviewer.exe /quiet /norestart</file>
-        <file path=".WPM\Uninstall.bat">msiexec.exe /qn /norestart /x{95140000-0052-0409-0000-0000000FF1CE}</file>
+        <file path=".WPM\Uninstall.bat">msiexec.exe /qn /norestart /Lime .WPM\MSI.log /x{95140000-0052-0409-0000-0000000FF1CE}</file>
         <url>http://download.microsoft.com/download/A/B/3/AB3C56B5-B1B3-41CB-A445-D4FB03F8A1BA/visioviewer.exe</url>
         <sha1>1e729fd6d70e442bf4daeb230240e7746aa69e9a</sha1>
     </version>
@@ -3788,22 +3786,22 @@ for %%g in (a52 aac ac3 adt adts aif ifc iff mr aob ape cda dts flac it m4a m4p 
 
     <version name="5.10.1.1007" package="com.activestate.ActivePerl"
             type="one-file">
-        <file path=".WPM\Install.bat">msiexec.exe /qn /norestart /i ActivePerl-5.10.1.1007-MSWin32-x86-291969.msi TARGETDIR="%CD%" ALLUSERS=1</file>
-        <file path=".WPM\Uninstall.bat">msiexec.exe /qn /norestart /x ActivePerl-5.10.1.1007-MSWin32-x86-291969.msi</file>
+        <file path=".WPM\Install.bat">msiexec.exe /qn /norestart /Lime .WPM\MSI.log /i ActivePerl-5.10.1.1007-MSWin32-x86-291969.msi TARGETDIR="%CD%" ALLUSERS=1</file>
+        <file path=".WPM\Uninstall.bat">msiexec.exe /qn /norestart /Lime .WPM\MSI.log /x ActivePerl-5.10.1.1007-MSWin32-x86-291969.msi</file>
         <url>http://downloads.activestate.com/ActivePerl/releases/5.10.1.1007/ActivePerl-5.10.1.1007-MSWin32-x86-291969.msi</url>
         <sha1>3bcf5286dcf0b5e53317f2e439924097fc408020</sha1>
     </version>
     <version name="5.12.1.1201" package="com.activestate.ActivePerl"
             type="one-file">
-        <file path=".WPM\Install.bat">msiexec.exe /qn /norestart /i ActivePerl-5.12.1.1201-MSWin32-x86-292674.msi TARGETDIR="%CD%" ALLUSERS=1</file>
-        <file path=".WPM\Uninstall.bat">msiexec.exe /qn /norestart /x ActivePerl-5.12.1.1201-MSWin32-x86-292674.msi</file>
+        <file path=".WPM\Install.bat">msiexec.exe /qn /norestart /Lime .WPM\MSI.log /i ActivePerl-5.12.1.1201-MSWin32-x86-292674.msi TARGETDIR="%CD%" ALLUSERS=1</file>
+        <file path=".WPM\Uninstall.bat">msiexec.exe /qn /norestart /Lime .WPM\MSI.log /x ActivePerl-5.12.1.1201-MSWin32-x86-292674.msi</file>
         <url>http://downloads.activestate.com/ActivePerl/releases/5.12.1.1201/ActivePerl-5.12.1.1201-MSWin32-x86-292674.msi</url>
         <sha1>296fab3e1959ec5d97e88680bdfa7e0083681bf3</sha1>
     </version>
     <version name="5.12.2.1202" package="com.activestate.ActivePerl"
             type="one-file">
-        <file path=".WPM\Install.bat">msiexec.exe /qn /norestart /i ActivePerl-5.12.2.1202-MSWin32-x86-293621.msi TARGETDIR="%CD%" ALLUSERS=1</file>
-        <file path=".WPM\Uninstall.bat">msiexec.exe /qn /norestart /x ActivePerl-5.12.2.1202-MSWin32-x86-293621.msi</file>
+        <file path=".WPM\Install.bat">msiexec.exe /qn /norestart /Lime .WPM\MSI.log /i ActivePerl-5.12.2.1202-MSWin32-x86-293621.msi TARGETDIR="%CD%" ALLUSERS=1</file>
+        <file path=".WPM\Uninstall.bat">msiexec.exe /qn /norestart /Lime .WPM\MSI.log /x ActivePerl-5.12.2.1202-MSWin32-x86-293621.msi</file>
         <url>http://downloads.activestate.com/ActivePerl/releases/5.12.2.1202/ActivePerl-5.12.2.1202-MSWin32-x86-293621.msi</url>
         <sha1>d01503271f4fe3be7e7c7bccaa9d648951836c7b</sha1>
     </version>
@@ -4189,7 +4187,7 @@ echo DesktopShortcut=false >> .WPM\FF.ini
     <version name="1.6.0.21" package="com.oracle.JRE" type="one-file">
         <!-- TODO: INSTALLDIR= does not work here -->
         <file path=".WPM\Install.bat">jre-6u21-windows-i586-s.exe /qn /norestart ALLUSERS=1</file>
-        <file path=".WPM\Uninstall.bat">MsiExec.exe /qn /norestart /X{26A24AE4-039D-4CA4-87B4-2F83216021FF}</file>
+        <file path=".WPM\Uninstall.bat">MsiExec.exe /qn /norestart /Lime .WPM\MSI.log /X{26A24AE4-039D-4CA4-87B4-2F83216021FF}</file>
         <url>http://download.oldapps.com/Java/jre-6u21-windows-i586-s.exe</url>
     </version>
     <version name="1.6.0.21" package="com.oracle.JREOfflineInstaller"
@@ -4231,7 +4229,7 @@ echo DesktopShortcut=false >> .WPM\FF.ini
     <version name="6.0.7.1893" package="ie.heidi.eraser.Eraser"
             type="one-file">
         <file path=".WPM\Install.bat">"Eraser 6.0.7.1893.exe" -q</file>
-        <file path=".WPM\Uninstall.bat">MsiExec.exe /qn /norestart /x{8CBBBC4D-B0B6-49DB-A421-98C65080D8EE}</file>
+        <file path=".WPM\Uninstall.bat">MsiExec.exe /qn /norestart /Lime .WPM\MSI.log /x{8CBBBC4D-B0B6-49DB-A421-98C65080D8EE}</file>
         <url>http://downloads.sourceforge.net/project/eraser/Eraser%206/6.0.7/Eraser%206.0.7.1893.exe?62340189</url>
         <sha1>b6949543d505c89f5aab190f7b7b707561d8ec15</sha1>
     </version>
@@ -4342,24 +4340,24 @@ start "" /D\ explorer.exe
     <version name="1.6.10.19898"
             package="net.tortoisesvn.TortoiseSVN"
             type="one-file">
-        <file path=".WPM\Install.bat">msiexec.exe /qn /norestart /i TortoiseSVN-1.6.10.19898-win32-svn-1.6.12.msi TARGETDIR="%CD%" ALLUSERS=1</file>
-        <file path=".WPM\Uninstall.bat">msiexec.exe /qn /norestart /x TortoiseSVN-1.6.10.19898-win32-svn-1.6.12.msi</file>
+        <file path=".WPM\Install.bat">msiexec.exe /qn /norestart /Lime .WPM\MSI.log /i TortoiseSVN-1.6.10.19898-win32-svn-1.6.12.msi TARGETDIR="%CD%" ALLUSERS=1</file>
+        <file path=".WPM\Uninstall.bat">msiexec.exe /qn /norestart /Lime .WPM\MSI.log /x TortoiseSVN-1.6.10.19898-win32-svn-1.6.12.msi</file>
         <url>https://downloads.sourceforge.net/project/tortoisesvn/Application/1.6.10/TortoiseSVN-1.6.10.19898-win32-svn-1.6.12.msi?ts=1280163265</url>
         <sha1>f8441a59ce8df2bde5a83fa4d89146880a0a1427</sha1>
     </version>
     <version name="1.6.11.20210"
             package="net.tortoisesvn.TortoiseSVN"
             type="one-file">
-        <file path=".WPM\Install.bat">msiexec.exe /qn /norestart /i TortoiseSVN-1.6.11.20210-win32-svn-1.6.13.msi TARGETDIR="%CD%" ALLUSERS=1</file>
-        <file path=".WPM\Uninstall.bat">msiexec.exe /qn /norestart /x TortoiseSVN-1.6.11.20210-win32-svn-1.6.13.msi</file>
+        <file path=".WPM\Install.bat">msiexec.exe /qn /norestart /Lime .WPM\MSI.log /i TortoiseSVN-1.6.11.20210-win32-svn-1.6.13.msi TARGETDIR="%CD%" ALLUSERS=1</file>
+        <file path=".WPM\Uninstall.bat">msiexec.exe /qn /norestart /Lime .WPM\MSI.log /x TortoiseSVN-1.6.11.20210-win32-svn-1.6.13.msi</file>
         <url>http://downloads.sourceforge.net/project/tortoisesvn/Application/1.6.11/TortoiseSVN-1.6.11.20210-win32-svn-1.6.13.msi?ts=1286034930</url>
         <sha1>e33bd413aedfcb8fe552be9f471aed5b60100869</sha1>
     </version>
     <version name="1.6.12.20536"
             package="net.tortoisesvn.TortoiseSVN"
             type="one-file">
-        <file path=".WPM\Install.bat">msiexec.exe /qn /norestart /i TortoiseSVN-1.6.12.20536-win32-svn-1.6.15.msi TARGETDIR="%CD%" ALLUSERS=1</file>
-        <file path=".WPM\Uninstall.bat">msiexec.exe /qn /norestart /x TortoiseSVN-1.6.12.20536-win32-svn-1.6.15.msi</file>
+        <file path=".WPM\Install.bat">msiexec.exe /qn /norestart /Lime .WPM\MSI.log /i TortoiseSVN-1.6.12.20536-win32-svn-1.6.15.msi TARGETDIR="%CD%" ALLUSERS=1</file>
+        <file path=".WPM\Uninstall.bat">msiexec.exe /qn /norestart /Lime .WPM\MSI.log /x TortoiseSVN-1.6.12.20536-win32-svn-1.6.15.msi</file>
         <url>http://downloads.sourceforge.net/project/tortoisesvn/1.6.12/Application/TortoiseSVN-1.6.12.20536-win32-svn-1.6.15.msi?ts=1291026606</url>
         <sha1>5b5245948e4451a452a8efdef02f9b9f3fc27e09</sha1>
     </version>
@@ -4486,8 +4484,8 @@ set d=%ProgramFiles%
     </version>
 
     <version name="9.3" package="com.adobe.AdobeReader" type="one-file">
-        <file path=".WPM\Install.bat">msiexec.exe /qn /norestart /i AdbeRdr930_en_US.msi INSTALLDIR="%CD%" ALLUSERS=1</file>
-        <file path=".WPM\Uninstall.bat">msiexec.exe /qn /norestart /x AdbeRdr930_en_US.msi</file>
+        <file path=".WPM\Install.bat">msiexec.exe /qn /norestart /Lime .WPM\MSI.log /i AdbeRdr930_en_US.msi INSTALLDIR="%CD%" ALLUSERS=1</file>
+        <file path=".WPM\Uninstall.bat">msiexec.exe /qn /norestart /Lime .WPM\MSI.log /x AdbeRdr930_en_US.msi</file>
         <url>http://ardownload.adobe.com/pub/adobe/reader/win/9.x/9.3/enu/AdbeRdr930_en_US.msi</url>
         <sha1>8d27189bd6d8e44449913705f0b958ee858d2fd8</sha1>
         <!-- TODO: <file-handler>
@@ -4498,7 +4496,7 @@ set d=%ProgramFiles%
     </version>
     <version name="9.4" package="com.adobe.AdobeReader" type="one-file">
         <file path=".WPM\Install.bat">AdbeRdr940_en_US.exe /sAll /rs /msi"ALLUSERS=1"</file>
-        <file path=".WPM\Uninstall.bat">msiexec.exe /qn /norestart /X{AC76BA86-7AD7-1033-7B44-A94000000001}</file>
+        <file path=".WPM\Uninstall.bat">msiexec.exe /qn /norestart /Lime .WPM\MSI.log /X{AC76BA86-7AD7-1033-7B44-A94000000001}</file>
         <url>http://ardownload.adobe.com/pub/adobe/reader/win/9.x/9.4.0/en_US/AdbeRdr940_en_US.exe</url>
         <sha1>4652a454056b2323097a6357292db3af239bb610</sha1>
         <!-- TODO: <file-handler>
@@ -4509,7 +4507,7 @@ set d=%ProgramFiles%
     </version>
     <version name="10" package="com.adobe.AdobeReader" type="one-file">
         <file path=".WPM\Install.bat">AdbeRdr1000_en_US.exe /sAll /rs /msi ALLUSERS=1 INSTALLDIR="%CD%"</file>
-        <file path=".WPM\Uninstall.bat">msiexec.exe /qn /norestart /X{AC76BA86-7AD7-1033-7B44-AA0000000001}</file>
+        <file path=".WPM\Uninstall.bat">msiexec.exe /qn /norestart /Lime .WPM\MSI.log /X{AC76BA86-7AD7-1033-7B44-AA0000000001}</file>
         <url>http://ardownload.adobe.com/pub/adobe/reader/win/10.x/10.0.0/en_US/AdbeRdr1000_en_US.exe</url>
         <sha1>1100efaca4a4e480ede0cbda6ce9ed63f7f14d20</sha1>
         <!-- TODO: <file-handler>
@@ -4928,50 +4926,50 @@ for %%g in (xcf pix matte mask alpha als fli flc xcf.bz2 bz2 xcfbz2 desktop dcm 
 
     <version name="1.6" package="com.selenic.mercurial.Mercurial"
             type="one-file">
-        <file path=".WPM\Install.bat">msiexec.exe /qn /norestart /i mercurial-1.6.0.msi INSTALLDIR="%CD%" ALLUSERS=1</file>
-        <file path=".WPM\Uninstall.bat">msiexec.exe /qn /norestart /x mercurial-1.6.0.msi</file>
+        <file path=".WPM\Install.bat">msiexec.exe /qn /norestart /Lime .WPM\MSI.log /i mercurial-1.6.0.msi INSTALLDIR="%CD%" ALLUSERS=1</file>
+        <file path=".WPM\Uninstall.bat">msiexec.exe /qn /norestart /Lime .WPM\MSI.log /x mercurial-1.6.0.msi</file>
         <url>http://bitbucket.org/tortoisehg/thg-winbuild/downloads/mercurial-1.6.0.msi</url>
         <sha1>3774f29b397466072b1cff3ceb1dbd7a6f9be88d</sha1>
     </version>
     <version name="1.6.2" package="com.selenic.mercurial.Mercurial"
             type="one-file">
-        <file path=".WPM\Install.bat">msiexec.exe /qn /norestart /i mercurial-1.6.2.msi INSTALLDIR="%CD%" ALLUSERS=1</file>
-        <file path=".WPM\Uninstall.bat">msiexec.exe /qn /norestart /x mercurial-1.6.2.msi</file>
+        <file path=".WPM\Install.bat">msiexec.exe /qn /norestart /Lime .WPM\MSI.log /i mercurial-1.6.2.msi INSTALLDIR="%CD%" ALLUSERS=1</file>
+        <file path=".WPM\Uninstall.bat">msiexec.exe /qn /norestart /Lime .WPM\MSI.log /x mercurial-1.6.2.msi</file>
         <url>http://cdn.bitbucket.org/tortoisehg/thg-winbuild/downloads/mercurial-1.6.2.msi</url>
         <sha1>cd9a1fed152d900247dc969af07f1124513f72c1</sha1>
     </version>
     <version name="1.6.3" package="com.selenic.mercurial.Mercurial"
             type="one-file">
-        <file path=".WPM\Install.bat">msiexec.exe /qn /norestart /i mercurial-1.6.3.msi INSTALLDIR="%CD%" ALLUSERS=1</file>
-        <file path=".WPM\Uninstall.bat">msiexec.exe /qn /norestart /x mercurial-1.6.3.msi</file>
+        <file path=".WPM\Install.bat">msiexec.exe /qn /norestart /Lime .WPM\MSI.log /i mercurial-1.6.3.msi INSTALLDIR="%CD%" ALLUSERS=1</file>
+        <file path=".WPM\Uninstall.bat">msiexec.exe /qn /norestart /Lime .WPM\MSI.log /x mercurial-1.6.3.msi</file>
         <url>http://cdn.bitbucket.org/tortoisehg/thg-winbuild/downloads/mercurial-1.6.3.msi</url>
         <sha1>8ee8eb8a84af86d848d899543bbee61986a9f25d</sha1>
     </version>
     <version name="1.6.4" package="com.selenic.mercurial.Mercurial"
             type="one-file">
-        <file path=".WPM\Install.bat">msiexec.exe /qn /norestart /i mercurial-1.6.4.msi INSTALLDIR="%CD%" ALLUSERS=1</file>
-        <file path=".WPM\Uninstall.bat">msiexec.exe /qn /norestart /x mercurial-1.6.4.msi</file>
+        <file path=".WPM\Install.bat">msiexec.exe /qn /norestart /Lime .WPM\MSI.log /i mercurial-1.6.4.msi INSTALLDIR="%CD%" ALLUSERS=1</file>
+        <file path=".WPM\Uninstall.bat">msiexec.exe /qn /norestart /Lime .WPM\MSI.log /x mercurial-1.6.4.msi</file>
         <url>http://cdn.bitbucket.org/tortoisehg/thg-winbuild/downloads/mercurial-1.6.4.msi</url>
         <sha1>33c57db912696e534fc0ef7bee35238dacfae062</sha1>
     </version>
     <version name="1.7" package="com.selenic.mercurial.Mercurial"
             type="one-file">
-        <file path=".WPM\Install.bat">msiexec.exe /qn /norestart /i mercurial-1.7.0.msi INSTALLDIR="%CD%" ALLUSERS=1</file>
-        <file path=".WPM\Uninstall.bat">msiexec.exe /qn /norestart /x mercurial-1.7.0.msi</file>
+        <file path=".WPM\Install.bat">msiexec.exe /qn /norestart /Lime .WPM\MSI.log /i mercurial-1.7.0.msi INSTALLDIR="%CD%" ALLUSERS=1</file>
+        <file path=".WPM\Uninstall.bat">msiexec.exe /qn /norestart /Lime .WPM\MSI.log /x mercurial-1.7.0.msi</file>
         <url>http://cdn.bitbucket.org/tortoisehg/thg-winbuild/downloads/mercurial-1.7.0.msi</url>
         <sha1>4133eb0588c0b9464bd82a8cf65af500bc2d97a7</sha1>
     </version>
     <version name="1.7.1" package="com.selenic.mercurial.Mercurial"
             type="one-file">
-        <file path=".WPM\Install.bat">msiexec.exe /qn /norestart /i mercurial-1.7.1.msi INSTALLDIR="%CD%" ALLUSERS=1</file>
-        <file path=".WPM\Uninstall.bat">msiexec.exe /qn /norestart /x mercurial-1.7.1.msi</file>
+        <file path=".WPM\Install.bat">msiexec.exe /qn /norestart /Lime .WPM\MSI.log /i mercurial-1.7.1.msi INSTALLDIR="%CD%" ALLUSERS=1</file>
+        <file path=".WPM\Uninstall.bat">msiexec.exe /qn /norestart /Lime .WPM\MSI.log /x mercurial-1.7.1.msi</file>
         <url>http://cdn.bitbucket.org/tortoisehg/thg-winbuild/downloads/mercurial-1.7.1.msi</url>
         <sha1>6cad375290958a9b73fa3b44ddf99294470721f8</sha1>
     </version>
     <version name="1.7.2" package="com.selenic.mercurial.Mercurial"
             type="one-file">
-        <file path=".WPM\Install.bat">msiexec.exe /qn /norestart /i mercurial-1.7.2-x86.msi INSTALLDIR="%CD%" ALLUSERS=1</file>
-        <file path=".WPM\Uninstall.bat">msiexec.exe /qn /norestart /x mercurial-1.7.2-x86.msi</file>
+        <file path=".WPM\Install.bat">msiexec.exe /qn /norestart /Lime .WPM\MSI.log /i mercurial-1.7.2-x86.msi INSTALLDIR="%CD%" ALLUSERS=1</file>
+        <file path=".WPM\Uninstall.bat">msiexec.exe /qn /norestart /Lime .WPM\MSI.log /x mercurial-1.7.2-x86.msi</file>
         <url>http://bitbucket.org/tortoisehg/thg-winbuild/downloads/mercurial-1.7.2-x86.msi</url>
         <sha1>a054b67b6348aa127626352f603ec6cbe3adc973</sha1>
     </version>
@@ -5044,7 +5042,7 @@ for %%g in (xcf pix matte mask alpha als fli flc xcf.bz2 bz2 xcfbz2 desktop dcm 
     -->
     <version name="3.2.1" package="org.openoffice.OpenOffice" type="one-file">
         <file path=".WPM\Install.bat">OOo_3.2.1_Win_x86_install_en-GB.exe /S /D=%CD%</file>
-        <file path=".WPM\Uninstall.bat">msiexec.exe /qn /norestart /x{B0C536A0-13F5-4949-A7C7-16486B2B046F}</file>
+        <file path=".WPM\Uninstall.bat">msiexec.exe /qn /norestart /Lime .WPM\MSI.log /x{B0C536A0-13F5-4949-A7C7-16486B2B046F}</file>
         <url>http://download.services.openoffice.org/files/localized/en-GB/3.2.1/OOo_3.2.1_Win_x86_install_en-GB.exe</url>
         <sha1>4c37e7d22b2410cfadb3bcf7911d0e71e08246ab</sha1>
         <!-- TODO: "open with" -->
@@ -5089,32 +5087,32 @@ for %%g in (xcf pix matte mask alpha als fli flc xcf.bz2 bz2 xcfbz2 desktop dcm 
     </version>
 
     <version name="2.6.6" package="org.python.Python" type="one-file">
-        <file path=".WPM\Install.bat">msiexec.exe /qn /norestart /i python-2.6.6.msi TARGETDIR="%CD%" ALLUSERS=1</file>
-        <file path=".WPM\Uninstall.bat">msiexec.exe /qn /norestart /x python-2.6.6.msi</file>
+        <file path=".WPM\Install.bat">msiexec.exe /qn /norestart /Lime .WPM\MSI.log /i python-2.6.6.msi TARGETDIR="%CD%" ALLUSERS=1</file>
+        <file path=".WPM\Uninstall.bat">msiexec.exe /qn /norestart /Lime .WPM\MSI.log /x python-2.6.6.msi</file>
         <url>http://www.python.org/ftp/python/2.6.6/python-2.6.6.msi</url>
         <sha1>b742f78a4bb7b120187e8f782eab0753a7b901b0</sha1>
     </version>
     <version name="2.7" package="org.python.Python" type="one-file">
-        <file path=".WPM\Install.bat">msiexec.exe /qn /norestart /i python-2.7.msi TARGETDIR="%CD%" ALLUSERS=1</file>
-        <file path=".WPM\Uninstall.bat">msiexec.exe /qn /norestart /x python-2.7.msi</file>
+        <file path=".WPM\Install.bat">msiexec.exe /qn /norestart /Lime .WPM\MSI.log /i python-2.7.msi TARGETDIR="%CD%" ALLUSERS=1</file>
+        <file path=".WPM\Uninstall.bat">msiexec.exe /qn /norestart /Lime .WPM\MSI.log /x python-2.7.msi</file>
         <url>http://www.python.org/ftp/python/2.7/python-2.7.msi</url>
         <sha1>9a999c80cc9215341003634c0f344ea7e614f2ef</sha1>
     </version>
     <version name="2.7.1" package="org.python.Python" type="one-file">
-        <file path=".WPM\Install.bat">msiexec.exe /qn /norestart /i python-2.7.1.msi TARGETDIR="%CD%" ALLUSERS=1</file>
-        <file path=".WPM\Uninstall.bat">msiexec.exe /qn /norestart /x python-2.7.1.msi</file>
+        <file path=".WPM\Install.bat">msiexec.exe /qn /norestart /Lime .WPM\MSI.log /i python-2.7.1.msi TARGETDIR="%CD%" ALLUSERS=1</file>
+        <file path=".WPM\Uninstall.bat">msiexec.exe /qn /norestart /Lime .WPM\MSI.log /x python-2.7.1.msi</file>
         <url>http://www.python.org/ftp/python/2.7.1/python-2.7.1.msi</url>
         <sha1>023c6837f5ab3139cdcb9f9f8b8ca36212d56e2d</sha1>
     </version>
     <version name="3.1.2" package="org.python.Python" type="one-file">
-        <file path=".WPM\Install.bat">msiexec.exe /qn /norestart /i python-3.1.2.msi TARGETDIR="%CD%" ALLUSERS=1</file>
-        <file path=".WPM\Uninstall.bat">msiexec.exe /qn /norestart /x python-3.1.2.msi</file>
+        <file path=".WPM\Install.bat">msiexec.exe /qn /norestart /Lime .WPM\MSI.log /i python-3.1.2.msi TARGETDIR="%CD%" ALLUSERS=1</file>
+        <file path=".WPM\Uninstall.bat">msiexec.exe /qn /norestart /Lime .WPM\MSI.log /x python-3.1.2.msi</file>
         <url>http://www.python.org/ftp/python/3.1.2/python-3.1.2.msi</url>
         <sha1>72b445f65c8057a0156942382e557b4a23df4d45</sha1>
     </version>
     <version name="3.1.3" package="org.python.Python" type="one-file">
-        <file path=".WPM\Install.bat">msiexec.exe /qn /norestart /i python-3.1.3.msi TARGETDIR="%CD%" ALLUSERS=1</file>
-        <file path=".WPM\Uninstall.bat">msiexec.exe /qn /norestart /x python-3.1.3.msi</file>
+        <file path=".WPM\Install.bat">msiexec.exe /qn /norestart /Lime .WPM\MSI.log /i python-3.1.3.msi TARGETDIR="%CD%" ALLUSERS=1</file>
+        <file path=".WPM\Uninstall.bat">msiexec.exe /qn /norestart /Lime .WPM\MSI.log /x python-3.1.3.msi</file>
         <url>http://www.python.org/ftp/python/3.1.3/python-3.1.3.msi</url>
         <sha1>887e881840cadbf2c0c2c100246663dd7a227169</sha1>
     </version>
