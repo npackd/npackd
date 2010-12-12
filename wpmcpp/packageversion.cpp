@@ -325,16 +325,18 @@ void PackageVersion::uninstall(Job* job)
 
     if (job->getErrorMessage().isEmpty()) {
         job->setHint("Deleting shortcuts");
-        Job* sub = job->newSubJob(0.19);
+        Job* sub = job->newSubJob(0.20);
         deleteShortcuts(sub, true, true, true);
         delete sub;
     }
 
+    /*
     if (job->getErrorMessage().isEmpty()) {
         job->setHint("Deleting file associations");
         unregisterFileHandlers();
         job->setProgress(0.45);
     }
+    */
 
     if (job->getErrorMessage().isEmpty()) {
         Repository::getDefault()->somethingWasInstalledOrUninstalled();
@@ -563,8 +565,18 @@ void PackageVersion::install(Job* job)
 
     if (!job->isCancelled() && job->getErrorMessage().isEmpty()) {
         job->setHint("Downloading");
-        Job* djob = job->newSubJob(0.58);
+        Job* djob = job->newSubJob(0.57);
         f = Downloader::download(djob, this->download);
+
+        if (!f) {
+            delete djob;
+            job->setHint("Downloading (2nd try)");
+            double rest = job->getProgress() - 0.57;
+            if (rest < 0.01)
+                rest = 0.01;
+            djob = job->newSubJob(rest);
+            f = Downloader::download(djob, this->download);
+        }
 
         // qDebug() << "install.3.2 " << (f == 0) << djob->getErrorMessage();
         if (!djob->getErrorMessage().isEmpty())
@@ -674,16 +686,18 @@ void PackageVersion::install(Job* job)
     if (job->getErrorMessage().isEmpty() && !job->isCancelled()) {
         job->setHint(QString("Deleting desktop shortcuts %1").
                      arg(WPMUtils::getShellDir(CSIDL_DESKTOP)));
-        Job* sub = job->newSubJob(0.04);
+        Job* sub = job->newSubJob(0.05);
         deleteShortcuts(sub, false, true, true);
         delete sub;
     }
 
+    /*
     if (job->getErrorMessage().isEmpty() && !job->isCancelled()) {
         job->setHint("Creating file associations");
         registerFileHandlers();
         job->setProgress(1);
     }
+    */
 
     if (!job->getErrorMessage().isEmpty()) {
         // ignore errors
