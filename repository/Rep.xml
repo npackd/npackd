@@ -4814,8 +4814,26 @@ echo DesktopShortcut=false >> .WPM\FF.ini
 
     <version name="2.6.10" package="org.gimp.Gimp" type="one-file">
         <important-file path="bin\gimp-2.6.exe" title="Gimp"/>
-        <file path=".WPM\Install.bat">gimp-2.6.10-i686-setup-1.exe /SP- /VERYSILENT /SUPPRESSMSGBOXES /NOCANCEL /NORESTART /DIR="%CD%"</file>
-        <file path=".WPM\Uninstall.bat">setup\unins000.exe /VERYSILENT /SUPPRESSMSGBOXES /NORESTART</file>
+        <file path=".WPM\Install.bat">gimp-2.6.10-i686-setup-1.exe /SP- /VERYSILENT /SUPPRESSMSGBOXES /NOCANCEL /NORESTART /DIR="%CD%"
+if errorlevel 1 goto err
+
+set key=org.gimp.Gimp-2.6.10
+reg add HKLM\SOFTWARE\Classes\Applications\%key%\shell\open /v FriendlyAppName /d "Gimp (2.6.10)" /f
+set c=\"%CD%\bin\gimp-2.6.exe\" \"%%1\"
+reg add HKLM\SOFTWARE\Classes\Applications\%KEY%\shell\open\command /d "%c%" /f
+for %%g in (xcf pix matte mask alpha als fli flc xcf.bz2 bz2 xcfbz2 desktop dcm dicom eps fit fits g3 gif pat gbr gpb gih xcf.gz gz xcfgz jpg jpeg jpe cel ico wmf apm psp tub pspimage psd png pnm ppm pgm pbm pdf ps sgi rgb rgba bw ico im1 im8 im24 im32 rs ras svg tga vda icb vst tif tiff bmp xbm icon bitmap xpm xwd pcx pcc) do reg add HKLM\SOFTWARE\Classes\.%%g\OpenWithList\%key% /f
+
+:err
+</file>
+        <file path=".WPM\Uninstall.bat">setup\unins000.exe /VERYSILENT /SUPPRESSMSGBOXES /NORESTART
+if errorlevel 1 goto err
+
+set key=org.gimp.Gimp-2.6.10
+reg delete HKLM\SOFTWARE\Classes\Applications\%key% /f
+for %%g in (xcf pix matte mask alpha als fli flc xcf.bz2 bz2 xcfbz2 desktop dcm dicom eps fit fits g3 gif pat gbr gpb gih xcf.gz gz xcfgz jpg jpeg jpe cel ico wmf apm psp tub pspimage psd png pnm ppm pgm pbm pdf ps sgi rgb rgba bw ico im1 im8 im24 im32 rs ras svg tga vda icb vst tif tiff bmp xbm icon bitmap xpm xwd pcx pcc) do reg delete HKLM\SOFTWARE\Classes\.%%g\OpenWithList\%key% /f
+
+:err
+</file>
         <url>https://downloads.sourceforge.net/project/gimp-win/GIMP%20%2B%20GTK%2B%20%28stable%20release%29/GIMP%202.6.10%20%2B%20GTK%2B%202.16.6/gimp-2.6.10-i686-setup-1.exe?ts=1278953861</url>
         <sha1>65ceb0a21458d795beea28e1d7821d638fa786ec</sha1>
     </version>
