@@ -4262,104 +4262,60 @@ echo DesktopShortcut=false >> .WPM\FF.ini
     </version>
     
     <version name="4.65" package="org.7-zip.SevenZIP" type="one-file">
-        <file path=".WPM\Install.bat">7z465.exe /S /D=%CD%</file>
+        <file path=".WPM\Install.bat">7z465.exe /S /D=%CD%
+if errorlevel 1 goto err
+
+set key=org.7-zip.SevenZIP-4.65-7zFM.exe
+reg add HKLM\SOFTWARE\Classes\Applications\%KEY%\shell\open /v FriendlyAppName /d "7-Zip File Manager (4.65)" /f
+set c=\"%CD%\7zFM.exe\" \"%%1\"
+reg add HKLM\SOFTWARE\Classes\Applications\%KEY%\shell\open\command /d "%c%" /f
+for %%g in (001 7z arj bz2 bzip2 cab cpio deb dmg egg fat gz gzip hfs iso lha lzh lzma ntfs rar rpm squashfs swm tar taz tbz tbz2 tgz tpz txz vhd wim xar xz z zip) do reg add HKLM\SOFTWARE\Classes\.%%g\OpenWithList\%key% /f
+
+:err
+</file>
         <file path=".WPM\Uninstall.bat">Uninstall.exe /S _?=%CD%
+if errorlevel 1 goto err
+
+set key=org.7-zip.SevenZIP-4.65-7zFM.exe
+reg delete HKLM\SOFTWARE\Classes\Applications\%KEY% /f
+for %%g in (001 7z arj bz2 bzip2 cab cpio deb dmg egg fat gz gzip hfs iso lha lzh lzma ntfs rar rpm squashfs swm tar taz tbz tbz2 tgz tpz txz vhd wim xar xz z zip) do reg delete HKLM\SOFTWARE\Classes\.%%g\OpenWithList\%key% /f
+
 taskkill /f /fi "IMAGENAME eq explorer.exe"
 del 7-zip.dll
 rem start explorer from the root directory so it does not lock this one
-start "" /D\ explorer.exe</file>
+start "" /D\ explorer.exe
+:err
+</file>
         <url>http://downloads.sourceforge.net/project/sevenzip/7-Zip/4.65/7z465.exe?83156013</url>
         <sha1>c36012e960fa3932cd23f30ac5b0fe722740243a</sha1>
-        <file-handler>
-            <title>7-Zip File Manager</title>
-            <executable>7zFM.exe</executable>
-            <extension>.001</extension>
-            <extension>.7z</extension>
-            <extension>.arj</extension>
-            <extension>.bz2</extension>
-            <extension>.bzip2</extension>
-            <extension>.cab</extension>
-            <extension>.cpio</extension>
-            <extension>.deb</extension>
-            <extension>.dmg</extension>
-            <extension>.egg</extension>
-            <extension>.fat</extension>
-            <extension>.gz</extension>
-            <extension>.gzip</extension>
-            <extension>.hfs</extension>
-            <extension>.iso</extension>
-            <extension>.lha</extension>
-            <extension>.lzh</extension>
-            <extension>.lzma</extension>
-            <extension>.ntfs</extension>
-            <extension>.rar</extension>
-            <extension>.rpm</extension>
-            <extension>.squashfs</extension>
-            <extension>.swm</extension>
-            <extension>.tar</extension>
-            <extension>.taz</extension>
-            <extension>.tbz</extension>
-            <extension>.tbz2</extension>
-            <extension>.tgz</extension>
-            <extension>.tpz</extension>
-            <extension>.txz</extension>
-            <extension>.vhd</extension>
-            <extension>.wim</extension>
-            <extension>.xar</extension>
-            <extension>.xz</extension>
-            <extension>.z</extension>
-            <extension>.zip</extension>
-        </file-handler>
     </version>
     <version name="9.20" package="org.7-zip.SevenZIP" type="one-file">
-        <file path=".WPM\Install.bat">7z920.exe /S /D=%CD%</file>
+        <file path=".WPM\Install.bat">7z920.exe /S /D=%CD%
+if errorlevel 1 goto err
+
+set key=org.7-zip.SevenZIP-9.20-7zFM.exe
+reg add HKLM\SOFTWARE\Classes\Applications\%KEY%\shell\open /v FriendlyAppName /d "7-Zip File Manager (9.20)" /f
+set c=\"%CD%\7zFM.exe\" \"%%1\"
+reg add HKLM\SOFTWARE\Classes\Applications\%KEY%\shell\open\command /d "%c%" /f
+for %%g in (001 7z arj bz2 bzip2 cab cpio deb dmg egg fat gz gzip hfs iso lha lzh lzma ntfs rar rpm squashfs swm tar taz tbz tbz2 tgz tpz txz vhd wim xar xz z zip) do reg add HKLM\SOFTWARE\Classes\.%%g\OpenWithList\%key% /f
+
+:err
+</file>
         <file path=".WPM\Uninstall.bat">Uninstall.exe /S _?=%CD%
+if errorlevel 1 goto err
+
+set key=org.7-zip.SevenZIP-9.20-7zFM.exe
+reg delete HKLM\SOFTWARE\Classes\Applications\%KEY% /f
+for %%g in (001 7z arj bz2 bzip2 cab cpio deb dmg egg fat gz gzip hfs iso lha lzh lzma ntfs rar rpm squashfs swm tar taz tbz tbz2 tgz tpz txz vhd wim xar xz z zip) do reg delete HKLM\SOFTWARE\Classes\.%%g\OpenWithList\%key% /f
+
 taskkill /f /fi "IMAGENAME eq explorer.exe"
 del 7-zip.dll
 rem start explorer from the root directory so it does not lock this one
-start "" /D\ explorer.exe</file>
+start "" /D\ explorer.exe
+
+:err</file>
         <url>http://downloads.sourceforge.net/project/sevenzip/7-Zip/9.20/7z920.exe?ts=1290159584</url>
         <sha1>55283ad59439134673fc32fc097bdd9ae920fbc6</sha1>
-        <file-handler>
-            <title>7-Zip File Manager</title>
-            <executable>7zFM.exe</executable>
-            <extension>.001</extension>
-            <extension>.7z</extension>
-            <extension>.arj</extension>
-            <extension>.bz2</extension>
-            <extension>.bzip2</extension>
-            <extension>.cab</extension>
-            <extension>.cpio</extension>
-            <extension>.deb</extension>
-            <extension>.dmg</extension>
-            <extension>.egg</extension>
-            <extension>.fat</extension>
-            <extension>.gz</extension>
-            <extension>.gzip</extension>
-            <extension>.hfs</extension>
-            <extension>.iso</extension>
-            <extension>.lha</extension>
-            <extension>.lzh</extension>
-            <extension>.lzma</extension>
-            <extension>.ntfs</extension>
-            <extension>.rar</extension>
-            <extension>.rpm</extension>
-            <extension>.squashfs</extension>
-            <extension>.swm</extension>
-            <extension>.tar</extension>
-            <extension>.taz</extension>
-            <extension>.tbz</extension>
-            <extension>.tbz2</extension>
-            <extension>.tgz</extension>
-            <extension>.tpz</extension>
-            <extension>.txz</extension>
-            <extension>.vhd</extension>
-            <extension>.wim</extension>
-            <extension>.xar</extension>
-            <extension>.xz</extension>
-            <extension>.z</extension>
-            <extension>.zip</extension>
-        </file-handler>
     </version>
 
     <version name="2.46" package="net.sourceforge.nsis">
