@@ -4113,7 +4113,6 @@ echo DesktopShortcut=false >> .WPM\FF.ini
         <url>http://wpm.freehostingcloud.com/files/org.mozilla.Thunderbird-3.1.5.exe</url>
         <sha1>0b6bc747f531e88f97ef4f6c511551d077847159</sha1>
     </version>
-
     <version name="3.1.6" package="org.mozilla.Thunderbird"
             type="one-file">
         <file path=".WPM\Install.bat">echo [Install] > .WPM\FF.ini
@@ -4125,6 +4124,18 @@ echo DesktopShortcut=false >> .WPM\FF.ini
         <file path=".WPM\Uninstall.bat">uninstall\helper.exe /S</file>
         <url>http://wpm.freehostingcloud.com/files/org.mozilla.Thunderbird-3.1.6.exe</url>
         <sha1>0d34505cbb453b5c04305d990e2b81d403ec633c</sha1>
+    </version>
+    <version name="3.1.7" package="org.mozilla.Thunderbird"
+            type="one-file">
+        <file path=".WPM\Install.bat">echo [Install] > .WPM\FF.ini
+echo InstallDirectoryPath=%CD% >> .WPM\FF.ini
+echo QuickLaunchShortcut=false >> .WPM\FF.ini
+echo DesktopShortcut=false >> .WPM\FF.ini
+"org.mozilla.Thunderbird-3.1.7.exe" /INI="%CD%\.WPM\FF.ini"
+</file>
+        <file path=".WPM\Uninstall.bat">uninstall\helper.exe /S</file>
+        <url>http://wpm.freehostingcloud.com/files/org.mozilla.Thunderbird-3.1.7.exe</url>
+        <sha1>c738285555abfa3c6d6e75b9508b66208d63b737</sha1>
     </version>
 
     <!-- TODO: no silent installation possible -->
