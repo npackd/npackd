@@ -313,7 +313,12 @@ void PackageVersion::uninstall(Job* job)
         if (!d.exists(".Npackd"))
             d.mkdir(".Npackd");
         Job* sub = job->newSubJob(0.25);
-        this->executeFile(sub, p, ".Npackd\\Uninstall.log");
+        QStringList env;
+        env.append("NPACKD_PACKAGE_NAME");
+        env.append(this->package);
+        env.append("NPACKD_PACKAGE_VERSION");
+        env.append(this->version.getVersionString());
+        this->executeFile(sub, p, ".Npackd\\Uninstall.log", env);
         if (!sub->getErrorMessage().isEmpty())
             job->setErrorMessage(sub->getErrorMessage());
         delete sub;
@@ -571,7 +576,7 @@ void PackageVersion::install(Job* job)
         if (!f) {
             delete djob;
             job->setHint("Downloading (2nd try)");
-            double rest = job->getProgress() - 0.57;
+            double rest = 0.57 - job->getProgress();
             if (rest < 0.01)
                 rest = 0.01;
             djob = job->newSubJob(rest);
@@ -674,7 +679,13 @@ void PackageVersion::install(Job* job)
             Job* exec = job->newSubJob(0.1);
             if (!d.exists(".Npackd"))
                 d.mkdir(".Npackd");
-            this->executeFile(exec, p, ".Npackd\\Install.log");
+
+            QStringList env;
+            env.append("NPACKD_PACKAGE_NAME");
+            env.append(this->package);
+            env.append("NPACKD_PACKAGE_VERSION");
+            env.append(this->version.getVersionString());
+            this->executeFile(exec, p, ".Npackd\\Install.log", env);
             if (!exec->getErrorMessage().isEmpty())
                 job->setErrorMessage(exec->getErrorMessage());
             delete exec;
@@ -790,7 +801,7 @@ QStringList PackageVersion::findLockedFiles()
 }
 
 void PackageVersion::executeFile(Job* job, const QString& path,
-        const QString& outputFile)
+        const QString& outputFile, const QStringList& env)
 {
     QDir d = this->getDirectory();
     QProcess p(0);
@@ -798,6 +809,9 @@ void PackageVersion::executeFile(Job* job, const QString& path,
     QStringList params;
     p.setWorkingDirectory(d.absolutePath());
     QString exe = d.absolutePath() + "\\" + path;
+    for (int i = 0; i < env.count(); i += 2) {
+        p.processEnvironment().insert(env.at(i), env.at(i + 1));
+    }
     p.start(exe, params);
 
     time_t start = time(NULL);
