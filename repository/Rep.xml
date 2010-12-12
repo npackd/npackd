@@ -4266,7 +4266,7 @@ echo DesktopShortcut=false >> .WPM\FF.ini
 if errorlevel 1 goto err
 
 set key=org.7-zip.SevenZIP-4.65-7zFM.exe
-reg add HKLM\SOFTWARE\Classes\Applications\%KEY%\shell\open /v FriendlyAppName /d "7-Zip File Manager (4.65)" /f
+reg add HKLM\SOFTWARE\Classes\Applications\%KEY%\shell\open /v FriendlyAppName /d "7-Zip File Manager (7-ZIP 4.65)" /f
 set c=\"%CD%\7zFM.exe\" \"%%1\"
 reg add HKLM\SOFTWARE\Classes\Applications\%KEY%\shell\open\command /d "%c%" /f
 for %%g in (001 7z arj bz2 bzip2 cab cpio deb dmg egg fat gz gzip hfs iso lha lzh lzma ntfs rar rpm squashfs swm tar taz tbz tbz2 tgz tpz txz vhd wim xar xz z zip) do reg add HKLM\SOFTWARE\Classes\.%%g\OpenWithList\%key% /f
@@ -4294,7 +4294,7 @@ start "" /D\ explorer.exe
 if errorlevel 1 goto err
 
 set key=org.7-zip.SevenZIP-9.20-7zFM.exe
-reg add HKLM\SOFTWARE\Classes\Applications\%KEY%\shell\open /v FriendlyAppName /d "7-Zip File Manager (9.20)" /f
+reg add HKLM\SOFTWARE\Classes\Applications\%KEY%\shell\open /v FriendlyAppName /d "7-Zip File Manager (7-ZIP 9.20)" /f
 set c=\"%CD%\7zFM.exe\" \"%%1\"
 reg add HKLM\SOFTWARE\Classes\Applications\%KEY%\shell\open\command /d "%c%" /f
 for %%g in (001 7z arj bz2 bzip2 cab cpio deb dmg egg fat gz gzip hfs iso lha lzh lzma ntfs rar rpm squashfs swm tar taz tbz tbz2 tgz tpz txz vhd wim xar xz z zip) do reg add HKLM\SOFTWARE\Classes\.%%g\OpenWithList\%key% /f
@@ -5209,7 +5209,11 @@ echo DesktopShortcut=false >> .WPM\FF.ini
         <url>http://downloads.sourceforge.net/project/filezilla/FileZilla_Client/3.3.5.1/FileZilla_3.3.5.1_win32.zip?ts=1290418758</url>
         <sha1>d5fcefebf2f022b07547378dc5eb7e4ee915c729</sha1>
     </version>
-    
+
+    <!--
+        TODO: "open with" opens the file in the currently running editor
+        instead of one from the right package version
+    -->
     <version name="5.6.8" package="net.sourceforge.NotepadPlusPlus"
             type="one-file">
         <file path=".WPM\Install.bat">npp.5.6.8.Installer.exe /S /D=%CD%</file>
