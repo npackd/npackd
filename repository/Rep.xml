@@ -3713,6 +3713,7 @@ start "" /D\ explorer.exe</file>
         <url>http://fpdownload.adobe.com/get/flashplayer/current/install_flash_player.exe</url>
     </version>
 
+    <!-- TODO: "open with" for all versions -->
     <version name="1.1.1" package="com.videolan.VLCMediaPlayer"
             type="one-file">
         <file path=".WPM\Install.bat">vlc-1.1.1-win32.exe /S /D=%CD%</file>
@@ -3739,6 +3740,16 @@ start "" /D\ explorer.exe</file>
     </version>
     <version name="1.1.5" package="com.videolan.VLCMediaPlayer">
         <important-file path="vlc-1.1.5\vlc.exe" title="VLC Media Player"/>
+        <file path=".WPM\Install.bat">set key=com.videolan.VLCMediaPlayer-1.1.5
+reg add HKLM\SOFTWARE\Classes\Applications\%key%\shell\open /v FriendlyAppName /d "VLC Media Player (1.1.5)" /f
+set c=\"%CD%\vlc-1.1.5\vlc.exe\" \"%%1\"
+reg add HKLM\SOFTWARE\Classes\Applications\%KEY%\shell\open\command /d "%c%" /f
+for %%g in (a52 aac ac3 adt adts aif ifc iff mr aob ape cda dts flac it m4a m4p mid mka mlp mod mp1 mp2 mp3 mpc oga ogg oma rmi s3m spx tta voc vqf w64 wav wma wv xa xm 3g2 3gp 3gp2 3gpp amv asf avi bin cue divx dv flv gxf iso m1v m2v m2t m2ts m4v mkv mov mp2 mp2v mp4 mp4v mpa mpe mpeg mpeg1 mpeg2 mpeg4 mpg mpv2 mts mxf nsv nuv ogg ogm ogv ogx ps rec rm rmvb tod ts tts vob vro webm wmv asx b4s ifo m3u m3u8 pls ram rar sdp vlc xspf zip cdg idx srt sub utf ass ssa aqt jss psb rt smi) do reg add HKLM\SOFTWARE\Classes\.%%g\OpenWithList\%key% /f
+</file>
+        <file path=".WPM\Uninstall.bat">set key=com.videolan.VLCMediaPlayer-1.1.5
+reg delete HKLM\SOFTWARE\Classes\Applications\%key% /f
+for %%g in (a52 aac ac3 adt adts aif ifc iff mr aob ape cda dts flac it m4a m4p mid mka mlp mod mp1 mp2 mp3 mpc oga ogg oma rmi s3m spx tta voc vqf w64 wav wma wv xa xm 3g2 3gp 3gp2 3gpp amv asf avi bin cue divx dv flv gxf iso m1v m2v m2t m2ts m4v mkv mov mp2 mp2v mp4 mp4v mpa mpe mpeg mpeg1 mpeg2 mpeg4 mpg mpv2 mts mxf nsv nuv ogg ogm ogv ogx ps rec rm rmvb tod ts tts vob vro webm wmv asx b4s ifo m3u m3u8 pls ram rar sdp vlc xspf zip cdg idx srt sub utf ass ssa aqt jss psb rt smi) do reg delete HKLM\SOFTWARE\Classes\.%%g\OpenWithList\%key% /f
+</file>
         <url>http://downloads.sourceforge.net/project/vlc/1.1.5/win32/vlc-1.1.5-win32.zip?ts=1289756678</url>
         <sha1>c35e197e90344fe7ded058bec171197f50d0637b</sha1>
     </version>
