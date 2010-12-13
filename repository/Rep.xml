@@ -1297,7 +1297,7 @@
     <package name="org.vim.Vim">
         <title>Vim</title>
         <url>http://www.vim.org/</url>
-        <description>WARNING! This package requires Vim runtime in version 7.3 to be installed. Text editor</description>
+        <description>WARNING! This package requires Vim runtime with the same version number to be installed. Text editor</description>
         <!-- GPLv2 -->
         <icon>http://wpm.freehostingcloud.com/picons/org.vim.VimInstaller.png</icon>
     </package>
@@ -1993,6 +1993,10 @@ start "" /D\ explorer.exe</file>
         <url>http://ftp.vim.org/pub/vim/pc/vim73rt.zip</url>
         <sha1>687f43e1cbd9b058bddf673e812853028f0c79a7</sha1>
     </version>
+    <version name="7.3.46" package="org.vim.VimRuntime">
+        <url>http://ftp.vim.org/pub/vim/pc/vim73_46rt.zip</url>
+        <sha1>cde31a99db352464be75078dbae9176a5b0722f3</sha1>
+    </version>
 
     <version name="7.3" package="org.vim.Vim">
         <file path=".WPM\Install.bat">xcopy ..\org.vim.VimRuntime-7.3\* . /E /H</file>
@@ -2000,6 +2004,63 @@ start "" /D\ explorer.exe</file>
         <url>http://ftp.vim.org/pub/vim/pc/gvim73.zip</url>
         <sha1>038bce3d5025eb30413d587f6f3a586bee38db8e</sha1>
         <dependency package="org.vim.VimRuntime" versions="[7.3, 7.3]"/>
+        <!-- TODO: <file-handler>
+            <title>Vim</title>
+            <executable>vim\vim73\gvim.exe</executable>
+            <extension>.vim</extension>
+            <extension>.txt</extension>
+            <extension>.log</extension>
+            <extension>.ini</extension>
+            <extension>.h</extension>
+            <extension>.hpp</extension>
+            <extension>.hxx</extension>
+            <extension>.c</extension>
+            <extension>.cpp</extension>
+            <extension>.cxx</extension>
+            <extension>.cc</extension>
+            <extension>.m</extension>
+            <extension>.java</extension>
+            <extension>.cs</extension>
+            <extension>.pas</extension>
+            <extension>.inc</extension>
+            <extension>.html</extension>
+            <extension>.htm</extension>
+            <extension>.php</extension>
+            <extension>.phtml</extension>
+            <extension>.js</extension>
+            <extension>.jsp</extension>
+            <extension>.asp</extension>
+            <extension>.css</extension>
+            <extension>.xml</extension>
+            <extension>.sh</extension>
+            <extension>.bsh</extension>
+            <extension>.nsi</extension>
+            <extension>.nsh</extension>
+            <extension>.lua</extension>
+            <extension>.pl</extension>
+            <extension>.pm</extension>
+            <extension>.py</extension>
+            <extension>.as</extension>
+            <extension>.mx</extension>
+            <extension>.vb</extension>
+            <extension>.vbs</extension>
+            <extension>.f</extension>
+            <extension>.for</extension>
+            <extension>.f90</extension>
+            <extension>.f95</extension>
+            <extension>.f2k</extension>
+            <extension>.tex</extension>
+            <extension>.sql</extension>
+            <extension>.nfo</extension>
+            <extension>.mak</extension>
+        </file-handler> -->
+    </version>
+    <version name="7.3.46" package="org.vim.Vim">
+        <file path=".WPM\Install.bat">xcopy ..\org.vim.VimRuntime-7.3.46\* . /E /H</file>
+        <important-file path="vim\vim73\gvim.exe" title="Vim"/>
+        <url>http://ftp.vim.org/pub/vim/pc/gvim73_46.zip</url>
+        <sha1>de679dc1ade3caafbb27bc88071f1e00a677cdc2</sha1>
+        <dependency package="org.vim.VimRuntime" versions="[7.3.46, 7.3.46]"/>
         <!-- TODO: <file-handler>
             <title>Vim</title>
             <executable>vim\vim73\gvim.exe</executable>
