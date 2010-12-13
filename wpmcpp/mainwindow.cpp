@@ -86,10 +86,23 @@ void InstallThread::testRepositories()
                 job->setHint(QString("Downloading %1").arg(pv->toString()));
                 Job* djob = job->newSubJob(step);
                 QTemporaryFile* f = Downloader::download(djob, pv->download);
-                if (!djob->getErrorMessage().isEmpty()) {
+                if (!djob->getErrorMessage().isEmpty() || f == 0) {
                     ts << QString("Download of %1 failed: %2").
                             arg(pv->toString()).
                             arg(djob->getErrorMessage()) << endl;
+                } else {
+                    if (!this->sha1.isEmpty()) {
+                        QString h = WPMUtils::sha1(f->fileName());
+                        if (h.toLower() != this->sha1.toLower()) {
+                            ts << QString(
+                                    "Hash sum (SHA1) for %1 failed. "
+                                    "%2 found, but %3 "
+                                    "was expected. The file has changed.").
+                                    arg(pv->toString()).
+                                    arg(h).
+                                    arg(this->sha1) << endl;
+                        }
+                    }
                 }
                 delete f;
                 delete djob;
