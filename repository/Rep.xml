@@ -1638,6 +1638,7 @@ echo clearing the error code from pathman.exe</file>
     </version>
     -->
 
+    <!-- TODO: no parallel installation -->
     <version name="1.2.144" package="com.h2database.H2"
             type="one-file">
         <file path=".WPM\Install.bat">h2-setup-2010-10-15.exe /S /D=%CD%</file>
@@ -2241,7 +2242,10 @@ start "" /D\ explorer.exe</file>
         <sha1>bb7ff1c8804646882b17972ae843f77964df7cf0</sha1>
     </version>
 
-    <!-- TODO: The installation starts ClamWin -->
+    <!--
+        TODO: The installation starts ClamWin
+        TODO: no parallel installation 
+    -->
     <version name="0.96.1" package="com.clamwin.ClamWin" type="one-file">
         <file path=".WPM\Install.bat">clamwin-0.96.1-setup.exe /SP- /VERYSILENT /SUPPRESSMSGBOXES /NOCANCEL /NORESTART /DIR="%CD%"</file>
         <file path=".WPM\Uninstall.bat">unins000.exe /VERYSILENT /SUPPRESSMSGBOXES /NORESTART</file>
@@ -2895,6 +2899,7 @@ for %%g in (msi) do reg delete HKLM\SOFTWARE\Classes\.%%g\OpenWithList\%key% /f
         <sha1>3f3878ffb2c642e752d811dc05169bfcc2aa97b5</sha1>
     </version>
 
+    <!-- TODO: no parallel installation -->
     <version name="1.4.9" package="org.gnupg.GnuPG" type="one-file">
         <file path=".WPM\Install.bat">gnupg-w32cli-1.4.9.exe /S /D=%CD%</file>
         <file path=".WPM\Uninstall.bat">uninst-gnupg.exe /S</file>
@@ -2917,6 +2922,7 @@ for %%g in (msi) do reg delete HKLM\SOFTWARE\Classes\.%%g\OpenWithList\%key% /f
     <!--
         % must be doubled so the cmd.exe does not recognize it as a variable
         reference. TODO: The uninstallation shows 2 confirmation dialogs.
+        TODO: no parallel installation
     -->
     <version name="4.5.2" package="net.sourceforge.djvu.DjView" type="one-file">
         <file path=".WPM\Install.bat">DjVuLibre%%2BDjView-3.5.22%%2B4.5b-Setup.exe /S /D=%CD%</file>
@@ -3650,7 +3656,8 @@ start "" /D\ explorer.exe</file>
         <url>http://downloads.sourceforge.net/project/tortoisecvs/TortoiseCVS-1.12.2.exe?ts=1291642182</url>
         <sha1>5f2105505b4ce256d0a557dd5e526736e3d7a9ae</sha1>
     </version>
-    
+
+    <!-- TODO: no parallel installation -->
     <version name="2.5.1" package="com.imgburn.ImgBurn"
             type="one-file">
         <file path=".WPM\Install.bat">SetupImgBurn_2.5.1.0.exe /S /D=%CD%</file>
@@ -5333,8 +5340,9 @@ for %%g in (xcf pix matte mask alpha als fli flc xcf.bz2 bz2 xcfbz2 desktop dcm 
     -->
 
     <!--
-        TODO: /PERFORMINSTALL /NORUN does not seem to work. Different versions
-        of the installer are distributed from the same URL.
+        TODO: /PERFORMINSTALL /NORUN does not seem to work. 
+        TODO: Different versions of the installer are
+        distributed from the same URL.
     -->
     <version name="2.0.2" package="com.utorrent.UTorrentInstaller" type="one-file">
         <important-file path="utorrent.exe" title="Installer"/>
