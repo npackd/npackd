@@ -465,7 +465,7 @@
     <package name="com.opera.Opera">
         <title>Opera</title>
         <url>http://www.opera.com/</url>
-        <description>web browser</description>
+        <description>WARNING! Since version 11 7-ZIP A in the version 9.20 must be installed. Web browser</description>
     </package>
     <package name="com.opera.OperaInstaller">
         <title>Opera installer (deprecated, use the non-installer package instead)</title>
@@ -3704,6 +3704,14 @@ start "" /D\ explorer.exe</file>
         <file path=".WPM\Uninstall.bat">MsiExec.exe /qn /norestart /Lime .WPM\MSI.log /X{87CC8013-56D1-43E1-A0A5-AD406B4EBA95}</file>
         <url>http://get1.opera.com/pub/opera/win/1063/int/Opera_1063_int_Setup.exe</url>
         <sha1>69638f4e9b807ece50cf7d8e5501b20b12f72f8b</sha1>
+    </version>
+    <!-- TODO: installation shows a confirmation dialog -->
+    <!-- TODO: 7Z-A 9.20 muss installiert werden -->
+    <version name="11" package="com.opera.Opera" type="one-file">
+        <important-file path="Opera.exe" title="Opera"/>
+        <file path=".WPM\Install.bat">..\org.7-zip.SevenZIPA-9.20\7za.exe x Opera_1100_int_Setup.exe</file>
+        <url>http://get5.opera.com/pub/opera/win/1100/int/Opera_1100_int_Setup.exe</url>
+        <sha1>7bba9c0ba2ec18d21b7d69f6de906e7f7220625e</sha1>
     </version>
 
     <version name="3.3.6.1" package="com.autoitscript.AutoItFull"
