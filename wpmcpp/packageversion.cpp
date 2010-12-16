@@ -607,7 +607,7 @@ void PackageVersion::install(Job* job)
     }
 
     if (!job->isCancelled() && job->getErrorMessage().isEmpty()) {
-        if (!d.mkdir(d.absolutePath())) {
+        if (!d.mkpath(d.absolutePath())) {
             job->setErrorMessage(QString("Cannot create directory: %0").
                     arg(d.absolutePath()));
         } else {
