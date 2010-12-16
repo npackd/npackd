@@ -659,6 +659,7 @@ void MainWindow::on_tableWidget_itemSelectionChanged()
                 pv->package);
         this->ui->actionUpdate->setEnabled(
                 newest != 0 && newesti != 0 &&
+                !newesti->external &&
                 newest->version.compare(newesti->version) > 0);
     } else {
         this->ui->actionUpdate->setEnabled(false);
