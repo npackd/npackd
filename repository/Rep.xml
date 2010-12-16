@@ -194,6 +194,11 @@
         <url>http://www.foxitsoftware.com/pdf/reader/</url>
         <description>PDF viewer</description>
     </package>
+    <package name="com.freesshd.FreeFTPD">
+        <title>freeFTPD</title>
+        <url>http://www.freesshd.com</url>
+        <description>FTP/FTPS/SFTP server</description>
+    </package>
     <package name="com.getsongbird.Songbird">
         <title>Songbird</title>
         <url>http://www.getsongbird.com/</url>
@@ -1378,6 +1383,18 @@
     of a package should stay together. Newer versions should appear under older
     ones.
     -->
+
+    <!--
+        TODO: different versions are distributed from the same URL
+        TODO: the installation shows 2 confirmation dialogs
+        TODO: multiple versions cannot be installed in parallel because
+            of the naming of the start menu entries
+    -->
+    <version name="1" package="com.freesshd.FreeFTPD" type="one-file">
+        <file path=".WPM\Install.bat">freeFTPd.exe /SP- /VERYSILENT /SUPPRESSMSGBOXES /NOCANCEL /NORESTART /DIR="%CD%"</file>
+        <file path=".WPM\Uninstall.bat">uninstall\unins000.exe /VERYSILENT /SUPPRESSMSGBOXES /NORESTART</file>
+        <url>http://www.freesshd.com/freeFTPd.exe</url>
+    </version>
 
     <!--
         Here is the list of available versions:
