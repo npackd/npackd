@@ -1862,7 +1862,11 @@ f\install.exe /Q</file>
         <url>http://download.microsoft.com/download/9/7/7/977B481A-7BA6-4E30-AC40-ED51EB2028F2/vcredist_x86.exe</url>
         <sha1>bd18409cfe75b88c2a9432d36d96f4bf125a3237</sha1>
     </version>
-    
+
+    <!--
+        TODO: on Windows 7/x64 Windows Explorer is started instead of the
+        taskbar.
+    -->
     <version name="0.7.110" package="com.dropbox.Dropbox" type="one-file">
         <file path=".WPM\Install.bat">"Dropbox 0.7.110.exe" /S /D=%CD%
 taskkill /f /im dropbox.exe</file>
@@ -1900,11 +1904,15 @@ start "" /D\ explorer.exe</file>
         <sha1>9ebe5de6130deae5d361306bf0add7a6789f6fbc</sha1>
     </version>
 
-    <!-- TODO: different versions distributed from the same URL -->
+    <!-- 
+        different versions distributed from the same URL, but the license
+        allows redistribution
+    -->
     <version name="1.38.504" package="com.piriform.Recuva" type="one-file">
-        <file path=".WPM\Install.bat">rcsetup138.exe /S /D=%CD%</file>
+        <file path=".WPM\Install.bat">com.piriform.Recuva-1.38.504.exe /S /D=%CD%</file>
         <file path=".WPM\Uninstall.bat">uninst.exe /S _?=%CD%</file>
-        <url>http://download.piriform.com/rcsetup138.exe</url>
+        <url>http://wpm.freehostingcloud.com/files/com.piriform.Recuva-1.38.504.exe</url>
+        <sha1>883e5d9edf6a544e47a12d51ba9bd494e8afaeec</sha1>
     </version>
 
     <version name="1.21.209" package="com.piriform.Defraggler" type="one-file">
