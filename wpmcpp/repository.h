@@ -32,7 +32,6 @@ private:
 
     void loadOne(QUrl* url, Job* job);
 
-    void versionDetected(const QString& package, const Version& v);
 
     void addWindowsPackage();
 
@@ -43,7 +42,6 @@ private:
     void detectMSXML();
     void detectJRE(bool w64bit);
     void detectJDK(bool w64bit);
-    void detectNpackd();
 public:
     /**
      * @return C:\Program Files\Npackd - repository directory
@@ -78,6 +76,14 @@ public:
      * @param job job object
      */
     void recognize(Job* job);
+
+    /**
+     * Can be called if a package version was detected as installed internally.
+     *
+     * @param package package name
+     * @param v found version
+     */
+    void versionDetected(const QString& package, const Version& v);
 
     /**
      * Finds all installed packages. This method lists all directories in the

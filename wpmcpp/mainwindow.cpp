@@ -155,9 +155,20 @@ void InstallThread::run()
         break;
     }
     case 3:
-    case 4:
-        Repository::getDefault()->load(job);
+    case 4: {
+        Repository* r = Repository::getDefault();
+        r->load(job);
+        if (!r->findPackage("com.googlecode.windows-package-manager.Npackd")) {
+            Package* p = new Package("com.googlecode.windows-package-manager.Npackd",
+                    "Npackd");
+            p->url = "http://code.google.com/p/windows-package-manager/";
+            p->description = "package manager";
+            r->packages.append(p);
+        }
+        r->versionDetected("com.googlecode.windows-package-manager.Npackd",
+                Version("1.14.1"));
         break;
+    }
     case 5:
         this->sha1 = pv->downloadAndComputeSHA1(job);
         break;
