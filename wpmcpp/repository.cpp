@@ -776,21 +776,39 @@ void Repository::loadOne(QUrl* url, Job* job) {
         QString errMsg;
         if (doc.setContent(f, &errMsg, &errorLine, &errorColumn)) {
             QDomElement root = doc.documentElement();
-            for (QDomNode n = root.firstChild(); !n.isNull();
-                    n = n.nextSibling()) {
-                if (n.isElement()) {
-                    QDomElement e = n.toElement();
-                    if (e.nodeName() == "version") {
-                        this->packageVersions.append(
-                                createPackageVersion(&e));
-                        somethingWasInstalledOrUninstalled();
-                    } else if (e.nodeName() == "package") {
-                        this->packages.append(
-                                createPackage(&e));
-                    }
+            QDomNodeList nl = root.elementsByTagName("spec-version");
+            if (nl.count() != 0) {
+                QString specVersion = nl.at(0).firstChild().nodeValue();
+                Version specVersion_;
+                if (!specVersion_.setVersion(specVersion)) {
+                    job->setErrorMessage(QString(
+                            "Invalid repository specification version: %1").
+                            arg(specVersion));
+                } else {
+                    if (specVersion_.compare(Version(3,0)) >= 0)
+                        job->setErrorMessage(QString(
+                                "Incompatible repository specification version: %1").
+                                arg(specVersion));
                 }
             }
-            job->setProgress(1);
+
+            if (job->getErrorMessage().isEmpty()) {
+                for (QDomNode n = root.firstChild(); !n.isNull();
+                        n = n.nextSibling()) {
+                    if (n.isElement()) {
+                        QDomElement e = n.toElement();
+                        if (e.nodeName() == "version") {
+                            this->packageVersions.append(
+                                    createPackageVersion(&e));
+                            somethingWasInstalledOrUninstalled();
+                        } else if (e.nodeName() == "package") {
+                            this->packages.append(
+                                    createPackage(&e));
+                        }
+                    }
+                }
+                job->setProgress(1);
+            }
         } else {
             job->setErrorMessage(QString("XML parsing failed: %1").
                                  arg(errMsg));
