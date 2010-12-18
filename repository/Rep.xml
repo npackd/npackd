@@ -1863,10 +1863,6 @@ f\install.exe /Q</file>
         <sha1>bd18409cfe75b88c2a9432d36d96f4bf125a3237</sha1>
     </version>
     
-    <!--
-        TODO: on Windows XP Explorer locks the
-        installation directory somehow => un-installation fails.
-    -->
     <version name="0.7.110" package="com.dropbox.Dropbox" type="one-file">
         <file path=".WPM\Install.bat">"Dropbox 0.7.110.exe" /S /D=%CD%
 taskkill /f /im dropbox.exe</file>
@@ -1878,6 +1874,18 @@ rem start explorer from the root directory so it does not lock this one
 start "" /D\ explorer.exe</file>
         <url>http://cdn.dropbox.com/Dropbox%200.7.110.exe</url>
         <sha1>b5cdb5160d063427c403af280d48e91478042bc0</sha1>
+    </version>
+    <version name="1.0.10" package="com.dropbox.Dropbox" type="one-file">
+        <file path=".WPM\Install.bat">"Dropbox 1.0.10.exe" /S /D=%CD%
+taskkill /f /im dropbox.exe</file>
+        <file path=".WPM\Uninstall.bat">Uninstall.exe /S _?=%CD%
+taskkill /f /fi "IMAGENAME eq explorer.exe"
+del DropboxExt.13.dll
+del DropboxExt64.13.dll
+rem start explorer from the root directory so it does not lock this one
+start "" /D\ explorer.exe</file>
+        <url>http://cdn.dropbox.com/Dropbox%201.0.10.exe</url>
+        <sha1>ebe6c14e1bd336af2f24a3a40ddcdc412ff9ca6c</sha1>
     </version>
 
     <version name="1.89" package="com.revouninstaller.Revo" type="one-file">
