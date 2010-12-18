@@ -536,10 +536,6 @@ void MainWindow::process(QList<InstallOperation*> &install)
             if (!names.isEmpty())
                 names.append(", ");
             names.append(pv->toString());
-            if (i > 5) {
-                names.append("...");
-                break;
-            }
         }
     }
     QString installNames;
@@ -550,10 +546,6 @@ void MainWindow::process(QList<InstallOperation*> &install)
             if (!installNames.isEmpty())
                 installNames.append(", ");
             installNames.append(pv->toString());
-            if (i > 5) {
-                installNames.append("...");
-                break;
-            }
         }
     }
 
@@ -582,30 +574,56 @@ void MainWindow::process(QList<InstallOperation*> &install)
         b = QMessageBox::warning(this,
                 "Uninstall", msg, QMessageBox::Yes | QMessageBox::No);
     } else if (installCount > 0 && uninstallCount == 0) {
-        msg = QString("%1 package(s) will be installed: %2. "
+        msg = QString("%1 package(s) will be installed. "
                 "Are you sure?").
-                arg(installCount).arg(installNames);
-        b = QMessageBox::warning(this,
-                "Install", msg, QMessageBox::Yes | QMessageBox::No);
+                arg(installCount);
+        QMessageBox mb(this);
+        mb.setWindowTitle("Install");
+        mb.setText(msg);
+        mb.setIcon(QMessageBox::Warning);
+        mb.setStandardButtons(QMessageBox::Yes | QMessageBox::No);
+        mb.setDefaultButton(QMessageBox::Yes);
+        mb.setDetailedText(
+                QString("Following packages will be installed: %1").
+                arg(installNames));
+        b = (QMessageBox::StandardButton) mb.exec();
     } else if (installCount == 0 && uninstallCount > 0) {
-        msg = QString("%1 package(s) will be uninstalled: %2. "
+        msg = QString("%1 package(s) will be uninstalled. "
                 "The corresponding directories "
                 "will be completely deleted. "
                 "There is no way to restore the files. "
                 "Are you sure?").
-                arg(uninstallCount).arg(names);
-        b = QMessageBox::warning(this,
-                "Uninstall", msg, QMessageBox::Yes | QMessageBox::No);
+                arg(uninstallCount);
+        QMessageBox mb(this);
+        mb.setWindowTitle("Uninstall");
+        mb.setText(msg);
+        mb.setIcon(QMessageBox::Warning);
+        mb.setStandardButtons(QMessageBox::Yes | QMessageBox::No);
+        mb.setDefaultButton(QMessageBox::Yes);
+        mb.setDetailedText(
+                QString("Following packages will be uninstalled: %1").
+                arg(names));
+        b = (QMessageBox::StandardButton) mb.exec();
     } else {
-        msg = QString("%1 package(s) will be uninstalled: "
-            "%2 and %3 package(s) will be installed: %4. "
-            "The corresponding directories "
-            "will be completely deleted. "
-            "There is no way to restore the files. "
-            "Are you sure?").arg(uninstallCount).arg(names).
-            arg(installCount).arg(installNames);
-        b = QMessageBox::warning(this,
-                "Uninstall", msg, QMessageBox::Yes | QMessageBox::No);
+        msg = QString("%1 package(s) will be uninstalled "
+                "and %2 package(s) will be installed. "
+                "The corresponding directories "
+                "will be completely deleted. "
+                "There is no way to restore the files. "
+                "Are you sure?").arg(uninstallCount).
+                arg(installCount);
+        QMessageBox mb(this);
+        mb.setWindowTitle("Install/Uninstall");
+        mb.setText(msg);
+        mb.setIcon(QMessageBox::Warning);
+        mb.setStandardButtons(QMessageBox::Yes | QMessageBox::No);
+        mb.setDefaultButton(QMessageBox::Yes);
+        mb.setDetailedText(
+                QString("Following packages will be uninstalled: %1\n"
+                "Following packages will be installed: %2").
+                arg(names).
+                arg(installNames));
+        b = (QMessageBox::StandardButton) mb.exec();
     }
 
 
