@@ -30,6 +30,8 @@
 
 extern HWND defaultPasswordWindow;
 
+const char* NPACKD_VERSION = "1.14.1";
+
 class InstallThread: public QThread
 {
     PackageVersion* pv;
@@ -166,7 +168,7 @@ void InstallThread::run()
             r->packages.append(p);
         }
         r->versionDetected("com.googlecode.windows-package-manager.Npackd",
-                Version("1.14.1"));
+                Version(NPACKD_VERSION));
         break;
     }
     case 5:
@@ -870,6 +872,9 @@ void MainWindow::on_actionAbout_triggered()
 {
     QUrl url("http://code.google.com/p/windows-package-manager");
     QDesktopServices::openUrl(url);
+    QMessageBox::about(this, "About",
+            QString("Npackd %1 - software package manager for Windows (R)").
+            arg(NPACKD_VERSION));
 }
 
 void MainWindow::on_actionTest_Repositories_triggered()
