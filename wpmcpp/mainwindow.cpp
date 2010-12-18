@@ -888,10 +888,10 @@ void MainWindow::on_actionCompute_SHA1_triggered()
 
 void MainWindow::on_actionAbout_triggered()
 {
-    QUrl url("http://code.google.com/p/windows-package-manager");
-    QDesktopServices::openUrl(url);
     QMessageBox::about(this, "About",
-            QString("Npackd %1 - software package manager for Windows (R)").
+            QString("<html><body>Npackd %1 - software package manager for Windows (R)\n"
+            "<a href='http://code.google.com/p/windows-package-manager'>"
+            "http://code.google.com/p/windows-package-manager</a></body></html>").
             arg(NPACKD_VERSION));
 }
 
