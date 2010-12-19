@@ -913,3 +913,64 @@ void MainWindow::on_actionTest_Repositories_triggered()
         delete job;
     }
 }
+
+void MainWindow::on_tableWidget_doubleClicked(QModelIndex index)
+{
+    PackageVersion* pv = getSelectedPackageVersion();
+    if (pv) {
+        QString msg = QString("Package: %1\n"
+                "Verion: %2\n"
+                "Internal package name: %3").
+                arg(pv->getPackageTitle()).
+                arg(pv->version.getVersionString()).
+                arg(pv->package);
+
+        QString details = QString("Package: %1\n"
+                "Verion: %2\n"
+                "Internal package name: %3\n").
+                arg(pv->getPackageTitle()).
+                arg(pv->version.getVersionString()).
+                arg(pv->package);
+        details.append("Status: ");
+        if (pv->external)
+            details.append("externally installed");
+        else if (pv->installed())
+            details.append("installed");
+        else
+            details.append("not installed");
+        details.append("\n");
+        details.append("Download URL: ");
+        if (pv->download.isEmpty())
+            details.append("n/a");
+        else
+            details.append(pv->download.toString());
+        details.append("\n");
+        details.append("SHA1 (cryptographic check sum): ");
+        if (pv->sha1.isEmpty())
+            details.append("n/a");
+        else
+            details.append(pv->sha1);
+        details.append("\n");
+        details.append("Type: ");
+        if (pv->type == 0)
+            details.append("zip");
+        else
+            details.append("one-file");
+        details.append("\n");
+        for (int i = 0; i < pv->importantFiles.count(); i++) {
+            details.append("Important file: ");
+            details.append(pv->importantFilesTitles.at(i));
+            details.append(" (");
+            details.append(pv->importantFiles.at(i));
+            details.append(")\n");
+        }
+
+        QMessageBox mb(this);
+        mb.setWindowTitle("Package Information");
+        mb.setText(msg);
+        mb.setIcon(QMessageBox::Information);
+        mb.setStandardButtons(QMessageBox::Ok);
+        mb.setDetailedText(details);
+        mb.exec();
+    }
+}

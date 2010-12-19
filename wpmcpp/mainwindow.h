@@ -7,6 +7,7 @@
 #include <qprogressdialog.h>
 #include <qtimer.h>
 #include "qmap.h"
+#include <QModelIndex>
 
 #include "packageversion.h"
 #include "job.h"
@@ -65,6 +66,7 @@ protected:
     void changeEvent(QEvent *e);
     void process(QList<InstallOperation*>& install);
 private slots:
+    void on_tableWidget_doubleClicked(QModelIndex index);
     void on_actionTest_Repositories_triggered();
     void on_actionAbout_triggered();
     void on_actionCompute_SHA1_triggered();
