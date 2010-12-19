@@ -918,19 +918,35 @@ void MainWindow::on_tableWidget_doubleClicked(QModelIndex index)
 {
     PackageVersion* pv = getSelectedPackageVersion();
     if (pv) {
-        QString msg = QString("Package: %1\n"
-                "Verion: %2\n"
-                "Internal package name: %3").
+        Package* p = Repository::getDefault()->findPackage(pv->package);
+        QString msg = QString("Package: %1 %2").
                 arg(pv->getPackageTitle()).
-                arg(pv->version.getVersionString()).
-                arg(pv->package);
+                arg(pv->version.getVersionString());
+        if (p) {
+            msg.append("\n");
+            msg.append("Description: ");
+            msg.append(p->description);
+        }
 
         QString details = QString("Package: %1\n"
-                "Verion: %2\n"
-                "Internal package name: %3\n").
+                "Version: %2\n"
+                "Internal package name: %3\n"
+                ).
                 arg(pv->getPackageTitle()).
                 arg(pv->version.getVersionString()).
                 arg(pv->package);
+        details.append("Description: ");
+        if (p)
+            details.append(p->description);
+        else
+            details.append("n/a");
+        details.append("\n");
+        details.append("Icon: ");
+        if (p && !p->icon.isEmpty())
+            details.append(p->icon);
+        else
+            details.append("n/a");
+        details.append("\n");
         details.append("Status: ");
         if (pv->external)
             details.append("externally installed");
