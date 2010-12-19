@@ -658,7 +658,7 @@
         <description>image processing</description>
     </package>
     <package name="de.irfanview.IrfanViewInstaller">
-        <title>IrfanView installer</title>
+        <title>IrfanView installer (deprecated, use the non-installer package instead)</title>
         <url>http://www.irfanview.de/</url>
         <description>image processing</description>
     </package>
@@ -4371,10 +4371,36 @@ echo DesktopShortcut=false >> .WPM\FF.ini
         <url>http://download.oldapps.com/Java/jre-6u21-windows-i586-s.exe</url>
     </version>
 
-    <version name="4.27" package="de.irfanview.IrfanViewInstaller" type="one-file">
-        <important-file path="iview427_setup.exe" title="Installer"/>
-        <url>http://download.betanews.com/download/967963863-1/iview427_setup.exe</url>
-        <sha1>b5e3d20bb0e6c4db938a568edcf0936cc81be3a6</sha1>
+    <version name="4.28" package="de.irfanview.IrfanView" type="one-file">
+        <file path=".WPM\Install.bat">set KEY=de.irfanview.IrfanView-4.28
+reg add HKLM\SOFTWARE\Classes\Applications\%KEY%\shell\open /v FriendlyAppName /d "IrfanView (4.28)" /f
+set c=\"%CD%\i_view32.exe\" \"%%1\"
+reg add HKLM\SOFTWARE\Classes\Applications\%KEY%\shell\open\command /d "%c%" /f
+for %%g in (ani cur avi wmv asf b3d bmp dib rle cam cdr cmx clp cpt crw cr2
+dcm acr ima dcr dng eff mrw nef orf pef raf srf arw rwl rw2 x3f
+dds blp djvu iw44 dwg dxf hpgl cgm svg ecw eps ps pdf ai
+exe dll cpl exr fpx fsh g3 gif hdp wdp ico icl ics ids iff lbm
+img jls jp2 jpg jpeg jpm kdc ldf lwf med mng jng mp3 m3u mov
+mpg mpeg dat nlm nol ngg gsm ogg pbm pgm ppm pcd pcx dcx png psd
+psp ra ras raw yuv rle sff sfw sgi sid swf flv tga tif ttf
+wav mid rmi wma aif snd au cda wbmp wbz wbc wmf emf wsq xbm
+xpm) do reg add HKLM\SOFTWARE\Classes\.%%g\OpenWithList\%key% /f
+</file>
+        <file path=".WPM\Uninstall.bat">set KEY=de.irfanview.IrfanView-4.28
+reg delete HKLM\SOFTWARE\Classes\Applications\%KEY% /f
+for %%g in (ani cur avi wmv asf b3d bmp dib rle cam cdr cmx clp cpt crw cr2
+dcm acr ima dcr dng eff mrw nef orf pef raf srf arw rwl rw2 x3f
+dds blp djvu iw44 dwg dxf hpgl cgm svg ecw eps ps pdf ai
+exe dll cpl exr fpx fsh g3 gif hdp wdp ico icl ics ids iff lbm
+img jls jp2 jpg jpeg jpm kdc ldf lwf med mng jng mp3 m3u mov
+mpg mpeg dat nlm nol ngg gsm ogg pbm pgm ppm pcd pcx dcx png psd
+psp ra ras raw yuv rle sff sfw sgi sid swf flv tga tif ttf
+wav mid rmi wma aif snd au cda wbmp wbz wbc wmf emf wsq xbm
+xpm) do reg delete HKLM\SOFTWARE\Classes\.%%g\OpenWithList\%key% /f
+</file>
+        <important-file path="i_view32.exe" title="IrfanView"/>
+        <url>http://irfanview.tuwien.ac.at/iview428.zip</url>
+        <sha1>20c55259cfd78536c37d251dadf0ed09f3688606</sha1>
     </version>
 
     <!-- TODO: no direct download
