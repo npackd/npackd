@@ -817,8 +817,12 @@ void PackageVersion::executeFile(Job* job, const QString& path,
     time_t start = time(NULL);
     while (true) {
         if (job->isCancelled()) {
-            if (p.state() == QProcess::Running)
+            if (p.state() == QProcess::Running) {
                 p.terminate();
+                if (p.waitForFinished(10000))
+                    break;
+                p.kill();
+            }
         }
         if (p.waitForFinished(5000) || p.state() == QProcess::NotRunning) {
             job->setProgress(1);
