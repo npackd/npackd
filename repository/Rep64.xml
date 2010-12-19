@@ -6,10 +6,25 @@
     <!--
      Packages in alphabetical order (including the reversed domain name prefix.
     -->
+    <package name="com.oracle.JRE64">
+        <title>JRE/64 bit</title>
+        <url>http://www.java.com/en/</url>
+        <description>Java runtime</description>
+    </package>
 
     <!--
     The package versions are not sorted by the package, but different version
     of a package should stay together. Newer versions should appear under older
     ones.
     -->
+    <!--
+            TODO: INSTALLDIR= does not work here
+            TODO: the installation shows 2 confirmation dialogs
+    -->
+    <version name="1.6.0.23" package="com.oracle.JRE64" type="one-file">
+        <file path=".WPM\Install.bat">jre-6u23-windows-x64.exe /qn /norestart ALLUSERS=1</file>
+        <file path=".WPM\Uninstall.bat">MsiExec.exe /qn /norestart /Lime .WPM\MSI.log /X{26A24AE4-039D-4CA4-87B4-2F83216023FF}</file>
+        <url>http://download.oldapps.com/Java/jre-6u23-windows-x64.exe</url>
+        <sha1>519b24f1353b62cdf84db90a3f62da01f72e04a9</sha1>
+    </version>
 </root>
