@@ -5676,7 +5676,9 @@ for %%g in (txt log ini h hpp hxx c cpp cxx cc m java cs pas inc html htm php ph
 taskkill /f /fi "IMAGENAME eq explorer.exe"
 del /Q NppShell_*.dll
 rem start explorer from the root directory so it does not lock this one
+pushd \
 start "" /D\ explorer.exe
+popd
 
 :err</file>
         <important-file path="notepad++.exe" title="Notepad++"/>
