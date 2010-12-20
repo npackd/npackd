@@ -304,11 +304,25 @@ bool MainWindow::waitFor(Job* job, const QString& title)
     if (job->isCancelled())
         return false;
     else if (!job->getErrorMessage().isEmpty()) {
-        QMessageBox::critical(this,
-                "Error", QString("%1: %2").
-                arg(job->getHint()).
-                arg(job->getErrorMessage()),
-                QMessageBox::Ok);
+        QString first = job->getErrorMessage().trimmed();
+        int ind = first.indexOf("\n");
+        if (ind >= 0)
+            first = first.left(ind);
+        ind = first.indexOf("\r");
+        if (ind >= 0)
+            first = first.left(ind);
+
+        QMessageBox mb(this);
+        mb.setWindowTitle("Error");
+        mb.setText(QString("%1: %2").
+                   arg(job->getHint()).
+                   arg(first));
+        mb.setIcon(QMessageBox::Critical);
+        mb.setStandardButtons(QMessageBox::Ok);
+        mb.setDefaultButton(QMessageBox::Ok);
+        mb.setDetailedText(job->getErrorMessage());
+        mb.exec();
+
         return false;
     } else {
         return true;
