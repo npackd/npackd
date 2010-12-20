@@ -17,6 +17,8 @@ class WPMUtils
 private:
     WPMUtils();
 public:
+    static const char* NPACKD_VERSION;
+
     /**
      * @return true if this program is running on a 64-bit Windows
      */

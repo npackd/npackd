@@ -26,6 +26,8 @@
 //#include <wchar.h>
 //#include <stdio.h>
 
+const char* WPMUtils::NPACKD_VERSION = "1.14.1";
+
 WPMUtils::WPMUtils()
 {
 }

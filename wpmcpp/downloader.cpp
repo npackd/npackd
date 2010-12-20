@@ -42,7 +42,9 @@ bool downloadWin(Job* job, const QUrl& url, QTemporaryFile* file,
         job->setHint("Connecting");
     }
 
-    internet = InternetOpenW(L"Npackd",
+    QString agent("Npackd/");
+    agent.append(WPMUtils::NPACKD_VERSION);
+    internet = InternetOpenW((WCHAR*) agent.utf16(),
             INTERNET_OPEN_TYPE_PRECONFIG,
             0, 0, 0);
 
