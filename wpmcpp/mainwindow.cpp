@@ -709,6 +709,10 @@ void MainWindow::on_tableWidget_itemSelectionChanged()
 
 void MainWindow::recognizeAndloadRepositories()
 {
+    QTableWidget* t = this->ui->tableWidget;
+    t->clearContents();
+    t->setRowCount(0);
+
     Job* job = new Job();
     InstallThread* it = new InstallThread(0, 3, job);
     it->start();
