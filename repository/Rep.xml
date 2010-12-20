@@ -1390,9 +1390,9 @@
             type="one-file">
         <important-file path="wpm.exe" title="Npackd (Windows Package Manager)"/>
         <file path=".WPM\Install.bat">msiexec /a WPM-1.13.0.msi /qn /norestart /Lime .WPM\MSI.log TARGETDIR="%CD%" ALLUSERS=1
-if errorlevel 1 goto err
+set err=%errorlevel%
 type .WPM\MSI.log
-:err
+if %err% neq 0 exit /b %err%
 </file>
         <url>http://windows-package-manager.googlecode.com/files/WPM-1.13.0.msi</url>
         <sha1>0f2c1f3a53d0128644b5556a2284e75dd17fd0a2</sha1>
