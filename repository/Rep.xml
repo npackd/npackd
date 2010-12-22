@@ -1892,9 +1892,11 @@ f\install.exe /Q</file>
         <file path=".WPM\Install.bat">"Dropbox 0.7.110.exe" /S /D=%CD%
 taskkill /f /im dropbox.exe</file>
         <file path=".WPM\Uninstall.bat">Uninstall.exe /S _?=%CD%
-taskkill /T /f /fi "IMAGENAME eq explorer.exe"
+taskkill /f /fi "IMAGENAME eq explorer.exe"
 del DropboxExt.13.dll
 del DropboxExt64.13.dll
+ping -n 5 127.0.0.1
+taskkill /f /fi "IMAGENAME eq explorer.exe"
 rem start explorer from the root directory so it does not lock this one
 start "" /D\ explorer.exe</file>
         <url>http://cdn.dropbox.com/Dropbox%200.7.110.exe</url>
@@ -1907,10 +1909,10 @@ taskkill /f /im dropbox.exe</file>
 taskkill /f /fi "IMAGENAME eq explorer.exe"
 del DropboxExt.14.dll
 del DropboxExt64.14.dll
+ping -n 5 127.0.0.1
+taskkill /f /fi "IMAGENAME eq explorer.exe"
 rem start explorer from the root directory so it does not lock this one
-pushd \
-runas /trustlevel:0x20000 explorer.exe
-popd</file>
+start "" /D\ explorer.exe</file>
         <url>http://cdn.dropbox.com/Dropbox%201.0.10.exe</url>
         <sha1>ebe6c14e1bd336af2f24a3a40ddcdc412ff9ca6c</sha1>
     </version>
