@@ -996,6 +996,14 @@ void MainWindow::on_tableWidget_doubleClicked(QModelIndex index)
             details.append(pv->importantFiles.at(i));
             details.append(")\n");
         }
+        details.append("Dependencies: ");
+        for (int i = 0; i < pv->dependencies.count(); i++) {
+            Dependency* d = pv->dependencies.at(i);
+            if (i != 0)
+                details.append(", ");
+            details.append(d->toString());
+        }
+        details.append("\n");
 
         QMessageBox mb(this);
         mb.setWindowTitle("Package Information");
