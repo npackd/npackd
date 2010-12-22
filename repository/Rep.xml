@@ -5866,11 +5866,11 @@ if %err% neq 0 exit /b %err%
 reg add HKLM\SOFTWARE\Classes\Applications\%KEY%\shell\open /v FriendlyAppName /d "Notepad++ (5.8.6)" /f
 set c=\"%CD%\unicode\notepad++.exe\" \"%%1\"
 reg add HKLM\SOFTWARE\Classes\Applications\%KEY%\shell\open\command /d "%c%" /f
-for %%g in (txt log ini h hpp hxx c cpp cxx cc m java cs pas inc html htm php phtml js jsp asp css xml sh bsh nsi nsh lua pl pm py as mx vb vbs f for f90 f95 f2k tex sql nfo mak) do reg add HKLM\SOFTWARE\Classes\.%%g\OpenWithList\%key% /f
+for %%g in (bat txt log ini h hpp hxx c cpp cxx cc m java cs pas inc html htm php phtml js jsp asp css xml sh bsh nsi nsh lua pl pm py as mx vb vbs f for f90 f95 f2k tex sql nfo mak) do reg add HKLM\SOFTWARE\Classes\.%%g\OpenWithList\%key% /f
 </file>
         <file path=".WPM\Uninstall.bat">set key=net.sourceforge.NotepadPlusPlus-5.8.6
 reg delete HKLM\SOFTWARE\Classes\Applications\%KEY% /f
-for %%g in (txt log ini h hpp hxx c cpp cxx cc m java cs pas inc html htm php phtml js jsp asp css xml sh bsh nsi nsh lua pl pm py as mx vb vbs f for f90 f95 f2k tex sql nfo mak) do reg delete HKLM\SOFTWARE\Classes\.%%g\OpenWithList\%key% /f
+for %%g in (bat txt log ini h hpp hxx c cpp cxx cc m java cs pas inc html htm php phtml js jsp asp css xml sh bsh nsi nsh lua pl pm py as mx vb vbs f for f90 f95 f2k tex sql nfo mak) do reg delete HKLM\SOFTWARE\Classes\.%%g\OpenWithList\%key% /f
 </file>
         <important-file path="unicode\notepad++.exe" title="Notepad++"/>
         <url>http://download.tuxfamily.org/notepadplus/5.8.6/npp.5.8.6.bin.zip</url>
