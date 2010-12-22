@@ -1537,6 +1537,8 @@ if %err% neq 0 exit /b %err%
         TODO: The installation opens 2 console windows.
         The configuration is not valid due to the missing domain name
         and should be fixed manually.
+        TODO: maybe ADDLOCAL=ADDLOCAL=ApacheDocs,ApacheMonitoring,ApacheRuntime,Apache,BuildFiles,Iconv,OpensslBin,SslBin
+        to choose features
     -->
     <version name="2.2.17" package="org.apache.httpd.HTTPServer"
 			type="one-file">
@@ -2991,15 +2993,14 @@ if %err% neq 0 exit /b %err%
     
     <version name="1" package="com.pantaray.SuperOrca" type="one-file">
         <file path=".WPM\Install.bat">SuperOrcaSetup.exe /Silent /Hide /InstallDir="%CD%"
-if errorlevel 1 goto err
+set err=%errorlevel%
+if %err% neq 0 exit /b %err%
 
 set key=com.pantaray.SuperOrca-1
 reg add HKLM\SOFTWARE\Classes\Applications\%key%\shell\open /v FriendlyAppName /d "SuperOrca (1)" /f
 set c=\"%CD%\SuperOrca\SuperOrca.exe\" \"%%1\"
 reg add HKLM\SOFTWARE\Classes\Applications\%KEY%\shell\open\command /d "%c%" /f
 for %%g in (msi) do reg add HKLM\SOFTWARE\Classes\.%%g\OpenWithList\%key% /f
-
-:err
 </file>
         <file path=".WPM\Uninstall.bat">un_SuperOrcaSetup_21233.exe /Silent /Hide
 if errorlevel 1 goto err
