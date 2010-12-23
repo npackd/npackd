@@ -292,6 +292,7 @@ QString WPMUtils::sha1(const QString& filename)
 
 void WPMUtils::removeDirectory2(Job* job, QDir &d)
 {
+    /* old code
     Job* sub = job->newSubJob(0.3);
     WPMUtils::removeDirectory(sub, d);
     if (!sub->getErrorMessage().isEmpty()) {
@@ -307,6 +308,20 @@ void WPMUtils::removeDirectory2(Job* job, QDir &d)
     } else{
         delete sub;
         job->setProgress(1);
+    }
+    job->complete();
+    */
+
+    QString err = WPMUtils::moveToRecycleBin(d.absolutePath());
+    if (!err.isEmpty()) {
+        job->setProgress(0.3);
+        Sleep(5000); // 5 Seconds
+        job->setProgress(0.6);
+        err = WPMUtils::moveToRecycleBin(d.absolutePath());
+        if (!err.isEmpty())
+            job->setErrorMessage(err);
+        else
+            job->setProgress(1);
     }
     job->complete();
 }
