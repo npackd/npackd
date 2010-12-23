@@ -4,6 +4,7 @@
 #include <psapi.h>
 #include <tlhelp32.h>
 #include "msi.h"
+#include <shellapi.h>
 
 #include "qdebug.h"
 #include "qdir.h"
@@ -308,6 +309,26 @@ void WPMUtils::removeDirectory2(Job* job, QDir &d)
         job->setProgress(1);
     }
     job->complete();
+}
+
+QString WPMUtils::moveToRecycleBin(QString dir)
+{
+    SHFILEOPSTRUCTW f;
+    memset(&f, 0, sizeof(f));
+    WCHAR from[MAX_PATH + 2];
+    wcscpy(from, (WCHAR*) dir.utf16());
+    from[wcslen(from) + 1] = 0;
+    f.wFunc = FO_DELETE;
+    f.pFrom = from;
+    f.fFlags = FOF_ALLOWUNDO | FOF_NOCONFIRMATION | FOF_NOERRORUI |
+            FOF_SILENT | FOF_NOCONFIRMMKDIR;
+
+    int r = SHFileOperationW(&f);
+    if (r == 0)
+        return "";
+    else {
+        return QString("Error deleting %1: %2").arg(dir).arg(r);
+    }
 }
 
 bool WPMUtils::is64BitWindows()

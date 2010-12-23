@@ -20,6 +20,14 @@ public:
     static const char* NPACKD_VERSION;
 
     /**
+     * Moves a directory to a recycle bin.
+     *
+     * @param dir directory
+     * @return error message or ""
+     */
+    static QString moveToRecycleBin(QString dir);
+
+    /**
      * @return true if this program is running on a 64-bit Windows
      */
     static bool is64BitWindows();

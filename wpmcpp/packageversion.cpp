@@ -347,11 +347,14 @@ void PackageVersion::uninstall(Job* job)
         Repository::getDefault()->somethingWasInstalledOrUninstalled();
         if (d.exists()) {
             job->setHint("Deleting files");
+            WPMUtils::moveToRecycleBin(d.absolutePath());
+            /** old code: deleting files
             Job* rjob = job->newSubJob(0.55);
             WPMUtils::removeDirectory2(rjob, d);
             if (!rjob->getErrorMessage().isEmpty())
                 job->setErrorMessage(rjob->getErrorMessage());
             delete rjob;
+            */
         } else {
             job->setProgress(1);
         }

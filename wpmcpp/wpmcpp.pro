@@ -54,6 +54,7 @@ LIBS += C:\Users\t\libs\quazip-0.2.3\quazip\debug\libquazip.a \
     C:\Qt\2010.03\mingw\lib\libuuid.a \
     C:\Qt\2010.03\mingw\lib\libwininet.a \
     C:\Qt\2010.03\mingw\lib\libpsapi.a \
+    C:\Qt\2010.03\mingw\lib\libshell32.a \
     C:\Qt\2010.03\mingw\lib\libversion.a \
     C:\Users\t\projects\windows-package-manager\wpmcpp\libmsi.a
 CONFIG += embed_manifest_exe
