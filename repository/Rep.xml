@@ -2131,9 +2131,6 @@ move com.dropbox.Dropbox-1.0.10 .Trash\com.dropbox.Dropbox-1.0.10_%RANDOM%
         <sha1>682b50e1a0475d07b3cc24935d163d05c01bcfe4</sha1>
     </version>
 
-    <!--
-        TODO: uninstallation shows 2 confirmation dialogs
-    -->
     <version name="3.2.2" package="org.glest.Glest" type="one-file">
         <file path=".WPM\Install.bat">glest_3.2.2.exe /SP- /VERYSILENT /SUPPRESSMSGBOXES /NOCANCEL /NORESTART /DIR="%CD%"</file>
         <file path=".WPM\Uninstall.bat">unins000.exe /VERYSILENT /SUPPRESSMSGBOXES /NORESTART</file>
@@ -2141,137 +2138,28 @@ move com.dropbox.Dropbox-1.0.10 .Trash\com.dropbox.Dropbox-1.0.10_%RANDOM%
         <sha1>6e37c98c251a2d82e054de40b2013361f9c4aed8</sha1>
     </version>
 
-    <version name="7.3" package="org.vim.VimRuntime">
-        <url>http://ftp.vim.org/pub/vim/pc/vim73rt.zip</url>
-        <sha1>687f43e1cbd9b058bddf673e812853028f0c79a7</sha1>
-    </version>
     <version name="7.3.46" package="org.vim.VimRuntime">
         <url>http://ftp.vim.org/pub/vim/pc/vim73_46rt.zip</url>
         <sha1>cde31a99db352464be75078dbae9176a5b0722f3</sha1>
     </version>
 
-    <version name="7.3" package="org.vim.Vim">
-        <file path=".WPM\Install.bat">xcopy ..\org.vim.VimRuntime-7.3\* . /E /H</file>
-        <important-file path="vim\vim73\gvim.exe" title="Vim"/>
-        <url>http://ftp.vim.org/pub/vim/pc/gvim73.zip</url>
-        <sha1>038bce3d5025eb30413d587f6f3a586bee38db8e</sha1>
-        <dependency package="org.vim.VimRuntime" versions="[7.3, 7.3]"/>
-        <!-- TODO: <file-handler>
-            <title>Vim</title>
-            <executable>vim\vim73\gvim.exe</executable>
-            <extension>.vim</extension>
-            <extension>.txt</extension>
-            <extension>.log</extension>
-            <extension>.ini</extension>
-            <extension>.h</extension>
-            <extension>.hpp</extension>
-            <extension>.hxx</extension>
-            <extension>.c</extension>
-            <extension>.cpp</extension>
-            <extension>.cxx</extension>
-            <extension>.cc</extension>
-            <extension>.m</extension>
-            <extension>.java</extension>
-            <extension>.cs</extension>
-            <extension>.pas</extension>
-            <extension>.inc</extension>
-            <extension>.html</extension>
-            <extension>.htm</extension>
-            <extension>.php</extension>
-            <extension>.phtml</extension>
-            <extension>.js</extension>
-            <extension>.jsp</extension>
-            <extension>.asp</extension>
-            <extension>.css</extension>
-            <extension>.xml</extension>
-            <extension>.sh</extension>
-            <extension>.bsh</extension>
-            <extension>.nsi</extension>
-            <extension>.nsh</extension>
-            <extension>.lua</extension>
-            <extension>.pl</extension>
-            <extension>.pm</extension>
-            <extension>.py</extension>
-            <extension>.as</extension>
-            <extension>.mx</extension>
-            <extension>.vb</extension>
-            <extension>.vbs</extension>
-            <extension>.f</extension>
-            <extension>.for</extension>
-            <extension>.f90</extension>
-            <extension>.f95</extension>
-            <extension>.f2k</extension>
-            <extension>.tex</extension>
-            <extension>.sql</extension>
-            <extension>.nfo</extension>
-            <extension>.mak</extension>
-        </file-handler> -->
-    </version>
     <version name="7.3.46" package="org.vim.Vim">
-        <file path=".WPM\Install.bat">xcopy ..\org.vim.VimRuntime-7.3.46\* . /E /H</file>
+        <file path=".WPM\Install.bat">xcopy ..\org.vim.VimRuntime-7.3.46\* . /E /H
+set KEY=org.vim.Vim-7.3.46
+reg add HKLM\SOFTWARE\Classes\Applications\%KEY%\shell\open /v FriendlyAppName /d "Vim (7.3.46)" /f
+set c=\"%CD%\vim\vim73\gvim.exe\" \"%%1\"
+reg add HKLM\SOFTWARE\Classes\Applications\%KEY%\shell\open\command /d "%c%" /f
+for %%g in (vim txt in hp hxx c cpp cxx cc m java cs pas inc html htm php phtml js jsp asp css xml sh bsh nsi nsh lua pl pm py as mx vb vbs f for f90 f95 f2k tex sql nfo mak) do reg add HKLM\SOFTWARE\Classes\.%%g\OpenWithList\%key% /f
+</file>
+        <file path=".WPM\Uninstall.bat">set KEY=org.vim.Vim-7.3.46
+reg delete HKLM\SOFTWARE\Classes\Applications\%KEY% /f
+for %%g in (vim txt in hp hxx c cpp cxx cc m java cs pas inc html htm php phtml js jsp asp css xml sh bsh nsi nsh lua pl pm py as mx vb vbs f for f90 f95 f2k tex sql nfo mak) do reg delete HKLM\SOFTWARE\Classes\.%%g\OpenWithList\%key% /f
+</file>
         <important-file path="vim\vim73\gvim.exe" title="Vim"/>
         <url>http://ftp.vim.org/pub/vim/pc/gvim73_46.zip</url>
         <sha1>de679dc1ade3caafbb27bc88071f1e00a677cdc2</sha1>
         <dependency package="org.vim.VimRuntime" versions="[7.3.46, 7.3.46]"/>
-        <!-- TODO: <file-handler>
-            <title>Vim</title>
-            <executable>vim\vim73\gvim.exe</executable>
-            <extension>.vim</extension>
-            <extension>.txt</extension>
-            <extension>.log</extension>
-            <extension>.ini</extension>
-            <extension>.h</extension>
-            <extension>.hpp</extension>
-            <extension>.hxx</extension>
-            <extension>.c</extension>
-            <extension>.cpp</extension>
-            <extension>.cxx</extension>
-            <extension>.cc</extension>
-            <extension>.m</extension>
-            <extension>.java</extension>
-            <extension>.cs</extension>
-            <extension>.pas</extension>
-            <extension>.inc</extension>
-            <extension>.html</extension>
-            <extension>.htm</extension>
-            <extension>.php</extension>
-            <extension>.phtml</extension>
-            <extension>.js</extension>
-            <extension>.jsp</extension>
-            <extension>.asp</extension>
-            <extension>.css</extension>
-            <extension>.xml</extension>
-            <extension>.sh</extension>
-            <extension>.bsh</extension>
-            <extension>.nsi</extension>
-            <extension>.nsh</extension>
-            <extension>.lua</extension>
-            <extension>.pl</extension>
-            <extension>.pm</extension>
-            <extension>.py</extension>
-            <extension>.as</extension>
-            <extension>.mx</extension>
-            <extension>.vb</extension>
-            <extension>.vbs</extension>
-            <extension>.f</extension>
-            <extension>.for</extension>
-            <extension>.f90</extension>
-            <extension>.f95</extension>
-            <extension>.f2k</extension>
-            <extension>.tex</extension>
-            <extension>.sql</extension>
-            <extension>.nfo</extension>
-            <extension>.mak</extension>
-        </file-handler> -->
     </version>
-
-    <!-- not necessary anymore
-    <version name="7.3" package="org.vim.VimInstaller" type="one-file">
-        <important-file path="gvim73.exe" title="Installer"/>
-        <url>http://wpm.freehostingcloud.com/files/gvim73.exe</url>
-        <sha1>e3f082369051a496a75680462b494b26324e796c</sha1>
-    </version>
-    -->
 
     <version name="1.3.3.14" package="net.scribus.Scribus" type="one-file">
         <file path=".WPM\Install.bat">scribus-1.3.3.14-win32-install.exe /S /D=%CD%</file>
