@@ -2132,6 +2132,7 @@ for %%g in (vim txt in hp hxx c cpp cxx cc m java cs pas inc html htm php phtml 
     
     <!-- 
         TODO: The same URL is used for different program versions.
+        TODO: the un-installation shows 2 confirmation dialogs
     -->
     <version name="6.0.2" package="de.nextsoft.HexEditorMX">
         <file path=".WPM\Install.bat">setup.exe /SP- /VERYSILENT /SUPPRESSMSGBOXES /NOCANCEL /NORESTART /DIR="%CD%"</file>
@@ -3569,7 +3570,7 @@ if %err% neq 0 exit /b %err%
 if "%d%" NEQ "" goto n
 set d=%ProgramFiles%
 :n
-"%d%\Launchy\unins000.exe" /SILENT
+"%d%\Launchy\unins000.exe" /VERYSILENT /SUPPRESSMSGBOXES /NORESTART
 </file>
         <url>http://downloads.sourceforge.net/project/launchy/Launchy%20for%20Windows/0.5/Launchy2.5.exe?71004567</url>
         <sha1>9deaf27e1260cd9b77d84d1693d11ef65c47c578</sha1>
