@@ -972,7 +972,7 @@
     <package name="org.apache.httpd.HTTPServer">
         <title>Apache HTTP Server</title>
         <url>http://httpd.apache.org</url>
-        <description>HTTP server</description>
+        <description>HTTP server. The server runs on the port 8083.</description>
     </package>
     <package name="org.apache.jakarta.JMeter">
         <title>JMeter</title>
@@ -1544,7 +1544,7 @@ if %err% neq 0 exit /b %err%
     -->
     <version name="2.2.17" package="org.apache.httpd.HTTPServer"
 			type="one-file">
-        <file path=".WPM\Install.bat">msiexec.exe /qn /norestart /Lime .WPM\MSI.log /i httpd-2.2.17-win32-x86-openssl-0.9.8o.msi INSTALLDIR="%CD%" ALLUSERS=1
+        <file path=".WPM\Install.bat">msiexec.exe /qn /norestart /Lime .WPM\MSI.log /i httpd-2.2.17-win32-x86-openssl-0.9.8o.msi INSTALLDIR="%CD%" ALLUSERS=1 SERVERADMIN=admin@localhost SERVERNAME=localhost SERVERDOMAIN=localhost SERVERPORT=8083
 set err=%errorlevel%
 type .WPM\MSI.log
 if %err% neq 0 exit /b %err%
@@ -3802,7 +3802,7 @@ if %err% neq 0 exit /b %err%
 
     <!--
         TODO: Needs MSVCR71.dll which will not be installed => a dependency.
-        The un-installation shows 2 dialogs.
+        TODO: The un-installation shows 2 dialogs.
     -->
     <version name="1.6.6" package="org.unrealvoodoo.hiteck.AlbumArt"
             type="one-file">
