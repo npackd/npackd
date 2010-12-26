@@ -1391,10 +1391,6 @@
     ones.
     -->
 
-    <!--
-        TODO: if errorlevel goto 1 clears the error level
-    -->
-
     <!-- TODO: installation fails with the error 1603
     <version name="1.13.0" package="com.googlecode.windows-package-manager.Npackd"
             type="one-file">
@@ -2850,13 +2846,12 @@ reg add HKLM\SOFTWARE\Classes\Applications\%KEY%\shell\open\command /d "%c%" /f
 for %%g in (msi) do reg add HKLM\SOFTWARE\Classes\.%%g\OpenWithList\%key% /f
 </file>
         <file path=".WPM\Uninstall.bat">un_SuperOrcaSetup_21233.exe /Silent /Hide
-if errorlevel 1 goto err
+set err=%errorlevel%
+if %err% neq 0 exit /b %err%
 
 set key=com.pantaray.SuperOrca-1
 reg delete HKLM\SOFTWARE\Classes\Applications\%key% /f
 for %%g in (msi) do reg delete HKLM\SOFTWARE\Classes\.%%g\OpenWithList\%key% /f
-
-:err
 </file>
         <url>http://www.pantaray.com/SuperOrcaSetup.exe</url>
         <sha1>976c772df01e31a66b6e128255051f85cd8aded9</sha1>
@@ -4554,18 +4549,18 @@ if %err% neq 0 exit /b %err%
     
     <version name="4.65" package="org.7-zip.SevenZIP" type="one-file">
         <file path=".WPM\Install.bat">7z465.exe /S /D=%CD%
-if errorlevel 1 goto err
+set err=%errorlevel%
+if %err% neq 0 exit /b %err%
 
 set key=org.7-zip.SevenZIP-4.65
 reg add HKLM\SOFTWARE\Classes\Applications\%KEY%\shell\open /v FriendlyAppName /d "7-Zip File Manager (7-ZIP 4.65)" /f
 set c=\"%CD%\7zFM.exe\" \"%%1\"
 reg add HKLM\SOFTWARE\Classes\Applications\%KEY%\shell\open\command /d "%c%" /f
 for %%g in (001 7z arj bz2 bzip2 cab cpio deb dmg egg fat gz gzip hfs iso lha lzh lzma ntfs rar rpm squashfs swm tar taz tbz tbz2 tgz tpz txz vhd wim xar xz z zip) do reg add HKLM\SOFTWARE\Classes\.%%g\OpenWithList\%key% /f
-
-:err
 </file>
         <file path=".WPM\Uninstall.bat">Uninstall.exe /S _?=%CD%
-if errorlevel 1 goto err
+set err=%errorlevel%
+if %err% neq 0 exit /b %err%
 
 set key=org.7-zip.SevenZIP-4.65
 reg delete HKLM\SOFTWARE\Classes\Applications\%KEY% /f
@@ -4575,25 +4570,24 @@ taskkill /f /fi "IMAGENAME eq explorer.exe"
 del 7-zip.dll
 rem start explorer from the root directory so it does not lock this one
 start "" /D\ explorer.exe
-:err
 </file>
         <url>http://downloads.sourceforge.net/project/sevenzip/7-Zip/4.65/7z465.exe?83156013</url>
         <sha1>c36012e960fa3932cd23f30ac5b0fe722740243a</sha1>
     </version>
     <version name="9.20" package="org.7-zip.SevenZIP" type="one-file">
         <file path=".WPM\Install.bat">7z920.exe /S /D=%CD%
-if errorlevel 1 goto err
+set err=%errorlevel%
+if %err% neq 0 exit /b %err%
 
 set key=org.7-zip.SevenZIP-9.20
 reg add HKLM\SOFTWARE\Classes\Applications\%KEY%\shell\open /v FriendlyAppName /d "7-Zip File Manager (7-ZIP 9.20)" /f
 set c=\"%CD%\7zFM.exe\" \"%%1\"
 reg add HKLM\SOFTWARE\Classes\Applications\%KEY%\shell\open\command /d "%c%" /f
 for %%g in (001 7z arj bz2 bzip2 cab cpio deb dmg egg fat gz gzip hfs iso lha lzh lzma ntfs rar rpm squashfs swm tar taz tbz tbz2 tgz tpz txz vhd wim xar xz z zip) do reg add HKLM\SOFTWARE\Classes\.%%g\OpenWithList\%key% /f
-
-:err
 </file>
         <file path=".WPM\Uninstall.bat">Uninstall.exe /S _?=%CD%
-if errorlevel 1 goto err
+set err=%errorlevel%
+if %err% neq 0 exit /b %err%
 
 set key=org.7-zip.SevenZIP-9.20
 reg delete HKLM\SOFTWARE\Classes\Applications\%KEY% /f
@@ -4603,8 +4597,7 @@ taskkill /f /fi "IMAGENAME eq explorer.exe"
 del 7-zip.dll
 rem start explorer from the root directory so it does not lock this one
 start "" /D\ explorer.exe
-
-:err</file>
+</file>
         <url>http://downloads.sourceforge.net/project/sevenzip/7-Zip/9.20/7z920.exe?ts=1290159584</url>
         <sha1>55283ad59439134673fc32fc097bdd9ae920fbc6</sha1>
     </version>
@@ -5157,24 +5150,22 @@ echo DesktopShortcut=false >> .WPM\FF.ini
     <version name="2.6.10" package="org.gimp.Gimp" type="one-file">
         <important-file path="bin\gimp-2.6.exe" title="Gimp"/>
         <file path=".WPM\Install.bat">gimp-2.6.10-i686-setup-1.exe /SP- /VERYSILENT /SUPPRESSMSGBOXES /NOCANCEL /NORESTART /DIR="%CD%"
-if errorlevel 1 goto err
+set err=%errorlevel%
+if %err% neq 0 exit /b %err%
 
 set key=org.gimp.Gimp-2.6.10
 reg add HKLM\SOFTWARE\Classes\Applications\%key%\shell\open /v FriendlyAppName /d "Gimp (2.6.10)" /f
 set c=\"%CD%\bin\gimp-2.6.exe\" \"%%1\"
 reg add HKLM\SOFTWARE\Classes\Applications\%KEY%\shell\open\command /d "%c%" /f
 for %%g in (xcf pix matte mask alpha als fli flc xcf.bz2 bz2 xcfbz2 desktop dcm dicom eps fit fits g3 gif pat gbr gpb gih xcf.gz gz xcfgz jpg jpeg jpe cel ico wmf apm psp tub pspimage psd png pnm ppm pgm pbm pdf ps sgi rgb rgba bw ico im1 im8 im24 im32 rs ras svg tga vda icb vst tif tiff bmp xbm icon bitmap xpm xwd pcx pcc) do reg add HKLM\SOFTWARE\Classes\.%%g\OpenWithList\%key% /f
-
-:err
 </file>
         <file path=".WPM\Uninstall.bat">setup\unins000.exe /VERYSILENT /SUPPRESSMSGBOXES /NORESTART
-if errorlevel 1 goto err
+set err=%errorlevel%
+if %err% neq 0 exit /b %err%
 
 set key=org.gimp.Gimp-2.6.10
 reg delete HKLM\SOFTWARE\Classes\Applications\%key% /f
 for %%g in (xcf pix matte mask alpha als fli flc xcf.bz2 bz2 xcfbz2 desktop dcm dicom eps fit fits g3 gif pat gbr gpb gih xcf.gz gz xcfgz jpg jpeg jpe cel ico wmf apm psp tub pspimage psd png pnm ppm pgm pbm pdf ps sgi rgb rgba bw ico im1 im8 im24 im32 rs ras svg tga vda icb vst tif tiff bmp xbm icon bitmap xpm xwd pcx pcc) do reg delete HKLM\SOFTWARE\Classes\.%%g\OpenWithList\%key% /f
-
-:err
 </file>
         <url>https://downloads.sourceforge.net/project/gimp-win/GIMP%20%2B%20GTK%2B%20%28stable%20release%29/GIMP%202.6.10%20%2B%20GTK%2B%202.16.6/gimp-2.6.10-i686-setup-1.exe?ts=1278953861</url>
         <sha1>65ceb0a21458d795beea28e1d7821d638fa786ec</sha1>
@@ -5182,24 +5173,22 @@ for %%g in (xcf pix matte mask alpha als fli flc xcf.bz2 bz2 xcfbz2 desktop dcm 
     <version name="2.6.11" package="org.gimp.Gimp" type="one-file">
         <important-file path="bin\gimp-2.6.exe" title="Gimp"/>
         <file path=".WPM\Install.bat">gimp-2.6.11-i686-setup-1.exe /SP- /VERYSILENT /SUPPRESSMSGBOXES /NOCANCEL /NORESTART /DIR="%CD%"
-if errorlevel 1 goto err
+set err=%errorlevel%
+if %err% neq 0 exit /b %err%
 
 set key=org.gimp.Gimp-2.6.11
 reg add HKLM\SOFTWARE\Classes\Applications\%key%\shell\open /v FriendlyAppName /d "Gimp (2.6.11)" /f
 set c=\"%CD%\bin\gimp-2.6.exe\" \"%%1\"
 reg add HKLM\SOFTWARE\Classes\Applications\%KEY%\shell\open\command /d "%c%" /f
 for %%g in (xcf pix matte mask alpha als fli flc xcf.bz2 bz2 xcfbz2 desktop dcm dicom eps fit fits g3 gif pat gbr gpb gih xcf.gz gz xcfgz jpg jpeg jpe cel ico wmf apm psp tub pspimage psd png pnm ppm pgm pbm pdf ps sgi rgb rgba bw ico im1 im8 im24 im32 rs ras svg tga vda icb vst tif tiff bmp xbm icon bitmap xpm xwd pcx pcc) do reg add HKLM\SOFTWARE\Classes\.%%g\OpenWithList\%key% /f
-
-:err
 </file>
         <file path=".WPM\Uninstall.bat">setup\unins000.exe /VERYSILENT /SUPPRESSMSGBOXES /NORESTART
-if errorlevel 1 goto err
+set err=%errorlevel%
+if %err% neq 0 exit /b %err%
 
 set key=org.gimp.Gimp-2.6.11
 reg delete HKLM\SOFTWARE\Classes\Applications\%key% /f
 for %%g in (xcf pix matte mask alpha als fli flc xcf.bz2 bz2 xcfbz2 desktop dcm dicom eps fit fits g3 gif pat gbr gpb gih xcf.gz gz xcfgz jpg jpeg jpe cel ico wmf apm psp tub pspimage psd png pnm ppm pgm pbm pdf ps sgi rgb rgba bw ico im1 im8 im24 im32 rs ras svg tga vda icb vst tif tiff bmp xbm icon bitmap xpm xwd pcx pcc) do reg delete HKLM\SOFTWARE\Classes\.%%g\OpenWithList\%key% /f
-
-:err
 </file>
         <url>http://downloads.sourceforge.net/project/gimp-win/GIMP%20%2B%20GTK%2B%20%28stable%20release%29/GIMP%202.6.11%20%2B%20GTK%2B%202.16.6/gimp-2.6.11-i686-setup-1.exe?ts=1287165086</url>
         <sha1>f1e8340e898acd1a84b3ceeb9dd3ddaba439b73f</sha1>
