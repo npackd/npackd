@@ -4391,7 +4391,7 @@ if %err% neq 0 exit /b %err%
         <url>http://download.oldapps.com/Java/jre-6u21-windows-i586-s.exe</url>
     </version>
     <version name="1.6.0.23" package="com.oracle.JRE" type="one-file">
-        <file path=".WPM\Install.bat">jre-6u23-windows-i586-s.exe /s /v/qn"/norestart AgreeToLicense=YES IEXPLORER=1 MOZILLA=1 REBOOT=Suppress ALLUSERS=1 SYSTRAY=0"</file>
+        <file path=".WPM\Install.bat">jre-6u23-windows-i586-s.exe /s /v"/qn /norestart AgreeToLicense=YES IEXPLORER=1 MOZILLA=1 REBOOT=Suppress ALLUSERS=1 INSTALLDIR="""%CD%""" SYSTRAY=0"</file>
         <file path=".WPM\Uninstall.bat">MsiExec.exe /qn /norestart /Lime .WPM\MSI.log /X{26A24AE4-039D-4CA4-87B4-2F83216023FF}
 set err=%errorlevel%
 type .WPM\MSI.log
