@@ -4559,8 +4559,7 @@ reg add HKLM\SOFTWARE\Classes\Applications\%KEY%\shell\open\command /d "%c%" /f
 for %%g in (001 7z arj bz2 bzip2 cab cpio deb dmg egg fat gz gzip hfs iso lha lzh lzma ntfs rar rpm squashfs swm tar taz tbz tbz2 tgz tpz txz vhd wim xar xz z zip) do reg add HKLM\SOFTWARE\Classes\.%%g\OpenWithList\%key% /f
 </file>
         <file path=".WPM\Uninstall.bat">Uninstall.exe /S _?=%CD%
-set err=%errorlevel%
-if %err% neq 0 exit /b %err%
+rem ignore the error level
 
 set key=org.7-zip.SevenZIP-4.65
 reg delete HKLM\SOFTWARE\Classes\Applications\%KEY% /f
@@ -4585,8 +4584,7 @@ reg add HKLM\SOFTWARE\Classes\Applications\%KEY%\shell\open\command /d "%c%" /f
 for %%g in (001 7z arj bz2 bzip2 cab cpio deb dmg egg fat gz gzip hfs iso lha lzh lzma ntfs rar rpm squashfs swm tar taz tbz tbz2 tgz tpz txz vhd wim xar xz z zip) do reg add HKLM\SOFTWARE\Classes\.%%g\OpenWithList\%key% /f
 </file>
         <file path=".WPM\Uninstall.bat">Uninstall.exe /S _?=%CD%
-set err=%errorlevel%
-if %err% neq 0 exit /b %err%
+rem ignore the error level
 
 set key=org.7-zip.SevenZIP-9.20
 reg delete HKLM\SOFTWARE\Classes\Applications\%KEY% /f
