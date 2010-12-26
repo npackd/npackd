@@ -4785,7 +4785,11 @@ if %err% neq 0 exit /b %err%
         </file-handler> -->
     </version>
     <version name="10" package="com.adobe.AdobeReader" type="one-file">
-        <file path=".WPM\Install.bat">AdbeRdr1000_en_US.exe /sAll /rs /msi ALLUSERS=1 INSTALLDIR="%CD%"</file>
+        <file path=".WPM\Install.bat">AdbeRdr1000_en_US.exe /sAll /rs /msi /Lime .WPM\MSI.log ALLUSERS=1 INSTALLDIR="%CD%"
+set err=%errorlevel%
+type .WPM\MSI.log
+if %err% neq 0 exit /b %err%
+</file>
         <file path=".WPM\Uninstall.bat">msiexec.exe /qn /norestart /Lime .WPM\MSI.log /X{AC76BA86-7AD7-1033-7B44-AA0000000001}
 set err=%errorlevel%
 type .WPM\MSI.log
