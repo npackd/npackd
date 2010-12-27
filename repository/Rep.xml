@@ -1406,6 +1406,12 @@ if %err% neq 0 exit /b %err%
     -->
 
     <!--
+        TODO: logging for Inno Setup installations
+        TODO: logging for Inno Setup removals
+        TODO: "exit /b 1" does not work
+    -->
+
+    <!--
         TODO: different versions are distributed from the same URL
         TODO: the installation shows 2 confirmation dialogs
         TODO: multiple versions cannot be installed in parallel because
@@ -2177,10 +2183,11 @@ for %%g in (pdf ps eps svg svgz sxd odg sla sla.gz scd scd.gz) do reg delete HKL
     <version name="0.96.1" package="com.clamwin.ClamWin" type="one-file">
         <file path=".WPM\Install.bat">clamwin-0.96.1-setup.exe /SP- /VERYSILENT /SUPPRESSMSGBOXES /NOCANCEL /NORESTART /DIR="%CD%"</file>
         <file path=".WPM\Uninstall.bat">unins000.exe /VERYSILENT /SUPPRESSMSGBOXES /NORESTART /LOG="%CD%\.WPM\InnoSetup.log"
-set err=%errorlevel%
+echo Exit code: %errorlevel%
 type .WPM\InnoSetup.log
-rem if %err% neq 0 exit /b %err%
-exit 1
+rem The software removal requires Windows restart, which we do not want
+rem and therefore ignore the exit code.
+exit 0
 </file>
         <url>http://downloads.sourceforge.net/project/clamwin/clamwin/0.96.1/clamwin-0.96.1-setup.exe?ts=1281906884</url>
         <sha1>3a66b02b56ccd9410cf3edd9109c48c5fe2196d9</sha1>
@@ -2193,19 +2200,37 @@ exit 1
     </version>
     <version name="0.96.2.1" package="com.clamwin.ClamWin" type="one-file">
         <file path=".WPM\Install.bat">clamwin-0.96.2.1-setup.exe /SP- /VERYSILENT /SUPPRESSMSGBOXES /NOCANCEL /NORESTART /DIR="%CD%"</file>
-        <file path=".WPM\Uninstall.bat">unins000.exe /VERYSILENT /SUPPRESSMSGBOXES /NORESTART</file>
+        <file path=".WPM\Uninstall.bat">unins000.exe /VERYSILENT /SUPPRESSMSGBOXES /NORESTART /LOG="%CD%\.WPM\InnoSetup.log"
+echo Exit code: %errorlevel%
+type .WPM\InnoSetup.log
+rem The software removal requires Windows restart, which we do not want
+rem and therefore ignore the exit code.
+exit 0
+</file>
         <url>http://downloads.sourceforge.net/project/clamwin/clamwin/0.96.2.1/clamwin-0.96.2.1-setup.exe?ts=1282245860</url>
         <sha1>34c43efa5c81f1d0129472151dc260120ec3c6bd</sha1>
     </version>
     <version name="0.96.4" package="com.clamwin.ClamWin" type="one-file">
         <file path=".WPM\Install.bat">clamwin-0.96.4-setup.exe /SP- /VERYSILENT /SUPPRESSMSGBOXES /NOCANCEL /NORESTART /DIR="%CD%"</file>
-        <file path=".WPM\Uninstall.bat">unins000.exe /VERYSILENT /SUPPRESSMSGBOXES /NORESTART</file>
+        <file path=".WPM\Uninstall.bat">unins000.exe /VERYSILENT /SUPPRESSMSGBOXES /NORESTART /LOG="%CD%\.WPM\InnoSetup.log"
+echo Exit code: %errorlevel%
+type .WPM\InnoSetup.log
+rem The software removal requires Windows restart, which we do not want
+rem and therefore ignore the exit code.
+exit 0
+</file>
         <url>http://downloads.sourceforge.net/project/clamwin/clamwin/0.96.4/clamwin-0.96.4-setup.exe?ts=1290163442</url>
         <sha1>ea30d5760be1db35bd767e6b4ccb1e517e19f4b8</sha1>
     </version>
     <version name="0.96.5" package="com.clamwin.ClamWin" type="one-file">
         <file path=".WPM\Install.bat">clamwin-0.96.5-setup.exe /SP- /VERYSILENT /SUPPRESSMSGBOXES /NOCANCEL /NORESTART /DIR="%CD%"</file>
-        <file path=".WPM\Uninstall.bat">unins000.exe /VERYSILENT /SUPPRESSMSGBOXES /NORESTART</file>
+        <file path=".WPM\Uninstall.bat">unins000.exe /VERYSILENT /SUPPRESSMSGBOXES /NORESTART /LOG="%CD%\.WPM\InnoSetup.log"
+echo Exit code: %errorlevel%
+type .WPM\InnoSetup.log
+rem The software removal requires Windows restart, which we do not want
+rem and therefore ignore the exit code.
+exit 0
+</file>
         <url>http://downloads.sourceforge.net/project/clamwin/clamwin/0.96.5/clamwin-0.96.5-setup.exe?ts=1291814377</url>
         <sha1>d7bc6229da3e5d3124737d4d26fd4035753fa94c</sha1>
     </version>
