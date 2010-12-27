@@ -2176,7 +2176,7 @@ for %%g in (pdf ps eps svg svgz sxd odg sla sla.gz scd scd.gz) do reg delete HKL
     -->
     <version name="0.96.1" package="com.clamwin.ClamWin" type="one-file">
         <file path=".WPM\Install.bat">clamwin-0.96.1-setup.exe /SP- /VERYSILENT /SUPPRESSMSGBOXES /NOCANCEL /NORESTART /DIR="%CD%"</file>
-        <file path=".WPM\Uninstall.bat">unins000.exe /VERYSILENT /SUPPRESSMSGBOXES /NORESTART /LOG=".WPM\InnoSetup.log"
+        <file path=".WPM\Uninstall.bat">unins000.exe /VERYSILENT /SUPPRESSMSGBOXES /NORESTART /LOG="%CD%\.WPM\InnoSetup.log"
 set err=%errorlevel%
 type .WPM\InnoSetup.log
 rem if %err% neq 0 exit /b %err%
