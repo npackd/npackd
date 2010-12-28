@@ -2177,10 +2177,11 @@ for %%g in (pdf ps eps svg svgz sxd odg sla sla.gz scd scd.gz) do reg delete HKL
     </version>
 
     <!--
-        TODO: no parallel installation 
+        TODO: no parallel installation
+        /TASKS= prevents downloading AntiVirus DB
     -->
     <version name="0.96.1" package="com.clamwin.ClamWin" type="one-file">
-        <file path=".WPM\Install.bat">clamwin-0.96.1-setup.exe /SP- /VERYSILENT /SUPPRESSMSGBOXES /NOCANCEL /NORESTART /DIR="%CD%" /SAVEINF="%CD%\.WPM\InnoSetupInfo.ini"
+        <file path=".WPM\Install.bat">clamwin-0.96.1-setup.exe /SP- /VERYSILENT /SUPPRESSMSGBOXES /NOCANCEL /NORESTART /DIR="%CD%" /SAVEINF="%CD%\.WPM\InnoSetupInfo.ini" /TASKS=
 taskkill /f /im ClamWin.exe
 taskkill /f /im ClamTray.exe
 </file>
