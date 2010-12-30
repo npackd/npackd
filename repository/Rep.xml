@@ -494,6 +494,11 @@
         <url>http://java.sun.com/javase/downloads/index.jsp</url>
         <description>Java SDK</description>
     </package>
+    <package name="net.blat.Blat">
+        <title>Blat</title>
+        <url>http://www.blat.net/</url>
+        <description>command line SMTP and NNTP mailer</description>
+    </package>
     <package name="net.getpaint.PaintDotNet">
         <title>Paint.NET</title>
         <url>http://www.getpaint.net/</url>
@@ -1423,6 +1428,14 @@ if %err% neq 0 exit /b %err%
         TODO: Install InnoSetup in sub-directory as it deletes the whole
             installation directory
     -->
+
+    <version name="2.6.2" package="net.blat.Blat">
+        <file path=".WPM\Install.bat">move blat262\docs docs
+copy blat262\full\*.* .
+rmdir /s /q blat262</file>
+        <url>http://downloads.sourceforge.net/project/blat/Blat%20Full%20Version/Blat%20v2.6.2/blat262.full.zip?ts=1293718690</url>
+        <sha1>fdf38990bbd45e36bed09ba04768272316ddc296</sha1>
+    </version>
 
     <version name="1.5" package="edu.cmu.andrew.ftp.MPack">
         <url>http://ftp.andrew.cmu.edu/pub/mpack/old/mpack15d.zip</url>
