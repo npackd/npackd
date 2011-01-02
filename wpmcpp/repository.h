@@ -65,6 +65,8 @@ public:
 
     ~Repository();
 
+    void process(Job* job, const QList<InstallOperation*> &install);
+
     /**
      * Adds unknown in the repository, but installed packages.
      */

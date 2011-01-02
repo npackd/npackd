@@ -43,6 +43,8 @@ class InstallThread: public QThread
     Job* job;
 
     void testRepositories();
+
+    void testOnePackage(Job* job, PackageVersion* pv);
 public:
     // name of the log file for type=6
     QString logFile;
@@ -56,6 +58,76 @@ public:
 
     void run();
 };
+
+void InstallThread::testOnePackage(Job *job, PackageVersion *pv)
+{
+    if (pv->external) {
+        job->setProgress(1);
+        job->complete();
+        return;
+    }
+
+    Repository* r = Repository::getDefault();
+
+    QList<InstallOperation*> ops;
+
+    if (!job->isCancelled()) {
+        job->setHint("Planning the installation");
+        QList<PackageVersion*> installed = r->getInstalled();
+        qDeleteAll(ops);
+        ops.clear();
+        QString e = pv->planInstallation(installed, ops);
+        if (!e.isEmpty()) {
+            job->setErrorMessage(QString(
+                    "Installation planning failed: %1").
+                    arg(e));
+        }
+        job->setProgress(0.1);
+    }
+
+    if (job->getErrorMessage().isEmpty() && !job->isCancelled()) {
+        job->setHint("Installing");
+        Job* instJob = job->newSubJob(0.4);
+        r->process(instJob, ops);
+        if (!instJob->getErrorMessage().isEmpty())
+            job->setErrorMessage(instJob->getErrorMessage());
+        delete instJob;
+
+        if (!pv->installed() && job->getErrorMessage().isEmpty())
+            job->setErrorMessage("Package is not installed after the installation");
+    }
+
+    if (job->getErrorMessage().isEmpty() && !job->isCancelled()) {
+        job->setHint("Planning the un-installation");
+        QList<PackageVersion*> installed = r->getInstalled();
+        qDeleteAll(ops);
+        ops.clear();
+        QString e = pv->planUninstallation(installed, ops);
+        if (!e.isEmpty()) {
+            job->setErrorMessage(QString(
+                    "Un-installation planning failed: %1").
+                    arg(e));
+        }
+        job->setProgress(0.6);
+    }
+
+    if (job->getErrorMessage().isEmpty() && !job->isCancelled()) {
+        job->setHint("Removing");
+        Job* instJob = job->newSubJob(0.4);
+        r->process(instJob, ops);
+        if (!instJob->getErrorMessage().isEmpty())
+            job->setErrorMessage(instJob->getErrorMessage());
+        delete instJob;
+
+        if (pv->installed() && job->getErrorMessage().isEmpty())
+            job->setErrorMessage("Package is installed after the un-installation");
+    }
+
+    qDeleteAll(ops);
+    ops.clear();
+
+    job->complete();
+}
 
 InstallThread::InstallThread(PackageVersion *pv, int type, Job* job)
 {
@@ -71,7 +143,6 @@ void InstallThread::testRepositories()
     if (!f.open(QIODevice::WriteOnly | QIODevice::Append)) {
         job->setErrorMessage(QString("Failed to open the log file %1").
                 arg(this->logFile));
-        job->complete();
     } else {
         QTextStream ts(&f);
         Repository* r = Repository::getDefault();
@@ -82,33 +153,14 @@ void InstallThread::testRepositories()
             if (job->isCancelled())
                 break;
 
-            if (!pv->download.isEmpty()) {
-                job->setHint(QString("Downloading %1").arg(pv->toString()));
-                Job* djob = job->newSubJob(step);
-                QTemporaryFile* f = Downloader::download(djob, pv->download);
-                if (!djob->getErrorMessage().isEmpty() || f == 0) {
-                    ts << QString("Download of %1 failed: %2").
-                            arg(pv->toString()).
-                            arg(djob->getErrorMessage()) << endl;
-                } else {
-                    if (!pv->sha1.isEmpty()) {
-                        job->setHint(QString("Computing SHA1 for %1").
-                                arg(pv->toString()));
-                        QString h = WPMUtils::sha1(f->fileName());
-                        if (h.toLower() != pv->sha1.toLower()) {
-                            ts << QString(
-                                    "Hash sum (SHA1) for %1 failed. "
-                                    "%2 found, but %3 "
-                                    "was expected. The file has changed.").
-                                    arg(pv->toString()).
-                                    arg(h).
-                                    arg(pv->sha1) << endl;
-                        }
-                    }
-                }
-                delete f;
-                delete djob;
-            }
+            job->setHint(QString("Testing %1").arg(pv->toString()));
+            Job* stepJob = job->newSubJob(step);
+            testOnePackage(stepJob, pv);
+            if (!stepJob->getErrorMessage().isEmpty())
+                ts << QString("Error testing %1: %2").
+                        arg(pv->toString()).
+                        arg(stepJob->getErrorMessage()) << endl;
+            delete stepJob;
 
             if (job->isCancelled() || !job->getErrorMessage().isEmpty())
                 break;
@@ -116,8 +168,9 @@ void InstallThread::testRepositories()
             job->setProgress(i * step);
         }
         f.close();
-        job->complete();
     }
+
+    job->complete();
 }
 
 void InstallThread::run()
@@ -128,34 +181,9 @@ void InstallThread::run()
     switch (this->type) {
     case 0:
     case 1:
-    case 2: {
-        int n = install.count();
-
-        for (int i = 0; i < this->install.count(); i++) {
-            InstallOperation* op = install.at(i);
-            PackageVersion* pv = op->packageVersion;
-            if (op->install)
-                job->setHint(QString("Installing %1").arg(
-                        pv->toString()));
-            else
-                job->setHint(QString("Uninstalling %1").arg(
-                        pv->toString()));
-            Job* sub = job->newSubJob(1.0 / n);
-            if (op->install)
-                pv->install(sub);
-            else
-                pv->uninstall(sub);
-            if (!sub->getErrorMessage().isEmpty())
-                job->setErrorMessage(sub->getErrorMessage());
-            delete sub;
-
-            if (!job->getErrorMessage().isEmpty())
-                break;
-        }
-
-        job->complete();
+    case 2:
+        Repository::getDefault()->process(job, install);
         break;
-    }
     case 3:
     case 4: {
         Repository* r = Repository::getDefault();

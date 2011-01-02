@@ -666,6 +666,35 @@ PackageVersion* Repository::findPackageVersion(const QString& package,
     return r;
 }
 
+void Repository::process(Job *job, const QList<InstallOperation *> &install)
+{
+    int n = install.count();
+
+    for (int i = 0; i < install.count(); i++) {
+        InstallOperation* op = install.at(i);
+        PackageVersion* pv = op->packageVersion;
+        if (op->install)
+            job->setHint(QString("Installing %1").arg(
+                    pv->toString()));
+        else
+            job->setHint(QString("Uninstalling %1").arg(
+                    pv->toString()));
+        Job* sub = job->newSubJob(1.0 / n);
+        if (op->install)
+            pv->install(sub);
+        else
+            pv->uninstall(sub);
+        if (!sub->getErrorMessage().isEmpty())
+            job->setErrorMessage(sub->getErrorMessage());
+        delete sub;
+
+        if (!job->getErrorMessage().isEmpty())
+            break;
+    }
+
+    job->complete();
+}
+
 void Repository::addUnknownExistingPackages()
 {
     QDir aDir = getDirectory();
