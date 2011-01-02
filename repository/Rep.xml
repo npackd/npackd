@@ -1677,6 +1677,21 @@ if %err% neq 0 exit /b %err%
         <url>http://www.sliksvn.com/pub/Slik-Subversion-1.6.13-win32.msi</url>
         <sha1>7e43dffeb71dea867631429ad6a751e8a09ee75d</sha1>
     </version>
+    <version name="1.6.15" package="org.apache.subversion.Subversion"
+            type="one-file">
+        <file path=".WPM\Install.bat">msiexec.exe /qn /norestart /Lime .WPM\MSI.log /i Slik-Subversion-1.6.15-win32.msi INSTALLLOCATION="%CD%" ALLUSERS=1
+set err=%errorlevel%
+type .WPM\MSI.log
+if %err% neq 0 exit /b %err%
+</file>
+        <file path=".WPM\Uninstall.bat">msiexec.exe /qn /norestart /Lime .WPM\MSI.log /x Slik-Subversion-1.6.15-win32.msi
+set err=%errorlevel%
+type .WPM\MSI.log
+if %err% neq 0 exit /b %err%
+</file>
+        <url>http://www.sliksvn.com/pub/Slik-Subversion-1.6.15-win32.msi</url>
+        <sha1>7e43dffeb71dea867631429ad6a751e8a09ee75d</sha1>
+    </version>
 
     <!-- TODO: NSIS-based installer does not respect the /D option -->
     <version name="2.0.1" package="com.nokia.QtCreatorInstaller"
