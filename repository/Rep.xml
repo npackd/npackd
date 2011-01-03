@@ -1884,6 +1884,9 @@ if %err% neq 0 exit /b %err%
         <sha1>58da3d74db353aad03588cbb5cea8234166d8b99</sha1>
     </version>
 
+    <!--
+        TODO: installation fails if the target directory contains spaces
+    -->
     <version name="0.9.28.2" package="org.freepascal.lazarus.Lazarus"
             type="one-file">
         <file path=".WPM\Install.bat">lazarus-0.9.28.2-fpc-2.2.4-win32.exe /SP- /VERYSILENT /SUPPRESSMSGBOXES /NOCANCEL /NORESTART /DIR="%CD%"</file>
@@ -1967,9 +1970,9 @@ if %err% neq 0 exit /b %err%
 taskkill /f /im dropbox.exe</file>
         <file path=".WPM\Uninstall.bat">Uninstall.exe /S _?=%CD%
 set key=com.dropbox.Dropbox-0.7.110
-mkdir ..\.Trash
-move *.dll ..\.Trash\%key%_%RANDOM%
-echo clear the error code
+set trash=..\.Trash\%key%_%RANDOM%
+mkdir %trash%
+move *.dll %trash%
 </file>
         <url>http://cdn.dropbox.com/Dropbox%200.7.110.exe</url>
         <sha1>b5cdb5160d063427c403af280d48e91478042bc0</sha1>
@@ -1979,9 +1982,9 @@ echo clear the error code
 taskkill /f /im dropbox.exe</file>
         <file path=".WPM\Uninstall.bat">Uninstall.exe /S _?=%CD%
 set key=com.dropbox.Dropbox-1.0.10
-mkdir ..\.Trash
-move *.dll ..\.Trash\%key%_%RANDOM%
-echo clear the error code
+set trash=..\.Trash\%key%_%RANDOM%
+mkdir %trash%
+move *.dll %trash%
 </file>
         <url>http://cdn.dropbox.com/Dropbox%201.0.10.exe</url>
         <sha1>ebe6c14e1bd336af2f24a3a40ddcdc412ff9ca6c</sha1>
