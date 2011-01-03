@@ -695,7 +695,7 @@
     <package name="fr.handbrake.HandBrake">
         <title>HandBrake</title>
         <url>http://handbrake.fr/</url>
-        <description>video encoding</description>
+        <description>WARNING! .NET framework at least in the version 2 must be installed. Video encoding</description>
     </package>
     <package name="fr.handbrake.HandBrakeInstaller">
         <title>HandBrake installer (deprecated, use the non-installer package instead)</title>
@@ -3543,6 +3543,8 @@ if %err% neq 0 exit /b %err%
         <file path=".WPM\Uninstall.bat">uninst.exe /S</file>
         <url>http://downloads.sourceforge.net/project/handbrake/0.9.4/HandBrake-0.9.4-Win_GUI.exe?ts=1278845734</url>
         <sha1>d5e800b29b7845f679554fb3d47650d9c3ed031b</sha1>
+        <dependency package="com.microsoft.DotNetRedistributable"
+                versions="[2.0, 5)"/>
     </version>
 
     <!-- TODO: NSIS-based installer that does not support /S -->
