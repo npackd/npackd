@@ -1162,6 +1162,11 @@
         <url>http://www.inkscape.org/</url>
         <description>vector graphics editor</description>
     </package>
+    <package name="org.latexeditor.LEd">
+        <title>LEd</title>
+        <url>http://www.latexeditor.org/index.html</url>
+        <description>WARNING! Tex must be installed to use this software. Latex editor</description>
+    </package>
     <package name="org.mingw.MinGWInstaller">
         <title>MinGW installer</title>
         <url>http://www.mingw.org/</url>
@@ -1401,10 +1406,20 @@
     </package>
 
     <!--
-    The package versions are not sorted by the package, but different version
-    of a package should stay together. Newer versions should appear under older
-    ones.
+        The package versions are not sorted by the package, but different
+        version
+        of a package should stay together. Newer versions should appear under
+        older ones.
+        TODO: logging for Inno Setup installations
+        TODO: logging for Inno Setup removals
+        TODO: "exit /b 1" does not work
+        TODO: use for /f instead of set key=...
+        TODO: Install InnoSetup in sub-directory as it deletes the whole
+            installation directory
+        TODO: some un-installation routines fail because NSIS and Inno Setup
+            delete all the files including .WPM\Uninstall.bat
     -->
+
     <version name="1.14.1"
             package="com.googlecode.windows-package-manager.Npackd">
         <important-file path="npackdg.exe"
@@ -1413,15 +1428,24 @@
         <sha1>b045f72d7972f9f7c5b92b368c61d083ea1a8bf5</sha1>
     </version>
 
-
-    <!--
-        TODO: logging for Inno Setup installations
-        TODO: logging for Inno Setup removals
-        TODO: "exit /b 1" does not work
-        TODO: use for /f instead of set key=...
-        TODO: Install InnoSetup in sub-directory as it deletes the whole
-            installation directory
-    -->
+    <version name="0.53.6501" package="org.latexeditor.LEd">
+        <file path=".WPM\Install.bat">for /f "delims=" %%x in ("%CD%") do set key=%%~nx
+reg add HKLM\SOFTWARE\Classes\Applications\%key%\shell\open /v FriendlyAppName /d "LEd (0.53.6501)" /f
+set c=\"%CD%\LEd.exe\" \"%%1\"
+reg add HKLM\SOFTWARE\Classes\Applications\%KEY%\shell\open\command /d "%c%" /f
+for %%g in (aux bbl bib clo cls glo gpr idx lof lot lpr mf mp sty tex toc) do reg add HKLM\SOFTWARE\Classes\.%%g\OpenWithList\%key% /f
+verify
+</file>
+        <file path=".WPM\Uninstall.bat">
+for /f "delims=" %%x in ("%CD%") do set key=%%~nx
+reg delete HKLM\SOFTWARE\Classes\Applications\%key% /f
+for %%g in (aux bbl bib clo cls glo gpr idx lof lot lpr mf mp sty tex toc) do reg delete HKLM\SOFTWARE\Classes\.%%g\OpenWithList\%key% /f
+verify
+</file>
+        <important-file path="LEd.exe" title="LEd"/>
+        <url>http://download.latexeditor.org/LEdBeta(0.53)Build(6501)Std.zip</url>
+        <sha1>b3a3c9594cf9b7720b93c99205ed196f6416e7eb</sha1>
+    </version>
 
     <version name="2.6.2" package="net.blat.Blat">
         <file path=".WPM\Install.bat">move blat262\docs docs
