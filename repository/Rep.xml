@@ -923,6 +923,11 @@
         <url>http://sourceforge.net/projects/xming/</url>
         <description>X server</description>
     </package>
+    <package name="net.srware.Iron">
+        <title>Iron</title>
+        <url>http://www.srware.net/software_srware_iron.php</url>
+        <description>web browser</description>
+    </package>
     <package name="net.winscp.WinSCP">
         <title>WinSCP</title>
         <url>http://winscp.net/eng/docs/start</url>
@@ -1166,6 +1171,11 @@
         <title>LEd</title>
         <url>http://www.latexeditor.org/index.html</url>
         <description>WARNING! Tex must be installed to use this software. Latex editor</description>
+    </package>
+    <package name="org.miktex.MiKTeX">
+        <title>MiKTeX</title>
+        <url>http://www.miktex.org/about</url>
+        <description>implementation of TeX and related programs</description>
     </package>
     <package name="org.mingw.MinGWInstaller">
         <title>MinGW installer</title>
@@ -1426,6 +1436,38 @@
                 title="Npackd (Windows Package Manager)"/>
         <url>http://windows-package-manager.googlecode.com/files/Npackd-1.14.1.zip</url>
         <sha1>b045f72d7972f9f7c5b92b368c61d083ea1a8bf5</sha1>
+    </version>
+
+    <!-- TODO: different versions are distributed from the same URL
+ TODO: Dateierweiterungen: txt html htm pdf png gif jpeg jpg
+    -->
+    <version name="8" package="net.srware.Iron" type="one-file">
+        <file path=".WPM\Install.bat">for /f %%x in ('dir /b *.exe') do set setup=%%x
+%setup% /SP- /VERYSILENT /SUPPRESSMSGBOXES /NOCANCEL /NORESTART /DIR="%CD%" /SAVEINF="%CD%\.WPM\InnoSetupInfo.ini" /LOG="%CD%\.WPM\InnoSetupInstall.log"
+set err=%errorlevel%
+type .WPM\InnoSetupInstall.log
+if %err% neq 0 exit %err%
+</file>
+        <file path=".WPM\Uninstall.bat">
+unins000.exe /VERYSILENT /SUPPRESSMSGBOXES /NORESTART /LOG="%CD%\.WPM\InnoSetupUninstall.log"
+set err=%errorlevel%
+type .WPM\InnoSetupUninstall.log
+if %err% neq 0 exit %err%
+</file>
+        <url>http://www.srware.net/downloads/srware_iron.exe</url>
+    </version>
+
+    <!--
+        http://docs.miktex.org/2.8/manual/setupwiz.html
+        TODO: installation shows a progress dialog
+        TODO: uninstallation shows a confirmation dialog
+    -->
+    <version name="2.9.3972"
+            package="org.miktex.MiKTeX">
+        <file path=".WPM\Install.bat">basic-miktex-2.9.3972.exe --common-install="%CD%" --package-set=complete --shared --unattended</file>
+        <file path=".WPM\Unnstall.bat">miktex\bin\internal\copystart_admin.exe "%CD%\miktex/bin/internal\uninstall_admin.exe"</file>
+        <url>http://sunsite.informatik.rwth-aachen.de/ftp/pub/mirror/ctan/systems/win32/miktex/setup/basic-miktex-2.9.3972.exe</url>
+        <sha1>4913ba921757c8a4df9f7e593dfacabbad6a1ecc</sha1>
     </version>
 
     <version name="0.53.6501" package="org.latexeditor.LEd">
