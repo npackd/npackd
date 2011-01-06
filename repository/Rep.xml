@@ -1430,6 +1430,238 @@
             delete all the files including .WPM\Uninstall.bat
     -->
 
+    <!--
+        TODO: the uninstallation shows a confirmation dialog. Wireshark depends
+        on Pcap which has no silent installation
+        TODO: old versions are regularly deleted
+    -->
+    <version name="1.4.1" package="org.wireshark.Wireshark" type="one-file">
+        <file path=".WPM\Install.bat">wireshark-win32-1.4.1.exe /S /D=%CD%</file>
+        <file path=".WPM\Uninstall.bat">uninstall.exe /S _=%CD%</file>
+        <url>http://media-2.cacetech.com/wireshark/win32/wireshark-win32-1.4.1.exe</url>
+        <sha1>34a739a799688a26ea8128ce7352b20e473872c2</sha1>
+    </version>
+    <version name="1.4.2" package="org.wireshark.Wireshark" type="one-file">
+        <file path=".WPM\Install.bat">wireshark-win32-1.4.2.exe /S /D=%CD%</file>
+        <file path=".WPM\Uninstall.bat">uninstall.exe /S _=%CD%</file>
+        <url>http://media-2.cacetech.com/wireshark/win32/wireshark-win32-1.4.2.exe</url>
+        <sha1>1ce53d26e48272548698bec0bd51f57440d2158f</sha1>
+    </version>
+
+    <!--
+        TODO: installation presents an EULA. The uninstallation presents 2
+        confirmation dialogs.
+    -->
+    <version name="1.4" package="com.microsoft.msdn.HTMLHelp" type="one-file">
+        <important-file path="hhw.exe" title="HTML Help Workshop"/>
+        <file path=".WPM\Install.bat">htmlhelp.exe /T:"%CD%" /C</file>
+        <url>http://download.microsoft.com/download/0/A/9/0A939EF6-E31C-430F-A3DF-DFAE7960D564/htmlhelp.exe</url>
+        <sha1>be3ca09da0f21616577c8fb3d3a508804d4f9281</sha1>
+        <!-- TODO: "open with" -->
+    </version>
+
+    <!-- TODO: the installation shows a confirmation dialog -->
+    <version name="1.2.2" package="dk.po.dxgettext.DXGetText"
+            type="one-file">
+        <file path=".WPM\Install.bat">dxgettext-1.2.2.exe /SP- /VERYSILENT /SUPPRESSMSGBOXES /NOCANCEL /NORESTART /DIR="%CD%"</file>
+        <file path=".WPM\Uninstall.bat">unins000.exe /VERYSILENT /SUPPRESSMSGBOXES /NORESTART</file>
+        <url>http://downloads.sourceforge.net/project/dxgettext/For%20Delphi%20and%20C%2B%2B%20Builder/1.2.2/dxgettext-1.2.2.exe?48855804</url>
+        <sha1>1a6a7b97b4113ef4f3f1d67e88a97a7d260f1801</sha1>
+    </version>
+
+    <!--
+        TODO: Needs MSVCR71.dll which will not be installed => a dependency.
+        TODO: The un-installation shows 2 dialogs.
+    -->
+    <version name="1.6.6" package="org.unrealvoodoo.hiteck.AlbumArt"
+            type="one-file">
+        <file path=".WPM\Install.bat">albumart-1.6.6-win32-setup.exe /S /D=%CD%</file>
+        <file path=".WPM\Uninstall.bat">uninst.exe /S</file>
+        <url>http://www.unrealvoodoo.org/hiteck/projects/albumart/dist/albumart-1.6.6-win32-setup.exe</url>
+        <sha1>b009f154c58894b8796a9c85cde62cd123114d49</sha1>
+    </version>
+
+    <!-- TODO: Un-installation shows a confirmation dialog -->
+    <version name="2.8.6" package="com.abisource.AbiWord" type="one-file">
+        <file path=".WPM\Install.bat">abiword-setup-2.8.6.exe /S /D=%CD%</file>
+        <file path=".WPM\Uninstall.bat">UninstallAbiWord2.exe /S</file>
+        <url>http://www.abisource.com/downloads/abiword/2.8.6/Windows/abiword-setup-2.8.6.exe</url>
+        <sha1>a91acd3f60e842d23556032d34f1600602768318</sha1>
+    </version>
+
+    <!-- TODO: the removal shows 2 dialogs -->
+    <version name="0.9.4" package="fr.handbrake.HandBrake"
+            type="one-file">
+        <file path=".WPM\Install.bat">HandBrake-0.9.4-Win_GUI.exe /S /D=%CD%</file>
+        <file path=".WPM\Uninstall.bat">uninst.exe /S</file>
+        <url>http://downloads.sourceforge.net/project/handbrake/0.9.4/HandBrake-0.9.4-Win_GUI.exe?ts=1278845734</url>
+        <sha1>d5e800b29b7845f679554fb3d47650d9c3ed031b</sha1>
+        <dependency package="com.microsoft.DotNetRedistributable"
+                versions="[2.0, 3)"/>
+    </version>
+
+    <!-- TODO: silent installation shows many dialogs -->
+    <version name="2003"
+            package="com.microsoft.WindowsServer2003ResourceKitToolsInstaller"
+            type="one-file">
+        <important-file path="rktools.exe" title="Installer"/>
+        <url>http://download.microsoft.com/download/8/e/c/8ec3a7d8-05b4-440a-a71e-ca3ee25fe057/rktools.exe</url>
+        <sha1>3f3878ffb2c642e752d811dc05169bfcc2aa97b5</sha1>
+    </version>
+
+    <!--
+        TODO: the installation shows a progress dialog
+    -->
+    <version name="10.60" package="com.opera.Opera" type="one-file">
+        <!-- somehow this triple double quotes work here -->
+        <file path=".WPM\Install.bat">Opera_1060_int_Setup.exe /S /v"/qn /norestart INSTALLDIR="""%CD%""" ALLUSERS=1"</file>
+        <file path=".WPM\Uninstall.bat">MsiExec.exe /qn /norestart /Lime .WPM\MSI.log /X{1D2C96C3-A3F3-49E7-B839-95279DED837F}
+set err=%errorlevel%
+type .WPM\MSI.log
+if %err% neq 0 exit /b %err%
+</file>
+        <url>http://get5.opera.com/pub/opera/win/1060/int/Opera_1060_int_Setup.exe</url>
+        <sha1>3f8d9d5d004c43b7be057f5c2625484398c9aa7e</sha1>
+    </version>
+    <version name="10.61" package="com.opera.Opera" type="one-file">
+        <!-- somehow this triple double quotes work here -->
+        <file path=".WPM\Install.bat">Opera_1061_int_Setup.exe /S /v"/qn /norestart INSTALLDIR="""%CD%""" ALLUSERS=1"</file>
+        <file path=".WPM\Uninstall.bat">MsiExec.exe /qn /norestart /Lime .WPM\MSI.log /X{6D482078-8D15-4FD3-B838-C7B49174650F}
+set err=%errorlevel%
+type .WPM\MSI.log
+if %err% neq 0 exit /b %err%
+</file>
+        <url>http://get4.opera.com/pub/opera/win/1061/int/Opera_1061_int_Setup.exe</url>
+        <sha1>f1b69fcb8901bb800fd59b3ce3c846c9af932982</sha1>
+    </version>
+    <version name="10.62" package="com.opera.Opera" type="one-file">
+        <!-- somehow this triple double quotes work here -->
+        <file path=".WPM\Install.bat">Opera_1062_int_Setup.exe /S /v"/qn /norestart INSTALLDIR="""%CD%""" ALLUSERS=1"</file>
+        <file path=".WPM\Uninstall.bat">MsiExec.exe /qn /norestart /Lime .WPM\MSI.log /X{18E65799-76BD-46EF-9E53-972FE5A40736}
+set err=%errorlevel%
+type .WPM\MSI.log
+if %err% neq 0 exit /b %err%
+</file>
+        <url>http://get8.opera.com/pub/opera/win/1062/int/Opera_1062_int_Setup.exe</url>
+        <sha1>659b7a6185f41f9ede5d022ea9f5742f7ea1b719</sha1>
+    </version>
+    <version name="10.63" package="com.opera.Opera" type="one-file">
+        <!-- somehow this triple double quotes work here -->
+        <file path=".WPM\Install.bat">Opera_1063_int_Setup.exe /S /v"/qn /norestart INSTALLDIR="""%CD%""" ALLUSERS=1"</file>
+        <file path=".WPM\Uninstall.bat">MsiExec.exe /qn /norestart /Lime .WPM\MSI.log /X{87CC8013-56D1-43E1-A0A5-AD406B4EBA95}
+set err=%errorlevel%
+type .WPM\MSI.log
+if %err% neq 0 exit /b %err%
+</file>
+        <url>http://get1.opera.com/pub/opera/win/1063/int/Opera_1063_int_Setup.exe</url>
+        <sha1>69638f4e9b807ece50cf7d8e5501b20b12f72f8b</sha1>
+    </version>
+    <!-- TODO: installation shows a confirmation dialog -->
+    <!-- TODO: 7Z-A 9.20 muss installiert werden -->
+    <version name="11" package="com.opera.Opera" type="one-file">
+        <important-file path="Opera.exe" title="Opera"/>
+        <file path=".WPM\Install.bat">..\org.7-zip.SevenZIPA-9.20\7za.exe x Opera_1100_int_Setup.exe</file>
+        <url>http://get5.opera.com/pub/opera/win/1100/int/Opera_1100_int_Setup.exe</url>
+        <sha1>7bba9c0ba2ec18d21b7d69f6de906e7f7220625e</sha1>
+        <dependency package="org.7-zip.SevenZIPA" versions="[9.20, 9.20]"/>
+    </version>
+
+    <!--
+        % must be doubled so the cmd.exe does not recognize it as a variable
+        reference. TODO: The uninstallation shows 2 confirmation dialogs.
+        TODO: no parallel installation
+    -->
+    <version name="4.5.2" package="net.sourceforge.djvu.DjView" type="one-file">
+        <file path=".WPM\Install.bat">DjVuLibre%%2BDjView-3.5.22%%2B4.5b-Setup.exe /S /D=%CD%</file>
+        <file path=".WPM\Uninstall.bat">uninst.exe /S</file>
+        <url>https://downloads.sourceforge.net/project/djvu/DjVuLibre_Windows/3.5.22%2B4.5/DjVuLibre%2BDjView-3.5.22%2B4.5b-Setup.exe?ts=1280068915</url>
+        <sha1>6a6aaf1cef3a0746004c8b233048891ab16fc880</sha1>
+        <!-- TODO: <file-handler>
+            <title>DjView</title>
+            <executable>djview.exe</executable>
+            <extension>.djv</extension>
+            <extension>.djvu</extension>
+        </file-handler> -->
+    </version>
+    <version name="4.6" package="net.sourceforge.djvu.DjView" type="one-file">
+        <file path=".WPM\Install.bat">DjVuLibre%%2BDjView-3.5.23%%2B4.6-Setup.exe /S /D=%CD%</file>
+        <file path=".WPM\Uninstall.bat">uninst.exe /S</file>
+        <url>http://downloads.sourceforge.net/project/djvu/DjVuLibre_Windows/3.5.23%2B4.6/DjVuLibre%2BDjView-3.5.23%2B4.6-Setup.exe?ts=1281979543</url>
+        <sha1>78a704a60da4d4a53bbfb52c382c8fdc5bd89473</sha1>
+        <!-- TODO: <file-handler>
+            <title>DjView</title>
+            <executable>djview.exe</executable>
+            <extension>.djv</extension>
+            <extension>.djvu</extension>
+        </file-handler> -->
+    </version>
+
+    <!--
+        TODO: the installation shows 2 confirmation dialogs,
+        the uninstallation shows one
+    -->
+    <version name="2.0.1060" package="com.debugmode.Wink">
+        <file path=".WPM\Install.bat">wink20.exe /S /D=%CD%</file>
+        <file path=".WPM\Uninstall.bat">uninst.exe /S</file>
+        <url>http://www.digital2b.com/mirror_wink/wink20.zip</url>
+        <sha1>7fe4b1f30c53d7444f0212b5f0fd291eef819fba</sha1>
+        <!-- TODO <file-handler>
+            <title>Wink</title>
+            <executable>Wink.exe</executable>
+            <extension>.wnk</extension>
+        </file-handler> -->
+    </version>
+
+    <!--
+        TODO: The same URL is used for different program versions.
+        TODO: the un-installation shows 2 confirmation dialogs
+    -->
+    <version name="6.0.2" package="de.nextsoft.HexEditorMX">
+        <file path=".WPM\Install.bat">setup.exe /SP- /VERYSILENT /SUPPRESSMSGBOXES /NOCANCEL /NORESTART /DIR="%CD%"</file>
+        <file path=".WPM\Uninstall.bat">unins000.exe /VERYSILENT /SUPPRESSMSGBOXES /NORESTART</file>
+        <url>http://wpm.freehostingcloud.com/files/hexedit.zip</url>
+        <sha1>078548bbacf363cc42938ae9a837b1721d39edd9</sha1>
+        <!-- TODO: <file-handler>
+            <title>Hex-Editor MX</title>
+            <executable>HexeditMX.exe</executable>
+            <extension>.bin</extension>
+            <extension>.exe</extension>
+            <extension>.dll</extension>
+        </file-handler> -->
+    </version>
+
+    <!--
+        http://docs.miktex.org/2.8/manual/setupwiz.html
+        TODO: installation shows a progress dialog
+        TODO: uninstallation shows a confirmation dialog
+    -->
+    <version name="2.9.3972"
+            package="org.miktex.MiKTeX">
+        <file path=".WPM\Install.bat">basic-miktex-2.9.3972.exe --common-install="%CD%" --package-set=complete --shared --unattended</file>
+        <file path=".WPM\Unnstall.bat">miktex\bin\internal\copystart_admin.exe "%CD%\miktex/bin/internal\uninstall_admin.exe"</file>
+        <url>http://sunsite.informatik.rwth-aachen.de/ftp/pub/mirror/ctan/systems/win32/miktex/setup/basic-miktex-2.9.3972.exe</url>
+        <sha1>4913ba921757c8a4df9f7e593dfacabbad6a1ecc</sha1>
+    </version>
+
+    <!--
+        TODO: different versions are distributed from the same URL
+        TODO: the installation shows 2 confirmation dialogs
+        TODO: multiple versions cannot be installed in parallel because
+            of the naming of the start menu entries
+    -->
+    <version name="1" package="com.freesshd.FreeFTPD" type="one-file">
+        <file path=".WPM\Install.bat">freeFTPd.exe /SP- /VERYSILENT /SUPPRESSMSGBOXES /NOCANCEL /NORESTART /DIR="%CD%" /SAVEINF="%CD%\.WPM\InnoSetupInfo.ini" /LOG="%CD%\.WPM\InnoSetupInstall.log"
+set err=%errorlevel%
+type .WPM\InnoSetupInstall.log
+if %err% neq 0 exit %err%</file>
+        <file path=".WPM\Uninstall.bat">unins000.exe /VERYSILENT /SUPPRESSMSGBOXES /NORESTART /LOG="%CD%\.WPM\InnoSetupUninstall.log"
+set err=%errorlevel%
+type .WPM\InnoSetupUninstall.log
+if %err% neq 0 exit %err%
+</file>
+        <url>http://www.freesshd.com/freeFTPd.exe</url>
+    </version>
+
     <version name="1.14.1"
             package="com.googlecode.windows-package-manager.Npackd">
         <important-file path="npackdg.exe"
@@ -1438,8 +1670,9 @@
         <sha1>b045f72d7972f9f7c5b92b368c61d083ea1a8bf5</sha1>
     </version>
 
-    <!-- TODO: different versions are distributed from the same URL
- TODO: Dateierweiterungen: txt html htm pdf png gif jpeg jpg
+    <!--
+        TODO: different versions are distributed from the same URL
+        TODO: Dateierweiterungen: txt html htm pdf png gif jpeg jpg
     -->
     <version name="8" package="net.srware.Iron" type="one-file">
         <file path=".WPM\Install.bat">for /f %%x in ('dir /b *.exe') do set setup=%%x
@@ -1455,19 +1688,6 @@ type .WPM\InnoSetupUninstall.log
 if %err% neq 0 exit %err%
 </file>
         <url>http://www.srware.net/downloads/srware_iron.exe</url>
-    </version>
-
-    <!--
-        http://docs.miktex.org/2.8/manual/setupwiz.html
-        TODO: installation shows a progress dialog
-        TODO: uninstallation shows a confirmation dialog
-    -->
-    <version name="2.9.3972"
-            package="org.miktex.MiKTeX">
-        <file path=".WPM\Install.bat">basic-miktex-2.9.3972.exe --common-install="%CD%" --package-set=complete --shared --unattended</file>
-        <file path=".WPM\Unnstall.bat">miktex\bin\internal\copystart_admin.exe "%CD%\miktex/bin/internal\uninstall_admin.exe"</file>
-        <url>http://sunsite.informatik.rwth-aachen.de/ftp/pub/mirror/ctan/systems/win32/miktex/setup/basic-miktex-2.9.3972.exe</url>
-        <sha1>4913ba921757c8a4df9f7e593dfacabbad6a1ecc</sha1>
     </version>
 
     <version name="0.53.6501" package="org.latexeditor.LEd">
@@ -1507,24 +1727,6 @@ rmdir /s /q blat262</file>
         <sha1>de0d6b794e128597b06686498afbe7c489d68d46</sha1>
     </version>
 
-    <!--
-        TODO: different versions are distributed from the same URL
-        TODO: the installation shows 2 confirmation dialogs
-        TODO: multiple versions cannot be installed in parallel because
-            of the naming of the start menu entries
-    -->
-    <version name="1" package="com.freesshd.FreeFTPD" type="one-file">
-        <file path=".WPM\Install.bat">freeFTPd.exe /SP- /VERYSILENT /SUPPRESSMSGBOXES /NOCANCEL /NORESTART /DIR="%CD%" /SAVEINF="%CD%\.WPM\InnoSetupInfo.ini" /LOG="%CD%\.WPM\InnoSetupInstall.log"
-set err=%errorlevel%
-type .WPM\InnoSetupInstall.log
-if %err% neq 0 exit %err%</file>
-        <file path=".WPM\Uninstall.bat">unins000.exe /VERYSILENT /SUPPRESSMSGBOXES /NORESTART /LOG="%CD%\.WPM\InnoSetupUninstall.log"
-set err=%errorlevel%
-type .WPM\InnoSetupUninstall.log
-if %err% neq 0 exit %err%
-</file>
-        <url>http://www.freesshd.com/freeFTPd.exe</url>
-    </version>
 
     <!-- TODO: the installation opens a HTTP page in the default browser -->
     <version name="2.0.0.1" package="com.freemake.FreeVideoConverter"
@@ -2252,24 +2454,6 @@ for %%g in (pdf ps eps svg svgz sxd odg sla sla.gz scd scd.gz) do reg delete HKL
         <sha1>d46059395e991dc28193c0220eb08185ac5ab6df</sha1>
     </version>
     
-    <!-- 
-        TODO: The same URL is used for different program versions.
-        TODO: the un-installation shows 2 confirmation dialogs
-    -->
-    <version name="6.0.2" package="de.nextsoft.HexEditorMX">
-        <file path=".WPM\Install.bat">setup.exe /SP- /VERYSILENT /SUPPRESSMSGBOXES /NOCANCEL /NORESTART /DIR="%CD%"</file>
-        <file path=".WPM\Uninstall.bat">unins000.exe /VERYSILENT /SUPPRESSMSGBOXES /NORESTART</file>
-        <url>http://wpm.freehostingcloud.com/files/hexedit.zip</url>
-        <sha1>078548bbacf363cc42938ae9a837b1721d39edd9</sha1>
-        <!-- TODO: <file-handler>
-            <title>Hex-Editor MX</title>
-            <executable>HexeditMX.exe</executable>
-            <extension>.bin</extension>
-            <extension>.exe</extension>
-            <extension>.dll</extension>
-        </file-handler> -->
-    </version>
-
     <version name="1.3.10" package="com.tightvnc.TightVNC">
         <important-file path="WinVNC.exe" title="TightVNC Server"/>
         <important-file path="vncviewer.exe" title="TightVNC Viewer"/>
@@ -3018,22 +3202,6 @@ if %err% neq 0 exit /b %err%
         <sha1>14a34e0140f85d509484d0d01f10033c4d80ac33</sha1>
     </version>
 
-    <!--
-        TODO: the installation shows 2 confirmation dialogs,
-        the uninstallation shows one
-    -->
-    <version name="2.0.1060" package="com.debugmode.Wink">
-        <file path=".WPM\Install.bat">wink20.exe /S /D=%CD%</file>
-        <file path=".WPM\Uninstall.bat">uninst.exe /S</file>
-        <url>http://www.digital2b.com/mirror_wink/wink20.zip</url>
-        <sha1>7fe4b1f30c53d7444f0212b5f0fd291eef819fba</sha1>
-        <!-- TODO <file-handler>
-            <title>Wink</title>
-            <executable>Wink.exe</executable>
-            <extension>.wnk</extension>
-        </file-handler> -->
-    </version>
-
     <version name="1.0.3.8" package="org.bluemars.ClipX" type="one-file">
         <file path=".WPM\Install.bat">clipx-1.0.3.8-setup.exe /S /D=%CD%</file>
         <file path=".WPM\Uninstall.bat">uninstall.exe /S</file>
@@ -3064,15 +3232,6 @@ for %%g in (msi) do reg delete HKLM\SOFTWARE\Classes\.%%g\OpenWithList\%key% /f
         <sha1>976c772df01e31a66b6e128255051f85cd8aded9</sha1>
     </version>
 
-    <!-- TODO: silent installation shows many dialogs -->
-    <version name="2003"
-            package="com.microsoft.WindowsServer2003ResourceKitToolsInstaller"
-            type="one-file">
-        <important-file path="rktools.exe" title="Installer"/>
-        <url>http://download.microsoft.com/download/8/e/c/8ec3a7d8-05b4-440a-a71e-ca3ee25fe057/rktools.exe</url>
-        <sha1>3f3878ffb2c642e752d811dc05169bfcc2aa97b5</sha1>
-    </version>
-
     <!-- TODO: no parallel installation -->
     <version name="1.4.9" package="org.gnupg.GnuPG" type="one-file">
         <file path=".WPM\Install.bat">gnupg-w32cli-1.4.9.exe /S /D=%CD%</file>
@@ -3091,36 +3250,6 @@ for %%g in (msi) do reg delete HKLM\SOFTWARE\Classes\.%%g\OpenWithList\%key% /f
         <file path=".WPM\Uninstall.bat">uninst-gnupg.exe /S</file>
         <url>http://www.artfiles.org/gnupg.org/binary/gnupg-w32cli-1.4.11.exe</url>
         <sha1>631b5129f918b7d30247ade8bcc27908951eaea0</sha1>
-    </version>
-
-    <!--
-        % must be doubled so the cmd.exe does not recognize it as a variable
-        reference. TODO: The uninstallation shows 2 confirmation dialogs.
-        TODO: no parallel installation
-    -->
-    <version name="4.5.2" package="net.sourceforge.djvu.DjView" type="one-file">
-        <file path=".WPM\Install.bat">DjVuLibre%%2BDjView-3.5.22%%2B4.5b-Setup.exe /S /D=%CD%</file>
-        <file path=".WPM\Uninstall.bat">uninst.exe /S</file>
-        <url>https://downloads.sourceforge.net/project/djvu/DjVuLibre_Windows/3.5.22%2B4.5/DjVuLibre%2BDjView-3.5.22%2B4.5b-Setup.exe?ts=1280068915</url>
-        <sha1>6a6aaf1cef3a0746004c8b233048891ab16fc880</sha1>
-        <!-- TODO: <file-handler>
-            <title>DjView</title>
-            <executable>djview.exe</executable>
-            <extension>.djv</extension>
-            <extension>.djvu</extension>
-        </file-handler> -->
-    </version>
-    <version name="4.6" package="net.sourceforge.djvu.DjView" type="one-file">
-        <file path=".WPM\Install.bat">DjVuLibre%%2BDjView-3.5.23%%2B4.6-Setup.exe /S /D=%CD%</file>
-        <file path=".WPM\Uninstall.bat">uninst.exe /S</file>
-        <url>http://downloads.sourceforge.net/project/djvu/DjVuLibre_Windows/3.5.23%2B4.6/DjVuLibre%2BDjView-3.5.23%2B4.6-Setup.exe?ts=1281979543</url>
-        <sha1>78a704a60da4d4a53bbfb52c382c8fdc5bd89473</sha1>
-        <!-- TODO: <file-handler>
-            <title>DjView</title>
-            <executable>djview.exe</executable>
-            <extension>.djv</extension>
-            <extension>.djvu</extension>
-        </file-handler> -->
     </version>
 
     <!--
@@ -3618,17 +3747,6 @@ if %err% neq 0 exit /b %err%
         </file-handler> -->
     </version>
 
-    <!-- TODO: the removal shows 2 dialogs -->
-    <version name="0.9.4" package="fr.handbrake.HandBrake"
-            type="one-file">
-        <file path=".WPM\Install.bat">HandBrake-0.9.4-Win_GUI.exe /S /D=%CD%</file>
-        <file path=".WPM\Uninstall.bat">uninst.exe /S</file>
-        <url>http://downloads.sourceforge.net/project/handbrake/0.9.4/HandBrake-0.9.4-Win_GUI.exe?ts=1278845734</url>
-        <sha1>d5e800b29b7845f679554fb3d47650d9c3ed031b</sha1>
-        <dependency package="com.microsoft.DotNetRedistributable"
-                versions="[2.0, 3)"/>
-    </version>
-
     <!-- TODO: NSIS-based installer that does not support /S -->
     <version name="5.1.6" package="org.mingw.MinGWInstaller"
             type="one-file">
@@ -3925,63 +4043,6 @@ echo clear the error code
         <sha1>E6ED8D6FF3BD79FFAA9301940AC1BD0D2599D126</sha1>
     </version>
 
-    <!--
-        TODO: the installation shows a progress dialog
-    -->
-    <version name="10.60" package="com.opera.Opera" type="one-file">
-        <!-- somehow this triple double quotes work here -->
-        <file path=".WPM\Install.bat">Opera_1060_int_Setup.exe /S /v"/qn /norestart INSTALLDIR="""%CD%""" ALLUSERS=1"</file>
-        <file path=".WPM\Uninstall.bat">MsiExec.exe /qn /norestart /Lime .WPM\MSI.log /X{1D2C96C3-A3F3-49E7-B839-95279DED837F}
-set err=%errorlevel%
-type .WPM\MSI.log
-if %err% neq 0 exit /b %err%
-</file>
-        <url>http://get5.opera.com/pub/opera/win/1060/int/Opera_1060_int_Setup.exe</url>
-        <sha1>3f8d9d5d004c43b7be057f5c2625484398c9aa7e</sha1>
-    </version>
-    <version name="10.61" package="com.opera.Opera" type="one-file">
-        <!-- somehow this triple double quotes work here -->
-        <file path=".WPM\Install.bat">Opera_1061_int_Setup.exe /S /v"/qn /norestart INSTALLDIR="""%CD%""" ALLUSERS=1"</file>
-        <file path=".WPM\Uninstall.bat">MsiExec.exe /qn /norestart /Lime .WPM\MSI.log /X{6D482078-8D15-4FD3-B838-C7B49174650F}
-set err=%errorlevel%
-type .WPM\MSI.log
-if %err% neq 0 exit /b %err%
-</file>
-        <url>http://get4.opera.com/pub/opera/win/1061/int/Opera_1061_int_Setup.exe</url>
-        <sha1>f1b69fcb8901bb800fd59b3ce3c846c9af932982</sha1>
-    </version>
-    <version name="10.62" package="com.opera.Opera" type="one-file">
-        <!-- somehow this triple double quotes work here -->
-        <file path=".WPM\Install.bat">Opera_1062_int_Setup.exe /S /v"/qn /norestart INSTALLDIR="""%CD%""" ALLUSERS=1"</file>
-        <file path=".WPM\Uninstall.bat">MsiExec.exe /qn /norestart /Lime .WPM\MSI.log /X{18E65799-76BD-46EF-9E53-972FE5A40736}
-set err=%errorlevel%
-type .WPM\MSI.log
-if %err% neq 0 exit /b %err%
-</file>
-        <url>http://get8.opera.com/pub/opera/win/1062/int/Opera_1062_int_Setup.exe</url>
-        <sha1>659b7a6185f41f9ede5d022ea9f5742f7ea1b719</sha1>
-    </version>
-    <version name="10.63" package="com.opera.Opera" type="one-file">
-        <!-- somehow this triple double quotes work here -->
-        <file path=".WPM\Install.bat">Opera_1063_int_Setup.exe /S /v"/qn /norestart INSTALLDIR="""%CD%""" ALLUSERS=1"</file>
-        <file path=".WPM\Uninstall.bat">MsiExec.exe /qn /norestart /Lime .WPM\MSI.log /X{87CC8013-56D1-43E1-A0A5-AD406B4EBA95}
-set err=%errorlevel%
-type .WPM\MSI.log
-if %err% neq 0 exit /b %err%
-</file>
-        <url>http://get1.opera.com/pub/opera/win/1063/int/Opera_1063_int_Setup.exe</url>
-        <sha1>69638f4e9b807ece50cf7d8e5501b20b12f72f8b</sha1>
-    </version>
-    <!-- TODO: installation shows a confirmation dialog -->
-    <!-- TODO: 7Z-A 9.20 muss installiert werden -->
-    <version name="11" package="com.opera.Opera" type="one-file">
-        <important-file path="Opera.exe" title="Opera"/>
-        <file path=".WPM\Install.bat">..\org.7-zip.SevenZIPA-9.20\7za.exe x Opera_1100_int_Setup.exe</file>
-        <url>http://get5.opera.com/pub/opera/win/1100/int/Opera_1100_int_Setup.exe</url>
-        <sha1>7bba9c0ba2ec18d21b7d69f6de906e7f7220625e</sha1>
-        <dependency package="org.7-zip.SevenZIPA" versions="[9.20, 9.20]"/>
-    </version>
-
     <version name="3.3.6.1" package="com.autoitscript.AutoItFull"
             type="one-file">
         <file path=".WPM\Install.bat">autoit-v3-setup.exe /S /D=%CD%</file>
@@ -4041,26 +4102,6 @@ if %err% neq 0 exit /b %err%
         <file path=".WPM\Uninstall.bat">unins000.exe /VERYSILENT /SUPPRESSMSGBOXES /NORESTART</file>
         <url>http://downloads.sourceforge.net/project/celestia/Celestia-win32-bin/1.6.0/celestia-win32-1.6.0.exe?98657009</url>
         <sha1>e7bf9d1e245d9ece473aea1c20b0d84f7c1afb7b</sha1>
-    </version>
-
-    <!--
-        TODO: Needs MSVCR71.dll which will not be installed => a dependency.
-        TODO: The un-installation shows 2 dialogs.
-    -->
-    <version name="1.6.6" package="org.unrealvoodoo.hiteck.AlbumArt"
-            type="one-file">
-        <file path=".WPM\Install.bat">albumart-1.6.6-win32-setup.exe /S /D=%CD%</file>
-        <file path=".WPM\Uninstall.bat">uninst.exe /S</file>
-        <url>http://www.unrealvoodoo.org/hiteck/projects/albumart/dist/albumart-1.6.6-win32-setup.exe</url>
-        <sha1>b009f154c58894b8796a9c85cde62cd123114d49</sha1>
-    </version>
-
-    <!-- TODO: Un-installation shows a confirmation dialog -->
-    <version name="2.8.6" package="com.abisource.AbiWord" type="one-file">
-        <file path=".WPM\Install.bat">abiword-setup-2.8.6.exe /S /D=%CD%</file>
-        <file path=".WPM\Uninstall.bat">UninstallAbiWord2.exe /S</file>
-        <url>http://www.abisource.com/downloads/abiword/2.8.6/Windows/abiword-setup-2.8.6.exe</url>
-        <sha1>a91acd3f60e842d23556032d34f1600602768318</sha1>
     </version>
 
     <version name="12.0.6038.3000" package="com.microsoft.WordViewer"
@@ -5194,15 +5235,6 @@ if %err% neq 0 exit /b %err%
         <url>http://www.cygwin.com/setup.exe</url>
     </version>
 
-    <!-- TODO: the installation shows a confirmation dialog -->
-    <version name="1.2.2" package="dk.po.dxgettext.DXGetText" 
-            type="one-file">
-        <file path=".WPM\Install.bat">dxgettext-1.2.2.exe /SP- /VERYSILENT /SUPPRESSMSGBOXES /NOCANCEL /NORESTART /DIR="%CD%"</file>
-        <file path=".WPM\Uninstall.bat">unins000.exe /VERYSILENT /SUPPRESSMSGBOXES /NORESTART</file>
-        <url>http://downloads.sourceforge.net/project/dxgettext/For%20Delphi%20and%20C%2B%2B%20Builder/1.2.2/dxgettext-1.2.2.exe?48855804</url>
-        <sha1>1a6a7b97b4113ef4f3f1d67e88a97a7d260f1801</sha1>
-    </version>
-
     <!--
         see https://wiki.mozilla.org/Installer:Command_Line_Arguments
         for more information. See http://jp-nii01.mozilla.org/pub/mozilla.org/firefox/releases/
@@ -5400,18 +5432,6 @@ for %%g in (xcf pix matte mask alpha als fli flc xcf.bz2 bz2 xcfbz2 desktop dcm 
 
     <version name="3.42" package="com.sysinternals.Handle">
         <url>http://download.sysinternals.com/Files/Handle.zip</url>
-    </version>
-
-    <!--
-        TODO: installation presents an EULA. The uninstallation presents 2
-        confirmation dialogs.
-    -->
-    <version name="1.4" package="com.microsoft.msdn.HTMLHelp" type="one-file">
-        <important-file path="hhw.exe" title="HTML Help Workshop"/>
-        <file path=".WPM\Install.bat">htmlhelp.exe /T:"%CD%" /C</file>
-        <url>http://download.microsoft.com/download/0/A/9/0A939EF6-E31C-430F-A3DF-DFAE7960D564/htmlhelp.exe</url>
-        <sha1>be3ca09da0f21616577c8fb3d3a508804d4f9281</sha1>
-        <!-- TODO: "open with" -->
     </version>
 
     <version name="3.0.1" package="net.java.dev.glassfish.GlassFishWebProfile">
@@ -5863,24 +5883,6 @@ if %err% neq 0 exit /b %err%
         <sha1>4c721b1b1c2c36e1e9b013d5c8909783d3ab26f0</sha1>
     </version>
 
-    <!-- 
-        TODO: the uninstallation shows a confirmation dialog. Wireshark depends
-        on Pcap which has no silent installation
-        TODO: old versions are regularly deleted
-    -->
-    <version name="1.4.1" package="org.wireshark.Wireshark" type="one-file">
-        <file path=".WPM\Install.bat">wireshark-win32-1.4.1.exe /S /D=%CD%</file>
-        <file path=".WPM\Uninstall.bat">uninstall.exe /S _=%CD%</file>
-        <url>http://media-2.cacetech.com/wireshark/win32/wireshark-win32-1.4.1.exe</url>
-        <sha1>34a739a799688a26ea8128ce7352b20e473872c2</sha1>
-    </version>
-    <version name="1.4.2" package="org.wireshark.Wireshark" type="one-file">
-        <file path=".WPM\Install.bat">wireshark-win32-1.4.2.exe /S /D=%CD%</file>
-        <file path=".WPM\Uninstall.bat">uninstall.exe /S _=%CD%</file>
-        <url>http://media-2.cacetech.com/wireshark/win32/wireshark-win32-1.4.2.exe</url>
-        <sha1>1ce53d26e48272548698bec0bd51f57440d2158f</sha1>
-    </version>
-    
     <version name="1.1" package="com.symbolclick.XMLMarker" type="one-file">
         <file path=".WPM\Install.bat">xmlmarker_1_1_setup.exe /SP- /VERYSILENT /SUPPRESSMSGBOXES /NOCANCEL /NORESTART /DIR="%CD%"</file>
         <file path=".WPM\Uninstall.bat">unins000.exe /VERYSILENT /SUPPRESSMSGBOXES /NORESTART</file>
