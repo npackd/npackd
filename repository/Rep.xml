@@ -1640,7 +1640,7 @@ if %err% neq 0 exit /b %err%
     -->
     <version name="2.9.3972"
             package="org.miktex.MiKTeX" type="one-file">
-        <file path=".WPM\Install.bat">basic-miktex-2.9.3972.exe --common-install="%CD%" --package-set=complete --shared --unattended</file>
+        <file path=".WPM\Install.bat">basic-miktex-2.9.3972.exe --common-install="%CD%" --shared --unattended</file>
         <file path=".WPM\Unnstall.bat">miktex\bin\internal\copystart_admin.exe "%CD%\miktex/bin/internal\uninstall_admin.exe"</file>
         <url>http://sunsite.informatik.rwth-aachen.de/ftp/pub/mirror/ctan/systems/win32/miktex/setup/basic-miktex-2.9.3972.exe</url>
         <sha1>4913ba921757c8a4df9f7e593dfacabbad6a1ecc</sha1>
@@ -2141,6 +2141,11 @@ if %err% neq 0 exit /b %err%
         <sha1>da0d08b14246fd25569443c5612cd78c42cea47f</sha1>
     </version>
 
+    <!--
+        TODO: version 2.0 may fail to uninstall after an update from Microsoft
+        was also installed
+        TODO: 4.0 client profile is not detected
+    -->
     <version name="2.0.50727.42" package="com.microsoft.DotNetRedistributable"
             type="one-file">
         <file path=".WPM\Install.bat">dotnetfx.exe /C /T:"%CD%\f"
