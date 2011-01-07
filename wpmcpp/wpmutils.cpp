@@ -313,12 +313,14 @@ void WPMUtils::removeDirectory2(Job* job, QDir &d)
     */
 
     QString err = WPMUtils::moveToRecycleBin(d.absolutePath());
-    if (!err.isEmpty()) {
+    d.refresh();
+    if (!err.isEmpty() && d.exists()) {
         job->setProgress(0.3);
         Sleep(5000); // 5 Seconds
         job->setProgress(0.6);
         err = WPMUtils::moveToRecycleBin(d.absolutePath());
-        if (!err.isEmpty())
+        d.refresh();
+        if (!err.isEmpty() && d.exists())
             job->setErrorMessage(err);
         else
             job->setProgress(1);
