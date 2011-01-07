@@ -4852,11 +4852,15 @@ echo clear the error code
         <file path=".WPM\Install.bat">msiexec.exe /qn /norestart /Lime .WPM\MSI.log /i TortoiseSVN-1.6.10.19898-win32-svn-1.6.12.msi TARGETDIR="%CD%" ALLUSERS=1
 set err=%errorlevel%
 type .WPM\MSI.log
+rem 3010=restart required
+if %err% equ 3010 exit /b 0
 if %err% neq 0 exit /b %err%
 </file>
         <file path=".WPM\Uninstall.bat">msiexec.exe /qn /norestart /Lime .WPM\MSI.log /x TortoiseSVN-1.6.10.19898-win32-svn-1.6.12.msi
 set err=%errorlevel%
 type .WPM\MSI.log
+rem 3010=restart required
+if %err% equ 3010 exit /b 0
 if %err% neq 0 exit /b %err%
 </file>
         <url>https://downloads.sourceforge.net/project/tortoisesvn/Application/1.6.10/TortoiseSVN-1.6.10.19898-win32-svn-1.6.12.msi?ts=1280163265</url>
@@ -4868,11 +4872,15 @@ if %err% neq 0 exit /b %err%
         <file path=".WPM\Install.bat">msiexec.exe /qn /norestart /Lime .WPM\MSI.log /i TortoiseSVN-1.6.11.20210-win32-svn-1.6.13.msi TARGETDIR="%CD%" ALLUSERS=1
 set err=%errorlevel%
 type .WPM\MSI.log
+rem 3010=restart required
+if %err% equ 3010 exit /b 0
 if %err% neq 0 exit /b %err%
 </file>
         <file path=".WPM\Uninstall.bat">msiexec.exe /qn /norestart /Lime .WPM\MSI.log /x TortoiseSVN-1.6.11.20210-win32-svn-1.6.13.msi
 set err=%errorlevel%
 type .WPM\MSI.log
+rem 3010=restart required
+if %err% equ 3010 exit /b 0
 if %err% neq 0 exit /b %err%
 </file>
         <url>http://downloads.sourceforge.net/project/tortoisesvn/Application/1.6.11/TortoiseSVN-1.6.11.20210-win32-svn-1.6.13.msi?ts=1286034930</url>
@@ -4884,11 +4892,15 @@ if %err% neq 0 exit /b %err%
         <file path=".WPM\Install.bat">msiexec.exe /qn /norestart /Lime .WPM\MSI.log /i TortoiseSVN-1.6.12.20536-win32-svn-1.6.15.msi TARGETDIR="%CD%" ALLUSERS=1
 set err=%errorlevel%
 type .WPM\MSI.log
+rem 3010=restart required
+if %err% equ 3010 exit /b 0
 if %err% neq 0 exit /b %err%
 </file>
         <file path=".WPM\Uninstall.bat">msiexec.exe /qn /norestart /Lime .WPM\MSI.log /x TortoiseSVN-1.6.12.20536-win32-svn-1.6.15.msi
 set err=%errorlevel%
 type .WPM\MSI.log
+rem 3010=restart required
+if %err% equ 3010 exit /b 0
 if %err% neq 0 exit /b %err%
 </file>
         <url>http://downloads.sourceforge.net/project/tortoisesvn/1.6.12/Application/TortoiseSVN-1.6.12.20536-win32-svn-1.6.15.msi?ts=1291026606</url>
