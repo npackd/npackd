@@ -2226,6 +2226,7 @@ if %err% neq 0 exit /b %err%
 
     <!-- 
         TODO: the installation shows progress dialogs.
+        TODO: target directory cannot be choosen
     -->
     <version name="6.0.2900.2180"
             package="com.microsoft.VisualCPPRedistributable"
@@ -2239,7 +2240,6 @@ if %err% neq 0 exit /b %err%
         <url>http://download.microsoft.com/download/d/3/4/d342efa6-3266-4157-a2ec-5174867be706/vcredist_x86.exe</url>
         <sha1>47fba37de95fa0e2328cf2e5c8ebb954c4b7b93c</sha1>
     </version>
-    <!-- TODO: the uninstallation shows a progress dialog -->
     <version name="9.0.21022.8"
             package="com.microsoft.VisualCPPRedistributable"
             type="one-file">
@@ -2263,6 +2263,26 @@ if %err% neq 0 exit /b %err%
         <file path=".WPM\Uninstall.bat">vcredist_x86.exe /qu</file>
         <url>http://download.microsoft.com/download/9/7/7/977B481A-7BA6-4E30-AC40-ED51EB2028F2/vcredist_x86.exe</url>
         <sha1>bd18409cfe75b88c2a9432d36d96f4bf125a3237</sha1>
+    </version>
+    <version name="10.0.30319.1"
+            package="com.microsoft.VisualCPPRedistributable"
+            type="one-file">
+        <file path=".WPM\Install.bat">vcredist_x86.exe /q /log .WPM\VCRInstall.log /norestart
+set err=%errorlevel%
+type .WPM\VCRInstall.log
+rem 3010=restart required
+if %err% equ 3010 exit /b 0
+if %err% neq 0 exit /b %err%
+</file>
+        <file path=".WPM\Uninstall.bat">vcredist_x86.exe /q /uninstall /log .WPM\VCRUninstall.log /norestart
+set err=%errorlevel%
+type .WPM\VCRUninstall.log
+rem 3010=restart required
+if %err% equ 3010 exit /b 0
+if %err% neq 0 exit /b %err%
+</file>
+        <url>http://download.microsoft.com/download/5/B/C/5BC5DBB3-652D-4DCE-B14A-475AB85EEF6E/vcredist_x86.exe</url>
+        <sha1>372d9c1670343d3fb252209ba210d4dc4d67d358</sha1>
     </version>
 
     <version name="0.7.110" package="com.dropbox.Dropbox" type="one-file">
