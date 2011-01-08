@@ -957,6 +957,8 @@ void MainWindow::on_actionTest_Repositories_triggered()
         it->wait();
         delete it;
         delete job;
+
+        fillList();
     }
 }
 
