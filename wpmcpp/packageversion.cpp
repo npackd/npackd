@@ -877,6 +877,7 @@ void PackageVersion::deleteShortcuts(QDir& d)
                 deleteShortcuts(dd);
             } else {
                 if (path.toLower().endsWith(".lnk")) {
+                    // qDebug() << "deleteShortcuts " << path;
                     IPersistFile* ppf;
 
                     // Query IShellLink for the IPersistFile interface for saving the
@@ -898,7 +899,7 @@ void PackageVersion::deleteShortcuts(QDir& d)
                                 if (WPMUtils::isUnder(targetPath,
                                                       instPath)) {
                                     QFile::remove(path);
-                                    // qDebug() << "deleteShortcuts true" << ok;
+                                    // qDebug() << "deleteShortcuts removed";
                                 }
                             }
                         }
