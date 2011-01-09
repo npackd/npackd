@@ -195,6 +195,7 @@
         <title>Foxit Reader</title>
         <url>http://www.foxitsoftware.com/pdf/reader/</url>
         <description>PDF viewer</description>
+        <!-- TODO: asked for an icon per email -->
     </package>
     <package name="com.freemake.FreeVideoConverter">
         <title>Free Video Converter</title>
@@ -220,6 +221,11 @@
         <title>Ghostscript installer</title>
         <url>http://www.ghostscript.com/</url>
         <description>PDF and PostScript interpreter</description>
+    </package>
+    <package name="com.google.Chrome">
+        <title>Chrome</title>
+        <url>http://www.google.com/chrome</url>
+        <description>web browser</description>
     </package>
     <package name="com.google.ChromeInstaller">
         <title>Chrome installer</title>
@@ -1436,14 +1442,6 @@
         version
         of a package should stay together. Newer versions should appear under
         older ones.
-        TODO: logging for Inno Setup installations
-        TODO: logging for Inno Setup removals
-        TODO: "exit /b 1" does not work
-        TODO: use for /f instead of set key=...
-        TODO: Install InnoSetup in sub-directory as it deletes the whole
-            installation directory
-        TODO: some un-installation routines fail because NSIS and Inno Setup
-            delete all the files including .WPM\Uninstall.bat
     -->
 
     <!--
@@ -5277,14 +5275,13 @@ if %err% neq 0 exit /b %err%
         <sha1>47f18cfbae451c51eab548d42712eb2b29402170</sha1>
     </version>
 
-    <!-- TODO: no direct download link
-    oldapps?
-    http://download.oldapps.com/Chrome/chrome_installer_5.0.307.1.exe
-    <version name="5.0.375.99" package="com.google.ChromeInstaller">
-        <important-file path="chrome_installer_stable5.exe" title="Installer"/>
-        <url>http://download.softpedia.com/dl/fbaa257d9414f6512b34f32d0af00943/4c3df782/100108166/software/internet/browser/chrome_installer_stable5.exe</url>
+    <version name="8" package="com.google.Chrome" type="one-file">
+        <file path=".WPM\Install.bat">ChromeStandaloneSetup.exe --system-level</file>
+        <file path=".WPM\Uninstall.bat">ChromeStandaloneSetup.exe --uninstall --force-uninstall</file>
+        <url>https://dl-ssl.google.com/tag/s/appguid%3D%7B8A69D345-D564-463C-AFF1-A69D9E530F96%7D%26iid%3D%7BD5533EFC-9385-2D90-E615-142C23177C67%7D%26lang%3Den%26browser%3D3%26usagestats%3D0%26appname%3DGoogle%2520Chrome%26needsadmin%3Dfalse/update2/installers/ChromeStandaloneSetup.exe</url>
+        <sha1>23c739e0ec42151c9dec55605785f75b17d20f7d</sha1>
     </version>
-    -->
+
     <version name="4.0.4" package="no.itefix.CWRsyncServer">
         <file path=".WPM\Install.bat">cwRsyncServer_4.0.4_Installer.exe /S /D=%CD%</file>
         <file path=".WPM\Uninstall.bat">uninstall_cwRsyncServer.exe /S</file>
