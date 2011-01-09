@@ -1,3 +1,3 @@
-hg push
+call hg push
 
 pause
