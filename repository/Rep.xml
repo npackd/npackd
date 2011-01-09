@@ -1336,6 +1336,11 @@
         <url>http://squirrel-sql.sourceforge.net/</url>
         <description>WARNING! This package requires 7-ZIP A package in the version 4.65 to be installed. All versions require JRE at least in the version 1.6 to be installed. SQL client.</description>
     </package>
+    <package name="org.texniccenter.TeXnicCenter">
+        <title>TeXnicCenter</title>
+        <url>http://www.texniccenter.org/</url>
+        <description>WARNING! Tex must be installed to use this software. LaTeX editor</description>
+    </package>
     <package name="org.tortoisecvs.TortoiseCVS">
         <title>TortoiseCVS</title>
         <url>http://www.tortoisecvs.org/</url>
@@ -6053,5 +6058,23 @@ for %%g in (txt log ini h hpp hxx c cpp cxx cc m java cs pas inc html htm php ph
         <important-file path="bin\LyXLauncher.exe" title="Lyx"/>
         <url>http://dl.dropbox.com/u/17046326/files/org.lyx.Lyx-1.6.8.2.zip</url>
         <sha1>483b324ff74b90eb8787b7c34b5793546e0c46fb</sha1>
+    </version>
+
+    <version name="1.0.1" package="org.texniccenter.TeXnicCenter"
+            type="one-file">
+        <file path=".WPM\Install.bat">for /f %%x in ('dir /b *.exe') do set setup=%%x
+"%setup%" /SP- /VERYSILENT /SUPPRESSMSGBOXES /NOCANCEL /NORESTART /DIR="%CD%" /SAVEINF="%CD%\.WPM\InnoSetupInfo.ini" /LOG="%CD%\.WPM\InnoSetupInstall.log"
+set err=%errorlevel%
+type .WPM\InnoSetupInstall.log
+if %err% neq 0 exit %err%
+</file>
+        <file path=".WPM\Uninstall.bat">unins000.exe /VERYSILENT /SUPPRESSMSGBOXES /NORESTART /LOG="%CD%\.WPM\InnoSetupUninstall.log"
+set err=%errorlevel%
+type .WPM\InnoSetupUninstall.log
+if %err% neq 0 exit %err%
+</file>
+        <important-file path="TEXCNTR.EXE" title="TexnicCenter"/>
+        <url>http://downloads.sourceforge.net/project/texniccenter/TeXnicCenter/1.0%20Stable%20RC1/TXCSetup_1StableRC1.exe?ts=1294606912</url>
+        <sha1>e845ce6c7329de5e323f317b6589e8ae0fe94315</sha1>
     </version>
 </root>
