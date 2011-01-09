@@ -5277,7 +5277,9 @@ if %err% neq 0 exit /b %err%
 
     <version name="8.0.552.224" package="com.google.Chrome" type="one-file">
         <file path=".WPM\Install.bat">chrome_installer.exe --system-level</file>
-        <file path=".WPM\Uninstall.bat">chrome_installer.exe --uninstall --force-uninstall --system-level</file>
+        <file path=".WPM\Uninstall.bat">chrome_installer.exe --uninstall --force-uninstall --system-level
+if %errorlevel% equ 19 exit /b 0
+</file>
         <url>http://dl.google.com/chrome/install/552.224/chrome_installer.exe</url>
         <sha1>d8d7b16ec8889c0370a2543d6f1855a51e531688</sha1>
     </version>
