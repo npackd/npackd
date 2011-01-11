@@ -6,6 +6,11 @@
     <!--
      Packages in alphabetical order (including the reversed domain name prefix.
     -->
+    <package name="ch.flos-freeware.Notepad2">
+        <title>Notepad2</title>
+        <url>http://www.flos-freeware.ch/notepad2.html</url>
+        <description>text editor</description>
+    </package>
     <package name="com.abisource.AbiWord">
         <title>AbiWord</title>
         <url>http://abisource.com</url>
@@ -633,7 +638,10 @@
         <title>µTorrent installer</title>
         <url>http://www.utorrent.com/</url>
         <description>torrent client</description>
-        <!-- TODO: icon requested: http://forum.utorrent.com/viewtopic.php?pid=556874#p556874 -->
+        <!--
+            TODO: icon requested:
+            http://forum.utorrent.com/viewtopic.php?pid=556874#p556874
+        -->
     </package>
     <package name="com.uvnc.UltraVNC">
         <title>UltraVNC</title>
@@ -6108,5 +6116,24 @@ if %err% neq 0 exit %err%
         <important-file path="TEXCNTR.EXE" title="TexnicCenter"/>
         <url>http://downloads.sourceforge.net/project/texniccenter/TeXnicCenter/1.0%20Stable%20RC1/TXCSetup_1StableRC1.exe?ts=1294606912</url>
         <sha1>e845ce6c7329de5e323f317b6589e8ae0fe94315</sha1>
+    </version>
+
+    <version name="4" package="ch.flos-freeware.Notepad2">
+<file path=".WPM\Install.bat">for /f "delims=" %%x in ("%CD%") do set key=%%~nx
+reg add HKLM\SOFTWARE\Classes\Applications\%key%\shell\open /v FriendlyAppName /d "Notepad2 (4)" /f
+set c=\"%CD%\Notepad2.exe\" \"%%1\"
+reg add HKLM\SOFTWARE\Classes\Applications\%KEY%\shell\open\command /d "%c%" /f
+for %%g in (txt log ini h hpp hxx c cpp cxx cc m java cs pas inc html htm php phtml js jsp asp css xml sh bsh nsi nsh lua pl pm py as mx vb vbs f for f90 f95 f2k tex sql nfo mak) do reg add HKLM\SOFTWARE\Classes\.%%g\OpenWithList\%key% /f
+verify
+</file>
+        <file path=".WPM\Uninstall.bat">
+for /f "delims=" %%x in ("%CD%") do set key=%%~nx
+reg delete HKLM\SOFTWARE\Classes\Applications\%key% /f
+for %%g in (txt log ini h hpp hxx c cpp cxx cc m java cs pas inc html htm php phtml js jsp asp css xml sh bsh nsi nsh lua pl pm py as mx vb vbs f for f90 f95 f2k tex sql nfo mak) do reg delete HKLM\SOFTWARE\Classes\.%%g\OpenWithList\%key% /f
+verify
+</file>
+        <important-file path="Notepad2.exe" title="Notepad2"/>
+        <url>http://www.flos-freeware.ch/zip/notepad2.zip</url>
+        <sha1>373da8f891511d75b233841d96a6bf7291212cb0</sha1>
     </version>
 </root>
