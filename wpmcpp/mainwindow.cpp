@@ -943,22 +943,31 @@ void MainWindow::on_actionAbout_triggered()
 
 void MainWindow::on_actionTest_Repositories_triggered()
 {
-    QString fn = QFileDialog::getSaveFileName(this,
-            tr("Save Log File"),
-            "", tr("Log Files (*.log)"));
-    if (!fn.isEmpty()) {
-        Job* job = new Job();
-        InstallThread* it = new InstallThread(0, 6, job);
-        it->logFile = fn;
-        it->start();
-        it->setPriority(QThread::LowestPriority);
+    QString msg = QString("All packages will be uninstalled. "
+            "The corresponding directories will be deleted. "
+            "There is no way to restore the files. "
+            "Are you sure?");
+    QMessageBox::StandardButton b = QMessageBox::warning(this,
+            "Uninstall", msg, QMessageBox::Yes | QMessageBox::No);
 
-        waitFor(job, "Test Repositories");
-        it->wait();
-        delete it;
-        delete job;
+    if (b == QMessageBox::Yes) {
+        QString fn = QFileDialog::getSaveFileName(this,
+                tr("Save Log File"),
+                "", tr("Log Files (*.log)"));
+        if (!fn.isEmpty()) {
+            Job* job = new Job();
+            InstallThread* it = new InstallThread(0, 6, job);
+            it->logFile = fn;
+            it->start();
+            it->setPriority(QThread::LowestPriority);
 
-        fillList();
+            waitFor(job, "Test Repositories");
+            it->wait();
+            delete it;
+            delete job;
+
+            fillList();
+        }
     }
 }
 
