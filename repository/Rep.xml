@@ -1065,6 +1065,11 @@
         <!-- GPL -->
         <icon>http://dl.dropbox.com/u/17046326/picons/org.camstudio.CamStudio.png</icon>
     </package>
+    <package name="org.clementine-player.Clementine">
+        <title>Clementine</title>
+        <url>http://www.clementine-player.org/</url>
+        <description>music player</description>
+    </package>
     <package name="org.eclipse.EclipseIDEJEE">
         <title>Eclipse IDE for JEE developers</title>
         <url>http://www.eclipse.org/home/categories/index.php?category=enterprise</url>
@@ -6143,5 +6148,29 @@ verify
         <important-file path="Notepad2.exe" title="Notepad2"/>
         <url>http://www.flos-freeware.ch/zip/notepad2.zip</url>
         <sha1>373da8f891511d75b233841d96a6bf7291212cb0</sha1>
+    </version>
+
+    <version name="0.6" package="org.clementine-player.Clementine"
+            type="one-file">
+        <file path=".WPM\Install.bat">for /f %%x in ('dir /b *.exe') do set setup=%%x
+"%setup%" /S /D=%CD%
+if %errorlevel% neq 0 goto :eof
+for /f "delims=" %%x in ("%CD%") do set key=%%~nx
+reg add HKLM\SOFTWARE\Classes\Applications\%key%\shell\open /v FriendlyAppName /d "Clementine (0.6)" /f
+set c=\"%CD%\clementine.exe\" \"%%1\"
+reg add HKLM\SOFTWARE\Classes\Applications\%KEY%\shell\open\command /d "%c%" /f
+for %%g in (mp3 ogg flac mpc m4a aac wma mp4 spx wav m3u m3u8 xspf pls asx asxini) do reg add HKLM\SOFTWARE\Classes\.%%g\OpenWithList\%key% /f
+verify
+</file>
+        <file path=".WPM\Uninstall.bat">Uninstall.exe /S _?=%CD%
+if %errorlevel% neq 0 goto :eof
+for /f "delims=" %%x in ("%CD%") do set key=%%~nx
+reg delete HKLM\SOFTWARE\Classes\Applications\%key% /f
+for %%g in (mp3 ogg flac mpc m4a aac wma mp4 spx wav m3u m3u8 xspf pls asx asxini) do reg delete HKLM\SOFTWARE\Classes\.%%g\OpenWithList\%key% /f
+verify
+</file>
+        <important-file path="clementine.exe" title="Clementine"/>
+        <url>http://clementine-player.googlecode.com/files/ClementineSetup-0.6.exe</url>
+        <sha1>4010dadc598a26c1a17a537e95c38e85bc52c97d</sha1>
     </version>
 </root>
