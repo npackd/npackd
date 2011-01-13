@@ -5995,15 +5995,6 @@ if %err% neq 0 exit /b %err%
         <sha1>0823dac44c907db7c97766f389f372853b7f1701</sha1>
     </version>
 
-    <!-- TODO:
-    <version name="7.0" package="org.apache.tomcat.Tomcat">
-        <important-file path="apache-tomcat-7.0.0\bin\startup.bat" title="Start"/>
-        <important-file path="apache-tomcat-7.0.0\bin\shutdown.bat" title="Stop"/>
-        <url>http://apache.autinity.de/tomcat/tomcat-7/v7.0.0-beta/bin/apache-tomcat-7.0.0.zip</url>
-        <dependency package="com.oracle.JRE" versions="[1.6, 2)"/>
-    </version>
-    -->
-
     <!--
         TODO: /PERFORMINSTALL /NORUN does not seem to work. 
         TODO: Different versions of the installer are
@@ -6195,5 +6186,17 @@ if %err% neq 0 exit %err%
         <important-file path="Prog\greenshot.exe" title="Greenshot"/>
         <url>http://downloads.sourceforge.net/project/greenshot/Greenshot/Greenshot%200.8%20beta/Greenshot-INSTALLER-0.8.0-0627.exe?ts=1294917554</url>
         <sha1>f593b8138c957b5f1c1513345e9ffa450ed8e7eb</sha1>
+    </version>
+
+    <version name="6.0.30" package="org.apache.tomcat.Tomcat">
+        <file path=".WPM\Install.bat">for /f %%x in ('dir /b apache*') do set name=%%x
+xcopy "%name%\*" . /E /H
+rmdir /s /q "%name%"
+</file>
+        <important-file path="bin\startup.bat" title="Start"/>
+        <important-file path="bin\shutdown.bat" title="Stop"/>
+        <url>http://mirror.checkdomain.de/apache/tomcat/tomcat-6/v6.0.30/bin/apache-tomcat-6.0.30-windows-x86.zip</url>
+        <sha1>8e4fb3b4aabd92f72c66423214cb433e52a44c88</sha1>
+        <dependency package="com.oracle.JRE" versions="[1.5, 2)"/>
     </version>
 </root>
