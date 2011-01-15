@@ -1,7 +1,7 @@
 /********************************************************************************
 ** Form generated from reading UI file 'mainwindow.ui'
 **
-** Created: Fri 26. Nov 23:25:06 2010
+** Created: Sat 15. Jan 12:18:22 2011
 **      by: Qt User Interface Compiler version 4.6.3
 **
 ** WARNING! All changes made in this file will be lost when recompiling UI file!
@@ -15,16 +15,16 @@
 #include <QtGui/QApplication>
 #include <QtGui/QButtonGroup>
 #include <QtGui/QComboBox>
-#include <QtGui/QDockWidget>
 #include <QtGui/QFormLayout>
-#include <QtGui/QFrame>
 #include <QtGui/QHeaderView>
 #include <QtGui/QLabel>
 #include <QtGui/QLineEdit>
 #include <QtGui/QMainWindow>
 #include <QtGui/QMenu>
 #include <QtGui/QMenuBar>
+#include <QtGui/QSplitter>
 #include <QtGui/QStatusBar>
+#include <QtGui/QTabWidget>
 #include <QtGui/QTableWidget>
 #include <QtGui/QToolBar>
 #include <QtGui/QVBoxLayout>
@@ -46,9 +46,17 @@ public:
     QAction *actionAbout;
     QAction *actionTest_Repositories;
     QWidget *centralWidget;
-    QVBoxLayout *verticalLayout_3;
-    QFrame *frame;
     QVBoxLayout *verticalLayout;
+    QTabWidget *tabWidget;
+    QWidget *tab;
+    QVBoxLayout *verticalLayout_2;
+    QSplitter *splitter;
+    QWidget *layoutWidget;
+    QFormLayout *formLayout_2;
+    QLabel *label_2;
+    QComboBox *comboBoxStatus;
+    QLabel *label_3;
+    QLineEdit *lineEditText;
     QTableWidget *tableWidget;
     QMenuBar *menuBar;
     QMenu *menuFile;
@@ -56,19 +64,12 @@ public:
     QMenu *menuHelp;
     QToolBar *mainToolBar;
     QStatusBar *statusBar;
-    QDockWidget *dockWidget;
-    QWidget *dockWidgetContents;
-    QFormLayout *formLayout;
-    QLabel *label_2;
-    QComboBox *comboBoxStatus;
-    QLabel *label_3;
-    QLineEdit *lineEditText;
 
     void setupUi(QMainWindow *MainWindow)
     {
         if (MainWindow->objectName().isEmpty())
             MainWindow->setObjectName(QString::fromUtf8("MainWindow"));
-        MainWindow->resize(620, 406);
+        MainWindow->resize(625, 416);
         actionExit = new QAction(MainWindow);
         actionExit->setObjectName(QString::fromUtf8("actionExit"));
         actionInstall = new QAction(MainWindow);
@@ -103,26 +104,72 @@ public:
         actionTest_Repositories->setObjectName(QString::fromUtf8("actionTest_Repositories"));
         centralWidget = new QWidget(MainWindow);
         centralWidget->setObjectName(QString::fromUtf8("centralWidget"));
-        verticalLayout_3 = new QVBoxLayout(centralWidget);
-        verticalLayout_3->setSpacing(6);
-        verticalLayout_3->setContentsMargins(11, 11, 11, 11);
-        verticalLayout_3->setObjectName(QString::fromUtf8("verticalLayout_3"));
-        frame = new QFrame(centralWidget);
-        frame->setObjectName(QString::fromUtf8("frame"));
-        frame->setFrameShape(QFrame::StyledPanel);
-        frame->setFrameShadow(QFrame::Raised);
-        verticalLayout = new QVBoxLayout(frame);
+        verticalLayout = new QVBoxLayout(centralWidget);
         verticalLayout->setSpacing(6);
         verticalLayout->setContentsMargins(11, 11, 11, 11);
         verticalLayout->setObjectName(QString::fromUtf8("verticalLayout"));
-        verticalLayout->setContentsMargins(0, 0, 0, 1);
-        tableWidget = new QTableWidget(frame);
+        tabWidget = new QTabWidget(centralWidget);
+        tabWidget->setObjectName(QString::fromUtf8("tabWidget"));
+        tabWidget->setDocumentMode(true);
+        tabWidget->setTabsClosable(true);
+        tabWidget->setMovable(true);
+        tab = new QWidget();
+        tab->setObjectName(QString::fromUtf8("tab"));
+        tab->setStyleSheet(QString::fromUtf8(""));
+        verticalLayout_2 = new QVBoxLayout(tab);
+        verticalLayout_2->setSpacing(6);
+        verticalLayout_2->setContentsMargins(11, 11, 11, 11);
+        verticalLayout_2->setObjectName(QString::fromUtf8("verticalLayout_2"));
+        splitter = new QSplitter(tab);
+        splitter->setObjectName(QString::fromUtf8("splitter"));
+        QSizePolicy sizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
+        sizePolicy.setHorizontalStretch(1);
+        sizePolicy.setVerticalStretch(1);
+        sizePolicy.setHeightForWidth(splitter->sizePolicy().hasHeightForWidth());
+        splitter->setSizePolicy(sizePolicy);
+        splitter->setMinimumSize(QSize(583, 0));
+        splitter->setAutoFillBackground(false);
+        splitter->setOrientation(Qt::Horizontal);
+        layoutWidget = new QWidget(splitter);
+        layoutWidget->setObjectName(QString::fromUtf8("layoutWidget"));
+        formLayout_2 = new QFormLayout(layoutWidget);
+        formLayout_2->setSpacing(6);
+        formLayout_2->setContentsMargins(11, 11, 11, 11);
+        formLayout_2->setObjectName(QString::fromUtf8("formLayout_2"));
+        formLayout_2->setContentsMargins(0, 0, 0, 0);
+        label_2 = new QLabel(layoutWidget);
+        label_2->setObjectName(QString::fromUtf8("label_2"));
+
+        formLayout_2->setWidget(0, QFormLayout::LabelRole, label_2);
+
+        comboBoxStatus = new QComboBox(layoutWidget);
+        comboBoxStatus->setObjectName(QString::fromUtf8("comboBoxStatus"));
+
+        formLayout_2->setWidget(0, QFormLayout::FieldRole, comboBoxStatus);
+
+        label_3 = new QLabel(layoutWidget);
+        label_3->setObjectName(QString::fromUtf8("label_3"));
+
+        formLayout_2->setWidget(1, QFormLayout::LabelRole, label_3);
+
+        lineEditText = new QLineEdit(layoutWidget);
+        lineEditText->setObjectName(QString::fromUtf8("lineEditText"));
+
+        formLayout_2->setWidget(1, QFormLayout::FieldRole, lineEditText);
+
+        splitter->addWidget(layoutWidget);
+        tableWidget = new QTableWidget(splitter);
         if (tableWidget->columnCount() < 1)
             tableWidget->setColumnCount(1);
         if (tableWidget->rowCount() < 1)
             tableWidget->setRowCount(1);
         tableWidget->setObjectName(QString::fromUtf8("tableWidget"));
         tableWidget->setEnabled(true);
+        QSizePolicy sizePolicy1(QSizePolicy::Expanding, QSizePolicy::Expanding);
+        sizePolicy1.setHorizontalStretch(1);
+        sizePolicy1.setVerticalStretch(0);
+        sizePolicy1.setHeightForWidth(tableWidget->sizePolicy().hasHeightForWidth());
+        tableWidget->setSizePolicy(sizePolicy1);
         tableWidget->setMouseTracking(true);
         tableWidget->setFrameShape(QFrame::StyledPanel);
         tableWidget->setSelectionMode(QAbstractItemView::SingleSelection);
@@ -130,17 +177,19 @@ public:
         tableWidget->setSortingEnabled(true);
         tableWidget->setRowCount(1);
         tableWidget->setColumnCount(1);
+        splitter->addWidget(tableWidget);
         tableWidget->verticalHeader()->setDefaultSectionSize(35);
 
-        verticalLayout->addWidget(tableWidget);
+        verticalLayout_2->addWidget(splitter);
 
+        tabWidget->addTab(tab, QString());
 
-        verticalLayout_3->addWidget(frame);
+        verticalLayout->addWidget(tabWidget);
 
         MainWindow->setCentralWidget(centralWidget);
         menuBar = new QMenuBar(MainWindow);
         menuBar->setObjectName(QString::fromUtf8("menuBar"));
-        menuBar->setGeometry(QRect(0, 0, 620, 21));
+        menuBar->setGeometry(QRect(0, 0, 625, 21));
         menuFile = new QMenu(menuBar);
         menuFile->setObjectName(QString::fromUtf8("menuFile"));
         menuExpert = new QMenu(menuBar);
@@ -157,40 +206,6 @@ public:
         statusBar = new QStatusBar(MainWindow);
         statusBar->setObjectName(QString::fromUtf8("statusBar"));
         MainWindow->setStatusBar(statusBar);
-        dockWidget = new QDockWidget(MainWindow);
-        dockWidget->setObjectName(QString::fromUtf8("dockWidget"));
-        dockWidget->setFloating(false);
-        dockWidget->setFeatures(QDockWidget::NoDockWidgetFeatures);
-        dockWidget->setAllowedAreas(Qt::AllDockWidgetAreas);
-        dockWidgetContents = new QWidget();
-        dockWidgetContents->setObjectName(QString::fromUtf8("dockWidgetContents"));
-        formLayout = new QFormLayout(dockWidgetContents);
-        formLayout->setSpacing(6);
-        formLayout->setContentsMargins(11, 11, 11, 11);
-        formLayout->setObjectName(QString::fromUtf8("formLayout"));
-        formLayout->setFieldGrowthPolicy(QFormLayout::AllNonFixedFieldsGrow);
-        label_2 = new QLabel(dockWidgetContents);
-        label_2->setObjectName(QString::fromUtf8("label_2"));
-
-        formLayout->setWidget(0, QFormLayout::LabelRole, label_2);
-
-        comboBoxStatus = new QComboBox(dockWidgetContents);
-        comboBoxStatus->setObjectName(QString::fromUtf8("comboBoxStatus"));
-
-        formLayout->setWidget(0, QFormLayout::FieldRole, comboBoxStatus);
-
-        label_3 = new QLabel(dockWidgetContents);
-        label_3->setObjectName(QString::fromUtf8("label_3"));
-
-        formLayout->setWidget(1, QFormLayout::LabelRole, label_3);
-
-        lineEditText = new QLineEdit(dockWidgetContents);
-        lineEditText->setObjectName(QString::fromUtf8("lineEditText"));
-
-        formLayout->setWidget(1, QFormLayout::FieldRole, lineEditText);
-
-        dockWidget->setWidget(dockWidgetContents);
-        MainWindow->addDockWidget(static_cast<Qt::DockWidgetArea>(1), dockWidget);
 #ifndef QT_NO_SHORTCUT
         label_2->setBuddy(comboBoxStatus);
         label_3->setBuddy(lineEditText);
@@ -272,10 +287,6 @@ public:
 #ifndef QT_NO_TOOLTIP
         actionTest_Repositories->setToolTip(QApplication::translate("MainWindow", "Test Repositories", 0, QApplication::UnicodeUTF8));
 #endif // QT_NO_TOOLTIP
-        menuFile->setTitle(QApplication::translate("MainWindow", "&File", 0, QApplication::UnicodeUTF8));
-        menuExpert->setTitle(QApplication::translate("MainWindow", "&Expert", 0, QApplication::UnicodeUTF8));
-        menuHelp->setTitle(QApplication::translate("MainWindow", "&Help", 0, QApplication::UnicodeUTF8));
-        dockWidget->setWindowTitle(QApplication::translate("MainWindow", "Filter", 0, QApplication::UnicodeUTF8));
         label_2->setText(QApplication::translate("MainWindow", "&Status:", 0, QApplication::UnicodeUTF8));
         comboBoxStatus->clear();
         comboBoxStatus->insertItems(0, QStringList()
@@ -289,6 +300,10 @@ public:
 #ifndef QT_NO_TOOLTIP
         lineEditText->setToolTip(QApplication::translate("MainWindow", "Enter here your search text. You can enter multiple words if a package should contain all of them. The search is case insensitive. No special characters are filtered out.", 0, QApplication::UnicodeUTF8));
 #endif // QT_NO_TOOLTIP
+        tabWidget->setTabText(tabWidget->indexOf(tab), QApplication::translate("MainWindow", "Tab 1", 0, QApplication::UnicodeUTF8));
+        menuFile->setTitle(QApplication::translate("MainWindow", "&File", 0, QApplication::UnicodeUTF8));
+        menuExpert->setTitle(QApplication::translate("MainWindow", "&Expert", 0, QApplication::UnicodeUTF8));
+        menuHelp->setTitle(QApplication::translate("MainWindow", "&Help", 0, QApplication::UnicodeUTF8));
     } // retranslateUi
 
 };

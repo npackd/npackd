@@ -34,11 +34,14 @@ const UINT NIN_KEYSELECT = NIN_SELECT or NINF_KEY;
 class MainWindow : public QMainWindow {
     Q_OBJECT
 private:
-    QMap<QString, QIcon> icons;
     FileLoader fileLoader;
 
     void updateIcons();
 public:
+    static QMap<QString, QIcon> icons;
+
+    static QIcon getPackageVersionIcon(PackageVersion* pv);
+
     MainWindow(QWidget *parent = 0);
     ~MainWindow();
 
@@ -66,6 +69,7 @@ protected:
     void changeEvent(QEvent *e);
     void process(QList<InstallOperation*>& install);
 private slots:
+    void on_tabWidget_tabCloseRequested(int index);
     void on_tableWidget_doubleClicked(QModelIndex index);
     void on_actionTest_Repositories_triggered();
     void on_actionAbout_triggered();

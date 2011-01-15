@@ -27,8 +27,11 @@
 #include "wpmutils.h"
 #include "installoperation.h"
 #include "downloader.h"
+#include "packageversionform.h"
 
 extern HWND defaultPasswordWindow;
+
+QMap<QString, QIcon> MainWindow::icons;
 
 class InstallThread: public QThread
 {
@@ -250,6 +253,30 @@ void MainWindow::updateIcons()
             }
         }
     }
+
+    for (int i = 0; i < this->ui->tabWidget->count(); i++) {
+        QWidget* w = this->ui->tabWidget->widget(i);
+        PackageVersionForm* pvf = dynamic_cast<PackageVersionForm*>(w);
+        if (pvf) {
+            pvf->updateIcons();
+            QIcon icon = getPackageVersionIcon(pvf->pv);
+            this->ui->tabWidget->setTabIcon(i, icon);
+        }
+    }
+}
+
+QIcon MainWindow::getPackageVersionIcon(PackageVersion *pv)
+{
+    Repository* r = Repository::getDefault();
+    Package* p = r->findPackage(pv->package);
+
+    QIcon icon;
+    if (p) {
+        if (!p->icon.isEmpty() && MainWindow::icons.contains(p->icon)) {
+            icon = MainWindow::icons[p->icon];
+        }
+    }
+    return icon;
 }
 
 MainWindow::MainWindow(QWidget *parent) :
@@ -269,6 +296,10 @@ MainWindow::MainWindow(QWidget *parent) :
     }
     qDeleteAll(urls);
     urls.clear();
+
+    //this->ui->formLayout_2->setSizeConstraint(QLayout::SetDefaultConstraint);
+
+    this->ui->tabWidget->setTabText(0, "Software");
 
     this->on_tableWidget_itemSelectionChanged();
     this->ui->tableWidget->setColumnCount(5);
@@ -975,83 +1006,19 @@ void MainWindow::on_tableWidget_doubleClicked(QModelIndex index)
 {
     PackageVersion* pv = getSelectedPackageVersion();
     if (pv) {
-        Package* p = Repository::getDefault()->findPackage(pv->package);
-        QString msg = QString("Package: %1 %2").
-                arg(pv->getPackageTitle()).
-                arg(pv->version.getVersionString());
-        if (p) {
-            msg.append("\n");
-            msg.append("Description: ");
-            msg.append(p->description);
-        }
+        PackageVersionForm* pvf = new PackageVersionForm(this->ui->tabWidget);
+        pvf->fillForm(pv);
+        QIcon icon = getPackageVersionIcon(pv);
+        this->ui->tabWidget->addTab(pvf, icon, pv->toString());
+        this->ui->tabWidget->setCurrentIndex(this->ui->tabWidget->count() - 1);
+    }
+}
 
-        QString details = QString("Package: %1\n"
-                "Version: %2\n"
-                "Internal package name: %3\n"
-                ).
-                arg(pv->getPackageTitle()).
-                arg(pv->version.getVersionString()).
-                arg(pv->package);
-        details.append("Description: ");
-        if (p)
-            details.append(p->description);
-        else
-            details.append("n/a");
-        details.append("\n");
-        details.append("Icon: ");
-        if (p && !p->icon.isEmpty())
-            details.append(p->icon);
-        else
-            details.append("n/a");
-        details.append("\n");
-        details.append("Status: ");
-        if (pv->external)
-            details.append("externally installed");
-        else if (pv->installed())
-            details.append("installed");
-        else
-            details.append("not installed");
-        details.append("\n");
-        details.append("Download URL: ");
-        if (pv->download.isEmpty())
-            details.append("n/a");
-        else
-            details.append(pv->download.toString());
-        details.append("\n");
-        details.append("SHA1 (cryptographic check sum): ");
-        if (pv->sha1.isEmpty())
-            details.append("n/a");
-        else
-            details.append(pv->sha1);
-        details.append("\n");
-        details.append("Type: ");
-        if (pv->type == 0)
-            details.append("zip");
-        else
-            details.append("one-file");
-        details.append("\n");
-        for (int i = 0; i < pv->importantFiles.count(); i++) {
-            details.append("Important file: ");
-            details.append(pv->importantFilesTitles.at(i));
-            details.append(" (");
-            details.append(pv->importantFiles.at(i));
-            details.append(")\n");
-        }
-        details.append("Dependencies: ");
-        for (int i = 0; i < pv->dependencies.count(); i++) {
-            Dependency* d = pv->dependencies.at(i);
-            if (i != 0)
-                details.append(", ");
-            details.append(d->toString());
-        }
-        details.append("\n");
-
-        QMessageBox mb(this);
-        mb.setWindowTitle("Package Information");
-        mb.setText(msg);
-        mb.setIcon(QMessageBox::Information);
-        mb.setStandardButtons(QMessageBox::Ok);
-        mb.setDetailedText(details);
-        mb.exec();
+void MainWindow::on_tabWidget_tabCloseRequested(int index)
+{
+    QWidget* w = this->ui->tabWidget->widget(index);
+    PackageVersionForm* pvf = dynamic_cast<PackageVersionForm*>(w);
+    if (pvf) {
+        this->ui->tabWidget->removeTab(index);
     }
 }

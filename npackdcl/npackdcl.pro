@@ -43,3 +43,4 @@ HEADERS += ../wpmcpp/repository.h \
     ../wpmcpp/msi.h \
     ../wpmcpp/downloader.h \
     ../wpmcpp/node.h
+FORMS += 
