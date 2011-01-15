@@ -64,7 +64,8 @@ public:
      */
     bool waitFor(Job* job, const QString& title);
 
-    void recognizeAndloadRepositories();
+    void closeDetailTabs();
+    void recognizeAndLoadRepositories();
 protected:
     void changeEvent(QEvent *e);
     void process(QList<InstallOperation*>& install);

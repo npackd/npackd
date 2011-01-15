@@ -392,7 +392,7 @@ bool MainWindow::waitFor(Job* job, const QString& title)
 
 void MainWindow::onShow()
 {
-    recognizeAndloadRepositories();
+    recognizeAndLoadRepositories();
 }
 
 void MainWindow::selectPackageVersion(PackageVersion* pv)
@@ -782,7 +782,20 @@ void MainWindow::on_tableWidget_itemSelectionChanged()
             QUrl(p->url).isValid());
 }
 
-void MainWindow::recognizeAndloadRepositories()
+void MainWindow::closeDetailTabs()
+{
+    for (int i = 0; i < this->ui->tabWidget->count(); ) {
+        QWidget* w = this->ui->tabWidget->widget(i);
+        PackageVersionForm* pvf = dynamic_cast<PackageVersionForm*>(w);
+        if (pvf) {
+            this->ui->tabWidget->removeTab(i);
+        } else {
+            i++;
+        }
+    }
+}
+
+void MainWindow::recognizeAndLoadRepositories()
 {
     QTableWidget* t = this->ui->tableWidget;
     t->clearContents();
@@ -896,7 +909,8 @@ void MainWindow::on_actionSettings_triggered()
             if (err.isEmpty()) {
                 WPMUtils::setInstallationDirectory(d.getInstallationDirectory());
                 Repository::setRepositoryURLs(urls);
-                recognizeAndloadRepositories();
+                closeDetailTabs();
+                recognizeAndLoadRepositories();
             } else {
                 QMessageBox::critical(this,
                         "Error", err, QMessageBox::Ok);

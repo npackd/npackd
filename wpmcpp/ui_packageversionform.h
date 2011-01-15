@@ -1,7 +1,7 @@
 /********************************************************************************
 ** Form generated from reading UI file 'packageversionform.ui'
 **
-** Created: Sat 15. Jan 17:01:56 2011
+** Created: Sat 15. Jan 19:56:53 2011
 **      by: Qt User Interface Compiler version 4.6.3
 **
 ** WARNING! All changes made in this file will be lost when recompiling UI file!
@@ -18,7 +18,9 @@
 #include <QtGui/QHeaderView>
 #include <QtGui/QLabel>
 #include <QtGui/QLineEdit>
+#include <QtGui/QScrollArea>
 #include <QtGui/QTextEdit>
+#include <QtGui/QVBoxLayout>
 #include <QtGui/QWidget>
 
 QT_BEGIN_NAMESPACE
@@ -26,6 +28,9 @@ QT_BEGIN_NAMESPACE
 class Ui_PackageVersionForm
 {
 public:
+    QVBoxLayout *verticalLayout;
+    QScrollArea *scrollArea;
+    QWidget *scrollAreaWidgetContents;
     QFormLayout *formLayout;
     QLabel *label_6;
     QLabel *labelIcon;
@@ -54,129 +59,141 @@ public:
     {
         if (PackageVersionForm->objectName().isEmpty())
             PackageVersionForm->setObjectName(QString::fromUtf8("PackageVersionForm"));
-        PackageVersionForm->resize(456, 421);
-        formLayout = new QFormLayout(PackageVersionForm);
+        PackageVersionForm->resize(456, 450);
+        verticalLayout = new QVBoxLayout(PackageVersionForm);
+        verticalLayout->setObjectName(QString::fromUtf8("verticalLayout"));
+        scrollArea = new QScrollArea(PackageVersionForm);
+        scrollArea->setObjectName(QString::fromUtf8("scrollArea"));
+        scrollArea->setFrameShape(QFrame::NoFrame);
+        scrollArea->setWidgetResizable(true);
+        scrollAreaWidgetContents = new QWidget();
+        scrollAreaWidgetContents->setObjectName(QString::fromUtf8("scrollAreaWidgetContents"));
+        scrollAreaWidgetContents->setGeometry(QRect(0, 0, 421, 444));
+        formLayout = new QFormLayout(scrollAreaWidgetContents);
         formLayout->setObjectName(QString::fromUtf8("formLayout"));
-        formLayout->setFieldGrowthPolicy(QFormLayout::AllNonFixedFieldsGrow);
-        label_6 = new QLabel(PackageVersionForm);
+        label_6 = new QLabel(scrollAreaWidgetContents);
         label_6->setObjectName(QString::fromUtf8("label_6"));
 
         formLayout->setWidget(0, QFormLayout::LabelRole, label_6);
 
-        labelIcon = new QLabel(PackageVersionForm);
+        labelIcon = new QLabel(scrollAreaWidgetContents);
         labelIcon->setObjectName(QString::fromUtf8("labelIcon"));
 
         formLayout->setWidget(0, QFormLayout::FieldRole, labelIcon);
 
-        label = new QLabel(PackageVersionForm);
+        label = new QLabel(scrollAreaWidgetContents);
         label->setObjectName(QString::fromUtf8("label"));
 
         formLayout->setWidget(1, QFormLayout::LabelRole, label);
 
-        lineEditTitle = new QLineEdit(PackageVersionForm);
+        lineEditTitle = new QLineEdit(scrollAreaWidgetContents);
         lineEditTitle->setObjectName(QString::fromUtf8("lineEditTitle"));
         lineEditTitle->setReadOnly(true);
 
         formLayout->setWidget(1, QFormLayout::FieldRole, lineEditTitle);
 
-        label_2 = new QLabel(PackageVersionForm);
+        label_2 = new QLabel(scrollAreaWidgetContents);
         label_2->setObjectName(QString::fromUtf8("label_2"));
 
         formLayout->setWidget(2, QFormLayout::LabelRole, label_2);
 
-        lineEditVersion = new QLineEdit(PackageVersionForm);
+        lineEditVersion = new QLineEdit(scrollAreaWidgetContents);
         lineEditVersion->setObjectName(QString::fromUtf8("lineEditVersion"));
         lineEditVersion->setReadOnly(true);
 
         formLayout->setWidget(2, QFormLayout::FieldRole, lineEditVersion);
 
-        label_5 = new QLabel(PackageVersionForm);
+        label_5 = new QLabel(scrollAreaWidgetContents);
         label_5->setObjectName(QString::fromUtf8("label_5"));
 
         formLayout->setWidget(3, QFormLayout::LabelRole, label_5);
 
-        textEditDescription = new QTextEdit(PackageVersionForm);
+        textEditDescription = new QTextEdit(scrollAreaWidgetContents);
         textEditDescription->setObjectName(QString::fromUtf8("textEditDescription"));
         textEditDescription->setReadOnly(true);
 
         formLayout->setWidget(3, QFormLayout::FieldRole, textEditDescription);
 
-        label_3 = new QLabel(PackageVersionForm);
+        label_3 = new QLabel(scrollAreaWidgetContents);
         label_3->setObjectName(QString::fromUtf8("label_3"));
 
-        formLayout->setWidget(5, QFormLayout::LabelRole, label_3);
+        formLayout->setWidget(4, QFormLayout::LabelRole, label_3);
 
-        lineEditInternalName = new QLineEdit(PackageVersionForm);
+        lineEditInternalName = new QLineEdit(scrollAreaWidgetContents);
         lineEditInternalName->setObjectName(QString::fromUtf8("lineEditInternalName"));
         lineEditInternalName->setReadOnly(true);
 
-        formLayout->setWidget(5, QFormLayout::FieldRole, lineEditInternalName);
+        formLayout->setWidget(4, QFormLayout::FieldRole, lineEditInternalName);
 
-        label_7 = new QLabel(PackageVersionForm);
+        label_7 = new QLabel(scrollAreaWidgetContents);
         label_7->setObjectName(QString::fromUtf8("label_7"));
 
-        formLayout->setWidget(6, QFormLayout::LabelRole, label_7);
+        formLayout->setWidget(5, QFormLayout::LabelRole, label_7);
 
-        lineEditStatus = new QLineEdit(PackageVersionForm);
+        lineEditStatus = new QLineEdit(scrollAreaWidgetContents);
         lineEditStatus->setObjectName(QString::fromUtf8("lineEditStatus"));
         lineEditStatus->setReadOnly(true);
 
-        formLayout->setWidget(6, QFormLayout::FieldRole, lineEditStatus);
+        formLayout->setWidget(5, QFormLayout::FieldRole, lineEditStatus);
 
-        label_8 = new QLabel(PackageVersionForm);
+        label_8 = new QLabel(scrollAreaWidgetContents);
         label_8->setObjectName(QString::fromUtf8("label_8"));
 
-        formLayout->setWidget(7, QFormLayout::LabelRole, label_8);
+        formLayout->setWidget(6, QFormLayout::LabelRole, label_8);
 
-        lineEditDownload = new QLineEdit(PackageVersionForm);
+        lineEditDownload = new QLineEdit(scrollAreaWidgetContents);
         lineEditDownload->setObjectName(QString::fromUtf8("lineEditDownload"));
         lineEditDownload->setReadOnly(true);
 
-        formLayout->setWidget(7, QFormLayout::FieldRole, lineEditDownload);
+        formLayout->setWidget(6, QFormLayout::FieldRole, lineEditDownload);
 
-        label_10 = new QLabel(PackageVersionForm);
+        label_10 = new QLabel(scrollAreaWidgetContents);
         label_10->setObjectName(QString::fromUtf8("label_10"));
 
-        formLayout->setWidget(8, QFormLayout::LabelRole, label_10);
+        formLayout->setWidget(7, QFormLayout::LabelRole, label_10);
 
-        lineEditType = new QLineEdit(PackageVersionForm);
+        lineEditType = new QLineEdit(scrollAreaWidgetContents);
         lineEditType->setObjectName(QString::fromUtf8("lineEditType"));
         lineEditType->setReadOnly(true);
 
-        formLayout->setWidget(8, QFormLayout::FieldRole, lineEditType);
+        formLayout->setWidget(7, QFormLayout::FieldRole, lineEditType);
 
-        label_9 = new QLabel(PackageVersionForm);
+        label_9 = new QLabel(scrollAreaWidgetContents);
         label_9->setObjectName(QString::fromUtf8("label_9"));
 
-        formLayout->setWidget(9, QFormLayout::LabelRole, label_9);
+        formLayout->setWidget(8, QFormLayout::LabelRole, label_9);
 
-        lineEditSHA1 = new QLineEdit(PackageVersionForm);
+        lineEditSHA1 = new QLineEdit(scrollAreaWidgetContents);
         lineEditSHA1->setObjectName(QString::fromUtf8("lineEditSHA1"));
         lineEditSHA1->setReadOnly(true);
 
-        formLayout->setWidget(9, QFormLayout::FieldRole, lineEditSHA1);
+        formLayout->setWidget(8, QFormLayout::FieldRole, lineEditSHA1);
 
-        label_11 = new QLabel(PackageVersionForm);
+        label_11 = new QLabel(scrollAreaWidgetContents);
         label_11->setObjectName(QString::fromUtf8("label_11"));
 
-        formLayout->setWidget(10, QFormLayout::LabelRole, label_11);
+        formLayout->setWidget(9, QFormLayout::LabelRole, label_11);
 
-        textEditImportantFiles = new QTextEdit(PackageVersionForm);
+        textEditImportantFiles = new QTextEdit(scrollAreaWidgetContents);
         textEditImportantFiles->setObjectName(QString::fromUtf8("textEditImportantFiles"));
         textEditImportantFiles->setReadOnly(true);
 
-        formLayout->setWidget(10, QFormLayout::FieldRole, textEditImportantFiles);
+        formLayout->setWidget(9, QFormLayout::FieldRole, textEditImportantFiles);
 
-        label_12 = new QLabel(PackageVersionForm);
+        label_12 = new QLabel(scrollAreaWidgetContents);
         label_12->setObjectName(QString::fromUtf8("label_12"));
 
-        formLayout->setWidget(11, QFormLayout::LabelRole, label_12);
+        formLayout->setWidget(10, QFormLayout::LabelRole, label_12);
 
-        textEditDependencies = new QTextEdit(PackageVersionForm);
+        textEditDependencies = new QTextEdit(scrollAreaWidgetContents);
         textEditDependencies->setObjectName(QString::fromUtf8("textEditDependencies"));
         textEditDependencies->setReadOnly(true);
 
-        formLayout->setWidget(11, QFormLayout::FieldRole, textEditDependencies);
+        formLayout->setWidget(10, QFormLayout::FieldRole, textEditDependencies);
+
+        scrollArea->setWidget(scrollAreaWidgetContents);
+
+        verticalLayout->addWidget(scrollArea);
 
 #ifndef QT_NO_SHORTCUT
         label->setBuddy(lineEditTitle);
