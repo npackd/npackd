@@ -375,6 +375,11 @@
         <url>http://technet.microsoft.com/en-us/sysinternals/bb897437.aspx</url>
         <description>monitor TCP/UDP connections</description>
     </package>
+    <package name="com.microsoft.VisualCPPExpress">
+        <title>Visual C++ Express</title>
+        <url>http://www.microsoft.com/express/Downloads/#2010-Visual-CPP</url>
+        <description>C++ IDE</description>
+    </package>
     <package name="com.microsoft.WindowsInstaller">
         <title>Windows Installer</title>
         <url>http://msdn.microsoft.com/en-us/library/cc185688(VS.85).aspx</url>
@@ -6286,5 +6291,24 @@ if %err% neq 0 exit /b %err%
                 versions="[3.5, 4)"/>
         <dependency package="com.microsoft.VisualCPPRedistributable"
                 versions="[9.0, 10)"/>
+    </version>
+
+    <version name="10.0.30319.1" package="com.microsoft.VisualCPPExpress"
+            type="one-file">
+        <file path=".WPM\Install.bat">..\org.7-zip.SevenZIP-9.20\7z.exe x VS2010Express1.iso
+VCExpress\setup.exe /q /norestart
+if %errorlevel% equ 3010 exit /b 0
+</file>
+        <file path=".WPM\Uninstall.bat">
+msiexec.exe /qn /norestart /Lime .WPM\MSI.log /X{46F8CF66-AB83-38A7-99B2-A5BE507EE472}
+set err=%errorlevel%
+type .WPM\MSI.log
+rem 3010=restart required
+if %err% equ 3010 exit /b 0
+if %err% neq 0 exit /b %err%
+</file>
+        <url>http://download.microsoft.com/download/1/E/5/1E5F1C0A-0D5B-426A-A603-1798B951DDAE/VS2010Express1.iso</url>
+        <sha1>adef5e361a1f64374f520b9a2d03c54ee43721c6</sha1>
+        <dependency package="org.7-zip.SevenZIP" versions="[9.20, 9.20]"/>
     </version>
 </root>
