@@ -62,3 +62,4 @@ LIBS += C:\Users\t\libs\quazip-0.2.3\quazip\debug\libquazip.a \
     C:\Users\t\projects\windows-package-manager\wpmcpp\libmsi.a
 CONFIG += embed_manifest_exe
 RC_FILE = wpmcpp.rc
+RESOURCES += wpmcpp.qrc

@@ -33,14 +33,19 @@ const UINT NIN_KEYSELECT = NIN_SELECT or NINF_KEY;
  */
 class MainWindow : public QMainWindow {
     Q_OBJECT
-private:
-    FileLoader fileLoader;
-
-    void updateIcons();
 public:
     static QMap<QString, QIcon> icons;
 
+    /**
+     * @param pv a package versioin
+     * @return icon for the specified package
+     */
     static QIcon getPackageVersionIcon(PackageVersion* pv);
+
+    /**
+     * This icon is used if a package does not define an icon.
+     */
+    static QIcon genericAppIcon;
 
     MainWindow(QWidget *parent = 0);
     ~MainWindow();
@@ -70,6 +75,7 @@ protected:
     void changeEvent(QEvent *e);
     void process(QList<InstallOperation*>& install);
 private slots:
+    void on_tabWidget_currentChanged(int index);
     void on_tabWidget_tabCloseRequested(int index);
     void on_tableWidget_doubleClicked(QModelIndex index);
     void on_actionTest_Repositories_triggered();
@@ -90,13 +96,19 @@ private slots:
 private:
     Ui::MainWindow *ui;
 
+    FileLoader fileLoader;
+
+    void updateIcons();
+    void updateActions();
+
+
     /**
      * Fills the table with known package versions.
      */
     void fillList();
 
     /**
-     * @return selected package version or null.
+     * @return selected package version or 0.
      */
     PackageVersion* getSelectedPackageVersion();
 
@@ -104,6 +116,8 @@ private:
      * @param pv a version or 0
      */
     void selectPackageVersion(PackageVersion* pv);
+
+    void updateStatusInDetailTabs();
 };
 
 #endif // MAINWINDOW_H

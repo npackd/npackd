@@ -1,7 +1,7 @@
 /********************************************************************************
 ** Form generated from reading UI file 'packageversionform.ui'
 **
-** Created: Sat 15. Jan 19:56:53 2011
+** Created: Sun 16. Jan 19:38:02 2011
 **      by: Qt User Interface Compiler version 4.6.3
 **
 ** WARNING! All changes made in this file will be lost when recompiling UI file!

@@ -29,6 +29,11 @@ public:
      * Updates the view if a new icon was downloaded.
      */
     void updateIcons();
+
+    /**
+     * Updates package status.
+     */
+    void updateStatus();
 protected:
     void changeEvent(QEvent *e);
 

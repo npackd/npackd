@@ -20,6 +20,18 @@ void PackageVersionForm::updateIcons()
     this->ui->labelIcon->setPixmap(pixmap);
 }
 
+void PackageVersionForm::updateStatus()
+{
+    QString status;
+    if (pv->external)
+        status = "externally installed";
+    else if (pv->installed())
+        status = "installed";
+    else
+        status = "not installed";
+    this->ui->lineEditStatus->setText(status);
+}
+
 void PackageVersionForm::fillForm(PackageVersion* pv)
 {
     this->pv = pv;
@@ -34,14 +46,7 @@ void PackageVersionForm::fillForm(PackageVersion* pv)
         this->ui->textEditDescription->setText(p->description);
     }
 
-    QString status;
-    if (pv->external)
-        status = "externally installed";
-    else if (pv->installed())
-        status = "installed";
-    else
-        status = "not installed";
-    this->ui->lineEditStatus->setText(status);
+    updateStatus();
 
     QString dl;
     if (pv->download.isEmpty())

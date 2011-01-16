@@ -32,6 +32,7 @@
 extern HWND defaultPasswordWindow;
 
 QMap<QString, QIcon> MainWindow::icons;
+QIcon MainWindow::genericAppIcon;
 
 class InstallThread: public QThread
 {
@@ -265,12 +266,23 @@ void MainWindow::updateIcons()
     }
 }
 
+void MainWindow::updateStatusInDetailTabs()
+{
+    for (int i = 0; i < this->ui->tabWidget->count(); i++) {
+        QWidget* w = this->ui->tabWidget->widget(i);
+        PackageVersionForm* pvf = dynamic_cast<PackageVersionForm*>(w);
+        if (pvf) {
+            pvf->updateStatus();
+        }
+    }
+}
+
 QIcon MainWindow::getPackageVersionIcon(PackageVersion *pv)
 {
     Repository* r = Repository::getDefault();
     Package* p = r->findPackage(pv->package);
 
-    QIcon icon;
+    QIcon icon = MainWindow::genericAppIcon;
     if (p) {
         if (!p->icon.isEmpty() && MainWindow::icons.contains(p->icon)) {
             icon = MainWindow::icons[p->icon];
@@ -285,6 +297,9 @@ MainWindow::MainWindow(QWidget *parent) :
 {
     ui->setupUi(this);
     setWindowTitle("Npackd");
+
+    this->genericAppIcon = QIcon(
+            ":/images/window_list.png");
 
     this->ui->tableWidget->setEditTriggers(QTableWidget::NoEditTriggers);
 
@@ -410,13 +425,20 @@ void MainWindow::selectPackageVersion(PackageVersion* pv)
 
 PackageVersion* MainWindow::getSelectedPackageVersion()
 {
-    QList<QTableWidgetItem*> sel = this->ui->tableWidget->selectedItems();
-    if (sel.count() > 0) {
-        const QVariant v = sel.at(0)->data(Qt::UserRole);
-        PackageVersion* pv = (PackageVersion *) v.value<void*>();
-        return pv;
+    QWidget* w = this->ui->tabWidget->widget(this->ui->tabWidget->
+            currentIndex());
+    PackageVersionForm* pvf = dynamic_cast<PackageVersionForm*>(w);
+    if (pvf) {
+        return pvf->pv;
+    } else {
+        QList<QTableWidgetItem*> sel = this->ui->tableWidget->selectedItems();
+        if (sel.count() > 0) {
+            const QVariant v = sel.at(0)->data(Qt::UserRole);
+            PackageVersion* pv = (PackageVersion *) v.value<void*>();
+            return pv;
+        }
+        return 0;
     }
-    return 0;
 }
 
 void MainWindow::fillList()
@@ -494,6 +516,8 @@ void MainWindow::fillList()
             if (!p->icon.isEmpty() && this->icons.contains(p->icon)) {
                 QIcon icon = this->icons[p->icon];
                 newItem->setIcon(icon);
+            } else {
+                newItem->setIcon(MainWindow::genericAppIcon);
             }
         }
         t->setItem(n, 0, newItem);
@@ -713,6 +737,7 @@ void MainWindow::process(QList<InstallOperation*> &install)
         delete job;
 
         fillList();
+        updateStatusInDetailTabs();
         selectPackageVersion(sel);
     }
 }
@@ -747,7 +772,7 @@ void MainWindow::on_actionUninstall_activated()
                 "Uninstall", err, QMessageBox::Ok);
 }
 
-void MainWindow::on_tableWidget_itemSelectionChanged()
+void MainWindow::updateActions()
 {
     PackageVersion* pv = getSelectedPackageVersion();
     this->ui->actionInstall->setEnabled(pv && !pv->installed());
@@ -780,6 +805,11 @@ void MainWindow::on_tableWidget_itemSelectionChanged()
 
     this->ui->actionTest_Download_Site->setEnabled(pv && p &&
             QUrl(p->url).isValid());
+}
+
+void MainWindow::on_tableWidget_itemSelectionChanged()
+{
+    updateActions();
 }
 
 void MainWindow::closeDetailTabs()
@@ -1035,4 +1065,9 @@ void MainWindow::on_tabWidget_tabCloseRequested(int index)
     if (pvf) {
         this->ui->tabWidget->removeTab(index);
     }
+}
+
+void MainWindow::on_tabWidget_currentChanged(int index)
+{
+    updateActions();
 }
