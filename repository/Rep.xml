@@ -6293,6 +6293,17 @@ rmdir /s /q "%name%"
         <sha1>8e4fb3b4aabd92f72c66423214cb433e52a44c88</sha1>
         <dependency package="com.oracle.JRE" versions="[1.5, 2)"/>
     </version>
+    <version name="7.0.6" package="org.apache.tomcat.Tomcat">
+        <file path=".WPM\Install.bat">for /f %%x in ('dir /b apache*') do set name=%%x
+xcopy "%name%\*" . /E /H
+rmdir /s /q "%name%"
+</file>
+        <important-file path="bin\startup.bat" title="Start"/>
+        <important-file path="bin\shutdown.bat" title="Stop"/>
+        <url>http://mirror.checkdomain.de/apache/tomcat/tomcat-7/v7.0.6/bin/apache-tomcat-7.0.6-windows-x86.zip</url>
+        <sha1>bc3c3f9af72ec1ca36cca131b967d902108017b7</sha1>
+        <dependency package="com.oracle.JRE" versions="[1.5, 2)"/>
+    </version>
 
     <version name="4.71.1015" package="com.microsoft.Mathematics"
             type="one-file">
