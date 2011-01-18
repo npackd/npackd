@@ -20,6 +20,14 @@ public:
     static const char* NPACKD_VERSION;
 
     /**
+     * Converts the value returned by SHFileOperation to an error message.
+     *
+     * @param res value returned by SHFileOperation
+     * @return error message or "", if OK
+     */
+    static QString getShellFileOperationErrorMessage(int res);
+
+    /**
      * Moves a directory to a recycle bin.
      *
      * @param dir directory
