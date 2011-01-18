@@ -478,34 +478,50 @@ void MainWindow::fillList()
     for (int i = 0; i < r->packageVersions.count(); i++) {
         PackageVersion* pv = r->packageVersions.at(i);
 
-        bool installed = pv->installed();
-
-        // filter by status (1, 2)
-        if ((statusFilter == 1 && installed) ||
-                (statusFilter == 2 && !installed))
-            continue;
-
         // filter by text
-        QString fullText = pv->getFullText();
-        bool b = true;
-        for (int i = 0; i < textFilter.count(); i++) {
-            if (fullText.indexOf(textFilter.at(i)) < 0) {
-                b = false;
-                break;
+        if (textFilter.count() > 0) {
+            QString fullText = pv->getFullText();
+            bool b = true;
+            for (int i = 0; i < textFilter.count(); i++) {
+                if (fullText.indexOf(textFilter.at(i)) < 0) {
+                    b = false;
+                    break;
+                }
             }
+            if (!b)
+                continue;
         }
-        if (!b)
-            continue;
 
+        bool installed = pv->installed();
+        bool updateEnabled = isUpdateEnabled(pv);
         PackageVersion* newest = r->findNewestPackageVersion(pv->package);
-        bool updateAvailable = newest->version.compare(pv->version) > 0;
-
-        // filter by status (3)
-        if (statusFilter == 3 && (!installed || !updateAvailable))
-            continue;
-
-        // filter by status (4)
-        if (statusFilter == 4 && !(installed || !updateAvailable))
+        bool statusOK;
+        switch (statusFilter) {
+            case 0:
+                // all
+                statusOK = true;
+                break;
+            case 1:
+                // not installed
+                statusOK = !installed;
+                break;
+            case 2:
+                // installed
+                statusOK = installed;
+                break;
+            case 3:
+                // installed, updateable
+                statusOK = installed && updateEnabled;
+                break;
+            case 4:
+                // newest or installed
+                statusOK = installed || pv == newest;
+                break;
+            default:
+                statusOK = true;
+                break;
+        }
+        if (!statusOK)
             continue;
 
         Package* p = r->findPackage(pv->package);
@@ -552,9 +568,12 @@ void MainWindow::fillList()
             else
                 status = "installed";
         }
-        if (installed && updateAvailable) {
+        if (installed && pv != newest) {
             newItem->setBackgroundColor(QColor(255, 0xc7, 0xc7));
-            status += ", update available";
+            if (updateEnabled)
+                status += ", updateable";
+            else
+                status += ", obsolete";
         }
         newItem->setText(status);
         newItem->setData(Qt::UserRole, qVariantFromValue((void*) pv));
@@ -772,6 +791,21 @@ void MainWindow::on_actionUninstall_activated()
                 "Uninstall", err, QMessageBox::Ok);
 }
 
+bool MainWindow::isUpdateEnabled(PackageVersion* pv)
+{
+    if (pv && !pv->external) {
+        Repository* r = Repository::getDefault();
+        PackageVersion* newest = r->findNewestPackageVersion(pv->package);
+        PackageVersion* newesti = r->findNewestInstalledPackageVersion(
+                pv->package);
+        return newest != 0 && newesti != 0 &&
+                !newesti->external &&
+                newest->version.compare(newesti->version) > 0;
+    } else {
+        return false;
+    }
+}
+
 void MainWindow::updateActions()
 {
     PackageVersion* pv = getSelectedPackageVersion();
@@ -781,18 +815,7 @@ void MainWindow::updateActions()
     this->ui->actionCompute_SHA1->setEnabled(pv && pv->download.isValid());
 
     // "Update"
-    if (pv && !pv->external) {
-        Repository* r = Repository::getDefault();
-        PackageVersion* newest = r->findNewestPackageVersion(pv->package);
-        PackageVersion* newesti = r->findNewestInstalledPackageVersion(
-                pv->package);
-        this->ui->actionUpdate->setEnabled(
-                newest != 0 && newesti != 0 &&
-                !newesti->external &&
-                newest->version.compare(newesti->version) > 0);
-    } else {
-        this->ui->actionUpdate->setEnabled(false);
-    }
+    this->ui->actionUpdate->setEnabled(isUpdateEnabled(pv));
 
     // enable "Go To Package Page"
     Package* p;

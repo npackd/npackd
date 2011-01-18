@@ -1,7 +1,7 @@
 /********************************************************************************
 ** Form generated from reading UI file 'mainwindow.ui'
 **
-** Created: Sun 16. Jan 19:38:02 2011
+** Created: Tue 18. Jan 23:18:15 2011
 **      by: Qt User Interface Compiler version 4.6.3
 **
 ** WARNING! All changes made in this file will be lost when recompiling UI file!
@@ -234,7 +234,7 @@ public:
 
         retranslateUi(MainWindow);
 
-        comboBoxStatus->setCurrentIndex(4);
+        comboBoxStatus->setCurrentIndex(3);
 
 
         QMetaObject::connectSlotsByName(MainWindow);
@@ -293,7 +293,7 @@ public:
          << QApplication::translate("MainWindow", "All", 0, QApplication::UnicodeUTF8)
          << QApplication::translate("MainWindow", "Not Installed", 0, QApplication::UnicodeUTF8)
          << QApplication::translate("MainWindow", "Installed", 0, QApplication::UnicodeUTF8)
-         << QApplication::translate("MainWindow", "Installed, Update Available", 0, QApplication::UnicodeUTF8)
+         << QApplication::translate("MainWindow", "Installed, Updateable", 0, QApplication::UnicodeUTF8)
          << QApplication::translate("MainWindow", "Newest or Installed", 0, QApplication::UnicodeUTF8)
         );
         label_3->setText(QApplication::translate("MainWindow", "&Text:", 0, QApplication::UnicodeUTF8));

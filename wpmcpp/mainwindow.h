@@ -100,6 +100,7 @@ private:
 
     void updateIcons();
     void updateActions();
+    bool isUpdateEnabled(PackageVersion* pv);
 
 
     /**
