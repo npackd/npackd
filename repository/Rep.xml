@@ -274,6 +274,11 @@
         <url>http://picasa.google.com/</url>
         <description>photo editing software</description>
     </package>
+    <package name="com.googlecode.stexbar.StExBar">
+        <title>StExBar</title>
+        <url>http://code.google.com/p/stexbar/</url>
+        <description>Windows Explorer extensions</description>
+    </package>
     <package name="com.googlecode.windows-package-manager.Npackd">
         <title>Npackd</title>
         <url>http://code.google.com/p/windows-package-manager/</url>
@@ -6375,5 +6380,27 @@ if %err% neq 0 exit /b %err%
         <important-file path="LTFViewr5u.exe" title="Large Text File Viewer"/>
         <url>http://www.swiftgear.com/ltfviewer/LTFViewr.zip</url>
         <sha1>75df8323c4dc08f07f44b1c062b18d53943ff77c</sha1>
+    </version>
+
+    <version name="1.8.1" package="com.googlecode.stexbar.StExBar"
+            type="one-file">
+        <file path=".WPM\Install.bat">for /f %%x in ('dir /b *.msi') do set setup=%%x
+msiexec.exe /qn /norestart /Lime .WPM\MSI.log /i "%setup%" TARGETDIR="%CD%" ALLUSERS=1
+set err=%errorlevel%
+type .WPM\MSI.log
+rem 3010=restart required
+if %err% equ 3010 exit /b 0
+if %err% neq 0 exit /b %err%
+</file>
+        <file path=".WPM\Uninstall.bat">for /f %%x in ('dir /b *.msi') do set setup=%%x
+msiexec.exe /qn /norestart /Lime .WPM\MSI.log /x "%setup%"
+set err=%errorlevel%
+type .WPM\MSI.log
+rem 3010=restart required
+if %err% equ 3010 exit /b 0
+if %err% neq 0 exit /b %err%
+</file>
+        <url>http://stexbar.googlecode.com/files/StExBar-1.8.1.msi</url>
+        <sha1>5E8364EB6B73C2CCBDA55885B6D08EAC3A30A63B</sha1>
     </version>
 </root>

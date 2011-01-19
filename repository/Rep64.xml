@@ -23,6 +23,11 @@
     <!--
      Packages in alphabetical order (including the reversed domain name prefix.
     -->
+    <package name="com.googlecode.stexbar.StExBar64">
+        <title>StExBar/64 bit</title>
+        <url>http://code.google.com/p/stexbar/</url>
+        <description>Windows Explorer extensions</description>
+    </package>
     <package name="com.oracle.JRE64">
         <title>JRE/64 bit</title>
         <url>http://www.java.com/en/</url>
@@ -39,5 +44,27 @@
         <file path=".WPM\Uninstall.bat">MsiExec.exe /qn /norestart /Lime .WPM\MSI.log /X{26A24AE4-039D-4CA4-87B4-2F86416023FF}</file>
         <url>http://download.oldapps.com/Java/jre-6u23-windows-x64.exe</url>
         <sha1>519b24f1353b62cdf84db90a3f62da01f72e04a9</sha1>
+    </version>
+
+    <version name="1.8.1" package="com.googlecode.stexbar.StExBar64"
+            type="one-file">
+        <file path=".WPM\Install.bat">for /f %%x in ('dir /b *.msi') do set setup=%%x
+msiexec.exe /qn /norestart /Lime .WPM\MSI.log /i "%setup%" TARGETDIR="%CD%" ALLUSERS=1
+set err=%errorlevel%
+type .WPM\MSI.log
+rem 3010=restart required
+if %err% equ 3010 exit /b 0
+if %err% neq 0 exit /b %err%
+</file>
+        <file path=".WPM\Uninstall.bat">for /f %%x in ('dir /b *.msi') do set setup=%%x
+msiexec.exe /qn /norestart /Lime .WPM\MSI.log /x "%setup%"
+set err=%errorlevel%
+type .WPM\MSI.log
+rem 3010=restart required
+if %err% equ 3010 exit /b 0
+if %err% neq 0 exit /b %err%
+</file>
+        <url>http://stexbar.googlecode.com/files/StExBar64-1.8.1.msi</url>
+        <sha1>C6B3D4599D147615EFB9069D84AF749D15CBD441</sha1>
     </version>
 </root>
