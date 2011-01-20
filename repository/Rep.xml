@@ -1083,6 +1083,11 @@
         <!-- GPL -->
         <icon>http://dl.dropbox.com/u/17046326/picons/org.areca-backup.ArecaBackup.png</icon>
     </package>
+    <package name="org.beeblebrox.HashTab">
+        <title>HashTab</title>
+        <url>http://www.beeblebrox.org/hashtab/</url>
+        <description>computes MD5, SHA1, SHA2, RipeMD, HAVAL and Whirlpool</description>
+    </package>
     <package name="org.beyondlogic.Mail">
         <title>Beyond Logic Mail</title>
         <url>http://www.beyondlogic.org/solutions/cmdlinemail/cmdlinemail.htm</url>
@@ -6413,5 +6418,14 @@ if %err% neq 0 exit /b %err%
 </file>
         <url>http://stexbar.googlecode.com/files/StExBar-1.8.1.msi</url>
         <sha1>5E8364EB6B73C2CCBDA55885B6D08EAC3A30A63B</sha1>
+    </version>
+
+    <!-- TODO: uninstallation shows 2 confirmation dialogs -->
+    <version name="3" package="org.beeblebrox.HashTab" type="one-file">
+        <file path=".WPM\Install.bat">"HashTab Setup.exe" /S /D=%CD%
+</file>
+        <file path=".WPM\Uninstall.bat">uninst.exe /S _?=%CD%
+</file>
+        <url>http://www.beeblebrox.org/hashtab/HashTab%20Setup.exe</url>
     </version>
 </root>
