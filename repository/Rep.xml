@@ -6420,12 +6420,24 @@ if %err% neq 0 exit /b %err%
         <sha1>5E8364EB6B73C2CCBDA55885B6D08EAC3A30A63B</sha1>
     </version>
 
-    <!-- TODO: uninstallation shows 2 confirmation dialogs -->
+    <!--
+        TODO: uninstallation shows 2 confirmation dialogs
+        TODO: /D= option is ignored
     <version name="3" package="org.beeblebrox.HashTab" type="one-file">
-        <file path=".WPM\Install.bat">"HashTab Setup.exe" /S /D=%CD%
+        <file path=".WPM\Install.bat">for /f %%x in ('dir /b *.exe') do set setup=%%x
+"%setup%" /S /D=%CD%
 </file>
         <file path=".WPM\Uninstall.bat">uninst.exe /S _?=%CD%
 </file>
-        <url>http://www.beeblebrox.org/hashtab/HashTab%20Setup.exe</url>
+        <url>http://dl.dropbox.com/u/17046326/files/org.beeblebrox.HashTab-3.exe</url>
     </version>
+    <version name="4" package="org.beeblebrox.HashTab">
+        <file path=".WPM\Install.bat">for /f %%x in ('dir /b *.exe') do set setup=%%x
+"HashTab v4.0.0 Setup.exe" /S /D=%CD%
+</file>
+        <file path=".WPM\Uninstall.bat">uninst.exe /S _?=%CD%
+</file>
+        <url>https://sites.google.com/a/implbits.com/downloads/hashtab/HashTabv4.0.0Setup.zip?attredirects=0</url>
+    </version>
+    -->
 </root>
