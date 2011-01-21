@@ -6,7 +6,7 @@
 #include <QtGui/QApplication>
 #include "QMetaType"
 #include "mainwindow.h"
-#include "qnetworkproxy.h"
+#include "qdebug.h"
 
 #include "repository.h"
 #include "wpmutils.h"
@@ -30,7 +30,6 @@ int main(int argc, char *argv[])
     LoadLibrary(L"exchndl.dll");
 
     QApplication a(argc, argv);
-    QNetworkProxyFactory::setUseSystemConfiguration(true);
 
     qRegisterMetaType<JobState>("JobState");
     qRegisterMetaType<FileLoaderItem>("FileLoaderItem");

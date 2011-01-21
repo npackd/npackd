@@ -1,7 +1,7 @@
 /********************************************************************************
 ** Form generated from reading UI file 'mainwindow.ui'
 **
-** Created: Tue 18. Jan 23:18:15 2011
+** Created: Fri 21. Jan 09:09:49 2011
 **      by: Qt User Interface Compiler version 4.6.3
 **
 ** WARNING! All changes made in this file will be lost when recompiling UI file!
@@ -234,7 +234,7 @@ public:
 
         retranslateUi(MainWindow);
 
-        comboBoxStatus->setCurrentIndex(3);
+        comboBoxStatus->setCurrentIndex(4);
 
 
         QMetaObject::connectSlotsByName(MainWindow);
