@@ -2798,7 +2798,8 @@ if %err% neq 0 exit /b %err%
         allows to redistribute the installer. The uninstallation crashes.
     -->
     <version name="1.0.3" package="org.foobar2000.Foobar2000" type="one-file">
-        <file path=".WPM\Install.bat">foobar2000_v1.0.3.exe /S /D=%CD%</file>
+        <file path=".WPM\Install.bat">for /f %%x in ('dir /b *.exe') do set setup=%%x
+"%setup%" /S /D=%CD%</file>
         <file path=".WPM\Uninstall.bat">uninstall.exe /S</file>
         <url>http://dl.dropbox.com/u/17046326/files/foobar2000_v1.0.3.exe</url>
         <sha1>f37a7f0422730a509e5683a4fa13d7c33f64aa78</sha1>
@@ -2843,7 +2844,8 @@ if %err% neq 0 exit /b %err%
         </file-handler> -->
     </version>
     <version name="1.1" package="org.foobar2000.Foobar2000" type="one-file">
-        <file path=".WPM\Install.bat">foobar2000_v1.1.exe /S /D=%CD%</file>
+        <file path=".WPM\Install.bat">for /f %%x in ('dir /b *.exe') do set setup=%%x
+"%setup%" /S /D=%CD%</file>
         <file path=".WPM\Uninstall.bat">uninstall.exe /S</file>
         <url>http://dl.dropbox.com/u/17046326/files/foobar2000_v1.1.exe</url>
         <sha1>76e89edc70731c9efd2d98f59f3e272ac18944bf</sha1>
@@ -2888,10 +2890,57 @@ if %err% neq 0 exit /b %err%
         </file-handler> -->
     </version>
     <version name="1.1.1" package="org.foobar2000.Foobar2000" type="one-file">
-        <file path=".WPM\Install.bat">org.foobar2000.Foobar2000-1.1.1.exe /S /D=%CD%</file>
+        <file path=".WPM\Install.bat">for /f %%x in ('dir /b *.exe') do set setup=%%x
+"%setup%" /S /D=%CD%</file>
         <file path=".WPM\Uninstall.bat">uninstall.exe /S</file>
         <url>http://dl.dropbox.com/u/17046326/files/org.foobar2000.Foobar2000-1.1.1.exe</url>
         <sha1>204f4a6d249c2c1a237e42e4ba136593d56c0327</sha1>
+        <!-- TODO: <file-handler>
+            <title>foobar2000</title>
+            <executable>foobar2000.exe</executable>
+            <extension>.aac</extension>
+            <extension>.aif</extension>
+            <extension>.aiff</extension>
+            <extension>.aifc</extension>
+            <extension>.afc</extension>
+            <extension>.au</extension>
+            <extension>.snd</extension>
+            <extension>.cda</extension>
+            <extension>.cue</extension>
+            <extension>.flac</extension>
+            <extension>.fla</extension>
+            <extension>.fpl</extension>
+            <extension>.m3u</extension>
+            <extension>.m3u8</extension>
+            <extension>.mka</extension>
+            <extension>.mp1</extension>
+            <extension>.mp2</extension>
+            <extension>.mp3</extension>
+            <extension>.mp4</extension>
+            <extension>.m4a</extension>
+            <extension>.mpc</extension>
+            <extension>.mp+</extension>
+            <extension>.mpp</extension>
+            <extension>.ogg</extension>
+            <extension>.oga</extension>
+            <extension>.ogx</extension>
+            <extension>.spx</extension>
+            <extension>.pls</extension>
+            <extension>.svx</extension>
+            <extension>.8svx</extension>
+            <extension>.wav</extension>
+            <extension>.wave</extension>
+            <extension>.w64</extension>
+            <extension>.wax</extension>
+            <extension>.wvx</extension>
+        </file-handler> -->
+    </version>
+    <version name="1.1.2" package="org.foobar2000.Foobar2000" type="one-file">
+        <file path=".WPM\Install.bat">for /f %%x in ('dir /b *.exe') do set setup=%%x
+"%setup%" /S /D=%CD%</file>
+        <file path=".WPM\Uninstall.bat">uninstall.exe /S</file>
+        <url>http://dl.dropbox.com/u/17046326/files/org.foobar2000.Foobar2000-1.1.2.exe</url>
+        <sha1>24CA508C0CB9AF2116495B00954DB49B2753DE59</sha1>
         <!-- TODO: <file-handler>
             <title>foobar2000</title>
             <executable>foobar2000.exe</executable>
