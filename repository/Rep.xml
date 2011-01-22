@@ -1542,6 +1542,17 @@
     </version>
 
     <!--
+        TODO: the installation opens a .chm file
+    -->
+    <version name="0.4" package="com.netstumbler.NetStumbler"
+            type="one-file">
+        <file path=".WPM\Install.bat">netstumblerinstaller_0_4_0.exe /S /D=%CD%\Prog</file>
+        <file path=".WPM\Uninstall.bat">Prog\uninst.exe /S _?=%CD%\Prog</file>
+        <url>http://downloads.netstumbler.com/downloads/netstumblerinstaller_0_4_0.exe</url>
+        <sha1>f61b0f2f6b59c46a59984a316c34282e3c936a8a</sha1>
+    </version>
+
+    <!--
         TODO: installation presents an EULA. The uninstallation presents 2
         confirmation dialogs.
     -->
@@ -4210,6 +4221,7 @@ teracopyi.exe /SP- /VERYSILENT /SUPPRESSMSGBOXES /NOCANCEL /NORESTART /DIR="%CD%
     <!--
         TODO: installation shows progress dialogs
         TODO: computer is restarted after the installation
+        TODO: old versions are sometimes deleted
     -->
     <version name="1.10.10" package="org.tortoisecvs.TortoiseCVS"
             type="one-file">
@@ -4234,18 +4246,6 @@ echo clear the error code
 </file>
         <url>http://downloads.sourceforge.net/project/tortoisecvs/TortoiseCVS-1.12.1.exe?ts=1290180351</url>
         <sha1>0b36565e03ba3a4a42b90ee0bcc987029088e631</sha1>
-    </version>
-    <version name="1.12.2" package="org.tortoisecvs.TortoiseCVS"
-            type="one-file">
-        <file path=".WPM\Install.bat">TortoiseCVS-1.12.2.exe /SP- /VERYSILENT /SUPPRESSMSGBOXES /NOCANCEL /NORESTART /DIR="%CD%"</file>
-        <file path=".WPM\Uninstall.bat">unins000.exe /VERYSILENT /SUPPRESSMSGBOXES /NORESTART
-set key=org.tortoisecvs.TortoiseCVS-1.12.2
-mkdir ..\.Trash
-move *.dll ..\.Trash\%key%_%RANDOM%
-echo clear the error code
-</file>
-        <url>http://downloads.sourceforge.net/project/tortoisecvs/TortoiseCVS-1.12.2.exe?ts=1291642182</url>
-        <sha1>5f2105505b4ce256d0a557dd5e526736e3d7a9ae</sha1>
     </version>
     <version name="1.12.3" package="org.tortoisecvs.TortoiseCVS"
             type="one-file">
@@ -4855,17 +4855,6 @@ if %err% neq 0 exit /b %err%
         <file path=".WPM\Uninstall.bat">Uninstall.exe /S</file>
         <url>http://downloads.sourceforge.net/project/streamripper/streamripper%20%28current%29/1.64.6/streamripper-windows-installer-1.64.6.exe?96133631</url>
         <sha1>906f5dfec64baa451c89abf46a1fbdb643352cfa</sha1>
-    </version>
-
-    <!--
-        TODO: the installation opens a .chm file
-    -->
-    <version name="0.4" package="com.netstumbler.NetStumbler"
-            type="one-file">
-        <file path=".WPM\Install.bat">netstumblerinstaller_0_4_0.exe /S /D=%CD%\Prog</file>
-        <file path=".WPM\Uninstall.bat">Prog\uninst.exe /S _?=%CD%\Prog</file>
-        <url>http://downloads.netstumbler.com/downloads/netstumblerinstaller_0_4_0.exe</url>
-        <sha1>f61b0f2f6b59c46a59984a316c34282e3c936a8a</sha1>
     </version>
 
     <!-- TODO: this thing crashes after installation on my computer -->
@@ -5917,6 +5906,7 @@ if %err% neq 0 exit /b %err%
         <sha1>821c5bd249e24548935aee8101d36eb7df6c981d</sha1>
     </version>
 
+    <!-- TODO: URLs can change -->
     <version name="6.5.1" package="org.netbeans.NetBeansMLJava">
         <important-file path="netbeans\bin\netbeans.exe"
                 title="NetBeans"/>
