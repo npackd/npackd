@@ -5511,11 +5511,21 @@ if %err% neq 0 exit /b %err%
         <dependency package="com.oracle.JRE" versions="[1.6, 2)"/>
         <sha1>f37ea912516582555d07cf7510e6f0e693b18d2e</sha1>
     </version>
-	<version name="7.1.10" package="org.areca-backup.ArecaBackup">
+    <version name="7.1.10" package="org.areca-backup.ArecaBackup">
         <url>http://downloads.sourceforge.net/project/areca/areca-stable/areca-7.1.10/areca-7.1.10-win32.zip?ts=1289232244</url>
         <important-file path="areca.exe" title="Areca"/>
         <dependency package="com.oracle.JRE" versions="[1.6, 2)"/>
         <sha1>ed8c097a1e8e897a17d1f770bdfab31435804bd7</sha1>
+    </version>
+    <version name="7.2" package="org.areca-backup.ArecaBackup">
+        <file path=".WPM\Install.bat">for /f %%x in ('dir /b areca*') do set name=%%x
+xcopy "%name%\*" . /E /H
+rmdir /s /q "%name%"
+</file>
+    <url>http://downloads.sourceforge.net/project/areca/areca-stable/areca-7.2/areca-7.2-win32.zip?ts=1295904979</url>
+        <important-file path="areca.exe" title="Areca"/>
+        <dependency package="com.oracle.JRE" versions="[1.6, 2)"/>
+        <sha1>957295447321275746391DEAD74CD93E5CF55519</sha1>
     </version>
 
     <!-- TODO: this Inno Setup based installer does not support silent installation -->
