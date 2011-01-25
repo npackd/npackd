@@ -397,6 +397,11 @@
         <url>http://technet.microsoft.com/en-us/sysinternals/bb896645.aspx</url>
         <description>OS process monitor</description>
     </package>
+    <package name="com.microsoft.SyncToyInstaller">
+        <title>SyncToy installer</title>
+        <url>http://www.microsoft.com/downloads/details.aspx?familyid=e0fc1154-c975-4814-9649-cce41af06eb7&amp;displaylang=en</url>
+        <description>file synchronization</description>
+    </package>
     <package name="com.microsoft.TCPView">
         <title>TCPView</title>
         <url>http://technet.microsoft.com/en-us/sysinternals/bb897437.aspx</url>
@@ -406,21 +411,6 @@
         <title>Visual C++ Express</title>
         <url>http://www.microsoft.com/express/Downloads/#2010-Visual-CPP</url>
         <description>C++ IDE</description>
-    </package>
-    <package name="com.microsoft.WindowsInstaller">
-        <title>Windows Installer</title>
-        <url>http://msdn.microsoft.com/en-us/library/cc185688(VS.85).aspx</url>
-        <description>package manager</description>
-    </package>
-    <package name="com.microsoft.WindowsServer2003ResourceKitToolsInstaller">
-        <title>Windows Server 2003 Resource Kit Tools installer</title>
-        <url>http://www.microsoft.com/downloads/details.aspx?familyid=9d467a69-57ff-4ae7-96ee-b18c4790cffd&amp;displaylang=en</url>
-        <description>command line tools</description>
-    </package>
-    <package name="com.microsoft.SyncToyInstaller">
-        <title>SyncToy installer</title>
-        <url>http://www.microsoft.com/downloads/details.aspx?familyid=e0fc1154-c975-4814-9649-cce41af06eb7&amp;displaylang=en</url>
-        <description>file synchronization</description>
     </package>
     <package name="com.microsoft.VisualCPPRedistributable">
         <title>Visual C++ redistributable package</title>
@@ -446,6 +436,21 @@
         <title>Visio Viewer installer (deprecated, use the non-installer package instead)</title>
         <url>http://www.microsoft.com/downloads/details.aspx?displaylang=en&amp;FamilyID=d88e4542-b174-4198-ae31-6884e9edd524</url>
         <description>Visio viewer</description>
+    </package>
+    <package name="com.microsoft.WindowsInstaller">
+        <title>Windows Installer</title>
+        <url>http://msdn.microsoft.com/en-us/library/cc185688(VS.85).aspx</url>
+        <description>package manager</description>
+    </package>
+    <package name="com.microsoft.WindowsServer2003ResourceKitToolsInstaller">
+        <title>Windows Server 2003 Resource Kit Tools installer</title>
+        <url>http://www.microsoft.com/downloads/details.aspx?familyid=9d467a69-57ff-4ae7-96ee-b18c4790cffd&amp;displaylang=en</url>
+        <description>command line tools</description>
+    </package>
+    <package name="com.microsoft.WMIAdministrativeTools">
+        <title>WMI Administrative Tools</title>
+        <url>http://docwiki.embarcadero.com/RADStudio/de/DbExpress-Framework</url>
+        <description>view and edit classes, properties, qualifiers, and instances in a CIM repository; run selected methods; generate and compile MOF files; view objects, edit property values and qualifiers.</description>
     </package>
     <package name="com.microsoft.WordViewer">
         <title>Word Viewer</title>
@@ -6620,4 +6625,29 @@ if %err% neq 0 exit /b %err%
         <url>https://sites.google.com/a/implbits.com/downloads/hashtab/HashTabv4.0.0Setup.zip?attredirects=0</url>
     </version>
     -->
+
+    <version name="1.1" package="com.microsoft.WMIAdministrativeTools" type="one-file">
+        <file path=".WPM\Install.bat">WMITools.exe /C "/T:%CD%\Prog"
+for /f %%x in ('dir /b Prog\*.msi') do set setup=%%x
+set setup=Prog\%setup%
+msiexec.exe /qn /norestart /Lime "%CD%\.WPM\MSI.log" /i "%setup%" TARGETDIR="%CD%" ALLUSERS=1
+set err=%errorlevel%
+type .WPM\MSI.log
+rem 3010=restart required
+if %err% equ 3010 exit /b 0
+if %err% neq 0 exit /b %err%
+</file>
+        <file path=".WPM\Uninstall.bat">
+for /f %%x in ('dir /b Prog\*.msi') do set setup=%%x
+set setup=Prog\%setup%
+msiexec.exe /qn /norestart /Lime "%CD%\.WPM\MSI.log" /x "%setup%"
+set err=%errorlevel%
+type .WPM\MSI.log
+rem 3010=restart required
+if %err% equ 3010 exit /b 0
+if %err% neq 0 exit /b %err%
+</file>
+        <url>http://download.microsoft.com/download/.NetStandardServer/Install/V1.1/NT5XP/EN-US/WMITools.exe</url>
+        <sha1>3CE511C50F9B8F8F80C9F2DD0E1FCCDB22137DEA</sha1>
+    </version>
 </root>
