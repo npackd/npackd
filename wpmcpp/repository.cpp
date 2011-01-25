@@ -791,63 +791,75 @@ void Repository::load(Job* job)
 
 void Repository::loadOne(QUrl* url, Job* job) {
     job->setHint("Downloading");
-    Job* djob = job->newSubJob(0.90);
-    QTemporaryFile* f = Downloader::download(djob, *url);
-    if (!djob->getErrorMessage().isEmpty())
-        job->setErrorMessage(djob->getErrorMessage());
-    // qDebug() << "Repository::loadOne.1";
-    if (f) {
+
+    QTemporaryFile* f = 0;
+    if (job->getErrorMessage().isEmpty() && !job->isCancelled()) {
+        Job* djob = job->newSubJob(0.90);
+        f = Downloader::download(djob, *url);
+        if (!djob->getErrorMessage().isEmpty())
+            job->setErrorMessage(QString("Download failed: %2").
+                    arg(djob->getErrorMessage()));
+        delete djob;
+    }
+
+    QDomDocument doc;
+    if (job->getErrorMessage().isEmpty() && !job->isCancelled()) {
         job->setHint("Parsing the content");
         // qDebug() << "Repository::loadOne.2";
-        QDomDocument doc;
         int errorLine;
         int errorColumn;
         QString errMsg;
-        if (doc.setContent(f, &errMsg, &errorLine, &errorColumn)) {
-            QDomElement root = doc.documentElement();
-            QDomNodeList nl = root.elementsByTagName("spec-version");
-            if (nl.count() != 0) {
-                QString specVersion = nl.at(0).firstChild().nodeValue();
-                Version specVersion_;
-                if (!specVersion_.setVersion(specVersion)) {
-                    job->setErrorMessage(QString(
-                            "Invalid repository specification version: %1").
-                            arg(specVersion));
-                } else {
-                    if (specVersion_.compare(Version(3,0)) >= 0)
-                        job->setErrorMessage(QString(
-                                "Incompatible repository specification version: %1").
-                                arg(specVersion));
-                }
-            }
-
-            if (job->getErrorMessage().isEmpty()) {
-                for (QDomNode n = root.firstChild(); !n.isNull();
-                        n = n.nextSibling()) {
-                    if (n.isElement()) {
-                        QDomElement e = n.toElement();
-                        if (e.nodeName() == "version") {
-                            this->packageVersions.append(
-                                    createPackageVersion(&e));
-                            somethingWasInstalledOrUninstalled();
-                        } else if (e.nodeName() == "package") {
-                            this->packages.append(
-                                    createPackage(&e));
-                        }
-                    }
-                }
-                job->setProgress(1);
-            }
-        } else {
+        if (!doc.setContent(f, &errMsg, &errorLine, &errorColumn))
             job->setErrorMessage(QString("XML parsing failed: %1").
                                  arg(errMsg));
-        }
-        delete f;
-    } else {
-        job->setErrorMessage(QString("Download failed: %2").
-                arg(djob->getErrorMessage()));
     }
-    delete djob;
+
+    QDomElement root;
+    if (job->getErrorMessage().isEmpty() && !job->isCancelled()) {
+        root = doc.documentElement();
+        QDomNodeList nl = root.elementsByTagName("spec-version");
+        if (nl.count() != 0) {
+            QString specVersion = nl.at(0).firstChild().nodeValue();
+            Version specVersion_;
+            if (!specVersion_.setVersion(specVersion)) {
+                job->setErrorMessage(QString(
+                        "Invalid repository specification version: %1").
+                        arg(specVersion));
+            } else {
+                if (specVersion_.compare(Version(3,0)) >= 0)
+                    job->setErrorMessage(QString(
+                            "Incompatible repository specification version: %1").
+                            arg(specVersion));
+            }
+        }
+    }
+
+    if (job->getErrorMessage().isEmpty() && !job->isCancelled()) {
+        for (QDomNode n = root.firstChild(); !n.isNull();
+                n = n.nextSibling()) {
+            if (n.isElement()) {
+                QDomElement e = n.toElement();
+                if (e.nodeName() == "version") {
+                    PackageVersion* pv = createPackageVersion(&e);
+                    if (this->findPackageVersion(pv->package, pv->version))
+                        delete pv;
+                    else {
+                        this->packageVersions.append(pv);
+                        somethingWasInstalledOrUninstalled();
+                    }
+                } else if (e.nodeName() == "package") {
+                    Package* p = createPackage(&e);
+                    if (this->findPackage(p->name))
+                        delete p;
+                    else
+                        this->packages.append(p);
+                }
+            }
+        }
+        job->setProgress(1);
+    }
+
+    delete f;
 
     job->complete();
 }

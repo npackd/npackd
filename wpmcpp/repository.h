@@ -120,7 +120,7 @@ public:
     int countUpdates();
 
     /**
-     * Loads the content from the URL.
+     * Loads the content from the URLs.
      *
      * @param job job for this method
      */
