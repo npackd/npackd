@@ -1134,6 +1134,13 @@
         <!-- CPL -->
         <icon>http://dl.dropbox.com/u/17046326/picons/org.eclipse.EclipseIDEJEE.png</icon>
     </package>
+    <package name="org.eclipse.EclipseIDEJava">
+        <title>Eclipse IDE for Java</title>
+        <url>http://www.eclipse.org/home/categories/index.php?category=ide</url>
+        <description>WARNING! This package requires JRE at least in version 1.6 to be installed. Java EE IDE</description>
+        <!-- CPL -->
+        <icon>http://dl.dropbox.com/u/17046326/picons/org.eclipse.EclipseIDEJava.png</icon>
+    </package>
     <package name="org.filezilla-project.FileZillaClient">
         <title>FileZilla Client</title>
         <url>http://filezilla-project.org/</url>
@@ -2382,11 +2389,12 @@ if %err% neq 0 exit /b %err%
         <sha1>372d9c1670343d3fb252209ba210d4dc4d67d358</sha1>
     </version>
 
-    <version name="0.7.110" package="com.dropbox.Dropbox" type="one-file">
-        <file path=".WPM\Install.bat">"Dropbox 0.7.110.exe" /S /D=%CD%
+   <version name="0.7.110" package="com.dropbox.Dropbox" type="one-file">
+        <file path=".WPM\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x
+"%setup%" /S /D=%CD%
 taskkill /f /im dropbox.exe</file>
         <file path=".WPM\Uninstall.bat">Uninstall.exe /S _?=%CD%
-set key=com.dropbox.Dropbox-0.7.110
+for /f "delims=" %%x in ("%CD%") do set key=%%~nxx
 set trash=..\.Trash\%key%_%RANDOM%
 mkdir %trash%
 move *.dll %trash%
@@ -2395,16 +2403,30 @@ move *.dll %trash%
         <sha1>b5cdb5160d063427c403af280d48e91478042bc0</sha1>
     </version>
     <version name="1.0.10" package="com.dropbox.Dropbox" type="one-file">
-        <file path=".WPM\Install.bat">"Dropbox 1.0.10.exe" /S /D=%CD%
+        <file path=".WPM\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x
+"%setup%" /S /D=%CD%
 taskkill /f /im dropbox.exe</file>
         <file path=".WPM\Uninstall.bat">Uninstall.exe /S _?=%CD%
-set key=com.dropbox.Dropbox-1.0.10
+for /f "delims=" %%x in ("%CD%") do set key=%%~nxx
 set trash=..\.Trash\%key%_%RANDOM%
 mkdir %trash%
 move *.dll %trash%
 </file>
         <url>http://cdn.dropbox.com/Dropbox%201.0.10.exe</url>
         <sha1>ebe6c14e1bd336af2f24a3a40ddcdc412ff9ca6c</sha1>
+    </version>
+    <version name="1.0.20" package="com.dropbox.Dropbox" type="one-file">
+        <file path=".WPM\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x
+"%setup%" /S /D=%CD%
+taskkill /f /im dropbox.exe</file>
+        <file path=".WPM\Uninstall.bat">Uninstall.exe /S _?=%CD%
+for /f "delims=" %%x in ("%CD%") do set key=%%~nxx
+set trash=..\.Trash\%key%_%RANDOM%
+mkdir %trash%
+move *.dll %trash%
+</file>
+        <url>http://cdn.dropbox.com/Dropbox%201.0.20.exe</url>
+        <sha1>6C2C9F5B75B2471F95450AD7AA93A219683A11D8</sha1>
     </version>
 
     <version name="1.89" package="com.revouninstaller.Revo" type="one-file">
@@ -3091,6 +3113,91 @@ if %err% neq 0 exit /b %err%
         <url>http://ftp-stud.fht-esslingen.de/pub/Mirrors/eclipse/technology/epp/downloads/release/helios/SR1/eclipse-jee-helios-SR1-win32.zip</url>
         <dependency package="com.oracle.JRE" versions="[1.6, 2)"/>
         <sha1>060c3469cae3a2da2bcecc3796d96be78233965f</sha1>
+        <!-- TODO: <file-handler>
+            <title>Eclipse</title>
+            <executable>eclipse\eclipse.exe</executable>
+            <extension>.ant</extension>
+            <extension>.class</extension>
+            <extension>.classpath</extension>
+            <extension>.component</extension>
+            <extension>.confluence</extension>
+            <extension>.css</extension>
+            <extension>.dbk</extension>
+            <extension>.ddl</extension>
+            <extension>.dita</extension>
+            <extension>.ditamap</extension>
+            <extension>.doc</extension>
+            <extension>.dtd</extension>
+            <extension>.ecore</extension>
+            <extension>.ecore2ecore</extension>
+            <extension>.ecore2xml</extension>
+            <extension>.emof</extension>
+            <extension>.ent</extension>
+            <extension>.exsd</extension>
+            <extension>.genmodel</extension>
+            <extension>.history</extension>
+            <extension>.htm</extension>
+            <extension>.html</extension>
+            <extension>.htpl</extension>
+            <extension>.index</extension>
+            <extension>.jardesc</extension>
+            <extension>.jpage</extension>
+            <extension>.jar</extension>
+            <extension>.java</extension>
+            <extension>.js</extension>
+            <extension>.jsdtscope</extension>
+            <extension>.json</extension>
+            <extension>.jsf</extension>
+            <extension>.jsp</extension>
+            <extension>.jspf</extension>
+            <extension>.jspx</extension>
+            <extension>.jsv</extension>
+            <extension>.jtpl</extension>
+            <extension>.log</extension>
+            <extension>.macrodef</extension>
+            <extension>.mediawiki</extension>
+            <extension>.mf</extension>
+            <extension>.mod</extension>
+            <extension>.project</extension>
+            <extension>.product</extension>
+            <extension>.server</extension>
+            <extension>.shtm</extension>
+            <extension>.shtml</extension>
+            <extension>.sql</extension>
+            <extension>.sqlpage</extension>
+            <extension>.tag</extension>
+            <extension>.tagf</extension>
+            <extension>.tagx</extension>
+            <extension>.target</extension>
+            <extension>.textile</extension>
+            <extension>.tld</extension>
+            <extension>.tracwiki</extension>
+            <extension>.twiki</extension>
+            <extension>.txt</extension>
+            <extension>.options</extension>
+            <extension>.prefs</extension>
+            <extension>.properties</extension>
+            <extension>.wml</extension>
+            <extension>.wsdd</extension>
+            <extension>.wsdl</extension>
+            <extension>.wsil</extension>
+            <extension>.wsimsg</extension>
+            <extension>.wtpmodules</extension>
+            <extension>.xhtml</extension>
+            <extension>.xmi</extension>
+            <extension>.xml</extension>
+            <extension>.xsd</extension>
+            <extension>.xsl</extension>
+            <extension>.xslt</extension>
+            <extension>.zip</extension>
+        </file-handler> -->
+    </version>
+
+    <version name="3.6.1" package="org.eclipse.EclipseIDEJava">
+        <important-file path="eclipse\eclipse.exe" title="Eclipse IDE for Java"/>
+        <url>http://ftp-stud.fht-esslingen.de/pub/Mirrors/eclipse/technology/epp/downloads/release/helios/SR1/eclipse-java-helios-SR1-win32.zip</url>
+        <dependency package="com.oracle.JRE" versions="[1.6, 2)"/>
+        <sha1>59FFC747EB54D2CAB59F03E8F38E8966B671C0E2</sha1>
         <!-- TODO: <file-handler>
             <title>Eclipse</title>
             <executable>eclipse\eclipse.exe</executable>
