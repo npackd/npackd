@@ -1641,6 +1641,8 @@
 
     <!--
         TODO: the installation shows a progress dialog
+        TODO: installation shows a confirmation dialog
+        TODO: 7Z-A 9.20 muss installiert werden
     -->
     <version name="10.60" package="com.opera.Opera" type="one-file">
         <!-- somehow this triple double quotes work here -->
@@ -1686,13 +1688,20 @@ if %err% neq 0 exit /b %err%
         <url>http://get1.opera.com/pub/opera/win/1063/int/Opera_1063_int_Setup.exe</url>
         <sha1>69638f4e9b807ece50cf7d8e5501b20b12f72f8b</sha1>
     </version>
-    <!-- TODO: installation shows a confirmation dialog -->
-    <!-- TODO: 7Z-A 9.20 muss installiert werden -->
     <version name="11" package="com.opera.Opera" type="one-file">
         <important-file path="Opera.exe" title="Opera"/>
-        <file path=".WPM\Install.bat">..\org.7-zip.SevenZIPA-9.20\7za.exe x Opera_1100_int_Setup.exe</file>
+        <file path=".WPM\Install.bat">for /f %%x in ('dir /b *.exe') do set setup=%%x
+..\org.7-zip.SevenZIPA-9.20\7za.exe x "%setup%"</file>
         <url>http://get5.opera.com/pub/opera/win/1100/int/Opera_1100_int_Setup.exe</url>
         <sha1>7bba9c0ba2ec18d21b7d69f6de906e7f7220625e</sha1>
+        <dependency package="org.7-zip.SevenZIPA" versions="[9.20, 9.20]"/>
+    </version>
+    <version name="11.1" package="com.opera.Opera" type="one-file">
+        <important-file path="Opera.exe" title="Opera"/>
+        <file path=".WPM\Install.bat">for /f %%x in ('dir /b *.exe') do set setup=%%x
+..\org.7-zip.SevenZIPA-9.20\7za.exe x "%setup%"</file>
+        <url>http://get9.opera.com/pub/opera/win/1101/int/Opera_1101_int_Setup.exe</url>
+        <sha1>50D4DCF03612DFDD9504F9C45CAF30D4CE0D54F8</sha1>
         <dependency package="org.7-zip.SevenZIPA" versions="[9.20, 9.20]"/>
     </version>
 
