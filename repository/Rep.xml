@@ -2068,12 +2068,13 @@ if %err% neq 0 exit /b %err%
         <sha1>22a6f604a64924aa3f182d97ff47582da0988db0</sha1>
     </version>
 
-    <version name="4.2" package="com.microsoft.XPSP3IE6VHD"
+    <version name="4.2.1" package="com.microsoft.XPSP3IE6VHD"
             type="one-file">
-        <file path=".WPM\Install.bat">IE6-on-XPSP3.exe -d"%CD%" -s</file>
-        <url>http://download.microsoft.com/download/B/7/2/B72085AE-0F04-4C6F-9182-BF1EE90F5273/IE6-on-XPSP3.exe</url>
-        <sha1>ca153f60e9f5512d6bcc2ee0cd2ade2ce563a0db</sha1>
-    </version>
+        <file path=".WPM\Install.bat">for /f %%x in ('dir /b *.exe') do set setup=%%x
+"%setup%" /Q /T:"%CD%"</file>
+        <url>http://download.microsoft.com/download/B/7/2/B72085AE-0F04-4C6F-9182-BF1EE90F5273/XPSP3-IE6.EXE</url>
+        <sha1>9BEA4908935C57A32574235CAE3EE9B3EE191B28</sha1>
+    </version>  
 
     <version name="1.6.13" package="org.apache.subversion.Subversion"
             type="one-file">
