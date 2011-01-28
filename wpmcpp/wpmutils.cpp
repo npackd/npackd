@@ -207,6 +207,32 @@ Version WPMUtils::getDLLVersion(const QString &path)
     return res;
 }
 
+QStringList WPMUtils::findInstalledMSIProductNames()
+{
+    QStringList result;
+    WCHAR buf[39];
+    int index = 0;
+    while (true) {
+        UINT r = MsiEnumProducts(index, buf);
+        if (r != ERROR_SUCCESS)
+            break;
+        QString uuid;
+        uuid.setUtf16((ushort*) buf, 38);
+
+        WCHAR value[64];
+        DWORD len = sizeof(value) / sizeof(value[0]);
+        r = MsiGetProductInfo(buf, INSTALLPROPERTY_INSTALLEDPRODUCTNAME,
+                value, &len);
+        if (r == ERROR_SUCCESS) {
+            QString v;
+            v.setUtf16((ushort*) value, len);
+            result.append(v + " " + uuid);
+        }
+        index++;
+    }
+    return result;
+}
+
 QStringList WPMUtils::findInstalledMSIProducts()
 {
     QStringList result;

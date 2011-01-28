@@ -141,6 +141,11 @@ public:
     static QStringList findInstalledMSIProducts();
 
     /**
+     * @return Names and GUIDs for installed products (MSI)
+     */
+    static QStringList findInstalledMSIProductNames();
+
+    /**
      * @param path .DLL file path
      * @return version number or 0.0 it it cannot be determined
      */

@@ -1094,3 +1094,20 @@ void MainWindow::on_tabWidget_currentChanged(int index)
 {
     updateActions();
 }
+
+void MainWindow::on_actionList_Installed_MSI_Products_triggered()
+{
+    QStringList sl = WPMUtils::findInstalledMSIProductNames();
+    QString s = "Installed Products:\n" + sl.join("\n");
+    if (s.length() > 200)
+        s = s.left(200) + "...";
+
+    QMessageBox mb(this);
+    mb.setWindowTitle("Installed MSI Products");
+    mb.setText(s);
+    mb.setIcon(QMessageBox::Information);
+    mb.setStandardButtons(QMessageBox::Ok);
+    mb.setDefaultButton(QMessageBox::Ok);
+    mb.setDetailedText(sl.join("\n"));
+    mb.exec();
+}

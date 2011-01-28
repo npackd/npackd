@@ -1,7 +1,7 @@
 /********************************************************************************
 ** Form generated from reading UI file 'mainwindow.ui'
 **
-** Created: Fri 21. Jan 09:09:49 2011
+** Created: Fri 28. Jan 19:40:08 2011
 **      by: Qt User Interface Compiler version 4.6.3
 **
 ** WARNING! All changes made in this file will be lost when recompiling UI file!
@@ -45,6 +45,7 @@ public:
     QAction *actionCompute_SHA1;
     QAction *actionAbout;
     QAction *actionTest_Repositories;
+    QAction *actionList_Installed_MSI_Products;
     QWidget *centralWidget;
     QVBoxLayout *verticalLayout;
     QTabWidget *tabWidget;
@@ -102,6 +103,8 @@ public:
         actionAbout->setObjectName(QString::fromUtf8("actionAbout"));
         actionTest_Repositories = new QAction(MainWindow);
         actionTest_Repositories->setObjectName(QString::fromUtf8("actionTest_Repositories"));
+        actionList_Installed_MSI_Products = new QAction(MainWindow);
+        actionList_Installed_MSI_Products->setObjectName(QString::fromUtf8("actionList_Installed_MSI_Products"));
         centralWidget = new QWidget(MainWindow);
         centralWidget->setObjectName(QString::fromUtf8("centralWidget"));
         verticalLayout = new QVBoxLayout(centralWidget);
@@ -225,6 +228,7 @@ public:
         menuFile->addAction(actionExit);
         menuExpert->addAction(actionCompute_SHA1);
         menuExpert->addAction(actionTest_Repositories);
+        menuExpert->addAction(actionList_Installed_MSI_Products);
         menuHelp->addAction(actionAbout);
         mainToolBar->addAction(actionInstall);
         mainToolBar->addAction(actionUninstall);
@@ -283,9 +287,13 @@ public:
 #ifndef QT_NO_TOOLTIP
         actionAbout->setToolTip(QApplication::translate("MainWindow", "About the program", 0, QApplication::UnicodeUTF8));
 #endif // QT_NO_TOOLTIP
-        actionTest_Repositories->setText(QApplication::translate("MainWindow", "Test Repositories", 0, QApplication::UnicodeUTF8));
+        actionTest_Repositories->setText(QApplication::translate("MainWindow", "Test Repositories...", 0, QApplication::UnicodeUTF8));
 #ifndef QT_NO_TOOLTIP
         actionTest_Repositories->setToolTip(QApplication::translate("MainWindow", "Test Repositories", 0, QApplication::UnicodeUTF8));
+#endif // QT_NO_TOOLTIP
+        actionList_Installed_MSI_Products->setText(QApplication::translate("MainWindow", "List Installed MSI Products", 0, QApplication::UnicodeUTF8));
+#ifndef QT_NO_TOOLTIP
+        actionList_Installed_MSI_Products->setToolTip(QApplication::translate("MainWindow", "Lists all products installed via Microsoft Installer", 0, QApplication::UnicodeUTF8));
 #endif // QT_NO_TOOLTIP
         label_2->setText(QApplication::translate("MainWindow", "&Status:", 0, QApplication::UnicodeUTF8));
         comboBoxStatus->clear();
