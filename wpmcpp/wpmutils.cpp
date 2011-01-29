@@ -220,14 +220,26 @@ QStringList WPMUtils::findInstalledMSIProductNames()
         uuid.setUtf16((ushort*) buf, 38);
 
         WCHAR value[64];
-        DWORD len = sizeof(value) / sizeof(value[0]);
+        DWORD len;
+
+        len = sizeof(value) / sizeof(value[0]);
         r = MsiGetProductInfo(buf, INSTALLPROPERTY_INSTALLEDPRODUCTNAME,
                 value, &len);
+        QString title;
         if (r == ERROR_SUCCESS) {
-            QString v;
-            v.setUtf16((ushort*) value, len);
-            result.append(v + " " + uuid);
+            title.setUtf16((ushort*) value, len);
         }
+
+        len = sizeof(value) / sizeof(value[0]);
+        r = MsiGetProductInfo(buf, INSTALLPROPERTY_VERSIONSTRING,
+                value, &len);
+        QString version;
+        if (r == ERROR_SUCCESS) {
+            version.setUtf16((ushort*) value, len);
+        }
+
+        result.append(title + " " + version + " " + uuid);
+
         index++;
     }
     return result;
