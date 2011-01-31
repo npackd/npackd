@@ -23,7 +23,8 @@ SOURCES += main.cpp \
     fileloaderitem.cpp \
     installoperation.cpp \
     fileextensionhandler.cpp \
-    packageversionform.cpp
+    packageversionform.cpp \
+    license.cpp
 HEADERS += mainwindow.h \
     packageversion.h \
     repository.h \
@@ -43,7 +44,8 @@ HEADERS += mainwindow.h \
     fileloaderitem.h \
     installoperation.h \
     fileextensionhandler.h \
-    packageversionform.h
+    packageversionform.h \
+    license.h
 FORMS += mainwindow.ui \
     progressdialog.ui \
     settingsdialog.ui \

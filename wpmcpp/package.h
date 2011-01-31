@@ -24,6 +24,9 @@ public:
     /** description. May contain multiple lines and paragraphs. */
     QString description;
 
+    /** name of the license like "org.gnu.GPLv3" or "" if unknown */
+    QString license;
+
     Package(const QString& name, const QString& title);
 
     /**

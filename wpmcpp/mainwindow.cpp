@@ -317,7 +317,7 @@ MainWindow::MainWindow(QWidget *parent) :
     this->ui->tabWidget->setTabText(0, "Software");
 
     this->on_tableWidget_itemSelectionChanged();
-    this->ui->tableWidget->setColumnCount(5);
+    this->ui->tableWidget->setColumnCount(6);
     this->ui->tableWidget->setColumnWidth(0, 40);
     this->ui->tableWidget->setColumnWidth(1, 150);
     this->ui->tableWidget->setColumnWidth(2, 300);
@@ -451,7 +451,7 @@ void MainWindow::fillList()
 
     Repository* r = Repository::getDefault();
 
-    t->setColumnCount(5);
+    t->setColumnCount(6);
 
     QTableWidgetItem *newItem = new QTableWidgetItem("Icon");
     t->setHorizontalHeaderItem(0, newItem);
@@ -467,6 +467,9 @@ void MainWindow::fillList()
 
     newItem = new QTableWidgetItem("Status");
     t->setHorizontalHeaderItem(4, newItem);
+
+    newItem = new QTableWidgetItem("License");
+    t->setHorizontalHeaderItem(5, newItem);
 
     int statusFilter = this->ui->comboBoxStatus->currentIndex();
     QStringList textFilter =
@@ -578,6 +581,17 @@ void MainWindow::fillList()
         newItem->setText(status);
         newItem->setData(Qt::UserRole, qVariantFromValue((void*) pv));
         t->setItem(n, 4, newItem);
+
+        newItem = new QTableWidgetItem("");
+        QString licenseTitle;
+        if (p) {
+            License* lic = r->findLicense(p->license);
+            if (lic)
+                licenseTitle = lic->title;
+        }
+        newItem->setText(licenseTitle);
+        newItem->setData(Qt::UserRole, qVariantFromValue((void*) pv));
+        t->setItem(n, 5, newItem);
 
         n++;
     }

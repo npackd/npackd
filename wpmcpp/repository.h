@@ -11,6 +11,7 @@
 
 #include "package.h"
 #include "packageversion.h"
+#include "license.h"
 #include "node.h"
 #include "digraph.h"
 
@@ -28,10 +29,10 @@ private:
     static Package* createPackage(QDomElement* e);
     static PackageVersionFile* createPackageVersionFile(QDomElement* e);
     static Dependency* createDependency(QDomElement* e);
+    static License* createLicense(QDomElement* e);
     static PackageVersion* createPackageVersion(QDomElement* e);
 
     void loadOne(QUrl* url, Job* job);
-
 
     void addWindowsPackage();
 
@@ -57,6 +58,11 @@ public:
      * Packages.
      */
     QList<Package*> packages;
+
+    /**
+     * Licenses.
+     */
+    QList<License*> licenses;
 
     /**
      * Creates an empty repository.
@@ -133,6 +139,14 @@ public:
      * @return found package or 0
      */
     Package* findPackage(const QString& name);
+
+    /**
+     * Searches for a license by name.
+     *
+     * @param name name of the license like "org.gnu.GPLv3"
+     * @return found license or 0
+     */
+    License* findLicense(const QString& name);
 
     /**
      * Find the newest available package version.

@@ -110,6 +110,7 @@ Repository::~Repository()
     delete this->installedGraph;
     qDeleteAll(this->packages);
     qDeleteAll(this->packageVersions);
+    qDeleteAll(this->licenses);
 }
 
 PackageVersion* Repository::findNewestPackageVersion(const QString &name)
@@ -229,7 +230,10 @@ Package* Repository::createPackage(QDomElement* e)
     nl = e->elementsByTagName("icon");
     if (nl.count() != 0) {
         a->icon = nl.at(0).firstChild().nodeValue();
-        // qDebug() << "Repository::createPackage.icon" << a->icon;
+    }
+    nl = e->elementsByTagName("license");
+    if (nl.count() != 0) {
+        a->license = nl.at(0).firstChild().nodeValue();
     }
 
     return a;
@@ -240,6 +244,23 @@ PackageVersionFile* Repository::createPackageVersionFile(QDomElement* e)
     QString path = e->attribute("path");
     QString content = e->firstChild().nodeValue();
     PackageVersionFile* a = new PackageVersionFile(path, content);
+
+    return a;
+}
+
+License* Repository::createLicense(QDomElement* e)
+{
+    QString name = e->attribute("name");
+    License* a = new License(name, name);
+    QDomNodeList nl = e->elementsByTagName("title");
+    if (nl.count() != 0)
+        a->title = nl.at(0).firstChild().nodeValue();
+    nl = e->elementsByTagName("url");
+    if (nl.count() != 0)
+        a->url = nl.at(0).firstChild().nodeValue();
+    nl = e->elementsByTagName("description");
+    if (nl.count() != 0)
+        a->description = nl.at(0).firstChild().nodeValue();
 
     return a;
 }
@@ -262,6 +283,15 @@ Dependency* Repository::createDependency(QDomElement* e)
     // qDebug() << d->toString();
 
     return d;
+}
+
+License* Repository::findLicense(const QString& name)
+{
+    for (int i = 0; i < this->licenses.count(); i++) {
+        if (this->licenses.at(i)->name == name)
+            return this->licenses.at(i);
+    }
+    return 0;
 }
 
 Package* Repository::findPackage(const QString& name)
@@ -853,6 +883,12 @@ void Repository::loadOne(QUrl* url, Job* job) {
                         delete p;
                     else
                         this->packages.append(p);
+                } else if (e.nodeName() == "license") {
+                    License* p = createLicense(&e);
+                    if (this->findLicense(p->name))
+                        delete p;
+                    else
+                        this->licenses.append(p);
                 }
             }
         }

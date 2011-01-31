@@ -9,15 +9,25 @@
 class License
 {
 public:
-    QString id;
+    /** full qualified ID like "org.gnu.GPLv3" */
+    QString name;
 
+    /** license title like "GPLv3" */
     QString title;
 
+    /** multiline description of the license */
     QString description;
 
+    /**
+     * URL to a http:// or https:// HTML page describing the license or ""
+     */
     QString url;
 
-    License();
+    /**
+     * @param name ID of this license
+     * @param title title of this license
+     */
+    License(QString name, QString title);
 };
 
 #endif // LICENSE_H
