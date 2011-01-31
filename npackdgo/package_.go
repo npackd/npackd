@@ -1,10 +1,11 @@
 package main
 
+// a package like "Go Lite IDE"
 type Package struct {
-	name    string
-	version string
+	name string
+	title string
 }
 
 func (p Package) String() string {
-	return p.name + " " + p.version
+	return p.title + " (" + p.name + ")"
 }

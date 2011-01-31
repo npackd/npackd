@@ -29,7 +29,8 @@ SOURCES += main.cpp \
     ../wpmcpp/dependency.cpp \
     ../wpmcpp/wpmutils.cpp \
     ../wpmcpp/downloader.cpp \
-    ../wpmcpp/node.cpp
+    ../wpmcpp/node.cpp \
+    ../wpmcpp/license.cpp
 HEADERS += ../wpmcpp/repository.h \
     ../wpmcpp/version.h \
     ../wpmcpp/packageversionfile.h \
@@ -42,5 +43,6 @@ HEADERS += ../wpmcpp/repository.h \
     ../wpmcpp/wpmutils.h \
     ../wpmcpp/msi.h \
     ../wpmcpp/downloader.h \
-    ../wpmcpp/node.h
+    ../wpmcpp/node.h \
+    ../wpmcpp/license.h
 FORMS += 
