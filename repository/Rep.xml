@@ -2495,19 +2495,28 @@ move *.dll %trash%
 
     <!-- TODO: different versions distributed from the same URL -->
     <version name="1.21.209" package="com.piriform.Defraggler" type="one-file">
-        <file path=".WPM\Install.bat">dfsetup121.exe /S /D=%CD%</file>
+        <file path=".WPM\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x
+"%setup%" /S /D=%CD%</file>
         <file path=".WPM\Uninstall.bat">uninst.exe /S _?=%CD%</file>
         <url>http://download.piriform.com/dfsetup121.exe</url>
     </version>
     <version name="2" package="com.piriform.Defraggler" type="one-file">
-        <file path=".WPM\Install.bat">dfsetup200.exe /S /D=%CD%</file>
+        <file path=".WPM\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x
+"%setup%" /S /D=%CD%</file>
         <file path=".WPM\Uninstall.bat">uninst.exe /S _?=%CD%</file>
         <url>http://download.piriform.com/dfsetup200.exe</url>
     </version>
     <version name="2.1" package="com.piriform.Defraggler" type="one-file">
-        <file path=".WPM\Install.bat">dfsetup201.exe /S /D=%CD%</file>
+        <file path=".WPM\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x
+"%setup%" /S /D=%CD%</file>
         <file path=".WPM\Uninstall.bat">uninst.exe /S _?=%CD%</file>
         <url>http://download.piriform.com/dfsetup201.exe</url>
+    </version>
+    <version name="2.2" package="com.piriform.Defraggler" type="one-file">
+        <file path=".WPM\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x
+"%setup%" /S /D=%CD%</file>
+        <file path=".WPM\Uninstall.bat">uninst.exe /S _?=%CD%</file>
+        <url>http://download.piriform.com/dfsetup202.exe</url>
     </version>
 
     <!--
