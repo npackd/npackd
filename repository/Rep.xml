@@ -6589,28 +6589,79 @@ if %err% neq 0 exit /b %err%
         <sha1>d5fcefebf2f022b07547378dc5eb7e4ee915c729</sha1>
     </version>
 
-    <!--
+   <!--
         TODO: "open with" opens the file in the currently running editor
         instead of one from the right package version
-        TODO: un-installation removes user settings
+        Un-installation removes user settings:
         https://sourceforge.net/tracker/?func=detail&aid=3161140&group_id=95717&atid=612382
     -->
-    <version name="5.8.6" package="net.sourceforge.NotepadPlusPlus">
-        <file path=".WPM\Install.bat">set KEY=net.sourceforge.NotepadPlusPlus-5.8.6
-reg add HKLM\SOFTWARE\Classes\Applications\%KEY%\shell\open /v FriendlyAppName /d "Notepad++ (5.8.6)" /f
-set c=\"%CD%\unicode\notepad++.exe\" \"%%1\"
+    <version name="5.8.6" package="net.sourceforge.NotepadPlusPlus" 
+            type="one-file">
+        <file path=".WPM\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x
+"%setup%" /S /D=%CD%
+if %errorlevel% neq 0 goto eof
+for /f "delims=" %%x in ("%CD%") do set key=%%~nxx
+for /f "tokens=1,2 delims=- " %%a in ("%key%") do set package=%%a&amp;set version=%%b
+reg add HKLM\SOFTWARE\Classes\Applications\%KEY%\shell\open /v FriendlyAppName /d "Notepad++ (%version%)" /f
+set c=\"%CD%\notepad++.exe\" \"%%1\"
 reg add HKLM\SOFTWARE\Classes\Applications\%KEY%\shell\open\command /d "%c%" /f
 for %%g in (txt log ini h hpp hxx c cpp cxx cc m java cs pas inc html htm php phtml js jsp asp css xml sh bsh nsi nsh lua pl pm py as mx vb vbs f for f90 f95 f2k tex sql nfo mak hgignore) do reg add HKLM\SOFTWARE\Classes\.%%g\OpenWithList\%key% /f
 </file>
-        <file path=".WPM\Uninstall.bat">set key=net.sourceforge.NotepadPlusPlus-5.8.6
+        <file path=".WPM\Uninstall.bat">for /f "delims=" %%x in ("%CD%") do set key=%%~nxx
+set newname=%key%_%random%
+ren %appdata%\Notepad++ %newname%
+uninstall.exe /S _?=%CD%
+if %errorlevel% neq 0 goto eof
+ren %appdata%\%newname% Notepad++
+
+rem unregister "Open With..." entries
 reg delete HKLM\SOFTWARE\Classes\Applications\%KEY% /f
 for %%g in (txt log ini h hpp hxx c cpp cxx cc m java cs pas inc html htm php phtml js jsp asp css xml sh bsh nsi nsh lua pl pm py as mx vb vbs f for f90 f95 f2k tex sql nfo mak hgignore) do reg delete HKLM\SOFTWARE\Classes\.%%g\OpenWithList\%key% /f
-</file>
-        <important-file path="unicode\notepad++.exe" title="Notepad++"/>
-        <url>http://download.tuxfamily.org/notepadplus/5.8.6/npp.5.8.6.bin.zip</url>
-        <sha1>574c3c9f1d6a57e1ce6cede45ea7060d14c1f0de</sha1>
-    </version>
 
+rem remove Explorer extension
+set trash=..\.Trash\%key%_%random%
+mkdir %trash%
+move NppShell*.dll %trash%
+verify
+</file>
+        <important-file path="notepad++.exe" title="Notepad++"/>
+        <url>http://download.tuxfamily.org/notepadplus/5.8.6/npp.5.8.6.Installer.exe</url>
+        <sha1>573BD5DED6A780000CD3862B78004EB8874AD035</sha1>
+    </version>
+    <version name="5.8.7" package="net.sourceforge.NotepadPlusPlus" 
+            type="one-file">
+        <file path=".WPM\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x
+"%setup%" /S /D=%CD%
+if %errorlevel% neq 0 goto eof
+for /f "delims=" %%x in ("%CD%") do set key=%%~nxx
+for /f "tokens=1,2 delims=- " %%a in ("%key%") do set package=%%a&amp;set version=%%b
+reg add HKLM\SOFTWARE\Classes\Applications\%KEY%\shell\open /v FriendlyAppName /d "Notepad++ (%version%)" /f
+set c=\"%CD%\notepad++.exe\" \"%%1\"
+reg add HKLM\SOFTWARE\Classes\Applications\%KEY%\shell\open\command /d "%c%" /f
+for %%g in (txt log ini h hpp hxx c cpp cxx cc m java cs pas inc html htm php phtml js jsp asp css xml sh bsh nsi nsh lua pl pm py as mx vb vbs f for f90 f95 f2k tex sql nfo mak hgignore) do reg add HKLM\SOFTWARE\Classes\.%%g\OpenWithList\%key% /f
+</file>
+        <file path=".WPM\Uninstall.bat">for /f "delims=" %%x in ("%CD%") do set key=%%~nxx
+set newname=%key%_%random%
+ren %appdata%\Notepad++ %newname%
+uninstall.exe /S _?=%CD%
+if %errorlevel% neq 0 goto eof
+ren %appdata%\%newname% Notepad++
+
+rem unregister "Open With..." entries
+reg delete HKLM\SOFTWARE\Classes\Applications\%KEY% /f
+for %%g in (txt log ini h hpp hxx c cpp cxx cc m java cs pas inc html htm php phtml js jsp asp css xml sh bsh nsi nsh lua pl pm py as mx vb vbs f for f90 f95 f2k tex sql nfo mak hgignore) do reg delete HKLM\SOFTWARE\Classes\.%%g\OpenWithList\%key% /f
+
+rem remove Explorer extension
+set trash=..\.Trash\%key%_%random%
+mkdir %trash%
+move NppShell*.dll %trash%
+verify
+</file>
+        <important-file path="notepad++.exe" title="Notepad++"/>
+        <url>http://download.tuxfamily.org/notepadplus/5.8.7/npp.5.8.7.Installer.exe</url>
+        <sha1>22B2B500CF427CC82320907918CE3AD6110CF94A</sha1>
+    </version>
+    
     <!-- TODO: /D does not work for the default NSIS-based installer -->
     <version name="1.6.8.2" package="org.lyx.Lyx">
         <important-file path="bin\LyXLauncher.exe" title="Lyx"/>
