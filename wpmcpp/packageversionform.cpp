@@ -4,6 +4,7 @@
 #include "package.h"
 #include "repository.h"
 #include "mainwindow.h"
+#include "license.h"
 
 PackageVersionForm::PackageVersionForm(QWidget *parent) :
     QWidget(parent),
@@ -40,7 +41,16 @@ void PackageVersionForm::fillForm(PackageVersion* pv)
     this->ui->lineEditVersion->setText(pv->version.getVersionString());
     this->ui->lineEditInternalName->setText(pv->package);
 
-    Package* p = Repository::getDefault()->findPackage(pv->package);
+    Repository* r = Repository::getDefault();
+    Package* p = r->findPackage(pv->package);
+
+    QString licenseTitle;
+    if (p) {
+        License* lic = r->findLicense(p->license);
+        if (lic)
+            licenseTitle = lic->title;
+    }
+    this->ui->lineEditLicense->setText(licenseTitle);
 
     if (p) {
         this->ui->textEditDescription->setText(p->description);
