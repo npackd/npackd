@@ -4846,6 +4846,43 @@ for %%g in (a52 aac ac3 adt adts aif ifc iff mr aob ape cda dts flac it m4a m4p 
         <url>http://downloads.sourceforge.net/project/vlc/1.1.6/win32/vlc-1.1.6-win32.zip?ts=1295895110</url>
         <sha1>2DA69D5A7799DFFE9970C1608684C571D48BEAB6</sha1>
     </version>
+    <version name="1.1.7" package="com.videolan.VLCMediaPlayer"> 
+        <important-file path="vlc.exe" title="VLC Media Player"/> 
+        <file path=".WPM\Extensions.txt">a52 aac ac3 adt adts aif ifc iff mr aob ape cda dts flac it m4a m4p mid mka mlp mod mp1 mp2 mp3 mpc oga ogg oma rmi s3m spx tta voc vqf w64 wav wma wv xa xm 3g2 3gp 3gp2 3gpp amv asf avi bin cue divx dv flv gxf iso m1v m2v m2t m2ts m4v mkv mov mp2 mp2v mp4 mp4v mpa mpe mpeg mpeg1 mpeg2 mpeg4 mpg mpv2 mts mxf nsv nuv ogg ogm ogv ogx ps rec rm rmvb tod ts tts vob vro webm wmv asx b4s ifo m3u m3u8 pls ram rar sdp vlc xspf zip cdg idx srt sub utf ass ssa aqt jss psb rt smi
+</file>
+        <file path=".WPM\Install.bat">for /f %%x in ('dir /b vlc*') do set name=%%x
+xcopy "%name%\*" . /E /H
+rmdir /s /q "%name%"
+for /f "delims=" %%x in ("%CD%") do set key=%%~nxx
+for /f "tokens=1,2 delims=- " %%a in ("%key%") do set package=%%a&amp;set version=%%b
+reg add HKLM\SOFTWARE\Classes\Applications\%key%\shell\open /v FriendlyAppName /d "VLC Media Player (%version%)" /f
+set c=\"%CD%\vlc.exe\" \"%%1\"
+reg add HKLM\SOFTWARE\Classes\Applications\%KEY%\shell\open\command /d "%c%" /f
+
+rem read extensions from the file
+for /f "usebackq delims=" %%a in (.WPM\Extensions.txt) do (
+set extensions=%%a
+goto out
+)
+:out
+
+for %%g in (%extensions%) do reg add HKLM\SOFTWARE\Classes\.%%g\OpenWithList\%key% /f
+</file> 
+        <file path=".WPM\Uninstall.bat">for /f "delims=" %%x in ("%CD%") do set key=%%~nxx
+reg delete HKLM\SOFTWARE\Classes\Applications\%key% /f
+
+rem read extensions from the file
+for /f "usebackq delims=" %%a in (.WPM\Extensions.txt) do (
+set extensions=%%a
+goto out
+)
+:out
+
+for %%g in (%extensions%) do reg delete HKLM\SOFTWARE\Classes\.%%g\OpenWithList\%key% /f
+</file> 
+        <url>http://downloads.sourceforge.net/project/vlc/1.1.7/win32/vlc-1.1.7-win32.zip?ts=1296659955</url> 
+        <sha1>6EE7192A44DC2F619DE98701C579565B703E6407</sha1> 
+    </version> 
 
     <!-- TODO: there seems to be no silent switch for this installer -->
     <version name="1.0.2.22" package="com.divx.DivXInstaller"
