@@ -1009,6 +1009,11 @@
         <description>media player</description>
         <license>org.gnu.GPLv2</license>
     </package>
+    <package name="net.sourceforge.mysql-python.MySQLdb">
+        <title>MySQLdb</title>
+        <url>http://mysql-python.sourceforge.net</url>
+        <description>MySQL Python driver</description>
+    </package>
     <package name="net.sourceforge.NotepadPlusPlus">
         <title>Notepad++</title>
         <url>http://notepad-plus-plus.org/</url>
@@ -1162,6 +1167,11 @@
         <!-- GPL -->
         <icon>http://dl.dropbox.com/u/17046326/picons/org.areca-backup.ArecaBackup.png</icon>
         <license>org.gnu.GPLv2</license>
+    </package>
+    <package name="org.argolinux.sqlkit.SQLKit">
+        <title>SqlKit</title>
+        <url>http://sqlkit.argolinux.org</url>
+        <description>application to edit data in a database and python library. Suggestion: install also Postgresql and/or Mysql python driver!</description>
     </package>
     <package name="org.beeblebrox.HashTab">
         <title>HashTab</title>
@@ -1346,6 +1356,11 @@
         <description>OpenPGP</description>
         <license>org.gnu.GPLv2</license>
     </package>
+    <package name="org.initd.Psycopg">
+        <title>Psycopg</title>
+        <url>http://initd.org</url>
+        <description>PostgreSQL driver for Python</description>
+    </package>
     <package name="org.inkscape.Inkscape">
         <title>Inkscape</title>
         <url>http://www.inkscape.org/</url>
@@ -1469,6 +1484,11 @@
         <title>PyGTK</title>
         <url>http://www.pygtk.org/</url>
         <description>Python bindings for GTK+</description>
+    </package>
+    <package name="org.pygtk.PyGTKAllInOne">
+        <title>PyGTK with dependencies (including GTK+)</title>
+        <url>https://github.com/dieterv/pygtk-installer</url>
+        <description>GTK+ and PyGTK all-in-one installer for Python 2.6</description>
     </package>
     <package name="org.python.Python">
         <title>Python</title>
@@ -7102,4 +7122,36 @@ call liteide.exe
         <url>http://download.mp3tag.de/mp3tagv248setup.exe</url>
         <sha1>8F7F7BE9C53E44A89D1F35E82A78A9B326C10005</sha1>
     </version>    
+
+	<!-- TODO: not yet ready
+    <version name="2.22" package="org.pygtk.PyGTKAllInOne" type="one-file">
+        <url>http://ftp.gnome.org/pub/GNOME/binaries/win32/pygtk/2.22/pygtk-all-in-one-2.22.6.win32-py2.6.msi</url>
+        <file path=".WPM\Install.bat">msiexec.exe /qn /norestart /i pygtk-all-in-one-2.22.6.win32-py2.6.msi TARGETDIR="C:\Progra~1\WPM\org.python.Python-2.6.6" /l C:\pygtk.log ALLUSERS=1</file>
+        <file path=".WPM\Uninstall.bat">msiexec.exe /qn /x pygtk-all-in-one-2.22.6.win32-py2.6.msi TARGETDIR="C:\Progra~1\WPM\org.python.Python-2.6.6" /l C:\pygtk.log ALLUSERS=1</file>
+        <dependency package="org.python.Python" versions="[2.6, 2.7)"/>
+    </version>
+
+    <version name="2.3.1" package="org.initd.Psycopg" type="one-file">
+        <url>http://www.stickpeople.com/projects/python/win-psycopg/psycopg2-2.3.1.win32-py2.6-pg9.0.1-release.exe</url>
+        <file path=".WPM\Install.bat">psycopg2-2.3.1.win32-py2.6-pg9.0.1-release.exe</file>
+        <dependency package="org.python.Python" versions="[2.6, 2.7)"/>
+    </version>
+
+    <version name="1.2.3" package="net.sourceforge.mysql-python.MySQLdb" type="one-file">
+        <url>http://dl.dropbox.com/u/1094010/Binaries/MySQL-python-1.2.3.win32-py2.6.exe</url>
+        <file path=".WPM\Install.bat">MySQL-python-1.2.3.win32-py2.6.exe</file>
+        <dependency package="org.python.Python" versions="[2.6, 2.7)"/>
+    </version>
+
+    <version name="0.9.2.2" package="org.argolinux.sqlkit.SQLKit">
+        <important-file path="sqledit.bat" title="Sqledit"/>
+        <url>http://sqlkit.argolinux.org/download/sqlkit-0.9.2.2.zip</url>
+        <file path="sqledit.bat" title="Sqledit">..\org.python.Python-2.6.6\pythonw.exe sqlkit-0.9.2.2\bin\sqledit</file>
+        <file path=".WPM\Install.bat">dir > c:\sk.log
+cd sqlkit-0.9.2.2
+dir > c:\sk2.log
+..\..\org.python.Python-2.6.6\python.exe setup.py install 2> C:\sk-inst.log </file>
+        <dependency package="org.pygtk.PyGTKAllInOne" versions="[2.22, 2.23)"/>
+    </version>
+	-->
 </root>
