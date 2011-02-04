@@ -15,8 +15,9 @@ func main() {
 	packages = append(packages, p)
 	
 	pv := new(PackageVersion)
-	pv.package_ = p.name
-	pv.version = "1.2.33"
+	pv.Package = p.name
+	// 
+	pv.Version = Version{[...]int{1,2,3}[:]}
 	packageVersions = append(packageVersions, pv)
 
 	fmt.Println("Packages:")

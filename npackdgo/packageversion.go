@@ -1,10 +1,12 @@
 package main
 
+import "fmt"
+
 type PackageVersion struct {
-	package_ string
-	version string
+	Package string
+	Version Version
 }
 
 func (p PackageVersion) String() string {
-	return p.package_ + " " + p.version
+	return fmt.Sprintf("%v %v", p.Package, p.Version)
 }
