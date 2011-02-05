@@ -461,6 +461,60 @@ QString PackageVersion::planUninstallation(QList<PackageVersion*>& installed,
     return res;
 }
 
+void PackageVersion::downloadTo(Job* job, QString filename)
+{
+    QString r;
+
+    job->setHint("Downloading");
+    QTemporaryFile* f = 0;
+    Job* djob = job->newSubJob(0.9);
+    f = Downloader::download(djob, this->download);
+    if (!djob->getErrorMessage().isEmpty())
+        job->setErrorMessage(QString("Download failed: %1").arg(
+                djob->getErrorMessage()));
+    delete djob;
+
+    if (!job->isCancelled() && job->getErrorMessage().isEmpty()) {
+        job->setHint("Computing SHA1");
+        r = WPMUtils::sha1(f->fileName());
+        job->setProgress(0.95);
+
+        if (!this->sha1.isEmpty() && this->sha1.toLower() != r.toLower()) {
+            job->setErrorMessage(QString(
+                    "Wrong SHA1: %1 was expected, but %2 found").
+                    arg(this->sha1).arg(r));
+        }
+    }
+
+    if (!job->isCancelled() && job->getErrorMessage().isEmpty()) {
+        QString errMsg;
+        QString t = filename.replace('/', '\\');
+        if (!CopyFileW((WCHAR*) f->fileName().utf16(),
+                       (WCHAR*) t.utf16(), false)) {
+            WPMUtils::formatMessage(GetLastError(), &errMsg);
+            job->setErrorMessage(errMsg);
+        } else {
+            job->setProgress(1);
+        }
+    }
+
+    delete f;
+
+    job->complete();
+}
+
+QString PackageVersion::getFileExtension()
+{
+    QString fn = this->download.path();
+    QStringList parts = fn.split('/');
+    QString file = parts.at(parts.count() - 1);
+    int index = file.lastIndexOf('.');
+    if (index > 0)
+        return file.right(file.length() - index);
+    else
+        return ".bin";
+}
+
 QString PackageVersion::downloadAndComputeSHA1(Job* job)
 {
     QString r;

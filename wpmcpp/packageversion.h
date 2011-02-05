@@ -97,6 +97,20 @@ public:
     QString downloadAndComputeSHA1(Job* job);
 
     /**
+     * Returns the extension of the package file (quessing from the URL).
+     *
+     * @return e.g. ".exe" or ".zip". Never returns an empty string
+     */
+    QString getFileExtension();
+
+    /**
+     * Downloads the package.
+     *
+     * @param filename target file
+     */
+    void downloadTo(Job* job, QString filename);
+
+    /**
      * Plans installation of this package and all the dependencies recursively.
      *
      * @param installed list of installed packages. This list should be

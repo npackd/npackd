@@ -42,15 +42,17 @@ class InstallThread: public QThread
     // 3, 4 = recognize installed applications + load repositories
     // 5 = download the package and compute it's SHA1
     // 6 = test repositories
+    // 7 = download all files
     int type;
 
     Job* job;
 
     void testRepositories();
-
+    void downloadAllFiles();
     void testOnePackage(Job* job, PackageVersion* pv);
 public:
     // name of the log file for type=6
+    // directory for type=7
     QString logFile;
 
     /** computed SHA1 will be stored here (type == 5) */
@@ -140,6 +142,36 @@ InstallThread::InstallThread(PackageVersion *pv, int type, Job* job)
     this->job = job;
 }
 
+void InstallThread::downloadAllFiles()
+{
+    QFile f(this->logFile + "\\Download.log");
+    QTextStream ts(&f);
+    Repository* r = Repository::getDefault();
+    double step = 1.0 / r->packageVersions.count();
+    for (int i = 0; i < r->packageVersions.count(); i++) {
+        PackageVersion* pv = r->packageVersions.at(i);
+
+        if (job->isCancelled())
+            break;
+
+        job->setHint(QString("Downloading %1").arg(pv->toString()));
+        Job* stepJob = job->newSubJob(step);
+        QString to = this->logFile + "\\" + pv->package + "-" +
+                     pv->version.getVersionString() + pv->getFileExtension();
+        pv->downloadTo(stepJob, to);
+        if (!stepJob->getErrorMessage().isEmpty())
+            ts << QString("Error downloading %1: %2").
+                    arg(pv->toString()).
+                    arg(stepJob->getErrorMessage()) << endl;
+        delete stepJob;
+
+        if (job->isCancelled() || !job->getErrorMessage().isEmpty())
+            break;
+    }
+    f.close();
+    job->complete();
+}
+
 void InstallThread::testRepositories()
 {
     QFile f(this->logFile);
@@ -208,6 +240,9 @@ void InstallThread::run()
         break;
     case 6:
         testRepositories();
+        break;
+    case 7:
+        downloadAllFiles();
         break;
     }
 
@@ -1124,4 +1159,31 @@ void MainWindow::on_actionList_Installed_MSI_Products_triggered()
     mb.setDefaultButton(QMessageBox::Ok);
     mb.setDetailedText(sl.join("\n"));
     mb.exec();
+}
+
+void MainWindow::on_actionDownload_All_Files_triggered()
+{
+    QString fn = QFileDialog::getExistingDirectory(this,
+            "Download All Files", ".", QFileDialog::ShowDirsOnly);
+    if (!fn.isEmpty()) {
+        QDir d(fn);
+        QFileInfoList entries = d.entryInfoList(
+                QDir::NoDotAndDotDot |
+                QDir::AllEntries);
+        if (entries.size() != 0) {
+            QMessageBox::critical(this, "Error",
+                    "The chosen directory is not empty");
+        } else {
+            Job* job = new Job();
+            InstallThread* it = new InstallThread(0, 7, job);
+            it->logFile = fn;
+            it->start();
+            it->setPriority(QThread::LowestPriority);
+
+            waitFor(job, "Download All Files");
+            it->wait();
+            delete it;
+            delete job;
+        }
+    }
 }

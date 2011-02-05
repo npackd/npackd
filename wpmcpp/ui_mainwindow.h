@@ -1,7 +1,7 @@
 /********************************************************************************
 ** Form generated from reading UI file 'mainwindow.ui'
 **
-** Created: Mon 31. Jan 18:47:07 2011
+** Created: Sat 5. Feb 11:28:05 2011
 **      by: Qt User Interface Compiler version 4.6.3
 **
 ** WARNING! All changes made in this file will be lost when recompiling UI file!
@@ -46,6 +46,7 @@ public:
     QAction *actionAbout;
     QAction *actionTest_Repositories;
     QAction *actionList_Installed_MSI_Products;
+    QAction *actionDownload_All_Files;
     QWidget *centralWidget;
     QVBoxLayout *verticalLayout;
     QTabWidget *tabWidget;
@@ -105,6 +106,8 @@ public:
         actionTest_Repositories->setObjectName(QString::fromUtf8("actionTest_Repositories"));
         actionList_Installed_MSI_Products = new QAction(MainWindow);
         actionList_Installed_MSI_Products->setObjectName(QString::fromUtf8("actionList_Installed_MSI_Products"));
+        actionDownload_All_Files = new QAction(MainWindow);
+        actionDownload_All_Files->setObjectName(QString::fromUtf8("actionDownload_All_Files"));
         centralWidget = new QWidget(MainWindow);
         centralWidget->setObjectName(QString::fromUtf8("centralWidget"));
         verticalLayout = new QVBoxLayout(centralWidget);
@@ -229,6 +232,7 @@ public:
         menuExpert->addAction(actionCompute_SHA1);
         menuExpert->addAction(actionTest_Repositories);
         menuExpert->addAction(actionList_Installed_MSI_Products);
+        menuExpert->addAction(actionDownload_All_Files);
         menuHelp->addAction(actionAbout);
         mainToolBar->addAction(actionInstall);
         mainToolBar->addAction(actionUninstall);
@@ -294,6 +298,10 @@ public:
         actionList_Installed_MSI_Products->setText(QApplication::translate("MainWindow", "List Installed MSI Products", 0, QApplication::UnicodeUTF8));
 #ifndef QT_NO_TOOLTIP
         actionList_Installed_MSI_Products->setToolTip(QApplication::translate("MainWindow", "Lists all products installed via Microsoft Installer", 0, QApplication::UnicodeUTF8));
+#endif // QT_NO_TOOLTIP
+        actionDownload_All_Files->setText(QApplication::translate("MainWindow", "Download All Files...", 0, QApplication::UnicodeUTF8));
+#ifndef QT_NO_TOOLTIP
+        actionDownload_All_Files->setToolTip(QApplication::translate("MainWindow", "downloads all packages to a directory", 0, QApplication::UnicodeUTF8));
 #endif // QT_NO_TOOLTIP
         label_2->setText(QApplication::translate("MainWindow", "&Status:", 0, QApplication::UnicodeUTF8));
         comboBoxStatus->clear();

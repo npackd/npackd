@@ -75,6 +75,7 @@ protected:
     void changeEvent(QEvent *e);
     void process(QList<InstallOperation*>& install);
 private slots:
+    void on_actionDownload_All_Files_triggered();
     void on_actionList_Installed_MSI_Products_triggered();
     void on_tabWidget_currentChanged(int index);
     void on_tabWidget_tabCloseRequested(int index);
