@@ -17,6 +17,7 @@
 #include <qfiledialog.h>
 #include <qtextstream.h>
 #include <qiodevice.h>
+#include <qmenu.h>
 
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
@@ -358,6 +359,11 @@ MainWindow::MainWindow(QWidget *parent) :
     this->ui->tableWidget->setColumnWidth(2, 300);
     this->ui->tableWidget->setIconSize(QSize(32, 32));
     this->ui->tableWidget->sortItems(1);
+    this->ui->tableWidget->addAction(this->ui->actionInstall);
+    this->ui->tableWidget->addAction(this->ui->actionUninstall);
+    this->ui->tableWidget->addAction(this->ui->actionUpdate);
+    this->ui->tableWidget->addAction(this->ui->actionGotoPackageURL);
+    this->ui->tableWidget->addAction(this->ui->actionTest_Download_Site);
 
     connect(&this->fileLoader, SIGNAL(downloaded(const FileLoaderItem&)), this,
             SLOT(iconDownloaded(const FileLoaderItem&)),
@@ -1187,3 +1193,4 @@ void MainWindow::on_actionDownload_All_Files_triggered()
         }
     }
 }
+

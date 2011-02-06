@@ -1,7 +1,7 @@
 /********************************************************************************
 ** Form generated from reading UI file 'mainwindow.ui'
 **
-** Created: Sat 5. Feb 11:28:05 2011
+** Created: Sun 6. Feb 20:08:54 2011
 **      by: Qt User Interface Compiler version 4.6.3
 **
 ** WARNING! All changes made in this file will be lost when recompiling UI file!
@@ -177,6 +177,7 @@ public:
         sizePolicy1.setHeightForWidth(tableWidget->sizePolicy().hasHeightForWidth());
         tableWidget->setSizePolicy(sizePolicy1);
         tableWidget->setMouseTracking(true);
+        tableWidget->setContextMenuPolicy(Qt::ActionsContextMenu);
         tableWidget->setFrameShape(QFrame::StyledPanel);
         tableWidget->setSelectionMode(QAbstractItemView::SingleSelection);
         tableWidget->setSelectionBehavior(QAbstractItemView::SelectRows);
