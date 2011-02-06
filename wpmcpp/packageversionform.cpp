@@ -7,6 +7,7 @@
 #include "repository.h"
 #include "mainwindow.h"
 #include "license.h"
+#include "licenseform.h"
 
 PackageVersionForm::PackageVersionForm(QWidget *parent) :
     QWidget(parent),
@@ -46,13 +47,15 @@ void PackageVersionForm::fillForm(PackageVersion* pv)
     Repository* r = Repository::getDefault();
     Package* p = r->findPackage(pv->package);
 
-    QString licenseTitle;
+    QString licenseTitle = "unknown";
     if (p) {
         License* lic = r->findLicense(p->license);
-        if (lic)
-            licenseTitle = lic->title;
+        if (lic) {
+            licenseTitle = "<a href=\"http://www.example.com\">" +
+                    lic->title + "</a>";
+        }
     }
-    this->ui->lineEditLicense->setText(licenseTitle);
+    this->ui->labelLicense->setText(licenseTitle);
 
     if (p) {
         this->ui->textEditDescription->setText(p->description);
@@ -121,4 +124,27 @@ void PackageVersionForm::on_labelDownloadURL_linkActivated(QString link)
     if (url.isValid()) {
         QDesktopServices::openUrl(url);
     }
+}
+
+void PackageVersionForm::on_labelLicense_linkActivated(QString link)
+{
+    QTabWidget* tabWidget = dynamic_cast<QTabWidget*>(
+            this->parentWidget()->parentWidget());
+    if (!tabWidget)
+        return;
+
+    LicenseForm* f = new LicenseForm(tabWidget);
+
+    Repository* r = Repository::getDefault();
+    Package* p = r->findPackage(pv->package);
+    if (!p)
+        return;
+
+    License* lic = r->findLicense(p->license);
+    if (!lic)
+        return;
+
+    f->fillForm(lic);
+    tabWidget->addTab(f, lic->title);
+    tabWidget->setCurrentIndex(tabWidget->count() - 1);
 }

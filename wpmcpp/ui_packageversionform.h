@@ -1,7 +1,7 @@
 /********************************************************************************
 ** Form generated from reading UI file 'packageversionform.ui'
 **
-** Created: Sun 6. Feb 18:39:53 2011
+** Created: Sun 6. Feb 19:07:23 2011
 **      by: Qt User Interface Compiler version 4.6.3
 **
 ** WARNING! All changes made in this file will be lost when recompiling UI file!
@@ -54,8 +54,8 @@ public:
     QLabel *label_12;
     QTextEdit *textEditDependencies;
     QLabel *label_4;
-    QLineEdit *lineEditLicense;
     QLabel *labelDownloadURL;
+    QLabel *labelLicense;
 
     void setupUi(QWidget *PackageVersionForm)
     {
@@ -70,7 +70,7 @@ public:
         scrollArea->setWidgetResizable(true);
         scrollAreaWidgetContents = new QWidget();
         scrollAreaWidgetContents->setObjectName(QString::fromUtf8("scrollAreaWidgetContents"));
-        scrollAreaWidgetContents->setGeometry(QRect(0, 0, 421, 469));
+        scrollAreaWidgetContents->setGeometry(QRect(0, 0, 421, 462));
         formLayout = new QFormLayout(scrollAreaWidgetContents);
         formLayout->setObjectName(QString::fromUtf8("formLayout"));
         label_6 = new QLabel(scrollAreaWidgetContents);
@@ -192,16 +192,15 @@ public:
 
         formLayout->setWidget(4, QFormLayout::LabelRole, label_4);
 
-        lineEditLicense = new QLineEdit(scrollAreaWidgetContents);
-        lineEditLicense->setObjectName(QString::fromUtf8("lineEditLicense"));
-        lineEditLicense->setReadOnly(true);
-
-        formLayout->setWidget(4, QFormLayout::FieldRole, lineEditLicense);
-
         labelDownloadURL = new QLabel(scrollAreaWidgetContents);
         labelDownloadURL->setObjectName(QString::fromUtf8("labelDownloadURL"));
 
         formLayout->setWidget(8, QFormLayout::FieldRole, labelDownloadURL);
+
+        labelLicense = new QLabel(scrollAreaWidgetContents);
+        labelLicense->setObjectName(QString::fromUtf8("labelLicense"));
+
+        formLayout->setWidget(4, QFormLayout::FieldRole, labelLicense);
 
         scrollArea->setWidget(scrollAreaWidgetContents);
 
@@ -217,7 +216,6 @@ public:
         label_9->setBuddy(lineEditSHA1);
         label_11->setBuddy(textEditImportantFiles);
         label_12->setBuddy(textEditDependencies);
-        label_4->setBuddy(lineEditLicense);
 #endif // QT_NO_SHORTCUT
 
         retranslateUi(PackageVersionForm);
@@ -246,6 +244,7 @@ public:
 "p, li { white-space: pre-wrap; }\n"
 "</style></head><body style=\" font-family:'MS Shell Dlg 2'; font-size:8.25pt; font-weight:400; font-style:normal;\">\n"
 "<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><a href=\"http://www.test.de\"><span style=\" text-decoration: underline; color:#0000ff;\">TextLabel</span></a></p></body></html>", 0, QApplication::UnicodeUTF8));
+        labelLicense->setText(QApplication::translate("PackageVersionForm", "TextLabel", 0, QApplication::UnicodeUTF8));
     } // retranslateUi
 
 };

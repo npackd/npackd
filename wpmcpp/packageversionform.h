@@ -41,6 +41,7 @@ private:
     Ui::PackageVersionForm *ui;
 
 private slots:
+    void on_labelLicense_linkActivated(QString link);
     void on_labelDownloadURL_linkActivated(QString link);
 };
 

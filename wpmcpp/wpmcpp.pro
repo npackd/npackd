@@ -24,7 +24,8 @@ SOURCES += main.cpp \
     installoperation.cpp \
     fileextensionhandler.cpp \
     packageversionform.cpp \
-    license.cpp
+    license.cpp \
+    licenseform.cpp
 HEADERS += mainwindow.h \
     packageversion.h \
     repository.h \
@@ -45,11 +46,13 @@ HEADERS += mainwindow.h \
     installoperation.h \
     fileextensionhandler.h \
     packageversionform.h \
-    license.h
+    license.h \
+    licenseform.h
 FORMS += mainwindow.ui \
     progressdialog.ui \
     settingsdialog.ui \
-    packageversionform.ui
+    packageversionform.ui \
+    licenseform.ui
 INCLUDEPATH += C:\Users\t\libs\quazip-0.2.3\quazip \
     C:\Users\t\libs\zlib-1.2.5
 LIBS += C:\Users\t\libs\quazip-0.2.3\quazip\debug\libquazip.a \

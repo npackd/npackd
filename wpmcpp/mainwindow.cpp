@@ -465,13 +465,15 @@ PackageVersion* MainWindow::getSelectedPackageVersion()
     PackageVersionForm* pvf = dynamic_cast<PackageVersionForm*>(w);
     if (pvf) {
         return pvf->pv;
-    } else {
+    } else if (w == this->ui->tab){
         QList<QTableWidgetItem*> sel = this->ui->tableWidget->selectedItems();
         if (sel.count() > 0) {
             const QVariant v = sel.at(0)->data(Qt::UserRole);
             PackageVersion* pv = (PackageVersion *) v.value<void*>();
             return pv;
         }
+        return 0;
+    } else {
         return 0;
     }
 }
@@ -888,8 +890,7 @@ void MainWindow::closeDetailTabs()
 {
     for (int i = 0; i < this->ui->tabWidget->count(); ) {
         QWidget* w = this->ui->tabWidget->widget(i);
-        PackageVersionForm* pvf = dynamic_cast<PackageVersionForm*>(w);
-        if (pvf) {
+        if (w != this->ui->tab) {
             this->ui->tabWidget->removeTab(i);
         } else {
             i++;
@@ -1133,8 +1134,7 @@ void MainWindow::on_tableWidget_doubleClicked(QModelIndex index)
 void MainWindow::on_tabWidget_tabCloseRequested(int index)
 {
     QWidget* w = this->ui->tabWidget->widget(index);
-    PackageVersionForm* pvf = dynamic_cast<PackageVersionForm*>(w);
-    if (pvf) {
+    if (w != this->ui->tab) {
         this->ui->tabWidget->removeTab(index);
     }
 }
