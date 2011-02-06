@@ -1,6 +1,8 @@
 #include "packageversionform.h"
 #include "ui_packageversionform.h"
 
+#include "qdesktopservices.h"
+
 #include "package.h"
 #include "repository.h"
 #include "mainwindow.h"
@@ -61,9 +63,11 @@ void PackageVersionForm::fillForm(PackageVersion* pv)
     QString dl;
     if (pv->download.isEmpty())
         dl = "n/a";
-    else
+    else {
         dl = pv->download.toString();
-    this->ui->lineEditDownload->setText(dl);
+        dl = "<a href=\"" + dl + "\">" + dl + "</a>";
+    }
+    this->ui->labelDownloadURL->setText(dl);
 
     QString sha1;
     if (pv->sha1.isEmpty())
@@ -108,5 +112,13 @@ void PackageVersionForm::changeEvent(QEvent *e)
         break;
     default:
         break;
+    }
+}
+
+void PackageVersionForm::on_labelDownloadURL_linkActivated(QString link)
+{
+    QUrl url(link);
+    if (url.isValid()) {
+        QDesktopServices::openUrl(url);
     }
 }

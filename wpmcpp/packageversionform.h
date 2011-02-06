@@ -39,6 +39,9 @@ protected:
 
 private:
     Ui::PackageVersionForm *ui;
+
+private slots:
+    void on_labelDownloadURL_linkActivated(QString link);
 };
 
 #endif // PACKAGEVERSIONFORM_H
