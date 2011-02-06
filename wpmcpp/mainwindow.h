@@ -75,6 +75,7 @@ protected:
     void changeEvent(QEvent *e);
     void process(QList<InstallOperation*>& install);
 private slots:
+    void on_actionShow_Details_triggered();
     void on_actionDownload_All_Files_triggered();
     void on_actionList_Installed_MSI_Products_triggered();
     void on_tabWidget_currentChanged(int index);
@@ -100,6 +101,7 @@ private:
 
     FileLoader fileLoader;
 
+    void showDetails();
     void updateIcons();
     void updateActions();
     bool isUpdateEnabled(PackageVersion* pv);

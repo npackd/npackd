@@ -274,6 +274,18 @@ bool MainWindow::winEvent(MSG* message, long* result)
     return false;
 }
 
+void MainWindow::showDetails()
+{
+    PackageVersion* pv = getSelectedPackageVersion();
+    if (pv) {
+        PackageVersionForm* pvf = new PackageVersionForm(this->ui->tabWidget);
+        pvf->fillForm(pv);
+        QIcon icon = getPackageVersionIcon(pv);
+        this->ui->tabWidget->addTab(pvf, icon, pv->toString());
+        this->ui->tabWidget->setCurrentIndex(this->ui->tabWidget->count() - 1);
+    }
+}
+
 void MainWindow::updateIcons()
 {
     Repository* r = Repository::getDefault();
@@ -362,6 +374,7 @@ MainWindow::MainWindow(QWidget *parent) :
     this->ui->tableWidget->addAction(this->ui->actionInstall);
     this->ui->tableWidget->addAction(this->ui->actionUninstall);
     this->ui->tableWidget->addAction(this->ui->actionUpdate);
+    this->ui->tableWidget->addAction(this->ui->actionShow_Details);
     this->ui->tableWidget->addAction(this->ui->actionGotoPackageURL);
     this->ui->tableWidget->addAction(this->ui->actionTest_Download_Site);
 
@@ -885,6 +898,8 @@ void MainWindow::updateActions()
 
     this->ui->actionTest_Download_Site->setEnabled(pv && p &&
             QUrl(p->url).isValid());
+
+    this->ui->actionShow_Details->setEnabled(pv);
 }
 
 void MainWindow::on_tableWidget_itemSelectionChanged()
@@ -1127,14 +1142,7 @@ void MainWindow::on_actionTest_Repositories_triggered()
 
 void MainWindow::on_tableWidget_doubleClicked(QModelIndex index)
 {
-    PackageVersion* pv = getSelectedPackageVersion();
-    if (pv) {
-        PackageVersionForm* pvf = new PackageVersionForm(this->ui->tabWidget);
-        pvf->fillForm(pv);
-        QIcon icon = getPackageVersionIcon(pv);
-        this->ui->tabWidget->addTab(pvf, icon, pv->toString());
-        this->ui->tabWidget->setCurrentIndex(this->ui->tabWidget->count() - 1);
-    }
+    showDetails();
 }
 
 void MainWindow::on_tabWidget_tabCloseRequested(int index)
@@ -1194,3 +1202,8 @@ void MainWindow::on_actionDownload_All_Files_triggered()
     }
 }
 
+
+void MainWindow::on_actionShow_Details_triggered()
+{
+    showDetails();
+}

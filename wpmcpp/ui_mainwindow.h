@@ -1,7 +1,7 @@
 /********************************************************************************
 ** Form generated from reading UI file 'mainwindow.ui'
 **
-** Created: Sun 6. Feb 20:08:54 2011
+** Created: Sun 6. Feb 20:26:30 2011
 **      by: Qt User Interface Compiler version 4.6.3
 **
 ** WARNING! All changes made in this file will be lost when recompiling UI file!
@@ -47,6 +47,7 @@ public:
     QAction *actionTest_Repositories;
     QAction *actionList_Installed_MSI_Products;
     QAction *actionDownload_All_Files;
+    QAction *actionShow_Details;
     QWidget *centralWidget;
     QVBoxLayout *verticalLayout;
     QTabWidget *tabWidget;
@@ -108,6 +109,8 @@ public:
         actionList_Installed_MSI_Products->setObjectName(QString::fromUtf8("actionList_Installed_MSI_Products"));
         actionDownload_All_Files = new QAction(MainWindow);
         actionDownload_All_Files->setObjectName(QString::fromUtf8("actionDownload_All_Files"));
+        actionShow_Details = new QAction(MainWindow);
+        actionShow_Details->setObjectName(QString::fromUtf8("actionShow_Details"));
         centralWidget = new QWidget(MainWindow);
         centralWidget->setObjectName(QString::fromUtf8("centralWidget"));
         verticalLayout = new QVBoxLayout(centralWidget);
@@ -225,6 +228,7 @@ public:
         menuFile->addAction(actionUninstall);
         menuFile->addAction(actionUpdate);
         menuFile->addSeparator();
+        menuFile->addAction(actionShow_Details);
         menuFile->addAction(actionGotoPackageURL);
         menuFile->addAction(actionTest_Download_Site);
         menuFile->addSeparator();
@@ -304,6 +308,7 @@ public:
 #ifndef QT_NO_TOOLTIP
         actionDownload_All_Files->setToolTip(QApplication::translate("MainWindow", "downloads all packages to a directory", 0, QApplication::UnicodeUTF8));
 #endif // QT_NO_TOOLTIP
+        actionShow_Details->setText(QApplication::translate("MainWindow", "Show Details", 0, QApplication::UnicodeUTF8));
         label_2->setText(QApplication::translate("MainWindow", "&Status:", 0, QApplication::UnicodeUTF8));
         comboBoxStatus->clear();
         comboBoxStatus->insertItems(0, QStringList()
