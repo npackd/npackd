@@ -348,13 +348,71 @@ void PackageVersion::uninstall(Job* job)
         if (d.exists()) {
             job->setHint("Deleting files");
             Job* rjob = job->newSubJob(0.55);
-            WPMUtils::removeDirectory2(rjob, d);
+            removeDirectory(rjob);
             if (!rjob->getErrorMessage().isEmpty())
                 job->setErrorMessage(rjob->getErrorMessage());
             delete rjob;
         } else {
             job->setProgress(1);
         }
+    }
+
+    job->complete();
+}
+
+void PackageVersion::removeDirectory(Job* job)
+{
+    QDir d = getDirectory();
+
+    WPMUtils::moveToRecycleBin(d.absolutePath());
+    job->setProgress(0.3);
+
+    if (!job->isCancelled() && job->getErrorMessage().isEmpty()) {
+        d.refresh();
+        if (d.exists()) {
+            Sleep(5000); // 5 Seconds
+            WPMUtils::moveToRecycleBin(d.absolutePath());
+        }
+        job->setProgress(0.6);
+    }
+
+    if (!job->isCancelled() && job->getErrorMessage().isEmpty()) {
+        d.refresh();
+        if (d.exists()) {
+            Sleep(5000); // 5 Seconds
+            QString oldName = d.dirName();
+            if (!d.cdUp())
+                job->setErrorMessage("Cannot change directory to " +
+                        d.absolutePath() + "\\..");
+            else {
+                QString trash = ".NpackdTrash";
+                if (!d.exists(trash)) {
+                    if (!d.mkdir(trash))
+                        job->setErrorMessage(QString(
+                                "Cannot create directory %0\%1").
+                                arg(d.absolutePath()).arg(trash));
+                }
+                if (d.exists(trash)) {
+                    QString nn = trash + "\\" + oldName + "_%1";
+                    int i = 0;
+                    while (true) {
+                        QString newName = nn.arg(i);
+                        if (!d.exists(newName)) {
+                            if (!d.rename(oldName, newName)) {
+                                job->setErrorMessage(QString(
+                                        "Cannot rename %1 to %2 in %3").
+                                        arg(oldName).arg(newName).
+                                        arg(d.absolutePath()));
+                            }
+                            break;
+                        } else {
+                            i++;
+                        }
+                    }
+                }
+            }
+        }
+        job->setProgress(1);
     }
 
     job->complete();
@@ -767,7 +825,7 @@ void PackageVersion::install(Job* job)
     if (!job->getErrorMessage().isEmpty()) {
         // ignore errors
         Job* rjob = new Job();
-        WPMUtils::removeDirectory2(rjob, d);
+        removeDirectory(rjob);
         delete rjob;
     }
 

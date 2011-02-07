@@ -31,6 +31,16 @@ private:
     QString fullText;
     void registerFileHandlers();
     void unregisterFileHandlers();
+
+    /**
+     * Deletes a directory. If something cannot be deleted, it waits and
+     * tries to delete the directory again. Moves the directory to .Trash if
+     * it cannot be move to the recycle bin.
+     *
+     * @param job progress for this task
+     * @param aDir this directory will be deleted
+     */
+    void removeDirectory(Job* job);
 public:
     /** package version */
     Version version;

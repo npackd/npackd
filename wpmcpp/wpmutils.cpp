@@ -328,44 +328,6 @@ QString WPMUtils::sha1(const QString& filename)
         return hash.result().toHex();
 }
 
-void WPMUtils::removeDirectory2(Job* job, QDir &d)
-{
-    /* old code
-    Job* sub = job->newSubJob(0.3);
-    WPMUtils::removeDirectory(sub, d);
-    if (!sub->getErrorMessage().isEmpty()) {
-        delete sub;
-        job->setProgress(0.3);
-        Sleep(5000); // 5 Seconds
-        job->setProgress(0.6);
-
-        sub = job->newSubJob(0.4);
-        WPMUtils::removeDirectory(sub, d);
-        if (!sub->getErrorMessage().isEmpty())
-            job->setErrorMessage(sub->getErrorMessage());
-    } else{
-        delete sub;
-        job->setProgress(1);
-    }
-    job->complete();
-    */
-
-    QString err = WPMUtils::moveToRecycleBin(d.absolutePath());
-    d.refresh();
-    if (!err.isEmpty() && d.exists()) {
-        job->setProgress(0.3);
-        Sleep(5000); // 5 Seconds
-        job->setProgress(0.6);
-        err = WPMUtils::moveToRecycleBin(d.absolutePath());
-        d.refresh();
-        if (!err.isEmpty() && d.exists())
-            job->setErrorMessage(err);
-        else
-            job->setProgress(1);
-    }
-    job->complete();
-}
-
 QString WPMUtils::getShellFileOperationErrorMessage(int res)
 {
     QString r;

@@ -49,15 +49,6 @@ public:
     static void removeDirectory(Job* job, QDir &aDir);
 
     /**
-     * Deletes a directory. If something cannot be deleted, it waits and
-     * tries to delete the directory again.
-     *
-     * @param job progress for this task
-     * @param aDir this directory will be deleted
-     */
-    static void removeDirectory2(Job* job, QDir &aDir);
-
-    /**
      * Finds the parent directory for a path.
      *
      * @param path a directory
