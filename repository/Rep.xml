@@ -5731,6 +5731,9 @@ set d=%ProgramFiles%
         <url>http://dl.google.com/dl/desktop/R/en/GoogleDesktopSetup.exe</url>
     </version>
 
+    <!--
+        logging with /Lime MSI.log only works if the full path is used
+    -->
     <version name="9.3" package="com.adobe.AdobeReader" type="one-file">
         <file path=".WPM\Install.bat">msiexec.exe /qn /norestart /Lime .WPM\MSI.log /i AdbeRdr930_en_US.msi INSTALLDIR="%CD%" ALLUSERS=1
 set err=%errorlevel%
@@ -5765,10 +5768,6 @@ if %err% neq 0 exit /b %err%
             <extension>.pdf</extension>
         </file-handler> -->
     </version>
-    <!--
-        TODO: logging with  /Lime .WPM\MSI.log does not work,
-        TODO: the installer sometimes ends with the exit code 11010
-    -->
     <version name="10" package="com.adobe.AdobeReader" type="one-file">
         <file path=".WPM\Install.bat">AdbeRdr1000_en_US.exe /sAll /rs /msi ALLUSERS=1 INSTALLDIR="%CD%"</file>
         <file path=".WPM\Uninstall.bat">msiexec.exe /qn /norestart /Lime .WPM\MSI.log /X{AC76BA86-7AD7-1033-7B44-AA0000000001}
@@ -5778,6 +5777,28 @@ if %err% neq 0 exit /b %err%
 </file>
         <url>http://ardownload.adobe.com/pub/adobe/reader/win/10.x/10.0.0/en_US/AdbeRdr1000_en_US.exe</url>
         <sha1>1100efaca4a4e480ede0cbda6ce9ed63f7f14d20</sha1>
+        <!-- TODO: <file-handler>
+            <title>Adobe Reader</title>
+            <executable>Reader\AcroRd32.exe</executable>
+            <extension>.pdf</extension>
+        </file-handler> -->
+    </version>
+    <version name="10.0.1" package="com.adobe.AdobeReader" type="one-file">
+        <file path=".WPM\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x
+"%setup%" /sAll /rs /msi /Lime "%CD%\.WPM\MSI.log" ALLUSERS=1 INSTALLDIR="%CD%"
+set err=%errorlevel%
+type .WPM\MSI.log
+rem 3010=restart required
+if %err% equ 3010 exit /b 0
+if %err% neq 0 exit /b %err%
+</file>
+        <file path=".WPM\Uninstall.bat">msiexec.exe /qn /norestart /Lime .WPM\MSI.log /X{AC76BA86-7AD7-1033-7B44-AA0000000001}
+set err=%errorlevel%
+type .WPM\MSI.log
+if %err% neq 0 exit /b %err%
+</file>
+        <url>http://ardownload.adobe.com/pub/adobe/reader/win/10.x/10.0.1/en_US/AdbeRdr1001_en_US.exe</url>
+        <sha1>e71d9871ea3e6168570e0677a50495c40f9213b2</sha1>
         <!-- TODO: <file-handler>
             <title>Adobe Reader</title>
             <executable>Reader\AcroRd32.exe</executable>
