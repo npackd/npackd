@@ -3071,48 +3071,62 @@ for %%g in (msi) do reg delete HKLM\SOFTWARE\Classes\.%%g\OpenWithList\%key% /f
     -->
     <version name="2.55" package="com.tracker-software.PDFXChangeViewer"
             type="one-file">
-        <file path=".WPM\Install.bat">msiexec.exe /qn /norestart /Lime .WPM\MSI.log /i PXCViewer_x86.msi TARGETDIR="%CD%" ALLUSERS=1
+        <file path=".WPM\Install.bat">for /f %%x in ('dir /b *.msi') do set setup=%%x
+msiexec.exe /qn /norestart /Lime .WPM\MSI.log /i "%setup%" INSTALLLOCATION="%CD%" ALLUSERS=1
 set err=%errorlevel%
 type .WPM\MSI.log
+rem 3010=restart required
+if %err% equ 3010 exit /b 0
 if %err% neq 0 exit /b %err%
 </file>
-        <file path=".WPM\Uninstall.bat">msiexec.exe /qn /norestart /Lime .WPM\MSI.log /x PXCViewer_x86.msi
+        <file path=".WPM\Uninstall.bat">for /f %%x in ('dir /b *.msi') do set setup=%%x
+msiexec.exe /qn /norestart /Lime .WPM\MSI.log /x "%setup%"
 set err=%errorlevel%
 type .WPM\MSI.log
+rem 3010=restart required
+if %err% equ 3010 exit /b 0
 if %err% neq 0 exit /b %err%
 </file>
-        <url>http://dl.dropbox.com/u/17046326/files/PXCViewer_x86.msi</url>
+        <url>http://dl.dropbox.com/u/17046326/files/com.tracker-software.PDFXChangeViewer-2.55.msi</url>
         <sha1>1c8b62fa5d12f6e84052f2d860518b94e4abd457</sha1>
     </version>
     <version name="2.57" package="com.tracker-software.PDFXChangeViewer"
             type="one-file">
         <file path=".WPM\Install.bat">for /f %%x in ('dir /b *.msi') do set setup=%%x
-msiexec.exe /qn /norestart /Lime .WPM\MSI.log /i "%setup%" TARGETDIR="%CD%" ALLUSERS=1
+msiexec.exe /qn /norestart /Lime .WPM\MSI.log /i "%setup%" INSTALLLOCATION="%CD%" ALLUSERS=1
 set err=%errorlevel%
 type .WPM\MSI.log
+rem 3010=restart required
+if %err% equ 3010 exit /b 0
 if %err% neq 0 exit /b %err%
 </file>
         <file path=".WPM\Uninstall.bat">for /f %%x in ('dir /b *.msi') do set setup=%%x
 msiexec.exe /qn /norestart /Lime .WPM\MSI.log /x "%setup%"
 set err=%errorlevel%
 type .WPM\MSI.log
+rem 3010=restart required
+if %err% equ 3010 exit /b 0
 if %err% neq 0 exit /b %err%
 </file>
-        <url>http://dl.dropbox.com/u/17046326/files/PXCViewer_x86-2.57.msi</url>
+        <url>http://dl.dropbox.com/u/17046326/files/com.tracker-software.PDFXChangeViewer-2.57.msi</url>
         <sha1>7deb10de3c1a61ee905fcca23da8d4ec3fb661e8</sha1>
     </version>
     <version name="2.58.189" package="com.tracker-software.PDFXChangeViewer"
             type="one-file">
         <file path=".WPM\Install.bat">for /f %%x in ('dir /b *.msi') do set setup=%%x
-msiexec.exe /qn /norestart /Lime .WPM\MSI.log /i "%setup%" TARGETDIR="%CD%" ALLUSERS=1
+msiexec.exe /qn /norestart /Lime .WPM\MSI.log /i "%setup%" INSTALLLOCATION="%CD%" ALLUSERS=1
 set err=%errorlevel%
 type .WPM\MSI.log
+rem 3010=restart required
+if %err% equ 3010 exit /b 0
 if %err% neq 0 exit /b %err%
 </file>
         <file path=".WPM\Uninstall.bat">for /f %%x in ('dir /b *.msi') do set setup=%%x
 msiexec.exe /qn /norestart /Lime .WPM\MSI.log /x "%setup%"
 set err=%errorlevel%
 type .WPM\MSI.log
+rem 3010=restart required
+if %err% equ 3010 exit /b 0
 if %err% neq 0 exit /b %err%
 </file>
         <url>http://dl.dropbox.com/u/17046326/files/com.tracker-software.PDFXChangeViewer-2.58.189.msi</url>
@@ -3121,15 +3135,19 @@ if %err% neq 0 exit /b %err%
     <version name="2.58.190" package="com.tracker-software.PDFXChangeViewer"
             type="one-file">
         <file path=".WPM\Install.bat">for /f %%x in ('dir /b *.msi') do set setup=%%x
-msiexec.exe /qn /norestart /Lime .WPM\MSI.log /i "%setup%" TARGETDIR="%CD%" ALLUSERS=1
+msiexec.exe /qn /norestart /Lime .WPM\MSI.log /i "%setup%" INSTALLLOCATION="%CD%" ALLUSERS=1
 set err=%errorlevel%
 type .WPM\MSI.log
+rem 3010=restart required
+if %err% equ 3010 exit /b 0
 if %err% neq 0 exit /b %err%
 </file>
         <file path=".WPM\Uninstall.bat">for /f %%x in ('dir /b *.msi') do set setup=%%x
 msiexec.exe /qn /norestart /Lime .WPM\MSI.log /x "%setup%"
 set err=%errorlevel%
 type .WPM\MSI.log
+rem 3010=restart required
+if %err% equ 3010 exit /b 0
 if %err% neq 0 exit /b %err%
 </file>
         <url>http://dl.dropbox.com/u/17046326/files/com.tracker-software.PDFXChangeViewer-2.58.190.msi</url>
@@ -3138,19 +3156,44 @@ if %err% neq 0 exit /b %err%
     <version name="2.58.191" package="com.tracker-software.PDFXChangeViewer"
             type="one-file">
         <file path=".WPM\Install.bat">for /f %%x in ('dir /b *.msi') do set setup=%%x
-msiexec.exe /qn /norestart /Lime .WPM\MSI.log /i "%setup%" TARGETDIR="%CD%" ALLUSERS=1
+msiexec.exe /qn /norestart /Lime .WPM\MSI.log /i "%setup%" INSTALLLOCATION="%CD%" ALLUSERS=1
 set err=%errorlevel%
 type .WPM\MSI.log
+rem 3010=restart required
+if %err% equ 3010 exit /b 0
 if %err% neq 0 exit /b %err%
 </file>
         <file path=".WPM\Uninstall.bat">for /f %%x in ('dir /b *.msi') do set setup=%%x
 msiexec.exe /qn /norestart /Lime .WPM\MSI.log /x "%setup%"
 set err=%errorlevel%
 type .WPM\MSI.log
+rem 3010=restart required
+if %err% equ 3010 exit /b 0
 if %err% neq 0 exit /b %err%
 </file>
         <url>http://dl.dropbox.com/u/17046326/files/com.tracker-software.PDFXChangeViewer-2.58.191.msi</url>
         <sha1>9c250596720acda5acfcb725472eb32e4fd90b3b</sha1>
+    </version>
+    <version name="2.58.192" package="com.tracker-software.PDFXChangeViewer"
+            type="one-file">
+        <file path=".WPM\Install.bat">for /f %%x in ('dir /b *.msi') do set setup=%%x
+msiexec.exe /qn /norestart /Lime .WPM\MSI.log /i "%setup%" INSTALLLOCATION="%CD%" ALLUSERS=1
+set err=%errorlevel%
+type .WPM\MSI.log
+rem 3010=restart required
+if %err% equ 3010 exit /b 0
+if %err% neq 0 exit /b %err%
+</file>
+        <file path=".WPM\Uninstall.bat">for /f %%x in ('dir /b *.msi') do set setup=%%x
+msiexec.exe /qn /norestart /Lime .WPM\MSI.log /x "%setup%"
+set err=%errorlevel%
+type .WPM\MSI.log
+rem 3010=restart required
+if %err% equ 3010 exit /b 0
+if %err% neq 0 exit /b %err%
+</file>
+        <url>http://dl.dropbox.com/u/17046326/files/com.tracker-software.PDFXChangeViewer-2.58.192.msi</url>
+        <sha1>D86A0146D7733D1F9CB41CC39D71AADC33C9BE27</sha1>
     </version>
 
     <version name="7.7"
