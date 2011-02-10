@@ -3333,17 +3333,30 @@ taskkill /f /im ares.exe</file>
 
     <version name="1.7.3.1700" package="com.getsongbird.Songbird"
             type="one-file">
-        <file path=".WPM\Install.bat">Songbird_1.7.3-1700_windows-i686-msvc8.exe /S /D=%CD%</file>
+        <file path=".WPM\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x
+"%setup%" /S /D=%CD%
+</file>
         <file path=".WPM\Uninstall.bat">Songbird-Uninstall.exe /S</file>
         <url>http://download.songbirdnest.com/installer/windows/i686-msvc8/Songbird_1.7.3-1700_windows-i686-msvc8.exe</url>
         <sha1>614295309a3abc81a94bf353b56a9dc63893a07d</sha1>
     </version>
     <version name="1.8" package="com.getsongbird.Songbird"
             type="one-file">
-        <file path=".WPM\Install.bat">Songbird_1.8.0-1800_windows-i686-msvc8.exe /S /D=%CD%</file>
+        <file path=".WPM\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x
+"%setup%" /S /D=%CD%
+</file>
         <file path=".WPM\Uninstall.bat">Songbird-Uninstall.exe /S</file>
         <url>http://download.songbirdnest.com/installer/windows/i686-msvc8/Songbird_1.8.0-1800_windows-i686-msvc8.exe</url>
         <sha1>5e8b8f74c0926e32cce7289e1cea52f70805dc45</sha1>
+    </version>
+    <version name="1.9.3.1959" package="com.getsongbird.Songbird"
+            type="one-file">
+        <file path=".WPM\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x
+"%setup%" /S /D=%CD%
+</file>
+        <file path=".WPM\Uninstall.bat">Songbird-Uninstall.exe /S</file>
+        <url>http://s3.amazonaws.com/download.songbirdnest.com/installer/windows/i686-msvc8/Songbird_1.9.3-1959_windows-i686-msvc8.exe</url>
+        <sha1>1E6BDC9D5681F44320987CC73CDE66F85B3E8032</sha1>
     </version>
 
     <version name="3.2.6.63112" package="org.virtualbox.VirtualBoxInstaller"
