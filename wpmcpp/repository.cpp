@@ -768,6 +768,24 @@ void Repository::addUnknownExistingPackages()
             }
         }
     }
+
+    QSettings s("HKEY_LOCAL_MACHINE\\SOFTWARE\\Npackd\\Npackd\\Packages",
+            QSettings::NativeFormat);
+    QStringList ps = s.childKeys();
+    for (int i = 0; i < ps.count(); ++i) {
+        s.beginGroup(ps[i]);
+        QString name = ps.at(i);
+        int pos = name.lastIndexOf("-");
+        if (pos > 0) {
+            QString packageName = name.left(pos);
+            QString versionName = name.right(name.length() - pos - 1);
+            Version version;
+            if (version.setVersion(versionName)) {
+                this->versionDetected(packageName, version);
+            }
+        }
+        s.endGroup();
+    }
 }
 
 void Repository::load(Job* job)
@@ -899,7 +917,6 @@ void Repository::loadOne(QUrl* url, Job* job) {
 
     job->complete();
 }
-
 
 QList<QUrl*> Repository::getRepositoryURLs()
 {

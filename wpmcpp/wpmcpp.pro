@@ -25,7 +25,8 @@ SOURCES += main.cpp \
     fileextensionhandler.cpp \
     packageversionform.cpp \
     license.cpp \
-    licenseform.cpp
+    licenseform.cpp \
+    windowsregistry.cpp
 HEADERS += mainwindow.h \
     packageversion.h \
     repository.h \
@@ -47,7 +48,8 @@ HEADERS += mainwindow.h \
     fileextensionhandler.h \
     packageversionform.h \
     license.h \
-    licenseform.h
+    licenseform.h \
+    windowsregistry.h
 FORMS += mainwindow.ui \
     progressdialog.ui \
     settingsdialog.ui \

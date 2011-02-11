@@ -18,6 +18,9 @@
 
 class InstallOperation;
 
+/**
+ * One version of a package (installed or not).
+ */
 class PackageVersion
 {
 private:
@@ -86,6 +89,9 @@ public:
      * dependencies.
      */
     bool external;
+
+    /** installation directory or "", if the package version is not installed */
+    QString path;
 
     PackageVersion();
     PackageVersion(const QString& package);
