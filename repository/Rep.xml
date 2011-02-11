@@ -1132,6 +1132,11 @@
         <url>http://jakarta.apache.org/jmeter/</url>
         <description>load tests</description>
     </package>
+    <package name="org.apache.Maven">
+        <title>Maven</title>
+        <url>http://maven.apache.org/</url>
+        <description>software build</description>
+    </package>    
     <package name="org.apache.subversion.Subversion">
         <title>Subversion</title>
         <url>http://subversion.apache.org/</url>
@@ -5790,5 +5795,14 @@ rmdir /s /q "%name%"
 </file>
         <url>http://sqlkit.argolinux.org/download/sqlkit-0.9.2.2.zip</url>
         <dependency package="org.pygtk.PyGTKAllInOne" versions="[2.22.6, 2.22.6]"/>
+    </version>
+
+    <version name="3.0.2" package="org.apache.Maven">
+        <file path=".WPM\Install.bat">for /f "delims=" %%x in ('dir /b apache*') do set name=%%x
+xcopy "%name%\*" . /E /H
+rmdir /s /q "%name%"
+</file>
+        <url>http://mirror.netcologne.de/apache.org//maven/binaries/apache-maven-3.0.2-bin.zip</url>
+        <sha1>4F9C9E8D39630B3B285C72C8A88820A220898B7D</sha1>
     </version>
 </root>
