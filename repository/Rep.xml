@@ -983,7 +983,7 @@
         <icon>http://dl.dropbox.com/u/17046326/picons/net.sourceforge.launchy.LaunchyInstaller.png</icon>
     </package>
     <package name="net.sourceforge.mpc-hc.MediaPlayerClassicHomeCinema">
-        <title>Media Player Classic Home Cinema</title>
+        <title>Media Player Classic - Home Cinema</title>
         <url>http://mpc-hc.sourceforge.net/</url>
         <description>media player</description>
         <license>org.gnu.GPLv2</license>
@@ -3064,10 +3064,25 @@ for %%g in (msi) do reg delete HKLM\SOFTWARE\Classes\.%%g\OpenWithList\%key% /f
     </version>
     <version name="1.4.2499"
             package="net.sourceforge.mpc-hc.MediaPlayerClassicHomeCinema">
-        <important-file path="MPC-HomeCinema.1.4.2499.0.x86\mpc-hc.exe"
-                title="Media Player Classic - Home Cinema"/>
+        <file path=".WPM\Install.bat">for /f "delims=" %%x in ('dir /b MPC*') do set name=%%x
+xcopy "%name%\*" . /E /H
+rmdir /s /q "%name%"
+</file>                
+        <important-file path="mpc-hc.exe" 
+				title="Media Player Classic - Home Cinema"/>
         <url>http://downloads.sourceforge.net/project/mpc-hc/MPC%20HomeCinema%20-%20Win32/MPC-HC%20v1.4.2499.0_32%20bits/MPC-HomeCinema.1.4.2499.0.x86.zip?ts=1284055765</url>
         <sha1>9f8c4a8e70fa36ffa68f878d13adc8b09b915ece</sha1>
+    </version>
+    <version name="1.5.0.2827"
+            package="net.sourceforge.mpc-hc.MediaPlayerClassicHomeCinema">
+        <file path=".WPM\Install.bat">for /f "delims=" %%x in ('dir /b MPC*') do set name=%%x
+xcopy "%name%\*" . /E /H
+rmdir /s /q "%name%"
+</file>                
+        <important-file path="mpc-hc.exe" 
+				title="Media Player Classic - Home Cinema"/>
+        <url>http://downloads.sourceforge.net/project/mpc-hc/MPC%20HomeCinema%20-%20Win32/MPC-HC%20v1.5.0.2827_32%20bits/MPC-HomeCinema.1.5.0.2827.x86.zip?ts=1297459876</url>
+        <sha1>7D5AFC3B144E64A865CBBA5721ACD1B645B2DC88</sha1>
     </version>
 
     <!--
