@@ -291,6 +291,25 @@ void WPMUtils::regDeleteTree(HKEY hkey, const QString path)
     RegDeleteKey(hkey, (WCHAR*) path.utf16());
 }
 
+QString WPMUtils::getWindowsDir()
+{
+    WCHAR dir[MAX_PATH];
+    SHGetFolderPath(0, CSIDL_WINDOWS, NULL, 0, dir);
+    return  QString::fromUtf16(reinterpret_cast<ushort*>(dir));
+}
+
+QString WPMUtils::getExeDir()
+{
+    TCHAR path[MAX_PATH];
+    GetModuleFileName(0, path, sizeof(path) / sizeof(path[0]));
+    QString r;
+    r.setUtf16((ushort*) path, wcslen(path));
+
+    QDir d(r);
+    d.cdUp();
+    return d.absolutePath().replace('/', '\\');
+}
+
 QString WPMUtils::regQueryValue(HKEY hk, const QString &var)
 {
     QString value_;

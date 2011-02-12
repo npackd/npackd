@@ -233,7 +233,8 @@ void InstallThread::run()
             r->packages.append(p);
         }
         r->versionDetected("com.googlecode.windows-package-manager.Npackd",
-                Version(WPMUtils::NPACKD_VERSION));
+                Version(WPMUtils::NPACKD_VERSION),
+                WPMUtils::getExeDir(), true);
         break;
     }
     case 5:

@@ -43,6 +43,7 @@ private:
     void detectMSXML();
     void detectJRE(bool w64bit);
     void detectJDK(bool w64bit);
+    void scanPre1_15Dir();
 public:
     /**
      * @return C:\Program Files\Npackd - repository directory
@@ -86,12 +87,13 @@ public:
     void recognize(Job* job);
 
     /**
-     * Can be called if a package version was detected as installed internally.
+     * Can be called if a package version was detected.
      *
      * @param package package name
      * @param v found version
      */
-    void versionDetected(const QString& package, const Version& v);
+    void versionDetected(const QString& package, const Version& v,
+            const QString &path, const bool external);
 
     /**
      * Finds all installed packages. This method lists all directories in the

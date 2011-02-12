@@ -127,6 +127,16 @@ public:
     static void regDeleteTree(HKEY hkey, const QString path);
 
     /**
+     * @return directory with the .exe
+     */
+    static QString getExeDir();
+
+    /**
+     * @return C:\Windows
+     */
+    static QString getWindowsDir();
+
+    /**
      * @return GUIDs for installed products (MSI)
      */
     static QStringList findInstalledMSIProducts();

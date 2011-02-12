@@ -21,6 +21,7 @@
 #include "wpmutils.h"
 #include "repository.h"
 #include "version.h"
+#include "windowsregistry.h"
 
 /**
  * Uses the Shell's IShellLink and IPersistFile interfaces
@@ -117,6 +118,21 @@ PackageVersion::~PackageVersion()
     qDeleteAll(this->fileHandlers);
 }
 
+QString PackageVersion::saveInstallationInfo()
+{
+    WindowsRegistry machineWR(HKEY_LOCAL_MACHINE);
+    QString err;
+    WindowsRegistry wr = machineWR.createSubKey(
+            "SOFTWARE\\Npackd\\Npackd\\Packages\\" +
+            this->package + "-" + this->version.getVersionString(), &err);
+    if (!err.isEmpty())
+        return err;
+
+    wr.set("Path", this->path);
+    wr.setDWORD("External", this->external ? 1 : 0);
+    return "";
+}
+
 QString PackageVersion::getFullText()
 {
     if (this->fullText.isEmpty()) {
@@ -147,8 +163,8 @@ QString PackageVersion::getFullText()
 
 bool PackageVersion::installed()
 {
-    if (external) {
-        return true;
+    if (this->path.trimmed().isEmpty()) {
+        return false;
     } else {
         QDir d = getDirectory();
         d.refresh();
@@ -420,8 +436,7 @@ void PackageVersion::removeDirectory(Job* job)
 
 QDir PackageVersion::getDirectory()
 {
-    QDir d(WPMUtils::getInstallationDirectory() + "\\" + this->package + "-" +
-           this->version.getVersionString());
+    QDir d(this->path);
     return d;
 }
 

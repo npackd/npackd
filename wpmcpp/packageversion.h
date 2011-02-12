@@ -182,6 +182,13 @@ public:
     QString getFullText();
 
     /**
+     * Saves the installation information (path etc) in the registry.
+     *
+     * @return error message
+     */
+    QString saveInstallationInfo();
+
+    /**
      * Installs this application.
      *
      * @param job job for this method

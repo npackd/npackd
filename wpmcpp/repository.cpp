@@ -14,6 +14,7 @@
 #include "version.h"
 #include "msi.h"
 #include "fileextensionhandler.h"
+#include "windowsregistry.h"
 
 Repository* Repository::def = 0;
 
@@ -487,19 +488,19 @@ void Repository::detectJDK(bool w64bit)
     }
 }
 
-void Repository::versionDetected(const QString &package, const Version &v)
+void Repository::versionDetected(const QString &package, const Version &v,
+        const QString &path, const bool external)
 {
     PackageVersion* pv = findPackageVersion(package, v);
-    if (pv) {
-        if (!pv->installed())
-            pv->external = true;
-    } else {
+    if (!pv) {
         pv = new PackageVersion(package);
         pv->version = v;
         pv->version.normalize();
-        pv->external = true;
         this->packageVersions.append(pv);
     }
+    pv->external = external;
+    pv->path = path;
+    pv->saveInstallationInfo();
     somethingWasInstalledOrUninstalled();
 }
 
@@ -564,15 +565,15 @@ void Repository::detectMSIProducts()
     // http://blogs.msdn.com/b/astebner/archive/2009/01/29/9384143.aspx
     if (guids.contains("{FF66E9F6-83E7-3A3E-AF14-8DE9A809A6A4}")) {
         this->versionDetected("com.microsoft.VisualCPPRedistributable",
-                Version("9.0.21022.8"));
+                Version("9.0.21022.8"), WPMUtils::getWindowsDir(), true);
     }
     if (guids.contains("{9A25302D-30C0-39D9-BD6F-21E6EC160475}")) {
         this->versionDetected("com.microsoft.VisualCPPRedistributable",
-                Version("9.0.30729.17"));
+                Version("9.0.30729.17"), WPMUtils::getWindowsDir(), true);
     }
     if (guids.contains("{1F1C2DFC-2D24-3E06-BCB8-725134ADF989}")) {
         this->versionDetected("com.microsoft.VisualCPPRedistributable",
-                Version("9.0.30729.4148"));
+                Version("9.0.30729.4148"), WPMUtils::getWindowsDir(), true);
     }
 }
 
@@ -633,7 +634,8 @@ void Repository::detectMicrosoftInstaller()
     Version v = WPMUtils::getDLLVersion("MSI.dll");
     Version nullNull(0, 0);
     if (v.compare(nullNull) > 0) {
-        this->versionDetected("com.microsoft.WindowsInstaller", v);
+        this->versionDetected("com.microsoft.WindowsInstaller", v,
+                WPMUtils::getWindowsDir(), true);
     }
 }
 
@@ -650,28 +652,34 @@ void Repository::detectMSXML()
     Version v = WPMUtils::getDLLVersion("msxml.dll");
     Version nullNull(0, 0);
     if (v.compare(nullNull) > 0) {
-        this->versionDetected("com.microsoft.MSXML", v);
+        this->versionDetected("com.microsoft.MSXML", v,
+                WPMUtils::getWindowsDir(), true);
     }
     v = WPMUtils::getDLLVersion("msxml2.dll");
     if (v.compare(nullNull) > 0) {
-        this->versionDetected("com.microsoft.MSXML", v);
+        this->versionDetected("com.microsoft.MSXML", v,
+                WPMUtils::getWindowsDir(), true);
     }
     v = WPMUtils::getDLLVersion("msxml3.dll");
     if (v.compare(nullNull) > 0) {
         v.prepend(3);
-        this->versionDetected("com.microsoft.MSXML", v);
+        this->versionDetected("com.microsoft.MSXML", v,
+                WPMUtils::getWindowsDir(), true);
     }
     v = WPMUtils::getDLLVersion("msxml4.dll");
     if (v.compare(nullNull) > 0) {
-        this->versionDetected("com.microsoft.MSXML", v);
+        this->versionDetected("com.microsoft.MSXML", v,
+                WPMUtils::getWindowsDir(), true);
     }
     v = WPMUtils::getDLLVersion("msxml5.dll");
     if (v.compare(nullNull) > 0) {
-        this->versionDetected("com.microsoft.MSXML", v);
+        this->versionDetected("com.microsoft.MSXML", v,
+                WPMUtils::getWindowsDir(), true);
     }
     v = WPMUtils::getDLLVersion("msxml6.dll");
     if (v.compare(nullNull) > 0) {
-        this->versionDetected("com.microsoft.MSXML", v);
+        this->versionDetected("com.microsoft.MSXML", v,
+                WPMUtils::getWindowsDir(), true);
     }
 }
 
@@ -725,66 +733,101 @@ void Repository::process(Job *job, const QList<InstallOperation *> &install)
     job->complete();
 }
 
-void Repository::addUnknownExistingPackages()
+void Repository::scanPre1_15Dir()
 {
     QDir aDir = getDirectory();
-    if (aDir.exists()) {
-        QFileInfoList entries = aDir.entryInfoList(
-                QDir::NoDotAndDotDot |
-                QDir::Dirs);
-        int count = entries.size();
-        for (int idx = 0; idx < count; idx++) {
-            QFileInfo entryInfo = entries[idx];
-            QString fn = entryInfo.fileName();
-            QStringList sl = fn.split('-');
-            if (sl.count() == 2) {
-                QString package = sl.at(0);
-                if (Package::isValidName(package)) {
-                    QString version_ = sl.at(1);
-                    Version version;
-                    if (version.setVersion(version_)) {
-                        if (this->findPackage(package) == 0) {
-                            QString title = package +
-                                    " (unknown in current repositories)";
-                            Package* p = new Package(package,
-                                    title);
-                            this->packages.append(p);
-                        }
-                        PackageVersion* pv;
-                        pv = this->findPackageVersion(package, version);
-                        if (pv == 0) {
-                            pv = new PackageVersion(package);
-                            version.normalize();
-                            pv->version = version;
-                            pv->external = !version.isNormalized();
-                            this->packageVersions.append(pv);
-                            somethingWasInstalledOrUninstalled();
-                        } else {
-                            if (!version.isNormalized())
-                                pv->external = true;
-                        }
+    if (!aDir.exists())
+        return;
+
+    QString regPath = "SOFTWARE\\Npackd\\Npackd\\Packages";
+    WindowsRegistry machineWR(HKEY_LOCAL_MACHINE);
+    QString err;
+    WindowsRegistry packagesWR = machineWR.createSubKey(regPath, &err);
+    if (!err.isEmpty())
+        return;
+
+    QFileInfoList entries = aDir.entryInfoList(
+            QDir::NoDotAndDotDot | QDir::Dirs);
+    int count = entries.size();
+    QString dirPath = aDir.absolutePath();
+    dirPath.replace('/', '\\');
+    for (int idx = 0; idx < count; idx++) {
+        QFileInfo entryInfo = entries[idx];
+        QString name = entryInfo.fileName();
+        int pos = name.lastIndexOf("-");
+        if (pos > 0) {
+            QString packageName = name.left(pos);
+            QString versionName = name.right(name.length() - pos - 1);
+
+            if (Package::isValidName(packageName)) {
+                Version version;
+                if (version.setVersion(versionName)) {
+                    // using getVersionString() here to fix a bug in earlier
+                    // versions where version numbers were not normalized
+                    WindowsRegistry wr = packagesWR.createSubKey(
+                            packageName + "-" + version.getVersionString(),
+                            &err);
+                    if (err.isEmpty()) {
+                        wr.set("Path", dirPath + "\\" +
+                                name);
+                        wr.setDWORD("External", 0);
                     }
                 }
             }
         }
     }
+}
 
-    QSettings s("HKEY_LOCAL_MACHINE\\SOFTWARE\\Npackd\\Npackd\\Packages",
-            QSettings::NativeFormat);
-    QStringList ps = s.childKeys();
-    for (int i = 0; i < ps.count(); ++i) {
-        s.beginGroup(ps[i]);
-        QString name = ps.at(i);
-        int pos = name.lastIndexOf("-");
-        if (pos > 0) {
-            QString packageName = name.left(pos);
-            QString versionName = name.right(name.length() - pos - 1);
-            Version version;
-            if (version.setVersion(versionName)) {
-                this->versionDetected(packageName, version);
+void Repository::addUnknownExistingPackages()
+{
+    QString regPath = "SOFTWARE\\Npackd\\Npackd";
+    WindowsRegistry machineWR(HKEY_LOCAL_MACHINE);
+    QString err;
+    WindowsRegistry npackdWR = machineWR.createSubKey(regPath, &err);
+    if (err.isEmpty()) {
+        DWORD b = npackdWR.getDWORD("Pre1_15DirScanned", &err);
+        if (!err.isEmpty() || b != 1) {
+            // store the references to packages in the old format (< 1.15)
+            // in the registry
+            scanPre1_15Dir();
+            npackdWR.setDWORD("Pre1_15DirScanned", 1);
+        }
+    }
+
+    // reading the registry database to find installed software
+    WindowsRegistry packagesWR = machineWR.createSubKey(
+            regPath + "\\Packages", &err);
+    if (err.isEmpty()) {
+        QStringList entries = packagesWR.list(&err);
+        for (int i = 0; i < entries.count(); ++i) {
+            WindowsRegistry entryWR;
+            QString name = entries.at(i);
+            err = entryWR.open(HKEY_LOCAL_MACHINE, regPath +
+                    "\\Packages\\" + name);
+            if (err.isEmpty()) {
+                int pos = name.lastIndexOf("-");
+                if (pos > 0) {
+                    QString packageName = name.left(pos);
+                    if (Package::isValidName(packageName)) {
+                        QString versionName = name.right(name.length() - pos - 1);
+                        Version version;
+                        if (version.setVersion(versionName)) {
+                            QString path = entryWR.get("Path", &err);
+                            if (err.isEmpty()) {
+                                DWORD external = entryWR.getDWORD(
+                                        "External", &err);
+                                if (!err.isEmpty())
+                                    external = 1;
+                                QDir d(path);
+                                if (d.exists())
+                                    this->versionDetected(packageName, version,
+                                            path, external != 0);
+                            }
+                        }
+                    }
+                }
             }
         }
-        s.endGroup();
     }
 }
 
