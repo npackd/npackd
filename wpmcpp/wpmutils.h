@@ -110,6 +110,16 @@ public:
     static QString sha1(const QString& filename);
 
     /**
+     * Scans all files in a directory and deletes all links (.lnk) to files
+     * in another directory.
+     *
+     * @param dir links to items in this directory (or any subdirectory) will
+     *     be deleted
+     * @param d this directory will be scanned for .lnk files
+     */
+    static void deleteShortcuts(const QString& dir, QDir& d);
+
+    /**
      * Reads a value from the registry.
      *
      * @param hk open key

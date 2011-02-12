@@ -18,15 +18,6 @@
 #include "wpmutils.h"
 #include "version.h"
 
-//#include <windows.h>
-//#include <initguid.h>
-//#include <ole2.h>
-//#include <mstask.h>
-//#include <msterr.h>
-//#include <objidl.h>
-//#include <wchar.h>
-//#include <stdio.h>
-
 const char* WPMUtils::NPACKD_VERSION = "1.15.0";
 
 WPMUtils::WPMUtils()
@@ -526,92 +517,59 @@ void WPMUtils::removeDirectory(Job* job, QDir &aDir)
     job->complete();
 }
 
-/* Task creation
-int main2(int argc, char **argv)
+void WPMUtils::deleteShortcuts(const QString& dir, QDir& d)
 {
-  HRESULT hr = S_OK;
-  ITaskScheduler *pITS;
+    // Get a pointer to the IShellLink interface.
+    IShellLink* psl;
+    HRESULT hres = CoCreateInstance(CLSID_ShellLink, NULL,
+            CLSCTX_INPROC_SERVER, IID_IShellLink, (LPVOID *) &psl);
 
+    if (SUCCEEDED(hres)) {
+        QDir instDir(dir);
+        QString instPath = instDir.absolutePath();
+        QFileInfoList entries = d.entryInfoList(
+                QDir::NoDotAndDotDot | QDir::Files | QDir::Dirs);
+        int count = entries.size();
+        for (int idx = 0; idx < count; idx++) {
+            QFileInfo entryInfo = entries[idx];
+            QString path = entryInfo.absoluteFilePath();
+            // qDebug() << "PackageVersion::deleteShortcuts " << path;
+            if (entryInfo.isDir()) {
+                QDir dd(path);
+                deleteShortcuts(dir, dd);
+            } else {
+                if (path.toLower().endsWith(".lnk")) {
+                    // qDebug() << "deleteShortcuts " << path;
+                    IPersistFile* ppf;
 
-  /////////////////////////////////////////////////////////////////
-  // Call CoInitialize to initialize the COM library and then
-  // call CoCreateInstance to get the Task Scheduler object.
-  /////////////////////////////////////////////////////////////////
-  hr = CoInitialize(NULL);
-  if (SUCCEEDED(hr))
-  {
-     hr = CoCreateInstance(CLSID_CTaskScheduler,
-                           NULL,
-                           CLSCTX_INPROC_SERVER,
-                           IID_ITaskScheduler,
-                           (void **) &pITS);
-     if (FAILED(hr))
-     {
-        CoUninitialize();
-        return 1;
-     }
-  }
-  else
-  {
-     return 1;
-  }
+                    // Query IShellLink for the IPersistFile interface for saving the
+                    // shortcut in persistent storage.
+                    hres = psl->QueryInterface(IID_IPersistFile, (LPVOID*)&ppf);
 
-
-  /////////////////////////////////////////////////////////////////
-  // Call ITaskScheduler::NewWorkItem to create new task.
-  /////////////////////////////////////////////////////////////////
-  LPCWSTR pwszTaskName;
-  ITask *pITask;
-  IPersistFile *pIPersistFile;
-  pwszTaskName = L"Test Task";
-
-  hr = pITS->NewWorkItem(pwszTaskName,         // Name of task
-                         CLSID_CTask,          // Class identifier
-                         IID_ITask,            // Interface identifier
-                         (IUnknown**)&pITask); // Address of task
-                                                                                                                                                                                                                                                                                                                                                                                        //	interface
-
-
-  pITS->Release();                               // Release object
-  if (FAILED(hr))
-  {
-     CoUninitialize();
-     fprintf(stderr, "Failed calling NewWorkItem, error = 0x%x\n",hr);
-     return 1;
-  }
-
-
-  /////////////////////////////////////////////////////////////////
-  // Call IUnknown::QueryInterface to get a pointer to
-  // IPersistFile and IPersistFile::Save to save
-  // the new task to disk.
-  /////////////////////////////////////////////////////////////////
-
-  hr = pITask->QueryInterface(IID_IPersistFile,
-                              (void **)&pIPersistFile);
-
-  pITask->Release();
-  if (FAILED(hr))
-  {
-     CoUninitialize();
-     fprintf(stderr, "Failed calling QueryInterface, error = 0x%x\n",hr);
-     return 1;
-  }
-
-
-  hr = pIPersistFile->Save(NULL,
-                           TRUE);
-  pIPersistFile->Release();
-  if (FAILED(hr))
-  {
-     CoUninitialize();
-     fprintf(stderr, "Failed calling Save, error = 0x%x\n",hr);
-     return 1;
-  }
-
-
-  CoUninitialize();
-  printf("Created task.\n");
-  return 0;
+                    if (SUCCEEDED(hres)) {
+                        // Save the link by calling IPersistFile::Save.
+                        hres = ppf->Load((WCHAR*) path.utf16(), STGM_READ);
+                        if (SUCCEEDED(hres)) {
+                            WCHAR info[MAX_PATH + 1];
+                            hres = psl->GetPath(info, MAX_PATH,
+                                    (WIN32_FIND_DATAW*) 0, SLGP_UNCPRIORITY);
+                            if (SUCCEEDED(hres)) {
+                                QString targetPath;
+                                targetPath.setUtf16((ushort*) info, wcslen(info));
+                                // qDebug() << "deleteShortcuts " << targetPath << " " <<
+                                //        instPath;
+                                if (WPMUtils::isUnder(targetPath,
+                                                      instPath)) {
+                                    QFile::remove(path);
+                                    // qDebug() << "deleteShortcuts removed";
+                                }
+                            }
+                        }
+                        ppf->Release();
+                    }
+                }
+            }
+        }
+        psl->Release();
+    }
 }
-*/

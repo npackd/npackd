@@ -84,7 +84,7 @@ PackageVersion::PackageVersion()
 
 bool PackageVersion::isDirectoryLocked()
 {
-    QDir d = getDirectory();
+    QDir d(path);
     QDateTime now = QDateTime::currentDateTime();
     QString newName = QString("%1-%2").arg(d.absolutePath()).arg(now.toTime_t());
 
@@ -167,133 +167,32 @@ bool PackageVersion::installed()
     if (this->path.trimmed().isEmpty()) {
         return false;
     } else {
-        QDir d = getDirectory();
+        QDir d(path);
         d.refresh();
         return d.exists();
     }
 }
 
-void PackageVersion::registerFileHandlers()
-{
-    const REGSAM KEY_WOW64_64KEY = 0x0100;
-    bool w64bit = WPMUtils::is64BitWindows();
-    HKEY hkeyClasses;
-    if (RegOpenKeyEx(HKEY_LOCAL_MACHINE,
-                L"SOFTWARE\\Classes",
-                0, KEY_CREATE_SUB_KEY | KEY_WRITE | (w64bit ? KEY_WOW64_64KEY : 0),
-                &hkeyClasses) != ERROR_SUCCESS)
-        return;
-
-    QDir dir = getDirectory();
-    for (int i = 0; i < this->fileHandlers.count(); i++) {
-        FileExtensionHandler* fh = this->fileHandlers.at(i);
-
-        QString prg = fh->program;
-        prg.replace('\\', '-').replace('/', '-');
-        QString progId = "Npackd-" + this->package + "-" +
-                this->version.getVersionString() + "-" +
-                prg;
-
-        QString openKey = "Applications\\" + progId +
-                          "\\shell\\open";
-        QString commandKey = openKey + "\\command";
-        HKEY hkey;
-        long res = RegCreateKeyExW(hkeyClasses, (WCHAR*) commandKey.utf16(),
-                              0, 0, 0, KEY_WRITE, 0, &hkey, 0);
-        if (res != ERROR_SUCCESS)
-            continue;
-
-        // Windows 7: no "Open With" is shown if the path contains /
-        // instead of
-        QString cmd = "\"" + dir.absolutePath() + "\\" + fh->program +
-                "\" \"%1\"";
-        cmd.replace('/', '\\');
-        RegSetValueEx(hkey, 0, 0, REG_SZ, (BYTE*) cmd.utf16(),
-                cmd.length() * 2 + 2);
-        RegCloseKey(hkey);
-
-        res = RegOpenKeyEx(hkeyClasses, (WCHAR*) openKey.utf16(), 0,
-                KEY_WRITE, &hkey);
-        if (res == ERROR_SUCCESS) {
-            QString s = fh->title;
-            if (s.contains(this->getPackageTitle()))
-                s = s + " (" + this->version.getVersionString() + ")";
-            else
-                s = s + " (" + this->getPackageTitle() + " " +
-                        this->version.getVersionString() + ")";
-            RegSetValueEx(hkey, L"FriendlyAppName", 0, REG_SZ, (BYTE*) s.utf16(),
-                    s.length() * 2 + 2);
-            RegCloseKey(hkey);
-        }
-
-        for (int j = 0; j < fh->extensions.count(); j++) {
-            // OpenWithProgids does not work on Windows 7 if OpenWithList is
-            // also defined:
-            // http://msdn.microsoft.com/en-us/library/bb166549.aspx#2
-            QString key = fh->extensions.at(j) + "\\OpenWithList\\" + progId;
-            res = RegCreateKeyExW(hkeyClasses, (WCHAR*) key.utf16(),
-                                       0, 0, 0, KEY_WRITE, 0, &hkey, 0);
-            if (res == ERROR_SUCCESS) {
-                RegCloseKey(hkey);
-            }
-        }
-    }
-    SHChangeNotify(SHCNE_ASSOCCHANGED, SHCNF_IDLIST, 0, 0);
-}
-
-void PackageVersion::unregisterFileHandlers()
-{
-    const REGSAM KEY_WOW64_64KEY = 0x0100;
-    bool w64bit = WPMUtils::is64BitWindows();
-    HKEY hkeyClasses;
-    if (RegOpenKeyEx(HKEY_LOCAL_MACHINE,
-                L"SOFTWARE\\Classes",
-                0, KEY_WRITE | (w64bit ? KEY_WOW64_64KEY : 0),
-                &hkeyClasses) != ERROR_SUCCESS)
-        return;
-
-    for (int i = 0; i < this->fileHandlers.count(); i++) {
-        FileExtensionHandler* fh = this->fileHandlers.at(i);
-
-        QString prg = fh->program;
-        prg.replace('\\', '-').replace('/', '-');
-        QString progId = "Npackd-" + this->package + "-" +
-                this->version.getVersionString() + "-" +
-                prg;
-        QString key = "Applications\\" + progId;
-        WPMUtils::regDeleteTree(hkeyClasses, key);
-
-        for (int j = 0; j < fh->extensions.count(); j++) {
-            // OpenWithProgids does not work on Windows 7 if OpenWithList is
-            // also defined:
-            // http://msdn.microsoft.com/en-us/library/bb166549.aspx#2
-            key = fh->extensions.at(j) + "\\OpenWithList\\" + progId;
-            WPMUtils::regDeleteTree(hkeyClasses, key);
-        }
-    }
-    SHChangeNotify(SHCNE_ASSOCCHANGED, SHCNF_IDLIST, 0, 0);
-}
-
-void PackageVersion::deleteShortcuts(Job* job,
+void PackageVersion::deleteShortcuts(const QString& dir, Job* job,
         bool menu, bool desktop, bool quickLaunch)
 {
     if (menu) {
         job->setHint("Start menu");
         QDir d(WPMUtils::getShellDir(CSIDL_STARTMENU));
-        deleteShortcuts(d);
+        WPMUtils::deleteShortcuts(dir, d);
 
         QDir d2(WPMUtils::getShellDir(CSIDL_COMMON_STARTMENU));
-        deleteShortcuts(d2);
+        WPMUtils::deleteShortcuts(dir, d2);
     }
     job->setProgress(0.33);
 
     if (desktop) {
         job->setHint("Desktop");
         QDir d3(WPMUtils::getShellDir(CSIDL_DESKTOP));
-        deleteShortcuts(d3);
+        WPMUtils::deleteShortcuts(dir, d3);
 
         QDir d4(WPMUtils::getShellDir(CSIDL_COMMON_DESKTOPDIRECTORY));
-        deleteShortcuts(d4);
+        WPMUtils::deleteShortcuts(dir, d4);
     }
     job->setProgress(0.66);
 
@@ -301,10 +200,10 @@ void PackageVersion::deleteShortcuts(Job* job,
         job->setHint("Quick launch bar");
         const char* A = "\\Microsoft\\Internet Explorer\\Quick Launch";
         QDir d3(WPMUtils::getShellDir(CSIDL_APPDATA) + A);
-        deleteShortcuts(d3);
+        WPMUtils::deleteShortcuts(dir, d3);
 
         QDir d4(WPMUtils::getShellDir(CSIDL_COMMON_APPDATA) + A);
-        deleteShortcuts(d4);
+        WPMUtils::deleteShortcuts(dir, d4);
     }
     job->setProgress(1);
 
@@ -313,13 +212,13 @@ void PackageVersion::deleteShortcuts(Job* job,
 
 void PackageVersion::uninstall(Job* job)
 {
-    if (external) {
+    if (external || path.isEmpty()) {
         job->setProgress(1);
         job->complete();
         return;
     }
 
-    QDir d = getDirectory();
+    QDir d(path);
 
     QString p = ".Npackd\\Uninstall.bat";
     if (!QFile::exists(d.absolutePath() + "\\" + p)) {
@@ -335,7 +234,8 @@ void PackageVersion::uninstall(Job* job)
         env.append(this->package);
         env.append("NPACKD_PACKAGE_VERSION");
         env.append(this->version.getVersionString());
-        this->executeFile(sub, p, ".Npackd\\Uninstall.log", env);
+        this->executeFile(sub, d.absolutePath(),
+                p, ".Npackd\\Uninstall.log", env);
         if (!sub->getErrorMessage().isEmpty())
             job->setErrorMessage(sub->getErrorMessage());
         delete sub;
@@ -348,7 +248,7 @@ void PackageVersion::uninstall(Job* job)
     if (job->getErrorMessage().isEmpty()) {
         job->setHint("Deleting shortcuts");
         Job* sub = job->newSubJob(0.20);
-        deleteShortcuts(sub, true, true, true);
+        deleteShortcuts(d.absolutePath(), sub, true, true, true);
         delete sub;
     }
 
@@ -357,7 +257,7 @@ void PackageVersion::uninstall(Job* job)
         if (d.exists()) {
             job->setHint("Deleting files");
             Job* rjob = job->newSubJob(0.55);
-            removeDirectory(rjob);
+            removeDirectory(rjob, d.absolutePath());
             if (!rjob->getErrorMessage().isEmpty())
                 job->setErrorMessage(rjob->getErrorMessage());
             else {
@@ -373,9 +273,9 @@ void PackageVersion::uninstall(Job* job)
     job->complete();
 }
 
-void PackageVersion::removeDirectory(Job* job)
+void PackageVersion::removeDirectory(Job* job, const QString& dir)
 {
-    QDir d = getDirectory();
+    QDir d(dir);
 
     WPMUtils::moveToRecycleBin(d.absolutePath());
     job->setProgress(0.3);
@@ -429,12 +329,6 @@ void PackageVersion::removeDirectory(Job* job)
     }
 
     job->complete();
-}
-
-QDir PackageVersion::getDirectory()
-{
-    QDir d(this->path);
-    return d;
 }
 
 QString PackageVersion::planInstallation(QList<PackageVersion*>& installed,
@@ -625,9 +519,9 @@ QString PackageVersion::getPackageTitle()
     return pn;
 }
 
-bool PackageVersion::createShortcuts(QString *errMsg)
+bool PackageVersion::createShortcuts(const QString& dir, QString *errMsg)
 {
-    QDir d = getDirectory();
+    QDir d(dir);
     Package* p = Repository::getDefault()->findPackage(this->package);
     for (int i = 0; i < this->importantFiles.count(); i++) {
         QString ifile = this->importantFiles.at(i);
@@ -777,7 +671,7 @@ void PackageVersion::install(Job* job)
 
     if (!job->isCancelled() && job->getErrorMessage().isEmpty()) {
         QString err;
-        this->createShortcuts(&err); // ignore errors
+        this->createShortcuts(d.absolutePath(), &err); // ignore errors
         if (err.isEmpty())
             job->setProgress(0.84);
         else
@@ -786,7 +680,7 @@ void PackageVersion::install(Job* job)
 
     if (!job->isCancelled() && job->getErrorMessage().isEmpty()) {
         QString errMsg;
-        if (!this->saveFiles(&errMsg)) {
+        if (!this->saveFiles(d, &errMsg)) {
             job->setErrorMessage(errMsg);
         } else {
             job->setProgress(0.85);
@@ -810,27 +704,22 @@ void PackageVersion::install(Job* job)
             env.append(this->package);
             env.append("NPACKD_PACKAGE_VERSION");
             env.append(this->version.getVersionString());
-            this->executeFile(exec, p, ".Npackd\\Install.log", env);
+            this->executeFile(exec, d.absolutePath(),
+                    p, ".Npackd\\Install.log", env);
             if (!exec->getErrorMessage().isEmpty())
                 job->setErrorMessage(exec->getErrorMessage());
             else {
                 this->path = d.absolutePath();
                 this->external = false;
                 this->path.replace('/', '\\');
-                QString err = this->saveInstallationInfo();
-                if (!err.isEmpty())
-                    job->setErrorMessage(err);
             }
             delete exec;
         } else {
             this->path = d.absolutePath();
             this->external = false;
             this->path.replace('/', '\\');
-            QString err = this->saveInstallationInfo();
-            if (!err.isEmpty())
-                job->setErrorMessage(err);
-            job->setProgress(0.94);
         }
+        job->setProgress(0.94);
     }
 
     if (!job->isCancelled() && job->getErrorMessage().isEmpty()) {
@@ -846,14 +735,14 @@ void PackageVersion::install(Job* job)
         job->setHint(QString("Deleting desktop shortcuts %1").
                      arg(WPMUtils::getShellDir(CSIDL_DESKTOP)));
         Job* sub = job->newSubJob(0.05);
-        deleteShortcuts(sub, false, true, true);
+        deleteShortcuts(d.absolutePath(), sub, false, true, true);
         delete sub;
     }
 
     if (!job->getErrorMessage().isEmpty()) {
         // ignore errors
         Job* rjob = new Job();
-        removeDirectory(rjob);
+        removeDirectory(rjob, d.absolutePath());
         delete rjob;
     }
 
@@ -898,10 +787,9 @@ bool PackageVersion::unzip(QString zipfile, QString outputdir, QString* errMsg)
     return extractsuccess;
 }
 
-bool PackageVersion::saveFiles(QString* errMsg)
+bool PackageVersion::saveFiles(const QDir& d, QString* errMsg)
 {
     bool success = false;
-    QDir d = this->getDirectory();
     for (int i = 0; i < this->files.count(); i++) {
         PackageVersionFile* f = this->files.at(i);
         QString fullPath = d.absolutePath() + "\\" + f->path;
@@ -931,7 +819,7 @@ QStringList PackageVersion::findLockedFiles()
 {
     QStringList files = WPMUtils::getProcessFiles();
     QStringList r;
-    QString dir = getDirectory().absolutePath();
+    QString dir(path);
     for (int i = 0; i < files.count(); i++) {        
         if (WPMUtils::isUnder(files.at(i), dir)) {
             r.append(files.at(i));
@@ -940,10 +828,11 @@ QStringList PackageVersion::findLockedFiles()
     return r;
 }
 
-void PackageVersion::executeFile(Job* job, const QString& path,
+void PackageVersion::executeFile(Job* job, const QString& where,
+        const QString& path,
         const QString& outputFile, const QStringList& env)
 {
-    QDir d = this->getDirectory();
+    QDir d(where);
     QProcess p(0);
     p.setProcessChannelMode(QProcess::MergedChannels);
     QStringList params;
@@ -995,59 +884,3 @@ void PackageVersion::executeFile(Job* job, const QString& path,
     job->complete();
 }
 
-void PackageVersion::deleteShortcuts(QDir& d)
-{
-    // Get a pointer to the IShellLink interface.
-    IShellLink* psl;
-    HRESULT hres = CoCreateInstance(CLSID_ShellLink, NULL,
-            CLSCTX_INPROC_SERVER, IID_IShellLink, (LPVOID *) &psl);
-
-    if (SUCCEEDED(hres)) {
-        QDir instDir = getDirectory();
-        QString instPath = instDir.absolutePath();
-        QFileInfoList entries = d.entryInfoList(
-                QDir::NoDotAndDotDot | QDir::Files | QDir::Dirs);
-        int count = entries.size();
-        for (int idx = 0; idx < count; idx++) {
-            QFileInfo entryInfo = entries[idx];
-            QString path = entryInfo.absoluteFilePath();
-            // qDebug() << "PackageVersion::deleteShortcuts " << path;
-            if (entryInfo.isDir()) {
-                QDir dd(path);
-                deleteShortcuts(dd);
-            } else {
-                if (path.toLower().endsWith(".lnk")) {
-                    // qDebug() << "deleteShortcuts " << path;
-                    IPersistFile* ppf;
-
-                    // Query IShellLink for the IPersistFile interface for saving the
-                    // shortcut in persistent storage.
-                    hres = psl->QueryInterface(IID_IPersistFile, (LPVOID*)&ppf);
-
-                    if (SUCCEEDED(hres)) {
-                        // Save the link by calling IPersistFile::Save.
-                        hres = ppf->Load((WCHAR*) path.utf16(), STGM_READ);
-                        if (SUCCEEDED(hres)) {
-                            WCHAR info[MAX_PATH + 1];
-                            hres = psl->GetPath(info, MAX_PATH,
-                                    (WIN32_FIND_DATAW*) 0, SLGP_UNCPRIORITY);
-                            if (SUCCEEDED(hres)) {
-                                QString targetPath;
-                                targetPath.setUtf16((ushort*) info, wcslen(info));
-                                // qDebug() << "deleteShortcuts " << targetPath << " " <<
-                                //        instPath;
-                                if (WPMUtils::isUnder(targetPath,
-                                                      instPath)) {
-                                    QFile::remove(path);
-                                    // qDebug() << "deleteShortcuts removed";
-                                }
-                            }
-                        }
-                        ppf->Release();
-                    }
-                }
-            }
-        }
-        psl->Release();
-    }
-}

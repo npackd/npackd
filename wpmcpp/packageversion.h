@@ -26,15 +26,14 @@ class PackageVersion
 {
 private:
     bool unzip(QString zipfile, QString outputdir, QString* errMsg);
-    bool createShortcuts(QString* errMsg);
-    void deleteShortcuts(QDir& d);
-    bool saveFiles(QString* errMsg);
-    void executeFile(Job* job, const QString& path, const QString& outputFile,
+    bool createShortcuts(const QString& dir, QString* errMsg);
+    bool saveFiles(const QDir& d, QString* errMsg);
+    void executeFile(Job* job, const QString& where,
+            const QString& path, const QString& outputFile,
             const QStringList& env);
-    void deleteShortcuts(Job* job, bool menu, bool desktop, bool quickLaunch);
+    void deleteShortcuts(const QString& dir,
+            Job* job, bool menu, bool desktop, bool quickLaunch);
     QString fullText;
-    void registerFileHandlers();
-    void unregisterFileHandlers();
 
     /**
      * Deletes a directory. If something cannot be deleted, it waits and
@@ -42,9 +41,9 @@ private:
      * it cannot be move to the recycle bin.
      *
      * @param job progress for this task
-     * @param aDir this directory will be deleted
+     * @param dir this directory will be deleted
      */
-    void removeDirectory(Job* job);
+    void removeDirectory(Job* job, const QString& dir);
 public:
     /** package version */
     Version version;
@@ -175,11 +174,6 @@ public:
      * @return true if this package version is installed
      */
     bool installed();
-
-    /**
-     * @return directory where this package version should be installed
-     */
-    QDir getDirectory();
 
     /**
      * @return description that can be used for the full-text search in lower
