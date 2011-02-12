@@ -18,7 +18,7 @@ protected:
 private:
     Ui::ProgressDialog *ui;
     Job* job;
-    time_t started;
+    time_t started, modified;
 public:
     /**
      * @param parent parent widget

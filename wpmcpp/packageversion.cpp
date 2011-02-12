@@ -113,6 +113,7 @@ QString PackageVersion::getShortPackageName()
 
 PackageVersion::~PackageVersion()
 {
+    qDeleteAll(this->detectFiles);
     qDeleteAll(this->files);
     qDeleteAll(this->dependencies);
     qDeleteAll(this->fileHandlers);

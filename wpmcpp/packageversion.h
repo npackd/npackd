@@ -15,6 +15,7 @@
 #include "digraph.h"
 #include "installoperation.h"
 #include "fileextensionhandler.h"
+#include "detectfile.h"
 
 class InstallOperation;
 
@@ -61,6 +62,11 @@ public:
      * Packages.
      */
     QList<PackageVersionFile*> files;
+
+    /**
+     * Package detection
+     */
+    QList<DetectFile*> detectFiles;
 
     /**
      * Dependencies.

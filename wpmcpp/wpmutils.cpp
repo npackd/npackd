@@ -344,7 +344,7 @@ QString WPMUtils::sha1(const QString& filename)
     if (err)
         return "";
     else
-        return hash.result().toHex();
+        return hash.result().toHex().toLower();
 }
 
 QString WPMUtils::getShellFileOperationErrorMessage(int res)

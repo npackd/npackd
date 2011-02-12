@@ -144,6 +144,21 @@ PackageVersion* Repository::findNewestInstalledPackageVersion(QString &name)
     return r;
 }
 
+DetectFile* Repository::createDetectFile(QDomElement* e)
+{
+    DetectFile* a = new DetectFile();
+    QDomNodeList nl = e->elementsByTagName("path");
+    if (nl.count() != 0) {
+        a->path = nl.at(0).firstChild().nodeValue().trimmed();
+        a->path.replace('/', '\\');
+    }
+    nl = e->elementsByTagName("sha1");
+    if (nl.count() != 0)
+        a->sha1 = nl.at(0).firstChild().nodeValue().trimmed().toLower();
+
+    return a;
+}
+
 PackageVersion* Repository::createPackageVersion(QDomElement* e)
 {
     // qDebug() << "Repository::createPackageVersion.1" << e->attribute("package");
@@ -201,6 +216,12 @@ PackageVersion* Repository::createPackageVersion(QDomElement* e)
     for (int i = 0; i < files.count(); i++) {
         QDomElement e = files.at(i).toElement();
         a->files.append(createPackageVersionFile(&e));
+    }
+
+    QDomNodeList detectFiles = e->elementsByTagName("detect-file");
+    for (int i = 0; i < detectFiles.count(); i++) {
+        QDomElement e = detectFiles.at(i).toElement();
+        a->detectFiles.append(createDetectFile(&e));
     }
 
     QDomNodeList deps = e->elementsByTagName("dependency");
@@ -787,6 +808,102 @@ void Repository::addUnknownExistingPackages()
             }
         }
     }
+}
+
+void Repository::scan(const QString& path, Job* job, int level)
+{
+    QDir aDir(path);
+
+    QMap<QString, QString> path2sha1;
+
+    for (int i = 0; i < this->packageVersions.count(); i++) {
+        if (job && job->isCancelled())
+            break;
+
+        PackageVersion* pv = this->packageVersions.at(i);
+        if (!pv->installed() && pv->detectFiles.count() > 0) {
+            boolean ok = true;
+            for (int j = 0; j < pv->detectFiles.count(); j++) {
+                bool fileOK = false;
+                DetectFile* df = pv->detectFiles.at(j);
+                if (aDir.exists(df->path)) {
+                    QString fullPath = path + "\\" + df->path;
+                    QFileInfo f(fullPath);
+                    if (f.isFile() && f.isReadable()) {
+                        QString sha1 = path2sha1[df->path];
+                        if (sha1.isEmpty()) {
+                            sha1 = WPMUtils::sha1(fullPath);
+                            path2sha1[df->path] = sha1;
+                        }
+                        if (df->sha1 == sha1) {
+                            fileOK = true;
+                        }
+                    }
+                }
+                if (!fileOK) {
+                    ok = false;
+                    break;
+                }
+            }
+
+            if (ok) {
+                versionDetected(pv->package, pv->version, path, true);
+                return;
+            }
+        }
+    }
+
+    if (job && !job->isCancelled()) {
+        QFileInfoList entries = aDir.entryInfoList(
+                QDir::NoDotAndDotDot | QDir::Dirs);
+        int count = entries.size();
+        for (int idx = 0; idx < count; idx++) {
+            if (job && job->isCancelled())
+                break;
+
+            QFileInfo entryInfo = entries[idx];
+            QString name = entryInfo.fileName();
+
+            if (job) {
+                job->setHint(QString("%1").arg(name));
+                if (job->isCancelled())
+                    break;
+            }
+
+            Job* djob;
+            if (level < 2)
+                djob = job->newSubJob(1.0 / count);
+            else
+                djob = 0;
+            scan(path + "\\" + name, djob, level + 1);
+            delete djob;
+
+            if (job) {
+                job->setProgress(((double) idx) / count);
+            }
+        }
+    }
+
+    if (job)
+        job->complete();
+}
+
+void Repository::scanHardDrive(Job* job)
+{
+    QFileInfoList fil = QDir::drives();
+    for (int i = 0; i < fil.count(); i++) {
+        if (job->isCancelled())
+            break;
+
+        QFileInfo fi = fil.at(i);
+
+        job->setHint(QString("Scanning %1").arg(fi.absolutePath()));
+        Job* djob = job->newSubJob(1.0 / fil.count());
+        scan(fi.absolutePath(), djob, 0);
+        delete djob;
+    }
+
+    job->complete();
 }
 
 void Repository::load(Job* job)

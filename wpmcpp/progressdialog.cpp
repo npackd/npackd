@@ -39,10 +39,13 @@ void ProgressDialog::jobChanged(const JobState& s)
     if (s.completed) {
         this->done(s.cancelRequested ? Rejected : Accepted);
     } else {
-        ui->labelStep->setText(s.hint);
+        time_t now;
+        time(&now);
+        if (now != this->modified) {
+            ui->labelStep->setText(s.hint);
+            this->modified = now;
+        }
         if (started != 0) {
-            time_t now;
-            time(&now);
             time_t diff = difftime(now, started);
 
             int sec = diff % 60;

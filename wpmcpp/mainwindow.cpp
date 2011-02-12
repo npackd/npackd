@@ -44,6 +44,7 @@ class InstallThread: public QThread
     // 5 = download the package and compute it's SHA1
     // 6 = test repositories
     // 7 = download all files
+    // 8 = scan hard drives
     int type;
 
     Job* job;
@@ -51,6 +52,7 @@ class InstallThread: public QThread
     void testRepositories();
     void downloadAllFiles();
     void testOnePackage(Job* job, PackageVersion* pv);
+    void scanHardDrives();
 public:
     // name of the log file for type=6
     // directory for type=7
@@ -173,6 +175,12 @@ void InstallThread::downloadAllFiles()
     job->complete();
 }
 
+void InstallThread::scanHardDrives()
+{
+    Repository* r = Repository::getDefault();
+    r->scanHardDrive(job);
+}
+
 void InstallThread::testRepositories()
 {
     QFile f(this->logFile);
@@ -245,6 +253,9 @@ void InstallThread::run()
         break;
     case 7:
         downloadAllFiles();
+        break;
+    case 8:
+        scanHardDrives();
         break;
     }
 
@@ -1207,4 +1218,19 @@ void MainWindow::on_actionDownload_All_Files_triggered()
 void MainWindow::on_actionShow_Details_triggered()
 {
     showDetails();
+}
+
+void MainWindow::on_actionScan_Hard_Drives_triggered()
+{
+    Job* job = new Job();
+    InstallThread* it = new InstallThread(0, 8, job);
+    it->start();
+    it->setPriority(QThread::LowestPriority);
+
+    waitFor(job, "Scan Hard Drives");
+    it->wait();
+    delete it;
+    delete job;
+
+    fillList();
 }

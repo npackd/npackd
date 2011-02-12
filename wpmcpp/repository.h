@@ -31,6 +31,7 @@ private:
     static Dependency* createDependency(QDomElement* e);
     static License* createLicense(QDomElement* e);
     static PackageVersion* createPackageVersion(QDomElement* e);
+    static DetectFile* createDetectFile(QDomElement* e);
 
     void loadOne(QUrl* url, Job* job);
 
@@ -44,6 +45,7 @@ private:
     void detectJRE(bool w64bit);
     void detectJDK(bool w64bit);
     void scanPre1_15Dir();
+    void scan(const QString& path, Job* job, int level);
 public:
     /**
      * @return C:\Program Files\Npackd - repository directory
@@ -133,6 +135,13 @@ public:
      * @param job job for this method
      */
     void load(Job* job);
+
+    /**
+     * Scans the hard drive for existing applications.
+     *
+     * @param job job for this method
+     */
+    void scanHardDrive(Job* job);
 
     /**
      * Searches for a package by name.

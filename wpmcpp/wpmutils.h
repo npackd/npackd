@@ -105,7 +105,7 @@ public:
      * Computes SHA1 hash for a file
      *
      * @param filename name of the file
-     * @return SHA1 or "" in case of an error
+     * @return SHA1 or "" in case of an error or SHA1 in lower case
      */
     static QString sha1(const QString& filename);
 

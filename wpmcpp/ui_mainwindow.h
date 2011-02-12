@@ -1,7 +1,7 @@
 /********************************************************************************
 ** Form generated from reading UI file 'mainwindow.ui'
 **
-** Created: Mon 7. Feb 22:01:55 2011
+** Created: Sat 12. Feb 19:59:18 2011
 **      by: Qt User Interface Compiler version 4.6.3
 **
 ** WARNING! All changes made in this file will be lost when recompiling UI file!
@@ -48,6 +48,7 @@ public:
     QAction *actionList_Installed_MSI_Products;
     QAction *actionDownload_All_Files;
     QAction *actionShow_Details;
+    QAction *actionScan_Hard_Drives;
     QWidget *centralWidget;
     QVBoxLayout *verticalLayout;
     QTabWidget *tabWidget;
@@ -111,6 +112,8 @@ public:
         actionDownload_All_Files->setObjectName(QString::fromUtf8("actionDownload_All_Files"));
         actionShow_Details = new QAction(MainWindow);
         actionShow_Details->setObjectName(QString::fromUtf8("actionShow_Details"));
+        actionScan_Hard_Drives = new QAction(MainWindow);
+        actionScan_Hard_Drives->setObjectName(QString::fromUtf8("actionScan_Hard_Drives"));
         centralWidget = new QWidget(MainWindow);
         centralWidget->setObjectName(QString::fromUtf8("centralWidget"));
         verticalLayout = new QVBoxLayout(centralWidget);
@@ -232,6 +235,7 @@ public:
         menuFile->addAction(actionGotoPackageURL);
         menuFile->addAction(actionTest_Download_Site);
         menuFile->addSeparator();
+        menuFile->addAction(actionScan_Hard_Drives);
         menuFile->addAction(actionSettings);
         menuFile->addAction(actionExit);
         menuExpert->addAction(actionCompute_SHA1);
@@ -309,6 +313,7 @@ public:
         actionDownload_All_Files->setToolTip(QApplication::translate("MainWindow", "downloads all packages to a directory", 0, QApplication::UnicodeUTF8));
 #endif // QT_NO_TOOLTIP
         actionShow_Details->setText(QApplication::translate("MainWindow", "Show Details", 0, QApplication::UnicodeUTF8));
+        actionScan_Hard_Drives->setText(QApplication::translate("MainWindow", "Scan Hard Drives", 0, QApplication::UnicodeUTF8));
         label_2->setText(QApplication::translate("MainWindow", "&Status:", 0, QApplication::UnicodeUTF8));
         comboBoxStatus->clear();
         comboBoxStatus->insertItems(0, QStringList()
