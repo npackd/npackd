@@ -73,7 +73,7 @@ DWORD WindowsRegistry::getDWORD(QString name, QString* err)
     DWORD value = 0;
     DWORD valueSize = sizeof(value);
     LONG r = RegQueryValueEx(this->hkey,
-                (WCHAR*) name.utf16(), 0, 0, (BYTE*) value,
+                (WCHAR*) name.utf16(), 0, 0, (BYTE*) &value,
                 &valueSize);
     if (r != ERROR_SUCCESS) {
         WPMUtils::formatMessage(r, err);

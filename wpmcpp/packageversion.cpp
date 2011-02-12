@@ -351,14 +351,6 @@ void PackageVersion::uninstall(Job* job)
         delete sub;
     }
 
-    /*
-    if (job->getErrorMessage().isEmpty()) {
-        job->setHint("Deleting file associations");
-        unregisterFileHandlers();
-        job->setProgress(0.45);
-    }
-    */
-
     if (job->getErrorMessage().isEmpty()) {
         Repository::getDefault()->somethingWasInstalledOrUninstalled();
         if (d.exists()) {
@@ -367,6 +359,10 @@ void PackageVersion::uninstall(Job* job)
             removeDirectory(rjob);
             if (!rjob->getErrorMessage().isEmpty())
                 job->setErrorMessage(rjob->getErrorMessage());
+            else {
+                this->path = "";
+                saveInstallationInfo();
+            }
             delete rjob;
         } else {
             job->setProgress(1);
@@ -689,7 +685,9 @@ void PackageVersion::install(Job* job)
     }
 
     // qDebug() << "install.2";
-    QDir d = getDirectory();
+    QDir d(WPMUtils::getInstallationDirectory() + "\\" + this->package +
+            "-" + this->version.getVersionString());
+
     // qDebug() << "install.dir=" << d;
 
     // qDebug() << "install.3";
@@ -796,12 +794,11 @@ void PackageVersion::install(Job* job)
 
     if (!job->isCancelled() && job->getErrorMessage().isEmpty()) {
         QString p = ".Npackd\\Install.bat";
-        if (!QFile::exists(getDirectory().absolutePath() +
+        if (!QFile::exists(d.absolutePath() +
                 "\\" + p)) {
             p = ".WPM\\Install.bat";
         }
-        if (QFile::exists(getDirectory().absolutePath() +
-                "\\" + p)) {
+        if (QFile::exists(d.absolutePath() + "\\" + p)) {
             job->setHint("Running the installation script (this may take some time)");
             Job* exec = job->newSubJob(0.1);
             if (!d.exists(".Npackd"))
@@ -815,7 +812,30 @@ void PackageVersion::install(Job* job)
             this->executeFile(exec, p, ".Npackd\\Install.log", env);
             if (!exec->getErrorMessage().isEmpty())
                 job->setErrorMessage(exec->getErrorMessage());
+            else {
+                this->path = d.absolutePath();
+                this->external = false;
+                this->path.replace('/', '\\');
+                QString err = this->saveInstallationInfo();
+                if (!err.isEmpty())
+                    job->setErrorMessage(err);
+            }
             delete exec;
+        } else {
+            this->path = d.absolutePath();
+            this->external = false;
+            this->path.replace('/', '\\');
+            QString err = this->saveInstallationInfo();
+            if (!err.isEmpty())
+                job->setErrorMessage(err);
+            job->setProgress(0.94);
+        }
+    }
+
+    if (!job->isCancelled() && job->getErrorMessage().isEmpty()) {
+        QString err = saveInstallationInfo();
+        if (!err.isEmpty()) {
+            job->setErrorMessage(err);
         } else {
             job->setProgress(0.95);
         }
@@ -828,14 +848,6 @@ void PackageVersion::install(Job* job)
         deleteShortcuts(sub, false, true, true);
         delete sub;
     }
-
-    /*
-    if (job->getErrorMessage().isEmpty() && !job->isCancelled()) {
-        job->setHint("Creating file associations");
-        registerFileHandlers();
-        job->setProgress(1);
-    }
-    */
 
     if (!job->getErrorMessage().isEmpty()) {
         // ignore errors
