@@ -22,7 +22,6 @@ SOURCES += main.cpp \
     fileloader.cpp \
     fileloaderitem.cpp \
     installoperation.cpp \
-    fileextensionhandler.cpp \
     packageversionform.cpp \
     license.cpp \
     licenseform.cpp \
@@ -46,7 +45,6 @@ HEADERS += mainwindow.h \
     fileloader.h \
     fileloaderitem.h \
     installoperation.h \
-    fileextensionhandler.h \
     packageversionform.h \
     license.h \
     licenseform.h \
