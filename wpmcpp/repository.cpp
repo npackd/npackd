@@ -335,16 +335,8 @@ void Repository::recognize(Job* job)
     Version v;
     v.setVersion(osvi.dwMajorVersion, osvi.dwMinorVersion,
             osvi.dwBuildNumber);
-    PackageVersion* pv = this->findPackageVersion(
-            "com.microsoft.Windows", v);
-    if (!pv) {
-        pv = new PackageVersion("com.microsoft.Windows");
-        v.normalize();
-        pv->version = v;
-        this->packageVersions.append(pv);
-    }
-    pv->external = true;
-    somethingWasInstalledOrUninstalled();
+    versionDetected("com.microsoft.Windows", v, WPMUtils::getWindowsDir(),
+            true);
     job->setProgress(0.5);
 
     if (!job->isCancelled()) {
@@ -416,19 +408,8 @@ void Repository::detectJRE(bool w64bit)
                 v_ = v_.replace('_', '.');
                 Version v;
                 if (v.setVersion(v_) && v.getNParts() > 2) {
-                    PackageVersion* pv =
-                            this->findPackageVersion("com.oracle.JRE", v);
-                    if (!pv) {
-                        pv = new PackageVersion("com.oracle.JRE");
-                        v.normalize();
-                        pv->version = v;
-                        pv->external = true;
-                        this->packageVersions.append(pv);
-                    } else {
-                        if (!pv->installed())
-                            pv->external = true;
-                    }
-                    somethingWasInstalledOrUninstalled();
+                    versionDetected("com.oracle.JRE", v,
+                            WPMUtils::getWindowsDir(), true);
                 }
             } else if (r == ERROR_NO_MORE_ITEMS) {
                 break;
@@ -465,19 +446,8 @@ void Repository::detectJDK(bool w64bit)
                 v_ = v_.replace('_', '.');
                 Version v;
                 if (v.setVersion(v_) && v.getNParts() > 2) {
-                    PackageVersion* pv =
-                            this->findPackageVersion("com.oracle.JDK", v);
-                    if (!pv) {
-                        pv = new PackageVersion("com.oracle.JDK");
-                        v.normalize();
-                        pv->version = v;
-                        pv->external = true;
-                        this->packageVersions.append(pv);
-                    } else {
-                        if (!pv->installed())
-                            pv->external = true;
-                    }
-                    somethingWasInstalledOrUninstalled();
+                    versionDetected("com.oracle.JDK", v,
+                            WPMUtils::getWindowsDir(), true);
                 }
             } else if (r == ERROR_NO_MORE_ITEMS) {
                 break;
@@ -541,19 +511,7 @@ void Repository::detectOneDotNet(HKEY hk2, const QString& keyName)
     }
 
     if (found) {
-        PackageVersion* pv = this->findPackageVersion(
-                packageName, v);
-        if (!pv) {
-            pv = new PackageVersion(packageName);
-            v.normalize();
-            pv->version = v;
-            pv->external = true;
-            this->packageVersions.append(pv);
-        } else {
-            if (!pv->installed())
-                pv->external = true;
-        }
-        somethingWasInstalledOrUninstalled();
+        versionDetected(packageName, v, WPMUtils::getWindowsDir(), true);
     }
 }
 
