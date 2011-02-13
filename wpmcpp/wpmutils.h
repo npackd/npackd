@@ -120,6 +120,15 @@ public:
     static void deleteShortcuts(const QString& dir, QDir& d);
 
     /**
+     * Creates a path for a non-existing directory based on the start value.
+     *
+     * @param start start path (e.g. C:\Program Files\Prog 1.0)
+     * @return non-existing path based on start
+     *     (e.g. C:\Program Files\Prog 1.0_2)
+     */
+    static QString findNonExistingDir(const QString& start);
+
+    /**
      * Reads a value from the registry.
      *
      * @param hk open key

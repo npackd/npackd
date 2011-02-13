@@ -661,7 +661,7 @@ void Repository::process(Job *job, const QList<InstallOperation *> &install)
                     pv->toString()));
         Job* sub = job->newSubJob(1.0 / n);
         if (op->install)
-            pv->install(sub);
+            pv->install(sub, pv->getPreferredInstallationDirectory());
         else
             pv->uninstall(sub);
         if (!sub->getErrorMessage().isEmpty())

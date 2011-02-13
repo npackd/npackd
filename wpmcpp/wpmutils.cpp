@@ -517,6 +517,16 @@ void WPMUtils::removeDirectory(Job* job, QDir &aDir)
     job->complete();
 }
 
+QString WPMUtils::findNonExistingDir(const QString& start)
+{
+    for (int i = 2;; i++) {
+        QString p = QString(start + "_%1").arg(i);
+        QFileInfo fi(p);
+        if (!fi.exists())
+            return p;
+    }
+}
+
 void WPMUtils::deleteShortcuts(const QString& dir, QDir& d)
 {
     // Get a pointer to the IShellLink interface.

@@ -196,11 +196,18 @@ public:
     QString saveInstallationInfo();
 
     /**
+     * @return a non-existing directory where this package would normally be
+     *     installed (e.g. C:\Program Files\My Prog 2.3.2)
+     */
+    QString getPreferredInstallationDirectory();
+
+    /**
      * Installs this application.
      *
      * @param job job for this method
+     * @param where a non-existing directory
      */
-    void install(Job* job);
+    void install(Job* job, const QString& where);
 
     /**
      * Uninstalls this package version.

@@ -572,7 +572,16 @@ bool PackageVersion::createShortcuts(const QString& dir, QString *errMsg)
     return true;
 }
 
-void PackageVersion::install(Job* job)
+QString PackageVersion::getPreferredInstallationDirectory()
+{
+    return WPMUtils::findNonExistingDir(
+            WPMUtils::getInstallationDirectory() + "\\" +
+            this->getPackageTitle() +
+            " " +
+            this->version.getVersionString());
+}
+
+void PackageVersion::install(Job* job, const QString& where)
 {
     job->setHint("Preparing");
 
@@ -583,8 +592,7 @@ void PackageVersion::install(Job* job)
     }
 
     // qDebug() << "install.2";
-    QDir d(WPMUtils::getInstallationDirectory() + "\\" + this->package +
-            "-" + this->version.getVersionString());
+    QDir d(where);
 
     // qDebug() << "install.dir=" << d;
 
