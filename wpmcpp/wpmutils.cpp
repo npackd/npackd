@@ -519,6 +519,9 @@ void WPMUtils::removeDirectory(Job* job, QDir &aDir)
 
 QString WPMUtils::findNonExistingDir(const QString& start)
 {
+    if (!QFileInfo(start).exists())
+        return start;
+
     for (int i = 2;; i++) {
         QString p = QString(start + "_%1").arg(i);
         QFileInfo fi(p);
