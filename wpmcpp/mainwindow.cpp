@@ -690,7 +690,7 @@ void MainWindow::process(QList<InstallOperation*> &install)
         InstallOperation* op = install.at(j);
         if (!op->install) {
             PackageVersion* pv = op->packageVersion;
-            QString path = pv->path;
+            QString path = pv->getPath();
             for (int i = 0; i < locked.size(); i++) {
                 if (WPMUtils::isUnder(locked.at(i), path)) {
                     lockedUninstall.append(locked.at(i));
@@ -719,7 +719,7 @@ void MainWindow::process(QList<InstallOperation*> &install)
                         "some files or directories under %2 are in use.");
                 QMessageBox::critical(this,
                         "Uninstall", msg.arg(pv->toString()).
-                        arg(pv->path));
+                        arg(pv->getPath()));
                 return;
             }
         }
@@ -766,7 +766,7 @@ void MainWindow::process(QList<InstallOperation*> &install)
                 "There is no way to restore the files. "
                 "Are you sure?").
                 arg(install.at(0)->packageVersion->toString()).
-                arg(install.at(0)->packageVersion->path);
+                arg(install.at(0)->packageVersion->getPath());
         b = QMessageBox::warning(this,
                 "Uninstall", msg, QMessageBox::Yes | QMessageBox::No);
     } else if (installCount > 0 && uninstallCount == 0) {

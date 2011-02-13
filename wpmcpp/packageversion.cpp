@@ -82,18 +82,30 @@ PackageVersion::PackageVersion()
     this->external = false;
 }
 
+QString PackageVersion::getPath()
+{
+    return this->ipath;
+}
+
+void PackageVersion::setPath(const QString& path)
+{
+    this->ipath = path;
+}
+
 bool PackageVersion::isDirectoryLocked()
 {
-    QDir d(path);
-    QDateTime now = QDateTime::currentDateTime();
-    QString newName = QString("%1-%2").arg(d.absolutePath()).arg(now.toTime_t());
+    if (installed()) {
+        QDir d(ipath);
+        QDateTime now = QDateTime::currentDateTime();
+        QString newName = QString("%1-%2").arg(d.absolutePath()).arg(now.toTime_t());
 
-    if (!d.rename(d.absolutePath(), newName)) {
-        return true;
-    }
+        if (!d.rename(d.absolutePath(), newName)) {
+            return true;
+        }
 
-    if (!d.rename(newName, d.absolutePath())) {
-        return true;
+        if (!d.rename(newName, d.absolutePath())) {
+            return true;
+        }
     }
 
     return false;
@@ -128,7 +140,7 @@ QString PackageVersion::saveInstallationInfo()
     if (!err.isEmpty())
         return err;
 
-    wr.set("Path", this->path);
+    wr.set("Path", this->ipath);
     wr.setDWORD("External", this->external ? 1 : 0);
     return "";
 }
@@ -155,10 +167,10 @@ QString PackageVersion::getFullText()
 
 bool PackageVersion::installed()
 {
-    if (this->path.trimmed().isEmpty()) {
+    if (this->ipath.trimmed().isEmpty()) {
         return false;
     } else {
-        QDir d(path);
+        QDir d(ipath);
         d.refresh();
         return d.exists();
     }
@@ -203,13 +215,13 @@ void PackageVersion::deleteShortcuts(const QString& dir, Job* job,
 
 void PackageVersion::uninstall(Job* job)
 {
-    if (external || path.isEmpty()) {
+    if (external || !installed()) {
         job->setProgress(1);
         job->complete();
         return;
     }
 
-    QDir d(path);
+    QDir d(ipath);
 
     QString p = ".Npackd\\Uninstall.bat";
     if (!QFile::exists(d.absolutePath() + "\\" + p)) {
@@ -252,7 +264,7 @@ void PackageVersion::uninstall(Job* job)
             if (!rjob->getErrorMessage().isEmpty())
                 job->setErrorMessage(rjob->getErrorMessage());
             else {
-                this->path = "";
+                this->ipath = "";
                 saveInstallationInfo();
             }
             delete rjob;
@@ -700,15 +712,15 @@ void PackageVersion::install(Job* job)
             if (!exec->getErrorMessage().isEmpty())
                 job->setErrorMessage(exec->getErrorMessage());
             else {
-                this->path = d.absolutePath();
+                this->ipath = d.absolutePath();
                 this->external = false;
-                this->path.replace('/', '\\');
+                this->ipath.replace('/', '\\');
             }
             delete exec;
         } else {
-            this->path = d.absolutePath();
+            this->ipath = d.absolutePath();
             this->external = false;
-            this->path.replace('/', '\\');
+            this->ipath.replace('/', '\\');
         }
         job->setProgress(0.94);
     }
@@ -808,12 +820,14 @@ bool PackageVersion::saveFiles(const QDir& d, QString* errMsg)
 
 QStringList PackageVersion::findLockedFiles()
 {
-    QStringList files = WPMUtils::getProcessFiles();
     QStringList r;
-    QString dir(path);
-    for (int i = 0; i < files.count(); i++) {        
-        if (WPMUtils::isUnder(files.at(i), dir)) {
-            r.append(files.at(i));
+    if (installed()) {
+        QStringList files = WPMUtils::getProcessFiles();
+        QString dir(ipath);
+        for (int i = 0; i < files.count(); i++) {
+            if (WPMUtils::isUnder(files.at(i), dir)) {
+                r.append(files.at(i));
+            }
         }
     }
     return r;

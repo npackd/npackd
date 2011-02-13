@@ -23,7 +23,10 @@ class InstallOperation;
  */
 class PackageVersion
 {
-private:
+private:    
+    /** installation directory or "", if the package version is not installed */
+    QString ipath;
+
     bool unzip(QString zipfile, QString outputdir, QString* errMsg);
     bool createShortcuts(const QString& dir, QString* errMsg);
     bool saveFiles(const QDir& d, QString* errMsg);
@@ -89,12 +92,22 @@ public:
      */
     bool external;
 
-    /** installation directory or "", if the package version is not installed */
-    QString path;
-
     PackageVersion();
     PackageVersion(const QString& package);
     virtual ~PackageVersion();
+
+    /**
+     * @return installation path or "" if the package is not installed
+     */
+    QString getPath();
+
+    /**
+     * Changes the installation path for this package. This method should only
+     * be used if the package was detected.
+     *
+     * @param path installation path
+     */
+    void setPath(const QString& path);
 
     /**
      * Renames the directory for this package to a temporary name and then

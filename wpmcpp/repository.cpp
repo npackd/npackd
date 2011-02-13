@@ -301,6 +301,18 @@ void Repository::recognize(Job* job)
         p->description = "Operating system";
         this->packages.append(p);
     }
+    if (!this->findPackage("com.microsoft.Windows32")) {
+        Package* p = new Package("com.microsoft.Windows32", "Windows/32 bit");
+        p->url = "http://www.microsoft.com/windows/";
+        p->description = "Operating system";
+        this->packages.append(p);
+    }
+    if (!this->findPackage("com.microsoft.Windows64")) {
+        Package* p = new Package("com.microsoft.Windows64", "Windows/64 bit");
+        p->url = "http://www.microsoft.com/windows/";
+        p->description = "Operating system";
+        this->packages.append(p);
+    }
     OSVERSIONINFO osvi;
     osvi.dwOSVersionInfoSize = sizeof(OSVERSIONINFO);
     GetVersionEx(&osvi);
@@ -309,6 +321,12 @@ void Repository::recognize(Job* job)
             osvi.dwBuildNumber);
     versionDetected("com.microsoft.Windows", v, WPMUtils::getWindowsDir(),
             true);
+    if (WPMUtils::is64BitWindows())
+        versionDetected("com.microsoft.Windows64", v, WPMUtils::getWindowsDir(),
+                true);
+    else
+        versionDetected("com.microsoft.Windows32", v, WPMUtils::getWindowsDir(),
+                true);
     job->setProgress(0.5);
 
     if (!job->isCancelled()) {
@@ -441,7 +459,7 @@ void Repository::versionDetected(const QString &package, const Version &v,
         this->packageVersions.append(pv);
     }
     pv->external = external;
-    pv->path = path;
+    pv->setPath(path);
     pv->saveInstallationInfo();
     somethingWasInstalledOrUninstalled();
 }

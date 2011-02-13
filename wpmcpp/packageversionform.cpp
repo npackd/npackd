@@ -34,7 +34,7 @@ void PackageVersionForm::updateStatus()
     else
         status = "not installed";
     this->ui->lineEditStatus->setText(status);
-    this->ui->lineEditPath->setText(pv->path);
+    this->ui->lineEditPath->setText(pv->getPath());
 }
 
 void PackageVersionForm::fillForm(PackageVersion* pv)
