@@ -48,11 +48,6 @@ private:
     void scan(const QString& path, Job* job, int level);
 public:
     /**
-     * @return C:\Program Files\Npackd - repository directory
-     */
-    QDir getDirectory();
-
-    /**
      * Package versions. All version numbers should be normalized.
      */
     QList<PackageVersion*> packageVersions;

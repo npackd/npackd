@@ -116,7 +116,6 @@ PackageVersion::~PackageVersion()
     qDeleteAll(this->detectFiles);
     qDeleteAll(this->files);
     qDeleteAll(this->dependencies);
-    qDeleteAll(this->fileHandlers);
 }
 
 QString PackageVersion::saveInstallationInfo()
@@ -148,14 +147,6 @@ QString PackageVersion::getFullText()
         }
         r.append(" ");
         r.append(this->version.getVersionString());
-
-        for (int i = 0; i < this->fileHandlers.count(); i++) {
-            FileExtensionHandler* fh = this->fileHandlers.at(i);
-            r.append(" ");
-            r.append(fh->title);
-            r.append(" ");
-            r.append(fh->extensions.join(" "));
-        }
 
         this->fullText = r.toLower();
     }

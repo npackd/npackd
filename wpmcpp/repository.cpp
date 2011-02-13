@@ -13,7 +13,6 @@
 #include "wpmutils.h"
 #include "version.h"
 #include "msi.h"
-#include "fileextensionhandler.h"
 #include "windowsregistry.h"
 
 Repository* Repository::def = 0;
@@ -27,40 +26,10 @@ QList<PackageVersion*> Repository::getInstalled()
 {
     QList<PackageVersion*> ret;
 
-    QDir aDir = getDirectory();
-    if (aDir.exists()) {
-        QFileInfoList entries = aDir.entryInfoList(
-                QDir::NoDotAndDotDot |
-                QDir::Dirs);
-        int count = entries.size();
-        for (int idx = 0; idx < count; idx++) {
-            QFileInfo entryInfo = entries[idx];
-            QString fn = entryInfo.fileName();
-            int p = fn.lastIndexOf('-');
-            if (p > 0) {
-                QString package = fn.left(p);
-                if (Package::isValidName(package)) {
-                    QString version_ = fn.right(fn.length() - p - 1);
-                    Version version;
-                    if (version.setVersion(version_)) {
-                        PackageVersion* pv =
-                                this->findPackageVersion(package, version);
-                        if (!pv) {
-                            pv = new PackageVersion(package);
-                            pv->version = version;
-                            this->packageVersions.append(pv);
-                        }
-                        ret.append(pv);
-                    }
-                }
-            }
-        }
-    }
-
     Repository* r = Repository::getDefault();
     for (int i = 0; i < r->packageVersions.count(); i++) {
         PackageVersion* pv = r->packageVersions.at(i);
-        if (pv->external) {
+        if (pv->installed()) {
             ret.append(pv);
         }
     }
@@ -192,24 +161,6 @@ PackageVersion* Repository::createPackageVersion(QDomElement* e)
 
         QString title = e.attribute("title", p);
         a->importantFilesTitles.append(title);
-    }
-
-    QDomNodeList nl = e->elementsByTagName("file-handler");
-    for (int i = 0; i < nl.count(); i++) {
-        QDomElement e = nl.at(i).toElement();
-        QString prg = e.elementsByTagName("executable").at(0).firstChild().
-                      nodeValue().trimmed();
-        QString title = e.elementsByTagName("title").at(0).firstChild().
-                      nodeValue().trimmed();
-        FileExtensionHandler* fh = new FileExtensionHandler(prg);
-        fh->title = title;
-        a->fileHandlers.append(fh);
-
-        QDomNodeList nl2 = e.elementsByTagName("extension");
-        for (int j = 0; j < nl2.count(); j++) {
-            QString ext = nl2.at(j).firstChild().nodeValue().trimmed();
-            fh->extensions.append(ext);
-        }
     }
 
     QDomNodeList files = e->elementsByTagName("file");
@@ -662,12 +613,6 @@ void Repository::detectMSXML()
     }
 }
 
-QDir Repository::getDirectory()
-{
-    QDir d(WPMUtils::getInstallationDirectory());
-    return d;
-}
-
 PackageVersion* Repository::findPackageVersion(const QString& package,
         const Version& version)
 {
@@ -714,7 +659,7 @@ void Repository::process(Job *job, const QList<InstallOperation *> &install)
 
 void Repository::scanPre1_15Dir()
 {
-    QDir aDir = getDirectory();
+    QDir aDir(WPMUtils::getInstallationDirectory());
     if (!aDir.exists())
         return;
 

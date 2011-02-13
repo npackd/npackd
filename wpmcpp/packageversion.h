@@ -14,7 +14,6 @@
 #include "dependency.h"
 #include "digraph.h"
 #include "installoperation.h"
-#include "fileextensionhandler.h"
 #include "detectfile.h"
 
 class InstallOperation;
@@ -71,11 +70,6 @@ public:
      * Dependencies.
      */
     QList<Dependency*> dependencies;
-
-    /**
-     * file handlers
-     */
-    QList<FileExtensionHandler*> fileHandlers;
 
     /** 0 = zip file, 1 = one file */
     int type;
