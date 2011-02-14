@@ -574,11 +574,18 @@ bool PackageVersion::createShortcuts(const QString& dir, QString *errMsg)
 
 QString PackageVersion::getPreferredInstallationDirectory()
 {
+    QString name(this->getPackageTitle() + "-" +
+                 this->version.getVersionString());
+
+    // http://msdn.microsoft.com/en-us/library/aa365247(v=vs.85).aspx
+    QString invalid("<>:\"/\\|?* ");
+
+    for (int i = 0; i < invalid.length(); i++)
+        name.replace(invalid.at(i), '_');
+
     return WPMUtils::findNonExistingDir(
             WPMUtils::getInstallationDirectory() + "\\" +
-            this->getPackageTitle() +
-            " " +
-            this->version.getVersionString());
+            name);
 }
 
 void PackageVersion::install(Job* job, const QString& where)
