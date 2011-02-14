@@ -95,9 +95,6 @@ QString WPMUtils::getInstallationDirectory()
     return v;
 }
 
-/**
- * see getInstallationDirectory()
- */
 void WPMUtils::setInstallationDirectory(const QString& dir)
 {
     QSettings s(QSettings::SystemScope, "Npackd", "Npackd");
