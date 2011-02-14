@@ -237,6 +237,11 @@
         <url>http://www.foxitsoftware.com/pdf/reader/</url>
         <description>PDF viewer</description>
     </package>
+    <package name="com.freecommander.FreeCommander">
+        <title>FreeCommander</title>
+        <url>http://www.freecommander.com</url>
+        <description>file manager</description>
+    </package>
     <package name="com.freemake.FreeVideoConverter">
         <title>Free Video Converter</title>
         <url>http://www.freemake.com/free_video_converter/</url>
@@ -1390,6 +1395,7 @@
         <title>Miranda IM</title>
         <url>http://www.miranda-im.org</url>
         <description>instant messenger</description>
+        <license>org.gnu.GPLv2</license>
     </package>
     <package name="org.mozilla.Firefox">
         <title>Firefox</title>
@@ -5880,5 +5886,21 @@ rmdir /s /q "%name%"
 </file>		
         <url>http://miranda.googlecode.com/files/miranda-im-v0.9.16-unicode.exe</url>
         <sha1>EE7B2AB81F2884A4FE1BC6B22FBB9971A464DC12</sha1>
+    </version>    
+
+    <version name="2009.2.2" package="com.freecommander.FreeCommander">
+        <file path=".WPM\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x
+"%setup%" /SP- /VERYSILENT /SUPPRESSMSGBOXES /NOCANCEL /NORESTART /DIR="%CD%" /SAVEINF="%CD%\.WPM\InnoSetupInfo.ini" /LOG="%CD%\.WPM\InnoSetupInstall.log"
+set err=%errorlevel%
+type .WPM\InnoSetupInstall.log
+if %err% neq 0 exit %err%
+</file>
+        <file path=".WPM\Uninstall.bat">unins000.exe /VERYSILENT /SUPPRESSMSGBOXES /NORESTART /LOG="%CD%\.WPM\InnoSetupUninstall.log"
+set err=%errorlevel%
+type .WPM\InnoSetupUninstall.log
+if %err% neq 0 exit %err%
+</file>		
+        <url>http://dl.dropbox.com/u/17046326/files/com.freecommander.FreeCommander-2009.2.2.zip</url>
+        <sha1>B3593A9012D1BC6BA55F35B103235C5FD533EC1C</sha1>
     </version>    
 </root>
