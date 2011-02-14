@@ -1,7 +1,7 @@
 /********************************************************************************
 ** Form generated from reading UI file 'mainwindow.ui'
 **
-** Created: Sat 12. Feb 19:59:18 2011
+** Created: Mon 14. Feb 20:36:52 2011
 **      by: Qt User Interface Compiler version 4.6.3
 **
 ** WARNING! All changes made in this file will be lost when recompiling UI file!
@@ -79,24 +79,24 @@ public:
         actionInstall = new QAction(MainWindow);
         actionInstall->setObjectName(QString::fromUtf8("actionInstall"));
         QIcon icon;
-        icon.addFile(QString::fromUtf8("edit_add.png"), QSize(), QIcon::Normal, QIcon::Off);
+        icon.addFile(QString::fromUtf8(":/images/install.png"), QSize(), QIcon::Normal, QIcon::Off);
         actionInstall->setIcon(icon);
         actionUninstall = new QAction(MainWindow);
         actionUninstall->setObjectName(QString::fromUtf8("actionUninstall"));
         QIcon icon1;
-        icon1.addFile(QString::fromUtf8("stop.png"), QSize(), QIcon::Normal, QIcon::Off);
+        icon1.addFile(QString::fromUtf8(":/images/uninstall.png"), QSize(), QIcon::Normal, QIcon::Off);
         actionUninstall->setIcon(icon1);
         actionGotoPackageURL = new QAction(MainWindow);
         actionGotoPackageURL->setObjectName(QString::fromUtf8("actionGotoPackageURL"));
         QIcon icon2;
-        icon2.addFile(QString::fromUtf8("internet&networking.png"), QSize(), QIcon::Normal, QIcon::Off);
+        icon2.addFile(QString::fromUtf8(":/images/gotosite.png"), QSize(), QIcon::Normal, QIcon::Off);
         actionGotoPackageURL->setIcon(icon2);
         actionSettings = new QAction(MainWindow);
         actionSettings->setObjectName(QString::fromUtf8("actionSettings"));
         actionUpdate = new QAction(MainWindow);
         actionUpdate->setObjectName(QString::fromUtf8("actionUpdate"));
         QIcon icon3;
-        icon3.addFile(QString::fromUtf8("agt_reload.png"), QSize(), QIcon::Normal, QIcon::Off);
+        icon3.addFile(QString::fromUtf8(":/images/update.png"), QSize(), QIcon::Normal, QIcon::Off);
         actionUpdate->setIcon(icon3);
         actionTest_Download_Site = new QAction(MainWindow);
         actionTest_Download_Site->setObjectName(QString::fromUtf8("actionTest_Download_Site"));

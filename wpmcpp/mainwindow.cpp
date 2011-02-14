@@ -358,15 +358,17 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->setupUi(this);
     setWindowTitle("Npackd");
 
-    this->genericAppIcon = QIcon(
-            ":/images/window_list.png");
+    this->genericAppIcon = QIcon(":/images/app.png");
 
     this->ui->tableWidget->setEditTriggers(QTableWidget::NoEditTriggers);
 
     QList<QUrl*> urls = Repository::getRepositoryURLs();
     if (urls.count() == 0) {
         urls.append(new QUrl(
-                "http://windows-package-manager.googlecode.com/hg/repository/Rep.xml"));
+                "https://windows-package-manager.googlecode.com/hg/repository/Rep.xml"));
+        if (WPMUtils::is64BitWindows())
+            urls.append(new QUrl(
+                    "https://windows-package-manager.googlecode.com/hg/repository/Rep64.xml"));
         Repository::setRepositoryURLs(urls);
     }
     qDeleteAll(urls);
