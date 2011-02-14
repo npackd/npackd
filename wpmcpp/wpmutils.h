@@ -49,6 +49,22 @@ public:
     static void removeDirectory(Job* job, QDir &aDir);
 
     /**
+     * Uses the Shell's IShellLink and IPersistFile interfaces
+     * to create and store a shortcut to the specified object.
+     *
+     * @return the result of calling the member functions of the interfaces.
+     * @param lpszPathObj - address of a buffer containing the path of the object.
+     * @param lpszPathLink - address of a buffer containing the path where the
+     *      Shell link is to be stored.
+     * @param lpszDesc - address of a buffer containing the description of the
+     *      Shell link.
+     * @param workingDir working directory
+     */
+    static HRESULT createLink(LPCWSTR lpszPathObj, LPCWSTR lpszPathLink,
+            LPCWSTR lpszDesc,
+            LPCWSTR workingDir);
+
+    /**
      * Finds the parent directory for a path.
      *
      * @param path a directory

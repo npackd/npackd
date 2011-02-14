@@ -23,51 +23,6 @@
 #include "version.h"
 #include "windowsregistry.h"
 
-/**
- * Uses the Shell's IShellLink and IPersistFile interfaces
- * to create and store a shortcut to the specified object.
- *
- * @return the result of calling the member functions of the interfaces.
- * @param lpszPathObj - address of a buffer containing the path of the object.
- * @param lpszPathLink - address of a buffer containing the path where the
- *      Shell link is to be stored.
- * @param lpszDesc - address of a buffer containing the description of the
- *      Shell link.
- * @param workingDir working directory
- */
-HRESULT CreateLink(LPCWSTR lpszPathObj, LPCWSTR lpszPathLink, LPCWSTR lpszDesc,
-        LPCWSTR workingDir)
-{
-    HRESULT hres;
-    IShellLink* psl;
-
-    // Get a pointer to the IShellLink interface.
-    hres = CoCreateInstance(CLSID_ShellLink, NULL,
-            CLSCTX_INPROC_SERVER, IID_IShellLink, (LPVOID *) &psl);
-
-    if (SUCCEEDED(hres)) {
-        IPersistFile* ppf;
-
-        // Set the path to the shortcut target and add the
-        // description.
-        psl->SetPath(lpszPathObj);
-        psl->SetDescription(lpszDesc);
-        psl->SetWorkingDirectory(workingDir);
-
-        // Query IShellLink for the IPersistFile interface for saving the
-        // shortcut in persistent storage.
-        hres = psl->QueryInterface(IID_IPersistFile, (LPVOID*)&ppf);
-
-        if (SUCCEEDED(hres)) {
-            // Save the link by calling IPersistFile::Save.
-            hres = ppf->Save(lpszPathLink, TRUE);
-            ppf->Release();
-        }
-        psl->Release();
-    }
-    return hres;
-}
-
 PackageVersion::PackageVersion(const QString& package)
 {
     this->package = package;
@@ -559,10 +514,11 @@ bool PackageVersion::createShortcuts(const QString& dir, QString *errMsg)
             desc = p->description;
         if (desc.isEmpty())
             desc = this->package;
-        HRESULT r = CreateLink((WCHAR*) path.replace('/', '\\').utf16(),
-                               (WCHAR*) from.utf16(),
-                               (WCHAR*) desc.utf16(),
-                               (WCHAR*) workingDir.utf16());
+        HRESULT r = WPMUtils::createLink(
+                (WCHAR*) path.replace('/', '\\').utf16(),
+                (WCHAR*) from.utf16(),
+                (WCHAR*) desc.utf16(),
+                (WCHAR*) workingDir.utf16());
 
         if (!SUCCEEDED(r)) {
             qDebug() << "shortcut creation failed";

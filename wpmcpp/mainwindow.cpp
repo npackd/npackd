@@ -417,8 +417,7 @@ void MainWindow::prepare()
 {
     QTimer *pTimer = new QTimer(this);
     pTimer->setSingleShot(true);
-    connect(pTimer, SIGNAL(timeout()), this,
-            SLOT(onShow()));
+    connect(pTimer, SIGNAL(timeout()), this, SLOT(onShow()));
 
     pTimer->start(0);
 }

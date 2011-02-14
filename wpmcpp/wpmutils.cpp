@@ -3,6 +3,9 @@
 #include <shlobj.h>
 #include <psapi.h>
 #include <tlhelp32.h>
+#include <wininet.h>
+#include <stdlib.h>
+#include <time.h>
 #include "msi.h"
 #include <shellapi.h>
 
@@ -467,6 +470,39 @@ bool WPMUtils::is64BitWindows()
     }
     FreeLibrary(hInstLib);
     return ret;
+}
+
+HRESULT WPMUtils::createLink(LPCWSTR lpszPathObj, LPCWSTR lpszPathLink, LPCWSTR lpszDesc,
+        LPCWSTR workingDir)
+{
+    HRESULT hres;
+    IShellLink* psl;
+
+    // Get a pointer to the IShellLink interface.
+    hres = CoCreateInstance(CLSID_ShellLink, NULL,
+            CLSCTX_INPROC_SERVER, IID_IShellLink, (LPVOID *) &psl);
+
+    if (SUCCEEDED(hres)) {
+        IPersistFile* ppf;
+
+        // Set the path to the shortcut target and add the
+        // description.
+        psl->SetPath(lpszPathObj);
+        psl->SetDescription(lpszDesc);
+        psl->SetWorkingDirectory(workingDir);
+
+        // Query IShellLink for the IPersistFile interface for saving the
+        // shortcut in persistent storage.
+        hres = psl->QueryInterface(IID_IPersistFile, (LPVOID*)&ppf);
+
+        if (SUCCEEDED(hres)) {
+            // Save the link by calling IPersistFile::Save.
+            hres = ppf->Save(lpszPathLink, TRUE);
+            ppf->Release();
+        }
+        psl->Release();
+    }
+    return hres;
 }
 
 void WPMUtils::removeDirectory(Job* job, QDir &aDir)
