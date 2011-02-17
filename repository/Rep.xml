@@ -2765,12 +2765,38 @@ type .WPM\InnoSetupUninstall.log
         <url>http://downloads.sourceforge.net/project/emuleplus/eMulePlus/eMulePlus-1.2e/eMulePlus-1.2e.Binary.zip?ts=1281906600</url>
         <sha1>6e2acb3e9967ad2878e96ade6541f233f32a38e5</sha1>
     </version>
+	
     <version name="2.5.3" package="net.sourceforge.shareaza.Shareaza"
             type="one-file">
-        <file path=".WPM\Install.bat">Shareaza_2.5.3.0_Win32.exe /SP- /VERYSILENT /SUPPRESSMSGBOXES /NOCANCEL /NORESTART /DIR="%CD%"</file>
-        <file path=".WPM\Uninstall.bat">Uninstall\unins000.exe /VERYSILENT /SUPPRESSMSGBOXES /NORESTART</file>
+        <file path=".WPM\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x
+"%setup%" /SP- /VERYSILENT /SUPPRESSMSGBOXES /NOCANCEL /NORESTART /DIR="%CD%" /SAVEINF="%CD%\.WPM\InnoSetupInfo.ini" /LOG="%CD%\.WPM\InnoSetupInstall.log"
+set err=%errorlevel%
+type .WPM\InnoSetupInstall.log
+if %err% neq 0 exit %err%
+</file>
+        <file path=".WPM\Uninstall.bat">Uninstall\unins000.exe /VERYSILENT /SUPPRESSMSGBOXES /NORESTART /LOG="%CD%\.WPM\InnoSetupUninstall.log"
+set err=%errorlevel%
+type .WPM\InnoSetupUninstall.log
+if %err% neq 0 exit %err%
+</file>
         <url>http://downloads.sourceforge.net/project/shareaza/Shareaza/Shareaza%202.5.3.0/Shareaza_2.5.3.0_Win32.exe?ts=1281904089</url>
         <sha1>22945ee537cea2de17163aa78a58279431c0dabe</sha1>
+    </version>
+    <version name="2.5.4" package="net.sourceforge.shareaza.Shareaza"
+            type="one-file">
+        <file path=".WPM\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x
+"%setup%" /SP- /VERYSILENT /SUPPRESSMSGBOXES /NOCANCEL /NORESTART /DIR="%CD%" /SAVEINF="%CD%\.WPM\InnoSetupInfo.ini" /LOG="%CD%\.WPM\InnoSetupInstall.log"
+set err=%errorlevel%
+type .WPM\InnoSetupInstall.log
+if %err% neq 0 exit %err%
+</file>
+        <file path=".WPM\Uninstall.bat">Uninstall\unins000.exe /VERYSILENT /SUPPRESSMSGBOXES /NORESTART /LOG="%CD%\.WPM\InnoSetupUninstall.log"
+set err=%errorlevel%
+type .WPM\InnoSetupUninstall.log
+if %err% neq 0 exit %err%
+</file>
+        <url>http://downloads.sourceforge.net/project/shareaza/Shareaza/Shareaza%202.5.4.0/Shareaza_2.5.4.0_Win32.exe?ts=1297966183</url>
+        <sha1>E17CC7C68A6CB3DDF68E6EFF43DBB1E75A838A6D</sha1>
     </version>
 
     <version name="0.781" package="net.sourceforge.dcplusplus.DCPlusPlus">
