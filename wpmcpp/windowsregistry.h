@@ -78,12 +78,22 @@ public:
 
     /**
      * Opens a key. The previously open key (if any) will be closed.
+     *
      * @param hk a key
      * @param path path under hk
      * @param useWow6432Node if true, Wow6432Node is used on 64-bit Windows
      * @return error message or ""
      */
     QString open(HKEY hk, QString path, bool useWow6432Node);
+
+    /**
+     * Opens a key. The previously open key (if any) will be closed.
+     *
+     * @param wr points to a node in the registry
+     * @param subkey name of the subkey (may contain \)
+     * @return error message or ""
+     */
+    QString open(const WindowsRegistry& wr, QString subkey);
 
     /**
      * Opens or creates a sub-key.

@@ -152,6 +152,11 @@ QStringList WindowsRegistry::list(QString* err)
     return res;
 }
 
+QString WindowsRegistry::open(const WindowsRegistry& wr, QString subkey)
+{
+    return open(wr.hkey, subkey, wr.useWow6432Node);
+}
+
 QString WindowsRegistry::open(HKEY hk, QString path, bool useWow6432Node)
 {
     close();

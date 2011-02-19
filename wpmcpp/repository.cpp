@@ -401,10 +401,26 @@ void Repository::detectJRE(bool w64bit)
             QString v_ = entries.at(i);
             v_ = v_.replace('_', '.');
             Version v;
-            if (v.setVersion(v_) && v.getNParts() > 2) {
-                versionDetected(w64bit ? "com.oracle.JRE64" : "com.oracle.JRE",
-                        v, WPMUtils::getWindowsDir(), true);
-            }
+            if (!v.setVersion(v_) || v.getNParts() <= 2)
+                continue;
+
+            WindowsRegistry wr;
+            err = wr.open(jreWR, entries.at(i));
+            if (!err.isEmpty())
+                continue;
+
+            QString path = wr.get("JavaHome", &err);
+            if (!err.isEmpty())
+                continue;
+
+            QDir d(path);
+            if (!d.exists())
+                continue;
+
+            versionDetected(
+                    w64bit ? "com.oracle.JRE64" :
+                    "com.oracle.JRE",
+                    v, path, true);
         }
     }
 }
