@@ -37,6 +37,7 @@ private:
 
     void addWindowsPackage();
 
+    void clearExternallyInstalled(QString package);
     void detectOneDotNet(HKEY hk2, const QString& keyName);
     void detectMSIProducts();
     void detectDotNet();

@@ -352,7 +352,7 @@ void Repository::recognize(Job* job)
     }
 
     if (!job->isCancelled()) {
-        job->setHint("Detecting .NET");
+        job->setHint("Detecting MSI packages");
         detectMSIProducts();
         job->setProgress(0.95);
     }
@@ -387,6 +387,8 @@ void Repository::detectJRE(bool w64bit)
         this->packages.append(p);
     }
 
+    clearExternallyInstalled(w64bit ? "com.oracle.JRE64" : "com.oracle.JRE");
+
     if (w64bit && !WPMUtils::is64BitWindows())
         return;
 
@@ -415,6 +417,9 @@ void Repository::detectJDK(bool w64bit)
         p->description = "Java development kit";
         this->packages.append(p);
     }
+
+    clearExternallyInstalled("com.oracle.JDK");
+
     HKEY hk;
     const REGSAM KEY_WOW64_64KEY = 0x0100;
     if (RegOpenKeyEx(HKEY_LOCAL_MACHINE,
@@ -459,6 +464,17 @@ void Repository::versionDetected(const QString &package, const Version &v,
     pv->setPath(path);
     pv->saveInstallationInfo();
     somethingWasInstalledOrUninstalled();
+}
+
+void Repository::clearExternallyInstalled(QString package)
+{
+    for (int i = 0; i < this->packageVersions.count(); i++) {
+        PackageVersion* pv = this->packageVersions.at(i);
+        if (pv->external && pv->package == package) {
+            pv->setPath("");
+            pv->saveInstallationInfo();
+        }
+    }
 }
 
 void Repository::detectOneDotNet(HKEY hk2, const QString& keyName)
@@ -506,6 +522,8 @@ void Repository::detectMSIProducts()
 {
     QStringList guids = WPMUtils::findInstalledMSIProducts();
 
+    clearExternallyInstalled("com.microsoft.VisualCPPRedistributable");
+
     // Detecting VisualC++ runtimes:
     // http://blogs.msdn.com/b/astebner/archive/2009/01/29/9384143.aspx
     if (guids.contains("{FF66E9F6-83E7-3A3E-AF14-8DE9A809A6A4}")) {
@@ -534,6 +552,9 @@ void Repository::detectDotNet()
         p->description = ".NET runtime";
         this->packages.append(p);
     }
+
+    clearExternallyInstalled("com.microsoft.DotNetRedistributable");
+
     HKEY hk;
     if (RegOpenKeyEx(HKEY_LOCAL_MACHINE,
             L"Software\\Microsoft\\NET Framework Setup\\NDP",
@@ -576,6 +597,8 @@ void Repository::detectMicrosoftInstaller()
         this->packages.append(p);
     }
 
+    clearExternallyInstalled("com.microsoft.WindowsInstaller");
+
     Version v = WPMUtils::getDLLVersion("MSI.dll");
     Version nullNull(0, 0);
     if (v.compare(nullNull) > 0) {
@@ -593,6 +616,8 @@ void Repository::detectMSXML()
         p->description = "XML library";
         this->packages.append(p);
     }
+
+    clearExternallyInstalled("com.microsoft.MSXML");
 
     Version v = WPMUtils::getDLLVersion("msxml.dll");
     Version nullNull(0, 0);
