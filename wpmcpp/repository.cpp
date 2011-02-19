@@ -380,33 +380,30 @@ void Repository::detectJRE(bool w64bit)
         p->description = "Java runtime";
         this->packages.append(p);
     }
-    HKEY hk;
-    const REGSAM KEY_WOW64_64KEY = 0x0100;
-    if (RegOpenKeyEx(HKEY_LOCAL_MACHINE,
-            L"Software\\JavaSoft\\Java Runtime Environment",
-            0, KEY_READ | (w64bit ? KEY_WOW64_64KEY : 0),
-            &hk) == ERROR_SUCCESS) {
-        WCHAR name[255];
-        int index = 0;
-        while (true) {
-            DWORD nameSize = sizeof(name) / sizeof(name[0]);
-            LONG r = RegEnumKeyEx(hk, index, name, &nameSize,
-                    0, 0, 0, 0);
-            if (r == ERROR_SUCCESS) {
-                QString v_;
-                v_.setUtf16((ushort*) name, nameSize);
-                v_ = v_.replace('_', '.');
-                Version v;
-                if (v.setVersion(v_) && v.getNParts() > 2) {
-                    versionDetected("com.oracle.JRE", v,
-                            WPMUtils::getWindowsDir(), true);
-                }
-            } else if (r == ERROR_NO_MORE_ITEMS) {
-                break;
+    if (!this->findPackage("com.oracle.JRE64")) {
+        Package* p = new Package("com.oracle.JRE64", "JRE/64 bit");
+        p->url = "http://www.java.com/";
+        p->description = "Java runtime";
+        this->packages.append(p);
+    }
+
+    if (w64bit && !WPMUtils::is64BitWindows())
+        return;
+
+    WindowsRegistry jreWR;
+    QString err = jreWR.open(HKEY_LOCAL_MACHINE,
+            "Software\\JavaSoft\\Java Runtime Environment", !w64bit);
+    if (err.isEmpty()) {
+        QStringList entries = jreWR.list(&err);
+        for (int i = 0; i < entries.count(); i++) {
+            QString v_ = entries.at(i);
+            v_ = v_.replace('_', '.');
+            Version v;
+            if (v.setVersion(v_) && v.getNParts() > 2) {
+                versionDetected(w64bit ? "com.oracle.JRE64" : "com.oracle.JRE",
+                        v, WPMUtils::getWindowsDir(), true);
             }
-            index++;
         }
-        RegCloseKey(hk);
     }
 }
 
