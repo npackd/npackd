@@ -682,7 +682,7 @@ void Repository::scanPre1_15Dir()
         return;
 
     QString regPath = "SOFTWARE\\Npackd\\Npackd\\Packages";
-    WindowsRegistry machineWR(HKEY_LOCAL_MACHINE);
+    WindowsRegistry machineWR(HKEY_LOCAL_MACHINE, false);
     QString err;
     WindowsRegistry packagesWR = machineWR.createSubKey(regPath, &err);
     if (!err.isEmpty())
@@ -723,7 +723,7 @@ void Repository::scanPre1_15Dir()
 void Repository::addUnknownExistingPackages()
 {
     QString regPath = "SOFTWARE\\Npackd\\Npackd";
-    WindowsRegistry machineWR(HKEY_LOCAL_MACHINE);
+    WindowsRegistry machineWR(HKEY_LOCAL_MACHINE, false);
     QString err;
     WindowsRegistry npackdWR = machineWR.createSubKey(regPath, &err);
     if (err.isEmpty()) {
@@ -745,7 +745,7 @@ void Repository::addUnknownExistingPackages()
             WindowsRegistry entryWR;
             QString name = entries.at(i);
             err = entryWR.open(HKEY_LOCAL_MACHINE, regPath +
-                    "\\Packages\\" + name);
+                    "\\Packages\\" + name, false);
             if (err.isEmpty()) {
                 int pos = name.lastIndexOf("-");
                 if (pos > 0) {

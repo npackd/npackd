@@ -6,7 +6,7 @@
 #include "qstring.h"
 
 /**
- * Windows registry. Better than QSettings as the value do not land under
+ * Windows registry. Better than QSettings as the values do not land under
  * Wow6432Node on 64-bit Windows versions.
  */
 class WindowsRegistry
@@ -14,15 +14,22 @@ class WindowsRegistry
 private:
     /** current key or 0 */
     HKEY hkey;
+
+    bool useWow6432Node;
 public:
+    /**
+     * Creates an uninitialized object.
+     */
     WindowsRegistry();
 
     /**
      * Creates an object from an existing HKEY
      *
      * @param hk existing HKEY or 0
+     * @param useWow6432Node if true, Wow6432Node node is used under 64-bit
+     *     Windows
      */
-    WindowsRegistry(HKEY hk);
+    WindowsRegistry(HKEY hk, bool useWow6432Node);
 
     /**
      * Creates a copy
@@ -73,9 +80,10 @@ public:
      * Opens a key. The previously open key (if any) will be closed.
      * @param hk a key
      * @param path path under hk
+     * @param useWow6432Node if true, Wow6432Node is used on 64-bit Windows
      * @return error message or ""
      */
-    QString open(HKEY hk, QString path);
+    QString open(HKEY hk, QString path, bool useWow6432Node);
 
     /**
      * Opens or creates a sub-key.

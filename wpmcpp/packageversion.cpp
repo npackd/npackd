@@ -87,7 +87,7 @@ PackageVersion::~PackageVersion()
 
 QString PackageVersion::saveInstallationInfo()
 {
-    WindowsRegistry machineWR(HKEY_LOCAL_MACHINE);
+    WindowsRegistry machineWR(HKEY_LOCAL_MACHINE, false);
     QString err;
     WindowsRegistry wr = machineWR.createSubKey(
             "SOFTWARE\\Npackd\\Npackd\\Packages\\" +

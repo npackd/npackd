@@ -13,11 +13,13 @@ WindowsRegistry::WindowsRegistry()
 
 WindowsRegistry::WindowsRegistry(const WindowsRegistry& wr)
 {
+    this->useWow6432Node = wr.useWow6432Node;
+
     if (wr.hkey == 0)
         this->hkey = 0;
     else {
         const REGSAM KEY_WOW64_64KEY = 0x0100;
-        bool w64bit = WPMUtils::is64BitWindows();
+        bool w64bit = WPMUtils::is64BitWindows() && !useWow6432Node;
         LONG r = RegOpenKeyEx(wr.hkey,
                 L"",
                 0, KEY_ALL_ACCESS | (w64bit ? KEY_WOW64_64KEY : 0),
@@ -28,9 +30,10 @@ WindowsRegistry::WindowsRegistry(const WindowsRegistry& wr)
     }
 }
 
-WindowsRegistry::WindowsRegistry(HKEY hk)
+WindowsRegistry::WindowsRegistry(HKEY hk, bool useWow6432Node)
 {
     this->hkey = hk;
+    this->useWow6432Node = useWow6432Node;
 }
 
 WindowsRegistry::~WindowsRegistry()
@@ -149,12 +152,14 @@ QStringList WindowsRegistry::list(QString* err)
     return res;
 }
 
-QString WindowsRegistry::open(HKEY hk, QString path)
+QString WindowsRegistry::open(HKEY hk, QString path, bool useWow6432Node)
 {
     close();
 
+    this->useWow6432Node = useWow6432Node;
+
     const REGSAM KEY_WOW64_64KEY = 0x0100;
-    bool w64bit = WPMUtils::is64BitWindows();
+    bool w64bit = WPMUtils::is64BitWindows() && !useWow6432Node;
     LONG r = RegOpenKeyEx(hk,
             (WCHAR*) path.utf16(),
             0, KEY_ALL_ACCESS | (w64bit ? KEY_WOW64_64KEY : 0),
@@ -174,11 +179,11 @@ WindowsRegistry WindowsRegistry::createSubKey(QString name, QString* err)
 
     if (this->hkey == 0) {
         err->append("No key is open");
-        return 0;
+        return WindowsRegistry();
     }
 
     const REGSAM KEY_WOW64_64KEY = 0x0100;
-    bool w64bit = WPMUtils::is64BitWindows();
+    bool w64bit = WPMUtils::is64BitWindows() && !useWow6432Node;
     HKEY hk;
     LONG r = RegCreateKeyEx(this->hkey,
             (WCHAR*) name.utf16(),
@@ -189,7 +194,7 @@ WindowsRegistry WindowsRegistry::createSubKey(QString name, QString* err)
         hk = 0;
     }
 
-    return WindowsRegistry(hk);
+    return WindowsRegistry(hk, this->useWow6432Node);
 }
 
 QString WindowsRegistry::close()
