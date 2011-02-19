@@ -78,6 +78,17 @@ public:
     static QString getProgramFilesDir();
 
     /**
+     * - lower case
+     * - replaces / by \
+     * - removes \ at the end
+     * - replace multiple occurences of \
+     *
+     * @param path a file/directory path
+     * @return normalized path
+     */
+    static QString normalizePath(const QString& path);
+
+    /**
      * @param type a CSIDL constant like CSIDL_COMMON_PROGRAMS
      * @return directory like
      *     "C:\Documents and Settings\All Users\Start Menu\Programs"
@@ -93,8 +104,7 @@ public:
     static void formatMessage(DWORD err, QString* errMsg);
 
     /**
-     * Checks whether a file is somewhere in a directory (at any level). The
-     * directory must exist.
+     * Checks whether a file is somewhere in a directory (at any level).
      *
      * @param file the file
      * @param dir the directory

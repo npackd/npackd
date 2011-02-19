@@ -42,6 +42,17 @@ QString WPMUtils::getProgramFilesDir()
     return  QString::fromUtf16(reinterpret_cast<ushort*>(dir));
 }
 
+QString WPMUtils::normalizePath(const QString& path)
+{
+    QString r = path.toLower();
+    r.replace('/', '\\');
+    while (r.contains("\\\\"))
+        r.replace("\\\\", "\\");
+    if (r.endsWith('\\'))
+        r.chop(1);
+    return r;
+}
+
 bool WPMUtils::isUnder(const QString &file, const QString &dir)
 {
     QString f = file;

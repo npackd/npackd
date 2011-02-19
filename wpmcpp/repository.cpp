@@ -811,8 +811,12 @@ void Repository::addUnknownExistingPackages()
     }
 }
 
-void Repository::scan(const QString& path, Job* job, int level)
+void Repository::scan(const QString& path, Job* job, int level,
+        QStringList& ignore)
 {
+    if (ignore.contains(path))
+        return;
+
     QDir aDir(path);
 
     QMap<QString, QString> path2sha1;
@@ -876,7 +880,7 @@ void Repository::scan(const QString& path, Job* job, int level)
                 djob = job->newSubJob(1.0 / count);
             else
                 djob = 0;
-            scan(path + "\\" + name, djob, level + 1);
+            scan(path + "\\" + name.toLower(), djob, level + 1, ignore);
             delete djob;
 
             if (job) {
@@ -891,6 +895,9 @@ void Repository::scan(const QString& path, Job* job, int level)
 
 void Repository::scanHardDrive(Job* job)
 {
+    QStringList ignore;
+    ignore.append(WPMUtils::normalizePath(WPMUtils::getWindowsDir()));
+
     QFileInfoList fil = QDir::drives();
     for (int i = 0; i < fil.count(); i++) {
         if (job->isCancelled())
@@ -900,7 +907,7 @@ void Repository::scanHardDrive(Job* job)
 
         job->setHint(QString("Scanning %1").arg(fi.absolutePath()));
         Job* djob = job->newSubJob(1.0 / fil.count());
-        scan(fi.absolutePath(), djob, 0);
+        scan(WPMUtils::normalizePath(fi.absolutePath()), djob, 0, ignore);
         delete djob;
     }
 

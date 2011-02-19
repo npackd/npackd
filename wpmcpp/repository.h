@@ -46,7 +46,15 @@ private:
     void detectJRE(bool w64bit);
     void detectJDK(bool w64bit);
     void scanPre1_15Dir();
-    void scan(const QString& path, Job* job, int level);
+
+    /**
+     * All paths should be in lower case
+     * and separated with \ and not / and cannot end with \.
+     *
+     * @param path directory
+     * @param ignore ignored directories
+     */
+    void scan(const QString& path, Job* job, int level, QStringList& ignore);
 public:
     /**
      * Package versions. All version numbers should be normalized.
