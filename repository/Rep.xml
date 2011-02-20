@@ -1169,7 +1169,7 @@
     </package>
     <package name="org.beeblebrox.HashTab">
         <title>HashTab</title>
-        <url>http://www.beeblebrox.org/hashtab/</url>
+        <url>http://implbits.com/Products/HashTab.aspx</url>
         <description>computes MD5, SHA1, SHA2, RipeMD, HAVAL and Whirlpool</description>
     </package>
     <package name="org.beyondlogic.Mail">
@@ -1998,6 +1998,23 @@ if %err% neq 0 exit /b %err%
         <url>http://downloads.sourceforge.net/project/gnuwin32/libxml/2.4.12-1/libxml2-2.4.12-bin.zip?ts=1290170817</url>
         <sha1>537ed7ec7c44535c6fa1a58e48a66fb544d1f827</sha1>
     </version>
+    <version name="2.7.7" package="org.xmlsoft.LibXML">
+        <file path=".WPM\Install.bat">for /f "delims=" %%x in ('dir /b libxml*') do set name=%%x
+xcopy "%name%\*" . /E /H
+rmdir /s /q "%name%"
+</file>
+        <url>http://xmlsoft.org/sources/win32/libxml2-2.7.7.win32.zip</url>
+        <sha1>8CF1385633641290173745A49F58B030BD4B6FFB</sha1>
+    </version>
+	
+    <version name="2.7.7" package="org.xmlsoft.LibXML">
+        <file path=".WPM\Install.bat">for /f "delims=" %%x in ('dir /b libxml*') do set name=%%x
+xcopy "%name%\*" . /E /H
+rmdir /s /q "%name%"
+</file>
+        <url>http://xmlsoft.org/sources/win32/zlib-1.2.5.win32.zip</url>
+        <sha1></sha1>
+    </version>
 
     <version name="2.6.2" package="org.gnome.Libglade">
         <url>http://ftp.gnome.org/pub/GNOME/binaries/win32/libglade/2.6/libglade-2.6.2.zip</url>
@@ -2184,34 +2201,6 @@ if %err% neq 0 exit /b %err%
         <url>http://www.h2database.com/h2-setup-2010-11-21.exe</url>
         <dependency package="com.oracle.JRE" versions="[1.5, 2)"/>
         <sha1>af52d1fec94c81deb22a3731d3589ad69935107c</sha1>
-    </version>
-
-    <version name="3.2.4.1.1" package="org.gramps_project.Gramps">
-        <file path="gramps.bat">set npackdcl=..\com.googlecode.windows-package-manager.NpackdCL-1\npackdcl.exe
-set onecmd="%npackdcl%" "path" "--package=org.python.Python" "--versions=[2.5,3)"
-for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set pythondir=%%x
-set onecmd="%npackdcl%" "path" "--package=org.gtk.GTKPlusBundle" "--versions=[2.22.0,2.23)"
-for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set gtkplusbundledir=%%x
-set onecmd="%npackdcl%" "path" "--package=org.pygtk.PyGTK" "--versions=[2.22,2.23)"
-for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set pygtkdir=%%x
-set onecmd="%npackdcl%" "path" "--package=org.pygtk.PyGObject" "--versions=[2.26,2.27)"
-for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set pygobjectdir=%%x
-set onecmd="%npackdcl%" "path" "--package=org.pygtk.PyCairo" "--versions=[1.8.10,1.8.11)"
-for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set pycairodir=%%x
-
-set pythonpath=%pygtkdir%\Lib\site-packages\gtk-2.0;%pygobjectdir%\Lib\site-packages;%pycairodir%\Lib\site-packages
-set path=%gtkplusbundledir%\bin
-"%pythondir%\python.exe" gramps.py
-pause
-</file>
-        <important-file path="gramps.bat" title="GRAMPS"/>
-        <url>http://dl.dropbox.com/u/17046326/files/org.gramps_project.Gramps-3.2.4.1.1.zip</url>
-        <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1, 1]"/>
-        <dependency package="org.python.Python" versions="[2.5, 3)"/>
-        <dependency package="org.pygtk.PyGTK" versions="[2.12.1, 3)"/>
-        <dependency package="org.pygtk.PyGObject" versions="[2.12.3, 3)"/>
-        <dependency package="org.pygtk.PyCairo" versions="[1.2.6, 2)"/>
-        <sha1>a3214473d3be6d55479b3d24ac67956417c63ffc</sha1>
     </version>
 
     <version name="0.97.1.1" package="org.gnome.live.dia.Dia"
