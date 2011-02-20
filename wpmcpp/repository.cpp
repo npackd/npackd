@@ -907,7 +907,10 @@ void Repository::scanHardDrive(Job* job)
 
         job->setHint(QString("Scanning %1").arg(fi.absolutePath()));
         Job* djob = job->newSubJob(1.0 / fil.count());
-        scan(WPMUtils::normalizePath(fi.absolutePath()), djob, 0, ignore);
+        QString path = WPMUtils::normalizePath(fi.absolutePath());
+        UINT t = GetDriveType((WCHAR*) path.utf16());
+        if (t == DRIVE_FIXED)
+            scan(path, djob, 0, ignore);
         delete djob;
     }
 
