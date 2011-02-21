@@ -756,75 +756,43 @@ void MainWindow::process(QList<InstallOperation*> &install)
             uninstallCount++;
     }
 
-    QMessageBox::StandardButton b;
+    bool b;
     QString msg;
     if (installCount == 1 && uninstallCount == 0) {
-        b = QMessageBox::Yes;
+        b = true;
     } else if (installCount == 0 && uninstallCount == 1) {
         msg = QString("The package %1 will be uninstalled. "
                 "The corresponding directory %2 "
                 "will be completely deleted. "
-                "There is no way to restore the files. "
-                "Are you sure?").
+                "There is no way to restore the files.").
                 arg(install.at(0)->packageVersion->toString()).
                 arg(install.at(0)->packageVersion->getPath());
-        b = QMessageBox::warning(this,
-                "Uninstall", msg, QMessageBox::Yes | QMessageBox::No);
+        b = WPMUtils::confirm(this, "Uninstall", msg);
     } else if (installCount > 0 && uninstallCount == 0) {
-        msg = QString("%1 package(s) will be installed. "
-                "Are you sure?").
-                arg(installCount);
-        QMessageBox mb(this);
-        mb.setWindowTitle("Install");
-        mb.setText(msg);
-        mb.setIcon(QMessageBox::Warning);
-        mb.setStandardButtons(QMessageBox::Yes | QMessageBox::No);
-        mb.setDefaultButton(QMessageBox::Yes);
-        mb.setDetailedText(
-                QString("Following packages will be installed: %1").
-                arg(installNames));
-        b = (QMessageBox::StandardButton) mb.exec();
+        msg = QString("%1 package(s) will be installed: %2").
+                arg(installCount).arg(installNames);
+        b = WPMUtils::confirm(this, "Install", msg);
     } else if (installCount == 0 && uninstallCount > 0) {
-        msg = QString("%1 package(s) will be uninstalled. "
+        msg = QString("%1 package(s) will be uninstalled: %2. "
                 "The corresponding directories "
                 "will be completely deleted. "
-                "There is no way to restore the files. "
-                "Are you sure?").
-                arg(uninstallCount);
-        QMessageBox mb(this);
-        mb.setWindowTitle("Uninstall");
-        mb.setText(msg);
-        mb.setIcon(QMessageBox::Warning);
-        mb.setStandardButtons(QMessageBox::Yes | QMessageBox::No);
-        mb.setDefaultButton(QMessageBox::Yes);
-        mb.setDetailedText(
-                QString("Following packages will be uninstalled: %1").
-                arg(names));
-        b = (QMessageBox::StandardButton) mb.exec();
+                "There is no way to restore the files.").
+                arg(uninstallCount).arg(names);
+        b = WPMUtils::confirm(this, "Uninstall", msg);
     } else {
-        msg = QString("%1 package(s) will be uninstalled "
-                "and %2 package(s) will be installed. "
-                "The corresponding directories "
-                "will be completely deleted. "
-                "There is no way to restore the files. "
-                "Are you sure?").arg(uninstallCount).
-                arg(installCount);
-        QMessageBox mb(this);
-        mb.setWindowTitle("Install/Uninstall");
-        mb.setText(msg);
-        mb.setIcon(QMessageBox::Warning);
-        mb.setStandardButtons(QMessageBox::Yes | QMessageBox::No);
-        mb.setDefaultButton(QMessageBox::Yes);
-        mb.setDetailedText(
-                QString("Following packages will be uninstalled: %1\n"
-                "Following packages will be installed: %2").
+        msg = QString("%1 package(s) will be uninstalled: %2 ("
+                "the corresponding directories "
+                "will be completely deleted; "
+                "there is no way to restore the files) "
+                "and %3 package(s) will be installed: %4.").arg(uninstallCount).
                 arg(names).
-                arg(installNames));
-        b = (QMessageBox::StandardButton) mb.exec();
+                arg(installCount).
+                arg(installNames);
+        b = WPMUtils::confirm(this, "Install/Uninstall", msg);
     }
 
 
-    if (b == QMessageBox::Yes) {
+    if (b) {
         Job* job = new Job();
         InstallThread* it = new InstallThread(0, 1, job);
         it->install = install;
