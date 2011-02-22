@@ -82,7 +82,7 @@ int main(int argc, char *argv[])
                     // debug: std::cout << "Versions: " << qPrintable(d.toString()) << std::endl;
                     PackageVersion* pv = d.findHighestInstalledMatch();
                     if (pv) {
-                        std::cout << qPrintable(pv->getDirectory().absolutePath()) << std::endl;
+                        std::cout << qPrintable(pv->getPath()) << std::endl;
                     }
                 }
             }

@@ -26,7 +26,8 @@ SOURCES += main.cpp \
     license.cpp \
     licenseform.cpp \
     windowsregistry.cpp \
-    detectfile.cpp
+    detectfile.cpp \
+    uiutils.cpp
 HEADERS += mainwindow.h \
     packageversion.h \
     repository.h \
@@ -49,7 +50,8 @@ HEADERS += mainwindow.h \
     license.h \
     licenseform.h \
     windowsregistry.h \
-    detectfile.h
+    detectfile.h \
+    uiutils.h
 FORMS += mainwindow.ui \
     progressdialog.ui \
     settingsdialog.ui \

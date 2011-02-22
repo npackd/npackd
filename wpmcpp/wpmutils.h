@@ -78,15 +78,6 @@ public:
     static QString getProgramFilesDir();
 
     /**
-     * Shows a confirmation dialog.
-     *
-     * @param parent parent widget
-     * @param title dialog title
-     * @param text message (may contain multiple lines separated by \n)
-     */
-    static bool confirm(QWidget* parent, QString title, QString text);
-
-    /**
      * - lower case
      * - replaces / by \
      * - removes \ at the end

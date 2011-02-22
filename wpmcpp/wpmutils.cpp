@@ -17,7 +17,6 @@
 #include <QFile>
 #include "qsettings.h"
 #include "qvariant.h"
-#include "qmessagebox.h"
 
 #include "wpmutils.h"
 #include "version.h"
@@ -34,43 +33,6 @@ QString WPMUtils::parentDirectory(const QString& path)
     p = p.replace('/', '\\');
     int index = p.lastIndexOf('\\');
     return p.left(index);
-}
-
-bool WPMUtils::confirm(QWidget* parent, QString title, QString text)
-{
-    QStringList lines = text.split("\n", QString::SkipEmptyParts);
-    int max;
-    if (lines.count() > 20) {
-        max = 20;
-    } else {
-        max = lines.count();
-    }
-    int n = 0;
-    int keep = 0;
-    for (int i = 0; i < max; i++) {
-        n += lines.at(i).length();
-        if (n > 20 * 80)
-            break;
-        keep++;
-    }
-    if (keep == 0)
-        keep = 1;
-    QString shortText;
-    if (keep < lines.count()) {
-        lines = lines.mid(0, keep);
-        shortText = lines.join("\n") + "...";
-    } else {
-        shortText = text;
-    }
-
-    QMessageBox mb(parent);
-    mb.setWindowTitle(title);
-    mb.setText(shortText);
-    mb.setIcon(QMessageBox::Warning);
-    mb.setStandardButtons(QMessageBox::Ok | QMessageBox::Cancel);
-    mb.setDefaultButton(QMessageBox::Cancel);
-    mb.setDetailedText(text);
-    return ((QMessageBox::StandardButton) mb.exec()) == QMessageBox::Ok;
 }
 
 QString WPMUtils::getProgramFilesDir()

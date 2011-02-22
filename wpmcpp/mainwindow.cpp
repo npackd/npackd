@@ -29,6 +29,7 @@
 #include "installoperation.h"
 #include "downloader.h"
 #include "packageversionform.h"
+#include "uiutils.h"
 
 extern HWND defaultPasswordWindow;
 
@@ -767,18 +768,18 @@ void MainWindow::process(QList<InstallOperation*> &install)
                 "There is no way to restore the files.").
                 arg(install.at(0)->packageVersion->toString()).
                 arg(install.at(0)->packageVersion->getPath());
-        b = WPMUtils::confirm(this, "Uninstall", msg);
+        b = UIUtils::confirm(this, "Uninstall", msg);
     } else if (installCount > 0 && uninstallCount == 0) {
         msg = QString("%1 package(s) will be installed: %2").
                 arg(installCount).arg(installNames);
-        b = WPMUtils::confirm(this, "Install", msg);
+        b = UIUtils::confirm(this, "Install", msg);
     } else if (installCount == 0 && uninstallCount > 0) {
         msg = QString("%1 package(s) will be uninstalled: %2. "
                 "The corresponding directories "
                 "will be completely deleted. "
                 "There is no way to restore the files.").
                 arg(uninstallCount).arg(names);
-        b = WPMUtils::confirm(this, "Uninstall", msg);
+        b = UIUtils::confirm(this, "Uninstall", msg);
     } else {
         msg = QString("%1 package(s) will be uninstalled: %2 ("
                 "the corresponding directories "
@@ -788,7 +789,7 @@ void MainWindow::process(QList<InstallOperation*> &install)
                 arg(names).
                 arg(installCount).
                 arg(installNames);
-        b = WPMUtils::confirm(this, "Install/Uninstall", msg);
+        b = UIUtils::confirm(this, "Install/Uninstall", msg);
     }
 
 
