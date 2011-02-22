@@ -45,7 +45,17 @@ private:
     void detectMSXML();
     void detectJRE(bool w64bit);
     void detectJDK(bool w64bit);
-    void scanPre1_15Dir();
+
+    /**
+     * @param exact if true, only exact matches to packages from current
+     *     repositories recognized as existing software (e.g. something like
+     *     com.mysoftware.MySoftware-2.2.3). This setting should help in rare
+     *     cases when Npackd 1.14 and 1.15 are used in parallel for some time
+     *     If the value is false, also
+     *     packages not known in current repositories are recognized as
+     *     installed.
+     */
+    void scanPre1_15Dir(bool exact);
 
     /**
      * All paths should be in lower case

@@ -713,7 +713,7 @@ void Repository::process(Job *job, const QList<InstallOperation *> &install)
     job->complete();
 }
 
-void Repository::scanPre1_15Dir()
+void Repository::scanPre1_15Dir(bool exact)
 {
     QDir aDir(WPMUtils::getInstallationDirectory());
     if (!aDir.exists())
@@ -742,15 +742,17 @@ void Repository::scanPre1_15Dir()
             if (Package::isValidName(packageName)) {
                 Version version;
                 if (version.setVersion(versionName)) {
-                    // using getVersionString() here to fix a bug in earlier
-                    // versions where version numbers were not normalized
-                    WindowsRegistry wr = packagesWR.createSubKey(
-                            packageName + "-" + version.getVersionString(),
-                            &err);
-                    if (err.isEmpty()) {
-                        wr.set("Path", dirPath + "\\" +
-                                name);
-                        wr.setDWORD("External", 0);
+                    if (!exact || this->findPackage(packageName)) {
+                        // using getVersionString() here to fix a bug in earlier
+                        // versions where version numbers were not normalized
+                        WindowsRegistry wr = packagesWR.createSubKey(
+                                packageName + "-" + version.getVersionString(),
+                                &err);
+                        if (err.isEmpty()) {
+                            wr.set("Path", dirPath + "\\" +
+                                    name);
+                            wr.setDWORD("External", 0);
+                        }
                     }
                 }
             }
@@ -769,8 +771,10 @@ void Repository::addUnknownExistingPackages()
         if (!err.isEmpty() || b != 1) {
             // store the references to packages in the old format (< 1.15)
             // in the registry
-            scanPre1_15Dir();
+            scanPre1_15Dir(false);
             npackdWR.setDWORD("Pre1_15DirScanned", 1);
+        } else {
+            scanPre1_15Dir(true);
         }
     }
 
