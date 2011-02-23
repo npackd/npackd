@@ -47,7 +47,11 @@ int main(int argc, char *argv[])
     delete job;
     rep->addUnknownExistingPackages();
 
-    if (params.at(1) == "path") {
+    if (params.count() == 0) {
+       std::cerr << "Missing arguments" << std::endl;
+       usage();
+       r = 1;
+    } else if (params.at(1) == "path") {
         QString package;
         QString versions;
 
