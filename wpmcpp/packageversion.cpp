@@ -223,9 +223,12 @@ void PackageVersion::uninstall(Job* job)
                 saveInstallationInfo();
             }
             delete rjob;
-        } else {
-            job->setProgress(1);
         }
+
+        if (this->package == "com.googlecode.windows-package-manager.NpackdCL") {
+            Repository::getDefault()->updateNpackdCLEnvVar();
+        }
+        job->setProgress(1);
     }
 
     job->complete();
@@ -678,6 +681,7 @@ void PackageVersion::install(Job* job, const QString& where)
             env.append(this->package);
             env.append("NPACKD_PACKAGE_VERSION");
             env.append(this->version.getVersionString());
+
             this->executeFile(exec, d.absolutePath(),
                     p, ".Npackd\\Install.log", env);
             if (!exec->getErrorMessage().isEmpty())
@@ -693,6 +697,11 @@ void PackageVersion::install(Job* job, const QString& where)
             this->external = false;
             this->ipath.replace('/', '\\');
         }
+
+        if (this->package == "com.googlecode.windows-package-manager.NpackdCL") {
+            Repository::getDefault()->updateNpackdCLEnvVar();
+        }
+
         job->setProgress(0.94);
     }
 

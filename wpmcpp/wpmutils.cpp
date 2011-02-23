@@ -20,6 +20,7 @@
 
 #include "wpmutils.h"
 #include "version.h"
+#include "windowsregistry.h"
 
 const char* WPMUtils::NPACKD_VERSION = "1.15.0";
 
@@ -181,6 +182,26 @@ QString WPMUtils::getShellDir(int type)
     WCHAR dir[MAX_PATH];
     SHGetFolderPath(0, type, NULL, 0, dir);
     return QString::fromUtf16(reinterpret_cast<ushort*>(dir));
+}
+
+QString WPMUtils::setSystemEnvVar(const QString& name, const QString& value)
+{
+    WindowsRegistry wr;
+    QString err = wr.open(HKEY_LOCAL_MACHINE,
+            "System\\CurrentControlSet\\Control\\Session Manager\\Environment",
+            false);
+    if (!err.isEmpty())
+        return err;
+
+    err = wr.set(name, value);
+    if (!err.isEmpty())
+        return err;
+
+    SendMessageTimeout(HWND_BROADCAST, WM_SETTINGCHANGE, 0,
+            (LPARAM) L"Environment",
+            0, 0, 0);
+
+    return "";
 }
 
 Version WPMUtils::getDLLVersion(const QString &path)

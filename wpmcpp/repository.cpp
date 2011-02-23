@@ -98,7 +98,7 @@ PackageVersion* Repository::findNewestPackageVersion(const QString &name)
     return r;
 }
 
-PackageVersion* Repository::findNewestInstalledPackageVersion(QString &name)
+PackageVersion* Repository::findNewestInstalledPackageVersion(const QString &name)
 {
     PackageVersion* r = 0;
 
@@ -760,6 +760,16 @@ void Repository::scanPre1_15Dir(bool exact)
     }
 }
 
+void Repository::updateNpackdCLEnvVar()
+{
+    QString v;
+    PackageVersion* pv = findNewestInstalledPackageVersion(
+            "com.googlecode.windows-package-manager.NpackdCL");
+    if (pv)
+        v = pv->getPath();
+    WPMUtils::setSystemEnvVar("NPACKD_CL", v);
+}
+
 void Repository::addUnknownExistingPackages()
 {
     QString regPath = "SOFTWARE\\Npackd\\Npackd";
@@ -813,6 +823,8 @@ void Repository::addUnknownExistingPackages()
             }
         }
     }
+
+    this->updateNpackdCLEnvVar();
 }
 
 void Repository::scan(const QString& path, Job* job, int level,

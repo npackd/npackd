@@ -96,6 +96,12 @@ public:
     void addUnknownExistingPackages();
 
     /**
+     * Changes the value of the system-wide NPACKD_CL variable to point to the
+     * newest installed version of NpackdCL.
+     */
+    void updateNpackdCLEnvVar();
+
+    /**
      * Recognizes applications installed without Npackd.
      *
      * @param job job object
@@ -187,7 +193,7 @@ public:
      * @param name name of the package like "org.server.Word"
      * @return found package version or 0
      */
-    PackageVersion* findNewestInstalledPackageVersion(QString& name);
+    PackageVersion* findNewestInstalledPackageVersion(const QString& name);
 
     /**
      * Find the newest available package version.

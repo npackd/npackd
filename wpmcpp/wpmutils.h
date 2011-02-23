@@ -196,6 +196,15 @@ public:
      * @return version number or 0.0 it it cannot be determined
      */
     static Version getDLLVersion(const QString& path);
+
+    /**
+     * Changes a system environment variable.
+     *
+     * @param name name of the variable
+     * @param value value of the variable
+     * @return error message or ""
+     */
+    static QString setSystemEnvVar(const QString& name, const QString& value);
 };
 
 #endif // WPMUTILS_H
