@@ -33,6 +33,7 @@ int main(int argc, char *argv[])
     }
 
     /* debugging
+    std::cout << params.count() << std::endl;
     for (int i = 0; i < params.count(); i++) {
         QString s = params.at(i);
         std::cout << qPrintable(s) << std::endl;
@@ -43,11 +44,10 @@ int main(int argc, char *argv[])
 
     Repository* rep = Repository::getDefault();
     Job* job = new Job();
-    rep->recognize(job);
+    rep->refresh(job);
     delete job;
-    rep->addUnknownExistingPackages();
 
-    if (params.count() == 0) {
+    if (params.count() <= 1) {
        std::cerr << "Missing arguments" << std::endl;
        usage();
        r = 1;
@@ -91,16 +91,16 @@ int main(int argc, char *argv[])
                 }
             }
         }
-    /*
     } else if (params.count() == 2 && params.at(1) == "list") {
-        QList<PackageVersion*> installed = rep->getInstalled();
+        QList<PackageVersion*> installed = rep->packageVersions; // getInstalled();
         for (int i = 0; i < installed.count(); i++) {
             std::cout << qPrintable(installed.at(i)->package) << " " <<
                     qPrintable(installed.at(i)->version.getVersionString()) <<
+                    " " << qPrintable(installed.at(i)->getPath()) <<
                     std::endl;
         }
     } else if (params.count() == 2 && params.at(1) == "info") {
-        std::cout << "Installation directory: " <<
+        /*std::cout << "Installation directory: " <<
                 qPrintable(rep->getDirectory().absolutePath()) << std::endl;
         QList<PackageVersion*> installed = rep->getInstalled();
         std::cout << "Number of installed packages: " <<

@@ -19,7 +19,6 @@ Repository* Repository::def = 0;
 
 Repository::Repository()
 {
-    this->installedGraph = 0;
 }
 
 QList<PackageVersion*> Repository::getInstalled()
@@ -37,47 +36,37 @@ QList<PackageVersion*> Repository::getInstalled()
     return ret;
 }
 
-Digraph* Repository::getInstalledGraph()
+Digraph* Repository::createInstalledGraph()
 {
-    if (!this->installedGraph) {
-        this->installedGraph = new Digraph();
-        Node* user = this->installedGraph->addNode(0);
-        for (int i = 0; i < this->packageVersions.count(); i++) {
-            PackageVersion* pv = this->packageVersions.at(i);
-            if (pv->installed()) {
-                Node* n = this->installedGraph->addNode(pv);
-                user->to.append(n);
-            }
-        }
-
-        for (int i = 1; i < this->installedGraph->nodes.count(); i++) {
-            Node* n = this->installedGraph->nodes.at(i);
-            PackageVersion* pv = (PackageVersion*) n->userData;
-            for (int j = 0; j < pv->dependencies.count(); j++) {
-                Dependency* d = pv->dependencies.at(j);
-                PackageVersion* pv2 = d->findHighestInstalledMatch();
-                Node* n2 = this->installedGraph->findNodeByUserData(pv2);
-                if (!n2) {
-                    n2 = this->installedGraph->addNode(pv2);
-                }
-                n->to.append(n2);
-            }
+    Digraph* installedGraph = new Digraph();
+    Node* user = installedGraph->addNode(0);
+    for (int i = 0; i < this->packageVersions.count(); i++) {
+        PackageVersion* pv = this->packageVersions.at(i);
+        if (pv->installed()) {
+            Node* n = installedGraph->addNode(pv);
+            user->to.append(n);
         }
     }
-    return this->installedGraph;
-}
 
-void Repository::somethingWasInstalledOrUninstalled()
-{
-    if (this->installedGraph) {
-        delete this->installedGraph;
-        this->installedGraph = 0;
+    for (int i = 1; i < installedGraph->nodes.count(); i++) {
+        Node* n = installedGraph->nodes.at(i);
+        PackageVersion* pv = (PackageVersion*) n->userData;
+        for (int j = 0; j < pv->dependencies.count(); j++) {
+            Dependency* d = pv->dependencies.at(j);
+            PackageVersion* pv2 = d->findHighestInstalledMatch();
+            Node* n2 = installedGraph->findNodeByUserData(pv2);
+            if (!n2) {
+                n2 = installedGraph->addNode(pv2);
+            }
+            n->to.append(n2);
+        }
     }
+
+    return installedGraph;
 }
 
 Repository::~Repository()
 {
-    delete this->installedGraph;
     qDeleteAll(this->packages);
     qDeleteAll(this->packageVersions);
     qDeleteAll(this->licenses);
@@ -319,6 +308,9 @@ void Repository::recognize(Job* job)
     Version v;
     v.setVersion(osvi.dwMajorVersion, osvi.dwMinorVersion,
             osvi.dwBuildNumber);
+    clearExternallyInstalled("com.microsoft.Windows");
+    clearExternallyInstalled("com.microsoft.Windows32");
+    clearExternallyInstalled("com.microsoft.Windows64");
     versionDetected("com.microsoft.Windows", v, WPMUtils::getWindowsDir(),
             true);
     if (WPMUtils::is64BitWindows())
@@ -361,6 +353,20 @@ void Repository::recognize(Job* job)
         job->setHint("Detecting Windows Installer");
         detectMicrosoftInstaller();
         job->setProgress(0.97);
+    }
+
+    if (!job->isCancelled()) {
+        if (!findPackage("com.googlecode.windows-package-manager.Npackd")) {
+            Package* p = new Package("com.googlecode.windows-package-manager.Npackd",
+                    "Npackd");
+            p->url = "http://code.google.com/p/windows-package-manager/";
+            p->description = "package manager";
+            packages.append(p);
+        }
+        versionDetected("com.googlecode.windows-package-manager.Npackd",
+                Version(WPMUtils::NPACKD_VERSION),
+                WPMUtils::getExeDir(), true);
+        job->setProgress(0.98);
     }
 
     if (!job->isCancelled()) {
@@ -436,6 +442,8 @@ void Repository::detectJDK(bool w64bit)
 
     clearExternallyInstalled("com.oracle.JDK");
 
+    // TODO: 64-bit JDK
+
     HKEY hk;
     const REGSAM KEY_WOW64_64KEY = 0x0100;
     if (RegOpenKeyEx(HKEY_LOCAL_MACHINE,
@@ -478,8 +486,6 @@ void Repository::versionDetected(const QString &package, const Version &v,
     }
     pv->external = external;
     pv->setPath(path);
-    pv->saveInstallationInfo();
-    somethingWasInstalledOrUninstalled();
 }
 
 void Repository::clearExternallyInstalled(QString package)
@@ -542,18 +548,18 @@ void Repository::detectMSIProducts()
 
     // Detecting VisualC++ runtimes:
     // http://blogs.msdn.com/b/astebner/archive/2009/01/29/9384143.aspx
-    if (guids.contains("{FF66E9F6-83E7-3A3E-AF14-8DE9A809A6A4}")) {
-        this->versionDetected("com.microsoft.VisualCPPRedistributable",
-                Version("9.0.21022.8"), WPMUtils::getWindowsDir(), true);
-    }
-    if (guids.contains("{9A25302D-30C0-39D9-BD6F-21E6EC160475}")) {
-        this->versionDetected("com.microsoft.VisualCPPRedistributable",
-                Version("9.0.30729.17"), WPMUtils::getWindowsDir(), true);
-    }
-    if (guids.contains("{1F1C2DFC-2D24-3E06-BCB8-725134ADF989}")) {
-        this->versionDetected("com.microsoft.VisualCPPRedistributable",
-                Version("9.0.30729.4148"), WPMUtils::getWindowsDir(), true);
-    }
+    this->versionDetected("com.microsoft.VisualCPPRedistributable",
+            Version("9.0.21022.8"),
+            guids.contains("{FF66E9F6-83E7-3A3E-AF14-8DE9A809A6A4}") ?
+            WPMUtils::getWindowsDir() : "", true);
+    this->versionDetected("com.microsoft.VisualCPPRedistributable",
+            Version("9.0.30729.17"),
+            guids.contains("{9A25302D-30C0-39D9-BD6F-21E6EC160475}") ?
+            WPMUtils::getWindowsDir() : "", true);
+    this->versionDetected("com.microsoft.VisualCPPRedistributable",
+            Version("9.0.30729.4148"),
+            guids.contains("{1F1C2DFC-2D24-3E06-BCB8-725134ADF989}") ?
+            WPMUtils::getWindowsDir() : "", true);
 }
 
 void Repository::detectDotNet()
@@ -760,17 +766,23 @@ void Repository::scanPre1_15Dir(bool exact)
     }
 }
 
-void Repository::updateNpackdCLEnvVar()
+QString Repository::computeNpackdCLEnvVar()
 {
     QString v;
     PackageVersion* pv = findNewestInstalledPackageVersion(
             "com.googlecode.windows-package-manager.NpackdCL");
     if (pv)
         v = pv->getPath();
-    WPMUtils::setSystemEnvVar("NPACKD_CL", v);
+
+    return v;
 }
 
-void Repository::addUnknownExistingPackages()
+void Repository::updateNpackdCLEnvVar()
+{
+    WPMUtils::setSystemEnvVar("NPACKD_CL", computeNpackdCLEnvVar());
+}
+
+void Repository::detectPre_1_15_Packages()
 {
     QString regPath = "SOFTWARE\\Npackd\\Npackd";
     WindowsRegistry machineWR(HKEY_LOCAL_MACHINE, false);
@@ -787,6 +799,13 @@ void Repository::addUnknownExistingPackages()
             scanPre1_15Dir(true);
         }
     }
+}
+
+void Repository::readRegistryDatabase()
+{
+    WindowsRegistry machineWR(HKEY_LOCAL_MACHINE, false);
+    QString regPath = "SOFTWARE\\Npackd\\Npackd";
+    QString err;
 
     // reading the registry database to find installed software
     WindowsRegistry packagesWR = machineWR.createSubKey(
@@ -823,8 +842,6 @@ void Repository::addUnknownExistingPackages()
             }
         }
     }
-
-    this->updateNpackdCLEnvVar();
 }
 
 void Repository::scan(const QString& path, Job* job, int level,
@@ -933,13 +950,55 @@ void Repository::scanHardDrive(Job* job)
     job->complete();
 }
 
+void Repository::reload(Job *job)
+{
+    job->setHint("Loading repositories");
+    Job* d = job->newSubJob(0.75);
+    load(d);
+    if (!d->getErrorMessage().isEmpty())
+        job->setErrorMessage(d->getErrorMessage());
+    delete d;
+
+    if (!job->isCancelled() && job->getErrorMessage().isEmpty()) {
+        d = job->newSubJob(0.25);
+        job->setHint("Refreshing installation statuses");
+        refresh(d);
+        delete d;
+    }
+
+    job->complete();
+}
+
+void Repository::refresh(Job *job)
+{
+    if (!job->isCancelled() && job->getErrorMessage().isEmpty()) {
+        job->setHint("Detecting packages installed by Npackd 1.14 or earlier");
+        this->detectPre_1_15_Packages();
+        job->setProgress(0.4);
+    }
+
+    if (!job->isCancelled() && job->getErrorMessage().isEmpty()) {
+        job->setHint("Reading registry package database");
+        this->readRegistryDatabase();
+        job->setProgress(0.8);
+    }
+
+    if (!job->isCancelled() && job->getErrorMessage().isEmpty()) {
+        job->setHint("Detecting software");
+        Job* d = job->newSubJob(0.2);
+        this->recognize(d);
+        delete d;
+    }
+
+    job->complete();
+}
+
 void Repository::load(Job* job)
 {
     qDeleteAll(this->packages);
     this->packages.clear();
     qDeleteAll(this->packageVersions);
     this->packageVersions.clear();
-    delete this->installedGraph;
 
     QList<QUrl*> urls = getRepositoryURLs();
     if (urls.count() > 0) {
@@ -968,16 +1027,8 @@ void Repository::load(Job* job)
 
     // qDebug() << "Repository::load.3";
 
-    job->setHint("Scanning for installed package versions");
-    addUnknownExistingPackages();
-
     qDeleteAll(urls);
     urls.clear();
-
-    job->setHint("Detecting software");
-    Job* sub = job->newSubJob(0.1);
-    recognize(sub);
-    delete sub;
 
     job->complete();
 }
@@ -1038,7 +1089,6 @@ void Repository::loadOne(QUrl* url, Job* job) {
                         delete pv;
                     else {
                         this->packageVersions.append(pv);
-                        somethingWasInstalledOrUninstalled();
                     }
                 } else if (e.nodeName() == "package") {
                     Package* p = createPackage(&e);

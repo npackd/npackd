@@ -233,17 +233,7 @@ void InstallThread::run()
     case 3:
     case 4: {
         Repository* r = Repository::getDefault();
-        r->load(job);
-        if (!r->findPackage("com.googlecode.windows-package-manager.Npackd")) {
-            Package* p = new Package("com.googlecode.windows-package-manager.Npackd",
-                    "Npackd");
-            p->url = "http://code.google.com/p/windows-package-manager/";
-            p->description = "package manager";
-            r->packages.append(p);
-        }
-        r->versionDetected("com.googlecode.windows-package-manager.Npackd",
-                Version(WPMUtils::NPACKD_VERSION),
-                WPMUtils::getExeDir(), true);
+        r->reload(job);
         break;
     }
     case 5:

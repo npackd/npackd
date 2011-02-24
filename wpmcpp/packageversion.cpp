@@ -187,11 +187,16 @@ void PackageVersion::uninstall(Job* job)
         if (!d.exists(".Npackd"))
             d.mkdir(".Npackd");
         Job* sub = job->newSubJob(0.25);
+
+        // prepare the environment variables
         QStringList env;
         env.append("NPACKD_PACKAGE_NAME");
         env.append(this->package);
         env.append("NPACKD_PACKAGE_VERSION");
         env.append(this->version.getVersionString());
+        env.append("NPACKD_CL");
+        env.append(Repository::getDefault()->computeNpackdCLEnvVar());
+
         this->executeFile(sub, d.absolutePath(),
                 p, ".Npackd\\Uninstall.log", env);
         if (!sub->getErrorMessage().isEmpty())
@@ -211,7 +216,6 @@ void PackageVersion::uninstall(Job* job)
     }
 
     if (job->getErrorMessage().isEmpty()) {
-        Repository::getDefault()->somethingWasInstalledOrUninstalled();
         if (d.exists()) {
             job->setHint("Deleting files");
             Job* rjob = job->newSubJob(0.55);
@@ -613,7 +617,6 @@ void PackageVersion::install(Job* job, const QString& where)
     }
 
     if (!job->isCancelled() && job->getErrorMessage().isEmpty()) {
-        Repository::getDefault()->somethingWasInstalledOrUninstalled();
         if (this->type == 0) {
             QString errMsg;
             job->setHint("Extracting files");
@@ -681,6 +684,8 @@ void PackageVersion::install(Job* job, const QString& where)
             env.append(this->package);
             env.append("NPACKD_PACKAGE_VERSION");
             env.append(this->version.getVersionString());
+            env.append("NPACKD_CL");
+            env.append(Repository::getDefault()->computeNpackdCLEnvVar());
 
             this->executeFile(exec, d.absolutePath(),
                     p, ".Npackd\\Install.log", env);

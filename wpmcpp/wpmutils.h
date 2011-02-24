@@ -202,6 +202,8 @@ public:
      *
      * @param name name of the variable
      * @param value value of the variable
+     * @param notify if true, the function notifies all the running applications
+     *     (this takes 2-5 seconds)
      * @return error message or ""
      */
     static QString setSystemEnvVar(const QString& name, const QString& value);

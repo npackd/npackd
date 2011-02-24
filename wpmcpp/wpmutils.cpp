@@ -197,10 +197,6 @@ QString WPMUtils::setSystemEnvVar(const QString& name, const QString& value)
     if (!err.isEmpty())
         return err;
 
-    SendMessageTimeout(HWND_BROADCAST, WM_SETTINGCHANGE, 0,
-            (LPARAM) L"Environment",
-            0, 0, 0);
-
     return "";
 }
 

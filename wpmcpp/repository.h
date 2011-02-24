@@ -24,8 +24,6 @@ private:
     // TODO: this is never freed
     static Repository* def;
 
-    Digraph* installedGraph;
-
     static Package* createPackage(QDomElement* e);
     static PackageVersionFile* createPackageVersionFile(QDomElement* e);
     static Dependency* createDependency(QDomElement* e);
@@ -65,6 +63,19 @@ private:
      * @param ignore ignored directories
      */
     void scan(const QString& path, Job* job, int level, QStringList& ignore);
+
+    /**
+     * Loads the content from the URLs. None of the packages has the information
+     * about installation path after this method was called.
+     *
+     * @param job job for this method
+     */
+    void load(Job* job);
+
+    /**
+     * Adds unknown in the repository, but installed packages.
+     */
+    void detectPre_1_15_Packages();
 public:
     /**
      * Package versions. All version numbers should be normalized.
@@ -91,9 +102,9 @@ public:
     void process(Job* job, const QList<InstallOperation*> &install);
 
     /**
-     * Adds unknown in the repository, but installed packages.
+     * Reads the package statuses from the registry.
      */
-    void addUnknownExistingPackages();
+    void readRegistryDatabase();
 
     /**
      * Changes the value of the system-wide NPACKD_CL variable to point to the
@@ -102,7 +113,13 @@ public:
     void updateNpackdCLEnvVar();
 
     /**
-     * Recognizes applications installed without Npackd.
+     * @return new NPACKD_CL value
+     */
+    QString computeNpackdCLEnvVar();
+
+    /**
+     * Recognizes some applications installed without Npackd. This method does
+     * not scan the hard drive and is fast.
      *
      * @param job job object
      */
@@ -113,6 +130,7 @@ public:
      *
      * @param package package name
      * @param v found version
+     * @param path installation path or "" if the package is not installed
      */
     void versionDetected(const QString& package, const Version& v,
             const QString &path, const bool external);
@@ -133,14 +151,7 @@ public:
      *     the userData==0 and represents the user which "depends" on a list
      *     of packages (uses some programs).
      */
-    Digraph* getInstalledGraph();
-
-    /**
-     * This method should always be called after something was installed or
-     * uninstalled so that the Repository object can re-calculate some internal
-     * data.
-     */
-    void somethingWasInstalledOrUninstalled();
+    Digraph* createInstalledGraph();
 
     /**
      * Counts the number of installed packages that can be updated.
@@ -150,11 +161,19 @@ public:
     int countUpdates();
 
     /**
-     * Loads the content from the URLs.
+     * Reloads all repositories and calls reload().
      *
      * @param job job for this method
      */
-    void load(Job* job);
+    void reload(Job* job);
+
+    /**
+     * Reloads the database about installed packages from the
+     * registry and performs a quick detection of packages.
+     *
+     * @param job job for this method
+     */
+    void refresh(Job* job);
 
     /**
      * Scans the hard drive for existing applications.

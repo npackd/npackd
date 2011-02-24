@@ -35,7 +35,8 @@ int main(int argc, char *argv[])
     qRegisterMetaType<FileLoaderItem>("FileLoaderItem");
 
     MainWindow w;
-    if (a.arguments().count() == 2 && a.arguments().at(1) ==
+
+    /*if (a.arguments().count() == 2 && a.arguments().at(1) ==
         "check-for-updates") {
 
         Job job;
@@ -76,7 +77,7 @@ int main(int argc, char *argv[])
             return r;
         }
         return 0;
-    } else {
+    } else */ {
         w.prepare();
         w.showMaximized();
         return QApplication::exec();
