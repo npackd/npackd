@@ -35,6 +35,9 @@ private:
 
     void addWindowsPackage();
 
+    void versionDetected(const QString &package, const Version &v,
+            const QString &path, const bool external);
+
     void clearExternallyInstalled(QString package);
     void detectOneDotNet(HKEY hk2, const QString& keyName);
     void detectMSIProducts();
@@ -126,14 +129,14 @@ public:
     void recognize(Job* job);
 
     /**
-     * Can be called if a package version was detected.
+     * Finds or creates a new package version.
      *
      * @param package package name
      * @param v found version
-     * @param path installation path or "" if the package is not installed
+     * @return package version
      */
-    void versionDetected(const QString& package, const Version& v,
-            const QString &path, const bool external);
+    PackageVersion* findOrCreatePackageVersion(const QString &package,
+            const Version &v);
 
     /**
      * Finds all installed packages. This method lists all directories in the

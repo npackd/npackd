@@ -311,14 +311,18 @@ void Repository::recognize(Job* job)
     clearExternallyInstalled("com.microsoft.Windows");
     clearExternallyInstalled("com.microsoft.Windows32");
     clearExternallyInstalled("com.microsoft.Windows64");
-    versionDetected("com.microsoft.Windows", v, WPMUtils::getWindowsDir(),
-            true);
-    if (WPMUtils::is64BitWindows())
-        versionDetected("com.microsoft.Windows64", v, WPMUtils::getWindowsDir(),
-                true);
-    else
-        versionDetected("com.microsoft.Windows32", v, WPMUtils::getWindowsDir(),
-                true);
+    PackageVersion* pv = findOrCreatePackageVersion("com.microsoft.Windows", v);
+    pv->setPath(WPMUtils::getWindowsDir());
+    pv->external = true;
+    if (WPMUtils::is64BitWindows()) {
+        pv = findOrCreatePackageVersion("com.microsoft.Windows64", v);
+        pv->setPath(WPMUtils::getWindowsDir());
+        pv->external = true;
+    } else {
+        pv = findOrCreatePackageVersion("com.microsoft.Windows32", v);
+        pv->setPath(WPMUtils::getWindowsDir());
+        pv->external = true;
+    }
     job->setProgress(0.5);
 
     if (!job->isCancelled()) {
@@ -363,9 +367,13 @@ void Repository::recognize(Job* job)
             p->description = "package manager";
             packages.append(p);
         }
-        versionDetected("com.googlecode.windows-package-manager.Npackd",
-                Version(WPMUtils::NPACKD_VERSION),
-                WPMUtils::getExeDir(), true);
+        PackageVersion* pv = findOrCreatePackageVersion(
+                "com.googlecode.windows-package-manager.Npackd",
+                Version(WPMUtils::NPACKD_VERSION));
+        if (!pv->installed()) {
+            pv->setPath(WPMUtils::getExeDir());
+            pv->external = true;
+        }
         job->setProgress(0.98);
     }
 
@@ -423,10 +431,11 @@ void Repository::detectJRE(bool w64bit)
             if (!d.exists())
                 continue;
 
-            versionDetected(
+            PackageVersion* pv = findOrCreatePackageVersion(
                     w64bit ? "com.oracle.JRE64" :
-                    "com.oracle.JRE",
-                    v, path, true);
+                    "com.oracle.JRE", v);
+            pv->setPath(path);
+            pv->external = true;
         }
     }
 }
@@ -462,8 +471,12 @@ void Repository::detectJDK(bool w64bit)
                 v_ = v_.replace('_', '.');
                 Version v;
                 if (v.setVersion(v_) && v.getNParts() > 2) {
-                    versionDetected("com.oracle.JDK", v,
-                            WPMUtils::getWindowsDir(), true);
+                    PackageVersion* pv = findOrCreatePackageVersion(
+                            "com.oracle.JDK", v);
+                    if (!pv->installed()) {
+                        pv->setPath(WPMUtils::getWindowsDir());
+                        pv->external = true;
+                    }
                 }
             } else if (r == ERROR_NO_MORE_ITEMS) {
                 break;
@@ -474,8 +487,8 @@ void Repository::detectJDK(bool w64bit)
     }
 }
 
-void Repository::versionDetected(const QString &package, const Version &v,
-        const QString &path, const bool external)
+PackageVersion* Repository::findOrCreatePackageVersion(const QString &package,
+        const Version &v)
 {
     PackageVersion* pv = findPackageVersion(package, v);
     if (!pv) {
@@ -484,8 +497,7 @@ void Repository::versionDetected(const QString &package, const Version &v,
         pv->version.normalize();
         this->packageVersions.append(pv);
     }
-    pv->external = external;
-    pv->setPath(path);
+    return pv;
 }
 
 void Repository::clearExternallyInstalled(QString package)
@@ -536,8 +548,18 @@ void Repository::detectOneDotNet(HKEY hk2, const QString& keyName)
     }
 
     if (found) {
-        versionDetected(packageName, v, WPMUtils::getWindowsDir(), true);
+        PackageVersion* pv = findOrCreatePackageVersion(packageName, v);
+        if (!pv->installed()) {
+            pv->setPath(WPMUtils::getWindowsDir());
+            pv->external = true;
+        }
     }
+}
+
+void Repository::versionDetected(const QString &package, const Version &v,
+        const QString &path, const bool external)
+{
+
 }
 
 void Repository::detectMSIProducts()
@@ -548,10 +570,18 @@ void Repository::detectMSIProducts()
 
     // Detecting VisualC++ runtimes:
     // http://blogs.msdn.com/b/astebner/archive/2009/01/29/9384143.aspx
-    this->versionDetected("com.microsoft.VisualCPPRedistributable",
-            Version("9.0.21022.8"),
-            guids.contains("{FF66E9F6-83E7-3A3E-AF14-8DE9A809A6A4}") ?
-            WPMUtils::getWindowsDir() : "", true);
+    PackageVersion* pv;
+    pv = findOrCreatePackageVersion("com.microsoft.VisualCPPRedistributable",
+            Version("9.0.21022.8"));
+    if (guids.contains("{FF66E9F6-83E7-3A3E-AF14-8DE9A809A6A4}")) {
+        if (!pv->installed()) {
+            pv->setPath(WPMUtils::getWindowsDir());
+            pv->external = true;
+        }
+    } else {
+        pv->setPath("");
+    }
+    pv->external = true;
     this->versionDetected("com.microsoft.VisualCPPRedistributable",
             Version("9.0.30729.17"),
             guids.contains("{9A25302D-30C0-39D9-BD6F-21E6EC160475}") ?
@@ -795,8 +825,6 @@ void Repository::detectPre_1_15_Packages()
             // in the registry
             scanPre1_15Dir(false);
             npackdWR.setDWORD("Pre1_15DirScanned", 1);
-        } else {
-            scanPre1_15Dir(true);
         }
     }
 }
@@ -832,9 +860,11 @@ void Repository::readRegistryDatabase()
                                 if (!err.isEmpty())
                                     external = 1;
                                 QDir d(path);
-                                if (d.exists())
+                                if (d.exists()) {
+                                    qDebug() << "exists! " << path;
                                     this->versionDetected(packageName, version,
                                             path, external != 0);
+                                }
                             }
                         }
                     }
@@ -975,6 +1005,12 @@ void Repository::refresh(Job *job)
         job->setHint("Detecting packages installed by Npackd 1.14 or earlier");
         this->detectPre_1_15_Packages();
         job->setProgress(0.4);
+    }
+
+    if (!job->isCancelled() && job->getErrorMessage().isEmpty()) {
+        job->setHint("Detecting packages installed by Npackd 1.14 or earlier (2)");
+        scanPre1_15Dir(true);
+        job->setProgress(0.5);
     }
 
     if (!job->isCancelled() && job->getErrorMessage().isEmpty()) {

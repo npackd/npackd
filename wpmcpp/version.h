@@ -74,7 +74,7 @@ public:
     /**
      * @return package version as a string (like "1.2.3")
      */
-    QString getVersionString();
+    QString getVersionString() const;
 
     /**
      * Prepends a number before the version.

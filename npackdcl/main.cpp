@@ -87,6 +87,8 @@ int main(int argc, char *argv[])
                     PackageVersion* pv = d.findHighestInstalledMatch();
                     if (pv) {
                         std::cout << qPrintable(pv->getPath()) << std::endl;
+                    } else {
+                        std::cout << "nothing" << qPrintable(d.toString()) << std::endl;
                     }
                 }
             }
@@ -94,7 +96,7 @@ int main(int argc, char *argv[])
     } else if (params.count() == 2 && params.at(1) == "list") {
         QList<PackageVersion*> installed = rep->packageVersions; // getInstalled();
         for (int i = 0; i < installed.count(); i++) {
-            std::cout << qPrintable(installed.at(i)->package) << " " <<
+            std::cout << qPrintable(installed.at(i)->getPackageTitle()) << " " <<
                     qPrintable(installed.at(i)->version.getVersionString()) <<
                     " " << qPrintable(installed.at(i)->getPath()) <<
                     std::endl;

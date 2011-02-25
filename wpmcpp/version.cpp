@@ -125,7 +125,7 @@ void Version::prepend(int number)
     this->nparts = this->nparts + 1;
 }
 
-QString Version::getVersionString()
+QString Version::getVersionString() const
 {
     QString r;
     for (int i = 0; i < this->nparts; i++) {
