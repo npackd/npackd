@@ -1981,7 +1981,7 @@ if %err% neq 0 exit %err%
 
     <version name="1" package="com.googlecode.windows-package-manager.NpackdCL">
         <url>http://dl.dropbox.com/u/17046326/files/org.googlecode.windows-package-manager.NpackdCL-1.0.zip</url>
-	<sha1>ddee619df78bcda28462ac640a2a69c6443f3456</sha1>
+		<sha1>ddee619df78bcda28462ac640a2a69c6443f3456</sha1>
     </version>
 
     <version name="6.0.3883" package="com.microsoft.MSXML" type="one-file">
@@ -6054,8 +6054,8 @@ if %err% neq 0 exit /b %err%
 xcopy "%name%\*" . /E /H
 rmdir /s /q "%name%"
 </file> 
-        <file path="bin\liteide.bat">set npackdcl=..\..\com.googlecode.windows-package-manager.NpackdCL-1\npackdcl.exe
-set onecmd="%npackdcl%" "path" "--package=com.googlecode.gomingw.GoMinGW" "--versions=[2011.1.20, 2012)"
+        <file path="bin\liteide.bat">if [%npackd_cl%] equ [] set npackd_cl=..\..\com.googlecode.windows-package-manager.NpackdCL-1
+set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.gomingw.GoMinGW" "--versions=[2011.1.20, 2012)"
 for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set goroot=%%x
 set GOARCH=386
 set GOOS=windows
@@ -6065,7 +6065,7 @@ call liteide.exe
         <url>http://golangide.googlecode.com/files/liteide-win32-bin-0.1.8.zip</url> 
         <sha1>D932A7BCFE316A428F3542DA0BD30F335F54074C</sha1> 
         <dependency package="com.googlecode.windows-package-manager.NpackdCL" 
-                versions="[1, 1]"/>
+                versions="[1, 2)"/>
         <dependency package="com.googlecode.gomingw.GoMinGW"
                 versions="[2011.1.20, 2012)"/> 
     </version>  
