@@ -53,6 +53,8 @@ private:
      * @return error message
      */
     QString saveInstallationInfo();
+
+    bool external_;
 public:
     /** package version */
     Version version;
@@ -92,16 +94,22 @@ public:
      */
     QUrl download;
 
-    /**
-     * this value is true for packages not installed through WPM, but detected
-     * later. Those packages cannot be uninstalled, but are used for
-     * dependencies.
-     */
-    bool external;
-
     PackageVersion();
     PackageVersion(const QString& package);
     virtual ~PackageVersion();
+
+    /**
+     * @return this value is true for packages not installed through WPM,
+     * but detected
+     * later. Those packages cannot be uninstalled, but are used for
+     * dependencies.
+     */
+    bool isExternal() const;
+
+    /**
+     * @param e true = externally installed
+     */
+    void setExternal(bool e);
 
     /**
      * Loads the information about this package from the Windows registry.

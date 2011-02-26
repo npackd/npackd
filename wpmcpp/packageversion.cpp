@@ -27,14 +27,25 @@ PackageVersion::PackageVersion(const QString& package)
 {
     this->package = package;
     this->type = 0;
-    this->external = false;
+    this->external_ = false;
 }
 
 PackageVersion::PackageVersion()
 {
     this->package = "unknown";
     this->type = 0;
-    this->external = false;
+    this->external_ = false;
+}
+
+void PackageVersion::setExternal(bool e)
+{
+    this->external_ = e;
+    this->saveInstallationInfo();
+}
+
+bool PackageVersion::isExternal() const
+{
+    return this->external_;
 }
 
 void PackageVersion::loadFromRegistry()
@@ -61,7 +72,7 @@ void PackageVersion::loadFromRegistry()
         QDir d(p);
         if (d.exists()) {
             this->ipath = p;
-            this->external = external != 0;
+            this->external_ = external != 0;
         } else {
             this->ipath = "";
         }
@@ -128,7 +139,7 @@ QString PackageVersion::saveInstallationInfo()
         return err;
 
     wr.set("Path", this->ipath);
-    wr.setDWORD("External", this->external ? 1 : 0);
+    wr.setDWORD("External", this->external_ ? 1 : 0);
     return "";
 }
 
@@ -202,7 +213,7 @@ void PackageVersion::deleteShortcuts(const QString& dir, Job* job,
 
 void PackageVersion::uninstall(Job* job)
 {
-    if (external || !installed()) {
+    if (isExternal() || !installed()) {
         job->setProgress(1);
         job->complete();
         return;
@@ -586,7 +597,7 @@ void PackageVersion::install(Job* job, const QString& where)
 {
     job->setHint("Preparing");
 
-    if (installed() || external) {
+    if (installed() || isExternal()) {
         job->setProgress(1);
         job->complete();
         return;
@@ -724,13 +735,13 @@ void PackageVersion::install(Job* job, const QString& where)
                 job->setErrorMessage(exec->getErrorMessage());
             else {
                 this->ipath = d.absolutePath();
-                this->external = false;
+                this->external_ = false;
                 this->ipath.replace('/', '\\');
             }
             delete exec;
         } else {
             this->ipath = d.absolutePath();
-            this->external = false;
+            this->external_ = false;
             this->ipath.replace('/', '\\');
         }
 

@@ -71,7 +71,7 @@ public:
 
 void InstallThread::testOnePackage(Job *job, PackageVersion *pv)
 {
-    if (pv->external) {
+    if (pv->isExternal()) {
         job->setProgress(1);
         job->complete();
         return;
@@ -628,7 +628,7 @@ void MainWindow::fillList()
         newItem = new QTableWidgetItem("");
         QString status;
         if (installed) {
-            if (pv->external)
+            if (pv->isExternal())
                 status = "installed externally";
             else
                 status = "installed";
@@ -835,13 +835,13 @@ void MainWindow::on_actionUninstall_activated()
 
 bool MainWindow::isUpdateEnabled(PackageVersion* pv)
 {
-    if (pv && !pv->external) {
+    if (pv && !pv->isExternal()) {
         Repository* r = Repository::getDefault();
         PackageVersion* newest = r->findNewestPackageVersion(pv->package);
         PackageVersion* newesti = r->findNewestInstalledPackageVersion(
                 pv->package);
         return newest != 0 && newesti != 0 &&
-                !newesti->external &&
+                !newesti->isExternal() &&
                 newest->version.compare(newesti->version) > 0;
     } else {
         return false;
@@ -853,7 +853,7 @@ void MainWindow::updateActions()
     PackageVersion* pv = getSelectedPackageVersion();
     this->ui->actionInstall->setEnabled(pv && !pv->installed());
     this->ui->actionUninstall->setEnabled(pv && pv->installed() &&
-            !pv->external);
+            !pv->isExternal());
     this->ui->actionCompute_SHA1->setEnabled(pv && pv->download.isValid());
 
     // "Update"

@@ -369,15 +369,15 @@ void Repository::detectWindows()
 
     PackageVersion* pv = findOrCreatePackageVersion("com.microsoft.Windows", v);
     pv->setPath(WPMUtils::getWindowsDir());
-    pv->external = true;
+    pv->setExternal(true);
     if (WPMUtils::is64BitWindows()) {
         pv = findOrCreatePackageVersion("com.microsoft.Windows64", v);
         pv->setPath(WPMUtils::getWindowsDir());
-        pv->external = true;
+        pv->setExternal(true);
     } else {
         pv = findOrCreatePackageVersion("com.microsoft.Windows32", v);
         pv->setPath(WPMUtils::getWindowsDir());
-        pv->external = true;
+        pv->setExternal(true);
     }
 }
 
@@ -431,7 +431,7 @@ void Repository::recognize(Job* job)
                 Version(WPMUtils::NPACKD_VERSION));
         if (!pv->installed()) {
             pv->setPath(WPMUtils::getExeDir());
-            pv->external = true;
+            pv->setExternal(true);
         }
         job->setProgress(0.98);
     }
@@ -481,7 +481,7 @@ void Repository::detectJRE(bool w64bit)
                     w64bit ? "com.oracle.JRE64" :
                     "com.oracle.JRE", v);
             pv->setPath(path);
-            pv->external = true;
+            pv->setExternal(true);
         }
     }
 }
@@ -514,7 +514,7 @@ void Repository::detectJDK(bool w64bit)
                             "com.oracle.JDK", v);
                     if (!pv->installed()) {
                         pv->setPath(WPMUtils::getWindowsDir());
-                        pv->external = true;
+                        pv->setExternal(true);
                     }
                 }
             } else if (r == ERROR_NO_MORE_ITEMS) {
@@ -543,7 +543,7 @@ void Repository::clearExternallyInstalled(QString package)
 {
     for (int i = 0; i < this->packageVersions.count(); i++) {
         PackageVersion* pv = this->packageVersions.at(i);
-        if (pv->external && pv->package == package) {
+        if (pv->isExternal() && pv->package == package) {
             pv->setPath("");
         }
     }
@@ -589,7 +589,7 @@ void Repository::detectOneDotNet(HKEY hk2, const QString& keyName)
         PackageVersion* pv = findOrCreatePackageVersion(packageName, v);
         if (!pv->installed()) {
             pv->setPath(WPMUtils::getWindowsDir());
-            pv->external = true;
+            pv->setExternal(true);
         }
     }
 }
@@ -614,12 +614,12 @@ void Repository::detectMSIProducts()
     if (guids.contains("{FF66E9F6-83E7-3A3E-AF14-8DE9A809A6A4}")) {
         if (!pv->installed()) {
             pv->setPath(WPMUtils::getWindowsDir());
-            pv->external = true;
+            pv->setExternal(true);
         }
     } else {
         pv->setPath("");
     }
-    pv->external = true;
+    pv->setExternal(true);
     this->versionDetected("com.microsoft.VisualCPPRedistributable",
             Version("9.0.30729.17"),
             guids.contains("{9A25302D-30C0-39D9-BD6F-21E6EC160475}") ?

@@ -27,7 +27,7 @@ void PackageVersionForm::updateIcons()
 void PackageVersionForm::updateStatus()
 {
     QString status;
-    if (pv->external)
+    if (pv->isExternal())
         status = "externally installed";
     else if (pv->installed())
         status = "installed";
