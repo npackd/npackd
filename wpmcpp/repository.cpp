@@ -606,10 +606,26 @@ void Repository::detectMSIProducts()
 
     for (int i = 0; i < this->packageVersions.count(); i++) {
         PackageVersion* pv = this->packageVersions.at(i);
-        if (!pv->msiGUID.isEmpty()) {
+        if (pv->msiGUID.length() == 38) {
             if (all.contains(pv->msiGUID)) {
-                if (!pv->installed()) {
-                    pv->setPath(WPMUtils::getWindowsDir());
+                if (!pv->installed() || pv->isExternal()) {
+                    WCHAR value[MAX_PATH];
+                    DWORD len;
+
+                    len = sizeof(value) / sizeof(value[0]);
+                    UINT r = MsiGetProductInfo(
+                            (WCHAR*) pv->msiGUID.utf16(),
+                            INSTALLPROPERTY_INSTALLLOCATION,
+                            value, &len);
+                    QString p;
+                    if (r == ERROR_SUCCESS) {
+                        p.setUtf16((ushort*) value, len);
+                    }
+
+                    if (p.isEmpty())
+                        p = WPMUtils::getWindowsDir();
+
+                    pv->setPath(p);
                     pv->setExternal(true);
                 }
             } else {
