@@ -46,6 +46,13 @@ private:
      * @param dir this directory will be deleted
      */
     void removeDirectory(Job* job, const QString& dir);
+
+    /**
+     * Saves the installation information (path etc) in the registry.
+     *
+     * @return error message
+     */
+    QString saveInstallationInfo();
 public:
     /** package version */
     Version version;
@@ -95,6 +102,11 @@ public:
     PackageVersion();
     PackageVersion(const QString& package);
     virtual ~PackageVersion();
+
+    /**
+     * Loads the information about this package from the Windows registry.
+     */
+    void loadFromRegistry();
 
     /**
      * @return installation path or "" if the package is not installed
@@ -187,13 +199,6 @@ public:
      *     case
      */
     QString getFullText();
-
-    /**
-     * Saves the installation information (path etc) in the registry.
-     *
-     * @return error message
-     */
-    QString saveInstallationInfo();
 
     /**
      * @return a non-existing directory where this package would normally be

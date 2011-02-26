@@ -38,7 +38,7 @@ bool UIUtils::confirm(QWidget* parent, QString title, QString text)
     mb.setText(shortText);
     mb.setIcon(QMessageBox::Warning);
     mb.setStandardButtons(QMessageBox::Ok | QMessageBox::Cancel);
-    mb.setDefaultButton(QMessageBox::Cancel);
+    mb.setDefaultButton(QMessageBox::Ok);
     mb.setDetailedText(text);
     return ((QMessageBox::StandardButton) mb.exec()) == QMessageBox::Ok;
 }

@@ -37,6 +37,37 @@ PackageVersion::PackageVersion()
     this->external = false;
 }
 
+void PackageVersion::loadFromRegistry()
+{
+    WindowsRegistry entryWR;
+    QString err = entryWR.open(HKEY_LOCAL_MACHINE,
+            "SOFTWARE\\Npackd\\Npackd\\Packages\\" +
+            this->package + "-" + this->version.getVersionString(),
+            false);
+    if (!err.isEmpty())
+        return;
+
+    QString p = entryWR.get("Path", &err).trimmed();
+    if (!err.isEmpty())
+        return;
+
+    DWORD external = entryWR.getDWORD("External", &err);
+    if (!err.isEmpty())
+        external = 1;
+
+    if (p.isEmpty())
+        this->ipath = "";
+    else {
+        QDir d(p);
+        if (d.exists()) {
+            this->ipath = p;
+            this->external = external != 0;
+        } else {
+            this->ipath = "";
+        }
+    }
+}
+
 QString PackageVersion::getPath()
 {
     return this->ipath;
@@ -45,6 +76,7 @@ QString PackageVersion::getPath()
 void PackageVersion::setPath(const QString& path)
 {
     this->ipath = path;
+    saveInstallationInfo();
 }
 
 bool PackageVersion::isDirectoryLocked()
@@ -223,8 +255,7 @@ void PackageVersion::uninstall(Job* job)
             if (!rjob->getErrorMessage().isEmpty())
                 job->setErrorMessage(rjob->getErrorMessage());
             else {
-                this->ipath = "";
-                saveInstallationInfo();
+                setPath("");
             }
             delete rjob;
         }

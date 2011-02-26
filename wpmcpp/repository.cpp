@@ -282,6 +282,8 @@ int Repository::countUpdates()
 void Repository::recognize(Job* job)
 {
     job->setProgress(0);
+    job->complete();
+    return;
 
     job->setHint("Detecting Windows");
     if (!this->findPackage("com.microsoft.Windows")) {
@@ -506,7 +508,6 @@ void Repository::clearExternallyInstalled(QString package)
         PackageVersion* pv = this->packageVersions.at(i);
         if (pv->external && pv->package == package) {
             pv->setPath("");
-            pv->saveInstallationInfo();
         }
     }
 }
@@ -841,32 +842,17 @@ void Repository::readRegistryDatabase()
     if (err.isEmpty()) {
         QStringList entries = packagesWR.list(&err);
         for (int i = 0; i < entries.count(); ++i) {
-            WindowsRegistry entryWR;
             QString name = entries.at(i);
-            err = entryWR.open(HKEY_LOCAL_MACHINE, regPath +
-                    "\\Packages\\" + name, false);
-            if (err.isEmpty()) {
-                int pos = name.lastIndexOf("-");
-                if (pos > 0) {
-                    QString packageName = name.left(pos);
-                    if (Package::isValidName(packageName)) {
-                        QString versionName = name.right(name.length() - pos - 1);
-                        Version version;
-                        if (version.setVersion(versionName)) {
-                            QString path = entryWR.get("Path", &err);
-                            if (err.isEmpty()) {
-                                DWORD external = entryWR.getDWORD(
-                                        "External", &err);
-                                if (!err.isEmpty())
-                                    external = 1;
-                                QDir d(path);
-                                if (d.exists()) {
-                                    qDebug() << "exists! " << path;
-                                    this->versionDetected(packageName, version,
-                                            path, external != 0);
-                                }
-                            }
-                        }
+            int pos = name.lastIndexOf("-");
+            if (pos > 0) {
+                QString packageName = name.left(pos);
+                if (Package::isValidName(packageName)) {
+                    QString versionName = name.right(name.length() - pos - 1);
+                    Version version;
+                    if (version.setVersion(versionName)) {
+                        PackageVersion* pv = findOrCreatePackageVersion(
+                                packageName, version);
+                        pv->loadFromRegistry();
                     }
                 }
             }
