@@ -480,8 +480,10 @@ void Repository::detectJRE(bool w64bit)
             PackageVersion* pv = findOrCreatePackageVersion(
                     w64bit ? "com.oracle.JRE64" :
                     "com.oracle.JRE", v);
-            pv->setPath(path);
-            pv->setExternal(true);
+            if (!pv->installed()) {
+                pv->setPath(path);
+                pv->setExternal(true);
+            }
         }
     }
 }
@@ -597,8 +599,6 @@ void Repository::detectOneDotNet(HKEY hk2, const QString& keyName)
 void Repository::detectMSIProducts()
 {
     QStringList all = WPMUtils::findInstalledMSIProducts();
-
-    clearExternallyInstalled("com.microsoft.VisualCPPRedistributable");
 
     // Detecting VisualC++ runtimes:
     // http://blogs.msdn.com/b/astebner/archive/2009/01/29/9384143.aspx
