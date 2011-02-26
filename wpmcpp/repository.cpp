@@ -19,6 +19,7 @@ Repository* Repository::def = 0;
 
 Repository::Repository()
 {
+    addWellKnownPackages();
 }
 
 QList<PackageVersion*> Repository::getInstalled()
@@ -191,7 +192,7 @@ Package* Repository::createPackage(QDomElement* e)
         a->description = nl.at(0).firstChild().nodeValue();
     nl = e->elementsByTagName("icon");
     if (nl.count() != 0) {
-        a->icon = nl.at(0).firstChild().nodeValue();
+        a->icon = nl.at(0).firstChild().nodeValue().trimmed();
     }
     nl = e->elementsByTagName("license");
     if (nl.count() != 0) {
@@ -279,13 +280,8 @@ int Repository::countUpdates()
     return r;
 }
 
-void Repository::recognize(Job* job)
+void Repository::addWellKnownPackages()
 {
-    job->setProgress(0);
-    job->complete();
-    return;
-
-    job->setHint("Detecting Windows");
     if (!this->findPackage("com.microsoft.Windows")) {
         Package* p = new Package("com.microsoft.Windows", "Windows");
         p->url = "http://www.microsoft.com/windows/";
@@ -304,15 +300,73 @@ void Repository::recognize(Job* job)
         p->description = "Operating system";
         this->packages.append(p);
     }
+    if (!findPackage("com.googlecode.windows-package-manager.Npackd")) {
+        Package* p = new Package("com.googlecode.windows-package-manager.Npackd",
+                "Npackd");
+        p->url = "http://code.google.com/p/windows-package-manager/";
+        p->description = "package manager";
+        packages.append(p);
+    }
+    if (!this->findPackage("com.oracle.JRE")) {
+        Package* p = new Package("com.oracle.JRE", "JRE");
+        p->url = "http://www.java.com/";
+        p->description = "Java runtime";
+        this->packages.append(p);
+    }
+    if (!this->findPackage("com.oracle.JRE64")) {
+        Package* p = new Package("com.oracle.JRE64", "JRE/64 bit");
+        p->url = "http://www.java.com/";
+        p->description = "Java runtime";
+        this->packages.append(p);
+    }
+    if (!this->findPackage("com.oracle.JDK")) {
+        Package* p = new Package("com.oracle.JDK", "JDK");
+        p->url = "http://www.oracle.com/technetwork/java/javase/overview/index.html";
+        p->description = "Java development kit";
+        this->packages.append(p);
+    }
+    if (!this->findPackage("com.oracle.JDK64")) {
+        Package* p = new Package("com.oracle.JDK", "JDK/64 bit");
+        p->url = "http://www.oracle.com/technetwork/java/javase/overview/index.html";
+        p->description = "Java development kit";
+        this->packages.append(p);
+    }
+    if (!this->findPackage("com.microsoft.DotNetRedistributable")) {
+        Package* p = new Package("com.microsoft.DotNetRedistributable",
+                ".NET redistributable runtime");
+        p->url = "http://www.microsoft.com/downloads/details.aspx?FamilyID=0856eacb-4362-4b0d-8edd-aab15c5e04f5&amp;displaylang=en";
+        p->description = ".NET runtime";
+        this->packages.append(p);
+    }
+    if (!this->findPackage("com.microsoft.WindowsInstaller")) {
+        Package* p = new Package("com.microsoft.WindowsInstaller",
+                "Windows Installer");
+        p->url = "http://msdn.microsoft.com/en-us/library/cc185688(VS.85).aspx";
+        p->description = "Package manager";
+        this->packages.append(p);
+    }
+    if (!this->findPackage("com.microsoft.MSXML")) {
+        Package* p = new Package("com.microsoft.MSXML",
+                "Microsoft Core XML Services (MSXML)");
+        p->url = "http://www.microsoft.com/downloads/en/details.aspx?FamilyID=993c0bcf-3bcf-4009-be21-27e85e1857b1#Overview";
+        p->description = "XML library";
+        this->packages.append(p);
+    }
+}
+
+void Repository::detectWindows()
+{
     OSVERSIONINFO osvi;
     osvi.dwOSVersionInfoSize = sizeof(OSVERSIONINFO);
     GetVersionEx(&osvi);
     Version v;
     v.setVersion(osvi.dwMajorVersion, osvi.dwMinorVersion,
             osvi.dwBuildNumber);
+
     clearExternallyInstalled("com.microsoft.Windows");
     clearExternallyInstalled("com.microsoft.Windows32");
     clearExternallyInstalled("com.microsoft.Windows64");
+
     PackageVersion* pv = findOrCreatePackageVersion("com.microsoft.Windows", v);
     pv->setPath(WPMUtils::getWindowsDir());
     pv->external = true;
@@ -325,14 +379,24 @@ void Repository::recognize(Job* job)
         pv->setPath(WPMUtils::getWindowsDir());
         pv->external = true;
     }
-    job->setProgress(0.5);
+}
+
+void Repository::recognize(Job* job)
+{
+    job->setProgress(0);
+
+    if (!job->isCancelled()) {
+        job->setHint("Detecting Windows");
+        detectWindows();
+        job->setProgress(0.1);
+    }
 
     if (!job->isCancelled()) {
         job->setHint("Detecting JRE");
         detectJRE(false);
         if (WPMUtils::is64BitWindows())
             detectJRE(true);
-        job->setProgress(0.75);
+        job->setProgress(0.4);
     }
 
     if (!job->isCancelled()) {
@@ -340,35 +404,28 @@ void Repository::recognize(Job* job)
         detectJDK(false);
         if (WPMUtils::is64BitWindows())
             detectJDK(true);
-        job->setProgress(0.8);
+        job->setProgress(0.7);
     }
 
     if (!job->isCancelled()) {
         job->setHint("Detecting .NET");
         detectDotNet();
-        job->setProgress(0.9);
+        job->setProgress(0.8);
     }
 
     if (!job->isCancelled()) {
         job->setHint("Detecting MSI packages");
         detectMSIProducts();
-        job->setProgress(0.95);
+        job->setProgress(0.9);
     }
 
     if (!job->isCancelled()) {
         job->setHint("Detecting Windows Installer");
         detectMicrosoftInstaller();
-        job->setProgress(0.97);
+        job->setProgress(0.95);
     }
 
     if (!job->isCancelled()) {
-        if (!findPackage("com.googlecode.windows-package-manager.Npackd")) {
-            Package* p = new Package("com.googlecode.windows-package-manager.Npackd",
-                    "Npackd");
-            p->url = "http://code.google.com/p/windows-package-manager/";
-            p->description = "package manager";
-            packages.append(p);
-        }
         PackageVersion* pv = findOrCreatePackageVersion(
                 "com.googlecode.windows-package-manager.Npackd",
                 Version(WPMUtils::NPACKD_VERSION));
@@ -390,19 +447,6 @@ void Repository::recognize(Job* job)
 
 void Repository::detectJRE(bool w64bit)
 {
-    if (!this->findPackage("com.oracle.JRE")) {
-        Package* p = new Package("com.oracle.JRE", "JRE");
-        p->url = "http://www.java.com/";
-        p->description = "Java runtime";
-        this->packages.append(p);
-    }
-    if (!this->findPackage("com.oracle.JRE64")) {
-        Package* p = new Package("com.oracle.JRE64", "JRE/64 bit");
-        p->url = "http://www.java.com/";
-        p->description = "Java runtime";
-        this->packages.append(p);
-    }
-
     clearExternallyInstalled(w64bit ? "com.oracle.JRE64" : "com.oracle.JRE");
 
     if (w64bit && !WPMUtils::is64BitWindows())
@@ -444,13 +488,6 @@ void Repository::detectJRE(bool w64bit)
 
 void Repository::detectJDK(bool w64bit)
 {
-    if (!this->findPackage("com.oracle.JDK")) {
-        Package* p = new Package("com.oracle.JDK", "JDK");
-        p->url = "http://www.oracle.com/technetwork/java/javase/overview/index.html";
-        p->description = "Java development kit";
-        this->packages.append(p);
-    }
-
     clearExternallyInstalled("com.oracle.JDK");
 
     // TODO: 64-bit JDK
@@ -595,16 +632,7 @@ void Repository::detectMSIProducts()
 
 void Repository::detectDotNet()
 {
-    QString packageName("com.microsoft.DotNetRedistributable");
-
     // http://stackoverflow.com/questions/199080/how-to-detect-what-net-framework-versions-and-service-packs-are-installed
-    if (!this->findPackage(packageName)) {
-        Package* p = new Package("com.microsoft.DotNetRedistributable",
-                ".NET redistributable runtime");
-        p->url = "http://www.microsoft.com/downloads/details.aspx?FamilyID=0856eacb-4362-4b0d-8edd-aab15c5e04f5&amp;displaylang=en";
-        p->description = ".NET runtime";
-        this->packages.append(p);
-    }
 
     clearExternallyInstalled("com.microsoft.DotNetRedistributable");
 
@@ -642,14 +670,6 @@ void Repository::detectDotNet()
 
 void Repository::detectMicrosoftInstaller()
 {
-    if (!this->findPackage("com.microsoft.WindowsInstaller")) {
-        Package* p = new Package("com.microsoft.WindowsInstaller",
-                "Windows Installer");
-        p->url = "http://msdn.microsoft.com/en-us/library/cc185688(VS.85).aspx";
-        p->description = "Package manager";
-        this->packages.append(p);
-    }
-
     clearExternallyInstalled("com.microsoft.WindowsInstaller");
 
     Version v = WPMUtils::getDLLVersion("MSI.dll");
@@ -662,14 +682,6 @@ void Repository::detectMicrosoftInstaller()
 
 void Repository::detectMSXML()
 {
-    if (!this->findPackage("com.microsoft.MSXML")) {
-        Package* p = new Package("com.microsoft.MSXML",
-                "Microsoft Core XML Services (MSXML)");
-        p->url = "http://www.microsoft.com/downloads/en/details.aspx?FamilyID=993c0bcf-3bcf-4009-be21-27e85e1857b1#Overview";
-        p->description = "XML library";
-        this->packages.append(p);
-    }
-
     clearExternallyInstalled("com.microsoft.MSXML");
 
     Version v = WPMUtils::getDLLVersion("msxml.dll");
@@ -974,6 +986,8 @@ void Repository::reload(Job *job)
     if (!d->getErrorMessage().isEmpty())
         job->setErrorMessage(d->getErrorMessage());
     delete d;
+
+    addWellKnownPackages();
 
     if (!job->isCancelled() && job->getErrorMessage().isEmpty()) {
         d = job->newSubJob(0.25);

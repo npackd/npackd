@@ -598,6 +598,8 @@ void MainWindow::fillList()
             } else {
                 newItem->setIcon(MainWindow::genericAppIcon);
             }
+        } else {
+            newItem->setIcon(MainWindow::genericAppIcon);
         }
         t->setItem(n, 0, newItem);
 

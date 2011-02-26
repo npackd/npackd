@@ -79,6 +79,9 @@ private:
      * Adds unknown in the repository, but installed packages.
      */
     void detectPre_1_15_Packages();
+
+    void addWellKnownPackages();
+    void detectWindows();
 public:
     /**
      * Package versions. All version numbers should be normalized.
