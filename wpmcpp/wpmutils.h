@@ -182,7 +182,7 @@ public:
     static QString getWindowsDir();
 
     /**
-     * @return GUIDs for installed products (MSI)
+     * @return GUIDs for installed products (MSI) in lower case
      */
     static QStringList findInstalledMSIProducts();
 

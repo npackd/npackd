@@ -173,6 +173,10 @@ PackageVersion* Repository::createPackageVersion(QDomElement* e)
             a->dependencies.append(d);
     }
 
+    QDomNodeList guid = e->elementsByTagName("detect-msi");
+    if (guid.count() > 0)
+        a->msiGUID = guid.at(0).firstChild().nodeValue().trimmed().toLower();
+
     // qDebug() << "Repository::createPackageVersion.2";
     return a;
 }
@@ -600,25 +604,17 @@ void Repository::detectMSIProducts()
 {
     QStringList all = WPMUtils::findInstalledMSIProducts();
 
-    // Detecting VisualC++ runtimes:
-    // http://blogs.msdn.com/b/astebner/archive/2009/01/29/9384143.aspx
-    const char* versions[3] = {"9.0.21022.8", "9.0.30729.17", "9.0.30729.4148"};
-    const char* guids[3] = {
-        "{FF66E9F6-83E7-3A3E-AF14-8DE9A809A6A4}",
-        "{9A25302D-30C0-39D9-BD6F-21E6EC160475}",
-        "{1F1C2DFC-2D24-3E06-BCB8-725134ADF989}"
-    };
-    for (int i = 0; i < (int) (sizeof(versions) / sizeof(versions[0])); i++) {
-        PackageVersion* pv;
-        pv = findOrCreatePackageVersion("com.microsoft.VisualCPPRedistributable",
-                Version(versions[i]));
-        if (all.contains(guids[i])) {
-            if (!pv->installed()) {
-                pv->setPath(WPMUtils::getWindowsDir());
-                pv->setExternal(true);
+    for (int i = 0; i < this->packageVersions.count(); i++) {
+        PackageVersion* pv = this->packageVersions.at(i);
+        if (!pv->msiGUID.isEmpty()) {
+            if (all.contains(pv->msiGUID)) {
+                if (!pv->installed()) {
+                    pv->setPath(WPMUtils::getWindowsDir());
+                    pv->setExternal(true);
+                }
+            } else {
+                pv->setPath("");
             }
-        } else {
-            pv->setPath("");
         }
     }
 }

@@ -94,6 +94,12 @@ public:
      */
     QUrl download;
 
+    /**
+     * MSI GUID QVBoxLayout like {1D2C96C3-A3F3-49E7-B839-95279DED837F} or ""
+     * if not available
+     */
+    QString msiGUID;
+
     PackageVersion();
     PackageVersion(const QString& package);
     virtual ~PackageVersion();

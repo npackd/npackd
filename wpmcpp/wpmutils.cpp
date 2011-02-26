@@ -275,7 +275,7 @@ QStringList WPMUtils::findInstalledMSIProducts()
             break;
         QString v;
         v.setUtf16((ushort*) buf, 38);
-        result.append(v);
+        result.append(v.toLower());
         index++;
     }
     return result;
