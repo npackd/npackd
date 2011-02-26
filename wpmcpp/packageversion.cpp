@@ -39,8 +39,10 @@ PackageVersion::PackageVersion()
 
 void PackageVersion::setExternal(bool e)
 {
-    this->external_ = e;
-    this->saveInstallationInfo();
+    if (this->external_ != e) {
+        this->external_ = e;
+        this->saveInstallationInfo();
+    }
 }
 
 bool PackageVersion::isExternal() const
@@ -86,8 +88,10 @@ QString PackageVersion::getPath()
 
 void PackageVersion::setPath(const QString& path)
 {
-    this->ipath = path;
-    saveInstallationInfo();
+    if (this->ipath != path) {
+        this->ipath = path;
+        saveInstallationInfo();
+    }
 }
 
 bool PackageVersion::isDirectoryLocked()

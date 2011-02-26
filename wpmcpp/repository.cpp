@@ -594,40 +594,33 @@ void Repository::detectOneDotNet(HKEY hk2, const QString& keyName)
     }
 }
 
-void Repository::versionDetected(const QString &package, const Version &v,
-        const QString &path, const bool external)
-{
-
-}
-
 void Repository::detectMSIProducts()
 {
-    QStringList guids = WPMUtils::findInstalledMSIProducts();
+    QStringList all = WPMUtils::findInstalledMSIProducts();
 
     clearExternallyInstalled("com.microsoft.VisualCPPRedistributable");
 
     // Detecting VisualC++ runtimes:
     // http://blogs.msdn.com/b/astebner/archive/2009/01/29/9384143.aspx
-    PackageVersion* pv;
-    pv = findOrCreatePackageVersion("com.microsoft.VisualCPPRedistributable",
-            Version("9.0.21022.8"));
-    if (guids.contains("{FF66E9F6-83E7-3A3E-AF14-8DE9A809A6A4}")) {
-        if (!pv->installed()) {
-            pv->setPath(WPMUtils::getWindowsDir());
-            pv->setExternal(true);
+    const char* versions[3] = {"9.0.21022.8", "9.0.30729.17", "9.0.30729.4148"};
+    const char* guids[3] = {
+        "{FF66E9F6-83E7-3A3E-AF14-8DE9A809A6A4}",
+        "{9A25302D-30C0-39D9-BD6F-21E6EC160475}",
+        "{1F1C2DFC-2D24-3E06-BCB8-725134ADF989}"
+    };
+    for (int i = 0; i < (int) (sizeof(versions) / sizeof(versions[0])); i++) {
+        PackageVersion* pv;
+        pv = findOrCreatePackageVersion("com.microsoft.VisualCPPRedistributable",
+                Version(versions[i]));
+        if (all.contains(guids[i])) {
+            if (!pv->installed()) {
+                pv->setPath(WPMUtils::getWindowsDir());
+                pv->setExternal(true);
+            }
+        } else {
+            pv->setPath("");
         }
-    } else {
-        pv->setPath("");
     }
-    pv->setExternal(true);
-    this->versionDetected("com.microsoft.VisualCPPRedistributable",
-            Version("9.0.30729.17"),
-            guids.contains("{9A25302D-30C0-39D9-BD6F-21E6EC160475}") ?
-            WPMUtils::getWindowsDir() : "", true);
-    this->versionDetected("com.microsoft.VisualCPPRedistributable",
-            Version("9.0.30729.4148"),
-            guids.contains("{1F1C2DFC-2D24-3E06-BCB8-725134ADF989}") ?
-            WPMUtils::getWindowsDir() : "", true);
 }
 
 void Repository::detectDotNet()
@@ -675,8 +668,12 @@ void Repository::detectMicrosoftInstaller()
     Version v = WPMUtils::getDLLVersion("MSI.dll");
     Version nullNull(0, 0);
     if (v.compare(nullNull) > 0) {
-        this->versionDetected("com.microsoft.WindowsInstaller", v,
-                WPMUtils::getWindowsDir(), true);
+        PackageVersion* pv = findOrCreatePackageVersion(
+                "com.microsoft.WindowsInstaller", v);
+        if (!pv->installed()) {
+            pv->setPath(WPMUtils::getWindowsDir());
+            pv->setExternal(true);
+        }
     }
 }
 
@@ -687,34 +684,58 @@ void Repository::detectMSXML()
     Version v = WPMUtils::getDLLVersion("msxml.dll");
     Version nullNull(0, 0);
     if (v.compare(nullNull) > 0) {
-        this->versionDetected("com.microsoft.MSXML", v,
-                WPMUtils::getWindowsDir(), true);
+        PackageVersion* pv = findOrCreatePackageVersion(
+                "com.microsoft.MSXML", v);
+        if (!pv->installed()) {
+            pv->setPath(WPMUtils::getWindowsDir());
+            pv->setExternal(true);
+        }
     }
     v = WPMUtils::getDLLVersion("msxml2.dll");
     if (v.compare(nullNull) > 0) {
-        this->versionDetected("com.microsoft.MSXML", v,
-                WPMUtils::getWindowsDir(), true);
+        PackageVersion* pv = findOrCreatePackageVersion(
+                "com.microsoft.MSXML", v);
+        if (!pv->installed()) {
+            pv->setPath(WPMUtils::getWindowsDir());
+            pv->setExternal(true);
+        }
     }
     v = WPMUtils::getDLLVersion("msxml3.dll");
     if (v.compare(nullNull) > 0) {
         v.prepend(3);
-        this->versionDetected("com.microsoft.MSXML", v,
-                WPMUtils::getWindowsDir(), true);
+        PackageVersion* pv = findOrCreatePackageVersion(
+                "com.microsoft.MSXML", v);
+        if (!pv->installed()) {
+            pv->setPath(WPMUtils::getWindowsDir());
+            pv->setExternal(true);
+        }
     }
     v = WPMUtils::getDLLVersion("msxml4.dll");
     if (v.compare(nullNull) > 0) {
-        this->versionDetected("com.microsoft.MSXML", v,
-                WPMUtils::getWindowsDir(), true);
+        PackageVersion* pv = findOrCreatePackageVersion(
+                "com.microsoft.MSXML", v);
+        if (!pv->installed()) {
+            pv->setPath(WPMUtils::getWindowsDir());
+            pv->setExternal(true);
+        }
     }
     v = WPMUtils::getDLLVersion("msxml5.dll");
     if (v.compare(nullNull) > 0) {
-        this->versionDetected("com.microsoft.MSXML", v,
-                WPMUtils::getWindowsDir(), true);
+        PackageVersion* pv = findOrCreatePackageVersion(
+                "com.microsoft.MSXML", v);
+        if (!pv->installed()) {
+            pv->setPath(WPMUtils::getWindowsDir());
+            pv->setExternal(true);
+        }
     }
     v = WPMUtils::getDLLVersion("msxml6.dll");
     if (v.compare(nullNull) > 0) {
-        this->versionDetected("com.microsoft.MSXML", v,
-                WPMUtils::getWindowsDir(), true);
+        PackageVersion* pv = findOrCreatePackageVersion(
+                "com.microsoft.MSXML", v);
+        if (!pv->installed()) {
+            pv->setPath(WPMUtils::getWindowsDir());
+            pv->setExternal(true);
+        }
     }
 }
 
@@ -913,7 +934,8 @@ void Repository::scan(const QString& path, Job* job, int level,
             }
 
             if (ok) {
-                versionDetected(pv->package, pv->version, path, true);
+                pv->setPath(path);
+                pv->setExternal(true);
                 return;
             }
         }

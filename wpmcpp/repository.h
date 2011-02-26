@@ -35,9 +35,6 @@ private:
 
     void addWindowsPackage();
 
-    void versionDetected(const QString &package, const Version &v,
-            const QString &path, const bool external);
-
     void clearExternallyInstalled(QString package);
     void detectOneDotNet(HKEY hk2, const QString& keyName);
     void detectMSIProducts();
