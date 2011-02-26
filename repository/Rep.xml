@@ -3581,6 +3581,18 @@ if %err% neq 0 exit /b %err%
         <dependency package="com.microsoft.DotNetRedistributable"
                 versions="[3.5, 4)"/>
     </version>
+    <version name="3.5.7" package="net.getpaint.PaintDotNet">
+        <file path=".WPM\Install.bat">for /f %%x in ('dir /b *Install.exe') do set setup=%%x
+"%setup%" /auto "TARGETDIR=%CD%" JPGPNGBMPEDITOR=0 TGAEDITOR=0 DESKTOPSHORTCUT=0 CHECKFORUPDATES=0</file>
+        <file path=".WPM\Uninstall.bat">msiexec.exe /qn /norestart /Lime .WPM\MSI.log /x{639673E9-D53F-44F4-A046-485C8A6ADA15}
+set err=%errorlevel%
+type .WPM\MSI.log
+if %err% neq 0 exit /b %err%
+</file>
+        <url>http://www.dotpdn.com/files/Paint.NET.3.5.7.Install.zip</url>
+        <dependency package="com.microsoft.DotNetRedistributable"
+                versions="[3.5, 4)"/>
+    </version>
 
     <version name="2.5" package="net.sourceforge.launchy.Launchy"
             type="one-file">
