@@ -97,10 +97,7 @@ QString WPMUtils::getInstallationDirectory()
         QSettings s(QSettings::SystemScope, "WPM", "Windows Package Manager");
         v = s.value("path", "").toString();
         if (v.isEmpty()) {
-            v = WPMUtils::getProgramFilesDir() + "\\WPM";
-            QDir dir(v);
-            if (!dir.exists())
-                v = WPMUtils::getProgramFilesDir() + "\\Npackd";
+            v = WPMUtils::getProgramFilesDir();
         }
         s1.setValue("path", v);
     }
