@@ -32,7 +32,8 @@ SOURCES += main.cpp \
     ../wpmcpp/node.cpp \
     ../wpmcpp/license.cpp \
     ../wpmcpp/windowsregistry.cpp \
-    ../wpmcpp/detectfile.cpp
+    ../wpmcpp/detectfile.cpp \
+    app.cpp
 HEADERS += ../wpmcpp/repository.h \
     ../wpmcpp/version.h \
     ../wpmcpp/packageversionfile.h \
@@ -48,5 +49,6 @@ HEADERS += ../wpmcpp/repository.h \
     ../wpmcpp/node.h \
     ../wpmcpp/license.h \
     ../wpmcpp/windowsregistry.h \
-    ../wpmcpp/detectfile.h
+    ../wpmcpp/detectfile.h \
+    app.h
 FORMS += 

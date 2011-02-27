@@ -785,7 +785,6 @@ void MainWindow::process(QList<InstallOperation*> &install)
         b = UIUtils::confirm(this, "Install/Uninstall", msg);
     }
 
-
     if (b) {
         Job* job = new Job();
         InstallThread* it = new InstallThread(0, 1, job);

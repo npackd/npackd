@@ -8,15 +8,7 @@
 
 #include "..\wpmcpp\repository.h"
 
-void usage()
-{
-    std::cout << "Npackd command line tool" << std::endl;
-    std::cout << "Usage: npackdcl path --package=<package> --versions=<versions>" << std::endl;
-    /*std::cout << "or" << std::endl;
-    std::cout << "Usage: npackdcl list" << std::endl;
-    std::cout << "or" << std::endl;
-    std::cout << "Usage: npackdcl info" << std::endl;*/
-}
+#include "app.h"
 
 int main(int argc, char *argv[])
 {
@@ -40,78 +32,9 @@ int main(int argc, char *argv[])
     }
     */
 
-    int r = 0;
+    qRegisterMetaType<JobState>("JobState");
 
-    Repository* rep = Repository::getDefault();
-    Job* job = new Job();
-    rep->refresh(job);
-    delete job;
-
-    if (params.count() <= 1) {
-       std::cerr << "Missing arguments" << std::endl;
-       usage();
-       r = 1;
-    } else if (params.at(1) == "path") {
-        QString package;
-        QString versions;
-
-        for (int i = 2; i < params.count(); i++) {
-            QString p = params.at(i);
-            if (p.startsWith("--package=")) {
-                package = p.right(p.length() - 10);
-            } else if (p.startsWith("--versions=")) {
-                versions = p.right(p.length() - 11);
-            } else {
-                std::cerr << "Unknown argument: " << qPrintable(p) << std::endl;
-                usage();
-                r = 1;
-                break;
-            }
-        }
-
-        if (r == 0) {
-            if (!Package::isValidName(package)) {
-                std::cerr << "Invalid package name: " << qPrintable(package) << std::endl;
-                usage();
-                r = 1;
-            } else {
-                // debug: std::cout <<  qPrintable(package) << " " << qPrintable(versions);
-                Dependency d;
-                d.package = package;
-                if (!d.setVersions(versions)) {
-                    std::cerr << "Cannot parse versions: " << qPrintable(versions) << std::endl;
-                    usage();
-                    r = 1;
-                } else {
-                    // debug: std::cout << "Versions: " << qPrintable(d.toString()) << std::endl;
-                    PackageVersion* pv = d.findHighestInstalledMatch();
-                    if (pv) {
-                        std::cout << qPrintable(pv->getPath()) << std::endl;
-                    } else {
-                        std::cout << "nothing" << qPrintable(d.toString()) << std::endl;
-                    }
-                }
-            }
-        }
-    } else if (params.count() == 2 && params.at(1) == "list") {
-        QList<PackageVersion*> installed = rep->packageVersions; // getInstalled();
-        for (int i = 0; i < installed.count(); i++) {
-            std::cout << qPrintable(installed.at(i)->getPackageTitle()) << " " <<
-                    qPrintable(installed.at(i)->version.getVersionString()) <<
-                    " " << qPrintable(installed.at(i)->getPath()) <<
-                    std::endl;
-        }
-    } else if (params.count() == 2 && params.at(1) == "info") {
-        /*std::cout << "Installation directory: " <<
-                qPrintable(rep->getDirectory().absolutePath()) << std::endl;
-        QList<PackageVersion*> installed = rep->getInstalled();
-        std::cout << "Number of installed packages: " <<
-                installed.count() << std::endl;*/
-    } else {
-        std::cerr << "Wrong arguments" << std::endl;
-        usage();
-        r = 1;
-    }
-
-    return r;
+    App app;
+    return app.process(params);
 }
+
