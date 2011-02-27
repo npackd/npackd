@@ -937,7 +937,7 @@ void MainWindow::on_actionInstall_activated()
         process(ops);
     else
         QMessageBox::critical(this,
-                "Uninstall", err, QMessageBox::Ok);
+                "Install", err, QMessageBox::Ok);
 }
 
 void MainWindow::on_actionGotoPackageURL_triggered()
