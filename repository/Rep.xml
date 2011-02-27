@@ -2700,18 +2700,28 @@ for %%g in (pdf ps eps svg svgz sxd odg sla sla.gz scd scd.gz) do reg delete HKL
     </version>
 
     <version name="7.21.2" package="se.haxx.curl.CURL">
-        <important-file
-                path="curl-7.21.2-ssl-sspi-zlib-static-bin-w32\curl.html"
-                title="Manual"/>
+        <file path=".WPM\Install.bat">for /f "delims=" %%x in ('dir /b curl*') do set name=%%x
+xcopy "%name%\*" . /E /H
+rmdir /s /q "%name%"
+</file>
         <url>http://www.gknw.net/mirror/curl/win32/curl-7.21.2-ssl-sspi-zlib-static-bin-w32.zip</url>
         <sha1>bb7ff1c8804646882b17972ae843f77964df7cf0</sha1>
     </version>
     <version name="7.21.3" package="se.haxx.curl.CURL">
-        <important-file
-                path="curl-7.21.3-ssl-sspi-zlib-static-bin-w32\curl.html"
-                title="Manual"/>
+        <file path=".WPM\Install.bat">for /f "delims=" %%x in ('dir /b curl*') do set name=%%x
+xcopy "%name%\*" . /E /H
+rmdir /s /q "%name%"
+</file>
         <url>http://www.gknw.net/mirror/curl/win32/curl-7.21.3-ssl-sspi-zlib-static-bin-w32.zip</url>
         <sha1>f3b94d347346da001ac405eba7edb0c838e9e7bb</sha1>
+    </version>
+    <version name="7.21.4" package="se.haxx.curl.CURL">
+        <file path=".WPM\Install.bat">for /f "delims=" %%x in ('dir /b curl*') do set name=%%x
+xcopy "%name%\*" . /E /H
+rmdir /s /q "%name%"
+</file>
+        <url>http://www.gknw.net/mirror/curl/win32/curl-7.21.4-ssl-sspi-zlib-static-bin-w32.zip</url>
+        <sha1>63812474CA76ABD5C8819E77A50ED5E0EB48F356</sha1>
     </version>
 
     <version name="0.96.1" package="com.clamwin.ClamWin" type="one-file">
