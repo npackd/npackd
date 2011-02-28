@@ -3,6 +3,7 @@
 
 #include <iostream>
 #include <iomanip>
+#include <time.h>
 
 #include <QtCore/QCoreApplication>
 #include <qdebug.h>
@@ -17,8 +18,11 @@ class App: public QObject
 private slots:
     void jobChanged(const JobState& s);
 private:
+    CONSOLE_SCREEN_BUFFER_INFO progressPos;
     QStringList params;
+    time_t lastJobChange;
 
+    Job* createJob();
     void usage();
     int path();
     int add();

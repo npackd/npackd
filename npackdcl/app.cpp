@@ -1,8 +1,44 @@
 #include "app.h"
 
+#include "math.h"
+
 void App::jobChanged(const JobState& s)
 {
-    std::cout << qPrintable(s.hint) << std::endl;
+    HANDLE hOutputHandle = GetStdHandle(STD_OUTPUT_HANDLE);
+
+    time_t now = time(0);
+    if (!s.completed) {
+        if (now - this->lastJobChange != 0) {
+            int w = progressPos.dwSize.X - 6;
+
+            QString filled;
+            filled.fill(219, floor(s.progress * w));
+            QString unfilled;
+            unfilled.fill(' ', w - filled.length());
+
+            SetConsoleCursorPosition(hOutputHandle, progressPos.dwCursorPosition);
+            QString txt = (filled + unfilled + "%1%").
+                  arg(floor(s.progress * 100 + 0.5));
+            std::cout << qPrintable(txt);
+
+            COORD tp = progressPos.dwCursorPosition;
+            tp.Y++;
+            SetConsoleCursorPosition(hOutputHandle, tp);
+            txt = s.hint;
+            if (txt.length() >= progressPos.dwSize.X)
+                txt = "... " + txt.right(progressPos.dwSize.X - 5);
+            else if (txt.length() < progressPos.dwSize.X - 1)
+                txt = txt + QString().fill(' ', progressPos.dwSize.X - 1 - txt.length());
+            std::cout << qPrintable(txt);
+        }
+    } else {
+        QString filled;
+        filled.fill(' ', progressPos.dwSize.X - 1);
+        SetConsoleCursorPosition(hOutputHandle, progressPos.dwCursorPosition);
+        std::cout << qPrintable(filled) << std::endl;
+        std::cout << qPrintable(filled) << std::endl;
+        SetConsoleCursorPosition(hOutputHandle, progressPos.dwCursorPosition);
+    }
 }
 
 int App::process(const QStringList &params)
@@ -45,6 +81,26 @@ int App::process(const QStringList &params)
     return r;
 }
 
+Job* App::createJob()
+{
+    HANDLE hOutputHandle = GetStdHandle(STD_OUTPUT_HANDLE);
+    GetConsoleScreenBufferInfo(hOutputHandle, &progressPos);
+    if (progressPos.dwCursorPosition.Y >= progressPos.dwSize.Y - 1) {
+        std::cout << std::endl;
+        std::cout << std::endl;
+        progressPos.dwCursorPosition.Y -= 2;
+    }
+
+    Job* job = new Job();
+    connect(job, SIGNAL(changed(const JobState&)), this,
+            SLOT(jobChanged(const JobState&)));
+
+    // -1 so that we do not have the initial 1 second delay
+    this->lastJobChange = time(0) - 1;
+
+    return job;
+}
+
 void App::usage()
 {
     std::cout << "Npackd command line tool" << std::endl;
@@ -69,9 +125,6 @@ int App::path()
 
     Repository* rep = Repository::getDefault();
     Job* job = new Job();
-    /*connect(job, SIGNAL(changed(const JobState&)), this,
-            SLOT(jobChanged(const JobState&)),
-            Qt::dConnection); todo */
     rep->refresh(job);
     if (!job->getErrorMessage().isEmpty()) {
         std::cerr << qPrintable(job->getErrorMessage()) << std::endl;
@@ -129,9 +182,7 @@ int App::add()
     int r = 0;
 
     Repository* rep = Repository::getDefault();
-    Job* job = new Job();
-    connect(job, SIGNAL(changed(const JobState&)), this,
-            SLOT(jobChanged(const JobState&)));
+    Job* job = createJob();
     rep->reload(job);
     if (!job->getErrorMessage().isEmpty()) {
         std::cerr << qPrintable(job->getErrorMessage()) << std::endl;
@@ -187,18 +238,24 @@ int App::add()
                 break;
             }
             if (pv->installed()) {
-                std::cerr << "Package is already installed" << std::endl;
+                std::cerr << "Package is already installed in " <<
+                        qPrintable(pv->getPath()) << std::endl;
                 r = 1;
                 break;
             }
 
-            std::cout << "installing..." << std::endl;
+            QList<InstallOperation*> ops;
+            QList<PackageVersion*> installed =
+                    Repository::getDefault()->getInstalled();
+            QString err = pv->planInstallation(installed, ops);
+            if (!err.isEmpty()) {
+                std::cerr << qPrintable(err) << std::endl;
+                r = 1;
+                break;
+            }
 
-            Job* ijob = new Job();
-            connect(ijob, SIGNAL(changed(const JobState&)), this,
-                    SLOT(jobChanged(const JobState&)));
-            QString where = pv->getPreferredInstallationDirectory();
-            pv->install(ijob, where);
+            Job* ijob = createJob();
+            rep->process(ijob, ops);
             if (!ijob->getErrorMessage().isEmpty()) {
                 std::cerr << qPrintable(ijob->getErrorMessage()) << std::endl;
                 r = 1;
@@ -215,9 +272,7 @@ int App::remove()
     int r = 0;
 
     Repository* rep = Repository::getDefault();
-    Job* job = new Job();
-    connect(job, SIGNAL(changed(const JobState&)), this,
-            SLOT(jobChanged(const JobState&)));
+    Job* job = createJob();
     rep->reload(job);
     if (!job->getErrorMessage().isEmpty()) {
         std::cerr << qPrintable(job->getErrorMessage()) << std::endl;
@@ -271,7 +326,6 @@ int App::remove()
                 std::cerr << "Package not found" << std::endl;
                 r = 1;
                 break;
-
             }
 
             if (!pv->installed()) {
@@ -283,20 +337,25 @@ int App::remove()
             if (pv->isExternal()) {
                 std::cerr << "Externally installed packages cannot be removed" << std::endl;
                 r = 1;
+                break;
             }
 
             QList<InstallOperation*> ops;
             QList<PackageVersion*> installed =
                     Repository::getDefault()->getInstalled();
-            QString err = pv->planInstallation(installed, ops);
+            QString err = pv->planUninstallation(installed, ops);
             if (!err.isEmpty()) {
                 std::cerr << qPrintable(err) << std::endl;
                 r = 1;
                 break;
             }
 
-            Job* job = new Job();
+            Job* job = createJob();
             rep->process(job, ops);
+            if (!job->getErrorMessage().isEmpty()) {
+                std::cerr << qPrintable(job->getErrorMessage()) << std::endl;
+                r = 1;
+            }
             delete job;
         } while (false);
     }
