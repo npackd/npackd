@@ -738,15 +738,17 @@ void PackageVersion::install(Job* job, const QString& where)
             if (!exec->getErrorMessage().isEmpty())
                 job->setErrorMessage(exec->getErrorMessage());
             else {
-                this->ipath = d.absolutePath();
-                this->external_ = false;
-                this->ipath.replace('/', '\\');
+                QString path = d.absolutePath();
+                path.replace('/', '\\');
+                setPath(path);
+                setExternal(false);
             }
             delete exec;
         } else {
-            this->ipath = d.absolutePath();
-            this->external_ = false;
-            this->ipath.replace('/', '\\');
+            QString path = d.absolutePath();
+            path.replace('/', '\\');
+            setPath(path);
+            setExternal(false);
         }
 
         if (this->package == "com.googlecode.windows-package-manager.NpackdCL") {
