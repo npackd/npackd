@@ -9,6 +9,7 @@
 WindowsRegistry::WindowsRegistry()
 {
     this->hkey = 0;
+    this->useWow6432Node = false;
 }
 
 WindowsRegistry::WindowsRegistry(const WindowsRegistry& wr)
