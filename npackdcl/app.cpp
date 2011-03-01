@@ -50,7 +50,7 @@ int App::process(const QStringList &params)
     int r = 0;
 
     if (params.count() <= 1) {
-        std::cerr << "Missing arguments. Try npackdcl.exe help" << std::endl;
+        std::cerr << "Missing arguments. Try npackdcl help" << std::endl;
         r = 1;
     } else if (params.at(1) == "help") {
         usage();
@@ -114,7 +114,10 @@ void App::usage()
     std::cout << "    npackdcl add --package=<package> --version=<version>" << std::endl;
     std::cout << "    or" << std::endl;
     std::cout << "    npackdcl remove --package=<package> --version=<version>" << std::endl;
-    std::cout << "The process exits with the code unequal 0 if an error occcures." << std::endl;
+    std::cout << std::endl;
+    std::cout << "You can use short package names in 'add' and 'remove' operations." << std::endl;
+    std::cout << "Example: App instead of com.example.App" << std::endl;
+    std::cout << "The process exits with the code unequal to 0 if an error occcures." << std::endl;
     /*
     std::cout << "Usage: npackdcl list" << std::endl;
     std::cout << "or" << std::endl;
