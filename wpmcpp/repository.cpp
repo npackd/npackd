@@ -261,6 +261,22 @@ License* Repository::findLicense(const QString& name)
     return 0;
 }
 
+QList<Package*> Repository::findPackages(const QString& name)
+{
+    QList<Package*> r;
+    bool shortName = name.indexOf('.') < 0;
+    QString suffix = '.' + name;
+    for (int i = 0; i < this->packages.count(); i++) {
+        Package* p = this->packages.at(i);
+        if (p->name == name) {
+            r.append(p);
+        } else if (shortName && p->name.endsWith(suffix)) {
+            r.append(p);
+        }
+    }
+    return r;
+}
+
 Package* Repository::findPackage(const QString& name)
 {
     for (int i = 0; i < this->packages.count(); i++) {

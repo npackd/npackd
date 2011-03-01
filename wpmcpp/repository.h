@@ -194,6 +194,15 @@ public:
     Package* findPackage(const QString& name);
 
     /**
+     * Searches for a package by name.
+     *
+     * @param name name of the package like "org.server.Word" or the short
+     *     name "Word"
+     * @return found packages
+     */
+    QList<Package*> findPackages(const QString& name);
+
+    /**
      * Searches for a license by name.
      *
      * @param name name of the license like "org.gnu.GPLv3"

@@ -14,10 +14,11 @@ void App::jobChanged(const JobState& s)
             QString filled;
             filled.fill(219, floor(s.progress * w));
             QString unfilled;
-            unfilled.fill(' ', w - filled.length());
+            unfilled.fill(177, w - filled.length());
 
-            SetConsoleCursorPosition(hOutputHandle, progressPos.dwCursorPosition);
-            QString txt = (filled + unfilled + "%1%").
+            SetConsoleCursorPosition(hOutputHandle,
+                    progressPos.dwCursorPosition);
+            QString txt = (filled + unfilled + " %1%").
                   arg(floor(s.progress * 100 + 0.5));
             std::cout << qPrintable(txt);
 
@@ -28,7 +29,8 @@ void App::jobChanged(const JobState& s)
             if (txt.length() >= progressPos.dwSize.X)
                 txt = "... " + txt.right(progressPos.dwSize.X - 5);
             else if (txt.length() < progressPos.dwSize.X - 1)
-                txt = txt + QString().fill(' ', progressPos.dwSize.X - 1 - txt.length());
+                txt = txt + QString().fill(' ',
+                        progressPos.dwSize.X - 1 - txt.length());
             std::cout << qPrintable(txt);
         }
     } else {
@@ -216,8 +218,14 @@ int App::add()
             }
 
             Repository* rep = Repository::getDefault();
-            if (!rep->findPackage(package)) {
+            QList<Package*> packages = rep->findPackages(package);
+            if (packages.count() == 0) {
                 std::cerr << "Unknown package: " << qPrintable(package) << std::endl;
+                r = 1;
+                break;
+            }
+            if (packages.count() > 1) {
+                std::cerr << "Ambiguous package name" << std::endl;
                 r = 1;
                 break;
             }
@@ -231,7 +239,8 @@ int App::add()
             }
 
             // debug: std::cout << "Versions: " << qPrintable(d.toString()) << std::endl;
-            PackageVersion* pv = rep->findPackageVersion(package, version);
+            PackageVersion* pv = rep->findPackageVersion(
+                    packages.at(0)->name, version);
             if (!pv) {
                 std::cerr << "Package version not found" << std::endl;
                 r = 1;
@@ -306,8 +315,14 @@ int App::remove()
             }
 
             Repository* rep = Repository::getDefault();
-            if (!rep->findPackage(package)) {
+            QList<Package*> packages = rep->findPackages(package);
+            if (packages.count() == 0) {
                 std::cerr << "Unknown package: " << qPrintable(package) << std::endl;
+                r = 1;
+                break;
+            }
+            if (packages.count() > 1) {
+                std::cerr << "Ambiguous package name" << std::endl;
                 r = 1;
                 break;
             }
@@ -321,7 +336,8 @@ int App::remove()
             }
 
             // debug: std::cout << "Versions: " << qPrintable(d.toString()) << std::endl;
-            PackageVersion* pv = rep->findPackageVersion(package, version);
+            PackageVersion* pv = rep->findPackageVersion(
+                    packages.at(0)->name, version);
             if (!pv) {
                 std::cerr << "Package not found" << std::endl;
                 r = 1;

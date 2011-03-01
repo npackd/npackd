@@ -28,6 +28,12 @@ private:
     int add();
     int remove();
 public:
+    /**
+     * Process the command line.
+     *
+     * @param params command line parameters
+     * @return exit code
+     */
     int process(const QStringList& params);
 };
 
