@@ -254,11 +254,40 @@ QStringList WPMUtils::findInstalledMSIProductNames()
             version.setUtf16((ushort*) value, len);
         }
 
-        result.append(title + " " + version + " " + uuid);
+        result.append(title + " " + version);
+        result.append("    " + uuid);
+
+        QString err;
+        QString path = WPMUtils::getMSIProductLocation(uuid, &err);
+        if (!err.isEmpty())
+            result.append("    err" + err);
+        else
+            result.append("    " + path);
 
         index++;
     }
     return result;
+}
+
+QString WPMUtils::getMSIProductLocation(const QString &guid, QString *err)
+{
+    WCHAR value[MAX_PATH];
+    DWORD len;
+
+    len = sizeof(value) / sizeof(value[0]);
+    UINT r = MsiGetProductInfo(
+            (WCHAR*) guid.utf16(),
+            INSTALLPROPERTY_INSTALLLOCATION,
+            value, &len);
+    QString p;
+    if (r == ERROR_SUCCESS) {
+        p.setUtf16((ushort*) value, len);
+        err->clear();
+    } else {
+        *err = QString("Cannot determine MSI product location for GUID %1").
+                arg(guid);
+    }
+    return p;
 }
 
 QStringList WPMUtils::findInstalledMSIProducts()

@@ -625,20 +625,10 @@ void Repository::detectMSIProducts()
         if (pv->msiGUID.length() == 38) {
             if (all.contains(pv->msiGUID)) {
                 if (!pv->installed() || pv->isExternal()) {
-                    WCHAR value[MAX_PATH];
-                    DWORD len;
-
-                    len = sizeof(value) / sizeof(value[0]);
-                    UINT r = MsiGetProductInfo(
-                            (WCHAR*) pv->msiGUID.utf16(),
-                            INSTALLPROPERTY_INSTALLLOCATION,
-                            value, &len);
-                    QString p;
-                    if (r == ERROR_SUCCESS) {
-                        p.setUtf16((ushort*) value, len);
-                    }
-
-                    if (p.isEmpty())
+                    QString err;
+                    QString p = WPMUtils::getMSIProductLocation(
+                            pv->msiGUID, &err);
+                    if (p.isEmpty() || !err.isEmpty())
                         p = WPMUtils::getWindowsDir();
 
                     pv->setPath(p);

@@ -187,6 +187,15 @@ public:
     static QStringList findInstalledMSIProducts();
 
     /**
+     * Finds location of an installed MSI product.
+     *
+     * @param guid product GUID
+     * @param err error message will be stored here
+     * @return installation location (C:\Program Files\MyProg)
+     */
+    static QString getMSIProductLocation(const QString& guid, QString* err);
+
+    /**
      * @return Names and GUIDs for installed products (MSI)
      */
     static QStringList findInstalledMSIProductNames();
