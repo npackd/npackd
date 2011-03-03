@@ -197,6 +197,11 @@
         <description>Linux-like environment</description>
         <license>org.gnu.GPLv2</license>
     </package>
+    <package name="com.cyolito.comicrack.ComicRack">
+        <title>ComicRack</title>
+        <url>http://comicrack.cyolito.com/</url>
+        <description>eComic reader</description>
+    </package>
     <package name="com.debugmode.Wink">
         <title>Wink</title>
         <url>http://www.debugmode.com/wink/</url>
@@ -991,6 +996,11 @@
         <description>program launcher</description>
         <!-- GPL, http://launchy.svn.sourceforge.net/viewvc/launchy/trunk/Launchy_QT/ -->
         <icon>http://dl.dropbox.com/u/17046326/picons/net.sourceforge.launchy.LaunchyInstaller.png</icon>
+    </package>
+    <package name="net.sourceforge.mingw-w64.MinGWW64">
+        <title>MinGW-w64</title>
+        <url>http://mingw-w64.sourceforge.net/</url>
+        <description>GCC toolchain (C, Ada, C++, Fortran, Object C and Objective C++)</description>
     </package>
     <package name="net.sourceforge.mpc-hc.MediaPlayerClassicHomeCinema">
         <title>Media Player Classic - Home Cinema</title>
@@ -6388,4 +6398,19 @@ if %err% neq 0 exit %err%
         <url>http://ftp.osuosl.org/pub/pculture.org/Miro/win/Miro-3.5.1.exe</url>
         <sha1>8434A124ECDD7C022025CEB9A5FBAC968699B497</sha1>
     </version>    
+
+    <version name="0.9.136" package="com.cyolito.comicrack.ComicRack" type="one-file">
+        <file path=".WPM\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x
+"%setup%" /S /D=%CD%
+</file>
+        <file path=".WPM\Uninstall.bat">uninst.exe /S _?=%CD%
+</file>        
+        <url>http://dl.dropbox.com/u/17046326/files/com.cyolito.comicrack.ComicRack-0.9.136.exe</url>
+        <sha1>526F5FCC148A253677C3C58BB5D231ECCB7C44F1</sha1>
+    </version>    
+
+    <version name="1.0.2010.11.29" package="net.sourceforge.mingw-w64.MinGWW64">
+        <url>http://downloads.sourceforge.net/project/mingw-w64/Toolchains%20targetting%20Win32/Automated%20Builds/mingw-w32-1.0-bin_i686-mingw_20101129.zip?ts=1299189403</url>
+        <sha1>958444AEEEF8673F485287B410727A308F1BBDA4</sha1>
+    </version>
 </root>
