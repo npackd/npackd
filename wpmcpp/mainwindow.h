@@ -33,6 +33,33 @@ const UINT NIN_KEYSELECT = NIN_SELECT or NINF_KEY;
  */
 class MainWindow : public QMainWindow {
     Q_OBJECT
+private:
+    Ui::MainWindow *ui;
+
+    FileLoader fileLoader;
+
+    void addTextTab(const QString& title, const QString& text);
+    void showDetails();
+    void updateIcons();
+    void updateActions();
+    bool isUpdateEnabled(PackageVersion* pv);
+
+    /**
+     * Fills the table with known package versions.
+     */
+    void fillList();
+
+    /**
+     * @return selected package version or 0.
+     */
+    PackageVersion* getSelectedPackageVersion();
+
+    /**
+     * @param pv a version or 0
+     */
+    void selectPackageVersion(PackageVersion* pv);
+
+    void updateStatusInDetailTabs();
 public:
     static QMap<QString, QIcon> icons;
 
@@ -97,33 +124,6 @@ private slots:
     void on_actionUninstall_activated();
     void on_actionExit_triggered();
     void iconDownloaded(const FileLoaderItem& it);
-private:
-    Ui::MainWindow *ui;
-
-    FileLoader fileLoader;
-
-    void showDetails();
-    void updateIcons();
-    void updateActions();
-    bool isUpdateEnabled(PackageVersion* pv);
-
-
-    /**
-     * Fills the table with known package versions.
-     */
-    void fillList();
-
-    /**
-     * @return selected package version or 0.
-     */
-    PackageVersion* getSelectedPackageVersion();
-
-    /**
-     * @param pv a version or 0
-     */
-    void selectPackageVersion(PackageVersion* pv);
-
-    void updateStatusInDetailTabs();
 };
 
 #endif // MAINWINDOW_H

@@ -256,6 +256,40 @@ void InstallThread::run()
     // qDebug() << "InstallThread::run.2";
 }
 
+/**
+ * Scan hard drives.
+ */
+class ScanHardDrivesThread: public QThread
+{
+    Job* job;
+public:
+    QList<PackageVersion*> detected;
+
+    ScanHardDrivesThread(Job* job);
+
+    void run();
+};
+
+ScanHardDrivesThread::ScanHardDrivesThread(Job *job)
+{
+    this->job = job;
+}
+
+void ScanHardDrivesThread::run()
+{
+    Repository* r = Repository::getDefault();
+    QList<PackageVersion*> s1 = r->getInstalled();
+    r->scanHardDrive(job);
+    QList<PackageVersion*> s2 = r->getInstalled();
+
+    for (int i = 0; i < s2.count(); i++) {
+        PackageVersion* pv = s2.at(i);
+        if (!s1.contains(pv)) {
+            detected.append(pv);
+        }
+    }
+}
+
 bool MainWindow::winEvent(MSG* message, long* result)
 {    
     if (message->message == WM_ICONTRAY) {
@@ -1134,10 +1168,15 @@ void MainWindow::on_actionList_Installed_MSI_Products_triggered()
 {
     QStringList sl = WPMUtils::findInstalledMSIProductNames();
 
+    addTextTab("Installed MSI Products", sl.join("\n"));
+}
+
+void MainWindow::addTextTab(const QString& title, const QString& text)
+{
     QTextEdit* te = new QTextEdit(this->ui->tabWidget);
     te->setReadOnly(true);
-    te->setText(sl.join("\n"));
-    this->ui->tabWidget->addTab(te, "Installed MSI Products");
+    te->setText(text);
+    this->ui->tabWidget->addTab(te, title);
     this->ui->tabWidget->setCurrentIndex(this->ui->tabWidget->count() - 1);
 }
 
@@ -1177,14 +1216,24 @@ void MainWindow::on_actionShow_Details_triggered()
 void MainWindow::on_actionScan_Hard_Drives_triggered()
 {
     Job* job = new Job();
-    InstallThread* it = new InstallThread(0, 8, job);
+    ScanHardDrivesThread* it = new ScanHardDrivesThread(job);
     it->start();
     it->setPriority(QThread::LowestPriority);
 
     waitFor(job, "Scan Hard Drives");
     it->wait();
+    QStringList detected;
+    for (int i = 0; i < it->detected.count(); i++) {
+        PackageVersion* pv = it->detected.at(i);
+        detected.append(pv->toString());
+    }
+    detected.append("____________________");
+    detected.append(QString("%1 application(s) detected").
+            arg(it->detected.count()));
     delete it;
     delete job;
 
     fillList();
+
+    addTextTab("Application detection status", detected.join("\n"));
 }
