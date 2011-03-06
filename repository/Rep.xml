@@ -5780,25 +5780,37 @@ if %err% neq 0 exit /b %err%
     </version>
     <version name="3.2" package="org.squirrelsql.SquirrelSQLStandard"
             type="one-file">
-        <file path=".WPM\Install.bat">..\org.7-zip.SevenZIPA-4.65\7za.exe x squirrel-sql-3.2.0-optional.tar.gz
-..\org.7-zip.SevenZIPA-4.65\7za.exe x squirrel-sql-3.2.0-optional.tar
+        <file path=".WPM\Install.bat">if [%npackd_cl%] equ [] set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
+set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=org.7-zip.SevenZIPA" "--versions=[4.65, 4.65]"
+for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set sevenzipa=%%x
+
+"%sevenzipa%\7za.exe" x squirrel-sql-3.2.0-optional.tar.gz
+"%sevenzipa%\7za.exe" x squirrel-sql-3.2.0-optional.tar
 </file>
         <important-file path="squirrel-sql-3.2.0-optional\squirrel-sql.bat" title="SQuirreL SQL Client"/>
         <url>http://downloads.sourceforge.net/project/squirrel-sql/1-stable/3.2.0-plainzip/squirrel-sql-3.2.0-optional.tar.gz?ts=1290550211</url>
+        <sha1>c3fdbe8e3f17361d9be38bc205b7139da3314eb8</sha1>
         <dependency package="com.oracle.JRE" versions="[1.6, 2)"/>
         <dependency package="org.7-zip.SevenZIPA" versions="[4.65, 4.65]"/>
-        <sha1>c3fdbe8e3f17361d9be38bc205b7139da3314eb8</sha1>
+        <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1, 2)"/>
+        <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1, 1]"/>
     </version>
     <version name="3.2.1" package="org.squirrelsql.SquirrelSQLStandard"
             type="one-file">
-        <file path=".WPM\Install.bat">..\org.7-zip.SevenZIPA-4.65\7za.exe x squirrel-sql-3.2.1-optional.tar.gz
-..\org.7-zip.SevenZIPA-4.65\7za.exe x squirrel-sql-3.2.1-optional.tar
+        <file path=".WPM\Install.bat">if [%npackd_cl%] equ [] set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
+set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=org.7-zip.SevenZIPA" "--versions=[4.65, 4.65]"
+for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set sevenzipa=%%x
+
+"%sevenzipa%\7za.exe" x squirrel-sql-3.2.1-optional.tar.gz
+"%sevenzipa%\7za.exe" x squirrel-sql-3.2.1-optional.tar
 </file>
         <important-file path="squirrel-sql-3.2.1-optional\squirrel-sql.bat" title="SQuirreL SQL Client"/>
         <url>http://downloads.sourceforge.net/project/squirrel-sql/1-stable/3.2.1-plainzip/squirrel-sql-3.2.1-optional.tar.gz?ts=1293980867</url>
+        <sha1>0823dac44c907db7c97766f389f372853b7f1701</sha1>
         <dependency package="com.oracle.JRE" versions="[1.6, 2)"/>
         <dependency package="org.7-zip.SevenZIPA" versions="[4.65, 4.65]"/>
-        <sha1>0823dac44c907db7c97766f389f372853b7f1701</sha1>
+        <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1, 2)"/>
+        <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1, 1]"/>
     </version>
 
     <version name="2.0.2" package="com.utorrent.UTorrentInstaller" type="one-file">
