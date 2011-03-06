@@ -28,6 +28,12 @@
         <url>http://code.google.com/p/stexbar/</url>
         <description>Windows Explorer extensions</description>
     </package>
+    <package name="com.googlecode.tortoisegit.TortoiseGit64">
+        <title>TotroitseGit/64 bit</title>
+        <url>http://code.google.com/p/tortoisegit/</url>
+        <description>Windows Explorer extensions for Git</description>
+        <license>org.gnu.GPLv2</license>
+    </package>
     <package name="com.oracle.JRE64">
         <title>JRE/64 bit</title>
         <url>http://www.java.com/en/</url>
@@ -135,5 +141,29 @@ if %err% neq 0 exit /b %err%
         <url>http://dl.dropbox.com/u/17046326/files/com.tracker-software.PDFXChangeViewer64-2.5.192.msi</url>
         <sha1>B0F57531069AA73B0C7E4CB49335E07C7856E7DB</sha1>
         <dependency package="com.microsoft.Windows64" versions="[5.0, 10)"/>
+    </version>
+
+    <version name="1.6.5" package="com.googlecode.tortoisegit.TortoiseGit64"
+            type="one-file">
+        <file path=".WPM\Install.bat">for /f %%x in ('dir /b *.msi') do set setup=%%x
+msiexec.exe /qn /norestart /Lime .WPM\MSI.log /i "%setup%" TARGETDIR="%CD%" ALLUSERS=1
+set err=%errorlevel%
+type .WPM\MSI.log
+rem 3010=restart required
+if %err% equ 3010 exit /b 0
+if %err% neq 0 exit /b %err%
+</file>
+        <file path=".WPM\Uninstall.bat">for /f %%x in ('dir /b *.msi') do set setup=%%x
+msiexec.exe /qn /norestart /Lime .WPM\MSI.log /x "%setup%"
+set err=%errorlevel%
+type .WPM\MSI.log
+rem 3010=restart required
+if %err% equ 3010 exit /b 0
+if %err% neq 0 exit /b %err%
+</file>
+        <url>http://tortoisegit.googlecode.com/files/Tortoisegit-1.6.5.0-64bit.msi</url>
+        <sha1>F01F970100E80DFB74F74E85D21E1A6AB932CDCF</sha1>
+        <dependency package="com.googlecode.msysgit.MSysGit" 
+                versions="[1.7.4.2011.2.4, 1.7.5)"/>
     </version>
 </root>
