@@ -985,6 +985,11 @@
         <url>http://gnuwin32.sourceforge.net</url>
         <description>i18n tools and library</description>
     </package>
+    <package name="net.sourceforge.gnuwin32.Make">
+        <title>Make</title>
+        <url>http://gnuwin32.sourceforge.net/packages/make.htm</url>
+        <description>build tool</description>
+    </package>
     <package name="net.sourceforge.jedicodeformat.JEDICodeFormat">
         <title>JEDI Code Format</title>
         <url>http://jedicodeformat.sourceforge.net/</url>
@@ -6506,5 +6511,22 @@ if %err% neq 0 exit %err%
 </file>
         <url>http://msysgit.googlecode.com/files/Git-1.7.4-preview20110204.exe</url>
         <sha1>F5A7652F399362C6E28DD176C680A5CA042588E7</sha1>
+    </version>
+
+    <version name="3.81" package="net.sourceforge.gnuwin32.Make"
+            type="one-file">
+        <file path=".WPM\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x
+"%setup%" /SP- /VERYSILENT /SUPPRESSMSGBOXES /NOCANCEL /NORESTART /DIR="%CD%" /SAVEINF="%CD%\.WPM\InnoSetupInfo.ini" /LOG="%CD%\.WPM\InnoSetupInstall.log"
+set err=%errorlevel%
+type .WPM\InnoSetupInstall.log
+if %err% neq 0 exit %err%
+</file>
+        <file path=".WPM\Uninstall.bat">uninstall\unins000.exe /VERYSILENT /SUPPRESSMSGBOXES /NORESTART /LOG="%CD%\.WPM\InnoSetupUninstall.log"
+set err=%errorlevel%
+type .WPM\InnoSetupUninstall.log
+if %err% neq 0 exit %err%
+</file>
+        <url>http://downloads.sourceforge.net/project/gnuwin32/make/3.81/make-3.81.exe?ts=1299421781</url>
+        <sha1>53A02F2FDBC299D980CA1F2BD01E39940CFC5918</sha1>
     </version>
 </root>
