@@ -980,6 +980,101 @@
         <description>DjVu viewer and tools</description>
         <license>org.gnu.GPLv2</license>
     </package>
+    <package name="net.sourceforge.gnuwin32.CoreUtils">
+        <title>Core Utilities</title>
+        <url>http://gnuwin32.sourceforge.net/packages/coreutils.htm</url>
+        <description>basic file, shell and text manipulation utilities of the GNU operating system. These are the core utilities which are expected to exist on every operating system.
+
+File utilities:
+chgrp: Changes file group ownership.
+chown: Changes file ownership.
+chmod: Changes file permissions.
+cp: Copies files.
+dd: Copies and converts a file.
+df: Shows disk free space on filesystems.
+dir: Gives a brief directory listing.
+dircolors: Setup program for the color output of GNU ls.
+du: Shows disk usage on filesystems.
+install: Copies file and sets its permissions.
+ln: Creates file links.
+ls: Lists directory contents.
+mkdir: Creates directories.
+mkfifo: Creates FIFOs (named pipes).
+mknod: Creates special files.
+mv: Moves files.
+rm: Removes (deletes) files.
+rmdir: Removes empty directories.
+shred: Destroy data in files.
+sync: Synchronizes filesystem buffers and disk.
+touch: Changes file timestamps.
+vdir: Long directory listing.
+
+Text utilities:
+cat: concatenates and prints files on the standard output
+cksum: checksum and count the bytes in a file
+comm: compares two sorted files line by line
+csplit: splits a file into sections determined by context lines
+cut: remove sections from each line of files
+expand: convert tabs to spaces
+fmt: simple optimal text formatter
+fold: wrap each input line to fit in specified width
+head: output the first part of files
+join: join lines of two files on a common field
+md5sum: compute and check MD5 messsage digest
+nl: number lines of files
+od: dump files in octal and other formats
+paste: merge lines of files
+ptx: produce a permuted index of file contents
+pr: convert text files for printing
+shasum: compute and check SHA1 message digest
+sort: sort lines of text files
+split: split a file into pieces
+sum: checksum and count the blocks in a file
+tac: concatenates and prints files in reverse
+tail: outputs the last part of files
+tr: translates or deletes characters
+tsort: perform topological sort
+unexpand: convert spaces to tabs
+uniq: remove duplicate lines from a sorted file
+wc: prints the number of bytes, words, and lines in files
+
+Shell utilities:
+[ - Check file types and compare values
+basename - Removes the path prefix from a given pathname.
+chroot - Changes the root directory.
+date - Prints/sets the system date and time.
+dirname - Removes the last level or filename from a given pathname.
+echo - Prints a line of text.
+env - Displays/modifies the environment.
+expr - Evaluates expressions.
+factor - Prints prime factors.
+false - Returns an unsuccessful exit status.
+groups - Print the groups that the user is a member of.
+hostid - Print the numeric identifier for the current host
+hostname - Print or set the machine name.
+id - Print real/effective uid/gid.
+logname - Print current login name.
+nice - Modify scheduling priority.
+nohup - Allows a command to continue running after logging out.
+pathchk - Check file name portability.
+pinky - Lightweight finger
+printenv - Prints environment variables.
+printf - Formats and prints data.
+pwd - Print the current working directory.
+seq - Print numeric sequences.
+sleep - Suspends execution for a specified time.
+stty - Print/change terminal settings.
+su - Allows you to adopt the id of another user or superuser.
+tee - Sends output to multiple files.
+test - Evaluates an expression.
+true - Returns a successful exit status.
+tty - Print terminal name.
+uname - Print system information.
+users - Print current user names.
+who - Print a list of all users currently logged in.
+whoami - Print effective user id.
+yes - Print a string repeatedly.</description>
+    </package>
     <package name="net.sourceforge.gnuwin32.GetText">
         <title>GetText</title>
         <url>http://gnuwin32.sourceforge.net</url>
@@ -6528,5 +6623,22 @@ if %err% neq 0 exit %err%
 </file>
         <url>http://downloads.sourceforge.net/project/gnuwin32/make/3.81/make-3.81.exe?ts=1299421781</url>
         <sha1>53A02F2FDBC299D980CA1F2BD01E39940CFC5918</sha1>
+    </version>
+
+    <version name="3.5" package="net.sourceforge.gnuwin32.CoreUtils"
+            type="one-file">
+        <file path=".WPM\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x
+"%setup%" /SP- /VERYSILENT /SUPPRESSMSGBOXES /NOCANCEL /NORESTART /DIR="%CD%" /SAVEINF="%CD%\.WPM\InnoSetupInfo.ini" /LOG="%CD%\.WPM\InnoSetupInstall.log"
+set err=%errorlevel%
+type .WPM\InnoSetupInstall.log
+if %err% neq 0 exit %err%
+</file>
+        <file path=".WPM\Uninstall.bat">uninstall\unins000.exe /VERYSILENT /SUPPRESSMSGBOXES /NORESTART /LOG="%CD%\.WPM\InnoSetupUninstall.log"
+set err=%errorlevel%
+type .WPM\InnoSetupUninstall.log
+if %err% neq 0 exit %err%
+</file>
+        <url>http://downloads.sourceforge.net/project/gnuwin32/coreutils/5.3.0/coreutils-5.3.0.exe?ts=1299431056</url>
+        <sha1>B0B0112F162C148137E2453256CE7EE6E3258999</sha1>
     </version>
 </root>
