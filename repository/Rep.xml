@@ -324,6 +324,12 @@
         <description>Windows Explorer extensions</description>
         <license>org.gnu.GPLv2</license>
     </package>
+    <package name="com.googlecode.tortoisegit.TortoiseGit">
+        <title>TotroitseGit</title>
+        <url>http://code.google.com/p/tortoisegit/</url>
+        <description>Windows Explorer extensions for Git</description>
+        <license>org.gnu.GPLv2</license>
+    </package>
     <package name="com.googlecode.windows-package-manager.Npackd">
         <title>Npackd</title>
         <url>http://code.google.com/p/windows-package-manager/</url>
@@ -6110,7 +6116,11 @@ if %err% neq 0 exit /b %err%
 
     <version name="10.0.30319.1" package="com.microsoft.VisualCPPExpress"
             type="one-file">
-        <file path=".WPM\Install.bat">..\org.7-zip.SevenZIP-9.20\7z.exe x VS2010Express1.iso
+        <file path=".WPM\Install.bat">if [%npackd_cl%] equ [] set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
+set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=org.7-zip.SevenZIP" "--versions=[9.20, 9.20]"
+for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set sevenzip=%%x
+
+"%sevenzip%\7z.exe" x VS2010Express1.iso
 VCExpress\setup.exe /q /norestart
 if %errorlevel% equ 3010 exit /b 0
 </file>
@@ -6125,6 +6135,8 @@ if %err% neq 0 exit /b %err%
         <url>http://download.microsoft.com/download/1/E/5/1E5F1C0A-0D5B-426A-A603-1798B951DDAE/VS2010Express1.iso</url>
         <sha1>adef5e361a1f64374f520b9a2d03c54ee43721c6</sha1>
         <dependency package="org.7-zip.SevenZIP" versions="[9.20, 9.20]"/>
+        <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1, 2)"/>
+        <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1, 1]"/>
     </version>
 
     <version name="10" package="com.microsoft.AutoRuns">
@@ -6300,6 +6312,8 @@ call liteide.exe
         <sha1>01E526F8A76F1DA7C806DA783525E2C8E7F822C1</sha1> 
         <dependency package="com.googlecode.windows-package-manager.NpackdCL" 
                 versions="[1, 2)"/>
+        <dependency package="com.googlecode.windows-package-manager.NpackdCL" 
+                versions="[1, 1]"/>
         <dependency package="com.googlecode.gomingw.GoMinGW"
                 versions="[2011.1.20, 2012)"/> 
     </version>  
@@ -6445,5 +6459,27 @@ if %err% neq 0 exit %err%
     <version name="1.0.2010.11.29" package="net.sourceforge.mingw-w64.MinGWW64">
         <url>http://downloads.sourceforge.net/project/mingw-w64/Toolchains%20targetting%20Win32/Automated%20Builds/mingw-w32-1.0-bin_i686-mingw_20101129.zip?ts=1299189403</url>
         <sha1>958444AEEEF8673F485287B410727A308F1BBDA4</sha1>
+    </version>
+
+    <version name="1.6.5" package="com.googlecode.tortoisegit.TortoiseGit"
+            type="one-file">
+        <file path=".WPM\Install.bat">for /f %%x in ('dir /b *.msi') do set setup=%%x
+msiexec.exe /qn /norestart /Lime .WPM\MSI.log /i "%setup%" TARGETDIR="%CD%" ALLUSERS=1
+set err=%errorlevel%
+type .WPM\MSI.log
+rem 3010=restart required
+if %err% equ 3010 exit /b 0
+if %err% neq 0 exit /b %err%
+</file>
+        <file path=".WPM\Uninstall.bat">for /f %%x in ('dir /b *.msi') do set setup=%%x
+msiexec.exe /qn /norestart /Lime .WPM\MSI.log /x "%setup%"
+set err=%errorlevel%
+type .WPM\MSI.log
+rem 3010=restart required
+if %err% equ 3010 exit /b 0
+if %err% neq 0 exit /b %err%
+</file>
+        <url>http://tortoisegit.googlecode.com/files/Tortoisegit-1.6.5.0-32bit.msi</url>
+        <sha1>CB3D84E0C39BAD9D2062B444C84BCEDD938DA7EC</sha1>
     </version>
 </root>
