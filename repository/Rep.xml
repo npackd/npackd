@@ -2002,8 +2002,8 @@ if %err% neq 0 exit %err%
         <important-file path="jakarta-jmeter-2.4\bin\jmeterw.cmd" title="JMeter"/>
         <url>http://thatinfo.info/apache//jakarta/jmeter/binaries/jakarta-jmeter-2.4.zip</url>
         <sha1>64d5f6ac5b0e7ad8692e8d45f15b6a3d7a7038e3</sha1>
-    </version>
-
+    </version>    
+    
     <!--
         Here is the list of available versions:
         http://pypi.python.org/pypi/setuptools
@@ -2012,10 +2012,15 @@ if %err% neq 0 exit %err%
     <version name="0.6.3.11" package="com.telecommunity.peak.SetupTools"
             type="one-file">
         <url>http://pypi.python.org/packages/2.7/s/setuptools/setuptools-0.6c11-py2.7.egg#md5=fe1f997bc722265116870bc7919059ea</url>
-        <file path=".WPM\Install.bat">set PYTHONPATH=setuptools-0.6c11-py2.7.egg
-..\org.python.Python-2.7\python -c "import sys, os; from setuptools.command.easy_install import bootstrap; sys.exit(bootstrap())"</file>
-        <dependency package="org.python.Python" versions="[2.7, 2.7]"/>
+        <file path=".WPM\Install.bat">if [%npackd_cl%] equ [] set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
+set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=org.python.Python" "--versions=[2.7, 2.7]"
+for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set python=%%x
+set PYTHONPATH=setuptools-0.6c11-py2.7.egg
+"%python%\python" -c "import sys, os; from setuptools.command.easy_install import bootstrap; sys.exit(bootstrap())"</file>
         <sha1>38ffcaa253d59717e0428ef5c5458927f6664b4d</sha1>
+        <dependency package="org.python.Python" versions="[2.7, 2.7]"/>
+        <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1, 2)"/>
+        <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1, 1]"/>
     </version>
 
     <version name="1.2.1" package="org.processing.Processing">
@@ -2655,10 +2660,14 @@ move *.dll %trash%
     <version name="7.3.46" package="org.vim.VimRuntime">
         <url>http://ftp.vim.org/pub/vim/pc/vim73_46rt.zip</url>
         <sha1>cde31a99db352464be75078dbae9176a5b0722f3</sha1>
-    </version>
-
+    </version>    
+    
     <version name="7.3.46" package="org.vim.Vim">
-        <file path=".WPM\Install.bat">xcopy ..\org.vim.VimRuntime-7.3.46\* . /E /H
+        <file path=".WPM\Install.bat">if [%npackd_cl%] equ [] set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
+set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=org.vim.VimRuntime" "--versions=[7.3.46, 7.3.46]"
+for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set vimruntime=%%x
+
+xcopy "%vimruntime%\*" . /E /H
 set KEY=org.vim.Vim-7.3.46
 reg add HKLM\SOFTWARE\Classes\Applications\%KEY%\shell\open /v FriendlyAppName /d "Vim (7.3.46)" /f
 set c=\"%CD%\vim\vim73\gvim.exe\" \"%%1\"
