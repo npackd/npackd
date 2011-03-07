@@ -5260,7 +5260,8 @@ if %errorlevel% equ 19 exit /b 0
 echo InstallDirectoryPath=%CD% >> .WPM\FF.ini
 echo QuickLaunchShortcut=false >> .WPM\FF.ini
 echo DesktopShortcut=false >> .WPM\FF.ini
-"org.mozilla.Firefox-3.6.10.exe" /INI="%CD%\.WPM\FF.ini"
+for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x
+"%setup%" /INI="%CD%\.WPM\FF.ini"
 </file>
         <file path=".WPM\Uninstall.bat">uninstall\helper.exe /S</file>
         <url>http://dl.dropbox.com/u/17046326/files/org.mozilla.Firefox-3.6.10.exe</url>
@@ -5272,7 +5273,8 @@ echo DesktopShortcut=false >> .WPM\FF.ini
 echo InstallDirectoryPath=%CD% >> .WPM\FF.ini
 echo QuickLaunchShortcut=false >> .WPM\FF.ini
 echo DesktopShortcut=false >> .WPM\FF.ini
-"org.mozilla.Firefox-3.6.11.exe" /INI="%CD%\.WPM\FF.ini"
+for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x
+"%setup%" /INI="%CD%\.WPM\FF.ini"
 </file>
         <file path=".WPM\Uninstall.bat">uninstall\helper.exe /S</file>
         <url>http://dl.dropbox.com/u/17046326/files/org.mozilla.Firefox-3.6.11.exe</url>
@@ -5284,7 +5286,8 @@ echo DesktopShortcut=false >> .WPM\FF.ini
 echo InstallDirectoryPath=%CD% >> .WPM\FF.ini
 echo QuickLaunchShortcut=false >> .WPM\FF.ini
 echo DesktopShortcut=false >> .WPM\FF.ini
-"org.mozilla.Firefox-3.6.12.exe" /INI="%CD%\.WPM\FF.ini"
+for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x
+"%setup%" /INI="%CD%\.WPM\FF.ini"
 </file>
         <file path=".WPM\Uninstall.bat">uninstall\helper.exe /S</file>
         <url>http://dl.dropbox.com/u/17046326/files/org.mozilla.Firefox-3.6.12.exe</url>
@@ -5296,11 +5299,25 @@ echo DesktopShortcut=false >> .WPM\FF.ini
 echo InstallDirectoryPath=%CD% >> .WPM\FF.ini
 echo QuickLaunchShortcut=false >> .WPM\FF.ini
 echo DesktopShortcut=false >> .WPM\FF.ini
-"org.mozilla.Firefox-3.6.13.exe" /INI="%CD%\.WPM\FF.ini"
+for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x
+"%setup%" /INI="%CD%\.WPM\FF.ini"
 </file>
         <file path=".WPM\Uninstall.bat">uninstall\helper.exe /S</file>
         <url>http://dl.dropbox.com/u/17046326/files/org.mozilla.Firefox-3.6.13.exe</url>
         <sha1>ac9a021dc07c9a269b547b2a5b07719f61cd9368</sha1>
+    </version>
+    <version name="3.6.15" package="org.mozilla.Firefox" type="one-file">
+        <important-file path="firefox.exe" title="Firefox"/>
+        <file path=".WPM\Install.bat">echo [Install] > .WPM\FF.ini
+echo InstallDirectoryPath=%CD% >> .WPM\FF.ini
+echo QuickLaunchShortcut=false >> .WPM\FF.ini
+echo DesktopShortcut=false >> .WPM\FF.ini
+for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x
+"%setup%" /INI="%CD%\.WPM\FF.ini"
+</file>
+        <file path=".WPM\Uninstall.bat">uninstall\helper.exe /S</file>
+        <url>http://dl.dropbox.com/u/17046326/files/org.mozilla.Firefox-3.6.15.exe</url>
+        <sha1>B1282DA22C99F017F6839E45E6197F9901653EF8</sha1>
     </version>
 
     <version name="1.33" package="org.gexperts.GExpertsDelphi7Installer"
