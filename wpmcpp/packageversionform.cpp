@@ -60,6 +60,15 @@ void PackageVersionForm::fillForm(PackageVersion* pv)
 
     if (p) {
         this->ui->textEditDescription->setText(p->description);
+
+        QString hp;
+        if (p->url.isEmpty())
+            hp = "unknown";
+        else{
+            hp = p->url;
+            hp = "<a href=\"" + hp + "\">" + hp + "</a>";
+        }
+        this->ui->labelHomePage->setText(hp);
     }
 
     updateStatus();
@@ -119,14 +128,6 @@ void PackageVersionForm::changeEvent(QEvent *e)
     }
 }
 
-void PackageVersionForm::on_labelDownloadURL_linkActivated(QString link)
-{
-    QUrl url(link);
-    if (url.isValid()) {
-        QDesktopServices::openUrl(url);
-    }
-}
-
 void PackageVersionForm::on_labelLicense_linkActivated(QString link)
 {
     QTabWidget* tabWidget = dynamic_cast<QTabWidget*>(
@@ -149,3 +150,4 @@ void PackageVersionForm::on_labelLicense_linkActivated(QString link)
     tabWidget->addTab(f, lic->title);
     tabWidget->setCurrentIndex(tabWidget->count() - 1);
 }
+
