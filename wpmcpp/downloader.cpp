@@ -34,6 +34,9 @@ bool downloadWin(Job* job, const QUrl& url, QTemporaryFile* file,
 
     QString server = url.host();
     QString resource = url.path();
+    QString encQuery = url.encodedQuery();
+    if (!encQuery.isEmpty())
+        resource.append('?').append(encQuery);
 
     int contentLength;
     int64_t alreadyRead;
