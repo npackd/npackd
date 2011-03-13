@@ -4213,10 +4213,23 @@ rmdir /s /q "%name%"</file>
 
     <version name="214" package="net.sourceforge.pywin32.PythonForWindowsExtensionsInstaller"
             type="one-file">
-        <important-file path="pywin32-214.win32-py2.6.exe" title="Installer"/>
+        <file path=".WPM\Install.bat">for /f %%x in ('dir /b *.exe') do set setup=%%x
+ren "%setup%" pywin32-win32-py2.6.exe
+</file>
+        <important-file path="pywin32-win32-py2.6.exe" title="Installer"/>
         <url>http://downloads.sourceforge.net/project/pywin32/pywin32/Build%20214/pywin32-214.win32-py2.6.exe?93199256</url>
         <sha1>eca58f29b810d8e3e7951277ebb3e35ac35794a3</sha1>
     </version>
+    <version name="216" package="net.sourceforge.pywin32.PythonForWindowsExtensionsInstaller"
+            type="one-file">
+        <file path=".WPM\Install.bat">for /f %%x in ('dir /b *.exe') do set setup=%%x
+ren "%setup%" pywin32-win32-py2.6.exe
+</file>
+        <important-file path="pywin32-win32-py2.6.exe" title="Installer"/>
+        <url>http://downloads.sourceforge.net/project/pywin32/pywin32/Build216/pywin32-216.win32-py2.6.exe?ts=1300009418</url>
+        <sha1>1E5D3C477D184724A7290C5AE0C89A86FFB6CAEB</sha1>
+    </version>
+    
     <version name="1.6" package="net.shatters.Celestia"
             type="one-file">
         <file path=".WPM\Install.bat">celestia-win32-1.6.0.exe /SP- /VERYSILENT /SUPPRESSMSGBOXES /NOCANCEL /NORESTART /DIR="%CD%"</file>
