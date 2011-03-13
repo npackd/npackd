@@ -11,34 +11,21 @@ void App::jobChanged(const JobState& s)
         if (now - this->lastJobChange != 0) {
             int w = progressPos.dwSize.X - 6;
 
-            QString filled;
-            filled.fill(219, floor(s.progress * w));
-            QString unfilled;
-            unfilled.fill(177, w - filled.length());
-
             SetConsoleCursorPosition(hOutputHandle,
                     progressPos.dwCursorPosition);
-            QString txt = (filled + unfilled + " %1%").
-                  arg(floor(s.progress * 100 + 0.5));
-            std::cout << qPrintable(txt);
-
-            COORD tp = progressPos.dwCursorPosition;
-            tp.Y++;
-            SetConsoleCursorPosition(hOutputHandle, tp);
-            txt = s.hint;
-            if (txt.length() >= progressPos.dwSize.X)
-                txt = "... " + txt.right(progressPos.dwSize.X - 5);
-            else if (txt.length() < progressPos.dwSize.X - 1)
-                txt = txt + QString().fill(' ',
-                        progressPos.dwSize.X - 1 - txt.length());
+            QString txt = s.hint;
+            if (txt.length() >= w)
+                txt = "..." + txt.right(w - 3);
+            if (txt.length() < w)
+                txt = txt + QString().fill(' ', w - txt.length());
+            txt += QString("%1%").arg(floor(s.progress * 100 + 0.5), 4);
             std::cout << qPrintable(txt);
         }
     } else {
         QString filled;
         filled.fill(' ', progressPos.dwSize.X - 1);
         SetConsoleCursorPosition(hOutputHandle, progressPos.dwCursorPosition);
-        std::cout << qPrintable(filled) << std::endl;
-        std::cout << qPrintable(filled) << std::endl;
+        std::cout << qPrintable(filled);
         SetConsoleCursorPosition(hOutputHandle, progressPos.dwCursorPosition);
     }
 }
@@ -89,8 +76,7 @@ Job* App::createJob()
     GetConsoleScreenBufferInfo(hOutputHandle, &progressPos);
     if (progressPos.dwCursorPosition.Y >= progressPos.dwSize.Y - 1) {
         std::cout << std::endl;
-        std::cout << std::endl;
-        progressPos.dwCursorPosition.Y -= 2;
+        progressPos.dwCursorPosition.Y--;
     }
 
     Job* job = new Job();
