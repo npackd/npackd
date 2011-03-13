@@ -617,9 +617,11 @@
         <icon>http://dl.dropbox.com/u/17046326/picons/net.getpaint.PaintDotNet.png</icon>
     </package>
     <package name="net.getpaint.PaintDotNetInstaller">
-        <title>Paint.NET installer (deprecated, use the non-installer package instead)</title>
+        <title>Paint.NET installer</title>
         <url>http://www.getpaint.net/</url>
-        <description>photo collages</description>
+        <description>Image editor</description>
+        <!-- CC, from the home page -->
+        <icon>http://dl.dropbox.com/u/17046326/picons/net.getpaint.PaintDotNet.png</icon>
     </package>
     <package name="net.nirsoft.ActiveXHelper">
         <title>ActiveXHelper</title>
@@ -3816,21 +3818,25 @@ taskkill /f /im ares.exe</file>
         <url>http://www.cutepdf.com/download/CuteWriter.exe</url>
     </version>
 
-    <version name="3.5.7" package="net.getpaint.PaintDotNet">
+    <version name="3.5.7" package="net.getpaint.PaintDotNetInstaller">
+        <important-file path="PaintNETInstaller.exe" title="Installer"/>
         <file path=".WPM\Install.bat">for /f %%x in ('dir /b *Install.exe') do set setup=%%x
-"%setup%" /auto "TARGETDIR=%CD%" JPGPNGBMPEDITOR=0 TGAEDITOR=0 DESKTOPSHORTCUT=0 CHECKFORUPDATES=0</file>
-        <file path=".WPM\Uninstall.bat">msiexec.exe /qn /norestart /Lime .WPM\MSI.log /x{45212F71-750F-4B98-8931-2F35DBE6B662}
-set err=%errorlevel%
-type .WPM\MSI.log
-rem 3010=restart required
-if %err% equ 3010 exit /b 0
-if %err% neq 0 exit /b %err%
+ren "%setup%" PaintNETInstaller.exe
 </file>
         <url>http://dl.dropbox.com/u/17046326/files/net.getpaint.PaintDotNet-3.5.7.zip</url>
         <sha1>42DAB2BF92B3BEB4F839A876CC4EAF36A948369E</sha1>
         <dependency package="com.microsoft.DotNetRedistributable"
                 versions="[3.5, 4)"/>                
-        <detect-msi>{45212F71-750F-4B98-8931-2F35DBE6B662}</detect-msi>
+    </version>
+    <version name="3.5.8" package="net.getpaint.PaintDotNetInstaller">
+        <important-file path="PaintNETInstaller.exe" title="Installer"/>
+        <file path=".WPM\Install.bat">for /f %%x in ('dir /b *Install.exe') do set setup=%%x
+ren "%setup%" PaintNETInstaller.exe
+</file>
+        <url>http://dl.dropbox.com/u/17046326/files/net.getpaint.PaintDotNet-3.5.8.zip</url>
+        <sha1>0581236FE737EE81B2EB50BB681FB807FF6EF1BC</sha1>
+        <dependency package="com.microsoft.DotNetRedistributable"
+                versions="[3.5, 4)"/>                
     </version>
 
     <version name="2.5" package="net.sourceforge.launchy.Launchy"
