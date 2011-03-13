@@ -4604,7 +4604,8 @@ if %err% neq 0 exit /b %err%
 echo InstallDirectoryPath=%CD% >> .WPM\FF.ini
 echo QuickLaunchShortcut=false >> .WPM\FF.ini
 echo DesktopShortcut=false >> .WPM\FF.ini
-"org.mozilla.Thunderbird-3.1.5.exe" /INI="%CD%\.WPM\FF.ini"
+for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x
+"%setup%" /INI="%CD%\.WPM\FF.ini"
 </file>
         <file path=".WPM\Uninstall.bat">uninstall\helper.exe /S</file>
         <url>http://dl.dropbox.com/u/17046326/files/org.mozilla.Thunderbird-3.1.5.exe</url>
@@ -4616,7 +4617,8 @@ echo DesktopShortcut=false >> .WPM\FF.ini
 echo InstallDirectoryPath=%CD% >> .WPM\FF.ini
 echo QuickLaunchShortcut=false >> .WPM\FF.ini
 echo DesktopShortcut=false >> .WPM\FF.ini
-"org.mozilla.Thunderbird-3.1.6.exe" /INI="%CD%\.WPM\FF.ini"
+for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x
+"%setup%" /INI="%CD%\.WPM\FF.ini"
 </file>
         <file path=".WPM\Uninstall.bat">uninstall\helper.exe /S</file>
         <url>http://dl.dropbox.com/u/17046326/files/org.mozilla.Thunderbird-3.1.6.exe</url>
@@ -4628,11 +4630,25 @@ echo DesktopShortcut=false >> .WPM\FF.ini
 echo InstallDirectoryPath=%CD% >> .WPM\FF.ini
 echo QuickLaunchShortcut=false >> .WPM\FF.ini
 echo DesktopShortcut=false >> .WPM\FF.ini
-"org.mozilla.Thunderbird-3.1.7.exe" /INI="%CD%\.WPM\FF.ini"
+for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x
+"%setup%" /INI="%CD%\.WPM\FF.ini"
 </file>
         <file path=".WPM\Uninstall.bat">uninstall\helper.exe /S</file>
         <url>http://dl.dropbox.com/u/17046326/files/org.mozilla.Thunderbird-3.1.7.exe</url>
         <sha1>c738285555abfa3c6d6e75b9508b66208d63b737</sha1>
+    </version>
+    <version name="3.1.9" package="org.mozilla.Thunderbird"
+            type="one-file">
+        <file path=".WPM\Install.bat">echo [Install] > .WPM\FF.ini
+echo InstallDirectoryPath=%CD% >> .WPM\FF.ini
+echo QuickLaunchShortcut=false >> .WPM\FF.ini
+echo DesktopShortcut=false >> .WPM\FF.ini
+for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x
+"%setup%" /INI="%CD%\.WPM\FF.ini"
+</file>
+        <file path=".WPM\Uninstall.bat">uninstall\helper.exe /S</file>
+        <url>http://dl.dropbox.com/u/17046326/files/org.mozilla.Thunderbird-3.1.9.exe</url>
+        <sha1>47F66CEE8C0C5C72724AB7AF59FFCE270D801901</sha1>
     </version>
 
     <version name="1.0.1" package="org.mozilla.SunbirdInstaller"
