@@ -2148,7 +2148,7 @@ rmdir /s /q "%name%"
     <version name="0.6.3.11" package="com.telecommunity.peak.SetupTools"
             type="one-file">
         <url>http://pypi.python.org/packages/2.7/s/setuptools/setuptools-0.6c11-py2.7.egg#md5=fe1f997bc722265116870bc7919059ea</url>
-        <file path=".WPM\Install.bat">if [%npackd_cl%] equ [] set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
+        <file path=".WPM\Install.bat">if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
 set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=org.python.Python" "--versions=[2.7, 2.7]"
 for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set python=%%x
 set PYTHONPATH=setuptools-0.6c11-py2.7.egg
