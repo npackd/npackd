@@ -402,7 +402,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
     //this->ui->formLayout_2->setSizeConstraint(QLayout::SetDefaultConstraint);
 
-    this->ui->tabWidget->setTabText(0, "Software");
+    this->ui->tabWidget->setTabText(0, "Packages");
 
     this->on_tableWidget_itemSelectionChanged();
     this->ui->tableWidget->setColumnCount(6);
@@ -1228,12 +1228,12 @@ void MainWindow::on_actionScan_Hard_Drives_triggered()
         detected.append(pv->toString());
     }
     detected.append("____________________");
-    detected.append(QString("%1 application(s) detected").
+    detected.append(QString("%1 package(s) detected").
             arg(it->detected.count()));
     delete it;
     delete job;
 
     fillList();
 
-    addTextTab("Application detection status", detected.join("\n"));
+    addTextTab("Package detection status", detected.join("\n"));
 }
