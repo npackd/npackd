@@ -2131,6 +2131,10 @@ if %err% neq 0 exit %err%
     </version>
 
     <version name="2.4" package="org.apache.jakarta.JMeter">
+        <file path=".WPM\Install.bat">for /f "delims=" %%x in ('dir /b jakarta*') do set name=%%x
+xcopy "%name%\*" . /E /H
+rmdir /s /q "%name%"
+</file>
         <important-file path="jakarta-jmeter-2.4\bin\jmeterw.cmd" title="JMeter"/>
         <url>http://apache.linux-mirror.org//jakarta/jmeter/binaries/jakarta-jmeter-2.4.zip</url>
         <sha1>64d5f6ac5b0e7ad8692e8d45f15b6a3d7a7038e3</sha1>
