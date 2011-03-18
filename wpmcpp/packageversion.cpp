@@ -438,6 +438,12 @@ QString PackageVersion::planUninstallation(QList<PackageVersion*>& installed,
 
 void PackageVersion::downloadTo(Job* job, QString filename)
 {
+    if (!this->download.isValid()) {
+        job->setErrorMessage("No download URL");
+        job->complete();
+        return;
+    }
+
     QString r;
 
     job->setHint("Downloading");
@@ -480,18 +486,28 @@ void PackageVersion::downloadTo(Job* job, QString filename)
 
 QString PackageVersion::getFileExtension()
 {
-    QString fn = this->download.path();
-    QStringList parts = fn.split('/');
-    QString file = parts.at(parts.count() - 1);
-    int index = file.lastIndexOf('.');
-    if (index > 0)
-        return file.right(file.length() - index);
-    else
+    if (this->download.isValid()) {
+        QString fn = this->download.path();
+        QStringList parts = fn.split('/');
+        QString file = parts.at(parts.count() - 1);
+        int index = file.lastIndexOf('.');
+        if (index > 0)
+            return file.right(file.length() - index);
+        else
+            return ".bin";
+    } else {
         return ".bin";
+    }
 }
 
 QString PackageVersion::downloadAndComputeSHA1(Job* job)
 {
+    if (!this->download.isValid()) {
+        job->setErrorMessage("No download URL");
+        job->complete();
+        return "";
+    }
+
     QString r;
 
     job->setHint("Downloading");
@@ -603,6 +619,12 @@ void PackageVersion::install(Job* job, const QString& where)
 
     if (installed() || isExternal()) {
         job->setProgress(1);
+        job->complete();
+        return;
+    }
+
+    if (!this->download.isValid()) {
+        job->setErrorMessage("No download URL");
         job->complete();
         return;
     }

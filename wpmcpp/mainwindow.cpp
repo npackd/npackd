@@ -72,7 +72,7 @@ public:
 
 void InstallThread::testOnePackage(Job *job, PackageVersion *pv)
 {
-    if (pv->isExternal()) {
+    if (pv->isExternal() || !pv->download.isValid()) {
         job->setProgress(1);
         job->complete();
         return;
@@ -82,7 +82,7 @@ void InstallThread::testOnePackage(Job *job, PackageVersion *pv)
 
     QList<InstallOperation*> ops;
 
-    if (!job->isCancelled()) {
+    if (!job->isCancelled()) {        
         job->setHint("Planning the installation");
         QList<PackageVersion*> installed = r->getInstalled();
         qDeleteAll(ops);
@@ -156,22 +156,21 @@ void InstallThread::downloadAllFiles()
     for (int i = 0; i < r->packageVersions.count(); i++) {
         PackageVersion* pv = r->packageVersions.at(i);
 
-        if (job->isCancelled())
-            break;
-
-        job->setHint(QString("Downloading %1").arg(pv->toString()));
-        Job* stepJob = job->newSubJob(step);
-        QString to = this->logFile + "\\" + pv->package + "-" +
-                     pv->version.getVersionString() + pv->getFileExtension();
-        pv->downloadTo(stepJob, to);
-        if (!stepJob->getErrorMessage().isEmpty())
-            ts << QString("Error downloading %1: %2").
-                    arg(pv->toString()).
-                    arg(stepJob->getErrorMessage()) << endl;
-        delete stepJob;
-
         if (job->isCancelled() || !job->getErrorMessage().isEmpty())
             break;
+
+        if (pv->download.isValid()) {
+            job->setHint(QString("Downloading %1").arg(pv->toString()));
+            Job* stepJob = job->newSubJob(step);
+            QString to = this->logFile + "\\" + pv->package + "-" +
+                         pv->version.getVersionString() + pv->getFileExtension();
+            pv->downloadTo(stepJob, to);
+            if (!stepJob->getErrorMessage().isEmpty())
+                ts << QString("Error downloading %1: %2").
+                        arg(pv->toString()).
+                        arg(stepJob->getErrorMessage()) << endl;
+            delete stepJob;
+        }
     }
     f.close();
     job->complete();
@@ -869,14 +868,21 @@ void MainWindow::on_actionUninstall_activated()
 
 bool MainWindow::isUpdateEnabled(PackageVersion* pv)
 {
-    if (pv && !pv->isExternal()) {
+    if (pv) {
         Repository* r = Repository::getDefault();
         PackageVersion* newest = r->findNewestPackageVersion(pv->package);
         PackageVersion* newesti = r->findNewestInstalledPackageVersion(
                 pv->package);
-        return newest != 0 && newesti != 0 &&
-                !newesti->isExternal() &&
-                newest->version.compare(newesti->version) > 0;
+        if (newest != 0 && newesti != 0) {
+            bool canInstall = !newest->installed() &&
+                    newest->download.isValid();
+            bool canUninstall = !newesti->isExternal();
+
+            return canInstall && canUninstall &&
+                    newest->version.compare(newesti->version) > 0;
+        } else {
+            return false;
+        }
     } else {
         return false;
     }
@@ -885,7 +891,8 @@ bool MainWindow::isUpdateEnabled(PackageVersion* pv)
 void MainWindow::updateActions()
 {
     PackageVersion* pv = getSelectedPackageVersion();
-    this->ui->actionInstall->setEnabled(pv && !pv->installed());
+    this->ui->actionInstall->setEnabled(pv && !pv->installed() &&
+            pv->download.isValid());
     this->ui->actionUninstall->setEnabled(pv && pv->installed() &&
             !pv->isExternal());
     this->ui->actionCompute_SHA1->setEnabled(pv && pv->download.isValid());
@@ -902,8 +909,8 @@ void MainWindow::updateActions()
     this->ui->actionGotoPackageURL->setEnabled(pv && p &&
             QUrl(p->url).isValid());
 
-    this->ui->actionTest_Download_Site->setEnabled(pv && p &&
-            QUrl(p->url).isValid());
+    this->ui->actionTest_Download_Site->setEnabled(pv &&
+            pv->download.isValid());
 
     this->ui->actionShow_Details->setEnabled(pv);
 }

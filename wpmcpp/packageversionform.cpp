@@ -74,11 +74,11 @@ void PackageVersionForm::fillForm(PackageVersion* pv)
     updateStatus();
 
     QString dl;
-    if (pv->download.isEmpty())
+    if (!pv->download.isValid())
         dl = "n/a";
     else {
         dl = pv->download.toString();
-        dl = "<a href=\"" + dl + "\">" + dl + "</a>";
+        dl = "<a href=\"" + dl + "\">" + dl + "</a>"; // TODO: escape
     }
     this->ui->labelDownloadURL->setText(dl);
 
