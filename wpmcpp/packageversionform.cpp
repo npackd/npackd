@@ -53,7 +53,7 @@ void PackageVersionForm::fillForm(PackageVersion* pv)
         License* lic = r->findLicense(p->license);
         if (lic) {
             licenseTitle = "<a href=\"http://www.example.com\">" +
-                    lic->title + "</a>";
+                    Qt::escape(lic->title) + "</a>";
         }
     }
     this->ui->labelLicense->setText(licenseTitle);
@@ -66,7 +66,8 @@ void PackageVersionForm::fillForm(PackageVersion* pv)
             hp = "unknown";
         else{
             hp = p->url;
-            hp = "<a href=\"" + hp + "\">" + hp + "</a>";
+            hp = "<a href=\"" + Qt::escape(hp) + "\">" + Qt::escape(hp) +
+                    "</a>";
         }
         this->ui->labelHomePage->setText(hp);
     }
@@ -77,8 +78,8 @@ void PackageVersionForm::fillForm(PackageVersion* pv)
     if (!pv->download.isValid())
         dl = "n/a";
     else {
-        dl = pv->download.toString();
-        dl = "<a href=\"" + dl + "\">" + dl + "</a>"; // TODO: escape
+        dl = pv->download.toString();        
+        dl = "<a href=\"" + Qt::escape(dl) + "\">" + Qt::escape(dl) + "</a>";
     }
     this->ui->labelDownloadURL->setText(dl);
 
