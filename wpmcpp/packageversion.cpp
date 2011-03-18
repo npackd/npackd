@@ -225,6 +225,13 @@ void PackageVersion::uninstall(Job* job)
 
     QDir d(ipath);
 
+    if (job->getErrorMessage().isEmpty()) {
+        job->setHint("Deleting shortcuts");
+        Job* sub = job->newSubJob(0.20);
+        deleteShortcuts(d.absolutePath(), sub, true, true, true);
+        delete sub;
+    }
+
     QString p = ".Npackd\\Uninstall.bat";
     if (!QFile::exists(d.absolutePath() + "\\" + p)) {
         p = ".WPM\\Uninstall.bat";
@@ -250,17 +257,10 @@ void PackageVersion::uninstall(Job* job)
             job->setErrorMessage(sub->getErrorMessage());
         delete sub;
     }
-    job->setProgress(0.25);
+    job->setProgress(0.45);
 
     // Uninstall.bat may have deleted some files
     d.refresh();
-
-    if (job->getErrorMessage().isEmpty()) {
-        job->setHint("Deleting shortcuts");
-        Job* sub = job->newSubJob(0.20);
-        deleteShortcuts(d.absolutePath(), sub, true, true, true);
-        delete sub;
-    }
 
     if (job->getErrorMessage().isEmpty()) {
         if (d.exists()) {
