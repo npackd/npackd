@@ -4389,14 +4389,20 @@ if %err% neq 0 exit /b %err%
         <file path=".WPM\Install.bat">for /f %%x in ('dir /b vlc*') do set name=%%x
 xcopy "%name%\*" . /E /H
 rmdir /s /q "%name%"
-for /f "delims=" %%x in ("%CD%") do set key=%%~nxx
-for /f "tokens=1,2 delims=- " %%a in ("%key%") do set package=%%a&amp;set version=%%b
+
+set package=com.videolan.VLCMediaPlayer
+set version=1.1.3
+set key=%package%-%version%
+
 reg add HKLM\SOFTWARE\Classes\Applications\%key%\shell\open /v FriendlyAppName /d "VLC Media Player (%version%)" /f
 set c=\"%CD%\vlc.exe\" \"%%1\"
 reg add HKLM\SOFTWARE\Classes\Applications\%KEY%\shell\open\command /d "%c%" /f
 for %%g in (a52 aac ac3 adt adts aif ifc iff mr aob ape cda dts flac it m4a m4p mid mka mlp mod mp1 mp2 mp3 mpc oga ogg oma rmi s3m spx tta voc vqf w64 wav wma wv xa xm 3g2 3gp 3gp2 3gpp amv asf avi bin cue divx dv flv gxf iso m1v m2v m2t m2ts m4v mkv mov mp2 mp2v mp4 mp4v mpa mpe mpeg mpeg1 mpeg2 mpeg4 mpg mpv2 mts mxf nsv nuv ogg ogm ogv ogx ps rec rm rmvb tod ts tts vob vro webm wmv asx b4s ifo m3u m3u8 pls ram rar sdp vlc xspf zip cdg idx srt sub utf ass ssa aqt jss psb rt smi) do reg add HKLM\SOFTWARE\Classes\.%%g\OpenWithList\%key% /f
 </file>
-        <file path=".WPM\Uninstall.bat">for /f "delims=" %%x in ("%CD%") do set key=%%~nxx
+        <file path=".WPM\Uninstall.bat">set package=com.videolan.VLCMediaPlayer
+set version=1.1.3
+set key=%package%-%version%
+
 reg delete HKLM\SOFTWARE\Classes\Applications\%key% /f
 for %%g in (a52 aac ac3 adt adts aif ifc iff mr aob ape cda dts flac it m4a m4p mid mka mlp mod mp1 mp2 mp3 mpc oga ogg oma rmi s3m spx tta voc vqf w64 wav wma wv xa xm 3g2 3gp 3gp2 3gpp amv asf avi bin cue divx dv flv gxf iso m1v m2v m2t m2ts m4v mkv mov mp2 mp2v mp4 mp4v mpa mpe mpeg mpeg1 mpeg2 mpeg4 mpg mpv2 mts mxf nsv nuv ogg ogm ogv ogx ps rec rm rmvb tod ts tts vob vro webm wmv asx b4s ifo m3u m3u8 pls ram rar sdp vlc xspf zip cdg idx srt sub utf ass ssa aqt jss psb rt smi) do reg delete HKLM\SOFTWARE\Classes\.%%g\OpenWithList\%key% /f
 </file>
@@ -4408,14 +4414,20 @@ for %%g in (a52 aac ac3 adt adts aif ifc iff mr aob ape cda dts flac it m4a m4p 
         <file path=".WPM\Install.bat">for /f %%x in ('dir /b vlc*') do set name=%%x
 xcopy "%name%\*" . /E /H
 rmdir /s /q "%name%"
-for /f "delims=" %%x in ("%CD%") do set key=%%~nxx
-for /f "tokens=1,2 delims=- " %%a in ("%key%") do set package=%%a&amp;set version=%%b
+
+set package=com.videolan.VLCMediaPlayer
+set version=1.1.4
+set key=%package%-%version%
+
 reg add HKLM\SOFTWARE\Classes\Applications\%key%\shell\open /v FriendlyAppName /d "VLC Media Player (%version%)" /f
 set c=\"%CD%\vlc.exe\" \"%%1\"
 reg add HKLM\SOFTWARE\Classes\Applications\%KEY%\shell\open\command /d "%c%" /f
 for %%g in (a52 aac ac3 adt adts aif ifc iff mr aob ape cda dts flac it m4a m4p mid mka mlp mod mp1 mp2 mp3 mpc oga ogg oma rmi s3m spx tta voc vqf w64 wav wma wv xa xm 3g2 3gp 3gp2 3gpp amv asf avi bin cue divx dv flv gxf iso m1v m2v m2t m2ts m4v mkv mov mp2 mp2v mp4 mp4v mpa mpe mpeg mpeg1 mpeg2 mpeg4 mpg mpv2 mts mxf nsv nuv ogg ogm ogv ogx ps rec rm rmvb tod ts tts vob vro webm wmv asx b4s ifo m3u m3u8 pls ram rar sdp vlc xspf zip cdg idx srt sub utf ass ssa aqt jss psb rt smi) do reg add HKLM\SOFTWARE\Classes\.%%g\OpenWithList\%key% /f
 </file>
-        <file path=".WPM\Uninstall.bat">for /f "delims=" %%x in ("%CD%") do set key=%%~nxx
+        <file path=".WPM\Uninstall.bat">set package=com.videolan.VLCMediaPlayer
+set version=1.1.4
+set key=%package%-%version%
+
 reg delete HKLM\SOFTWARE\Classes\Applications\%key% /f
 for %%g in (a52 aac ac3 adt adts aif ifc iff mr aob ape cda dts flac it m4a m4p mid mka mlp mod mp1 mp2 mp3 mpc oga ogg oma rmi s3m spx tta voc vqf w64 wav wma wv xa xm 3g2 3gp 3gp2 3gpp amv asf avi bin cue divx dv flv gxf iso m1v m2v m2t m2ts m4v mkv mov mp2 mp2v mp4 mp4v mpa mpe mpeg mpeg1 mpeg2 mpeg4 mpg mpv2 mts mxf nsv nuv ogg ogm ogv ogx ps rec rm rmvb tod ts tts vob vro webm wmv asx b4s ifo m3u m3u8 pls ram rar sdp vlc xspf zip cdg idx srt sub utf ass ssa aqt jss psb rt smi) do reg delete HKLM\SOFTWARE\Classes\.%%g\OpenWithList\%key% /f
 </file>
@@ -4427,14 +4439,20 @@ for %%g in (a52 aac ac3 adt adts aif ifc iff mr aob ape cda dts flac it m4a m4p 
         <file path=".WPM\Install.bat">for /f %%x in ('dir /b vlc*') do set name=%%x
 xcopy "%name%\*" . /E /H
 rmdir /s /q "%name%"
-for /f "delims=" %%x in ("%CD%") do set key=%%~nxx
-for /f "tokens=1,2 delims=- " %%a in ("%key%") do set package=%%a&amp;set version=%%b
+
+set package=com.videolan.VLCMediaPlayer
+set version=1.1.5
+set key=%package%-%version%
+
 reg add HKLM\SOFTWARE\Classes\Applications\%key%\shell\open /v FriendlyAppName /d "VLC Media Player (%version%)" /f
 set c=\"%CD%\vlc.exe\" \"%%1\"
 reg add HKLM\SOFTWARE\Classes\Applications\%KEY%\shell\open\command /d "%c%" /f
 for %%g in (a52 aac ac3 adt adts aif ifc iff mr aob ape cda dts flac it m4a m4p mid mka mlp mod mp1 mp2 mp3 mpc oga ogg oma rmi s3m spx tta voc vqf w64 wav wma wv xa xm 3g2 3gp 3gp2 3gpp amv asf avi bin cue divx dv flv gxf iso m1v m2v m2t m2ts m4v mkv mov mp2 mp2v mp4 mp4v mpa mpe mpeg mpeg1 mpeg2 mpeg4 mpg mpv2 mts mxf nsv nuv ogg ogm ogv ogx ps rec rm rmvb tod ts tts vob vro webm wmv asx b4s ifo m3u m3u8 pls ram rar sdp vlc xspf zip cdg idx srt sub utf ass ssa aqt jss psb rt smi) do reg add HKLM\SOFTWARE\Classes\.%%g\OpenWithList\%key% /f
 </file>
-        <file path=".WPM\Uninstall.bat">for /f "delims=" %%x in ("%CD%") do set key=%%~nxx
+        <file path=".WPM\Uninstall.bat">set package=com.videolan.VLCMediaPlayer
+set version=1.1.5
+set key=%package%-%version%
+
 reg delete HKLM\SOFTWARE\Classes\Applications\%key% /f
 for %%g in (a52 aac ac3 adt adts aif ifc iff mr aob ape cda dts flac it m4a m4p mid mka mlp mod mp1 mp2 mp3 mpc oga ogg oma rmi s3m spx tta voc vqf w64 wav wma wv xa xm 3g2 3gp 3gp2 3gpp amv asf avi bin cue divx dv flv gxf iso m1v m2v m2t m2ts m4v mkv mov mp2 mp2v mp4 mp4v mpa mpe mpeg mpeg1 mpeg2 mpeg4 mpg mpv2 mts mxf nsv nuv ogg ogm ogv ogx ps rec rm rmvb tod ts tts vob vro webm wmv asx b4s ifo m3u m3u8 pls ram rar sdp vlc xspf zip cdg idx srt sub utf ass ssa aqt jss psb rt smi) do reg delete HKLM\SOFTWARE\Classes\.%%g\OpenWithList\%key% /f
 </file>
@@ -4446,14 +4464,20 @@ for %%g in (a52 aac ac3 adt adts aif ifc iff mr aob ape cda dts flac it m4a m4p 
         <file path=".WPM\Install.bat">for /f %%x in ('dir /b vlc*') do set name=%%x
 xcopy "%name%\*" . /E /H
 rmdir /s /q "%name%"
-for /f "delims=" %%x in ("%CD%") do set key=%%~nxx
-for /f "tokens=1,2 delims=- " %%a in ("%key%") do set package=%%a&amp;set version=%%b
+
+set package=com.videolan.VLCMediaPlayer
+set version=1.1.6
+set key=%package%-%version%
+
 reg add HKLM\SOFTWARE\Classes\Applications\%key%\shell\open /v FriendlyAppName /d "VLC Media Player (%version%)" /f
 set c=\"%CD%\vlc.exe\" \"%%1\"
 reg add HKLM\SOFTWARE\Classes\Applications\%KEY%\shell\open\command /d "%c%" /f
 for %%g in (a52 aac ac3 adt adts aif ifc iff mr aob ape cda dts flac it m4a m4p mid mka mlp mod mp1 mp2 mp3 mpc oga ogg oma rmi s3m spx tta voc vqf w64 wav wma wv xa xm 3g2 3gp 3gp2 3gpp amv asf avi bin cue divx dv flv gxf iso m1v m2v m2t m2ts m4v mkv mov mp2 mp2v mp4 mp4v mpa mpe mpeg mpeg1 mpeg2 mpeg4 mpg mpv2 mts mxf nsv nuv ogg ogm ogv ogx ps rec rm rmvb tod ts tts vob vro webm wmv asx b4s ifo m3u m3u8 pls ram rar sdp vlc xspf zip cdg idx srt sub utf ass ssa aqt jss psb rt smi) do reg add HKLM\SOFTWARE\Classes\.%%g\OpenWithList\%key% /f
 </file>
-        <file path=".WPM\Uninstall.bat">for /f "delims=" %%x in ("%CD%") do set key=%%~nxx
+        <file path=".WPM\Uninstall.bat">set package=com.videolan.VLCMediaPlayer
+set version=1.1.6
+set key=%package%-%version%
+
 reg delete HKLM\SOFTWARE\Classes\Applications\%key% /f
 for %%g in (a52 aac ac3 adt adts aif ifc iff mr aob ape cda dts flac it m4a m4p mid mka mlp mod mp1 mp2 mp3 mpc oga ogg oma rmi s3m spx tta voc vqf w64 wav wma wv xa xm 3g2 3gp 3gp2 3gpp amv asf avi bin cue divx dv flv gxf iso m1v m2v m2t m2ts m4v mkv mov mp2 mp2v mp4 mp4v mpa mpe mpeg mpeg1 mpeg2 mpeg4 mpg mpv2 mts mxf nsv nuv ogg ogm ogv ogx ps rec rm rmvb tod ts tts vob vro webm wmv asx b4s ifo m3u m3u8 pls ram rar sdp vlc xspf zip cdg idx srt sub utf ass ssa aqt jss psb rt smi) do reg delete HKLM\SOFTWARE\Classes\.%%g\OpenWithList\%key% /f
 </file>
@@ -4467,8 +4491,11 @@ for %%g in (a52 aac ac3 adt adts aif ifc iff mr aob ape cda dts flac it m4a m4p 
         <file path=".WPM\Install.bat">for /f %%x in ('dir /b vlc*') do set name=%%x
 xcopy "%name%\*" . /E /H
 rmdir /s /q "%name%"
-for /f "delims=" %%x in ("%CD%") do set key=%%~nxx
-for /f "tokens=1,2 delims=- " %%a in ("%key%") do set package=%%a&amp;set version=%%b
+
+set package=com.videolan.VLCMediaPlayer
+set version=1.1.7
+set key=%package%-%version%
+
 reg add HKLM\SOFTWARE\Classes\Applications\%key%\shell\open /v FriendlyAppName /d "VLC Media Player (%version%)" /f
 set c=\"%CD%\vlc.exe\" \"%%1\"
 reg add HKLM\SOFTWARE\Classes\Applications\%KEY%\shell\open\command /d "%c%" /f
@@ -4482,7 +4509,10 @@ goto out
 
 for %%g in (%extensions%) do reg add HKLM\SOFTWARE\Classes\.%%g\OpenWithList\%key% /f
 </file> 
-        <file path=".WPM\Uninstall.bat">for /f "delims=" %%x in ("%CD%") do set key=%%~nxx
+        <file path=".WPM\Uninstall.bat">set package=com.videolan.VLCMediaPlayer
+set version=1.1.7
+set key=%package%-%version%
+
 reg delete HKLM\SOFTWARE\Classes\Applications\%key% /f
 
 rem read extensions from the file
