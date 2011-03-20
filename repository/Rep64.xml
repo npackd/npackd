@@ -23,6 +23,11 @@
     <!--
      Packages in alphabetical order (including the reversed domain name prefix.
     -->
+    <package name="com.activestate.ActivePerl64">
+        <title>ActivePerl 64 bit</title>
+        <url>http://www.activestate.com/activeperl</url>
+        <description>Perl programming language</description>
+    </package>
     <package name="com.avg.AVGAntiVirusFree64Installer">
         <title>AVG Anti-Virus 64 bit installer</title>
         <url>http://free.avg.com/</url>
@@ -38,6 +43,11 @@
         <url>http://code.google.com/p/tortoisegit/</url>
         <description>Windows Explorer extensions for Git</description>
         <license>org.gnu.GPLv2</license>
+    </package>
+    <package name="com.mythicsoft.AgentRansack64">
+        <title>Agent Ransack 64 bit</title>
+        <url>http://www.mythicsoft.com/page.aspx?type=agentransack&amp;page=home</url>
+        <description>file search</description>
     </package>
     <package name="com.oracle.JRE64">
         <title>JRE 64 bit</title>
@@ -74,7 +84,6 @@
         <url>http://download.oldapps.com/Java/jre-6u23-windows-x64.exe</url>
         <sha1>519b24f1353b62cdf84db90a3f62da01f72e04a9</sha1>
         <detect-msi>{26A24AE4-039D-4CA4-87B4-2F86416023FF}</detect-msi>
-        <dependency package="com.microsoft.Windows64" versions="[5.0, 10)"/>
     </version>
     <version name="1.6.0.24" package="com.oracle.JRE64" type="one-file">
         <file path=".WPM\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x
@@ -83,7 +92,6 @@
         <url>http://download.oldapps.com/Java/jre-6u24-windows-x64.exe</url>
         <sha1>A0FCF85253D07966A94AF79E765191A9241EEE68</sha1>
         <detect-msi>{26A24AE4-039D-4CA4-87B4-2F86416024FF}</detect-msi>
-        <dependency package="com.microsoft.Windows64" versions="[5.0, 10)"/>
     </version>
 
     <version name="1.8.1" package="com.googlecode.stexbar.StExBar64"
@@ -106,7 +114,6 @@ if %err% neq 0 exit /b %err%
 </file>
         <url>http://stexbar.googlecode.com/files/StExBar64-1.8.1.msi</url>
         <sha1>C6B3D4599D147615EFB9069D84AF749D15CBD441</sha1>
-        <dependency package="com.microsoft.Windows64" versions="[5.0, 10)"/>
     </version>
 
     <version name="1.1.8" package="org.bitbucket.tortoisehg.TortoiseHg64"
@@ -129,7 +136,6 @@ if %err% neq 0 exit /b %err%
 </file>
         <url>http://cdn.bitbucket.org/tortoisehg/stable/downloads/tortoisehg-1.1.8-hg-1.7.3-x64.msi</url>
         <sha1>3688C127C9C2CD58EDB6B75D44E70041408D6746</sha1>
-        <dependency package="com.microsoft.Windows64" versions="[5.0, 10)"/>
     </version>
 
     <version name="2.5.192" package="com.tracker-software.PDFXChangeViewer64"
@@ -152,7 +158,6 @@ if %err% neq 0 exit /b %err%
 </file>
         <url>http://dl.dropbox.com/u/17046326/files/com.tracker-software.PDFXChangeViewer64-2.5.192.msi</url>
         <sha1>B0F57531069AA73B0C7E4CB49335E07C7856E7DB</sha1>
-        <dependency package="com.microsoft.Windows64" versions="[5.0, 10)"/>
     </version>
 
     <version name="1.6.5" package="com.googlecode.tortoisegit.TortoiseGit64"
@@ -177,7 +182,6 @@ if %err% neq 0 exit /b %err%
         <sha1>F01F970100E80DFB74F74E85D21E1A6AB932CDCF</sha1>
         <dependency package="com.googlecode.msysgit.MSysGit" 
                 versions="[1.7.4.2011.2.4, 1.7.5)"/>
-        <dependency package="com.microsoft.Windows64" versions="[5.0, 10)"/>
     </version>
 
     <version name="9.20" package="org.7-zip.SevenZIP64" type="one-file">
@@ -213,7 +217,6 @@ echo clear the error code
 </file>
         <url>http://downloads.sourceforge.net/project/sevenzip/7-Zip/9.20/7z920-x64.msi?ts=1300625243</url>
         <sha1>4173FEA2AF9A595FA0BE1EF8251F412229687BE1</sha1>
-        <dependency package="com.microsoft.Windows64" versions="[5.0, 10)"/>
     </version>
 
     <version name="2011.1204" package="com.avg.AVGAntiVirusFree64Installer"
@@ -224,5 +227,43 @@ ren "%setup%" avg_free.exe
         <important-file path="avg_free.exe" title="Installer"/>
         <url>http://download.avgfree.com/filedir/inst/avg_free_x64_all_2011_1204a3403.exe</url>
         <sha1>5CFC55F8C5FA82ECF375B87EE7C7FB68BEBA4D63</sha1>
+    </version>
+
+    <version name="5.12.3.1204" package="com.activestate.ActivePerl64"
+            type="one-file">
+        <file path=".WPM\Install.bat">for /f "delims=" %%x in ('dir /b *.msi') do set setup=%%x
+msiexec.exe /qn /norestart /Lime .WPM\MSI.log /i "%setup%" TARGETDIR="%CD%" ALLUSERS=1
+set err=%errorlevel%
+type .WPM\MSI.log
+rem 3010=restart required
+if %err% equ 3010 exit /b 0
+if %err% neq 0 exit /b %err%
+</file>
+        <file path=".WPM\Uninstall.bat">for /f "delims=" %%x in ('dir /b *.msi') do set setup=%%x
+msiexec.exe /qn /norestart /Lime .WPM\MSI.log /x "%setup%"
+set err=%errorlevel%
+type .WPM\MSI.log
+rem 3010=restart required
+if %err% equ 3010 exit /b 0
+if %err% neq 0 exit /b %err%
+</file>
+        <url>http://downloads.activestate.com/ActivePerl/releases/5.12.3.1204/ActivePerl-5.12.3.1204-MSWin32-x64-294330.msi</url>
+        <sha1>B65C9C4053EF86ADDA18269BFDC37D8A939AED1C</sha1>
+    </version>
+
+    <version name="2010" package="com.mythicsoft.AgentRansack64"
+            type="one-file">
+        <file path=".WPM\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x
+"%setup%" /SP- /VERYSILENT /SUPPRESSMSGBOXES /NOCANCEL /NORESTART /DIR="%CD%" /SAVEINF="%CD%\.WPM\InnoSetupInfo.ini" /LOG="%CD%\.WPM\InnoSetupInstall.log"
+set err=%errorlevel%
+type .WPM\InnoSetupInstall.log
+if %err% neq 0 exit %err%
+</file>
+        <file path=".WPM\Uninstall.bat">unins000.exe /VERYSILENT /SUPPRESSMSGBOXES /NORESTART /LOG="%CD%\.WPM\InnoSetupUninstall.log"
+set err=%errorlevel%
+type .WPM\InnoSetupUninstall.log
+if %err% neq 0 exit %err%
+</file>
+        <url>http://download.mythicsoft.com/agentran_64.exe</url>
     </version>
 </root>
