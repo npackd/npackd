@@ -604,6 +604,17 @@ void WPMUtils::removeDirectory(Job* job, QDir &aDir)
     job->complete();
 }
 
+QString WPMUtils::makeValidFilename(const QString &name, QChar rep)
+{
+    // http://msdn.microsoft.com/en-us/library/aa365247(v=vs.85).aspx
+    QString invalid("<>:\"/\\|?* ");
+
+    QString r(name);
+    for (int i = 0; i < invalid.length(); i++)
+        r.replace(invalid.at(i), rep);
+    return r;
+}
+
 QString WPMUtils::findNonExistingDir(const QString& start)
 {
     if (!QFileInfo(start).exists())

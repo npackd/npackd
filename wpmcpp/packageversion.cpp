@@ -563,18 +563,26 @@ bool PackageVersion::createShortcuts(const QString& dir, QString *errMsg)
         int pos = workingDir.lastIndexOf('\\');
         workingDir.chop(workingDir.length() - pos);
 
-        QString from = WPMUtils::getShellDir(CSIDL_COMMON_STARTMENU);
-        from.append("\\");
-        from.append(ift);
-        from.append(" (");
+        // name of the .lnk file == entry title in the start menu
+        QString fromFile(ift);
+        fromFile.append(" (");
         QString pt = this->getPackageTitle();
         if (pt != ift) {
-            from.append(pt);
-            from.append(" ");
+            fromFile.append(pt);
+            fromFile.append(" ");
         }
-        from.append(this->version.getVersionString());
-        from.append(")");
-        from.append(".lnk");
+        fromFile.append(this->version.getVersionString());
+        fromFile.append(")");
+        fromFile.append(".lnk");
+        fromFile.replace('/', ' ');
+        fromFile.replace('\\', ' ');
+        fromFile.replace(':', ' ');
+        fromFile = WPMUtils::makeValidFilename(fromFile, ' ');
+
+        QString from = WPMUtils::getShellDir(CSIDL_COMMON_STARTMENU);
+        from.append("\\");
+        from.append(fromFile);
+
         // qDebug() << "createShortcuts " << ifile << " " << p << " " <<
         //         from;
 
@@ -590,8 +598,8 @@ bool PackageVersion::createShortcuts(const QString& dir, QString *errMsg)
                 (WCHAR*) workingDir.utf16());
 
         if (!SUCCEEDED(r)) {
-            qDebug() << qPrintable("shortcut creation failed" +
-                    path + " " + from + " " + desc + " " + workingDir);
+            //qDebug() << qPrintable("shortcut creation failed" +
+            //        path + " " + from + " " + desc + " " + workingDir);
             return false;
         }
     }
@@ -603,11 +611,7 @@ QString PackageVersion::getPreferredInstallationDirectory()
     QString name(this->getPackageTitle() + "-" +
                  this->version.getVersionString());
 
-    // http://msdn.microsoft.com/en-us/library/aa365247(v=vs.85).aspx
-    QString invalid("<>:\"/\\|?* ");
-
-    for (int i = 0; i < invalid.length(); i++)
-        name.replace(invalid.at(i), '_');
+    name = WPMUtils::makeValidFilename(name, '_');
 
     return WPMUtils::findNonExistingDir(
             WPMUtils::getInstallationDirectory() + "\\" +

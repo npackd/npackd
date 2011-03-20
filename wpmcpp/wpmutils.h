@@ -146,6 +146,13 @@ public:
     static void deleteShortcuts(const QString& dir, QDir& d);
 
     /**
+     * @param name file name possible containing not allowed characters (like /)
+     * @param rep replacement character for invalid characters
+     * @return file name with invalid characters replaced by rep
+     */
+    static QString makeValidFilename(const QString& name, const QChar rep);
+
+    /**
      * Creates a path for a non-existing directory based on the start value.
      *
      * @param start start path (e.g. C:\Program Files\Prog 1.0)
