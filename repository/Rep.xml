@@ -507,6 +507,11 @@
         <url>http://msdn.microsoft.com/en-us/library/cc185688(VS.85).aspx</url>
         <description>package manager</description>
     </package>
+    <package name="com.microsoft.WindowsLiveMessenger">
+        <title>Windows Live Messenger</title>
+        <url>http://explore.live.com/windows-live-messenger?os=other</url>
+        <description>chat</description>
+    </package>
     <package name="com.microsoft.WindowsServer2003ResourceKitToolsInstaller">
         <title>Windows Server 2003 Resource Kit Tools installer</title>
         <url>http://www.microsoft.com/downloads/details.aspx?familyid=9d467a69-57ff-4ae7-96ee-b18c4790cffd&amp;displaylang=en</url>
@@ -752,6 +757,11 @@
         <title>PDF-XChange Viewer</title>
         <url>http://www.tracker-software.com/product/pdf-xchange-viewer</url>
         <description>PDF viewer</description>
+    </package>
+    <package name="com.ucware.AnywherePEViewer">
+        <title>Anywhere PE Viewer</title>
+        <url>http://www.ucware.com/apev/index.htm#apevdl</url>
+        <description>viewer for portable executables</description>
     </package>
     <package name="com.utorrent.UTorrentInstaller">
         <title>µTorrent installer</title>
@@ -6643,7 +6653,7 @@ if %err% neq 0 exit /b %err%
 xcopy "%name%\*" . /E /H
 rmdir /s /q "%name%"
 </file> 
-        <file path="bin\liteide.bat">if [%npackd_cl%] equ [] set npackd_cl=..\..\com.googlecode.windows-package-manager.NpackdCL-1
+        <file path="bin\liteide.bat">if "%npackd_cl%" equ "" set npackd_cl=..\..\com.googlecode.windows-package-manager.NpackdCL-1
 set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.gomingw.GoMinGW" "--versions=[2011.1.20, 2012)"
 for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set goroot=%%x
 set GOARCH=386
@@ -7014,5 +7024,46 @@ ren "%setup%" ashampoo_burning_studio.exe
         <important-file path="ashampoo_burning_studio.exe" title="Installer"/>
         <url>http://ashampoo.downloadcluster.com/public/ash/0710/ashampoo_burning_studio_6_free_6.80_4312.exe</url>
         <sha1>1D4DD4523492EDC59753D2F328BF3564A9390EA4</sha1>
+    </version>
+
+    <version name="15.4.3502.922" package="com.microsoft.WindowsLiveMessenger"
+            type="one-file">
+        <!-- http://www.mydigitallife.info/2011/02/06/windows-live-essentials-unattended-silent-setup-installation-switches/ -->
+        <file path=".WPM\Install.bat">wlsetup-all.exe /q /NOToolbarCEIP /NOhomepage /nolaunch /nosearch /AppSelect:Messenger
+set err=%errorlevel%
+rem 3010=restart required
+if %err% equ 3010 exit /b 0
+if %err% neq 0 exit /b %err%
+</file>
+        <file path=".WPM\Uninstall.bat">msiexec.exe /qn /norestart /Lime .WPM\MSI.log /x{80956555-A512-4190-9CAD-B000C36D6B6B}
+msiexec.exe /qn /norestart /Lime .WPM\MSI.log /x{873E4648-6F6E-47F6-A7B2-A6F8DFABDCE6}
+msiexec.exe /qn /norestart /Lime .WPM\MSI.log /x{EB4DF488-AAEF-406F-A341-CB2AAA315B90}
+set err=%errorlevel%
+type .WPM\MSI.log
+rem 3010=restart required
+if %err% equ 3010 exit /b 0
+if %err% neq 0 exit /b %err%
+</file>
+        <url>http://wl.dlservice.microsoft.com/download/4/E/2/4E2B5B54-12EF-421B-B12D-D5445966B562/en/wlsetup-all.exe</url>
+        <sha1>E580BA931DB8833F4C63F910CE8720739B95CCDC</sha1>
+        <dependency package="com.microsoft.Windows" versions="[6.0, 9)"/>
+    </version>
+
+    <version name="0.1.7" package="com.ucware.AnywherePEViewer"
+            type="one-file">
+        <file path=".WPM\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x
+"%setup%" /SP- /VERYSILENT /SUPPRESSMSGBOXES /NOCANCEL /NORESTART /DIR="%CD%" /SAVEINF="%CD%\.WPM\InnoSetupInfo.ini" /LOG="%CD%\.WPM\InnoSetupInstall.log"
+set err=%errorlevel%
+type .WPM\InnoSetupInstall.log
+if %err% neq 0 exit %err%
+</file>
+        <file path=".WPM\Uninstall.bat">unins000.exe /VERYSILENT /SUPPRESSMSGBOXES /NORESTART /LOG="%CD%\.WPM\InnoSetupUninstall.log"
+set err=%errorlevel%
+type .WPM\InnoSetupUninstall.log
+if %err% neq 0 exit %err%
+</file>
+        <url>http://www.ucware.com/apev/anywherepeviewer-017-win-nojre.exe</url>
+        <sha1>00C707D0425039ABC045708683FDB2275FDEC217</sha1>
+        <dependency package="com.oracle.JRE" versions="[1.3, 2)"/>
     </version>
 </root>
