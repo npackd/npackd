@@ -590,7 +590,8 @@ bool PackageVersion::createShortcuts(const QString& dir, QString *errMsg)
                 (WCHAR*) workingDir.utf16());
 
         if (!SUCCEEDED(r)) {
-            // qDebug() << "shortcut creation failed";
+            qDebug() << qPrintable("shortcut creation failed" +
+                    path + " " + from + " " + desc + " " + workingDir);
             return false;
         }
     }
@@ -691,7 +692,7 @@ void PackageVersion::install(Job* job, const QString& where)
             // qDebug() << "install.6 " << f->size() << d.absolutePath();
 
             if (unzip(f->fileName(), d.absolutePath() + "\\", &errMsg)) {
-                job->setProgress(0.74);
+                job->setProgress(0.75);
             } else {
                 job->setErrorMessage(QString(
                         "Error unzipping file into directory %0: %1").
@@ -712,18 +713,9 @@ void PackageVersion::install(Job* job, const QString& where)
                 WPMUtils::formatMessage(GetLastError(), &errMsg);
                 job->setErrorMessage(errMsg);
             } else {
-                job->setProgress(0.74);
+                job->setProgress(0.75);
             }
         }
-    }
-
-    if (!job->isCancelled() && job->getErrorMessage().isEmpty()) {
-        QString err;
-        this->createShortcuts(d.absolutePath(), &err); // ignore errors
-        if (err.isEmpty())
-            job->setProgress(0.84);
-        else
-            job->setErrorMessage(err);
     }
 
     if (!job->isCancelled() && job->getErrorMessage().isEmpty()) {
@@ -777,7 +769,7 @@ void PackageVersion::install(Job* job, const QString& where)
             Repository::getDefault()->updateNpackdCLEnvVar();
         }
 
-        job->setProgress(0.94);
+        job->setProgress(0.95);
     }
 
     if (!job->isCancelled() && job->getErrorMessage().isEmpty()) {
@@ -785,14 +777,23 @@ void PackageVersion::install(Job* job, const QString& where)
         if (!err.isEmpty()) {
             job->setErrorMessage(err);
         } else {
-            job->setProgress(0.95);
+            job->setProgress(0.96);
         }
+    }
+
+    if (!job->isCancelled() && job->getErrorMessage().isEmpty()) {
+        QString err;
+        this->createShortcuts(d.absolutePath(), &err); // ignore errors
+        if (err.isEmpty())
+            job->setProgress(0.97);
+        else
+            job->setErrorMessage(err);
     }
 
     if (job->getErrorMessage().isEmpty() && !job->isCancelled()) {
         job->setHint(QString("Deleting desktop shortcuts %1").
                      arg(WPMUtils::getShellDir(CSIDL_DESKTOP)));
-        Job* sub = job->newSubJob(0.05);
+        Job* sub = job->newSubJob(0.03);
         deleteShortcuts(d.absolutePath(), sub, false, true, true);
         delete sub;
     }
