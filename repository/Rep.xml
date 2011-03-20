@@ -2110,15 +2110,21 @@ if %err% neq 0 exit %err%
     </version>
 
     <version name="0.53.6501" package="org.latexeditor.LEd">
-        <file path=".WPM\Install.bat">for /f "delims=" %%x in ("%CD%") do set key=%%~nx
-reg add HKLM\SOFTWARE\Classes\Applications\%key%\shell\open /v FriendlyAppName /d "LEd (0.53.6501)" /f
+        <file path=".WPM\Install.bat">
+set name=org.latexeditor.LEd
+set version=0.53.6501
+set key=%name%-%version%
+
+reg add HKLM\SOFTWARE\Classes\Applications\%key%\shell\open /v FriendlyAppName /d "LEd (%version%)" /f
 set c=\"%CD%\LEd.exe\" \"%%1\"
 reg add HKLM\SOFTWARE\Classes\Applications\%KEY%\shell\open\command /d "%c%" /f
 for %%g in (aux bbl bib clo cls glo gpr idx lof lot lpr mf mp sty tex toc) do reg add HKLM\SOFTWARE\Classes\.%%g\OpenWithList\%key% /f
 verify
 </file>
-        <file path=".WPM\Uninstall.bat">
-for /f "delims=" %%x in ("%CD%") do set key=%%~nx
+        <file path=".WPM\Uninstall.bat">set name=org.latexeditor.LEd
+set version=0.53.6501
+set key=%name%-%version%
+
 reg delete HKLM\SOFTWARE\Classes\Applications\%key% /f
 for %%g in (aux bbl bib clo cls glo gpr idx lof lot lpr mf mp sty tex toc) do reg delete HKLM\SOFTWARE\Classes\.%%g\OpenWithList\%key% /f
 verify
