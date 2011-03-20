@@ -23,6 +23,11 @@
     <!--
      Packages in alphabetical order (including the reversed domain name prefix.
     -->
+    <package name="com.avg.AVGAntiVirusFree64Installer">
+        <title>AVG Anti-Virus/64 bit installer</title>
+        <url>http://free.avg.com/</url>
+        <description>antivirus</description>
+    </package>
     <package name="com.googlecode.stexbar.StExBar64">
         <title>StExBar/64 bit</title>
         <url>http://code.google.com/p/stexbar/</url>
@@ -209,5 +214,15 @@ echo clear the error code
         <url>http://downloads.sourceforge.net/project/sevenzip/7-Zip/9.20/7z920-x64.msi?ts=1300625243</url>
         <sha1>4173FEA2AF9A595FA0BE1EF8251F412229687BE1</sha1>
         <dependency package="com.microsoft.Windows64" versions="[5.0, 10)"/>
+    </version>
+
+    <version name="2011.1204" package="com.avg.AVGAntiVirusFree64Installer"
+            type="one-file">
+        <file path=".WPM\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x
+ren "%setup%" avg_free.exe
+</file>
+        <important-file path="avg_free.exe" title="Installer"/>
+        <url>http://download.avgfree.com/filedir/inst/avg_free_x64_all_2011_1204a3403.exe</url>
+        <sha1>5CFC55F8C5FA82ECF375B87EE7C7FB68BEBA4D63</sha1>
     </version>
 </root>
