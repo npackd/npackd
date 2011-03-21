@@ -1588,6 +1588,11 @@ yes - Print a string repeatedly.</description>
         <description>Latex editor</description>
         <license>org.gnu.GPLv2</license>
     </package>
+    <package name="org.malwarebytes.FileASSASSIN">
+        <title>FileASSASSIN</title>
+        <url>http://www.malwarebytes.org/fileassassin.php</url>
+        <description>deletes locked files</description>
+    </package>
     <package name="org.miktex.MiKTeX">
         <title>MiKTeX</title>
         <url>http://www.miktex.org/about</url>
@@ -7117,5 +7122,16 @@ ren "%setup%" Setup-MsgPlus.exe
         <url>http://mirror10.msgpluslive.net/20110308/Chrome/Setup-MsgPlus-501.exe</url>
         <sha1>0DFF9EB79CA0C3879D8A119F83281C90FD06319B</sha1>
         <dependency package="com.microsoft.WindowsLiveMessenger" versions="[15.4.3502.922, 15.4.3502.922]"/>
+    </version>
+
+    <version name="1" package="org.malwarebytes.FileASSASSIN"
+            type="one-file">
+        <file path=".WPM\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x
+"%setup%" /S /D=%CD%        
+</file>
+        <file path=".WPM\Uninstall.bat">uninst.exe /S _?=%CD%
+</file>
+        <important-file path="Setup-MsgPlus.exe" title="Installer"/>
+        <url>http://www.malwarebytes.org/fa-setup.exe</url>
     </version>
 </root>
