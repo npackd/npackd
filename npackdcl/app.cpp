@@ -1,6 +1,7 @@
-#include "app.h"
-
 #include "math.h"
+
+#include "app.h"
+#include "..\wpmcpp\wpmutils.h"
 
 void App::jobChanged(const JobState& s)
 {
@@ -70,6 +71,18 @@ int App::process(const QStringList &params)
     return r;
 }
 
+void App::addNpackdCL()
+{
+    Repository* r = Repository::getDefault();
+    PackageVersion* pv = r->findOrCreatePackageVersion(
+            "com.googlecode.windows-package-manager.NpackdCL",
+            Version(WPMUtils::NPACKD_VERSION));
+    if (!pv->installed()) {
+        pv->setPath(WPMUtils::getExeDir());
+        pv->setExternal(true);
+    }
+}
+
 Job* App::createJob()
 {
     HANDLE hOutputHandle = GetStdHandle(STD_OUTPUT_HANDLE);
@@ -122,6 +135,8 @@ int App::path()
         r = 1;
     }
     delete job;
+
+    addNpackdCL();
 
     QString package;
     QString versions;
@@ -180,6 +195,8 @@ int App::add()
         r = 1;
     }
     delete job;
+
+    addNpackdCL();
 
     QString package;
     QString version;
@@ -277,6 +294,8 @@ int App::remove()
         r = 1;
     }
     delete job;
+
+    addNpackdCL();
 
     QString package;
     QString version;

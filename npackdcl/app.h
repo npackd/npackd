@@ -23,6 +23,8 @@ private:
     time_t lastJobChange;
 
     Job* createJob();
+    void addNpackdCL();
+
     void usage();
     int path();
     int add();
