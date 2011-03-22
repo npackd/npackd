@@ -7,6 +7,7 @@ TARGET = npackdcl
 CONFIG += console
 CONFIG -= app_bundle
 TEMPLATE = app
+RC_FILE = npackdcl.rc
 INCLUDEPATH += C:\Users\t\libs\quazip-0.2.3\quazip \
     C:\Users\t\libs\zlib-1.2.5
 LIBS += C:\Users\t\libs\quazip-0.2.3\quazip\debug\libquazip.a \
@@ -51,4 +52,4 @@ HEADERS += ../wpmcpp/repository.h \
     ../wpmcpp/windowsregistry.h \
     ../wpmcpp/detectfile.h \
     app.h
-FORMS += 
+FORMS +=
