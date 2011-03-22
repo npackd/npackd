@@ -234,6 +234,13 @@ void InstallThread::run()
     case 4: {
         Repository* r = Repository::getDefault();
         r->reload(job);
+        PackageVersion* pv = r->findOrCreatePackageVersion(
+                "com.googlecode.windows-package-manager.Npackd",
+                Version(WPMUtils::NPACKD_VERSION));
+        if (!pv->installed()) {
+            pv->setPath(WPMUtils::getExeDir());
+            pv->setExternal(true);
+        }
         break;
     }
     case 5:

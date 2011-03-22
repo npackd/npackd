@@ -446,17 +446,6 @@ void Repository::recognize(Job* job)
     }
 
     if (!job->isCancelled()) {
-        PackageVersion* pv = findOrCreatePackageVersion(
-                "com.googlecode.windows-package-manager.Npackd",
-                Version(WPMUtils::NPACKD_VERSION));
-        if (!pv->installed()) {
-            pv->setPath(WPMUtils::getExeDir());
-            pv->setExternal(true);
-        }
-        job->setProgress(0.98);
-    }
-
-    if (!job->isCancelled()) {
         job->setHint("Detecting Microsoft Core XML Services (MSXML)");
         detectMSXML();
         job->setProgress(1);
