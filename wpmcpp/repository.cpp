@@ -346,7 +346,7 @@ void Repository::addWellKnownPackages()
         this->packages.append(p);
     }
     if (!this->findPackage("com.oracle.JDK64")) {
-        Package* p = new Package("com.oracle.JDK", "JDK/64 bit");
+        Package* p = new Package("com.oracle.JDK64", "JDK/64 bit");
         p->url = "http://www.oracle.com/technetwork/java/javase/overview/index.html";
         p->description = "Java development kit";
         this->packages.append(p);
@@ -499,41 +499,48 @@ void Repository::detectJRE(bool w64bit)
 
 void Repository::detectJDK(bool w64bit)
 {
-    clearExternallyInstalled("com.oracle.JDK");
+    QString p = w64bit ? "com.oracle.JDK64" : "com.oracle.JDK";
 
-    // TODO: 64-bit JDK
+    clearExternallyInstalled(p);
 
-    HKEY hk;
-    const REGSAM KEY_WOW64_64KEY = 0x0100;
-    if (RegOpenKeyEx(HKEY_LOCAL_MACHINE,
-            L"Software\\JavaSoft\\Java Development Kit",
-            0, KEY_READ | (w64bit ? KEY_WOW64_64KEY : 0),
-            &hk) == ERROR_SUCCESS) {
-        WCHAR name[255];
-        int index = 0;
-        while (true) {
-            DWORD nameSize = sizeof(name) / sizeof(name[0]);
-            LONG r = RegEnumKeyEx(hk, index, name, &nameSize,
-                    0, 0, 0, 0);
-            if (r == ERROR_SUCCESS) {
-                QString v_;
-                v_.setUtf16((ushort*) name, nameSize);
-                v_ = v_.replace('_', '.');
+    if (w64bit && !WPMUtils::is64BitWindows())
+        return;
+
+    WindowsRegistry wr;
+    QString err = wr.open(HKEY_LOCAL_MACHINE,
+            "Software\\JavaSoft\\Java Development Kit",
+            !w64bit);
+    if (err.isEmpty()) {
+        QStringList entries = wr.list(&err);
+        if (err.isEmpty()) {
+            for (int i = 0; i < entries.count(); i++) {
+                QString v_ = entries.at(i);
+                WindowsRegistry r;
+                err = r.open(wr, v_);
+                if (!err.isEmpty())
+                    continue;
+
+                v_.replace('_', '.');
                 Version v;
-                if (v.setVersion(v_) && v.getNParts() > 2) {
-                    PackageVersion* pv = findOrCreatePackageVersion(
-                            "com.oracle.JDK", v);
-                    if (!pv->installed()) {
-                        pv->setPath(WPMUtils::getWindowsDir());
-                        pv->setExternal(true);
-                    }
+                if (!v.setVersion(v_) || v.getNParts() <= 2)
+                    continue;
+
+                QString path = r.get("JavaHome", &err);
+                if (!err.isEmpty())
+                    continue;
+
+                QDir d(path);
+                if (!d.exists())
+                    continue;
+
+                PackageVersion* pv = findOrCreatePackageVersion(
+                        p, v);
+                if (!pv->installed()) {
+                    pv->setPath(path);
+                    pv->setExternal(true);
                 }
-            } else if (r == ERROR_NO_MORE_ITEMS) {
-                break;
             }
-            index++;
         }
-        RegCloseKey(hk);
     }
 }
 

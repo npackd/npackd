@@ -36,6 +36,7 @@ private:
     void addWindowsPackage();
 
     void clearExternallyInstalled(QString package);
+
     void detectOneDotNet(HKEY hk2, const QString& keyName);
     void detectMSIProducts();
     void detectDotNet();
@@ -43,6 +44,7 @@ private:
     void detectMSXML();
     void detectJRE(bool w64bit);
     void detectJDK(bool w64bit);
+    void detectWindows();
 
     /**
      * @param exact if true, only exact matches to packages from current
@@ -78,7 +80,6 @@ private:
     void detectPre_1_15_Packages();
 
     void addWellKnownPackages();
-    void detectWindows();
 public:
     /**
      * Package versions. All version numbers should be normalized.
