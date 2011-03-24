@@ -307,35 +307,6 @@ QStringList WPMUtils::findInstalledMSIProducts()
     return result;
 }
 
-void WPMUtils::regDeleteTree(HKEY hkey, const QString path)
-{
-    const REGSAM KEY_WOW64_64KEY = 0x0100;
-    bool w64bit = is64BitWindows();
-    HKEY hk;
-    if (RegOpenKeyEx(hkey,
-            (WCHAR*) path.utf16(),
-            0, KEY_ALL_ACCESS | (w64bit ? KEY_WOW64_64KEY : 0),
-            &hk) == ERROR_SUCCESS) {
-        WCHAR name[255];
-        int index = 0;
-        while (true) {
-            DWORD nameSize = sizeof(name) / sizeof(name[0]);
-            LONG r = RegEnumKeyEx(hk, index, name, &nameSize,
-                    0, 0, 0, 0);
-            if (r == ERROR_SUCCESS) {
-                QString v_;
-                v_.setUtf16((ushort*) name, nameSize);
-                regDeleteTree(hk, v_);
-            } else if (r == ERROR_NO_MORE_ITEMS) {
-                break;
-            }
-            index++;
-        }
-        RegCloseKey(hk);
-    }
-    RegDeleteKey(hkey, (WCHAR*) path.utf16());
-}
-
 QString WPMUtils::getWindowsDir()
 {
     WCHAR dir[MAX_PATH];

@@ -171,14 +171,6 @@ public:
     static QString regQueryValue(HKEY hk, const QString& var);
 
     /**
-     * Deletes a tree of nodes completely.
-     *
-     * @param hkey open key
-     * @param path path to the key
-     */
-    static void regDeleteTree(HKEY hkey, const QString path);
-
-    /**
      * @return directory with the .exe
      */
     static QString getExeDir();
