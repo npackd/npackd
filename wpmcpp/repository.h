@@ -14,6 +14,7 @@
 #include "license.h"
 #include "node.h"
 #include "digraph.h"
+#include "windowsregistry.h"
 
 /**
  * A repository is a list of packages and package versions.
@@ -37,7 +38,7 @@ private:
 
     void clearExternallyInstalled(QString package);
 
-    void detectOneDotNet(HKEY hk2, const QString& keyName);
+    void detectOneDotNet(const WindowsRegistry& wr, const QString& keyName);
     void detectMSIProducts();
     void detectDotNet();
     void detectMicrosoftInstaller();

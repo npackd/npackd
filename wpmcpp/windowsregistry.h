@@ -47,7 +47,7 @@ public:
      * @param err error message will be stored here
      * @return the value
      */
-    QString get(QString name, QString* err);
+    QString get(QString name, QString* err) const;
 
     /**
      * Reads a DWORD value.

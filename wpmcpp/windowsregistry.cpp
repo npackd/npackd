@@ -42,7 +42,7 @@ WindowsRegistry::~WindowsRegistry()
     close();
 }
 
-QString WindowsRegistry::get(QString name, QString* err)
+QString WindowsRegistry::get(QString name, QString* err) const
 {
     err->clear();
 

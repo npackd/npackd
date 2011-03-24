@@ -567,7 +567,8 @@ void Repository::clearExternallyInstalled(QString package)
     }
 }
 
-void Repository::detectOneDotNet(HKEY hk2, const QString& keyName)
+void Repository::detectOneDotNet(const WindowsRegistry& wr,
+        const QString& keyName)
 {
     QString packageName("com.microsoft.DotNetRedistributable");
     Version keyVersion;
@@ -586,19 +587,19 @@ void Repository::detectOneDotNet(HKEY hk2, const QString& keyName)
             v = keyVersion;
             found = true;
         } else if (keyVersion.compare(four) < 0) {
-            QString value_ = WPMUtils::regQueryValue(hk2, "Version");
-            if (v.setVersion(value_)) {
+            QString err;
+            QString value_ = wr.get("Version", &err);
+            if (err.isEmpty() && v.setVersion(value_)) {
                 found = true;
             }
         } else {
-            HKEY hk3;
-            if (RegOpenKeyExW(hk2, L"Full",
-                    0, KEY_READ, &hk3) == ERROR_SUCCESS) {
-                QString value_ = WPMUtils::regQueryValue(hk3, "Version");
-                if (v.setVersion(value_)) {
+            WindowsRegistry r;
+            QString err = r.open(wr, "Full");
+            if (err.isEmpty()) {
+                QString value_ = r.get("Version", &err);
+                if (err.isEmpty() && v.setVersion(value_)) {
                     found = true;
                 }
-                RegCloseKey(hk2);
             }
         }
     }
@@ -643,35 +644,24 @@ void Repository::detectDotNet()
 
     clearExternallyInstalled("com.microsoft.DotNetRedistributable");
 
-    HKEY hk;
-    if (RegOpenKeyEx(HKEY_LOCAL_MACHINE,
-            L"Software\\Microsoft\\NET Framework Setup\\NDP",
-            0, KEY_READ, &hk) == ERROR_SUCCESS) {
-        WCHAR name[255];
-        int index = 0;
-        while (true) {
-            DWORD nameSize = sizeof(name) / sizeof(name[0]);
-            LONG r = RegEnumKeyEx(hk, index, name, &nameSize,
-                    0, 0, 0, 0);
-            if (r == ERROR_SUCCESS) {
-                QString v_;
-                v_.setUtf16((ushort*) name, nameSize);
+    WindowsRegistry wr;
+    QString err = wr.open(HKEY_LOCAL_MACHINE,
+            "Software\\Microsoft\\NET Framework Setup\\NDP", false);
+    if (err.isEmpty()) {
+        QStringList entries = wr.list(&err);
+        if (err.isEmpty()) {
+            for (int i = 0; i < entries.count(); i++) {
+                QString v_ = entries.at(i);
                 Version v;
                 if (v_.startsWith("v") && v.setVersion(
                         v_.right(v_.length() - 1))) {
-                    HKEY hk2;
-                    if (RegOpenKeyExW(hk, (WCHAR*) v_.utf16(),
-                            0, KEY_READ, &hk2) == ERROR_SUCCESS) {
-                        detectOneDotNet(hk2, v_);
-                        RegCloseKey(hk2);
-                    }
+                    WindowsRegistry r;
+                    err = r.open(wr, v_);
+                    if (err.isEmpty())
+                        detectOneDotNet(r, v_);
                 }
-            } else if (r == ERROR_NO_MORE_ITEMS) {
-                break;
             }
-            index++;
         }
-        RegCloseKey(hk);
     }
 }
 
