@@ -15,7 +15,8 @@
 HWND defaultPasswordWindow = 0;
 
 /**
- * TODO: handle redirects explicitely so that the file name could be derived
+ * It would be nice to handle redirects explicitely so
+ *    that the file name could be derived
  *    from the last URL:
  *    http://www.experts-exchange.com/Programming/System/Windows__Programming/MFC/Q_20096714.html
  * @param parentWindow window handle or 0 if not UI is required
@@ -210,7 +211,7 @@ bool downloadWin(Job* job, const QUrl& url, QTemporaryFile* file,
         }
     } while (bufferLength != 0);
 
-    // TODO: close everything in case of an error
+    // close everything in case of an error
 
     InternetCloseHandle(internet);
 
