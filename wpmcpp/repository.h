@@ -22,8 +22,7 @@
 class Repository
 {
 private:
-    // TODO: this is never freed
-    static Repository* def;
+    static Repository def;
 
     static Package* createPackage(QDomElement* e);
     static PackageVersionFile* createPackageVersionFile(QDomElement* e);

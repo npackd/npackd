@@ -15,7 +15,7 @@
 #include "msi.h"
 #include "windowsregistry.h"
 
-Repository* Repository::def = 0;
+Repository Repository::def;
 
 Repository::Repository()
 {
@@ -1223,10 +1223,7 @@ void Repository::setRepositoryURLs(QList<QUrl*>& urls)
 
 Repository* Repository::getDefault()
 {
-    if (!def) {
-        def = new Repository();
-    }
-    return def;
+    return &def;
 }
 
 
