@@ -212,12 +212,12 @@ public:
     License* findLicense(const QString& name);
 
     /**
-     * Find the newest available package version.
+     * Find the newest installable package version.
      *
      * @param name name of the package like "org.server.Word"
      * @return found package version or 0
      */
-    PackageVersion* findNewestPackageVersion(const QString& name);
+    PackageVersion* findNewestInstallablePackageVersion(const QString& name);
 
     /**
      * Find the newest installed package version.

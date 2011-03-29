@@ -122,7 +122,7 @@ PackageVersion* Dependency::findBestMatchToInstall()
     for (int i = 0; i < r->packageVersions.count(); i++) {
         PackageVersion* pv = r->packageVersions.at(i);
         if (pv->package == this->package && this->test(pv->version) &&
-                !pv->isExternal()) {
+                !pv->isExternal() && pv->download.isValid()) {
             if (res == 0 || pv->version.compare(res->version) > 0)
                 res = pv;
         }

@@ -73,7 +73,8 @@ Repository::~Repository()
     qDeleteAll(this->licenses);
 }
 
-PackageVersion* Repository::findNewestPackageVersion(const QString &name)
+PackageVersion* Repository::findNewestInstallablePackageVersion(
+        const QString &name)
 {
     PackageVersion* r = 0;
 
@@ -81,14 +82,16 @@ PackageVersion* Repository::findNewestPackageVersion(const QString &name)
         PackageVersion* p = this->packageVersions.at(i);
         if (p->package == name) {
             if (r == 0 || p->version.compare(r->version) > 0) {
-                r = p;
+                if (p->download.isValid())
+                    r = p;
             }
         }
     }
     return r;
 }
 
-PackageVersion* Repository::findNewestInstalledPackageVersion(const QString &name)
+PackageVersion* Repository::findNewestInstalledPackageVersion(
+        const QString &name)
 {
     PackageVersion* r = 0;
 
@@ -292,7 +295,8 @@ int Repository::countUpdates()
     for (int i = 0; i < this->packageVersions.count(); i++) {
         PackageVersion* p = this->packageVersions.at(i);
         if (p->installed()) {
-            PackageVersion* newest = findNewestPackageVersion(p->package);
+            PackageVersion* newest = findNewestInstallablePackageVersion(
+                    p->package);
             if (newest->version.compare(p->version) > 0 && !newest->installed())
                 r++;
         }

@@ -598,7 +598,8 @@ void MainWindow::fillList()
 
         bool installed = pv->installed();
         bool updateEnabled = isUpdateEnabled(pv);
-        PackageVersion* newest = r->findNewestPackageVersion(pv->package);
+        PackageVersion* newest = r->findNewestInstallablePackageVersion(
+                pv->package);
         bool statusOK;
         switch (statusFilter) {
             case 0:
@@ -877,7 +878,8 @@ bool MainWindow::isUpdateEnabled(PackageVersion* pv)
 {
     if (pv) {
         Repository* r = Repository::getDefault();
-        PackageVersion* newest = r->findNewestPackageVersion(pv->package);
+        PackageVersion* newest = r->findNewestInstallablePackageVersion(
+                pv->package);
         PackageVersion* newesti = r->findNewestInstalledPackageVersion(
                 pv->package);
         if (newest != 0 && newesti != 0) {
@@ -1069,7 +1071,7 @@ void MainWindow::on_actionUpdate_triggered()
 {
     PackageVersion* pv = getSelectedPackageVersion();
     Repository* r = Repository::getDefault();
-    PackageVersion* newest = r->findNewestPackageVersion(pv->package);
+    PackageVersion* newest = r->findNewestInstallablePackageVersion(pv->package);
     PackageVersion* newesti = r->findNewestInstalledPackageVersion(pv->package);
 
     QList<InstallOperation*> ops;
