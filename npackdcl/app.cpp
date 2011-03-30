@@ -173,8 +173,6 @@ int App::path()
                 PackageVersion* pv = d.findHighestInstalledMatch();
                 if (pv) {
                     std::cout << qPrintable(pv->getPath()) << std::endl;
-                } else {
-                    std::cout << "nothing" << qPrintable(d.toString()) << std::endl;
                 }
             }
         }
