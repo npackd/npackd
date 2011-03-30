@@ -1,6 +1,7 @@
 #include "windowsregistry.h"
 
 #include <windows.h>
+#include <aclapi.h>
 
 #include "qstring.h"
 
@@ -10,6 +11,7 @@ WindowsRegistry::WindowsRegistry()
 {
     this->hkey = 0;
     this->useWow6432Node = false;
+    this->samDesired = KEY_ALL_ACCESS;
 }
 
 WindowsRegistry::WindowsRegistry(const WindowsRegistry& wr)
@@ -23,7 +25,7 @@ WindowsRegistry::WindowsRegistry(const WindowsRegistry& wr)
         bool w64bit = WPMUtils::is64BitWindows() && !useWow6432Node;
         LONG r = RegOpenKeyEx(wr.hkey,
                 L"",
-                0, KEY_ALL_ACCESS | (w64bit ? KEY_WOW64_64KEY : 0),
+                0, wr.samDesired | (w64bit ? KEY_WOW64_64KEY : 0),
                 &this->hkey);
         if (r != ERROR_SUCCESS) {
             this->hkey = 0;
@@ -31,10 +33,12 @@ WindowsRegistry::WindowsRegistry(const WindowsRegistry& wr)
     }
 }
 
-WindowsRegistry::WindowsRegistry(HKEY hk, bool useWow6432Node)
+WindowsRegistry::WindowsRegistry(HKEY hk, bool useWow6432Node,
+        REGSAM samDesired)
 {
     this->hkey = hk;
     this->useWow6432Node = useWow6432Node;
+    this->samDesired = samDesired;
 }
 
 WindowsRegistry::~WindowsRegistry()
@@ -64,6 +68,60 @@ QString WindowsRegistry::get(QString name, QString* err) const
     }
     return value_;
 }
+
+/* unused
+QString WindowsRegistry::allowReadAccessToEverybody()
+{
+    if (this->hkey == 0) {
+        return "No key is open";
+    }
+
+    QString err;
+
+    PSECURITY_DESCRIPTOR ptrSecurityDescriptor = 0;
+    PACL ptrOldDACL = 0;
+
+    DWORD dwResult = GetSecurityInfo(this->hkey, SE_REGISTRY_KEY,
+            DACL_SECURITY_INFORMATION, NULL, NULL, &ptrOldDACL, NULL,
+            &ptrSecurityDescriptor);
+    if (dwResult != ERROR_SUCCESS) {
+        WPMUtils::formatMessage(dwResult, &err);
+    } else {
+        EXPLICIT_ACCESS ea;
+        ea.grfAccessMode = GRANT_ACCESS;
+        ea.grfAccessPermissions = GENERIC_READ;
+        ea.grfInheritance =
+                SUB_CONTAINERS_AND_OBJECTS_INHERIT;
+        ea.Trustee.pMultipleTrustee = 0;
+        ea.Trustee.MultipleTrusteeOperation =
+                NO_MULTIPLE_TRUSTEE;
+        ea.Trustee.TrusteeForm = TRUSTEE_IS_SID;
+        ea.Trustee.TrusteeType = TRUSTEE_IS_GROUP;
+        // http://support.microsoft.com/kb/243330/en-us
+        // SID: S-1-2-0
+        // Name: Local
+        // Description: A group that includes all users who have logged on locally.
+        WCHAR local[] = L"S-1-2-0";
+        ea.Trustee.ptstrName = local;
+
+        PACL ptrNewDACL = 0;
+        dwResult = SetEntriesInAcl(1, &ea, ptrOldDACL, &ptrNewDACL);
+        if (dwResult != ERROR_SUCCESS) {
+            WPMUtils::formatMessage(dwResult, &err);
+        } else {
+            dwResult = SetSecurityInfo(this->hkey, SE_REGISTRY_KEY,
+                    DACL_SECURITY_INFORMATION, NULL, NULL, ptrNewDACL, NULL);
+            if (dwResult != ERROR_SUCCESS) {
+                WPMUtils::formatMessage(dwResult, &err);
+            }
+        }
+
+        LocalFree(ptrSecurityDescriptor);
+    }
+
+    return err;
+}
+*/
 
 DWORD WindowsRegistry::getDWORD(QString name, QString* err)
 {
@@ -153,22 +211,25 @@ QStringList WindowsRegistry::list(QString* err)
     return res;
 }
 
-QString WindowsRegistry::open(const WindowsRegistry& wr, QString subkey)
+QString WindowsRegistry::open(const WindowsRegistry& wr, QString subkey,
+        REGSAM samDesired)
 {
-    return open(wr.hkey, subkey, wr.useWow6432Node);
+    return open(wr.hkey, subkey, wr.useWow6432Node, samDesired);
 }
 
-QString WindowsRegistry::open(HKEY hk, QString path, bool useWow6432Node)
+QString WindowsRegistry::open(HKEY hk, QString path, bool useWow6432Node,
+        REGSAM samDesired)
 {
     close();
 
     this->useWow6432Node = useWow6432Node;
+    this->samDesired = samDesired;
 
     const REGSAM KEY_WOW64_64KEY = 0x0100;
     bool w64bit = WPMUtils::is64BitWindows() && !useWow6432Node;
     LONG r = RegOpenKeyEx(hk,
             (WCHAR*) path.utf16(),
-            0, KEY_ALL_ACCESS | (w64bit ? KEY_WOW64_64KEY : 0),
+            0, samDesired | (w64bit ? KEY_WOW64_64KEY : 0),
             &this->hkey);
     if (r == ERROR_SUCCESS) {
         return "";
@@ -179,7 +240,8 @@ QString WindowsRegistry::open(HKEY hk, QString path, bool useWow6432Node)
     }
 }
 
-WindowsRegistry WindowsRegistry::createSubKey(QString name, QString* err)
+WindowsRegistry WindowsRegistry::createSubKey(QString name, QString* err,
+        REGSAM samDesired)
 {
     err->clear();
 
@@ -193,14 +255,14 @@ WindowsRegistry WindowsRegistry::createSubKey(QString name, QString* err)
     HKEY hk;
     LONG r = RegCreateKeyEx(this->hkey,
             (WCHAR*) name.utf16(),
-            0, 0, 0, KEY_ALL_ACCESS | (w64bit ? KEY_WOW64_64KEY : 0), 0,
+            0, 0, 0, samDesired | (w64bit ? KEY_WOW64_64KEY : 0), 0,
             &hk, 0);
     if (r != ERROR_SUCCESS) {
         WPMUtils::formatMessage(r, err);
         hk = 0;
     }
 
-    return WindowsRegistry(hk, this->useWow6432Node);
+    return WindowsRegistry(hk, this->useWow6432Node, samDesired);
 }
 
 QString WindowsRegistry::close()

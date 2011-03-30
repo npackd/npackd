@@ -19,6 +19,18 @@ Repository Repository::def;
 
 Repository::Repository()
 {
+    /*
+    // allow access to the \Packages for all users
+    WindowsRegistry machineWR(HKEY_LOCAL_MACHINE, false);
+    QString err;
+    WindowsRegistry packagesWR = machineWR.createSubKey(
+            "SOFTWARE\\Npackd\\Npackd\\Packages", &err);
+    if (err.isEmpty()) {
+        // ignore errors
+        packagesWR.allowReadAccessToEverybody();
+    }
+    */
+
     addWellKnownPackages();
 }
 
@@ -467,7 +479,7 @@ void Repository::detectJRE(bool w64bit)
 
     WindowsRegistry jreWR;
     QString err = jreWR.open(HKEY_LOCAL_MACHINE,
-            "Software\\JavaSoft\\Java Runtime Environment", !w64bit);
+            "Software\\JavaSoft\\Java Runtime Environment", !w64bit, KEY_READ);
     if (err.isEmpty()) {
         QStringList entries = jreWR.list(&err);
         for (int i = 0; i < entries.count(); i++) {
@@ -478,7 +490,7 @@ void Repository::detectJRE(bool w64bit)
                 continue;
 
             WindowsRegistry wr;
-            err = wr.open(jreWR, entries.at(i));
+            err = wr.open(jreWR, entries.at(i), KEY_READ);
             if (!err.isEmpty())
                 continue;
 
@@ -513,14 +525,14 @@ void Repository::detectJDK(bool w64bit)
     WindowsRegistry wr;
     QString err = wr.open(HKEY_LOCAL_MACHINE,
             "Software\\JavaSoft\\Java Development Kit",
-            !w64bit);
+            !w64bit, KEY_READ);
     if (err.isEmpty()) {
         QStringList entries = wr.list(&err);
         if (err.isEmpty()) {
             for (int i = 0; i < entries.count(); i++) {
                 QString v_ = entries.at(i);
                 WindowsRegistry r;
-                err = r.open(wr, v_);
+                err = r.open(wr, v_, KEY_READ);
                 if (!err.isEmpty())
                     continue;
 
@@ -598,7 +610,7 @@ void Repository::detectOneDotNet(const WindowsRegistry& wr,
             }
         } else {
             WindowsRegistry r;
-            QString err = r.open(wr, "Full");
+            QString err = r.open(wr, "Full", KEY_READ);
             if (err.isEmpty()) {
                 QString value_ = r.get("Version", &err);
                 if (err.isEmpty() && v.setVersion(value_)) {
@@ -650,7 +662,7 @@ void Repository::detectDotNet()
 
     WindowsRegistry wr;
     QString err = wr.open(HKEY_LOCAL_MACHINE,
-            "Software\\Microsoft\\NET Framework Setup\\NDP", false);
+            "Software\\Microsoft\\NET Framework Setup\\NDP", false, KEY_READ);
     if (err.isEmpty()) {
         QStringList entries = wr.list(&err);
         if (err.isEmpty()) {
@@ -660,7 +672,7 @@ void Repository::detectDotNet()
                 if (v_.startsWith("v") && v.setVersion(
                         v_.right(v_.length() - 1))) {
                     WindowsRegistry r;
-                    err = r.open(wr, v_);
+                    err = r.open(wr, v_, KEY_READ);
                     if (err.isEmpty())
                         detectOneDotNet(r, v_);
                 }
@@ -797,10 +809,10 @@ void Repository::scanPre1_15Dir(bool exact)
     if (!aDir.exists())
         return;
 
-    QString regPath = "SOFTWARE\\Npackd\\Npackd\\Packages";
     WindowsRegistry machineWR(HKEY_LOCAL_MACHINE, false);
     QString err;
-    WindowsRegistry packagesWR = machineWR.createSubKey(regPath, &err);
+    WindowsRegistry packagesWR = machineWR.createSubKey(
+            "SOFTWARE\\Npackd\\Npackd\\Packages", &err);
     if (!err.isEmpty())
         return;
 
@@ -873,13 +885,12 @@ void Repository::detectPre_1_15_Packages()
 
 void Repository::readRegistryDatabase()
 {
-    WindowsRegistry machineWR(HKEY_LOCAL_MACHINE, false);
-    QString regPath = "SOFTWARE\\Npackd\\Npackd";
-    QString err;
+    WindowsRegistry machineWR(HKEY_LOCAL_MACHINE, false, KEY_READ);
 
-    // reading the registry database to find installed software
-    WindowsRegistry packagesWR = machineWR.createSubKey(
-            regPath + "\\Packages", &err);
+    QString err;
+    WindowsRegistry packagesWR;
+    err = packagesWR.open(machineWR,
+            "SOFTWARE\\Npackd\\Npackd\\Packages", KEY_READ);
     if (err.isEmpty()) {
         QStringList entries = packagesWR.list(&err);
         for (int i = 0; i < entries.count(); ++i) {

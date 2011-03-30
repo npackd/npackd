@@ -16,6 +16,7 @@ private:
     HKEY hkey;
 
     bool useWow6432Node;
+    REGSAM samDesired;
 public:
     /**
      * Creates an uninitialized object.
@@ -28,8 +29,10 @@ public:
      * @param hk existing HKEY or 0
      * @param useWow6432Node if true, Wow6432Node node is used under 64-bit
      *     Windows
+     * @param samDesired access flags
      */
-    WindowsRegistry(HKEY hk, bool useWow6432Node);
+    WindowsRegistry(HKEY hk, bool useWow6432Node,
+            REGSAM samDesired = KEY_ALL_ACCESS);
 
     /**
      * Creates a copy
@@ -48,6 +51,13 @@ public:
      * @return the value
      */
     QString get(QString name, QString* err) const;
+
+    /**
+     * Changes permissions for this key so that everybody can read it.
+     *
+     * @return error message or ""
+     */
+    // unused QString allowReadAccessToEverybody();
 
     /**
      * Reads a DWORD value.
@@ -82,27 +92,33 @@ public:
      * @param hk a key
      * @param path path under hk
      * @param useWow6432Node if true, Wow6432Node is used on 64-bit Windows
-     * @return error message or ""
+     * @param samDesired access flags
+     * @return error message or ""     
      */
-    QString open(HKEY hk, QString path, bool useWow6432Node);
+    QString open(HKEY hk, QString path, bool useWow6432Node,
+            REGSAM samDesired = KEY_ALL_ACCESS);
 
     /**
      * Opens a key. The previously open key (if any) will be closed.
      *
      * @param wr points to a node in the registry
      * @param subkey name of the subkey (may contain \)
+     * @param samDesired access flags
      * @return error message or ""
      */
-    QString open(const WindowsRegistry& wr, QString subkey);
+    QString open(const WindowsRegistry& wr, QString subkey,
+            REGSAM samDesired = KEY_ALL_ACCESS);
 
     /**
      * Opens or creates a sub-key.
      *
      * @param name name of the sub-key
      * @param err error message or ""
+     * @param samDesired access flags
      * @return created key (uninitialized, if an error occured)
      */
-    WindowsRegistry createSubKey(QString name, QString* err);
+    WindowsRegistry createSubKey(QString name, QString* err,
+            REGSAM samDesired = KEY_ALL_ACCESS);
 
     /**
      * Closes the current key.

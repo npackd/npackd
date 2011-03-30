@@ -56,7 +56,7 @@ void PackageVersion::loadFromRegistry()
     QString err = entryWR.open(HKEY_LOCAL_MACHINE,
             "SOFTWARE\\Npackd\\Npackd\\Packages\\" +
             this->package + "-" + this->version.getVersionString(),
-            false);
+            false, KEY_READ);
     if (!err.isEmpty())
         return;
 
