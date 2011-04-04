@@ -1049,15 +1049,9 @@ void Repository::refresh(Job *job)
     }
 
     if (!job->isCancelled() && job->getErrorMessage().isEmpty()) {
-        job->setHint("Detecting packages installed by Npackd 1.14 or earlier (2)");
-        scanPre1_15Dir(true);
-        job->setProgress(0.5);
-    }
-
-    if (!job->isCancelled() && job->getErrorMessage().isEmpty()) {
         job->setHint("Reading registry package database");
         this->readRegistryDatabase();
-        job->setProgress(0.8);
+        job->setProgress(0.5);
     }
 
     if (!job->isCancelled() && job->getErrorMessage().isEmpty()) {
@@ -1065,6 +1059,12 @@ void Repository::refresh(Job *job)
         Job* d = job->newSubJob(0.2);
         this->recognize(d);
         delete d;
+    }
+
+    if (!job->isCancelled() && job->getErrorMessage().isEmpty()) {
+        job->setHint("Detecting packages installed by Npackd 1.14 or earlier (2)");
+        scanPre1_15Dir(true);
+        job->setProgress(1);
     }
 
     job->complete();
