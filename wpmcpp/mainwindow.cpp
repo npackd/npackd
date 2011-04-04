@@ -675,7 +675,7 @@ void MainWindow::fillList()
             else
                 status = "installed";
         }
-        if (installed && pv != newest) {
+        if (installed && pv != newest && newest != 0) {
             newItem->setBackgroundColor(QColor(255, 0xc7, 0xc7));
             if (updateEnabled)
                 status += ", updateable";
