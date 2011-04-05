@@ -23,6 +23,19 @@
     <!--
      Packages in alphabetical order (including the reversed domain name prefix.
     -->
+    <package name="com.googlecode.windows-package-manager.NpackdCL">
+        <title>NpackdCL</title>
+        <url>http://code.google.com/p/windows-package-manager/</url>
+        <description>command line interface to Npackd</description>
+        <!-- Apache License 2.0 -->
+        <icon>http://code.google.com/p/windows-package-manager/logo?cct=1284230282</icon>
+        <license>org.gnu.GPLv3</license>
+    </package>
+    <package name="org.argolinux.sqlkit.SQLKit">
+        <title>SqlKit</title>
+        <url>http://sqlkit.argolinux.org</url>
+        <description>application to edit data in a database and python library. Suggestion: install also Postgresql and/or Mysql python driver!</description>
+    </package>
     <package name="org.blender.Blender">
         <title>Blender</title>
         <url>http://www.blender.org/</url>
@@ -55,5 +68,24 @@
     <version name="1.15" package="com.googlecode.windows-package-manager.NpackdCL">
         <url>http://dl.dropbox.com/u/17046326/files/org.googlecode.windows-package-manager.NpackdCL-1.15.zip</url>
         <sha1>182741DEB99A652D991799D5B58DDC2C942B7B1E</sha1>
+    </version>
+
+    <version name="0.9.3.2" package="org.argolinux.sqlkit.SQLKit">
+        <important-file path="sqlkit\scripts\sqledit.exe" title="Sqledit"/>
+        <file path=".WPM\Install.bat">for /f "delims=" %%x in ('dir /b sqlkit*') do set name=%%x
+xcopy "%name%\*" . /E /H
+rmdir /s /q "%name%"
+
+if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
+set onecmd="%npackd_cl%\npackdcl.exe" "path" "- -package=org.python.Python" "- -versions=[2.6.6, 2.6.6]"
+for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set python=%%x
+
+"%python%\python.exe" setup.py install
+</file>
+        <url>http://sqlkit.argolinux.org/download/sqlkit-0.9.3.2.zip</url>
+        <dependency package="org.pygtk.PyGTKAllInOne" versions="[2.22.6, 2.22.6]"/>
+        <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1, 2)"/>
+        <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1, 1]"/>
+        <sha1>2F39B1756466AC2CB5331314281569044B01A790</sha1>
     </version>
 </root>

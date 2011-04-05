@@ -6748,9 +6748,12 @@ call liteide.exe
 
     <version name="2.22.6" package="org.pygtk.PyGTKAllInOne" type="one-file">
         <url>http://ftp.gnome.org/pub/GNOME/binaries/win32/pygtk/2.22/pygtk-all-in-one-2.22.6.win32-py2.6.msi</url>
-        <file path=".WPM\Install.bat">for /f "delims=" %%x in ('dir /b *.msi') do set setup=%%x
-for /f "delims=" %%x in ("%CD%") do set instdir=%%~dpx
-msiexec.exe /qn /norestart /Lime .WPM\MSI.log /i "%setup%" TARGETDIR="%instdir%\org.python.Python-2.6.6" ALLUSERS=1
+        <file path=".WPM\Install.bat">if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
+set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=org.python.Python" "--versions=[2.6.6, 2.6.6]"
+for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set python=%%x
+
+for /f "delims=" %%x in ('dir /b *.msi') do set setup=%%x
+msiexec.exe /qn /norestart /Lime .WPM\MSI.log /i "%setup%" TARGETDIR="%python%" ALLUSERS=1
 set err=%errorlevel%
 type .WPM\MSI.log
 rem 3010=restart required
@@ -6766,6 +6769,8 @@ if %err% equ 3010 exit /b 0
 if %err% neq 0 exit /b %err%
 </file>
         <dependency package="org.python.Python" versions="[2.6.6, 2.6.6]"/>
+        <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1, 2)"/>
+        <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1, 1]"/>
     </version>
  
     <version name="2.3.1" package="org.initd.PsycopgInstaller" type="one-file">
@@ -6807,7 +6812,7 @@ rmdir /s /q "%name%"
         <url>http://sqlkit.argolinux.org/download/sqlkit-0.9.3.zip</url>
         <dependency package="org.pygtk.PyGTKAllInOne" versions="[2.22.6, 2.22.6]"/>
         <sha1>8ba6e3cf90b6886a4128ff4d72fdeee8d4ed668b</sha1>
-    </version>
+    </version>    
 
     <version name="3.0.2" package="org.apache.Maven">
         <file path=".WPM\Install.bat">for /f "delims=" %%x in ('dir /b apache*') do set name=%%x
