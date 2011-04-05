@@ -6281,14 +6281,20 @@ for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set sevenzipa=%%x
         <file path=".WPM\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x
 "%setup%" /S /D=%CD%
 if %errorlevel% neq 0 goto eof
-for /f "delims=" %%x in ("%CD%") do set key=%%~nxx
-for /f "tokens=1,2 delims=- " %%a in ("%key%") do set package=%%a&amp;set version=%%b
+
+set package=net.sourceforge.NotepadPlusPlus
+set version=5.8.6
+set key=%package%-%version%
+
 reg add HKLM\SOFTWARE\Classes\Applications\%KEY%\shell\open /v FriendlyAppName /d "Notepad++ (%version%)" /f
 set c=\"%CD%\notepad++.exe\" \"%%1\"
 reg add HKLM\SOFTWARE\Classes\Applications\%KEY%\shell\open\command /d "%c%" /f
 for %%g in (txt log ini h hpp hxx c cpp cxx cc m java cs pas inc html htm php phtml js jsp asp css xml sh bsh nsi nsh lua pl pm py as mx vb vbs f for f90 f95 f2k tex sql nfo mak hgignore) do reg add HKLM\SOFTWARE\Classes\.%%g\OpenWithList\%key% /f
 </file>
-        <file path=".WPM\Uninstall.bat">for /f "delims=" %%x in ("%CD%") do set key=%%~nxx
+        <file path=".WPM\Uninstall.bat">set package=net.sourceforge.NotepadPlusPlus
+set version=5.8.6
+set key=%package%-%version%
+
 set newname=%key%_%random%
 ren %appdata%\Notepad++ %newname%
 uninstall.exe /S _?=%CD%
@@ -6314,14 +6320,20 @@ verify
         <file path=".WPM\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x
 "%setup%" /S /D=%CD%
 if %errorlevel% neq 0 goto eof
-for /f "delims=" %%x in ("%CD%") do set key=%%~nxx
-for /f "tokens=1,2 delims=- " %%a in ("%key%") do set package=%%a&amp;set version=%%b
+
+set package=net.sourceforge.NotepadPlusPlus
+set version=5.8.7
+set key=%package%-%version%
+
 reg add HKLM\SOFTWARE\Classes\Applications\%KEY%\shell\open /v FriendlyAppName /d "Notepad++ (%version%)" /f
 set c=\"%CD%\notepad++.exe\" \"%%1\"
 reg add HKLM\SOFTWARE\Classes\Applications\%KEY%\shell\open\command /d "%c%" /f
 for %%g in (txt log ini h hpp hxx c cpp cxx cc m java cs pas inc html htm php phtml js jsp asp css xml sh bsh nsi nsh lua pl pm py as mx vb vbs f for f90 f95 f2k tex sql nfo mak hgignore) do reg add HKLM\SOFTWARE\Classes\.%%g\OpenWithList\%key% /f
 </file>
-        <file path=".WPM\Uninstall.bat">for /f "delims=" %%x in ("%CD%") do set key=%%~nxx
+        <file path=".WPM\Uninstall.bat">set package=net.sourceforge.NotepadPlusPlus
+set version=5.8.7
+set key=%package%-%version%
+
 set newname=%key%_%random%
 ren %appdata%\Notepad++ %newname%
 uninstall.exe /S _?=%CD%
