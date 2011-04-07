@@ -172,6 +172,8 @@ int App::path()
                 // debug: std::cout << "Versions: " << qPrintable(d.toString()) << std::endl;
                 PackageVersion* pv = d.findHighestInstalledMatch();
                 if (pv) {
+                    QString p = pv->getPath();
+                    p.replace('/', '\\');
                     std::cout << qPrintable(pv->getPath()) << std::endl;
                 }
             }
