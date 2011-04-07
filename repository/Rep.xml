@@ -6840,6 +6840,7 @@ call liteide.exe
         <file path=".WPM\Install.bat">if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
 set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=org.python.Python" "--versions=[2.6.6, 2.6.6]"
 for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set python=%%x
+set python=%python:/=\%
 
 for /f "delims=" %%x in ('dir /b *.msi') do set setup=%%x
 msiexec.exe /qn /norestart /Lime .WPM\MSI.log /i "%setup%" TARGETDIR="%python%" ALLUSERS=1
