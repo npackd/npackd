@@ -389,6 +389,9 @@ QString PackageVersion::planUninstallation(QList<PackageVersion*>& installed,
     // qDebug() << "PackageVersion::planUninstallation()" << this->toString();
     QString res;
 
+    if (!installed.contains(this))
+        return res;
+
     // this loop ensures that all the items in "installed" are processed
     // even if changes in the list were done in nested calls to
     // "planUninstallation"

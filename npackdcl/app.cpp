@@ -175,7 +175,7 @@ int App::path()
                 if (pv) {
                     QString p = pv->getPath();
                     p.replace('/', '\\');
-                    std::cout << qPrintable(pv->getPath()) << std::endl;
+                    std::cout << qPrintable(p) << std::endl;
                 }
             }
         }
