@@ -80,6 +80,7 @@ void App::addNpackdCL()
     if (!pv->installed()) {
         pv->setPath(WPMUtils::getExeDir());
         pv->setExternal(true);
+        r->updateNpackdCLEnvVar();
     }
 }
 
