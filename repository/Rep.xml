@@ -2720,6 +2720,19 @@ move *.dll %trash%
         <url>http://cdn.dropbox.com/Dropbox%201.0.20.exe</url>
         <sha1>6C2C9F5B75B2471F95450AD7AA93A219683A11D8</sha1>
     </version>
+    <version name="1.0.28" package="com.dropbox.Dropbox" type="one-file">
+        <file path=".WPM\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x
+"%setup%" /S /D=%CD%
+taskkill /f /im dropbox.exe</file>
+        <file path=".WPM\Uninstall.bat">Uninstall.exe /S _?=%CD%
+for /f "delims=" %%x in ("%CD%") do set key=%%~nxx
+set trash=..\.Trash\%key%_%RANDOM%
+mkdir %trash%
+move *.dll %trash%
+</file>
+        <url>http://cdn.dropbox.com/Dropbox%201.0.28.exe</url>
+        <sha1>E2FE314360D66E3DC30DB4CABC3C466BBD68AC5D</sha1>
+    </version>
 
     <version name="1.89" package="com.revouninstaller.Revo" type="one-file">
         <file path=".WPM\Install.bat">revosetup.exe /S /D=%CD%</file>
