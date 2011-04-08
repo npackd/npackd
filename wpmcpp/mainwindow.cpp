@@ -675,9 +675,9 @@ void MainWindow::fillList()
             else
                 status = "installed";
         }
-        if (installed && pv != newest && newest != 0) {
+        if (installed && newest != 0 && pv->version.compare(newest->version) < 0) {
             newItem->setBackgroundColor(QColor(255, 0xc7, 0xc7));
-            if (updateEnabled)
+            if (!newest->installed() && !pv->isExternal())
                 status += ", updateable";
             else
                 status += ", obsolete";
