@@ -3761,6 +3761,27 @@ if %err% neq 0 exit /b %err%
         <url>http://dl.dropbox.com/u/17046326/files/com.tracker-software.PDFXChangeViewer-2.58.193.msi</url>
         <sha1>75CF1068CE75E2EFCB18271D74AEC3C903B95F68</sha1>
     </version>
+    <version name="2.58.194" package="com.tracker-software.PDFXChangeViewer"
+            type="one-file">
+        <file path=".WPM\Install.bat">for /f %%x in ('dir /b *.msi') do set setup=%%x
+msiexec.exe /qn /norestart /Lime .WPM\MSI.log /i "%setup%" INSTALLLOCATION="%CD%" ALLUSERS=1
+set err=%errorlevel%
+type .WPM\MSI.log
+rem 3010=restart required
+if %err% equ 3010 exit /b 0
+if %err% neq 0 exit /b %err%
+</file>
+        <file path=".WPM\Uninstall.bat">for /f %%x in ('dir /b *.msi') do set setup=%%x
+msiexec.exe /qn /norestart /Lime .WPM\MSI.log /x "%setup%"
+set err=%errorlevel%
+type .WPM\MSI.log
+rem 3010=restart required
+if %err% equ 3010 exit /b 0
+if %err% neq 0 exit /b %err%
+</file>
+        <url>http://dl.dropbox.com/u/17046326/files/com.tracker-software.PDFXChangeViewer-2.58.194.msi</url>
+        <sha1>48ACC5F56500ACF5BDC44ECD7E9D4A4ABF2FA304</sha1>
+    </version>
 
     <version name="8.1" 
             package="com.advancedinstaller.AdvancedInstallerFreeware"
