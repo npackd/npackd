@@ -82,6 +82,12 @@
         <url>http://www.tracker-software.com/product/pdf-xchange-viewer</url>
         <description>PDF viewer</description>
     </package>
+    <package name="org.miranda-im.MirandaIM64">
+        <title>Miranda IM 64 bit</title>
+        <url>http://www.miranda-im.org</url>
+        <description>instant messenger</description>
+        <license>org.gnu.GPLv2</license>
+    </package>
     <package name="net.nirsoft.FileTypesMan64">
         <title>FileTypesMan 64 bit</title>
         <url>http://www.nirsoft.net/utils/file_types_manager.html</url>
@@ -393,5 +399,18 @@ if %err% neq 0 exit /b %err%
     <version name="1.0.2011.4.8" package="net.sourceforge.mingw-w64.MinGWW6464">
         <url>http://downloads.sourceforge.net/project/mingw-w64/Toolchains%20targetting%20Win64/Automated%20Builds/mingw-w64-1.0-bin_i686-mingw_20110408.zip?ts=1302348499</url>
         <sha1>7BEF23803B057DFB8A7B2CF42AAA065B84E31C65</sha1>
+    </version>
+
+    <version name="0.9.19" package="org.miranda-im.MirandaIM64" type="one-file">
+        <important-file path="miranda64.exe" title="Miranda IM"/>
+        <file path=".WPM\Install.bat">if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
+set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=org.7-zip.SevenZIPA" "--versions=[9.20, 9.20]"
+for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set sevenzipa=%%x
+for /f %%x in ('dir /b *.7z') do set setup=%%x
+"%sevenzipa%\7za.exe" x "%setup%"
+</file>
+        <url>http://miranda.googlecode.com/files/miranda-im-v0.9.19-x64.7z</url>
+        <sha1>3FBAB61D39D619DF6FEADD2754FF7D3F517EDB22</sha1>
+        <dependency package="org.7-zip.SevenZIPA" versions="[9.20, 9.20]"/>
     </version>
 </root>
