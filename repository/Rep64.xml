@@ -64,6 +64,11 @@
         <url>http://tortoisehg.bitbucket.org/</url>
         <description>Mercurial client</description>
     </package>
+    <package name="org.freepascal.lazarus.Lazarus64">
+        <title>Lazarus 64 bit</title>
+        <url>http://www.lazarus.freepascal.org/index.php</url>
+        <description>Free Pascal IDE</description>
+    </package>
     <package name="com.tracker-software.PDFXChangeViewer64">
         <title>PDF-XChange Viewer 64 bit</title>
         <url>http://www.tracker-software.com/product/pdf-xchange-viewer</url>
@@ -331,5 +336,22 @@ taskkill /f /im clipx.exe
     <version name="1" package="net.nirsoft.FileTypesMan64">
         <important-file path="FileTypesMan.exe" title="FileTypesMan"/>
         <url>http://www.nirsoft.net/utils/filetypesman-x64.zip</url>
+    </version>
+
+    <version name="0.9.30" package="org.freepascal.lazarus.Lazarus64"
+            type="one-file">
+        <file path=".WPM\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x
+"%setup%" /SP- /VERYSILENT /SUPPRESSMSGBOXES /NOCANCEL /NORESTART /DIR="%CD%" /SAVEINF="%CD%\.WPM\InnoSetupInfo.ini" /LOG="%CD%\.WPM\InnoSetupInstall.log"
+set err=%errorlevel%
+type .WPM\InnoSetupInstall.log
+if %err% neq 0 exit %err%
+</file>
+        <file path=".WPM\Uninstall.bat">unins000.exe /VERYSILENT /SUPPRESSMSGBOXES /NORESTART /LOG="%CD%\.WPM\InnoSetupUninstall.log"
+set err=%errorlevel%
+type .WPM\InnoSetupUninstall.log
+if %err% neq 0 exit %err%
+</file>
+        <url>http://downloads.sourceforge.net/project/lazarus/Lazarus%20Windows%2064%20bits/Lazarus%200.9.30/lazarus-0.9.30-fpc-2.4.2-win64.exe?ts=1302341549</url>
+        <sha1>6EB635B7B4A3CFA90B48783B64C3484C0C2E53A3</sha1>
     </version>
 </root>
