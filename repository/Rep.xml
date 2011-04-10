@@ -2418,14 +2418,20 @@ if %err% neq 0 exit /b %err%
 
     <version name="1.6.13" package="org.apache.subversion.Subversion"
             type="one-file">
-        <file path=".WPM\Install.bat">msiexec.exe /qn /norestart /Lime .WPM\MSI.log /i Slik-Subversion-1.6.13-win32.msi INSTALLLOCATION="%CD%" ALLUSERS=1
+        <file path=".WPM\Install.bat">for /f "delims=" %%x in ('dir /b *.msi') do set setup=%%x
+msiexec.exe /qn /norestart /Lime .WPM\MSI.log /i "%setup%" INSTALLLOCATION="%CD%" ALLUSERS=1
 set err=%errorlevel%
 type .WPM\MSI.log
+rem 3010=restart required
+if %err% equ 3010 exit /b 0
 if %err% neq 0 exit /b %err%
 </file>
-        <file path=".WPM\Uninstall.bat">msiexec.exe /qn /norestart /Lime .WPM\MSI.log /x Slik-Subversion-1.6.13-win32.msi
+        <file path=".WPM\Uninstall.bat">for /f "delims=" %%x in ('dir /b *.msi') do set setup=%%x
+msiexec.exe /qn /norestart /Lime .WPM\MSI.log /x "%setup%"
 set err=%errorlevel%
 type .WPM\MSI.log
+rem 3010=restart required
+if %err% equ 3010 exit /b 0
 if %err% neq 0 exit /b %err%
 </file>
         <url>http://www.sliksvn.com/pub/Slik-Subversion-1.6.13-win32.msi</url>
@@ -2433,18 +2439,45 @@ if %err% neq 0 exit /b %err%
     </version>
     <version name="1.6.15" package="org.apache.subversion.Subversion"
             type="one-file">
-        <file path=".WPM\Install.bat">msiexec.exe /qn /norestart /Lime .WPM\MSI.log /i Slik-Subversion-1.6.15-win32.msi INSTALLLOCATION="%CD%" ALLUSERS=1
+        <file path=".WPM\Install.bat">for /f "delims=" %%x in ('dir /b *.msi') do set setup=%%x
+msiexec.exe /qn /norestart /Lime .WPM\MSI.log /i "%setup%" INSTALLLOCATION="%CD%" ALLUSERS=1
 set err=%errorlevel%
 type .WPM\MSI.log
+rem 3010=restart required
+if %err% equ 3010 exit /b 0
 if %err% neq 0 exit /b %err%
 </file>
-        <file path=".WPM\Uninstall.bat">msiexec.exe /qn /norestart /Lime .WPM\MSI.log /x Slik-Subversion-1.6.15-win32.msi
+        <file path=".WPM\Uninstall.bat">for /f "delims=" %%x in ('dir /b *.msi') do set setup=%%x
+msiexec.exe /qn /norestart /Lime .WPM\MSI.log /x "%setup%"
 set err=%errorlevel%
 type .WPM\MSI.log
+rem 3010=restart required
+if %err% equ 3010 exit /b 0
 if %err% neq 0 exit /b %err%
 </file>
         <url>http://www.sliksvn.com/pub/Slik-Subversion-1.6.15-win32.msi</url>
         <sha1>6a4d97a786061dc387f4825190507caf195eefa4</sha1>
+    </version>
+    <version name="1.6.16" package="org.apache.subversion.Subversion"
+            type="one-file">
+        <file path=".WPM\Install.bat">for /f "delims=" %%x in ('dir /b *.msi') do set setup=%%x
+msiexec.exe /qn /norestart /Lime .WPM\MSI.log /i "%setup%" INSTALLLOCATION="%CD%" ALLUSERS=1
+set err=%errorlevel%
+type .WPM\MSI.log
+rem 3010=restart required
+if %err% equ 3010 exit /b 0
+if %err% neq 0 exit /b %err%
+</file>
+        <file path=".WPM\Uninstall.bat">for /f "delims=" %%x in ('dir /b *.msi') do set setup=%%x
+msiexec.exe /qn /norestart /Lime .WPM\MSI.log /x "%setup%"
+set err=%errorlevel%
+type .WPM\MSI.log
+rem 3010=restart required
+if %err% equ 3010 exit /b 0
+if %err% neq 0 exit /b %err%
+</file>
+        <url>http://www.sliksvn.com/pub/Slik-Subversion-1.6.16-win32.msi</url>
+        <sha1>C1B09BD7903E33572D3BAD3245EC252E015B7739</sha1>
     </version>
 
     <version name="2.0.1" package="com.nokia.QtCreatorInstaller"
