@@ -863,11 +863,19 @@ QString Repository::computeNpackdCLEnvVar()
 
 void Repository::updateNpackdCLEnvVar()
 {
-    WPMUtils::setSystemEnvVar("NPACKD_CL", computeNpackdCLEnvVar());
+    QString v = computeNpackdCLEnvVar();
 
-    SendMessageTimeout(HWND_BROADCAST, WM_SETTINGCHANGE, 0,
-            (LPARAM) L"Environment",
-            0, 1000, 0);
+    // ignore the error for the case NPACKD_CL does not yet exist
+    QString err;
+    QString cur = WPMUtils::getSystemEnvVar("NPACKD_CL", &err);
+
+    if (v != cur) {
+        WPMUtils::setSystemEnvVar("NPACKD_CL", v);
+
+        SendMessageTimeout(HWND_BROADCAST, WM_SETTINGCHANGE, 0,
+                (LPARAM) L"Environment",
+                0, 1000, 0);
+    }
 }
 
 void Repository::detectPre_1_15_Packages()

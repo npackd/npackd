@@ -22,7 +22,7 @@
 #include "version.h"
 #include "windowsregistry.h"
 
-const char* WPMUtils::NPACKD_VERSION = "1.15.4";
+const char* WPMUtils::NPACKD_VERSION = "1.15.5";
 
 WPMUtils::WPMUtils()
 {
@@ -195,6 +195,22 @@ QString WPMUtils::setSystemEnvVar(const QString& name, const QString& value)
         return err;
 
     return "";
+}
+
+QString WPMUtils::getSystemEnvVar(const QString& name, QString* err)
+{
+    err->clear();
+
+    WindowsRegistry wr;
+    QString e = wr.open(HKEY_LOCAL_MACHINE,
+            "System\\CurrentControlSet\\Control\\Session Manager\\Environment",
+            false);
+    if (!e.isEmpty()) {
+        *err = e;
+        return "";
+    }
+
+    return wr.get(name, err);
 }
 
 Version WPMUtils::getDLLVersion(const QString &path)

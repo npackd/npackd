@@ -210,11 +210,18 @@ public:
      *
      * @param name name of the variable
      * @param value value of the variable
-     * @param notify if true, the function notifies all the running applications
-     *     (this takes 2-5 seconds)
      * @return error message or ""
      */
     static QString setSystemEnvVar(const QString& name, const QString& value);
+
+    /**
+     * Reads a system environment variable.
+     *
+     * @param name name of the variable
+     * @param err error message will be stored here
+     * @return value value of the variable
+     */
+    static QString getSystemEnvVar(const QString& name, QString* err);
 };
 
 #endif // WPMUTILS_H
