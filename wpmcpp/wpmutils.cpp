@@ -22,7 +22,7 @@
 #include "version.h"
 #include "windowsregistry.h"
 
-const char* WPMUtils::NPACKD_VERSION = "1.15.3";
+const char* WPMUtils::NPACKD_VERSION = "1.15.4";
 
 WPMUtils::WPMUtils()
 {
