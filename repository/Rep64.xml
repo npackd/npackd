@@ -78,6 +78,11 @@
         <url>http://www.softwareok.com/?seite=Freeware/Q-Dir</url>
         <description>file manager</description>
     </package>
+    <package name="org.apache.tomcat.Tomcat64">
+        <title>Tomcat 64 bit</title>
+        <url>http://tomcat.apache.org/</url>
+        <description>Java web server</description>
+    </package>
     <package name="org.bitbucket.tortoisehg.TortoiseHg64">
         <title>TortoiseHg 64 bit</title>
         <url>http://tortoisehg.bitbucket.org/</url>
@@ -455,5 +460,17 @@ for /f %%x in ('dir /b *.7z') do set setup=%%x
         <important-file path="Q-Dir\Q-Dir.exe" title="Q-Dir"/>
         <url>http://dl.dropbox.com/u/17046326/files/com.softwareok.QDir64-4.51.zip</url>
         <sha1>E4DABF0B426929E7815BC5093852F6327D90F392</sha1>
+    </version>
+
+    <version name="7.0.12" package="org.apache.tomcat.Tomcat64">
+        <file path=".WPM\Install.bat">for /f %%x in ('dir /b apache*') do set name=%%x
+xcopy "%name%\*" . /E /H
+rmdir /s /q "%name%"
+</file>
+        <important-file path="bin\startup.bat" title="Start"/>
+        <important-file path="bin\shutdown.bat" title="Stop"/>
+        <url>http://archive.apache.org/dist/tomcat/tomcat-7/v7.0.12/bin/apache-tomcat-7.0.12-windows-x64.zip</url>
+        <sha1>0F52C4EF7DEDFBA0D9D3E01A18B3803CB251DF41</sha1>
+        <dependency package="com.oracle.JRE" versions="[1.5, 2)"/>
     </version>
 </root>
