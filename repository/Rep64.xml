@@ -78,6 +78,13 @@
         <url>http://www.softwareok.com/?seite=Freeware/Q-Dir</url>
         <description>file manager</description>
     </package>
+    <package name="org.apache.subversion.Subversion64">
+        <title>Subversion 64 bit</title>
+        <url>http://subversion.apache.org/</url>
+        <description>source version control</description>
+        <!-- Apache License 2.0 -->
+        <icon>http://dl.dropbox.com/u/17046326/picons/org.apache.subversion.Subversion.png</icon>
+    </package>
     <package name="org.apache.tomcat.Tomcat64">
         <title>Tomcat 64 bit</title>
         <url>http://tomcat.apache.org/</url>
@@ -472,5 +479,27 @@ rmdir /s /q "%name%"
         <url>http://archive.apache.org/dist/tomcat/tomcat-7/v7.0.12/bin/apache-tomcat-7.0.12-windows-x64.zip</url>
         <sha1>0F52C4EF7DEDFBA0D9D3E01A18B3803CB251DF41</sha1>
         <dependency package="com.oracle.JRE" versions="[1.5, 2)"/>
+    </version>
+
+    <version name="1.6.16" package="org.apache.subversion.Subversion64"
+            type="one-file">
+        <file path=".WPM\Install.bat">for /f "delims=" %%x in ('dir /b *.msi') do set setup=%%x
+msiexec.exe /qn /norestart /Lime .WPM\MSI.log /i "%setup%" INSTALLLOCATION="%CD%" ALLUSERS=1
+set err=%errorlevel%
+type .WPM\MSI.log
+rem 3010=restart required
+if %err% equ 3010 exit /b 0
+if %err% neq 0 exit /b %err%
+</file>
+        <file path=".WPM\Uninstall.bat">for /f "delims=" %%x in ('dir /b *.msi') do set setup=%%x
+msiexec.exe /qn /norestart /Lime .WPM\MSI.log /x "%setup%"
+set err=%errorlevel%
+type .WPM\MSI.log
+rem 3010=restart required
+if %err% equ 3010 exit /b 0
+if %err% neq 0 exit /b %err%
+</file>
+        <url>http://www.sliksvn.com/pub/Slik-Subversion-1.6.16-x64.msi</url>
+        <sha1>96C6DE39ABBE8B1B2DB6EF6CE1FE0294A9CE5DDE</sha1>
     </version>
 </root>
