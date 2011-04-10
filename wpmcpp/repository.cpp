@@ -864,6 +864,10 @@ QString Repository::computeNpackdCLEnvVar()
 void Repository::updateNpackdCLEnvVar()
 {
     WPMUtils::setSystemEnvVar("NPACKD_CL", computeNpackdCLEnvVar());
+
+    SendMessageTimeout(HWND_BROADCAST, WM_SETTINGCHANGE, 0,
+            (LPARAM) L"Environment",
+            0, 1000, 0);
 }
 
 void Repository::detectPre_1_15_Packages()

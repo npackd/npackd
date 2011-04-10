@@ -265,7 +265,7 @@ void PackageVersion::uninstall(Job* job)
     if (job->getErrorMessage().isEmpty()) {
         if (d.exists()) {
             job->setHint("Deleting files");
-            Job* rjob = job->newSubJob(0.55);
+            Job* rjob = job->newSubJob(0.54);
             removeDirectory(rjob, d.absolutePath());
             if (!rjob->getErrorMessage().isEmpty())
                 job->setErrorMessage(rjob->getErrorMessage());
@@ -276,6 +276,7 @@ void PackageVersion::uninstall(Job* job)
         }
 
         if (this->package == "com.googlecode.windows-package-manager.NpackdCL") {
+            job->setHint("Updating NPACKD_CL");
             Repository::getDefault()->updateNpackdCLEnvVar();
         }
         job->setProgress(1);
@@ -773,6 +774,7 @@ void PackageVersion::install(Job* job, const QString& where)
         }
 
         if (this->package == "com.googlecode.windows-package-manager.NpackdCL") {
+            job->setHint("Updating NPACKD_CL");
             Repository::getDefault()->updateNpackdCLEnvVar();
         }
 
