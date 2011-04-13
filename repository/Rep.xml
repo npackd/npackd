@@ -7327,6 +7327,30 @@ rmdir /s /q "%name%"
         <dependency package="org.pygtk.PyGTKAllInOne" versions="[2.22.6, 2.22.6]"/>
         <sha1>8ba6e3cf90b6886a4128ff4d72fdeee8d4ed668b</sha1>
     </version>    
+    <version name="0.9.4" package="org.argolinux.sqlkit.SQLKit">
+        <important-file path="sqledit.bat" title="Sqledit"/>
+        <file path="sqledit.bat">if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
+set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=org.python.Python" "--versions=[2.6.6, 2.6.6]"
+for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set python=%%x
+
+start "" "%python%\Scripts\sqledit.exe"
+</file>
+        <file path=".WPM\Install.bat">for /f "delims=" %%x in ('dir /b sqlkit*') do set name=%%x
+xcopy "%name%\*" . /E /H
+rmdir /s /q "%name%"
+
+if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
+set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=org.python.Python" "--versions=[2.6.6, 2.6.6]"
+for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set python=%%x
+
+"%python%\python.exe" setup.py install
+</file>
+        <url>http://sqlkit.argolinux.org/download/sqlkit-0.9.4.zip</url>
+        <dependency package="org.pygtk.PyGTKAllInOne" versions="[2.22.6, 2.22.6]"/>
+        <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1, 2)"/>
+        <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1, 1]"/>
+        <sha1>CBC009E5A1491A1DCCA6BC4B96EE55D2FEF1F135</sha1>
+    </version>
 
     <version name="3.0.2" package="org.apache.Maven">
         <file path=".WPM\Install.bat">for /f "delims=" %%x in ('dir /b apache*') do set name=%%x
