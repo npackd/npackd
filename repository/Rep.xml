@@ -1874,6 +1874,16 @@ yes - Print a string repeatedly.</description>
         of a package should stay together. Newer versions should appear under
         older ones.
     -->
+    <version name="2.48" package="de.mp3tag.MP3Tag" type="one-file">
+        <file path=".WPM\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x
+"%setup%" /S /D=%CD%
+</file>
+        <file path=".WPM\Uninstall.bat">Mp3tagUninstall.exe /S _?=%CD%
+</file>        
+        <url>http://download.mp3tag.de/mp3tagv248setup.exe</url>
+        <sha1>8F7F7BE9C53E44A89D1F35E82A78A9B326C10005</sha1>
+    </version>    
+
     <version name="1.4.3" package="org.wireshark.Wireshark" type="one-file">
         <file path=".WPM\Install.bat">for /f %%x in ('dir /b *.exe') do set setup=%%x
 "%setup%" /S /D=%CD%
@@ -7247,16 +7257,6 @@ call liteide.exe
         <url>http://downloads.sourceforge.net/project/discoverd/Executable/DiscoverSetup2.9.zip?ts=1296467870</url>
         <sha1>53B4E7C5B3131A9076BA0524C7BC956304266F35</sha1>
     </version>
-
-    <version name="2.48" package="de.mp3tag.MP3Tag" type="one-file">
-        <file path=".WPM\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x
-"%setup%" /S /D=%CD%
-</file>
-        <file path=".WPM\Uninstall.bat">Mp3tagUninstall.exe /S _?=%CD%
-</file>        
-        <url>http://download.mp3tag.de/mp3tagv248setup.exe</url>
-        <sha1>8F7F7BE9C53E44A89D1F35E82A78A9B326C10005</sha1>
-    </version>    
 
     <version name="2.22.6" package="org.pygtk.PyGTKAllInOne" type="one-file">
         <url>http://ftp.gnome.org/pub/GNOME/binaries/win32/pygtk/2.22/pygtk-all-in-one-2.22.6.win32-py2.6.msi</url>
