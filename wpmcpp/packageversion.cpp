@@ -908,9 +908,11 @@ void PackageVersion::executeFile(Job* job, const QString& where,
     QStringList params;
     p.setWorkingDirectory(d.absolutePath());
     QString exe = d.absolutePath() + "\\" + path;
+    QProcessEnvironment pe = p.processEnvironment();
     for (int i = 0; i < env.count(); i += 2) {
-        p.processEnvironment().insert(env.at(i), env.at(i + 1));
+        pe.insert(env.at(i), env.at(i + 1));
     }
+    p.setProcessEnvironment(pe);
     p.start(exe, params);
 
     time_t start = time(NULL);
