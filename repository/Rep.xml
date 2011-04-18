@@ -1498,6 +1498,11 @@ yes - Print a string repeatedly.</description>
         <icon>http://dl.dropbox.com/u/17046326/picons/org.gnome.live.dia.Dia.png</icon>
         <license>org.gnu.GPLv2</license>
     </package>
+    <package name="org.gnome.live.Planner">
+        <title>Planner</title>
+        <url>http://live.gnome.org/Planner</url>
+        <description>project management</description>
+    </package>
     <package name="org.gnucash.GNUCash">
         <title>GnuCash</title>
         <url>http://www.gnucash.org/?lang=en_US</url>
@@ -7725,5 +7730,15 @@ ren "%setup%" Setup-MsgPlus.exe
 </file>
         <important-file path="Setup-MsgPlus.exe" title="Installer"/>
         <url>http://www.malwarebytes.org/fa-setup.exe</url>
+    </version>
+
+    <version name="0.14.4" package="org.gnome.live.Planner" type="one-file">
+        <file path=".WPM\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x
+"%setup%" /S /D=%CD%
+</file>
+        <file path=".WPM\Uninstall.bat">planner-uninst.exe /S _?=%CD%
+</file>
+        <url>http://ftp.gnome.org/pub/GNOME/binaries/win32/planner/0.14/planner-0.14.4.exe</url>
+        <sha1>6FF5532C2CD0A43CA0157B509ADA32ABE4C3DA16</sha1>
     </version>
 </root>
