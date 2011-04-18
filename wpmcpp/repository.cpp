@@ -464,6 +464,12 @@ void Repository::recognize(Job* job)
     if (!job->isCancelled()) {
         job->setHint("Detecting Microsoft Core XML Services (MSXML)");
         detectMSXML();
+        job->setProgress(0.97);
+    }
+
+    if (!job->isCancelled()) {
+        job->setHint("Updating NPACKD_CL");
+        updateNpackdCLEnvVar();
         job->setProgress(1);
     }
 
