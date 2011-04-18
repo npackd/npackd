@@ -19,6 +19,8 @@ HWND defaultPasswordWindow = 0;
  *    that the file name could be derived
  *    from the last URL:
  *    http://www.experts-exchange.com/Programming/System/Windows__Programming/MFC/Q_20096714.html
+ * Manual authentication:
+ *    http://msdn.microsoft.com/en-us/library/aa384220(v=vs.85).aspx
  * @param parentWindow window handle or 0 if not UI is required
  */
 bool downloadWin(Job* job, const QUrl& url, QTemporaryFile* file,
