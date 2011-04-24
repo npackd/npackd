@@ -3529,16 +3529,12 @@ if %err% neq 0 exit /b %err%
         <sha1>04f5c1a40e1046526483a19dd8b674e916f94ad7</sha1>
     </version>
 
-    <version name="5.5.8" package="com.mysql.MySQLCommunityServer">
-        <url>http://vesta.informatik.rwth-aachen.de/mysql/Downloads/MySQL-5.5/mysql-5.5.8-win32.zip</url>
-        <sha1>14a34e0140f85d509484d0d01f10033c4d80ac33</sha1>
-    </version>
-    <version name="5.5.9" package="com.mysql.MySQLCommunityServer">
-        <url>http://vesta.informatik.rwth-aachen.de/mysql/Downloads/MySQL-5.5/mysql-5.5.9-win32.zip</url>
-        <sha1>F32CCC6C15C34EFC2C9E6C3166A31AC7C198CD53</sha1>
-    </version>
     <version name="5.5.11" package="com.mysql.MySQLCommunityServer">
-        <url>http://vesta.informatik.rwth-aachen.de/mysql/Downloads/MySQL-5.5/mysql-5.5.11-win32.zip</url>
+        <file path=".WPM\Install.bat">for /f "delims=" %%x in ('dir /b mysql*') do set name=%%x
+xcopy "%name%\*" . /E /H
+rmdir /s /q "%name%"
+</file>
+        <url>http://dl.dropbox.com/u/17046326/files/com.mysql.MySQLCommunityServer-5.5.11.zip</url>
         <sha1>53BD93274B648398BF8EAFF84BF600EF3B1E393F</sha1>
     </version>
 

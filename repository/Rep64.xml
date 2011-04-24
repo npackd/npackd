@@ -492,7 +492,11 @@ for /f %%x in ('dir /b *.7z') do set setup=%%x
     </version>
 
     <version name="5.5.11" package="com.mysql.MySQLCommunityServer64">
-        <url>http://vesta.informatik.rwth-aachen.de/mysql/Downloads/MySQL-5.5/mysql-5.5.11-winx64.zip</url>
+        <file path=".WPM\Install.bat">for /f "delims=" %%x in ('dir /b mysql*') do set name=%%x
+xcopy "%name%\*" . /E /H
+rmdir /s /q "%name%"
+</file>
+        <url>http://dl.dropbox.com/u/17046326/files/com.mysql.MySQLCommunityServer64-5.5.11.zip</url>
         <sha1>5F9928B55C202A16DB24249C68ADEBB25863A933</sha1>
     </version>
 
