@@ -876,11 +876,10 @@ void Repository::updateNpackdCLEnvVar()
     QString cur = WPMUtils::getSystemEnvVar("NPACKD_CL", &err);
 
     if (v != cur) {
-        WPMUtils::setSystemEnvVar("NPACKD_CL", v);
-
-        SendMessageTimeout(HWND_BROADCAST, WM_SETTINGCHANGE, 0,
-                (LPARAM) L"Environment",
-                0, 1000, 0);
+        if (WPMUtils::setSystemEnvVar("NPACKD_CL", v).isEmpty())
+            SendMessageTimeout(HWND_BROADCAST, WM_SETTINGCHANGE, 0,
+                    (LPARAM) L"Environment",
+                    0, 1000, 0);
     }
 }
 
