@@ -55,6 +55,11 @@
         <description>Windows Explorer extensions for Git</description>
         <license>org.gnu.GPLv2</license>
     </package>
+    <package name="com.microsoft.Mathematics64">
+        <title>Mathematics 64 bit</title>
+        <url>http://www.microsoft.com/downloads/en/details.aspx?FamilyID=9caca722-5235-401c-8d3f-9e242b794c3a</url>
+        <description>mathematical tool</description>
+    </package>
     <package name="com.mysql.MySQLCommunityServer64">
         <title>MySQL Community Server 64 bit</title>
         <url>http://www.mysql.com/downloads/mysql/</url>
@@ -592,5 +597,34 @@ if %err% neq 0 exit /b %err%
         <important-file path="gs902w64.exe" title="Installer"/>
         <url>http://downloads.ghostscript.com/public/gs902w64.exe</url>
         <sha1>525F473B640BEED44B9FE4A0AFB428BBF1CC3524</sha1>
+    </version>
+    
+    <version name="4.71.1015" package="com.microsoft.Mathematics64"
+            type="one-file">
+        <file path=".WPM\Install.bat">for /f %%x in ('dir /b *.exe') do set setup=%%x
+"%setup%" /C /T:"%CD%"
+if %errorlevel% neq 0 goto :out
+for /f %%x in ('dir /b *.msi') do set setup=%%x
+msiexec.exe /qn /norestart /Lime .WPM\MSI.log /i "%setup%" FROMSETUP=1 ALREADYRUNNING=0 DOTNET35=1 ALLUSERS=1 PRODUCTINSTALLDIR="%cd%" SXSOFF=1
+set err=%errorlevel%
+type .WPM\MSI.log
+rem 3010=restart required
+if %err% equ 3010 exit /b 0
+if %err% neq 0 exit /b %err%
+</file>
+        <file path=".WPM\Uninstall.bat">for /f %%x in ('dir /b *.msi') do set setup=%%x
+msiexec.exe /qn /norestart /Lime .WPM\MSI.log /x %setup%
+set err=%errorlevel%
+type .WPM\MSI.log
+rem 3010=restart required
+if %err% equ 3010 exit /b 0
+if %err% neq 0 exit /b %err%
+</file>
+        <url>http://download.microsoft.com/download/F/7/6/F76E0187-07B5-4958-B3FF-2E5ACD53B637/MSetup_x64.exe</url>
+        <sha1>F1D5F3905EA7B0A5EDA5B91B238EB1B155D174CC</sha1>
+        <dependency package="com.microsoft.DotNetRedistributable"
+                versions="[3.5, 4)"/>
+        <dependency package="com.microsoft.VisualCPPRedistributable"
+                versions="[9.0, 10)"/>
     </version>
 </root>
