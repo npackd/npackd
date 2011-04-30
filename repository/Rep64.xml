@@ -95,6 +95,12 @@
         <description>remote control</description>
         <license>org.gnu.GPLv2</license>
     </package>
+    <package name="net.sourceforge.mpc-hc.MediaPlayerClassicHomeCinema64">
+        <title>Media Player Classic - Home Cinema 64 bit</title>
+        <url>http://mpc-hc.sourceforge.net/</url>
+        <description>media player</description>
+        <license>org.gnu.GPLv2</license>
+    </package>
     <package name="org.apache.subversion.Subversion64">
         <title>Subversion 64 bit</title>
         <url>http://subversion.apache.org/</url>
@@ -626,5 +632,17 @@ if %err% neq 0 exit /b %err%
                 versions="[3.5, 4)"/>
         <dependency package="com.microsoft.VisualCPPRedistributable"
                 versions="[9.0, 10)"/>
+    </version>
+
+    <version name="1.5.0.2827"
+            package="net.sourceforge.mpc-hc.MediaPlayerClassicHomeCinema64">
+        <file path=".WPM\Install.bat">for /f "delims=" %%x in ('dir /b MPC*') do set name=%%x
+xcopy "%name%\*" . /E /H
+rmdir /s /q "%name%"
+</file>                
+        <important-file path="mpc-hc64.exe" 
+                title="Media Player Classic - Home Cinema"/>
+        <url>http://downloads.sourceforge.net/project/mpc-hc/MPC%20HomeCinema%20-%20x64/MPC-HC%20v1.5.0.2827_64%20bits/MPC-HomeCinema.1.5.0.2827.x64.zip?ts=1304171149</url>
+        <sha1>AD838CAD90C0EE12222F1A108BCD6EBD20956368</sha1>
     </version>
 </root>
