@@ -23,6 +23,11 @@
     <!--
      Packages in alphabetical order (including the reversed domain name prefix.
     -->
+    <package name="ch.flos-freeware.Notepad264">
+        <title>Notepad2 64 bit</title>
+        <url>http://www.flos-freeware.ch/notepad2.html</url>
+        <description>text editor</description>
+    </package>
     <package name="com.activestate.ActivePerl64">
         <title>ActivePerl 64 bit</title>
         <url>http://www.activestate.com/activeperl</url>
@@ -670,5 +675,23 @@ if %err% neq 0 exit /b %err%
 </file>
         <url>http://download.microsoft.com/download/2/e/0/2e01308a-e17f-4bf9-bf48-161356cf9c81/msxml6_x64.msi</url>
         <sha1>1EB84EEAE7729EA5DB7FE79779F4E216114261BA</sha1>
+    </version>
+
+    <version name="4.1.24" package="ch.flos-freeware.Notepad264">
+<file path=".WPM\Install.bat">set key=ch.flos-freeware.Notepad264-4.1.24
+reg add HKLM\SOFTWARE\Classes\Applications\%key%\shell\open /v FriendlyAppName /d "Notepad2 64 bit (4.1.24)" /f
+set c=\"%CD%\Notepad2.exe\" \"%%1\"
+reg add HKLM\SOFTWARE\Classes\Applications\%KEY%\shell\open\command /d "%c%" /f
+for %%g in (txt log ini h hpp hxx c cpp cxx cc m java cs pas inc html htm php phtml js jsp asp css xml sh bsh nsi nsh lua pl pm py as mx vb vbs f for f90 f95 f2k tex sql nfo mak) do reg add HKLM\SOFTWARE\Classes\.%%g\OpenWithList\%key% /f
+verify
+</file>
+        <file path=".WPM\Uninstall.bat">set key=ch.flos-freeware.Notepad264-4.1.24
+reg delete HKLM\SOFTWARE\Classes\Applications\%key% /f
+for %%g in (txt log ini h hpp hxx c cpp cxx cc m java cs pas inc html htm php phtml js jsp asp css xml sh bsh nsi nsh lua pl pm py as mx vb vbs f for f90 f95 f2k tex sql nfo mak) do reg delete HKLM\SOFTWARE\Classes\.%%g\OpenWithList\%key% /f
+verify
+</file>
+        <important-file path="Notepad2.exe" title="Notepad2"/>
+        <url>http://notepad2-x64.googlecode.com/files/Notepad2-4.1.24-x86-64.zip</url>
+        <sha1>618224CD0113E5D02E6C9C92393F8B1D0FABC3FA</sha1>
     </version>
 </root>
