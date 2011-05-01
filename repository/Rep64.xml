@@ -99,6 +99,11 @@
         <url>http://www.softwareok.com/?seite=Freeware/Q-Dir</url>
         <description>file manager</description>
     </package>
+    <package name="com.tracker-software.PDFXChangeViewer64">
+        <title>PDF-XChange Viewer 64 bit</title>
+        <url>http://www.tracker-software.com/product/pdf-xchange-viewer</url>
+        <description>PDF viewer</description>
+    </package>
     <package name="com.uvnc.UltraVNC64">
         <title>UltraVNC 64 bit</title>
         <url>http://www.uvnc.com/</url>
@@ -143,15 +148,16 @@
         <url>http://www.python.org/</url>
         <description>programming language</description>
     </package>
-    <package name="com.tracker-software.PDFXChangeViewer64">
-        <title>PDF-XChange Viewer 64 bit</title>
-        <url>http://www.tracker-software.com/product/pdf-xchange-viewer</url>
-        <description>PDF viewer</description>
-    </package>
     <package name="org.miranda-im.MirandaIM64">
         <title>Miranda IM 64 bit</title>
         <url>http://www.miranda-im.org</url>
         <description>instant messenger</description>
+        <license>org.gnu.GPLv2</license>
+    </package>
+    <package name="org.sourceforge.ultradefrag.UltraDefrag64">
+        <title>UltraDefrag 64 bit</title>
+        <url>http://ultradefrag.sourceforge.net/</url>
+        <description>disk defragmenter</description>
         <license>org.gnu.GPLv2</license>
     </package>
     <package name="net.nirsoft.FileTypesMan64">
@@ -719,5 +725,15 @@ if %err% neq 0 exit /b %err%
 </file>
         <url>http://www.python.org/ftp/python/3.2/python-3.2.amd64.msi</url>
         <sha1>0DD61CE76829D88EAA8A608330DC917F04172767</sha1>
+    </version>
+
+    <version name="4.4" package="org.sourceforge.ultradefrag.UltraDefrag64">
+        <file path=".WPM\Install.bat">for /f "delims=" %%x in ('dir /b ultra*') do set name=%%x
+xcopy "%name%\*" . /E /H
+rmdir /s /q "%name%"    
+</file>
+        <important-file path="ultradefrag.exe" title="UltraDefrag"/>
+        <url>http://downloads.sourceforge.net/project/ultradefrag/ultradefrag/ultradefrag-4.4.0/ultradefrag-portable-4.4.0.bin.amd64.zip?ts=1304243985</url>
+        <sha1>CDBAFA991AB9FA52ED13D62190C3E2F2E5A99A9D</sha1>
     </version>
 </root>
