@@ -138,6 +138,11 @@
         <url>http://www.gtk.org/</url>
         <description>GUI library</description>
     </package>
+    <package name="org.python.Python64">
+        <title>Python 64 bit</title>
+        <url>http://www.python.org/</url>
+        <description>programming language</description>
+    </package>
     <package name="com.tracker-software.PDFXChangeViewer64">
         <title>PDF-XChange Viewer 64 bit</title>
         <url>http://www.tracker-software.com/product/pdf-xchange-viewer</url>
@@ -693,5 +698,26 @@ verify
         <important-file path="Notepad2.exe" title="Notepad2"/>
         <url>http://notepad2-x64.googlecode.com/files/Notepad2-4.1.24-x86-64.zip</url>
         <sha1>618224CD0113E5D02E6C9C92393F8B1D0FABC3FA</sha1>
+    </version>
+
+    <version name="3.2" package="org.python.Python64" type="one-file">
+        <file path=".WPM\Install.bat">for /f "delims=" %%x in ('dir /b *.msi') do set setup=%%x
+msiexec.exe /qn /norestart /Lime .WPM\MSI.log /i "%setup%" TARGETDIR="%CD%" ALLUSERS=1
+set err=%errorlevel%
+type .WPM\MSI.log
+rem 3010=restart required
+if %err% equ 3010 exit /b 0
+if %err% neq 0 exit /b %err%
+</file>
+        <file path=".WPM\Uninstall.bat">for /f "delims=" %%x in ('dir /b *.msi') do set setup=%%x
+msiexec.exe /qn /norestart /Lime .WPM\MSI.log /x "%setup%"
+set err=%errorlevel%
+type .WPM\MSI.log
+rem 3010=restart required
+if %err% equ 3010 exit /b 0
+if %err% neq 0 exit /b %err%
+</file>
+        <url>http://www.python.org/ftp/python/3.2/python-3.2.amd64.msi</url>
+        <sha1>0DD61CE76829D88EAA8A608330DC917F04172767</sha1>
     </version>
 </root>
