@@ -60,6 +60,11 @@
         <url>http://www.microsoft.com/downloads/en/details.aspx?FamilyID=9caca722-5235-401c-8d3f-9e242b794c3a</url>
         <description>mathematical tool</description>
     </package>
+    <package name="com.microsoft.MSXML64">
+        <title>Microsoft Core XML Services MSXML 64 bit</title>
+        <url>http://www.microsoft.com/downloads/en/details.aspx?FamilyID=993c0bcf-3bcf-4009-be21-27e85e1857b1#Overview</url>
+        <description>XML library</description>
+    </package>
     <package name="com.mysql.MySQLCommunityServer64">
         <title>MySQL Community Server 64 bit</title>
         <url>http://www.mysql.com/downloads/mysql/</url>
@@ -644,5 +649,26 @@ rmdir /s /q "%name%"
                 title="Media Player Classic - Home Cinema"/>
         <url>http://downloads.sourceforge.net/project/mpc-hc/MPC%20HomeCinema%20-%20x64/MPC-HC%20v1.5.0.2827_64%20bits/MPC-HomeCinema.1.5.0.2827.x64.zip?ts=1304171149</url>
         <sha1>AD838CAD90C0EE12222F1A108BCD6EBD20956368</sha1>
+    </version>
+
+    <version name="6.0.3883.8" package="com.microsoft.MSXML64" type="one-file">
+        <file path=".WPM\Install.bat">for /f "delims=" %%x in ('dir /b *.msi') do set setup=%%x
+msiexec.exe /qn /norestart /Lime .WPM\MSI.log /i "%setup%" TARGETDIR="%CD%" ALLUSERS=1
+set err=%errorlevel%
+type .WPM\MSI.log
+rem 3010=restart required
+if %err% equ 3010 exit /b 0
+if %err% neq 0 exit /b %err%
+</file>
+        <file path=".WPM\Uninstall.bat">for /f "delims=" %%x in ('dir /b *.msi') do set setup=%%x
+msiexec.exe /qn /norestart /Lime .WPM\MSI.log /x "%setup%"
+set err=%errorlevel%
+type .WPM\MSI.log
+rem 3010=restart required
+if %err% equ 3010 exit /b 0
+if %err% neq 0 exit /b %err%
+</file>
+        <url>http://download.microsoft.com/download/2/e/0/2e01308a-e17f-4bf9-bf48-161356cf9c81/msxml6_x64.msi</url>
+        <sha1>1EB84EEAE7729EA5DB7FE79779F4E216114261BA</sha1>
     </version>
 </root>
