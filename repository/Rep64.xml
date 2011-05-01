@@ -75,6 +75,11 @@
         <url>http://www.microsoft.com/downloads/details.aspx?displaylang=en&amp;FamilyID=04d26402-3199-48a3-afa2-2dc0b40a73b6</url>
         <description>VM runner</description>
     </package>
+    <package name="com.microsoft.VisualCPPRedistributable64">
+        <title>Visual C++ redistributable package 64 bit</title>
+        <url>http://www.microsoft.com/downloads/en/details.aspx?FamilyID=BD512D9E-43C8-4655-81BF-9350143D5867</url>
+        <description>Visual C++ runtime</description>
+    </package>
     <package name="com.mysql.MySQLCommunityServer64">
         <title>MySQL Community Server 64 bit</title>
         <url>http://www.mysql.com/downloads/mysql/</url>
@@ -771,5 +776,26 @@ rmdir /s /q "%name%"
         <important-file path="setup.exe" title="Installer"/>
         <url>http://download.microsoft.com/download/8/5/6/856bfc39-fa48-4315-a2b3-e6697a54ca88/64%20BIT/setup.exe</url>
         <sha1>69BD32EB47FCC7AA7E7C9582DB624FA28C7A7007</sha1>
+    </version>
+    
+    <version name="10.0.30319.1"
+            package="com.microsoft.VisualCPPRedistributable64"
+            type="one-file">
+        <file path=".WPM\Install.bat">vcredist_x64.exe /q /log .WPM\VCRInstall.log /norestart
+set err=%errorlevel%
+type .WPM\VCRInstall.log
+rem 3010=restart required
+if %err% equ 3010 exit /b 0
+if %err% neq 0 exit /b %err%
+</file>
+        <file path=".WPM\Uninstall.bat">vcredist_x64.exe /q /uninstall /log .WPM\VCRUninstall.log /norestart
+set err=%errorlevel%
+type .WPM\VCRUninstall.log
+rem 3010=restart required
+if %err% equ 3010 exit /b 0
+if %err% neq 0 exit /b %err%
+</file>
+        <url>http://download.microsoft.com/download/3/2/2/3224B87F-CFA0-4E70-BDA3-3DE650EFEBA5/vcredist_x64.exe</url>
+        <sha1>B330B760A8F16D5A31C2DC815627F5EB40861008</sha1>
     </version>
 </root>
