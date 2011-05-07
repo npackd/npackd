@@ -3153,6 +3153,14 @@ rmdir /s /q "%name%"
         <url>http://www.gknw.net/mirror/curl/win32/curl-7.21.4-ssl-sspi-zlib-static-bin-w32.zip</url>
         <sha1>63812474CA76ABD5C8819E77A50ED5E0EB48F356</sha1>
     </version>
+    <version name="7.21.6" package="se.haxx.curl.CURL">
+        <file path=".WPM\Install.bat">for /f "delims=" %%x in ('dir /b curl*') do set name=%%x
+xcopy "%name%\*" . /E /H
+rmdir /s /q "%name%"
+</file>
+        <url>http://www.gknw.net/mirror/curl/win32/curl-7.21.6-ssl-sspi-zlib-static-bin-w32.zip</url>
+        <sha1>B94DF393B070874F2931A607EE506F5D3D37C391</sha1>
+    </version>
 
     <version name="0.96.1" package="com.clamwin.ClamWin" type="one-file">
         <file path=".WPM\Install.bat">for /f %%x in ('dir /b *setup.exe') do set setup=%%x
