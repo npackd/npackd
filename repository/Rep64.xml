@@ -619,6 +619,18 @@ for /f %%x in ('dir /b *.7z') do set setup=%%x
         <sha1>3FBAB61D39D619DF6FEADD2754FF7D3F517EDB22</sha1>
         <dependency package="org.7-zip.SevenZIPA" versions="[9.20, 9.20]"/>
     </version>
+    <version name="0.9.21" package="org.miranda-im.MirandaIM64" type="one-file">
+        <important-file path="miranda64.exe" title="Miranda IM"/>
+        <file path=".WPM\Install.bat">if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
+set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=org.7-zip.SevenZIPA" "--versions=[9.20, 9.20]"
+for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set sevenzipa=%%x
+for /f %%x in ('dir /b *.7z') do set setup=%%x
+"%sevenzipa%\7za.exe" x "%setup%"
+</file>
+        <url>http://miranda.googlecode.com/files/miranda-im-v0.9.21-x64.7z</url>
+        <sha1>CAE998B4821F76778E589A03F12F7EE460366A2D</sha1>
+        <dependency package="org.7-zip.SevenZIPA" versions="[9.20, 9.20]"/>
+    </version>
 
     <version name="5.5.11" package="com.mysql.MySQLCommunityServer64">
         <file path=".WPM\Install.bat">for /f "delims=" %%x in ('dir /b mysql*') do set name=%%x
