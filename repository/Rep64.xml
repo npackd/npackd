@@ -398,6 +398,27 @@ if %err% neq 0 exit /b %err%
         <url>http://dl.dropbox.com/u/17046326/files/com.tracker-software.PDFXChangeViewer64-2.5.194.msi</url>
         <sha1>179B7DB1E78D62EA29871BB3DDFE20B902ED6F15</sha1>
     </version>
+    <version name="2.5.195" package="com.tracker-software.PDFXChangeViewer64"
+            type="one-file">
+        <file path=".WPM\Install.bat">for /f %%x in ('dir /b *.msi') do set setup=%%x
+msiexec.exe /qn /norestart /Lime .WPM\MSI.log /i "%setup%" INSTALLLOCATION="%CD%" ALLUSERS=1
+set err=%errorlevel%
+type .WPM\MSI.log
+rem 3010=restart required
+if %err% equ 3010 exit /b 0
+if %err% neq 0 exit /b %err%
+</file>
+        <file path=".WPM\Uninstall.bat">for /f %%x in ('dir /b *.msi') do set setup=%%x
+msiexec.exe /qn /norestart /Lime .WPM\MSI.log /x "%setup%"
+set err=%errorlevel%
+type .WPM\MSI.log
+rem 3010=restart required
+if %err% equ 3010 exit /b 0
+if %err% neq 0 exit /b %err%
+</file>
+        <url>http://dl.dropbox.com/u/17046326/files/com.tracker-software.PDFXChangeViewer64-2.5.195.msi</url>
+        <sha1>C5A64254B6A6050CF6BBABC9BC291AF48C4E0239</sha1>
+    </version>
 
     <version name="1.6.5" package="com.googlecode.tortoisegit.TortoiseGit64"
             type="one-file">
