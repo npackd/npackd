@@ -607,7 +607,7 @@
     <package name="com.oracle.JRE">
         <title>JRE</title>
         <url>http://www.java.com/en/</url>
-        <description>Java runtime</description>
+        <description>WARNING! Requires Npackd 1.15 for the installation. Java runtime</description>
     </package>
     <package name="com.oracle.JREOfflineInstaller">
         <title>JRE Offline installer (deprecated, use the non-installer package instead)</title>
@@ -5344,6 +5344,21 @@ if %err% neq 0 exit /b %err%
 </file>
         <url>http://download.oldapps.com/Java/jre-6u24-windows-i586-s.exe</url>
         <sha1>EA282E3B681AFB285F1CC9B35B40D5E1D71614E2</sha1>
+    </version>
+    <version name="1.6.0.25" package="com.oracle.JRE" type="one-file">
+        <file path=".WPM\Install.bat">ren AutoDL Install.exe
+Install.exe /s /v"/qn /Lime .WPM\MSI.log /norestart AgreeToLicense=YES IEXPLORER=1 MOZILLA=1 REBOOT=Suppress ALLUSERS=1 INSTALLDIR="""%CD%""" SYSTRAY=0"
+set err=%errorlevel%
+type .WPM\MSI.log
+if %err% neq 0 exit /b %err%
+</file>
+        <file path=".WPM\Uninstall.bat">MsiExec.exe /qn /norestart /Lime .WPM\MSI.log /X{26A24AE4-039D-4CA4-87B4-2F83216024FF}
+set err=%errorlevel%
+type .WPM\MSI.log
+if %err% neq 0 exit /b %err%
+</file>
+        <url>http://javadl.sun.com/webapps/download/AutoDL?BundleId=48343</url>
+        <sha1>B6B1C0E058902D1E46895A1EA480F678C1D5B5BF</sha1>
     </version>
 
     <version name="4.28" package="de.irfanview.IrfanView">
