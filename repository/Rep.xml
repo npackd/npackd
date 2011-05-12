@@ -4245,9 +4245,22 @@ taskkill /f /im ares.exe</file>
     </version>
 
     <version name="2.49.2" package="org.blender.Blender">
-        <important-file path="blender-2.49b-windows\blender.exe" title="Blender"/>
+        <file path=".WPM\Install.bat">for /f "delims=" %%x in ('dir /b blender*') do set name=%%x
+xcopy "%name%\*" . /E /H
+rmdir /s /q "%name%"
+</file>
+        <important-file path="blender.exe" title="Blender"/>
         <url>http://download.blender.org/release//Blender2.49b/blender-2.49b-windows.zip</url>
         <sha1>d16199647972fe86ac9c5c9173f059a99b534d0b</sha1>
+    </version>
+    <version name="2.57.2" package="org.blender.Blender">
+        <file path=".WPM\Install.bat">for /f "delims=" %%x in ('dir /b blender*') do set name=%%x
+xcopy "%name%\*" . /E /H
+rmdir /s /q "%name%"
+</file>
+        <important-file path="blender.exe" title="Blender"/>
+        <url>http://download.blender.org/release/Blender2.57/blender-2.57b-windows32.zip</url>
+        <sha1>73A304FF27F13C96917B469477AD3C951CFFCAD5</sha1>
     </version>
 
     <version name="1.0.48.05" package="com.autohotkey.AutoHotKey"
