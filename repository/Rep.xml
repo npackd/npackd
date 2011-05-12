@@ -6181,6 +6181,19 @@ for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x
         <url>http://dl.dropbox.com/u/17046326/files/org.mozilla.Firefox-4.exe</url>
         <sha1>E76F9AE709F6E4FE1D046CF74EA69BC8380E7C55</sha1>
     </version>
+    <version name="4.0.1" package="org.mozilla.Firefox" type="one-file">
+        <important-file path="firefox.exe" title="Firefox"/>
+        <file path=".WPM\Install.bat">echo [Install] > .WPM\FF.ini
+echo InstallDirectoryPath=%CD% >> .WPM\FF.ini
+echo QuickLaunchShortcut=false >> .WPM\FF.ini
+echo DesktopShortcut=false >> .WPM\FF.ini
+for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x
+"%setup%" /INI="%CD%\.WPM\FF.ini"
+</file>
+        <file path=".WPM\Uninstall.bat">uninstall\helper.exe /S</file>
+        <url>http://npackd.googlecode.com/files/org.mozilla.Firefox-4.0.1.exe</url>
+        <sha1>54A5D25AE3A4E342268FBC91D240770E9B17FBAF</sha1>
+    </version>
 
     <version name="1.33" package="org.gexperts.GExpertsDelphi7Installer"
             type="one-file">
