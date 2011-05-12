@@ -558,6 +558,15 @@ if %err% neq 0 exit %err%
         <url>http://download.blender.org/release/Blender2.49b/blender-2.49b-win64-python26.zip</url>
         <sha1>FD7EAC7B88A9A0ECEAD0C3B6DD9313A3BC6AE209</sha1>
     </version>
+    <version name="2.57.2" package="org.blender.Blender64">
+        <file path=".WPM\Install.bat">for /f "delims=" %%x in ('dir /b blender*') do set name=%%x
+xcopy "%name%\*" . /E /H
+rmdir /s /q "%name%"
+</file>
+        <important-file path="blender.exe" title="Blender"/>
+        <url>http://download.blender.org/release/Blender2.57/blender-2.57b-windows64.zip</url>
+        <sha1>50029FD753706B997D150D391B4CD33462243E91</sha1>
+    </version>
 
     <version name="4.3.8.2523" package="se.cdburnerxp.CDBurnerXP64">
         <important-file path="cdbxpp.exe" title="CDBurnerXP"/>
