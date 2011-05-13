@@ -1914,6 +1914,22 @@ yes - Print a string repeatedly.</description>
         <sha1>9324739B19785ECB004619C2C9693B291C46F72F</sha1>
     </version>
 
+    <version name="2.1.5" package="com.wampserver.WampServer" type="one-file">
+        <file path=".WPM\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x
+"%setup%" /SP- /VERYSILENT /SUPPRESSMSGBOXES /NOCANCEL /NORESTART /DIR="%CD%" /SAVEINF="%CD%\.WPM\InnoSetupInfo.ini" /LOG="%CD%\.WPM\InnoSetupInstall.log"
+set err=%errorlevel%
+type .WPM\InnoSetupInstall.log
+if %err% neq 0 exit %err%
+</file>
+        <file path=".WPM\Uninstall.bat">unins000.exe /VERYSILENT /SUPPRESSMSGBOXES /NORESTART /LOG="%CD%\.WPM\InnoSetupUninstall.log"
+set err=%errorlevel%
+type .WPM\InnoSetupUninstall.log
+if %err% neq 0 exit %err%
+</file>
+        <url>http://downloads.sourceforge.net/project/wampserver/WampServer%202/WampServer%202.1/WampServer2.1e-x32.exe?ts=1305305105</url>
+        <sha1>1BE05507F61513756863FB0844FEBD3400A40FC7</sha1>
+    </version>
+
     <version name="2.48" package="de.mp3tag.MP3Tag" type="one-file">
         <file path=".WPM\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x
 "%setup%" /S /D=%CD%
@@ -8207,21 +8223,5 @@ ren "%setup%" Setup-MsgPlus.exe
 </file>
         <url>http://gitso.googlecode.com/files/gitso_0.6_install.exe</url>
         <sha1>23D55FA7FA5449EBFAA1DD7B5BE35034F01AE72C</sha1>
-    </version>
-
-    <version name="2.1.5" package="com.wampserver.WampServer" type="one-file">
-        <file path=".WPM\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x
-"%setup%" /SP- /VERYSILENT /SUPPRESSMSGBOXES /NOCANCEL /NORESTART /DIR="%CD%" /SAVEINF="%CD%\.WPM\InnoSetupInfo.ini" /LOG="%CD%\.WPM\InnoSetupInstall.log"
-set err=%errorlevel%
-type .WPM\InnoSetupInstall.log
-if %err% neq 0 exit %err%
-</file>
-        <file path=".WPM\Uninstall.bat">unins000.exe /VERYSILENT /SUPPRESSMSGBOXES /NORESTART /LOG="%CD%\.WPM\InnoSetupUninstall.log"
-set err=%errorlevel%
-type .WPM\InnoSetupUninstall.log
-if %err% neq 0 exit %err%
-</file>
-        <url>http://downloads.sourceforge.net/project/wampserver/WampServer%202/WampServer%202.1/WampServer2.1e-x32.exe?ts=1305305105</url>
-        <sha1>1BE05507F61513756863FB0844FEBD3400A40FC7</sha1>
     </version>
 </root>

@@ -125,6 +125,11 @@
         <description>remote control</description>
         <license>org.gnu.GPLv2</license>
     </package>
+    <package name="com.wampserver.WampServer64">
+        <title>WampServer 64 bit</title>
+        <url>http://www.wampserver.com/en/</url>
+        <description>a package containing Apache, PHP, MySQL, PhpMyAdmin, SQLBuddy</description>
+    </package>
     <package name="net.sourceforge.mpc-hc.MediaPlayerClassicHomeCinema64">
         <title>Media Player Classic - Home Cinema 64 bit</title>
         <url>http://mpc-hc.sourceforge.net/</url>
@@ -294,6 +299,22 @@ if %err% neq 0 exit /b %err%
         <url>http://javadl.sun.com/webapps/download/AutoDL?BundleId=48346</url>
         <sha1>FE7248273FF57960FC151BF96D814BC8A297063B</sha1>
         <detect-msi>{26A24AE4-039D-4CA4-87B4-2F86416025FF}</detect-msi>
+    </version>
+    
+    <version name="2.1.4" package="com.wampserver.WampServer64" type="one-file">
+        <file path=".WPM\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x
+"%setup%" /SP- /VERYSILENT /SUPPRESSMSGBOXES /NOCANCEL /NORESTART /DIR="%CD%" /SAVEINF="%CD%\.WPM\InnoSetupInfo.ini" /LOG="%CD%\.WPM\InnoSetupInstall.log"
+set err=%errorlevel%
+type .WPM\InnoSetupInstall.log
+if %err% neq 0 exit %err%
+</file>
+        <file path=".WPM\Uninstall.bat">unins000.exe /VERYSILENT /SUPPRESSMSGBOXES /NORESTART /LOG="%CD%\.WPM\InnoSetupUninstall.log"
+set err=%errorlevel%
+type .WPM\InnoSetupUninstall.log
+if %err% neq 0 exit %err%
+</file>
+        <url>http://downloads.sourceforge.net/project/wampserver/WampServer%202/WampServer%202.1/WampServer2.1d-x64.exe?ts=1305313567</url>
+        <sha1>9B75030F79D7620E1F53A46B129F7357E5109813</sha1>
     </version>
 
     <version name="1.8.1" package="com.googlecode.stexbar.StExBar64"
