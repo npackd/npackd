@@ -811,7 +811,11 @@
     <package name="com.wampserver.WampServer">
         <title>WampServer</title>
         <url>http://www.wampserver.com/en/</url>
-        <description>a package containing Apache, PHP, MySQL, PhpMyAdmin, SQLBuddy</description>
+        <description>a package containing Apache, PHP, MySQL, PhpMyAdmin, SQLBuddy
+
+Package issues:
+- installation shows a confirmation dialog
+</description>
     </package>
     <package name="com.winamp.WinampStandard">
         <title>Winamp Standard</title>
@@ -1591,6 +1595,11 @@ yes - Print a string repeatedly.</description>
         <title>Inkscape installer (deprecated, use the non-installer package instead)</title>
         <url>http://www.inkscape.org/</url>
         <description>vector graphics editor</description>
+    </package>
+    <package name="org.izarc.IZArc">
+        <title>IZArc</title>
+        <url>http://www.izarc.org/</url>
+        <description>file archiver. It supports these file formats: 7-ZIP, A, ACE, ARC, ARJ, B64, BH, BIN, BZ2, BZA, C2D, CAB, CDI, CPIO, DEB, ENC, GCA, GZ, GZA, HA, IMG, ISO, JAR, LHA, LIB, LZH, MDF, MBF, MIM, NRG, PAK, PDI, PK3, RAR, RPM, TAR, TAZ, TBZ, TGZ, TZ, UUE, WAR, XXE, YZ1, Z, ZIP, ZOO</description>
     </package>
     <package name="org.latexeditor.LEd">
         <title>LEd</title>
@@ -8223,5 +8232,21 @@ ren "%setup%" Setup-MsgPlus.exe
 </file>
         <url>http://gitso.googlecode.com/files/gitso_0.6_install.exe</url>
         <sha1>23D55FA7FA5449EBFAA1DD7B5BE35034F01AE72C</sha1>
+    </version>
+
+    <version name="4.1.6" package="org.izarc.IZArc" type="one-file">
+        <file path=".WPM\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x
+"%setup%" /SP- /VERYSILENT /SUPPRESSMSGBOXES /NOCANCEL /NORESTART /DIR="%CD%\Prog" /SAVEINF="%CD%\.WPM\InnoSetupInfo.ini" /LOG="%CD%\.WPM\InnoSetupInstall.log"
+set err=%errorlevel%
+type .WPM\InnoSetupInstall.log
+if %err% neq 0 exit %err%
+</file>
+        <file path=".WPM\Uninstall.bat">Prog\unins000.exe /VERYSILENT /SUPPRESSMSGBOXES /NORESTART /LOG="%CD%\.WPM\InnoSetupUninstall.log"
+set err=%errorlevel%
+type .WPM\InnoSetupUninstall.log
+if %err% neq 0 exit %err%
+</file>
+        <url>http://files.brothersoft.com/utilities/file_compression/IZArc4.1.6.exe</url>
+        <sha1>8AF1FBF0DDB3F17E4B38755D5A4533D605713B41</sha1>
     </version>
 </root>
