@@ -11,7 +11,11 @@
 #include <qstring.h>
 
 #include "..\wpmcpp\repository.h"
+#include "..\wpmcpp\commandline.h"
 
+/**
+ * NpackdCL
+ */
 class App: public QObject
 {
     Q_OBJECT
@@ -19,9 +23,9 @@ private slots:
     void jobChanged(const JobState& s);
 private:
     CONSOLE_SCREEN_BUFFER_INFO progressPos;
-    QStringList params;
     time_t lastJobChange;
 
+    CommandLine cl;
     Job* createJob();
     void addNpackdCL();
 
@@ -33,10 +37,11 @@ public:
     /**
      * Process the command line.
      *
-     * @param params command line parameters
+     * @param argc number of arguments
+     * @param argv arguments
      * @return exit code
      */
-    int process(const QStringList& params);
+    int process(int argc, char *argv[]);
 };
 
 #endif // APP_H

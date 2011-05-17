@@ -7,6 +7,7 @@
 #include <qstring.h>
 
 #include "..\wpmcpp\repository.h"
+#include "..\wpmcpp\commandline.h"
 
 #include "app.h"
 
@@ -19,22 +20,9 @@ int main(int argc, char *argv[])
 
     LoadLibrary(L"exchndl.dll");
 
-    QStringList params;
-    for (int i = 0; i < argc; i++) {
-        params.append(QString(argv[i]));
-    }
-
-    /* debugging
-    std::cout << params.count() << std::endl;
-    for (int i = 0; i < params.count(); i++) {
-        QString s = params.at(i);
-        std::cout << qPrintable(s) << std::endl;
-    }
-    */
-
     qRegisterMetaType<JobState>("JobState");
 
     App app;
-    return app.process(params);
+    return app.process(argc, argv);
 }
 

@@ -2,6 +2,7 @@
 
 #include "app.h"
 #include "..\wpmcpp\wpmutils.h"
+#include "..\wpmcpp\commandline.h"
 
 void App::jobChanged(const JobState& s)
 {
@@ -31,22 +32,38 @@ void App::jobChanged(const JobState& s)
     }
 }
 
-int App::process(const QStringList &params)
+int App::process(int argc, char *argv[])
 {
-    this->params = params;
+    cl.add("package", "internal package name (e.g. com.example.Editor)",
+            "package", false);
+    cl.add("versions", "versions range (e.g. [1.5,2))",
+            "range", false);
+    cl.add("version", "version number (e.g. 1.5.12)",
+            "version", false);
+    QString err = cl.parse(argc, argv);
+    if (!err.isEmpty()) {
+        std::cout << "Error: " << qPrintable(err) << std::endl;
+        return 1;
+    }
+    // cl.dump();
 
     int r = 0;
 
-    if (params.count() <= 1) {
-        std::cerr << "Missing arguments. Try npackdcl help" << std::endl;
+    QStringList fr = cl.getFreeArguments();
+
+    if (fr.count() == 0) {
+        std::cerr << "Missing command. Try npackdcl help" << std::endl;
         r = 1;
-    } else if (params.at(1) == "help") {
+    } else if (fr.count() > 1) {
+        std::cerr << "Unexpected argument: " << qPrintable(fr.at(1)) << std::endl;
+        r = 1;
+    } else if (fr.at(0) == "help") {
         usage();
-    } else if (params.at(1) == "path") {
+    } else if (fr.at(0) == "path") {
         r = path();
-    } else if (params.at(1) == "remove") {
+    } else if (fr.at(0) == "remove") {
         r = remove();
-    } else if (params.at(1) == "add") {
+    } else if (fr.at(0) == "add") {
         r = add();
     /*} else if (params.count() == 2 && params.at(1) == "list") {
         QList<PackageVersion*> installed = rep->packageVersions; // getInstalled();
@@ -63,7 +80,7 @@ int App::process(const QStringList &params)
         std::cout << "Number of installed packages: " <<
                 installed.count() << std::endl;*/
     } else {
-        std::cerr << "Wrong arguments" << std::endl;
+        std::cerr << "Wrong command: " << qPrintable(fr.at(0)) << std::endl;
         usage();
         r = 1;
     }
@@ -139,20 +156,22 @@ int App::path()
 
     addNpackdCL();
 
-    QString package;
-    QString versions;
+    QString package = cl.get("package");
+    QString versions = cl.get("versions");
+
     if (r == 0) {
-        for (int i = 2; i < params.count(); i++) {
-            QString p = params.at(i);
-            if (p.startsWith("--package=")) {
-                package = p.right(p.length() - 10);
-            } else if (p.startsWith("--versions=")) {
-                versions = p.right(p.length() - 11);
-            } else {
-                std::cerr << "Unknown argument: " << qPrintable(p) << std::endl;
-                r = 1;
-                break;
-            }
+        if (package.isNull()) {
+            std::cerr << "Missing option: --package" << std::endl;
+            usage();
+            r = 1;
+        }
+    }
+
+    if (r == 0) {
+        if (versions.isNull()) {
+            std::cerr << "Missing option: --versions" << std::endl;
+            usage();
+            r = 1;
         }
     }
 
@@ -161,22 +180,24 @@ int App::path()
             std::cerr << "Invalid package name: " << qPrintable(package) << std::endl;
             usage();
             r = 1;
+        }
+    }
+
+    if (r == 0) {
+        // debug: std::cout <<  qPrintable(package) << " " << qPrintable(versions);
+        Dependency d;
+        d.package = package;
+        if (!d.setVersions(versions)) {
+            std::cerr << "Cannot parse versions: " << qPrintable(versions) << std::endl;
+            usage();
+            r = 1;
         } else {
-            // debug: std::cout <<  qPrintable(package) << " " << qPrintable(versions);
-            Dependency d;
-            d.package = package;
-            if (!d.setVersions(versions)) {
-                std::cerr << "Cannot parse versions: " << qPrintable(versions) << std::endl;
-                usage();
-                r = 1;
-            } else {
-                // debug: std::cout << "Versions: " << qPrintable(d.toString()) << std::endl;
-                PackageVersion* pv = d.findHighestInstalledMatch();
-                if (pv) {
-                    QString p = pv->getPath();
-                    p.replace('/', '\\');
-                    std::cout << qPrintable(p) << std::endl;
-                }
+            // debug: std::cout << "Versions: " << qPrintable(d.toString()) << std::endl;
+            PackageVersion* pv = d.findHighestInstalledMatch();
+            if (pv) {
+                QString p = pv->getPath();
+                p.replace('/', '\\');
+                std::cout << qPrintable(p) << std::endl;
             }
         }
     }
@@ -199,20 +220,22 @@ int App::add()
 
     addNpackdCL();
 
-    QString package;
-    QString version;
+    QString package = cl.get("package");
+    QString version = cl.get("version");
+
     if (r == 0) {
-        for (int i = 2; i < params.count(); i++) {
-            QString p = params.at(i);
-            if (p.startsWith("--package=")) {
-                package = p.right(p.length() - 10);
-            } else if (p.startsWith("--version=")) {
-                version = p.right(p.length() - 10);
-            } else {
-                std::cerr << "Unknown argument: " << qPrintable(p) << std::endl;
-                r = 1;
-                break;
-            }
+        if (package.isNull()) {
+            std::cerr << "Missing option: --package" << std::endl;
+            usage();
+            r = 1;
+        }
+    }
+
+    if (r == 0) {
+        if (version.isNull()) {
+            std::cerr << "Missing option: --versions" << std::endl;
+            usage();
+            r = 1;
         }
     }
 
@@ -298,20 +321,22 @@ int App::remove()
 
     addNpackdCL();
 
-    QString package;
-    QString version;
+    QString package = cl.get("package");
+    QString version = cl.get("version");
+
     if (r == 0) {
-        for (int i = 2; i < params.count(); i++) {
-            QString p = params.at(i);
-            if (p.startsWith("--package=")) {
-                package = p.right(p.length() - 10);
-            } else if (p.startsWith("--version=")) {
-                version = p.right(p.length() - 10);
-            } else {
-                std::cerr << "Unknown argument: " << qPrintable(p) << std::endl;
-                r = 1;
-                break;
-            }
+        if (package.isNull()) {
+            std::cerr << "Missing option: --package" << std::endl;
+            usage();
+            r = 1;
+        }
+    }
+
+    if (r == 0) {
+        if (version.isNull()) {
+            std::cerr << "Missing option: --versions" << std::endl;
+            usage();
+            r = 1;
         }
     }
 
