@@ -733,6 +733,11 @@
         <!-- GPLv2 -->
         <icon>http://dl.dropbox.com/u/17046326/picons/com.selenic.mercurial.Mercurial.png</icon>
     </package>
+    <package name="com.skype.Skype">
+        <title>Skype</title>
+        <url>http://www.skype.com</url>
+        <description>voice and video calls and chat</description>
+    </package>
     <package name="com.softwareok.QDir">
         <title>Q-Dir</title>
         <url>http://www.softwareok.com/?seite=Freeware/Q-Dir</url>
@@ -8149,5 +8154,24 @@ if %err% neq 0 exit %err%
 </file>
         <url>http://files.brothersoft.com/utilities/file_compression/IZArc4.1.6.exe</url>
         <sha1>8AF1FBF0DDB3F17E4B38755D5A4533D605713B41</sha1>
+    </version>
+
+    <version name="5.3.0.111" package="com.skype.Skype" type="one-file">
+        <file path=".WPM\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x
+"%setup%" /SP- /VERYSILENT /SUPPRESSMSGBOXES /NOCANCEL /NORESTART /DIR="%CD%" /SAVEINF="%CD%\.WPM\InnoSetupInfo.ini" /LOG="%CD%\.WPM\InnoSetupInstall.log"
+set err=%errorlevel%
+type .WPM\InnoSetupInstall.log
+if %err% neq 0 exit %err%
+taskkill /f /im Skype.exe
+</file>
+        <file path=".WPM\Uninstall.bat">msiexec.exe /qn /norestart /Lime .WPM\MSI.log /x{5335DADB-34BA-4AE8-A519-648D78498846}
+set err=%errorlevel%
+type .WPM\MSI.log
+rem 3010=restart required
+if %err% equ 3010 exit /b 0
+if %err% neq 0 exit /b %err%
+</file>
+        <url>http://download.skype.com/partner/trackable/259/SkypeSetup.exe</url>
+        <sha1>C3F435DC0EFE29C70DC567D8056DF6BE77CB63C4</sha1>
     </version>
 </root>
