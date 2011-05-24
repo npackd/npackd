@@ -2848,7 +2848,11 @@ if %err% neq 0 exit /b %err%
     <version name="2.0.50727.42" package="com.microsoft.DotNetRedistributable"
             type="one-file">
         <file path=".WPM\Install.bat">dotnetfx.exe /C /T:"%CD%\f"
-f\install.exe /Q</file>
+f\install.exe /Q /L .WPM\MSI.log
+set err=%errorlevel%
+type .WPM\MSI.log
+if %err% neq 0 exit %err%
+</file>
         <file path=".WPM\Uninstall.bat">f\install.exe /QU</file>
         <url>http://download.microsoft.com/download/5/6/7/567758a3-759e-473e-bf8f-52154438565a/dotnetfx.exe</url>
         <sha1>a3625c59d7a2995fb60877b5f5324892a1693b2a</sha1>
