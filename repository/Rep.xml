@@ -2051,13 +2051,14 @@ taskkill /F /FI "WINDOWTITLE eq NetStumbler*"
         <sha1>3f3878ffb2c642e752d811dc05169bfcc2aa97b5</sha1>
     </version>
 
+    <!-- installation shows a dialog -->
     <version name="10.60" package="com.opera.Opera" type="one-file">
         <!-- somehow this triple double quotes work here -->
         <file path=".WPM\Install.bat">Opera_1060_int_Setup.exe /S /v"/qn /norestart INSTALLDIR="""%CD%""" ALLUSERS=1"</file>
         <file path=".WPM\Uninstall.bat">MsiExec.exe /qn /norestart /Lime .WPM\MSI.log /X{1D2C96C3-A3F3-49E7-B839-95279DED837F}
 set err=%errorlevel%
 type .WPM\MSI.log
-if %err% neq 0 exit /b %err%
+if %err% neq 0 exit %err%
 </file>
         <url>http://get5.opera.com/pub/opera/win/1060/int/Opera_1060_int_Setup.exe</url>
         <sha1>3f8d9d5d004c43b7be057f5c2625484398c9aa7e</sha1>
@@ -2069,7 +2070,7 @@ if %err% neq 0 exit /b %err%
         <file path=".WPM\Uninstall.bat">MsiExec.exe /qn /norestart /Lime .WPM\MSI.log /X{6D482078-8D15-4FD3-B838-C7B49174650F}
 set err=%errorlevel%
 type .WPM\MSI.log
-if %err% neq 0 exit /b %err%
+if %err% neq 0 exit %err%
 </file>
         <url>http://get4.opera.com/pub/opera/win/1061/int/Opera_1061_int_Setup.exe</url>
         <sha1>f1b69fcb8901bb800fd59b3ce3c846c9af932982</sha1>
@@ -2080,7 +2081,7 @@ if %err% neq 0 exit /b %err%
         <file path=".WPM\Uninstall.bat">MsiExec.exe /qn /norestart /Lime .WPM\MSI.log /X{18E65799-76BD-46EF-9E53-972FE5A40736}
 set err=%errorlevel%
 type .WPM\MSI.log
-if %err% neq 0 exit /b %err%
+if %err% neq 0 exit %err%
 </file>
         <url>http://get8.opera.com/pub/opera/win/1062/int/Opera_1062_int_Setup.exe</url>
         <sha1>659b7a6185f41f9ede5d022ea9f5742f7ea1b719</sha1>
@@ -2091,7 +2092,7 @@ if %err% neq 0 exit /b %err%
         <file path=".WPM\Uninstall.bat">MsiExec.exe /qn /norestart /Lime .WPM\MSI.log /X{87CC8013-56D1-43E1-A0A5-AD406B4EBA95}
 set err=%errorlevel%
 type .WPM\MSI.log
-if %err% neq 0 exit /b %err%
+if %err% neq 0 exit %err%
 </file>
         <url>http://get1.opera.com/pub/opera/win/1063/int/Opera_1063_int_Setup.exe</url>
         <sha1>69638f4e9b807ece50cf7d8e5501b20b12f72f8b</sha1>
