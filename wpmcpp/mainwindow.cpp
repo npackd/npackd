@@ -1204,7 +1204,7 @@ void MainWindow::on_actionDownload_All_Files_triggered()
         QDir d(fn);
         QFileInfoList entries = d.entryInfoList(
                 QDir::NoDotAndDotDot |
-                QDir::AllEntries);
+                QDir::AllEntries | QDir::System);
         if (entries.size() != 0) {
             QMessageBox::critical(this, "Error",
                     "The chosen directory is not empty");

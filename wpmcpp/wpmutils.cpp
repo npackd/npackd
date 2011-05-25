@@ -548,7 +548,7 @@ void WPMUtils::removeDirectory(Job* job, QDir &aDir)
     if (aDir.exists()) {
         QFileInfoList entries = aDir.entryInfoList(
                 QDir::NoDotAndDotDot |
-                QDir::Dirs | QDir::Files);
+                QDir::AllEntries | QDir::System);
         int count = entries.size();
         for (int idx = 0; idx < count; idx++) {
             QFileInfo entryInfo = entries[idx];
@@ -626,7 +626,7 @@ void WPMUtils::deleteShortcuts(const QString& dir, QDir& d)
         QDir instDir(dir);
         QString instPath = instDir.absolutePath();
         QFileInfoList entries = d.entryInfoList(
-                QDir::NoDotAndDotDot | QDir::Files | QDir::Dirs);
+                QDir::AllEntries | QDir::System | QDir::NoDotAndDotDot);
         int count = entries.size();
         for (int idx = 0; idx < count; idx++) {
             QFileInfo entryInfo = entries[idx];
@@ -640,12 +640,11 @@ void WPMUtils::deleteShortcuts(const QString& dir, QDir& d)
                     // qDebug() << "deleteShortcuts " << path;
                     IPersistFile* ppf;
 
-                    // Query IShellLink for the IPersistFile interface for saving the
-                    // shortcut in persistent storage.
                     hres = psl->QueryInterface(IID_IPersistFile, (LPVOID*)&ppf);
 
                     if (SUCCEEDED(hres)) {
-                        // Save the link by calling IPersistFile::Save.
+                        //qDebug() << "Loading " << path;
+
                         hres = ppf->Load((WCHAR*) path.utf16(), STGM_READ);
                         if (SUCCEEDED(hres)) {
                             WCHAR info[MAX_PATH + 1];
