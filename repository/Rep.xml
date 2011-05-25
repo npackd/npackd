@@ -2525,16 +2525,16 @@ msiexec.exe /qn /norestart /Lime .WPM\MSI.log /i "%setup%" TARGETDIR="%CD%" ALLU
 set err=%errorlevel%
 type .WPM\MSI.log
 rem 3010=restart required
-if %err% equ 3010 exit /b 0
-if %err% neq 0 exit /b %err%
+if %err% equ 3010 exit 0
+if %err% neq 0 exit %err%
 </file>
         <file path=".WPM\Uninstall.bat">for /f "delims=" %%x in ('dir /b *.msi') do set setup=%%x
 msiexec.exe /qn /norestart /Lime .WPM\MSI.log /x "%setup%"
 set err=%errorlevel%
 type .WPM\MSI.log
 rem 3010=restart required
-if %err% equ 3010 exit /b 0
-if %err% neq 0 exit /b %err%
+if %err% equ 3010 exit 0
+if %err% neq 0 exit %err%
 </file>
         <url>http://ftp.gnome.org/pub/GNOME/binaries/win32/pygobject/2.26/pygobject-2.26.0-1.win32-py2.7.msi</url>
         <dependency package="org.python.Python" versions="[2.7, 2.8)"/>
@@ -2546,16 +2546,16 @@ msiexec.exe /qn /norestart /Lime .WPM\MSI.log /i "%setup%" TARGETDIR="%CD%" ALLU
 set err=%errorlevel%
 type .WPM\MSI.log
 rem 3010=restart required
-if %err% equ 3010 exit /b 0
-if %err% neq 0 exit /b %err%
+if %err% equ 3010 exit 0
+if %err% neq 0 exit %err%
 </file>
         <file path=".WPM\Uninstall.bat">for /f "delims=" %%x in ('dir /b *.msi') do set setup=%%x
 msiexec.exe /qn /norestart /Lime .WPM\MSI.log /x "%setup%"
 set err=%errorlevel%
 type .WPM\MSI.log
 rem 3010=restart required
-if %err% equ 3010 exit /b 0
-if %err% neq 0 exit /b %err%
+if %err% equ 3010 exit 0
+if %err% neq 0 exit %err%
 </file>
         <url>http://ftp.gnome.org/pub/GNOME/binaries/win32/pygobject/2.28/pygobject-2.28.3.win32-py2.7.msi</url>
         <dependency package="org.python.Python" versions="[2.7, 2.8)"/>
