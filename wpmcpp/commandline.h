@@ -29,6 +29,7 @@ class CommandLine
     QStringList freeArguments;
 
     Option* findOption(const QString& name);
+    QString processOneParam(QStringList* params);
 public:
     /**
      * -
