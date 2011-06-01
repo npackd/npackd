@@ -23,6 +23,10 @@ int main(int argc, char *argv[])
     qRegisterMetaType<JobState>("JobState");
 
     App app;
-    return app.process(argc, argv);
+
+    if (true)
+        return app.unitTests(argc, argv);
+    else
+        return app.process(argc, argv);
 }
 

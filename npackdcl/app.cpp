@@ -32,6 +32,31 @@ void App::jobChanged(const JobState& s)
     }
 }
 
+int App::unitTests(int argc, char *argv[])
+{
+    std::cout << "Starting internal tests" << std::endl;
+
+    Repository* r = new Repository();
+    Job* job = new Job();
+    QDomDocument doc;
+    QString errorMsg;
+    int errorLine, errorColumn;
+    QFile f("..\\TestDependsOnItself.xml");
+    if (!f.open(QIODevice::ReadOnly))
+        std::cout << "Cannot open the file" << std::endl;
+    doc.setContent(&f, false, &errorMsg, &errorLine, &errorColumn);
+    r->loadOne(&doc, job);
+    std::cout << r->packageVersions.size() << std::endl;
+    if (!job->getErrorMessage().isEmpty())
+        std::cout << "Error: " << qPrintable(job->getErrorMessage()) << std::endl;
+    delete job;
+    delete r;
+
+    std::cout << "Internal tests were successful" << std::endl;
+
+    return 0;
+}
+
 int App::process(int argc, char *argv[])
 {
     cl.add("package", "internal package name (e.g. com.example.Editor)",

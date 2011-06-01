@@ -106,6 +106,14 @@ public:
     void process(Job* job, const QList<InstallOperation*> &install);
 
     /**
+     * Loads one repository from an XML document.
+     *
+     * @param doc repository
+     * @param job Job
+     */
+    void loadOne(QDomDocument* doc, Job* job);
+
+    /**
      * Reads the package statuses from the registry.
      */
     void readRegistryDatabase();
@@ -165,7 +173,7 @@ public:
     int countUpdates();
 
     /**
-     * Reloads all repositories and calls reload().
+     * Reloads all repositories.
      *
      * @param job job for this method
      */

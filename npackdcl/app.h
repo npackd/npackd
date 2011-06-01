@@ -42,6 +42,15 @@ public:
      * @return exit code
      */
     int process(int argc, char *argv[]);
+
+    /**
+     * Internal tests.
+     *
+     * @param argc number of arguments
+     * @param argv arguments
+     * @return exit code
+     */
+    int unitTests(int argc, char *argv[]);
 };
 
 #endif // APP_H

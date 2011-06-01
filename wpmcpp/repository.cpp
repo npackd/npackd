@@ -370,7 +370,7 @@ void Repository::addWellKnownPackages()
     if (!this->findPackage("com.microsoft.DotNetRedistributable")) {
         Package* p = new Package("com.microsoft.DotNetRedistributable",
                 ".NET redistributable runtime");
-        p->url = "http://www.microsoft.com/downloads/details.aspx?FamilyID=0856eacb-4362-4b0d-8edd-aab15c5e04f5&amp;displaylang=en";
+        p->url = "http://msdn.microsoft.com/en-us/netframework/default.aspx";
         p->description = ".NET runtime";
         this->packages.append(p);
     }
@@ -1150,11 +1150,29 @@ void Repository::loadOne(QUrl* url, Job* job) {
         if (!doc.setContent(f, &errMsg, &errorLine, &errorColumn))
             job->setErrorMessage(QString("XML parsing failed: %1").
                                  arg(errMsg));
+        else
+            job->setProgress(0.91);
     }
 
+    if (job->getErrorMessage().isEmpty() && !job->isCancelled()) {
+        Job* djob = job->newSubJob(0.09);
+        loadOne(&doc, djob);
+        if (!djob->getErrorMessage().isEmpty())
+            job->setErrorMessage(QString("Error loading XML: %2").
+                    arg(djob->getErrorMessage()));
+        delete djob;
+    }
+
+    delete f;
+
+    job->complete();
+}
+
+void Repository::loadOne(QDomDocument* doc, Job* job)
+{
     QDomElement root;
     if (job->getErrorMessage().isEmpty() && !job->isCancelled()) {
-        root = doc.documentElement();
+        root = doc->documentElement();
         QDomNodeList nl = root.elementsByTagName("spec-version");
         if (nl.count() != 0) {
             QString specVersion = nl.at(0).firstChild().nodeValue();
@@ -1168,7 +1186,11 @@ void Repository::loadOne(QUrl* url, Job* job) {
                     job->setErrorMessage(QString(
                             "Incompatible repository specification version: %1").
                             arg(specVersion));
+                else
+                    job->setProgress(0.01);
             }
+        } else {
+            job->setProgress(0.01);
         }
     }
 
@@ -1201,8 +1223,6 @@ void Repository::loadOne(QUrl* url, Job* job) {
         }
         job->setProgress(1);
     }
-
-    delete f;
 
     job->complete();
 }
