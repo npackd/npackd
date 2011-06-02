@@ -44,10 +44,12 @@ public:
     void findAllInstalledMatches(QList<PackageVersion*>& res);
 
     /**
+     * @param avoid list of package versions that should be avoided and cannot
+     *     be considered to be a match
      * @return the newest package version that matches this dependency by
      *     being installed. Never returns externally installed packages.
      */
-    PackageVersion* findBestMatchToInstall();
+    PackageVersion* findBestMatchToInstall(const QList<PackageVersion*>& avoid);
 
     /**
      * Changes the versions.

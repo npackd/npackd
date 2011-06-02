@@ -171,10 +171,12 @@ public:
      *     consulted instead of .installed() and will be updated and contains
      *     all installed package versions after the process
      * @param op necessary operations should be added here
+     * @param avoid list of package versions that cannot be installed. The list
+     *     will be changed by this method.
      * @return error message or ""
      */
     QString planInstallation(QList<PackageVersion*>& installed,
-            QList<InstallOperation*>& ops);
+            QList<InstallOperation*>& ops, QList<PackageVersion*>& avoid);
 
     /**
      * Plans un-installation of this package and all the dependent recursively.

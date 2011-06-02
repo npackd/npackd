@@ -71,14 +71,14 @@ QString App::testDependsOnItself()
 
     if (err.isEmpty()) {
         QList<PackageVersion*> installed;
+        QList<PackageVersion*> avoid;
         QList<InstallOperation*> ops;
-        err = pv->planInstallation(installed, ops);
+        err = pv->planInstallation(installed, ops, avoid);
 
         if (err.isEmpty()) {
-            Job* job = new Job();
-            r->process(job, ops);
-            err = job->getErrorMessage();
-            delete job;
+            err = "Packages cannot depend on itself";
+        } else {
+            err = "";
         }
     }
 
@@ -353,7 +353,8 @@ int App::add()
             QList<InstallOperation*> ops;
             QList<PackageVersion*> installed =
                     Repository::getDefault()->getInstalled();
-            QString err = pv->planInstallation(installed, ops);
+            QList<PackageVersion*> avoid;
+            QString err = pv->planInstallation(installed, ops, avoid);
             if (!err.isEmpty()) {
                 std::cerr << qPrintable(err) << std::endl;
                 r = 1;

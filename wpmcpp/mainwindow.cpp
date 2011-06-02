@@ -85,9 +85,10 @@ void InstallThread::testOnePackage(Job *job, PackageVersion *pv)
     if (!job->isCancelled()) {        
         job->setHint("Planning the installation");
         QList<PackageVersion*> installed = r->getInstalled();
+        QList<PackageVersion*> avoid;
         qDeleteAll(ops);
         ops.clear();
-        QString e = pv->planInstallation(installed, ops);
+        QString e = pv->planInstallation(installed, ops, avoid);
         if (!e.isEmpty()) {
             job->setErrorMessage(QString(
                     "Installation planning failed: %1").
@@ -981,7 +982,8 @@ void MainWindow::on_actionInstall_activated()
     QList<InstallOperation*> ops;
     QList<PackageVersion*> installed =
             Repository::getDefault()->getInstalled();
-    QString err = pv->planInstallation(installed, ops);
+    QList<PackageVersion*> avoid;
+    QString err = pv->planInstallation(installed, ops, avoid);
     if (err.isEmpty())
         process(ops);
     else
@@ -1077,7 +1079,8 @@ void MainWindow::on_actionUpdate_triggered()
     QList<InstallOperation*> ops;
     QList<PackageVersion*> installed =
             Repository::getDefault()->getInstalled();
-    QString err = newest->planInstallation(installed, ops);
+    QList<PackageVersion*> avoid;
+    QString err = newest->planInstallation(installed, ops, avoid);
     if (err.isEmpty())
         err = newesti->planUninstallation(installed, ops);
 

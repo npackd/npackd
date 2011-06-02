@@ -344,9 +344,11 @@ void PackageVersion::removeDirectory(Job* job, const QString& dir)
 }
 
 QString PackageVersion::planInstallation(QList<PackageVersion*>& installed,
-        QList<InstallOperation*>& ops)
+        QList<InstallOperation*>& ops, QList<PackageVersion*>& avoid)
 {
     QString res;
+
+    avoid.append(this);
 
     for (int i = 0; i < this->dependencies.count(); i++) {
         Dependency* d = this->dependencies.at(i);
@@ -360,13 +362,13 @@ QString PackageVersion::planInstallation(QList<PackageVersion*>& installed,
             }
         }
         if (!depok) {
-            PackageVersion* pv = d->findBestMatchToInstall();
+            PackageVersion* pv = d->findBestMatchToInstall(avoid);
             if (!pv) {
                 res = QString("Unsatisfied dependency: %1").
                            arg(d->toString());
                 break;
             } else {
-                res = pv->planInstallation(installed, ops);
+                res = pv->planInstallation(installed, ops, avoid);
                 if (!res.isEmpty())
                     break;
             }

@@ -115,14 +115,16 @@ bool Dependency::setVersions(const QString versions)
     return true;
 }
 
-PackageVersion* Dependency::findBestMatchToInstall()
+PackageVersion* Dependency::findBestMatchToInstall(
+        const QList<PackageVersion*>& avoid)
 {
     Repository* r = Repository::getDefault();
     PackageVersion* res = 0;
     for (int i = 0; i < r->packageVersions.count(); i++) {
         PackageVersion* pv = r->packageVersions.at(i);
         if (pv->package == this->package && this->test(pv->version) &&
-                !pv->isExternal() && pv->download.isValid()) {
+                !pv->isExternal() && pv->download.isValid() &&
+                !avoid.contains(pv)) {
             if (res == 0 || pv->version.compare(res->version) > 0)
                 res = pv;
         }
