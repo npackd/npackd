@@ -32,27 +32,69 @@ void App::jobChanged(const JobState& s)
     }
 }
 
+QString App::testDependsOnItself()
+{
+    QString err;
+
+    Repository* r = Repository::getDefault();
+
+    QDomDocument doc;
+    int errorLine, errorColumn;
+    QFile f("..\\TestDependsOnItself.xml");
+    if (!f.open(QIODevice::ReadOnly))
+        err = "Cannot open the repository file";
+
+    if (err.isEmpty())
+        doc.setContent(&f, false, &err, &errorLine, &errorColumn);
+
+    if (err.isEmpty()) {
+        Job* job = new Job();
+        r->loadOne(&doc, job);
+        err = job->getErrorMessage();
+        delete job;
+
+        r->readRegistryDatabase();
+    }
+
+    PackageVersion* pv = r->findPackageVersion(
+            "com.googlecode.windows-package-manager.Test",
+            Version(1, 0));
+
+    if (err.isEmpty()) {
+        if (pv->installed()) {
+            Job* job = new Job();
+            pv->uninstall(job);
+            err = job->getErrorMessage();
+            delete job;
+        }
+    }
+
+    if (err.isEmpty()) {
+        QList<PackageVersion*> installed;
+        QList<InstallOperation*> ops;
+        err = pv->planInstallation(installed, ops);
+
+        if (err.isEmpty()) {
+            Job* job = new Job();
+            r->process(job, ops);
+            err = job->getErrorMessage();
+            delete job;
+        }
+    }
+
+    return err;
+}
+
 int App::unitTests(int argc, char *argv[])
 {
     std::cout << "Starting internal tests" << std::endl;
 
-    Repository* r = new Repository();
-    Job* job = new Job();
-    QDomDocument doc;
-    QString errorMsg;
-    int errorLine, errorColumn;
-    QFile f("..\\TestDependsOnItself.xml");
-    if (!f.open(QIODevice::ReadOnly))
-        std::cout << "Cannot open the file" << std::endl;
-    doc.setContent(&f, false, &errorMsg, &errorLine, &errorColumn);
-    r->loadOne(&doc, job);
-    std::cout << r->packageVersions.size() << std::endl;
-    if (!job->getErrorMessage().isEmpty())
-        std::cout << "Error: " << qPrintable(job->getErrorMessage()) << std::endl;
-    delete job;
-    delete r;
-
-    std::cout << "Internal tests were successful" << std::endl;
+    std::cout << "testDependsOnItself" << std::endl;
+    QString err = testDependsOnItself();
+    if (err.isEmpty())
+        std::cout << "Internal tests were successful" << std::endl;
+    else
+        std::cout << "Internal tests failed: " << qPrintable(err) << std::endl;
 
     return 0;
 }

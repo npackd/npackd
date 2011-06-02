@@ -33,6 +33,8 @@ private:
     int path();
     int add();
     int remove();
+
+    QString testDependsOnItself();
 public:
     /**
      * Process the command line.
