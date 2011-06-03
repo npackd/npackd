@@ -153,6 +153,13 @@
         <url>http://tortoisehg.bitbucket.org/</url>
         <description>Mercurial client</description>
     </package>
+    <package name="org.eclipse.EclipseIDEJEE64">
+        <title>Eclipse IDE for JEE developers 64 bit</title>
+        <url>http://www.eclipse.org/home/categories/index.php?category=enterprise</url>
+        <description>Java EE IDE</description>
+        <!-- CPL -->
+        <icon>http://dl.dropbox.com/u/17046326/picons/org.eclipse.EclipseIDEJEE.png</icon>
+    </package>
     <package name="org.freepascal.lazarus.Lazarus64">
         <title>Lazarus 64 bit</title>
         <url>http://www.lazarus.freepascal.org/index.php</url>
@@ -959,5 +966,16 @@ if %err% neq 0 exit /b %err%
         <url>http://javadl.sun.com/webapps/download/AutoDL?BundleId=48305</url>
         <sha1>B922F958BE1139CE0E677C2341CCAC5AB7C9B0AC</sha1>
         <detect-msi>{64A3A4F4-B792-11D6-A78A-00B0D0160250}</detect-msi>
+    </version>
+
+    <version name="3.6.1" package="org.eclipse.EclipseIDEJEE64">
+        <file path=".WPM\Install.bat">for /f "delims=" %%x in ('dir /b eclipse*') do set name=%%x
+xcopy "%name%\*" . /E /H
+rmdir /s /q "%name%"
+</file>
+        <important-file path="eclipse.exe" title="Eclipse"/>
+        <url>http://ftp-stud.fht-esslingen.de/pub/Mirrors/eclipse/technology/epp/downloads/release/helios/SR1/eclipse-jee-helios-SR1-win32-x86_64.zip</url>
+        <dependency package="com.oracle.JRE64" versions="[1.6, 2)"/>
+        <sha1>2475EAD1FC6EC46BD943876E22E5E121F1C0923C</sha1>
     </version>
 </root>
