@@ -2510,18 +2510,45 @@ rmdir /s /q "%name%"
 
     <version name="2.2.17" package="org.apache.httpd.HTTPServer"
             type="one-file">
-        <file path=".WPM\Install.bat">msiexec.exe /qn /norestart /Lime .WPM\MSI.log /i httpd-2.2.17-win32-x86-openssl-0.9.8o.msi INSTALLDIR="%CD%" ALLUSERS=1 SERVERADMIN=admin@localhost SERVERNAME=localhost SERVERDOMAIN=localhost SERVERPORT=8083
+        <file path=".WPM\Install.bat">for /f "delims=" %%x in ('dir /b *.msi') do set setup=%%x
+msiexec.exe /qn /norestart /Lime .WPM\MSI.log /i "%setup%" INSTALLDIR="%CD%" ALLUSERS=1 SERVERADMIN=admin@localhost SERVERNAME=localhost SERVERDOMAIN=localhost SERVERPORT=8083
 set err=%errorlevel%
 type .WPM\MSI.log
+rem 3010=restart required
+if %err% equ 3010 exit 0
 if %err% neq 0 exit %err%
 </file>
-        <file path=".WPM\Uninstall.bat">msiexec.exe /qn /norestart /Lime .WPM\MSI.log /x httpd-2.2.17-win32-x86-openssl-0.9.8o.msi
+        <file path=".WPM\Uninstall.bat">for /f "delims=" %%x in ('dir /b *.msi') do set setup=%%x
+msiexec.exe /qn /norestart /Lime .WPM\MSI.log /x "%setup%"
 set err=%errorlevel%
 type .WPM\MSI.log
+rem 3010=restart required
+if %err% equ 3010 exit 0
 if %err% neq 0 exit %err%
 </file>
         <url>http://archive.apache.org/dist/httpd/binaries/win32/httpd-2.2.17-win32-x86-openssl-0.9.8o.msi</url>
         <sha1>2aa9d9cbc8cb50e19eef0c49fe6272029f6e092e</sha1>
+    </version>
+    <version name="2.2.19" package="org.apache.httpd.HTTPServer"
+            type="one-file">
+        <file path=".WPM\Install.bat">for /f "delims=" %%x in ('dir /b *.msi') do set setup=%%x
+msiexec.exe /qn /norestart /Lime .WPM\MSI.log /i "%setup%" INSTALLDIR="%CD%" ALLUSERS=1 SERVERADMIN=admin@localhost SERVERNAME=localhost SERVERDOMAIN=localhost SERVERPORT=8083
+set err=%errorlevel%
+type .WPM\MSI.log
+rem 3010=restart required
+if %err% equ 3010 exit 0
+if %err% neq 0 exit %err%
+</file>
+        <file path=".WPM\Uninstall.bat">for /f "delims=" %%x in ('dir /b *.msi') do set setup=%%x
+msiexec.exe /qn /norestart /Lime .WPM\MSI.log /x "%setup%"
+set err=%errorlevel%
+type .WPM\MSI.log
+rem 3010=restart required
+if %err% equ 3010 exit 0
+if %err% neq 0 exit %err%
+</file>
+        <url>http://archive.apache.org/dist/httpd/binaries/win32/httpd-2.2.19-win32-x86-openssl-0.9.8r.msi</url>
+        <sha1>B20FB19CDCF9F14D289C20AF3BE901299E801260</sha1>
     </version>
 
     <version name="2.26.0.1" package="org.pygtk.PyGObject" type="one-file">
