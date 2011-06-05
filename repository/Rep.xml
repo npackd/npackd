@@ -7805,6 +7805,30 @@ call liteide.exe
         <dependency package="com.googlecode.gomingw.GoMinGW"
                 versions="[2011.1.20, 2012)"/> 
     </version>  
+    <version name="0.3125" package="com.googlecode.golangide.GoLangIDE"> 
+        <important-file path="bin\liteide.bat" title="GoLangIDE"/> 
+        <file path=".WPM\Install.bat">set name=liteide
+cd "%name%"        
+for /f "delims=" %%a in ('dir /b') do (
+  move "%%a" ..
+)
+cd ..
+rmdir "%name%"
+</file> 
+        <file path="liteide\bin\liteide.bat">if "%npackd_cl%" equ "" set npackd_cl=..\..\com.googlecode.windows-package-manager.NpackdCL-1
+set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.gomingw.GoMinGWR" "--versions=[57.1, 57.1]"
+for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set goroot=%%x
+set GOARCH=386
+set GOOS=windows
+set PATH=%GOROOT%\bin
+call liteide.exe
+</file> 
+        <url>http://golangide.googlecode.com/files/liteide-win32-x2.zip</url> 
+        <sha1>2A44F78454F1BBF549962D57FA7890D6ACC8FAD0</sha1> 
+        <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.15.7, 1.15.7]"/>
+        <dependency package="com.googlecode.gomingw.GoMinGWR"
+                versions="[57.1, 57.1]"/> 
+    </version>  
 
     <version name="2.9" package="net.sourceforge.discoverd.Discover">
         <important-file path="Discover.exe" title="Discover"/>
