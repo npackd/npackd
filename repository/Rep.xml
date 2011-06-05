@@ -1914,6 +1914,7 @@ yes - Print a string repeatedly.</description>
         of a package should stay together. Newer versions should appear under
         older ones.
     -->
+    <!-- uninstallation shows 3 dialogs -->
     <version name="0.9.136" package="com.cyolito.comicrack.ComicRack" type="one-file">
         <file path=".WPM\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x
 "%setup%" /S /D=%CD%
@@ -1933,6 +1934,17 @@ yes - Print a string repeatedly.</description>
 </file>        
         <url>http://dl.dropbox.com/u/17046326/files/com.cyolito.comicrack.ComicRack-0.9.141.exe</url>
         <sha1>9324739B19785ECB004619C2C9693B291C46F72F</sha1>
+        <dependency package="com.microsoft.DotNetRedistributable"
+                versions="[2.0, 3)"/>
+    </version>
+    <version name="0.9.142" package="com.cyolito.comicrack.ComicRack" type="one-file">
+        <file path=".WPM\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x
+"%setup%" /S /D=%CD%
+</file>
+        <file path=".WPM\Uninstall.bat">uninst.exe /S _?=%CD%
+</file>        
+        <url>http://dl.dropbox.com/u/17046326/files/com.cyolito.comicrack.ComicRack-0.9.142.exe</url>
+        <sha1></sha1>
         <dependency package="com.microsoft.DotNetRedistributable"
                 versions="[2.0, 3)"/>
     </version>
