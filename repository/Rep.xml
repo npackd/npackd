@@ -2363,6 +2363,15 @@ for /f %%x in ('dir /b *.exe') do set setup=%%x
         <url>http://sunsite.informatik.rwth-aachen.de/ftp/pub/mirror/ctan/systems/win32/miktex/setup/basic-miktex-2.9.4106.exe</url>
         <sha1>ECFD68DECAC3D28796D1D9AC001AE3DCD6570514</sha1>
     </version>
+    <version name="2.9.4146"
+            package="org.miktex.MiKTeX" type="one-file">
+        <file path=".WPM\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x
+"%setup%" --common-install="%CD%" --shared --unattended
+</file>
+        <file path=".WPM\Unnstall.bat">miktex\bin\internal\copystart_admin.exe "%CD%\miktex/bin/internal\uninstall_admin.exe"</file>
+        <url>http://sunsite.informatik.rwth-aachen.de/ftp/pub/mirror/ctan/systems/win32/miktex/setup/basic-miktex-2.9.4146.exe</url>
+        <sha1>B760152CF64C78034BF6C194BD3BB9DE969EBAE2</sha1>
+    </version>
 
     <version name="1.0.11" package="com.freesshd.FreeFTPD" type="one-file">
         <file path=".WPM\Install.bat">freeFTPd.exe /SP- /VERYSILENT /SUPPRESSMSGBOXES /NOCANCEL /NORESTART /DIR="%CD%" /SAVEINF="%CD%\.WPM\InnoSetupInfo.ini" /LOG="%CD%\.WPM\InnoSetupInstall.log"
