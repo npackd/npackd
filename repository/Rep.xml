@@ -2595,7 +2595,7 @@ rmdir /s /q "%name%"
         <important-file path="processing.exe" title="Processing"/>
         <url>http://processing.googlecode.com/files/processing-1.2.1-expert.zip</url>
         <sha1>b0c123dcae386bd2bbe1ee037bf456bea4a19dd7</sha1>
-        <dependency package="com.oracle.JRE" versions="[1.4, 2)"/>
+        <dependency package="com.oracle.JDK" versions="[1.4, 2)"/>
     </version>
     <version name="1.5" package="org.processing.Processing">
         <file path=".WPM\Install.bat">for /f "delims=" %%x in ('dir /b processing*') do set name=%%x
@@ -2605,7 +2605,17 @@ rmdir /s /q "%name%"
         <important-file path="processing.exe" title="Processing"/>
         <url>http://processing.googlecode.com/files/processing-1.5-windows-expert.zip</url>
         <sha1>59FA1B0529A58E5DF9B001D75D456138964BB6C5</sha1>
-        <dependency package="com.oracle.JRE" versions="[1.4, 2)"/>
+        <dependency package="com.oracle.JDK" versions="[1.5, 2)"/>
+    </version>
+    <version name="1.5.1" package="org.processing.Processing">
+        <file path=".WPM\Install.bat">for /f "delims=" %%x in ('dir /b processing*') do set name=%%x
+xcopy "%name%\*" . /E /H
+rmdir /s /q "%name%"
+</file>
+        <important-file path="processing.exe" title="Processing"/>
+        <url>http://processing.googlecode.com/files/processing-1.5.1-windows-expert.zip</url>
+        <sha1>D3044E07C34B6EDA2360987D67FAF8C1CD687FFA</sha1>
+        <dependency package="com.oracle.JDK" versions="[1.5, 2)"/>
     </version>
 
     <version name="1" package="com.googlecode.windows-package-manager.NpackdCL">
