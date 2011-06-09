@@ -177,6 +177,11 @@
         <url>http://www.gtk.org/</url>
         <description>GUI library</description>
     </package>
+    <package name="org.initd.PsycopgInstaller64"> 
+        <title>Psycopg 64 bit installer</title> 
+        <url>http://initd.org</url> 
+        <description>Installer for the PostgreSQL driver for Python</description> 
+    </package> 
     <package name="org.python.Python64">
         <title>Python 64 bit</title>
         <url>http://www.python.org/</url>
@@ -1007,6 +1012,26 @@ verify
         <sha1>4210AF6AA57663BEA3AAD9C650575C625A57E5EA</sha1>
     </version>
 
+    <version name="2.6.6" package="org.python.Python64" type="one-file">
+        <file path=".WPM\Install.bat">for /f "delims=" %%x in ('dir /b *.msi') do set setup=%%x
+msiexec.exe /qn /norestart /Lime .WPM\MSI.log /i "%setup%" TARGETDIR="%CD%" ALLUSERS=1
+set err=%errorlevel%
+type .WPM\MSI.log
+rem 3010=restart required
+if %err% equ 3010 exit /b 0
+if %err% neq 0 exit /b %err%
+</file>
+        <file path=".WPM\Uninstall.bat">for /f "delims=" %%x in ('dir /b *.msi') do set setup=%%x
+msiexec.exe /qn /norestart /Lime .WPM\MSI.log /x "%setup%"
+set err=%errorlevel%
+type .WPM\MSI.log
+rem 3010=restart required
+if %err% equ 3010 exit /b 0
+if %err% neq 0 exit /b %err%
+</file>
+        <url>http://www.python.org/ftp/python/2.6.6/python-2.6.6.amd64.msi</url>
+        <sha1>CA745FC63E36DE3D7A9AED771BBB60BA5D9DD5F4</sha1>
+    </version>
     <version name="3.2" package="org.python.Python64" type="one-file">
         <file path=".WPM\Install.bat">for /f "delims=" %%x in ('dir /b *.msi') do set setup=%%x
 msiexec.exe /qn /norestart /Lime .WPM\MSI.log /i "%setup%" TARGETDIR="%CD%" ALLUSERS=1
@@ -1133,5 +1158,15 @@ rmdir /s /q "%name%"
         <url>http://ftp-stud.fht-esslingen.de/pub/Mirrors/eclipse/technology/epp/downloads/release/helios/SR1/eclipse-java-helios-SR1-win32-x86_64.zip</url>
         <dependency package="com.oracle.JRE64" versions="[1.6, 2)"/>
         <sha1>176B1971C7D88901C22E73231A6D9B3936566CCC</sha1>
+    </version>
+
+    <version name="2.4.1" package="org.initd.PsycopgInstaller64" type="one-file">
+        <important-file path="Psycopg.exe" title="Installer"/>
+        <file path=".WPM\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x
+ren "%setup%" Psycopg.exe
+</file>
+        <url>http://www.stickpeople.com/projects/python/win-psycopg/psycopg2-2.4.1.win-amd64-py2.6-pg9.0.4-release.exe</url>
+        <dependency package="org.python.Python64" versions="[2.6, 2.7)"/>
+        <sha1>C7400C6AE5DD7F91AD81B72B08689FE35BC7068E</sha1>
     </version>
 </root>
