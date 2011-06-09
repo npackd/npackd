@@ -809,6 +809,17 @@ rmdir /s /q "%name%"
         <sha1>0F52C4EF7DEDFBA0D9D3E01A18B3803CB251DF41</sha1>
         <dependency package="com.oracle.JRE" versions="[1.5, 2)"/>
     </version>
+    <version name="7.0.14" package="org.apache.tomcat.Tomcat64">
+        <file path=".WPM\Install.bat">for /f %%x in ('dir /b apache*') do set name=%%x
+xcopy "%name%\*" . /E /H
+rmdir /s /q "%name%"
+</file>
+        <important-file path="bin\startup.bat" title="Start"/>
+        <important-file path="bin\shutdown.bat" title="Stop"/>
+        <url>http://archive.apache.org/dist/tomcat/tomcat-7/v7.0.14/bin/apache-tomcat-7.0.14-windows-x64.zip</url>
+        <sha1>355706EDE82AE824204A0F82D40C61C246CC4B93</sha1>
+        <dependency package="com.oracle.JRE" versions="[1.5, 2)"/>
+    </version>
 
     <version name="1.6.16" package="org.apache.subversion.Subversion64"
             type="one-file">
