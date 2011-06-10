@@ -408,6 +408,11 @@
         <url>http://www.lavasoft.com/products/ad_aware_free.php</url>
         <description>antivirus</description>
     </package>
+    <package name="com.lockhunter.LockHunter">
+        <title>LockHunter</title>
+        <url>http://lockhunter.com/</url>
+        <description>handles locked files</description>
+    </package>
     <package name="com.microsoft.AutoRuns">
         <title>AutoRuns</title>
         <url>http://technet.microsoft.com/de-de/sysinternals/bb963902</url>
@@ -8721,5 +8726,21 @@ if %err% neq 0 exit %err%
 </file>
         <url>http://lame.buanzo.com.ar/Lame_v3.98.3_for_Audacity_on_Windows.exe</url>
         <sha1>AA6BAA84104BFD4739E1D961DC5BDF928398C490</sha1>
+    </version>
+
+    <version name="1.0.3" package="com.lockhunter.LockHunter" type="one-file">
+        <file path=".WPM\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x
+"%setup%" /SP- /VERYSILENT /SUPPRESSMSGBOXES /NOCANCEL /NORESTART /DIR="%CD%" /SAVEINF="%CD%\.WPM\InnoSetupInfo.ini" /LOG="%CD%\.WPM\InnoSetupInstall.log"
+set err=%errorlevel%
+type .WPM\InnoSetupInstall.log
+if %err% neq 0 exit %err%
+</file>
+        <file path=".WPM\Uninstall.bat">unins000.exe /VERYSILENT /SUPPRESSMSGBOXES /NORESTART /LOG="%CD%\.WPM\InnoSetupUninstall.log"
+set err=%errorlevel%
+type .WPM\InnoSetupUninstall.log
+if %err% neq 0 exit %err%
+</file>
+        <url>http://dl.dropbox.com/u/17046326/files/com.lockhunter.LockHunter-1.0.3.exe</url>
+        <sha1>41546D983682E9329ED44B4BEDE135C26007E611</sha1>
     </version>
 </root>
