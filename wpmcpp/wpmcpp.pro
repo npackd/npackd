@@ -61,14 +61,15 @@ FORMS += mainwindow.ui \
     licenseform.ui
 INCLUDEPATH += C:\\Users\\t\\libs\\quazip-0.2.3\\quazip \
     C:\\Users\\t\\libs\\zlib-1.2.5
+MINGWLIBS=C:\\QtSDK-1.1.1\\mingw\\lib
 LIBS += C:\\Users\\t\\libs\\quazip-0.2.3\\quazip\\debug\\libquazip.a \
     C:\\Users\\t\\libs\\zlib-1.2.5\\libz.a \
-    C:\\QtSDK-1.1.1\\mingw\\lib\\libole32.a \
-    C:\\QtSDK-1.1.1\\mingw\\lib\\libuuid.a \
-    C:\\QtSDK-1.1.1\\mingw\\lib\\libwininet.a \
-    C:\\QtSDK-1.1.1\\mingw\\lib\\libpsapi.a \
-    C:\\QtSDK-1.1.1\\mingw\\lib\\libshell32.a \
-    C:\\QtSDK-1.1.1\\mingw\\lib\\libversion.a \
+    $$MINGWLIBS\\libole32.a \
+    $$MINGWLIBS\\libuuid.a \
+    $$MINGWLIBS\\libwininet.a \
+    $$MINGWLIBS\\libpsapi.a \
+    $$MINGWLIBS\\libshell32.a \
+    $$MINGWLIBS\\libversion.a \
     C:\\Users\\t\\projects\\windows-package-manager\\wpmcpp\\libmsi.a
 CONFIG += embed_manifest_exe
 RC_FILE = wpmcpp.rc

@@ -15,7 +15,7 @@
 
 HWND defaultPasswordWindow = 0;
 
-bool Downloader::downloadWin(Job* job, const QUrl& url, QTemporaryFile* file,
+void Downloader::downloadWin(Job* job, const QUrl& url, QFile* file,
         QString* mime, QString* contentDisposition,
         HWND parentWindow, QString* sha1)
 {
@@ -42,7 +42,7 @@ bool Downloader::downloadWin(Job* job, const QUrl& url, QTemporaryFile* file,
         WPMUtils::formatMessage(GetLastError(), &errMsg);
         job->setErrorMessage(errMsg);
         job->complete();
-        return false;
+        return;
     }
 
     job->setProgress(0.01);
@@ -62,13 +62,13 @@ bool Downloader::downloadWin(Job* job, const QUrl& url, QTemporaryFile* file,
         WPMUtils::formatMessage(GetLastError(), &errMsg);
         job->setErrorMessage(errMsg);
         job->complete();
-        return false;
+        return;
     }
 
     if (job->isCancelled()) {
         InternetCloseHandle(internet);
         job->complete();
-        return false;
+        return;
     }
 
     // qDebug() << "download.4";
@@ -84,7 +84,7 @@ bool Downloader::downloadWin(Job* job, const QUrl& url, QTemporaryFile* file,
         WPMUtils::formatMessage(GetLastError(), &errMsg);
         job->setErrorMessage(errMsg);
         job->complete();
-        return false;
+        return;
     }
 
     // qDebug() << "download.5";
@@ -97,7 +97,7 @@ bool Downloader::downloadWin(Job* job, const QUrl& url, QTemporaryFile* file,
             WPMUtils::formatMessage(GetLastError(), &errMsg);
             job->setErrorMessage(errMsg);
             job->complete();
-            return false;
+            return;
         }
 
         // dwErrorCode stores the error code associated with the call to
@@ -131,7 +131,7 @@ bool Downloader::downloadWin(Job* job, const QUrl& url, QTemporaryFile* file,
         WPMUtils::formatMessage(GetLastError(), &errMsg);
         job->setErrorMessage(errMsg);
         job->complete();
-        return false;
+        return;
     }
     mime->setUtf16((ushort*) mimeBuffer, bufferLength / 2);
 
@@ -174,7 +174,7 @@ bool Downloader::downloadWin(Job* job, const QUrl& url, QTemporaryFile* file,
             WPMUtils::formatMessage(GetLastError(), &errMsg);
             job->setErrorMessage(errMsg);
             job->complete();
-            return false;
+            return;
         }
 
         // update SHA1 if necessary
@@ -192,7 +192,7 @@ bool Downloader::downloadWin(Job* job, const QUrl& url, QTemporaryFile* file,
         if (job->isCancelled()) {
             InternetCloseHandle(internet);
             job->complete();
-            return false;
+            return;
         }
     } while (bufferLength != 0);
 
@@ -206,20 +206,30 @@ bool Downloader::downloadWin(Job* job, const QUrl& url, QTemporaryFile* file,
 
     job->complete();
 
-    return true;
+    return;
+}
+
+void Downloader::download(Job* job, const QUrl& url, QFile* file,
+        QString* sha1)
+{
+    QString mime;
+    QString contentDisposition;
+    downloadWin(job, url, file, &mime, &contentDisposition,
+            defaultPasswordWindow, sha1);
 }
 
 QTemporaryFile* Downloader::download(Job* job, const QUrl &url, QString* sha1)
 {
     QTemporaryFile* file = new QTemporaryFile();
+
     if (file->open()) {
         QString mime;
         QString contentDisposition;
-        bool r = downloadWin(job, url, file, &mime, &contentDisposition,
+        downloadWin(job, url, file, &mime, &contentDisposition,
                 defaultPasswordWindow, sha1);
         file->close();
 
-        if (!r) {
+        if (job->isCancelled() || !job->getErrorMessage().isEmpty()) {
             delete file;
             file = 0;
         }
@@ -230,5 +240,6 @@ QTemporaryFile* Downloader::download(Job* job, const QUrl &url, QString* sha1)
         file = 0;
         job->complete();
     }
+
     return file;
 }

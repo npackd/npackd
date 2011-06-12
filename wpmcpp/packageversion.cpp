@@ -642,34 +642,70 @@ void PackageVersion::install(Job* job, const QString& where)
 
     // qDebug() << "install.2";
     QDir d(where);
+    QString npackdDir = where + "\\.Npackd";
 
-    // qDebug() << "install.dir=" << d;
+    if (!job->isCancelled() && job->getErrorMessage().isEmpty()) {
+        job->setHint("Creating directory");
+        QString s = d.absolutePath();
+        if (!d.mkpath(s)) {
+            job->setErrorMessage(QString("Cannot create directory: %0").
+                    arg(s));
+        } else {
+            job->setProgress(0.01);
+        }
+    }
+
+    if (!job->isCancelled() && job->getErrorMessage().isEmpty()) {
+        job->setHint("Creating .Npackd sub-directory");
+        QString s = npackdDir;
+        if (!d.mkpath(s)) {
+            job->setErrorMessage(QString("Cannot create directory: %0").
+                    arg(s));
+        } else {
+            job->setProgress(0.02);
+        }
+    }
 
     // qDebug() << "install.3";
-    QTemporaryFile* f = 0;
+    QFile* f = new QFile(npackdDir + "\\__NpackdPackageDownload");
 
+    bool downloadOK = false;
     QString dsha1;
 
     if (!job->isCancelled() && job->getErrorMessage().isEmpty()) {
         job->setHint("Downloading & computing hash sum");
-        Job* djob = job->newSubJob(0.57);
-        f = Downloader::download(djob, this->download,
-                this->sha1.isEmpty() ? 0 : &dsha1);
-
-        if (!f) {
+        if (!f->open(QIODevice::ReadWrite)) {
+            job->setErrorMessage(QString("Cannot open the file: %0").
+                    arg(f->fileName()));
+        } else {
+            Job* djob = job->newSubJob(0.50);
+            Downloader::download(djob, this->download, f,
+                    this->sha1.isEmpty() ? 0 : &dsha1);
+            downloadOK = !djob->isCancelled() && djob->getErrorMessage().isEmpty();
+            f->close();
             delete djob;
-            job->setHint("Downloading (2nd try)");
-            double rest = 0.57 - job->getProgress();
-            if (rest < 0.01)
-                rest = 0.01;
-            djob = job->newSubJob(rest);
-            f = Downloader::download(djob, this->download);
         }
+    }
 
-        // qDebug() << "install.3.2 " << (f == 0) << djob->getErrorMessage();
-        if (!djob->getErrorMessage().isEmpty())
-            job->setErrorMessage(djob->getErrorMessage());
-        delete djob;
+    if (!job->isCancelled() && job->getErrorMessage().isEmpty()) {
+        if (!downloadOK) {
+            if (!f->open(QIODevice::ReadWrite)) {
+                job->setErrorMessage(QString("Cannot open the file: %0").
+                        arg(f->fileName()));
+            } else {
+                job->setHint("Downloading & computing hash sum (2nd try)");
+                double rest = 0.63 - job->getProgress();
+                Job* djob = job->newSubJob(rest);
+                Downloader::download(djob, this->download, f,
+                        this->sha1.isEmpty() ? 0 : &dsha1);
+                if (!djob->getErrorMessage().isEmpty())
+                    job->setErrorMessage(djob->getErrorMessage());
+                f->close();
+                delete djob;
+            }
+        } else {
+            job->setProgress(0.63);
+        }
     }
 
     if (!job->isCancelled() && job->getErrorMessage().isEmpty()) {
@@ -688,15 +724,6 @@ void PackageVersion::install(Job* job, const QString& where)
     }
 
     if (!job->isCancelled() && job->getErrorMessage().isEmpty()) {
-        if (!d.mkpath(d.absolutePath())) {
-            job->setErrorMessage(QString("Cannot create directory: %0").
-                    arg(d.absolutePath()));
-        } else {
-            job->setProgress(0.65);
-        }
-    }
-
-    if (!job->isCancelled() && job->getErrorMessage().isEmpty()) {
         if (this->type == 0) {
             QString errMsg;
             job->setHint("Extracting files");
@@ -710,19 +737,17 @@ void PackageVersion::install(Job* job, const QString& where)
                                      arg(d.absolutePath()).arg(errMsg));
             }
         } else {
-            job->setHint("Copying the file");
+            job->setHint("Renaming the downloaded file");
             QString t = d.absolutePath();
             t.append("\\");
             QString fn = this->download.path();
             QStringList parts = fn.split('/');
             t.append(parts.at(parts.count() - 1));
-            // qDebug() << "install " << t.replace('/', '\\');
+            t.replace('/', '\\');
 
-            QString errMsg;
-            if (!CopyFileW((WCHAR*) f->fileName().utf16(),
-                           (WCHAR*) t.replace('/', '\\').utf16(), false)) {
-                WPMUtils::formatMessage(GetLastError(), &errMsg);
-                job->setErrorMessage(errMsg);
+            if (!f->rename(t)) {
+                job->setErrorMessage(QString("Cannot rename %0 to %1").
+                        arg(f->fileName()).arg(t));
             } else {
                 job->setProgress(0.75);
             }
@@ -816,6 +841,9 @@ void PackageVersion::install(Job* job, const QString& where)
         removeDirectory(rjob, d.absolutePath());
         delete rjob;
     }
+
+    if (f && f->exists())
+        f->remove();
 
     delete f;
 
