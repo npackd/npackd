@@ -223,7 +223,7 @@ public:
     QString getPreferredInstallationDirectory();
 
     /**
-     * Installs this application.
+     * Installs this package (without dependencies).
      *
      * @param job job for this method
      * @param where a non-existing directory

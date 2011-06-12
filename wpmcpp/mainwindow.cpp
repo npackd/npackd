@@ -831,8 +831,7 @@ void MainWindow::process(QList<InstallOperation*> &install)
         Job* job = new Job();
         InstallThread* it = new InstallThread(0, 1, job);
         it->install = install;
-        it->start();
-        it->setPriority(QThread::LowestPriority);
+        it->start(QThread::LowestPriority);
 
         waitFor(job, "Install/Uninstall");
         it->wait();

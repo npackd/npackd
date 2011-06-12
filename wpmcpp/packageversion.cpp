@@ -648,10 +648,13 @@ void PackageVersion::install(Job* job, const QString& where)
     // qDebug() << "install.3";
     QTemporaryFile* f = 0;
 
+    QString dsha1;
+
     if (!job->isCancelled() && job->getErrorMessage().isEmpty()) {
-        job->setHint("Downloading");
+        job->setHint("Downloading & computing hash sum");
         Job* djob = job->newSubJob(0.57);
-        f = Downloader::download(djob, this->download);
+        f = Downloader::download(djob, this->download,
+                this->sha1.isEmpty() ? 0 : &dsha1);
 
         if (!f) {
             delete djob;
@@ -671,12 +674,10 @@ void PackageVersion::install(Job* job, const QString& where)
 
     if (!job->isCancelled() && job->getErrorMessage().isEmpty()) {
         if (!this->sha1.isEmpty()) {
-            job->setHint("Computing hash sum");
-            QString h = WPMUtils::sha1(f->fileName());
-            if (h.toLower() != this->sha1.toLower()) {
+            if (dsha1.toLower() != this->sha1.toLower()) {
                 job->setErrorMessage(QString(
                         "Hash sum (SHA1) %1 found, but %2 "
-                        "was expected. The file has changed.").arg(h).
+                        "was expected. The file has changed.").arg(dsha1).
                         arg(this->sha1));
             } else {
                 job->setProgress(0.64);

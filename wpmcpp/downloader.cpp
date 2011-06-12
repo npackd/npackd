@@ -7,6 +7,7 @@
 #include "qdebug.h"
 #include "qwaitcondition.h"
 #include "qmutex.h"
+#include "qcryptographichash.h"
 
 #include "downloader.h"
 #include "job.h"
@@ -14,26 +15,14 @@
 
 HWND defaultPasswordWindow = 0;
 
-/**
- * It would be nice to handle redirects explicitely so
- *    that the file name could be derived
- *    from the last URL:
- *    http://www.experts-exchange.com/Programming/System/Windows__Programming/MFC/Q_20096714.html
- * Manual authentication:
- *    http://msdn.microsoft.com/en-us/library/aa384220(v=vs.85).aspx
- * @param parentWindow window handle or 0 if not UI is required
- */
-bool downloadWin(Job* job, const QUrl& url, QTemporaryFile* file,
+bool Downloader::downloadWin(Job* job, const QUrl& url, QTemporaryFile* file,
         QString* mime, QString* contentDisposition,
-        HWND parentWindow=0)
+        HWND parentWindow, QString* sha1)
 {
-    // qDebug() << "download.1";
+    job->setHint("Connecting");
 
-    void* internet;
-    DWORD bufferLength, index;
-    char buffer[512 * 1024];
-    HINTERNET hConnectHandle, hResourceHandle;
-    unsigned int dwError, dwErrorCode;
+    if (sha1)
+        sha1->clear();
 
     QString server = url.host();
     QString resource = url.path();
@@ -41,20 +30,12 @@ bool downloadWin(Job* job, const QUrl& url, QTemporaryFile* file,
     if (!encQuery.isEmpty())
         resource.append('?').append(encQuery);
 
-    int contentLength;
-    int64_t alreadyRead;
-
-    if (job) {
-        job->setHint("Connecting");
-    }
-
     QString agent("Npackd/");
     agent.append(WPMUtils::NPACKD_VERSION);
-    internet = InternetOpenW((WCHAR*) agent.utf16(),
+
+    void* internet = InternetOpenW((WCHAR*) agent.utf16(),
             INTERNET_OPEN_TYPE_PRECONFIG,
             0, 0, 0);
-
-    // qDebug() << "download.2";
 
     if (internet == 0) {
         QString errMsg;
@@ -64,19 +45,17 @@ bool downloadWin(Job* job, const QUrl& url, QTemporaryFile* file,
         return false;
     }
 
-    if (job)
-        job->setProgress(0.01);
+    job->setProgress(0.01);
 
     INTERNET_PORT port = url.port(url.scheme() == "https" ?
             INTERNET_DEFAULT_HTTPS_PORT: INTERNET_DEFAULT_HTTP_PORT);
-    hConnectHandle = InternetConnectW(internet,
+    HINTERNET hConnectHandle = InternetConnectW(internet,
                                      (WCHAR*) server.utf16(),
                                      port,
                                      0,
                                      0,
                                      INTERNET_SERVICE_HTTP,
                                      0, 0);
-    // qDebug() << "download.3";
 
     if (hConnectHandle == 0) {
         QString errMsg;
@@ -86,7 +65,7 @@ bool downloadWin(Job* job, const QUrl& url, QTemporaryFile* file,
         return false;
     }
 
-    if (job && job->isCancelled()) {
+    if (job->isCancelled()) {
         InternetCloseHandle(internet);
         job->complete();
         return false;
@@ -94,7 +73,7 @@ bool downloadWin(Job* job, const QUrl& url, QTemporaryFile* file,
 
     // qDebug() << "download.4";
 
-    hResourceHandle = HttpOpenRequestW(hConnectHandle, L"GET",
+    HINTERNET hResourceHandle = HttpOpenRequestW(hConnectHandle, L"GET",
             (WCHAR*) resource.utf16(),
             0, 0, 0,
             (url.scheme() == "https" ? INTERNET_FLAG_SECURE : 0) |
@@ -109,6 +88,7 @@ bool downloadWin(Job* job, const QUrl& url, QTemporaryFile* file,
     }
 
     // qDebug() << "download.5";
+    unsigned int dwError, dwErrorCode;
     do {
         // qDebug() << "download.5.1";
 
@@ -139,14 +119,12 @@ bool downloadWin(Job* job, const QUrl& url, QTemporaryFile* file,
                                    flags,
                                    &p);
     } while (dwError == ERROR_INTERNET_FORCE_RETRY);
-    if (job)
-        job->setProgress(0.03);
+    job->setProgress(0.03);
 
-    // qDebug() << "download.6";
-
+    // MIME type
     WCHAR mimeBuffer[1024];
-    bufferLength = sizeof(mimeBuffer);
-    index = 0;
+    DWORD bufferLength = sizeof(mimeBuffer);
+    DWORD index = 0;
     if (!HttpQueryInfoW(hResourceHandle, HTTP_QUERY_CONTENT_TYPE,
             &mimeBuffer, &bufferLength, &index)) {
         QString errMsg;
@@ -156,10 +134,10 @@ bool downloadWin(Job* job, const QUrl& url, QTemporaryFile* file,
         return false;
     }
     mime->setUtf16((ushort*) mimeBuffer, bufferLength / 2);
-    // qDebug() << "downloadWin.mime=" << *mime;
-    if (job)
-        job->setProgress(0.04);
 
+    job->setProgress(0.04);
+
+    // Content-Disposition
     WCHAR cdBuffer[1024];
     wcscpy(cdBuffer, L"Content-Disposition");
     bufferLength = sizeof(cdBuffer);
@@ -167,28 +145,28 @@ bool downloadWin(Job* job, const QUrl& url, QTemporaryFile* file,
     if (HttpQueryInfoW(hResourceHandle, HTTP_QUERY_CUSTOM,
             &cdBuffer, &bufferLength, &index)) {
         contentDisposition->setUtf16((ushort*) cdBuffer, bufferLength / 2);
-        // qDebug() << "downloadWin.cd=" << *contentDisposition;
     }
 
+    // content length
     WCHAR contentLengthBuffer[100];
     bufferLength = sizeof(contentLengthBuffer);
     index = 0;
-    contentLength = -1;
+    int contentLength = -1;
+    int64_t alreadyRead;
     if (HttpQueryInfoW(hResourceHandle, HTTP_QUERY_CONTENT_LENGTH,
             contentLengthBuffer, &bufferLength, &index)) {
         QString s;
         s.setUtf16((ushort*) contentLengthBuffer, bufferLength / 2);
-        // qDebug() << "download.6.2 " << s;
         bool ok;
         contentLength = s.toInt(&ok, 10);
         if (!ok)
             contentLength = 0;
-        // qDebug() << "download.6.2 " << contentLength;
     }
 
-    // qDebug() << "download.7";
-
+    // download/compute SHA1 loop
+    QCryptographicHash hash(QCryptographicHash::Sha1);
     alreadyRead = 0;
+    char buffer[512 * 1024];
     do {
         if (!InternetReadFile(hResourceHandle, &buffer,
                 sizeof(buffer), &bufferLength)) {
@@ -198,43 +176,47 @@ bool downloadWin(Job* job, const QUrl& url, QTemporaryFile* file,
             job->complete();
             return false;
         }
+
+        // update SHA1 if necessary
+        if (sha1)
+            hash.addData(buffer, bufferLength);
+
         file->write(buffer, bufferLength);
         alreadyRead += bufferLength;
-        if ((job != 0) && (contentLength > 0)) {
+        if (contentLength > 0) {
             job->setProgress(0.04 +
                     ((double) alreadyRead / contentLength) * 0.95);
             job->setHint(QString("%L0 of %L1 bytes").arg(alreadyRead).
                          arg(contentLength));
         }
-        if (job && job->isCancelled()) {
+        if (job->isCancelled()) {
             InternetCloseHandle(internet);
             job->complete();
             return false;
         }
     } while (bufferLength != 0);
 
-    // close everything in case of an error
+    if (sha1 && !job->isCancelled() && job->getErrorMessage().isEmpty())
+        *sha1 = hash.result().toHex().toLower();
 
+    // close everything in case of an error
     InternetCloseHandle(internet);
 
-    if (job)
-        job->setProgress(1);
-
-    // qDebug() << "download.8";
+    job->setProgress(1);
 
     job->complete();
 
     return true;
 }
 
-QTemporaryFile* Downloader::download(Job* job, const QUrl &url)
+QTemporaryFile* Downloader::download(Job* job, const QUrl &url, QString* sha1)
 {
     QTemporaryFile* file = new QTemporaryFile();
     if (file->open()) {
         QString mime;
         QString contentDisposition;
         bool r = downloadWin(job, url, file, &mime, &contentDisposition,
-                             defaultPasswordWindow);
+                defaultPasswordWindow, sha1);
         file->close();
 
         if (!r) {
