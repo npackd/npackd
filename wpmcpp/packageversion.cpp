@@ -835,7 +835,7 @@ void PackageVersion::install(Job* job, const QString& where)
         delete sub;
     }
 
-    if (!job->getErrorMessage().isEmpty()) {
+    if (!job->getErrorMessage().isEmpty() || job->isCancelled()) {
         // ignore errors
         Job* rjob = new Job();
         removeDirectory(rjob, d.absolutePath());
