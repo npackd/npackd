@@ -604,6 +604,11 @@
         <url>http://qt.nokia.com/products/developer-tools/developer-tools</url>
         <description>C++ IDE</description>
     </package>
+    <package name="com.nokia.QtMinGWInstaller">
+        <title>Qt libraries for MinGW installer</title>
+        <url>http://qt.nokia.com/products/library</url>
+        <description>Qt</description>
+    </package>
     <package name="com.ntwind.TaskSwitchXP">
         <title>TaskSwitchXP</title>
         <url>http://www.ntwind.com/software/taskswitchxp.html</url>
@@ -2953,6 +2958,10 @@ if %err% neq 0 exit /b %err%
         <sha1>C1B09BD7903E33572D3BAD3245EC252E015B7739</sha1>
     </version>
 
+    <!-- 
+        /D= does not work
+        http://bugreports.qt.nokia.com/browse/QTCREATORBUG-5133 
+    -->
     <version name="2.0.1" package="com.nokia.QtCreatorInstaller"
             type="one-file">
         <file path=".WPM\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x
@@ -8742,5 +8751,14 @@ if %err% neq 0 exit %err%
 </file>
         <url>http://dl.dropbox.com/u/17046326/files/com.lockhunter.LockHunter-1.0.3.exe</url>
         <sha1>41546D983682E9329ED44B4BEDE135C26007E611</sha1>
+    </version>
+
+    <version name="4.7.3" package="com.nokia.QtMinGWInstaller" type="one-file">
+        <file path=".WPM\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x
+ren "%setup%" qt-win-opensource-mingw.exe
+</file>
+        <url>http://get.qt.nokia.com/qt/source/qt-win-opensource-4.7.3-mingw.exe</url>
+        <important-file path="qt-win-opensource-mingw.exe" title="Installer"/>
+        <sha1>9FF5A18722D8E15F7BDCAFBC3942B39605B9E88F</sha1>
     </version>
 </root>
