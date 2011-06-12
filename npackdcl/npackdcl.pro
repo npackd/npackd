@@ -8,16 +8,16 @@ CONFIG += console
 CONFIG -= app_bundle
 TEMPLATE = app
 RC_FILE = npackdcl.rc
-INCLUDEPATH += C:\Users\t\libs\quazip-0.2.3\quazip \
-    C:\Users\t\libs\zlib-1.2.5
-LIBS += C:\Users\t\libs\quazip-0.2.3\quazip\debug\libquazip.a \
-    C:\Users\t\libs\zlib-1.2.5\libz.a \
-    C:\Qt\2010.03\mingw\lib\libole32.a \
-    C:\Qt\2010.03\mingw\lib\libuuid.a \
-    C:\Qt\2010.03\mingw\lib\libwininet.a \
-    C:\Qt\2010.03\mingw\lib\libpsapi.a \
-    C:\Qt\2010.03\mingw\lib\libversion.a \
-    C:\Users\t\projects\windows-package-manager\wpmcpp\libmsi.a
+INCLUDEPATH += C:\\Users\\t\\libs\\quazip-0.2.3\\quazip \
+    C:\\Users\\t\\libs\\zlib-1.2.5
+LIBS += C:\\Users\\t\\libs\\quazip-0.2.3\\quazip\\debug\\libquazip.a \
+    C:\\Users\\t\\libs\\zlib-1.2.5\\libz.a \
+    C:\\QtSDK-1.1.1\\mingw\\lib\\libole32.a \
+    C:\\QtSDK-1.1.1\\mingw\\lib\\libuuid.a \
+    C:\\QtSDK-1.1.1\\mingw\\lib\\libwininet.a \
+    C:\\QtSDK-1.1.1\\mingw\\lib\\libpsapi.a \
+    C:\\QtSDK-1.1.1\\mingw\\lib\\libversion.a \
+    C:\\Users\\t\\projects\\windows-package-manager\\wpmcpp\\libmsi.a
 SOURCES += main.cpp \
     ../wpmcpp/repository.cpp \
     ../wpmcpp/version.cpp \
