@@ -27,7 +27,7 @@ private:
     /** installation directory or "", if the package version is not installed */
     QString ipath;
 
-    bool unzip(QString zipfile, QString outputdir, QString* errMsg);
+    void unzip(Job* job, QString zipfile, QString outputdir);
     bool createShortcuts(const QString& dir, QString* errMsg);
     bool saveFiles(const QDir& d, QString* errMsg);
     void executeFile(Job* job, const QString& where,

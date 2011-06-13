@@ -725,17 +725,17 @@ void PackageVersion::install(Job* job, const QString& where)
 
     if (!job->isCancelled() && job->getErrorMessage().isEmpty()) {
         if (this->type == 0) {
-            QString errMsg;
             job->setHint("Extracting files");
-            // qDebug() << "install.6 " << f->size() << d.absolutePath();
-
-            if (unzip(f->fileName(), d.absolutePath() + "\\", &errMsg)) {
-                job->setProgress(0.75);
-            } else {
+            Job* djob = job->newSubJob(0.11);
+            unzip(djob, f->fileName(), d.absolutePath() + "\\");
+            if (!djob->getErrorMessage().isEmpty())
                 job->setErrorMessage(QString(
                         "Error unzipping file into directory %0: %1").
-                                     arg(d.absolutePath()).arg(errMsg));
-            }
+                        arg(d.absolutePath()).
+                        arg(djob->getErrorMessage()));
+            else if (!job->isCancelled())
+                job->setProgress(0.75);
+            delete djob;
         } else {
             job->setHint("Renaming the downloaded file");
             QString t = d.absolutePath();
@@ -850,40 +850,61 @@ void PackageVersion::install(Job* job, const QString& where)
     job->complete();
 }
 
-bool PackageVersion::unzip(QString zipfile, QString outputdir, QString* errMsg)
+void PackageVersion::unzip(Job* job, QString zipfile, QString outputdir)
 {
+    job->setHint("Opening ZIP file");
     QuaZip zip(zipfile);
-    bool extractsuccess = false;
     if (!zip.open(QuaZip::mdUnzip)) {
-        errMsg->append(QString("Cannot open the ZIP file %1: %2").
+        job->setErrorMessage(QString("Cannot open the ZIP file %1: %2").
                        arg(zipfile).arg(zip.getZipError()));
-        return false;
+    } else {
+        job->setProgress(0.01);
     }
-    QuaZipFile file(&zip);
-    for (bool more = zip.goToFirstFile(); more; more = zip.goToNextFile()) {
-        file.open(QIODevice::ReadOnly);
-        QString name = zip.getCurrentFileName();
-        name.prepend(outputdir); /* extract to path ....... */
-        QFile meminfo(name);
-        QFileInfo infofile(meminfo);
-        QDir dira(infofile.absolutePath());
-        if (dira.mkpath(infofile.absolutePath())) {
-            if (meminfo.open(QIODevice::ReadWrite)) {
-                meminfo.write(file.readAll());  /* write */
-                meminfo.close();
-                extractsuccess = true;
-            }
-        } else {
-            errMsg->append(QString("Cannot create directory %1").arg(
-                    infofile.absolutePath()));
-            file.close();
-            return false;
-        }
-        file.close(); // do not forget to close!
-    }
-    zip.close();
 
-    return extractsuccess;
+    if (!job->isCancelled() && job->getErrorMessage().isEmpty()) {
+        job->setHint("Extracting");
+        QuaZipFile file(&zip);
+        int n = zip.getEntriesCount();
+        int blockSize = 1024 * 1024;
+        char* block = new char[blockSize];
+        int i = 0;
+        for (bool more = zip.goToFirstFile(); more; more = zip.goToNextFile()) {
+            file.open(QIODevice::ReadOnly);
+            QString name = zip.getCurrentFileName();
+            name.prepend(outputdir);
+            QFile meminfo(name);
+            QFileInfo infofile(meminfo);
+            QDir dira(infofile.absolutePath());
+            if (dira.mkpath(infofile.absolutePath())) {
+                if (meminfo.open(QIODevice::ReadWrite)) {
+                    while (true) {
+                        qint64 read = file.read(block, blockSize);
+                        if (read <= 0)
+                            break;
+                        meminfo.write(block, read);
+                    }
+                    meminfo.close();
+                }
+            } else {
+                job->setErrorMessage(QString("Cannot create directory %1").arg(
+                        infofile.absolutePath()));
+                file.close();
+            }
+            file.close(); // do not forget to close!
+            i++;
+            job->setProgress(0.01 + 0.99 * i / n);
+            if (i % 100 == 0)
+                job->setHint(QString("%L1 entries").arg(i));
+
+            if (job->isCancelled() || !job->getErrorMessage().isEmpty())
+                break;
+        }
+        zip.close();
+
+        delete[] block;
+    }
+
+    job->complete();
 }
 
 bool PackageVersion::saveFiles(const QDir& d, QString* errMsg)
