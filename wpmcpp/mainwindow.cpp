@@ -418,7 +418,7 @@ MainWindow::MainWindow(QWidget *parent) :
     this->ui->tableWidget->setColumnWidth(2, 300);
     this->ui->tableWidget->setColumnWidth(3, 100);
     this->ui->tableWidget->setColumnWidth(4, 100);
-    this->ui->tableWidget->setColumnWidth(5, 150);
+    this->ui->tableWidget->setColumnWidth(5, 100);
     this->ui->tableWidget->setIconSize(QSize(32, 32));
     this->ui->tableWidget->sortItems(1);
     this->ui->tableWidget->addAction(this->ui->actionInstall);
