@@ -380,6 +380,12 @@
         <description>Windows Explorer extensions</description>
         <license>org.gnu.GPLv2</license>
     </package>
+    <package name="com.googlecode.tikzedt.TikzEdt">
+        <title>TikzEdt</title>
+        <url>http://code.google.com/p/tikzedt/</url>
+        <description>almost WYSIWYG editor for TIKZ Latex graphics.</description>
+        <!-- <icon>http://tikzedt.googlecode.com/svn/trunk/TikzEdt/Images/logotight.png</icon> -->
+    </package>
     <package name="com.googlecode.tortoisegit.TortoiseGit">
         <title>TotroitseGit</title>
         <url>http://code.google.com/p/tortoisegit/</url>
@@ -692,6 +698,12 @@
         <description>Image editor</description>
         <!-- CC, from the home page -->
         <icon>http://dl.dropbox.com/u/17046326/picons/net.getpaint.PaintDotNet.png</icon>
+    </package>
+    <package name="net.legroom.UniversalExtractor">
+        <title>Universal Extractor</title>
+        <url>http://legroom.net/software/uniextract/</url>
+        <description>decompresses and extractes files from any type of archive or installer, such as ZIP or RAR files, self-extracting EXE files, application installers, etc.</description>
+        <!-- <icon>http://www.winpenpack.com/en/e107_files/downloadthumbs/package.png</icon> -->
     </package>
     <package name="net.msgplus.MessengerPlusInstaller">
         <title>Messenger Plus! installer</title>
@@ -1775,6 +1787,12 @@ yes - Print a string repeatedly.</description>
         <url>http://processing.org</url>
         <description>Programming language</description>
     </package>
+    <package name="org.pnotepad.ProgrammersNotepad">
+        <title>Programmer's Notepad</title>
+        <url>http://www.pnotepad.org</url>
+        <description>text editor</description>
+        <!-- <icon>http://fc03.deviantart.net/fs51/i/2009/302/4/7/Programmer__s_Notepad_Hi_Res_by_brainwipe.png</icon> -->
+    </package>    
     <package name="org.py2exe.Py2Exe">
         <title>py2exe</title>
         <url>http://www.py2exe.org/</url>
@@ -8813,5 +8831,58 @@ ren "%setup%" Qt_SDK_Win_offline.exe
         <url>http://get.qt.nokia.com/qtsdk/Qt_SDK_Win_offline_v1_1_1_en.exe</url>
         <important-file path="Qt_SDK_Win_offline.exe" title="Installer"/>
         <sha1>88809AA2CAF51392261B767E1AEFAF077308685F</sha1>
+    </version>
+
+    <version name="0.1.2" package="com.googlecode.tikzedt.TikzEdt">
+        <important-file path="TikzEdt.exe" title="TikzEdt"/>
+        <file path=".WPM\Install.bat">for /f "delims=" %%x in ('dir /b Tikz*') do set name=%%x
+cd "%name%"        
+for /f "delims=" %%a in ('dir /b') do (
+  move "%%a" ..
+)
+cd ..
+rmdir "%name%"
+</file>
+        <url>http://tikzedt.googlecode.com/files/TikzEdt%200.1.2.zip</url>
+        <sha1>21DF42EE54FC08218F27476A44110F65E36A5901</sha1>
+        <dependency package="com.microsoft.DotNetRedistributable"
+                versions="[4, 5)"/>
+    </version>
+    
+    <version name="2.2.0.2240" package="org.pnotepad.ProgrammersNotepad"
+            type="one-file">
+        <file path=".WPM\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x
+"%setup%" /SP- /VERYSILENT /SUPPRESSMSGBOXES /NOCANCEL /NORESTART /DIR="%CD%" /SAVEINF="%CD%\.WPM\InnoSetupInfo.ini" /LOG="%CD%\.WPM\InnoSetupInstall.log"
+set err=%errorlevel%
+type .WPM\InnoSetupInstall.log
+if %err% neq 0 exit %err%
+</file>
+        <file path=".WPM\Uninstall.bat">unins000.exe /VERYSILENT /SUPPRESSMSGBOXES /NORESTART /LOG="%CD%\.WPM\InnoSetupUninstall.log"
+set err=%errorlevel%
+type .WPM\InnoSetupUninstall.log
+if %err% neq 0 exit %err%
+</file>
+        <important-file path="pn.exe" title="Programmers' Notepad"/>
+        <url>http://pnotepad.googlecode.com/files/pn2202240.exe</url>
+        <sha1>ad7c3f9ff4a4650fbdd508f0dc9967e2aa926f11</sha1>
+    </version>
+
+    <version name="1.6.1" package="net.legroom.UniversalExtractor"
+                type="one-file">
+            <file path=".WPM\Install.bat">ren download.php uniextract_install.exe
+for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x
+"%setup%" /SP- /VERYSILENT /NOCANCEL /NORESTART /DIR="%CD%" /SAVEINF="%CD%\.WPM\InnoSetupInfo.ini" /LOG="%CD%\.WPM\InnoSetupInstall.log"
+set err=%errorlevel%
+type .WPM\InnoSetupInstall.log
+if %err% neq 0 pause %err%
+</file>
+        <file path=".WPM\Uninstall.bat">unins000.exe /VERYSILENT /SUPPRESSMSGBOXES /NORESTART /LOG="%CD%\.WPM\InnoSetupUninstall.log"
+set err=%errorlevel%
+type .WPM\InnoSetupUninstall.log
+if %err% neq 0 exit %err%
+</file>
+        <important-file path="UniExtract.exe" title="Universal Extractor"/>
+        <url>http://legroom.net/scripts/download.php?file=uniextract161</url>
+        <sha1>2e31438e3da025877b3394344d54d7c31c646863</sha1>
     </version>
 </root>
