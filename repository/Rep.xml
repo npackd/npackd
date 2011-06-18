@@ -528,6 +528,11 @@
         <url>http://www.microsoft.com/express/Downloads/#2010-Visual-CPP</url>
         <description>C++ IDE</description>
     </package>
+    <package name="com.microsoft.VisualCSharpExpress">
+        <title>Visual C# Express</title>
+        <url>http://www.microsoft.com/visualstudio/en-us/products/2010-editions/visual-csharp-express</url>
+        <description>C# IDE</description>
+    </package>
     <package name="com.microsoft.VisualCPPRedistributable">
         <title>Visual C++ redistributable package</title>
         <url>http://www.microsoft.com/downloads/details.aspx?FamilyID=A5C84275-3B97-4AB7-A40D-3802B2AF5FC2&amp;displayLang=en</url>
@@ -7836,6 +7841,31 @@ if %err% neq 0 exit /b %err%
         <dependency package="org.7-zip.SevenZIP" versions="[9.20, 9.20]"/>
         <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.15.7, 1.15.7]"/>
         <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1, 1]"/>
+    </version>
+    
+    <version name="10.0.30319.1" package="com.microsoft.VisualCSharpExpress"
+            type="one-file">
+        <file path=".WPM\Install.bat">if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
+set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=org.7-zip.SevenZIP" "--versions=[9.20, 9.20]"
+for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set sevenzip=%%x
+
+"%sevenzip%\7z.exe" x VS2010Express1.iso
+VCSExpress\setup.exe /q /norestart
+if %errorlevel% equ 3010 exit /b 0
+</file>
+        <file path=".WPM\Uninstall.bat">msiexec.exe /qn /norestart /Lime .WPM\MSI.log /X{59F24743-2EA1-3A45-B8C2-6E0E1E078FA8}
+set err=%errorlevel%
+type .WPM\MSI.log
+rem 3010=restart required
+if %err% equ 3010 exit /b 0
+if %err% neq 0 exit /b %err%
+</file>
+        <url>http://download.microsoft.com/download/1/E/5/1E5F1C0A-0D5B-426A-A603-1798B951DDAE/VS2010Express1.iso</url>
+        <sha1>adef5e361a1f64374f520b9a2d03c54ee43721c6</sha1>
+        <dependency package="org.7-zip.SevenZIP" versions="[9.20, 9.20]"/>
+        <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.15.7, 1.15.7]"/>
+        <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1, 1]"/>
+        <detect-msi>{59F24743-2EA1-3A45-B8C2-6E0E1E078FA8}</detect-msi>
     </version>
 
     <version name="10.7" package="com.microsoft.AutoRuns">
