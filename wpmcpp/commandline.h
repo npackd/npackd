@@ -13,14 +13,17 @@ class CommandLine
     class Option {
     public:
         QString name;
+        char name2;
         QString valueDescription;
         QString description;
         bool multiple;
+
+        bool nameMathes(const QString& name);
     };
 
     class ParsedOption {
     public:
-        QString name;
+        Option* opt;
         QString value;
     };
 
@@ -42,12 +45,13 @@ public:
      * Adds an option.
      *
      * @param name name of the option
+     * @param name2 short name or 0 if not available
      * @param description short description of this option for printing help
      * @param valueDescription description of the value for this option. If "", a value
      *     is not possible.
      * @param multiple true if multiple occurences of this option are allowed
      */
-    void add(QString name, QString description, QString valueDescription,
+    void add(QString name, char name2, QString description, QString valueDescription,
             bool multiple);
 
     /**

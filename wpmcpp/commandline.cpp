@@ -4,6 +4,20 @@
 
 #include "commandline.h"
 
+bool CommandLine::Option::nameMathes(const QString& name)
+{
+    bool r;
+    if (name.length() == 1 && name.at(0) == name2) {
+        r = true;
+    } else if (this->name == name) {
+        r = true;
+    } else {
+        r = false;
+    }
+
+    return r;
+}
+
 CommandLine::CommandLine()
 {
 }
@@ -60,7 +74,7 @@ QString CommandLine::processOneParam(QStringList* params)
                 err = QString("Only one-letter options can start with a minus sign: %1").
                         arg(p);
             } else {
-                name = p.mid(2, pos - 2);
+                name = p.mid(1, 1);
                 nameFound = true;
                 params->removeAt(0);
             }
@@ -81,7 +95,7 @@ QString CommandLine::processOneParam(QStringList* params)
                     err = QString("Unexpected value for the option %1").arg(name);
                 } else {
                     ParsedOption* po = new ParsedOption();
-                    po->name = name;
+                    po->opt = opt;
                     this->parsedOptions.append(po);
                     if (valueFound)
                         po->value = value;
@@ -112,7 +126,7 @@ CommandLine::Option* CommandLine::findOption(const QString& name)
     Option* r = 0;
     for (int i = 0; i < this->options.count(); i++) {
         Option* opt = this->options.at(i);
-        if (opt->name == name) {
+        if (opt->nameMathes(name)) {
             r = opt;
             break;
         }
@@ -120,11 +134,12 @@ CommandLine::Option* CommandLine::findOption(const QString& name)
     return r;
 }
 
-void CommandLine::add(QString name, QString description,
+void CommandLine::add(QString name, char name2, QString description,
         QString valueDescription, bool multiple)
 {
     Option* opt = new Option();
     opt->name = name;
+    opt->name2 = name2;
     opt->description = description;
     opt->valueDescription = valueDescription;
     opt->multiple = multiple;
@@ -155,7 +170,7 @@ bool CommandLine::isPresent(const QString& name)
     bool r = false;
     for (int i = 0; i < this->parsedOptions.count(); i++) {
         ParsedOption* po = this->parsedOptions.at(i);
-        if (po->name == name) {
+        if (po->opt->nameMathes(name)) {
             r = true;
             break;
         }
@@ -168,7 +183,7 @@ QString CommandLine::get(const QString& name)
     QString r;
     for (int i = 0; i < this->parsedOptions.count(); i++) {
         ParsedOption* po = this->parsedOptions.at(i);
-        if (po->name == name) {
+        if (po->opt->nameMathes(name)) {
             r = po->value;
             break;
         }
@@ -188,7 +203,7 @@ void CommandLine::dump()
             qPrintable(this->freeArguments.join(", ")) << std::endl;
     for (int i = 0; i < this->parsedOptions.count(); i++) {
         ParsedOption* po = this->parsedOptions.at(i);
-        std::cout << "Name: " << qPrintable(po->name) <<
+        std::cout << "Name: " << qPrintable(po->opt->name) <<
                 " Value: " << qPrintable(po->value) << std::endl;
     }
 }
@@ -198,7 +213,7 @@ QStringList CommandLine::getAll(const QString& name)
     QStringList r;
     for (int i = 0; i < this->parsedOptions.count(); i++) {
         ParsedOption* po = this->parsedOptions.at(i);
-        if (po->name == name) {
+        if (po->opt->nameMathes(name)) {
             r.append(po->value);
         }
     }

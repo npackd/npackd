@@ -102,11 +102,11 @@ int App::unitTests(int argc, char *argv[])
 
 int App::process(int argc, char *argv[])
 {
-    cl.add("package", "internal package name (e.g. com.example.Editor)",
+    cl.add("package", 'p', "internal package name (e.g. com.example.Editor)",
             "package", false);
-    cl.add("versions", "versions range (e.g. [1.5,2))",
+    cl.add("versions", 'r', "versions range (e.g. [1.5,2))",
             "range", false);
-    cl.add("version", "version number (e.g. 1.5.12)",
+    cl.add("version", 'v', "version number (e.g. 1.5.12)",
             "version", false);
     QString err = cl.parse(argc, argv);
     if (!err.isEmpty()) {
@@ -199,6 +199,10 @@ void App::usage()
     std::cout << "        installs a package" << std::endl;
     std::cout << "    npackdcl remove --package=<package> --version=<version>" << std::endl;
     std::cout << "        removes a package" << std::endl;
+    std::cout << "Options:" << std::endl;
+    std::cout << "    -p, --package package name" << std::endl;
+    std::cout << "    -r, --versions version range (e.g. [1.1,1.2) )" << std::endl;
+    std::cout << "    -v, --version version (e.g. 1.2.47)" << std::endl;
     std::cout << std::endl;
     std::cout << "You can use short package names in 'add' and 'remove' operations." << std::endl;
     std::cout << "Example: App instead of com.example.App" << std::endl;
