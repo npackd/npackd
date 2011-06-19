@@ -23,7 +23,7 @@ int main(int argc, char *argv[])
 
     App app;
 
-    if (true)
+    if (false)
         return app.unitTests(argc, argv);
     else
         return app.process(argc, argv);

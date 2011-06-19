@@ -1,3 +1,4 @@
+#include <limits>
 #include "math.h"
 
 #include "app.h"
@@ -148,7 +149,6 @@ int App::process(int argc, char *argv[])
                 installed.count() << std::endl;*/
     } else {
         std::cerr << "Wrong command: " << qPrintable(fr.at(0)) << std::endl;
-        usage();
         r = 1;
     }
 
@@ -192,12 +192,13 @@ void App::usage()
     std::cout << "Npackd command line tool" << std::endl;
     std::cout << "Usage:" << std::endl;
     std::cout << "    npackdcl help" << std::endl;
-    std::cout << "    or" << std::endl;
-    std::cout << "    npackdcl path --package=<package> --versions=<versions>" << std::endl;
-    std::cout << "    or" << std::endl;
+    std::cout << "        prints this help" << std::endl;
+    std::cout << "    npackdcl path --package=<package> [--versions=<versions>]" << std::endl;
+    std::cout << "        searches for a package and prints its location" << std::endl;
     std::cout << "    npackdcl add --package=<package> --version=<version>" << std::endl;
-    std::cout << "    or" << std::endl;
+    std::cout << "        installs a package" << std::endl;
     std::cout << "    npackdcl remove --package=<package> --version=<version>" << std::endl;
+    std::cout << "        removes a package" << std::endl;
     std::cout << std::endl;
     std::cout << "You can use short package names in 'add' and 'remove' operations." << std::endl;
     std::cout << "Example: App instead of com.example.App" << std::endl;
@@ -229,15 +230,6 @@ int App::path()
     if (r == 0) {
         if (package.isNull()) {
             std::cerr << "Missing option: --package" << std::endl;
-            usage();
-            r = 1;
-        }
-    }
-
-    if (r == 0) {
-        if (versions.isNull()) {
-            std::cerr << "Missing option: --versions" << std::endl;
-            usage();
             r = 1;
         }
     }
@@ -245,7 +237,6 @@ int App::path()
     if (r == 0) {
         if (!Package::isValidName(package)) {
             std::cerr << "Invalid package name: " << qPrintable(package) << std::endl;
-            usage();
             r = 1;
         }
     }
@@ -254,11 +245,15 @@ int App::path()
         // debug: std::cout <<  qPrintable(package) << " " << qPrintable(versions);
         Dependency d;
         d.package = package;
-        if (!d.setVersions(versions)) {
+        if (versions.isNull()) {
+            d.min.setVersion(0, 0);
+            d.max.setVersion(std::numeric_limits<int>::max(), 0);
+        } else if (!d.setVersions(versions)) {
             std::cerr << "Cannot parse versions: " << qPrintable(versions) << std::endl;
-            usage();
             r = 1;
-        } else {
+        }
+
+        if (r == 0) {
             // debug: std::cout << "Versions: " << qPrintable(d.toString()) << std::endl;
             PackageVersion* pv = d.findHighestInstalledMatch();
             if (pv) {
@@ -293,7 +288,6 @@ int App::add()
     if (r == 0) {
         if (package.isNull()) {
             std::cerr << "Missing option: --package" << std::endl;
-            usage();
             r = 1;
         }
     }
@@ -301,7 +295,6 @@ int App::add()
     if (r == 0) {
         if (version.isNull()) {
             std::cerr << "Missing option: --versions" << std::endl;
-            usage();
             r = 1;
         }
     }
@@ -395,7 +388,6 @@ int App::remove()
     if (r == 0) {
         if (package.isNull()) {
             std::cerr << "Missing option: --package" << std::endl;
-            usage();
             r = 1;
         }
     }
@@ -403,7 +395,6 @@ int App::remove()
     if (r == 0) {
         if (version.isNull()) {
             std::cerr << "Missing option: --versions" << std::endl;
-            usage();
             r = 1;
         }
     }
