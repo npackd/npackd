@@ -277,6 +277,11 @@
         <url>http://www.dvdvideosoft.com/products/dvd/Free-YouTube-to-MP3-Converter.htm</url>
         <description>download audio from youtube.com</description>
     </package>
+    <package name="com.excessivesoftware.PowerDefragmenter">
+        <title>Power Defragmenter</title>
+        <url>http://www.softpedia.com/get/System/Hard-Disk-Utils/Power-Defragmenter.shtml</url>
+        <description>file defragmenter</description>
+    </package>
     <package name="com.feedreader.FeedReader">
         <title>Feed Reader</title>
         <url>http://feedreader.com/</url>
@@ -9001,5 +9006,20 @@ if %err% neq 0 exit %err%
 
     <version name="1.6" package="com.microsoft.Contig">
         <url>http://download.sysinternals.com/Files/Contig.zip</url>
+    </version>
+
+    <version name="3" package="com.excessivesoftware.PowerDefragmenter">
+            <file path=".WPM\Install.bat">if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
+set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.microsoft.Contig" "--versions=[1.6,2)"
+for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set contigdir=%%x
+copy "%contigdir%\Contig.exe" .
+</file>
+        <url>http://dl.dropbox.com/u/17046326/files/com.excessivesoftware.PowerDefragmenter-3.zip</url>
+        <sha1>39DC28FBA4988598642C731427D6D0ECD14C497F</sha1>
+        <dependency package="com.microsoft.Contig" versions="[1.6, 2)"/>
+        <dependency package="com.googlecode.windows-package-manager.NpackdCL" 
+                versions="[1.15.7, 1.15.7]"/>
+        <dependency package="com.googlecode.windows-package-manager.NpackdCL" 
+                versions="[1, 1]"/>
     </version>
 </root>
