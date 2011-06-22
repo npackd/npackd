@@ -1373,6 +1373,11 @@ yes - Print a string repeatedly.</description>
         <url>http://wikidpad.sourceforge.net/</url>
         <description>Wiki-like notebook for storing your thoughts, ideas, todo lists, contacts, or anything else</description>
     </package>
+    <package name="net.sourceforge.winavr.WinAVRInstaller">
+        <title>WinAVR installer</title>
+        <url>http://winavr.sourceforge.net/index.html</url>
+        <description>development tools for the Atmel AVR series of RISC microprocessors. It includes the GNU GCC compiler for C and C++.</description>
+    </package>
     <package name="net.sourceforge.winrun4j.WinRun4j">
         <title>WinRun4j</title>
         <url>http://winrun4j.sourceforge.net/</url>
@@ -9133,5 +9138,19 @@ rmdir "%name%"
         <url>http://ftp-stud.fht-esslingen.de/pub/Mirrors/eclipse/technology/epp/downloads/release/indigo/R/eclipse-cpp-indigo-incubation-win32.zip</url>
         <dependency package="com.oracle.JRE" versions="[1.6, 2)"/>
         <sha1>7FD1A2F978E3AA341DA9589AFCF57A200BDBF0A0</sha1>
+    </version>
+
+    <!-- 
+        installation opens a page in the browser and does not use the 
+        /D option
+    -->
+    <version name="2010.1.10" package="net.sourceforge.winavr.WinAVRInstaller"
+            type="one-file">
+        <file path=".WPM\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x
+ren "%setup%" WinAVR.exe
+</file>
+        <important-file path="WinAVR.exe" title="Installer"/>
+        <url>http://downloads.sourceforge.net/project/winavr/WinAVR/20100110/WinAVR-20100110-install.exe?ts=1308773206</url>
+        <sha1>A3F4542A5027CA2E7AC6533ED32D0123E699B057</sha1>
     </version>
 </root>
