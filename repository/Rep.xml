@@ -1547,6 +1547,14 @@ yes - Print a string repeatedly.</description>
         <url>http://www.cmake.org/</url>
         <description>build tool</description>
     </package>
+    <package name="org.eclipse.EclipseIDECPP">
+        <title>Eclipse IDE for C/C++ Developers</title>
+        <url>http://www.eclipse.org/projects/project_summary.php?projectid=tools.cdt</url>
+        <description>C/C++ IDE</description>
+        <!-- CPL -->
+        <icon>http://dl.dropbox.com/u/17046326/picons/org.eclipse.EclipseIDECPP.png</icon>
+        <license>org.eclipse.EPLv1</license>
+    </package>
     <package name="org.eclipse.EclipseIDEJEE">
         <title>Eclipse IDE for JEE developers</title>
         <url>http://www.eclipse.org/home/categories/index.php?category=enterprise</url>
@@ -9110,5 +9118,20 @@ if %err% neq 0 exit %err%
 </file>
         <url>http://downloads.sourceforge.net/project/wikidpad/wikidpad/2.0/2.0_1/WikidPad-2.0_1.exe?ts=1308763282</url>
         <sha1>4CA25BAD0B3CE9A39FA882A5B3EF99A3217112B5</sha1>
+    </version>
+    
+    <version name="3.7" package="org.eclipse.EclipseIDECPP">
+        <file path=".WPM\Install.bat">for /f "delims=" %%x in ('dir /b eclipse*') do set name=%%x
+cd "%name%"        
+for /f "delims=" %%a in ('dir /b') do (
+  move "%%a" ..
+)
+cd ..
+rmdir "%name%"
+</file>
+        <important-file path="eclipse.exe" title="Eclipse IDE for C/C++"/>
+        <url>http://ftp-stud.fht-esslingen.de/pub/Mirrors/eclipse/technology/epp/downloads/release/indigo/R/eclipse-cpp-indigo-incubation-win32.zip</url>
+        <dependency package="com.oracle.JRE" versions="[1.6, 2)"/>
+        <sha1>7FD1A2F978E3AA341DA9589AFCF57A200BDBF0A0</sha1>
     </version>
 </root>
