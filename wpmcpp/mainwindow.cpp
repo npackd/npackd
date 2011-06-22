@@ -432,6 +432,15 @@ MainWindow::MainWindow(QWidget *parent) :
             SLOT(iconDownloaded(const FileLoaderItem&)),
             Qt::QueuedConnection);
     this->fileLoader.start(QThread::LowestPriority);
+
+    // copy toolTip to statusTip for all actions
+    for (int i = 0; i < this->children().count(); i++) {
+        QObject* ch = this->children().at(i);
+        QAction* a = dynamic_cast<QAction*>(ch);
+        if (a) {
+            a->setStatusTip(a->toolTip());
+        }
+    }
 }
 
 void MainWindow::iconDownloaded(const FileLoaderItem& it)
