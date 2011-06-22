@@ -124,6 +124,7 @@ private slots:
     void on_actionUninstall_activated();
     void on_actionExit_triggered();
     void iconDownloaded(const FileLoaderItem& it);
+    void on_actionReload_Repositories_triggered();
 };
 
 #endif // MAINWINDOW_H

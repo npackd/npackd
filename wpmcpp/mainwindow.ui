@@ -154,9 +154,6 @@
            <attribute name="verticalHeaderDefaultSectionSize">
             <number>35</number>
            </attribute>
-           <attribute name="verticalHeaderDefaultSectionSize">
-            <number>35</number>
-           </attribute>
            <row/>
            <column/>
           </widget>
@@ -201,6 +198,7 @@
     <addaction name="actionTest_Repositories"/>
     <addaction name="actionList_Installed_MSI_Products"/>
     <addaction name="actionDownload_All_Files"/>
+    <addaction name="actionReload_Repositories"/>
    </widget>
    <widget class="QMenu" name="menuHelp">
     <property name="title">
@@ -378,14 +376,43 @@
     <string>Scan Hard Drives</string>
    </property>
   </action>
+  <action name="actionReload_Repositories">
+   <property name="text">
+    <string>Reload Repositories</string>
+   </property>
+   <property name="toolTip">
+    <string>Reloads the contents of all repositories</string>
+   </property>
+   <property name="shortcut">
+    <string>F5</string>
+   </property>
+  </action>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
  <resources>
   <include location="wpmcpp.qrc"/>
  </resources>
- <connections/>
+ <connections>
+  <connection>
+   <sender>actionReload_Repositories</sender>
+   <signal>triggered()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>on_actionReload_repositories_triggered()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>312</x>
+     <y>207</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
  <slots>
   <slot>install()</slot>
   <slot>uninstall()</slot>
+  <slot>on_actionReload_repositories_triggered()</slot>
  </slots>
 </ui>

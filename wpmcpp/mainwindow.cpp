@@ -1258,3 +1258,9 @@ void MainWindow::on_actionScan_Hard_Drives_triggered()
 
     addTextTab("Package detection status", detected.join("\n"));
 }
+
+void MainWindow::on_actionReload_Repositories_triggered()
+{
+    closeDetailTabs();
+    recognizeAndLoadRepositories();
+}
