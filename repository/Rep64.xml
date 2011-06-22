@@ -180,6 +180,14 @@
         <description>Mercurial client</description>
         <license>org.gnu.GPLv2</license>
     </package>
+    <package name="org.eclipse.EclipseIDECPP64">
+        <title>Eclipse IDE for C and C++ Developers 64 bit</title>
+        <url>http://www.eclipse.org/projects/project_summary.php?projectid=tools.cdt</url>
+        <description>C and C++ IDE</description>
+        <!-- CPL -->
+        <icon>http://dl.dropbox.com/u/17046326/picons/org.eclipse.EclipseIDECPP.png</icon>
+        <license>org.eclipse.EPLv1</license>
+    </package>
     <package name="org.eclipse.EclipseIDEJEE64">
         <title>Eclipse IDE for JEE developers 64 bit</title>
         <url>http://www.eclipse.org/home/categories/index.php?category=enterprise</url>
@@ -1237,5 +1245,20 @@ rmdir "%name%"
         <url>http://downloads.sourceforge.net/project/eclipsesql/SQL%20Explorer%20RCP%20%28exc%20JRE%29/3.6.1/sqlexplorer_rcp-3.6.1.win32.win32.x86_64.zip?ts=1308675560</url>
         <sha1>1C5A8170A8F9A7C52CF81ED57569B9759C6E28C8</sha1>
         <dependency package="com.oracle.JRE64" versions="[1.5, 2)"/>
+    </version>
+
+    <version name="3.7" package="org.eclipse.EclipseIDECPP64">
+        <file path=".WPM\Install.bat">for /f "delims=" %%x in ('dir /b eclipse*') do set name=%%x
+cd "%name%"
+for /f "delims=" %%a in ('dir /b') do (
+  move "%%a" ..
+)
+cd ..
+rmdir "%name%"
+</file>
+        <important-file path="eclipse.exe" title="Eclipse IDE for C and C++"/>
+        <url>http://ftp-stud.fht-esslingen.de/pub/Mirrors/eclipse/technology/epp/downloads/release/indigo/R/eclipse-cpp-indigo-incubation-win32-x86_64.zip</url>
+        <dependency package="com.oracle.JRE" versions="[1.6, 2)"/>
+        <sha1>96CFEABD46BC5B5A8117B8EE2D626D9720602836</sha1>
     </version>
 </root>
