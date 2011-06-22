@@ -1368,6 +1368,11 @@ yes - Print a string repeatedly.</description>
         <description>executable packer</description>
         <license>org.gnu.GPLv2</license>
     </package>
+    <package name="net.sourceforge.wikidpad.WikidPad">
+        <title>wikidPad</title>
+        <url>http://wikidpad.sourceforge.net/</url>
+        <description>Wiki-like notebook for storing your thoughts, ideas, todo lists, contacts, or anything else</description>
+    </package>
     <package name="net.sourceforge.winrun4j.WinRun4j">
         <title>WinRun4j</title>
         <url>http://winrun4j.sourceforge.net/</url>
@@ -9087,5 +9092,23 @@ rmdir "%name%"
         <url>http://dl.dropbox.com/u/17046326/files/edu.ucla.sscnet.levine.Jarnal-2.71.zip</url>
         <sha1>ECFFEA61D3AB4727B64B43135CB1E30779B33853</sha1>
         <dependency package="com.oracle.JRE" versions="[1.5, 2)"/>
+    </version>
+
+    <!-- uninstallation shows a confirmation dialog -->
+    <version name="2.0.1" package="net.sourceforge.wikidpad.WikidPad"
+            type="one-file">
+        <file path=".WPM\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x
+"%setup%" /SP- /VERYSILENT /SUPPRESSMSGBOXES /NOCANCEL /NORESTART /DIR="%CD%" /SAVEINF="%CD%\.WPM\InnoSetupInfo.ini" /LOG="%CD%\.WPM\InnoSetupInstall.log"
+set err=%errorlevel%
+type .WPM\InnoSetupInstall.log
+if %err% neq 0 exit %err%    
+</file>
+        <file path=".WPM\Uninstall.bat">unins000.exe /VERYSILENT /SUPPRESSMSGBOXES /NORESTART /LOG="%CD%\.WPM\InnoSetupUninstall.log"
+set err=%errorlevel%
+type .WPM\InnoSetupUninstall.log
+if %err% neq 0 exit %err%
+</file>
+        <url>http://downloads.sourceforge.net/project/wikidpad/wikidpad/2.0/2.0_1/WikidPad-2.0_1.exe?ts=1308763282</url>
+        <sha1>4CA25BAD0B3CE9A39FA882A5B3EF99A3217112B5</sha1>
     </version>
 </root>
