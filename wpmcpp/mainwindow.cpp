@@ -1273,3 +1273,11 @@ void MainWindow::on_actionReload_Repositories_triggered()
     closeDetailTabs();
     recognizeAndLoadRepositories();
 }
+
+void MainWindow::on_actionClose_Tab_triggered()
+{
+    QWidget* w = this->ui->tabWidget->currentWidget();
+    if (w != this->ui->tab) {
+        this->ui->tabWidget->removeTab(this->ui->tabWidget->currentIndex());
+    }
+}
