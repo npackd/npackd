@@ -441,6 +441,8 @@ MainWindow::MainWindow(QWidget *parent) :
             a->setStatusTip(a->toolTip());
         }
     }
+
+    this->ui->lineEditText->setFocus();
 }
 
 void MainWindow::iconDownloaded(const FileLoaderItem& it)
