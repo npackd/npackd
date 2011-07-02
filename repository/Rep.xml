@@ -5682,6 +5682,23 @@ if %err% neq 0 exit /b %err%
         <url>http://downloads.activestate.com/ActivePerl/releases/5.14.0.1400/ActivePerl-5.14.0.1400-MSWin32-x86-294816.msi</url>
         <sha1>D63F963D6FAB5C1DDA62CA35F100D7FB93876893</sha1>
     </version>
+    <version name="5.14.1.1401" package="com.activestate.ActivePerl"
+            type="one-file">
+        <file path=".WPM\Install.bat">for /f "delims=" %%x in ('dir /b *.msi') do set setup=%%x
+msiexec.exe /qn /norestart /Lime .WPM\MSI.log /i "%setup%" TARGETDIR="%CD%" ALLUSERS=1
+set err=%errorlevel%
+type .WPM\MSI.log
+if %err% neq 0 exit /b %err%
+</file>
+        <file path=".WPM\Uninstall.bat">for /f "delims=" %%x in ('dir /b *.msi') do set setup=%%x
+msiexec.exe /qn /norestart /Lime .WPM\MSI.log /x "%setup%"
+set err=%errorlevel%
+type .WPM\MSI.log
+if %err% neq 0 exit /b %err%
+</file>
+        <url>http://downloads.activestate.com/ActivePerl/releases/5.14.1.1401/ActivePerl-5.14.1.1401-MSWin32-x86-294969.msi</url>
+        <sha1>1DDAEC7C25E92F54198A03F5E87700A695EDE852</sha1>
+    </version>
     
     <version name="1.2.6" package="net.sourceforge.audacity.Audacity">
         <important-file path="Audacity\audacity.exe" title="Audacity"/>
