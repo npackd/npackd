@@ -1841,14 +1841,14 @@ yes - Print a string repeatedly.</description>
     </package>
     <package name="org.mozilla.Firefox">
         <title>Firefox</title>
-        <url>http://www.mozilla-europe.org/en/firefox/</url>
+        <url>http://www.mozilla.com/en-US/firefox/new/</url>
         <description>web browser</description>
         <icon>http://dl.dropbox.com/u/17046326/picons/org.mozilla.Firefox.png</icon>
         <license>com.mozilla.MozillaFirefoxLicense2</license>
     </package>
     <package name="org.mozilla.FirefoxInstaller">
         <title>Firefox installer (deprecated, use the non-installer package instead)</title>
-        <url>http://dl.dropbox.com/u/17046326/picons/org.mozilla.Firefox.png</url>
+        <url>http://www.mozilla.com/en-US/firefox/new/</url>
         <description>web browser</description>
         <license>com.mozilla.MozillaFirefoxLicense2</license>
     </package>
@@ -6760,6 +6760,19 @@ for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x
         <file path=".WPM\Uninstall.bat">uninstall\helper.exe /S</file>
         <url>http://npackd.googlecode.com/files/org.mozilla.Firefox-4.0.1.exe</url>
         <sha1>54A5D25AE3A4E342268FBC91D240770E9B17FBAF</sha1>
+    </version>
+    <version name="5" package="org.mozilla.Firefox" type="one-file">
+        <important-file path="firefox.exe" title="Firefox"/>
+        <file path=".WPM\Install.bat">echo [Install] > .WPM\FF.ini
+echo InstallDirectoryPath=%CD% >> .WPM\FF.ini
+echo QuickLaunchShortcut=false >> .WPM\FF.ini
+echo DesktopShortcut=false >> .WPM\FF.ini
+for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x
+"%setup%" /INI="%CD%\.WPM\FF.ini"
+</file>
+        <file path=".WPM\Uninstall.bat">uninstall\helper.exe /S</file>
+        <url>http://npackd.googlecode.com/files/org.mozilla.Firefox-5.exe</url>
+        <sha1>288895DB0A58B91801C5C1DFC0017131300DBA00</sha1>
     </version>
 
     <version name="1.33" package="org.gexperts.GExpertsDelphi7Installer"
