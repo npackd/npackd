@@ -5282,10 +5282,23 @@ ren "%setup%" pywin32-win32-py2.6.exe
     
     <version name="1.6" package="net.shatters.Celestia"
             type="one-file">
-        <file path=".WPM\Install.bat">celestia-win32-1.6.0.exe /SP- /VERYSILENT /SUPPRESSMSGBOXES /NOCANCEL /NORESTART /DIR="%CD%"</file>
+        <file path=".WPM\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x
+ren "%setup%" celestia-win32.exe
+celestia-win32.exe /SP- /VERYSILENT /SUPPRESSMSGBOXES /NOCANCEL /NORESTART /DIR="%CD%"
+</file>
         <file path=".WPM\Uninstall.bat">unins000.exe /VERYSILENT /SUPPRESSMSGBOXES /NORESTART</file>
         <url>http://downloads.sourceforge.net/project/celestia/Celestia-win32-bin/1.6.0/celestia-win32-1.6.0.exe?98657009</url>
         <sha1>e7bf9d1e245d9ece473aea1c20b0d84f7c1afb7b</sha1>
+    </version>
+    <version name="1.6.1" package="net.shatters.Celestia"
+            type="one-file">
+        <file path=".WPM\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x
+ren "%setup%" celestia-win32.exe
+celestia-win32.exe /SP- /VERYSILENT /SUPPRESSMSGBOXES /NOCANCEL /NORESTART /DIR="%CD%"
+</file>
+        <file path=".WPM\Uninstall.bat">unins000.exe /VERYSILENT /SUPPRESSMSGBOXES /NORESTART</file>
+        <url>https://downloads.sourceforge.net/project/celestia/Celestia-win32-bin/1.6.1/celestia-win32-1.6.1.exe?ts=1309682270</url>
+        <sha1>78C674CC834DFD7928F4AFC10D06ACF41E2920C2</sha1>
     </version>
 
     <version name="12.0.6038.3000" package="com.microsoft.WordViewer"
