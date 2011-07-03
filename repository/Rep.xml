@@ -8299,11 +8299,27 @@ rmdir /s /q "%name%"
     
     <version name="57.1" package="com.googlecode.gomingw.GoMinGWR">
         <file path=".WPM\Install.bat">set name=go
-xcopy "%name%\*" . /E /H
-rmdir /s /q "%name%"
+cd "%name%"        
+for /f "delims=" %%a in ('dir /b') do (
+  move "%%a" ..
+)
+cd ..
+rmdir "%name%"
 </file> 
         <url>http://gomingw.googlecode.com/files/gowin32_release.r57.1.zip</url> 
         <sha1>7C1C8B2A385B07C31304032F819B35AAADFFBD53</sha1> 
+    </version> 
+    <version name="58" package="com.googlecode.gomingw.GoMinGWR">
+        <file path=".WPM\Install.bat">set name=go
+cd "%name%"        
+for /f "delims=" %%a in ('dir /b') do (
+  move "%%a" ..
+)
+cd ..
+rmdir "%name%"
+</file> 
+        <url>http://gomingw.googlecode.com/files/gowin32_release.r58.zip</url> 
+        <sha1>4ce80329789147f6e310561145a6e934b324f3dd</sha1> 
     </version> 
 
     <version name="1.1.8" package="org.bitbucket.tortoisehg.TortoiseHg"
