@@ -4370,12 +4370,16 @@ rmdir /s /q "%name%"
         <sha1>04f5c1a40e1046526483a19dd8b674e916f94ad7</sha1>
     </version>
 
+    <!-- 
+        archived MySQL releases are here:
+        http://downloads.mysql.com/archives.php
+    -->
     <version name="5.5.11" package="com.mysql.MySQLCommunityServer">
         <file path=".WPM\Install.bat">for /f "delims=" %%x in ('dir /b mysql*') do set name=%%x
 xcopy "%name%\*" . /E /H
 rmdir /s /q "%name%"
 </file>
-        <url>http://dl.dropbox.com/u/17046326/files/com.mysql.MySQLCommunityServer-5.5.11.zip</url>
+        <url>http://downloads.mysql.com/archives/mysql-5.5/mysql-5.5.11-win32.zip</url>
         <sha1>53BD93274B648398BF8EAFF84BF600EF3B1E393F</sha1>
     </version>
     <version name="5.5.13" package="com.mysql.MySQLCommunityServer">
@@ -7405,6 +7409,21 @@ if %err% neq 0 exit /b %err%
 </file>
         <url>http://dl.dropbox.com/u/17046326/files/org.libreoffice.LibreOffice-3.3.2.exe</url>
         <sha1>C71D22D410BC1B6F275389D244D04D5F59A55911</sha1>
+    </version>
+    <version name="3.3.3" package="org.libreoffice.LibreOffice" 
+            type="one-file">
+        <file path=".WPM\Install.bat">for /f %%x in ('dir /b *.exe') do set setup=%%x
+"%setup%" /S /D=%CD%
+</file>
+        <file path=".WPM\Uninstall.bat">msiexec.exe /qn /norestart /Lime .WPM\MSI.log /x{CEE2613D-3B53-4447-BA2D-E88C08272581}
+set err=%errorlevel%
+type .WPM\MSI.log
+rem 3010=restart required
+if %err% equ 3010 exit /b 0
+if %err% neq 0 exit /b %err%
+</file>
+        <url>http://dl.dropbox.com/u/17046326/files/org.libreoffice.LibreOffice-3.3.2.exe</url>
+        <sha1>69526E72A4350FA647C1CA275414C57F6662A0AA</sha1>
     </version>
 
     <version name="1.0.1" package="org.pdfforge.PDFCreator" type="one-file">
