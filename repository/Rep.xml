@@ -1509,6 +1509,12 @@ yes - Print a string repeatedly.</description>
         <icon>http://dl.dropbox.com/u/17046326/picons/org.7-zip.SevenZip.png</icon>
         <license>org.7-zip.License</license>
     </package>
+    <package name="org.apache.Ant">
+        <title>Ant</title>
+        <url>http://ant.apache.org/</url>
+        <description>build tool</description>
+        <license>org.apache.ApacheLicense2</license>
+    </package>
     <package name="org.apache.httpd.HTTPServer">
         <title>Apache HTTP Server</title>
         <url>http://httpd.apache.org</url>
@@ -9528,5 +9534,19 @@ ren "%setup%" WinAVR.exe
         <important-file path="SETUP.EXE" title="Installer"/>
         <url>http://downloads.sourceforge.net/project/realterm/Realterm/1.99.27/Realterm_1-99-27.zip?ts=1308851261</url>
         <sha1>B71937E1119A67F8EBA65C730810C63E826F3332</sha1>
+    </version>
+
+    <version name="1.8.2" package="org.apache.Ant">
+        <file path=".WPM\Install.bat">for /f "delims=" %%x in ('dir /b apache*') do set name=%%x
+cd "%name%"        
+for /f "delims=" %%a in ('dir /b') do (
+  move "%%a" ..
+)
+cd ..
+rmdir "%name%"
+</file>
+        <url>http://archive.apache.org/dist/ant/binaries/apache-ant-1.8.2-bin.zip</url>
+        <sha1>36416061D1ED820583B87A8A924195A681432C6D</sha1>
+        <dependency package="com.oracle.JDK" versions="[1.4, 2)"/>
     </version>
 </root>
