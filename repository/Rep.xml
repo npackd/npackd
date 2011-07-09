@@ -5906,6 +5906,54 @@ for %%g in (%extensions%) do reg delete HKLM\SOFTWARE\Classes\.%%g\OpenWithList\
         <url>http://downloads.sourceforge.net/project/vlc/1.1.9/win32/vlc-1.1.9-win32.zip?ts=1304846830</url> 
         <sha1>4122DB7CE085E7FC5BD5D7775DFBC8EF339CC1B8</sha1> 
     </version> 
+    <version name="1.1.10" package="com.videolan.VLCMediaPlayer"> 
+        <important-file path="vlc.exe" title="VLC Media Player"/> 
+        <file path=".WPM\Extensions.txt">a52 aac ac3 adt adts aif ifc iff mr aob ape cda dts flac it m4a m4p mid mka mlp mod mp1 mp2 mp3 mpc oga ogg oma rmi s3m spx tta voc vqf w64 wav wma wv xa xm 3g2 3gp 3gp2 3gpp amv asf avi bin cue divx dv flv gxf iso m1v m2v m2t m2ts m4v mkv mov mp2 mp2v mp4 mp4v mpa mpe mpeg mpeg1 mpeg2 mpeg4 mpg mpv2 mts mxf nsv nuv ogg ogm ogv ogx ps rec rm rmvb tod ts tts vob vro webm wmv asx b4s ifo m3u m3u8 pls ram rar sdp vlc xspf zip cdg idx srt sub utf ass ssa aqt jss psb rt smi
+</file>
+        <file path=".WPM\Install.bat">for /f %%x in ('dir /b vlc*') do set name=%%x
+for /f "delims=" %%x in ('dir /b aria*') do set name=%%x
+cd "%name%"        
+for /f "delims=" %%a in ('dir /b') do (
+  move "%%a" ..
+)
+cd ..
+rmdir "%name%"
+
+set package=com.videolan.VLCMediaPlayer
+set version=1.1.10
+set key=%package%-%version%
+
+reg add HKLM\SOFTWARE\Classes\Applications\%key%\shell\open /v FriendlyAppName /d "VLC Media Player (%version%)" /f
+set c=\"%CD%\vlc.exe\" \"%%1\"
+reg add HKLM\SOFTWARE\Classes\Applications\%KEY%\shell\open\command /d "%c%" /f
+
+rem read extensions from the file
+for /f "usebackq delims=" %%a in (.WPM\Extensions.txt) do (
+set extensions=%%a
+goto out
+)
+:out
+
+for %%g in (%extensions%) do reg add HKLM\SOFTWARE\Classes\.%%g\OpenWithList\%key% /f
+</file> 
+        <file path=".WPM\Uninstall.bat">set package=com.videolan.VLCMediaPlayer
+set version=1.1.10
+set key=%package%-%version%
+
+reg delete HKLM\SOFTWARE\Classes\Applications\%key% /f
+
+rem read extensions from the file
+for /f "usebackq delims=" %%a in (.WPM\Extensions.txt) do (
+set extensions=%%a
+goto out
+)
+:out
+
+for %%g in (%extensions%) do reg delete HKLM\SOFTWARE\Classes\.%%g\OpenWithList\%key% /f
+</file> 
+        <url>https://downloads.sourceforge.net/project/vlc/1.1.10/win32/vlc-1.1.10-win32.zip?ts=1310243622</url> 
+        <sha1>6D12247F4038A00B45DF1A3BC8AE26B2E7D50D24</sha1> 
+    </version> 
 
     <version name="1.0.2.22" package="com.divx.DivXInstaller"
             type="one-file">
