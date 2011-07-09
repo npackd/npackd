@@ -6542,6 +6542,28 @@ if %err% neq 0 exit /b %err%
         <url>http://downloads.sourceforge.net/project/tortoisesvn/1.6.15/Application/TortoiseSVN-1.6.15.21042-win32-svn-1.6.16.msi?ts=1302445334</url>
         <sha1>155BCEFB2A081A9FC2A6FF818E516EDD5737507E</sha1>
     </version>
+    <version name="1.6.16.21511"
+            package="net.tortoisesvn.TortoiseSVN"
+            type="one-file">
+        <file path=".WPM\Install.bat">for /f "delims=" %%x in ('dir /b *.msi') do set setup=%%x
+msiexec.exe /qn /norestart /Lime .WPM\MSI.log /i "%setup%" INSTALLDIR="%CD%" ALLUSERS=1
+set err=%errorlevel%
+type .WPM\MSI.log
+rem 3010=restart required
+if %err% equ 3010 exit /b 0
+if %err% neq 0 exit /b %err%
+</file>
+        <file path=".WPM\Uninstall.bat">for /f "delims=" %%x in ('dir /b *.msi') do set setup=%%x
+msiexec.exe /qn /norestart /Lime .WPM\MSI.log /x "%setup%"
+set err=%errorlevel%
+type .WPM\MSI.log
+rem 3010=restart required
+if %err% equ 3010 exit /b 0
+if %err% neq 0 exit /b %err%
+</file>
+        <url>https://downloads.sourceforge.net/project/tortoisesvn/1.6.16/Application/TortoiseSVN-1.6.16.21511-win32-svn-1.6.17.msi?ts=1310207201</url>
+        <sha1>E3E5265BD0868BFD24930AC506B4AFE96E893468</sha1>
+    </version>
 
     <version name="0.6.9" package="org.py2exe.Py2Exe">
         <important-file path="py2exe-0.6.9\README.txt" title="Read Me"/>
