@@ -659,6 +659,27 @@ if %err% neq 0 exit /b %err%
         <url>http://downloads.activestate.com/ActivePerl/releases/5.14.0.1400/ActivePerl-5.14.0.1400-MSWin32-x64-294816.msi</url>
         <sha1>1E4FB144B30ECFA40B66490C89835BA4764260B2</sha1>
     </version>
+    <version name="5.14.1.1401" package="com.activestate.ActivePerl64"
+            type="one-file">
+        <file path=".WPM\Install.bat">for /f "delims=" %%x in ('dir /b *.msi') do set setup=%%x
+msiexec.exe /qn /norestart /Lime .WPM\MSI.log /i "%setup%" TARGETDIR="%CD%" ALLUSERS=1
+set err=%errorlevel%
+type .WPM\MSI.log
+rem 3010=restart required
+if %err% equ 3010 exit /b 0
+if %err% neq 0 exit /b %err%
+</file>
+        <file path=".WPM\Uninstall.bat">for /f "delims=" %%x in ('dir /b *.msi') do set setup=%%x
+msiexec.exe /qn /norestart /Lime .WPM\MSI.log /x "%setup%"
+set err=%errorlevel%
+type .WPM\MSI.log
+rem 3010=restart required
+if %err% equ 3010 exit /b 0
+if %err% neq 0 exit /b %err%
+</file>
+        <url>http://downloads.activestate.com/ActivePerl/releases/5.14.1.1401/ActivePerl-5.14.1.1401-MSWin32-x64-294969.msi</url>
+        <sha1>B46E90D20C4A21EEA478457F4B3F72B08F2C52FF</sha1>
+    </version>
 
     <version name="2010.762" package="com.mythicsoft.AgentRansack64"
             type="one-file">
