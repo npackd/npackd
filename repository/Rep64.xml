@@ -714,6 +714,15 @@ rmdir /s /q "%name%"
         <url>http://download.blender.org/release/Blender2.57/blender-2.57b-windows64.zip</url>
         <sha1>50029FD753706B997D150D391B4CD33462243E91</sha1>
     </version>
+    <version name="2.58.1" package="org.blender.Blender64">
+        <file path=".WPM\Install.bat">for /f "delims=" %%x in ('dir /b blender*') do set name=%%x
+xcopy "%name%\*" . /E /H
+rmdir /s /q "%name%"
+</file>
+        <important-file path="blender.exe" title="Blender"/>
+        <url>http://download.blender.org/release/Blender2.58/blender-2.58a-windows64.zip</url>
+        <sha1>9C2E8A7D6059D744E4258F5C811939607A32D031</sha1>
+    </version>
 
     <version name="4.3.8.2523" package="se.cdburnerxp.CDBurnerXP64">
         <important-file path="cdbxpp.exe" title="CDBurnerXP"/>
