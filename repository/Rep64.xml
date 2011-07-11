@@ -370,6 +370,22 @@ if %err% neq 0 exit /b %err%
         <sha1>FE7248273FF57960FC151BF96D814BC8A297063B</sha1>
         <detect-msi>{26A24AE4-039D-4CA4-87B4-2F86416025FF}</detect-msi>
     </version>
+    <version name="1.6.0.26" package="com.oracle.JRE64" type="one-file">
+        <file path=".WPM\Install.bat">ren AutoDL Install.exe
+Install.exe /s /v"/qn /Lime .WPM\MSI.log /norestart AgreeToLicense=YES IEXPLORER=1 MOZILLA=1 REBOOT=Suppress ALLUSERS=1 INSTALLDIR="""%CD%""" SYSTRAY=0"
+set err=%errorlevel%
+type .WPM\MSI.log
+if %err% neq 0 exit /b %err%
+</file>
+        <file path=".WPM\Uninstall.bat">MsiExec.exe /qn /norestart /Lime .WPM\MSI.log /X{26A24AE4-039D-4CA4-87B4-2F86416026FF}
+set err=%errorlevel%
+type .WPM\MSI.log
+if %err% neq 0 exit /b %err%
+</file>
+        <url>http://javadl.sun.com/webapps/download/AutoDL?BundleId=49026</url>
+        <sha1>835a055a8163cc712e1d602902d5ebffc91cfd30</sha1>
+        <detect-msi>{26A24AE4-039D-4CA4-87B4-2F86416026FF}</detect-msi>
+    </version>
     
     <version name="2.1.4" package="com.wampserver.WampServer64" type="one-file">
         <file path=".WPM\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x
