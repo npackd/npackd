@@ -476,6 +476,7 @@ if %err% neq 0 exit /b %err%
     <version name="1.1.8" package="org.bitbucket.tortoisehg.TortoiseHg64"
             type="one-file">
         <file path=".WPM\Install.bat">for /f %%x in ('dir /b *.msi') do set setup=%%x
+copy "%setup%" .WPM
 msiexec.exe /qn /norestart /Lime .WPM\MSI.log /i "%setup%" TARGETDIR="%CD%" ALLUSERS=1
 set err=%errorlevel%
 type .WPM\MSI.log
@@ -483,7 +484,8 @@ rem 3010=restart required
 if %err% equ 3010 exit /b 0
 if %err% neq 0 exit /b %err%
 </file>
-        <file path=".WPM\Uninstall.bat">for /f %%x in ('dir /b *.msi') do set setup=%%x
+        <file path=".WPM\Uninstall.bat">copy .WPM\*.msi .
+for /f %%x in ('dir /b *.msi') do set setup=%%x
 msiexec.exe /qn /norestart /Lime .WPM\MSI.log /x "%setup%"
 set err=%errorlevel%
 type .WPM\MSI.log
@@ -497,6 +499,7 @@ if %err% neq 0 exit /b %err%
     <version name="2.0.3" package="org.bitbucket.tortoisehg.TortoiseHg64"
             type="one-file">
         <file path=".WPM\Install.bat">for /f %%x in ('dir /b *.msi') do set setup=%%x
+copy "%setup%" .WPM
 msiexec.exe /qn /norestart /Lime .WPM\MSI.log /i "%setup%" TARGETDIR="%CD%" ALLUSERS=1
 set err=%errorlevel%
 type .WPM\MSI.log
@@ -504,7 +507,8 @@ rem 3010=restart required
 if %err% equ 3010 exit /b 0
 if %err% neq 0 exit /b %err%
 </file>
-        <file path=".WPM\Uninstall.bat">for /f %%x in ('dir /b *.msi') do set setup=%%x
+        <file path=".WPM\Uninstall.bat">copy .WPM\*.msi .
+for /f %%x in ('dir /b *.msi') do set setup=%%x
 msiexec.exe /qn /norestart /Lime .WPM\MSI.log /x "%setup%"
 set err=%errorlevel%
 type .WPM\MSI.log
@@ -518,6 +522,7 @@ if %err% neq 0 exit /b %err%
     <version name="2.0.5" package="org.bitbucket.tortoisehg.TortoiseHg64"
             type="one-file">
         <file path=".WPM\Install.bat">for /f %%x in ('dir /b *.msi') do set setup=%%x
+copy "%setup%" .WPM
 msiexec.exe /qn /norestart /Lime .WPM\MSI.log /i "%setup%" TARGETDIR="%CD%" ALLUSERS=1
 set err=%errorlevel%
 type .WPM\MSI.log
@@ -525,7 +530,8 @@ rem 3010=restart required
 if %err% equ 3010 exit /b 0
 if %err% neq 0 exit /b %err%
 </file>
-        <file path=".WPM\Uninstall.bat">for /f %%x in ('dir /b *.msi') do set setup=%%x
+        <file path=".WPM\Uninstall.bat">copy .WPM\*.msi .
+for /f %%x in ('dir /b *.msi') do set setup=%%x
 msiexec.exe /qn /norestart /Lime .WPM\MSI.log /x "%setup%"
 set err=%errorlevel%
 type .WPM\MSI.log
@@ -535,6 +541,29 @@ if %err% neq 0 exit /b %err%
 </file>
         <url>http://bitbucket.org/tortoisehg/thg/downloads/tortoisehg-2.0.5-hg-1.8.4-x64.msi</url>
         <sha1>1E3DDDEB1CE02D8299F2DA24C188AE352E324B2B</sha1>
+    </version>
+    <version name="2.1.1" package="org.bitbucket.tortoisehg.TortoiseHg64"
+            type="one-file">
+        <file path=".WPM\Install.bat">for /f %%x in ('dir /b *.msi') do set setup=%%x
+copy "%setup%" .WPM
+msiexec.exe /qn /norestart /Lime .WPM\MSI.log /i "%setup%" TARGETDIR="%CD%" ALLUSERS=1
+set err=%errorlevel%
+type .WPM\MSI.log
+rem 3010=restart required
+if %err% equ 3010 exit /b 0
+if %err% neq 0 exit /b %err%
+</file>
+        <file path=".WPM\Uninstall.bat">copy .WPM\*.msi .
+for /f %%x in ('dir /b *.msi') do set setup=%%x
+msiexec.exe /qn /norestart /Lime .WPM\MSI.log /x "%setup%"
+set err=%errorlevel%
+type .WPM\MSI.log
+rem 3010=restart required
+if %err% equ 3010 exit /b 0
+if %err% neq 0 exit /b %err%
+</file>
+        <url>http://bitbucket.org/tortoisehg/thg/downloads/tortoisehg-2.1.1-hg-1.9+10-x64.msi</url>
+        <sha1>7c95fce2011398dc6f9f5952642c8f3bcd9ae2a4</sha1>
     </version>
 
     <version name="2.5.192" package="com.tracker-software.PDFXChangeViewer64"
