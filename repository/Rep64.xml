@@ -1054,6 +1054,7 @@ rmdir /s /q "%name%"
     <version name="1.6.16" package="org.apache.subversion.Subversion64"
             type="one-file">
         <file path=".WPM\Install.bat">for /f "delims=" %%x in ('dir /b *.msi') do set setup=%%x
+copy "%setup%" .WPM        
 msiexec.exe /qn /norestart /Lime .WPM\MSI.log /i "%setup%" INSTALLLOCATION="%CD%" ALLUSERS=1
 set err=%errorlevel%
 type .WPM\MSI.log
@@ -1061,7 +1062,8 @@ rem 3010=restart required
 if %err% equ 3010 exit /b 0
 if %err% neq 0 exit /b %err%
 </file>
-        <file path=".WPM\Uninstall.bat">for /f "delims=" %%x in ('dir /b *.msi') do set setup=%%x
+        <file path=".WPM\Uninstall.bat">copy .WPM\*.msi .
+for /f "delims=" %%x in ('dir /b *.msi') do set setup=%%x
 msiexec.exe /qn /norestart /Lime .WPM\MSI.log /x "%setup%"
 set err=%errorlevel%
 type .WPM\MSI.log
@@ -1071,6 +1073,29 @@ if %err% neq 0 exit /b %err%
 </file>
         <url>http://www.sliksvn.com/pub/Slik-Subversion-1.6.16-x64.msi</url>
         <sha1>96C6DE39ABBE8B1B2DB6EF6CE1FE0294A9CE5DDE</sha1>
+    </version>
+    <version name="1.6.17" package="org.apache.subversion.Subversion64"
+            type="one-file">
+        <file path=".WPM\Install.bat">for /f "delims=" %%x in ('dir /b *.msi') do set setup=%%x
+copy "%setup%" .WPM        
+msiexec.exe /qn /norestart /Lime .WPM\MSI.log /i "%setup%" INSTALLLOCATION="%CD%" ALLUSERS=1
+set err=%errorlevel%
+type .WPM\MSI.log
+rem 3010=restart required
+if %err% equ 3010 exit /b 0
+if %err% neq 0 exit /b %err%
+</file>
+        <file path=".WPM\Uninstall.bat">copy .WPM\*.msi .
+for /f "delims=" %%x in ('dir /b *.msi') do set setup=%%x
+msiexec.exe /qn /norestart /Lime .WPM\MSI.log /x "%setup%"
+set err=%errorlevel%
+type .WPM\MSI.log
+rem 3010=restart required
+if %err% equ 3010 exit /b 0
+if %err% neq 0 exit /b %err%
+</file>
+        <url>http://www.sliksvn.com/pub/Slik-Subversion-1.6.17-x64.msi</url>
+        <sha1>c2f4c1563b2f0b8d546d35961505f0693080518b</sha1>
     </version>
 
     <version name="1.6.15.21042"
