@@ -8960,6 +8960,7 @@ for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set python=%%x
 set python=%python:/=\%
 
 for /f "delims=" %%x in ('dir /b *.msi') do set setup=%%x
+copy "%setup%" .WPM
 msiexec.exe /qn /norestart /Lime .WPM\MSI.log /i "%setup%" TARGETDIR="%python%" ALLUSERS=1
 set err=%errorlevel%
 type .WPM\MSI.log
@@ -8967,7 +8968,8 @@ rem 3010=restart required
 if %err% equ 3010 exit /b 0
 if %err% neq 0 exit /b %err%
 </file>
-        <file path=".WPM\Uninstall.bat">for /f "delims=" %%x in ('dir /b *.msi') do set setup=%%x
+        <file path=".WPM\Uninstall.bat">move .WPM\*.msi .
+for /f "delims=" %%x in ('dir /b *.msi') do set setup=%%x
 msiexec.exe /qn /norestart /Lime .WPM\MSI.log /x "%setup%"
 set err=%errorlevel%
 type .WPM\MSI.log
@@ -8986,6 +8988,7 @@ for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set python=%%x
 set python=%python:/=\%
 
 for /f "delims=" %%x in ('dir /b *.msi') do set setup=%%x
+copy "%setup%" .WPM
 msiexec.exe /qn /norestart /Lime .WPM\MSI.log /i "%setup%" TARGETDIR="%python%" ALLUSERS=1
 set err=%errorlevel%
 type .WPM\MSI.log
@@ -8993,7 +8996,8 @@ rem 3010=restart required
 if %err% equ 3010 exit /b 0
 if %err% neq 0 exit /b %err%
 </file>
-        <file path=".WPM\Uninstall.bat">for /f "delims=" %%x in ('dir /b *.msi') do set setup=%%x
+        <file path=".WPM\Uninstall.bat">move .WPM\*.msi .
+for /f "delims=" %%x in ('dir /b *.msi') do set setup=%%x
 msiexec.exe /qn /norestart /Lime .WPM\MSI.log /x "%setup%"
 set err=%errorlevel%
 type .WPM\MSI.log
