@@ -8616,64 +8616,55 @@ if %err% neq 0 exit /b %err%
 
     <version name="1.8.1" package="com.googlecode.stexbar.StExBar"
             type="one-file">
-        <file path=".WPM\Install.bat">for /f %%x in ('dir /b *.msi') do set setup=%%x
-msiexec.exe /qn /norestart /Lime .WPM\MSI.log /i "%setup%" TARGETDIR="%CD%" ALLUSERS=1
-set err=%errorlevel%
-type .WPM\MSI.log
-rem 3010=restart required
-if %err% equ 3010 exit /b 0
-if %err% neq 0 exit /b %err%
+       <file path=".WPM\Install.bat">if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
+set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.NpackdInstallerHelper" "--versions=[1, 1]"
+for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set npackdih=%%x
+call "%npackdih%\InstallMSI.bat" TARGETDIR
 </file>
-        <file path=".WPM\Uninstall.bat">for /f %%x in ('dir /b *.msi') do set setup=%%x
-msiexec.exe /qn /norestart /Lime .WPM\MSI.log /x "%setup%"
-set err=%errorlevel%
-type .WPM\MSI.log
-rem 3010=restart required
-if %err% equ 3010 exit /b 0
-if %err% neq 0 exit /b %err%
+        <file path=".WPM\Uninstall.bat">if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
+set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.NpackdInstallerHelper" "--versions=[1, 1]"
+for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set npackdih=%%x
+call "%npackdih%\UninstallMSI.bat"
 </file>
+        <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1, 1]"/>
+        <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.15.7, 1.15.7]"/>
+        <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1, 1]"/>
         <url>http://stexbar.googlecode.com/files/StExBar-1.8.1.msi</url>
         <sha1>5E8364EB6B73C2CCBDA55885B6D08EAC3A30A63B</sha1>
     </version>
     <version name="1.8.2" package="com.googlecode.stexbar.StExBar"
             type="one-file">
-        <file path=".WPM\Install.bat">for /f %%x in ('dir /b *.msi') do set setup=%%x
-msiexec.exe /qn /norestart /Lime .WPM\MSI.log /i "%setup%" TARGETDIR="%CD%" ALLUSERS=1
-set err=%errorlevel%
-type .WPM\MSI.log
-rem 3010=restart required
-if %err% equ 3010 exit /b 0
-if %err% neq 0 exit /b %err%
+       <file path=".WPM\Install.bat">if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
+set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.NpackdInstallerHelper" "--versions=[1, 1]"
+for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set npackdih=%%x
+call "%npackdih%\InstallMSI.bat" TARGETDIR
 </file>
-        <file path=".WPM\Uninstall.bat">for /f %%x in ('dir /b *.msi') do set setup=%%x
-msiexec.exe /qn /norestart /Lime .WPM\MSI.log /x "%setup%"
-set err=%errorlevel%
-type .WPM\MSI.log
-rem 3010=restart required
-if %err% equ 3010 exit /b 0
-if %err% neq 0 exit /b %err%
+        <file path=".WPM\Uninstall.bat">if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
+set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.NpackdInstallerHelper" "--versions=[1, 1]"
+for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set npackdih=%%x
+call "%npackdih%\UninstallMSI.bat"
 </file>
+        <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1, 1]"/>
+        <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.15.7, 1.15.7]"/>
+        <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1, 1]"/>
         <url>http://stexbar.googlecode.com/files/StExBar-1.8.2.msi</url>
         <sha1>39440C9BC341BF1C9D42278C4784086ED50FE4EB</sha1>
     </version>
     <version name="1.8.3" package="com.googlecode.stexbar.StExBar"
             type="one-file">
-        <file path=".WPM\Install.bat">for /f %%x in ('dir /b *.msi') do set setup=%%x
-msiexec.exe /qn /norestart /Lime .WPM\MSI.log /i "%setup%" TARGETDIR="%CD%" ALLUSERS=1
-set err=%errorlevel%
-type .WPM\MSI.log
-rem 3010=restart required
-if %err% equ 3010 exit /b 0
-if %err% neq 0 exit /b %err%
+       <file path=".WPM\Install.bat">if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
+set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.NpackdInstallerHelper" "--versions=[1, 1]"
+for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set npackdih=%%x
+call "%npackdih%\InstallMSI.bat" TARGETDIR
 </file>
-        <file path=".WPM\Uninstall.bat">for /f %%x in ('dir /b *.msi') do set setup=%%x
-msiexec.exe /qn /norestart /Lime .WPM\MSI.log /x "%setup%"
-set err=%errorlevel%
-type .WPM\MSI.log
-rem 3010=restart required
-if %err% equ 3010 exit /b 0
-if %err% neq 0 exit /b %err%
+        <file path=".WPM\Uninstall.bat">if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
+set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.NpackdInstallerHelper" "--versions=[1, 1]"
+for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set npackdih=%%x
+call "%npackdih%\UninstallMSI.bat"
 </file>
+        <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1, 1]"/>
+        <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.15.7, 1.15.7]"/>
+        <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1, 1]"/>
         <url>http://stexbar.googlecode.com/files/StExBar-1.8.3.msi</url>
         <sha1>8DF68D17FD5C02067A2BA659E411A28FFF11042C</sha1>
     </version>
