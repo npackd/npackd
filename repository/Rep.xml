@@ -6039,17 +6039,28 @@ for %%g in (%extensions%) do reg delete HKLM\SOFTWARE\Classes\.%%g\OpenWithList\
 set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.NpackdInstallerHelper" "--versions=[1, 1]"
 for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set npackdih=%%x
 call "%npackdih%\InstallMSI.bat" TARGETDIR
+if %errorlevel% neq 0 goto eof
+
+set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.pathed.PathEd" "--versions=[0.8, 0.8]"
+for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set pathed=%%x
+"%pathed%\pathed" -s -a "%CD%\Perl\bin"
 </file>
         <file path=".WPM\Uninstall.bat">if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
 set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.NpackdInstallerHelper" "--versions=[1, 1]"
 for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set npackdih=%%x
 call "%npackdih%\UninstallMSI.bat"
+if %errorlevel% neq 0 goto eof
+
+set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.pathed.PathEd" "--versions=[0.8, 0.8]"
+for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set pathed=%%x
+"%pathed%\pathed" -s -r "%CD%\Perl\bin"
 </file>
         <url>http://downloads.activestate.com/ActivePerl/releases/5.12.3.1204/ActivePerl-5.12.3.1204-MSWin32-x86-294330.msi</url>
         <sha1>9C2B8C6BCAD201FA11576B91E6840689EF58E3EF</sha1>
         <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1, 1]"/>
         <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.15.7, 1.15.7]"/>
         <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1, 1]"/>
+        <dependency package="com.googlecode.pathed.PathEd" versions="[0.8, 0.8]"/>
     </version>
     <version name="5.14.0.1400" package="com.activestate.ActivePerl"
             type="one-file">
@@ -6057,17 +6068,28 @@ call "%npackdih%\UninstallMSI.bat"
 set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.NpackdInstallerHelper" "--versions=[1, 1]"
 for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set npackdih=%%x
 call "%npackdih%\InstallMSI.bat" TARGETDIR
+if %errorlevel% neq 0 goto eof
+
+set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.pathed.PathEd" "--versions=[0.8, 0.8]"
+for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set pathed=%%x
+"%pathed%\pathed" -s -a "%CD%\Perl\bin"
 </file>
         <file path=".WPM\Uninstall.bat">if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
 set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.NpackdInstallerHelper" "--versions=[1, 1]"
 for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set npackdih=%%x
 call "%npackdih%\UninstallMSI.bat"
+if %errorlevel% neq 0 goto eof
+
+set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.pathed.PathEd" "--versions=[0.8, 0.8]"
+for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set pathed=%%x
+"%pathed%\pathed" -s -r "%CD%\Perl\bin"
 </file>
         <url>http://downloads.activestate.com/ActivePerl/releases/5.14.0.1400/ActivePerl-5.14.0.1400-MSWin32-x86-294816.msi</url>
         <sha1>D63F963D6FAB5C1DDA62CA35F100D7FB93876893</sha1>
         <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1, 1]"/>
         <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.15.7, 1.15.7]"/>
         <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1, 1]"/>
+        <dependency package="com.googlecode.pathed.PathEd" versions="[0.8, 0.8]"/>
     </version>
     <version name="5.14.1.1401" package="com.activestate.ActivePerl"
             type="one-file">
@@ -6075,17 +6097,28 @@ call "%npackdih%\UninstallMSI.bat"
 set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.NpackdInstallerHelper" "--versions=[1, 1]"
 for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set npackdih=%%x
 call "%npackdih%\InstallMSI.bat" TARGETDIR
+if %errorlevel% neq 0 goto eof
+
+set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.pathed.PathEd" "--versions=[0.8, 0.8]"
+for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set pathed=%%x
+"%pathed%\pathed" -s -a "%CD%\Perl\bin"
 </file>
         <file path=".WPM\Uninstall.bat">if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
 set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.NpackdInstallerHelper" "--versions=[1, 1]"
 for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set npackdih=%%x
 call "%npackdih%\UninstallMSI.bat"
+if %errorlevel% neq 0 goto eof
+
+set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.pathed.PathEd" "--versions=[0.8, 0.8]"
+for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set pathed=%%x
+"%pathed%\pathed" -s -r "%CD%\Perl\bin"
 </file>
         <url>http://downloads.activestate.com/ActivePerl/releases/5.14.1.1401/ActivePerl-5.14.1.1401-MSWin32-x86-294969.msi</url>
         <sha1>1DDAEC7C25E92F54198A03F5E87700A695EDE852</sha1>
         <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1, 1]"/>
         <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.15.7, 1.15.7]"/>
         <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1, 1]"/>
+        <dependency package="com.googlecode.pathed.PathEd" versions="[0.8, 0.8]"/>
     </version>
     
     <version name="1.2.6" package="net.sourceforge.audacity.Audacity">
