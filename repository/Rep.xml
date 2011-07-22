@@ -417,6 +417,11 @@
         <description>Git</description>
         <license>org.gnu.GPLv2</license>
     </package>
+    <package name="com.googlecode.pathed.PathEd">
+        <title>pathed</title>
+        <url>http://code.google.com/p/pathed/</url>
+        <description>command-line tool for changing and querying the PATH</description>
+    </package>
     <package name="com.googlecode.stexbar.StExBar">
         <title>StExBar</title>
         <url>http://code.google.com/p/stexbar/</url>
@@ -3941,32 +3946,89 @@ for %%g in (pdf ps eps svg svgz sxd odg sla sla.gz scd scd.gz) do reg delete HKL
 
     <version name="7.21.2" package="se.haxx.curl.CURL">
         <file path=".WPM\Install.bat">for /f "delims=" %%x in ('dir /b curl*') do set name=%%x
-xcopy "%name%\*" . /E /H
-rmdir /s /q "%name%"
+cd "%name%"        
+for /f "delims=" %%a in ('dir /b') do (
+  move "%%a" ..
+)
+cd ..
+rmdir "%name%"
+
+if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
+set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.pathed.PathEd" "--versions=[0.8, 0.8]"
+for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set pathed=%%x
+"%pathed%\pathed" -s -a "%CD%"
+</file>
+        <file path=".WPM\Uninstall.bat">if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
+set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.pathed.PathEd" "--versions=[0.8, 0.8]"
+for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set pathed=%%x
+"%pathed%\pathed" -s -r "%CD%"
 </file>
         <url>http://www.gknw.net/mirror/curl/win32/curl-7.21.2-ssl-sspi-zlib-static-bin-w32.zip</url>
         <sha1>bb7ff1c8804646882b17972ae843f77964df7cf0</sha1>
+        <dependency package="com.googlecode.pathed.PathEd" versions="[0.8, 0.8]"/>
     </version>
     <version name="7.21.3" package="se.haxx.curl.CURL">
         <file path=".WPM\Install.bat">for /f "delims=" %%x in ('dir /b curl*') do set name=%%x
-xcopy "%name%\*" . /E /H
-rmdir /s /q "%name%"
+cd "%name%"        
+for /f "delims=" %%a in ('dir /b') do (
+  move "%%a" ..
+)
+cd ..
+rmdir "%name%"
+
+if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
+set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.pathed.PathEd" "--versions=[0.8, 0.8]"
+for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set pathed=%%x
+"%pathed%\pathed" -s -a "%CD%"
+</file>
+        <file path=".WPM\Uninstall.bat">if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
+set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.pathed.PathEd" "--versions=[0.8, 0.8]"
+for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set pathed=%%x
+"%pathed%\pathed" -s -r "%CD%"
 </file>
         <url>http://www.gknw.net/mirror/curl/win32/curl-7.21.3-ssl-sspi-zlib-static-bin-w32.zip</url>
-        <sha1>f3b94d347346da001ac405eba7edb0c838e9e7bb</sha1>
+        <sha1>f3b94d347346da001ac405eba7edb0c838e9e7bb</sha1>        
     </version>
     <version name="7.21.4" package="se.haxx.curl.CURL">
         <file path=".WPM\Install.bat">for /f "delims=" %%x in ('dir /b curl*') do set name=%%x
-xcopy "%name%\*" . /E /H
-rmdir /s /q "%name%"
+cd "%name%"        
+for /f "delims=" %%a in ('dir /b') do (
+  move "%%a" ..
+)
+cd ..
+rmdir "%name%"
+
+if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
+set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.pathed.PathEd" "--versions=[0.8, 0.8]"
+for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set pathed=%%x
+"%pathed%\pathed" -s -a "%CD%"
+</file>
+        <file path=".WPM\Uninstall.bat">if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
+set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.pathed.PathEd" "--versions=[0.8, 0.8]"
+for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set pathed=%%x
+"%pathed%\pathed" -s -r "%CD%"
 </file>
         <url>http://www.gknw.net/mirror/curl/win32/curl-7.21.4-ssl-sspi-zlib-static-bin-w32.zip</url>
         <sha1>63812474CA76ABD5C8819E77A50ED5E0EB48F356</sha1>
     </version>
     <version name="7.21.6" package="se.haxx.curl.CURL">
         <file path=".WPM\Install.bat">for /f "delims=" %%x in ('dir /b curl*') do set name=%%x
-xcopy "%name%\*" . /E /H
-rmdir /s /q "%name%"
+cd "%name%"        
+for /f "delims=" %%a in ('dir /b') do (
+  move "%%a" ..
+)
+cd ..
+rmdir "%name%"
+
+if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
+set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.pathed.PathEd" "--versions=[0.8, 0.8]"
+for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set pathed=%%x
+"%pathed%\pathed" -s -a "%CD%"
+</file>
+        <file path=".WPM\Uninstall.bat">if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
+set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.pathed.PathEd" "--versions=[0.8, 0.8]"
+for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set pathed=%%x
+"%pathed%\pathed" -s -r "%CD%"
 </file>
         <url>http://www.gknw.net/mirror/curl/win32/curl-7.21.6-ssl-sspi-zlib-static-bin-w32.zip</url>
         <sha1>B94DF393B070874F2931A607EE506F5D3D37C391</sha1>
@@ -9948,5 +10010,10 @@ if %err% neq 0 exit %err%
     <version name="1" package="com.googlecode.windows-package-manager.NpackdInstallerHelper">
         <url>http://npackd.googlecode.com/files/com.googlecode.windows-package-manager.NpackdInstallerHelper-1.zip</url>
         <sha1>3d9c276b865e77a8d9c5b7617d1129df2f474b7d</sha1>
+    </version>
+    
+    <version name="0.8" package="com.googlecode.pathed.PathEd">
+        <url>http://pathed.googlecode.com/files/pathed-08.zip</url>
+        <sha1>854bd966139c1b7498967311db7e659b270031a5</sha1>
     </version>
 </root>
