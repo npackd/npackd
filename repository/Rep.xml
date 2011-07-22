@@ -10059,10 +10059,22 @@ for /f "delims=" %%a in ('dir /b') do (
 )
 cd ..
 rmdir "%name%"
+if %errorlevel% neq 0 goto eof
+
+if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
+set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.pathed.PathEd" "--versions=[0.8, 0.8]"
+for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set pathed=%%x
+"%pathed%\pathed" -s -a "%CD%\bin"
+</file>
+        <file path=".WPM\Uninstall.bat">if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
+set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.pathed.PathEd" "--versions=[0.8, 0.8]"
+for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set pathed=%%x
+"%pathed%\pathed" -s -r "%CD%\bin"
 </file>
         <url>http://archive.apache.org/dist/ant/binaries/apache-ant-1.8.2-bin.zip</url>
         <sha1>36416061D1ED820583B87A8A924195A681432C6D</sha1>
         <dependency package="com.oracle.JDK" versions="[1.4, 2)"/>
+        <dependency package="com.googlecode.pathed.PathEd" versions="[0.8, 0.8]"/>
     </version>
     
     <version name="1" package="com.steampowered.Steam" type="one-file">
