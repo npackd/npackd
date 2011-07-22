@@ -9476,14 +9476,27 @@ if %err% neq 0 exit %err%
 set err=%errorlevel%
 type .WPM\InnoSetupInstall.log
 if %err% neq 0 exit %err%
+
+if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
+set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.pathed.PathEd" "--versions=[0.8, 0.8]"
+for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set pathed=%%x
+"%pathed%\pathed" -s -a "%CD%\bin"
+verify
 </file>
         <file path=".WPM\Uninstall.bat">uninstall\unins000.exe /VERYSILENT /SUPPRESSMSGBOXES /NORESTART /LOG="%CD%\.WPM\InnoSetupUninstall.log"
 set err=%errorlevel%
 type .WPM\InnoSetupUninstall.log
 if %err% neq 0 exit %err%
+
+if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
+set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.pathed.PathEd" "--versions=[0.8, 0.8]"
+for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set pathed=%%x
+"%pathed%\pathed" -s -r "%CD%\bin"
+verify
 </file>
         <url>http://downloads.sourceforge.net/project/gnuwin32/coreutils/5.3.0/coreutils-5.3.0.exe?ts=1299431056</url>
         <sha1>B0B0112F162C148137E2453256CE7EE6E3258999</sha1>
+        <dependency package="com.googlecode.pathed.PathEd" versions="[0.8, 0.8]"/>
     </version>
 
     <version name="4.2.1" package="net.sourceforge.gnuwin32.Sed"
