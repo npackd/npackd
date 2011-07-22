@@ -2730,9 +2730,22 @@ verify
     <version name="2.6.2" package="net.blat.Blat">
         <file path=".WPM\Install.bat">move blat262\docs docs
 copy blat262\full\*.* .
-rmdir /s /q blat262</file>
+rmdir /s /q blat262
+if %errorlevel% neq 0 goto eof
+
+if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
+set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.pathed.PathEd" "--versions=[0.8, 0.8]"
+for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set pathed=%%x
+"%pathed%\pathed" -s -a "%CD%"
+</file>
+        <file path=".WPM\Uninstall.bat">if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
+set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.pathed.PathEd" "--versions=[0.8, 0.8]"
+for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set pathed=%%x
+"%pathed%\pathed" -s -r "%CD%"
+</file>
         <url>http://downloads.sourceforge.net/project/blat/Blat%20Full%20Version/Blat%20v2.6.2/blat262.full.zip?ts=1293718690</url>
         <sha1>fdf38990bbd45e36bed09ba04768272316ddc296</sha1>
+        <dependency package="com.googlecode.pathed.PathEd" versions="[0.8, 0.8]"/>
     </version>
 
     <version name="1.5" package="edu.cmu.andrew.ftp.MPack">
