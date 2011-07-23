@@ -9425,19 +9425,55 @@ for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set python=%%x
 
     <version name="3.0.2" package="org.apache.Maven">
         <file path=".WPM\Install.bat">for /f "delims=" %%x in ('dir /b apache*') do set name=%%x
-xcopy "%name%\*" . /E /H
-rmdir /s /q "%name%"
+cd "%name%"        
+for /f "delims=" %%a in ('dir /b') do (
+  move "%%a" ..
+)
+cd ..
+rmdir "%name%"
+if %errorlevel% neq 0 goto eof
+
+if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
+set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.pathed.PathEd" "--versions=[0.8, 0.8]"
+for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set pathed=%%x
+"%pathed%\pathed" -s -a "%CD%\bin"
+verify
+</file>
+        <file path=".WPM\Uninstall.bat">if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
+set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.pathed.PathEd" "--versions=[0.8, 0.8]"
+for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set pathed=%%x
+"%pathed%\pathed" -s -r "%CD%\bin"
+verify
 </file>
         <url>http://archive.apache.org/dist/maven/binaries/apache-maven-3.0.2-bin.zip</url>
         <sha1>4F9C9E8D39630B3B285C72C8A88820A220898B7D</sha1>
+        <dependency package="com.googlecode.pathed.PathEd" versions="[0.8, 0.8]"/>
     </version>
     <version name="3.0.3" package="org.apache.Maven">
         <file path=".WPM\Install.bat">for /f "delims=" %%x in ('dir /b apache*') do set name=%%x
-xcopy "%name%\*" . /E /H
-rmdir /s /q "%name%"
+cd "%name%"        
+for /f "delims=" %%a in ('dir /b') do (
+  move "%%a" ..
+)
+cd ..
+rmdir "%name%"
+if %errorlevel% neq 0 goto eof
+
+if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
+set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.pathed.PathEd" "--versions=[0.8, 0.8]"
+for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set pathed=%%x
+"%pathed%\pathed" -s -a "%CD%\bin"
+verify
+</file>
+        <file path=".WPM\Uninstall.bat">if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
+set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.pathed.PathEd" "--versions=[0.8, 0.8]"
+for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set pathed=%%x
+"%pathed%\pathed" -s -r "%CD%\bin"
+verify
 </file>
         <url>http://archive.apache.org/dist/maven/binaries/apache-maven-3.0.3-bin.zip</url>
         <sha1>A511890049A6A9B8D675F4417721337580CBD2F9</sha1>
+        <dependency package="com.googlecode.pathed.PathEd" versions="[0.8, 0.8]"/>
     </version>
 
     <version name="0.9.16" package="org.miranda-im.MirandaIM" type="one-file">
