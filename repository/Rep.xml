@@ -9648,14 +9648,27 @@ verify
 set err=%errorlevel%
 type .WPM\InnoSetupInstall.log
 if %err% neq 0 exit %err%
+
+if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
+set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.pathed.PathEd" "--versions=[0.8, 0.8]"
+for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set pathed=%%x
+"%pathed%\pathed" -s -a "%CD%\bin"
+verify
 </file>
         <file path=".WPM\Uninstall.bat">uninstall\unins000.exe /VERYSILENT /SUPPRESSMSGBOXES /NORESTART /LOG="%CD%\.WPM\InnoSetupUninstall.log"
 set err=%errorlevel%
 type .WPM\InnoSetupUninstall.log
 if %err% neq 0 exit %err%
+
+if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
+set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.pathed.PathEd" "--versions=[0.8, 0.8]"
+for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set pathed=%%x
+"%pathed%\pathed" -s -r "%CD%\bin"
+verify
 </file>
         <url>http://downloads.sourceforge.net/project/gnuwin32/make/3.81/make-3.81.exe?ts=1299421781</url>
         <sha1>53A02F2FDBC299D980CA1F2BD01E39940CFC5918</sha1>
+        <dependency package="com.googlecode.pathed.PathEd" versions="[0.8, 0.8]"/>
     </version>
 
     <version name="5.3" package="net.sourceforge.gnuwin32.CoreUtils"
