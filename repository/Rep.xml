@@ -2637,23 +2637,32 @@ for /f %%x in ('dir /b *.exe') do set setup=%%x
     </version>
 
     <!-- old versions are deleted, but the package is too big -->
-    <version name="2.9.4106"
-            package="org.miktex.MiKTeX" type="one-file">
-        <file path=".WPM\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x
-"%setup%" --common-install="%CD%" --shared --unattended
-</file>
-        <file path=".WPM\Unnstall.bat">miktex\bin\internal\copystart_admin.exe "%CD%\miktex/bin/internal\uninstall_admin.exe"</file>
-        <url>http://sunsite.informatik.rwth-aachen.de/ftp/pub/mirror/ctan/systems/win32/miktex/setup/basic-miktex-2.9.4106.exe</url>
-        <sha1>ECFD68DECAC3D28796D1D9AC001AE3DCD6570514</sha1>
-    </version>
     <version name="2.9.4146"
             package="org.miktex.MiKTeX" type="one-file">
         <file path=".WPM\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x
 "%setup%" --common-install="%CD%" --shared --unattended
+if %errorlevel% neq 0 goto eof
+
+if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
+set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.pathed.PathEd" "--versions=[0.8, 0.8]"
+for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set pathed=%%x
+"%pathed%\pathed" -s -a "%CD%\miktex\bin"
+verify
 </file>
-        <file path=".WPM\Unnstall.bat">miktex\bin\internal\copystart_admin.exe "%CD%\miktex/bin/internal\uninstall_admin.exe"</file>
+        <file path=".WPM\Unnstall.bat">miktex\bin\internal\copystart_admin.exe "%CD%\miktex/bin/internal\uninstall_admin.exe"
+if %errorlevel% neq 0 goto eof
+
+if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
+set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.pathed.PathEd" "--versions=[0.8, 0.8]"
+for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set pathed=%%x
+"%pathed%\pathed" -s -r "%CD%\miktex\bin"
+verify
+</file>
         <url>http://sunsite.informatik.rwth-aachen.de/ftp/pub/mirror/ctan/systems/win32/miktex/setup/basic-miktex-2.9.4146.exe</url>
         <sha1>B760152CF64C78034BF6C194BD3BB9DE969EBAE2</sha1>
+        <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.15.7, 1.15.7]"/>
+        <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1, 1]"/>
+        <dependency package="com.googlecode.pathed.PathEd" versions="[0.8, 0.8]"/>
     </version>
 
     <version name="1.0.11" package="com.freesshd.FreeFTPD" type="one-file">
@@ -9802,12 +9811,42 @@ if %err% neq 0 exit %err%
         http://sourceforge.net/tracker/?func=detail&atid=983357&aid=3337739&group_id=202880
     -->
     <version name="1.0.2011.4.8" package="net.sourceforge.mingw-w64.MinGWW64">
+        <file path=".WPM\Install.bat">if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
+set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.pathed.PathEd" "--versions=[0.8, 0.8]"
+for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set pathed=%%x
+"%pathed%\pathed" -s -a "%CD%\bin"
+verify
+</file>
+        <file path=".WPM\Uninstall.bat">if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
+set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.pathed.PathEd" "--versions=[0.8, 0.8]"
+for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set pathed=%%x
+"%pathed%\pathed" -s -r "%CD%\bin"
+verify
+</file>
         <url>http://dl.dropbox.com/u/17046326/files/net.sourceforge.mingw-w64.MinGWW64-1.0.2011.4.8.zip</url>
         <sha1>9923667275258E1036970EECB53D7A7488A38DF0</sha1>
+        <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.15.7, 1.15.7]"/>
+        <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1, 1]"/>
+        <dependency package="com.googlecode.pathed.PathEd" versions="[0.8, 0.8]"/>
     </version>
     <version name="1.0.2011.6.24" package="net.sourceforge.mingw-w64.MinGWW64">
+        <file path=".WPM\Install.bat">if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
+set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.pathed.PathEd" "--versions=[0.8, 0.8]"
+for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set pathed=%%x
+"%pathed%\pathed" -s -a "%CD%\bin"
+verify
+</file>
+        <file path=".WPM\Uninstall.bat">if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
+set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.pathed.PathEd" "--versions=[0.8, 0.8]"
+for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set pathed=%%x
+"%pathed%\pathed" -s -r "%CD%\bin"
+verify
+</file>
         <url>https://downloads.sourceforge.net/project/mingw-w64/Toolchains%20targetting%20Win32/Automated%20Builds/mingw-w32-1.0-bin_i686-mingw_20110624.zip?ts=1309891129</url>
         <sha1>26E06BCFCE316EE7C7FFDB7B9C16437568051187</sha1>
+        <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.15.7, 1.15.7]"/>
+        <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1, 1]"/>
+        <dependency package="com.googlecode.pathed.PathEd" versions="[0.8, 0.8]"/>
     </version>
 
     <version name="1.6.5" package="com.googlecode.tortoisegit.TortoiseGit"
