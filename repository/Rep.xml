@@ -10145,12 +10145,27 @@ verify
 set err=%errorlevel%
 type .WPM\InnoSetupInstall.log
 if %err% neq 0 exit %err%
+
+if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
+set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.pathed.PathEd" "--versions=[0.8, 0.8]"
+for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set pathed=%%x
+"%pathed%\pathed" -s -a "%CD%\bin"
+verify
 </file>
         <file path=".WPM\Uninstall.bat">uninstall\unins000.exe /VERYSILENT /SUPPRESSMSGBOXES /NORESTART /LOG="%CD%\.WPM\InnoSetupUninstall.log"
 set err=%errorlevel%
 type .WPM\InnoSetupUninstall.log
 if %err% neq 0 exit %err%
+
+if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
+set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.pathed.PathEd" "--versions=[0.8, 0.8]"
+for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set pathed=%%x
+"%pathed%\pathed" -s -r "%CD%\bin"
+verify
 </file>
+        <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.15.7, 1.15.7]"/>
+        <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1, 1]"/>
+        <dependency package="com.googlecode.pathed.PathEd" versions="[0.8, 0.8]"/>
         <url>http://downloads.sourceforge.net/project/gnuwin32/sed/4.2.1/sed-4.2.1-setup.exe?ts=1299431513</url>
         <sha1>8E935C1B28BAA31E15820547E86B7A61C0787F29</sha1>
     </version>
