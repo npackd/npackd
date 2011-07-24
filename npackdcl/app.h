@@ -33,6 +33,7 @@ private:
     int path();
     int add();
     int remove();
+    int addRepo();
 
     QString testDependsOnItself();
 public:
