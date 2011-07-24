@@ -1536,8 +1536,26 @@ if %err% neq 0 exit /b %err%
             package="org.miktex.MiKTeX64" type="one-file">
         <file path=".WPM\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x
 "%setup%" --common-install="%CD%" --shared --unattended
+if %errorlevel% neq 0 goto eof
+
+if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
+set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.pathed.PathEd" "--versions=[0.8, 0.8]"
+for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set pathed=%%x
+"%pathed%\pathed" -s -a "%CD%\miktex\bin\x64"
+verify
 </file>
-        <file path=".WPM\Unnstall.bat">miktex\bin\internal\copystart_admin.exe "%CD%\miktex/bin/internal\uninstall_admin.exe"</file>
+        <file path=".WPM\Unnstall.bat">miktex\bin\internal\copystart_admin.exe "%CD%\miktex/bin/internal\uninstall_admin.exe"
+if %errorlevel% neq 0 goto eof
+
+if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
+set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.pathed.PathEd" "--versions=[0.8, 0.8]"
+for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set pathed=%%x
+"%pathed%\pathed" -s -r "%CD%\miktex\bin\x64"
+verify
+</file>
+        <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.15.7, 1.15.7]"/>
+        <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1, 1]"/>
+        <dependency package="com.googlecode.pathed.PathEd" versions="[0.8, 0.8]"/>
         <url>http://sunsite.informatik.rwth-aachen.de/ftp/pub/mirror/ctan/systems/win32/miktex/setup/basic-miktex-2.9.4106-x64.exe</url>
         <sha1>568DFAAE226F1D33F60C53A671BD76975B580EDF</sha1>
     </version>
