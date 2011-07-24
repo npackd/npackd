@@ -1061,11 +1061,23 @@ verify
         <sha1>8c30276087d15f4c5b56a213b71bf2fc24d21a9c</sha1>
     </version>
 
-    <version name="1.0.2011.4.8" package="net.sourceforge.mingw-w64.MinGWW6464">
-        <url>http://downloads.sourceforge.net/project/mingw-w64/Toolchains%20targetting%20Win64/Automated%20Builds/mingw-w64-1.0-bin_i686-mingw_20110408.zip?ts=1302348499</url>
-        <sha1>7BEF23803B057DFB8A7B2CF42AAA065B84E31C65</sha1>
-    </version>
+    <!-- old versions are regularly deleted, but the package is too big -->
     <version name="1.0.2011.6.20" package="net.sourceforge.mingw-w64.MinGWW6464">
+        <file path=".WPM\Install.bat">if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
+set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.pathed.PathEd" "--versions=[0.8, 0.8]"
+for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set pathed=%%x
+"%pathed%\pathed" -s -a "%CD%\bin"
+verify
+</file>
+        <file path=".WPM\Uninstall.bat">if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
+set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.pathed.PathEd" "--versions=[0.8, 0.8]"
+for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set pathed=%%x
+"%pathed%\pathed" -s -r "%CD%\bin"
+verify
+</file>
+        <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.15.7, 1.15.7]"/>
+        <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1, 1]"/>
+        <dependency package="com.googlecode.pathed.PathEd" versions="[0.8, 0.8]"/>
         <url>https://downloads.sourceforge.net/project/mingw-w64/Toolchains%20targetting%20Win64/Automated%20Builds/mingw-w64-1.0-bin_i686-mingw_20110620.zip?ts=1310414635</url>
         <sha1>b852e37fdd8c1ba721639395f9188724f03aeafa</sha1>
     </version>
