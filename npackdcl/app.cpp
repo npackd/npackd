@@ -193,7 +193,7 @@ void App::usage()
     std::cout << "Usage:" << std::endl;
     std::cout << "    npackdcl help" << std::endl;
     std::cout << "        prints this help" << std::endl;
-    std::cout << "    npackdcl path --package=<package> [--versions=<versions>]" << std::endl;
+    std::cout << "    npackdcl path --package=<package> --versions=<versions>" << std::endl;
     std::cout << "        searches for a package and prints its location" << std::endl;
     std::cout << "    npackdcl add --package=<package> --version=<version>" << std::endl;
     std::cout << "        installs a package" << std::endl;
@@ -239,6 +239,13 @@ int App::path()
     }
 
     if (r == 0) {
+        if (versions.isNull()) {
+            std::cerr << "Missing option: --versions" << std::endl;
+            r = 1;
+        }
+    }
+
+    if (r == 0) {
         if (!Package::isValidName(package)) {
             std::cerr << "Invalid package name: " << qPrintable(package) << std::endl;
             r = 1;
@@ -249,10 +256,7 @@ int App::path()
         // debug: std::cout <<  qPrintable(package) << " " << qPrintable(versions);
         Dependency d;
         d.package = package;
-        if (versions.isNull()) {
-            d.min.setVersion(0, 0);
-            d.max.setVersion(std::numeric_limits<int>::max(), 0);
-        } else if (!d.setVersions(versions)) {
+        if (!d.setVersions(versions)) {
             std::cerr << "Cannot parse versions: " << qPrintable(versions) << std::endl;
             r = 1;
         }

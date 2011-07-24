@@ -19,6 +19,8 @@ int main(int argc, char *argv[])
 
     LoadLibrary(L"exchndl.dll");
 
+    CoInitializeEx(0, COINIT_MULTITHREADED);
+
     qRegisterMetaType<JobState>("JobState");
 
     App app;
