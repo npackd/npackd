@@ -604,8 +604,8 @@ bool PackageVersion::createShortcuts(const QString& dir, QString *errMsg)
                 (WCHAR*) workingDir.utf16());
 
         if (!SUCCEEDED(r)) {
-            //qDebug() << qPrintable("shortcut creation failed" +
-            //        path + " " + from + " " + desc + " " + workingDir);
+            qDebug() << qPrintable("shortcut creation failed" +
+                    path + " " + from + " " + desc + " " + workingDir) << r;
             return false;
         }
     }
@@ -894,7 +894,7 @@ void PackageVersion::unzip(Job* job, QString zipfile, QString outputdir)
             i++;
             job->setProgress(0.01 + 0.99 * i / n);
             if (i % 100 == 0)
-                job->setHint(QString("%L1 entries").arg(i));
+                job->setHint(QString("%L1 files").arg(i));
 
             if (job->isCancelled() || !job->getErrorMessage().isEmpty())
                 break;

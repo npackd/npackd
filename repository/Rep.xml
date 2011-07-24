@@ -3003,6 +3003,23 @@ verify
         <url>http://dl.dropbox.com/u/17046326/files/org.googlecode.windows-package-manager.NpackdCL-1.15.7.zip</url>
         <sha1>E129F1DD313E548BA9DCDADCA97D934972491485</sha1>
     </version>
+    <version name="1.15.8" package="com.googlecode.windows-package-manager.NpackdCL">
+        <file path=".WPM\Install.bat">if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
+set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.pathed.PathEd" "--versions=[0.8, 0.8]"
+for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set pathed=%%x
+"%pathed%\pathed" -s -a "%CD%"
+verify
+</file>
+        <file path=".WPM\Uninstall.bat">if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
+set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.pathed.PathEd" "--versions=[0.8, 0.8]"
+for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set pathed=%%x
+"%pathed%\pathed" -s -r "%CD%"
+verify
+</file>
+        <dependency package="com.googlecode.pathed.PathEd" versions="[0.8, 0.8]"/>
+        <url>http://windows-package-manager.googlecode.com/files/NpackdCL-1.15.8.zip</url>
+        <sha1>75ad13ec20a1cf7e4e56c5f96a299111f13b52b5</sha1>
+    </version>
 
     <version name="6.0.3883" package="com.microsoft.MSXML" type="one-file">
        <file path=".WPM\Install.bat">if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
