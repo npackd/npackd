@@ -557,6 +557,25 @@ PackageVersion* MainWindow::getSelectedPackageVersion()
     }
 }
 
+class QCITableWidgetItem: public QTableWidgetItem {
+public:
+    explicit QCITableWidgetItem(const QString &text, int type = Type);
+    virtual bool operator<(const QTableWidgetItem &other) const;
+};
+
+QCITableWidgetItem::QCITableWidgetItem(const QString &text, int type)
+    : QTableWidgetItem(text, type)
+{
+}
+
+bool QCITableWidgetItem::operator<(const QTableWidgetItem &other) const
+{
+    QString a = this->text();
+    QString b = other.text();
+
+    return a.compare(b, Qt::CaseInsensitive) <= 0;
+}
+
 void MainWindow::fillList()
 {
     // qDebug() << "MainWindow::fillList";
@@ -665,7 +684,7 @@ void MainWindow::fillList()
             packageTitle = p->title;
         else
             packageTitle = pv->package;
-        newItem = new QTableWidgetItem(packageTitle);
+        newItem = new QCITableWidgetItem(packageTitle);
         newItem->setStatusTip(pv->download.toString() + " " + pv->package +
                 " " + pv->sha1);
         newItem->setData(Qt::UserRole, qVariantFromValue((void*) pv));
@@ -674,7 +693,7 @@ void MainWindow::fillList()
         QString desc;
         if (p)
             desc = p->description;
-        newItem = new QTableWidgetItem(desc);
+        newItem = new QCITableWidgetItem(desc);
         newItem->setData(Qt::UserRole, qVariantFromValue((void*) pv));
         t->setItem(n, 2, newItem);
 
@@ -682,7 +701,7 @@ void MainWindow::fillList()
         newItem->setData(Qt::UserRole, qVariantFromValue((void*) pv));
         t->setItem(n, 3, newItem);
 
-        newItem = new QTableWidgetItem("");
+        newItem = new QCITableWidgetItem("");
         QString status;
         if (installed) {
             if (pv->isExternal())
@@ -701,7 +720,7 @@ void MainWindow::fillList()
         newItem->setData(Qt::UserRole, qVariantFromValue((void*) pv));
         t->setItem(n, 4, newItem);
 
-        newItem = new QTableWidgetItem("");
+        newItem = new QCITableWidgetItem("");
         QString licenseTitle;
         if (p) {
             License* lic = r->findLicense(p->license);
