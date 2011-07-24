@@ -956,6 +956,12 @@ type .WPM\MSI.log
 rem 3010=restart required
 if %err% equ 3010 exit /b 0
 if %err% neq 0 exit /b %err%
+
+if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
+set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.pathed.PathEd" "--versions=[0.8, 0.8]"
+for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set pathed=%%x
+"%pathed%\pathed" -s -a "%CD%"
+verify
 </file>
         <file path=".WPM\Uninstall.bat">move .WPM\*.msi .
 for /f "delims=" %%x in ('dir /b *.msi') do set setup=%%x
@@ -965,7 +971,16 @@ type .WPM\MSI.log
 rem 3010=restart required
 if %err% equ 3010 exit /b 0
 if %err% neq 0 exit /b %err%
+
+if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
+set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.pathed.PathEd" "--versions=[0.8, 0.8]"
+for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set pathed=%%x
+"%pathed%\pathed" -s -r "%CD%"
+verify
 </file>
+        <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.15.7, 1.15.7]"/>
+        <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1, 1]"/>
+        <dependency package="com.googlecode.pathed.PathEd" versions="[0.8, 0.8]"/>
         <url>http://mercurial.selenic.com/release/windows/mercurial-1.8.2-x64.msi</url>
         <sha1>C224AE8B4A6FE5C30C05CFD6B5D8503C4E0318CC</sha1>
     </version>
@@ -979,6 +994,12 @@ type .WPM\MSI.log
 rem 3010=restart required
 if %err% equ 3010 exit /b 0
 if %err% neq 0 exit /b %err%
+
+if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
+set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.pathed.PathEd" "--versions=[0.8, 0.8]"
+for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set pathed=%%x
+"%pathed%\pathed" -s -a "%CD%"
+verify
 </file>
         <file path=".WPM\Uninstall.bat">move .WPM\*.msi .
 for /f "delims=" %%x in ('dir /b *.msi') do set setup=%%x
@@ -988,7 +1009,16 @@ type .WPM\MSI.log
 rem 3010=restart required
 if %err% equ 3010 exit /b 0
 if %err% neq 0 exit /b %err%
+
+if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
+set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.pathed.PathEd" "--versions=[0.8, 0.8]"
+for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set pathed=%%x
+"%pathed%\pathed" -s -r "%CD%"
+verify
 </file>
+        <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.15.7, 1.15.7]"/>
+        <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1, 1]"/>
+        <dependency package="com.googlecode.pathed.PathEd" versions="[0.8, 0.8]"/>
         <url>http://mercurial.selenic.com/release/windows/mercurial-1.8.4-x64.msi</url>
         <sha1>17E4D1BD3D6B791F8180E10B418B7436DDC01225</sha1>
     </version>
@@ -1002,6 +1032,12 @@ type .WPM\MSI.log
 rem 3010=restart required
 if %err% equ 3010 exit /b 0
 if %err% neq 0 exit /b %err%
+
+if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
+set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.pathed.PathEd" "--versions=[0.8, 0.8]"
+for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set pathed=%%x
+"%pathed%\pathed" -s -a "%CD%"
+verify
 </file>
         <file path=".WPM\Uninstall.bat">move .WPM\*.msi .
 for /f "delims=" %%x in ('dir /b *.msi') do set setup=%%x
@@ -1011,7 +1047,16 @@ type .WPM\MSI.log
 rem 3010=restart required
 if %err% equ 3010 exit /b 0
 if %err% neq 0 exit /b %err%
+
+if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
+set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.pathed.PathEd" "--versions=[0.8, 0.8]"
+for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set pathed=%%x
+"%pathed%\pathed" -s -r "%CD%"
+verify
 </file>
+        <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.15.7, 1.15.7]"/>
+        <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1, 1]"/>
+        <dependency package="com.googlecode.pathed.PathEd" versions="[0.8, 0.8]"/>
         <url>http://mercurial.selenic.com/release/windows/mercurial-1.9.0-x64.msi</url>
         <sha1>8c30276087d15f4c5b56a213b71bf2fc24d21a9c</sha1>
     </version>
