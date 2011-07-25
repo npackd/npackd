@@ -34,6 +34,7 @@ private:
     int add();
     int remove();
     int addRepo();
+    int removeRepo();
 
     QString testDependsOnItself();
 public:
