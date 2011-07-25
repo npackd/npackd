@@ -198,33 +198,38 @@ Job* App::createJob()
 
 void App::usage()
 {
-    std::cout << "Npackd command line tool" << std::endl;
-    std::cout << "Usage:" << std::endl;
-    std::cout << "    npackdcl help" << std::endl;
-    std::cout << "        prints this help" << std::endl;
-    std::cout << "    npackdcl path --package=<package> --versions=<versions>" << std::endl;
-    std::cout << "        searches for a package and prints its location" << std::endl;
-    std::cout << "    npackdcl add --package=<package> --version=<version>" << std::endl;
-    std::cout << "        installs a package" << std::endl;
-    std::cout << "    npackdcl remove --package=<package> --version=<version>" << std::endl;
-    std::cout << "        removes a package" << std::endl;
-    std::cout << "    npackdcl add-repo --url=<repository>" << std::endl;
-    std::cout << "        appends a repository to the list" << std::endl;
-    std::cout << "    npackdcl remove-repo --url=<repository>" << std::endl;
-    std::cout << "        removes a repository from the list" << std::endl;
-    std::cout << "Options:" << std::endl;
-    std::cout << "    -p, --package package name" << std::endl;
-    std::cout << "    -r, --versions version range (e.g. [1.1,1.2) )" << std::endl;
-    std::cout << "    -v, --version version (e.g. 1.2.47)" << std::endl;
-    std::cout << "    -u, --url repository URL (e.g. https://www.example.com/Rep.xml)" << std::endl;
-    std::cout << std::endl;
-    std::cout << "You can use short package names in 'add' and 'remove' operations." << std::endl;
-    std::cout << "Example: App instead of com.example.App" << std::endl;
-    std::cout << "The process exits with the code unequal to 0 if an error occcures." << std::endl;
-    /*
-    std::cout << "Usage: npackdcl list" << std::endl;
-    std::cout << "or" << std::endl;
-    std::cout << "Usage: npackdcl info" << std::endl;*/
+    const char* lines[] = {
+        "Npackd command line tool",
+        "Usage:",
+        "    npackdcl help",
+        "        prints this help",
+        "    npackdcl path --package=<package> --versions=<versions>",
+        "        searches for a package and prints its location",
+        "    npackdcl add --package=<package> --version=<version>",
+        "        installs a package",
+        "    npackdcl remove --package=<package> --version=<version>",
+        "        removes a package",
+        "    npackdcl add-repo --url=<repository>",
+        "        appends a repository to the list",
+        "    npackdcl remove-repo --url=<repository>",
+        "        removes a repository from the list",
+        "Options:",
+        "    -p, --package package name",
+        "    -r, --versions version range (e.g. [1.1,1.2) )",
+        "    -v, --version version (e.g. 1.2.47)",
+        "    -u, --url repository URL (e.g. https://www.example.com/Rep.xml)",
+        "",
+        "You can use short package names in 'add' and 'remove' operations.",
+        "Example: App instead of com.example.App",
+        "The process exits with the code unequal to 0 if an error occcures."
+        /*
+        "Usage: npackdcl list"
+        "or" << std::endl;
+        "Usage: npackdcl info"*/
+    };
+    for (int i = 0; i < (int) (sizeof(lines) / sizeof(lines[0])); i++) {
+        std::cout << lines[i] << std::endl;
+    }
 }
 
 int App::addRepo()
