@@ -4660,13 +4660,31 @@ rmdir /s /q "%name%"
 
     <version name="3.6.1" package="org.eclipse.EclipseIDEJava">
         <file path=".WPM\Install.bat">for /f "delims=" %%x in ('dir /b eclipse*') do set name=%%x
-xcopy "%name%\*" . /E /H
-rmdir /s /q "%name%"
+cd "%name%"        
+for /f "delims=" %%a in ('dir /b') do (
+  move "%%a" ..
+)
+cd ..
+rmdir "%name%"
 </file>
         <important-file path="eclipse.exe" title="Eclipse IDE for Java"/>
         <url>http://ftp-stud.fht-esslingen.de/pub/Mirrors/eclipse/technology/epp/downloads/release/helios/SR1/eclipse-java-helios-SR1-win32.zip</url>
         <dependency package="com.oracle.JRE" versions="[1.6, 2)"/>
         <sha1>59FFC747EB54D2CAB59F03E8F38E8966B671C0E2</sha1>
+    </version>
+    <version name="3.7" package="org.eclipse.EclipseIDEJava">
+        <file path=".WPM\Install.bat">for /f "delims=" %%x in ('dir /b eclipse*') do set name=%%x
+cd "%name%"        
+for /f "delims=" %%a in ('dir /b') do (
+  move "%%a" ..
+)
+cd ..
+rmdir "%name%"
+</file>
+        <important-file path="eclipse.exe" title="Eclipse IDE for Java"/>
+        <url>http://ftp-stud.fht-esslingen.de/pub/Mirrors/eclipse/technology/epp/downloads/release/indigo/R/eclipse-java-indigo-win32.zip</url>
+        <dependency package="com.oracle.JRE" versions="[1.6, 2)"/>
+        <sha1>af40ca5a2f6a01b3ade7455d14056bd9dfe18b12</sha1>
     </version>
 
     <!--
