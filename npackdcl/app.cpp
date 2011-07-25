@@ -138,6 +138,8 @@ int App::process(int argc, char *argv[])
         r = add();
     } else if (fr.at(0) == "add-repo") {
         r = addRepo();
+    } else if (fr.at(0) == "remove-repo") {
+        r = removeRepo();
     /*} else if (params.count() == 2 && params.at(1) == "list") {
         QList<PackageVersion*> installed = rep->packageVersions; // getInstalled();
         for (int i = 0; i < installed.count(); i++) {
@@ -206,6 +208,8 @@ void App::usage()
     std::cout << "        removes a package" << std::endl;
     std::cout << "    npackdcl add-repo --url=<repository>" << std::endl;
     std::cout << "        appends a repository to the list" << std::endl;
+    std::cout << "    npackdcl remove-repo --url=<repository>" << std::endl;
+    std::cout << "        removes a repository from the list" << std::endl;
     std::cout << "Options:" << std::endl;
     std::cout << "    -p, --package package name" << std::endl;
     std::cout << "    -r, --versions version range (e.g. [1.1,1.2) )" << std::endl;
@@ -260,6 +264,54 @@ int App::addRepo()
         } else {
             urls.append(url_);
             url_ = 0;
+            rep->setRepositoryURLs(urls);
+        }
+        qDeleteAll(urls);
+    }
+
+    delete url_;
+
+    return r;
+}
+
+int App::removeRepo()
+{
+    int r = 0;
+
+    QString url = cl.get("url");
+
+    if (r == 0) {
+        if (url.isNull()) {
+            std::cerr << "Missing option: --url" << std::endl;
+            r = 1;
+        }
+    }
+
+    QUrl* url_ = 0;
+    if (r == 0) {
+        url_ = new QUrl();
+        url_->setUrl(url, QUrl::StrictMode);
+        if (!url_->isValid()) {
+            std::cerr << "Invalid URL: " << qPrintable(url) << std::endl;
+            r = 1;
+        }
+    }
+
+    if (r == 0) {
+        Repository* rep = Repository::getDefault();
+        QList<QUrl*> urls = rep->getRepositoryURLs();
+        int found = -1;
+        for (int i = 0; i < urls.size(); i++) {
+            if (urls.at(i)->toString() == url_->toString()) {
+                found = i;
+                break;
+            }
+        }
+        if (found < 0) {
+            std::cout << "The repository was not in the list: " <<
+                         qPrintable(url) << std::endl;
+        } else {
+            delete urls.takeAt(found);
             rep->setRepositoryURLs(urls);
         }
         qDeleteAll(urls);
