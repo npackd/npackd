@@ -25,9 +25,6 @@ int main(int argc, char *argv[])
 
     App app;
 
-    if (false)
-        return app.unitTests(argc, argv);
-    else
-        return app.process(argc, argv);
+    return app.process(argc, argv);
 }
 
