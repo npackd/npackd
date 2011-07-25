@@ -41,7 +41,7 @@ QString App::testDependsOnItself()
 
     QDomDocument doc;
     int errorLine, errorColumn;
-    QFile f("..\\TestDependsOnItself.xml");
+    QFile f("..\\..\\npackdcl\\TestDependsOnItself.xml");
     if (!f.open(QIODevice::ReadOnly))
         err = "Cannot open the repository file";
 
@@ -86,7 +86,7 @@ QString App::testDependsOnItself()
     return err;
 }
 
-int App::unitTests(int argc, char *argv[])
+int App::unitTests()
 {
     std::cout << "Starting internal tests" << std::endl;
 
@@ -140,6 +140,8 @@ int App::process(int argc, char *argv[])
         r = addRepo();
     } else if (fr.at(0) == "remove-repo") {
         r = removeRepo();
+    } else if (fr.at(0) == "unit-tests") {
+        r = unitTests();
     /*} else if (params.count() == 2 && params.at(1) == "list") {
         QList<PackageVersion*> installed = rep->packageVersions; // getInstalled();
         for (int i = 0; i < installed.count(); i++) {

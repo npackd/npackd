@@ -36,6 +36,15 @@ private:
     int addRepo();
     int removeRepo();
 
+    /**
+     * Internal tests.
+     *
+     * @param argc number of arguments
+     * @param argv arguments
+     * @return exit code
+     */
+    int unitTests();
+
     QString testDependsOnItself();
 public:
     /**
@@ -46,15 +55,6 @@ public:
      * @return exit code
      */
     int process(int argc, char *argv[]);
-
-    /**
-     * Internal tests.
-     *
-     * @param argc number of arguments
-     * @param argv arguments
-     * @return exit code
-     */
-    int unitTests(int argc, char *argv[]);
 };
 
 #endif // APP_H
