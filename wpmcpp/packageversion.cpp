@@ -28,6 +28,7 @@ PackageVersion::PackageVersion(const QString& package)
     this->package = package;
     this->type = 0;
     this->external_ = false;
+    this->locked = false;
 }
 
 PackageVersion::PackageVersion()
@@ -35,6 +36,7 @@ PackageVersion::PackageVersion()
     this->package = "unknown";
     this->type = 0;
     this->external_ = false;
+    this->locked = false;
 }
 
 void PackageVersion::setExternal(bool e)
