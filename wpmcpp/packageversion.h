@@ -95,10 +95,16 @@ public:
     QUrl download;
 
     /**
-     * MSI GUID QVBoxLayout like {1D2C96C3-A3F3-49E7-B839-95279DED837F} or ""
+     * MSI GUID like {1D2C96C3-A3F3-49E7-B839-95279DED837F} or ""
      * if not available
      */
     QString msiGUID;
+
+    /**
+     * If true, this package version is locked and cannot be
+     * installed/uninstalled.
+     */
+    volatile bool locked;
 
     PackageVersion();
     PackageVersion(const QString& package);

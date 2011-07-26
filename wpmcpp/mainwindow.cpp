@@ -19,6 +19,7 @@
 #include <qiodevice.h>
 #include <qmenu.h>
 #include <qtextedit.h>
+#include <qscrollarea.h>
 
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
@@ -31,6 +32,7 @@
 #include "downloader.h"
 #include "packageversionform.h"
 #include "uiutils.h"
+#include "progressframe.h"
 
 extern HWND defaultPasswordWindow;
 
@@ -443,6 +445,8 @@ MainWindow::MainWindow(QWidget *parent) :
     }
 
     this->ui->lineEditText->setFocus();
+
+    this->addJobsTab();
 }
 
 void MainWindow::iconDownloaded(const FileLoaderItem& it)
@@ -753,6 +757,24 @@ void MainWindow::process(QList<InstallOperation*> &install)
     }
 
     PackageVersion* sel = getSelectedPackageVersion();
+
+    for (int j = 0; j < install.size(); j++) {
+        InstallOperation* op = install.at(j);
+        PackageVersion* pv = op->packageVersion;
+        if (pv->locked) {
+            QString msg("The package %1 is locked by a "
+                    "currently running installation/removal.");
+            QMessageBox::critical(this,
+                    "Install/Uninstall", msg.arg(pv->toString()));
+            return;
+        }
+    }
+
+    for (int j = 0; j < install.size(); j++) {
+        InstallOperation* op = install.at(j);
+        PackageVersion* pv = op->packageVersion;
+        pv->locked = true;
+    }
 
     QStringList locked = WPMUtils::getProcessFiles();
     QStringList lockedUninstall;
@@ -1229,6 +1251,31 @@ void MainWindow::addTextTab(const QString& title, const QString& text)
     te->setText(text);
     this->ui->tabWidget->addTab(te, title);
     this->ui->tabWidget->setCurrentIndex(this->ui->tabWidget->count() - 1);
+}
+
+void MainWindow::addJobsTab()
+{
+    QScrollArea* sa = new QScrollArea(this->ui->tabWidget);
+    sa->setFrameStyle(0);
+
+    QFrame* content = new QFrame(sa);
+    QVBoxLayout* layout = new QVBoxLayout();
+
+    ProgressFrame* pf = new ProgressFrame(content);
+    layout->addWidget(pf);
+    pf = new ProgressFrame(content);
+    layout->addWidget(pf);
+
+    QSizePolicy sp;
+    sp.setVerticalPolicy(QSizePolicy::Preferred);
+    sp.setHorizontalPolicy(QSizePolicy::Ignored);
+    sp.setHorizontalStretch(100);
+    content->setSizePolicy(sp);
+
+    content->setLayout(layout);
+    sa->setWidget(content);
+
+    this->ui->tabWidget->addTab(sa, "Progress");
 }
 
 void MainWindow::on_actionDownload_All_Files_triggered()

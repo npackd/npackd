@@ -23,6 +23,8 @@ JobState::JobState(const JobState& s)
     this->progress = s.progress;
 }
 
+QList<Job*> Job::jobs;
+
 Job::Job()
 {
     this->progress = 0.0;

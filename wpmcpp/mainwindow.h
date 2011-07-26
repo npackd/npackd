@@ -39,6 +39,7 @@ private:
     FileLoader fileLoader;
 
     void addTextTab(const QString& title, const QString& text);
+    void addJobsTab();
     void showDetails();
     void updateIcons();
     void updateActions();

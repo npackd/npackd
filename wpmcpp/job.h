@@ -83,6 +83,8 @@ private:
 public slots:
     void parentJobChanged(const JobState& s);
 public:
+    static QList<Job*> jobs;
+
     Job();
     ~Job();
 
