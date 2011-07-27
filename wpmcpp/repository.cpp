@@ -782,6 +782,12 @@ PackageVersion* Repository::findPackageVersion(const QString& package,
 
 void Repository::process(Job *job, const QList<InstallOperation *> &install)
 {
+    for (int j = 0; j < install.size(); j++) {
+        InstallOperation* op = install.at(j);
+        PackageVersion* pv = op->packageVersion;
+        pv->locked = true;
+    }
+
     int n = install.count();
 
     for (int i = 0; i < install.count(); i++) {
@@ -804,6 +810,12 @@ void Repository::process(Job *job, const QList<InstallOperation *> &install)
 
         if (!job->getErrorMessage().isEmpty())
             break;
+    }
+
+    for (int j = 0; j < install.size(); j++) {
+        InstallOperation* op = install.at(j);
+        PackageVersion* pv = op->packageVersion;
+        pv->locked = false;
     }
 
     job->complete();
