@@ -4,11 +4,12 @@
 #include <windows.h>
 
 #include <QMainWindow>
-#include <qprogressdialog.h>
-#include <qtimer.h>
-#include "qmap.h"
+#include <QProgressDialog>
+#include <QTimer>
+#include <QMap>
 #include <QModelIndex>
 #include <QFrame>
+#include <QScrollArea>
 
 #include "packageversion.h"
 #include "job.h"
@@ -39,6 +40,7 @@ private:
 
     FileLoader fileLoader;
     QFrame* progressContent;
+    QWidget* jobsTab;
 
     void addTextTab(const QString& title, const QString& text);
     void addJobsTab();
@@ -62,7 +64,16 @@ private:
      */
     void selectPackageVersion(PackageVersion* pv);
 
-    void monitor(Job* job, const QString& title);
+    /**
+     * Adds an entry in the "Progress" tab and monitors a task.
+     *
+     * @param title job title
+     * @param job this job will be monitored. The object will be destroyed after
+     *     the thread completion
+     * @param thread the job itself. The object will be destroyed after the
+     *     completion. The thread will be started in this method.
+     */
+    void monitor(Job* job, const QString& title, QThread* thread);
 
     void updateStatusInDetailTabs();
 public:
@@ -107,6 +118,7 @@ protected:
     void changeEvent(QEvent *e);
     void process(QList<InstallOperation*>& install);
 private slots:
+    void processThreadFinished();
     void on_actionScan_Hard_Drives_triggered();
     void on_actionShow_Details_triggered();
     void on_actionDownload_All_Files_triggered();

@@ -394,6 +394,7 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->setupUi(this);
 
     this->progressContent = 0;
+    this->jobsTab = 0;
 
     setWindowTitle("Npackd");
 
@@ -485,9 +486,10 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
-void MainWindow::monitor(Job* job, const QString& title)
+void MainWindow::monitor(Job* job, const QString& title, QThread* thread)
 {
-    ProgressFrame* pf = new ProgressFrame(progressContent, job, title);
+    ProgressFrame* pf = new ProgressFrame(progressContent, job, title,
+            thread);
     pf->resize(100, 100);
     QVBoxLayout* layout = (QVBoxLayout*) progressContent->layout();
     layout->insertWidget(0, pf);
@@ -770,8 +772,6 @@ void MainWindow::process(QList<InstallOperation*> &install)
         }
     }
 
-    PackageVersion* sel = getSelectedPackageVersion();
-
     for (int j = 0; j < install.size(); j++) {
         InstallOperation* op = install.at(j);
         PackageVersion* pv = op->packageVersion;
@@ -894,20 +894,21 @@ void MainWindow::process(QList<InstallOperation*> &install)
         Job* job = new Job();
         InstallThread* it = new InstallThread(0, 1, job);
         it->install = install;
-        it->start(QThread::LowestPriority);
 
-        monitor(job, "Install/Uninstall");
-        /* TODO
-        waitFor(job, "Install/Uninstall");
-        it->wait();
-        delete it;
-        delete job;
+        connect(it, SIGNAL(finished()), this,
+                SLOT(processThreadFinished()),
+                Qt::QueuedConnection);
 
-        fillList();
-        updateStatusInDetailTabs();
-        selectPackageVersion(sel);
-        */
+        monitor(job, "Install/Uninstall", it);
     }
+}
+
+void MainWindow::processThreadFinished()
+{
+    PackageVersion* sel = getSelectedPackageVersion();
+    fillList();
+    updateStatusInDetailTabs();
+    selectPackageVersion(sel);
 }
 
 void MainWindow::changeEvent(QEvent *e)
@@ -999,7 +1000,7 @@ void MainWindow::closeDetailTabs()
 {
     for (int i = 0; i < this->ui->tabWidget->count(); ) {
         QWidget* w = this->ui->tabWidget->widget(i);
-        if (w != this->ui->tab) {
+        if (w != this->ui->tab && w != this->jobsTab) {
             this->ui->tabWidget->removeTab(i);
         } else {
             i++;
@@ -1238,7 +1239,7 @@ void MainWindow::on_tableWidget_doubleClicked(QModelIndex index)
 void MainWindow::on_tabWidget_tabCloseRequested(int index)
 {
     QWidget* w = this->ui->tabWidget->widget(index);
-    if (w != this->ui->tab) {
+    if (w != this->ui->tab && w != this->jobsTab) {
         this->ui->tabWidget->removeTab(index);
     }
 }
@@ -1266,10 +1267,10 @@ void MainWindow::addTextTab(const QString& title, const QString& text)
 
 void MainWindow::addJobsTab()
 {
-    QScrollArea* sa = new QScrollArea(this->ui->tabWidget);
-    sa->setFrameStyle(0);
+    QScrollArea* jobsScrollArea = new QScrollArea(this->ui->tabWidget);
+    jobsScrollArea->setFrameStyle(0);
 
-    progressContent = new QFrame(sa);
+    progressContent = new QFrame(jobsScrollArea);
     QVBoxLayout* layout = new QVBoxLayout();
 
     QSizePolicy sp;
@@ -1280,10 +1281,11 @@ void MainWindow::addJobsTab()
 
     layout->addStretch(100);
     progressContent->setLayout(layout);
-    sa->setWidget(progressContent);
-    sa->setWidgetResizable(true);
+    jobsScrollArea->setWidget(progressContent);
+    jobsScrollArea->setWidgetResizable(true);
 
-    this->ui->tabWidget->addTab(sa, "Progress");
+    int index = this->ui->tabWidget->addTab(jobsScrollArea, "Progress");
+    this->jobsTab = this->ui->tabWidget->widget(index);
 }
 
 void MainWindow::on_actionDownload_All_Files_triggered()
@@ -1353,7 +1355,7 @@ void MainWindow::on_actionReload_Repositories_triggered()
 void MainWindow::on_actionClose_Tab_triggered()
 {
     QWidget* w = this->ui->tabWidget->currentWidget();
-    if (w != this->ui->tab) {
+    if (w != this->ui->tab && w != this->jobsTab) {
         this->ui->tabWidget->removeTab(this->ui->tabWidget->currentIndex());
     }
 }
