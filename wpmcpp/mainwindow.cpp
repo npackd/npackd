@@ -20,6 +20,7 @@
 #include <qmenu.h>
 #include <qtextedit.h>
 #include <qscrollarea.h>
+#include <QPushButton>
 
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
@@ -391,6 +392,9 @@ MainWindow::MainWindow(QWidget *parent) :
     ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
+
+    this->progressContent = 0;
+
     setWindowTitle("Npackd");
 
     this->genericAppIcon = QIcon(":/images/app.png");
@@ -479,6 +483,16 @@ MainWindow::~MainWindow()
     if (!this->fileLoader.wait(1000))
         this->fileLoader.terminate();
     delete ui;
+}
+
+void MainWindow::monitor(Job* job, const QString& title)
+{
+    ProgressFrame* pf = new ProgressFrame(progressContent, job, title);
+    pf->resize(100, 100);
+    QVBoxLayout* layout = (QVBoxLayout*) progressContent->layout();
+    layout->insertWidget(0, pf);
+
+    progressContent->resize(500, 500);
 }
 
 bool MainWindow::waitFor(Job* job, const QString& title)
@@ -770,12 +784,6 @@ void MainWindow::process(QList<InstallOperation*> &install)
         }
     }
 
-    for (int j = 0; j < install.size(); j++) {
-        InstallOperation* op = install.at(j);
-        PackageVersion* pv = op->packageVersion;
-        pv->locked = true;
-    }
-
     QStringList locked = WPMUtils::getProcessFiles();
     QStringList lockedUninstall;
     for (int j = 0; j < install.size(); j++) {
@@ -888,6 +896,8 @@ void MainWindow::process(QList<InstallOperation*> &install)
         it->install = install;
         it->start(QThread::LowestPriority);
 
+        monitor(job, "Install/Uninstall");
+        /* TODO
         waitFor(job, "Install/Uninstall");
         it->wait();
         delete it;
@@ -896,6 +906,7 @@ void MainWindow::process(QList<InstallOperation*> &install)
         fillList();
         updateStatusInDetailTabs();
         selectPackageVersion(sel);
+        */
     }
 }
 
@@ -1258,22 +1269,19 @@ void MainWindow::addJobsTab()
     QScrollArea* sa = new QScrollArea(this->ui->tabWidget);
     sa->setFrameStyle(0);
 
-    QFrame* content = new QFrame(sa);
+    progressContent = new QFrame(sa);
     QVBoxLayout* layout = new QVBoxLayout();
-
-    ProgressFrame* pf = new ProgressFrame(content);
-    layout->addWidget(pf);
-    pf = new ProgressFrame(content);
-    layout->addWidget(pf);
 
     QSizePolicy sp;
     sp.setVerticalPolicy(QSizePolicy::Preferred);
     sp.setHorizontalPolicy(QSizePolicy::Ignored);
     sp.setHorizontalStretch(100);
-    content->setSizePolicy(sp);
+    progressContent->setSizePolicy(sp);
 
-    content->setLayout(layout);
-    sa->setWidget(content);
+    layout->addStretch(100);
+    progressContent->setLayout(layout);
+    sa->setWidget(progressContent);
+    sa->setWidgetResizable(true);
 
     this->ui->tabWidget->addTab(sa, "Progress");
 }

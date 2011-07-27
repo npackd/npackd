@@ -8,6 +8,7 @@
 #include <qtimer.h>
 #include "qmap.h"
 #include <QModelIndex>
+#include <QFrame>
 
 #include "packageversion.h"
 #include "job.h"
@@ -37,6 +38,7 @@ private:
     Ui::MainWindow *ui;
 
     FileLoader fileLoader;
+    QFrame* progressContent;
 
     void addTextTab(const QString& title, const QString& text);
     void addJobsTab();
@@ -59,6 +61,8 @@ private:
      * @param pv a version or 0
      */
     void selectPackageVersion(PackageVersion* pv);
+
+    void monitor(Job* job, const QString& title);
 
     void updateStatusInDetailTabs();
 public:
