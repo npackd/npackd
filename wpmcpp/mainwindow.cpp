@@ -900,6 +900,8 @@ void MainWindow::process(QList<InstallOperation*> &install)
                 Qt::QueuedConnection);
 
         monitor(job, "Install/Uninstall", it);
+
+        this->ui->tabWidget->setCurrentWidget(this->jobsTab);
     }
 }
 
