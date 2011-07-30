@@ -1239,6 +1239,19 @@ void Repository::loadOne(QDomDocument* doc, Job* job)
     job->complete();
 }
 
+PackageVersion* Repository::findLockedPackageVersion() const
+{
+    PackageVersion* r = 0;
+    for (int i = 0; i < packageVersions.size(); i++) {
+        PackageVersion* pv = packageVersions.at(i);
+        if (pv->locked) {
+            r = pv;
+            break;
+        }
+    }
+    return r;
+}
+
 QList<QUrl*> Repository::getRepositoryURLs()
 {
     QList<QUrl*> r;

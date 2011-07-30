@@ -21,6 +21,7 @@
 #include <qtextedit.h>
 #include <qscrollarea.h>
 #include <QPushButton>
+#include <QCloseEvent>
 
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
@@ -34,11 +35,13 @@
 #include "packageversionform.h"
 #include "uiutils.h"
 #include "progressframe.h"
+#include "messageframe.h"
 
 extern HWND defaultPasswordWindow;
 
 QMap<QString, QIcon> MainWindow::icons;
 QIcon MainWindow::genericAppIcon;
+MainWindow* MainWindow::instance = 0;
 
 class InstallThread: public QThread
 {
@@ -387,12 +390,36 @@ QIcon MainWindow::getPackageVersionIcon(PackageVersion *pv)
     return icon;
 }
 
+MainWindow* MainWindow::getInstance()
+{
+    return instance;
+}
+
+void MainWindow::closeEvent(QCloseEvent *event)
+{
+    if (this->runningJobs == 0) {
+        event->accept();
+    } else {
+        addErrorMessage("Cannot exit while jobs are running");
+        event->ignore();
+    }
+}
+
+void MainWindow::decRunningJobs()
+{
+    runningJobs--;
+    this->updateProgressTabTitle();
+}
+
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow)
 {
+    instance = this;
+
     ui->setupUi(this);
 
+    this->runningJobs = 0;
     this->progressContent = 0;
     this->jobsTab = 0;
 
@@ -478,6 +505,13 @@ void MainWindow::prepare()
     pTimer->start(0);
 }
 
+void MainWindow::updateProgressTabTitle()
+{
+    int index = this->ui->tabWidget->indexOf(this->jobsTab);
+    this->ui->tabWidget->setTabText(index, QString("Jobs (%1)").
+            arg(this->runningJobs));
+}
+
 MainWindow::~MainWindow()
 {
     this->fileLoader.terminated = 1;
@@ -488,6 +522,9 @@ MainWindow::~MainWindow()
 
 void MainWindow::monitor(Job* job, const QString& title, QThread* thread)
 {
+    runningJobs++;
+    updateProgressTabTitle();
+
     ProgressFrame* pf = new ProgressFrame(progressContent, job, title,
             thread);
     pf->resize(100, 100);
@@ -557,6 +594,17 @@ void MainWindow::selectPackageVersion(PackageVersion* pv)
     }
 }
 
+PackageVersion* MainWindow::getSelectedPackageVersionInTable()
+{
+    QList<QTableWidgetItem*> sel = this->ui->tableWidget->selectedItems();
+    if (sel.count() > 0) {
+        const QVariant v = sel.at(0)->data(Qt::UserRole);
+        PackageVersion* pv = (PackageVersion *) v.value<void*>();
+        return pv;
+    }
+    return 0;
+}
+
 PackageVersion* MainWindow::getSelectedPackageVersion()
 {
     QWidget* w = this->ui->tabWidget->widget(this->ui->tabWidget->
@@ -565,13 +613,7 @@ PackageVersion* MainWindow::getSelectedPackageVersion()
     if (pvf) {
         return pvf->pv;
     } else if (w == this->ui->tab){
-        QList<QTableWidgetItem*> sel = this->ui->tableWidget->selectedItems();
-        if (sel.count() > 0) {
-            const QVariant v = sel.at(0)->data(Qt::UserRole);
-            PackageVersion* pv = (PackageVersion *) v.value<void*>();
-            return pv;
-        }
-        return 0;
+        return getSelectedPackageVersionInTable();
     } else {
         return 0;
     }
@@ -907,7 +949,7 @@ void MainWindow::process(QList<InstallOperation*> &install)
 
 void MainWindow::processThreadFinished()
 {
-    PackageVersion* sel = getSelectedPackageVersion();
+    PackageVersion* sel = getSelectedPackageVersionInTable();
     fillList();
     updateStatusInDetailTabs();
     selectPackageVersion(sel);
@@ -927,7 +969,10 @@ void MainWindow::changeEvent(QEvent *e)
 
 void MainWindow::on_actionExit_triggered()
 {
-    this->close();
+    if (this->runningJobs > 0)
+        addErrorMessage("Cannot exit while jobs are running");
+    else
+        this->close();
 }
 
 void MainWindow::on_actionUninstall_activated()
@@ -1085,6 +1130,19 @@ void MainWindow::on_lineEditText_textChanged(QString )
 
 void MainWindow::on_actionSettings_triggered()
 {
+    Repository* r = Repository::getDefault();
+
+    for (int i = 0; i < r->packageVersions.size(); i++) {
+        PackageVersion* pv = r->packageVersions.at(i);
+        if (pv->locked) {
+            QString msg("Cannot change settings now. "
+                    "The package %1 is locked by a "
+                    "currently running installation/removal.");
+            this->addErrorMessage(msg.arg(pv->toString()));
+            return;
+        }
+    }
+
     SettingsDialog d;
 
     QList<QUrl*> urls = Repository::getRepositoryURLs();
@@ -1205,6 +1263,16 @@ void MainWindow::on_actionAbout_triggered()
 
 void MainWindow::on_actionTest_Repositories_triggered()
 {
+    Repository* r = Repository::getDefault();
+    PackageVersion* locked = r->findLockedPackageVersion();
+    if (locked) {
+        QString msg("Cannot test the repositories now. "
+                "The package %1 is locked by a "
+                "currently running installation/removal.");
+        this->addErrorMessage(msg.arg(locked->toString()));
+        return;
+    }
+
     QString msg = QString("All packages will be uninstalled. "
             "The corresponding directories will be deleted. "
             "There is no way to restore the files. "
@@ -1286,8 +1354,9 @@ void MainWindow::addJobsTab()
     jobsScrollArea->setWidget(progressContent);
     jobsScrollArea->setWidgetResizable(true);
 
-    int index = this->ui->tabWidget->addTab(jobsScrollArea, "Progress");
+    int index = this->ui->tabWidget->addTab(jobsScrollArea, "Jobs");
     this->jobsTab = this->ui->tabWidget->widget(index);
+    updateProgressTabTitle();
 }
 
 void MainWindow::on_actionDownload_All_Files_triggered()
@@ -1325,6 +1394,19 @@ void MainWindow::on_actionShow_Details_triggered()
 
 void MainWindow::on_actionScan_Hard_Drives_triggered()
 {
+    Repository* r = Repository::getDefault();
+
+    for (int i = 0; i < r->packageVersions.size(); i++) {
+        PackageVersion* pv = r->packageVersions.at(i);
+        if (pv->locked) {
+            QString msg("Cannot start the scan now. "
+                    "The package %1 is locked by a "
+                    "currently running installation/removal.");
+            this->addErrorMessage(msg.arg(pv->toString()));
+            return;
+        }
+    }
+
     Job* job = new Job();
     ScanHardDrivesThread* it = new ScanHardDrivesThread(job);
     it->start();
@@ -1348,10 +1430,26 @@ void MainWindow::on_actionScan_Hard_Drives_triggered()
     addTextTab("Package detection status", detected.join("\n"));
 }
 
+void MainWindow::addErrorMessage(const QString& msg)
+{
+    MessageFrame* label = new MessageFrame(this->centralWidget());
+    label->setMessage(msg);
+    this->centralWidget()->layout()->addWidget(label);
+}
+
 void MainWindow::on_actionReload_Repositories_triggered()
 {
-    closeDetailTabs();
-    recognizeAndLoadRepositories();
+    Repository* r = Repository::getDefault();
+    PackageVersion* locked = r->findLockedPackageVersion();
+    if (locked) {
+        QString msg("Cannot reload the repositories now. "
+                "The package %1 is locked by a "
+                "currently running installation/removal.");
+        this->addErrorMessage(msg.arg(locked->toString()));
+    } else {
+        closeDetailTabs();
+        recognizeAndLoadRepositories();
+    }
 }
 
 void MainWindow::on_actionClose_Tab_triggered()

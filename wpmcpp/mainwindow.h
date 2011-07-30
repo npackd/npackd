@@ -36,7 +36,14 @@ const UINT NIN_KEYSELECT = NIN_SELECT or NINF_KEY;
 class MainWindow : public QMainWindow {
     Q_OBJECT
 private:
+    static MainWindow* instance;
+
     Ui::MainWindow *ui;
+
+    /**
+     * Current number of running jobs.
+     */
+    volatile int runningJobs;
 
     FileLoader fileLoader;
     QFrame* progressContent;
@@ -55,9 +62,20 @@ private:
     void fillList();
 
     /**
+     * This method returns a non-null PackageVersion* if something is selected
+     * in the list or package details are shown in the current tab.
+     *
      * @return selected package version or 0.
      */
     PackageVersion* getSelectedPackageVersion();
+
+    /**
+     * This method returns a non-null PackageVersion* if something is selected
+     * in the list.
+     *
+     * @return selected package version or 0.
+     */
+    PackageVersion* getSelectedPackageVersionInTable();
 
     /**
      * @param pv a version or 0
@@ -76,6 +94,12 @@ private:
     void monitor(Job* job, const QString& title, QThread* thread);
 
     void updateStatusInDetailTabs();
+
+    void updateProgressTabTitle();
+
+    void addErrorMessage(const QString& msg);
+
+    virtual void closeEvent(QCloseEvent *event);
 public:
     static QMap<QString, QIcon> icons;
 
@@ -86,12 +110,22 @@ public:
     static QIcon getPackageVersionIcon(PackageVersion* pv);
 
     /**
+     * @return the only instance of this class
+     */
+    static MainWindow* getInstance();
+
+    /**
      * This icon is used if a package does not define an icon.
      */
     static QIcon genericAppIcon;
 
     MainWindow(QWidget *parent = 0);
     ~MainWindow();
+
+    /**
+     * Informs the main window that the number of running job has decreased.
+     */
+    void decRunningJobs();
 
     bool winEvent(MSG* message, long* result);
 
