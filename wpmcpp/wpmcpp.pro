@@ -29,7 +29,8 @@ SOURCES += main.cpp \
     detectfile.cpp \
     uiutils.cpp \
     commandline.cpp \
-    progressframe.cpp
+    progressframe.cpp \
+    messageframe.cpp
 HEADERS += mainwindow.h \
     packageversion.h \
     repository.h \
@@ -55,13 +56,15 @@ HEADERS += mainwindow.h \
     detectfile.h \
     uiutils.h \
     commandline.h \
-    progressframe.h
+    progressframe.h \
+    messageframe.h
 FORMS += mainwindow.ui \
     progressdialog.ui \
     settingsdialog.ui \
     packageversionform.ui \
     licenseform.ui \
-    progressframe.ui
+    progressframe.ui \
+    messageframe.ui
 INCLUDEPATH += C:\\Users\\t\\libs\\quazip-0.2.3\\quazip \
     C:\\Users\\t\\libs\\zlib-1.2.5
 MINGWLIBS=C:\\QtSDK-1.1.1\\mingw\\lib

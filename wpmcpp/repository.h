@@ -246,6 +246,11 @@ public:
             const Version& version);
 
     /**
+     * @return the first found locked PackageVersion or 0
+     */
+    PackageVersion* findLockedPackageVersion() const;
+
+    /**
      * @return newly created object pointing to the repositories
      */
     static QList<QUrl*> getRepositoryURLs();

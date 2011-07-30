@@ -6,6 +6,8 @@
 #include "progressframe.h"
 #include "ui_progressframe.h"
 
+#include "mainwindow.h"
+
 ProgressFrame::ProgressFrame(QWidget *parent, Job* job, const QString& title,
         QThread* thread) :
     QFrame(parent),
@@ -37,6 +39,7 @@ ProgressFrame::~ProgressFrame()
     delete this->thread;
     delete this->job;
     delete ui;
+    MainWindow::getInstance()->decRunningJobs();
 }
 
 void ProgressFrame::threadFinished()
