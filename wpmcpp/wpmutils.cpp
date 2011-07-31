@@ -197,6 +197,15 @@ QString WPMUtils::setSystemEnvVar(const QString& name, const QString& value)
     return "";
 }
 
+QString WPMUtils::getFirstLine(const QString& text)
+{
+    QStringList sl = text.trimmed().split("\n");
+    if (sl.count() > 0)
+        return sl.at(0).trimmed();
+    else
+        return "";
+}
+
 QString WPMUtils::getSystemEnvVar(const QString& name, QString* err)
 {
     err->clear();

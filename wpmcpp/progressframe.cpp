@@ -7,6 +7,7 @@
 #include "ui_progressframe.h"
 
 #include "mainwindow.h"
+#include "wpmutils.h"
 
 ProgressFrame::ProgressFrame(QWidget *parent, Job* job, const QString& title,
         QThread* thread) :
@@ -16,6 +17,7 @@ ProgressFrame::ProgressFrame(QWidget *parent, Job* job, const QString& title,
     ui->setupUi(this);
     ui->progressBar->setMaximum(10000);
 
+    this->title = title;
     this->job = job;
     this->started = 0;
     this->thread = thread;
@@ -36,6 +38,11 @@ ProgressFrame::ProgressFrame(QWidget *parent, Job* job, const QString& title,
 
 ProgressFrame::~ProgressFrame()
 {
+    if (!job->getErrorMessage().isEmpty()) {
+        MainWindow::getInstance()->addErrorMessage("Error: " + this->title +
+                ": " + WPMUtils::getFirstLine(job->getErrorMessage()),
+                job->getErrorMessage(), false);
+    }
     delete this->thread;
     delete this->job;
     delete ui;

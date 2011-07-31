@@ -10,7 +10,9 @@ namespace Ui {
 class MessageFrame : public QFrame
 {
     Q_OBJECT
-
+private:
+    QString details;
+    bool autoHide;
 public:
     explicit MessageFrame(QWidget *parent = 0);
     ~MessageFrame();
@@ -19,9 +21,20 @@ public:
      * @param msg new message
      */
     void setMessage(const QString& msg);
+
+    /**
+     * @param msg new details
+     */
+    void setDetails(const QString& msg);
+
+    /**
+     * @param b true = automatically hide the message after some time
+     */
+    void setAutoHide(bool b);
 private slots:
-    void on_pushButton_clicked();
     void timerTimeout();
+    void on_pushButtonDetails_clicked();
+    void on_pushButtonDismiss_clicked();
 private:
     Ui::MessageFrame *ui;
 };

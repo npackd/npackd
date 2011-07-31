@@ -764,21 +764,10 @@ void MainWindow::fillList()
         t->setItem(n, 3, newItem);
 
         newItem = new QCITableWidgetItem("");
-        QString status;
-        if (installed) {
-            if (pv->isExternal())
-                status = "installed externally";
-            else
-                status = "installed";
-        }
-        if (installed && newest != 0 && pv->version.compare(newest->version) < 0) {
-            newItem->setBackgroundColor(QColor(255, 0xc7, 0xc7));
-            if (!newest->installed() && !pv->isExternal())
-                status += ", updateable";
-            else
-                status += ", obsolete";
-        }
+        QString status = pv->getStatus();
         newItem->setText(status);
+        if (status.contains("obsolete") || status.contains("updateable"))
+            newItem->setBackgroundColor(QColor(255, 0xc7, 0xc7));
         newItem->setData(Qt::UserRole, qVariantFromValue((void*) pv));
         t->setItem(n, 4, newItem);
 
@@ -1430,10 +1419,13 @@ void MainWindow::on_actionScan_Hard_Drives_triggered()
     addTextTab("Package detection status", detected.join("\n"));
 }
 
-void MainWindow::addErrorMessage(const QString& msg)
+void MainWindow::addErrorMessage(const QString& msg, const QString& details,
+        bool autoHide)
 {
     MessageFrame* label = new MessageFrame(this->centralWidget());
     label->setMessage(msg);
+    label->setDetails(details);
+    label->setAutoHide(autoHide);
     this->centralWidget()->layout()->addWidget(label);
 }
 

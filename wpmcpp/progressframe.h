@@ -19,6 +19,7 @@ private:
     time_t started, modified;
     QThread* thread;
     QTimer *timer;
+    QString title;
 public:
     /**
      * @param parent parent widget
