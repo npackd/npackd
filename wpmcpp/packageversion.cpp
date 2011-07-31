@@ -169,7 +169,7 @@ QString PackageVersion::getFullText()
     return this->fullText;
 }
 
-bool PackageVersion::installed()
+bool PackageVersion::installed() const
 {
     if (this->ipath.trimmed().isEmpty()) {
         return false;
@@ -935,6 +935,33 @@ bool PackageVersion::saveFiles(const QDir& d, QString* errMsg)
         }
     }
     return success;
+}
+
+QString PackageVersion::getStatus() const
+{
+    QString status;
+    bool installed = this->installed();
+    Repository* r = Repository::getDefault();
+    PackageVersion* newest = r->findNewestInstallablePackageVersion(
+            this->package);
+    if (installed) {
+        if (isExternal())
+            status = "installed externally";
+        else
+            status = "installed";
+    }
+    if (installed && newest != 0 && version.compare(newest->version) < 0) {
+        if (!newest->installed() && !isExternal())
+            status += ", updateable";
+        else
+            status += ", obsolete";
+    }
+    if (locked) {
+        if (!status.isEmpty())
+            status = ", " + status;
+        status = "locked" + status;
+    }
+    return status;
 }
 
 QStringList PackageVersion::findLockedFiles()

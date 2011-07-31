@@ -214,7 +214,7 @@ public:
     /**
      * @return true if this package version is installed
      */
-    bool installed();
+    bool installed() const;
 
     /**
      * @return description that can be used for the full-text search in lower
@@ -247,6 +247,11 @@ public:
      * @return files currenly locked in this package directory
      */
     QStringList findLockedFiles();
+
+    /**
+     * @return status like "locked, installed"
+     */
+    QString getStatus() const;
 };
 
 Q_DECLARE_METATYPE(PackageVersion);

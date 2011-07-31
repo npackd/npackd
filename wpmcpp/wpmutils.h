@@ -222,6 +222,12 @@ public:
      * @return value value of the variable
      */
     static QString getSystemEnvVar(const QString& name, QString* err);
+
+    /**
+     * @param text multiline text
+     * @return first non-empty line from text
+     */
+    static QString getFirstLine(const QString& text);
 };
 
 #endif // WPMUTILS_H

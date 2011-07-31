@@ -49,7 +49,6 @@ private:
     QFrame* progressContent;
     QWidget* jobsTab;
 
-    void addTextTab(const QString& title, const QString& text);
     void addJobsTab();
     void showDetails();
     void updateIcons();
@@ -97,8 +96,6 @@ private:
 
     void updateProgressTabTitle();
 
-    void addErrorMessage(const QString& msg);
-
     virtual void closeEvent(QCloseEvent *event);
 public:
     static QMap<QString, QIcon> icons;
@@ -126,6 +123,24 @@ public:
      * Informs the main window that the number of running job has decreased.
      */
     void decRunningJobs();
+
+    /**
+     * Adds an error message panel.
+     *
+     * @param msg short error message
+     * @param details error details
+     * @param autoHide true = automatically hide the message after some time
+     */
+    void addErrorMessage(const QString& msg, const QString& details="",
+            bool autoHide=true);
+
+    /**
+     * Adds a new tab with the specified text
+     *
+     * @param title tab title
+     * @param text the text
+     */
+    void addTextTab(const QString& title, const QString& text);
 
     bool winEvent(MSG* message, long* result);
 
