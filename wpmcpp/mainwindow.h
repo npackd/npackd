@@ -93,9 +93,8 @@ private:
     void monitor(Job* job, const QString& title, QThread* thread);
 
     void updateStatusInDetailTabs();
-
     void updateProgressTabTitle();
-
+    void updateStatusInTable();
     virtual void closeEvent(QCloseEvent *event);
 public:
     static QMap<QString, QIcon> icons;

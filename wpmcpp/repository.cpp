@@ -17,7 +17,7 @@
 
 Repository Repository::def;
 
-Repository::Repository()
+Repository::Repository(): QObject()
 {
     /*
     // allow access to the \Packages for all users
@@ -1237,6 +1237,11 @@ void Repository::loadOne(QDomDocument* doc, Job* job)
     }
 
     job->complete();
+}
+
+void Repository::fireStatusChanged(PackageVersion *pv)
+{
+    emit statusChanged(pv);
 }
 
 PackageVersion* Repository::findLockedPackageVersion() const

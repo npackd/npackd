@@ -2351,7 +2351,10 @@ if %err% neq 0 exit %err%
         <sha1>1BE05507F61513756863FB0844FEBD3400A40FC7</sha1>
     </version>
 
-    <!-- uninstallation shows a confirmation dialog -->
+    <!-- 
+        old versions are regularly deleted.
+        Uninstallation shows a confirmation dialog 
+    -->
     <version name="2.48" package="de.mp3tag.MP3Tag" type="one-file">
         <file path=".WPM\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x
 "%setup%" /S /D=%CD%
@@ -2438,6 +2441,10 @@ taskkill /F /FI "WINDOWTITLE eq NetStumbler*"
         <sha1>b009f154c58894b8796a9c85cde62cd123114d49</sha1>
     </version>
 
+    <!-- 
+        installation shows a progress dialog, installs MSVCRT.
+        Un-installation shows a confirmation dialog
+    -->
     <version name="2.8.6" package="com.abisource.AbiWord" type="one-file">
         <file path=".WPM\Install.bat">abiword-setup-2.8.6.exe /S /D=%CD%</file>
         <file path=".WPM\Uninstall.bat">UninstallAbiWord2.exe /S</file>

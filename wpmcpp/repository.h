@@ -19,8 +19,9 @@
 /**
  * A repository is a list of packages and package versions.
  */
-class Repository
+class Repository: public QObject
 {
+    Q_OBJECT
 private:
     static Repository def;
 
@@ -82,6 +83,23 @@ private:
     void addWellKnownPackages();
 public:
     /**
+     * @return newly created object pointing to the repositories
+     */
+    static QList<QUrl*> getRepositoryURLs();
+
+    /*
+     * Changes the default repository url.
+     *
+     * @param urls new URLs
+     */
+    static void setRepositoryURLs(QList<QUrl*>& urls);
+
+    /**
+     * @return default repository
+     */
+    static Repository* getDefault();
+
+    /**
      * Package versions. All version numbers should be normalized.
      */
     QList<PackageVersion*> packageVersions;
@@ -101,7 +119,7 @@ public:
      */
     Repository();
 
-    ~Repository();
+    virtual ~Repository();
 
     void process(Job* job, const QList<InstallOperation*> &install);
 
@@ -251,21 +269,17 @@ public:
     PackageVersion* findLockedPackageVersion() const;
 
     /**
-     * @return newly created object pointing to the repositories
-     */
-    static QList<QUrl*> getRepositoryURLs();
-
-    /*
-     * Changes the default repository url.
+     * Emits the statusChanged(PackageVersion*) signal.
      *
-     * @param urls new URLs
+     * @param pv this PackageVersion has changed
      */
-    static void setRepositoryURLs(QList<QUrl*>& urls);
-
+    void fireStatusChanged(PackageVersion* pv);
+signals:
     /**
-     * @return default repository
+     * This signal will be fired each time the status of a package changes.
+     * For example, this happens if a package is installed.
      */
-    static Repository* getDefault();
+    void statusChanged(PackageVersion* pv);
 };
 
 #endif // REPOSITORY_H
