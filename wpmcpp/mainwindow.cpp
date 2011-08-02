@@ -505,6 +505,23 @@ void MainWindow::prepare()
     pTimer->start(0);
 }
 
+void MainWindow::updateStatusInTable()
+{
+    for (int i = 0; i < this->ui->tableWidget->rowCount(); i++) {
+        QTableWidgetItem* newItem = this->ui->tableWidget->item(i, 4);
+
+        const QVariant v = newItem->data(Qt::UserRole);
+        PackageVersion* pv = (PackageVersion *) v.value<void*>();
+
+        QString status = pv->getStatus();
+        newItem->setText(status);
+        if (status.contains("obsolete") || status.contains("updateable"))
+            newItem->setBackgroundColor(QColor(255, 0xc7, 0xc7));
+        else
+            newItem->setBackgroundColor(QColor(255, 255, 255));
+    }
+}
+
 void MainWindow::updateProgressTabTitle()
 {
     int index = this->ui->tabWidget->indexOf(this->jobsTab);
