@@ -1003,9 +1003,9 @@ bool MainWindow::isUpdateEnabled(PackageVersion* pv)
         PackageVersion* newesti = r->findNewestInstalledPackageVersion(
                 pv->package);
         if (newest != 0 && newesti != 0) {
-            bool canInstall = !newest->installed() &&
+            bool canInstall = !newest->locked && !newest->installed() &&
                     newest->download.isValid();
-            bool canUninstall = !newesti->isExternal();
+            bool canUninstall = !newesti->locked && !newesti->isExternal();
 
             return canInstall && canUninstall &&
                     newest->version.compare(newesti->version) > 0;
@@ -1020,9 +1020,12 @@ bool MainWindow::isUpdateEnabled(PackageVersion* pv)
 void MainWindow::updateActions()
 {
     PackageVersion* pv = getSelectedPackageVersion();
-    this->ui->actionInstall->setEnabled(pv && !pv->installed() &&
+
+    this->ui->actionInstall->setEnabled(pv && !pv->locked &&
+            !pv->installed() &&
             pv->download.isValid());
-    this->ui->actionUninstall->setEnabled(pv && pv->installed() &&
+    this->ui->actionUninstall->setEnabled(pv && !pv->locked &&
+            pv->installed() &&
             !pv->isExternal());
     this->ui->actionCompute_SHA1->setEnabled(pv && pv->download.isValid());
 
