@@ -4364,6 +4364,33 @@ verify
         <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1, 1]"/>
         <dependency package="com.googlecode.pathed.PathEd" versions="[0.8, 0.8]"/>
     </version>
+    <version name="7.21.7" package="se.haxx.curl.CURL">
+        <file path=".WPM\Install.bat">for /f "delims=" %%x in ('dir /b curl*') do set name=%%x
+cd "%name%"        
+for /f "delims=" %%a in ('dir /b') do (
+  move "%%a" ..
+)
+cd ..
+rmdir "%name%"
+
+if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
+set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.pathed.PathEd" "--versions=[0.8, 0.8]"
+for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set pathed=%%x
+"%pathed%\pathed" -s -a "%CD%"
+verify
+</file>
+        <file path=".WPM\Uninstall.bat">if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
+set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.pathed.PathEd" "--versions=[0.8, 0.8]"
+for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set pathed=%%x
+"%pathed%\pathed" -s -r "%CD%"
+verify
+</file>
+        <url>http://www.gknw.net/mirror/curl/win32/curl-7.21.7-ssl-sspi-zlib-static-bin-w32.zip</url>
+        <sha1>bbd447f160310d94955eb59b74904006752df42d</sha1>
+        <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.15.7, 1.15.7]"/>
+        <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1, 1]"/>
+        <dependency package="com.googlecode.pathed.PathEd" versions="[0.8, 0.8]"/>
+    </version>
 
     <version name="0.96.1" package="com.clamwin.ClamWin" type="one-file">
         <file path=".WPM\Install.bat">for /f %%x in ('dir /b *setup.exe') do set setup=%%x
