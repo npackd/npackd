@@ -1042,6 +1042,10 @@ void MainWindow::updateActions()
             pv->download.isValid());
 
     this->ui->actionShow_Details->setEnabled(pv);
+
+    QWidget* w = this->ui->tabWidget->currentWidget();
+    this->ui->actionClose_Tab->setEnabled(
+            w != this->ui->tab && w != this->jobsTab);
 }
 
 void MainWindow::on_tableWidget_itemSelectionChanged()
