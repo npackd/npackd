@@ -6623,6 +6623,26 @@ verify
         <url>http://downloads.sourceforge.net/project/winscp/WinSCP/4.3.3/winscp433.zip?ts=1307564000</url>
         <sha1>EBA83F6A7F520FB60E77376443D30F632A4A212E</sha1>
     </version>
+    <version name="4.3.4" package="net.winscp.WinSCP">
+        <file path=".WPM\Install.bat">if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
+set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.pathed.PathEd" "--versions=[0.8, 0.8]"
+for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set pathed=%%x
+"%pathed%\pathed" -s -a "%CD%"
+verify
+</file>
+        <file path=".WPM\Uninstall.bat">if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
+set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.pathed.PathEd" "--versions=[0.8, 0.8]"
+for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set pathed=%%x
+"%pathed%\pathed" -s -r "%CD%"
+verify
+</file>
+        <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.15.7, 1.15.7]"/>
+        <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1, 1]"/>
+        <dependency package="com.googlecode.pathed.PathEd" versions="[0.8, 0.8]"/>
+        <important-file path="winscp.exe" title="WinSCP"/>
+        <url>https://downloads.sourceforge.net/project/winscp/WinSCP/4.3.4/winscp434.zip?ts=1312399043</url>
+        <sha1>c7ebb0ede54eaff1a15e1cc88ec3a8a6671a01dd</sha1>
+    </version>
 
     <version name="5.58" package="com.winamp.WinampStandard" type="one-file">
         <important-file path="Prog\winamp.exe" title="Winamp"/>
