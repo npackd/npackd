@@ -12,25 +12,18 @@ class MessageFrame : public QFrame
     Q_OBJECT
 private:
     QString details;
-    bool autoHide;
+    int seconds;
 public:
-    explicit MessageFrame(QWidget *parent = 0);
+    /**
+     * @param parent parent widget or 0
+     * @param msg one line message
+     * @param details multi-line message
+     * @param seconds automatically close after this number of seconds or 0 for
+     *     "do not close automatically"
+     */
+    explicit MessageFrame(QWidget *parent, const QString& msg,
+            const QString& details, int seconds);
     ~MessageFrame();
-
-    /**
-     * @param msg new message
-     */
-    void setMessage(const QString& msg);
-
-    /**
-     * @param msg new details
-     */
-    void setDetails(const QString& msg);
-
-    /**
-     * @param b true = automatically hide the message after some time
-     */
-    void setAutoHide(bool b);
 private slots:
     void timerTimeout();
     void on_pushButtonDetails_clicked();

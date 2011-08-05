@@ -1446,11 +1446,10 @@ void MainWindow::on_actionScan_Hard_Drives_triggered()
 void MainWindow::addErrorMessage(const QString& msg, const QString& details,
         bool autoHide)
 {
-    MessageFrame* label = new MessageFrame(this->centralWidget());
-    label->setMessage(msg);
-    label->setDetails(details);
-    label->setAutoHide(autoHide);
-    this->centralWidget()->layout()->addWidget(label);
+    MessageFrame* label = new MessageFrame(this->centralWidget(), msg,
+            details, autoHide ? 10 : 0);
+    QVBoxLayout* layout = (QVBoxLayout*) this->centralWidget()->layout();
+    layout->insertWidget(0, label);
 }
 
 void MainWindow::on_actionReload_Repositories_triggered()

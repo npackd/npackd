@@ -5,20 +5,24 @@
 
 #include "mainwindow.h"
 
-MessageFrame::MessageFrame(QWidget *parent) :
+MessageFrame::MessageFrame(QWidget *parent, const QString& msg,
+        const QString& details, int seconds) :
     QFrame(parent),
     ui(new Ui::MessageFrame)
 {
     ui->setupUi(this);
 
-    this->autoHide = true;
+    this->ui->pushButtonDismiss->setText(QString("Dismiss (%1)").arg(seconds));
+    this->seconds = seconds;
+    this->ui->label->setText(msg);
+    this->details = msg;
+    this->ui->pushButtonDetails->setEnabled(!details.isEmpty());
 
-    QTimer* t = new QTimer(this);
-    connect(t, SIGNAL(timeout()), this, SLOT(timerTimeout()));
-    t->setSingleShot(true);
-    t->start(10000);
-
-    this->setDetails("");
+    if (seconds > 0) {
+        QTimer* t = new QTimer(this);
+        connect(t, SIGNAL(timeout()), this, SLOT(timerTimeout()));
+        t->start(1000);
+    }
 }
 
 
@@ -27,25 +31,11 @@ MessageFrame::~MessageFrame()
     delete ui;
 }
 
-void MessageFrame::setMessage(const QString& msg)
-{
-    this->ui->label->setText(msg);
-}
-
-void MessageFrame::setAutoHide(bool b)
-{
-    this->autoHide = b;
-}
-
-void MessageFrame::setDetails(const QString& msg)
-{
-    this->details = msg;
-    this->ui->pushButtonDetails->setEnabled(!details.isEmpty());
-}
-
 void MessageFrame::timerTimeout()
 {
-    if (autoHide) {
+    this->seconds--;
+    this->ui->pushButtonDismiss->setText(QString("Dismiss (%1)").arg(seconds));
+    if (this->seconds <= 0) {
         this->deleteLater();
     }
 }
