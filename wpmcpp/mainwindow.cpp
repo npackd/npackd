@@ -525,8 +525,13 @@ void MainWindow::updateStatusInTable()
 void MainWindow::updateProgressTabTitle()
 {
     int index = this->ui->tabWidget->indexOf(this->jobsTab);
-    this->ui->tabWidget->setTabText(index, QString("Jobs (%1)").
-            arg(this->runningJobs));
+    QString title;
+    if (this->runningJobs != 0)
+        title = QString("Jobs (%1 running)").arg(this->runningJobs);
+    else
+        title = "Jobs";
+
+    this->ui->tabWidget->setTabText(index, title);
 }
 
 MainWindow::~MainWindow()
