@@ -2352,6 +2352,17 @@ call "%npackdih%\UninstallMSI.bat"
         <dependency package="com.microsoft.DotNetRedistributable"
                 versions="[2.0, 3)"/>
     </version>
+    <version name="0.9.143" package="com.cyolito.comicrack.ComicRack" type="one-file">
+        <file path=".WPM\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x
+"%setup%" /S /D=%CD%
+</file>
+        <file path=".WPM\Uninstall.bat">uninst.exe /S _?=%CD%
+</file>        
+        <url>http://dl.dropbox.com/u/17046326/files/com.cyolito.comicrack.ComicRack-0.9.143.exe</url>
+        <sha1>5cc8a9de831115dfc05415f87067bef0c7a76e85</sha1>
+        <dependency package="com.microsoft.DotNetRedistributable"
+                versions="[2.0, 3)"/>
+    </version>
 
     <version name="2.1.5" package="com.wampserver.WampServer" type="one-file">
         <file path=".WPM\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x
