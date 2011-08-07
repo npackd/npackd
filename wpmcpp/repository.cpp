@@ -785,7 +785,7 @@ void Repository::process(Job *job, const QList<InstallOperation *> &install)
     for (int j = 0; j < install.size(); j++) {
         InstallOperation* op = install.at(j);
         PackageVersion* pv = op->packageVersion;
-        pv->locked = true;
+        pv->lock();
     }
 
     int n = install.count();
@@ -815,7 +815,7 @@ void Repository::process(Job *job, const QList<InstallOperation *> &install)
     for (int j = 0; j < install.size(); j++) {
         InstallOperation* op = install.at(j);
         PackageVersion* pv = op->packageVersion;
-        pv->locked = false;
+        pv->unlock();
     }
 
     job->complete();
@@ -1249,7 +1249,7 @@ PackageVersion* Repository::findLockedPackageVersion() const
     PackageVersion* r = 0;
     for (int i = 0; i < packageVersions.size(); i++) {
         PackageVersion* pv = packageVersions.at(i);
-        if (pv->locked) {
+        if (pv->isLocked()) {
             r = pv;
             break;
         }

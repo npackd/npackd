@@ -44,7 +44,35 @@ void PackageVersion::setExternal(bool e)
     if (this->external_ != e) {
         this->external_ = e;
         this->saveInstallationInfo();
+        emitStatusChanged();
     }
+}
+
+void PackageVersion::emitStatusChanged()
+{
+    Repository* r = Repository::getDefault();
+    r->fireStatusChanged(this);
+}
+
+void PackageVersion::lock()
+{
+    if (!this->locked) {
+        this->locked = true;
+        emitStatusChanged();
+    }
+}
+
+void PackageVersion::unlock()
+{
+    if (this->locked) {
+        this->locked = false;
+        emitStatusChanged();
+    }
+}
+
+bool PackageVersion::isLocked() const
+{
+    return this->locked;
 }
 
 bool PackageVersion::isExternal() const
@@ -81,6 +109,8 @@ void PackageVersion::loadFromRegistry()
             this->ipath = "";
         }
     }
+
+    emitStatusChanged();
 }
 
 QString PackageVersion::getPath()
@@ -93,6 +123,7 @@ void PackageVersion::setPath(const QString& path)
     if (this->ipath != path) {
         this->ipath = path;
         saveInstallationInfo();
+        emitStatusChanged();
     }
 }
 

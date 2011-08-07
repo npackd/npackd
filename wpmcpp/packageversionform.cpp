@@ -26,14 +26,7 @@ void PackageVersionForm::updateIcons()
 
 void PackageVersionForm::updateStatus()
 {
-    QString status;
-    if (pv->isExternal())
-        status = "externally installed";
-    else if (pv->installed())
-        status = "installed";
-    else
-        status = "not installed";
-    this->ui->lineEditStatus->setText(status);
+    this->ui->lineEditStatus->setText(pv->getStatus());
     this->ui->lineEditPath->setText(pv->getPath());
 }
 
