@@ -2299,6 +2299,24 @@ call "%npackdih%\UninstallMSI.bat"
         <url>http://cdn01.foxitsoftware.com/pub/foxit/reader/desktop/win/5.x/5.0/enu/FoxitReader501.0523_enu.msi</url>
         <sha1>BC7F1B2EC9320090EDB5EB73D338C51889EF7F4A</sha1>
     </version>
+    <version name="5.0.2.718" package="com.foxitsoftware.FoxitReader"
+            type="one-file">
+        <file path=".WPM\Install.bat">if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
+set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.NpackdInstallerHelper" "--versions=[1, 1]"
+for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set npackdih=%%x
+call "%npackdih%\InstallMSI.bat" INSTALLLOCATION
+</file>
+        <file path=".WPM\Uninstall.bat">if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
+set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.NpackdInstallerHelper" "--versions=[1, 1]"
+for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set npackdih=%%x
+call "%npackdih%\UninstallMSI.bat"
+</file>
+        <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1, 1]"/>
+        <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.15.7, 1.15.7]"/>
+        <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1, 1]"/>
+        <url>http://cdn01.foxitsoftware.com/pub/foxit/reader/desktop/win/5.x/5.0/enu/FoxitReader502.0718_enu.msi</url>
+        <sha1>E6B712EFE9C68B190868D79CA942A540A258111A</sha1>
+    </version>
 
     <!-- uninstallation shows 3 dialogs -->
     <version name="0.9.136" package="com.cyolito.comicrack.ComicRack" type="one-file">
