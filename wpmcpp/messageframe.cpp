@@ -12,7 +12,10 @@ MessageFrame::MessageFrame(QWidget *parent, const QString& msg,
 {
     ui->setupUi(this);
 
-    this->ui->pushButtonDismiss->setText(QString("Dismiss (%1)").arg(seconds));
+    if (seconds == 0)
+        this->ui->pushButtonDismiss->setText("Dismiss");
+    else
+        this->ui->pushButtonDismiss->setText(QString("Dismiss (%1)").arg(seconds));
     this->seconds = seconds;
     this->ui->label->setText(msg);
     this->details = msg;
