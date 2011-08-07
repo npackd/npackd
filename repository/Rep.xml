@@ -5705,6 +5705,15 @@ rmdir /s /q "%name%"
         <url>http://download.blender.org/release/Blender2.58/blender-2.58-windows32.zip</url>
         <sha1>62BD10333C3FC6C6AF8C7AB11881ED3D252FF8A9</sha1>
     </version>
+    <version name="2.58.1" package="org.blender.Blender">
+        <file path=".WPM\Install.bat">for /f "delims=" %%x in ('dir /b blender*') do set name=%%x
+xcopy "%name%\*" . /E /H
+rmdir /s /q "%name%"
+</file>
+        <important-file path="blender.exe" title="Blender"/>
+        <url>http://download.blender.org/release/Blender2.58/blender-2.58a-windows32.zip</url>
+        <sha1>e4d9c0d60182915e10276b49a0fe30dcc9b84faa</sha1>
+    </version>
 
     <version name="1.0.48.05" package="com.autohotkey.AutoHotKey"
             type="one-file">
