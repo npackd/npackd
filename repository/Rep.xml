@@ -8174,6 +8174,16 @@ rmdir /s /q "%name%"
         <url>http://download.java.net/glassfish/3.1/release/glassfish-3.1-web-ml.zip</url>
         <sha1>F5B7CA758EABF5915820C4485254B2343F2F1438</sha1>
     </version>
+    <version name="3.1.1" package="net.java.dev.glassfish.GlassFishWebProfile">
+        <file path=".WPM\Install.bat">for /f "delims=" %%x in ('dir /b glassfish*') do set name=%%x
+xcopy "%name%\*" . /E /H
+rmdir /s /q "%name%"
+</file>
+        <important-file path="bin\asadmin.bat" title="ASAdmin"/>
+        <dependency package="com.oracle.JDK" versions="[1.6, 2)"/>
+        <url>http://download.java.net/glassfish/3.1.1/release/glassfish-3.1.1-web-ml.zip</url>
+        <sha1>13ef4baee69e395f96552aeb0dd857bff6304a20</sha1>
+    </version>
 
     <version name="3.0.1" package="net.sourceforge.launch4j.Launch4j">
         <important-file path="launch4j\launch4j.exe" title="Launch4j"/>
