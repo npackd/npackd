@@ -490,6 +490,7 @@ void MainWindow::repositoryStatusChanged(PackageVersion* pv)
 {
     this->updateStatusInTable();
     this->updateStatusInDetailTabs();
+    this->updateActions();
 }
 
 void MainWindow::iconDownloaded(const FileLoaderItem& it)
