@@ -479,6 +479,17 @@ MainWindow::MainWindow(QWidget *parent) :
     this->ui->lineEditText->setFocus();
 
     this->addJobsTab();
+
+    Repository* r = Repository::getDefault();
+    connect(r, SIGNAL(statusChanged(PackageVersion*)), this,
+            SLOT(repositoryStatusChanged(PackageVersion*)),
+            Qt::QueuedConnection);
+}
+
+void MainWindow::repositoryStatusChanged(PackageVersion* pv)
+{
+    this->updateStatusInTable();
+    this->updateStatusInDetailTabs();
 }
 
 void MainWindow::iconDownloaded(const FileLoaderItem& it)
@@ -828,7 +839,7 @@ void MainWindow::process(QList<InstallOperation*> &install)
     for (int j = 0; j < install.size(); j++) {
         InstallOperation* op = install.at(j);
         PackageVersion* pv = op->packageVersion;
-        if (pv->locked) {
+        if (pv->isLocked()) {
             QString msg("The package %1 is locked by a "
                     "currently running installation/removal.");
             QMessageBox::critical(this,
@@ -1006,9 +1017,9 @@ bool MainWindow::isUpdateEnabled(PackageVersion* pv)
         PackageVersion* newesti = r->findNewestInstalledPackageVersion(
                 pv->package);
         if (newest != 0 && newesti != 0) {
-            bool canInstall = !newest->locked && !newest->installed() &&
+            bool canInstall = !newest->isLocked() && !newest->installed() &&
                     newest->download.isValid();
-            bool canUninstall = !newesti->locked && !newesti->isExternal();
+            bool canUninstall = !newesti->isLocked() && !newesti->isExternal();
 
             return canInstall && canUninstall &&
                     newest->version.compare(newesti->version) > 0;
@@ -1024,10 +1035,10 @@ void MainWindow::updateActions()
 {
     PackageVersion* pv = getSelectedPackageVersion();
 
-    this->ui->actionInstall->setEnabled(pv && !pv->locked &&
+    this->ui->actionInstall->setEnabled(pv && !pv->isLocked() &&
             !pv->installed() &&
             pv->download.isValid());
-    this->ui->actionUninstall->setEnabled(pv && !pv->locked &&
+    this->ui->actionUninstall->setEnabled(pv && !pv->isLocked() &&
             pv->installed() &&
             !pv->isExternal());
     this->ui->actionCompute_SHA1->setEnabled(pv && pv->download.isValid());
@@ -1150,7 +1161,7 @@ void MainWindow::on_actionSettings_triggered()
 
     for (int i = 0; i < r->packageVersions.size(); i++) {
         PackageVersion* pv = r->packageVersions.at(i);
-        if (pv->locked) {
+        if (pv->isLocked()) {
             QString msg("Cannot change settings now. "
                     "The package %1 is locked by a "
                     "currently running installation/removal.");
@@ -1414,7 +1425,7 @@ void MainWindow::on_actionScan_Hard_Drives_triggered()
 
     for (int i = 0; i < r->packageVersions.size(); i++) {
         PackageVersion* pv = r->packageVersions.at(i);
-        if (pv->locked) {
+        if (pv->isLocked()) {
             QString msg("Cannot start the scan now. "
                     "The package %1 is locked by a "
                     "currently running installation/removal.");

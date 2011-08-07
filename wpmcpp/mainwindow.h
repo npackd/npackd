@@ -95,6 +95,7 @@ private:
     void updateStatusInDetailTabs();
     void updateProgressTabTitle();
     void updateStatusInTable();
+
     virtual void closeEvent(QCloseEvent *event);
 public:
     static QMap<QString, QIcon> icons;
@@ -191,6 +192,7 @@ private slots:
     void iconDownloaded(const FileLoaderItem& it);
     void on_actionReload_Repositories_triggered();
     void on_actionClose_Tab_triggered();
+    void repositoryStatusChanged(PackageVersion* pv);
 };
 
 #endif // MAINWINDOW_H

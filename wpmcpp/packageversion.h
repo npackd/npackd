@@ -27,6 +27,16 @@ private:
     /** installation directory or "", if the package version is not installed */
     QString ipath;
 
+    /**
+     * If true, this package version is locked and cannot be
+     * installed/uninstalled.
+     */
+    volatile bool locked;
+
+    QString fullText;
+
+    bool external_;
+
     void unzip(Job* job, QString zipfile, QString outputdir);
     bool createShortcuts(const QString& dir, QString* errMsg);
     bool saveFiles(const QDir& d, QString* errMsg);
@@ -35,8 +45,6 @@ private:
             const QStringList& env);
     void deleteShortcuts(const QString& dir,
             Job* job, bool menu, bool desktop, bool quickLaunch);
-    QString fullText;
-
     /**
      * Deletes a directory. If something cannot be deleted, it waits and
      * tries to delete the directory again. Moves the directory to .Trash if
@@ -54,7 +62,7 @@ private:
      */
     QString saveInstallationInfo();
 
-    bool external_;
+    void emitStatusChanged();
 public:
     /** package version */
     Version version;
@@ -100,15 +108,27 @@ public:
      */
     QString msiGUID;
 
-    /**
-     * If true, this package version is locked and cannot be
-     * installed/uninstalled.
-     */
-    volatile bool locked;
-
     PackageVersion();
     PackageVersion(const QString& package);
     virtual ~PackageVersion();
+
+    /**
+     * Locks this package version so that it cannot be installed or removed
+     * by other processes.
+     */
+    void lock();
+
+    /**
+     * Unlocks this package version so that it can be installed or removed
+     * again.
+     */
+    void unlock();
+
+    /**
+     * @return true if this package version is locked and cannot be installed
+     *     or removed
+     */
+    bool isLocked() const;
 
     /**
      * @return this value is true for packages not installed through WPM,
