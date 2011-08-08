@@ -1104,6 +1104,25 @@ verify
         <url>https://downloads.sourceforge.net/project/mingw-w64/Toolchains%20targetting%20Win64/Automated%20Builds/mingw-w64-1.0-bin_i686-mingw_20110620.zip?ts=1310414635</url>
         <sha1>b852e37fdd8c1ba721639395f9188724f03aeafa</sha1>
     </version>
+    <version name="1.0.2011.7.18" package="net.sourceforge.mingw-w64.MinGWW6464">
+        <file path=".WPM\Install.bat">if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
+set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.pathed.PathEd" "--versions=[0.8, 0.8]"
+for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set pathed=%%x
+"%pathed%\pathed" -s -a "%CD%\bin"
+verify
+</file>
+        <file path=".WPM\Uninstall.bat">if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
+set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.pathed.PathEd" "--versions=[0.8, 0.8]"
+for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set pathed=%%x
+"%pathed%\pathed" -s -r "%CD%\bin"
+verify
+</file>
+        <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.15.7, 1.15.7]"/>
+        <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1, 1]"/>
+        <dependency package="com.googlecode.pathed.PathEd" versions="[0.8, 0.8]"/>
+        <url>http://downloads.sourceforge.net/project/mingw-w64/Toolchains%20targetting%20Win64/Automated%20Builds/mingw-w64-1.0-bin_i686-mingw_20110718.zip?ts=1312832759</url>
+        <sha1>4a3816c225a5bc708d40827e748b497dc84df98a</sha1>
+    </version>
 
     <version name="0.9.19" package="org.miranda-im.MirandaIM64" type="one-file">
         <important-file path="miranda64.exe" title="Miranda IM"/>
