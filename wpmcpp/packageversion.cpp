@@ -778,7 +778,7 @@ void PackageVersion::install(Job* job, const QString& where)
             t.append(parts.at(parts.count() - 1));
             t.replace('/', '\\');
 
-            if (!f->rename(t)) {
+            if (!QFile::rename(f->fileName(), t)) {
                 job->setErrorMessage(QString("Cannot rename %0 to %1").
                         arg(f->fileName()).arg(t));
             } else {
