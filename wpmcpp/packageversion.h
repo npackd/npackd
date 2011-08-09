@@ -39,7 +39,7 @@ private:
 
     void unzip(Job* job, QString zipfile, QString outputdir);
     bool createShortcuts(const QString& dir, QString* errMsg);
-    bool saveFiles(const QDir& d, QString* errMsg);
+    QString saveFiles(const QDir& d);
     void executeFile(Job* job, const QString& where,
             const QString& path, const QString& outputFile,
             const QStringList& env);
