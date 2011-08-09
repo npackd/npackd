@@ -788,8 +788,8 @@ void PackageVersion::install(Job* job, const QString& where)
     }
 
     if (!job->isCancelled() && job->getErrorMessage().isEmpty()) {
-        QString errMsg;
-        if (!this->saveFiles(d, &errMsg)) {
+        QString errMsg = this->saveFiles(d);
+        if (!errMsg.isEmpty()) {
             job->setErrorMessage(errMsg);
         } else {
             job->setProgress(0.85);
@@ -940,9 +940,9 @@ void PackageVersion::unzip(Job* job, QString zipfile, QString outputdir)
     job->complete();
 }
 
-bool PackageVersion::saveFiles(const QDir& d, QString* errMsg)
+QString PackageVersion::saveFiles(const QDir& d)
 {
-    bool success = false;
+    QString res;
     for (int i = 0; i < this->files.count(); i++) {
         PackageVersionFile* f = this->files.at(i);
         QString fullPath = d.absolutePath() + "\\" + f->path;
@@ -953,19 +953,18 @@ bool PackageVersion::saveFiles(const QDir& d, QString* errMsg)
                 QTextStream stream(&file);
                 stream << f->content;
                 file.close();
-                success = true;
             } else {
-                *errMsg = QString("Could not create file %1").arg(
+                res = QString("Could not create file %1").arg(
                         fullPath);
                 break;
             }
         } else {
-            *errMsg = QString("Could not create directory %1").arg(
+            res = QString("Could not create directory %1").arg(
                     fullDir);
             break;
         }
     }
-    return success;
+    return res;
 }
 
 QString PackageVersion::getStatus() const
