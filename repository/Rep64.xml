@@ -1931,6 +1931,16 @@ rmdir /s /q "%name%"
         <dependency package="com.oracle.JRE64" versions="[1.6, 2)"/>
         <sha1>2475EAD1FC6EC46BD943876E22E5E121F1C0923C</sha1>
     </version>
+    <version name="3.7" package="org.eclipse.EclipseIDEJEE64">
+        <file path=".WPM\Install.bat">for /f "delims=" %%x in ('dir /b eclipse*') do set name=%%x
+xcopy "%name%\*" . /E /H
+rmdir /s /q "%name%"
+</file>
+        <important-file path="eclipse.exe" title="Eclipse"/>
+        <url>http://ftp-stud.fht-esslingen.de/pub/Mirrors/eclipse/technology/epp/downloads/release/indigo/R/eclipse-jee-indigo-win32-x86_64.zip</url>
+        <dependency package="com.oracle.JRE64" versions="[1.6, 2)"/>
+        <sha1>7b0e893f8af54ebe4cd3f16797e4527664a20112</sha1>
+    </version>
 
     <version name="3.6.1" package="org.eclipse.EclipseIDEJava64">
         <file path=".WPM\Install.bat">for /f "delims=" %%x in ('dir /b eclipse*') do set name=%%x
