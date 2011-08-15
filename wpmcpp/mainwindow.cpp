@@ -1462,7 +1462,7 @@ void MainWindow::addErrorMessage(const QString& msg, const QString& details,
         bool autoHide)
 {
     MessageFrame* label = new MessageFrame(this->centralWidget(), msg,
-            details, autoHide ? 10 : 0);
+            details, autoHide ? 30 : 0);
     QVBoxLayout* layout = (QVBoxLayout*) this->centralWidget()->layout();
     layout->insertWidget(0, label);
 }
