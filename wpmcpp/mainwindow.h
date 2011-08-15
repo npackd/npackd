@@ -10,6 +10,7 @@
 #include <QModelIndex>
 #include <QFrame>
 #include <QScrollArea>
+#include <QMessageBox>
 
 #include "packageversion.h"
 #include "job.h"
@@ -130,9 +131,10 @@ public:
      * @param msg short error message
      * @param details error details
      * @param autoHide true = automatically hide the message after some time
+     * @param icon message icon
      */
     void addErrorMessage(const QString& msg, const QString& details="",
-            bool autoHide=true);
+            bool autoHide=true, QMessageBox::Icon icon=QMessageBox::NoIcon);
 
     /**
      * Adds a new tab with the specified text

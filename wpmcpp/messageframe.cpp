@@ -8,7 +8,7 @@
 #include "mainwindow.h"
 
 MessageFrame::MessageFrame(QWidget *parent, const QString& msg,
-        const QString& details, int seconds) :
+        const QString& details, int seconds, QMessageBox::Icon icon) :
     QFrame(parent),
     ui(new Ui::MessageFrame)
 {
@@ -23,6 +23,7 @@ MessageFrame::MessageFrame(QWidget *parent, const QString& msg,
     this->ui->label->setText(msg);
     this->details = msg;
     this->ui->pushButtonDetails->setEnabled(!details.isEmpty());
+    this->icon = icon;
 
     if (seconds > 0) {
         QTimer* t = new QTimer(this);
