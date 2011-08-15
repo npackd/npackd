@@ -1,7 +1,6 @@
 #include "settingsdialog.h"
 #include "ui_settingsdialog.h"
 
-#include "qmessagebox.h"
 #include "qdesktopservices.h"
 
 #include "repository.h"

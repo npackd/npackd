@@ -835,8 +835,8 @@ void MainWindow::process(QList<InstallOperation*> &install)
         if (pv->isLocked()) {
             QString msg("The package %1 is locked by a "
                     "currently running installation/removal.");
-            QMessageBox::critical(this,
-                    "Install/Uninstall", msg.arg(pv->toString()));
+            this->addErrorMessage(msg.arg(pv->toString()),
+                    msg.arg(pv->toString()), true, QMessageBox::Critical);
             return;
         }
     }
@@ -858,12 +858,11 @@ void MainWindow::process(QList<InstallOperation*> &install)
 
     if (lockedUninstall.size() > 0) {
         QString locked_ = lockedUninstall.join(", \n");
-        QString msg("The package(s) cannot be uninstalled because "
+        QString msg = QString("The package(s) cannot be uninstalled because "
                 "the following files are in use "
                 "(please close the corresponding applications): "
-                "%1");
-        QMessageBox::critical(this,
-                "Uninstall", msg.arg(locked_));
+                "%1").arg(locked_);
+        addErrorMessage(msg, msg, true, QMessageBox::Critical);
         return;
     }
 
@@ -872,11 +871,11 @@ void MainWindow::process(QList<InstallOperation*> &install)
         if (!op->install) {
             PackageVersion* pv = op->packageVersion;
             if (pv->isDirectoryLocked()) {
-                QString msg("The package %1 cannot be uninstalled because "
-                        "some files or directories under %2 are in use.");
-                QMessageBox::critical(this,
-                        "Uninstall", msg.arg(pv->toString()).
-                        arg(pv->getPath()));
+                QString msg = QString("The package %1 cannot be uninstalled because "
+                        "some files or directories under %2 are in use.").
+                        arg(pv->toString()).
+                        arg(pv->getPath());
+                addErrorMessage(msg, msg, true, QMessageBox::Critical);
                 return;
             }
         }
@@ -997,8 +996,7 @@ void MainWindow::on_actionUninstall_activated()
     if (err.isEmpty())
         process(ops);
     else
-        QMessageBox::critical(this,
-                "Uninstall", err, QMessageBox::Ok);
+        addErrorMessage(err, err, true, QMessageBox::Critical);
 }
 
 bool MainWindow::isUpdateEnabled(PackageVersion* pv)
@@ -1120,8 +1118,7 @@ void MainWindow::on_actionInstall_activated()
     if (err.isEmpty())
         process(ops);
     else
-        QMessageBox::critical(this,
-                "Install", err, QMessageBox::Ok);
+        addErrorMessage(err, err, true, QMessageBox::Critical);
 }
 
 void MainWindow::on_actionGotoPackageURL_triggered()
@@ -1179,16 +1176,14 @@ void MainWindow::on_actionSettings_triggered()
     if (d.exec() == QDialog::Accepted) {
         list = d.getRepositoryURLs();
         if (list.count() == 0) {
-            QMessageBox::critical(this,
-                    "Error", "No repositories defined", QMessageBox::Ok);
+            QString msg("No repositories defined");
+            addErrorMessage(msg, msg, true, QMessageBox::Critical);
         } else if (d.getInstallationDirectory().isEmpty()) {
-            QMessageBox::critical(this,
-                    "Error", "The installation directory cannot be empty",
-                    QMessageBox::Ok);
+            QString msg("The installation directory cannot be empty");
+            addErrorMessage(msg, msg, true, QMessageBox::Critical);
         } else if (!QDir(d.getInstallationDirectory()).exists()) {
-            QMessageBox::critical(this,
-                    "Error", "The installation directory does not exist",
-                    QMessageBox::Ok);
+            QString msg("The installation directory does not exist");
+            addErrorMessage(msg, msg, true, QMessageBox::Critical);
         } else {
             QString err;
             for (int i = 0; i < list.count(); i++) {
@@ -1206,8 +1201,7 @@ void MainWindow::on_actionSettings_triggered()
                 closeDetailTabs();
                 recognizeAndLoadRepositories();
             } else {
-                QMessageBox::critical(this,
-                        "Error", err, QMessageBox::Ok);
+                addErrorMessage(err, err, true, QMessageBox::Critical);
             }
             qDeleteAll(urls);
             urls.clear();
@@ -1234,8 +1228,7 @@ void MainWindow::on_actionUpdate_triggered()
         InstallOperation::simplify(ops);
         process(ops);
     } else
-        QMessageBox::critical(this,
-                "Uninstall", err, QMessageBox::Ok);
+        addErrorMessage(err, err, true, QMessageBox::Critical);
 }
 
 void MainWindow::on_actionTest_Download_Site_triggered()
@@ -1389,8 +1382,8 @@ void MainWindow::on_actionDownload_All_Files_triggered()
                 QDir::NoDotAndDotDot |
                 QDir::AllEntries | QDir::System);
         if (entries.size() != 0) {
-            QMessageBox::critical(this, "Error",
-                    "The chosen directory is not empty");
+            QString msg("The chosen directory is not empty");
+            addErrorMessage(msg, msg, true, QMessageBox::Critical);
         } else {
             Job* job = new Job();
             InstallThread* it = new InstallThread(0, 7, job);
@@ -1451,10 +1444,10 @@ void MainWindow::on_actionScan_Hard_Drives_triggered()
 }
 
 void MainWindow::addErrorMessage(const QString& msg, const QString& details,
-        bool autoHide)
+        bool autoHide, QMessageBox::Icon icon)
 {
     MessageFrame* label = new MessageFrame(this->centralWidget(), msg,
-            details, autoHide ? 30 : 0);
+            details, autoHide ? 30 : 0, icon);
     QVBoxLayout* layout = (QVBoxLayout*) this->centralWidget()->layout();
     layout->insertWidget(0, label);
 }
