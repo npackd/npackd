@@ -593,16 +593,8 @@ bool MainWindow::waitFor(Job* job, const QString& title)
         if (ind >= 0)
             first = first.left(ind);
 
-        QMessageBox mb(this);
-        mb.setWindowTitle("Error");
-        mb.setText(QString("%1: %2").
-                   arg(job->getHint()).
-                   arg(first));
-        mb.setIcon(QMessageBox::Critical);
-        mb.setStandardButtons(QMessageBox::Ok);
-        mb.setDefaultButton(QMessageBox::Ok);
-        mb.setDetailedText(job->getErrorMessage());
-        mb.exec();
+        addErrorMessage(QString("%1: %2").arg(job->getHint()).arg(first),
+                job->getErrorMessage(), 30);
 
         return false;
     } else {
