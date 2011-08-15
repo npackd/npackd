@@ -70,7 +70,7 @@ void WPMUtils::formatMessage(DWORD err, QString* errMsg)
 {
     HLOCAL pBuffer;
     DWORD n;
-    if (err >= 12001 && err <= 12156) {
+    if (err >= INTERNET_ERROR_BASE && err <= INTERNET_ERROR_LAST) {
         // wininet.dll-errors
         n = FormatMessageW(FORMAT_MESSAGE_ALLOCATE_BUFFER |
                        FORMAT_MESSAGE_FROM_HMODULE,
@@ -84,7 +84,9 @@ void WPMUtils::formatMessage(DWORD err, QString* errMsg)
     if (n == 0)
         errMsg->append(QString("Error %1").arg(err));
     else {
-        errMsg->setUtf16((ushort*) pBuffer, n);
+        QString msg;
+        msg.setUtf16((ushort*) pBuffer, n);
+        errMsg->append(QString("Error %1: %2").arg(err).arg(msg));
         LocalFree(pBuffer);
     }
 }
