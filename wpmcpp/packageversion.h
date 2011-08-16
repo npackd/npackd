@@ -7,6 +7,7 @@
 #include "qdir.h"
 #include "qurl.h"
 #include "qstringlist.h"
+#include <QSemaphore>
 
 #include "job.h"
 #include "packageversionfile.h"
@@ -24,6 +25,8 @@ class InstallOperation;
 class PackageVersion
 {
 private:    
+    static QSemaphore httpConnections;
+
     /** installation directory or "", if the package version is not installed */
     QString ipath;
 
