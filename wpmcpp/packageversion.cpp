@@ -23,6 +23,8 @@
 #include "version.h"
 #include "windowsregistry.h"
 
+QSemaphore PackageVersion::httpConnections(3);
+
 PackageVersion::PackageVersion(const QString& package)
 {
     this->package = package;
@@ -699,6 +701,26 @@ void PackageVersion::install(Job* job, const QString& where)
         }
     }
 
+    bool httpConnectionAcquired = false;
+
+    if (!job->isCancelled() && job->getErrorMessage().isEmpty()) {
+        job->setHint("Waiting for a free HTTP connection");
+
+        time_t start = time(NULL);
+        while (!job->isCancelled()) {
+            httpConnectionAcquired = httpConnections.tryAcquire(1, 10000);
+            if (httpConnectionAcquired) {
+                job->setProgress(0.05);
+                break;
+            }
+
+            time_t seconds = time(NULL) - start;
+            job->setHint(QString(
+                    "Waiting for a free HTTP connection (%1 minutes)").
+                    arg(seconds / 60));
+        }
+    }
+
     // qDebug() << "install.3";
     QFile* f = new QFile(npackdDir + "\\__NpackdPackageDownload");
 
@@ -711,7 +733,7 @@ void PackageVersion::install(Job* job, const QString& where)
             job->setErrorMessage(QString("Cannot open the file: %0").
                     arg(f->fileName()));
         } else {
-            Job* djob = job->newSubJob(0.50);
+            Job* djob = job->newSubJob(0.45);
             Downloader::download(djob, this->download, f,
                     this->sha1.isEmpty() ? 0 : &dsha1);
             downloadOK = !djob->isCancelled() && djob->getErrorMessage().isEmpty();
@@ -719,6 +741,9 @@ void PackageVersion::install(Job* job, const QString& where)
             delete djob;
         }
     }
+
+    if (httpConnectionAcquired)
+        httpConnections.release();
 
     if (!job->isCancelled() && job->getErrorMessage().isEmpty()) {
         if (!downloadOK) {

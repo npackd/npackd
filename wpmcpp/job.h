@@ -73,7 +73,7 @@ private:
     double subJobStart;
 
     /** true if the user presses the "cancel" button. */
-    bool cancelRequested;
+    volatile bool cancelRequested;
 
     bool completed;
 
