@@ -204,7 +204,7 @@ void App::usage()
         "    npackdcl help",
         "        prints this help",
         "    npackdcl path --package=<package> [--versions=<versions>]",
-        "        searches for a package and prints its location",
+        "        searches for an installed package and prints its location",
         "    npackdcl add --package=<package> --version=<version>",
         "        installs a package",
         "    npackdcl remove --package=<package> --version=<version>",
