@@ -613,15 +613,15 @@ QString WPMUtils::makeValidFilename(const QString &name, QChar rep)
     return r;
 }
 
-QString WPMUtils::findNonExistingDir(const QString& start)
+QString WPMUtils::findNonExistingFile(const QString& start)
 {
-    if (!QFileInfo(start).exists())
-        return start;
+    if (!QFileInfo(start.arg("")).exists())
+        return start.arg("");
 
     for (int i = 2;; i++) {
-        QString p = QString(start + "_%1").arg(i);
-        QFileInfo fi(p);
-        if (!fi.exists())
+        QString r = QString("_%1").arg(i);
+        QString p = start.arg(r);
+        if (!QFileInfo(p).exists())
             return p;
     }
 }
