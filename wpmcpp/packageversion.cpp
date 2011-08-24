@@ -589,6 +589,8 @@ QString PackageVersion::getPackageTitle()
 
 bool PackageVersion::createShortcuts(const QString& dir, QString *errMsg)
 {
+    QString packageTitle = this->getPackageTitle();
+
     QDir d(dir);
     Package* p = Repository::getDefault()->findPackage(this->package);
     for (int i = 0; i < this->importantFiles.count(); i++) {
@@ -604,25 +606,25 @@ bool PackageVersion::createShortcuts(const QString& dir, QString *errMsg)
         int pos = workingDir.lastIndexOf('\\');
         workingDir.chop(workingDir.length() - pos);
 
-        // name of the .lnk file == entry title in the start menu
-        QString fromFile(ift);
-        fromFile.append(" (");
-        QString pt = this->getPackageTitle();
-        if (pt != ift) {
-            fromFile.append(pt);
-            fromFile.append(" ");
+        QString simple = ift;
+        QString withVersion = simple + " " + this->version.getVersionString();
+        if (packageTitle != ift) {
+            QString suffix = " (" + packageTitle + ")";
+            simple.append(suffix);
+            withVersion.append(suffix);
         }
-        fromFile.append(this->version.getVersionString());
-        fromFile.append(")");
-        fromFile.append(".lnk");
-        fromFile.replace('/', ' ');
-        fromFile.replace('\\', ' ');
-        fromFile.replace(':', ' ');
-        fromFile = WPMUtils::makeValidFilename(fromFile, ' ');
 
-        QString from = WPMUtils::getShellDir(CSIDL_COMMON_STARTMENU);
-        from.append("\\");
-        from.append(fromFile);
+        simple = WPMUtils::makeValidFilename(simple, ' ') + ".lnk";
+        withVersion = WPMUtils::makeValidFilename(withVersion, ' ') + "%1.lnk";
+        QString commonStartMenu = WPMUtils::getShellDir(CSIDL_COMMON_STARTMENU);
+        simple = commonStartMenu + "\\" + simple;
+        withVersion = commonStartMenu + "\\" + withVersion;
+
+        QString from;
+        if (QFileInfo(simple).exists())
+            from = WPMUtils::findNonExistingFile(withVersion);
+        else
+            from = simple;
 
         // qDebug() << "createShortcuts " << ifile << " " << p << " " <<
         //         from;
@@ -654,9 +656,9 @@ QString PackageVersion::getPreferredInstallationDirectory()
 
     name = WPMUtils::makeValidFilename(name, '_');
 
-    return WPMUtils::findNonExistingDir(
+    return WPMUtils::findNonExistingFile(
             WPMUtils::getInstallationDirectory() + "\\" +
-            name);
+            name + "%1");
 }
 
 void PackageVersion::install(Job* job, const QString& where)

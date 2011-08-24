@@ -153,13 +153,15 @@ public:
     static QString makeValidFilename(const QString& name, const QChar rep);
 
     /**
-     * Creates a path for a non-existing directory based on the start value.
+     * Creates a path for a non-existing file/directory based on the start
+     * value.
      *
-     * @param start start path (e.g. C:\Program Files\Prog 1.0)
+     * @param start start path (e.g. C:\Program Files\Prog 1.0%1). %1 will be
+     *     either replaced by "" or by "_2", "_3", ...
      * @return non-existing path based on start
      *     (e.g. C:\Program Files\Prog 1.0_2)
      */
-    static QString findNonExistingDir(const QString& start);
+    static QString findNonExistingFile(const QString& start);
 
     /**
      * Reads a value from the registry.
