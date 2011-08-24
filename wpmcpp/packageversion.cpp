@@ -651,14 +651,13 @@ bool PackageVersion::createShortcuts(const QString& dir, QString *errMsg)
 
 QString PackageVersion::getPreferredInstallationDirectory()
 {
-    QString name(this->getPackageTitle() + "-" +
-                 this->version.getVersionString());
-
-    name = WPMUtils::makeValidFilename(name, '_');
-
-    return WPMUtils::findNonExistingFile(
-            WPMUtils::getInstallationDirectory() + "\\" +
-            name + "%1");
+    QString name = WPMUtils::getInstallationDirectory() + "\\" +
+            WPMUtils::makeValidFilename(this->getPackageTitle(), '_');
+    if (!QFileInfo(name).exists())
+        return name;
+    else
+        return WPMUtils::findNonExistingFile(name + "-" +
+                this->version.getVersionString() + "%1");
 }
 
 void PackageVersion::install(Job* job, const QString& where)
