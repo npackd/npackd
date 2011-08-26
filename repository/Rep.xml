@@ -1366,6 +1366,12 @@ Package issues:
         <description>CD audio extractor</description>
         <license>org.gnu.GPLv3</license>
     </package>
+    <package name="net.sourceforge.console.Console">
+        <title>Console</title>
+        <url>http://sourceforge.net/projects/console/</url>
+        <description>console window enhancement</description>
+        <license>org.gnu.GPLv2</license>
+    </package>   
     <package name="net.sourceforge.dcplusplus.DCPlusPlus">
         <title>DC++</title>
         <url>http://dcplusplus.sourceforge.net/</url>
@@ -12112,5 +12118,19 @@ if %err% neq 0 exit %err%
     <version name="0.8" package="com.googlecode.pathed.PathEd">
         <url>http://pathed.googlecode.com/files/pathed-08.zip</url>
         <sha1>854bd966139c1b7498967311db7e659b270031a5</sha1>
+    </version>
+    
+    <version name="2.0.147" package="net.sourceforge.console.Console">
+        <file path=".WPM\Install.bat">for /f "delims=" %%x in ('dir /b Console*') do set name=%%x
+cd "%name%"        
+for /f "delims=" %%a in ('dir /b') do (
+  move "%%a" ..
+)
+cd ..
+rmdir "%name%"
+</file>
+        <important-file path="Console.exe" title="Console"/>
+        <url>http://downloads.sourceforge.net/project/console/console-devel/2.00/Console-2.00b147-Beta_32bit.zip?ts=1314388333</url>
+        <sha1>d16621bb454feec789d695c471e443fc16070a91</sha1>
     </version>
 </root>
