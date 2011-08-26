@@ -205,7 +205,7 @@ void App::usage()
         "        prints this help",
         "    npackdcl path --package=<package> [--versions=<versions>]",
         "        searches for an installed package and prints its location",
-        "    npackdcl add --package=<package> --version=<version>",
+        "    npackdcl add --package=<package> [--version=<version>]",
         "        installs a package",
         "    npackdcl remove --package=<package> --version=<version>",
         "        removes a package",
@@ -415,13 +415,6 @@ int App::add()
     }
 
     if (r == 0) {
-        if (version.isNull()) {
-            std::cerr << "Missing option: --versions" << std::endl;
-            r = 1;
-        }
-    }
-
-    if (r == 0) {
         do {
             if (!Package::isValidName(package)) {
                 std::cerr << "Invalid package name: " << qPrintable(package) << std::endl;
@@ -443,16 +436,21 @@ int App::add()
             }
 
             // debug: std::cout <<  qPrintable(package) << " " << qPrintable(versions);
-            Version v;
-            if (!v.setVersion(version)) {
-                std::cerr << "Cannot parse version: " << qPrintable(version) << std::endl;
-                r = 1;
-                break;
+            PackageVersion* pv;
+            if (version.isNull()) {
+                pv = rep->findNewestInstallablePackageVersion(
+                        packages.at(0)->name);
+            } else {
+                Version v;
+                if (!v.setVersion(version)) {
+                    std::cerr << "Cannot parse version: " << qPrintable(version) << std::endl;
+                    r = 1;
+                    break;
+                }
+                pv = rep->findPackageVersion(packages.at(0)->name, version);
             }
 
             // debug: std::cout << "Versions: " << qPrintable(d.toString()) << std::endl;
-            PackageVersion* pv = rep->findPackageVersion(
-                    packages.at(0)->name, version);
             if (!pv) {
                 std::cerr << "Package version not found" << std::endl;
                 r = 1;
@@ -516,7 +514,7 @@ int App::remove()
 
     if (r == 0) {
         if (version.isNull()) {
-            std::cerr << "Missing option: --versions" << std::endl;
+            std::cerr << "Missing option: --version" << std::endl;
             r = 1;
         }
     }
