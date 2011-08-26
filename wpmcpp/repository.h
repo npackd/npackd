@@ -240,10 +240,10 @@ public:
     /**
      * Find the newest installable package version.
      *
-     * @param name name of the package like "org.server.Word"
+     * @param package name of the package like "org.server.Word"
      * @return found package version or 0
      */
-    PackageVersion* findNewestInstallablePackageVersion(const QString& name);
+    PackageVersion* findNewestInstallablePackageVersion(const QString& package);
 
     /**
      * Find the newest installed package version.

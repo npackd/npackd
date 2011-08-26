@@ -86,13 +86,13 @@ Repository::~Repository()
 }
 
 PackageVersion* Repository::findNewestInstallablePackageVersion(
-        const QString &name)
+        const QString &package)
 {
     PackageVersion* r = 0;
 
     for (int i = 0; i < this->packageVersions.count(); i++) {
         PackageVersion* p = this->packageVersions.at(i);
-        if (p->package == name) {
+        if (p->package == package) {
             if (r == 0 || p->version.compare(r->version) > 0) {
                 if (p->download.isValid())
                     r = p;
