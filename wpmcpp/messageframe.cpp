@@ -63,7 +63,7 @@ void MessageFrame::timerTimeout()
         }
     } else {
         this->ui->pushButtonDismiss->setText(
-                QString("Dismiss").arg(seconds));
+                QString("Dismiss"));
     }
 }
 
