@@ -268,32 +268,71 @@ void PackageVersion::uninstall(Job* job)
         delete sub;
     }
 
-    QString p = ".Npackd\\Uninstall.bat";
-    if (!QFile::exists(d.absolutePath() + "\\" + p)) {
-        p = ".WPM\\Uninstall.bat";
+    QString uninstallationScript;
+    if (!job->isCancelled() && job->getErrorMessage().isEmpty()) {
+        uninstallationScript = ".Npackd\\Uninstall.bat";
+        if (!QFile::exists(d.absolutePath() +
+                "\\" + uninstallationScript)) {
+            uninstallationScript = ".WPM\\Uninstall.bat";
+            if (!QFile::exists(d.absolutePath() +
+                    "\\" + uninstallationScript)) {
+                uninstallationScript = "";
+            }
+        }
     }
-    if (QFile::exists(d.absolutePath() + "\\" + p)) {
-        job->setHint("Running the uninstallation script (this may take some time)");
-        if (!d.exists(".Npackd"))
-            d.mkdir(".Npackd");
-        Job* sub = job->newSubJob(0.25);
 
-        // prepare the environment variables
-        QStringList env;
-        env.append("NPACKD_PACKAGE_NAME");
-        env.append(this->package);
-        env.append("NPACKD_PACKAGE_VERSION");
-        env.append(this->version.getVersionString());
-        env.append("NPACKD_CL");
-        env.append(Repository::getDefault()->computeNpackdCLEnvVar());
+    bool uninstallationScriptAcquired = false;
 
-        this->executeFile(sub, d.absolutePath(),
-                p, ".Npackd\\Uninstall.log", env);
-        if (!sub->getErrorMessage().isEmpty())
-            job->setErrorMessage(sub->getErrorMessage());
-        delete sub;
+    if (!job->isCancelled() && job->getErrorMessage().isEmpty()) {
+        if (!uninstallationScript.isEmpty()) {
+            job->setHint("Waiting while other (un)installation scripts are running");
+
+            time_t start = time(NULL);
+            while (!job->isCancelled()) {
+                uninstallationScriptAcquired = installationScripts.
+                        tryAcquire(1, 10000);
+                if (uninstallationScriptAcquired) {
+                    job->setProgress(0.25);
+                    break;
+                }
+
+                time_t seconds = time(NULL) - start;
+                job->setHint(QString(
+                        "Waiting while other (un)installation scripts are running (%1 minutes)").
+                        arg(seconds / 60));
+            }
+        } else {
+            job->setProgress(0.25);
+        }
     }
-    job->setProgress(0.45);
+
+    if (!job->isCancelled() && job->getErrorMessage().isEmpty()) {
+        if (!uninstallationScript.isEmpty()) {
+            job->setHint("Running the uninstallation script (this may take some time)");
+            if (!d.exists(".Npackd"))
+                d.mkdir(".Npackd");
+            Job* sub = job->newSubJob(0.20);
+
+            // prepare the environment variables
+            QStringList env;
+            env.append("NPACKD_PACKAGE_NAME");
+            env.append(this->package);
+            env.append("NPACKD_PACKAGE_VERSION");
+            env.append(this->version.getVersionString());
+            env.append("NPACKD_CL");
+            env.append(Repository::getDefault()->computeNpackdCLEnvVar());
+
+            this->executeFile(sub, d.absolutePath(),
+                    uninstallationScript, ".Npackd\\Uninstall.log", env);
+            if (!sub->getErrorMessage().isEmpty())
+                job->setErrorMessage(sub->getErrorMessage());
+            delete sub;
+        }
+        job->setProgress(0.45);
+    }
+
+    if (uninstallationScriptAcquired)
+        installationScripts.release();
 
     // Uninstall.bat may have deleted some files
     d.refresh();
@@ -840,7 +879,7 @@ void PackageVersion::install(Job* job, const QString& where)
 
     if (!job->isCancelled() && job->getErrorMessage().isEmpty()) {
         if (!installationScript.isEmpty()) {
-            job->setHint("Waiting while other installation scripts are running");
+            job->setHint("Waiting while other (un)installation scripts are running");
 
             time_t start = time(NULL);
             while (!job->isCancelled()) {
@@ -853,7 +892,7 @@ void PackageVersion::install(Job* job, const QString& where)
 
                 time_t seconds = time(NULL) - start;
                 job->setHint(QString(
-                        "Waiting while other installation scripts are running (%1 minutes)").
+                        "Waiting while other (un)installation scripts are running (%1 minutes)").
                         arg(seconds / 60));
             }
         } else {
