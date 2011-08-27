@@ -24,6 +24,7 @@
 #include "windowsregistry.h"
 
 QSemaphore PackageVersion::httpConnections(3);
+QSemaphore PackageVersion::installationScripts(1);
 
 PackageVersion::PackageVersion(const QString& package)
 {
@@ -822,15 +823,48 @@ void PackageVersion::install(Job* job, const QString& where)
         }
     }
 
+    QString installationScript;
     if (!job->isCancelled() && job->getErrorMessage().isEmpty()) {
-        QString p = ".Npackd\\Install.bat";
+        installationScript = ".Npackd\\Install.bat";
         if (!QFile::exists(d.absolutePath() +
-                "\\" + p)) {
-            p = ".WPM\\Install.bat";
+                "\\" + installationScript)) {
+            installationScript = ".WPM\\Install.bat";
+            if (!QFile::exists(d.absolutePath() +
+                    "\\" + installationScript)) {
+                installationScript = "";
+            }
         }
-        if (QFile::exists(d.absolutePath() + "\\" + p)) {
+    }
+
+    bool installationScriptAcquired = false;
+
+    if (!job->isCancelled() && job->getErrorMessage().isEmpty()) {
+        if (!installationScript.isEmpty()) {
+            job->setHint("Waiting while other installation scripts are running");
+
+            time_t start = time(NULL);
+            while (!job->isCancelled()) {
+                installationScriptAcquired = installationScripts.
+                        tryAcquire(1, 10000);
+                if (installationScriptAcquired) {
+                    job->setProgress(0.86);
+                    break;
+                }
+
+                time_t seconds = time(NULL) - start;
+                job->setHint(QString(
+                        "Waiting while other installation scripts are running (%1 minutes)").
+                        arg(seconds / 60));
+            }
+        } else {
+            job->setProgress(0.86);
+        }
+    }
+
+    if (!job->isCancelled() && job->getErrorMessage().isEmpty()) {
+        if (!installationScript.isEmpty()) {
             job->setHint("Running the installation script (this may take some time)");
-            Job* exec = job->newSubJob(0.1);
+            Job* exec = job->newSubJob(0.09);
             if (!d.exists(".Npackd"))
                 d.mkdir(".Npackd");
 
@@ -843,7 +877,7 @@ void PackageVersion::install(Job* job, const QString& where)
             env.append(Repository::getDefault()->computeNpackdCLEnvVar());
 
             this->executeFile(exec, d.absolutePath(),
-                    p, ".Npackd\\Install.log", env);
+                    installationScript, ".Npackd\\Install.log", env);
             if (!exec->getErrorMessage().isEmpty())
                 job->setErrorMessage(exec->getErrorMessage());
             else {
@@ -867,6 +901,9 @@ void PackageVersion::install(Job* job, const QString& where)
 
         job->setProgress(0.95);
     }
+
+    if (installationScriptAcquired)
+        installationScripts.release();
 
     if (!job->isCancelled() && job->getErrorMessage().isEmpty()) {
         QString err = saveInstallationInfo();
