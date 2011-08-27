@@ -26,6 +26,7 @@ class PackageVersion
 {
 private:    
     static QSemaphore httpConnections;
+    static QSemaphore installationScripts;
 
     /** installation directory or "", if the package version is not installed */
     QString ipath;
