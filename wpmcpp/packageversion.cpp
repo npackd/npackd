@@ -971,7 +971,12 @@ void PackageVersion::install(Job* job, const QString& where)
     }
 
     if (!job->getErrorMessage().isEmpty() || job->isCancelled()) {
-        // ignore errors
+        job->setHint(QString("Deleting start menu and desktop shortcuts"));
+        Job* sub = new Job();
+        deleteShortcuts(d.absolutePath(), sub, true, true, true);
+        delete sub;
+
+        job->setHint(QString("Deleting files"));
         Job* rjob = new Job();
         removeDirectory(rjob, d.absolutePath());
         delete rjob;
