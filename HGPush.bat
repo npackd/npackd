@@ -13,6 +13,9 @@ if %errorlevel% neq 0 pause & goto eof
 "%libxml%\bin\xmllint.exe" --noout repository\Rep64.xml
 if %errorlevel% neq 0 pause & goto eof
 
+"%libxml%\bin\xmllint.exe" --noout repository\Libs.xml
+if %errorlevel% neq 0 pause & goto eof
+
 "%mercurial%\hg.exe" push
 if %errorlevel% neq 0 pause & goto eof
 
