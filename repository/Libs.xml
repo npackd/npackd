@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+    This file is part of Npackd.
+
+    Npackd is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    Npackd is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with Npackd.  If not, see <http://www.gnu.org/licenses/>.
+-->
+
+<root>
+    <spec-version>2</spec-version>
+    
+    <!--
+        Licenses in alphabetical order (including the reversed domain name prefix).
+    -->
+    <license name="org.boost.License">
+        <title>Boost license</title>
+        <url>http://www.boost.org/users/license.html</url>
+    </license>
+    <license name="org.gnu.GPLv3">
+        <title>GPLv3</title>
+        <url>http://www.gnu.org/licenses/gpl.html</url>
+    </license>
+    
+    <!--
+        Packages in alphabetical order (including the reversed domain name prefix).
+    -->
+    <package name="com.nokia.QtMinGWInstaller">
+        <title>Qt libraries for MinGW installer</title>
+        <url>http://qt.nokia.com/products/library</url>
+        <description>Qt</description>
+        <license>org.gnu.GPLv3</license>
+    </package>
+    <package name="org.boost.Boost">
+        <title>Boost</title>
+        <url>http://www.boost.org/</url>
+        <description>set of C++ general purpose libraries</description>
+        <license>org.boost.License</license>
+    </package>
+ 
+    <!--
+        The package versions are not sorted by the package, but different
+        version
+        of a package should stay together. Newer versions should appear under
+        older ones.
+    -->
+    <version name="4.7.3" package="com.nokia.QtMinGWInstaller" type="one-file">
+        <file path=".WPM\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x
+ren "%setup%" qt-win-opensource-mingw.exe
+</file>
+        <url>http://get.qt.nokia.com/qt/source/qt-win-opensource-4.7.3-mingw.exe</url>
+        <important-file path="qt-win-opensource-mingw.exe" title="Installer"/>
+        <sha1>9FF5A18722D8E15F7BDCAFBC3942B39605B9E88F</sha1>
+    </version>
+    
+    <version name="1.47" package="org.boost.Boost">
+        <file path=".WPM\Install.bat">for /f "delims=" %%x in ('dir /b boost*') do set name=%%x
+cd "%name%"        
+for /f "delims=" %%a in ('dir /b') do (
+  move "%%a" ..
+)
+cd ..
+rmdir "%name%"
+</file>
+        <url>http://downloads.sourceforge.net/project/boost/boost/1.47.0/boost_1_47_0.zip?ts=1314724967</url>
+        <sha1>06ce149fe2c3052ffb8dc79bbd0e61a7da011162</sha1>
+    </version>
+</root>
