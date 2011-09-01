@@ -484,6 +484,8 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(r, SIGNAL(statusChanged(PackageVersion*)), this,
             SLOT(repositoryStatusChanged(PackageVersion*)),
             Qt::QueuedConnection);
+
+    defaultPasswordWindow = this->winId();
 }
 
 void MainWindow::repositoryStatusChanged(PackageVersion* pv)
@@ -579,11 +581,12 @@ bool MainWindow::waitFor(Job* job, const QString& title)
 
     pd->exec();
     delete pd;
-    pd = 0;
+    defaultPasswordWindow = this->winId();
 
     // qDebug() << "MainWindow::waitFor.2";
+    bool r = false;
     if (job->isCancelled())
-        return false;
+        r = false;
     else if (!job->getErrorMessage().isEmpty()) {
         QString first = job->getErrorMessage().trimmed();
         int ind = first.indexOf("\n");
@@ -596,10 +599,13 @@ bool MainWindow::waitFor(Job* job, const QString& title)
         addErrorMessage(QString("%1: %2").arg(job->getHint()).arg(first),
                 job->getErrorMessage(), 30);
 
-        return false;
+        r = false;
     } else {
-        return true;
+        r = true;
     }
+
+
+    return r;
 }
 
 void MainWindow::onShow()
