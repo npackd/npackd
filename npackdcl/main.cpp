@@ -7,6 +7,7 @@
 
 #include "..\wpmcpp\repository.h"
 #include "..\wpmcpp\commandline.h"
+#include "..\wpmcpp\wpmutils.h"
 
 #include "app.h"
 

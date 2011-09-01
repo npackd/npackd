@@ -8,6 +8,9 @@
 #include <time.h>
 #include "msi.h"
 #include <shellapi.h>
+#include <iostream>
+#include <stdexcept>
+#include <string>
 
 #include "qdebug.h"
 #include "qdir.h"
@@ -611,6 +614,83 @@ QString WPMUtils::makeValidFilename(const QString &name, QChar rep)
     for (int i = 0; i < invalid.length(); i++)
         r.replace(invalid.at(i), rep);
     return r;
+}
+
+void WPMUtils::outputTextConsole(const QString& txt)
+{
+    HANDLE hStdout = GetStdHandle(STD_OUTPUT_HANDLE);
+    if (hStdout != INVALID_HANDLE_VALUE) {
+        DWORD written;
+        WriteConsoleW(hStdout, txt.utf16(), txt.length(), &written, 0);
+    }
+}
+
+QString WPMUtils::inputTextConsole()
+{
+    // http://msdn.microsoft.com/en-us/library/ms686974(v=VS.85).aspx
+
+    HANDLE hStdin = GetStdHandle(STD_INPUT_HANDLE);
+    if (hStdin == INVALID_HANDLE_VALUE)
+        return "";
+
+    WCHAR buffer[255];
+    DWORD read;
+    if (!ReadConsoleW(hStdin, &buffer, sizeof(buffer) / sizeof(buffer[0]), &read, 0))
+        return "";
+
+    QString r;
+    r.setUtf16((ushort*) buffer, read);
+
+    while (r.endsWith('\n') || r.endsWith('\r'))
+        r.chop(1);
+
+    return r;
+}
+
+QString WPMUtils::inputPasswordConsole()
+{
+    // http://www.cplusplus.com/forum/general/3570/
+
+    QString result;
+
+    // Set the console mode to no-echo, not-line-buffered input
+    DWORD mode;
+    HANDLE ih = GetStdHandle(STD_INPUT_HANDLE);
+    if (ih == INVALID_HANDLE_VALUE)
+        return "";
+
+    HANDLE oh = GetStdHandle(STD_OUTPUT_HANDLE);
+    if (oh == INVALID_HANDLE_VALUE)
+        return "";
+
+    if (!GetConsoleMode(ih, &mode))
+        return result;
+
+    SetConsoleMode(ih, mode & ~(ENABLE_ECHO_INPUT | ENABLE_LINE_INPUT));
+
+    // Get the password string
+    DWORD count;
+    WCHAR c;
+    while (true) {
+        if (!ReadConsoleW(ih, &c, 1, &count, NULL) ||
+                (c == '\r') || (c == '\n'))
+            break;
+
+        if (c == '\b') {
+            if (result.length()) {
+                WriteConsoleW(oh, L"\b \b", 3, &count, NULL);
+                result.chop(1);
+            }
+        } else {
+            WriteConsoleW(oh, L"*", 1, &count, NULL);
+            result.push_back(c);
+        }
+    }
+
+    // Restore the console mode
+    SetConsoleMode(ih, mode);
+
+    return result;
 }
 
 QString WPMUtils::findNonExistingFile(const QString& start)

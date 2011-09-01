@@ -88,40 +88,131 @@ void Downloader::downloadWin(Job* job, const QUrl& url, QFile* file,
     }
 
     // qDebug() << "download.5";
-    unsigned int dwError, dwErrorCode;
-    do {
+    while (true) {
         // qDebug() << "download.5.1";
 
         if (!HttpSendRequestW(hResourceHandle, 0, 0, 0, 0)) {
-            QString errMsg;
-            WPMUtils::formatMessage(GetLastError(), &errMsg);
-            job->setErrorMessage(errMsg);
-            job->complete();
-            return;
+            DWORD e = GetLastError();
+            if (e) {
+                // qDebug() << "error in HttpSendRequestW";
+                QString errMsg;
+                WPMUtils::formatMessage(e, &errMsg);
+                job->setErrorMessage(errMsg);
+                break;
+            }
         }
 
-        // dwErrorCode stores the error code associated with the call to
-        // HttpSendRequest.
+        if (parentWindow) {
+            void* p;
+            DWORD flags = FLAGS_ERROR_UI_FILTER_FOR_ERRORS |
+                          FLAGS_ERROR_UI_FLAGS_CHANGE_OPTIONS |
+                          FLAGS_ERROR_UI_FLAGS_GENERATE_DATA;
+            DWORD r = InternetErrorDlg(parentWindow,
+                    hResourceHandle, ERROR_SUCCESS, flags, &p);
+            if (r == ERROR_SUCCESS)
+                break;
+            else if (r == ERROR_INTERNET_FORCE_RETRY)
+                ; // nothing
+            else if (r == ERROR_CANCELLED) {
+                job->setErrorMessage("Cancelled by the user");
+                break;
+            } else if (r == ERROR_INVALID_HANDLE) {
+                job->setErrorMessage("Invalid handle");
+                break;
+            } else {
+                job->setErrorMessage(QString(
+                        "Unknown error %1 from InternetErrorDlg").arg(r));
+                break;
+            }
+        } else {
+            // http://msdn.microsoft.com/en-us/library/aa384220(v=vs.85).aspx
+            DWORD dwStatus, dwStatusSize;
+            HttpQueryInfo(hResourceHandle, HTTP_QUERY_FLAG_NUMBER |
+                    HTTP_QUERY_STATUS_CODE, &dwStatus, &dwStatusSize, NULL);
 
-        if (hResourceHandle != 0)
-            dwErrorCode = 0;
-        else
-            dwErrorCode = GetLastError();
+            QString username, password;
+            if (dwStatus == HTTP_STATUS_PROXY_AUTH_REQ) {
+                WPMUtils::outputTextConsole("\nThe HTTP proxy requires authentication.\n");
+                WPMUtils::outputTextConsole("Username: ");
+                username = WPMUtils::inputTextConsole();
+                WPMUtils::outputTextConsole("Password: ");
+                password = WPMUtils::inputPasswordConsole();
 
-        void* p;
-        DWORD flags = FLAGS_ERROR_UI_FILTER_FOR_ERRORS |
-                      FLAGS_ERROR_UI_FLAGS_CHANGE_OPTIONS |
-                      FLAGS_ERROR_UI_FLAGS_GENERATE_DATA;
-        if (parentWindow == 0)
-            flags |= FLAGS_ERROR_UI_FLAGS_NO_UI;
-        dwError = InternetErrorDlg(parentWindow,
-                    hResourceHandle, dwErrorCode,
-                                   flags,
-                                   &p);
-    } while (dwError == ERROR_INTERNET_FORCE_RETRY);
+                if (!InternetSetOptionW(hConnectHandle, INTERNET_OPTION_PROXY_USERNAME,
+                        (void*) username.utf16(),
+                        username.length() + 1)) {
+                    QString errMsg;
+                    WPMUtils::formatMessage(GetLastError(), &errMsg);
+                    job->setErrorMessage(errMsg);
+                    goto out;
+                }
+                if (!InternetSetOptionW(hConnectHandle, INTERNET_OPTION_PROXY_PASSWORD,
+                        (void*) password.utf16(),
+                        password.length() + 1)) {
+                    QString errMsg;
+                    WPMUtils::formatMessage(GetLastError(), &errMsg);
+                    job->setErrorMessage(errMsg);
+                    goto out;
+                }
+            } else if (dwStatus == HTTP_STATUS_DENIED) {
+                WPMUtils::outputTextConsole("\nThe HTTP server requires authentication.\n");
+                WPMUtils::outputTextConsole("Username: ");
+                username = WPMUtils::inputTextConsole();
+                WPMUtils::outputTextConsole("Password: ");
+                password = WPMUtils::inputPasswordConsole();
+
+                if (!InternetSetOptionW(hConnectHandle, INTERNET_OPTION_USERNAME,
+                        (void*) username.utf16(),
+                        username.length() + 1)) {
+                    QString errMsg;
+                    WPMUtils::formatMessage(GetLastError(), &errMsg);
+                    job->setErrorMessage(errMsg);
+                    goto out;
+                }
+                if (!InternetSetOptionW(hConnectHandle, INTERNET_OPTION_PASSWORD,
+                        (void*) password.utf16(),
+                        password.length() + 1)) {
+                    QString errMsg;
+                    WPMUtils::formatMessage(GetLastError(), &errMsg);
+                    job->setErrorMessage(errMsg);
+                    goto out;
+                }
+            } else {
+                break;
+                /* TODO: job->setErrorMessage(QString(
+                        "Cannot handle HTTP status code %1").arg(dwStatus));
+                break;
+                */
+            }
+
+            // read all the data before re-sending the request
+            char smallBuffer[4 * 1024];
+            while (true) {
+                DWORD read;
+                if (!InternetReadFile(hResourceHandle, &smallBuffer,
+                        sizeof(smallBuffer), &read)) {
+                    QString errMsg;
+                    WPMUtils::formatMessage(GetLastError(), &errMsg);
+                    job->setErrorMessage(errMsg);
+                    goto out;
+                }
+
+                // qDebug() << "read some bytes " << read;
+                if (read == 0)
+                    break;
+            }
+        }
+    };
+
+out:
     job->setProgress(0.03);
+    if (!job->getErrorMessage().isEmpty()) {
+        job->complete();
+        return;
+    }
 
     // MIME type
+    // qDebug() << "querying MIME type";
     WCHAR mimeBuffer[1024];
     DWORD bufferLength = sizeof(mimeBuffer);
     DWORD index = 0;

@@ -153,6 +153,27 @@ public:
     static QString makeValidFilename(const QString& name, const QChar rep);
 
     /**
+     * Input text from the console.
+     *
+     * @return entered text
+     */
+    static QString inputTextConsole();
+
+    /**
+     * Output text to the console.
+     *
+     * @param txt the text
+     */
+    static void outputTextConsole(const QString& txt);
+
+    /**
+     * Input a password from the console.
+     *
+     * @return entered password
+     */
+    static QString inputPasswordConsole();
+
+    /**
      * Creates a path for a non-existing file/directory based on the start
      * value.
      *
