@@ -31,6 +31,10 @@
         <title>GPLv3</title>
         <url>http://www.gnu.org/licenses/gpl.html</url>
     </license>
+    <license name="org.gnu.LGPLv2_1">
+        <title>LGPLv2.1</title>
+        <url>http://www.gnu.org/licenses/old-licenses/lgpl-2.1.html</url>
+    </license>
     
     <!--
         Packages in alphabetical order (including the reversed domain name prefix).
@@ -47,6 +51,13 @@
         <description>set of C++ general purpose libraries</description>
         <license>org.boost.License</license>
     </package>
+    <package name="net.sourceforge.quazip.QuaZIP">
+        <title>QuaZIP</title>
+        <url>http://quazip.sourceforge.net/</url>
+        <description>Qt based library to access ZIP archives</description>
+        <license>org.gnu.LGPLv2_1</license>
+    </package>
+    
  
     <!--
         The package versions are not sorted by the package, but different
@@ -74,5 +85,18 @@ rmdir "%name%"
 </file>
         <url>http://downloads.sourceforge.net/project/boost/boost/1.47.0/boost_1_47_0.zip?ts=1314724967</url>
         <sha1>06ce149fe2c3052ffb8dc79bbd0e61a7da011162</sha1>
+    </version>
+    
+    <version name="0.4.2" package="net.sourceforge.quazip.QuaZIP">
+        <file path=".WPM\Install.bat">for /f "delims=" %%x in ('dir /b quazip*') do set name=%%x
+cd "%name%"        
+for /f "delims=" %%a in ('dir /b') do (
+  move "%%a" ..
+)
+cd ..
+rmdir "%name%"
+</file>
+        <url>http://downloads.sourceforge.net/project/quazip/quazip/0.4.2/quazip-0.4.2.zip?ts=1315082566</url>
+        <sha1>d4506840f405c141465048f4835c757c92557b16</sha1>
     </version>
 </root>
