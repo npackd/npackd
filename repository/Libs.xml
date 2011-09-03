@@ -23,6 +23,10 @@
     <!--
         Licenses in alphabetical order (including the reversed domain name prefix).
     -->
+    <license name="net.zlib.ZLibLicense">
+        <title>zlib license</title>
+        <url>http://www.zlib.net/zlib_license.html</url>
+    </license>
     <license name="org.boost.License">
         <title>Boost license</title>
         <url>http://www.boost.org/users/license.html</url>
@@ -40,24 +44,29 @@
         Packages in alphabetical order (including the reversed domain name prefix).
     -->
     <package name="com.nokia.QtMinGWInstaller">
-        <title>Qt libraries for MinGW installer</title>
+        <title>Qt for MinGW</title>
         <url>http://qt.nokia.com/products/library</url>
-        <description>Qt</description>
+        <description>Qt (source code)</description>
         <license>org.gnu.GPLv3</license>
     </package>
     <package name="org.boost.Boost">
         <title>Boost</title>
         <url>http://www.boost.org/</url>
-        <description>set of C++ general purpose libraries</description>
+        <description>set of C++ general purpose libraries (source code)</description>
         <license>org.boost.License</license>
     </package>
-    <package name="net.sourceforge.quazip.QuaZIP">
+    <package name="net.sourceforge.quazip.QuaZIPSource">
         <title>QuaZIP</title>
         <url>http://quazip.sourceforge.net/</url>
-        <description>Qt based library to access ZIP archives</description>
+        <description>Qt based library to access ZIP archives (source code)</description>
         <license>org.gnu.LGPLv2_1</license>
     </package>
-    
+    <package name="net.zlib.ZLibSource">
+        <title>zlib</title>
+        <url>http://zlib.net</url>
+        <description>compression library (source code)</description>
+        <license>net.zlib.ZLibLicense</license>
+    </package>
  
     <!--
         The package versions are not sorted by the package, but different
@@ -87,7 +96,7 @@ rmdir "%name%"
         <sha1>06ce149fe2c3052ffb8dc79bbd0e61a7da011162</sha1>
     </version>
     
-    <version name="0.4.2" package="net.sourceforge.quazip.QuaZIP">
+    <version name="0.4.2" package="net.sourceforge.quazip.QuaZIPSource">
         <file path=".WPM\Install.bat">for /f "delims=" %%x in ('dir /b quazip*') do set name=%%x
 cd "%name%"        
 for /f "delims=" %%a in ('dir /b') do (
@@ -98,5 +107,19 @@ rmdir "%name%"
 </file>
         <url>http://downloads.sourceforge.net/project/quazip/quazip/0.4.2/quazip-0.4.2.zip?ts=1315082566</url>
         <sha1>d4506840f405c141465048f4835c757c92557b16</sha1>
+        <dependency package="net.zlib.ZLibSource" versions="[1.2.5, 1.2.5]"/>
+    </version>
+    
+    <version name="1.2.5" package="net.zlib.ZLibSource">
+        <file path=".WPM\Install.bat">for /f "delims=" %%x in ('dir /b zlib*') do set name=%%x
+cd "%name%"        
+for /f "delims=" %%a in ('dir /b') do (
+  move "%%a" ..
+)
+cd ..
+rmdir "%name%"
+</file>
+        <url>http://zlib.net/zlib125.zip</url>
+        <sha1>61fe8809e179d44ca53225ad033c57b7488d0fc5</sha1>
     </version>
 </root>
