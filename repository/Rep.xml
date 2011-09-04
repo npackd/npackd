@@ -4343,6 +4343,13 @@ move *.dll %trash%
         <file path=".WPM\Uninstall.bat">uninst.exe /S _?=%CD%</file>
         <url>http://download.piriform.com/dfsetup205.exe</url>
     </version>
+    <version name="2.6.328" package="com.piriform.Defraggler" type="one-file">
+        <file path=".WPM\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x
+"%setup%" /S /D=%CD%
+</file>
+        <file path=".WPM\Uninstall.bat">uninst.exe /S _?=%CD%</file>
+        <url>http://download.piriform.com/dfsetup206.exe</url>
+    </version>
 
     <version name="3.2.1.10" package="com.auslogics.DiskDefrag" type="one-file">
         <file path=".WPM\Install.bat">disk-defrag-setup.exe /SP- /VERYSILENT /SUPPRESSMSGBOXES /NOCANCEL /NORESTART /DIR="%CD%"</file>
