@@ -11770,6 +11770,18 @@ verify
         <sha1>3A979E65D62288403521BCD7271B49D4E0C36865</sha1>
         <dependency package="com.oracle.JRE" versions="[1.5, 2)"/>
     </version>
+    <version name="2.7" package="net.sourceforge.jabref.JabRef" 
+            type="one-file">
+        <file path=".WPM\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x
+"%setup%" /S /D=%CD%\Prog
+</file>
+        <file path=".WPM\Uninstall.bat">Prog\uninstall.exe /S _?=%CD%\Prog
+verify        
+</file>
+        <url>http://downloads.sourceforge.net/project/jabref/jabref/2.7/JabRef-2.7-setup.exe?ts=1315165434</url>
+        <sha1>52f420f6d4e2475b17114e57a3bf41a31f29c659</sha1>
+        <dependency package="com.oracle.JRE" versions="[1.5, 2)"/>
+    </version>
 
     <version name="2.65" package="net.nirsoft.NirCmd">
         <file path=".WPM\Install.bat">if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
