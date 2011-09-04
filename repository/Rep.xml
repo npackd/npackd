@@ -3000,6 +3000,22 @@ if %err% neq 0 exit %err%
         <url>http://npackd.googlecode.com/files/net.srware.Iron-12.0.750.exe</url>
         <sha1>6FD8ABECDD23039355ACD77D2CAA07F57E6443AE</sha1>
     </version>
+    <version name="13.0.800.1" package="net.srware.Iron" type="one-file">
+        <file path=".WPM\Install.bat">for /f %%x in ('dir /b *.exe') do set setup=%%x
+%setup% /SP- /VERYSILENT /SUPPRESSMSGBOXES /NOCANCEL /NORESTART /DIR="%CD%" /SAVEINF="%CD%\.WPM\InnoSetupInfo.ini" /LOG="%CD%\.WPM\InnoSetupInstall.log"
+set err=%errorlevel%
+type .WPM\InnoSetupInstall.log
+if %err% neq 0 exit %err%
+</file>
+        <file path=".WPM\Uninstall.bat">
+unins000.exe /VERYSILENT /SUPPRESSMSGBOXES /NORESTART /LOG="%CD%\.WPM\InnoSetupUninstall.log"
+set err=%errorlevel%
+type .WPM\InnoSetupUninstall.log
+if %err% neq 0 exit %err%
+</file>
+        <url>http://npackd.googlecode.com/files/net.srware.Iron-13.0.800.1.exe</url>
+        <sha1>57eaf3247c947757514449a15c0082c965b8f5da</sha1>
+    </version>
 
     <version name="0.53.6501" package="org.latexeditor.LEd">
         <file path=".WPM\Install.bat">
