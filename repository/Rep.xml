@@ -4880,6 +4880,24 @@ type .WPM\InnoSetupUninstall.log
         <url>https://downloads.sourceforge.net/project/clamwin/clamwin/0.97.1/clamwin-0.97.1-setup.exe?ts=1309685245</url>
         <sha1>924F583871ED23075F1C6D291B8C59F0089FA8C9</sha1>
     </version>
+    <version name="0.97.2" package="com.clamwin.ClamWin" type="one-file">
+        <file path=".WPM\Install.bat">for /f %%x in ('dir /b *setup.exe') do set setup=%%x
+"%setup%" /SP- /VERYSILENT /SUPPRESSMSGBOXES /NOCANCEL /NORESTART /DIR="%CD%\ClamWin" /SAVEINF="%CD%\.WPM\InnoSetupInfo.ini" /LOG="%CD%\.WPM\InnoSetupInstall.log" /TASKS=
+if %errorlevel% neq 0 exit %errorlevel%
+type .WPM\InnoSetupInstall.log
+taskkill /f /im ClamTray.exe
+</file>
+        <file path=".WPM\Uninstall.bat">set key=com.clamwin.ClamWin-0.97.2
+set trash=..\.Trash\%key%_%random%
+mkdir %trash%
+move ClamWin\bin\ExpShell*.dll %trash%
+ClamWin\unins000.exe /VERYSILENT /SUPPRESSMSGBOXES /NORESTART /LOG="%CD%\.WPM\InnoSetupUninstall.log"
+if %errorlevel% neq 0 exit %errorlevel%
+type .WPM\InnoSetupUninstall.log
+</file>
+        <url>http://downloads.sourceforge.net/project/clamwin/clamwin/0.97.2/clamwin-0.97.2-setup.exe?ts=1315151997</url>
+        <sha1>3c0e5125b1448f8b1bf5a5863a3b64275ae9396c</sha1>
+    </version>
 
     <version name="1.2.5" package="info.emuleplus.EMulePlus">
         <important-file path="eMule.exe" title="eMule Plus"/>
