@@ -8084,6 +8084,20 @@ rmdir /s /q "%name%"
         <dependency package="com.oracle.JRE" versions="[1.6, 2)"/>
         <sha1>E37C32EF1D6EE5F4F42A0DF7169033A4F1A2A61A</sha1>
     </version>
+    <version name="7.2.2" package="org.areca-backup.ArecaBackup">
+        <file path=".WPM\Install.bat">for /f "delims=" %%x in ('dir /b areca*') do set name=%%x
+cd "%name%"        
+for /f "delims=" %%a in ('dir /b') do (
+  move "%%a" ..
+)
+cd ..
+rmdir "%name%"
+</file>
+        <url>http://downloads.sourceforge.net/project/areca/areca-stable/areca-7.2.2/areca-7.2.2-win32.zip?ts=1315144989</url>
+        <important-file path="areca.exe" title="Areca"/>
+        <dependency package="com.oracle.JRE" versions="[1.6, 2)"/>
+        <sha1>2c0d796f31dd387166a49669dcf229cbbd88ad79</sha1>
+    </version>
 
     <version name="2" package="org.camstudio.CamStudioInstaller" type="one-file">
         <important-file path="CamStudio20.exe" title="Installer"/>
