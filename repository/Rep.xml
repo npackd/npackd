@@ -3504,6 +3504,29 @@ if %err% neq 0 exit %err%
         <url>http://archive.apache.org/dist/httpd/binaries/win32/httpd-2.2.19-win32-x86-openssl-0.9.8r.msi</url>
         <sha1>B20FB19CDCF9F14D289C20AF3BE901299E801260</sha1>
     </version>
+    <version name="2.2.20" package="org.apache.httpd.HTTPServer"
+            type="one-file">
+        <file path=".WPM\Install.bat">for /f "delims=" %%x in ('dir /b *.msi') do set setup=%%x
+copy "%setup%" .WPM
+msiexec.exe /qn /norestart /Lime .WPM\MSI.log /i "%setup%" INSTALLDIR="%CD%" ALLUSERS=1 SERVERADMIN=admin@localhost SERVERNAME=localhost SERVERDOMAIN=localhost SERVERPORT=8083
+set err=%errorlevel%
+type .WPM\MSI.log
+rem 3010=restart required
+if %err% equ 3010 exit 0
+if %err% neq 0 exit %err%
+</file>
+        <file path=".WPM\Uninstall.bat">move .WPM\*.msi .
+for /f "delims=" %%x in ('dir /b *.msi') do set setup=%%x
+msiexec.exe /qn /norestart /Lime .WPM\MSI.log /x "%setup%"
+set err=%errorlevel%
+type .WPM\MSI.log
+rem 3010=restart required
+if %err% equ 3010 exit 0
+if %err% neq 0 exit %err%
+</file>
+        <url>http://archive.apache.org/dist/httpd/binaries/win32/httpd-2.2.20-win32-x86-openssl-0.9.8r.msi</url>
+        <sha1>bfceef0e187525cd66f16582bad5577bada2f166</sha1>
+    </version>
 
     <version name="2.26.0.1" package="org.pygtk.PyGObject" type="one-file">
        <file path=".WPM\Install.bat">if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
@@ -3602,12 +3625,12 @@ call "%npackdih%\UninstallMSI.bat"
         <sha1>DE34433DE5C649596F2D2106700317B985A2D2E7</sha1>
     </version>
 
-    <version name="4.2.2" package="com.microsoft.XPSP3IE6VHD"
+    <version name="4.3" package="com.microsoft.XPSP3IE6VHD"
             type="one-file">
         <file path=".WPM\Install.bat">for /f %%x in ('dir /b *.exe') do set setup=%%x
 "%setup%" -S "-D%CD%\Prog"</file>
         <url>http://download.microsoft.com/download/B/7/2/B72085AE-0F04-4C6F-9182-BF1EE90F5273/Windows_XP_IE6.exe</url>
-        <sha1>2CD83B913AD1DCE2B4711EB3B22BB02965CB03E7</sha1>
+        <sha1>29b693099793907c460c6ef046be783e03cc4530</sha1>
     </version>  
 
     <version name="1.6.13" package="org.apache.subversion.Subversion"
