@@ -10924,6 +10924,7 @@ call "%npackdih%\UninstallMSI.bat"
         <sha1>94bab186697d53ab9e093daa8580c0f5d09ff14d</sha1>
     </version>
     
+    <!-- x8 = 8 * (10/64) = 1.25 -->
     <version name="0.2.1" package="com.googlecode.golangide.GoLangIDE"> 
         <important-file path="bin\liteide.bat" title="Go LiteIDE"/> 
         <file path=".WPM\Install.bat">for /f "delims=" %%x in ('dir /b liteide*') do set name=%%x
@@ -11014,6 +11015,30 @@ call liteide.exe
 </file> 
         <url>http://golangide.googlecode.com/files/liteide-win32-x6-1.zip</url> 
         <sha1>3172b7b11636b5b22a341396591572c963fff402</sha1> 
+        <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.15.7, 1.15.7]"/>
+        <dependency package="com.googlecode.gomingw.GoMinGWR"
+                versions="[57.1, 100)"/> 
+    </version>
+    <version name="1.25" package="com.googlecode.golangide.GoLangIDE"> 
+        <important-file path="bin\liteide.bat" title="Go LiteIDE"/> 
+        <file path=".WPM\Install.bat">set name=liteide
+cd "%name%"        
+for /f "delims=" %%a in ('dir /b') do (
+  move "%%a" ..
+)
+cd ..
+rmdir "%name%"
+</file> 
+        <file path="liteide\bin\liteide.bat">if "%npackd_cl%" equ "" set npackd_cl=..\..\com.googlecode.windows-package-manager.NpackdCL-1
+set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.gomingw.GoMinGWR" "--versions=[57.1, 100)"
+for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set goroot=%%x
+set GOARCH=386
+set GOOS=windows
+set PATH=%GOROOT%\bin
+call liteide.exe
+</file> 
+        <url>http://golangide.googlecode.com/files/liteide-win32-x8.zip</url> 
+        <sha1>0551cd7ac8c1678506b17af0b5666ef005b8363a</sha1> 
         <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.15.7, 1.15.7]"/>
         <dependency package="com.googlecode.gomingw.GoMinGWR"
                 versions="[57.1, 100)"/> 
