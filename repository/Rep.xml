@@ -5430,6 +5430,19 @@ rmdir "%name%"
         <url>http://dl.dropbox.com/u/17046326/files/com.softwareok.QDir-4.68.zip</url>
         <sha1>0e0e7afa25d28cde4053b89880d33358669ea120</sha1>
     </version>
+    <version name="4.72" package="com.softwareok.QDir">
+        <file path=".WPM\Install.bat">for /f "delims=" %%x in ('dir /b Q*') do set name=%%x
+cd "%name%"        
+for /f "delims=" %%a in ('dir /b') do (
+  move "%%a" ..
+)
+cd ..
+rmdir "%name%"
+</file>
+        <important-file path="Q-Dir.exe" title="Q-Dir"/>
+        <url>http://dl.dropbox.com/u/17046326/files/com.softwareok.QDir-4.72.zip</url>
+        <sha1>c1803b3de4fd2b86c28781d2efb25435e12fdeed</sha1>
+    </version>
 
     <version name="1.17" package="info.keepass.KeePassClassic">
         <important-file path="KeePass.exe" title="KeePass"/>
