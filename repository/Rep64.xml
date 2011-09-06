@@ -970,6 +970,19 @@ rmdir /s /q "%name%"
         <url>http://download.blender.org/release/Blender2.58/blender-2.58a-windows64.zip</url>
         <sha1>9C2E8A7D6059D744E4258F5C811939607A32D031</sha1>
     </version>
+    <version name="2.59" package="org.blender.Blender64">
+        <file path=".WPM\Install.bat">for /f "delims=" %%x in ('dir /b blender*') do set name=%%x
+cd "%name%"        
+for /f "delims=" %%a in ('dir /b') do (
+  move "%%a" ..
+)
+cd ..
+rmdir "%name%"
+</file>
+        <important-file path="blender.exe" title="Blender"/>
+        <url>http://download.blender.org/release/Blender2.59/blender-2.59-windows64.zip</url>
+        <sha1>cecc5e315de06d9885a6099950f1311079c97db2</sha1>
+    </version>
 
     <version name="4.3.8.2523" package="se.cdburnerxp.CDBurnerXP64">
         <important-file path="cdbxpp.exe" title="CDBurnerXP"/>
