@@ -4361,9 +4361,20 @@ move *.dll %trash%
     </version>
 
     <version name="7.0.1" package="org.truecrypt.TrueCryptInstaller" type="one-file">
-        <important-file path="TrueCrypt_Setup_7.0a.exe" title="Installer"/>
+        <file path=".WPM\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x
+ren "%setup%" TrueCryptInstaller.exe
+</file>
+        <important-file path="TrueCryptInstaller.exe" title="Installer"/>
         <url>http://dl.dropbox.com/u/17046326/files/TrueCrypt_Setup_7.0a.exe</url>
         <sha1>9ebe5de6130deae5d361306bf0add7a6789f6fbc</sha1>
+    </version>
+    <version name="7.1" package="org.truecrypt.TrueCryptInstaller" type="one-file">
+        <file path=".WPM\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x
+ren "%setup%" TrueCryptInstaller.exe
+</file>
+        <important-file path="TrueCryptInstaller.exe" title="Installer"/>
+        <url>http://npackd.googlecode.com/files/org.truecrypt.TrueCryptInstaller-7.0.1.exe</url>
+        <sha1>5910a05bf671a385c2c5967171aa1c5509a3d3ee</sha1>
     </version>
 
     <!-- 
