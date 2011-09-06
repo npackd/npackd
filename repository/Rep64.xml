@@ -1461,6 +1461,15 @@ rmdir /s /q "%name%"
         <url>http://dl.dropbox.com/u/17046326/files/com.softwareok.QDir64-4.68.zip</url>
         <sha1>daa256207d875655ebd583cd8a0596a01579ea76</sha1>
     </version>
+    <version name="4.72" package="com.softwareok.QDir64">
+        <file path=".WPM\Install.bat">for /f "delims=" %%x in ('dir /b Q*') do set name=%%x
+xcopy "%name%\*" . /E /H
+rmdir /s /q "%name%"
+</file>
+        <important-file path="Q-Dir.exe" title="Q-Dir"/>
+        <url>http://dl.dropbox.com/u/17046326/files/com.softwareok.QDir64-4.72.zip</url>
+        <sha1>d538c04559d79117f658a9584e80b697481a4e0a</sha1>
+    </version>
 
     <version name="7.0.12" package="org.apache.tomcat.Tomcat64">
         <file path=".WPM\Install.bat">for /f %%x in ('dir /b apache*') do set name=%%x
