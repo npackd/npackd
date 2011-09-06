@@ -1562,9 +1562,21 @@ if %err% neq 0 exit /b %err%
 
     <version name="9.2" package="com.ghostscript.GhostScript64Installer"
             type="one-file">
-        <important-file path="gs902w64.exe" title="Installer"/>
+        <file path=".WPM\Install.bat">for /f %%x in ('dir /b *.exe') do set setup=%%x
+ren "%setup%" gsw64.exe
+</file>
+        <important-file path="gsw64.exe" title="Installer"/>
         <url>http://downloads.ghostscript.com/public/gs902w64.exe</url>
         <sha1>525F473B640BEED44B9FE4A0AFB428BBF1CC3524</sha1>
+    </version>
+    <version name="9.4" package="com.ghostscript.GhostScript64Installer"
+            type="one-file">
+        <file path=".WPM\Install.bat">for /f %%x in ('dir /b *.exe') do set setup=%%x
+ren "%setup%" gsw64.exe
+</file>
+        <important-file path="gsw64.exe" title="Installer"/>
+        <url>http://downloads.ghostscript.com/public/gs904w64.exe</url>
+        <sha1>358d84d4d9b2819e4ee0673a2027258ac63e5296</sha1>
     </version>
     
     <version name="4.71.1015" package="com.microsoft.Mathematics64"
