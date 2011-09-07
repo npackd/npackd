@@ -39,12 +39,12 @@ class MainWindow : public QMainWindow {
 private:
     static MainWindow* instance;
 
-    Ui::MainWindow *ui;
+    time_t monitoredJobLastChanged;
+    QList<Job*> runningJobs;
+    QList<JobState> runningJobStates;
+    QMutex runningJobsMutex;
 
-    /**
-     * Current number of running jobs.
-     */
-    volatile int runningJobs;
+    Ui::MainWindow *ui;
 
     FileLoader fileLoader;
     QFrame* progressContent;
@@ -121,11 +121,6 @@ public:
     ~MainWindow();
 
     /**
-     * Informs the main window that the number of running job has decreased.
-     */
-    void decRunningJobs();
-
-    /**
      * Adds an error message panel.
      *
      * @param msg short error message
@@ -163,8 +158,23 @@ public:
      */
     bool waitFor(Job* job, const QString& title);
 
+    /**
+     * Close all detail tabs.
+     */
     void closeDetailTabs();
+
+    /**
+     * Reloads the content of all repositories and recognizes all installed
+     * packages again.
+     */
     void recognizeAndLoadRepositories();
+
+    /**
+     * Unregistered a currently running monitored job.
+     *
+     * @param job a currently running and monitored job
+     */
+    void unregisterJob(Job* job);
 protected:
     void changeEvent(QEvent *e);
     void process(QList<InstallOperation*>& install);
@@ -195,6 +205,7 @@ private slots:
     void on_actionReload_Repositories_triggered();
     void on_actionClose_Tab_triggered();
     void repositoryStatusChanged(PackageVersion* pv);
+    void monitoredJobChanged(const JobState& state);
 };
 
 #endif // MAINWINDOW_H

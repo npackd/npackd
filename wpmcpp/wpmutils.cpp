@@ -625,6 +625,17 @@ void WPMUtils::outputTextConsole(const QString& txt)
     }
 }
 
+QTime WPMUtils::durationToTime(time_t diff)
+{
+    int sec = diff % 60;
+    diff /= 60;
+    int min = diff % 60;
+    diff /= 60;
+    int h = diff;
+
+    return QTime(h, min, sec);
+}
+
 QString WPMUtils::inputTextConsole()
 {
     // http://msdn.microsoft.com/en-us/library/ms686974(v=VS.85).aspx

@@ -44,9 +44,9 @@ ProgressFrame::~ProgressFrame()
                 job->getErrorMessage());
     }
     delete this->thread;
+    MainWindow::getInstance()->unregisterJob(this->job);
     delete this->job;
     delete ui;
-    MainWindow::getInstance()->decRunningJobs();
 }
 
 void ProgressFrame::threadFinished()

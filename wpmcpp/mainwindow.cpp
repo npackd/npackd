@@ -397,18 +397,16 @@ MainWindow* MainWindow::getInstance()
 
 void MainWindow::closeEvent(QCloseEvent *event)
 {
-    if (this->runningJobs == 0) {
+    this->runningJobsMutex.lock();
+    int n = this->runningJobs.count();
+    this->runningJobsMutex.unlock();
+
+    if (n == 0) {
         event->accept();
     } else {
         addErrorMessage("Cannot exit while jobs are running");
         event->ignore();
     }
-}
-
-void MainWindow::decRunningJobs()
-{
-    runningJobs--;
-    this->updateProgressTabTitle();
 }
 
 MainWindow::MainWindow(QWidget *parent) :
@@ -419,7 +417,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
     ui->setupUi(this);
 
-    this->runningJobs = 0;
+    this->monitoredJobLastChanged = 0;
     this->progressContent = 0;
     this->jobsTab = 0;
 
@@ -538,13 +536,32 @@ void MainWindow::updateStatusInTable()
 
 void MainWindow::updateProgressTabTitle()
 {
-    int index = this->ui->tabWidget->indexOf(this->jobsTab);
-    QString title;
-    if (this->runningJobs != 0)
-        title = QString("Jobs (%1 running)").arg(this->runningJobs);
-    else
-        title = "Jobs";
+    this->runningJobsMutex.lock();
+    int n = this->runningJobStates.count();
+    time_t max = 0;
+    for (int i = 0; i < n; i++) {
+        JobState state = this->runningJobStates.at(i);
 
+        // state.job may be null if the corresponding task was just started
+        if (state.job) {
+            time_t t = state.remainingTime();
+            if (t > max)
+                max = t;
+        }
+    }
+    QTime rest = WPMUtils::durationToTime(max);
+
+    this->runningJobsMutex.unlock();
+
+    QString title;
+    if (n == 0)
+        title = QString("0 Jobs");
+    else if (n == 1)
+        title = QString("1 Job (%2)").arg(rest.toString());
+    else
+        title = QString("%1 Jobs (%2)").arg(n).arg(rest.toString());
+
+    int index = this->ui->tabWidget->indexOf(this->jobsTab);
     this->ui->tabWidget->setTabText(index, title);
 }
 
@@ -556,9 +573,36 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
+void MainWindow::monitoredJobChanged(const JobState& state)
+{
+    time_t now;
+    time(&now);
+
+    if (now != this->monitoredJobLastChanged) {
+        this->monitoredJobLastChanged = now;
+
+        this->runningJobsMutex.lock();
+        int index = this->runningJobs.indexOf(state.job);
+        if (index >= 0) {
+            this->runningJobStates.replace(index, state);
+        }
+        this->runningJobsMutex.unlock();
+
+        updateProgressTabTitle();
+    }
+}
+
 void MainWindow::monitor(Job* job, const QString& title, QThread* thread)
 {
-    runningJobs++;
+    connect(job, SIGNAL(changed(const JobState&)), this,
+            SLOT(monitoredJobChanged(const JobState&)),
+            Qt::QueuedConnection);
+
+    this->runningJobsMutex.lock();
+    this->runningJobs.append(job);
+    this->runningJobStates.append(JobState());
+    this->runningJobsMutex.unlock();
+
     updateProgressTabTitle();
 
     ProgressFrame* pf = new ProgressFrame(progressContent, job, title,
@@ -987,10 +1031,27 @@ void MainWindow::changeEvent(QEvent *e)
 
 void MainWindow::on_actionExit_triggered()
 {
-    if (this->runningJobs > 0)
+    this->runningJobsMutex.lock();
+    int n = this->runningJobs.count();
+    this->runningJobsMutex.unlock();
+
+    if (n > 0)
         addErrorMessage("Cannot exit while jobs are running");
     else
         this->close();
+}
+
+void MainWindow::unregisterJob(Job *job)
+{
+    this->runningJobsMutex.lock();
+    int index = this->runningJobs.indexOf(job);
+    if (index >= 0) {
+        this->runningJobs.removeAt(index);
+        this->runningJobStates.removeAt(index);
+    }
+    this->runningJobsMutex.unlock();
+
+    this->updateProgressTabTitle();
 }
 
 void MainWindow::on_actionUninstall_activated()
