@@ -6,6 +6,9 @@
 #include "qmetatype.h"
 #include "qmutex.h"
 #include "qqueue.h"
+#include "QTime"
+
+class Job;
 
 /**
  * This class is used to exchange data about a Job between threads.
@@ -13,14 +16,35 @@
 class JobState: public QObject {
     Q_OBJECT
 public:
+    /** job progress: 0..1 */
     double progress;
+
+    /** job hint */
     QString hint;
+
+    /** job error message or "" */
     QString errorMessage;
+
+    /** true, if the job was cancelled by the user */
     bool cancelRequested;
+
+    /** the job was completed (with or without an error) */
     bool completed;
+
+    /** the job */
+    Job* job;
+
+    /** time of the start or 0 */
+    time_t started;
 
     JobState();
     JobState(const JobState& s);
+    void operator=(const JobState& s);
+
+    /**
+     * @return time remaining time necessary to complete this task
+     */
+    time_t remainingTime();
 };
 
 Q_DECLARE_METATYPE(JobState)
@@ -84,6 +108,9 @@ public slots:
     void parentJobChanged(const JobState& s);
 public:
     static QList<Job*> jobs;
+
+    /** time when this job was started or 0 */
+    time_t started;
 
     Job();
     ~Job();

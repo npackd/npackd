@@ -1,4 +1,5 @@
 #include <math.h>
+#include <time.h>
 
 #include "qdebug.h"
 #include "qmutex.h"
@@ -12,6 +13,8 @@ JobState::JobState()
     this->errorMessage = "";
     this->hint = "";
     this->progress = 0;
+    this->job = 0;
+    this->started = 0;
 }
 
 JobState::JobState(const JobState& s)
@@ -21,6 +24,38 @@ JobState::JobState(const JobState& s)
     this->errorMessage = s.errorMessage;
     this->hint = s.hint;
     this->progress = s.progress;
+    this->job = s.job;
+    this->started = s.started;
+}
+
+void JobState::operator=(const JobState& s)
+{
+    this->cancelRequested = s.cancelRequested;
+    this->completed = s.completed;
+    this->errorMessage = s.errorMessage;
+    this->hint = s.hint;
+    this->progress = s.progress;
+    this->job = s.job;
+    this->started = s.started;
+}
+
+
+time_t JobState::remainingTime()
+{
+    time_t result;
+    if (started != 0) {
+        time_t now;
+        time(&now);
+
+        time_t diff = difftime(now, started);
+
+        diff = difftime(now, started);
+        diff = lround(diff * (1 / this->progress - 1));
+        result = diff;
+    } else {
+        result = 0;
+    }
+    return result;
 }
 
 QList<Job*> Job::jobs;
@@ -31,6 +66,7 @@ Job::Job()
     this->parentJob = 0;
     this->cancelRequested = false;
     this->completed = false;
+    this->started = 0;
 }
 
 Job::~Job()
@@ -97,12 +133,17 @@ bool Job::isCompleted()
 
 void Job::fireChange()
 {
+    if (this->started == 0)
+        time(&this->started);
+
     JobState state;
+    state.job = this;
     state.cancelRequested = this->cancelRequested;
     state.completed = this->completed;
     state.errorMessage = this->errorMessage;
     state.hint = this->hint;
     state.progress = this->progress;
+    state.started = this->started;
     emit changed(state);
 }
 

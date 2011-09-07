@@ -30,7 +30,6 @@ public:
     explicit ProgressFrame(QWidget *parent, Job* job, const QString& title,
             QThread* thread);
     ~ProgressFrame();
-
 private:
     Ui::ProgressFrame *ui;
 private slots:

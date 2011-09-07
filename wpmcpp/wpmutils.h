@@ -2,9 +2,11 @@
 #define WPMUTILS_H
 
 #include <windows.h>
+#include <time.h>
 
 #include "qstring.h"
 #include "qdir.h"
+#include "QTime"
 
 #include "job.h"
 #include "version.h"
@@ -165,6 +167,12 @@ public:
      * @param txt the text
      */
     static void outputTextConsole(const QString& txt);
+
+    /**
+     * @param diff duration
+     * @return time
+     */
+    static QTime durationToTime(time_t diff);
 
     /**
      * Input a password from the console.
