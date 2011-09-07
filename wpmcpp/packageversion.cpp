@@ -1153,12 +1153,10 @@ void PackageVersion::executeFile(Job* job, const QString& where,
             QFile f(d.absolutePath() + "\\" + outputFile);
             if (f.open(QIODevice::WriteOnly)) {
                 QByteArray output = p.readAll();
-                if (!job->getErrorMessage().isEmpty()) {
-                    QString log(job->getErrorMessage());
-                    log.append("\n");
-                    log.append(output);
-                    job->setErrorMessage(log);
-                }
+                QString log(job->getErrorMessage());
+                log.append("\n");
+                log.append(output);
+                job->setErrorMessage(log);
                 f.write(output);
                 f.close();
             }

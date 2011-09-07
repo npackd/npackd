@@ -597,7 +597,7 @@ bool MainWindow::waitFor(Job* job, const QString& title)
             first = first.left(ind);
 
         addErrorMessage(QString("%1: %2").arg(job->getHint()).arg(first),
-                job->getErrorMessage(), 30);
+                job->getErrorMessage());
 
         r = false;
     } else {

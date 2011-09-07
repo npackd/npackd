@@ -21,7 +21,7 @@ MessageFrame::MessageFrame(QWidget *parent, const QString& msg,
                 QString("Dismiss (%1 seconds)").arg(seconds));
     this->seconds = seconds;
     this->ui->label->setText(msg);
-    this->details = msg;
+    this->details = details;
     this->ui->pushButtonDetails->setEnabled(!details.isEmpty());
     this->icon = icon;
 
