@@ -322,10 +322,14 @@ void PackageVersion::uninstall(Job* job)
             env.append("NPACKD_CL");
             env.append(Repository::getDefault()->computeNpackdCLEnvVar());
 
-            this->executeFile(sub, d.absolutePath(),
+            QString output = this->executeFile(sub, d.absolutePath(),
                     uninstallationScript, ".Npackd\\Uninstall.log", env);
-            if (!sub->getErrorMessage().isEmpty())
-                job->setErrorMessage(sub->getErrorMessage());
+            if (!sub->getErrorMessage().isEmpty()) {
+                QString err = sub->getErrorMessage();
+                err.append("\n");
+                err.append(output);
+                job->setErrorMessage(err);
+            }
             delete sub;
         }
         job->setProgress(0.45);
@@ -915,11 +919,14 @@ void PackageVersion::install(Job* job, const QString& where)
             env.append("NPACKD_CL");
             env.append(Repository::getDefault()->computeNpackdCLEnvVar());
 
-            this->executeFile(exec, d.absolutePath(),
+            QString output = this->executeFile(exec, d.absolutePath(),
                     installationScript, ".Npackd\\Install.log", env);
-            if (!exec->getErrorMessage().isEmpty())
-                job->setErrorMessage(exec->getErrorMessage());
-            else {
+            if (!exec->getErrorMessage().isEmpty()) {
+                QString err = exec->getErrorMessage();
+                err.append("\n");
+                err.append(output);
+                job->setErrorMessage(err);
+            } else {
                 QString path = d.absolutePath();
                 path.replace('/', '\\');
                 setPath(path);
@@ -1116,10 +1123,12 @@ QStringList PackageVersion::findLockedFiles()
     return r;
 }
 
-void PackageVersion::executeFile(Job* job, const QString& where,
+QString PackageVersion::executeFile(Job* job, const QString& where,
         const QString& path,
         const QString& outputFile, const QStringList& env)
 {
+    QString ret;
+
     QDir d(where);
     QProcess p(0);
     p.setProcessChannelMode(QProcess::MergedChannels);
@@ -1153,10 +1162,7 @@ void PackageVersion::executeFile(Job* job, const QString& where,
             QFile f(d.absolutePath() + "\\" + outputFile);
             if (f.open(QIODevice::WriteOnly)) {
                 QByteArray output = p.readAll();
-                QString log(job->getErrorMessage());
-                log.append("\n");
-                log.append(output);
-                job->setErrorMessage(log);
+                ret.append(output);
                 f.write(output);
                 f.close();
             }
@@ -1170,5 +1176,7 @@ void PackageVersion::executeFile(Job* job, const QString& where,
         job->setHint(QString("%1 minutes").arg(seconds / 60));
     }
     job->complete();
+
+    return ret;
 }
 
