@@ -2088,6 +2088,11 @@ yes - Print a string repeatedly.</description>
         <description>minimalist GNU</description>
         <license>org.mingw.License</license>
     </package>
+    <package name="org.mingw.MinGWUtilities">
+        <title>MinGW utilities</title>
+        <url>http://downloads.sourceforge.net/project/mingw/MinGW/Utilities/mingw-utils/mingw-utils-0.4-1/mingw-utils-0.4-1-mingw32.RELEASE_NOTES.txt?ts=1315516627</url>
+        <description>a collection of utilities useful for MinGW and MSYS installations</description>
+    </package>
     <package name="org.miranda-im.MirandaIM">
         <title>Miranda IM</title>
         <url>http://www.miranda-im.org</url>
@@ -12667,4 +12672,71 @@ rmdir "%name%"
         <url>http://downloads.sourceforge.net/project/console/console-devel/2.00/Console-2.00b147-Beta_32bit.zip?ts=1314388333</url>
         <sha1>d16621bb454feec789d695c471e443fc16070a91</sha1>
     </version>
-</root>
+    
+    <version name="0.3" package="org.mingw.MinGWUtilities" type="one-file">
+        <file path=".WPM\Install.bat">if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
+set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=org.7-zip.SevenZIP" "--versions=[9.20, 9.20]"
+for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set sevenzip=%%x
+
+for /f "delims=" %%x in ('dir /b *.gz') do set setup=%%x
+"%sevenzip%\7z.exe" x %setup%
+if %errorlevel% neq 0 goto eof
+del "%setup%"
+
+for /f "delims=" %%x in ('dir /b *.tar') do set setup=%%x
+"%sevenzip%\7z.exe" x %setup%
+if %errorlevel% neq 0 goto eof
+del "%setup%"
+
+set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.pathed.PathEd" "--versions=[0.8, 0.8]"
+for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set pathed=%%x
+"%pathed%\pathed" -s -a "%CD%\bin"
+verify
+</file>
+        <file path=".WPM\Unnstall.bat">if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
+set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.pathed.PathEd" "--versions=[0.8, 0.8]"
+for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set pathed=%%x
+"%pathed%\pathed" -s -r "%CD%\bin"
+verify
+</file>
+        <url>http://downloads.sourceforge.net/project/mingw/MinGW/Utilities/mingw-utils/mingw-utils-0.3/mingw-utils-0.3.tar.gz?ts=1315516757</url>
+        <sha1>7ae32742ece1e89978784634aed824775cf47336</sha1>
+        <dependency package="org.7-zip.SevenZIP" versions="[9.20, 9.20]"/>
+        <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.15.7, 2)"/>
+        <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1, 1]"/>
+        <dependency package="com.googlecode.pathed.PathEd" versions="[0.8, 0.8]"/>
+    </version>
+    <version name="0.4.1" package="org.mingw.MinGWUtilities" type="one-file">
+        <file path=".WPM\Install.bat">if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
+set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=org.7-zip.SevenZIP" "--versions=[9.20, 9.20]"
+for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set sevenzip=%%x
+
+for /f "delims=" %%x in ('dir /b *.lzma') do set setup=%%x
+"%sevenzip%\7z.exe" x %setup%
+if %errorlevel% neq 0 goto eof
+del "%setup%"
+
+for /f "delims=" %%x in ('dir /b *.tar') do set setup=%%x
+"%sevenzip%\7z.exe" x %setup%
+if %errorlevel% neq 0 goto eof
+del "%setup%"
+
+set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.pathed.PathEd" "--versions=[0.8, 0.8]"
+for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set pathed=%%x
+"%pathed%\pathed" -s -a "%CD%\bin"
+verify
+</file>
+        <file path=".WPM\Unnstall.bat">if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
+set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.pathed.PathEd" "--versions=[0.8, 0.8]"
+for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set pathed=%%x
+"%pathed%\pathed" -s -r "%CD%\bin"
+verify
+</file>
+        <url>http://downloads.sourceforge.net/project/mingw/MinGW/Utilities/mingw-utils/mingw-utils-0.4-1/mingw-utils-0.4-1-mingw32-bin.tar.lzma?ts=1315515974</url>
+        <sha1>9e805490735103a022ead680b8b9b3d0156133f8</sha1>
+        <dependency package="org.7-zip.SevenZIP" versions="[9.20, 9.20]"/>
+        <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.15.7, 2)"/>
+        <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1, 1]"/>
+        <dependency package="com.googlecode.pathed.PathEd" versions="[0.8, 0.8]"/>
+    </version>
+ </root>
