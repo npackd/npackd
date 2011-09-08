@@ -65,18 +65,17 @@ FORMS += mainwindow.ui \
     licenseform.ui \
     progressframe.ui \
     messageframe.ui
-INCLUDEPATH += C:\\Users\\t\\libs\\quazip-0.2.3\\quazip \
-    C:\\Users\\t\\libs\\zlib-1.2.5
+INCLUDEPATH += ..\\quazip\\quazip ..\\zlib
 MINGWLIBS=C:\\QtSDK-1.1.1\\mingw\\lib
-LIBS += C:\\Users\\t\\libs\\quazip-0.2.3\\quazip\\debug\\libquazip.a \
-    C:\\Users\\t\\libs\\zlib-1.2.5\\libz.a \
+LIBS += ..\\quazip\\quazip\\release\\libquazip.a \
+    ..\\zlib\\libz.a \
     $$MINGWLIBS\\libole32.a \
     $$MINGWLIBS\\libuuid.a \
     $$MINGWLIBS\\libwininet.a \
     $$MINGWLIBS\\libpsapi.a \
     $$MINGWLIBS\\libshell32.a \
     $$MINGWLIBS\\libversion.a \
-    C:\\Users\\t\\projects\\windows-package-manager\\wpmcpp\\libmsi.a
+    ..\\wpmcpp\\libmsi.a
 CONFIG += embed_manifest_exe
 RC_FILE = wpmcpp.rc
 RESOURCES += wpmcpp.qrc
