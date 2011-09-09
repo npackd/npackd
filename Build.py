@@ -17,6 +17,47 @@ class Build:
             
         return ret
 
+    def _build_wpmcpp(self):
+        e = dict(os.environ)
+        e["PATH"] = self._qtsdk + "\\mingw\\bin"
+        p = subprocess.Popen("\"" + self._qtsdk + 
+                "\\Desktop\\Qt\\4.7.3\\mingw\\bin\\qmake.exe\" " + 
+                "wpmcpp.pro " +
+                "-r -spec win32-g++ " +
+                "CONFIG+=release",
+                cwd="wpmcpp", env=e)
+        p = subprocess.Popen("\"" + self._qtsdk + 
+                "\\mingw\\bin\\mingw32-make.exe\" ", 
+                cwd="wpmcpp-build-desktop", env=e)
+        p.wait()               
+
+        return True
+
+    def _build_msi(self):
+        p = subprocess.Popen(
+                "\"C:\\Program Files (x86)\\Caphyon\\Advanced Installer 8.4\\bin\\x86\\AdvancedInstaller.com\" " + 
+                "/build wpmcpp.aip", 
+                cwd="wpmcpp")
+        p.wait()               
+
+        return True
+
+    def _build_npackdcl(self):
+        e = dict(os.environ)
+        e["PATH"] = self._qtsdk + "\\mingw\\bin"
+        p = subprocess.Popen("\"" + self._qtsdk + 
+                "\\Desktop\\Qt\\4.7.3\\mingw\\bin\\qmake.exe\" " + 
+                "npackdcl.pro " +
+                "-r -spec win32-g++ " +
+                "CONFIG+=release",
+                cwd="npackdcl", env=e)
+        p = subprocess.Popen("\"" + self._qtsdk + 
+                "\\mingw\\bin\\mingw32-make.exe\" ", 
+                cwd="npackdcl-build-desktop", env=e)
+        p.wait()               
+
+        return True
+
     def _build_zlib(self):
         ret = False
         if not os.path.exists("zlib"):
@@ -105,6 +146,12 @@ class Build:
         if not self._build_quazip():
             return
         if not self._build_mingw_utils():
+            return
+        if not self._build_wpmcpp():
+            return
+        if not self._build_npackdcl():
+            return
+        if not self._build_msi():
             return
         
 Build().build()
