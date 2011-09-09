@@ -3,6 +3,20 @@ import subprocess
 import shutil
 
 class Build:
+    def _build_mingw_utils(self):
+        ret = False
+        if not os.path.exists("mingw-utils"):
+            p = self._capture(self._npackd_cl + ' path --package=org.mingw.MinGWUtilities --versions=[0.3,0.3]')
+            if p.strip() == '':
+                print('mingw-utils 0.3 was not found')
+            else:
+                shutil.copytree(p, "mingw-utils")
+                ret = True
+        else:
+            ret = True
+            
+        return ret
+
     def _build_zlib(self):
         ret = False
         if not os.path.exists("zlib"):
@@ -89,6 +103,8 @@ class Build:
         if not self._build_zlib():
             return      
         if not self._build_quazip():
+            return
+        if not self._build_mingw_utils():
             return
         
 Build().build()
