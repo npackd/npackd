@@ -140,6 +140,8 @@ int App::process(int argc, char *argv[])
         r = addRepo();
     } else if (fr.at(0) == "remove-repo") {
         r = removeRepo();
+    } else if (fr.at(0) == "list") {
+        r = list();
     } else if (fr.at(0) == "unit-tests") {
         r = unitTests();
     /*} else if (params.count() == 2 && params.at(1) == "list") {
@@ -203,12 +205,14 @@ void App::usage()
         "Usage:",
         "    npackdcl help",
         "        prints this help",
-        "    npackdcl path --package=<package> [--versions=<versions>]",
-        "        searches for an installed package and prints its location",
         "    npackdcl add --package=<package> [--version=<version>]",
         "        installs a package",
         "    npackdcl remove --package=<package> --version=<version>",
         "        removes a package",
+        "    npackdcl list",
+        "        lists all installed packages",
+        "    npackdcl path --package=<package> [--versions=<versions>]",
+        "        searches for an installed package and prints its location",
         "    npackdcl add-repo --url=<repository>",
         "        appends a repository to the list",
         "    npackdcl remove-repo --url=<repository>",
@@ -277,6 +281,33 @@ int App::addRepo()
     }
 
     delete url_;
+
+    return r;
+}
+
+int App::list()
+{
+    int r = 0;
+
+    Repository* rep = Repository::getDefault();
+    Job* job = createJob();
+    rep->reload(job);
+    if (!job->getErrorMessage().isEmpty()) {
+        std::cerr << qPrintable(job->getErrorMessage()) << std::endl;
+        r = 1;
+    }
+    delete job;
+
+    if (r == 0) {
+        Repository* rep = Repository::getDefault();
+        for (int i = 0; i < rep->packageVersions.count(); i++) {
+            PackageVersion* pv = rep->packageVersions.at(i);
+            if (pv->installed()) {
+                std::cout << qPrintable(pv->toString()) << std::endl;
+                std::cout << "    Path: " << qPrintable(pv->getPath()) << std::endl;
+            }
+        }
+    }
 
     return r;
 }
