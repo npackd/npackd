@@ -35,6 +35,7 @@ private:
     int remove();
     int addRepo();
     int removeRepo();
+    int list();
 
     /**
      * Internal tests.
