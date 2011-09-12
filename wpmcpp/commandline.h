@@ -83,11 +83,6 @@ public:
     QStringList getAll(const QString& name);
 
     /**
-     * Debug-Ausgabe.
-     */
-    void dump();
-
-    /**
      * @return "free" arguments (those without options)
      */
     QStringList getFreeArguments();

@@ -1,5 +1,3 @@
-#include <iostream>
-
 #include "qdebug.h"
 
 #include "commandline.h"
@@ -194,18 +192,6 @@ QString CommandLine::get(const QString& name)
 QStringList CommandLine::getFreeArguments()
 {
     return this->freeArguments;
-}
-
-void CommandLine::dump()
-{
-    std::cout << "Command line options:" << std::endl;
-    std::cout << "Free arguments: " <<
-            qPrintable(this->freeArguments.join(", ")) << std::endl;
-    for (int i = 0; i < this->parsedOptions.count(); i++) {
-        ParsedOption* po = this->parsedOptions.at(i);
-        std::cout << "Name: " << qPrintable(po->opt->name) <<
-                " Value: " << qPrintable(po->value) << std::endl;
-    }
 }
 
 QStringList CommandLine::getAll(const QString& name)
