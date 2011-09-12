@@ -30,7 +30,8 @@ SOURCES += main.cpp \
     uiutils.cpp \
     commandline.cpp \
     progressframe.cpp \
-    messageframe.cpp
+    messageframe.cpp \
+    minidumper.cpp
 HEADERS += mainwindow.h \
     packageversion.h \
     repository.h \
@@ -57,7 +58,8 @@ HEADERS += mainwindow.h \
     uiutils.h \
     commandline.h \
     progressframe.h \
-    messageframe.h
+    messageframe.h \
+    minidumper.h
 FORMS += mainwindow.ui \
     progressdialog.ui \
     settingsdialog.ui \
@@ -79,3 +81,5 @@ LIBS += ..\\quazip\\quazip\\release\\libquazip.a \
 CONFIG += embed_manifest_exe
 RC_FILE = wpmcpp.rc
 RESOURCES += wpmcpp.qrc
+QMAKE_CXXFLAGS_RELEASE += -g
+QMAKE_LFLAGS_RELEASE -= -Wl,-s

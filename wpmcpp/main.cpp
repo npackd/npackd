@@ -12,9 +12,14 @@
 #include "wpmutils.h"
 #include "job.h"
 #include "fileloader.h"
+#include "minidumper.h"
+
+MiniDumper md("Npackd");
 
 int main(int argc, char *argv[])
 {
+    // *((char*) 0) = 0;
+
     /* test
     QString fn("C:\\Program Files (x86)\\wpm\\no.itefix.CWRsyncServer-4.0.4\\Bin\\PrepUploadDir.exe");
     QString p("C:\\Program Files (x86)\\WPM\\no.itefix.CWRsyncServer-4.0.4");
@@ -26,8 +31,6 @@ int main(int argc, char *argv[])
     // helps against viruses.
     // requires 0x0502
     // SetDllDirectory("");
-
-    LoadLibrary(L"exchndl.dll");
 
     QApplication a(argc, argv);
 
