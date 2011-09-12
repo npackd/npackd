@@ -69,60 +69,6 @@ QString WindowsRegistry::get(QString name, QString* err) const
     return value_;
 }
 
-/* unused
-QString WindowsRegistry::allowReadAccessToEverybody()
-{
-    if (this->hkey == 0) {
-        return "No key is open";
-    }
-
-    QString err;
-
-    PSECURITY_DESCRIPTOR ptrSecurityDescriptor = 0;
-    PACL ptrOldDACL = 0;
-
-    DWORD dwResult = GetSecurityInfo(this->hkey, SE_REGISTRY_KEY,
-            DACL_SECURITY_INFORMATION, NULL, NULL, &ptrOldDACL, NULL,
-            &ptrSecurityDescriptor);
-    if (dwResult != ERROR_SUCCESS) {
-        WPMUtils::formatMessage(dwResult, &err);
-    } else {
-        EXPLICIT_ACCESS ea;
-        ea.grfAccessMode = GRANT_ACCESS;
-        ea.grfAccessPermissions = GENERIC_READ;
-        ea.grfInheritance =
-                SUB_CONTAINERS_AND_OBJECTS_INHERIT;
-        ea.Trustee.pMultipleTrustee = 0;
-        ea.Trustee.MultipleTrusteeOperation =
-                NO_MULTIPLE_TRUSTEE;
-        ea.Trustee.TrusteeForm = TRUSTEE_IS_SID;
-        ea.Trustee.TrusteeType = TRUSTEE_IS_GROUP;
-        // http://support.microsoft.com/kb/243330/en-us
-        // SID: S-1-2-0
-        // Name: Local
-        // Description: A group that includes all users who have logged on locally.
-        WCHAR local[] = L"S-1-2-0";
-        ea.Trustee.ptstrName = local;
-
-        PACL ptrNewDACL = 0;
-        dwResult = SetEntriesInAcl(1, &ea, ptrOldDACL, &ptrNewDACL);
-        if (dwResult != ERROR_SUCCESS) {
-            WPMUtils::formatMessage(dwResult, &err);
-        } else {
-            dwResult = SetSecurityInfo(this->hkey, SE_REGISTRY_KEY,
-                    DACL_SECURITY_INFORMATION, NULL, NULL, ptrNewDACL, NULL);
-            if (dwResult != ERROR_SUCCESS) {
-                WPMUtils::formatMessage(dwResult, &err);
-            }
-        }
-
-        LocalFree(ptrSecurityDescriptor);
-    }
-
-    return err;
-}
-*/
-
 DWORD WindowsRegistry::getDWORD(QString name, QString* err)
 {
     err->clear();
