@@ -45,11 +45,9 @@ HEADERS += ../wpmcpp/repository.h \
     ../wpmcpp/wpmutils.h \
     ../wpmcpp/msi.h \
     ../wpmcpp/downloader.h \
-    ../wpmcpp/node.h \
     ../wpmcpp/license.h \
     ../wpmcpp/windowsregistry.h \
     ../wpmcpp/detectfile.h \
     app.h \
-    ../wpmcpp/commandline.h \
-    ../wpmcpp/minidumper.h
+    ../wpmcpp/commandline.h
 FORMS += 
