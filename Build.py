@@ -28,22 +28,30 @@ class Build:
                 "-r -spec win32-g++ " +
                 "CONFIG+=release",
                 cwd="wpmcpp", env=e)
-        ret = p.wait() == 0:
+        ret = p.wait() == 0
             
         if ret:
             p = subprocess.Popen("\"" + self._qtsdk + 
                     "\\mingw\\bin\\mingw32-make.exe\" ", 
                     cwd="wpmcpp-build-desktop", env=e)
-            ret = p.wait() == 0:
+            ret = p.wait() == 0
 
         return ret
 
     def _build_msi(self):
-        p = subprocess.Popen(
-                "\"C:\\Program Files (x86)\\Caphyon\\Advanced Installer 8.4\\bin\\x86\\AdvancedInstaller.com\" " + 
-                "/build wpmcpp.aip", 
-                cwd="wpmcpp")
-        ret = p.wait() == 0
+        ret = True
+    
+        loc = self._capture(self._npackd_cl + ' path --package=com.advancedinstaller.AdvancedInstallerFreeware --versions=[8.4,9)')
+        if loc.strip() == '':
+            print('Advanced Installer [8.4, 9) was not found')
+            ret = False
+
+        if ret:
+            p = subprocess.Popen(
+                    "\"" + loc + "\\bin\\x86\\AdvancedInstaller.com\" " + 
+                    "/build wpmcpp.aip", 
+                    cwd="wpmcpp")
+            ret = p.wait() == 0
         
         return ret
 
