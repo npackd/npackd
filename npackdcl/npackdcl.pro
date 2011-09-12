@@ -26,17 +26,14 @@ SOURCES += main.cpp \
     ../wpmcpp/packageversion.cpp \
     ../wpmcpp/job.cpp \
     ../wpmcpp/installoperation.cpp \
-    ../wpmcpp/digraph.cpp \
     ../wpmcpp/dependency.cpp \
     ../wpmcpp/wpmutils.cpp \
     ../wpmcpp/downloader.cpp \
-    ../wpmcpp/node.cpp \
     ../wpmcpp/license.cpp \
     ../wpmcpp/windowsregistry.cpp \
     ../wpmcpp/detectfile.cpp \
     app.cpp \
-    ../wpmcpp/commandline.cpp \
-    ../wpmcpp/minidumper.cpp
+    ../wpmcpp/commandline.cpp
 HEADERS += ../wpmcpp/repository.h \
     ../wpmcpp/version.h \
     ../wpmcpp/packageversionfile.h \
@@ -44,7 +41,6 @@ HEADERS += ../wpmcpp/repository.h \
     ../wpmcpp/packageversion.h \
     ../wpmcpp/job.h \
     ../wpmcpp/installoperation.h \
-    ../wpmcpp/digraph.h \
     ../wpmcpp/dependency.h \
     ../wpmcpp/wpmutils.h \
     ../wpmcpp/msi.h \

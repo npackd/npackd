@@ -19,18 +19,6 @@ Repository Repository::def;
 
 Repository::Repository(): QObject()
 {
-    /*
-    // allow access to the \Packages for all users
-    WindowsRegistry machineWR(HKEY_LOCAL_MACHINE, false);
-    QString err;
-    WindowsRegistry packagesWR = machineWR.createSubKey(
-            "SOFTWARE\\Npackd\\Npackd\\Packages", &err);
-    if (err.isEmpty()) {
-        // ignore errors
-        packagesWR.allowReadAccessToEverybody();
-    }
-    */
-
     addWellKnownPackages();
 }
 

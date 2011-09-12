@@ -8,11 +8,8 @@
 #include "..\wpmcpp\repository.h"
 #include "..\wpmcpp\commandline.h"
 #include "..\wpmcpp\wpmutils.h"
-#include "..\wpmcpp\minidumper.h"
 
 #include "app.h"
-
-MiniDumper md("NpackdCL");
 
 int main(int argc, char *argv[])
 {

@@ -138,7 +138,8 @@ void Downloader::downloadWin(Job* job, const QUrl& url, QFile* file,
                 WPMUtils::outputTextConsole("Password: ");
                 password = WPMUtils::inputPasswordConsole();
 
-                if (!InternetSetOptionW(hConnectHandle, INTERNET_OPTION_PROXY_USERNAME,
+                if (!InternetSetOptionW(hConnectHandle,
+                        INTERNET_OPTION_PROXY_USERNAME,
                         (void*) username.utf16(),
                         username.length() + 1)) {
                     QString errMsg;
@@ -146,7 +147,8 @@ void Downloader::downloadWin(Job* job, const QUrl& url, QFile* file,
                     job->setErrorMessage(errMsg);
                     goto out;
                 }
-                if (!InternetSetOptionW(hConnectHandle, INTERNET_OPTION_PROXY_PASSWORD,
+                if (!InternetSetOptionW(hConnectHandle,
+                        INTERNET_OPTION_PROXY_PASSWORD,
                         (void*) password.utf16(),
                         password.length() + 1)) {
                     QString errMsg;
@@ -161,7 +163,8 @@ void Downloader::downloadWin(Job* job, const QUrl& url, QFile* file,
                 WPMUtils::outputTextConsole("Password: ");
                 password = WPMUtils::inputPasswordConsole();
 
-                if (!InternetSetOptionW(hConnectHandle, INTERNET_OPTION_USERNAME,
+                if (!InternetSetOptionW(hConnectHandle,
+                        INTERNET_OPTION_USERNAME,
                         (void*) username.utf16(),
                         username.length() + 1)) {
                     QString errMsg;
@@ -169,7 +172,8 @@ void Downloader::downloadWin(Job* job, const QUrl& url, QFile* file,
                     job->setErrorMessage(errMsg);
                     goto out;
                 }
-                if (!InternetSetOptionW(hConnectHandle, INTERNET_OPTION_PASSWORD,
+                if (!InternetSetOptionW(hConnectHandle,
+                        INTERNET_OPTION_PASSWORD,
                         (void*) password.utf16(),
                         password.length() + 1)) {
                     QString errMsg;
