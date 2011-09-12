@@ -81,5 +81,8 @@ LIBS += ..\\quazip\\quazip\\release\\libquazip.a \
 CONFIG += embed_manifest_exe
 RC_FILE = wpmcpp.rc
 RESOURCES += wpmcpp.qrc
-QMAKE_CXXFLAGS_RELEASE += -g
-QMAKE_LFLAGS_RELEASE -= -Wl,-s
+
+# these 2 options can be used to add the debugging information to the "release"
+# build
+# QMAKE_CXXFLAGS_RELEASE += -g
+# QMAKE_LFLAGS_RELEASE -= -Wl,-s
