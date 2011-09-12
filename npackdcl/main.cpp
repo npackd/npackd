@@ -8,8 +8,11 @@
 #include "..\wpmcpp\repository.h"
 #include "..\wpmcpp\commandline.h"
 #include "..\wpmcpp\wpmutils.h"
+#include "..\wpmcpp\minidumper.h"
 
 #include "app.h"
+
+MiniDumper md("NpackdCL");
 
 int main(int argc, char *argv[])
 {
@@ -18,7 +21,7 @@ int main(int argc, char *argv[])
     // requires 0x0502
     // SetDllDirectory("");
 
-    LoadLibrary(L"exchndl.dll");
+    //*(char*) 0 = 0;
 
     CoInitializeEx(0, COINIT_MULTITHREADED);
 

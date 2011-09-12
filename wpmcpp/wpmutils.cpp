@@ -772,3 +772,4 @@ void WPMUtils::deleteShortcuts(const QString& dir, QDir& d)
         psl->Release();
     }
 }
+

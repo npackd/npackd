@@ -26,6 +26,7 @@ class Build:
                 "-r -spec win32-g++ " +
                 "CONFIG+=release",
                 cwd="wpmcpp", env=e)
+        p.wait()               
         p = subprocess.Popen("\"" + self._qtsdk + 
                 "\\mingw\\bin\\mingw32-make.exe\" ", 
                 cwd="wpmcpp-build-desktop", env=e)
