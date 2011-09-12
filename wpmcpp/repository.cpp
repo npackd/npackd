@@ -49,35 +49,6 @@ QList<PackageVersion*> Repository::getInstalled()
     return ret;
 }
 
-Digraph* Repository::createInstalledGraph()
-{
-    Digraph* installedGraph = new Digraph();
-    Node* user = installedGraph->addNode(0);
-    for (int i = 0; i < this->packageVersions.count(); i++) {
-        PackageVersion* pv = this->packageVersions.at(i);
-        if (pv->installed()) {
-            Node* n = installedGraph->addNode(pv);
-            user->to.append(n);
-        }
-    }
-
-    for (int i = 1; i < installedGraph->nodes.count(); i++) {
-        Node* n = installedGraph->nodes.at(i);
-        PackageVersion* pv = (PackageVersion*) n->userData;
-        for (int j = 0; j < pv->dependencies.count(); j++) {
-            Dependency* d = pv->dependencies.at(j);
-            PackageVersion* pv2 = d->findHighestInstalledMatch();
-            Node* n2 = installedGraph->findNodeByUserData(pv2);
-            if (!n2) {
-                n2 = installedGraph->addNode(pv2);
-            }
-            n->to.append(n2);
-        }
-    }
-
-    return installedGraph;
-}
-
 Repository::~Repository()
 {
     qDeleteAll(this->packages);
