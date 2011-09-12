@@ -12,8 +12,6 @@
 #include "package.h"
 #include "packageversion.h"
 #include "license.h"
-#include "node.h"
-#include "digraph.h"
 #include "windowsregistry.h"
 
 /**
@@ -173,15 +171,6 @@ public:
      *     be freed)
      */
     QList<PackageVersion*> getInstalled();
-
-    /**
-     * @return digraph with installed package versions. Each Node.userData is
-     *     of type PackageVersion* and represents an installed package version.
-     *     The memory should not be freed. The first object in the list has
-     *     the userData==0 and represents the user which "depends" on a list
-     *     of packages (uses some programs).
-     */
-    Digraph* createInstalledGraph();
 
     /**
      * Counts the number of installed packages that can be updated.

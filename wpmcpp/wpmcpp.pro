@@ -17,8 +17,6 @@ SOURCES += main.cpp \
     version.cpp \
     settingsdialog.cpp \
     dependency.cpp \
-    node.cpp \
-    digraph.cpp \
     fileloader.cpp \
     fileloaderitem.cpp \
     installoperation.cpp \
@@ -30,8 +28,7 @@ SOURCES += main.cpp \
     uiutils.cpp \
     commandline.cpp \
     progressframe.cpp \
-    messageframe.cpp \
-    minidumper.cpp
+    messageframe.cpp
 HEADERS += mainwindow.h \
     packageversion.h \
     repository.h \
@@ -45,8 +42,6 @@ HEADERS += mainwindow.h \
     settingsdialog.h \
     dependency.h \
     msi.h \
-    node.h \
-    digraph.h \
     fileloader.h \
     fileloaderitem.h \
     installoperation.h \
@@ -58,8 +53,7 @@ HEADERS += mainwindow.h \
     uiutils.h \
     commandline.h \
     progressframe.h \
-    messageframe.h \
-    minidumper.h
+    messageframe.h
 FORMS += mainwindow.ui \
     progressdialog.ui \
     settingsdialog.ui \

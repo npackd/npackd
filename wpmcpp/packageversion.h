@@ -13,7 +13,6 @@
 #include "packageversionfile.h"
 #include "version.h"
 #include "dependency.h"
-#include "digraph.h"
 #include "installoperation.h"
 #include "detectfile.h"
 
