@@ -8,7 +8,6 @@
 #include <time.h>
 #include "msi.h"
 #include <shellapi.h>
-#include <iostream>
 #include <stdexcept>
 #include <string>
 

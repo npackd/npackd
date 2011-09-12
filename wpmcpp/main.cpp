@@ -14,11 +14,11 @@
 #include "fileloader.h"
 #include "minidumper.h"
 
-MiniDumper md("Npackd");
+// MiniDumper md("Npackd");
 
 int main(int argc, char *argv[])
 {
-    // *((char*) 0) = 0;
+    *((char*) 0) = 0;
 
     /* test
     QString fn("C:\\Program Files (x86)\\wpm\\no.itefix.CWRsyncServer-4.0.4\\Bin\\PrepUploadDir.exe");
