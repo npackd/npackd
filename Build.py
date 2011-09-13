@@ -192,6 +192,58 @@ class Build:
         
         return ret
                 
+    def _build_zip(self):
+        sz = self._npackdcl.path("org.7-zip.SevenZIP", 
+                "[9.20,9.20]") + "\\7z.exe"
+        d = os.getcwd()
+            
+        zip_file = d + "\\Npackd.zip"
+        if os.path.exists(zip_file):
+            os.remove(zip_file)
+        
+        start = "\"" + sz + "\" " + "a " + "\"" + zip_file + "\" "
+        
+        p = subprocess.Popen(start +
+                "CrystalIcons_LICENSE.txt " + 
+                "LICENSE.txt", cwd="wpmcpp")
+        if p.wait() != 0:
+            raise BuildError("ZIP creation failed")
+                
+        p = subprocess.Popen(start + 
+                "libgcc_s_dw2-1.dll " + 
+                "mingwm10.dll", cwd=self._qtsdk + "\\mingw\\bin\\")
+        if p.wait() != 0:
+            raise BuildError("ZIP creation failed")
+
+        p = subprocess.Popen(start + 
+                "QtCore4.dll " + 
+                "QtGui4.dll " + 
+                "QtNetwork4.dll " + 
+                "QtXml4.dll", 
+                cwd=self._qtsdk + "\\Desktop\\Qt\\4.7.3\\mingw\\bin\\")
+        if p.wait() != 0:
+            raise BuildError("ZIP creation failed")
+
+        shutil.copyfile("wpmcpp-build-desktop\\release\\wpmcpp.exe",
+                "npackdg.exe")
+                
+        p = subprocess.Popen(start + 
+                "npackdg.exe")
+        if p.wait() != 0:
+            raise BuildError("ZIP creation failed")
+
+        p = subprocess.Popen(start + 
+                "quazip.dll", 
+                cwd="QuaZIP\\quazip\\release\\")
+        if p.wait() != 0:
+            raise BuildError("ZIP creation failed")
+
+        p = subprocess.Popen(start + 
+                "zlib1.dll", 
+                cwd="zlib\\")
+        if p.wait() != 0:
+            raise BuildError("ZIP creation failed")
+
     def _check_mingw(self):
         ret = True
         
@@ -226,6 +278,7 @@ class Build:
             self._npackdcl.add("net.zlib.ZLibSource", "1.2.5")
             self._npackdcl.add("net.sourceforge.quazip.QuaZIPSource", "0.4.2")
             self._npackdcl.add("com.advancedinstaller.AdvancedInstallerFreeware", "8.4")
+            self._npackdcl.add("org.7-zip.SevenZIP", "9.20")
                 
             if not self._build_zlib():
                 return      
@@ -237,6 +290,7 @@ class Build:
                 return
             if not self._build_msi():
                 return
+            self._build_zip()
         except BuildError as e:
             print('Build failed: ' + e.message)
 
@@ -245,4 +299,3 @@ if len(sys.argv) == 2 and sys.argv[1] == "clean":
     build.clean()
 else: 
     build.build()
-        
