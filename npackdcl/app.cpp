@@ -41,7 +41,7 @@ QString App::testDependsOnItself()
 
     QDomDocument doc;
     int errorLine, errorColumn;
-    QFile f("..\\..\\npackdcl\\TestDependsOnItself.xml");
+    QFile f("npackdcl\\TestDependsOnItself.xml");
     if (!f.open(QIODevice::ReadOnly))
         err = "Cannot open the repository file";
 
@@ -490,7 +490,7 @@ int App::add()
             if (pv->installed()) {
                 std::cerr << "Package is already installed in " <<
                         qPrintable(pv->getPath()) << std::endl;
-                r = 1;
+                r = 0;
                 break;
             }
 
@@ -590,7 +590,7 @@ int App::remove()
 
             if (!pv->installed()) {
                 std::cerr << "Package is not installed" << std::endl;
-                r = 1;
+                r = 0;
                 break;
             }
 
