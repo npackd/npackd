@@ -12,6 +12,11 @@ class BuildError(Exception):
     def __str__(self):
         return repr(self.message)
 
+def rm_existing_tree(path):
+    '''Uses shutil.rmtree, but does not fail if path does not exist'''
+    if os.path.exists(path):
+        shutil.rmtree(path)
+
 def capture_process_output_line(cmd):
     '''Captures the output of a process.'''
     p = subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
@@ -74,9 +79,10 @@ class Build:
     * run dlltool -D C:\Windows\SysWOW64\msi.dll -V -l libmsi.a
     '''
 
+    def __init__(self):
+        self._qtsdk = "C:\\QtSDK-1.1.1"
+        
     def _build_wpmcpp(self):
-        ret = True
-    
         if not os.path.exists("wpmcpp-build-desktop"):
             os.mkdir("wpmcpp-build-desktop")
             
@@ -88,36 +94,25 @@ class Build:
                 "-r -spec win32-g++ " +
                 "CONFIG+=release",
                 cwd="wpmcpp-build-desktop", env=e)
-        ret = p.wait() == 0
+        if p.wait() != 0:
+            raise BuildError("qmake for wpmcpp failed")
             
-        if ret:
-            p = subprocess.Popen("\"" + self._qtsdk + 
-                    "\\mingw\\bin\\mingw32-make.exe\" ", 
-                    cwd="wpmcpp-build-desktop", env=e)
-            ret = p.wait() == 0
-
-        return ret
+        p = subprocess.Popen("\"" + self._qtsdk + 
+                "\\mingw\\bin\\mingw32-make.exe\" ", 
+                cwd="wpmcpp-build-desktop", env=e)
+        if p.wait() != 0:
+            raise BuildError("make for wpmcpp failed")
 
     def _build_msi(self):
-        ret = True
-    
         loc = self._npackdcl.path("com.advancedinstaller.AdvancedInstallerFreeware", "[8.4,9)")
-        if loc.strip() == '':
-            print('Advanced Installer [8.4, 9) was not found')
-            ret = False
-
-        if ret:
-            p = subprocess.Popen(
-                    "\"" + loc + "\\bin\\x86\\AdvancedInstaller.com\" " + 
-                    "/build wpmcpp.aip", 
-                    cwd="wpmcpp")
-            ret = p.wait() == 0
-        
-        return ret
+        p = subprocess.Popen(
+                "\"" + loc + "\\bin\\x86\\AdvancedInstaller.com\" " + 
+                "/build wpmcpp.aip", 
+                cwd="wpmcpp")
+        if p.wait() != 0:
+            raise BuildError("msi creation failed")
 
     def _build_npackdcl(self):
-        ret = True
-    
         if not os.path.exists("npackdcl-build-desktop"):
             os.mkdir("npackdcl-build-desktop")
             
@@ -129,68 +124,52 @@ class Build:
                 "-r -spec win32-g++ " +
                 "CONFIG+=release",
                 cwd="npackdcl-build-desktop", env=e)
-        ret = p.wait() == 0
-            
-        if ret:
-            p = subprocess.Popen("\"" + self._qtsdk + 
-                    "\\mingw\\bin\\mingw32-make.exe\" ", 
-                    cwd="npackdcl-build-desktop", env=e)
-            ret = p.wait() == 0
+        if p.wait() != 0:
+            raise BuildError("qmake for npackdcl failed")
 
-        return ret
+        p = subprocess.Popen("\"" + self._qtsdk + 
+                "\\mingw\\bin\\mingw32-make.exe\" ", 
+                cwd="npackdcl-build-desktop", env=e)
+        if p.wait() != 0:
+            raise BuildError("make for npackdcl failed")
 
     def _build_zlib(self):
-        ret = False
-        
         if not os.path.exists("zlib"):
             p = self._npackdcl.path("net.zlib.ZLibSource", "[1.2.5,1.2.5]")
-            if p.strip() == '':
-                print('zlib 1.2.5 was not found')
-            else:
-                shutil.copytree(p, "zlib")
-                e = dict(os.environ)
-                e["PATH"] = self._qtsdk + "\\mingw\\bin"
-                p = subprocess.Popen("\"" + self._qtsdk + 
-                        "\\mingw\\bin\\mingw32-make.exe\" -f win32\Makefile.gcc", 
-                        cwd="zlib", env=e)
-                ret = p.wait() == 0
-        else:
-            ret = True
-            
-        return ret
+            shutil.copytree(p, "zlib")
+            e = dict(os.environ)
+            e["PATH"] = self._qtsdk + "\\mingw\\bin"
+            p = subprocess.Popen("\"" + self._qtsdk + 
+                    "\\mingw\\bin\\mingw32-make.exe\" -f win32\Makefile.gcc", 
+                    cwd="zlib", env=e)
+            if p.wait() != 0:
+                raise BuildError("make for zlib failed")
 
     def _build_quazip(self):
-        ret = False
-        
         if not os.path.exists("QuaZIP"):
             p = self._npackdcl.path("net.sourceforge.quazip.QuaZIPSource", "[0.4.2,0.4.2]")
-            if p.strip() == '':
-                print('QuaZIPSource 0.4.2 was not found')
-            else:
-                # QuaZIP searches for -lz.dll...
-                shutil.copy("zlib\\libzdll.a", "zlib\\libz.dll.a")
-                
-                shutil.copytree(p, "QuaZIP")
-                e = dict(os.environ)
-                e["PATH"] = self._qtsdk + "\\mingw\\bin"
-                p = subprocess.Popen("\"" + self._qtsdk + 
-                        "\\Desktop\\Qt\\4.7.3\\mingw\\bin\\qmake.exe\" " + 
-                        "CONFIG+=release "
-                        "INCLUDEPATH=" + self._project_path + "\\zlib " + 
-                        "LIBS+=-L" + self._project_path + "\\zlib " + 
-                        "LIBS+=-L" + self._project_path + "\\QuaZIP\\quazip\\release", 
-                        cwd="QuaZIP", env=e)
-                ret = p.wait() == 0
-                
-                if ret:
-                    p = subprocess.Popen("\"" + self._qtsdk + 
-                            "\\mingw\\bin\\mingw32-make.exe\"", 
-                            cwd="QuaZIP", env=e)
-                    ret = p.wait() == 0
-        else:            
-            ret = True
-        
-        return ret
+
+            # QuaZIP searches for -lz.dll...
+            shutil.copy("zlib\\libzdll.a", "zlib\\libz.dll.a")
+            
+            shutil.copytree(p, "QuaZIP")
+            e = dict(os.environ)
+            e["PATH"] = self._qtsdk + "\\mingw\\bin"
+            p = subprocess.Popen("\"" + self._qtsdk + 
+                    "\\Desktop\\Qt\\4.7.3\\mingw\\bin\\qmake.exe\" " + 
+                    "CONFIG+=release "
+                    "INCLUDEPATH=" + self._project_path + "\\zlib " + 
+                    "LIBS+=-L" + self._project_path + "\\zlib " + 
+                    "LIBS+=-L" + self._project_path + "\\QuaZIP\\quazip\\release", 
+                    cwd="QuaZIP", env=e)
+            if p.wait() != 0:
+                raise BuildError("qmake for quazip failed")
+            
+            p = subprocess.Popen("\"" + self._qtsdk + 
+                    "\\mingw\\bin\\mingw32-make.exe\"", 
+                    cwd="QuaZIP", env=e)
+            if p.wait() != 0:
+                raise BuildError("make for quazip failed")
                 
     def _build_zip(self):
         sz = self._npackdcl.path("org.7-zip.SevenZIP", 
@@ -239,37 +218,25 @@ class Build:
             raise BuildError("ZIP creation failed")
 
         p = subprocess.Popen(start + 
-                "zlib1.dll", 
-                cwd="zlib\\")
+                "zlib1.dll", cwd="zlib\\")
         if p.wait() != 0:
             raise BuildError("ZIP creation failed")
 
     def _check_mingw(self):
-        ret = True
-        
-        self._qtsdk = "C:\\QtSDK-1.1.1"
         if not os.path.exists(self._qtsdk + "\\mingw\\bin\\gcc.exe"):
-            print('Qt SDK 1.1.1 not found')
-            ret = False
-        
-        return ret
+            raise BuildError('Qt SDK 1.1.1 not found')
        
     def clean(self):
-        if os.path.exists("zlib"):
-            shutil.rmtree("zlib")
-        if os.path.exists("quazip"):
-            shutil.rmtree("quazip")
-        if os.path.exists("wpmcpp-build-desktop"):
-            shutil.rmtree("wpmcpp-build-desktop")
-        if os.path.exists("npackdcl-build-desktop"):
-            shutil.rmtree("npackdcl-build-desktop")
-        
+        rm_existing_tree("zlib")
+        rm_existing_tree("quazip")
+        rm_existing_tree("wpmcpp-build-desktop")
+        rm_existing_tree("npackdcl-build-desktop")
+
     def build(self):
         try:
             self._project_path = os.path.abspath("")
             
-            if not self._check_mingw():
-                return
+            self._check_mingw()
 
             self._npackdcl = NpackdCLTool()
             if self._npackdcl.location == "":
@@ -280,16 +247,11 @@ class Build:
             self._npackdcl.add("com.advancedinstaller.AdvancedInstallerFreeware", "8.4")
             self._npackdcl.add("org.7-zip.SevenZIP", "9.20")
                 
-            if not self._build_zlib():
-                return      
-            if not self._build_quazip():
-                return
-            if not self._build_wpmcpp():
-                return
-            if not self._build_npackdcl():
-                return
-            if not self._build_msi():
-                return
+            self._build_zlib()            
+            self._build_quazip()            
+            self._build_wpmcpp()            
+            self._build_npackdcl()            
+            self._build_msi()            
             self._build_zip()
         except BuildError as e:
             print('Build failed: ' + e.message)
