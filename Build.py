@@ -1,6 +1,7 @@
 import os
 import subprocess
 import shutil
+import sys
 
 class BuildError(Exception):
     '''A build failed'''
@@ -46,8 +47,7 @@ class NpackdCLTool:
         '''
         prg = "\"" + self.location + "\""
         p = subprocess.Popen(prg + " " + 
-                " add --package=" + package + 
-                " --version=" + version)
+                " add --package=" + package + " --version=" + version)
         err = p.wait()
         
         # NpackdCL returns 1 if a package is already installed
@@ -65,7 +65,10 @@ class NpackdCLTool:
         
 class Build:
     '''* Qt SDK 1.1.1
-    * MinGW does not provide msi.h (Microsoft Installer interface) and the corresponding library. msi.h was taken from the MinGW-W64 project and is committed together with libmsi.a in the Mercurial repository. To re-create the libmsi.a file do the following:
+    * MinGW does not provide msi.h (Microsoft Installer interface) and the 
+    corresponding library. msi.h was taken from the MinGW-W64 project and 
+    is committed together with libmsi.a in the Mercurial repository. 
+    To re-create the libmsi.a file do the following:
     * download mingw-w32-bin_i686-mingw_20100914_sezero.zip
     * run gendef C:\Windows\SysWOW64\msi.dll 
     * run dlltool -D C:\Windows\SysWOW64\msi.dll -V -l libmsi.a
@@ -74,14 +77,17 @@ class Build:
     def _build_wpmcpp(self):
         ret = True
     
+        if not os.path.exists("wpmcpp-build-desktop"):
+            os.mkdir("wpmcpp-build-desktop")
+            
         e = dict(os.environ)
         e["PATH"] = self._qtsdk + "\\mingw\\bin"
         p = subprocess.Popen("\"" + self._qtsdk + 
                 "\\Desktop\\Qt\\4.7.3\\mingw\\bin\\qmake.exe\" " + 
-                "wpmcpp.pro " +
+                "..\\wpmcpp\\wpmcpp.pro " +
                 "-r -spec win32-g++ " +
                 "CONFIG+=release",
-                cwd="wpmcpp", env=e)
+                cwd="wpmcpp-build-desktop", env=e)
         ret = p.wait() == 0
             
         if ret:
@@ -112,14 +118,17 @@ class Build:
     def _build_npackdcl(self):
         ret = True
     
+        if not os.path.exists("npackdcl-build-desktop"):
+            os.mkdir("npackdcl-build-desktop")
+            
         e = dict(os.environ)
         e["PATH"] = self._qtsdk + "\\mingw\\bin"
         p = subprocess.Popen("\"" + self._qtsdk + 
                 "\\Desktop\\Qt\\4.7.3\\mingw\\bin\\qmake.exe\" " + 
-                "npackdcl.pro " +
+                "..\\npackdcl\\npackdcl.pro " +
                 "-r -spec win32-g++ " +
                 "CONFIG+=release",
-                cwd="npackdcl", env=e)
+                cwd="npackdcl-build-desktop", env=e)
         ret = p.wait() == 0
             
         if ret:
@@ -193,13 +202,23 @@ class Build:
         
         return ret
        
+    def clean(self):
+        if os.path.exists("zlib"):
+            shutil.rmtree("zlib")
+        if os.path.exists("quazip"):
+            shutil.rmtree("quazip")
+        if os.path.exists("wpmcpp-build-desktop"):
+            shutil.rmtree("wpmcpp-build-desktop")
+        if os.path.exists("npackdcl-build-desktop"):
+            shutil.rmtree("npackdcl-build-desktop")
+        
     def build(self):
         try:
             self._project_path = os.path.abspath("")
             
             if not self._check_mingw():
                 return
-                
+
             self._npackdcl = NpackdCLTool()
             if self._npackdcl.location == "":
                 raise BuildError("NpackdCL was not found") 
@@ -220,6 +239,10 @@ class Build:
                 return
         except BuildError as e:
             print('Build failed: ' + e.message)
-        
-Build().build()
+
+build = Build()            
+if len(sys.argv) == 2 and sys.argv[1] == "clean": 
+    build.clean()
+else: 
+    build.build()
         
