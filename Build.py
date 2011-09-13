@@ -2,20 +2,22 @@ import os
 import subprocess
 import shutil
 
+class BuildError(Exception):
+    '''A build failed'''
+    
+    def __init__(self, message):
+        self.message = message
+        
+    def __str__(self):
+        return repr(self.message)
+
 class Build:
-    def _build_mingw_utils(self):
-        ret = False
-        if not os.path.exists("mingw-utils"):
-            p = self._capture(self._npackd_cl + ' path --package=org.mingw.MinGWUtilities --versions=[0.3,0.3]')
-            if p.strip() == '':
-                print('mingw-utils 0.3 was not found')
-            else:
-                shutil.copytree(p, "mingw-utils")
-                ret = True
-        else:
-            ret = True
-            
-        return ret
+    '''* Qt SDK 1.1.1
+    * MinGW does not provide msi.h (Microsoft Installer interface) and the corresponding library. msi.h was taken from the MinGW-W64 project and is committed together with libmsi.a in the Mercurial repository. To re-create the libmsi.a file do the following:
+    * download mingw-w32-bin_i686-mingw_20100914_sezero.zip
+    * run gendef C:\Windows\SysWOW64\msi.dll 
+    * run dlltool -D C:\Windows\SysWOW64\msi.dll -V -l libmsi.a
+    '''
 
     def _build_wpmcpp(self):
         ret = True
@@ -158,26 +160,47 @@ class Build:
         p = subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
         output, errors = p.communicate()
         return output.decode("utf-8", "strict").strip()
+
+    def _npackdcl_install(self, package, version):
+        '''Installs a package via NpackdCL
+        
+        package package name like "com.test.Editor"
+        version version number like "1.2.3"
+        '''
+        prg = "\"" + self._npackd_cl + "\""
+        p = subprocess.Popen(prg + " " + 
+                " add --package=" + package + 
+                " --version=" + version)
+        err = p.wait()
+        
+        # NpackdCL returns 1 if a package is already installed
+        #if err != 0:
+        #    raise BuildError("Installation of %s %s via NpackdCL failed. Returned error code: %d" % (package, version, err))
         
     def build(self):
-        self._project_path = os.path.abspath("")
-        
-        if not self._check_mingw():
-            return
-        if not self._find_npackdcl():
-            return      
-        if not self._build_zlib():
-            return      
-        if not self._build_quazip():
-            return
-        if not self._build_mingw_utils():
-            return
-        if not self._build_wpmcpp():
-            return
-        if not self._build_npackdcl():
-            return
-        if not self._build_msi():
-            return
+        try:
+            self._project_path = os.path.abspath("")
+            
+            if not self._check_mingw():
+                return
+            if not self._find_npackdcl():
+                return 
+            
+            self._npackdcl_install("net.zlib.ZLibSource", "1.2.5")
+            self._npackdcl_install("net.sourceforge.quazip.QuaZIPSource", "0.4.2")
+                
+            if not self._build_zlib():
+                return      
+            if not self._build_quazip():
+                return
+            if not self._build_wpmcpp():
+                return
+            if not self._build_npackdcl():
+                return
+            if not self._build_msi():
+                return
+        except BuildError as e:
+            print('Build failed: ' + e.message)
         
 Build().build()
         

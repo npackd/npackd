@@ -62,15 +62,14 @@ FORMS += mainwindow.ui \
     progressframe.ui \
     messageframe.ui
 INCLUDEPATH += ..\\quazip\\quazip ..\\zlib
-MINGWLIBS=C:\\QtSDK-1.1.1\\mingw\\lib
 LIBS += ..\\quazip\\quazip\\release\\libquazip.a \
     ..\\zlib\\libz.a \
-    $$MINGWLIBS\\libole32.a \
-    $$MINGWLIBS\\libuuid.a \
-    $$MINGWLIBS\\libwininet.a \
-    $$MINGWLIBS\\libpsapi.a \
-    $$MINGWLIBS\\libshell32.a \
-    $$MINGWLIBS\\libversion.a \
+    -lole32 \
+    -luuid \
+    -lwininet \
+    -lpsapi \
+    -lshell32 \
+    -lversion \
     ..\\wpmcpp\\libmsi.a
 CONFIG += embed_manifest_exe
 RC_FILE = wpmcpp.rc
