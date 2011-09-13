@@ -223,6 +223,45 @@ class Build:
         rm_existing_tree("wpmcpp-build-desktop")
         rm_existing_tree("npackdcl-build-desktop")
 
+    def test(self):
+        e = dict(os.environ)
+        e["PATH"] = (self._qtsdk + "\\Desktop\\Qt\\4.7.3\\mingw\\bin;" + 
+                "QuaZIP\\quazip\\release;zlib")
+                
+        p = subprocess.Popen("npackdcl-build-desktop\\release\\npackdcl.exe",
+                env=e)
+        err = p.wait()
+        if err != 1:
+            raise BuildError("npackdcl without arguments should return 1, but was %d" % err)
+            
+        p = subprocess.Popen("npackdcl-build-desktop\\release\\npackdcl.exe unit-tests",
+                env=e)
+        err = p.wait()
+        if err != 0:
+            raise BuildError("npackdcl unit tests failed")
+            
+        # add should return 0 for an already installed package
+        p = subprocess.Popen("npackdcl-build-desktop\\release\\npackdcl.exe add -p net.zlib.ZLibSource -v 1.2.5",
+                env=e)
+        p.wait()
+        p = subprocess.Popen("npackdcl-build-desktop\\release\\npackdcl.exe add -p net.zlib.ZLibSource -v 1.2.5",
+                env=e)
+        err = p.wait()
+        if err != 0:
+            raise BuildError("npackdcl should return 0 for an already installed package, but was %d" % err)
+            
+        # remove should return 0 for an already un-installed package
+        p = subprocess.Popen("npackdcl-build-desktop\\release\\npackdcl.exe remove -p net.zlib.ZLibSource -v 1.2.5",
+                env=e)
+        p.wait()
+        p = subprocess.Popen("npackdcl-build-desktop\\release\\npackdcl.exe remove -p net.zlib.ZLibSource -v 1.2.5",
+                env=e)
+        err = p.wait()
+        if err != 0:
+            raise BuildError("npackdcl should return 0 for an already un-installed package, but was %d" % err)
+            
+        print("All tests passed")
+
     def push(self):
         '''Push the changes to the default Mercurial repository'''
         xml.dom.minidom.parse("repository\\Rep.xml")
@@ -254,6 +293,8 @@ try:
         build.clean()
     elif len(sys.argv) == 2 and sys.argv[1] == "push":
         build.push()
+    elif len(sys.argv) == 2 and sys.argv[1] == "test":
+        build.test()
     else:
         build.build()
 except BuildError as e:
