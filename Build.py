@@ -1,7 +1,17 @@
+# * Qt SDK 1.1.1
+# * MinGW does not provide msi.h (Microsoft Installer interface) and the 
+#     corresponding library. msi.h was taken from the MinGW-W64 project and 
+#     is committed together with libmsi.a in the Mercurial repository. 
+#     To re-create the libmsi.a file do the following:
+#     * download mingw-w32-bin_i686-mingw_20100914_sezero.zip
+#     * run gendef C:\Windows\SysWOW64\msi.dll 
+#     * run dlltool -D C:\Windows\SysWOW64\msi.dll -V -l libmsi.a
+
 import os
 import subprocess
 import shutil
 import sys
+import zipfile 
 
 class BuildError(Exception):
     '''A build failed'''
@@ -69,16 +79,6 @@ class NpackdCLTool:
                 " path --package=" + package + " --versions=" + versions)
         
 class Build:
-    '''* Qt SDK 1.1.1
-    * MinGW does not provide msi.h (Microsoft Installer interface) and the 
-    corresponding library. msi.h was taken from the MinGW-W64 project and 
-    is committed together with libmsi.a in the Mercurial repository. 
-    To re-create the libmsi.a file do the following:
-    * download mingw-w32-bin_i686-mingw_20100914_sezero.zip
-    * run gendef C:\Windows\SysWOW64\msi.dll 
-    * run dlltool -D C:\Windows\SysWOW64\msi.dll -V -l libmsi.a
-    '''
-
     def __init__(self):
         self._qtsdk = "C:\\QtSDK-1.1.1"
         
@@ -172,56 +172,34 @@ class Build:
                 raise BuildError("make for quazip failed")
                 
     def _build_zip(self):
-        sz = self._npackdcl.path("org.7-zip.SevenZIP", 
-                "[9.20,9.20]") + "\\7z.exe"
-        d = os.getcwd()
-            
-        zip_file = d + "\\Npackd.zip"
-        if os.path.exists(zip_file):
-            os.remove(zip_file)
+        z = zipfile.ZipFile("Npackd.zip", "w", zipfile.ZIP_DEFLATED)
+        z.write(self._qtsdk + "\\mingw\\bin\\libgcc_s_dw2-1.dll", 
+                "libgcc_s_dw2-1.dll")
+        z.write(self._qtsdk + "\\mingw\\bin\\mingwm10.dll", 
+                "mingwm10.dll")
+        z.write("wpmcpp\\LICENSE.txt", "LICENSE.txt")
+        z.write("wpmcpp\\CrystalIcons_LICENSE.txt", "CrystalIcons_LICENSE.txt")
+        z.write("wpmcpp-build-desktop\\release\\wpmcpp.exe", "npackdg.exe")
+        for f in ["QtCore4.dll", "QtGui4.dll", "QtNetwork4.dll", "QtXml4.dll"]:
+            z.write(self._qtsdk + "\\Desktop\\Qt\\4.7.3\\mingw\\bin\\" + f, f)
+        z.write("QuaZIP\\quazip\\release\\quazip.dll", "quazip.dll")
+        z.write("zlib\\zlib1.dll", "zlib1.dll")
+        z.close()
+
+    def _build_npackdcl_zip(self):
+        z = zipfile.ZipFile("NpackdCL.zip", "w", zipfile.ZIP_DEFLATED)
+        z.write(self._qtsdk + "\\mingw\\bin\\libgcc_s_dw2-1.dll", 
+                "libgcc_s_dw2-1.dll")
+        z.write(self._qtsdk + "\\mingw\\bin\\mingwm10.dll", 
+                "mingwm10.dll")
+        z.write("wpmcpp\\LICENSE.txt", "LICENSE.txt")
+        z.write("npackdcl-build-desktop\\release\\npackdcl.exe", "npackdcl.exe")
+        for f in ["QtCore4.dll", "QtNetwork4.dll", "QtXml4.dll"]:
+            z.write(self._qtsdk + "\\Desktop\\Qt\\4.7.3\\mingw\\bin\\" + f, f)
+        z.write("QuaZIP\\quazip\\release\\quazip.dll", "quazip.dll")
+        z.write("zlib\\zlib1.dll", "zlib1.dll")
+        z.close()
         
-        start = "\"" + sz + "\" " + "a " + "\"" + zip_file + "\" "
-        
-        p = subprocess.Popen(start +
-                "CrystalIcons_LICENSE.txt " + 
-                "LICENSE.txt", cwd="wpmcpp")
-        if p.wait() != 0:
-            raise BuildError("ZIP creation failed")
-                
-        p = subprocess.Popen(start + 
-                "libgcc_s_dw2-1.dll " + 
-                "mingwm10.dll", cwd=self._qtsdk + "\\mingw\\bin\\")
-        if p.wait() != 0:
-            raise BuildError("ZIP creation failed")
-
-        p = subprocess.Popen(start + 
-                "QtCore4.dll " + 
-                "QtGui4.dll " + 
-                "QtNetwork4.dll " + 
-                "QtXml4.dll", 
-                cwd=self._qtsdk + "\\Desktop\\Qt\\4.7.3\\mingw\\bin\\")
-        if p.wait() != 0:
-            raise BuildError("ZIP creation failed")
-
-        shutil.copyfile("wpmcpp-build-desktop\\release\\wpmcpp.exe",
-                "npackdg.exe")
-                
-        p = subprocess.Popen(start + 
-                "npackdg.exe")
-        if p.wait() != 0:
-            raise BuildError("ZIP creation failed")
-
-        p = subprocess.Popen(start + 
-                "quazip.dll", 
-                cwd="QuaZIP\\quazip\\release\\")
-        if p.wait() != 0:
-            raise BuildError("ZIP creation failed")
-
-        p = subprocess.Popen(start + 
-                "zlib1.dll", cwd="zlib\\")
-        if p.wait() != 0:
-            raise BuildError("ZIP creation failed")
-
     def _check_mingw(self):
         if not os.path.exists(self._qtsdk + "\\mingw\\bin\\gcc.exe"):
             raise BuildError('Qt SDK 1.1.1 not found')
@@ -235,17 +213,16 @@ class Build:
     def build(self):
         try:
             self._project_path = os.path.abspath("")
-            
+
             self._check_mingw()
 
             self._npackdcl = NpackdCLTool()
             if self._npackdcl.location == "":
                 raise BuildError("NpackdCL was not found") 
-            
+
             self._npackdcl.add("net.zlib.ZLibSource", "1.2.5")
             self._npackdcl.add("net.sourceforge.quazip.QuaZIPSource", "0.4.2")
             self._npackdcl.add("com.advancedinstaller.AdvancedInstallerFreeware", "8.4")
-            self._npackdcl.add("org.7-zip.SevenZIP", "9.20")
                 
             self._build_zlib()            
             self._build_quazip()            
@@ -253,6 +230,7 @@ class Build:
             self._build_npackdcl()            
             self._build_msi()            
             self._build_zip()
+            self._build_npackdcl_zip()
         except BuildError as e:
             print('Build failed: ' + e.message)
 
