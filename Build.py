@@ -11,6 +11,58 @@ class BuildError(Exception):
     def __str__(self):
         return repr(self.message)
 
+def capture_process_output_line(cmd):
+    '''Captures the output of a process.'''
+    p = subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+    output, errors = p.communicate()
+    return output.decode("utf-8", "strict").strip()
+    
+def needs_update(source, dest):
+    '''Returns True if the dest file have to be re-created'''
+    res = True
+    if os.path.exists(source):
+        res = not os.path.exists(dest) or (
+                os.path.getmtime(source) >= os.path.getmtime(dest))
+    else:
+        res = not os.path.exists(dest)
+    return res
+
+class NpackdCLTool:
+    '''NpackdCL'''
+    
+    def __init__(self):
+        p = os.environ['NPACKD_CL']
+        cl = p + '\\npackdcl.exe'
+        if p.strip() == '' or not os.path.exists(cl):
+            self.location = ""
+        else:
+            self.location = cl
+        
+    def add(self, package, version):
+        '''Installs a package
+        
+        package package name like "com.test.Editor"
+        version version number like "1.2.3"
+        '''
+        prg = "\"" + self.location + "\""
+        p = subprocess.Popen(prg + " " + 
+                " add --package=" + package + 
+                " --version=" + version)
+        err = p.wait()
+        
+        # NpackdCL returns 1 if a package is already installed
+        #if err != 0:
+        #    raise BuildError("Installation of %s %s via NpackdCL failed. Returned error code: %d" % (package, version, err))
+
+    def path(self, package, versions):
+        '''Finds an installed package
+        
+        package package name like "com.test.Editor"
+        versions version range like "[2, 3.1)"
+        '''
+        return capture_process_output_line("\"" + self.location + "\" " +
+                " path --package=" + package + " --versions=" + versions)
+        
 class Build:
     '''* Qt SDK 1.1.1
     * MinGW does not provide msi.h (Microsoft Installer interface) and the corresponding library. msi.h was taken from the MinGW-W64 project and is committed together with libmsi.a in the Mercurial repository. To re-create the libmsi.a file do the following:
@@ -43,7 +95,7 @@ class Build:
     def _build_msi(self):
         ret = True
     
-        loc = self._capture(self._npackd_cl + ' path --package=com.advancedinstaller.AdvancedInstallerFreeware --versions=[8.4,9)')
+        loc = self._npackdcl.path("com.advancedinstaller.AdvancedInstallerFreeware", "[8.4,9)")
         if loc.strip() == '':
             print('Advanced Installer [8.4, 9) was not found')
             ret = False
@@ -82,7 +134,7 @@ class Build:
         ret = False
         
         if not os.path.exists("zlib"):
-            p = self._capture(self._npackd_cl + ' path --package=net.zlib.ZLibSource --versions=[1.2.5,1.2.5]')
+            p = self._npackdcl.path("net.zlib.ZLibSource", "[1.2.5,1.2.5]")
             if p.strip() == '':
                 print('zlib 1.2.5 was not found')
             else:
@@ -102,7 +154,7 @@ class Build:
         ret = False
         
         if not os.path.exists("QuaZIP"):
-            p = self._capture(self._npackd_cl + ' path --package=net.sourceforge.quazip.QuaZIPSource --versions=[0.4.2,0.4.2]')
+            p = self._npackdcl.path("net.sourceforge.quazip.QuaZIPSource", "[0.4.2,0.4.2]")
             if p.strip() == '':
                 print('QuaZIPSource 0.4.2 was not found')
             else:
@@ -131,19 +183,6 @@ class Build:
         
         return ret
                 
-    def _find_npackdcl(self):
-        ret = True
-    
-        p = os.environ['NPACKD_CL']
-        cl = p + '\\npackdcl.exe'
-        if p.strip() == '' or not os.path.exists(cl):
-            print('NPACKD_CL does not point to a valid NpackdCL installation path')
-            ret = False
-        else:
-            self._npackd_cl = cl
-            
-        return ret
-
     def _check_mingw(self):
         ret = True
         
@@ -154,40 +193,20 @@ class Build:
         
         return ret
        
-    def _capture(self, cmd):
-        '''Captures the output of a process.
-        '''
-        p = subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
-        output, errors = p.communicate()
-        return output.decode("utf-8", "strict").strip()
-
-    def _npackdcl_install(self, package, version):
-        '''Installs a package via NpackdCL
-        
-        package package name like "com.test.Editor"
-        version version number like "1.2.3"
-        '''
-        prg = "\"" + self._npackd_cl + "\""
-        p = subprocess.Popen(prg + " " + 
-                " add --package=" + package + 
-                " --version=" + version)
-        err = p.wait()
-        
-        # NpackdCL returns 1 if a package is already installed
-        #if err != 0:
-        #    raise BuildError("Installation of %s %s via NpackdCL failed. Returned error code: %d" % (package, version, err))
-        
     def build(self):
         try:
             self._project_path = os.path.abspath("")
             
             if not self._check_mingw():
                 return
-            if not self._find_npackdcl():
-                return 
+                
+            self._npackdcl = NpackdCLTool()
+            if self._npackdcl.location == "":
+                raise BuildError("NpackdCL was not found") 
             
-            self._npackdcl_install("net.zlib.ZLibSource", "1.2.5")
-            self._npackdcl_install("net.sourceforge.quazip.QuaZIPSource", "0.4.2")
+            self._npackdcl.add("net.zlib.ZLibSource", "1.2.5")
+            self._npackdcl.add("net.sourceforge.quazip.QuaZIPSource", "0.4.2")
+            self._npackdcl.add("com.advancedinstaller.AdvancedInstallerFreeware", "8.4")
                 
             if not self._build_zlib():
                 return      
