@@ -22,13 +22,13 @@ void App::jobChanged(const JobState& s)
             if (txt.length() < w)
                 txt = txt + QString().fill(' ', w - txt.length());
             txt += QString("%1%").arg(floor(s.progress * 100 + 0.5), 4);
-            std::cout << qPrintable(txt);
+            WPMUtils::outputTextConsole(txt);
         }
     } else {
         QString filled;
         filled.fill(' ', progressPos.dwSize.X - 1);
         SetConsoleCursorPosition(hOutputHandle, progressPos.dwCursorPosition);
-        std::cout << qPrintable(filled);
+        WPMUtils::outputTextConsole(filled);
         SetConsoleCursorPosition(hOutputHandle, progressPos.dwCursorPosition);
     }
 }
@@ -88,14 +88,14 @@ QString App::testDependsOnItself()
 
 int App::unitTests()
 {
-    std::cout << "Starting internal tests" << std::endl;
+    WPMUtils::outputTextConsole("Starting internal tests\n");
 
-    std::cout << "testDependsOnItself" << std::endl;
+    WPMUtils::outputTextConsole("testDependsOnItself\n");
     QString err = testDependsOnItself();
     if (err.isEmpty())
-        std::cout << "Internal tests were successful" << std::endl;
+        WPMUtils::outputTextConsole("Internal tests were successful\n");
     else
-        std::cout << "Internal tests failed: " << qPrintable(err) << std::endl;
+        WPMUtils::outputTextConsole("Internal tests failed: " + err + "\n");
 
     return 0;
 }
@@ -113,7 +113,7 @@ int App::process(int argc, char *argv[])
 
     QString err = cl.parse(argc, argv);
     if (!err.isEmpty()) {
-        std::cout << "Error: " << qPrintable(err) << std::endl;
+        WPMUtils::outputTextConsole("Error: " + err + "\n");
         return 1;
     }
     // cl.dump();
@@ -184,7 +184,7 @@ Job* App::createJob()
     HANDLE hOutputHandle = GetStdHandle(STD_OUTPUT_HANDLE);
     GetConsoleScreenBufferInfo(hOutputHandle, &progressPos);
     if (progressPos.dwCursorPosition.Y >= progressPos.dwSize.Y - 1) {
-        std::cout << std::endl;
+        WPMUtils::outputTextConsole("\n");
         progressPos.dwCursorPosition.Y--;
     }
 
@@ -232,7 +232,7 @@ void App::usage()
         "Usage: npackdcl info"*/
     };
     for (int i = 0; i < (int) (sizeof(lines) / sizeof(lines[0])); i++) {
-        std::cout << lines[i] << std::endl;
+        WPMUtils::outputTextConsole(QString(lines[i]) + "\n");
     }
 }
 
@@ -270,8 +270,8 @@ int App::addRepo()
             }
         }
         if (found >= 0) {
-            std::cout << "This repository is already registered: " <<
-                         qPrintable(url) << std::endl;
+            WPMUtils::outputTextConsole(
+                    "This repository is already registered: " + url + "\n");
         } else {
             urls.append(url_);
             url_ = 0;
@@ -303,8 +303,9 @@ int App::list()
         for (int i = 0; i < rep->packageVersions.count(); i++) {
             PackageVersion* pv = rep->packageVersions.at(i);
             if (pv->installed()) {
-                std::cout << qPrintable(pv->toString()) << std::endl;
-                std::cout << "    Path: " << qPrintable(pv->getPath()) << std::endl;
+                WPMUtils::outputTextConsole(pv->toString() + "\n");
+                WPMUtils::outputTextConsole("    Path: " + pv->getPath() + "\n");
+                WPMUtils::outputTextConsole("    Internal name: "  + pv->package + "\n");
             }
         }
     }
@@ -346,8 +347,8 @@ int App::removeRepo()
             }
         }
         if (found < 0) {
-            std::cout << "The repository was not in the list: " <<
-                         qPrintable(url) << std::endl;
+            WPMUtils::outputTextConsole("The repository was not in the list: " +
+                    url + "\n");
         } else {
             delete urls.takeAt(found);
             rep->setRepositoryURLs(urls);
@@ -412,7 +413,7 @@ int App::path()
             if (pv) {
                 QString p = pv->getPath();
                 p.replace('/', '\\');
-                std::cout << qPrintable(p) << std::endl;
+                WPMUtils::outputTextConsole(p + "\n");
             }
         }
     }

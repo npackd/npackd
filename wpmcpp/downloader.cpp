@@ -73,6 +73,7 @@ void Downloader::downloadWin(Job* job, const QUrl& url, QFile* file,
 
     // qDebug() << "download.4";
 
+    // flags: http://msdn.microsoft.com/en-us/library/aa383661(v=vs.85).aspx
     HINTERNET hResourceHandle = HttpOpenRequestW(hConnectHandle, L"GET",
             (WCHAR*) resource.utf16(),
             0, 0, 0,
