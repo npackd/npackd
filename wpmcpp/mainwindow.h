@@ -16,6 +16,7 @@
 #include "job.h"
 #include "progressdialog.h"
 #include "fileloader.h"
+#include "taskbar.h"
 
 namespace Ui {
     class MainWindow;
@@ -49,6 +50,9 @@ private:
     FileLoader fileLoader;
     QFrame* progressContent;
     QWidget* jobsTab;
+
+    UINT taskbarMessageId;
+    ITaskbarList3* taskbarInterface;
 
     void addJobsTab();
     void showDetails();
@@ -139,7 +143,7 @@ public:
      */
     void addTextTab(const QString& title, const QString& text);
 
-    bool winEvent(MSG* message, long* result);
+    virtual bool winEvent(MSG* message, long* result);
 
     /**
      * Prepares the UI after the constructor was called.

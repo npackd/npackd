@@ -53,7 +53,8 @@ HEADERS += mainwindow.h \
     uiutils.h \
     commandline.h \
     progressframe.h \
-    messageframe.h
+    messageframe.h \
+    taskbar.h
 FORMS += mainwindow.ui \
     progressdialog.ui \
     settingsdialog.ui \
