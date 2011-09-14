@@ -306,22 +306,6 @@ void ScanHardDrivesThread::run()
 
 bool MainWindow::winEvent(MSG* message, long* result)
 {    
-    if (this->taskbarMessageId == 0) {
-        this->taskbarMessageId = RegisterWindowMessage(L"TaskbarButtonCreated");
-        // qDebug() << "id " << taskbarMessageId;
-
-        // Npackd runs elevated and the taskbar not. We have to allow the
-        // taskbar event here.
-        HINSTANCE hInstLib = LoadLibraryA("USER32.DLL");
-        BOOL WINAPI (*lpfChangeWindowMessageFilterEx)
-                (HWND, UINT, DWORD, void*) =
-                (BOOL (WINAPI*) (HWND, UINT, DWORD, void*))
-                GetProcAddress(hInstLib, "ChangeWindowMessageFilterEx");
-        if (lpfChangeWindowMessageFilterEx)
-            lpfChangeWindowMessageFilterEx(winId(), taskbarMessageId, 1, 0);
-        FreeLibrary(hInstLib);
-    }
-
     if (message->message == taskbarMessageId) {
         HRESULT hr = CoCreateInstance(CLSID_TaskbarList, NULL,
                 CLSCTX_INPROC_SERVER, IID_ITaskbarList3,
@@ -502,6 +486,20 @@ MainWindow::MainWindow(QWidget *parent) :
             Qt::QueuedConnection);
 
     defaultPasswordWindow = this->winId();
+
+    this->taskbarMessageId = RegisterWindowMessage(L"TaskbarButtonCreated");
+    // qDebug() << "id " << taskbarMessageId;
+
+    // Npackd runs elevated and the taskbar does not. We have to allow the
+    // taskbar event here.
+    HINSTANCE hInstLib = LoadLibraryA("USER32.DLL");
+    BOOL WINAPI (*lpfChangeWindowMessageFilterEx)
+            (HWND, UINT, DWORD, void*) =
+            (BOOL (WINAPI*) (HWND, UINT, DWORD, void*))
+            GetProcAddress(hInstLib, "ChangeWindowMessageFilterEx");
+    if (lpfChangeWindowMessageFilterEx)
+        lpfChangeWindowMessageFilterEx(winId(), taskbarMessageId, 1, 0);
+    FreeLibrary(hInstLib);
 }
 
 void MainWindow::repositoryStatusChanged(PackageVersion* pv)
