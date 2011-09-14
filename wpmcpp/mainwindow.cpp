@@ -22,6 +22,7 @@
 #include <qscrollarea.h>
 #include <QPushButton>
 #include <QCloseEvent>
+#include <math.h>
 
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
@@ -305,20 +306,34 @@ void ScanHardDrivesThread::run()
 
 bool MainWindow::winEvent(MSG* message, long* result)
 {    
-    if (message->message == WM_ICONTRAY) {
-        // qDebug() << "MainWindow::winEvent " << message->lParam;
-        switch (message->lParam) {
-            case (LPARAM) NIN_BALLOONUSERCLICK:
-                this->ui->comboBoxStatus->setCurrentIndex(3);
-                this->prepare();
-                ((QApplication*) QApplication::instance())->
-                        setQuitOnLastWindowClosed(true);
-                this->showMaximized();
-                this->activateWindow();
-                break;
-            case (LPARAM) NIN_BALLOONTIMEOUT:
-                ((QApplication*) QApplication::instance())->quit();
-                break;
+    if (this->taskbarMessageId == 0) {
+        this->taskbarMessageId = RegisterWindowMessage(L"TaskbarButtonCreated");
+        // qDebug() << "id " << taskbarMessageId;
+
+        // Npackd runs elevated and the taskbar not. We have to allow the
+        // taskbar event here.
+        HINSTANCE hInstLib = LoadLibraryA("USER32.DLL");
+        BOOL WINAPI (*lpfChangeWindowMessageFilterEx)
+                (HWND, UINT, DWORD, void*) =
+                (BOOL (WINAPI*) (HWND, UINT, DWORD, void*))
+                GetProcAddress(hInstLib, "ChangeWindowMessageFilterEx");
+        if (lpfChangeWindowMessageFilterEx)
+            lpfChangeWindowMessageFilterEx(winId(), taskbarMessageId, 1, 0);
+        FreeLibrary(hInstLib);
+    }
+
+    if (message->message == taskbarMessageId) {
+        HRESULT hr = CoCreateInstance(CLSID_TaskbarList, NULL,
+                CLSCTX_INPROC_SERVER, IID_ITaskbarList3,
+                reinterpret_cast<void**> (&(taskbarInterface)));
+
+        if (SUCCEEDED(hr)) {
+            hr = taskbarInterface->HrInit();
+
+            if (FAILED(hr)) {
+                taskbarInterface->Release();
+                taskbarInterface = 0;
+            }
         }
         return true;
     }
@@ -417,9 +432,12 @@ MainWindow::MainWindow(QWidget *parent) :
 
     ui->setupUi(this);
 
+    this->taskbarMessageId = 0;
+
     this->monitoredJobLastChanged = 0;
     this->progressContent = 0;
     this->jobsTab = 0;
+    this->taskbarInterface = 0;
 
     setWindowTitle("Npackd");
 
@@ -539,14 +557,17 @@ void MainWindow::updateProgressTabTitle()
     this->runningJobsMutex.lock();
     int n = this->runningJobStates.count();
     time_t max = 0;
+    double maxProgress = 0;
     for (int i = 0; i < n; i++) {
         JobState state = this->runningJobStates.at(i);
 
         // state.job may be null if the corresponding task was just started
         if (state.job) {
             time_t t = state.remainingTime();
-            if (t > max)
+            if (t > max) {
                 max = t;
+                maxProgress = state.progress;
+            }
         }
     }
     QTime rest = WPMUtils::durationToTime(max);
@@ -563,6 +584,16 @@ void MainWindow::updateProgressTabTitle()
 
     int index = this->ui->tabWidget->indexOf(this->jobsTab);
     this->ui->tabWidget->setTabText(index, title);
+
+    if (this->taskbarInterface) {
+        if (n == 0)
+            taskbarInterface->SetProgressState(winId(), TBPF_NOPROGRESS);
+        else {
+            taskbarInterface->SetProgressState(winId(), TBPF_NORMAL);
+            taskbarInterface->SetProgressValue(winId(),
+                    lround(maxProgress * 10000), 10000);
+        }
+    }
 }
 
 MainWindow::~MainWindow()

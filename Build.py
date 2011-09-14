@@ -1,4 +1,5 @@
-# * Qt SDK 1.1.1
+# * Qt SDK 1.1.1 must be installed in C:\QtSDK-1.1.1
+# * NpackdCL 1.15.8 or later must be installed
 # * MinGW does not provide msi.h (Microsoft Installer interface) and the
 #     corresponding library. msi.h was taken from the MinGW-W64 project and
 #     is committed together with libmsi.a in the Mercurial repository.
