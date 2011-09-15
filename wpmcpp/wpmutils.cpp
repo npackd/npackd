@@ -631,8 +631,9 @@ void WPMUtils::outputTextConsole(const QString& txt, bool err)
             // by the console
             WriteConsoleW(hStdout, txt.utf16(), txt.length(), &written, 0);
         } else {
-            // we always write UTF-16 to the output file
-            WriteFile(hStdout, txt.utf16(), txt.length() * 2, &written, NULL);
+            // we always write UTF-8 to the output file
+            QByteArray arr = txt.toUtf8();
+            WriteFile(hStdout, arr.constData(), arr.length(), &written, NULL);
         }
     }
 }
