@@ -1,6 +1,3 @@
-#include <iostream>
-#include <iomanip>
-
 #include <qdebug.h>
 #include <qstringlist.h>
 #include <qstring.h>

@@ -165,8 +165,9 @@ public:
      * Output text to the console.
      *
      * @param txt the text
+     * @param err true = stdout, false = stderr
      */
-    static void outputTextConsole(const QString& txt);
+    static void outputTextConsole(const QString& txt, bool err=true);
 
     /**
      * @param diff duration

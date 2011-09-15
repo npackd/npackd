@@ -1,8 +1,6 @@
 #ifndef APP_H
 #define APP_H
 
-#include <iostream>
-#include <iomanip>
 #include <time.h>
 
 #include <QtCore/QCoreApplication>

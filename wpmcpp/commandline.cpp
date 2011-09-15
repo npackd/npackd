@@ -79,12 +79,12 @@ QString CommandLine::processOneParam(QStringList* params)
         }
     }
 
-    // std::cout << qPrintable(name) << " --> " << qPrintable(value) <<
-    //        " : " << qPrintable(err) << nameFound << valueFound << std::endl;
+    // WPMUtils::outputTextConsole << name) << " --> " << value) <<
+    //        " : " << err) << nameFound << valueFound << std::endl;
 
     if (err.isEmpty()) {
         if (nameFound) {
-            // std::cout << "Searching: " << qPrintable(name) << std::endl;
+            // WPMUtils::outputTextConsole << "Searching: " << name) << std::endl;
             Option* opt = findOption(name);
             if (!opt) {
                 err = QString("Unknown option: %1").arg(name);
@@ -151,7 +151,7 @@ QString CommandLine::parse(int argc, char *argv[])
     QStringList params;
     for (int i = 1; i < argc; i++) {
         params.append(QString(argv[i]));
-        // std::cout << "Param: " << qPrintable(params.at(params.count() - 1)) << std::endl;
+        // WPMUtils::outputTextConsole << "Param: " << params.at(params.count() - 1)) << std::endl;
     }
 
     while (params.count() > 0) {
