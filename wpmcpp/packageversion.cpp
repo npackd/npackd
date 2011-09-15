@@ -618,7 +618,7 @@ QString PackageVersion::downloadAndComputeSHA1(Job* job)
     return r;
 }
 
-QString PackageVersion::getPackageTitle()
+QString PackageVersion::getPackageTitle() const
 {
     Repository* rep = Repository::getDefault();
 

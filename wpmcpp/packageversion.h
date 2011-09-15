@@ -222,7 +222,7 @@ public:
     /**
      * @return package title
      */
-    QString getPackageTitle();
+    QString getPackageTitle() const;
 
     /**
      * @return only the last part of the package name (without a dot)

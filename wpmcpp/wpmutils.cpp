@@ -614,9 +614,9 @@ QString WPMUtils::makeValidFilename(const QString &name, QChar rep)
     return r;
 }
 
-void WPMUtils::outputTextConsole(const QString& txt, bool err)
+void WPMUtils::outputTextConsole(const QString& txt, bool stdout_)
 {
-    HANDLE hStdout = GetStdHandle(err ? STD_OUTPUT_HANDLE : STD_ERROR_HANDLE);
+    HANDLE hStdout = GetStdHandle(stdout_ ? STD_OUTPUT_HANDLE : STD_ERROR_HANDLE);
     if (hStdout != INVALID_HANDLE_VALUE) {
         DWORD consoleMode;
         bool consoleOutput = (GetFileType(hStdout) & ~(FILE_TYPE_REMOTE)) ==
@@ -636,6 +636,21 @@ void WPMUtils::outputTextConsole(const QString& txt, bool err)
             WriteFile(hStdout, arr.constData(), arr.length(), &written, NULL);
         }
     }
+}
+
+bool WPMUtils::isOutputRedirected(bool stdout_)
+{
+    bool r = false;
+    HANDLE hStdout = GetStdHandle(stdout_ ? STD_OUTPUT_HANDLE : STD_ERROR_HANDLE);
+    if (hStdout != INVALID_HANDLE_VALUE) {
+        DWORD consoleMode;
+        r = !((GetFileType(hStdout) & ~(FILE_TYPE_REMOTE)) ==
+                FILE_TYPE_CHAR &&
+                (GetLastError() == 0) &&
+                GetConsoleMode(hStdout, &consoleMode) &&
+                (GetLastError() == 0));
+    }
+    return r;
 }
 
 QTime WPMUtils::durationToTime(time_t diff)
