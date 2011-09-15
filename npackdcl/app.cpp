@@ -12,24 +12,31 @@ void App::jobChanged(const JobState& s)
     time_t now = time(0);
     if (!s.completed) {
         if (now - this->lastJobChange != 0) {
-            int w = progressPos.dwSize.X - 6;
+            this->lastJobChange = now;
+            if (!WPMUtils::isOutputRedirected(true)) {
+                int w = progressPos.dwSize.X - 6;
 
-            SetConsoleCursorPosition(hOutputHandle,
-                    progressPos.dwCursorPosition);
-            QString txt = s.hint;
-            if (txt.length() >= w)
-                txt = "..." + txt.right(w - 3);
-            if (txt.length() < w)
-                txt = txt + QString().fill(' ', w - txt.length());
-            txt += QString("%1%").arg(floor(s.progress * 100 + 0.5), 4);
-            WPMUtils::outputTextConsole(txt);
+                SetConsoleCursorPosition(hOutputHandle,
+                        progressPos.dwCursorPosition);
+                QString txt = s.hint;
+                if (txt.length() >= w)
+                    txt = "..." + txt.right(w - 3);
+                if (txt.length() < w)
+                    txt = txt + QString().fill(' ', w - txt.length());
+                txt += QString("%1%").arg(floor(s.progress * 100 + 0.5), 4);
+                WPMUtils::outputTextConsole(txt);
+            } else {
+                WPMUtils::outputTextConsole(s.hint + "\n");
+            }
         }
     } else {
-        QString filled;
-        filled.fill(' ', progressPos.dwSize.X - 1);
-        SetConsoleCursorPosition(hOutputHandle, progressPos.dwCursorPosition);
-        WPMUtils::outputTextConsole(filled);
-        SetConsoleCursorPosition(hOutputHandle, progressPos.dwCursorPosition);
+        if (!WPMUtils::isOutputRedirected(true)) {
+            QString filled;
+            filled.fill(' ', progressPos.dwSize.X - 1);
+            SetConsoleCursorPosition(hOutputHandle, progressPos.dwCursorPosition);
+            WPMUtils::outputTextConsole(filled);
+            SetConsoleCursorPosition(hOutputHandle, progressPos.dwCursorPosition);
+        }
     }
 }
 
@@ -211,7 +218,7 @@ void App::usage()
         "    npackdcl remove --package=<package> --version=<version>",
         "        removes a package",
         "    npackdcl list",
-        "        lists all installed packages",
+        "        lists all installed packages sorted by package name and version",
         "    npackdcl path --package=<package> [--versions=<versions>]",
         "        searches for an installed package and prints its location",
         "    npackdcl add-repo --url=<repository>",
@@ -226,11 +233,8 @@ void App::usage()
         "",
         "You can use short package names in 'add' and 'remove' operations.",
         "Example: App instead of com.example.App",
-        "The process exits with the code unequal to 0 if an error occcures."
-        /*
-        "Usage: npackdcl list"
-        "or" << std::endl;
-        "Usage: npackdcl info"*/
+        "The process exits with the code unequal to 0 if an error occcures.",
+        "If the output is redirected, the texts will be encoded as UTF-8.",
     };
     for (int i = 0; i < (int) (sizeof(lines) / sizeof(lines[0])); i++) {
         WPMUtils::outputTextConsole(QString(lines[i]) + "\n");
@@ -286,6 +290,17 @@ int App::addRepo()
     return r;
 }
 
+bool packageVersionLessThan(const PackageVersion* pv1, const PackageVersion* pv2)
+{
+    if (pv1->package == pv2->package)
+        return pv1->version.compare(pv2->version) < 0;
+    else {
+        QString pt1 = pv1->getPackageTitle();
+        QString pt2 = pv2->getPackageTitle();
+        return pt1.toLower() < pt2.toLower();
+    }
+}
+
 int App::list()
 {
     int r = 0;
@@ -301,13 +316,22 @@ int App::list()
 
     if (r == 0) {
         Repository* rep = Repository::getDefault();
+        QList<PackageVersion*> installed;
         for (int i = 0; i < rep->packageVersions.count(); i++) {
             PackageVersion* pv = rep->packageVersions.at(i);
             if (pv->installed()) {
-                WPMUtils::outputTextConsole(pv->toString() + "\n");
-                WPMUtils::outputTextConsole("    Path: " + pv->getPath() + "\n");
-                WPMUtils::outputTextConsole("    Internal name: "  + pv->package + "\n");
+                installed.append(pv);
             }
+        }
+        qSort(installed.begin(), installed.end(), packageVersionLessThan);
+
+        WPMUtils::outputTextConsole(QString("%1 packages are installed:\n").
+                arg(installed.count()));
+        for (int i = 0; i < installed.count(); i++) {
+            PackageVersion* pv = installed.at(i);
+            WPMUtils::outputTextConsole(pv->toString() + "\n");
+            WPMUtils::outputTextConsole("    Path: " + pv->getPath() + "\n");
+            WPMUtils::outputTextConsole("    Internal name: "  + pv->package + "\n");
         }
     }
 

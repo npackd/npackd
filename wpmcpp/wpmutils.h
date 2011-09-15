@@ -165,9 +165,17 @@ public:
      * Output text to the console.
      *
      * @param txt the text
-     * @param err true = stdout, false = stderr
+     * @param stdout_ true = stdout, false = stderr
      */
-    static void outputTextConsole(const QString& txt, bool err=true);
+    static void outputTextConsole(const QString& txt, bool stdout_=true);
+
+    /**
+     * Is the output redirected?
+     *
+     * @return true if the output is redirected (e.g. into a file)
+     * @param stdout_ true = stdout, false = stderr
+     */
+    static bool isOutputRedirected(bool stdout_);
 
     /**
      * @param diff duration
