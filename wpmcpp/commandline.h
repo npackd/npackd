@@ -55,6 +55,18 @@ public:
             bool multiple);
 
     /**
+     * Print the option description
+     *
+     * Example:
+     *    -p, --package   package name",
+     *    -r, --versions  version range (e.g. [1.1,1.2) )",
+     *    -v, --version   version (e.g. 1.2.47)",
+     *    -u, --url       repository URL (e.g. https://www.example.com/Rep.xml)",
+     *    -s, --status    filters package versions by status",
+     */
+    void printOptions() const;
+
+    /**
      * Parses program arguments
      *
      * @param argc number of arguments

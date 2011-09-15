@@ -1,6 +1,7 @@
 #include "qdebug.h"
 
 #include "commandline.h"
+#include "wpmutils.h"
 
 bool CommandLine::Option::nameMathes(const QString& name)
 {
@@ -142,6 +143,36 @@ void CommandLine::add(QString name, char name2, QString description,
     opt->valueDescription = valueDescription;
     opt->multiple = multiple;
     this->options.append(opt);
+}
+
+void CommandLine::printOptions() const
+{
+    QStringList names;
+    int len = 0;
+    for (int i = 0; i < this->options.count(); i++) {
+        Option* opt = this->options.at(i);
+        QString s("    ");
+        if (opt->name2 != 0) {
+            s.append("-").append(opt->name2).append(", ");
+        } else {
+            s.append("    ");
+        }
+        if (!opt->name.isEmpty()) {
+            s.append("--").append(opt->name);
+        }
+        names.append(s);
+        if (s.length() > len)
+            len = s.length();
+    }
+
+    for (int i = 0; i < this->options.count(); i++) {
+        Option* opt = this->options.at(i);
+        QString s = names.at(i);
+        s += QString().fill(' ', len + 4 - s.length());
+        s.append(opt->description);
+        s.append("\n");
+        WPMUtils::outputTextConsole(s);
+    }
 }
 
 QString CommandLine::parse(int argc, char *argv[])
