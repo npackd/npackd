@@ -685,8 +685,8 @@ bool PackageVersion::createShortcuts(const QString& dir, QString *errMsg)
                 (WCHAR*) workingDir.utf16());
 
         if (!SUCCEEDED(r)) {
-            qDebug() << qPrintable("shortcut creation failed" +
-                    path + " " + from + " " + desc + " " + workingDir) << r;
+            qDebug() << "shortcut creation failed" +
+                    path + " " + from + " " + desc + " " + workingDir << r;
             return false;
         }
     }

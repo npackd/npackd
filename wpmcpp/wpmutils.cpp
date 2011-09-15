@@ -8,7 +8,6 @@
 #include <time.h>
 #include "msi.h"
 #include <shellapi.h>
-#include <stdexcept>
 #include <string>
 
 #include "qdebug.h"
@@ -615,12 +614,26 @@ QString WPMUtils::makeValidFilename(const QString &name, QChar rep)
     return r;
 }
 
-void WPMUtils::outputTextConsole(const QString& txt)
+void WPMUtils::outputTextConsole(const QString& txt, bool err)
 {
-    HANDLE hStdout = GetStdHandle(STD_OUTPUT_HANDLE);
+    HANDLE hStdout = GetStdHandle(err ? STD_OUTPUT_HANDLE : STD_ERROR_HANDLE);
     if (hStdout != INVALID_HANDLE_VALUE) {
+        DWORD consoleMode;
+        bool consoleOutput = (GetFileType(hStdout) & ~(FILE_TYPE_REMOTE)) ==
+                FILE_TYPE_CHAR &&
+                (GetLastError() == 0) &&
+                GetConsoleMode(hStdout, &consoleMode) &&
+                (GetLastError() == 0);
+
         DWORD written;
-        WriteConsoleW(hStdout, txt.utf16(), txt.length(), &written, 0);
+        if (consoleOutput) {
+            // WriteConsole automatically converts UTF-16 to the code page used
+            // by the console
+            WriteConsoleW(hStdout, txt.utf16(), txt.length(), &written, 0);
+        } else {
+            // we always write UTF-16 to the output file
+            WriteFile(hStdout, txt.utf16(), txt.length() * 2, &written, NULL);
+        }
     }
 }
 
