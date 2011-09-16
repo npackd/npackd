@@ -10,13 +10,6 @@
 
 int main(int argc, char *argv[])
 {
-    // removes the current directory from the default DLL search order. This
-    // helps against viruses.
-    // requires 0x0502
-    // SetDllDirectory("");
-
-    //*(char*) 0 = 0;
-
     CoInitializeEx(0, COINIT_MULTITHREADED);
 
     qRegisterMetaType<JobState>("JobState");
