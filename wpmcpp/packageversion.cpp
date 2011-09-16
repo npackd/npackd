@@ -1065,6 +1065,7 @@ QString PackageVersion::saveFiles(const QDir& d)
             QFile file(fullPath);
             if (file.open(QIODevice::WriteOnly | QIODevice::Truncate)) {
                 QTextStream stream(&file);
+                stream.setCodec("UTF-8");
                 stream << f->content;
                 file.close();
             } else {
