@@ -15,18 +15,6 @@
 
 int main(int argc, char *argv[])
 {
-    /* test
-    QString fn("C:\\Program Files (x86)\\wpm\\no.itefix.CWRsyncServer-4.0.4\\Bin\\PrepUploadDir.exe");
-    QString p("C:\\Program Files (x86)\\WPM\\no.itefix.CWRsyncServer-4.0.4");
-    qDebug() << WPMUtils::isUnder(fn, p);
-    */
-
-
-    // removes the current directory from the default DLL search order. This
-    // helps against viruses.
-    // requires 0x0502
-    // SetDllDirectory("");
-
     QApplication a(argc, argv);
 
     qRegisterMetaType<JobState>("JobState");

@@ -184,7 +184,7 @@ void Downloader::downloadWin(Job* job, const QUrl& url, QFile* file,
                 }
             } else {
                 break;
-                /* TODO: job->setErrorMessage(QString(
+                /* job->setErrorMessage(QString(
                         "Cannot handle HTTP status code %1").arg(dwStatus));
                 break;
                 */
