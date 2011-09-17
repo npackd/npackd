@@ -14,9 +14,7 @@ CONFIG   -= app_bundle
 
 TEMPLATE = app
 
-LIBS += ..\\quazip\\quazip\\release\\libquazip.a \
-    ..\\zlib\\libz.a \
-    -lole32 -luuid -lwininet -lpsapi -lversion \
+LIBS += -lole32 -luuid -lwininet -lpsapi -lversion \
     ..\\wpmcpp\\libmsi.a
 
 SOURCES += main.cpp \
