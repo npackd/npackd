@@ -107,7 +107,7 @@ int App::unitTests()
     return 0;
 }
 
-int App::process(int argc, char *argv[])
+int App::process()
 {
     cl.add("package", 'p',
             "internal package name (e.g. com.example.Editor or just Editor)",
@@ -121,7 +121,7 @@ int App::process(int argc, char *argv[])
     cl.add("status", 's', "filters package versions by status",
             "status", false);
 
-    QString err = cl.parse(argc, argv);
+    QString err = cl.parse();
     if (!err.isEmpty()) {
         WPMUtils::outputTextConsole("Error: " + err + "\n");
         return 1;

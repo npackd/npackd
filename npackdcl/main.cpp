@@ -16,6 +16,6 @@ int main(int argc, char *argv[])
 
     App app;
 
-    return app.process(argc, argv);
+    return app.process();
 }
 

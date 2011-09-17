@@ -175,7 +175,7 @@ void CommandLine::printOptions() const
     }
 }
 
-QString CommandLine::parse(int argc, char *argv[])
+QString CommandLine::parse()
 {
     QString err;
     QStringList params;
