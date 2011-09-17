@@ -136,6 +136,27 @@ class Build:
         if p.wait() != 0:
             raise BuildError("make for npackdcl failed")
 
+    def _build_clu(self):
+        if not os.path.exists("clu-build-desktop"):
+            os.mkdir("clu-build-desktop")
+
+        e = dict(os.environ)
+        e["PATH"] = self._qtsdk + "\\mingw\\bin"
+        p = subprocess.Popen("\"" + self._qtsdk +
+                "\\Desktop\\Qt\\4.7.3\\mingw\\bin\\qmake.exe\" " +
+                "..\\clu\\clu.pro " +
+                "-r -spec win32-g++ " +
+                "CONFIG+=release",
+                cwd="clu-build-desktop", env=e)
+        if p.wait() != 0:
+            raise BuildError("qmake for clu failed")
+
+        p = subprocess.Popen("\"" + self._qtsdk +
+                "\\mingw\\bin\\mingw32-make.exe\" ",
+                cwd="clu-build-desktop", env=e)
+        if p.wait() != 0:
+            raise BuildError("make for clu failed")
+
     def _build_zlib(self):
         if not os.path.exists("zlib"):
             p = self._npackdcl.path("net.zlib.ZLibSource", "[1.2.5,1.2.5]")
@@ -203,6 +224,18 @@ class Build:
         z.write("zlib\\zlib1.dll", "zlib1.dll")
         z.close()
 
+    def _build_clu_zip(self):
+        z = zipfile.ZipFile("CLU.zip", "w", zipfile.ZIP_DEFLATED)
+        z.write(self._qtsdk + "\\mingw\\bin\\libgcc_s_dw2-1.dll",
+                "libgcc_s_dw2-1.dll")
+        z.write(self._qtsdk + "\\mingw\\bin\\mingwm10.dll",
+                "mingwm10.dll")
+        z.write("wpmcpp\\LICENSE.txt", "LICENSE.txt")
+        z.write("clu-build-desktop\\release\\clu.exe", "clu.exe")
+        for f in ["QtCore4.dll"]:
+            z.write(self._qtsdk + "\\Desktop\\Qt\\4.7.3\\mingw\\bin\\" + f, f)
+        z.close()
+
     def _check_mingw(self):
         if not os.path.exists(self._qtsdk + "\\mingw\\bin\\gcc.exe"):
             raise BuildError('Qt SDK 1.1.1 not found')
@@ -223,6 +256,7 @@ class Build:
         rm_existing_tree("quazip")
         rm_existing_tree("wpmcpp-build-desktop")
         rm_existing_tree("npackdcl-build-desktop")
+        rm_existing_tree("clu-build-desktop")
 
     def test(self):
         e = dict(os.environ)
@@ -281,11 +315,15 @@ class Build:
 
         self._build_zlib()
         self._build_quazip()
+
         self._build_wpmcpp()
         self._build_npackdcl()
+        self._build_clu()
+
         self._build_msi()
         self._build_zip()
         self._build_npackdcl_zip()
+        self._build_clu_zip()
 
 build = Build()
 try:
