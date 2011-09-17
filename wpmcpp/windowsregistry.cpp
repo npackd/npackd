@@ -56,16 +56,25 @@ QString WindowsRegistry::get(QString name, QString* err) const
     }
 
     QString value_;
-    char value[255];
-    DWORD valueSize = sizeof(value);
+    DWORD valueSize;
     LONG r = RegQueryValueEx(this->hkey,
-                (WCHAR*) name.utf16(), 0, 0, (BYTE*) value,
+                (WCHAR*) name.utf16(), 0, 0, 0,
                 &valueSize);
-    if (r == ERROR_SUCCESS) {
-        value_.setUtf16((ushort*) value, valueSize / 2 - 1);
-    } else {
+    if (r != ERROR_SUCCESS) {
         WPMUtils::formatMessage(r, err);
+    } else {
+        char* value = new char[valueSize];
+        r = RegQueryValueEx(this->hkey,
+                    (WCHAR*) name.utf16(), 0, 0, (BYTE*) value,
+                    &valueSize);
+        if (r != ERROR_SUCCESS) {
+            WPMUtils::formatMessage(r, err);
+        } else {
+            value_.setUtf16((ushort*) value, valueSize / 2 - 1);
+        }
+        delete[] value;
     }
+
     return value_;
 }
 
