@@ -178,17 +178,25 @@ void CommandLine::printOptions() const
 QString CommandLine::parse(int argc, char *argv[])
 {
     QString err;
-
     QStringList params;
-    for (int i = 1; i < argc; i++) {
-        params.append(QString(argv[i]));
-        // WPMUtils::outputTextConsole << "Param: " << params.at(params.count() - 1)) << std::endl;
-    }
 
-    while (params.count() > 0) {
-        err = processOneParam(&params);
-        if (!err.isEmpty())
-            break;
+    int nArgs;
+    LPWSTR* szArglist = CommandLineToArgvW(GetCommandLineW(), &nArgs);
+    if (NULL == szArglist) {
+        err = "CommandLineToArgvW failed";
+    } else {
+        for(int i = 1; i < nArgs; i++) {
+            QString s;
+            s.setUtf16((ushort*) szArglist[i], wcslen(szArglist[i]));
+            params.append(s);
+        }
+        LocalFree(szArglist);
+
+        while (params.count() > 0) {
+            err = processOneParam(&params);
+            if (!err.isEmpty())
+                break;
+        }
     }
 
     return err;
