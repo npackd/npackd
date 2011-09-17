@@ -44,9 +44,15 @@
         Packages in alphabetical order (including the reversed domain name prefix).
     -->
     <package name="com.nokia.QtMinGWInstaller">
-        <title>Qt for MinGW</title>
+        <title>Qt for MinGW installer</title>
         <url>http://qt.nokia.com/products/library</url>
-        <description>Qt (source code)</description>
+        <description>C++ library (source code)</description>
+        <license>org.gnu.GPLv3</license>
+    </package>
+    <package name="com.nokia.QtSource">
+        <title>Qt</title>
+        <url>http://qt.nokia.com/products/library</url>
+        <description>C++ library (source code)</description>
         <license>org.gnu.GPLv3</license>
     </package>
     <package name="org.boost.Boost">
@@ -64,7 +70,7 @@
     <package name="net.zlib.ZLibSource">
         <title>zlib</title>
         <url>http://zlib.net</url>
-        <description>compression library (source code)</description>
+        <description>compression library in C (source code)</description>
         <license>net.zlib.ZLibLicense</license>
     </package>
  
@@ -74,6 +80,33 @@
         of a package should stay together. Newer versions should appear under
         older ones.
     -->
+    <version name="4.7.3" package="com.nokia.QtSource">
+        <file path=".WPM\Install.bat">for /f "delims=" %%x in ('dir /b qt*') do set name=%%x
+cd "%name%"        
+for /f "delims=" %%a in ('dir /b') do (
+  move "%%a" ..
+)
+cd ..
+rmdir "%name%"
+</file>
+        <url>http://download.qt.nokia.com/qt/source/qt-everywhere-opensource-src-4.7.3.zip</url>
+        <sha1>c3236efc694feb962ae8b48d7d10daeb0af244a7</sha1>
+        <dependency package="net.sourceforge.mingw-w64.MinGWW64" versions="[1, 1.1)"/>
+    </version>
+    <version name="4.7.4" package="com.nokia.QtSource">
+        <file path=".WPM\Install.bat">for /f "delims=" %%x in ('dir /b qt*') do set name=%%x
+cd "%name%"        
+for /f "delims=" %%a in ('dir /b') do (
+  move "%%a" ..
+)
+cd ..
+rmdir "%name%"
+</file>
+        <url>http://download.qt.nokia.com/qt/source/qt-everywhere-opensource-src-4.7.4.zip</url>
+        <sha1>bb4aa9e164208237cef2777ff4bc7a1b0d13c76e</sha1>
+        <dependency package="net.sourceforge.mingw-w64.MinGWW64" versions="[1, 1.1)"/>
+    </version>
+    
     <version name="4.7.3" package="com.nokia.QtMinGWInstaller" type="one-file">
         <file path=".WPM\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x
 ren "%setup%" qt-win-opensource-mingw.exe
