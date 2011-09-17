@@ -8,13 +8,13 @@ App::App()
 {
 }
 
-int App::process(int argc, char *argv[])
+int App::process()
 {
     cl.add("path", 'p',
             "directory path (e.g. C:\\Program Files (x86)\\MyProgram)",
             "path", false);
 
-    QString err = cl.parse(argc, argv);
+    QString err = cl.parse();
     if (!err.isEmpty()) {
         WPMUtils::outputTextConsole("Error: " + err + "\n");
         return 1;

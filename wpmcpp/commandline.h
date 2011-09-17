@@ -69,11 +69,9 @@ public:
     /**
      * Parses program arguments
      *
-     * @param argc number of arguments
-     * @param argv arguments
      * @return error message or ""
      */
-    QString parse(int argc, char *argv[]);
+    QString parse();
 
     /**
      * @param name name of the option

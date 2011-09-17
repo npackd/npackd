@@ -17,11 +17,9 @@ public:
     /**
      * Process the command line.
      *
-     * @param argc number of arguments
-     * @param argv arguments
      * @return exit code
      */
-    int process(int argc, char *argv[]);
+    int process();
 };
 
 #endif // APP_H
