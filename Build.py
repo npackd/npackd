@@ -195,6 +195,19 @@ class Build:
             if p.wait() != 0:
                 raise BuildError("make for quazip failed")
 
+    def _build_qt(self):
+        if not os.path.exists("Qt"):
+            p = self._npackdcl.path("com.nokia.QtSource", "[4.7.3,4.7.3]")
+
+            shutil.copytree(p, "Qt")
+            e = dict(os.environ)
+            e["PATH"] = (self._qtsdk + "\\mingw\\bin;" + 
+                    self._qtsdk + "Desktop\\Qt\\4.7.3\\mingw\\bin")
+            p = subprocess.Popen("configure.exe -debug-and-release -platform win32-g++ -opensource -static < yes.txt",
+                    cwd="Qt", env=e)
+            if p.wait() != 0:
+                raise BuildError("configure for Qt failed")
+
     def _build_zip(self):
         z = zipfile.ZipFile("Npackd.zip", "w", zipfile.ZIP_DEFLATED)
         z.write(self._qtsdk + "\\mingw\\bin\\libgcc_s_dw2-1.dll",
@@ -250,6 +263,7 @@ class Build:
         self._npackdcl.add("net.sourceforge.quazip.QuaZIPSource", "0.4.2")
         self._npackdcl.add("com.advancedinstaller.AdvancedInstallerFreeware", "8.4")
         self._npackdcl.add("com.selenic.mercurial.Mercurial64", "1.9.2")
+        self._npackdcl.add("com.nokia.QtSource", "4.7.3")
 
     def clean(self):
         rm_existing_tree("zlib")
@@ -315,6 +329,7 @@ class Build:
 
         self._build_zlib()
         self._build_quazip()
+        #self._build_qt()
 
         self._build_wpmcpp()
         self._build_npackdcl()
