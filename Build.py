@@ -24,10 +24,15 @@ class BuildError(Exception):
     def __str__(self):
         return repr(self.message)
 
-def rm_existing_tree(path):
+def rmtree_safe(path):
     '''Uses shutil.rmtree, but does not fail if path does not exist'''
     if os.path.exists(path):
         shutil.rmtree(path)
+
+def remove_safe(path):
+    '''Uses os.remove, but does not fail if path does not exist'''
+    if os.path.exists(path):
+        os.remove(path)
 
 def capture_process_output_line(cmd):
     '''Captures the output of a process.'''
@@ -177,6 +182,7 @@ class Build:
             shutil.copy("zlib\\libzdll.a", "zlib\\libz.dll.a")
 
             shutil.copytree(p, "QuaZIP")
+
             e = dict(os.environ)
             e["PATH"] = self._qtsdk + "\\mingw\\bin"
             p = subprocess.Popen("\"" + self._qtsdk +
@@ -200,13 +206,29 @@ class Build:
             p = self._npackdcl.path("com.nokia.QtSource", "[4.7.3,4.7.3]")
 
             shutil.copytree(p, "Qt")
+            
+        if not os.path.exists("Qt\\bin\\A.exe"):
+            f = open('Qt\\yes.txt', 'w')
+            f.write('yes')
+            f.close()
+        
             e = dict(os.environ)
             e["PATH"] = (self._qtsdk + "\\mingw\\bin;" + 
                     self._qtsdk + "Desktop\\Qt\\4.7.3\\mingw\\bin")
-            p = subprocess.Popen("configure.exe -debug-and-release -platform win32-g++ -opensource -static < yes.txt",
+                    
+            f = open('Qt\\yes.txt', 'r')
+            p = subprocess.Popen("Qt\\configure.exe -debug-and-release -platform win32-g++ -opensource -static -no-opengl",
+                    stdin=f,
                     cwd="Qt", env=e)
+            f.close()
             if p.wait() != 0:
                 raise BuildError("configure for Qt failed")
+
+            p = subprocess.Popen("\"" + self._qtsdk +
+                    "\\mingw\\bin\\mingw32-make.exe\"",
+                    cwd="Qt", env=e)
+            if p.wait() != 0:
+                raise BuildError("make for Qt failed")
 
     def _build_zip(self):
         z = zipfile.ZipFile("Npackd.zip", "w", zipfile.ZIP_DEFLATED)
@@ -263,14 +285,19 @@ class Build:
         self._npackdcl.add("net.sourceforge.quazip.QuaZIPSource", "0.4.2")
         self._npackdcl.add("com.advancedinstaller.AdvancedInstallerFreeware", "8.4")
         self._npackdcl.add("com.selenic.mercurial.Mercurial64", "1.9.2")
-        self._npackdcl.add("com.nokia.QtSource", "4.7.3")
+        # self._npackdcl.add("com.nokia.QtSource", "4.7.3")
 
     def clean(self):
-        rm_existing_tree("zlib")
-        rm_existing_tree("quazip")
-        rm_existing_tree("wpmcpp-build-desktop")
-        rm_existing_tree("npackdcl-build-desktop")
-        rm_existing_tree("clu-build-desktop")
+        rmtree_safe("zlib")
+        rmtree_safe("quazip")
+        rmtree_safe("wpmcpp-build-desktop")
+        rmtree_safe("npackdcl-build-desktop")
+        rmtree_safe("clu-build-desktop")
+        # rmtree_safe("Qt")
+        remove_safe("CLU.zip")
+        remove_safe("Npackd.zip")
+        remove_safe("NpackdCL.zip")
+        remove_safe("npackdg.exe")
 
     def test(self):
         e = dict(os.environ)
@@ -340,6 +367,13 @@ class Build:
         self._build_npackdcl_zip()
         self._build_clu_zip()
 
+    def help(self):
+        print("Build.py help to show this help")
+        print("Build.py build to build everything")
+        print("Build.py clean to clean generated files")
+        print("Build.py test to run internal Npackd tests")
+        print("Build.py push to push the changes to the Npackd Mercurial repository")
+
 build = Build()
 try:
     build.install_deps()
@@ -349,7 +383,9 @@ try:
         build.push()
     elif len(sys.argv) == 2 and sys.argv[1] == "test":
         build.test()
-    else:
+    elif len(sys.argv) == 2 and sys.argv[1] == "build":
         build.build()
+    else:
+        build.help()
 except BuildError as e:
     print('Build failed: ' + e.message)
