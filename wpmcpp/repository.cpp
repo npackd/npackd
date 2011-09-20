@@ -848,9 +848,7 @@ void Repository::updateNpackdCLEnvVar()
 
     if (v != cur) {
         if (WPMUtils::setSystemEnvVar("NPACKD_CL", v).isEmpty())
-            SendMessageTimeout(HWND_BROADCAST, WM_SETTINGCHANGE, 0,
-                    (LPARAM) L"Environment",
-                    0, 1000, 0);
+            WPMUtils::fireEnvChanged();
     }
 }
 

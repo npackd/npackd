@@ -268,6 +268,12 @@ public:
      * @return first non-empty line from text
      */
     static QString getFirstLine(const QString& text);
+
+    /**
+     * Notifies other Windows applications that an environment entry like "PATH"
+     * was changed.
+     */
+    static void fireEnvChanged();
 };
 
 #endif // WPMUTILS_H

@@ -124,9 +124,7 @@ int App::addPath()
                         r = 1;
                         WPMUtils::outputTextConsole(err + "\n", false);
                     } else {
-                        SendMessageTimeout(HWND_BROADCAST, WM_SETTINGCHANGE, 0,
-                                (LPARAM) L"Environment",
-                                0, 1000, 0);
+                        WPMUtils::fireEnvChanged();
                     }
                 } else {
                     r = 1;
@@ -136,7 +134,7 @@ int App::addPath()
             }
         } else {
             r = 1;
-            WPMUtils::outputTextConsole(err + "ddd\n", false);
+            WPMUtils::outputTextConsole(err + "\n", false);
         }
     }
 
@@ -192,9 +190,7 @@ int App::removePath()
                         r = 1;
                         WPMUtils::outputTextConsole(err + "\n", false);
                     } else {
-                        SendMessageTimeout(HWND_BROADCAST, WM_SETTINGCHANGE, 0,
-                                (LPARAM) L"Environment",
-                                0, 1000, 0);
+                        WPMUtils::fireEnvChanged();
                     }
                 } else {
                     r = 1;
