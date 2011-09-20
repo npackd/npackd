@@ -209,6 +209,13 @@ QString WPMUtils::getFirstLine(const QString& text)
         return "";
 }
 
+void WPMUtils::fireEnvChanged()
+{
+    SendMessageTimeout(HWND_BROADCAST, WM_SETTINGCHANGE, 0,
+            (LPARAM) L"Environment",
+            SMTO_ABORTIFHUNG, 5000, 0);
+}
+
 QString WPMUtils::getSystemEnvVar(const QString& name, QString* err)
 {
     err->clear();
