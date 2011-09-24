@@ -24,10 +24,12 @@ private:
     static Repository def;
 
     static Package* createPackage(QDomElement* e);
-    static PackageVersionFile* createPackageVersionFile(QDomElement* e);
+    static PackageVersionFile* createPackageVersionFile(QDomElement* e,
+            QString* err);
     static Dependency* createDependency(QDomElement* e);
     static License* createLicense(QDomElement* e);
-    static PackageVersion* createPackageVersion(QDomElement* e);
+    static PackageVersion* createPackageVersion(QDomElement* e,
+            QString* err);
     static DetectFile* createDetectFile(QDomElement* e);
 
     void loadOne(QUrl* url, Job* job);
