@@ -1445,6 +1445,12 @@ Package issues:
         <description>DjVu viewer and tools</description>
         <license>org.gnu.GPLv2</license>
     </package>
+    <package name="net.sourceforge.gnuwin32.Grep">
+        <title>Grep</title>
+        <url>http://gnuwin32.sourceforge.net/packages/grep.htm</url>
+        <description>print lines matching a pattern</description>
+        <license>org.gnu.GPLv3</license>
+    </package>
     <package name="net.sourceforge.gnuwin32.Wget">
         <title>Wget</title>
         <url>http://gnuwin32.sourceforge.net/packages/wget.htm</url>
@@ -2994,25 +3000,27 @@ for /f %%x in ('dir /b *.exe') do set setup=%%x
 if %errorlevel% neq 0 goto eof
 
 if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
-set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.pathed.PathEd" "--versions=[0.8, 0.8]"
-for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set pathed=%%x
-"%pathed%\pathed" -s -a "%CD%\miktex\bin"
+set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.CLU" "--versions=[1, 1]"
+for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set clu=%%x
+"%clu%\clu" remove-path --path "%CD%\miktex\bin"
+"%clu%\clu" add-path --path "%CD%\miktex\bin"
 verify
 </file>
-        <file path=".WPM\Unnstall.bat">miktex\bin\internal\copystart_admin.exe "%CD%\miktex/bin/internal\uninstall_admin.exe"
+        <file path=".WPM\Uninstall.bat">miktex\bin\internal\copystart_admin.exe "%CD%\miktex\bin\internal\uninstall_admin.exe"
 if %errorlevel% neq 0 goto eof
 
 if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
-set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.pathed.PathEd" "--versions=[0.8, 0.8]"
-for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set pathed=%%x
-"%pathed%\pathed" -s -r "%CD%\miktex\bin"
+set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.CLU" "--versions=[1, 1]"
+for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set clu=%%x
+"%clu%\clu" remove-path --path "%CD%\miktex\bin"
+"%clu%\clu" remove-path --path "%CD%\miktex\bin"
 verify
 </file>
         <url>http://sunsite.informatik.rwth-aachen.de/ftp/pub/mirror/ctan/systems/win32/miktex/setup/basic-miktex-2.9.4250.exe</url>
         <sha1>07f57dd8c386d4eb6a9425ccb9d5f23f53583090</sha1>
         <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.15.7, 2)"/>
         <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1, 1]"/>
-        <dependency package="com.googlecode.pathed.PathEd" versions="[0.8, 0.8]"/>
+        <dependency package="com.googlecode.windows-package-manager.CLU" versions="[1, 1]"/>
     </version>
 
     <version name="1.0.11" package="com.freesshd.FreeFTPD" type="one-file">
@@ -12774,7 +12782,7 @@ for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set pathed=%%x
 "%pathed%\pathed" -s -a "%CD%\bin"
 verify
 </file>
-        <file path=".WPM\Unnstall.bat">if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
+        <file path=".WPM\Uninstall.bat">if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
 set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.pathed.PathEd" "--versions=[0.8, 0.8]"
 for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set pathed=%%x
 "%pathed%\pathed" -s -r "%CD%\bin"
@@ -12807,7 +12815,7 @@ for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set pathed=%%x
 "%pathed%\pathed" -s -a "%CD%\bin"
 verify
 </file>
-        <file path=".WPM\Unnstall.bat">if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
+        <file path=".WPM\Uninstall.bat">if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
 set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.pathed.PathEd" "--versions=[0.8, 0.8]"
 for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set pathed=%%x
 "%pathed%\pathed" -s -r "%CD%\bin"
@@ -12819,5 +12827,37 @@ verify
         <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.15.7, 2)"/>
         <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1, 1]"/>
         <dependency package="com.googlecode.pathed.PathEd" versions="[0.8, 0.8]"/>
+    </version>
+
+    <version name="2.5.4" package="net.sourceforge.gnuwin32.Grep" 
+            type="one-file">
+        <file path=".WPM\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x
+"%setup%" /SP- /VERYSILENT /SUPPRESSMSGBOXES /NOCANCEL /NORESTART /DIR="%CD%" /SAVEINF="%CD%\.WPM\InnoSetupInfo.ini" /LOG="%CD%\.WPM\InnoSetupInstall.log"
+set err=%errorlevel%
+type .WPM\InnoSetupInstall.log
+if %err% neq 0 exit %err%
+
+if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
+set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.CLU" "--versions=[1, 1]"
+for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set clu=%%x
+"%clu%\clu" add-path --path "%CD%\bin"
+verify
+</file>
+        <file path=".WPM\Uninstall.bat">uninstall\unins000.exe /VERYSILENT /SUPPRESSMSGBOXES /NORESTART /LOG="%CD%\.WPM\InnoSetupUninstall.log"
+set err=%errorlevel%
+type .WPM\InnoSetupUninstall.log
+if %err% neq 0 exit %err%
+
+if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
+set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.CLU" "--versions=[1, 1]"
+for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set clu=%%x
+"%clu%\clu" remove-path --path "%CD%\bin"
+verify
+</file>
+        <url>http://downloads.sourceforge.net/project/gnuwin32/grep/2.5.4/grep-2.5.4-setup.exe?ts=1316876150</url>
+        <sha1>c63e566c1786e5c9db8a0ce82adb9e30cf8230ec</sha1>
+        <dependency package="com.googlecode.windows-package-manager.CLU" versions="[1, 1]"/>
+        <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.15.7, 2)"/>
+        <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1, 1]"/>
     </version>
  </root>
