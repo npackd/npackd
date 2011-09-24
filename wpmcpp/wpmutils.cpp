@@ -186,10 +186,29 @@ QString WPMUtils::getShellDir(int type)
     return QString::fromUtf16(reinterpret_cast<ushort*>(dir));
 }
 
+QString WPMUtils::validateSHA1(const QString& sha1)
+{
+    if (sha1.length() != 40) {
+        return QString("Wrong length: %1").arg(sha1);
+    } else {
+        for (int i = 0; i < sha1.length(); i++) {
+            QChar c = sha1.at(i);
+            if (!((c >= '0' && c <= '9') ||
+                (c >= 'a' && c <= 'f') ||
+                (c >= 'A' && c <= 'F'))) {
+                return QString("Wrong character at position %1 in %2").
+                        arg(i + 1).arg(sha1);
+            }
+        }
+    }
+
+    return "";
+}
+
 QString WPMUtils::getTagContent(const QDomElement& parent, const QString& name)
 {
     QDomNodeList nl = parent.elementsByTagName(name);
-    if (nl.count() == 1) {
+    if (nl.count() >= 1) {
         QDomNode child = nl.at(0);
         QDomNodeList cnl = child.childNodes();
         if (cnl.count() == 1 && cnl.at(0).nodeType() == QDomNode::TextNode) {
