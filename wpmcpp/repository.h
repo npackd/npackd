@@ -30,7 +30,7 @@ private:
     static License* createLicense(QDomElement* e);
     static PackageVersion* createPackageVersion(QDomElement* e,
             QString* err);
-    static DetectFile* createDetectFile(QDomElement* e);
+    static DetectFile* createDetectFile(QDomElement* e, QString* err);
 
     void loadOne(QUrl* url, Job* job);
 

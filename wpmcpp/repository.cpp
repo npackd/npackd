@@ -77,19 +77,31 @@ PackageVersion* Repository::findNewestInstalledPackageVersion(
     return r;
 }
 
-DetectFile* Repository::createDetectFile(QDomElement* e)
+DetectFile* Repository::createDetectFile(QDomElement* e, QString* err)
 {
-    DetectFile* a = new DetectFile();
-    QDomNodeList nl = e->elementsByTagName("path");
-    if (nl.count() != 0) {
-        a->path = nl.at(0).firstChild().nodeValue().trimmed();
-        a->path.replace('/', '\\');
-    }
-    nl = e->elementsByTagName("sha1");
-    if (nl.count() != 0)
-        a->sha1 = nl.at(0).firstChild().nodeValue().trimmed().toLower();
+    *err = "";
 
-    return a;
+    DetectFile* a = new DetectFile();
+    a->path = WPMUtils::getTagContent(*e, "path").trimmed();
+    a->path.replace('/', '\\');
+    if (a->path.isEmpty()) {
+        err->append("Empty tag <path> under <detect-file>");
+    }
+
+    if (err->isEmpty()) {
+        a->sha1 = WPMUtils::getTagContent(*e, "sha1").trimmed().toLower();
+        *err = WPMUtils::validateSHA1(a->sha1);
+        if (!err->isEmpty()) {
+            err->prepend("Wrong SHA1 in <detect-file>: ");
+        }
+    }
+
+    if (err->isEmpty())
+        return a;
+    else {
+        delete a;
+        return 0;
+    }
 }
 
 PackageVersion* Repository::createPackageVersion(QDomElement* e, QString* err)
@@ -128,24 +140,12 @@ PackageVersion* Repository::createPackageVersion(QDomElement* e, QString* err)
     }
 
     if (err->isEmpty()) {
-        a->sha1 = WPMUtils::getTagContent(*e, "sha1").trimmed();
+        a->sha1 = WPMUtils::getTagContent(*e, "sha1").trimmed().toLower();
         if (!a->sha1.isEmpty()) {
-            if (a->sha1.length() != 40) {
-                err->append(QString("Wrong SHA1 for %1: %3").
-                        arg(a->toString()).
-                        arg(a->sha1));
-            } else {
-                for (int i = 0; i < a->sha1.length(); i++) {
-                    QChar c = a->sha1.at(i);
-                    if (!((c >= '0' && c <= '9') ||
-                        (c >= 'a' && c <= 'f') ||
-                        (c >= 'A' && c <= 'F'))) {
-                        err->append(QString("Wrong SHA1 for %1: %3").
-                                arg(a->toString()).
-                                arg(a->sha1));
-                        break;
-                    }
-                }
+            *err = WPMUtils::validateSHA1(a->sha1);
+            if (!err->isEmpty()) {
+                err->prepend(QString("Invalid SHA1 for %1: ").
+                        arg(a->toString()));
             }
         }
     }
@@ -227,7 +227,14 @@ PackageVersion* Repository::createPackageVersion(QDomElement* e, QString* err)
         QDomNodeList detectFiles = e->elementsByTagName("detect-file");
         for (int i = 0; i < detectFiles.count(); i++) {
             QDomElement e = detectFiles.at(i).toElement();
-            a->detectFiles.append(createDetectFile(&e));
+            DetectFile* df = createDetectFile(&e, err);
+            if (df) {
+                a->detectFiles.append(df);
+            } else {
+                err->prepend(QString("Invalid <detect-file> for %1: ").
+                        arg(a->toString()));
+                break;
+            }
         }
     }
 

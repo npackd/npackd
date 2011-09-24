@@ -99,12 +99,21 @@ public:
     static QString getShellDir(int type);
 
     /**
-     * Returns the content of a sub-tag.
+     * Validates an SHA1.
+     *
+     * @param sha1 a SHA1 value
+     * @return an error message or an empty string if SHA1 is a valid SHA1
+     */
+    static QString validateSHA1(const QString& sha1);
+
+    /**
+     * Returns the content of a sub-tag. If there are more than one tag with
+     * the specified name, the content of the first tag will be returned.
      *
      * @param parent parent node
      * @param name name of the child node
      * @return content of the child node or QString() if the child node does not
-     *     exist or there are more than one node with that name
+     *     exist
      */
     static QString getTagContent(const QDomElement& parent, const QString& name);
 
