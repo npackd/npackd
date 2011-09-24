@@ -1,3 +1,5 @@
+#include <math.h>
+
 #include <qabstractitemview.h>
 #include <qmessagebox.h>
 #include <qvariant.h>
@@ -22,7 +24,7 @@
 #include <qscrollarea.h>
 #include <QPushButton>
 #include <QCloseEvent>
-#include <math.h>
+#include <QTextBrowser>
 
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
@@ -1333,11 +1335,11 @@ void MainWindow::on_actionTest_Download_Site_triggered()
 
 void MainWindow::on_actionAbout_triggered()
 {
-    QMessageBox::about(this, "About",
-            QString("<html><body>Npackd %1 - software package manager for Windows (R)\n"
+    addTextTab("About", QString(
+            "<html><body>Npackd %1 - software package manager for Windows (R)<br>"
             "<a href='http://code.google.com/p/windows-package-manager'>"
             "http://code.google.com/p/windows-package-manager</a></body></html>").
-            arg(WPMUtils::NPACKD_VERSION));
+            arg(WPMUtils::NPACKD_VERSION), true);
 }
 
 void MainWindow::on_actionTest_Repositories_triggered()
@@ -1405,12 +1407,23 @@ void MainWindow::on_actionList_Installed_MSI_Products_triggered()
     addTextTab("Installed MSI Products", sl.join("\n"));
 }
 
-void MainWindow::addTextTab(const QString& title, const QString& text)
+void MainWindow::addTextTab(const QString& title, const QString& text,
+        bool html)
 {
-    QTextEdit* te = new QTextEdit(this->ui->tabWidget);
-    te->setReadOnly(true);
-    te->setText(text);
-    this->ui->tabWidget->addTab(te, title);
+    QWidget* w;
+    if (html) {
+        QTextBrowser* te = new QTextBrowser(this->ui->tabWidget);
+        te->setReadOnly(true);
+        te->setHtml(text);
+        te->setOpenExternalLinks(true);
+        w = te;
+    } else {
+        QTextEdit* te = new QTextEdit(this->ui->tabWidget);
+        te->setReadOnly(true);
+        te->setText(text);
+        w = te;
+    }
+    this->ui->tabWidget->addTab(w, title);
     this->ui->tabWidget->setCurrentIndex(this->ui->tabWidget->count() - 1);
 }
 

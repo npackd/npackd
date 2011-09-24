@@ -140,8 +140,9 @@ public:
      *
      * @param title tab title
      * @param text the text
+     * @param html true = HTML, false = plain text
      */
-    void addTextTab(const QString& title, const QString& text);
+    void addTextTab(const QString& title, const QString& text, bool html=false);
 
     virtual bool winEvent(MSG* message, long* result);
 
