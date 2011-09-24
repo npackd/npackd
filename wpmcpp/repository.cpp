@@ -99,38 +99,98 @@ PackageVersion* Repository::createPackageVersion(QDomElement* e, QString* err)
     // qDebug() << "Repository::createPackageVersion.1" << e->attribute("package");
 
     PackageVersion* a = new PackageVersion(
-            e->attribute("package"));
-    QString url = e->elementsByTagName("url").at(0).
-                  firstChild().nodeValue();
-    a->download.setUrl(url);
-    QString name = e->attribute("name", "1.0");
-    a->version.setVersion(name);
-    a->version.normalize();
-
-    if (err->isEmpty()) {
-        QDomNodeList sha1 = e->elementsByTagName("sha1");
-        if (sha1.count() > 0)
-            a->sha1 = sha1.at(0).firstChild().nodeValue().trimmed().toLower();
+            e->attribute("package").trimmed());
+    if (a->package.isEmpty()) {
+        err->append("Attribute 'package' is missing in <version>");
     }
 
     if (err->isEmpty()) {
-        QString type = e->attribute("type", "zip");
+        QString url = WPMUtils::getTagContent(*e, "url").trimmed();
+        if (!url.isEmpty()) {
+            a->download.setUrl(url);
+            QUrl d = a->download;
+            if (!d.isValid() || d.isRelative() ||
+                    (d.scheme() != "http" && d.scheme() != "https")) {
+                err->append(QString("Not a valid download URL for %1: %2").
+                        arg(a->package).arg(url));
+            }
+        }
+    }
+
+    if (err->isEmpty()) {
+        QString name = e->attribute("name", "1.0").trimmed();
+        if (a->version.setVersion(name)) {
+            a->version.normalize();
+        } else {
+            err->append(QString("Not a valid version for %1: %2").
+                    arg(a->package).arg(name));
+        }
+    }
+
+    if (err->isEmpty()) {
+        a->sha1 = WPMUtils::getTagContent(*e, "sha1").trimmed();
+        if (!a->sha1.isEmpty()) {
+            if (a->sha1.length() != 40) {
+                err->append(QString("Wrong SHA1 for %1: %3").
+                        arg(a->toString()).
+                        arg(a->sha1));
+            } else {
+                for (int i = 0; i < a->sha1.length(); i++) {
+                    QChar c = a->sha1.at(i);
+                    if (!((c >= '0' && c <= '9') ||
+                        (c >= 'a' && c <= 'f') ||
+                        (c >= 'A' && c <= 'F'))) {
+                        err->append(QString("Wrong SHA1 for %1: %3").
+                                arg(a->toString()).
+                                arg(a->sha1));
+                        break;
+                    }
+                }
+            }
+        }
+    }
+
+    if (err->isEmpty()) {
+        QString type = e->attribute("type", "zip").trimmed();
         if (type == "one-file")
             a->type = 1;
-        else
+        else if (type == "" || type == "zip")
             a->type = 0;
+        else {
+            err->append(QString("Wrong value for the attribute 'type' for %1: %3").
+                    arg(a->toString()).arg(type));
+        }
     }
 
     if (err->isEmpty()) {
         QDomNodeList ifiles = e->elementsByTagName("important-file");
         for (int i = 0; i < ifiles.count(); i++) {
             QDomElement e = ifiles.at(i).toElement();
-            QString p = e.attribute("path", "");
+            QString p = e.attribute("path").trimmed();
             if (p.isEmpty())
-                p = e.attribute("name", "");
+                p = e.attribute("name").trimmed();
+
+            if (p.isEmpty()) {
+                err->append(QString("Empty 'path' attribute value for <important-file> for %1").
+                        arg(a->toString()));
+                break;
+            }
+
+            if (a->importantFiles.contains(p)) {
+                err->append(QString("More than one <important-file> with the same 'path' attribute %1 for %2").
+                        arg(p).arg(a->toString()));
+                break;
+            }
+
             a->importantFiles.append(p);
 
-            QString title = e.attribute("title", p);
+            QString title = e.attribute("title").trimmed();
+            if (title.isEmpty()) {
+                err->append(QString("Empty 'title' attribute value for <important-file> for %1").
+                        arg(a->toString()));
+                break;
+            }
+
             a->importantFilesTitles.append(title);
         }
     }
@@ -154,9 +214,8 @@ PackageVersion* Repository::createPackageVersion(QDomElement* e, QString* err)
             for (int j = i + 1; j < a->files.count(); j++) {
                 PackageVersionFile* fj = a->files.at(j);
                 if (fi->path == fj->path) {
-                    err->append(QString("Duplicate <file> entry for %1 in %2 %3").
-                            arg(fi->path).arg(a->package).
-                            arg(a->version.getVersionString()));
+                    err->append(QString("Duplicate <file> entry for %1 in %2").
+                            arg(fi->path).arg(a->toString()));
                     goto out;
                 }
             }
@@ -173,6 +232,21 @@ PackageVersion* Repository::createPackageVersion(QDomElement* e, QString* err)
     }
 
     if (err->isEmpty()) {
+        for (int i = 0; i < a->detectFiles.count() - 1; i++) {
+            DetectFile* fi = a->detectFiles.at(i);
+            for (int j = i + 1; j < a->detectFiles.count(); j++) {
+                DetectFile* fj = a->detectFiles.at(j);
+                if (fi->path == fj->path) {
+                    err->append(QString("Duplicate <detect-file> entry for %1 in %2").
+                            arg(fi->path).arg(a->toString()));
+                    goto out2;
+                }
+            }
+        }
+    out2:;
+    }
+
+    if (err->isEmpty()) {
         QDomNodeList deps = e->elementsByTagName("dependency");
         for (int i = 0; i < deps.count(); i++) {
             QDomElement e = deps.at(i).toElement();
@@ -183,9 +257,52 @@ PackageVersion* Repository::createPackageVersion(QDomElement* e, QString* err)
     }
 
     if (err->isEmpty()) {
-        QDomNodeList guid = e->elementsByTagName("detect-msi");
-        if (guid.count() > 0)
-            a->msiGUID = guid.at(0).firstChild().nodeValue().trimmed().toLower();
+        for (int i = 0; i < a->dependencies.count() - 1; i++) {
+            Dependency* fi = a->dependencies.at(i);
+            for (int j = i + 1; j < a->dependencies.count(); j++) {
+                Dependency* fj = a->dependencies.at(j);
+                if (fi->autoFulfilledIf(*fj) ||
+                        fj->autoFulfilledIf(*fi)) {
+                    err->append(QString("Duplicate <dependency> for %1 in %2").
+                            arg(fi->package).arg(a->toString()));
+                    goto out3;
+                }
+            }
+        }
+    out3:;
+    }
+
+    if (err->isEmpty()) {
+        a->msiGUID = WPMUtils::getTagContent(*e, "detect-msi").trimmed();
+        if (!a->msiGUID.isEmpty()) {
+            if (a->msiGUID.length() != 38) {
+                err->append(QString("Wrong MSI GUID for %1: %3").
+                        arg(a->toString()).arg(a->msiGUID));
+            } else {
+                for (int i = 0; i < a->msiGUID.length(); i++) {
+                    QChar c = a->msiGUID.at(i);
+                    bool valid;
+                    if (i == 9 || i == 14 || i == 19 || i == 24) {
+                        valid = c == '-';
+                    } else if (i == 0) {
+                        valid = c == '{';
+                    } else if (i == 37) {
+                        valid = c == '}';
+                    } else {
+                        valid = (c >= '0' && c <= '9') ||
+                                (c >= 'a' && c <= 'f') ||
+                                (c >= 'A' && c <= 'F');
+                    }
+
+                    if (!valid) {
+                        err->append(QString("Wrong MSI GUID for %1: %3").
+                                arg(a->toString()).
+                                arg(a->msiGUID));
+                        break;
+                    }
+                }
+            }
+        }
     }
 
     if (err->isEmpty())

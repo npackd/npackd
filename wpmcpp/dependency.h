@@ -59,6 +59,15 @@ public:
     bool setVersions(const QString versions);
 
     /**
+     * Checks whether this dependency is automatically fulfilled if the
+     * specified dependency is already fulfilled.
+     *
+     * @param dep another dependency
+     * @return true if this dependency is automatically fulfilled
+     */
+    bool autoFulfilledIf(const Dependency& dep);
+
+    /**
      * @return the newest package version that matches this dependency and are
      *     installed
      */

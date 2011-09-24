@@ -18,6 +18,8 @@
 #include <QFile>
 #include "qsettings.h"
 #include "qvariant.h"
+#include <QDomElement>
+#include <QDomNodeList>
 
 #include "wpmutils.h"
 #include "version.h"
@@ -182,6 +184,24 @@ QString WPMUtils::getShellDir(int type)
     WCHAR dir[MAX_PATH];
     SHGetFolderPath(0, type, NULL, 0, dir);
     return QString::fromUtf16(reinterpret_cast<ushort*>(dir));
+}
+
+QString WPMUtils::getTagContent(const QDomElement& parent, const QString& name)
+{
+    QDomNodeList nl = parent.elementsByTagName(name);
+    if (nl.count() == 1) {
+        QDomNode child = nl.at(0);
+        QDomNodeList cnl = child.childNodes();
+        if (cnl.count() == 1 && cnl.at(0).nodeType() == QDomNode::TextNode) {
+            return cnl.at(0).nodeValue();
+        } else if (cnl.count() == 0) {
+            return "";
+        } else {
+            return QString();
+        }
+    } else {
+        return QString();
+    }
 }
 
 QString WPMUtils::setSystemEnvVar(const QString& name, const QString& value)
