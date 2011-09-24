@@ -50,7 +50,6 @@ class InstallThread: public QThread
 
     // 0, 1, 2 = install/uninstall
     // 3, 4 = recognize installed applications + load repositories
-    // 5 = download the package and compute it's SHA1
     // 6 = test repositories
     // 7 = download all files
     // 8 = scan hard drives
@@ -66,9 +65,6 @@ public:
     // name of the log file for type=6
     // directory for type=7
     QString logFile;
-
-    /** computed SHA1 will be stored here (type == 5) */
-    QString sha1;
 
     QList<InstallOperation*> install;
 
@@ -251,9 +247,6 @@ void InstallThread::run()
         }
         break;
     }
-    case 5:
-        this->sha1 = pv->downloadAndComputeSHA1(job);
-        break;
     case 6:
         testRepositories();
         break;
@@ -1128,7 +1121,6 @@ void MainWindow::updateActions()
     this->ui->actionUninstall->setEnabled(pv && !pv->isLocked() &&
             pv->installed() &&
             !pv->isExternal());
-    this->ui->actionCompute_SHA1->setEnabled(pv && pv->download.isValid());
 
     // "Update"
     this->ui->actionUpdate->setEnabled(isUpdateEnabled(pv));
@@ -1337,28 +1329,6 @@ void MainWindow::on_actionTest_Download_Site_triggered()
             QDesktopServices::openUrl(url);
         }
     }
-}
-
-void MainWindow::on_actionCompute_SHA1_triggered()
-{
-    PackageVersion* pv = getSelectedPackageVersion();
-    Job* job = new Job();
-    InstallThread* it = new InstallThread(pv, 5, job);
-    it->start();
-    it->setPriority(QThread::LowestPriority);
-
-    waitFor(job, "Compute SHA1");
-    it->wait();
-
-    if (!job->isCancelled() && job->getErrorMessage().isEmpty()) {
-        bool ok;
-        QInputDialog::getText(this, "SHA1",
-                QString("SHA1 for %1:").arg(pv->toString()), QLineEdit::Normal,
-                it->sha1, &ok);
-    }
-
-    delete it;
-    delete job;
 }
 
 void MainWindow::on_actionAbout_triggered()
