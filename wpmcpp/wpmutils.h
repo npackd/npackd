@@ -7,6 +7,7 @@
 #include "qstring.h"
 #include "qdir.h"
 #include "QTime"
+#include <QDomElement>
 
 #include "job.h"
 #include "version.h"
@@ -96,6 +97,16 @@ public:
      *     "C:\Documents and Settings\All Users\Start Menu\Programs"
      */
     static QString getShellDir(int type);
+
+    /**
+     * Returns the content of a sub-tag.
+     *
+     * @param parent parent node
+     * @param name name of the child node
+     * @return content of the child node or QString() if the child node does not
+     *     exist or there are more than one node with that name
+     */
+    static QString getTagContent(const QDomElement& parent, const QString& name);
 
     /**
      * Formats a Windows error message.

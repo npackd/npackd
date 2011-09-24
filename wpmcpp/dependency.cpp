@@ -71,6 +71,35 @@ void Dependency::findAllInstalledMatches(QList<PackageVersion*>& res)
     }
 }
 
+bool Dependency::autoFulfilledIf(const Dependency& dep)
+{
+    bool r;
+    if (this->package == dep.package) {
+        int left = this->min.compare(dep.min);
+        int right = this->max.compare(dep.max);
+
+        bool leftOK;
+        if (left < 0)
+            leftOK = true;
+        else if (left == 0)
+            leftOK = this->minIncluded || (!this->minIncluded && !dep.minIncluded);
+        else
+            leftOK = false;
+        bool rightOK;
+        if (right > 0)
+            rightOK = true;
+        else if (right == 0)
+            rightOK = this->maxIncluded || (!this->maxIncluded && !dep.maxIncluded);
+        else
+            rightOK = false;
+
+        r = leftOK && rightOK;
+    } else {
+        r = false;
+    }
+    return r;
+}
+
 bool Dependency::setVersions(const QString versions)
 {
     QString versions_ = versions;
