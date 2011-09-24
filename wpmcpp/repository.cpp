@@ -92,8 +92,10 @@ DetectFile* Repository::createDetectFile(QDomElement* e)
     return a;
 }
 
-PackageVersion* Repository::createPackageVersion(QDomElement* e)
+PackageVersion* Repository::createPackageVersion(QDomElement* e, QString* err)
 {
+    *err = "";
+
     // qDebug() << "Repository::createPackageVersion.1" << e->attribute("package");
 
     PackageVersion* a = new PackageVersion(
@@ -105,54 +107,93 @@ PackageVersion* Repository::createPackageVersion(QDomElement* e)
     a->version.setVersion(name);
     a->version.normalize();
 
-    QDomNodeList sha1 = e->elementsByTagName("sha1");
-    if (sha1.count() > 0)
-        a->sha1 = sha1.at(0).firstChild().nodeValue().trimmed().toLower();
-
-    QString type = e->attribute("type", "zip");
-    if (type == "one-file")
-        a->type = 1;
-    else
-        a->type = 0;
-
-    QDomNodeList ifiles = e->elementsByTagName("important-file");
-    for (int i = 0; i < ifiles.count(); i++) {
-        QDomElement e = ifiles.at(i).toElement();
-        QString p = e.attribute("path", "");
-        if (p.isEmpty())
-            p = e.attribute("name", "");
-        a->importantFiles.append(p);
-
-        QString title = e.attribute("title", p);
-        a->importantFilesTitles.append(title);
+    if (err->isEmpty()) {
+        QDomNodeList sha1 = e->elementsByTagName("sha1");
+        if (sha1.count() > 0)
+            a->sha1 = sha1.at(0).firstChild().nodeValue().trimmed().toLower();
     }
 
-    QDomNodeList files = e->elementsByTagName("file");
-    for (int i = 0; i < files.count(); i++) {
-        QDomElement e = files.at(i).toElement();
-        a->files.append(createPackageVersionFile(&e));
+    if (err->isEmpty()) {
+        QString type = e->attribute("type", "zip");
+        if (type == "one-file")
+            a->type = 1;
+        else
+            a->type = 0;
     }
 
-    QDomNodeList detectFiles = e->elementsByTagName("detect-file");
-    for (int i = 0; i < detectFiles.count(); i++) {
-        QDomElement e = detectFiles.at(i).toElement();
-        a->detectFiles.append(createDetectFile(&e));
+    if (err->isEmpty()) {
+        QDomNodeList ifiles = e->elementsByTagName("important-file");
+        for (int i = 0; i < ifiles.count(); i++) {
+            QDomElement e = ifiles.at(i).toElement();
+            QString p = e.attribute("path", "");
+            if (p.isEmpty())
+                p = e.attribute("name", "");
+            a->importantFiles.append(p);
+
+            QString title = e.attribute("title", p);
+            a->importantFilesTitles.append(title);
+        }
     }
 
-    QDomNodeList deps = e->elementsByTagName("dependency");
-    for (int i = 0; i < deps.count(); i++) {
-        QDomElement e = deps.at(i).toElement();
-        Dependency* d = createDependency(&e);
-        if (d)
-            a->dependencies.append(d);
+    if (err->isEmpty()) {
+        QDomNodeList files = e->elementsByTagName("file");
+        for (int i = 0; i < files.count(); i++) {
+            QDomElement e = files.at(i).toElement();
+            PackageVersionFile* pvf = createPackageVersionFile(&e, err);
+            if (pvf) {
+                a->files.append(pvf);
+            } else {
+                break;
+            }
+        }
     }
 
-    QDomNodeList guid = e->elementsByTagName("detect-msi");
-    if (guid.count() > 0)
-        a->msiGUID = guid.at(0).firstChild().nodeValue().trimmed().toLower();
+    if (err->isEmpty()) {
+        for (int i = 0; i < a->files.count() - 1; i++) {
+            PackageVersionFile* fi = a->files.at(i);
+            for (int j = i + 1; j < a->files.count(); j++) {
+                PackageVersionFile* fj = a->files.at(j);
+                if (fi->path == fj->path) {
+                    err->append(QString("Duplicate <file> entry for %1 in %2 %3").
+                            arg(fi->path).arg(a->package).
+                            arg(a->version.getVersionString()));
+                    goto out;
+                }
+            }
+        }
+    out:;
+    }
 
-    // qDebug() << "Repository::createPackageVersion.2";
-    return a;
+    if (err->isEmpty()) {
+        QDomNodeList detectFiles = e->elementsByTagName("detect-file");
+        for (int i = 0; i < detectFiles.count(); i++) {
+            QDomElement e = detectFiles.at(i).toElement();
+            a->detectFiles.append(createDetectFile(&e));
+        }
+    }
+
+    if (err->isEmpty()) {
+        QDomNodeList deps = e->elementsByTagName("dependency");
+        for (int i = 0; i < deps.count(); i++) {
+            QDomElement e = deps.at(i).toElement();
+            Dependency* d = createDependency(&e);
+            if (d)
+                a->dependencies.append(d);
+        }
+    }
+
+    if (err->isEmpty()) {
+        QDomNodeList guid = e->elementsByTagName("detect-msi");
+        if (guid.count() > 0)
+            a->msiGUID = guid.at(0).firstChild().nodeValue().trimmed().toLower();
+    }
+
+    if (err->isEmpty())
+        return a;
+    else {
+        delete a;
+        return 0;
+    }
 }
 
 Package* Repository::createPackage(QDomElement* e)
@@ -180,8 +221,11 @@ Package* Repository::createPackage(QDomElement* e)
     return a;
 }
 
-PackageVersionFile* Repository::createPackageVersionFile(QDomElement* e)
+PackageVersionFile* Repository::createPackageVersionFile(QDomElement* e,
+        QString* err)
 {
+    *err = "";
+
     QString path = e->attribute("path");
     QString content = e->firstChild().nodeValue();
     PackageVersionFile* a = new PackageVersionFile(path, content);
@@ -1169,11 +1213,17 @@ void Repository::loadOne(QDomDocument* doc, Job* job)
             if (n.isElement()) {
                 QDomElement e = n.toElement();
                 if (e.nodeName() == "version") {
-                    PackageVersion* pv = createPackageVersion(&e);
-                    if (this->findPackageVersion(pv->package, pv->version))
-                        delete pv;
-                    else {
-                        this->packageVersions.append(pv);
+                    QString err;
+                    PackageVersion* pv = createPackageVersion(&e, &err);
+                    if (pv) {
+                        if (this->findPackageVersion(pv->package, pv->version))
+                            delete pv;
+                        else {
+                            this->packageVersions.append(pv);
+                        }
+                    } else {
+                        job->setErrorMessage(err);
+                        break;
                     }
                 } else if (e.nodeName() == "package") {
                     Package* p = createPackage(&e);
