@@ -3756,6 +3756,10 @@ call "%npackdih%\UninstallMSI.bat"
         <sha1>29b693099793907c460c6ef046be783e03cc4530</sha1>
     </version>  
 
+    <!-- 
+        the installation adds %CD%\bin\ to the path, but does not notify other
+        programs about the change
+    -->
     <version name="1.6.13" package="org.apache.subversion.Subversion"
             type="one-file">
        <file path=".WPM\Install.bat">if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
@@ -3765,9 +3769,9 @@ call "%npackdih%\InstallMSI.bat" INSTALLLOCATION
 if %errorlevel% neq 0 goto eof
 
 if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
-set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.pathed.PathEd" "--versions=[0.8, 0.8]"
-for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set pathed=%%x
-"%pathed%\pathed" -s -a "%CD%\bin"
+set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.CLU" "--versions=[1, 1]"
+for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set clu=%%x
+"%clu%\clu" add-path --path "%CD%\bin\"
 verify
 </file>
         <file path=".WPM\Uninstall.bat">if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
@@ -3777,12 +3781,12 @@ call "%npackdih%\UninstallMSI.bat"
 if %errorlevel% neq 0 goto eof
 
 if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
-set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.pathed.PathEd" "--versions=[0.8, 0.8]"
-for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set pathed=%%x
-"%pathed%\pathed" -s -r "%CD%\bin"
+set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.CLU" "--versions=[1, 1]"
+for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set clu=%%x
+"%clu%\clu" remove-path --path "%CD%\bin\"
 verify
 </file>
-        <dependency package="com.googlecode.pathed.PathEd" versions="[0.8, 0.8]"/>
+        <dependency package="com.googlecode.windows-package-manager.CLU" versions="[1, 1]"/>
         <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1, 1]"/>
         <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.15.7, 2)"/>
         <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1, 1]"/>
@@ -3798,9 +3802,9 @@ call "%npackdih%\InstallMSI.bat" INSTALLLOCATION
 if %errorlevel% neq 0 goto eof
 
 if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
-set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.pathed.PathEd" "--versions=[0.8, 0.8]"
-for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set pathed=%%x
-"%pathed%\pathed" -s -a "%CD%\bin"
+set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.CLU" "--versions=[1, 1]"
+for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set clu=%%x
+"%clu%\clu" add-path --path "%CD%\bin\"
 verify
 </file>
         <file path=".WPM\Uninstall.bat">if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
@@ -3810,12 +3814,12 @@ call "%npackdih%\UninstallMSI.bat"
 if %errorlevel% neq 0 goto eof
 
 if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
-set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.pathed.PathEd" "--versions=[0.8, 0.8]"
-for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set pathed=%%x
-"%pathed%\pathed" -s -r "%CD%\bin"
+set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.CLU" "--versions=[1, 1]"
+for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set clu=%%x
+"%clu%\clu" remove-path --path "%CD%\bin\"
 verify
 </file>
-        <dependency package="com.googlecode.pathed.PathEd" versions="[0.8, 0.8]"/>
+        <dependency package="com.googlecode.windows-package-manager.CLU" versions="[1, 1]"/>
         <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1, 1]"/>
         <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.15.7, 2)"/>
         <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1, 1]"/>
@@ -3831,9 +3835,9 @@ call "%npackdih%\InstallMSI.bat" INSTALLLOCATION
 if %errorlevel% neq 0 goto eof
 
 if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
-set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.pathed.PathEd" "--versions=[0.8, 0.8]"
-for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set pathed=%%x
-"%pathed%\pathed" -s -a "%CD%\bin"
+set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.CLU" "--versions=[1, 1]"
+for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set clu=%%x
+"%clu%\clu" add-path --path "%CD%\bin\"
 verify
 </file>
         <file path=".WPM\Uninstall.bat">if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
@@ -3843,12 +3847,12 @@ call "%npackdih%\UninstallMSI.bat"
 if %errorlevel% neq 0 goto eof
 
 if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
-set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.pathed.PathEd" "--versions=[0.8, 0.8]"
-for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set pathed=%%x
-"%pathed%\pathed" -s -r "%CD%\bin"
+set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.CLU" "--versions=[1, 1]"
+for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set clu=%%x
+"%clu%\clu" remove-path --path "%CD%\bin\"
 verify
 </file>
-        <dependency package="com.googlecode.pathed.PathEd" versions="[0.8, 0.8]"/>
+        <dependency package="com.googlecode.windows-package-manager.CLU" versions="[1, 1]"/>
         <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1, 1]"/>
         <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.15.7, 2)"/>
         <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1, 1]"/>
@@ -3864,9 +3868,9 @@ call "%npackdih%\InstallMSI.bat" INSTALLLOCATION
 if %errorlevel% neq 0 goto eof
 
 if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
-set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.pathed.PathEd" "--versions=[0.8, 0.8]"
-for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set pathed=%%x
-"%pathed%\pathed" -s -a "%CD%\bin"
+set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.CLU" "--versions=[1, 1]"
+for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set clu=%%x
+"%clu%\clu" add-path --path "%CD%\bin\"
 verify
 </file>
         <file path=".WPM\Uninstall.bat">if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
@@ -3876,12 +3880,12 @@ call "%npackdih%\UninstallMSI.bat"
 if %errorlevel% neq 0 goto eof
 
 if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
-set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.pathed.PathEd" "--versions=[0.8, 0.8]"
-for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set pathed=%%x
-"%pathed%\pathed" -s -r "%CD%\bin"
+set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.CLU" "--versions=[1, 1]"
+for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set clu=%%x
+"%clu%\clu" remove-path --path "%CD%\bin\"
 verify
 </file>
-        <dependency package="com.googlecode.pathed.PathEd" versions="[0.8, 0.8]"/>
+        <dependency package="com.googlecode.windows-package-manager.CLU" versions="[1, 1]"/>
         <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1, 1]"/>
         <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.15.7, 2)"/>
         <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1, 1]"/>
