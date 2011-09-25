@@ -320,29 +320,45 @@ PackageVersion* Repository::createPackageVersion(QDomElement* e, QString* err)
     }
 }
 
-Package* Repository::createPackage(QDomElement* e)
+Package* Repository::createPackage(QDomElement* e, QString* err)
 {
-    QString name = e->attribute("name");
-    Package* a = new Package(name, name);
-    QDomNodeList nl = e->elementsByTagName("title");
-    if (nl.count() != 0)
-        a->title = nl.at(0).firstChild().nodeValue();
-    nl = e->elementsByTagName("url");
-    if (nl.count() != 0)
-        a->url = nl.at(0).firstChild().nodeValue();
-    nl = e->elementsByTagName("description");
-    if (nl.count() != 0)
-        a->description = nl.at(0).firstChild().nodeValue();
-    nl = e->elementsByTagName("icon");
-    if (nl.count() != 0) {
-        a->icon = nl.at(0).firstChild().nodeValue().trimmed();
-    }
-    nl = e->elementsByTagName("license");
-    if (nl.count() != 0) {
-        a->license = nl.at(0).firstChild().nodeValue();
+    *err = "";
+
+    QString name = e->attribute("name").trimmed();
+    if (name.isEmpty()) {
+        err->append("Empty attribute 'name' in <package>)");
     }
 
-    return a;
+    Package* a = new Package(name, name);
+
+    if (err->isEmpty()) {
+        a->title = WPMUtils::getTagContent(*e, "title");
+        a->url = WPMUtils::getTagContent(*e, "url");
+        a->description = WPMUtils::getTagContent(*e, "description");
+    }
+
+    if (err->isEmpty()) {
+        a->icon = WPMUtils::getTagContent(*e, "icon");
+        if (!a->icon.isEmpty()) {
+            QUrl u(a->icon);
+            if (!u.isValid() || u.isRelative() ||
+                    !(u.scheme() == "http" || u.scheme() == "https")) {
+                err->append(QString("Invalid icon URL for %1: %2").
+                        arg(a->title).arg(a->icon));
+            }
+        }
+    }
+
+    if (err->isEmpty()) {
+        a->license = WPMUtils::getTagContent(*e, "license");
+    }
+
+    if (err->isEmpty())
+        return a;
+    else {
+        delete a;
+        return 0;
+    }
 }
 
 PackageVersionFile* Repository::createPackageVersionFile(QDomElement* e,
@@ -1350,11 +1366,17 @@ void Repository::loadOne(QDomDocument* doc, Job* job)
                         break;
                     }
                 } else if (e.nodeName() == "package") {
-                    Package* p = createPackage(&e);
-                    if (this->findPackage(p->name))
-                        delete p;
-                    else
-                        this->packages.append(p);
+                    QString err;
+                    Package* p = createPackage(&e, &err);
+                    if (p) {
+                        if (this->findPackage(p->name))
+                            delete p;
+                        else
+                            this->packages.append(p);
+                    } else {
+                        job->setErrorMessage(err);
+                        break;
+                    }
                 } else if (e.nodeName() == "license") {
                     License* p = createLicense(&e);
                     if (this->findLicense(p->name))
