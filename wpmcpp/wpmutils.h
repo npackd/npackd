@@ -108,7 +108,8 @@ public:
 
     /**
      * Returns the content of a sub-tag. If there are more than one tag with
-     * the specified name, the content of the first tag will be returned.
+     * the specified name, the content of the first tag will be returned. The
+     * whitespace at the beginning and at the end will be removed.
      *
      * @param parent parent node
      * @param name name of the child node

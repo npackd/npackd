@@ -23,7 +23,7 @@ class Repository: public QObject
 private:
     static Repository def;
 
-    static Package* createPackage(QDomElement* e);
+    static Package* createPackage(QDomElement* e, QString* err);
     static PackageVersionFile* createPackageVersionFile(QDomElement* e,
             QString* err);
     static Dependency* createDependency(QDomElement* e);
