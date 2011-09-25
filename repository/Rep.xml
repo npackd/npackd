@@ -3961,22 +3961,22 @@ type .WPM\MSI.log
 if %err% neq 0 exit /b %err%
 
 if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
-set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.pathed.PathEd" "--versions=[0.8, 0.8]"
-for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set pathed=%%x
-"%pathed%\pathed" -s -a "%CD%"
+set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.CLU" "--versions=[1, 1]"
+for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set clu=%%x
+"%clu%\clu" add-path --path "%CD%"
 verify
 </file>
         <file path=".WPM\Uninstall.bat">if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
-set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.pathed.PathEd" "--versions=[0.8, 0.8]"
-for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set pathed=%%x
-"%pathed%\pathed" -s -r "%CD%"
+set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.CLU" "--versions=[1, 1]"
+for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set clu=%%x
+"%clu%\clu" remove-path --path "%CD%"
 verify
 </file>
         <url>http://download.microsoft.com/download/win2000platform/pathman/1.00.0.1/NT5/EN-US/pathman_setup.EXE</url>
         <sha1>6fa6f7a54d45db2cc5a5115addceeb075531d584</sha1>
         <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.15.7, 2)"/>
         <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1, 1]"/>
-        <dependency package="com.googlecode.pathed.PathEd" versions="[0.8, 0.8]"/>
+        <dependency package="com.googlecode.windows-package-manager.CLU" versions="[1, 1]"/>
     </version>
 
     <!-- old versions are regularly deleted from h2database.com -->
