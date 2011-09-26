@@ -11,6 +11,7 @@ private:
     int help();
     int addPath();
     int removePath();
+    int listMSI();
 public:
     App();
 
