@@ -1212,13 +1212,6 @@ void MainWindow::on_tabWidget_currentChanged(int index)
     updateActions();
 }
 
-void MainWindow::on_actionList_Installed_MSI_Products_triggered()
-{
-    QStringList sl = WPMUtils::findInstalledMSIProductNames();
-
-    addTextTab("Installed MSI Products", sl.join("\n"));
-}
-
 void MainWindow::addTextTab(const QString& title, const QString& text,
         bool html)
 {

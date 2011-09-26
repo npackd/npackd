@@ -8,6 +8,16 @@ App::App()
 {
 }
 
+int App::listMSI()
+{
+    QStringList sl = WPMUtils::findInstalledMSIProductNames();
+
+    WPMUtils::outputTextConsole("Installed MSI Products\n");
+    for (int i = 0; i < sl.count(); i++) {
+        WPMUtils::outputTextConsole(sl.at(i) + "\n");
+    }
+}
+
 int App::process()
 {
     cl.add("path", 'p',
