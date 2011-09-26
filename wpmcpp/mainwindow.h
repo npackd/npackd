@@ -192,7 +192,6 @@ private slots:
     void on_tabWidget_currentChanged(int index);
     void on_tabWidget_tabCloseRequested(int index);
     void on_tableWidget_doubleClicked(QModelIndex index);
-    void on_actionTest_Repositories_triggered();
     void on_actionAbout_triggered();
     void on_actionTest_Download_Site_triggered();
     void on_actionUpdate_triggered();

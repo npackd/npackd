@@ -52,7 +52,6 @@ class InstallThread: public QThread
 
     // 0, 1, 2 = install/uninstall
     // 3, 4 = recognize installed applications + load repositories
-    // 6 = test repositories
     // 7 = download all files
     // 8 = scan hard drives
     int type;
@@ -74,77 +73,6 @@ public:
 
     void run();
 };
-
-void InstallThread::testOnePackage(Job *job, PackageVersion *pv)
-{
-    if (pv->isExternal() || !pv->download.isValid()) {
-        job->setProgress(1);
-        job->complete();
-        return;
-    }
-
-    Repository* r = Repository::getDefault();
-
-    QList<InstallOperation*> ops;
-
-    if (!job->isCancelled()) {        
-        job->setHint("Planning the installation");
-        QList<PackageVersion*> installed = r->getInstalled();
-        QList<PackageVersion*> avoid;
-        qDeleteAll(ops);
-        ops.clear();
-        QString e = pv->planInstallation(installed, ops, avoid);
-        if (!e.isEmpty()) {
-            job->setErrorMessage(QString(
-                    "Installation planning failed: %1").
-                    arg(e));
-        }
-        job->setProgress(0.1);
-    }
-
-    if (job->getErrorMessage().isEmpty() && !job->isCancelled()) {
-        job->setHint("Installing");
-        Job* instJob = job->newSubJob(0.4);
-        r->process(instJob, ops);
-        if (!instJob->getErrorMessage().isEmpty())
-            job->setErrorMessage(instJob->getErrorMessage());
-        delete instJob;
-
-        if (!pv->installed() && job->getErrorMessage().isEmpty())
-            job->setErrorMessage("Package is not installed after the installation");
-    }
-
-    if (job->getErrorMessage().isEmpty() && !job->isCancelled()) {
-        job->setHint("Planning the un-installation");
-        QList<PackageVersion*> installed = r->getInstalled();
-        qDeleteAll(ops);
-        ops.clear();
-        QString e = pv->planUninstallation(installed, ops);
-        if (!e.isEmpty()) {
-            job->setErrorMessage(QString(
-                    "Un-installation planning failed: %1").
-                    arg(e));
-        }
-        job->setProgress(0.6);
-    }
-
-    if (job->getErrorMessage().isEmpty() && !job->isCancelled()) {
-        job->setHint("Removing");
-        Job* instJob = job->newSubJob(0.4);
-        r->process(instJob, ops);
-        if (!instJob->getErrorMessage().isEmpty())
-            job->setErrorMessage(instJob->getErrorMessage());
-        delete instJob;
-
-        if (pv->installed() && job->getErrorMessage().isEmpty())
-            job->setErrorMessage("Package is installed after the un-installation");
-    }
-
-    qDeleteAll(ops);
-    ops.clear();
-
-    job->complete();
-}
 
 InstallThread::InstallThread(PackageVersion *pv, int type, Job* job)
 {
@@ -188,43 +116,6 @@ void InstallThread::scanHardDrives()
     r->scanHardDrive(job);
 }
 
-void InstallThread::testRepositories()
-{
-    QFile f(this->logFile);
-
-    if (!f.open(QIODevice::WriteOnly | QIODevice::Append)) {
-        job->setErrorMessage(QString("Failed to open the log file %1").
-                arg(this->logFile));
-    } else {
-        QTextStream ts(&f);
-        Repository* r = Repository::getDefault();
-        double step = 1.0 / r->packageVersions.count();
-        for (int i = 0; i < r->packageVersions.count(); i++) {
-            PackageVersion* pv = r->packageVersions.at(i);
-
-            if (job->isCancelled())
-                break;
-
-            job->setHint(QString("Testing %1").arg(pv->toString()));
-            Job* stepJob = job->newSubJob(step);
-            testOnePackage(stepJob, pv);
-            if (!stepJob->getErrorMessage().isEmpty())
-                ts << QString("Error testing %1: %2").
-                        arg(pv->toString()).
-                        arg(stepJob->getErrorMessage()) << endl;
-            delete stepJob;
-
-            if (job->isCancelled() || !job->getErrorMessage().isEmpty())
-                break;
-
-            job->setProgress(i * step);
-        }
-        f.close();
-    }
-
-    job->complete();
-}
-
 void InstallThread::run()
 {
     CoInitialize(NULL);
@@ -249,9 +140,6 @@ void InstallThread::run()
         }
         break;
     }
-    case 6:
-        testRepositories();
-        break;
     case 7:
         downloadAllFiles();
         break;
@@ -1340,46 +1228,6 @@ void MainWindow::on_actionAbout_triggered()
             "<a href='http://code.google.com/p/windows-package-manager'>"
             "http://code.google.com/p/windows-package-manager</a></body></html>").
             arg(WPMUtils::NPACKD_VERSION), true);
-}
-
-void MainWindow::on_actionTest_Repositories_triggered()
-{
-    Repository* r = Repository::getDefault();
-    PackageVersion* locked = r->findLockedPackageVersion();
-    if (locked) {
-        QString msg("Cannot test the repositories now. "
-                "The package %1 is locked by a "
-                "currently running installation/removal.");
-        this->addErrorMessage(msg.arg(locked->toString()));
-        return;
-    }
-
-    QString msg = QString("All packages will be uninstalled. "
-            "The corresponding directories will be deleted. "
-            "There is no way to restore the files. "
-            "Are you sure?");
-    QMessageBox::StandardButton b = QMessageBox::warning(this,
-            "Uninstall", msg, QMessageBox::Yes | QMessageBox::No);
-
-    if (b == QMessageBox::Yes) {
-        QString fn = QFileDialog::getSaveFileName(this,
-                tr("Save Log File"),
-                "", tr("Log Files (*.log)"));
-        if (!fn.isEmpty()) {
-            Job* job = new Job();
-            InstallThread* it = new InstallThread(0, 6, job);
-            it->logFile = fn;
-            it->start();
-            it->setPriority(QThread::LowestPriority);
-
-            waitFor(job, "Test Repositories");
-            it->wait();
-            delete it;
-            delete job;
-
-            fillList();
-        }
-    }
 }
 
 void MainWindow::on_tableWidget_doubleClicked(QModelIndex index)
