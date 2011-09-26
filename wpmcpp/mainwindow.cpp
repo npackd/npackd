@@ -52,15 +52,11 @@ class InstallThread: public QThread
 
     // 0, 1, 2 = install/uninstall
     // 3, 4 = recognize installed applications + load repositories
-    // 7 = download all files
     // 8 = scan hard drives
     int type;
 
     Job* job;
 
-    void testRepositories();
-    void downloadAllFiles();
-    void testOnePackage(Job* job, PackageVersion* pv);
     void scanHardDrives();
 public:
     // name of the log file for type=6
@@ -79,35 +75,6 @@ InstallThread::InstallThread(PackageVersion *pv, int type, Job* job)
     this->pv = pv;
     this->type = type;
     this->job = job;
-}
-
-void InstallThread::downloadAllFiles()
-{
-    QFile f(this->logFile + "\\Download.log");
-    QTextStream ts(&f);
-    Repository* r = Repository::getDefault();
-    double step = 1.0 / r->packageVersions.count();
-    for (int i = 0; i < r->packageVersions.count(); i++) {
-        PackageVersion* pv = r->packageVersions.at(i);
-
-        if (job->isCancelled() || !job->getErrorMessage().isEmpty())
-            break;
-
-        if (pv->download.isValid()) {
-            job->setHint(QString("Downloading %1").arg(pv->toString()));
-            Job* stepJob = job->newSubJob(step);
-            QString to = this->logFile + "\\" + pv->package + "-" +
-                         pv->version.getVersionString() + pv->getFileExtension();
-            pv->downloadTo(stepJob, to);
-            if (!stepJob->getErrorMessage().isEmpty())
-                ts << QString("Error downloading %1: %2").
-                        arg(pv->toString()).
-                        arg(stepJob->getErrorMessage()) << endl;
-            delete stepJob;
-        }
-    }
-    f.close();
-    job->complete();
 }
 
 void InstallThread::scanHardDrives()
@@ -140,9 +107,6 @@ void InstallThread::run()
         }
         break;
     }
-    case 7:
-        downloadAllFiles();
-        break;
     case 8:
         scanHardDrives();
         break;
@@ -1298,34 +1262,6 @@ void MainWindow::addJobsTab()
     this->jobsTab = this->ui->tabWidget->widget(index);
     updateProgressTabTitle();
 }
-
-void MainWindow::on_actionDownload_All_Files_triggered()
-{
-    QString fn = QFileDialog::getExistingDirectory(this,
-            "Download All Files", ".", QFileDialog::ShowDirsOnly);
-    if (!fn.isEmpty()) {
-        QDir d(fn);
-        QFileInfoList entries = d.entryInfoList(
-                QDir::NoDotAndDotDot |
-                QDir::AllEntries | QDir::System);
-        if (entries.size() != 0) {
-            QString msg("The chosen directory is not empty");
-            addErrorMessage(msg, msg, true, QMessageBox::Critical);
-        } else {
-            Job* job = new Job();
-            InstallThread* it = new InstallThread(0, 7, job);
-            it->logFile = fn;
-            it->start();
-            it->setPriority(QThread::LowestPriority);
-
-            waitFor(job, "Download All Files");
-            it->wait();
-            delete it;
-            delete job;
-        }
-    }
-}
-
 
 void MainWindow::on_actionShow_Details_triggered()
 {
