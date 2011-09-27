@@ -107,7 +107,7 @@ public:
 
     /**
      * MSI GUID like {1D2C96C3-A3F3-49E7-B839-95279DED837F} or ""
-     * if not available
+     * if not available. Should be always in lower case
      */
     QString msiGUID;
 

@@ -7,7 +7,6 @@
 #include "qstring.h"
 #include "qdir.h"
 #include "QTime"
-#include <QDomElement>
 
 #include "job.h"
 #include "version.h"
@@ -105,18 +104,6 @@ public:
      * @return an error message or an empty string if SHA1 is a valid SHA1
      */
     static QString validateSHA1(const QString& sha1);
-
-    /**
-     * Returns the content of a sub-tag. If there are more than one tag with
-     * the specified name, the content of the first tag will be returned. The
-     * whitespace at the beginning and at the end will be removed.
-     *
-     * @param parent parent node
-     * @param name name of the child node
-     * @return content of the child node or QString() if the child node does not
-     *     exist
-     */
-    static QString getTagContent(const QDomElement& parent, const QString& name);
 
     /**
      * Formats a Windows error message.
