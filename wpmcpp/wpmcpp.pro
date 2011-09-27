@@ -28,7 +28,8 @@ SOURCES += main.cpp \
     uiutils.cpp \
     commandline.cpp \
     progressframe.cpp \
-    messageframe.cpp
+    messageframe.cpp \
+    xmlutils.cpp
 HEADERS += mainwindow.h \
     packageversion.h \
     repository.h \
@@ -54,7 +55,8 @@ HEADERS += mainwindow.h \
     commandline.h \
     progressframe.h \
     messageframe.h \
-    taskbar.h
+    taskbar.h \
+    xmlutils.h
 FORMS += mainwindow.ui \
     progressdialog.ui \
     settingsdialog.ui \

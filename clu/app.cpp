@@ -16,6 +16,8 @@ int App::listMSI()
     for (int i = 0; i < sl.count(); i++) {
         WPMUtils::outputTextConsole(sl.at(i) + "\n");
     }
+
+    return 0;
 }
 
 int App::process()
@@ -47,6 +49,8 @@ int App::process()
         r = addPath();
     } else if (fr.at(0) == "remove-path") {
         r = removePath();
+    } else if (fr.at(0) == "list-msi") {
+        r = listMSI();
     } else {
         WPMUtils::outputTextConsole("Wrong command: " + fr.at(0) + "\n", false);
         r = 1;
@@ -66,6 +70,8 @@ int App::help()
         "        appends the specified path to the system-wide PATH variable",
         "    clu remove-path --path=<path>",
         "        removes the specified path from the system-wide PATH variable",
+        "    clu list-msi",
+        "        lists all installed MSI packages",
         "Options:",
     };
     for (int i = 0; i < (int) (sizeof(lines) / sizeof(lines[0])); i++) {

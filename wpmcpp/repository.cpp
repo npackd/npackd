@@ -14,6 +14,7 @@
 #include "version.h"
 #include "msi.h"
 #include "windowsregistry.h"
+#include "xmlutils.h"
 
 Repository Repository::def;
 
@@ -82,14 +83,14 @@ DetectFile* Repository::createDetectFile(QDomElement* e, QString* err)
     *err = "";
 
     DetectFile* a = new DetectFile();
-    a->path = WPMUtils::getTagContent(*e, "path").trimmed();
+    a->path = XMLUtils::getTagContent(*e, "path").trimmed();
     a->path.replace('/', '\\');
     if (a->path.isEmpty()) {
         err->append("Empty tag <path> under <detect-file>");
     }
 
     if (err->isEmpty()) {
-        a->sha1 = WPMUtils::getTagContent(*e, "sha1").trimmed().toLower();
+        a->sha1 = XMLUtils::getTagContent(*e, "sha1").trimmed().toLower();
         *err = WPMUtils::validateSHA1(a->sha1);
         if (!err->isEmpty()) {
             err->prepend("Wrong SHA1 in <detect-file>: ");
@@ -117,7 +118,7 @@ PackageVersion* Repository::createPackageVersion(QDomElement* e, QString* err)
     }
 
     if (err->isEmpty()) {
-        QString url = WPMUtils::getTagContent(*e, "url").trimmed();
+        QString url = XMLUtils::getTagContent(*e, "url").trimmed();
         if (!url.isEmpty()) {
             a->download.setUrl(url);
             QUrl d = a->download;
@@ -140,7 +141,7 @@ PackageVersion* Repository::createPackageVersion(QDomElement* e, QString* err)
     }
 
     if (err->isEmpty()) {
-        a->sha1 = WPMUtils::getTagContent(*e, "sha1").trimmed().toLower();
+        a->sha1 = XMLUtils::getTagContent(*e, "sha1").trimmed().toLower();
         if (!a->sha1.isEmpty()) {
             *err = WPMUtils::validateSHA1(a->sha1);
             if (!err->isEmpty()) {
@@ -280,7 +281,8 @@ PackageVersion* Repository::createPackageVersion(QDomElement* e, QString* err)
     }
 
     if (err->isEmpty()) {
-        a->msiGUID = WPMUtils::getTagContent(*e, "detect-msi").trimmed();
+        a->msiGUID = XMLUtils::getTagContent(*e, "detect-msi").trimmed().
+                toLower();
         if (!a->msiGUID.isEmpty()) {
             if (a->msiGUID.length() != 38) {
                 err->append(QString("Wrong MSI GUID for %1: %3").
@@ -332,13 +334,13 @@ Package* Repository::createPackage(QDomElement* e, QString* err)
     Package* a = new Package(name, name);
 
     if (err->isEmpty()) {
-        a->title = WPMUtils::getTagContent(*e, "title");
-        a->url = WPMUtils::getTagContent(*e, "url");
-        a->description = WPMUtils::getTagContent(*e, "description");
+        a->title = XMLUtils::getTagContent(*e, "title");
+        a->url = XMLUtils::getTagContent(*e, "url");
+        a->description = XMLUtils::getTagContent(*e, "description");
     }
 
     if (err->isEmpty()) {
-        a->icon = WPMUtils::getTagContent(*e, "icon");
+        a->icon = XMLUtils::getTagContent(*e, "icon");
         if (!a->icon.isEmpty()) {
             QUrl u(a->icon);
             if (!u.isValid() || u.isRelative() ||
@@ -350,7 +352,7 @@ Package* Repository::createPackage(QDomElement* e, QString* err)
     }
 
     if (err->isEmpty()) {
-        a->license = WPMUtils::getTagContent(*e, "license");
+        a->license = XMLUtils::getTagContent(*e, "license");
     }
 
     if (err->isEmpty())
@@ -781,11 +783,14 @@ void Repository::detectOneDotNet(const WindowsRegistry& wr,
 void Repository::detectMSIProducts()
 {
     QStringList all = WPMUtils::findInstalledMSIProducts();
+    // qDebug() << all.at(0);
 
     for (int i = 0; i < this->packageVersions.count(); i++) {
         PackageVersion* pv = this->packageVersions.at(i);
         if (pv->msiGUID.length() == 38) {
+            // qDebug() << pv->msiGUID;
             if (all.contains(pv->msiGUID)) {
+                // qDebug() << pv->toString();
                 if (!pv->installed() || pv->isExternal()) {
                     QString err;
                     QString p = WPMUtils::getMSIProductLocation(

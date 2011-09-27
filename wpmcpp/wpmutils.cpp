@@ -18,8 +18,6 @@
 #include <QFile>
 #include "qsettings.h"
 #include "qvariant.h"
-#include <QDomElement>
-#include <QDomNodeList>
 
 #include "wpmutils.h"
 #include "version.h"
@@ -203,24 +201,6 @@ QString WPMUtils::validateSHA1(const QString& sha1)
     }
 
     return "";
-}
-
-QString WPMUtils::getTagContent(const QDomElement& parent, const QString& name)
-{
-    QDomNodeList nl = parent.elementsByTagName(name);
-    if (nl.count() >= 1) {
-        QDomNode child = nl.at(0);
-        QDomNodeList cnl = child.childNodes();
-        if (cnl.count() == 1 && cnl.at(0).nodeType() == QDomNode::TextNode) {
-            return cnl.at(0).nodeValue().trimmed();
-        } else if (cnl.count() == 0) {
-            return "";
-        } else {
-            return QString();
-        }
-    } else {
-        return QString();
-    }
 }
 
 QString WPMUtils::setSystemEnvVar(const QString& name, const QString& value)
