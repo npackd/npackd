@@ -4822,6 +4822,7 @@ for %%g in (pdf ps eps svg svgz sxd odg sla sla.gz scd scd.gz) do reg delete HKL
         <sha1>23CEFF58B8BB5B73CE61BB5667DB302A795F6527</sha1>
     </version>
 
+    <!-- old versions are moved into the old_releases/ sub-directory -->
     <version name="7.21.2" package="se.haxx.curl.CURL">
         <file path=".WPM\Install.bat">for /f "delims=" %%x in ('dir /b curl*') do set name=%%x
 cd "%name%"        
@@ -4832,22 +4833,22 @@ cd ..
 rmdir "%name%"
 
 if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
-set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.pathed.PathEd" "--versions=[0.8, 0.8]"
-for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set pathed=%%x
-"%pathed%\pathed" -s -a "%CD%"
+set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.CLU" "--versions=[1, 1]"
+for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set clu=%%x
+"%clu%\clu" add-path --path "%CD%"
 verify
 </file>
         <file path=".WPM\Uninstall.bat">if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
-set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.pathed.PathEd" "--versions=[0.8, 0.8]"
-for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set pathed=%%x
-"%pathed%\pathed" -s -r "%CD%"
+set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.CLU" "--versions=[1, 1]"
+for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set clu=%%x
+"%clu%\clu" remove-path --path "%CD%"
 verify
 </file>
-        <url>http://www.gknw.net/mirror/curl/win32/curl-7.21.2-ssl-sspi-zlib-static-bin-w32.zip</url>
+        <url>http://www.gknw.net/mirror/curl/win32/old_releases/curl-7.21.2-ssl-sspi-zlib-static-bin-w32.zip</url>
         <sha1>bb7ff1c8804646882b17972ae843f77964df7cf0</sha1>
         <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.15.7, 2)"/>
         <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1, 1]"/>
-        <dependency package="com.googlecode.pathed.PathEd" versions="[0.8, 0.8]"/>
+        <dependency package="com.googlecode.windows-package-manager.CLU" versions="[1, 1]"/>
     </version>
     <version name="7.21.3" package="se.haxx.curl.CURL">
         <file path=".WPM\Install.bat">for /f "delims=" %%x in ('dir /b curl*') do set name=%%x
@@ -4859,22 +4860,22 @@ cd ..
 rmdir "%name%"
 
 if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
-set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.pathed.PathEd" "--versions=[0.8, 0.8]"
-for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set pathed=%%x
-"%pathed%\pathed" -s -a "%CD%"
+set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.CLU" "--versions=[1, 1]"
+for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set clu=%%x
+"%clu%\clu" add-path --path "%CD%"
 verify
 </file>
         <file path=".WPM\Uninstall.bat">if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
-set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.pathed.PathEd" "--versions=[0.8, 0.8]"
-for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set pathed=%%x
-"%pathed%\pathed" -s -r "%CD%"
+set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.CLU" "--versions=[1, 1]"
+for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set clu=%%x
+"%clu%\clu" remove-path --path "%CD%"
 verify
 </file>
-        <url>http://www.gknw.net/mirror/curl/win32/curl-7.21.3-ssl-sspi-zlib-static-bin-w32.zip</url>
+        <url>http://www.gknw.net/mirror/curl/win32/old_releases/curl-7.21.3-ssl-sspi-zlib-static-bin-w32.zip</url>
         <sha1>f3b94d347346da001ac405eba7edb0c838e9e7bb</sha1>        
         <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.15.7, 2)"/>
         <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1, 1]"/>
-        <dependency package="com.googlecode.pathed.PathEd" versions="[0.8, 0.8]"/>
+        <dependency package="com.googlecode.windows-package-manager.CLU" versions="[1, 1]"/>
     </version>
     <version name="7.21.4" package="se.haxx.curl.CURL">
         <file path=".WPM\Install.bat">for /f "delims=" %%x in ('dir /b curl*') do set name=%%x
@@ -4886,22 +4887,22 @@ cd ..
 rmdir "%name%"
 
 if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
-set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.pathed.PathEd" "--versions=[0.8, 0.8]"
-for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set pathed=%%x
-"%pathed%\pathed" -s -a "%CD%"
+set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.CLU" "--versions=[1, 1]"
+for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set clu=%%x
+"%clu%\clu" add-path --path "%CD%"
 verify
 </file>
         <file path=".WPM\Uninstall.bat">if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
-set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.pathed.PathEd" "--versions=[0.8, 0.8]"
-for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set pathed=%%x
-"%pathed%\pathed" -s -r "%CD%"
+set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.CLU" "--versions=[1, 1]"
+for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set clu=%%x
+"%clu%\clu" remove-path --path "%CD%"
 verify
 </file>
-        <url>http://www.gknw.net/mirror/curl/win32/curl-7.21.4-ssl-sspi-zlib-static-bin-w32.zip</url>
+        <url>http://www.gknw.net/mirror/curl/win32/old_releases/curl-7.21.4-ssl-sspi-zlib-static-bin-w32.zip</url>
         <sha1>63812474CA76ABD5C8819E77A50ED5E0EB48F356</sha1>
         <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.15.7, 2)"/>
         <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1, 1]"/>
-        <dependency package="com.googlecode.pathed.PathEd" versions="[0.8, 0.8]"/>
+        <dependency package="com.googlecode.windows-package-manager.CLU" versions="[1, 1]"/>
     </version>
     <version name="7.21.6" package="se.haxx.curl.CURL">
         <file path=".WPM\Install.bat">for /f "delims=" %%x in ('dir /b curl*') do set name=%%x
@@ -4913,22 +4914,22 @@ cd ..
 rmdir "%name%"
 
 if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
-set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.pathed.PathEd" "--versions=[0.8, 0.8]"
-for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set pathed=%%x
-"%pathed%\pathed" -s -a "%CD%"
+set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.CLU" "--versions=[1, 1]"
+for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set clu=%%x
+"%clu%\clu" add-path --path "%CD%"
 verify
 </file>
         <file path=".WPM\Uninstall.bat">if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
-set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.pathed.PathEd" "--versions=[0.8, 0.8]"
-for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set pathed=%%x
-"%pathed%\pathed" -s -r "%CD%"
+set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.CLU" "--versions=[1, 1]"
+for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set clu=%%x
+"%clu%\clu" remove-path --path "%CD%"
 verify
 </file>
-        <url>http://www.gknw.net/mirror/curl/win32/curl-7.21.6-ssl-sspi-zlib-static-bin-w32.zip</url>
+        <url>http://www.gknw.net/mirror/curl/win32/old_releases/curl-7.21.6-ssl-sspi-zlib-static-bin-w32.zip</url>
         <sha1>B94DF393B070874F2931A607EE506F5D3D37C391</sha1>
         <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.15.7, 2)"/>
         <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1, 1]"/>
-        <dependency package="com.googlecode.pathed.PathEd" versions="[0.8, 0.8]"/>
+        <dependency package="com.googlecode.windows-package-manager.CLU" versions="[1, 1]"/>
     </version>
     <version name="7.21.7" package="se.haxx.curl.CURL">
         <file path=".WPM\Install.bat">for /f "delims=" %%x in ('dir /b curl*') do set name=%%x
@@ -4940,22 +4941,22 @@ cd ..
 rmdir "%name%"
 
 if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
-set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.pathed.PathEd" "--versions=[0.8, 0.8]"
-for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set pathed=%%x
-"%pathed%\pathed" -s -a "%CD%"
+set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.CLU" "--versions=[1, 1]"
+for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set clu=%%x
+"%clu%\clu" add-path --path "%CD%"
 verify
 </file>
         <file path=".WPM\Uninstall.bat">if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
-set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.pathed.PathEd" "--versions=[0.8, 0.8]"
-for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set pathed=%%x
-"%pathed%\pathed" -s -r "%CD%"
+set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.CLU" "--versions=[1, 1]"
+for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set clu=%%x
+"%clu%\clu" remove-path --path "%CD%"
 verify
 </file>
-        <url>http://www.gknw.net/mirror/curl/win32/curl-7.21.7-ssl-sspi-zlib-static-bin-w32.zip</url>
+        <url>http://www.gknw.net/mirror/curl/win32/old_releases/curl-7.21.7-ssl-sspi-zlib-static-bin-w32.zip</url>
         <sha1>bbd447f160310d94955eb59b74904006752df42d</sha1>
         <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.15.7, 2)"/>
         <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1, 1]"/>
-        <dependency package="com.googlecode.pathed.PathEd" versions="[0.8, 0.8]"/>
+        <dependency package="com.googlecode.windows-package-manager.CLU" versions="[1, 1]"/>
     </version>
 
     <version name="0.96.1" package="com.clamwin.ClamWin" type="one-file">
