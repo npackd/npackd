@@ -164,7 +164,7 @@ public:
     bool waitFor(Job* job, const QString& title);
 
     /**
-     * Close all detail tabs.
+     * Close all detail tabs (versions and licenses).
      */
     void closeDetailTabs();
 

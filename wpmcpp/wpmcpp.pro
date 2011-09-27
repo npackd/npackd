@@ -15,7 +15,6 @@ SOURCES += main.cpp \
     progressdialog.cpp \
     packageversionfile.cpp \
     version.cpp \
-    settingsdialog.cpp \
     dependency.cpp \
     fileloader.cpp \
     fileloaderitem.cpp \
@@ -29,7 +28,8 @@ SOURCES += main.cpp \
     commandline.cpp \
     progressframe.cpp \
     messageframe.cpp \
-    xmlutils.cpp
+    xmlutils.cpp \
+    settingsframe.cpp
 HEADERS += mainwindow.h \
     packageversion.h \
     repository.h \
@@ -40,7 +40,6 @@ HEADERS += mainwindow.h \
     progressdialog.h \
     packageversionfile.h \
     version.h \
-    settingsdialog.h \
     dependency.h \
     msi.h \
     fileloader.h \
@@ -56,14 +55,15 @@ HEADERS += mainwindow.h \
     progressframe.h \
     messageframe.h \
     taskbar.h \
-    xmlutils.h
+    xmlutils.h \
+    settingsframe.h
 FORMS += mainwindow.ui \
     progressdialog.ui \
-    settingsdialog.ui \
     packageversionform.ui \
     licenseform.ui \
     progressframe.ui \
-    messageframe.ui
+    messageframe.ui \
+    settingsframe.ui
 INCLUDEPATH += ..\\quazip\\quazip ..\\zlib
 LIBS += ..\\quazip\\quazip\\release\\libquazip.a \
     ..\\zlib\\libz.a \
