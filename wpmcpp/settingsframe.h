@@ -1,19 +1,20 @@
-#ifndef SETTINGSDIALOG_H
-#define SETTINGSDIALOG_H
+#ifndef SETTINGSFRAME_H
+#define SETTINGSFRAME_H
 
-#include <QDialog>
-#include "qstringlist.h"
-#include "qurl.h"
+#include <QFrame>
+#include <QAbstractButton>
 
 namespace Ui {
-    class SettingsDialog;
+    class SettingsFrame;
 }
 
-class SettingsDialog : public QDialog {
+class SettingsFrame : public QFrame
+{
     Q_OBJECT
+
 public:
-    SettingsDialog(QWidget *parent = 0);
-    ~SettingsDialog();
+    explicit SettingsFrame(QWidget *parent = 0);
+    ~SettingsFrame();
 
     /**
      * @return repository URLs
@@ -34,11 +35,13 @@ public:
      * @param dir installation directory
      */
     void setInstallationDirectory(const QString& dir);
-protected:
-    void changeEvent(QEvent *e);
+private slots:
+    void on_buttonBox_accepted();
+
+    void on_buttonBox_clicked(QAbstractButton *button);
 
 private:
-    Ui::SettingsDialog *ui;
+    Ui::SettingsFrame *ui;
 };
 
-#endif // SETTINGSDIALOG_H
+#endif // SETTINGSFRAME_H

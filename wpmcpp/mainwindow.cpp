@@ -31,7 +31,6 @@
 #include "repository.h"
 #include "job.h"
 #include "progressdialog.h"
-#include "settingsdialog.h"
 #include "wpmutils.h"
 #include "installoperation.h"
 #include "downloader.h"
@@ -39,6 +38,8 @@
 #include "uiutils.h"
 #include "progressframe.h"
 #include "messageframe.h"
+#include "settingsframe.h"
+#include "licenseform.h"
 
 extern HWND defaultPasswordWindow;
 
@@ -1007,7 +1008,9 @@ void MainWindow::closeDetailTabs()
 {
     for (int i = 0; i < this->ui->tabWidget->count(); ) {
         QWidget* w = this->ui->tabWidget->widget(i);
-        if (w != this->ui->tab && w != this->jobsTab) {
+        PackageVersionForm* pvf = dynamic_cast<PackageVersionForm*>(w);
+        LicenseForm* lf = dynamic_cast<LicenseForm*>(w);
+        if (pvf != 0 || lf != 0) {
             this->ui->tabWidget->removeTab(i);
         } else {
             i++;
@@ -1089,65 +1092,32 @@ void MainWindow::on_lineEditText_textChanged(QString )
 
 void MainWindow::on_actionSettings_triggered()
 {
-    Repository* r = Repository::getDefault();
-
-    for (int i = 0; i < r->packageVersions.size(); i++) {
-        PackageVersion* pv = r->packageVersions.at(i);
-        if (pv->isLocked()) {
-            QString msg("Cannot change settings now. "
-                    "The package %1 is locked by a "
-                    "currently running installation/removal.");
-            this->addErrorMessage(msg.arg(pv->toString()));
-            return;
+    SettingsFrame* d = 0;
+    for (int i = 0; i < this->ui->tabWidget->count(); i++) {
+        QWidget* w = this->ui->tabWidget->widget(i);
+        d = dynamic_cast<SettingsFrame*>(w);
+        if (d) {
+            break;
         }
     }
+    if (d) {
+        this->ui->tabWidget->setCurrentWidget(d);
+    } else {
+        d = new SettingsFrame(this->ui->tabWidget);
 
-    SettingsDialog d;
-
-    QList<QUrl*> urls = Repository::getRepositoryURLs();
-    QStringList list;
-    for (int i = 0; i < urls.count(); i++) {
-        list.append(urls.at(i)->toString());
-    }
-    d.setRepositoryURLs(list);
-    qDeleteAll(urls);
-    urls.clear();
-
-    d.setInstallationDirectory(WPMUtils::getInstallationDirectory());
-
-    if (d.exec() == QDialog::Accepted) {
-        list = d.getRepositoryURLs();
-        if (list.count() == 0) {
-            QString msg("No repositories defined");
-            addErrorMessage(msg, msg, true, QMessageBox::Critical);
-        } else if (d.getInstallationDirectory().isEmpty()) {
-            QString msg("The installation directory cannot be empty");
-            addErrorMessage(msg, msg, true, QMessageBox::Critical);
-        } else if (!QDir(d.getInstallationDirectory()).exists()) {
-            QString msg("The installation directory does not exist");
-            addErrorMessage(msg, msg, true, QMessageBox::Critical);
-        } else {
-            QString err;
-            for (int i = 0; i < list.count(); i++) {
-                QUrl* url = new QUrl(list.at(i));
-                urls.append(url);
-                if (!url->isValid()) {
-                    err = QString("%1 is not a valid repository address").arg(
-                            list.at(i));
-                    break;
-                }
-            }
-            if (err.isEmpty()) {
-                WPMUtils::setInstallationDirectory(d.getInstallationDirectory());
-                Repository::setRepositoryURLs(urls);
-                closeDetailTabs();
-                recognizeAndLoadRepositories();
-            } else {
-                addErrorMessage(err, err, true, QMessageBox::Critical);
-            }
-            qDeleteAll(urls);
-            urls.clear();
+        QList<QUrl*> urls = Repository::getRepositoryURLs();
+        QStringList list;
+        for (int i = 0; i < urls.count(); i++) {
+            list.append(urls.at(i)->toString());
         }
+        d->setRepositoryURLs(list);
+        qDeleteAll(urls);
+        urls.clear();
+
+        d->setInstallationDirectory(WPMUtils::getInstallationDirectory());
+
+        this->ui->tabWidget->addTab(d, "Settings");
+        this->ui->tabWidget->setCurrentIndex(this->ui->tabWidget->count() - 1);
     }
 }
 
