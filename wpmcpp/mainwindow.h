@@ -54,6 +54,8 @@ private:
     UINT taskbarMessageId;
     ITaskbarList3* taskbarInterface;
 
+    bool hardDriveScanRunning;
+
     void addJobsTab();
     void showDetails();
     void updateIcons();
@@ -185,6 +187,8 @@ protected:
     void process(QList<InstallOperation*>& install);
 private slots:
     void processThreadFinished();
+    void hardDriveScanThreadFinished();
+    void recognizeAndLoadRepositoriesThreadFinished();
     void on_actionScan_Hard_Drives_triggered();
     void on_actionShow_Details_triggered();
     void on_tabWidget_currentChanged(int index);

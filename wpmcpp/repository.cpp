@@ -27,9 +27,8 @@ QList<PackageVersion*> Repository::getInstalled()
 {
     QList<PackageVersion*> ret;
 
-    Repository* r = Repository::getDefault();
-    for (int i = 0; i < r->packageVersions.count(); i++) {
-        PackageVersion* pv = r->packageVersions.at(i);
+    for (int i = 0; i < packageVersions.count(); i++) {
+        PackageVersion* pv = packageVersions.at(i);
         if (pv->installed()) {
             ret.append(pv);
         }

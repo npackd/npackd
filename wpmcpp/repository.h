@@ -8,6 +8,7 @@
 #include "qurl.h"
 #include "qtemporaryfile.h"
 #include "qdom.h"
+#include <QReadWriteLock>
 
 #include "package.h"
 #include "packageversion.h"
@@ -82,6 +83,11 @@ private:
 
     void addWellKnownPackages();
 public:
+    /**
+     * All operations on this object should be done under this lock.
+     */
+    QReadWriteLock lock;
+
     /**
      * @return newly created object pointing to the repositories
      */

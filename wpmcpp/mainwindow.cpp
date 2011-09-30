@@ -271,6 +271,8 @@ MainWindow::MainWindow(QWidget *parent) :
     this->jobsTab = 0;
     this->taskbarInterface = 0;
 
+    this->hardDriveScanRunning = false;
+
     setWindowTitle("Npackd");
 
     this->genericAppIcon = QIcon(":/images/app.png");
@@ -1026,16 +1028,17 @@ void MainWindow::recognizeAndLoadRepositories()
 
     Job* job = new Job();
     InstallThread* it = new InstallThread(0, 3, job);
-    it->start();
-    it->setPriority(QThread::LowestPriority);
 
-    QString title("Initializing");
-    waitFor(job, title);
-    it->wait();
-    delete it;
+    connect(it, SIGNAL(finished()), this,
+            SLOT(recognizeAndLoadRepositoriesThreadFinished()),
+            Qt::QueuedConnection);
 
+    monitor(job, "Initializing", it);
+}
+
+void MainWindow::recognizeAndLoadRepositoriesThreadFinished()
+{
     fillList();
-    delete job;
 
     Repository* r = Repository::getDefault();
     for (int i = 0; i < r->packages.count(); i++) {
@@ -1248,21 +1251,26 @@ void MainWindow::on_actionScan_Hard_Drives_triggered()
 
     Job* job = new Job();
     ScanHardDrivesThread* it = new ScanHardDrivesThread(job);
-    it->start();
-    it->setPriority(QThread::LowestPriority);
 
-    waitFor(job, "Scan Hard Drives");
-    it->wait();
+    connect(it, SIGNAL(finished()), this,
+            SLOT(hardDriveScanThreadFinished()),
+            Qt::QueuedConnection);
+
+    monitor(job, "Install/Uninstall", it);
+}
+
+void MainWindow::hardDriveScanThreadFinished()
+{
     QStringList detected;
+    ScanHardDrivesThread* it = (ScanHardDrivesThread*) this->sender();
     for (int i = 0; i < it->detected.count(); i++) {
         PackageVersion* pv = it->detected.at(i);
         detected.append(pv->toString());
     }
+
     detected.append("____________________");
     detected.append(QString("%1 package(s) detected").
             arg(it->detected.count()));
-    delete it;
-    delete job;
 
     fillList();
 
