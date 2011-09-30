@@ -43,7 +43,6 @@ private:
     time_t monitoredJobLastChanged;
     QList<Job*> runningJobs;
     QList<JobState> runningJobStates;
-    QMutex runningJobsMutex;
 
     Ui::MainWindow *ui;
 

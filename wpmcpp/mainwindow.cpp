@@ -244,9 +244,7 @@ MainWindow* MainWindow::getInstance()
 
 void MainWindow::closeEvent(QCloseEvent *event)
 {
-    this->runningJobsMutex.lock();
     int n = this->runningJobs.count();
-    this->runningJobsMutex.unlock();
 
     if (n == 0) {
         event->accept();
@@ -402,7 +400,6 @@ void MainWindow::updateStatusInTable()
 
 void MainWindow::updateProgressTabTitle()
 {
-    this->runningJobsMutex.lock();
     int n = this->runningJobStates.count();
     time_t max = 0;
     double maxProgress = 0;
@@ -419,8 +416,6 @@ void MainWindow::updateProgressTabTitle()
         }
     }
     QTime rest = WPMUtils::durationToTime(max);
-
-    this->runningJobsMutex.unlock();
 
     QString title;
     if (n == 0)
@@ -460,12 +455,10 @@ void MainWindow::monitoredJobChanged(const JobState& state)
     if (now != this->monitoredJobLastChanged) {
         this->monitoredJobLastChanged = now;
 
-        this->runningJobsMutex.lock();
         int index = this->runningJobs.indexOf(state.job);
         if (index >= 0) {
             this->runningJobStates.replace(index, state);
         }
-        this->runningJobsMutex.unlock();
 
         updateProgressTabTitle();
     }
@@ -477,10 +470,8 @@ void MainWindow::monitor(Job* job, const QString& title, QThread* thread)
             SLOT(monitoredJobChanged(const JobState&)),
             Qt::QueuedConnection);
 
-    this->runningJobsMutex.lock();
     this->runningJobs.append(job);
     this->runningJobStates.append(JobState());
-    this->runningJobsMutex.unlock();
 
     updateProgressTabTitle();
 
@@ -910,9 +901,7 @@ void MainWindow::changeEvent(QEvent *e)
 
 void MainWindow::on_actionExit_triggered()
 {
-    this->runningJobsMutex.lock();
     int n = this->runningJobs.count();
-    this->runningJobsMutex.unlock();
 
     if (n > 0)
         addErrorMessage("Cannot exit while jobs are running");
@@ -922,13 +911,11 @@ void MainWindow::on_actionExit_triggered()
 
 void MainWindow::unregisterJob(Job *job)
 {
-    this->runningJobsMutex.lock();
     int index = this->runningJobs.indexOf(job);
     if (index >= 0) {
         this->runningJobs.removeAt(index);
         this->runningJobStates.removeAt(index);
     }
-    this->runningJobsMutex.unlock();
 
     this->updateProgressTabTitle();
 }
