@@ -47,6 +47,18 @@ void SettingsFrame::on_buttonBox_clicked(QAbstractButton *button)
 {
     MainWindow* mw = MainWindow::getInstance();
 
+    if (mw->hardDriveScanRunning) {
+        mw->addErrorMessage("Cannot change settings now. "
+                "The hard drive scan is running.");
+        return;
+    }
+
+    if (mw->reloadRepositoriesThreadRunning) {
+        mw->addErrorMessage("Cannot change settings now. "
+                "The repositories download is running.");
+        return;
+    }
+
     Repository* r = Repository::getDefault();
 
     for (int i = 0; i < r->packageVersions.size(); i++) {

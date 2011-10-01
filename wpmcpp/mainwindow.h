@@ -53,8 +53,6 @@ private:
     UINT taskbarMessageId;
     ITaskbarList3* taskbarInterface;
 
-    bool hardDriveScanRunning;
-
     void addJobsTab();
     void showDetails();
     void updateIcons();
@@ -121,6 +119,12 @@ public:
      * This icon is used if a package does not define an icon.
      */
     static QIcon genericAppIcon;
+
+    /** true if the hard drive scan is runnig */
+    bool hardDriveScanRunning;
+
+    /** true if the repositories are being reloaded */
+    bool reloadRepositoriesThreadRunning;
 
     MainWindow(QWidget *parent = 0);
     ~MainWindow();
