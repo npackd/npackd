@@ -270,6 +270,7 @@ MainWindow::MainWindow(QWidget *parent) :
     this->taskbarInterface = 0;
 
     this->hardDriveScanRunning = false;
+    this->reloadRepositoriesThreadRunning = false;
 
     setWindowTitle("Npackd");
 
@@ -959,15 +960,21 @@ void MainWindow::updateActions()
 {
     PackageVersion* pv = getSelectedPackageVersion();
 
-    this->ui->actionInstall->setEnabled(pv && !pv->isLocked() &&
+    this->ui->actionInstall->setEnabled(
+            !hardDriveScanRunning && !reloadRepositoriesThreadRunning &&
+            pv && !pv->isLocked() &&
             !pv->installed() &&
             pv->download.isValid());
-    this->ui->actionUninstall->setEnabled(pv && !pv->isLocked() &&
+    this->ui->actionUninstall->setEnabled(
+            !hardDriveScanRunning && !reloadRepositoriesThreadRunning &&
+            pv && !pv->isLocked() &&
             pv->installed() &&
             !pv->isExternal());
 
     // "Update"
-    this->ui->actionUpdate->setEnabled(isUpdateEnabled(pv));
+    this->ui->actionUpdate->setEnabled(
+            !hardDriveScanRunning && !reloadRepositoriesThreadRunning &&
+            isUpdateEnabled(pv));
 
     // enable "Go To Package Page"
     Package* p;
@@ -975,13 +982,18 @@ void MainWindow::updateActions()
         p = Repository::getDefault()->findPackage(pv->package);
     else
         p = 0;
-    this->ui->actionGotoPackageURL->setEnabled(pv && p &&
+    this->ui->actionGotoPackageURL->setEnabled(
+            !reloadRepositoriesThreadRunning &&
+            pv && p &&
             QUrl(p->url).isValid());
 
-    this->ui->actionTest_Download_Site->setEnabled(pv &&
+    this->ui->actionTest_Download_Site->setEnabled(
+            !reloadRepositoriesThreadRunning &&
+            pv &&
             pv->download.isValid());
 
-    this->ui->actionShow_Details->setEnabled(pv);
+    this->ui->actionShow_Details->setEnabled(
+            !reloadRepositoriesThreadRunning && pv);
 
     QWidget* w = this->ui->tabWidget->currentWidget();
     this->ui->actionClose_Tab->setEnabled(
@@ -1020,6 +1032,9 @@ void MainWindow::recognizeAndLoadRepositories()
             SLOT(recognizeAndLoadRepositoriesThreadFinished()),
             Qt::QueuedConnection);
 
+    this->reloadRepositoriesThreadRunning = true;
+    updateActions();
+
     monitor(job, "Initializing", it);
 }
 
@@ -1038,6 +1053,9 @@ void MainWindow::recognizeAndLoadRepositoriesThreadFinished()
         }
     }
     // qDebug() << "MainWindow::loadRepository";
+
+    this->reloadRepositoriesThreadRunning = false;
+    updateActions();
 }
 
 void MainWindow::on_actionInstall_activated()
@@ -1243,6 +1261,9 @@ void MainWindow::on_actionScan_Hard_Drives_triggered()
             SLOT(hardDriveScanThreadFinished()),
             Qt::QueuedConnection);
 
+    this->hardDriveScanRunning = true;
+    this->updateActions();
+
     monitor(job, "Install/Uninstall", it);
 }
 
@@ -1262,6 +1283,9 @@ void MainWindow::hardDriveScanThreadFinished()
     fillList();
 
     addTextTab("Package detection status", detected.join("\n"));
+
+    this->hardDriveScanRunning = false;
+    this->updateActions();
 }
 
 void MainWindow::addErrorMessage(const QString& msg, const QString& details,
