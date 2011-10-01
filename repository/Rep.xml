@@ -8623,7 +8623,7 @@ if %errorlevel% equ 19 exit /b 0
     <!--
         see https://wiki.mozilla.org/Installer:Command_Line_Arguments
         for more information. See http://jp-nii01.mozilla.org/pub/mozilla.org/firefox/releases/
-        for available releases.
+        for available releases. Automatic updates are enabled.
     -->
     <version name="3.6.10" package="org.mozilla.Firefox" type="one-file">
         <important-file path="firefox.exe" title="Firefox"/>
@@ -8754,6 +8754,19 @@ for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x
         <file path=".WPM\Uninstall.bat">uninstall\helper.exe /S</file>
         <url>http://npackd.googlecode.com/files/org.mozilla.Firefox-6.0.1.exe</url>
         <sha1>5b30372731fdfe38d49d293a9d0d68682782a162</sha1>
+    </version>
+    <version name="7.0.1" package="org.mozilla.Firefox" type="one-file">
+        <important-file path="firefox.exe" title="Firefox"/>
+        <file path=".WPM\Install.bat">echo [Install] > .WPM\FF.ini
+echo InstallDirectoryPath=%CD% >> .WPM\FF.ini
+echo QuickLaunchShortcut=false >> .WPM\FF.ini
+echo DesktopShortcut=false >> .WPM\FF.ini
+for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x
+"%setup%" /INI="%CD%\.WPM\FF.ini"
+</file>
+        <file path=".WPM\Uninstall.bat">uninstall\helper.exe /S</file>
+        <url>http://npackd.googlecode.com/files/org.mozilla.Firefox-7.0.1.exe</url>
+        <sha1>eee90f8f72c37a904fb73cddaf3ccc2732dceb77</sha1>
     </version>
 
     <version name="1.33" package="org.gexperts.GExpertsDelphi7Installer"
