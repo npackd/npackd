@@ -8254,6 +8254,23 @@ if %err% neq 0 exit /b %err%
         <url>http://ardownload.adobe.com/pub/adobe/reader/win/10.x/10.1.0/en_US/AdbeRdr1010_en_US.exe</url>
         <sha1>84E019FF96256254CE5FE38CF1E095C7FAEFE3A3</sha1>
     </version>
+    <version name="10.1.1" package="com.adobe.AdobeReader" type="one-file">
+        <file path=".WPM\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x
+"%setup%" /sAll /rs /msi /Lime "%CD%\.WPM\MSI.log" ALLUSERS=1 INSTALLDIR="%CD%"
+set err=%errorlevel%
+type .WPM\MSI.log
+rem 3010=restart required
+if %err% equ 3010 exit /b 0
+if %err% neq 0 exit /b %err%
+</file>
+        <file path=".WPM\Uninstall.bat">msiexec.exe /qn /norestart /Lime .WPM\MSI.log /X{AC76BA86-7AD7-1033-7B44-AA1000000001}
+set err=%errorlevel%
+type .WPM\MSI.log
+if %err% neq 0 exit /b %err%
+</file>
+        <url>http://ardownload.adobe.com/pub/adobe/reader/win/10.x/10.1.1/en_US/AdbeRdr1011_en_US.exe</url>
+        <sha1>b7989c78c476d30ec156bbaf4f80547295f1b961</sha1>
+    </version>
 
     <version name="2.7.1" package="net.sourceforge.pidgin.Pidgin"
             type="one-file">
