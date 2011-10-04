@@ -12838,6 +12838,20 @@ rmdir "%name%"
         <dependency package="com.oracle.JRE" versions="[1.6, 2)"/>
         <sha1>7FD1A2F978E3AA341DA9589AFCF57A200BDBF0A0</sha1>
     </version>
+    <version name="3.7.1" package="org.eclipse.EclipseIDECPP">
+        <file path=".WPM\Install.bat">for /f "delims=" %%x in ('dir /b eclipse*') do set name=%%x
+cd "%name%"        
+for /f "delims=" %%a in ('dir /b') do (
+  move "%%a" ..
+)
+cd ..
+rmdir "%name%"
+</file>
+        <important-file path="eclipse.exe" title="Eclipse IDE for C and C++"/>
+        <url>http://ftp-stud.fht-esslingen.de/pub/Mirrors/eclipse/technology/epp/downloads/release/indigo/SR1/eclipse-cpp-indigo-SR1-incubation-win32.zip</url>
+        <dependency package="com.oracle.JRE" versions="[1.6, 2)"/>
+        <sha1>72d0de9376cc7a84b4b8c07db3b58a10dd5c1d9e</sha1>
+    </version>
 
     <!-- 
         installation opens a page in the browser and does not use the 
