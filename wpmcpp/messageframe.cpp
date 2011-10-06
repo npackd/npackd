@@ -54,16 +54,13 @@ void MessageFrame::timerTimeout()
         }
     }
 
+    this->ui->pushButtonDismiss->setText(
+            QString("Dismiss (%1 seconds)").arg(seconds));
     if (active) {
         this->seconds -= 10;
-        this->ui->pushButtonDismiss->setText(
-                QString("Dismiss (%1 seconds)").arg(seconds));
         if (this->seconds <= 0) {
             this->deleteLater();
         }
-    } else {
-        this->ui->pushButtonDismiss->setText(
-                QString("Dismiss"));
     }
 }
 
