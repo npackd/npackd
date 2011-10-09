@@ -155,6 +155,21 @@ rmdir "%name%"
         <dependency package="net.sourceforge.gnuwin32.Make" versions="[3.81, 3.81]"/>
         <dependency package="net.sourceforge.mingw-w64.MinGWW64" versions="[1, 1.1)"/>
     </version>
+    <version name="0.4.3" package="net.sourceforge.quazip.QuaZIPSource">
+        <file path=".WPM\Install.bat">for /f "delims=" %%x in ('dir /b quazip*') do set name=%%x
+cd "%name%"        
+for /f "delims=" %%a in ('dir /b') do (
+  move "%%a" ..
+)
+cd ..
+rmdir "%name%"
+</file>
+        <url>http://downloads.sourceforge.net/project/quazip/quazip/0.4.3/quazip-0.4.3.zip?ts=1318172630</url>
+        <sha1>60d0bfbb49fe2ee18c7759d7a2d03fb2eb07ee40</sha1>
+        <dependency package="net.zlib.ZLibSource" versions="[1.2.5, 1.2.5]"/>
+        <dependency package="net.sourceforge.gnuwin32.Make" versions="[3.81, 3.81]"/>
+        <dependency package="net.sourceforge.mingw-w64.MinGWW64" versions="[1, 1.1)"/>
+    </version>
     
     <version name="1.2.5" package="net.zlib.ZLibSource">
         <file path=".WPM\Install.bat">for /f "delims=" %%x in ('dir /b zlib*') do set name=%%x
