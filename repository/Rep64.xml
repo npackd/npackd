@@ -2143,9 +2143,9 @@ type .WPM\MSI.log
 if %err% neq 0 exit /b %err%
 
 if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
-set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.pathed.PathEd" "--versions=[0.8, 0.8]"
-for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set pathed=%%x
-"%pathed%\pathed" -s -a "%CD%\bin"
+set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.CLU" "--versions=[1, 1]"
+for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set clu=%%x
+"%clu%\clu" add-path --path "%CD%\bin"
 verify
 </file>
         <file path=".WPM\Uninstall.bat">MsiExec.exe /qn /norestart /Lime .WPM\MSI.log /X{64A3A4F4-B792-11D6-A78A-00B0D0160250}
@@ -2154,14 +2154,14 @@ type .WPM\MSI.log
 if %err% neq 0 exit /b %err%
 
 if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
-set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.pathed.PathEd" "--versions=[0.8, 0.8]"
-for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set pathed=%%x
-"%pathed%\pathed" -s -r "%CD%\bin"
+set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.CLU" "--versions=[1, 1]"
+for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set clu=%%x
+"%clu%\clu" remove-path --path "%CD%\bin"
 verify
 </file>
         <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.15.7, 2)"/>
         <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1, 1]"/>
-        <dependency package="com.googlecode.pathed.PathEd" versions="[0.8, 0.8]"/>
+        <dependency package="com.googlecode.windows-package-manager.CLU" versions="[1, 1]"/>
         <url>http://javadl.sun.com/webapps/download/AutoDL?BundleId=48305</url>
         <sha1>B922F958BE1139CE0E677C2341CCAC5AB7C9B0AC</sha1>
         <detect-msi>{64A3A4F4-B792-11D6-A78A-00B0D0160250}</detect-msi>
@@ -2174,9 +2174,9 @@ type .WPM\MSI.log
 if %err% neq 0 exit /b %err%
 
 if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
-set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.pathed.PathEd" "--versions=[0.8, 0.8]"
-for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set pathed=%%x
-"%pathed%\pathed" -s -a "%CD%\bin"
+set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.CLU" "--versions=[1, 1]"
+for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set clu=%%x
+"%clu%\clu" add-path --path "%CD%\bin"
 verify
 </file>
         <file path=".WPM\Uninstall.bat">MsiExec.exe /qn /norestart /Lime .WPM\MSI.log /X{64A3A4F4-B792-11D6-A78A-00B0D0160260}
@@ -2185,14 +2185,14 @@ type .WPM\MSI.log
 if %err% neq 0 exit /b %err%
 
 if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
-set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.pathed.PathEd" "--versions=[0.8, 0.8]"
-for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set pathed=%%x
-"%pathed%\pathed" -s -r "%CD%\bin"
+set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.CLU" "--versions=[1, 1]"
+for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set clu=%%x
+"%clu%\clu" remove-path --path "%CD%\bin"
 verify
 </file>
         <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.15.7, 2)"/>
         <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1, 1]"/>
-        <dependency package="com.googlecode.pathed.PathEd" versions="[0.8, 0.8]"/>
+        <dependency package="com.googlecode.windows-package-manager.CLU" versions="[1, 1]"/>
         <url>http://javadl.sun.com/webapps/download/AutoDL?BundleId=49185</url>
         <sha1>af5e83a55eef71549ac457a7027b0e50a7526bdd</sha1>
         <detect-msi>{64A3A4F4-B792-11D6-A78A-00B0D0160260}</detect-msi>
@@ -2205,9 +2205,9 @@ type .WPM\MSI.log
 if %err% neq 0 exit /b %err%
 
 if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
-set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.pathed.PathEd" "--versions=[0.8, 0.8]"
-for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set pathed=%%x
-"%pathed%\pathed" -s -a "%CD%\bin"
+set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.CLU" "--versions=[1, 1]"
+for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set clu=%%x
+"%clu%\clu" add-path --path "%CD%\bin"
 verify
 </file>
         <file path=".WPM\Uninstall.bat">MsiExec.exe /qn /norestart /Lime .WPM\MSI.log /X{64A3A4F4-B792-11D6-A78A-00B0D0170000}
@@ -2216,14 +2216,14 @@ type .WPM\MSI.log
 if %err% neq 0 exit /b %err%
 
 if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
-set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.pathed.PathEd" "--versions=[0.8, 0.8]"
-for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set pathed=%%x
-"%pathed%\pathed" -s -r "%CD%\bin"
+set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.CLU" "--versions=[1, 1]"
+for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set clu=%%x
+"%clu%\clu" remove-path --path "%CD%\bin"
 verify
 </file>
         <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.15.7, 2)"/>
         <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1, 1]"/>
-        <dependency package="com.googlecode.pathed.PathEd" versions="[0.8, 0.8]"/>
+        <dependency package="com.googlecode.windows-package-manager.CLU" versions="[1, 1]"/>
         <url>http://javadl.sun.com/webapps/download/AutoDL?BundleId=51790</url>
         <sha1>49a6ce4ddcffe763f24e9af3dcf360048eeb20e1</sha1>
         <detect-msi>{64A3A4F4-B792-11D6-A78A-00B0D0170000}</detect-msi>
