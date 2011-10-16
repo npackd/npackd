@@ -58,6 +58,8 @@ private:
     void updateIcons();
     void updateActions();
     bool isUpdateEnabled(PackageVersion* pv);
+    void setMenuAccelerators();
+    void setAccelerators(QMenu* menu);
 
     /**
      * Fills the table with known package versions.

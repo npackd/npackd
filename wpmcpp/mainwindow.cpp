@@ -262,6 +262,10 @@ MainWindow::MainWindow(QWidget *parent) :
 
     ui->setupUi(this);
 
+    this->setMenuAccelerators();
+    this->setAccelerators(this->ui->menuFile);
+    this->setAccelerators(this->ui->menuHelp);
+
     this->taskbarMessageId = 0;
 
     this->monitoredJobLastChanged = 0;
@@ -1036,6 +1040,59 @@ void MainWindow::recognizeAndLoadRepositories()
     updateActions();
 
     monitor(job, "Initializing", it);
+}
+
+void MainWindow::setMenuAccelerators(){
+    QMenuBar* mb = this->menuBar();
+    QList<QChar> used;
+    for (int i = 0; i < mb->children().count(); i++) {
+        QMenu* m = dynamic_cast<QMenu*>(mb->children().at(i));
+        if (m) {
+            QString title = m->title();
+            if (!title.contains('&')) {
+                QString s = title.toUpper();
+                int pos = -1;
+                for (int j = 0; j < s.length(); j++) {
+                    QChar c = s.at(j);
+                    if (c.isLetter() && !used.contains(c)) {
+                        pos = j;
+                        break;
+                    }
+                }
+
+                if (pos >= 0) {
+                    QChar c = s.at(pos);
+                    used.append(c);
+                    m->setTitle(title.insert(pos, '&'));
+                }
+            }
+        }
+    }
+}
+
+void MainWindow::setAccelerators(QMenu* menu) {
+    QList<QChar> used;
+    for (int i = 0; i < menu->actions().count(); i++) {
+        QAction* m = menu->actions().at(i);
+        QString title = m->text();
+        if (!title.contains('&')) {
+            QString s = title.toUpper();
+            int pos = -1;
+            for (int j = 0; j < s.length(); j++) {
+                QChar c = s.at(j);
+                if (c.isLetter() && !used.contains(c)) {
+                    pos = j;
+                    break;
+                }
+            }
+
+            if (pos >= 0) {
+                QChar c = s.at(pos);
+                used.append(c);
+                m->setText(title.insert(pos, '&'));
+            }
+        }
+    }
 }
 
 void MainWindow::recognizeAndLoadRepositoriesThreadFinished()
