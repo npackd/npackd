@@ -11,6 +11,7 @@
 #include <QFrame>
 #include <QScrollArea>
 #include <QMessageBox>
+#include <QStringList>
 
 #include "packageversion.h"
 #include "job.h"
@@ -59,7 +60,8 @@ private:
     void updateActions();
     bool isUpdateEnabled(PackageVersion* pv);
     void setMenuAccelerators();
-    void setAccelerators(QMenu* menu);
+    void setActionAccelerators(QWidget* w);
+    void chooseAccelerators(QStringList* titles);
 
     /**
      * Fills the table with known package versions.
