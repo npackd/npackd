@@ -152,8 +152,109 @@ void ScanHardDrivesThread::run()
     }
 }
 
+MainWindow::MainWindow(QWidget *parent) :
+    QMainWindow(parent),
+    ui(new Ui::MainWindow)
+{
+    instance = this;
+
+    ui->setupUi(this);
+
+    this->setMenuAccelerators();
+    this->setActionAccelerators(this);
+
+    this->taskbarMessageId = 0;
+
+    this->monitoredJobLastChanged = 0;
+    this->progressContent = 0;
+    this->jobsTab = 0;
+    this->taskbarInterface = 0;
+
+    this->hardDriveScanRunning = false;
+    this->reloadRepositoriesThreadRunning = false;
+
+    setWindowTitle("Npackd");
+
+    this->genericAppIcon = QIcon(":/images/app.png");
+
+    this->ui->tableWidget->setEditTriggers(QTableWidget::NoEditTriggers);
+
+    QList<QUrl*> urls = Repository::getRepositoryURLs();
+    if (urls.count() == 0) {
+        urls.append(new QUrl(
+                "https://windows-package-manager.googlecode.com/hg/repository/Rep.xml"));
+        if (WPMUtils::is64BitWindows())
+            urls.append(new QUrl(
+                    "https://windows-package-manager.googlecode.com/hg/repository/Rep64.xml"));
+        Repository::setRepositoryURLs(urls);
+    }
+    qDeleteAll(urls);
+    urls.clear();
+
+    //this->ui->formLayout_2->setSizeConstraint(QLayout::SetDefaultConstraint);
+
+    this->ui->tabWidget->setTabText(0, "Packages");
+
+    this->on_tableWidget_itemSelectionChanged();
+    this->ui->tableWidget->setColumnCount(6);
+    this->ui->tableWidget->setColumnWidth(0, 40);
+    this->ui->tableWidget->setColumnWidth(1, 150);
+    this->ui->tableWidget->setColumnWidth(2, 300);
+    this->ui->tableWidget->setColumnWidth(3, 100);
+    this->ui->tableWidget->setColumnWidth(4, 100);
+    this->ui->tableWidget->setColumnWidth(5, 100);
+    this->ui->tableWidget->setIconSize(QSize(32, 32));
+    this->ui->tableWidget->sortItems(1);
+
+    this->ui->tableWidget->addAction(this->ui->actionInstall);
+    this->ui->tableWidget->addAction(this->ui->actionUninstall);
+    this->ui->tableWidget->addAction(this->ui->actionUpdate);
+    this->ui->tableWidget->addAction(this->ui->actionShow_Details);
+    this->ui->tableWidget->addAction(this->ui->actionGotoPackageURL);
+    this->ui->tableWidget->addAction(this->ui->actionTest_Download_Site);
+
+    connect(&this->fileLoader, SIGNAL(downloaded(const FileLoaderItem&)), this,
+            SLOT(iconDownloaded(const FileLoaderItem&)),
+            Qt::QueuedConnection);
+    this->fileLoader.start(QThread::LowestPriority);
+
+    // copy toolTip to statusTip for all actions
+    for (int i = 0; i < this->children().count(); i++) {
+        QObject* ch = this->children().at(i);
+        QAction* a = dynamic_cast<QAction*>(ch);
+        if (a) {
+            a->setStatusTip(a->toolTip());
+        }
+    }
+
+    this->ui->lineEditText->setFocus();
+
+    this->addJobsTab();
+
+    Repository* r = Repository::getDefault();
+    connect(r, SIGNAL(statusChanged(PackageVersion*)), this,
+            SLOT(repositoryStatusChanged(PackageVersion*)),
+            Qt::QueuedConnection);
+
+    defaultPasswordWindow = this->winId();
+
+    this->taskbarMessageId = RegisterWindowMessage(L"TaskbarButtonCreated");
+    // qDebug() << "id " << taskbarMessageId;
+
+    // Npackd runs elevated and the taskbar does not. We have to allow the
+    // taskbar event here.
+    HINSTANCE hInstLib = LoadLibraryA("USER32.DLL");
+    BOOL WINAPI (*lpfChangeWindowMessageFilterEx)
+            (HWND, UINT, DWORD, void*) =
+            (BOOL (WINAPI*) (HWND, UINT, DWORD, void*))
+            GetProcAddress(hInstLib, "ChangeWindowMessageFilterEx");
+    if (lpfChangeWindowMessageFilterEx)
+        lpfChangeWindowMessageFilterEx(winId(), taskbarMessageId, 1, 0);
+    FreeLibrary(hInstLib);
+}
+
 bool MainWindow::winEvent(MSG* message, long* result)
-{    
+{
     if (message->message == taskbarMessageId) {
         HRESULT hr = CoCreateInstance(CLSID_TaskbarList, NULL,
                 CLSCTX_INPROC_SERVER, IID_ITaskbarList3,
@@ -252,107 +353,6 @@ void MainWindow::closeEvent(QCloseEvent *event)
         addErrorMessage("Cannot exit while jobs are running");
         event->ignore();
     }
-}
-
-MainWindow::MainWindow(QWidget *parent) :
-    QMainWindow(parent),
-    ui(new Ui::MainWindow)
-{
-    instance = this;
-
-    ui->setupUi(this);
-
-    this->setMenuAccelerators();
-    this->setAccelerators(this->ui->menuFile);
-    this->setAccelerators(this->ui->menuHelp);
-
-    this->taskbarMessageId = 0;
-
-    this->monitoredJobLastChanged = 0;
-    this->progressContent = 0;
-    this->jobsTab = 0;
-    this->taskbarInterface = 0;
-
-    this->hardDriveScanRunning = false;
-    this->reloadRepositoriesThreadRunning = false;
-
-    setWindowTitle("Npackd");
-
-    this->genericAppIcon = QIcon(":/images/app.png");
-
-    this->ui->tableWidget->setEditTriggers(QTableWidget::NoEditTriggers);
-
-    QList<QUrl*> urls = Repository::getRepositoryURLs();
-    if (urls.count() == 0) {
-        urls.append(new QUrl(
-                "https://windows-package-manager.googlecode.com/hg/repository/Rep.xml"));
-        if (WPMUtils::is64BitWindows())
-            urls.append(new QUrl(
-                    "https://windows-package-manager.googlecode.com/hg/repository/Rep64.xml"));
-        Repository::setRepositoryURLs(urls);
-    }
-    qDeleteAll(urls);
-    urls.clear();
-
-    //this->ui->formLayout_2->setSizeConstraint(QLayout::SetDefaultConstraint);
-
-    this->ui->tabWidget->setTabText(0, "Packages");
-
-    this->on_tableWidget_itemSelectionChanged();
-    this->ui->tableWidget->setColumnCount(6);
-    this->ui->tableWidget->setColumnWidth(0, 40);
-    this->ui->tableWidget->setColumnWidth(1, 150);
-    this->ui->tableWidget->setColumnWidth(2, 300);
-    this->ui->tableWidget->setColumnWidth(3, 100);
-    this->ui->tableWidget->setColumnWidth(4, 100);
-    this->ui->tableWidget->setColumnWidth(5, 100);
-    this->ui->tableWidget->setIconSize(QSize(32, 32));
-    this->ui->tableWidget->sortItems(1);
-    this->ui->tableWidget->addAction(this->ui->actionInstall);
-    this->ui->tableWidget->addAction(this->ui->actionUninstall);
-    this->ui->tableWidget->addAction(this->ui->actionUpdate);
-    this->ui->tableWidget->addAction(this->ui->actionShow_Details);
-    this->ui->tableWidget->addAction(this->ui->actionGotoPackageURL);
-    this->ui->tableWidget->addAction(this->ui->actionTest_Download_Site);
-
-    connect(&this->fileLoader, SIGNAL(downloaded(const FileLoaderItem&)), this,
-            SLOT(iconDownloaded(const FileLoaderItem&)),
-            Qt::QueuedConnection);
-    this->fileLoader.start(QThread::LowestPriority);
-
-    // copy toolTip to statusTip for all actions
-    for (int i = 0; i < this->children().count(); i++) {
-        QObject* ch = this->children().at(i);
-        QAction* a = dynamic_cast<QAction*>(ch);
-        if (a) {
-            a->setStatusTip(a->toolTip());
-        }
-    }
-
-    this->ui->lineEditText->setFocus();
-
-    this->addJobsTab();
-
-    Repository* r = Repository::getDefault();
-    connect(r, SIGNAL(statusChanged(PackageVersion*)), this,
-            SLOT(repositoryStatusChanged(PackageVersion*)),
-            Qt::QueuedConnection);
-
-    defaultPasswordWindow = this->winId();
-
-    this->taskbarMessageId = RegisterWindowMessage(L"TaskbarButtonCreated");
-    // qDebug() << "id " << taskbarMessageId;
-
-    // Npackd runs elevated and the taskbar does not. We have to allow the
-    // taskbar event here.
-    HINSTANCE hInstLib = LoadLibraryA("USER32.DLL");
-    BOOL WINAPI (*lpfChangeWindowMessageFilterEx)
-            (HWND, UINT, DWORD, void*) =
-            (BOOL (WINAPI*) (HWND, UINT, DWORD, void*))
-            GetProcAddress(hInstLib, "ChangeWindowMessageFilterEx");
-    if (lpfChangeWindowMessageFilterEx)
-        lpfChangeWindowMessageFilterEx(winId(), taskbarMessageId, 1, 0);
-    FreeLibrary(hInstLib);
 }
 
 void MainWindow::repositoryStatusChanged(PackageVersion* pv)
@@ -1045,36 +1045,42 @@ void MainWindow::recognizeAndLoadRepositories()
 void MainWindow::setMenuAccelerators(){
     QMenuBar* mb = this->menuBar();
     QList<QChar> used;
+    QStringList titles;
     for (int i = 0; i < mb->children().count(); i++) {
         QMenu* m = dynamic_cast<QMenu*>(mb->children().at(i));
         if (m) {
-            QString title = m->title();
-            if (!title.contains('&')) {
-                QString s = title.toUpper();
-                int pos = -1;
-                for (int j = 0; j < s.length(); j++) {
-                    QChar c = s.at(j);
-                    if (c.isLetter() && !used.contains(c)) {
-                        pos = j;
-                        break;
-                    }
-                }
-
-                if (pos >= 0) {
-                    QChar c = s.at(pos);
-                    used.append(c);
-                    m->setTitle(title.insert(pos, '&'));
-                }
-            }
+            titles.append(m->title());
+        }
+    }
+    chooseAccelerators(&titles);
+    for (int i = 0, j = 0; i < mb->children().count(); i++) {
+        QMenu* m = dynamic_cast<QMenu*>(mb->children().at(i));
+        if (m) {
+            m->setTitle(titles.at(j));
+            j++;
         }
     }
 }
 
-void MainWindow::setAccelerators(QMenu* menu) {
+void MainWindow::chooseAccelerators(QStringList* titles)
+{
     QList<QChar> used;
-    for (int i = 0; i < menu->actions().count(); i++) {
-        QAction* m = menu->actions().at(i);
-        QString title = m->text();
+    for (int i = 0; i < titles->count(); i++) {
+        QString title = titles->at(i);
+
+        if (title.contains('&')) {
+            int pos = title.indexOf('&');
+            if (pos + 1 < title.length()) {
+                QChar c = title.at(pos + 1);
+                if (c.isLetter()) {
+                    if (!used.contains(c))
+                        used.append(c);
+                    else
+                        title.remove(pos, 1);
+                }
+            }
+        }
+
         if (!title.contains('&')) {
             QString s = title.toUpper();
             int pos = -1;
@@ -1089,8 +1095,28 @@ void MainWindow::setAccelerators(QMenu* menu) {
             if (pos >= 0) {
                 QChar c = s.at(pos);
                 used.append(c);
-                m->setText(title.insert(pos, '&'));
+                title.insert(pos, '&');
             }
+        }
+
+        titles->replace(i, title);
+    }
+}
+
+void MainWindow::setActionAccelerators(QWidget* w) {
+    QStringList titles;
+    for (int i = 0; i < w->children().count(); i++) {
+        QAction* m = dynamic_cast<QAction*>(w->children().at(i));
+        if (m) {
+            titles.append(m->text());
+        }
+    }
+    chooseAccelerators(&titles);
+    for (int i = 0, j = 0; i < w->children().count(); i++) {
+        QAction* m = dynamic_cast<QAction*>(w->children().at(i));
+        if (m) {
+            m->setText(titles.at(j));
+            j++;
         }
     }
 }
