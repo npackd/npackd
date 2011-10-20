@@ -208,7 +208,7 @@ void App::usage()
         "    npackdcl remove --package=<package> --version=<version>",
         "        removes a package",
         "    npackdcl list [--status=installed | all]",
-        "        lists all packages sorted by package name and version.",
+        "        lists packages sorted by package name and version.",
         "        Only installed package versions are shown by default.",
         "    npackdcl info --package=<package> --version=<version>",
         "        shows information about the specified package version",
@@ -228,7 +228,7 @@ void App::usage()
         "",
         "You can use short package names in 'add' and 'remove' operations.",
         "Example: App instead of com.example.App",
-        "The process exits with the code unequal to 0 if an error occcures.",
+        "The process exits with the code unequal to 0 if an error occures.",
         "If the output is redirected, the texts will be encoded as UTF-8.",
     };
     for (int i = 0; i < (int) (sizeof(lines2) / sizeof(lines2[0])); i++) {

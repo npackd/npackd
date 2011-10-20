@@ -28,7 +28,8 @@ SOURCES += main.cpp \
     ../wpmcpp/windowsregistry.cpp \
     ../wpmcpp/detectfile.cpp \
     app.cpp \
-    ../wpmcpp/commandline.cpp
+    ../wpmcpp/commandline.cpp \
+    ../wpmcpp/xmlutils.cpp
 HEADERS += ../wpmcpp/repository.h \
     ../wpmcpp/version.h \
     ../wpmcpp/packageversionfile.h \
@@ -44,5 +45,6 @@ HEADERS += ../wpmcpp/repository.h \
     ../wpmcpp/windowsregistry.h \
     ../wpmcpp/detectfile.h \
     app.h \
-    ../wpmcpp/commandline.h
+    ../wpmcpp/commandline.h \
+    ../wpmcpp/xmlutils.h
 FORMS += 
