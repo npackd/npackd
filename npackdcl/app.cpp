@@ -156,6 +156,8 @@ int App::process()
         r = unitTests();
     } else if (fr.at(0) == "info") {
         r = info();
+    } else if (fr.at(0) == "update") {
+        r = update();
     } else {
         WPMUtils::outputTextConsole("Wrong command: " + fr.at(0) + "\n", false);
         r = 1;
@@ -207,6 +209,9 @@ void App::usage()
         "        installs a package",
         "    npackdcl remove --package=<package> --version=<version>",
         "        removes a package",
+        "    npackdcl update --package=<package>",
+        "        updates a package by uninstalling the currently installed",
+        "        and installing the newest",
         "    npackdcl list [--status=installed | all]",
         "        lists packages sorted by package name and version.",
         "        Only installed package versions are shown by default.",
@@ -448,6 +453,109 @@ int App::path()
                 QString p = pv->getPath();
                 p.replace('/', '\\');
                 WPMUtils::outputTextConsole(p + "\n");
+            }
+        }
+    }
+
+    return r;
+}
+
+int App::update()
+{
+    int r = 0;
+
+    Repository* rep = Repository::getDefault();
+    Job* job = createJob();
+    rep->reload(job);
+    if (!job->getErrorMessage().isEmpty()) {
+        WPMUtils::outputTextConsole(job->getErrorMessage() + "\n", false);
+        r = 1;
+    }
+    delete job;
+
+    addNpackdCL();
+
+    QString package = cl.get("package");
+
+    if (r == 0) {
+        if (package.isNull()) {
+            WPMUtils::outputTextConsole("Missing option: --package\n", false);
+            r = 1;
+        }
+    }
+
+    if (r == 0) {
+        if (!Package::isValidName(package)) {
+            WPMUtils::outputTextConsole("Invalid package name: " +
+                    package + "\n", false);
+            r = 1;
+        }
+    }
+
+    QList<Package*> packages;
+
+    if (r == 0) {
+        packages = rep->findPackages(package);
+        if (packages.count() == 0) {
+            WPMUtils::outputTextConsole("Unknown package: " +
+                    package + "\n", false);
+            r = 1;
+        }
+    }
+
+    if (r == 0) {
+        if (packages.count() > 1) {
+            WPMUtils::outputTextConsole("Ambiguous package name\n", false);
+            r = 1;
+        }
+    }
+
+    PackageVersion* newesti = 0;
+    if (r == 0) {
+        // debug: WPMUtils::outputTextConsole <<  package) << " " << versions);
+        newesti = rep->findNewestInstalledPackageVersion(
+                packages.at(0)->name);
+        if (newesti == 0) {
+            WPMUtils::outputTextConsole("Package is not installed\n", false);
+            r = 1;
+        }
+    }
+
+    PackageVersion* newest = 0;
+    if (r == 0) {
+        newest = rep->findNewestInstallablePackageVersion(
+            packages.at(0)->name);
+        if (newesti == 0) {
+            WPMUtils::outputTextConsole("No installable versions found\n", false);
+            r = 1;
+        }
+    }
+
+    QList<InstallOperation*> ops;
+    if (r == 0) {
+        if (newest->version.compare(newesti->version) <= 0) {
+            WPMUtils::outputTextConsole("The package is already up-to-date\n", true);
+        } else {
+            QList<PackageVersion*> installed =
+                    Repository::getDefault()->getInstalled();
+            QList<PackageVersion*> avoid;
+            QString err = newest->planInstallation(installed, ops, avoid);
+            if (err.isEmpty())
+                err = newesti->planUninstallation(installed, ops);
+
+            if (err.isEmpty()) {
+                InstallOperation::simplify(ops);
+                Job* ijob = createJob();
+                rep->process(ijob, ops);
+                if (!ijob->getErrorMessage().isEmpty()) {
+                    WPMUtils::outputTextConsole(ijob->getErrorMessage() + "\n",
+                            false);
+                    r = 1;
+                }
+                delete ijob;
+            } else {
+                WPMUtils::outputTextConsole(err + "\n", false);
+                r = 1;
             }
         }
     }
