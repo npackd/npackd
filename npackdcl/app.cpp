@@ -305,10 +305,16 @@ bool packageVersionLessThan(const PackageVersion* pv1, const PackageVersion* pv2
 
 int App::list()
 {
+    bool bare = cl.isPresent("bare-format");
+
     int r = 0;
 
     Repository* rep = Repository::getDefault();
-    Job* job = createJob();
+    Job* job;
+    if (bare)
+        job = new Job();
+    else
+        job = createJob();
     rep->reload(job);
     if (!job->getErrorMessage().isEmpty()) {
         WPMUtils::outputTextConsole(job->getErrorMessage() + "\n", false);
@@ -330,8 +336,6 @@ int App::list()
             }
         }
     }
-
-    bool bare = cl.isPresent("bare-format");
 
     if (r == 0) {
         Repository* rep = Repository::getDefault();
