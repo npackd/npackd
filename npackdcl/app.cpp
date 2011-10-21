@@ -120,6 +120,8 @@ int App::process()
             "repository", false);
     cl.add("status", 's', "filters package versions by status",
             "status", false);
+    cl.add("bare-format", 'b', "bare format (no heading or summary)",
+            "", false);
 
     QString err = cl.parse();
     if (!err.isEmpty()) {
@@ -211,8 +213,8 @@ void App::usage()
         "        removes a package",
         "    npackdcl update --package=<package>",
         "        updates a package by uninstalling the currently installed",
-        "        and installing the newest",
-        "    npackdcl list [--status=installed | all]",
+        "        and installing the newest version",
+        "    npackdcl list [--status=installed | all] [--bare-format]",
         "        lists packages sorted by package name and version.",
         "        Only installed package versions are shown by default.",
         "    npackdcl info --package=<package> --version=<version>",
@@ -329,6 +331,8 @@ int App::list()
         }
     }
 
+    bool bare = cl.isPresent("bare-format");
+
     if (r == 0) {
         Repository* rep = Repository::getDefault();
         QList<PackageVersion*> list;
@@ -339,12 +343,19 @@ int App::list()
         }
         qSort(list.begin(), list.end(), packageVersionLessThan);
 
-        WPMUtils::outputTextConsole(QString("%1 package versions found:\n\n").
-                arg(list.count()));
+        if (!bare)
+            WPMUtils::outputTextConsole(QString("%1 package versions found:\n\n").
+                    arg(list.count()));
+
         for (int i = 0; i < list.count(); i++) {
             PackageVersion* pv = list.at(i);
-            WPMUtils::outputTextConsole(pv->toString() +
-                    " (" + pv->package + ")\n");
+            if (!bare)
+                WPMUtils::outputTextConsole(pv->toString() +
+                        " (" + pv->package + ")\n");
+            else
+                WPMUtils::outputTextConsole(pv->package + " " +
+                        pv->version.getVersionString() + " " +
+                        pv->getPackageTitle() + "\n");
         }
     }
 
