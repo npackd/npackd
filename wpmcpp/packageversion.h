@@ -199,7 +199,8 @@ public:
      * @param installed list of installed packages. This list should be
      *     consulted instead of .installed() and will be updated and contains
      *     all installed package versions after the process
-     * @param op necessary operations should be added here
+     * @param op necessary operations will be appended here. The existing
+     *     elements will not be modified in any way.
      * @param avoid list of package versions that cannot be installed. The list
      *     will be changed by this method.
      * @return error message or ""
@@ -212,8 +213,10 @@ public:
      *
      * @param installed list of installed packages. This list should be
      *     consulted instead of .installed() and will be updated and contains
-     *     all installed package versions after the process
-     * @param op necessary operations should be added here
+     *     all installed package versions after the process. The list will also
+     *     be updated to reflect packages "uninstalled" by this method
+     * @param op necessary operations will be added here. The existing
+     *     elements will not be modified in any way.
      * @return error message or ""
      */
     QString planUninstallation(QList<PackageVersion*>& installed,
