@@ -966,10 +966,19 @@ void MainWindow::unregisterJob(Job *job)
 
 void MainWindow::on_actionUninstall_activated()
 {
-    PackageVersion* pv = getSelectedPackageVersion();
+    QList<PackageVersion*> pvs = getSelectedPackageVersions();
+
     QList<InstallOperation*> ops;
     QList<PackageVersion*> installed = Repository::getDefault()->getInstalled();
-    QString err = pv->planUninstallation(installed, ops);
+
+    QString err;
+    for (int i = 0; i < pvs.count(); i++) {
+        PackageVersion* pv = pvs.at(i);
+        err = pv->planUninstallation(installed, ops);
+        if (!err.isEmpty())
+            break;
+    }
+
     if (err.isEmpty())
         process(ops);
     else
@@ -1002,30 +1011,52 @@ bool MainWindow::isUpdateEnabled(PackageVersion* pv)
 void MainWindow::updateActions()
 {
     QList<PackageVersion*> pvs = getSelectedPackageVersions();
-    PackageVersion* pv = getSelectedPackageVersion();
 
     // qDebug() << pvs.count();
 
-    this->ui->actionInstall->setEnabled(
-            pvs.count() == 1 &&
-            !hardDriveScanRunning && !reloadRepositoriesThreadRunning &&
-            pv && !pv->isLocked() &&
-            !pv->installed() &&
-            pv->download.isValid());
-    this->ui->actionUninstall->setEnabled(
-            pvs.count() == 1 &&
-            !hardDriveScanRunning && !reloadRepositoriesThreadRunning &&
-            pv && !pv->isLocked() &&
-            pv->installed() &&
-            !pv->isExternal());
+    bool enabled = pvs.count() > 0 &&
+            !hardDriveScanRunning && !reloadRepositoriesThreadRunning;
+    for (int i = 0; i < pvs.count(); i++) {
+        if (!enabled)
+            break;
 
-    // "Update"
-    this->ui->actionUpdate->setEnabled(
-            pvs.count() == 1 &&
-            !hardDriveScanRunning && !reloadRepositoriesThreadRunning &&
-            isUpdateEnabled(pv));
+        PackageVersion* pv = pvs.at(i);
 
-    // enable "Go To Package Page"
+        enabled = enabled &&
+                pv && !pv->isLocked() &&
+                !pv->installed() &&
+                pv->download.isValid();
+    }
+    this->ui->actionInstall->setEnabled(enabled);
+
+    enabled = pvs.count() > 0 &&
+            !hardDriveScanRunning && !reloadRepositoriesThreadRunning;
+    for (int i = 0; i < pvs.count(); i++) {
+        if (!enabled)
+            break;
+
+        PackageVersion* pv = pvs.at(i);
+
+        enabled = enabled &&
+                pv && !pv->isLocked() &&
+                pv->installed() &&
+                !pv->isExternal();
+    }
+    this->ui->actionUninstall->setEnabled(enabled);
+
+    enabled = pvs.count() >= 1 &&
+            !hardDriveScanRunning && !reloadRepositoriesThreadRunning;
+    for (int i = 0; i < pvs.count(); i++) {
+        if (!enabled)
+            break;
+
+        PackageVersion* pv = pvs.at(i);
+
+        enabled = enabled && isUpdateEnabled(pv);
+    }
+    this->ui->actionUpdate->setEnabled(enabled);
+
+    PackageVersion* pv = getSelectedPackageVersion();
     Package* p;
     if (pv)
         p = Repository::getDefault()->findPackage(pv->package);
@@ -1191,14 +1222,24 @@ void MainWindow::recognizeAndLoadRepositoriesThreadFinished()
 
 void MainWindow::on_actionInstall_activated()
 {
-    PackageVersion* pv = getSelectedPackageVersion();
+    QList<PackageVersion*> pvs = getSelectedPackageVersions();
 
-    QList<PackageVersion*> r;
     QList<InstallOperation*> ops;
     QList<PackageVersion*> installed =
             Repository::getDefault()->getInstalled();
     QList<PackageVersion*> avoid;
-    QString err = pv->planInstallation(installed, ops, avoid);
+
+    QString err;
+    for (int i = 0; i < pvs.count(); i++) {
+        PackageVersion* pv = pvs.at(i);
+
+        // TODO: should avoid be cleared here?
+
+        err = pv->planInstallation(installed, ops, avoid);
+        if (!err.isEmpty())
+            break;
+    }
+
     if (err.isEmpty())
         process(ops);
     else
@@ -1262,18 +1303,34 @@ void MainWindow::on_actionSettings_triggered()
 
 void MainWindow::on_actionUpdate_triggered()
 {
-    PackageVersion* pv = getSelectedPackageVersion();
+    QList<PackageVersion*> pvs = getSelectedPackageVersions();
+
     Repository* r = Repository::getDefault();
-    PackageVersion* newest = r->findNewestInstallablePackageVersion(pv->package);
-    PackageVersion* newesti = r->findNewestInstalledPackageVersion(pv->package);
 
     QList<InstallOperation*> ops;
     QList<PackageVersion*> installed =
             Repository::getDefault()->getInstalled();
     QList<PackageVersion*> avoid;
-    QString err = newest->planInstallation(installed, ops, avoid);
-    if (err.isEmpty())
+
+    QString err;
+    for (int i = 0; i < pvs.count(); i++) {
+        PackageVersion* pv = pvs.at(i);
+        PackageVersion* newest =
+                r->findNewestInstallablePackageVersion(pv->package);
+        PackageVersion* newesti =
+                r->findNewestInstalledPackageVersion(pv->package);
+
+        // TODO: should avoid be cleared here?
+        // TODO: should we install everything first and then uninstall everything?
+
+        err = newest->planInstallation(installed, ops, avoid);
+        if (!err.isEmpty())
+            break;
+
         err = newesti->planUninstallation(installed, ops);
+        if (!err.isEmpty())
+            break;
+    }
 
     if (err.isEmpty()) {
         InstallOperation::simplify(ops);
