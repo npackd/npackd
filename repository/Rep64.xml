@@ -1080,7 +1080,7 @@ rmdir "%name%"
     <version name="1.0.3.8" package="org.bluemars.ClipX64" type="one-file">
         <file path=".WPM\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x
 "%setup%" /S /D=%CD%
-if %errorlevel% neq 0 goto eof
+if %errorlevel% neq 0 exit /b %errorlevel%
 taskkill /f /im clipx.exe
 </file>
         <file path=".WPM\Uninstall.bat">uninstall.exe /S</file>
@@ -2111,7 +2111,7 @@ if %err% neq 0 exit /b %err%
             package="org.miktex.MiKTeX64" type="one-file">
         <file path=".WPM\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x
 "%setup%" --common-install="%CD%" --shared --unattended
-if %errorlevel% neq 0 goto eof
+if %errorlevel% neq 0 exit /b %errorlevel%
 
 if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
 set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.CLU" "--versions=[1, 1]"
@@ -2120,7 +2120,7 @@ for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set clu=%%x
 verify
 </file>
         <file path=".WPM\Unnstall.bat">miktex\bin\internal\copystart_admin.exe "%CD%\miktex/bin/internal\uninstall_admin.exe"
-if %errorlevel% neq 0 goto eof
+if %errorlevel% neq 0 exit /b %errorlevel%
 
 if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
 set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.CLU" "--versions=[1, 1]"
