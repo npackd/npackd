@@ -762,6 +762,8 @@ void MainWindow::process(QList<InstallOperation*> &install)
                     "currently running installation/removal.");
             this->addErrorMessage(msg.arg(pv->toString()),
                     msg.arg(pv->toString()), true, QMessageBox::Critical);
+            qDeleteAll(install);
+            install.clear();
             return;
         }
     }
@@ -788,6 +790,8 @@ void MainWindow::process(QList<InstallOperation*> &install)
                 "(please close the corresponding applications): "
                 "%1").arg(locked_);
         addErrorMessage(msg, msg, true, QMessageBox::Critical);
+        qDeleteAll(install);
+        install.clear();
         return;
     }
 
@@ -801,6 +805,8 @@ void MainWindow::process(QList<InstallOperation*> &install)
                         arg(pv->toString()).
                         arg(pv->getPath());
                 addErrorMessage(msg, msg, true, QMessageBox::Critical);
+                qDeleteAll(install);
+                install.clear();
                 return;
             }
         }
@@ -875,12 +881,16 @@ void MainWindow::process(QList<InstallOperation*> &install)
         Job* job = new Job();
         InstallThread* it = new InstallThread(0, 1, job);
         it->install = install;
+        install.clear();
 
         connect(it, SIGNAL(finished()), this,
                 SLOT(processThreadFinished()),
                 Qt::QueuedConnection);
 
         monitor(job, "Install/Uninstall", it);
+    } else {
+        qDeleteAll(install);
+        install.clear();
     }
 }
 
