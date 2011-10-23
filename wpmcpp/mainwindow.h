@@ -77,12 +77,28 @@ private:
     PackageVersion* getSelectedPackageVersion();
 
     /**
+     * This method returns a all current PackageVersion* if
+     * something is selected
+     * in the list or package details are shown in the current tab.
+     *
+     * @return selected package versions
+     */
+    QList<PackageVersion*> getSelectedPackageVersions();
+
+    /**
      * This method returns a non-null PackageVersion* if something is selected
      * in the list.
      *
      * @return selected package version or 0.
      */
     PackageVersion* getSelectedPackageVersionInTable();
+
+    /**
+     * This method returns all selected PackageVersion* items
+     *
+     * @return selected package versions
+     */
+    QList<PackageVersion*> getSelectedPackageVersionsInTable();
 
     /**
      * @param pv a version or 0

@@ -556,6 +556,21 @@ PackageVersion* MainWindow::getSelectedPackageVersionInTable()
     return 0;
 }
 
+QList<PackageVersion*> MainWindow::getSelectedPackageVersionsInTable()
+{
+    QList<PackageVersion*> result;
+    QList<QTableWidgetItem*> sel = this->ui->tableWidget->selectedItems();
+    for (int i = 0; i < sel.count(); i++) {
+        QTableWidgetItem* item = sel.at(i);
+        if (item->column() == 0) {
+            const QVariant v = item->data(Qt::UserRole);
+            PackageVersion* pv = (PackageVersion *) v.value<void*>();
+            result.append(pv);
+        }
+    }
+    return result;
+}
+
 PackageVersion* MainWindow::getSelectedPackageVersion()
 {
     QWidget* w = this->ui->tabWidget->widget(this->ui->tabWidget->
@@ -568,6 +583,20 @@ PackageVersion* MainWindow::getSelectedPackageVersion()
     } else {
         return 0;
     }
+}
+
+QList<PackageVersion*> MainWindow::getSelectedPackageVersions()
+{
+    QList<PackageVersion*> result;
+    QWidget* w = this->ui->tabWidget->widget(this->ui->tabWidget->
+            currentIndex());
+    PackageVersionForm* pvf = dynamic_cast<PackageVersionForm*>(w);
+    if (pvf) {
+        result.append(pvf->pv);
+    } else if (w == this->ui->tab){
+        result = getSelectedPackageVersionsInTable();
+    }
+    return result;
 }
 
 class QCITableWidgetItem: public QTableWidgetItem {
@@ -972,14 +1001,19 @@ bool MainWindow::isUpdateEnabled(PackageVersion* pv)
 
 void MainWindow::updateActions()
 {
+    QList<PackageVersion*> pvs = getSelectedPackageVersions();
     PackageVersion* pv = getSelectedPackageVersion();
 
+    // qDebug() << pvs.count();
+
     this->ui->actionInstall->setEnabled(
+            pvs.count() == 1 &&
             !hardDriveScanRunning && !reloadRepositoriesThreadRunning &&
             pv && !pv->isLocked() &&
             !pv->installed() &&
             pv->download.isValid());
     this->ui->actionUninstall->setEnabled(
+            pvs.count() == 1 &&
             !hardDriveScanRunning && !reloadRepositoriesThreadRunning &&
             pv && !pv->isLocked() &&
             pv->installed() &&
@@ -987,6 +1021,7 @@ void MainWindow::updateActions()
 
     // "Update"
     this->ui->actionUpdate->setEnabled(
+            pvs.count() == 1 &&
             !hardDriveScanRunning && !reloadRepositoriesThreadRunning &&
             isUpdateEnabled(pv));
 
@@ -997,16 +1032,19 @@ void MainWindow::updateActions()
     else
         p = 0;
     this->ui->actionGotoPackageURL->setEnabled(
+            pvs.count() == 1 &&
             !reloadRepositoriesThreadRunning &&
             pv && p &&
             QUrl(p->url).isValid());
 
     this->ui->actionTest_Download_Site->setEnabled(
+            pvs.count() == 1 &&
             !reloadRepositoriesThreadRunning &&
             pv &&
             pv->download.isValid());
 
     this->ui->actionShow_Details->setEnabled(
+            pvs.count() == 1 &&
             !reloadRepositoriesThreadRunning && pv);
 
     QWidget* w = this->ui->tabWidget->currentWidget();
