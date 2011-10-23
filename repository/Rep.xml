@@ -3030,7 +3030,7 @@ for /f %%x in ('dir /b *.exe') do set setup=%%x
             package="org.miktex.MiKTeX" type="one-file">
         <file path=".WPM\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x
 "%setup%" --common-install="%CD%" --shared --unattended
-if %errorlevel% neq 0 goto eof
+if %errorlevel% neq 0 exit /b %errorlevel%
 
 if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
 set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.CLU" "--versions=[1, 1]"
@@ -3040,7 +3040,7 @@ for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set clu=%%x
 verify
 </file>
         <file path=".WPM\Uninstall.bat">miktex\bin\internal\copystart_admin.exe "%CD%\miktex\bin\internal\uninstall_admin.exe"
-if %errorlevel% neq 0 goto eof
+if %errorlevel% neq 0 exit /b %errorlevel%
 
 if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
 set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.CLU" "--versions=[1, 1]"
@@ -3163,7 +3163,7 @@ verify
         <file path=".WPM\Install.bat">move blat262\docs docs
 copy blat262\full\*.* .
 rmdir /s /q blat262
-if %errorlevel% neq 0 goto eof
+if %errorlevel% neq 0 exit /b %errorlevel%
 
 if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
 set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.CLU" "--versions=[1, 1]"
@@ -3540,7 +3540,7 @@ for /f "delims=" %%a in ('dir /b') do (
 )
 cd ..
 rmdir "%name%"
-if %errorlevel% neq 0 goto eof
+if %errorlevel% neq 0 exit /b %errorlevel%
 
 if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
 set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.CLU" "--versions=[1, 1]"
@@ -3592,7 +3592,7 @@ verify
     <version name="0.14.4" package="net.sourceforge.gnuwin32.GetText"
             type="one-file">
         <file path=".WPM\Install.bat">gettext-0.14.4.exe /SP- /VERYSILENT /SUPPRESSMSGBOXES /NOCANCEL /NORESTART /DIR="%CD%"
-if %errorlevel% neq 0 goto eof
+if %errorlevel% neq 0 exit /b %errorlevel%
 
 if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
 set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.CLU" "--versions=[1, 1]"
@@ -3833,7 +3833,7 @@ call "%npackdih%\UninstallMSI.bat"
 set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.NpackdInstallerHelper" "--versions=[1, 1]"
 for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set npackdih=%%x
 call "%npackdih%\InstallMSI.bat" INSTALLLOCATION
-if %errorlevel% neq 0 goto eof
+if %errorlevel% neq 0 exit /b %errorlevel%
 
 if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
 set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.CLU" "--versions=[1, 1]"
@@ -3845,7 +3845,7 @@ verify
 set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.NpackdInstallerHelper" "--versions=[1, 1]"
 for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set npackdih=%%x
 call "%npackdih%\UninstallMSI.bat"
-if %errorlevel% neq 0 goto eof
+if %errorlevel% neq 0 exit /b %errorlevel%
 
 if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
 set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.CLU" "--versions=[1, 1]"
@@ -3866,7 +3866,7 @@ verify
 set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.NpackdInstallerHelper" "--versions=[1, 1]"
 for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set npackdih=%%x
 call "%npackdih%\InstallMSI.bat" INSTALLLOCATION
-if %errorlevel% neq 0 goto eof
+if %errorlevel% neq 0 exit /b %errorlevel%
 
 if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
 set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.CLU" "--versions=[1, 1]"
@@ -3878,7 +3878,7 @@ verify
 set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.NpackdInstallerHelper" "--versions=[1, 1]"
 for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set npackdih=%%x
 call "%npackdih%\UninstallMSI.bat"
-if %errorlevel% neq 0 goto eof
+if %errorlevel% neq 0 exit /b %errorlevel%
 
 if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
 set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.CLU" "--versions=[1, 1]"
@@ -3899,7 +3899,7 @@ verify
 set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.NpackdInstallerHelper" "--versions=[1, 1]"
 for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set npackdih=%%x
 call "%npackdih%\InstallMSI.bat" INSTALLLOCATION
-if %errorlevel% neq 0 goto eof
+if %errorlevel% neq 0 exit /b %errorlevel%
 
 if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
 set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.CLU" "--versions=[1, 1]"
@@ -3911,7 +3911,7 @@ verify
 set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.NpackdInstallerHelper" "--versions=[1, 1]"
 for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set npackdih=%%x
 call "%npackdih%\UninstallMSI.bat"
-if %errorlevel% neq 0 goto eof
+if %errorlevel% neq 0 exit /b %errorlevel%
 
 if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
 set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.CLU" "--versions=[1, 1]"
@@ -3932,7 +3932,7 @@ verify
 set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.NpackdInstallerHelper" "--versions=[1, 1]"
 for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set npackdih=%%x
 call "%npackdih%\InstallMSI.bat" INSTALLLOCATION
-if %errorlevel% neq 0 goto eof
+if %errorlevel% neq 0 exit /b %errorlevel%
 
 if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
 set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.CLU" "--versions=[1, 1]"
@@ -3944,7 +3944,7 @@ verify
 set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.NpackdInstallerHelper" "--versions=[1, 1]"
 for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set npackdih=%%x
 call "%npackdih%\UninstallMSI.bat"
-if %errorlevel% neq 0 goto eof
+if %errorlevel% neq 0 exit /b %errorlevel%
 
 if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
 set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.CLU" "--versions=[1, 1]"
@@ -4343,7 +4343,7 @@ for /f "delims=" %%a in ('dir /b') do (
 )
 cd ..
 rmdir "%name%"
-if %errorlevel% neq 0 goto eof
+if %errorlevel% neq 0 exit /b %errorlevel%
 
 if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
 set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.CLU" "--versions=[1, 1]"
@@ -4372,7 +4372,7 @@ for /f "delims=" %%a in ('dir /b') do (
 )
 cd ..
 rmdir "%name%"
-if %errorlevel% neq 0 goto eof
+if %errorlevel% neq 0 exit /b %errorlevel%
 
 if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
 set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.CLU" "--versions=[1, 1]"
@@ -4401,7 +4401,7 @@ for /f "delims=" %%a in ('dir /b') do (
 )
 cd ..
 rmdir "%name%"
-if %errorlevel% neq 0 goto eof
+if %errorlevel% neq 0 exit /b %errorlevel%
 
 if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
 set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.CLU" "--versions=[1, 1]"
@@ -4831,7 +4831,7 @@ ren "%setup%" avg.exe</file>
 cd "%name%"
 for /f "delims=" %%a in ('dir /b') do (
     move "%%a" ..\..
-    if %errorlevel% neq 0 goto eof
+    if %errorlevel% neq 0 exit /b %errorlevel%
 )
 cd ..\..
 rmdir "%name%"
@@ -4846,12 +4846,12 @@ rmdir vim
 cd "%name%"
 for /f "delims=" %%a in ('dir /b') do (
     move "%%a" ..\..
-    if %errorlevel% neq 0 goto eof
+    if %errorlevel% neq 0 exit /b %errorlevel%
 )
 cd ..\..
 rmdir "%name%"
 rmdir vim
-if %errorlevel% neq 0 goto eof
+if %errorlevel% neq 0 exit /b %errorlevel%
 
 if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
 set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=org.vim.VimRuntime" "--versions=[7.3.46, 7.3.46]"
@@ -5899,7 +5899,7 @@ call "%npackdih%\UninstallMSI.bat"
     <version name="1.0.3.8" package="org.bluemars.ClipX" type="one-file">
         <file path=".WPM\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x
 "%setup%" /S /D=%CD%
-if %errorlevel% neq 0 goto eof
+if %errorlevel% neq 0 exit /b %errorlevel%
 taskkill /f /im clipx.exe
 </file>
         <file path=".WPM\Uninstall.bat">uninstall.exe /S</file>
@@ -7509,7 +7509,7 @@ ren "%setup%" BitTorrent.exe
 set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.NpackdInstallerHelper" "--versions=[1, 1]"
 for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set npackdih=%%x
 call "%npackdih%\InstallMSI.bat" TARGETDIR
-if %errorlevel% neq 0 goto eof
+if %errorlevel% neq 0 exit /b %errorlevel%
 
 if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
 set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.CLU" "--versions=[1, 1]"
@@ -7521,7 +7521,7 @@ verify
 set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.NpackdInstallerHelper" "--versions=[1, 1]"
 for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set npackdih=%%x
 call "%npackdih%\UninstallMSI.bat"
-if %errorlevel% neq 0 goto eof
+if %errorlevel% neq 0 exit /b %errorlevel%
 
 if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
 set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.CLU" "--versions=[1, 1]"
@@ -7542,7 +7542,7 @@ verify
 set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.NpackdInstallerHelper" "--versions=[1, 1]"
 for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set npackdih=%%x
 call "%npackdih%\InstallMSI.bat" TARGETDIR
-if %errorlevel% neq 0 goto eof
+if %errorlevel% neq 0 exit /b %errorlevel%
 
 if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
 set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.CLU" "--versions=[1, 1]"
@@ -7554,7 +7554,7 @@ verify
 set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.NpackdInstallerHelper" "--versions=[1, 1]"
 for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set npackdih=%%x
 call "%npackdih%\UninstallMSI.bat"
-if %errorlevel% neq 0 goto eof
+if %errorlevel% neq 0 exit /b %errorlevel%
 
 if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
 set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.CLU" "--versions=[1, 1]"
@@ -9193,7 +9193,7 @@ ren "%setup%" gs.exe
     <version name="1.3.12" package="org.graphicsmagick.GraphicsMagickQ16"
             type="one-file">
         <file path=".WPM\Install.bat">GraphicsMagick-1.3.12-Q16-windows-dll.exe /SP- /VERYSILENT /SUPPRESSMSGBOXES /NOCANCEL /NORESTART /DIR="%CD%"
-if %errorlevel% neq 0 goto eof        
+if %errorlevel% neq 0 exit /b %errorlevel%
 
 if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
 set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.CLU" "--versions=[1, 1]"
@@ -9202,7 +9202,7 @@ for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set clu=%%x
 verify
 </file>
         <file path=".WPM\Uninstall.bat">unins000.exe /VERYSILENT /SUPPRESSMSGBOXES /NORESTART
-if %errorlevel% neq 0 goto eof
+if %errorlevel% neq 0 exit /b %errorlevel%
 
 if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
 set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.CLU" "--versions=[1, 1]"
@@ -9376,7 +9376,7 @@ ren "%setup%" lukeall.jar
 set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.NpackdInstallerHelper" "--versions=[1, 1]"
 for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set npackdih=%%x
 call "%npackdih%\InstallMSI.bat" TARGETDIR
-if %errorlevel% neq 0 goto eof
+if %errorlevel% neq 0 exit /b %errorlevel%
 
 if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
 set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.CLU" "--versions=[1, 1]"
@@ -9388,7 +9388,7 @@ verify
 set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.NpackdInstallerHelper" "--versions=[1, 1]"
 for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set npackdih=%%x
 call "%npackdih%\UninstallMSI.bat"
-if %errorlevel% neq 0 goto eof
+if %errorlevel% neq 0 exit /b %errorlevel%
 
 if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
 set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.CLU" "--versions=[1, 1]"
@@ -9409,7 +9409,7 @@ verify
 set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.NpackdInstallerHelper" "--versions=[1, 1]"
 for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set npackdih=%%x
 call "%npackdih%\InstallMSI.bat" INSTALLDIR
-if %errorlevel% neq 0 goto eof
+if %errorlevel% neq 0 exit /b %errorlevel%
 
 if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
 set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.CLU" "--versions=[1, 1]"
@@ -9421,7 +9421,7 @@ verify
 set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.NpackdInstallerHelper" "--versions=[1, 1]"
 for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set npackdih=%%x
 call "%npackdih%\UninstallMSI.bat"
-if %errorlevel% neq 0 goto eof
+if %errorlevel% neq 0 exit /b %errorlevel%
 
 if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
 set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.CLU" "--versions=[1, 1]"
@@ -9442,7 +9442,7 @@ verify
 set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.NpackdInstallerHelper" "--versions=[1, 1]"
 for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set npackdih=%%x
 call "%npackdih%\InstallMSI.bat" INSTALLDIR
-if %errorlevel% neq 0 goto eof
+if %errorlevel% neq 0 exit /b %errorlevel%
 
 if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
 set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.CLU" "--versions=[1, 1]"
@@ -9454,7 +9454,7 @@ verify
 set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.NpackdInstallerHelper" "--versions=[1, 1]"
 for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set npackdih=%%x
 call "%npackdih%\UninstallMSI.bat"
-if %errorlevel% neq 0 goto eof
+if %errorlevel% neq 0 exit /b %errorlevel%
 
 if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
 set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.CLU" "--versions=[1, 1]"
@@ -9475,7 +9475,7 @@ verify
 set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.NpackdInstallerHelper" "--versions=[1, 1]"
 for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set npackdih=%%x
 call "%npackdih%\InstallMSI.bat" INSTALLDIR
-if %errorlevel% neq 0 goto eof
+if %errorlevel% neq 0 exit /b %errorlevel%
 
 if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
 set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.CLU" "--versions=[1, 1]"
@@ -9487,7 +9487,7 @@ verify
 set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.NpackdInstallerHelper" "--versions=[1, 1]"
 for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set npackdih=%%x
 call "%npackdih%\UninstallMSI.bat"
-if %errorlevel% neq 0 goto eof
+if %errorlevel% neq 0 exit /b %errorlevel%
 
 if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
 set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.CLU" "--versions=[1, 1]"
@@ -9508,7 +9508,7 @@ verify
 set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.NpackdInstallerHelper" "--versions=[1, 1]"
 for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set npackdih=%%x
 call "%npackdih%\InstallMSI.bat" INSTALLDIR
-if %errorlevel% neq 0 goto eof
+if %errorlevel% neq 0 exit /b %errorlevel%
 
 if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
 set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.CLU" "--versions=[1, 1]"
@@ -9520,7 +9520,7 @@ verify
 set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.NpackdInstallerHelper" "--versions=[1, 1]"
 for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set npackdih=%%x
 call "%npackdih%\UninstallMSI.bat"
-if %errorlevel% neq 0 goto eof
+if %errorlevel% neq 0 exit /b %errorlevel%
 
 if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
 set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.CLU" "--versions=[1, 1]"
@@ -9541,7 +9541,7 @@ verify
 set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.NpackdInstallerHelper" "--versions=[1, 1]"
 for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set npackdih=%%x
 call "%npackdih%\InstallMSI.bat" INSTALLDIR
-if %errorlevel% neq 0 goto eof
+if %errorlevel% neq 0 exit /b %errorlevel%
 
 if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
 set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.CLU" "--versions=[1, 1]"
@@ -9553,7 +9553,7 @@ verify
 set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.NpackdInstallerHelper" "--versions=[1, 1]"
 for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set npackdih=%%x
 call "%npackdih%\UninstallMSI.bat"
-if %errorlevel% neq 0 goto eof
+if %errorlevel% neq 0 exit /b %errorlevel%
 
 if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
 set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.CLU" "--versions=[1, 1]"
@@ -9574,7 +9574,7 @@ verify
 set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.NpackdInstallerHelper" "--versions=[1, 1]"
 for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set npackdih=%%x
 call "%npackdih%\InstallMSI.bat" INSTALLDIR
-if %errorlevel% neq 0 goto eof
+if %errorlevel% neq 0 exit /b %errorlevel%
 
 if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
 set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.CLU" "--versions=[1, 1]"
@@ -9586,7 +9586,7 @@ verify
 set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.NpackdInstallerHelper" "--versions=[1, 1]"
 for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set npackdih=%%x
 call "%npackdih%\UninstallMSI.bat"
-if %errorlevel% neq 0 goto eof
+if %errorlevel% neq 0 exit /b %errorlevel%
 
 if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
 set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.CLU" "--versions=[1, 1]"
@@ -9607,7 +9607,7 @@ verify
 set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.NpackdInstallerHelper" "--versions=[1, 1]"
 for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set npackdih=%%x
 call "%npackdih%\InstallMSI.bat" INSTALLDIR
-if %errorlevel% neq 0 goto eof
+if %errorlevel% neq 0 exit /b %errorlevel%
 
 if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
 set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.CLU" "--versions=[1, 1]"
@@ -9619,7 +9619,7 @@ verify
 set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.NpackdInstallerHelper" "--versions=[1, 1]"
 for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set npackdih=%%x
 call "%npackdih%\UninstallMSI.bat"
-if %errorlevel% neq 0 goto eof
+if %errorlevel% neq 0 exit /b %errorlevel%
 
 if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
 set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.CLU" "--versions=[1, 1]"
@@ -9640,7 +9640,7 @@ verify
 set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.NpackdInstallerHelper" "--versions=[1, 1]"
 for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set npackdih=%%x
 call "%npackdih%\InstallMSI.bat" INSTALLDIR
-if %errorlevel% neq 0 goto eof
+if %errorlevel% neq 0 exit /b %errorlevel%
 
 if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
 set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.CLU" "--versions=[1, 1]"
@@ -9652,7 +9652,7 @@ verify
 set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.NpackdInstallerHelper" "--versions=[1, 1]"
 for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set npackdih=%%x
 call "%npackdih%\UninstallMSI.bat"
-if %errorlevel% neq 0 goto eof
+if %errorlevel% neq 0 exit /b %errorlevel%
 
 if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
 set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.CLU" "--versions=[1, 1]"
@@ -9673,7 +9673,7 @@ verify
 set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.NpackdInstallerHelper" "--versions=[1, 1]"
 for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set npackdih=%%x
 call "%npackdih%\InstallMSI.bat" INSTALLDIR
-if %errorlevel% neq 0 goto eof
+if %errorlevel% neq 0 exit /b %errorlevel%
 
 if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
 set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.CLU" "--versions=[1, 1]"
@@ -9685,7 +9685,7 @@ verify
 set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.NpackdInstallerHelper" "--versions=[1, 1]"
 for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set npackdih=%%x
 call "%npackdih%\UninstallMSI.bat"
-if %errorlevel% neq 0 goto eof
+if %errorlevel% neq 0 exit /b %errorlevel%
 
 if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
 set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.CLU" "--versions=[1, 1]"
@@ -9706,7 +9706,7 @@ verify
 set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.NpackdInstallerHelper" "--versions=[1, 1]"
 for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set npackdih=%%x
 call "%npackdih%\InstallMSI.bat" INSTALLDIR
-if %errorlevel% neq 0 goto eof
+if %errorlevel% neq 0 exit /b %errorlevel%
 
 if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
 set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.CLU" "--versions=[1, 1]"
@@ -9718,7 +9718,7 @@ verify
 set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.NpackdInstallerHelper" "--versions=[1, 1]"
 for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set npackdih=%%x
 call "%npackdih%\UninstallMSI.bat"
-if %errorlevel% neq 0 goto eof
+if %errorlevel% neq 0 exit /b %errorlevel%
 
 if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
 set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.CLU" "--versions=[1, 1]"
@@ -10075,7 +10075,7 @@ if %err% neq 0 exit %err%
 set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.NpackdInstallerHelper" "--versions=[1, 1]"
 for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set npackdih=%%x
 call "%npackdih%\InstallMSI.bat" TARGETDIR
-if %errorlevel% neq 0 goto eof
+if %errorlevel% neq 0 exit /b %errorlevel%
 
 if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
 set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.CLU" "--versions=[1, 1]"
@@ -10087,7 +10087,7 @@ verify
 set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.NpackdInstallerHelper" "--versions=[1, 1]"
 for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set npackdih=%%x
 call "%npackdih%\UninstallMSI.bat"
-if %errorlevel% neq 0 goto eof
+if %errorlevel% neq 0 exit /b %errorlevel%
 
 if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
 set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.CLU" "--versions=[1, 1]"
@@ -10107,7 +10107,7 @@ verify
 set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.NpackdInstallerHelper" "--versions=[1, 1]"
 for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set npackdih=%%x
 call "%npackdih%\InstallMSI.bat" TARGETDIR
-if %errorlevel% neq 0 goto eof
+if %errorlevel% neq 0 exit /b %errorlevel%
 
 if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
 set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.CLU" "--versions=[1, 1]"
@@ -10119,7 +10119,7 @@ verify
 set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.NpackdInstallerHelper" "--versions=[1, 1]"
 for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set npackdih=%%x
 call "%npackdih%\UninstallMSI.bat"
-if %errorlevel% neq 0 goto eof
+if %errorlevel% neq 0 exit /b %errorlevel%
 
 if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
 set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.CLU" "--versions=[1, 1]"
@@ -10139,7 +10139,7 @@ verify
 set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.NpackdInstallerHelper" "--versions=[1, 1]"
 for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set npackdih=%%x
 call "%npackdih%\InstallMSI.bat" TARGETDIR
-if %errorlevel% neq 0 goto eof
+if %errorlevel% neq 0 exit /b %errorlevel%
 
 if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
 set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.CLU" "--versions=[1, 1]"
@@ -10151,7 +10151,7 @@ verify
 set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.NpackdInstallerHelper" "--versions=[1, 1]"
 for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set npackdih=%%x
 call "%npackdih%\UninstallMSI.bat"
-if %errorlevel% neq 0 goto eof
+if %errorlevel% neq 0 exit /b %errorlevel%
 
 if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
 set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.CLU" "--versions=[1, 1]"
@@ -10171,7 +10171,7 @@ verify
 set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.NpackdInstallerHelper" "--versions=[1, 1]"
 for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set npackdih=%%x
 call "%npackdih%\InstallMSI.bat" TARGETDIR
-if %errorlevel% neq 0 goto eof
+if %errorlevel% neq 0 exit /b %errorlevel%
 
 if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
 set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.CLU" "--versions=[1, 1]"
@@ -10183,7 +10183,7 @@ verify
 set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.NpackdInstallerHelper" "--versions=[1, 1]"
 for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set npackdih=%%x
 call "%npackdih%\UninstallMSI.bat"
-if %errorlevel% neq 0 goto eof
+if %errorlevel% neq 0 exit /b %errorlevel%
 
 if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
 set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.CLU" "--versions=[1, 1]"
@@ -10203,7 +10203,7 @@ verify
 set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.NpackdInstallerHelper" "--versions=[1, 1]"
 for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set npackdih=%%x
 call "%npackdih%\InstallMSI.bat" TARGETDIR
-if %errorlevel% neq 0 goto eof
+if %errorlevel% neq 0 exit /b %errorlevel%
 
 if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
 set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.CLU" "--versions=[1, 1]"
@@ -10215,7 +10215,7 @@ verify
 set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.NpackdInstallerHelper" "--versions=[1, 1]"
 for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set npackdih=%%x
 call "%npackdih%\UninstallMSI.bat"
-if %errorlevel% neq 0 goto eof
+if %errorlevel% neq 0 exit /b %errorlevel%
 
 if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
 set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.CLU" "--versions=[1, 1]"
@@ -10235,7 +10235,7 @@ verify
 set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.NpackdInstallerHelper" "--versions=[1, 1]"
 for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set npackdih=%%x
 call "%npackdih%\InstallMSI.bat" TARGETDIR
-if %errorlevel% neq 0 goto eof
+if %errorlevel% neq 0 exit /b %errorlevel%
 
 if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
 set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.CLU" "--versions=[1, 1]"
@@ -10247,7 +10247,7 @@ verify
 set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.NpackdInstallerHelper" "--versions=[1, 1]"
 for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set npackdih=%%x
 call "%npackdih%\UninstallMSI.bat"
-if %errorlevel% neq 0 goto eof
+if %errorlevel% neq 0 exit /b %errorlevel%
 
 if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
 set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.CLU" "--versions=[1, 1]"
@@ -10267,7 +10267,7 @@ verify
 set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.NpackdInstallerHelper" "--versions=[1, 1]"
 for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set npackdih=%%x
 call "%npackdih%\InstallMSI.bat" TARGETDIR
-if %errorlevel% neq 0 goto eof
+if %errorlevel% neq 0 exit /b %errorlevel%
 
 if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
 set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.CLU" "--versions=[1, 1]"
@@ -10279,7 +10279,7 @@ verify
 set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.NpackdInstallerHelper" "--versions=[1, 1]"
 for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set npackdih=%%x
 call "%npackdih%\UninstallMSI.bat"
-if %errorlevel% neq 0 goto eof
+if %errorlevel% neq 0 exit /b %errorlevel%
 
 if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
 set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.CLU" "--versions=[1, 1]"
@@ -10299,7 +10299,7 @@ verify
 set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.NpackdInstallerHelper" "--versions=[1, 1]"
 for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set npackdih=%%x
 call "%npackdih%\InstallMSI.bat" TARGETDIR
-if %errorlevel% neq 0 goto eof
+if %errorlevel% neq 0 exit /b %errorlevel%
 
 if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
 set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.CLU" "--versions=[1, 1]"
@@ -10311,7 +10311,7 @@ verify
 set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.NpackdInstallerHelper" "--versions=[1, 1]"
 for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set npackdih=%%x
 call "%npackdih%\UninstallMSI.bat"
-if %errorlevel% neq 0 goto eof
+if %errorlevel% neq 0 exit /b %errorlevel%
 
 if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
 set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.CLU" "--versions=[1, 1]"
@@ -10605,7 +10605,7 @@ rmdir "%name%"
             type="one-file">
         <file path=".WPM\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x
 "%setup%" /S /D=%CD%
-if %errorlevel% neq 0 goto eof
+if %errorlevel% neq 0 exit /b %errorlevel%
 
 set package=net.sourceforge.NotepadPlusPlus
 set version=5.8.6
@@ -10623,7 +10623,7 @@ set key=%package%-%version%
 set newname=%key%_%random%
 ren %appdata%\Notepad++ %newname%
 uninstall.exe /S _?=%CD%
-if %errorlevel% neq 0 goto eof
+if %errorlevel% neq 0 exit /b %errorlevel%
 ren %appdata%\%newname% Notepad++
 
 rem unregister "Open With..." entries
@@ -10644,7 +10644,7 @@ verify
             type="one-file">
         <file path=".WPM\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x
 "%setup%" /S /D=%CD%
-if %errorlevel% neq 0 goto eof
+if %errorlevel% neq 0 exit /b %errorlevel%
 
 set package=net.sourceforge.NotepadPlusPlus
 set version=5.8.7
@@ -10662,7 +10662,7 @@ set key=%package%-%version%
 set newname=%key%_%random%
 ren %appdata%\Notepad++ %newname%
 uninstall.exe /S _?=%CD%
-if %errorlevel% neq 0 goto eof
+if %errorlevel% neq 0 exit /b %errorlevel%
 ren %appdata%\%newname% Notepad++
 
 rem unregister "Open With..." entries
@@ -10683,7 +10683,7 @@ verify
             type="one-file">
         <file path=".WPM\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x
 "%setup%" /S /D=%CD%
-if %errorlevel% neq 0 goto eof
+if %errorlevel% neq 0 exit /b %errorlevel%
 
 set package=net.sourceforge.NotepadPlusPlus
 set version=5.9
@@ -10701,7 +10701,7 @@ set key=%package%-%version%
 set newname=%key%_%random%
 ren %appdata%\Notepad++ %newname%
 uninstall.exe /S _?=%CD%
-if %errorlevel% neq 0 goto eof
+if %errorlevel% neq 0 exit /b %errorlevel%
 ren %appdata%\%newname% Notepad++
 
 rem unregister "Open With..." entries
@@ -10722,7 +10722,7 @@ verify
             type="one-file">
         <file path=".WPM\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x
 "%setup%" /S /D=%CD%
-if %errorlevel% neq 0 goto eof
+if %errorlevel% neq 0 exit /b %errorlevel%
 
 set package=net.sourceforge.NotepadPlusPlus
 set version=5.9.2
@@ -10740,7 +10740,7 @@ set key=%package%-%version%
 set newname=%key%_%random%
 ren %appdata%\Notepad++ %newname%
 uninstall.exe /S _?=%CD%
-if %errorlevel% neq 0 goto eof
+if %errorlevel% neq 0 exit /b %errorlevel%
 ren %appdata%\%newname% Notepad++
 
 rem unregister "Open With..." entries
@@ -10761,7 +10761,7 @@ verify
             type="one-file">
         <file path=".WPM\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x
 "%setup%" /S /D=%CD%
-if %errorlevel% neq 0 goto eof
+if %errorlevel% neq 0 exit /b %errorlevel%
 
 set package=net.sourceforge.NotepadPlusPlus
 set version=5.9.3
@@ -10779,7 +10779,7 @@ set key=%package%-%version%
 set newname=%key%_%random%
 ren %appdata%\Notepad++ %newname%
 uninstall.exe /S _?=%CD%
-if %errorlevel% neq 0 goto eof
+if %errorlevel% neq 0 exit /b %errorlevel%
 ren %appdata%\%newname% Notepad++
 
 rem unregister "Open With..." entries
@@ -10837,7 +10837,7 @@ verify
             type="one-file">
         <file path=".WPM\Install.bat">for /f %%x in ('dir /b *.exe') do set setup=%%x
 "%setup%" /S /D=%CD%
-if %errorlevel% neq 0 goto :eof
+if %errorlevel% neq 0 exit /b %errorlevel%
 
 set package=org.clementine-player.Clementine
 set version=0.6
@@ -10850,7 +10850,7 @@ for %%g in (mp3 ogg flac mpc m4a aac wma mp4 spx wav m3u m3u8 xspf pls asx asxin
 verify
 </file>
         <file path=".WPM\Uninstall.bat">Uninstall.exe /S _?=%CD%
-if %errorlevel% neq 0 goto :eof
+if %errorlevel% neq 0 exit /b %errorlevel%
 
 set package=org.clementine-player.Clementine
 set version=0.6
@@ -10868,7 +10868,7 @@ verify
             type="one-file">
         <file path=".WPM\Install.bat">for /f %%x in ('dir /b *.exe') do set setup=%%x
 "%setup%" /S /D=%CD%
-if %errorlevel% neq 0 goto :eof
+if %errorlevel% neq 0 exit /b %errorlevel%
 
 set package=org.clementine-player.Clementine
 set version=0.7.1
@@ -10881,7 +10881,7 @@ for %%g in (mp3 ogg flac mpc m4a aac wma mp4 spx wav m3u m3u8 xspf pls asx asxin
 verify
 </file>
         <file path=".WPM\Uninstall.bat">Uninstall.exe /S _?=%CD%
-if %errorlevel% neq 0 goto :eof
+if %errorlevel% neq 0 exit /b %errorlevel%
 
 set package=org.clementine-player.Clementine
 set version=0.7.1
@@ -11211,7 +11211,7 @@ for /f "delims=" %%a in ('dir /b') do (
 )
 cd ..
 rmdir "%name%"
-if %errorlevel% neq 0 goto eof
+if %errorlevel% neq 0 exit /b %errorlevel%
 
 if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
 set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.CLU" "--versions=[1, 1]"
@@ -11239,7 +11239,7 @@ for /f "delims=" %%a in ('dir /b') do (
 )
 cd ..
 rmdir "%name%"
-if %errorlevel% neq 0 goto eof
+if %errorlevel% neq 0 exit /b %errorlevel%
 
 if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
 set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.CLU" "--versions=[1, 1]"
@@ -11267,7 +11267,7 @@ for /f "delims=" %%a in ('dir /b') do (
 )
 cd ..
 rmdir "%name%"
-if %errorlevel% neq 0 goto eof
+if %errorlevel% neq 0 exit /b %errorlevel%
 
 if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
 set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.CLU" "--versions=[1, 1]"
@@ -11295,7 +11295,7 @@ for /f "delims=" %%a in ('dir /b') do (
 )
 cd ..
 rmdir "%name%"
-if %errorlevel% neq 0 goto eof
+if %errorlevel% neq 0 exit /b %errorlevel%
 
 if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
 set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.CLU" "--versions=[1, 1]"
@@ -11750,7 +11750,7 @@ for /f "delims=" %%a in ('dir /b') do (
 )
 cd ..
 rmdir "%name%"
-if %errorlevel% neq 0 goto eof
+if %errorlevel% neq 0 exit /b %errorlevel%
 
 if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
 set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.pathed.PathEd" "--versions=[0.8, 0.8]"
@@ -11778,7 +11778,7 @@ for /f "delims=" %%a in ('dir /b') do (
 )
 cd ..
 rmdir "%name%"
-if %errorlevel% neq 0 goto eof
+if %errorlevel% neq 0 exit /b %errorlevel%
 
 if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
 set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.pathed.PathEd" "--versions=[0.8, 0.8]"
@@ -12515,7 +12515,7 @@ for /f "delims=" %%a in ('dir /b') do (
 )
 cd ..
 rmdir "%name%"
-if %errorlevel% neq 0 goto eof
+if %errorlevel% neq 0 exit /b %errorlevel%
 
 if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
 set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.pathed.PathEd" "--versions=[0.8, 0.8]"
@@ -12543,7 +12543,7 @@ for /f "delims=" %%a in ('dir /b') do (
 )
 cd ..
 rmdir "%name%"
-if %errorlevel% neq 0 goto eof
+if %errorlevel% neq 0 exit /b %errorlevel%
 
 if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
 set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.pathed.PathEd" "--versions=[0.8, 0.8]"
@@ -13099,7 +13099,7 @@ for /f "delims=" %%a in ('dir /b') do (
 )
 cd ..
 rmdir "%name%"
-if %errorlevel% neq 0 goto eof
+if %errorlevel% neq 0 exit /b %errorlevel%
 
 if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
 set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.pathed.PathEd" "--versions=[0.8, 0.8]"
@@ -13199,12 +13199,12 @@ for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set sevenzip=%%x
 
 for /f "delims=" %%x in ('dir /b *.gz') do set setup=%%x
 "%sevenzip%\7z.exe" x %setup%
-if %errorlevel% neq 0 goto eof
+if %errorlevel% neq 0 exit /b %errorlevel%
 del "%setup%"
 
 for /f "delims=" %%x in ('dir /b *.tar') do set setup=%%x
 "%sevenzip%\7z.exe" x %setup%
-if %errorlevel% neq 0 goto eof
+if %errorlevel% neq 0 exit /b %errorlevel%
 del "%setup%"
 
 set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.pathed.PathEd" "--versions=[0.8, 0.8]"
@@ -13232,12 +13232,12 @@ for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set sevenzip=%%x
 
 for /f "delims=" %%x in ('dir /b *.lzma') do set setup=%%x
 "%sevenzip%\7z.exe" x %setup%
-if %errorlevel% neq 0 goto eof
+if %errorlevel% neq 0 exit /b %errorlevel%
 del "%setup%"
 
 for /f "delims=" %%x in ('dir /b *.tar') do set setup=%%x
 "%sevenzip%\7z.exe" x %setup%
-if %errorlevel% neq 0 goto eof
+if %errorlevel% neq 0 exit /b %errorlevel%
 del "%setup%"
 
 set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.pathed.PathEd" "--versions=[0.8, 0.8]"
