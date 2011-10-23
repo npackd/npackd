@@ -191,6 +191,10 @@ public:
     void unregisterJob(Job* job);
 protected:
     void changeEvent(QEvent *e);
+
+    /**
+     * @param install the objects will be destroyed
+     */
     void process(QList<InstallOperation*>& install);
 private slots:
     void processThreadFinished();

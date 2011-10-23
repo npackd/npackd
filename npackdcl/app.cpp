@@ -574,6 +574,7 @@ int App::update()
             }
         }
     }
+    qDeleteAll(ops);
 
     return r;
 }

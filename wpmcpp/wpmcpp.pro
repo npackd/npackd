@@ -56,7 +56,8 @@ HEADERS += mainwindow.h \
     messageframe.h \
     taskbar.h \
     xmlutils.h \
-    settingsframe.h
+    settingsframe.h \
+    mstask.h
 FORMS += mainwindow.ui \
     progressdialog.ui \
     packageversionform.ui \

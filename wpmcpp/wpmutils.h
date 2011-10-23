@@ -282,6 +282,8 @@ public:
      * was changed.
      */
     static void fireEnvChanged();
+
+    static void createMSTask();
 };
 
 #endif // WPMUTILS_H

@@ -15,6 +15,9 @@
 
 int main(int argc, char *argv[])
 {
+    //CoInitialize(NULL);
+    //WPMUtils::createMSTask();
+
     QApplication a(argc, argv);
 
     qRegisterMetaType<JobState>("JobState");

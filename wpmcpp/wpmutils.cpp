@@ -9,6 +9,9 @@
 #include "msi.h"
 #include <shellapi.h>
 #include <string>
+#include <initguid.h>
+#include <ole2.h>
+#include <wchar.h>
 
 #include "qdebug.h"
 #include "qdir.h"
@@ -22,11 +25,50 @@
 #include "wpmutils.h"
 #include "version.h"
 #include "windowsregistry.h"
+#include "mstask.h"
 
 const char* WPMUtils::NPACKD_VERSION = "1.16";
 
 WPMUtils::WPMUtils()
 {
+}
+
+void WPMUtils::createMSTask()
+{
+    ITaskScheduler *pITS;
+    HRESULT hr = CoCreateInstance(CLSID_CTaskScheduler,
+            NULL,
+            CLSCTX_INPROC_SERVER,
+            IID_ITaskScheduler,
+            (void **) &pITS);
+
+    ITask *pITask;
+    LPCWSTR lpcwszTaskName;
+    lpcwszTaskName = L"Test Task";
+    hr = pITS->NewWorkItem(L"NpackdTest5", CLSID_CTask,
+                         IID_ITask,
+                         (IUnknown**) &pITask);
+
+    //Release ITaskScheduler interface.
+    pITS->Release();
+
+    // TODO: if (FAILED(hr))
+
+
+    IPersistFile *pIPersistFile;
+
+    // save to disk
+    hr = pITask->QueryInterface(IID_IPersistFile,
+            (void **)&pIPersistFile);
+
+
+    hr = pIPersistFile->Save(NULL,
+                       TRUE);
+    pIPersistFile->Release();
+
+    pITask->EditWorkItem(0, 0);
+    pITask->Release();
+
 }
 
 QString WPMUtils::parentDirectory(const QString& path)
