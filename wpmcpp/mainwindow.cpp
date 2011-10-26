@@ -1233,8 +1233,7 @@ void MainWindow::on_actionInstall_activated()
     for (int i = 0; i < pvs.count(); i++) {
         PackageVersion* pv = pvs.at(i);
 
-        // TODO: should avoid be cleared here?
-
+        avoid.clear();
         err = pv->planInstallation(installed, ops, avoid);
         if (!err.isEmpty())
             break;
@@ -1310,26 +1309,29 @@ void MainWindow::on_actionUpdate_triggered()
     QList<InstallOperation*> ops;
     QList<PackageVersion*> installed =
             Repository::getDefault()->getInstalled();
-    QList<PackageVersion*> avoid;
+
+    QList<PackageVersion*> newest, newesti;
+
+    for (int i = 0; i < pvs.count(); i++) {
+        PackageVersion* pv = pvs.at(i);
+        newest.append(r->findNewestInstallablePackageVersion(pv->package));
+        newesti.append(r->findNewestInstalledPackageVersion(pv->package));
+    }
 
     QString err;
     for (int i = 0; i < pvs.count(); i++) {
-        PackageVersion* pv = pvs.at(i);
-        PackageVersion* newest =
-                r->findNewestInstallablePackageVersion(pv->package);
-        PackageVersion* newesti =
-                r->findNewestInstalledPackageVersion(pv->package);
-
-        // TODO: should avoid be cleared here?
-        // TODO: should we install everything first and then uninstall everything?
-
-        err = newest->planInstallation(installed, ops, avoid);
+        QList<PackageVersion*> avoid;
+        err = newest.at(i)->planInstallation(installed, ops, avoid);
         if (!err.isEmpty())
             break;
+    }
 
-        err = newesti->planUninstallation(installed, ops);
-        if (!err.isEmpty())
-            break;
+    if (err.isEmpty()) {
+        for (int i = 0; i < pvs.count(); i++) {
+            err = newesti.at(i)->planUninstallation(installed, ops);
+            if (!err.isEmpty())
+                break;
+        }
     }
 
     if (err.isEmpty()) {

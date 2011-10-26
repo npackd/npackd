@@ -202,7 +202,8 @@ public:
      * @param op necessary operations will be appended here. The existing
      *     elements will not be modified in any way.
      * @param avoid list of package versions that cannot be installed. The list
-     *     will be changed by this method.
+     *     will be changed by this method. Normally this is an empty list and
+     *     objects will be added to it on different recursion levels.
      * @return error message or ""
      */
     QString planInstallation(QList<PackageVersion*>& installed,

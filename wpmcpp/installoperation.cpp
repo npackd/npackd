@@ -15,7 +15,7 @@ void InstallOperation::simplify(QList<InstallOperation*> ops)
         for (int j = i + 1; j < ops.size(); j++) {
             InstallOperation* op2 = ops.at(j);
             if (op->packageVersion == op2->packageVersion &&
-                    op->install != op2->install) {
+                    !op->install && op2->install) {
                 found = j;
                 break;
             }
