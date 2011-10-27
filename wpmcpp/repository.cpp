@@ -399,16 +399,15 @@ Dependency* Repository::createDependency(QDomElement* e)
 
     Dependency* d = new Dependency();
     d->package = package;
+
+    d->var = XMLUtils::getTagContent(*e, "variable");
+
     if (d->setVersions(e->attribute("versions")))
         return d;
     else {
         delete d;
         return 0;
     }
-
-    // qDebug() << d->toString();
-
-    return d;
 }
 
 License* Repository::findLicense(const QString& name)

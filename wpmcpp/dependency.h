@@ -1,6 +1,8 @@
 #ifndef DEPENDENCY_H
 #define DEPENDENCY_H
 
+#include <QString>
+
 #include "version.h"
 
 class PackageVersion;
@@ -25,6 +27,9 @@ public:
 
     /** high bound */
     Version max;
+
+    /** variable name or an empty string */
+    QString var;
 
     /**
      * [0, 1)

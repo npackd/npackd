@@ -66,6 +66,7 @@ private:
     QString saveInstallationInfo();
 
     void emitStatusChanged();
+    void addDependencyVars(QStringList* vars);
 public:
     /** package version */
     Version version;
