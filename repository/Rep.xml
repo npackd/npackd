@@ -13261,7 +13261,10 @@ verify
 
     <version name="2.5.4" package="net.sourceforge.gnuwin32.Grep" 
             type="one-file">
-        <file path=".WPM\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x
+        <file path=".WPM\Install.bat">rem testing dependency var=&quot;&quot; syntax 
+echo %CLU%
+
+for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x
 "%setup%" /SP- /VERYSILENT /SUPPRESSMSGBOXES /NOCANCEL /NORESTART /DIR="%CD%" /SAVEINF="%CD%\.WPM\InnoSetupInfo.ini" /LOG="%CD%\.WPM\InnoSetupInstall.log"
 set err=%errorlevel%
 type .WPM\InnoSetupInstall.log
@@ -13286,7 +13289,9 @@ verify
 </file>
         <url>http://downloads.sourceforge.net/project/gnuwin32/grep/2.5.4/grep-2.5.4-setup.exe?ts=1316876150</url>
         <sha1>c63e566c1786e5c9db8a0ce82adb9e30cf8230ec</sha1>
-        <dependency package="com.googlecode.windows-package-manager.CLU" versions="[1, 1]"/>
+        <dependency package="com.googlecode.windows-package-manager.CLU" versions="[1, 1]">
+            <variable>CLU</variable>
+        </dependency>
         <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.15.7, 2)"/>
         <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1, 1]"/>
     </version>

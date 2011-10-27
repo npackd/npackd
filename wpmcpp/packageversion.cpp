@@ -322,6 +322,8 @@ void PackageVersion::uninstall(Job* job)
             env.append("NPACKD_CL");
             env.append(Repository::getDefault()->computeNpackdCLEnvVar());
 
+            addDependencyVars(&env);
+
             QString output = this->executeFile(sub, d.absolutePath(),
                     uninstallationScript, ".Npackd\\Uninstall.log", env);
             if (!sub->getErrorMessage().isEmpty()) {
@@ -919,6 +921,8 @@ void PackageVersion::install(Job* job, const QString& where)
             env.append("NPACKD_CL");
             env.append(Repository::getDefault()->computeNpackdCLEnvVar());
 
+            addDependencyVars(&env);
+
             QString output = this->executeFile(exec, d.absolutePath(),
                     installationScript, ".Npackd\\Install.log", env);
             if (!exec->getErrorMessage().isEmpty()) {
@@ -995,6 +999,25 @@ void PackageVersion::install(Job* job, const QString& where)
     delete f;
 
     job->complete();
+}
+
+void PackageVersion::addDependencyVars(QStringList* vars)
+{
+    for (int i = 0; i < this->dependencies.count(); i++) {
+        Dependency* d = this->dependencies.at(i);
+        if (!d->var.isEmpty()) {
+            vars->append(d->var);
+            PackageVersion* pv = d->findHighestInstalledMatch();
+            if (pv) {
+                vars->append(pv->getPath());
+            } else {
+                // this could happen if a package was un-installed manually
+                // without Npackd or the repository has changed after this
+                // package was installed
+                vars->append("");
+            }
+        }
+    }
 }
 
 void PackageVersion::unzip(Job* job, QString zipfile, QString outputdir)
