@@ -1312,14 +1312,21 @@ void MainWindow::on_actionUpdate_triggered()
 
     QList<PackageVersion*> newest, newesti;
 
+    QStringList usedPackages;
     for (int i = 0; i < pvs.count(); i++) {
         PackageVersion* pv = pvs.at(i);
-        newest.append(r->findNewestInstallablePackageVersion(pv->package));
-        newesti.append(r->findNewestInstalledPackageVersion(pv->package));
+
+        // multiple versions of the same package could be selected in the table,
+        // but only one should be updated
+        if (!usedPackages.contains(pv->package)) {
+            newest.append(r->findNewestInstallablePackageVersion(pv->package));
+            newesti.append(r->findNewestInstalledPackageVersion(pv->package));
+            usedPackages.append(pv->package);
+        }
     }
 
     QString err;
-    for (int i = 0; i < pvs.count(); i++) {
+    for (int i = 0; i < newest.count(); i++) {
         QList<PackageVersion*> avoid;
         err = newest.at(i)->planInstallation(installed, ops, avoid);
         if (!err.isEmpty())
@@ -1327,7 +1334,7 @@ void MainWindow::on_actionUpdate_triggered()
     }
 
     if (err.isEmpty()) {
-        for (int i = 0; i < pvs.count(); i++) {
+        for (int i = 0; i < newesti.count(); i++) {
             err = newesti.at(i)->planUninstallation(installed, ops);
             if (!err.isEmpty())
                 break;
