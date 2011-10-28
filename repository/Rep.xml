@@ -12518,22 +12518,22 @@ rmdir "%name%"
 if %errorlevel% neq 0 exit /b %errorlevel%
 
 if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
-set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.pathed.PathEd" "--versions=[0.8, 0.8]"
-for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set pathed=%%x
-"%pathed%\pathed" -s -a "%CD%\bin"
+set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.CLU" "--versions=[1, 1]"
+for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set clu=%%x
+"%clu%\clu" add-path --path "%CD%\bin"
 verify
 </file>
         <file path=".WPM\Uninstall.bat">if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
-set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.pathed.PathEd" "--versions=[0.8, 0.8]"
-for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set pathed=%%x
-"%pathed%\pathed" -s -r "%CD%\bin"
+set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.CLU" "--versions=[1, 1]"
+for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set clu=%%x
+"%clu%\clu" remove-path --path "%CD%\bin"
 verify
 </file>
         <url>http://www.cmake.org/files/v2.8/cmake-2.8.4-win32-x86.zip</url>
         <sha1>539CE250521D964A8770E0A7362DB196DBC97FBC</sha1>
         <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.15.7, 2)"/>
         <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1, 1]"/>
-        <dependency package="com.googlecode.pathed.PathEd" versions="[0.8, 0.8]"/>
+        <dependency package="com.googlecode.windows-package-manager.CLU" versions="[1, 1]"/>
     </version>
     <version name="2.8.5" package="org.cmake.CMake">
         <file path=".WPM\Install.bat">for /f "delims=" %%x in ('dir /b cmake*') do set name=%%x
@@ -12546,22 +12546,22 @@ rmdir "%name%"
 if %errorlevel% neq 0 exit /b %errorlevel%
 
 if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
-set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.pathed.PathEd" "--versions=[0.8, 0.8]"
-for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set pathed=%%x
-"%pathed%\pathed" -s -a "%CD%\bin"
+set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.CLU" "--versions=[1, 1]"
+for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set clu=%%x
+"%clu%\clu" add-path --path "%CD%\bin"
 verify
 </file>
         <file path=".WPM\Uninstall.bat">if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
-set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.pathed.PathEd" "--versions=[0.8, 0.8]"
-for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set pathed=%%x
-"%pathed%\pathed" -s -r "%CD%\bin"
+set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.CLU" "--versions=[1, 1]"
+for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set clu=%%x
+"%clu%\clu" remove-path --path "%CD%\bin"
 verify
 </file>
         <url>http://www.cmake.org/files/v2.8/cmake-2.8.5-win32-x86.zip</url>
         <sha1>ffdcd882600fba4dee1c225d89831f2f889c8276</sha1>
         <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.15.7, 2)"/>
         <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1, 1]"/>
-        <dependency package="com.googlecode.pathed.PathEd" versions="[0.8, 0.8]"/>
+        <dependency package="com.googlecode.windows-package-manager.CLU" versions="[1, 1]"/>
     </version>
 
     <!-- the installer does not respect the /DIR option -->
