@@ -233,7 +233,7 @@ void App::usage()
     this->cl.printOptions();
     const char* lines2[] = {
         "",
-        "You can use short package names in 'add' and 'remove' operations.",
+        "You can use short package names in 'add', 'remove' and 'update' operations.",
         "Example: App instead of com.example.App",
         "The process exits with the code unequal to 0 if an error occures.",
         "If the output is redirected, the texts will be encoded as UTF-8.",
@@ -283,6 +283,7 @@ int App::addRepo()
             urls.append(url_);
             url_ = 0;
             rep->setRepositoryURLs(urls);
+            WPMUtils::outputTextConsole("The repository was added successfully\n");
         }
         qDeleteAll(urls);
     }
@@ -405,6 +406,7 @@ int App::removeRepo()
         } else {
             delete urls.takeAt(found);
             rep->setRepositoryURLs(urls);
+            WPMUtils::outputTextConsole("The repository was removed successfully\n");
         }
         qDeleteAll(urls);
     }
@@ -561,6 +563,8 @@ int App::update()
                     WPMUtils::outputTextConsole(ijob->getErrorMessage() + "\n",
                             false);
                     r = 1;
+                } else {
+                    WPMUtils::outputTextConsole("The package was updated successfully\n");
                 }
                 delete ijob;
             } else {
