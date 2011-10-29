@@ -546,17 +546,12 @@ int App::update()
         }
     }
 
-    QList<InstallOperation*> ops;
     if (r == 0) {
         if (newest->version.compare(newesti->version) <= 0) {
             WPMUtils::outputTextConsole("The package is already up-to-date\n", true);
         } else {
-            QList<PackageVersion*> installed =
-                    Repository::getDefault()->getInstalled();
-            QList<PackageVersion*> avoid;
-            QString err = newest->planInstallation(installed, ops, avoid);
-            if (err.isEmpty())
-                err = newesti->planUninstallation(installed, ops);
+            QList<InstallOperation*> ops;
+            QString err = rep->planUpdates(packages, ops);
 
             if (err.isEmpty()) {
                 InstallOperation::simplify(ops);
@@ -572,9 +567,10 @@ int App::update()
                 WPMUtils::outputTextConsole(err + "\n", false);
                 r = 1;
             }
+
+            qDeleteAll(ops);
         }
     }
-    qDeleteAll(ops);
 
     return r;
 }

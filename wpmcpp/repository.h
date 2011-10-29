@@ -130,6 +130,17 @@ public:
     void process(Job* job, const QList<InstallOperation*> &install);
 
     /**
+     * Plans updates for the given packages.
+     *
+     * @param packages these packages should be updated. No duplicates are
+     *     allowed here
+     * @param ops installation operations will be appended here
+     * @return error message or ""
+     */
+    QString planUpdates(const QList<Package*> packages,
+            QList<InstallOperation*>& ops);
+
+    /**
      * Loads one repository from an XML document.
      *
      * @param doc repository
