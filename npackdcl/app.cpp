@@ -669,6 +669,8 @@ int App::add()
                 WPMUtils::outputTextConsole(ijob->getErrorMessage() + "\n",
                         false);
                 r = 1;
+            } else {
+                WPMUtils::outputTextConsole("The package was installed successfully\n");
             }
             delete ijob;
         } while (false);
@@ -778,6 +780,8 @@ int App::remove()
             if (!job->getErrorMessage().isEmpty()) {
                 WPMUtils::outputTextConsole(job->getErrorMessage() + "\n", false);
                 r = 1;
+            } else {
+                WPMUtils::outputTextConsole("The package was removed successfully\n");
             }
             delete job;
         } while (false);
