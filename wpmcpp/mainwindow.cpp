@@ -1306,43 +1306,22 @@ void MainWindow::on_actionUpdate_triggered()
 
     Repository* r = Repository::getDefault();
 
-    QList<InstallOperation*> ops;
-    QList<PackageVersion*> installed =
-            Repository::getDefault()->getInstalled();
-
-    QList<PackageVersion*> newest, newesti;
-
-    QStringList usedPackages;
+    QList<Package*> packages;
     for (int i = 0; i < pvs.count(); i++) {
         PackageVersion* pv = pvs.at(i);
+        Package* p = r->findPackage(pv->package);
 
         // multiple versions of the same package could be selected in the table,
         // but only one should be updated
-        if (!usedPackages.contains(pv->package)) {
-            newest.append(r->findNewestInstallablePackageVersion(pv->package));
-            newesti.append(r->findNewestInstalledPackageVersion(pv->package));
-            usedPackages.append(pv->package);
+        if (p != 0 && !packages.contains(p)) {
+            packages.append(p);
         }
     }
 
-    QString err;
-    for (int i = 0; i < newest.count(); i++) {
-        QList<PackageVersion*> avoid;
-        err = newest.at(i)->planInstallation(installed, ops, avoid);
-        if (!err.isEmpty())
-            break;
-    }
+    QList<InstallOperation*> ops;
+    QString err = r->planUpdates(packages, ops);
 
     if (err.isEmpty()) {
-        for (int i = 0; i < newesti.count(); i++) {
-            err = newesti.at(i)->planUninstallation(installed, ops);
-            if (!err.isEmpty())
-                break;
-        }
-    }
-
-    if (err.isEmpty()) {
-        InstallOperation::simplify(ops);
         process(ops);
     } else
         addErrorMessage(err, err, true, QMessageBox::Critical);

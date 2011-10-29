@@ -533,6 +533,100 @@ void Repository::addWellKnownPackages()
     }
 }
 
+QString Repository::planUpdates(const QList<Package*> packages,
+        QList<InstallOperation*>& ops)
+{
+    QList<PackageVersion*> installed = getInstalled();
+    QList<PackageVersion*> newest, newesti;
+    QList<bool> used;
+
+    QString err;
+
+    for (int i = 0; i < packages.count(); i++) {
+        Package* p = packages.at(i);
+
+        PackageVersion* a = findNewestInstallablePackageVersion(p->name);
+        if (a == 0) {
+            err = QString("No installable version found for the package %1").
+                    arg(p->title);
+            break;
+        }
+
+        PackageVersion* b = findNewestInstalledPackageVersion(p->name);
+        if (b == 0) {
+            err = QString("No installed version found for the package %1").
+                    arg(p->title);
+            break;
+        }
+
+        if (a->version.compare(b->version) <= 0) {
+            err = QString("The newest version (%1) for the package %2 is already installed").
+                    arg(b->version.getVersionString()).arg(p->title);
+            break;
+        }
+
+        newest.append(a);
+        newesti.append(b);
+        used.append(false);
+    }
+
+    if (err.isEmpty()) {
+        // many packages cannot be installed side-by-side and overwrite for example
+        // the shortcuts of the old version in the start menu. We try to find
+        // those packages where the old version can be uninstalled first and then
+        // the new version installed. This is the reversed order for an update.
+        // If this is possible and does not affect other packages, we do this first.
+        for (int i = 0; i < newest.count(); i++) {
+            QList<PackageVersion*> avoid;
+            QList<InstallOperation*> ops2;
+            QList<PackageVersion*> installedCopy = installed;
+
+            QString err = newesti.at(i)->planUninstallation(installedCopy, ops2);
+            if (err.isEmpty()) {
+                err = newest.at(i)->planInstallation(installedCopy, ops2, avoid);
+                if (err.isEmpty()) {
+                    if (ops2.count() == 2) {
+                        used[i] = true;
+                        installed = installedCopy;
+                        ops.append(ops2[0]);
+                        ops.append(ops2[1]);
+                        ops2.clear();
+                    }
+                }
+            }
+
+            qDeleteAll(ops2);
+        }
+    }
+
+    if (err.isEmpty()) {
+        for (int i = 0; i < newest.count(); i++) {
+            if (!used[i]) {
+                QList<PackageVersion*> avoid;
+                err = newest.at(i)->planInstallation(installed, ops, avoid);
+                if (!err.isEmpty())
+                    break;
+            }
+        }
+    }
+
+    if (err.isEmpty()) {
+        for (int i = 0; i < newesti.count(); i++) {
+            if (!used[i]) {
+                err = newesti.at(i)->planUninstallation(installed, ops);
+                if (!err.isEmpty())
+                    break;
+            }
+        }
+    }
+
+    if (err.isEmpty()) {
+        InstallOperation::simplify(ops);
+    }
+
+    return err;
+}
+
 void Repository::detectWindows()
 {
     OSVERSIONINFO osvi;
