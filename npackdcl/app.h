@@ -46,7 +46,7 @@ private:
      */
     int unitTests();
 
-    QString testDependsOnItself();
+    QString reinstallTestPackage(QString rep);
 public:
     /**
      * Process the command line.

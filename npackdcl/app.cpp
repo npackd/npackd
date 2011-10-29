@@ -40,7 +40,7 @@ void App::jobChanged(const JobState& s)
     }
 }
 
-QString App::testDependsOnItself()
+QString App::reinstallTestPackage(QString rep)
 {
     QString err;
 
@@ -48,7 +48,7 @@ QString App::testDependsOnItself()
 
     QDomDocument doc;
     int errorLine, errorColumn;
-    QFile f("npackdcl\\TestDependsOnItself.xml");
+    QFile f(rep);
     if (!f.open(QIODevice::ReadOnly))
         err = "Cannot open the repository file";
 
@@ -98,7 +98,14 @@ int App::unitTests()
     WPMUtils::outputTextConsole("Starting internal tests\n");
 
     WPMUtils::outputTextConsole("testDependsOnItself\n");
-    QString err = testDependsOnItself();
+    QString err = reinstallTestPackage("npackdcl\\TestDependsOnItself.xml");
+    if (err.isEmpty())
+        WPMUtils::outputTextConsole("Internal tests were successful\n");
+    else
+        WPMUtils::outputTextConsole("Internal tests failed: " + err + "\n");
+
+    WPMUtils::outputTextConsole("testPackageMissing\n");
+    err = reinstallTestPackage("npackdcl\\TestPackageMissing.xml");
     if (err.isEmpty())
         WPMUtils::outputTextConsole("Internal tests were successful\n");
     else
