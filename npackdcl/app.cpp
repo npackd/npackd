@@ -215,14 +215,18 @@ void App::usage()
         "    npackdcl help",
         "        prints this help",
         "    npackdcl add --package=<package> [--version=<version>]",
-        "        installs a package",
+        "        installs a package. Short package names can be used here",
+        "        (e.g. App instead of com.example.App)",
         "    npackdcl remove --package=<package> --version=<version>",
-        "        removes a package",
+        "        removes a package Short package names can be used here",
+        "        (e.g. App instead of com.example.App)",
         "    npackdcl update --package=<package>",
         "        updates a package by uninstalling the currently installed",
-        "        and installing the newest version",
+        "        and installing the newest version. ",
+        "        Short package names can be used here",
+        "        (e.g. App instead of com.example.App)",
         "    npackdcl list [--status=installed | all] [--bare-format]",
-        "        lists packages sorted by package name and version.",
+        "        lists package versions sorted by package name and version.",
         "        Only installed package versions are shown by default.",
         "    npackdcl info --package=<package> --version=<version>",
         "        shows information about the specified package version",
@@ -240,8 +244,6 @@ void App::usage()
     this->cl.printOptions();
     const char* lines2[] = {
         "",
-        "You can use short package names in 'add', 'remove' and 'update' operations.",
-        "Example: App instead of com.example.App",
         "The process exits with the code unequal to 0 if an error occures.",
         "If the output is redirected, the texts will be encoded as UTF-8.",
     };
@@ -563,11 +565,12 @@ int App::update()
             QString err = rep->planUpdates(packages, ops);
 
             if (err.isEmpty()) {
-                InstallOperation::simplify(ops);
                 Job* ijob = createJob();
                 rep->process(ijob, ops);
                 if (!ijob->getErrorMessage().isEmpty()) {
-                    WPMUtils::outputTextConsole(ijob->getErrorMessage() + "\n",
+                    WPMUtils::outputTextConsole(
+                            QString("Error updating %1: %2\n").
+                            arg(packages[0]->title).arg(ijob->getErrorMessage()),
                             false);
                     r = 1;
                 } else {
@@ -677,7 +680,9 @@ int App::add()
             Job* ijob = createJob();
             rep->process(ijob, ops);
             if (!ijob->getErrorMessage().isEmpty()) {
-                WPMUtils::outputTextConsole(ijob->getErrorMessage() + "\n",
+                WPMUtils::outputTextConsole(
+                        QString("Error installing %1: %2\n").
+                        arg(pv->toString()).arg(ijob->getErrorMessage()),
                         false);
                 r = 1;
             } else {
@@ -789,7 +794,10 @@ int App::remove()
             Job* job = createJob();
             rep->process(job, ops);
             if (!job->getErrorMessage().isEmpty()) {
-                WPMUtils::outputTextConsole(job->getErrorMessage() + "\n", false);
+                WPMUtils::outputTextConsole(
+                        QString("Error removing %1: %2\n").
+                        arg(pv->toString()).arg(job->getErrorMessage()),
+                        false);
                 r = 1;
             } else {
                 WPMUtils::outputTextConsole("The package was removed successfully\n");
