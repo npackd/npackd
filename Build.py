@@ -283,7 +283,7 @@ class Build:
 
         self._npackdcl.add("net.zlib.ZLibSource", "1.2.5")
         self._npackdcl.add("net.sourceforge.quazip.QuaZIPSource", "0.4.2")
-        self._npackdcl.add("com.advancedinstaller.AdvancedInstallerFreeware", "8.4")
+        self._npackdcl.add("com.advancedinstaller.AdvancedInstallerFreeware", "8.5")
         self._npackdcl.add("com.selenic.mercurial.Mercurial64", "1.9.2")
         # self._npackdcl.add("com.nokia.QtSource", "4.7.3")
 
