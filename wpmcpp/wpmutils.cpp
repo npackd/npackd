@@ -21,6 +21,7 @@
 #include <QFile>
 #include "qsettings.h"
 #include "qvariant.h"
+#include <QProcessEnvironment>
 
 #include "wpmutils.h"
 #include "version.h"
@@ -83,7 +84,7 @@ QString WPMUtils::getProgramFilesDir()
 {
     WCHAR dir[MAX_PATH];
     SHGetFolderPath(0, CSIDL_PROGRAM_FILES, NULL, 0, dir);
-    return  QString::fromUtf16(reinterpret_cast<ushort*>(dir));
+    return QString::fromUtf16(reinterpret_cast<ushort*>(dir));
 }
 
 QString WPMUtils::normalizePath(const QString& path)
@@ -407,7 +408,20 @@ QString WPMUtils::getWindowsDir()
 {
     WCHAR dir[MAX_PATH];
     SHGetFolderPath(0, CSIDL_WINDOWS, NULL, 0, dir);
-    return  QString::fromUtf16(reinterpret_cast<ushort*>(dir));
+    return QString::fromUtf16(reinterpret_cast<ushort*>(dir));
+}
+
+QString WPMUtils::findCmdExe()
+{
+    QString r = getWindowsDir() + "\\Sysnative\\cmd.exe";
+    if (!QFileInfo(r).exists()) {
+        r = getWindowsDir() + "\\system32\\cmd.exe";
+        if (!QFileInfo(r).exists()) {
+            QProcessEnvironment pe = QProcessEnvironment::systemEnvironment();
+            r = pe.value("COMSPEC", r);
+        }
+    }
+    return r;
 }
 
 QString WPMUtils::getExeDir()

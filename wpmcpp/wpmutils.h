@@ -229,6 +229,13 @@ public:
     static QString getWindowsDir();
 
     /**
+     * Finds the path to cmd.exe. Returns 64-bit cmd.exe on 64-bit systems.
+     *
+     * @return path to cmd.exe
+     */
+    static QString findCmdExe();
+
+    /**
      * @return GUIDs for installed products (MSI) in lower case
      */
     static QStringList findInstalledMSIProducts();

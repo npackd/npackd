@@ -1156,9 +1156,14 @@ QString PackageVersion::executeFile(Job* job, const QString& where,
     QDir d(where);
     QProcess p(0);
     p.setProcessChannelMode(QProcess::MergedChannels);
-    QStringList params;
     p.setWorkingDirectory(d.absolutePath());
-    QString exe = d.absolutePath() + "\\" + path;
+
+    QString exe = WPMUtils::findCmdExe();
+    QStringList params;
+    QString file = d.absolutePath() + "\\" + path;
+    file.replace('/', '\\');
+    p.setNativeArguments("\"/E:ON /V:OFF /C chcp 65001 && "
+            "\"" + file + "\"\"");
     QProcessEnvironment pe = QProcessEnvironment::systemEnvironment();
     for (int i = 0; i < env.count(); i += 2) {
         pe.insert(env.at(i), env.at(i + 1));
