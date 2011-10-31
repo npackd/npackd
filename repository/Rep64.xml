@@ -27,6 +27,10 @@
         <title>ActivePerl community license</title>
         <url>http://www.activestate.com/activeperl/license-agreement</url>
     </license>
+    <license name="com.adobe.FlashPlayerLicense">
+        <title>Flash Player license</title>
+        <url>http://www.adobe.com/products/eulas/pdfs/PlatformClients_PC_WWEULA_Combined_20100108_1657.pdf</url>
+    </license>
     <license name="org.opensource.BSDLicense">
         <title>BSD license</title>
         <url>http://www.opensource.org/licenses/bsd-license.html</url>
@@ -87,6 +91,18 @@
         <url>http://www.activestate.com/activeperl</url>
         <description>Perl programming language</description>
         <license>com.activestate.ActivePerlCommunityLicense</license>
+    </package>
+    <package name="com.adobe.FlashPlayer64">
+        <title>Flash Player 64 bit (Firefox, Safari, Opera)</title>
+        <url>http://get.adobe.com/de/flashplayer/</url>
+        <description>WARNING! Npackd disables automatic updates. Install without Npackd if unsure. A browser plugin for graphics and multimedia</description>
+        <license>com.adobe.FlashPlayerLicense</license>
+    </package>
+    <package name="com.adobe.FlashPlayerActiveX64">
+        <title>Flash Player ActiveX 64 bit (Internet Explorer)</title>
+        <url>http://get.adobe.com/de/flashplayer/</url>
+        <description>WARNING! Npackd disables automatic updates. Install without Npackd if unsure. A browser plugin for graphics and multimedia</description>
+        <license>com.adobe.FlashPlayerLicense</license>
     </package>
     <package name="com.avg.AVGAntiVirusFree64Installer">
         <title>AVG Anti-Virus 64 bit installer</title>
@@ -2381,5 +2397,35 @@ rmdir "%name%"
         <url>http://ftp-stud.fht-esslingen.de/pub/Mirrors/eclipse/technology/epp/downloads/release/indigo/SR1/eclipse-cpp-indigo-SR1-incubation-win32-x86_64.zip</url>
         <dependency package="com.oracle.JRE" versions="[1.6, 2)"/>
         <sha1>5a9ece7736ca8c82a2923cef58b7c0cd44b714bd</sha1>
+    </version>
+
+    <version name="11.0.1.152" package="com.adobe.FlashPlayer64"
+            type="one-file">
+        <file path=".WPM\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x
+"%setup%" -install
+
+rem disable automatic updates
+rem http://kb2.adobe.com/cps/167/16701594.html
+echo AutoUpdateDisable=1 > %windir%\SysWOW64\Macromed\Flash\mms.cfg
+</file>
+        <file path=".WPM\Uninstall.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x
+"%setup%" -uninstall
+</file>
+        <url>http://fpdownload.macromedia.com/pub/flashplayer/current/licensing/win/install_flash_player_11_plugin_64bit.exe</url>
+    </version>
+    
+    <version name="11.0.1.152" package="com.adobe.FlashPlayerActiveX64"
+            type="one-file">
+        <file path=".WPM\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x
+"%setup%" -install
+
+rem disable automatic updates
+rem http://kb2.adobe.com/cps/167/16701594.html
+echo AutoUpdateDisable=1 > %windir%\SysWOW64\Macromed\Flash\mms.cfg
+</file>
+        <file path=".WPM\Uninstall.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x
+"%setup%" -uninstall
+</file>
+        <url>http://fpdownload.macromedia.com/pub/flashplayer/current/licensing/win/install_flash_player_11_active_x_64bit.exe</url>
     </version>
 </root>
