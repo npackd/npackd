@@ -218,7 +218,7 @@ void App::usage()
         "        installs a package. Short package names can be used here",
         "        (e.g. App instead of com.example.App)",
         "    npackdcl remove --package=<package> --version=<version>",
-        "        removes a package Short package names can be used here",
+        "        removes a package. Short package names can be used here",
         "        (e.g. App instead of com.example.App)",
         "    npackdcl update --package=<package>",
         "        updates a package by uninstalling the currently installed",
