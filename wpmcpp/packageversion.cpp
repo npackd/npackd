@@ -264,7 +264,7 @@ void PackageVersion::uninstall(Job* job)
     if (job->getErrorMessage().isEmpty()) {
         job->setHint("Deleting shortcuts");
         Job* sub = job->newSubJob(0.20);
-        deleteShortcuts(d.absolutePath(), sub, true, true, true);
+        deleteShortcuts(d.absolutePath(), sub, true, false, false);
         delete sub;
     }
 
