@@ -1432,9 +1432,10 @@ void Repository::loadOne(QDomDocument* doc, Job* job)
                         "Invalid repository specification version: %1").
                         arg(specVersion));
             } else {
-                if (specVersion_.compare(Version(3,0)) >= 0)
+                if (specVersion_.compare(Version(4, 0)) >= 0)
                     job->setErrorMessage(QString(
-                            "Incompatible repository specification version: %1").
+                            "Incompatible repository specification version: %1. \n"
+                            "Plese download a newer version of Npackd from http://code.google.com/p/windows-package-manager/").
                             arg(specVersion));
                 else
                     job->setProgress(0.01);
