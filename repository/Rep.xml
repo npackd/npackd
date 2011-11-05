@@ -12677,6 +12677,21 @@ if %err% neq 0 exit %err%
         <url>http://downloads.sourceforge.net/project/gnucash/gnucash%20%28stable%29/2.4.7/gnucash-2.4.7-setup.exe?ts=1312708116</url>
         <sha1>6cdc019fbfde14cbabfdc9cf5d4f41e0ff4031b3</sha1>
     </version>
+    <version name="2.4.8" package="org.gnucash.GNUCash" type="one-file">
+        <file path=".WPM\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x
+"%setup%" /SP- /VERYSILENT /SUPPRESSMSGBOXES /NOCANCEL /NORESTART /DIR="%CD%" /SAVEINF="%CD%\.WPM\InnoSetupInfo.ini" /LOG="%CD%\.WPM\InnoSetupInstall.log"
+set err=%errorlevel%
+type .WPM\InnoSetupInstall.log
+if %err% neq 0 exit %err%
+</file>
+        <file path=".WPM\Uninstall.bat">uninstall\gnucash\unins000.exe /VERYSILENT /SUPPRESSMSGBOXES /NORESTART /LOG="%CD%\.WPM\InnoSetupUninstall.log"
+set err=%errorlevel%
+type .WPM\InnoSetupUninstall.log
+if %err% neq 0 exit %err%
+</file>
+        <url>http://downloads.sourceforge.net/project/gnucash/gnucash%20%28stable%29/2.4.8/gnucash-2.4.8-setup.exe?ts=1320516131</url>
+        <sha1>3e90f7f742cd4b6c580ac49121e2976bb566b935</sha1>
+    </version>
 
     <version name="3.0.852" package="org.freedownloadmanager.FreeDownloadManager" 
             type="one-file">
