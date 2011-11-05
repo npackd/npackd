@@ -1162,8 +1162,8 @@ QString PackageVersion::executeFile(Job* job, const QString& where,
     QStringList params;
     QString file = d.absolutePath() + "\\" + path;
     file.replace('/', '\\');
-    p.setNativeArguments("\"/E:ON /V:OFF /C chcp 65001 && "
-            "\"" + file + "\"\"");
+    p.setNativeArguments("/U /E:ON /V:OFF /C \"" + file + "\"");
+    qDebug() << p.nativeArguments();
     QProcessEnvironment pe = QProcessEnvironment::systemEnvironment();
     for (int i = 0; i < env.count(); i += 2) {
         pe.insert(env.at(i), env.at(i + 1));
@@ -1191,7 +1191,8 @@ QString PackageVersion::executeFile(Job* job, const QString& where,
             QFile f(d.absolutePath() + "\\" + outputFile);
             if (f.open(QIODevice::WriteOnly)) {
                 QByteArray output = p.readAll();
-                ret.append(output);
+                ret.setUtf16((const ushort*) output.constData(),
+                        output.size() / 2);
                 f.write(output);
                 f.close();
             }
