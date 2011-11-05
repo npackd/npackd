@@ -1081,6 +1081,12 @@ void MainWindow::updateActions()
     QWidget* w = this->ui->tabWidget->currentWidget();
     this->ui->actionClose_Tab->setEnabled(
             w != this->ui->tab && w != this->jobsTab);
+
+    this->ui->actionReload_Repositories->setEnabled(
+            !hardDriveScanRunning);
+
+    this->ui->actionScan_Hard_Drives->setEnabled(
+            !hardDriveScanRunning && !reloadRepositoriesThreadRunning);
 }
 
 void MainWindow::on_tableWidget_itemSelectionChanged()
