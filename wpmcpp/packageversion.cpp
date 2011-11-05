@@ -1163,7 +1163,7 @@ QString PackageVersion::executeFile(Job* job, const QString& where,
     QString file = d.absolutePath() + "\\" + path;
     file.replace('/', '\\');
     p.setNativeArguments("/U /E:ON /V:OFF /C \"" + file + "\"");
-    qDebug() << p.nativeArguments();
+    // qDebug() << p.nativeArguments();
     QProcessEnvironment pe = QProcessEnvironment::systemEnvironment();
     for (int i = 0; i < env.count(); i += 2) {
         pe.insert(env.at(i), env.at(i + 1));
