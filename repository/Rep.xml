@@ -5971,6 +5971,21 @@ if %err% neq 0 exit %err%
         <url>http://downloads.sourceforge.net/project/keepass/KeePass%202.x/2.16/KeePass-2.16.zip?ts=1312633845</url>
         <sha1>66088c3908aa6fd94954cebdfaa21a7c33b8adc0</sha1>
     </version>
+    <version name="2.17" package="info.keepass.KeePass" type="one-file">
+        <file path=".WPM\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x
+"%setup%" /SP- /VERYSILENT /SUPPRESSMSGBOXES /NOCANCEL /NORESTART /DIR="%CD%" /SAVEINF="%CD%\.WPM\InnoSetupInfo.ini" /LOG="%CD%\.WPM\InnoSetupInstall.log"
+set err=%errorlevel%
+type .WPM\InnoSetupInstall.log
+if %err% neq 0 exit %err%    
+</file>
+        <file path=".WPM\Uninstall.bat">unins000.exe /VERYSILENT /SUPPRESSMSGBOXES /NORESTART /LOG="%CD%\.WPM\InnoSetupUninstall.log"
+set err=%errorlevel%
+type .WPM\InnoSetupUninstall.log
+if %err% neq 0 exit %err%
+</file>
+        <url>http://downloads.sourceforge.net/project/keepass/KeePass%202.x/2.17/KeePass-2.17-Setup.exe?ts=1320569893</url>
+        <sha1>520fb5e213a900334317099354230954af46a7cd</sha1>
+    </version>
     
     <version name="1.6.4" package="ro.icofx.IcoFX" type="one-file">
         <file path=".WPM\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x
