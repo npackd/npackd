@@ -1581,6 +1581,24 @@ call "%npackdih%\UninstallMSI.bat"
         <url>http://npackd.googlecode.com/files/com.mysql.MySQLCommunityServer64-5.5.16.msi</url>
         <sha1>50025eed146dbfce589ec24a01cb9c817fa39b8e</sha1>
     </version>
+    <version name="5.5.17" package="com.mysql.MySQLCommunityServer64" 
+            type="one-file">
+<file path=".WPM\Install.bat">if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
+set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.NpackdInstallerHelper" "--versions=[1, 1]"
+for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set npackdih=%%x
+call "%npackdih%\InstallMSI.bat" INSTALLDIR
+</file>
+        <file path=".WPM\Uninstall.bat">if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
+set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.NpackdInstallerHelper" "--versions=[1, 1]"
+for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set npackdih=%%x
+call "%npackdih%\UninstallMSI.bat"
+</file>
+        <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1, 1]"/>
+        <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.15.7, 2)"/>
+        <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1, 1]"/>
+        <url>http://npackd.googlecode.com/files/com.mysql.MySQLCommunityServer64-5.5.17.msi</url>
+        <sha1>ed84b8fd3376623ca60e8e63ea4de05475b0278c</sha1>
+    </version>
 
     <version name="4.51" package="com.softwareok.QDir64">
         <file path=".WPM\Install.bat">for /f "delims=" %%x in ('dir /b Q*') do set name=%%x
@@ -2127,6 +2145,43 @@ verify
         <dependency package="com.googlecode.windows-package-manager.CLU" versions="[1, 1]"/>
         <url>http://www.python.org/ftp/python/3.2.1/python-3.2.1.amd64.msi</url>
         <sha1>8c59f4d527c0ac3e93a53c68088eaedba82283e8</sha1>
+    </version>
+    <version name="3.2.2" package="org.python.Python64" type="one-file">
+        <file path=".WPM\Install.bat">for /f "delims=" %%x in ('dir /b *.msi') do set setup=%%x
+copy "%setup%" .WPM
+msiexec.exe /qn /norestart /Lime .WPM\MSI.log /i "%setup%" TARGETDIR="%CD%" ALLUSERS=1
+set err=%errorlevel%
+type .WPM\MSI.log
+rem 3010=restart required
+if %err% equ 3010 exit /b 0
+if %err% neq 0 exit /b %err%
+
+if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
+set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.CLU" "--versions=[1, 1]"
+for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set clu=%%x
+"%clu%\clu" add-path --path "%CD%"
+verify
+</file>
+        <file path=".WPM\Uninstall.bat">move .WPM\*.msi .
+for /f "delims=" %%x in ('dir /b *.msi') do set setup=%%x
+msiexec.exe /qn /norestart /Lime .WPM\MSI.log /x "%setup%"
+set err=%errorlevel%
+type .WPM\MSI.log
+rem 3010=restart required
+if %err% equ 3010 exit /b 0
+if %err% neq 0 exit /b %err%
+
+if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
+set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.CLU" "--versions=[1, 1]"
+for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set clu=%%x
+"%clu%\clu" remove-path --path "%CD%"
+verify
+</file>
+        <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.15.7, 2)"/>
+        <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1, 1]"/>
+        <dependency package="com.googlecode.windows-package-manager.CLU" versions="[1, 1]"/>
+        <url>http://www.python.org/ftp/python/3.2.2/python-3.2.2.amd64.msi</url>
+        <sha1>3b507230774db964b5a769fb2bf8170729c7cab1</sha1>
     </version>
 
     <version name="4.4" package="org.sourceforge.ultradefrag.UltraDefrag64">
