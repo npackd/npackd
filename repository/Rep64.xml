@@ -1021,6 +1021,44 @@ verify
         <url>http://downloads.activestate.com/ActivePerl/releases/5.14.1.1401/ActivePerl-5.14.1.1401-MSWin32-x64-294969.msi</url>
         <sha1>B46E90D20C4A21EEA478457F4B3F72B08F2C52FF</sha1>
     </version>
+    <version name="5.14.2.1402" package="com.activestate.ActivePerl64"
+            type="one-file">
+        <file path=".WPM\Install.bat">for /f "delims=" %%x in ('dir /b *.msi') do set setup=%%x
+copy "%setup%" .WPM
+msiexec.exe /qn /norestart /Lime .WPM\MSI.log /i "%setup%" TARGETDIR="%CD%" ALLUSERS=1
+set err=%errorlevel%
+type .WPM\MSI.log
+rem 3010=restart required
+if %err% equ 3010 exit /b 0
+if %err% neq 0 exit /b %err%
+
+if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
+set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.CLU" "--versions=[1, 1]"
+for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set clu=%%x
+"%clu%\clu" add-path --path "%CD%\Perl64\bin"
+verify
+</file>
+        <file path=".WPM\Uninstall.bat">move .WPM\*.msi .
+for /f "delims=" %%x in ('dir /b *.msi') do set setup=%%x
+msiexec.exe /qn /norestart /Lime .WPM\MSI.log /x "%setup%"
+set err=%errorlevel%
+type .WPM\MSI.log
+rem 3010=restart required
+if %err% equ 3010 exit /b 0
+if %err% neq 0 exit /b %err%
+
+if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
+set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.CLU" "--versions=[1, 1]"
+for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set clu=%%x
+"%clu%\clu" remove-path --path "%CD%\Perl64\bin"
+verify
+</file>
+        <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.15.7, 2)"/>
+        <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1, 1]"/>
+        <dependency package="com.googlecode.windows-package-manager.CLU" versions="[1, 1]"/>
+        <url>http://downloads.activestate.com/ActivePerl/releases/5.14.2.1402/ActivePerl-5.14.2.1402-MSWin32-x64-295342.msi</url>
+        <sha1>3b6b47484e8ab9bec09ae81a90546c5e0269ad04</sha1>
+    </version>
 
     <version name="2010.762" package="com.mythicsoft.AgentRansack64"
             type="one-file">
