@@ -8411,6 +8411,24 @@ if %err% neq 0 exit /b %err%
         <sha1>0faa00705651531c831380a6af83b564b995ecb0</sha1>
         <detect-msi>{26A24AE4-039D-4CA4-87B4-2F83217000FF}</detect-msi>
     </version>
+<!--    
+    <version name="1.7.0.1" package="com.oracle.JRE" type="one-file">
+        <file path=".WPM\Install.bat">ren AutoDL Install.exe
+Install.exe /s /v"/qn /Lime .WPM\MSI.log /norestart AgreeToLicense=YES IEXPLORER=1 MOZILLA=1 REBOOT=Suppress ALLUSERS=1 INSTALLDIR="""%CD%""" SYSTRAY=0"
+set err=%errorlevel%
+type .WPM\MSI.log
+if %err% neq 0 exit /b %err%
+</file>
+        <file path=".WPM\Uninstall.bat">MsiExec.exe /qn /norestart /Lime .WPM\MSI.log /X{26A24AE4-039D-4CA4-87B4-2F83217001FF}
+set err=%errorlevel%
+type .WPM\MSI.log
+if %err% neq 0 exit /b %err%
+</file>
+        <url>http://javadl.sun.com/webapps/download/AutoDL?BundleId=58868</url>
+        <sha1>26ec209d66c3b21ef3c7b6c1f3b9fa52466420ed</sha1>
+        <detect-msi>{26A24AE4-039D-4CA4-87B4-2F83217001FF}</detect-msi>
+    </version>
+-->    
 
     <version name="4.28" package="de.irfanview.IrfanView">
         <file path=".WPM\Install.bat">set KEY=de.irfanview.IrfanView-4.28
@@ -13010,6 +13028,7 @@ verify
         <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1, 1]"/>
         <dependency package="com.googlecode.windows-package-manager.CLU" versions="[1, 1]"/>
     </version>
+<!--    
     <version name="1.7.0.1" package="com.oracle.JDK" type="one-file">
         <file path=".WPM\Install.bat">ren AutoDL AutoDL.exe
 AutoDL.exe /s /v"/qn /Lime .WPM\MSI.log /norestart REBOOT=Suppress ALLUSERS=1 ADDLOCAL="""ToolsFeature,DemosFeature,SourceFeature""" INSTALLDIR="""%CD%""" "
@@ -13041,6 +13060,7 @@ verify
         <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1, 1]"/>
         <dependency package="com.googlecode.windows-package-manager.CLU" versions="[1, 1]"/>
     </version>
+-->
 
     <version name="2.4.3" package="org.gnucash.GNUCash" type="one-file">
         <file path=".WPM\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x
