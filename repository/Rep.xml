@@ -2219,6 +2219,11 @@ yes - Print a string repeatedly.</description>
         <url>http://nodejs.org/</url>
         <description>JavaScript runtime</description>
     </package>
+    <package name="org.npmjs.NPM">
+        <title>NPM</title>
+        <url>http://npmjs.org/</url>
+        <description>Node.js package manager</description>
+    </package>
     <package name="org.openoffice.OpenOffice">
         <title>OpenOffice</title>
         <url>http://www.openoffice.org/</url>
@@ -13711,8 +13716,36 @@ rmdir "%name%"
         <sha1>7e014cdb88c96b4e87cbe6db609bf9e83ae4444b</sha1>
     </version>
 
-    <version name="0.6.0" package="org.nodejs.NodeJS" type="one-file">
+    <version name="0.6" package="org.nodejs.NodeJS" type="one-file">
+        <file path=".WPM\Install.bat">if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
+set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.CLU" "--versions=[1, 1]"
+for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set clu=%%x
+"%clu%\clu" add-path --path "%CD%"
+verify
+</file>
+        <file path=".WPM\Uninstall.bat">if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
+set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.CLU" "--versions=[1, 1]"
+for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set clu=%%x
+"%clu%\clu" remove-path --path "%CD%\miktex\bin"
+verify
+</file>
         <url>http://nodejs.org/dist/v0.6.0/node.exe</url>
         <sha1>602650cfa338f3ce8b7d8ecaab4f6e4278eb1b0a</sha1>
+        <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.15.7, 2)"/>
+        <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1, 1]"/>
+        <dependency package="com.googlecode.windows-package-manager.CLU" versions="[1, 1]"/>
+    </version>
+
+    <version name="0.4" package="org.npmjs.NPM">
+        <file path=".WPM\Install.bat">for /f "delims=" %%x in ('dir /b isaacs*') do set name=%%x
+cd "%name%"        
+for /f "delims=" %%a in ('dir /b') do (
+  move "%%a" ..
+)
+cd ..
+rmdir "%name%"
+</file>
+        <url>https://nodeload.github.com/isaacs/npm/zipball/master</url>
+        <dependency package="org.nodejs.NodeJS" versions="[0.6, 1)"/>        
     </version>
 </root>
