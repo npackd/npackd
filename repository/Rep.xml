@@ -6932,6 +6932,16 @@ ren "%setup%" PaintNETInstaller.exe
         <dependency package="com.microsoft.DotNetRedistributable"
                 versions="[3.5, 4)"/>                
     </version>
+    <version name="3.5.10" package="net.getpaint.PaintDotNetInstaller">
+        <important-file path="PaintNETInstaller.exe" title="Installer"/>
+        <file path=".WPM\Install.bat">for /f %%x in ('dir /b *Install.exe') do set setup=%%x
+ren "%setup%" PaintNETInstaller.exe
+</file>
+        <url>http://dl.dropbox.com/u/17046326/files/net.getpaint.PaintDotNet-3.5.10.zip</url>
+        <sha1>15b72020da4899e404a25483d29fc474aa9a6b8c</sha1>
+        <dependency package="com.microsoft.DotNetRedistributable"
+                versions="[3.5, 4)"/>                
+    </version>
 
     <version name="2.5" package="net.sourceforge.launchy.Launchy"
             type="one-file">
