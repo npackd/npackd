@@ -10782,6 +10782,21 @@ verify
         <important-file path="ResHacker.exe" title="Resource Hacker"/>
         <url>http://delphi.icm.edu.pl/ftp/tools/ResHack.zip</url>
     </version>
+    <version name="3.60.92" package="com.angusj.ResourceHacker" type="one-file">
+        <file path=".WPM\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x
+"%setup%" /SP- /VERYSILENT /SUPPRESSMSGBOXES /NOCANCEL /NORESTART /DIR="%CD%" /SAVEINF="%CD%\.WPM\InnoSetupInfo.ini" /LOG="%CD%\.WPM\InnoSetupInstall.log"
+set err=%errorlevel%
+type .WPM\InnoSetupInstall.log
+if %err% neq 0 exit %err%    
+</file>
+        <file path=".WPM\Uninstall.bat">unins000.exe /VERYSILENT /SUPPRESSMSGBOXES /NORESTART /LOG="%CD%\.WPM\InnoSetupUninstall.log"
+set err=%errorlevel%
+type .WPM\InnoSetupUninstall.log
+if %err% neq 0 exit %err%
+</file>
+        <important-file path="ResHacker.exe" title="Resource Hacker"/>
+        <url>http://www.angusj.com/resourcehacker/reshack_setup.exe</url>
+    </version>
 
     <version name="1.7.4" package="info.delphitools.SamplingProfiler">
         <important-file path="SamplingProfiler.exe" title="Sampling Profiler"/>
