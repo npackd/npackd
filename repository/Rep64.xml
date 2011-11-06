@@ -35,6 +35,10 @@
         <title>BSD license</title>
         <url>http://www.opensource.org/licenses/bsd-license.html</url>
     </license>
+    <license name="org.opensource.MITLicense">
+        <title>MIT license</title>
+        <url>http://www.opensource.org/licenses/mit-license.php</url>
+    </license>
     <license name="org.python.PSFLicense">
         <title>PSF license</title>
         <url>http://docs.python.org/license.html</url>
@@ -119,6 +123,12 @@
         <url>http://www.ghostscript.com/</url>
         <description>PDF and PostScript interpreter</description>
         <license>org.gnu.GPLv2</license>
+    </package>
+    <package name="com.googlecode.gomingw.GoMinGW64">
+        <title>Go MinGW weekly 64 bit</title>
+        <url>http://code.google.com/p/gomingw/</url>
+        <description>Go MinGW</description>
+        <license>org.opensource.MITLicense</license>
     </package>
     <package name="com.googlecode.stexbar.StExBar64">
         <title>StExBar 64 bit</title>
@@ -2489,4 +2499,33 @@ echo AutoUpdateDisable=1 > %windir%\SysWOW64\Macromed\Flash\mms.cfg
 </file>
         <url>http://fpdownload.macromedia.com/pub/flashplayer/current/licensing/win/install_flash_player_11_active_x_64bit.exe</url>
     </version>
+
+    <version name="2011.10.18" package="com.googlecode.gomingw.GoMinGW64">
+        <file path=".WPM\Install.bat">set name=go
+cd "%name%"        
+for /f "delims=" %%a in ('dir /b') do (
+  move "%%a" ..
+)
+cd ..
+rmdir "%name%"
+if %errorlevel% neq 0 exit /b %errorlevel%
+
+if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
+set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.CLU" "--versions=[1, 1]"
+for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set clu=%%x
+"%clu%\clu" add-path --path "%CD%\bin"
+verify
+</file> 
+        <file path=".WPM\Uninstall.bat">if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
+set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.CLU" "--versions=[1, 1]"
+for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set clu=%%x
+"%clu%\clu" remove-path --path "%CD%\bin"
+verify
+</file>
+        <url>http://gomingw.googlecode.com/files/gowinamd64_weekly.2011-10-18.zip</url> 
+        <sha1>1983cdaea1df09a17b7b6436053f2574242c6e18</sha1> 
+        <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.15.7, 2)"/>
+        <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1, 1]"/>
+        <dependency package="com.googlecode.windows-package-manager.CLU" versions="[1, 1]"/>
+    </version> 
 </root>
