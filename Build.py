@@ -346,7 +346,7 @@ class Build:
         xml.dom.minidom.parse("repository\\Libs.xml")
         
         loc = self._npackdcl.path("com.selenic.mercurial.Mercurial64", 
-                "[1.8,2)") + "\\hg.exe"
+                "[1.8,3)") + "\\hg.exe"
         p = subprocess.Popen("\"" + loc + "\" push")
         if p.wait() != 0:
             raise BuildError("hg push failed")
