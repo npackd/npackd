@@ -180,13 +180,15 @@
     <package name="com.oracle.JRE64">
         <title>JRE 64 bit</title>
         <url>http://www.java.com/en/</url>
-        <description>WARNING! Requires Npackd 1.15 for the installation. Java runtime</description>
+        <description>WARNING! Requires Npackd 1.15 for the installation. Java runtime.
+This package uses internal version numbers. For example, 1.7.0.1 corresponds to &quot;Version 7 update 1 or 7u1&quot;</description>
         <license>com.oracle.JavaSELicense</license>
     </package>
     <package name="com.oracle.JDK64">
         <title>JDK 64 bit</title>
         <url>http://java.sun.com/javase/downloads/index.jsp</url>
-        <description>WARNING! Requires Npackd 1.15 for the installation. Java SDK</description>
+        <description>WARNING! Requires Npackd 1.15 for the installation. Java SDK.
+This package uses internal version numbers. For example, 1.7.0.1 corresponds to &quot;Version 7 update 1 or 7u1&quot;</description>
         <license>com.oracle.JavaSELicense</license>
     </package>
     <package name="com.selenic.mercurial.Mercurial64">
@@ -468,6 +470,22 @@ if %err% neq 0 exit /b %err%
         <url>http://javadl.sun.com/webapps/download/AutoDL?BundleId=51869</url>
         <sha1>f0957d48fc9fb27f86f784b33549e90905640595</sha1>
         <detect-msi>{26A24AE4-039D-4CA4-87B4-2F86417000FF}</detect-msi>
+    </version>
+    <version name="1.7.0.1" package="com.oracle.JRE64" type="one-file">
+        <file path=".WPM\Install.bat">ren AutoDL Install.exe
+Install.exe /s /v"/qn /Lime .WPM\MSI.log /norestart AgreeToLicense=YES IEXPLORER=1 MOZILLA=1 REBOOT=Suppress ALLUSERS=1 INSTALLDIR="""%CD%""" SYSTRAY=0"
+set err=%errorlevel%
+type .WPM\MSI.log
+if %err% neq 0 exit /b %err%
+</file>
+        <file path=".WPM\Uninstall.bat">MsiExec.exe /qn /norestart /Lime .WPM\MSI.log /X{26A24AE4-039D-4CA4-87B4-2F86417001FF}
+set err=%errorlevel%
+type .WPM\MSI.log
+if %err% neq 0 exit /b %err%
+</file>
+        <url>http://javadl.sun.com/webapps/download/AutoDL?BundleId=56869</url>
+        <sha1>bd40f1dcd72326bb472cd131acb04d707566e706</sha1>
+        <detect-msi>{26A24AE4-039D-4CA4-87B4-2F86417001FF}</detect-msi>
     </version>
 
     <!--
