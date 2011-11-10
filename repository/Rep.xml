@@ -9389,6 +9389,16 @@ if %errorlevel% equ 19 exit /b 0
         <url>http://dl.google.com/chrome/install/874.106/chrome_installer.exe</url>
         <sha1>2103ce8a659e43ff72b85e5fae275567bce71d06</sha1>
     </version>
+    <version name="15.0.874.120" package="com.google.Chrome" type="one-file">
+        <file path=".WPM\Install.bat">chrome_installer.exe --system-level
+if %errorlevel% equ 4 exit /b 0
+</file>
+        <file path=".WPM\Uninstall.bat">chrome_installer.exe --uninstall --force-uninstall --system-level
+if %errorlevel% equ 19 exit /b 0
+</file>
+        <url>http://dl.google.com/chrome/install/874.120/chrome_installer.exe</url>
+        <sha1>33c70bc51f69e86aecb32d92e2941230724f7c7e</sha1>
+    </version>
 
     <version name="4.0.4" package="no.itefix.CWRsyncServer">
         <file path=".WPM\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x
@@ -9571,7 +9581,7 @@ for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x
         <url>http://npackd.googlecode.com/files/org.mozilla.Firefox-6.0.1.exe</url>
         <sha1>5b30372731fdfe38d49d293a9d0d68682782a162</sha1>
     </version>
-    <version name="7.0.1" package="org.mozilla.Firefox" type="one-file">
+    <version name="8" package="org.mozilla.Firefox" type="one-file">
         <important-file path="firefox.exe" title="Firefox"/>
         <file path=".WPM\Install.bat">echo [Install] > .WPM\FF.ini
 echo InstallDirectoryPath=%CD% >> .WPM\FF.ini
@@ -9581,8 +9591,8 @@ for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x
 "%setup%" /INI="%CD%\.WPM\FF.ini"
 </file>
         <file path=".WPM\Uninstall.bat">uninstall\helper.exe /S</file>
-        <url>http://npackd.googlecode.com/files/org.mozilla.Firefox-7.0.1.exe</url>
-        <sha1>eee90f8f72c37a904fb73cddaf3ccc2732dceb77</sha1>
+        <url>http://npackd.googlecode.com/files/org.mozilla.Firefox-8.exe</url>
+        <sha1>dbbc497e639cae401dd9e6db6b61018ea0d2b689</sha1>
     </version>
 
     <version name="1.33" package="org.gexperts.GExpertsDelphi7Installer"
