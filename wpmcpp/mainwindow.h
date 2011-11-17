@@ -15,7 +15,6 @@
 
 #include "packageversion.h"
 #include "job.h"
-#include "progressdialog.h"
 #include "fileloader.h"
 #include "taskbar.h"
 
@@ -175,18 +174,6 @@ public:
      * Prepares the UI after the constructor was called.
      */
     void prepare();
-
-    /**
-     * Blocks until the job is completed. Shows an error
-     * message dialog if the job was completed with an
-     * error.
-     *
-     * @param job a job
-     * @return true if the job has completed successfully
-     *     (no error and not cancelled)
-     * @param title dialog title
-     */
-    bool waitFor(Job* job, const QString& title);
 
     /**
      * Close all detail tabs (versions and licenses).
