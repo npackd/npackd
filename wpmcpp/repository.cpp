@@ -6,6 +6,7 @@
 #include "qsettings.h"
 #include "qdom.h"
 #include "qdebug.h"
+#include "QSet"
 
 #include "repository.h"
 #include "downloader.h"
@@ -424,8 +425,8 @@ QList<Package*> Repository::findPackages(const QString& name)
     QList<Package*> r;
     bool shortName = name.indexOf('.') < 0;
     QString suffix = '.' + name;
-    for (int i = 0; i < this->packages.count(); i++) {
-        Package* p = this->packages.at(i);
+    for (int i = 0; i < this->getPackageCount(); i++) {
+        Package* p = this->getPackage(i);
         if (p->name == name) {
             r.append(p);
         } else if (shortName && p->name.endsWith(suffix)) {
@@ -437,9 +438,9 @@ QList<Package*> Repository::findPackages(const QString& name)
 
 Package* Repository::findPackage(const QString& name)
 {
-    for (int i = 0; i < this->packages.count(); i++) {
-        if (this->packages.at(i)->name == name)
-            return this->packages.at(i);
+    for (int i = 0; i < this->getPackageCount(); i++) {
+        if (this->getPackage(i)->name == name)
+            return this->getPackage(i);
     }
     return 0;
 }
@@ -465,71 +466,71 @@ void Repository::addWellKnownPackages()
         Package* p = new Package("com.microsoft.Windows", "Windows");
         p->url = "http://www.microsoft.com/windows/";
         p->description = "Operating system";
-        this->packages.append(p);
+        addPackage(p);
     }
     if (!this->findPackage("com.microsoft.Windows32")) {
         Package* p = new Package("com.microsoft.Windows32", "Windows/32 bit");
         p->url = "http://www.microsoft.com/windows/";
         p->description = "Operating system";
-        this->packages.append(p);
+        addPackage(p);
     }
     if (!this->findPackage("com.microsoft.Windows64")) {
         Package* p = new Package("com.microsoft.Windows64", "Windows/64 bit");
         p->url = "http://www.microsoft.com/windows/";
         p->description = "Operating system";
-        this->packages.append(p);
+        addPackage(p);
     }
     if (!findPackage("com.googlecode.windows-package-manager.Npackd")) {
         Package* p = new Package("com.googlecode.windows-package-manager.Npackd",
                 "Npackd");
         p->url = "http://code.google.com/p/windows-package-manager/";
         p->description = "package manager";
-        packages.append(p);
+        addPackage(p);
     }
     if (!this->findPackage("com.oracle.JRE")) {
         Package* p = new Package("com.oracle.JRE", "JRE");
         p->url = "http://www.java.com/";
         p->description = "Java runtime";
-        this->packages.append(p);
+        addPackage(p);
     }
     if (!this->findPackage("com.oracle.JRE64")) {
         Package* p = new Package("com.oracle.JRE64", "JRE/64 bit");
         p->url = "http://www.java.com/";
         p->description = "Java runtime";
-        this->packages.append(p);
+        addPackage(p);
     }
     if (!this->findPackage("com.oracle.JDK")) {
         Package* p = new Package("com.oracle.JDK", "JDK");
         p->url = "http://www.oracle.com/technetwork/java/javase/overview/index.html";
         p->description = "Java development kit";
-        this->packages.append(p);
+        addPackage(p);
     }
     if (!this->findPackage("com.oracle.JDK64")) {
         Package* p = new Package("com.oracle.JDK64", "JDK/64 bit");
         p->url = "http://www.oracle.com/technetwork/java/javase/overview/index.html";
         p->description = "Java development kit";
-        this->packages.append(p);
+        addPackage(p);
     }
     if (!this->findPackage("com.microsoft.DotNetRedistributable")) {
         Package* p = new Package("com.microsoft.DotNetRedistributable",
                 ".NET redistributable runtime");
         p->url = "http://msdn.microsoft.com/en-us/netframework/default.aspx";
         p->description = ".NET runtime";
-        this->packages.append(p);
+        addPackage(p);
     }
     if (!this->findPackage("com.microsoft.WindowsInstaller")) {
         Package* p = new Package("com.microsoft.WindowsInstaller",
                 "Windows Installer");
         p->url = "http://msdn.microsoft.com/en-us/library/cc185688(VS.85).aspx";
         p->description = "Package manager";
-        this->packages.append(p);
+        addPackage(p);
     }
     if (!this->findPackage("com.microsoft.MSXML")) {
         Package* p = new Package("com.microsoft.MSXML",
                 "Microsoft Core XML Services (MSXML)");
         p->url = "http://www.microsoft.com/downloads/en/details.aspx?FamilyID=993c0bcf-3bcf-4009-be21-27e85e1857b1#Overview";
         p->description = "XML library";
-        this->packages.append(p);
+        addPackage(p);
     }
 }
 
@@ -1030,8 +1031,8 @@ QString Repository::writeTo(const QString& filename) const
 
     XMLUtils::addTextTag(root, "spec-version", "3");
 
-    for (int i = 0; i < packages.count(); i++) {
-        Package* p = packages.at(i);
+    for (int i = 0; i < getPackageCount(); i++) {
+        Package* p = getPackage(i);
         QDomElement package = doc.createElement("package");
         package.setAttribute("name", p->name);
         XMLUtils::addTextTag(package, "title", p->title);
@@ -1189,6 +1190,14 @@ void Repository::detectPre_1_15_Packages()
             npackdWR.setDWORD("Pre1_15DirScanned", 1);
         }
     }
+}
+
+int Repository::getPackageCount() const {
+    return this->packages.count();
+}
+
+Package* Repository::getPackage(int i) const {
+    return this->packages.at(i);
 }
 
 void Repository::readRegistryDatabase()
@@ -1459,6 +1468,10 @@ void Repository::loadOne(QUrl* url, Job* job) {
     job->complete();
 }
 
+void Repository::addPackage(Package* p) {
+    this->packages.append(p);
+}
+
 void Repository::loadOne(QDomDocument* doc, Job* job)
 {
     QDomElement root;
@@ -1511,7 +1524,7 @@ void Repository::loadOne(QDomDocument* doc, Job* job)
                         /*if (this->findPackage(p->name))
                             delete p;
                         else*/
-                            this->packages.append(p);
+                            this->addPackage(p);
                     } else {
                         job->setErrorMessage(err);
                         break;

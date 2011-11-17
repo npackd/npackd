@@ -49,6 +49,11 @@ private:
     void detectWindows();
 
     /**
+     * Packages.
+     */
+    QList<Package*> packages;
+
+    /**
      * @param exact if true, only exact matches to packages from current
      *     repositories recognized as existing software (e.g. something like
      *     com.mysoftware.MySoftware-2.2.3). This setting should help in rare
@@ -111,11 +116,6 @@ public:
     QList<PackageVersion*> packageVersions;
 
     /**
-     * Packages.
-     */
-    QList<Package*> packages;
-
-    /**
      * Licenses.
      */
     QList<License*> licenses;
@@ -155,6 +155,24 @@ public:
      * @param job Job
      */
     void loadOne(QDomDocument* doc, Job* job);
+
+    /**
+     * Adds a new package.
+     *
+     * @param p the package
+     */
+    void addPackage(Package* p);
+
+    /**
+     * @return number of packages
+     */
+    int getPackageCount() const;
+
+    /**
+     * @param i package index
+     * @return package with the specified index
+     */
+    Package* getPackage(int i) const;
 
     /**
      * Reads the package statuses from the registry.
