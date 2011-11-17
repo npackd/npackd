@@ -436,13 +436,9 @@ QList<Package*> Repository::findPackages(const QString& name)
     return r;
 }
 
-Package* Repository::findPackage(const QString& name)
+Package* Repository::findPackage(const QString& name) const
 {
-    for (int i = 0; i < this->getPackageCount(); i++) {
-        if (this->getPackage(i)->name == name)
-            return this->getPackage(i);
-    }
-    return 0;
+    return this->nameToPackage.value(name);
 }
 
 int Repository::countUpdates()
@@ -1389,8 +1385,7 @@ void Repository::refresh(Job *job)
 
 void Repository::load(Job* job)
 {
-    qDeleteAll(this->packages);
-    this->packages.clear();
+    this->clearPackages();
     qDeleteAll(this->packageVersions);
     this->packageVersions.clear();
 
@@ -1470,6 +1465,13 @@ void Repository::loadOne(QUrl* url, Job* job) {
 
 void Repository::addPackage(Package* p) {
     this->packages.append(p);
+    this->nameToPackage.insert(p->name, p);
+}
+
+void Repository::clearPackages() {
+    qDeleteAll(this->packages);
+    this->packages.clear();
+    this->nameToPackage.clear();
 }
 
 void Repository::loadOne(QDomDocument* doc, Job* job)
@@ -1521,9 +1523,9 @@ void Repository::loadOne(QDomDocument* doc, Job* job)
                     QString err;
                     Package* p = createPackage(&e, &err);
                     if (p) {
-                        /*if (this->findPackage(p->name))
+                        if (this->findPackage(p->name))
                             delete p;
-                        else*/
+                        else
                             this->addPackage(p);
                     } else {
                         job->setErrorMessage(err);
