@@ -333,6 +333,9 @@ void Downloader::readData(Job* job, HINTERNET hResourceHandle, QFile* file,
 
             file->write((char*) buffer, bufferLength);
         } else {
+            // http://www.gzip.org/zlib/rfc-gzip.html
+            // TODO: what if less than 10 bytes were read?
+            // TOD: gzip header may be longer than 10 bytes
             if (!zlibStreamInitialized) {
                 d_stream.zalloc = (alloc_func) 0;
                 d_stream.zfree = (free_func) 0;
