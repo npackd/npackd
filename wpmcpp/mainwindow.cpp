@@ -30,7 +30,6 @@
 #include "ui_mainwindow.h"
 #include "repository.h"
 #include "job.h"
-#include "progressdialog.h"
 #include "wpmutils.h"
 #include "installoperation.h"
 #include "downloader.h"
@@ -490,44 +489,6 @@ void MainWindow::monitor(Job* job, const QString& title, QThread* thread)
     layout->insertWidget(0, pf);
 
     progressContent->resize(500, 500);
-}
-
-bool MainWindow::waitFor(Job* job, const QString& title)
-{
-    ProgressDialog* pd;
-    pd = new ProgressDialog(this, job, title);
-    pd->setModal(true);
-
-    defaultPasswordWindow = pd->winId();
-    // qDebug() << "MainWindow::waitFor.1";
-
-    pd->exec();
-    delete pd;
-    defaultPasswordWindow = this->winId();
-
-    // qDebug() << "MainWindow::waitFor.2";
-    bool r = false;
-    if (job->isCancelled())
-        r = false;
-    else if (!job->getErrorMessage().isEmpty()) {
-        QString first = job->getErrorMessage().trimmed();
-        int ind = first.indexOf("\n");
-        if (ind >= 0)
-            first = first.left(ind);
-        ind = first.indexOf("\r");
-        if (ind >= 0)
-            first = first.left(ind);
-
-        addErrorMessage(QString("%1: %2").arg(job->getHint()).arg(first),
-                job->getErrorMessage());
-
-        r = false;
-    } else {
-        r = true;
-    }
-
-
-    return r;
 }
 
 void MainWindow::onShow()
