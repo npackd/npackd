@@ -2,6 +2,7 @@
 #define DOWNLOADER_H
 
 #include <windows.h>
+#include <wininet.h>
 
 #include "qtemporaryfile.h"
 #include "qurl.h"
@@ -17,6 +18,9 @@
 class Downloader: QObject
 {
     Q_OBJECT
+
+    static void readData(Job* job, HINTERNET hResourceHandle, QFile* file,
+            QString* sha1, bool gzip, int contentLength);
 
     /**
      * It would be nice to handle redirects explicitely so

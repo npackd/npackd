@@ -4,6 +4,8 @@
 #include "app.h"
 #include "..\wpmcpp\wpmutils.h"
 #include "..\wpmcpp\commandline.h"
+#include "..\wpmcpp\downloader.h"
+#include "..\wpmcpp\xmlutils.h"
 
 void App::jobChanged(const JobState& s)
 {
@@ -250,6 +252,149 @@ void App::usage()
     for (int i = 0; i < (int) (sizeof(lines2) / sizeof(lines2[0])); i++) {
         WPMUtils::outputTextConsole(QString(lines2[i]) + "\n");
     }
+}
+
+Repository* App::convertMavenRepository(Job* job,
+        QDomDocument& archetypeCatalog) {
+    Repository* result = new Repository();
+
+    QString rootUrl = "http://mirrors.ibiblio.org/pub/mirrors/maven2";
+
+    // http://maven.apache.org/archetype/maven-archetype-plugin/specification/archetype-catalog.html
+    QDomElement root = archetypeCatalog.documentElement();
+    QDomNodeList archetypes = root.elementsByTagName("archetypes");
+    if (archetypes.count() != 0) {
+        QDomNodeList archetype =
+                archetypes.at(0).toElement().elementsByTagName("archetype");
+        for (int i = 0; i < archetype.count(); i++) {
+            QDomElement archetypeItem = archetype.at(i).toElement();
+            QString groupId = XMLUtils::getTagContent(archetypeItem,
+                    "groupId");
+            QString artifactId = XMLUtils::getTagContent(archetypeItem,
+                    "artifactId");
+            QString version = XMLUtils::getTagContent(archetypeItem,
+                    "version");
+            QString repository = XMLUtils::getTagContent(archetypeItem,
+                    "repository");
+            QString description = XMLUtils::getTagContent(archetypeItem,
+                    "description");
+
+            if (repository.isNull()) {
+                QString package = groupId + "." + artifactId;
+                package.replace('-', '.');
+
+                Package* p = result->findPackage(package);
+                if (p == 0) {
+                    QString title = artifactId;
+                    title.replace('-', ' ');
+                    title.replace('_', ' ');
+                    p = new Package(package, title);
+                    result->packages.append(p);
+                }
+                if (p->description.isEmpty())
+                    p->description = description;
+
+                QString groupId2 = groupId;
+                groupId2.replace('.', '/');
+
+                QString url = rootUrl + "/" + groupId2 +
+                        "/" + artifactId + "/" +
+                        version + "/" + artifactId + "-" + version + ".jar";
+
+                PackageVersion* pv = new PackageVersion(package);
+                pv->version.setVersion(version);
+                pv->download.setUrl(url);
+                result->packageVersions.append(pv);
+            }
+
+            job->setProgress(1.0 / (i + 1));
+        }
+
+        job->setProgress(1);
+    } else {
+        job->setErrorMessage("archetypes element not found");
+    }
+
+    job->complete();
+
+    return result;
+}
+
+int App::convertMaven()
+{
+    Job* job = createJob();
+
+    // Nexus REST API
+    // https://repository.apache.org/service/local/data_index/repositories/releases/content?q=commons-lang
+    // http://www.martinahrer.at/2010/05/25/using-nexus-and-the-nexus-rest-api-for-implementing-a-software-update-tool/
+    // http://docs.codehaus.org/display/MAVENUSER/Maven+Repository+Manager+Feature+Matrix
+    // https://docs.sonatype.com/display/SPRTNXOSS/Nexus+FAQ
+    // https://repository.sonatype.org/nexus-core-documentation-plugin/core/docs/rest.artifact.maven.redirect.html
+    // https://github.com/cstamas/maven-indexer-examples
+
+    job->setHint("Downloading archetype-catalog.xml");
+    Job* sub = job->newSubJob(0.5);
+    QTemporaryFile* f = Downloader::download(sub, QUrl(
+            "http://mirrors.ibiblio.org/pub/mirrors/maven2/archetype-catalog.xml"));
+    if (!sub->getErrorMessage().isEmpty()) {
+        job->setErrorMessage(sub->getErrorMessage());
+    }
+
+    QDomDocument doc;
+    if (job->getErrorMessage().isEmpty()) {
+        job->setHint("Parsing the content");
+        // qDebug() << "Repository::loadOne.2";
+        int errorLine;
+        int errorColumn;
+        QString errMsg;
+        if (!doc.setContent(f, &errMsg, &errorLine, &errorColumn))
+            job->setErrorMessage(QString("XML parsing failed: %1").
+                                 arg(errMsg));
+        else
+            job->setProgress(0.51);
+    }
+
+    Repository* rep = 0;
+    if (job->getErrorMessage().isEmpty()) {
+        job->setHint("Converting repository");
+
+        Job* sub = job->newSubJob(0.40);
+        rep = convertMavenRepository(sub, doc);
+
+        if (!sub->getErrorMessage().isEmpty())
+            job->setErrorMessage(sub->getErrorMessage());
+
+        delete sub;
+    }
+
+    if (job->getErrorMessage().isEmpty()) {
+        QString err = rep->writeTo("MavenRep.xml");
+        if (!err.isEmpty())
+            job->setErrorMessage(err);
+        else
+            job->setProgress(1);
+    }
+
+    delete rep;
+
+    delete f;
+
+    job->complete();
+
+    int r;
+    if (job->getErrorMessage().isEmpty()) {
+        WPMUtils::outputTextConsole(
+                "The Maven repository was successfully converted");
+        r = 0;
+    } else {
+        WPMUtils::outputTextConsole(QString("Error: %1").arg(
+                job->getErrorMessage()), false);
+        r = 1;
+    }
+
+    delete job;
+
+    return r;
 }
 
 int App::addRepo()

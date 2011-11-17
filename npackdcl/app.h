@@ -26,6 +26,8 @@ private:
     CommandLine cl;
     Job* createJob();
     void addNpackdCL();
+    Repository* convertMavenRepository(Job* job,
+            QDomDocument& archetypeCatalog);
 
     void usage();
     int path();
@@ -36,6 +38,7 @@ private:
     int list();
     int info();
     int update();
+    int convertMaven();
 
     /**
      * Internal tests.

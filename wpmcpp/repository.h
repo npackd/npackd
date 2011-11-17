@@ -130,6 +130,14 @@ public:
     void process(Job* job, const QList<InstallOperation*> &install);
 
     /**
+     * Writes this repository to an XML file.
+     *
+     * @param filename output file name
+     * @return error message or ""
+     */
+    QString writeTo(const QString& filename) const;
+
+    /**
      * Plans updates for the given packages.
      *
      * @param packages these packages should be updated. No duplicates are
