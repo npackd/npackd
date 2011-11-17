@@ -289,7 +289,7 @@ Repository* App::convertMavenRepository(Job* job,
                     title.replace('-', ' ');
                     title.replace('_', ' ');
                     p = new Package(package, title);
-                    result->packages.append(p);
+                    result->addPackage(p);
                 }
                 if (p->description.isEmpty())
                     p->description = description;

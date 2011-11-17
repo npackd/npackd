@@ -1178,8 +1178,8 @@ void MainWindow::recognizeAndLoadRepositoriesThreadFinished()
     fillList();
 
     Repository* r = Repository::getDefault();
-    for (int i = 0; i < r->packages.count(); i++) {
-        Package* p = r->packages.at(i);
+    for (int i = 0; i < r->getPackageCount(); i++) {
+        Package* p = r->getPackage(i);
         if (!p->icon.isEmpty()) {
             FileLoaderItem it;
             it.url = p->icon;
