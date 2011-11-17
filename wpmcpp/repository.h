@@ -9,6 +9,7 @@
 #include "qtemporaryfile.h"
 #include "qdom.h"
 #include <QReadWriteLock>
+#include <QHash>
 
 #include "package.h"
 #include "packageversion.h"
@@ -35,8 +36,6 @@ private:
 
     void loadOne(QUrl* url, Job* job);
 
-    void addWindowsPackage();
-
     void clearExternallyInstalled(QString package);
 
     void detectOneDotNet(const WindowsRegistry& wr, const QString& keyName);
@@ -52,6 +51,8 @@ private:
      * Packages.
      */
     QList<Package*> packages;
+
+    QHash<QString, Package*> nameToPackage;
 
     /**
      * @param exact if true, only exact matches to packages from current
@@ -164,6 +165,11 @@ public:
     void addPackage(Package* p);
 
     /**
+     * Removes all packages.
+     */
+    void clearPackages();
+
+    /**
      * @return number of packages
      */
     int getPackageCount() const;
@@ -252,7 +258,7 @@ public:
      * @param name name of the package like "org.server.Word"
      * @return found package or 0
      */
-    Package* findPackage(const QString& name);
+    Package* findPackage(const QString& name) const;
 
     /**
      * Searches for a package by name.
