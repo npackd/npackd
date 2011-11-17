@@ -655,7 +655,10 @@ void MainWindow::fillList()
     t->setRowCount(r->packageVersions.count());
 
     int n = 0;
-    for (int i = 0; i < r->packageVersions.count(); i++) {
+    int max = r->packageVersions.count();
+    if (max > 1000)
+        max = 1000;
+    for (int i = 0; i < max; i++) {
         PackageVersion* pv = r->packageVersions.at(i);
 
         // filter by text

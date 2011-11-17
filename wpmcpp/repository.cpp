@@ -1020,6 +1020,47 @@ PackageVersion* Repository::findPackageVersion(const QString& package,
     return r;
 }
 
+QString Repository::writeTo(const QString& filename) const
+{
+    QString r;
+
+    QDomDocument doc;
+    QDomElement root = doc.createElement("root");
+    doc.appendChild(root);
+
+    XMLUtils::addTextTag(root, "spec-version", "3");
+
+    for (int i = 0; i < packages.count(); i++) {
+        Package* p = packages.at(i);
+        QDomElement package = doc.createElement("package");
+        package.setAttribute("name", p->name);
+        XMLUtils::addTextTag(package, "title", p->title);
+        if (!p->description.isEmpty())
+            XMLUtils::addTextTag(package, "description", p->description);
+        root.appendChild(package);
+    }
+
+    for (int i = 0; i < packageVersions.count(); i++) {
+        PackageVersion* pv = packageVersions.at(i);
+        QDomElement version = doc.createElement("version");
+        version.setAttribute("name", pv->version.getVersionString());
+        version.setAttribute("package", pv->package);
+        if (pv->download.isValid())
+            XMLUtils::addTextTag(version, "url", pv->download.toString());
+        root.appendChild(version);
+    }
+
+    QFile file(filename);
+    if (file.open(QIODevice::WriteOnly)) {
+        QTextStream s(&file);
+        doc.save(s, 4);
+    } else {
+        r = QString("Cannot open %1 for writing").arg(filename);
+    }
+
+    return "";
+}
+
 void Repository::process(Job *job, const QList<InstallOperation *> &install)
 {
     for (int j = 0; j < install.size(); j++) {
@@ -1454,9 +1495,9 @@ void Repository::loadOne(QDomDocument* doc, Job* job)
                     QString err;
                     PackageVersion* pv = createPackageVersion(&e, &err);
                     if (pv) {
-                        if (this->findPackageVersion(pv->package, pv->version))
+                        /*if (this->findPackageVersion(pv->package, pv->version))
                             delete pv;
-                        else {
+                        else*/ {
                             this->packageVersions.append(pv);
                         }
                     } else {
@@ -1467,9 +1508,9 @@ void Repository::loadOne(QDomDocument* doc, Job* job)
                     QString err;
                     Package* p = createPackage(&e, &err);
                     if (p) {
-                        if (this->findPackage(p->name))
+                        /*if (this->findPackage(p->name))
                             delete p;
-                        else
+                        else*/
                             this->packages.append(p);
                     } else {
                         job->setErrorMessage(err);
