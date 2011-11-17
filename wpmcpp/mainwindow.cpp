@@ -420,15 +420,18 @@ void MainWindow::updateProgressTabTitle()
             }
         }
     }
+    int maxProgress_ = lround(maxProgress * 100);
     QTime rest = WPMUtils::durationToTime(max);
 
     QString title;
     if (n == 0)
         title = QString("0 Jobs");
     else if (n == 1)
-        title = QString("1 Job (%2)").arg(rest.toString());
+        title = QString("1 Job (%1%, %2)").arg(maxProgress_).
+                arg(rest.toString());
     else
-        title = QString("%1 Jobs (%2)").arg(n).arg(rest.toString());
+        title = QString("%1 Jobs (%2%, %3)").arg(n).arg(maxProgress_).
+                arg(rest.toString());
 
     int index = this->ui->tabWidget->indexOf(this->jobsTab);
     this->ui->tabWidget->setTabText(index, title);
@@ -1086,7 +1089,7 @@ void MainWindow::updateActions()
             w != this->ui->tab && w != this->jobsTab);
 
     this->ui->actionReload_Repositories->setEnabled(
-            !hardDriveScanRunning);
+            !hardDriveScanRunning && !reloadRepositoriesThreadRunning);
 
     this->ui->actionScan_Hard_Drives->setEnabled(
             !hardDriveScanRunning && !reloadRepositoriesThreadRunning);
