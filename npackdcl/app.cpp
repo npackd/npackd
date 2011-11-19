@@ -304,7 +304,7 @@ Repository* App::convertMavenRepository(Job* job,
                 PackageVersion* pv = new PackageVersion(package);
                 pv->version.setVersion(version);
                 pv->download.setUrl(url);
-                result->packageVersions.append(pv);
+                result->addPackageVersion(pv);
             }
 
             job->setProgress(1.0 / (i + 1));
@@ -495,8 +495,8 @@ int App::list()
     if (r == 0) {
         Repository* rep = Repository::getDefault();
         QList<PackageVersion*> list;
-        for (int i = 0; i < rep->packageVersions.count(); i++) {
-            PackageVersion* pv = rep->packageVersions.at(i);
+        for (int i = 0; i < rep->getPackageVersionCount(); i++) {
+            PackageVersion* pv = rep->getPackageVersion(i);
             if (!onlyInstalled || pv->installed())
                 list.append(pv);
         }
