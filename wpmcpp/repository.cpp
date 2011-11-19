@@ -50,13 +50,12 @@ PackageVersion* Repository::findNewestInstallablePackageVersion(
 {
     PackageVersion* r = 0;
 
-    for (int i = 0; i < this->getPackageVersionCount(); i++) {
-        PackageVersion* p = this->getPackageVersion(i);
-        if (p->package == package) {
-            if (r == 0 || p->version.compare(r->version) > 0) {
-                if (p->download.isValid())
-                    r = p;
-            }
+    QList<PackageVersion*> list = this->getPackageVersions(package);
+    for (int i = 0; i < list.count(); i++) {
+        PackageVersion* p = list.at(i);
+        if (r == 0 || p->version.compare(r->version) > 0) {
+            if (p->download.isValid())
+                r = p;
         }
     }
     return r;
@@ -67,9 +66,10 @@ PackageVersion* Repository::findNewestInstalledPackageVersion(
 {
     PackageVersion* r = 0;
 
-    for (int i = 0; i < this->getPackageVersionCount(); i++) {
-        PackageVersion* p = this->getPackageVersion(i);
-        if (p->package == name && p->installed()) {
+    QList<PackageVersion*> list = this->getPackageVersions(name);
+    for (int i = 0; i < list.count(); i++) {
+        PackageVersion* p = list.at(i);
+        if (p->installed()) {
             if (r == 0 || p->version.compare(r->version) > 0) {
                 r = p;
             }
@@ -815,9 +815,10 @@ PackageVersion* Repository::findOrCreatePackageVersion(const QString &package,
 
 void Repository::clearExternallyInstalled(QString package)
 {
-    for (int i = 0; i < this->getPackageVersionCount(); i++) {
-        PackageVersion* pv = this->getPackageVersion(i);
-        if (pv->isExternal() && pv->package == package) {
+    QList<PackageVersion*> list = this->getPackageVersions(package);
+    for (int i = 0; i < list.count(); i++) {
+        PackageVersion* pv = list.at(i);
+        if (pv->isExternal()) {
             pv->setPath("");
         }
     }
@@ -1007,9 +1008,10 @@ PackageVersion* Repository::findPackageVersion(const QString& package,
 {
     PackageVersion* r = 0;
 
-    for (int i = 0; i < this->getPackageVersionCount(); i++) {
-        PackageVersion* p = this->getPackageVersion(i);
-        if (p->package == package && p->version.compare(version) == 0) {
+    QList<PackageVersion*> list = this->getPackageVersions(package);
+    for (int i = 0; i < list.count(); i++) {
+        PackageVersion* p = list.at(i);
+        if (p->version.compare(version) == 0) {
             r = p;
             break;
         }
@@ -1475,8 +1477,13 @@ void Repository::addPackage(Package* p) {
     this->nameToPackage.insert(p->name, p);
 }
 
+QList<PackageVersion*> Repository::getPackageVersions(QString package) const {
+    return this->nameToPackageVersion.values(package);
+}
+
 void Repository::addPackageVersion(PackageVersion* pv) {
     this->packageVersions.append(pv);
+    this->nameToPackageVersion.insert(pv->package, pv);
 }
 
 void Repository::clearPackages() {
@@ -1488,6 +1495,7 @@ void Repository::clearPackages() {
 void Repository::clearPackageVersions() {
     qDeleteAll(this->packageVersions);
     this->packageVersions.clear();
+    this->nameToPackageVersion.clear();
 }
 
 void Repository::loadOne(QDomDocument* doc, Job* job)

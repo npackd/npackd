@@ -59,6 +59,8 @@ private:
 
     QHash<QString, Package*> nameToPackage;
 
+    QMultiHash<QString, PackageVersion*> nameToPackageVersion;
+
     /**
      * @param exact if true, only exact matches to packages from current
      *     repositories recognized as existing software (e.g. something like
@@ -163,6 +165,12 @@ public:
      * @param p the package
      */
     void addPackage(Package* p);
+
+    /**
+     * @param package package name
+     * @return all package versions for the specified package
+     */
+    QList<PackageVersion*> getPackageVersions(QString package) const;
 
     /**
      * Adds a new package version.
