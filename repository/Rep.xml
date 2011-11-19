@@ -9449,6 +9449,16 @@ if %errorlevel% equ 19 exit /b 0
         <url>http://dl.google.com/chrome/install/874.120/chrome_installer.exe</url>
         <sha1>33c70bc51f69e86aecb32d92e2941230724f7c7e</sha1>
     </version>
+    <version name="15.0.874.121" package="com.google.Chrome" type="one-file">
+        <file path=".WPM\Install.bat">chrome_installer.exe --system-level
+if %errorlevel% equ 4 exit /b 0
+</file>
+        <file path=".WPM\Uninstall.bat">chrome_installer.exe --uninstall --force-uninstall --system-level
+if %errorlevel% equ 19 exit /b 0
+</file>
+        <url>http://dl.google.com/chrome/install/874.121/chrome_installer.exe</url>
+        <sha1>8bd726f6abf5b540e51276aaac408d54829bf455</sha1>
+    </version>
 
     <version name="4.0.4" package="no.itefix.CWRsyncServer">
         <file path=".WPM\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x
