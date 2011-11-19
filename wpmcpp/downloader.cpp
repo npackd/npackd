@@ -19,7 +19,7 @@ HWND defaultPasswordWindow = 0;
 
 void Downloader::downloadWin(Job* job, const QUrl& url, QFile* file,
         QString* mime, QString* contentDisposition,
-        HWND parentWindow, QString* sha1)
+        HWND parentWindow, QString* sha1, bool useCache)
 {
     job->setHint("Connecting");
 
@@ -75,12 +75,14 @@ void Downloader::downloadWin(Job* job, const QUrl& url, QFile* file,
     LPCTSTR ppszAcceptTypes[2];
     ppszAcceptTypes[0] = L"*/*";
     ppszAcceptTypes[1] = NULL;
+    DWORD flags = (url.scheme() == "https" ? INTERNET_FLAG_SECURE : 0) |
+            INTERNET_FLAG_KEEP_CONNECTION;
+    if (!useCache)
+        flags |= INTERNET_FLAG_DONT_CACHE;
     HINTERNET hResourceHandle = HttpOpenRequestW(hConnectHandle, L"GET",
             (WCHAR*) resource.utf16(),
             0, 0, ppszAcceptTypes,
-            (url.scheme() == "https" ? INTERNET_FLAG_SECURE : 0) |
-            INTERNET_FLAG_KEEP_CONNECTION |
-            INTERNET_FLAG_DONT_CACHE, 0);
+            flags, 0);
     if (hResourceHandle == 0) {
         QString errMsg;
         WPMUtils::formatMessage(GetLastError(), &errMsg);
@@ -411,7 +413,8 @@ void Downloader::download(Job* job, const QUrl& url, QFile* file,
             defaultPasswordWindow, sha1);
 }
 
-QTemporaryFile* Downloader::download(Job* job, const QUrl &url, QString* sha1)
+QTemporaryFile* Downloader::download(Job* job, const QUrl &url, QString* sha1,
+        bool useCache)
 {
     QTemporaryFile* file = new QTemporaryFile();
 
@@ -419,7 +422,7 @@ QTemporaryFile* Downloader::download(Job* job, const QUrl &url, QString* sha1)
         QString mime;
         QString contentDisposition;
         downloadWin(job, url, file, &mime, &contentDisposition,
-                defaultPasswordWindow, sha1);
+                defaultPasswordWindow, sha1, useCache);
         file->close();
 
         if (job->isCancelled() || !job->getErrorMessage().isEmpty()) {

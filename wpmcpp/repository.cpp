@@ -1523,9 +1523,9 @@ void Repository::loadOne(QDomDocument* doc, Job* job)
                     QString err;
                     Package* p = createPackage(&e, &err);
                     if (p) {
-                        if (this->findPackage(p->name))
-                            delete p;
-                        else
+                        //if (this->findPackage(p->name))
+                        //    delete p;
+                        //else
                             this->addPackage(p);
                     } else {
                         job->setErrorMessage(err);
