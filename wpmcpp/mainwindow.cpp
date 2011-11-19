@@ -620,8 +620,8 @@ void MainWindow::fillList()
 
     int n = 0;
     int max = r->packageVersions.count();
-    if (max > 1000)
-        max = 1000;
+    //if (max > 1000)
+    //    max = 1000;
     for (int i = 0; i < max; i++) {
         PackageVersion* pv = r->packageVersions.at(i);
 
