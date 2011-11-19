@@ -52,6 +52,11 @@ private:
      */
     QList<Package*> packages;
 
+    /**
+     * Package versions. All version numbers should be normalized.
+     */
+    QList<PackageVersion*> packageVersions;
+
     QHash<QString, Package*> nameToPackage;
 
     /**
@@ -112,11 +117,6 @@ public:
     static Repository* getDefault();
 
     /**
-     * Package versions. All version numbers should be normalized.
-     */
-    QList<PackageVersion*> packageVersions;
-
-    /**
      * Licenses.
      */
     QList<License*> licenses;
@@ -165,9 +165,21 @@ public:
     void addPackage(Package* p);
 
     /**
+     * Adds a new package version.
+     *
+     * @param pv the package version
+     */
+    void addPackageVersion(PackageVersion* pv);
+
+    /**
      * Removes all packages.
      */
     void clearPackages();
+
+    /**
+     * Removes all packages.
+     */
+    void clearPackageVersions();
 
     /**
      * @return number of packages
@@ -175,10 +187,21 @@ public:
     int getPackageCount() const;
 
     /**
+     * @return number of package versions
+     */
+    int getPackageVersionCount() const;
+
+    /**
      * @param i package index
      * @return package with the specified index
      */
     Package* getPackage(int i) const;
+
+    /**
+     * @param i package index
+     * @return package version with the specified index
+     */
+    PackageVersion* getPackageVersion(int i) const;
 
     /**
      * Reads the package statuses from the registry.

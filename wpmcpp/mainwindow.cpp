@@ -616,14 +616,14 @@ void MainWindow::fillList()
     QStringList textFilter =
             this->ui->lineEditText->text().toLower().simplified().split(" ");
 
-    t->setRowCount(r->packageVersions.count());
+    t->setRowCount(r->getPackageVersionCount());
 
     int n = 0;
-    int max = r->packageVersions.count();
+    int max = r->getPackageVersionCount();
     //if (max > 1000)
     //    max = 1000;
     for (int i = 0; i < max; i++) {
-        PackageVersion* pv = r->packageVersions.at(i);
+        PackageVersion* pv = r->getPackageVersion(i);
 
         // filter by text
         if (textFilter.count() > 0) {
@@ -1392,8 +1392,8 @@ void MainWindow::on_actionScan_Hard_Drives_triggered()
 {
     Repository* r = Repository::getDefault();
 
-    for (int i = 0; i < r->packageVersions.size(); i++) {
-        PackageVersion* pv = r->packageVersions.at(i);
+    for (int i = 0; i < r->getPackageVersionCount(); i++) {
+        PackageVersion* pv = r->getPackageVersion(i);
         if (pv->isLocked()) {
             QString msg("Cannot start the scan now. "
                     "The package %1 is locked by a "
