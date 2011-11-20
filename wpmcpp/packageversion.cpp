@@ -187,15 +187,11 @@ QString PackageVersion::getFullText()
 {
     if (this->fullText.isEmpty()) {
         Repository* rep = Repository::getDefault();
-        Package* package = rep->findPackage(this->package);
-        QString r = this->package;
-        if (package) {
+        QString r;
+        if (!rep->findPackage(this->package)) {
+            r.append(this->package);
             r.append(" ");
-            r.append(package->title);
-            r.append(" ");
-            r.append(package->description);
         }
-        r.append(" ");
         r.append(this->version.getVersionString());
 
         this->fullText = r.toLower();

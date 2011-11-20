@@ -622,11 +622,31 @@ void MainWindow::fillList()
     int max = r->getPackageVersionCount();
     //if (max > 1000)
     //    max = 1000;
+
+    // first determine what packages match the filter
+    QSet<QString> matchedPackages;
+    if (textFilter.count() > 0) {
+        for (int i = 0; i < r->getPackageCount(); i++) {
+            Package* p = r->getPackage(i);
+            QString fullText = p->getFullText();
+            bool b = true;
+            for (int i = 0; i < textFilter.count(); i++) {
+                if (fullText.indexOf(textFilter.at(i)) < 0) {
+                    b = false;
+                    break;
+                }
+            }
+            if (b) {
+                matchedPackages.insert(p->name);
+            }
+        }
+    }
+
     for (int i = 0; i < max; i++) {
         PackageVersion* pv = r->getPackageVersion(i);
 
         // filter by text
-        if (textFilter.count() > 0) {
+        if (textFilter.count() > 0 && !matchedPackages.contains(pv->package)) {
             QString fullText = pv->getFullText();
             bool b = true;
             for (int i = 0; i < textFilter.count(); i++) {
