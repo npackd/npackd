@@ -174,6 +174,26 @@ class Build:
             if p.wait() != 0:
                 raise BuildError("make for zlib failed")
 
+    def _build_xapian_core(self):
+        if not os.path.exists("xapian-core"):
+            p = self._npackdcl.path("org.xapian.XapianCore", "[1.2.7,1.2.7]")
+            shutil.copytree(p, "xapian-core")
+
+            e = dict(os.environ)
+            e["PATH"] = (self._qtsdk + "\\mingw\\bin;" + 
+                    self._qtsdk + "Desktop\\Qt\\4.7.3\\mingw\\bin")
+                    
+            p = subprocess.Popen("Qt\\configure.exe",
+                    cwd="xapian-core", env=e)
+            if p.wait() != 0:
+                raise BuildError("configure for xapian-core failed")
+
+            p = subprocess.Popen("\"" + self._qtsdk +
+                    "\\mingw\\bin\\mingw32-make.exe\" -f win32\Makefile.gcc",
+                    cwd="xapian-core", env=e)
+            if p.wait() != 0:
+                raise BuildError("make for xapian-core failed")
+
     def _build_quazip(self):
         if not os.path.exists("QuaZIP"):
             p = self._npackdcl.path("net.sourceforge.quazip.QuaZIPSource", "[0.4.2,0.4.2]")
@@ -285,11 +305,13 @@ class Build:
         self._npackdcl.add("net.sourceforge.quazip.QuaZIPSource", "0.4.2")
         self._npackdcl.add("com.advancedinstaller.AdvancedInstallerFreeware", "8.5")
         self._npackdcl.add("com.selenic.mercurial.Mercurial64", "2")
+        self._npackdcl.add("org.xapian.XapianCore", "1.2.7")
         # self._npackdcl.add("com.nokia.QtSource", "4.7.3")
 
     def clean(self):
         rmtree_safe("zlib")
         rmtree_safe("quazip")
+        rmtree_safe("xapian-core")
         rmtree_safe("wpmcpp-build-desktop")
         rmtree_safe("npackdcl-build-desktop")
         rmtree_safe("clu-build-desktop")
@@ -356,6 +378,7 @@ class Build:
 
         self._build_zlib()
         self._build_quazip()
+        self._build_xapian_core()
         #self._build_qt()
 
         self._build_wpmcpp()

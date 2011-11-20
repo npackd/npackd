@@ -28,7 +28,7 @@
 #include "windowsregistry.h"
 #include "mstask.h"
 
-const char* WPMUtils::NPACKD_VERSION = "1.16.3";
+const char* WPMUtils::NPACKD_VERSION = "1.17";
 
 WPMUtils::WPMUtils()
 {
