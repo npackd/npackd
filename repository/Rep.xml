@@ -2219,6 +2219,12 @@ yes - Print a string repeatedly.</description>
         <url>http://downloads.sourceforge.net/project/mingw/MinGW/Utilities/mingw-utils/mingw-utils-0.4-1/mingw-utils-0.4-1-mingw32.RELEASE_NOTES.txt?ts=1315516627</url>
         <description>a collection of utilities useful for MinGW and MSYS installations</description>
     </package>
+    <package name="org.mingw.MSYS">
+        <title>MSYS</title>
+        <url>http://www.mingw.org/wiki/MSYS</url>
+        <description>collection of GNU utilities such as bash, make, gawk and grep</description>
+        <license>org.gnu.GPLv2</license>
+    </package>
     <package name="org.miranda-im.MirandaIM">
         <title>Miranda IM</title>
         <url>http://www.miranda-im.org</url>
@@ -14252,7 +14258,7 @@ verify
         <file path=".WPM\Uninstall.bat">if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
 set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.CLU" "--versions=[1, 1]"
 for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set clu=%%x
-"%clu%\clu" remove-path --path "%CD%\miktex\bin"
+"%clu%\clu" remove-path --path "%CD%"
 verify
 </file>
         <url>http://nodejs.org/dist/v0.6.0/node.exe</url>
@@ -14292,5 +14298,34 @@ rmdir "%name%"
         <file path=".WPM\Uninstall.bat">uninst.exe /S _?=%CD%
 </file>
         <url>http://www.getfiddler.com/dl/Fiddler2Setup.exe</url>
+    </version>
+    
+    <version name="2011.05.26" package="org.mingw.MSYS">
+        <file path=".WPM\Install.bat">set name=msys
+cd "%name%"        
+for /f "delims=" %%a in ('dir /b') do (
+  move "%%a" ..
+)
+cd ..
+rmdir "%name%"
+if %errorlevel% neq 0 exit /b %errorlevel%
+
+if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
+set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.CLU" "--versions=[1, 1]"
+for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set clu=%%x
+"%clu%\clu" add-path --path "%CD%\bin"
+verify
+</file>
+        <file path=".WPM\Uninstall.bat">if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
+set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.CLU" "--versions=[1, 1]"
+for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set clu=%%x
+"%clu%\clu" remove-path --path "%CD%\bin"
+verify
+</file>
+        <url>http://downloads.sourceforge.net/project/mingw-w64/External%20binary%20packages%20%28Win64%20hosted%29/MSYS%20%2832-bit%29/MSYS-20110526.zip?ts=1321818148</url>
+        <sha1>7c11dda54fc71bb2316c95f06ed12015f56ec399</sha1>
+        <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.15.7, 2)"/>
+        <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1, 1]"/>
+        <dependency package="com.googlecode.windows-package-manager.CLU" versions="[1, 1]"/>
     </version>
 </root>
