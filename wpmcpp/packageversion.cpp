@@ -1159,17 +1159,23 @@ QString PackageVersion::executeFile(Job* job, const QString& where,
     p.setWorkingDirectory(d.absolutePath());
 
     QString exe = WPMUtils::findCmdExe();
-    QStringList params;
     QString file = d.absolutePath() + "\\" + path;
     file.replace('/', '\\');
-    p.setNativeArguments("/U /E:ON /V:OFF /C \"" + file + "\"");
+    QStringList args;
+    /*args.append("/U");
+    args.append("/E:ON");
+    args.append("/V:OFF");
+    args.append("/C");
+    args.append(file);
+    */
+    p.setNativeArguments("/U /E:ON /V:OFF /C \"\"" + file + "\"\"");
     // qDebug() << p.nativeArguments();
     QProcessEnvironment pe = QProcessEnvironment::systemEnvironment();
     for (int i = 0; i < env.count(); i += 2) {
         pe.insert(env.at(i), env.at(i + 1));
     }
     p.setProcessEnvironment(pe);
-    p.start(exe, params);
+    p.start(exe, args);
 
     time_t start = time(NULL);
     while (true) {
