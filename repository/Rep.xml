@@ -71,6 +71,10 @@
         <title>Dropbox license</title>
         <url>https://www.dropbox.com/terms#terms</url>
     </license>
+    <license name="com.fiddler2.License">
+        <title>Fiddler license</title>
+        <url>https://fiddler2.com/Fiddler/help/license.asp</url>
+    </license>
     <license name="com.freecommander.License">
         <title>FreeCommander license</title>
         <url>http://www.freecommander.com/license_en.htm</url>
@@ -533,6 +537,12 @@
         <title>Feed Reader</title>
         <url>http://feedreader.com/</url>
         <description>feed reader</description>
+    </package>
+    <package name="com.fiddler2.Fiddler">
+        <title>Fiddler</title>
+        <url>http://www.fiddler2.com/fiddler2/</url>
+        <description>web debugging proxy which logs all HTTP(S) traffic</description>
+        <license>com.fiddler2.License</license>
     </package>
     <package name="com.foxitsoftware.FoxitReader">
         <title>Foxit Reader</title>
@@ -14273,5 +14283,14 @@ rmdir "%name%"
     <version name="4.1.36" package="com.google.sites.dbxfirebird.FirebirdDBExpressDriver">
         <url>https://sites.google.com/site/dbxfirebird/download/dbxFirebird.4.1.v36.zip?attredirects=0&amp;d=1</url>
         <sha1>297F2B9D95A41D8BC357E128BDE24E4147D50EA0</sha1>
+    </version>
+
+    <version name="2.3.6.7" package="com.fiddler2.Fiddler" type="one-file">
+        <file path=".WPM\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x
+"%setup%" /S /D=%CD%
+</file>
+        <file path=".WPM\Uninstall.bat">uninst.exe /S _?=%CD%
+</file>
+        <url>http://www.getfiddler.com/dl/Fiddler2Setup.exe</url>
     </version>
 </root>
