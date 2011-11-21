@@ -179,11 +179,14 @@ class Build:
             p = self._npackdcl.path("org.xapian.XapianCore", "[1.2.7,1.2.7]")
             shutil.copytree(p, "xapian-core")
 
+            msys = self._npackdcl.path("org.mingw.MSYS", "2011.5.26")
+        
             e = dict(os.environ)
             e["PATH"] = (self._qtsdk + "\\mingw\\bin;" + 
-                    self._qtsdk + "Desktop\\Qt\\4.7.3\\mingw\\bin")
+                    self._qtsdk + "Desktop\\Qt\\4.7.3\\mingw\\bin;" +
+                    msys + "\\bin")
                     
-            p = subprocess.Popen("Qt\\configure.exe",
+            p = subprocess.Popen("bash.exe configure",
                     cwd="xapian-core", env=e)
             if p.wait() != 0:
                 raise BuildError("configure for xapian-core failed")
@@ -306,6 +309,7 @@ class Build:
         self._npackdcl.add("com.advancedinstaller.AdvancedInstallerFreeware", "8.5")
         self._npackdcl.add("com.selenic.mercurial.Mercurial64", "2")
         self._npackdcl.add("org.xapian.XapianCore", "1.2.7")
+        self._npackdcl.add("org.mingw.MSYS", "2011.5.26")
         # self._npackdcl.add("com.nokia.QtSource", "4.7.3")
 
     def clean(self):
