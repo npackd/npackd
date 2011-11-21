@@ -14300,8 +14300,19 @@ rmdir "%name%"
         <url>http://www.getfiddler.com/dl/Fiddler2Setup.exe</url>
     </version>
     
-    <version name="2011.05.26" package="org.mingw.MSYS">
-        <file path=".WPM\Install.bat">set name=msys
+    <!-- .zip file uses LZMA encoding -->
+    <version name="2011.05.26" package="org.mingw.MSYS" type="one-file">
+        <file path=".WPM\Install.bat">if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
+set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=org.7-zip.SevenZIPA" "--versions=[9.20, 9.20]"
+for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set sevenzipa=%%x
+
+for /f "delims=" %%x in ('dir /b *.zip') do set setup=%%x
+"%sevenzipa%\7za.exe" x "%setup%"
+if %errorlevel% neq 0 exit /b %errorlevel%
+del "%setup%"
+if %errorlevel% neq 0 exit /b %errorlevel%
+
+set name=msys
 cd "%name%"        
 for /f "delims=" %%a in ('dir /b') do (
   move "%%a" ..
@@ -14327,5 +14338,6 @@ verify
         <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.15.7, 2)"/>
         <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1, 1]"/>
         <dependency package="com.googlecode.windows-package-manager.CLU" versions="[1, 1]"/>
+        <dependency package="org.7-zip.SevenZIPA" versions="[9.20, 9.20]"/>
     </version>
 </root>
