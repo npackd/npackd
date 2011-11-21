@@ -1035,8 +1035,13 @@ void PackageVersion::unzip(Job* job, QString zipfile, QString outputdir)
         char* block = new char[blockSize];
         int i = 0;
         for (bool more = zip.goToFirstFile(); more; more = zip.goToNextFile()) {
-            file.open(QIODevice::ReadOnly);
             QString name = zip.getCurrentFileName();
+            if (!file.open(QIODevice::ReadOnly)) {
+                job->setErrorMessage(QString("Error unzipping the file %1: Error %2 in %3").
+                        arg(zipfile).arg(file.getZipError()).
+                        arg(name));
+                break;
+            }
             name.prepend(outputdir);
             QFile meminfo(name);
             QFileInfo infofile(meminfo);
