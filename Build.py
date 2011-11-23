@@ -179,20 +179,24 @@ class Build:
             p = self._npackdcl.path("org.xapian.XapianCore", "[1.2.7,1.2.7]")
             shutil.copytree(p, "xapian-core")
 
-            msys = self._npackdcl.path("org.mingw.MSYS", "2011.5.26")
+            msys = self._npackdcl.path("org.mingw.MSYS", "[2011.5.26,2011.5.26]")
         
+            print("msys: " + msys)
+            
             e = dict(os.environ)
-            e["PATH"] = (self._qtsdk + "\\mingw\\bin;" + 
-                    self._qtsdk + "Desktop\\Qt\\4.7.3\\mingw\\bin;" +
-                    msys + "\\bin")
-                    
-            p = subprocess.Popen("bash.exe configure",
+            e["PATH"] = (msys + "\\bin;" + 
+                    self._qtsdk + "\\mingw\\bin;" + 
+                    self._qtsdk + "Desktop\\Qt\\4.7.3\\mingw\\bin")
+               
+            cwd = os.getcwd().replace('\\', '/')
+            p = subprocess.Popen("bash.exe configure CPPFLAGS=-I" + 
+                    cwd + "/zlib LDFLAGS=-L" + cwd +
+                    "/zlib",
                     cwd="xapian-core", env=e)
             if p.wait() != 0:
                 raise BuildError("configure for xapian-core failed")
 
-            p = subprocess.Popen("\"" + self._qtsdk +
-                    "\\mingw\\bin\\mingw32-make.exe\" -f win32\Makefile.gcc",
+            p = subprocess.Popen("make.exe",
                     cwd="xapian-core", env=e)
             if p.wait() != 0:
                 raise BuildError("make for xapian-core failed")
