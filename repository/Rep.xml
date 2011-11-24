@@ -179,6 +179,10 @@
         <title>Initial Developer's Public License</title>
         <url>http://www.firebirdsql.org/en/initial-developer-s-public-license-version-1-0/</url>
     </license>
+    <license name="org.flamerobin.FlameRobinLicense">
+        <title>FlameRobin license</title>
+        <url>http://www.flamerobin.org/license.php</url>
+    </license>
     <license name="org.foobar2000.License">
         <title>foobar2000 license</title>
         <url>http://www.foobar2000.org/?page=License</url>
@@ -2011,6 +2015,12 @@ yes - Print a string repeatedly.</description>
         <url>http://www.firebirdsql.org/</url>
         <description>embedded version of the Firebird database</description>
         <license>org.firebirdsql.InitialDevelopersPublicLicense</license>
+    </package>
+    <package name="org.flamerobin.FlameRobin">
+        <title>FlameRobin</title>
+        <url>http://www.flamerobin.org/</url>
+        <description>Firebird client</description>
+        <license>org.flamerobin.FlameRobinLicense</license>
     </package>
     <package name="org.foobar2000.Foobar2000">
         <title>foobar2000</title>
@@ -14373,5 +14383,21 @@ type .WPM\InnoSetupUninstall.log
 if %err% neq 0 exit %err%
 </file>
         <url>http://www.1space.dk/executor/ExecutorSetup.exe</url>
+    </version>
+
+    <version name="0.9.2.1" package="org.flamerobin.FlameRobin" type="one-file">
+        <file path=".WPM\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x
+"%setup%" /SP- /VERYSILENT /SUPPRESSMSGBOXES /NOCANCEL /NORESTART /DIR="%CD%" /SAVEINF="%CD%\.WPM\InnoSetupInfo.ini" /LOG="%CD%\.WPM\InnoSetupInstall.log"
+set err=%errorlevel%
+type .WPM\InnoSetupInstall.log
+if %err% neq 0 exit %err%
+</file>
+        <file path=".WPM\Uninstall.bat">unins000.exe /VERYSILENT /SUPPRESSMSGBOXES /NORESTART /LOG="%CD%\.WPM\InnoSetupUninstall.log"
+set err=%errorlevel%
+type .WPM\InnoSetupUninstall.log
+if %err% neq 0 exit %err%
+</file>
+        <url>http://downloads.sourceforge.net/project/flamerobin/flamerobin/0.9.2/flamerobin-0.9.2-1-setup.exe?ts=1322142058</url>
+        <sha1>9EAF41E93B9EB88742AF5B9E286C47BDD4A4E686</sha1>
     </version>
 </root>

@@ -183,11 +183,17 @@ class Build:
         
             print("msys: " + msys)
             
-            e = dict(os.environ)
+            e = os.environ.copy
             e["PATH"] = (msys + "\\bin;" + 
-                    self._qtsdk + "\\mingw\\bin;" + 
                     self._qtsdk + "Desktop\\Qt\\4.7.3\\mingw\\bin")
                
+            print("PATH: " + e["PATH"])
+            
+            # ;" + 
+            # 
+            #;" + 
+            #        self._qtsdk + "\\mingw\\bin
+            # ;C:/MinGW/lib/gcc/mingw32/4.5.2
             cwd = os.getcwd().replace('\\', '/')
             p = subprocess.Popen("bash.exe configure CPPFLAGS=-I" + 
                     cwd + "/zlib LDFLAGS=-L" + cwd +
