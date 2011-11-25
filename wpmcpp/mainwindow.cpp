@@ -1,3 +1,5 @@
+#include <xapian.h>
+
 #include <math.h>
 
 #include <qabstractitemview.h>
@@ -613,39 +615,23 @@ void MainWindow::fillList()
     t->setHorizontalHeaderItem(5, newItem);
 
     int statusFilter = this->ui->comboBoxStatus->currentIndex();
-    QStringList textFilter =
-            this->ui->lineEditText->text().toLower().simplified().split(" ");
 
     t->setRowCount(r->getPackageVersionCount());
 
     int n = 0;
-    int max = r->getPackageVersionCount();
-    //if (max > 1000)
-    //    max = 1000;
 
-    // first determine what packages match the filter
-    QSet<QString> matchedPackages;
-    if (textFilter.count() > 0) {
-        for (int i = 0; i < r->getPackageCount(); i++) {
-            Package* p = r->getPackage(i);
-            QString fullText = p->getFullText();
-            bool b = true;
-            for (int i = 0; i < textFilter.count(); i++) {
-                if (fullText.indexOf(textFilter.at(i)) < 0) {
-                    b = false;
-                    break;
-                }
-            }
-            if (b) {
-                matchedPackages.insert(p->name);
-            }
-        }
-    }
+    QString warning;
+    QList<PackageVersion*> found = r->find(this->ui->lineEditText->text(),
+            &warning);
+    if (warning.isEmpty())
+        warning = "Use * to match any number of any characters at a word end";
+    this->ui->labelWarning->setText(warning);
 
-    for (int i = 0; i < max; i++) {
-        PackageVersion* pv = r->getPackageVersion(i);
+    for (int i = 0; i < found.count(); i++) {
+        PackageVersion* pv = found.at(i);
 
         // filter by text
+        /*
         if (textFilter.count() > 0 && !matchedPackages.contains(pv->package)) {
             QString fullText = pv->getFullText();
             bool b = true;
@@ -658,6 +644,7 @@ void MainWindow::fillList()
             if (!b)
                 continue;
         }
+        */
 
         bool installed = pv->installed();
         bool updateEnabled = isUpdateEnabled(pv);

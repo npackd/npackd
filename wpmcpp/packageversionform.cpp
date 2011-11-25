@@ -1,3 +1,5 @@
+#include <xapian.h>
+
 #include "packageversionform.h"
 #include "ui_packageversionform.h"
 

@@ -1,3 +1,6 @@
+// this include should be before all the others or gcc shows errors
+#include <xapian.h>
+
 #include <windows.h>
 #include <shlobj.h>
 
@@ -21,7 +24,158 @@ Repository Repository::def;
 
 Repository::Repository(): QObject()
 {
+    this->db = 0;
+    this->enquire = 0;
+    this->queryParser = 0;
     addWellKnownPackages();
+}
+
+void Repository::createIndex(Job* job)
+{
+    job->setHint("Creating directory");
+
+    delete this->enquire;
+    delete this->queryParser;
+    delete db;
+
+    // Open the database for update, creating a new database if necessary.
+    QString fn = WPMUtils::getShellDir(CSIDL_LOCAL_APPDATA) +
+            "\\Npackd\\Npackd";
+    QDir dir(fn);
+    if (!dir.exists(fn)) {
+        if (!dir.mkpath(fn)) {
+            job->setErrorMessage(
+                    QString("Cannot create the directory %1").arg(fn));
+        }
+    }
+    if (job->getErrorMessage().isEmpty())
+        job->setProgress(0.01);
+
+    job->setHint("indexing packages");
+
+    if (job->getErrorMessage().isEmpty()) {
+        try {
+            db = new Xapian::WritableDatabase(
+                    (fn + "\\Index").toUtf8().constData(),
+                    Xapian::DB_CREATE_OR_OVERWRITE);
+
+            Xapian::TermGenerator indexer;
+            Xapian::Stem stemmer("english");
+            indexer.set_stemmer(stemmer);
+
+            for (int i = 0; i < getPackageVersionCount(); i++){
+                PackageVersion* pv = getPackageVersion(i);
+                Package* p = findPackage(pv->package);
+
+                Xapian::Document doc;
+                QString t = pv->getFullText();
+                if (p) {
+                    t += " ";
+                    t += p->getFullText();
+                }
+
+                std::string para = t.toUtf8().constData();
+                doc.set_data(para);
+
+                indexer.set_document(doc);
+                indexer.index_text(para);
+
+                doc.add_value(0, pv->package.toUtf8().constData());
+                doc.add_value(1, pv->version.getVersionString().
+                        toUtf8().constData());
+
+                // Add the document to the database.
+                db->add_document(doc);
+
+                if (i % 100 == 0) {
+                    job->setProgress(0.01 + 0.9 * i / getPackageVersionCount());
+                    job->setHint(QString("indexing packages (%L1)").arg(i));
+                }
+
+                if (job->isCancelled())
+                    break;
+            }
+
+            // Explicitly commit so that we get to see any errors.  WritableDatabase's
+            // destructor will commit implicitly (unless we're in a transaction) but
+            // will swallow any exceptions produced.
+            job->setHint("preparing the index");
+            db->commit();
+
+            this->enquire = new Xapian::Enquire(*this->db);
+            this->queryParser = new Xapian::QueryParser();
+            this->queryParser->set_database(*this->db);
+            queryParser->set_stemmer(stemmer);
+            queryParser->set_default_op(Xapian::Query::OP_AND);
+
+            if (!job->isCancelled())
+                job->setProgress(1);
+
+            job->complete();
+        } catch (const Xapian::Error &e) {
+            job->setErrorMessage(QString::fromStdString(
+                    e.get_description())); // TODO: Unicode
+        }
+    }
+}
+
+QList<PackageVersion*> Repository::find(const QString& text, QString* warning)
+{
+    QList<PackageVersion*> r;
+
+    QString t = text.trimmed();
+
+    if (t.isEmpty()) {
+        if (this->packageVersions.count() > 1000) {
+            for (int i = 0; i < 1000; i++) {
+                r.append(this->packageVersions.at(i));
+            }
+            *warning = QString(
+                    "Only the first %L1 matches of about %L2 are shown").
+                    arg(1000).
+                    arg(this->packageVersions.count());
+        } else
+            r = this->packageVersions;
+    }
+
+    try {
+        Xapian::Query query = queryParser->parse_query(
+                t.toUtf8().constData(), // TODO: Unicode
+                Xapian::QueryParser::FLAG_PHRASE|
+                Xapian::QueryParser::FLAG_BOOLEAN|
+                Xapian::QueryParser::FLAG_LOVEHATE|
+                Xapian::QueryParser::FLAG_WILDCARD);
+
+        enquire->set_query(query);
+        const unsigned int max = 200;
+        Xapian::MSet matches = enquire->get_mset(0, max);
+        if (matches.size() == max)
+            *warning = QString(
+                    "Only the first %L1 matches of about %L2 are shown").
+                    arg(max).
+                    arg(matches.get_matches_estimated());
+
+        Xapian::MSetIterator i;
+        for (i = matches.begin(); i != matches.end(); ++i) {
+            //cout << i.get_percent() << "% "; TODO
+            Xapian::Document doc = i.get_document();
+            std::string package = doc.get_value(0);
+            std::string version = doc.get_value(1);
+            QString package_ = QString::fromStdString(package); // TODO: Unicode
+            QString version_ = QString::fromStdString(version); // TODO: Unicode
+            Version version__;
+            if (version__.setVersion(version_)) {
+                PackageVersion* pv = this->findPackageVersion(
+                        package_, version__);
+                if (pv)
+                    r.append(pv);
+            }
+            //cout << "[" << doc.get_data() << "]" << endl; TODO
+        }
+    } catch (const Xapian::Error &e) {
+        // err = QString::fromStdString(e.get_description()); // TODO: Unicode
+    }
+    return r;
 }
 
 QList<PackageVersion*> Repository::getInstalled()
@@ -40,6 +194,10 @@ QList<PackageVersion*> Repository::getInstalled()
 
 Repository::~Repository()
 {
+    delete queryParser;
+    delete enquire;
+    delete db;
+
     qDeleteAll(this->packages);
     qDeleteAll(this->packageVersions);
     qDeleteAll(this->licenses);
@@ -1004,7 +1162,7 @@ void Repository::detectMSXML()
 }
 
 PackageVersion* Repository::findPackageVersion(const QString& package,
-        const Version& version)
+        const Version& version) const
 {
     PackageVersion* r = 0;
 
@@ -1427,6 +1585,13 @@ void Repository::load(Job* job)
 
     qDeleteAll(urls);
     urls.clear();
+
+    // TODO: cancelled
+    if (job->getErrorMessage().isEmpty()) {
+        Job* sub = job->newSubJob(0.1);
+        this->createIndex(sub);
+        delete sub;
+    }
 
     job->complete();
 }

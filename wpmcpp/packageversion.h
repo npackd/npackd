@@ -36,8 +36,6 @@ private:
      */
     volatile bool locked;
 
-    QString fullText;
-
     bool external_;
 
     void unzip(Job* job, QString zipfile, QString outputdir);

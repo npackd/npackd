@@ -185,18 +185,15 @@ QString PackageVersion::saveInstallationInfo()
 
 QString PackageVersion::getFullText()
 {
-    if (this->fullText.isEmpty()) {
-        Repository* rep = Repository::getDefault();
-        QString r;
-        if (!rep->findPackage(this->package)) {
-            r.append(this->package);
-            r.append(" ");
-        }
-        r.append(this->version.getVersionString());
-
-        this->fullText = r.toLower();
+    Repository* rep = Repository::getDefault();
+    QString r;
+    if (!rep->findPackage(this->package)) {
+        r.append(this->package);
+        r.append(" ");
     }
-    return this->fullText;
+    r.append(this->version.getVersionString());
+
+    return r.toLower();
 }
 
 bool PackageVersion::installed() const

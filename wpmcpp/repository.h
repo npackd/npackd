@@ -1,6 +1,8 @@
 #ifndef REPOSITORY_H
 #define REPOSITORY_H
 
+#include <xapian.h>
+
 #include <windows.h>
 
 #include "qfile.h"
@@ -46,6 +48,10 @@ private:
     void detectJRE(bool w64bit);
     void detectJDK(bool w64bit);
     void detectWindows();
+
+    Xapian::WritableDatabase* db;
+    Xapian::Enquire* enquire;
+    Xapian::QueryParser* queryParser;
 
     /**
      * Packages.
@@ -95,6 +101,7 @@ private:
     void detectPre_1_15_Packages();
 
     void addWellKnownPackages();
+    void createIndex(Job* job);
 public:
     /**
      * All operations on this object should be done under this lock.
@@ -332,12 +339,19 @@ public:
      * @return found package version or 0
      */
     PackageVersion* findPackageVersion(const QString& package,
-            const Version& version);
+            const Version& version) const;
 
     /**
      * @return the first found locked PackageVersion or 0
      */
     PackageVersion* findLockedPackageVersion() const;
+
+    /**
+     * @param text search terms
+     * @param warning a warning is stored here
+     * @return found package versions
+     */
+    QList<PackageVersion*> find(const QString& text, QString* warning);
 
     /**
      * Emits the statusChanged(PackageVersion*) signal.
