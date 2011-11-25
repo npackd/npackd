@@ -62,7 +62,7 @@ FORMS += mainwindow.ui \
     progressframe.ui \
     messageframe.ui \
     settingsframe.ui
-INCLUDEPATH += ..\\quazip\\quazip ..\\zlib
+INCLUDEPATH += ..\\quazip\\quazip ..\\zlib ..\\xapian-core\\include
 LIBS += ..\\quazip\\quazip\\release\\libquazip.a \
     ..\\zlib\\libz.a \
     -lole32 \
@@ -71,7 +71,9 @@ LIBS += ..\\quazip\\quazip\\release\\libquazip.a \
     -lpsapi \
     -lshell32 \
     -lversion \
-    ..\\wpmcpp\\libmsi.a
+    ..\\wpmcpp\\libmsi.a \
+    -L..\\xapian-core\\.libs \
+    -lxapian
 CONFIG += embed_manifest_exe
 RC_FILE = wpmcpp.rc
 RESOURCES += wpmcpp.qrc

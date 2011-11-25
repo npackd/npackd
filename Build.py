@@ -7,6 +7,11 @@
 #     * download mingw-w32-bin_i686-mingw_20100914_sezero.zip
 #     * run gendef C:\Windows\SysWOW64\msi.dll
 #     * run dlltool -D C:\Windows\SysWOW64\msi.dll -V -l libmsi.a
+# * There is a little bug in the MingW distribution: In file: C:/MinGW/lib/gcc/mingw32/4.4.0/libstdc++.la you have to change line 11: from
+#     library_names='libstdc++.dll.a' 
+# to
+#     library_names='libstdc++.a' 
+# [ from http://trac.osgeo.org/geos/ticket/282 ]
 
 import os
 import subprocess
@@ -183,21 +188,14 @@ class Build:
         
             print("msys: " + msys)
             
-            e = os.environ.copy
-            e["PATH"] = (msys + "\\bin;" + 
-                    self._qtsdk + "Desktop\\Qt\\4.7.3\\mingw\\bin")
+            e = os.environ.copy()
+            e["PATH"] = (msys + "\\bin;" + self._qtsdk + "\\mingw\\bin")
                
             print("PATH: " + e["PATH"])
             
-            # ;" + 
-            # 
-            #;" + 
-            #        self._qtsdk + "\\mingw\\bin
-            # ;C:/MinGW/lib/gcc/mingw32/4.5.2
             cwd = os.getcwd().replace('\\', '/')
             p = subprocess.Popen("bash.exe configure CPPFLAGS=-I" + 
-                    cwd + "/zlib LDFLAGS=-L" + cwd +
-                    "/zlib",
+                    cwd + "/zlib \"LDFLAGS=-L" + cwd + "/zlib",
                     cwd="xapian-core", env=e)
             if p.wait() != 0:
                 raise BuildError("configure for xapian-core failed")

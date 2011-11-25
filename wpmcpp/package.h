@@ -8,8 +8,6 @@
  */
 class Package
 {
-private:
-    QString fullText;
 public:
     /**
      * Checks whether the specified value is a valid package name.

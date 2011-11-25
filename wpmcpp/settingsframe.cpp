@@ -1,3 +1,5 @@
+#include <xapian.h>
+
 #include "settingsframe.h"
 #include "ui_settingsframe.h"
 
