@@ -17,6 +17,7 @@
 #include "detectfile.h"
 
 class InstallOperation;
+class Package;
 
 /**
  * One version of a package (installed or not).
@@ -69,8 +70,11 @@ public:
     /** package version */
     Version version;
 
-    /** complete package name like net.sourceforge.NotepadPlusPlus */
-    QString package;
+    /**
+     * package definition. This is only a reference, the object will not be
+     * freed.
+     */
+    Package* package_;
 
     /** important files (shortcuts for these will be created in the menu) */
     QStringList importantFiles;
@@ -110,8 +114,14 @@ public:
      */
     QString msiGUID;
 
+    /** do not use */
     PackageVersion();
-    PackageVersion(const QString& package);
+
+    /**
+     * @param package package this version refers to
+     */
+    PackageVersion(Package* package);
+
     virtual ~PackageVersion();
 
     /**
@@ -226,6 +236,11 @@ public:
      * @return package title
      */
     QString getPackageTitle() const;
+
+    /**
+     * @return the corresponding package definition
+     */
+    Package* getPackage() const;
 
     /**
      * @return only the last part of the package name (without a dot)

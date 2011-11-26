@@ -288,12 +288,11 @@ void MainWindow::showDetails()
 
 void MainWindow::updateIcons()
 {
-    Repository* r = Repository::getDefault();
     for (int i = 0; i < this->ui->tableWidget->rowCount(); i++) {
         QTableWidgetItem *item = ui->tableWidget->item(i, 0);
         const QVariant v = item->data(Qt::UserRole);
         PackageVersion* pv = (PackageVersion *) v.value<void*>();
-        Package* p = r->findPackage(pv->package);
+        Package* p = pv->getPackage();
 
         if (p) {
             if (!p->icon.isEmpty() && this->icons.contains(p->icon)) {
@@ -327,8 +326,7 @@ void MainWindow::updateStatusInDetailTabs()
 
 QIcon MainWindow::getPackageVersionIcon(PackageVersion *pv)
 {
-    Repository* r = Repository::getDefault();
-    Package* p = r->findPackage(pv->package);
+    Package* p = pv->getPackage();
 
     QIcon icon = MainWindow::genericAppIcon;
     if (p) {
@@ -649,7 +647,7 @@ void MainWindow::fillList()
         bool installed = pv->installed();
         bool updateEnabled = isUpdateEnabled(pv);
         PackageVersion* newest = r->findNewestInstallablePackageVersion(
-                pv->package);
+                pv->getPackage()->name);
         bool statusOK;
         switch (statusFilter) {
             case 0:
@@ -679,7 +677,7 @@ void MainWindow::fillList()
         if (!statusOK)
             continue;
 
-        Package* p = r->findPackage(pv->package);
+        Package* p = pv->getPackage();
 
         newItem = new QTableWidgetItem("");
         newItem->setData(Qt::UserRole, qVariantFromValue((void*) pv));
@@ -699,9 +697,10 @@ void MainWindow::fillList()
         if (p)
             packageTitle = p->title;
         else
-            packageTitle = pv->package;
+            packageTitle = pv->getPackage()->name;
         newItem = new QCITableWidgetItem(packageTitle);
-        newItem->setStatusTip(pv->download.toString() + " " + pv->package +
+        newItem->setStatusTip(pv->download.toString() + " " +
+                pv->getPackage()->name +
                 " " + pv->sha1);
         newItem->setData(Qt::UserRole, qVariantFromValue((void*) pv));
         t->setItem(n, 1, newItem);
@@ -750,7 +749,7 @@ void MainWindow::process(QList<InstallOperation*> &install)
     if (install.size() == 2) {
         InstallOperation* first = install.at(0);
         InstallOperation* second = install.at(1);
-        if (first->packageVersion->package == second->packageVersion->package &&
+        if (first->packageVersion->package_ == second->packageVersion->package_ &&
                 first->install && !second->install) {
             install.insert(0, second);
             install.removeAt(2);
@@ -964,9 +963,9 @@ bool MainWindow::isUpdateEnabled(PackageVersion* pv)
     if (pv) {
         Repository* r = Repository::getDefault();
         PackageVersion* newest = r->findNewestInstallablePackageVersion(
-                pv->package);
+                pv->getPackage()->name);
         PackageVersion* newesti = r->findNewestInstalledPackageVersion(
-                pv->package);
+                pv->getPackage()->name);
         if (newest != 0 && newesti != 0) {
             bool canInstall = !newest->isLocked() && !newest->installed() &&
                     newest->download.isValid();
@@ -1033,7 +1032,7 @@ void MainWindow::updateActions()
     PackageVersion* pv = getSelectedPackageVersion();
     Package* p;
     if (pv)
-        p = Repository::getDefault()->findPackage(pv->package);
+        p = pv->getPackage();
     else
         p = 0;
     this->ui->actionGotoPackageURL->setEnabled(
@@ -1229,7 +1228,7 @@ void MainWindow::on_actionGotoPackageURL_triggered()
 {
     PackageVersion* pv = getSelectedPackageVersion();
     if (pv) {
-        Package* p = Repository::getDefault()->findPackage(pv->package);
+        Package* p = pv->getPackage();
         if (p) {
             QUrl url(p->url);
             if (url.isValid()) {
@@ -1289,7 +1288,7 @@ void MainWindow::on_actionUpdate_triggered()
     QList<Package*> packages;
     for (int i = 0; i < pvs.count(); i++) {
         PackageVersion* pv = pvs.at(i);
-        Package* p = r->findPackage(pv->package);
+        Package* p = pv->getPackage();
 
         // multiple versions of the same package could be selected in the table,
         // but only one should be updated

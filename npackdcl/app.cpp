@@ -449,7 +449,7 @@ int App::addRepo()
 
 bool packageVersionLessThan(const PackageVersion* pv1, const PackageVersion* pv2)
 {
-    if (pv1->package == pv2->package)
+    if (pv1->package_ == pv2->package_)
         return pv1->version.compare(pv2->version) < 0;
     else {
         QString pt1 = pv1->getPackageTitle();
@@ -510,9 +510,9 @@ int App::list()
             PackageVersion* pv = list.at(i);
             if (!bare)
                 WPMUtils::outputTextConsole(pv->toString() +
-                        " (" + pv->package + ")\n");
+                        " (" + pv->getPackage()->name + ")\n");
             else
-                WPMUtils::outputTextConsole(pv->package + " " +
+                WPMUtils::outputTextConsole(getPackage()->name + " " +
                         pv->version.getVersionString() + " " +
                         pv->getPackageTitle() + "\n");
         }
@@ -1041,7 +1041,7 @@ int App::info()
             WPMUtils::outputTextConsole("Installation path: " +
                     pv->getPath() + "\n");
             WPMUtils::outputTextConsole("Internal package name: " +
-                    pv->package + "\n");
+                    pv->getPackage()->name + "\n");
             WPMUtils::outputTextConsole("Status: " +
                     pv->getStatus() + "\n");
             WPMUtils::outputTextConsole("Download URL: " +

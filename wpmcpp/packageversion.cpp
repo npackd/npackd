@@ -15,6 +15,7 @@
 #include "quazipfile.h"
 #include "zlib.h"
 
+#include "package.h"
 #include "packageversion.h"
 #include "job.h"
 #include "downloader.h"
@@ -26,20 +27,25 @@
 QSemaphore PackageVersion::httpConnections(3);
 QSemaphore PackageVersion::installationScripts(1);
 
-PackageVersion::PackageVersion(const QString& package)
-{
-    this->package = package;
-    this->type = 0;
-    this->external_ = false;
-    this->locked = false;
-}
-
 PackageVersion::PackageVersion()
 {
-    this->package = "unknown";
     this->type = 0;
     this->external_ = false;
     this->locked = false;
+    this->package_ = 0;
+}
+
+PackageVersion::PackageVersion(Package* package)
+{
+    this->type = 0;
+    this->external_ = false;
+    this->locked = false;
+    this->package_ = package;
+}
+
+Package* PackageVersion::getPackage() const
+{
+    return this->package_;
 }
 
 void PackageVersion::setExternal(bool e)
@@ -88,7 +94,7 @@ void PackageVersion::loadFromRegistry()
     WindowsRegistry entryWR;
     QString err = entryWR.open(HKEY_LOCAL_MACHINE,
             "SOFTWARE\\Npackd\\Npackd\\Packages\\" +
-            this->package + "-" + this->version.getVersionString(),
+            this->getPackage()->name + "-" + this->version.getVersionString(),
             false, KEY_READ);
     if (!err.isEmpty())
         return;
@@ -157,7 +163,7 @@ QString PackageVersion::toString()
 
 QString PackageVersion::getShortPackageName()
 {
-    QStringList sl = this->package.split(".");
+    QStringList sl = this->getPackage()->name.split(".");
     return sl.last();
 }
 
@@ -174,7 +180,8 @@ QString PackageVersion::saveInstallationInfo()
     QString err;
     WindowsRegistry wr = machineWR.createSubKey(
             "SOFTWARE\\Npackd\\Npackd\\Packages\\" +
-            this->package + "-" + this->version.getVersionString(), &err);
+            this->getPackage()->name + "-" +
+            this->version.getVersionString(), &err);
     if (!err.isEmpty())
         return err;
 
@@ -185,15 +192,7 @@ QString PackageVersion::saveInstallationInfo()
 
 QString PackageVersion::getFullText()
 {
-    Repository* rep = Repository::getDefault();
-    QString r;
-    if (!rep->findPackage(this->package)) {
-        r.append(this->package);
-        r.append(" ");
-    }
-    r.append(this->version.getVersionString());
-
-    return r.toLower();
+    return this->version.getVersionString();
 }
 
 bool PackageVersion::installed() const
@@ -309,7 +308,7 @@ void PackageVersion::uninstall(Job* job)
             // prepare the environment variables
             QStringList env;
             env.append("NPACKD_PACKAGE_NAME");
-            env.append(this->package);
+            env.append(this->getPackage()->name);
             env.append("NPACKD_PACKAGE_VERSION");
             env.append(this->version.getVersionString());
             env.append("NPACKD_CL");
@@ -349,7 +348,8 @@ void PackageVersion::uninstall(Job* job)
             delete rjob;
         }
 
-        if (this->package == "com.googlecode.windows-package-manager.NpackdCL") {
+        if (this->getPackage()->name ==
+                "com.googlecode.windows-package-manager.NpackdCL") {
             job->setHint("Updating NPACKD_CL");
             Repository::getDefault()->updateNpackdCLEnvVar();
         }
@@ -429,7 +429,7 @@ QString PackageVersion::planInstallation(QList<PackageVersion*>& installed,
         bool depok = false;
         for (int j = 0; j < installed.size(); j++) {
             PackageVersion* pv = installed.at(j);
-            if (pv != this && pv->package == d->package &&
+            if (pv != this && pv->getPackage()->name == d->package &&
                     d->test(pv->version)) {
                 depok = true;
                 break;
@@ -479,11 +479,13 @@ QString PackageVersion::planUninstallation(QList<PackageVersion*>& installed,
             if (pv != this) {
                 for (int j = 0; j < pv->dependencies.count(); j++) {
                     Dependency* d = pv->dependencies.at(j);
-                    if (d->package == this->package && d->test(this->version)) {
+                    if (d->package == this->getPackage()->name &&
+                            d->test(this->version)) {
                         int n = 0;
                         for (int k = 0; k < installed.count(); k++) {
                             PackageVersion* pv2 = installed.at(k);
-                            if (d->package == pv2->package && d->test(pv2->version)) {
+                            if (d->package == pv2->getPackage()->name &&
+                                    d->test(pv2->version)) {
                                 n++;
                             }
                             if (n > 1)
@@ -615,15 +617,7 @@ QString PackageVersion::downloadAndComputeSHA1(Job* job)
 
 QString PackageVersion::getPackageTitle() const
 {
-    Repository* rep = Repository::getDefault();
-
-    QString pn;
-    Package* package = rep->findPackage(this->package);
-    if (package)
-        pn = package->title;
-    else
-        pn = this->package;
-    return pn;
+    return package_->title;
 }
 
 bool PackageVersion::createShortcuts(const QString& dir, QString *errMsg)
@@ -631,7 +625,7 @@ bool PackageVersion::createShortcuts(const QString& dir, QString *errMsg)
     QString packageTitle = this->getPackageTitle();
 
     QDir d(dir);
-    Package* p = Repository::getDefault()->findPackage(this->package);
+    Package* p = this->package_;
     for (int i = 0; i < this->importantFiles.count(); i++) {
         QString ifile = this->importantFiles.at(i);
         QString ift = this->importantFilesTitles.at(i);
@@ -672,7 +666,7 @@ bool PackageVersion::createShortcuts(const QString& dir, QString *errMsg)
         if (p)
             desc = p->description;
         if (desc.isEmpty())
-            desc = this->package;
+            desc = this->getPackage()->name;
         HRESULT r = WPMUtils::createLink(
                 (WCHAR*) path.replace('/', '\\').utf16(),
                 (WCHAR*) from.utf16(),
@@ -908,7 +902,7 @@ void PackageVersion::install(Job* job, const QString& where)
 
             QStringList env;
             env.append("NPACKD_PACKAGE_NAME");
-            env.append(this->package);
+            env.append(this->getPackage()->name);
             env.append("NPACKD_PACKAGE_VERSION");
             env.append(this->version.getVersionString());
             env.append("NPACKD_CL");
@@ -937,7 +931,8 @@ void PackageVersion::install(Job* job, const QString& where)
             setExternal(false);
         }
 
-        if (this->package == "com.googlecode.windows-package-manager.NpackdCL") {
+        if (this->getPackage()->name ==
+                "com.googlecode.windows-package-manager.NpackdCL") {
             job->setHint("Updating NPACKD_CL");
             Repository::getDefault()->updateNpackdCLEnvVar();
         }
@@ -1109,7 +1104,7 @@ QString PackageVersion::getStatus() const
     bool installed = this->installed();
     Repository* r = Repository::getDefault();
     PackageVersion* newest = r->findNewestInstallablePackageVersion(
-            this->package);
+            this->getPackage()->name);
     if (installed) {
         if (isExternal())
             status = "installed externally";

@@ -32,9 +32,10 @@ private:
             QString* err);
     static Dependency* createDependency(QDomElement* e);
     static License* createLicense(QDomElement* e);
-    static PackageVersion* createPackageVersion(QDomElement* e,
-            QString* err);
     static DetectFile* createDetectFile(QDomElement* e, QString* err);
+
+    PackageVersion* createPackageVersion(QDomElement* e,
+            QString* err);
 
     void loadOne(QUrl* url, Job* job);
 
