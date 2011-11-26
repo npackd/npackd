@@ -65,7 +65,7 @@ void Repository::createIndex(Job* job)
 
             for (int i = 0; i < getPackageVersionCount(); i++){
                 PackageVersion* pv = getPackageVersion(i);
-                Package* p = findPackage(pv->package);
+                Package* p = pv->getPackage();
 
                 Xapian::Document doc;
                 QString t = pv->getFullText();
@@ -80,7 +80,7 @@ void Repository::createIndex(Job* job)
                 indexer.set_document(doc);
                 indexer.index_text(para);
 
-                doc.add_value(0, pv->package.toUtf8().constData());
+                doc.add_value(0, pv->getPackage()->name.toUtf8().constData());
                 doc.add_value(1, pv->version.getVersionString().
                         toUtf8().constData());
 
@@ -269,10 +269,19 @@ PackageVersion* Repository::createPackageVersion(QDomElement* e, QString* err)
 
     // qDebug() << "Repository::createPackageVersion.1" << e->attribute("package");
 
-    PackageVersion* a = new PackageVersion(
-            e->attribute("package").trimmed());
-    if (a->package.isEmpty()) {
+    QString packageName = e->attribute("package").trimmed();
+    if (packageName.isEmpty()) {
         err->append("Attribute 'package' is missing in <version>");
+    }
+
+    PackageVersion* a = 0;
+    if (err->isEmpty()) {
+        Package* package = this->findPackage(packageName);
+        if (!package) {
+            package = new Package(packageName, packageName);
+            this->addPackage(package);
+        }
+        a = new PackageVersion(package);
     }
 
     if (err->isEmpty()) {
@@ -283,7 +292,7 @@ PackageVersion* Repository::createPackageVersion(QDomElement* e, QString* err)
             if (!d.isValid() || d.isRelative() ||
                     (d.scheme() != "http" && d.scheme() != "https")) {
                 err->append(QString("Not a valid download URL for %1: %2").
-                        arg(a->package).arg(url));
+                        arg(a->getPackage()->name).arg(url));
             }
         }
     }
@@ -294,7 +303,7 @@ PackageVersion* Repository::createPackageVersion(QDomElement* e, QString* err)
             a->version.normalize();
         } else {
             err->append(QString("Not a valid version for %1: %2").
-                    arg(a->package).arg(name));
+                    arg(a->getPackage()->name).arg(name));
         }
     }
 
@@ -606,7 +615,7 @@ int Repository::countUpdates()
         PackageVersion* p = this->getPackageVersion(i);
         if (p->installed()) {
             PackageVersion* newest = findNewestInstallablePackageVersion(
-                    p->package);
+                    p->getPackage()->name);
             if (newest->version.compare(p->version) > 0 && !newest->installed())
                 r++;
         }
@@ -963,7 +972,13 @@ PackageVersion* Repository::findOrCreatePackageVersion(const QString &package,
 {
     PackageVersion* pv = findPackageVersion(package, v);
     if (!pv) {
-        pv = new PackageVersion(package);
+        Package* p = findPackage(package);
+        if (!p) {
+            p = new Package(package, package);
+            this->addPackage(p);
+        }
+
+        pv = new PackageVersion(p);
         pv->version = v;
         pv->version.normalize();
         this->addPackageVersion(pv);
@@ -1201,7 +1216,7 @@ QString Repository::writeTo(const QString& filename) const
         PackageVersion* pv = getPackageVersion(i);
         QDomElement version = doc.createElement("version");
         version.setAttribute("name", pv->version.getVersionString());
-        version.setAttribute("package", pv->package);
+        version.setAttribute("package", pv->getPackage()->name);
         if (pv->download.isValid())
             XMLUtils::addTextTag(version, "url", pv->download.toString());
         root.appendChild(version);
@@ -1648,7 +1663,7 @@ QList<PackageVersion*> Repository::getPackageVersions(QString package) const {
 
 void Repository::addPackageVersion(PackageVersion* pv) {
     this->packageVersions.append(pv);
-    this->nameToPackageVersion.insert(pv->package, pv);
+    this->nameToPackageVersion.insert(pv->getPackage()->name, pv);
 }
 
 void Repository::clearPackages() {
