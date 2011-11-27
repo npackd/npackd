@@ -34,8 +34,6 @@ private:
      */
     volatile bool locked;
 
-    bool external_;
-
     void unzip(Job* job, QString zipfile, QString outputdir);
     bool createShortcuts(const QString& dir, QString* errMsg);
     QString saveFiles(const QDir& d);
