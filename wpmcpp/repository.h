@@ -105,11 +105,6 @@ private:
     void createIndex(Job* job);
 public:
     /**
-     * All operations on this object should be done under this lock.
-     */
-    QReadWriteLock lock;
-
-    /**
      * @return newly created object pointing to the repositories
      */
     static QList<QUrl*> getRepositoryURLs();
