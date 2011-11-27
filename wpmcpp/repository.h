@@ -17,6 +17,7 @@
 #include "packageversion.h"
 #include "license.h"
 #include "windowsregistry.h"
+#include "installedpackageversion.h"
 
 /**
  * A repository is a list of packages and package versions.
@@ -40,6 +41,12 @@ private:
     void loadOne(QUrl* url, Job* job);
 
     void clearExternallyInstalled(QString package);
+
+    /**
+     * Loads the information about a package from the Windows registry.
+     */
+    void loadInstallationInfoFromRegistry(Package* package,
+            const Version& version);
 
     void detectOneDotNet(const WindowsRegistry& wr, const QString& keyName);
     void detectMSIProducts();
@@ -127,6 +134,12 @@ public:
     QList<License*> licenses;
 
     /**
+     * Information about installed package versions.
+     * TODO:         saveInstallationInfo();   emitStatusChanged();
+     */
+    QList<InstalledPackageVersion*> installedPackageVersions;
+
+    /**
      * Creates an empty repository.
      */
     Repository();
@@ -134,6 +147,19 @@ public:
     virtual ~Repository();
 
     void process(Job* job, const QList<InstallOperation*> &install);
+
+    /**
+     * @return installation information for a package version or 0
+     */
+    InstalledPackageVersion* findInstalledPackageVersion(
+            const PackageVersion* pv);
+
+    /**
+     * Removes a package version from the list of installed.
+     *
+     * @param pv a package version
+     */
+    void removeInstalledPackageVersion(PackageVersion* pv);
 
     /**
      * Writes this repository to an XML file.
@@ -201,12 +227,6 @@ public:
      * @return number of package versions
      */
     int getPackageVersionCount() const;
-
-    /**
-     * @param i package index
-     * @return package with the specified index
-     */
-    Package* getPackage(int i) const;
 
     /**
      * @param i package index
