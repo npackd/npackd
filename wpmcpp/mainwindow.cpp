@@ -989,7 +989,10 @@ bool MainWindow::isUpdateEnabled(PackageVersion* pv)
         if (newest != 0 && newesti != 0) {
             bool canInstall = !newest->isLocked() && !newest->installed() &&
                     newest->download.isValid();
-            bool canUninstall = !newesti->isLocked() && !newesti->isExternal();
+
+            InstalledPackageVersion* ipv = r->findInstalledPackageVersion(
+                    newesti);
+            bool canUninstall = !newesti->isLocked() && !ipv->external_;
 
             return canInstall && canUninstall &&
                     newest->version.compare(newesti->version) > 0;
@@ -1024,16 +1027,18 @@ void MainWindow::updateActions()
 
     enabled = pvs.count() > 0 &&
             !hardDriveScanRunning && !reloadRepositoriesThreadRunning;
+
+    Repository* rep = Repository::getDefault();
     for (int i = 0; i < pvs.count(); i++) {
         if (!enabled)
             break;
 
         PackageVersion* pv = pvs.at(i);
+        InstalledPackageVersion* ipv = rep->findInstalledPackageVersion(pv);
 
         enabled = enabled &&
-                pv && !pv->isLocked() &&
-                pv->installed() &&
-                !pv->isExternal();
+                !pv->isLocked() &&
+                ipv && !ipv->external_;
     }
     this->ui->actionUninstall->setEnabled(enabled);
 

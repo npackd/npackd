@@ -48,15 +48,6 @@ Package* PackageVersion::getPackage() const
     return this->package_;
 }
 
-void PackageVersion::setExternal(bool e)
-{
-    if (this->external_ != e) {
-        this->external_ = e;
-        this->saveInstallationInfo();
-        emitStatusChanged();
-    }
-}
-
 void PackageVersion::emitStatusChanged()
 {
     Repository* r = Repository::getDefault();
@@ -82,11 +73,6 @@ void PackageVersion::unlock()
 bool PackageVersion::isLocked() const
 {
     return this->locked;
-}
-
-bool PackageVersion::isExternal() const
-{
-    return this->external_;
 }
 
 bool PackageVersion::isDirectoryLocked()
@@ -212,14 +198,15 @@ void PackageVersion::deleteShortcuts(const QString& dir, Job* job,
 
 void PackageVersion::uninstall(Job* job)
 {
-    if (isExternal() || !installed()) {
+    Repository* rep = Repository::getDefault();
+    InstalledPackageVersion* ipv = rep->findInstalledPackageVersion(this);
+
+    if (!ipv || ipv->external_) {
         job->setProgress(1);
         job->complete();
         return;
     }
 
-    Repository* rep = Repository::getDefault();
-    InstalledPackageVersion* ipv = rep->findInstalledPackageVersion(this);
     QDir d(ipv->ipath);
 
     if (job->getErrorMessage().isEmpty()) {
@@ -666,7 +653,10 @@ void PackageVersion::install(Job* job, const QString& where)
 {
     job->setHint("Preparing");
 
-    if (installed() || isExternal()) {
+    Repository* rep = Repository::getDefault();
+    InstalledPackageVersion* ipv = rep->findInstalledPackageVersion(this);
+
+    if (ipv) {
         job->setProgress(1);
         job->complete();
         return;
@@ -1075,18 +1065,18 @@ QString PackageVersion::saveFiles(const QDir& d)
 QString PackageVersion::getStatus() const
 {
     QString status;
-    bool installed = this->installed();
     Repository* r = Repository::getDefault();
+    InstalledPackageVersion* ipv = r->findInstalledPackageVersion(this);
     PackageVersion* newest = r->findNewestInstallablePackageVersion(
             this->getPackage()->name);
-    if (installed) {
-        if (isExternal())
+    if (ipv) {
+        if (ipv->external_)
             status = "installed externally";
         else
             status = "installed";
     }
-    if (installed && newest != 0 && version.compare(newest->version) < 0) {
-        if (!newest->installed() && !isExternal())
+    if (ipv && newest != 0 && version.compare(newest->version) < 0) {
+        if (!newest->installed() && !ipv->external_)
             status += ", updateable";
         else
             status += ", obsolete";
