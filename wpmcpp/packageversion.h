@@ -141,19 +141,6 @@ public:
     bool isLocked() const;
 
     /**
-     * @return this value is true for packages not installed through WPM,
-     * but detected
-     * later. Those packages cannot be uninstalled, but are used for
-     * dependencies.
-     */
-    bool isExternal() const;
-
-    /**
-     * @param e true = externally installed
-     */
-    void setExternal(bool e);
-
-    /**
      * Renames the directory for this package to a temporary name and then
      * renames it back.
      *

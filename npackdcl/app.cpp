@@ -918,13 +918,15 @@ int App::remove()
                 break;
             }
 
-            if (!pv->installed()) {
+            InstalledPackageVersion* ipv = rep->findInstalledPackageVersion(pv);
+
+            if (!ipv) {
                 WPMUtils::outputTextConsole("Package is not installed\n", false);
                 r = 0;
                 break;
             }
 
-            if (pv->isExternal()) {
+            if (ipv->external_) {
                 WPMUtils::outputTextConsole("Externally installed packages cannot be removed\n",
                         false);
                 r = 1;

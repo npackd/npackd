@@ -153,8 +153,9 @@ PackageVersion* Dependency::findBestMatchToInstall(
     QList<PackageVersion*> list = r->getPackageVersions(this->package);
     for (int i = 0; i < list.count(); i++) {
         PackageVersion* pv = list.at(i);
+        InstalledPackageVersion* ipv = r->findInstalledPackageVersion(pv);
         if (this->test(pv->version) &&
-                !pv->isExternal() && pv->download.isValid() &&
+                !ipv && pv->download.isValid() &&
                 !avoid.contains(pv)) {
             if (res == 0 || pv->version.compare(res->version) > 0)
                 res = pv;
