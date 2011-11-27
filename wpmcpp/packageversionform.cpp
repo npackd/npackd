@@ -28,8 +28,10 @@ void PackageVersionForm::updateIcons()
 
 void PackageVersionForm::updateStatus()
 {
+    Repository* rep = Repository::getDefault();
+    InstalledPackageVersion* ipv = rep->findInstalledPackageVersion(pv);
     this->ui->lineEditStatus->setText(pv->getStatus());
-    this->ui->lineEditPath->setText(pv->getPath());
+    this->ui->lineEditPath->setText(ipv ? ipv->ipath : "");
 }
 
 void PackageVersionForm::fillForm(PackageVersion* pv)

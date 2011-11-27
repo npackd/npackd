@@ -103,9 +103,11 @@ void InstallThread::run()
         PackageVersion* pv = r->findOrCreatePackageVersion(
                 "com.googlecode.windows-package-manager.Npackd",
                 Version(WPMUtils::NPACKD_VERSION));
-        if (!pv->installed()) {
-            pv->setPath(WPMUtils::getExeDir());
-            pv->setExternal(true);
+        InstalledPackageVersion* ipv = r->findInstalledPackageVersion(pv);
+        if (!ipv) {
+            ipv = new InstalledPackageVersion(pv->package_, pv->version,
+                    WPMUtils::getExeDir(), true);
+            r->installedPackageVersions.append(ipv);
         }
         break;
     }
@@ -780,16 +782,21 @@ void MainWindow::process(QList<InstallOperation*> &install)
         }
     }
 
+    Repository* rep = Repository::getDefault();
+
     QStringList locked = WPMUtils::getProcessFiles();
     QStringList lockedUninstall;
     for (int j = 0; j < install.size(); j++) {
         InstallOperation* op = install.at(j);
         if (!op->install) {
             PackageVersion* pv = op->packageVersion;
-            QString path = pv->getPath();
-            for (int i = 0; i < locked.size(); i++) {
-                if (WPMUtils::isUnder(locked.at(i), path)) {
-                    lockedUninstall.append(locked.at(i));
+            InstalledPackageVersion* ipv = rep->findInstalledPackageVersion(pv);
+            if (ipv) {
+                QString path = ipv->ipath;
+                for (int i = 0; i < locked.size(); i++) {
+                    if (WPMUtils::isUnder(locked.at(i), path)) {
+                        lockedUninstall.append(locked.at(i));
+                    }
                 }
             }
         }
@@ -811,11 +818,12 @@ void MainWindow::process(QList<InstallOperation*> &install)
         InstallOperation* op = install.at(i);
         if (!op->install) {
             PackageVersion* pv = op->packageVersion;
+            InstalledPackageVersion* ipv = rep->findInstalledPackageVersion(pv);
             if (pv->isDirectoryLocked()) {
                 QString msg = QString("The package %1 cannot be uninstalled because "
                         "some files or directories under %2 are in use.").
                         arg(pv->toString()).
-                        arg(pv->getPath());
+                        arg(ipv->ipath);
                 addErrorMessage(msg, msg, true, QMessageBox::Critical);
                 qDeleteAll(install);
                 install.clear();
@@ -859,12 +867,14 @@ void MainWindow::process(QList<InstallOperation*> &install)
     if (installCount == 1 && uninstallCount == 0) {
         b = true;
     } else if (installCount == 0 && uninstallCount == 1) {
+        PackageVersion* pv = install.at(0)->packageVersion;
+        InstalledPackageVersion* ipv = rep->findInstalledPackageVersion(pv);
         msg = QString("The package %1 will be uninstalled. "
                 "The corresponding directory %2 "
                 "will be completely deleted. "
                 "There is no way to restore the files.").
-                arg(install.at(0)->packageVersion->toString()).
-                arg(install.at(0)->packageVersion->getPath());
+                arg(pv->toString()).
+                arg(ipv->ipath);
         b = UIUtils::confirm(this, "Uninstall", msg);
     } else if (installCount > 0 && uninstallCount == 0) {
         msg = QString("%1 package(s) will be installed: %2").

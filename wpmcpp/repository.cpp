@@ -199,6 +199,7 @@ Repository::~Repository()
     qDeleteAll(this->packages);
     qDeleteAll(this->packageVersions);
     qDeleteAll(this->licenses);
+    qDeleteAll(this->installedPackageVersions);
 }
 
 PackageVersion* Repository::findNewestInstallablePackageVersion(
@@ -591,7 +592,7 @@ QList<Package*> Repository::findPackages(const QString& name)
     bool shortName = name.indexOf('.') < 0;
     QString suffix = '.' + name;
     for (int i = 0; i < this->getPackageCount(); i++) {
-        Package* p = this->getPackage(i);
+        Package* p = this->packages.at(i);
         if (p->name == name) {
             r.append(p);
         } else if (shortName && p->name.endsWith(suffix)) {
@@ -803,16 +804,19 @@ void Repository::detectWindows()
     clearExternallyInstalled("com.microsoft.Windows64");
 
     PackageVersion* pv = findOrCreatePackageVersion("com.microsoft.Windows", v);
-    pv->setPath(WPMUtils::getWindowsDir());
-    pv->setExternal(true);
+    InstalledPackageVersion* ipv = new InstalledPackageVersion(
+            pv->package_, pv->version, WPMUtils::getWindowsDir(), true);
+    this->installedPackageVersions.append(ipv);
     if (WPMUtils::is64BitWindows()) {
         pv = findOrCreatePackageVersion("com.microsoft.Windows64", v);
-        pv->setPath(WPMUtils::getWindowsDir());
-        pv->setExternal(true);
+        InstalledPackageVersion* ipv = new InstalledPackageVersion(
+                pv->package_, pv->version, WPMUtils::getWindowsDir(), true);
+        this->installedPackageVersions.append(ipv);
     } else {
         pv = findOrCreatePackageVersion("com.microsoft.Windows32", v);
-        pv->setPath(WPMUtils::getWindowsDir());
-        pv->setExternal(true);
+        InstalledPackageVersion* ipv = new InstalledPackageVersion(
+                pv->package_, pv->version, WPMUtils::getWindowsDir(), true);
+        this->installedPackageVersions.append(ipv);
     }
 }
 
@@ -910,9 +914,12 @@ void Repository::detectJRE(bool w64bit)
             PackageVersion* pv = findOrCreatePackageVersion(
                     w64bit ? "com.oracle.JRE64" :
                     "com.oracle.JRE", v);
-            if (!pv->installed()) {
-                pv->setPath(path);
-                pv->setExternal(true);
+            InstalledPackageVersion* ipv =
+                    this->findInstalledPackageVersion(pv);
+            if (!ipv) {
+                ipv = new InstalledPackageVersion(pv->package_, pv->version,
+                        path, true);
+                this->installedPackageVersions.append(ipv);
             }
         }
     }
@@ -956,9 +963,12 @@ void Repository::detectJDK(bool w64bit)
 
                 PackageVersion* pv = findOrCreatePackageVersion(
                         p, v);
-                if (!pv->installed()) {
-                    pv->setPath(path);
-                    pv->setExternal(true);
+                InstalledPackageVersion* ipv =
+                        this->findInstalledPackageVersion(pv);
+                if (!ipv) {
+                    ipv = new InstalledPackageVersion(pv->package_, pv->version,
+                            path, true);
+                    this->installedPackageVersions.append(ipv);
                 }
             }
         }
@@ -986,12 +996,23 @@ PackageVersion* Repository::findOrCreatePackageVersion(const QString &package,
 
 void Repository::clearExternallyInstalled(QString package)
 {
-    QList<PackageVersion*> list = this->getPackageVersions(package);
-    for (int i = 0; i < list.count(); i++) {
-        PackageVersion* pv = list.at(i);
-        if (pv->isExternal()) {
-            pv->setPath("");
+    for (int i = 0; i < this->installedPackageVersions.count();) {
+        InstalledPackageVersion* ipv = this->installedPackageVersions.at(i);
+        if (ipv->external_) {
+            this->installedPackageVersions.removeAt(i);
+            delete ipv;
+        } else {
+            i++;
         }
+    }
+}
+
+void Repository::removeInstalledPackageVersion(PackageVersion* pv)
+{
+    InstalledPackageVersion* ipv = findInstalledPackageVersion(pv);
+    if (ipv) {
+        this->installedPackageVersions.removeOne(ipv);
+        delete ipv;
     }
 }
 
@@ -1034,9 +1055,11 @@ void Repository::detectOneDotNet(const WindowsRegistry& wr,
 
     if (found) {
         PackageVersion* pv = findOrCreatePackageVersion(packageName, v);
-        if (!pv->installed()) {
-            pv->setPath(WPMUtils::getWindowsDir());
-            pv->setExternal(true);
+        InstalledPackageVersion* ipv = findInstalledPackageVersion(pv);
+        if (!ipv) {
+            ipv = new InstalledPackageVersion(pv->package_, pv->version,
+                    WPMUtils::getWindowsDir(), true);
+            this->installedPackageVersions.append(ipv);
         }
     }
 }
@@ -1052,18 +1075,25 @@ void Repository::detectMSIProducts()
             // qDebug() << pv->msiGUID;
             if (all.contains(pv->msiGUID)) {
                 // qDebug() << pv->toString();
-                if (!pv->installed() || pv->isExternal()) {
+                InstalledPackageVersion* ipv = findInstalledPackageVersion(pv);
+                if (!ipv || ipv->external_) {
                     QString err;
                     QString p = WPMUtils::getMSIProductLocation(
                             pv->msiGUID, &err);
                     if (p.isEmpty() || !err.isEmpty())
                         p = WPMUtils::getWindowsDir();
 
-                    pv->setPath(p);
-                    pv->setExternal(true);
+                    if (!ipv) {
+                        ipv = new InstalledPackageVersion(pv->package_,
+                                pv->version, p, true);
+                        this->installedPackageVersions.append(ipv);
+                    } else {
+                        ipv->ipath = p;
+                        ipv->external_ = true;
+                    }
                 }
             } else {
-                pv->setPath("");
+                removeInstalledPackageVersion(pv);
             }
         }
     }
@@ -1105,9 +1135,11 @@ void Repository::detectMicrosoftInstaller()
     if (v.compare(nullNull) > 0) {
         PackageVersion* pv = findOrCreatePackageVersion(
                 "com.microsoft.WindowsInstaller", v);
-        if (!pv->installed()) {
-            pv->setPath(WPMUtils::getWindowsDir());
-            pv->setExternal(true);
+        InstalledPackageVersion* ipv = findInstalledPackageVersion(pv);
+        if (!ipv) {
+            ipv = new InstalledPackageVersion(pv->package_, pv->version,
+                    WPMUtils::getWindowsDir(), true);
+            this->installedPackageVersions.append(ipv);
         }
     }
 }
@@ -1121,18 +1153,22 @@ void Repository::detectMSXML()
     if (v.compare(nullNull) > 0) {
         PackageVersion* pv = findOrCreatePackageVersion(
                 "com.microsoft.MSXML", v);
-        if (!pv->installed()) {
-            pv->setPath(WPMUtils::getWindowsDir());
-            pv->setExternal(true);
+        InstalledPackageVersion* ipv = findInstalledPackageVersion(pv);
+        if (!ipv) {
+            ipv = new InstalledPackageVersion(pv->package_, pv->version,
+                    WPMUtils::getWindowsDir(), true);
+            this->installedPackageVersions.append(ipv);
         }
     }
     v = WPMUtils::getDLLVersion("msxml2.dll");
     if (v.compare(nullNull) > 0) {
         PackageVersion* pv = findOrCreatePackageVersion(
                 "com.microsoft.MSXML", v);
-        if (!pv->installed()) {
-            pv->setPath(WPMUtils::getWindowsDir());
-            pv->setExternal(true);
+        InstalledPackageVersion* ipv = findInstalledPackageVersion(pv);
+        if (!ipv) {
+            ipv = new InstalledPackageVersion(pv->package_, pv->version,
+                    WPMUtils::getWindowsDir(), true);
+            this->installedPackageVersions.append(ipv);
         }
     }
     v = WPMUtils::getDLLVersion("msxml3.dll");
@@ -1140,36 +1176,44 @@ void Repository::detectMSXML()
         v.prepend(3);
         PackageVersion* pv = findOrCreatePackageVersion(
                 "com.microsoft.MSXML", v);
-        if (!pv->installed()) {
-            pv->setPath(WPMUtils::getWindowsDir());
-            pv->setExternal(true);
+        InstalledPackageVersion* ipv = findInstalledPackageVersion(pv);
+        if (!ipv) {
+            ipv = new InstalledPackageVersion(pv->package_, pv->version,
+                    WPMUtils::getWindowsDir(), true);
+            this->installedPackageVersions.append(ipv);
         }
     }
     v = WPMUtils::getDLLVersion("msxml4.dll");
     if (v.compare(nullNull) > 0) {
         PackageVersion* pv = findOrCreatePackageVersion(
                 "com.microsoft.MSXML", v);
-        if (!pv->installed()) {
-            pv->setPath(WPMUtils::getWindowsDir());
-            pv->setExternal(true);
+        InstalledPackageVersion* ipv = findInstalledPackageVersion(pv);
+        if (!ipv) {
+            ipv = new InstalledPackageVersion(pv->package_, pv->version,
+                    WPMUtils::getWindowsDir(), true);
+            this->installedPackageVersions.append(ipv);
         }
     }
     v = WPMUtils::getDLLVersion("msxml5.dll");
     if (v.compare(nullNull) > 0) {
         PackageVersion* pv = findOrCreatePackageVersion(
                 "com.microsoft.MSXML", v);
-        if (!pv->installed()) {
-            pv->setPath(WPMUtils::getWindowsDir());
-            pv->setExternal(true);
+        InstalledPackageVersion* ipv = findInstalledPackageVersion(pv);
+        if (!ipv) {
+            ipv = new InstalledPackageVersion(pv->package_, pv->version,
+                    WPMUtils::getWindowsDir(), true);
+            this->installedPackageVersions.append(ipv);
         }
     }
     v = WPMUtils::getDLLVersion("msxml6.dll");
     if (v.compare(nullNull) > 0) {
         PackageVersion* pv = findOrCreatePackageVersion(
                 "com.microsoft.MSXML", v);
-        if (!pv->installed()) {
-            pv->setPath(WPMUtils::getWindowsDir());
-            pv->setExternal(true);
+        InstalledPackageVersion* ipv = findInstalledPackageVersion(pv);
+        if (!ipv) {
+            ipv = new InstalledPackageVersion(pv->package_, pv->version,
+                    WPMUtils::getWindowsDir(), true);
+            this->installedPackageVersions.append(ipv);
         }
     }
 }
@@ -1201,7 +1245,7 @@ QString Repository::writeTo(const QString& filename) const
     XMLUtils::addTextTag(root, "spec-version", "3");
 
     for (int i = 0; i < getPackageCount(); i++) {
-        Package* p = getPackage(i);
+        Package* p = packages.at(i);
         QDomElement package = doc.createElement("package");
         package.setAttribute("name", p->name);
         XMLUtils::addTextTag(package, "title", p->title);
@@ -1324,8 +1368,10 @@ QString Repository::computeNpackdCLEnvVar()
     QString v;
     PackageVersion* pv = findNewestInstalledPackageVersion(
             "com.googlecode.windows-package-manager.NpackdCL");
-    if (pv)
-        v = pv->getPath();
+    if (pv) {
+        InstalledPackageVersion* ipv = findInstalledPackageVersion(pv);
+        v = ipv->ipath;
+    }
 
     return v;
 }
@@ -1369,16 +1415,15 @@ int Repository::getPackageVersionCount() const {
     return this->packageVersions.count();
 }
 
-Package* Repository::getPackage(int i) const {
-    return this->packages.at(i);
-}
-
 PackageVersion* Repository::getPackageVersion(int i) const {
     return this->packageVersions.at(i);
 }
 
 void Repository::readRegistryDatabase()
 {
+    qDeleteAll(this->installedPackageVersions);
+    this->installedPackageVersions.clear();
+
     WindowsRegistry machineWR(HKEY_LOCAL_MACHINE, false, KEY_READ);
 
     QString err;
@@ -1398,12 +1443,67 @@ void Repository::readRegistryDatabase()
                     if (version.setVersion(versionName)) {
                         PackageVersion* pv = findOrCreatePackageVersion(
                                 packageName, version);
-                        pv->loadFromRegistry();
+                        loadInstallationInfoFromRegistry(pv->package_,
+                                pv->version);
                     }
                 }
             }
         }
     }
+}
+
+void Repository::loadInstallationInfoFromRegistry(Package* package,
+        const Version& version)
+{
+    WindowsRegistry entryWR;
+    QString err = entryWR.open(HKEY_LOCAL_MACHINE,
+            "SOFTWARE\\Npackd\\Npackd\\Packages\\" +
+            package->name + "-" + version.getVersionString(),
+            false, KEY_READ);
+    if (!err.isEmpty())
+        return;
+
+    QString p = entryWR.get("Path", &err).trimmed();
+    if (!err.isEmpty())
+        return;
+
+    DWORD external = entryWR.getDWORD("External", &err);
+    if (!err.isEmpty())
+        external = 1;
+
+    QString ipath;
+    if (p.isEmpty())
+        ipath = "";
+    else {
+        QDir d(p);
+        if (d.exists()) {
+            ipath = p;
+        } else {
+            ipath = "";
+        }
+    }
+
+    if (!ipath.isEmpty()) {
+        InstalledPackageVersion* ipv = new InstalledPackageVersion(package,
+                version, ipath, external != 0);
+        this->installedPackageVersions.append(ipv);
+    }
+
+    // TODO: emitStatusChanged();
+}
+
+InstalledPackageVersion* Repository::findInstalledPackageVersion(
+        const PackageVersion* pv)
+{
+    InstalledPackageVersion* r = 0;
+    for (int i = 0; i < this->installedPackageVersions.count(); i++) {
+        InstalledPackageVersion* ipv = this->installedPackageVersions.at(i);
+        if (ipv->package_ == pv->package_ && ipv->version == pv->version) {
+            r = ipv;
+            break;
+        }
+    }
+    return r;
 }
 
 void Repository::scan(const QString& path, Job* job, int level,
@@ -1421,7 +1521,8 @@ void Repository::scan(const QString& path, Job* job, int level,
             break;
 
         PackageVersion* pv = this->getPackageVersion(i);
-        if (!pv->installed() && pv->detectFiles.count() > 0) {
+        InstalledPackageVersion* ipv = this->findInstalledPackageVersion(pv);
+        if (!ipv && pv->detectFiles.count() > 0) {
             boolean ok = true;
             for (int j = 0; j < pv->detectFiles.count(); j++) {
                 bool fileOK = false;
@@ -1447,8 +1548,9 @@ void Repository::scan(const QString& path, Job* job, int level,
             }
 
             if (ok) {
-                pv->setPath(path);
-                pv->setExternal(true);
+                ipv = new InstalledPackageVersion(pv->package_, pv->version,
+                        path, true);
+                this->installedPackageVersions.append(ipv);
                 return;
             }
         }
@@ -1599,10 +1701,11 @@ void Repository::load(Job* job)
     qDeleteAll(urls);
     urls.clear();
 
-    // TODO: cancelled
-    if (job->getErrorMessage().isEmpty()) {
+    if (!job->isCancelled() && job->getErrorMessage().isEmpty()) {
         Job* sub = job->newSubJob(0.1);
         this->createIndex(sub);
+        if (!sub->getErrorMessage().isEmpty())
+            job->setErrorMessage(sub->getErrorMessage());
         delete sub;
     }
 

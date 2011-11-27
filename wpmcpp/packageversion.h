@@ -28,9 +28,6 @@ private:
     static QSemaphore httpConnections;
     static QSemaphore installationScripts;
 
-    /** installation directory or "", if the package version is not installed */
-    QString ipath;
-
     /**
      * If true, this package version is locked and cannot be
      * installed/uninstalled.
@@ -47,6 +44,7 @@ private:
             const QStringList& env);
     void deleteShortcuts(const QString& dir,
             Job* job, bool menu, bool desktop, bool quickLaunch);
+
     /**
      * Deletes a directory. If something cannot be deleted, it waits and
      * tries to delete the directory again. Moves the directory to .Trash if
@@ -154,24 +152,6 @@ public:
      * @param e true = externally installed
      */
     void setExternal(bool e);
-
-    /**
-     * Loads the information about this package from the Windows registry.
-     */
-    void loadFromRegistry();
-
-    /**
-     * @return installation path or "" if the package is not installed
-     */
-    QString getPath();
-
-    /**
-     * Changes the installation path for this package. This method should only
-     * be used if the package was detected.
-     *
-     * @param path installation path
-     */
-    void setPath(const QString& path);
 
     /**
      * Renames the directory for this package to a temporary name and then
@@ -295,6 +275,6 @@ public:
     QString getStatus() const;
 };
 
-Q_DECLARE_METATYPE(PackageVersion);
+Q_DECLARE_METATYPE(PackageVersion)
 
 #endif // PACKAGEVERSION_H

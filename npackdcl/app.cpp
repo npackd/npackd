@@ -183,9 +183,11 @@ void App::addNpackdCL()
     PackageVersion* pv = r->findOrCreatePackageVersion(
             "com.googlecode.windows-package-manager.NpackdCL",
             Version(WPMUtils::NPACKD_VERSION));
-    if (!pv->installed()) {
-        pv->setPath(WPMUtils::getExeDir());
-        pv->setExternal(true);
+    InstalledPackageVersion* ipv = r->findInstalledPackageVersion(pv);
+    if (!ipv) {
+        InstalledPackageVersion* ipv = new InstalledPackageVersion(
+                pv->package_, pv->version, WPMUtils::getExeDir(), true);
+        r->installedPackageVersions.append(ipv);
         r->updateNpackdCLEnvVar();
     }
 }
@@ -621,7 +623,9 @@ int App::path()
             // debug: WPMUtils::outputTextConsole << "Versions: " << d.toString()) << std::endl;
             PackageVersion* pv = d.findHighestInstalledMatch();
             if (pv) {
-                QString p = pv->getPath();
+                InstalledPackageVersion* ipv =
+                        rep->findInstalledPackageVersion(pv);
+                QString p = ipv->ipath;
                 p.replace('/', '\\');
                 WPMUtils::outputTextConsole(p + "\n");
             }
@@ -804,9 +808,10 @@ int App::add()
                 r = 1;
                 break;
             }
-            if (pv->installed()) {
+            InstalledPackageVersion* ipv = rep->findInstalledPackageVersion(pv);
+            if (ipv) {
                 WPMUtils::outputTextConsole("Package is already installed in " +
-                        pv->getPath() + "\n", false);
+                        ipv->ipath + "\n", false);
                 r = 0;
                 break;
             }
@@ -1027,6 +1032,8 @@ int App::info()
                 break;
             }
 
+            InstalledPackageVersion* ipv = rep->findInstalledPackageVersion(pv);
+
             Package* p = packages.at(0);
             WPMUtils::outputTextConsole("Icon: " +
                     p->icon + "\n");
@@ -1039,7 +1046,7 @@ int App::info()
             WPMUtils::outputTextConsole("License: " +
                     p->license + "\n");
             WPMUtils::outputTextConsole("Installation path: " +
-                    pv->getPath() + "\n");
+                    (ipv ? ipv->ipath : "")  + "\n");
             WPMUtils::outputTextConsole("Internal package name: " +
                     pv->getPackage()->name + "\n");
             WPMUtils::outputTextConsole("Status: " +

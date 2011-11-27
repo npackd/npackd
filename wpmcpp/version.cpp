@@ -51,6 +51,11 @@ bool Version::operator !=(const Version& v)
     return this->compare(v) != 0;
 }
 
+bool Version::operator ==(const Version& v)
+{
+    return this->compare(v) == 0;
+}
+
 Version::~Version()
 {
     delete[] this->parts;

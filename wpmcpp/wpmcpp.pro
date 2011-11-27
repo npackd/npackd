@@ -28,7 +28,8 @@ SOURCES += main.cpp \
     progressframe.cpp \
     messageframe.cpp \
     xmlutils.cpp \
-    settingsframe.cpp
+    settingsframe.cpp \
+    installedpackageversion.cpp
 HEADERS += mainwindow.h \
     packageversion.h \
     repository.h \
@@ -55,7 +56,8 @@ HEADERS += mainwindow.h \
     taskbar.h \
     xmlutils.h \
     settingsframe.h \
-    mstask.h
+    mstask.h \
+    installedpackageversion.h
 FORMS += mainwindow.ui \
     packageversionform.ui \
     licenseform.ui \

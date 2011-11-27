@@ -89,57 +89,12 @@ bool PackageVersion::isExternal() const
     return this->external_;
 }
 
-void PackageVersion::loadFromRegistry()
-{
-    WindowsRegistry entryWR;
-    QString err = entryWR.open(HKEY_LOCAL_MACHINE,
-            "SOFTWARE\\Npackd\\Npackd\\Packages\\" +
-            this->getPackage()->name + "-" + this->version.getVersionString(),
-            false, KEY_READ);
-    if (!err.isEmpty())
-        return;
-
-    QString p = entryWR.get("Path", &err).trimmed();
-    if (!err.isEmpty())
-        return;
-
-    DWORD external = entryWR.getDWORD("External", &err);
-    if (!err.isEmpty())
-        external = 1;
-
-    if (p.isEmpty())
-        this->ipath = "";
-    else {
-        QDir d(p);
-        if (d.exists()) {
-            this->ipath = p;
-            this->external_ = external != 0;
-        } else {
-            this->ipath = "";
-        }
-    }
-
-    emitStatusChanged();
-}
-
-QString PackageVersion::getPath()
-{
-    return this->ipath;
-}
-
-void PackageVersion::setPath(const QString& path)
-{
-    if (this->ipath != path) {
-        this->ipath = path;
-        saveInstallationInfo();
-        emitStatusChanged();
-    }
-}
-
 bool PackageVersion::isDirectoryLocked()
 {
-    if (installed()) {
-        QDir d(ipath);
+    Repository* rep = Repository::getDefault();
+    InstalledPackageVersion* ipv = rep->findInstalledPackageVersion(this);
+    if (ipv) {
+        QDir d(ipv->ipath);
         QDateTime now = QDateTime::currentDateTime();
         QString newName = QString("%1-%2").arg(d.absolutePath()).arg(now.toTime_t());
 
@@ -185,8 +140,15 @@ QString PackageVersion::saveInstallationInfo()
     if (!err.isEmpty())
         return err;
 
-    wr.set("Path", this->ipath);
-    wr.setDWORD("External", this->external_ ? 1 : 0);
+    Repository* rep = Repository::getDefault();
+    InstalledPackageVersion* ipv = rep->findInstalledPackageVersion(this);
+    if (ipv) {
+        wr.set("Path", ipv->ipath);
+        wr.setDWORD("External", ipv->external_ ? 1 : 0);
+    } else {
+        wr.set("Path", "");
+        wr.setDWORD("External", false);
+    }
     return "";
 }
 
@@ -197,6 +159,10 @@ QString PackageVersion::getFullText()
 
 bool PackageVersion::installed() const
 {
+    Repository* rep = Repository::getDefault();
+    return rep->findInstalledPackageVersion(this) != 0;
+
+    /* TODO: we do not check d.exists() anymore!
     if (this->ipath.trimmed().isEmpty()) {
         return false;
     } else {
@@ -204,6 +170,7 @@ bool PackageVersion::installed() const
         d.refresh();
         return d.exists();
     }
+    */
 }
 
 void PackageVersion::deleteShortcuts(const QString& dir, Job* job,
@@ -251,7 +218,9 @@ void PackageVersion::uninstall(Job* job)
         return;
     }
 
-    QDir d(ipath);
+    Repository* rep = Repository::getDefault();
+    InstalledPackageVersion* ipv = rep->findInstalledPackageVersion(this);
+    QDir d(ipv->ipath);
 
     if (job->getErrorMessage().isEmpty()) {
         job->setHint("Deleting shortcuts");
@@ -343,7 +312,7 @@ void PackageVersion::uninstall(Job* job)
             if (!rjob->getErrorMessage().isEmpty())
                 job->setErrorMessage(rjob->getErrorMessage());
             else {
-                setPath("");
+                Repository::getDefault()->removeInstalledPackageVersion(this);
             }
             delete rjob;
         }
@@ -920,15 +889,17 @@ void PackageVersion::install(Job* job, const QString& where)
             } else {
                 QString path = d.absolutePath();
                 path.replace('/', '\\');
-                setPath(path);
-                setExternal(false);
+                InstalledPackageVersion* ipv = new InstalledPackageVersion(
+                        this->package_, this->version, path, false);
+                Repository::getDefault()->installedPackageVersions.append(ipv);
             }
             delete exec;
         } else {
             QString path = d.absolutePath();
             path.replace('/', '\\');
-            setPath(path);
-            setExternal(false);
+            InstalledPackageVersion* ipv = new InstalledPackageVersion(
+                    this->package_, this->version, path, false);
+            Repository::getDefault()->installedPackageVersions.append(ipv);
         }
 
         if (this->getPackage()->name ==
@@ -991,13 +962,16 @@ void PackageVersion::install(Job* job, const QString& where)
 
 void PackageVersion::addDependencyVars(QStringList* vars)
 {
+    Repository* rep = Repository::getDefault();
     for (int i = 0; i < this->dependencies.count(); i++) {
         Dependency* d = this->dependencies.at(i);
         if (!d->var.isEmpty()) {
             vars->append(d->var);
             PackageVersion* pv = d->findHighestInstalledMatch();
             if (pv) {
-                vars->append(pv->getPath());
+                InstalledPackageVersion* ipv =
+                        rep->findInstalledPackageVersion(pv);
+                vars->append(ipv->ipath);
             } else {
                 // this could happen if a package was un-installed manually
                 // without Npackd or the repository has changed after this
@@ -1127,10 +1101,13 @@ QString PackageVersion::getStatus() const
 
 QStringList PackageVersion::findLockedFiles()
 {
+    Repository* rep = Repository::getDefault();
+    InstalledPackageVersion* ipv = rep->findInstalledPackageVersion(this);
+
     QStringList r;
-    if (installed()) {
+    if (ipv) {
         QStringList files = WPMUtils::getProcessFiles();
-        QString dir(ipath);
+        QString dir(ipv->ipath);
         for (int i = 0; i < files.count(); i++) {
             if (WPMUtils::isUnder(files.at(i), dir)) {
                 r.append(files.at(i));
