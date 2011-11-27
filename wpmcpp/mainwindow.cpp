@@ -679,6 +679,16 @@ void MainWindow::fillList()
 
         Package* p = pv->getPackage();
 
+        if (!p->icon.isEmpty()) {
+            FileLoaderItem it;
+            it.url = p->icon;
+            // qDebug() << "MainWindow::loadRepository " << it.url;
+            this->fileLoader.work.append(it);
+        }
+
+        // qDebug() << "MainWindow::loadRepository";
+
+
         newItem = new QTableWidgetItem("");
         newItem->setData(Qt::UserRole, qVariantFromValue((void*) pv));
         if (p) {
@@ -1182,18 +1192,6 @@ void MainWindow::setActionAccelerators(QWidget* w) {
 void MainWindow::recognizeAndLoadRepositoriesThreadFinished()
 {
     fillList();
-
-    Repository* r = Repository::getDefault();
-    for (int i = 0; i < r->getPackageCount(); i++) {
-        Package* p = r->getPackage(i);
-        if (!p->icon.isEmpty()) {
-            FileLoaderItem it;
-            it.url = p->icon;
-            // qDebug() << "MainWindow::loadRepository " << it.url;
-            this->fileLoader.work.append(it);
-        }
-    }
-    // qDebug() << "MainWindow::loadRepository";
 
     this->reloadRepositoriesThreadRunning = false;
     updateActions();

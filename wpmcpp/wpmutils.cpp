@@ -34,6 +34,11 @@ WPMUtils::WPMUtils()
 {
 }
 
+QString WPMUtils::fromUtf8StdString(const std::string& s)
+{
+    return QString::fromUtf8(s.data(), int(s.size()));
+}
+
 void WPMUtils::createMSTask()
 {
     ITaskScheduler *pITS;

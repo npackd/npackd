@@ -113,8 +113,8 @@ void Repository::createIndex(Job* job)
 
             job->complete();
         } catch (const Xapian::Error &e) {
-            job->setErrorMessage(QString::fromStdString(
-                    e.get_description())); // TODO: Unicode
+            job->setErrorMessage(WPMUtils::fromUtf8StdString(
+                    e.get_description()));
         }
     }
 }
@@ -140,7 +140,7 @@ QList<PackageVersion*> Repository::find(const QString& text, QString* warning)
 
     try {
         Xapian::Query query = queryParser->parse_query(
-                t.toUtf8().constData(), // TODO: Unicode
+                t.toUtf8().constData(),
                 Xapian::QueryParser::FLAG_PHRASE|
                 Xapian::QueryParser::FLAG_BOOLEAN|
                 Xapian::QueryParser::FLAG_LOVEHATE|
@@ -157,12 +157,11 @@ QList<PackageVersion*> Repository::find(const QString& text, QString* warning)
 
         Xapian::MSetIterator i;
         for (i = matches.begin(); i != matches.end(); ++i) {
-            //cout << i.get_percent() << "% "; TODO
             Xapian::Document doc = i.get_document();
             std::string package = doc.get_value(0);
             std::string version = doc.get_value(1);
-            QString package_ = QString::fromStdString(package); // TODO: Unicode
-            QString version_ = QString::fromStdString(version); // TODO: Unicode
+            QString package_ = WPMUtils::fromUtf8StdString(package);
+            QString version_ = WPMUtils::fromUtf8StdString(version);
             Version version__;
             if (version__.setVersion(version_)) {
                 PackageVersion* pv = this->findPackageVersion(
@@ -170,10 +169,9 @@ QList<PackageVersion*> Repository::find(const QString& text, QString* warning)
                 if (pv)
                     r.append(pv);
             }
-            //cout << "[" << doc.get_data() << "]" << endl; TODO
         }
     } catch (const Xapian::Error &e) {
-        // err = QString::fromStdString(e.get_description()); // TODO: Unicode
+        *warning = WPMUtils::fromUtf8StdString(e.get_description());
     }
     return r;
 }
@@ -1710,37 +1708,52 @@ void Repository::loadOne(QDomDocument* doc, Job* job)
                 n = n.nextSibling()) {
             if (n.isElement()) {
                 QDomElement e = n.toElement();
+                if (e.nodeName() == "license") {
+                    License* p = createLicense(&e);
+                    if (this->findLicense(p->name))
+                        delete p;
+                    else
+                        this->licenses.append(p);
+                }
+            }
+        }
+        for (QDomNode n = root.firstChild(); !n.isNull();
+                n = n.nextSibling()) {
+            if (n.isElement()) {
+                QDomElement e = n.toElement();
+                if (e.nodeName() == "package") {
+                    QString err;
+                    Package* p = createPackage(&e, &err);
+                    if (p) {
+                        if (this->findPackage(p->name))
+                            delete p;
+                        else
+                           this->addPackage(p);
+                    } else {
+                        job->setErrorMessage(err);
+                        break;
+                    }
+                }
+            }
+        }
+        for (QDomNode n = root.firstChild(); !n.isNull();
+                n = n.nextSibling()) {
+            if (n.isElement()) {
+                QDomElement e = n.toElement();
                 if (e.nodeName() == "version") {
                     QString err;
                     PackageVersion* pv = createPackageVersion(&e, &err);
                     if (pv) {
-                        /*if (this->findPackageVersion(pv->package, pv->version))
+                        if (this->findPackageVersion(pv->getPackage()->name,
+                                pv->version))
                             delete pv;
-                        else*/ {
+                        else {
                             this->addPackageVersion(pv);
                         }
                     } else {
                         job->setErrorMessage(err);
                         break;
                     }
-                } else if (e.nodeName() == "package") {
-                    QString err;
-                    Package* p = createPackage(&e, &err);
-                    if (p) {
-                        //if (this->findPackage(p->name))
-                        //    delete p;
-                        //else
-                            this->addPackage(p);
-                    } else {
-                        job->setErrorMessage(err);
-                        break;
-                    }
-                } else if (e.nodeName() == "license") {
-                    License* p = createLicense(&e);
-                    if (this->findLicense(p->name))
-                        delete p;
-                    else
-                        this->licenses.append(p);
                 }
             }
         }
