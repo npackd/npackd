@@ -30,7 +30,6 @@ QSemaphore PackageVersion::installationScripts(1);
 PackageVersion::PackageVersion()
 {
     this->type = 0;
-    this->external_ = false;
     this->locked = false;
     this->package_ = 0;
 }
@@ -38,7 +37,6 @@ PackageVersion::PackageVersion()
 PackageVersion::PackageVersion(Package* package)
 {
     this->type = 0;
-    this->external_ = false;
     this->locked = false;
     this->package_ = package;
 }

@@ -38,7 +38,11 @@ private:
     PackageVersion* createPackageVersion(QDomElement* e,
             QString* err);
 
-    void loadOne(QUrl* url, Job* job);
+    /**
+     * @param sha1 0 or a pointer to a string where the SHA1 of the downloaded
+     *     file will be stored
+     */
+    void loadOne(QUrl* url, Job* job, QString* sha1);
 
     void clearExternallyInstalled(QString package);
 
@@ -60,6 +64,8 @@ private:
     Xapian::WritableDatabase* db;
     Xapian::Enquire* enquire;
     Xapian::QueryParser* queryParser;
+    Xapian::TermGenerator indexer;
+    Xapian::Stem stemmer;
 
     /**
      * Packages.
@@ -109,7 +115,7 @@ private:
     void detectPre_1_15_Packages();
 
     void addWellKnownPackages();
-    void createIndex(Job* job);
+    void index(Job* job);
 public:
     /**
      * @return newly created object pointing to the repositories
