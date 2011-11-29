@@ -465,6 +465,11 @@
         <description>antivirus</description>
         <license>org.gnu.GPLv3</license>
     </package>
+    <package name="com.codesector.DirectFolders">
+        <title>Direct Folders</title>
+        <url>http://www.codesector.com/directfolders.php</url>
+        <description>manages favarite folders in Windows Explorer</description>
+    </package>
     <package name="com.codesector.TeraCopy">
         <title>TeraCopy</title>
         <url>http://www.codesector.com/teracopy.php</url>
@@ -662,6 +667,12 @@
         <title>pathed</title>
         <url>http://code.google.com/p/pathed/</url>
         <description>command-line tool for changing and querying the PATH</description>
+    </package>
+    <package name="com.googlecode.stb-imv.STBIMV">
+        <title>imv(stb)</title>
+        <url>http://code.google.com/p/stb-imv/</url>
+        <description>image viewer</description>
+        <license>org.gnu.GPLv2</license>
     </package>
     <package name="com.googlecode.stexbar.StExBar">
         <title>StExBar</title>
@@ -14410,5 +14421,47 @@ if %err% neq 0 exit %err%
     <version name="2.1.6" package="org.firebirdsql.JaybirdJava1_6">
         <url>http://downloads.sourceforge.net/project/firebird/firebird-jca-jdbc-driver/2.1.6-release-jdk16/Jaybird-2.1.6JDK_1.6.zip?ts=1322132447</url>
         <sha1>C9F4C97509560682998E76E488C542A480409952</sha1>
+    </version>
+
+    <version name="3.61" package="com.codesector.DirectFolders" type="one-file">
+        <file path=".WPM\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x
+"%setup%" /SP- /VERYSILENT /SUPPRESSMSGBOXES /NOCANCEL /NORESTART /DIR="%CD%" /SAVEINF="%CD%\.WPM\InnoSetupInfo.ini" /LOG="%CD%\.WPM\InnoSetupInstall.log"
+set err=%errorlevel%
+type .WPM\InnoSetupInstall.log
+if %err% neq 0 exit %err%
+</file>
+        <file path=".WPM\Uninstall.bat">unins000.exe /VERYSILENT /SUPPRESSMSGBOXES /NORESTART /LOG="%CD%\.WPM\InnoSetupUninstall.log"
+set err=%errorlevel%
+type .WPM\InnoSetupUninstall.log
+if %err% neq 0 exit %err%
+</file>
+        <url>http://www.teracopy.com/files/dfolders.exe</url>
+    </version>
+
+    <version name="1" package="com.googlecode.stb-imv.STBIMV">
+        <file path=".WPM\Install.bat">for /f "delims=" %%x in ('dir /b stb*') do set name=%%x
+cd "%name%" 
+for /f "delims=" %%a in ('dir /b') do (
+move "%%a" ..
+)
+cd ..
+rmdir "%name%"
+if %errorlevel% neq 0 exit %errorlevel%
+
+set KEY=com.googlecode.stb-imv.STBIMV-1
+reg add HKLM\SOFTWARE\Classes\Applications\%KEY%\shell\open /v FriendlyAppName /d "imv(stb) (1)" /f
+
+set c=\"%CD%\imv.exe\" \"%%1\"
+reg add HKLM\SOFTWARE\Classes\Applications\%KEY%\shell\open\command /d "%c%" /f
+for %%g in (bmp dib gif rle ico jpg jpeg png tif wbmp wmf emf) do reg add HKLM\SOFTWARE\Classes\.%%g\OpenWithList\%key% /f
+verify
+</file> 
+        <file path=".WPM\Uninstall.bat">set KEY=com.googlecode.stb-imv.STBIMV-1
+reg delete HKLM\SOFTWARE\Classes\Applications\%KEY% /f
+for %%g in (bmp dib gif rle ico jpg jpeg png tif wbmp wmf emf) do reg delete HKLM\SOFTWARE\Classes\.%%g\OpenWithList\%key% /f
+verify
+</file>
+        <url>http://stb-imv.googlecode.com/files/stb_imv-1.0.zip</url>
+        <sha1>d7f45b8d1ab9765baf2d122d3afcfa7f5dc2456d</sha1>
     </version>
 </root>
