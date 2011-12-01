@@ -627,6 +627,8 @@ void MainWindow::fillList()
         warning = "Use * to match any number of any characters at a word end";
     this->ui->labelWarning->setText(warning);
 
+    QSet<QString> requestedIcons;
+
     for (int i = 0; i < found.count(); i++) {
         PackageVersion* pv = found.at(i);
 
@@ -681,11 +683,12 @@ void MainWindow::fillList()
 
         Package* p = pv->getPackage();
 
-        if (!p->icon.isEmpty()) {
+        if (!p->icon.isEmpty() && !requestedIcons.contains(p->icon)) {
             FileLoaderItem it;
             it.url = p->icon;
             // qDebug() << "MainWindow::loadRepository " << it.url;
             this->fileLoader.work.append(it);
+            requestedIcons += p->icon;
         }
 
         // qDebug() << "MainWindow::loadRepository";

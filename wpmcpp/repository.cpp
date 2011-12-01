@@ -2001,5 +2001,3 @@ Repository* Repository::getDefault()
 {
     return &def;
 }
-
-
