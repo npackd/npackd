@@ -102,14 +102,6 @@ private:
     void scan(const QString& path, Job* job, int level, QStringList& ignore);
 
     /**
-     * Loads the content from the URLs. None of the packages has the information
-     * about installation path after this method was called.
-     *
-     * @param job job for this method
-     */
-    void load(Job* job);
-
-    /**
      * Adds unknown in the repository, but installed packages.
      */
     void detectPre_1_15_Packages();
