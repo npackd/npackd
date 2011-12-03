@@ -962,13 +962,16 @@ PackageVersion* Repository::findOrCreatePackageVersion(const QString &package,
 
 void Repository::clearExternallyInstalled(QString package)
 {
-    for (int i = 0; i < this->installedPackageVersions.count();) {
-        InstalledPackageVersion* ipv = this->installedPackageVersions.at(i);
-        if (ipv->external_) {
-            this->installedPackageVersions.removeAt(i);
-            delete ipv;
-        } else {
-            i++;
+    Package* p = findPackage(package);
+    if (p) {
+        for (int i = 0; i < this->installedPackageVersions.count();) {
+            InstalledPackageVersion* ipv = this->installedPackageVersions.at(i);
+            if (ipv->package_ == p && ipv->external_) {
+                this->installedPackageVersions.removeAt(i);
+                delete ipv;
+            } else {
+                i++;
+            }
         }
     }
 }
@@ -1583,23 +1586,145 @@ void Repository::scanHardDrive(Job* job)
 
 void Repository::reload(Job *job)
 {
+    QList<PackageVersion*> msw = this->getPackageVersions(
+            "com.microsoft.Windows");
+    qDebug() << "Repository::recognize " << msw.count();
+    for (int i = 0; i < msw.count(); i++) {
+        qDebug() << msw.at(i)->toString() << " " << msw.at(i)->getStatus();
+    }
+
     job->setHint("Loading repositories");
-    Job* d = job->newSubJob(0.75);
-    load(d);
-    if (!d->getErrorMessage().isEmpty())
-        job->setErrorMessage(d->getErrorMessage());
-    delete d;
+
+    this->clearPackages();
+    this->clearPackageVersions();
+
+    QList<QUrl*> urls = getRepositoryURLs();
+    QString key;
+    if (urls.count() > 0) {
+        for (int i = 0; i < urls.count(); i++) {
+            job->setHint(QString("Repository %1 of %2").arg(i + 1).
+                         arg(urls.count()));
+            Job* s = job->newSubJob(0.5 / urls.count());
+            QString sha1;
+            loadOne(urls.at(i), s, &sha1);
+            key += sha1;
+            if (!s->getErrorMessage().isEmpty()) {
+                job->setErrorMessage(QString(
+                        "Error loading the repository %1: %2").arg(
+                        urls.at(i)->toString()).arg(s->getErrorMessage()));
+                delete s;
+                break;
+            }
+            delete s;
+
+            if (job->isCancelled())
+                break;
+        }
+    } else {
+        job->setErrorMessage("No repositories defined");
+        job->setProgress(0.5);
+    }
+
+    qDeleteAll(urls);
+
+    QCryptographicHash hash(QCryptographicHash::Sha1);
+    hash.addData(key.toAscii());
+    key = hash.result().toHex().toLower();
+
+    bool indexed = false;
+    WindowsRegistry wr;
+    QString err = wr.open(HKEY_LOCAL_MACHINE,
+            "Software\\Npackd\\Npackd\\Index", false,
+            KEY_READ);
+    if (err.isEmpty()) {
+        QString storedKey = wr.get("SHA1", &err);
+        if (err.isEmpty() && key == storedKey) {
+            indexed = true;
+        }
+    }
+
+    // qDebug() << "Repository::load.3";
+
+    job->complete();
 
     addWellKnownPackages();
 
     if (!job->isCancelled() && job->getErrorMessage().isEmpty()) {
-        d = job->newSubJob(0.25);
+        Job* d = job->newSubJob(0.1);
         job->setHint("Refreshing installation statuses");
         refresh(d);
         delete d;
     }
 
+    QString fn;
+    if (!job->isCancelled() && job->getErrorMessage().isEmpty()) {
+        job->setHint("Creating index directory");
+
+        // Open the database for update, creating a new database if necessary.
+        fn = WPMUtils::getShellDir(CSIDL_LOCAL_APPDATA) +
+                "\\Npackd\\Npackd";
+        QDir dir(fn);
+        if (!dir.exists(fn)) {
+            if (!dir.mkpath(fn)) {
+                job->setErrorMessage(
+                        QString("Cannot create the directory %1").arg(fn));
+            }
+        }
+
+        job->setProgress(0.65);
+    }
+
+    if (!job->isCancelled() && job->getErrorMessage().isEmpty()) {
+        delete this->enquire;
+        delete this->queryParser;
+        delete db;
+
+        // TODO: index cannot be reopened
+        if (!indexed) {
+            // TODO: catch Xapian exceptions here
+            db = new Xapian::WritableDatabase(
+                    (fn + "\\Index").toUtf8().constData(),
+                    Xapian::DB_CREATE_OR_OVERWRITE);
+
+            Job* sub = job->newSubJob(0.35);
+            this->index(sub);
+            if (!sub->getErrorMessage().isEmpty())
+                job->setErrorMessage(sub->getErrorMessage());
+            delete sub;
+
+            WindowsRegistry wr;
+            QString err = wr.open(HKEY_LOCAL_MACHINE,
+                    "Software", false, KEY_ALL_ACCESS);
+            if (err.isEmpty()) {
+                WindowsRegistry indexReg = wr.createSubKey(
+                        "Npackd\\Npackd\\Index", &err, KEY_ALL_ACCESS);
+                if (err.isEmpty()) {
+                    indexReg.set("SHA1", key);
+                }
+            }
+        } else {
+            // TODO: catch Xapian exceptions here
+            db = new Xapian::WritableDatabase(
+                    (fn + "\\Index").toUtf8().constData(),
+                    Xapian::DB_CREATE_OR_OPEN);
+            job->setProgress(1);
+        }
+
+        this->enquire = new Xapian::Enquire(*this->db);
+        this->queryParser = new Xapian::QueryParser();
+        this->queryParser->set_database(*this->db);
+        queryParser->set_stemmer(stemmer);
+        queryParser->set_default_op(Xapian::Query::OP_AND);
+    }
+
     job->complete();
+
+    msw = this->getPackageVersions(
+            "com.microsoft.Windows");
+    qDebug() << "Repository::recognize 2 " << msw.count();
+    for (int i = 0; i < msw.count(); i++) {
+        qDebug() << msw.at(i)->toString() << " " << msw.at(i)->getStatus();
+    }
 }
 
 void Repository::refresh(Job *job)
@@ -1627,121 +1752,6 @@ void Repository::refresh(Job *job)
         job->setHint("Detecting packages installed by Npackd 1.14 or earlier (2)");
         scanPre1_15Dir(true);
         job->setProgress(1);
-    }
-
-    job->complete();
-}
-
-void Repository::load(Job* job)
-{
-    this->clearPackages();
-    this->clearPackageVersions();
-
-    QList<QUrl*> urls = getRepositoryURLs();
-    QString key;
-    if (urls.count() > 0) {
-        for (int i = 0; i < urls.count(); i++) {
-            job->setHint(QString("Repository %1 of %2").arg(i + 1).
-                         arg(urls.count()));
-            Job* s = job->newSubJob(0.9 / urls.count());
-            QString sha1;
-            loadOne(urls.at(i), s, &sha1);
-            key += sha1;
-            if (!s->getErrorMessage().isEmpty()) {
-                job->setErrorMessage(QString(
-                        "Error loading the repository %1: %2").arg(
-                        urls.at(i)->toString()).arg(s->getErrorMessage()));
-                delete s;
-                break;
-            }
-            delete s;
-
-            if (job->isCancelled())
-                break;
-        }
-    } else {
-        job->setErrorMessage("No repositories defined");
-        job->setProgress(0.9);
-    }
-
-    qDeleteAll(urls);
-
-    QCryptographicHash hash(QCryptographicHash::Sha1);
-    hash.addData(key.toAscii());
-    key = hash.result().toHex().toLower();
-
-    bool indexed = false;
-    WindowsRegistry wr;
-    QString err = wr.open(HKEY_LOCAL_MACHINE,
-            "Software\\Npackd\\Npackd\\Index", false,
-            KEY_READ);
-    if (err.isEmpty()) {
-        QString storedKey = wr.get("SHA1", &err);
-        if (err.isEmpty() && key == storedKey) {
-            indexed = true;
-        }
-    }
-
-    // qDebug() << "Repository::load.3";
-
-    QString fn;
-    if (!job->isCancelled() && job->getErrorMessage().isEmpty()) {
-        job->setHint("Creating index directory");
-
-        // Open the database for update, creating a new database if necessary.
-        fn = WPMUtils::getShellDir(CSIDL_LOCAL_APPDATA) +
-                "\\Npackd\\Npackd";
-        QDir dir(fn);
-        if (!dir.exists(fn)) {
-            if (!dir.mkpath(fn)) {
-                job->setErrorMessage(
-                        QString("Cannot create the directory %1").arg(fn));
-            }
-        }
-
-        job->setProgress(0.91);
-    }
-
-    if (!job->isCancelled() && job->getErrorMessage().isEmpty()) {
-        delete this->enquire;
-        delete this->queryParser;
-        delete db;
-
-        // TODO: index cannot be reopened
-        if (!indexed) {
-            // TODO: catch Xapian exceptions here
-            db = new Xapian::WritableDatabase(
-                    (fn + "\\Index").toUtf8().constData(),
-                    Xapian::DB_CREATE_OR_OVERWRITE);
-
-            Job* sub = job->newSubJob(0.09);
-            this->index(sub);
-            if (!sub->getErrorMessage().isEmpty())
-                job->setErrorMessage(sub->getErrorMessage());
-            delete sub;
-
-            QString err = wr.open(HKEY_LOCAL_MACHINE,
-                    "Software", false, KEY_ALL_ACCESS);
-            if (err.isEmpty()) {
-                WindowsRegistry indexReg = wr.createSubKey(
-                        "Npackd\\Npackd\\Index", &err, KEY_ALL_ACCESS);
-                if (err.isEmpty()) {
-                    indexReg.set("SHA1", key);
-                }
-            }
-        } else {
-            // TODO: catch Xapian exceptions here
-            db = new Xapian::WritableDatabase(
-                    (fn + "\\Index").toUtf8().constData(),
-                    Xapian::DB_CREATE_OR_OPEN);
-            job->setProgress(1);
-        }
-
-        this->enquire = new Xapian::Enquire(*this->db);
-        this->queryParser = new Xapian::QueryParser();
-        this->queryParser->set_database(*this->db);
-        queryParser->set_stemmer(stemmer);
-        queryParser->set_default_op(Xapian::Query::OP_AND);
     }
 
     job->complete();
