@@ -6340,7 +6340,11 @@ for %%g in (msi) do reg delete HKLM\SOFTWARE\Classes\.%%g\OpenWithList\%key% /f
         <sha1>631b5129f918b7d30247ade8bcc27908951eaea0</sha1>
     </version>
 
-    <!-- installation shows a progress dialog -->
+    <!-- 
+        - installation shows a progress dialog 
+        - the uninstallation does not remove the shortcut 
+          "ApexDC++ on the Internet" from the start menu
+    -->
     <version name="1.4.1" package="net.apexdc.ApexDCPlusPlus" type="one-file">
         <important-file path="ApexDC.exe" title="ApexDC++"/>
         <file path=".WPM\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x
@@ -6384,6 +6388,17 @@ if %err% neq 0 exit %err%
 </file>
         <url>http://downloads.sourceforge.net/project/apexdc/ApexDC%2B%2B/1.5.0/ApexDC%2B%2B_1.5.0_setup.exe?ts=1317581007</url>
         <sha1>6a02eb560b53c4ed0b2f0a4567ad1d25561b5437</sha1>
+    </version>
+    <version name="1.5.1" package="net.apexdc.ApexDCPlusPlus" type="one-file">
+        <important-file path="ApexDC.exe" title="ApexDC++"/>
+        <file path=".WPM\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x
+"%setup%" /SP- /VERYSILENT /SUPPRESSMSGBOXES /NOCANCEL /NORESTART /DIR="%CD%" /SAVEINF="%CD%\.WPM\InnoSetupInfo.ini" /LOG="%CD%\.WPM\InnoSetupInstall.log"
+set err=%errorlevel%
+type .WPM\InnoSetupInstall.log
+if %err% neq 0 exit %err%
+</file>
+        <url>http://downloads.sourceforge.net/project/apexdc/ApexDC%2B%2B/1.5.1/ApexDC%2B%2B_1.5.1_Setup.exe?ts=1322941392</url>
+        <sha1>1e0506e88059de6f9b03188dfd0cc147627dead2</sha1>
     </version>
     
     <version name="0.98.3.2" package="net.amsn-project.AMSN" type="one-file">
