@@ -3427,7 +3427,11 @@ verify
         <sha1>de0d6b794e128597b06686498afbe7c489d68d46</sha1>
     </version>
 
-    <!-- installation opens a web page in the default browser -->
+    <!-- 
+        - installation opens a web page in the default browser 
+        - since 3.0.0.2 the installation loads the rest over the web
+        - installs a Chrome extension
+    -->
     <version name="2.0.0.1" package="com.freemake.FreeVideoConverter"
             type="one-file">
         <file path=".WPM\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x
@@ -3579,6 +3583,23 @@ if %err% neq 0 exit %err%
 </file>
         <url>http://download.freemake.com/FreemakeVideoConverter_2.4.0.0.exe</url>
         <sha1>a14eec67435a324032d8c4a9dd341742f2cc54dd</sha1>
+        <dependency package="com.microsoft.DotNetRedistributable" versions="[4, 5)"/>
+    </version>
+    <version name="3.0.0.2" package="com.freemake.FreeVideoConverter"
+            type="one-file">
+        <file path=".WPM\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x
+"%setup%" /SP- /VERYSILENT /SUPPRESSMSGBOXES /NOCANCEL /NORESTART /DIR="%CD%" /SAVEINF="%CD%\.WPM\InnoSetupInfo.ini" /LOG="%CD%\.WPM\InnoSetupInstall.log"
+set err=%errorlevel%
+type .WPM\InnoSetupInstall.log
+if %err% neq 0 exit %err%
+</file>
+        <file path=".WPM\Uninstall.bat">"Freemake Video Converter\Uninstall\unins000.exe" /VERYSILENT /SUPPRESSMSGBOXES /NORESTART /LOG="%CD%\.WPM\InnoSetupUninstall.log"
+set err=%errorlevel%
+type .WPM\InnoSetupUninstall.log
+if %err% neq 0 exit %err%
+</file>
+        <url>http://download.freemake.com/VideoConverter/Online/3.0.0.2/FreemakeVideoConverterSetup.exe</url>
+        <sha1>11dba135401d94405fb56dfcada9682075b871c0</sha1>
         <dependency package="com.microsoft.DotNetRedistributable" versions="[4, 5)"/>
     </version>
 
