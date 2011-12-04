@@ -5855,6 +5855,14 @@ if %err% neq 0 exit /b %err%
         <url>http://dl.dropbox.com/u/17046326/files/org.foobar2000.Foobar2000-1.1.8.exe</url>
         <sha1>136b3a1aa05100232dd5a8b9e4d43e49aeec2fd0</sha1>
     </version>
+    <version name="1.1.10" package="org.foobar2000.Foobar2000" type="one-file">
+        <file path=".WPM\Install.bat">for /f %%x in ('dir /b *.exe') do set setup=%%x
+"%setup%" /S /D=%CD%\Prog
+</file>
+        <file path=".WPM\Uninstall.bat">Prog\uninstall.exe /S</file>
+        <url>http://dl.dropbox.com/u/17046326/files/org.foobar2000.Foobar2000-1.1.10.exe</url>
+        <sha1>107778202be979d28d5aaca1842b579e88763f4c</sha1>
+    </version>
 
     <version name="3.6" package="org.eclipse.EclipseIDEJEE">
         <file path=".WPM\Install.bat">for /f "delims=" %%x in ('dir /b eclipse*') do set name=%%x
