@@ -111,6 +111,23 @@ verify
         <sha1>d241b27a11626a5c8c5bc61d69cc350033d01a91</sha1>
         <dependency package="com.googlecode.windows-package-manager.CLU" versions="[1, 1]"/>
     </version>
+    <version name="1.16.4" package="com.googlecode.windows-package-manager.NpackdCL">
+        <file path=".WPM\Install.bat">if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
+set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.CLU" "--versions=[1, 1]"
+for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set clu=%%x
+"%clu%\clu" add-path --path "%CD%"
+verify
+</file>
+        <file path=".WPM\Uninstall.bat">if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
+set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.CLU" "--versions=[1, 1]"
+for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set clu=%%x
+"%clu%\clu" remove-path --path "%CD%"
+verify
+</file>
+        <url>http://windows-package-manager.googlecode.com/files/NpackdCL-1.16.4.zip</url>
+        <sha1>8842a0b4ceeb01238a7acd3c8426edc0c539d406</sha1>
+        <dependency package="com.googlecode.windows-package-manager.CLU" versions="[1, 1]"/>
+    </version>
 
     <version name="0.9.3.2" package="org.argolinux.sqlkit.SQLKit">
         <important-file path="sqledit.bat" title="Sqledit"/>
