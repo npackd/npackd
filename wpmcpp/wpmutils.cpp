@@ -28,10 +28,15 @@
 #include "windowsregistry.h"
 #include "mstask.h"
 
-const char* WPMUtils::NPACKD_VERSION = "1.16.4";
+const char* WPMUtils::NPACKD_VERSION = "1.17";
 
 WPMUtils::WPMUtils()
 {
+}
+
+QString WPMUtils::fromUtf8StdString(const std::string& s)
+{
+    return QString::fromUtf8(s.data(), int(s.size()));
 }
 
 void WPMUtils::createMSTask()

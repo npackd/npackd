@@ -9,6 +9,14 @@
 class Package
 {
 public:
+    /**
+     * Checks whether the specified value is a valid package name.
+     *
+     * @param a string that should be checked
+     * @return true if name is a valid package name
+     */
+    static bool isValidName(QString& name);
+
     /** name of the package like "org.buggysoft.BuggyEditor" */
     QString name;
 
@@ -30,12 +38,10 @@ public:
     Package(const QString& name, const QString& title);
 
     /**
-     * Checks whether the specified value is a valid package name.
-     *
-     * @param a string that should be checked
-     * @return true if name is a valid package name
+     * @return description that can be used for the full-text search in lower
+     *     case
      */
-    static bool isValidName(QString& name);
+    QString getFullText();
 };
 
 #endif // PACKAGE_H

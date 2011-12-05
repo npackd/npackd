@@ -50,7 +50,7 @@ bool Dependency::isInstalled()
     bool res = false;
     for (int i = 0; i < installed.count(); i++) {
         PackageVersion* pv = installed.at(i);
-        if (pv->package == this->package && pv->installed() &&
+        if (pv->getPackage()->name == this->package && pv->installed() &&
                 this->test(pv->version)) {
             res = true;
             break;
@@ -65,7 +65,8 @@ void Dependency::findAllInstalledMatches(QList<PackageVersion*>& res)
     QList<PackageVersion*> installed = r->getInstalled();
     for (int i = 0; i < installed.count(); i++) {
         PackageVersion* pv = installed.at(i);
-        if (pv->package == this->package && this->test(pv->version)) {
+        if (pv->getPackage()->name == this->package &&
+                this->test(pv->version)) {
             res.append(pv);
         }
     }
@@ -149,10 +150,12 @@ PackageVersion* Dependency::findBestMatchToInstall(
 {
     Repository* r = Repository::getDefault();
     PackageVersion* res = 0;
-    for (int i = 0; i < r->packageVersions.count(); i++) {
-        PackageVersion* pv = r->packageVersions.at(i);
-        if (pv->package == this->package && this->test(pv->version) &&
-                !pv->isExternal() && pv->download.isValid() &&
+    QList<PackageVersion*> list = r->getPackageVersions(this->package);
+    for (int i = 0; i < list.count(); i++) {
+        PackageVersion* pv = list.at(i);
+        InstalledPackageVersion* ipv = r->findInstalledPackageVersion(pv);
+        if (this->test(pv->version) &&
+                !ipv && pv->download.isValid() &&
                 !avoid.contains(pv)) {
             if (res == 0 || pv->version.compare(res->version) > 0)
                 res = pv;

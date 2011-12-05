@@ -17,6 +17,7 @@
 #include "detectfile.h"
 
 class InstallOperation;
+class Package;
 
 /**
  * One version of a package (installed or not).
@@ -27,18 +28,11 @@ private:
     static QSemaphore httpConnections;
     static QSemaphore installationScripts;
 
-    /** installation directory or "", if the package version is not installed */
-    QString ipath;
-
     /**
      * If true, this package version is locked and cannot be
      * installed/uninstalled.
      */
     volatile bool locked;
-
-    QString fullText;
-
-    bool external_;
 
     void unzip(Job* job, QString zipfile, QString outputdir);
     bool createShortcuts(const QString& dir, QString* errMsg);
@@ -48,6 +42,7 @@ private:
             const QStringList& env);
     void deleteShortcuts(const QString& dir,
             Job* job, bool menu, bool desktop, bool quickLaunch);
+
     /**
      * Deletes a directory. If something cannot be deleted, it waits and
      * tries to delete the directory again. Moves the directory to .Trash if
@@ -71,8 +66,11 @@ public:
     /** package version */
     Version version;
 
-    /** complete package name like net.sourceforge.NotepadPlusPlus */
-    QString package;
+    /**
+     * package definition. This is only a reference, the object will not be
+     * freed.
+     */
+    Package* package_;
 
     /** important files (shortcuts for these will be created in the menu) */
     QStringList importantFiles;
@@ -112,8 +110,14 @@ public:
      */
     QString msiGUID;
 
+    /** do not use */
     PackageVersion();
-    PackageVersion(const QString& package);
+
+    /**
+     * @param package package this version refers to
+     */
+    PackageVersion(Package* package);
+
     virtual ~PackageVersion();
 
     /**
@@ -133,37 +137,6 @@ public:
      *     or removed
      */
     bool isLocked() const;
-
-    /**
-     * @return this value is true for packages not installed through WPM,
-     * but detected
-     * later. Those packages cannot be uninstalled, but are used for
-     * dependencies.
-     */
-    bool isExternal() const;
-
-    /**
-     * @param e true = externally installed
-     */
-    void setExternal(bool e);
-
-    /**
-     * Loads the information about this package from the Windows registry.
-     */
-    void loadFromRegistry();
-
-    /**
-     * @return installation path or "" if the package is not installed
-     */
-    QString getPath();
-
-    /**
-     * Changes the installation path for this package. This method should only
-     * be used if the package was detected.
-     *
-     * @param path installation path
-     */
-    void setPath(const QString& path);
 
     /**
      * Renames the directory for this package to a temporary name and then
@@ -230,6 +203,11 @@ public:
     QString getPackageTitle() const;
 
     /**
+     * @return the corresponding package definition
+     */
+    Package* getPackage() const;
+
+    /**
      * @return only the last part of the package name (without a dot)
      */
     QString getShortPackageName();
@@ -282,6 +260,6 @@ public:
     QString getStatus() const;
 };
 
-Q_DECLARE_METATYPE(PackageVersion);
+Q_DECLARE_METATYPE(PackageVersion)
 
 #endif // PACKAGEVERSION_H

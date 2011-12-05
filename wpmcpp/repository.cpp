@@ -1,11 +1,16 @@
+// this include should be before all the others or gcc shows errors
+#include <xapian.h>
+
 #include <windows.h>
 #include <shlobj.h>
 
+#include <QCryptographicHash>
 #include "qtemporaryfile.h"
 #include "downloader.h"
 #include "qsettings.h"
 #include "qdom.h"
 #include "qdebug.h"
+#include "QSet"
 
 #include "repository.h"
 #include "downloader.h"
@@ -18,17 +23,131 @@
 
 Repository Repository::def;
 
-Repository::Repository(): QObject()
+Repository::Repository(): QObject(), stemmer("english")
 {
+    this->db = 0;
+    this->enquire = 0;
+    this->queryParser = 0;
     addWellKnownPackages();
+
+    indexer.set_stemmer(stemmer);
+}
+
+void Repository::index(Job* job)
+{
+    try {
+        for (int i = 0; i < getPackageVersionCount(); i++){
+            PackageVersion* pv = getPackageVersion(i);
+            Package* p = pv->getPackage();
+
+            Xapian::Document doc;
+            QString t = pv->getFullText();
+            if (p) {
+                t += " ";
+                t += p->getFullText();
+            }
+
+            std::string para = t.toUtf8().constData();
+            doc.set_data(para);
+
+            indexer.set_document(doc);
+            indexer.index_text(para);
+
+            doc.add_value(0, pv->getPackage()->name.toUtf8().constData());
+            doc.add_value(1, pv->version.getVersionString().
+                    toUtf8().constData());
+
+            // Add the document to the database.
+            db->add_document(doc);
+
+            if (i % 100 == 0) {
+                job->setProgress(0.01 + 0.9 * i / getPackageVersionCount());
+                job->setHint(QString("indexing packages (%L1)").arg(i));
+            }
+
+            if (job->isCancelled())
+                break;
+        }
+
+        // Explicitly commit so that we get to see any errors.  WritableDatabase's
+        // destructor will commit implicitly (unless we're in a transaction) but
+        // will swallow any exceptions produced.
+        job->setHint("preparing the index");
+        db->commit();
+
+        if (!job->isCancelled())
+            job->setProgress(1);
+
+        job->complete();
+    } catch (const Xapian::Error &e) {
+        job->setErrorMessage(WPMUtils::fromUtf8StdString(
+                e.get_description()));
+    }
+}
+
+QList<PackageVersion*> Repository::find(const QString& text, QString* warning)
+{
+    QList<PackageVersion*> r;
+
+    QString t = text.trimmed();
+
+    if (t.isEmpty()) {
+        if (this->packageVersions.count() > 1000) {
+            for (int i = 0; i < 1000; i++) {
+                r.append(this->packageVersions.at(i));
+            }
+            *warning = QString(
+                    "Only the first %L1 matches of about %L2 are shown").
+                    arg(1000).
+                    arg(this->packageVersions.count());
+        } else
+            r = this->packageVersions;
+    }
+
+    try {
+        Xapian::Query query = queryParser->parse_query(
+                t.toUtf8().constData(),
+                Xapian::QueryParser::FLAG_PHRASE|
+                Xapian::QueryParser::FLAG_BOOLEAN|
+                Xapian::QueryParser::FLAG_LOVEHATE|
+                Xapian::QueryParser::FLAG_WILDCARD);
+
+        enquire->set_query(query);
+        const unsigned int max = 200;
+        Xapian::MSet matches = enquire->get_mset(0, max);
+        if (matches.size() == max)
+            *warning = QString(
+                    "Only the first %L1 matches of about %L2 are shown").
+                    arg(max).
+                    arg(matches.get_matches_estimated());
+
+        Xapian::MSetIterator i;
+        for (i = matches.begin(); i != matches.end(); ++i) {
+            Xapian::Document doc = i.get_document();
+            std::string package = doc.get_value(0);
+            std::string version = doc.get_value(1);
+            QString package_ = WPMUtils::fromUtf8StdString(package);
+            QString version_ = WPMUtils::fromUtf8StdString(version);
+            Version version__;
+            if (version__.setVersion(version_)) {
+                PackageVersion* pv = this->findPackageVersion(
+                        package_, version__);
+                if (pv)
+                    r.append(pv);
+            }
+        }
+    } catch (const Xapian::Error &e) {
+        *warning = WPMUtils::fromUtf8StdString(e.get_description());
+    }
+    return r;
 }
 
 QList<PackageVersion*> Repository::getInstalled()
 {
     QList<PackageVersion*> ret;
 
-    for (int i = 0; i < packageVersions.count(); i++) {
-        PackageVersion* pv = packageVersions.at(i);
+    for (int i = 0; i < getPackageVersionCount(); i++) {
+        PackageVersion* pv = getPackageVersion(i);
         if (pv->installed()) {
             ret.append(pv);
         }
@@ -39,9 +158,14 @@ QList<PackageVersion*> Repository::getInstalled()
 
 Repository::~Repository()
 {
+    delete queryParser;
+    delete enquire;
+    delete db;
+
     qDeleteAll(this->packages);
     qDeleteAll(this->packageVersions);
     qDeleteAll(this->licenses);
+    qDeleteAll(this->installedPackageVersions);
 }
 
 PackageVersion* Repository::findNewestInstallablePackageVersion(
@@ -49,13 +173,12 @@ PackageVersion* Repository::findNewestInstallablePackageVersion(
 {
     PackageVersion* r = 0;
 
-    for (int i = 0; i < this->packageVersions.count(); i++) {
-        PackageVersion* p = this->packageVersions.at(i);
-        if (p->package == package) {
-            if (r == 0 || p->version.compare(r->version) > 0) {
-                if (p->download.isValid())
-                    r = p;
-            }
+    QList<PackageVersion*> list = this->getPackageVersions(package);
+    for (int i = 0; i < list.count(); i++) {
+        PackageVersion* p = list.at(i);
+        if (r == 0 || p->version.compare(r->version) > 0) {
+            if (p->download.isValid())
+                r = p;
         }
     }
     return r;
@@ -66,9 +189,10 @@ PackageVersion* Repository::findNewestInstalledPackageVersion(
 {
     PackageVersion* r = 0;
 
-    for (int i = 0; i < this->packageVersions.count(); i++) {
-        PackageVersion* p = this->packageVersions.at(i);
-        if (p->package == name && p->installed()) {
+    QList<PackageVersion*> list = this->getPackageVersions(name);
+    for (int i = 0; i < list.count(); i++) {
+        PackageVersion* p = list.at(i);
+        if (p->installed()) {
             if (r == 0 || p->version.compare(r->version) > 0) {
                 r = p;
             }
@@ -110,10 +234,19 @@ PackageVersion* Repository::createPackageVersion(QDomElement* e, QString* err)
 
     // qDebug() << "Repository::createPackageVersion.1" << e->attribute("package");
 
-    PackageVersion* a = new PackageVersion(
-            e->attribute("package").trimmed());
-    if (a->package.isEmpty()) {
+    QString packageName = e->attribute("package").trimmed();
+    if (packageName.isEmpty()) {
         err->append("Attribute 'package' is missing in <version>");
+    }
+
+    PackageVersion* a = 0;
+    if (err->isEmpty()) {
+        Package* package = this->findPackage(packageName);
+        if (!package) {
+            package = new Package(packageName, packageName);
+            this->addPackage(package);
+        }
+        a = new PackageVersion(package);
     }
 
     if (err->isEmpty()) {
@@ -124,7 +257,7 @@ PackageVersion* Repository::createPackageVersion(QDomElement* e, QString* err)
             if (!d.isValid() || d.isRelative() ||
                     (d.scheme() != "http" && d.scheme() != "https")) {
                 err->append(QString("Not a valid download URL for %1: %2").
-                        arg(a->package).arg(url));
+                        arg(a->getPackage()->name).arg(url));
             }
         }
     }
@@ -135,7 +268,7 @@ PackageVersion* Repository::createPackageVersion(QDomElement* e, QString* err)
             a->version.normalize();
         } else {
             err->append(QString("Not a valid version for %1: %2").
-                    arg(a->package).arg(name));
+                    arg(a->getPackage()->name).arg(name));
         }
     }
 
@@ -424,7 +557,7 @@ QList<Package*> Repository::findPackages(const QString& name)
     QList<Package*> r;
     bool shortName = name.indexOf('.') < 0;
     QString suffix = '.' + name;
-    for (int i = 0; i < this->packages.count(); i++) {
+    for (int i = 0; i < this->getPackageCount(); i++) {
         Package* p = this->packages.at(i);
         if (p->name == name) {
             r.append(p);
@@ -435,23 +568,19 @@ QList<Package*> Repository::findPackages(const QString& name)
     return r;
 }
 
-Package* Repository::findPackage(const QString& name)
+Package* Repository::findPackage(const QString& name) const
 {
-    for (int i = 0; i < this->packages.count(); i++) {
-        if (this->packages.at(i)->name == name)
-            return this->packages.at(i);
-    }
-    return 0;
+    return this->nameToPackage.value(name);
 }
 
 int Repository::countUpdates()
 {
     int r = 0;
-    for (int i = 0; i < this->packageVersions.count(); i++) {
-        PackageVersion* p = this->packageVersions.at(i);
+    for (int i = 0; i < this->getPackageVersionCount(); i++) {
+        PackageVersion* p = this->getPackageVersion(i);
         if (p->installed()) {
             PackageVersion* newest = findNewestInstallablePackageVersion(
-                    p->package);
+                    p->getPackage()->name);
             if (newest->version.compare(p->version) > 0 && !newest->installed())
                 r++;
         }
@@ -465,71 +594,71 @@ void Repository::addWellKnownPackages()
         Package* p = new Package("com.microsoft.Windows", "Windows");
         p->url = "http://www.microsoft.com/windows/";
         p->description = "Operating system";
-        this->packages.append(p);
+        addPackage(p);
     }
     if (!this->findPackage("com.microsoft.Windows32")) {
         Package* p = new Package("com.microsoft.Windows32", "Windows/32 bit");
         p->url = "http://www.microsoft.com/windows/";
         p->description = "Operating system";
-        this->packages.append(p);
+        addPackage(p);
     }
     if (!this->findPackage("com.microsoft.Windows64")) {
         Package* p = new Package("com.microsoft.Windows64", "Windows/64 bit");
         p->url = "http://www.microsoft.com/windows/";
         p->description = "Operating system";
-        this->packages.append(p);
+        addPackage(p);
     }
     if (!findPackage("com.googlecode.windows-package-manager.Npackd")) {
         Package* p = new Package("com.googlecode.windows-package-manager.Npackd",
                 "Npackd");
         p->url = "http://code.google.com/p/windows-package-manager/";
         p->description = "package manager";
-        packages.append(p);
+        addPackage(p);
     }
     if (!this->findPackage("com.oracle.JRE")) {
         Package* p = new Package("com.oracle.JRE", "JRE");
         p->url = "http://www.java.com/";
         p->description = "Java runtime";
-        this->packages.append(p);
+        addPackage(p);
     }
     if (!this->findPackage("com.oracle.JRE64")) {
         Package* p = new Package("com.oracle.JRE64", "JRE/64 bit");
         p->url = "http://www.java.com/";
         p->description = "Java runtime";
-        this->packages.append(p);
+        addPackage(p);
     }
     if (!this->findPackage("com.oracle.JDK")) {
         Package* p = new Package("com.oracle.JDK", "JDK");
         p->url = "http://www.oracle.com/technetwork/java/javase/overview/index.html";
         p->description = "Java development kit";
-        this->packages.append(p);
+        addPackage(p);
     }
     if (!this->findPackage("com.oracle.JDK64")) {
         Package* p = new Package("com.oracle.JDK64", "JDK/64 bit");
         p->url = "http://www.oracle.com/technetwork/java/javase/overview/index.html";
         p->description = "Java development kit";
-        this->packages.append(p);
+        addPackage(p);
     }
     if (!this->findPackage("com.microsoft.DotNetRedistributable")) {
         Package* p = new Package("com.microsoft.DotNetRedistributable",
                 ".NET redistributable runtime");
         p->url = "http://msdn.microsoft.com/en-us/netframework/default.aspx";
         p->description = ".NET runtime";
-        this->packages.append(p);
+        addPackage(p);
     }
     if (!this->findPackage("com.microsoft.WindowsInstaller")) {
         Package* p = new Package("com.microsoft.WindowsInstaller",
                 "Windows Installer");
         p->url = "http://msdn.microsoft.com/en-us/library/cc185688(VS.85).aspx";
         p->description = "Package manager";
-        this->packages.append(p);
+        addPackage(p);
     }
     if (!this->findPackage("com.microsoft.MSXML")) {
         Package* p = new Package("com.microsoft.MSXML",
                 "Microsoft Core XML Services (MSXML)");
         p->url = "http://www.microsoft.com/downloads/en/details.aspx?FamilyID=993c0bcf-3bcf-4009-be21-27e85e1857b1#Overview";
         p->description = "XML library";
-        this->packages.append(p);
+        addPackage(p);
     }
 }
 
@@ -641,16 +770,19 @@ void Repository::detectWindows()
     clearExternallyInstalled("com.microsoft.Windows64");
 
     PackageVersion* pv = findOrCreatePackageVersion("com.microsoft.Windows", v);
-    pv->setPath(WPMUtils::getWindowsDir());
-    pv->setExternal(true);
+    InstalledPackageVersion* ipv = new InstalledPackageVersion(
+            pv->package_, pv->version, WPMUtils::getWindowsDir(), true);
+    this->installedPackageVersions.append(ipv);
     if (WPMUtils::is64BitWindows()) {
         pv = findOrCreatePackageVersion("com.microsoft.Windows64", v);
-        pv->setPath(WPMUtils::getWindowsDir());
-        pv->setExternal(true);
+        InstalledPackageVersion* ipv = new InstalledPackageVersion(
+                pv->package_, pv->version, WPMUtils::getWindowsDir(), true);
+        this->installedPackageVersions.append(ipv);
     } else {
         pv = findOrCreatePackageVersion("com.microsoft.Windows32", v);
-        pv->setPath(WPMUtils::getWindowsDir());
-        pv->setExternal(true);
+        InstalledPackageVersion* ipv = new InstalledPackageVersion(
+                pv->package_, pv->version, WPMUtils::getWindowsDir(), true);
+        this->installedPackageVersions.append(ipv);
     }
 }
 
@@ -748,9 +880,12 @@ void Repository::detectJRE(bool w64bit)
             PackageVersion* pv = findOrCreatePackageVersion(
                     w64bit ? "com.oracle.JRE64" :
                     "com.oracle.JRE", v);
-            if (!pv->installed()) {
-                pv->setPath(path);
-                pv->setExternal(true);
+            InstalledPackageVersion* ipv =
+                    this->findInstalledPackageVersion(pv);
+            if (!ipv) {
+                ipv = new InstalledPackageVersion(pv->package_, pv->version,
+                        path, true);
+                this->installedPackageVersions.append(ipv);
             }
         }
     }
@@ -794,9 +929,12 @@ void Repository::detectJDK(bool w64bit)
 
                 PackageVersion* pv = findOrCreatePackageVersion(
                         p, v);
-                if (!pv->installed()) {
-                    pv->setPath(path);
-                    pv->setExternal(true);
+                InstalledPackageVersion* ipv =
+                        this->findInstalledPackageVersion(pv);
+                if (!ipv) {
+                    ipv = new InstalledPackageVersion(pv->package_, pv->version,
+                            path, true);
+                    this->installedPackageVersions.append(ipv);
                 }
             }
         }
@@ -808,21 +946,42 @@ PackageVersion* Repository::findOrCreatePackageVersion(const QString &package,
 {
     PackageVersion* pv = findPackageVersion(package, v);
     if (!pv) {
-        pv = new PackageVersion(package);
+        Package* p = findPackage(package);
+        if (!p) {
+            p = new Package(package, package);
+            this->addPackage(p);
+        }
+
+        pv = new PackageVersion(p);
         pv->version = v;
         pv->version.normalize();
-        this->packageVersions.append(pv);
+        this->addPackageVersion(pv);
     }
     return pv;
 }
 
 void Repository::clearExternallyInstalled(QString package)
 {
-    for (int i = 0; i < this->packageVersions.count(); i++) {
-        PackageVersion* pv = this->packageVersions.at(i);
-        if (pv->isExternal() && pv->package == package) {
-            pv->setPath("");
+    Package* p = findPackage(package);
+    if (p) {
+        for (int i = 0; i < this->installedPackageVersions.count();) {
+            InstalledPackageVersion* ipv = this->installedPackageVersions.at(i);
+            if (ipv->package_ == p && ipv->external_) {
+                this->installedPackageVersions.removeAt(i);
+                delete ipv;
+            } else {
+                i++;
+            }
         }
+    }
+}
+
+void Repository::removeInstalledPackageVersion(PackageVersion* pv)
+{
+    InstalledPackageVersion* ipv = findInstalledPackageVersion(pv);
+    if (ipv) {
+        this->installedPackageVersions.removeOne(ipv);
+        delete ipv;
     }
 }
 
@@ -865,9 +1024,11 @@ void Repository::detectOneDotNet(const WindowsRegistry& wr,
 
     if (found) {
         PackageVersion* pv = findOrCreatePackageVersion(packageName, v);
-        if (!pv->installed()) {
-            pv->setPath(WPMUtils::getWindowsDir());
-            pv->setExternal(true);
+        InstalledPackageVersion* ipv = findInstalledPackageVersion(pv);
+        if (!ipv) {
+            ipv = new InstalledPackageVersion(pv->package_, pv->version,
+                    WPMUtils::getWindowsDir(), true);
+            this->installedPackageVersions.append(ipv);
         }
     }
 }
@@ -877,24 +1038,31 @@ void Repository::detectMSIProducts()
     QStringList all = WPMUtils::findInstalledMSIProducts();
     // qDebug() << all.at(0);
 
-    for (int i = 0; i < this->packageVersions.count(); i++) {
-        PackageVersion* pv = this->packageVersions.at(i);
+    for (int i = 0; i < this->getPackageVersionCount(); i++) {
+        PackageVersion* pv = this->getPackageVersion(i);
         if (pv->msiGUID.length() == 38) {
             // qDebug() << pv->msiGUID;
             if (all.contains(pv->msiGUID)) {
                 // qDebug() << pv->toString();
-                if (!pv->installed() || pv->isExternal()) {
+                InstalledPackageVersion* ipv = findInstalledPackageVersion(pv);
+                if (!ipv || ipv->external_) {
                     QString err;
                     QString p = WPMUtils::getMSIProductLocation(
                             pv->msiGUID, &err);
                     if (p.isEmpty() || !err.isEmpty())
                         p = WPMUtils::getWindowsDir();
 
-                    pv->setPath(p);
-                    pv->setExternal(true);
+                    if (!ipv) {
+                        ipv = new InstalledPackageVersion(pv->package_,
+                                pv->version, p, true);
+                        this->installedPackageVersions.append(ipv);
+                    } else {
+                        ipv->ipath = p;
+                        ipv->external_ = true;
+                    }
                 }
             } else {
-                pv->setPath("");
+                removeInstalledPackageVersion(pv);
             }
         }
     }
@@ -936,9 +1104,11 @@ void Repository::detectMicrosoftInstaller()
     if (v.compare(nullNull) > 0) {
         PackageVersion* pv = findOrCreatePackageVersion(
                 "com.microsoft.WindowsInstaller", v);
-        if (!pv->installed()) {
-            pv->setPath(WPMUtils::getWindowsDir());
-            pv->setExternal(true);
+        InstalledPackageVersion* ipv = findInstalledPackageVersion(pv);
+        if (!ipv) {
+            ipv = new InstalledPackageVersion(pv->package_, pv->version,
+                    WPMUtils::getWindowsDir(), true);
+            this->installedPackageVersions.append(ipv);
         }
     }
 }
@@ -952,18 +1122,22 @@ void Repository::detectMSXML()
     if (v.compare(nullNull) > 0) {
         PackageVersion* pv = findOrCreatePackageVersion(
                 "com.microsoft.MSXML", v);
-        if (!pv->installed()) {
-            pv->setPath(WPMUtils::getWindowsDir());
-            pv->setExternal(true);
+        InstalledPackageVersion* ipv = findInstalledPackageVersion(pv);
+        if (!ipv) {
+            ipv = new InstalledPackageVersion(pv->package_, pv->version,
+                    WPMUtils::getWindowsDir(), true);
+            this->installedPackageVersions.append(ipv);
         }
     }
     v = WPMUtils::getDLLVersion("msxml2.dll");
     if (v.compare(nullNull) > 0) {
         PackageVersion* pv = findOrCreatePackageVersion(
                 "com.microsoft.MSXML", v);
-        if (!pv->installed()) {
-            pv->setPath(WPMUtils::getWindowsDir());
-            pv->setExternal(true);
+        InstalledPackageVersion* ipv = findInstalledPackageVersion(pv);
+        if (!ipv) {
+            ipv = new InstalledPackageVersion(pv->package_, pv->version,
+                    WPMUtils::getWindowsDir(), true);
+            this->installedPackageVersions.append(ipv);
         }
     }
     v = WPMUtils::getDLLVersion("msxml3.dll");
@@ -971,53 +1145,103 @@ void Repository::detectMSXML()
         v.prepend(3);
         PackageVersion* pv = findOrCreatePackageVersion(
                 "com.microsoft.MSXML", v);
-        if (!pv->installed()) {
-            pv->setPath(WPMUtils::getWindowsDir());
-            pv->setExternal(true);
+        InstalledPackageVersion* ipv = findInstalledPackageVersion(pv);
+        if (!ipv) {
+            ipv = new InstalledPackageVersion(pv->package_, pv->version,
+                    WPMUtils::getWindowsDir(), true);
+            this->installedPackageVersions.append(ipv);
         }
     }
     v = WPMUtils::getDLLVersion("msxml4.dll");
     if (v.compare(nullNull) > 0) {
         PackageVersion* pv = findOrCreatePackageVersion(
                 "com.microsoft.MSXML", v);
-        if (!pv->installed()) {
-            pv->setPath(WPMUtils::getWindowsDir());
-            pv->setExternal(true);
+        InstalledPackageVersion* ipv = findInstalledPackageVersion(pv);
+        if (!ipv) {
+            ipv = new InstalledPackageVersion(pv->package_, pv->version,
+                    WPMUtils::getWindowsDir(), true);
+            this->installedPackageVersions.append(ipv);
         }
     }
     v = WPMUtils::getDLLVersion("msxml5.dll");
     if (v.compare(nullNull) > 0) {
         PackageVersion* pv = findOrCreatePackageVersion(
                 "com.microsoft.MSXML", v);
-        if (!pv->installed()) {
-            pv->setPath(WPMUtils::getWindowsDir());
-            pv->setExternal(true);
+        InstalledPackageVersion* ipv = findInstalledPackageVersion(pv);
+        if (!ipv) {
+            ipv = new InstalledPackageVersion(pv->package_, pv->version,
+                    WPMUtils::getWindowsDir(), true);
+            this->installedPackageVersions.append(ipv);
         }
     }
     v = WPMUtils::getDLLVersion("msxml6.dll");
     if (v.compare(nullNull) > 0) {
         PackageVersion* pv = findOrCreatePackageVersion(
                 "com.microsoft.MSXML", v);
-        if (!pv->installed()) {
-            pv->setPath(WPMUtils::getWindowsDir());
-            pv->setExternal(true);
+        InstalledPackageVersion* ipv = findInstalledPackageVersion(pv);
+        if (!ipv) {
+            ipv = new InstalledPackageVersion(pv->package_, pv->version,
+                    WPMUtils::getWindowsDir(), true);
+            this->installedPackageVersions.append(ipv);
         }
     }
 }
 
 PackageVersion* Repository::findPackageVersion(const QString& package,
-        const Version& version)
+        const Version& version) const
 {
     PackageVersion* r = 0;
 
-    for (int i = 0; i < this->packageVersions.count(); i++) {
-        PackageVersion* p = this->packageVersions.at(i);
-        if (p->package == package && p->version.compare(version) == 0) {
+    QList<PackageVersion*> list = this->getPackageVersions(package);
+    for (int i = 0; i < list.count(); i++) {
+        PackageVersion* p = list.at(i);
+        if (p->version.compare(version) == 0) {
             r = p;
             break;
         }
     }
     return r;
+}
+
+QString Repository::writeTo(const QString& filename) const
+{
+    QString r;
+
+    QDomDocument doc;
+    QDomElement root = doc.createElement("root");
+    doc.appendChild(root);
+
+    XMLUtils::addTextTag(root, "spec-version", "3");
+
+    for (int i = 0; i < getPackageCount(); i++) {
+        Package* p = packages.at(i);
+        QDomElement package = doc.createElement("package");
+        package.setAttribute("name", p->name);
+        XMLUtils::addTextTag(package, "title", p->title);
+        if (!p->description.isEmpty())
+            XMLUtils::addTextTag(package, "description", p->description);
+        root.appendChild(package);
+    }
+
+    for (int i = 0; i < getPackageVersionCount(); i++) {
+        PackageVersion* pv = getPackageVersion(i);
+        QDomElement version = doc.createElement("version");
+        version.setAttribute("name", pv->version.getVersionString());
+        version.setAttribute("package", pv->getPackage()->name);
+        if (pv->download.isValid())
+            XMLUtils::addTextTag(version, "url", pv->download.toString());
+        root.appendChild(version);
+    }
+
+    QFile file(filename);
+    if (file.open(QIODevice::WriteOnly)) {
+        QTextStream s(&file);
+        doc.save(s, 4);
+    } else {
+        r = QString("Cannot open %1 for writing").arg(filename);
+    }
+
+    return "";
 }
 
 void Repository::process(Job *job, const QList<InstallOperation *> &install)
@@ -1113,8 +1337,10 @@ QString Repository::computeNpackdCLEnvVar()
     QString v;
     PackageVersion* pv = findNewestInstalledPackageVersion(
             "com.googlecode.windows-package-manager.NpackdCL");
-    if (pv)
-        v = pv->getPath();
+    if (pv) {
+        InstalledPackageVersion* ipv = findInstalledPackageVersion(pv);
+        v = ipv->ipath;
+    }
 
     return v;
 }
@@ -1150,8 +1376,23 @@ void Repository::detectPre_1_15_Packages()
     }
 }
 
+int Repository::getPackageCount() const {
+    return this->packages.count();
+}
+
+int Repository::getPackageVersionCount() const {
+    return this->packageVersions.count();
+}
+
+PackageVersion* Repository::getPackageVersion(int i) const {
+    return this->packageVersions.at(i);
+}
+
 void Repository::readRegistryDatabase()
 {
+    qDeleteAll(this->installedPackageVersions);
+    this->installedPackageVersions.clear();
+
     WindowsRegistry machineWR(HKEY_LOCAL_MACHINE, false, KEY_READ);
 
     QString err;
@@ -1171,12 +1412,67 @@ void Repository::readRegistryDatabase()
                     if (version.setVersion(versionName)) {
                         PackageVersion* pv = findOrCreatePackageVersion(
                                 packageName, version);
-                        pv->loadFromRegistry();
+                        loadInstallationInfoFromRegistry(pv->package_,
+                                pv->version);
                     }
                 }
             }
         }
     }
+}
+
+void Repository::loadInstallationInfoFromRegistry(Package* package,
+        const Version& version)
+{
+    WindowsRegistry entryWR;
+    QString err = entryWR.open(HKEY_LOCAL_MACHINE,
+            "SOFTWARE\\Npackd\\Npackd\\Packages\\" +
+            package->name + "-" + version.getVersionString(),
+            false, KEY_READ);
+    if (!err.isEmpty())
+        return;
+
+    QString p = entryWR.get("Path", &err).trimmed();
+    if (!err.isEmpty())
+        return;
+
+    DWORD external = entryWR.getDWORD("External", &err);
+    if (!err.isEmpty())
+        external = 1;
+
+    QString ipath;
+    if (p.isEmpty())
+        ipath = "";
+    else {
+        QDir d(p);
+        if (d.exists()) {
+            ipath = p;
+        } else {
+            ipath = "";
+        }
+    }
+
+    if (!ipath.isEmpty()) {
+        InstalledPackageVersion* ipv = new InstalledPackageVersion(package,
+                version, ipath, external != 0);
+        this->installedPackageVersions.append(ipv);
+    }
+
+    // TODO: emitStatusChanged();
+}
+
+InstalledPackageVersion* Repository::findInstalledPackageVersion(
+        const PackageVersion* pv)
+{
+    InstalledPackageVersion* r = 0;
+    for (int i = 0; i < this->installedPackageVersions.count(); i++) {
+        InstalledPackageVersion* ipv = this->installedPackageVersions.at(i);
+        if (ipv->package_ == pv->package_ && ipv->version == pv->version) {
+            r = ipv;
+            break;
+        }
+    }
+    return r;
 }
 
 void Repository::scan(const QString& path, Job* job, int level,
@@ -1189,12 +1485,13 @@ void Repository::scan(const QString& path, Job* job, int level,
 
     QMap<QString, QString> path2sha1;
 
-    for (int i = 0; i < this->packageVersions.count(); i++) {
+    for (int i = 0; i < this->getPackageVersionCount(); i++) {
         if (job && job->isCancelled())
             break;
 
-        PackageVersion* pv = this->packageVersions.at(i);
-        if (!pv->installed() && pv->detectFiles.count() > 0) {
+        PackageVersion* pv = this->getPackageVersion(i);
+        InstalledPackageVersion* ipv = this->findInstalledPackageVersion(pv);
+        if (!ipv && pv->detectFiles.count() > 0) {
             boolean ok = true;
             for (int j = 0; j < pv->detectFiles.count(); j++) {
                 bool fileOK = false;
@@ -1220,8 +1517,9 @@ void Repository::scan(const QString& path, Job* job, int level,
             }
 
             if (ok) {
-                pv->setPath(path);
-                pv->setExternal(true);
+                ipv = new InstalledPackageVersion(pv->package_, pv->version,
+                        path, true);
+                this->installedPackageVersions.append(ipv);
                 return;
             }
         }
@@ -1288,23 +1586,149 @@ void Repository::scanHardDrive(Job* job)
 
 void Repository::reload(Job *job)
 {
+    /* debugging
+    QList<PackageVersion*> msw = this->getPackageVersions(
+            "com.microsoft.Windows");
+    qDebug() << "Repository::recognize " << msw.count();
+    for (int i = 0; i < msw.count(); i++) {
+        qDebug() << msw.at(i)->toString() << " " << msw.at(i)->getStatus();
+    }
+    */
+
     job->setHint("Loading repositories");
-    Job* d = job->newSubJob(0.75);
-    load(d);
-    if (!d->getErrorMessage().isEmpty())
-        job->setErrorMessage(d->getErrorMessage());
-    delete d;
+
+    this->clearPackages();
+    this->clearPackageVersions();
+
+    QList<QUrl*> urls = getRepositoryURLs();
+    QString key;
+    if (urls.count() > 0) {
+        for (int i = 0; i < urls.count(); i++) {
+            job->setHint(QString("Repository %1 of %2").arg(i + 1).
+                         arg(urls.count()));
+            Job* s = job->newSubJob(0.5 / urls.count());
+            QString sha1;
+            loadOne(urls.at(i), s, &sha1);
+            key += sha1;
+            if (!s->getErrorMessage().isEmpty()) {
+                job->setErrorMessage(QString(
+                        "Error loading the repository %1: %2").arg(
+                        urls.at(i)->toString()).arg(s->getErrorMessage()));
+                delete s;
+                break;
+            }
+            delete s;
+
+            if (job->isCancelled())
+                break;
+        }
+    } else {
+        job->setErrorMessage("No repositories defined");
+        job->setProgress(0.5);
+    }
+
+    qDeleteAll(urls);
+
+    QCryptographicHash hash(QCryptographicHash::Sha1);
+    hash.addData(key.toAscii());
+    key = hash.result().toHex().toLower();
+
+    bool indexed = false;
+    WindowsRegistry wr;
+    QString err = wr.open(HKEY_LOCAL_MACHINE,
+            "Software\\Npackd\\Npackd\\Index", false,
+            KEY_READ);
+    if (err.isEmpty()) {
+        QString storedKey = wr.get("SHA1", &err);
+        if (err.isEmpty() && key == storedKey) {
+            indexed = true;
+        }
+    }
+
+    // qDebug() << "Repository::load.3";
+
+    job->complete();
 
     addWellKnownPackages();
 
     if (!job->isCancelled() && job->getErrorMessage().isEmpty()) {
-        d = job->newSubJob(0.25);
+        Job* d = job->newSubJob(0.1);
         job->setHint("Refreshing installation statuses");
         refresh(d);
         delete d;
     }
 
+    QString fn;
+    if (!job->isCancelled() && job->getErrorMessage().isEmpty()) {
+        job->setHint("Creating index directory");
+
+        // Open the database for update, creating a new database if necessary.
+        fn = WPMUtils::getShellDir(CSIDL_LOCAL_APPDATA) +
+                "\\Npackd\\Npackd";
+        QDir dir(fn);
+        if (!dir.exists(fn)) {
+            if (!dir.mkpath(fn)) {
+                job->setErrorMessage(
+                        QString("Cannot create the directory %1").arg(fn));
+            }
+        }
+
+        job->setProgress(0.65);
+    }
+
+    if (!job->isCancelled() && job->getErrorMessage().isEmpty()) {
+        delete this->enquire;
+        delete this->queryParser;
+        delete db;
+
+        // TODO: index cannot be reopened
+        if (!indexed) {
+            // TODO: catch Xapian exceptions here
+            db = new Xapian::WritableDatabase(
+                    (fn + "\\Index").toUtf8().constData(),
+                    Xapian::DB_CREATE_OR_OVERWRITE);
+
+            Job* sub = job->newSubJob(0.35);
+            this->index(sub);
+            if (!sub->getErrorMessage().isEmpty())
+                job->setErrorMessage(sub->getErrorMessage());
+            delete sub;
+
+            WindowsRegistry wr;
+            QString err = wr.open(HKEY_LOCAL_MACHINE,
+                    "Software", false, KEY_ALL_ACCESS);
+            if (err.isEmpty()) {
+                WindowsRegistry indexReg = wr.createSubKey(
+                        "Npackd\\Npackd\\Index", &err, KEY_ALL_ACCESS);
+                if (err.isEmpty()) {
+                    indexReg.set("SHA1", key);
+                }
+            }
+        } else {
+            // TODO: catch Xapian exceptions here
+            db = new Xapian::WritableDatabase(
+                    (fn + "\\Index").toUtf8().constData(),
+                    Xapian::DB_CREATE_OR_OPEN);
+            job->setProgress(1);
+        }
+
+        this->enquire = new Xapian::Enquire(*this->db);
+        this->queryParser = new Xapian::QueryParser();
+        this->queryParser->set_database(*this->db);
+        queryParser->set_stemmer(stemmer);
+        queryParser->set_default_op(Xapian::Query::OP_AND);
+    }
+
     job->complete();
+
+    /* debugging
+    msw = this->getPackageVersions(
+            "com.microsoft.Windows");
+    qDebug() << "Repository::recognize 2 " << msw.count();
+    for (int i = 0; i < msw.count(); i++) {
+        qDebug() << msw.at(i)->toString() << " " << msw.at(i)->getStatus();
+    }
+    */
 }
 
 void Repository::refresh(Job *job)
@@ -1337,53 +1761,13 @@ void Repository::refresh(Job *job)
     job->complete();
 }
 
-void Repository::load(Job* job)
-{
-    qDeleteAll(this->packages);
-    this->packages.clear();
-    qDeleteAll(this->packageVersions);
-    this->packageVersions.clear();
-
-    QList<QUrl*> urls = getRepositoryURLs();
-    if (urls.count() > 0) {
-        for (int i = 0; i < urls.count(); i++) {
-            job->setHint(QString("Repository %1 of %2").arg(i + 1).
-                         arg(urls.count()));
-            Job* s = job->newSubJob(0.9 / urls.count());
-            loadOne(urls.at(i), s);
-            if (!s->getErrorMessage().isEmpty()) {
-                job->setErrorMessage(QString(
-                        "Error loading the repository %1: %2").arg(
-                        urls.at(i)->toString()).arg(
-                        s->getErrorMessage()));
-                delete s;
-                break;
-            }
-            delete s;
-
-            if (job->isCancelled())
-                break;
-        }
-    } else {
-        job->setErrorMessage("No repositories defined");
-        job->setProgress(0.9);
-    }
-
-    // qDebug() << "Repository::load.3";
-
-    qDeleteAll(urls);
-    urls.clear();
-
-    job->complete();
-}
-
-void Repository::loadOne(QUrl* url, Job* job) {
+void Repository::loadOne(QUrl* url, Job* job, QString* sha1) {
     job->setHint("Downloading");
 
     QTemporaryFile* f = 0;
     if (job->getErrorMessage().isEmpty() && !job->isCancelled()) {
         Job* djob = job->newSubJob(0.90);
-        f = Downloader::download(djob, *url);
+        f = Downloader::download(djob, *url, sha1, true);
         if (!djob->getErrorMessage().isEmpty())
             job->setErrorMessage(QString("Download failed: %2").
                     arg(djob->getErrorMessage()));
@@ -1418,6 +1802,32 @@ void Repository::loadOne(QUrl* url, Job* job) {
     job->complete();
 }
 
+void Repository::addPackage(Package* p) {
+    this->packages.append(p);
+    this->nameToPackage.insert(p->name, p);
+}
+
+QList<PackageVersion*> Repository::getPackageVersions(QString package) const {
+    return this->nameToPackageVersion.values(package);
+}
+
+void Repository::addPackageVersion(PackageVersion* pv) {
+    this->packageVersions.append(pv);
+    this->nameToPackageVersion.insert(pv->getPackage()->name, pv);
+}
+
+void Repository::clearPackages() {
+    qDeleteAll(this->packages);
+    this->packages.clear();
+    this->nameToPackage.clear();
+}
+
+void Repository::clearPackageVersions() {
+    qDeleteAll(this->packageVersions);
+    this->packageVersions.clear();
+    this->nameToPackageVersion.clear();
+}
+
 void Repository::loadOne(QDomDocument* doc, Job* job)
 {
     QDomElement root;
@@ -1450,37 +1860,52 @@ void Repository::loadOne(QDomDocument* doc, Job* job)
                 n = n.nextSibling()) {
             if (n.isElement()) {
                 QDomElement e = n.toElement();
-                if (e.nodeName() == "version") {
-                    QString err;
-                    PackageVersion* pv = createPackageVersion(&e, &err);
-                    if (pv) {
-                        if (this->findPackageVersion(pv->package, pv->version))
-                            delete pv;
-                        else {
-                            this->packageVersions.append(pv);
-                        }
-                    } else {
-                        job->setErrorMessage(err);
-                        break;
-                    }
-                } else if (e.nodeName() == "package") {
+                if (e.nodeName() == "license") {
+                    License* p = createLicense(&e);
+                    if (this->findLicense(p->name))
+                        delete p;
+                    else
+                        this->licenses.append(p);
+                }
+            }
+        }
+        for (QDomNode n = root.firstChild(); !n.isNull();
+                n = n.nextSibling()) {
+            if (n.isElement()) {
+                QDomElement e = n.toElement();
+                if (e.nodeName() == "package") {
                     QString err;
                     Package* p = createPackage(&e, &err);
                     if (p) {
                         if (this->findPackage(p->name))
                             delete p;
                         else
-                            this->packages.append(p);
+                           this->addPackage(p);
                     } else {
                         job->setErrorMessage(err);
                         break;
                     }
-                } else if (e.nodeName() == "license") {
-                    License* p = createLicense(&e);
-                    if (this->findLicense(p->name))
-                        delete p;
-                    else
-                        this->licenses.append(p);
+                }
+            }
+        }
+        for (QDomNode n = root.firstChild(); !n.isNull();
+                n = n.nextSibling()) {
+            if (n.isElement()) {
+                QDomElement e = n.toElement();
+                if (e.nodeName() == "version") {
+                    QString err;
+                    PackageVersion* pv = createPackageVersion(&e, &err);
+                    if (pv) {
+                        if (this->findPackageVersion(pv->getPackage()->name,
+                                pv->version))
+                            delete pv;
+                        else {
+                            this->addPackageVersion(pv);
+                        }
+                    } else {
+                        job->setErrorMessage(err);
+                        break;
+                    }
                 }
             }
         }
@@ -1498,8 +1923,8 @@ void Repository::fireStatusChanged(PackageVersion *pv)
 PackageVersion* Repository::findLockedPackageVersion() const
 {
     PackageVersion* r = 0;
-    for (int i = 0; i < packageVersions.size(); i++) {
-        PackageVersion* pv = packageVersions.at(i);
+    for (int i = 0; i < getPackageVersionCount(); i++) {
+        PackageVersion* pv = getPackageVersion(i);
         if (pv->isLocked()) {
             r = pv;
             break;
@@ -1511,32 +1936,54 @@ PackageVersion* Repository::findLockedPackageVersion() const
 QList<QUrl*> Repository::getRepositoryURLs()
 {
     QList<QUrl*> r;
-    QSettings s1("Npackd", "Npackd");
-    int size = s1.beginReadArray("repositories");
-    for (int i = 0; i < size; ++i) {
-        s1.setArrayIndex(i);
-        QString v = s1.value("repository").toString();
-        r.append(new QUrl(v));
-    }
-    s1.endArray();
 
-    if (size == 0) {
-        QSettings s("WPM", "Windows Package Manager");
-
-        int size = s.beginReadArray("repositories");
-        for (int i = 0; i < size; ++i) {
-            s.setArrayIndex(i);
-            QString v = s.value("repository").toString();
-            r.append(new QUrl(v));
-        }
-        s.endArray();
-
-        if (size == 0) {
-            QString v = s.value("repository", "").toString();
-            if (v != "") {
-                r.append(new QUrl(v));
+    WindowsRegistry wr;
+    if (wr.open(HKEY_LOCAL_MACHINE,
+            "Software\\Npackd\\Npackd\\Reps", false, KEY_READ).isEmpty()) {
+        QString err;
+        int count = wr.getDWORD("Count", &err);
+        if (err.isEmpty()) {
+            for (int i = 0; i < count; i++) {
+                WindowsRegistry wr2;
+                if (wr2.open(wr, QString("%1").arg(i)).isEmpty()) {
+                    QString url = wr2.get("URL", &err);
+                    if (err.isEmpty()) {
+                        r.append(new QUrl(url));
+                    }
+                }
             }
         }
+    } else {
+        if (r.size() == 0) {
+            QSettings s1("Npackd", "Npackd");
+            int size = s1.beginReadArray("repositories");
+            for (int i = 0; i < size; ++i) {
+                s1.setArrayIndex(i);
+                QString v = s1.value("repository").toString();
+                r.append(new QUrl(v));
+            }
+            s1.endArray();
+        }
+
+        if (r.size() == 0) {
+            QSettings s("WPM", "Windows Package Manager");
+
+            int size = s.beginReadArray("repositories");
+            for (int i = 0; i < size; ++i) {
+                s.setArrayIndex(i);
+                QString v = s.value("repository").toString();
+                r.append(new QUrl(v));
+            }
+            s.endArray();
+
+            if (size == 0) {
+                QString v = s.value("repository", "").toString();
+                if (v != "") {
+                    r.append(new QUrl(v));
+                }
+            }
+        }
+
         setRepositoryURLs(r);
     }
     
@@ -1545,18 +1992,26 @@ QList<QUrl*> Repository::getRepositoryURLs()
 
 void Repository::setRepositoryURLs(QList<QUrl*>& urls)
 {
-    QSettings s("Npackd", "Npackd");
-    s.beginWriteArray("repositories", urls.count());
-    for (int i = 0; i < urls.count(); ++i) {
-        s.setArrayIndex(i);
-        s.setValue("repository", urls.at(i)->toString());
+    WindowsRegistry wr;
+    if (wr.open(HKEY_LOCAL_MACHINE, "Software", false).isEmpty()) {
+        QString err;
+        WindowsRegistry wr2 = wr.createSubKey("Npackd\\Npackd\\Reps", &err);
+        if (err.isEmpty()) {
+            err = wr2.setDWORD("Count", urls.count());
+            if (err.isEmpty()) {
+                for (int i = 0; i < urls.count(); i++) {
+                    WindowsRegistry wr3 = wr2.createSubKey(
+                            QString("%1").arg(i), &err);
+                    if (err.isEmpty()) {
+                        wr3.set("URL", urls.at(i)->toString());
+                    }
+                }
+            }
+        }
     }
-    s.endArray();
 }
 
 Repository* Repository::getDefault()
 {
     return &def;
 }
-
-

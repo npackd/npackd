@@ -4,6 +4,8 @@
 #include "app.h"
 #include "..\wpmcpp\wpmutils.h"
 #include "..\wpmcpp\commandline.h"
+#include "..\wpmcpp\downloader.h"
+#include "..\wpmcpp\xmlutils.h"
 
 void App::jobChanged(const JobState& s)
 {
@@ -181,9 +183,11 @@ void App::addNpackdCL()
     PackageVersion* pv = r->findOrCreatePackageVersion(
             "com.googlecode.windows-package-manager.NpackdCL",
             Version(WPMUtils::NPACKD_VERSION));
-    if (!pv->installed()) {
-        pv->setPath(WPMUtils::getExeDir());
-        pv->setExternal(true);
+    InstalledPackageVersion* ipv = r->findInstalledPackageVersion(pv);
+    if (!ipv) {
+        InstalledPackageVersion* ipv = new InstalledPackageVersion(
+                pv->package_, pv->version, WPMUtils::getExeDir(), true);
+        r->installedPackageVersions.append(ipv);
         r->updateNpackdCLEnvVar();
     }
 }
@@ -252,6 +256,149 @@ void App::usage()
     }
 }
 
+Repository* App::convertMavenRepository(Job* job,
+        QDomDocument& archetypeCatalog) {
+    Repository* result = new Repository();
+
+    QString rootUrl = "http://mirrors.ibiblio.org/pub/mirrors/maven2";
+
+    // http://maven.apache.org/archetype/maven-archetype-plugin/specification/archetype-catalog.html
+    QDomElement root = archetypeCatalog.documentElement();
+    QDomNodeList archetypes = root.elementsByTagName("archetypes");
+    if (archetypes.count() != 0) {
+        QDomNodeList archetype =
+                archetypes.at(0).toElement().elementsByTagName("archetype");
+        for (int i = 0; i < archetype.count(); i++) {
+            QDomElement archetypeItem = archetype.at(i).toElement();
+            QString groupId = XMLUtils::getTagContent(archetypeItem,
+                    "groupId");
+            QString artifactId = XMLUtils::getTagContent(archetypeItem,
+                    "artifactId");
+            QString version = XMLUtils::getTagContent(archetypeItem,
+                    "version");
+            QString repository = XMLUtils::getTagContent(archetypeItem,
+                    "repository");
+            QString description = XMLUtils::getTagContent(archetypeItem,
+                    "description");
+
+            if (repository.isNull()) {
+                QString package = groupId + "." + artifactId;
+                package.replace('-', '.');
+
+                Package* p = result->findPackage(package);
+                if (p == 0) {
+                    QString title = artifactId;
+                    title.replace('-', ' ');
+                    title.replace('_', ' ');
+                    p = new Package(package, title);
+                    result->addPackage(p);
+                }
+                if (p->description.isEmpty())
+                    p->description = description;
+
+                QString groupId2 = groupId;
+                groupId2.replace('.', '/');
+
+                QString url = rootUrl + "/" + groupId2 +
+                        "/" + artifactId + "/" +
+                        version + "/" + artifactId + "-" + version + ".jar";
+
+                PackageVersion* pv = new PackageVersion(package);
+                pv->version.setVersion(version);
+                pv->download.setUrl(url);
+                result->addPackageVersion(pv);
+            }
+
+            job->setProgress(1.0 / (i + 1));
+        }
+
+        job->setProgress(1);
+    } else {
+        job->setErrorMessage("archetypes element not found");
+    }
+
+    job->complete();
+
+    return result;
+}
+
+int App::convertMaven()
+{
+    Job* job = createJob();
+
+    // Nexus REST API
+    // https://repository.apache.org/service/local/data_index/repositories/releases/content?q=commons-lang
+    // http://www.martinahrer.at/2010/05/25/using-nexus-and-the-nexus-rest-api-for-implementing-a-software-update-tool/
+    // http://docs.codehaus.org/display/MAVENUSER/Maven+Repository+Manager+Feature+Matrix
+    // https://docs.sonatype.com/display/SPRTNXOSS/Nexus+FAQ
+    // https://repository.sonatype.org/nexus-core-documentation-plugin/core/docs/rest.artifact.maven.redirect.html
+    // https://github.com/cstamas/maven-indexer-examples
+
+    job->setHint("Downloading archetype-catalog.xml");
+    Job* sub = job->newSubJob(0.5);
+    QTemporaryFile* f = Downloader::download(sub, QUrl(
+            "http://mirrors.ibiblio.org/pub/mirrors/maven2/archetype-catalog.xml"));
+    if (!sub->getErrorMessage().isEmpty()) {
+        job->setErrorMessage(sub->getErrorMessage());
+    }
+
+    QDomDocument doc;
+    if (job->getErrorMessage().isEmpty()) {
+        job->setHint("Parsing the content");
+        // qDebug() << "Repository::loadOne.2";
+        int errorLine;
+        int errorColumn;
+        QString errMsg;
+        if (!doc.setContent(f, &errMsg, &errorLine, &errorColumn))
+            job->setErrorMessage(QString("XML parsing failed: %1").
+                                 arg(errMsg));
+        else
+            job->setProgress(0.51);
+    }
+
+    Repository* rep = 0;
+    if (job->getErrorMessage().isEmpty()) {
+        job->setHint("Converting repository");
+
+        Job* sub = job->newSubJob(0.40);
+        rep = convertMavenRepository(sub, doc);
+
+        if (!sub->getErrorMessage().isEmpty())
+            job->setErrorMessage(sub->getErrorMessage());
+
+        delete sub;
+    }
+
+    if (job->getErrorMessage().isEmpty()) {
+        QString err = rep->writeTo("MavenRep.xml");
+        if (!err.isEmpty())
+            job->setErrorMessage(err);
+        else
+            job->setProgress(1);
+    }
+
+    delete rep;
+
+    delete f;
+
+    job->complete();
+
+    int r;
+    if (job->getErrorMessage().isEmpty()) {
+        WPMUtils::outputTextConsole(
+                "The Maven repository was successfully converted");
+        r = 0;
+    } else {
+        WPMUtils::outputTextConsole(QString("Error: %1").arg(
+                job->getErrorMessage()), false);
+        r = 1;
+    }
+
+    delete job;
+
+    return r;
+}
+
 int App::addRepo()
 {
     int r = 0;
@@ -304,7 +451,7 @@ int App::addRepo()
 
 bool packageVersionLessThan(const PackageVersion* pv1, const PackageVersion* pv2)
 {
-    if (pv1->package == pv2->package)
+    if (pv1->package_ == pv2->package_)
         return pv1->version.compare(pv2->version) < 0;
     else {
         QString pt1 = pv1->getPackageTitle();
@@ -350,8 +497,8 @@ int App::list()
     if (r == 0) {
         Repository* rep = Repository::getDefault();
         QList<PackageVersion*> list;
-        for (int i = 0; i < rep->packageVersions.count(); i++) {
-            PackageVersion* pv = rep->packageVersions.at(i);
+        for (int i = 0; i < rep->getPackageVersionCount(); i++) {
+            PackageVersion* pv = rep->getPackageVersion(i);
             if (!onlyInstalled || pv->installed())
                 list.append(pv);
         }
@@ -365,9 +512,9 @@ int App::list()
             PackageVersion* pv = list.at(i);
             if (!bare)
                 WPMUtils::outputTextConsole(pv->toString() +
-                        " (" + pv->package + ")\n");
+                        " (" + pv->getPackage()->name + ")\n");
             else
-                WPMUtils::outputTextConsole(pv->package + " " +
+                WPMUtils::outputTextConsole(getPackage()->name + " " +
                         pv->version.getVersionString() + " " +
                         pv->getPackageTitle() + "\n");
         }
@@ -476,7 +623,9 @@ int App::path()
             // debug: WPMUtils::outputTextConsole << "Versions: " << d.toString()) << std::endl;
             PackageVersion* pv = d.findHighestInstalledMatch();
             if (pv) {
-                QString p = pv->getPath();
+                InstalledPackageVersion* ipv =
+                        rep->findInstalledPackageVersion(pv);
+                QString p = ipv->ipath;
                 p.replace('/', '\\');
                 WPMUtils::outputTextConsole(p + "\n");
             }
@@ -659,9 +808,10 @@ int App::add()
                 r = 1;
                 break;
             }
-            if (pv->installed()) {
+            InstalledPackageVersion* ipv = rep->findInstalledPackageVersion(pv);
+            if (ipv) {
                 WPMUtils::outputTextConsole("Package is already installed in " +
-                        pv->getPath() + "\n", false);
+                        ipv->ipath + "\n", false);
                 r = 0;
                 break;
             }
@@ -768,13 +918,15 @@ int App::remove()
                 break;
             }
 
-            if (!pv->installed()) {
+            InstalledPackageVersion* ipv = rep->findInstalledPackageVersion(pv);
+
+            if (!ipv) {
                 WPMUtils::outputTextConsole("Package is not installed\n", false);
                 r = 0;
                 break;
             }
 
-            if (pv->isExternal()) {
+            if (ipv->external_) {
                 WPMUtils::outputTextConsole("Externally installed packages cannot be removed\n",
                         false);
                 r = 1;
@@ -882,6 +1034,8 @@ int App::info()
                 break;
             }
 
+            InstalledPackageVersion* ipv = rep->findInstalledPackageVersion(pv);
+
             Package* p = packages.at(0);
             WPMUtils::outputTextConsole("Icon: " +
                     p->icon + "\n");
@@ -894,9 +1048,9 @@ int App::info()
             WPMUtils::outputTextConsole("License: " +
                     p->license + "\n");
             WPMUtils::outputTextConsole("Installation path: " +
-                    pv->getPath() + "\n");
+                    (ipv ? ipv->ipath : "")  + "\n");
             WPMUtils::outputTextConsole("Internal package name: " +
-                    pv->package + "\n");
+                    pv->getPackage()->name + "\n");
             WPMUtils::outputTextConsole("Status: " +
                     pv->getStatus() + "\n");
             WPMUtils::outputTextConsole("Download URL: " +

@@ -1,3 +1,5 @@
+#include <xapian.h>
+
 #include <math.h>
 
 #include <qabstractitemview.h>
@@ -30,7 +32,6 @@
 #include "ui_mainwindow.h"
 #include "repository.h"
 #include "job.h"
-#include "progressdialog.h"
 #include "wpmutils.h"
 #include "installoperation.h"
 #include "downloader.h"
@@ -102,9 +103,11 @@ void InstallThread::run()
         PackageVersion* pv = r->findOrCreatePackageVersion(
                 "com.googlecode.windows-package-manager.Npackd",
                 Version(WPMUtils::NPACKD_VERSION));
-        if (!pv->installed()) {
-            pv->setPath(WPMUtils::getExeDir());
-            pv->setExternal(true);
+        InstalledPackageVersion* ipv = r->findInstalledPackageVersion(pv);
+        if (!ipv) {
+            ipv = new InstalledPackageVersion(pv->package_, pv->version,
+                    WPMUtils::getExeDir(), true);
+            r->installedPackageVersions.append(ipv);
         }
         break;
     }
@@ -287,12 +290,11 @@ void MainWindow::showDetails()
 
 void MainWindow::updateIcons()
 {
-    Repository* r = Repository::getDefault();
     for (int i = 0; i < this->ui->tableWidget->rowCount(); i++) {
         QTableWidgetItem *item = ui->tableWidget->item(i, 0);
         const QVariant v = item->data(Qt::UserRole);
         PackageVersion* pv = (PackageVersion *) v.value<void*>();
-        Package* p = r->findPackage(pv->package);
+        Package* p = pv->getPackage();
 
         if (p) {
             if (!p->icon.isEmpty() && this->icons.contains(p->icon)) {
@@ -326,8 +328,7 @@ void MainWindow::updateStatusInDetailTabs()
 
 QIcon MainWindow::getPackageVersionIcon(PackageVersion *pv)
 {
-    Repository* r = Repository::getDefault();
-    Package* p = r->findPackage(pv->package);
+    Package* p = pv->getPackage();
 
     QIcon icon = MainWindow::genericAppIcon;
     if (p) {
@@ -492,44 +493,6 @@ void MainWindow::monitor(Job* job, const QString& title, QThread* thread)
     progressContent->resize(500, 500);
 }
 
-bool MainWindow::waitFor(Job* job, const QString& title)
-{
-    ProgressDialog* pd;
-    pd = new ProgressDialog(this, job, title);
-    pd->setModal(true);
-
-    defaultPasswordWindow = pd->winId();
-    // qDebug() << "MainWindow::waitFor.1";
-
-    pd->exec();
-    delete pd;
-    defaultPasswordWindow = this->winId();
-
-    // qDebug() << "MainWindow::waitFor.2";
-    bool r = false;
-    if (job->isCancelled())
-        r = false;
-    else if (!job->getErrorMessage().isEmpty()) {
-        QString first = job->getErrorMessage().trimmed();
-        int ind = first.indexOf("\n");
-        if (ind >= 0)
-            first = first.left(ind);
-        ind = first.indexOf("\r");
-        if (ind >= 0)
-            first = first.left(ind);
-
-        addErrorMessage(QString("%1: %2").arg(job->getHint()).arg(first),
-                job->getErrorMessage());
-
-        r = false;
-    } else {
-        r = true;
-    }
-
-
-    return r;
-}
-
 void MainWindow::onShow()
 {
     recognizeAndLoadRepositories();
@@ -652,17 +615,26 @@ void MainWindow::fillList()
     t->setHorizontalHeaderItem(5, newItem);
 
     int statusFilter = this->ui->comboBoxStatus->currentIndex();
-    QStringList textFilter =
-            this->ui->lineEditText->text().toLower().simplified().split(" ");
 
-    t->setRowCount(r->packageVersions.count());
+    t->setRowCount(r->getPackageVersionCount());
 
     int n = 0;
-    for (int i = 0; i < r->packageVersions.count(); i++) {
-        PackageVersion* pv = r->packageVersions.at(i);
+
+    QString warning;
+    QList<PackageVersion*> found = r->find(this->ui->lineEditText->text(),
+            &warning);
+    if (warning.isEmpty())
+        warning = "Use * to match any number of any characters at a word end";
+    this->ui->labelWarning->setText(warning);
+
+    QSet<QString> requestedIcons;
+
+    for (int i = 0; i < found.count(); i++) {
+        PackageVersion* pv = found.at(i);
 
         // filter by text
-        if (textFilter.count() > 0) {
+        /*
+        if (textFilter.count() > 0 && !matchedPackages.contains(pv->package)) {
             QString fullText = pv->getFullText();
             bool b = true;
             for (int i = 0; i < textFilter.count(); i++) {
@@ -674,11 +646,12 @@ void MainWindow::fillList()
             if (!b)
                 continue;
         }
+        */
 
         bool installed = pv->installed();
         bool updateEnabled = isUpdateEnabled(pv);
         PackageVersion* newest = r->findNewestInstallablePackageVersion(
-                pv->package);
+                pv->getPackage()->name);
         bool statusOK;
         switch (statusFilter) {
             case 0:
@@ -708,7 +681,18 @@ void MainWindow::fillList()
         if (!statusOK)
             continue;
 
-        Package* p = r->findPackage(pv->package);
+        Package* p = pv->getPackage();
+
+        if (!p->icon.isEmpty() && !requestedIcons.contains(p->icon)) {
+            FileLoaderItem it;
+            it.url = p->icon;
+            // qDebug() << "MainWindow::loadRepository " << it.url;
+            this->fileLoader.work.append(it);
+            requestedIcons += p->icon;
+        }
+
+        // qDebug() << "MainWindow::loadRepository";
+
 
         newItem = new QTableWidgetItem("");
         newItem->setData(Qt::UserRole, qVariantFromValue((void*) pv));
@@ -728,9 +712,10 @@ void MainWindow::fillList()
         if (p)
             packageTitle = p->title;
         else
-            packageTitle = pv->package;
+            packageTitle = pv->getPackage()->name;
         newItem = new QCITableWidgetItem(packageTitle);
-        newItem->setStatusTip(pv->download.toString() + " " + pv->package +
+        newItem->setStatusTip(pv->download.toString() + " " +
+                pv->getPackage()->name +
                 " " + pv->sha1);
         newItem->setData(Qt::UserRole, qVariantFromValue((void*) pv));
         t->setItem(n, 1, newItem);
@@ -779,7 +764,7 @@ void MainWindow::process(QList<InstallOperation*> &install)
     if (install.size() == 2) {
         InstallOperation* first = install.at(0);
         InstallOperation* second = install.at(1);
-        if (first->packageVersion->package == second->packageVersion->package &&
+        if (first->packageVersion->package_ == second->packageVersion->package_ &&
                 first->install && !second->install) {
             install.insert(0, second);
             install.removeAt(2);
@@ -800,16 +785,21 @@ void MainWindow::process(QList<InstallOperation*> &install)
         }
     }
 
+    Repository* rep = Repository::getDefault();
+
     QStringList locked = WPMUtils::getProcessFiles();
     QStringList lockedUninstall;
     for (int j = 0; j < install.size(); j++) {
         InstallOperation* op = install.at(j);
         if (!op->install) {
             PackageVersion* pv = op->packageVersion;
-            QString path = pv->getPath();
-            for (int i = 0; i < locked.size(); i++) {
-                if (WPMUtils::isUnder(locked.at(i), path)) {
-                    lockedUninstall.append(locked.at(i));
+            InstalledPackageVersion* ipv = rep->findInstalledPackageVersion(pv);
+            if (ipv) {
+                QString path = ipv->ipath;
+                for (int i = 0; i < locked.size(); i++) {
+                    if (WPMUtils::isUnder(locked.at(i), path)) {
+                        lockedUninstall.append(locked.at(i));
+                    }
                 }
             }
         }
@@ -831,11 +821,12 @@ void MainWindow::process(QList<InstallOperation*> &install)
         InstallOperation* op = install.at(i);
         if (!op->install) {
             PackageVersion* pv = op->packageVersion;
+            InstalledPackageVersion* ipv = rep->findInstalledPackageVersion(pv);
             if (pv->isDirectoryLocked()) {
                 QString msg = QString("The package %1 cannot be uninstalled because "
                         "some files or directories under %2 are in use.").
                         arg(pv->toString()).
-                        arg(pv->getPath());
+                        arg(ipv->ipath);
                 addErrorMessage(msg, msg, true, QMessageBox::Critical);
                 qDeleteAll(install);
                 install.clear();
@@ -879,12 +870,14 @@ void MainWindow::process(QList<InstallOperation*> &install)
     if (installCount == 1 && uninstallCount == 0) {
         b = true;
     } else if (installCount == 0 && uninstallCount == 1) {
+        PackageVersion* pv = install.at(0)->packageVersion;
+        InstalledPackageVersion* ipv = rep->findInstalledPackageVersion(pv);
         msg = QString("The package %1 will be uninstalled. "
                 "The corresponding directory %2 "
                 "will be completely deleted. "
                 "There is no way to restore the files.").
-                arg(install.at(0)->packageVersion->toString()).
-                arg(install.at(0)->packageVersion->getPath());
+                arg(pv->toString()).
+                arg(ipv->ipath);
         b = UIUtils::confirm(this, "Uninstall", msg);
     } else if (installCount > 0 && uninstallCount == 0) {
         msg = QString("%1 package(s) will be installed: %2").
@@ -993,13 +986,16 @@ bool MainWindow::isUpdateEnabled(PackageVersion* pv)
     if (pv) {
         Repository* r = Repository::getDefault();
         PackageVersion* newest = r->findNewestInstallablePackageVersion(
-                pv->package);
+                pv->getPackage()->name);
         PackageVersion* newesti = r->findNewestInstalledPackageVersion(
-                pv->package);
+                pv->getPackage()->name);
         if (newest != 0 && newesti != 0) {
             bool canInstall = !newest->isLocked() && !newest->installed() &&
                     newest->download.isValid();
-            bool canUninstall = !newesti->isLocked() && !newesti->isExternal();
+
+            InstalledPackageVersion* ipv = r->findInstalledPackageVersion(
+                    newesti);
+            bool canUninstall = !newesti->isLocked() && !ipv->external_;
 
             return canInstall && canUninstall &&
                     newest->version.compare(newesti->version) > 0;
@@ -1034,16 +1030,18 @@ void MainWindow::updateActions()
 
     enabled = pvs.count() > 0 &&
             !hardDriveScanRunning && !reloadRepositoriesThreadRunning;
+
+    Repository* rep = Repository::getDefault();
     for (int i = 0; i < pvs.count(); i++) {
         if (!enabled)
             break;
 
         PackageVersion* pv = pvs.at(i);
+        InstalledPackageVersion* ipv = rep->findInstalledPackageVersion(pv);
 
         enabled = enabled &&
-                pv && !pv->isLocked() &&
-                pv->installed() &&
-                !pv->isExternal();
+                !pv->isLocked() &&
+                ipv && !ipv->external_;
     }
     this->ui->actionUninstall->setEnabled(enabled);
 
@@ -1062,7 +1060,7 @@ void MainWindow::updateActions()
     PackageVersion* pv = getSelectedPackageVersion();
     Package* p;
     if (pv)
-        p = Repository::getDefault()->findPackage(pv->package);
+        p = pv->getPackage();
     else
         p = 0;
     this->ui->actionGotoPackageURL->setEnabled(
@@ -1213,18 +1211,6 @@ void MainWindow::recognizeAndLoadRepositoriesThreadFinished()
 {
     fillList();
 
-    Repository* r = Repository::getDefault();
-    for (int i = 0; i < r->packages.count(); i++) {
-        Package* p = r->packages.at(i);
-        if (!p->icon.isEmpty()) {
-            FileLoaderItem it;
-            it.url = p->icon;
-            // qDebug() << "MainWindow::loadRepository " << it.url;
-            this->fileLoader.work.append(it);
-        }
-    }
-    // qDebug() << "MainWindow::loadRepository";
-
     this->reloadRepositoriesThreadRunning = false;
     updateActions();
 }
@@ -1258,7 +1244,7 @@ void MainWindow::on_actionGotoPackageURL_triggered()
 {
     PackageVersion* pv = getSelectedPackageVersion();
     if (pv) {
-        Package* p = Repository::getDefault()->findPackage(pv->package);
+        Package* p = pv->getPackage();
         if (p) {
             QUrl url(p->url);
             if (url.isValid()) {
@@ -1318,7 +1304,7 @@ void MainWindow::on_actionUpdate_triggered()
     QList<Package*> packages;
     for (int i = 0; i < pvs.count(); i++) {
         PackageVersion* pv = pvs.at(i);
-        Package* p = r->findPackage(pv->package);
+        Package* p = pv->getPackage();
 
         // multiple versions of the same package could be selected in the table,
         // but only one should be updated
@@ -1428,8 +1414,8 @@ void MainWindow::on_actionScan_Hard_Drives_triggered()
 {
     Repository* r = Repository::getDefault();
 
-    for (int i = 0; i < r->packageVersions.size(); i++) {
-        PackageVersion* pv = r->packageVersions.at(i);
+    for (int i = 0; i < r->getPackageVersionCount(); i++) {
+        PackageVersion* pv = r->getPackageVersion(i);
         if (pv->isLocked()) {
             QString msg("Cannot start the scan now. "
                     "The package %1 is locked by a "

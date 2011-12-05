@@ -32,6 +32,7 @@ public:
     Version& operator =(const Version& v);
 
     bool operator !=(const Version& v);
+    bool operator ==(const Version& v);
 
     ~Version();
 

@@ -7,6 +7,11 @@
 #     * download mingw-w32-bin_i686-mingw_20100914_sezero.zip
 #     * run gendef C:\Windows\SysWOW64\msi.dll
 #     * run dlltool -D C:\Windows\SysWOW64\msi.dll -V -l libmsi.a
+# * There is a little bug in the MingW distribution: In file: C:/MinGW/lib/gcc/mingw32/4.4.0/libstdc++.la you have to change line 11: from
+#     library_names='libstdc++.dll.a' 
+# to
+#     library_names='libstdc++.a' 
+# [ from http://trac.osgeo.org/geos/ticket/282 ]
 
 import os
 import subprocess
@@ -174,6 +179,32 @@ class Build:
             if p.wait() != 0:
                 raise BuildError("make for zlib failed")
 
+    def _build_xapian_core(self):
+        if not os.path.exists("xapian-core"):
+            p = self._npackdcl.path("org.xapian.XapianCore", "[1.2.7,1.2.7]")
+            shutil.copytree(p, "xapian-core")
+
+            msys = self._npackdcl.path("org.mingw.MSYS", "[2011.5.26,2011.5.26]")
+        
+            print("msys: " + msys)
+            
+            e = os.environ.copy()
+            e["PATH"] = (msys + "\\bin;" + self._qtsdk + "\\mingw\\bin")
+               
+            print("PATH: " + e["PATH"])
+            
+            cwd = os.getcwd().replace('\\', '/')
+            p = subprocess.Popen("bash.exe configure CPPFLAGS=-I" + 
+                    cwd + "/zlib \"LDFLAGS=-L" + cwd + "/zlib",
+                    cwd="xapian-core", env=e)
+            if p.wait() != 0:
+                raise BuildError("configure for xapian-core failed")
+
+            p = subprocess.Popen("make.exe",
+                    cwd="xapian-core", env=e)
+            if p.wait() != 0:
+                raise BuildError("make for xapian-core failed")
+
     def _build_quazip(self):
         if not os.path.exists("QuaZIP"):
             p = self._npackdcl.path("net.sourceforge.quazip.QuaZIPSource", "[0.4.2,0.4.2]")
@@ -285,11 +316,14 @@ class Build:
         self._npackdcl.add("net.sourceforge.quazip.QuaZIPSource", "0.4.2")
         self._npackdcl.add("com.advancedinstaller.AdvancedInstallerFreeware", "8.5")
         self._npackdcl.add("com.selenic.mercurial.Mercurial64", "2")
+        self._npackdcl.add("org.xapian.XapianCore", "1.2.7")
+        self._npackdcl.add("org.mingw.MSYS", "2011.5.26")
         # self._npackdcl.add("com.nokia.QtSource", "4.7.3")
 
     def clean(self):
         rmtree_safe("zlib")
         rmtree_safe("quazip")
+        rmtree_safe("xapian-core")
         rmtree_safe("wpmcpp-build-desktop")
         rmtree_safe("npackdcl-build-desktop")
         rmtree_safe("clu-build-desktop")
@@ -356,6 +390,7 @@ class Build:
 
         self._build_zlib()
         self._build_quazip()
+        self._build_xapian_core()
         #self._build_qt()
 
         self._build_wpmcpp()

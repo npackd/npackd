@@ -1,3 +1,5 @@
+#include <xapian.h>
+
 #include "packageversionform.h"
 #include "ui_packageversionform.h"
 
@@ -26,8 +28,10 @@ void PackageVersionForm::updateIcons()
 
 void PackageVersionForm::updateStatus()
 {
+    Repository* rep = Repository::getDefault();
+    InstalledPackageVersion* ipv = rep->findInstalledPackageVersion(pv);
     this->ui->lineEditStatus->setText(pv->getStatus());
-    this->ui->lineEditPath->setText(pv->getPath());
+    this->ui->lineEditPath->setText(ipv ? ipv->ipath : "");
 }
 
 void PackageVersionForm::fillForm(PackageVersion* pv)
@@ -36,10 +40,10 @@ void PackageVersionForm::fillForm(PackageVersion* pv)
 
     this->ui->lineEditTitle->setText(pv->getPackageTitle());
     this->ui->lineEditVersion->setText(pv->version.getVersionString());
-    this->ui->lineEditInternalName->setText(pv->package);
+    this->ui->lineEditInternalName->setText(pv->getPackage()->name);
 
     Repository* r = Repository::getDefault();
-    Package* p = r->findPackage(pv->package);
+    Package* p = pv->getPackage();
 
     QString licenseTitle = "unknown";
     if (p) {
@@ -132,9 +136,7 @@ void PackageVersionForm::on_labelLicense_linkActivated(QString link)
     LicenseForm* f = new LicenseForm(tabWidget);
 
     Repository* r = Repository::getDefault();
-    Package* p = r->findPackage(pv->package);
-    if (!p)
-        return;
+    Package* p = pv->getPackage();
 
     License* lic = r->findLicense(p->license);
     if (!lic)

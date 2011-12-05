@@ -1,6 +1,8 @@
 #ifndef REPOSITORY_H
 #define REPOSITORY_H
 
+#include <xapian.h>
+
 #include <windows.h>
 
 #include "qfile.h"
@@ -9,11 +11,13 @@
 #include "qtemporaryfile.h"
 #include "qdom.h"
 #include <QReadWriteLock>
+#include <QHash>
 
 #include "package.h"
 #include "packageversion.h"
 #include "license.h"
 #include "windowsregistry.h"
+#include "installedpackageversion.h"
 
 /**
  * A repository is a list of packages and package versions.
@@ -29,15 +33,24 @@ private:
             QString* err);
     static Dependency* createDependency(QDomElement* e);
     static License* createLicense(QDomElement* e);
-    static PackageVersion* createPackageVersion(QDomElement* e,
-            QString* err);
     static DetectFile* createDetectFile(QDomElement* e, QString* err);
 
-    void loadOne(QUrl* url, Job* job);
+    PackageVersion* createPackageVersion(QDomElement* e,
+            QString* err);
 
-    void addWindowsPackage();
+    /**
+     * @param sha1 0 or a pointer to a string where the SHA1 of the downloaded
+     *     file will be stored
+     */
+    void loadOne(QUrl* url, Job* job, QString* sha1);
 
     void clearExternallyInstalled(QString package);
+
+    /**
+     * Loads the information about a package from the Windows registry.
+     */
+    void loadInstallationInfoFromRegistry(Package* package,
+            const Version& version);
 
     void detectOneDotNet(const WindowsRegistry& wr, const QString& keyName);
     void detectMSIProducts();
@@ -47,6 +60,26 @@ private:
     void detectJRE(bool w64bit);
     void detectJDK(bool w64bit);
     void detectWindows();
+
+    Xapian::WritableDatabase* db;
+    Xapian::Enquire* enquire;
+    Xapian::QueryParser* queryParser;
+    Xapian::TermGenerator indexer;
+    Xapian::Stem stemmer;
+
+    /**
+     * Packages.
+     */
+    QList<Package*> packages;
+
+    /**
+     * Package versions. All version numbers should be normalized.
+     */
+    QList<PackageVersion*> packageVersions;
+
+    QHash<QString, Package*> nameToPackage;
+
+    QMultiHash<QString, PackageVersion*> nameToPackageVersion;
 
     /**
      * @param exact if true, only exact matches to packages from current
@@ -69,25 +102,13 @@ private:
     void scan(const QString& path, Job* job, int level, QStringList& ignore);
 
     /**
-     * Loads the content from the URLs. None of the packages has the information
-     * about installation path after this method was called.
-     *
-     * @param job job for this method
-     */
-    void load(Job* job);
-
-    /**
      * Adds unknown in the repository, but installed packages.
      */
     void detectPre_1_15_Packages();
 
     void addWellKnownPackages();
+    void index(Job* job);
 public:
-    /**
-     * All operations on this object should be done under this lock.
-     */
-    QReadWriteLock lock;
-
     /**
      * @return newly created object pointing to the repositories
      */
@@ -106,19 +127,15 @@ public:
     static Repository* getDefault();
 
     /**
-     * Package versions. All version numbers should be normalized.
-     */
-    QList<PackageVersion*> packageVersions;
-
-    /**
-     * Packages.
-     */
-    QList<Package*> packages;
-
-    /**
      * Licenses.
      */
     QList<License*> licenses;
+
+    /**
+     * Information about installed package versions.
+     * TODO:         saveInstallationInfo();   emitStatusChanged();
+     */
+    QList<InstalledPackageVersion*> installedPackageVersions;
 
     /**
      * Creates an empty repository.
@@ -128,6 +145,27 @@ public:
     virtual ~Repository();
 
     void process(Job* job, const QList<InstallOperation*> &install);
+
+    /**
+     * @return installation information for a package version or 0
+     */
+    InstalledPackageVersion* findInstalledPackageVersion(
+            const PackageVersion* pv);
+
+    /**
+     * Removes a package version from the list of installed.
+     *
+     * @param pv a package version
+     */
+    void removeInstalledPackageVersion(PackageVersion* pv);
+
+    /**
+     * Writes this repository to an XML file.
+     *
+     * @param filename output file name
+     * @return error message or ""
+     */
+    QString writeTo(const QString& filename) const;
 
     /**
      * Plans updates for the given packages.
@@ -147,6 +185,52 @@ public:
      * @param job Job
      */
     void loadOne(QDomDocument* doc, Job* job);
+
+    /**
+     * Adds a new package.
+     *
+     * @param p the package
+     */
+    void addPackage(Package* p);
+
+    /**
+     * @param package package name
+     * @return all package versions for the specified package
+     */
+    QList<PackageVersion*> getPackageVersions(QString package) const;
+
+    /**
+     * Adds a new package version.
+     *
+     * @param pv the package version
+     */
+    void addPackageVersion(PackageVersion* pv);
+
+    /**
+     * Removes all packages.
+     */
+    void clearPackages();
+
+    /**
+     * Removes all packages.
+     */
+    void clearPackageVersions();
+
+    /**
+     * @return number of packages
+     */
+    int getPackageCount() const;
+
+    /**
+     * @return number of package versions
+     */
+    int getPackageVersionCount() const;
+
+    /**
+     * @param i package index
+     * @return package version with the specified index
+     */
+    PackageVersion* getPackageVersion(int i) const;
 
     /**
      * Reads the package statuses from the registry.
@@ -226,7 +310,7 @@ public:
      * @param name name of the package like "org.server.Word"
      * @return found package or 0
      */
-    Package* findPackage(const QString& name);
+    Package* findPackage(const QString& name) const;
 
     /**
      * Searches for a package by name.
@@ -269,12 +353,19 @@ public:
      * @return found package version or 0
      */
     PackageVersion* findPackageVersion(const QString& package,
-            const Version& version);
+            const Version& version) const;
 
     /**
      * @return the first found locked PackageVersion or 0
      */
     PackageVersion* findLockedPackageVersion() const;
+
+    /**
+     * @param text search terms
+     * @param warning a warning is stored here
+     * @return found package versions
+     */
+    QList<PackageVersion*> find(const QString& text, QString* warning);
 
     /**
      * Emits the statusChanged(PackageVersion*) signal.
