@@ -140,9 +140,14 @@ void Downloader::downloadWin(Job* job, const QUrl& url, QFile* file,
             }
         } else {
             // http://msdn.microsoft.com/en-us/library/aa384220(v=vs.85).aspx
-            DWORD dwStatus, dwStatusSize;
-            HttpQueryInfo(hResourceHandle, HTTP_QUERY_FLAG_NUMBER |
-                    HTTP_QUERY_STATUS_CODE, &dwStatus, &dwStatusSize, NULL);
+            DWORD dwStatus, dwStatusSize = sizeof(dwStatus);
+            if (!HttpQueryInfo(hResourceHandle, HTTP_QUERY_FLAG_NUMBER |
+                    HTTP_QUERY_STATUS_CODE, &dwStatus, &dwStatusSize, NULL)) {
+                QString errMsg;
+                WPMUtils::formatMessage(GetLastError(), &errMsg);
+                job->setErrorMessage(errMsg);
+                break;
+            }
 
             QString username, password;
             if (dwStatus == HTTP_STATUS_PROXY_AUTH_REQ) {
@@ -195,12 +200,12 @@ void Downloader::downloadWin(Job* job, const QUrl& url, QFile* file,
                     job->setErrorMessage(errMsg);
                     goto out;
                 }
-            } else {
+            } else if (dwStatus == HTTP_STATUS_OK) {
                 break;
-                /* job->setErrorMessage(QString(
+            } else {
+                job->setErrorMessage(QString(
                         "Cannot handle HTTP status code %1").arg(dwStatus));
                 break;
-                */
             }
 
             // read all the data before re-sending the request
