@@ -1586,12 +1586,14 @@ void Repository::scanHardDrive(Job* job)
 
 void Repository::reload(Job *job)
 {
+    /* debugging
     QList<PackageVersion*> msw = this->getPackageVersions(
             "com.microsoft.Windows");
     qDebug() << "Repository::recognize " << msw.count();
     for (int i = 0; i < msw.count(); i++) {
         qDebug() << msw.at(i)->toString() << " " << msw.at(i)->getStatus();
     }
+    */
 
     job->setHint("Loading repositories");
 
@@ -1719,12 +1721,14 @@ void Repository::reload(Job *job)
 
     job->complete();
 
+    /* debugging
     msw = this->getPackageVersions(
             "com.microsoft.Windows");
     qDebug() << "Repository::recognize 2 " << msw.count();
     for (int i = 0; i < msw.count(); i++) {
         qDebug() << msw.at(i)->toString() << " " << msw.at(i)->getStatus();
     }
+    */
 }
 
 void Repository::refresh(Job *job)
