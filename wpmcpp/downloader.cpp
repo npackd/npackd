@@ -203,6 +203,7 @@ void Downloader::downloadWin(Job* job, const QUrl& url, QFile* file,
             } else if (dwStatus == HTTP_STATUS_OK) {
                 break;
             } else {
+                // TODO: check other HTTP_STATUS constants
                 job->setErrorMessage(QString(
                         "Cannot handle HTTP status code %1").arg(dwStatus));
                 break;
