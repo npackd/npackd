@@ -3644,7 +3644,20 @@ rmdir "%name%"
         <important-file path="bin\jmeterw.cmd" title="JMeter"/>
         <url>http://archive.apache.org/dist/jakarta/jmeter/binaries/jakarta-jmeter-2.5.zip</url>
         <sha1>a23e9cfa5ba322813db3fee96d25de32d5fc96af</sha1>
-    </version>    
+    </version>
+    <version name="2.5.1" package="org.apache.jakarta.JMeter">
+        <file path=".WPM\Install.bat">for /f "delims=" %%x in ('dir /b jakarta*') do set name=%%x
+cd "%name%"        
+for /f "delims=" %%a in ('dir /b') do (
+  move "%%a" ..
+)
+cd ..
+rmdir "%name%"
+</file>
+        <important-file path="bin\jmeterw.cmd" title="JMeter"/>
+        <url>http://archive.apache.org/dist/jakarta/jmeter/binaries/jakarta-jmeter-2.5.1.zip</url>
+        <sha1>8afc8b8810a71d7acecb67c38f1302d1a91c1faa</sha1>
+    </version>
     
     <!--
         Here is the list of available versions:
