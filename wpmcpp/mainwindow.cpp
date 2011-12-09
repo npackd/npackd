@@ -578,10 +578,16 @@ QCITableWidgetItem::QCITableWidgetItem(const QString &text, int type)
 
 bool QCITableWidgetItem::operator<(const QTableWidgetItem &other) const
 {
-    QString a = this->text();
-    QString b = other.text();
+    PackageVersion* a = (PackageVersion *) this->data(Qt::UserRole).
+            value<void*>();
+    PackageVersion* b = (PackageVersion *) other.data(Qt::UserRole).
+            value<void*>();
 
-    return a.compare(b, Qt::CaseInsensitive) <= 0;
+    int r = this->text().compare(other.text(), Qt::CaseInsensitive);
+    if (r == 0)
+        r = a->version.compare(b->version);
+
+    return r <= 0;
 }
 
 void MainWindow::fillList()
