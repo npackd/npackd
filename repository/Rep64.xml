@@ -319,6 +319,12 @@ This package uses internal version numbers. For example, 1.7.0.1 corresponds to 
         <url>http://www.sqlexplorer.org/</url>
         <description>SQL client</description>
     </package>
+    <package name="org.wireshark.Wireshark64">
+        <title>Wireshark 64 bit</title>
+        <url>http://www.wireshark.org/</url>
+        <description>network protocol analyzer</description>
+        <license>org.gnu.GPLv2</license>
+    </package>
     <package name="net.nirsoft.FileTypesMan64">
         <title>FileTypesMan 64 bit</title>
         <url>http://www.nirsoft.net/utils/file_types_manager.html</url>
@@ -2823,4 +2829,14 @@ verify
         <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1, 1]"/>
         <dependency package="com.googlecode.windows-package-manager.CLU" versions="[1, 1]"/>
     </version> 
+
+    <!-- uninstallation shows a confirmation dialog -->
+    <version name="1.6.4" package="org.wireshark.Wireshark64" type="one-file">
+        <file path=".WPM\Install.bat">for /f %%x in ('dir /b *.exe') do set setup=%%x
+"%setup%" /S /D=%CD%
+</file>
+        <file path=".WPM\Uninstall.bat">uninstall.exe /S _=%CD%</file>
+        <url>http://npackd.googlecode.com/files/org.wireshark.Wireshark64-1.6.4.exe</url>
+        <sha1>7aa31293a5ce2f1697f9ddc010f416bc4447f413</sha1>
+    </version>
 </root>
