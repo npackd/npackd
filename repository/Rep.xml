@@ -2943,6 +2943,14 @@ if %err% neq 0 exit %err%
         <url>http://npackd.googlecode.com/files/org.wireshark.Wireshark-1.6.3.exe</url>
         <sha1>03b5093ff4d23be8794e216b6469f65b35ff65d7</sha1>
     </version>
+    <version name="1.6.4" package="org.wireshark.Wireshark" type="one-file">
+        <file path=".WPM\Install.bat">for /f %%x in ('dir /b *.exe') do set setup=%%x
+"%setup%" /S /D=%CD%
+</file>
+        <file path=".WPM\Uninstall.bat">uninstall.exe /S _=%CD%</file>
+        <url>http://npackd.googlecode.com/files/org.wireshark.Wireshark-1.6.4.exe</url>
+        <sha1>451990824dd9c15a2503480dac2391b1703ffcb2</sha1>
+    </version>
 
     <version name="0.4" package="com.netstumbler.NetStumbler"
             type="one-file">
