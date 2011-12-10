@@ -8706,6 +8706,19 @@ for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x
         <url>http://npackd.googlecode.com/files/org.mozilla.Thunderbird-7.0.1.exe</url>
         <sha1>33b73598e7e5afdc5a8050a8f7b198f91fd2a3eb</sha1>
     </version>  
+    <version name="8" package="org.mozilla.Thunderbird"
+            type="one-file">
+        <file path=".WPM\Install.bat">echo [Install] > .WPM\FF.ini
+echo InstallDirectoryPath=%CD% >> .WPM\FF.ini
+echo QuickLaunchShortcut=false >> .WPM\FF.ini
+echo DesktopShortcut=false >> .WPM\FF.ini
+for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x
+"%setup%" /INI="%CD%\.WPM\FF.ini"
+</file>
+        <file path=".WPM\Uninstall.bat">uninstall\helper.exe /S</file>
+        <url>http://npackd.googlecode.com/files/org.mozilla.Thunderbird-8.exe</url>
+        <sha1></sha1>
+    </version>  
 
     <version name="1.0.1" package="org.mozilla.SunbirdInstaller"
             type="one-file">
