@@ -8717,7 +8717,7 @@ for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x
 </file>
         <file path=".WPM\Uninstall.bat">uninstall\helper.exe /S</file>
         <url>http://npackd.googlecode.com/files/org.mozilla.Thunderbird-8.exe</url>
-        <sha1></sha1>
+        <sha1>02555066c5a4d7c297b0ce9e839def7794b2b196</sha1>
     </version>  
 
     <version name="1.0.1" package="org.mozilla.SunbirdInstaller"
@@ -12117,6 +12117,21 @@ rmdir "%name%"
         <important-file path="bin\shutdown.bat" title="Stop"/>
         <url>http://apache.mirror.clusters.cc/tomcat/tomcat-7/v7.0.22/bin/apache-tomcat-7.0.22-windows-x86.zip</url>
         <sha1>c09d19197e1234b178adb1053288871e636a9054</sha1>
+        <dependency package="com.oracle.JRE" versions="[1.5, 2)"/>
+    </version>
+    <version name="7.0.23" package="org.apache.tomcat.Tomcat">
+        <file path=".WPM\Install.bat">for /f "delims=" %%x in ('dir /b apache*') do set name=%%x
+cd "%name%"        
+for /f "delims=" %%a in ('dir /b') do (
+  move "%%a" ..
+)
+cd ..
+rmdir "%name%"
+</file>
+        <important-file path="bin\startup.bat" title="Start"/>
+        <important-file path="bin\shutdown.bat" title="Stop"/>
+        <url>http://apache.mirror.clusters.cc/tomcat/tomcat-7/v7.0.23/bin/apache-tomcat-7.0.23-windows-x86.zip</url>
+        <sha1>42f53627ff6d8874946bf5cdbd2b27271986b07f</sha1>
         <dependency package="com.oracle.JRE" versions="[1.5, 2)"/>
     </version>
 
