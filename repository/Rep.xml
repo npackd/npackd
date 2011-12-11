@@ -3287,6 +3287,12 @@ if %err% neq 0 exit %err%
         <url>http://windows-package-manager.googlecode.com/files/Npackd-1.15.6.zip</url>
         <sha1>35c31667c4825ea2efdb94b1b0f000b5d9095c46</sha1>
     </version>
+    <version name="1.16.3"
+            package="com.googlecode.windows-package-manager.Npackd">
+        <important-file path="npackdg.exe" title="Npackd"/>
+        <url>http://windows-package-manager.googlecode.com/files/Npackd-1.16.3.zip</url>
+        <sha1>e3de8b84fd4ba06d958f887b48bf1990c7b6b929</sha1>
+    </version>
 
     <!-- 
         different versions are distributed from the same location at srware.net 
@@ -3792,6 +3798,23 @@ verify
         <dependency package="com.googlecode.windows-package-manager.CLU" versions="[1, 1]"/>
         <url>http://windows-package-manager.googlecode.com/files/NpackdCL-1.15.8.zip</url>
         <sha1>75ad13ec20a1cf7e4e56c5f96a299111f13b52b5</sha1>
+    </version>
+    <version name="1.16.4" package="com.googlecode.windows-package-manager.NpackdCL">
+        <file path=".WPM\Install.bat">if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
+set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.CLU" "--versions=[1, 1]"
+for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set clu=%%x
+"%clu%\clu" add-path --path "%CD%"
+verify
+</file>
+        <file path=".WPM\Uninstall.bat">if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
+set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.CLU" "--versions=[1, 1]"
+for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set clu=%%x
+"%clu%\clu" remove-path --path "%CD%"
+verify
+</file>
+        <url>http://windows-package-manager.googlecode.com/files/NpackdCL-1.16.4.zip</url>
+        <sha1>8842a0b4ceeb01238a7acd3c8426edc0c539d406</sha1>
+        <dependency package="com.googlecode.windows-package-manager.CLU" versions="[1, 1]"/>
     </version>
 
     <version name="6.0.3883" package="com.microsoft.MSXML" type="one-file">
