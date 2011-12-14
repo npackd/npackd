@@ -592,6 +592,9 @@ bool QCITableWidgetItem::operator<(const QTableWidgetItem &other) const
 
 void MainWindow::fillList()
 {
+    if (this->reloadRepositoriesThreadRunning || this->hardDriveScanRunning)
+        return;
+
     // qDebug() << "MainWindow::fillList";
     QTableWidget* t = this->ui->tableWidget;
 
