@@ -10059,6 +10059,19 @@ for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x
         <url>http://npackd.googlecode.com/files/org.mozilla.Firefox-8.0.1.exe</url>
         <sha1>2b80847ccd30a7fcdb0321552b18f789566643f7</sha1>
     </version>
+    <version name="9.0.1" package="org.mozilla.Firefox" type="one-file">
+        <important-file path="firefox.exe" title="Firefox"/>
+        <file path=".WPM\Install.bat">echo [Install] > .WPM\FF.ini
+echo InstallDirectoryPath=%CD% >> .WPM\FF.ini
+echo QuickLaunchShortcut=false >> .WPM\FF.ini
+echo DesktopShortcut=false >> .WPM\FF.ini
+for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x
+"%setup%" /INI="%CD%\.WPM\FF.ini"
+</file>
+        <file path=".WPM\Uninstall.bat">uninstall\helper.exe /S</file>
+        <url>http://npackd.googlecode.com/files/org.mozilla.Firefox-9.0.1.exe</url>
+        <sha1>d6d542d6de5d38fc01c190f9e514579bede8c5f0</sha1>
+    </version>
 
     <version name="1.33" package="org.gexperts.GExpertsDelphi7Installer"
             type="one-file">
