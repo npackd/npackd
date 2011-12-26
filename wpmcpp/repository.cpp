@@ -20,6 +20,7 @@
 #include "msi.h"
 #include "windowsregistry.h"
 #include "xmlutils.h"
+#include "packageversionhandle.h"
 
 Repository Repository::def;
 
@@ -55,6 +56,8 @@ void Repository::index(Job* job)
 
             doc.add_value(0, pv->getPackage()->name.toUtf8().constData());
             doc.add_value(1, pv->version.getVersionString().
+                    toUtf8().constData());
+            doc.add_value(2, pv->serialize().
                     toUtf8().constData());
 
             // Add the document to the database.
@@ -107,10 +110,12 @@ QList<PackageVersion*> Repository::find(const QString& text, QString* warning)
     try {
         Xapian::Query query = queryParser->parse_query(
                 t.toUtf8().constData(),
-                Xapian::QueryParser::FLAG_PHRASE|
-                Xapian::QueryParser::FLAG_BOOLEAN|
-                Xapian::QueryParser::FLAG_LOVEHATE|
-                Xapian::QueryParser::FLAG_WILDCARD);
+                Xapian::QueryParser::FLAG_PHRASE |
+                Xapian::QueryParser::FLAG_BOOLEAN |
+                Xapian::QueryParser::FLAG_LOVEHATE |
+                Xapian::QueryParser::FLAG_WILDCARD |
+                Xapian::QueryParser::FLAG_PARTIAL
+        );
 
         enquire->set_query(query);
         const unsigned int max = 200;
@@ -156,6 +161,19 @@ QList<PackageVersion*> Repository::getInstalled()
     return ret;
 }
 
+bool Repository::isLocked(const QString& package, const Version& version) const
+{
+    bool result = false;
+    for (int i = 0; i < this->locked.count(); i++) {
+        PackageVersionHandle* pvh = this->locked.at(i);
+        if (pvh->package == package && pvh->version == version) {
+            result = true;
+            break;
+        }
+    }
+    return result;
+}
+
 Repository::~Repository()
 {
     delete queryParser;
@@ -166,6 +184,7 @@ Repository::~Repository()
     qDeleteAll(this->packageVersions);
     qDeleteAll(this->licenses);
     qDeleteAll(this->installedPackageVersions);
+    qDeleteAll(this->locked);
 }
 
 PackageVersion* Repository::findNewestInstallablePackageVersion(
@@ -199,259 +218,6 @@ PackageVersion* Repository::findNewestInstalledPackageVersion(
         }
     }
     return r;
-}
-
-DetectFile* Repository::createDetectFile(QDomElement* e, QString* err)
-{
-    *err = "";
-
-    DetectFile* a = new DetectFile();
-    a->path = XMLUtils::getTagContent(*e, "path").trimmed();
-    a->path.replace('/', '\\');
-    if (a->path.isEmpty()) {
-        err->append("Empty tag <path> under <detect-file>");
-    }
-
-    if (err->isEmpty()) {
-        a->sha1 = XMLUtils::getTagContent(*e, "sha1").trimmed().toLower();
-        *err = WPMUtils::validateSHA1(a->sha1);
-        if (!err->isEmpty()) {
-            err->prepend("Wrong SHA1 in <detect-file>: ");
-        }
-    }
-
-    if (err->isEmpty())
-        return a;
-    else {
-        delete a;
-        return 0;
-    }
-}
-
-PackageVersion* Repository::createPackageVersion(QDomElement* e, QString* err)
-{
-    *err = "";
-
-    // qDebug() << "Repository::createPackageVersion.1" << e->attribute("package");
-
-    QString packageName = e->attribute("package").trimmed();
-    if (packageName.isEmpty()) {
-        err->append("Attribute 'package' is missing in <version>");
-    }
-
-    PackageVersion* a = 0;
-    if (err->isEmpty()) {
-        Package* package = this->findPackage(packageName);
-        if (!package) {
-            package = new Package(packageName, packageName);
-            this->addPackage(package);
-        }
-        a = new PackageVersion(package);
-    }
-
-    if (err->isEmpty()) {
-        QString url = XMLUtils::getTagContent(*e, "url").trimmed();
-        if (!url.isEmpty()) {
-            a->download.setUrl(url);
-            QUrl d = a->download;
-            if (!d.isValid() || d.isRelative() ||
-                    (d.scheme() != "http" && d.scheme() != "https")) {
-                err->append(QString("Not a valid download URL for %1: %2").
-                        arg(a->getPackage()->name).arg(url));
-            }
-        }
-    }
-
-    if (err->isEmpty()) {
-        QString name = e->attribute("name", "1.0").trimmed();
-        if (a->version.setVersion(name)) {
-            a->version.normalize();
-        } else {
-            err->append(QString("Not a valid version for %1: %2").
-                    arg(a->getPackage()->name).arg(name));
-        }
-    }
-
-    if (err->isEmpty()) {
-        a->sha1 = XMLUtils::getTagContent(*e, "sha1").trimmed().toLower();
-        if (!a->sha1.isEmpty()) {
-            *err = WPMUtils::validateSHA1(a->sha1);
-            if (!err->isEmpty()) {
-                err->prepend(QString("Invalid SHA1 for %1: ").
-                        arg(a->toString()));
-            }
-        }
-    }
-
-    if (err->isEmpty()) {
-        QString type = e->attribute("type", "zip").trimmed();
-        if (type == "one-file")
-            a->type = 1;
-        else if (type == "" || type == "zip")
-            a->type = 0;
-        else {
-            err->append(QString("Wrong value for the attribute 'type' for %1: %3").
-                    arg(a->toString()).arg(type));
-        }
-    }
-
-    if (err->isEmpty()) {
-        QDomNodeList ifiles = e->elementsByTagName("important-file");
-        for (int i = 0; i < ifiles.count(); i++) {
-            QDomElement e = ifiles.at(i).toElement();
-            QString p = e.attribute("path").trimmed();
-            if (p.isEmpty())
-                p = e.attribute("name").trimmed();
-
-            if (p.isEmpty()) {
-                err->append(QString("Empty 'path' attribute value for <important-file> for %1").
-                        arg(a->toString()));
-                break;
-            }
-
-            if (a->importantFiles.contains(p)) {
-                err->append(QString("More than one <important-file> with the same 'path' attribute %1 for %2").
-                        arg(p).arg(a->toString()));
-                break;
-            }
-
-            a->importantFiles.append(p);
-
-            QString title = e.attribute("title").trimmed();
-            if (title.isEmpty()) {
-                err->append(QString("Empty 'title' attribute value for <important-file> for %1").
-                        arg(a->toString()));
-                break;
-            }
-
-            a->importantFilesTitles.append(title);
-        }
-    }
-
-    if (err->isEmpty()) {
-        QDomNodeList files = e->elementsByTagName("file");
-        for (int i = 0; i < files.count(); i++) {
-            QDomElement e = files.at(i).toElement();
-            PackageVersionFile* pvf = createPackageVersionFile(&e, err);
-            if (pvf) {
-                a->files.append(pvf);
-            } else {
-                break;
-            }
-        }
-    }
-
-    if (err->isEmpty()) {
-        for (int i = 0; i < a->files.count() - 1; i++) {
-            PackageVersionFile* fi = a->files.at(i);
-            for (int j = i + 1; j < a->files.count(); j++) {
-                PackageVersionFile* fj = a->files.at(j);
-                if (fi->path == fj->path) {
-                    err->append(QString("Duplicate <file> entry for %1 in %2").
-                            arg(fi->path).arg(a->toString()));
-                    goto out;
-                }
-            }
-        }
-    out:;
-    }
-
-    if (err->isEmpty()) {
-        QDomNodeList detectFiles = e->elementsByTagName("detect-file");
-        for (int i = 0; i < detectFiles.count(); i++) {
-            QDomElement e = detectFiles.at(i).toElement();
-            DetectFile* df = createDetectFile(&e, err);
-            if (df) {
-                a->detectFiles.append(df);
-            } else {
-                err->prepend(QString("Invalid <detect-file> for %1: ").
-                        arg(a->toString()));
-                break;
-            }
-        }
-    }
-
-    if (err->isEmpty()) {
-        for (int i = 0; i < a->detectFiles.count() - 1; i++) {
-            DetectFile* fi = a->detectFiles.at(i);
-            for (int j = i + 1; j < a->detectFiles.count(); j++) {
-                DetectFile* fj = a->detectFiles.at(j);
-                if (fi->path == fj->path) {
-                    err->append(QString("Duplicate <detect-file> entry for %1 in %2").
-                            arg(fi->path).arg(a->toString()));
-                    goto out2;
-                }
-            }
-        }
-    out2:;
-    }
-
-    if (err->isEmpty()) {
-        QDomNodeList deps = e->elementsByTagName("dependency");
-        for (int i = 0; i < deps.count(); i++) {
-            QDomElement e = deps.at(i).toElement();
-            Dependency* d = createDependency(&e);
-            if (d)
-                a->dependencies.append(d);
-        }
-    }
-
-    if (err->isEmpty()) {
-        for (int i = 0; i < a->dependencies.count() - 1; i++) {
-            Dependency* fi = a->dependencies.at(i);
-            for (int j = i + 1; j < a->dependencies.count(); j++) {
-                Dependency* fj = a->dependencies.at(j);
-                if (fi->autoFulfilledIf(*fj) ||
-                        fj->autoFulfilledIf(*fi)) {
-                    err->append(QString("Duplicate <dependency> for %1 in %2").
-                            arg(fi->package).arg(a->toString()));
-                    goto out3;
-                }
-            }
-        }
-    out3:;
-    }
-
-    if (err->isEmpty()) {
-        a->msiGUID = XMLUtils::getTagContent(*e, "detect-msi").trimmed().
-                toLower();
-        if (!a->msiGUID.isEmpty()) {
-            if (a->msiGUID.length() != 38) {
-                err->append(QString("Wrong MSI GUID for %1: %3").
-                        arg(a->toString()).arg(a->msiGUID));
-            } else {
-                for (int i = 0; i < a->msiGUID.length(); i++) {
-                    QChar c = a->msiGUID.at(i);
-                    bool valid;
-                    if (i == 9 || i == 14 || i == 19 || i == 24) {
-                        valid = c == '-';
-                    } else if (i == 0) {
-                        valid = c == '{';
-                    } else if (i == 37) {
-                        valid = c == '}';
-                    } else {
-                        valid = (c >= '0' && c <= '9') ||
-                                (c >= 'a' && c <= 'f') ||
-                                (c >= 'A' && c <= 'F');
-                    }
-
-                    if (!valid) {
-                        err->append(QString("Wrong MSI GUID for %1: %3").
-                                arg(a->toString()).
-                                arg(a->msiGUID));
-                        break;
-                    }
-                }
-            }
-        }
-    }
-
-    if (err->isEmpty())
-        return a;
-    else {
-        delete a;
-        return 0;
-    }
 }
 
 Package* Repository::createPackage(QDomElement* e, QString* err)
@@ -495,18 +261,6 @@ Package* Repository::createPackage(QDomElement* e, QString* err)
     }
 }
 
-PackageVersionFile* Repository::createPackageVersionFile(QDomElement* e,
-        QString* err)
-{
-    *err = "";
-
-    QString path = e->attribute("path");
-    QString content = e->firstChild().nodeValue();
-    PackageVersionFile* a = new PackageVersionFile(path, content);
-
-    return a;
-}
-
 License* Repository::createLicense(QDomElement* e)
 {
     QString name = e->attribute("name");
@@ -522,25 +276,6 @@ License* Repository::createLicense(QDomElement* e)
         a->description = nl.at(0).firstChild().nodeValue();
 
     return a;
-}
-
-Dependency* Repository::createDependency(QDomElement* e)
-{
-    // qDebug() << "Repository::createDependency";
-
-    QString package = e->attribute("package").trimmed();
-
-    Dependency* d = new Dependency();
-    d->package = package;
-
-    d->var = XMLUtils::getTagContent(*e, "variable");
-
-    if (d->setVersions(e->attribute("versions")))
-        return d;
-    else {
-        delete d;
-        return 0;
-    }
 }
 
 License* Repository::findLicense(const QString& name)
@@ -1681,11 +1416,17 @@ void Repository::reload(Job *job)
         delete this->queryParser;
         delete db;
 
+        QString indexDir = fn + "\\Index";
+        QDir d(indexDir);
+
+        if (!d.exists())
+            indexed = false;
+
         // TODO: index cannot be reopened
         if (!indexed) {
             // TODO: catch Xapian exceptions here
             db = new Xapian::WritableDatabase(
-                    (fn + "\\Index").toUtf8().constData(),
+                    indexDir.toUtf8().constData(),
                     Xapian::DB_CREATE_OR_OVERWRITE);
 
             Job* sub = job->newSubJob(0.35);
@@ -1707,7 +1448,7 @@ void Repository::reload(Job *job)
         } else {
             // TODO: catch Xapian exceptions here
             db = new Xapian::WritableDatabase(
-                    (fn + "\\Index").toUtf8().constData(),
+                    indexDir.toUtf8().constData(),
                     Xapian::DB_CREATE_OR_OPEN);
             job->setProgress(1);
         }
@@ -1894,7 +1635,8 @@ void Repository::loadOne(QDomDocument* doc, Job* job)
                 QDomElement e = n.toElement();
                 if (e.nodeName() == "version") {
                     QString err;
-                    PackageVersion* pv = createPackageVersion(&e, &err);
+                    PackageVersion* pv = PackageVersion::createPackageVersion(
+                            &e, &err);
                     if (pv) {
                         if (this->findPackageVersion(pv->getPackage()->name,
                                 pv->version))

@@ -18,6 +18,7 @@
 #include "license.h"
 #include "windowsregistry.h"
 #include "installedpackageversion.h"
+#include "packageversionhandle.h"
 
 /**
  * A repository is a list of packages and package versions.
@@ -29,14 +30,7 @@ private:
     static Repository def;
 
     static Package* createPackage(QDomElement* e, QString* err);
-    static PackageVersionFile* createPackageVersionFile(QDomElement* e,
-            QString* err);
-    static Dependency* createDependency(QDomElement* e);
     static License* createLicense(QDomElement* e);
-    static DetectFile* createDetectFile(QDomElement* e, QString* err);
-
-    PackageVersion* createPackageVersion(QDomElement* e,
-            QString* err);
 
     /**
      * @param sha1 0 or a pointer to a string where the SHA1 of the downloaded
@@ -126,6 +120,9 @@ public:
      */
     static Repository* getDefault();
 
+    /** locked package versions */
+    QList<PackageVersionHandle*> locked;
+
     /**
      * Licenses.
      */
@@ -145,6 +142,13 @@ public:
     virtual ~Repository();
 
     void process(Job* job, const QList<InstallOperation*> &install);
+
+    /**
+     * @param package full package name
+     * @param version package version
+     * @return true if the package version is locked by a running operation
+     */
+    bool isLocked(const QString& package, const Version& version) const;
 
     /**
      * @return installation information for a package version or 0

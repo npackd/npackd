@@ -11,19 +11,9 @@ Dependency::Dependency()
     this->max.setVersion(1, 0);
 }
 
-QString Dependency::toString()
+QString Dependency::versionsToString() const
 {
     QString res;
-
-    Repository* r = Repository::getDefault();
-    Package* p = r->findPackage(this->package);
-    if (p)
-        res.append(p->title);
-    else
-        res.append(package);
-
-    res.append(" ");
-
     if (minIncluded)
         res.append('[');
     else
@@ -39,6 +29,23 @@ QString Dependency::toString()
         res.append(']');
     else
         res.append(')');
+    return res;
+}
+
+QString Dependency::toString()
+{
+    QString res;
+
+    Repository* r = Repository::getDefault();
+    Package* p = r->findPackage(this->package);
+    if (p)
+        res.append(p->title);
+    else
+        res.append(package);
+
+    res.append(" ");
+
+    res.append(this->versionsToString());
 
     return res;
 }

@@ -87,6 +87,11 @@ public:
      * @return human readable representation of this dependency
      */
     QString toString();
+
+    /**
+     * @return [min, max]
+     */
+    QString versionsToString() const;
 };
 
 #endif // DEPENDENCY_H
