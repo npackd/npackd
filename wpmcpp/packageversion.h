@@ -8,6 +8,7 @@
 #include "qurl.h"
 #include "qstringlist.h"
 #include <QSemaphore>
+#include <QDomElement>
 
 #include "job.h"
 #include "packageversionfile.h"
@@ -24,7 +25,7 @@ class Package;
  */
 class PackageVersion
 {
-private:    
+private:
     static QSemaphore httpConnections;
     static QSemaphore installationScripts;
 
@@ -42,6 +43,10 @@ private:
             const QStringList& env);
     void deleteShortcuts(const QString& dir,
             Job* job, bool menu, bool desktop, bool quickLaunch);
+    static PackageVersionFile* createPackageVersionFile(QDomElement* e,
+            QString* err);
+    static Dependency* createDependency(QDomElement* e);
+    static DetectFile* createDetectFile(QDomElement* e, QString* err);
 
     /**
      * Deletes a directory. If something cannot be deleted, it waits and
@@ -63,6 +68,21 @@ private:
     void emitStatusChanged();
     void addDependencyVars(QStringList* vars);
 public:
+    /**
+     * @param e version XML element
+     * @param err error message will be stored here
+     * @return created PackageVersion
+     */
+    static PackageVersion* createPackageVersion(QDomElement* e,
+            QString* err);
+
+    /**
+     * @param xml XML created by serialize()
+     * @param err error message will be stored here
+     * @return created PackageVersion
+     */
+    static PackageVersion* deserialize(const QString& xml, QString* err);
+
     /** package version */
     Version version;
 
@@ -258,6 +278,11 @@ public:
      * @return status like "locked, installed"
      */
     QString getStatus() const;
+
+    /**
+     * @return XML representation of this package version
+     */
+    QString serialize() const;
 };
 
 Q_DECLARE_METATYPE(PackageVersion)
