@@ -92,6 +92,15 @@ QList<PackageVersion*> Repository::find(const QString& text, QString* warning)
 {
     QList<PackageVersion*> r;
 
+    int type = 0; // TODO: incomplete
+    switch (type) {
+        case 0: ; // all
+        case 1: ; // not installed
+        case 2: ; // installed
+        case 3: ; // installed, updateable
+        case 4: ; // newest or installed
+    }
+
     QString t = text.trimmed();
 
     if (t.isEmpty()) {
@@ -172,6 +181,22 @@ bool Repository::isLocked(const QString& package, const Version& version) const
         }
     }
     return result;
+}
+
+void Repository::lock(const QString& package, const Version& version)
+{
+    this->locked.append(new PackageVersionHandle(package, version));
+}
+
+void Repository::unlock(const QString& package, const Version& version)
+{
+    for (int i = 0; i < this->locked.count(); i++) {
+        PackageVersionHandle* pvh = this->locked.at(i);
+        if (pvh->package == package && pvh->version == version) {
+            delete this->locked.takeAt(i);
+            break;
+        }
+    }
 }
 
 Repository::~Repository()
