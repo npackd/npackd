@@ -29,12 +29,6 @@ private:
     static QSemaphore httpConnections;
     static QSemaphore installationScripts;
 
-    /**
-     * If true, this package version is locked and cannot be
-     * installed/uninstalled.
-     */
-    volatile bool locked;
-
     void unzip(Job* job, QString zipfile, QString outputdir);
     bool createShortcuts(const QString& dir, QString* errMsg);
     QString saveFiles(const QDir& d);

@@ -31,14 +31,12 @@ QSemaphore PackageVersion::installationScripts(1);
 PackageVersion::PackageVersion()
 {
     this->type = 0;
-    this->locked = false;
     this->package_ = 0;
 }
 
 PackageVersion::PackageVersion(Package* package)
 {
     this->type = 0;
-    this->locked = false;
     this->package_ = package;
 }
 
@@ -55,18 +53,16 @@ void PackageVersion::emitStatusChanged()
 
 void PackageVersion::lock()
 {
-    if (!this->locked) {
-        this->locked = true;
-        emitStatusChanged();
-    }
+    Repository* rep = Repository::getDefault();
+    rep->lock(this->package_->name, this->version);
+    emitStatusChanged();
 }
 
 void PackageVersion::unlock()
 {
-    if (this->locked) {
-        this->locked = false;
-        emitStatusChanged();
-    }
+    Repository* rep = Repository::getDefault();
+    rep->unlock(this->package_->name, this->version);
+    emitStatusChanged();
 }
 
 bool PackageVersion::isLocked() const
@@ -1430,7 +1426,7 @@ QString PackageVersion::getStatus() const
         else
             status += ", obsolete";
     }
-    if (locked) {
+    if (isLocked()) {
         if (!status.isEmpty())
             status = ", " + status;
         status = "locked" + status;

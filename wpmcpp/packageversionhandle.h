@@ -17,7 +17,11 @@ public:
     /** package version */
     Version version;
 
-    PackageVersionHandle();
+    /**
+     * @param package full package name
+     * @param version version
+     */
+    PackageVersionHandle(const QString& package, const Version& version);
 };
 
 #endif // PACKAGEVERSIONHANDLE_H

@@ -151,6 +151,24 @@ public:
     bool isLocked(const QString& package, const Version& version) const;
 
     /**
+     * Locks a package version.
+     *
+     * @param package full package name
+     * @param version package version
+     * @return true if the package version is locked by a running operation
+     */
+    void lock(const QString& package, const Version& version);
+
+    /**
+     * Unlocks a package version.
+     *
+     * @param package full package name
+     * @param version package version
+     * @return true if the package version is locked by a running operation
+     */
+    void unlock(const QString& package, const Version& version);
+
+    /**
      * @return installation information for a package version or 0
      */
     InstalledPackageVersion* findInstalledPackageVersion(
@@ -363,6 +381,19 @@ public:
      * @return the first found locked PackageVersion or 0
      */
     PackageVersion* findLockedPackageVersion() const;
+
+    /**
+     * Retrieves package version definitions.
+     *
+     * @param query query for the full text search
+     * @param offset offset in the result set
+     * @param count maximum number of items that should be returned
+     * @param type 0 = all, 1 = not installed, 2 = installed,
+     *     3 = installed, updateable, 4 = newest or installed
+     */
+    /*/ QList<PackageVersion*> getPackageVersions(const QString& query,
+            int offset, int count,
+            int type) const; TODO */
 
     /**
      * @param text search terms
