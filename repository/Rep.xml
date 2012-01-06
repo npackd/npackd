@@ -7633,12 +7633,15 @@ verify
         <sha1>b662ee7df1e0b040b8b6ba986c73a278647b94d9</sha1>
     </version>
 
-    <version name="3.3.6.1" package="com.autoitscript.AutoItFull"
+    <!-- all versions are distributed from the same URL -->
+    <version name="3.3.8" package="com.autoitscript.AutoItFull"
             type="one-file">
-        <file path=".WPM\Install.bat">autoit-v3-setup.exe /S /D=%CD%</file>
+        <file path=".WPM\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x
+"%setup%" /S /D=%CD%
+</file>
         <file path=".WPM\Uninstall.bat">Uninstall.exe /S</file>
-        <url>http://www.autoitscript.com/files/autoit3/autoit-v3-setup.exe</url>
-        <sha1>45a0df86c5a8de25af4e48d8393f8e3c921bcc41</sha1>
+        <url>http://dl.dropbox.com/u/17046326/files/com.autoitscript.AutoItFull-3.3.8.exe</url>
+        <sha1>caee7f272a0ce8d6d98b924d9cf070aa0e81a046</sha1>
     </version>
 
     <version name="0.47.3" package="org.inkscape.Inkscape"
