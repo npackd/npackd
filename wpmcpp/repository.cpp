@@ -24,7 +24,7 @@
 
 Repository Repository::def;
 
-Repository::Repository(): QObject(), stemmer("english")
+Repository::Repository(): AbstractRepository(), stemmer("english")
 {
     this->db = 0;
     this->enquire = 0;
@@ -39,26 +39,12 @@ void Repository::index(Job* job)
     try {
         for (int i = 0; i < getPackageVersionCount(); i++){
             PackageVersion* pv = getPackageVersion(i);
-            Package* p = pv->getPackage();
 
             Xapian::Document doc;
-            QString t = pv->getFullText();
-            if (p) {
-                t += " ";
-                t += p->getFullText();
-            }
-
-            std::string para = t.toUtf8().constData();
-            doc.set_data(para);
+            this->indexCreateDocument(pv, doc);
 
             indexer.set_document(doc);
-            indexer.index_text(para);
-
-            doc.add_value(0, pv->getPackage()->name.toUtf8().constData());
-            doc.add_value(1, pv->version.getVersionString().
-                    toUtf8().constData());
-            doc.add_value(2, pv->serialize().
-                    toUtf8().constData());
+            indexer.index_text(doc.get_data());
 
             // Add the document to the database.
             db->add_document(doc);
@@ -88,46 +74,52 @@ void Repository::index(Job* job)
     }
 }
 
-QList<PackageVersion*> Repository::find(const QString& text, QString* warning)
+QList<PackageVersion*> Repository::find(const QString& text, int type,
+        QString* warning)
 {
     QList<PackageVersion*> r;
 
-    int type = 0; // TODO: incomplete
-    switch (type) {
-        case 0: ; // all
-        case 1: ; // not installed
-        case 2: ; // installed
-        case 3: ; // installed, updateable
-        case 4: ; // newest or installed
-    }
-
     QString t = text.trimmed();
 
-    if (t.isEmpty()) {
-        if (this->packageVersions.count() > 1000) {
-            for (int i = 0; i < 1000; i++) {
-                r.append(this->packageVersions.at(i));
-            }
-            *warning = QString(
-                    "Only the first %L1 matches of about %L2 are shown").
-                    arg(1000).
-                    arg(this->packageVersions.count());
-        } else
-            r = this->packageVersions;
-    }
-
     try {
-        Xapian::Query query = queryParser->parse_query(
-                t.toUtf8().constData(),
-                Xapian::QueryParser::FLAG_PHRASE |
-                Xapian::QueryParser::FLAG_BOOLEAN |
-                Xapian::QueryParser::FLAG_LOVEHATE |
-                Xapian::QueryParser::FLAG_WILDCARD |
-                Xapian::QueryParser::FLAG_PARTIAL
-        );
+        Xapian::Query query("Tpackage_version");
+
+        if (!t.isEmpty()) {
+            query = Xapian::Query(Xapian::Query::OP_AND, query,
+                    queryParser->parse_query(
+                    t.toUtf8().constData(),
+                    Xapian::QueryParser::FLAG_PHRASE |
+                    Xapian::QueryParser::FLAG_BOOLEAN |
+                    Xapian::QueryParser::FLAG_LOVEHATE |
+                    Xapian::QueryParser::FLAG_WILDCARD |
+                    Xapian::QueryParser::FLAG_PARTIAL
+            ));
+        }
+
+        switch (type) {
+            case 0:  // all
+                break;
+            case 1:  // not installed
+                query = Xapian::Query(Xapian::Query::OP_AND, query,
+                        Xapian::Query("Snot_installed"));
+                break;
+            case 2:
+                query = Xapian::Query(Xapian::Query::OP_AND, query,
+                        Xapian::Query("Sinstalled"));
+                break; // installed
+            case 3:  // installed, updateable
+                query = Xapian::Query(Xapian::Query::OP_AND, query,
+                        Xapian::Query("Sinstalled"));
+                query = Xapian::Query(Xapian::Query::OP_AND, query,
+                        Xapian::Query("Supdateable"));
+                break;
+            case 4:  // newest or installed
+                // TODO
+                break;
+        }
 
         enquire->set_query(query);
-        const unsigned int max = 200;
+        const unsigned int max = 2000;
         Xapian::MSet matches = enquire->get_mset(0, max);
         if (matches.size() == max)
             *warning = QString(
@@ -346,6 +338,107 @@ int Repository::countUpdates()
         }
     }
     return r;
+}
+
+void Repository::indexCreateDocument(Package* p, Xapian::Document& doc)
+{
+    doc.add_value(0, p->name.toUtf8().constData());
+    doc.add_boolean_term("Tpackage");
+}
+
+void Repository::indexCreateDocument(PackageVersion* pv, Xapian::Document& doc)
+{
+    QString t = pv->getFullText();
+    Package* p = pv->getPackage();
+    if (p) {
+        t += " ";
+        t += p->getFullText();
+    }
+
+    std::string para = t.toUtf8().constData();
+    doc.set_data(para);
+
+    doc.add_value(0, pv->getPackage()->name.toUtf8().constData());
+    doc.add_value(1, pv->version.getVersionString().
+            toUtf8().constData());
+    doc.add_value(2, pv->serialize().
+            toUtf8().constData());
+
+    doc.add_boolean_term("Tpackage_version");
+
+    if (this->findInstalledPackageVersion(pv)) {
+        doc.add_boolean_term("Sinstalled");
+        if (pv->isUpdateEnabled())
+            doc.add_boolean_term("Supdateable");
+    } else {
+        doc.add_boolean_term("Snot_installed");
+    }
+
+    /*
+        bool installed = pv->installed();
+        bool updateEnabled = isUpdateEnabled(pv);
+        PackageVersion* newest = r->findNewestInstallablePackageVersion(
+                pv->getPackage()->name);
+        bool statusOK;
+        switch (statusFilter) {
+            case 0:
+                // all
+                statusOK = true;
+                break;
+            case 1:
+                // not installed
+                statusOK = !installed;
+                break;
+            case 2:
+                // installed
+                statusOK = installed;
+                break;
+            case 3:
+                // installed, updateable
+                statusOK = installed && updateEnabled;
+                break;
+            case 4:
+                // newest or installed
+                statusOK = installed || pv == newest;
+                break;
+            default:
+                statusOK = true;
+                break;
+        }
+        if (!statusOK)
+            continue;
+
+*/
+}
+
+QString Repository::indexUpdatePackageVersion(PackageVersion* pv)
+{
+    QString err;
+    try {
+        Xapian::Query query(Xapian::Query::OP_AND,
+                Xapian::Query("Tpackage_version"),
+                Xapian::Query("Snot_installed"));
+
+        enquire->set_query(query);
+        Xapian::MSet matches = enquire->get_mset(0, 1);
+        if (matches.size() != 0) {
+            db->delete_document(*matches.begin());
+        }
+
+        Xapian::Document doc;
+        this->indexCreateDocument(pv, doc);
+
+        indexer.set_document(doc);
+        indexer.index_text(doc.get_data());
+
+        // Add the document to the database.
+        db->add_document(doc);
+
+        db->commit();
+    } catch (const Xapian::Error &e) {
+        err = WPMUtils::fromUtf8StdString(e.get_description());
+    }
+    return err;
 }
 
 void Repository::addWellKnownPackages()
@@ -789,6 +882,7 @@ void Repository::detectOneDotNet(const WindowsRegistry& wr,
             ipv = new InstalledPackageVersion(pv->package_, pv->version,
                     WPMUtils::getWindowsDir(), true);
             this->installedPackageVersions.append(ipv);
+            // qDebug() << pv->version.getVersionString() << " kkk ";
         }
     }
 }
@@ -1389,6 +1483,7 @@ void Repository::reload(Job *job)
 
     qDeleteAll(urls);
 
+    // TODO: can we apply SHA1 to itself?
     QCryptographicHash hash(QCryptographicHash::Sha1);
     hash.addData(key.toAscii());
     key = hash.result().toHex().toLower();

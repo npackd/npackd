@@ -65,6 +65,28 @@ void PackageVersion::unlock()
     emitStatusChanged();
 }
 
+bool PackageVersion::isUpdateEnabled() const
+{
+    Repository* r = Repository::getDefault();
+    PackageVersion* newest = r->findNewestInstallablePackageVersion(
+            getPackage()->name);
+    PackageVersion* newesti = r->findNewestInstalledPackageVersion(
+            getPackage()->name);
+    if (newest != 0 && newesti != 0) {
+        bool canInstall = !newest->isLocked() && !newest->installed() &&
+                newest->download.isValid();
+
+        InstalledPackageVersion* ipv = r->findInstalledPackageVersion(
+                newesti);
+        bool canUninstall = !newesti->isLocked() && !ipv->external_;
+
+        return canInstall && canUninstall &&
+                newest->version.compare(newesti->version) > 0;
+    } else {
+        return false;
+    }
+}
+
 bool PackageVersion::isLocked() const
 {    
     Repository* rep = Repository::getDefault();

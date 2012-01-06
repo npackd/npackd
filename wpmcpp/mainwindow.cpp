@@ -628,7 +628,7 @@ void MainWindow::fillList()
 
     QString warning;
     QList<PackageVersion*> found = r->find(this->ui->lineEditText->text(),
-            &warning);
+            statusFilter, &warning);
     if (warning.isEmpty())
         warning = "Use * to match any number of any characters at a word end";
     this->ui->labelWarning->setText(warning);
@@ -637,55 +637,6 @@ void MainWindow::fillList()
 
     for (int i = 0; i < found.count(); i++) {
         PackageVersion* pv = found.at(i);
-
-        // filter by text
-        /*
-        if (textFilter.count() > 0 && !matchedPackages.contains(pv->package)) {
-            QString fullText = pv->getFullText();
-            bool b = true;
-            for (int i = 0; i < textFilter.count(); i++) {
-                if (fullText.indexOf(textFilter.at(i)) < 0) {
-                    b = false;
-                    break;
-                }
-            }
-            if (!b)
-                continue;
-        }
-        */
-
-        bool installed = pv->installed();
-        bool updateEnabled = isUpdateEnabled(pv);
-        PackageVersion* newest = r->findNewestInstallablePackageVersion(
-                pv->getPackage()->name);
-        bool statusOK;
-        switch (statusFilter) {
-            case 0:
-                // all
-                statusOK = true;
-                break;
-            case 1:
-                // not installed
-                statusOK = !installed;
-                break;
-            case 2:
-                // installed
-                statusOK = installed;
-                break;
-            case 3:
-                // installed, updateable
-                statusOK = installed && updateEnabled;
-                break;
-            case 4:
-                // newest or installed
-                statusOK = installed || pv == newest;
-                break;
-            default:
-                statusOK = true;
-                break;
-        }
-        if (!statusOK)
-            continue;
 
         Package* p = pv->getPackage();
 
@@ -990,24 +941,7 @@ void MainWindow::on_actionUninstall_activated()
 bool MainWindow::isUpdateEnabled(PackageVersion* pv)
 {
     if (pv) {
-        Repository* r = Repository::getDefault();
-        PackageVersion* newest = r->findNewestInstallablePackageVersion(
-                pv->getPackage()->name);
-        PackageVersion* newesti = r->findNewestInstalledPackageVersion(
-                pv->getPackage()->name);
-        if (newest != 0 && newesti != 0) {
-            bool canInstall = !newest->isLocked() && !newest->installed() &&
-                    newest->download.isValid();
-
-            InstalledPackageVersion* ipv = r->findInstalledPackageVersion(
-                    newesti);
-            bool canUninstall = !newesti->isLocked() && !ipv->external_;
-
-            return canInstall && canUninstall &&
-                    newest->version.compare(newesti->version) > 0;
-        } else {
-            return false;
-        }
+        return pv->isUpdateEnabled();
     } else {
         return false;
     }
