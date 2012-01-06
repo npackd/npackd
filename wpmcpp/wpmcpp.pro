@@ -30,7 +30,8 @@ SOURCES += main.cpp \
     xmlutils.cpp \
     settingsframe.cpp \
     installedpackageversion.cpp \
-    packageversionhandle.cpp
+    packageversionhandle.cpp \
+    abstractrepository.cpp
 HEADERS += mainwindow.h \
     packageversion.h \
     repository.h \
@@ -59,7 +60,8 @@ HEADERS += mainwindow.h \
     settingsframe.h \
     mstask.h \
     installedpackageversion.h \
-    packageversionhandle.h
+    packageversionhandle.h \
+    abstractrepository.h
 FORMS += mainwindow.ui \
     packageversionform.ui \
     licenseform.ui \

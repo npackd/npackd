@@ -175,6 +175,11 @@ public:
     QString getFileExtension();
 
     /**
+     * @return true if this package version could be updated
+     */
+    bool isUpdateEnabled() const;
+
+    /**
      * Downloads the package.
      *
      * @param filename target file

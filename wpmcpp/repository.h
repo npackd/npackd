@@ -19,11 +19,12 @@
 #include "windowsregistry.h"
 #include "installedpackageversion.h"
 #include "packageversionhandle.h"
+#include "abstractrepository.h"
 
 /**
  * A repository is a list of packages and package versions.
  */
-class Repository: public QObject
+class Repository: public AbstractRepository
 {
     Q_OBJECT
 private:
@@ -101,7 +102,11 @@ private:
     void detectPre_1_15_Packages();
 
     void addWellKnownPackages();
+
     void index(Job* job);
+    void indexCreateDocument(PackageVersion* pv, Xapian::Document& doc);
+    void indexCreateDocument(Package* p, Xapian::Document& doc);
+    QString indexUpdatePackageVersion(PackageVersion* pv);
 public:
     /**
      * @return newly created object pointing to the repositories
@@ -383,24 +388,14 @@ public:
     PackageVersion* findLockedPackageVersion() const;
 
     /**
-     * Retrieves package version definitions.
-     *
-     * @param query query for the full text search
-     * @param offset offset in the result set
-     * @param count maximum number of items that should be returned
+     * @param text search terms
      * @param type 0 = all, 1 = not installed, 2 = installed,
      *     3 = installed, updateable, 4 = newest or installed
-     */
-    /*/ QList<PackageVersion*> getPackageVersions(const QString& query,
-            int offset, int count,
-            int type) const; TODO */
-
-    /**
-     * @param text search terms
      * @param warning a warning is stored here
      * @return found package versions
      */
-    QList<PackageVersion*> find(const QString& text, QString* warning);
+    QList<PackageVersion*> find(const QString& text, int type,
+            QString* warning);
 
     /**
      * Emits the statusChanged(PackageVersion*) signal.
