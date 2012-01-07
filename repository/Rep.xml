@@ -9120,6 +9120,37 @@ xpm) do reg delete HKLM\SOFTWARE\Classes\.%%g\OpenWithList\%key% /f
         <url>http://irfanview.tuwien.ac.at/iview430.zip</url>
         <sha1>7991C030B749A9DA8D9005B8D7615D6E0012F250</sha1>
     </version>
+    <version name="4.32" package="de.irfanview.IrfanView">
+        <file path=".WPM\Install.bat">set KEY=de.irfanview.IrfanView-4.32
+reg add HKLM\SOFTWARE\Classes\Applications\%KEY%\shell\open /v FriendlyAppName /d "IrfanView (4.30)" /f
+set c=\"%CD%\i_view32.exe\" \"%%1\"
+reg add HKLM\SOFTWARE\Classes\Applications\%KEY%\shell\open\command /d "%c%" /f
+for %%g in (ani cur avi wmv asf b3d bmp dib rle cam cdr cmx clp cpt crw cr2
+dcm acr ima dcr dng eff mrw nef orf pef raf srf arw rwl rw2 x3f
+dds blp djvu iw44 dwg dxf hpgl cgm svg ecw eps ps pdf ai
+exe dll cpl exr fpx fsh g3 gif hdp wdp ico icl ics ids iff lbm
+img jls jp2 jpg jpeg jpm kdc ldf lwf med mng jng mp3 m3u mov
+mpg mpeg dat nlm nol ngg gsm ogg pbm pgm ppm pcd pcx dcx png psd
+psp ra ras raw yuv rle sff sfw sgi sid swf flv tga tif ttf
+wav mid rmi wma aif snd au cda wbmp wbz wbc wmf emf wsq xbm
+xpm) do reg add HKLM\SOFTWARE\Classes\.%%g\OpenWithList\%key% /f
+</file>
+        <file path=".WPM\Uninstall.bat">set KEY=de.irfanview.IrfanView-4.32
+reg delete HKLM\SOFTWARE\Classes\Applications\%KEY% /f
+for %%g in (ani cur avi wmv asf b3d bmp dib rle cam cdr cmx clp cpt crw cr2
+dcm acr ima dcr dng eff mrw nef orf pef raf srf arw rwl rw2 x3f
+dds blp djvu iw44 dwg dxf hpgl cgm svg ecw eps ps pdf ai
+exe dll cpl exr fpx fsh g3 gif hdp wdp ico icl ics ids iff lbm
+img jls jp2 jpg jpeg jpm kdc ldf lwf med mng jng mp3 m3u mov
+mpg mpeg dat nlm nol ngg gsm ogg pbm pgm ppm pcd pcx dcx png psd
+psp ra ras raw yuv rle sff sfw sgi sid swf flv tga tif ttf
+wav mid rmi wma aif snd au cda wbmp wbz wbc wmf emf wsq xbm
+xpm) do reg delete HKLM\SOFTWARE\Classes\.%%g\OpenWithList\%key% /f
+</file>
+        <important-file path="i_view32.exe" title="IrfanView"/>
+        <url>http://irfanview.tuwien.ac.at/iview432.zip</url>
+        <sha1>bd629c83b62c704435fffc72cf5ebcaf1c4e7d8b</sha1>
+    </version>
 
     <version name="3.14" package="com.feedreader.FeedReader">
         <important-file path="feedreader.exe" title="FeedReader"/>
