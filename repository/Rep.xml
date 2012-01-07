@@ -4554,10 +4554,25 @@ verify
 
     <version name="0.97.1.1" package="org.gnome.live.dia.Dia"
             type="one-file">
-        <file path=".WPM\Install.bat">dia-setup-0.97.1-1.exe /S /D=%CD%</file>
-        <file path=".WPM\Uninstall.bat">dia-0.97.1-uninstall.exe /S _?=%CD%</file>
+        <file path=".WPM\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x
+"%setup%" /S /D=%CD%
+</file>
+        <file path=".WPM\Uninstall.bat">for /f "delims=" %%x in ('dir /b *uninstall.exe') do set setup=%%x
+"%setup%" /S _?=%CD%
+</file>
         <url>http://downloads.sourceforge.net/project/dia-installer/dia-win32-installer/0.97.1/dia-setup-0.97.1-1.exe?ts=1284065258</url>
         <sha1>aa50b4292fa43b787167a8cf49a2209d80eab1ec</sha1>
+    </version>
+    <version name="0.97.2" package="org.gnome.live.dia.Dia"
+            type="one-file">
+        <file path=".WPM\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x
+"%setup%" /S /D=%CD%
+</file>
+        <file path=".WPM\Uninstall.bat">for /f "delims=" %%x in ('dir /b *uninstall.exe') do set setup=%%x
+"%setup%" /S _?=%CD%
+</file>
+        <url>http://downloads.sourceforge.net/project/dia-installer/dia-win32-installer/0.97.2/dia-setup-0.97.2.exe?ts=1325933409</url>
+        <sha1>1558482d19fc71de34a6f0b09e1dd6d3bfb7c151</sha1>
     </version>
 
     <version name="0.3.3" package="net.sourceforge.winrun4j.WinRun4j">
