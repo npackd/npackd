@@ -6690,22 +6690,36 @@ for %%g in (msi) do reg delete HKLM\SOFTWARE\Classes\.%%g\OpenWithList\%key% /f
     </version>
 
     <version name="1.4.9" package="org.gnupg.GnuPG" type="one-file">
-        <file path=".WPM\Install.bat">gnupg-w32cli-1.4.9.exe /S /D=%CD%</file>
+        <file path=".WPM\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x
+"%setup%" /S /D=%CD%
+</file>
         <file path=".WPM\Uninstall.bat">uninst-gnupg.exe /S</file>
         <url>http://www.artfiles.org/gnupg.org/binary/gnupg-w32cli-1.4.9.exe</url>
         <sha1>c2efad983dfe50e6d8007257bad2c76604be389a</sha1>
     </version>
     <version name="1.4.10.2" package="org.gnupg.GnuPG" type="one-file">
-        <file path=".WPM\Install.bat">gnupg-w32cli-1.4.10b.exe /S /D=%CD%</file>
+        <file path=".WPM\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x
+"%setup%" /S /D=%CD%
+</file>
         <file path=".WPM\Uninstall.bat">uninst-gnupg.exe /S</file>
         <url>http://www.artfiles.org/gnupg.org/binary/gnupg-w32cli-1.4.10b.exe</url>
         <sha1>b86624303f2e29ade92dcfae672fe75ba9df3931</sha1>
     </version>
     <version name="1.4.11" package="org.gnupg.GnuPG" type="one-file">
-        <file path=".WPM\Install.bat">gnupg-w32cli-1.4.11.exe /S /D=%CD%</file>
+        <file path=".WPM\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x
+"%setup%" /S /D=%CD%
+</file>
         <file path=".WPM\Uninstall.bat">uninst-gnupg.exe /S</file>
         <url>http://www.artfiles.org/gnupg.org/binary/gnupg-w32cli-1.4.11.exe</url>
         <sha1>631b5129f918b7d30247ade8bcc27908951eaea0</sha1>
+    </version>
+    <version name="2.1" package="org.gnupg.GnuPG" type="one-file">
+        <file path=".WPM\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x
+"%setup%" /S /D=%CD%
+</file>
+        <file path=".WPM\Uninstall.bat">uninst-gnupg.exe /S</file>
+        <url>http://ftp.heanet.ie/mirrors/ftp.gpg4win.org/gpg4win-2.1.0.exe</url>
+        <sha1>f619313cb42241d6837d20d24a814b81a1fe7f6d</sha1>
     </version>
 
     <!-- 
