@@ -9089,8 +9089,8 @@ if %err% neq 0 exit /b %err%
         <detect-msi>{26A24AE4-039D-4CA4-87B4-2F83217001FF}</detect-msi>
     </version>
     <version name="1.7.0.2" package="com.oracle.JRE" type="one-file">
-        <file path=".WPM\Install.bat">ren AutoDL Install.exe
-Install.exe /s /v"/qn /Lime .WPM\MSI.log /norestart AgreeToLicense=YES IEXPLORER=1 MOZILLA=1 REBOOT=Suppress ALLUSERS=1 INSTALLDIR="""%CD%""" SYSTRAY=0"
+        <file path=".WPM\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x
+"%setup%" /s /v"/qn /Lime .WPM\MSI.log /norestart AgreeToLicense=YES IEXPLORER=1 MOZILLA=1 REBOOT=Suppress ALLUSERS=1 INSTALLDIR="""%CD%""" SYSTRAY=0"
 set err=%errorlevel%
 type .WPM\MSI.log
 if %err% neq 0 exit /b %err%
@@ -11067,6 +11067,7 @@ if %err% neq 0 exit %err%
 </file>
         <url>http://download.documentfoundation.org/libreoffice/old/3.3.2.2/win/x86/BrOffice_3.3.2_Win_x86_install_all_lang.exe</url>
         <sha1>F856A09C4E957AA2D1390E805D381D8D43211C6E</sha1>
+        <dependency package="com.oracle.JRE" versions="[1.6, 2)"/>
     </version>
     <version name="3.3.3" package="org.libreoffice.LibreOffice" 
             type="one-file">
@@ -11083,6 +11084,7 @@ if %err% neq 0 exit %err%
 </file>
         <url>http://downloads.sourceforge.net/project/npackd/org.libreoffice.LibreOffice-3.3.3.exe?ts=1309808773</url>
         <sha1>AA8E8FAB1EAAC65955E4DEC15DDC348A89F30A20</sha1>
+        <dependency package="com.oracle.JRE" versions="[1.6, 2)"/>
     </version>
     <version name="3.4.3.2" package="org.libreoffice.LibreOffice" 
             type="one-file">
@@ -11099,6 +11101,24 @@ if %err% neq 0 exit %err%
 </file>
         <url>http://download.documentfoundation.org/libreoffice/old/3.4.3.2/win/x86/LibO_3.4.3_Win_x86_install_multi.exe</url>
         <sha1>697b9e796e8955658e360fd32f16177ee17fe7e8</sha1>
+        <dependency package="com.oracle.JRE" versions="[1.6, 2)"/>
+    </version>
+    <version name="3.4.4" package="org.libreoffice.LibreOffice" 
+            type="one-file">
+        <file path=".WPM\Install.bat">for /f %%x in ('dir /b *.exe') do set setup=%%x
+"%setup%" /S /D=%CD%
+</file>
+        <file path=".WPM\Uninstall.bat">set setup=libreoffice34.msi
+msiexec.exe /qn /norestart /Lime .WPM\MSI.log /x "%setup%"
+set err=%errorlevel%
+type .WPM\MSI.log
+rem 3010=restart required
+if %err% equ 3010 exit 0
+if %err% neq 0 exit %err%
+</file>
+        <url>http://npackd.googlecode.com/files/org.libreoffice.LibreOffice-3.4.4.exe</url>
+        <sha1>0898a91d560904454a07cf5e089ed65c828bfe08</sha1>
+        <dependency package="com.oracle.JRE" versions="[1.6, 2)"/>
     </version>
 
     <version name="1.0.1" package="org.pdfforge.PDFCreator" type="one-file">
