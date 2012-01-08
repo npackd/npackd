@@ -13863,6 +13863,37 @@ verify
         <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1, 1]"/>
         <dependency package="com.googlecode.windows-package-manager.CLU" versions="[1, 1]"/>
     </version>
+    <version name="1.7.0.2" package="com.oracle.JDK" type="one-file">
+        <file path=".WPM\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x
+"%setup%" /s /v"/qn /Lime """"""%CD%\.WPM\MSI.log"""""" /norestart REBOOT=Suppress ALLUSERS=1 ADDLOCAL=""""""ToolsFeature,SourceFeature"""""" INSTALLDIR=""""""%CD%"""""" "
+set err=%errorlevel%
+type .WPM\MSI.log
+if %err% neq 0 exit /b %err%
+
+if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
+set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.CLU" "--versions=[1, 1]"
+for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set clu=%%x
+"%clu%\clu" add-path --path "%CD%\bin"
+verify
+</file>
+        <file path=".WPM\Uninstall.bat">MsiExec.exe /qn /norestart /Lime .WPM\MSI.log /X{32A3A4F4-B792-11D6-A78A-00B0D0170020}
+set err=%errorlevel%
+type .WPM\MSI.log
+if %err% neq 0 exit /b %err%
+
+if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
+set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.CLU" "--versions=[1, 1]"
+for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set clu=%%x
+"%clu%\clu" remove-path --path "%CD%\bin"
+verify
+</file>
+        <url>http://download.oracle.com/otn-pub/java/jdk/7u2-b13/jdk-7u2-windows-i586.exe</url>
+        <sha1>a36ae80b80dd1c9c5c466b3eb2451cd649613cfb</sha1>
+        <detect-msi>{32A3A4F4-B792-11D6-A78A-00B0D0170020}</detect-msi>
+        <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.15.7, 2)"/>
+        <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1, 1]"/>
+        <dependency package="com.googlecode.windows-package-manager.CLU" versions="[1, 1]"/>
+    </version>
 
     <version name="2.4.3" package="org.gnucash.GNUCash" type="one-file">
         <file path=".WPM\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x
