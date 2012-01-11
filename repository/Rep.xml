@@ -3216,6 +3216,20 @@ for /f %%x in ('dir /b *.exe') do set setup=%%x
         <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.15.7, 2)"/>
         <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1, 1]"/>
     </version>
+    <version name="11.60" package="com.opera.Opera" type="one-file">
+        <important-file path="Opera.exe" title="Opera"/>
+        <file path=".WPM\Install.bat">if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
+set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=org.7-zip.SevenZIPA" "--versions=[9.20, 9.20]"
+for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set sevenzipa=%%x
+for /f %%x in ('dir /b *.exe') do set setup=%%x
+"%sevenzipa%\7za.exe" x "%setup%"
+</file>
+        <url>http://get10.opera.com/pub/opera/win/1160/int/Opera_1160_int_Setup.exe</url>
+        <sha1>b1f270487b9450d4aac8a0caaf918173dc153d3d</sha1>
+        <dependency package="org.7-zip.SevenZIPA" versions="[9.20, 9.20]"/>
+        <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.15.7, 2)"/>
+        <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1, 1]"/>
+    </version>
 
     <!-- uninstallation shows 2 confirmation dialogs -->
     <version name="4.5.2" package="net.sourceforge.djvu.DjView" type="one-file">
