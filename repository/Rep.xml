@@ -9538,6 +9538,19 @@ set d=%ProgramFiles%
 "%d%\Google\Picasa3\Uninstall.exe" /S</file>
         <url>http://dl.google.com/picasa/picasa38-setup.exe</url>
     </version>
+    <version name="3.9" package="com.google.Picasa"
+            type="one-file">
+        <file path=".WPM\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x
+"%setup%" /S /L
+</file>
+        <file path=".WPM\Uninstall.bat">set d=%ProgramFiles(x86)%
+if "%d%" NEQ "" goto n
+set d=%ProgramFiles%
+:n
+"%d%\Google\Picasa3\Uninstall.exe" /S
+</file>
+        <url>http://dl.google.com/picasa/picasa39-setup.exe</url>
+    </version>
 
     <version name="7.6.6" package="com.apple.QuickTimeInstaller"
             type="one-file">
