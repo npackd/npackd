@@ -13470,6 +13470,15 @@ if %err% neq 0 exit %err%
         <url>http://ftp.osuosl.org/pub/pculture.org/Miro/win/Miro-4.0.3.exe</url>
         <sha1>dd49ae1463db9371568279c5851ad63034686fdc</sha1>
     </version>
+    <version name="4.0.4" package="com.getmiro.Miro" type="one-file">
+        <file path=".WPM\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x
+"%setup%" /S /D=%CD%
+</file>
+        <file path=".WPM\Uninstall.bat">Uninstall.exe /S _?=%CD%
+</file>        
+        <url>http://ftp.osuosl.org/pub/pculture.org/Miro/win/Miro-4.0.4.exe</url>
+        <sha1>af3912fc31f3dab34e7d5f1d3476d24b2cef7d80</sha1>
+    </version>
 
     <!-- 
         see also this issue about stable releases:
