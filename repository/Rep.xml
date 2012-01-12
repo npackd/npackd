@@ -6513,6 +6513,20 @@ del Q-Dir.ini
         <url>http://dl.dropbox.com/u/17046326/files/com.softwareok.QDir-4.88.zip</url>
         <sha1>2deb19fcaefdcf8e31767945de8651f7c45051bd</sha1>
     </version>
+    <version name="4.93" package="com.softwareok.QDir">
+        <file path=".WPM\Install.bat">for /f "delims=" %%x in ('dir /b Q*') do set name=%%x
+cd "%name%"        
+for /f "delims=" %%a in ('dir /b') do (
+  move "%%a" ..
+)
+cd ..
+rmdir "%name%"
+del Q-Dir.ini
+</file>
+        <important-file path="Q-Dir.exe" title="Q-Dir"/>
+        <url>http://dl.dropbox.com/u/17046326/files/com.softwareok.QDir-4.93.zip</url>
+        <sha1>8005e08b12ac594ee54f5dcdd841b33b3a69f4e8</sha1>
+    </version>
 
     <version name="1.17" package="info.keepass.KeePassClassic">
         <important-file path="KeePass.exe" title="KeePass"/>
@@ -13195,6 +13209,7 @@ if %err% neq 0 exit /b %err%
         <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1, 1]"/>
         <sha1>D66049A7B438045CAE88FBDBBB2979FD508C5726</sha1>
     </version>
+    <!-- installs the package not under the package directory -->
     <version name="2.24.1" package="org.pygtk.PyGTKAllInOne" type="one-file">
         <file path=".WPM\Install.bat">if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
 set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=org.python.Python" "--versions=[2.6.6, 2.6.6]"
