@@ -293,14 +293,11 @@ void MainWindow::updateIcons()
     for (int i = 0; i < this->ui->tableWidget->rowCount(); i++) {
         QTableWidgetItem *item = ui->tableWidget->item(i, 0);
         const QVariant v = item->data(Qt::UserRole);
-        PackageVersion* pv = (PackageVersion *) v.value<void*>();
-        Package* p = pv->getPackage();
+        Package* p = (Package *) v.value<void*>();
 
-        if (p) {
-            if (!p->icon.isEmpty() && this->icons.contains(p->icon)) {
-                QIcon icon = this->icons[p->icon];
-                item->setIcon(icon);
-            }
+        if (!p->icon.isEmpty() && this->icons.contains(p->icon)) {
+            QIcon icon = this->icons[p->icon];
+            item->setIcon(icon);
         }
     }
 
@@ -498,40 +495,40 @@ void MainWindow::onShow()
     recognizeAndLoadRepositories();
 }
 
-void MainWindow::selectPackageVersion(PackageVersion* pv)
+void MainWindow::selectPackage(Package* p)
 {
     for (int i = 0; i < this->ui->tableWidget->rowCount(); i++) {
         const QVariant v = this->ui->tableWidget->item(i, 0)->
                 data(Qt::UserRole);
-        PackageVersion* f = (PackageVersion *) v.value<void*>();
-        if (f == pv) {
+        Package* f = (Package *) v.value<void*>();
+        if (f == p) {
             this->ui->tableWidget->selectRow(i);
             break;
         }
     }
 }
 
-PackageVersion* MainWindow::getSelectedPackageVersionInTable()
+Package* MainWindow::getSelectedPackageInTable()
 {
     QList<QTableWidgetItem*> sel = this->ui->tableWidget->selectedItems();
     if (sel.count() > 0) {
         const QVariant v = sel.at(0)->data(Qt::UserRole);
-        PackageVersion* pv = (PackageVersion *) v.value<void*>();
+        Package* pv = (Package *) v.value<void*>();
         return pv;
     }
     return 0;
 }
 
-QList<PackageVersion*> MainWindow::getSelectedPackageVersionsInTable()
+QList<Package*> MainWindow::getSelectedPackagesInTable()
 {
-    QList<PackageVersion*> result;
+    QList<Package*> result;
     QList<QTableWidgetItem*> sel = this->ui->tableWidget->selectedItems();
     for (int i = 0; i < sel.count(); i++) {
         QTableWidgetItem* item = sel.at(i);
         if (item->column() == 0) {
             const QVariant v = item->data(Qt::UserRole);
-            PackageVersion* pv = (PackageVersion *) v.value<void*>();
-            result.append(pv);
+            Package* p = (Package *) v.value<void*>();
+            result.append(p);
         }
     }
     return result;
@@ -539,6 +536,7 @@ QList<PackageVersion*> MainWindow::getSelectedPackageVersionsInTable()
 
 PackageVersion* MainWindow::getSelectedPackageVersion()
 {
+    /* TODO
     QWidget* w = this->ui->tabWidget->widget(this->ui->tabWidget->
             currentIndex());
     PackageVersionForm* pvf = dynamic_cast<PackageVersionForm*>(w);
@@ -549,11 +547,14 @@ PackageVersion* MainWindow::getSelectedPackageVersion()
     } else {
         return 0;
     }
+    */
+    return 0;
 }
 
 QList<PackageVersion*> MainWindow::getSelectedPackageVersions()
 {
     QList<PackageVersion*> result;
+    /* TODO
     QWidget* w = this->ui->tabWidget->widget(this->ui->tabWidget->
             currentIndex());
     PackageVersionForm* pvf = dynamic_cast<PackageVersionForm*>(w);
@@ -562,6 +563,7 @@ QList<PackageVersion*> MainWindow::getSelectedPackageVersions()
     } else if (w == this->ui->tab){
         result = getSelectedPackageVersionsInTable();
     }
+    */
     return result;
 }
 
@@ -611,10 +613,10 @@ void MainWindow::fillList()
     newItem = new QTableWidgetItem("Description");
     t->setHorizontalHeaderItem(2, newItem);
 
-    newItem = new QTableWidgetItem("Version");
+    newItem = new QTableWidgetItem("Available");
     t->setHorizontalHeaderItem(3, newItem);
 
-    newItem = new QTableWidgetItem("Status");
+    newItem = new QTableWidgetItem("Installed");
     t->setHorizontalHeaderItem(4, newItem);
 
     newItem = new QTableWidgetItem("License");
@@ -627,7 +629,7 @@ void MainWindow::fillList()
     int n = 0;
 
     QString warning;
-    QList<PackageVersion*> found = r->find(this->ui->lineEditText->text(),
+    QList<Package*> found = r->find(this->ui->lineEditText->text(),
             statusFilter, &warning);
     if (warning.isEmpty())
         warning = "Use * to match any number of any characters at a word end";
@@ -636,9 +638,7 @@ void MainWindow::fillList()
     QSet<QString> requestedIcons;
 
     for (int i = 0; i < found.count(); i++) {
-        PackageVersion* pv = found.at(i);
-
-        Package* p = pv->getPackage();
+        Package* p = found.at(i);
 
         if (!p->icon.isEmpty() && !requestedIcons.contains(p->icon)) {
             FileLoaderItem it;
@@ -652,7 +652,7 @@ void MainWindow::fillList()
 
 
         newItem = new QTableWidgetItem("");
-        newItem->setData(Qt::UserRole, qVariantFromValue((void*) pv));
+        newItem->setData(Qt::UserRole, qVariantFromValue((void*) p));
         if (p) {
             if (!p->icon.isEmpty() && this->icons.contains(p->icon)) {
                 QIcon icon = this->icons[p->icon];
@@ -665,46 +665,48 @@ void MainWindow::fillList()
         }
         t->setItem(n, 0, newItem);
 
-        QString packageTitle;
-        if (p)
-            packageTitle = p->title;
-        else
-            packageTitle = pv->getPackage()->name;
-        newItem = new QCITableWidgetItem(packageTitle);
-        newItem->setStatusTip(pv->download.toString() + " " +
-                pv->getPackage()->name +
-                " " + pv->sha1);
-        newItem->setData(Qt::UserRole, qVariantFromValue((void*) pv));
+        newItem = new QCITableWidgetItem(p->title);
+        newItem->setStatusTip(p->name);
+        newItem->setData(Qt::UserRole, qVariantFromValue((void*) p));
         t->setItem(n, 1, newItem);
 
-        QString desc;
-        if (p)
-            desc = p->description;
-        newItem = new QCITableWidgetItem(desc);
-        newItem->setData(Qt::UserRole, qVariantFromValue((void*) pv));
+        newItem = new QCITableWidgetItem(p->description);
+        newItem->setData(Qt::UserRole, qVariantFromValue((void*) p));
         t->setItem(n, 2, newItem);
 
-        newItem = new QTableWidgetItem(pv->version.getVersionString());
-        newItem->setData(Qt::UserRole, qVariantFromValue((void*) pv));
+        QList<PackageVersion*> pvs = r->getPackageVersions(p->name);
+        QString installed, available;
+        for (int j = 0; j < pvs.count(); j++) {
+            PackageVersion* pv = pvs.at(j);
+            if (!available.isEmpty())
+                available.append(", ");
+            available.append(pv->version.getVersionString());
+            if (pv->installed()) {
+                if (!installed.isEmpty())
+                    installed.append(", ");
+                installed.append(pv->version.getVersionString());
+            }
+        }
+
+        newItem = new QTableWidgetItem(available);
+        newItem->setData(Qt::UserRole, qVariantFromValue((void*) p));
         t->setItem(n, 3, newItem);
 
-        newItem = new QCITableWidgetItem("");
-        QString status = pv->getStatus();
-        newItem->setText(status);
+        newItem = new QCITableWidgetItem(installed);
+        /* TODO
         if (status.contains("obsolete") || status.contains("updateable"))
             newItem->setBackgroundColor(QColor(255, 0xc7, 0xc7));
-        newItem->setData(Qt::UserRole, qVariantFromValue((void*) pv));
+            */
+        newItem->setData(Qt::UserRole, qVariantFromValue((void*) p));
         t->setItem(n, 4, newItem);
 
         newItem = new QCITableWidgetItem("");
         QString licenseTitle;
-        if (p) {
-            License* lic = r->findLicense(p->license);
-            if (lic)
-                licenseTitle = lic->title;
-        }
+        License* lic = r->findLicense(p->license);
+        if (lic)
+            licenseTitle = lic->title;
         newItem->setText(licenseTitle);
-        newItem->setData(Qt::UserRole, qVariantFromValue((void*) pv));
+        newItem->setData(Qt::UserRole, qVariantFromValue((void*) p));
         t->setItem(n, 5, newItem);
 
         n++;
@@ -878,10 +880,10 @@ void MainWindow::process(QList<InstallOperation*> &install)
 
 void MainWindow::processThreadFinished()
 {
-    PackageVersion* sel = getSelectedPackageVersionInTable();
+    Package* sel = getSelectedPackageInTable();
     fillList();
     updateStatusInDetailTabs();
-    selectPackageVersion(sel);
+    selectPackage(sel);
 }
 
 void MainWindow::changeEvent(QEvent *e)

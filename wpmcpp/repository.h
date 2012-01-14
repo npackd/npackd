@@ -391,10 +391,11 @@ public:
      * @param text search terms
      * @param type 0 = all, 1 = not installed, 2 = installed,
      *     3 = installed, updateable, 4 = newest or installed
+     *     TODO: how to filter packages by type?
      * @param warning a warning is stored here
      * @return found package versions
      */
-    QList<PackageVersion*> find(const QString& text, int type,
+    QList<Package*> find(const QString& text, int type,
             QString* warning);
 
     /**

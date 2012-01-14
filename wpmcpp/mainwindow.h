@@ -85,24 +85,24 @@ private:
     QList<PackageVersion*> getSelectedPackageVersions();
 
     /**
-     * This method returns a non-null PackageVersion* if something is selected
+     * This method returns a non-null Package* if something is selected
      * in the list.
      *
-     * @return selected package version or 0.
+     * @return selected package or 0.
      */
-    PackageVersion* getSelectedPackageVersionInTable();
+    Package* getSelectedPackageInTable();
 
     /**
-     * This method returns all selected PackageVersion* items
+     * This method returns all selected Package* items
      *
-     * @return selected package versions
+     * @return selected packages
      */
-    QList<PackageVersion*> getSelectedPackageVersionsInTable();
+    QList<Package*> getSelectedPackagesInTable();
 
     /**
-     * @param pv a version or 0
+     * @param p a version or 0
      */
-    void selectPackageVersion(PackageVersion* pv);
+    void selectPackage(Package* p);
 
     /**
      * Adds an entry in the "Progress" tab and monitors a task.

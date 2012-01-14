@@ -37,11 +37,11 @@ Repository::Repository(): AbstractRepository(), stemmer("english")
 void Repository::index(Job* job)
 {
     try {
-        for (int i = 0; i < getPackageVersionCount(); i++){
-            PackageVersion* pv = getPackageVersion(i);
+        for (int i = 0; i < getPackageCount(); i++){
+            Package* p = this->packages.at(i);
 
             Xapian::Document doc;
-            this->indexCreateDocument(pv, doc);
+            this->indexCreateDocument(p, doc);
 
             indexer.set_document(doc);
             indexer.index_text(doc.get_data());
@@ -74,15 +74,15 @@ void Repository::index(Job* job)
     }
 }
 
-QList<PackageVersion*> Repository::find(const QString& text, int type,
+QList<Package*> Repository::find(const QString& text, int type,
         QString* warning)
 {
-    QList<PackageVersion*> r;
+    QList<Package*> r;
 
     QString t = text.trimmed();
 
     try {
-        Xapian::Query query("Tpackage_version");
+        Xapian::Query query("Tpackage");
 
         if (!t.isEmpty()) {
             query = Xapian::Query(Xapian::Query::OP_AND, query,
@@ -96,6 +96,7 @@ QList<PackageVersion*> Repository::find(const QString& text, int type,
             ));
         }
 
+        /* TODO:
         switch (type) {
             case 0:  // all
                 break;
@@ -117,6 +118,7 @@ QList<PackageVersion*> Repository::find(const QString& text, int type,
                 // TODO
                 break;
         }
+        */
 
         enquire->set_query(query);
         const unsigned int max = 2000;
@@ -131,16 +133,10 @@ QList<PackageVersion*> Repository::find(const QString& text, int type,
         for (i = matches.begin(); i != matches.end(); ++i) {
             Xapian::Document doc = i.get_document();
             std::string package = doc.get_value(0);
-            std::string version = doc.get_value(1);
             QString package_ = WPMUtils::fromUtf8StdString(package);
-            QString version_ = WPMUtils::fromUtf8StdString(version);
-            Version version__;
-            if (version__.setVersion(version_)) {
-                PackageVersion* pv = this->findPackageVersion(
-                        package_, version__);
-                if (pv)
-                    r.append(pv);
-            }
+            Package* p = this->findPackage(package_);
+            if (p)
+                r.append(p);
         }
     } catch (const Xapian::Error &e) {
         *warning = WPMUtils::fromUtf8StdString(e.get_description());
@@ -342,6 +338,10 @@ int Repository::countUpdates()
 
 void Repository::indexCreateDocument(Package* p, Xapian::Document& doc)
 {
+    QString t = p->getFullText();
+    std::string para = t.toUtf8().constData();
+    doc.set_data(para);
+
     doc.add_value(0, p->name.toUtf8().constData());
     doc.add_boolean_term("Tpackage");
 }
