@@ -14715,6 +14715,23 @@ if %err% neq 0 exit /b %err%
 </file>
         <url>http://download.skype.com/3694814915aaa38100bfa0933f948e65/partner/trackable/259/SkypeSetup.exe</url>
     </version>
+    <version name="5.6.59.110" package="com.skype.Skype" type="one-file">
+        <file path=".WPM\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x
+"%setup%" /SP- /VERYSILENT /SUPPRESSMSGBOXES /NOCANCEL /NORESTART /DIR="%CD%" /SAVEINF="%CD%\.WPM\InnoSetupInfo.ini" /LOG="%CD%\.WPM\InnoSetupInstall.log"
+set err=%errorlevel%
+type .WPM\InnoSetupInstall.log
+if %err% neq 0 exit %err%
+taskkill /f /im Skype.exe
+</file>
+        <file path=".WPM\Uninstall.bat">msiexec.exe /qn /norestart /Lime .WPM\MSI.log /x{AA59DDE4-B672-4621-A016-4C248204957A}
+set err=%errorlevel%
+type .WPM\MSI.log
+rem 3010=restart required
+if %err% equ 3010 exit /b 0
+if %err% neq 0 exit /b %err%
+</file>
+        <url>http://download.skype.com/967c520f760c41072c5d08447be66804/partner/59/SkypeSetup.exe</url>
+    </version>
 
     <version name="3.98.3" package="ar.com.buanzo.lame.LameForAudacity" type="one-file">
         <file path=".WPM\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x
