@@ -1934,6 +1934,20 @@ del Q-Dir.ini
         <url>http://dl.dropbox.com/u/17046326/files/com.softwareok.QDir64-4.88.zip</url>
         <sha1>7abc5e0783213107a44efb99201f8862f6b25527</sha1>
     </version>
+    <version name="4.93" package="com.softwareok.QDir64">
+        <file path=".WPM\Install.bat">for /f "delims=" %%x in ('dir /b Q*') do set name=%%x
+cd "%name%"        
+for /f "delims=" %%a in ('dir /b') do (
+  move "%%a" ..
+)
+cd ..
+rmdir "%name%"
+del Q-Dir.ini
+</file>
+        <important-file path="Q-Dir.exe" title="Q-Dir"/>
+        <url>http://dl.dropbox.com/u/17046326/files/com.softwareok.QDir64-4.93.zip</url>
+        <sha1>6fbe4c1e40a48977829cd94acdf165ed42c11345</sha1>
+    </version>
 
     <version name="7.0.12" package="org.apache.tomcat.Tomcat64">
         <file path=".WPM\Install.bat">for /f %%x in ('dir /b apache*') do set name=%%x
@@ -2123,6 +2137,44 @@ verify
         <dependency package="com.googlecode.windows-package-manager.CLU" versions="[1, 1]"/>
         <url>http://www.sliksvn.com/pub/Slik-Subversion-1.7.1-x64.msi</url>
         <sha1>52ddf7cfdff0f5fadd21a962a283f532ea9c14f9</sha1>
+    </version>
+    <version name="1.7.2" package="org.apache.subversion.Subversion64"
+            type="one-file">
+        <file path=".WPM\Install.bat">for /f "delims=" %%x in ('dir /b *.msi') do set setup=%%x
+copy "%setup%" .WPM        
+msiexec.exe /qn /norestart /Lime .WPM\MSI.log /i "%setup%" INSTALLLOCATION="%CD%" ALLUSERS=1
+set err=%errorlevel%
+type .WPM\MSI.log
+rem 3010=restart required
+if %err% equ 3010 exit /b 0
+if %err% neq 0 exit /b %err%
+
+if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
+set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.CLU" "--versions=[1, 1]"
+for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set clu=%%x
+"%clu%\clu" remove-path --path "%CD%\bin"
+verify
+</file>
+        <file path=".WPM\Uninstall.bat">copy .WPM\*.msi .
+for /f "delims=" %%x in ('dir /b *.msi') do set setup=%%x
+msiexec.exe /qn /norestart /Lime .WPM\MSI.log /x "%setup%"
+set err=%errorlevel%
+type .WPM\MSI.log
+rem 3010=restart required
+if %err% equ 3010 exit /b 0
+if %err% neq 0 exit /b %err%
+
+if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
+set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.CLU" "--versions=[1, 1]"
+for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set clu=%%x
+"%clu%\clu" remove-path --path "%CD%\bin"
+verify
+</file>
+        <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.15.7, 2)"/>
+        <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1, 1]"/>
+        <dependency package="com.googlecode.windows-package-manager.CLU" versions="[1, 1]"/>
+        <url>http://www.sliksvn.com/pub/Slik-Subversion-1.7.2-x64.msi</url>
+        <sha1>5c3528ca635f83942a7b2367a97323c44e0c6591</sha1>
     </version>
 
     <version name="1.6.15.21042"
