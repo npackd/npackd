@@ -259,5 +259,34 @@ rmdir "%name%"
         <dependency package="org.7-zip.SevenZIPA" versions="[9.20, 9.20]"/>
         <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.15.7, 2)"/>
         <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1, 1]"/>
-  </version>
+    </version>
+    <version name="1.2.8" package="org.xapian.XapianCore" type="one-file">
+        <file path=".WPM\Install.bat">if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
+set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=org.7-zip.SevenZIPA" "--versions=[9.20, 9.20]"
+for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set sevenzipa=%%x
+
+for /f "delims=" %%x in ('dir /b *.tar.gz') do set setup=%%x
+"%sevenzipa%\7za.exe" x "%setup%"
+del "%setup%"
+
+for /f "delims=" %%x in ('dir /b *.tar') do set setup=%%x
+"%sevenzipa%\7za.exe" x "%setup%"
+del "%setup%"
+
+for /f "delims=" %%x in ('dir /b xapian*') do set name=%%x
+cd "%name%"
+for /f "delims=" %%a in ('dir /b') do (
+  move "%%a" ..
+)
+cd ..
+rmdir "%name%"
+</file>
+        <url>http://oligarchy.co.uk/xapian/1.2.8/xapian-core-1.2.8.tar.gz</url>
+        <sha1>4bdd3845278812d467b8d0fb73ee27a5be05b2d9</sha1>
+        <dependency package="net.sourceforge.gnuwin32.Make" versions="[3.81, 3.81]"/>
+        <dependency package="net.sourceforge.mingw-w64.MinGWW64" versions="[1, 1.1)"/>
+        <dependency package="org.7-zip.SevenZIPA" versions="[9.20, 9.20]"/>
+        <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.15.7, 2)"/>
+        <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1, 1]"/>
+    </version>
 </root>
