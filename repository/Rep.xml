@@ -4570,6 +4570,17 @@ ren "%setup%" qt-creator-win-opensource.exe
         <url>http://downloads.sourceforge.net/project/ultradefrag/ultradefrag/ultradefrag-4.4.0/ultradefrag-portable-4.4.0.bin.i386.zip?ts=1285348908</url>
         <sha1>379581d7e52116c640384032203d6116c43ff49d</sha1>
     </version>
+    <!-- un-installation fails -->
+    <version name="5.0.1" package="org.sourceforge.ultradefrag.UltraDefrag"
+            type="one-file">
+        <file path=".WPM\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x
+"%setup%" /S /D=%CD%
+</file>
+        <file path=".WPM\Uninstall.bat">uninst.exe /S _?=%CD%
+</file>
+        <url>http://downloads.sourceforge.net/project/ultradefrag/stable-release/5.0.1/ultradefrag-5.0.1.bin.i386.exe?ts=1326553451</url>
+        <sha1>39cfbfa2d93ba4be7cdca474419584f67346973c</sha1>
+    </version>
 
     <version name="1.0.0.1" package="com.microsoft.PathManager" type="one-file">
         <file path=".WPM\Install.bat">pathman_setup.EXE /Q /C /T:"%CD%\.WPM\MSI"
