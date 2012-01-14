@@ -235,6 +235,8 @@ out:
         return;
     }
 
+    job->setHint("Downloading");
+
     // MIME type
     // qDebug() << "querying MIME type";
     WCHAR mimeBuffer[1024];
