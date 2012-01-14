@@ -1031,6 +1031,31 @@ if %err% neq 0 exit /b %err%
         <dependency package="com.googlecode.msysgit.MSysGit" 
                 versions="[1.7.4.2011.2.4, 1.7.5)"/>
     </version>
+    <version name="1.7.6" package="com.googlecode.tortoisegit.TortoiseGit64"
+            type="one-file">
+        <file path=".WPM\Install.bat">for /f %%x in ('dir /b *.msi') do set setup=%%x
+copy "%setup%" .WPM
+msiexec.exe /qn /norestart /Lime .WPM\MSI.log /i "%setup%" TARGETDIR="%CD%" ALLUSERS=1
+set err=%errorlevel%
+type .WPM\MSI.log
+rem 3010=restart required
+if %err% equ 3010 exit /b 0
+if %err% neq 0 exit /b %err%
+</file>
+        <file path=".WPM\Uninstall.bat">move .WPM\*.msi .
+for /f %%x in ('dir /b *.msi') do set setup=%%x
+msiexec.exe /qn /norestart /Lime .WPM\MSI.log /x "%setup%"
+set err=%errorlevel%
+type .WPM\MSI.log
+rem 3010=restart required
+if %err% equ 3010 exit /b 0
+if %err% neq 0 exit /b %err%
+</file>
+        <url>http://tortoisegit.googlecode.com/files/TortoiseGit-1.7.6.0-64bit.msi</url>
+        <sha1>60ab4099e811d79fe90ae8d8f184b163bdc57fa8</sha1>
+        <dependency package="com.googlecode.msysgit.MSysGit" 
+                versions="[1.7.4.2011.2.4, 1.8)"/>
+    </version>
 
     <version name="9.20" package="org.7-zip.SevenZIP64" type="one-file">
         <file path=".WPM\Install.bat">for /f "delims=" %%x in ('dir /b *.msi') do set setup=%%x
