@@ -50,7 +50,28 @@ void Repository::index(Job* job)
             db->add_document(doc);
 
             if (i % 100 == 0) {
-                job->setProgress(0.01 + 0.9 * i / getPackageVersionCount());
+                job->setProgress(0.45 * i / getPackageCount());
+                job->setHint(QString("indexing packages (%L1)").arg(i));
+            }
+
+            if (job->isCancelled())
+                break;
+        }
+
+        for (int i = 0; i < getPackageVersionCount(); i++){
+            PackageVersion* pv = this->getPackageVersion(i);
+
+            Xapian::Document doc;
+            this->indexCreateDocument(pv, doc);
+
+            indexer.set_document(doc);
+            indexer.index_text(doc.get_data());
+
+            // Add the document to the database.
+            db->add_document(doc);
+
+            if (i % 100 == 0) {
+                job->setProgress(0.45 + 0.45 * i / getPackageVersionCount());
                 job->setHint(QString("indexing packages (%L1)").arg(i));
             }
 
@@ -1481,6 +1502,8 @@ void Repository::reload(Job *job)
         job->setProgress(0.5);
     }
 
+    key.append("1"); // serialization version
+
     qDeleteAll(urls);
 
     // TODO: can we apply SHA1 to itself?
@@ -1668,8 +1691,15 @@ void Repository::addPackage(Package* p) {
     this->nameToPackage.insert(p->name, p);
 }
 
+bool packageVersionLessThan(const PackageVersion* pv1, const PackageVersion* pv2)
+{
+    return pv1->version.compare(pv2->version) < 0;
+}
+
 QList<PackageVersion*> Repository::getPackageVersions(QString package) const {
-    return this->nameToPackageVersion.values(package);
+    QList<PackageVersion*> list = this->nameToPackageVersion.values(package);
+    qSort(list.begin(), list.end(), packageVersionLessThan);
+    return list;
 }
 
 void Repository::addPackageVersion(PackageVersion* pv) {

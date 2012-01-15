@@ -31,7 +31,8 @@ SOURCES += main.cpp \
     settingsframe.cpp \
     installedpackageversion.cpp \
     packageversionhandle.cpp \
-    abstractrepository.cpp
+    abstractrepository.cpp \
+    packageframe.cpp
 HEADERS += mainwindow.h \
     packageversion.h \
     repository.h \
@@ -61,13 +62,15 @@ HEADERS += mainwindow.h \
     mstask.h \
     installedpackageversion.h \
     packageversionhandle.h \
-    abstractrepository.h
+    abstractrepository.h \
+    packageframe.h
 FORMS += mainwindow.ui \
     packageversionform.ui \
     licenseform.ui \
     progressframe.ui \
     messageframe.ui \
-    settingsframe.ui
+    settingsframe.ui \
+    packageframe.ui
 INCLUDEPATH += ..\\quazip\\quazip ..\\zlib ..\\xapian-core\\include
 LIBS += ..\\quazip\\quazip\\release\\libquazip.a \
     ..\\zlib\\libz.a \

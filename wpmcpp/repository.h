@@ -222,7 +222,8 @@ public:
 
     /**
      * @param package package name
-     * @return all package versions for the specified package
+     * @return all package versions for the specified package order by the
+     *     version number in increasing order (older versions first)
      */
     QList<PackageVersion*> getPackageVersions(QString package) const;
 

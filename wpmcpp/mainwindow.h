@@ -68,21 +68,21 @@ private:
     void fillList();
 
     /**
-     * This method returns a non-null PackageVersion* if something is selected
+     * This method returns a non-null Package* if something is selected
      * in the list or package details are shown in the current tab.
      *
      * @return selected package version or 0.
      */
-    PackageVersion* getSelectedPackageVersion();
+    Package* getSelectedPackage();
 
     /**
-     * This method returns a all current PackageVersion* if
+     * This method returns all currently selected packages if
      * something is selected
      * in the list or package details are shown in the current tab.
      *
      * @return selected package versions
      */
-    QList<PackageVersion*> getSelectedPackageVersions();
+    QList<Package*> getSelectedPackages();
 
     /**
      * This method returns a non-null Package* if something is selected
@@ -124,10 +124,10 @@ public:
     static QMap<QString, QIcon> icons;
 
     /**
-     * @param pv a package versioin
+     * @param p a package
      * @return icon for the specified package
      */
-    static QIcon getPackageVersionIcon(PackageVersion* pv);
+    static QIcon getPackageIcon(Package* pv);
 
     /**
      * @return the only instance of this class
@@ -192,6 +192,15 @@ public:
      * @param job a currently running and monitored job
      */
     void unregisterJob(Job* job);
+
+    /**
+     * Adds a new tab. The new tab will be automatically selected.
+     *
+     * @param w content of the new tab
+     * @param icon tab icon
+     * @param title tab title
+     */
+    void addTab(QWidget* w, const QIcon& icon, const QString& title);
 protected:
     void changeEvent(QEvent *e);
 
