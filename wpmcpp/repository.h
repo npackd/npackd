@@ -390,9 +390,7 @@ public:
 
     /**
      * @param text search terms
-     * @param type 0 = all, 1 = not installed, 2 = installed,
-     *     3 = installed, updateable, 4 = newest or installed
-     *     TODO: how to filter packages by type?
+     * @param type 0 = all, 1 = installed, 2 = installed, updateable
      * @param warning a warning is stored here
      * @return found package versions
      */

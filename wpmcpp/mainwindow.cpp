@@ -41,6 +41,7 @@
 #include "messageframe.h"
 #include "settingsframe.h"
 #include "licenseform.h"
+#include "packageversionform.h"
 
 extern HWND defaultPasswordWindow;
 
@@ -180,8 +181,6 @@ MainWindow::MainWindow(QWidget *parent) :
 
     this->genericAppIcon = QIcon(":/images/app.png");
 
-    this->ui->tableWidget->setEditTriggers(QTableWidget::NoEditTriggers);
-
     QList<QUrl*> urls = Repository::getRepositoryURLs();
     if (urls.count() == 0) {
         urls.append(new QUrl(
@@ -194,27 +193,29 @@ MainWindow::MainWindow(QWidget *parent) :
     qDeleteAll(urls);
     urls.clear();
 
-    //this->ui->formLayout_2->setSizeConstraint(QLayout::SetDefaultConstraint);
-
     this->ui->tabWidget->setTabText(0, "Packages");
 
-    this->on_tableWidget_itemSelectionChanged();
-    this->ui->tableWidget->setColumnCount(6);
-    this->ui->tableWidget->setColumnWidth(0, 40);
-    this->ui->tableWidget->setColumnWidth(1, 150);
-    this->ui->tableWidget->setColumnWidth(2, 300);
-    this->ui->tableWidget->setColumnWidth(3, 100);
-    this->ui->tableWidget->setColumnWidth(4, 100);
-    this->ui->tableWidget->setColumnWidth(5, 100);
-    this->ui->tableWidget->setIconSize(QSize(32, 32));
-    this->ui->tableWidget->sortItems(1);
+    QTableWidget* t = this->ui->tableWidget;
 
-    this->ui->tableWidget->addAction(this->ui->actionInstall);
-    this->ui->tableWidget->addAction(this->ui->actionUninstall);
-    this->ui->tableWidget->addAction(this->ui->actionUpdate);
-    this->ui->tableWidget->addAction(this->ui->actionShow_Details);
-    this->ui->tableWidget->addAction(this->ui->actionGotoPackageURL);
-    this->ui->tableWidget->addAction(this->ui->actionTest_Download_Site);
+    t->setEditTriggers(QTableWidget::NoEditTriggers);
+
+    this->on_tableWidget_itemSelectionChanged();
+    t->setColumnCount(6);
+    t->setColumnWidth(0, 40);
+    t->setColumnWidth(1, 150);
+    t->setColumnWidth(2, 300);
+    t->setColumnWidth(3, 100);
+    t->setColumnWidth(4, 100);
+    t->setColumnWidth(5, 100);
+    t->setIconSize(QSize(32, 32));
+    t->sortItems(1);
+
+    t->addAction(this->ui->actionInstall);
+    t->addAction(this->ui->actionUninstall);
+    t->addAction(this->ui->actionUpdate);
+    t->addAction(this->ui->actionShow_Details);
+    t->addAction(this->ui->actionGotoPackageURL);
+    t->addAction(this->ui->actionTest_Download_Site);
 
     connect(&this->fileLoader, SIGNAL(downloaded(const FileLoaderItem&)), this,
             SLOT(iconDownloaded(const FileLoaderItem&)),
@@ -315,9 +316,13 @@ void MainWindow::updateStatusInDetailTabs()
 {
     for (int i = 0; i < this->ui->tabWidget->count(); i++) {
         QWidget* w = this->ui->tabWidget->widget(i);
-        PackageFrame* pvf = dynamic_cast<PackageFrame*>(w);
-        if (pvf) {
-            pvf->updateStatus();
+        PackageFrame* pf = dynamic_cast<PackageFrame*>(w);
+        if (pf) {
+            pf->updateStatus();
+        } else {
+            PackageVersionForm* pvf = dynamic_cast<PackageVersionForm*>(w);
+            if (pvf)
+                pvf->updateStatus();
         }
     }
 }
@@ -555,7 +560,7 @@ QList<Package*> MainWindow::getSelectedPackages()
             currentIndex());
     PackageFrame* pvf = dynamic_cast<PackageFrame*>(w);
     if (pvf) {
-        // TODO: result.append(pvf->pv);
+        result.append(pvf->p);
     } else if (w == this->ui->tab){
         result = getSelectedPackagesInTable();
     }

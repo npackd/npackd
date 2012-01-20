@@ -21,6 +21,15 @@ PackageFrame::PackageFrame(QWidget *parent) :
 {
     ui->setupUi(this);
     this->p = 0;
+
+    MainWindow* mw = MainWindow::getInstance();
+
+    QTableWidget* t = this->ui->tableWidgetVersions;
+    t->addAction(mw->findChild<QAction*>("actionInstall"));
+    t->addAction(mw->findChild<QAction*>("actionUninstall"));
+    t->addAction(mw->findChild<QAction*>("actionUpdate"));
+    t->addAction(mw->findChild<QAction*>("actionShow_Details"));
+    t->addAction(mw->findChild<QAction*>("actionTest_Download_Site"));
 }
 
 PackageFrame::~PackageFrame()
@@ -37,12 +46,7 @@ void PackageFrame::updateIcons()
 
 void PackageFrame::updateStatus()
 {
-    /* TODO
-    Repository* rep = Repository::getDefault();
-    InstalledPackageVersion* ipv = rep->findInstalledPackageVersion(pv);
-    this->ui->lineEditStatus->setText(pv->getStatus());
-    this->ui->lineEditPath->setText(ipv ? ipv->ipath : "");
-    */
+    this->fillForm(this->p);
 }
 
 void PackageFrame::fillForm(Package* p)
@@ -80,8 +84,6 @@ void PackageFrame::fillForm(Package* p)
         }
         this->ui->labelHomePage->setText(hp);
     }
-
-    updateStatus();
 
     /* TODO
     QString dl;
@@ -124,6 +126,7 @@ void PackageFrame::fillForm(Package* p)
 
     QTableWidgetItem *newItem;
     QTableWidget* t = this->ui->tableWidgetVersions;
+    t->clear();
     t->setColumnCount(2);
     t->setColumnWidth(1, 400);
     newItem = new QTableWidgetItem("Version");
@@ -133,12 +136,12 @@ void PackageFrame::fillForm(Package* p)
 
     QList<PackageVersion*> pvs = r->getPackageVersions(p->name);
     t->setRowCount(pvs.size());
-    for (int i = 0; i < pvs.count(); i++) {
+    for (int i = pvs.count() - 1; i >= 0; i--) {
         PackageVersion* pv = pvs.at(i);
 
         newItem = new QTableWidgetItem(pv->version.getVersionString());
         newItem->setData(Qt::UserRole, qVariantFromValue((void*) pv));
-        t->setItem(i, 0, newItem);
+        t->setItem(pvs.count() - i - 1, 0, newItem);
 
         InstalledPackageVersion* ipv = r->findInstalledPackageVersion(pv);
 
@@ -146,7 +149,7 @@ void PackageFrame::fillForm(Package* p)
         if (ipv)
             newItem->setText(ipv->ipath);
         newItem->setData(Qt::UserRole, qVariantFromValue((void*) pv));
-        t->setItem(i, 1, newItem);
+        t->setItem(pvs.count() - i - 1, 1, newItem);
     }
 }
 
@@ -187,13 +190,17 @@ void PackageFrame::showDetails()
     MainWindow* mw = MainWindow::getInstance();
     QList<QTableWidgetItem*> sel = this->ui->tableWidgetVersions->selectedItems();
     for (int i = 0; i < sel.count(); i++) {
-        const QVariant v = sel.at(i)->data(Qt::UserRole);
+        QTableWidgetItem* item = sel.at(i);
+        if (item->column() == 0) {
+            const QVariant v = item->data(Qt::UserRole);
 
-        PackageVersion* pv = (PackageVersion*) v.value<void*>();
-        PackageVersionForm* pvf = new PackageVersionForm(0);
-        pvf->fillForm(pv);
-        QIcon icon = mw->getPackageIcon(p);
-        mw->addTab(pvf, icon, p->title);
+            PackageVersion* pv = (PackageVersion*) v.value<void*>();
+            PackageVersionForm* pvf = new PackageVersionForm(0);
+            pvf->fillForm(pv);
+            QIcon icon = mw->getPackageIcon(p);
+            mw->addTab(pvf, icon, p->title + " " +
+                    pv->version.getVersionString());
+        }
     }
 }
 

@@ -99,7 +99,6 @@ QList<Package*> Repository::find(const QString& text, int type,
         QString* warning)
 {
     QList<Package*> r;
-
     QString t = text.trimmed();
 
     try {
@@ -117,29 +116,18 @@ QList<Package*> Repository::find(const QString& text, int type,
             ));
         }
 
-        /* TODO:
         switch (type) {
-            case 0:  // all
-                break;
-            case 1:  // not installed
-                query = Xapian::Query(Xapian::Query::OP_AND, query,
-                        Xapian::Query("Snot_installed"));
-                break;
-            case 2:
+            case 1: // installed
                 query = Xapian::Query(Xapian::Query::OP_AND, query,
                         Xapian::Query("Sinstalled"));
-                break; // installed
-            case 3:  // installed, updateable
+                break;
+            case 2:  // installed, updateable
                 query = Xapian::Query(Xapian::Query::OP_AND, query,
                         Xapian::Query("Sinstalled"));
                 query = Xapian::Query(Xapian::Query::OP_AND, query,
                         Xapian::Query("Supdateable"));
                 break;
-            case 4:  // newest or installed
-                // TODO
-                break;
         }
-        */
 
         enquire->set_query(query);
         const unsigned int max = 2000;
@@ -162,6 +150,7 @@ QList<Package*> Repository::find(const QString& text, int type,
     } catch (const Xapian::Error &e) {
         *warning = WPMUtils::fromUtf8StdString(e.get_description());
     }
+
     return r;
 }
 
@@ -365,6 +354,24 @@ void Repository::indexCreateDocument(Package* p, Xapian::Document& doc)
 
     doc.add_value(0, p->name.toUtf8().constData());
     doc.add_boolean_term("Tpackage");
+
+    boolean installed = false, updateable = false;
+    for (int i = 0; i < this->installedPackageVersions.count(); i++) {
+        InstalledPackageVersion* ipv = this->installedPackageVersions.at(i);
+        if (ipv->package_ == p) {
+            installed = true;
+            PackageVersion* pv = findPackageVersion(ipv->package_->name,
+                    ipv->version);
+            if (pv && pv->isUpdateEnabled()) {
+                updateable = true;
+                break;
+            }
+        }
+    }
+    if (installed)
+        doc.add_boolean_term("Sinstalled");
+    if (updateable)
+        doc.add_boolean_term("Supdateable");
 }
 
 void Repository::indexCreateDocument(PackageVersion* pv, Xapian::Document& doc)
@@ -1502,7 +1509,7 @@ void Repository::reload(Job *job)
         job->setProgress(0.5);
     }
 
-    key.append("1"); // serialization version
+    key.append("2"); // serialization version
 
     qDeleteAll(urls);
 
