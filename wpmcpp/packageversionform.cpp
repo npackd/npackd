@@ -21,9 +21,11 @@ PackageVersionForm::PackageVersionForm(QWidget *parent) :
 
 void PackageVersionForm::updateIcons()
 {
-    QIcon icon = MainWindow::getPackageVersionIcon(pv);
+    /* TODO:
+    QIcon icon = MainWindow::getPackageIcon(pv);
     QPixmap pixmap = icon.pixmap(32, 32, QIcon::Normal, QIcon::On);
     this->ui->labelIcon->setPixmap(pixmap);
+    */
 }
 
 void PackageVersionForm::updateStatus()
