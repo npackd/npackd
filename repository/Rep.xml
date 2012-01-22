@@ -341,7 +341,7 @@
     <package name="com.adobe.AdobeReader">
         <title>Adobe Reader</title>
         <url>http://get.adobe.com/de/reader/</url>
-        <description>PDF viewer</description>
+        <description>WARNING! Npackd disables automatic updates. Install without Npackd if unsure. PDF viewer</description>
         <license>com.adobe.AdobeReaderXLicense</license>
     </package>
     <package name="com.adobe.AdobeReaderInstaller">
@@ -9961,6 +9961,17 @@ type .WPM\MSI.log
 rem 3010=restart required
 if %err% equ 3010 exit /b 0
 if %err% neq 0 exit /b %err%
+
+rem disable automatic updates
+if "%ProgramFiles(x86)%" NEQ "" goto x64
+REG ADD "HKLM\SOFTWARE\Adobe\Adobe ARM\1.0\ARM" /f /v iCheckReader /t REG_DWORD /d 0
+if %errorlevel% neq 0 exit %errorlevel%
+goto :eof
+
+:x64
+REG ADD "HKLM\SOFTWARE\Wow6432Node\Adobe\Adobe ARM\1.0\ARM" /f /v iCheckReader /t REG_DWORD /d 0
+if %errorlevel% neq 0 exit %errorlevel%
+goto :eof
 </file>
         <file path=".WPM\Uninstall.bat">msiexec.exe /qn /norestart /Lime .WPM\MSI.log /X{AC76BA86-7AD7-1033-7B44-AA1000000001}
 set err=%errorlevel%
