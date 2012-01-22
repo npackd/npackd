@@ -28,6 +28,10 @@
 QSemaphore PackageVersion::httpConnections(3);
 QSemaphore PackageVersion::installationScripts(1);
 
+PackageVersion::PackageVersion(QObject *parent) : QObject(parent)
+{
+}
+
 PackageVersion::PackageVersion()
 {
     this->type = 0;

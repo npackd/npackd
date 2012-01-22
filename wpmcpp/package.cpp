@@ -1,5 +1,9 @@
 #include "package.h"
 
+Package::Package(QObject *parent) : QObject(parent)
+{
+}
+
 Package::Package(const QString& name, const QString& title)
 {
     this->name = name;

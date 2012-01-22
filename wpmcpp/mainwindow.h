@@ -56,7 +56,7 @@ private:
     void addJobsTab();
     void showDetails();
     void updateIcons();
-    void updateActions();
+    void updateInstallAction();
     bool isUpdateEnabled(PackageVersion* pv);
     void setMenuAccelerators();
     void setActionAccelerators(QWidget* w);
@@ -147,6 +147,17 @@ public:
 
     MainWindow(QWidget *parent = 0);
     ~MainWindow();
+
+    /**
+     * Returns selected objects.
+     */
+    QList<QObject*> getSelectedObjects() const;
+
+    /**
+     * Updates actions (enabled/disabled state) according to the currently
+     * selected objects.
+     */
+    void updateActions();
 
     /**
      * Adds an error message panel.
