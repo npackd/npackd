@@ -46,7 +46,40 @@ void PackageFrame::updateIcons()
 
 void PackageFrame::updateStatus()
 {
-    this->fillForm(this->p);
+    Repository* r = Repository::getDefault();
+    for (int i = 0; i < this->ui->tableWidgetVersions->rowCount(); i++) {
+        QTableWidgetItem* item = this->ui->tableWidgetVersions->item(i, 1);
+        const QVariant v = item->data(Qt::UserRole);
+        PackageVersion* pv = (PackageVersion*) v.value<void*>();
+        InstalledPackageVersion* ipv = r->findInstalledPackageVersion(pv);
+        if (ipv)
+            item->setText(ipv->ipath);
+        else
+            item->setText("");
+    }
+}
+
+QList<QObject*> PackageFrame::getSelectedObjects() const
+{
+    QList<QObject*> res;
+    if (this->ui->tableWidgetVersions->hasFocus()) {
+        QList<QTableWidgetItem*> sel =
+                this->ui->tableWidgetVersions->selectedItems();
+        for (int i = 0; i < sel.count(); i++) {
+            QTableWidgetItem* item = sel.at(i);
+            if (item->column() == 0) {
+                const QVariant v = item->data(Qt::UserRole);
+
+                PackageVersion* pv = (PackageVersion*) v.value<void*>();
+                res.append(pv);
+            }
+        }
+        if (res.isEmpty())
+            res.append(this->p);
+    } else {
+        res.append(this->p);
+    }
+    return res;
 }
 
 void PackageFrame::fillForm(Package* p)
@@ -208,4 +241,9 @@ void PackageFrame::showDetails()
 void PackageFrame::on_tableWidgetVersions_doubleClicked(const QModelIndex &index)
 {
     showDetails();
+}
+
+void PackageFrame::on_tableWidgetVersions_itemSelectionChanged()
+{
+    MainWindow::getInstance()->updateActions();
 }

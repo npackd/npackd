@@ -1,14 +1,18 @@
 #ifndef PACKAGE_H
 #define PACKAGE_H
 
-#include "qstring.h"
+#include <QObject>
+#include <QString>
 
 /**
  * A package declaration.
  */
-class Package
+class Package : public QObject
 {
+    Q_OBJECT
 public:
+    explicit Package(QObject *parent = 0);
+
     /**
      * Checks whether the specified value is a valid package name.
      *

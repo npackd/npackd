@@ -1572,42 +1572,46 @@ void Repository::reload(Job *job)
         if (!d.exists())
             indexed = false;
 
-        // TODO: index cannot be reopened
-        if (!indexed) {
-            // TODO: catch Xapian exceptions here
-            db = new Xapian::WritableDatabase(
-                    indexDir.toUtf8().constData(),
-                    Xapian::DB_CREATE_OR_OVERWRITE);
+        try {
+            if (!indexed) {
+                // TODO: catch Xapian exceptions here
+                db = new Xapian::WritableDatabase(
+                        indexDir.toUtf8().constData(),
+                        Xapian::DB_CREATE_OR_OVERWRITE);
 
-            Job* sub = job->newSubJob(0.35);
-            this->index(sub);
-            if (!sub->getErrorMessage().isEmpty())
-                job->setErrorMessage(sub->getErrorMessage());
-            delete sub;
+                Job* sub = job->newSubJob(0.35);
+                this->index(sub);
+                if (!sub->getErrorMessage().isEmpty())
+                    job->setErrorMessage(sub->getErrorMessage());
+                delete sub;
 
-            WindowsRegistry wr;
-            QString err = wr.open(HKEY_LOCAL_MACHINE,
-                    "Software", false, KEY_ALL_ACCESS);
-            if (err.isEmpty()) {
-                WindowsRegistry indexReg = wr.createSubKey(
-                        "Npackd\\Npackd\\Index", &err, KEY_ALL_ACCESS);
+                WindowsRegistry wr;
+                QString err = wr.open(HKEY_LOCAL_MACHINE,
+                        "Software", false, KEY_ALL_ACCESS);
                 if (err.isEmpty()) {
-                    indexReg.set("SHA1", key);
+                    WindowsRegistry indexReg = wr.createSubKey(
+                            "Npackd\\Npackd\\Index", &err, KEY_ALL_ACCESS);
+                    if (err.isEmpty()) {
+                        indexReg.set("SHA1", key);
+                    }
                 }
+            } else {
+                // TODO: catch Xapian exceptions here
+                db = new Xapian::WritableDatabase(
+                        indexDir.toUtf8().constData(),
+                        Xapian::DB_CREATE_OR_OPEN);
+                job->setProgress(1);
             }
-        } else {
-            // TODO: catch Xapian exceptions here
-            db = new Xapian::WritableDatabase(
-                    indexDir.toUtf8().constData(),
-                    Xapian::DB_CREATE_OR_OPEN);
-            job->setProgress(1);
-        }
 
-        this->enquire = new Xapian::Enquire(*this->db);
-        this->queryParser = new Xapian::QueryParser();
-        this->queryParser->set_database(*this->db);
-        queryParser->set_stemmer(stemmer);
-        queryParser->set_default_op(Xapian::Query::OP_AND);
+            this->enquire = new Xapian::Enquire(*this->db);
+            this->queryParser = new Xapian::QueryParser();
+            this->queryParser->set_database(*this->db);
+            queryParser->set_stemmer(stemmer);
+            queryParser->set_default_op(Xapian::Query::OP_AND);
+        } catch (const Xapian::Error &e) {
+            job->setErrorMessage(WPMUtils::fromUtf8StdString(
+                    e.get_description()));
+        }
     }
 
     job->complete();
@@ -1705,6 +1709,20 @@ bool packageVersionLessThan(const PackageVersion* pv1, const PackageVersion* pv2
 
 QList<PackageVersion*> Repository::getPackageVersions(QString package) const {
     QList<PackageVersion*> list = this->nameToPackageVersion.values(package);
+    qSort(list.begin(), list.end(), packageVersionLessThan);
+    return list;
+}
+
+QList<PackageVersion*> Repository::getInstalledPackageVersions(
+        QString package) const {
+    QList<PackageVersion*> list = this->nameToPackageVersion.values(package);
+    for (int i = 0; i < list.count(); ) {
+        PackageVersion* pv = list.at(i);
+        if (!pv->installed())
+            list.removeAt(i);
+        else
+            i++;
+    }
     qSort(list.begin(), list.end(), packageVersionLessThan);
     return list;
 }

@@ -23,8 +23,9 @@ class Package;
 /**
  * One version of a package (installed or not).
  */
-class PackageVersion
+class PackageVersion : public QObject
 {
+    Q_OBJECT
 private:
     static QSemaphore httpConnections;
     static QSemaphore installationScripts;
@@ -62,6 +63,8 @@ private:
     void emitStatusChanged();
     void addDependencyVars(QStringList* vars);
 public:
+    explicit PackageVersion(QObject *parent = 0);
+
     /**
      * @param e version XML element
      * @param err error message will be stored here
@@ -283,7 +286,5 @@ public:
      */
     QString serialize() const;
 };
-
-Q_DECLARE_METATYPE(PackageVersion)
 
 #endif // PACKAGEVERSION_H

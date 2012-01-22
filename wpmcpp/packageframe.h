@@ -24,6 +24,11 @@ public:
     ~PackageFrame();
 
     /**
+     * @return selected objects (Package* or PackageVersion*)
+     */
+    QList<QObject*> getSelectedObjects() const;
+
+    /**
      * Fills the form with the data of a package.
      *
      * @param p a package
@@ -45,6 +50,8 @@ private slots:
     void on_labelLicense_linkActivated(const QString &link);
 
     void on_tableWidgetVersions_doubleClicked(const QModelIndex &index);
+
+    void on_tableWidgetVersions_itemSelectionChanged();
 
 private:
     Ui::PackageFrame *ui;
