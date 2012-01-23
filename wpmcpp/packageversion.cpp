@@ -1425,10 +1425,12 @@ PackageVersion* PackageVersion::deserialize(const QString& xml, QString* err)
     QDomDocument doc;
     int errorLine, errorColumn;
     PackageVersion* pv = 0;
-    // TODO: use errorLine/column in all calls to setContent
     if (doc.setContent(xml, err, &errorLine, &errorColumn)) {
         QDomElement e = doc.documentElement();
         pv = createPackageVersion(&e, err);
+    } else {
+        *err = QString("XML parsing failed at line %L1, column %L2: %3").
+                arg(errorLine).arg(errorColumn).arg(*err);
     }
     return pv;
 }

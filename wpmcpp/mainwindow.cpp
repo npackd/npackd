@@ -279,12 +279,26 @@ bool MainWindow::winEvent(MSG* message, long* result)
 
 void MainWindow::showDetails()
 {
-    Package* p = getSelectedPackage();
-    if (p) {
-        PackageFrame* pvf = new PackageFrame(this->ui->tabWidget);
-        pvf->fillForm(p);
-        QIcon icon = getPackageIcon(p);
-        this->addTab(pvf, icon, p->title);
+    QList<QObject*> sel = getSelectedObjects();
+    for (int i = 0; i < sel.count(); i++) {
+        QObject* obj = sel.at(i);
+
+        PackageVersion* pv = dynamic_cast<PackageVersion*>(obj);
+        if (pv) {
+            PackageVersionForm* pvf = new PackageVersionForm(this->ui->tabWidget);
+            pvf->fillForm(pv);
+            QIcon icon = getPackageIcon(pv->package_);
+            this->addTab(pvf, icon, pv->package_->title + " " +
+                    pv->version.getVersionString());
+        } else {
+            Package* p = dynamic_cast<Package*>(obj);
+            if (p) {
+                PackageFrame* pf = new PackageFrame(this->ui->tabWidget);
+                pf->fillForm(p);
+                QIcon icon = getPackageIcon(p);
+                this->addTab(pf, icon, p->title);
+            }
+        }
     }
 }
 
@@ -507,28 +521,23 @@ void MainWindow::onShow()
     recognizeAndLoadRepositories();
 }
 
-void MainWindow::selectPackage(Package* p)
+void MainWindow::selectPackages(const QList<Package*>& p)
 {
+    QTableWidget* t = this->ui->tableWidget;
+    t->clearSelection();
+    QItemSelectionModel* sm = t->selectionModel();
+    QItemSelection is = sm->selection();
     for (int i = 0; i < this->ui->tableWidget->rowCount(); i++) {
-        const QVariant v = this->ui->tableWidget->item(i, 0)->
-                data(Qt::UserRole);
+        QTableWidgetItem* item = this->ui->tableWidget->item(i, 0);
+        const QVariant v = item->data(Qt::UserRole);
         Package* f = (Package *) v.value<void*>();
-        if (f == p) {
-            this->ui->tableWidget->selectRow(i);
-            break;
+        if (p.contains(f)) {
+            is.append(QItemSelectionRange(
+                    t->model()->index(i, 0),
+                    t->model()->index(i, t->columnCount() - 1)));
         }
     }
-}
-
-Package* MainWindow::getSelectedPackageInTable()
-{
-    QList<QTableWidgetItem*> sel = this->ui->tableWidget->selectedItems();
-    if (sel.count() > 0) {
-        const QVariant v = sel.at(0)->data(Qt::UserRole);
-        Package* p = (Package *) v.value<void*>();
-        return p;
-    }
-    return 0;
+    sm->select(is, QItemSelectionModel::Select);
 }
 
 QList<Package*> MainWindow::getSelectedPackagesInTable()
@@ -544,21 +553,6 @@ QList<Package*> MainWindow::getSelectedPackagesInTable()
         }
     }
     return result;
-}
-
-Package* MainWindow::getSelectedPackage()
-{
-    QWidget* w = this->ui->tabWidget->widget(this->ui->tabWidget->
-            currentIndex());
-    PackageFrame* pvf = dynamic_cast<PackageFrame*>(w);
-    if (pvf) {
-        return pvf->p;
-    } else if (w == this->ui->tab){
-        return getSelectedPackageInTable();
-    } else {
-        return 0;
-    }
-    return 0;
 }
 
 QList<QObject*> MainWindow::getSelectedObjects() const
@@ -583,20 +577,6 @@ QList<QObject*> MainWindow::getSelectedObjects() const
                 result.append(p);
             }
         }
-    }
-    return result;
-}
-
-QList<Package*> MainWindow::getSelectedPackages()
-{
-    QList<Package*> result;
-    QWidget* w = this->ui->tabWidget->widget(this->ui->tabWidget->
-            currentIndex());
-    PackageFrame* pvf = dynamic_cast<PackageFrame*>(w);
-    if (pvf) {
-        result.append(pvf->p);
-    } else if (w == this->ui->tab){
-        result = getSelectedPackagesInTable();
     }
     return result;
 }
@@ -658,13 +638,11 @@ void MainWindow::fillList()
 
     int statusFilter = this->ui->comboBoxStatus->currentIndex();
 
-    t->setRowCount(r->getPackageVersionCount());
-
-    int n = 0;
-
     QString warning;
     QList<Package*> found = r->find(this->ui->lineEditText->text(),
             statusFilter, &warning);
+    t->setRowCount(found.count());
+
     if (warning.isEmpty())
         warning = "Use * to match any number of any characters at a word end";
     this->ui->labelWarning->setText(warning);
@@ -682,9 +660,6 @@ void MainWindow::fillList()
             requestedIcons += p->icon;
         }
 
-        // qDebug() << "MainWindow::loadRepository";
-
-
         newItem = new QTableWidgetItem("");
         newItem->setData(Qt::UserRole, qVariantFromValue((void*) p));
         if (p) {
@@ -697,16 +672,16 @@ void MainWindow::fillList()
         } else {
             newItem->setIcon(MainWindow::genericAppIcon);
         }
-        t->setItem(n, 0, newItem);
+        t->setItem(i, 0, newItem);
 
         newItem = new QCITableWidgetItem(p->title);
         newItem->setStatusTip(p->name);
         newItem->setData(Qt::UserRole, qVariantFromValue((void*) p));
-        t->setItem(n, 1, newItem);
+        t->setItem(i, 1, newItem);
 
         newItem = new QCITableWidgetItem(p->description);
         newItem->setData(Qt::UserRole, qVariantFromValue((void*) p));
-        t->setItem(n, 2, newItem);
+        t->setItem(i, 2, newItem);
 
         QList<PackageVersion*> pvs = r->getPackageVersions(p->name);
         QList<PackageVersion*> ipvs = r->getInstalledPackageVersions(p->name);
@@ -722,13 +697,13 @@ void MainWindow::fillList()
         if (pvs.count() > 0)
             newItem->setText(pvs.last()->version.getVersionString());
         newItem->setData(Qt::UserRole, qVariantFromValue((void*) p));
-        t->setItem(n, 3, newItem);
+        t->setItem(i, 3, newItem);
 
         newItem = new QCITableWidgetItem(installed);
         if (!installed.isEmpty() && !pvs.last()->installed())
             newItem->setBackgroundColor(QColor(255, 0xc7, 0xc7));
         newItem->setData(Qt::UserRole, qVariantFromValue((void*) p));
-        t->setItem(n, 4, newItem);
+        t->setItem(i, 4, newItem);
 
         newItem = new QCITableWidgetItem("");
         QString licenseTitle;
@@ -737,11 +712,8 @@ void MainWindow::fillList()
             licenseTitle = lic->title;
         newItem->setText(licenseTitle);
         newItem->setData(Qt::UserRole, qVariantFromValue((void*) p));
-        t->setItem(n, 5, newItem);
-
-        n++;
+        t->setItem(i, 5, newItem);
     }
-    t->setRowCount(n);
     t->setSortingEnabled(true);
     // qDebug() << "MainWindow::fillList.2";
 }
@@ -910,10 +882,10 @@ void MainWindow::process(QList<InstallOperation*> &install)
 
 void MainWindow::processThreadFinished()
 {
-    Package* sel = getSelectedPackageInTable();
+    QList<Package*> sel = getSelectedPackagesInTable();
     fillList();
     updateStatusInDetailTabs();
-    selectPackage(sel);
+    selectPackages(sel);
 }
 
 void MainWindow::changeEvent(QEvent *e)
@@ -959,17 +931,28 @@ void MainWindow::on_actionUninstall_activated()
 {
     Repository* rep = Repository::getDefault();
 
-    QList<Package*> ps = getSelectedPackages();
+    QList<QObject*> sel = getSelectedObjects();
 
     QList<InstallOperation*> ops;
     QList<PackageVersion*> installed = Repository::getDefault()->getInstalled();
 
     QString err;
-    for (int i = 0; i < ps.count(); i++) {
-        Package* p = ps.at(i);
-        PackageVersion* pv = rep->findNewestInstalledPackageVersion(p->name);
+    for (int i = 0; i < sel.count(); i++) {
+        QObject* obj = sel.at(i);
 
-        err = pv->planUninstallation(installed, ops);
+        PackageVersion* pv = dynamic_cast<PackageVersion*>(obj);
+        if (!pv) {
+            Package* p = dynamic_cast<Package*>(obj);
+
+            pv = rep->findNewestInstalledPackageVersion(p->name);
+        }
+
+        if (pv) {
+            err = pv->planUninstallation(installed, ops);
+        } else {
+            err = "Unknown objects selected";
+        }
+
         if (!err.isEmpty())
             break;
     }
@@ -1017,27 +1000,26 @@ void MainWindow::updateInstallAction()
     this->ui->actionInstall->setEnabled(enabled);
 }
 
-void MainWindow::updateActions()
+void MainWindow::updateUninstallAction()
 {
-    QList<Package*> ps = getSelectedPackages();
+    QList<QObject*> sel = getSelectedObjects();
     Repository* rep = Repository::getDefault();
-    Package* p = getSelectedPackage();
-    QList<PackageVersion*> pvs;
-    if (p)
-        pvs = rep->getPackageVersions(p->name);
 
-    // qDebug() << pvs.count();
-
-    updateInstallAction();
-
-    bool enabled = ps.count() > 0 &&
+    bool enabled = sel.count() > 0 &&
             !hardDriveScanRunning && !reloadRepositoriesThreadRunning;
-    for (int i = 0; i < ps.count(); i++) {
+    for (int i = 0; i < sel.count(); i++) {
         if (!enabled)
             break;
 
-        Package* p = ps.at(i);
-        PackageVersion* pv = rep->findNewestInstalledPackageVersion(p->name);
+        QObject* obj = sel.at(i);
+
+        PackageVersion* pv = dynamic_cast<PackageVersion*>(obj);
+        if (!pv) {
+            Package* p = dynamic_cast<Package*>(obj);
+
+            pv = rep->findNewestInstalledPackageVersion(p->name);
+        }
+
         if (pv) {
             InstalledPackageVersion* ipv = rep->findInstalledPackageVersion(pv);
 
@@ -1049,37 +1031,107 @@ void MainWindow::updateActions()
         }
     }
     this->ui->actionUninstall->setEnabled(enabled);
+}
 
-    enabled = ps.count() >= 1 &&
+void MainWindow::updateUpdateAction()
+{
+    QList<QObject*> sel = getSelectedObjects();
+    Repository* rep = Repository::getDefault();
+
+    bool enabled = sel.count() >= 1 &&
             !hardDriveScanRunning && !reloadRepositoriesThreadRunning;
-    for (int i = 0; i < ps.count(); i++) {
+    for (int i = 0; i < sel.count(); i++) {
         if (!enabled)
             break;
 
-        Package* p = ps.at(i);
-        PackageVersion* pv = rep->findNewestInstalledPackageVersion(p->name);
+        QObject* obj = sel.at(i);
+
+        PackageVersion* pv = dynamic_cast<PackageVersion*>(obj);
+        if (!pv) {
+            Package* p = dynamic_cast<Package*>(obj);
+            pv = rep->findNewestInstalledPackageVersion(p->name);
+        }
 
         enabled = enabled && pv && isUpdateEnabled(pv);
     }
     this->ui->actionUpdate->setEnabled(enabled);
+}
 
-    this->ui->actionGotoPackageURL->setEnabled(
-            ps.count() == 1 &&
-            !reloadRepositoriesThreadRunning &&
-            p &&
-            QUrl(p->url).isValid());
+void MainWindow::updateShowDetailsAction()
+{
+    QList<QObject*> sel = getSelectedObjects();
 
-    /* TODO
-    this->ui->actionTest_Download_Site->setEnabled(
-            ps.count() == 1 &&
-            !reloadRepositoriesThreadRunning &&
-            p &&
-            pv->download.isValid());
-            */
+    bool enabled = sel.count() > 0 && !reloadRepositoriesThreadRunning;
+    for (int i = 0; i < sel.count(); i++) {
+        if (!enabled)
+            break;
 
-    this->ui->actionShow_Details->setEnabled(
-            ps.count() == 1 &&
-            !reloadRepositoriesThreadRunning && p);
+        QObject* obj = sel.at(i);
+
+        PackageVersion* pv = dynamic_cast<PackageVersion*>(obj);
+        Package* p = dynamic_cast<Package*>(obj);
+
+        enabled = enabled && (p || pv);
+    }
+    this->ui->actionShow_Details->setEnabled(enabled);
+}
+
+void MainWindow::updateGotoPackageURLAction()
+{
+    QList<QObject*> sel = getSelectedObjects();
+
+    bool enabled = sel.count() > 0 && !reloadRepositoriesThreadRunning;
+    for (int i = 0; i < sel.count(); i++) {
+        if (!enabled)
+            break;
+
+        QObject* obj = sel.at(i);
+
+        Package* p = dynamic_cast<Package*>(obj);
+        if (!p) {
+            PackageVersion* pv = dynamic_cast<PackageVersion*>(obj);
+            if (pv)
+                p = pv->package_;
+        }
+
+        enabled = enabled && p && QUrl(p->url).isValid();
+    }
+    this->ui->actionGotoPackageURL->setEnabled(enabled);
+}
+
+void MainWindow::updateTestDownloadSiteAction()
+{
+    Repository* rep = Repository::getDefault();
+    QList<QObject*> sel = getSelectedObjects();
+
+    bool enabled = sel.count() > 0 && !reloadRepositoriesThreadRunning;
+    for (int i = 0; i < sel.count(); i++) {
+        if (!enabled)
+            break;
+
+        QObject* obj = sel.at(i);
+
+        PackageVersion* pv = dynamic_cast<PackageVersion*>(obj);
+        if (!pv) {
+            Package* p = dynamic_cast<Package*>(obj);
+            if (p) {
+                pv = rep->findNewestInstallablePackageVersion(p->name);
+            }
+        }
+
+        enabled = enabled && pv && pv->download.isValid();
+    }
+    this->ui->actionTest_Download_Site->setEnabled(enabled);
+}
+
+void MainWindow::updateActions()
+{
+    updateInstallAction();
+    updateUninstallAction();
+    updateUpdateAction();
+    updateShowDetailsAction();
+    updateGotoPackageURLAction();
+    updateTestDownloadSiteAction();
 
     QWidget* w = this->ui->tabWidget->currentWidget();
     this->ui->actionClose_Tab->setEnabled(
@@ -1258,11 +1310,23 @@ void MainWindow::on_actionInstall_activated()
 
 void MainWindow::on_actionGotoPackageURL_triggered()
 {
-    Package* p = getSelectedPackage();
-    if (p) {
-        QUrl url(p->url);
-        if (url.isValid()) {
-            QDesktopServices::openUrl(url);
+    QList<QObject*> sel = getSelectedObjects();
+    QList<Package*> packages;
+    for (int i = 0; i < sel.count(); i++) {
+        QObject* obj = sel.at(i);
+
+        Package* p = dynamic_cast<Package*>(obj);
+        if (!p) {
+            PackageVersion* pv = dynamic_cast<PackageVersion*>(obj);
+            if (pv)
+                p = pv->package_;
+        }
+
+        if (p && !packages.contains(p)) {
+            QUrl url(p->url);
+            if (url.isValid())
+                QDesktopServices::openUrl(url);
+            packages.append(p);
         }
     }
 }
@@ -1311,23 +1375,36 @@ void MainWindow::on_actionSettings_triggered()
 
 void MainWindow::on_actionUpdate_triggered()
 {
-    QList<Package*> ps = getSelectedPackages();
-
+    QList<QObject*> sel = getSelectedObjects();
     Repository* r = Repository::getDefault();
 
+    QString err;
+
     QList<Package*> packages;
-    for (int i = 0; i < ps.count(); i++) {
-        Package* p = ps.at(i);
+    for (int i = 0; i < sel.count(); i++) {
+        QObject* obj = sel.at(i);
+
+        Package* p = dynamic_cast<Package*>(obj);
+        if (!p) {
+            PackageVersion* pv = dynamic_cast<PackageVersion*>(obj);
+            if (pv)
+                p = pv->package_;
+        }
 
         // multiple versions of the same package could be selected in the table,
         // but only one should be updated
-        if (p != 0 && !packages.contains(p)) {
-            packages.append(p);
+        if (p) {
+            if (!packages.contains(p))
+                packages.append(p);
+        } else {
+            err = "Unknown objects selected";
+            break;
         }
     }
 
     QList<InstallOperation*> ops;
-    QString err = r->planUpdates(packages, ops);
+    if (err.isEmpty())
+        err = r->planUpdates(packages, ops);
 
     if (err.isEmpty()) {
         process(ops);
@@ -1439,9 +1516,10 @@ void MainWindow::on_actionScan_Hard_Drives_triggered()
 {
     Repository* r = Repository::getDefault();
 
-    for (int i = 0; i < r->getPackageVersionCount(); i++) {
-        PackageVersion* pv = r->getPackageVersion(i);
-        if (pv->isLocked()) {
+    if (r->locked.count() > 0) {
+        PackageVersionHandle* pvh = r->locked.at(0);
+        PackageVersion* pv = r->findPackageVersion(pvh->package, pvh->version);
+        if (pv) {
             QString msg("Cannot start the scan now. "
                     "The package %1 is locked by a "
                     "currently running installation/removal.");

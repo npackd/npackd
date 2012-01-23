@@ -89,10 +89,7 @@ void PackageFrame::fillForm(Package* p)
     Repository* r = Repository::getDefault();
 
     this->ui->lineEditTitle->setText(p->title);
-    // TODO: this->ui->lineEditVersion->setText(pv->version.getVersionString());
     this->ui->lineEditInternalName->setText(p->name);
-
-    // TODO Repository* r = Repository::getDefault();
 
     QString licenseTitle = "unknown";
     if (p) {
@@ -117,43 +114,6 @@ void PackageFrame::fillForm(Package* p)
         }
         this->ui->labelHomePage->setText(hp);
     }
-
-    /* TODO
-    QString dl;
-    if (!pv->download.isValid())
-        dl = "n/a";
-    else {
-        dl = pv->download.toString();
-        dl = "<a href=\"" + Qt::escape(dl) + "\">" + Qt::escape(dl) + "</a>";
-    }
-    this->ui->labelDownloadURL->setText(dl);
-
-    QString sha1;
-    if (pv->sha1.isEmpty())
-        sha1 = "n/a";
-    else
-        sha1 = pv->sha1;
-    this->ui->lineEditSHA1->setText(sha1);
-
-    this->ui->lineEditType->setText(pv->type == 0 ? "zip" : "one-file");
-
-    QString details;
-    for (int i = 0; i < pv->importantFiles.count(); i++) {
-        details.append(pv->importantFilesTitles.at(i));
-        details.append(" (");
-        details.append(pv->importantFiles.at(i));
-        details.append(")\n");
-    }
-    this->ui->textEditImportantFiles->setText(details);
-
-    details = "";
-    for (int i = 0; i < pv->dependencies.count(); i++) {
-        Dependency* d = pv->dependencies.at(i);
-        details.append(d->toString());
-        details.append("\n");
-    }
-    this->ui->textEditDependencies->setText(details);
-    */
 
     updateIcons();
 
