@@ -311,13 +311,6 @@ public:
     QList<PackageVersion*> getInstalled();
 
     /**
-     * Counts the number of installed packages that can be updated.
-     *
-     * @return the number
-     */
-    int countUpdates();
-
-    /**
      * Reloads all repositories.
      *
      * @param job job for this method

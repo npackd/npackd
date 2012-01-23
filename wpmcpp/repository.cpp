@@ -158,9 +158,11 @@ QList<PackageVersion*> Repository::getInstalled()
 {
     QList<PackageVersion*> ret;
 
-    for (int i = 0; i < getPackageVersionCount(); i++) {
-        PackageVersion* pv = getPackageVersion(i);
-        if (pv->installed()) {
+    for (int i = 0; i < installedPackageVersions.count(); i++) {
+        InstalledPackageVersion* ipv = installedPackageVersions.at(i);
+        PackageVersion* pv = findPackageVersion(ipv->package_->name,
+                ipv->version);
+        if (pv) {
             ret.append(pv);
         }
     }
@@ -331,21 +333,6 @@ Package* Repository::findPackage(const QString& name) const
     return this->nameToPackage.value(name);
 }
 
-int Repository::countUpdates()
-{
-    int r = 0;
-    for (int i = 0; i < this->getPackageVersionCount(); i++) {
-        PackageVersion* p = this->getPackageVersion(i);
-        if (p->installed()) {
-            PackageVersion* newest = findNewestInstallablePackageVersion(
-                    p->getPackage()->name);
-            if (newest->version.compare(p->version) > 0 && !newest->installed())
-                r++;
-        }
-    }
-    return r;
-}
-
 void Repository::indexCreateDocument(Package* p, Xapian::Document& doc)
 {
     QString t = p->getFullText();
@@ -402,41 +389,9 @@ void Repository::indexCreateDocument(PackageVersion* pv, Xapian::Document& doc)
         doc.add_boolean_term("Snot_installed");
     }
 
-    /*
-        bool installed = pv->installed();
-        bool updateEnabled = isUpdateEnabled(pv);
-        PackageVersion* newest = r->findNewestInstallablePackageVersion(
-                pv->getPackage()->name);
-        bool statusOK;
-        switch (statusFilter) {
-            case 0:
-                // all
-                statusOK = true;
-                break;
-            case 1:
-                // not installed
-                statusOK = !installed;
-                break;
-            case 2:
-                // installed
-                statusOK = installed;
-                break;
-            case 3:
-                // installed, updateable
-                statusOK = installed && updateEnabled;
-                break;
-            case 4:
-                // newest or installed
-                statusOK = installed || pv == newest;
-                break;
-            default:
-                statusOK = true;
-                break;
-        }
-        if (!statusOK)
-            continue;
-
-*/
+    if (pv->msiGUID.length() == 38) {
+        doc.add_boolean_term("Aguid");
+    }
 }
 
 QString Repository::indexUpdatePackageVersion(PackageVersion* pv)
@@ -1509,7 +1464,7 @@ void Repository::reload(Job *job)
         job->setProgress(0.5);
     }
 
-    key.append("2"); // serialization version
+    key.append("3"); // serialization version
 
     qDeleteAll(urls);
 
@@ -1574,7 +1529,6 @@ void Repository::reload(Job *job)
 
         try {
             if (!indexed) {
-                // TODO: catch Xapian exceptions here
                 db = new Xapian::WritableDatabase(
                         indexDir.toUtf8().constData(),
                         Xapian::DB_CREATE_OR_OVERWRITE);
@@ -1596,7 +1550,6 @@ void Repository::reload(Job *job)
                     }
                 }
             } else {
-                // TODO: catch Xapian exceptions here
                 db = new Xapian::WritableDatabase(
                         indexDir.toUtf8().constData(),
                         Xapian::DB_CREATE_OR_OPEN);
@@ -1677,8 +1630,8 @@ void Repository::loadOne(QUrl* url, Job* job, QString* sha1) {
         int errorColumn;
         QString errMsg;
         if (!doc.setContent(f, &errMsg, &errorLine, &errorColumn))
-            job->setErrorMessage(QString("XML parsing failed: %1").
-                                 arg(errMsg));
+            job->setErrorMessage(QString("XML parsing failed at line %L1, column %L2: %3").
+                    arg(errorLine).arg(errorColumn).arg(errMsg));
         else
             job->setProgress(0.91);
     }

@@ -56,7 +56,14 @@ private:
     void addJobsTab();
     void showDetails();
     void updateIcons();
+
     void updateInstallAction();
+    void updateUninstallAction();
+    void updateUpdateAction();
+    void updateShowDetailsAction();
+    void updateGotoPackageURLAction();
+    void updateTestDownloadSiteAction();
+
     bool isUpdateEnabled(PackageVersion* pv);
     void setMenuAccelerators();
     void setActionAccelerators(QWidget* w);
@@ -68,31 +75,6 @@ private:
     void fillList();
 
     /**
-     * This method returns a non-null Package* if something is selected
-     * in the list or package details are shown in the current tab.
-     *
-     * @return selected package version or 0.
-     */
-    Package* getSelectedPackage();
-
-    /**
-     * This method returns all currently selected packages if
-     * something is selected
-     * in the list or package details are shown in the current tab.
-     *
-     * @return selected package versions
-     */
-    QList<Package*> getSelectedPackages();
-
-    /**
-     * This method returns a non-null Package* if something is selected
-     * in the list.
-     *
-     * @return selected package or 0.
-     */
-    Package* getSelectedPackageInTable();
-
-    /**
      * This method returns all selected Package* items
      *
      * @return selected packages
@@ -100,9 +82,9 @@ private:
     QList<Package*> getSelectedPackagesInTable();
 
     /**
-     * @param p a version or 0
+     * @param p list of packages that should be selected
      */
-    void selectPackage(Package* p);
+    void selectPackages(const QList<Package*>& p);
 
     /**
      * Adds an entry in the "Progress" tab and monitors a task.

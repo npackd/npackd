@@ -9965,12 +9965,12 @@ if %err% neq 0 exit /b %err%
 rem disable automatic updates
 if "%ProgramFiles(x86)%" NEQ "" goto x64
 REG ADD "HKLM\SOFTWARE\Adobe\Adobe ARM\1.0\ARM" /f /v iCheckReader /t REG_DWORD /d 0
-if %errorlevel% neq 0 exit %errorlevel%
+if %errorlevel% neq 0 exit /b %errorlevel%
 goto :eof
 
 :x64
 REG ADD "HKLM\SOFTWARE\Wow6432Node\Adobe\Adobe ARM\1.0\ARM" /f /v iCheckReader /t REG_DWORD /d 0
-if %errorlevel% neq 0 exit %errorlevel%
+if %errorlevel% neq 0 exit /b %errorlevel%
 goto :eof
 </file>
         <file path=".WPM\Uninstall.bat">msiexec.exe /qn /norestart /Lime .WPM\MSI.log /X{AC76BA86-7AD7-1033-7B44-AA1000000001}

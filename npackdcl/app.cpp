@@ -54,8 +54,11 @@ QString App::reinstallTestPackage(QString rep)
     if (!f.open(QIODevice::ReadOnly))
         err = "Cannot open the repository file";
 
-    if (err.isEmpty())
-        doc.setContent(&f, false, &err, &errorLine, &errorColumn);
+    if (err.isEmpty()) {
+        if (!doc.setContent(&f, false, &err, &errorLine, &errorColumn))
+            err = QString("XML parsing failed at line %L1, column %L2: %3").
+                    arg(errorLine).arg(errorColumn).arg(err);
+    }
 
     if (err.isEmpty()) {
         Job* job = new Job();
@@ -350,8 +353,8 @@ int App::convertMaven()
         int errorColumn;
         QString errMsg;
         if (!doc.setContent(f, &errMsg, &errorLine, &errorColumn))
-            job->setErrorMessage(QString("XML parsing failed: %1").
-                                 arg(errMsg));
+            job->setErrorMessage(QString("XML parsing failed at line %L1, column %L2: %3").
+                    arg(errorLine).arg(errorColumn).arg(errMsg));
         else
             job->setProgress(0.51);
     }
