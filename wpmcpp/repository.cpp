@@ -1438,23 +1438,27 @@ void Repository::reload(Job *job)
     this->clearPackageVersions();
 
     QList<QUrl*> urls = getRepositoryURLs();
+    QList<QTemporaryFile*> files;
     QString key;
     if (urls.count() > 0) {
         for (int i = 0; i < urls.count(); i++) {
-            job->setHint(QString("Repository %1 of %2").arg(i + 1).
-                         arg(urls.count()));
+            job->setHint(QString("Downloading repository %1 of %2").arg(i + 1).
+                    arg(urls.count()));
             Job* s = job->newSubJob(0.5 / urls.count());
             QString sha1;
-            loadOne(urls.at(i), s, &sha1);
-            key += sha1;
+            QTemporaryFile* f = Downloader::download(s,
+                    *urls.at(i), &sha1, true);
             if (!s->getErrorMessage().isEmpty()) {
                 job->setErrorMessage(QString(
-                        "Error loading the repository %1: %2").arg(
+                        "Error downloading the repository %1: %2").arg(
                         urls.at(i)->toString()).arg(s->getErrorMessage()));
                 delete s;
                 break;
             }
             delete s;
+
+            key += sha1;
+            files.append(f);
 
             if (job->isCancelled())
                 break;
@@ -1465,8 +1469,6 @@ void Repository::reload(Job *job)
     }
 
     key.append("3"); // serialization version
-
-    qDeleteAll(urls);
 
     // TODO: can we apply SHA1 to itself?
     QCryptographicHash hash(QCryptographicHash::Sha1);
@@ -1527,13 +1529,31 @@ void Repository::reload(Job *job)
         if (!d.exists())
             indexed = false;
 
+        for (int i = 0; i < urls.count(); i++) {
+            job->setHint(QString("Repository %1 of %2").arg(i + 1).
+                    arg(urls.count()));
+            Job* s = job->newSubJob(0.2 / urls.count());
+            loadOne(files.at(i), s);
+            if (!s->getErrorMessage().isEmpty()) {
+                job->setErrorMessage(QString(
+                        "Error loading the repository %1: %2").arg(
+                        urls.at(i)->toString()).arg(s->getErrorMessage()));
+                delete s;
+                break;
+            }
+            delete s;
+
+            if (job->isCancelled())
+                break;
+        }
+
         try {
             if (!indexed) {
                 db = new Xapian::WritableDatabase(
                         indexDir.toUtf8().constData(),
                         Xapian::DB_CREATE_OR_OVERWRITE);
 
-                Job* sub = job->newSubJob(0.35);
+                Job* sub = job->newSubJob(0.15);
                 this->index(sub);
                 if (!sub->getErrorMessage().isEmpty())
                     job->setErrorMessage(sub->getErrorMessage());
@@ -1566,6 +1586,9 @@ void Repository::reload(Job *job)
                     e.get_description()));
         }
     }
+
+    qDeleteAll(urls);
+    qDeleteAll(files);
 
     job->complete();
 
@@ -1609,18 +1632,8 @@ void Repository::refresh(Job *job)
     job->complete();
 }
 
-void Repository::loadOne(QUrl* url, Job* job, QString* sha1) {
+void Repository::loadOne(QTemporaryFile* f, Job* job) {
     job->setHint("Downloading");
-
-    QTemporaryFile* f = 0;
-    if (job->getErrorMessage().isEmpty() && !job->isCancelled()) {
-        Job* djob = job->newSubJob(0.90);
-        f = Downloader::download(djob, *url, sha1, true);
-        if (!djob->getErrorMessage().isEmpty())
-            job->setErrorMessage(QString("Download failed: %2").
-                    arg(djob->getErrorMessage()));
-        delete djob;
-    }
 
     QDomDocument doc;
     if (job->getErrorMessage().isEmpty() && !job->isCancelled()) {
@@ -1630,7 +1643,8 @@ void Repository::loadOne(QUrl* url, Job* job, QString* sha1) {
         int errorColumn;
         QString errMsg;
         if (!doc.setContent(f, &errMsg, &errorLine, &errorColumn))
-            job->setErrorMessage(QString("XML parsing failed at line %L1, column %L2: %3").
+            job->setErrorMessage(QString(
+                    "XML parsing failed at line %L1, column %L2: %3").
                     arg(errorLine).arg(errorColumn).arg(errMsg));
         else
             job->setProgress(0.91);
@@ -1644,8 +1658,6 @@ void Repository::loadOne(QUrl* url, Job* job, QString* sha1) {
                     arg(djob->getErrorMessage()));
         delete djob;
     }
-
-    delete f;
 
     job->complete();
 }
@@ -1793,12 +1805,9 @@ void Repository::fireStatusChanged(PackageVersion *pv)
 PackageVersion* Repository::findLockedPackageVersion() const
 {
     PackageVersion* r = 0;
-    for (int i = 0; i < getPackageVersionCount(); i++) {
-        PackageVersion* pv = getPackageVersion(i);
-        if (pv->isLocked()) {
-            r = pv;
-            break;
-        }
+    if (locked.count() > 0) {
+        PackageVersionHandle* pvh = locked.at(0);
+        r = findPackageVersion(pvh->package, pvh->version);
     }
     return r;
 }

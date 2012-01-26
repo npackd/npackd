@@ -37,7 +37,7 @@ private:
      * @param sha1 0 or a pointer to a string where the SHA1 of the downloaded
      *     file will be stored
      */
-    void loadOne(QUrl* url, Job* job, QString* sha1);
+    void loadOne(QTemporaryFile* f, Job* job);
 
     void clearExternallyInstalled(QString package);
 
