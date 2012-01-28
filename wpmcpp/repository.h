@@ -30,7 +30,6 @@ class Repository: public AbstractRepository
 private:
     static Repository def;
 
-    static Package* createPackage(QDomElement* e, QString* err);
     static License* createLicense(QDomElement* e);
 
     /**

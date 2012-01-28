@@ -87,12 +87,12 @@ void Repository::index(Job* job)
 
         if (!job->isCancelled())
             job->setProgress(1);
-
-        job->complete();
     } catch (const Xapian::Error &e) {
         job->setErrorMessage(WPMUtils::fromUtf8StdString(
                 e.get_description()));
     }
+
+    job->complete();
 }
 
 QList<Package*> Repository::find(const QString& text, int type,
@@ -142,9 +142,11 @@ QList<Package*> Repository::find(const QString& text, int type,
         for (i = matches.begin(); i != matches.end(); ++i) {
             Xapian::Document doc = i.get_document();
             std::string package = doc.get_value(0);
-            QString package_ = WPMUtils::fromUtf8StdString(package);
-            Package* p = this->findPackage(package_);
-            if (p)
+            std::string serialized = doc.get_value(1);
+            QString err;
+            Package* p = Package::deserialize(
+                    WPMUtils::fromUtf8StdString(serialized), &err);
+            if (err.isEmpty())
                 r.append(p);
         }
     } catch (const Xapian::Error &e) {
@@ -245,47 +247,6 @@ PackageVersion* Repository::findNewestInstalledPackageVersion(
     return r;
 }
 
-Package* Repository::createPackage(QDomElement* e, QString* err)
-{
-    *err = "";
-
-    QString name = e->attribute("name").trimmed();
-    if (name.isEmpty()) {
-        err->append("Empty attribute 'name' in <package>)");
-    }
-
-    Package* a = new Package(name, name);
-
-    if (err->isEmpty()) {
-        a->title = XMLUtils::getTagContent(*e, "title");
-        a->url = XMLUtils::getTagContent(*e, "url");
-        a->description = XMLUtils::getTagContent(*e, "description");
-    }
-
-    if (err->isEmpty()) {
-        a->icon = XMLUtils::getTagContent(*e, "icon");
-        if (!a->icon.isEmpty()) {
-            QUrl u(a->icon);
-            if (!u.isValid() || u.isRelative() ||
-                    !(u.scheme() == "http" || u.scheme() == "https")) {
-                err->append(QString("Invalid icon URL for %1: %2").
-                        arg(a->title).arg(a->icon));
-            }
-        }
-    }
-
-    if (err->isEmpty()) {
-        a->license = XMLUtils::getTagContent(*e, "license");
-    }
-
-    if (err->isEmpty())
-        return a;
-    else {
-        delete a;
-        return 0;
-    }
-}
-
 License* Repository::createLicense(QDomElement* e)
 {
     QString name = e->attribute("name");
@@ -340,6 +301,8 @@ void Repository::indexCreateDocument(Package* p, Xapian::Document& doc)
     doc.set_data(para);
 
     doc.add_value(0, p->name.toUtf8().constData());
+    doc.add_value(1, p->serialize().toUtf8().constData());
+
     doc.add_boolean_term("Tpackage");
 
     boolean installed = false, updateable = false;
@@ -1053,10 +1016,7 @@ QString Repository::writeTo(const QString& filename) const
     for (int i = 0; i < getPackageCount(); i++) {
         Package* p = packages.at(i);
         QDomElement package = doc.createElement("package");
-        package.setAttribute("name", p->name);
-        XMLUtils::addTextTag(package, "title", p->title);
-        if (!p->description.isEmpty())
-            XMLUtils::addTextTag(package, "description", p->description);
+        p->saveTo(package);
         root.appendChild(package);
     }
 
@@ -1468,7 +1428,7 @@ void Repository::reload(Job *job)
         job->setProgress(0.5);
     }
 
-    key.append("3"); // serialization version
+    key.append("4"); // serialization version
 
     // TODO: can we apply SHA1 to itself?
     QCryptographicHash hash(QCryptographicHash::Sha1);
@@ -1530,13 +1490,13 @@ void Repository::reload(Job *job)
             indexed = false;
 
         for (int i = 0; i < urls.count(); i++) {
-            job->setHint(QString("Repository %1 of %2").arg(i + 1).
+            job->setHint(QString("Processing repository %1 of %2").arg(i + 1).
                     arg(urls.count()));
             Job* s = job->newSubJob(0.2 / urls.count());
             loadOne(files.at(i), s);
             if (!s->getErrorMessage().isEmpty()) {
                 job->setErrorMessage(QString(
-                        "Error loading the repository %1: %2").arg(
+                        "Error processing the repository %1: %2").arg(
                         urls.at(i)->toString()).arg(s->getErrorMessage()));
                 delete s;
                 break;
@@ -1756,7 +1716,7 @@ void Repository::loadOne(QDomDocument* doc, Job* job)
                 QDomElement e = n.toElement();
                 if (e.nodeName() == "package") {
                     QString err;
-                    Package* p = createPackage(&e, &err);
+                    Package* p = Package::createPackage(&e, &err);
                     if (p) {
                         if (this->findPackage(p->name))
                             delete p;
