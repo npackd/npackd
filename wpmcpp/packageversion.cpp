@@ -1084,6 +1084,11 @@ QString PackageVersion::saveFiles(const QDir& d)
     return res;
 }
 
+PackageVersionHandle PackageVersion::getHandle() const
+{
+    return PackageVersionHandle(this->package_->name, this->version);
+}
+
 QString PackageVersion::serialize() const
 {
     QDomDocument doc;

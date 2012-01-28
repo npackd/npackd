@@ -18,6 +18,11 @@ public:
     Version version;
 
     /**
+     * package="com.microsoft.Windows", version=1
+     */
+    PackageVersionHandle();
+
+    /**
      * @param package full package name
      * @param version version
      */
