@@ -53,6 +53,8 @@ private:
     UINT taskbarMessageId;
     ITaskbarList3* taskbarInterface;
 
+    QList<Package*> packagesInTable;
+
     void addJobsTab();
     void showDetails();
     void updateIcons();

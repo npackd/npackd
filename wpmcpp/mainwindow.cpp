@@ -62,10 +62,6 @@ class InstallThread: public QThread
 
     void scanHardDrives();
 public:
-    // name of the log file for type=6
-    // directory for type=7
-    QString logFile;
-
     QList<InstallOperation*> install;
 
     InstallThread(PackageVersion* pv, int type, Job* job);
@@ -307,11 +303,10 @@ void MainWindow::updateIcons()
     for (int i = 0; i < this->ui->tableWidget->rowCount(); i++) {
         QTableWidgetItem *item = ui->tableWidget->item(i, 0);
         const QVariant v = item->data(Qt::UserRole);
-        Package* p = (Package *) v.value<void*>();
+        QString icon = v.toString();
 
-        if (!p->icon.isEmpty() && this->icons.contains(p->icon)) {
-            QIcon icon = this->icons[p->icon];
-            item->setIcon(icon);
+        if (!icon.isEmpty() && this->icons.contains(icon)) {
+            item->setIcon(this->icons[icon]);
         }
     }
 
@@ -477,6 +472,8 @@ MainWindow::~MainWindow()
     if (!this->fileLoader.wait(1000))
         this->fileLoader.terminate();
     delete ui;
+
+    qDeleteAll(this->packagesInTable);
 }
 
 void MainWindow::monitoredJobChanged(const JobState& state)
@@ -528,7 +525,7 @@ void MainWindow::selectPackages(const QList<Package*>& p)
     QItemSelectionModel* sm = t->selectionModel();
     QItemSelection is = sm->selection();
     for (int i = 0; i < this->ui->tableWidget->rowCount(); i++) {
-        QTableWidgetItem* item = this->ui->tableWidget->item(i, 0);
+        QTableWidgetItem* item = this->ui->tableWidget->item(i, 1);
         const QVariant v = item->data(Qt::UserRole);
         Package* f = (Package *) v.value<void*>();
         if (p.contains(f)) {
@@ -546,7 +543,7 @@ QList<Package*> MainWindow::getSelectedPackagesInTable()
     QList<QTableWidgetItem*> sel = this->ui->tableWidget->selectedItems();
     for (int i = 0; i < sel.count(); i++) {
         QTableWidgetItem* item = sel.at(i);
-        if (item->column() == 0) {
+        if (item->column() == 1) {
             const QVariant v = item->data(Qt::UserRole);
             Package* p = (Package *) v.value<void*>();
             result.append(p);
@@ -571,7 +568,7 @@ QList<QObject*> MainWindow::getSelectedObjects() const
         QList<QTableWidgetItem*> sel = this->ui->tableWidget->selectedItems();
         for (int i = 0; i < sel.count(); i++) {
             QTableWidgetItem* item = sel.at(i);
-            if (item->column() == 0) {
+            if (item->column() == 1) {
                 const QVariant v = item->data(Qt::UserRole);
                 Package* p = (Package *) v.value<void*>();
                 result.append(p);
@@ -608,10 +605,20 @@ bool QCITableWidgetItem::operator<(const QTableWidgetItem &other) const
 
 void MainWindow::fillList()
 {
+    // Columns and data types:
+    // 0: icon QString
+    // 1: package name Package*
+    // 2: package description Package*
+    // 3: available versions Package*
+    // 4: installed versions Package*
+    // 5: license Package*
+
     // qDebug() << "MainWindow::fillList";
     QTableWidget* t = this->ui->tableWidget;
 
     t->clearContents();
+    qDeleteAll(this->packagesInTable);
+    this->packagesInTable.clear();
     t->setSortingEnabled(false);
 
     Repository* r = Repository::getDefault();
@@ -639,9 +646,9 @@ void MainWindow::fillList()
     int statusFilter = this->ui->comboBoxStatus->currentIndex();
 
     QString warning;
-    QList<Package*> found = r->find(this->ui->lineEditText->text(),
+    packagesInTable = r->find(this->ui->lineEditText->text(),
             statusFilter, &warning);
-    t->setRowCount(found.count());
+    t->setRowCount(packagesInTable.count());
 
     if (warning.isEmpty())
         warning = "Use * to match any number of any characters at a word end";
@@ -649,8 +656,8 @@ void MainWindow::fillList()
 
     QSet<QString> requestedIcons;
 
-    for (int i = 0; i < found.count(); i++) {
-        Package* p = found.at(i);
+    for (int i = 0; i < packagesInTable.count(); i++) {
+        Package* p = packagesInTable.at(i);
 
         if (!p->icon.isEmpty() && !requestedIcons.contains(p->icon)) {
             FileLoaderItem it;
@@ -661,7 +668,7 @@ void MainWindow::fillList()
         }
 
         newItem = new QTableWidgetItem("");
-        newItem->setData(Qt::UserRole, qVariantFromValue((void*) p));
+        newItem->setData(Qt::UserRole, qVariantFromValue(p->icon));
         if (p) {
             if (!p->icon.isEmpty() && this->icons.contains(p->icon)) {
                 QIcon icon = this->icons[p->icon];
@@ -1167,6 +1174,8 @@ void MainWindow::recognizeAndLoadRepositories()
 {
     QTableWidget* t = this->ui->tableWidget;
     t->clearContents();
+    qDeleteAll(this->packagesInTable);
+    this->packagesInTable.clear();
     t->setRowCount(0);
 
     Job* job = new Job();

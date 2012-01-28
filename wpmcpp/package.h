@@ -3,6 +3,7 @@
 
 #include <QObject>
 #include <QString>
+#include <QDomElement>
 
 /**
  * A package declaration.
@@ -12,6 +13,20 @@ class Package : public QObject
     Q_OBJECT
 public:
     explicit Package(QObject *parent = 0);
+
+    /**
+     * @param <package>
+     * @param err error message will be stored here
+     * @return created object or 0, if a error has occured
+     */
+    static Package* createPackage(QDomElement* e, QString* err);
+
+    /**
+     * @param xml XML created by serialize()
+     * @param err error message will be stored here
+     * @return created Package
+     */
+    static Package* deserialize(const QString& xml, QString* err);
 
     /**
      * Checks whether the specified value is a valid package name.
@@ -46,6 +61,18 @@ public:
      *     case
      */
     QString getFullText();
+
+    /**
+     * @return XML representation of this package version
+     */
+    QString serialize() const;
+
+    /**
+     * Save the contents as XML.
+     *
+     * @param e <package>
+     */
+    void saveTo(QDomElement& e) const;
 };
 
 #endif // PACKAGE_H
