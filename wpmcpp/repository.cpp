@@ -34,67 +34,6 @@ Repository::Repository(): AbstractRepository(), stemmer("english")
     indexer.set_stemmer(stemmer);
 }
 
-void Repository::index(Job* job)
-{
-    try {
-        for (int i = 0; i < getPackageCount(); i++){
-            Package* p = this->packages.at(i);
-
-            Xapian::Document doc;
-            this->indexCreateDocument(p, doc);
-
-            indexer.set_document(doc);
-            indexer.index_text(doc.get_data());
-
-            // Add the document to the database.
-            db->add_document(doc);
-
-            if (i % 100 == 0) {
-                job->setProgress(0.45 * i / getPackageCount());
-                job->setHint(QString("indexing packages (%L1)").arg(i));
-            }
-
-            if (job->isCancelled())
-                break;
-        }
-
-        for (int i = 0; i < getPackageVersionCount(); i++){
-            PackageVersion* pv = this->getPackageVersion(i);
-
-            Xapian::Document doc;
-            this->indexCreateDocument(pv, doc);
-
-            indexer.set_document(doc);
-            indexer.index_text(doc.get_data());
-
-            // Add the document to the database.
-            db->add_document(doc);
-
-            if (i % 100 == 0) {
-                job->setProgress(0.45 + 0.45 * i / getPackageVersionCount());
-                job->setHint(QString("indexing packages (%L1)").arg(i));
-            }
-
-            if (job->isCancelled())
-                break;
-        }
-
-        // Explicitly commit so that we get to see any errors.  WritableDatabase's
-        // destructor will commit implicitly (unless we're in a transaction) but
-        // will swallow any exceptions produced.
-        job->setHint("preparing the index");
-        db->commit();
-
-        if (!job->isCancelled())
-            job->setProgress(1);
-    } catch (const Xapian::Error &e) {
-        job->setErrorMessage(WPMUtils::fromUtf8StdString(
-                e.get_description()));
-    }
-
-    job->complete();
-}
-
 QList<Package*> Repository::find(const QString& text, int type,
         QString* warning)
 {
@@ -838,31 +777,28 @@ void Repository::detectMSIProducts()
     QStringList all = WPMUtils::findInstalledMSIProducts();
     // qDebug() << all.at(0);
 
-    for (int i = 0; i < this->getPackageVersionCount(); i++) {
-        PackageVersion* pv = this->getPackageVersion(i);
-        if (pv->msiGUID.length() == 38) {
-            // qDebug() << pv->msiGUID;
-            if (all.contains(pv->msiGUID)) {
-                // qDebug() << pv->toString();
-                InstalledPackageVersion* ipv = findInstalledPackageVersion(pv);
-                if (!ipv || ipv->external_) {
-                    QString err;
-                    QString p = WPMUtils::getMSIProductLocation(
-                            pv->msiGUID, &err);
-                    if (p.isEmpty() || !err.isEmpty())
-                        p = WPMUtils::getWindowsDir();
+    for (int i = 0; i < all.count(); i++) {
+        if (this->msiGUIDToPackageVersion.contains(all.at(i))) {
+            PackageVersionHandle pvh = this->msiGUIDToPackageVersion[all.at(i)];
+            InstalledPackageVersion* ipv = findInstalledPackageVersion(
+                    pvh.package, pvh.version);
+            if (!ipv) {
+                QString err;
+                QString location = WPMUtils::getMSIProductLocation(
+                        all.at(i), &err);
+                if (location.isEmpty() || !err.isEmpty())
+                    location = WPMUtils::getWindowsDir();
 
-                    if (!ipv) {
-                        ipv = new InstalledPackageVersion(pv->package_,
-                                pv->version, p, true);
+                if (!ipv) {
+                    Package* p = findPackage(pvh.package);
+
+                    // this should always be true
+                    if (p) {
+                        ipv = new InstalledPackageVersion(p,
+                                pvh.version, location, true);
                         this->installedPackageVersions.append(ipv);
-                    } else {
-                        ipv->ipath = p;
-                        ipv->external_ = true;
                     }
                 }
-            } else {
-                removeInstalledPackageVersion(pv);
             }
         }
     }
@@ -1272,6 +1208,20 @@ InstalledPackageVersion* Repository::findInstalledPackageVersion(
     return r;
 }
 
+InstalledPackageVersion* Repository::findInstalledPackageVersion(
+        const QString& package, const Version& version)
+{
+    InstalledPackageVersion* r = 0;
+    for (int i = 0; i < this->installedPackageVersions.count(); i++) {
+        InstalledPackageVersion* ipv = this->installedPackageVersions.at(i);
+        if (ipv->package_->name == package && ipv->version == version) {
+            r = ipv;
+            break;
+        }
+    }
+    return r;
+}
+
 void Repository::scan(const QString& path, Job* job, int level,
         QStringList& ignore)
 {
@@ -1397,6 +1347,8 @@ void Repository::reload(Job *job)
     this->clearPackages();
     this->clearPackageVersions();
 
+    this->msiGUIDToPackageVersion.clear();
+
     QList<QUrl*> urls = getRepositoryURLs();
     QList<QTemporaryFile*> files;
     QString key;
@@ -1451,15 +1403,6 @@ void Repository::reload(Job *job)
 
     job->complete();
 
-    addWellKnownPackages();
-
-    if (!job->isCancelled() && job->getErrorMessage().isEmpty()) {
-        Job* d = job->newSubJob(0.1);
-        job->setHint("Refreshing installation statuses");
-        refresh(d);
-        delete d;
-    }
-
     QString fn;
     if (!job->isCancelled() && job->getErrorMessage().isEmpty()) {
         job->setHint("Creating index directory");
@@ -1489,35 +1432,11 @@ void Repository::reload(Job *job)
         if (!d.exists())
             indexed = false;
 
-        for (int i = 0; i < urls.count(); i++) {
-            job->setHint(QString("Processing repository %1 of %2").arg(i + 1).
-                    arg(urls.count()));
-            Job* s = job->newSubJob(0.2 / urls.count());
-            loadOne(files.at(i), s);
-            if (!s->getErrorMessage().isEmpty()) {
-                job->setErrorMessage(QString(
-                        "Error processing the repository %1: %2").arg(
-                        urls.at(i)->toString()).arg(s->getErrorMessage()));
-                delete s;
-                break;
-            }
-            delete s;
-
-            if (job->isCancelled())
-                break;
-        }
-
         try {
             if (!indexed) {
                 db = new Xapian::WritableDatabase(
                         indexDir.toUtf8().constData(),
                         Xapian::DB_CREATE_OR_OVERWRITE);
-
-                Job* sub = job->newSubJob(0.15);
-                this->index(sub);
-                if (!sub->getErrorMessage().isEmpty())
-                    job->setErrorMessage(sub->getErrorMessage());
-                delete sub;
 
                 WindowsRegistry wr;
                 QString err = wr.open(HKEY_LOCAL_MACHINE,
@@ -1546,6 +1465,49 @@ void Repository::reload(Job *job)
                     e.get_description()));
         }
     }
+
+    if (!job->isCancelled() && job->getErrorMessage().isEmpty()) {
+        for (int i = 0; i < urls.count(); i++) {
+            job->setHint(QString("Processing repository %1 of %2").arg(i + 1).
+                    arg(urls.count()));
+            Job* s = job->newSubJob(0.2 / urls.count());
+            loadOne(files.at(i), s, !indexed);
+            if (!s->getErrorMessage().isEmpty()) {
+                job->setErrorMessage(QString(
+                        "Error processing the repository %1: %2").arg(
+                        urls.at(i)->toString()).arg(s->getErrorMessage()));
+                delete s;
+                break;
+            }
+            delete s;
+
+            if (job->isCancelled())
+                break;
+        }
+    }
+
+    if (!job->isCancelled() && job->getErrorMessage().isEmpty()) {
+        addWellKnownPackages();
+    }
+
+    if (!job->isCancelled() && job->getErrorMessage().isEmpty()) {
+        Job* d = job->newSubJob(0.1);
+        job->setHint("Refreshing installation statuses");
+        refresh(d);
+        delete d;
+    }
+
+    if (!job->isCancelled() && job->getErrorMessage().isEmpty()) {
+        if (!indexed) {
+            // Explicitly commit so that we get to see any errors.  WritableDatabase's
+            // destructor will commit implicitly (unless we're in a transaction) but
+            // will swallow any exceptions produced.
+            job->setHint("preparing the index");
+            db->commit();
+        }
+    }
+
+    // TODO: setProgress in der kompletten Methode überprüfen
 
     qDeleteAll(urls);
     qDeleteAll(files);
@@ -1592,7 +1554,7 @@ void Repository::refresh(Job *job)
     job->complete();
 }
 
-void Repository::loadOne(QTemporaryFile* f, Job* job) {
+void Repository::loadOne(QTemporaryFile* f, Job* job, bool index) {
     job->setHint("Downloading");
 
     QDomDocument doc;
@@ -1612,7 +1574,7 @@ void Repository::loadOne(QTemporaryFile* f, Job* job) {
 
     if (job->getErrorMessage().isEmpty() && !job->isCancelled()) {
         Job* djob = job->newSubJob(0.09);
-        loadOne(&doc, djob);
+        loadOne(&doc, djob, index);
         if (!djob->getErrorMessage().isEmpty())
             job->setErrorMessage(QString("Error loading XML: %2").
                     arg(djob->getErrorMessage()));
@@ -1669,7 +1631,7 @@ void Repository::clearPackageVersions() {
     this->nameToPackageVersion.clear();
 }
 
-void Repository::loadOne(QDomDocument* doc, Job* job)
+void Repository::loadOne(QDomDocument* doc, Job* job, bool index)
 {
     QDomElement root;
     if (job->getErrorMessage().isEmpty() && !job->isCancelled()) {
@@ -1710,49 +1672,86 @@ void Repository::loadOne(QDomDocument* doc, Job* job)
                 }
             }
         }
-        for (QDomNode n = root.firstChild(); !n.isNull();
-                n = n.nextSibling()) {
-            if (n.isElement()) {
-                QDomElement e = n.toElement();
-                if (e.nodeName() == "package") {
-                    QString err;
-                    Package* p = Package::createPackage(&e, &err);
-                    if (p) {
-                        if (this->findPackage(p->name))
-                            delete p;
-                        else
-                           this->addPackage(p);
-                    } else {
-                        job->setErrorMessage(err);
-                        break;
-                    }
-                }
-            }
-        }
-        for (QDomNode n = root.firstChild(); !n.isNull();
-                n = n.nextSibling()) {
-            if (n.isElement()) {
-                QDomElement e = n.toElement();
-                if (e.nodeName() == "version") {
-                    QString err;
-                    PackageVersion* pv = PackageVersion::createPackageVersion(
-                            &e, &err);
-                    if (pv) {
-                        if (this->findPackageVersion(pv->getPackage()->name,
-                                pv->version))
-                            delete pv;
-                        else {
-                            this->addPackageVersion(pv);
+
+        try {
+            for (QDomNode n = root.firstChild(); !n.isNull();
+                    n = n.nextSibling()) {
+                if (n.isElement()) {
+                    QDomElement e = n.toElement();
+                    if (e.nodeName() == "package") {
+                        QString err;
+                        Package* p = Package::createPackage(&e, &err);
+                        if (p) {
+                            if (this->findPackage(p->name))
+                                delete p;
+                            else {
+                                this->addPackage(p);
+                                if (index) {
+                                    // qDebug() << p->name;
+
+                                    Xapian::Document doc;
+                                    this->indexCreateDocument(p, doc);
+
+                                    indexer.set_document(doc);
+                                    indexer.index_text(doc.get_data());
+
+                                    // Add the document to the database.
+                                    db->add_document(doc);
+                                }
+                            }
+                        } else {
+                            job->setErrorMessage(err);
+                            break;
                         }
-                    } else {
-                        job->setErrorMessage(err);
-                        break;
                     }
                 }
             }
+            for (QDomNode n = root.firstChild(); !n.isNull();
+                    n = n.nextSibling()) {
+                if (n.isElement()) {
+                    QDomElement e = n.toElement();
+                    if (e.nodeName() == "version") {
+                        QString err;
+                        PackageVersion* pv = PackageVersion::createPackageVersion(
+                                &e, &err);
+                        if (pv) {
+                            if (this->findPackageVersion(pv->getPackage()->name,
+                                    pv->version))
+                                delete pv;
+                            else {
+                                this->addPackageVersion(pv);
+                                if (pv->msiGUID.length() == 38) {
+                                    this->msiGUIDToPackageVersion.insert(
+                                            pv->msiGUID, pv->getHandle());
+                                }
+                                if (index) {
+                                    Xapian::Document doc;
+                                    this->indexCreateDocument(pv, doc);
+
+                                    indexer.set_document(doc);
+
+                                    // TODO: do we need this?
+                                    indexer.index_text(doc.get_data());
+
+                                    // Add the document to the database.
+                                    db->add_document(doc);
+                                }
+                            }
+                        } else {
+                            job->setErrorMessage(err);
+                            break;
+                        }
+                    }
+                }
+            }
+        } catch (const Xapian::Error &e) {
+            job->setErrorMessage(WPMUtils::fromUtf8StdString(
+                    e.get_description()));
         }
         job->setProgress(1);
     }
+
+    // TODO: check setProgress in the whole method
 
     job->complete();
 }

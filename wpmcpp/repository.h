@@ -32,29 +32,6 @@ private:
 
     static License* createLicense(QDomElement* e);
 
-    /**
-     * @param sha1 0 or a pointer to a string where the SHA1 of the downloaded
-     *     file will be stored
-     */
-    void loadOne(QTemporaryFile* f, Job* job);
-
-    void clearExternallyInstalled(QString package);
-
-    /**
-     * Loads the information about a package from the Windows registry.
-     */
-    void loadInstallationInfoFromRegistry(Package* package,
-            const Version& version);
-
-    void detectOneDotNet(const WindowsRegistry& wr, const QString& keyName);
-    void detectMSIProducts();
-    void detectDotNet();
-    void detectMicrosoftInstaller();
-    void detectMSXML();
-    void detectJRE(bool w64bit);
-    void detectJDK(bool w64bit);
-    void detectWindows();
-
     Xapian::WritableDatabase* db;
     Xapian::Enquire* enquire;
     Xapian::QueryParser* queryParser;
@@ -74,6 +51,31 @@ private:
     QHash<QString, Package*> nameToPackage;
 
     QMultiHash<QString, PackageVersion*> nameToPackageVersion;
+
+    QHash<QString, PackageVersionHandle> msiGUIDToPackageVersion;
+
+    /**
+     * @param sha1 0 or a pointer to a string where the SHA1 of the downloaded
+     *     file will be stored
+     */
+    void loadOne(QTemporaryFile* f, Job* job, bool index);
+
+    void clearExternallyInstalled(QString package);
+
+    /**
+     * Loads the information about a package from the Windows registry.
+     */
+    void loadInstallationInfoFromRegistry(Package* package,
+            const Version& version);
+
+    void detectOneDotNet(const WindowsRegistry& wr, const QString& keyName);
+    void detectMSIProducts();
+    void detectDotNet();
+    void detectMicrosoftInstaller();
+    void detectMSXML();
+    void detectJRE(bool w64bit);
+    void detectJDK(bool w64bit);
+    void detectWindows();
 
     /**
      * @param exact if true, only exact matches to packages from current
@@ -102,7 +104,6 @@ private:
 
     void addWellKnownPackages();
 
-    void index(Job* job);
     void indexCreateDocument(PackageVersion* pv, Xapian::Document& doc);
     void indexCreateDocument(Package* p, Xapian::Document& doc);
     QString indexUpdatePackageVersion(PackageVersion* pv);
@@ -173,10 +174,19 @@ public:
     void unlock(const QString& package, const Version& version);
 
     /**
+     * @param pv package version
      * @return installation information for a package version or 0
      */
     InstalledPackageVersion* findInstalledPackageVersion(
             const PackageVersion* pv);
+
+    /**
+     * @param package full package name
+     * @param version package version
+     * @return installation information for a package version or 0
+     */
+    InstalledPackageVersion* findInstalledPackageVersion(
+            const QString& package, const Version& version);
 
     /**
      * Removes a package version from the list of installed.
@@ -209,8 +219,9 @@ public:
      *
      * @param doc repository
      * @param job Job
+     * @param index true = index the contents
      */
-    void loadOne(QDomDocument* doc, Job* job);
+    void loadOne(QDomDocument* doc, Job* job, bool index);
 
     /**
      * Adds a new package.

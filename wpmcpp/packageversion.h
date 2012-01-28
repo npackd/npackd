@@ -16,6 +16,7 @@
 #include "dependency.h"
 #include "installoperation.h"
 #include "detectfile.h"
+#include "packageversionhandle.h"
 
 class InstallOperation;
 class Package;
@@ -285,6 +286,11 @@ public:
      * @return XML representation of this package version
      */
     QString serialize() const;
+
+    /**
+     * @return handle for this version
+     */
+    PackageVersionHandle getHandle() const;
 };
 
 #endif // PACKAGEVERSION_H
