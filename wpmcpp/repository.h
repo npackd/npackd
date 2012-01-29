@@ -43,14 +43,9 @@ private:
      */
     QList<Package*> packages;
 
-    /**
-     * Package versions. All version numbers should be normalized.
-     */
-    QList<PackageVersion*> packageVersions;
-
     QHash<QString, Package*> nameToPackage;
 
-    QMultiHash<QString, PackageVersion*> nameToPackageVersion;
+    QMultiHash<QString, Version> nameToPackageVersion;
 
     QHash<QString, PackageVersionHandle> msiGUIDToPackageVersion;
 
@@ -65,7 +60,7 @@ private:
     /**
      * Loads the information about a package from the Windows registry.
      */
-    void loadInstallationInfoFromRegistry(Package* package,
+    void loadInstallationInfoFromRegistry(const QString& package,
             const Version& version);
 
     void detectOneDotNet(const WindowsRegistry& wr, const QString& keyName);
@@ -186,7 +181,7 @@ public:
      * @return installation information for a package version or 0
      */
     InstalledPackageVersion* findInstalledPackageVersion(
-            const QString& package, const Version& version);
+            const QString& package, const Version& version) const;
 
     /**
      * Removes a package version from the list of installed.
@@ -196,12 +191,24 @@ public:
     void removeInstalledPackageVersion(PackageVersion* pv);
 
     /**
+     * Adds a package version to the list of installed if it is not already
+     * there.
+     *
+     * @param package full package name
+     * @param version package version
+     * @param ipath installation path
+     * @param external true = external
+     */
+    void addInstalledPackageVersionIfAbsent(const QString& package,
+            const Version& version, const QString& ipath, bool external);
+
+    /**
      * Writes this repository to an XML file.
      *
      * @param filename output file name
      * @return error message or ""
      */
-    QString writeTo(const QString& filename) const;
+    // TODO: QString writeTo(const QString& filename) const;
 
     /**
      * Plans updates for the given packages.
@@ -245,37 +252,14 @@ public:
     QList<PackageVersion*> getInstalledPackageVersions(QString package) const;
 
     /**
-     * Adds a new package version.
-     *
-     * @param pv the package version
-     */
-    void addPackageVersion(PackageVersion* pv);
-
-    /**
      * Removes all packages.
      */
     void clearPackages();
 
     /**
-     * Removes all packages.
-     */
-    void clearPackageVersions();
-
-    /**
      * @return number of packages
      */
     int getPackageCount() const;
-
-    /**
-     * @return number of package versions
-     */
-    int getPackageVersionCount() const;
-
-    /**
-     * @param i package index
-     * @return package version with the specified index
-     */
-    PackageVersion* getPackageVersion(int i) const;
 
     /**
      * Reads the package statuses from the registry.
@@ -300,16 +284,6 @@ public:
      * @param job job object
      */
     void recognize(Job* job);
-
-    /**
-     * Finds or creates a new package version.
-     *
-     * @param package package name
-     * @param v found version
-     * @return package version
-     */
-    PackageVersion* findOrCreatePackageVersion(const QString &package,
-            const Version &v);
 
     /**
      * Finds all installed packages. This method lists all directories in the
@@ -402,10 +376,16 @@ public:
      * @param text search terms
      * @param type 0 = all, 1 = installed, 2 = installed, updateable
      * @param warning a warning is stored here
-     * @return found package versions
+     * @return found package versions (should be destroyed)
      */
     QList<Package*> find(const QString& text, int type,
             QString* warning);
+
+    /**
+     * @return package versions that can be detected (via MSI or SHA1). The
+     *     objects in the list should be destroyed.
+     */
+    QList<PackageVersion*> findDetectablePackageVersions() const;
 
     /**
      * Emits the statusChanged(PackageVersion*) signal.

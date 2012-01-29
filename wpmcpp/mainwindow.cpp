@@ -97,15 +97,10 @@ void InstallThread::run()
     case 4: {
         Repository* r = Repository::getDefault();
         r->reload(job);
-        PackageVersion* pv = r->findOrCreatePackageVersion(
+        r->addInstalledPackageVersionIfAbsent(
                 "com.googlecode.windows-package-manager.Npackd",
-                Version(WPMUtils::NPACKD_VERSION));
-        InstalledPackageVersion* ipv = r->findInstalledPackageVersion(pv);
-        if (!ipv) {
-            ipv = new InstalledPackageVersion(pv->package_, pv->version,
-                    WPMUtils::getExeDir(), true);
-            r->installedPackageVersions.append(ipv);
-        }
+                Version(WPMUtils::NPACKD_VERSION),
+                WPMUtils::getExeDir(), true);
         break;
     }
     case 8:
