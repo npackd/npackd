@@ -45,8 +45,6 @@ private:
 
     QHash<QString, Package*> nameToPackage;
 
-    QMultiHash<QString, Version> nameToPackageVersion;
-
     QHash<QString, PackageVersionHandle> msiGUIDToPackageVersion;
 
     /**
@@ -246,10 +244,17 @@ public:
 
     /**
      * @param package package name
+     * @return all package versions for the specified package ordered by the
+     *     version number in increasing order (older versions first)
+     */
+    QList<Version> getPackageVersions2(QString package) const;
+
+    /**
+     * @param package package name
      * @return installed package versions for the specified package ordered by
      *     the version number in increasing order (older versions first)
      */
-    QList<PackageVersion*> getInstalledPackageVersions(QString package) const;
+    QList<Version> getInstalledPackageVersions(QString package) const;
 
     /**
      * Removes all packages.
@@ -376,16 +381,20 @@ public:
      * @param text search terms
      * @param type 0 = all, 1 = installed, 2 = installed, updateable
      * @param warning a warning is stored here
-     * @return found package versions (should be destroyed)
+     * @return found packages (should be destroyed)
      */
     QList<Package*> find(const QString& text, int type,
             QString* warning);
 
     /**
+     * @param package full package name or "" if versions for all packages
+     *     should be returned
+     * @param type 0 = all, 1 = detectable
      * @return package versions that can be detected (via MSI or SHA1). The
      *     objects in the list should be destroyed.
      */
-    QList<PackageVersion*> findDetectablePackageVersions() const;
+    QList<PackageVersion*> findPackageVersions(const QString& package,
+            int type) const;
 
     /**
      * Emits the statusChanged(PackageVersion*) signal.

@@ -399,17 +399,18 @@ void MainWindow::updateStatusInTable()
         const QVariant v = newItem->data(Qt::UserRole);
         Package* p = (Package *) v.value<void*>();
 
-        QList<PackageVersion*> pvs = r->getPackageVersions(p->name);
-        QList<PackageVersion*> ipvs = r->getInstalledPackageVersions(p->name);
+        QList<Version> pvs = r->getPackageVersions2(p->name);
+        QList<Version> ipvs = r->getInstalledPackageVersions(p->name);
         QString installed;
         for (int j = ipvs.count() - 1; j >= 0; j--) {
-            PackageVersion* pv = ipvs.at(j);
+            Version v = ipvs.at(j);
             if (!installed.isEmpty())
                 installed.append(", ");
-            installed.append(pv->version.getVersionString());
+            installed.append(v.getVersionString());
         }
 
-        if (!installed.isEmpty() && !pvs.last()->installed())
+        if (!installed.isEmpty() && !r->findInstalledPackageVersion(p->name,
+                pvs.last()))
             newItem->setBackgroundColor(QColor(255, 0xc7, 0xc7));
         else
             newItem->setBackgroundColor(QColor(255, 255, 255));
@@ -595,7 +596,7 @@ void MainWindow::fillList()
     // 0: icon QString
     // 1: package name Package*
     // 2: package description Package*
-    // 3: available versions Package*
+    // 3: available version Package*
     // 4: installed versions Package*
     // 5: license Package*
 
@@ -676,24 +677,25 @@ void MainWindow::fillList()
         newItem->setData(Qt::UserRole, qVariantFromValue((void*) p));
         t->setItem(i, 2, newItem);
 
-        QList<PackageVersion*> pvs = r->getPackageVersions(p->name);
-        QList<PackageVersion*> ipvs = r->getInstalledPackageVersions(p->name);
+        QList<Version> pvs = r->getPackageVersions2(p->name);
+        QList<Version> ipvs = r->getInstalledPackageVersions(p->name);
         QString installed;
         for (int j = ipvs.count() - 1; j >= 0; j--) {
-            PackageVersion* pv = ipvs.at(j);
+            Version v = ipvs.at(j);
             if (!installed.isEmpty())
                 installed.append(", ");
-            installed.append(pv->version.getVersionString());
+            installed.append(v.getVersionString());
         }
 
         newItem = new QTableWidgetItem("");
         if (pvs.count() > 0)
-            newItem->setText(pvs.last()->version.getVersionString());
+            newItem->setText(pvs.last().getVersionString());
         newItem->setData(Qt::UserRole, qVariantFromValue((void*) p));
         t->setItem(i, 3, newItem);
 
         newItem = new QCITableWidgetItem(installed);
-        if (!installed.isEmpty() && !pvs.last()->installed())
+        if (!installed.isEmpty() && pvs.count() > 0 &&
+                !r->findInstalledPackageVersion(p->name, pvs.last()))
             newItem->setBackgroundColor(QColor(255, 0xc7, 0xc7));
         newItem->setData(Qt::UserRole, qVariantFromValue((void*) p));
         t->setItem(i, 4, newItem);
