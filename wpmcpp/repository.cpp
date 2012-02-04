@@ -34,15 +34,23 @@ Repository::Repository(): AbstractRepository(), stemmer("english")
     indexer.set_stemmer(stemmer);
 }
 
-QList<PackageVersion*> Repository::findDetectablePackageVersions() const
+QList<PackageVersion*> Repository::findPackageVersions(const QString& package,
+        int type) const
 {
     QList<PackageVersion*> r;
 
     try {
         Xapian::Query query("Tpackage_version");
 
-        query = Xapian::Query(Xapian::Query::OP_AND, query,
-                Xapian::Query("Sdetectable"));
+        if (type == 1)
+            query = Xapian::Query(Xapian::Query::OP_AND, query,
+                    Xapian::Query("Sdetectable"));
+
+        if (!package.isEmpty())
+            query = Xapian::Query(Xapian::Query::OP_AND, query,
+                    Xapian::Query(Xapian::Query::OP_VALUE_RANGE, 0,
+                    package.toUtf8().constData(),
+                    package.toUtf8().constData()));
 
         enquire->set_query(query);
 
@@ -1194,7 +1202,7 @@ void Repository::scan(const QString& path, Job* job, int level,
 
     QMap<QString, QString> path2sha1;
 
-    QList<PackageVersion*> pvs = this->findDetectablePackageVersions();
+    QList<PackageVersion*> pvs = this->findPackageVersions("", 1);
 
     for (int i = 0; i < pvs.count(); i++) {
         if (job && job->isCancelled())
@@ -1473,7 +1481,7 @@ void Repository::reload(Job *job)
         }
     }
 
-    // TODO: setProgress in der kompletten Methode überprüfen
+    // TODO: check setProgress in the whole method
 
     qDeleteAll(urls);
     qDeleteAll(files);
@@ -1556,29 +1564,35 @@ void Repository::addPackage(Package* p) {
 }
 
 QList<PackageVersion*> Repository::getPackageVersions(QString package) const {
-    QList<Version> list = this->nameToPackageVersion.values(package);
-    qSort(list.begin(), list.end());
-    // TODO: the results are not used
+    QList<PackageVersion*> list = this->findPackageVersions(package, 0);
+    // TODO: results are not sorted qSort(list.begin(), list.end());
 
-    QList<PackageVersion*> r;
-    return r;
+    // TODO: results are not destroyed
+    return list;
 }
 
-QList<PackageVersion*> Repository::getInstalledPackageVersions(
-        QString package) const {
-    QList<Version> list = this->nameToPackageVersion.values(package);
-    for (int i = 0; i < list.count(); ) {
-        Version v = list.at(i);
-        if (!findInstalledPackageVersion(package, v))
-            list.removeAt(i);
-        else
-            i++;
+QList<Version> Repository::getPackageVersions2(QString package) const {
+    QList<PackageVersion*> pvs = findPackageVersions(package, 0);
+    QList<Version> list;
+    for (int i = 0; i < pvs.count(); i++) {
+        list.append(pvs.at(i)->version);
+    }
+    qDeleteAll(pvs);
+    pvs.clear();
+    qSort(list.begin(), list.end());
+    return list;
+}
+
+QList<Version> Repository::getInstalledPackageVersions(QString package) const {
+    QList<Version> list;
+    for (int i = 0; i < this->installedPackageVersions.count(); i++) {
+        InstalledPackageVersion* ipv = this->installedPackageVersions.at(i);
+        if (ipv->package_->name == package) {
+            list.append(ipv->version);
+        }
     }
     qSort(list.begin(), list.end());
-    // TODO: the results are not used
-
-    QList<PackageVersion*> r;
-    return r;
+    return list;
 }
 
 void Repository::clearPackages() {
