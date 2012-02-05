@@ -39,11 +39,6 @@ private:
     Xapian::Stem stemmer;
 
     /**
-     * Packages.
-     */
-    QList<Package*> packages;
-
-    /**
      * @param sha1 0 or a pointer to a string where the SHA1 of the downloaded
      *     file will be stored
      */
@@ -266,16 +261,6 @@ public:
     QList<Version> getInstalledPackageVersions(QString package) const;
 
     /**
-     * Removes all packages.
-     */
-    void clearPackages();
-
-    /**
-     * @return number of packages
-     */
-    int getPackageCount() const;
-
-    /**
      * Reads the package statuses from the registry.
      */
     void readRegistryDatabase();
@@ -343,7 +328,7 @@ public:
      *
      * @param name name of the package like "org.server.Word" or the short
      *     name "Word"
-     * @return found packages
+     * @return found packages. The returned objects should be destroyed.
      */
     QList<Package*> findPackages(const QString& name);
 

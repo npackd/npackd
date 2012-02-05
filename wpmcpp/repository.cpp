@@ -201,7 +201,6 @@ Repository::~Repository()
     delete enquire;
     delete db;
 
-    qDeleteAll(this->packages);
     qDeleteAll(this->licenses);
     qDeleteAll(this->installedPackageVersions);
     qDeleteAll(this->locked);
@@ -268,17 +267,22 @@ License* Repository::findLicense(const QString& name)
 
 QList<Package*> Repository::findPackages(const QString& name)
 {
-    QList<Package*> r;
-    bool shortName = name.indexOf('.') < 0;
-    QString suffix = '.' + name;
-    for (int i = 0; i < this->getPackageCount(); i++) {
-        Package* p = this->packages.at(i);
-        if (p->name == name) {
-            r.append(p);
-        } else if (shortName && p->name.endsWith(suffix)) {
-            r.append(p);
-        }
+    Xapian::Query query("Tpackage");
+    query = Xapian::Query(Xapian::Query::OP_AND, query,
+            Xapian::Query(Xapian::Query::OP_VALUE_RANGE, 0,
+            name.toUtf8().constData(),
+            name.toUtf8().constData()));
+    QList<Package*> r = find(query);
+
+    if (name.indexOf('.') < 0) {
+        query = Xapian::Query("Tpackage");
+        query = Xapian::Query(Xapian::Query::OP_AND, query,
+                Xapian::Query(Xapian::Query::OP_VALUE_RANGE, 2,
+                name.toUtf8().constData(),
+                name.toUtf8().constData()));
+        r.append(find(query));
     }
+
     return r;
 }
 
@@ -312,6 +316,12 @@ void Repository::indexCreateDocument(Package* p, Xapian::Document& doc)
 
     doc.add_value(0, p->name.toUtf8().constData());
     doc.add_value(1, p->serialize().toUtf8().constData());
+
+    int index = p->name.indexOf('.');
+    QString shortName;
+    if (index > 0)
+        shortName = p->name.right(p->name.length() - index - 1);
+    doc.add_value(2, shortName.toUtf8().constData());
 
     doc.add_boolean_term("Tpackage");
 
@@ -751,11 +761,6 @@ void Repository::addInstalledPackageVersionIfAbsent(const QString& package,
     InstalledPackageVersion* ipv = findInstalledPackageVersion(
             package, version);
     if (!ipv) {
-        Package* p = findPackage(package);
-        if (!p) {
-            p = new Package(package, package);
-            this->packages.append(p);
-        }
         ipv = new InstalledPackageVersion(package, version, ipath, external);
         this->installedPackageVersions.append(ipv);
     }
@@ -1123,10 +1128,6 @@ void Repository::detectPre_1_15_Packages()
     }
 }
 
-int Repository::getPackageCount() const {
-    return this->packages.count();
-}
-
 void Repository::readRegistryDatabase()
 {
     qDeleteAll(this->installedPackageVersions);
@@ -1190,12 +1191,7 @@ void Repository::loadInstallationInfoFromRegistry(const QString& package,
     }
 
     if (!ipath.isEmpty()) {
-        Package* p = findPackage(package);
-        if (!p) {
-            p = new Package(package, package);
-            this->packages.append(p);
-        }
-        InstalledPackageVersion* ipv = new InstalledPackageVersion(p->name,
+        InstalledPackageVersion* ipv = new InstalledPackageVersion(package,
                 version, ipath, external != 0);
         this->installedPackageVersions.append(ipv);
     }
@@ -1357,8 +1353,6 @@ void Repository::reload(Job *job)
     */
 
     job->setHint("Loading repositories");
-
-    this->clearPackages();
 
     QList<QUrl*> urls = getRepositoryURLs();
     QList<QTemporaryFile*> files;
@@ -1596,7 +1590,7 @@ void Repository::loadOne(QTemporaryFile* f, Job* job, bool index) {
 }
 
 void Repository::addPackage(Package* p) {
-    this->packages.append(p);
+    // TODO: this->packages.append(p);
 }
 
 QList<PackageVersion*> Repository::getPackageVersions(QString package) const {
@@ -1629,11 +1623,6 @@ QList<Version> Repository::getInstalledPackageVersions(QString package) const {
     }
     qSort(list.begin(), list.end());
     return list;
-}
-
-void Repository::clearPackages() {
-    qDeleteAll(this->packages);
-    this->packages.clear();
 }
 
 void Repository::loadOne(QDomDocument* doc, Job* job, bool index)
