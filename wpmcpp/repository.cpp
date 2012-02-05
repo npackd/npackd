@@ -34,24 +34,12 @@ Repository::Repository(): AbstractRepository(), stemmer("english")
     indexer.set_stemmer(stemmer);
 }
 
-QList<PackageVersion*> Repository::findPackageVersions(const QString& package,
-        int type) const
+QList<PackageVersion*> Repository::findPackageVersions(
+        const Xapian::Query& query) const
 {
     QList<PackageVersion*> r;
 
     try {
-        Xapian::Query query("Tpackage_version");
-
-        if (type == 1)
-            query = Xapian::Query(Xapian::Query::OP_AND, query,
-                    Xapian::Query("Sdetectable"));
-
-        if (!package.isEmpty())
-            query = Xapian::Query(Xapian::Query::OP_AND, query,
-                    Xapian::Query(Xapian::Query::OP_VALUE_RANGE, 0,
-                    package.toUtf8().constData(),
-                    package.toUtf8().constData()));
-
         enquire->set_query(query);
 
         // TODO: return all results and not only the first 2000
@@ -73,6 +61,24 @@ QList<PackageVersion*> Repository::findPackageVersions(const QString& package,
     }
 
     return r;
+}
+
+QList<PackageVersion*> Repository::findPackageVersions(const QString& package,
+        int type) const
+{
+    Xapian::Query query("Tpackage_version");
+
+    if (type == 1)
+        query = Xapian::Query(Xapian::Query::OP_AND, query,
+                Xapian::Query("Sdetectable"));
+
+    if (!package.isEmpty())
+        query = Xapian::Query(Xapian::Query::OP_AND, query,
+                Xapian::Query(Xapian::Query::OP_VALUE_RANGE, 0,
+                package.toUtf8().constData(),
+                package.toUtf8().constData()));
+
+    return findPackageVersions(query);
 }
 
 QList<Package*> Repository::find(const QString& text, int type,
@@ -318,8 +324,8 @@ void Repository::indexCreateDocument(PackageVersion* pv, Xapian::Document& doc)
     doc.add_value(0, pv->getPackage().toUtf8().constData());
     doc.add_value(1, pv->version.getVersionString().
             toUtf8().constData());
-    doc.add_value(2, pv->serialize().
-            toUtf8().constData());
+    doc.add_value(2, pv->serialize().toUtf8().constData());
+    doc.add_value(3, pv->msiGUID.toUtf8().constData());
 
     doc.add_boolean_term("Tpackage_version");
 
@@ -790,10 +796,19 @@ void Repository::detectMSIProducts()
     // qDebug() << all.at(0);
 
     for (int i = 0; i < all.count(); i++) {
-        if (this->msiGUIDToPackageVersion.contains(all.at(i))) {
-            PackageVersionHandle pvh = this->msiGUIDToPackageVersion[all.at(i)];
+        QString guid = all.at(i);
+        Xapian::Query query("Tpackage_version");
+
+        query = Xapian::Query(Xapian::Query::OP_AND, query,
+                Xapian::Query(Xapian::Query::OP_VALUE_RANGE, 3,
+                guid.toUtf8().constData(),
+                guid.toUtf8().constData()));
+
+        QList<PackageVersion*> pvs = findPackageVersions(query);
+        if (pvs.count() > 0) {
+            PackageVersion* pv = pvs.at(0);
             InstalledPackageVersion* ipv = findInstalledPackageVersion(
-                    pvh.package, pvh.version);
+                    pv->package_, pv->version);
             if (!ipv) {
                 QString err;
                 QString location = WPMUtils::getMSIProductLocation(
@@ -802,17 +817,19 @@ void Repository::detectMSIProducts()
                     location = WPMUtils::getWindowsDir();
 
                 if (!ipv) {
-                    Package* p = findPackage(pvh.package);
+                    Package* p = findPackage(pv->package_);
 
                     // this should always be true
                     if (p) {
                         ipv = new InstalledPackageVersion(p->name,
-                                pvh.version, location, true);
+                                pv->version, location, true);
                         this->installedPackageVersions.append(ipv);
                     }
                 }
             }
         }
+        qDeleteAll(pvs);
+        pvs.clear();
     }
 }
 
@@ -1318,8 +1335,6 @@ void Repository::reload(Job *job)
 
     this->clearPackages();
 
-    this->msiGUIDToPackageVersion.clear();
-
     QList<QUrl*> urls = getRepositoryURLs();
     QList<QTemporaryFile*> files;
     QString key;
@@ -1351,7 +1366,7 @@ void Repository::reload(Job *job)
         job->setProgress(0.5);
     }
 
-    key.append("5P"); // serialization version
+    key.append("6"); // serialization version
 
     // TODO: can we apply SHA1 to itself?
     QCryptographicHash hash(QCryptographicHash::Sha1);
@@ -1684,10 +1699,6 @@ void Repository::loadOne(QDomDocument* doc, Job* job, bool index)
                         if (pv) {
                             /* TODO: if (!this->findPackageVersion(pv->getPackage(),
                                     pv->version)) {*/
-                                if (pv->msiGUID.length() == 38) {
-                                    this->msiGUIDToPackageVersion.insert(
-                                            pv->msiGUID, pv->getHandle());
-                                }
                                 if (index) {
                                     Xapian::Document doc;
                                     this->indexCreateDocument(pv, doc);
