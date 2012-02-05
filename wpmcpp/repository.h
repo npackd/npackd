@@ -45,13 +45,18 @@ private:
 
     QHash<QString, Package*> nameToPackage;
 
-    QHash<QString, PackageVersionHandle> msiGUIDToPackageVersion;
-
     /**
      * @param sha1 0 or a pointer to a string where the SHA1 of the downloaded
      *     file will be stored
      */
     void loadOne(QTemporaryFile* f, Job* job, bool index);
+
+    /**
+     * @param query search query for package versions
+     * @return found package versions. The
+     *     objects in the list should be destroyed.
+     */
+    QList<PackageVersion*> findPackageVersions(const Xapian::Query& query) const;
 
     void clearExternallyInstalled(QString package);
 
