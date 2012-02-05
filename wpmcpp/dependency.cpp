@@ -57,7 +57,7 @@ bool Dependency::isInstalled()
     bool res = false;
     for (int i = 0; i < installed.count(); i++) {
         PackageVersion* pv = installed.at(i);
-        if (pv->getPackage()->name == this->package && pv->installed() &&
+        if (pv->getPackage() == this->package && pv->installed() &&
                 this->test(pv->version)) {
             res = true;
             break;
@@ -72,7 +72,7 @@ void Dependency::findAllInstalledMatches(QList<PackageVersion*>& res)
     QList<PackageVersion*> installed = r->getInstalled();
     for (int i = 0; i < installed.count(); i++) {
         PackageVersion* pv = installed.at(i);
-        if (pv->getPackage()->name == this->package &&
+        if (pv->getPackage() == this->package &&
                 this->test(pv->version)) {
             res.append(pv);
         }

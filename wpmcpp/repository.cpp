@@ -142,7 +142,7 @@ QList<PackageVersion*> Repository::getInstalled()
 
     for (int i = 0; i < installedPackageVersions.count(); i++) {
         InstalledPackageVersion* ipv = installedPackageVersions.at(i);
-        PackageVersion* pv = findPackageVersion(ipv->package_->name,
+        PackageVersion* pv = findPackageVersion(ipv->package_,
                 ipv->version);
         if (pv) {
             ret.append(pv);
@@ -287,9 +287,9 @@ void Repository::indexCreateDocument(Package* p, Xapian::Document& doc)
     boolean installed = false, updateable = false;
     for (int i = 0; i < this->installedPackageVersions.count(); i++) {
         InstalledPackageVersion* ipv = this->installedPackageVersions.at(i);
-        if (ipv->package_ == p) {
+        if (ipv->package_ == p->name) {
             installed = true;
-            PackageVersion* pv = findPackageVersion(ipv->package_->name,
+            PackageVersion* pv = findPackageVersion(ipv->package_,
                     ipv->version);
             if (pv && pv->isUpdateEnabled()) {
                 updateable = true;
@@ -306,7 +306,7 @@ void Repository::indexCreateDocument(Package* p, Xapian::Document& doc)
 void Repository::indexCreateDocument(PackageVersion* pv, Xapian::Document& doc)
 {
     QString t = pv->getFullText();
-    Package* p = pv->getPackage();
+    Package* p = findPackage(pv->getPackage());
     if (p) {
         t += " ";
         t += p->getFullText();
@@ -315,7 +315,7 @@ void Repository::indexCreateDocument(PackageVersion* pv, Xapian::Document& doc)
     std::string para = t.toUtf8().constData();
     doc.set_data(para);
 
-    doc.add_value(0, pv->getPackage()->name.toUtf8().constData());
+    doc.add_value(0, pv->getPackage().toUtf8().constData());
     doc.add_value(1, pv->version.getVersionString().
             toUtf8().constData());
     doc.add_value(2, pv->serialize().
@@ -703,16 +703,13 @@ void Repository::detectJDK(bool w64bit)
 
 void Repository::clearExternallyInstalled(QString package)
 {
-    Package* p = findPackage(package);
-    if (p) {
-        for (int i = 0; i < this->installedPackageVersions.count();) {
-            InstalledPackageVersion* ipv = this->installedPackageVersions.at(i);
-            if (ipv->package_ == p && ipv->external_) {
-                this->installedPackageVersions.removeAt(i);
-                delete ipv;
-            } else {
-                i++;
-            }
+    for (int i = 0; i < this->installedPackageVersions.count();) {
+        InstalledPackageVersion* ipv = this->installedPackageVersions.at(i);
+        if (ipv->package_ == package && ipv->external_) {
+            this->installedPackageVersions.removeAt(i);
+            delete ipv;
+        } else {
+            i++;
         }
     }
 }
@@ -728,7 +725,7 @@ void Repository::addInstalledPackageVersionIfAbsent(const QString& package,
             p = new Package(package, package);
             this->packages.append(p);
         }
-        ipv = new InstalledPackageVersion(p, version, ipath, external);
+        ipv = new InstalledPackageVersion(package, version, ipath, external);
         this->installedPackageVersions.append(ipv);
     }
     ipv->ipath = ipath;
@@ -809,7 +806,7 @@ void Repository::detectMSIProducts()
 
                     // this should always be true
                     if (p) {
-                        ipv = new InstalledPackageVersion(p,
+                        ipv = new InstalledPackageVersion(p->name,
                                 pvh.version, location, true);
                         this->installedPackageVersions.append(ipv);
                     }
@@ -1156,7 +1153,7 @@ void Repository::loadInstallationInfoFromRegistry(const QString& package,
             p = new Package(package, package);
             this->packages.append(p);
         }
-        InstalledPackageVersion* ipv = new InstalledPackageVersion(p,
+        InstalledPackageVersion* ipv = new InstalledPackageVersion(p->name,
                 version, ipath, external != 0);
         this->installedPackageVersions.append(ipv);
     }
@@ -1184,7 +1181,7 @@ InstalledPackageVersion* Repository::findInstalledPackageVersion(
     InstalledPackageVersion* r = 0;
     for (int i = 0; i < this->installedPackageVersions.count(); i++) {
         InstalledPackageVersion* ipv = this->installedPackageVersions.at(i);
-        if (ipv->package_->name == package && ipv->version == version) {
+        if (ipv->package_ == package && ipv->version == version) {
             r = ipv;
             break;
         }
@@ -1587,7 +1584,7 @@ QList<Version> Repository::getInstalledPackageVersions(QString package) const {
     QList<Version> list;
     for (int i = 0; i < this->installedPackageVersions.count(); i++) {
         InstalledPackageVersion* ipv = this->installedPackageVersions.at(i);
-        if (ipv->package_->name == package) {
+        if (ipv->package_ == package) {
             list.append(ipv->version);
         }
     }
@@ -1685,8 +1682,8 @@ void Repository::loadOne(QDomDocument* doc, Job* job, bool index)
                         PackageVersion* pv = PackageVersion::createPackageVersion(
                                 &e, &err);
                         if (pv) {
-                            if (!this->findPackageVersion(pv->getPackage()->name,
-                                    pv->version)) {
+                            /* TODO: if (!this->findPackageVersion(pv->getPackage(),
+                                    pv->version)) {*/
                                 if (pv->msiGUID.length() == 38) {
                                     this->msiGUIDToPackageVersion.insert(
                                             pv->msiGUID, pv->getHandle());
@@ -1703,7 +1700,7 @@ void Repository::loadOne(QDomDocument* doc, Job* job, bool index)
                                     // Add the document to the database.
                                     db->add_document(doc);
                                 }
-                            }
+                            /* TODO }*/
                             delete pv;
                         } else {
                             job->setErrorMessage(err);

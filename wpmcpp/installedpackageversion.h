@@ -23,10 +23,9 @@ public:
     Version version;
 
     /**
-     * package definition. This is only a reference, the object will not be
-     * freed.
+     * package definition
      */
-    Package* package_;
+    QString package_;
 
     /**
      * @param package referenced package
@@ -35,7 +34,7 @@ public:
      *     cannot be empty
      * @param external true = externally (not by Npackd) installed package
      */
-    InstalledPackageVersion(Package* package, const Version& version,
+    InstalledPackageVersion(const QString& package, const Version& version,
             const QString& ipath, bool external);
 };
 

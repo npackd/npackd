@@ -278,8 +278,8 @@ void MainWindow::showDetails()
         if (pv) {
             PackageVersionForm* pvf = new PackageVersionForm(this->ui->tabWidget);
             pvf->fillForm(pv);
-            QIcon icon = getPackageIcon(pv->package_);
-            this->addTab(pvf, icon, pv->package_->title + " " +
+            QIcon icon = MainWindow::genericAppIcon; // TODO: getPackageIcon(pv->package_);
+            this->addTab(pvf, icon, pv->package_ /* TODO: ->title*/ + " " +
                     pv->version.getVersionString());
         } else {
             Package* p = dynamic_cast<Package*>(obj);
@@ -1085,8 +1085,8 @@ void MainWindow::updateGotoPackageURLAction()
         Package* p = dynamic_cast<Package*>(obj);
         if (!p) {
             PackageVersion* pv = dynamic_cast<PackageVersion*>(obj);
-            if (pv)
-                p = pv->package_;
+            /* TODO if (pv)
+                p = pv->package_; */
         }
 
         enabled = enabled && p && QUrl(p->url).isValid();
@@ -1315,8 +1315,8 @@ void MainWindow::on_actionGotoPackageURL_triggered()
         Package* p = dynamic_cast<Package*>(obj);
         if (!p) {
             PackageVersion* pv = dynamic_cast<PackageVersion*>(obj);
-            if (pv)
-                p = pv->package_;
+            /* TODO: if (pv)
+                p = pv->package_;*/
         }
 
         if (p && !packages.contains(p)) {
@@ -1384,8 +1384,8 @@ void MainWindow::on_actionUpdate_triggered()
         Package* p = dynamic_cast<Package*>(obj);
         if (!p) {
             PackageVersion* pv = dynamic_cast<PackageVersion*>(obj);
-            if (pv)
-                p = pv->package_;
+            /* TODO: if (pv)
+                p = pv->package_; */
         }
 
         // multiple versions of the same package could be selected in the table,

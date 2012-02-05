@@ -85,10 +85,9 @@ public:
     Version version;
 
     /**
-     * package definition. This is only a reference, the object will not be
-     * freed.
+     * full package name
      */
-    Package* package_;
+    QString package_;
 
     /** important files (shortcuts for these will be created in the menu) */
     QStringList importantFiles;
@@ -134,7 +133,7 @@ public:
     /**
      * @param package package this version refers to
      */
-    PackageVersion(Package* package);
+    PackageVersion(const QString& package);
 
     virtual ~PackageVersion();
 
@@ -228,7 +227,7 @@ public:
     /**
      * @return the corresponding package definition
      */
-    Package* getPackage() const;
+    QString getPackage() const;
 
     /**
      * @return only the last part of the package name (without a dot)
