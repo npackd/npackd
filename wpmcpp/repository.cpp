@@ -81,65 +81,73 @@ QList<PackageVersion*> Repository::findPackageVersions(const QString& package,
     return findPackageVersions(query);
 }
 
-QList<Package*> Repository::find(const QString& text, int type,
-        QString* warning)
+QList<Package*> Repository::find(const Xapian::Query& query) const
 {
     QList<Package*> r;
-    QString t = text.trimmed();
 
-    try {
-        Xapian::Query query("Tpackage");
+    if (enquire) {
+        try {
+            enquire->set_query(query);
+            const unsigned int max = 2000;
+            Xapian::MSet matches = enquire->get_mset(0, max);
+            /* TODO: if (matches.size() == max)
+                *warning = QString(
+                        "Only the first %L1 matches of about %L2 are shown").
+                        arg(max).
+                        arg(matches.get_matches_estimated());*/
 
-        if (!t.isEmpty()) {
-            query = Xapian::Query(Xapian::Query::OP_AND, query,
-                    queryParser->parse_query(
-                    t.toUtf8().constData(),
-                    Xapian::QueryParser::FLAG_PHRASE |
-                    Xapian::QueryParser::FLAG_BOOLEAN |
-                    Xapian::QueryParser::FLAG_LOVEHATE |
-                    Xapian::QueryParser::FLAG_WILDCARD |
-                    Xapian::QueryParser::FLAG_PARTIAL
-            ));
+            Xapian::MSetIterator i;
+            for (i = matches.begin(); i != matches.end(); ++i) {
+                Xapian::Document doc = i.get_document();
+                std::string package = doc.get_value(0);
+                std::string serialized = doc.get_value(1);
+                QString err;
+                Package* p = Package::deserialize(
+                        WPMUtils::fromUtf8StdString(serialized), &err);
+                if (err.isEmpty())
+                    r.append(p);
+            }
+        } catch (const Xapian::Error &e) {
+            // TODO: *warning = WPMUtils::fromUtf8StdString(e.get_description());
         }
-
-        switch (type) {
-            case 1: // installed
-                query = Xapian::Query(Xapian::Query::OP_AND, query,
-                        Xapian::Query("Sinstalled"));
-                break;
-            case 2:  // installed, updateable
-                query = Xapian::Query(Xapian::Query::OP_AND, query,
-                        Xapian::Query("Sinstalled"));
-                query = Xapian::Query(Xapian::Query::OP_AND, query,
-                        Xapian::Query("Supdateable"));
-                break;
-        }
-
-        enquire->set_query(query);
-        const unsigned int max = 2000;
-        Xapian::MSet matches = enquire->get_mset(0, max);
-        if (matches.size() == max)
-            *warning = QString(
-                    "Only the first %L1 matches of about %L2 are shown").
-                    arg(max).
-                    arg(matches.get_matches_estimated());
-
-        Xapian::MSetIterator i;
-        for (i = matches.begin(); i != matches.end(); ++i) {
-            Xapian::Document doc = i.get_document();
-            std::string package = doc.get_value(0);
-            std::string serialized = doc.get_value(1);
-            QString err;
-            Package* p = Package::deserialize(
-                    WPMUtils::fromUtf8StdString(serialized), &err);
-            if (err.isEmpty())
-                r.append(p);
-        }
-    } catch (const Xapian::Error &e) {
-        *warning = WPMUtils::fromUtf8StdString(e.get_description());
     }
 
     return r;
+}
+
+QList<Package*> Repository::find(const QString& text, int type,
+        QString* warning)
+{
+    QString t = text.trimmed();
+
+    Xapian::Query query("Tpackage");
+
+    if (!t.isEmpty()) {
+        query = Xapian::Query(Xapian::Query::OP_AND, query,
+                queryParser->parse_query(
+                t.toUtf8().constData(),
+                Xapian::QueryParser::FLAG_PHRASE |
+                Xapian::QueryParser::FLAG_BOOLEAN |
+                Xapian::QueryParser::FLAG_LOVEHATE |
+                Xapian::QueryParser::FLAG_WILDCARD |
+                Xapian::QueryParser::FLAG_PARTIAL
+        ));
+    }
+
+    switch (type) {
+        case 1: // installed
+            query = Xapian::Query(Xapian::Query::OP_AND, query,
+                    Xapian::Query("Sinstalled"));
+            break;
+        case 2:  // installed, updateable
+            query = Xapian::Query(Xapian::Query::OP_AND, query,
+                    Xapian::Query("Sinstalled"));
+            query = Xapian::Query(Xapian::Query::OP_AND, query,
+                    Xapian::Query("Supdateable"));
+            break;
+    }
+
+    return find(query);
 }
 
 QList<PackageVersion*> Repository::getInstalled()
@@ -276,7 +284,24 @@ QList<Package*> Repository::findPackages(const QString& name)
 
 Package* Repository::findPackage(const QString& name) const
 {
-    return this->nameToPackage.value(name);
+    Xapian::Query query("Tpackage");
+    query = Xapian::Query(Xapian::Query::OP_AND, query,
+            Xapian::Query(Xapian::Query::OP_VALUE_RANGE, 0,
+            name.toUtf8().constData(),
+            name.toUtf8().constData()));
+
+    QList<Package*> ps = find(query);
+    Package* p;
+    if (ps.count() > 0) {
+        p = ps.takeAt(0);
+        qDeleteAll(ps);
+        ps.clear();
+    } else {
+        p = 0;
+    }
+
+    // TODO: the returned object is not destroyed
+    return p;
 }
 
 void Repository::indexCreateDocument(Package* p, Xapian::Document& doc)
@@ -1572,7 +1597,6 @@ void Repository::loadOne(QTemporaryFile* f, Job* job, bool index) {
 
 void Repository::addPackage(Package* p) {
     this->packages.append(p);
-    this->nameToPackage.insert(p->name, p);
 }
 
 QList<PackageVersion*> Repository::getPackageVersions(QString package) const {
@@ -1610,7 +1634,6 @@ QList<Version> Repository::getInstalledPackageVersions(QString package) const {
 void Repository::clearPackages() {
     qDeleteAll(this->packages);
     this->packages.clear();
-    this->nameToPackage.clear();
 }
 
 void Repository::loadOne(QDomDocument* doc, Job* job, bool index)
