@@ -43,13 +43,17 @@ private:
      */
     QList<Package*> packages;
 
-    QHash<QString, Package*> nameToPackage;
-
     /**
      * @param sha1 0 or a pointer to a string where the SHA1 of the downloaded
      *     file will be stored
      */
     void loadOne(QTemporaryFile* f, Job* job, bool index);
+
+    /**
+     * @param query search query for packages
+     * @return found packages (should be destroyed)
+     */
+    QList<Package*> find(const Xapian::Query& query) const;
 
     /**
      * @param query search query for package versions
@@ -330,7 +334,7 @@ public:
      * Searches for a package by name.
      *
      * @param name name of the package like "org.server.Word"
-     * @return found package or 0
+     * @return found package or 0. The returned object should be destroyed.
      */
     Package* findPackage(const QString& name) const;
 
