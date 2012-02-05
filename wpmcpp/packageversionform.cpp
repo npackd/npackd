@@ -42,10 +42,10 @@ void PackageVersionForm::fillForm(PackageVersion* pv)
 
     this->ui->lineEditTitle->setText(pv->getPackageTitle());
     this->ui->lineEditVersion->setText(pv->version.getVersionString());
-    this->ui->lineEditInternalName->setText(pv->getPackage()->name);
+    this->ui->lineEditInternalName->setText(pv->getPackage());
 
     Repository* r = Repository::getDefault();
-    Package* p = pv->getPackage();
+    Package* p = r->findPackage(pv->getPackage());
 
     QString licenseTitle = "unknown";
     if (p) {
@@ -138,9 +138,11 @@ void PackageVersionForm::on_labelLicense_linkActivated(QString link)
     LicenseForm* f = new LicenseForm(tabWidget);
 
     Repository* r = Repository::getDefault();
-    Package* p = pv->getPackage();
+    Package* p = r->findPackage(pv->getPackage());
 
-    License* lic = r->findLicense(p->license);
+    License* lic = 0;
+    if (p)
+        lic = r->findLicense(p->license);
     if (!lic)
         return;
 

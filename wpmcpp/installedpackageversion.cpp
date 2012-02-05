@@ -1,6 +1,6 @@
 #include "installedpackageversion.h"
 
-InstalledPackageVersion::InstalledPackageVersion(Package* package,
+InstalledPackageVersion::InstalledPackageVersion(const QString& package,
         const Version& version,
         const QString& ipath, bool external)
 {
