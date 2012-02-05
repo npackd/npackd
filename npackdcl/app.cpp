@@ -738,6 +738,8 @@ int App::update()
         }
     }
 
+    qDeleteAll(packages);
+
     return r;
 }
 

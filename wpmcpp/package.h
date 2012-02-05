@@ -11,9 +11,9 @@
 class Package : public QObject
 {
     Q_OBJECT
-public:
+private:
     explicit Package(QObject *parent = 0);
-
+public:
     /**
      * @param <package>
      * @param err error message will be stored here
