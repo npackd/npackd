@@ -950,9 +950,13 @@ PackageVersion* Repository::findPackageVersion(const QString& package,
         PackageVersion* p = list.at(i);
         if (p->version.compare(version) == 0) {
             r = p;
+            list.removeAt(i);
             break;
         }
     }
+    qDeleteAll(list);
+
+    // TODO: returned object is never destroyed
     return r;
 }
 
@@ -1722,6 +1726,10 @@ void Repository::loadOne(QDomDocument* doc, Job* job, bool index)
 
                                     // Add the document to the database.
                                     db->add_document(doc);
+
+                                    // Debugging:
+                                    // qDebug() << pv->package_ << " " <<
+                                    // pv->version.getVersionString();
                                 }
                             /* TODO }*/
                             delete pv;

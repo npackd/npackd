@@ -1171,7 +1171,7 @@ PackageVersion* PackageVersion::createPackageVersion(QDomElement* e, QString* er
             package = new Package(packageName, packageName);
             rep->addPackage(package);
         }
-        a = new PackageVersion(package);
+        a = new PackageVersion(packageName);
     }
 
     if (err->isEmpty()) {

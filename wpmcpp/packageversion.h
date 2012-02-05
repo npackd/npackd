@@ -63,9 +63,9 @@ private:
 
     void emitStatusChanged();
     void addDependencyVars(QStringList* vars);
-public:
-    explicit PackageVersion(QObject *parent = 0);
 
+    explicit PackageVersion(QObject *parent = 0);
+public:
     /**
      * @param e version XML element
      * @param err error message will be stored here
