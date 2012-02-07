@@ -123,6 +123,10 @@
         <title>Java SE license</title>
         <url>http://www.oracle.com/technetwork/java/javase/terms/license/index.html</url>
     </license>
+    <license name="com.oracle.JavaEELicense">
+        <title>Java EE license</title>
+        <url>http://java.sun.com/javaee/downloads/licenses/Java_EE_5_SDK_U8_SLA&amp;Entitlement_15Sept09.txt</url>
+    </license>
     <license name="com.piriform.CCleanerLicense">
         <title>CCleaner license</title>
         <url>http://www.piriform.com/legal/software-license/ccleaner</url>
@@ -1065,6 +1069,12 @@ PsUptime - shows you how long a system has been running since its last reboot (P
         <url>http://www.java.com/en/</url>
         <description>automatic updates for the JRE</description>
         <license>com.oracle.JavaSELicense</license>
+    </package>
+    <package name="com.oracle.JavaEESDKInstaller">
+        <title>Java EE SDK Installer</title>
+        <url>http://www.oracle.com/technetwork/java/javaee/overview/index.html</url>
+        <description>Java EE SDK</description>
+        <license>com.oracle.JavaEELicense</license>
     </package>
     <package name="com.oracle.JRE">
         <title>JRE</title>
@@ -9286,6 +9296,36 @@ if %err% neq 0 exit /b %err%
         <url>http://javadl.sun.com/webapps/download/AutoDL?BundleId=49024</url>
         <sha1>2AF6B1CE7111C1D434F5903704362046134FE9FB</sha1>
     </version>
+    <version name="1.6.0.29" package="com.oracle.JRE" type="one-file">
+        <file path=".WPM\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x
+"%setup%" /s /v"/qn /Lime .WPM\MSI.log /norestart AgreeToLicense=YES IEXPLORER=1 MOZILLA=1 REBOOT=Suppress ALLUSERS=1 INSTALLDIR="""%CD%""" SYSTRAY=0"
+set err=%errorlevel%
+type .WPM\MSI.log
+if %err% neq 0 exit /b %err%
+</file>
+        <file path=".WPM\Uninstall.bat">MsiExec.exe /qn /norestart /Lime .WPM\MSI.log /X{26A24AE4-039D-4CA4-87B4-2F83216029FF}
+set err=%errorlevel%
+type .WPM\MSI.log
+if %err% neq 0 exit /b %err%
+</file>
+        <url>http://download.oracle.com/otn-pub/java/jdk/6u29-b11/jre-6u29-windows-i586.exe</url>
+        <sha1>A0F484C0521106B6FB5E75AF3D6E4A6233A04F3A</sha1>
+    </version>
+    <version name="1.6.0.30" package="com.oracle.JRE" type="one-file">
+        <file path=".WPM\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x
+"%setup%" /s /v"/qn /Lime .WPM\MSI.log /norestart AgreeToLicense=YES IEXPLORER=1 MOZILLA=1 REBOOT=Suppress ALLUSERS=1 INSTALLDIR="""%CD%""" SYSTRAY=0"
+set err=%errorlevel%
+type .WPM\MSI.log
+if %err% neq 0 exit /b %err%
+</file>
+        <file path=".WPM\Uninstall.bat">MsiExec.exe /qn /norestart /Lime .WPM\MSI.log /X{26A24AE4-039D-4CA4-87B4-2F83216030FF}
+set err=%errorlevel%
+type .WPM\MSI.log
+if %err% neq 0 exit /b %err%
+</file>
+        <url>http://download.oracle.com/otn-pub/java/jdk/6u30-b12/jre-6u30-windows-i586.exe</url>
+        <sha1>FDDB5D6BB4DAD451081E44DF425058868C925718</sha1>
+    </version>
     <version name="1.7" package="com.oracle.JRE" type="one-file">
         <file path=".WPM\Install.bat">ren AutoDL Install.exe
 Install.exe /s /v"/qn /Lime .WPM\MSI.log /norestart AgreeToLicense=YES IEXPLORER=1 MOZILLA=1 REBOOT=Suppress ALLUSERS=1 INSTALLDIR="""%CD%""" SYSTRAY=0"
@@ -10274,6 +10314,47 @@ call "%npackdih%\UninstallMSI.bat"
         <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1, 1]"/>
         <url>http://dl.google.com/tag/s/appguid%3D%7B8A69D345-D564-463C-AFF1-A69D9E530F96%7D%26iid%3D%7B36333618-4810-817C-43C9-E73483785C06%7D%26lang%3Den%26browser%3D4%26usagestats%3D0%26appname%3DGoogle%2520Chrome%26needsadmin%3DFalse/edgedl/chrome/install/GoogleChromeStandaloneEnterprise.msi</url>
         <sha1>512a9d07fba5cc4f187384150a52342dc061c543</sha1>
+    </version>
+    <version name="16.0.912.77" package="com.google.Chrome" type="one-file">
+        <file path=".WPM\AddProperty.vbs">Option Explicit
+
+Const MSI_FILE = "GoogleChromeStandaloneEnterprise.msi"
+
+Dim installer, database, view
+
+Set installer = CreateObject("WindowsInstaller.Installer")
+Set database = installer.OpenDatabase(MSI_FILE, 1)
+
+Set view = database.OpenView("INSERT INTO Property (Property, Value) VALUES ('TARGETDIR', 'C:\Chrome')")
+view.Execute
+'Set view = database.OpenView("DELETE FROM Directory WHERE Directory='TARGETDIR'")
+'view.Execute
+'Set view = database.OpenView("UPDATE Directory SET Directory_Parent='TARGETDIR', DefaultDir='.' WHERE Directory='NodeRoot'")
+'view.Execute
+database.Commit
+
+Set database = Nothing
+Set installer = Nothing
+Set view = Nothing
+</file>
+        <file path=".WPM\Install.bat">.WPM\AddProperty.vbs
+if %errorlevel% neq 0 exit %errorlevel%
+
+if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
+set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.NpackdInstallerHelper" "--versions=[1, 1]"
+for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set npackdih=%%x
+call "%npackdih%\InstallMSI.bat" TARGETDIR
+</file>
+        <file path=".WPM\Uninstall.bat">if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
+set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.NpackdInstallerHelper" "--versions=[1, 1]"
+for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set npackdih=%%x
+call "%npackdih%\UninstallMSI.bat"
+</file>
+        <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1, 1]"/>
+        <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.15.7, 2)"/>
+        <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1, 1]"/>
+        <url>http://dl.google.com/tag/s/appguid%3D%7B8A69D345-D564-463C-AFF1-A69D9E530F96%7D%26iid%3D%7B0A558A36-0536-8B3F-0AE0-420553CC97F3%7D%26lang%3Den%26browser%3D4%26usagestats%3D0%26appname%3DGoogle%2520Chrome%26needsadmin%3DFalse/edgedl/chrome/install/GoogleChromeStandaloneEnterprise.msi</url>
+        <sha1>12EBB00DE1FAED9C61E2DFC7CF85F79F98F5BE9C</sha1>
     </version>
 
     <version name="4.2" package="no.itefix.CWRsyncServer" type="one-file">
@@ -15919,5 +16000,14 @@ verify
 
     <version name="2.44" package="com.microsoft.PsTools">
         <url>http://download.sysinternals.com/Files/PsTools.zip</url>
+    </version>
+
+    <version name="5.8" package="com.oracle.JavaEESDKInstaller" type="one-file">
+        <file path=".WPM\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x
+ren "%setup%" java_ee_sdk-windows-ml-nojdk.exe
+</file>
+        <important-file path="java_ee_sdk-windows-ml-nojdk.exe" title="Installer"/>
+        <url>http://download.oracle.com/otn-pub/java/Javaee/java_ee_sdk-5_08-windows-ml-nojdk.exe</url>
+        <sha1>29C994D68CEE3341D32E9AA8D4FDE41BC1448622</sha1>
     </version>
 </root>
