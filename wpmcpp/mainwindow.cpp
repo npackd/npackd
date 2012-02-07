@@ -277,7 +277,7 @@ void MainWindow::showDetails()
         PackageVersion* pv = dynamic_cast<PackageVersion*>(obj);
         if (pv) {
             PackageVersionForm* pvf = new PackageVersionForm(this->ui->tabWidget);
-            pvf->fillForm(pv);
+            pvf->fillForm(pv->package_, pv->version);
             QIcon icon = MainWindow::genericAppIcon; // TODO: getPackageIcon(pv->package_);
             this->addTab(pvf, icon, pv->package_ /* TODO: ->title*/ + " " +
                     pv->version.getVersionString());
@@ -285,7 +285,7 @@ void MainWindow::showDetails()
             Package* p = dynamic_cast<Package*>(obj);
             if (p) {
                 PackageFrame* pf = new PackageFrame(this->ui->tabWidget);
-                pf->fillForm(p);
+                pf->fillForm(p->name);
                 QIcon icon = getPackageIcon(p);
                 this->addTab(pf, icon, p->title);
             }

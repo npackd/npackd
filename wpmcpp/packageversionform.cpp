@@ -21,11 +21,12 @@ PackageVersionForm::PackageVersionForm(QWidget *parent) :
 
 void PackageVersionForm::updateIcons()
 {
-    /* TODO:
-    QIcon icon = MainWindow::getPackageIcon(pv);
+    Repository* rep = Repository::getDefault();
+
+    Package* p = rep->findPackage(this->pv->package_);
+    QIcon icon = MainWindow::getPackageIcon(p);
     QPixmap pixmap = icon.pixmap(32, 32, QIcon::Normal, QIcon::On);
     this->ui->labelIcon->setPixmap(pixmap);
-    */
 }
 
 void PackageVersionForm::updateStatus()
@@ -36,15 +37,17 @@ void PackageVersionForm::updateStatus()
     this->ui->lineEditPath->setText(ipv ? ipv->ipath : "");
 }
 
-void PackageVersionForm::fillForm(PackageVersion* pv)
+void PackageVersionForm::fillForm(const QString& package, const Version& version)
 {
-    this->pv = pv;
+    Repository* r = Repository::getDefault();
+
+    delete this->pv;
+    this->pv = r->findPackageVersion(package, version);
 
     this->ui->lineEditTitle->setText(pv->getPackageTitle());
     this->ui->lineEditVersion->setText(pv->version.getVersionString());
     this->ui->lineEditInternalName->setText(pv->getPackage());
 
-    Repository* r = Repository::getDefault();
     Package* p = r->findPackage(pv->getPackage());
 
     QString licenseTitle = "unknown";
@@ -113,6 +116,7 @@ void PackageVersionForm::fillForm(PackageVersion* pv)
 
 PackageVersionForm::~PackageVersionForm()
 {
+    delete this->pv;
     delete ui;
 }
 

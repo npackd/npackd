@@ -34,6 +34,7 @@ PackageFrame::PackageFrame(QWidget *parent) :
 
 PackageFrame::~PackageFrame()
 {
+    delete p;
     delete ui;
 }
 
@@ -82,11 +83,12 @@ QList<QObject*> PackageFrame::getSelectedObjects() const
     return res;
 }
 
-void PackageFrame::fillForm(Package* p)
+void PackageFrame::fillForm(const QString& package)
 {
-    this->p = p;
-
     Repository* r = Repository::getDefault();
+
+    delete this->p;
+    this->p = r->findPackage(package);
 
     this->ui->lineEditTitle->setText(p->title);
     this->ui->lineEditInternalName->setText(p->name);
@@ -189,7 +191,7 @@ void PackageFrame::showDetails()
 
             PackageVersion* pv = (PackageVersion*) v.value<void*>();
             PackageVersionForm* pvf = new PackageVersionForm(0);
-            pvf->fillForm(pv);
+            pvf->fillForm(pv->package_, pv->version);
             QIcon icon = mw->getPackageIcon(p);
             mw->addTab(pvf, icon, p->title + " " +
                     pv->version.getVersionString());
