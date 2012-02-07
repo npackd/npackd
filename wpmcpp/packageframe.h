@@ -33,7 +33,7 @@ public:
      *
      * @param p a package
      */
-    void fillForm(Package* p);
+    void fillForm(const QString& package);
 
     /**
      * Updates the view if a new icon was downloaded.

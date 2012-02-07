@@ -53,12 +53,11 @@ QString Dependency::toString()
 bool Dependency::isInstalled()
 {
     Repository* r = Repository::getDefault();
-    QList<PackageVersion*> installed = r->getInstalled();
+    QList<InstalledPackageVersion*> installed = r->installedPackageVersions;
     bool res = false;
     for (int i = 0; i < installed.count(); i++) {
-        PackageVersion* pv = installed.at(i);
-        if (pv->getPackage() == this->package && pv->installed() &&
-                this->test(pv->version)) {
+        InstalledPackageVersion* ipv = installed.at(i);
+        if (ipv->package_ == this->package && this->test(ipv->version)) {
             res = true;
             break;
         }

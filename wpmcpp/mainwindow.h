@@ -108,7 +108,7 @@ public:
     static QMap<QString, QIcon> icons;
 
     /**
-     * @param p a package
+     * @param p a package or 0
      * @return icon for the specified package
      */
     static QIcon getPackageIcon(Package* pv);

@@ -21,9 +21,10 @@ public:
     /**
      * Fills the form with the data of a package version.
      *
-     * @param pv a package version
+     * @param package full package name
+     * @param version package version
      */
-    void fillForm(PackageVersion* pv);
+    void fillForm(const QString& package, const Version& version);
 
     /**
      * Updates the view if a new icon was downloaded.
