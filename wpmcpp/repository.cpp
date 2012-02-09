@@ -29,7 +29,6 @@ Repository::Repository(): AbstractRepository(), stemmer("english")
     this->db = 0;
     this->enquire = 0;
     this->queryParser = 0;
-    addWellKnownPackages();
 
     indexer.set_stemmer(stemmer);
 }
@@ -411,78 +410,71 @@ QString Repository::indexUpdatePackageVersion(PackageVersion* pv)
     return err;
 }
 
-void Repository::addWellKnownPackages()
+QList<Package*> Repository::createWellKnownPackages()
 {
-    if (!this->findPackage("com.microsoft.Windows")) {
-        Package* p = new Package("com.microsoft.Windows", "Windows");
-        p->url = "http://www.microsoft.com/windows/";
-        p->description = "Operating system";
-        addPackage(p);
-    }
-    if (!this->findPackage("com.microsoft.Windows32")) {
-        Package* p = new Package("com.microsoft.Windows32", "Windows/32 bit");
-        p->url = "http://www.microsoft.com/windows/";
-        p->description = "Operating system";
-        addPackage(p);
-    }
-    if (!this->findPackage("com.microsoft.Windows64")) {
-        Package* p = new Package("com.microsoft.Windows64", "Windows/64 bit");
-        p->url = "http://www.microsoft.com/windows/";
-        p->description = "Operating system";
-        addPackage(p);
-    }
-    if (!findPackage("com.googlecode.windows-package-manager.Npackd")) {
-        Package* p = new Package("com.googlecode.windows-package-manager.Npackd",
-                "Npackd");
-        p->url = "http://code.google.com/p/windows-package-manager/";
-        p->description = "package manager";
-        addPackage(p);
-    }
-    if (!this->findPackage("com.oracle.JRE")) {
-        Package* p = new Package("com.oracle.JRE", "JRE");
-        p->url = "http://www.java.com/";
-        p->description = "Java runtime";
-        addPackage(p);
-    }
-    if (!this->findPackage("com.oracle.JRE64")) {
-        Package* p = new Package("com.oracle.JRE64", "JRE/64 bit");
-        p->url = "http://www.java.com/";
-        p->description = "Java runtime";
-        addPackage(p);
-    }
-    if (!this->findPackage("com.oracle.JDK")) {
-        Package* p = new Package("com.oracle.JDK", "JDK");
-        p->url = "http://www.oracle.com/technetwork/java/javase/overview/index.html";
-        p->description = "Java development kit";
-        addPackage(p);
-    }
-    if (!this->findPackage("com.oracle.JDK64")) {
-        Package* p = new Package("com.oracle.JDK64", "JDK/64 bit");
-        p->url = "http://www.oracle.com/technetwork/java/javase/overview/index.html";
-        p->description = "Java development kit";
-        addPackage(p);
-    }
-    if (!this->findPackage("com.microsoft.DotNetRedistributable")) {
-        Package* p = new Package("com.microsoft.DotNetRedistributable",
-                ".NET redistributable runtime");
-        p->url = "http://msdn.microsoft.com/en-us/netframework/default.aspx";
-        p->description = ".NET runtime";
-        addPackage(p);
-    }
-    if (!this->findPackage("com.microsoft.WindowsInstaller")) {
-        Package* p = new Package("com.microsoft.WindowsInstaller",
-                "Windows Installer");
-        p->url = "http://msdn.microsoft.com/en-us/library/cc185688(VS.85).aspx";
-        p->description = "Package manager";
-        addPackage(p);
-    }
-    if (!this->findPackage("com.microsoft.MSXML")) {
-        Package* p = new Package("com.microsoft.MSXML",
-                "Microsoft Core XML Services (MSXML)");
-        p->url = "http://www.microsoft.com/downloads/en/details.aspx?FamilyID=993c0bcf-3bcf-4009-be21-27e85e1857b1#Overview";
-        p->description = "XML library";
-        addPackage(p);
-    }
+    // TODO: this method is not used
+    QList<Package*> r;
+
+    Package* p = new Package("com.microsoft.Windows", "Windows");
+    p->url = "http://www.microsoft.com/windows/";
+    p->description = "Operating system";
+    r.append(p);
+
+    p = new Package("com.microsoft.Windows32", "Windows/32 bit");
+    p->url = "http://www.microsoft.com/windows/";
+    p->description = "Operating system";
+    r.append(p);
+
+    p = new Package("com.microsoft.Windows64", "Windows/64 bit");
+    p->url = "http://www.microsoft.com/windows/";
+    p->description = "Operating system";
+    r.append(p);
+
+    p = new Package("com.googlecode.windows-package-manager.Npackd",
+            "Npackd");
+    p->url = "http://code.google.com/p/windows-package-manager/";
+    p->description = "package manager";
+    r.append(p);
+
+    p = new Package("com.oracle.JRE", "JRE");
+    p->url = "http://www.java.com/";
+    p->description = "Java runtime";
+    r.append(p);
+
+    p = new Package("com.oracle.JRE64", "JRE/64 bit");
+    p->url = "http://www.java.com/";
+    p->description = "Java runtime";
+    r.append(p);
+
+    p = new Package("com.oracle.JDK", "JDK");
+    p->url = "http://www.oracle.com/technetwork/java/javase/overview/index.html";
+    p->description = "Java development kit";
+    r.append(p);
+
+    p = new Package("com.oracle.JDK64", "JDK/64 bit");
+    p->url = "http://www.oracle.com/technetwork/java/javase/overview/index.html";
+    p->description = "Java development kit";
+    r.append(p);
+
+    p = new Package("com.microsoft.DotNetRedistributable",
+            ".NET redistributable runtime");
+    p->url = "http://msdn.microsoft.com/en-us/netframework/default.aspx";
+    p->description = ".NET runtime";
+    r.append(p);
+
+    p = new Package("com.microsoft.WindowsInstaller",
+            "Windows Installer");
+    p->url = "http://msdn.microsoft.com/en-us/library/cc185688(VS.85).aspx";
+    p->description = "Package manager";
+    r.append(p);
+
+    p = new Package("com.microsoft.MSXML",
+            "Microsoft Core XML Services (MSXML)");
+    p->url = "http://www.microsoft.com/downloads/en/details.aspx?FamilyID=993c0bcf-3bcf-4009-be21-27e85e1857b1#Overview";
+    p->description = "XML library";
+    r.append(p);
+
+    return r;
 }
 
 QString Repository::planUpdates(const QList<Package*> packages,
@@ -957,6 +949,24 @@ PackageVersion* Repository::findPackageVersion(const QString& package,
     qDeleteAll(list);
 
     // TODO: returned object is never destroyed
+    return r;
+}
+
+bool Repository::packageVersionExists(const QString& package,
+        const Version& version) const
+{
+    bool r = false;
+
+    QList<PackageVersion*> list = this->getPackageVersions(package);
+    for (int i = 0; i < list.count(); i++) {
+        PackageVersion* p = list.at(i);
+        if (p->version.compare(version) == 0) {
+            r = true;
+            break;
+        }
+    }
+    qDeleteAll(list);
+
     return r;
 }
 
@@ -1493,10 +1503,6 @@ void Repository::reload(Job *job)
             if (job->isCancelled())
                 break;
         }
-    }
-
-    if (!job->isCancelled() && job->getErrorMessage().isEmpty()) {
-        addWellKnownPackages();
     }
 
     if (!job->isCancelled() && job->getErrorMessage().isEmpty()) {

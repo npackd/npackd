@@ -99,7 +99,7 @@ private:
      */
     void detectPre_1_15_Packages();
 
-    void addWellKnownPackages();
+    QList<Package*> createWellKnownPackages();
 
     void indexCreateDocument(PackageVersion* pv, Xapian::Document& doc);
     void indexCreateDocument(Package* p, Xapian::Document& doc);
@@ -364,6 +364,16 @@ public:
      * @return found package version or 0
      */
     PackageVersion* findPackageVersion(const QString& package,
+            const Version& version) const;
+
+    /**
+     * Checks for existance of a package version.
+     *
+     * @param package name of the package like "org.server.Word"
+     * @param version package version
+     * @return true if the package version exists
+     */
+    bool packageVersionExists(const QString& package,
             const Version& version) const;
 
     /**
