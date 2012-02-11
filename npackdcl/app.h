@@ -1,6 +1,7 @@
 #ifndef APP_H
 #define APP_H
 
+#include <xapian.h>
 #include <time.h>
 
 #include <QtCore/QCoreApplication>
@@ -26,8 +27,6 @@ private:
     CommandLine cl;
     Job* createJob();
     void addNpackdCL();
-    Repository* convertMavenRepository(Job* job,
-            QDomDocument& archetypeCatalog);
 
     void usage();
     int path();
@@ -38,7 +37,6 @@ private:
     int list();
     int info();
     int update();
-    int convertMaven();
 
     /**
      * Internal tests.
