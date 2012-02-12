@@ -9951,9 +9951,6 @@ set d=%ProgramFiles%
         <url>http://dl.google.com/dl/desktop/R/en/GoogleDesktopSetup.exe</url>
     </version>
 
-    <!--
-        logging with /Lime MSI.log only works if the full path is used
-    -->
     <version name="9.3" package="com.adobe.AdobeReader" type="one-file">
         <file path=".WPM\Install.bat">msiexec.exe /qn /norestart /Lime .WPM\MSI.log /i AdbeRdr930_en_US.msi INSTALLDIR="%CD%" ALLUSERS=1
 set err=%errorlevel%
@@ -10049,6 +10046,34 @@ if %err% neq 0 exit /b %err%
 </file>
         <url>http://ardownload.adobe.com/pub/adobe/reader/win/10.x/10.1.1/en_US/AdbeRdr1011_en_US.exe</url>
         <sha1>b7989c78c476d30ec156bbaf4f80547295f1b961</sha1>
+    </version>
+    <version name="10.1.2" package="com.adobe.AdobeReader" type="one-file">
+        <file path=".WPM\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x
+"%setup%" /sAll /rs /msi /Lime "%CD%\.WPM\MSI.log" ALLUSERS=1 INSTALLDIR="%CD%"
+set err=%errorlevel%
+type .WPM\MSI.log
+rem 3010=restart required
+if %err% equ 3010 exit /b 0
+if %err% neq 0 exit /b %err%
+
+rem disable automatic updates
+if "%ProgramFiles(x86)%" NEQ "" goto x64
+REG ADD "HKLM\SOFTWARE\Adobe\Adobe ARM\1.0\ARM" /f /v iCheckReader /t REG_DWORD /d 0
+if %errorlevel% neq 0 exit /b %errorlevel%
+goto :eof
+
+:x64
+REG ADD "HKLM\SOFTWARE\Wow6432Node\Adobe\Adobe ARM\1.0\ARM" /f /v iCheckReader /t REG_DWORD /d 0
+if %errorlevel% neq 0 exit /b %errorlevel%
+goto :eof
+</file>
+        <file path=".WPM\Uninstall.bat">msiexec.exe /qn /norestart /Lime .WPM\MSI.log /X{AC76BA86-7AD7-1033-7B44-AA1000000001}
+set err=%errorlevel%
+type .WPM\MSI.log
+if %err% neq 0 exit /b %err%
+</file>
+        <url>http://ardownload.adobe.com/pub/adobe/reader/win/10.x/10.1.2/en_US/AdbeRdr1012_en_US.exe</url>
+        <sha1>403fac97f314a1d00ed557869711545f67bd5fa5</sha1>
     </version>
 
     <version name="2.7.1" package="net.sourceforge.pidgin.Pidgin"
