@@ -1419,8 +1419,12 @@ void MainWindow::on_actionTest_Download_Site_triggered()
             if (p) {
                 QList<PackageVersion*> pvs = Repository::getDefault()->
                         getPackageVersions(p->name);
-                if (pvs.count() > 0)
+                if (pvs.count() > 0) {
                     pv = pvs.last();
+                    pvs.removeLast();
+                    // TODO: delete also pv
+                }
+                qDeleteAll(pvs);
             }
         }
 

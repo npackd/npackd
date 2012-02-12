@@ -130,6 +130,7 @@ void PackageFrame::fillForm(const QString& package)
     t->setHorizontalHeaderItem(1, newItem);
 
     QList<PackageVersion*> pvs = r->getPackageVersions(p->name);
+    // TODO: delete pvs objects
     t->setRowCount(pvs.size());
     for (int i = pvs.count() - 1; i >= 0; i--) {
         PackageVersion* pv = pvs.at(i);
