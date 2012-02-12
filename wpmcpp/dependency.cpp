@@ -170,6 +170,8 @@ PackageVersion* Dependency::findBestMatchToInstall(
                 res = pv;
         }
     }
+    list.removeOne(res);
+    qDeleteAll(list);
     return res;
 }
 

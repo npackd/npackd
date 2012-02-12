@@ -24,6 +24,15 @@
 
 Repository Repository::def;
 
+bool packageVersionLessThan(const PackageVersion* a, const PackageVersion* b) {
+    int r = a->package_.compare(b->package_);
+    if (r == 0) {
+        r = a->version.compare(b->version);
+    }
+
+    return r < 0;
+}
+
 Repository::Repository(): AbstractRepository(), stemmer("english")
 {
     this->db = 0;
@@ -211,6 +220,7 @@ PackageVersion* Repository::findNewestInstallablePackageVersion(
     PackageVersion* r = 0;
 
     QList<PackageVersion*> list = this->getPackageVersions(package);
+    // TODO: delete returned objects
     for (int i = 0; i < list.count(); i++) {
         PackageVersion* p = list.at(i);
         if (r == 0 || p->version.compare(r->version) > 0) {
@@ -226,6 +236,7 @@ PackageVersion* Repository::findNewestInstalledPackageVersion(
 {
     PackageVersion* r = 0;
 
+    // TODO: delete returned objects
     QList<PackageVersion*> list = this->getPackageVersions(name);
     for (int i = 0; i < list.count(); i++) {
         PackageVersion* p = list.at(i);
@@ -1532,9 +1543,8 @@ void Repository::loadOne(QTemporaryFile* f, Job* job, bool index) {
 
 QList<PackageVersion*> Repository::getPackageVersions(QString package) const {
     QList<PackageVersion*> list = this->findPackageVersions(package, 0);
-    // TODO: results are not sorted qSort(list.begin(), list.end());
+    qSort(list.begin(), list.end(), packageVersionLessThan);
 
-    // TODO: results are not destroyed
     return list;
 }
 
