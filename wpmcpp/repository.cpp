@@ -303,7 +303,6 @@ Package* Repository::findPackage(const QString& name) const
         p = 0;
     }
 
-    // TODO: the returned object is not destroyed
     return p;
 }
 
@@ -378,6 +377,8 @@ void Repository::indexCreateDocument(PackageVersion* pv, Xapian::Document& doc)
     if (pv->msiGUID.length() == 38 || pv->detectFiles.count() > 0) {
         doc.add_boolean_term("Sdetectable");
     }
+
+    delete p;
 }
 
 QString Repository::indexUpdatePackageVersion(PackageVersion* pv)
@@ -408,73 +409,6 @@ QString Repository::indexUpdatePackageVersion(PackageVersion* pv)
         err = WPMUtils::fromUtf8StdString(e.get_description());
     }
     return err;
-}
-
-QList<Package*> Repository::createWellKnownPackages()
-{
-    // TODO: this method is not used
-    QList<Package*> r;
-
-    Package* p = new Package("com.microsoft.Windows", "Windows");
-    p->url = "http://www.microsoft.com/windows/";
-    p->description = "Operating system";
-    r.append(p);
-
-    p = new Package("com.microsoft.Windows32", "Windows/32 bit");
-    p->url = "http://www.microsoft.com/windows/";
-    p->description = "Operating system";
-    r.append(p);
-
-    p = new Package("com.microsoft.Windows64", "Windows/64 bit");
-    p->url = "http://www.microsoft.com/windows/";
-    p->description = "Operating system";
-    r.append(p);
-
-    p = new Package("com.googlecode.windows-package-manager.Npackd",
-            "Npackd");
-    p->url = "http://code.google.com/p/windows-package-manager/";
-    p->description = "package manager";
-    r.append(p);
-
-    p = new Package("com.oracle.JRE", "JRE");
-    p->url = "http://www.java.com/";
-    p->description = "Java runtime";
-    r.append(p);
-
-    p = new Package("com.oracle.JRE64", "JRE/64 bit");
-    p->url = "http://www.java.com/";
-    p->description = "Java runtime";
-    r.append(p);
-
-    p = new Package("com.oracle.JDK", "JDK");
-    p->url = "http://www.oracle.com/technetwork/java/javase/overview/index.html";
-    p->description = "Java development kit";
-    r.append(p);
-
-    p = new Package("com.oracle.JDK64", "JDK/64 bit");
-    p->url = "http://www.oracle.com/technetwork/java/javase/overview/index.html";
-    p->description = "Java development kit";
-    r.append(p);
-
-    p = new Package("com.microsoft.DotNetRedistributable",
-            ".NET redistributable runtime");
-    p->url = "http://msdn.microsoft.com/en-us/netframework/default.aspx";
-    p->description = ".NET runtime";
-    r.append(p);
-
-    p = new Package("com.microsoft.WindowsInstaller",
-            "Windows Installer");
-    p->url = "http://msdn.microsoft.com/en-us/library/cc185688(VS.85).aspx";
-    p->description = "Package manager";
-    r.append(p);
-
-    p = new Package("com.microsoft.MSXML",
-            "Microsoft Core XML Services (MSXML)");
-    p->url = "http://www.microsoft.com/downloads/en/details.aspx?FamilyID=993c0bcf-3bcf-4009-be21-27e85e1857b1#Overview";
-    p->description = "XML library";
-    r.append(p);
-
-    return r;
 }
 
 QString Repository::planUpdates(const QList<Package*> packages,
@@ -839,14 +773,9 @@ void Repository::detectMSIProducts()
                     location = WPMUtils::getWindowsDir();
 
                 if (!ipv) {
-                    Package* p = findPackage(pv->package_);
-
-                    // this should always be true
-                    if (p) {
-                        ipv = new InstalledPackageVersion(p->name,
-                                pv->version, location, true);
-                        this->installedPackageVersions.append(ipv);
-                    }
+                    ipv = new InstalledPackageVersion(pv->package_,
+                            pv->version, location, true);
+                    this->installedPackageVersions.append(ipv);
                 }
             }
         }
@@ -1080,7 +1009,8 @@ void Repository::scanPre1_15Dir(bool exact)
             if (Package::isValidName(packageName)) {
                 Version version;
                 if (version.setVersion(versionName)) {
-                    if (!exact || this->findPackage(packageName)) {
+                    Package* p = this->findPackage(packageName);
+                    if (!exact || p) {
                         // using getVersionString() here to fix a bug in earlier
                         // versions where version numbers were not normalized
                         WindowsRegistry wr = packagesWR.createSubKey(
@@ -1092,6 +1022,7 @@ void Repository::scanPre1_15Dir(bool exact)
                             wr.setDWORD("External", 0);
                         }
                     }
+                    delete p;
                 }
             }
         }
@@ -1599,10 +1530,6 @@ void Repository::loadOne(QTemporaryFile* f, Job* job, bool index) {
     job->complete();
 }
 
-void Repository::addPackage(Package* p) {
-    // TODO: this->packages.append(p);
-}
-
 QList<PackageVersion*> Repository::getPackageVersions(QString package) const {
     QList<PackageVersion*> list = this->findPackageVersions(package, 0);
     // TODO: results are not sorted qSort(list.begin(), list.end());
@@ -1686,23 +1613,19 @@ void Repository::loadOne(QDomDocument* doc, Job* job, bool index)
                         QString err;
                         Package* p = Package::createPackage(&e, &err);
                         if (p) {
-                            if (this->findPackage(p->name))
-                                delete p;
-                            else {
-                                this->addPackage(p);
-                                if (index) {
-                                    // qDebug() << p->name;
+                            if (index) {
+                                // qDebug() << p->name;
 
-                                    Xapian::Document doc;
-                                    this->indexCreateDocument(p, doc);
+                                Xapian::Document doc;
+                                this->indexCreateDocument(p, doc);
 
-                                    indexer.set_document(doc);
-                                    indexer.index_text(doc.get_data());
+                                indexer.set_document(doc);
+                                indexer.index_text(doc.get_data());
 
-                                    // Add the document to the database.
-                                    db->add_document(doc);
-                                }
+                                // Add the document to the database.
+                                db->add_document(doc);
                             }
+                            delete p;
                         } else {
                             job->setErrorMessage(err);
                             break;

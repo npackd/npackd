@@ -38,14 +38,17 @@ QString Dependency::toString()
 
     Repository* r = Repository::getDefault();
     Package* p = r->findPackage(this->package);
-    if (p)
+    if (p) {
         res.append(p->title);
-    else
+        delete p;
+    } else
         res.append(package);
 
     res.append(" ");
 
     res.append(this->versionsToString());
+
+    delete p;
 
     return res;
 }

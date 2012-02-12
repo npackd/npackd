@@ -99,8 +99,6 @@ private:
      */
     void detectPre_1_15_Packages();
 
-    QList<Package*> createWellKnownPackages();
-
     void indexCreateDocument(PackageVersion* pv, Xapian::Document& doc);
     void indexCreateDocument(Package* p, Xapian::Document& doc);
     QString indexUpdatePackageVersion(PackageVersion* pv);
@@ -231,13 +229,6 @@ public:
      * @param index true = index the contents
      */
     void loadOne(QDomDocument* doc, Job* job, bool index);
-
-    /**
-     * Adds a new package.
-     *
-     * @param p the package
-     */
-    void addPackage(Package* p);
 
     /**
      * @param package package name
