@@ -25,6 +25,7 @@ void PackageVersionForm::updateIcons()
 
     Package* p = rep->findPackage(this->pv->package_);
     QIcon icon = MainWindow::getPackageIcon(p);
+    delete p;
     QPixmap pixmap = icon.pixmap(32, 32, QIcon::Normal, QIcon::On);
     this->ui->labelIcon->setPixmap(pixmap);
 }
@@ -112,6 +113,8 @@ void PackageVersionForm::fillForm(const QString& package, const Version& version
     this->ui->textEditDependencies->setText(details);
 
     updateIcons();
+
+    delete p;
 }
 
 PackageVersionForm::~PackageVersionForm()
@@ -153,5 +156,7 @@ void PackageVersionForm::on_labelLicense_linkActivated(QString link)
     f->fillForm(lic);
     tabWidget->addTab(f, lic->title);
     tabWidget->setCurrentIndex(tabWidget->count() - 1);
+
+    delete p;
 }
 

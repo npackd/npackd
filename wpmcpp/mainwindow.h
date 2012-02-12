@@ -111,7 +111,7 @@ public:
      * @param p a package or 0
      * @return icon for the specified package
      */
-    static QIcon getPackageIcon(Package* pv);
+    static QIcon getPackageIcon(Package* p);
 
     /**
      * @return the only instance of this class

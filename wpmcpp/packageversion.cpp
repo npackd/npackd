@@ -657,6 +657,9 @@ bool PackageVersion::createShortcuts(const QString& dir, QString *errMsg)
             return false;
         }
     }
+
+    delete p;
+
     return true;
 }
 
@@ -1166,11 +1169,6 @@ PackageVersion* PackageVersion::createPackageVersion(QDomElement* e, QString* er
 
     PackageVersion* a = 0;
     if (err->isEmpty()) {
-        Package* package = rep->findPackage(packageName);
-        if (!package) {
-            package = new Package(packageName, packageName);
-            rep->addPackage(package);
-        }
         a = new PackageVersion(packageName);
     }
 
