@@ -3227,4 +3227,13 @@ verify
         <url>http://npackd.googlecode.com/files/org.wireshark.Wireshark64-1.6.4.exe</url>
         <sha1>7aa31293a5ce2f1697f9ddc010f416bc4447f413</sha1>
     </version>
+    <!-- uninstallation shows a confirmation dialog -->
+    <version name="1.6.5" package="org.wireshark.Wireshark64" type="one-file">
+        <file path=".WPM\Install.bat">for /f %%x in ('dir /b *.exe') do set setup=%%x
+"%setup%" /S /D=%CD%
+</file>
+        <file path=".WPM\Uninstall.bat">uninstall.exe /S _=%CD%</file>
+        <url>http://wiresharkdownloads.riverbed.com/wireshark/win64/wireshark-win64-1.6.5.exe</url>
+        <sha1>dcfb6d406b681bb548ed919aa7a26b8452a54fcd</sha1>
+    </version>
 </root>
