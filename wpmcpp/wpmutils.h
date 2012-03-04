@@ -265,9 +265,11 @@ public:
      *
      * @param name name of the variable
      * @param value value of the variable
+     * @param expandVars true if REG_EXPAND_SZ should be used instead of REG_SZ
      * @return error message or ""
      */
-    static QString setSystemEnvVar(const QString& name, const QString& value);
+    static QString setSystemEnvVar(const QString& name, const QString& value,
+            bool expandVars=false);
 
     /**
      * Reads a system environment variable.

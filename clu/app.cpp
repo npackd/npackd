@@ -135,7 +135,7 @@ int App::addPath()
 
                 // it's actually 2048, but Explorer seems to have a bug
                 if (curPath.length() < 2040) {
-                    err = WPMUtils::setSystemEnvVar("PATH", curPath);
+                    err = WPMUtils::setSystemEnvVar("PATH", curPath, true);
                     if (!err.isEmpty()) {
                         r = 1;
                         WPMUtils::outputTextConsole(err + "\n", false);
@@ -201,7 +201,7 @@ int App::removePath()
 
                 // it's actually 2048, but Explorer seems to have a bug
                 if (curPath.length() < 2040) {
-                    err = WPMUtils::setSystemEnvVar("PATH", curPath);
+                    err = WPMUtils::setSystemEnvVar("PATH", curPath, true);
                     if (!err.isEmpty()) {
                         r = 1;
                         WPMUtils::outputTextConsole(err + "\n", false);

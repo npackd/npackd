@@ -335,7 +335,8 @@ public:
      * Find the newest installable package version.
      *
      * @param package name of the package like "org.server.Word"
-     * @return found package version or 0
+     * @return found package version or 0. The returned object should be
+     *     destroyed.
      */
     PackageVersion* findNewestInstallablePackageVersion(const QString& package);
 
@@ -343,7 +344,8 @@ public:
      * Find the newest installed package version.
      *
      * @param name name of the package like "org.server.Word"
-     * @return found package version or 0
+     * @return found package version or 0. The returned object should be
+     *     destroyed.
      */
     PackageVersion* findNewestInstalledPackageVersion(const QString& name);
 
@@ -352,7 +354,8 @@ public:
      *
      * @param package name of the package like "org.server.Word"
      * @param version package version
-     * @return found package version or 0
+     * @return found package version or 0. The returned object should be
+     *     destroyed.
      */
     PackageVersion* findPackageVersion(const QString& package,
             const Version& version) const;
