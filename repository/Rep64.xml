@@ -105,15 +105,15 @@
         <license>com.activestate.ActivePerlCommunityLicense</license>
     </package>
     <package name="com.adobe.FlashPlayer64">
-        <title>Flash Player 64 bit (Firefox, Safari, Opera)</title>
+        <title>Flash Player Plugin 64 bit</title>
         <url>http://get.adobe.com/de/flashplayer/</url>
-        <description>WARNING! Npackd disables automatic updates. Install without Npackd if unsure. A browser plugin for graphics and multimedia</description>
+        <description>WARNING! Npackd disables automatic updates. Install without Npackd if unsure. A browser plugin for graphics and multimedia for Firefox, Safari and Opera.</description>
         <license>com.adobe.FlashPlayerLicense</license>
     </package>
     <package name="com.adobe.FlashPlayerActiveX64">
-        <title>Flash Player ActiveX 64 bit (Internet Explorer)</title>
+        <title>Flash Player ActiveX 64 bit</title>
         <url>http://get.adobe.com/de/flashplayer/</url>
-        <description>WARNING! Npackd disables automatic updates. Install without Npackd if unsure. A browser plugin for graphics and multimedia</description>
+        <description>WARNING! Npackd disables automatic updates. Install without Npackd if unsure. A browser plugin for graphics and multimedia for Internet Explorer.</description>
         <license>com.adobe.FlashPlayerLicense</license>
     </package>
     <package name="com.avg.AVGAntiVirusFree64Installer">
@@ -173,6 +173,11 @@
         <title>Visual C++ redistributable package 64 bit</title>
         <url>http://www.microsoft.com/downloads/en/details.aspx?FamilyID=BD512D9E-43C8-4655-81BF-9350143D5867</url>
         <description>Visual C++ runtime</description>
+    </package>
+    <package name="com.microsoft.Windows64">
+        <title>Windows/64 bit</title>
+        <url>http://www.microsoft.com/windows/</url>
+        <description>Operating system</description>
     </package>
     <package name="com.mysql.MySQLCommunityServer64">
         <title>MySQL Community Server 64 bit</title>
@@ -283,6 +288,7 @@ This package uses internal version numbers. For example, 1.7.0.1 corresponds to 
         <title>Lazarus 64 bit</title>
         <url>http://www.lazarus.freepascal.org/index.php</url>
         <description>Free Pascal IDE</description>
+        <license>org.gnu.GPLv2</license>
     </package>
     <package name="org.gtk.GTKPlusBundle64">
         <title>GTK+ with dependencies 64 bit</title>
@@ -318,6 +324,12 @@ This package uses internal version numbers. For example, 1.7.0.1 corresponds to 
         <title>SQL Explorer 64 bit</title>
         <url>http://www.sqlexplorer.org/</url>
         <description>SQL client</description>
+    </package>
+    <package name="org.wireshark.Wireshark64">
+        <title>Wireshark 64 bit</title>
+        <url>http://www.wireshark.org/</url>
+        <description>network protocol analyzer</description>
+        <license>org.gnu.GPLv2</license>
     </package>
     <package name="net.nirsoft.FileTypesMan64">
         <title>FileTypesMan 64 bit</title>
@@ -763,6 +775,52 @@ if %err% neq 0 exit /b %err%
         <url>http://cdn.bitbucket.org/tortoisehg/thg/downloads/tortoisehg-2.1.4-hg-1.9.3-x64.msi</url>
         <sha1>0b072460476ce76b2da6b05cd08a292b414135e5</sha1>
     </version>
+    <version name="2.2.1" package="org.bitbucket.tortoisehg.TortoiseHg64"
+            type="one-file">
+        <file path=".WPM\Install.bat">for /f %%x in ('dir /b *.msi') do set setup=%%x
+copy "%setup%" .WPM
+msiexec.exe /qn /norestart /Lime .WPM\MSI.log /i "%setup%" TARGETDIR="%CD%" ALLUSERS=1
+set err=%errorlevel%
+type .WPM\MSI.log
+rem 3010=restart required
+if %err% equ 3010 exit /b 0
+if %err% neq 0 exit /b %err%
+</file>
+        <file path=".WPM\Uninstall.bat">copy .WPM\*.msi .
+for /f %%x in ('dir /b *.msi') do set setup=%%x
+msiexec.exe /qn /norestart /Lime .WPM\MSI.log /x "%setup%"
+set err=%errorlevel%
+type .WPM\MSI.log
+rem 3010=restart required
+if %err% equ 3010 exit /b 0
+if %err% neq 0 exit /b %err%
+</file>
+        <url>http://cdn.bitbucket.org/tortoisehg/thg/downloads/tortoisehg-2.2.1-hg-2.0.1-x64.msi</url>
+        <sha1>5a3f2bb9a525e5b9b2ca1dc6ce1f5f1a1a69440f</sha1>
+    </version>
+    <version name="2.2.2" package="org.bitbucket.tortoisehg.TortoiseHg64"
+            type="one-file">
+        <file path=".WPM\Install.bat">for /f %%x in ('dir /b *.msi') do set setup=%%x
+copy "%setup%" .WPM
+msiexec.exe /qn /norestart /Lime .WPM\MSI.log /i "%setup%" TARGETDIR="%CD%" ALLUSERS=1
+set err=%errorlevel%
+type .WPM\MSI.log
+rem 3010=restart required
+if %err% equ 3010 exit /b 0
+if %err% neq 0 exit /b %err%
+</file>
+        <file path=".WPM\Uninstall.bat">copy .WPM\*.msi .
+for /f %%x in ('dir /b *.msi') do set setup=%%x
+msiexec.exe /qn /norestart /Lime .WPM\MSI.log /x "%setup%"
+set err=%errorlevel%
+type .WPM\MSI.log
+rem 3010=restart required
+if %err% equ 3010 exit /b 0
+if %err% neq 0 exit /b %err%
+</file>
+        <url>http://cdn.bitbucket.org/tortoisehg/thg/downloads/tortoisehg-2.2.2-hg-2.0.2-x64.msi</url>
+        <sha1>a49f50c1df07fbf7f8a7cd6de13f1f162d1bdcc6</sha1>
+    </version>
 
     <version name="2.5.192" package="com.tracker-software.PDFXChangeViewer64"
             type="one-file">
@@ -902,6 +960,29 @@ if %err% neq 0 exit /b %err%
         <url>http://dl.dropbox.com/u/17046326/files/com.tracker-software.PDFXChangeViewer64-2.5.199.msi</url>
         <sha1>11a4e3a5c9849bda1d0b30f1aa896543f2809d96</sha1>
     </version>
+    <version name="2.5.200" package="com.tracker-software.PDFXChangeViewer64"
+            type="one-file">
+        <file path=".WPM\Install.bat">for /f %%x in ('dir /b *.msi') do set setup=%%x
+copy "%setup%" .WPM
+msiexec.exe /qn /norestart /Lime .WPM\MSI.log /i "%setup%" INSTALLLOCATION="%CD%" ALLUSERS=1
+set err=%errorlevel%
+type .WPM\MSI.log
+rem 3010=restart required
+if %err% equ 3010 exit /b 0
+if %err% neq 0 exit /b %err%
+</file>
+        <file path=".WPM\Uninstall.bat">copy .WPM\*.msi .
+for /f %%x in ('dir /b *.msi') do set setup=%%x
+msiexec.exe /qn /norestart /Lime .WPM\MSI.log /x "%setup%"
+set err=%errorlevel%
+type .WPM\MSI.log
+rem 3010=restart required
+if %err% equ 3010 exit /b 0
+if %err% neq 0 exit /b %err%
+</file>
+        <url>http://dl.dropbox.com/u/17046326/files/com.tracker-software.PDFXChangeViewer64-2.5.200.msi</url>
+        <sha1></sha1>
+    </version>
 
     <version name="1.6.5" package="com.googlecode.tortoisegit.TortoiseGit64"
             type="one-file">
@@ -978,6 +1059,31 @@ if %err% neq 0 exit /b %err%
         <dependency package="com.googlecode.msysgit.MSysGit" 
                 versions="[1.7.4.2011.2.4, 1.7.5)"/>
     </version>
+    <version name="1.7.6" package="com.googlecode.tortoisegit.TortoiseGit64"
+            type="one-file">
+        <file path=".WPM\Install.bat">for /f %%x in ('dir /b *.msi') do set setup=%%x
+copy "%setup%" .WPM
+msiexec.exe /qn /norestart /Lime .WPM\MSI.log /i "%setup%" TARGETDIR="%CD%" ALLUSERS=1
+set err=%errorlevel%
+type .WPM\MSI.log
+rem 3010=restart required
+if %err% equ 3010 exit /b 0
+if %err% neq 0 exit /b %err%
+</file>
+        <file path=".WPM\Uninstall.bat">move .WPM\*.msi .
+for /f %%x in ('dir /b *.msi') do set setup=%%x
+msiexec.exe /qn /norestart /Lime .WPM\MSI.log /x "%setup%"
+set err=%errorlevel%
+type .WPM\MSI.log
+rem 3010=restart required
+if %err% equ 3010 exit /b 0
+if %err% neq 0 exit /b %err%
+</file>
+        <url>http://tortoisegit.googlecode.com/files/TortoiseGit-1.7.6.0-64bit.msi</url>
+        <sha1>60ab4099e811d79fe90ae8d8f184b163bdc57fa8</sha1>
+        <dependency package="com.googlecode.msysgit.MSysGit" 
+                versions="[1.7.4.2011.2.4, 1.8)"/>
+    </version>
 
     <version name="9.20" package="org.7-zip.SevenZIP64" type="one-file">
         <file path=".WPM\Install.bat">for /f "delims=" %%x in ('dir /b *.msi') do set setup=%%x
@@ -996,7 +1102,7 @@ reg add HKLM\SOFTWARE\Classes\Applications\%KEY%\shell\open\command /d "%c%" /f
 for %%g in (001 7z arj bz2 bzip2 cab cpio deb dmg egg fat gz gzip hfs iso lha lzh lzma ntfs rar rpm squashfs swm tar taz tbz tbz2 tgz tpz txz vhd wim xar xz z zip) do reg add HKLM\SOFTWARE\Classes\.%%g\OpenWithList\%key% /f
 
 if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
-set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.CLU" "--versions=[1, 1]"
+set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.CLU" "--versions=[1, 2)"
 for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set clu=%%x
 "%clu%\clu" add-path --path "%CD%"
 verify
@@ -1019,14 +1125,14 @@ move *.dll ..\.Trash\%key%_%RANDOM%
 echo clear the error code
 
 if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
-set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.CLU" "--versions=[1, 1]"
+set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.CLU" "--versions=[1, 2)"
 for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set clu=%%x
 "%clu%\clu" remove-path --path "%CD%"
 verify
 </file>
         <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.15.7, 2)"/>
         <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1, 1]"/>
-        <dependency package="com.googlecode.windows-package-manager.CLU" versions="[1, 1]"/>
+        <dependency package="com.googlecode.windows-package-manager.CLU" versions="[1, 2)"/>
         <url>http://downloads.sourceforge.net/project/sevenzip/7-Zip/9.20/7z920-x64.msi?ts=1300625243</url>
         <sha1>4173FEA2AF9A595FA0BE1EF8251F412229687BE1</sha1>
     </version>
@@ -1043,7 +1149,7 @@ if %err% equ 3010 exit /b 0
 if %err% neq 0 exit /b %err%
 
 if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
-set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.CLU" "--versions=[1, 1]"
+set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.CLU" "--versions=[1, 2)"
 for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set clu=%%x
 "%clu%\clu" add-path --path "%CD%\Perl64\bin"
 verify
@@ -1058,14 +1164,14 @@ if %err% equ 3010 exit /b 0
 if %err% neq 0 exit /b %err%
 
 if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
-set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.CLU" "--versions=[1, 1]"
+set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.CLU" "--versions=[1, 2)"
 for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set clu=%%x
 "%clu%\clu" remove-path --path "%CD%\Perl64\bin"
 verify
 </file>
         <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.15.7, 2)"/>
         <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1, 1]"/>
-        <dependency package="com.googlecode.windows-package-manager.CLU" versions="[1, 1]"/>
+        <dependency package="com.googlecode.windows-package-manager.CLU" versions="[1, 2)"/>
         <url>http://downloads.activestate.com/ActivePerl/releases/5.12.3.1204/ActivePerl-5.12.3.1204-MSWin32-x64-294330.msi</url>
         <sha1>B65C9C4053EF86ADDA18269BFDC37D8A939AED1C</sha1>
     </version>
@@ -1081,7 +1187,7 @@ if %err% equ 3010 exit /b 0
 if %err% neq 0 exit /b %err%
 
 if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
-set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.CLU" "--versions=[1, 1]"
+set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.CLU" "--versions=[1, 2)"
 for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set clu=%%x
 "%clu%\clu" add-path --path "%CD%\Perl64\bin"
 verify
@@ -1096,14 +1202,14 @@ if %err% equ 3010 exit /b 0
 if %err% neq 0 exit /b %err%
 
 if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
-set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.CLU" "--versions=[1, 1]"
+set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.CLU" "--versions=[1, 2)"
 for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set clu=%%x
 "%clu%\clu" remove-path --path "%CD%\Perl64\bin"
 verify
 </file>
         <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.15.7, 2)"/>
         <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1, 1]"/>
-        <dependency package="com.googlecode.windows-package-manager.CLU" versions="[1, 1]"/>
+        <dependency package="com.googlecode.windows-package-manager.CLU" versions="[1, 2)"/>
         <url>http://downloads.activestate.com/ActivePerl/releases/5.14.1.1401/ActivePerl-5.14.1.1401-MSWin32-x64-294969.msi</url>
         <sha1>B46E90D20C4A21EEA478457F4B3F72B08F2C52FF</sha1>
     </version>
@@ -1119,7 +1225,7 @@ if %err% equ 3010 exit /b 0
 if %err% neq 0 exit /b %err%
 
 if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
-set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.CLU" "--versions=[1, 1]"
+set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.CLU" "--versions=[1, 2)"
 for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set clu=%%x
 "%clu%\clu" add-path --path "%CD%\Perl64\bin"
 verify
@@ -1134,14 +1240,14 @@ if %err% equ 3010 exit /b 0
 if %err% neq 0 exit /b %err%
 
 if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
-set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.CLU" "--versions=[1, 1]"
+set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.CLU" "--versions=[1, 2)"
 for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set clu=%%x
 "%clu%\clu" remove-path --path "%CD%\Perl64\bin"
 verify
 </file>
         <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.15.7, 2)"/>
         <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1, 1]"/>
-        <dependency package="com.googlecode.windows-package-manager.CLU" versions="[1, 1]"/>
+        <dependency package="com.googlecode.windows-package-manager.CLU" versions="[1, 2)"/>
         <url>http://downloads.activestate.com/ActivePerl/releases/5.14.2.1402/ActivePerl-5.14.2.1402-MSWin32-x64-295342.msi</url>
         <sha1>3b6b47484e8ab9bec09ae81a90546c5e0269ad04</sha1>
     </version>
@@ -1211,6 +1317,19 @@ rmdir "%name%"
         <url>http://download.blender.org/release/Blender2.60/blender-2.60a-release-windows64.zip</url>
         <sha1>2a03187448c4e6e29f05b71e9a06661ac523dab3</sha1>
     </version>
+    <version name="2.61" package="org.blender.Blender64">
+        <file path=".WPM\Install.bat">for /f "delims=" %%x in ('dir /b blender*') do set name=%%x
+cd "%name%"        
+for /f "delims=" %%a in ('dir /b') do (
+  move "%%a" ..
+)
+cd ..
+rmdir "%name%"
+</file>
+        <important-file path="blender.exe" title="Blender"/>
+        <url>http://download.blender.org/release/Blender2.61/blender-2.61-release-windows64.zip</url>
+        <sha1>ef785dea562cb3a75fc0c0ba2259e0023f425b1b</sha1>
+    </version>
 
     <version name="4.3.8.2523" package="se.cdburnerxp.CDBurnerXP64">
         <important-file path="cdbxpp.exe" title="CDBurnerXP"/>
@@ -1239,6 +1358,13 @@ rmdir "%name%"
         <dependency package="com.microsoft.DotNetRedistributable"
                 versions="[2.0, 5)"/>
         <sha1>5d57da41cd952cbaf1a0ac045e26a0d03572ab5c</sha1>
+    </version>
+    <version name="4.4.0.2838" package="se.cdburnerxp.CDBurnerXP64">
+        <important-file path="cdbxpp.exe" title="CDBurnerXP"/>
+        <url>http://download.cdburnerxp.se/portable/CDBurnerXP-x64-4.4.0.2838.zip</url>
+        <dependency package="com.microsoft.DotNetRedistributable"
+                versions="[2.0, 5)"/>
+        <sha1>8199197ea778ad296f5d49b82f99b542545a53ca</sha1>
     </version>
 
     <version name="1.0.3.8" package="org.bluemars.ClipX64" type="one-file">
@@ -1292,7 +1418,7 @@ if %err% equ 3010 exit /b 0
 if %err% neq 0 exit /b %err%
 
 if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
-set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.CLU" "--versions=[1, 1]"
+set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.CLU" "--versions=[1, 2)"
 for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set clu=%%x
 "%clu%\clu" add-path --path "%CD%"
 verify
@@ -1307,14 +1433,14 @@ if %err% equ 3010 exit /b 0
 if %err% neq 0 exit /b %err%
 
 if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
-set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.CLU" "--versions=[1, 1]"
+set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.CLU" "--versions=[1, 2)"
 for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set clu=%%x
 "%clu%\clu" remove-path --path "%CD%"
 verify
 </file>
         <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.15.7, 2)"/>
         <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1, 1]"/>
-        <dependency package="com.googlecode.windows-package-manager.CLU" versions="[1, 1]"/>
+        <dependency package="com.googlecode.windows-package-manager.CLU" versions="[1, 2)"/>
         <url>http://mercurial.selenic.com/release/windows/mercurial-1.8.2-x64.msi</url>
         <sha1>C224AE8B4A6FE5C30C05CFD6B5D8503C4E0318CC</sha1>
     </version>
@@ -1330,7 +1456,7 @@ if %err% equ 3010 exit /b 0
 if %err% neq 0 exit /b %err%
 
 if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
-set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.CLU" "--versions=[1, 1]"
+set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.CLU" "--versions=[1, 2)"
 for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set clu=%%x
 "%clu%\clu" add-path --path "%CD%"
 verify
@@ -1345,14 +1471,14 @@ if %err% equ 3010 exit /b 0
 if %err% neq 0 exit /b %err%
 
 if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
-set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.CLU" "--versions=[1, 1]"
+set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.CLU" "--versions=[1, 2)"
 for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set clu=%%x
 "%clu%\clu" remove-path --path "%CD%"
 verify
 </file>
         <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.15.7, 2)"/>
         <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1, 1]"/>
-        <dependency package="com.googlecode.windows-package-manager.CLU" versions="[1, 1]"/>
+        <dependency package="com.googlecode.windows-package-manager.CLU" versions="[1, 2)"/>
         <url>http://mercurial.selenic.com/release/windows/mercurial-1.8.4-x64.msi</url>
         <sha1>17E4D1BD3D6B791F8180E10B418B7436DDC01225</sha1>
     </version>
@@ -1368,7 +1494,7 @@ if %err% equ 3010 exit /b 0
 if %err% neq 0 exit /b %err%
 
 if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
-set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.CLU" "--versions=[1, 1]"
+set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.CLU" "--versions=[1, 2)"
 for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set clu=%%x
 "%clu%\clu" add-path --path "%CD%"
 verify
@@ -1383,14 +1509,14 @@ if %err% equ 3010 exit /b 0
 if %err% neq 0 exit /b %err%
 
 if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
-set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.CLU" "--versions=[1, 1]"
+set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.CLU" "--versions=[1, 2)"
 for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set clu=%%x
 "%clu%\clu" remove-path --path "%CD%"
 verify
 </file>
         <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.15.7, 2)"/>
         <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1, 1]"/>
-        <dependency package="com.googlecode.windows-package-manager.CLU" versions="[1, 1]"/>
+        <dependency package="com.googlecode.windows-package-manager.CLU" versions="[1, 2)"/>
         <url>http://mercurial.selenic.com/release/windows/mercurial-1.9.0-x64.msi</url>
         <sha1>8c30276087d15f4c5b56a213b71bf2fc24d21a9c</sha1>
     </version>
@@ -1406,7 +1532,7 @@ if %err% equ 3010 exit /b 0
 if %err% neq 0 exit /b %err%
 
 if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
-set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.CLU" "--versions=[1, 1]"
+set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.CLU" "--versions=[1, 2)"
 for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set clu=%%x
 "%clu%\clu" add-path --path "%CD%"
 verify
@@ -1421,14 +1547,14 @@ if %err% equ 3010 exit /b 0
 if %err% neq 0 exit /b %err%
 
 if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
-set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.CLU" "--versions=[1, 1]"
+set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.CLU" "--versions=[1, 2)"
 for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set clu=%%x
 "%clu%\clu" remove-path --path "%CD%"
 verify
 </file>
         <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.15.7, 2)"/>
         <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1, 1]"/>
-        <dependency package="com.googlecode.windows-package-manager.CLU" versions="[1, 1]"/>
+        <dependency package="com.googlecode.windows-package-manager.CLU" versions="[1, 2)"/>
         <url>http://mercurial.selenic.com/release/windows/mercurial-1.9.1-x64.msi</url>
         <sha1>7042bb4326c67017a4b735229905a3a04a4439c4</sha1>
     </version>
@@ -1444,7 +1570,7 @@ if %err% equ 3010 exit /b 0
 if %err% neq 0 exit /b %err%
 
 if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
-set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.CLU" "--versions=[1, 1]"
+set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.CLU" "--versions=[1, 2)"
 for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set clu=%%x
 "%clu%\clu" add-path --path "%CD%"
 verify
@@ -1459,14 +1585,14 @@ if %err% equ 3010 exit /b 0
 if %err% neq 0 exit /b %err%
 
 if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
-set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.CLU" "--versions=[1, 1]"
+set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.CLU" "--versions=[1, 2)"
 for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set clu=%%x
 "%clu%\clu" remove-path --path "%CD%"
 verify
 </file>
         <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.15.7, 2)"/>
         <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1, 1]"/>
-        <dependency package="com.googlecode.windows-package-manager.CLU" versions="[1, 1]"/>
+        <dependency package="com.googlecode.windows-package-manager.CLU" versions="[1, 2)"/>
         <url>http://mercurial.selenic.com/release/windows/mercurial-1.9.2-x64.msi</url>
         <sha1>3206c244623b70d02ae31eed4db45cb6fcd7377c</sha1>
     </version>
@@ -1479,7 +1605,7 @@ type .WPM\InnoSetupInstall.log
 if %err% neq 0 exit %err%
 
 if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
-set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.CLU" "--versions=[1, 1]"
+set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.CLU" "--versions=[1, 2)"
 for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set clu=%%x
 "%clu%\clu" add-path --path "%CD%"
 verify
@@ -1490,54 +1616,85 @@ type .WPM\InnoSetupUninstall.log
 if %err% neq 0 exit %err%
 
 if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
-set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.CLU" "--versions=[1, 1]"
+set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.CLU" "--versions=[1, 2)"
 for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set clu=%%x
 "%clu%\clu" remove-path --path "%CD%"
 verify
 </file>
         <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.15.7, 2)"/>
         <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1, 1]"/>
-        <dependency package="com.googlecode.windows-package-manager.CLU" versions="[1, 1]"/>
+        <dependency package="com.googlecode.windows-package-manager.CLU" versions="[1, 2)"/>
         <url>http://mercurial.selenic.com/release/windows/Mercurial-2.0-x64.exe</url>
         <sha1>c9c7a104b6d7d1980800207e546f490094a8cfa9</sha1>
+    </version>
+    <version name="2.0.2" package="com.selenic.mercurial.Mercurial64"
+            type="one-file">
+       <file path=".WPM\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x
+"%setup%" /SP- /VERYSILENT /SUPPRESSMSGBOXES /NOCANCEL /NORESTART /DIR="%CD%" /SAVEINF="%CD%\.WPM\InnoSetupInfo.ini" /LOG="%CD%\.WPM\InnoSetupInstall.log"
+set err=%errorlevel%
+type .WPM\InnoSetupInstall.log
+if %err% neq 0 exit %err%
+
+if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
+set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.CLU" "--versions=[1, 2)"
+for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set clu=%%x
+"%clu%\clu" add-path --path "%CD%"
+verify
+</file>
+        <file path=".WPM\Uninstall.bat">unins000.exe /VERYSILENT /SUPPRESSMSGBOXES /NORESTART /LOG="%CD%\.WPM\InnoSetupUninstall.log"
+set err=%errorlevel%
+type .WPM\InnoSetupUninstall.log
+if %err% neq 0 exit %err%
+
+if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
+set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.CLU" "--versions=[1, 2)"
+for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set clu=%%x
+"%clu%\clu" remove-path --path "%CD%"
+verify
+</file>
+        <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.15.7, 2)"/>
+        <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1, 1]"/>
+        <dependency package="com.googlecode.windows-package-manager.CLU" versions="[1, 2)"/>
+        <url>http://mercurial.selenic.com/release/windows/Mercurial-2.0.2-x64.exe</url>
+        <sha1>65288257ac3f75615d06ed633c4df79c636e2b0f</sha1>
     </version>
 
     <!-- old versions are regularly deleted, but the package is too big -->
     <version name="1.0.2011.7.18" package="net.sourceforge.mingw-w64.MinGWW6464">
         <file path=".WPM\Install.bat">if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
-set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.CLU" "--versions=[1, 1]"
+set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.CLU" "--versions=[1, 2)"
 for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set clu=%%x
 "%clu%\clu" add-path --path "%CD%\bin"
 verify
 </file>
         <file path=".WPM\Uninstall.bat">if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
-set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.CLU" "--versions=[1, 1]"
+set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.CLU" "--versions=[1, 2)"
 for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set clu=%%x
 "%clu%\clu" remove-path --path "%CD%\bin"
 verify
 </file>
         <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.15.7, 2)"/>
         <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1, 1]"/>
-        <dependency package="com.googlecode.windows-package-manager.CLU" versions="[1, 1]"/>
+        <dependency package="com.googlecode.windows-package-manager.CLU" versions="[1, 2)"/>
         <url>http://downloads.sourceforge.net/project/mingw-w64/Toolchains%20targetting%20Win64/Automated%20Builds/mingw-w64-1.0-bin_i686-mingw_20110718.zip?ts=1312832759</url>
         <sha1>4a3816c225a5bc708d40827e748b497dc84df98a</sha1>
     </version>
     <version name="1.0.2011.8.22" package="net.sourceforge.mingw-w64.MinGWW6464">
         <file path=".WPM\Install.bat">if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
-set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.CLU" "--versions=[1, 1]"
+set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.CLU" "--versions=[1, 2)"
 for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set clu=%%x
 "%clu%\clu" add-path --path "%CD%\bin"
 verify
 </file>
         <file path=".WPM\Uninstall.bat">if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
-set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.CLU" "--versions=[1, 1]"
+set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.CLU" "--versions=[1, 2)"
 for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set clu=%%x
 "%clu%\clu" remove-path --path "%CD%\bin"
 verify
 </file>
         <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.15.7, 2)"/>
         <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1, 1]"/>
-        <dependency package="com.googlecode.windows-package-manager.CLU" versions="[1, 1]"/>
+        <dependency package="com.googlecode.windows-package-manager.CLU" versions="[1, 2)"/>
         <url>http://downloads.sourceforge.net/project/mingw-w64/Toolchains%20targetting%20Win64/Automated%20Builds/mingw-w64-1.0-bin_i686-mingw_20110822.zip?ts=1315310835</url>
         <sha1>33ea548a07103cc0b4375df21306d0430a174929</sha1>
     </version>
@@ -1638,6 +1795,30 @@ for /f %%x in ('dir /b *.7z') do set setup=%%x
         <sha1>90b9e10ed580e9ef1500aa1b81c3870893c7e155</sha1>
         <dependency package="org.7-zip.SevenZIPA" versions="[9.20, 9.20]"/>
     </version>
+    <version name="0.9.37" package="org.miranda-im.MirandaIM64" type="one-file">
+        <important-file path="miranda64.exe" title="Miranda IM"/>
+        <file path=".WPM\Install.bat">if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
+set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=org.7-zip.SevenZIPA" "--versions=[9.20, 9.20]"
+for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set sevenzipa=%%x
+for /f %%x in ('dir /b *.7z') do set setup=%%x
+"%sevenzipa%\7za.exe" x "%setup%"
+</file>
+        <url>http://miranda.googlecode.com/files/miranda-im-v0.9.37-x64.7z</url>
+        <sha1>05e23ad3e4010c5de68694140679099923f54dd1</sha1>
+        <dependency package="org.7-zip.SevenZIPA" versions="[9.20, 9.20]"/>
+    </version>
+    <version name="0.9.41" package="org.miranda-im.MirandaIM64" type="one-file">
+        <important-file path="miranda64.exe" title="Miranda IM"/>
+        <file path=".WPM\Install.bat">if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
+set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=org.7-zip.SevenZIPA" "--versions=[9.20, 9.20]"
+for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set sevenzipa=%%x
+for /f %%x in ('dir /b *.7z') do set setup=%%x
+"%sevenzipa%\7za.exe" x "%setup%"
+</file>
+        <url>http://miranda.googlecode.com/files/miranda-im-v0.9.41-x64.7z</url>
+        <sha1>0833d05d6b8d7bb281a7a7b5947b749f5df633ea</sha1>
+        <dependency package="org.7-zip.SevenZIPA" versions="[9.20, 9.20]"/>
+    </version>
 
     <version name="5.5.16" package="com.mysql.MySQLCommunityServer64" 
             type="one-file">
@@ -1674,6 +1855,24 @@ call "%npackdih%\UninstallMSI.bat"
         <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1, 1]"/>
         <url>http://npackd.googlecode.com/files/com.mysql.MySQLCommunityServer64-5.5.17.msi</url>
         <sha1>ed84b8fd3376623ca60e8e63ea4de05475b0278c</sha1>
+    </version>
+    <version name="5.5.19" package="com.mysql.MySQLCommunityServer64" 
+            type="one-file">
+<file path=".WPM\Install.bat">if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
+set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.NpackdInstallerHelper" "--versions=[1, 1]"
+for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set npackdih=%%x
+call "%npackdih%\InstallMSI.bat" INSTALLDIR
+</file>
+        <file path=".WPM\Uninstall.bat">if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
+set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.NpackdInstallerHelper" "--versions=[1, 1]"
+for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set npackdih=%%x
+call "%npackdih%\UninstallMSI.bat"
+</file>
+        <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1, 1]"/>
+        <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.15.7, 2)"/>
+        <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1, 1]"/>
+        <url>http://npackd.googlecode.com/files/com.mysql.MySQLCommunityServer64-5.5.19.msi</url>
+        <sha1>021cb84be32e336703dbb73b11e08a371dcc9029</sha1>
     </version>
 
     <version name="4.51" package="com.softwareok.QDir64">
@@ -1774,6 +1973,34 @@ del Q-Dir.ini
         <url>http://dl.dropbox.com/u/17046326/files/com.softwareok.QDir64-4.83.zip</url>
         <sha1>9dab9a58a6e2f10a2bc3122a10c5c50eaaf470c4</sha1>
     </version>
+    <version name="4.88" package="com.softwareok.QDir64">
+        <file path=".WPM\Install.bat">for /f "delims=" %%x in ('dir /b Q*') do set name=%%x
+cd "%name%"        
+for /f "delims=" %%a in ('dir /b') do (
+  move "%%a" ..
+)
+cd ..
+rmdir "%name%"
+del Q-Dir.ini
+</file>
+        <important-file path="Q-Dir.exe" title="Q-Dir"/>
+        <url>http://dl.dropbox.com/u/17046326/files/com.softwareok.QDir64-4.88.zip</url>
+        <sha1>7abc5e0783213107a44efb99201f8862f6b25527</sha1>
+    </version>
+    <version name="4.93" package="com.softwareok.QDir64">
+        <file path=".WPM\Install.bat">for /f "delims=" %%x in ('dir /b Q*') do set name=%%x
+cd "%name%"        
+for /f "delims=" %%a in ('dir /b') do (
+  move "%%a" ..
+)
+cd ..
+rmdir "%name%"
+del Q-Dir.ini
+</file>
+        <important-file path="Q-Dir.exe" title="Q-Dir"/>
+        <url>http://dl.dropbox.com/u/17046326/files/com.softwareok.QDir64-4.93.zip</url>
+        <sha1>6fbe4c1e40a48977829cd94acdf165ed42c11345</sha1>
+    </version>
 
     <version name="7.0.12" package="org.apache.tomcat.Tomcat64">
         <file path=".WPM\Install.bat">for /f %%x in ('dir /b apache*') do set name=%%x
@@ -1849,6 +2076,21 @@ rmdir "%name%"
         <sha1>e910e8efdbfe78d2394011e0d62910c746e43469</sha1>
         <dependency package="com.oracle.JRE" versions="[1.5, 2)"/>
     </version>
+    <version name="7.0.23" package="org.apache.tomcat.Tomcat64">
+        <file path=".WPM\Install.bat">for /f "delims=" %%x in ('dir /b apache*') do set name=%%x
+cd "%name%"        
+for /f "delims=" %%a in ('dir /b') do (
+  move "%%a" ..
+)
+cd ..
+rmdir "%name%"
+</file>
+        <important-file path="bin\startup.bat" title="Start"/>
+        <important-file path="bin\shutdown.bat" title="Stop"/>
+        <url>http://archive.apache.org/dist/tomcat/tomcat-7/v7.0.23/bin/apache-tomcat-7.0.23-windows-x64.zip</url>
+        <sha1>c961ac71e8dd5e95f08c21902e5453cf714f6637</sha1>
+        <dependency package="com.oracle.JRE" versions="[1.5, 2)"/>
+    </version>
 
     <version name="1.6.16" package="org.apache.subversion.Subversion64"
             type="one-file">
@@ -1862,7 +2104,7 @@ if %err% equ 3010 exit /b 0
 if %err% neq 0 exit /b %err%
 
 if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
-set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.CLU" "--versions=[1, 1]"
+set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.CLU" "--versions=[1, 2)"
 for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set clu=%%x
 "%clu%\clu" remove-path --path "%CD%\bin"
 verify
@@ -1877,14 +2119,14 @@ if %err% equ 3010 exit /b 0
 if %err% neq 0 exit /b %err%
 
 if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
-set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.CLU" "--versions=[1, 1]"
+set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.CLU" "--versions=[1, 2)"
 for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set clu=%%x
 "%clu%\clu" remove-path --path "%CD%\bin"
 verify
 </file>
         <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.15.7, 2)"/>
         <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1, 1]"/>
-        <dependency package="com.googlecode.windows-package-manager.CLU" versions="[1, 1]"/>
+        <dependency package="com.googlecode.windows-package-manager.CLU" versions="[1, 2)"/>
         <url>http://www.sliksvn.com/pub/Slik-Subversion-1.6.16-x64.msi</url>
         <sha1>96C6DE39ABBE8B1B2DB6EF6CE1FE0294A9CE5DDE</sha1>
     </version>
@@ -1900,7 +2142,7 @@ if %err% equ 3010 exit /b 0
 if %err% neq 0 exit /b %err%
 
 if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
-set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.CLU" "--versions=[1, 1]"
+set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.CLU" "--versions=[1, 2)"
 for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set clu=%%x
 "%clu%\clu" remove-path --path "%CD%\bin"
 verify
@@ -1915,14 +2157,14 @@ if %err% equ 3010 exit /b 0
 if %err% neq 0 exit /b %err%
 
 if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
-set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.CLU" "--versions=[1, 1]"
+set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.CLU" "--versions=[1, 2)"
 for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set clu=%%x
 "%clu%\clu" remove-path --path "%CD%\bin"
 verify
 </file>
         <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.15.7, 2)"/>
         <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1, 1]"/>
-        <dependency package="com.googlecode.windows-package-manager.CLU" versions="[1, 1]"/>
+        <dependency package="com.googlecode.windows-package-manager.CLU" versions="[1, 2)"/>
         <url>http://www.sliksvn.com/pub/Slik-Subversion-1.6.17-x64.msi</url>
         <sha1>c2f4c1563b2f0b8d546d35961505f0693080518b</sha1>
     </version>
@@ -1938,7 +2180,7 @@ if %err% equ 3010 exit /b 0
 if %err% neq 0 exit /b %err%
 
 if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
-set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.CLU" "--versions=[1, 1]"
+set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.CLU" "--versions=[1, 2)"
 for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set clu=%%x
 "%clu%\clu" remove-path --path "%CD%\bin"
 verify
@@ -1953,16 +2195,54 @@ if %err% equ 3010 exit /b 0
 if %err% neq 0 exit /b %err%
 
 if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
-set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.CLU" "--versions=[1, 1]"
+set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.CLU" "--versions=[1, 2)"
 for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set clu=%%x
 "%clu%\clu" remove-path --path "%CD%\bin"
 verify
 </file>
         <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.15.7, 2)"/>
         <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1, 1]"/>
-        <dependency package="com.googlecode.windows-package-manager.CLU" versions="[1, 1]"/>
+        <dependency package="com.googlecode.windows-package-manager.CLU" versions="[1, 2)"/>
         <url>http://www.sliksvn.com/pub/Slik-Subversion-1.7.1-x64.msi</url>
         <sha1>52ddf7cfdff0f5fadd21a962a283f532ea9c14f9</sha1>
+    </version>
+    <version name="1.7.2" package="org.apache.subversion.Subversion64"
+            type="one-file">
+        <file path=".WPM\Install.bat">for /f "delims=" %%x in ('dir /b *.msi') do set setup=%%x
+copy "%setup%" .WPM        
+msiexec.exe /qn /norestart /Lime .WPM\MSI.log /i "%setup%" INSTALLLOCATION="%CD%" ALLUSERS=1
+set err=%errorlevel%
+type .WPM\MSI.log
+rem 3010=restart required
+if %err% equ 3010 exit /b 0
+if %err% neq 0 exit /b %err%
+
+if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
+set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.CLU" "--versions=[1, 2)"
+for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set clu=%%x
+"%clu%\clu" remove-path --path "%CD%\bin"
+verify
+</file>
+        <file path=".WPM\Uninstall.bat">copy .WPM\*.msi .
+for /f "delims=" %%x in ('dir /b *.msi') do set setup=%%x
+msiexec.exe /qn /norestart /Lime .WPM\MSI.log /x "%setup%"
+set err=%errorlevel%
+type .WPM\MSI.log
+rem 3010=restart required
+if %err% equ 3010 exit /b 0
+if %err% neq 0 exit /b %err%
+
+if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
+set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.CLU" "--versions=[1, 2)"
+for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set clu=%%x
+"%clu%\clu" remove-path --path "%CD%\bin"
+verify
+</file>
+        <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.15.7, 2)"/>
+        <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1, 1]"/>
+        <dependency package="com.googlecode.windows-package-manager.CLU" versions="[1, 2)"/>
+        <url>http://www.sliksvn.com/pub/Slik-Subversion-1.7.2-x64.msi</url>
+        <sha1>5c3528ca635f83942a7b2367a97323c44e0c6591</sha1>
     </version>
 
     <version name="1.6.15.21042"
@@ -2052,13 +2332,13 @@ if %err% neq 0 exit /b %err%
     
     <version name="2.22.1" package="org.gtk.GTKPlusBundle64">
         <file path=".WPM\Install.bat">if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
-set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.CLU" "--versions=[1, 1]"
+set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.CLU" "--versions=[1, 2)"
 for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set clu=%%x
 "%clu%\clu" add-path --path "%CD%\bin"
 verify
 </file>
         <file path=".WPM\Uninstall.bat">if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
-set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.CLU" "--versions=[1, 1]"
+set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.CLU" "--versions=[1, 2)"
 for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set clu=%%x
 "%clu%\clu" remove-path --path "%CD%\bin"
 verify
@@ -2068,7 +2348,7 @@ verify
         <sha1>CBB44740C8B7508E355463CD000B5D4C42962C77</sha1>
         <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.15.7, 2)"/>
         <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1, 1]"/>
-        <dependency package="com.googlecode.windows-package-manager.CLU" versions="[1, 1]"/>
+        <dependency package="com.googlecode.windows-package-manager.CLU" versions="[1, 2)"/>
     </version>
 
     <version name="9.2" package="com.ghostscript.GhostScript64Installer"
@@ -2212,7 +2492,7 @@ if %err% equ 3010 exit /b 0
 if %err% neq 0 exit /b %err%
 
 if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
-set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.CLU" "--versions=[1, 1]"
+set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.CLU" "--versions=[1, 2)"
 for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set clu=%%x
 "%clu%\clu" add-path --path "%CD%"
 verify
@@ -2227,14 +2507,14 @@ if %err% equ 3010 exit /b 0
 if %err% neq 0 exit /b %err%
 
 if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
-set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.CLU" "--versions=[1, 1]"
+set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.CLU" "--versions=[1, 2)"
 for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set clu=%%x
 "%clu%\clu" remove-path --path "%CD%"
 verify
 </file>
         <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.15.7, 2)"/>
         <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1, 1]"/>
-        <dependency package="com.googlecode.windows-package-manager.CLU" versions="[1, 1]"/>
+        <dependency package="com.googlecode.windows-package-manager.CLU" versions="[1, 2)"/>
         <url>http://www.python.org/ftp/python/2.6.6/python-2.6.6.amd64.msi</url>
         <sha1>CA745FC63E36DE3D7A9AED771BBB60BA5D9DD5F4</sha1>
     </version>
@@ -2249,7 +2529,7 @@ if %err% equ 3010 exit /b 0
 if %err% neq 0 exit /b %err%
 
 if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
-set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.CLU" "--versions=[1, 1]"
+set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.CLU" "--versions=[1, 2)"
 for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set clu=%%x
 "%clu%\clu" add-path --path "%CD%"
 verify
@@ -2264,14 +2544,14 @@ if %err% equ 3010 exit /b 0
 if %err% neq 0 exit /b %err%
 
 if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
-set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.CLU" "--versions=[1, 1]"
+set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.CLU" "--versions=[1, 2)"
 for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set clu=%%x
 "%clu%\clu" remove-path --path "%CD%"
 verify
 </file>
         <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.15.7, 2)"/>
         <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1, 1]"/>
-        <dependency package="com.googlecode.windows-package-manager.CLU" versions="[1, 1]"/>
+        <dependency package="com.googlecode.windows-package-manager.CLU" versions="[1, 2)"/>
         <url>http://www.python.org/ftp/python/3.2/python-3.2.amd64.msi</url>
         <sha1>0DD61CE76829D88EAA8A608330DC917F04172767</sha1>
     </version>
@@ -2286,7 +2566,7 @@ if %err% equ 3010 exit /b 0
 if %err% neq 0 exit /b %err%
 
 if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
-set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.CLU" "--versions=[1, 1]"
+set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.CLU" "--versions=[1, 2)"
 for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set clu=%%x
 "%clu%\clu" add-path --path "%CD%"
 verify
@@ -2301,14 +2581,14 @@ if %err% equ 3010 exit /b 0
 if %err% neq 0 exit /b %err%
 
 if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
-set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.CLU" "--versions=[1, 1]"
+set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.CLU" "--versions=[1, 2)"
 for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set clu=%%x
 "%clu%\clu" remove-path --path "%CD%"
 verify
 </file>
         <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.15.7, 2)"/>
         <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1, 1]"/>
-        <dependency package="com.googlecode.windows-package-manager.CLU" versions="[1, 1]"/>
+        <dependency package="com.googlecode.windows-package-manager.CLU" versions="[1, 2)"/>
         <url>http://www.python.org/ftp/python/3.2.1/python-3.2.1.amd64.msi</url>
         <sha1>8c59f4d527c0ac3e93a53c68088eaedba82283e8</sha1>
     </version>
@@ -2323,7 +2603,7 @@ if %err% equ 3010 exit /b 0
 if %err% neq 0 exit /b %err%
 
 if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
-set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.CLU" "--versions=[1, 1]"
+set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.CLU" "--versions=[1, 2)"
 for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set clu=%%x
 "%clu%\clu" add-path --path "%CD%"
 verify
@@ -2338,14 +2618,14 @@ if %err% equ 3010 exit /b 0
 if %err% neq 0 exit /b %err%
 
 if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
-set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.CLU" "--versions=[1, 1]"
+set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.CLU" "--versions=[1, 2)"
 for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set clu=%%x
 "%clu%\clu" remove-path --path "%CD%"
 verify
 </file>
         <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.15.7, 2)"/>
         <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1, 1]"/>
-        <dependency package="com.googlecode.windows-package-manager.CLU" versions="[1, 1]"/>
+        <dependency package="com.googlecode.windows-package-manager.CLU" versions="[1, 2)"/>
         <url>http://www.python.org/ftp/python/3.2.2/python-3.2.2.amd64.msi</url>
         <sha1>3b507230774db964b5a769fb2bf8170729c7cab1</sha1>
     </version>
@@ -2358,6 +2638,15 @@ rmdir /s /q "%name%"
         <important-file path="ultradefrag.exe" title="UltraDefrag"/>
         <url>http://downloads.sourceforge.net/project/ultradefrag/ultradefrag/ultradefrag-4.4.0/ultradefrag-portable-4.4.0.bin.amd64.zip?ts=1304243985</url>
         <sha1>CDBAFA991AB9FA52ED13D62190C3E2F2E5A99A9D</sha1>
+    </version>
+    <version name="5.0.1" package="org.sourceforge.ultradefrag.UltraDefrag64">
+        <file path=".WPM\Install.bat">for /f "delims=" %%x in ('dir /b ultra*') do set name=%%x
+xcopy "%name%\*" . /E /H
+rmdir /s /q "%name%"    
+</file>
+        <important-file path="ultradefrag.exe" title="UltraDefrag"/>
+        <url>http://downloads.sourceforge.net/project/ultradefrag/stable-release/5.0.1/ultradefrag-portable-5.0.1.bin.amd64.zip?ts=1326560677</url>
+        <sha1>4a79f5c630c4a14ca4b63c58c17ad7fc0643a0ac</sha1>
     </version>
 
     <version name="7.3" package="org.vim.Vim64">
@@ -2458,6 +2747,12 @@ if %err% neq 0 exit /b %err%
         <dependency package="com.microsoft.VisualCPPRedistributable64"
                 versions="[10, 11)"/>
     </version>
+    <version name="7.23.1" package="se.haxx.curl.CURL64">
+        <url>http://curl.haxx.se/download/curl-7.23.1-win64-ssl-sspi.zip</url>
+        <sha1>2ff5b66cf325070524127354f980ffd28174763e</sha1>
+        <dependency package="com.microsoft.VisualCPPRedistributable64"
+                versions="[10, 11)"/>
+    </version>
 
     <version name="2.9.4250"
             package="org.miktex.MiKTeX64" type="one-file">
@@ -2466,7 +2761,7 @@ if %err% neq 0 exit /b %err%
 if %errorlevel% neq 0 exit /b %errorlevel%
 
 if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
-set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.CLU" "--versions=[1, 1]"
+set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.CLU" "--versions=[1, 2)"
 for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set clu=%%x
 "%clu%\clu" add-path --path "%CD%\miktex\bin\x64"
 verify
@@ -2475,14 +2770,14 @@ verify
 if %errorlevel% neq 0 exit /b %errorlevel%
 
 if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
-set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.CLU" "--versions=[1, 1]"
+set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.CLU" "--versions=[1, 2)"
 for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set clu=%%x
 "%clu%\clu" remove-path --path "%CD%\miktex\bin\x64"
 verify
 </file>
         <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.15.7, 2)"/>
         <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1, 1]"/>
-        <dependency package="com.googlecode.windows-package-manager.CLU" versions="[1, 1]"/>
+        <dependency package="com.googlecode.windows-package-manager.CLU" versions="[1, 2)"/>
         <url>http://sunsite.informatik.rwth-aachen.de/ftp/pub/mirror/ctan/systems/win32/miktex/setup/basic-miktex-2.9.4250-x64.exe</url>
         <sha1>7fba313a1529c11fb1ac6a29f9eb6f849d25c76b</sha1>
     </version>
@@ -2495,7 +2790,7 @@ type .WPM\MSI.log
 if %err% neq 0 exit /b %err%
 
 if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
-set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.CLU" "--versions=[1, 1]"
+set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.CLU" "--versions=[1, 2)"
 for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set clu=%%x
 "%clu%\clu" add-path --path "%CD%\bin"
 verify
@@ -2506,14 +2801,14 @@ type .WPM\MSI.log
 if %err% neq 0 exit /b %err%
 
 if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
-set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.CLU" "--versions=[1, 1]"
+set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.CLU" "--versions=[1, 2)"
 for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set clu=%%x
 "%clu%\clu" remove-path --path "%CD%\bin"
 verify
 </file>
         <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.15.7, 2)"/>
         <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1, 1]"/>
-        <dependency package="com.googlecode.windows-package-manager.CLU" versions="[1, 1]"/>
+        <dependency package="com.googlecode.windows-package-manager.CLU" versions="[1, 2)"/>
         <url>http://javadl.sun.com/webapps/download/AutoDL?BundleId=48305</url>
         <sha1>B922F958BE1139CE0E677C2341CCAC5AB7C9B0AC</sha1>
         <detect-msi>{64A3A4F4-B792-11D6-A78A-00B0D0160250}</detect-msi>
@@ -2526,7 +2821,7 @@ type .WPM\MSI.log
 if %err% neq 0 exit /b %err%
 
 if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
-set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.CLU" "--versions=[1, 1]"
+set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.CLU" "--versions=[1, 2)"
 for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set clu=%%x
 "%clu%\clu" add-path --path "%CD%\bin"
 verify
@@ -2537,17 +2832,48 @@ type .WPM\MSI.log
 if %err% neq 0 exit /b %err%
 
 if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
-set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.CLU" "--versions=[1, 1]"
+set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.CLU" "--versions=[1, 2)"
 for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set clu=%%x
 "%clu%\clu" remove-path --path "%CD%\bin"
 verify
 </file>
         <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.15.7, 2)"/>
         <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1, 1]"/>
-        <dependency package="com.googlecode.windows-package-manager.CLU" versions="[1, 1]"/>
+        <dependency package="com.googlecode.windows-package-manager.CLU" versions="[1, 2)"/>
         <url>http://javadl.sun.com/webapps/download/AutoDL?BundleId=49185</url>
         <sha1>af5e83a55eef71549ac457a7027b0e50a7526bdd</sha1>
         <detect-msi>{64A3A4F4-B792-11D6-A78A-00B0D0160260}</detect-msi>
+    </version>
+    <version name="1.6.0.30" package="com.oracle.JDK64" type="one-file">
+        <file path=".WPM\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x
+"%setup%" /s /v"/qn /Lime .WPM\MSI.log /norestart REBOOT=Suppress ALLUSERS=1 ADDLOCAL="""ToolsFeature,DemosFeature,SourceFeature""" INSTALLDIR="""%CD%""" "
+set err=%errorlevel%
+type .WPM\MSI.log
+if %err% neq 0 exit /b %err%
+
+if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
+set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.CLU" "--versions=[1, 2)"
+for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set clu=%%x
+"%clu%\clu" add-path --path "%CD%\bin"
+verify
+</file>
+        <file path=".WPM\Uninstall.bat">MsiExec.exe /qn /norestart /Lime .WPM\MSI.log /X{64A3A4F4-B792-11D6-A78A-00B0D0160300}
+set err=%errorlevel%
+type .WPM\MSI.log
+if %err% neq 0 exit /b %err%
+
+if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
+set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.CLU" "--versions=[1, 2)"
+for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set clu=%%x
+"%clu%\clu" remove-path --path "%CD%\bin"
+verify
+</file>
+        <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.15.7, 2)"/>
+        <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1, 1]"/>
+        <dependency package="com.googlecode.windows-package-manager.CLU" versions="[1, 2)"/>
+        <url>http://download.oracle.com/otn-pub/java/jdk/6u30-b12/jdk-6u30-windows-x64.exe</url>
+        <sha1>89AE7CD6C5CCD9CF54710BF99231ADAC071A7A06</sha1>
+        <detect-msi>{64A3A4F4-B792-11D6-A78A-00B0D0160300}</detect-msi>
     </version>
     <version name="1.7" package="com.oracle.JDK64" type="one-file">
         <file path=".WPM\Install.bat">ren AutoDL AutoDL.exe
@@ -2557,7 +2883,7 @@ type .WPM\MSI.log
 if %err% neq 0 exit /b %err%
 
 if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
-set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.CLU" "--versions=[1, 1]"
+set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.CLU" "--versions=[1, 2)"
 for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set clu=%%x
 "%clu%\clu" add-path --path "%CD%\bin"
 verify
@@ -2568,14 +2894,14 @@ type .WPM\MSI.log
 if %err% neq 0 exit /b %err%
 
 if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
-set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.CLU" "--versions=[1, 1]"
+set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.CLU" "--versions=[1, 2)"
 for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set clu=%%x
 "%clu%\clu" remove-path --path "%CD%\bin"
 verify
 </file>
         <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.15.7, 2)"/>
         <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1, 1]"/>
-        <dependency package="com.googlecode.windows-package-manager.CLU" versions="[1, 1]"/>
+        <dependency package="com.googlecode.windows-package-manager.CLU" versions="[1, 2)"/>
         <url>http://javadl.sun.com/webapps/download/AutoDL?BundleId=51790</url>
         <sha1>49a6ce4ddcffe763f24e9af3dcf360048eeb20e1</sha1>
         <detect-msi>{64A3A4F4-B792-11D6-A78A-00B0D0170000}</detect-msi>
@@ -2588,7 +2914,7 @@ type .WPM\MSI.log
 if %err% neq 0 exit /b %err%
 
 if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
-set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.CLU" "--versions=[1, 1]"
+set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.CLU" "--versions=[1, 2)"
 for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set clu=%%x
 "%clu%\clu" add-path --path "%CD%\bin"
 verify
@@ -2599,17 +2925,48 @@ type .WPM\MSI.log
 if %err% neq 0 exit /b %err%
 
 if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
-set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.CLU" "--versions=[1, 1]"
+set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.CLU" "--versions=[1, 2)"
 for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set clu=%%x
 "%clu%\clu" remove-path --path "%CD%\bin"
 verify
 </file>
         <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.15.7, 2)"/>
         <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1, 1]"/>
-        <dependency package="com.googlecode.windows-package-manager.CLU" versions="[1, 1]"/>
+        <dependency package="com.googlecode.windows-package-manager.CLU" versions="[1, 2)"/>
         <url>http://dl.dropbox.com/u/17046326/files/com.oracle.JDK64-1.7.0.1.exe</url>
         <sha1>a4a7274e9d54723b77e361d112b7d5a68f63ac83</sha1>
         <detect-msi>{64A3A4F4-B792-11D6-A78A-00B0D0170010}</detect-msi>
+    </version>
+    <version name="1.7.0.2" package="com.oracle.JDK64" type="one-file">
+        <file path=".WPM\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x
+"%setup%" /s /v"/qn /Lime """"""%CD%\.WPM\MSI.log"""""" /norestart REBOOT=Suppress ALLUSERS=1 ADDLOCAL=""""""ToolsFeature,SourceFeature"""""" INSTALLDIR=""""""%CD%"""""" "
+set err=%errorlevel%
+type .WPM\MSI.log
+if %err% neq 0 exit /b %err%
+
+if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
+set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.CLU" "--versions=[1, 2)"
+for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set clu=%%x
+"%clu%\clu" add-path --path "%CD%\bin"
+verify
+</file>
+        <file path=".WPM\Uninstall.bat">MsiExec.exe /qn /norestart /Lime .WPM\MSI.log /X{64A3A4F4-B792-11D6-A78A-00B0D0170020}
+set err=%errorlevel%
+type .WPM\MSI.log
+if %err% neq 0 exit /b %err%
+
+if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
+set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.CLU" "--versions=[1, 2)"
+for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set clu=%%x
+"%clu%\clu" remove-path --path "%CD%\bin"
+verify
+</file>
+        <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.15.7, 2)"/>
+        <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1, 1]"/>
+        <dependency package="com.googlecode.windows-package-manager.CLU" versions="[1, 2)"/>
+        <url>http://download.oracle.com/otn-pub/java/jdk/7u2-b13/jdk-7u2-windows-x64.exe</url>
+        <sha1>e4ad167da8c232d9cb8e035a01eb2cf6674c6a28</sha1>
+        <detect-msi>{64A3A4F4-B792-11D6-A78A-00B0D0170020}</detect-msi>
     </version>
 
     <version name="3.6.1" package="org.eclipse.EclipseIDEJEE64">
@@ -2704,6 +3061,15 @@ ren "%setup%" Psycopg.exe
         <dependency package="org.python.Python64" versions="[2.6, 2.7)"/>
         <sha1>f998468472b20e5bc2f12b0f37501f1dcde6ca65</sha1>
     </version>
+    <version name="2.4.4" package="org.initd.PsycopgInstaller64" type="one-file">
+        <important-file path="Psycopg.exe" title="Installer"/>
+        <file path=".WPM\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x
+ren "%setup%" Psycopg.exe
+</file>
+        <url>http://www.stickpeople.com/projects/python/win-psycopg/psycopg2-2.4.4.win-amd64-py2.6-pg9.1.2-release.exe</url>
+        <dependency package="org.python.Python64" versions="[2.6, 2.7)"/>
+        <sha1>3dbef5e1d7a05cd2e1489a557d78381e0627acb9</sha1>
+    </version>
 
     <version name="1.0.3" package="com.lockhunter.LockHunter64" type="one-file">
         <file path=".WPM\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x
@@ -2765,7 +3131,7 @@ rmdir "%name%"
         <sha1>5a9ece7736ca8c82a2923cef58b7c0cd44b714bd</sha1>
     </version>
 
-    <version name="11.0.1.152" package="com.adobe.FlashPlayer64"
+    <version name="11.1.102.55" package="com.adobe.FlashPlayer64"
             type="one-file">
         <file path=".WPM\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x
 "%setup%" -install
@@ -2780,7 +3146,7 @@ echo AutoUpdateDisable=1 > %windir%\SysWOW64\Macromed\Flash\mms.cfg
         <url>http://fpdownload.macromedia.com/pub/flashplayer/current/licensing/win/install_flash_player_11_plugin_64bit.exe</url>
     </version>
     
-    <version name="11.0.1.152" package="com.adobe.FlashPlayerActiveX64"
+    <version name="11.1.102.55" package="com.adobe.FlashPlayerActiveX64"
             type="one-file">
         <file path=".WPM\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x
 "%setup%" -install
@@ -2806,13 +3172,13 @@ rmdir "%name%"
 if %errorlevel% neq 0 exit /b %errorlevel%
 
 if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
-set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.CLU" "--versions=[1, 1]"
+set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.CLU" "--versions=[1, 2)"
 for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set clu=%%x
 "%clu%\clu" add-path --path "%CD%\bin"
 verify
 </file> 
         <file path=".WPM\Uninstall.bat">if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
-set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.CLU" "--versions=[1, 1]"
+set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.CLU" "--versions=[1, 2)"
 for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set clu=%%x
 "%clu%\clu" remove-path --path "%CD%\bin"
 verify
@@ -2821,6 +3187,44 @@ verify
         <sha1>1983cdaea1df09a17b7b6436053f2574242c6e18</sha1> 
         <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.15.7, 2)"/>
         <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1, 1]"/>
-        <dependency package="com.googlecode.windows-package-manager.CLU" versions="[1, 1]"/>
-    </version> 
+        <dependency package="com.googlecode.windows-package-manager.CLU" versions="[1, 2)"/>
+    </version>
+    <version name="2011.12.22" package="com.googlecode.gomingw.GoMinGW64">
+        <file path=".WPM\Install.bat">set name=go
+cd "%name%"        
+for /f "delims=" %%a in ('dir /b') do (
+  move "%%a" ..
+)
+cd ..
+rmdir "%name%"
+if %errorlevel% neq 0 exit /b %errorlevel%
+
+if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
+set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.CLU" "--versions=[1, 2)"
+for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set clu=%%x
+"%clu%\clu" add-path --path "%CD%\bin"
+verify
+</file> 
+        <file path=".WPM\Uninstall.bat">if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
+set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.CLU" "--versions=[1, 2)"
+for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set clu=%%x
+"%clu%\clu" remove-path --path "%CD%\bin"
+verify
+</file>
+        <url>http://gomingw.googlecode.com/files/gowinamd64_weekly.2011-12-22.zip</url> 
+        <sha1>a4bf8ca034e9eba96532cda111640cd105194105</sha1> 
+        <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.15.7, 2)"/>
+        <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1, 1]"/>
+        <dependency package="com.googlecode.windows-package-manager.CLU" versions="[1, 2)"/>
+    </version>
+
+    <!-- uninstallation shows a confirmation dialog -->
+    <version name="1.6.4" package="org.wireshark.Wireshark64" type="one-file">
+        <file path=".WPM\Install.bat">for /f %%x in ('dir /b *.exe') do set setup=%%x
+"%setup%" /S /D=%CD%
+</file>
+        <file path=".WPM\Uninstall.bat">uninstall.exe /S _=%CD%</file>
+        <url>http://npackd.googlecode.com/files/org.wireshark.Wireshark64-1.6.4.exe</url>
+        <sha1>7aa31293a5ce2f1697f9ddc010f416bc4447f413</sha1>
+    </version>
 </root>

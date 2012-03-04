@@ -3,6 +3,8 @@
 #include <windows.h>
 #include <wininet.h>
 
+#include <zlib.h>
+
 #include "qobject.h"
 #include "qdebug.h"
 #include "qwaitcondition.h"
@@ -17,7 +19,7 @@ HWND defaultPasswordWindow = 0;
 
 void Downloader::downloadWin(Job* job, const QUrl& url, QFile* file,
         QString* mime, QString* contentDisposition,
-        HWND parentWindow, QString* sha1)
+        HWND parentWindow, QString* sha1, bool useCache)
 {
     job->setHint("Connecting");
 
@@ -50,12 +52,7 @@ void Downloader::downloadWin(Job* job, const QUrl& url, QFile* file,
     INTERNET_PORT port = url.port(url.scheme() == "https" ?
             INTERNET_DEFAULT_HTTPS_PORT: INTERNET_DEFAULT_HTTP_PORT);
     HINTERNET hConnectHandle = InternetConnectW(internet,
-                                     (WCHAR*) server.utf16(),
-                                     port,
-                                     0,
-                                     0,
-                                     INTERNET_SERVICE_HTTP,
-                                     0, 0);
+            (WCHAR*) server.utf16(), port, 0, 0, INTERNET_SERVICE_HTTP, 0, 0);
 
     if (hConnectHandle == 0) {
         QString errMsg;
@@ -74,13 +71,29 @@ void Downloader::downloadWin(Job* job, const QUrl& url, QFile* file,
     // qDebug() << "download.4";
 
     // flags: http://msdn.microsoft.com/en-us/library/aa383661(v=vs.85).aspx
+    //We support accepting any mime file type since this is a simple download of a file
+    LPCTSTR ppszAcceptTypes[2];
+    ppszAcceptTypes[0] = L"*/*";
+    ppszAcceptTypes[1] = NULL;
+    DWORD flags = (url.scheme() == "https" ? INTERNET_FLAG_SECURE : 0) |
+            INTERNET_FLAG_KEEP_CONNECTION;
+    if (!useCache)
+        flags |= INTERNET_FLAG_DONT_CACHE;
     HINTERNET hResourceHandle = HttpOpenRequestW(hConnectHandle, L"GET",
             (WCHAR*) resource.utf16(),
-            0, 0, 0,
-            (url.scheme() == "https" ? INTERNET_FLAG_SECURE : 0) |
-            INTERNET_FLAG_KEEP_CONNECTION |
-            INTERNET_FLAG_DONT_CACHE, 0);
+            0, 0, ppszAcceptTypes,
+            flags, 0);
     if (hResourceHandle == 0) {
+        QString errMsg;
+        WPMUtils::formatMessage(GetLastError(), &errMsg);
+        job->setErrorMessage(errMsg);
+        job->complete();
+        return;
+    }
+
+    if (!HttpAddRequestHeadersW(hResourceHandle,
+            L"Accept-Encoding: gzip", -1,
+            HTTP_ADDREQ_FLAG_ADD)) {
         QString errMsg;
         WPMUtils::formatMessage(GetLastError(), &errMsg);
         job->setErrorMessage(errMsg);
@@ -190,6 +203,7 @@ void Downloader::downloadWin(Job* job, const QUrl& url, QFile* file,
             } else if (dwStatus == HTTP_STATUS_OK) {
                 break;
             } else {
+                // TODO: check other HTTP_STATUS constants
                 job->setErrorMessage(QString(
                         "Cannot handle HTTP status code %1").arg(dwStatus));
                 break;
@@ -221,6 +235,8 @@ out:
         return;
     }
 
+    job->setHint("Downloading");
+
     // MIME type
     // qDebug() << "querying MIME type";
     WCHAR mimeBuffer[1024];
@@ -235,6 +251,18 @@ out:
         return;
     }
     mime->setUtf16((ushort*) mimeBuffer, bufferLength / 2);
+
+    // qDebug() << "querying Content-Encoding type";
+    WCHAR contentEncodingBuffer[1024];
+    bufferLength = sizeof(contentEncodingBuffer);
+    index = 0;
+    bool gzip = false;
+    if (HttpQueryInfoW(hResourceHandle, HTTP_QUERY_CONTENT_ENCODING,
+            &contentEncodingBuffer, &bufferLength, &index)) {
+        QString contentEncoding;
+        contentEncoding.setUtf16((ushort*) contentEncodingBuffer, bufferLength / 2);
+        gzip = contentEncoding == "gzip";
+    }
 
     job->setProgress(0.04);
 
@@ -253,7 +281,6 @@ out:
     bufferLength = sizeof(contentLengthBuffer);
     index = 0;
     int contentLength = -1;
-    int64_t alreadyRead;
     if (HttpQueryInfoW(hResourceHandle, HTTP_QUERY_CONTENT_LENGTH,
             contentLengthBuffer, &bufferLength, &index)) {
         QString s;
@@ -264,43 +291,14 @@ out:
             contentLength = 0;
     }
 
-    // download/compute SHA1 loop
-    QCryptographicHash hash(QCryptographicHash::Sha1);
-    alreadyRead = 0;
-    char buffer[512 * 1024];
-    do {
-        if (!InternetReadFile(hResourceHandle, &buffer,
-                sizeof(buffer), &bufferLength)) {
-            QString errMsg;
-            WPMUtils::formatMessage(GetLastError(), &errMsg);
-            job->setErrorMessage(errMsg);
-            job->complete();
-            return;
-        }
+    job->setProgress(0.05);
 
-        // update SHA1 if necessary
-        if (sha1)
-            hash.addData(buffer, bufferLength);
+    Job* sub = job->newSubJob(0.95);
+    readData(sub, hResourceHandle, file, sha1, gzip, contentLength);
+    if (!sub->getErrorMessage().isEmpty())
+        job->setErrorMessage(sub->getErrorMessage());
+    delete sub;
 
-        file->write(buffer, bufferLength);
-        alreadyRead += bufferLength;
-        if (contentLength > 0) {
-            job->setProgress(0.04 +
-                    ((double) alreadyRead / contentLength) * 0.95);
-            job->setHint(QString("%L0 of %L1 bytes").arg(alreadyRead).
-                         arg(contentLength));
-        }
-        if (job->isCancelled()) {
-            InternetCloseHandle(internet);
-            job->complete();
-            return;
-        }
-    } while (bufferLength != 0);
-
-    if (sha1 && !job->isCancelled() && job->getErrorMessage().isEmpty())
-        *sha1 = hash.result().toHex().toLower();
-
-    // close everything in case of an error
     InternetCloseHandle(internet);
 
     job->setProgress(1);
@@ -308,6 +306,110 @@ out:
     job->complete();
 
     return;
+}
+
+void Downloader::readData(Job* job, HINTERNET hResourceHandle, QFile* file,
+        QString* sha1, bool gzip, int contentLength)
+{
+    // download/compute SHA1 loop
+    QCryptographicHash hash(QCryptographicHash::Sha1);
+    const int bufferSize = 512 * 1024;
+    unsigned char* buffer = new unsigned char[bufferSize];
+    const int buffer2Size = 512 * 1024;
+    unsigned char* buffer2 = new unsigned char[buffer2Size];
+
+    bool zlibStreamInitialized = false;
+    z_stream d_stream;
+
+    int64_t alreadyRead = 0;
+    DWORD bufferLength;
+    do {
+        if (!InternetReadFile(hResourceHandle, buffer,
+                bufferSize, &bufferLength)) {
+            QString errMsg;
+            WPMUtils::formatMessage(GetLastError(), &errMsg);
+            job->setErrorMessage(errMsg);
+            job->complete();
+            break;
+        }
+
+        if (bufferLength == 0)
+            break;
+
+        if (!gzip) {
+            // update SHA1 if necessary
+            if (sha1)
+                hash.addData((char*) buffer, bufferLength);
+
+            file->write((char*) buffer, bufferLength);
+        } else {
+            // http://www.gzip.org/zlib/rfc-gzip.html
+            // TODO: what if less than 10 bytes were read?
+            // TOD: gzip header may be longer than 10 bytes
+            if (!zlibStreamInitialized) {
+                d_stream.zalloc = (alloc_func) 0;
+                d_stream.zfree = (free_func) 0;
+                d_stream.opaque = (voidpf) 0;
+
+                d_stream.next_in = buffer + 10;
+                d_stream.avail_in = bufferLength - 10;
+                d_stream.avail_out = buffer2Size;
+                d_stream.next_out = buffer2;
+                zlibStreamInitialized = true;
+
+                int err = inflateInit2(&d_stream, -15);
+                if (err != Z_OK) {
+                    job->setErrorMessage(QString("zlib error %1").arg(err));
+                    job->complete();
+                    break;
+                }
+            } else {
+                d_stream.next_in = buffer;
+                d_stream.avail_in = bufferLength;
+            }
+
+            // see http://zlib.net/zpipe.c
+            do {
+                d_stream.avail_out = buffer2Size;
+                d_stream.next_out = buffer2;
+
+                int err = inflate(&d_stream, Z_NO_FLUSH);
+                if (err == Z_NEED_DICT) {
+                    err = Z_DATA_ERROR;
+                    inflateEnd(&d_stream); // TODO: report error
+                    break;
+                } else if (err == Z_MEM_ERROR || err == Z_DATA_ERROR) {
+                    inflateEnd(&d_stream); // TODO: report error
+                    break;
+                } else {
+                    if (sha1)
+                        hash.addData((char*) buffer2,
+                                buffer2Size - d_stream.avail_out);
+
+                    file->write((char*) buffer2,
+                            buffer2Size - d_stream.avail_out);
+                }
+            } while (d_stream.avail_out == 0);
+        }
+
+        alreadyRead += bufferLength;
+        if (contentLength > 0) {
+            job->setProgress(((double) alreadyRead) / contentLength);
+            job->setHint(QString("%L0 of %L1 bytes").arg(alreadyRead).
+                    arg(contentLength));
+        }
+    } while (bufferLength != 0 && !job->isCancelled());
+
+    if (gzip) {
+        inflateEnd(&d_stream);
+        // TODO: report error return ret == Z_STREAM_END ? Z_OK : Z_DATA_ERROR;
+    }
+
+    if (sha1 && !job->isCancelled() && job->getErrorMessage().isEmpty())
+        *sha1 = hash.result().toHex().toLower();
+
+    delete[] buffer;
+    delete[] buffer2;
 }
 
 void Downloader::download(Job* job, const QUrl& url, QFile* file,
@@ -319,7 +421,8 @@ void Downloader::download(Job* job, const QUrl& url, QFile* file,
             defaultPasswordWindow, sha1);
 }
 
-QTemporaryFile* Downloader::download(Job* job, const QUrl &url, QString* sha1)
+QTemporaryFile* Downloader::download(Job* job, const QUrl &url, QString* sha1,
+        bool useCache)
 {
     QTemporaryFile* file = new QTemporaryFile();
 
@@ -327,7 +430,7 @@ QTemporaryFile* Downloader::download(Job* job, const QUrl &url, QString* sha1)
         QString mime;
         QString contentDisposition;
         downloadWin(job, url, file, &mime, &contentDisposition,
-                defaultPasswordWindow, sha1);
+                defaultPasswordWindow, sha1, useCache);
         file->close();
 
         if (job->isCancelled() || !job->getErrorMessage().isEmpty()) {

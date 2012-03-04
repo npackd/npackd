@@ -8,7 +8,6 @@
 #include "mainwindow.h"
 #include "qdebug.h"
 
-#include "repository.h"
 #include "wpmutils.h"
 #include "job.h"
 #include "fileloader.h"

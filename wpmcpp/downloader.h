@@ -2,6 +2,7 @@
 #define DOWNLOADER_H
 
 #include <windows.h>
+#include <wininet.h>
 
 #include "qtemporaryfile.h"
 #include "qurl.h"
@@ -18,6 +19,9 @@ class Downloader: QObject
 {
     Q_OBJECT
 
+    static void readData(Job* job, HINTERNET hResourceHandle, QFile* file,
+            QString* sha1, bool gzip, int contentLength);
+
     /**
      * It would be nice to handle redirects explicitely so
      *    that the file name could be derived
@@ -29,19 +33,21 @@ class Downloader: QObject
      * @param file the content will be stored here
      * @param parentWindow window handle or 0 if not UI is required
      * @param sha1 if not null, SHA1 will be computed and stored here
+     * @param useCache true = use Windows Internet cache on the local disk
      */
     static void downloadWin(Job* job, const QUrl& url, QFile* file,
             QString* mime, QString* contentDisposition,
-            HWND parentWindow=0, QString* sha1=0);
+            HWND parentWindow=0, QString* sha1=0, bool useCache=false);
 public:
     /**
      * @param job job for this method
      * @param url this URL will be downloaded
      * @param sha1 if not null, SHA1 will be computed and stored here
      * @return temporary file or 0 if an error occured
+     * @param useCache true = use Windows Internet cache on the local disk
      */
     static QTemporaryFile* download(Job* job, const QUrl& url,
-            QString* sha1=0);
+            QString* sha1=0, bool useCache=false);
 
     /**
      * Downloads a file.

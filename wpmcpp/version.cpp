@@ -46,9 +46,19 @@ Version& Version::operator =(const Version& v)
     return *this;
 }
 
-bool Version::operator !=(const Version& v)
+bool Version::operator !=(const Version& v) const
 {
     return this->compare(v) != 0;
+}
+
+bool Version::operator ==(const Version& v) const
+{
+    return this->compare(v) == 0;
+}
+
+bool Version::operator <(const Version& v) const
+{
+    return this->compare(v) < 0;
 }
 
 Version::~Version()

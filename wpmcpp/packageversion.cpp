@@ -15,6 +15,7 @@
 #include "quazipfile.h"
 #include "zlib.h"
 
+#include "package.h"
 #include "packageversion.h"
 #include "job.h"
 #include "downloader.h"
@@ -22,33 +23,29 @@
 #include "repository.h"
 #include "version.h"
 #include "windowsregistry.h"
+#include "xmlutils.h"
 
 QSemaphore PackageVersion::httpConnections(3);
 QSemaphore PackageVersion::installationScripts(1);
 
-PackageVersion::PackageVersion(const QString& package)
+PackageVersion::PackageVersion(QObject *parent) : QObject(parent)
 {
-    this->package = package;
-    this->type = 0;
-    this->external_ = false;
-    this->locked = false;
 }
 
 PackageVersion::PackageVersion()
 {
-    this->package = "unknown";
     this->type = 0;
-    this->external_ = false;
-    this->locked = false;
 }
 
-void PackageVersion::setExternal(bool e)
+PackageVersion::PackageVersion(const QString& package)
 {
-    if (this->external_ != e) {
-        this->external_ = e;
-        this->saveInstallationInfo();
-        emitStatusChanged();
-    }
+    this->type = 0;
+    this->package_ = package;
+}
+
+QString PackageVersion::getPackage() const
+{
+    return this->package_;
 }
 
 void PackageVersion::emitStatusChanged()
@@ -59,81 +56,52 @@ void PackageVersion::emitStatusChanged()
 
 void PackageVersion::lock()
 {
-    if (!this->locked) {
-        this->locked = true;
-        emitStatusChanged();
-    }
+    Repository* rep = Repository::getDefault();
+    rep->lock(this->package_, this->version);
+    emitStatusChanged();
 }
 
 void PackageVersion::unlock()
 {
-    if (this->locked) {
-        this->locked = false;
-        emitStatusChanged();
+    Repository* rep = Repository::getDefault();
+    rep->unlock(this->package_, this->version);
+    emitStatusChanged();
+}
+
+bool PackageVersion::isUpdateEnabled() const
+{
+    Repository* r = Repository::getDefault();
+    PackageVersion* newest = r->findNewestInstallablePackageVersion(
+            getPackage());
+    PackageVersion* newesti = r->findNewestInstalledPackageVersion(
+            getPackage());
+    if (newest != 0 && newesti != 0) {
+        bool canInstall = !newest->isLocked() && !newest->installed() &&
+                newest->download.isValid();
+
+        InstalledPackageVersion* ipv = r->findInstalledPackageVersion(
+                newesti);
+        bool canUninstall = !newesti->isLocked() && !ipv->external_;
+
+        return canInstall && canUninstall &&
+                newest->version.compare(newesti->version) > 0;
+    } else {
+        return false;
     }
 }
 
 bool PackageVersion::isLocked() const
-{
-    return this->locked;
-}
-
-bool PackageVersion::isExternal() const
-{
-    return this->external_;
-}
-
-void PackageVersion::loadFromRegistry()
-{
-    WindowsRegistry entryWR;
-    QString err = entryWR.open(HKEY_LOCAL_MACHINE,
-            "SOFTWARE\\Npackd\\Npackd\\Packages\\" +
-            this->package + "-" + this->version.getVersionString(),
-            false, KEY_READ);
-    if (!err.isEmpty())
-        return;
-
-    QString p = entryWR.get("Path", &err).trimmed();
-    if (!err.isEmpty())
-        return;
-
-    DWORD external = entryWR.getDWORD("External", &err);
-    if (!err.isEmpty())
-        external = 1;
-
-    if (p.isEmpty())
-        this->ipath = "";
-    else {
-        QDir d(p);
-        if (d.exists()) {
-            this->ipath = p;
-            this->external_ = external != 0;
-        } else {
-            this->ipath = "";
-        }
-    }
-
-    emitStatusChanged();
-}
-
-QString PackageVersion::getPath()
-{
-    return this->ipath;
-}
-
-void PackageVersion::setPath(const QString& path)
-{
-    if (this->ipath != path) {
-        this->ipath = path;
-        saveInstallationInfo();
-        emitStatusChanged();
-    }
+{    
+    Repository* rep = Repository::getDefault();
+    return rep->isLocked(this->package_, this->version);
 }
 
 bool PackageVersion::isDirectoryLocked()
 {
-    if (installed()) {
-        QDir d(ipath);
+    Repository* rep = Repository::getDefault();
+    InstalledPackageVersion* ipv = rep->findInstalledPackageVersion(this);
+    if (ipv) {
+        QDir d(ipv->ipath);
         QDateTime now = QDateTime::currentDateTime();
         QString newName = QString("%1-%2").arg(d.absolutePath()).arg(now.toTime_t());
 
@@ -157,7 +125,7 @@ QString PackageVersion::toString()
 
 QString PackageVersion::getShortPackageName()
 {
-    QStringList sl = this->package.split(".");
+    QStringList sl = this->getPackage().split(".");
     return sl.last();
 }
 
@@ -174,37 +142,34 @@ QString PackageVersion::saveInstallationInfo()
     QString err;
     WindowsRegistry wr = machineWR.createSubKey(
             "SOFTWARE\\Npackd\\Npackd\\Packages\\" +
-            this->package + "-" + this->version.getVersionString(), &err);
+            this->getPackage() + "-" +
+            this->version.getVersionString(), &err);
     if (!err.isEmpty())
         return err;
 
-    wr.set("Path", this->ipath);
-    wr.setDWORD("External", this->external_ ? 1 : 0);
+    Repository* rep = Repository::getDefault();
+    InstalledPackageVersion* ipv = rep->findInstalledPackageVersion(this);
+    if (ipv) {
+        wr.set("Path", ipv->ipath);
+        wr.setDWORD("External", ipv->external_ ? 1 : 0);
+    } else {
+        wr.set("Path", "");
+        wr.setDWORD("External", false);
+    }
     return "";
 }
 
 QString PackageVersion::getFullText()
 {
-    if (this->fullText.isEmpty()) {
-        Repository* rep = Repository::getDefault();
-        Package* package = rep->findPackage(this->package);
-        QString r = this->package;
-        if (package) {
-            r.append(" ");
-            r.append(package->title);
-            r.append(" ");
-            r.append(package->description);
-        }
-        r.append(" ");
-        r.append(this->version.getVersionString());
-
-        this->fullText = r.toLower();
-    }
-    return this->fullText;
+    return this->version.getVersionString();
 }
 
 bool PackageVersion::installed() const
 {
+    Repository* rep = Repository::getDefault();
+    return rep->findInstalledPackageVersion(this) != 0;
+
+    /* TODO: we do not check d.exists() anymore!
     if (this->ipath.trimmed().isEmpty()) {
         return false;
     } else {
@@ -212,6 +177,7 @@ bool PackageVersion::installed() const
         d.refresh();
         return d.exists();
     }
+    */
 }
 
 void PackageVersion::deleteShortcuts(const QString& dir, Job* job,
@@ -253,13 +219,16 @@ void PackageVersion::deleteShortcuts(const QString& dir, Job* job,
 
 void PackageVersion::uninstall(Job* job)
 {
-    if (isExternal() || !installed()) {
+    Repository* rep = Repository::getDefault();
+    InstalledPackageVersion* ipv = rep->findInstalledPackageVersion(this);
+
+    if (!ipv || ipv->external_) {
         job->setProgress(1);
         job->complete();
         return;
     }
 
-    QDir d(ipath);
+    QDir d(ipv->ipath);
 
     if (job->getErrorMessage().isEmpty()) {
         job->setHint("Deleting shortcuts");
@@ -316,7 +285,7 @@ void PackageVersion::uninstall(Job* job)
             // prepare the environment variables
             QStringList env;
             env.append("NPACKD_PACKAGE_NAME");
-            env.append(this->package);
+            env.append(this->getPackage());
             env.append("NPACKD_PACKAGE_VERSION");
             env.append(this->version.getVersionString());
             env.append("NPACKD_CL");
@@ -351,12 +320,13 @@ void PackageVersion::uninstall(Job* job)
             if (!rjob->getErrorMessage().isEmpty())
                 job->setErrorMessage(rjob->getErrorMessage());
             else {
-                setPath("");
+                Repository::getDefault()->removeInstalledPackageVersion(this);
             }
             delete rjob;
         }
 
-        if (this->package == "com.googlecode.windows-package-manager.NpackdCL") {
+        if (this->getPackage() ==
+                "com.googlecode.windows-package-manager.NpackdCL") {
             job->setHint("Updating NPACKD_CL");
             Repository::getDefault()->updateNpackdCLEnvVar();
         }
@@ -436,7 +406,7 @@ QString PackageVersion::planInstallation(QList<PackageVersion*>& installed,
         bool depok = false;
         for (int j = 0; j < installed.size(); j++) {
             PackageVersion* pv = installed.at(j);
-            if (pv != this && pv->package == d->package &&
+            if (pv != this && pv->getPackage() == d->package &&
                     d->test(pv->version)) {
                 depok = true;
                 break;
@@ -486,11 +456,13 @@ QString PackageVersion::planUninstallation(QList<PackageVersion*>& installed,
             if (pv != this) {
                 for (int j = 0; j < pv->dependencies.count(); j++) {
                     Dependency* d = pv->dependencies.at(j);
-                    if (d->package == this->package && d->test(this->version)) {
+                    if (d->package == this->getPackage() &&
+                            d->test(this->version)) {
                         int n = 0;
                         for (int k = 0; k < installed.count(); k++) {
                             PackageVersion* pv2 = installed.at(k);
-                            if (d->package == pv2->package && d->test(pv2->version)) {
+                            if (d->package == pv2->getPackage() &&
+                                    d->test(pv2->version)) {
                                 n++;
                             }
                             if (n > 1)
@@ -622,15 +594,7 @@ QString PackageVersion::downloadAndComputeSHA1(Job* job)
 
 QString PackageVersion::getPackageTitle() const
 {
-    Repository* rep = Repository::getDefault();
-
-    QString pn;
-    Package* package = rep->findPackage(this->package);
-    if (package)
-        pn = package->title;
-    else
-        pn = this->package;
-    return pn;
+    return package_; /* TODO: ->title; */
 }
 
 bool PackageVersion::createShortcuts(const QString& dir, QString *errMsg)
@@ -638,7 +602,8 @@ bool PackageVersion::createShortcuts(const QString& dir, QString *errMsg)
     QString packageTitle = this->getPackageTitle();
 
     QDir d(dir);
-    Package* p = Repository::getDefault()->findPackage(this->package);
+    Repository* r = Repository::getDefault();
+    Package* p = r->findPackage(this->package_);
     for (int i = 0; i < this->importantFiles.count(); i++) {
         QString ifile = this->importantFiles.at(i);
         QString ift = this->importantFilesTitles.at(i);
@@ -679,7 +644,7 @@ bool PackageVersion::createShortcuts(const QString& dir, QString *errMsg)
         if (p)
             desc = p->description;
         if (desc.isEmpty())
-            desc = this->package;
+            desc = this->getPackage();
         HRESULT r = WPMUtils::createLink(
                 (WCHAR*) path.replace('/', '\\').utf16(),
                 (WCHAR*) from.utf16(),
@@ -692,6 +657,9 @@ bool PackageVersion::createShortcuts(const QString& dir, QString *errMsg)
             return false;
         }
     }
+
+    delete p;
+
     return true;
 }
 
@@ -710,7 +678,10 @@ void PackageVersion::install(Job* job, const QString& where)
 {
     job->setHint("Preparing");
 
-    if (installed() || isExternal()) {
+    Repository* rep = Repository::getDefault();
+    InstalledPackageVersion* ipv = rep->findInstalledPackageVersion(this);
+
+    if (ipv) {
         job->setProgress(1);
         job->complete();
         return;
@@ -915,7 +886,7 @@ void PackageVersion::install(Job* job, const QString& where)
 
             QStringList env;
             env.append("NPACKD_PACKAGE_NAME");
-            env.append(this->package);
+            env.append(this->getPackage());
             env.append("NPACKD_PACKAGE_VERSION");
             env.append(this->version.getVersionString());
             env.append("NPACKD_CL");
@@ -933,18 +904,21 @@ void PackageVersion::install(Job* job, const QString& where)
             } else {
                 QString path = d.absolutePath();
                 path.replace('/', '\\');
-                setPath(path);
-                setExternal(false);
+                InstalledPackageVersion* ipv = new InstalledPackageVersion(
+                        this->package_, this->version, path, false);
+                Repository::getDefault()->installedPackageVersions.append(ipv);
             }
             delete exec;
         } else {
             QString path = d.absolutePath();
             path.replace('/', '\\');
-            setPath(path);
-            setExternal(false);
+            InstalledPackageVersion* ipv = new InstalledPackageVersion(
+                    this->package_, this->version, path, false);
+            Repository::getDefault()->installedPackageVersions.append(ipv);
         }
 
-        if (this->package == "com.googlecode.windows-package-manager.NpackdCL") {
+        if (this->getPackage() ==
+                "com.googlecode.windows-package-manager.NpackdCL") {
             job->setHint("Updating NPACKD_CL");
             Repository::getDefault()->updateNpackdCLEnvVar();
         }
@@ -1003,13 +977,16 @@ void PackageVersion::install(Job* job, const QString& where)
 
 void PackageVersion::addDependencyVars(QStringList* vars)
 {
+    Repository* rep = Repository::getDefault();
     for (int i = 0; i < this->dependencies.count(); i++) {
         Dependency* d = this->dependencies.at(i);
         if (!d->var.isEmpty()) {
             vars->append(d->var);
             PackageVersion* pv = d->findHighestInstalledMatch();
             if (pv) {
-                vars->append(pv->getPath());
+                InstalledPackageVersion* ipv =
+                        rep->findInstalledPackageVersion(pv);
+                vars->append(ipv->ipath);
             } else {
                 // this could happen if a package was un-installed manually
                 // without Npackd or the repository has changed after this
@@ -1039,8 +1016,13 @@ void PackageVersion::unzip(Job* job, QString zipfile, QString outputdir)
         char* block = new char[blockSize];
         int i = 0;
         for (bool more = zip.goToFirstFile(); more; more = zip.goToNextFile()) {
-            file.open(QIODevice::ReadOnly);
             QString name = zip.getCurrentFileName();
+            if (!file.open(QIODevice::ReadOnly)) {
+                job->setErrorMessage(QString("Error unzipping the file %1: Error %2 in %3").
+                        arg(zipfile).arg(file.getZipError()).
+                        arg(name));
+                break;
+            }
             name.prepend(outputdir);
             QFile meminfo(name);
             QFileInfo infofile(meminfo);
@@ -1105,26 +1087,377 @@ QString PackageVersion::saveFiles(const QDir& d)
     return res;
 }
 
+PackageVersionHandle PackageVersion::getHandle() const
+{
+    return PackageVersionHandle(this->package_, this->version);
+}
+
+QString PackageVersion::serialize() const
+{
+    QDomDocument doc;
+    QDomElement version = doc.createElement("version");
+    doc.appendChild(version);
+    version.setAttribute("name", this->version.getVersionString());
+    version.setAttribute("package", this->package_);
+    if (this->type == 1)
+        version.setAttribute("type", "one-file");
+    for (int i = 0; i < this->importantFiles.count(); i++) {
+        QDomElement importantFile = doc.createElement("important-file");
+        version.appendChild(importantFile);
+        importantFile.setAttribute("path", this->importantFiles.at(i));
+        importantFile.setAttribute("title", this->importantFilesTitles.at(i));
+    }
+    for (int i = 0; i < this->files.count(); i++) {
+        QDomElement file = doc.createElement("file");
+        version.appendChild(file);
+        file.setAttribute("path", this->files.at(i)->path);
+        file.appendChild(doc.createTextNode(files.at(i)->content));
+    }
+    if (this->download.isValid()) {
+        XMLUtils::addTextTag(version, "url", this->download.toString());
+    }
+    if (!this->sha1.isEmpty()) {
+        XMLUtils::addTextTag(version, "sha1", this->sha1);
+    }
+    for (int i = 0; i < this->dependencies.count(); i++) {
+        Dependency* d = this->dependencies.at(i);
+        QDomElement dependency = doc.createElement("dependency");
+        version.appendChild(dependency);
+        dependency.setAttribute("package", d->package);
+        dependency.setAttribute("versions", d->versionsToString());
+        if (!d->var.isEmpty())
+            XMLUtils::addTextTag(dependency, "variable", d->var);
+    }
+    if (!this->msiGUID.isEmpty()) {
+        XMLUtils::addTextTag(version, "detect-msi", this->msiGUID);
+    }
+    for (int i = 0; i < detectFiles.count(); i++) {
+        DetectFile* df = this->detectFiles.at(i);
+        QDomElement detectFile = doc.createElement("detect-file");
+        version.appendChild(detectFile);
+        XMLUtils::addTextTag(detectFile, "path", df->path);
+        XMLUtils::addTextTag(detectFile, "sha1", df->sha1);
+    }
+
+    return doc.toString(4);
+}
+
+PackageVersionFile* PackageVersion::createPackageVersionFile(QDomElement* e,
+        QString* err)
+{
+    *err = "";
+
+    QString path = e->attribute("path");
+    QString content = e->firstChild().nodeValue();
+    PackageVersionFile* a = new PackageVersionFile(path, content);
+
+    return a;
+}
+
+PackageVersion* PackageVersion::createPackageVersion(QDomElement* e, QString* err)
+{
+    Repository* rep = Repository::getDefault();
+
+    *err = "";
+
+    // qDebug() << "Repository::createPackageVersion.1" << e->attribute("package");
+
+    QString packageName = e->attribute("package").trimmed();
+    if (packageName.isEmpty()) {
+        err->append("Attribute 'package' is missing in <version>");
+    }
+
+    PackageVersion* a = 0;
+    if (err->isEmpty()) {
+        a = new PackageVersion(packageName);
+    }
+
+    if (err->isEmpty()) {
+        QString url = XMLUtils::getTagContent(*e, "url").trimmed();
+        if (!url.isEmpty()) {
+            a->download.setUrl(url);
+            QUrl d = a->download;
+            if (!d.isValid() || d.isRelative() ||
+                    (d.scheme() != "http" && d.scheme() != "https")) {
+                err->append(QString("Not a valid download URL for %1: %2").
+                        arg(a->getPackage()).arg(url));
+            }
+        }
+    }
+
+    if (err->isEmpty()) {
+        QString name = e->attribute("name", "1.0").trimmed();
+        if (a->version.setVersion(name)) {
+            a->version.normalize();
+        } else {
+            err->append(QString("Not a valid version for %1: %2").
+                    arg(a->getPackage()).arg(name));
+        }
+    }
+
+    if (err->isEmpty()) {
+        a->sha1 = XMLUtils::getTagContent(*e, "sha1").trimmed().toLower();
+        if (!a->sha1.isEmpty()) {
+            *err = WPMUtils::validateSHA1(a->sha1);
+            if (!err->isEmpty()) {
+                err->prepend(QString("Invalid SHA1 for %1: ").
+                        arg(a->toString()));
+            }
+        }
+    }
+
+    if (err->isEmpty()) {
+        QString type = e->attribute("type", "zip").trimmed();
+        if (type == "one-file")
+            a->type = 1;
+        else if (type == "" || type == "zip")
+            a->type = 0;
+        else {
+            err->append(QString("Wrong value for the attribute 'type' for %1: %3").
+                    arg(a->toString()).arg(type));
+        }
+    }
+
+    if (err->isEmpty()) {
+        QDomNodeList ifiles = e->elementsByTagName("important-file");
+        for (int i = 0; i < ifiles.count(); i++) {
+            QDomElement e = ifiles.at(i).toElement();
+            QString p = e.attribute("path").trimmed();
+            if (p.isEmpty())
+                p = e.attribute("name").trimmed();
+
+            if (p.isEmpty()) {
+                err->append(QString("Empty 'path' attribute value for <important-file> for %1").
+                        arg(a->toString()));
+                break;
+            }
+
+            if (a->importantFiles.contains(p)) {
+                err->append(QString("More than one <important-file> with the same 'path' attribute %1 for %2").
+                        arg(p).arg(a->toString()));
+                break;
+            }
+
+            a->importantFiles.append(p);
+
+            QString title = e.attribute("title").trimmed();
+            if (title.isEmpty()) {
+                err->append(QString("Empty 'title' attribute value for <important-file> for %1").
+                        arg(a->toString()));
+                break;
+            }
+
+            a->importantFilesTitles.append(title);
+        }
+    }
+
+    if (err->isEmpty()) {
+        QDomNodeList files = e->elementsByTagName("file");
+        for (int i = 0; i < files.count(); i++) {
+            QDomElement e = files.at(i).toElement();
+            PackageVersionFile* pvf = createPackageVersionFile(&e, err);
+            if (pvf) {
+                a->files.append(pvf);
+            } else {
+                break;
+            }
+        }
+    }
+
+    if (err->isEmpty()) {
+        for (int i = 0; i < a->files.count() - 1; i++) {
+            PackageVersionFile* fi = a->files.at(i);
+            for (int j = i + 1; j < a->files.count(); j++) {
+                PackageVersionFile* fj = a->files.at(j);
+                if (fi->path == fj->path) {
+                    err->append(QString("Duplicate <file> entry for %1 in %2").
+                            arg(fi->path).arg(a->toString()));
+                    goto out;
+                }
+            }
+        }
+    out:;
+    }
+
+    if (err->isEmpty()) {
+        QDomNodeList detectFiles = e->elementsByTagName("detect-file");
+        for (int i = 0; i < detectFiles.count(); i++) {
+            QDomElement e = detectFiles.at(i).toElement();
+            DetectFile* df = createDetectFile(&e, err);
+            if (df) {
+                a->detectFiles.append(df);
+            } else {
+                err->prepend(QString("Invalid <detect-file> for %1: ").
+                        arg(a->toString()));
+                break;
+            }
+        }
+    }
+
+    if (err->isEmpty()) {
+        for (int i = 0; i < a->detectFiles.count() - 1; i++) {
+            DetectFile* fi = a->detectFiles.at(i);
+            for (int j = i + 1; j < a->detectFiles.count(); j++) {
+                DetectFile* fj = a->detectFiles.at(j);
+                if (fi->path == fj->path) {
+                    err->append(QString("Duplicate <detect-file> entry for %1 in %2").
+                            arg(fi->path).arg(a->toString()));
+                    goto out2;
+                }
+            }
+        }
+    out2:;
+    }
+
+    if (err->isEmpty()) {
+        QDomNodeList deps = e->elementsByTagName("dependency");
+        for (int i = 0; i < deps.count(); i++) {
+            QDomElement e = deps.at(i).toElement();
+            Dependency* d = createDependency(&e);
+            if (d)
+                a->dependencies.append(d);
+        }
+    }
+
+    if (err->isEmpty()) {
+        for (int i = 0; i < a->dependencies.count() - 1; i++) {
+            Dependency* fi = a->dependencies.at(i);
+            for (int j = i + 1; j < a->dependencies.count(); j++) {
+                Dependency* fj = a->dependencies.at(j);
+                if (fi->autoFulfilledIf(*fj) ||
+                        fj->autoFulfilledIf(*fi)) {
+                    err->append(QString("Duplicate <dependency> for %1 in %2").
+                            arg(fi->package).arg(a->toString()));
+                    goto out3;
+                }
+            }
+        }
+    out3:;
+    }
+
+    if (err->isEmpty()) {
+        a->msiGUID = XMLUtils::getTagContent(*e, "detect-msi").trimmed().
+                toLower();
+        if (!a->msiGUID.isEmpty()) {
+            if (a->msiGUID.length() != 38) {
+                err->append(QString("Wrong MSI GUID for %1: %3").
+                        arg(a->toString()).arg(a->msiGUID));
+            } else {
+                for (int i = 0; i < a->msiGUID.length(); i++) {
+                    QChar c = a->msiGUID.at(i);
+                    bool valid;
+                    if (i == 9 || i == 14 || i == 19 || i == 24) {
+                        valid = c == '-';
+                    } else if (i == 0) {
+                        valid = c == '{';
+                    } else if (i == 37) {
+                        valid = c == '}';
+                    } else {
+                        valid = (c >= '0' && c <= '9') ||
+                                (c >= 'a' && c <= 'f') ||
+                                (c >= 'A' && c <= 'F');
+                    }
+
+                    if (!valid) {
+                        err->append(QString("Wrong MSI GUID for %1: %3").
+                                arg(a->toString()).
+                                arg(a->msiGUID));
+                        break;
+                    }
+                }
+            }
+        }
+    }
+
+    if (err->isEmpty())
+        return a;
+    else {
+        delete a;
+        return 0;
+    }
+}
+
+DetectFile* PackageVersion::createDetectFile(QDomElement* e, QString* err)
+{
+    *err = "";
+
+    DetectFile* a = new DetectFile();
+    a->path = XMLUtils::getTagContent(*e, "path").trimmed();
+    a->path.replace('/', '\\');
+    if (a->path.isEmpty()) {
+        err->append("Empty tag <path> under <detect-file>");
+    }
+
+    if (err->isEmpty()) {
+        a->sha1 = XMLUtils::getTagContent(*e, "sha1").trimmed().toLower();
+        *err = WPMUtils::validateSHA1(a->sha1);
+        if (!err->isEmpty()) {
+            err->prepend("Wrong SHA1 in <detect-file>: ");
+        }
+    }
+
+    if (err->isEmpty())
+        return a;
+    else {
+        delete a;
+        return 0;
+    }
+}
+
+Dependency* PackageVersion::createDependency(QDomElement* e)
+{
+    // qDebug() << "Repository::createDependency";
+
+    QString package = e->attribute("package").trimmed();
+
+    Dependency* d = new Dependency();
+    d->package = package;
+
+    d->var = XMLUtils::getTagContent(*e, "variable");
+
+    if (d->setVersions(e->attribute("versions")))
+        return d;
+    else {
+        delete d;
+        return 0;
+    }
+}
+
+PackageVersion* PackageVersion::deserialize(const QString& xml, QString* err)
+{
+    QDomDocument doc;
+    int errorLine, errorColumn;
+    PackageVersion* pv = 0;
+    if (doc.setContent(xml, err, &errorLine, &errorColumn)) {
+        QDomElement e = doc.documentElement();
+        pv = createPackageVersion(&e, err);
+    } else {
+        *err = QString("XML parsing failed at line %L1, column %L2: %3").
+                arg(errorLine).arg(errorColumn).arg(*err);
+    }
+    return pv;
+}
+
 QString PackageVersion::getStatus() const
 {
     QString status;
-    bool installed = this->installed();
     Repository* r = Repository::getDefault();
+    InstalledPackageVersion* ipv = r->findInstalledPackageVersion(this);
     PackageVersion* newest = r->findNewestInstallablePackageVersion(
-            this->package);
-    if (installed) {
-        if (isExternal())
+            this->getPackage());
+    if (ipv) {
+        if (ipv->external_)
             status = "installed externally";
         else
             status = "installed";
     }
-    if (installed && newest != 0 && version.compare(newest->version) < 0) {
-        if (!newest->installed() && !isExternal())
+    if (ipv && newest != 0 && version.compare(newest->version) < 0) {
+        if (!newest->installed() && !ipv->external_)
             status += ", updateable";
         else
             status += ", obsolete";
     }
-    if (locked) {
+    if (isLocked()) {
         if (!status.isEmpty())
             status = ", " + status;
         status = "locked" + status;
@@ -1134,10 +1467,13 @@ QString PackageVersion::getStatus() const
 
 QStringList PackageVersion::findLockedFiles()
 {
+    Repository* rep = Repository::getDefault();
+    InstalledPackageVersion* ipv = rep->findInstalledPackageVersion(this);
+
     QStringList r;
-    if (installed()) {
+    if (ipv) {
         QStringList files = WPMUtils::getProcessFiles();
-        QString dir(ipath);
+        QString dir(ipv->ipath);
         for (int i = 0; i < files.count(); i++) {
             if (WPMUtils::isUnder(files.at(i), dir)) {
                 r.append(files.at(i));

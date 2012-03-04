@@ -139,10 +139,10 @@ public:
     bool isCancelled();
 
     /**
-     * @param nsteps number of steps in this job for the created sub-job
+     * @param part 0..1 part of this for the created sub-job
      * @return child job with parent=this
      */
-    Job* newSubJob(double nsteps);
+    Job* newSubJob(double part);
 
     /**
      * @return progress of this job (0...1)

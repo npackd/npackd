@@ -12,7 +12,6 @@ SOURCES += main.cpp \
     downloader.cpp \
     wpmutils.cpp \
     package.cpp \
-    progressdialog.cpp \
     packageversionfile.cpp \
     version.cpp \
     dependency.cpp \
@@ -29,7 +28,11 @@ SOURCES += main.cpp \
     progressframe.cpp \
     messageframe.cpp \
     xmlutils.cpp \
-    settingsframe.cpp
+    settingsframe.cpp \
+    installedpackageversion.cpp \
+    packageversionhandle.cpp \
+    abstractrepository.cpp \
+    packageframe.cpp
 HEADERS += mainwindow.h \
     packageversion.h \
     repository.h \
@@ -37,7 +40,6 @@ HEADERS += mainwindow.h \
     downloader.h \
     wpmutils.h \
     package.h \
-    progressdialog.h \
     packageversionfile.h \
     version.h \
     dependency.h \
@@ -57,15 +59,19 @@ HEADERS += mainwindow.h \
     taskbar.h \
     xmlutils.h \
     settingsframe.h \
-    mstask.h
+    mstask.h \
+    installedpackageversion.h \
+    packageversionhandle.h \
+    abstractrepository.h \
+    packageframe.h
 FORMS += mainwindow.ui \
-    progressdialog.ui \
     packageversionform.ui \
     licenseform.ui \
     progressframe.ui \
     messageframe.ui \
-    settingsframe.ui
-INCLUDEPATH += ..\\quazip\\quazip ..\\zlib
+    settingsframe.ui \
+    packageframe.ui
+INCLUDEPATH += ..\\quazip\\quazip ..\\zlib ..\\xapian-core\\include
 LIBS += ..\\quazip\\quazip\\release\\libquazip.a \
     ..\\zlib\\libz.a \
     -lole32 \
@@ -74,7 +80,9 @@ LIBS += ..\\quazip\\quazip\\release\\libquazip.a \
     -lpsapi \
     -lshell32 \
     -lversion \
-    ..\\wpmcpp\\libmsi.a
+    ..\\wpmcpp\\libmsi.a \
+    -L..\\xapian-core\\.libs \
+    -lxapian
 CONFIG += embed_manifest_exe
 RC_FILE = wpmcpp.rc
 RESOURCES += wpmcpp.qrc

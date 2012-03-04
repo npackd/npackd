@@ -1,3 +1,5 @@
+#include <xapian.h>
+
 #include "settingsframe.h"
 #include "ui_settingsframe.h"
 
@@ -61,15 +63,14 @@ void SettingsFrame::on_buttonBox_clicked(QAbstractButton *button)
 
     Repository* r = Repository::getDefault();
 
-    for (int i = 0; i < r->packageVersions.size(); i++) {
-        PackageVersion* pv = r->packageVersions.at(i);
-        if (pv->isLocked()) {
-            QString msg("Cannot change settings now. "
-                    "The package %1 is locked by a "
-                    "currently running installation/removal.");
-            mw->addErrorMessage(msg.arg(pv->toString()));
-            return;
-        }
+    if (r->locked.count() > 0) {
+        PackageVersionHandle* pvh = r->locked.at(0);
+        PackageVersion* pv = r->findPackageVersion(pvh->package, pvh->version);
+        QString msg("Cannot change settings now. "
+                "The package %1 is locked by a "
+                "currently running installation/removal.");
+        mw->addErrorMessage(msg.arg(pv->toString()));
+        return;
     }
 
     QStringList list = getRepositoryURLs();

@@ -31,7 +31,9 @@ public:
 
     Version& operator =(const Version& v);
 
-    bool operator !=(const Version& v);
+    bool operator !=(const Version& v) const;
+    bool operator ==(const Version& v) const;
+    bool operator <(const Version& v) const;
 
     ~Version();
 

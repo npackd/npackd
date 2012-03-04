@@ -11,19 +11,9 @@ Dependency::Dependency()
     this->max.setVersion(1, 0);
 }
 
-QString Dependency::toString()
+QString Dependency::versionsToString() const
 {
     QString res;
-
-    Repository* r = Repository::getDefault();
-    Package* p = r->findPackage(this->package);
-    if (p)
-        res.append(p->title);
-    else
-        res.append(package);
-
-    res.append(" ");
-
     if (minIncluded)
         res.append('[');
     else
@@ -39,6 +29,26 @@ QString Dependency::toString()
         res.append(']');
     else
         res.append(')');
+    return res;
+}
+
+QString Dependency::toString()
+{
+    QString res;
+
+    Repository* r = Repository::getDefault();
+    Package* p = r->findPackage(this->package);
+    if (p) {
+        res.append(p->title);
+        delete p;
+    } else
+        res.append(package);
+
+    res.append(" ");
+
+    res.append(this->versionsToString());
+
+    delete p;
 
     return res;
 }
@@ -46,12 +56,11 @@ QString Dependency::toString()
 bool Dependency::isInstalled()
 {
     Repository* r = Repository::getDefault();
-    QList<PackageVersion*> installed = r->getInstalled();
+    QList<InstalledPackageVersion*> installed = r->installedPackageVersions;
     bool res = false;
     for (int i = 0; i < installed.count(); i++) {
-        PackageVersion* pv = installed.at(i);
-        if (pv->package == this->package && pv->installed() &&
-                this->test(pv->version)) {
+        InstalledPackageVersion* ipv = installed.at(i);
+        if (ipv->package_ == this->package && this->test(ipv->version)) {
             res = true;
             break;
         }
@@ -65,7 +74,8 @@ void Dependency::findAllInstalledMatches(QList<PackageVersion*>& res)
     QList<PackageVersion*> installed = r->getInstalled();
     for (int i = 0; i < installed.count(); i++) {
         PackageVersion* pv = installed.at(i);
-        if (pv->package == this->package && this->test(pv->version)) {
+        if (pv->getPackage() == this->package &&
+                this->test(pv->version)) {
             res.append(pv);
         }
     }
@@ -149,15 +159,19 @@ PackageVersion* Dependency::findBestMatchToInstall(
 {
     Repository* r = Repository::getDefault();
     PackageVersion* res = 0;
-    for (int i = 0; i < r->packageVersions.count(); i++) {
-        PackageVersion* pv = r->packageVersions.at(i);
-        if (pv->package == this->package && this->test(pv->version) &&
-                !pv->isExternal() && pv->download.isValid() &&
+    QList<PackageVersion*> list = r->getPackageVersions(this->package);
+    for (int i = 0; i < list.count(); i++) {
+        PackageVersion* pv = list.at(i);
+        InstalledPackageVersion* ipv = r->findInstalledPackageVersion(pv);
+        if (this->test(pv->version) &&
+                !ipv && pv->download.isValid() &&
                 !avoid.contains(pv)) {
             if (res == 0 || pv->version.compare(res->version) > 0)
                 res = pv;
         }
     }
+    list.removeOne(res);
+    qDeleteAll(list);
     return res;
 }
 

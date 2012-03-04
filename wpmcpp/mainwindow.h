@@ -15,7 +15,6 @@
 
 #include "packageversion.h"
 #include "job.h"
-#include "progressdialog.h"
 #include "fileloader.h"
 #include "taskbar.h"
 
@@ -54,10 +53,19 @@ private:
     UINT taskbarMessageId;
     ITaskbarList3* taskbarInterface;
 
+    QList<Package*> packagesInTable;
+
     void addJobsTab();
     void showDetails();
     void updateIcons();
-    void updateActions();
+
+    void updateInstallAction();
+    void updateUninstallAction();
+    void updateUpdateAction();
+    void updateShowDetailsAction();
+    void updateGotoPackageURLAction();
+    void updateTestDownloadSiteAction();
+
     bool isUpdateEnabled(PackageVersion* pv);
     void setMenuAccelerators();
     void setActionAccelerators(QWidget* w);
@@ -69,41 +77,16 @@ private:
     void fillList();
 
     /**
-     * This method returns a non-null PackageVersion* if something is selected
-     * in the list or package details are shown in the current tab.
+     * This method returns all selected Package* items
      *
-     * @return selected package version or 0.
+     * @return selected packages
      */
-    PackageVersion* getSelectedPackageVersion();
+    QList<Package*> getSelectedPackagesInTable();
 
     /**
-     * This method returns a all current PackageVersion* if
-     * something is selected
-     * in the list or package details are shown in the current tab.
-     *
-     * @return selected package versions
+     * @param p list of packages that should be selected
      */
-    QList<PackageVersion*> getSelectedPackageVersions();
-
-    /**
-     * This method returns a non-null PackageVersion* if something is selected
-     * in the list.
-     *
-     * @return selected package version or 0.
-     */
-    PackageVersion* getSelectedPackageVersionInTable();
-
-    /**
-     * This method returns all selected PackageVersion* items
-     *
-     * @return selected package versions
-     */
-    QList<PackageVersion*> getSelectedPackageVersionsInTable();
-
-    /**
-     * @param pv a version or 0
-     */
-    void selectPackageVersion(PackageVersion* pv);
+    void selectPackages(const QList<Package*>& p);
 
     /**
      * Adds an entry in the "Progress" tab and monitors a task.
@@ -125,10 +108,10 @@ public:
     static QMap<QString, QIcon> icons;
 
     /**
-     * @param pv a package versioin
+     * @param p a package or 0
      * @return icon for the specified package
      */
-    static QIcon getPackageVersionIcon(PackageVersion* pv);
+    static QIcon getPackageIcon(Package* p);
 
     /**
      * @return the only instance of this class
@@ -148,6 +131,17 @@ public:
 
     MainWindow(QWidget *parent = 0);
     ~MainWindow();
+
+    /**
+     * Returns selected objects.
+     */
+    QList<QObject*> getSelectedObjects() const;
+
+    /**
+     * Updates actions (enabled/disabled state) according to the currently
+     * selected objects.
+     */
+    void updateActions();
 
     /**
      * Adds an error message panel.
@@ -177,18 +171,6 @@ public:
     void prepare();
 
     /**
-     * Blocks until the job is completed. Shows an error
-     * message dialog if the job was completed with an
-     * error.
-     *
-     * @param job a job
-     * @return true if the job has completed successfully
-     *     (no error and not cancelled)
-     * @param title dialog title
-     */
-    bool waitFor(Job* job, const QString& title);
-
-    /**
      * Close all detail tabs (versions and licenses).
      */
     void closeDetailTabs();
@@ -205,6 +187,15 @@ public:
      * @param job a currently running and monitored job
      */
     void unregisterJob(Job* job);
+
+    /**
+     * Adds a new tab. The new tab will be automatically selected.
+     *
+     * @param w content of the new tab
+     * @param icon tab icon
+     * @param title tab title
+     */
+    void addTab(QWidget* w, const QIcon& icon, const QString& title);
 protected:
     void changeEvent(QEvent *e);
 

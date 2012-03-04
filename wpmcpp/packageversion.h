@@ -8,6 +8,7 @@
 #include "qurl.h"
 #include "qstringlist.h"
 #include <QSemaphore>
+#include <QDomElement>
 
 #include "job.h"
 #include "packageversionfile.h"
@@ -15,30 +16,20 @@
 #include "dependency.h"
 #include "installoperation.h"
 #include "detectfile.h"
+#include "packageversionhandle.h"
 
 class InstallOperation;
+class Package;
 
 /**
  * One version of a package (installed or not).
  */
-class PackageVersion
+class PackageVersion : public QObject
 {
-private:    
+    Q_OBJECT
+private:
     static QSemaphore httpConnections;
     static QSemaphore installationScripts;
-
-    /** installation directory or "", if the package version is not installed */
-    QString ipath;
-
-    /**
-     * If true, this package version is locked and cannot be
-     * installed/uninstalled.
-     */
-    volatile bool locked;
-
-    QString fullText;
-
-    bool external_;
 
     void unzip(Job* job, QString zipfile, QString outputdir);
     bool createShortcuts(const QString& dir, QString* errMsg);
@@ -48,6 +39,11 @@ private:
             const QStringList& env);
     void deleteShortcuts(const QString& dir,
             Job* job, bool menu, bool desktop, bool quickLaunch);
+    static PackageVersionFile* createPackageVersionFile(QDomElement* e,
+            QString* err);
+    static Dependency* createDependency(QDomElement* e);
+    static DetectFile* createDetectFile(QDomElement* e, QString* err);
+
     /**
      * Deletes a directory. If something cannot be deleted, it waits and
      * tries to delete the directory again. Moves the directory to .Trash if
@@ -67,12 +63,31 @@ private:
 
     void emitStatusChanged();
     void addDependencyVars(QStringList* vars);
+
+    explicit PackageVersion(QObject *parent = 0);
 public:
+    /**
+     * @param e version XML element
+     * @param err error message will be stored here
+     * @return created PackageVersion
+     */
+    static PackageVersion* createPackageVersion(QDomElement* e,
+            QString* err);
+
+    /**
+     * @param xml XML created by serialize()
+     * @param err error message will be stored here
+     * @return created PackageVersion
+     */
+    static PackageVersion* deserialize(const QString& xml, QString* err);
+
     /** package version */
     Version version;
 
-    /** complete package name like net.sourceforge.NotepadPlusPlus */
-    QString package;
+    /**
+     * full package name
+     */
+    QString package_;
 
     /** important files (shortcuts for these will be created in the menu) */
     QStringList importantFiles;
@@ -112,8 +127,14 @@ public:
      */
     QString msiGUID;
 
+    /** do not use */
     PackageVersion();
+
+    /**
+     * @param package package this version refers to
+     */
     PackageVersion(const QString& package);
+
     virtual ~PackageVersion();
 
     /**
@@ -133,37 +154,6 @@ public:
      *     or removed
      */
     bool isLocked() const;
-
-    /**
-     * @return this value is true for packages not installed through WPM,
-     * but detected
-     * later. Those packages cannot be uninstalled, but are used for
-     * dependencies.
-     */
-    bool isExternal() const;
-
-    /**
-     * @param e true = externally installed
-     */
-    void setExternal(bool e);
-
-    /**
-     * Loads the information about this package from the Windows registry.
-     */
-    void loadFromRegistry();
-
-    /**
-     * @return installation path or "" if the package is not installed
-     */
-    QString getPath();
-
-    /**
-     * Changes the installation path for this package. This method should only
-     * be used if the package was detected.
-     *
-     * @param path installation path
-     */
-    void setPath(const QString& path);
 
     /**
      * Renames the directory for this package to a temporary name and then
@@ -186,6 +176,11 @@ public:
      * @return e.g. ".exe" or ".zip". Never returns an empty string
      */
     QString getFileExtension();
+
+    /**
+     * @return true if this package version could be updated
+     */
+    bool isUpdateEnabled() const;
 
     /**
      * Downloads the package.
@@ -228,6 +223,11 @@ public:
      * @return package title
      */
     QString getPackageTitle() const;
+
+    /**
+     * @return the corresponding package definition
+     */
+    QString getPackage() const;
 
     /**
      * @return only the last part of the package name (without a dot)
@@ -280,8 +280,16 @@ public:
      * @return status like "locked, installed"
      */
     QString getStatus() const;
-};
 
-Q_DECLARE_METATYPE(PackageVersion);
+    /**
+     * @return XML representation of this package version
+     */
+    QString serialize() const;
+
+    /**
+     * @return handle for this version
+     */
+    PackageVersionHandle getHandle() const;
+};
 
 #endif // PACKAGEVERSION_H
