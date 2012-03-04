@@ -220,7 +220,6 @@ PackageVersion* Repository::findNewestInstallablePackageVersion(
     PackageVersion* r = 0;
 
     QList<PackageVersion*> list = this->getPackageVersions(package);
-    // TODO: delete returned objects
     for (int i = 0; i < list.count(); i++) {
         PackageVersion* p = list.at(i);
         if (r == 0 || p->version.compare(r->version) > 0) {
@@ -228,6 +227,10 @@ PackageVersion* Repository::findNewestInstallablePackageVersion(
                 r = p;
         }
     }
+    list.removeOne(r);
+    qDeleteAll(list);
+
+    // TODO: delete returned object
     return r;
 }
 
@@ -246,6 +249,10 @@ PackageVersion* Repository::findNewestInstalledPackageVersion(
             }
         }
     }
+    list.removeOne(r);
+    qDeleteAll(list);
+
+    // TODO: delete returned objects
     return r;
 }
 
