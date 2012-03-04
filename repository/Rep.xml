@@ -10322,49 +10322,9 @@ rmdir "%name%"
     <!-- 
         MSI installer:
         https://www.google.com/intl/en/chrome/business/browser/#utm_campaign=c4b&utm_medium=link&utm_source=apps
+        Different versions are distributed from the same URL.
     -->    
-    <version name="16.0.912.63" package="com.google.Chrome" type="one-file">
-        <file path=".WPM\AddProperty.vbs">Option Explicit
-
-Const MSI_FILE = "GoogleChromeStandaloneEnterprise.msi"
-
-Dim installer, database, view
-
-Set installer = CreateObject("WindowsInstaller.Installer")
-Set database = installer.OpenDatabase(MSI_FILE, 1)
-
-Set view = database.OpenView("INSERT INTO Property (Property, Value) VALUES ('TARGETDIR', 'C:\Chrome')")
-view.Execute
-'Set view = database.OpenView("DELETE FROM Directory WHERE Directory='TARGETDIR'")
-'view.Execute
-'Set view = database.OpenView("UPDATE Directory SET Directory_Parent='TARGETDIR', DefaultDir='.' WHERE Directory='NodeRoot'")
-'view.Execute
-database.Commit
-
-Set database = Nothing
-Set installer = Nothing
-Set view = Nothing
-</file>
-        <file path=".WPM\Install.bat">.WPM\AddProperty.vbs
-if %errorlevel% neq 0 exit %errorlevel%
-
-if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
-set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.NpackdInstallerHelper" "--versions=[1, 1]"
-for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set npackdih=%%x
-call "%npackdih%\InstallMSI.bat" TARGETDIR
-</file>
-        <file path=".WPM\Uninstall.bat">if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
-set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.NpackdInstallerHelper" "--versions=[1, 1]"
-for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set npackdih=%%x
-call "%npackdih%\UninstallMSI.bat"
-</file>
-        <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1, 1]"/>
-        <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.15.7, 2)"/>
-        <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1, 1]"/>
-        <url>http://dl.google.com/tag/s/appguid%3D%7B8A69D345-D564-463C-AFF1-A69D9E530F96%7D%26iid%3D%7B36333618-4810-817C-43C9-E73483785C06%7D%26lang%3Den%26browser%3D4%26usagestats%3D0%26appname%3DGoogle%2520Chrome%26needsadmin%3DFalse/edgedl/chrome/install/GoogleChromeStandaloneEnterprise.msi</url>
-        <sha1>512a9d07fba5cc4f187384150a52342dc061c543</sha1>
-    </version>
-    <version name="16.0.912.77" package="com.google.Chrome" type="one-file">
+    <version name="17.0.963.56" package="com.google.Chrome" type="one-file">
         <file path=".WPM\AddProperty.vbs">Option Explicit
 
 Const MSI_FILE = "GoogleChromeStandaloneEnterprise.msi"
@@ -10403,7 +10363,6 @@ call "%npackdih%\UninstallMSI.bat"
         <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.15.7, 2)"/>
         <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1, 1]"/>
         <url>http://dl.google.com/tag/s/appguid%3D%7B8A69D345-D564-463C-AFF1-A69D9E530F96%7D%26iid%3D%7B0A558A36-0536-8B3F-0AE0-420553CC97F3%7D%26lang%3Den%26browser%3D4%26usagestats%3D0%26appname%3DGoogle%2520Chrome%26needsadmin%3DFalse/edgedl/chrome/install/GoogleChromeStandaloneEnterprise.msi</url>
-        <sha1>12EBB00DE1FAED9C61E2DFC7CF85F79F98F5BE9C</sha1>
     </version>
 
     <version name="4.2" package="no.itefix.CWRsyncServer" type="one-file">
