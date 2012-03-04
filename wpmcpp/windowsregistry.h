@@ -78,13 +78,22 @@ public:
     QString setDWORD(QString name, DWORD value);
 
     /**
-     * Writes a DWORD value.
+     * Writes a REG_SZ value.
      *
      * @param name name of the variable
      * @param value the value
      * @return error message
      */
     QString set(QString name, QString value);
+
+    /**
+     * Writes a REG_EXPAND_SZ value.
+     *
+     * @param name name of the variable
+     * @param value the value
+     * @return error message
+     */
+    QString setExpand(QString name, QString value);
 
     /**
      * Opens a key. The previously open key (if any) will be closed.

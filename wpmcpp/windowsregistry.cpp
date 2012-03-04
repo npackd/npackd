@@ -134,6 +134,24 @@ QString WindowsRegistry::set(QString name, QString value)
     return err;
 }
 
+QString WindowsRegistry::setExpand(QString name, QString value)
+{
+    QString err;
+
+    if (this->hkey == 0) {
+        return "No key is open";
+    }
+
+    DWORD valueSize = (value.length() + 1) * 2;
+    LONG r = RegSetValueEx(this->hkey,
+                (WCHAR*) name.utf16(), 0, REG_EXPAND_SZ, (BYTE*) value.utf16(),
+                valueSize);
+    if (r != ERROR_SUCCESS) {
+        WPMUtils::formatMessage(r, &err);
+    }
+    return err;
+}
+
 QStringList WindowsRegistry::list(QString* err)
 {
     err->clear();
