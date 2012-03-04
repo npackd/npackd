@@ -564,8 +564,8 @@ int App::update()
     PackageVersion* newest = 0;
     if (r == 0) {
         newest = rep->findNewestInstallablePackageVersion(
-            packages.at(0)->name);
-        if (newesti == 0) {
+                packages.at(0)->name);
+        if (newest == 0) {
             WPMUtils::outputTextConsole("No installable versions found\n", false);
             r = 1;
         }
@@ -600,6 +600,8 @@ int App::update()
         }
     }
 
+    delete newest;
+    delete newesti;
     qDeleteAll(packages);
 
     return r;

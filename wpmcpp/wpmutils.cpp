@@ -251,7 +251,8 @@ QString WPMUtils::validateSHA1(const QString& sha1)
     return "";
 }
 
-QString WPMUtils::setSystemEnvVar(const QString& name, const QString& value)
+QString WPMUtils::setSystemEnvVar(const QString& name, const QString& value,
+        bool expandVars)
 {
     WindowsRegistry wr;
     QString err = wr.open(HKEY_LOCAL_MACHINE,
@@ -260,7 +261,11 @@ QString WPMUtils::setSystemEnvVar(const QString& name, const QString& value)
     if (!err.isEmpty())
         return err;
 
-    err = wr.set(name, value);
+    if (expandVars)
+        err = wr.setExpand(name, value);
+    else
+        err = wr.set(name, value);
+
     if (!err.isEmpty())
         return err;
 
