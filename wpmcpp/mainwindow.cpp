@@ -1073,6 +1073,7 @@ void MainWindow::updateShowDetailsAction()
 
 void MainWindow::updateGotoPackageURLAction()
 {
+    Repository* rep = Repository::getDefault();
     QList<QObject*> sel = getSelectedObjects();
 
     bool enabled = sel.count() > 0 && !reloadRepositoriesThreadRunning;
@@ -1082,14 +1083,23 @@ void MainWindow::updateGotoPackageURLAction()
 
         QObject* obj = sel.at(i);
 
+        QUrl url;
         Package* p = dynamic_cast<Package*>(obj);
         if (!p) {
             PackageVersion* pv = dynamic_cast<PackageVersion*>(obj);
-            /* TODO if (pv)
-                p = pv->package_; */
+            if (pv) {
+                p = rep->findPackage(pv->package_);
+                if (p) {
+                    url.setUrl(p->url);
+                    delete p;
+                }
+            }
+        } else {
+            // TODO: check parsing mode in the whole program
+            url.setUrl(p->url);
         }
 
-        enabled = enabled && p && QUrl(p->url).isValid();
+        enabled = enabled && url.isValid();
     }
     this->ui->actionGotoPackageURL->setEnabled(enabled);
 }
@@ -1307,23 +1317,33 @@ void MainWindow::on_actionInstall_activated()
 
 void MainWindow::on_actionGotoPackageURL_triggered()
 {
+    Repository* rep = Repository::getDefault();
+
     QList<QObject*> sel = getSelectedObjects();
-    QList<Package*> packages;
+    QList<QString> packages;
     for (int i = 0; i < sel.count(); i++) {
         QObject* obj = sel.at(i);
 
+        QUrl url;
         Package* p = dynamic_cast<Package*>(obj);
         if (!p) {
             PackageVersion* pv = dynamic_cast<PackageVersion*>(obj);
-            /* TODO: if (pv)
-                p = pv->package_;*/
+            if (pv) {
+                p = rep->findPackage(pv->package_);
+                if (p) {
+                    url.setUrl(p->url);
+                    packages.append(p->name);
+                    delete p;
+                }
+            }
+        } else {
+            url.setUrl(p->url);
+            packages.append(p->name);
         }
 
-        if (p && !packages.contains(p)) {
-            QUrl url(p->url);
+        if (!packages.contains(p->name)) {
             if (url.isValid())
                 QDesktopServices::openUrl(url);
-            packages.append(p);
         }
     }
 }
