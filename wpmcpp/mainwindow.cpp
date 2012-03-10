@@ -414,8 +414,8 @@ void MainWindow::updateStatusInTable()
             installed.append(v.getVersionString());
         }
 
-        if (!installed.isEmpty() && !r->findInstalledPackageVersion(p->name,
-                pvs.last()))
+        if (!installed.isEmpty() && !pvs.isEmpty() &&
+                !r->findInstalledPackageVersion(p->name, pvs.last()))
             newItem->setBackgroundColor(QColor(255, 0xc7, 0xc7));
         else
             newItem->setBackgroundColor(QColor(255, 255, 255));
@@ -1304,6 +1304,7 @@ void MainWindow::on_actionInstall_activated()
         if (!pv) {
             Package* p = dynamic_cast<Package*>(obj);
             if (p) {
+                // TODO: destroy the returned object
                 pv = rep->findNewestInstallablePackageVersion(p->name);
             }
         }
@@ -1441,7 +1442,7 @@ void MainWindow::on_actionUpdate_triggered()
     } else
         addErrorMessage(err, err, true, QMessageBox::Critical);
 
-    qDeleteAll(packages);
+    // TODO: qDeleteAll(packages);
 }
 
 void MainWindow::on_actionTest_Download_Site_triggered()

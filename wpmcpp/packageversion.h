@@ -67,6 +67,14 @@ private:
     explicit PackageVersion(QObject *parent = 0);
 public:
     /**
+     * @param list of package versions
+     * @param pv a package version
+     * @return true if pv is pvs. Only the package name and version number will
+     *     be used to compare package versions.
+     */
+    static bool contains(QList<PackageVersion*>& pvs, PackageVersion* pv);
+
+    /**
      * @param e version XML element
      * @param err error message will be stored here
      * @return created PackageVersion

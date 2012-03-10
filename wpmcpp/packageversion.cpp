@@ -443,7 +443,7 @@ QString PackageVersion::planUninstallation(QList<PackageVersion*>& installed,
     // qDebug() << "PackageVersion::planUninstallation()" << this->toString();
     QString res;
 
-    if (!installed.contains(this))
+    if (!PackageVersion::contains(installed, this))
         return res;
 
     // this loop ensures that all the items in "installed" are processed
@@ -1152,6 +1152,19 @@ PackageVersionFile* PackageVersion::createPackageVersionFile(QDomElement* e,
     PackageVersionFile* a = new PackageVersionFile(path, content);
 
     return a;
+}
+
+bool PackageVersion::contains(QList<PackageVersion*>& pvs, PackageVersion* pv)
+{
+    bool res = false;
+    for (int i = 0; i < pvs.count(); i++) {
+        PackageVersion* b = pvs.at(i);
+        if (b->package_ == pv->package_ && b->version == pv->version) {
+            res = true;
+            break;
+        }
+    }
+    return res;
 }
 
 PackageVersion* PackageVersion::createPackageVersion(QDomElement* e, QString* err)
