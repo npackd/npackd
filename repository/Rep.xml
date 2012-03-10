@@ -2024,6 +2024,14 @@ yes - Print a string repeatedly.</description>
         <description>clipboard history</description>
         <license>org.bluemars.ClipXLicense</license>
     </package>
+    <package name="org.camstudio.CamStudio">
+        <title>CamStudio</title>
+        <url>http://camstudio.org/</url>
+        <description>presentation recording</description>
+        <!-- GPL -->
+        <icon>http://dl.dropbox.com/u/17046326/picons/org.camstudio.CamStudio.png</icon>
+        <license>org.gnu.GPLv2</license>
+    </package>
     <package name="org.camstudio.CamStudioInstaller">
         <title>CamStudio installer</title>
         <url>http://camstudio.org/</url>
@@ -10402,10 +10410,20 @@ rmdir "%name%"
         <sha1>9bf6d55014876fcf8370f975313f7d5c1d14be7c</sha1>
     </version>
 
-    <version name="2" package="org.camstudio.CamStudioInstaller" type="one-file">
-        <important-file path="CamStudio20.exe" title="Installer"/>
-        <url>http://www.camstudio.org/CamStudio20.exe</url>
-        <sha1>47f18cfbae451c51eab548d42712eb2b29402170</sha1>
+    <version name="2.6.294" package="org.camstudio.CamStudio" type="one-file">
+        <file path=".WPM\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x
+"%setup%" /SP- /VERYSILENT /SUPPRESSMSGBOXES /NOCANCEL /NORESTART /DIR="%CD%" /SAVEINF="%CD%\.WPM\InnoSetupInfo.ini" /LOG="%CD%\.WPM\InnoSetupInstall.log"
+set err=%errorlevel%
+type .WPM\InnoSetupInstall.log
+if %err% neq 0 exit %err%
+</file>
+        <file path=".WPM\Uninstall.bat">unins000.exe /VERYSILENT /SUPPRESSMSGBOXES /NORESTART /LOG="%CD%\.WPM\InnoSetupUninstall.log"
+set err=%errorlevel%
+type .WPM\InnoSetupUninstall.log
+if %err% neq 0 exit %err%
+</file>
+        <url>https://downloads.sourceforge.net/project/camstudio/stable/CamStudio_Setup_v2.6b_r294_%28build_24Oct2010%29.exe?ts=1331393165</url>
+        <sha1>33c76ab548bebdd7f6ea456273f05ae41e9eb368</sha1>
     </version>
 
     <!-- 
