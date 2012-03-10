@@ -1348,7 +1348,7 @@ void MainWindow::on_actionGotoPackageURL_triggered()
                 }
             }
         } else {
-            qDebug() << p->url;
+            // qDebug() << p->url;
             if (!packages.contains(p->name)) {
                 url.setUrl(p->url);
                 packages.append(p->name);
