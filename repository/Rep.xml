@@ -10628,6 +10628,19 @@ for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x
         <url>http://npackd.googlecode.com/files/org.mozilla.Firefox-10.0.1.exe</url>
         <sha1>b3dfabe4f3ab137f4c6fdbdda1cb32593b39adfa</sha1>
     </version>
+    <version name="10.0.2" package="org.mozilla.Firefox" type="one-file">
+        <important-file path="firefox.exe" title="Firefox"/>
+        <file path=".WPM\Install.bat">echo [Install] > .WPM\FF.ini
+echo InstallDirectoryPath=%CD% >> .WPM\FF.ini
+echo QuickLaunchShortcut=false >> .WPM\FF.ini
+echo DesktopShortcut=false >> .WPM\FF.ini
+for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x
+"%setup%" /INI="%CD%\.WPM\FF.ini"
+</file>
+        <file path=".WPM\Uninstall.bat">uninstall\helper.exe /S</file>
+        <url>http://npackd.googlecode.com/files/org.mozilla.Firefox-10.0.2.exe</url>
+        <sha1>c7edf62b92f24f60577e1afb909f823b2251655d</sha1>
+    </version>
 
     <version name="1.33" package="org.gexperts.GExpertsDelphi7Installer"
             type="one-file">
@@ -11627,6 +11640,25 @@ if %err% neq 0 exit %err%
 </file>
         <url>http://npackd.googlecode.com/files/org.libreoffice.LibreOffice-3.4.4.exe</url>
         <sha1>0898a91d560904454a07cf5e089ed65c828bfe08</sha1>
+        <dependency package="com.oracle.JRE" versions="[1.6, 2)"/>
+    </version>
+    <version name="3.5" package="org.libreoffice.LibreOffice" 
+            type="one-file">
+        <file path=".WPM\Install.bat">if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
+set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.NpackdInstallerHelper" "--versions=[1, 1]"
+for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set npackdih=%%x
+call "%npackdih%\InstallMSI.bat" TARGETDIR
+</file>
+        <file path=".WPM\Uninstall.bat">if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
+set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.NpackdInstallerHelper" "--versions=[1, 1]"
+for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set npackdih=%%x
+call "%npackdih%\UninstallMSI.bat"
+</file>
+        <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1, 1]"/>
+        <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.15.7, 2)"/>
+        <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1, 1]"/>
+        <url>https://downloads.sourceforge.net/project/npackd/org.libreoffice.LibreOffice-3.5.msi?ts=1331365756</url>
+        <sha1>e2508feb1b457ee534f56d11aa28ba2f2380aecd</sha1>
         <dependency package="com.oracle.JRE" versions="[1.6, 2)"/>
     </version>
 
