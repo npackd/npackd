@@ -594,7 +594,15 @@ QString PackageVersion::downloadAndComputeSHA1(Job* job)
 
 QString PackageVersion::getPackageTitle() const
 {
-    return package_; /* TODO: ->title; */
+    Repository* r = Repository::getDefault();
+    Package* p = r->findPackage(this->package_);
+    QString title;
+    if (p) {
+        title = p->title;
+        delete p;
+    } else
+        title = this->package_;
+    return title;
 }
 
 bool PackageVersion::createShortcuts(const QString& dir, QString *errMsg)
