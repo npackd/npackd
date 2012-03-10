@@ -432,7 +432,9 @@ QString Repository::indexUpdatePackageVersion(PackageVersion* pv)
 QString Repository::planUpdates(const QList<Package*> packages,
         QList<InstallOperation*>& ops)
 {
+    // TODO: destroy the returned objects
     QList<PackageVersion*> installed = getInstalled();
+
     QList<PackageVersion*> newest, newesti;
     QList<bool> used;
 

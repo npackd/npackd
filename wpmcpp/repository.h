@@ -279,8 +279,8 @@ public:
      * Finds all installed packages. This method lists all directories in the
      * installation directory and finds the corresponding package versions
      *
-     * @return the list of installed package versions (the objects should not
-     *     be freed)
+     * @return the list of installed package versions. The returned objects
+     *    should be freed)
      */
     QList<PackageVersion*> getInstalled();
 

@@ -1156,8 +1156,6 @@ PackageVersionFile* PackageVersion::createPackageVersionFile(QDomElement* e,
 
 PackageVersion* PackageVersion::createPackageVersion(QDomElement* e, QString* err)
 {
-    Repository* rep = Repository::getDefault();
-
     *err = "";
 
     // qDebug() << "Repository::createPackageVersion.1" << e->attribute("package");

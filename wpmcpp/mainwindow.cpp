@@ -135,8 +135,13 @@ ScanHardDrivesThread::ScanHardDrivesThread(Job *job)
 void ScanHardDrivesThread::run()
 {
     Repository* r = Repository::getDefault();
+
+    // TODO: destroy the returned objects
     QList<PackageVersion*> s1 = r->getInstalled();
+
     r->scanHardDrive(job);
+
+    // TODO: destroy the returned objects
     QList<PackageVersion*> s2 = r->getInstalled();
 
     for (int i = 0; i < s2.count(); i++) {
@@ -929,6 +934,8 @@ void MainWindow::on_actionUninstall_activated()
     QList<QObject*> sel = getSelectedObjects();
 
     QList<InstallOperation*> ops;
+
+    // TODO: destroy the returned objects
     QList<PackageVersion*> installed = Repository::getDefault()->getInstalled();
 
     QString err;
@@ -1282,8 +1289,11 @@ void MainWindow::on_actionInstall_activated()
     QList<QObject*> sel = getSelectedObjects();
 
     QList<InstallOperation*> ops;
+
+    // TODO: destroy the returned objects
     QList<PackageVersion*> installed =
             Repository::getDefault()->getInstalled();
+
     QList<PackageVersion*> avoid;
 
     QString err;
@@ -1404,14 +1414,17 @@ void MainWindow::on_actionUpdate_triggered()
         Package* p = dynamic_cast<Package*>(obj);
         if (!p) {
             PackageVersion* pv = dynamic_cast<PackageVersion*>(obj);
-            /* TODO: if (pv)
-                p = pv->package_; */
+            if (pv) {
+                p = r->findPackage(pv->package_);
+            }
+        } else {
+            p = r->findPackage(p->name);
         }
 
         // multiple versions of the same package could be selected in the table,
         // but only one should be updated
         if (p) {
-            if (!packages.contains(p))
+            // TODO: if (!packages.contains(p))
                 packages.append(p);
         } else {
             err = "Unknown objects selected";
@@ -1427,6 +1440,8 @@ void MainWindow::on_actionUpdate_triggered()
         process(ops);
     } else
         addErrorMessage(err, err, true, QMessageBox::Critical);
+
+    qDeleteAll(packages);
 }
 
 void MainWindow::on_actionTest_Download_Site_triggered()
