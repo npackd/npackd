@@ -71,7 +71,10 @@ bool Dependency::isInstalled()
 void Dependency::findAllInstalledMatches(QList<PackageVersion*>& res)
 {
     Repository* r = Repository::getDefault();
+
+    // TODO: destroy the returned objects
     QList<PackageVersion*> installed = r->getInstalled();
+
     for (int i = 0; i < installed.count(); i++) {
         PackageVersion* pv = installed.at(i);
         if (pv->getPackage() == this->package &&

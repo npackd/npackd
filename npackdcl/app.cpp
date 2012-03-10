@@ -686,8 +686,11 @@ int App::add()
             }
 
             QList<InstallOperation*> ops;
+
+            // TODO: destroy the returned objects
             QList<PackageVersion*> installed =
                     Repository::getDefault()->getInstalled();
+
             QList<PackageVersion*> avoid;
             QString err = pv->planInstallation(installed, ops, avoid);
             if (!err.isEmpty()) {
@@ -803,8 +806,11 @@ int App::remove()
             }
 
             QList<InstallOperation*> ops;
+
+            // TODO: destroy the returned objects
             QList<PackageVersion*> installed =
                     Repository::getDefault()->getInstalled();
+
             QString err = pv->planUninstallation(installed, ops);
             if (!err.isEmpty()) {
                 WPMUtils::outputTextConsole(err + "\n", false);
