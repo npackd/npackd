@@ -1341,21 +1341,22 @@ void MainWindow::on_actionGotoPackageURL_triggered()
             PackageVersion* pv = dynamic_cast<PackageVersion*>(obj);
             if (pv) {
                 p = rep->findPackage(pv->package_);
-                if (p) {
+                if (p && !packages.contains(p->name)) {
                     url.setUrl(p->url);
                     packages.append(p->name);
                     delete p;
                 }
             }
         } else {
-            url.setUrl(p->url);
-            packages.append(p->name);
+            qDebug() << p->url;
+            if (!packages.contains(p->name)) {
+                url.setUrl(p->url);
+                packages.append(p->name);
+            }
         }
 
-        if (!packages.contains(p->name)) {
-            if (url.isValid())
-                QDesktopServices::openUrl(url);
-        }
+        if (url.isValid())
+            QDesktopServices::openUrl(url);
     }
 }
 
