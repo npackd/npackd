@@ -184,6 +184,15 @@ public:
             const QString& package, const Version& version) const;
 
     /**
+     * Find the newest installed package version.
+     *
+     * @param name name of the package like "org.server.Word"
+     * @return found package version or Version::EMPTY
+     */
+    Version findNewestInstalledPackageVersion_(
+            const QString &name) const;
+
+    /**
      * Removes a package version from the list of installed.
      *
      * @param pv a package version
