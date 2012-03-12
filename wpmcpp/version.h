@@ -9,6 +9,8 @@ private:
     int* parts;
     int nparts;
 public:
+    static const Version EMPTY;
+
     /**
      * Initialization with 1.0
      */
