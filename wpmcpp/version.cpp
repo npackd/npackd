@@ -2,6 +2,8 @@
 
 #include "version.h"
 
+const Version Version::EMPTY(-1, -1);
+
 Version::Version()
 {
     this->parts = new int[2];
