@@ -1178,6 +1178,21 @@ InstalledPackageVersion* Repository::findInstalledPackageVersion(
     return r;
 }
 
+Version Repository::findNewestInstalledPackageVersion_(
+        const QString &name) const
+{
+    Version r;
+
+    QList<Version> installed = getInstalledPackageVersions(name);
+    if (!installed.isEmpty()) {
+        r = installed.last();
+    } else {
+        r = Version::EMPTY;
+    }
+
+    return r;
+}
+
 InstalledPackageVersion* Repository::findInstalledPackageVersion(
         const QString& package, const Version& version) const
 {
