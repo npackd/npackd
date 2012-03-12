@@ -104,7 +104,7 @@ public:
     QStringList importantFilesTitles;
 
     /**
-     * Packages.
+     * Files.
      */
     QList<PackageVersionFile*> files;
 
