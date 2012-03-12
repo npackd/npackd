@@ -946,6 +946,7 @@ void MainWindow::on_actionUninstall_activated()
         if (!pv) {
             Package* p = dynamic_cast<Package*>(obj);
 
+            // TODO: destroy the returned objects
             pv = rep->findNewestInstalledPackageVersion(p->name);
         }
 
@@ -1016,12 +1017,6 @@ void MainWindow::updateUninstallAction()
         QObject* obj = sel.at(i);
 
         PackageVersion* pv = dynamic_cast<PackageVersion*>(obj);
-        if (!pv) {
-            Package* p = dynamic_cast<Package*>(obj);
-
-            pv = rep->findNewestInstalledPackageVersion(p->name);
-        }
-
         if (pv) {
             InstalledPackageVersion* ipv = rep->findInstalledPackageVersion(pv);
 
@@ -1029,7 +1024,23 @@ void MainWindow::updateUninstallAction()
                     !pv->isLocked() &&
                     ipv && !ipv->external_;
         } else {
-            enabled = false;
+            Package* p = dynamic_cast<Package*>(obj);
+            if (p) {
+                QList<Version> installed =
+                        rep->getInstalledPackageVersions(p->name);
+                if (!installed.isEmpty()) {
+                    InstalledPackageVersion* ipv =
+                            rep->findInstalledPackageVersion(p->name,
+                            installed.last());
+                    enabled = enabled &&
+                            !rep->isLocked(p->name, installed.last()) &&
+                            ipv && !ipv->external_;
+                } else {
+                    enabled = false;
+                }
+            } else {
+                enabled = false;
+            }
         }
     }
     this->ui->actionUninstall->setEnabled(enabled);
