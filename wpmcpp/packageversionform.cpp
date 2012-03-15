@@ -1,5 +1,3 @@
-#include <xapian.h>
-
 #include "packageversionform.h"
 #include "ui_packageversionform.h"
 
@@ -21,35 +19,27 @@ PackageVersionForm::PackageVersionForm(QWidget *parent) :
 
 void PackageVersionForm::updateIcons()
 {
-    Repository* rep = Repository::getDefault();
-
-    Package* p = rep->findPackage(this->pv->package_);
-    QIcon icon = MainWindow::getPackageIcon(p);
-    delete p;
+    QIcon icon = MainWindow::getPackageVersionIcon(pv);
     QPixmap pixmap = icon.pixmap(32, 32, QIcon::Normal, QIcon::On);
     this->ui->labelIcon->setPixmap(pixmap);
 }
 
 void PackageVersionForm::updateStatus()
 {
-    Repository* rep = Repository::getDefault();
-    InstalledPackageVersion* ipv = rep->findInstalledPackageVersion(pv);
     this->ui->lineEditStatus->setText(pv->getStatus());
-    this->ui->lineEditPath->setText(ipv ? ipv->ipath : "");
+    this->ui->lineEditPath->setText(pv->getPath());
 }
 
-void PackageVersionForm::fillForm(const QString& package, const Version& version)
+void PackageVersionForm::fillForm(PackageVersion* pv)
 {
-    Repository* r = Repository::getDefault();
-
-    delete this->pv;
-    this->pv = r->findPackageVersion(package, version);
+    this->pv = pv;
 
     this->ui->lineEditTitle->setText(pv->getPackageTitle());
     this->ui->lineEditVersion->setText(pv->version.getVersionString());
-    this->ui->lineEditInternalName->setText(pv->getPackage());
+    this->ui->lineEditInternalName->setText(pv->package);
 
-    Package* p = r->findPackage(pv->getPackage());
+    Repository* r = Repository::getDefault();
+    Package* p = r->findPackage(pv->package);
 
     QString licenseTitle = "unknown";
     if (p) {
@@ -113,13 +103,10 @@ void PackageVersionForm::fillForm(const QString& package, const Version& version
     this->ui->textEditDependencies->setText(details);
 
     updateIcons();
-
-    delete p;
 }
 
 PackageVersionForm::~PackageVersionForm()
 {
-    delete this->pv;
     delete ui;
 }
 
@@ -145,18 +132,16 @@ void PackageVersionForm::on_labelLicense_linkActivated(QString link)
     LicenseForm* f = new LicenseForm(tabWidget);
 
     Repository* r = Repository::getDefault();
-    Package* p = r->findPackage(pv->getPackage());
+    Package* p = r->findPackage(pv->package);
+    if (!p)
+        return;
 
-    License* lic = 0;
-    if (p)
-        lic = r->findLicense(p->license);
+    License* lic = r->findLicense(p->license);
     if (!lic)
         return;
 
     f->fillForm(lic);
     tabWidget->addTab(f, lic->title);
     tabWidget->setCurrentIndex(tabWidget->count() - 1);
-
-    delete p;
 }
 

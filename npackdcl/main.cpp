@@ -1,4 +1,3 @@
-#include <xapian.h>
 #include <qdebug.h>
 #include <qstringlist.h>
 #include <qstring.h>

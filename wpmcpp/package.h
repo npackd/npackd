@@ -1,41 +1,14 @@
 #ifndef PACKAGE_H
 #define PACKAGE_H
 
-#include <QObject>
-#include <QString>
-#include <QDomElement>
+#include "qstring.h"
 
 /**
  * A package declaration.
  */
-class Package : public QObject
+class Package
 {
-    Q_OBJECT
-private:
-    explicit Package(QObject *parent = 0);
 public:
-    /**
-     * @param <package>
-     * @param err error message will be stored here
-     * @return created object or 0, if a error has occured
-     */
-    static Package* createPackage(QDomElement* e, QString* err);
-
-    /**
-     * @param xml XML created by serialize()
-     * @param err error message will be stored here
-     * @return created Package
-     */
-    static Package* deserialize(const QString& xml, QString* err);
-
-    /**
-     * Checks whether the specified value is a valid package name.
-     *
-     * @param a string that should be checked
-     * @return true if name is a valid package name
-     */
-    static bool isValidName(QString& name);
-
     /** name of the package like "org.buggysoft.BuggyEditor" */
     QString name;
 
@@ -57,22 +30,12 @@ public:
     Package(const QString& name, const QString& title);
 
     /**
-     * @return description that can be used for the full-text search in lower
-     *     case
-     */
-    QString getFullText();
-
-    /**
-     * @return XML representation of this package version
-     */
-    QString serialize() const;
-
-    /**
-     * Save the contents as XML.
+     * Checks whether the specified value is a valid package name.
      *
-     * @param e <package>
+     * @param a string that should be checked
+     * @return true if name is a valid package name
      */
-    void saveTo(QDomElement& e) const;
+    static bool isValidName(QString& name);
 };
 
 #endif // PACKAGE_H

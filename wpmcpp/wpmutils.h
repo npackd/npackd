@@ -293,12 +293,6 @@ public:
     static void fireEnvChanged();
 
     static void createMSTask();
-
-    /**
-     * @param s a UTF-8 encoded std::string
-     * @return QString
-     */
-    static QString fromUtf8StdString(const std::string& s);
 };
 
 #endif // WPMUTILS_H
