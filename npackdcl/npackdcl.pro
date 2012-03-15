@@ -8,13 +8,11 @@ CONFIG += console
 CONFIG -= app_bundle
 TEMPLATE = app
 RC_FILE = npackdcl.rc
-INCLUDEPATH += ..\\quazip\\quazip ..\\zlib ..\\xapian-core\\include
+INCLUDEPATH += ..\\quazip\\quazip ..\\zlib
 LIBS += ..\\quazip\\quazip\\release\\libquazip.a \
     ..\\zlib\\libz.a \
     -lole32 -luuid -lwininet -lpsapi -lversion \
-    ..\\wpmcpp\\libmsi.a \
-    -L..\\xapian-core\\.libs \
-    -lxapian
+    ..\\wpmcpp\\libmsi.a
 SOURCES += main.cpp \
     ../wpmcpp/repository.cpp \
     ../wpmcpp/version.cpp \
@@ -31,10 +29,7 @@ SOURCES += main.cpp \
     ../wpmcpp/detectfile.cpp \
     app.cpp \
     ../wpmcpp/commandline.cpp \
-    ../wpmcpp/xmlutils.cpp \
-    ../wpmcpp/installedpackageversion.cpp \
-    ../wpmcpp/packageversionhandle.cpp \
-    ../wpmcpp/abstractrepository.cpp
+    ../wpmcpp/xmlutils.cpp
 HEADERS += ../wpmcpp/repository.h \
     ../wpmcpp/version.h \
     ../wpmcpp/packageversionfile.h \
@@ -51,8 +46,5 @@ HEADERS += ../wpmcpp/repository.h \
     ../wpmcpp/detectfile.h \
     app.h \
     ../wpmcpp/commandline.h \
-    ../wpmcpp/xmlutils.h \
-    ../wpmcpp/installedpackageversion.h \
-    ../wpmcpp/packageversionhandle.h \
-    ../wpmcpp/abstractrepository.h
+    ../wpmcpp/xmlutils.h
 FORMS += 

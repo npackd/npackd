@@ -1,12 +1,9 @@
-#include <xapian.h>
 #include <limits>
 #include "math.h"
 
 #include "app.h"
 #include "..\wpmcpp\wpmutils.h"
 #include "..\wpmcpp\commandline.h"
-#include "..\wpmcpp\downloader.h"
-#include "..\wpmcpp\xmlutils.h"
 
 void App::jobChanged(const JobState& s)
 {
@@ -55,15 +52,12 @@ QString App::reinstallTestPackage(QString rep)
     if (!f.open(QIODevice::ReadOnly))
         err = "Cannot open the repository file";
 
-    if (err.isEmpty()) {
-        if (!doc.setContent(&f, false, &err, &errorLine, &errorColumn))
-            err = QString("XML parsing failed at line %L1, column %L2: %3").
-                    arg(errorLine).arg(errorColumn).arg(err);
-    }
+    if (err.isEmpty())
+        doc.setContent(&f, false, &err, &errorLine, &errorColumn);
 
     if (err.isEmpty()) {
         Job* job = new Job();
-        r->loadOne(&doc, job, false);
+        r->loadOne(&doc, job);
         err = job->getErrorMessage();
         delete job;
 
@@ -183,19 +177,15 @@ int App::process()
 
 void App::addNpackdCL()
 {
-    /* TODO
     Repository* r = Repository::getDefault();
     PackageVersion* pv = r->findOrCreatePackageVersion(
             "com.googlecode.windows-package-manager.NpackdCL",
             Version(WPMUtils::NPACKD_VERSION));
-    InstalledPackageVersion* ipv = r->findInstalledPackageVersion(pv);
-    if (!ipv) {
-        InstalledPackageVersion* ipv = new InstalledPackageVersion(
-                pv->package_, pv->version, WPMUtils::getExeDir(), true);
-        r->installedPackageVersions.append(ipv);
+    if (!pv->installed()) {
+        pv->setPath(WPMUtils::getExeDir());
+        pv->setExternal(true);
         r->updateNpackdCLEnvVar();
     }
-    */
 }
 
 Job* App::createJob()
@@ -314,7 +304,7 @@ int App::addRepo()
 
 bool packageVersionLessThan(const PackageVersion* pv1, const PackageVersion* pv2)
 {
-    if (pv1->package_ == pv2->package_)
+    if (pv1->package == pv2->package)
         return pv1->version.compare(pv2->version) < 0;
     else {
         QString pt1 = pv1->getPackageTitle();
@@ -360,14 +350,12 @@ int App::list()
     if (r == 0) {
         Repository* rep = Repository::getDefault();
         QList<PackageVersion*> list;
-        /* TODO
-        for (int i = 0; i < rep->getPackageVersionCount(); i++) {
-            PackageVersion* pv = rep->getPackageVersion(i);
+        for (int i = 0; i < rep->packageVersions.count(); i++) {
+            PackageVersion* pv = rep->packageVersions.at(i);
             if (!onlyInstalled || pv->installed())
                 list.append(pv);
         }
         qSort(list.begin(), list.end(), packageVersionLessThan);
-        */
 
         if (!bare)
             WPMUtils::outputTextConsole(QString("%1 package versions found:\n\n").
@@ -377,9 +365,9 @@ int App::list()
             PackageVersion* pv = list.at(i);
             if (!bare)
                 WPMUtils::outputTextConsole(pv->toString() +
-                        " (" + pv->getPackage() + ")\n");
+                        " (" + pv->package + ")\n");
             else
-                WPMUtils::outputTextConsole(pv->getPackage() + " " +
+                WPMUtils::outputTextConsole(pv->package + " " +
                         pv->version.getVersionString() + " " +
                         pv->getPackageTitle() + "\n");
         }
@@ -488,9 +476,7 @@ int App::path()
             // debug: WPMUtils::outputTextConsole << "Versions: " << d.toString()) << std::endl;
             PackageVersion* pv = d.findHighestInstalledMatch();
             if (pv) {
-                InstalledPackageVersion* ipv =
-                        rep->findInstalledPackageVersion(pv);
-                QString p = ipv->ipath;
+                QString p = pv->getPath();
                 p.replace('/', '\\');
                 WPMUtils::outputTextConsole(p + "\n");
             }
@@ -564,8 +550,8 @@ int App::update()
     PackageVersion* newest = 0;
     if (r == 0) {
         newest = rep->findNewestInstallablePackageVersion(
-                packages.at(0)->name);
-        if (newest == 0) {
+            packages.at(0)->name);
+        if (newesti == 0) {
             WPMUtils::outputTextConsole("No installable versions found\n", false);
             r = 1;
         }
@@ -599,10 +585,6 @@ int App::update()
             qDeleteAll(ops);
         }
     }
-
-    delete newest;
-    delete newesti;
-    qDeleteAll(packages);
 
     return r;
 }
@@ -677,20 +659,16 @@ int App::add()
                 r = 1;
                 break;
             }
-            InstalledPackageVersion* ipv = rep->findInstalledPackageVersion(pv);
-            if (ipv) {
+            if (pv->installed()) {
                 WPMUtils::outputTextConsole("Package is already installed in " +
-                        ipv->ipath + "\n", false);
+                        pv->getPath() + "\n", false);
                 r = 0;
                 break;
             }
 
             QList<InstallOperation*> ops;
-
-            // TODO: destroy the returned objects
             QList<PackageVersion*> installed =
                     Repository::getDefault()->getInstalled();
-
             QList<PackageVersion*> avoid;
             QString err = pv->planInstallation(installed, ops, avoid);
             if (!err.isEmpty()) {
@@ -790,15 +768,13 @@ int App::remove()
                 break;
             }
 
-            InstalledPackageVersion* ipv = rep->findInstalledPackageVersion(pv);
-
-            if (!ipv) {
+            if (!pv->installed()) {
                 WPMUtils::outputTextConsole("Package is not installed\n", false);
                 r = 0;
                 break;
             }
 
-            if (ipv->external_) {
+            if (pv->isExternal()) {
                 WPMUtils::outputTextConsole("Externally installed packages cannot be removed\n",
                         false);
                 r = 1;
@@ -806,11 +782,8 @@ int App::remove()
             }
 
             QList<InstallOperation*> ops;
-
-            // TODO: destroy the returned objects
             QList<PackageVersion*> installed =
                     Repository::getDefault()->getInstalled();
-
             QString err = pv->planUninstallation(installed, ops);
             if (!err.isEmpty()) {
                 WPMUtils::outputTextConsole(err + "\n", false);
@@ -909,8 +882,6 @@ int App::info()
                 break;
             }
 
-            InstalledPackageVersion* ipv = rep->findInstalledPackageVersion(pv);
-
             Package* p = packages.at(0);
             WPMUtils::outputTextConsole("Icon: " +
                     p->icon + "\n");
@@ -923,9 +894,9 @@ int App::info()
             WPMUtils::outputTextConsole("License: " +
                     p->license + "\n");
             WPMUtils::outputTextConsole("Installation path: " +
-                    (ipv ? ipv->ipath : "")  + "\n");
+                    pv->getPath() + "\n");
             WPMUtils::outputTextConsole("Internal package name: " +
-                    pv->getPackage() + "\n");
+                    pv->package + "\n");
             WPMUtils::outputTextConsole("Status: " +
                     pv->getStatus() + "\n");
             WPMUtils::outputTextConsole("Download URL: " +

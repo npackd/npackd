@@ -28,11 +28,7 @@ SOURCES += main.cpp \
     progressframe.cpp \
     messageframe.cpp \
     xmlutils.cpp \
-    settingsframe.cpp \
-    installedpackageversion.cpp \
-    packageversionhandle.cpp \
-    abstractrepository.cpp \
-    packageframe.cpp
+    settingsframe.cpp
 HEADERS += mainwindow.h \
     packageversion.h \
     repository.h \
@@ -59,19 +55,14 @@ HEADERS += mainwindow.h \
     taskbar.h \
     xmlutils.h \
     settingsframe.h \
-    mstask.h \
-    installedpackageversion.h \
-    packageversionhandle.h \
-    abstractrepository.h \
-    packageframe.h
+    mstask.h
 FORMS += mainwindow.ui \
     packageversionform.ui \
     licenseform.ui \
     progressframe.ui \
     messageframe.ui \
-    settingsframe.ui \
-    packageframe.ui
-INCLUDEPATH += ..\\quazip\\quazip ..\\zlib ..\\xapian-core\\include
+    settingsframe.ui
+INCLUDEPATH += ..\\quazip\\quazip ..\\zlib
 LIBS += ..\\quazip\\quazip\\release\\libquazip.a \
     ..\\zlib\\libz.a \
     -lole32 \
@@ -80,9 +71,7 @@ LIBS += ..\\quazip\\quazip\\release\\libquazip.a \
     -lpsapi \
     -lshell32 \
     -lversion \
-    ..\\wpmcpp\\libmsi.a \
-    -L..\\xapian-core\\.libs \
-    -lxapian
+    ..\\wpmcpp\\libmsi.a
 CONFIG += embed_manifest_exe
 RC_FILE = wpmcpp.rc
 RESOURCES += wpmcpp.qrc
