@@ -627,6 +627,46 @@ QString Repository::planUpdates(const QList<Package*> packages,
     return err;
 }
 
+/* TODO
+QString Repository::writeTo(const QString& filename) const
+{
+    QString r;
+
+    QDomDocument doc;
+    QDomElement root = doc.createElement("root");
+    doc.appendChild(root);
+
+    XMLUtils::addTextTag(root, "spec-version", "3");
+
+    for (int i = 0; i < getPackageCount(); i++) {
+        Package* p = packages.at(i);
+        QDomElement package = doc.createElement("package");
+        p->saveTo(package);
+        root.appendChild(package);
+    }
+
+    for (int i = 0; i < getPackageVersionCount(); i++) {
+        PackageVersion* pv = getPackageVersion(i);
+        QDomElement version = doc.createElement("version");
+        version.setAttribute("name", pv->version.getVersionString());
+        version.setAttribute("package", pv->getPackage()->name);
+        if (pv->download.isValid())
+            XMLUtils::addTextTag(version, "url", pv->download.toString());
+        root.appendChild(version);
+    }
+
+    QFile file(filename);
+    if (file.open(QIODevice::WriteOnly)) {
+        QTextStream s(&file);
+        doc.save(s, 4);
+    } else {
+        r = QString("Cannot open %1 for writing").arg(filename);
+    }
+
+    return "";
+}
+*/
+
 void Repository::detectWindows()
 {
     OSVERSIONINFO osvi;
