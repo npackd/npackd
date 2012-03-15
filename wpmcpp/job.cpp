@@ -110,11 +110,11 @@ void Job::parentJobChanged(const JobState& s)
         this->cancel();
 }
 
-Job* Job::newSubJob(double nsteps)
+Job* Job::newSubJob(double part)
 {
     Job* r = new Job();
     r->parentJob = this;
-    r->subJobSteps = nsteps;
+    r->subJobSteps = part;
     r->subJobStart = this->getProgress();
     r->parentHintStart = hint;
 
