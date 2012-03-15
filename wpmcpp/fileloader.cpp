@@ -20,7 +20,7 @@ void FileLoader::run()
             FileLoaderItem it = this->work.dequeue();
             // qDebug() << "FileLoader::run " << it.url;
             Job* job = new Job();
-            it.f = Downloader::download(job, it.url);
+            it.f = Downloader::download(job, it.url, 0, true);
 
             emit downloaded(it);
         }
