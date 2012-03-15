@@ -1423,7 +1423,7 @@ void Repository::loadOne(QUrl* url, Job* job) {
     QTemporaryFile* f = 0;
     if (job->getErrorMessage().isEmpty() && !job->isCancelled()) {
         Job* djob = job->newSubJob(0.90);
-        f = Downloader::download(djob, *url);
+        f = Downloader::download(djob, *url, 0, true);
         if (!djob->getErrorMessage().isEmpty())
             job->setErrorMessage(QString("Download failed: %2").
                     arg(djob->getErrorMessage()));
