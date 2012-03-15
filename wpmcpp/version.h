@@ -9,6 +9,8 @@ private:
     int* parts;
     int nparts;
 public:
+    static const Version EMPTY;
+
     /**
      * Initialization with 1.0
      */
@@ -31,7 +33,9 @@ public:
 
     Version& operator =(const Version& v);
 
-    bool operator !=(const Version& v);
+    bool operator !=(const Version& v) const;
+    bool operator ==(const Version& v) const;
+    bool operator <(const Version& v) const;
 
     ~Version();
 
