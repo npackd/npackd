@@ -1231,12 +1231,14 @@ void MainWindow::on_actionGotoPackageURL_triggered()
 
 void MainWindow::on_comboBoxStatus_currentIndexChanged(int index)
 {
-    this->fillList();
+    if (!this->reloadRepositoriesThreadRunning && !this->hardDriveScanRunning)
+        this->fillList();
 }
 
 void MainWindow::on_lineEditText_textChanged(QString )
 {
-    this->fillList();
+    if (!this->reloadRepositoriesThreadRunning && !this->hardDriveScanRunning)
+        this->fillList();
 }
 
 void MainWindow::on_actionSettings_triggered()

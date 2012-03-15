@@ -11,6 +11,27 @@ Dependency::Dependency()
     this->max.setVersion(1, 0);
 }
 
+QString Dependency::versionsToString() const
+{
+    QString res;
+    if (minIncluded)
+        res.append('[');
+    else
+        res.append('(');
+
+    res.append(this->min.getVersionString());
+
+    res.append(", ");
+
+    res.append(this->max.getVersionString());
+
+    if (maxIncluded)
+        res.append(']');
+    else
+        res.append(')');
+    return res;
+}
+
 QString Dependency::toString()
 {
     QString res;
