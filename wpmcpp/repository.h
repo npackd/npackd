@@ -173,6 +173,14 @@ public:
     void recognize(Job* job);
 
     /**
+     * Writes this repository to an XML file.
+     *
+     * @param filename output file name
+     * @return error message or ""
+     */
+    // TODO: QString writeTo(const QString& filename) const;
+
+    /**
      * Finds or creates a new package version.
      *
      * @param package package name
