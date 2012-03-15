@@ -20,6 +20,17 @@ public:
      *     exist
      */
     static QString getTagContent(const QDomElement& parent, const QString& name);
+
+    /**
+     * Add a sub-tag with the specified text content.
+     * <test>Text</test>
+     *
+     * @param parent parent tag
+     * @param name name of the sub-tag
+     * @param value content of the sub-tag
+     */
+    static void addTextTag(QDomElement& parent, const QString& name,
+            const QString& value);
 };
 
 #endif // XMLUTILS_H
