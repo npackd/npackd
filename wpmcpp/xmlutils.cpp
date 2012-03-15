@@ -7,6 +7,16 @@ XMLUtils::XMLUtils()
 {
 }
 
+void XMLUtils::addTextTag(QDomElement& parent, const QString& name,
+        const QString& value)
+{
+    QDomElement e = parent.ownerDocument().createElement(name);
+    parent.appendChild(e);
+    QDomText t = parent.ownerDocument().createTextNode(value);
+    e.appendChild(t);
+}
+
+
 QString XMLUtils::getTagContent(const QDomElement& parent, const QString& name)
 {
     QDomNodeList nl = parent.elementsByTagName(name);
