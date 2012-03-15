@@ -12,7 +12,6 @@ SOURCES += main.cpp \
     downloader.cpp \
     wpmutils.cpp \
     package.cpp \
-    progressdialog.cpp \
     packageversionfile.cpp \
     version.cpp \
     dependency.cpp \
@@ -37,7 +36,6 @@ HEADERS += mainwindow.h \
     downloader.h \
     wpmutils.h \
     package.h \
-    progressdialog.h \
     packageversionfile.h \
     version.h \
     dependency.h \
@@ -59,7 +57,6 @@ HEADERS += mainwindow.h \
     settingsframe.h \
     mstask.h
 FORMS += mainwindow.ui \
-    progressdialog.ui \
     packageversionform.ui \
     licenseform.ui \
     progressframe.ui \
