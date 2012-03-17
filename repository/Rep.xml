@@ -16111,6 +16111,32 @@ verify
         <url>http://stb-imv.googlecode.com/files/stb_imv-1.0.zip</url>
         <sha1>d7f45b8d1ab9765baf2d122d3afcfa7f5dc2456d</sha1>
     </version>
+    <version name="1.1" package="com.googlecode.stb-imv.STBIMV">
+        <file path=".WPM\Install.bat">for /f "delims=" %%x in ('dir /b stb*') do set name=%%x
+cd "%name%" 
+for /f "delims=" %%a in ('dir /b') do (
+move "%%a" ..
+)
+cd ..
+rmdir "%name%"
+if %errorlevel% neq 0 exit %errorlevel%
+
+set KEY=com.googlecode.stb-imv.STBIMV-1.1
+reg add HKLM\SOFTWARE\Classes\Applications\%KEY%\shell\open /v FriendlyAppName /d "imv(stb) (1)" /f
+
+set c=\"%CD%\imv.exe\" \"%%1\"
+reg add HKLM\SOFTWARE\Classes\Applications\%KEY%\shell\open\command /d "%c%" /f
+for %%g in (bmp dib gif rle ico jpg jpeg png tif wbmp wmf emf) do reg add HKLM\SOFTWARE\Classes\.%%g\OpenWithList\%key% /f
+verify
+</file> 
+        <file path=".WPM\Uninstall.bat">set KEY=com.googlecode.stb-imv.STBIMV-1.1
+reg delete HKLM\SOFTWARE\Classes\Applications\%KEY% /f
+for %%g in (bmp dib gif rle ico jpg jpeg png tif wbmp wmf emf) do reg delete HKLM\SOFTWARE\Classes\.%%g\OpenWithList\%key% /f
+verify
+</file>
+        <url>http://stb-imv.googlecode.com/files/stb_imv-1.01.zip</url>
+        <sha1>25c18230073df66559bb28f3f1c6bede02a51dca</sha1>
+    </version>
 
     <version name="1.3" package="com.screenpresso.Screenpresso" 
             type="one-file">
