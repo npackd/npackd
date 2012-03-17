@@ -3384,13 +3384,13 @@ for /f %%x in ('dir /b *.exe') do set setup=%%x
     </version>
 
     <!-- 
-        old versions are deleted, but the package is too big 
+        old versions are deleted
         https://sourceforge.net/tracker/?func=detail&aid=3381268&group_id=10783&atid=110783
         https://sourceforge.net/tracker/?func=detail&atid=110783&aid=3382331&group_id=10783
         
         Installation shows a progress dialog.
     -->
-    <version name="2.9.4250"
+    <version name="2.9.4407"
             package="org.miktex.MiKTeX" type="one-file">
         <file path=".WPM\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x
 "%setup%" --common-install="%CD%" --shared --unattended
@@ -3413,8 +3413,8 @@ for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set clu=%%x
 "%clu%\clu" remove-path --path "%CD%\miktex\bin"
 verify
 </file>
-        <url>http://sunsite.informatik.rwth-aachen.de/ftp/pub/mirror/ctan/systems/win32/miktex/setup/basic-miktex-2.9.4250.exe</url>
-        <sha1>07f57dd8c386d4eb6a9425ccb9d5f23f53583090</sha1>
+        <url>http://npackd.googlecode.com/files/org.miktex.MiKTeX-2.9.4407.exe</url>
+        <sha1>fe4d387387fcbb1cb05e4a950eff0f3e0a70263c</sha1>
         <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.15.7, 2)"/>
         <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1, 1]"/>
         <dependency package="com.googlecode.windows-package-manager.CLU" versions="[1, 2)"/>
@@ -15088,6 +15088,16 @@ ren "%setup%" Setup-MsgPlus.exe
         <important-file path="Setup-MsgPlus.exe" title="Installer"/>
         <url>http://mirror10.msgpluslive.net/20110907/LK/Setup-MsgPlus-510.exe</url>
         <sha1>45898c229986bed9e42025ebcad553bb9a198e49</sha1>
+        <dependency package="com.microsoft.WindowsLiveMessenger" versions="[15.4.3502.922, 15.4.3502.922]"/>
+    </version>
+    <version name="5.11.0.760" package="net.msgplus.MessengerPlusInstaller"
+            type="one-file">
+        <file path=".WPM\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x
+ren "%setup%" Setup-MsgPlus.exe
+</file>
+        <important-file path="Setup-MsgPlus.exe" title="Installer"/>
+        <url>http://mirror10.msgpluslive.net/20111016/LKSBC/Setup-MsgPlus-511.exe</url>
+        <sha1>e96eef170d6e002db3eeee4f465988d62335efd3</sha1>
         <dependency package="com.microsoft.WindowsLiveMessenger" versions="[15.4.3502.922, 15.4.3502.922]"/>
     </version>
 
