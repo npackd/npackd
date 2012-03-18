@@ -509,6 +509,22 @@ if %err% neq 0 exit /b %err%
         <sha1>bd40f1dcd72326bb472cd131acb04d707566e706</sha1>
         <detect-msi>{26A24AE4-039D-4CA4-87B4-2F86417001FF}</detect-msi>
     </version>
+    <version name="1.7.0.3" package="com.oracle.JRE64" type="one-file">
+        <file path=".WPM\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x
+"%setup%" /s /v"/qn /Lime .WPM\MSI.log /norestart AgreeToLicense=YES IEXPLORER=1 MOZILLA=1 REBOOT=Suppress ALLUSERS=1 INSTALLDIR="""%CD%""" SYSTRAY=0"
+set err=%errorlevel%
+type .WPM\MSI.log
+if %err% neq 0 exit /b %err%
+</file>
+        <file path=".WPM\Uninstall.bat">MsiExec.exe /qn /norestart /Lime .WPM\MSI.log /X{26A24AE4-039D-4CA4-87B4-2F86417003FF}
+set err=%errorlevel%
+type .WPM\MSI.log
+if %err% neq 0 exit /b %err%
+</file>
+        <url>http://download.oracle.com/otn-pub/java/jdk/7u3-b05/jre-7u3-windows-x64.exe</url>
+        <sha1>0d74117467cd905f41fd807f7cdbaa671a150311</sha1>
+        <detect-msi>{26A24AE4-039D-4CA4-87B4-2F86417003FF}</detect-msi>
+    </version>
 
     <!--
 http://safebrowsing.clients.google.com/safebrowsing/diagnostic?site=http%3A%2F%2Fwww.wampserver.com%2Fen%2F&client=googlechrome&hl=de    
