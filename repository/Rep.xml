@@ -6649,6 +6649,20 @@ del Q-Dir.ini
         <url>http://dl.dropbox.com/u/17046326/files/com.softwareok.QDir-4.93.zip</url>
         <sha1>8005e08b12ac594ee54f5dcdd841b33b3a69f4e8</sha1>
     </version>
+    <version name="5.1" package="com.softwareok.QDir">
+        <file path=".WPM\Install.bat">for /f "delims=" %%x in ('dir /b Q*') do set name=%%x
+cd "%name%"        
+for /f "delims=" %%a in ('dir /b') do (
+  move "%%a" ..
+)
+cd ..
+rmdir "%name%"
+del Q-Dir.ini
+</file>
+        <important-file path="Q-Dir.exe" title="Q-Dir"/>
+        <url>http://dl.dropbox.com/u/17046326/files/com.softwareok.QDir-5.1.zip</url>
+        <sha1>4133b7aae7b765886ec2a4d32cf3bcf77156bf0d</sha1>
+    </version>
 
     <version name="1.17" package="info.keepass.KeePassClassic">
         <important-file path="KeePass.exe" title="KeePass"/>
