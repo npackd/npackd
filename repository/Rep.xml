@@ -7294,6 +7294,24 @@ call "%npackdih%\UninstallMSI.bat"
         <url>http://dl.dropbox.com/u/17046326/files/com.tracker-software.PDFXChangeViewer-2.58.200.msi</url>
         <sha1>388f4f6c52cad2d3c188d7b8a916222a6c9f2860</sha1>
     </version>
+    <version name="2.58.201" package="com.tracker-software.PDFXChangeViewer"
+            type="one-file">
+       <file path=".WPM\Install.bat">if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
+set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.NpackdInstallerHelper" "--versions=[1, 1]"
+for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set npackdih=%%x
+call "%npackdih%\InstallMSI.bat" INSTALLLOCATION
+</file>
+        <file path=".WPM\Uninstall.bat">if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
+set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.NpackdInstallerHelper" "--versions=[1, 1]"
+for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set npackdih=%%x
+call "%npackdih%\UninstallMSI.bat"
+</file>
+        <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1, 1]"/>
+        <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.15.7, 2)"/>
+        <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1, 1]"/>
+        <url>http://dl.dropbox.com/u/17046326/files/com.tracker-software.PDFXChangeViewer-2.58.201.msi</url>
+        <sha1>d95ff7b5dac769fe6a42e6e14bb7c7cc6e5edb12</sha1>
+    </version>
 
     <!-- uninstallation opens a web page in the default browser -->
     <version name="8.9" 
@@ -11793,7 +11811,7 @@ if %err% neq 0 exit %err%
         <sha1>dd9db460b7e7e46cc3242d95fb592c7973e35228</sha1>
     </version>
 
-    <version name="15.11" package="com.microsoft.ProcessExplorer">
+    <version name="15.13" package="com.microsoft.ProcessExplorer">
         <important-file path="procexp.exe" title="Process Explorer"/>
         <url>http://download.sysinternals.com/Files/ProcessExplorer.zip</url>
     </version>
