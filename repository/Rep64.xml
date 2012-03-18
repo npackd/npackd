@@ -2155,6 +2155,16 @@ rmdir "%name%"
         <sha1>c961ac71e8dd5e95f08c21902e5453cf714f6637</sha1>
         <dependency package="com.oracle.JRE" versions="[1.5, 2)"/>
     </version>
+    <version name="7.0.26" package="org.apache.tomcat.Tomcat64">
+        <file path=".WPM\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x
+"%setup%" /S /D=%CD%
+</file>
+        <file path=".WPM\Uninstall.bat">Uninstall.exe -ServiceName="Tomcat7" /S _?=%CD%
+</file>
+        <url>http://npackd.googlecode.com/files/org.apache.tomcat.Tomcat-7.0.26.exe</url>
+        <sha1>5002abe6970ef424b6ea8bebfae39a228e215ea6</sha1>
+        <dependency package="com.oracle.JRE" versions="[1.5, 2)"/>
+    </version>
 
     <version name="1.6.16" package="org.apache.subversion.Subversion64"
             type="one-file">
