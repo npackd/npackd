@@ -4731,6 +4731,19 @@ rmdir "%name%"
         <url>http://downloads.sourceforge.net/project/ultradefrag/stable-release/5.0.1/ultradefrag-portable-5.0.1.bin.i386.zip?ts=1326560794</url>
         <sha1>6751331485f25812a866b8e26b2ef69a2a33c32c</sha1>
     </version>
+    <version name="5.0.3" package="org.sourceforge.ultradefrag.UltraDefrag">
+        <file path=".WPM\Install.bat">for /f "delims=" %%x in ('dir /b ultra*') do set name=%%x
+cd "%name%"        
+for /f "delims=" %%a in ('dir /b') do (
+  move "%%a" ..
+)
+cd ..
+rmdir "%name%"
+</file>
+        <important-file path="ultradefrag.exe" title="UltraDefrag"/>
+        <url>https://downloads.sourceforge.net/project/ultradefrag/stable-release/5.0.3/ultradefrag-portable-5.0.3.bin.i386.zip?ts=1332067125</url>
+        <sha1>489c90b3670de2f3484b241d35234d98e3882a65</sha1>
+    </version>
 
     <version name="1.0.0.1" package="com.microsoft.PathManager" type="one-file">
         <file path=".WPM\Install.bat">pathman_setup.EXE /Q /C /T:"%CD%\.WPM\MSI"
