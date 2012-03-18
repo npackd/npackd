@@ -1906,6 +1906,24 @@ call "%npackdih%\UninstallMSI.bat"
         <url>http://npackd.googlecode.com/files/com.mysql.MySQLCommunityServer64-5.5.19.msi</url>
         <sha1>021cb84be32e336703dbb73b11e08a371dcc9029</sha1>
     </version>
+    <version name="5.5.21" package="com.mysql.MySQLCommunityServer64" 
+            type="one-file">
+<file path=".WPM\Install.bat">if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
+set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.NpackdInstallerHelper" "--versions=[1, 1]"
+for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set npackdih=%%x
+call "%npackdih%\InstallMSI.bat" INSTALLDIR
+</file>
+        <file path=".WPM\Uninstall.bat">if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
+set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.NpackdInstallerHelper" "--versions=[1, 1]"
+for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set npackdih=%%x
+call "%npackdih%\UninstallMSI.bat"
+</file>
+        <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1, 1]"/>
+        <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.15.7, 2)"/>
+        <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1, 1]"/>
+        <url>http://npackd.googlecode.com/files/com.mysql.MySQLCommunityServer64-5.5.21.msi</url>
+        <sha1>c527d9a060a403b1579511f1d3a8ba5d818883da</sha1>
+    </version>
 
     <version name="4.51" package="com.softwareok.QDir64">
         <file path=".WPM\Install.bat">for /f "delims=" %%x in ('dir /b Q*') do set name=%%x
