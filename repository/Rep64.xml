@@ -2026,6 +2026,20 @@ del Q-Dir.ini
         <url>http://dl.dropbox.com/u/17046326/files/com.softwareok.QDir64-4.93.zip</url>
         <sha1>6fbe4c1e40a48977829cd94acdf165ed42c11345</sha1>
     </version>
+    <version name="5.1" package="com.softwareok.QDir64">
+        <file path=".WPM\Install.bat">for /f "delims=" %%x in ('dir /b Q*') do set name=%%x
+cd "%name%"        
+for /f "delims=" %%a in ('dir /b') do (
+  move "%%a" ..
+)
+cd ..
+rmdir "%name%"
+del Q-Dir.ini
+</file>
+        <important-file path="Q-Dir.exe" title="Q-Dir"/>
+        <url>http://dl.dropbox.com/u/17046326/files/com.softwareok.QDir64-5.1.zip</url>
+        <sha1>d72e7d12ee32c135c7de622fd1678c14336c7db7</sha1>
+    </version>
 
     <version name="7.0.12" package="org.apache.tomcat.Tomcat64">
         <file path=".WPM\Install.bat">for /f %%x in ('dir /b apache*') do set name=%%x
