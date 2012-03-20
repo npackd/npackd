@@ -1190,6 +1190,12 @@ void MainWindow::recognizeAndLoadRepositoriesThreadFinished()
     updateActions();
 }
 
+void MainWindow::addTab(QWidget* w, const QIcon& icon, const QString& title)
+{
+    this->ui->tabWidget->addTab(w, icon, title);
+    this->ui->tabWidget->setCurrentIndex(this->ui->tabWidget->count() - 1);
+}
+
 void MainWindow::on_actionInstall_activated()
 {
     QList<PackageVersion*> pvs = getSelectedPackageVersions();

@@ -56,7 +56,6 @@ private:
     void addJobsTab();
     void showDetails();
     void updateIcons();
-    void updateActions();
     bool isUpdateEnabled(PackageVersion* pv);
     void setMenuAccelerators();
     void setActionAccelerators(QWidget* w);
@@ -121,6 +120,8 @@ private:
 
     virtual void closeEvent(QCloseEvent *event);
 public:
+    void updateActions();
+
     static QMap<QString, QIcon> icons;
 
     /**
@@ -192,6 +193,15 @@ public:
      * @param job a currently running and monitored job
      */
     void unregisterJob(Job* job);
+
+    /**
+     * Adds a new tab. The new tab will be automatically selected.
+     *
+     * @param w content of the new tab
+     * @param icon tab icon
+     * @param title tab title
+     */
+    void addTab(QWidget* w, const QIcon& icon, const QString& title);
 protected:
     void changeEvent(QEvent *e);
 

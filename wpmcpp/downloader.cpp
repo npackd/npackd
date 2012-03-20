@@ -393,11 +393,13 @@ void Downloader::readDataGZip(Job* job, HINTERNET hResourceHandle, QFile* file,
 
             int err = inflate(&d_stream, Z_NO_FLUSH);
             if (err == Z_NEED_DICT) {
+                job->setErrorMessage(QString("zlib error %1").arg(err));
                 err = Z_DATA_ERROR;
-                inflateEnd(&d_stream); // TODO: report error
+                inflateEnd(&d_stream);
                 break;
             } else if (err == Z_MEM_ERROR || err == Z_DATA_ERROR) {
-                inflateEnd(&d_stream); // TODO: report error
+                job->setErrorMessage(QString("zlib error %1").arg(err));
+                inflateEnd(&d_stream);
                 break;
             } else {
                 if (sha1)
@@ -409,6 +411,9 @@ void Downloader::readDataGZip(Job* job, HINTERNET hResourceHandle, QFile* file,
             }
         } while (d_stream.avail_out == 0);
 
+        if (!job->getErrorMessage().isEmpty())
+            break;
+
         alreadyRead += bufferLength;
         if (contentLength > 0) {
             job->setProgress(((double) alreadyRead) / contentLength);
@@ -417,14 +422,18 @@ void Downloader::readDataGZip(Job* job, HINTERNET hResourceHandle, QFile* file,
         }
     } while (bufferLength != 0 && !job->isCancelled());
 
-    inflateEnd(&d_stream);
-    // TODO: report error return ret == Z_STREAM_END ? Z_OK : Z_DATA_ERROR;
+    int err = inflateEnd(&d_stream);
+    if (err != Z_OK) {
+        job->setErrorMessage(QString("zlib error %1").arg(err));
+    }
 
     if (sha1 && !job->isCancelled() && job->getErrorMessage().isEmpty())
         *sha1 = hash.result().toHex().toLower();
 
     delete[] buffer;
     delete[] buffer2;
+
+    job->complete();
 }
 
 void Downloader::readDataFlat(Job* job, HINTERNET hResourceHandle, QFile* file,
