@@ -78,7 +78,7 @@ void Downloader::downloadWin(Job* job, const QUrl& url, QFile* file,
     DWORD flags = (url.scheme() == "https" ? INTERNET_FLAG_SECURE : 0) |
             INTERNET_FLAG_KEEP_CONNECTION;
     if (!useCache)
-        flags |= INTERNET_FLAG_DONT_CACHE;
+        flags |= INTERNET_FLAG_DONT_CACHE | INTERNET_FLAG_PRAGMA_NOCACHE;
     HINTERNET hResourceHandle = HttpOpenRequestW(hConnectHandle, L"GET",
             (WCHAR*) resource.utf16(),
             0, 0, ppszAcceptTypes,
@@ -203,7 +203,6 @@ void Downloader::downloadWin(Job* job, const QUrl& url, QFile* file,
             } else if (dwStatus == HTTP_STATUS_OK) {
                 break;
             } else {
-                // TODO: check other HTTP_STATUS constants
                 job->setErrorMessage(QString(
                         "Cannot handle HTTP status code %1").arg(dwStatus));
                 break;
@@ -308,8 +307,34 @@ out:
     return;
 }
 
-void Downloader::readData(Job* job, HINTERNET hResourceHandle, QFile* file,
-        QString* sha1, bool gzip, int contentLength)
+bool Downloader::internetReadFileMin(HINTERNET resourceHandle,
+        PVOID buffer, DWORD bufferSize, PDWORD bufferLength, DWORD min)
+{
+    DWORD alreadyRead = 0;
+    bool result;
+    while (true) {
+        DWORD len;
+        result = InternetReadFile(resourceHandle,
+                ((char*) buffer) + alreadyRead,
+                bufferSize - alreadyRead, &len);
+
+        if (!result) {
+            *bufferLength = alreadyRead;
+            break;
+        } else {
+            alreadyRead += len;
+
+            if (alreadyRead >= min || len == 0) {
+                *bufferLength = alreadyRead;
+                break;
+            }
+        }
+    }
+    return result;
+}
+
+void Downloader::readDataGZip(Job* job, HINTERNET hResourceHandle, QFile* file,
+        QString* sha1, int contentLength)
 {
     // download/compute SHA1 loop
     QCryptographicHash hash(QCryptographicHash::Sha1);
@@ -324,6 +349,96 @@ void Downloader::readData(Job* job, HINTERNET hResourceHandle, QFile* file,
     int64_t alreadyRead = 0;
     DWORD bufferLength;
     do {
+        // gzip-header is at least 10 bytes long
+        if (!internetReadFileMin(hResourceHandle, buffer,
+                bufferSize, &bufferLength, 10)) {
+            QString errMsg;
+            WPMUtils::formatMessage(GetLastError(), &errMsg);
+            job->setErrorMessage(errMsg);
+            job->complete();
+            break;
+        }
+
+        if (bufferLength == 0)
+            break;
+
+        // http://www.gzip.org/zlib/rfc-gzip.html
+        // TODO: gzip header may be longer than 10 bytes
+        if (!zlibStreamInitialized) {
+            d_stream.zalloc = (alloc_func) 0;
+            d_stream.zfree = (free_func) 0;
+            d_stream.opaque = (voidpf) 0;
+
+            d_stream.next_in = buffer + 10;
+            d_stream.avail_in = bufferLength - 10;
+            d_stream.avail_out = buffer2Size;
+            d_stream.next_out = buffer2;
+            zlibStreamInitialized = true;
+
+            int err = inflateInit2(&d_stream, -15);
+            if (err != Z_OK) {
+                job->setErrorMessage(QString("zlib error %1").arg(err));
+                job->complete();
+                break;
+            }
+        } else {
+            d_stream.next_in = buffer;
+            d_stream.avail_in = bufferLength;
+        }
+
+        // see http://zlib.net/zpipe.c
+        do {
+            d_stream.avail_out = buffer2Size;
+            d_stream.next_out = buffer2;
+
+            int err = inflate(&d_stream, Z_NO_FLUSH);
+            if (err == Z_NEED_DICT) {
+                err = Z_DATA_ERROR;
+                inflateEnd(&d_stream); // TODO: report error
+                break;
+            } else if (err == Z_MEM_ERROR || err == Z_DATA_ERROR) {
+                inflateEnd(&d_stream); // TODO: report error
+                break;
+            } else {
+                if (sha1)
+                    hash.addData((char*) buffer2,
+                            buffer2Size - d_stream.avail_out);
+
+                file->write((char*) buffer2,
+                        buffer2Size - d_stream.avail_out);
+            }
+        } while (d_stream.avail_out == 0);
+
+        alreadyRead += bufferLength;
+        if (contentLength > 0) {
+            job->setProgress(((double) alreadyRead) / contentLength);
+            job->setHint(QString("%L0 of %L1 bytes").arg(alreadyRead).
+                    arg(contentLength));
+        }
+    } while (bufferLength != 0 && !job->isCancelled());
+
+    inflateEnd(&d_stream);
+    // TODO: report error return ret == Z_STREAM_END ? Z_OK : Z_DATA_ERROR;
+
+    if (sha1 && !job->isCancelled() && job->getErrorMessage().isEmpty())
+        *sha1 = hash.result().toHex().toLower();
+
+    delete[] buffer;
+    delete[] buffer2;
+}
+
+void Downloader::readDataFlat(Job* job, HINTERNET hResourceHandle, QFile* file,
+        QString* sha1, int contentLength)
+{
+    // download/compute SHA1 loop
+    QCryptographicHash hash(QCryptographicHash::Sha1);
+    const int bufferSize = 512 * 1024;
+    unsigned char* buffer = new unsigned char[bufferSize];
+
+    int64_t alreadyRead = 0;
+    DWORD bufferLength;
+    do {
+        // gzip-header is at least 10 bytes long
         if (!InternetReadFile(hResourceHandle, buffer,
                 bufferSize, &bufferLength)) {
             QString errMsg;
@@ -336,61 +451,11 @@ void Downloader::readData(Job* job, HINTERNET hResourceHandle, QFile* file,
         if (bufferLength == 0)
             break;
 
-        if (!gzip) {
-            // update SHA1 if necessary
-            if (sha1)
-                hash.addData((char*) buffer, bufferLength);
+        // update SHA1 if necessary
+        if (sha1)
+            hash.addData((char*) buffer, bufferLength);
 
-            file->write((char*) buffer, bufferLength);
-        } else {
-            // http://www.gzip.org/zlib/rfc-gzip.html
-            // TODO: what if less than 10 bytes were read?
-            // TOD: gzip header may be longer than 10 bytes
-            if (!zlibStreamInitialized) {
-                d_stream.zalloc = (alloc_func) 0;
-                d_stream.zfree = (free_func) 0;
-                d_stream.opaque = (voidpf) 0;
-
-                d_stream.next_in = buffer + 10;
-                d_stream.avail_in = bufferLength - 10;
-                d_stream.avail_out = buffer2Size;
-                d_stream.next_out = buffer2;
-                zlibStreamInitialized = true;
-
-                int err = inflateInit2(&d_stream, -15);
-                if (err != Z_OK) {
-                    job->setErrorMessage(QString("zlib error %1").arg(err));
-                    job->complete();
-                    break;
-                }
-            } else {
-                d_stream.next_in = buffer;
-                d_stream.avail_in = bufferLength;
-            }
-
-            // see http://zlib.net/zpipe.c
-            do {
-                d_stream.avail_out = buffer2Size;
-                d_stream.next_out = buffer2;
-
-                int err = inflate(&d_stream, Z_NO_FLUSH);
-                if (err == Z_NEED_DICT) {
-                    err = Z_DATA_ERROR;
-                    inflateEnd(&d_stream); // TODO: report error
-                    break;
-                } else if (err == Z_MEM_ERROR || err == Z_DATA_ERROR) {
-                    inflateEnd(&d_stream); // TODO: report error
-                    break;
-                } else {
-                    if (sha1)
-                        hash.addData((char*) buffer2,
-                                buffer2Size - d_stream.avail_out);
-
-                    file->write((char*) buffer2,
-                            buffer2Size - d_stream.avail_out);
-                }
-            } while (d_stream.avail_out == 0);
-        }
+        file->write((char*) buffer, bufferLength);
 
         alreadyRead += bufferLength;
         if (contentLength > 0) {
@@ -400,16 +465,19 @@ void Downloader::readData(Job* job, HINTERNET hResourceHandle, QFile* file,
         }
     } while (bufferLength != 0 && !job->isCancelled());
 
-    if (gzip) {
-        inflateEnd(&d_stream);
-        // TODO: report error return ret == Z_STREAM_END ? Z_OK : Z_DATA_ERROR;
-    }
-
     if (sha1 && !job->isCancelled() && job->getErrorMessage().isEmpty())
         *sha1 = hash.result().toHex().toLower();
 
     delete[] buffer;
-    delete[] buffer2;
+}
+
+void Downloader::readData(Job* job, HINTERNET hResourceHandle, QFile* file,
+        QString* sha1, bool gzip, int contentLength)
+{
+    if (gzip)
+        readDataGZip(job, hResourceHandle, file, sha1, contentLength);
+    else
+        readDataFlat(job, hResourceHandle, file, sha1, contentLength);
 }
 
 void Downloader::download(Job* job, const QUrl& url, QFile* file,
