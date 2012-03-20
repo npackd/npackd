@@ -19,9 +19,15 @@ class Downloader: QObject
 {
     Q_OBJECT
 
+    static void readDataFlat(Job* job, HINTERNET hResourceHandle, QFile* file,
+            QString* sha1, int contentLength);
+    static void readDataGZip(Job* job, HINTERNET hResourceHandle, QFile* file,
+            QString* sha1, int contentLength);
     static void readData(Job* job, HINTERNET hResourceHandle, QFile* file,
             QString* sha1, bool gzip, int contentLength);
 
+    static bool internetReadFileMin(HINTERNET resourceHandle,
+            PVOID buffer, DWORD bufferSize, PDWORD bufferLength, DWORD min);
     /**
      * It would be nice to handle redirects explicitely so
      *    that the file name could be derived
