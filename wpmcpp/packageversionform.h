@@ -21,7 +21,7 @@ public:
     /**
      * Fills the form with the data of a package version.
      *
-     * @param pv a package version
+     * @param pv package version
      */
     void fillForm(PackageVersion* pv);
 

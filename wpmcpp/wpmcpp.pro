@@ -28,7 +28,8 @@ SOURCES += main.cpp \
     progressframe.cpp \
     messageframe.cpp \
     xmlutils.cpp \
-    settingsframe.cpp
+    settingsframe.cpp \
+    packageframe.cpp
 HEADERS += mainwindow.h \
     packageversion.h \
     repository.h \
@@ -55,13 +56,15 @@ HEADERS += mainwindow.h \
     taskbar.h \
     xmlutils.h \
     settingsframe.h \
-    mstask.h
+    mstask.h \
+    packageframe.h
 FORMS += mainwindow.ui \
     packageversionform.ui \
     licenseform.ui \
     progressframe.ui \
     messageframe.ui \
-    settingsframe.ui
+    settingsframe.ui \
+    packageframe.ui
 INCLUDEPATH += ..\\quazip\\quazip ..\\zlib
 LIBS += ..\\quazip\\quazip\\release\\libquazip.a \
     ..\\zlib\\libz.a \

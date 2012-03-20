@@ -23,6 +23,20 @@ Repository::Repository(): QObject()
     addWellKnownPackages();
 }
 
+QList<PackageVersion*> Repository::getPackageVersions(const QString& package)
+{
+    QList<PackageVersion*> ret;
+
+    for (int i = 0; i < packageVersions.count(); i++) {
+        PackageVersion* pv = packageVersions.at(i);
+        if (pv->package == package) {
+            ret.append(pv);
+        }
+    }
+
+    return ret;
+}
+
 QList<PackageVersion*> Repository::getInstalled()
 {
     QList<PackageVersion*> ret;

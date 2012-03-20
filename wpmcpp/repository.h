@@ -186,13 +186,21 @@ public:
             const Version &v);
 
     /**
-     * Finds all installed packages. This method lists all directories in the
-     * installation directory and finds the corresponding package versions
+     * Finds all installed packages.
      *
      * @return the list of installed package versions (the objects should not
      *     be freed)
      */
     QList<PackageVersion*> getInstalled();
+
+    /**
+     * Finds all package versions.
+     *
+     * @param package full package name
+     * @return the list of package versions (the objects should not
+     *     be freed)
+     */
+    QList<PackageVersion*> getPackageVersions(const QString& package);
 
     /**
      * Counts the number of installed packages that can be updated.
