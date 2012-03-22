@@ -95,6 +95,10 @@
         <title>IrfanView license</title>
         <url>http://www.irfanview.com/eula.htm</url>
     </license>
+    <license name="com.maniactools.FreeM4aToMP3ConverterLicense">
+        <title>Free M4a to MP3 Converter license</title>
+        <url>http://dl.dropbox.com/u/17046326/license/com.maniactools.FreeM4aToMP3ConverterLicense.txt</url>
+    </license>
     <license name="com.microsoft.SQLServerJDBCDriver">
         <title>SQL Server JDBC driver license</title>
         <url>http://download.microsoft.com/download/D/6/A/D6A241AC-433E-4CD2-A1CE-50177E8428F0/1033/license_English.rtf</url>
@@ -783,6 +787,12 @@
         <title>LockHunter</title>
         <url>http://lockhunter.com/</url>
         <description>handles locked files</description>
+    </package>
+    <package name="com.maniactools.FreeM4aToMP3Converter">
+        <title>Free M4A to MP3 Converter</title>
+        <url>http://www.maniactools.com/soft/m4a-to-mp3-converter/index.shtml</url>
+        <description>convert AAC to MP3 and M4A to MP3</description>
+        <license>com.maniactools.FreeM4aToMP3ConverterLicense</license>
     </package>
     <package name="com.microsoft.AccessEnum">
         <title>AccessEnum</title>
@@ -16473,5 +16483,22 @@ if %err% neq 0 exit %err%
 </file>
         <url>http://downloads.sourceforge.net/project/gnuplot/gnuplot/4.6.0/gp460-win32-setup.exe?ts=1331893668</url>
         <sha1>E38D64E570290B465FAE451648916CCC3402DC74</sha1>
+    </version>
+
+    <!-- installation and uninstallation open a new web browser window -->
+    <version name="7.0.61" package="com.maniactools.FreeM4aToMP3Converter" type="one-file">
+        <file path=".WPM\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x
+"%setup%" /SP- /VERYSILENT /SUPPRESSMSGBOXES /NOCANCEL /NORESTART /DIR="%CD%" /SAVEINF="%CD%\.WPM\InnoSetupInfo.ini" /LOG="%CD%\.WPM\InnoSetupInstall.log"
+set err=%errorlevel%
+type .WPM\InnoSetupInstall.log
+if %err% neq 0 exit %err%
+</file>
+        <file path=".WPM\Uninstall.bat">unins000.exe /VERYSILENT /SUPPRESSMSGBOXES /NORESTART /LOG="%CD%\.WPM\InnoSetupUninstall.log"
+set err=%errorlevel%
+type .WPM\InnoSetupUninstall.log
+if %err% neq 0 exit %err%
+</file>
+        <url>http://dl.dropbox.com/u/17046326/files/com.maniactools.FreeM4aToMP3Converter-7.0.61.exe</url>
+        <sha1>e1bf1427bd1edd48e6597e2e18d7639ad37d12ba</sha1>
     </version>
 </root>
