@@ -29,7 +29,8 @@ SOURCES += main.cpp \
     messageframe.cpp \
     xmlutils.cpp \
     settingsframe.cpp \
-    packageframe.cpp
+    packageframe.cpp \
+    selection.cpp
 HEADERS += mainwindow.h \
     packageversion.h \
     repository.h \
@@ -57,7 +58,8 @@ HEADERS += mainwindow.h \
     xmlutils.h \
     settingsframe.h \
     mstask.h \
-    packageframe.h
+    packageframe.h \
+    selection.h
 FORMS += mainwindow.ui \
     packageversionform.ui \
     licenseform.ui \
