@@ -17,6 +17,7 @@
 #include "job.h"
 #include "fileloader.h"
 #include "taskbar.h"
+#include "selection.h"
 
 namespace Ui {
     class MainWindow;
@@ -35,7 +36,7 @@ const UINT NIN_KEYSELECT = NIN_SELECT or NINF_KEY;
 /**
  * Main window.
  */
-class MainWindow : public QMainWindow {
+class MainWindow : public QMainWindow, public Selection {
     Q_OBJECT
 private:
     static MainWindow* instance;
@@ -61,27 +62,20 @@ private:
     void setActionAccelerators(QWidget* w);
     void chooseAccelerators(QStringList* titles);
 
+    void updateInstallAction();
+    void updateUninstallAction();
+    void updateUpdateAction();
+    void updateTestDownloadSiteAction();
+    void updateGotoPackageURLAction();
+    void updateActionShowDetailsAction();
+    void updateCloseTabAction();
+    void updateReloadRepositoriesAction();
+    void updateScanHardDrivesAction();
+
     /**
      * Fills the table with known package versions.
      */
     void fillList();
-
-    /**
-     * This method returns a non-null PackageVersion* if something is selected
-     * in the list or package details are shown in the current tab.
-     *
-     * @return selected package version or 0.
-     */
-    PackageVersion* getSelectedPackageVersion();
-
-    /**
-     * This method returns a all current PackageVersion* if
-     * something is selected
-     * in the list or package details are shown in the current tab.
-     *
-     * @return selected package versions
-     */
-    QList<PackageVersion*> getSelectedPackageVersions();
 
     /**
      * This method returns a non-null PackageVersion* if something is selected
@@ -96,7 +90,7 @@ private:
      *
      * @return selected package versions
      */
-    QList<PackageVersion*> getSelectedPackageVersionsInTable();
+    QList<PackageVersion*> getSelectedPackageVersionsInTable() const;
 
     /**
      * @param pv a version or 0
@@ -202,6 +196,8 @@ public:
      * @param title tab title
      */
     void addTab(QWidget* w, const QIcon& icon, const QString& title);
+
+    QList<void*> getSelected(const QString& type) const;
 protected:
     void changeEvent(QEvent *e);
 

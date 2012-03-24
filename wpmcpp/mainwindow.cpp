@@ -152,7 +152,7 @@ void ScanHardDrivesThread::run()
 }
 
 MainWindow::MainWindow(QWidget *parent) :
-    QMainWindow(parent),
+    QMainWindow(parent), Selection(),
     ui(new Ui::MainWindow)
 {
     instance = this;
@@ -274,13 +274,18 @@ bool MainWindow::winEvent(MSG* message, long* result)
 
 void MainWindow::showDetails()
 {
-    PackageVersion* pv = getSelectedPackageVersion();
-    if (pv) {
-        PackageVersionForm* pvf = new PackageVersionForm(this->ui->tabWidget);
-        pvf->fillForm(pv);
-        QIcon icon = getPackageVersionIcon(pv);
-        this->ui->tabWidget->addTab(pvf, icon, pv->toString());
-        this->ui->tabWidget->setCurrentIndex(this->ui->tabWidget->count() - 1);
+    Selection* sel = Selection::findCurrent();
+    if (sel) {
+        QList<void*> selected = sel->getSelected("PackageVersion");
+        for (int i = 0; i < selected.count(); i++) {
+            PackageVersion* pv = (PackageVersion*) selected.at(i);
+
+            PackageVersionForm* pvf = new PackageVersionForm(this->ui->tabWidget);
+            pvf->fillForm(pv);
+            QIcon icon = getPackageVersionIcon(pv);
+            this->ui->tabWidget->addTab(pvf, icon, pv->toString());
+            this->ui->tabWidget->setCurrentIndex(this->ui->tabWidget->count() - 1);
+        }
     }
 }
 
@@ -520,7 +525,7 @@ PackageVersion* MainWindow::getSelectedPackageVersionInTable()
     return 0;
 }
 
-QList<PackageVersion*> MainWindow::getSelectedPackageVersionsInTable()
+QList<PackageVersion*> MainWindow::getSelectedPackageVersionsInTable() const
 {
     QList<PackageVersion*> result;
     QList<QTableWidgetItem*> sel = this->ui->tableWidget->selectedItems();
@@ -531,34 +536,6 @@ QList<PackageVersion*> MainWindow::getSelectedPackageVersionsInTable()
             PackageVersion* pv = (PackageVersion *) v.value<void*>();
             result.append(pv);
         }
-    }
-    return result;
-}
-
-PackageVersion* MainWindow::getSelectedPackageVersion()
-{
-    QWidget* w = this->ui->tabWidget->widget(this->ui->tabWidget->
-            currentIndex());
-    PackageVersionForm* pvf = dynamic_cast<PackageVersionForm*>(w);
-    if (pvf) {
-        return pvf->pv;
-    } else if (w == this->ui->tab){
-        return getSelectedPackageVersionInTable();
-    } else {
-        return 0;
-    }
-}
-
-QList<PackageVersion*> MainWindow::getSelectedPackageVersions()
-{
-    QList<PackageVersion*> result;
-    QWidget* w = this->ui->tabWidget->widget(this->ui->tabWidget->
-            currentIndex());
-    PackageVersionForm* pvf = dynamic_cast<PackageVersionForm*>(w);
-    if (pvf) {
-        result.append(pvf->pv);
-    } else if (w == this->ui->tab){
-        result = getSelectedPackageVersionsInTable();
     }
     return result;
 }
@@ -917,6 +894,18 @@ void MainWindow::on_actionExit_triggered()
         this->close();
 }
 
+QList<void*> MainWindow::getSelected(const QString& type) const
+{
+    QList<void*> res;
+    if (type == "PackageVersion") {
+        QList<PackageVersion*> pvs = this->getSelectedPackageVersionsInTable();
+        for (int i = 0; i < pvs.count(); i++) {
+            res.append(pvs.at(i));
+        }
+    }
+    return res;
+}
+
 void MainWindow::unregisterJob(Job *job)
 {
     int index = this->runningJobs.indexOf(job);
@@ -930,14 +919,17 @@ void MainWindow::unregisterJob(Job *job)
 
 void MainWindow::on_actionUninstall_activated()
 {
-    QList<PackageVersion*> pvs = getSelectedPackageVersions();
+    Selection* selection = Selection::findCurrent();
+    QList<void*> selected;
+    if (selection)
+        selected = selection->getSelected("PackageVersion");
 
     QList<InstallOperation*> ops;
     QList<PackageVersion*> installed = Repository::getDefault()->getInstalled();
 
     QString err;
-    for (int i = 0; i < pvs.count(); i++) {
-        PackageVersion* pv = pvs.at(i);
+    for (int i = 0; i < selected.count(); i++) {
+        PackageVersion* pv = (PackageVersion*) selected.at(i);
         err = pv->planUninstallation(installed, ops);
         if (!err.isEmpty())
             break;
@@ -974,17 +966,31 @@ bool MainWindow::isUpdateEnabled(PackageVersion* pv)
 
 void MainWindow::updateActions()
 {
-    QList<PackageVersion*> pvs = getSelectedPackageVersions();
+    updateInstallAction();
+    updateUninstallAction();
+    updateUpdateAction();
+    updateGotoPackageURLAction();
+    updateTestDownloadSiteAction();
+    updateActionShowDetailsAction();
+    updateCloseTabAction();
+    updateReloadRepositoriesAction();
+    updateScanHardDrivesAction();
+}
 
-    // qDebug() << pvs.count();
+void MainWindow::updateInstallAction()
+{
+    Selection* selection = Selection::findCurrent();
+    QList<void*> selected;
+    if (selection)
+        selected = selection->getSelected("PackageVersion");
 
-    bool enabled = pvs.count() > 0 &&
+    bool enabled = selected.count() > 0 &&
             !hardDriveScanRunning && !reloadRepositoriesThreadRunning;
-    for (int i = 0; i < pvs.count(); i++) {
+    for (int i = 0; i < selected.count(); i++) {
         if (!enabled)
             break;
 
-        PackageVersion* pv = pvs.at(i);
+        PackageVersion* pv = (PackageVersion*) selected.at(i);
 
         enabled = enabled &&
                 pv && !pv->isLocked() &&
@@ -992,14 +998,22 @@ void MainWindow::updateActions()
                 pv->download.isValid();
     }
     this->ui->actionInstall->setEnabled(enabled);
+}
 
-    enabled = pvs.count() > 0 &&
+void MainWindow::updateUninstallAction()
+{
+    Selection* selection = Selection::findCurrent();
+    QList<void*> selected;
+    if (selection)
+        selected = selection->getSelected("PackageVersion");
+
+    bool enabled = selected.count() > 0 &&
             !hardDriveScanRunning && !reloadRepositoriesThreadRunning;
-    for (int i = 0; i < pvs.count(); i++) {
+    for (int i = 0; i < selected.count(); i++) {
         if (!enabled)
             break;
 
-        PackageVersion* pv = pvs.at(i);
+        PackageVersion* pv = (PackageVersion*) selected.at(i);
 
         enabled = enabled &&
                 pv && !pv->isLocked() &&
@@ -1007,50 +1021,105 @@ void MainWindow::updateActions()
                 !pv->isExternal();
     }
     this->ui->actionUninstall->setEnabled(enabled);
+}
 
-    enabled = pvs.count() >= 1 &&
+void MainWindow::updateUpdateAction()
+{
+    Selection* selection = Selection::findCurrent();
+    QList<void*> selected;
+    if (selection)
+        selected = selection->getSelected("PackageVersion");
+
+    bool enabled = selected.count() >= 1 &&
             !hardDriveScanRunning && !reloadRepositoriesThreadRunning;
-    for (int i = 0; i < pvs.count(); i++) {
+    for (int i = 0; i < selected.count(); i++) {
         if (!enabled)
             break;
 
-        PackageVersion* pv = pvs.at(i);
+        PackageVersion* pv = (PackageVersion*) selected.at(i);
 
         enabled = enabled && isUpdateEnabled(pv);
     }
     this->ui->actionUpdate->setEnabled(enabled);
+}
 
-    PackageVersion* pv = getSelectedPackageVersion();
-    Package* p;
-    if (pv)
-        p = Repository::getDefault()->findPackage(pv->package);
-    else
-        p = 0;
-    this->ui->actionGotoPackageURL->setEnabled(
-            pvs.count() == 1 &&
-            !reloadRepositoriesThreadRunning &&
-            pv && p &&
-            QUrl(p->url).isValid());
+void MainWindow::updateScanHardDrivesAction()
+{
+    this->ui->actionScan_Hard_Drives->setEnabled(
+            !hardDriveScanRunning && !reloadRepositoriesThreadRunning);
+}
 
-    this->ui->actionTest_Download_Site->setEnabled(
-            pvs.count() == 1 &&
-            !reloadRepositoriesThreadRunning &&
-            pv &&
-            pv->download.isValid());
+void MainWindow::updateReloadRepositoriesAction()
+{
+    this->ui->actionReload_Repositories->setEnabled(
+            !hardDriveScanRunning && !reloadRepositoriesThreadRunning);
+}
 
-    this->ui->actionShow_Details->setEnabled(
-            pvs.count() == 1 &&
-            !reloadRepositoriesThreadRunning && pv);
-
+void MainWindow::updateCloseTabAction()
+{
     QWidget* w = this->ui->tabWidget->currentWidget();
     this->ui->actionClose_Tab->setEnabled(
             w != this->ui->tab && w != this->jobsTab);
+}
 
-    this->ui->actionReload_Repositories->setEnabled(
-            !hardDriveScanRunning && !reloadRepositoriesThreadRunning);
+void MainWindow::updateActionShowDetailsAction()
+{
+    Selection* selection = Selection::findCurrent();
+    QList<void*> selected;
+    if (selection)
+        selected = selection->getSelected("PackageVersion");
 
-    this->ui->actionScan_Hard_Drives->setEnabled(
-            !hardDriveScanRunning && !reloadRepositoriesThreadRunning);
+    bool enabled = !reloadRepositoriesThreadRunning && selected.count() > 0;
+
+    this->ui->actionShow_Details->setEnabled(enabled);
+}
+
+void MainWindow::updateTestDownloadSiteAction()
+{
+    Selection* selection = Selection::findCurrent();
+    QList<void*> selected;
+    if (selection)
+        selected = selection->getSelected("PackageVersion");
+
+    bool enabled = false;
+    if (!reloadRepositoriesThreadRunning) {
+        for (int i = 0; i < selected.count(); i++) {
+            PackageVersion* pv = (PackageVersion*) selected.at(i);
+            if (pv->download.isValid()) {
+                enabled = true;
+                break;
+            }
+        }
+    }
+
+    this->ui->actionTest_Download_Site->setEnabled(enabled);
+}
+
+void MainWindow::updateGotoPackageURLAction()
+{
+    Selection* selection = Selection::findCurrent();
+    QList<void*> selected;
+    if (selection)
+        selected = selection->getSelected("PackageVersion");
+
+    bool enabled = false;
+    Repository* r = Repository::getDefault();
+    if (!reloadRepositoriesThreadRunning) {
+        for (int i = 0; i < selected.count(); i++) {
+            PackageVersion* pv = (PackageVersion*) selected.at(i);
+
+            Package* p = r->findPackage(pv->package);
+            if (p) {
+                QUrl url(p->url);
+                if (url.isValid()) {
+                    enabled = true;
+                    break;
+                }
+            }
+        }
+    }
+
+    this->ui->actionGotoPackageURL->setEnabled(enabled);
 }
 
 void MainWindow::on_tableWidget_itemSelectionChanged()
@@ -1198,7 +1267,10 @@ void MainWindow::addTab(QWidget* w, const QIcon& icon, const QString& title)
 
 void MainWindow::on_actionInstall_activated()
 {
-    QList<PackageVersion*> pvs = getSelectedPackageVersions();
+    Selection* selection = Selection::findCurrent();
+    QList<void*> selected;
+    if (selection)
+        selected = selection->getSelected("PackageVersion");
 
     QList<InstallOperation*> ops;
     QList<PackageVersion*> installed =
@@ -1206,8 +1278,8 @@ void MainWindow::on_actionInstall_activated()
     QList<PackageVersion*> avoid;
 
     QString err;
-    for (int i = 0; i < pvs.count(); i++) {
-        PackageVersion* pv = pvs.at(i);
+    for (int i = 0; i < selected.count(); i++) {
+        PackageVersion* pv = (PackageVersion*) selected.at(i);
 
         avoid.clear();
         err = pv->planInstallation(installed, ops, avoid);
@@ -1223,13 +1295,22 @@ void MainWindow::on_actionInstall_activated()
 
 void MainWindow::on_actionGotoPackageURL_triggered()
 {
-    PackageVersion* pv = getSelectedPackageVersion();
-    if (pv) {
-        Package* p = Repository::getDefault()->findPackage(pv->package);
-        if (p) {
-            QUrl url(p->url);
-            if (url.isValid()) {
-                QDesktopServices::openUrl(url);
+    Selection* selection = Selection::findCurrent();
+    QList<void*> selected;
+    if (selection)
+        selected = selection->getSelected("PackageVersion");
+
+    QSet<QString> used;
+    for (int i = 0; i < selected.count(); i++) {
+        PackageVersion* pv = (PackageVersion*) selected.at(i);
+        if (!used.contains(pv->package)) {
+            used.insert(pv->package);
+            Package* p = Repository::getDefault()->findPackage(pv->package);
+            if (p) {
+                QUrl url(p->url);
+                if (url.isValid()) {
+                    QDesktopServices::openUrl(url);
+                }
             }
         }
     }
@@ -1280,39 +1361,46 @@ void MainWindow::on_actionSettings_triggered()
 
 void MainWindow::on_actionUpdate_triggered()
 {
-    QList<PackageVersion*> pvs = getSelectedPackageVersions();
+    Selection* sel = Selection::findCurrent();
+    if (sel) {
+        QList<void*> selected = sel->getSelected("PackageVersion");
 
-    Repository* r = Repository::getDefault();
+        Repository* r = Repository::getDefault();
 
-    QList<Package*> packages;
-    for (int i = 0; i < pvs.count(); i++) {
-        PackageVersion* pv = pvs.at(i);
-        Package* p = r->findPackage(pv->package);
+        QList<Package*> packages;
+        for (int i = 0; i < selected.count(); i++) {
+            PackageVersion* pv = (PackageVersion*) selected.at(i);
+            Package* p = r->findPackage(pv->package);
 
-        // multiple versions of the same package could be selected in the table,
-        // but only one should be updated
-        if (p != 0 && !packages.contains(p)) {
-            packages.append(p);
+            // multiple versions of the same package could be selected in the table,
+            // but only one should be updated
+            if (p != 0 && !packages.contains(p)) {
+                packages.append(p);
+            }
         }
+
+        QList<InstallOperation*> ops;
+        QString err = r->planUpdates(packages, ops);
+
+        if (err.isEmpty()) {
+            process(ops);
+        } else
+            addErrorMessage(err, err, true, QMessageBox::Critical);
     }
-
-    QList<InstallOperation*> ops;
-    QString err = r->planUpdates(packages, ops);
-
-    if (err.isEmpty()) {
-        process(ops);
-    } else
-        addErrorMessage(err, err, true, QMessageBox::Critical);
 }
 
 void MainWindow::on_actionTest_Download_Site_triggered()
 {
-    PackageVersion* pv = getSelectedPackageVersion();
-    if (pv) {
-        QString s = "http://www.urlvoid.com/scan/" + pv->download.host();
-        QUrl url(s);
-        if (url.isValid()) {
-            QDesktopServices::openUrl(url);
+    Selection* sel = Selection::findCurrent();
+    if (sel) {
+        QList<void*> selected = sel->getSelected("PackageVersion");
+        for (int i = 0; i < selected.count(); i++) {
+            PackageVersion* pv = (PackageVersion*) selected.at(i);
+            QString s = "http://www.urlvoid.com/scan/" + pv->download.host();
+            QUrl url(s);
+            if (url.isValid()) {
+                QDesktopServices::openUrl(url);
+            }
         }
     }
 }

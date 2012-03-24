@@ -4,12 +4,13 @@
 #include <QWidget>
 
 #include "packageversion.h"
+#include "selection.h"
 
 namespace Ui {
     class PackageVersionForm;
 }
 
-class PackageVersionForm : public QWidget {
+class PackageVersionForm : public QWidget, public Selection {
     Q_OBJECT
 public:
     /** PackageVersion associated with this form or 0 */
@@ -34,6 +35,8 @@ public:
      * Updates package status.
      */
     void updateStatus();
+
+    QList<void*> getSelected(const QString& type) const;
 protected:
     void changeEvent(QEvent *e);
 
