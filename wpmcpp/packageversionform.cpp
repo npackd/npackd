@@ -24,6 +24,15 @@ void PackageVersionForm::updateIcons()
     this->ui->labelIcon->setPixmap(pixmap);
 }
 
+QList<void*> PackageVersionForm::getSelected(const QString& type) const
+{
+    QList<void*> res;
+    if (type == "PackageVersion" && this->pv) {
+        res.append(this->pv);
+    }
+    return res;
+}
+
 void PackageVersionForm::updateStatus()
 {
     this->ui->lineEditStatus->setText(pv->getStatus());

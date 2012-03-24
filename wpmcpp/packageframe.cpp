@@ -191,6 +191,14 @@ void PackageFrame::showDetails()
     }
 }
 
+QList<void*> PackageFrame::getSelected(const QString& type) const
+{
+    QList<void*> res;
+    if (type == "Package" && this->p) {
+        res.append(this->p);
+    }
+    return res;
+}
 
 void PackageFrame::on_tableWidgetVersions_doubleClicked(const QModelIndex &index)
 {

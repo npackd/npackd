@@ -5,12 +5,13 @@
 #include <QModelIndex>
 
 #include "package.h"
+#include "selection.h"
 
 namespace Ui {
     class PackageFrame;
 }
 
-class PackageFrame : public QFrame
+class PackageFrame : public QFrame, public Selection
 {
     Q_OBJECT
 
@@ -44,6 +45,8 @@ public:
      * Updates package status.
      */
     void updateStatus();
+
+    QList<void*> getSelected(const QString& type) const;
 protected:
     void changeEvent(QEvent *e);
 private slots:

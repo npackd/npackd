@@ -1,18 +1,31 @@
 #ifndef SELECTION_H
 #define SELECTION_H
 
-#include <QObject>
+#include <QList>
 
-class Selection : public QObject
+/**
+ * QWidgets may implement this interface to provide context to actions.
+ */
+class Selection
 {
-    Q_OBJECT
 public:
-    explicit Selection(QObject *parent = 0);
+    explicit Selection();
 
-signals:
+    /**
+     * @param type type of the requested objects. Example: "Package"
+     * @return list of selected objects
+     */
+    virtual QList<void*> getSelected(const QString& type) const = 0;
 
-public slots:
+    /**
+     * @return current selected QWidget* or 0
+     */
+    static Selection* findCurrent();
 
+    /**
+     * This signal will be emitted each time the selection changes.
+     */
+    // void selectionChanged();
 };
 
 #endif // SELECTION_H
