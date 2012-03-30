@@ -23,6 +23,7 @@ BOOL Plan(BOOL install, LPCWSTR package,
 }
 
 BOOL Find(LPCWSTR text, BOOL finstalled,
+        DWORD offset, DWORD max,
         PDWORD npackages,
         LPPACKAGE* packages, PROGRESSCHANGEPROC pf, LPCWSTR* err)
 {
