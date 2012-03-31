@@ -14,6 +14,7 @@
 #include <QStringList>
 
 #include "packageversion.h"
+#include "package.h"
 #include "job.h"
 #include "fileloader.h"
 #include "taskbar.h"
@@ -54,10 +55,13 @@ private:
     UINT taskbarMessageId;
     ITaskbarList3* taskbarInterface;
 
+    int findPackageTab(const QString& package) const;
+    int findPackageVersionTab(PackageVersion* pv) const;
+
     void addJobsTab();
     void showDetails();
     void updateIcons();
-    bool isUpdateEnabled(PackageVersion* pv);
+    bool isUpdateEnabled(const QString& package);
     void setMenuAccelerators();
     void setActionAccelerators(QWidget* w);
     void chooseAccelerators(QStringList* titles);
@@ -86,11 +90,11 @@ private:
     PackageVersion* getSelectedPackageVersionInTable();
 
     /**
-     * This method returns all selected PackageVersion* items
+     * This method returns all selected Package* items
      *
-     * @return selected package versions
+     * @return selected packages
      */
-    QList<PackageVersion*> getSelectedPackageVersionsInTable() const;
+    QList<Package*> getSelectedPackagesInTable() const;
 
     /**
      * @param pv a version or 0
@@ -119,10 +123,10 @@ public:
     static QMap<QString, QIcon> icons;
 
     /**
-     * @param pv a package versioin
+     * @param package full package name
      * @return icon for the specified package
      */
-    static QIcon getPackageVersionIcon(PackageVersion* pv);
+    static QIcon getPackageVersionIcon(const QString& package);
 
     /**
      * @return the only instance of this class

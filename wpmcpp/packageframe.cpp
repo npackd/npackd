@@ -58,23 +58,6 @@ QList<QObject*> PackageFrame::getSelectedObjects() const
 {
     QList<QObject*> res;
     /* TODO
-    if (this->ui->tableWidgetVersions->hasFocus()) {
-        QList<QTableWidgetItem*> sel =
-                this->ui->tableWidgetVersions->selectedItems();
-        for (int i = 0; i < sel.count(); i++) {
-            QTableWidgetItem* item = sel.at(i);
-            if (item->column() == 0) {
-                const QVariant v = item->data(Qt::UserRole);
-
-                PackageVersion* pv = (PackageVersion*) v.value<void*>();
-                res.append(pv);
-            }
-        }
-        if (res.isEmpty())
-            res.append(this->p);
-    } else {
-        res.append(this->p);
-    }
     */
     return res;
 }
@@ -184,7 +167,7 @@ void PackageFrame::showDetails()
             PackageVersion* pv = (PackageVersion*) v.value<void*>();
             PackageVersionForm* pvf = new PackageVersionForm(0);
             pvf->fillForm(pv);
-            QIcon icon = mw->getPackageVersionIcon(pv);
+            QIcon icon = mw->getPackageVersionIcon(pv->package);
             mw->addTab(pvf, icon, p->title + " " +
                     pv->version.getVersionString());
         }
@@ -196,6 +179,20 @@ QList<void*> PackageFrame::getSelected(const QString& type) const
     QList<void*> res;
     if (type == "Package" && this->p) {
         res.append(this->p);
+    } else if (type == "PackageVersion") {
+        if (this->ui->tableWidgetVersions->hasFocus()) {
+            QList<QTableWidgetItem*> sel =
+                    this->ui->tableWidgetVersions->selectedItems();
+            for (int i = 0; i < sel.count(); i++) {
+                QTableWidgetItem* item = sel.at(i);
+                if (item->column() == 0) {
+                    const QVariant v = item->data(Qt::UserRole);
+
+                    PackageVersion* pv = (PackageVersion*) v.value<void*>();
+                    res.append(pv);
+                }
+            }
+        }
     }
     return res;
 }
