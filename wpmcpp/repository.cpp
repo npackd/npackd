@@ -23,6 +23,15 @@ Repository::Repository(): QObject()
     addWellKnownPackages();
 }
 
+bool packageVersionLessThan(const PackageVersion* a, const PackageVersion* b) {
+    int r = a->package.compare(b->package);
+    if (r == 0) {
+        r = a->version.compare(b->version);
+    }
+
+    return r < 0;
+}
+
 QList<PackageVersion*> Repository::getPackageVersions(const QString& package)
 {
     QList<PackageVersion*> ret;
@@ -33,6 +42,8 @@ QList<PackageVersion*> Repository::getPackageVersions(const QString& package)
             ret.append(pv);
         }
     }
+
+    qSort(ret.begin(), ret.end(), packageVersionLessThan);
 
     return ret;
 }
