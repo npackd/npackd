@@ -1058,6 +1058,33 @@ void Repository::detectMSIProducts()
             pv->version = version;
             pv->detectionInfo = "msi:" + guid;
             this->packageVersions.append(pv);
+
+            QString dir = WPMUtils::getInstallationDirectory() +
+                    "\\NpackdDetected\\" +
+            WPMUtils::makeValidFilename(p->title, '_');
+            QDir d;
+            if (d.exists(dir)) {
+                dir = WPMUtils::findNonExistingFile(dir + "-" +
+                        pv->version.getVersionString() + "%1");
+            }
+            if (d.mkpath(dir)) {
+                if (d.mkpath(dir + "\\.Npackd")) {
+                    QFile file(dir + "\\.Npackd\\Uninstall.bat");
+                    if (file.open(QIODevice::WriteOnly | QIODevice::Truncate)) {
+                        QTextStream stream(&file);
+                        stream.setCodec("UTF-8");
+                        QString txt = "msiexec.exe /qn /norestart /Lime .Npackd\\UninstallMSI.log /x" + guid + "\r\n" +
+                                "set err=%errorlevel%" + "\r\n" +
+                                "type .Npackd\\UninstallMSI.log" + "\r\n" +
+                                "rem 3010=restart required" + "\r\n" +
+                                "if %err% equ 3010 exit 0" + "\r\n" +
+                                "if %err% neq 0 exit %err%" + "\r\n";
+
+                        stream << txt;
+                        file.close();
+                    }
+                }
+            }
         }
 
         pv->setExternal(true);
