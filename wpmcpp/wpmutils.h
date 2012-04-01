@@ -114,6 +114,12 @@ public:
     static QString validateFullPackageName(const QString& n);
 
     /**
+     * @param name invalid full package name
+     * @return valid package name
+     */
+    static QString makeValidFullPackageName(const QString& name);
+
+    /**
      * Formats a Windows error message.
      *
      * @param err see GetLastError()

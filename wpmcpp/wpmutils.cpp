@@ -242,24 +242,103 @@ QString WPMUtils::validateFullPackageName(const QString& n)
             return QString("-- at position %1 in %2").
                     arg(pos + 1).arg(n);
 
-        QChar c = n.at(0);
-        if (c < '0')
-            return QString("Wrong character at position 1 in %1").
-                    arg(n);
-        for (int i = 1; i < n.length() - 1; i++) {
-            QChar c = n.at(i);
-            if (c < '0' && c != '.' && c != '-') {
-                return QString("Wrong character at position %1 in %2").
-                        arg(i + 1).arg(n);
+        QStringList parts = n.split('.', QString::SkipEmptyParts);
+        for (int j = 0; j < parts.count(); j++) {
+            QString part = parts.at(j);
+
+            int pos = part.indexOf("--");
+            if (pos >= 0)
+                return QString("-- at position %1 in %2").
+                        arg(pos + 1).arg(part);
+
+            if (!part.isEmpty()) {
+                QChar c = part.at(0);
+                if (!((c >= '0' && c <= '9') ||
+                        (c >= 'A' && c <= 'Z') ||
+                        (c == '_') ||
+                        (c >= 'a' && c <= 'z') ||
+                        c.isLetter()))
+                    return QString("Wrong character at position 1 in %1").
+                            arg(part);
+            }
+
+            for (int i = 1; i < part.length() - 1; i++) {
+                QChar c = part.at(i);
+                if (!((c >= '0' && c <= '9') ||
+                        (c >= 'A' && c <= 'Z') ||
+                        (c == '_') ||
+                        (c == '-') ||
+                        (c >= 'a' && c <= 'z') ||
+                        c.isLetter()))
+                    return QString("Wrong character at position %1 in %2").
+                            arg(i + 1).arg(part);
+            }
+
+            if (!part.isEmpty()) {
+                QChar c = part.at(part.length() - 1);
+                if (!((c >= '0' && c <= '9') ||
+                        (c >= 'A' && c <= 'Z') ||
+                        (c == '_') ||
+                        (c >= 'a' && c <= 'z') ||
+                        c.isLetter()))
+                    return QString("Wrong character at position %1 in %2").
+                            arg(part.length()).arg(part);
             }
         }
-        c = n.at(n.length() - 1);
-        if (c < '0')
-            return QString("Wrong character at position %1 in %2").
-                    arg(n.length()).arg(n);
     }
 
     return "";
+}
+
+QString WPMUtils::makeValidFullPackageName(const QString& name)
+{
+    QString r(name);
+    QStringList parts = r.split('.', QString::SkipEmptyParts);
+    for (int j = 0; j < parts.count(); ) {
+        QString part = parts.at(j);
+
+        if (!part.isEmpty()) {
+            QChar c = part.at(0);
+            if (!((c >= '0' && c <= '9') ||
+                    (c >= 'A' && c <= 'Z') ||
+                    (c == '_') ||
+                    (c >= 'a' && c <= 'z') ||
+                    c.isLetter()))
+                part[0] = '_';
+        }
+
+        for (int i = 1; i < part.length() - 1; i++) {
+            QChar c = part.at(i);
+            if (!((c >= '0' && c <= '9') ||
+                    (c >= 'A' && c <= 'Z') ||
+                    (c == '_') ||
+                    (c == '-') ||
+                    (c >= 'a' && c <= 'z') ||
+                    c.isLetter()))
+                part[i] = '_';
+        }
+
+        if (!part.isEmpty()) {
+            QChar c = part.at(part.length() - 1);
+            if (!((c >= '0' && c <= '9') ||
+                    (c >= 'A' && c <= 'Z') ||
+                    (c == '_') ||
+                    (c >= 'a' && c <= 'z') ||
+                    c.isLetter()))
+                part[part.length() - 1] = '_';
+        }
+
+        if (part.isEmpty())
+            parts.removeAt(j);
+        else {
+            parts.replace(j, part);
+            j++;
+        }
+    }
+    r = parts.join(".");
+    if (r.isEmpty())
+        r = '_';
+    return r;
 }
 
 QString WPMUtils::validateSHA1(const QString& sha1)
