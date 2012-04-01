@@ -997,77 +997,135 @@ void Repository::detectControlPanelPrograms()
     }
 }
 
+QStringList Repository::getAllInstalledPackagePaths() const
+{
+    QString windowsDir = WPMUtils::getWindowsDir();
+
+    QStringList r;
+    for (int i = 0; i < this->packageVersions.count(); i++) {
+        PackageVersion* pv = (PackageVersion*) this->packageVersions.at(i);
+        if (pv->installed()) {
+            QString dir = pv->getPath();
+            if (!WPMUtils::pathEquals(dir, windowsDir)) {
+                r.append(dir);
+            }
+        }
+    }
+    return r;
+}
+
+PackageVersion* Repository::findPackageVersionByMSIGUID(
+        const QString& guid) const
+{
+    PackageVersion* r = 0;
+    for (int i = 0; i < this->packageVersions.count(); i++) {
+        PackageVersion* pv = (PackageVersion*) this->packageVersions.at(i);
+        if (pv->msiGUID == guid) {
+            r = pv;
+            break;
+        }
+    }
+    return r;
+}
+
 void Repository::detectMSIProducts()
 {
     QStringList all = WPMUtils::findInstalledMSIProducts();
     // qDebug() << all.at(0);
 
-    for (int i = 0; i < this->packageVersions.count(); i++) {
-        PackageVersion* pv = this->packageVersions.at(i);
-        if (pv->msiGUID.length() == 38) {
-            // qDebug() << pv->msiGUID;
-            if (all.contains(pv->msiGUID)) {
-                all.removeOne(pv->msiGUID);
-                // qDebug() << pv->toString();
-                if (!pv->installed() || pv->isExternal()) {
-                    QString err;
-                    QString p = WPMUtils::getMSIProductLocation(
-                            pv->msiGUID, &err);
-                    if (p.isEmpty() || !err.isEmpty())
-                        p = WPMUtils::getWindowsDir();
-
-                    pv->setPath(p);
-                    pv->setExternal(true);
-                }
-            } else {
-                pv->setPath("");
-            }
-        }
-    }
+    QStringList packagePaths = getAllInstalledPackagePaths();
 
     for (int i = 0; i < all.count(); i++) {
         QString guid = all.at(i);
-        QString package = "msi." + guid.mid(1, 36);
 
-        Package* p = this->findPackage(package);
-        if (!p) {
-            p = new Package(package, guid);
-            this->packages.append(p);
-        }
-
-        QString err;
-        QString title = WPMUtils::getMSIProductName(guid, &err);
-        if (!err.isEmpty())
-            title = guid;
-        p->title = title;
-        p->description = "[MSI database] " + p->title + " GUID: " + guid;
-
-        QString version_ = WPMUtils::getMSIProductAttribute(guid,
-                INSTALLPROPERTY_VERSIONSTRING, &err);
-        Version version;
-        if (err.isEmpty()) {
-            if (!version.setVersion(version_))
-                version.setVersion(1, 0);
-            else
-                version.normalize();
-        }
-
-        PackageVersion* pv = this->findPackageVersion(package, version);
+        PackageVersion* pv = findPackageVersionByMSIGUID(guid);
         if (!pv) {
-            pv = new PackageVersion(package);
-            pv->version = version;
-            pv->detectionInfo = "msi:" + guid;
-            this->packageVersions.append(pv);
+            QString package = "msi." + guid.mid(1, 36);
 
-            QString dir = WPMUtils::getInstallationDirectory() +
-                    "\\NpackdDetected\\" +
-            WPMUtils::makeValidFilename(p->title, '_');
-            QDir d;
-            if (d.exists(dir)) {
-                dir = WPMUtils::findNonExistingFile(dir + "-" +
-                        pv->version.getVersionString() + "%1");
+            QString err;
+            QString version_ = WPMUtils::getMSIProductAttribute(guid,
+                    INSTALLPROPERTY_VERSIONSTRING, &err);
+            Version version;
+            if (err.isEmpty()) {
+                if (!version.setVersion(version_))
+                    version.setVersion(1, 0);
+                else
+                    version.normalize();
             }
-            if (d.mkpath(dir)) {
+
+            pv = this->findPackageVersion(package, version);
+            if (!pv) {
+                pv = new PackageVersion(package);
+                pv->version = version;
+                this->packageVersions.append(pv);
+            }
+        }
+
+        Package* p = findPackage(pv->package);
+        if (!p) {
+            QString err;
+            QString title = WPMUtils::getMSIProductName(guid, &err);
+            if (!err.isEmpty())
+                title = guid;
+
+            p = new Package(pv->package, title);
+            this->packages.append(p);
+
+            p->description = "[MSI database] " + p->title + " GUID: " + guid;
+        }
+
+        if (p->url.isEmpty()) {
+            QString err;
+            QString url = WPMUtils::getMSIProductAttribute(guid,
+                    INSTALLPROPERTY_URLINFOABOUT, &err);
+            if (err.isEmpty() && QUrl(url).isValid())
+                p->url = url;
+        }
+
+        if (p->url.isEmpty()) {
+            QString err;
+            QString url = WPMUtils::getMSIProductAttribute(guid,
+                    INSTALLPROPERTY_HELPLINK, &err);
+            if (err.isEmpty() && QUrl(url).isValid())
+                p->url = url;
+        }
+
+        if (!pv->installed()) {
+            QDir d;
+            QString err;
+            QString dir = WPMUtils::getMSIProductLocation(guid, &err);
+            if (!err.isEmpty())
+                dir = "";
+
+            if (!dir.isEmpty()) {
+                dir = WPMUtils::normalizePath(dir);
+
+                bool pathUsed = false;
+                for (int j = 0; j < packagePaths.count(); j++) {
+                    if (WPMUtils::pathEquals(dir, packagePaths.at(j)) ||
+                            WPMUtils::isUnder(dir, packagePaths.at(j))) {
+                        pathUsed = true;
+                        break;
+                    }
+                }
+
+                if (pathUsed)
+                    dir = "";
+            }
+
+            pv->detectionInfo = "msi:" + guid;
+            if (dir.isEmpty() || !d.exists(dir)) {
+                dir = WPMUtils::getInstallationDirectory() +
+                        "\\NpackdDetected\\" +
+                WPMUtils::makeValidFilename(p->title, '_');
+                if (d.exists(dir)) {
+                    dir = WPMUtils::findNonExistingFile(dir + "-" +
+                            pv->version.getVersionString() + "%1");
+                }
+                d.mkpath(dir);
+            }
+
+            if (d.exists(dir)) {
                 if (d.mkpath(dir + "\\.Npackd")) {
                     QFile file(dir + "\\.Npackd\\Uninstall.bat");
                     if (file.open(QIODevice::WriteOnly | QIODevice::Truncate)) {
@@ -1082,17 +1140,12 @@ void Repository::detectMSIProducts()
 
                         stream << txt;
                         file.close();
+                        pv->setPath(dir);
+                        pv->setExternal(false);
                     }
                 }
             }
         }
-
-        pv->setExternal(true);
-
-        QString dir = WPMUtils::getMSIProductLocation(guid, &err);
-        if (!err.isEmpty() || dir.isEmpty())
-            dir = WPMUtils::getWindowsDir();
-        pv->setPath(dir);
     }
 }
 

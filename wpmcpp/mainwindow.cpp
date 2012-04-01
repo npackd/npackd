@@ -687,8 +687,8 @@ void MainWindow::fillList()
 
         // filter by text
         if (textFilter.count() > 0) {
-            QString fullText = p->title + " " + p->description +
-                    p->name;
+            QString fullText = (p->title + " " + p->description +
+                    p->name).toLower();
             bool b = true;
             for (int i = 0; i < textFilter.count(); i++) {
                 if (fullText.indexOf(textFilter.at(i)) < 0) {

@@ -83,6 +83,10 @@ private:
     void detectPre_1_15_Packages();
 
     void addWellKnownPackages();
+
+    QStringList getAllInstalledPackagePaths() const;
+    PackageVersion* findPackageVersionByMSIGUID(
+            const QString& guid) const;
 public:
     /**
      * @return newly created object pointing to the repositories
