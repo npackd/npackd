@@ -965,7 +965,8 @@ void Repository::detectControlPanelPrograms()
                     title = entries.at(i);
                 QString package = entries.at(i);
                 package.replace('.', '_');
-                package = "control-panel." + package;
+                package = WPMUtils::makeValidFullPackageName(
+                        "control-panel." + package);
                 Package* p = this->findPackage(package);
                 if (!p) {
                     p = new Package(package, title);
@@ -982,6 +983,7 @@ void Repository::detectControlPanelPrograms()
                 PackageVersion* pv = this->findPackageVersion(package, version);
                 if (!pv) {
                     pv = new PackageVersion(package);
+                    pv->detectionInfo = "control-panel:" + entries.at(i);
                     pv->version = version;
                     this->packageVersions.append(pv);
                 }
@@ -1032,6 +1034,7 @@ void Repository::detectMSIProducts()
             p = new Package(package, guid);
             this->packages.append(p);
         }
+
         QString err;
         QString title = WPMUtils::getMSIProductName(guid, &err);
         if (!err.isEmpty())
@@ -1053,6 +1056,7 @@ void Repository::detectMSIProducts()
         if (!pv) {
             pv = new PackageVersion(package);
             pv->version = version;
+            pv->detectionInfo = "msi:" + guid;
             this->packageVersions.append(pv);
         }
 
