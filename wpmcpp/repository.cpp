@@ -15,6 +15,7 @@
 #include "msi.h"
 #include "windowsregistry.h"
 #include "xmlutils.h"
+#include "wpmutils.h"
 
 Repository Repository::def;
 
@@ -135,11 +136,13 @@ PackageVersion* Repository::createPackageVersion(QDomElement* e, QString* err)
 
     // qDebug() << "Repository::createPackageVersion.1" << e->attribute("package");
 
-    PackageVersion* a = new PackageVersion(
-            e->attribute("package").trimmed());
-    if (a->package.isEmpty()) {
-        err->append("Attribute 'package' is missing in <version>");
+    QString packageName = e->attribute("package").trimmed();
+    *err = WPMUtils::validateFullPackageName(packageName);
+    if (!err->isEmpty()) {
+        err->prepend("Error in the attribute 'package' in <version>: ");
     }
+
+    PackageVersion* a = new PackageVersion(packageName);
 
     if (err->isEmpty()) {
         QString url = XMLUtils::getTagContent(*e, "url").trimmed();
@@ -351,8 +354,9 @@ Package* Repository::createPackage(QDomElement* e, QString* err)
     *err = "";
 
     QString name = e->attribute("name").trimmed();
-    if (name.isEmpty()) {
-        err->append("Empty attribute 'name' in <package>)");
+    *err = WPMUtils::validateFullPackageName(name);
+    if (!err->isEmpty()) {
+        err->prepend("Error in attribute 'name' in <package>: ");
     }
 
     Package* a = new Package(name, name);
@@ -752,6 +756,12 @@ void Repository::recognize(Job* job)
     }
 
     if (!job->isCancelled()) {
+        job->setHint("Detecting Control Panel programs");
+        detectControlPanelPrograms();
+        job->setProgress(0.85);
+    }
+
+    if (!job->isCancelled()) {
         job->setHint("Detecting MSI packages");
         detectMSIProducts();
         job->setProgress(0.9);
@@ -937,6 +947,54 @@ void Repository::detectOneDotNet(const WindowsRegistry& wr,
     }
 }
 
+void Repository::detectControlPanelPrograms()
+{
+    WindowsRegistry wr;
+    QString err = wr.open(HKEY_LOCAL_MACHINE,
+            "SOFTWARE\\Wow6432Node\\Microsoft\\Windows\\CurrentVersion\\Uninstall",
+            KEY_READ
+    );
+    if (err.isEmpty()) {
+        QStringList entries = wr.list(&err);
+        for (int i = 0; i < entries.count(); i++) {
+            WindowsRegistry k;
+            err = k.open(wr, entries.at(i), KEY_READ);
+            if (err.isEmpty()) {
+                QString title = k.get("DisplayName", &err);
+                if (!err.isEmpty() || title.isEmpty())
+                    title = entries.at(i);
+                QString package = entries.at(i);
+                package.replace('.', '_');
+                package = "control-panel." + package;
+                Package* p = this->findPackage(package);
+                if (!p) {
+                    p = new Package(package, title);
+                    this->packages.append(p);
+                }
+                p->title = title;
+                p->description = "[Control Panel] " + p->title;
+
+                Version version;
+                QString version_ = k.get("DisplayVersion", &err);
+                if (err.isEmpty())
+                    version.setVersion(version_);
+
+                PackageVersion* pv = this->findPackageVersion(package, version);
+                if (!pv) {
+                    pv = new PackageVersion(package);
+                    pv->version = version;
+                    this->packageVersions.append(pv);
+                }
+
+                pv->setExternal(true);
+
+                QString dir = WPMUtils::getWindowsDir();
+                pv->setPath(dir);
+            }
+        }
+    }
+}
+
 void Repository::detectMSIProducts()
 {
     QStringList all = WPMUtils::findInstalledMSIProducts();
@@ -947,6 +1005,7 @@ void Repository::detectMSIProducts()
         if (pv->msiGUID.length() == 38) {
             // qDebug() << pv->msiGUID;
             if (all.contains(pv->msiGUID)) {
+                all.removeOne(pv->msiGUID);
                 // qDebug() << pv->toString();
                 if (!pv->installed() || pv->isExternal()) {
                     QString err;
@@ -962,6 +1021,47 @@ void Repository::detectMSIProducts()
                 pv->setPath("");
             }
         }
+    }
+
+    for (int i = 0; i < all.count(); i++) {
+        QString guid = all.at(i);
+        QString package = "msi." + guid.mid(1, 36);
+
+        Package* p = this->findPackage(package);
+        if (!p) {
+            p = new Package(package, guid);
+            this->packages.append(p);
+        }
+        QString err;
+        QString title = WPMUtils::getMSIProductName(guid, &err);
+        if (!err.isEmpty())
+            title = guid;
+        p->title = title;
+        p->description = "[MSI database] " + p->title + " GUID: " + guid;
+
+        QString version_ = WPMUtils::getMSIProductAttribute(guid,
+                INSTALLPROPERTY_VERSIONSTRING, &err);
+        Version version;
+        if (err.isEmpty()) {
+            if (!version.setVersion(version_))
+                version.setVersion(1, 0);
+            else
+                version.normalize();
+        }
+
+        PackageVersion* pv = this->findPackageVersion(package, version);
+        if (!pv) {
+            pv = new PackageVersion(package);
+            pv->version = version;
+            this->packageVersions.append(pv);
+        }
+
+        pv->setExternal(true);
+
+        QString dir = WPMUtils::getMSIProductLocation(guid, &err);
+        if (!err.isEmpty() || dir.isEmpty())
+            dir = WPMUtils::getWindowsDir();
+        pv->setPath(dir);
     }
 }
 
