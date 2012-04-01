@@ -113,6 +113,8 @@ void PackageVersion::loadFromRegistry()
         }
     }
 
+    this->detectionInfo = entryWR.get("DetectionInfo", &err);
+
     emitStatusChanged();
 }
 
@@ -180,6 +182,7 @@ QString PackageVersion::saveInstallationInfo()
 
     wr.set("Path", this->ipath);
     wr.setDWORD("External", this->external_ ? 1 : 0);
+    wr.set("DetectionInfo", this->detectionInfo);
     return "";
 }
 

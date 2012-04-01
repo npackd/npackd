@@ -106,6 +106,14 @@ public:
     static QString validateSHA1(const QString& sha1);
 
     /**
+     * Validates a full package name.
+     *
+     * @param n a package name
+     * @return an error message or an empty string if n is a valid package name.
+     */
+    static QString validateFullPackageName(const QString& n);
+
+    /**
      * Formats a Windows error message.
      *
      * @param err see GetLastError()
@@ -248,6 +256,36 @@ public:
      * @return installation location (C:\Program Files\MyProg)
      */
     static QString getMSIProductLocation(const QString& guid, QString* err);
+
+    /**
+     * Returns the value of the specified attribute for the specified MSI
+     * product.
+     *
+     * @param guid product GUID
+     * @param attribute INSTALLPROPERTY_PRODUCTNAME for the name etc
+     * @param err error message will be stored here
+     * @return installation location (C:\Program Files\MyProg)
+     */
+    static QString getMSIProductAttribute(const QString& guid,
+            LPCWSTR attribute, QString* err);
+
+    /**
+     * Finds the name of an installed MSI product.
+     *
+     * @param guid product GUID
+     * @param err error message will be stored here
+     * @return product name
+     */
+    static QString getMSIProductName(const QString& guid, QString* err);
+
+    /**
+     * Compares 2 file paths.
+     *
+     * @param patha absolute file path
+     * @param pathb absolute file path
+     * @return true if paths are equal
+     */
+    static bool pathEquals(const QString& patha, const QString& pathb);
 
     /**
      * @return Names and GUIDs for installed products (MSI)

@@ -227,6 +227,41 @@ QString WPMUtils::getShellDir(int type)
     return QString::fromUtf16(reinterpret_cast<ushort*>(dir));
 }
 
+QString WPMUtils::validateFullPackageName(const QString& n)
+{
+    if (n.length() == 0) {
+        return "Empty package name";
+    } else {
+        int pos = n.indexOf("..");
+        if (pos >= 0)
+            return QString("Empty segment at position %1 in %2").
+                    arg(pos + 1).arg(n);
+
+        pos = n.indexOf("--");
+        if (pos >= 0)
+            return QString("-- at position %1 in %2").
+                    arg(pos + 1).arg(n);
+
+        QChar c = n.at(0);
+        if (c < '0')
+            return QString("Wrong character at position 1 in %1").
+                    arg(n);
+        for (int i = 1; i < n.length() - 1; i++) {
+            QChar c = n.at(i);
+            if (c < '0' && c != '.' && c != '-') {
+                return QString("Wrong character at position %1 in %2").
+                        arg(i + 1).arg(n);
+            }
+        }
+        c = n.at(n.length() - 1);
+        if (c < '0')
+            return QString("Wrong character at position %1 in %2").
+                    arg(n.length()).arg(n);
+    }
+
+    return "";
+}
+
 QString WPMUtils::validateSHA1(const QString& sha1)
 {
     if (sha1.length() != 40) {
@@ -371,7 +406,13 @@ QStringList WPMUtils::findInstalledMSIProductNames()
     return result;
 }
 
-QString WPMUtils::getMSIProductLocation(const QString &guid, QString *err)
+QString WPMUtils::getMSIProductLocation(const QString& guid, QString* err)
+{
+    return getMSIProductAttribute(guid, INSTALLPROPERTY_INSTALLLOCATION, err);
+}
+
+QString WPMUtils::getMSIProductAttribute(const QString &guid,
+        LPCWSTR attribute, QString *err)
 {
     WCHAR value[MAX_PATH];
     DWORD len;
@@ -379,7 +420,7 @@ QString WPMUtils::getMSIProductLocation(const QString &guid, QString *err)
     len = sizeof(value) / sizeof(value[0]);
     UINT r = MsiGetProductInfo(
             (WCHAR*) guid.utf16(),
-            INSTALLPROPERTY_INSTALLLOCATION,
+            attribute,
             value, &len);
     QString p;
     if (r == ERROR_SUCCESS) {
@@ -390,6 +431,20 @@ QString WPMUtils::getMSIProductLocation(const QString &guid, QString *err)
                 arg(guid);
     }
     return p;
+}
+
+bool WPMUtils::pathEquals(const QString& patha, const QString& pathb)
+{
+    QString a = patha;
+    QString b = pathb;
+    a.replace('/', '\\');
+    b.replace('/', '\\');
+    return QString::compare(a, b, Qt::CaseInsensitive) == 0;
+}
+
+QString WPMUtils::getMSIProductName(const QString& guid, QString* err)
+{
+    return getMSIProductAttribute(guid, INSTALLPROPERTY_PRODUCTNAME, err);
 }
 
 QStringList WPMUtils::findInstalledMSIProducts()

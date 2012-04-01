@@ -112,6 +112,15 @@ public:
      */
     QString msiGUID;
 
+    /**
+     * The value is not empty for externally installed and detected packages.
+     * For example, packages detected from the MSI database have here the MSI
+     * product GUID.
+     *
+     * MSI: "MSI:{msi.86ce85e6-dbac-3ffd-b977-e4b79f83c909}"
+     */
+    QString detectionInfo;
+
     PackageVersion();
     PackageVersion(const QString& package);
     virtual ~PackageVersion();
