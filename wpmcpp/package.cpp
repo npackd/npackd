@@ -14,3 +14,10 @@ bool Package::isValidName(QString& name)
     }
     return r;
 }
+
+QString Package::getFullText()
+{
+    if (this->fullText.isEmpty())
+        this->fullText = (title + " " + description + name).toLower();
+    return this->fullText;
+}
