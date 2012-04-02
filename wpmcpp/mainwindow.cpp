@@ -677,18 +677,9 @@ void MainWindow::fillList()
     for (int i = 0; i < r->packages.count(); i++) {
         Package* p = r->packages.at(i);
 
-        if (!p->icon.isEmpty() && !requestedIcons.contains(p->icon)) {
-            FileLoaderItem it;
-            it.url = p->icon;
-            // qDebug() << "MainWindow::loadRepository " << it.url;
-            this->fileLoader.work.append(it);
-            requestedIcons += p->icon;
-        }
-
         // filter by text
         if (textFilter.count() > 0) {
-            QString fullText = (p->title + " " + p->description +
-                    p->name).toLower();
+            QString fullText = p->getFullText();
             bool b = true;
             for (int i = 0; i < textFilter.count(); i++) {
                 if (fullText.indexOf(textFilter.at(i)) < 0) {
@@ -743,6 +734,14 @@ void MainWindow::fillList()
         }
         if (!statusOK)
             continue;
+
+        if (!p->icon.isEmpty() && !requestedIcons.contains(p->icon)) {
+            FileLoaderItem it;
+            it.url = p->icon;
+            // qDebug() << "MainWindow::loadRepository " << it.url;
+            this->fileLoader.work.append(it);
+            requestedIcons += p->icon;
+        }
 
         newItem = new QTableWidgetItem("");
         newItem->setData(Qt::UserRole, qVariantFromValue(p->icon));

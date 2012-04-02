@@ -9,6 +9,7 @@
 #include "qtemporaryfile.h"
 #include "qdom.h"
 #include <QReadWriteLock>
+#include <QMultiMap>
 
 #include "package.h"
 #include "packageversion.h"
@@ -32,6 +33,8 @@ private:
     static PackageVersion* createPackageVersion(QDomElement* e,
             QString* err);
     static DetectFile* createDetectFile(QDomElement* e, QString* err);
+
+    QMultiMap<QString, PackageVersion*> package2versions;
 
     void loadOne(QUrl* url, Job* job);
 

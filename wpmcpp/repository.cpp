@@ -35,14 +35,7 @@ bool packageVersionLessThan(const PackageVersion* a, const PackageVersion* b) {
 
 QList<PackageVersion*> Repository::getPackageVersions(const QString& package)
 {
-    QList<PackageVersion*> ret;
-
-    for (int i = 0; i < packageVersions.count(); i++) {
-        PackageVersion* pv = packageVersions.at(i);
-        if (pv->package == package) {
-            ret.append(pv);
-        }
-    }
+    QList<PackageVersion*> ret = this->package2versions.values(package);
 
     qSort(ret.begin(), ret.end(), packageVersionLessThan);
 
@@ -75,13 +68,12 @@ PackageVersion* Repository::findNewestInstallablePackageVersion(
 {
     PackageVersion* r = 0;
 
-    for (int i = 0; i < this->packageVersions.count(); i++) {
-        PackageVersion* p = this->packageVersions.at(i);
-        if (p->package == package) {
-            if (r == 0 || p->version.compare(r->version) > 0) {
-                if (p->download.isValid())
-                    r = p;
-            }
+    QList<PackageVersion*> pvs = this->getPackageVersions(package);
+    for (int i = 0; i < pvs.count(); i++) {
+        PackageVersion* p = pvs.at(i);
+        if (r == 0 || p->version.compare(r->version) > 0) {
+            if (p->download.isValid())
+                r = p;
         }
     }
     return r;
@@ -92,9 +84,10 @@ PackageVersion* Repository::findNewestInstalledPackageVersion(
 {
     PackageVersion* r = 0;
 
-    for (int i = 0; i < this->packageVersions.count(); i++) {
-        PackageVersion* p = this->packageVersions.at(i);
-        if (p->package == name && p->installed()) {
+    QList<PackageVersion*> pvs = this->getPackageVersions(name);
+    for (int i = 0; i < pvs.count(); i++) {
+        PackageVersion* p = pvs.at(i);
+        if (p->installed()) {
             if (r == 0 || p->version.compare(r->version) > 0) {
                 r = p;
             }
@@ -887,15 +880,18 @@ PackageVersion* Repository::findOrCreatePackageVersion(const QString &package,
         pv->version = v;
         pv->version.normalize();
         this->packageVersions.append(pv);
+        this->package2versions.insert(package, pv);
     }
     return pv;
 }
 
 void Repository::clearExternallyInstalled(QString package)
 {
-    for (int i = 0; i < this->packageVersions.count(); i++) {
-        PackageVersion* pv = this->packageVersions.at(i);
-        if (pv->isExternal() && pv->package == package) {
+    Repository* r = Repository::getDefault();
+    QList<PackageVersion*> pvs = r->getPackageVersions(package);
+    for (int i = 0; i < pvs.count(); i++) {
+        PackageVersion* pv = pvs.at(i);
+        if (pv->isExternal()) {
             pv->setPath("");
         }
     }
@@ -986,6 +982,7 @@ void Repository::detectControlPanelPrograms()
                     pv->detectionInfo = "control-panel:" + entries.at(i);
                     pv->version = version;
                     this->packageVersions.append(pv);
+                    this->package2versions.insert(package, pv);
                 }
 
                 pv->setExternal(true);
@@ -1058,6 +1055,7 @@ void Repository::detectMSIProducts()
                 pv = new PackageVersion(package);
                 pv->version = version;
                 this->packageVersions.append(pv);
+                this->package2versions.insert(package, pv);
             }
         }
 
@@ -1259,10 +1257,11 @@ PackageVersion* Repository::findPackageVersion(const QString& package,
 {
     PackageVersion* r = 0;
 
-    for (int i = 0; i < this->packageVersions.count(); i++) {
-        PackageVersion* p = this->packageVersions.at(i);
-        if (p->package == package && p->version.compare(version) == 0) {
-            r = p;
+    QList<PackageVersion*> pvs = this->getPackageVersions(package);
+    for (int i = 0; i < pvs.count(); i++) {
+        PackageVersion* pv = pvs.at(i);
+        if (pv->version.compare(version) == 0) {
+            r = pv;
             break;
         }
     }
@@ -1590,6 +1589,7 @@ void Repository::load(Job* job)
 {
     qDeleteAll(this->packages);
     this->packages.clear();
+    this->package2versions.clear();
     qDeleteAll(this->packageVersions);
     this->packageVersions.clear();
 
@@ -1707,6 +1707,7 @@ void Repository::loadOne(QDomDocument* doc, Job* job)
                             delete pv;
                         else {
                             this->packageVersions.append(pv);
+                            this->package2versions.insert(pv->package, pv);
                         }
                     } else {
                         job->setErrorMessage(err);

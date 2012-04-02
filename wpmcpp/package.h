@@ -8,6 +8,8 @@
  */
 class Package
 {
+private:
+    QString fullText;
 public:
     /** name of the package like "org.buggysoft.BuggyEditor" */
     QString name;
@@ -28,6 +30,11 @@ public:
     QString license;
 
     Package(const QString& name, const QString& title);
+
+    /**
+     * @return text for search in lower case
+     */
+    QString getFullText();
 
     /**
      * Checks whether the specified value is a valid package name.
