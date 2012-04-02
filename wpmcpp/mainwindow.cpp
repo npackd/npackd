@@ -666,30 +666,16 @@ void MainWindow::fillList()
     t->setHorizontalHeaderItem(5, newItem);
 
     int statusFilter = this->ui->comboBoxStatus->currentIndex();
-    QStringList textFilter =
-            this->ui->lineEditText->text().toLower().simplified().split(" ");
 
-    t->setRowCount(r->packages.count());
+    QList<Package*> foundPackages = r->queryPackages(
+            this->ui->lineEditText->text());
+    t->setRowCount(foundPackages.count());
 
     QSet<QString> requestedIcons;
 
     int n = 0;
-    for (int i = 0; i < r->packages.count(); i++) {
-        Package* p = r->packages.at(i);
-
-        // filter by text
-        if (textFilter.count() > 0) {
-            QString fullText = p->getFullText();
-            bool b = true;
-            for (int i = 0; i < textFilter.count(); i++) {
-                if (fullText.indexOf(textFilter.at(i)) < 0) {
-                    b = false;
-                    break;
-                }
-            }
-            if (!b)
-                continue;
-        }
+    for (int i = 0; i < foundPackages.count(); i++) {
+        Package* p = foundPackages.at(i);
 
         QList<PackageVersion*> pvs = r->getPackageVersions(p->name);
         if (pvs.count() == 0)

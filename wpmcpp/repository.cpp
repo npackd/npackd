@@ -19,18 +19,13 @@
 
 Repository Repository::def;
 
-Repository::Repository(): QObject()
+Repository::Repository(): QObject(), index(0), indexUpToDate(false)
 {
     addWellKnownPackages();
 }
 
 bool packageVersionLessThan(const PackageVersion* a, const PackageVersion* b) {
-    int r = a->package.compare(b->package);
-    if (r == 0) {
-        r = a->version.compare(b->version);
-    }
-
-    return r < 0;
+    return a->version.compare(b->version);
 }
 
 QList<PackageVersion*> Repository::getPackageVersions(const QString& package)
@@ -1264,6 +1259,30 @@ PackageVersion* Repository::findPackageVersion(const QString& package,
             r = pv;
             break;
         }
+    }
+    return r;
+}
+
+QList<Package*> Repository::queryPackages(const QString& query)
+{
+    if (query.trimmed().isEmpty())
+        return this->packages;
+
+    if (!this->indexUpToDate) {
+        this->index = Index(this->packages.count());
+        for (int i = 0; i < this->packages.count(); i++) {
+            Package* p = this->packages.at(i);
+            this->index.setText(i, p->getFullText());
+        }
+        this->indexUpToDate = true;
+    }
+
+    const QBitArray& docs = this->index.find(query);
+
+    QList<Package*> r;
+    for (int i = 0; i < docs.size(); i++) {
+        if (docs.testBit(i))
+            r.append(this->packages.at(i));
     }
     return r;
 }
