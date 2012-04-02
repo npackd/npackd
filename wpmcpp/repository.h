@@ -10,11 +10,13 @@
 #include "qdom.h"
 #include <QReadWriteLock>
 #include <QMultiMap>
+#include <QBitArray>
 
 #include "package.h"
 #include "packageversion.h"
 #include "license.h"
 #include "windowsregistry.h"
+#include "index.h"
 
 /**
  * A repository is a list of packages and package versions.
@@ -34,6 +36,8 @@ private:
             QString* err);
     static DetectFile* createDetectFile(QDomElement* e, QString* err);
 
+    Index index;
+    bool indexUpToDate;
     QMultiMap<QString, PackageVersion*> package2versions;
 
     void loadOne(QUrl* url, Job* job);
@@ -129,6 +133,12 @@ public:
     Repository();
 
     virtual ~Repository();
+
+    /**
+     * @param query search query
+     * @return found packages
+     */
+    QList<Package*> findPackages(const QString& query);
 
     void process(Job* job, const QList<InstallOperation*> &install);
 
@@ -254,7 +264,7 @@ public:
      *     name "Word"
      * @return found packages
      */
-    QList<Package*> findPackages(const QString& name);
+    QList<Package*> queryPackages(const QString& name);
 
     /**
      * Searches for a license by name.
