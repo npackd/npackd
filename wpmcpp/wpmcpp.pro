@@ -30,7 +30,8 @@ SOURCES += main.cpp \
     xmlutils.cpp \
     settingsframe.cpp \
     packageframe.cpp \
-    selection.cpp
+    selection.cpp \
+    hrtimer.cpp
 HEADERS += mainwindow.h \
     packageversion.h \
     repository.h \
@@ -59,7 +60,8 @@ HEADERS += mainwindow.h \
     settingsframe.h \
     mstask.h \
     packageframe.h \
-    selection.h
+    selection.h \
+    hrtimer.h
 FORMS += mainwindow.ui \
     packageversionform.ui \
     licenseform.ui \

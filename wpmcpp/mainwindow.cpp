@@ -25,6 +25,7 @@
 #include <QPushButton>
 #include <QCloseEvent>
 #include <QTextBrowser>
+#include <QElapsedTimer>
 
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
@@ -40,6 +41,7 @@
 #include "settingsframe.h"
 #include "licenseform.h"
 #include "packageframe.h"
+#include "hrtimer.h"
 
 extern HWND defaultPasswordWindow;
 
@@ -641,6 +643,7 @@ void MainWindow::fillList()
     QTableWidget* t = this->ui->tableWidget;
 
     t->clearContents();
+    t->setUpdatesEnabled(false);
     t->setSortingEnabled(false);
 
     Repository* r = Repository::getDefault();
@@ -675,21 +678,22 @@ void MainWindow::fillList()
 
     int n = 0;
     for (int i = 0; i < r->packages.count(); i++) {
+
         Package* p = r->packages.at(i);
 
         // filter by text
+        bool b = true;
         if (textFilter.count() > 0) {
             QString fullText = p->getFullText();
-            bool b = true;
             for (int i = 0; i < textFilter.count(); i++) {
                 if (fullText.indexOf(textFilter.at(i)) < 0) {
                     b = false;
                     break;
                 }
             }
-            if (!b)
-                continue;
         }
+        if (!b)
+            continue;
 
         QList<PackageVersion*> pvs = r->getPackageVersions(p->name);
         if (pvs.count() == 0)
@@ -708,6 +712,7 @@ void MainWindow::fillList()
         }
 
         bool updateEnabled = isUpdateEnabled(p->name);
+
         PackageVersion* newestInstallable =
                 r->findNewestInstallablePackageVersion(p->name);
         bool statusOK;
@@ -792,8 +797,10 @@ void MainWindow::fillList()
 
         n++;
     }
+
     t->setRowCount(n);
     t->setSortingEnabled(true);
+    t->setUpdatesEnabled(true);
     // qDebug() << "MainWindow::fillList.2";
 }
 
