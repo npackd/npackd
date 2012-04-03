@@ -1558,6 +1558,22 @@ void Repository::reload(Job *job)
 void Repository::refresh(Job *job)
 {
     if (!job->isCancelled() && job->getErrorMessage().isEmpty()) {
+        job->setHint("Detecting directories deleted externally");
+        for (int i = 0; i < this->packageVersions.count(); i++) {
+            PackageVersion* pv = this->packageVersions.at(i);
+            QString path = pv->getPath();
+            if (!path.isEmpty()) {
+                QDir d(path);
+                d.refresh();
+                if (!d.exists()) {
+                    pv->setPath("");
+                }
+            }
+        }
+        job->setProgress(0.2);
+    }
+
+    if (!job->isCancelled() && job->getErrorMessage().isEmpty()) {
         job->setHint("Detecting packages installed by Npackd 1.14 or earlier");
         this->detectPre_1_15_Packages();
         job->setProgress(0.4);

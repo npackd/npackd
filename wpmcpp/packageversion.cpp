@@ -208,13 +208,7 @@ QString PackageVersion::getFullText()
 
 bool PackageVersion::installed() const
 {
-    if (this->ipath.trimmed().isEmpty()) {
-        return false;
-    } else {
-        QDir d(ipath);
-        d.refresh();
-        return d.exists();
-    }
+    return !ipath.isEmpty();
 }
 
 void PackageVersion::deleteShortcuts(const QString& dir, Job* job,
