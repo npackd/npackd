@@ -15,9 +15,20 @@ bool Package::isValidName(QString& name)
     return r;
 }
 
-QString Package::getFullText()
+bool Package::matches(const QStringList& terms) const
 {
-    if (this->fullText.isEmpty())
-        this->fullText = (title + " " + description + name).toLower();
-    return this->fullText;
+    bool b = true;
+    if (terms.count() > 0) {
+        for (int i = 0; i < terms.count(); i++) {
+            const QString& term = terms.at(i);
+            if (!this->title.contains(term, Qt::CaseInsensitive) &&
+                    !this->description.contains(term, Qt::CaseInsensitive) &&
+                    !this->name.contains(term, Qt::CaseInsensitive)
+            ) {
+                b = false;
+                break;
+            }
+        }
+    }
+    return b;
 }

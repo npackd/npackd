@@ -98,6 +98,73 @@ QString WPMUtils::normalizePath(const QString& path)
     return r;
 }
 
+QStringList WPMUtils::parseCommandLine(const QString& commandLine,
+    QString* err) {
+    *err = "";
+
+    QStringList params;
+
+    int nArgs;
+    LPWSTR* szArglist = CommandLineToArgvW((WCHAR*) commandLine.utf16(), &nArgs);
+    if (NULL == szArglist) {
+        *err = "CommandLineToArgvW failed";
+    } else {
+        for(int i = 0; i < nArgs; i++) {
+            QString s;
+            s.setUtf16((ushort*) szArglist[i], wcslen(szArglist[i]));
+            params.append(s);
+        }
+        LocalFree(szArglist);
+    }
+
+    return params;
+}
+
+bool WPMUtils::isUnderOrEquals(const QString& file, const QStringList& dirs)
+{
+    bool r = false;
+    for (int j = 0; j < dirs.count(); j++) {
+        const QString& dir = dirs.at(j);
+        if (WPMUtils::pathEquals(file, dir) ||
+                WPMUtils::isUnder(file, dir)) {
+            r = true;
+            break;
+        }
+    }
+
+    return r;
+}
+
+QString WPMUtils::validateGUID(const QString& guid)
+{
+    QString err;
+    if (guid.length() != 38) {
+        err = "A GUID must be 38 characters long";
+    } else {
+        for (int i = 0; i < guid.length(); i++) {
+            QChar c = guid.at(i);
+            bool valid;
+            if (i == 9 || i == 14 || i == 19 || i == 24) {
+                valid = c == '-';
+            } else if (i == 0) {
+                valid = c == '{';
+            } else if (i == 37) {
+                valid = c == '}';
+            } else {
+                valid = (c >= '0' && c <= '9') ||
+                        (c >= 'a' && c <= 'f') ||
+                        (c >= 'A' && c <= 'F');
+            }
+
+            if (!valid) {
+                err = QString("Wrong character at position %1").arg(i + 1);
+                break;
+            }
+        }
+    }
+    return err;
+}
+
 bool WPMUtils::isUnder(const QString &file, const QString &dir)
 {
     QString f = file;

@@ -89,11 +89,14 @@ DWORD WindowsRegistry::getDWORD(QString name, QString* err)
 
     DWORD value = 0;
     DWORD valueSize = sizeof(value);
+    DWORD type;
     LONG r = RegQueryValueEx(this->hkey,
-                (WCHAR*) name.utf16(), 0, 0, (BYTE*) &value,
+                (WCHAR*) name.utf16(), 0, &type, (BYTE*) &value,
                 &valueSize);
     if (r != ERROR_SUCCESS) {
         WPMUtils::formatMessage(r, err);
+    } else if (type != REG_DWORD) {
+        *err = "Wrong registry value type (DWORD expected)";
     }
     return value;
 }

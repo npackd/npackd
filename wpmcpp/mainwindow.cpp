@@ -682,17 +682,7 @@ void MainWindow::fillList()
         Package* p = r->packages.at(i);
 
         // filter by text
-        bool b = true;
-        if (textFilter.count() > 0) {
-            QString fullText = p->getFullText();
-            for (int i = 0; i < textFilter.count(); i++) {
-                if (fullText.indexOf(textFilter.at(i)) < 0) {
-                    b = false;
-                    break;
-                }
-            }
-        }
-        if (!b)
+        if (!p->matches(textFilter))
             continue;
 
         QList<PackageVersion*> pvs = r->getPackageVersions(p->name);
@@ -715,6 +705,10 @@ void MainWindow::fillList()
 
         PackageVersion* newestInstallable =
                 r->findNewestInstallablePackageVersion(p->name);
+
+        if (!atLeastOneInstalled && !newestInstallable)
+            continue;
+
         bool statusOK;
         switch (statusFilter) {
             case 0:
@@ -1514,8 +1508,8 @@ void MainWindow::on_actionGotoPackageURL_triggered()
     QList<void*> selected;
     if (selection) {
         selected = selection->getSelected("Package");
-        if (selected.count() == 0) {
-            for (int i = 0; i < selected.count(); ) {
+        if (selected.count() != 0) {
+            for (int i = 0; i < selected.count(); i++) {
                 Package* p = (Package*) selected.at(i);
                 QUrl url(p->url);
                 if (url.isValid())

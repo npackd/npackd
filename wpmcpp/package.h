@@ -1,7 +1,8 @@
 #ifndef PACKAGE_H
 #define PACKAGE_H
 
-#include "qstring.h"
+#include <QString>
+#include <QStringList>
 
 /**
  * A package declaration.
@@ -32,9 +33,10 @@ public:
     Package(const QString& name, const QString& title);
 
     /**
-     * @return text for search in lower case
+     * @param terms search terms in lower case
+     * @return true if the texts for this package match the specified terms
      */
-    QString getFullText();
+    bool matches(const QStringList& terms) const;
 
     /**
      * Checks whether the specified value is a valid package name.

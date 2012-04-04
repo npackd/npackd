@@ -91,6 +91,31 @@ public:
     static QString normalizePath(const QString& path);
 
     /**
+     * @param commandLine command line
+     * @param err error message will be stored here or ""
+     * @return parts of the command line
+     */
+    static QStringList parseCommandLine(const QString& commandLine,
+        QString* err);
+
+    /**
+     * Checks if a file or a directory is in the list of specified directories
+     * or equals to one of this directories.
+     *
+     * @param file file or directory. The path should be normalized.
+     * @param dirs directories. The paths should be normalized
+     */
+    static bool isUnderOrEquals(const QString& file, const QStringList& dirs);
+
+    /**
+     * Validates a GUID
+     *
+     * @param guid a GUID
+     * @return error message or ""
+     */
+    static QString validateGUID(const QString& guid);
+
+    /**
      * @param type a CSIDL constant like CSIDL_COMMON_PROGRAMS
      * @return directory like
      *     "C:\Documents and Settings\All Users\Start Menu\Programs"
