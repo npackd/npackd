@@ -399,13 +399,19 @@
         <license>com.advancedinstaller.License</license>
     </package>
     <package name="com.aim.AIM">
+        <title>AIM (old)</title>
+        <url>http://www.aim.com/</url>
+        <description>chat program</description>
+        <license>com.aim.AIMLicense</license>
+    </package>
+    <package name="com.aim.AIM2">
         <title>AIM</title>
         <url>http://www.aim.com/</url>
         <description>chat program</description>
         <license>com.aim.AIMLicense</license>
     </package>
     <package name="com.aim.AIMInstaller">
-        <title>AIM installer</title>
+        <title>AIM (old) installer</title>
         <url>http://www.aim.com/</url>
         <description>chat program</description>
         <license>com.aim.AIMLicense</license>
@@ -9619,9 +9625,15 @@ ren "%setup%" EraserInstaller.exe
         <url>http://client-software.real.com/free/windows/installer/stubinst/stub/rp15/R71EUD/RealPlayer.exe</url>
     </version>
 
-    <version name="7.5.11.9" package="com.aim.AIMInstaller" type="one-file">
-        <important-file path="Install_AIM.exe" title="Installer"/>
-        <url>http://download.newaol.com/aim/win95/Install_AIM.exe</url>
+    <version name="1.0.1.2" package="com.aim.AIM2" type="one-file">
+        <file path=".WPM\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x
+"%setup%" /S /D=%CD%\Prog
+if %errorlevel% neq 0 exit /b %errorlevel%
+taskkill /f /im aim.exe
+</file>
+        <file path=".WPM\Uninstall.bat">"Prog\Uninstall AIM.exe" /S _?=%CD%\Prog
+</file>
+        <url>http://download.newaol.com/aim/win/AIM_Install.exe</url>
     </version>
     
     <version name="4.65" package="org.7-zip.SevenZIP" type="one-file">
