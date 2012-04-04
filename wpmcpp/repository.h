@@ -43,7 +43,14 @@ private:
     void clearExternallyInstalled(QString package);
 
     void detectOneDotNet(const WindowsRegistry& wr, const QString& keyName);
+
     void detectControlPanelPrograms();
+    void detectControlPanelProgramsFrom(HKEY root,
+            const QString& path, bool useWoWNode,
+            const QStringList& packagePaths);
+    void detectOneControlPanelProgram(WindowsRegistry& k,
+            const QString& keyName, const QStringList& packagePaths);
+
     void detectMSIProducts();
     void detectDotNet();
     void detectMicrosoftInstaller();

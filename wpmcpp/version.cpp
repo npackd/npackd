@@ -6,18 +6,16 @@ const Version Version::EMPTY(-1, -1);
 
 Version::Version()
 {
-    this->parts = new int[2];
+    this->parts = new int[1];
     this->parts[0] = 1;
-    this->parts[1] = 0;
-    this->nparts = 2;
+    this->nparts = 1;
 }
 
 Version::Version(const QString &v)
 {
-    this->parts = new int[2];
+    this->parts = new int[1];
     this->parts[0] = 1;
-    this->parts[1] = 0;
-    this->nparts = 2;
+    this->nparts = 1;
 
     setVersion(v);
 }

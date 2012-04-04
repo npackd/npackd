@@ -304,33 +304,10 @@ PackageVersion* Repository::createPackageVersion(QDomElement* e, QString* err)
         a->msiGUID = XMLUtils::getTagContent(*e, "detect-msi").trimmed().
                 toLower();
         if (!a->msiGUID.isEmpty()) {
-            if (a->msiGUID.length() != 38) {
-                err->append(QString("Wrong MSI GUID for %1: %3").
-                        arg(a->toString()).arg(a->msiGUID));
-            } else {
-                for (int i = 0; i < a->msiGUID.length(); i++) {
-                    QChar c = a->msiGUID.at(i);
-                    bool valid;
-                    if (i == 9 || i == 14 || i == 19 || i == 24) {
-                        valid = c == '-';
-                    } else if (i == 0) {
-                        valid = c == '{';
-                    } else if (i == 37) {
-                        valid = c == '}';
-                    } else {
-                        valid = (c >= '0' && c <= '9') ||
-                                (c >= 'a' && c <= 'f') ||
-                                (c >= 'A' && c <= 'F');
-                    }
-
-                    if (!valid) {
-                        err->append(QString("Wrong MSI GUID for %1: %3").
-                                arg(a->toString()).
-                                arg(a->msiGUID));
-                        break;
-                    }
-                }
-            }
+            *err = WPMUtils::validateGUID(a->msiGUID);
+            if (!err->isEmpty())
+                *err = QString("Wrong MSI GUID for %1: %2").
+                        arg(a->toString()).arg(a->msiGUID);
         }
     }
 
@@ -748,15 +725,17 @@ void Repository::recognize(Job* job)
         job->setProgress(0.8);
     }
 
+    // MSI package detection should happen before the detection for
+    // control panel programs
     if (!job->isCancelled()) {
-        job->setHint("Detecting Control Panel programs");
-        detectControlPanelPrograms();
+        job->setHint("Detecting MSI packages");
+        detectMSIProducts();
         job->setProgress(0.85);
     }
 
     if (!job->isCancelled()) {
-        job->setHint("Detecting MSI packages");
-        detectMSIProducts();
+        job->setHint("Detecting Control Panel programs");
+        detectControlPanelPrograms();
         job->setProgress(0.9);
     }
 
@@ -945,50 +924,220 @@ void Repository::detectOneDotNet(const WindowsRegistry& wr,
 
 void Repository::detectControlPanelPrograms()
 {
-    WindowsRegistry wr;
-    QString err = wr.open(HKEY_LOCAL_MACHINE,
-            "SOFTWARE\\Wow6432Node\\Microsoft\\Windows\\CurrentVersion\\Uninstall",
-            KEY_READ
+    // TODO: each detectControlPanelProgramsFrom may also change this list
+    QStringList packagePaths = getAllInstalledPackagePaths();
+
+    detectControlPanelProgramsFrom(HKEY_LOCAL_MACHINE,
+            "SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Uninstall",
+            false, packagePaths
     );
+    if (WPMUtils::is64BitWindows())
+        detectControlPanelProgramsFrom(HKEY_LOCAL_MACHINE,
+                "SOFTWARE\\WoW6432Node\\Microsoft\\Windows\\CurrentVersion\\Uninstall",
+                false, packagePaths
+        );
+    detectControlPanelProgramsFrom(HKEY_CURRENT_USER,
+            "SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Uninstall",
+            false, packagePaths
+    );
+    if (WPMUtils::is64BitWindows())
+        detectControlPanelProgramsFrom(HKEY_CURRENT_USER,
+                "SOFTWARE\\WoW6432Node\\Microsoft\\Windows\\CurrentVersion\\Uninstall",
+                false, packagePaths
+        );
+}
+
+void Repository::detectControlPanelProgramsFrom(HKEY root,
+        const QString& path, bool useWoWNode, const QStringList& packagePaths) {
+    WindowsRegistry wr;
+    QString err;
+    err = wr.open(root, path, useWoWNode, KEY_READ);
     if (err.isEmpty()) {
         QStringList entries = wr.list(&err);
         for (int i = 0; i < entries.count(); i++) {
             WindowsRegistry k;
             err = k.open(wr, entries.at(i), KEY_READ);
             if (err.isEmpty()) {
-                QString title = k.get("DisplayName", &err);
-                if (!err.isEmpty() || title.isEmpty())
-                    title = entries.at(i);
-                QString package = entries.at(i);
-                package.replace('.', '_');
-                package = WPMUtils::makeValidFullPackageName(
-                        "control-panel." + package);
-                Package* p = this->findPackage(package);
-                if (!p) {
-                    p = new Package(package, title);
-                    this->packages.append(p);
+                detectOneControlPanelProgram(k, entries.at(i), packagePaths);
+            }
+        }
+    }
+}
+
+void Repository::detectOneControlPanelProgram(WindowsRegistry& k,
+        const QString& keyName, const QStringList& packagePaths)
+{
+    QString package = keyName;
+    package.replace('.', '_');
+    package = WPMUtils::makeValidFullPackageName(
+            "control-panel." + package);
+
+    bool versionFound = false;
+    Version version;
+    QString err;
+    QString version_ = k.get("DisplayVersion", &err);
+    if (err.isEmpty()) {
+        version.setVersion(version_);
+        version.normalize();
+        versionFound = true;
+    }
+    if (!versionFound) {
+        DWORD major = k.getDWORD("VersionMajor", &err);
+        if (err.isEmpty()) {
+            DWORD minor = k.getDWORD("VersionMinor", &err);
+            if (err.isEmpty())
+                version.setVersion(major, minor);
+            else
+                version.setVersion(major, 0);
+            version.normalize();
+            versionFound = true;
+        }
+    }
+    if (!versionFound) {
+        QString major = k.get("VersionMajor", &err);
+        if (err.isEmpty()) {
+            QString minor = k.get("VersionMinor", &err);
+            if (err.isEmpty()) {
+                if (version.setVersion(major)) {
+                    versionFound = true;
+                    version.normalize();
                 }
-                p->title = title;
-                p->description = "[Control Panel] " + p->title;
-
-                Version version;
-                QString version_ = k.get("DisplayVersion", &err);
-                if (err.isEmpty())
-                    version.setVersion(version_);
-
-                PackageVersion* pv = this->findPackageVersion(package, version);
-                if (!pv) {
-                    pv = new PackageVersion(package);
-                    pv->detectionInfo = "control-panel:" + entries.at(i);
-                    pv->version = version;
-                    this->packageVersions.append(pv);
-                    this->package2versions.insert(package, pv);
+            } else {
+                if (version.setVersion(major + "." + minor)) {
+                    versionFound = true;
+                    version.normalize();
                 }
+            }
+        }
+    }
+    if (!versionFound) {
+        QString displayName = k.get("DisplayName", &err);
+        if (err.isEmpty()) {
+            QStringList parts = displayName.split(' ');
+            if (parts.count() > 1 && parts.last().contains('.')) {
+                version.setVersion(parts.last());
+                version.normalize();
+                versionFound = true;
+            }
+        }
+    }
 
-                pv->setExternal(true);
+    PackageVersion* pv = this->findPackageVersion(package, version);
+    if (!pv) {
+        pv = new PackageVersion(package);
+        pv->detectionInfo = "control-panel:" + keyName;
+        pv->version = version;
+        this->packageVersions.append(pv);
+        this->package2versions.insert(package, pv);
+    }
 
-                QString dir = WPMUtils::getWindowsDir();
-                pv->setPath(dir);
+    Package* p = this->findPackage(package);
+    if (!p) {
+        p = new Package(package, package);
+        this->packages.append(p);
+    }
+
+    QString title = k.get("DisplayName", &err);
+    if (!err.isEmpty() || title.isEmpty())
+        title = keyName;
+    p->title = title;
+    p->description = "[Control Panel] " + p->title;
+
+    QString url = k.get("URLInfoAbout", &err);
+    if (!err.isEmpty() || url.isEmpty() || !QUrl(url).isValid())
+        url = "";
+    if (url.isEmpty())
+        url = k.get("URLUpdateInfo", &err);
+    if (!err.isEmpty() || url.isEmpty() || !QUrl(url).isValid())
+        url = "";
+    p->url = url;
+
+    QDir d;
+
+    bool useThisEntry = !pv->installed();
+
+    QString uninstall;
+    if (useThisEntry) {
+        uninstall = k.get("QuietUninstallString", &err);
+        if (!err.isEmpty())
+            uninstall = "";
+        if (uninstall.isEmpty())
+            uninstall = k.get("UninstallString", &err);
+        if (!err.isEmpty())
+            uninstall = "";
+
+        // some programs store in UninstallString the complete path to
+        // the uninstallation program with spaces
+        if (!uninstall.isEmpty() && uninstall.contains(" ") &&
+                !uninstall.contains("\"") &&
+                d.exists(uninstall))
+            uninstall = "\"" + uninstall + "\"";
+
+        if (uninstall.trimmed().isEmpty())
+            useThisEntry = false;
+    }
+
+    // already detected as an MSI package
+    if (uninstall.length() == 14 + 38 &&
+            (uninstall.indexOf("MsiExec.exe /X", 0, Qt::CaseInsensitive) == 0 ||
+            uninstall.indexOf("MsiExec.exe /I", 0, Qt::CaseInsensitive) == 0) &&
+            WPMUtils::validateGUID(uninstall.right(38)) == "") {
+        useThisEntry = false;
+    }
+
+    QString dir;
+    if (useThisEntry) {
+        dir = k.get("InstallLocation", &err);
+        if (!err.isEmpty())
+            dir = "";
+
+        if (dir.isEmpty() && !uninstall.isEmpty()) {
+            QStringList params = WPMUtils::parseCommandLine(uninstall, &err);
+            if (err.isEmpty() && params.count() > 0 && d.exists(params[0])) {
+                dir = WPMUtils::parentDirectory(params[0]);
+            } /* DEBUG else {
+                qDebug() << "cannot parse " << uninstall << " " << err <<
+                        " " << params.count();
+                if (params.count() > 0)
+                    qDebug() << "cannot parse2 " << params[0] << " " <<
+                            d.exists(params[0]);
+            }*/
+        }
+    }
+
+    if (useThisEntry) {
+        if (!dir.isEmpty()) {
+            dir = WPMUtils::normalizePath(dir);
+            if (WPMUtils::isUnderOrEquals(dir, packagePaths))
+                useThisEntry = false;
+        }
+    }
+
+    if (useThisEntry) {
+        if (dir.isEmpty()) {
+            dir = WPMUtils::getInstallationDirectory() +
+                    "\\NpackdDetected\\" +
+            WPMUtils::makeValidFilename(p->title, '_');
+            if (d.exists(dir)) {
+                dir = WPMUtils::findNonExistingFile(dir + "-" +
+                        pv->version.getVersionString() + "%1");
+            }
+            d.mkpath(dir);
+        }
+
+        if (d.exists(dir)) {
+            if (d.mkpath(dir + "\\.Npackd")) {
+                QFile file(dir + "\\.Npackd\\Uninstall.bat");
+                if (file.open(QIODevice::WriteOnly | QIODevice::Truncate)) {
+                    QTextStream stream(&file);
+                    stream.setCodec("UTF-8");
+                    QString txt = uninstall + "\r\n";
+
+                    stream << txt;
+                    file.close();
+                    pv->setPath(dir);
+                    pv->setExternal(false);
+                }
             }
         }
     }
@@ -996,16 +1145,12 @@ void Repository::detectControlPanelPrograms()
 
 QStringList Repository::getAllInstalledPackagePaths() const
 {
-    QString windowsDir = WPMUtils::getWindowsDir();
-
     QStringList r;
     for (int i = 0; i < this->packageVersions.count(); i++) {
         PackageVersion* pv = (PackageVersion*) this->packageVersions.at(i);
         if (pv->installed()) {
             QString dir = pv->getPath();
-            if (!WPMUtils::pathEquals(dir, windowsDir)) {
-                r.append(dir);
-            }
+            r.append(dir);
         }
     }
     return r;
@@ -1097,17 +1242,7 @@ void Repository::detectMSIProducts()
 
             if (!dir.isEmpty()) {
                 dir = WPMUtils::normalizePath(dir);
-
-                bool pathUsed = false;
-                for (int j = 0; j < packagePaths.count(); j++) {
-                    if (WPMUtils::pathEquals(dir, packagePaths.at(j)) ||
-                            WPMUtils::isUnder(dir, packagePaths.at(j))) {
-                        pathUsed = true;
-                        break;
-                    }
-                }
-
-                if (pathUsed)
+                if (WPMUtils::isUnderOrEquals(dir, packagePaths))
                     dir = "";
             }
 
