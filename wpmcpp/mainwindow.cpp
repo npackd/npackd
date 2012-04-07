@@ -26,6 +26,7 @@
 #include <QCloseEvent>
 #include <QTextBrowser>
 #include <QElapsedTimer>
+#include <QStyledItemDelegate>
 
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
@@ -42,6 +43,7 @@
 #include "licenseform.h"
 #include "packageframe.h"
 #include "hrtimer.h"
+#include "htmlitemdelegate.h"
 
 extern HWND defaultPasswordWindow;
 
@@ -200,11 +202,10 @@ MainWindow::MainWindow(QWidget *parent) :
     this->on_tableWidget_itemSelectionChanged();
     this->ui->tableWidget->setColumnCount(6);
     this->ui->tableWidget->setColumnWidth(0, 40);
-    this->ui->tableWidget->setColumnWidth(1, 150);
-    this->ui->tableWidget->setColumnWidth(2, 300);
+    this->ui->tableWidget->setColumnWidth(1, 450);
+    this->ui->tableWidget->setColumnWidth(2, 100);
     this->ui->tableWidget->setColumnWidth(3, 100);
     this->ui->tableWidget->setColumnWidth(4, 100);
-    this->ui->tableWidget->setColumnWidth(5, 100);
     this->ui->tableWidget->setIconSize(QSize(32, 32));
     this->ui->tableWidget->sortItems(1);
 
@@ -451,7 +452,7 @@ void MainWindow::updateStatusInTable()
 {
     Repository* r = Repository::getDefault();
     for (int i = 0; i < this->ui->tableWidget->rowCount(); i++) {
-        QTableWidgetItem* newItem = this->ui->tableWidget->item(i, 4);
+        QTableWidgetItem* newItem = this->ui->tableWidget->item(i, 3);
 
         const QVariant v = newItem->data(Qt::UserRole);
         Package* p = (Package *) v.value<void*>();
@@ -648,25 +649,25 @@ void MainWindow::fillList()
 
     Repository* r = Repository::getDefault();
 
-    t->setColumnCount(6);
+    t->setColumnCount(5);
+
+    HTMLItemDelegate* sid = new HTMLItemDelegate();
+    t->setItemDelegateForColumn(1, sid);
 
     QTableWidgetItem *newItem = new QTableWidgetItem("Icon");
     t->setHorizontalHeaderItem(0, newItem);
 
-    newItem = new QTableWidgetItem("Title");
+    newItem = new QTableWidgetItem("Title/Description");
     t->setHorizontalHeaderItem(1, newItem);
 
-    newItem = new QTableWidgetItem("Description");
+    newItem = new QTableWidgetItem("Available");
     t->setHorizontalHeaderItem(2, newItem);
 
-    newItem = new QTableWidgetItem("Available");
+    newItem = new QTableWidgetItem("Installed");
     t->setHorizontalHeaderItem(3, newItem);
 
-    newItem = new QTableWidgetItem("Installed");
-    t->setHorizontalHeaderItem(4, newItem);
-
     newItem = new QTableWidgetItem("License");
-    t->setHorizontalHeaderItem(5, newItem);
+    t->setHorizontalHeaderItem(4, newItem);
 
     int statusFilter = this->ui->comboBoxStatus->currentIndex();
     QStringList textFilter =
@@ -756,27 +757,24 @@ void MainWindow::fillList()
         }
         t->setItem(n, 0, newItem);
 
-        newItem = new QCITableWidgetItem(p->title);
+        newItem = new QCITableWidgetItem("<p><b>" + p->title +
+                "</b><br>" + p->description + "</p>");
         newItem->setStatusTip(p->name);
         newItem->setData(Qt::UserRole, qVariantFromValue((void*) p));
         t->setItem(n, 1, newItem);
-
-        newItem = new QCITableWidgetItem(p->description);
-        newItem->setData(Qt::UserRole, qVariantFromValue((void*) p));
-        t->setItem(n, 2, newItem);
 
         newItem = new QTableWidgetItem("");
         if (newestInstallable)
             newItem->setText(newestInstallable->version.getVersionString());
         newItem->setData(Qt::UserRole, qVariantFromValue((void*) p));
-        t->setItem(n, 3, newItem);
+        t->setItem(n, 2, newItem);
 
         newItem = new QCITableWidgetItem(installed);
         if (!installed.isEmpty() && newestInstallable &&
                 !newestInstallable->installed())
             newItem->setBackgroundColor(QColor(255, 0xc7, 0xc7));
         newItem->setData(Qt::UserRole, qVariantFromValue((void*) p));
-        t->setItem(n, 4, newItem);
+        t->setItem(n, 3, newItem);
 
         newItem = new QCITableWidgetItem("");
         QString licenseTitle;
@@ -787,7 +785,7 @@ void MainWindow::fillList()
         }
         newItem->setText(licenseTitle);
         newItem->setData(Qt::UserRole, qVariantFromValue((void*) p));
-        t->setItem(n, 5, newItem);
+        t->setItem(n, 4, newItem);
 
         n++;
     }

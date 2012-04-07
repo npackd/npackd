@@ -31,7 +31,8 @@ SOURCES += main.cpp \
     settingsframe.cpp \
     packageframe.cpp \
     selection.cpp \
-    hrtimer.cpp
+    hrtimer.cpp \
+    htmlitemdelegate.cpp
 HEADERS += mainwindow.h \
     packageversion.h \
     repository.h \
@@ -61,7 +62,8 @@ HEADERS += mainwindow.h \
     mstask.h \
     packageframe.h \
     selection.h \
-    hrtimer.h
+    hrtimer.h \
+    htmlitemdelegate.h
 FORMS += mainwindow.ui \
     packageversionform.ui \
     licenseform.ui \
