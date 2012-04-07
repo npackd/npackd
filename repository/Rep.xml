@@ -14839,7 +14839,7 @@ for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set clu=%%x
 "%clu%\clu" remove-path --path "%CD%\bin"
 verify
 </file>
-        <url>http://download.oracle.com/otn-pub/java/jdk/7u2-b13/jdk-7u2-windows-i586.exe</url>
+        <url>http://npackd.googlecode.com/files/com.oracle.JDK-1.7.0.2.exe</url>
         <sha1>a36ae80b80dd1c9c5c466b3eb2451cd649613cfb</sha1>
         <detect-msi>{32A3A4F4-B792-11D6-A78A-00B0D0170020}</detect-msi>
         <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.15.7, 2)"/>
@@ -14870,7 +14870,7 @@ for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set clu=%%x
 "%clu%\clu" remove-path --path "%CD%\bin"
 verify
 </file>
-        <url>http://download.oracle.com/otn-pub/java/jdk/7u3-b05/jdk-7u3-windows-i586.exe</url>
+        <url>http://npackd.googlecode.com/files/com.oracle.JDK-1.7.0.3.exe</url>
         <sha1>fe9dc13c0a6424158dc0f13a6246a53973fb5369</sha1>
         <detect-msi>{32A3A4F4-B792-11D6-A78A-00B0D0170030}</detect-msi>
         <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.15.7, 2)"/>
@@ -15839,6 +15839,35 @@ verify
 </file>
         <url>http://archive.apache.org/dist/ant/binaries/apache-ant-1.8.2-bin.zip</url>
         <sha1>36416061D1ED820583B87A8A924195A681432C6D</sha1>
+        <dependency package="com.oracle.JDK" versions="[1.4, 2)"/>
+        <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.15.7, 2)"/>
+        <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1, 1]"/>
+        <dependency package="com.googlecode.windows-package-manager.CLU" versions="[1, 2)"/>
+    </version>
+    <version name="1.8.3" package="org.apache.Ant">
+        <file path=".WPM\Install.bat">for /f "delims=" %%x in ('dir /b apache*') do set name=%%x
+cd "%name%"        
+for /f "delims=" %%a in ('dir /b') do (
+  move "%%a" ..
+)
+cd ..
+rmdir "%name%"
+if %errorlevel% neq 0 exit /b %errorlevel%
+
+if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
+set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.CLU" "--versions=[1, 2)"
+for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set clu=%%x
+"%clu%\clu" add-path --path "%CD%\bin"
+verify
+</file>
+        <file path=".WPM\Uninstall.bat">if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
+set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.CLU" "--versions=[1, 2)"
+for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set clu=%%x
+"%clu%\clu" remove-path --path "%CD%\bin"
+verify
+</file>
+        <url>http://archive.apache.org/dist/ant/binaries/apache-ant-1.8.3-bin.zip</url>
+        <sha1>64e64ea7fc8facc8ed8cefcc7692a98801e2f88b</sha1>
         <dependency package="com.oracle.JDK" versions="[1.4, 2)"/>
         <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.15.7, 2)"/>
         <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1, 1]"/>
