@@ -1051,9 +1051,13 @@ bool MainWindow::isUpdateEnabled(const QString& package)
     PackageVersion* newesti = r->findNewestInstalledPackageVersion(
             package);
     if (newest != 0 && newesti != 0) {
+        // qDebug() << newest->version.getVersionString() << " " <<
+                newesti->version.getVersionString();
         bool canInstall = !newest->isLocked() && !newest->installed() &&
                 newest->download.isValid();
         bool canUninstall = !newesti->isLocked() && !newesti->isExternal();
+
+        // qDebug() << canInstall << " " << canUninstall;
 
         return canInstall && canUninstall &&
                 newest->version.compare(newesti->version) > 0;
@@ -1171,7 +1175,7 @@ void MainWindow::updateUpdateAction()
     if (selection) {
         QList<void*> selected = selection->getSelected("Package");
         if (selected.count() > 0) {
-            bool enabled = selected.count() >= 1 &&
+            enabled =
                     !hardDriveScanRunning && !reloadRepositoriesThreadRunning;
             for (int i = 0; i < selected.count(); i++) {
                 if (!enabled)
@@ -1183,7 +1187,7 @@ void MainWindow::updateUpdateAction()
             }
         } else {
             selected = selection->getSelected("PackageVersion");
-            bool enabled = selected.count() >= 1 &&
+            enabled = selected.count() >= 1 &&
                     !hardDriveScanRunning && !reloadRepositoriesThreadRunning;
             for (int i = 0; i < selected.count(); i++) {
                 if (!enabled)
@@ -1324,8 +1328,9 @@ void MainWindow::closeDetailTabs()
     for (int i = 0; i < this->ui->tabWidget->count(); ) {
         QWidget* w = this->ui->tabWidget->widget(i);
         PackageVersionForm* pvf = dynamic_cast<PackageVersionForm*>(w);
+        PackageFrame* pf = dynamic_cast<PackageFrame*>(w);
         LicenseForm* lf = dynamic_cast<LicenseForm*>(w);
-        if (pvf != 0 || lf != 0) {
+        if (pvf != 0 || lf != 0 || pf != 0) {
             this->ui->tabWidget->removeTab(i);
         } else {
             i++;

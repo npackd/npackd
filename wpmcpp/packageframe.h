@@ -25,11 +25,6 @@ public:
     ~PackageFrame();
 
     /**
-     * @return selected objects (Package* or PackageVersion*)
-     */
-    QList<QObject*> getSelectedObjects() const;
-
-    /**
      * Fills the form with the data of a package.
      *
      * @param p a package

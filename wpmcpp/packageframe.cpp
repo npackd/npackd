@@ -37,11 +37,9 @@ PackageFrame::~PackageFrame()
 
 void PackageFrame::updateIcons()
 {
-    /* TODO
-    QIcon icon = MainWindow::getPackageVerIcon(p);
+    QIcon icon = MainWindow::getPackageVersionIcon(p->name);
     QPixmap pixmap = icon.pixmap(32, 32, QIcon::Normal, QIcon::On);
     this->ui->labelIcon->setPixmap(pixmap);
-    */
 }
 
 void PackageFrame::updateStatus()
@@ -52,14 +50,6 @@ void PackageFrame::updateStatus()
         PackageVersion* pv = (PackageVersion*) v.value<void*>();
         item->setText(pv->getPath());
     }
-}
-
-QList<QObject*> PackageFrame::getSelectedObjects() const
-{
-    QList<QObject*> res;
-    /* TODO
-    */
-    return res;
 }
 
 void PackageFrame::fillForm(Package* p)
