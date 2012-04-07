@@ -180,7 +180,7 @@ public:
      *
      * @param job job object
      */
-    void recognize(Job* job);
+    void detect(Job* job);
 
     /**
      * Writes this repository to an XML file.

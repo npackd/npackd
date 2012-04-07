@@ -693,14 +693,14 @@ void Repository::detectWindows()
     }
 }
 
-void Repository::recognize(Job* job)
+void Repository::detect(Job* job)
 {
     job->setProgress(0);
 
     if (!job->isCancelled()) {
         job->setHint("Detecting Windows");
         detectWindows();
-        job->setProgress(0.1);
+        job->setProgress(0.01);
     }
 
     if (!job->isCancelled()) {
@@ -708,7 +708,7 @@ void Repository::recognize(Job* job)
         detectJRE(false);
         if (WPMUtils::is64BitWindows())
             detectJRE(true);
-        job->setProgress(0.4);
+        job->setProgress(0.1);
     }
 
     if (!job->isCancelled()) {
@@ -716,13 +716,13 @@ void Repository::recognize(Job* job)
         detectJDK(false);
         if (WPMUtils::is64BitWindows())
             detectJDK(true);
-        job->setProgress(0.7);
+        job->setProgress(0.2);
     }
 
     if (!job->isCancelled()) {
         job->setHint("Detecting .NET");
         detectDotNet();
-        job->setProgress(0.8);
+        job->setProgress(0.3);
     }
 
     // MSI package detection should happen before the detection for
@@ -730,7 +730,7 @@ void Repository::recognize(Job* job)
     if (!job->isCancelled()) {
         job->setHint("Detecting MSI packages");
         detectMSIProducts();
-        job->setProgress(0.85);
+        job->setProgress(0.5);
     }
 
     if (!job->isCancelled()) {
@@ -1280,6 +1280,19 @@ void Repository::detectMSIProducts()
             }
         }
     }
+
+    // remove uninstalled MSI packages
+    for (int i = 0; i < this->packageVersions.count(); i++) {
+        PackageVersion* pv = this->packageVersions.at(i);
+        if (pv->detectionInfo.length() == 4 + 38 &&
+                pv->detectionInfo.left(4) == "msi:" &&
+                pv->installed() &&
+                !all.contains(pv->detectionInfo.right(38))) {
+            // DEBUG qDebug() << "uninstall " << pv->package << " " <<
+            // DEBUG         pv->version.getVersionString();
+            pv->setPath("");
+        }
+    }
 }
 
 void Repository::detectDotNet()
@@ -1723,7 +1736,7 @@ void Repository::refresh(Job *job)
     if (!job->isCancelled() && job->getErrorMessage().isEmpty()) {
         job->setHint("Detecting software");
         Job* d = job->newSubJob(0.2);
-        this->recognize(d);
+        this->detect(d);
         delete d;
     }
 
