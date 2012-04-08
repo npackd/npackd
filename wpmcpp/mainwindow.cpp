@@ -381,6 +381,10 @@ void MainWindow::updateStatusInDetailTabs()
         PackageVersionForm* pvf = dynamic_cast<PackageVersionForm*>(w);
         if (pvf) {
             pvf->updateStatus();
+        } else {
+            PackageFrame* pf = dynamic_cast<PackageFrame*>(w);
+            if (pf)
+                pf->updateStatus();
         }
     }
 }
