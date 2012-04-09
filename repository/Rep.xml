@@ -10941,12 +10941,13 @@ for %%g in (xcf pix matte mask alpha als fli flc xcf.bz2 bz2 xcfbz2 desktop dcm 
     </version>
     <version name="2.6.12" package="org.gimp.Gimp" type="one-file">
         <important-file path="bin\gimp-2.6.exe" title="Gimp"/>
-        <file path=".WPM\Install.bat">gimp-2.6.11-i686-setup-1.exe /SP- /VERYSILENT /SUPPRESSMSGBOXES /NOCANCEL /NORESTART /DIR="%CD%"
+        <file path=".WPM\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x
+"%setup%" /SP- /VERYSILENT /SUPPRESSMSGBOXES /NOCANCEL /NORESTART /DIR="%CD%"
 set err=%errorlevel%
 if %err% neq 0 exit /b %err%
 
-set key=org.gimp.Gimp-2.6.11
-reg add HKLM\SOFTWARE\Classes\Applications\%key%\shell\open /v FriendlyAppName /d "Gimp (2.6.11)" /f
+set key=org.gimp.Gimp-2.6.12
+reg add HKLM\SOFTWARE\Classes\Applications\%key%\shell\open /v FriendlyAppName /d "Gimp (2.6.12)" /f
 set c=\"%CD%\bin\gimp-2.6.exe\" \"%%1\"
 reg add HKLM\SOFTWARE\Classes\Applications\%KEY%\shell\open\command /d "%c%" /f
 for %%g in (xcf pix matte mask alpha als fli flc xcf.bz2 bz2 xcfbz2 desktop dcm dicom eps fit fits g3 gif pat gbr gpb gih xcf.gz gz xcfgz jpg jpeg jpe cel ico wmf apm psp tub pspimage psd png pnm ppm pgm pbm pdf ps sgi rgb rgba bw ico im1 im8 im24 im32 rs ras svg tga vda icb vst tif tiff bmp xbm icon bitmap xpm xwd pcx pcc) do reg add HKLM\SOFTWARE\Classes\.%%g\OpenWithList\%key% /f
@@ -10955,7 +10956,7 @@ for %%g in (xcf pix matte mask alpha als fli flc xcf.bz2 bz2 xcfbz2 desktop dcm 
 set err=%errorlevel%
 if %err% neq 0 exit /b %err%
 
-set key=org.gimp.Gimp-2.6.11
+set key=org.gimp.Gimp-2.6.12
 reg delete HKLM\SOFTWARE\Classes\Applications\%key% /f
 for %%g in (xcf pix matte mask alpha als fli flc xcf.bz2 bz2 xcfbz2 desktop dcm dicom eps fit fits g3 gif pat gbr gpb gih xcf.gz gz xcfgz jpg jpeg jpe cel ico wmf apm psp tub pspimage psd png pnm ppm pgm pbm pdf ps sgi rgb rgba bw ico im1 im8 im24 im32 rs ras svg tga vda icb vst tif tiff bmp xbm icon bitmap xpm xwd pcx pcc) do reg delete HKLM\SOFTWARE\Classes\.%%g\OpenWithList\%key% /f
 </file>
