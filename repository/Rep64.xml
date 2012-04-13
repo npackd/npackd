@@ -268,8 +268,16 @@ This package uses internal version numbers. For example, 1.7.0.1 corresponds to 
         <icon>https://lh3.googleusercontent.com/-FHWGC_W7qH8/T2h0HisQP2I/AAAAAAAAAYs/FcnxjwKwXwY/s144/org.eclipse.EclipseIDECPP.png</icon>
         <license>org.eclipse.EPLv1</license>
     </package>
+    <package name="org.eclipse.EclipseIDEJavascript64">
+        <title>Eclipse IDE for Javascript Web Developers 64 bit</title>
+        <url>http://www.eclipse.org/webtools/</url>
+        <description>Tools for JavaScript developers creating Web applications, including a JavaScript IDE, tools for JavaScript, HTML, CSS, and XML.</description>
+        <!-- CPL -->
+        <icon>https://lh3.googleusercontent.com/-U3-vb3c4Hlg/T2h0IZg9KaI/AAAAAAAAAY0/mb-U_2_MU50/s800/org.eclipse.EclipseIDEJava.png</icon>
+        <license>org.eclipse.EPLv1</license>
+    </package>
     <package name="org.eclipse.EclipseIDEJEE64">
-        <title>Eclipse IDE for JEE developers 64 bit</title>
+        <title>Eclipse IDE for JEE Developers 64 bit</title>
         <url>http://www.eclipse.org/home/categories/index.php?category=enterprise</url>
         <description>Java EE IDE</description>
         <!-- CPL -->
@@ -3468,5 +3476,20 @@ call "%npackdih%\UninstallMSI.bat"
         <file path=".WPM\Uninstall.bat">uninstall.exe /S _=%CD%</file>
         <url>http://npackd.googlecode.com/files/org.wireshark.Wireshark64-1.6.5.exe</url>
         <sha1>dcfb6d406b681bb548ed919aa7a26b8452a54fcd</sha1>
+    </version>
+
+    <version name="3.7.2" package="org.eclipse.EclipseIDEJavascript64">
+        <file path=".WPM\Install.bat">for /f "delims=" %%x in ('dir /b eclipse*') do set name=%%x
+cd "%name%" 
+for /f "delims=" %%a in ('dir /b') do (
+move "%%a" ..
+)
+cd ..
+rmdir "%name%"
+</file>
+        <important-file path="eclipse.exe" title="Eclipse IDE for Javascript Web Developers"/>
+        <url>http://ftp-stud.fht-esslingen.de/pub/Mirrors/eclipse/technology/epp/downloads/release/indigo/SR2/eclipse-javascript-indigo-SR2-win32-x86_64.zip</url>
+        <dependency package="com.oracle.JRE64" versions="[1.6, 2)"/>
+        <sha1>6ce9ab4cc24818fd1d0a43cd0a5675844b8b81fc</sha1>
     </version>
 </root>
