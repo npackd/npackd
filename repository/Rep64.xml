@@ -55,6 +55,10 @@
         <title>Java SE license</title>
         <url>http://www.oracle.com/technetwork/java/javase/terms/license/index.html</url>
     </license>
+    <license name="net.blat.License">
+        <title>Blat license</title>
+        <url>http://www.blat.net/?docs/license.txt</url>
+    </license>
     <license name="net.nirsoft.FreewareLicense">
         <title>NirSoft freeware license</title>
         <url>http://www.nirsoft.net/utils/axhelper.html</url>
@@ -233,6 +237,12 @@ This package uses internal version numbers. For example, 1.7.0.1 corresponds to 
         <title>WampServer 64 bit</title>
         <url>http://www.wampserver.com/en/</url>
         <description>a package containing Apache, PHP, MySQL, PhpMyAdmin, SQLBuddy</description>
+    </package>
+    <package name="net.blat.Blat64">
+        <title>Blat 64 bit</title>
+        <url>http://www.blat.net/</url>
+        <description>command line SMTP and NNTP mailer</description>
+        <license>net.blat.License</license>
     </package>
     <package name="net.sourceforge.mpc-hc.MediaPlayerClassicHomeCinema64">
         <title>Media Player Classic - Home Cinema 64 bit</title>
@@ -3491,5 +3501,31 @@ rmdir "%name%"
         <url>http://ftp-stud.fht-esslingen.de/pub/Mirrors/eclipse/technology/epp/downloads/release/indigo/SR2/eclipse-javascript-indigo-SR2-win32-x86_64.zip</url>
         <dependency package="com.oracle.JRE64" versions="[1.6, 2)"/>
         <sha1>6ce9ab4cc24818fd1d0a43cd0a5675844b8b81fc</sha1>
+    </version>
+
+    <version name="3" package="net.blat.Blat64">
+        <file path=".WPM\Install.bat">for /f "delims=" %%x in ('dir /b blat*') do set name=%%x
+move %name%\docs docs
+copy %name%\full\*.* .
+rmdir /s /q %name%
+if %errorlevel% neq 0 exit /b %errorlevel%
+
+if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
+set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.CLU" "--versions=[1, 2)"
+for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set clu=%%x
+"%clu%\clu" add-path --path "%CD%"
+verify
+</file>
+        <file path=".WPM\Uninstall.bat">if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
+set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.CLU" "--versions=[1, 2)"
+for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set clu=%%x
+"%clu%\clu" remove-path --path "%CD%"
+verify
+</file>
+        <url>http://downloads.sourceforge.net/project/blat/Blat%20Full%20Version/64%20bit%20versions/blat302_64.full.zip?ts=1334438136</url>
+        <sha1>76c1e6e7f544ce4feb6358d8b7e98ec51148cdd5</sha1>
+        <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.15.7, 2)"/>
+        <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1, 1]"/>
+        <dependency package="com.googlecode.windows-package-manager.CLU" versions="[1, 2)"/>
     </version>
 </root>
