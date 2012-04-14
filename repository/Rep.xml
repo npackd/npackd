@@ -3628,6 +3628,31 @@ verify
         <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1, 1]"/>
         <dependency package="com.googlecode.windows-package-manager.CLU" versions="[1, 2)"/>
     </version>
+    <version name="3" package="net.blat.Blat">
+        <file path=".WPM\Install.bat">for /f "delims=" %%x in ('dir /b blat*') do set name=%%x
+move %name%\docs docs
+copy %name%\full\*.* .
+rmdir /s /q %name%
+if %errorlevel% neq 0 exit /b %errorlevel%
+
+if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
+set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.CLU" "--versions=[1, 2)"
+for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set clu=%%x
+"%clu%\clu" add-path --path "%CD%"
+verify
+</file>
+        <file path=".WPM\Uninstall.bat">if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
+set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.CLU" "--versions=[1, 2)"
+for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set clu=%%x
+"%clu%\clu" remove-path --path "%CD%"
+verify
+</file>
+        <url>http://downloads.sourceforge.net/project/blat/Blat%20Full%20Version/32%20bit%20versions/Blat%20v3.0.0/blat300_32.full.zip?ts=1334437916</url>
+        <sha1>09acf08ee42ec5cec3c25c1a82ec9a7d6bd79446</sha1>
+        <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.15.7, 2)"/>
+        <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1, 1]"/>
+        <dependency package="com.googlecode.windows-package-manager.CLU" versions="[1, 2)"/>
+    </version>
 
     <version name="1.5" package="edu.cmu.andrew.ftp.MPack">
         <url>http://ftp.andrew.cmu.edu/pub/mpack/old/mpack15d.zip</url>
