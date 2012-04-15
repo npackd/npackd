@@ -7708,6 +7708,19 @@ rmdir "%name%"
         <url>http://download.blender.org/release/Blender2.61/blender-2.61-release-windows32.zip</url>
         <sha1>c0a064401ba27c25d6203b5eae8c79a79fc1f19b</sha1>
     </version>
+    <version name="2.62" package="org.blender.Blender">
+        <file path=".WPM\Install.bat">for /f "delims=" %%x in ('dir /b blender*') do set name=%%x
+cd "%name%"        
+for /f "delims=" %%a in ('dir /b') do (
+  move "%%a" ..
+)
+cd ..
+rmdir "%name%"
+</file>
+        <important-file path="blender.exe" title="Blender"/>
+        <url>http://download.blender.org/release/Blender2.62/blender-2.62-release-windows32.zip</url>
+        <sha1>410ca8f8950a101d403c85981ea2066fbf6cd37f</sha1>
+    </version>
 
     <version name="1.0.48.05" package="com.autohotkey.AutoHotKey"
             type="one-file">
