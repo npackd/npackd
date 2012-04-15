@@ -82,12 +82,12 @@ private:
     void fillList();
 
     /**
-     * This method returns a non-null PackageVersion* if something is selected
-     * in the list.
+     * This method returns a non-null Package* if something is selected
+     * in the table.
      *
-     * @return selected package version or 0.
+     * @return selected package or 0.
      */
-    PackageVersion* getSelectedPackageVersionInTable();
+    Package* getSelectedPackageInTable();
 
     /**
      * This method returns all selected Package* items
@@ -97,9 +97,9 @@ private:
     QList<Package*> getSelectedPackagesInTable() const;
 
     /**
-     * @param pv a version or 0
+     * @param p a package or 0
      */
-    void selectPackageVersion(PackageVersion* pv);
+    void selectPackage(Package* p);
 
     /**
      * Adds an entry in the "Progress" tab and monitors a task.

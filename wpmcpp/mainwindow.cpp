@@ -575,25 +575,25 @@ void MainWindow::onShow()
     recognizeAndLoadRepositories();
 }
 
-void MainWindow::selectPackageVersion(PackageVersion* pv)
+void MainWindow::selectPackage(Package* p)
 {
     for (int i = 0; i < this->ui->tableWidget->rowCount(); i++) {
-        const QVariant v = this->ui->tableWidget->item(i, 0)->
+        const QVariant v = this->ui->tableWidget->item(i, 1)->
                 data(Qt::UserRole);
-        PackageVersion* f = (PackageVersion *) v.value<void*>();
-        if (f == pv) {
+        Package* f = (Package*) v.value<void*>();
+        if (f == p) {
             this->ui->tableWidget->selectRow(i);
             break;
         }
     }
 }
 
-PackageVersion* MainWindow::getSelectedPackageVersionInTable()
+Package* MainWindow::getSelectedPackageInTable()
 {
     QList<QTableWidgetItem*> sel = this->ui->tableWidget->selectedItems();
     if (sel.count() > 0) {
-        const QVariant v = sel.at(0)->data(Qt::UserRole);
-        PackageVersion* pv = (PackageVersion *) v.value<void*>();
+        const QVariant v = sel.at(1)->data(Qt::UserRole);
+        Package* pv = (Package*) v.value<void*>();
         return pv;
     }
     return 0;
@@ -958,10 +958,10 @@ void MainWindow::process(QList<InstallOperation*> &install)
 
 void MainWindow::processThreadFinished()
 {
-    PackageVersion* sel = getSelectedPackageVersionInTable();
+    Package* sel = getSelectedPackageInTable();
     fillList();
     updateStatusInDetailTabs();
-    selectPackageVersion(sel);
+    selectPackage(sel);
 }
 
 void MainWindow::changeEvent(QEvent *e)
