@@ -8526,23 +8526,7 @@ if %err% neq 0 exit /b %err%
         <url>http://fpdownload.macromedia.com/get/shockwave/default/english/win95nt/latest/Shockwave_Installer_Slim.exe</url>
     </version>
 
-    <version name="10.3.183.10" package="com.adobe.FlashPlayer"
-            type="one-file">
-        <file path=".WPM\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x
-"%setup%" -install
-
-rem disable automatic updates
-rem http://kb2.adobe.com/cps/167/16701594.html
-if not exist "%ProgramFiles(x86)%" set f=%windir%\System32\Macromed\Flash\mms.cfg
-if exist "%ProgramFiles(x86)%" set f=%windir%\SysWOW64\Macromed\Flash\mms.cfg
-echo AutoUpdateDisable=1 > %f%
-</file>
-        <file path=".WPM\Uninstall.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x
-"%setup%" -uninstall
-</file>
-        <url>http://fpdownload.adobe.com/get/flashplayer/current/install_flash_player.exe</url>
-    </version>
-    <version name="11.1.102.55" package="com.adobe.FlashPlayer"
+    <version name="11.2.202.233" package="com.adobe.FlashPlayer"
             type="one-file">
         <file path=".WPM\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x
 "%setup%" -install
@@ -8560,7 +8544,7 @@ echo AutoUpdateDisable=1 > %f%
     </version>
 
     
-    <version name="11.1.102.55" package="com.adobe.FlashPlayerActiveX"
+    <version name="11.2.202.233" package="com.adobe.FlashPlayerActiveX"
             type="one-file">
         <file path=".WPM\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x
 "%setup%" -install
