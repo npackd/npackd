@@ -80,6 +80,12 @@
         <title>LGPLv2.1</title>
         <url>http://www.gnu.org/licenses/old-licenses/lgpl-2.1.html</url>
     </license>
+    <package name="org.golang.Go64">
+        <title>Go 64 bit</title>
+        <url>http://golang.org/</url>
+        <description>programming language</description>
+        <license>org.opensource.MITLicense</license>
+    </package>
     <license name="org.miktex.MiKTeXLicense">
         <title>MiKTeX license</title>
         <url>http://www.miktex.org/copying</url>
@@ -2556,6 +2562,15 @@ ren "%setup%" gsw64.exe
         <url>http://downloads.ghostscript.com/public/gs904w64.exe</url>
         <sha1>358d84d4d9b2819e4ee0673a2027258ac63e5296</sha1>
     </version>
+    <version name="9.5" package="com.ghostscript.GhostScript64Installer"
+            type="one-file">
+        <file path=".WPM\Install.bat">for /f %%x in ('dir /b *.exe') do set setup=%%x
+ren "%setup%" gsw64.exe
+</file>
+        <important-file path="gsw64.exe" title="Installer"/>
+        <url>http://downloads.ghostscript.com/public/gs905w64.exe</url>
+        <sha1>f620bb5779b150792b6c1212f21a0eb79e172b73</sha1>
+    </version>
     
     <version name="4.71.1015" package="com.microsoft.Mathematics64"
             type="one-file">
@@ -3585,5 +3600,47 @@ verify
         <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.15.7, 2)"/>
         <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1, 1]"/>
         <dependency package="com.googlecode.windows-package-manager.CLU" versions="[1, 2)"/>
+    </version>
+
+    <version name="1" package="org.golang.Go64" type="one-file">
+        <file path=".WPM\AddProperty.vbs">Option Explicit
+
+Const MSI_FILE = "go.go1.windows-amd64.msi"
+
+Dim installer, database, view
+
+Set installer = CreateObject("WindowsInstaller.Installer")
+Set database = installer.OpenDatabase(MSI_FILE, 1)
+
+Set view = database.OpenView("INSERT INTO Property (Property, Value) VALUES ('INSTALLDIR', 'C:\Go')")
+view.Execute
+'Set view = database.OpenView("DELETE FROM Directory WHERE Directory='TARGETDIR'")
+'view.Execute
+'Set view = database.OpenView("UPDATE Directory SET DefaultDir='INSTALLLOCATION' WHERE Directory='TARGETDIR'")
+'view.Execute
+database.Commit
+
+Set database = Nothing
+Set installer = Nothing
+Set view = Nothing
+</file>
+        <file path=".WPM\Install.bat">.WPM\AddProperty.vbs
+if %errorlevel% neq 0 exit %errorlevel%
+
+if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
+set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.NpackdInstallerHelper" "--versions=[1, 1]"
+for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set npackdih=%%x
+call "%npackdih%\InstallMSI.bat" INSTALLDIR
+</file>
+        <file path=".WPM\Uninstall.bat">if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
+set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.NpackdInstallerHelper" "--versions=[1, 1]"
+for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set npackdih=%%x
+call "%npackdih%\UninstallMSI.bat"
+</file>
+        <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1, 1]"/>
+        <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.15.7, 2)"/>
+        <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1, 1]"/>
+        <url>http://go.googlecode.com/files/go.go1.windows-amd64.msi</url>
+        <sha1>e50c823ca41d3d23ac7dfb9ef4878566e528b816</sha1> 
     </version>
 </root>
