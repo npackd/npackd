@@ -14,6 +14,8 @@ import shutil
 import sys
 import zipfile
 import xml.dom.minidom
+import urllib
+import re
 
 class BuildError(Exception):
     '''A build failed'''
@@ -23,6 +25,13 @@ class BuildError(Exception):
 
     def __str__(self):
         return repr(self.message)
+
+def url_get(url):
+    '''Downloads an HTTP file'''
+    f = urllib.urlopen(url)
+    txt = f.read()
+    f.close()
+    return txt
 
 def rmtree_safe(path):
     '''Uses shutil.rmtree, but does not fail if path does not exist'''
@@ -288,6 +297,7 @@ class Build:
         # self._npackdcl.add("com.nokia.QtSource", "4.7.3")
 
     def clean(self):
+        self.install_deps()
         rmtree_safe("zlib")
         rmtree_safe("quazip")
         rmtree_safe("wpmcpp-build-desktop")
@@ -300,6 +310,8 @@ class Build:
         remove_safe("npackdg.exe")
 
     def test(self):
+        self.install_deps()
+        
         e = dict(os.environ)
         e["PATH"] = (self._qtsdk + "\\Desktop\\Qt\\4.7.3\\mingw\\bin;" + 
                 "QuaZIP\\quazip\\release;zlib")
@@ -340,6 +352,8 @@ class Build:
 
     def push(self):
         '''Push the changes to the default Mercurial repository'''
+        self.install_deps()
+
         xml.dom.minidom.parse("repository\\Rep.xml")
         xml.dom.minidom.parse("repository\\Rep64.xml")
         xml.dom.minidom.parse("repository\\RepUnstable.xml")
@@ -352,6 +366,8 @@ class Build:
             raise BuildError("hg push failed")
         
     def build(self):
+        self.install_deps()
+        
         self._project_path = os.path.abspath("")
 
         self._build_zlib()
@@ -367,16 +383,27 @@ class Build:
         self._build_npackdcl_zip()
         self._build_clu_zip()
 
+    def find_updates(self):
+        rep = xml.dom.minidom.parse("repository\\Rep.xml")
+        
+        print("Checking GraphicsMagick...")
+        txt = url_get("http://sourceforge.net/projects/graphicsmagick/")
+        # GraphicsMagick-1.3.14.tar.gz
+        m = re.search("""GraphicsMagick\-(.+)\.tar\.gz""", txt, re.MULTILINE)
+        print(m.group(1))
+        
+        print("No updates found")
+
     def help(self):
         print("Build.py help to show this help")
         print("Build.py build to build everything")
         print("Build.py clean to clean generated files")
         print("Build.py test to run internal Npackd tests")
         print("Build.py push to push the changes to the Npackd Mercurial repository")
+        print("Build.py find-updates to find updates for some packages from the repository")
 
 build = Build()
 try:
-    build.install_deps()
     if len(sys.argv) == 2 and sys.argv[1] == "clean":
         build.clean()
     elif len(sys.argv) == 2 and sys.argv[1] == "push":
@@ -385,6 +412,8 @@ try:
         build.test()
     elif len(sys.argv) == 2 and sys.argv[1] == "build":
         build.build()
+    elif len(sys.argv) == 2 and sys.argv[1] == "find-updates":
+        build.find_updates()
     else:
         build.help()
 except BuildError as e:
