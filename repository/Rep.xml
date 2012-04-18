@@ -427,6 +427,12 @@
         <description>multimedia architecture</description>
         <license>com.apple.QuickTimeLicense</license>
     </package>
+    <package name="com.aptana.Studio">
+        <title>Aptana Studio</title>
+        <url>http://www.oracle.com/technetwork/java/javaee/overview/index.html</url>
+        <description>IDE with support for HTML5, CSS3, JavaScript, Ruby, Rails, PHP and Python</description>
+        <license>org.gnu.GPLv3</license>
+    </package>
     <package name="com.ashampoo.BurningStudioFree">
         <title>Burning Studio Free</title>
         <url>http://www.ashampoo.com/en/chf/pin/0710/Offline/Ashampoo-Burning-Studio-6</url>
@@ -1310,6 +1316,12 @@ This package uses internal version numbers. For example, 1.7.0.1 corresponds to 
         <title>XML Marker installer (deprecated, use the non-installer package instead)</title>
         <url>http://symbolclick.com/</url>
         <description>XML editor</description>
+    </package>
+    <package name="com.sysinternals.BgInfo">
+        <title>BgInfo</title>
+        <url>http://technet.microsoft.com/en-us/sysinternals/bb897557</url>
+        <description>displays relevant information about a Windows computer on the desktop's background</description>
+        <license>com.microsoft.SysinternalsLicense</license>
     </package>
     <package name="com.sysinternals.Handle">
         <title>Handle</title>
@@ -16884,5 +16896,21 @@ rmdir "%name%"
         <url>http://ftp-stud.fht-esslingen.de/pub/Mirrors/eclipse/technology/epp/downloads/release/indigo/SR2/eclipse-javascript-indigo-SR2-win32.zip</url>
         <dependency package="com.oracle.JRE" versions="[1.6, 2)"/>
         <sha1>20270bd816b5e1a086f60a55e5f9a975ce6b005b</sha1>
+    </version>
+
+    <version name="3.1.1" package="com.aptana.Studio" type="one-file">
+        <file path=".WPM\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x
+    "%setup%" /S /D=%CD%
+</file>
+        <file path=".WPM\Uninstall.bat">uninst.exe /S _?=%CD%
+</file>
+        <dependency package="com.googlecode.msysgit.MSysGit" versions="[1.7, 2)"/>
+        <url>http://d1iwq2e2xrohf.cloudfront.net/tools/studio/standalone/3.1.1.201204131931/win/Aptana_Studio_3_Setup_3.1.1.exe</url> 
+        <sha1>EB9DAECFA4880C78A82EEDCEDBAF1F4A01582A37</sha1>
+    </version>
+
+    <version name="4.16" package="com.sysinternals.BgInfo">
+        <important-file path="Bginfo.exe" title="BgInfo"/>
+        <url>http://download.sysinternals.com/files/BGInfo.zip</url> 
     </version>
 </root>
