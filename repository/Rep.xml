@@ -429,7 +429,7 @@
     </package>
     <package name="com.aptana.Studio">
         <title>Aptana Studio</title>
-        <url>http://www.oracle.com/technetwork/java/javaee/overview/index.html</url>
+        <url>http://www.aptana.com/products/studio3</url>
         <description>IDE with support for HTML5, CSS3, JavaScript, Ruby, Rails, PHP and Python</description>
         <license>org.gnu.GPLv3</license>
     </package>
@@ -3180,6 +3180,17 @@ taskkill /F /FI "WINDOWTITLE eq NetStumbler*"
         <dependency package="com.microsoft.DotNetRedistributable"
                 versions="[2.0, 3)"/>
     </version>
+    <version package="fr.handbrake.HandBrake" type="one-file" name="0.9.6">
+        <file path=".WPM\Install.bat">ren rotation.php setup.exe
+setup.exe /S /D=%CD%
+</file>
+        <file path=".WPM\Uninstall.bat">uninst.exe /S
+</file>
+        <url>http://handbrake.fr/rotation.php?file=HandBrake-0.9.6-i686-Win_GUI.exe</url>
+        <sha1>35f699550effdbbf5ea75648b3a33843f3e8be4e</sha1>
+        <dependency package="com.microsoft.DotNetRedistributable" versions="[2, 3)"/>
+    </version>
+    <!-- Detected by NpackdCL -->
 
     <version name="2003"
             package="com.microsoft.WindowsServer2003ResourceKitToolsInstaller"
@@ -4277,6 +4288,27 @@ verify
         <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1, 1]"/>
         <dependency package="com.googlecode.windows-package-manager.CLU" versions="[1, 2)"/>
     </version>
+    <version package="org.gtk.GTKPlusBundle" name="2.24.10">
+        <file path=".WPM\Install.bat">if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
+set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.CLU" "--versions=[1, 2)"
+for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set clu=%%x
+"%clu%\clu" add-path --path "%CD%\bin"
+verify
+</file>
+    <file path=".WPM\Uninstall.bat">if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
+set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.CLU" "--versions=[1, 2)"
+for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set clu=%%x
+"%clu%\clu" remove-path --path "%CD%\bin"
+verify
+</file>
+        <file path="etc\gtk-2.0\gtkrc">gtk-theme-name = "MS-Windows"</file>
+        <url>http://ftp.gnome.org/pub/gnome/binaries/win32/gtk+/2.24/gtk+-bundle_2.24.10-20120208_win32.zip</url>
+        <sha1>895072c22f5bfd4ac9054d48d62d6c8b2a487098</sha1>
+        <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.15.7, 2)"/>
+        <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1, 1]"/>
+        <dependency package="com.googlecode.windows-package-manager.CLU" versions="[1, 2)"/>
+    </version>
+    <!-- Detected by NpackdCL-->
 
     <version name="2.2.17" package="org.apache.httpd.HTTPServer"
             type="one-file">
@@ -4919,6 +4951,17 @@ verify
         <dependency package="com.oracle.JRE" versions="[1.5, 2)"/>
         <sha1>b23ddbebdb6f591cdba16b00f5fafd9a2366ee34</sha1>
     </version>
+    <version package="com.h2database.H2" type="one-file" name="1.3.165">
+        <file path=".WPM\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x
+"%setup%" /S /D=%CD%\Program
+</file>
+    <file path=".WPM\Uninstall.bat">Program\Uninstall.exe /S _?=%CD%\Program
+</file>
+        <url>http://www.h2database.com/h2-setup-2012-03-18.exe</url>
+        <sha1>73366e226342517e95f729974770523fc5c0d95e</sha1>
+        <dependency package="com.oracle.JRE" versions="[1.5, 2)"/>
+    </version>
+    <!-- Detected by NpackdCL -->
 
     <version name="0.97.1.1" package="org.gnome.live.dia.Dia"
             type="one-file">
@@ -11123,6 +11166,34 @@ verify
         <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1, 1]"/>
         <dependency package="com.googlecode.windows-package-manager.CLU" versions="[1, 2)"/>
     </version>
+    <version package="org.graphicsmagick.GraphicsMagickQ16" name="1.3.14"
+            type="one-file">
+        <file path=".WPM\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x
+"%setup%" /SP- /VERYSILENT /SUPPRESSMSGBOXES /NOCANCEL /NORESTART /DIR="%CD%"
+if %errorlevel% neq 0 exit /b %errorlevel%
+
+if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
+set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.CLU" "--versions=[1, 2)"
+for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set clu=%%x
+"%clu%\clu" add-path --path "%CD%"
+verify
+</file>
+        <file path=".WPM\Uninstall.bat">unins000.exe /VERYSILENT /SUPPRESSMSGBOXES /NORESTART
+if %errorlevel% neq 0 exit /b %errorlevel%
+
+if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
+set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.CLU" "--versions=[1, 2)"
+for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set clu=%%x
+"%clu%\clu" remove-path --path "%CD%"
+verify
+</file>
+        <sha1>9a39e2af9edceaf614a07bfb910553ca2d355d2a</sha1>
+        <url>http://downloads.sourceforge.net/project/graphicsmagick/graphicsmagick-binaries/1.3.14/GraphicsMagick-1.3.14-Q16-windows-dll.exe</url>
+        <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.15.7, 2)"/>
+        <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1, 1]"/>
+        <dependency package="com.googlecode.windows-package-manager.CLU" versions="[1, 2)"/>
+    </version>
+    <!-- detected by NpackdCL -->
 
     <version name="2.6.10" package="org.gimp.Gimp" type="one-file">
         <important-file path="bin\gimp-2.6.exe" title="Gimp"/>

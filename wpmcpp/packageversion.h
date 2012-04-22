@@ -290,6 +290,11 @@ public:
      * @return status like "locked, installed"
      */
     QString getStatus() const;
+
+    /**
+     * @return XML representation of this package version
+     */
+    QString serialize() const;
 };
 
 Q_DECLARE_METATYPE(PackageVersion);

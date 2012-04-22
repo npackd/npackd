@@ -24,7 +24,7 @@ Repository::Repository(): QObject()
     addWellKnownPackages();
 }
 
-bool packageVersionLessThan(const PackageVersion* a, const PackageVersion* b) {
+bool packageVersionLessThan2(const PackageVersion* a, const PackageVersion* b) {
     int r = a->package.compare(b->package);
     if (r == 0) {
         r = a->version.compare(b->version);
@@ -37,7 +37,7 @@ QList<PackageVersion*> Repository::getPackageVersions(const QString& package)
 {
     QList<PackageVersion*> ret = this->package2versions.values(package);
 
-    qSort(ret.begin(), ret.end(), packageVersionLessThan);
+    qSort(ret.begin(), ret.end(), packageVersionLessThan2);
 
     return ret;
 }

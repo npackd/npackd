@@ -201,6 +201,14 @@ QString Job::getErrorMessage() const
     return this->errorMessage;
 }
 
+bool Job::shouldProceed(const QString& hint)
+{
+    bool b = !this->isCancelled() && this->getErrorMessage().isEmpty();
+    if (b)
+        setHint(hint);
+    return b;
+}
+
 void Job::setErrorMessage(const QString &errorMessage)
 {
     this->errorMessage = errorMessage;

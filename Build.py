@@ -385,14 +385,23 @@ class Build:
 
     def find_updates(self):
         rep = xml.dom.minidom.parse("repository\\Rep.xml")
+        versions = rep.documentElement.getElementsByTagName("version")
+        avail = set([])
+        for version in versions:
+            s = (version.getAttribute("package") + ":" + 
+                    version.getAttribute("name"))
+            avail.add(s)
         
-        print("Checking GraphicsMagick...")
+        sys.stdout.write("Checking GraphicsMagick...")
         txt = url_get("http://sourceforge.net/projects/graphicsmagick/")
         # GraphicsMagick-1.3.14.tar.gz
         m = re.search("""GraphicsMagick\-(.+)\.tar\.gz""", txt, re.MULTILINE)
-        print(m.group(1))
+        v = m.group(1)
         
-        print("No updates found")
+        if ("org.graphicsmagick.GraphicsMagickQ16:" + v) in avail:
+            print("No updates found")
+        else:
+            print("New version: " + v)
 
     def help(self):
         print("Build.py help to show this help")
