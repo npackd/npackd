@@ -139,6 +139,9 @@ public:
     bool isCancelled();
 
     /**
+     * Creates a sub-job for the specified part of this job. The error message
+     * from the sub-job does not automatically propagate to the parent job.
+     *
      * @param part 0..1 part of this for the created sub-job
      * @return child job with parent=this
      */
@@ -180,6 +183,22 @@ public:
      * @param errorMessage new error message
      */
     void setErrorMessage(const QString &errorMessage);
+
+    /**
+     * This function can be used to simplify the following case:
+     *
+     * if (!job->isCancelled() && job->getErrorMessage().isEmpty() {
+     *     job.setHint("Testing");
+     *     ...
+     * }
+     *
+     * as follows:
+     *
+     * if (job->shouldProceed("Testing") {
+     *     ...
+     * }
+     */
+    bool shouldProceed(const QString& hint);
 signals:
     /**
      * This signal will be fired each time something in this object

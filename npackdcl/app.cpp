@@ -1,9 +1,24 @@
 #include <limits>
-#include "math.h"
+#include <math.h>
+#include <QRegExp>
 
 #include "app.h"
+#include "updatesearcher.h"
 #include "..\wpmcpp\wpmutils.h"
 #include "..\wpmcpp\commandline.h"
+#include "..\wpmcpp\downloader.h"
+
+void App::jobChangedSimple(const JobState& s)
+{
+    if (!s.completed) {
+        time_t now = time(0);
+        if (now - this->lastJobChange != 0) {
+            this->lastJobChange = now;
+            WPMUtils::outputTextConsole(("%1% - " + s.hint + "\n").
+                    arg(floor(s.progress * 100 + 0.5), 4));
+        }
+    }
+}
 
 void App::jobChanged(const JobState& s)
 {
@@ -147,29 +162,34 @@ int App::process()
     } else if (fr.count() > 1) {
         WPMUtils::outputTextConsole("Unexpected argument: " + fr.at(1) + "\n", false);
         r = 1;
-    } else if (fr.at(0) == "help") {
-        usage();
-    } else if (fr.at(0) == "path") {
-        r = path();
-    } else if (fr.at(0) == "remove") {
-        r = remove();
-    } else if (fr.at(0) == "add") {
-        r = add();
-    } else if (fr.at(0) == "add-repo") {
-        r = addRepo();
-    } else if (fr.at(0) == "remove-repo") {
-        r = removeRepo();
-    } else if (fr.at(0) == "list") {
-        r = list();
-    } else if (fr.at(0) == "unit-tests") {
-        r = unitTests();
-    } else if (fr.at(0) == "info") {
-        r = info();
-    } else if (fr.at(0) == "update") {
-        r = update();
     } else {
-        WPMUtils::outputTextConsole("Wrong command: " + fr.at(0) + "\n", false);
-        r = 1;
+        const QString cmd = fr.at(0);
+        if (cmd == "help") {
+            usage();
+        } else if (cmd == "path") {
+            r = path();
+        } else if (cmd == "remove") {
+            r = remove();
+        } else if (cmd == "add") {
+            r = add();
+        } else if (cmd == "add-repo") {
+            r = addRepo();
+        } else if (cmd == "remove-repo") {
+            r = removeRepo();
+        } else if (cmd == "list") {
+            r = list();
+        } else if (cmd == "unit-tests") {
+            r = unitTests();
+        } else if (cmd == "info") {
+            r = info();
+        } else if (cmd == "update") {
+            r = update();
+        } else if (cmd == "find-updates") {
+            r = findUpdates();
+        } else {
+            WPMUtils::outputTextConsole("Wrong command: " + cmd + "\n", false);
+            r = 1;
+        }
     }
 
     return r;
@@ -199,7 +219,7 @@ Job* App::createJob()
 
     Job* job = new Job();
     connect(job, SIGNAL(changed(const JobState&)), this,
-            SLOT(jobChanged(const JobState&)));
+            SLOT(jobChangedSimple(const JobState&)));
 
     // -1 so that we do not have the initial 1 second delay
     this->lastJobChange = time(0) - 1;
@@ -482,6 +502,23 @@ int App::path()
             }
         }
     }
+
+    return r;
+}
+
+
+int App::findUpdates()
+{
+    int r = 0;
+
+    Job* job = createJob();
+    UpdateSearcher us;
+    us.findUpdates(job);
+    if (!job->getErrorMessage().isEmpty()) {
+        WPMUtils::outputTextConsole(job->getErrorMessage() + "\n", false);
+        r = 1;
+    }
+    delete job;
 
     return r;
 }
