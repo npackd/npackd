@@ -91,13 +91,15 @@ QString UpdateSearcher::findTextInPage(Job* job, const QString& url,
 
 PackageVersion* UpdateSearcher::findUpdate(Job* job, const QString& package,
         const QString& versionPage,
-        const QString& versionRE) {
+        const QString& versionRE, QString* realVersion) {
     QString version;
     if (!job->isCancelled() && job->getErrorMessage().isEmpty()) {
         job->setHint("Searching for the version number");
 
         Job* sub = job->newSubJob(0.9);
         version = findTextInPage(sub, versionPage, versionRE);
+        if (realVersion)
+            *realVersion = version;
         if (!sub->getErrorMessage().isEmpty())
             job->setErrorMessage(QString("Error searching for version number: %1").
                     arg(sub->getErrorMessage()));
@@ -505,6 +507,140 @@ PackageVersion* UpdateSearcher::findHandBrakeUpdates(Job* job)
     return ret;
 }
 
+PackageVersion* UpdateSearcher::findImgBurnUpdates(Job* job)
+{
+    job->setHint("Preparing");
+
+    PackageVersion* ret = 0;
+
+    QString version;
+    if (!job->isCancelled() && job->getErrorMessage().isEmpty()) {
+        job->setHint("Searching for updates");
+
+        Job* sub = job->newSubJob(0.2);
+        ret = findUpdate(sub, "com.imgburn.ImgBurn",
+                "http://www.imgburn.com/",
+                "Current version: ([\\d\\.]+)", &version);
+        if (!sub->getErrorMessage().isEmpty())
+            job->setErrorMessage(QString("Error searching for the newest version: %1").
+                    arg(sub->getErrorMessage()));
+        delete sub;
+    }
+
+    if (!job->isCancelled() && job->getErrorMessage().isEmpty()) {
+        if (ret) {
+            job->setHint("Searching for the download URL");
+
+            ret->download = QUrl("http://download.imgburn.com/SetupImgBurn_" +
+                    version + ".exe");
+        }
+        job->setProgress(0.3);
+    }
+
+    if (!job->isCancelled() && job->getErrorMessage().isEmpty()) {
+        if (ret) {
+            job->setHint("Examining the binary");
+
+            Job* sub = job->newSubJob(0.65);
+            ret->type = 1;
+            setDownload(sub, ret);
+            if (!sub->getErrorMessage().isEmpty())
+                job->setErrorMessage(QString("Error downloading the package binary: %1").
+                        arg(sub->getErrorMessage()));
+            delete sub;
+        }
+    }
+
+    if (job->shouldProceed("Setting scripts")) {
+        if (ret) {
+            const QString installScript =
+                    "for /f %%x in ('dir /b *.exe') do set setup=%%x\n"
+                    "\"%setup%\" /S /D=%CD%\n";
+            const QString uninstallScript =
+                    "uninstall.exe /S\n";
+
+            PackageVersionFile* pvf = new PackageVersionFile(".WPM\\Install.bat",
+                    installScript);
+            ret->files.append(pvf);
+            pvf = new PackageVersionFile(".WPM\\Uninstall.bat",
+                    uninstallScript);
+            ret->files.append(pvf);
+        }
+        job->setProgress(1);
+    }
+
+    job->complete();
+
+    return ret;
+}
+
+PackageVersion* UpdateSearcher::findIrfanViewUpdates(Job* job)
+{
+    job->setHint("Preparing");
+
+    PackageVersion* ret = 0;
+
+    QString version;
+    if (!job->isCancelled() && job->getErrorMessage().isEmpty()) {
+        job->setHint("Searching for updates");
+
+        Job* sub = job->newSubJob(0.2);
+        ret = findUpdate(sub, "de.irfanview.IrfanView",
+                "www.irfanview.net/main_start_engl.htm",
+                "Current version: ([\\d\\.]+)", &version);
+        if (!sub->getErrorMessage().isEmpty())
+            job->setErrorMessage(QString("Error searching for the newest version: %1").
+                    arg(sub->getErrorMessage()));
+        delete sub;
+    }
+
+    if (!job->isCancelled() && job->getErrorMessage().isEmpty()) {
+        if (ret) {
+            job->setHint("Searching for the download URL");
+
+            ret->download = QUrl("http://irfanview.tuwien.ac.at/iview" +
+                    version.remove('.') + ".zip");
+        }
+        job->setProgress(0.3);
+    }
+
+    if (!job->isCancelled() && job->getErrorMessage().isEmpty()) {
+        if (ret) {
+            job->setHint("Examining the binary");
+
+            Job* sub = job->newSubJob(0.65);
+            ret->type = 1;
+            setDownload(sub, ret);
+            if (!sub->getErrorMessage().isEmpty())
+                job->setErrorMessage(QString("Error downloading the package binary: %1").
+                        arg(sub->getErrorMessage()));
+            delete sub;
+        }
+    }
+
+    if (job->shouldProceed("Setting scripts")) {
+        if (ret) {
+            const QString installScript =
+                    "for /f %%x in ('dir /b *.exe') do set setup=%%x\n"
+                    "\"%setup%\" /S /D=%CD%\n";
+            const QString uninstallScript =
+                    "uninstall.exe /S\n";
+
+            PackageVersionFile* pvf = new PackageVersionFile(".WPM\\Install.bat",
+                    installScript);
+            ret->files.append(pvf);
+            pvf = new PackageVersionFile(".WPM\\Uninstall.bat",
+                    uninstallScript);
+            ret->files.append(pvf);
+        }
+        job->setProgress(1);
+    }
+
+    job->complete();
+
+    return ret;
+}
+
 void UpdateSearcher::findUpdates(Job* job)
 {
     if (!job->isCancelled() && job->getErrorMessage().isEmpty()) {
@@ -524,6 +660,8 @@ void UpdateSearcher::findUpdates(Job* job)
     packages.append("GTKPlusBundle");
     packages.append("H2");
     packages.append("HandBrake");
+    packages.append("ImgBurn");
+    packages.append("IrfanView");
 
     for (int i = 0; i < packages.count(); i++) {
         const QString package = packages.at(i);
@@ -547,10 +685,17 @@ void UpdateSearcher::findUpdates(Job* job)
             case 3:
                 pv = findHandBrakeUpdates(sub);
                 break;
+            case 4:
+                pv = findImgBurnUpdates(sub);
+                break;
+            case 5:
+                pv = findIrfanViewUpdates(sub);
+                break;
         }
         if (!sub->getErrorMessage().isEmpty()) {
             job->setErrorMessage(sub->getErrorMessage());
         } else {
+            job->setProgress(0.4 + 0.6 * (i + 1) / packages.count());
             if (!pv)
                 WPMUtils::outputTextConsole(QString(
                         "No updates found for %1\n").arg(package));

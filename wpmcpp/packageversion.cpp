@@ -780,7 +780,7 @@ void PackageVersion::install(Job* job, const QString& where)
             job->setErrorMessage(QString("Cannot open the file: %0").
                     arg(f->fileName()));
         } else {
-            Job* djob = job->newSubJob(0.45);
+            Job* djob = job->newSubJob(0.58);
             Downloader::download(djob, this->download, f,
                     this->sha1.isEmpty() ? 0 : &dsha1);
             downloadOK = !djob->isCancelled() && djob->getErrorMessage().isEmpty();

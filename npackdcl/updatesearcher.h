@@ -14,11 +14,13 @@ private:
             const QString& regex);
     PackageVersion* findUpdate(Job* job, const QString& package,
             const QString& versionPage,
-            const QString& versionRE);
+            const QString& versionRE, QString* realVersion=0);
     PackageVersion* findGraphicsMagickUpdates(Job* job);
     PackageVersion* findGTKPlusBundleUpdates(Job* job);
     PackageVersion* findH2Updates(Job* job);
     PackageVersion* findHandBrakeUpdates(Job* job);
+    PackageVersion* findImgBurnUpdates(Job* job);
+    PackageVersion* findIrfanViewUpdates(Job* job);
 public:
     /**
      * -
