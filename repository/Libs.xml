@@ -129,6 +129,19 @@ rmdir "%name%"
         <sha1>2e438f01a39a625a300113e5d0dc3ddf804e5373</sha1>
         <dependency package="net.sourceforge.mingw-w64.MinGWW64" versions="[1, 1.1)"/>
     </version>
+    <version name="4.8.1" package="com.nokia.QtSource">
+        <file path=".WPM\Install.bat">for /f "delims=" %%x in ('dir /b qt*') do set name=%%x
+cd "%name%"        
+for /f "delims=" %%a in ('dir /b') do (
+  move "%%a" ..
+)
+cd ..
+rmdir "%name%"
+</file>
+        <url>http://download.qt.nokia.com/qt/source/qt-everywhere-opensource-src-4.8.1.zip</url>
+        <sha1>93b3010fd7068c1f8a3193ea8b917de24e4c3996</sha1>
+        <dependency package="net.sourceforge.mingw-w64.MinGWW64" versions="[1, 1.1)"/>
+    </version>
     
     <version name="4.7.3" package="com.nokia.QtMinGWInstaller" type="one-file">
         <file path=".WPM\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x
@@ -157,6 +170,15 @@ ren "%setup%" qt-win-opensource-mingw.exe
         <sha1>4c533e5f8324c0803280954d0bebbdcc5fd03494</sha1>
         <dependency package="net.sourceforge.mingw-w64.MinGWW64" versions="[1, 1.1)"/>
     </version>
+    <version name="4.8.1" package="com.nokia.QtMinGWInstaller" type="one-file">
+        <file path=".WPM\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x
+ren "%setup%" qt-win-opensource-mingw.exe
+</file>
+        <url>http://get.qt.nokia.com/qt/source/qt-win-opensource-4.8.1-mingw.exe</url>
+        <important-file path="qt-win-opensource-mingw.exe" title="Installer"/>
+        <sha1>c5392a5fb07b1b8c0328f8dcb5f2ccd4d2f01fca</sha1>
+        <dependency package="net.sourceforge.mingw-w64.MinGWW64" versions="[1, 1.1)"/>
+    </version>
 
     <version name="1.47" package="org.boost.Boost">
         <file path=".WPM\Install.bat">for /f "delims=" %%x in ('dir /b boost*') do set name=%%x
@@ -182,6 +204,19 @@ rmdir "%name%"
 </file>
         <url>http://downloads.sourceforge.net/project/boost/boost/1.48.0/boost_1_48_0.zip?ts=1323554313</url>
         <sha1>5ae06dadfee8cd615b2905eeb068bd756f959d58</sha1>
+        <dependency package="net.sourceforge.mingw-w64.MinGWW64" versions="[1, 1.1)"/>
+    </version>
+    <version name="1.49" package="org.boost.Boost">
+        <file path=".WPM\Install.bat">for /f "delims=" %%x in ('dir /b boost*') do set name=%%x
+cd "%name%"        
+for /f "delims=" %%a in ('dir /b') do (
+  move "%%a" ..
+)
+cd ..
+rmdir "%name%"
+</file>
+        <url>http://downloads.sourceforge.net/project/boost/boost/1.49.0/boost_1_49_0.zip</url>
+        <sha1>e2e778a444e7ae7157b97f4f1fedf363cf87940c</sha1>
         <dependency package="net.sourceforge.mingw-w64.MinGWW64" versions="[1, 1.1)"/>
     </version>
     
