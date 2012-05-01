@@ -34,10 +34,27 @@ bool packageVersionLessThan2(const PackageVersion* a, const PackageVersion* b) {
 }
 
 QList<PackageVersion*> Repository::getPackageVersions(const QString& package)
+        const
 {
     QList<PackageVersion*> ret = this->package2versions.values(package);
 
     qSort(ret.begin(), ret.end(), packageVersionLessThan2);
+
+    return ret;
+}
+
+QList<PackageVersion*> Repository::getInstalledPackageVersions(
+        const QString& package) const
+{
+    QList<PackageVersion*> ret = getPackageVersions(package);
+
+    for (int i = 0; i < ret.count(); ) {
+        PackageVersion* pv = ret.at(i);
+        if (!pv->installed())
+            ret.removeAt(i);
+        else
+            i++;
+    }
 
     return ret;
 }
@@ -61,6 +78,28 @@ Repository::~Repository()
     qDeleteAll(this->packages);
     qDeleteAll(this->packageVersions);
     qDeleteAll(this->licenses);
+}
+
+void Repository::clearPackagesInNestedDirectories() {
+    QList<PackageVersion*> pvs = this->getInstalled();
+    qSort(pvs.begin(), pvs.end(), packageVersionLessThan2);
+
+    for (int j = 0; j < pvs.count(); j++) {
+        PackageVersion* pv = pvs.at(j);
+        if (pv->installed() && !WPMUtils::pathEquals(pv->getPath(),
+                WPMUtils::getWindowsDir())) {
+            for (int i = j + 1; i < pvs.count(); i++) {
+                PackageVersion* pv2 = pvs.at(i);
+                if (pv2->installed() && !WPMUtils::pathEquals(pv2->getPath(),
+                        WPMUtils::getWindowsDir())) {
+                    if (WPMUtils::isUnder(pv2->getPath(), pv->getPath()) ||
+                            WPMUtils::pathEquals(pv2->getPath(), pv->getPath())) {
+                        pv2->setPath("");
+                    }
+                }
+            }
+        }
+    }
 }
 
 PackageVersion* Repository::findNewestInstallablePackageVersion(
@@ -626,7 +665,6 @@ QString Repository::planUpdates(const QList<Package*> packages,
     return err;
 }
 
-/* TODO
 QString Repository::writeTo(const QString& filename) const
 {
     QString r;
@@ -637,21 +675,18 @@ QString Repository::writeTo(const QString& filename) const
 
     XMLUtils::addTextTag(root, "spec-version", "3");
 
-    for (int i = 0; i < getPackageCount(); i++) {
+    for (int i = 0; i < this->packages.count(); i++) {
         Package* p = packages.at(i);
         QDomElement package = doc.createElement("package");
         p->saveTo(package);
         root.appendChild(package);
     }
 
-    for (int i = 0; i < getPackageVersionCount(); i++) {
-        PackageVersion* pv = getPackageVersion(i);
+    for (int i = 0; i < this->packageVersions.count(); i++) {
+        PackageVersion* pv = this->packageVersions.at(i);
         QDomElement version = doc.createElement("version");
-        version.setAttribute("name", pv->version.getVersionString());
-        version.setAttribute("package", pv->getPackage()->name);
-        if (pv->download.isValid())
-            XMLUtils::addTextTag(version, "url", pv->download.toString());
         root.appendChild(version);
+        pv->toXML(&version);
     }
 
     QFile file(filename);
@@ -664,7 +699,6 @@ QString Repository::writeTo(const QString& filename) const
 
     return "";
 }
-*/
 
 void Repository::detectWindows()
 {
@@ -1743,6 +1777,12 @@ void Repository::refresh(Job *job)
     if (!job->isCancelled() && job->getErrorMessage().isEmpty()) {
         job->setHint("Detecting packages installed by Npackd 1.14 or earlier (2)");
         scanPre1_15Dir(true);
+        job->setProgress(0.9);
+    }
+
+    if (job->shouldProceed(
+            "Clearing information about installed package versions in nested directories")) {
+        clearPackagesInNestedDirectories();
         job->setProgress(1);
     }
 

@@ -24,6 +24,7 @@ private slots:
 private:
     CONSOLE_SCREEN_BUFFER_INFO progressPos;
     time_t lastJobChange;
+    QString lastHint;
 
     CommandLine cl;
     Job* createJob();
