@@ -97,6 +97,7 @@ private:
     QStringList getAllInstalledPackagePaths() const;
     PackageVersion* findPackageVersionByMSIGUID(
             const QString& guid) const;
+    void clearPackagesInNestedDirectories();
 public:
     /**
      * @return newly created object pointing to the repositories
@@ -188,7 +189,7 @@ public:
      * @param filename output file name
      * @return error message or ""
      */
-    // TODO: QString writeTo(const QString& filename) const;
+    QString writeTo(const QString& filename) const;
 
     /**
      * Finds or creates a new package version.
@@ -213,9 +214,21 @@ public:
      *
      * @param package full package name
      * @return the list of package versions (the objects should not
-     *     be freed)
+     *     be freed) sorted by the version number. The first returned object
+     *     has the highest version number.
      */
-    QList<PackageVersion*> getPackageVersions(const QString& package);
+    QList<PackageVersion*> getPackageVersions(const QString& package) const;
+
+    /**
+     * Finds all installed package versions.
+     *
+     * @param package full package name
+     * @return the list of installed package versions (the objects should not
+     *     be freed) sorted by the version number. The first returned object
+     *     has the highest version number.
+     */
+    QList<PackageVersion*> getInstalledPackageVersions(
+            const QString& package) const;
 
     /**
      * Counts the number of installed packages that can be updated.

@@ -3,6 +3,7 @@
 
 #include <QString>
 #include <QStringList>
+#include <QDomElement>
 
 /**
  * A package declaration.
@@ -45,6 +46,13 @@ public:
      * @return true if name is a valid package name
      */
     static bool isValidName(QString& name);
+
+    /**
+     * Save the contents as XML.
+     *
+     * @param e <package>
+     */
+    void saveTo(QDomElement& e) const;
 };
 
 #endif // PACKAGE_H

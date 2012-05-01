@@ -66,6 +66,7 @@ QString UpdateSearcher::findTextInPage(Job* job, const QString& url,
 
         while(!in.atEnd()) {
             QString line = in.readLine();
+            //WPMUtils::outputTextConsole(line + "\n");
             int pos = re.indexIn(line);
             if (pos >= 0) {
                 ret = re.cap(1);
@@ -73,9 +74,10 @@ QString UpdateSearcher::findTextInPage(Job* job, const QString& url,
             }
         }
 
-        if (ret.isEmpty())
+        if (ret.isEmpty()) {
             job->setErrorMessage(QString("The text %1 was not found").
                     arg(regex));
+        }
     }
 
     delete tf;
@@ -109,6 +111,11 @@ PackageVersion* UpdateSearcher::findUpdate(Job* job, const QString& package,
     PackageVersion* ret = 0;
     if (!job->isCancelled() && job->getErrorMessage().isEmpty()) {
         job->setHint("Searching for the newest package");
+        QChar last = version.at(version.length() - 1);
+        if (last >= 'a' && last <= 'z')
+            version = version.mid(0, version.length() - 1) + "." +
+                    (last.toAscii() - 'a' + '1');
+
         Version v;
         if (v.setVersion(version)) {
             v.normalize();
@@ -160,7 +167,7 @@ PackageVersion* UpdateSearcher::findGraphicsMagickUpdates(Job* job) {
 
         Job* sub = job->newSubJob(0.2);
         ret = findUpdate(sub, "org.graphicsmagick.GraphicsMagickQ16",
-                "http://sourceforge.net/projects/graphicsmagick/",
+                "http://sourceforge.net/api/file/index/project-id/73485/mtime/desc/limit/20/rss",
                 "GraphicsMagick\\-([\\d\\.]+)\\.tar\\.gz");
         if (!sub->getErrorMessage().isEmpty())
             job->setErrorMessage(QString("Error searching for the newest version: %1").
@@ -190,6 +197,8 @@ PackageVersion* UpdateSearcher::findGraphicsMagickUpdates(Job* job) {
     if (!job->isCancelled() && job->getErrorMessage().isEmpty()) {
         if (ret) {
             job->setHint("Adding dependencies and scripts");
+
+            ret->type = 1;
 
             PackageVersionFile* pvf = new PackageVersionFile(".WPM\\Install.bat",
                     installScript);
@@ -312,7 +321,6 @@ PackageVersion* UpdateSearcher::findGTKPlusBundleUpdates(Job* job) {
         pvf = new PackageVersionFile("etc\\gtk-2.0\\gtkrc",
                 "gtk-theme-name = \"MS-Windows\"");
         ret->files.append(pvf);
-
 
         Dependency* d = new Dependency();
         d->package = "com.googlecode.windows-package-manager.NpackdCL";
@@ -586,7 +594,7 @@ PackageVersion* UpdateSearcher::findIrfanViewUpdates(Job* job)
 
         Job* sub = job->newSubJob(0.2);
         ret = findUpdate(sub, "de.irfanview.IrfanView",
-                "www.irfanview.net/main_start_engl.htm",
+                "http://www.irfanview.net/main_start_engl.htm",
                 "Current version: ([\\d\\.]+)", &version);
         if (!sub->getErrorMessage().isEmpty())
             job->setErrorMessage(QString("Error searching for the newest version: %1").
@@ -641,6 +649,363 @@ PackageVersion* UpdateSearcher::findIrfanViewUpdates(Job* job)
     return ret;
 }
 
+PackageVersion* UpdateSearcher::findFirefoxUpdates(Job* job)
+{
+    job->setHint("Preparing");
+
+    PackageVersion* ret = 0;
+
+    QString version;
+    if (job->shouldProceed("Searching for updates")) {
+        Job* sub = job->newSubJob(0.2);
+        ret = findUpdate(sub, "org.mozilla.Firefox",
+                "http://www.mozilla.org/en-US/firefox/all.html",
+                "<td class=\"curVersion\" >([\\d\\.]+)</td>", &version);
+        if (!sub->getErrorMessage().isEmpty())
+            job->setErrorMessage(QString("Error searching for the newest version: %1").
+                    arg(sub->getErrorMessage()));
+        delete sub;
+    }
+
+    if (!job->isCancelled() && job->getErrorMessage().isEmpty()) {
+        if (ret) {
+            job->setHint("Searching for the download URL");
+
+            ret->type = 1;
+            ret->download = QUrl("http://download.mozilla.org/?product=firefox-" +
+                    version + "&os=win&lang=en-US");
+        }
+        job->setProgress(0.3);
+    }
+
+    if (!job->isCancelled() && job->getErrorMessage().isEmpty()) {
+        if (ret) {
+            job->setHint("Examining the binary");
+
+            Job* sub = job->newSubJob(0.65);
+            ret->type = 1;
+            setDownload(sub, ret);
+            if (!sub->getErrorMessage().isEmpty())
+                job->setErrorMessage(QString("Error downloading the package binary: %1").
+                        arg(sub->getErrorMessage()));
+            delete sub;
+        }
+    }
+
+    if (job->shouldProceed("Setting scripts")) {
+        if (ret) {
+            ret->download = QUrl("http://npackd.googlecode.com/files/org.mozilla.Firefox-" +
+                    ret->version.getVersionString() + ".exe");
+            const QString installScript =
+                    "echo [Install] > .WPM\\FF.ini\n"
+                    "echo InstallDirectoryPath=%CD% >> .WPM\\FF.ini\n"
+                    "echo QuickLaunchShortcut=false >> .WPM\\FF.ini\n"
+                    "echo DesktopShortcut=false >> .WPM\\FF.ini\n"
+                    "for /f \"delims=\" %%x in ('dir /b *.exe') do set setup=%%x\n"
+                    "\"%setup%\" /INI=\"%CD%\\.WPM\\FF.ini\"\n";
+            const QString uninstallScript =
+                    "uninstall\\helper.exe /S\n";
+
+            PackageVersionFile* pvf = new PackageVersionFile(".WPM\\Install.bat",
+                    installScript);
+            ret->files.append(pvf);
+            pvf = new PackageVersionFile(".WPM\\Uninstall.bat",
+                    uninstallScript);
+            ret->files.append(pvf);
+
+            ret->importantFiles.append("firefox.exe");
+            ret->importantFilesTitles.append("Firefox");
+        }
+        job->setProgress(1);
+    }
+
+    job->complete();
+
+    return ret;
+}
+
+PackageVersion* UpdateSearcher::findAC3FilterUpdates(Job* job)
+{
+    job->setHint("Preparing");
+
+    PackageVersion* ret = 0;
+
+    QString version;
+    if (job->shouldProceed("Searching for updates")) {
+        Job* sub = job->newSubJob(0.2);
+        ret = findUpdate(sub, "net.ac3filter.AC3Filter",
+                "http://ac3filter.net/wiki/Download_AC3Filter",
+                ">AC3Filter ([\\d\\.]+[a-z]?)<", &version);
+        if (!sub->getErrorMessage().isEmpty())
+            job->setErrorMessage(QString("Error searching for the newest version: %1").
+                    arg(sub->getErrorMessage()));
+        delete sub;
+    }
+
+    if (!job->isCancelled() && job->getErrorMessage().isEmpty()) {
+        if (ret) {
+            job->setHint("Searching for the download URL");
+
+            ret->type = 1;
+            version.replace('.', '_');
+            ret->download = QUrl("http://ac3filter.googlecode.com/files/ac3filter_" +
+                    version + ".exe");
+        }
+        job->setProgress(0.3);
+    }
+
+    if (!job->isCancelled() && job->getErrorMessage().isEmpty()) {
+        if (ret) {
+            job->setHint("Examining the binary");
+
+            Job* sub = job->newSubJob(0.65);
+            ret->type = 1;
+            setDownload(sub, ret);
+            if (!sub->getErrorMessage().isEmpty())
+                job->setErrorMessage(QString("Error downloading the package binary: %1").
+                        arg(sub->getErrorMessage()));
+            delete sub;
+        }
+    }
+
+    if (job->shouldProceed("Setting scripts")) {
+        if (ret) {
+            const QString installScript =
+                    "for /f \"delims=\" %%x in ('dir /b *.exe') do set setup=%%x\n"
+                    "\"%setup%\" /SP- /VERYSILENT /SUPPRESSMSGBOXES /NOCANCEL /NORESTART /DIR=\"%CD%\" /SAVEINF=\"%CD%\\.WPM\\InnoSetupInfo.ini\" /LOG=\"%CD%\\.WPM\\InnoSetupInstall.log\"\n"
+                    "set err=%errorlevel%\n"
+                    "type .WPM\\InnoSetupInstall.log\n"
+                    "if %err% neq 0 exit %err%\n";
+            const QString uninstallScript =
+                    "unins000.exe /VERYSILENT /SUPPRESSMSGBOXES /NORESTART /LOG=\"%CD%\\.WPM\\InnoSetupUninstall.log\"\n"
+                    "set err=%errorlevel%\n"
+                    "type .WPM\\InnoSetupUninstall.log\n"
+                    "if %err% neq 0 exit %err%\n";
+
+            PackageVersionFile* pvf = new PackageVersionFile(".WPM\\Install.bat",
+                    installScript);
+            ret->files.append(pvf);
+            pvf = new PackageVersionFile(".WPM\\Uninstall.bat",
+                    uninstallScript);
+            ret->files.append(pvf);
+        }
+        job->setProgress(1);
+    }
+
+    job->complete();
+
+    return ret;
+}
+
+PackageVersion* UpdateSearcher::findAdobeReaderUpdates(Job* job)
+{
+    job->setHint("Preparing");
+
+    PackageVersion* ret = 0;
+
+    QString version;
+    if (job->shouldProceed("Searching for updates")) {
+        Job* sub = job->newSubJob(0.2);
+        ret = findUpdate(sub, "com.adobe.AdobeReader",
+                "http://www.filehippo.com/download_adobe_reader/",
+                "<span itemprop=\"name\">Adobe Reader ([\\d\\.]+)</span>", &version);
+        if (!sub->getErrorMessage().isEmpty())
+            job->setErrorMessage(QString("Error searching for the newest version: %1").
+                    arg(sub->getErrorMessage()));
+        delete sub;
+    }
+
+    if (!job->isCancelled() && job->getErrorMessage().isEmpty()) {
+        if (ret) {
+            job->setHint("Searching for the download URL");
+
+            ret->type = 1;
+            QString sv = version;
+            sv.remove('.');
+            ret->download = QUrl("http://ardownload.adobe.com/pub/adobe/reader/win/10.x/" +
+                    version + "/en_US/AdbeRdr" +
+                    sv +
+                    "_en_US.exe");
+        }
+        job->setProgress(0.3);
+    }
+
+    if (!job->isCancelled() && job->getErrorMessage().isEmpty()) {
+        if (ret) {
+            job->setHint("Examining the binary");
+
+            Job* sub = job->newSubJob(0.65);
+            ret->type = 1;
+            setDownload(sub, ret);
+            if (!sub->getErrorMessage().isEmpty())
+                job->setErrorMessage(QString("Error downloading the package binary: %1").
+                        arg(sub->getErrorMessage()));
+            delete sub;
+        }
+    }
+
+    if (job->shouldProceed("Setting scripts")) {
+        if (ret) {
+            const QString installScript =
+                    "for /f \"delims=\" %%x in ('dir /b *.exe') do set setup=%%x\n"
+                    "\"%setup%\" /sAll /rs /msi /Lime \"%CD%\\.WPM\\MSI.log\" ALLUSERS=1 INSTALLDIR=\"%CD%\"\n"
+                    "set err=%errorlevel%\n"
+                    "type .WPM\\MSI.log\n"
+                    "rem 3010=restart required\n"
+                    "if %err% equ 3010 exit /b 0\n"
+                    "if %err% neq 0 exit /b %err%\n"
+                    "\n"
+                    "rem disable automatic updates\n"
+                    "if \"%ProgramFiles(x86)%\" NEQ \"\" goto x64\n"
+                    "REG ADD \"HKLM\\SOFTWARE\\Adobe\\Adobe ARM\\1.0\\ARM\" /f /v iCheckReader /t REG_DWORD /d 0\n"
+                    "if %errorlevel% neq 0 exit /b %errorlevel%\n"
+                    "goto :eof\n"
+                    "\n"
+                    ":x64\n"
+                    "REG ADD \"HKLM\\SOFTWARE\\Wow6432Node\\Adobe\\Adobe ARM\\1.0\\ARM\" /f /v iCheckReader /t REG_DWORD /d 0\n"
+                    "if %errorlevel% neq 0 exit /b %errorlevel%\n"
+                    "goto :eof\n";
+            const QString uninstallScript =
+                    "msiexec.exe /qn /norestart /Lime .WPM\\MSI.log /X{AC76BA86-7AD7-1033-7B44-AA1000000001}\n"
+                    "set err=%errorlevel%\n"
+                    "type .WPM\\MSI.log\n"
+                    "if %err% neq 0 exit %err%\n";
+
+            PackageVersionFile* pvf = new PackageVersionFile(".WPM\\Install.bat",
+                    installScript);
+            ret->files.append(pvf);
+            pvf = new PackageVersionFile(".WPM\\Uninstall.bat",
+                    uninstallScript);
+            ret->files.append(pvf);
+        }
+        job->setProgress(1);
+    }
+
+    job->complete();
+
+    return ret;
+}
+
+PackageVersion* UpdateSearcher::findSharpDevelopUpdates(Job* job)
+{
+    job->setHint("Preparing");
+
+    PackageVersion* ret = 0;
+
+    QString version;
+    if (job->shouldProceed("Searching for updates")) {
+        Job* sub = job->newSubJob(0.2);
+        ret = findUpdate(sub, "net.icsharpcode.SharpDevelop",
+                "https://sourceforge.net/api/file/index/project-id/17610/mtime/desc/limit/120/rss",
+                "http://sourceforge.net/projects/sharpdevelop/files/SharpDevelop.+/SharpDevelop_([\\d\\.]+)_Setup.msi", &version);
+        if (!sub->getErrorMessage().isEmpty())
+            job->setErrorMessage(QString("Error searching for the newest version: %1").
+                    arg(sub->getErrorMessage()));
+        delete sub;
+    }
+
+    if (!job->isCancelled() && job->getErrorMessage().isEmpty()) {
+        if (ret) {
+            job->setHint("Searching for the download URL");
+
+            ret->type = 1;
+            Job* sub = job->newSubJob(0.2);
+            QString url = findTextInPage(sub,
+                    "https://sourceforge.net/api/file/index/project-id/17610/mtime/desc/limit/120/rss",
+                    "(http://sourceforge.net/projects/sharpdevelop/files/SharpDevelop.+/SharpDevelop_[\\d\\.]+_Setup.msi)");
+            if (!sub->getErrorMessage().isEmpty())
+                job->setErrorMessage(QString("Error searching for the newest version: %1").
+                        arg(sub->getErrorMessage()));
+            delete sub;
+
+            if (job->getErrorMessage().isEmpty())
+                ret->download = QUrl(url);
+        }
+        job->setProgress(0.3);
+    }
+
+    if (!job->isCancelled() && job->getErrorMessage().isEmpty()) {
+        if (ret) {
+            job->setHint("Examining the binary");
+
+            Job* sub = job->newSubJob(0.65);
+            ret->type = 1;
+            setDownload(sub, ret);
+            if (!sub->getErrorMessage().isEmpty())
+                job->setErrorMessage(QString("Error downloading the package binary: %1").
+                        arg(sub->getErrorMessage()));
+            delete sub;
+        }
+    }
+
+    if (job->shouldProceed("Setting scripts")) {
+        if (ret) {
+            const QString installScript =
+                    "if \"%npackd_cl%\" equ \"\" set npackd_cl=..\\com.googlecode.windows-package-manager.NpackdCL-1\n"
+                    "set onecmd=\"%npackd_cl%\\npackdcl.exe\" \"path\" \"--package=com.googlecode.windows-package-manager.NpackdInstallerHelper\" \"--versions=[1, 1]\"\n"
+                    "for /f \"usebackq delims=\" %%x in (`%%onecmd%%`) do set npackdih=%%x\n"
+                    "call \"%npackdih%\\InstallMSI.bat\" INSTALLDIR\n";
+            const QString uninstallScript =
+                    "if \"%npackd_cl%\" equ \"\" set npackd_cl=..\\com.googlecode.windows-package-manager.NpackdCL-1\n"
+                    "set onecmd=\"%npackd_cl%\\npackdcl.exe\" \"path\" \"--package=com.googlecode.windows-package-manager.NpackdInstallerHelper\" \"--versions=[1, 1]\"\n"
+                    "for /f \"usebackq delims=\" %%x in (`%%onecmd%%`) do set npackdih=%%x\n"
+                    "call \"%npackdih%\\UninstallMSI.bat\n";
+
+            PackageVersionFile* pvf = new PackageVersionFile(".WPM\\Install.bat",
+                    installScript);
+            ret->files.append(pvf);
+            pvf = new PackageVersionFile(".WPM\\Uninstall.bat",
+                    uninstallScript);
+            ret->files.append(pvf);
+
+            Dependency* d = new Dependency();
+            d->package = "com.googlecode.windows-package-manager.NpackdCL";
+            d->minIncluded = true;
+            d->min.setVersion(1, 15, 7);
+            d->min.normalize();
+            d->maxIncluded = false;
+            d->max.setVersion(2, 0);
+            d->max.normalize();
+            ret->dependencies.append(d);
+
+            d = new Dependency();
+            d->package = "com.googlecode.windows-package-manager.NpackdCL";
+            d->minIncluded = true;
+            d->min.setVersion(1, 0);
+            d->min.normalize();
+            d->maxIncluded = true;
+            d->max.setVersion(1, 0);
+            d->max.normalize();
+            ret->dependencies.append(d);
+
+            d = new Dependency();
+            d->package = "com.googlecode.windows-package-manager.NpackdInstallerHelper";
+            d->minIncluded = true;
+            d->min.setVersion(1, 0);
+            d->min.normalize();
+            d->maxIncluded = true;
+            d->max.setVersion(1, 0);
+            d->max.normalize();
+            ret->dependencies.append(d);
+
+            d = new Dependency();
+            d->package = "com.microsoft.DotNetRedistributable";
+            d->minIncluded = true;
+            d->min.setVersion(4, 0);
+            d->min.normalize();
+            d->maxIncluded = false;
+            d->max.setVersion(5, 0);
+            d->max.normalize();
+            ret->dependencies.append(d);
+        }
+        job->setProgress(1);
+    }
+
+    job->complete();
+
+    return ret;
+}
+
 void UpdateSearcher::findUpdates(Job* job)
 {
     if (!job->isCancelled() && job->getErrorMessage().isEmpty()) {
@@ -662,6 +1027,12 @@ void UpdateSearcher::findUpdates(Job* job)
     packages.append("HandBrake");
     packages.append("ImgBurn");
     packages.append("IrfanView");
+    packages.append("Firefox");
+    packages.append("AC3Filter");
+    packages.append("AdobeReader");
+    packages.append("SharpDevelop");
+
+    Repository* found = new Repository();
 
     for (int i = 0; i < packages.count(); i++) {
         const QString package = packages.at(i);
@@ -691,11 +1062,23 @@ void UpdateSearcher::findUpdates(Job* job)
             case 5:
                 pv = findIrfanViewUpdates(sub);
                 break;
+            case 6:
+                pv = findFirefoxUpdates(sub);
+                break;
+            case 7:
+                pv = findAC3FilterUpdates(sub);
+                break;
+            case 8:
+                pv = findAdobeReaderUpdates(sub);
+                break;
+            case 9:
+                pv = findSharpDevelopUpdates(sub);
+                break;
         }
         if (!sub->getErrorMessage().isEmpty()) {
             job->setErrorMessage(sub->getErrorMessage());
         } else {
-            job->setProgress(0.4 + 0.6 * (i + 1) / packages.count());
+            job->setProgress(0.4 + 0.55 * (i + 1) / packages.count());
             if (!pv)
                 WPMUtils::outputTextConsole(QString(
                         "No updates found for %1\n").arg(package));
@@ -703,8 +1086,7 @@ void UpdateSearcher::findUpdates(Job* job)
                 WPMUtils::outputTextConsole(
                         QString("New %1 version: %2\n").arg(package).
                         arg(pv->version.getVersionString()));
-                WPMUtils::outputTextConsole(pv->serialize());
-                delete pv;
+                found->packageVersions.append(pv);
             }
         }
         delete sub;
@@ -712,6 +1094,23 @@ void UpdateSearcher::findUpdates(Job* job)
         if (!job->getErrorMessage().isEmpty())
             break;
     }
+
+    if (job->shouldProceed("Writing repository with found packages")) {
+        WPMUtils::outputTextConsole(
+                QString("Number of found new packages: %1\n").arg(
+                found->packageVersions.count()));
+        if (found->packageVersions.count() > 0) {
+            QString err = found->writeTo("FoundPackages.xml");
+            if (!err.isEmpty())
+                job->setErrorMessage(err);
+            else
+                job->setProgress(1);
+        } else {
+            job->setProgress(1);
+        }
+    }
+
+    delete found;
 
     job->complete();
 }

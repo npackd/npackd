@@ -8,6 +8,7 @@
 #include "qurl.h"
 #include "qstringlist.h"
 #include <QSemaphore>
+#include <QDomElement>
 
 #include "job.h"
 #include "packageversionfile.h"
@@ -295,6 +296,13 @@ public:
      * @return XML representation of this package version
      */
     QString serialize() const;
+
+    /**
+     * Stores this object as XML.
+     *
+     * @param version <version>
+     */
+    void toXML(QDomElement* version) const;
 };
 
 Q_DECLARE_METATYPE(PackageVersion);
