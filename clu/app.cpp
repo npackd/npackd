@@ -3,6 +3,7 @@
 #include "app.h"
 
 #include "..\wpmcpp\wpmutils.h"
+#include "..\wpmcpp\msi.h"
 
 App::App()
 {
@@ -25,6 +26,9 @@ int App::process()
     cl.add("path", 'p',
             "directory path (e.g. C:\\Program Files (x86)\\MyProgram)",
             "path", false);
+    cl.add("file", 'f',
+            "path to an MSI package (e.g. C:\\Downloads\\MyProgram.msi)",
+            "file", false);
 
     QString err = cl.parse();
     if (!err.isEmpty()) {
@@ -51,12 +55,52 @@ int App::process()
         r = removePath();
     } else if (fr.at(0) == "list-msi") {
         r = listMSI();
+    } else if (fr.at(0) == "get-product-code") {
+        r = getProductCode();
     } else {
         WPMUtils::outputTextConsole("Wrong command: " + fr.at(0) + "\n", false);
         r = 1;
     }
 
     return r;
+}
+
+int App::getProductCode()
+{
+    int ret = 0;
+
+    QString file = cl.get("file");
+
+    if (ret == 0) {
+        if (file.isNull()) {
+            WPMUtils::outputTextConsole("Missing option: --file\n", false);
+            ret = 1;
+        }
+    }
+
+    if (ret == 0) {
+        MSIHANDLE hProduct;
+        UINT r = MsiOpenPackageW((WCHAR*) file.utf16(), &hProduct);
+        if (!r) {
+            WCHAR guid[40];
+            DWORD pcchValueBuf = 40;
+            r = MsiGetProductPropertyW(hProduct, L"ProductCode", guid, &pcchValueBuf);
+            if (!r) {
+                QString s;
+                s.setUtf16((ushort*) guid, pcchValueBuf);
+                WPMUtils::outputTextConsole(s + "\n");
+            } else {
+                WPMUtils::outputTextConsole(
+                        "Cannot get the value of the ProductCode property\n", false);
+                ret = 1;
+            }
+        } else {
+            WPMUtils::outputTextConsole("Cannot open the MSI file\n", false);
+            ret = 1;
+        }
+    }
+
+    return ret;
 }
 
 int App::help()
@@ -72,6 +116,8 @@ int App::help()
         "        removes the specified path from the system-wide PATH variable",
         "    clu list-msi",
         "        lists all installed MSI packages",
+        "    clu get-product-code --file=<file>",
+        "        prints the product code of an MSI file",
         "Options:",
     };
     for (int i = 0; i < (int) (sizeof(lines) / sizeof(lines[0])); i++) {
