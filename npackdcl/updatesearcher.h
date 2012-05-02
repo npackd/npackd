@@ -2,6 +2,7 @@
 #define UPDATESEARCHER_H
 
 #include <QString>
+#include <QStringList>
 
 #include "..\wpmcpp\job.h"
 #include "..\wpmcpp\packageversion.h"
@@ -10,7 +11,10 @@ class UpdateSearcher
 {
 private:
     void setDownload(Job* job, PackageVersion* pv);
+
     QString findTextInPage(Job* job, const QString& url,
+            const QString& regex);
+    QStringList findTextsInPage(Job* job, const QString& url,
             const QString& regex);
 
     /**
@@ -20,7 +24,8 @@ private:
      */
     PackageVersion* findUpdate(Job* job, const QString& package,
             const QString& versionPage,
-            const QString& versionRE, QString* realVersion=0);
+            const QString& versionRE, QString* realVersion=0,
+            bool searchForMaxVersion=false);
 
     PackageVersion* findGraphicsMagickUpdates(Job* job);
     PackageVersion* findGTKPlusBundleUpdates(Job* job);
@@ -32,6 +37,7 @@ private:
     PackageVersion* findAC3FilterUpdates(Job* job);
     PackageVersion* findAdobeReaderUpdates(Job* job);
     PackageVersion* findSharpDevelopUpdates(Job* job);
+    PackageVersion* findXULRunnerUpdates(Job* job);
 public:
     /**
      * -

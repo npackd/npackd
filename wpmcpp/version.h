@@ -36,6 +36,7 @@ public:
     bool operator !=(const Version& v) const;
     bool operator ==(const Version& v) const;
     bool operator <(const Version& v) const;
+    bool operator >(const Version& v) const;
 
     ~Version();
 
