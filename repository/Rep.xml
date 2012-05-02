@@ -2428,6 +2428,12 @@ yes - Print a string repeatedly.</description>
         <description>calendar</description>
         <license>org.mozilla.MPLv1_1</license>
     </package>
+    <package name="org.mozilla.XULRunner">
+        <title>XULRunner</title>
+        <url>https://developer.mozilla.org/en/XULRunner</url>
+        <description>runtime</description>
+        <license>org.mozilla.MPLv1_1</license>
+    </package>
     <package name="org.netbeans.NetBeansMLJavaSE">
         <title>NetBeans ML Java SE</title>
         <url>http://www.netbeans.org</url>
@@ -17706,4 +17712,19 @@ call "%npackdih%\UninstallMSI.bat
         <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1, 1]"/>
         <dependency package="com.microsoft.DotNetRedistributable" versions="[4, 5)"/>
     </version>
+    <!-- Detected -->
+    
+    <version package="org.mozilla.XULRunner" name="12">
+        <file path=".WPM\Install.bat">for /f "delims=" %%x in ('dir /b xulrunner*') do set name=%%x
+cd "%name%"
+for /f "delims=" %%a in ('dir /b') do (
+  move "%%a" ..
+)
+cd ..
+rmdir "%name%"
+</file>
+        <url>http://ftp.mozilla.org/pub/mozilla.org/xulrunner/releases/12.0/runtimes/xulrunner-12.0.en-US.win32.zip</url>
+        <sha1>5fc4ea2160a5976a8a57df6f7448cb982db87102</sha1>
+    </version>
+    <!-- Detected -->
 </root>

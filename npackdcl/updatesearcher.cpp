@@ -5,6 +5,7 @@
 #include "..\wpmcpp\downloader.h"
 #include "..\wpmcpp\wpmutils.h"
 #include "..\wpmcpp\repository.h"
+#include "..\wpmcpp\version.h"
 
 UpdateSearcher::UpdateSearcher()
 {
@@ -35,7 +36,17 @@ void UpdateSearcher::setDownload(Job* job, PackageVersion* pv)
 QString UpdateSearcher::findTextInPage(Job* job, const QString& url,
         const QString& regex)
 {
-    QString ret;
+    QStringList ret = this->findTextsInPage(job, url, regex);
+    if (ret.count() > 0)
+        return ret.at(0);
+    else
+        return "";
+}
+
+QStringList UpdateSearcher::findTextsInPage(Job* job, const QString& url,
+        const QString& regex)
+{
+    QStringList ret;
 
     job->setHint(QString("Downloading %1").arg(url));
 
@@ -69,8 +80,7 @@ QString UpdateSearcher::findTextInPage(Job* job, const QString& url,
             //WPMUtils::outputTextConsole(line + "\n");
             int pos = re.indexIn(line);
             if (pos >= 0) {
-                ret = re.cap(1);
-                break;
+                ret.append(re.cap(1));
             }
         }
 
@@ -82,10 +92,6 @@ QString UpdateSearcher::findTextInPage(Job* job, const QString& url,
 
     delete tf;
 
-    if (job->getErrorMessage().isEmpty())
-        WPMUtils::outputTextConsole(QString("Found text %1 for %2\n").arg(ret).
-                arg(regex));
-
     job->complete();
 
     return ret;
@@ -93,15 +99,33 @@ QString UpdateSearcher::findTextInPage(Job* job, const QString& url,
 
 PackageVersion* UpdateSearcher::findUpdate(Job* job, const QString& package,
         const QString& versionPage,
-        const QString& versionRE, QString* realVersion) {
+        const QString& versionRE, QString* realVersion,
+        bool searchForMaxVersion) {
     QString version;
     if (!job->isCancelled() && job->getErrorMessage().isEmpty()) {
         job->setHint("Searching for the version number");
 
         Job* sub = job->newSubJob(0.9);
-        version = findTextInPage(sub, versionPage, versionRE);
-        if (realVersion)
-            *realVersion = version;
+        if (!searchForMaxVersion) {
+            version = findTextInPage(sub, versionPage, versionRE);
+            if (realVersion)
+                *realVersion = version;
+        } else {
+            QStringList versions = findTextsInPage(sub, versionPage, versionRE);
+            Version max_(0, 0);
+            max_.normalize();
+            for (int i = 0; i < versions.count(); i++) {
+                Version v;
+                if (v.setVersion(versions.at(i))) {
+                    if (v > max_) {
+                        max_ = v;
+                        version = versions.at(i);
+                    }
+                }
+            }
+            if (realVersion)
+                *realVersion = version;
+        }
         if (!sub->getErrorMessage().isEmpty())
             job->setErrorMessage(QString("Error searching for version number: %1").
                     arg(sub->getErrorMessage()));
@@ -1006,6 +1030,72 @@ PackageVersion* UpdateSearcher::findSharpDevelopUpdates(Job* job)
     return ret;
 }
 
+PackageVersion* UpdateSearcher::findXULRunnerUpdates(Job* job)
+{
+    job->setHint("Preparing");
+
+    PackageVersion* ret = 0;
+
+    QString version;
+    if (job->shouldProceed("Searching for updates")) {
+        Job* sub = job->newSubJob(0.2);
+        ret = findUpdate(sub, "org.mozilla.XULRunner",
+                "http://ftp.mozilla.org/pub/mozilla.org/xulrunner/releases/",
+                ">([\\d\\.]+)/", &version, true);
+        if (!sub->getErrorMessage().isEmpty())
+            job->setErrorMessage(QString("Error searching for the newest version: %1").
+                    arg(sub->getErrorMessage()));
+        delete sub;
+    }
+
+    if (!job->isCancelled() && job->getErrorMessage().isEmpty()) {
+        if (ret) {
+            job->setHint("Searching for the download URL");
+
+            QString url = "http://ftp.mozilla.org/pub/mozilla.org/xulrunner/releases/" +
+                    version + "/runtimes/xulrunner-" +
+                    version + ".en-US.win32.zip";
+            ret->download = QUrl(url);
+        }
+        job->setProgress(0.3);
+    }
+
+    if (!job->isCancelled() && job->getErrorMessage().isEmpty()) {
+        if (ret) {
+            job->setHint("Examining the binary");
+
+            Job* sub = job->newSubJob(0.65);
+            setDownload(sub, ret);
+            if (!sub->getErrorMessage().isEmpty())
+                job->setErrorMessage(QString("Error downloading the package binary: %1").
+                        arg(sub->getErrorMessage()));
+            delete sub;
+        }
+    }
+
+    if (job->shouldProceed("Setting scripts")) {
+        if (ret) {
+            const QString installScript =
+                    "for /f \"delims=\" %%x in ('dir /b xulrunner*') do set name=%%x\n"
+                    "cd \"%name%\"\n"
+                    "for /f \"delims=\" %%a in ('dir /b') do (\n"
+                    "  move \"%%a\" ..\n"
+                    ")\n"
+                    "cd ..\n"
+                    "rmdir \"%name%\"\n";
+
+            PackageVersionFile* pvf = new PackageVersionFile(".WPM\\Install.bat",
+                    installScript);
+            ret->files.append(pvf);
+        }
+        job->setProgress(1);
+    }
+
+    job->complete();
+
+    return ret;
+}
+
 void UpdateSearcher::findUpdates(Job* job)
 {
     if (!job->isCancelled() && job->getErrorMessage().isEmpty()) {
@@ -1031,6 +1121,7 @@ void UpdateSearcher::findUpdates(Job* job)
     packages.append("AC3Filter");
     packages.append("AdobeReader");
     packages.append("SharpDevelop");
+    packages.append("XULRunner");
 
     Repository* found = new Repository();
 
@@ -1073,6 +1164,9 @@ void UpdateSearcher::findUpdates(Job* job)
                 break;
             case 9:
                 pv = findSharpDevelopUpdates(sub);
+                break;
+            case 10:
+                pv = findXULRunnerUpdates(sub);
                 break;
         }
         if (!sub->getErrorMessage().isEmpty()) {
