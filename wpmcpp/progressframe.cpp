@@ -40,7 +40,9 @@ ProgressFrame::~ProgressFrame()
 {
     if (!job->getErrorMessage().isEmpty()) {
         MainWindow::getInstance()->addErrorMessage("Error: " + this->title +
+                " / " + job->getHint() +
                 ": " + WPMUtils::getFirstLine(job->getErrorMessage()),
+                job->getHint() + "\n" +
                 job->getErrorMessage());
     }
     delete this->thread;
