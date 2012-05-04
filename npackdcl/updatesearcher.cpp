@@ -1096,6 +1096,94 @@ PackageVersion* UpdateSearcher::findXULRunnerUpdates(Job* job)
     return ret;
 }
 
+PackageVersion* UpdateSearcher::findClementineUpdates(Job* job)
+{
+    job->setHint("Preparing");
+
+    PackageVersion* ret = 0;
+
+    QString version;
+    if (job->shouldProceed("Searching for updates")) {
+        Job* sub = job->newSubJob(0.2);
+        ret = findUpdate(sub, "org.clementine-player.Clementine",
+                "http://code.google.com/p/clementine-player/downloads/list",
+                "ClementineSetup-([\\d\\.]+)\\.exe", &version);
+        if (!sub->getErrorMessage().isEmpty())
+            job->setErrorMessage(QString("Error searching for the newest version: %1").
+                    arg(sub->getErrorMessage()));
+        delete sub;
+    }
+
+    if (!job->isCancelled() && job->getErrorMessage().isEmpty()) {
+        if (ret) {
+            job->setHint("Searching for the download URL");
+
+            ret->type = 1;
+            QString url = "http://clementine-player.googlecode.com/files/ClementineSetup-" +
+                    version + ".exe";
+            ret->download = QUrl(url);
+        }
+        job->setProgress(0.3);
+    }
+
+    if (!job->isCancelled() && job->getErrorMessage().isEmpty()) {
+        if (ret) {
+            job->setHint("Examining the binary");
+
+            Job* sub = job->newSubJob(0.65);
+            setDownload(sub, ret);
+            if (!sub->getErrorMessage().isEmpty())
+                job->setErrorMessage(QString("Error downloading the package binary: %1").
+                        arg(sub->getErrorMessage()));
+            delete sub;
+        }
+    }
+
+    if (job->shouldProceed("Setting scripts")) {
+        if (ret) {
+            const QString installScript =
+                    "for /f %%x in ('dir /b *.exe') do set setup=%%x\n"
+                    "\"%setup%\" /S /D=%CD%\n"
+                    "if %errorlevel% neq 0 exit /b %errorlevel%\n"
+                    "\n"
+                    "set package=org.clementine-player.Clementine\n"
+                    "set version=" + version + "\n"
+                    "set key=%package%-%version%\n"
+                    "\n"
+                    "reg add HKLM\\SOFTWARE\\Classes\\Applications\\%key%\\shell\\open /v FriendlyAppName /d \"Clementine (%version%)\" /f\n"
+                    "set c=\\\"%CD%\\clementine.exe\\\" \\\"%%1\\\"\n"
+                    "reg add HKLM\\SOFTWARE\\Classes\\Applications\\%KEY%\\shell\\open\\command /d \"%c%\" /f\n"
+                    "for %%g in (mp3 ogg flac mpc m4a aac wma mp4 spx wav m3u m3u8 xspf pls asx asxini) do reg add HKLM\\SOFTWARE\\Classes\\.%%g\\OpenWithList\\%key% /f\n"
+                    "verify\n";
+
+            PackageVersionFile* pvf = new PackageVersionFile(".WPM\\Install.bat",
+                    installScript);
+            ret->files.append(pvf);
+
+            pvf = new PackageVersionFile(".WPM\\Uninstall.bat",
+                    "Uninstall.exe /S _?=%CD%\n"
+                    "if %errorlevel% neq 0 exit /b %errorlevel%\n"
+                    "\n"
+                    "set package=org.clementine-player.Clementine\n"
+                    "set version=" + version + "\n"
+                    "set key=%package%-%version%\n"
+                    "\n"
+                    "reg delete HKLM\\SOFTWARE\\Classes\\Applications\\%key% /f\n"
+                    "for %%g in (mp3 ogg flac mpc m4a aac wma mp4 spx wav m3u m3u8 xspf pls asx asxini) do reg delete HKLM\\SOFTWARE\\Classes\\.%%g\\OpenWithList\\%key% /f\n"
+                    "verify\n");
+            ret->files.append(pvf);
+
+            ret->importantFiles.append("clementine.exe");
+            ret->importantFilesTitles.append("Clementine");
+        }
+        job->setProgress(1);
+    }
+
+    job->complete();
+
+    return ret;
+}
+
 void UpdateSearcher::findUpdates(Job* job)
 {
     if (!job->isCancelled() && job->getErrorMessage().isEmpty()) {
@@ -1122,6 +1210,7 @@ void UpdateSearcher::findUpdates(Job* job)
     packages.append("AdobeReader");
     packages.append("SharpDevelop");
     packages.append("XULRunner");
+    packages.append("Clementine");
 
     Repository* found = new Repository();
 
@@ -1167,6 +1256,9 @@ void UpdateSearcher::findUpdates(Job* job)
                 break;
             case 10:
                 pv = findXULRunnerUpdates(sub);
+                break;
+            case 11:
+                pv = findClementineUpdates(sub);
                 break;
         }
         if (!sub->getErrorMessage().isEmpty()) {

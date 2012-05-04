@@ -38,6 +38,7 @@ private:
     PackageVersion* findAdobeReaderUpdates(Job* job);
     PackageVersion* findSharpDevelopUpdates(Job* job);
     PackageVersion* findXULRunnerUpdates(Job* job);
+    PackageVersion* findClementineUpdates(Job* job);
 public:
     /**
      * -

@@ -13734,6 +13734,37 @@ verify
         <url>http://clementine-player.googlecode.com/files/ClementineSetup-1.0.0.exe</url>
         <sha1>1a6448060488ca0a40805ecfe4b8b6acc0a7dccb</sha1>
     </version>
+    <version package="org.clementine-player.Clementine" type="one-file" name="1.0.1">
+        <important-file title="Clementine" path="clementine.exe"/>
+        <file path=".WPM\Install.bat">for /f %%x in ('dir /b *.exe') do set setup=%%x
+"%setup%" /S /D=%CD%
+if %errorlevel% neq 0 exit /b %errorlevel%
+
+set package=org.clementine-player.Clementine
+set version=1.0.1
+set key=%package%-%version%
+
+reg add HKLM\SOFTWARE\Classes\Applications\%key%\shell\open /v FriendlyAppName /d "Clementine (%version%)" /f
+set c=\"%CD%\clementine.exe\" \"%%1\"
+reg add HKLM\SOFTWARE\Classes\Applications\%KEY%\shell\open\command /d "%c%" /f
+for %%g in (mp3 ogg flac mpc m4a aac wma mp4 spx wav m3u m3u8 xspf pls asx asxini) do reg add HKLM\SOFTWARE\Classes\.%%g\OpenWithList\%key% /f
+verify
+</file>
+        <file path=".WPM\Uninstall.bat">Uninstall.exe /S _?=%CD%
+if %errorlevel% neq 0 exit /b %errorlevel%
+
+set package=org.clementine-player.Clementine
+set version=1.0.1
+set key=%package%-%version%
+
+reg delete HKLM\SOFTWARE\Classes\Applications\%key% /f
+for %%g in (mp3 ogg flac mpc m4a aac wma mp4 spx wav m3u m3u8 xspf pls asx asxini) do reg delete HKLM\SOFTWARE\Classes\.%%g\OpenWithList\%key% /f
+verify
+</file>
+        <url>http://clementine-player.googlecode.com/files/ClementineSetup-1.0.1.exe</url>
+        <sha1>88e241ce9eab88d0d4749852a3650cd12f1ab9e4</sha1>
+    </version>
+    <!-- Detected -->
 
     <version name="0.8.0.627" package="org.getgreenshot.Greenshot"
             type="one-file">
