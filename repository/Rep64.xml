@@ -256,6 +256,12 @@ This package uses internal version numbers. For example, 1.7.0.1 corresponds to 
         <description>command line SMTP and NNTP mailer</description>
         <license>net.blat.License</license>
     </package>
+    <package name="net.sourceforge.aria2.Aria2_64">
+        <title>Aria2 64 bit</title>
+        <url>http://aria2.sourceforge.net/</url>
+        <description>file download</description>
+        <license>org.gnu.GPLv2</license>
+    </package>
     <package name="net.sourceforge.mpc-hc.MediaPlayerClassicHomeCinema64">
         <title>Media Player Classic - Home Cinema 64 bit</title>
         <url>http://mpc-hc.sourceforge.net/</url>
@@ -3879,4 +3885,15 @@ call "%npackdih%\UninstallMSI.bat"
         <sha1>677c122714153f785942f77e780cbf3e1579a7d1</sha1>
         <dependency package="com.microsoft.DotNetRedistributable" versions="[2, 3)"/>
     </version>
+
+    <version package="net.sourceforge.aria2.Aria2_64" name="1.15">
+        <important-file title="Read Me" path="README.html"/>
+        <file path=".WPM\Install.bat">for /f %%x in ('dir /b aria*') do set name=%%x
+xcopy "%name%\*" . /E /H
+rmdir /s /q "%name%"
+</file>
+        <url>http://downloads.sourceforge.net/project/aria2/stable/aria2-1.15.0/aria2-1.15.0-x86_64-w64-mingw32-build1.zip</url>
+        <sha1>99fa8ddd2edd596bf670592933c47036f58ca308</sha1>
+    </version>
+    <!-- Detected -->
 </root>

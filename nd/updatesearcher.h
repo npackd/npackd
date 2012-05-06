@@ -6,6 +6,7 @@
 
 #include "..\wpmcpp\job.h"
 #include "..\wpmcpp\packageversion.h"
+#include "..\wpmcpp\repository.h"
 
 class UpdateSearcher
 {
@@ -37,8 +38,16 @@ private:
     PackageVersion* findAC3FilterUpdates(Job* job);
     PackageVersion* findAdobeReaderUpdates(Job* job);
     PackageVersion* findSharpDevelopUpdates(Job* job);
-    PackageVersion* findXULRunnerUpdates(Job* job);
+    PackageVersion* findXULRunnerUpdates(Job* job);    
     PackageVersion* findClementineUpdates(Job* job);
+    PackageVersion* findAdvancedInstallerFreewareUpdates(Job* job,
+            Repository* templ);
+    PackageVersion* findAria2Updates(Job* job,
+            Repository* templ);
+    PackageVersion* findBlatUpdates(Job* job,
+            Repository* templ);
+    PackageVersion* findAria2_64Updates(Job* job,
+            Repository* templ);
 public:
     /**
      * -

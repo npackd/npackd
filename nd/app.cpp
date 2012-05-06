@@ -156,20 +156,6 @@ int App::unitTests()
 
 int App::process()
 {
-    cl.add("package", 'p',
-            "internal package name (e.g. com.example.Editor or just Editor)",
-            "package", false);
-    cl.add("versions", 'r', "versions range (e.g. [1.5,2))",
-            "range", false);
-    cl.add("version", 'v', "version number (e.g. 1.5.12)",
-            "version", false);
-    cl.add("url", 'u', "repository URL (e.g. https://www.example.com/Rep.xml)",
-            "repository", false);
-    cl.add("status", 's', "filters package versions by status",
-            "status", false);
-    cl.add("bare-format", 'b', "bare format (no heading or summary)",
-            "", false);
-
     QString err = cl.parse();
     if (!err.isEmpty()) {
         WPMUtils::outputTextConsole("Error: " + err + "\n");
@@ -182,7 +168,7 @@ int App::process()
     QStringList fr = cl.getFreeArguments();
 
     if (fr.count() == 0) {
-        WPMUtils::outputTextConsole("Missing command. Try npackdcl help\n", false);
+        WPMUtils::outputTextConsole("Missing command. Try nd help\n", false);
         r = 1;
     } else if (fr.count() > 1) {
         WPMUtils::outputTextConsole("Unexpected argument: " + fr.at(1) + "\n", false);

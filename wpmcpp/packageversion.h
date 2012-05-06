@@ -41,6 +41,11 @@ private:
 
     bool external_;
 
+    static PackageVersionFile* createPackageVersionFile(QDomElement* e,
+            QString* err);
+    static Dependency* createDependency(QDomElement* e);
+    static DetectFile* createDetectFile(QDomElement* e, QString* err);
+
     void unzip(Job* job, QString zipfile, QString outputdir);
     bool createShortcuts(const QString& dir, QString* errMsg);
     QString saveFiles(const QDir& d);
@@ -303,6 +308,18 @@ public:
      * @param version <version>
      */
     void toXML(QDomElement* version) const;
+
+    /**
+     * @return a copy
+     */
+    PackageVersion* clone() const;
+
+    /**
+     * @param e <version>
+     * @param err error message will be stored here
+     * @return created object or 0
+     */
+    static PackageVersion* parse(QDomElement* e, QString* err);
 };
 
 Q_DECLARE_METATYPE(PackageVersion);
