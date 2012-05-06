@@ -712,45 +712,82 @@ void Repository::detectControlPanelPrograms()
     // TODO: each detectControlPanelProgramsFrom may also change this list
     QStringList packagePaths = getAllInstalledPackagePaths();
 
+    QStringList foundDetectionInfos;
+
     detectControlPanelProgramsFrom(HKEY_LOCAL_MACHINE,
             "SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Uninstall",
-            false, packagePaths
+            false, packagePaths, &foundDetectionInfos
     );
     if (WPMUtils::is64BitWindows())
         detectControlPanelProgramsFrom(HKEY_LOCAL_MACHINE,
                 "SOFTWARE\\WoW6432Node\\Microsoft\\Windows\\CurrentVersion\\Uninstall",
-                false, packagePaths
+                false, packagePaths, &foundDetectionInfos
         );
     detectControlPanelProgramsFrom(HKEY_CURRENT_USER,
             "SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Uninstall",
-            false, packagePaths
+            false, packagePaths, &foundDetectionInfos
     );
     if (WPMUtils::is64BitWindows())
         detectControlPanelProgramsFrom(HKEY_CURRENT_USER,
                 "SOFTWARE\\WoW6432Node\\Microsoft\\Windows\\CurrentVersion\\Uninstall",
-                false, packagePaths
+                false, packagePaths, &foundDetectionInfos
         );
+
+    // remove uninstalled packages
+    for (int i = 0; i < this->packageVersions.count(); i++) {
+        PackageVersion* pv = this->packageVersions.at(i);
+        if (pv->detectionInfo.indexOf("control-panel:") == 0 &&
+                pv->installed() &&
+                !foundDetectionInfos.contains(pv->detectionInfo)) {
+            qDebug() << "uninstall " << pv->package << " " <<
+                     pv->version.getVersionString();
+            pv->setPath("");
+        }
+    }
 }
 
 void Repository::detectControlPanelProgramsFrom(HKEY root,
-        const QString& path, bool useWoWNode, const QStringList& packagePaths) {
+        const QString& path, bool useWoWNode, const QStringList& packagePaths,
+        QStringList* foundDetectionInfos) {
     WindowsRegistry wr;
     QString err;
     err = wr.open(root, path, useWoWNode, KEY_READ);
     if (err.isEmpty()) {
+        QString fullPath;
+        if (root == HKEY_CLASSES_ROOT)
+            fullPath = "HKEY_CLASSES_ROOT";
+        else if (root == HKEY_CURRENT_USER)
+            fullPath = "HKEY_CURRENT_USER";
+        else if (root == HKEY_LOCAL_MACHINE)
+            fullPath = "HKEY_LOCAL_MACHINE";
+        else if (root == HKEY_USERS)
+            fullPath = "HKEY_USERS";
+        else if (root == HKEY_PERFORMANCE_DATA)
+            fullPath = "HKEY_PERFORMANCE_DATA";
+        else if (root == HKEY_CURRENT_CONFIG)
+            fullPath = "HKEY_CURRENT_CONFIG";
+        else if (root == HKEY_DYN_DATA)
+            fullPath = "HKEY_DYN_DATA";
+        else
+            fullPath = QString("%1").arg((unsigned int) root);
+        fullPath += "\\" + path;
+
         QStringList entries = wr.list(&err);
         for (int i = 0; i < entries.count(); i++) {
             WindowsRegistry k;
             err = k.open(wr, entries.at(i), KEY_READ);
             if (err.isEmpty()) {
-                detectOneControlPanelProgram(k, entries.at(i), packagePaths);
+                detectOneControlPanelProgram(fullPath + "\\" + entries.at(i),
+                    k, entries.at(i), packagePaths, foundDetectionInfos);
             }
         }
     }
 }
 
-void Repository::detectOneControlPanelProgram(WindowsRegistry& k,
-        const QString& keyName, const QStringList& packagePaths)
+void Repository::detectOneControlPanelProgram(const QString& registryPath,
+        WindowsRegistry& k,
+        const QString& keyName, const QStringList& packagePaths,
+        QStringList* foundDetectionInfos)
 {
     QString package = keyName;
     package.replace('.', '_');
@@ -810,7 +847,7 @@ void Repository::detectOneControlPanelProgram(WindowsRegistry& k,
     PackageVersion* pv = this->findPackageVersion(package, version);
     if (!pv) {
         pv = new PackageVersion(package);
-        pv->detectionInfo = "control-panel:" + keyName;
+        pv->detectionInfo = "control-panel:" + registryPath;
         pv->version = version;
         this->packageVersions.append(pv);
         this->package2versions.insert(package, pv);
@@ -925,6 +962,8 @@ void Repository::detectOneControlPanelProgram(WindowsRegistry& k,
                 }
             }
         }
+
+        foundDetectionInfos->append(pv->detectionInfo);
     }
 }
 
