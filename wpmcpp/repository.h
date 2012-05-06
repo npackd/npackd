@@ -26,13 +26,9 @@ private:
     static Repository def;
 
     static Package* createPackage(QDomElement* e, QString* err);
-    static PackageVersionFile* createPackageVersionFile(QDomElement* e,
-            QString* err);
-    static Dependency* createDependency(QDomElement* e);
     static License* createLicense(QDomElement* e);
     static PackageVersion* createPackageVersion(QDomElement* e,
             QString* err);
-    static DetectFile* createDetectFile(QDomElement* e, QString* err);
 
     QMultiMap<QString, PackageVersion*> package2versions;
 
@@ -158,6 +154,14 @@ public:
      * @param job Job
      */
     void loadOne(QDomDocument* doc, Job* job);
+
+    /**
+     * Loads one repository from a file.
+     *
+     * @param filename repository file name
+     * @param job Job
+     */
+    void loadOne(const QString& filename, Job* job);
 
     /**
      * Reads the package statuses from the registry.

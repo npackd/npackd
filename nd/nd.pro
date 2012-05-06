@@ -1,18 +1,23 @@
-# -------------------------------------------------
-# Project created by QtCreator 2010-11-21T18:29:49
-# -------------------------------------------------
+#-------------------------------------------------
+#
+# Project created by QtCreator 2012-05-05T10:16:39
+#
+#-------------------------------------------------
+
 QT += xml
 QT -= gui
-TARGET = npackdcl
-CONFIG += console
-CONFIG -= app_bundle
+TARGET = nd
+CONFIG   += console
+CONFIG   -= app_bundle
 TEMPLATE = app
-RC_FILE = npackdcl.rc
+
 INCLUDEPATH += ..\\quazip\\quazip ..\\zlib
 LIBS += ..\\quazip\\quazip\\release\\libquazip.a \
     ..\\zlib\\libz.a \
     -lole32 -luuid -lwininet -lpsapi -lversion \
     ..\\wpmcpp\\libmsi.a
+
+
 SOURCES += main.cpp \
     ../wpmcpp/repository.cpp \
     ../wpmcpp/version.cpp \
@@ -29,7 +34,9 @@ SOURCES += main.cpp \
     ../wpmcpp/detectfile.cpp \
     app.cpp \
     ../wpmcpp/commandline.cpp \
-    ../wpmcpp/xmlutils.cpp
+    ../wpmcpp/xmlutils.cpp \
+    updatesearcher.cpp
+
 HEADERS += ../wpmcpp/repository.h \
     ../wpmcpp/version.h \
     ../wpmcpp/packageversionfile.h \
@@ -44,7 +51,7 @@ HEADERS += ../wpmcpp/repository.h \
     ../wpmcpp/license.h \
     ../wpmcpp/windowsregistry.h \
     ../wpmcpp/detectfile.h \
-    app.h \
     ../wpmcpp/commandline.h \
-    ../wpmcpp/xmlutils.h
-FORMS += 
+    ../wpmcpp/xmlutils.h \
+    updatesearcher.h \
+    app.h

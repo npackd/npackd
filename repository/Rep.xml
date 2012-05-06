@@ -3732,6 +3732,32 @@ verify
         <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1, 1]"/>
         <dependency package="com.googlecode.windows-package-manager.CLU" versions="[1, 2)"/>
     </version>
+    <version package="net.blat.Blat" name="3.0.2">
+        <file path=".WPM\Install.bat">for /f "delims=" %%x in ('dir /b blat*') do set name=%%x
+move %name%\docs docs
+copy %name%\full\*.* .
+rmdir /s /q %name%
+if %errorlevel% neq 0 exit /b %errorlevel%
+
+if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
+set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.CLU" "--versions=[1, 2)"
+for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set clu=%%x
+"%clu%\clu" add-path --path "%CD%"
+verify
+</file>
+        <file path=".WPM\Uninstall.bat">if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
+set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.CLU" "--versions=[1, 2)"
+for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set clu=%%x
+"%clu%\clu" remove-path --path "%CD%"
+verify
+</file>
+        <url>http://downloads.sourceforge.net/project/blat/Blat Full Version/32 bit versions/Win2000 and newer/blat302_32.full.zip</url>
+        <sha1>965584e5f22b0401bc92c8a9b3982a0df82c78d2</sha1>
+        <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.15.7, 2)"/>
+        <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1, 1]"/>
+        <dependency package="com.googlecode.windows-package-manager.CLU" versions="[1, 2)"/>
+    </version>
+    <!-- Detected -->
 
     <version name="1.5" package="edu.cmu.andrew.ftp.MPack">
         <url>http://ftp.andrew.cmu.edu/pub/mpack/old/mpack15d.zip</url>
@@ -5981,6 +6007,15 @@ ren "%setup%" avg.exe
         <url>http://aa-download.avg.com/filedir/inst/avg_free_stb_eu_2012_2127_free.exe</url>
         <sha1>32a1ac7bdd07481c62cdf1b16cd2dceae29e115f</sha1>
     </version>
+    <version name="2012.2171" package="com.avg.AVGAntiVirusFreeInstaller"
+            type="one-file">
+        <file path=".WPM\Install.bat">for /f %%x in ('dir /b *.exe') do set setup=%%x
+ren "%setup%" avg.exe
+</file>
+        <important-file path="avg.exe" title="Installer"/>
+        <url>http://aa-download.avg.com/filedir/inst/avg_free_stb_eu_2012_2171_free.exe</url>
+        <sha1>edf8db19914a605a63f3e93e76b4839c75bb0ded</sha1>
+    </version>
 
     <version name="3.2.2" package="org.glest.Glest" type="one-file">
         <file path=".WPM\Install.bat">glest_3.2.2.exe /SP- /VERYSILENT /SUPPRESSMSGBOXES /NOCANCEL /NORESTART /DIR="%CD%"</file>
@@ -7720,7 +7755,7 @@ call "%npackdih%\UninstallMSI.bat"
     </version>
 
     <!-- uninstallation opens a web page in the default browser -->
-    <version name="9" 
+    <version name="9.1" 
             package="com.advancedinstaller.AdvancedInstallerFreeware"
             type="one-file">
         <file path=".WPM\Install.bat">path
@@ -7739,6 +7774,7 @@ call "%npackdih%\UninstallMSI.bat"
         <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.15.7, 2)"/>
         <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1, 1]"/>
     </version>
+    <!-- Detected -->
 
     <version name="4.3.5.2256" package="se.cdburnerxp.CDBurnerXP">
         <important-file path="cdbxpp.exe" title="CDBurnerXP"/>
@@ -8672,6 +8708,16 @@ rmdir /s /q "%name%"
         <url>https://downloads.sourceforge.net/project/aria2/stable/aria2-1.14.2/aria2-1.14.2-mingw32msvc-build1.zip?ts=1331392207</url>
         <sha1>9453318175df62162f0967ab149a7aa7a18fa2b5</sha1>
     </version>
+    <version package="net.sourceforge.aria2.Aria2" name="1.15">
+        <important-file title="Read Me" path="README.html"/>
+        <file path=".WPM\Install.bat">for /f %%x in ('dir /b aria*') do set name=%%x
+xcopy "%name%\*" . /E /H
+rmdir /s /q "%name%"
+</file>
+        <url>http://downloads.sourceforge.net/project/aria2/stable/aria2-1.15.0/aria2-1.15.0-i686-w64-mingw32-build1.zip</url>
+        <sha1>e1800ac608d2d498d57b31cf0d0adb1ff67ea826</sha1>
+    </version>
+    <!-- Detected -->
 
     <version name="214" package="net.sourceforge.pywin32.PythonForWindowsExtensionsInstaller"
             type="one-file">

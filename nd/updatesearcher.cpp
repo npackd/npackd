@@ -1184,13 +1184,220 @@ PackageVersion* UpdateSearcher::findClementineUpdates(Job* job)
     return ret;
 }
 
+PackageVersion* UpdateSearcher::findAdvancedInstallerFreewareUpdates(Job* job,
+        Repository* templ)
+{
+    job->setHint("Preparing");
+
+    QString package = "com.advancedinstaller.AdvancedInstallerFreeware";
+    PackageVersion* ret = 0;
+
+    QString version;
+    if (job->shouldProceed("Searching for updates")) {
+        Job* sub = job->newSubJob(0.2);
+        ret = findUpdate(sub, package,
+                "http://www.advancedinstaller.com/download.html",
+                "\\\">([\\d\\.]+)</a>", &version);
+        if (!sub->getErrorMessage().isEmpty())
+            job->setErrorMessage(QString("Error searching for the newest version: %1").
+                    arg(sub->getErrorMessage()));
+        delete sub;
+    }
+
+    if (!job->isCancelled() && job->getErrorMessage().isEmpty()) {
+        if (ret) {
+            job->setHint("Searching for the download URL");
+
+            PackageVersion* t = templ->findPackageVersion(
+                    package,
+                    Version())->clone();
+            t->version = ret->version;
+            delete ret;
+            ret = t;
+        }
+        job->setProgress(1);
+    }
+
+    job->complete();
+
+    return ret;
+}
+
+PackageVersion* UpdateSearcher::findAria2Updates(Job* job,
+        Repository* templ)
+{
+    job->setHint("Preparing");
+
+    QString package = "net.sourceforge.aria2.Aria2";
+    PackageVersion* ret = 0;
+
+    QString version;
+    if (job->shouldProceed("Searching for updates")) {
+        Job* sub = job->newSubJob(0.2);
+        ret = findUpdate(sub, package,
+                "http://aria2.sourceforge.net/",
+                ">Get ([\\d\\.]+)</a>", &version);
+        if (!sub->getErrorMessage().isEmpty())
+            job->setErrorMessage(QString("Error searching for the newest version: %1").
+                    arg(sub->getErrorMessage()));
+        delete sub;
+    }
+
+    if (!job->isCancelled() && job->getErrorMessage().isEmpty()) {
+        if (ret) {
+            job->setHint("Searching for the download URL");
+
+            PackageVersion* t = templ->findPackageVersion(
+                    package,
+                    Version())->clone();
+            t->version = ret->version;
+            delete ret;
+            ret = t;
+
+            ret->download  = QUrl("http://downloads.sourceforge.net/project/aria2/stable/aria2-" +
+                    version + "/aria2-" + version + "-i686-w64-mingw32-build1.zip");
+        }
+        job->setProgress(0.35);
+    }
+
+    if (!job->isCancelled() && job->getErrorMessage().isEmpty()) {
+        if (ret) {
+            job->setHint("Examining the binary");
+
+            Job* sub = job->newSubJob(0.65);
+            setDownload(sub, ret);
+            if (!sub->getErrorMessage().isEmpty())
+                job->setErrorMessage(QString("Error downloading the package binary: %1").
+                        arg(sub->getErrorMessage()));
+            delete sub;
+        }
+    }
+
+    job->complete();
+
+    return ret;
+}
+
+PackageVersion* UpdateSearcher::findBlatUpdates(Job* job,
+        Repository* templ)
+{
+    job->setHint("Preparing");
+
+    QString package = "net.blat.Blat";
+    PackageVersion* ret = 0;
+
+    QString version;
+    if (job->shouldProceed("Searching for updates")) {
+        Job* sub = job->newSubJob(0.2);
+        ret = findUpdate(sub, package,
+                "http://www.blat.net/",
+                "Blat v([\\d\\.]+)", &version);
+        if (!sub->getErrorMessage().isEmpty())
+            job->setErrorMessage(QString("Error searching for the newest version: %1").
+                    arg(sub->getErrorMessage()));
+        delete sub;
+    }
+
+    if (!job->isCancelled() && job->getErrorMessage().isEmpty()) {
+        if (ret) {
+            job->setHint("Searching for the download URL");
+
+            PackageVersion* t = templ->findPackageVersion(
+                    package,
+                    Version())->clone();
+            t->version = ret->version;
+            delete ret;
+            ret = t;
+
+            QString v = version;
+            v.remove('.');
+            ret->download  = QUrl("http://downloads.sourceforge.net/project/blat/Blat%20Full%20Version/32%20bit%20versions/Win2000%20and%20newer/blat" +
+                    v + "_32.full.zip");
+        }
+        job->setProgress(0.35);
+    }
+
+    if (!job->isCancelled() && job->getErrorMessage().isEmpty()) {
+        if (ret) {
+            job->setHint("Examining the binary");
+
+            Job* sub = job->newSubJob(0.65);
+            setDownload(sub, ret);
+            if (!sub->getErrorMessage().isEmpty())
+                job->setErrorMessage(QString("Error downloading the package binary: %1").
+                        arg(sub->getErrorMessage()));
+            delete sub;
+        }
+    }
+
+    job->complete();
+
+    return ret;
+}
+
+PackageVersion* UpdateSearcher::findAria2_64Updates(Job* job,
+        Repository* templ)
+{
+    job->setHint("Preparing");
+
+    QString package = "net.sourceforge.aria2.Aria2_64";
+    PackageVersion* ret = 0;
+
+    QString version;
+    if (job->shouldProceed("Searching for updates")) {
+        Job* sub = job->newSubJob(0.2);
+        ret = findUpdate(sub, package,
+                "http://aria2.sourceforge.net/",
+                ">Get ([\\d\\.]+)</a>", &version);
+        if (!sub->getErrorMessage().isEmpty())
+            job->setErrorMessage(QString("Error searching for the newest version: %1").
+                    arg(sub->getErrorMessage()));
+        delete sub;
+    }
+
+    if (!job->isCancelled() && job->getErrorMessage().isEmpty()) {
+        if (ret) {
+            job->setHint("Searching for the download URL");
+
+            PackageVersion* t = templ->findPackageVersion(
+                    package,
+                    Version())->clone();
+            t->version = ret->version;
+            delete ret;
+            ret = t;
+
+            ret->download  = QUrl(
+                    "http://downloads.sourceforge.net/project/aria2/stable/aria2-" +
+                    version + "/aria2-" + version + "-x86_64-w64-mingw32-build1.zip");
+        }
+        job->setProgress(0.35);
+    }
+
+    if (!job->isCancelled() && job->getErrorMessage().isEmpty()) {
+        if (ret) {
+            job->setHint("Examining the binary");
+
+            Job* sub = job->newSubJob(0.65);
+            setDownload(sub, ret);
+            if (!sub->getErrorMessage().isEmpty())
+                job->setErrorMessage(QString("Error downloading the package binary: %1").
+                        arg(sub->getErrorMessage()));
+            delete sub;
+        }
+    }
+
+    job->complete();
+
+    return ret;
+}
+
 void UpdateSearcher::findUpdates(Job* job)
 {
     if (!job->isCancelled() && job->getErrorMessage().isEmpty()) {
         job->setHint("Downloading repositories");
 
         Repository* rep = Repository::getDefault();
-        Job* sub = job->newSubJob(0.4);
+        Job* sub = job->newSubJob(0.39);
         rep->reload(sub);
         if (!sub->getErrorMessage().isEmpty()) {
             job->setErrorMessage(sub->getErrorMessage());
@@ -1211,6 +1418,20 @@ void UpdateSearcher::findUpdates(Job* job)
     packages.append("SharpDevelop");
     packages.append("XULRunner");
     packages.append("Clementine");
+    packages.append("AdvancedInstallerFreeware");
+    packages.append("Aria2");
+    packages.append("Blat");
+    packages.append("Aria2_64");
+
+    Repository* templ = new Repository();
+    if (job->shouldProceed("Reading the template repository")) {
+        Job* sub = job->newSubJob(0.01);
+        templ->loadOne("..\\nd\\Template.xml", sub);
+        if (!sub->getErrorMessage().isEmpty()) {
+            job->setErrorMessage(sub->getErrorMessage());
+        }
+        delete sub;
+    }
 
     Repository* found = new Repository();
 
@@ -1260,6 +1481,18 @@ void UpdateSearcher::findUpdates(Job* job)
             case 11:
                 pv = findClementineUpdates(sub);
                 break;
+            case 12:
+                pv = findAdvancedInstallerFreewareUpdates(sub, templ);
+                break;
+            case 13:
+                pv = findAria2Updates(sub, templ);
+                break;
+            case 14:
+                pv = findBlatUpdates(sub, templ);
+                break;
+            case 15:
+                pv = findAria2_64Updates(sub, templ);
+                break;
         }
         if (!sub->getErrorMessage().isEmpty()) {
             job->setErrorMessage(sub->getErrorMessage());
@@ -1297,6 +1530,7 @@ void UpdateSearcher::findUpdates(Job* job)
     }
 
     delete found;
+    delete templ;
 
     job->complete();
 }
