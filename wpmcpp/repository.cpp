@@ -739,8 +739,8 @@ void Repository::detectControlPanelPrograms()
         if (pv->detectionInfo.indexOf("control-panel:") == 0 &&
                 pv->installed() &&
                 !foundDetectionInfos.contains(pv->detectionInfo)) {
-            qDebug() << "uninstall " << pv->package << " " <<
-                     pv->version.getVersionString();
+            // qDebug() << "uninstall " << pv->package << " " <<
+            //         pv->version.getVersionString();
             pv->setPath("");
         }
     }
