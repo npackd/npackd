@@ -44,9 +44,13 @@ private:
             Repository* templ);
     PackageVersion* findAria2Updates(Job* job,
             Repository* templ);
-    PackageVersion* findBlatUpdates(Job* job,
-            Repository* templ);
-    PackageVersion* findAria2_64Updates(Job* job,
+
+    /**
+     * SHA1 will not be added if it is not in the template.
+     */
+    PackageVersion* findUpdatesSimple(Job* job, const QString& package,
+            const QString& versionPage, const QString& versionRE,
+            const QString& downloadTemplate,
             Repository* templ);
 public:
     /**

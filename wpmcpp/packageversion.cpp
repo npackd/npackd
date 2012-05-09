@@ -1306,7 +1306,7 @@ PackageVersion* PackageVersion::parse(QDomElement* e, QString* err)
     if (err->isEmpty()) {
         QString url = XMLUtils::getTagContent(*e, "url").trimmed();
         if (!url.isEmpty()) {
-            a->download.setUrl(url);
+            a->download.setUrl(url, QUrl::StrictMode);
             QUrl d = a->download;
             if (!d.isValid() || d.isRelative() ||
                     (d.scheme() != "http" && d.scheme() != "https")) {
@@ -1504,7 +1504,7 @@ void PackageVersion::toXML(QDomElement* version) const {
         file.appendChild(doc.createTextNode(files.at(i)->content));
     }
     if (this->download.isValid()) {
-        XMLUtils::addTextTag(*version, "url", this->download.toString());
+        XMLUtils::addTextTag(*version, "url", this->download.toEncoded());
     }
     if (!this->sha1.isEmpty()) {
         XMLUtils::addTextTag(*version, "sha1", this->sha1);

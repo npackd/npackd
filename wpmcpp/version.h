@@ -82,6 +82,12 @@ public:
     QString getVersionString() const;
 
     /**
+     * @param nparts number of parts in the returned version
+     * @return package version as a string (like "1.2")
+     */
+    QString getVersionString(int nparts) const;
+
+    /**
      * Prepends a number before the version.
      * Example: Version("1.2").prepend(5) => "5.1.2"
      *

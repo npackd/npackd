@@ -1278,20 +1278,22 @@ PackageVersion* UpdateSearcher::findAria2Updates(Job* job,
     return ret;
 }
 
-PackageVersion* UpdateSearcher::findBlatUpdates(Job* job,
+PackageVersion* UpdateSearcher::findUpdatesSimple(Job* job,
+        const QString& package,
+        const QString& versionPage, const QString& versionRE,
+        const QString& downloadTemplate,
         Repository* templ)
 {
     job->setHint("Preparing");
 
-    QString package = "net.blat.Blat";
     PackageVersion* ret = 0;
 
     QString version;
     if (job->shouldProceed("Searching for updates")) {
         Job* sub = job->newSubJob(0.2);
         ret = findUpdate(sub, package,
-                "http://www.blat.net/",
-                "Blat v([\\d\\.]+)", &version);
+                versionPage,
+                versionRE, &version);
         if (!sub->getErrorMessage().isEmpty())
             job->setErrorMessage(QString("Error searching for the newest version: %1").
                     arg(sub->getErrorMessage()));
@@ -1311,8 +1313,17 @@ PackageVersion* UpdateSearcher::findBlatUpdates(Job* job,
 
             QString v = version;
             v.remove('.');
-            ret->download  = QUrl("http://downloads.sourceforge.net/project/blat/Blat%20Full%20Version/32%20bit%20versions/Win2000%20and%20newer/blat" +
-                    v + "_32.full.zip");
+            QString version2Parts = ret->version.getVersionString(2);
+            QString version2PartsWithoutDots = version2Parts;
+            version2PartsWithoutDots.remove('.');
+
+            QMap<QString, QString> vars;
+            vars.insert("version", ret->version.getVersionString());
+            vars.insert("version2Parts", version2Parts);
+            vars.insert("version2PartsWithoutDots", version2PartsWithoutDots);
+            vars.insert("actualVersion", version);
+            vars.insert("actualVersionWithoutDots", v);
+            ret->download  = WPMUtils::format(downloadTemplate, vars);
         }
         job->setProgress(0.35);
     }
@@ -1321,68 +1332,16 @@ PackageVersion* UpdateSearcher::findBlatUpdates(Job* job,
         if (ret) {
             job->setHint("Examining the binary");
 
-            Job* sub = job->newSubJob(0.65);
-            setDownload(sub, ret);
-            if (!sub->getErrorMessage().isEmpty())
-                job->setErrorMessage(QString("Error downloading the package binary: %1").
-                        arg(sub->getErrorMessage()));
-            delete sub;
-        }
-    }
-
-    job->complete();
-
-    return ret;
-}
-
-PackageVersion* UpdateSearcher::findAria2_64Updates(Job* job,
-        Repository* templ)
-{
-    job->setHint("Preparing");
-
-    QString package = "net.sourceforge.aria2.Aria2_64";
-    PackageVersion* ret = 0;
-
-    QString version;
-    if (job->shouldProceed("Searching for updates")) {
-        Job* sub = job->newSubJob(0.2);
-        ret = findUpdate(sub, package,
-                "http://aria2.sourceforge.net/",
-                ">Get ([\\d\\.]+)</a>", &version);
-        if (!sub->getErrorMessage().isEmpty())
-            job->setErrorMessage(QString("Error searching for the newest version: %1").
-                    arg(sub->getErrorMessage()));
-        delete sub;
-    }
-
-    if (!job->isCancelled() && job->getErrorMessage().isEmpty()) {
-        if (ret) {
-            job->setHint("Searching for the download URL");
-
-            PackageVersion* t = templ->findPackageVersion(
-                    package,
-                    Version())->clone();
-            t->version = ret->version;
-            delete ret;
-            ret = t;
-
-            ret->download  = QUrl(
-                    "http://downloads.sourceforge.net/project/aria2/stable/aria2-" +
-                    version + "/aria2-" + version + "-x86_64-w64-mingw32-build1.zip");
-        }
-        job->setProgress(0.35);
-    }
-
-    if (!job->isCancelled() && job->getErrorMessage().isEmpty()) {
-        if (ret) {
-            job->setHint("Examining the binary");
-
-            Job* sub = job->newSubJob(0.65);
-            setDownload(sub, ret);
-            if (!sub->getErrorMessage().isEmpty())
-                job->setErrorMessage(QString("Error downloading the package binary: %1").
-                        arg(sub->getErrorMessage()));
-            delete sub;
+            if (!ret->sha1.isEmpty()) {
+                Job* sub = job->newSubJob(0.65);
+                setDownload(sub, ret);
+                if (!sub->getErrorMessage().isEmpty())
+                    job->setErrorMessage(QString("Error downloading the package binary: %1").
+                            arg(sub->getErrorMessage()));
+                delete sub;
+            } else {
+                job->setProgress(1);
+            }
         }
     }
 
@@ -1422,6 +1381,13 @@ void UpdateSearcher::findUpdates(Job* job)
     packages.append("Aria2");
     packages.append("Blat");
     packages.append("Aria2_64");
+    packages.append("Blat64");
+    packages.append("Blender");
+    packages.append("Blender64");
+    packages.append("CCleaner");
+    packages.append("CDBurnerXP");
+    packages.append("CDBurnerXP64");
+    packages.append("GitExtensions");
 
     Repository* templ = new Repository();
     if (job->shouldProceed("Reading the template repository")) {
@@ -1488,10 +1454,67 @@ void UpdateSearcher::findUpdates(Job* job)
                 pv = findAria2Updates(sub, templ);
                 break;
             case 14:
-                pv = findBlatUpdates(sub, templ);
+                pv = findUpdatesSimple(sub, "net.blat.Blat",
+                        "http://www.blat.net/",
+                        "Blat v([\\d\\.]+)",
+                        "http://downloads.sourceforge.net/project/blat/Blat%20Full%20Version/32%20bit%20versions/Win2000%20and%20newer/blat${{actualVersionWithoutDots}}_32.full.zip",
+                        templ);
                 break;
             case 15:
-                pv = findAria2_64Updates(sub, templ);
+                pv = findUpdatesSimple(sub, "net.sourceforge.aria2.Aria2_64",
+                        "http://aria2.sourceforge.net/",
+                        ">Get ([\\d\\.]+)</a>",
+                        "http://downloads.sourceforge.net/project/aria2/stable/aria2-${{actualVersion}}/aria2-${{actualVersion}}-x86_64-w64-mingw32-build1.zip",
+                        templ);
+                break;
+            case 16:
+                pv = findUpdatesSimple(sub, "net.blat.Blat64",
+                        "http://www.blat.net/",
+                        "Blat v([\\d\\.]+)",
+                        "http://downloads.sourceforge.net/project/blat/Blat%20Full%20Version/64%20bit%20versions/blat${{actualVersionWithoutDots}}_64.full.zip",
+                        templ);
+                break;
+            case 17:
+                pv = findUpdatesSimple(sub, "org.blender.Blender",
+                        "http://www.blender.org/download/get-blender/",
+                        "Blender ([\\d\\.]+) is latest release",
+                        "http://download.blender.org/release/Blender${{version}}/blender-${{version}}-release-windows32.zip",
+                        templ);
+                break;
+            case 18:
+                pv = findUpdatesSimple(sub, "org.blender.Blender64",
+                        "http://www.blender.org/download/get-blender/",
+                        "Blender ([\\d\\.]+) is latest release",
+                        "http://download.blender.org/release/Blender${{version}}/blender-${{version}}-release-windows64.zip",
+                        templ);
+                break;
+            case 19:
+                pv = findUpdatesSimple(sub, "com.piriform.CCleaner",
+                        "http://www.piriform.com/ccleaner/download",
+                        "<b>([\\d\\.]+)</b>",
+                        "http://download.piriform.com/ccsetup${{version2PartsWithoutDots}}.exe",
+                        templ);
+                break;
+            case 20:
+                pv = findUpdatesSimple(sub, "se.cdburnerxp.CDBurnerXP",
+                        "http://cdburnerxp.se/en/download",
+                        "<small>\\(([\\d\\.]+)\\)</small>",
+                        "http://download.cdburnerxp.se/portable/CDBurnerXP-${{version}}.zip",
+                        templ);
+                break;
+            case 21:
+                pv = findUpdatesSimple(sub, "se.cdburnerxp.CDBurnerXP64",
+                        "http://cdburnerxp.se/en/download",
+                        "<small>\\(([\\d\\.]+)\\)</small>",
+                        "http://download.cdburnerxp.se/portable/CDBurnerXP-x64-${{version}}.zip",
+                        templ);
+                break;
+            case 22:
+                pv = findUpdatesSimple(sub, "com.googlecode.gitextensions.GitExtensions",
+                        "http://code.google.com/p/gitextensions/downloads/list",
+                        "Git Extensions ([\\d\\.]+) Windows installer",
+                        "http://gitextensions.googlecode.com/files/GitExtensions${{actualVersionWithoutDots}}Setup.msi",
+                        templ);
                 break;
         }
         if (!sub->getErrorMessage().isEmpty()) {

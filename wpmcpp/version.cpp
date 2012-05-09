@@ -140,6 +140,20 @@ void Version::prepend(int number)
     this->nparts = this->nparts + 1;
 }
 
+QString Version::getVersionString(int nparts) const
+{
+    QString r;
+    for (int i = 0; i < nparts; i++) {
+        if (i != 0)
+            r.append(".");
+        if (i >= this->nparts)
+            r.append('0');
+        else
+            r.append(QString("%1").arg(this->parts[i]));
+    }
+    return r;
+}
+
 QString Version::getVersionString() const
 {
     QString r;
