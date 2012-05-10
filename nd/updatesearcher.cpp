@@ -1529,7 +1529,7 @@ void UpdateSearcher::findUpdates(Job* job)
                         "com.donationcoder.FARR",
                         "http://www.donationcoder.com/Software/Mouser/findrun/index.html",
                         "Download v([\\d\\.]+)",
-                        "http://npackd.googlecode.com/files/com.donationcoder.FARR-${{version}}.exe",
+                        "http://dl.dropbox.com/u/17046326/files/com.donationcoder.FARR-${{version}}.exe",
                         templ,
                         "http://www.donationcoder.com/Software/Mouser/findrun/downloads/FindAndRunRobotSetup.exe");
                 break;
