@@ -558,6 +558,11 @@
         <url>http://www.divx.com/</url>
         <description>video player</description>
     </package>
+    <package name="com.donationcoder.FARR">
+        <title>FARR</title>
+        <url>http://www.donationcoder.com/Software/Mouser/findrun/index.html</url>
+        <description>Find and Run Robot is a keyboard-oriented file and program launcher</description>
+    </package>
     <package name="com.dropbox.Dropbox">
         <title>Dropbox</title>
         <url>https://www.dropbox.com/</url>
@@ -8122,6 +8127,19 @@ rmdir "%name%"
 </file>
         <url>http://download.blender.org/release/Blender2.63/blender-2.63-release-windows32.zip</url>
         <sha1>5dcc756890bb42af9925182c50512a1d188504fb</sha1>
+    </version>
+    <version package="org.blender.Blender" name="2.63.1">
+        <important-file title="Blender" path="blender.exe"/>
+        <file path=".WPM\Install.bat">for /f "delims=" %%x in ('dir /b blender*') do set name=%%x
+cd "%name%"        
+for /f "delims=" %%a in ('dir /b') do (
+  move "%%a" ..
+)
+cd ..
+rmdir "%name%"
+</file>
+        <url>http://download.blender.org/release/Blender2.63/blender-2.63a-release-windows32.zip</url>
+        <sha1>071cb622b5e2b160ec0e832f30397c2e8ab31fb1</sha1>
     </version>
     <!-- Detected -->
     
@@ -17878,6 +17896,23 @@ call "%npackdih%\UninstallMSI.bat"
         <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1, 1]"/>
         <dependency package="com.googlecode.msysgit.MSysGit" 
                 versions="[1.7.4.2011.2.4, 2)"/>
+    </version>
+    <!-- Detected -->
+
+    <version name="2.105.01" package="com.donationcoder.FARR" type="one-file">
+        <file path=".WPM\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x
+"%setup%" /SP- /VERYSILENT /SUPPRESSMSGBOXES /NOCANCEL /NORESTART /DIR="%CD%" /SAVEINF="%CD%\.WPM\InnoSetupInfo.ini" /LOG="%CD%\.WPM\InnoSetupInstall.log"
+set err=%errorlevel%
+type .WPM\InnoSetupInstall.log
+if %err% neq 0 exit %err%
+</file>
+        <file path=".WPM\Uninstall.bat">unins000.exe /VERYSILENT /SUPPRESSMSGBOXES /NORESTART /LOG="%CD%\.WPM\InnoSetupUninstall.log"
+set err=%errorlevel%
+type .WPM\InnoSetupUninstall.log
+if %err% neq 0 exit %err%
+</file>
+        <url>http://npackd.googlecode.com/files/com.donationcoder.FARR-2.105.01.exe</url> 
+        <sha1>4758cd0809ca3c1e99d52451eb6ae4fb80aefa2e</sha1>
     </version>
     <!-- Detected -->
 </root>
