@@ -11,14 +11,15 @@ UpdateSearcher::UpdateSearcher()
 {
 }
 
-void UpdateSearcher::setDownload(Job* job, PackageVersion* pv)
+void UpdateSearcher::setDownload(Job* job, PackageVersion* pv,
+        const QString& download)
 {
     job->setHint("Downloading the package binary");
 
     Job* sub = job->newSubJob(0.9);
     QString sha1;
 
-    QTemporaryFile* tf = Downloader::download(sub, QUrl(pv->download), &sha1);
+    QTemporaryFile* tf = Downloader::download(sub, QUrl(download), &sha1);
     if (!sub->getErrorMessage().isEmpty())
         job->setErrorMessage(QString("Error downloading %1: %2").
                 arg(pv->download.toString()).arg(sub->getErrorMessage()));
@@ -204,13 +205,12 @@ PackageVersion* UpdateSearcher::findGraphicsMagickUpdates(Job* job) {
             job->setHint("Examining the binary");
 
             Job* sub = job->newSubJob(0.75);
-            ret->download = QUrl(QString(
+            setDownload(sub, ret, QString(
                     "http://downloads.sourceforge.net/project/graphicsmagick/graphicsmagick-binaries/") +
                     ret->version.getVersionString() +
                     "/GraphicsMagick-" +
                     ret->version.getVersionString() +
                     "-Q16-windows-dll.exe");
-            setDownload(sub, ret);
             if (!sub->getErrorMessage().isEmpty())
                 job->setErrorMessage(QString("Error downloading the package binary: %1").
                         arg(sub->getErrorMessage()));
@@ -314,7 +314,7 @@ PackageVersion* UpdateSearcher::findGTKPlusBundleUpdates(Job* job) {
             job->setHint("Examining the binary");
 
             Job* sub = job->newSubJob(0.55);
-            setDownload(sub, ret);
+            setDownload(sub, ret, ret->download.toEncoded());
             if (!sub->getErrorMessage().isEmpty())
                 job->setErrorMessage(QString("Error downloading the package binary: %1").
                         arg(sub->getErrorMessage()));
@@ -429,7 +429,7 @@ PackageVersion* UpdateSearcher::findH2Updates(Job* job) {
 
             Job* sub = job->newSubJob(0.55);
             ret->type = 1;
-            setDownload(sub, ret);
+            setDownload(sub, ret, ret->download.toEncoded());
             if (!sub->getErrorMessage().isEmpty())
                 job->setErrorMessage(QString("Error downloading the package binary: %1").
                         arg(sub->getErrorMessage()));
@@ -501,7 +501,7 @@ PackageVersion* UpdateSearcher::findHandBrakeUpdates(Job* job)
 
             Job* sub = job->newSubJob(0.55);
             ret->type = 1;
-            setDownload(sub, ret);
+            setDownload(sub, ret, ret->download.toEncoded());
             if (!sub->getErrorMessage().isEmpty())
                 job->setErrorMessage(QString("Error downloading the package binary: %1").
                         arg(sub->getErrorMessage()));
@@ -575,7 +575,7 @@ PackageVersion* UpdateSearcher::findImgBurnUpdates(Job* job)
 
             Job* sub = job->newSubJob(0.65);
             ret->type = 1;
-            setDownload(sub, ret);
+            setDownload(sub, ret, ret->download.toEncoded());
             if (!sub->getErrorMessage().isEmpty())
                 job->setErrorMessage(QString("Error downloading the package binary: %1").
                         arg(sub->getErrorMessage()));
@@ -642,7 +642,7 @@ PackageVersion* UpdateSearcher::findIrfanViewUpdates(Job* job)
 
             Job* sub = job->newSubJob(0.65);
             ret->type = 1;
-            setDownload(sub, ret);
+            setDownload(sub, ret, ret->download.toEncoded());
             if (!sub->getErrorMessage().isEmpty())
                 job->setErrorMessage(QString("Error downloading the package binary: %1").
                         arg(sub->getErrorMessage()));
@@ -708,7 +708,7 @@ PackageVersion* UpdateSearcher::findFirefoxUpdates(Job* job)
 
             Job* sub = job->newSubJob(0.65);
             ret->type = 1;
-            setDownload(sub, ret);
+            setDownload(sub, ret, ret->download.toEncoded());
             if (!sub->getErrorMessage().isEmpty())
                 job->setErrorMessage(QString("Error downloading the package binary: %1").
                         arg(sub->getErrorMessage()));
@@ -784,7 +784,7 @@ PackageVersion* UpdateSearcher::findAC3FilterUpdates(Job* job)
 
             Job* sub = job->newSubJob(0.65);
             ret->type = 1;
-            setDownload(sub, ret);
+            setDownload(sub, ret, ret->download.toEncoded());
             if (!sub->getErrorMessage().isEmpty())
                 job->setErrorMessage(QString("Error downloading the package binary: %1").
                         arg(sub->getErrorMessage()));
@@ -860,7 +860,7 @@ PackageVersion* UpdateSearcher::findAdobeReaderUpdates(Job* job)
 
             Job* sub = job->newSubJob(0.65);
             ret->type = 1;
-            setDownload(sub, ret);
+            setDownload(sub, ret, ret->download.toEncoded());
             if (!sub->getErrorMessage().isEmpty())
                 job->setErrorMessage(QString("Error downloading the package binary: %1").
                         arg(sub->getErrorMessage()));
@@ -954,7 +954,7 @@ PackageVersion* UpdateSearcher::findSharpDevelopUpdates(Job* job)
 
             Job* sub = job->newSubJob(0.65);
             ret->type = 1;
-            setDownload(sub, ret);
+            setDownload(sub, ret, ret->download.toEncoded());
             if (!sub->getErrorMessage().isEmpty())
                 job->setErrorMessage(QString("Error downloading the package binary: %1").
                         arg(sub->getErrorMessage()));
@@ -1065,7 +1065,7 @@ PackageVersion* UpdateSearcher::findXULRunnerUpdates(Job* job)
             job->setHint("Examining the binary");
 
             Job* sub = job->newSubJob(0.65);
-            setDownload(sub, ret);
+            setDownload(sub, ret, ret->download.toEncoded());
             if (!sub->getErrorMessage().isEmpty())
                 job->setErrorMessage(QString("Error downloading the package binary: %1").
                         arg(sub->getErrorMessage()));
@@ -1131,7 +1131,7 @@ PackageVersion* UpdateSearcher::findClementineUpdates(Job* job)
             job->setHint("Examining the binary");
 
             Job* sub = job->newSubJob(0.65);
-            setDownload(sub, ret);
+            setDownload(sub, ret, ret->download.toEncoded());
             if (!sub->getErrorMessage().isEmpty())
                 job->setErrorMessage(QString("Error downloading the package binary: %1").
                         arg(sub->getErrorMessage()));
@@ -1265,7 +1265,7 @@ PackageVersion* UpdateSearcher::findAria2Updates(Job* job,
             job->setHint("Examining the binary");
 
             Job* sub = job->newSubJob(0.65);
-            setDownload(sub, ret);
+            setDownload(sub, ret, ret->download.toEncoded());
             if (!sub->getErrorMessage().isEmpty())
                 job->setErrorMessage(QString("Error downloading the package binary: %1").
                         arg(sub->getErrorMessage()));
@@ -1282,7 +1282,8 @@ PackageVersion* UpdateSearcher::findUpdatesSimple(Job* job,
         const QString& package,
         const QString& versionPage, const QString& versionRE,
         const QString& downloadTemplate,
-        Repository* templ)
+        Repository* templ,
+        const QString& download)
 {
     job->setHint("Preparing");
 
@@ -1323,7 +1324,10 @@ PackageVersion* UpdateSearcher::findUpdatesSimple(Job* job,
             vars.insert("version2PartsWithoutDots", version2PartsWithoutDots);
             vars.insert("actualVersion", version);
             vars.insert("actualVersionWithoutDots", v);
-            ret->download  = WPMUtils::format(downloadTemplate, vars);
+            if (download.isEmpty())
+                ret->download  = WPMUtils::format(downloadTemplate, vars);
+            else
+                ret->download = QUrl(download, QUrl::StrictMode);
         }
         job->setProgress(0.35);
     }
@@ -1334,7 +1338,10 @@ PackageVersion* UpdateSearcher::findUpdatesSimple(Job* job,
 
             if (!ret->sha1.isEmpty()) {
                 Job* sub = job->newSubJob(0.65);
-                setDownload(sub, ret);
+                if (download.isEmpty())
+                    setDownload(sub, ret, ret->download.toEncoded());
+                else
+                    setDownload(sub, ret, download);
                 if (!sub->getErrorMessage().isEmpty())
                     job->setErrorMessage(QString("Error downloading the package binary: %1").
                             arg(sub->getErrorMessage()));
@@ -1388,6 +1395,7 @@ void UpdateSearcher::findUpdates(Job* job)
     packages.append("CDBurnerXP");
     packages.append("CDBurnerXP64");
     packages.append("GitExtensions");
+    packages.append("FARR");
 
     Repository* templ = new Repository();
     if (job->shouldProceed("Reading the template repository")) {
@@ -1477,15 +1485,15 @@ void UpdateSearcher::findUpdates(Job* job)
             case 17:
                 pv = findUpdatesSimple(sub, "org.blender.Blender",
                         "http://www.blender.org/download/get-blender/",
-                        "Blender ([\\d\\.]+) is latest release",
-                        "http://download.blender.org/release/Blender${{version}}/blender-${{version}}-release-windows32.zip",
+                        "Blender ([\\d\\.]+[a-z]?) is latest release",
+                        "http://download.blender.org/release/Blender${{version2Parts}}/blender-${{actualVersion}}-release-windows32.zip",
                         templ);
                 break;
             case 18:
                 pv = findUpdatesSimple(sub, "org.blender.Blender64",
                         "http://www.blender.org/download/get-blender/",
-                        "Blender ([\\d\\.]+) is latest release",
-                        "http://download.blender.org/release/Blender${{version}}/blender-${{version}}-release-windows64.zip",
+                        "Blender ([\\d\\.]+[a-z]?) is latest release",
+                        "http://download.blender.org/release/Blender${{version2Parts}}/blender-${{actualVersion}}-release-windows64.zip",
                         templ);
                 break;
             case 19:
@@ -1515,6 +1523,15 @@ void UpdateSearcher::findUpdates(Job* job)
                         "Git Extensions ([\\d\\.]+) Windows installer",
                         "http://gitextensions.googlecode.com/files/GitExtensions${{actualVersionWithoutDots}}Setup.msi",
                         templ);
+                break;
+            case 23:
+                pv = findUpdatesSimple(sub,
+                        "com.donationcoder.FARR",
+                        "http://www.donationcoder.com/Software/Mouser/findrun/index.html",
+                        "Download v([\\d\\.]+)",
+                        "http://npackd.googlecode.com/files/com.donationcoder.FARR-${{version}}.exe",
+                        templ,
+                        "http://www.donationcoder.com/Software/Mouser/findrun/downloads/FindAndRunRobotSetup.exe");
                 break;
         }
         if (!sub->getErrorMessage().isEmpty()) {

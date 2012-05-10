@@ -11,7 +11,7 @@
 class UpdateSearcher
 {
 private:
-    void setDownload(Job* job, PackageVersion* pv);
+    void setDownload(Job* job, PackageVersion* pv, const QString& download);
 
     QString findTextInPage(Job* job, const QString& url,
             const QString& regex);
@@ -47,11 +47,14 @@ private:
 
     /**
      * SHA1 will not be added if it is not in the template.
+     *
+     * @param download if not empty, contains the URL for the file to download
      */
     PackageVersion* findUpdatesSimple(Job* job, const QString& package,
             const QString& versionPage, const QString& versionRE,
             const QString& downloadTemplate,
-            Repository* templ);
+            Repository* templ,
+            const QString& download = "");
 public:
     /**
      * -

@@ -1504,7 +1504,21 @@ rmdir "%name%"
         <url>http://download.blender.org/release/Blender2.63/blender-2.63-release-windows64.zip</url>
         <sha1>dc964e52d30ae7df688d93d34fe8073687769f6f</sha1>
     </version>
-
+    <version package="org.blender.Blender64" name="2.63.1">
+        <important-file title="Blender" path="blender.exe"/>
+        <file path=".WPM\Install.bat">for /f "delims=" %%x in ('dir /b blender*') do set name=%%x
+cd "%name%"        
+for /f "delims=" %%a in ('dir /b') do (
+  move "%%a" ..
+)
+cd ..
+rmdir "%name%"
+</file>
+        <url>http://download.blender.org/release/Blender2.63/blender-2.63a-release-windows64.zip</url>
+        <sha1>3b031654bdf6d74a680006a45efa1433d3d21ee2</sha1>
+    </version>
+    <!-- Detected -->
+    
     <version name="4.3.8.2523" package="se.cdburnerxp.CDBurnerXP64">
         <important-file path="cdbxpp.exe" title="CDBurnerXP"/>
         <url>http://download.cdburnerxp.se/portable/CDBurnerXP-x64-4.3.8.2523.zip</url>
