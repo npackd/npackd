@@ -162,113 +162,6 @@ PackageVersion* UpdateSearcher::findUpdate(Job* job, const QString& package,
     return ret;
 }
 
-PackageVersion* UpdateSearcher::findGraphicsMagickUpdates(Job* job) {
-    job->setHint("Preparing");
-
-    PackageVersion* ret = 0;
-
-    const QString installScript =
-            "for /f \"delims=\" %%x in ('dir /b *.exe') do set setup=%%x\n"
-            "\"%setup%\" /SP- /VERYSILENT /SUPPRESSMSGBOXES /NOCANCEL /NORESTART /DIR=\"%CD%\"\n"
-            "if %errorlevel% neq 0 exit /b %errorlevel%\n"
-            "\n"
-            "if \"%npackd_cl%\" equ \"\" set npackd_cl=..\\com.googlecode.windows-package-manager.NpackdCL-1\n"
-            "set onecmd=\"%npackd_cl%\\npackdcl.exe\" \"path\" \"--package=com.googlecode.windows-package-manager.CLU\" \"--versions=[1, 2)\"\n"
-            "for /f \"usebackq delims=\" %%x in (`%%onecmd%%`) do set clu=%%x\n"
-            "\"%clu%\\clu\" add-path --path \"%CD%\"\n"
-            "verify\n";
-    const QString uninstallScript =
-            "unins000.exe /VERYSILENT /SUPPRESSMSGBOXES /NORESTART\n"
-            "if %errorlevel% neq 0 exit /b %errorlevel%\n"
-            "\n"
-            "if \"%npackd_cl%\" equ \"\" set npackd_cl=..\\com.googlecode.windows-package-manager.NpackdCL-1\n"
-            "set onecmd=\"%npackd_cl%\\npackdcl.exe\" \"path\" \"--package=com.googlecode.windows-package-manager.CLU\" \"--versions=[1, 2)\"\n"
-            "for /f \"usebackq delims=\" %%x in (`%%onecmd%%`) do set clu=%%x\n"
-            "\"%clu%\\clu\" remove-path --path \"%CD%\"\n"
-            "verify\n";
-
-    if (!job->isCancelled() && job->getErrorMessage().isEmpty()) {
-        job->setHint("Searching for updates");
-
-        Job* sub = job->newSubJob(0.2);
-        ret = findUpdate(sub, "org.graphicsmagick.GraphicsMagickQ16",
-                "http://sourceforge.net/api/file/index/project-id/73485/mtime/desc/limit/20/rss",
-                "GraphicsMagick\\-([\\d\\.]+)\\.tar\\.gz");
-        if (!sub->getErrorMessage().isEmpty())
-            job->setErrorMessage(QString("Error searching for the newest version: %1").
-                    arg(sub->getErrorMessage()));
-        delete sub;
-    }
-
-    if (!job->isCancelled() && job->getErrorMessage().isEmpty()) {
-        if (ret) {
-            job->setHint("Examining the binary");
-
-            Job* sub = job->newSubJob(0.75);
-            setDownload(sub, ret, QString(
-                    "http://downloads.sourceforge.net/project/graphicsmagick/graphicsmagick-binaries/") +
-                    ret->version.getVersionString() +
-                    "/GraphicsMagick-" +
-                    ret->version.getVersionString() +
-                    "-Q16-windows-dll.exe");
-            if (!sub->getErrorMessage().isEmpty())
-                job->setErrorMessage(QString("Error downloading the package binary: %1").
-                        arg(sub->getErrorMessage()));
-            delete sub;
-        }
-    }
-
-    if (!job->isCancelled() && job->getErrorMessage().isEmpty()) {
-        if (ret) {
-            job->setHint("Adding dependencies and scripts");
-
-            ret->type = 1;
-
-            PackageVersionFile* pvf = new PackageVersionFile(".WPM\\Install.bat",
-                    installScript);
-            ret->files.append(pvf);
-            pvf = new PackageVersionFile(".WPM\\Uninstall.bat",
-                    uninstallScript);
-            ret->files.append(pvf);
-            Dependency* d = new Dependency();
-            d->package = "com.googlecode.windows-package-manager.NpackdCL";
-            d->minIncluded = true;
-            d->min.setVersion(1, 15, 7);
-            d->min.normalize();
-            d->maxIncluded = false;
-            d->max.setVersion(2, 0);
-            d->max.normalize();
-            ret->dependencies.append(d);
-
-            d = new Dependency();
-            d->package = "com.googlecode.windows-package-manager.NpackdCL";
-            d->minIncluded = true;
-            d->min.setVersion(1, 0);
-            d->min.normalize();
-            d->maxIncluded = true;
-            d->max.setVersion(1, 0);
-            d->max.normalize();
-            ret->dependencies.append(d);
-
-            d = new Dependency();
-            d->package = "com.googlecode.windows-package-manager.CLU";
-            d->minIncluded = true;
-            d->min.setVersion(1, 0);
-            d->min.normalize();
-            d->maxIncluded = false;
-            d->max.setVersion(2, 0);
-            d->max.normalize();
-            ret->dependencies.append(d);
-        }
-
-        job->setProgress(1);
-    }
-
-    job->complete();
-
-    return ret;
-}
-
 PackageVersion* UpdateSearcher::findGTKPlusBundleUpdates(Job* job) {
     job->setHint("Preparing");
 
@@ -458,78 +351,6 @@ PackageVersion* UpdateSearcher::findH2Updates(Job* job) {
         d->min.normalize();
         d->maxIncluded = false;
         d->max.setVersion(2, 0);
-        d->max.normalize();
-        ret->dependencies.append(d);
-    }
-
-    job->complete();
-
-    return ret;
-}
-
-PackageVersion* UpdateSearcher::findHandBrakeUpdates(Job* job)
-{
-    job->setHint("Preparing");
-
-    PackageVersion* ret = 0;
-
-    if (!job->isCancelled() && job->getErrorMessage().isEmpty()) {
-        job->setHint("Searching for updates");
-
-        Job* sub = job->newSubJob(0.2);
-        ret = findUpdate(sub, "fr.handbrake.HandBrake",
-                "http://handbrake.fr/downloads.php",
-                "The current release version is <b>([\\d\\.]+)</b>");
-        if (!sub->getErrorMessage().isEmpty())
-            job->setErrorMessage(QString("Error searching for the newest version: %1").
-                    arg(sub->getErrorMessage()));
-        delete sub;
-    }
-
-    if (!job->isCancelled() && job->getErrorMessage().isEmpty()) {
-        if (ret) {
-            job->setHint("Searching for the download URL");
-
-            ret->download = QUrl("http://handbrake.fr/rotation.php?file=HandBrake-" +
-                    ret->version.getVersionString() + "-i686-Win_GUI.exe");
-        }
-    }
-
-    if (!job->isCancelled() && job->getErrorMessage().isEmpty()) {
-        if (ret) {
-            job->setHint("Examining the binary");
-
-            Job* sub = job->newSubJob(0.55);
-            ret->type = 1;
-            setDownload(sub, ret, ret->download.toEncoded());
-            if (!sub->getErrorMessage().isEmpty())
-                job->setErrorMessage(QString("Error downloading the package binary: %1").
-                        arg(sub->getErrorMessage()));
-            delete sub;
-        }
-    }
-
-    if (ret) {
-        const QString installScript =
-                "ren rotation.php setup.exe\n"
-                "setup.exe /S /D=%CD%\n";
-        const QString uninstallScript =
-                "uninst.exe /S\n";
-
-        PackageVersionFile* pvf = new PackageVersionFile(".WPM\\Install.bat",
-                installScript);
-        ret->files.append(pvf);
-        pvf = new PackageVersionFile(".WPM\\Uninstall.bat",
-                uninstallScript);
-        ret->files.append(pvf);
-
-        Dependency* d = new Dependency();
-        d->package = "com.microsoft.DotNetRedistributable";
-        d->minIncluded = true;
-        d->min.setVersion(2, 0);
-        d->min.normalize();
-        d->maxIncluded = false;
-        d->max.setVersion(3, 0);
         d->max.normalize();
         ret->dependencies.append(d);
     }
@@ -1396,6 +1217,8 @@ void UpdateSearcher::findUpdates(Job* job)
     packages.append("CDBurnerXP64");
     packages.append("GitExtensions");
     packages.append("FARR");
+    packages.append("Chrome");
+    packages.append("CMake");
 
     Repository* templ = new Repository();
     if (job->shouldProceed("Reading the template repository")) {
@@ -1409,6 +1232,8 @@ void UpdateSearcher::findUpdates(Job* job)
 
     Repository* found = new Repository();
 
+    int failures = 0;
+
     for (int i = 0; i < packages.count(); i++) {
         const QString package = packages.at(i);
         if (job->isCancelled())
@@ -1420,7 +1245,16 @@ void UpdateSearcher::findUpdates(Job* job)
         PackageVersion* pv = 0;
         switch (i) {
             case 0:
-                pv = findGraphicsMagickUpdates(sub);
+                pv = findUpdatesSimple(sub,
+                        "org.graphicsmagick.GraphicsMagickQ16",
+                        "http://sourceforge.net/api/file/index/project-id/73485/mtime/desc/limit/20/rss",
+                        "GraphicsMagick\\-([\\d\\.]+)\\.tar\\.gz",
+                        "http://downloads.sourceforge.net/project/graphicsmagick/graphicsmagick-binaries/"
+                        "${{version}}"
+                        "/GraphicsMagick-"
+                        "${{version}}"
+                        "-Q16-windows-dll.exe",
+                        templ);
                 break;
             case 1:
                 pv = findGTKPlusBundleUpdates(sub);
@@ -1429,7 +1263,12 @@ void UpdateSearcher::findUpdates(Job* job)
                 pv = findH2Updates(sub);
                 break;
             case 3:
-                pv = findHandBrakeUpdates(sub);
+                pv = findUpdatesSimple(sub,
+                    "fr.handbrake.HandBrake",
+                    "http://handbrake.fr/downloads.php",
+                    "The current release version is <b>([\\d\\.]+)</b>",
+                    "http://handbrake.fr/rotation.php?file=HandBrake-${{version}}-i686-Win_GUI.exe",
+                    templ);
                 break;
             case 4:
                 pv = findImgBurnUpdates(sub);
@@ -1533,9 +1372,35 @@ void UpdateSearcher::findUpdates(Job* job)
                         templ,
                         "http://www.donationcoder.com/Software/Mouser/findrun/downloads/FindAndRunRobotSetup.exe");
                 break;
+            case 24:
+                pv = findUpdatesSimple(sub,
+                        "com.google.Chrome",
+                        "http://omahaproxy.appspot.com/all?csv=1",
+                        "win,stable,([\\d\\.]+),",
+                        "http://dl.google.com/tag/s/appguid%3D%7B8A69D345-D564-463C-AFF1-A69D9E530F96%7D%26iid%3D%7B0A558A36-0536-8B3F-0AE0-420553CC97F3%7D%26lang%3Den%26browser%3D4%26usagestats%3D0%26appname%3DGoogle%2520Chrome%26needsadmin%3DFalse/edgedl/chrome/install/GoogleChromeStandaloneEnterprise.msi",
+                        templ);
+                break;
+            case 25:
+                pv = findUpdatesSimple(sub,
+                        "org.cmake.CMake",
+                        "http://cmake.org/cmake/resources/software.html",
+                        "Latest Release \\(([\\d\\.]+)\\)",
+                        "http://www.cmake.org/files/v${{version2Parts}}/cmake-${{version}}-win32-x86.zip",
+                        templ);
+                break;
         }
+        /*
+        ${{version}}
+        ${{version2Parts}}
+        ${{version2PartsWithoutDots}}
+        ${{actualVersion}}
+        ${{actualVersionWithoutDots}}
+        */
+
         if (!sub->getErrorMessage().isEmpty()) {
-            job->setErrorMessage(sub->getErrorMessage());
+            WPMUtils::outputTextConsole(package + ": " +
+                    sub->getErrorMessage(), false);
+            failures++;
         } else {
             job->setProgress(0.4 + 0.55 * (i + 1) / packages.count());
             if (!pv)
@@ -1556,8 +1421,11 @@ void UpdateSearcher::findUpdates(Job* job)
 
     if (job->shouldProceed("Writing repository with found packages")) {
         WPMUtils::outputTextConsole(
-                QString("Number of found new packages: %1\n").arg(
+                QString("\nNumber of found new packages: %1\n").arg(
                 found->packageVersions.count()));
+        WPMUtils::outputTextConsole(
+                QString("Number of failures: %1\n").arg(
+                failures));
         if (found->packageVersions.count() > 0) {
             QString err = found->writeTo("FoundPackages.xml");
             if (!err.isEmpty())

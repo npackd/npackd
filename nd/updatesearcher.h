@@ -28,10 +28,8 @@ private:
             const QString& versionRE, QString* realVersion=0,
             bool searchForMaxVersion=false);
 
-    PackageVersion* findGraphicsMagickUpdates(Job* job);
     PackageVersion* findGTKPlusBundleUpdates(Job* job);
     PackageVersion* findH2Updates(Job* job);
-    PackageVersion* findHandBrakeUpdates(Job* job);
     PackageVersion* findImgBurnUpdates(Job* job);
     PackageVersion* findIrfanViewUpdates(Job* job);
     PackageVersion* findFirefoxUpdates(Job* job);
