@@ -3017,6 +3017,17 @@ call "%npackdih%\UninstallMSI.bat"
         <dependency package="com.microsoft.DotNetRedistributable"
                 versions="[2.0, 3)"/>
     </version>
+    <version name="0.9.154" package="com.cyolito.comicrack.ComicRack" type="one-file">
+        <file path=".WPM\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x
+"%setup%" /S /D=%CD%
+</file>
+        <file path=".WPM\Uninstall.bat">uninst.exe /S _?=%CD%
+</file>        
+        <url>http://dl.dropbox.com/u/17046326/files/com.cyolito.comicrack.ComicRack-0.9.154.exe</url>
+        <sha1>45c3bb640aec0314951355cc98a993d07c329359</sha1>
+        <dependency package="com.microsoft.DotNetRedistributable"
+                versions="[2.0, 3)"/>
+    </version>
 
     <!--
 http://safebrowsing.clients.google.com/safebrowsing/diagnostic?site=http%3A%2F%2Fwww.wampserver.com%2Fen%2F&client=googlechrome&hl=de    
@@ -11147,7 +11158,7 @@ if %err% neq 0 exit %err%
         https://www.google.com/intl/en/chrome/business/browser/#utm_campaign=c4b&utm_medium=link&utm_source=apps
         Different versions are distributed from the same URL.
     -->    
-    <version name="18.0.1025.162" package="com.google.Chrome" type="one-file">
+    <version name="18.0.1025.168" package="com.google.Chrome" type="one-file">
         <file path=".WPM\AddProperty.vbs">Option Explicit
 
 Const MSI_FILE = "GoogleChromeStandaloneEnterprise.msi"
@@ -11187,6 +11198,7 @@ call "%npackdih%\UninstallMSI.bat"
         <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1, 1]"/>
         <url>http://dl.google.com/tag/s/appguid%3D%7B8A69D345-D564-463C-AFF1-A69D9E530F96%7D%26iid%3D%7B0A558A36-0536-8B3F-0AE0-420553CC97F3%7D%26lang%3Den%26browser%3D4%26usagestats%3D0%26appname%3DGoogle%2520Chrome%26needsadmin%3DFalse/edgedl/chrome/install/GoogleChromeStandaloneEnterprise.msi</url>
     </version>
+    <!-- Detected -->
 
     <version name="4.2" package="no.itefix.CWRsyncServer" type="one-file">
         <file path=".WPM\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x
@@ -11668,7 +11680,7 @@ verify
         <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1, 1]"/>
         <dependency package="com.googlecode.windows-package-manager.CLU" versions="[1, 2)"/>
     </version>
-    <!-- detected by NpackdCL -->
+    <!-- Detected -->
 
     <version name="2.6.10" package="org.gimp.Gimp" type="one-file">
         <important-file path="bin\gimp-2.6.exe" title="Gimp"/>
@@ -16319,6 +16331,35 @@ verify
         <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1, 1]"/>
         <dependency package="com.googlecode.windows-package-manager.CLU" versions="[1, 2)"/>
     </version>
+    <version package="org.cmake.CMake" name="2.8.8">
+        <file path=".WPM\Install.bat">for /f "delims=" %%x in ('dir /b cmake*') do set name=%%x
+cd "%name%"        
+for /f "delims=" %%a in ('dir /b') do (
+  move "%%a" ..
+)
+cd ..
+rmdir "%name%"
+if %errorlevel% neq 0 exit /b %errorlevel%
+
+if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
+set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.CLU" "--versions=[1, 2)"
+for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set clu=%%x
+"%clu%\clu" add-path --path "%CD%\bin"
+verify
+</file>
+        <file path=".WPM\Uninstall.bat">if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
+set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.CLU" "--versions=[1, 2)"
+for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set clu=%%x
+"%clu%\clu" remove-path --path "%CD%\bin"
+verify
+</file>
+        <url>http://www.cmake.org/files/v2.8/cmake-2.8.8-win32-x86.zip</url>
+        <sha1>3e93868b4be00e4cee1787c8d0479b2bf3807602</sha1>
+        <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.15.7, 2)"/>
+        <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1, 1]"/>
+        <dependency package="com.googlecode.windows-package-manager.CLU" versions="[1, 2)"/>
+    </version>
+    <!-- Detected -->
 
     <!-- the installer does not respect the /DIR option -->
     <version name="6.80.4312" package="com.ashampoo.BurningStudioFreeInstaller"
