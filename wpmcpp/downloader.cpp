@@ -307,8 +307,8 @@ out:
     return;
 }
 
-bool Downloader::internetReadFileMin(HINTERNET resourceHandle,
-        PVOID buffer, DWORD bufferSize, PDWORD bufferLength, DWORD min)
+bool Downloader::internetReadFileFully(HINTERNET resourceHandle,
+        PVOID buffer, DWORD bufferSize, PDWORD bufferLength)
 {
     DWORD alreadyRead = 0;
     bool result;
@@ -324,7 +324,7 @@ bool Downloader::internetReadFileMin(HINTERNET resourceHandle,
         } else {
             alreadyRead += len;
 
-            if (alreadyRead >= min || len == 0) {
+            if (alreadyRead == bufferSize || len == 0) {
                 *bufferLength = alreadyRead;
                 break;
             }
@@ -346,12 +346,12 @@ void Downloader::readDataGZip(Job* job, HINTERNET hResourceHandle, QFile* file,
     bool zlibStreamInitialized = false;
     z_stream d_stream;
 
+    int err = 0;
     int64_t alreadyRead = 0;
     DWORD bufferLength;
     do {
-        // gzip-header is at least 10 bytes long
-        if (!internetReadFileMin(hResourceHandle, buffer,
-                bufferSize, &bufferLength, 10)) {
+        if (!internetReadFileFully(hResourceHandle, buffer,
+                bufferSize, &bufferLength)) {
             QString errMsg;
             WPMUtils::formatMessage(GetLastError(), &errMsg);
             job->setErrorMessage(errMsg);
@@ -363,14 +363,82 @@ void Downloader::readDataGZip(Job* job, HINTERNET hResourceHandle, QFile* file,
             break;
 
         // http://www.gzip.org/zlib/rfc-gzip.html
-        // TODO: gzip header may be longer than 10 bytes
         if (!zlibStreamInitialized) {
+            unsigned int cur = 0;
+
+            if (cur + 10 > bufferLength) {
+                job->setErrorMessage("Less than 10 bytes");
+                goto out;
+            }
+
+            unsigned char flg = buffer[3];
+            cur = 10;
+
+            // FLG.FEXTRA
+            if (flg & 4) {
+                uint16_t xlen;
+                if (cur + 2 > bufferLength) {
+                    job->setErrorMessage("XLEN missing");
+                    goto out;
+                } else {
+                    xlen = *((uint16_t*) (buffer + cur));
+                    cur += 2;
+                }
+
+                if (cur + xlen > bufferLength) {
+                    job->setErrorMessage("EXTRA missing");
+                    goto out;
+                } else {
+                    cur += xlen;
+                }
+            }
+
+            // FLG.FNAME
+            if (flg & 8) {
+                while (true) {
+                    if (cur + 1 > bufferLength) {
+                        job->setErrorMessage("FNAME missing");
+                        goto out;
+                    } else {
+                        uint8_t c = *((uint8_t*) (buffer + cur));
+                        cur++;
+                        if (c == 0)
+                            break;
+                    }
+                }
+            }
+
+            // FLG.FCOMMENT
+            if (flg & 16) {
+                while (true) {
+                    if (cur + 1 > bufferLength) {
+                        job->setErrorMessage("COMMENT missing");
+                        goto out;
+                    } else {
+                        uint8_t c = *((uint8_t*) (buffer + cur));
+                        cur++;
+                        if (c == 0)
+                            break;
+                    }
+                }
+            }
+
+            // FLG.FHCRC
+            if (flg & 2) {
+                if (cur + 2 > bufferLength) {
+                    job->setErrorMessage("CRC16 missing");
+                    goto out;
+                } else {
+                    cur += 2;
+                }
+            }
+
             d_stream.zalloc = (alloc_func) 0;
             d_stream.zfree = (free_func) 0;
             d_stream.opaque = (voidpf) 0;
 
-            d_stream.next_in = buffer + 10;
-            d_stream.avail_in = bufferLength - 10;
+            d_stream.next_in = buffer + cur;
+            d_stream.avail_in = bufferLength - cur;
             d_stream.avail_out = buffer2Size;
             d_stream.next_out = buffer2;
             zlibStreamInitialized = true;
@@ -422,7 +490,7 @@ void Downloader::readDataGZip(Job* job, HINTERNET hResourceHandle, QFile* file,
         }
     } while (bufferLength != 0 && !job->isCancelled());
 
-    int err = inflateEnd(&d_stream);
+    err = inflateEnd(&d_stream);
     if (err != Z_OK) {
         job->setErrorMessage(QString("zlib error %1").arg(err));
     }
@@ -430,6 +498,7 @@ void Downloader::readDataGZip(Job* job, HINTERNET hResourceHandle, QFile* file,
     if (sha1 && !job->isCancelled() && job->getErrorMessage().isEmpty())
         *sha1 = hash.result().toHex().toLower();
 
+out:
     delete[] buffer;
     delete[] buffer2;
 
