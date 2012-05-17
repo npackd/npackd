@@ -7,6 +7,31 @@
 #include "..\wpmcpp\repository.h"
 #include "..\wpmcpp\version.h"
 
+class DiscoveryInfo {
+public:
+    QString package;
+    QString versionPage;
+    QString versionRE;
+    QString downloadTemplate;
+    UpdateSearcher::DownloadType dt;
+
+    DiscoveryInfo(const QString& package,
+            const QString& versionPage, const QString& versionRE,
+            const QString& downloadTemplate,
+            UpdateSearcher::DownloadType dt=UpdateSearcher::DT_STABLE);
+};
+
+DiscoveryInfo::DiscoveryInfo(const QString &package, const QString &versionPage,
+        const QString &versionRE, const QString &downloadTemplate,
+        UpdateSearcher::DownloadType dt)
+{
+    this->package = package;
+    this->versionPage = versionPage;
+    this->versionRE = versionRE;
+    this->downloadTemplate = downloadTemplate;
+    this->dt = dt;
+}
+
 UpdateSearcher::UpdateSearcher()
 {
 }
@@ -1104,7 +1129,7 @@ PackageVersion* UpdateSearcher::findUpdatesSimple(Job* job,
         const QString& versionPage, const QString& versionRE,
         const QString& downloadTemplate,
         Repository* templ,
-        const QString& download)
+        DownloadType dt)
 {
     job->setHint("Preparing");
 
@@ -1128,29 +1153,33 @@ PackageVersion* UpdateSearcher::findUpdatesSimple(Job* job,
 
             PackageVersion* t = templ->findPackageVersion(
                     package,
-                    Version())->clone();
-            t->version = ret->version;
-            delete ret;
-            ret = t;
+                    Version());
+            if (t) {
+                t = t->clone();
+                t->version = ret->version;
+                delete ret;
+                ret = t;
 
-            QString v = version;
-            v.remove('.');
-            QString version2Parts = ret->version.getVersionString(2);
-            QString version2PartsWithoutDots = version2Parts;
-            version2PartsWithoutDots.remove('.');
+                QString v = version;
+                v.remove('.');
+                QString version2Parts = ret->version.getVersionString(2);
+                QString version2PartsWithoutDots = version2Parts;
+                version2PartsWithoutDots.remove('.');
 
-            QMap<QString, QString> vars;
-            vars.insert("version", ret->version.getVersionString());
-            vars.insert("version2Parts", version2Parts);
-            vars.insert("version2PartsWithoutDots", version2PartsWithoutDots);
-            vars.insert("actualVersion", version);
-            vars.insert("actualVersionWithoutDots", v);
-            if (download.isEmpty())
+                QMap<QString, QString> vars;
+                vars.insert("version", ret->version.getVersionString());
+                vars.insert("version2Parts", version2Parts);
+                vars.insert("version2PartsWithoutDots", version2PartsWithoutDots);
+                vars.insert("actualVersion", version);
+                vars.insert("actualVersionWithoutDots", v);
                 ret->download  = WPMUtils::format(downloadTemplate, vars);
-            else
-                ret->download = QUrl(download, QUrl::StrictMode);
+                job->setProgress(0.35);
+            } else {
+                job->setErrorMessage("package version not found in Template.xml");
+            }
+        } else {
+            job->setProgress(0.35);
         }
-        job->setProgress(0.35);
     }
 
     if (!job->isCancelled() && job->getErrorMessage().isEmpty()) {
@@ -1159,14 +1188,27 @@ PackageVersion* UpdateSearcher::findUpdatesSimple(Job* job,
 
             if (!ret->sha1.isEmpty()) {
                 Job* sub = job->newSubJob(0.65);
-                if (download.isEmpty())
-                    setDownload(sub, ret, ret->download.toEncoded());
-                else
-                    setDownload(sub, ret, download);
+                setDownload(sub, ret, ret->download.toEncoded());
                 if (!sub->getErrorMessage().isEmpty())
                     job->setErrorMessage(QString("Error downloading the package binary: %1").
                             arg(sub->getErrorMessage()));
                 delete sub;
+
+                QString fn = ret->download.path();
+                QStringList parts = fn.split('/');
+                fn = parts.at(parts.count() - 1);
+                int last = fn.lastIndexOf(".");
+                QString ext = fn.mid(last);
+
+                if (dt == DT_GOOGLECODE)
+                    ret->download = "http://npackd.googlecode.com/files/" +
+                            ret->package + "-" +
+                            ret->version.getVersionString() + ext;
+                else if (dt == DT_DROPBOX)
+                    ret->download = "http://dl.dropbox.com/u/17046326/files/" +
+                            ret->package + "-" +
+                            ret->version.getVersionString() + ext;
+
             } else {
                 job->setProgress(1);
             }
@@ -1192,33 +1234,143 @@ void UpdateSearcher::findUpdates(Job* job)
         delete sub;
     }
 
-    QStringList packages;
-    packages.append("GraphicsMagick");
-    packages.append("GTKPlusBundle");
-    packages.append("H2");
-    packages.append("HandBrake");
-    packages.append("ImgBurn");
-    packages.append("IrfanView");
-    packages.append("Firefox");
-    packages.append("AC3Filter");
-    packages.append("AdobeReader");
-    packages.append("SharpDevelop");
-    packages.append("XULRunner");
-    packages.append("Clementine");
-    packages.append("AdvancedInstallerFreeware");
-    packages.append("Aria2");
-    packages.append("Blat");
-    packages.append("Aria2_64");
-    packages.append("Blat64");
-    packages.append("Blender");
-    packages.append("Blender64");
-    packages.append("CCleaner");
-    packages.append("CDBurnerXP");
-    packages.append("CDBurnerXP64");
-    packages.append("GitExtensions");
-    packages.append("FARR");
-    packages.append("Chrome");
-    packages.append("CMake");
+    QList<DiscoveryInfo> dis;
+    dis.append(DiscoveryInfo("org.graphicsmagick.GraphicsMagickQ16",
+            "http://sourceforge.net/api/file/index/project-id/73485/mtime/desc/limit/20/rss",
+            "GraphicsMagick\\-([\\d\\.]+)\\.tar\\.gz",
+            "http://downloads.sourceforge.net/project/graphicsmagick/graphicsmagick-binaries/"
+            "${{version}}"
+            "/GraphicsMagick-"
+            "${{version}}"
+            "-Q16-windows-dll.exe"));
+    dis.append(DiscoveryInfo("GTKPlusBundle",
+            "http://www.blat.net/",
+            "Blat v([\\d\\.]+)",
+            "http://downloads.sourceforge.net/project/blat/Blat%20Full%20Version/32%20bit%20versions/Win2000%20and%20newer/blat${{actualVersionWithoutDots}}_32.full.zip"));
+    dis.append(DiscoveryInfo("H2",
+            "http://www.blat.net/",
+            "Blat v([\\d\\.]+)",
+            "http://downloads.sourceforge.net/project/blat/Blat%20Full%20Version/32%20bit%20versions/Win2000%20and%20newer/blat${{actualVersionWithoutDots}}_32.full.zip"));
+    dis.append(DiscoveryInfo("fr.handbrake.HandBrake",
+            "http://handbrake.fr/downloads.php",
+            "The current release version is <b>([\\d\\.]+)</b>",
+            "http://handbrake.fr/rotation.php?file=HandBrake-${{version}}-i686-Win_GUI.exe"));
+    dis.append(DiscoveryInfo("ImgBurn",
+            "http://www.blat.net/",
+            "Blat v([\\d\\.]+)",
+            "http://downloads.sourceforge.net/project/blat/Blat%20Full%20Version/32%20bit%20versions/Win2000%20and%20newer/blat${{actualVersionWithoutDots}}_32.full.zip"));
+    dis.append(DiscoveryInfo("IrfanView",
+            "http://www.blat.net/",
+            "Blat v([\\d\\.]+)",
+            "http://downloads.sourceforge.net/project/blat/Blat%20Full%20Version/32%20bit%20versions/Win2000%20and%20newer/blat${{actualVersionWithoutDots}}_32.full.zip"));
+    dis.append(DiscoveryInfo("Firefox",
+            "http://www.blat.net/",
+            "Blat v([\\d\\.]+)",
+            "http://downloads.sourceforge.net/project/blat/Blat%20Full%20Version/32%20bit%20versions/Win2000%20and%20newer/blat${{actualVersionWithoutDots}}_32.full.zip"));
+    dis.append(DiscoveryInfo("AC3Filter",
+            "http://www.blat.net/",
+            "Blat v([\\d\\.]+)",
+            "http://downloads.sourceforge.net/project/blat/Blat%20Full%20Version/32%20bit%20versions/Win2000%20and%20newer/blat${{actualVersionWithoutDots}}_32.full.zip"));
+    dis.append(DiscoveryInfo("AdobeReader",
+            "http://www.blat.net/",
+            "Blat v([\\d\\.]+)",
+            "http://downloads.sourceforge.net/project/blat/Blat%20Full%20Version/32%20bit%20versions/Win2000%20and%20newer/blat${{actualVersionWithoutDots}}_32.full.zip"));
+    dis.append(DiscoveryInfo("SharpDevelop",
+            "http://www.blat.net/",
+            "Blat v([\\d\\.]+)",
+            "http://downloads.sourceforge.net/project/blat/Blat%20Full%20Version/32%20bit%20versions/Win2000%20and%20newer/blat${{actualVersionWithoutDots}}_32.full.zip"));
+    dis.append(DiscoveryInfo("XULRunner",
+            "http://www.blat.net/",
+            "Blat v([\\d\\.]+)",
+            "http://downloads.sourceforge.net/project/blat/Blat%20Full%20Version/32%20bit%20versions/Win2000%20and%20newer/blat${{actualVersionWithoutDots}}_32.full.zip"));
+    dis.append(DiscoveryInfo("Clementine",
+            "http://www.blat.net/",
+            "Blat v([\\d\\.]+)",
+            "http://downloads.sourceforge.net/project/blat/Blat%20Full%20Version/32%20bit%20versions/Win2000%20and%20newer/blat${{actualVersionWithoutDots}}_32.full.zip"));
+    dis.append(DiscoveryInfo("AdvancedInstallerFreeware",
+            "http://www.blat.net/",
+            "Blat v([\\d\\.]+)",
+            "http://downloads.sourceforge.net/project/blat/Blat%20Full%20Version/32%20bit%20versions/Win2000%20and%20newer/blat${{actualVersionWithoutDots}}_32.full.zip"));
+    dis.append(DiscoveryInfo("Aria2",
+            "http://www.blat.net/",
+            "Blat v([\\d\\.]+)",
+            "http://downloads.sourceforge.net/project/blat/Blat%20Full%20Version/32%20bit%20versions/Win2000%20and%20newer/blat${{actualVersionWithoutDots}}_32.full.zip"));
+    dis.append(DiscoveryInfo("net.blat.Blat",
+            "http://www.blat.net/",
+            "Blat v([\\d\\.]+)",
+            "http://downloads.sourceforge.net/project/blat/Blat%20Full%20Version/32%20bit%20versions/Win2000%20and%20newer/blat${{actualVersionWithoutDots}}_32.full.zip"));
+    dis.append(DiscoveryInfo("net.sourceforge.aria2.Aria2_64",
+            "http://aria2.sourceforge.net/",
+            ">Get ([\\d\\.]+)</a>",
+            "http://downloads.sourceforge.net/project/aria2/stable/aria2-${{actualVersion}}/aria2-${{actualVersion}}-x86_64-w64-mingw32-build1.zip"));
+    dis.append(DiscoveryInfo("net.blat.Blat64",
+            "http://www.blat.net/",
+            "Blat v([\\d\\.]+)",
+            "http://downloads.sourceforge.net/project/blat/Blat%20Full%20Version/64%20bit%20versions/blat${{actualVersionWithoutDots}}_64.full.zip"));
+    dis.append(DiscoveryInfo("org.blender.Blender",
+            "http://www.blender.org/download/get-blender/",
+            "Blender ([\\d\\.]+[a-z]?) is latest release",
+            "http://download.blender.org/release/Blender${{version2Parts}}/blender-${{actualVersion}}-release-windows32.zip"));
+    dis.append(DiscoveryInfo("org.blender.Blender64",
+            "http://www.blender.org/download/get-blender/",
+            "Blender ([\\d\\.]+[a-z]?) is latest release",
+            "http://download.blender.org/release/Blender${{version2Parts}}/blender-${{actualVersion}}-release-windows64.zip"));
+    dis.append(DiscoveryInfo("com.piriform.CCleaner",
+            "http://www.piriform.com/ccleaner/download",
+            "<b>([\\d\\.]+)</b>",
+            "http://download.piriform.com/ccsetup${{version2PartsWithoutDots}}.exe"));
+    dis.append(DiscoveryInfo("se.cdburnerxp.CDBurnerXP",
+            "http://cdburnerxp.se/en/download",
+            "<small>\\(([\\d\\.]+)\\)</small>",
+            "http://download.cdburnerxp.se/portable/CDBurnerXP-${{version}}.zip"));
+    dis.append(DiscoveryInfo("se.cdburnerxp.CDBurnerXP64",
+            "http://cdburnerxp.se/en/download",
+            "<small>\\(([\\d\\.]+)\\)</small>",
+            "http://download.cdburnerxp.se/portable/CDBurnerXP-x64-${{version}}.zip"));
+    dis.append(DiscoveryInfo("com.googlecode.gitextensions.GitExtensions",
+            "http://code.google.com/p/gitextensions/downloads/list",
+            "Git Extensions ([\\d\\.]+) Windows installer",
+            "http://gitextensions.googlecode.com/files/GitExtensions${{actualVersionWithoutDots}}Setup.msi"));
+    dis.append(DiscoveryInfo(
+            "com.donationcoder.FARR",
+            "http://www.donationcoder.com/Software/Mouser/findrun/index.html",
+            "Download v([\\d\\.]+)",
+            "http://www.donationcoder.com/Software/Mouser/findrun/downloads/FindAndRunRobotSetup.exe",
+            DT_DROPBOX));
+    dis.append(DiscoveryInfo(
+            "com.google.Chrome",
+            "http://omahaproxy.appspot.com/all?csv=1",
+            "win,stable,([\\d\\.]+),",
+            "http://dl.google.com/tag/s/appguid%3D%7B8A69D345-D564-463C-AFF1-A69D9E530F96%7D%26iid%3D%7B0A558A36-0536-8B3F-0AE0-420553CC97F3%7D%26lang%3Den%26browser%3D4%26usagestats%3D0%26appname%3DGoogle%2520Chrome%26needsadmin%3DFalse/edgedl/chrome/install/GoogleChromeStandaloneEnterprise.msi"));
+    dis.append(DiscoveryInfo(
+            "org.cmake.CMake",
+            "http://cmake.org/cmake/resources/software.html",
+            "Latest Release \\(([\\d\\.]+)\\)",
+            "http://www.cmake.org/files/v${{version2Parts}}/cmake-${{version}}-win32-x86.zip"));
+    dis.append(DiscoveryInfo(
+            "net.sourceforge.dcplusplus.DCPlusPlus",
+            "http://sourceforge.net/api/file/index/project-id/40287/mtime/desc/limit/20/rss",
+            "DCPlusPlus-([\\d\\.]+)\\.exe",
+            "http://sourceforge.net/projects/dcplusplus/files/DC%2B%2B%20${{version}}/DCPlusPlus-${{version}}.zip",
+            DT_DROPBOX));
+    dis.append(DiscoveryInfo(
+            "com.maniactools.FreeM4aToMP3Converter",
+            "http://www.maniactools.com/soft/m4a-to-mp3-converter/index.shtml",
+            "Free M4a to MP3 Converter ([\\d\\.]+) <",
+            "http://www.maniactools.com/soft/m4a-to-mp3-converter/m4a-to-mp3-converter.exe",
+            DT_DROPBOX));
+    dis.append(DiscoveryInfo(
+            "com.dvdvideosoft.FreeYouTubeToMP3ConverterInstaller",
+            "http://www.dvdvideosoft.com/products/dvd/Free-YouTube-to-MP3-Converter.htm",
+            "versionNumberProg\\\">([\\d\\.]+)<",
+            "http://download.dvdvideosoft.com/FreeYouTubeToMP3Converter.exe",
+            DT_DROPBOX));
+    dis.append(DiscoveryInfo(
+            "uk.co.babelstone.BabelMap",
+            "http://www.babelstone.co.uk/software/babelmap.html",
+            "BabelMap Version ([\\d\\.]+) ",
+            "http://www.babelstone.co.uk/Software/BabelMap.zip",
+            DT_DROPBOX));
 
     Repository* templ = new Repository();
     if (job->shouldProceed("Reading the template repository")) {
@@ -1234,41 +1386,22 @@ void UpdateSearcher::findUpdates(Job* job)
 
     int failures = 0;
 
-    for (int i = 0; i < packages.count(); i++) {
-        const QString package = packages.at(i);
+    for (int i = 0; i < dis.count(); i++) {
+        const DiscoveryInfo di = dis.at(i);
+        const QString package = di.package;
         if (job->isCancelled())
             break;
 
         job->setHint(QString("Searching for updates for %1").arg(package));
 
-        Job* sub = job->newSubJob(0.6 / packages.count());
+        Job* sub = job->newSubJob(0.6 / dis.count());
         PackageVersion* pv = 0;
         switch (i) {
-            case 0:
-                pv = findUpdatesSimple(sub,
-                        "org.graphicsmagick.GraphicsMagickQ16",
-                        "http://sourceforge.net/api/file/index/project-id/73485/mtime/desc/limit/20/rss",
-                        "GraphicsMagick\\-([\\d\\.]+)\\.tar\\.gz",
-                        "http://downloads.sourceforge.net/project/graphicsmagick/graphicsmagick-binaries/"
-                        "${{version}}"
-                        "/GraphicsMagick-"
-                        "${{version}}"
-                        "-Q16-windows-dll.exe",
-                        templ);
-                break;
             case 1:
                 pv = findGTKPlusBundleUpdates(sub);
                 break;
             case 2:
                 pv = findH2Updates(sub);
-                break;
-            case 3:
-                pv = findUpdatesSimple(sub,
-                    "fr.handbrake.HandBrake",
-                    "http://handbrake.fr/downloads.php",
-                    "The current release version is <b>([\\d\\.]+)</b>",
-                    "http://handbrake.fr/rotation.php?file=HandBrake-${{version}}-i686-Win_GUI.exe",
-                    templ);
                 break;
             case 4:
                 pv = findImgBurnUpdates(sub);
@@ -1300,93 +1433,9 @@ void UpdateSearcher::findUpdates(Job* job)
             case 13:
                 pv = findAria2Updates(sub, templ);
                 break;
-            case 14:
-                pv = findUpdatesSimple(sub, "net.blat.Blat",
-                        "http://www.blat.net/",
-                        "Blat v([\\d\\.]+)",
-                        "http://downloads.sourceforge.net/project/blat/Blat%20Full%20Version/32%20bit%20versions/Win2000%20and%20newer/blat${{actualVersionWithoutDots}}_32.full.zip",
-                        templ);
-                break;
-            case 15:
-                pv = findUpdatesSimple(sub, "net.sourceforge.aria2.Aria2_64",
-                        "http://aria2.sourceforge.net/",
-                        ">Get ([\\d\\.]+)</a>",
-                        "http://downloads.sourceforge.net/project/aria2/stable/aria2-${{actualVersion}}/aria2-${{actualVersion}}-x86_64-w64-mingw32-build1.zip",
-                        templ);
-                break;
-            case 16:
-                pv = findUpdatesSimple(sub, "net.blat.Blat64",
-                        "http://www.blat.net/",
-                        "Blat v([\\d\\.]+)",
-                        "http://downloads.sourceforge.net/project/blat/Blat%20Full%20Version/64%20bit%20versions/blat${{actualVersionWithoutDots}}_64.full.zip",
-                        templ);
-                break;
-            case 17:
-                pv = findUpdatesSimple(sub, "org.blender.Blender",
-                        "http://www.blender.org/download/get-blender/",
-                        "Blender ([\\d\\.]+[a-z]?) is latest release",
-                        "http://download.blender.org/release/Blender${{version2Parts}}/blender-${{actualVersion}}-release-windows32.zip",
-                        templ);
-                break;
-            case 18:
-                pv = findUpdatesSimple(sub, "org.blender.Blender64",
-                        "http://www.blender.org/download/get-blender/",
-                        "Blender ([\\d\\.]+[a-z]?) is latest release",
-                        "http://download.blender.org/release/Blender${{version2Parts}}/blender-${{actualVersion}}-release-windows64.zip",
-                        templ);
-                break;
-            case 19:
-                pv = findUpdatesSimple(sub, "com.piriform.CCleaner",
-                        "http://www.piriform.com/ccleaner/download",
-                        "<b>([\\d\\.]+)</b>",
-                        "http://download.piriform.com/ccsetup${{version2PartsWithoutDots}}.exe",
-                        templ);
-                break;
-            case 20:
-                pv = findUpdatesSimple(sub, "se.cdburnerxp.CDBurnerXP",
-                        "http://cdburnerxp.se/en/download",
-                        "<small>\\(([\\d\\.]+)\\)</small>",
-                        "http://download.cdburnerxp.se/portable/CDBurnerXP-${{version}}.zip",
-                        templ);
-                break;
-            case 21:
-                pv = findUpdatesSimple(sub, "se.cdburnerxp.CDBurnerXP64",
-                        "http://cdburnerxp.se/en/download",
-                        "<small>\\(([\\d\\.]+)\\)</small>",
-                        "http://download.cdburnerxp.se/portable/CDBurnerXP-x64-${{version}}.zip",
-                        templ);
-                break;
-            case 22:
-                pv = findUpdatesSimple(sub, "com.googlecode.gitextensions.GitExtensions",
-                        "http://code.google.com/p/gitextensions/downloads/list",
-                        "Git Extensions ([\\d\\.]+) Windows installer",
-                        "http://gitextensions.googlecode.com/files/GitExtensions${{actualVersionWithoutDots}}Setup.msi",
-                        templ);
-                break;
-            case 23:
-                pv = findUpdatesSimple(sub,
-                        "com.donationcoder.FARR",
-                        "http://www.donationcoder.com/Software/Mouser/findrun/index.html",
-                        "Download v([\\d\\.]+)",
-                        "http://dl.dropbox.com/u/17046326/files/com.donationcoder.FARR-${{version}}.exe",
-                        templ,
-                        "http://www.donationcoder.com/Software/Mouser/findrun/downloads/FindAndRunRobotSetup.exe");
-                break;
-            case 24:
-                pv = findUpdatesSimple(sub,
-                        "com.google.Chrome",
-                        "http://omahaproxy.appspot.com/all?csv=1",
-                        "win,stable,([\\d\\.]+),",
-                        "http://dl.google.com/tag/s/appguid%3D%7B8A69D345-D564-463C-AFF1-A69D9E530F96%7D%26iid%3D%7B0A558A36-0536-8B3F-0AE0-420553CC97F3%7D%26lang%3Den%26browser%3D4%26usagestats%3D0%26appname%3DGoogle%2520Chrome%26needsadmin%3DFalse/edgedl/chrome/install/GoogleChromeStandaloneEnterprise.msi",
-                        templ);
-                break;
-            case 25:
-                pv = findUpdatesSimple(sub,
-                        "org.cmake.CMake",
-                        "http://cmake.org/cmake/resources/software.html",
-                        "Latest Release \\(([\\d\\.]+)\\)",
-                        "http://www.cmake.org/files/v${{version2Parts}}/cmake-${{version}}-win32-x86.zip",
-                        templ);
+            default:
+                pv = findUpdatesSimple(sub, di.package, di.versionPage,
+                        di.versionRE, di.downloadTemplate, templ, di.dt);
                 break;
         }
         /*
@@ -1402,7 +1451,7 @@ void UpdateSearcher::findUpdates(Job* job)
                     sub->getErrorMessage(), false);
             failures++;
         } else {
-            job->setProgress(0.4 + 0.55 * (i + 1) / packages.count());
+            job->setProgress(0.4 + 0.55 * (i + 1) / dis.count());
             if (!pv)
                 WPMUtils::outputTextConsole(QString(
                         "No updates found for %1\n").arg(package));

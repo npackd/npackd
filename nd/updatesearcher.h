@@ -10,6 +10,24 @@
 
 class UpdateSearcher
 {
+public:
+    /** type of the download URL */
+    enum DownloadType {
+        /** the URL is stable */
+        DT_STABLE,
+
+        /**
+         * the URL is unstable. The file should be uploaded to
+         * npackd.googlecode.com
+         */
+        DT_GOOGLECODE,
+
+        /**
+         * the URL is unstable. The file should be uploaded to
+         * www.dropbox.com
+         */
+        DT_DROPBOX
+    };
 private:
     void setDownload(Job* job, PackageVersion* pv, const QString& download);
 
@@ -52,7 +70,7 @@ private:
             const QString& versionPage, const QString& versionRE,
             const QString& downloadTemplate,
             Repository* templ,
-            const QString& download = "");
+            DownloadType dt = DT_STABLE);
 public:
     /**
      * -
