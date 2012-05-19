@@ -962,6 +962,7 @@ void MainWindow::processThreadFinished()
     fillList();
     updateStatusInDetailTabs();
     selectPackage(sel);
+    updateActions();
 }
 
 void MainWindow::changeEvent(QEvent *e)
