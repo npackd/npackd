@@ -13,11 +13,11 @@ func main() {
 	p.title = "Test package"
 	p.name = "test"
 	packages = append(packages, p)
-	
+
 	pv := new(PackageVersion)
 	pv.Package = p.name
 	// 
-	pv.Version = Version{[...]int{1,2,3}[:]}
+	//pv.Version = Version{value: [1, 2, 3]}
 	packageVersions = append(packageVersions, pv)
 
 	fmt.Println("Packages:")
