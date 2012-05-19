@@ -1371,6 +1371,48 @@ void UpdateSearcher::findUpdates(Job* job)
             "BabelMap Version ([\\d\\.]+) ",
             "http://www.babelstone.co.uk/Software/BabelMap.zip",
             DT_DROPBOX));
+    dis.append(DiscoveryInfo(
+            "uk.co.babelstone.BabelMap",
+            "http://www.babelstone.co.uk/software/babelmap.html",
+            "BabelMap Version ([\\d\\.]+) ",
+            "http://www.babelstone.co.uk/Software/BabelMap.zip",
+            DT_DROPBOX));
+    dis.append(DiscoveryInfo(
+            "org.golang.Go",
+            "http://code.google.com/p/go/downloads/list",
+            "go([\\d\\.]+)\\.windows\\-386\\.msi",
+            "http://go.googlecode.com/files/go${{version}}.windows-386.msi"));
+    dis.append(DiscoveryInfo(
+            "org.golang.Go64",
+            "http://code.google.com/p/go/downloads/list",
+            "go([\\d\\.]+)\\.windows\\-amd64\\.msi",
+            "http://go.googlecode.com/files/go${{version}}.windows-amd64.msi"));
+    dis.append(DiscoveryInfo(
+            "com.googlecode.golangide.GoLangIDE",
+            "http://code.google.com/p/golangide/downloads/list",
+            "liteidex([\\d\\.]+)\\.windows\\.zip",
+            "http://golangide.googlecode.com/files/liteidex${{version}}.windows.zip"));
+    dis.append(DiscoveryInfo(
+            "net.sourceforge.jabref.JabRef",
+            "http://sourceforge.net/api/file/index/project-id/92314/mtime/desc/limit/20/rss",
+            "JabRef\\-([\\d\\.]+)\\-setup\\.exe",
+            "http://sourceforge.net/projects/jabref/files/jabref/${{version}}/JabRef-${{version}}-setup.exe"));
+    dis.append(DiscoveryInfo(
+            "info.keepass.KeePassClassic",
+            "http://sourceforge.net/api/file/index/project-id/95013/mtime/desc/limit/120/rss",
+            "KeePass-(1\\.[\\d\\.]+)\\-Setup\\.exe",
+            "http://sourceforge.net/projects/keepass/files/KeePass%201.x/${{version}}/KeePass-${{version}}-Setup.exe"));
+    dis.append(DiscoveryInfo(
+            "info.keepass.KeePass",
+            "http://sourceforge.net/api/file/index/project-id/95013/mtime/desc/limit/120/rss",
+            "KeePass-(2\\.[\\d\\.]+)\\-Setup\\.exe",
+            "http://sourceforge.net/projects/keepass/files/KeePass%202.x/${{version}}/KeePass-${{version}}-Setup.exe"));
+    dis.append(DiscoveryInfo(
+            "org.freepascal.lazarus.Lazarus",
+            "http://sourceforge.net/api/file/index/project-id/89339/mtime/desc/limit/120/rss",
+            "lazarus-([\\d\\.]+)-fpc-([\\d\\.]+)-win32.exe",
+            "http://sourceforge.net/projects/lazarus/files/Lazarus%20Windows%2032%20bits/Lazarus%20${{version}}/lazarus-${{version}}-fpc-2.6.0-win32.exe",
+            DT_GOOGLECODE));
 
     Repository* templ = new Repository();
     if (job->shouldProceed("Reading the template repository")) {

@@ -4419,7 +4419,7 @@ verify
         <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1, 1]"/>
         <dependency package="com.googlecode.windows-package-manager.CLU" versions="[1, 2)"/>
     </version>
-    <!-- Detected by NpackdCL-->
+    <!-- Detected -->
 
     <version name="2.2.17" package="org.apache.httpd.HTTPServer"
             type="one-file">
@@ -5368,7 +5368,7 @@ set err=%errorlevel%
 type .WPM\InnoSetupUninstall.log
 if %err% neq 0 exit %err%
 </file>
-        <url>http://downloads.sourceforge.net/project/lazarus/Lazarus%20Windows%2032%20bits/Lazarus%200.9.28.2/lazarus-0.9.28.2-fpc-2.2.4-win32.exe?ts=1283700155</url>
+        <url>http://npackd.googlecode.com/files/org.freepascal.lazarus.Lazarus-0.9.28.2.exe</url>
         <sha1>1785799f8f7b3f7e024de7d7bae54c119d583271</sha1>
     </version>
     <version name="0.9.30" package="org.freepascal.lazarus.Lazarus"
@@ -5384,10 +5384,26 @@ set err=%errorlevel%
 type .WPM\InnoSetupUninstall.log
 if %err% neq 0 exit %err%
 </file>
-        <url>http://downloads.sourceforge.net/project/lazarus/Lazarus%20Windows%2032%20bits/Lazarus%200.9.30/lazarus-0.9.30-fpc-2.4.2-win32.exe?ts=1302292697</url>
+        <url>http://npackd.googlecode.com/files/org.freepascal.lazarus.Lazarus-0.9.30.exe</url>
         <sha1>7190B7B8666412A65DB9BBF1D962E301782AB0EC</sha1>
     </version>
-
+    <version package="org.freepascal.lazarus.Lazarus" type="one-file" name="0.9.30.4">
+        <file path=".WPM\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x
+"%setup%" /SP- /VERYSILENT /SUPPRESSMSGBOXES /NOCANCEL /NORESTART /DIR="%CD%" /SAVEINF="%CD%\.WPM\InnoSetupInfo.ini" /LOG="%CD%\.WPM\InnoSetupInstall.log"
+set err=%errorlevel%
+type .WPM\InnoSetupInstall.log
+if %err% neq 0 exit %err%
+</file>
+        <file path=".WPM\Uninstall.bat">unins000.exe /VERYSILENT /SUPPRESSMSGBOXES /NORESTART /LOG="%CD%\.WPM\InnoSetupUninstall.log"
+set err=%errorlevel%
+type .WPM\InnoSetupUninstall.log
+if %err% neq 0 exit %err%
+</file>
+        <url>http://npackd.googlecode.com/files/org.freepascal.lazarus.Lazarus-0.9.30.4.exe</url>
+        <sha1>606098c74b89735aa5d94cb79aa581ca83b791b4</sha1>
+    </version>
+    <!-- Detected -->
+    
     <!-- the suffix w means "Windows" -->
     <version name="3.5.22" package="net.sourceforge.upx.UPX">
         <file path=".WPM\Install.bat">for /f "delims=" %%x in ('dir /b upx*') do set name=%%x
@@ -7159,6 +7175,22 @@ if %err% neq 0 exit %err%
         <url>http://downloads.sourceforge.net/project/keepass/KeePass%201.x/1.21/KeePass-1.21-Setup.exe?ts=1320569455</url>
         <sha1>bbb0ff814419a5a8031c3e16c967870361bc6e2a</sha1>
     </version>
+    <version package="info.keepass.KeePassClassic" type="one-file" name="1.22">
+        <file path=".WPM\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x
+"%setup%" /SP- /VERYSILENT /SUPPRESSMSGBOXES /NOCANCEL /NORESTART /DIR="%CD%" /SAVEINF="%CD%\.WPM\InnoSetupInfo.ini" /LOG="%CD%\.WPM\InnoSetupInstall.log"
+set err=%errorlevel%
+type .WPM\InnoSetupInstall.log
+if %err% neq 0 exit %err%    
+</file>
+        <file path=".WPM\Uninstall.bat">unins000.exe /VERYSILENT /SUPPRESSMSGBOXES /NORESTART /LOG="%CD%\.WPM\InnoSetupUninstall.log"
+set err=%errorlevel%
+type .WPM\InnoSetupUninstall.log
+if %err% neq 0 exit %err%
+</file>
+        <url>http://sourceforge.net/projects/keepass/files/KeePass%201.x/1.22/KeePass-1.22-Setup.exe</url>
+        <sha1>30189bb071c58320cacf06edd45a249e59cf7ee4</sha1>
+    </version>
+    <!-- Detected -->
     
     <version name="2.12" package="info.keepass.KeePass">
         <important-file path="KeePass.exe" title="KeePass"/>
@@ -7215,6 +7247,22 @@ if %err% neq 0 exit %err%
         <url>http://downloads.sourceforge.net/project/keepass/KeePass%202.x/2.18/KeePass-2.18-Setup.exe?ts=1326059114</url>
         <sha1>5261ef7e15983f2352e7bdfc50d5b713c6598ea9</sha1>
     </version>
+    <version package="info.keepass.KeePass" type="one-file" name="2.19">
+        <file path=".WPM\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x
+"%setup%" /SP- /VERYSILENT /SUPPRESSMSGBOXES /NOCANCEL /NORESTART /DIR="%CD%" /SAVEINF="%CD%\.WPM\InnoSetupInfo.ini" /LOG="%CD%\.WPM\InnoSetupInstall.log"
+set err=%errorlevel%
+type .WPM\InnoSetupInstall.log
+if %err% neq 0 exit %err%    
+</file>
+        <file path=".WPM\Uninstall.bat">unins000.exe /VERYSILENT /SUPPRESSMSGBOXES /NORESTART /LOG="%CD%\.WPM\InnoSetupUninstall.log"
+set err=%errorlevel%
+type .WPM\InnoSetupUninstall.log
+if %err% neq 0 exit %err%
+</file>
+        <url>http://sourceforge.net/projects/keepass/files/KeePass%202.x/2.19/KeePass-2.19-Setup.exe</url>
+        <sha1>472d6db11a3a4aeec670c8de71ce15bebf623919</sha1>
+    </version>
+    <!-- Detected -->
     
     <version name="1.6.4" package="ro.icofx.IcoFX" type="one-file">
         <file path=".WPM\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x
@@ -10167,6 +10215,26 @@ if %err% neq 0 exit /b %err%
         <sha1>61f48fa0875c85acc8fe1476a1297212f96ea827</sha1>
         <detect-msi>{26A24AE4-039D-4CA4-87B4-2F83217003FF}</detect-msi>
     </version>
+    <version name="1.7.0.4" package="com.oracle.JRE" type="one-file">
+        <file path=".WPM\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x
+"%setup%" /s /v"/qn /Lime .WPM\MSI.log /norestart AgreeToLicense=YES IEXPLORER=1 MOZILLA=1 REBOOT=Suppress ALLUSERS=1 INSTALLDIR="""%CD%""" SYSTRAY=0"
+set err=%errorlevel%
+type .WPM\MSI.log
+if %err% neq 0 exit /b %err%
+
+if not exist "%ProgramFiles(x86)%" REG ADD "HKLM\SOFTWARE\JavaSoft\Java Update\Policy" /f /v EnableJavaUpdate /t REG_DWORD /d 0
+if exist "%ProgramFiles(x86)%" REG ADD "HKLM\SOFTWARE\Wow6432Node\JavaSoft\Java Update\Policy" /f /v EnableJavaUpdate /t REG_DWORD /d 0
+verify
+</file>
+        <file path=".WPM\Uninstall.bat">MsiExec.exe /qn /norestart /Lime .WPM\MSI.log /X{26A24AE4-039D-4CA4-87B4-2F83217004FF}
+set err=%errorlevel%
+type .WPM\MSI.log
+if %err% neq 0 exit /b %err%
+</file>
+        <url>http://npackd.googlecode.com/files/com.oracle.JRE-1.7.0.4.exe</url>
+        <sha1>ceb139e161b183e7cd7f85762763e01868e752a6</sha1>
+        <detect-msi>{26A24AE4-039D-4CA4-87B4-2F83217004FF}</detect-msi>
+    </version>
 
     <version name="4.28" package="de.irfanview.IrfanView">
         <file path=".WPM\Install.bat">set KEY=de.irfanview.IrfanView-4.28
@@ -10781,6 +10849,12 @@ set d=%ProgramFiles%
         <important-file path="iTunesSetup.exe" title="Installer"/>
         <url>http://appldnld.apple.com/iTunes10/041-3541.20120307.Zxr4f/iTunesSetup.exe</url>
         <sha1>6f08434b9c3680c6e583707804838976f7281b70</sha1>
+    </version>
+    <version name="10.6.1" package="com.apple.ITunesInstaller"
+            type="one-file">
+        <important-file path="iTunesSetup.exe" title="Installer"/>
+        <url>http://appldnld.apple.com/iTunes10/041-4795.20120328.YaCDT/iTunesSetup.exe</url>
+        <sha1>343113501555370504d654e7038a2de568d43565</sha1>
     </version>
 
     <version name="7.7" package="com.icq.ICQInstaller"
@@ -11808,6 +11882,30 @@ for %%g in (xcf pix matte mask alpha als fli flc xcf.bz2 bz2 xcfbz2 desktop dcm 
 </file>
         <url>https://downloads.sourceforge.net/project/gimp-win/GIMP%20%2B%20GTK%2B%20%28stable%20release%29/GIMP%202.6.12%20%2B%20GTK%2B%202.16.6/gimp-2.6.12-i686-setup-2.exe?ts=1331978493</url>
         <sha1>e6421056d7a2cb0c181b3458b37659cb104b65a6</sha1>
+    </version>
+    <version name="2.8" package="org.gimp.Gimp" type="one-file">
+        <important-file path="bin\gimp-2.8.exe" title="Gimp"/>
+        <file path=".WPM\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x
+"%setup%" /SP- /VERYSILENT /SUPPRESSMSGBOXES /NOCANCEL /NORESTART /DIR="%CD%"
+set err=%errorlevel%
+if %err% neq 0 exit /b %err%
+
+set key=org.gimp.Gimp-2.8
+reg add HKLM\SOFTWARE\Classes\Applications\%key%\shell\open /v FriendlyAppName /d "Gimp (2.8)" /f
+set c=\"%CD%\bin\gimp-2.8.exe\" \"%%1\"
+reg add HKLM\SOFTWARE\Classes\Applications\%KEY%\shell\open\command /d "%c%" /f
+for %%g in (xcf pix matte mask alpha als fli flc xcf.bz2 bz2 xcfbz2 desktop dcm dicom eps fit fits g3 gif pat gbr gpb gih xcf.gz gz xcfgz jpg jpeg jpe cel ico wmf apm psp tub pspimage psd png pnm ppm pgm pbm pdf ps sgi rgb rgba bw ico im1 im8 im24 im32 rs ras svg tga vda icb vst tif tiff bmp xbm icon bitmap xpm xwd pcx pcc) do reg add HKLM\SOFTWARE\Classes\.%%g\OpenWithList\%key% /f
+</file>
+        <file path=".WPM\Uninstall.bat">setup\unins000.exe /VERYSILENT /SUPPRESSMSGBOXES /NORESTART
+set err=%errorlevel%
+if %err% neq 0 exit /b %err%
+
+set key=org.gimp.Gimp-2.8
+reg delete HKLM\SOFTWARE\Classes\Applications\%key% /f
+for %%g in (xcf pix matte mask alpha als fli flc xcf.bz2 bz2 xcfbz2 desktop dcm dicom eps fit fits g3 gif pat gbr gpb gih xcf.gz gz xcfgz jpg jpeg jpe cel ico wmf apm psp tub pspimage psd png pnm ppm pgm pbm pdf ps sgi rgb rgba bw ico im1 im8 im24 im32 rs ras svg tga vda icb vst tif tiff bmp xbm icon bitmap xpm xwd pcx pcc) do reg delete HKLM\SOFTWARE\Classes\.%%g\OpenWithList\%key% /f
+</file>
+        <url>http://downloads.sourceforge.net/project/gimp-win/GIMP%20%2B%20GTK%2B%20%28stable%20release%29/GIMP%202.8.0/gimp-2.8.0-setup.exe</url>
+        <sha1>e75fed214f1c3a45870aad9d028aa76cc886b81b</sha1>
     </version>
 
     <version name="3.46" package="com.sysinternals.Handle">
@@ -14308,148 +14406,51 @@ call "%npackdih%\UninstallMSI.bat"
         <url>http://go.googlecode.com/files/go.go1.windows-386.msi</url>
         <sha1>fb10ece7acfee80e863a2f84b8639455c0edffde</sha1> 
     </version>
+    <version package="org.golang.Go" type="one-file" name="1.0.1">
+        <file path=".WPM\AddProperty.vbs">Option Explicit
+
+Dim MSI_FILE
+MSI_FILE = Wscript.Arguments(0)
+
+Dim installer, database, view
+
+Set installer = CreateObject("WindowsInstaller.Installer")
+Set database = installer.OpenDatabase(MSI_FILE, 1)
+
+Set view = database.OpenView("INSERT INTO Property (Property, Value) VALUES ('INSTALLDIR', 'C:\Go')")
+view.Execute
+'Set view = database.OpenView("DELETE FROM Directory WHERE Directory='TARGETDIR'")
+'view.Execute
+'Set view = database.OpenView("UPDATE Directory SET DefaultDir='INSTALLLOCATION' WHERE Directory='TARGETDIR'")
+'view.Execute
+database.Commit
+
+Set database = Nothing
+Set installer = Nothing
+Set view = Nothing
+</file>
+        <file path=".WPM\Install.bat">for /f "delims=" %%x in ('dir /b *.msi') do set setup=%%x
+.WPM\AddProperty.vbs "%setup%"
+if %errorlevel% neq 0 exit %errorlevel%
+
+if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
+set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.NpackdInstallerHelper" "--versions=[1, 1]"
+for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set npackdih=%%x
+call "%npackdih%\InstallMSI.bat" INSTALLDIR
+</file>
+        <file path=".WPM\Uninstall.bat">if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
+set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.NpackdInstallerHelper" "--versions=[1, 1]"
+for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set npackdih=%%x
+call "%npackdih%\UninstallMSI.bat"
+</file>
+        <url>http://go.googlecode.com/files/go1.0.1.windows-386.msi</url>
+        <sha1>2f3fac9bd7235e3860c93bdc01161a6f6bd457c1</sha1>
+        <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1, 1]"/>
+        <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.15.7, 2)"/>
+        <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1, 1]"/>
+    </version>
+    <!-- Detected -->
     
-    <version name="57.1" package="com.googlecode.gomingw.GoMinGWR">
-        <file path=".WPM\Install.bat">set name=go
-cd "%name%"        
-for /f "delims=" %%a in ('dir /b') do (
-  move "%%a" ..
-)
-cd ..
-rmdir "%name%"
-if %errorlevel% neq 0 exit /b %errorlevel%
-
-if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
-set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.CLU" "--versions=[1, 2)"
-for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set clu=%%x
-"%clu%\clu" add-path --path "%CD%\bin"
-verify
-</file> 
-        <file path=".WPM\Uninstall.bat">if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
-set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.CLU" "--versions=[1, 2)"
-for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set clu=%%x
-"%clu%\clu" remove-path --path "%CD%\bin"
-verify
-</file>
-        <url>http://gomingw.googlecode.com/files/gowin32_release.r57.1.zip</url> 
-        <sha1>7C1C8B2A385B07C31304032F819B35AAADFFBD53</sha1> 
-        <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.15.7, 2)"/>
-        <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1, 1]"/>
-        <dependency package="com.googlecode.windows-package-manager.CLU" versions="[1, 2)"/>
-    </version> 
-    <version name="58" package="com.googlecode.gomingw.GoMinGWR">
-        <file path=".WPM\Install.bat">set name=go
-cd "%name%"        
-for /f "delims=" %%a in ('dir /b') do (
-  move "%%a" ..
-)
-cd ..
-rmdir "%name%"
-if %errorlevel% neq 0 exit /b %errorlevel%
-
-if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
-set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.CLU" "--versions=[1, 2)"
-for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set clu=%%x
-"%clu%\clu" add-path --path "%CD%\bin"
-verify
-</file> 
-        <file path=".WPM\Uninstall.bat">if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
-set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.CLU" "--versions=[1, 2)"
-for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set clu=%%x
-"%clu%\clu" remove-path --path "%CD%\bin"
-verify
-</file>
-        <url>http://gomingw.googlecode.com/files/gowin32_release.r58.zip</url> 
-        <sha1>4ce80329789147f6e310561145a6e934b324f3dd</sha1> 
-        <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.15.7, 2)"/>
-        <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1, 1]"/>
-        <dependency package="com.googlecode.windows-package-manager.CLU" versions="[1, 2)"/>
-    </version> 
-    <version name="59" package="com.googlecode.gomingw.GoMinGWR">
-        <file path=".WPM\Install.bat">set name=go
-cd "%name%"        
-for /f "delims=" %%a in ('dir /b') do (
-  move "%%a" ..
-)
-cd ..
-rmdir "%name%"
-if %errorlevel% neq 0 exit /b %errorlevel%
-
-if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
-set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.CLU" "--versions=[1, 2)"
-for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set clu=%%x
-"%clu%\clu" add-path --path "%CD%\bin"
-verify
-</file> 
-        <file path=".WPM\Uninstall.bat">if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
-set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.CLU" "--versions=[1, 2)"
-for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set clu=%%x
-"%clu%\clu" remove-path --path "%CD%\bin"
-verify
-</file>
-        <url>http://gomingw.googlecode.com/files/gowin32_release.r59.zip</url> 
-        <sha1>018a7113829e77f943d86a94c1a0fa8c7ea2138a</sha1> 
-        <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.15.7, 2)"/>
-        <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1, 1]"/>
-        <dependency package="com.googlecode.windows-package-manager.CLU" versions="[1, 2)"/>
-    </version> 
-    <version name="60.1" package="com.googlecode.gomingw.GoMinGWR">
-        <file path=".WPM\Install.bat">set name=go
-cd "%name%"        
-for /f "delims=" %%a in ('dir /b') do (
-  move "%%a" ..
-)
-cd ..
-rmdir "%name%"
-if %errorlevel% neq 0 exit /b %errorlevel%
-
-if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
-set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.CLU" "--versions=[1, 2)"
-for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set clu=%%x
-"%clu%\clu" add-path --path "%CD%\bin"
-verify
-</file> 
-        <file path=".WPM\Uninstall.bat">if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
-set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.CLU" "--versions=[1, 2)"
-for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set clu=%%x
-"%clu%\clu" remove-path --path "%CD%\bin"
-verify
-</file>
-        <url>http://gomingw.googlecode.com/files/gowin32_release.r60.1.zip</url> 
-        <sha1>d8f0f9764cd857d3644b9cd15b8fa2c93c5db78c</sha1> 
-        <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.15.7, 2)"/>
-        <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1, 1]"/>
-        <dependency package="com.googlecode.windows-package-manager.CLU" versions="[1, 2)"/>
-    </version> 
-    <version name="60.3" package="com.googlecode.gomingw.GoMinGWR">
-        <file path=".WPM\Install.bat">set name=go
-cd "%name%"        
-for /f "delims=" %%a in ('dir /b') do (
-  move "%%a" ..
-)
-cd ..
-rmdir "%name%"
-if %errorlevel% neq 0 exit /b %errorlevel%
-
-if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
-set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.CLU" "--versions=[1, 2)"
-for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set clu=%%x
-"%clu%\clu" add-path --path "%CD%\bin"
-verify
-</file> 
-        <file path=".WPM\Uninstall.bat">if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
-set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.CLU" "--versions=[1, 2)"
-for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set clu=%%x
-"%clu%\clu" remove-path --path "%CD%\bin"
-verify
-</file>
-        <url>http://gomingw.googlecode.com/files/gowin386_release.r60.3.zip</url> 
-        <sha1>299ecc638b519accb7a31cbb96c1fe73f0065f3d</sha1> 
-        <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.15.7, 2)"/>
-        <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1, 1]"/>
-        <dependency package="com.googlecode.windows-package-manager.CLU" versions="[1, 2)"/>
-    </version> 
-
     <version name="1.1.8" package="org.bitbucket.tortoisehg.TortoiseHg"
             type="one-file">
        <file path=".WPM\Install.bat">if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
@@ -14649,127 +14650,30 @@ call "%npackdih%\UninstallMSI.bat"
         <sha1>76be78bc085c7e5752759dc4c2069254fcf60379</sha1>
     </version>
     
-    <!-- x8 = 8 * (10/64) = 1.25 -->
-    <version name="0.3125" package="com.googlecode.golangide.GoLangIDE"> 
-        <important-file path="bin\liteide.bat" title="Go LiteIDE"/> 
+    <version package="com.googlecode.golangide.GoLangIDE" name="11.4.1">
+        <important-file title="Go LiteIDE" path="bin\liteide.bat"/>
         <file path=".WPM\Install.bat">set name=liteide
-cd "%name%"        
+cd "%name%" 
 for /f "delims=" %%a in ('dir /b') do (
   move "%%a" ..
 )
 cd ..
 rmdir "%name%"
-</file> 
+</file>
         <file path="liteide\bin\liteide.bat">if "%npackd_cl%" equ "" set npackd_cl=..\..\com.googlecode.windows-package-manager.NpackdCL-1
-set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.gomingw.GoMinGWR" "--versions=[57.1, 100)"
+set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=org.golang.Go" "--versions=[1, 2)"
 for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set goroot=%%x
 set GOARCH=386
 set GOOS=windows
 set PATH=%GOROOT%\bin
 call liteide.exe
-</file> 
-        <url>http://golangide.googlecode.com/files/liteide-win32-x2.zip</url> 
-        <sha1>2A44F78454F1BBF549962D57FA7890D6ACC8FAD0</sha1> 
+</file>
+        <url>http://golangide.googlecode.com/files/liteidex11.4.1.windows.zip</url>
+        <sha1>be517291534d52e5088d407b29873498ba527d5d</sha1>
         <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.15.7, 2)"/>
-        <dependency package="com.googlecode.gomingw.GoMinGWR"
-                versions="[57.1, 100)"/> 
+        <dependency package="org.golang.Go" versions="[1, 2)"/>
     </version>
-    <version name="0.6250" package="com.googlecode.golangide.GoLangIDE"> 
-        <important-file path="bin\liteide.bat" title="Go LiteIDE"/> 
-        <file path=".WPM\Install.bat">set name=liteide
-cd "%name%"        
-for /f "delims=" %%a in ('dir /b') do (
-  move "%%a" ..
-)
-cd ..
-rmdir "%name%"
-</file> 
-        <file path="liteide\bin\liteide.bat">if "%npackd_cl%" equ "" set npackd_cl=..\..\com.googlecode.windows-package-manager.NpackdCL-1
-set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.gomingw.GoMinGWR" "--versions=[57.1, 100)"
-for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set goroot=%%x
-set GOARCH=386
-set GOOS=windows
-set PATH=%GOROOT%\bin
-call liteide.exe
-</file> 
-        <url>http://golangide.googlecode.com/files/liteide-win32-x4.zip</url> 
-        <sha1>ff04a41a94684ce990a1f68b1898381178809f9f</sha1> 
-        <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.15.7, 2)"/>
-        <dependency package="com.googlecode.gomingw.GoMinGWR"
-                versions="[57.1, 100)"/> 
-    </version>
-    <version name="0.9375" package="com.googlecode.golangide.GoLangIDE"> 
-        <important-file path="bin\liteide.bat" title="Go LiteIDE"/> 
-        <file path=".WPM\Install.bat">set name=liteide
-cd "%name%"        
-for /f "delims=" %%a in ('dir /b') do (
-  move "%%a" ..
-)
-cd ..
-rmdir "%name%"
-</file> 
-        <file path="liteide\bin\liteide.bat">if "%npackd_cl%" equ "" set npackd_cl=..\..\com.googlecode.windows-package-manager.NpackdCL-1
-set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.gomingw.GoMinGWR" "--versions=[57.1, 100)"
-for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set goroot=%%x
-set GOARCH=386
-set GOOS=windows
-set PATH=%GOROOT%\bin
-call liteide.exe
-</file> 
-        <url>http://golangide.googlecode.com/files/liteide-win32-x6-1.zip</url> 
-        <sha1>3172b7b11636b5b22a341396591572c963fff402</sha1> 
-        <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.15.7, 2)"/>
-        <dependency package="com.googlecode.gomingw.GoMinGWR"
-                versions="[57.1, 100)"/> 
-    </version>
-    <version name="1.25" package="com.googlecode.golangide.GoLangIDE"> 
-        <important-file path="bin\liteide.bat" title="Go LiteIDE"/> 
-        <file path=".WPM\Install.bat">set name=liteide
-cd "%name%"        
-for /f "delims=" %%a in ('dir /b') do (
-  move "%%a" ..
-)
-cd ..
-rmdir "%name%"
-</file> 
-        <file path="liteide\bin\liteide.bat">if "%npackd_cl%" equ "" set npackd_cl=..\..\com.googlecode.windows-package-manager.NpackdCL-1
-set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.gomingw.GoMinGWR" "--versions=[57.1, 100)"
-for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set goroot=%%x
-set GOARCH=386
-set GOOS=windows
-set PATH=%GOROOT%\bin
-call liteide.exe
-</file> 
-        <url>http://golangide.googlecode.com/files/liteide-win32-x8.zip</url> 
-        <sha1>0551cd7ac8c1678506b17af0b5666ef005b8363a</sha1> 
-        <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.15.7, 2)"/>
-        <dependency package="com.googlecode.gomingw.GoMinGWR"
-                versions="[57.1, 100)"/> 
-    </version>
-    <version name="1.5625" package="com.googlecode.golangide.GoLangIDE"> 
-        <important-file path="bin\liteide.bat" title="Go LiteIDE"/> 
-        <file path=".WPM\Install.bat">set name=liteide
-cd "%name%"        
-for /f "delims=" %%a in ('dir /b') do (
-  move "%%a" ..
-)
-cd ..
-rmdir "%name%"
-</file> 
-        <file path="liteide\bin\liteide.bat">if "%npackd_cl%" equ "" set npackd_cl=..\..\com.googlecode.windows-package-manager.NpackdCL-1
-set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.gomingw.GoMinGWR" "--versions=[57.1, 100)"
-for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set goroot=%%x
-set GOARCH=386
-set GOOS=windows
-set PATH=%GOROOT%\bin
-call liteide.exe
-</file> 
-        <url>http://golangide.googlecode.com/files/liteide-win32-x10.zip</url> 
-        <sha1>80254e472badd9e4c809d55fde395e1f4c4c3377</sha1>
-        <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.15.7, 2)"/>
-        <dependency package="com.googlecode.gomingw.GoMinGWR"
-                versions="[57.1, 100)"/> 
-    </version>
+    <!-- Detected -->
 
     <version name="2.9" package="net.sourceforge.discoverd.Discover">
         <important-file path="Discover.exe" title="Discover"/>
@@ -16048,6 +15952,37 @@ verify
         <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1, 1]"/>
         <dependency package="com.googlecode.windows-package-manager.CLU" versions="[1, 2)"/>
     </version>
+    <version name="1.7.0.4" package="com.oracle.JDK" type="one-file">
+        <file path=".WPM\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x
+"%setup%" /s /v"/qn /Lime .WPM\MSI.log /norestart REBOOT=Suppress ALLUSERS=1 ADDLOCAL="""ToolsFeature,SourceFeature""" INSTALLDIR="""%CD%""" "
+set err=%errorlevel%
+type .WPM\MSI.log
+if %err% neq 0 exit /b %err%
+
+if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
+set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.CLU" "--versions=[1, 2)"
+for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set clu=%%x
+"%clu%\clu" add-path --path "%CD%\bin"
+verify
+</file>
+        <file path=".WPM\Uninstall.bat">MsiExec.exe /qn /norestart /Lime .WPM\MSI.log /X{32A3A4F4-B792-11D6-A78A-00B0D0170040}
+set err=%errorlevel%
+type .WPM\MSI.log
+if %err% neq 0 exit /b %err%
+
+if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
+set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.CLU" "--versions=[1, 2)"
+for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set clu=%%x
+"%clu%\clu" remove-path --path "%CD%\bin"
+verify
+</file>
+        <url>http://npackd.googlecode.com/files/com.oracle.JDK-1.7.0.4.exe</url>
+        <sha1>a2e927632b2106f5efefc906ed9070d8c0bf660f</sha1>
+        <detect-msi>{32A3A4F4-B792-11D6-A78A-00B0D0170040}</detect-msi>
+        <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.15.7, 2)"/>
+        <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1, 1]"/>
+        <dependency package="com.googlecode.windows-package-manager.CLU" versions="[1, 2)"/>
+    </version>
 
     <version name="2.4.3" package="org.gnucash.GNUCash" type="one-file">
         <file path=".WPM\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x
@@ -16225,7 +16160,19 @@ verify
         <sha1>01649cafa6b66a75adc8c4608f9455dffc8a8ada</sha1>
         <dependency package="com.oracle.JRE" versions="[1.5, 2)"/>
     </version>
-
+    <version package="net.sourceforge.jabref.JabRef" type="one-file" name="2.8">
+        <file path=".WPM\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x
+"%setup%" /S /D=%CD%\Prog
+</file>
+        <file path=".WPM\Uninstall.bat">Prog\uninstall.exe /S _?=%CD%\Prog
+verify        
+</file>
+        <url>http://sourceforge.net/projects/jabref/files/jabref/2.8/JabRef-2.8-setup.exe</url>
+        <sha1>7c82716ff458cb97912471cc6e89c5a0248d5cae</sha1>
+        <dependency package="com.oracle.JRE" versions="[1.5, 2)"/>
+    </version>
+    <!-- Detected -->
+    
     <version name="2.65" package="net.nirsoft.NirCmd">
         <file path=".WPM\Install.bat">if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
 set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.CLU" "--versions=[1, 2)"

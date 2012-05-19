@@ -126,6 +126,11 @@
         <description>WARNING! Npackd disables automatic updates. Install without Npackd if unsure. A browser plugin for graphics and multimedia for Internet Explorer.</description>
         <license>com.adobe.FlashPlayerLicense</license>
     </package>
+    <package name="com.apple.ITunes64Installer">
+        <title>iTunes installer 64 bit</title>
+        <url>http://www.apple.com/de/itunes/</url>
+        <description>media player</description>
+    </package>
     <package name="com.avg.AVGAntiVirusFree64Installer">
         <title>AVG Anti-Virus 64 bit installer</title>
         <url>http://free.avg.com/</url>
@@ -560,6 +565,22 @@ if %err% neq 0 exit /b %err%
         <url>http://npackd.googlecode.com/files/com.oracle.JRE64-1.7.0.3.exe</url>
         <sha1>0d74117467cd905f41fd807f7cdbaa671a150311</sha1>
         <detect-msi>{26A24AE4-039D-4CA4-87B4-2F86417003FF}</detect-msi>
+    </version>
+    <version name="1.7.0.4" package="com.oracle.JRE64" type="one-file">
+        <file path=".WPM\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x
+"%setup%" /s /v"/qn /Lime .WPM\MSI.log /norestart AgreeToLicense=YES IEXPLORER=1 MOZILLA=1 REBOOT=Suppress ALLUSERS=1 INSTALLDIR="""%CD%""" SYSTRAY=0"
+set err=%errorlevel%
+type .WPM\MSI.log
+if %err% neq 0 exit /b %err%
+</file>
+        <file path=".WPM\Uninstall.bat">MsiExec.exe /qn /norestart /Lime .WPM\MSI.log /X{26A24AE4-039D-4CA4-87B4-2F86417004FF}
+set err=%errorlevel%
+type .WPM\MSI.log
+if %err% neq 0 exit /b %err%
+</file>
+        <url>http://npackd.googlecode.com/files/com.oracle.JRE64-1.7.0.4.exe</url>
+        <sha1>8b94d5cb87bd3ddf2bda810cf2ee95de5fbd4911</sha1>
+        <detect-msi>{26A24AE4-039D-4CA4-87B4-2F86417004FF}</detect-msi>
     </version>
 
     <!--
@@ -3457,6 +3478,37 @@ verify
         <sha1>1c249cf9c85813ea15a505c56a7354d198b9f967</sha1>
         <detect-msi>{64A3A4F4-B792-11D6-A78A-00B0D0170030}</detect-msi>
     </version>
+    <version name="1.7.0.4" package="com.oracle.JDK64" type="one-file">
+        <file path=".WPM\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x
+"%setup%" /s /v"/qn /Lime .WPM\MSI.log /norestart REBOOT=Suppress ALLUSERS=1 ADDLOCAL="""ToolsFeature,SourceFeature""" INSTALLDIR="""%CD%""" "
+set err=%errorlevel%
+type .WPM\MSI.log
+if %err% neq 0 exit /b %err%
+
+if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
+set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.CLU" "--versions=[1, 2)"
+for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set clu=%%x
+"%clu%\clu" add-path --path "%CD%\bin"
+verify
+</file>
+        <file path=".WPM\Uninstall.bat">MsiExec.exe /qn /norestart /Lime .WPM\MSI.log /X{64A3A4F4-B792-11D6-A78A-00B0D0170040}
+set err=%errorlevel%
+type .WPM\MSI.log
+if %err% neq 0 exit /b %err%
+
+if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
+set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.CLU" "--versions=[1, 2)"
+for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set clu=%%x
+"%clu%\clu" remove-path --path "%CD%\bin"
+verify
+</file>
+        <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.15.7, 2)"/>
+        <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1, 1]"/>
+        <dependency package="com.googlecode.windows-package-manager.CLU" versions="[1, 2)"/>
+        <url>http://npackd.googlecode.com/files/com.oracle.JDK64-1.7.0.4.exe</url>
+        <sha1>203a0e484e25ac6b2950ec75de2c106c3aeaf115</sha1>
+        <detect-msi>{64A3A4F4-B792-11D6-A78A-00B0D0170040}</detect-msi>
+    </version>
 
     <version name="3.6.1" package="org.eclipse.EclipseIDEJEE64">
         <file path=".WPM\Install.bat">for /f "delims=" %%x in ('dir /b eclipse*') do set name=%%x
@@ -3712,81 +3764,6 @@ echo AutoUpdateDisable=1 > %windir%\SysWOW64\Macromed\Flash\mms.cfg
         <url>http://fpdownload.macromedia.com/pub/flashplayer/current/licensing/win/install_flash_player_11_active_x_64bit.exe</url>
     </version>
 
-    <version name="2011.10.18" package="com.googlecode.gomingw.GoMinGW64">
-        <file path=".WPM\Install.bat">set name=go
-cd "%name%"        
-for /f "delims=" %%a in ('dir /b') do (
-  move "%%a" ..
-)
-cd ..
-rmdir "%name%"
-if %errorlevel% neq 0 exit /b %errorlevel%
-
-if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
-set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.CLU" "--versions=[1, 2)"
-for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set clu=%%x
-"%clu%\clu" add-path --path "%CD%\bin"
-verify
-</file> 
-        <file path=".WPM\Uninstall.bat">if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
-set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.CLU" "--versions=[1, 2)"
-for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set clu=%%x
-"%clu%\clu" remove-path --path "%CD%\bin"
-verify
-</file>
-        <url>http://gomingw.googlecode.com/files/gowinamd64_weekly.2011-10-18.zip</url> 
-        <sha1>1983cdaea1df09a17b7b6436053f2574242c6e18</sha1> 
-        <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.15.7, 2)"/>
-        <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1, 1]"/>
-        <dependency package="com.googlecode.windows-package-manager.CLU" versions="[1, 2)"/>
-    </version>
-    <version name="2011.12.22" package="com.googlecode.gomingw.GoMinGW64">
-        <file path=".WPM\Install.bat">set name=go
-cd "%name%"        
-for /f "delims=" %%a in ('dir /b') do (
-  move "%%a" ..
-)
-cd ..
-rmdir "%name%"
-if %errorlevel% neq 0 exit /b %errorlevel%
-
-if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
-set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.CLU" "--versions=[1, 2)"
-for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set clu=%%x
-"%clu%\clu" add-path --path "%CD%\bin"
-verify
-</file> 
-        <file path=".WPM\Uninstall.bat">if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
-set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.CLU" "--versions=[1, 2)"
-for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set clu=%%x
-"%clu%\clu" remove-path --path "%CD%\bin"
-verify
-</file>
-        <url>http://gomingw.googlecode.com/files/gowinamd64_weekly.2011-12-22.zip</url> 
-        <sha1>a4bf8ca034e9eba96532cda111640cd105194105</sha1> 
-        <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.15.7, 2)"/>
-        <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1, 1]"/>
-        <dependency package="com.googlecode.windows-package-manager.CLU" versions="[1, 2)"/>
-    </version>
-    <version name="2012.3.13" package="com.googlecode.gomingw.GoMinGW64"
-            type="one-file">
-<file path=".WPM\Install.bat">if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
-set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.NpackdInstallerHelper" "--versions=[1, 1]"
-for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set npackdih=%%x
-call "%npackdih%\InstallMSI.bat" INSTALLDIR
-</file>
-        <file path=".WPM\Uninstall.bat">if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
-set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.NpackdInstallerHelper" "--versions=[1, 1]"
-for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set npackdih=%%x
-call "%npackdih%\UninstallMSI.bat"
-</file>
-        <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1, 1]"/>
-        <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.15.7, 2)"/>
-        <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1, 1]"/>
-        <url>https://go.googlecode.com/files/go.weekly.2012-03-13.windows-amd64.msi</url> 
-        <sha1>3830f4bc53b31cc20cc986b3d18b883baef2fc9d</sha1> 
-    </version>
-
     <!-- uninstallation shows a confirmation dialog -->
     <version name="1.6.4" package="org.wireshark.Wireshark64" type="one-file">
         <file path=".WPM\Install.bat">for /f %%x in ('dir /b *.exe') do set setup=%%x
@@ -3921,6 +3898,49 @@ call "%npackdih%\UninstallMSI.bat"
         <url>http://go.googlecode.com/files/go.go1.windows-amd64.msi</url>
         <sha1>e50c823ca41d3d23ac7dfb9ef4878566e528b816</sha1> 
     </version>
+    <version package="org.golang.Go64" type="one-file" name="1.0.1">
+        <file path=".WPM\AddProperty.vbs">Option Explicit
+
+Dim MSI_FILE
+MSI_FILE = Wscript.Arguments(0)
+
+Dim installer, database, view
+
+Set installer = CreateObject("WindowsInstaller.Installer")
+Set database = installer.OpenDatabase(MSI_FILE, 1)
+
+Set view = database.OpenView("INSERT INTO Property (Property, Value) VALUES ('INSTALLDIR', 'C:\Go')")
+view.Execute
+'Set view = database.OpenView("DELETE FROM Directory WHERE Directory='TARGETDIR'")
+'view.Execute
+'Set view = database.OpenView("UPDATE Directory SET DefaultDir='INSTALLLOCATION' WHERE Directory='TARGETDIR'")
+'view.Execute
+database.Commit
+
+Set database = Nothing
+Set installer = Nothing
+Set view = Nothing
+</file>
+        <file path=".WPM\Install.bat">for /f "delims=" %%x in ('dir /b *.msi') do set setup=%%x
+.WPM\AddProperty.vbs "%setup%"
+if %errorlevel% neq 0 exit %errorlevel%
+
+if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
+set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.NpackdInstallerHelper" "--versions=[1, 1]"
+for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set npackdih=%%x
+call "%npackdih%\InstallMSI.bat" INSTALLDIR
+</file>
+        <file path=".WPM\Uninstall.bat">if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
+set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.NpackdInstallerHelper" "--versions=[1, 1]"
+for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set npackdih=%%x
+call "%npackdih%\UninstallMSI.bat"
+</file>
+        <url>http://go.googlecode.com/files/go1.0.1.windows-amd64.msi</url>
+        <sha1>c4b4551e99eafd7996a723473d2f456394746add</sha1>
+        <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1, 1]"/>
+        <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.15.7, 2)"/>
+        <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1, 1]"/>
+    </version>
 
     <version package="fr.handbrake.HandBrake64" type="one-file" name="0.9.6">
         <file path=".WPM\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x
@@ -3943,4 +3963,11 @@ rmdir /s /q "%name%"
         <sha1>99fa8ddd2edd596bf670592933c47036f58ca308</sha1>
     </version>
     <!-- Detected -->
+
+    <version name="10.6.1" package="com.apple.ITunes64Installer"
+            type="one-file">
+        <important-file path="iTunes64Setup.exe" title="Installer"/>
+        <url>http://appldnld.apple.com/iTunes10/041-4797.20120328.Amc16/iTunes64Setup.exe</url>
+        <sha1>628e4c8fcfdbced4d1f1d25aba2d3ead1a28fd1a</sha1>
+    </version>
 </root>

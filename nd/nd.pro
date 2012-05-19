@@ -11,6 +11,7 @@ CONFIG   += console
 CONFIG   -= app_bundle
 TEMPLATE = app
 QMAKE_LFLAGS += -Wl,-Map=nd.map
+QMAKE_CFLAGS += -static-libgcc -static-libstdc++
 
 INCLUDEPATH += ..\\quazip\\quazip ..\\zlib
 LIBS += ..\\quazip\\quazip\\release\\libquazip.a \
