@@ -26,7 +26,13 @@ public:
          * the URL is unstable. The file should be uploaded to
          * www.dropbox.com
          */
-        DT_DROPBOX
+        DT_DROPBOX,
+
+        /**
+         * the URL is unstable. The file should be uploaded to
+         * www.dropbox.com
+         */
+        DT_SOURCEFORGE
     };
 private:
     void setDownload(Job* job, PackageVersion* pv, const QString& download);
@@ -70,7 +76,8 @@ private:
             const QString& versionPage, const QString& versionRE,
             const QString& downloadTemplate,
             Repository* templ,
-            DownloadType dt = DT_STABLE);
+            DownloadType dt = DT_STABLE,
+            bool searchForMaxVersion = false);
 public:
     /**
      * -

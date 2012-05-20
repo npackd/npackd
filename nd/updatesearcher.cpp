@@ -14,22 +14,25 @@ public:
     QString versionRE;
     QString downloadTemplate;
     UpdateSearcher::DownloadType dt;
+    bool searchForMaxVersion;
 
     DiscoveryInfo(const QString& package,
             const QString& versionPage, const QString& versionRE,
             const QString& downloadTemplate,
-            UpdateSearcher::DownloadType dt=UpdateSearcher::DT_STABLE);
+            UpdateSearcher::DownloadType dt=UpdateSearcher::DT_STABLE,
+            bool searchForMaxVersion=false);
 };
 
 DiscoveryInfo::DiscoveryInfo(const QString &package, const QString &versionPage,
         const QString &versionRE, const QString &downloadTemplate,
-        UpdateSearcher::DownloadType dt)
+        UpdateSearcher::DownloadType dt, bool searchForMaxVersion)
 {
     this->package = package;
     this->versionPage = versionPage;
     this->versionRE = versionRE;
     this->downloadTemplate = downloadTemplate;
     this->dt = dt;
+    this->searchForMaxVersion = searchForMaxVersion;
 }
 
 UpdateSearcher::UpdateSearcher()
@@ -1129,7 +1132,7 @@ PackageVersion* UpdateSearcher::findUpdatesSimple(Job* job,
         const QString& versionPage, const QString& versionRE,
         const QString& downloadTemplate,
         Repository* templ,
-        DownloadType dt)
+        DownloadType dt, bool searchForMaxVersion)
 {
     job->setHint("Preparing");
 
@@ -1140,7 +1143,7 @@ PackageVersion* UpdateSearcher::findUpdatesSimple(Job* job,
         Job* sub = job->newSubJob(0.2);
         ret = findUpdate(sub, package,
                 versionPage,
-                versionRE, &version);
+                versionRE, &version, searchForMaxVersion);
         if (!sub->getErrorMessage().isEmpty())
             job->setErrorMessage(QString("Error searching for the newest version: %1").
                     arg(sub->getErrorMessage()));
@@ -1208,7 +1211,10 @@ PackageVersion* UpdateSearcher::findUpdatesSimple(Job* job,
                     ret->download = "http://dl.dropbox.com/u/17046326/files/" +
                             ret->package + "-" +
                             ret->version.getVersionString() + ext;
-
+                else if (dt == DT_SOURCEFORGE)
+                    ret->download = "http://downloads.sourceforge.net/project/npackd/" +
+                            ret->package + "-" +
+                            ret->version.getVersionString() + ext;
             } else {
                 job->setProgress(1);
             }
@@ -1413,7 +1419,117 @@ void UpdateSearcher::findUpdates(Job* job)
             "lazarus-([\\d\\.]+)-fpc-([\\d\\.]+)-win32.exe",
             "http://sourceforge.net/projects/lazarus/files/Lazarus%20Windows%2032%20bits/Lazarus%20${{version}}/lazarus-${{version}}-fpc-2.6.0-win32.exe",
             DT_GOOGLECODE));
+    dis.append(DiscoveryInfo(
+            "org.libreoffice.LibreOffice",
+            "http://www.libreoffice.org/download/?type=win-x86&lang=en-US",
+            ">([\\d\\.]+)<",
+            "http://ftp5.gwdg.de/pub/tdf/libreoffice/stable/${{version}}/win/x86/LibO_${{version}}_Win_x86_install_multi.msi",
+            DT_SOURCEFORGE));
+    dis.append(DiscoveryInfo(
+            "com.selenic.mercurial.Mercurial",
+            "http://mercurial.selenic.com/release/windows/",
+            "Mercurial\\-([\\d\\.]+)\\.exe",
+            "http://mercurial.selenic.com/release/windows/Mercurial-${{version}}.exe",
+            DT_STABLE, true));
+    dis.append(DiscoveryInfo(
+            "com.selenic.mercurial.Mercurial64",
+            "http://mercurial.selenic.com/release/windows/",
+            "Mercurial\\-([\\d\\.]+)\\-x64\\.exe",
+            "http://mercurial.selenic.com/release/windows/Mercurial-${{version}}-x64.exe",
+            DT_STABLE, true));
+    dis.append(DiscoveryInfo(
+            "com.getmiro.Miro",
+            "http://www.getmiro.com/",
+            "Version  - ([\\d\\.]+)",
+            "http://ftp.osuosl.org/pub/pculture.org/Miro/win/Miro-${{actualVersion}}.exe",
+            DT_STABLE));
+    dis.append(DiscoveryInfo(
+            "de.mp3tag.MP3Tag",
+            "http://www.mp3tag.de/",
+            "Mp3tag v([\\d\\.]+) - ",
+            "http://download.mp3tag.de/mp3tagv${{actualVersionWithoutDots}}setup.exe",
+            DT_DROPBOX));
+    dis.append(DiscoveryInfo(
+            "org.nodejs.NodeJS",
+            "http://nodejs.org/",
+            ">v([\\d\\.]+)<",
+            "http://nodejs.org/dist/v${{version}}/node-v${{version}}.msi"));
+    dis.append(DiscoveryInfo(
+            "com.opera.Opera",
+            "http://www.opera.com/",
+            "version ([\\d\\.]+) for Windows",
+            "http://get-tsw-1.opera.com/pub/opera/win/${{actualVersionWithoutDots}}/int/Opera_${{actualVersionWithoutDots}}_int_Setup.exe"));
+    dis.append(DiscoveryInfo(
+            "net.sourceforge.pidgin.Pidgin",
+            "http://www.pidgin.im/",
+            ">([\\d\\.]+)<",
+            "http://downloads.sourceforge.net/project/pidgin/Pidgin/${{version}}/pidgin-${{version}}.exe"));
+    dis.append(DiscoveryInfo(
+            "com.softwareok.QDir",
+            "http://www.softwareok.com/?seite=Freeware/Q-Dir",
+            "Q-Dir ([\\d\\.]+)<",
+            "http://www.softwareok.com/Download/Q-Dir_Portable_Unicode.zip",
+            DT_DROPBOX));
+    dis.append(DiscoveryInfo(
+            "com.softwareok.QDir64",
+            "http://www.softwareok.com/?seite=Freeware/Q-Dir",
+            "Q-Dir ([\\d\\.]+)<",
+            "http://www.softwareok.com/Download/Q-Dir_Portable_x64.zip",
+            DT_DROPBOX));
+    dis.append(DiscoveryInfo(
+            "com.nokia.QtCreatorInstaller",
+            "http://qt.nokia.com/downloads",
+            "Qt Creator ([\\d\\.]+) for Windows",
+            "http://get.qt.nokia.com/qtcreator/qt-creator-win-opensource-${{actualVersion}}.exe"));
+    dis.append(DiscoveryInfo(
+            "net.sourceforge.realterm.RealtermInstaller",
+            "http://sourceforge.net/api/file/index/project-id/67297/mtime/desc/limit/20/rss",
+            "Realterm_([\\d\\.]+)_setup.exe",
+            "http://sourceforge.net/projects/realterm/files/Realterm/${{version}}/Realterm_${{version}}_setup.exe"));
+    dis.append(DiscoveryInfo(
+            "net.sourceforge.smplayer.SMPlayer",
+            "http://sourceforge.net/api/file/index/project-id/185512/mtime/desc/limit/20/rss",
+            "http://sourceforge\\.net/projects/smplayer/files/SMPlayer/[\\d\\.]+/smplayer-([\\d\\.]+)-win32\\.exe",
+            "http://downloads.sourceforge.net/project/smplayer/SMPlayer/${{actualVersion}}/smplayer-${{actualVersion}}-win32.exe"));
+    dis.append(DiscoveryInfo(
+            "net.sourceforge.smplayer.SMPlayer64",
+            "http://sourceforge.net/api/file/index/project-id/185512/mtime/desc/limit/20/rss",
+            "http://sourceforge\\.net/projects/smplayer/files/SMPlayer/[\\d\\.]+/smplayer-([\\d\\.]+)-win32\\.exe",
+            "http://downloads.sourceforge.net/project/smplayer/SMPlayer/${{actualVersion}}/smplayer-${{actualVersion}}-x64.exe"));
+    dis.append(DiscoveryInfo(
+            "org.mozilla.Thunderbird",
+            "http://www.mozilla.org/en-US/thunderbird/all.html",
+            ">([\\d\\.]+)<",
+            "http://mozilla.snt.utwente.nl//thunderbird/releases/${{actualVersion}}/win32/en-US/Thunderbird%20Setup%20${{actualVersion}}.exe",
+            DT_GOOGLECODE));
+    dis.append(DiscoveryInfo(
+            "com.googlecode.tortoisegit.TortoiseGit",
+            "http://code.google.com/p/tortoisegit/downloads/list",
+            "TortoiseGit-([\\d\\.]+)-32bit.msi",
+            "http://tortoisegit.googlecode.com/files/TortoiseGit-${{actualVersion}}-32bit.msi"));
+    dis.append(DiscoveryInfo(
+            "com.googlecode.tortoisegit.TortoiseGit64",
+            "http://code.google.com/p/tortoisegit/downloads/list",
+            "TortoiseGit-([\\d\\.]+)-64bit.msi",
+            "http://tortoisegit.googlecode.com/files/TortoiseGit-${{actualVersion}}-64bit.msi"));
+    dis.append(DiscoveryInfo(
+            "org.sourceforge.ultradefrag.UltraDefrag",
+            "http://sourceforge.net/api/file/index/project-id/199532/mtime/desc/limit/20/rss",
+            "stable-release/[\\d\\.]+/ultradefrag-portable-([\\d\\.]+)\\.bin\\.i386\\.zip",
+            "http://downloads.sourceforge.net/project/ultradefrag/stable-release/${{actualVersion}}/ultradefrag-portable-${{actualVersion}}.bin.i386.zip"));
+    dis.append(DiscoveryInfo(
+            "org.sourceforge.ultradefrag.UltraDefrag64",
+            "http://sourceforge.net/api/file/index/project-id/199532/mtime/desc/limit/20/rss",
+            "stable-release/[\\d\\.]+/ultradefrag-portable-([\\d\\.]+)\\.bin\\.amd64\\.zip",
+            "http://downloads.sourceforge.net/project/ultradefrag/stable-release/${{actualVersion}}/ultradefrag-portable-${{actualVersion}}.bin.amd64.zip"));
 
+    /*
+    ${{version}}
+    ${{version2Parts}}
+    ${{version2PartsWithoutDots}}
+    ${{actualVersion}}
+    ${{actualVersionWithoutDots}}
+    */
     Repository* templ = new Repository();
     if (job->shouldProceed("Reading the template repository")) {
         Job* sub = job->newSubJob(0.01);
@@ -1477,16 +1593,10 @@ void UpdateSearcher::findUpdates(Job* job)
                 break;
             default:
                 pv = findUpdatesSimple(sub, di.package, di.versionPage,
-                        di.versionRE, di.downloadTemplate, templ, di.dt);
+                        di.versionRE, di.downloadTemplate, templ, di.dt,
+                        di.searchForMaxVersion);
                 break;
         }
-        /*
-        ${{version}}
-        ${{version2Parts}}
-        ${{version2PartsWithoutDots}}
-        ${{actualVersion}}
-        ${{actualVersionWithoutDots}}
-        */
 
         if (!sub->getErrorMessage().isEmpty()) {
             WPMUtils::outputTextConsole(package + ": " +
