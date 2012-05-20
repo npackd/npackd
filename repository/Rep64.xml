@@ -233,6 +233,11 @@ This package uses internal version numbers. For example, 1.7.0.1 corresponds to 
         <url>http://www.softwareok.com/?seite=Freeware/Q-Dir</url>
         <description>file manager</description>
     </package>
+    <package name="com.tightvnc.TightVNC64">
+        <title>TightVNC 64 bit</title>
+        <url>http://www.tightvnc.com/</url>
+        <description>remote control</description>
+    </package>
     <package name="com.tracker-software.PDFXChangeViewer64">
         <title>PDF-XChange Viewer 64 bit</title>
         <url>http://www.tracker-software.com/product/pdf-xchange-viewer</url>
@@ -271,6 +276,12 @@ This package uses internal version numbers. For example, 1.7.0.1 corresponds to 
         <title>Media Player Classic - Home Cinema 64 bit</title>
         <url>http://mpc-hc.sourceforge.net/</url>
         <description>media player</description>
+        <license>org.gnu.GPLv2</license>
+    </package>
+    <package name="net.sourceforge.smplayer.SMPlayer64">
+        <title>SMPlayer 64 bit</title>
+        <url>http://smplayer.sourceforge.net/</url>
+        <description>video player</description>
         <license>org.gnu.GPLv2</license>
     </package>
     <package name="org.apache.subversion.Subversion64">
@@ -917,6 +928,29 @@ if %err% neq 0 exit /b %err%
         <url>http://cdn.bitbucket.org/tortoisehg/thg/downloads/tortoisehg-2.3.2-hg-2.1.2-x64.msi</url>
         <sha1>b2ec13683cf9354fab8d36b347643d04493375b4</sha1>
     </version>
+    <version name="2.4" package="org.bitbucket.tortoisehg.TortoiseHg64"
+            type="one-file">
+        <file path=".WPM\Install.bat">for /f %%x in ('dir /b *.msi') do set setup=%%x
+copy "%setup%" .WPM
+msiexec.exe /qn /norestart /Lime .WPM\MSI.log /i "%setup%" TARGETDIR="%CD%" ALLUSERS=1
+set err=%errorlevel%
+type .WPM\MSI.log
+rem 3010=restart required
+if %err% equ 3010 exit /b 0
+if %err% neq 0 exit /b %err%
+</file>
+        <file path=".WPM\Uninstall.bat">copy .WPM\*.msi .
+for /f %%x in ('dir /b *.msi') do set setup=%%x
+msiexec.exe /qn /norestart /Lime .WPM\MSI.log /x "%setup%"
+set err=%errorlevel%
+type .WPM\MSI.log
+rem 3010=restart required
+if %err% equ 3010 exit /b 0
+if %err% neq 0 exit /b %err%
+</file>
+        <url>http://bitbucket.org/tortoisehg/thg/downloads/tortoisehg-2.4-hg-2.2.1-x64.msi</url>
+        <sha1>658ff2e6fed29d873390a22e44df31ce72fa636f</sha1>
+    </version>
 
     <version name="2.5.192" package="com.tracker-software.PDFXChangeViewer64"
             type="one-file">
@@ -1253,7 +1287,31 @@ if %err% neq 0 exit /b %err%
         <dependency package="com.googlecode.msysgit.MSysGit" 
                 versions="[1.7.6.2011.7.8, 1.8)"/>
     </version>
-
+    <version package="com.googlecode.tortoisegit.TortoiseGit64" type="one-file" name="1.7.9">
+        <file path=".WPM\Install.bat">for /f %%x in ('dir /b *.msi') do set setup=%%x
+copy "%setup%" .WPM
+msiexec.exe /qn /norestart /Lime .WPM\MSI.log /i "%setup%" TARGETDIR="%CD%" ALLUSERS=1
+set err=%errorlevel%
+type .WPM\MSI.log
+rem 3010=restart required
+if %err% equ 3010 exit /b 0
+if %err% neq 0 exit /b %err%
+</file>
+        <file path=".WPM\Uninstall.bat">move .WPM\*.msi .
+for /f %%x in ('dir /b *.msi') do set setup=%%x
+msiexec.exe /qn /norestart /Lime .WPM\MSI.log /x "%setup%"
+set err=%errorlevel%
+type .WPM\MSI.log
+rem 3010=restart required
+if %err% equ 3010 exit /b 0
+if %err% neq 0 exit /b %err%
+</file>
+        <url>http://tortoisegit.googlecode.com/files/TortoiseGit-1.7.9.0-64bit.msi</url>
+        <sha1>871a27d85390d7949c0708bfafe5674dc106acf4</sha1>
+        <dependency package="com.googlecode.msysgit.MSysGit" versions="[1.7.6.2011.7.8, 1.8)"/>
+    </version>
+    <!-- Detected -->
+    
     <version name="9.20" package="org.7-zip.SevenZIP64" type="one-file">
         <file path=".WPM\Install.bat">for /f "delims=" %%x in ('dir /b *.msi') do set setup=%%x
 copy "%setup%" .WPM
@@ -1920,7 +1978,38 @@ verify
         <url>http://mercurial.selenic.com/release/windows/Mercurial-2.1.2-x64.exe</url>
         <sha1>91ef65ae34f9866c9cc2c2428ecbc59aa1a01379</sha1>
     </version>
+    <version package="com.selenic.mercurial.Mercurial64" type="one-file" name="2.2.1">
+        <file path=".WPM\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x
+"%setup%" /SP- /VERYSILENT /SUPPRESSMSGBOXES /NOCANCEL /NORESTART /DIR="%CD%" /SAVEINF="%CD%\.WPM\InnoSetupInfo.ini" /LOG="%CD%\.WPM\InnoSetupInstall.log"
+set err=%errorlevel%
+type .WPM\InnoSetupInstall.log
+if %err% neq 0 exit %err%
 
+if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
+set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.CLU" "--versions=[1, 2)"
+for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set clu=%%x
+"%clu%\clu" add-path --path "%CD%"
+verify
+</file>
+        <file path=".WPM\Uninstall.bat">unins000.exe /VERYSILENT /SUPPRESSMSGBOXES /NORESTART /LOG="%CD%\.WPM\InnoSetupUninstall.log"
+set err=%errorlevel%
+type .WPM\InnoSetupUninstall.log
+if %err% neq 0 exit %err%
+
+if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
+set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.CLU" "--versions=[1, 2)"
+for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set clu=%%x
+"%clu%\clu" remove-path --path "%CD%"
+verify
+</file>
+        <url>http://mercurial.selenic.com/release/windows/Mercurial-2.2.1-x64.exe</url>
+        <sha1>e5c98220359c3942b026ed5216be4839f1b96dd0</sha1>
+        <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.15.7, 2)"/>
+        <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1, 1]"/>
+        <dependency package="com.googlecode.windows-package-manager.CLU" versions="[1, 2)"/>
+    </version>
+    <!-- Detected -->
+    
     <!-- old versions are regularly deleted, but the package is too big -->
     <version name="1.0.2011.7.18" package="net.sourceforge.mingw-w64.MinGWW6464">
         <file path=".WPM\Install.bat">if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
@@ -2196,6 +2285,24 @@ call "%npackdih%\UninstallMSI.bat"
         <url>http://npackd.googlecode.com/files/com.mysql.MySQLCommunityServer64-5.5.23.msi</url>
         <sha1>32a20b8b0ed8431f87039333ad9e7f3669ae1d06</sha1>
     </version>
+    <version name="5.5.24" package="com.mysql.MySQLCommunityServer64" 
+            type="one-file">
+<file path=".WPM\Install.bat">if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
+set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.NpackdInstallerHelper" "--versions=[1, 1]"
+for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set npackdih=%%x
+call "%npackdih%\InstallMSI.bat" INSTALLDIR
+</file>
+        <file path=".WPM\Uninstall.bat">if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
+set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.NpackdInstallerHelper" "--versions=[1, 1]"
+for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set npackdih=%%x
+call "%npackdih%\UninstallMSI.bat"
+</file>
+        <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1, 1]"/>
+        <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.15.7, 2)"/>
+        <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1, 1]"/>
+        <url>http://npackd.googlecode.com/files/com.mysql.MySQLCommunityServer64-5.5.24.msi</url>
+        <sha1>55bc3bf6b24bb4cf7186a6016d71205ba0101b86</sha1>
+    </version>
 
     <version name="4.51" package="com.softwareok.QDir64">
         <file path=".WPM\Install.bat">for /f "delims=" %%x in ('dir /b Q*') do set name=%%x
@@ -2351,7 +2458,22 @@ del Q-Dir.ini
         <url>http://dl.dropbox.com/u/17046326/files/com.softwareok.QDir64-5.5.zip</url>
         <sha1>a489f6c05eea51bc3456581aad07243955895313</sha1>
     </version>
-
+    <version package="com.softwareok.QDir64" name="5.11">
+        <important-file title="Q-Dir" path="Q-Dir.exe"/>
+        <file path=".WPM\Install.bat">for /f "delims=" %%x in ('dir /b Q*') do set name=%%x
+cd "%name%"        
+for /f "delims=" %%a in ('dir /b') do (
+  move "%%a" ..
+)
+cd ..
+rmdir "%name%"
+del Q-Dir.ini
+</file>
+        <url>http://dl.dropbox.com/u/17046326/files/com.softwareok.QDir64-5.11.zip</url>
+        <sha1>3ed2385a8178e6802edea6434504465b6aa83177</sha1>
+    </version>
+    <!-- Detected -->
+    
     <version name="7.0.12" package="org.apache.tomcat.Tomcat64">
         <file path=".WPM\Install.bat">for /f %%x in ('dir /b apache*') do set name=%%x
 xcopy "%name%\*" . /E /H
@@ -2449,6 +2571,16 @@ rmdir "%name%"
 </file>
         <url>http://npackd.googlecode.com/files/org.apache.tomcat.Tomcat-7.0.26.exe</url>
         <sha1>5002abe6970ef424b6ea8bebfae39a228e215ea6</sha1>
+        <dependency package="com.oracle.JRE" versions="[1.5, 2)"/>
+    </version>
+    <version name="7.0.27" package="org.apache.tomcat.Tomcat64" type="one-file">
+        <file path=".WPM\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x
+"%setup%" /S /D=%CD%
+</file>
+        <file path=".WPM\Uninstall.bat">Uninstall.exe -ServiceName="Tomcat7" /S _?=%CD%
+</file>
+        <url>http://npackd.googlecode.com/files/org.apache.tomcat.Tomcat-7.0.27.exe</url>
+        <sha1>c3e98a3adae9ddde79c4b9411b71605b5d628a19</sha1>
         <dependency package="com.oracle.JRE" versions="[1.5, 2)"/>
     </version>
 
@@ -2736,6 +2868,29 @@ if %err% neq 0 exit /b %err%
 </file>
         <url>http://downloads.sourceforge.net/project/tortoisesvn/1.7.6/Application/TortoiseSVN-1.7.6.22632-x64-svn-1.7.4.msi?ts=1332070506</url>
         <sha1>c7d1deff8b410d028c77bc21b9579733722191a5</sha1>
+    </version>
+    <version name="1.7.7.22907" package="net.tortoisesvn.TortoiseSVN64" 
+            type="one-file">
+        <file path=".WPM\Install.bat">for /f "delims=" %%x in ('dir /b *.msi') do set setup=%%x
+copy "%setup%" .WPM
+msiexec.exe /qn /norestart /Lime .WPM\MSI.log /i "%setup%" INSTALLDIR="%CD%" ALLUSERS=1
+set err=%errorlevel%
+type .WPM\MSI.log
+rem 3010=restart required
+if %err% equ 3010 exit /b 0
+if %err% neq 0 exit /b %err%
+</file>
+        <file path=".WPM\Uninstall.bat">copy .WPM\*.msi .
+for /f "delims=" %%x in ('dir /b *.msi') do set setup=%%x
+msiexec.exe /qn /norestart /Lime .WPM\MSI.log /x "%setup%"
+set err=%errorlevel%
+type .WPM\MSI.log
+rem 3010=restart required
+if %err% equ 3010 exit /b 0
+if %err% neq 0 exit /b %err%
+</file>
+        <url>http://downloads.sourceforge.net/project/tortoisesvn/1.7.7/Application/TortoiseSVN-1.7.7.22907-x64-svn-1.7.5.msi</url>
+        <sha1>72719edf92d4068b119e81657ae27284123a6b27</sha1>
     </version>
 
     <version name="1.0.9.6" package="com.uvnc.UltraVNC64">
@@ -3126,7 +3281,17 @@ rmdir /s /q "%name%"
         <url>http://downloads.sourceforge.net/project/ultradefrag/stable-release/5.0.3/ultradefrag-portable-5.0.3.bin.amd64.zip?ts=1332071225</url>
         <sha1>00308d05b4ec8599a22aa36af069a61d0c665773</sha1>
     </version>
-
+    <version package="org.sourceforge.ultradefrag.UltraDefrag64" name="5.0.5">
+        <important-file title="UltraDefrag" path="ultradefrag.exe"/>
+        <file path=".WPM\Install.bat">for /f "delims=" %%x in ('dir /b ultra*') do set name=%%x
+xcopy "%name%\*" . /E /H
+rmdir /s /q "%name%"    
+</file>
+        <url>http://downloads.sourceforge.net/project/ultradefrag/stable-release/5.0.5/ultradefrag-portable-5.0.5.bin.amd64.zip</url>
+        <sha1>b9837d6c47bb10eb4beae992635d8916e8a44b46</sha1>
+    </version>
+    <!-- Detected -->
+    
     <version name="7.3" package="org.vim.Vim64">
         <file path=".WPM\Install.bat">for /f "delims=" %%x in ('dir /b vim*') do set name=%%x
 cd "%name%"        
@@ -3969,5 +4134,34 @@ rmdir /s /q "%name%"
         <important-file path="iTunes64Setup.exe" title="Installer"/>
         <url>http://appldnld.apple.com/iTunes10/041-4797.20120328.Amc16/iTunes64Setup.exe</url>
         <sha1>628e4c8fcfdbced4d1f1d25aba2d3ead1a28fd1a</sha1>
+    </version>
+
+    <version package="net.sourceforge.smplayer.SMPlayer64" type="one-file" name="0.8">
+        <file path=".WPM\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x
+"%setup%" /S /D=%CD%
+</file>
+        <file path=".WPM\Uninstall.bat">uninst.exe /S _?=%CD%        
+</file>
+        <url>http://downloads.sourceforge.net/project/smplayer/SMPlayer/0.8.0/smplayer-0.8.0-x64.exe</url>
+        <sha1>95f3f8e96bbaba50323d59e2a1fe662efd2cbc1e</sha1>
+    </version>
+    <!-- Detected -->
+
+    <version name="2.5.1" package="com.tightvnc.TightVNC64" type="one-file">
+        <file path=".WPM\Install.bat">if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
+set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.NpackdInstallerHelper" "--versions=[1, 1]"
+for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set npackdih=%%x
+call "%npackdih%\InstallMSI.bat" INSTALLDIR
+</file>
+        <file path=".WPM\Uninstall.bat">if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
+set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.NpackdInstallerHelper" "--versions=[1, 1]"
+for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set npackdih=%%x
+call "%npackdih%\UninstallMSI.bat"
+</file>
+        <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1, 1]"/>
+        <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.15.7, 2)"/>
+        <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1, 1]"/>
+        <url>http://www.tightvnc.com/download/2.5.1/tightvnc-2.5.1-setup-64bit.msi</url>
+        <sha1>ec481a20c928fef2364c5f0f99bfc4ed67dc0895</sha1>
     </version>
 </root>
