@@ -29,12 +29,12 @@
     <version name="1" 
             package="com.advancedinstaller.AdvancedInstallerFreeware"
             type="one-file">
-        <file path=".WPM\Install.bat">if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
+        <file path=".Npackd\Install.bat">if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
 set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.NpackdInstallerHelper" "--versions=[1, 1]"
 for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set npackdih=%%x
 call "%npackdih%\InstallMSI.bat" APPDIR
 </file>
-        <file path=".WPM\Uninstall.bat">if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
+        <file path=".Npackd\Uninstall.bat">if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
 set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.NpackdInstallerHelper" "--versions=[1, 1]"
 for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set npackdih=%%x
 call "%npackdih%\UninstallMSI.bat"
@@ -46,7 +46,7 @@ call "%npackdih%\UninstallMSI.bat"
     </version>
     
     <version name="1" package="net.sourceforge.aria2.Aria2">
-        <file path=".WPM\Install.bat">for /f %%x in ('dir /b aria*') do set name=%%x
+        <file path=".Npackd\Install.bat">for /f %%x in ('dir /b aria*') do set name=%%x
 xcopy "%name%\*" . /E /H
 rmdir /s /q "%name%"
 </file>
@@ -56,7 +56,7 @@ rmdir /s /q "%name%"
     </version>
 
     <version name="1" package="net.blat.Blat">
-        <file path=".WPM\Install.bat">for /f "delims=" %%x in ('dir /b blat*') do set name=%%x
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b blat*') do set name=%%x
 move %name%\docs docs
 copy %name%\full\*.* .
 rmdir /s /q %name%
@@ -68,7 +68,7 @@ for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set clu=%%x
 "%clu%\clu" add-path --path "%CD%"
 verify
 </file>
-        <file path=".WPM\Uninstall.bat">if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
+        <file path=".Npackd\Uninstall.bat">if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
 set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.CLU" "--versions=[1, 2)"
 for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set clu=%%x
 "%clu%\clu" remove-path --path "%CD%"
@@ -82,7 +82,7 @@ verify
     </version>
 
     <version name="1" package="net.sourceforge.aria2.Aria2_64">
-        <file path=".WPM\Install.bat">for /f %%x in ('dir /b aria*') do set name=%%x
+        <file path=".Npackd\Install.bat">for /f %%x in ('dir /b aria*') do set name=%%x
 xcopy "%name%\*" . /E /H
 rmdir /s /q "%name%"
 </file>
@@ -92,7 +92,7 @@ rmdir /s /q "%name%"
     </version>
 
     <version name="1" package="net.blat.Blat64">
-        <file path=".WPM\Install.bat">for /f "delims=" %%x in ('dir /b blat*') do set name=%%x
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b blat*') do set name=%%x
 move %name%\docs docs
 copy %name%\full\*.* .
 rmdir /s /q %name%
@@ -104,7 +104,7 @@ for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set clu=%%x
 "%clu%\clu" add-path --path "%CD%"
 verify
 </file>
-        <file path=".WPM\Uninstall.bat">if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
+        <file path=".Npackd\Uninstall.bat">if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
 set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.CLU" "--versions=[1, 2)"
 for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set clu=%%x
 "%clu%\clu" remove-path --path "%CD%"
@@ -118,7 +118,7 @@ verify
     </version>
 
     <version name="1" package="org.blender.Blender">
-        <file path=".WPM\Install.bat">for /f "delims=" %%x in ('dir /b blender*') do set name=%%x
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b blender*') do set name=%%x
 cd "%name%"        
 for /f "delims=" %%a in ('dir /b') do (
   move "%%a" ..
@@ -132,7 +132,7 @@ rmdir "%name%"
     </version>
 
     <version name="1" package="org.blender.Blender64">
-        <file path=".WPM\Install.bat">for /f "delims=" %%x in ('dir /b blender*') do set name=%%x
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b blender*') do set name=%%x
 cd "%name%"        
 for /f "delims=" %%a in ('dir /b') do (
   move "%%a" ..
@@ -147,10 +147,10 @@ rmdir "%name%"
 
     <version name="1" package="com.piriform.CCleaner" type="one-file">
         <important-file path="CCleaner.exe" title="CCleaner"/>
-        <file path=".WPM\Install.bat">for /f %%x in ('dir /b *.exe') do set setup=%%x
+        <file path=".Npackd\Install.bat">for /f %%x in ('dir /b *.exe') do set setup=%%x
 "%setup%" /S /D=%CD%
 </file>
-        <file path=".WPM\Uninstall.bat">uninst.exe /S _?=%CD%</file>
+        <file path=".Npackd\Uninstall.bat">uninst.exe /S _?=%CD%</file>
         <url>http://download.piriform.com/ccsetup317.exe</url>
     </version>
 
@@ -172,12 +172,12 @@ rmdir "%name%"
 
     <version name="1" package="com.googlecode.gitextensions.GitExtensions"
             type="one-file">
-        <file path=".WPM\Install.bat">if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
+        <file path=".Npackd\Install.bat">if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
 set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.NpackdInstallerHelper" "--versions=[1, 1]"
 for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set npackdih=%%x
 call "%npackdih%\InstallMSI.bat" INSTALLDIR
 </file>
-        <file path=".WPM\Uninstall.bat">if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
+        <file path=".Npackd\Uninstall.bat">if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
 set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.NpackdInstallerHelper" "--versions=[1, 1]"
 for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set npackdih=%%x
 call "%npackdih%\UninstallMSI.bat"
@@ -192,7 +192,7 @@ call "%npackdih%\UninstallMSI.bat"
     </version>
 
     <version name="1" package="com.google.Chrome" type="one-file">
-        <file path=".WPM\AddProperty.vbs">Option Explicit
+        <file path=".Npackd\AddProperty.vbs">Option Explicit
 
 Const MSI_FILE = "GoogleChromeStandaloneEnterprise.msi"
 
@@ -213,7 +213,7 @@ Set database = Nothing
 Set installer = Nothing
 Set view = Nothing
 </file>
-        <file path=".WPM\Install.bat">.WPM\AddProperty.vbs
+        <file path=".Npackd\Install.bat">.Npackd\AddProperty.vbs
 if %errorlevel% neq 0 exit %errorlevel%
 
 if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
@@ -221,7 +221,7 @@ set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-p
 for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set npackdih=%%x
 call "%npackdih%\InstallMSI.bat" TARGETDIR
 </file>
-        <file path=".WPM\Uninstall.bat">if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
+        <file path=".Npackd\Uninstall.bat">if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
 set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.NpackdInstallerHelper" "--versions=[1, 1]"
 for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set npackdih=%%x
 call "%npackdih%\UninstallMSI.bat"
@@ -233,7 +233,7 @@ call "%npackdih%\UninstallMSI.bat"
     </version>
 
     <version name="1" package="org.cmake.CMake">
-        <file path=".WPM\Install.bat">for /f "delims=" %%x in ('dir /b cmake*') do set name=%%x
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b cmake*') do set name=%%x
 cd "%name%"        
 for /f "delims=" %%a in ('dir /b') do (
   move "%%a" ..
@@ -248,7 +248,7 @@ for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set clu=%%x
 "%clu%\clu" add-path --path "%CD%\bin"
 verify
 </file>
-        <file path=".WPM\Uninstall.bat">if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
+        <file path=".Npackd\Uninstall.bat">if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
 set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.CLU" "--versions=[1, 2)"
 for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set clu=%%x
 "%clu%\clu" remove-path --path "%CD%\bin"
@@ -263,7 +263,7 @@ verify
 
     <version package="org.graphicsmagick.GraphicsMagickQ16" name="1" 
             type="one-file">
-        <file path=".WPM\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x
 "%setup%" /SP- /VERYSILENT /SUPPRESSMSGBOXES /NOCANCEL /NORESTART /DIR="%CD%"
 if %errorlevel% neq 0 exit /b %errorlevel%
 
@@ -273,7 +273,7 @@ for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set clu=%%x
 "%clu%\clu" add-path --path "%CD%"
 verify
 </file>
-        <file path=".WPM\Uninstall.bat">unins000.exe /VERYSILENT /SUPPRESSMSGBOXES /NORESTART
+        <file path=".Npackd\Uninstall.bat">unins000.exe /VERYSILENT /SUPPRESSMSGBOXES /NORESTART
 if %errorlevel% neq 0 exit /b %errorlevel%
 
 if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
@@ -296,15 +296,15 @@ verify
     </version>
     
     <version name="1" package="com.maniactools.FreeM4aToMP3Converter" type="one-file">
-        <file path=".WPM\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x
-"%setup%" /SP- /VERYSILENT /SUPPRESSMSGBOXES /NOCANCEL /NORESTART /DIR="%CD%" /SAVEINF="%CD%\.WPM\InnoSetupInfo.ini" /LOG="%CD%\.WPM\InnoSetupInstall.log"
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x
+"%setup%" /SP- /VERYSILENT /SUPPRESSMSGBOXES /NOCANCEL /NORESTART /DIR="%CD%" /SAVEINF="%CD%\.Npackd\InnoSetupInfo.ini" /LOG="%CD%\.Npackd\InnoSetupInstall.log"
 set err=%errorlevel%
-type .WPM\InnoSetupInstall.log
+type .Npackd\InnoSetupInstall.log
 if %err% neq 0 exit %err%
 </file>
-        <file path=".WPM\Uninstall.bat">unins000.exe /VERYSILENT /SUPPRESSMSGBOXES /NORESTART /LOG="%CD%\.WPM\InnoSetupUninstall.log"
+        <file path=".Npackd\Uninstall.bat">unins000.exe /VERYSILENT /SUPPRESSMSGBOXES /NORESTART /LOG="%CD%\.Npackd\InnoSetupUninstall.log"
 set err=%errorlevel%
-type .WPM\InnoSetupUninstall.log
+type .Npackd\InnoSetupUninstall.log
 if %err% neq 0 exit %err%
 </file>
         <url>http://dl.dropbox.com/u/17046326/files/com.maniactools.FreeM4aToMP3Converter-7.0.61.exe</url>
@@ -314,7 +314,7 @@ if %err% neq 0 exit %err%
     <version name="1"
             package="com.dvdvideosoft.FreeYouTubeToMP3ConverterInstaller"
             type="one-file">
-        <file path=".WPM\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x
 ren "%setup%" com.dvdvideosoft.FreeYouTubeToMP3ConverterInstaller.exe
 </file>
         <important-file path="com.dvdvideosoft.FreeYouTubeToMP3ConverterInstaller.exe" title="Installer"/>
@@ -329,7 +329,7 @@ ren "%setup%" com.dvdvideosoft.FreeYouTubeToMP3ConverterInstaller.exe
     </version>
 
     <version name="1" package="org.golang.Go" type="one-file">
-        <file path=".WPM\AddProperty.vbs">Option Explicit
+        <file path=".Npackd\AddProperty.vbs">Option Explicit
 
 Dim MSI_FILE
 MSI_FILE = Wscript.Arguments(0)
@@ -351,8 +351,8 @@ Set database = Nothing
 Set installer = Nothing
 Set view = Nothing
 </file>
-        <file path=".WPM\Install.bat">for /f "delims=" %%x in ('dir /b *.msi') do set setup=%%x
-.WPM\AddProperty.vbs "%setup%"
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.msi') do set setup=%%x
+.Npackd\AddProperty.vbs "%setup%"
 if %errorlevel% neq 0 exit %errorlevel%
 
 if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
@@ -360,7 +360,7 @@ set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-p
 for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set npackdih=%%x
 call "%npackdih%\InstallMSI.bat" INSTALLDIR
 </file>
-        <file path=".WPM\Uninstall.bat">if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
+        <file path=".Npackd\Uninstall.bat">if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
 set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.NpackdInstallerHelper" "--versions=[1, 1]"
 for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set npackdih=%%x
 call "%npackdih%\UninstallMSI.bat"
@@ -373,7 +373,7 @@ call "%npackdih%\UninstallMSI.bat"
     </version>
 
     <version name="1" package="org.golang.Go64" type="one-file">
-        <file path=".WPM\AddProperty.vbs">Option Explicit
+        <file path=".Npackd\AddProperty.vbs">Option Explicit
 
 Dim MSI_FILE
 MSI_FILE = Wscript.Arguments(0)
@@ -395,8 +395,8 @@ Set database = Nothing
 Set installer = Nothing
 Set view = Nothing
 </file>
-        <file path=".WPM\Install.bat">for /f "delims=" %%x in ('dir /b *.msi') do set setup=%%x
-.WPM\AddProperty.vbs "%setup%"
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.msi') do set setup=%%x
+.Npackd\AddProperty.vbs "%setup%"
 if %errorlevel% neq 0 exit %errorlevel%
 
 if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
@@ -404,7 +404,7 @@ set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-p
 for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set npackdih=%%x
 call "%npackdih%\InstallMSI.bat" INSTALLDIR
 </file>
-        <file path=".WPM\Uninstall.bat">if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
+        <file path=".Npackd\Uninstall.bat">if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
 set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.NpackdInstallerHelper" "--versions=[1, 1]"
 for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set npackdih=%%x
 call "%npackdih%\UninstallMSI.bat"
@@ -418,7 +418,7 @@ call "%npackdih%\UninstallMSI.bat"
 
     <version name="1" package="com.googlecode.golangide.GoLangIDE"> 
         <important-file path="bin\liteide.bat" title="Go LiteIDE"/> 
-        <file path=".WPM\Install.bat">set name=liteide
+        <file path=".Npackd\Install.bat">set name=liteide
 cd "%name%" 
 for /f "delims=" %%a in ('dir /b') do (
   move "%%a" ..
@@ -442,10 +442,10 @@ call liteide.exe
 
     <version name="1" package="net.sourceforge.jabref.JabRef" 
             type="one-file">
-        <file path=".WPM\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x
 "%setup%" /S /D=%CD%\Prog
 </file>
-        <file path=".WPM\Uninstall.bat">Prog\uninstall.exe /S _?=%CD%\Prog
+        <file path=".Npackd\Uninstall.bat">Prog\uninstall.exe /S _?=%CD%\Prog
 verify        
 </file>
         <url>http://downloads.sourceforge.net/project/jabref/jabref/2.7.2/JabRef-2.7.2-setup.exe?ts=1320569057</url>
@@ -454,15 +454,15 @@ verify
     </version>
 
     <version name="1" package="info.keepass.KeePassClassic" type="one-file">
-        <file path=".WPM\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x
-"%setup%" /SP- /VERYSILENT /SUPPRESSMSGBOXES /NOCANCEL /NORESTART /DIR="%CD%" /SAVEINF="%CD%\.WPM\InnoSetupInfo.ini" /LOG="%CD%\.WPM\InnoSetupInstall.log"
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x
+"%setup%" /SP- /VERYSILENT /SUPPRESSMSGBOXES /NOCANCEL /NORESTART /DIR="%CD%" /SAVEINF="%CD%\.Npackd\InnoSetupInfo.ini" /LOG="%CD%\.Npackd\InnoSetupInstall.log"
 set err=%errorlevel%
-type .WPM\InnoSetupInstall.log
+type .Npackd\InnoSetupInstall.log
 if %err% neq 0 exit %err%    
 </file>
-        <file path=".WPM\Uninstall.bat">unins000.exe /VERYSILENT /SUPPRESSMSGBOXES /NORESTART /LOG="%CD%\.WPM\InnoSetupUninstall.log"
+        <file path=".Npackd\Uninstall.bat">unins000.exe /VERYSILENT /SUPPRESSMSGBOXES /NORESTART /LOG="%CD%\.Npackd\InnoSetupUninstall.log"
 set err=%errorlevel%
-type .WPM\InnoSetupUninstall.log
+type .Npackd\InnoSetupUninstall.log
 if %err% neq 0 exit %err%
 </file>
         <url>http://downloads.sourceforge.net/project/keepass/KeePass%201.x/1.21/KeePass-1.21-Setup.exe?ts=1320569455</url>
@@ -470,15 +470,15 @@ if %err% neq 0 exit %err%
     </version>
 
     <version name="1" package="info.keepass.KeePass" type="one-file">
-        <file path=".WPM\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x
-"%setup%" /SP- /VERYSILENT /SUPPRESSMSGBOXES /NOCANCEL /NORESTART /DIR="%CD%" /SAVEINF="%CD%\.WPM\InnoSetupInfo.ini" /LOG="%CD%\.WPM\InnoSetupInstall.log"
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x
+"%setup%" /SP- /VERYSILENT /SUPPRESSMSGBOXES /NOCANCEL /NORESTART /DIR="%CD%" /SAVEINF="%CD%\.Npackd\InnoSetupInfo.ini" /LOG="%CD%\.Npackd\InnoSetupInstall.log"
 set err=%errorlevel%
-type .WPM\InnoSetupInstall.log
+type .Npackd\InnoSetupInstall.log
 if %err% neq 0 exit %err%    
 </file>
-        <file path=".WPM\Uninstall.bat">unins000.exe /VERYSILENT /SUPPRESSMSGBOXES /NORESTART /LOG="%CD%\.WPM\InnoSetupUninstall.log"
+        <file path=".Npackd\Uninstall.bat">unins000.exe /VERYSILENT /SUPPRESSMSGBOXES /NORESTART /LOG="%CD%\.Npackd\InnoSetupUninstall.log"
 set err=%errorlevel%
-type .WPM\InnoSetupUninstall.log
+type .Npackd\InnoSetupUninstall.log
 if %err% neq 0 exit %err%
 </file>
         <url>http://downloads.sourceforge.net/project/keepass/KeePass%202.x/2.18/KeePass-2.18-Setup.exe?ts=1326059114</url>
@@ -487,15 +487,15 @@ if %err% neq 0 exit %err%
 
     <version name="1" package="org.freepascal.lazarus.Lazarus"
             type="one-file">
-        <file path=".WPM\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x
-"%setup%" /SP- /VERYSILENT /SUPPRESSMSGBOXES /NOCANCEL /NORESTART /DIR="%CD%" /SAVEINF="%CD%\.WPM\InnoSetupInfo.ini" /LOG="%CD%\.WPM\InnoSetupInstall.log"
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x
+"%setup%" /SP- /VERYSILENT /SUPPRESSMSGBOXES /NOCANCEL /NORESTART /DIR="%CD%" /SAVEINF="%CD%\.Npackd\InnoSetupInfo.ini" /LOG="%CD%\.Npackd\InnoSetupInstall.log"
 set err=%errorlevel%
-type .WPM\InnoSetupInstall.log
+type .Npackd\InnoSetupInstall.log
 if %err% neq 0 exit %err%
 </file>
-        <file path=".WPM\Uninstall.bat">unins000.exe /VERYSILENT /SUPPRESSMSGBOXES /NORESTART /LOG="%CD%\.WPM\InnoSetupUninstall.log"
+        <file path=".Npackd\Uninstall.bat">unins000.exe /VERYSILENT /SUPPRESSMSGBOXES /NORESTART /LOG="%CD%\.Npackd\InnoSetupUninstall.log"
 set err=%errorlevel%
-type .WPM\InnoSetupUninstall.log
+type .Npackd\InnoSetupUninstall.log
 if %err% neq 0 exit %err%
 </file>
         <url>http://downloads.sourceforge.net/project/lazarus/Lazarus%20Windows%2032%20bits/Lazarus%200.9.30/lazarus-0.9.30-fpc-2.4.2-win32.exe?ts=1302292697</url>
@@ -504,12 +504,12 @@ if %err% neq 0 exit %err%
 
     <version name="1" package="org.libreoffice.LibreOffice" 
             type="one-file">
-        <file path=".WPM\Install.bat">if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
+        <file path=".Npackd\Install.bat">if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
 set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.NpackdInstallerHelper" "--versions=[1, 1]"
 for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set npackdih=%%x
 call "%npackdih%\InstallMSI.bat" TARGETDIR
 </file>
-        <file path=".WPM\Uninstall.bat">if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
+        <file path=".Npackd\Uninstall.bat">if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
 set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.NpackdInstallerHelper" "--versions=[1, 1]"
 for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set npackdih=%%x
 call "%npackdih%\UninstallMSI.bat"
@@ -524,10 +524,10 @@ call "%npackdih%\UninstallMSI.bat"
 
     <version name="1" package="com.selenic.mercurial.Mercurial"
             type="one-file">
-       <file path=".WPM\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x
-"%setup%" /SP- /VERYSILENT /SUPPRESSMSGBOXES /NOCANCEL /NORESTART /DIR="%CD%" /SAVEINF="%CD%\.WPM\InnoSetupInfo.ini" /LOG="%CD%\.WPM\InnoSetupInstall.log"
+       <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x
+"%setup%" /SP- /VERYSILENT /SUPPRESSMSGBOXES /NOCANCEL /NORESTART /DIR="%CD%" /SAVEINF="%CD%\.Npackd\InnoSetupInfo.ini" /LOG="%CD%\.Npackd\InnoSetupInstall.log"
 set err=%errorlevel%
-type .WPM\InnoSetupInstall.log
+type .Npackd\InnoSetupInstall.log
 if %err% neq 0 exit %err%
 
 if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
@@ -536,9 +536,9 @@ for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set clu=%%x
 "%clu%\clu" add-path --path "%CD%"
 verify
 </file>
-        <file path=".WPM\Uninstall.bat">unins000.exe /VERYSILENT /SUPPRESSMSGBOXES /NORESTART /LOG="%CD%\.WPM\InnoSetupUninstall.log"
+        <file path=".Npackd\Uninstall.bat">unins000.exe /VERYSILENT /SUPPRESSMSGBOXES /NORESTART /LOG="%CD%\.Npackd\InnoSetupUninstall.log"
 set err=%errorlevel%
-type .WPM\InnoSetupUninstall.log
+type .Npackd\InnoSetupUninstall.log
 if %err% neq 0 exit %err%
 
 if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
@@ -556,10 +556,10 @@ verify
 
     <version name="1" package="com.selenic.mercurial.Mercurial64"
             type="one-file">
-       <file path=".WPM\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x
-"%setup%" /SP- /VERYSILENT /SUPPRESSMSGBOXES /NOCANCEL /NORESTART /DIR="%CD%" /SAVEINF="%CD%\.WPM\InnoSetupInfo.ini" /LOG="%CD%\.WPM\InnoSetupInstall.log"
+       <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x
+"%setup%" /SP- /VERYSILENT /SUPPRESSMSGBOXES /NOCANCEL /NORESTART /DIR="%CD%" /SAVEINF="%CD%\.Npackd\InnoSetupInfo.ini" /LOG="%CD%\.Npackd\InnoSetupInstall.log"
 set err=%errorlevel%
-type .WPM\InnoSetupInstall.log
+type .Npackd\InnoSetupInstall.log
 if %err% neq 0 exit %err%
 
 if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
@@ -568,9 +568,9 @@ for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set clu=%%x
 "%clu%\clu" add-path --path "%CD%"
 verify
 </file>
-        <file path=".WPM\Uninstall.bat">unins000.exe /VERYSILENT /SUPPRESSMSGBOXES /NORESTART /LOG="%CD%\.WPM\InnoSetupUninstall.log"
+        <file path=".Npackd\Uninstall.bat">unins000.exe /VERYSILENT /SUPPRESSMSGBOXES /NORESTART /LOG="%CD%\.Npackd\InnoSetupUninstall.log"
 set err=%errorlevel%
-type .WPM\InnoSetupUninstall.log
+type .Npackd\InnoSetupUninstall.log
 if %err% neq 0 exit %err%
 
 if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
@@ -587,27 +587,27 @@ verify
     </version>
 
     <version name="1" package="com.getmiro.Miro" type="one-file">
-        <file path=".WPM\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x
 "%setup%" /S /D=%CD%
 </file>
-        <file path=".WPM\Uninstall.bat">Uninstall.exe /S _?=%CD%
+        <file path=".Npackd\Uninstall.bat">Uninstall.exe /S _?=%CD%
 </file>        
         <url>http://ftp.osuosl.org/pub/pculture.org/Miro/win/Miro-4.0.6.exe</url>
         <sha1>ffd14460744b8b6dd723cbc43fc75063e31e32ed</sha1>
     </version>
 
     <version name="1" package="de.mp3tag.MP3Tag" type="one-file">
-        <file path=".WPM\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x
 "%setup%" /S /D=%CD%
 </file>
-        <file path=".WPM\Uninstall.bat">Mp3tagUninstall.exe /S _?=%CD%
+        <file path=".Npackd\Uninstall.bat">Mp3tagUninstall.exe /S _?=%CD%
 </file>        
         <url>http://dl.dropbox.com/u/17046326/files/de.mp3tag.MP3Tag-2.50.exe</url>
         <sha1>63301c7df42ecdc7291fc645416bdc861c517f3d</sha1>
     </version>
 
     <version name="1" package="org.nodejs.NodeJS" type="one-file">
-        <file path=".WPM\AddProperty.vbs">Option Explicit
+        <file path=".Npackd\AddProperty.vbs">Option Explicit
 
 Const MSI_FILE = "node.msi"
 
@@ -628,10 +628,10 @@ Set database = Nothing
 Set installer = Nothing
 Set view = Nothing
 </file>
-        <file path=".WPM\Install.bat">for /f "delims=" %%x in ('dir /b *.msi') do set setup=%%x
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.msi') do set setup=%%x
 ren "%setup%" node.msi
  
-.WPM\AddProperty.vbs
+.Npackd\AddProperty.vbs
 if %errorlevel% neq 0 exit %errorlevel%
 
 if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
@@ -646,7 +646,7 @@ for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set clu=%%x
 "%clu%\clu" add-path --path "%CD%"
 verify
 </file>
-        <file path=".WPM\Uninstall.bat">if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
+        <file path=".Npackd\Uninstall.bat">if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
 set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.NpackdInstallerHelper" "--versions=[1, 1]"
 for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set npackdih=%%x
 call "%npackdih%\UninstallMSI.bat"
@@ -666,12 +666,12 @@ verify
     </version>
 
     <version name="1" package="org.openoffice.OpenOffice" type="one-file">
-        <file path=".WPM\Install.bat">for /f %%x in ('dir /b *.exe') do set setup=%%x
+        <file path=".Npackd\Install.bat">for /f %%x in ('dir /b *.exe') do set setup=%%x
 "%setup%" /S /D=%CD%
 </file>
-        <file path=".WPM\Uninstall.bat">msiexec.exe /qn /norestart /Lime .WPM\MSI.log /x{ED23E382-E5E3-4E21-B616-01FC59A40916}
+        <file path=".Npackd\Uninstall.bat">msiexec.exe /qn /norestart /Lime .Npackd\MSI.log /x{ED23E382-E5E3-4E21-B616-01FC59A40916}
 set err=%errorlevel%
-type .WPM\MSI.log
+type .Npackd\MSI.log
 rem 3010=restart required
 if %err% equ 3010 exit /b 0
 if %err% neq 0 exit /b %err%
@@ -682,7 +682,7 @@ if %err% neq 0 exit /b %err%
 
     <version name="1" package="com.opera.Opera" type="one-file">
         <important-file path="Opera.exe" title="Opera"/>
-        <file path=".WPM\Install.bat">if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
+        <file path=".Npackd\Install.bat">if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
 set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=org.7-zip.SevenZIPA" "--versions=[9.20, 9.20]"
 for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set sevenzipa=%%x
 for /f %%x in ('dir /b *.exe') do set setup=%%x
@@ -697,16 +697,16 @@ for /f %%x in ('dir /b *.exe') do set setup=%%x
 
     <version name="1" package="net.sourceforge.pidgin.Pidgin" type="one-file">
         <important-file path="pidgin.exe" title="Pidgin"/>
-        <file path=".WPM\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x
 "%setup%" /S /D=%CD%
 </file>
-        <file path=".WPM\Uninstall.bat">pidgin-uninst.exe /S</file>
+        <file path=".Npackd\Uninstall.bat">pidgin-uninst.exe /S</file>
         <url>http://downloads.sourceforge.net/project/pidgin/Pidgin/2.10.3/pidgin-2.10.3.exe</url>
         <sha1>62b9a175a488412c2c65ee95b40232e1f3fc2fac</sha1>
     </version>
 
     <version name="1" package="com.softwareok.QDir">
-        <file path=".WPM\Install.bat">for /f "delims=" %%x in ('dir /b Q*') do set name=%%x
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b Q*') do set name=%%x
 cd "%name%"        
 for /f "delims=" %%a in ('dir /b') do (
   move "%%a" ..
@@ -721,7 +721,7 @@ del Q-Dir.ini
     </version>
 
     <version name="1" package="com.softwareok.QDir64">
-        <file path=".WPM\Install.bat">for /f "delims=" %%x in ('dir /b Q*') do set name=%%x
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b Q*') do set name=%%x
 cd "%name%"        
 for /f "delims=" %%a in ('dir /b') do (
   move "%%a" ..
@@ -737,7 +737,7 @@ del Q-Dir.ini
 
     <version name="1" package="com.nokia.QtCreatorInstaller"
             type="one-file">
-        <file path=".WPM\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x
 ren "%setup%" qt-creator-win-opensource.exe
 </file>
         <important-file path="qt-creator-win-opensource.exe" title="Installer"/>
@@ -747,7 +747,7 @@ ren "%setup%" qt-creator-win-opensource.exe
 
     <version name="1" package="net.sourceforge.realterm.RealtermInstaller"
             type="one-file">
-        <file path=".WPM\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x
 ren "%setup%" Realterm_setup.exe
 </file>
         <important-file path="Realterm_setup.exe" title="Installer"/>
@@ -757,20 +757,20 @@ ren "%setup%" Realterm_setup.exe
 
     <version name="1" package="net.sourceforge.smplayer.SMPlayer"
             type="one-file">
-        <file path=".WPM\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x
 "%setup%" /S /D=%CD%
 </file>
-        <file path=".WPM\Uninstall.bat">uninst.exe /S _?=%CD%        
+        <file path=".Npackd\Uninstall.bat">uninst.exe /S _?=%CD%        
 </file>
         <url>https://downloads.sourceforge.net/project/smplayer/SMPlayer/0.7.1/smplayer-0.7.1-win32.exe?ts=1332064467</url>
         <sha1>c7962e5971cb5d1b43f22e2b3f72b8a9590141a6</sha1>
     </version>
 
     <version package="net.sourceforge.smplayer.SMPlayer64" type="one-file" name="1">
-        <file path=".WPM\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x
 "%setup%" /S /D=%CD%
 </file>
-        <file path=".WPM\Uninstall.bat">uninst.exe /S _?=%CD%        
+        <file path=".Npackd\Uninstall.bat">uninst.exe /S _?=%CD%        
 </file>
         <url>http://downloads.sourceforge.net/project/smplayer/SMPlayer/0.8.0/smplayer-0.8.0-win32.exe</url>
         <sha1>c017aee27c56bad96e60620b5e9e23c764e349a4</sha1>
@@ -778,26 +778,26 @@ ren "%setup%" Realterm_setup.exe
 
     <version name="1" package="org.mozilla.Thunderbird"
             type="one-file">
-        <file path=".WPM\Install.bat">echo [Install] > .WPM\FF.ini
-echo InstallDirectoryPath=%CD% >> .WPM\FF.ini
-echo QuickLaunchShortcut=false >> .WPM\FF.ini
-echo DesktopShortcut=false >> .WPM\FF.ini
+        <file path=".Npackd\Install.bat">echo [Install] > .Npackd\FF.ini
+echo InstallDirectoryPath=%CD% >> .Npackd\FF.ini
+echo QuickLaunchShortcut=false >> .Npackd\FF.ini
+echo DesktopShortcut=false >> .Npackd\FF.ini
 for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x
-"%setup%" /INI="%CD%\.WPM\FF.ini"
+"%setup%" /INI="%CD%\.Npackd\FF.ini"
 </file>
-        <file path=".WPM\Uninstall.bat">uninstall\helper.exe /S</file>
+        <file path=".Npackd\Uninstall.bat">uninstall\helper.exe /S</file>
         <url>http://npackd.googlecode.com/files/org.mozilla.Thunderbird-12.exe</url>
         <sha1>39f754419d1c0803ec1664fba603c74aecd7adab</sha1>
     </version>
 
     <version name="1" package="com.googlecode.tortoisegit.TortoiseGit"
             type="one-file">
-       <file path=".WPM\Install.bat">if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
+       <file path=".Npackd\Install.bat">if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
 set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.NpackdInstallerHelper" "--versions=[1, 1]"
 for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set npackdih=%%x
 call "%npackdih%\InstallMSI.bat" TARGETDIR
 </file>
-        <file path=".WPM\Uninstall.bat">if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
+        <file path=".Npackd\Uninstall.bat">if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
 set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.NpackdInstallerHelper" "--versions=[1, 1]"
 for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set npackdih=%%x
 call "%npackdih%\UninstallMSI.bat"
@@ -813,20 +813,20 @@ call "%npackdih%\UninstallMSI.bat"
 
     <version name="1" package="com.googlecode.tortoisegit.TortoiseGit64"
             type="one-file">
-        <file path=".WPM\Install.bat">for /f %%x in ('dir /b *.msi') do set setup=%%x
-copy "%setup%" .WPM
-msiexec.exe /qn /norestart /Lime .WPM\MSI.log /i "%setup%" TARGETDIR="%CD%" ALLUSERS=1
+        <file path=".Npackd\Install.bat">for /f %%x in ('dir /b *.msi') do set setup=%%x
+copy "%setup%" .Npackd
+msiexec.exe /qn /norestart /Lime .Npackd\MSI.log /i "%setup%" TARGETDIR="%CD%" ALLUSERS=1
 set err=%errorlevel%
-type .WPM\MSI.log
+type .Npackd\MSI.log
 rem 3010=restart required
 if %err% equ 3010 exit /b 0
 if %err% neq 0 exit /b %err%
 </file>
-        <file path=".WPM\Uninstall.bat">move .WPM\*.msi .
+        <file path=".Npackd\Uninstall.bat">move .Npackd\*.msi .
 for /f %%x in ('dir /b *.msi') do set setup=%%x
-msiexec.exe /qn /norestart /Lime .WPM\MSI.log /x "%setup%"
+msiexec.exe /qn /norestart /Lime .Npackd\MSI.log /x "%setup%"
 set err=%errorlevel%
-type .WPM\MSI.log
+type .Npackd\MSI.log
 rem 3010=restart required
 if %err% equ 3010 exit /b 0
 if %err% neq 0 exit /b %err%
@@ -838,7 +838,7 @@ if %err% neq 0 exit /b %err%
     </version>
 
     <version name="1" package="org.sourceforge.ultradefrag.UltraDefrag">
-        <file path=".WPM\Install.bat">for /f "delims=" %%x in ('dir /b ultra*') do set name=%%x
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b ultra*') do set name=%%x
 cd "%name%"        
 for /f "delims=" %%a in ('dir /b') do (
   move "%%a" ..
@@ -852,7 +852,7 @@ rmdir "%name%"
     </version>
 
     <version name="1" package="org.sourceforge.ultradefrag.UltraDefrag64">
-        <file path=".WPM\Install.bat">for /f "delims=" %%x in ('dir /b ultra*') do set name=%%x
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b ultra*') do set name=%%x
 xcopy "%name%\*" . /E /H
 rmdir /s /q "%name%"    
 </file>
