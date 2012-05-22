@@ -92,8 +92,11 @@ QString App::reinstallTestPackage(QString rep)
     if (!f.open(QIODevice::ReadOnly))
         err = "Cannot open the repository file";
 
-    if (err.isEmpty())
-        doc.setContent(&f, false, &err, &errorLine, &errorColumn);
+    if (err.isEmpty()) {
+        if (!doc.setContent(&f, false, &err, &errorLine, &errorColumn))
+            err = QString("XML parsing failed at line %1, column %2: %3").
+                arg(errorLine).arg(errorColumn).arg(err);
+    }
 
     if (err.isEmpty()) {
         Job* job = new Job();

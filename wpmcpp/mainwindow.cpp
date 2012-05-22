@@ -1130,7 +1130,7 @@ void MainWindow::updateInstallAction()
 
 void MainWindow::updateUninstallAction()
 {
-    qDebug() << "MainWindow::updateUninstallAction start";
+    // qDebug() << "MainWindow::updateUninstallAction start";
 
     Selection* selection = Selection::findCurrent();
 
@@ -1172,7 +1172,7 @@ void MainWindow::updateUninstallAction()
         }
     }
     this->ui->actionUninstall->setEnabled(enabled);
-    qDebug() << "MainWindow::updateUninstallAction end " << enabled;
+    // qDebug() << "MainWindow::updateUninstallAction end " << enabled;
 }
 
 void MainWindow::updateUpdateAction()
