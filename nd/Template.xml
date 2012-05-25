@@ -686,7 +686,7 @@ if %err% neq 0 exit /b %err%
 set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=org.7-zip.SevenZIPA" "--versions=[9.20, 9.20]"
 for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set sevenzipa=%%x
 for /f %%x in ('dir /b *.exe') do set setup=%%x
-"%sevenzipa%\7za.exe" x "%setup%"
+"%sevenzipa%\7za.exe" x "%setup%" &gt; Output.txt &amp;&amp; type Output.txt
 </file>
         <url>http://get-ice-1.opera.com/pub/opera/win/1162/int/Opera_1162_int_Setup.exe</url>
         <sha1>fdbcf5a4cdeff80cbd5627a9dca7f02eed06f8fb</sha1>
