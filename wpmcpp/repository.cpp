@@ -1677,7 +1677,9 @@ void Repository::loadOne(const QString& filename, Job* job)
         int errorLine, errorColumn;
         QString err;
         if (!doc.setContent(&f, false, &err, &errorLine, &errorColumn))
-            job->setErrorMessage(err);
+            job->setErrorMessage(QString(
+                    "XML parsing failed at line %1, column %2: %3").
+                    arg(errorLine).arg(errorColumn).arg(err));
         else
             job->setProgress(0.6);
     }

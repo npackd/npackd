@@ -34,10 +34,11 @@ SOURCES += main.cpp \
     ../wpmcpp/license.cpp \
     ../wpmcpp/windowsregistry.cpp \
     ../wpmcpp/detectfile.cpp \
-    app.cpp \
     ../wpmcpp/commandline.cpp \
     ../wpmcpp/xmlutils.cpp \
-    updatesearcher.cpp
+    updatesearcher.cpp \
+    ndapp.cpp \
+    ../wpmcpp/clprogress.cpp
 
 HEADERS += ../wpmcpp/repository.h \
     ../wpmcpp/version.h \
@@ -56,4 +57,5 @@ HEADERS += ../wpmcpp/repository.h \
     ../wpmcpp/commandline.h \
     ../wpmcpp/xmlutils.h \
     updatesearcher.h \
-    app.h
+    ndapp.h \
+    ../wpmcpp/clprogress.h
