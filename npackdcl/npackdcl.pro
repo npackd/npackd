@@ -29,7 +29,8 @@ SOURCES += main.cpp \
     ../wpmcpp/detectfile.cpp \
     app.cpp \
     ../wpmcpp/commandline.cpp \
-    ../wpmcpp/xmlutils.cpp
+    ../wpmcpp/xmlutils.cpp \
+    ../wpmcpp/clprogress.cpp
 HEADERS += ../wpmcpp/repository.h \
     ../wpmcpp/version.h \
     ../wpmcpp/packageversionfile.h \
@@ -46,5 +47,6 @@ HEADERS += ../wpmcpp/repository.h \
     ../wpmcpp/detectfile.h \
     app.h \
     ../wpmcpp/commandline.h \
-    ../wpmcpp/xmlutils.h
+    ../wpmcpp/xmlutils.h \
+    ../wpmcpp/clprogress.h
 FORMS += 

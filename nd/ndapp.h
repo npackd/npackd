@@ -11,6 +11,7 @@
 #include "..\wpmcpp\repository.h"
 #include "..\wpmcpp\commandline.h"
 #include "..\wpmcpp\job.h"
+#include "..\wpmcpp\clprogress.h"
 
 /**
  * ND
@@ -18,16 +19,10 @@
 class App: public QObject
 {
     Q_OBJECT
-private slots:
-    void jobChanged(const JobState& s);
-    void jobChangedSimple(const JobState& s);
 private:
-    CONSOLE_SCREEN_BUFFER_INFO progressPos;
-    time_t lastJobChange;
-    QString lastHint;
-
     CommandLine cl;
-    Job* createJob();
+    CLProgress clp;
+
     void addNpackdCL();
 
     void usage();
