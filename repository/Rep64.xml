@@ -3067,23 +3067,6 @@ if %err% neq 0 exit /b %err%
         <sha1>1EB84EEAE7729EA5DB7FE79779F4E216114261BA</sha1>
     </version>
 
-    <version name="4.1.24" package="ch.flos-freeware.Notepad264">
-<file path=".Npackd\Install.bat">set key=ch.flos-freeware.Notepad264-4.1.24
-reg add HKLM\SOFTWARE\Classes\Applications\%key%\shell\open /v FriendlyAppName /d "Notepad2 64 bit (4.1.24)" /f
-set c=\"%CD%\Notepad2.exe\" \"%%1\"
-reg add HKLM\SOFTWARE\Classes\Applications\%KEY%\shell\open\command /d "%c%" /f
-for %%g in (txt log ini h hpp hxx c cpp cxx cc m java cs pas inc html htm php phtml js jsp asp css xml sh bsh nsi nsh lua pl pm py as mx vb vbs f for f90 f95 f2k tex sql nfo mak) do reg add HKLM\SOFTWARE\Classes\.%%g\OpenWithList\%key% /f
-verify
-</file>
-        <file path=".Npackd\Uninstall.bat">set key=ch.flos-freeware.Notepad264-4.1.24
-reg delete HKLM\SOFTWARE\Classes\Applications\%key% /f
-for %%g in (txt log ini h hpp hxx c cpp cxx cc m java cs pas inc html htm php phtml js jsp asp css xml sh bsh nsi nsh lua pl pm py as mx vb vbs f for f90 f95 f2k tex sql nfo mak) do reg delete HKLM\SOFTWARE\Classes\.%%g\OpenWithList\%key% /f
-verify
-</file>
-        <important-file path="Notepad2.exe" title="Notepad2"/>
-        <url>http://notepad2-x64.googlecode.com/files/Notepad2-4.1.24-x86-64.zip</url>
-        <sha1>618224CD0113E5D02E6C9C92393F8B1D0FABC3FA</sha1>
-    </version>
     <version name="4.2.25" package="ch.flos-freeware.Notepad264">
 <file path=".Npackd\Install.bat">
 set version=4.2.25
@@ -3681,7 +3664,7 @@ xcopy "%name%\*" . /E /H
 rmdir /s /q "%name%"
 </file>
         <important-file path="eclipse.exe" title="Eclipse"/>
-        <url>http://ftp-stud.fht-esslingen.de/pub/Mirrors/eclipse/technology/epp/downloads/release/helios/SR1/eclipse-jee-helios-SR1-win32-x86_64.zip</url>
+        <url>http://downloads.sourceforge.net/project/npackd/org.eclipse.EclipseIDEJEE64-3.6.1.zip</url>
         <dependency package="com.oracle.JRE64" versions="[1.6, 2)"/>
         <sha1>2475EAD1FC6EC46BD943876E22E5E121F1C0923C</sha1>
     </version>
@@ -3691,19 +3674,9 @@ xcopy "%name%\*" . /E /H
 rmdir /s /q "%name%"
 </file>
         <important-file path="eclipse.exe" title="Eclipse"/>
-        <url>http://ftp-stud.fht-esslingen.de/pub/Mirrors/eclipse/technology/epp/downloads/release/indigo/R/eclipse-jee-indigo-win32-x86_64.zip</url>
+        <url>http://downloads.sourceforge.net/project/npackd/org.eclipse.EclipseIDEJEE64-3.7.zip</url>
         <dependency package="com.oracle.JRE64" versions="[1.6, 2)"/>
         <sha1>7b0e893f8af54ebe4cd3f16797e4527664a20112</sha1>
-    </version>
-    <version name="3.7.1" package="org.eclipse.EclipseIDEJEE64">
-        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b eclipse*') do set name=%%x
-xcopy "%name%\*" . /E /H
-rmdir /s /q "%name%"
-</file>
-        <important-file path="eclipse.exe" title="Eclipse"/>
-        <url>http://ftp-stud.fht-esslingen.de/pub/Mirrors/eclipse/technology/epp/downloads/release/indigo/SR1/eclipse-jee-indigo-SR1-win32-x86_64.zip</url>
-        <dependency package="com.oracle.JRE64" versions="[1.6, 2)"/>
-        <sha1>f97f5c21cd3b4465a4484f662dff59ebf30dd7ff</sha1>
     </version>
     <version name="3.7.2" package="org.eclipse.EclipseIDEJEE64">
         <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b eclipse*') do set name=%%x
@@ -3711,7 +3684,7 @@ xcopy "%name%\*" . /E /H
 rmdir /s /q "%name%"
 </file>
         <important-file path="eclipse.exe" title="Eclipse"/>
-        <url>http://ftp-stud.fht-esslingen.de/pub/Mirrors/eclipse/technology/epp/downloads/release/indigo/SR2/eclipse-jee-indigo-SR2-win32-x86_64.zip</url>
+        <url>http://downloads.sourceforge.net/project/npackd/org.eclipse.EclipseIDEJEE64-3.7.2.zip</url>
         <dependency package="com.oracle.JRE64" versions="[1.6, 2)"/>
         <sha1>f90a8882bad8fc77aef537fc2f3401d0aba52f90</sha1>
     </version>
@@ -3726,7 +3699,7 @@ cd ..
 rmdir "%name%"
 </file>
         <important-file path="eclipse.exe" title="Eclipse IDE for Java"/>
-        <url>http://ftp-stud.fht-esslingen.de/pub/Mirrors/eclipse/technology/epp/downloads/release/helios/SR1/eclipse-java-helios-SR1-win32-x86_64.zip</url>
+        <url>http://downloads.sourceforge.net/project/npackd/org.eclipse.EclipseIDEJava64-3.6.1.zip</url>
         <dependency package="com.oracle.JRE64" versions="[1.6, 2)"/>
         <sha1>176B1971C7D88901C22E73231A6D9B3936566CCC</sha1>
     </version>
@@ -3740,23 +3713,9 @@ cd ..
 rmdir "%name%"
 </file>
         <important-file path="eclipse.exe" title="Eclipse IDE for Java"/>
-        <url>http://ftp-stud.fht-esslingen.de/pub/Mirrors/eclipse/technology/epp/downloads/release/indigo/R/eclipse-java-indigo-win32-x86_64.zip</url>
+        <url>http://downloads.sourceforge.net/project/npackd/org.eclipse.EclipseIDEJava64-3.7.zip</url>
         <dependency package="com.oracle.JRE64" versions="[1.6, 2)"/>
         <sha1>5f2a0444dd4d2b0a3c42155225f5f53d883f2e0a</sha1>
-    </version>
-    <version name="3.7.1" package="org.eclipse.EclipseIDEJava64">
-        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b eclipse*') do set name=%%x
-cd "%name%"        
-for /f "delims=" %%a in ('dir /b') do (
-  move "%%a" ..
-)
-cd ..
-rmdir "%name%"
-</file>
-        <important-file path="eclipse.exe" title="Eclipse IDE for Java"/>
-        <url>http://ftp-stud.fht-esslingen.de/pub/Mirrors/eclipse/technology/epp/downloads/release/indigo/SR1/eclipse-java-indigo-SR1-win32-x86_64.zip</url>
-        <dependency package="com.oracle.JRE64" versions="[1.6, 2)"/>
-        <sha1>c4b9045102cc572dda279ee1a3f24815aca66410</sha1>
     </version>
     <version name="3.7.2" package="org.eclipse.EclipseIDEJava64">
         <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b eclipse*') do set name=%%x
@@ -3768,7 +3727,7 @@ cd ..
 rmdir "%name%"
 </file>
         <important-file path="eclipse.exe" title="Eclipse IDE for Java"/>
-        <url>http://ftp-stud.fht-esslingen.de/pub/Mirrors/eclipse/technology/epp/downloads/release/indigo/SR2/eclipse-java-indigo-SR2-win32-x86_64.zip</url>
+        <url>http://downloads.sourceforge.net/project/npackd/org.eclipse.EclipseIDEJava64-3.7.2.zip</url>
         <dependency package="com.oracle.JRE64" versions="[1.6, 2)"/>
         <sha1>83104e872fa57e54d7817381842f40d8bfd80fe1</sha1>
     </version>
@@ -3866,23 +3825,9 @@ cd ..
 rmdir "%name%"
 </file>
         <important-file path="eclipse.exe" title="Eclipse IDE for C and C++"/>
-        <url>http://ftp-stud.fht-esslingen.de/pub/Mirrors/eclipse/technology/epp/downloads/release/indigo/R/eclipse-cpp-indigo-incubation-win32-x86_64.zip</url>
+        <url>http://downloads.sourceforge.net/project/npackd/org.eclipse.EclipseIDECPP64-3.7.zip</url>
         <dependency package="com.oracle.JRE" versions="[1.6, 2)"/>
         <sha1>96CFEABD46BC5B5A8117B8EE2D626D9720602836</sha1>
-    </version>
-    <version name="3.7.1" package="org.eclipse.EclipseIDECPP64">
-        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b eclipse*') do set name=%%x
-cd "%name%"
-for /f "delims=" %%a in ('dir /b') do (
-  move "%%a" ..
-)
-cd ..
-rmdir "%name%"
-</file>
-        <important-file path="eclipse.exe" title="Eclipse IDE for C and C++"/>
-        <url>http://ftp-stud.fht-esslingen.de/pub/Mirrors/eclipse/technology/epp/downloads/release/indigo/SR1/eclipse-cpp-indigo-SR1-incubation-win32-x86_64.zip</url>
-        <dependency package="com.oracle.JRE" versions="[1.6, 2)"/>
-        <sha1>5a9ece7736ca8c82a2923cef58b7c0cd44b714bd</sha1>
     </version>
     <version name="3.7.2" package="org.eclipse.EclipseIDECPP64">
         <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b eclipse*') do set name=%%x
@@ -3894,7 +3839,7 @@ cd ..
 rmdir "%name%"
 </file>
         <important-file path="eclipse.exe" title="Eclipse IDE for C and C++"/>
-        <url>http://ftp-stud.fht-esslingen.de/pub/Mirrors/eclipse/technology/epp/downloads/release/indigo/SR2/eclipse-cpp-indigo-SR2-incubation-win32-x86_64.zip</url>
+        <url>http://downloads.sourceforge.net/project/npackd/org.eclipse.EclipseIDECPP64-3.7.2.zip</url>
         <dependency package="com.oracle.JRE" versions="[1.6, 2)"/>
         <sha1>0a079de2a58caa022a794708f9e03d72ab040192</sha1>
     </version>
@@ -3965,7 +3910,7 @@ cd ..
 rmdir "%name%"
 </file>
         <important-file path="eclipse.exe" title="Eclipse IDE for Javascript Web Developers"/>
-        <url>http://ftp-stud.fht-esslingen.de/pub/Mirrors/eclipse/technology/epp/downloads/release/indigo/SR2/eclipse-javascript-indigo-SR2-win32-x86_64.zip</url>
+        <url>http://downloads.sourceforge.net/project/npackd/org.eclipse.EclipseIDEJavascript64-3.7.2.zip</url>
         <dependency package="com.oracle.JRE64" versions="[1.6, 2)"/>
         <sha1>6ce9ab4cc24818fd1d0a43cd0a5675844b8b81fc</sha1>
     </version>
