@@ -303,91 +303,6 @@ PackageVersion* UpdateSearcher::findGTKPlusBundleUpdates(Job* job) {
     return ret;
 }
 
-PackageVersion* UpdateSearcher::findH2Updates(Job* job) {
-    job->setHint("Preparing");
-
-    PackageVersion* ret = 0;
-
-    if (!job->isCancelled() && job->getErrorMessage().isEmpty()) {
-        job->setHint("Searching for updates");
-
-        Job* sub = job->newSubJob(0.2);
-        ret = findUpdate(sub, "com.h2database.H2",
-                "http://www.h2database.com/html/download.html",
-                "Version ([\\d\\.]+) \\([\\d\\-]+\\), Last Stable");
-        if (!sub->getErrorMessage().isEmpty())
-            job->setErrorMessage(QString("Error searching for the newest version: %1").
-                    arg(sub->getErrorMessage()));
-        delete sub;
-    }
-
-    if (!job->isCancelled() && job->getErrorMessage().isEmpty()) {
-        if (ret) {
-            job->setHint("Searching for the download URL");
-
-            Job* sub = job->newSubJob(0.2);
-            QString url = findTextInPage(sub,
-                    "http://www.h2database.com/html/download.html",
-                    "Version [\\d\\.]+ \\(([\\d\\-]+)\\), Last Stable");
-            if (!sub->getErrorMessage().isEmpty())
-                job->setErrorMessage(QString("Error searching for version number: %1").
-                        arg(sub->getErrorMessage()));
-            delete sub;
-
-            if (job->getErrorMessage().isEmpty()) {
-                ret->download = QUrl("http://www.h2database.com/h2-setup-" +
-                        url + ".exe");
-                if (!ret->download.isValid())
-                    job->setErrorMessage(QString(
-                            "Download URL is not valid: %1").arg(url));
-            }
-        }
-    }
-
-    if (!job->isCancelled() && job->getErrorMessage().isEmpty()) {
-        if (ret) {
-            job->setHint("Examining the binary");
-
-            Job* sub = job->newSubJob(0.55);
-            ret->type = 1;
-            setDownload(sub, ret, ret->download.toEncoded());
-            if (!sub->getErrorMessage().isEmpty())
-                job->setErrorMessage(QString("Error downloading the package binary: %1").
-                        arg(sub->getErrorMessage()));
-            delete sub;
-        }
-    }
-
-    if (ret) {
-        const QString installScript =
-                "for /f \"delims=\" %%x in ('dir /b *.exe') do set setup=%%x\n"
-                "\"%setup%\" /S /D=%CD%\\Program\n";
-        const QString uninstallScript =
-                "Program\\Uninstall.exe /S _?=%CD%\\Program\n";
-
-        PackageVersionFile* pvf = new PackageVersionFile(".WPM\\Install.bat",
-                installScript);
-        ret->files.append(pvf);
-        pvf = new PackageVersionFile(".WPM\\Uninstall.bat",
-                uninstallScript);
-        ret->files.append(pvf);
-
-        Dependency* d = new Dependency();
-        d->package = "com.oracle.JRE";
-        d->minIncluded = true;
-        d->min.setVersion(1, 5);
-        d->min.normalize();
-        d->maxIncluded = false;
-        d->max.setVersion(2, 0);
-        d->max.normalize();
-        ret->dependencies.append(d);
-    }
-
-    job->complete();
-
-    return ret;
-}
-
 PackageVersion* UpdateSearcher::findImgBurnUpdates(Job* job)
 {
     job->setHint("Preparing");
@@ -1559,7 +1474,7 @@ void UpdateSearcher::findUpdates(Job* job)
                 pv = findGTKPlusBundleUpdates(sub);
                 break;
             case 2:
-                pv = findH2Updates(sub);
+                // TODO: remove
                 break;
             case 4:
                 pv = findImgBurnUpdates(sub);

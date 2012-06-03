@@ -37,8 +37,6 @@ private:
      */
     volatile bool locked;
 
-    QString fullText;
-
     bool external_;
 
     static PackageVersionFile* createPackageVersionFile(QDomElement* e,
@@ -259,12 +257,6 @@ public:
      * @return true if this package version is installed
      */
     bool installed() const;
-
-    /**
-     * @return description that can be used for the full-text search in lower
-     *     case
-     */
-    QString getFullText();
 
     /**
      * @return a non-existing directory where this package would normally be

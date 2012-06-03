@@ -6,7 +6,7 @@
 #include "..\wpmcpp\commandline.h"
 #include "..\wpmcpp\wpmutils.h"
 
-#include "app.h"
+#include "ndapp.h"
 
 int main(int argc, char *argv[])
 {
