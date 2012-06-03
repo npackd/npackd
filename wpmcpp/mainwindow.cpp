@@ -1531,7 +1531,7 @@ void MainWindow::on_actionGotoPackageURL_triggered()
         } else {
             Repository* r = Repository::getDefault();
             selected = selection->getSelected("PackageVersion");
-            for (int i = 0; i < selected.count(); ) {
+            for (int i = 0; i < selected.count(); i++) {
                 PackageVersion* pv = (PackageVersion*) selected.at(i);
                 Package* p = r->findPackage(pv->package);
                 if (p) {

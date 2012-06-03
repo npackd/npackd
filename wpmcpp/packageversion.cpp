@@ -189,26 +189,6 @@ QString PackageVersion::saveInstallationInfo()
     return "";
 }
 
-QString PackageVersion::getFullText()
-{
-    if (this->fullText.isEmpty()) {
-        Repository* rep = Repository::getDefault();
-        Package* package = rep->findPackage(this->package);
-        QString r = this->package;
-        if (package) {
-            r.append(" ");
-            r.append(package->title);
-            r.append(" ");
-            r.append(package->description);
-        }
-        r.append(" ");
-        r.append(this->version.getVersionString());
-
-        this->fullText = r.toLower();
-    }
-    return this->fullText;
-}
-
 bool PackageVersion::installed() const
 {
     return !ipath.isEmpty();
