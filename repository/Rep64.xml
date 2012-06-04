@@ -2008,6 +2008,36 @@ verify
         <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1, 1]"/>
         <dependency package="com.googlecode.windows-package-manager.CLU" versions="[1, 2)"/>
     </version>
+    <version package="com.selenic.mercurial.Mercurial64" type="one-file" name="2.2.2">
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x
+"%setup%" /SP- /VERYSILENT /SUPPRESSMSGBOXES /NOCANCEL /NORESTART /DIR="%CD%" /SAVEINF="%CD%\.Npackd\InnoSetupInfo.ini" /LOG="%CD%\.Npackd\InnoSetupInstall.log"
+set err=%errorlevel%
+type .Npackd\InnoSetupInstall.log
+if %err% neq 0 exit %err%
+
+if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
+set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.CLU" "--versions=[1, 2)"
+for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set clu=%%x
+"%clu%\clu" add-path --path "%CD%"
+verify
+</file>
+        <file path=".Npackd\Uninstall.bat">unins000.exe /VERYSILENT /SUPPRESSMSGBOXES /NORESTART /LOG="%CD%\.Npackd\InnoSetupUninstall.log"
+set err=%errorlevel%
+type .Npackd\InnoSetupUninstall.log
+if %err% neq 0 exit %err%
+
+if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
+set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.CLU" "--versions=[1, 2)"
+for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set clu=%%x
+"%clu%\clu" remove-path --path "%CD%"
+verify
+</file>
+        <url>http://mercurial.selenic.com/release/windows/Mercurial-2.2.2-x64.exe</url>
+        <sha1>a49f8c3428e0fb43fb97f871ad16a4465cc037f6</sha1>
+        <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.15.7, 2)"/>
+        <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1, 1]"/>
+        <dependency package="com.googlecode.windows-package-manager.CLU" versions="[1, 2)"/>
+    </version>
     <!-- Detected -->
     
     <!-- old versions are regularly deleted, but the package is too big -->
@@ -2471,6 +2501,20 @@ del Q-Dir.ini
 </file>
         <url>http://dl.dropbox.com/u/17046326/files/com.softwareok.QDir64-5.11.zip</url>
         <sha1>3ed2385a8178e6802edea6434504465b6aa83177</sha1>
+    </version>
+    <version package="com.softwareok.QDir64" name="5.14">
+        <important-file title="Q-Dir" path="Q-Dir.exe"/>
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b Q*') do set name=%%x
+cd "%name%"        
+for /f "delims=" %%a in ('dir /b') do (
+  move "%%a" ..
+)
+cd ..
+rmdir "%name%"
+del Q-Dir.ini
+</file>
+        <url>http://dl.dropbox.com/u/17046326/files/com.softwareok.QDir64-5.14.zip</url>
+        <sha1>7ee4717740847f571d1738cbe0db36fb6562efe4</sha1>
     </version>
     <!-- Detected -->
     
@@ -4071,6 +4115,15 @@ rmdir /s /q "%name%"
 </file>
         <url>http://downloads.sourceforge.net/project/aria2/stable/aria2-1.15.0/aria2-1.15.0-x86_64-w64-mingw32-build1.zip</url>
         <sha1>99fa8ddd2edd596bf670592933c47036f58ca308</sha1>
+    </version>
+    <version package="net.sourceforge.aria2.Aria2_64" name="1.15.1">
+        <important-file title="Read Me" path="README.html"/>
+        <file path=".Npackd\Install.bat">for /f %%x in ('dir /b aria*') do set name=%%x
+xcopy "%name%\*" . /E /H
+rmdir /s /q "%name%"
+</file>
+        <url>http://downloads.sourceforge.net/project/aria2/stable/aria2-1.15.1/aria2-1.15.1-x86_64-w64-mingw32-build1.zip</url>
+        <sha1>4c33c0cf245d0f95ad5d0656c5d1c811e017e835</sha1>
     </version>
     <!-- Detected -->
 
