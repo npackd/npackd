@@ -6057,6 +6057,14 @@ ren "%setup%" TrueCryptInstaller.exe
         <file path=".Npackd\Uninstall.bat">uninst.exe /S _?=%CD%</file>
         <url>http://download.piriform.com/ccsetup318.exe</url>
     </version>
+    <version package="com.piriform.CCleaner" type="one-file" name="3.19.1721">
+        <important-file title="CCleaner" path="CCleaner.exe"/>
+        <file path=".Npackd\Install.bat">for /f %%x in ('dir /b *.exe') do set setup=%%x
+"%setup%" /S /D=%CD%
+</file>
+        <file path=".Npackd\Uninstall.bat">uninst.exe /S _?=%CD%</file>
+        <url>http://download.piriform.com/ccsetup319.exe</url>
+    </version>
     <!-- Detected -->
 
     <version name="1.2.1.371" package="com.voidtools.Everything">
@@ -7194,6 +7202,20 @@ del Q-Dir.ini
         <url>http://dl.dropbox.com/u/17046326/files/com.softwareok.QDir-5.11.zip</url>
         <sha1>256b1b1ccb3604099cd24067a659d33b5bd6c7d1</sha1>
     </version>
+    <version package="com.softwareok.QDir" name="5.14">
+        <important-file title="Q-Dir" path="Q-Dir.exe"/>
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b Q*') do set name=%%x
+cd "%name%"        
+for /f "delims=" %%a in ('dir /b') do (
+  move "%%a" ..
+)
+cd ..
+rmdir "%name%"
+del Q-Dir.ini
+</file>
+        <url>http://dl.dropbox.com/u/17046326/files/com.softwareok.QDir-5.14.zip</url>
+        <sha1>026719d881d978ab9165ceb309aff27bb273b2cd</sha1>
+    </version>
     <!-- Detected -->
     
     <version name="1.17" package="info.keepass.KeePassClassic">
@@ -7949,7 +7971,7 @@ call "%npackdih%\UninstallMSI.bat"
     </version>
 
     <!-- uninstallation opens a web page in the default browser -->
-    <version name="9.1.1" 
+    <version name="9.2" 
             package="com.advancedinstaller.AdvancedInstallerFreeware"
             type="one-file">
         <file path=".Npackd\Install.bat">path
@@ -8214,7 +8236,22 @@ if %err% neq 0 exit %err%
         <url>http://ac3filter.googlecode.com/files/ac3filter_2_2a.exe</url>
         <sha1>9a6564372bd7b673532049cf223d253cff377095</sha1>
     </version>
-    <!-- Detected by NpackdCL -->
+    <version package="net.ac3filter.AC3Filter" type="one-file" name="2.3.1">
+        <file path=".WPM\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x
+"%setup%" /SP- /VERYSILENT /SUPPRESSMSGBOXES /NOCANCEL /NORESTART /DIR="%CD%" /SAVEINF="%CD%\.WPM\InnoSetupInfo.ini" /LOG="%CD%\.WPM\InnoSetupInstall.log"
+set err=%errorlevel%
+type .WPM\InnoSetupInstall.log
+if %err% neq 0 exit %err%
+</file>
+        <file path=".WPM\Uninstall.bat">unins000.exe /VERYSILENT /SUPPRESSMSGBOXES /NORESTART /LOG="%CD%\.WPM\InnoSetupUninstall.log"
+set err=%errorlevel%
+type .WPM\InnoSetupUninstall.log
+if %err% neq 0 exit %err%
+</file>
+        <url>http://ac3filter.googlecode.com/files/ac3filter_2_3a.exe</url>
+        <sha1>1c39fb99b7e630891b10be8bbda872d3c1a134e3</sha1>
+    </version>
+    <!-- Detected -->
 
     <version name="2.49.2" package="org.blender.Blender">
         <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b blender*') do set name=%%x
@@ -8968,6 +9005,15 @@ rmdir /s /q "%name%"
 </file>
         <url>http://downloads.sourceforge.net/project/aria2/stable/aria2-1.15.0/aria2-1.15.0-i686-w64-mingw32-build1.zip</url>
         <sha1>e1800ac608d2d498d57b31cf0d0adb1ff67ea826</sha1>
+    </version>
+    <version package="net.sourceforge.aria2.Aria2" name="1.15.1">
+        <important-file title="Read Me" path="README.html"/>
+        <file path=".Npackd\Install.bat">for /f %%x in ('dir /b aria*') do set name=%%x
+xcopy "%name%\*" . /E /H
+rmdir /s /q "%name%"
+</file>
+        <url>http://downloads.sourceforge.net/project/aria2/stable/aria2-1.15.1/aria2-1.15.1-i686-w64-mingw32-build1.zip</url>
+        <sha1>ec7a173161be3fede0e834f05ec0ae070f81cf5d</sha1>
     </version>
     <!-- Detected -->
 
@@ -11407,7 +11453,7 @@ if %err% neq 0 exit %err%
         https://www.google.com/intl/en/chrome/business/browser/#utm_campaign=c4b&utm_medium=link&utm_source=apps
         Different versions are distributed from the same URL.
     -->    
-    <version name="19.0.1084.46" package="com.google.Chrome" type="one-file">
+    <version name="19.0.1084.52" package="com.google.Chrome" type="one-file">
         <file path=".Npackd\AddProperty.vbs">Option Explicit
 
 Const MSI_FILE = "GoogleChromeStandaloneEnterprise.msi"
@@ -12646,6 +12692,36 @@ verify
         <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1, 1]"/>
         <dependency package="com.googlecode.windows-package-manager.CLU" versions="[1, 2)"/>
     </version>
+    <version package="com.selenic.mercurial.Mercurial" type="one-file" name="2.2.2">
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x
+"%setup%" /SP- /VERYSILENT /SUPPRESSMSGBOXES /NOCANCEL /NORESTART /DIR="%CD%" /SAVEINF="%CD%\.Npackd\InnoSetupInfo.ini" /LOG="%CD%\.Npackd\InnoSetupInstall.log"
+set err=%errorlevel%
+type .Npackd\InnoSetupInstall.log
+if %err% neq 0 exit %err%
+
+if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
+set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.CLU" "--versions=[1, 2)"
+for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set clu=%%x
+"%clu%\clu" add-path --path "%CD%"
+verify
+</file>
+        <file path=".Npackd\Uninstall.bat">unins000.exe /VERYSILENT /SUPPRESSMSGBOXES /NORESTART /LOG="%CD%\.Npackd\InnoSetupUninstall.log"
+set err=%errorlevel%
+type .Npackd\InnoSetupUninstall.log
+if %err% neq 0 exit %err%
+
+if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
+set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.CLU" "--versions=[1, 2)"
+for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set clu=%%x
+"%clu%\clu" remove-path --path "%CD%"
+verify
+</file>
+        <url>http://mercurial.selenic.com/release/windows/Mercurial-2.2.2.exe</url>
+        <sha1>1bb763bbdef43c6ff8f594d067039e68e0badbf9</sha1>
+        <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.15.7, 2)"/>
+        <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1, 1]"/>
+        <dependency package="com.googlecode.windows-package-manager.CLU" versions="[1, 2)"/>
+    </version>
     <!-- Detected -->
     
     <version name="6.5.1" package="org.netbeans.NetBeansMLJava">
@@ -12941,6 +13017,24 @@ call "%npackdih%\UninstallMSI.bat"
 </file>
         <url>http://downloads.sourceforge.net/project/npackd/org.libreoffice.LibreOffice-3.5.3.msi</url>
         <sha1>6da0caaa4e404d7713095c36f342aeeafdff4d47</sha1>
+        <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1, 1]"/>
+        <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.15.7, 2)"/>
+        <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1, 1]"/>
+        <dependency package="com.oracle.JRE" versions="[1.6, 2)"/>
+    </version>
+    <version package="org.libreoffice.LibreOffice" type="one-file" name="3.5.4">
+        <file path=".Npackd\Install.bat">if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
+set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.NpackdInstallerHelper" "--versions=[1, 1]"
+for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set npackdih=%%x
+call "%npackdih%\InstallMSI.bat" TARGETDIR
+</file>
+        <file path=".Npackd\Uninstall.bat">if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
+set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.NpackdInstallerHelper" "--versions=[1, 1]"
+for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set npackdih=%%x
+call "%npackdih%\UninstallMSI.bat"
+</file>
+        <url>http://downloads.sourceforge.net/project/npackd/org.libreoffice.LibreOffice-3.5.4.msi</url>
+        <sha1>6ffd0b6b42dbe52aa8850ebd6b6913eee083deaf</sha1>
         <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1, 1]"/>
         <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.15.7, 2)"/>
         <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1, 1]"/>
@@ -18182,6 +18276,18 @@ rmdir "%name%"
         <url>http://ftp.mozilla.org/pub/mozilla.org/xulrunner/releases/12.0/runtimes/xulrunner-12.0.en-US.win32.zip</url>
         <sha1>5fc4ea2160a5976a8a57df6f7448cb982db87102</sha1>
     </version>
+    <version package="org.mozilla.XULRunner" name="13">
+        <file path=".WPM\Install.bat">for /f "delims=" %%x in ('dir /b xulrunner*') do set name=%%x
+cd "%name%"
+for /f "delims=" %%a in ('dir /b') do (
+  move "%%a" ..
+)
+cd ..
+rmdir "%name%"
+</file>
+        <url>http://ftp.mozilla.org/pub/mozilla.org/xulrunner/releases/13.0/runtimes/xulrunner-13.0.en-US.win32.zip</url>
+        <sha1>2e8ce14b485107d4662780e4aa71af22545f2d01</sha1>
+    </version>
     <!-- Detected -->
 
     <version package="com.googlecode.gitextensions.GitExtensions" name="2.31"
@@ -18203,6 +18309,24 @@ call "%npackdih%\UninstallMSI.bat"
         <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1, 1]"/>
         <dependency package="com.googlecode.msysgit.MSysGit" 
                 versions="[1.7.4.2011.2.4, 2)"/>
+    </version>
+    <version package="com.googlecode.gitextensions.GitExtensions" type="one-file" name="2.32">
+        <file path=".Npackd\Install.bat">if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
+set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.NpackdInstallerHelper" "--versions=[1, 1]"
+for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set npackdih=%%x
+call "%npackdih%\InstallMSI.bat" INSTALLDIR
+</file>
+        <file path=".Npackd\Uninstall.bat">if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
+set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.NpackdInstallerHelper" "--versions=[1, 1]"
+for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set npackdih=%%x
+call "%npackdih%\UninstallMSI.bat"
+</file>
+        <url>http://gitextensions.googlecode.com/files/GitExtensions232Setup.msi</url>
+        <sha1>9f7838410982cb30c1f3102579205c3f200f51cb</sha1>
+        <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1, 1]"/>
+        <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.15.7, 2)"/>
+        <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1, 1]"/>
+        <dependency package="com.googlecode.msysgit.MSysGit" versions="[1.7.4.2011.2.4, 2)"/>
     </version>
     <!-- Detected -->
 
@@ -18227,6 +18351,11 @@ if %err% neq 0 exit %err%
         <important-file title="BabelMap" path="BabelMap.exe"/>
         <url>http://dl.dropbox.com/u/17046326/files/uk.co.babelstone.BabelMap-6.0.0.2.zip</url>
         <sha1>f42f24d64b5d611c7b2561b819169aadc93f0730</sha1>
+    </version>
+    <version package="uk.co.babelstone.BabelMap" name="6.1.0.7">
+        <important-file title="BabelMap" path="BabelMap.exe"/>
+        <url>http://dl.dropbox.com/u/17046326/files/uk.co.babelstone.BabelMap-6.1.0.7.zip</url>
+        <sha1>92826ca1d0ab577dca30f0108961e708f13db9c9</sha1>
     </version>
     <!-- Detected -->
 </root>
