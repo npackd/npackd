@@ -1403,12 +1403,12 @@ void UpdateSearcher::findUpdates(Job* job)
             "http://sourceforge.net/projects/realterm/files/Realterm/${{version}}/Realterm_${{version}}_setup.exe"));
     dis.append(DiscoveryInfo(
             "net.sourceforge.smplayer.SMPlayer",
-            "http://sourceforge.net/api/file/index/project-id/185512/mtime/desc/limit/20/rss",
+            "http://sourceforge.net/api/file/index/project-id/185512/mtime/desc/limit/120/rss",
             "http://sourceforge\\.net/projects/smplayer/files/SMPlayer/[\\d\\.]+/smplayer-([\\d\\.]+)-win32\\.exe",
             "http://downloads.sourceforge.net/project/smplayer/SMPlayer/${{actualVersion}}/smplayer-${{actualVersion}}-win32.exe"));
     dis.append(DiscoveryInfo(
             "net.sourceforge.smplayer.SMPlayer64",
-            "http://sourceforge.net/api/file/index/project-id/185512/mtime/desc/limit/20/rss",
+            "http://sourceforge.net/api/file/index/project-id/185512/mtime/desc/limit/120/rss",
             "http://sourceforge\\.net/projects/smplayer/files/SMPlayer/[\\d\\.]+/smplayer-([\\d\\.]+)-win32\\.exe",
             "http://downloads.sourceforge.net/project/smplayer/SMPlayer/${{actualVersion}}/smplayer-${{actualVersion}}-x64.exe"));
     dis.append(DiscoveryInfo(
@@ -1437,6 +1437,12 @@ void UpdateSearcher::findUpdates(Job* job)
             "http://sourceforge.net/api/file/index/project-id/199532/mtime/desc/limit/20/rss",
             "stable-release/[\\d\\.]+/ultradefrag-portable-([\\d\\.]+)\\.bin\\.amd64\\.zip",
             "http://downloads.sourceforge.net/project/ultradefrag/stable-release/${{actualVersion}}/ultradefrag-portable-${{actualVersion}}.bin.amd64.zip"));
+    dis.append(DiscoveryInfo(
+            "net.amsn-project.AMSN",
+            "https://sourceforge.net/api/file/index/project-id/54091/mtime/desc/limit/20/rss",
+            "http://sourceforge\\.net/projects/amsn/files/amsn/[\\d\\.]+/aMSN-([\\d\\.]+)-tcl85-windows-installer\\.exe/download",
+            "http://downloads.sourceforge.net/project/amsn/amsn/${{actualVersion}}/aMSN-${{actualVersion}}-tcl85-windows-installer.exe"));
+
 
     /*
     ${{version}}
