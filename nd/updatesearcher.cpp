@@ -1442,6 +1442,20 @@ void UpdateSearcher::findUpdates(Job* job)
             "https://sourceforge.net/api/file/index/project-id/54091/mtime/desc/limit/20/rss",
             "http://sourceforge\\.net/projects/amsn/files/amsn/[\\d\\.]+/aMSN-([\\d\\.]+)-tcl85-windows-installer\\.exe/download",
             "http://downloads.sourceforge.net/project/amsn/amsn/${{actualVersion}}/aMSN-${{actualVersion}}-tcl85-windows-installer.exe"));
+    dis.append(DiscoveryInfo(
+            "org.apache.Ant",
+            "http://ant.apache.org/bindownload.cgi",
+            "Currently, Apache Ant ([\\d\\.]+) is the best available version",
+            "http://archive.apache.org/dist/ant/binaries/apache-ant-${{actualVersion}}-bin.zip"));
+    dis.append(DiscoveryInfo(
+            "net.apexdc.ApexDCPlusPlus",
+            "https://sourceforge.net/api/file/index/project-id/157957/mtime/desc/limit/20/rss",
+            "http://sourceforge\\.net/projects/apexdc/files/ApexDC%2B%2B/[\\d\\.]+/ApexDC%2B%2B_([\\d\\.]+)_Setup\\.exe/download",
+            "http://downloads.sourceforge.net/project/apexdc/ApexDC%2B%2B/${{actualVersion}}/ApexDC%2B%2B_${{actualVersion}}_Setup.exe"));
+    dis.append(DiscoveryInfo("com.piriform.Defraggler",
+            "http://www.piriform.com/defraggler/download",
+            "<b>([\\d\\.]+)</b>",
+            "http://download.piriform.com/dfsetup${{version2PartsWithoutDots}}.exe"));
 
 
     /*
