@@ -26,6 +26,7 @@
 #include <QCloseEvent>
 #include <QTextBrowser>
 #include <QElapsedTimer>
+#include <QTableWidget>
 
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
@@ -155,7 +156,7 @@ void ScanHardDrivesThread::run()
 }
 
 MainWindow::MainWindow(QWidget *parent) :
-    QMainWindow(parent), Selection(),
+    QMainWindow(parent),
     ui(new Ui::MainWindow)
 {
     instance = this;
@@ -179,7 +180,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
     this->genericAppIcon = QIcon(":/images/app.png");
 
-    this->ui->tableWidget->setEditTriggers(QTableWidget::NoEditTriggers);
+    this->mainFrame = new MainFrame(this);
 
     QList<QUrl*> urls = Repository::getRepositoryURLs();
     if (urls.count() == 0) {
@@ -195,25 +196,15 @@ MainWindow::MainWindow(QWidget *parent) :
 
     //this->ui->formLayout_2->setSizeConstraint(QLayout::SetDefaultConstraint);
 
-    this->ui->tabWidget->setTabText(0, "Packages");
+    updateActions();
 
-    this->on_tableWidget_itemSelectionChanged();
-    this->ui->tableWidget->setColumnCount(6);
-    this->ui->tableWidget->setColumnWidth(0, 40);
-    this->ui->tableWidget->setColumnWidth(1, 150);
-    this->ui->tableWidget->setColumnWidth(2, 300);
-    this->ui->tableWidget->setColumnWidth(3, 100);
-    this->ui->tableWidget->setColumnWidth(4, 100);
-    this->ui->tableWidget->setColumnWidth(5, 100);
-    this->ui->tableWidget->setIconSize(QSize(32, 32));
-    this->ui->tableWidget->sortItems(1);
-
-    this->ui->tableWidget->addAction(this->ui->actionInstall);
-    this->ui->tableWidget->addAction(this->ui->actionUninstall);
-    this->ui->tableWidget->addAction(this->ui->actionUpdate);
-    this->ui->tableWidget->addAction(this->ui->actionShow_Details);
-    this->ui->tableWidget->addAction(this->ui->actionGotoPackageURL);
-    this->ui->tableWidget->addAction(this->ui->actionTest_Download_Site);
+    QTableWidget* t = this->mainFrame->getTableWidget();
+    t->addAction(this->ui->actionInstall);
+    t->addAction(this->ui->actionUninstall);
+    t->addAction(this->ui->actionUpdate);
+    t->addAction(this->ui->actionShow_Details);
+    t->addAction(this->ui->actionGotoPackageURL);
+    t->addAction(this->ui->actionTest_Download_Site);
 
     connect(&this->fileLoader, SIGNAL(downloaded(const FileLoaderItem&)), this,
             SLOT(iconDownloaded(const FileLoaderItem&)),
@@ -229,9 +220,9 @@ MainWindow::MainWindow(QWidget *parent) :
         }
     }
 
-    this->ui->lineEditText->setFocus();
-
+    this->ui->tabWidget->addTab(mainFrame, "Packages");
     this->addJobsTab();
+    this->mainFrame->getFilterLineEdit()->setFocus();
 
     Repository* r = Repository::getDefault();
     connect(r, SIGNAL(statusChanged(PackageVersion*)), this,
@@ -321,8 +312,9 @@ void MainWindow::showDetails()
 
 void MainWindow::updateIcons()
 {
-    for (int i = 0; i < this->ui->tableWidget->rowCount(); i++) {
-        QTableWidgetItem *item = ui->tableWidget->item(i, 0);
+    QTableWidget* t = this->mainFrame->getTableWidget();
+    for (int i = 0; i < t->rowCount(); i++) {
+        QTableWidgetItem *item = t->item(i, 0);
         const QVariant v = item->data(Qt::UserRole);
         QString icon = v.toString();
 
@@ -454,8 +446,9 @@ void MainWindow::prepare()
 void MainWindow::updateStatusInTable()
 {
     Repository* r = Repository::getDefault();
-    for (int i = 0; i < this->ui->tableWidget->rowCount(); i++) {
-        QTableWidgetItem* newItem = this->ui->tableWidget->item(i, 4);
+    QTableWidget* t = this->mainFrame->getTableWidget();
+    for (int i = 0; i < t->rowCount(); i++) {
+        QTableWidgetItem* newItem = t->item(i, 4);
 
         const QVariant v = newItem->data(Qt::UserRole);
         Package* p = (Package *) v.value<void*>();
@@ -577,41 +570,16 @@ void MainWindow::onShow()
 
 void MainWindow::selectPackage(Package* p)
 {
-    for (int i = 0; i < this->ui->tableWidget->rowCount(); i++) {
-        const QVariant v = this->ui->tableWidget->item(i, 1)->
+    QTableWidget* t = this->mainFrame->getTableWidget();
+    for (int i = 0; i < t->rowCount(); i++) {
+        const QVariant v = t->item(i, 1)->
                 data(Qt::UserRole);
         Package* f = (Package*) v.value<void*>();
         if (f == p) {
-            this->ui->tableWidget->selectRow(i);
+            t->selectRow(i);
             break;
         }
     }
-}
-
-Package* MainWindow::getSelectedPackageInTable()
-{
-    QList<QTableWidgetItem*> sel = this->ui->tableWidget->selectedItems();
-    if (sel.count() > 0) {
-        const QVariant v = sel.at(1)->data(Qt::UserRole);
-        Package* pv = (Package*) v.value<void*>();
-        return pv;
-    }
-    return 0;
-}
-
-QList<Package*> MainWindow::getSelectedPackagesInTable() const
-{
-    QList<Package*> result;
-    QList<QTableWidgetItem*> sel = this->ui->tableWidget->selectedItems();
-    for (int i = 0; i < sel.count(); i++) {
-        QTableWidgetItem* item = sel.at(i);
-        if (item->column() == 1) {
-            const QVariant v = item->data(Qt::UserRole);
-            Package* p = (Package*) v.value<void*>();
-            result.append(p);
-        }
-    }
-    return result;
 }
 
 class QCITableWidgetItem: public QTableWidgetItem {
@@ -644,7 +612,7 @@ void MainWindow::fillList()
     // 5: license Package*
 
     // qDebug() << "MainWindow::fillList";
-    QTableWidget* t = this->ui->tableWidget;
+    QTableWidget* t = this->mainFrame->getTableWidget();
 
     t->clearContents();
     t->setUpdatesEnabled(false);
@@ -672,9 +640,10 @@ void MainWindow::fillList()
     newItem = new QTableWidgetItem("License");
     t->setHorizontalHeaderItem(5, newItem);
 
-    int statusFilter = this->ui->comboBoxStatus->currentIndex();
+    int statusFilter = this->mainFrame->getStatusComboBox()->currentIndex();
     QStringList textFilter =
-            this->ui->lineEditText->text().toLower().simplified().split(" ");
+            this->mainFrame->getFilterLineEdit()->text().
+            toLower().simplified().split(" ");
 
     t->setRowCount(r->packages.count());
 
@@ -958,7 +927,7 @@ void MainWindow::process(QList<InstallOperation*> &install)
 
 void MainWindow::processThreadFinished()
 {
-    Package* sel = getSelectedPackageInTable();
+    Package* sel = mainFrame->getSelectedPackageInTable();
     fillList();
     updateStatusInDetailTabs();
     selectPackage(sel);
@@ -985,18 +954,6 @@ void MainWindow::on_actionExit_triggered()
         addErrorMessage("Cannot exit while jobs are running");
     else
         this->close();
-}
-
-QList<void*> MainWindow::getSelected(const QString& type) const
-{
-    QList<void*> res;
-    if (type == "Package") {
-        QList<Package*> ps = this->getSelectedPackagesInTable();
-        for (int i = 0; i < ps.count(); i++) {
-            res.append(ps.at(i));
-        }
-    }
-    return res;
 }
 
 void MainWindow::unregisterJob(Job *job)
@@ -1226,7 +1183,7 @@ void MainWindow::updateCloseTabAction()
 {
     QWidget* w = this->ui->tabWidget->currentWidget();
     this->ui->actionClose_Tab->setEnabled(
-            w != this->ui->tab && w != this->jobsTab);
+            w != this->mainFrame && w != this->jobsTab);
 }
 
 void MainWindow::updateActionShowDetailsAction()
@@ -1326,11 +1283,6 @@ void MainWindow::updateGotoPackageURLAction()
     this->ui->actionGotoPackageURL->setEnabled(enabled);
 }
 
-void MainWindow::on_tableWidget_itemSelectionChanged()
-{
-    updateActions();
-}
-
 void MainWindow::closeDetailTabs()
 {
     for (int i = 0; i < this->ui->tabWidget->count(); ) {
@@ -1348,7 +1300,7 @@ void MainWindow::closeDetailTabs()
 
 void MainWindow::recognizeAndLoadRepositories()
 {
-    QTableWidget* t = this->ui->tableWidget;
+    QTableWidget* t = this->mainFrame->getTableWidget();
     t->clearContents();
     t->setRowCount(0);
 
@@ -1549,18 +1501,6 @@ void MainWindow::on_actionGotoPackageURL_triggered()
     }
 }
 
-void MainWindow::on_comboBoxStatus_currentIndexChanged(int index)
-{
-    if (!this->reloadRepositoriesThreadRunning && !this->hardDriveScanRunning)
-        this->fillList();
-}
-
-void MainWindow::on_lineEditText_textChanged(QString )
-{
-    if (!this->reloadRepositoriesThreadRunning && !this->hardDriveScanRunning)
-        this->fillList();
-}
-
 void MainWindow::on_actionSettings_triggered()
 {
     SettingsFrame* d = 0;
@@ -1672,15 +1612,10 @@ void MainWindow::on_actionAbout_triggered()
             arg(WPMUtils::NPACKD_VERSION), true);
 }
 
-void MainWindow::on_tableWidget_doubleClicked(QModelIndex index)
-{
-    showDetails();
-}
-
 void MainWindow::on_tabWidget_tabCloseRequested(int index)
 {
     QWidget* w = this->ui->tabWidget->widget(index);
-    if (w != this->ui->tab && w != this->jobsTab) {
+    if (w != this->mainFrame && w != this->jobsTab) {
         this->ui->tabWidget->removeTab(index);
     }
 }
@@ -1815,7 +1750,7 @@ void MainWindow::on_actionReload_Repositories_triggered()
 void MainWindow::on_actionClose_Tab_triggered()
 {
     QWidget* w = this->ui->tabWidget->currentWidget();
-    if (w != this->ui->tab && w != this->jobsTab) {
+    if (w != this->mainFrame && w != this->jobsTab) {
         this->ui->tabWidget->removeTab(this->ui->tabWidget->currentIndex());
     }
 }

@@ -32,7 +32,8 @@ SOURCES += main.cpp \
     packageframe.cpp \
     selection.cpp \
     hrtimer.cpp \
-    clprogress.cpp
+    clprogress.cpp \
+    mainframe.cpp
 HEADERS += mainwindow.h \
     packageversion.h \
     repository.h \
@@ -63,14 +64,16 @@ HEADERS += mainwindow.h \
     packageframe.h \
     selection.h \
     hrtimer.h \
-    clprogress.h
+    clprogress.h \
+    mainframe.h
 FORMS += mainwindow.ui \
     packageversionform.ui \
     licenseform.ui \
     progressframe.ui \
     messageframe.ui \
     settingsframe.ui \
-    packageframe.ui
+    packageframe.ui \
+    mainframe.ui
 INCLUDEPATH += ..\\quazip\\quazip ..\\zlib
 LIBS += ..\\quazip\\quazip\\release\\libquazip.a \
     ..\\zlib\\libz.a \

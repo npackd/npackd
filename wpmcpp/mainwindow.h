@@ -19,6 +19,7 @@
 #include "fileloader.h"
 #include "taskbar.h"
 #include "selection.h"
+#include "mainframe.h"
 
 namespace Ui {
     class MainWindow;
@@ -37,7 +38,7 @@ const UINT NIN_KEYSELECT = NIN_SELECT or NINF_KEY;
 /**
  * Main window.
  */
-class MainWindow : public QMainWindow, public Selection {
+class MainWindow : public QMainWindow {
     Q_OBJECT
 private:
     static MainWindow* instance;
@@ -51,6 +52,7 @@ private:
     FileLoader fileLoader;
     QFrame* progressContent;
     QWidget* jobsTab;
+    MainFrame* mainFrame;
 
     UINT taskbarMessageId;
     ITaskbarList3* taskbarInterface;
@@ -75,26 +77,6 @@ private:
     void updateCloseTabAction();
     void updateReloadRepositoriesAction();
     void updateScanHardDrivesAction();
-
-    /**
-     * Fills the table with known package versions.
-     */
-    void fillList();
-
-    /**
-     * This method returns a non-null Package* if something is selected
-     * in the table.
-     *
-     * @return selected package or 0.
-     */
-    Package* getSelectedPackageInTable();
-
-    /**
-     * This method returns all selected Package* items
-     *
-     * @return selected packages
-     */
-    QList<Package*> getSelectedPackagesInTable() const;
 
     /**
      * @param p a package or 0
@@ -146,6 +128,11 @@ public:
 
     MainWindow(QWidget *parent = 0);
     ~MainWindow();
+
+    /**
+     * Fills the table with known package versions.
+     */
+    void fillList();
 
     /**
      * Adds an error message panel.
@@ -200,8 +187,6 @@ public:
      * @param title tab title
      */
     void addTab(QWidget* w, const QIcon& icon, const QString& title);
-
-    QList<void*> getSelected(const QString& type) const;
 protected:
     void changeEvent(QEvent *e);
 
@@ -217,17 +202,13 @@ private slots:
     void on_actionShow_Details_triggered();
     void on_tabWidget_currentChanged(int index);
     void on_tabWidget_tabCloseRequested(int index);
-    void on_tableWidget_doubleClicked(QModelIndex index);
     void on_actionAbout_triggered();
     void on_actionTest_Download_Site_triggered();
     void on_actionUpdate_triggered();
     void on_actionSettings_triggered();
-    void on_lineEditText_textChanged(QString );
-    void on_comboBoxStatus_currentIndexChanged(int index);
     void on_actionGotoPackageURL_triggered();
     void onShow();
     void on_actionInstall_activated();
-    void on_tableWidget_itemSelectionChanged();
     void on_actionUninstall_activated();
     void on_actionExit_triggered();
     void iconDownloaded(const FileLoaderItem& it);
