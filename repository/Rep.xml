@@ -3034,6 +3034,17 @@ call "%npackdih%\UninstallMSI.bat"
         <dependency package="com.microsoft.DotNetRedistributable"
                 versions="[2.0, 3)"/>
     </version>
+    <version name="0.9.155" package="com.cyolito.comicrack.ComicRack" type="one-file">
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x
+"%setup%" /S /D=%CD%
+</file>
+        <file path=".Npackd\Uninstall.bat">uninst.exe /S _?=%CD%
+</file>        
+        <url>http://dl.dropbox.com/u/17046326/files/com.cyolito.comicrack.ComicRack-0.9.155.exe</url>
+        <sha1>3956315fc3a171e3bfbccbb247e8372023950394</sha1>
+        <dependency package="com.microsoft.DotNetRedistributable"
+                versions="[2.0, 3)"/>
+    </version>
 
     <!--
 http://safebrowsing.clients.google.com/safebrowsing/diagnostic?site=http%3A%2F%2Fwww.wampserver.com%2Fen%2F&client=googlechrome&hl=de    
@@ -6127,6 +6138,15 @@ ren "%setup%" avg.exe
         <url>http://aa-download.avg.com/filedir/inst/avg_free_stb_eu_2012_2171_free.exe</url>
         <sha1>edf8db19914a605a63f3e93e76b4839c75bb0ded</sha1>
     </version>
+    <version name="2012.2178" package="com.avg.AVGAntiVirusFreeInstaller"
+            type="one-file">
+        <file path=".Npackd\Install.bat">for /f %%x in ('dir /b *.exe') do set setup=%%x
+ren "%setup%" avg.exe
+</file>
+        <important-file path="avg.exe" title="Installer"/>
+        <url>http://aa-download.avg.com/filedir/inst/avg_free_stb_eu_2012_2178_free.exe</url>
+        <sha1>ea62e75ab8e1770b499224bf672d9864723572a9</sha1>
+    </version>
 
     <version name="3.2.2" package="org.glest.Glest" type="one-file">
         <file path=".Npackd\Install.bat">glest_3.2.2.exe /SP- /VERYSILENT /SUPPRESSMSGBOXES /NOCANCEL /NORESTART /DIR="%CD%"</file>
@@ -6394,6 +6414,33 @@ verify
 </file>
         <url>http://npackd.googlecode.com/files/se.haxx.curl.CURL-7.25.zip</url>
         <sha1>f625b291536f694a8ee240e660b16509d4b0a6a0</sha1>
+        <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.15.7, 2)"/>
+        <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1, 1]"/>
+        <dependency package="com.googlecode.windows-package-manager.CLU" versions="[1, 2)"/>
+    </version>
+    <version name="7.26" package="se.haxx.curl.CURL">
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b curl*') do set name=%%x
+cd "%name%"        
+for /f "delims=" %%a in ('dir /b') do (
+  move "%%a" ..
+)
+cd ..
+rmdir "%name%"
+
+if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
+set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.CLU" "--versions=[1, 2)"
+for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set clu=%%x
+"%clu%\clu" add-path --path "%CD%"
+verify
+</file>
+        <file path=".Npackd\Uninstall.bat">if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
+set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.CLU" "--versions=[1, 2)"
+for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set clu=%%x
+"%clu%\clu" remove-path --path "%CD%"
+verify
+</file>
+        <url>http://downloads.sourceforge.net/project/npackd/se.haxx.curl.CURL-7.26.zip</url>
+        <sha1>67d85504d01e661e4f2ff92a7d99fe2a16ee921f</sha1>
         <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.15.7, 2)"/>
         <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1, 1]"/>
         <dependency package="com.googlecode.windows-package-manager.CLU" versions="[1, 2)"/>
@@ -7637,6 +7684,18 @@ if %err% neq 0 exit %err%
         <url>http://downloads.sourceforge.net/project/apexdc/ApexDC%2B%2B/1.5.2/ApexDC%2B%2B_1.5.2_Setup.exe?ts=1334261184</url>
         <sha1>ba37fc41f72f2a714b655ffb302a1cd1410d6783</sha1>
     </version>
+    <version package="net.apexdc.ApexDCPlusPlus" type="one-file" name="1.5.4">
+        <important-file title="ApexDC++" path="ApexDC.exe"/>
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x
+"%setup%" /SP- /VERYSILENT /SUPPRESSMSGBOXES /NOCANCEL /NORESTART /DIR="%CD%" /SAVEINF="%CD%\.Npackd\InnoSetupInfo.ini" /LOG="%CD%\.Npackd\InnoSetupInstall.log"
+set err=%errorlevel%
+type .Npackd\InnoSetupInstall.log
+if %err% neq 0 exit %err%
+</file>
+        <url>http://downloads.sourceforge.net/project/apexdc/ApexDC%252B%252B/1.5.4/ApexDC%252B%252B_1.5.4_Setup.exe</url>
+        <sha1>e518c999a9216f4d3e7ffdf730845bbd73a3ec81</sha1>
+    </version>
+    <!-- Detected -->
     
     <version name="0.98.3.2" package="net.amsn-project.AMSN" type="one-file">
         <file path=".Npackd\Install.bat">aMSN-0.98.3-2-tcl85-windows-installer.exe /S /D=%CD%\Prog</file>
@@ -14548,7 +14607,7 @@ if %err% neq 0 exit /b %err%
         <detect-msi>{59F24743-2EA1-3A45-B8C2-6E0E1E078FA8}</detect-msi>
     </version>
 
-    <version name="11.22" package="com.microsoft.AutoRuns">
+    <version name="11.31" package="com.microsoft.AutoRuns">
         <important-file path="autoruns.exe" title="AutoRuns"/>
         <url>http://download.sysinternals.com/files/Autoruns.zip</url>
     </version>
@@ -17362,6 +17421,36 @@ verify
         <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1, 1]"/>
         <dependency package="com.googlecode.windows-package-manager.CLU" versions="[1, 2)"/>
     </version>
+    <version package="org.apache.Ant" name="1.8.4">
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b apache*') do set name=%%x
+cd "%name%"        
+for /f "delims=" %%a in ('dir /b') do (
+  move "%%a" ..
+)
+cd ..
+rmdir "%name%"
+if %errorlevel% neq 0 exit /b %errorlevel%
+
+if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
+set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.CLU" "--versions=[1, 2)"
+for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set clu=%%x
+"%clu%\clu" add-path --path "%CD%\bin"
+verify
+</file>
+        <file path=".Npackd\Uninstall.bat">if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
+set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.CLU" "--versions=[1, 2)"
+for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set clu=%%x
+"%clu%\clu" remove-path --path "%CD%\bin"
+verify
+</file>
+        <url>http://archive.apache.org/dist/ant/binaries/apache-ant-1.8.4-bin.zip</url>
+        <sha1>f1fe34f9de8b40cb8811a6286faec4ec7a35ba23</sha1>
+        <dependency package="com.oracle.JDK" versions="[1.4, 2)"/>
+        <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.15.7, 2)"/>
+        <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1, 1]"/>
+        <dependency package="com.googlecode.windows-package-manager.CLU" versions="[1, 2)"/>
+    </version>
+    <!-- Detected -->
     
     <version name="1" package="com.steampowered.Steam" type="one-file">
         <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.msi') do set setup=%%x
@@ -18245,6 +18334,16 @@ rmdir "%name%"
         <dependency package="com.googlecode.msysgit.MSysGit" versions="[1.7, 2)"/>
         <url>http://d1iwq2e2xrohf.cloudfront.net/tools/studio/standalone/3.1.1.201204131931/win/Aptana_Studio_3_Setup_3.1.1.exe</url> 
         <sha1>EB9DAECFA4880C78A82EEDCEDBAF1F4A01582A37</sha1>
+    </version>
+    <version name="3.1.3" package="com.aptana.Studio" type="one-file">
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x
+    "%setup%" /S /D=%CD%
+</file>
+        <file path=".Npackd\Uninstall.bat">uninst.exe /S _?=%CD%
+</file>
+        <dependency package="com.googlecode.msysgit.MSysGit" versions="[1.7, 2)"/>
+        <url>http://d1iwq2e2xrohf.cloudfront.net/tools/studio/standalone/3.1.3.201205292243/win/Aptana_Studio_3_Setup_3.1.3.exe</url> 
+        <sha1>b336df74908ef1780d3e1d9391f4718ce78e24a6</sha1>
     </version>
 
     <version name="4.16" package="com.sysinternals.BgInfo">
