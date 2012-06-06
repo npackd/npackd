@@ -3703,7 +3703,24 @@ if %err% neq 0 exit %err%
         <url>http://npackd.googlecode.com/files/net.srware.Iron-18.0.1050.exe</url>
         <sha1>879eca59914144bc8ab45f689ef0c5a6b7efcf1f</sha1>
     </version>
-
+    <version package="net.srware.Iron" type="one-file" name="19.0.1100">
+        <file path=".Npackd\Install.bat">for /f %%x in ('dir /b *.exe') do set setup=%%x
+%setup% /SP- /VERYSILENT /SUPPRESSMSGBOXES /NOCANCEL /NORESTART /DIR="%CD%" /SAVEINF="%CD%\.Npackd\InnoSetupInfo.ini" /LOG="%CD%\.Npackd\InnoSetupInstall.log"
+set err=%errorlevel%
+type .Npackd\InnoSetupInstall.log
+if %err% neq 0 exit %err%
+</file>
+        <file path=".Npackd\Uninstall.bat">
+unins000.exe /VERYSILENT /SUPPRESSMSGBOXES /NORESTART /LOG="%CD%\.Npackd\InnoSetupUninstall.log"
+set err=%errorlevel%
+type .Npackd\InnoSetupUninstall.log
+if %err% neq 0 exit %err%
+</file>
+        <url>http://npackd.googlecode.com/files/net.srware.Iron-19.0.1100.exe</url>
+        <sha1>7666b27dd7ce56eb18cd92a902da6e067b6e1ccc</sha1>
+    </version>
+    <!-- Detected -->
+    
     <version name="0.53.6501" package="org.latexeditor.LEd">
         <file path=".Npackd\Install.bat">set name=org.latexeditor.LEd
 set version=0.53.6501
@@ -5154,6 +5171,16 @@ verify
         <dependency package="com.oracle.JRE" versions="[1.5, 2)"/>
         <sha1>b23ddbebdb6f591cdba16b00f5fafd9a2366ee34</sha1>
     </version>
+    <version name="1.3.166" package="com.h2database.H2"
+            type="one-file">
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x
+"%setup%" /S /D=%CD%\Program
+</file>
+        <file path=".Npackd\Uninstall.bat">Program\Uninstall.exe /S _?=%CD%\Program</file>
+        <url>http://npackd.googlecode.com/files/com.h2database.H2-1.3.166.exe</url>
+        <dependency package="com.oracle.JRE" versions="[1.5, 2)"/>
+        <sha1>831719319a65d3cb8ddac0d625ae1d68f59795a1</sha1>
+    </version>
 
     <version name="0.97.1.1" package="org.gnome.live.dia.Dia"
             type="one-file">
@@ -5753,6 +5780,20 @@ move *.dll %trash%
         <url>http://dl.dropbox.com/u/17046326/files/com.dropbox.Dropbox-1.4.3.exe</url>
         <sha1>13e13efaf97a96388d71763a08954a4c80fed065</sha1>
     </version>
+    <version name="1.4.7" package="com.dropbox.Dropbox" type="one-file">
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x
+"%setup%" /S /D=%CD%
+taskkill /f /im dropbox.exe
+</file>
+        <file path=".Npackd\Uninstall.bat">Uninstall.exe /S _?=%CD%
+set key=com.dropbox.Dropbox-1.4.3
+set trash=..\.Trash\%key%_%RANDOM%
+mkdir %trash%
+move *.dll %trash%
+</file>
+        <url>http://dl.dropbox.com/u/17046326/files/com.dropbox.Dropbox-1.4.7.exe</url>
+        <sha1>ca5e1db372e0c3f5fc52c996091f35d1a4108b8b</sha1>
+    </version>
 
     <version name="1.94" package="com.revouninstaller.Revo" type="one-file">
         <file path=".Npackd\Install.bat">revosetup.exe /S /D=%CD%</file>
@@ -5907,9 +5948,17 @@ ren "%setup%" TrueCryptInstaller.exe
         <file path=".Npackd\Uninstall.bat">uninst.exe /S _?=%CD%</file>
         <url>http://download.piriform.com/dfsetup209.exe</url>
     </version>
+    <version package="com.piriform.Defraggler" type="one-file" name="2.10.413">
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x
+"%setup%" /S /D=%CD%
+</file>
+        <file path=".Npackd\Uninstall.bat">uninst.exe /S _?=%CD%</file>
+        <url>http://download.piriform.com/dfsetup210.exe</url>
+    </version>
+    <!-- Detected -->
 
     <!-- installs an Ask toolbar in Firefox & Chrome -->
-    <version name="3.4.2.5" package="com.auslogics.DiskDefrag" type="one-file">
+    <version name="3.4.3.5" package="com.auslogics.DiskDefrag" type="one-file">
         <file path=".Npackd\Install.bat">disk-defrag-setup.exe /SP- /VERYSILENT /SUPPRESSMSGBOXES /NOCANCEL /NORESTART /DIR="%CD%"</file>
         <file path=".Npackd\Uninstall.bat">unins000.exe /VERYSILENT /SUPPRESSMSGBOXES /NORESTART</file>
         <url>http://www.auslogics.com/en/downloads/disk-defrag/disk-defrag-setup.exe</url>
@@ -6823,6 +6872,14 @@ if %err% neq 0 exit /b %err%
         <file path=".Npackd\Uninstall.bat">Prog\uninstall.exe /S</file>
         <url>http://dl.dropbox.com/u/17046326/files/org.foobar2000.Foobar2000-1.1.11.exe</url>
         <sha1>87e74eced90c7766e6e28b65c7ad20e0b4c568e7</sha1>
+    </version>
+    <version name="1.1.12.1" package="org.foobar2000.Foobar2000" type="one-file">
+        <file path=".Npackd\Install.bat">for /f %%x in ('dir /b *.exe') do set setup=%%x
+"%setup%" /S /D=%CD%\Prog
+</file>
+        <file path=".Npackd\Uninstall.bat">Prog\uninstall.exe /S</file>
+        <url>http://dl.dropbox.com/u/17046326/files/org.foobar2000.Foobar2000-1.1.12.1.exe</url>
+        <sha1>4c1117f2b19b174e9c5902d9aa9007ff86da5776</sha1>
     </version>
 
     <version name="3.6" package="org.eclipse.EclipseIDEJEE">
@@ -9611,7 +9668,7 @@ for %%g in (%extensions%) do reg delete HKLM\SOFTWARE\Classes\.%%g\OpenWithList\
         <sha1>7eb389ada78bee9b36b05fa61efd022fff81886e</sha1> 
     </version> 
 
-    <version name="2.6.1.8" package="com.divx.DivXInstaller"
+    <version name="2.6.1.9" package="com.divx.DivXInstaller"
             type="one-file">
         <important-file path="DivXInstaller.exe" title="Installer"/>
         <url>http://download.divx.com/divx/DivXInstaller.exe</url>
@@ -10237,7 +10294,20 @@ for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x
         <url>http://npackd.googlecode.com/files/org.mozilla.Thunderbird-12.0.1.exe</url>
         <sha1>63868bebc71b9375ddb6ace949d8c0f7f36c09b8</sha1>
     </version>
-
+    <version package="org.mozilla.Thunderbird" type="one-file" name="13">
+        <file path=".Npackd\Install.bat">echo [Install] > .Npackd\FF.ini
+echo InstallDirectoryPath=%CD% >> .Npackd\FF.ini
+echo QuickLaunchShortcut=false >> .Npackd\FF.ini
+echo DesktopShortcut=false >> .Npackd\FF.ini
+for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x
+"%setup%" /INI="%CD%\.Npackd\FF.ini"
+</file>
+        <file path=".Npackd\Uninstall.bat">uninstall\helper.exe /S</file>
+        <url>http://npackd.googlecode.com/files/org.mozilla.Thunderbird-13.exe</url>
+        <sha1>0db724f0993e933e842ece71631dcf5bcdff51d4</sha1>
+    </version>
+    <!-- Detected -->
+    
     <version name="1.0.1" package="org.mozilla.SunbirdInstaller"
             type="one-file">
         <important-file path="Sunbird Setup 1.0 Beta 1.exe" title="Installer"/>
@@ -10599,6 +10669,15 @@ ren "%setup%" EraserInstaller.exe
         <url>http://downloads.sourceforge.net/project/eraser/Eraser%206/6.0.9/Eraser%206.0.9.2343.exe?ts=1323005800</url>
         <sha1>f99213536a8c0e0bcfddc75e389590fe60cf3a4f</sha1>
     </version>
+    <version package="ie.heidi.eraser.EraserInstaller" type="one-file" name="6.0.10.2620">
+        <important-file title="Eraser" path="EraserInstaller.exe"/>
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x
+ren "%setup%" EraserInstaller.exe
+</file>
+        <url>http://downloads.sourceforge.net/project/eraser/Eraser%206/6.0.10/Eraser%206.0.10.2620.exe</url>
+        <sha1>f6c4003ef93bd226a37ef9a86dae4aa21cdbc8d7</sha1>
+    </version>
+    <!-- Detected -->
 
     <version name="1.51" package="net.sourceforge.cdexos.CDex">
         <important-file path="CDex.exe" title="CDex"/>
@@ -11802,6 +11881,20 @@ for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x
 </file>
         <url>http://npackd.googlecode.com/files/org.mozilla.Firefox-12.exe</url>
         <sha1>c309f5b53b28641155e5b528e471660eefcc6d3d</sha1>
+    </version>
+    <version package="org.mozilla.Firefox" type="one-file" name="13">
+        <important-file title="Firefox" path="firefox.exe"/>
+        <file path=".WPM\Install.bat">echo [Install] > .WPM\FF.ini
+echo InstallDirectoryPath=%CD% >> .WPM\FF.ini
+echo QuickLaunchShortcut=false >> .WPM\FF.ini
+echo DesktopShortcut=false >> .WPM\FF.ini
+for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x
+"%setup%" /INI="%CD%\.WPM\FF.ini"
+</file>
+        <file path=".WPM\Uninstall.bat">uninstall\helper.exe /S
+</file>
+        <url>http://npackd.googlecode.com/files/org.mozilla.Firefox-13.exe</url>
+        <sha1>9002a5ae41ef54edf378506ae80c934b7e8df7dc</sha1>
     </version>
     <!-- Detected by NpackdCL -->
 
@@ -15550,7 +15643,17 @@ if %err% neq 0 exit %err%
         <url>http://ftp.osuosl.org/pub/pculture.org/Miro/win/Miro-5.0.exe</url>
         <sha1>3a981edf0e6fe2acc58725a93fc0e990111f68d4</sha1>
     </version>
-
+    <version package="com.getmiro.Miro" type="one-file" name="5.0.1">
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x
+"%setup%" /S /D=%CD%
+</file>
+        <file path=".Npackd\Uninstall.bat">Uninstall.exe /S _?=%CD%
+</file>
+        <url>http://ftp.osuosl.org/pub/pculture.org/Miro/win/Miro-5.0.1.exe</url>
+        <sha1>aae66094910ce98f1c3d54fb2ac4ddeb8204d294</sha1>
+    </version>
+    <!-- Detected -->
+    
     <!-- 
         see also this issue about stable releases:
         http://sourceforge.net/tracker/?func=detail&atid=983357&aid=3337739&group_id=202880
@@ -17998,6 +18101,64 @@ verify
         <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1, 1]"/>
         <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1, 1]"/>
     </version>
+    <version package="org.nodejs.NodeJS" type="one-file" name="0.6.19">
+        <file path=".Npackd\AddProperty.vbs">Option Explicit
+
+Const MSI_FILE = "node.msi"
+
+Dim installer, database, view
+
+Set installer = CreateObject("WindowsInstaller.Installer")
+Set database = installer.OpenDatabase(MSI_FILE, 1)
+
+'Set view = database.OpenView("INSERT INTO Property (Property, Value) VALUES ('TARGETDIR', 'C:\')")
+'view.Execute
+'Set view = database.OpenView("DELETE FROM Directory WHERE Directory='TARGETDIR'")
+'view.Execute
+Set view = database.OpenView("UPDATE Directory SET Directory_Parent='TARGETDIR', DefaultDir='.' WHERE Directory='NodeRoot'")
+view.Execute
+database.Commit
+
+Set database = Nothing
+Set installer = Nothing
+Set view = Nothing
+</file>
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.msi') do set setup=%%x
+ren "%setup%" node.msi
+ 
+.Npackd\AddProperty.vbs
+if %errorlevel% neq 0 exit %errorlevel%
+
+if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
+set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.NpackdInstallerHelper" "--versions=[1, 1]"
+for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set npackdih=%%x
+call "%npackdih%\InstallMSI.bat" TARGETDIR
+if %errorlevel% neq 0 exit %errorlevel%
+
+if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
+set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.CLU" "--versions=[1, 2)"
+for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set clu=%%x
+"%clu%\clu" add-path --path "%CD%"
+verify
+</file>
+        <file path=".Npackd\Uninstall.bat">if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
+set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.NpackdInstallerHelper" "--versions=[1, 1]"
+for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set npackdih=%%x
+call "%npackdih%\UninstallMSI.bat"
+if %errorlevel% neq 0 exit %errorlevel%
+
+if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
+set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.CLU" "--versions=[1, 2)"
+for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set clu=%%x
+"%clu%\clu" remove-path --path "%CD%"
+verify
+</file>
+        <url>http://nodejs.org/dist/v0.6.19/node-v0.6.19.msi</url>
+        <sha1>ef4f5c1e5f12f6ef3478a794d6a81f59669332f9</sha1>
+        <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.15.7, 2)"/>
+        <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1, 1]"/>
+        <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1, 1]"/>
+    </version>
     <!-- Detected -->
 
     <version name="2.5.1.26351" package="org.firebirdsql.FirebirdEmbedded">
@@ -18017,6 +18178,14 @@ verify
         <file path=".Npackd\Uninstall.bat">uninst.exe /S _?=%CD%
 </file>
         <url>http://dl.dropbox.com/u/17046326/files/com.fiddler2.Fiddler-2.3.9.7.exe</url>
+    </version>
+    <version name="2.3.9.9" package="com.fiddler2.Fiddler" type="one-file">
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x
+"%setup%" /S /D=%CD%
+</file>
+        <file path=".Npackd\Uninstall.bat">uninst.exe /S _?=%CD%
+</file>
+        <url>http://dl.dropbox.com/u/17046326/files/com.fiddler2.Fiddler-2.3.9.9.exe</url>
     </version>
     
     <!-- .zip file uses LZMA encoding -->
@@ -18387,6 +18556,24 @@ call "%npackdih%\UninstallMSI.bat
         <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1, 1]"/>
         <dependency package="com.microsoft.DotNetRedistributable" versions="[4, 5)"/>
     </version>
+    <version package="net.icsharpcode.SharpDevelop" type="one-file" name="4.2.1.8805">
+        <file path=".WPM\Install.bat">if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
+set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.NpackdInstallerHelper" "--versions=[1, 1]"
+for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set npackdih=%%x
+call "%npackdih%\InstallMSI.bat" INSTALLDIR
+</file>
+        <file path=".WPM\Uninstall.bat">if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
+set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.NpackdInstallerHelper" "--versions=[1, 1]"
+for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set npackdih=%%x
+call "%npackdih%\UninstallMSI.bat
+</file>
+        <url>http://sourceforge.net/projects/sharpdevelop/files/SharpDevelop%204.x/4.2/SharpDevelop_4.2.1.8805_Setup.msi</url>
+        <sha1>382cb3540f64be9c02179d7827547f174349eaee</sha1>
+        <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.15.7, 2)"/>
+        <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1, 1]"/>
+        <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1, 1]"/>
+        <dependency package="com.microsoft.DotNetRedistributable" versions="[4, 5)"/>
+    </version>
     <!-- Detected -->
     
     <version package="org.mozilla.XULRunner" name="12">
@@ -18448,6 +18635,24 @@ call "%npackdih%\UninstallMSI.bat"
 </file>
         <url>http://gitextensions.googlecode.com/files/GitExtensions232Setup.msi</url>
         <sha1>9f7838410982cb30c1f3102579205c3f200f51cb</sha1>
+        <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1, 1]"/>
+        <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.15.7, 2)"/>
+        <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1, 1]"/>
+        <dependency package="com.googlecode.msysgit.MSysGit" versions="[1.7.4.2011.2.4, 2)"/>
+    </version>
+    <version package="com.googlecode.gitextensions.GitExtensions" type="one-file" name="2.33">
+        <file path=".Npackd\Install.bat">if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
+set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.NpackdInstallerHelper" "--versions=[1, 1]"
+for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set npackdih=%%x
+call "%npackdih%\InstallMSI.bat" INSTALLDIR
+</file>
+        <file path=".Npackd\Uninstall.bat">if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
+set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.NpackdInstallerHelper" "--versions=[1, 1]"
+for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set npackdih=%%x
+call "%npackdih%\UninstallMSI.bat"
+</file>
+        <url>http://gitextensions.googlecode.com/files/GitExtensions233Setup.msi</url>
+        <sha1>81b963a23f96dffaf8f12280231101b80e981a58</sha1>
         <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1, 1]"/>
         <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.15.7, 2)"/>
         <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1, 1]"/>

@@ -918,4 +918,31 @@ if %err% neq 0 exit %err%
         <file path=".Npackd\Uninstall.bat">uninst.exe /S _?=%CD%</file>
         <url>http://download.piriform.com/dfsetup209.exe</url>
     </version>
+
+    <version name="1" package="ie.heidi.eraser.EraserInstaller"
+            type="one-file">
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x
+ren "%setup%" EraserInstaller.exe
+</file>
+        <important-file path="EraserInstaller.exe" title="Eraser"/>
+        <url>http://downloads.sourceforge.net/project/eraser/Eraser%206/6.0.9/Eraser%206.0.9.2343.exe?ts=1323005800</url>
+        <sha1>f99213536a8c0e0bcfddc75e389590fe60cf3a4f</sha1>
+    </version>
+
+    <version name="1" package="net.srware.Iron" type="one-file">
+        <file path=".Npackd\Install.bat">for /f %%x in ('dir /b *.exe') do set setup=%%x
+%setup% /SP- /VERYSILENT /SUPPRESSMSGBOXES /NOCANCEL /NORESTART /DIR="%CD%" /SAVEINF="%CD%\.Npackd\InnoSetupInfo.ini" /LOG="%CD%\.Npackd\InnoSetupInstall.log"
+set err=%errorlevel%
+type .Npackd\InnoSetupInstall.log
+if %err% neq 0 exit %err%
+</file>
+        <file path=".Npackd\Uninstall.bat">
+unins000.exe /VERYSILENT /SUPPRESSMSGBOXES /NORESTART /LOG="%CD%\.Npackd\InnoSetupUninstall.log"
+set err=%errorlevel%
+type .Npackd\InnoSetupUninstall.log
+if %err% neq 0 exit %err%
+</file>
+        <url>http://npackd.googlecode.com/files/net.srware.Iron-18.0.1050.exe</url>
+        <sha1>879eca59914144bc8ab45f689ef0c5a6b7efcf1f</sha1>
+    </version>
 </root>

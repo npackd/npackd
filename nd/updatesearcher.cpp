@@ -1081,12 +1081,14 @@ PackageVersion* UpdateSearcher::findUpdatesSimple(Job* job,
                 QString v = version;
                 v.remove('.');
                 QString version2Parts = ret->version.getVersionString(2);
+                QString version3Parts = ret->version.getVersionString(3);
                 QString version2PartsWithoutDots = version2Parts;
                 version2PartsWithoutDots.remove('.');
 
                 QMap<QString, QString> vars;
                 vars.insert("version", ret->version.getVersionString());
                 vars.insert("version2Parts", version2Parts);
+                vars.insert("version3Parts", version3Parts);
                 vars.insert("version2PartsWithoutDots", version2PartsWithoutDots);
                 vars.insert("actualVersion", version);
                 vars.insert("actualVersionWithoutDots", v);
@@ -1415,7 +1417,7 @@ void UpdateSearcher::findUpdates(Job* job)
             "org.mozilla.Thunderbird",
             "http://www.mozilla.org/en-US/thunderbird/all.html",
             ">([\\d\\.]+)<",
-            "http://mozilla.snt.utwente.nl//thunderbird/releases/${{actualVersion}}/win32/en-US/Thunderbird%20Setup%20${{actualVersion}}.exe",
+            "http://mirror.informatik.uni-mannheim.de/pub/mirrors/mozilla.org/thunderbird/releases/${{actualVersion}}/win32/en-US/Thunderbird%20Setup%20${{actualVersion}}.exe",
             DT_GOOGLECODE));
     dis.append(DiscoveryInfo(
             "com.googlecode.tortoisegit.TortoiseGit",
@@ -1456,14 +1458,24 @@ void UpdateSearcher::findUpdates(Job* job)
             "http://www.piriform.com/defraggler/download",
             "<b>([\\d\\.]+)</b>",
             "http://download.piriform.com/dfsetup${{version2PartsWithoutDots}}.exe"));
-
+    dis.append(DiscoveryInfo("ie.heidi.eraser.EraserInstaller",
+            "https://sourceforge.net/api/file/index/project-id/37015/mtime/desc/limit/20/rss",
+            "http://sourceforge\\.net/projects/eraser/files/Eraser%206/[\\d\\.]+/Eraser%20([\\d\\.]+)\\.exe/download",
+            "http://downloads.sourceforge.net/project/eraser/Eraser%206/${{version3Parts}}/Eraser%20${{actualVersion}}.exe"));
+    dis.append(DiscoveryInfo("net.srware.Iron",
+            "http://www.srware.net/software_srware_iron_download.php",
+            "<strong>([\\d\\.]+)</strong>",
+            "http://www.srware.net/downloads/srware_iron.exe",
+            DT_GOOGLECODE));
 
     /*
     ${{version}}
     ${{version2Parts}}
+    ${{version3Parts}}
     ${{version2PartsWithoutDots}}
     ${{actualVersion}}
     ${{actualVersionWithoutDots}}
+    ${{match}}
     */
     Repository* templ = new Repository();
     if (job->shouldProceed("Reading the template repository")) {
