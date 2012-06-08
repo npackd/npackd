@@ -1467,6 +1467,24 @@ void UpdateSearcher::findUpdates(Job* job)
             "<strong>([\\d\\.]+)</strong>",
             "http://www.srware.net/downloads/srware_iron.exe",
             DT_GOOGLECODE));
+    dis.append(DiscoveryInfo("org.apache.jakarta.JMeter",
+            "http://jmeter.apache.org/download_jmeter.cgi",
+            "Apache JMeter ([\\d\\.]+) ",
+            "http://apache.mirror.clusters.cc//jmeter/binaries/apache-jmeter-${{actualVersion}}.zip",
+            DT_GOOGLECODE));
+    dis.append(DiscoveryInfo("net.sourceforge.mpc-hc.MediaPlayerClassicHomeCinema",
+            "http://sourceforge.net/api/file/index/project-id/170561/mtime/desc/limit/20/rss",
+            "http://sourceforge\\.net/projects/mpc-hc/files/MPC%20HomeCinema%20-%20Win32/MPC-HC_v[\\d\\.]+_x86/MPC-HC\\.([\\d\\.]+)\\.x86\\.zip/download",
+            "http://downloads.sourceforge.net/project/mpc-hc/MPC%20HomeCinema%20-%20Win32/MPC-HC_v${{actualVersion}}_x86/MPC-HC.${{actualVersion}}.x86.zip"));
+    dis.append(DiscoveryInfo("net.sourceforge.mpc-hc.MediaPlayerClassicHomeCinema64",
+            "http://sourceforge.net/api/file/index/project-id/170561/mtime/desc/limit/20/rss",
+            "http://sourceforge\\.net/projects/mpc-hc/files/MPC%20HomeCinema%20-%20x64/MPC-HC_v[\\d\\.]+_x64/MPC-HC\\.([\\d\\.]+)\\.x64\\.zip/download",
+            "http://downloads.sourceforge.net/project/mpc-hc/MPC%20HomeCinema%20-%20x64/MPC-HC_v${{actualVersion}}_x64/MPC-HC.${{actualVersion}}.x64.zip"));
+    dis.append(DiscoveryInfo("org.miktex.MiKTeX",
+            "http://sunsite.informatik.rwth-aachen.de/ftp/pub/mirror/ctan/systems/win32/miktex/setup/",
+            "basic-miktex-([\\d\\.]+)\\.exe",
+            "http://sunsite.informatik.rwth-aachen.de/ftp/pub/mirror/ctan/systems/win32/miktex/setup/basic-miktex-${{actualVersion}}.exe",
+            DT_SOURCEFORGE, true));
 
     /*
     ${{version}}
