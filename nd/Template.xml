@@ -945,4 +945,72 @@ if %err% neq 0 exit %err%
         <url>http://npackd.googlecode.com/files/net.srware.Iron-18.0.1050.exe</url>
         <sha1>879eca59914144bc8ab45f689ef0c5a6b7efcf1f</sha1>
     </version>
+
+    <version name="1" package="org.apache.jakarta.JMeter">
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b apache*') do set name=%%x
+cd "%name%"
+for /f "delims=" %%a in ('dir /b') do (
+  move "%%a" ..
+)
+cd ..
+rmdir "%name%"
+</file>
+        <important-file path="bin\jmeterw.cmd" title="JMeter"/>
+        <url>http://npackd.googlecode.com/files/org.apache.jakarta.JMeter-2.6.zip</url>
+        <sha1>3b284efb86f3aa0088681ea35d1b333c7bf69b52</sha1>
+    </version>
+
+    <version name="1"
+            package="net.sourceforge.mpc-hc.MediaPlayerClassicHomeCinema">
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b MPC*') do set name=%%x
+xcopy "%name%\*" . /E /H
+rmdir /s /q "%name%"
+</file>                
+        <important-file path="mpc-hc.exe" 
+                title="Media Player Classic - Home Cinema"/>
+        <url>http://downloads.sourceforge.net/project/mpc-hc/MPC%20HomeCinema%20-%20Win32/MPC-HC%20v1.6.1.4235_32%20bits/MPC-HomeCinema.1.6.1.4235.x86.zip</url>
+        <sha1>37c663e0b09d32ee2b070fcc41f4fcb66eb9e649</sha1>
+    </version>
+
+    <version name="1"
+            package="net.sourceforge.mpc-hc.MediaPlayerClassicHomeCinema64">
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b MPC*') do set name=%%x
+xcopy "%name%\*" . /E /H
+rmdir /s /q "%name%"
+</file>                
+        <important-file path="mpc-hc64.exe" 
+                title="Media Player Classic - Home Cinema"/>
+        <url>http://downloads.sourceforge.net/project/mpc-hc/MPC%20HomeCinema%20-%20x64/MPC-HC%20v1.6.1.4235_64%20bits/MPC-HomeCinema.1.6.1.4235.x64.zip</url>
+        <sha1>0bfe1529bc971336afaed5dc7b9f395ef1b8c7e6</sha1>
+    </version>
+
+    <version name="1"
+            package="org.miktex.MiKTeX" type="one-file">
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x
+"%setup%" --common-install="%CD%" --shared --unattended
+if %errorlevel% neq 0 exit /b %errorlevel%
+
+if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
+set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.CLU" "--versions=[1, 2)"
+for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set clu=%%x
+"%clu%\clu" remove-path --path "%CD%\miktex\bin"
+"%clu%\clu" add-path --path "%CD%\miktex\bin"
+verify
+</file>
+        <file path=".Npackd\Uninstall.bat">miktex\bin\internal\copystart_admin.exe "%CD%\miktex\bin\internal\uninstall_admin.exe"
+if %errorlevel% neq 0 exit /b %errorlevel%
+
+if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
+set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.CLU" "--versions=[1, 2)"
+for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set clu=%%x
+"%clu%\clu" remove-path --path "%CD%\miktex\bin"
+"%clu%\clu" remove-path --path "%CD%\miktex\bin"
+verify
+</file>
+        <url>http://npackd.googlecode.com/files/org.miktex.MiKTeX-2.9.4407.exe</url>
+        <sha1>fe4d387387fcbb1cb05e4a950eff0f3e0a70263c</sha1>
+        <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.15.7, 2)"/>
+        <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1, 1]"/>
+        <dependency package="com.googlecode.windows-package-manager.CLU" versions="[1, 2)"/>
+    </version>
 </root>

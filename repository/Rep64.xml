@@ -3112,7 +3112,17 @@ rmdir /s /q "%name%"
         <url>http://downloads.sourceforge.net/project/mpc-hc/MPC%20HomeCinema%20-%20x64/MPC-HC%20v1.6.1.4235_64%20bits/MPC-HomeCinema.1.6.1.4235.x64.zip</url>
         <sha1>0bfe1529bc971336afaed5dc7b9f395ef1b8c7e6</sha1>
     </version>
-
+    <version package="net.sourceforge.mpc-hc.MediaPlayerClassicHomeCinema64" name="1.6.2.4902">
+        <important-file title="Media Player Classic - Home Cinema" path="mpc-hc64.exe"/>
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b MPC*') do set name=%%x
+xcopy "%name%\*" . /E /H
+rmdir /s /q "%name%"
+</file>
+        <url>http://downloads.sourceforge.net/project/mpc-hc/MPC%20HomeCinema%20-%20x64/MPC-HC_v1.6.2.4902_x64/MPC-HC.1.6.2.4902.x64.zip</url>
+        <sha1>ae91adcff1d60011ec88b86258daa8e71c1a856f</sha1>
+    </version>
+    <!-- Detected -->
+    
     <version name="6.0.3883.8" package="com.microsoft.MSXML64" type="one-file">
         <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.msi') do set setup=%%x
 msiexec.exe /qn /norestart /Lime .Npackd\MSI.log /i "%setup%" TARGETDIR="%CD%" ALLUSERS=1

@@ -3571,7 +3571,36 @@ verify
         <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1, 1]"/>
         <dependency package="com.googlecode.windows-package-manager.CLU" versions="[1, 2)"/>
     </version>
+    <version package="org.miktex.MiKTeX" type="one-file" name="2.9.4521">
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x
+"%setup%" --common-install="%CD%" --shared --unattended
+if %errorlevel% neq 0 exit /b %errorlevel%
 
+if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
+set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.CLU" "--versions=[1, 2)"
+for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set clu=%%x
+"%clu%\clu" remove-path --path "%CD%\miktex\bin"
+"%clu%\clu" add-path --path "%CD%\miktex\bin"
+verify
+</file>
+        <file path=".Npackd\Uninstall.bat">miktex\bin\internal\copystart_admin.exe "%CD%\miktex\bin\internal\uninstall_admin.exe"
+if %errorlevel% neq 0 exit /b %errorlevel%
+
+if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
+set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.CLU" "--versions=[1, 2)"
+for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set clu=%%x
+"%clu%\clu" remove-path --path "%CD%\miktex\bin"
+"%clu%\clu" remove-path --path "%CD%\miktex\bin"
+verify
+</file>
+        <url>http://downloads.sourceforge.net/project/npackd/org.miktex.MiKTeX-2.9.4521.exe</url>
+        <sha1>659ee5bbb807805fb324bb4821bafc7273dcae53</sha1>
+        <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.15.7, 2)"/>
+        <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1, 1]"/>
+        <dependency package="com.googlecode.windows-package-manager.CLU" versions="[1, 2)"/>
+    </version>
+    <!-- Detected -->
+    
     <version name="1.0.11" package="com.freesshd.FreeFTPD" type="one-file">
         <file path=".Npackd\Install.bat">freeFTPd.exe /SP- /VERYSILENT /SUPPRESSMSGBOXES /NOCANCEL /NORESTART /DIR="%CD%" /SAVEINF="%CD%\.Npackd\InnoSetupInfo.ini" /LOG="%CD%\.Npackd\InnoSetupInstall.log"
 set err=%errorlevel%
@@ -4119,6 +4148,20 @@ rmdir "%name%"
         <url>http://npackd.googlecode.com/files/org.apache.jakarta.JMeter-2.6.zip</url>
         <sha1>3b284efb86f3aa0088681ea35d1b333c7bf69b52</sha1>
     </version>
+    <version package="org.apache.jakarta.JMeter" name="2.7">
+        <important-file title="JMeter" path="bin\jmeterw.cmd"/>
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b apache*') do set name=%%x
+cd "%name%"
+for /f "delims=" %%a in ('dir /b') do (
+  move "%%a" ..
+)
+cd ..
+rmdir "%name%"
+</file>
+        <url>http://npackd.googlecode.com/files/org.apache.jakarta.JMeter-2.7.zip</url>
+        <sha1>2f517c7befdadbc623491e23fb85f7a2ade3ccf8</sha1>
+    </version>
+    <!-- Detected -->
     
     <!--
         Here is the list of available versions:
@@ -5372,6 +5415,14 @@ ren "%setup%" com.dvdvideosoft.FreeYouTubeToMP3ConverterInstaller.exe
 ren "%setup%" com.dvdvideosoft.FreeYouTubeToMP3ConverterInstaller.exe
 </file>
         <url>http://dl.dropbox.com/u/17046326/files/com.dvdvideosoft.FreeYouTubeToMP3ConverterInstaller-3.11.22.508.exe</url>
+        <sha1>07cf040fefa25dfda4287bab632eab806e294695</sha1>
+    </version>
+    <version package="com.dvdvideosoft.FreeYouTubeToMP3ConverterInstaller" type="one-file" name="3.11.24.608">
+        <important-file title="Installer" path="com.dvdvideosoft.FreeYouTubeToMP3ConverterInstaller.exe"/>
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x
+ren "%setup%" com.dvdvideosoft.FreeYouTubeToMP3ConverterInstaller.exe
+</file>
+        <url>http://dl.dropbox.com/u/17046326/files/com.dvdvideosoft.FreeYouTubeToMP3ConverterInstaller-3.11.24.608.exe</url>
         <sha1>07cf040fefa25dfda4287bab632eab806e294695</sha1>
     </version>
     <!-- Detected -->
@@ -7836,7 +7887,17 @@ rmdir /s /q "%name%"
         <url>http://downloads.sourceforge.net/project/mpc-hc/MPC%20HomeCinema%20-%20Win32/MPC-HC%20v1.6.1.4235_32%20bits/MPC-HomeCinema.1.6.1.4235.x86.zip</url>
         <sha1>37c663e0b09d32ee2b070fcc41f4fcb66eb9e649</sha1>
     </version>
-
+    <version package="net.sourceforge.mpc-hc.MediaPlayerClassicHomeCinema" name="1.6.2.4902">
+        <important-file title="Media Player Classic - Home Cinema" path="mpc-hc.exe"/>
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b MPC*') do set name=%%x
+xcopy "%name%\*" . /E /H
+rmdir /s /q "%name%"
+</file>
+        <url>http://downloads.sourceforge.net/project/mpc-hc/MPC%20HomeCinema%20-%20Win32/MPC-HC_v1.6.2.4902_x86/MPC-HC.1.6.2.4902.x86.zip</url>
+        <sha1>58d5c56bc579a69cbac10d14dca5880df14e0866</sha1>
+    </version>
+    <!-- Detected -->
+    
     <!--
         different versions are distributed from the same URL, but the license
         allows redistribution
@@ -8374,6 +8435,21 @@ if %err% neq 0 exit %err%
 </file>
         <url>http://ac3filter.googlecode.com/files/ac3filter_2_3a.exe</url>
         <sha1>1c39fb99b7e630891b10be8bbda872d3c1a134e3</sha1>
+    </version>
+    <version package="net.ac3filter.AC3Filter" type="one-file" name="2.4.1">
+        <file path=".WPM\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x
+"%setup%" /SP- /VERYSILENT /SUPPRESSMSGBOXES /NOCANCEL /NORESTART /DIR="%CD%" /SAVEINF="%CD%\.WPM\InnoSetupInfo.ini" /LOG="%CD%\.WPM\InnoSetupInstall.log"
+set err=%errorlevel%
+type .WPM\InnoSetupInstall.log
+if %err% neq 0 exit %err%
+</file>
+        <file path=".WPM\Uninstall.bat">unins000.exe /VERYSILENT /SUPPRESSMSGBOXES /NORESTART /LOG="%CD%\.WPM\InnoSetupUninstall.log"
+set err=%errorlevel%
+type .WPM\InnoSetupUninstall.log
+if %err% neq 0 exit %err%
+</file>
+        <url>http://ac3filter.googlecode.com/files/ac3filter_2_4a.exe</url>
+        <sha1>c8fa03e0ea96be4b63c6383e00dac6ab500fa6b7</sha1>
     </version>
     <!-- Detected -->
 
@@ -15671,7 +15747,7 @@ for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set clu=%%x
 "%clu%\clu" remove-path --path "%CD%\bin"
 verify
 </file>
-        <url>http://dl.dropbox.com/u/17046326/files/net.sourceforge.mingw-w64.MinGWW64-1.0.2011.4.8.zip</url>
+        <url>http://downloads.sourceforge.net/project/npackd/net.sourceforge.mingw-w64.MinGWW64-1.0.2011.4.8.zip</url>
         <sha1>9923667275258E1036970EECB53D7A7488A38DF0</sha1>
         <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.15.7, 2)"/>
         <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1, 1]"/>
