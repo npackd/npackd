@@ -216,6 +216,7 @@ private slots:
     void on_actionClose_Tab_triggered();
     void repositoryStatusChanged(PackageVersion* pv);
     void monitoredJobChanged(const JobState& state);
+    void on_actionFile_an_Issue_triggered();
 };
 
 #endif // MAINWINDOW_H
