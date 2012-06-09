@@ -1485,6 +1485,53 @@ void UpdateSearcher::findUpdates(Job* job)
             "basic-miktex-([\\d\\.]+)\\.exe",
             "http://sunsite.informatik.rwth-aachen.de/ftp/pub/mirror/ctan/systems/win32/miktex/setup/basic-miktex-${{actualVersion}}.exe",
             DT_SOURCEFORGE, true));
+    dis.append(DiscoveryInfo("org.miktex.MiKTeX64",
+            "http://sunsite.informatik.rwth-aachen.de/ftp/pub/mirror/ctan/systems/win32/miktex/setup/",
+            "basic-miktex-([\\d\\.]+)-x64\\.exe",
+            "http://sunsite.informatik.rwth-aachen.de/ftp/pub/mirror/ctan/systems/win32/miktex/setup/basic-miktex-${{actualVersion}}-x64.exe",
+            DT_SOURCEFORGE, true));
+    dis.append(DiscoveryInfo("org.miranda-im.MirandaIM",
+            "https://code.google.com/p/miranda/downloads/list",
+            "miranda-im-v([\\d\\.]+)-unicode\\.exe",
+            "https://miranda.googlecode.com/files/miranda-im-v${{actualVersion}}-unicode.exe"));
+    dis.append(DiscoveryInfo("org.miranda-im.MirandaIM64",
+            "https://code.google.com/p/miranda/downloads/list",
+            "miranda-im-v([\\d\\.]+)-x64\\.7z",
+            "https://miranda.googlecode.com/files/miranda-im-v${{actualVersion}}-x64.7z"));
+    dis.append(DiscoveryInfo("com.mysql.MySQLCommunityServer",
+            "http://www.mysql.com/downloads/mysql/",
+            "<h1>MySQL Community Server ([\\d\\.]+)</h1>",
+            "http://mysql.mirrors.ovh.net/ftp.mysql.com/Downloads/MySQL-${{version2Parts}}/mysql-${{actualVersion}}-win32.msi",
+            DT_SOURCEFORGE));
+    dis.append(DiscoveryInfo("com.mysql.MySQLCommunityServer64",
+            "http://www.mysql.com/downloads/mysql/",
+            "<h1>MySQL Community Server ([\\d\\.]+)</h1>",
+            "http://mysql.mirrors.ovh.net/ftp.mysql.com/Downloads/MySQL-${{version2Parts}}/mysql-${{actualVersion}}-winx64.msi",
+            DT_SOURCEFORGE));
+    dis.append(DiscoveryInfo("org.python.Python",
+            "http://www.python.org/download/releases/",
+            ">Python ([\\d\\.]+)<",
+            "http://www.python.org/ftp/python/${{actualVersion}}/python-${{actualVersion}}.msi"));
+    dis.append(DiscoveryInfo("org.python.Python64",
+            "http://www.python.org/download/releases/",
+            ">Python ([\\d\\.]+)<",
+            "http://www.python.org/ftp/python/${{actualVersion}}/python-${{actualVersion}}.amd64.msi"));
+    dis.append(DiscoveryInfo("com.nokia.QtSource",
+            "http://qt.nokia.com/downloads",
+            ">Qt libraries ([\\d\\.]+) for Windows",
+            "http://releases.qt-project.org/qt4/source/qt-everywhere-opensource-src-${{actualVersion}}.zip"));
+    dis.append(DiscoveryInfo("com.nokia.QtMinGWInstaller",
+            "http://qt.nokia.com/downloads",
+            ">Qt libraries ([\\d\\.]+) for Windows",
+            "http://releases.qt-project.org/qt4/source/qt-win-opensource-${{actualVersion}}-mingw.exe"));
+    dis.append(DiscoveryInfo("net.sourceforge.shareaza.Shareaza",
+            "http://sourceforge.net/api/file/index/project-id/110672/mtime/desc/limit/20/rss",
+            "http://sourceforge\\.net/projects/shareaza/files/Shareaza/Shareaza%20[\\d\\.]+/Shareaza_([\\d\\.]+)_Win32\\.exe/download",
+            "http://downloads.sourceforge.net/project/shareaza/Shareaza/Shareaza%20${{actualVersion}}/Shareaza_${{actualVersion}}_Win32.exe"));
+    dis.append(DiscoveryInfo("net.sourceforge.shareaza.Shareaza64",
+            "http://sourceforge.net/api/file/index/project-id/110672/mtime/desc/limit/20/rss",
+            "http://sourceforge\\.net/projects/shareaza/files/Shareaza/Shareaza%20[\\d\\.]+/Shareaza_([\\d\\.]+)_x64\\.exe/download",
+            "http://downloads.sourceforge.net/project/shareaza/Shareaza/Shareaza%20${{actualVersion}}/Shareaza_${{actualVersion}}_x64.exe"));
 
     /*
     ${{version}}

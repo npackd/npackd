@@ -1013,4 +1013,222 @@ verify
         <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1, 1]"/>
         <dependency package="com.googlecode.windows-package-manager.CLU" versions="[1, 2)"/>
     </version>
+
+    <version name="1"
+            package="org.miktex.MiKTeX64" type="one-file">
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x
+"%setup%" --common-install="%CD%" --shared --unattended
+if %errorlevel% neq 0 exit /b %errorlevel%
+
+if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
+set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.CLU" "--versions=[1, 2)"
+for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set clu=%%x
+"%clu%\clu" add-path --path "%CD%\miktex\bin\x64"
+verify
+</file>
+        <file path=".Npackd\Unnstall.bat">miktex\bin\internal\copystart_admin.exe "%CD%\miktex/bin/internal\uninstall_admin.exe"
+if %errorlevel% neq 0 exit /b %errorlevel%
+
+if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
+set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.CLU" "--versions=[1, 2)"
+for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set clu=%%x
+"%clu%\clu" remove-path --path "%CD%\miktex\bin\x64"
+verify
+</file>
+        <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.15.7, 2)"/>
+        <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1, 1]"/>
+        <dependency package="com.googlecode.windows-package-manager.CLU" versions="[1, 2)"/>
+        <url>http://npackd.googlecode.com/files/org.miktex.MiKTeX64-2.9.4407.exe</url>
+        <sha1>c318f7d755654a84b7d945b3273b407ab93fd2de</sha1>
+    </version>
+
+    <version name="1" package="org.miranda-im.MirandaIM" type="one-file">
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x
+"%setup%" /S /D=%CD%
+</file>
+        <file path=".Npackd\Uninstall.bat">Uninstall.exe /S _?=%CD%
+</file>        
+        <url>http://miranda.googlecode.com/files/miranda-im-v0.9.48-unicode.exe</url>
+        <sha1>711df4cc3b8fc6cd7964e4ee3fcbbe3611ed416c</sha1>
+    </version>
+
+    <version name="1" package="org.miranda-im.MirandaIM64" type="one-file">
+        <important-file path="miranda64.exe" title="Miranda IM"/>
+        <file path=".Npackd\Install.bat">if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
+set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=org.7-zip.SevenZIPA" "--versions=[9.20, 9.20]"
+for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set sevenzipa=%%x
+for /f %%x in ('dir /b *.7z') do set setup=%%x
+"%sevenzipa%\7za.exe" x "%setup%"
+</file>
+        <url>http://miranda.googlecode.com/files/miranda-im-v0.9.48-x64.7z</url>
+        <sha1>e006f9a71a160e3d035a1c253f1f3488e33490b1</sha1>
+        <dependency package="org.7-zip.SevenZIPA" versions="[9.20, 9.20]"/>
+    </version>
+
+    <version name="1" package="com.mysql.MySQLCommunityServer" 
+            type="one-file">
+<file path=".Npackd\Install.bat">if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
+set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.NpackdInstallerHelper" "--versions=[1, 1]"
+for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set npackdih=%%x
+call "%npackdih%\InstallMSI.bat" INSTALLDIR
+</file>
+        <file path=".Npackd\Uninstall.bat">if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
+set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.NpackdInstallerHelper" "--versions=[1, 1]"
+for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set npackdih=%%x
+call "%npackdih%\UninstallMSI.bat"
+</file>
+        <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1, 1]"/>
+        <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.15.7, 2)"/>
+        <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1, 1]"/>
+        <url>http://npackd.googlecode.com/files/com.mysql.MySQLCommunityServer-5.5.24.msi</url>
+        <sha1>646fee055d05337ca01fbc3e2a3e1cd29743e3c6</sha1>
+    </version>
+
+    <version name="1" package="com.mysql.MySQLCommunityServer64" 
+            type="one-file">
+<file path=".Npackd\Install.bat">if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
+set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.NpackdInstallerHelper" "--versions=[1, 1]"
+for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set npackdih=%%x
+call "%npackdih%\InstallMSI.bat" INSTALLDIR
+</file>
+        <file path=".Npackd\Uninstall.bat">if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
+set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.NpackdInstallerHelper" "--versions=[1, 1]"
+for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set npackdih=%%x
+call "%npackdih%\UninstallMSI.bat"
+</file>
+        <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1, 1]"/>
+        <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.15.7, 2)"/>
+        <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1, 1]"/>
+        <url>http://npackd.googlecode.com/files/com.mysql.MySQLCommunityServer64-5.5.24.msi</url>
+        <sha1>55bc3bf6b24bb4cf7186a6016d71205ba0101b86</sha1>
+    </version>
+
+    <version name="1" package="org.python.Python" type="one-file">
+       <file path=".Npackd\Install.bat">if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
+set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.NpackdInstallerHelper" "--versions=[1, 1]"
+for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set npackdih=%%x
+call "%npackdih%\InstallMSI.bat" TARGETDIR
+if %errorlevel% neq 0 exit /b %errorlevel%
+
+if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
+set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.CLU" "--versions=[1, 2)"
+for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set clu=%%x
+"%clu%\clu" add-path --path "%CD%"
+verify
+</file>
+        <file path=".Npackd\Uninstall.bat">if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
+set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.NpackdInstallerHelper" "--versions=[1, 1]"
+for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set npackdih=%%x
+call "%npackdih%\UninstallMSI.bat"
+if %errorlevel% neq 0 exit /b %errorlevel%
+
+if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
+set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.CLU" "--versions=[1, 2)"
+for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set clu=%%x
+"%clu%\clu" remove-path --path "%CD%"
+verify
+</file>
+        <dependency package="com.googlecode.windows-package-manager.CLU" versions="[1, 2)"/>
+        <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1, 1]"/>
+        <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.15.7, 2)"/>
+        <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1, 1]"/>
+        <url>http://www.python.org/ftp/python/3.2.2/python-3.2.2.msi</url>
+        <sha1>5d0265a1258a480365be43f59264ce21de5da315</sha1>
+    </version>
+
+    <version name="1" package="org.python.Python64" type="one-file">
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.msi') do set setup=%%x
+copy "%setup%" .Npackd
+msiexec.exe /qn /norestart /Lime .Npackd\MSI.log /i "%setup%" TARGETDIR="%CD%" ALLUSERS=1
+set err=%errorlevel%
+type .Npackd\MSI.log
+rem 3010=restart required
+if %err% equ 3010 exit /b 0
+if %err% neq 0 exit /b %err%
+
+if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
+set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.CLU" "--versions=[1, 2)"
+for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set clu=%%x
+"%clu%\clu" add-path --path "%CD%"
+verify
+</file>
+        <file path=".Npackd\Uninstall.bat">move .Npackd\*.msi .
+for /f "delims=" %%x in ('dir /b *.msi') do set setup=%%x
+msiexec.exe /qn /norestart /Lime .Npackd\MSI.log /x "%setup%"
+set err=%errorlevel%
+type .Npackd\MSI.log
+rem 3010=restart required
+if %err% equ 3010 exit /b 0
+if %err% neq 0 exit /b %err%
+
+if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
+set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.CLU" "--versions=[1, 2)"
+for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set clu=%%x
+"%clu%\clu" remove-path --path "%CD%"
+verify
+</file>
+        <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.15.7, 2)"/>
+        <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1, 1]"/>
+        <dependency package="com.googlecode.windows-package-manager.CLU" versions="[1, 2)"/>
+        <url>http://www.python.org/ftp/python/3.2.2/python-3.2.2.amd64.msi</url>
+        <sha1>3b507230774db964b5a769fb2bf8170729c7cab1</sha1>
+    </version>
+
+    <version name="1" package="com.nokia.QtSource">
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b qt*') do set name=%%x
+cd "%name%"        
+for /f "delims=" %%a in ('dir /b') do (
+  move "%%a" ..
+)
+cd ..
+rmdir "%name%"
+</file>
+        <url>http://download.qt.nokia.com/qt/source/qt-everywhere-opensource-src-4.8.1.zip</url>
+        <sha1>93b3010fd7068c1f8a3193ea8b917de24e4c3996</sha1>
+        <dependency package="net.sourceforge.mingw-w64.MinGWW64" versions="[1, 1.1)"/>
+    </version>
+
+    <version name="1" package="com.nokia.QtMinGWInstaller" type="one-file">
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x
+ren "%setup%" qt-win-opensource-mingw.exe
+</file>
+        <url>http://get.qt.nokia.com/qt/source/qt-win-opensource-4.8.1-mingw.exe</url>
+        <important-file path="qt-win-opensource-mingw.exe" title="Installer"/>
+        <sha1>c5392a5fb07b1b8c0328f8dcb5f2ccd4d2f01fca</sha1>
+        <dependency package="net.sourceforge.mingw-w64.MinGWW64" versions="[1, 1.1)"/>
+    </version>
+
+    <version name="1" package="net.sourceforge.shareaza.Shareaza"
+            type="one-file">
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x
+"%setup%" /SP- /VERYSILENT /SUPPRESSMSGBOXES /NOCANCEL /NORESTART /DIR="%CD%" /SAVEINF="%CD%\.Npackd\InnoSetupInfo.ini" /LOG="%CD%\.Npackd\InnoSetupInstall.log"
+set err=%errorlevel%
+type .Npackd\InnoSetupInstall.log
+if %err% neq 0 exit %err%
+</file>
+        <file path=".Npackd\Uninstall.bat">Uninstall\unins000.exe /VERYSILENT /SUPPRESSMSGBOXES /NORESTART /LOG="%CD%\.Npackd\InnoSetupUninstall.log"
+set err=%errorlevel%
+type .Npackd\InnoSetupUninstall.log
+if %err% neq 0 exit %err%
+</file>
+        <url>http://downloads.sourceforge.net/project/shareaza/Shareaza/Shareaza%202.5.5.0/Shareaza_2.5.5.0_Win32.exe?ts=1307560798</url>
+        <sha1>30C21395CD9E2FF698923B095897430F3D7DDA20</sha1>
+    </version>
+
+    <version name="1" package="net.sourceforge.shareaza.Shareaza64"
+            type="one-file">
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x
+"%setup%" /SP- /VERYSILENT /SUPPRESSMSGBOXES /NOCANCEL /NORESTART /DIR="%CD%" /SAVEINF="%CD%\.Npackd\InnoSetupInfo.ini" /LOG="%CD%\.Npackd\InnoSetupInstall.log"
+set err=%errorlevel%
+type .Npackd\InnoSetupInstall.log
+if %err% neq 0 exit %err%
+</file>
+        <file path=".Npackd\Uninstall.bat">Uninstall\unins000.exe /VERYSILENT /SUPPRESSMSGBOXES /NORESTART /LOG="%CD%\.Npackd\InnoSetupUninstall.log"
+set err=%errorlevel%
+type .Npackd\InnoSetupUninstall.log
+if %err% neq 0 exit %err%
+</file>
+        <url>http://downloads.sourceforge.net/project/shareaza/Shareaza/Shareaza%202.5.5.0/Shareaza_2.5.5.0_Win32.exe?ts=1307560798</url>
+        <sha1>30C21395CD9E2FF698923B095897430F3D7DDA20</sha1>
+    </version>
 </root>
