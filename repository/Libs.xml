@@ -142,7 +142,21 @@ rmdir "%name%"
         <sha1>93b3010fd7068c1f8a3193ea8b917de24e4c3996</sha1>
         <dependency package="net.sourceforge.mingw-w64.MinGWW64" versions="[1, 1.1)"/>
     </version>
-    
+     <version package="com.nokia.QtSource" name="4.8.2">
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b qt*') do set name=%%x
+cd "%name%"        
+for /f "delims=" %%a in ('dir /b') do (
+  move "%%a" ..
+)
+cd ..
+rmdir "%name%"
+</file>
+        <url>http://releases.qt-project.org/qt4/source/qt-everywhere-opensource-src-4.8.2.zip</url>
+        <sha1>6bafae4e3435c796df94ca31ef5c3813acd7fea6</sha1>
+        <dependency package="net.sourceforge.mingw-w64.MinGWW64" versions="[1, 1.1)"/>
+    </version>
+    <!-- Detected -->
+   
     <version name="4.7.3" package="com.nokia.QtMinGWInstaller" type="one-file">
         <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x
 ren "%setup%" qt-win-opensource-mingw.exe
@@ -179,6 +193,16 @@ ren "%setup%" qt-win-opensource-mingw.exe
         <sha1>c5392a5fb07b1b8c0328f8dcb5f2ccd4d2f01fca</sha1>
         <dependency package="net.sourceforge.mingw-w64.MinGWW64" versions="[1, 1.1)"/>
     </version>
+    <version package="com.nokia.QtMinGWInstaller" type="one-file" name="4.8.2">
+        <important-file title="Installer" path="qt-win-opensource-mingw.exe"/>
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x
+ren "%setup%" qt-win-opensource-mingw.exe
+</file>
+        <url>http://releases.qt-project.org/qt4/source/qt-win-opensource-4.8.2-mingw.exe</url>
+        <sha1>1be1de77e69df8d3563fc616bfd436972a576cf5</sha1>
+        <dependency package="net.sourceforge.mingw-w64.MinGWW64" versions="[1, 1.1)"/>
+    </version>
+    <!-- Detected -->
 
     <version name="1.47" package="org.boost.Boost">
         <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b boost*') do set name=%%x
