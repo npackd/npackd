@@ -1754,3 +1754,9 @@ void MainWindow::on_actionClose_Tab_triggered()
         this->ui->tabWidget->removeTab(this->ui->tabWidget->currentIndex());
     }
 }
+
+void MainWindow::on_actionFile_an_Issue_triggered()
+{
+    QDesktopServices::openUrl(QUrl(
+            "http://code.google.com/p/windows-package-manager/issues/entry?template=Defect%20report%20from%20user"));
+}
