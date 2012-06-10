@@ -414,6 +414,8 @@ void MainWindow::closeEvent(QCloseEvent *event)
 
 void MainWindow::repositoryStatusChanged(PackageVersion* pv)
 {
+    // qDebug() << "MainWindow::repositoryStatusChanged" << pv->toString();
+
     this->updateStatusInTable();
     this->updateStatusInDetailTabs();
     this->updateActions();
@@ -941,6 +943,10 @@ void MainWindow::changeEvent(QEvent *e)
     case QEvent::LanguageChange:
         ui->retranslateUi(this);
         break;
+    case QEvent::ActivationChange:
+        // qDebug() << "QEvent::ActivationChange";
+        QTimer::singleShot(0, this, SLOT(on_updateActions()));
+        break;
     default:
         break;
     }
@@ -1108,6 +1114,7 @@ void MainWindow::updateUninstallAction()
                         pv->installed() &&
                         !pv->isExternal();
             }
+            // qDebug() << "MainWindow::updateUninstallAction 2:" << selected.count();
         } else {
             Repository* r = Repository::getDefault();
             QList<void*> selected = selection->getSelected("Package");
@@ -1753,6 +1760,11 @@ void MainWindow::on_actionClose_Tab_triggered()
     if (w != this->mainFrame && w != this->jobsTab) {
         this->ui->tabWidget->removeTab(this->ui->tabWidget->currentIndex());
     }
+}
+
+void MainWindow::on_updateActions()
+{
+    updateActions();
 }
 
 void MainWindow::on_actionFile_an_Issue_triggered()
