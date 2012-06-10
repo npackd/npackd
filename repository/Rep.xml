@@ -823,6 +823,12 @@
         <description>convert AAC to MP3 and M4A to MP3</description>
         <license>com.maniactools.FreeM4aToMP3ConverterLicense</license>
     </package>
+    <package name="com.microsoft.AccessChk">
+        <title>AccessChk</title>
+        <url>http://technet.microsoft.com/en-us/sysinternals/bb664922</url>
+        <description>command line tool that answers what kind of accesses specific users or groups have to resources including files, directories, Registry keys, global objects and Windows services</description>
+        <license>com.microsoft.SysinternalsLicense</license>
+    </package>
     <package name="com.microsoft.AccessEnum">
         <title>AccessEnum</title>
         <url>http://technet.microsoft.com/en-us/sysinternals/bb897332</url>
@@ -18654,6 +18660,26 @@ if %err% neq 0 exit %err%
         <sha1>92826ca1d0ab577dca30f0108961e708f13db9c9</sha1>
     </version>
     <!-- Detected -->
+    
+    <version name="5.3" package="com.microsoft.AccessChk">
+        <file path=".WPM\Install.bat">if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
+set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.CLU" "--versions=[1, 2)"
+for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set clu=%%x
+"%clu%\clu" add-path --path "%CD%"
+verify
+</file>
+        <file path=".WPM\Uninstall.bat">if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
+set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.CLU" "--versions=[1, 2)"
+for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set clu=%%x
+"%clu%\clu" remove-path --path "%CD%"
+verify
+</file>
+        <url>http://download.sysinternals.com/files/AccessChk.zip</url>
+        <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.15.7, 2)"/>
+        <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1, 1]"/>
+        <dependency package="com.googlecode.windows-package-manager.CLU" versions="[1, 2)"/>
+    </version>
+    
     
     <!-- http://downloads.sourceforge.net/project/npackd/... -->
 </root>
