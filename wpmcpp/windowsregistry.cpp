@@ -21,11 +21,16 @@ WindowsRegistry::WindowsRegistry(const WindowsRegistry& wr)
     if (wr.hkey == 0)
         this->hkey = 0;
     else {
+        REGSAM samDesired = wr.samDesired;
+#if !defined(__MINGW64__)
         const REGSAM KEY_WOW64_64KEY = 0x0100;
         bool w64bit = WPMUtils::is64BitWindows() && !useWow6432Node;
+        samDesired |= (w64bit ? KEY_WOW64_64KEY : 0)
+#else
+#endif
         LONG r = RegOpenKeyEx(wr.hkey,
                 L"",
-                0, wr.samDesired | (w64bit ? KEY_WOW64_64KEY : 0),
+                0, samDesired,
                 &this->hkey);
         if (r != ERROR_SUCCESS) {
             this->hkey = 0;
@@ -201,11 +206,15 @@ QString WindowsRegistry::open(HKEY hk, QString path, bool useWow6432Node,
     this->useWow6432Node = useWow6432Node;
     this->samDesired = samDesired;
 
+#if !defined(__MINGW64__)
     const REGSAM KEY_WOW64_64KEY = 0x0100;
     bool w64bit = WPMUtils::is64BitWindows() && !useWow6432Node;
+    samDesired = samDesired | (w64bit ? KEY_WOW64_64KEY : 0);
+#else
+#endif
     LONG r = RegOpenKeyEx(hk,
             (WCHAR*) path.utf16(),
-            0, samDesired | (w64bit ? KEY_WOW64_64KEY : 0),
+            0, samDesired,
             &this->hkey);
     if (r == ERROR_SUCCESS) {
         return "";
@@ -226,12 +235,17 @@ WindowsRegistry WindowsRegistry::createSubKey(QString name, QString* err,
         return WindowsRegistry();
     }
 
+    REGSAM sd = samDesired;
+#if !defined(__MINGW64__)
     const REGSAM KEY_WOW64_64KEY = 0x0100;
     bool w64bit = WPMUtils::is64BitWindows() && !useWow6432Node;
+    sd |= (w64bit ? KEY_WOW64_64KEY : 0);
+#else
+#endif
     HKEY hk;
     LONG r = RegCreateKeyEx(this->hkey,
             (WCHAR*) name.utf16(),
-            0, 0, 0, samDesired | (w64bit ? KEY_WOW64_64KEY : 0), 0,
+            0, 0, 0, sd, 0,
             &hk, 0);
     if (r != ERROR_SUCCESS) {
         WPMUtils::formatMessage(r, err);

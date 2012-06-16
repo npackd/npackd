@@ -27,6 +27,7 @@ namespace Ui {
 
 const UINT WM_ICONTRAY = WM_USER + 1;
 
+#if !defined(__MINGW64__)
 const UINT NIN_BALLOONSHOW = WM_USER + 2;
 const UINT NIN_BALLOONHIDE = WM_USER + 3;
 const UINT NIN_BALLOONTIMEOUT = WM_USER + 4;
@@ -34,6 +35,7 @@ const UINT NIN_BALLOONUSERCLICK = WM_USER + 5;
 const UINT NIN_SELECT = WM_USER + 0;
 const UINT NINF_KEY = 1;
 const UINT NIN_KEYSELECT = NIN_SELECT or NINF_KEY;
+#endif
 
 /**
  * Main window.

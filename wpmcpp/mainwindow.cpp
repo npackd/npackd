@@ -25,7 +25,6 @@
 #include <QPushButton>
 #include <QCloseEvent>
 #include <QTextBrowser>
-#include <QElapsedTimer>
 #include <QTableWidget>
 
 #include "mainwindow.h"
