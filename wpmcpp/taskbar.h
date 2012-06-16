@@ -3,6 +3,10 @@
 
 #include <shlobj.h>
 
+#if defined(__MINGW64__)
+#define GUID_SECT
+#endif
+
 #define DEFINE_GUID_(n,l,w1,w2,b1,b2,b3,b4,b5,b6,b7,b8) const GUID n GUID_SECT = {l,w1,w2,{b1,b2,b3,b4,b5,b6,b7,b8}}
 
 typedef enum STPFLAG
@@ -52,6 +56,7 @@ typedef enum TBPFLAG
     TBPF_PAUSED = 0x8
 } TBPFLAG;
 
+#if !defined(__MINGW64__)
 //MIDL_INTERFACE("56FDF342-FD6D-11d0-958A-006097C9A090")
 DECLARE_INTERFACE_(ITaskbarList, IUnknown)
 {
@@ -69,6 +74,7 @@ DECLARE_INTERFACE_(ITaskbarList2, ITaskbarList)
     STDMETHOD (MarkFullscreenWindow) (THIS_ HWND hwnd, int fFullscreen) PURE;
 };
 typedef ITaskbarList2 *LPITaskbarList2;
+#endif
 
 //MIDL_INTERFACE("ea1afb91-9e28-4b86-90e9-9e9f8a5eefaf")
 DECLARE_INTERFACE_(ITaskbarList3, ITaskbarList2)
@@ -95,10 +101,13 @@ DECLARE_INTERFACE_(ITaskbarList4, ITaskbarList3)
 };
 typedef ITaskbarList4 *LPITaskbarList4;
 
+#if !defined(__MINGW64__)
 DEFINE_GUID_(CLSID_TaskbarList,0x56fdf344,0xfd6d,0x11d0,0x95,0x8a,0x0,0x60,0x97,0xc9,0xa0,0x90);
 
 DEFINE_GUID_(IID_ITaskbarList,0x56FDF342,0xFD6D,0x11d0,0x95,0x8A,0x00,0x60,0x97,0xC9,0xA0,0x90);
 DEFINE_GUID_(IID_ITaskbarList2,0x602D4995,0xB13A,0x429b,0xA6,0x6E,0x19,0x35,0xE4,0x4F,0x43,0x17);
+#endif
+
 DEFINE_GUID_(IID_ITaskbarList3,0xea1afb91,0x9e28,0x4b86,0x90,0xE9,0x9e,0x9f,0x8a,0x5e,0xef,0xaf);
 DEFINE_GUID_(IID_ITaskbarList4,0xc43dc798,0x95d1,0x4bea,0x90,0x30,0xbb,0x99,0xe2,0x98,0x3a,0x1a);
 

@@ -769,7 +769,7 @@ void Repository::detectControlPanelProgramsFrom(HKEY root,
         else if (root == HKEY_DYN_DATA)
             fullPath = "HKEY_DYN_DATA";
         else
-            fullPath = QString("%1").arg((unsigned int) root);
+            fullPath = QString("%1").arg((uintptr_t) root);
         fullPath += "\\" + path;
 
         QStringList entries = wr.list(&err);

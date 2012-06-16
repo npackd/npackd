@@ -57,7 +57,6 @@ HEADERS += mainwindow.h \
     commandline.h \
     progressframe.h \
     messageframe.h \
-    taskbar.h \
     xmlutils.h \
     settingsframe.h \
     mstask.h \
@@ -65,7 +64,8 @@ HEADERS += mainwindow.h \
     selection.h \
     hrtimer.h \
     clprogress.h \
-    mainframe.h
+    mainframe.h \
+    taskbar.h
 FORMS += mainwindow.ui \
     packageversionform.ui \
     licenseform.ui \

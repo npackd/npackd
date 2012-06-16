@@ -1,4 +1,5 @@
 #include <math.h>
+#include <stdint.h>
 
 #include <windows.h>
 #include <wininet.h>
