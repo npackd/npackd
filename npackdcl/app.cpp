@@ -162,8 +162,10 @@ void App::addNpackdCL()
 
 void App::usage()
 {
+    WPMUtils::outputTextConsole(QString(
+            "NpackdCL %1 - Npackd command line tool").
+            arg(WPMUtils::NPACKD_VERSION));
     const char* lines[] = {
-        "Npackd command line tool",
         "Usage:",
         "    npackdcl help",
         "        prints this help",
@@ -199,7 +201,7 @@ void App::usage()
         "",
         "The process exits with the code unequal to 0 if an error occures.",
         "If the output is redirected, the texts will be encoded as UTF-8.",
-    };
+    };    
     for (int i = 0; i < (int) (sizeof(lines2) / sizeof(lines2[0])); i++) {
         WPMUtils::outputTextConsole(QString(lines2[i]) + "\n");
     }
