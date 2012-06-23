@@ -25,7 +25,7 @@ WindowsRegistry::WindowsRegistry(const WindowsRegistry& wr)
 #if !defined(__MINGW64__)
         const REGSAM KEY_WOW64_64KEY = 0x0100;
         bool w64bit = WPMUtils::is64BitWindows() && !useWow6432Node;
-        samDesired |= (w64bit ? KEY_WOW64_64KEY : 0)
+        samDesired |= (w64bit ? KEY_WOW64_64KEY : 0);
 #else
 #endif
         LONG r = RegOpenKeyEx(wr.hkey,

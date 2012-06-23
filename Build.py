@@ -1,4 +1,4 @@
-# * Qt SDK 1.1.1 must be installed in C:\QtSDK-1.1.1
+# * You will need a 64 bit Windows to compile Npackd
 # * NpackdCL 1.15.8 or later must be installed
 # * MinGW does not provide msi.h (Microsoft Installer interface) and the
 #     corresponding library. msi.h was taken from the MinGW-W64 project and
@@ -96,17 +96,20 @@ class NpackdCLTool:
 
 class Build:
     def __init__(self):
-        self._qtsdk = "C:\\QtSDK-1.1.1"
         self._npackdcl = NpackdCLTool()
+        self._mingw = "C:\\QtSDK-1.2.1\mingw"
+        self._qt = "C:\\QtSDK-1.2.1\\Desktop\\Qt\\4.8.1\mingw"
+        self._qmake = self._qt + "\\bin\\qmake.exe"
+        self._make = self._mingw + "\\bin\\mingw32-make.exe"
+        self._ai = self._npackdcl.path("com.advancedinstaller.AdvancedInstallerFreeware", "[8.4,10)")
 
     def _build_wpmcpp(self):
         if not os.path.exists("wpmcpp-build-desktop"):
             os.mkdir("wpmcpp-build-desktop")
 
         e = dict(os.environ)
-        e["PATH"] = self._qtsdk + "\\mingw\\bin"
-        p = subprocess.Popen("\"" + self._qtsdk +
-                "\\Desktop\\Qt\\4.7.3\\mingw\\bin\\qmake.exe\" " +
+        e["PATH"] = self._mingw + "\\bin"
+        p = subprocess.Popen("\"" + self._qmake + "\" " +
                 "..\\wpmcpp\\wpmcpp.pro " +
                 "-r -spec win32-g++ " +
                 "CONFIG+=release",
@@ -114,29 +117,40 @@ class Build:
         if p.wait() != 0:
             raise BuildError("qmake for wpmcpp failed")
 
-        p = subprocess.Popen("\"" + self._qtsdk +
-                "\\mingw\\bin\\mingw32-make.exe\" ",
+        p = subprocess.Popen("\"" + self._make + "\" ",
                 cwd="wpmcpp-build-desktop", env=e)
         if p.wait() != 0:
             raise BuildError("make for wpmcpp failed")
 
-    def _build_msi(self):
-        loc = self._npackdcl.path("com.advancedinstaller.AdvancedInstallerFreeware", "[8.4,9)")
+        z = zipfile.ZipFile("Npackd.zip", "w", zipfile.ZIP_DEFLATED)
+        z.write(self._mingw + "\\bin\\libgcc_s_dw2-1.dll",
+                "libgcc_s_dw2-1.dll")
+        z.write(self._mingw + "\\bin\\mingwm10.dll",
+                 "mingwm10.dll")
+        z.write("wpmcpp\\LICENSE.txt", "LICENSE.txt")
+        z.write("wpmcpp\\CrystalIcons_LICENSE.txt", "CrystalIcons_LICENSE.txt")
+        z.write("wpmcpp-build-desktop\\release\\wpmcpp.exe", "npackdg.exe")
+        for f in ["QtCore4.dll", "QtGui4.dll", "QtNetwork4.dll", "QtXml4.dll"]:
+            z.write(self._qt + "\\bin\\" + f, f)
+        z.write("QuaZIP\\quazip\\release\\quazip.dll", "quazip.dll")
+        z.write("zlib\\zlib1.dll", "zlib1.dll")
+        z.close()
+        
+        loc = self._ai
         p = subprocess.Popen(
                 "\"" + loc + "\\bin\\x86\\AdvancedInstaller.com\" " +
                 "/build wpmcpp.aip",
                 cwd="wpmcpp")
         if p.wait() != 0:
             raise BuildError("msi creation failed")
-
+            
     def _build_npackdcl(self):
         if not os.path.exists("npackdcl-build-desktop"):
             os.mkdir("npackdcl-build-desktop")
 
         e = dict(os.environ)
         e["PATH"] = self._qtsdk + "\\mingw\\bin"
-        p = subprocess.Popen("\"" + self._qtsdk +
-                "\\Desktop\\Qt\\4.7.3\\mingw\\bin\\qmake.exe\" " +
+        p = subprocess.Popen("\"" + self._qmake + "\" " +
                 "..\\npackdcl\\npackdcl.pro " +
                 "-r -spec win32-g++ " +
                 "CONFIG+=release",
@@ -144,20 +158,31 @@ class Build:
         if p.wait() != 0:
             raise BuildError("qmake for npackdcl failed")
 
-        p = subprocess.Popen("\"" + self._qtsdk +
-                "\\mingw\\bin\\mingw32-make.exe\" ",
+        p = subprocess.Popen("\"" + self._make + "\" ",
                 cwd="npackdcl-build-desktop", env=e)
         if p.wait() != 0:
             raise BuildError("make for npackdcl failed")
 
+        z = zipfile.ZipFile("NpackdCL.zip", "w", zipfile.ZIP_DEFLATED)
+        z.write(self._mingw + "\\bin\\libgcc_s_dw2-1.dll",
+                "libgcc_s_dw2-1.dll")
+        z.write(self._mingw + "\\bin\\mingwm10.dll",
+                 "mingwm10.dll")
+        z.write("wpmcpp\\LICENSE.txt", "LICENSE.txt")
+        z.write("npackdcl-build-desktop\\release\\npackdcl.exe", "npackdcl.exe")
+        for f in ["QtCore4.dll", "QtNetwork4.dll", "QtXml4.dll"]:
+            z.write(self._qt + "\\bin\\" + f, f)
+        z.write("QuaZIP\\quazip\\release\\quazip.dll", "quazip.dll")
+        z.write("zlib\\zlib1.dll", "zlib1.dll")
+        z.close()
+        
     def _build_clu(self):
         if not os.path.exists("clu-build-desktop"):
             os.mkdir("clu-build-desktop")
 
         e = dict(os.environ)
         e["PATH"] = self._qtsdk + "\\mingw\\bin"
-        p = subprocess.Popen("\"" + self._qtsdk +
-                "\\Desktop\\Qt\\4.7.3\\mingw\\bin\\qmake.exe\" " +
+        p = subprocess.Popen("\"" + self._qmake + "\" " +
                 "..\\clu\\clu.pro " +
                 "-r -spec win32-g++ " +
                 "CONFIG+=release",
@@ -165,20 +190,67 @@ class Build:
         if p.wait() != 0:
             raise BuildError("qmake for clu failed")
 
-        p = subprocess.Popen("\"" + self._qtsdk +
-                "\\mingw\\bin\\mingw32-make.exe\" ",
+        p = subprocess.Popen("\"" + self._make + "\" ",
                 cwd="clu-build-desktop", env=e)
         if p.wait() != 0:
             raise BuildError("make for clu failed")
+
+        z = zipfile.ZipFile("CLU.zip", "w", zipfile.ZIP_DEFLATED)
+        z.write(self._mingw + "\\bin\\libgcc_s_dw2-1.dll",
+                "libgcc_s_dw2-1.dll")
+        z.write(self._mingw + "\\bin\\mingwm10.dll",
+                 "mingwm10.dll")
+        z.write("wpmcpp\\LICENSE.txt", "LICENSE.txt")
+        z.write("clu-build-desktop\\release\\clu.exe", "clu.exe")
+        for f in ["QtCore4.dll"]:
+            z.write(self._qt + "\\bin\\" + f, f)
+        z.close()
+        
+    def _build_nd(self):
+        if not os.path.exists("nd-build-desktop"):
+            os.mkdir("nd-build-desktop")
+
+        e = dict(os.environ)
+        e["PATH"] = self._qtsdk + "\\mingw\\bin"
+        p = subprocess.Popen("\"" + self._qmake + "\" " +
+                "..\\nd\\nd.pro " +
+                "-r -spec win32-g++ " +
+                "CONFIG+=release",
+                cwd="nd-build-desktop", env=e)
+        if p.wait() != 0:
+            raise BuildError("qmake for nd failed")
+
+        p = subprocess.Popen("\"" + self._make + "\" ",
+                cwd="nd-build-desktop", env=e)
+        if p.wait() != 0:
+            raise BuildError("make for nd failed")
+
+    def _build_npackdlib(self):
+        if not os.path.exists("npackdlib-build-desktop"):
+            os.mkdir("npackdlib-build-desktop")
+
+        e = dict(os.environ)
+        e["PATH"] = self._mingw + "\\bin"
+        p = subprocess.Popen("\"" + self._qmake + "\" " +
+                "..\\npackdlib\\npackdlib.pro " +
+                "-r -spec win32-g++ " +
+                "CONFIG+=release",
+                cwd="npackdlib-build-desktop", env=e)
+        if p.wait() != 0:
+            raise BuildError("qmake for npackdlib failed")
+
+        p = subprocess.Popen("\"" + self._make + "\" ",
+                cwd="npackdlib-build-desktop", env=e)
+        if p.wait() != 0:
+            raise BuildError("make for npackdlib failed")
 
     def _build_zlib(self):
         if not os.path.exists("zlib"):
             p = self._npackdcl.path("net.zlib.ZLibSource", "[1.2.5,1.2.5]")
             shutil.copytree(p, "zlib")
             e = dict(os.environ)
-            e["PATH"] = self._qtsdk + "\\mingw\\bin"
-            p = subprocess.Popen("\"" + self._qtsdk +
-                    "\\mingw\\bin\\mingw32-make.exe\" -f win32\Makefile.gcc",
+            e["PATH"] = self._mingw + "\\bin"
+            p = subprocess.Popen("\"" + self._make + "\" -f win32\Makefile.gcc",
                     cwd="zlib", env=e)
             if p.wait() != 0:
                 raise BuildError("make for zlib failed")
@@ -193,9 +265,8 @@ class Build:
             shutil.copytree(p, "QuaZIP")
 
             e = dict(os.environ)
-            e["PATH"] = self._qtsdk + "\\mingw\\bin"
-            p = subprocess.Popen("\"" + self._qtsdk +
-                    "\\Desktop\\Qt\\4.7.3\\mingw\\bin\\qmake.exe\" " +
+            e["PATH"] = self._mingw + "\\bin;" + self._qt + "\\bin"
+            p = subprocess.Popen("\"" + self._qmake + "\" " +
                     "CONFIG+=release "
                     "INCLUDEPATH=" + self._project_path + "\\zlib " +
                     "LIBS+=-L" + self._project_path + "\\zlib " +
@@ -204,114 +275,42 @@ class Build:
             if p.wait() != 0:
                 raise BuildError("qmake for quazip failed")
 
-            p = subprocess.Popen("\"" + self._qtsdk +
-                    "\\mingw\\bin\\mingw32-make.exe\"",
+            p = subprocess.Popen("\"" + self._make + "\"",
                     cwd="QuaZIP", env=e)
             if p.wait() != 0:
                 raise BuildError("make for quazip failed")
 
-    def _build_qt(self):
-        if not os.path.exists("Qt"):
-            p = self._npackdcl.path("com.nokia.QtSource", "[4.7.3,4.7.3]")
-
-            shutil.copytree(p, "Qt")
-            
-        if not os.path.exists("Qt\\bin\\A.exe"):
-            f = open('Qt\\yes.txt', 'w')
-            f.write('yes')
-            f.close()
-        
-            e = dict(os.environ)
-            e["PATH"] = (self._qtsdk + "\\mingw\\bin;" + 
-                    self._qtsdk + "Desktop\\Qt\\4.7.3\\mingw\\bin")
-                    
-            f = open('Qt\\yes.txt', 'r')
-            p = subprocess.Popen("Qt\\configure.exe -debug-and-release -platform win32-g++ -opensource -static -no-opengl",
-                    stdin=f,
-                    cwd="Qt", env=e)
-            f.close()
-            if p.wait() != 0:
-                raise BuildError("configure for Qt failed")
-
-            p = subprocess.Popen("\"" + self._qtsdk +
-                    "\\mingw\\bin\\mingw32-make.exe\"",
-                    cwd="Qt", env=e)
-            if p.wait() != 0:
-                raise BuildError("make for Qt failed")
-
-    def _build_zip(self):
-        z = zipfile.ZipFile("Npackd.zip", "w", zipfile.ZIP_DEFLATED)
-        z.write(self._qtsdk + "\\mingw\\bin\\libgcc_s_dw2-1.dll",
-                "libgcc_s_dw2-1.dll")
-        z.write(self._qtsdk + "\\mingw\\bin\\mingwm10.dll",
-                "mingwm10.dll")
-        z.write("wpmcpp\\LICENSE.txt", "LICENSE.txt")
-        z.write("wpmcpp\\CrystalIcons_LICENSE.txt", "CrystalIcons_LICENSE.txt")
-        z.write("wpmcpp-build-desktop\\release\\wpmcpp.exe", "npackdg.exe")
-        for f in ["QtCore4.dll", "QtGui4.dll", "QtNetwork4.dll", "QtXml4.dll"]:
-            z.write(self._qtsdk + "\\Desktop\\Qt\\4.7.3\\mingw\\bin\\" + f, f)
-        z.write("QuaZIP\\quazip\\release\\quazip.dll", "quazip.dll")
-        z.write("zlib\\zlib1.dll", "zlib1.dll")
-        z.close()
-
-    def _build_npackdcl_zip(self):
-        z = zipfile.ZipFile("NpackdCL.zip", "w", zipfile.ZIP_DEFLATED)
-        z.write(self._qtsdk + "\\mingw\\bin\\libgcc_s_dw2-1.dll",
-                "libgcc_s_dw2-1.dll")
-        z.write(self._qtsdk + "\\mingw\\bin\\mingwm10.dll",
-                "mingwm10.dll")
-        z.write("wpmcpp\\LICENSE.txt", "LICENSE.txt")
-        z.write("npackdcl-build-desktop\\release\\npackdcl.exe", "npackdcl.exe")
-        for f in ["QtCore4.dll", "QtNetwork4.dll", "QtXml4.dll"]:
-            z.write(self._qtsdk + "\\Desktop\\Qt\\4.7.3\\mingw\\bin\\" + f, f)
-        z.write("QuaZIP\\quazip\\release\\quazip.dll", "quazip.dll")
-        z.write("zlib\\zlib1.dll", "zlib1.dll")
-        z.close()
-
-    def _build_clu_zip(self):
-        z = zipfile.ZipFile("CLU.zip", "w", zipfile.ZIP_DEFLATED)
-        z.write(self._qtsdk + "\\mingw\\bin\\libgcc_s_dw2-1.dll",
-                "libgcc_s_dw2-1.dll")
-        z.write(self._qtsdk + "\\mingw\\bin\\mingwm10.dll",
-                "mingwm10.dll")
-        z.write("wpmcpp\\LICENSE.txt", "LICENSE.txt")
-        z.write("clu-build-desktop\\release\\clu.exe", "clu.exe")
-        for f in ["QtCore4.dll"]:
-            z.write(self._qtsdk + "\\Desktop\\Qt\\4.7.3\\mingw\\bin\\" + f, f)
-        z.close()
-
-    def _check_mingw(self):
-        if not os.path.exists(self._qtsdk + "\\mingw\\bin\\gcc.exe"):
-            raise BuildError('Qt SDK 1.1.1 not found')
-
     def install_deps(self):
-        self._check_mingw()
-
         if self._npackdcl.location == "":
             raise BuildError("NpackdCL was not found")
 
         self._npackdcl.add("net.zlib.ZLibSource", "1.2.5")
         self._npackdcl.add("net.sourceforge.quazip.QuaZIPSource", "0.4.2")
-        self._npackdcl.add("com.advancedinstaller.AdvancedInstallerFreeware", "8.5")
-        self._npackdcl.add("com.selenic.mercurial.Mercurial64", "2")
-        # self._npackdcl.add("com.nokia.QtSource", "4.7.3")
+        self._npackdcl.add("com.advancedinstaller.AdvancedInstallerFreeware", "9.2")
+        self._npackdcl.add("com.selenic.mercurial.Mercurial64", "2.2.2")
+        self._npackdcl.add("com.activestate.ActivePerl64", "5.14.2.1402")
+        
+        self._npackdcl.add("net.sourceforge.mingw-w64.MinGWW6464", "1.0.2011.11.1")
+        self._npackdcl.add("net.sourceforge.mingw-w64.MinGWW64", "1.0.2011.11.1")
+        self._npackdcl.add("com.nokia.QtMinGWw64Release", "4.8.1")
+        self._npackdcl.add("com.nokia.QtMinGWw64Release64", "4.8.1")
 
     def clean(self):
-        self.install_deps()
         rmtree_safe("zlib")
         rmtree_safe("quazip")
         rmtree_safe("wpmcpp-build-desktop")
+        rmtree_safe("wpmcpp-build-desktop-64")
         rmtree_safe("npackdcl-build-desktop")
         rmtree_safe("clu-build-desktop")
-        # rmtree_safe("Qt")
+        rmtree_safe("nd-build-desktop")
+        rmtree_safe("npackdlib-build-desktop")
+        rmtree_safe("qt")
         remove_safe("CLU.zip")
         remove_safe("Npackd.zip")
         remove_safe("NpackdCL.zip")
         remove_safe("npackdg.exe")
 
     def test(self):
-        self.install_deps()
-        
         e = dict(os.environ)
         e["PATH"] = (self._qtsdk + "\\Desktop\\Qt\\4.7.3\\mingw\\bin;" + 
                 "QuaZIP\\quazip\\release;zlib")
@@ -352,8 +351,6 @@ class Build:
 
     def push(self):
         '''Push the changes to the default Mercurial repository'''
-        self.install_deps()
-
         xml.dom.minidom.parse("repository\\Rep.xml")
         xml.dom.minidom.parse("repository\\Rep64.xml")
         xml.dom.minidom.parse("repository\\RepUnstable.xml")
@@ -366,50 +363,23 @@ class Build:
             raise BuildError("hg push failed")
         
     def build(self):
-        self.install_deps()
-        
         self._project_path = os.path.abspath("")
 
         self._build_zlib()
         self._build_quazip()
-        #self._build_qt()
-
         self._build_wpmcpp()
         self._build_npackdcl()
         self._build_clu()
-
-        self._build_msi()
-        self._build_zip()
-        self._build_npackdcl_zip()
-        self._build_clu_zip()
-
-    def find_updates(self):
-        rep = xml.dom.minidom.parse("repository\\Rep.xml")
-        versions = rep.documentElement.getElementsByTagName("version")
-        avail = set([])
-        for version in versions:
-            s = (version.getAttribute("package") + ":" + 
-                    version.getAttribute("name"))
-            avail.add(s)
-        
-        sys.stdout.write("Checking GraphicsMagick...")
-        txt = url_get("http://sourceforge.net/projects/graphicsmagick/")
-        # GraphicsMagick-1.3.14.tar.gz
-        m = re.search("""GraphicsMagick\-(.+)\.tar\.gz""", txt, re.MULTILINE)
-        v = m.group(1)
-        
-        if ("org.graphicsmagick.GraphicsMagickQ16:" + v) in avail:
-            print("No updates found")
-        else:
-            print("New version: " + v)
+        self._build_nd()
+        self._build_npackdlib()
 
     def help(self):
         print("Build.py help to show this help")
+        print("Build.py install-deps install dependencies necessary to build the project. This should be run as administrator.")
         print("Build.py build to build everything")
         print("Build.py clean to clean generated files")
         print("Build.py test to run internal Npackd tests")
         print("Build.py push to push the changes to the Npackd Mercurial repository")
-        print("Build.py find-updates to find updates for some packages from the repository")
 
 build = Build()
 try:
@@ -421,8 +391,8 @@ try:
         build.test()
     elif len(sys.argv) == 2 and sys.argv[1] == "build":
         build.build()
-    elif len(sys.argv) == 2 and sys.argv[1] == "find-updates":
-        build.find_updates()
+    elif len(sys.argv) == 2 and sys.argv[1] == "install-deps":
+        build.install_deps()
     else:
         build.help()
 except BuildError as e:

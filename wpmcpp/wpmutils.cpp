@@ -826,16 +826,16 @@ bool WPMUtils::is64BitWindows()
 {
     // 32-bit programs run on both 32-bit and 64-bit Windows
     // so must sniff
-    WINBASEAPI BOOL WINAPI (*lpfIsWow64Process) (HANDLE,PBOOL);
+    WINBASEAPI BOOL WINAPI (*lpfIsWow64Process_) (HANDLE,PBOOL);
 
     HINSTANCE hInstLib = LoadLibraryA("KERNEL32.DLL");
-    lpfIsWow64Process =
+    lpfIsWow64Process_ =
             (BOOL (WINAPI *) (HANDLE,PBOOL))
             GetProcAddress(hInstLib, "IsWow64Process");
     bool ret;
-    if (lpfIsWow64Process) {
+    if (lpfIsWow64Process_) {
         BOOL f64 = FALSE;
-        ret = lpfIsWow64Process(GetCurrentProcess(), &f64) && f64;
+        ret = (*lpfIsWow64Process_)(GetCurrentProcess(), &f64) && f64;
     } else {
         ret = false;
     }
