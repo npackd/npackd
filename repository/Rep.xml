@@ -2428,6 +2428,12 @@ yes - Print a string repeatedly.</description>
         <description>minimalist GNU</description>
         <license>org.mingw.License</license>
     </package>
+    <package name="org.mingw.MinGW">
+        <title>MinGW</title>
+        <url>http://www.mingw.org/</url>
+        <description>minimalist GNU</description>
+        <license>org.mingw.License</license>
+    </package>
     <package name="org.mingw.MinGWUtilities">
         <title>MinGW utilities</title>
         <url>http://downloads.sourceforge.net/project/mingw/MinGW/Utilities/mingw-utils/mingw-utils-0.4-1/mingw-utils-0.4-1-mingw32.RELEASE_NOTES.txt?ts=1315516627</url>
@@ -8240,68 +8246,18 @@ call "%npackdih%\InstallMSI.bat" APPDIR yes
     </version>
     <!-- Detected -->
 
-    <version name="2010.10.30" package="org.mingw.MinGWInstaller"
-            type="one-file">
-        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x
-ren "%setup%" mingw-get-inst.exe
+    <version name="2012.4.26" package="org.mingw.MinGW" type="one-file">
+        <file path=".Npackd\Install.bat">if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
+set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=org.7-zip.SevenZIPA" "--versions=[9.20, 9.20]"
+for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set sevenzipa=%%x
+for /f %%x in ('dir /b *.7z') do set setup=%%x
+"%sevenzipa%\7za.exe" x "%setup%" &gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt
 </file>
-        <important-file path="mingw-get-inst.exe" title="Installer"/>
-        <url>http://downloads.sourceforge.net/project/mingw/Installer/mingw-get-inst/mingw-get-inst-20101030/mingw-get-inst-20101030.exe?ts=1322601629</url>
-        <sha1>6ac6c328eeb1ba5fb3416d8c5435dd5a87831b3c</sha1>
-    </version>
-    <version name="2011.2.11" package="org.mingw.MinGWInstaller"
-            type="one-file">
-        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x
-ren "%setup%" mingw-get-inst.exe
-</file>
-        <important-file path="mingw-get-inst.exe" title="Installer"/>
-        <url>http://downloads.sourceforge.net/project/mingw/Installer/mingw-get-inst/mingw-get-inst-20110211/mingw-get-inst-20110211.exe?ts=1322601559</url>
-        <sha1>71ECB4B5982895C3EBB99021F13C99C22F976299</sha1>
-    </version>
-    <version name="2011.3.16" package="org.mingw.MinGWInstaller"
-            type="one-file">
-        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x
-ren "%setup%" mingw-get-inst.exe
-</file>
-        <important-file path="mingw-get-inst.exe" title="Installer"/>
-        <url>http://downloads.sourceforge.net/project/mingw/Installer/mingw-get-inst/mingw-get-inst-20110316/mingw-get-inst-20110316.exe?ts=1322601510</url>
-        <sha1>44DAC4E3F9B5D25056248EA77DB3257D77173B48</sha1>
-    </version>
-    <version name="2011.5.30" package="org.mingw.MinGWInstaller"
-            type="one-file">
-        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x
-ren "%setup%" mingw-get-inst.exe
-</file>
-        <important-file path="mingw-get-inst.exe" title="Installer"/>
-        <url>http://downloads.sourceforge.net/project/mingw/Installer/mingw-get-inst/mingw-get-inst-20110530/mingw-get-inst-20110530.exe?ts=1322601392</url>
-        <sha1>F0A9842D09EB67380DC9AE24861204ADA447DDE1</sha1>
-    </version>
-    <version name="2011.8.2" package="org.mingw.MinGWInstaller"
-            type="one-file">
-        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x
-ren "%setup%" mingw-get-inst.exe
-</file>
-        <important-file path="mingw-get-inst.exe" title="Installer"/>
-        <url>http://downloads.sourceforge.net/project/mingw/Installer/mingw-get-inst/mingw-get-inst-20110802/mingw-get-inst-20110802.exe?ts=1322601454</url>
-        <sha1>132633d203e6eae651e716e2cd8ab119d569e053</sha1>
-    </version>
-    <version name="2011.11.18" package="org.mingw.MinGWInstaller"
-            type="one-file">
-        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x
-ren "%setup%" mingw-get-inst.exe
-</file>
-        <important-file path="mingw-get-inst.exe" title="Installer"/>
-        <url>http://downloads.sourceforge.net/project/mingw/Installer/mingw-get-inst/mingw-get-inst-20111118/mingw-get-inst-20111118.exe?ts=1323379865</url>
-        <sha1>4b328da88de8128ffaca1791e97119b48b2b6974</sha1>
-    </version>
-    <version name="2012.4.26" package="org.mingw.MinGWInstaller"
-            type="one-file">
-        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x
-ren "%setup%" mingw-get-inst.exe
-</file>
-        <important-file path="mingw-get-inst.exe" title="Installer"/>
-        <url>http://downloads.sourceforge.net/project/mingw/Installer/mingw-get-inst/mingw-get-inst-20120426/mingw-get-inst-20120426.exe</url>
-        <sha1>1f0f7b9eeaa8c13f9b5b2d2bd489e78b3e168605</sha1>
+        <dependency package="org.7-zip.SevenZIPA" versions="[9.20, 9.20]"/>
+        <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.15.7, 2)"/>
+        <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1, 1]"/>
+        <url>http://downloads.sourceforge.net/project/npackd/org.mingw.MinGW-2012.04.26.7z</url>
+        <sha1>c4b1739ed592b10fef371f517b5dc9d5f1dda5ef</sha1>
     </version>
 
     <version name="2.1.6" package="net.sourceforge.aresgalaxy.AresRegular"
@@ -15761,6 +15717,17 @@ for /f "delims=" %%a in ('dir /b') do (
 )
 cd ..
 rmdir "%name%"
+
+rem rename prefixed binaries
+cd bin
+setlocal enabledelayedexpansion
+for /f "delims=" %%a in ('dir /b x86_64-w64-mingw32-*.exe') do (
+  set n=%%a
+  set n2=!n:~19!
+  ren "%%a" !n2!
+)
+endlocal
+cd ..
 
 if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
 set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.CLU" "--versions=[1, 2)"
