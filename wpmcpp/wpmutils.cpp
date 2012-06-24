@@ -55,7 +55,6 @@ void WPMUtils::createMSTask()
 
     // TODO: if (FAILED(hr))
 
-
     IPersistFile *pIPersistFile;
 
     // save to disk
