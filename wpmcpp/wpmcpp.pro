@@ -44,7 +44,6 @@ HEADERS += mainwindow.h \
     packageversionfile.h \
     version.h \
     dependency.h \
-    msi.h \
     fileloader.h \
     fileloaderitem.h \
     installoperation.h \
