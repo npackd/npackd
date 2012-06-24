@@ -824,6 +824,9 @@ QString WPMUtils::moveToRecycleBin(QString dir)
 
 bool WPMUtils::is64BitWindows()
 {
+#ifdef __MINGW64__
+    return true;
+#else
     // 32-bit programs run on both 32-bit and 64-bit Windows
     // so must sniff
     WINBASEAPI BOOL WINAPI (*lpfIsWow64Process_) (HANDLE,PBOOL);
@@ -841,6 +844,7 @@ bool WPMUtils::is64BitWindows()
     }
     FreeLibrary(hInstLib);
     return ret;
+#endif
 }
 
 HRESULT WPMUtils::createLink(LPCWSTR lpszPathObj, LPCWSTR lpszPathLink, LPCWSTR lpszDesc,
