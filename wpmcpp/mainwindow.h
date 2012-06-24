@@ -219,7 +219,7 @@ private slots:
     void repositoryStatusChanged(PackageVersion* pv);
     void monitoredJobChanged(const JobState& state);
     void on_actionFile_an_Issue_triggered();
-    void on_updateActions();
+    void updateActionsSlot();
 };
 
 #endif // MAINWINDOW_H
