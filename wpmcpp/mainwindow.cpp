@@ -947,7 +947,7 @@ void MainWindow::changeEvent(QEvent *e)
         break;
     case QEvent::ActivationChange:
         // qDebug() << "QEvent::ActivationChange";
-        QTimer::singleShot(0, this, SLOT(on_updateActions()));
+        QTimer::singleShot(0, this, SLOT(updateActionsSlot()));
         break;
     default:
         break;
@@ -1764,7 +1764,7 @@ void MainWindow::on_actionClose_Tab_triggered()
     }
 }
 
-void MainWindow::on_updateActions()
+void MainWindow::updateActionsSlot()
 {
     updateActions();
 }
