@@ -74,16 +74,15 @@ FORMS += mainwindow.ui \
     settingsframe.ui \
     packageframe.ui \
     mainframe.ui
-INCLUDEPATH += ..\\quazip\\quazip ..\\zlib
-LIBS += ..\\quazip\\quazip\\release\\libquazip.a \
-    ..\\zlib\\libz.a \
+LIBS += -lquazip \
+    -lz \
     -lole32 \
     -luuid \
     -lwininet \
     -lpsapi \
     -lshell32 \
     -lversion \
-    ..\\wpmcpp\\libmsi.a
+    -lmsi
 CONFIG += embed_manifest_exe
 RC_FILE = wpmcpp.rc
 RESOURCES += wpmcpp.qrc
