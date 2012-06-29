@@ -14,8 +14,12 @@ CONFIG   -= app_bundle
 
 TEMPLATE = app
 
-LIBS += -lole32 -luuid -lwininet -lpsapi -lversion \
-    ..\\wpmcpp\\libmsi.a
+LIBS += -lole32 \
+    -luuid \
+    -lwininet \
+    -lpsapi \
+    -lversion \
+    -lmsi
 
 SOURCES += main.cpp \
     app.cpp \

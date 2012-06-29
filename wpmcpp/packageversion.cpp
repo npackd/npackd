@@ -33,7 +33,6 @@ PackageVersion::PackageVersion(const QString& package)
 {
     this->package = package;
     this->type = 0;
-    this->external_ = false;
     this->locked = false;
 }
 
@@ -41,17 +40,7 @@ PackageVersion::PackageVersion()
 {
     this->package = "unknown";
     this->type = 0;
-    this->external_ = false;
     this->locked = false;
-}
-
-void PackageVersion::setExternal(bool e)
-{
-    if (this->external_ != e) {
-        this->external_ = e;
-        this->saveInstallationInfo();
-        emitStatusChanged();
-    }
 }
 
 void PackageVersion::emitStatusChanged()
@@ -81,11 +70,6 @@ bool PackageVersion::isLocked() const
     return this->locked;
 }
 
-bool PackageVersion::isExternal() const
-{
-    return this->external_;
-}
-
 void PackageVersion::loadFromRegistry()
 {
     WindowsRegistry entryWR;
@@ -100,17 +84,12 @@ void PackageVersion::loadFromRegistry()
     if (!err.isEmpty())
         return;
 
-    DWORD external = entryWR.getDWORD("External", &err);
-    if (!err.isEmpty())
-        external = 1;
-
     if (p.isEmpty())
         this->ipath = "";
     else {
         QDir d(p);
         if (d.exists()) {
             this->ipath = p;
-            this->external_ = external != 0;
         } else {
             this->ipath = "";
         }
@@ -121,7 +100,7 @@ void PackageVersion::loadFromRegistry()
     emitStatusChanged();
 }
 
-QString PackageVersion::getPath()
+QString PackageVersion::getPath() const
 {
     return this->ipath;
 }
@@ -184,7 +163,6 @@ QString PackageVersion::saveInstallationInfo()
         return err;
 
     wr.set("Path", this->ipath);
-    wr.setDWORD("External", this->external_ ? 1 : 0);
     wr.set("DetectionInfo", this->detectionInfo);
     return "";
 }
@@ -233,7 +211,7 @@ void PackageVersion::deleteShortcuts(const QString& dir, Job* job,
 
 void PackageVersion::uninstall(Job* job)
 {
-    if (isExternal() || !installed()) {
+    if (!installed()) {
         job->setProgress(1);
         job->complete();
         return;
@@ -690,7 +668,7 @@ void PackageVersion::install(Job* job, const QString& where)
 {
     job->setHint("Preparing");
 
-    if (installed() || isExternal()) {
+    if (installed()) {
         job->setProgress(1);
         job->complete();
         return;
@@ -914,14 +892,12 @@ void PackageVersion::install(Job* job, const QString& where)
                 QString path = d.absolutePath();
                 path.replace('/', '\\');
                 setPath(path);
-                setExternal(false);
             }
             delete exec;
         } else {
             QString path = d.absolutePath();
             path.replace('/', '\\');
             setPath(path);
-            setExternal(false);
         }
 
         if (this->package == "com.googlecode.windows-package-manager.NpackdCL") {
@@ -1098,13 +1074,10 @@ QString PackageVersion::getStatus() const
     PackageVersion* newest = r->findNewestInstallablePackageVersion(
             this->package);
     if (installed) {
-        if (isExternal())
-            status = "installed externally";
-        else
-            status = "installed";
+        status = "installed";
     }
     if (installed && newest != 0 && version.compare(newest->version) < 0) {
-        if (!newest->installed() && !isExternal())
+        if (!newest->installed())
             status += ", updateable";
         else
             status += ", obsolete";
@@ -1199,6 +1172,13 @@ QString PackageVersion::executeFile(Job* job, const QString& where,
     job->complete();
 
     return ret;
+}
+
+bool PackageVersion::isInWindowsDir() const
+{
+    QString dir = WPMUtils::getWindowsDir();
+    return this->installed() && (WPMUtils::pathEquals(getPath(), dir) ||
+            WPMUtils::isUnder(getPath(), dir));
 }
 
 PackageVersion* PackageVersion::clone() const

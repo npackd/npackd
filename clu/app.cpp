@@ -1,9 +1,11 @@
 #include <QStringList>
 
+#include <windows.h>
+#include <msi.h>
+
 #include "app.h"
 
 #include "..\wpmcpp\wpmutils.h"
-#include "..\wpmcpp\msi.h"
 
 App::App()
 {

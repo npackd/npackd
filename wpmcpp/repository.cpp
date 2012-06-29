@@ -460,21 +460,14 @@ void Repository::detectWindows()
     v.setVersion(osvi.dwMajorVersion, osvi.dwMinorVersion,
             osvi.dwBuildNumber);
 
-    clearExternallyInstalled("com.microsoft.Windows");
-    clearExternallyInstalled("com.microsoft.Windows32");
-    clearExternallyInstalled("com.microsoft.Windows64");
-
     PackageVersion* pv = findOrCreatePackageVersion("com.microsoft.Windows", v);
     pv->setPath(WPMUtils::getWindowsDir());
-    pv->setExternal(true);
     if (WPMUtils::is64BitWindows()) {
         pv = findOrCreatePackageVersion("com.microsoft.Windows64", v);
         pv->setPath(WPMUtils::getWindowsDir());
-        pv->setExternal(true);
     } else {
         pv = findOrCreatePackageVersion("com.microsoft.Windows32", v);
         pv->setPath(WPMUtils::getWindowsDir());
-        pv->setExternal(true);
     }
 }
 
@@ -547,8 +540,6 @@ void Repository::detect(Job* job)
 
 void Repository::detectJRE(bool w64bit)
 {
-    clearExternallyInstalled(w64bit ? "com.oracle.JRE64" : "com.oracle.JRE");
-
     if (w64bit && !WPMUtils::is64BitWindows())
         return;
 
@@ -582,7 +573,6 @@ void Repository::detectJRE(bool w64bit)
                     "com.oracle.JRE", v);
             if (!pv->installed()) {
                 pv->setPath(path);
-                pv->setExternal(true);
             }
         }
     }
@@ -591,8 +581,6 @@ void Repository::detectJRE(bool w64bit)
 void Repository::detectJDK(bool w64bit)
 {
     QString p = w64bit ? "com.oracle.JDK64" : "com.oracle.JDK";
-
-    clearExternallyInstalled(p);
 
     if (w64bit && !WPMUtils::is64BitWindows())
         return;
@@ -628,7 +616,6 @@ void Repository::detectJDK(bool w64bit)
                         p, v);
                 if (!pv->installed()) {
                     pv->setPath(path);
-                    pv->setExternal(true);
                 }
             }
         }
@@ -647,18 +634,6 @@ PackageVersion* Repository::findOrCreatePackageVersion(const QString &package,
         this->package2versions.insert(package, pv);
     }
     return pv;
-}
-
-void Repository::clearExternallyInstalled(QString package)
-{
-    Repository* r = Repository::getDefault();
-    QList<PackageVersion*> pvs = r->getPackageVersions(package);
-    for (int i = 0; i < pvs.count(); i++) {
-        PackageVersion* pv = pvs.at(i);
-        if (pv->isExternal()) {
-            pv->setPath("");
-        }
-    }
 }
 
 void Repository::detectOneDotNet(const WindowsRegistry& wr,
@@ -702,7 +677,6 @@ void Repository::detectOneDotNet(const WindowsRegistry& wr,
         PackageVersion* pv = findOrCreatePackageVersion(packageName, v);
         if (!pv->installed()) {
             pv->setPath(WPMUtils::getWindowsDir());
-            pv->setExternal(true);
         }
     }
 }
@@ -958,7 +932,6 @@ void Repository::detectOneControlPanelProgram(const QString& registryPath,
                     stream << txt;
                     file.close();
                     pv->setPath(dir);
-                    pv->setExternal(false);
                 }
             }
         }
@@ -1098,7 +1071,6 @@ void Repository::detectMSIProducts()
                         stream << txt;
                         file.close();
                         pv->setPath(dir);
-                        pv->setExternal(false);
                     }
                 }
             }
@@ -1123,8 +1095,6 @@ void Repository::detectDotNet()
 {
     // http://stackoverflow.com/questions/199080/how-to-detect-what-net-framework-versions-and-service-packs-are-installed
 
-    clearExternallyInstalled("com.microsoft.DotNetRedistributable");
-
     WindowsRegistry wr;
     QString err = wr.open(HKEY_LOCAL_MACHINE,
             "Software\\Microsoft\\NET Framework Setup\\NDP", false, KEY_READ);
@@ -1148,8 +1118,6 @@ void Repository::detectDotNet()
 
 void Repository::detectMicrosoftInstaller()
 {
-    clearExternallyInstalled("com.microsoft.WindowsInstaller");
-
     Version v = WPMUtils::getDLLVersion("MSI.dll");
     Version nullNull(0, 0);
     if (v.compare(nullNull) > 0) {
@@ -1157,15 +1125,12 @@ void Repository::detectMicrosoftInstaller()
                 "com.microsoft.WindowsInstaller", v);
         if (!pv->installed()) {
             pv->setPath(WPMUtils::getWindowsDir());
-            pv->setExternal(true);
         }
     }
 }
 
 void Repository::detectMSXML()
 {
-    clearExternallyInstalled("com.microsoft.MSXML");
-
     Version v = WPMUtils::getDLLVersion("msxml.dll");
     Version nullNull(0, 0);
     if (v.compare(nullNull) > 0) {
@@ -1173,7 +1138,6 @@ void Repository::detectMSXML()
                 "com.microsoft.MSXML", v);
         if (!pv->installed()) {
             pv->setPath(WPMUtils::getWindowsDir());
-            pv->setExternal(true);
         }
     }
     v = WPMUtils::getDLLVersion("msxml2.dll");
@@ -1182,7 +1146,6 @@ void Repository::detectMSXML()
                 "com.microsoft.MSXML", v);
         if (!pv->installed()) {
             pv->setPath(WPMUtils::getWindowsDir());
-            pv->setExternal(true);
         }
     }
     v = WPMUtils::getDLLVersion("msxml3.dll");
@@ -1192,7 +1155,7 @@ void Repository::detectMSXML()
                 "com.microsoft.MSXML", v);
         if (!pv->installed()) {
             pv->setPath(WPMUtils::getWindowsDir());
-            pv->setExternal(true);
+
         }
     }
     v = WPMUtils::getDLLVersion("msxml4.dll");
@@ -1201,7 +1164,6 @@ void Repository::detectMSXML()
                 "com.microsoft.MSXML", v);
         if (!pv->installed()) {
             pv->setPath(WPMUtils::getWindowsDir());
-            pv->setExternal(true);
         }
     }
     v = WPMUtils::getDLLVersion("msxml5.dll");
@@ -1210,7 +1172,6 @@ void Repository::detectMSXML()
                 "com.microsoft.MSXML", v);
         if (!pv->installed()) {
             pv->setPath(WPMUtils::getWindowsDir());
-            pv->setExternal(true);
         }
     }
     v = WPMUtils::getDLLVersion("msxml6.dll");
@@ -1219,7 +1180,6 @@ void Repository::detectMSXML()
                 "com.microsoft.MSXML", v);
         if (!pv->installed()) {
             pv->setPath(WPMUtils::getWindowsDir());
-            pv->setExternal(true);
         }
     }
 }
@@ -1441,7 +1401,6 @@ void Repository::scan(const QString& path, Job* job, int level,
 
             if (ok) {
                 pv->setPath(path);
-                pv->setExternal(true);
                 return;
             }
         }

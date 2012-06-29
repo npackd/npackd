@@ -280,13 +280,13 @@ out:
     WCHAR contentLengthBuffer[100];
     bufferLength = sizeof(contentLengthBuffer);
     index = 0;
-    int contentLength = -1;
+    int64_t contentLength = -1;
     if (HttpQueryInfoW(hResourceHandle, HTTP_QUERY_CONTENT_LENGTH,
             contentLengthBuffer, &bufferLength, &index)) {
         QString s;
         s.setUtf16((ushort*) contentLengthBuffer, bufferLength / 2);
         bool ok;
-        contentLength = s.toInt(&ok, 10);
+        contentLength = s.toLongLong(&ok, 10);
         if (!ok)
             contentLength = 0;
     }
@@ -335,7 +335,7 @@ bool Downloader::internetReadFileFully(HINTERNET resourceHandle,
 }
 
 void Downloader::readDataGZip(Job* job, HINTERNET hResourceHandle, QFile* file,
-        QString* sha1, int contentLength)
+        QString* sha1, int64_t contentLength)
 {
     // download/compute SHA1 loop
     QCryptographicHash hash(QCryptographicHash::Sha1);
@@ -488,6 +488,9 @@ void Downloader::readDataGZip(Job* job, HINTERNET hResourceHandle, QFile* file,
             job->setProgress(((double) alreadyRead) / contentLength);
             job->setHint(QString("%L0 of %L1 bytes").arg(alreadyRead).
                     arg(contentLength));
+        } else {
+            job->setProgress(0.5);
+            job->setHint(QString("%L0 bytes").arg(alreadyRead));
         }
     } while (bufferLength != 0 && !job->isCancelled());
 
@@ -503,11 +506,14 @@ out:
     delete[] buffer;
     delete[] buffer2;
 
+    if (!job->isCancelled() && job->getErrorMessage().isEmpty())
+        job->setProgress(1);
+
     job->complete();
 }
 
 void Downloader::readDataFlat(Job* job, HINTERNET hResourceHandle, QFile* file,
-        QString* sha1, int contentLength)
+        QString* sha1, int64_t contentLength)
 {
     // download/compute SHA1 loop
     QCryptographicHash hash(QCryptographicHash::Sha1);
@@ -541,8 +547,14 @@ void Downloader::readDataFlat(Job* job, HINTERNET hResourceHandle, QFile* file,
             job->setProgress(((double) alreadyRead) / contentLength);
             job->setHint(QString("%L0 of %L1 bytes").arg(alreadyRead).
                     arg(contentLength));
+        } else {
+            job->setProgress(0.5);
+            job->setHint(QString("%L0 bytes").arg(alreadyRead));
         }
     } while (bufferLength != 0 && !job->isCancelled());
+
+    if (!job->isCancelled() && job->getErrorMessage().isEmpty())
+        job->setProgress(1);
 
     if (sha1 && !job->isCancelled() && job->getErrorMessage().isEmpty())
         *sha1 = hash.result().toHex().toLower();
@@ -551,7 +563,7 @@ void Downloader::readDataFlat(Job* job, HINTERNET hResourceHandle, QFile* file,
 }
 
 void Downloader::readData(Job* job, HINTERNET hResourceHandle, QFile* file,
-        QString* sha1, bool gzip, int contentLength)
+        QString* sha1, bool gzip, int64_t contentLength)
 {
     if (gzip)
         readDataGZip(job, hResourceHandle, file, sha1, contentLength);

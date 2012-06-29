@@ -109,7 +109,6 @@ void InstallThread::run()
                 Version(WPMUtils::NPACKD_VERSION));
         if (!pv->installed()) {
             pv->setPath(WPMUtils::getExeDir());
-            pv->setExternal(true);
         }
         break;
     }
@@ -1025,7 +1024,8 @@ bool MainWindow::isUpdateEnabled(const QString& package)
                 newesti->version.getVersionString();
         bool canInstall = !newest->isLocked() && !newest->installed() &&
                 newest->download.isValid();
-        bool canUninstall = !newesti->isLocked() && !newesti->isExternal();
+        bool canUninstall = !newesti->isLocked() &&
+                !newesti->isInWindowsDir();
 
         // qDebug() << canInstall << " " << canUninstall;
 
@@ -1113,8 +1113,7 @@ void MainWindow::updateUninstallAction()
 
                 enabled = enabled &&
                         pv && !pv->isLocked() &&
-                        pv->installed() &&
-                        !pv->isExternal();
+                        pv->installed() && !pv->isInWindowsDir();
             }
             // qDebug() << "MainWindow::updateUninstallAction 2:" << selected.count();
         } else {
@@ -1132,8 +1131,7 @@ void MainWindow::updateUninstallAction()
 
                 enabled = enabled &&
                         pv && !pv->isLocked() &&
-                        pv->installed() &&
-                        !pv->isExternal();
+                        pv->installed() && !pv->isInWindowsDir();
             }
         }
     }

@@ -3,6 +3,7 @@
 
 #include <windows.h>
 #include <wininet.h>
+#include <stdint.h>
 
 #include "qtemporaryfile.h"
 #include "qurl.h"
@@ -20,11 +21,11 @@ class Downloader: QObject
     Q_OBJECT
 
     static void readDataFlat(Job* job, HINTERNET hResourceHandle, QFile* file,
-            QString* sha1, int contentLength);
+            QString* sha1, int64_t contentLength);
     static void readDataGZip(Job* job, HINTERNET hResourceHandle, QFile* file,
-            QString* sha1, int contentLength);
+            QString* sha1, int64_t contentLength);
     static void readData(Job* job, HINTERNET hResourceHandle, QFile* file,
-            QString* sha1, bool gzip, int contentLength);
+            QString* sha1, bool gzip, int64_t contentLength);
 
     static bool internetReadFileFully(HINTERNET resourceHandle,
             PVOID buffer, DWORD bufferSize, PDWORD bufferLength);

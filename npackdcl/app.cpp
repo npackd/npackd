@@ -155,7 +155,6 @@ void App::addNpackdCL()
             Version(WPMUtils::NPACKD_VERSION));
     if (!pv->installed()) {
         pv->setPath(WPMUtils::getExeDir());
-        pv->setExternal(true);
         r->updateNpackdCLEnvVar();
     }
 }
@@ -726,13 +725,6 @@ int App::remove()
             if (!pv->installed()) {
                 WPMUtils::outputTextConsole("Package is not installed\n", false);
                 r = 0;
-                break;
-            }
-
-            if (pv->isExternal()) {
-                WPMUtils::outputTextConsole("Externally installed packages cannot be removed\n",
-                        false);
-                r = 1;
                 break;
             }
 
