@@ -37,8 +37,6 @@ private:
      */
     volatile bool locked;
 
-    bool external_;
-
     static PackageVersionFile* createPackageVersionFile(QDomElement* e,
             QString* err);
     static Dependency* createDependency(QDomElement* e);
@@ -149,19 +147,6 @@ public:
     bool isLocked() const;
 
     /**
-     * @return this value is true for packages not installed through WPM,
-     * but detected
-     * later. Those packages cannot be uninstalled, but are used for
-     * dependencies.
-     */
-    bool isExternal() const;
-
-    /**
-     * @param e true = externally installed
-     */
-    void setExternal(bool e);
-
-    /**
      * Loads the information about this package from the Windows registry.
      */
     void loadFromRegistry();
@@ -169,7 +154,7 @@ public:
     /**
      * @return installation path or "" if the package is not installed
      */
-    QString getPath();
+    QString getPath() const;
 
     /**
      * Changes the installation path for this package. This method should only
@@ -305,6 +290,12 @@ public:
      * @return a copy
      */
     PackageVersion* clone() const;
+
+    /**
+     * @return true if this package is in c:\Windows or one of the nested
+     *     directories
+     */
+    bool isInWindowsDir() const;
 
     /**
      * @param e <version>

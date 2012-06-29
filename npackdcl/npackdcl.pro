@@ -8,11 +8,14 @@ CONFIG += console
 CONFIG -= app_bundle
 TEMPLATE = app
 RC_FILE = npackdcl.rc
-INCLUDEPATH += ..\\quazip\\quazip ..\\zlib
-LIBS += ..\\quazip\\quazip\\release\\libquazip.a \
-    ..\\zlib\\libz.a \
-    -lole32 -luuid -lwininet -lpsapi -lversion \
-    ..\\wpmcpp\\libmsi.a
+LIBS += -lquazip \
+    -lz \
+    -lole32 \
+    -luuid \
+    -lwininet \
+    -lpsapi \
+    -lversion \
+    -lmsi
 SOURCES += main.cpp \
     ../wpmcpp/repository.cpp \
     ../wpmcpp/version.cpp \
