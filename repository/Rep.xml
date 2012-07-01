@@ -3502,6 +3502,20 @@ for /f %%x in ('dir /b *.exe') do set setup=%%x
         <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.15.7, 2)"/>
         <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1, 1]"/>
     </version>
+    <version package="com.opera.Opera" type="one-file" name="12">
+        <important-file title="Opera" path="Opera.exe"/>
+        <file path=".Npackd\Install.bat">if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
+set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=org.7-zip.SevenZIPA" "--versions=[9.20, 9.20]"
+for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set sevenzipa=%%x
+for /f %%x in ('dir /b *.exe') do set setup=%%x
+"%sevenzipa%\7za.exe" x "%setup%" > Output.txt &amp;&amp; type Output.txt
+</file>
+        <url>http://get-tsw-1.opera.com/pub/opera/win/1200/int/Opera_1200_int_Setup.exe</url>
+        <sha1>2b71040fa67ae93e7e14e34faf96e9f5d16cf7a1</sha1>
+        <dependency package="org.7-zip.SevenZIPA" versions="[9.20, 9.20]"/>
+        <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.15.7, 2)"/>
+        <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1, 1]"/>
+    </version>
     <!-- Detected -->
     
     <!-- uninstallation shows 2 confirmation dialogs -->
@@ -5151,6 +5165,19 @@ rmdir "%name%"
         <url>http://downloads.sourceforge.net/project/ultradefrag/stable-release/5.0.5/ultradefrag-portable-5.0.5.bin.i386.zip</url>
         <sha1>bda2b7fc4c9d7fc25e0ee5ac35144c33a2b3ae36</sha1>
     </version>
+    <version package="org.sourceforge.ultradefrag.UltraDefrag" name="5.0.6">
+        <important-file title="UltraDefrag" path="ultradefrag.exe"/>
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b ultra*') do set name=%%x
+cd "%name%"        
+for /f "delims=" %%a in ('dir /b') do (
+  move "%%a" ..
+)
+cd ..
+rmdir "%name%"
+</file>
+        <url>http://downloads.sourceforge.net/project/ultradefrag/stable-release/5.0.6/ultradefrag-portable-5.0.6.bin.i386.zip</url>
+        <sha1>8b3658a0ea6a33939460bb4514210888b0f60a6f</sha1>
+    </version>
     <!-- Detected -->
     
     <version name="1.0.0.1" package="com.microsoft.PathManager" type="one-file">
@@ -5460,6 +5487,14 @@ ren "%setup%" com.dvdvideosoft.FreeYouTubeToMP3ConverterInstaller.exe
 </file>
         <url>http://dl.dropbox.com/u/17046326/files/com.dvdvideosoft.FreeYouTubeToMP3ConverterInstaller-3.11.24.608.exe</url>
         <sha1>07cf040fefa25dfda4287bab632eab806e294695</sha1>
+    </version>
+    <version package="com.dvdvideosoft.FreeYouTubeToMP3ConverterInstaller" type="one-file" name="3.11.25.627">
+        <important-file title="Installer" path="com.dvdvideosoft.FreeYouTubeToMP3ConverterInstaller.exe"/>
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x
+ren "%setup%" com.dvdvideosoft.FreeYouTubeToMP3ConverterInstaller.exe
+</file>
+        <url>http://dl.dropbox.com/u/17046326/files/com.dvdvideosoft.FreeYouTubeToMP3ConverterInstaller-3.11.25.627.exe</url>
+        <sha1>768ab00622964af093ae369c2098265984ca583c</sha1>
     </version>
     <!-- Detected -->
 
@@ -6037,6 +6072,13 @@ ren "%setup%" TrueCryptInstaller.exe
         <file path=".Npackd\Uninstall.bat">uninst.exe /S _?=%CD%</file>
         <url>http://download.piriform.com/dfsetup210.exe</url>
     </version>
+    <version package="com.piriform.Defraggler" type="one-file" name="2.10.424">
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x
+"%setup%" /S /D=%CD%
+</file>
+        <file path=".Npackd\Uninstall.bat">uninst.exe /S _?=%CD%</file>
+        <url>http://download.piriform.com/dfsetup210.exe</url>
+    </version>
     <!-- Detected -->
 
     <!-- installs an Ask toolbar in Firefox & Chrome -->
@@ -6206,6 +6248,14 @@ ren "%setup%" TrueCryptInstaller.exe
 </file>
         <file path=".Npackd\Uninstall.bat">uninst.exe /S _?=%CD%</file>
         <url>http://download.piriform.com/ccsetup319.exe</url>
+    </version>
+    <version package="com.piriform.CCleaner" type="one-file" name="3.20.1750">
+        <important-file title="CCleaner" path="CCleaner.exe"/>
+        <file path=".Npackd\Install.bat">for /f %%x in ('dir /b *.exe') do set setup=%%x
+"%setup%" /S /D=%CD%
+</file>
+        <file path=".Npackd\Uninstall.bat">uninst.exe /S _?=%CD%</file>
+        <url>http://download.piriform.com/ccsetup320.exe</url>
     </version>
     <!-- Detected -->
 
@@ -7413,6 +7463,20 @@ del Q-Dir.ini
         <url>http://dl.dropbox.com/u/17046326/files/com.softwareok.QDir-5.14.zip</url>
         <sha1>026719d881d978ab9165ceb309aff27bb273b2cd</sha1>
     </version>
+    <version package="com.softwareok.QDir" name="5.21">
+        <important-file title="Q-Dir" path="Q-Dir.exe"/>
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b Q*') do set name=%%x
+cd "%name%"        
+for /f "delims=" %%a in ('dir /b') do (
+  move "%%a" ..
+)
+cd ..
+rmdir "%name%"
+del Q-Dir.ini
+</file>
+        <url>http://dl.dropbox.com/u/17046326/files/com.softwareok.QDir-5.21.zip</url>
+        <sha1>d09ae5bd947a68870221c04cea1e78d3847f2404</sha1>
+    </version>
     <!-- Detected -->
     
     <version name="1.17" package="info.keepass.KeePassClassic">
@@ -7464,6 +7528,21 @@ if %err% neq 0 exit %err%
 </file>
         <url>http://sourceforge.net/projects/keepass/files/KeePass%201.x/1.22/KeePass-1.22-Setup.exe</url>
         <sha1>30189bb071c58320cacf06edd45a249e59cf7ee4</sha1>
+    </version>
+    <version package="info.keepass.KeePassClassic" type="one-file" name="1.23">
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x
+"%setup%" /SP- /VERYSILENT /SUPPRESSMSGBOXES /NOCANCEL /NORESTART /DIR="%CD%" /SAVEINF="%CD%\.Npackd\InnoSetupInfo.ini" /LOG="%CD%\.Npackd\InnoSetupInstall.log"
+set err=%errorlevel%
+type .Npackd\InnoSetupInstall.log
+if %err% neq 0 exit %err%    
+</file>
+        <file path=".Npackd\Uninstall.bat">unins000.exe /VERYSILENT /SUPPRESSMSGBOXES /NORESTART /LOG="%CD%\.Npackd\InnoSetupUninstall.log"
+set err=%errorlevel%
+type .Npackd\InnoSetupUninstall.log
+if %err% neq 0 exit %err%
+</file>
+        <url>http://sourceforge.net/projects/keepass/files/KeePass%201.x/1.23/KeePass-1.23-Setup.exe</url>
+        <sha1>d7f1ea9b0e90d9bc401d65f6c3bb2c96ae0c0c12</sha1>
     </version>
     <!-- Detected -->
     
@@ -8111,7 +8190,7 @@ call "%npackdih%\InstallMSI.bat" INSTALLLOCATION yes
     </version>
 
     <!-- uninstallation opens a web page in the default browser -->
-    <version name="9.2" 
+    <version name="9.3" 
             package="com.advancedinstaller.AdvancedInstallerFreeware"
             type="one-file">
         <file path=".Npackd\Install.bat">if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
@@ -8244,6 +8323,12 @@ call "%npackdih%\InstallMSI.bat" APPDIR yes
         <sha1>97edecc2361298e3649f57ff7599e0346b2e49c6</sha1>
         <dependency package="com.microsoft.DotNetRedistributable" versions="[2.0, 5)"/>
     </version>
+    <version package="se.cdburnerxp.CDBurnerXP" name="4.4.1.3243">
+        <important-file title="CDBurnerXP" path="cdbxpp.exe"/>
+        <url>http://download.cdburnerxp.se/portable/CDBurnerXP-4.4.1.3243.zip</url>
+        <sha1>c14f7f2ad412a96df44de110ecfd49261d0093e0</sha1>
+        <dependency package="com.microsoft.DotNetRedistributable" versions="[2.0, 5)"/>
+    </version>
     <!-- Detected -->
 
     <version name="2012.4.26" package="org.mingw.MinGW" type="one-file">
@@ -8358,6 +8443,21 @@ if %err% neq 0 exit %err%
 </file>
         <url>http://ac3filter.googlecode.com/files/ac3filter_2_4a.exe</url>
         <sha1>c8fa03e0ea96be4b63c6383e00dac6ab500fa6b7</sha1>
+    </version>
+    <version package="net.ac3filter.AC3Filter" type="one-file" name="2.5.2">
+        <file path=".WPM\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x
+"%setup%" /SP- /VERYSILENT /SUPPRESSMSGBOXES /NOCANCEL /NORESTART /DIR="%CD%" /SAVEINF="%CD%\.WPM\InnoSetupInfo.ini" /LOG="%CD%\.WPM\InnoSetupInstall.log"
+set err=%errorlevel%
+type .WPM\InnoSetupInstall.log
+if %err% neq 0 exit %err%
+</file>
+        <file path=".WPM\Uninstall.bat">unins000.exe /VERYSILENT /SUPPRESSMSGBOXES /NORESTART /LOG="%CD%\.WPM\InnoSetupUninstall.log"
+set err=%errorlevel%
+type .WPM\InnoSetupUninstall.log
+if %err% neq 0 exit %err%
+</file>
+        <url>http://ac3filter.googlecode.com/files/ac3filter_2_5b.exe</url>
+        <sha1>cec6d5b7d6f8a2d613069f3d0f882cfe23c4b92a</sha1>
     </version>
     <!-- Detected -->
 
@@ -10328,6 +10428,18 @@ for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x
         <url>http://npackd.googlecode.com/files/org.mozilla.Thunderbird-13.exe</url>
         <sha1>0db724f0993e933e842ece71631dcf5bcdff51d4</sha1>
     </version>
+    <version package="org.mozilla.Thunderbird" type="one-file" name="13.0.1">
+        <file path=".Npackd\Install.bat">echo [Install] > .Npackd\FF.ini
+echo InstallDirectoryPath=%CD% >> .Npackd\FF.ini
+echo QuickLaunchShortcut=false >> .Npackd\FF.ini
+echo DesktopShortcut=false >> .Npackd\FF.ini
+for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x
+"%setup%" /INI="%CD%\.Npackd\FF.ini"
+</file>
+        <file path=".Npackd\Uninstall.bat">uninstall\helper.exe /S</file>
+        <url>http://npackd.googlecode.com/files/org.mozilla.Thunderbird-13.0.1.exe</url>
+        <sha1>4927ee265f065baaacc96e95aa6230648af01a0e</sha1>
+    </version>
     <!-- Detected -->
     
     <version name="1.0.1" package="org.mozilla.SunbirdInstaller"
@@ -11571,7 +11683,7 @@ if %err% neq 0 exit %err%
         https://www.google.com/intl/en/chrome/business/browser/#utm_campaign=c4b&utm_medium=link&utm_source=apps
         Different versions are distributed from the same URL.
     -->    
-    <version name="19.0.1084.56" package="com.google.Chrome" type="one-file">
+    <version name="20.0.1132.47" package="com.google.Chrome" type="one-file">
         <file path=".Npackd\AddProperty.vbs">Option Explicit
 
 Const MSI_FILE = "GoogleChromeStandaloneEnterprise.msi"
@@ -11863,6 +11975,20 @@ for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x
         <url>http://npackd.googlecode.com/files/org.mozilla.Firefox-13.exe</url>
         <sha1>9002a5ae41ef54edf378506ae80c934b7e8df7dc</sha1>
     </version>
+    <version package="org.mozilla.Firefox" type="one-file" name="13.0.1">
+        <important-file title="Firefox" path="firefox.exe"/>
+        <file path=".WPM\Install.bat">echo [Install] > .WPM\FF.ini
+echo InstallDirectoryPath=%CD% >> .WPM\FF.ini
+echo QuickLaunchShortcut=false >> .WPM\FF.ini
+echo DesktopShortcut=false >> .WPM\FF.ini
+for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x
+"%setup%" /INI="%CD%\.WPM\FF.ini"
+</file>
+        <file path=".WPM\Uninstall.bat">uninstall\helper.exe /S
+</file>
+        <url>http://npackd.googlecode.com/files/org.mozilla.Firefox-13.0.1.exe</url>
+        <sha1>268a067cae2197be571ee103fcce34de01478afb</sha1>
+    </version>
     <!-- Detected by NpackdCL -->
 
     <version name="1.33" package="org.gexperts.GExpertsDelphi7Installer"
@@ -12098,6 +12224,32 @@ verify
 </file>
         <url>http://downloads.sourceforge.net/project/graphicsmagick/graphicsmagick-binaries/1.3.15/GraphicsMagick-1.3.15-Q16-windows-dll.exe</url>
         <sha1>ad27a37944c49778e3e0b6ab0546749641835bbf</sha1>
+        <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.15.7, 2)"/>
+        <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1, 1]"/>
+        <dependency package="com.googlecode.windows-package-manager.CLU" versions="[1, 2)"/>
+    </version>
+    <version package="org.graphicsmagick.GraphicsMagickQ16" type="one-file" name="1.3.16">
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x
+"%setup%" /SP- /VERYSILENT /SUPPRESSMSGBOXES /NOCANCEL /NORESTART /DIR="%CD%"
+if %errorlevel% neq 0 exit /b %errorlevel%
+
+if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
+set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.CLU" "--versions=[1, 2)"
+for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set clu=%%x
+"%clu%\clu" add-path --path "%CD%"
+verify
+</file>
+        <file path=".Npackd\Uninstall.bat">unins000.exe /VERYSILENT /SUPPRESSMSGBOXES /NORESTART
+if %errorlevel% neq 0 exit /b %errorlevel%
+
+if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
+set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.CLU" "--versions=[1, 2)"
+for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set clu=%%x
+"%clu%\clu" remove-path --path "%CD%"
+verify
+</file>
+        <url>http://downloads.sourceforge.net/project/graphicsmagick/graphicsmagick-binaries/1.3.16/GraphicsMagick-1.3.16-Q16-windows-dll.exe</url>
+        <sha1>5af9581919b1f466d57b6d7e29f0811ff6b9403e</sha1>
         <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.15.7, 2)"/>
         <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1, 1]"/>
         <dependency package="com.googlecode.windows-package-manager.CLU" versions="[1, 2)"/>
@@ -14901,6 +15053,49 @@ call "%npackdih%\UninstallMSI.bat"
         <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.15.7, 2)"/>
         <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1, 1]"/>
     </version>
+    <version package="org.golang.Go" type="one-file" name="1.0.2">
+        <file path=".Npackd\AddProperty.vbs">Option Explicit
+
+Dim MSI_FILE
+MSI_FILE = Wscript.Arguments(0)
+
+Dim installer, database, view
+
+Set installer = CreateObject("WindowsInstaller.Installer")
+Set database = installer.OpenDatabase(MSI_FILE, 1)
+
+Set view = database.OpenView("INSERT INTO Property (Property, Value) VALUES ('INSTALLDIR', 'C:\Go')")
+view.Execute
+'Set view = database.OpenView("DELETE FROM Directory WHERE Directory='TARGETDIR'")
+'view.Execute
+'Set view = database.OpenView("UPDATE Directory SET DefaultDir='INSTALLLOCATION' WHERE Directory='TARGETDIR'")
+'view.Execute
+database.Commit
+
+Set database = Nothing
+Set installer = Nothing
+Set view = Nothing
+</file>
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.msi') do set setup=%%x
+.Npackd\AddProperty.vbs "%setup%"
+if %errorlevel% neq 0 exit %errorlevel%
+
+if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
+set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.NpackdInstallerHelper" "--versions=[1, 1]"
+for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set npackdih=%%x
+call "%npackdih%\InstallMSI.bat" INSTALLDIR
+</file>
+        <file path=".Npackd\Uninstall.bat">if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
+set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.NpackdInstallerHelper" "--versions=[1, 1]"
+for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set npackdih=%%x
+call "%npackdih%\UninstallMSI.bat"
+</file>
+        <url>http://go.googlecode.com/files/go1.0.2.windows-386.msi</url>
+        <sha1>49aec39fcf1e34f64336021a60159170250ec732</sha1>
+        <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1, 1]"/>
+        <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.15.7, 2)"/>
+        <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1, 1]"/>
+    </version>
     <!-- Detected -->
 
     <!-- old versions are regularly deleted -->
@@ -15084,7 +15279,38 @@ call liteide.exe
         <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.15.7, 2)"/>
         <dependency package="org.golang.Go" versions="[1, 2)"/>
     </version>
-    <!-- Detected -->
+    <version package="com.googlecode.golangide.GoLangIDE" name="12.1.1"
+            type="one-file">
+        <important-file title="Go LiteIDE" path="bin\liteide.bat"/>
+        <file path=".Npackd\Install.bat">if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
+set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=org.7-zip.SevenZIPA" "--versions=[9.20, 9.20]"
+for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set sevenzipa=%%x
+for /f %%x in ('dir /b *.7z') do set setup=%%x
+"%sevenzipa%\7za.exe" x "%setup%" &gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt
+
+set name=liteide
+cd "%name%" 
+for /f "delims=" %%a in ('dir /b') do (
+  move "%%a" ..
+)
+cd ..
+rmdir "%name%"
+</file>
+        <file path="liteide\bin\liteide.bat">if "%npackd_cl%" equ "" set npackd_cl=..\..\com.googlecode.windows-package-manager.NpackdCL-1
+set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=org.golang.Go" "--versions=[1, 2)"
+for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set goroot=%%x
+set GOARCH=386
+set GOOS=windows
+set PATH=%GOROOT%\bin
+call liteide.exe
+</file>
+        <url>http://golangide.googlecode.com/files/liteidex12.1.1.windows.hg575.7z</url>
+        <sha1>717e98771aa6668c714c4f83cbb6d2eea3c99394</sha1>
+        <dependency package="org.7-zip.SevenZIPA" versions="[9.20, 9.20]"/>
+        <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1, 1]"/>
+        <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.15.7, 2)"/>
+        <dependency package="org.golang.Go" versions="[1, 2)"/>
+    </version>
 
     <version name="2.9" package="net.sourceforge.discoverd.Discover">
         <important-file path="Discover.exe" title="Discover"/>
@@ -15517,6 +15743,15 @@ verify
 </file>
         <url>https://miranda.googlecode.com/files/miranda-im-v0.9.51-unicode.exe</url>
         <sha1>6b4f256f6b139666c11dd379832ae4f6dc2f06dd</sha1>
+    </version>
+    <version package="org.miranda-im.MirandaIM" type="one-file" name="0.9.52">
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x
+"%setup%" /S /D=%CD%
+</file>
+        <file path=".Npackd\Uninstall.bat">Uninstall.exe /S _?=%CD%
+</file>
+        <url>https://miranda.googlecode.com/files/miranda-im-v0.9.52-unicode.exe</url>
+        <sha1>f96146b3a9ecc59f665288d8b8f1de6fcf026b0e</sha1>
     </version>
     <!-- Detected -->
 
@@ -18184,6 +18419,64 @@ verify
         <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1, 1]"/>
         <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1, 1]"/>
     </version>
+    <version package="org.nodejs.NodeJS" type="one-file" name="0.8.1">
+        <file path=".Npackd\AddProperty.vbs">Option Explicit
+
+Const MSI_FILE = "node.msi"
+
+Dim installer, database, view
+
+Set installer = CreateObject("WindowsInstaller.Installer")
+Set database = installer.OpenDatabase(MSI_FILE, 1)
+
+'Set view = database.OpenView("INSERT INTO Property (Property, Value) VALUES ('TARGETDIR', 'C:\')")
+'view.Execute
+'Set view = database.OpenView("DELETE FROM Directory WHERE Directory='TARGETDIR'")
+'view.Execute
+Set view = database.OpenView("UPDATE Directory SET Directory_Parent='TARGETDIR', DefaultDir='.' WHERE Directory='NodeRoot'")
+view.Execute
+database.Commit
+
+Set database = Nothing
+Set installer = Nothing
+Set view = Nothing
+</file>
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.msi') do set setup=%%x
+ren "%setup%" node.msi
+ 
+.Npackd\AddProperty.vbs
+if %errorlevel% neq 0 exit %errorlevel%
+
+if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
+set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.NpackdInstallerHelper" "--versions=[1, 1]"
+for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set npackdih=%%x
+call "%npackdih%\InstallMSI.bat" TARGETDIR
+if %errorlevel% neq 0 exit %errorlevel%
+
+if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
+set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.CLU" "--versions=[1, 2)"
+for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set clu=%%x
+"%clu%\clu" add-path --path "%CD%"
+verify
+</file>
+        <file path=".Npackd\Uninstall.bat">if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
+set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.NpackdInstallerHelper" "--versions=[1, 1]"
+for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set npackdih=%%x
+call "%npackdih%\UninstallMSI.bat"
+if %errorlevel% neq 0 exit %errorlevel%
+
+if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
+set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.CLU" "--versions=[1, 2)"
+for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set clu=%%x
+"%clu%\clu" remove-path --path "%CD%"
+verify
+</file>
+        <url>http://nodejs.org/dist/v0.8.1/node-v0.8.1-x86.msi</url>
+        <sha1>64f10cb29aaaabda83300c81d61b56a436308126</sha1>
+        <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.15.7, 2)"/>
+        <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1, 1]"/>
+        <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1, 1]"/>
+    </version>
     <!-- Detected -->
 
     <version name="2.5.1.26351" package="org.firebirdsql.FirebirdEmbedded">
@@ -18656,6 +18949,18 @@ call "%npackdih%\InstallMSI.bat" INSTALLDIR yes
         <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.15.7, 2)"/>
         <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1, 1]"/>
         <dependency package="com.googlecode.msysgit.MSysGit" versions="[1.7.4.2011.2.4, 2)"/>
+    </version>
+    <version package="org.mozilla.XULRunner" name="13.0.2">
+        <file path=".WPM\Install.bat">for /f "delims=" %%x in ('dir /b xulrunner*') do set name=%%x
+cd "%name%"
+for /f "delims=" %%a in ('dir /b') do (
+  move "%%a" ..
+)
+cd ..
+rmdir "%name%"
+</file>
+        <url>http://ftp.mozilla.org/pub/mozilla.org/xulrunner/releases/13.0.2/runtimes/xulrunner-13.0.2.en-US.win32.zip</url>
+        <sha1>d8d1feb6c2948352f75608718de6c34228383416</sha1>
     </version>
     <!-- Detected -->
 

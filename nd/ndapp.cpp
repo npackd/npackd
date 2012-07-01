@@ -8,83 +8,6 @@
 #include "..\wpmcpp\commandline.h"
 #include "..\wpmcpp\downloader.h"
 
-QString App::reinstallTestPackage(QString rep)
-{
-    QString err;
-
-    Repository* r = Repository::getDefault();
-
-    QDomDocument doc;
-    int errorLine, errorColumn;
-    QFile f(rep);
-    if (!f.open(QIODevice::ReadOnly))
-        err = "Cannot open the repository file";
-
-    if (err.isEmpty()) {
-        if (!doc.setContent(&f, false, &err, &errorLine, &errorColumn))
-            err = QString("XML parsing failed at line %1, column %2: %3").
-                arg(errorLine).arg(errorColumn).arg(err);
-    }
-
-    if (err.isEmpty()) {
-        Job* job = new Job();
-        r->loadOne(&doc, job);
-        err = job->getErrorMessage();
-        delete job;
-
-        r->readRegistryDatabase();
-    }
-
-    PackageVersion* pv = r->findPackageVersion(
-            "com.googlecode.windows-package-manager.Test",
-            Version(1, 0));
-
-    if (err.isEmpty()) {
-        if (pv->installed()) {
-            Job* job = new Job();
-            pv->uninstall(job);
-            err = job->getErrorMessage();
-            delete job;
-        }
-    }
-
-    if (err.isEmpty()) {
-        QList<PackageVersion*> installed;
-        QList<PackageVersion*> avoid;
-        QList<InstallOperation*> ops;
-        err = pv->planInstallation(installed, ops, avoid);
-
-        if (err.isEmpty()) {
-            err = "Packages cannot depend on itself";
-        } else {
-            err = "";
-        }
-    }
-
-    return err;
-}
-
-int App::unitTests()
-{
-    WPMUtils::outputTextConsole("Starting internal tests\n");
-
-    WPMUtils::outputTextConsole("testDependsOnItself\n");
-    QString err = reinstallTestPackage("npackdcl\\TestDependsOnItself.xml");
-    if (err.isEmpty())
-        WPMUtils::outputTextConsole("Internal tests were successful\n");
-    else
-        WPMUtils::outputTextConsole("Internal tests failed: " + err + "\n");
-
-    WPMUtils::outputTextConsole("testPackageMissing\n");
-    err = reinstallTestPackage("npackdcl\\TestPackageMissing.xml");
-    if (err.isEmpty())
-        WPMUtils::outputTextConsole("Internal tests were successful\n");
-    else
-        WPMUtils::outputTextConsole("Internal tests failed: " + err + "\n");
-
-    return 0;
-}
-
 int App::process()
 {
     QString err = cl.parse();
@@ -108,8 +31,6 @@ int App::process()
         const QString cmd = fr.at(0);
         if (cmd == "help") {
             usage();
-        } else if (cmd == "unit-tests") {
-            r = unitTests();
         } else if (cmd == "find-updates") {
             r = findUpdates();
         } else {
