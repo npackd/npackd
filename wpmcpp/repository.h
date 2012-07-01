@@ -32,7 +32,7 @@ private:
 
     QMultiMap<QString, PackageVersion*> package2versions;
 
-    void loadOne(QUrl* url, Job* job);
+    void loadOne(QUrl* url, Job* job, bool useCache=true);
 
     void addWindowsPackage();
 
@@ -83,8 +83,9 @@ private:
      * about installation path after this method was called.
      *
      * @param job job for this method
+     * @param useCache true = cache will be used
      */
-    void load(Job* job);
+    void load(Job* job, bool useCache=true);
 
     /**
      * Adds unknown in the repository, but installed packages.
@@ -248,8 +249,9 @@ public:
      * Reloads all repositories.
      *
      * @param job job for this method
+     * @param useCache true = cache will be used
      */
-    void reload(Job* job);
+    void reload(Job* job, bool useCache=true);
 
     /**
      * Reloads the database about installed packages from the

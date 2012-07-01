@@ -1465,11 +1465,11 @@ void Repository::scanHardDrive(Job* job)
     job->complete();
 }
 
-void Repository::reload(Job *job)
+void Repository::reload(Job *job, bool useCache)
 {
     job->setHint("Loading repositories");
     Job* d = job->newSubJob(0.75);
-    load(d);
+    load(d, useCache);
     if (!d->getErrorMessage().isEmpty())
         job->setErrorMessage(d->getErrorMessage());
     delete d;
@@ -1538,7 +1538,7 @@ void Repository::refresh(Job *job)
     job->complete();
 }
 
-void Repository::load(Job* job)
+void Repository::load(Job* job, bool useCache)
 {
     qDeleteAll(this->packages);
     this->packages.clear();
@@ -1552,7 +1552,7 @@ void Repository::load(Job* job)
             job->setHint(QString("Repository %1 of %2").arg(i + 1).
                          arg(urls.count()));
             Job* s = job->newSubJob(0.9 / urls.count());
-            loadOne(urls.at(i), s);
+            loadOne(urls.at(i), s, useCache);
             if (!s->getErrorMessage().isEmpty()) {
                 job->setErrorMessage(QString(
                         "Error loading the repository %1: %2").arg(
@@ -1579,13 +1579,13 @@ void Repository::load(Job* job)
     job->complete();
 }
 
-void Repository::loadOne(QUrl* url, Job* job) {
+void Repository::loadOne(QUrl* url, Job* job, bool useCache) {
     job->setHint("Downloading");
 
     QTemporaryFile* f = 0;
     if (job->getErrorMessage().isEmpty() && !job->isCancelled()) {
         Job* djob = job->newSubJob(0.90);
-        f = Downloader::download(djob, *url, 0, true);
+        f = Downloader::download(djob, *url, 0, useCache);
         if (!djob->getErrorMessage().isEmpty())
             job->setErrorMessage(QString("Download failed: %2").
                     arg(djob->getErrorMessage()));

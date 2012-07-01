@@ -1705,6 +1705,12 @@ rmdir "%name%"
         <sha1>26708f1cae37bc572a46027ac162f83bddae946c</sha1>
         <dependency package="com.microsoft.DotNetRedistributable" versions="[2.0, 5)"/>
     </version>
+    <version package="se.cdburnerxp.CDBurnerXP64" name="4.4.1.3243">
+        <important-file title="CDBurnerXP" path="cdbxpp.exe"/>
+        <url>http://download.cdburnerxp.se/portable/CDBurnerXP-x64-4.4.1.3243.zip</url>
+        <sha1>d0413617c45c4dea2e9e2433372fe415239312f2</sha1>
+        <dependency package="com.microsoft.DotNetRedistributable" versions="[2.0, 5)"/>
+    </version>
     <!-- Detected -->
 
     <version name="1.0.3.8" package="org.bluemars.ClipX64" type="one-file">
@@ -2315,6 +2321,18 @@ for /f %%x in ('dir /b *.7z') do set setup=%%x
         <sha1>32340f822383302add83b829009ad0b68d414f08</sha1>
         <dependency package="org.7-zip.SevenZIPA" versions="[9.20, 9.20]"/>
     </version>
+    <version package="org.miranda-im.MirandaIM64" type="one-file" name="0.9.52">
+        <important-file title="Miranda IM" path="miranda64.exe"/>
+        <file path=".Npackd\Install.bat">if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
+set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=org.7-zip.SevenZIPA" "--versions=[9.20, 9.20]"
+for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set sevenzipa=%%x
+for /f %%x in ('dir /b *.7z') do set setup=%%x
+"%sevenzipa%\7za.exe" x "%setup%"
+</file>
+        <url>https://miranda.googlecode.com/files/miranda-im-v0.9.52-x64.7z</url>
+        <sha1>51a87b9179033564f30458ec96abae94be596562</sha1>
+        <dependency package="org.7-zip.SevenZIPA" versions="[9.20, 9.20]"/>
+    </version>
     <!-- Detected -->
 
     <version name="5.5.16" package="com.mysql.MySQLCommunityServer64" 
@@ -2590,6 +2608,20 @@ del Q-Dir.ini
 </file>
         <url>http://dl.dropbox.com/u/17046326/files/com.softwareok.QDir64-5.14.zip</url>
         <sha1>7ee4717740847f571d1738cbe0db36fb6562efe4</sha1>
+    </version>
+    <version package="com.softwareok.QDir64" name="5.21">
+        <important-file title="Q-Dir" path="Q-Dir.exe"/>
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b Q*') do set name=%%x
+cd "%name%"        
+for /f "delims=" %%a in ('dir /b') do (
+  move "%%a" ..
+)
+cd ..
+rmdir "%name%"
+del Q-Dir.ini
+</file>
+        <url>http://dl.dropbox.com/u/17046326/files/com.softwareok.QDir64-5.21.zip</url>
+        <sha1>95f81d53faf18af3aa3d0d8fd2ddb8b06ad49c92</sha1>
     </version>
     <!-- Detected -->
     
@@ -3473,6 +3505,15 @@ rmdir /s /q "%name%"
         <url>http://downloads.sourceforge.net/project/ultradefrag/stable-release/5.0.5/ultradefrag-portable-5.0.5.bin.amd64.zip</url>
         <sha1>b9837d6c47bb10eb4beae992635d8916e8a44b46</sha1>
     </version>
+    <version package="org.sourceforge.ultradefrag.UltraDefrag64" name="5.0.6">
+        <important-file title="UltraDefrag" path="ultradefrag.exe"/>
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b ultra*') do set name=%%x
+xcopy "%name%\*" . /E /H
+rmdir /s /q "%name%"    
+</file>
+        <url>http://downloads.sourceforge.net/project/ultradefrag/stable-release/5.0.6/ultradefrag-portable-5.0.6.bin.amd64.zip</url>
+        <sha1>9cb2cfb811a523b60c9ae2efd7e6202a350725b9</sha1>
+    </version>
     <!-- Detected -->
     
     <version name="7.3" package="org.vim.Vim64">
@@ -4286,7 +4327,51 @@ call "%npackdih%\UninstallMSI.bat"
         <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.15.7, 2)"/>
         <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1, 1]"/>
     </version>
+    <version package="org.golang.Go64" type="one-file" name="1.0.2">
+        <file path=".Npackd\AddProperty.vbs">Option Explicit
 
+Dim MSI_FILE
+MSI_FILE = Wscript.Arguments(0)
+
+Dim installer, database, view
+
+Set installer = CreateObject("WindowsInstaller.Installer")
+Set database = installer.OpenDatabase(MSI_FILE, 1)
+
+Set view = database.OpenView("INSERT INTO Property (Property, Value) VALUES ('INSTALLDIR', 'C:\Go')")
+view.Execute
+'Set view = database.OpenView("DELETE FROM Directory WHERE Directory='TARGETDIR'")
+'view.Execute
+'Set view = database.OpenView("UPDATE Directory SET DefaultDir='INSTALLLOCATION' WHERE Directory='TARGETDIR'")
+'view.Execute
+database.Commit
+
+Set database = Nothing
+Set installer = Nothing
+Set view = Nothing
+</file>
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.msi') do set setup=%%x
+.Npackd\AddProperty.vbs "%setup%"
+if %errorlevel% neq 0 exit %errorlevel%
+
+if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
+set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.NpackdInstallerHelper" "--versions=[1, 1]"
+for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set npackdih=%%x
+call "%npackdih%\InstallMSI.bat" INSTALLDIR
+</file>
+        <file path=".Npackd\Uninstall.bat">if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
+set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.NpackdInstallerHelper" "--versions=[1, 1]"
+for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set npackdih=%%x
+call "%npackdih%\UninstallMSI.bat"
+</file>
+        <url>http://go.googlecode.com/files/go1.0.2.windows-amd64.msi</url>
+        <sha1>fc0bcee70701b3e3ecd4fbf53cd1091ef6b62db1</sha1>
+        <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1, 1]"/>
+        <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.15.7, 2)"/>
+        <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1, 1]"/>
+    </version>
+    <!-- Detected -->
+    
     <version package="fr.handbrake.HandBrake64" type="one-file" name="0.9.6">
         <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x
 "%setup%" /S /D=%CD%

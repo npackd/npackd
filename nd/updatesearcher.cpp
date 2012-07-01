@@ -1150,7 +1150,7 @@ void UpdateSearcher::findUpdates(Job* job)
 
         Repository* rep = Repository::getDefault();
         Job* sub = job->newSubJob(0.39);
-        rep->reload(sub);
+        rep->reload(sub, false);
         if (!sub->getErrorMessage().isEmpty()) {
             job->setErrorMessage(sub->getErrorMessage());
         }
@@ -1311,11 +1311,6 @@ void UpdateSearcher::findUpdates(Job* job)
             "go([\\d\\.]+)\\.windows\\-amd64\\.msi",
             "http://go.googlecode.com/files/go${{version}}.windows-amd64.msi"));
     dis.append(DiscoveryInfo(
-            "com.googlecode.golangide.GoLangIDE",
-            "http://code.google.com/p/golangide/downloads/list",
-            "liteidex([\\d\\.]+)\\.windows\\.zip",
-            "http://golangide.googlecode.com/files/liteidex${{version}}.windows.zip"));
-    dis.append(DiscoveryInfo(
             "net.sourceforge.jabref.JabRef",
             "http://sourceforge.net/api/file/index/project-id/92314/mtime/desc/limit/20/rss",
             "JabRef\\-([\\d\\.]+)\\-setup\\.exe",
@@ -1370,10 +1365,10 @@ void UpdateSearcher::findUpdates(Job* job)
             "org.nodejs.NodeJS",
             "http://nodejs.org/",
             ">v([\\d\\.]+)<",
-            "http://nodejs.org/dist/v${{version}}/node-v${{version}}.msi"));
+            "http://nodejs.org/dist/v${{version}}/node-v${{version}}-x86.msi"));
     dis.append(DiscoveryInfo(
             "com.opera.Opera",
-            "http://www.opera.com/",
+            "http://www.opera.com/browser/",
             "version ([\\d\\.]+) for Windows",
             "http://get-tsw-1.opera.com/pub/opera/win/${{actualVersionWithoutDots}}/int/Opera_${{actualVersionWithoutDots}}_int_Setup.exe"));
     dis.append(DiscoveryInfo(
@@ -1554,7 +1549,7 @@ void UpdateSearcher::findUpdates(Job* job)
 
     Repository* found = new Repository();
 
-    int failures = 0;
+    QStringList failedPackages;
 
     for (int i = 0; i < dis.count(); i++) {
         const DiscoveryInfo di = dis.at(i);
@@ -1611,9 +1606,14 @@ void UpdateSearcher::findUpdates(Job* job)
         }
 
         if (!sub->getErrorMessage().isEmpty()) {
+            HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
+            CONSOLE_SCREEN_BUFFER_INFO csbi;
+            GetConsoleScreenBufferInfo(hConsole, &csbi);
+            SetConsoleTextAttribute(hConsole, FOREGROUND_RED);
             WPMUtils::outputTextConsole(package + ": " +
-                    sub->getErrorMessage(), false);
-            failures++;
+                    sub->getErrorMessage() + "\n", false);
+            SetConsoleTextAttribute(hConsole, csbi.wAttributes);
+            failedPackages.append(package);
         } else {
             job->setProgress(0.4 + 0.55 * (i + 1) / dis.count());
             if (!pv)
@@ -1638,7 +1638,9 @@ void UpdateSearcher::findUpdates(Job* job)
                 found->packageVersions.count()));
         WPMUtils::outputTextConsole(
                 QString("Number of failures: %1\n").arg(
-                failures));
+                failedPackages.count()));
+        WPMUtils::outputTextConsole(QString("Failed packages: %1\n").
+                arg(failedPackages.join("\n")));
         if (found->packageVersions.count() > 0) {
             QString err = found->writeTo("FoundPackages.xml");
             if (!err.isEmpty())

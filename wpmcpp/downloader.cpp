@@ -78,8 +78,10 @@ void Downloader::downloadWin(Job* job, const QUrl& url, QFile* file,
     ppszAcceptTypes[1] = NULL;
     DWORD flags = (url.scheme() == "https" ? INTERNET_FLAG_SECURE : 0) |
             INTERNET_FLAG_KEEP_CONNECTION;
+    flags |= INTERNET_FLAG_RESYNCHRONIZE;
     if (!useCache)
-        flags |= INTERNET_FLAG_DONT_CACHE | INTERNET_FLAG_PRAGMA_NOCACHE;
+        flags |= INTERNET_FLAG_DONT_CACHE | INTERNET_FLAG_PRAGMA_NOCACHE |
+                INTERNET_FLAG_RELOAD;
     HINTERNET hResourceHandle = HttpOpenRequestW(hConnectHandle, L"GET",
             (WCHAR*) resource.utf16(),
             0, 0, ppszAcceptTypes,

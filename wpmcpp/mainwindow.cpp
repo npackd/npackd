@@ -71,6 +71,12 @@ public:
 
     QList<InstallOperation*> install;
 
+    /**
+     * type = 3 or 4
+     * true (default value) = the HTTP cache will be used
+     */
+    bool useCache;
+
     InstallThread(PackageVersion* pv, int type, Job* job);
 
     void run();
@@ -81,6 +87,7 @@ InstallThread::InstallThread(PackageVersion *pv, int type, Job* job)
     this->pv = pv;
     this->type = type;
     this->job = job;
+    this->useCache = true;
 }
 
 void InstallThread::scanHardDrives()
@@ -103,7 +110,7 @@ void InstallThread::run()
     case 3:
     case 4: {
         Repository* r = Repository::getDefault();
-        r->reload(job);
+        r->reload(job, this->useCache);
         PackageVersion* pv = r->findOrCreatePackageVersion(
                 "com.googlecode.windows-package-manager.Npackd",
                 Version(WPMUtils::NPACKD_VERSION));
@@ -1313,6 +1320,7 @@ void MainWindow::recognizeAndLoadRepositories()
 
     Job* job = new Job();
     InstallThread* it = new InstallThread(0, 3, job);
+    it->useCache = false;
 
     connect(it, SIGNAL(finished()), this,
             SLOT(recognizeAndLoadRepositoriesThreadFinished()),

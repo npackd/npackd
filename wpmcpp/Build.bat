@@ -39,6 +39,9 @@ if %errorlevel% neq 0 exit /b %errorlevel%
 copy "%qt_path%\bin\QtCore4.dll" .Build\32\
 if %errorlevel% neq 0 exit /b %errorlevel%
 
+copy "%qt_path%\bin\QtGui4.dll" .Build\32\
+if %errorlevel% neq 0 exit /b %errorlevel%
+
 copy "%qt_path%\bin\QtNetwork4.dll" .Build\32\
 if %errorlevel% neq 0 exit /b %errorlevel%
 
@@ -57,6 +60,6 @@ cd .Build\32\
 if %errorlevel% neq 0 exit /b %errorlevel%
 cd ..\..
 
-rem creating .ai
+rem creating .msi
 "%ai_path%\bin\x86\AdvancedInstaller.com" /build wpmcpp.aip
 if %errorlevel% neq 0 exit /b %errorlevel%
