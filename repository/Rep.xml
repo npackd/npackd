@@ -530,7 +530,7 @@
     <package name="com.codesector.DirectFolders">
         <title>Direct Folders</title>
         <url>http://www.codesector.com/directfolders.php</url>
-        <description>manages favarite folders in Windows Explorer</description>
+        <description>manages favorite folders in Windows Explorer</description>
     </package>
     <package name="com.codesector.TeraCopy">
         <title>TeraCopy</title>
@@ -5903,12 +5903,26 @@ move *.dll %trash%
 taskkill /f /im dropbox.exe
 </file>
         <file path=".Npackd\Uninstall.bat">Uninstall.exe /S _?=%CD%
-set key=com.dropbox.Dropbox-1.4.3
+set key=com.dropbox.Dropbox-1.4.7
 set trash=..\.Trash\%key%_%RANDOM%
 mkdir %trash%
 move *.dll %trash%
 </file>
         <url>http://dl.dropbox.com/u/17046326/files/com.dropbox.Dropbox-1.4.7.exe</url>
+        <sha1>ca5e1db372e0c3f5fc52c996091f35d1a4108b8b</sha1>
+    </version>
+    <version name="1.4.9" package="com.dropbox.Dropbox" type="one-file">
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x
+"%setup%" /S /D=%CD%
+taskkill /f /im dropbox.exe
+</file>
+        <file path=".Npackd\Uninstall.bat">Uninstall.exe /S _?=%CD%
+set key=com.dropbox.Dropbox-1.4.9
+set trash=..\.Trash\%key%_%RANDOM%
+mkdir %trash%
+move *.dll %trash%
+</file>
+        <url>http://dl.dropbox.com/u/17046326/files/com.dropbox.Dropbox-1.4.9.exe</url>
         <sha1>ca5e1db372e0c3f5fc52c996091f35d1a4108b8b</sha1>
     </version>
 
@@ -6327,6 +6341,15 @@ ren "%setup%" avg.exe
         <important-file path="avg.exe" title="Installer"/>
         <url>http://aa-download.avg.com/filedir/inst/avg_free_stb_eu_2012_2178_free.exe</url>
         <sha1>ea62e75ab8e1770b499224bf672d9864723572a9</sha1>
+    </version>
+    <version name="2012.2180" package="com.avg.AVGAntiVirusFreeInstaller"
+            type="one-file">
+        <file path=".Npackd\Install.bat">for /f %%x in ('dir /b *.exe') do set setup=%%x
+ren "%setup%" avg.exe
+</file>
+        <important-file path="avg.exe" title="Installer"/>
+        <url>http://aa-download.avg.com/filedir/inst/avg_free_stb_eu_2012_2180_free.exe</url>
+        <sha1>586dd3dd86de40f9b94ba425e67b389081315de6</sha1>
     </version>
 
     <version name="3.2.2" package="org.glest.Glest" type="one-file">
@@ -8825,15 +8848,30 @@ ren "%setup%" VirtualBox.exe
 
     <version name="2.8.0.8" package="com.cutepdf.CutePDFWriterInstaller"
             type="one-file">
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x
+ren "%setup%" CuteWriter.exe
+</file>
         <important-file path="CuteWriter.exe" title="Installer"/>
         <url>http://dl.dropbox.com/u/17046326/files/com.cutepdf.CutePDFWriterInstaller-2.8.0.8.exe</url>
         <sha1>91ec186153fb33a4562204e4be5631168c2ba206</sha1>
     </version>
     <version name="2.8.1" package="com.cutepdf.CutePDFWriterInstaller"
             type="one-file">
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x
+ren "%setup%" CuteWriter.exe
+</file>
         <important-file path="CuteWriter.exe" title="Installer"/>
         <url>http://dl.dropbox.com/u/17046326/files/com.cutepdf.CutePDFWriterInstaller-2.8.1.exe</url>
         <sha1>b9203df961da2be55aa8df66ceaf63190736404a</sha1>
+    </version>
+    <version name="3.0.0.1" package="com.cutepdf.CutePDFWriterInstaller"
+            type="one-file">
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x
+ren "%setup%" CuteWriter.exe
+</file>
+        <important-file path="CuteWriter.exe" title="Installer"/>
+        <url>http://dl.dropbox.com/u/17046326/files/com.cutepdf.CutePDFWriterInstaller-3.0.0.1.exe</url>
+        <sha1>238f2761feaf0c0a635c102554bf326e5daa4665</sha1>
     </version>
 
     <version name="3.5.7" package="net.getpaint.PaintDotNetInstaller">
@@ -9833,6 +9871,14 @@ ren "%setup%" BitTorrent.exe
         <important-file path="BitTorrent.exe" title="Installer"/>
         <url>http://download.bittorrent.com/7.6.1/BitTorrent.exe</url>
     </version>
+    <version name="8" package="com.bittorrent.BitTorrentInstaller"
+            type="one-file">
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x
+ren "%setup%" BitTorrent.exe
+</file>
+        <important-file path="BitTorrent.exe" title="Installer"/>
+        <url>http://download.bittorrent.com/7.6.1/BitTorrent8.exe</url>
+    </version>
 
     <!-- old releases are regularly deleted -->
     <version name="5.12.3.1204" package="com.activestate.ActivePerl"
@@ -9929,6 +9975,39 @@ verify
 </file>
         <url>http://downloads.activestate.com/ActivePerl/releases/5.14.2.1402/ActivePerl-5.14.2.1402-MSWin32-x86-295342.msi</url>
         <sha1>925a0b8a8b0e606fa98d8a79b0c7b55050b85ddf</sha1>
+        <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1, 1]"/>
+        <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.15.7, 2)"/>
+        <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1, 1]"/>
+        <dependency package="com.googlecode.windows-package-manager.CLU" versions="[1, 2)"/>
+    </version>
+    <version name="5.16.0.1600" package="com.activestate.ActivePerl"
+            type="one-file">
+        <file path=".Npackd\Install.bat">if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
+set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.NpackdInstallerHelper" "--versions=[1, 1]"
+for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set npackdih=%%x
+call "%npackdih%\InstallMSI.bat" TARGETDIR
+if %errorlevel% neq 0 exit /b %errorlevel%
+
+if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
+set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.CLU" "--versions=[1, 2)"
+for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set clu=%%x
+"%clu%\clu" add-path --path "%CD%\Perl\bin"
+verify
+</file>
+        <file path=".Npackd\Uninstall.bat">if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
+set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.NpackdInstallerHelper" "--versions=[1, 1]"
+for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set npackdih=%%x
+call "%npackdih%\UninstallMSI.bat"
+if %errorlevel% neq 0 exit /b %errorlevel%
+
+if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
+set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.CLU" "--versions=[1, 2)"
+for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set clu=%%x
+"%clu%\clu" remove-path --path "%CD%\Perl\bin"
+verify
+</file>
+        <url>http://downloads.activestate.com/ActivePerl/releases/5.16.0.1600/ActivePerl-5.16.0.1600-MSWin32-x86-295879.msi</url>
+        <sha1>616d55bced549e0238d577b4d7c6b2cc20da22ca</sha1>
         <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1, 1]"/>
         <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.15.7, 2)"/>
         <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1, 1]"/>
@@ -11661,6 +11740,21 @@ rmdir "%name%"
         <dependency package="com.oracle.JRE" versions="[1.6, 2)"/>
         <sha1>9bf6d55014876fcf8370f975313f7d5c1d14be7c</sha1>
     </version>
+    <version package="org.areca-backup.ArecaBackup" name="7.2.10">
+        <important-file title="Areca" path="areca.exe"/>
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b areca*') do set name=%%x
+cd "%name%"
+for /f "delims=" %%a in ('dir /b') do (
+  move "%%a" ..
+)
+cd ..
+rmdir "%name%"
+</file>
+        <url>http://downloads.sourceforge.net/project/areca/areca-stable/areca-7.2.10/areca-7.2.10-windows-jre32.zip</url>
+        <sha1>c986dcc7e5c158b51a32ddee656026930f8810ca</sha1>
+        <dependency package="com.oracle.JRE" versions="[1.6, 2)"/>
+    </version>
+    <!-- Detected -->
 
     <version name="2.6.294" package="org.camstudio.CamStudio" type="one-file">
         <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x
@@ -14893,7 +14987,7 @@ if %err% neq 0 exit /b %err%
         <detect-msi>{59F24743-2EA1-3A45-B8C2-6E0E1E078FA8}</detect-msi>
     </version>
 
-    <version name="11.31" package="com.microsoft.AutoRuns">
+    <version name="11.32" package="com.microsoft.AutoRuns">
         <important-file path="autoruns.exe" title="AutoRuns"/>
         <url>http://download.sysinternals.com/files/Autoruns.zip</url>
     </version>
@@ -18835,6 +18929,16 @@ rmdir "%name%"
         <dependency package="com.googlecode.msysgit.MSysGit" versions="[1.7, 2)"/>
         <url>http://d1iwq2e2xrohf.cloudfront.net/tools/studio/standalone/3.1.3.201205292243/win/Aptana_Studio_3_Setup_3.1.3.exe</url> 
         <sha1>b336df74908ef1780d3e1d9391f4718ce78e24a6</sha1>
+    </version>
+    <version name="3.2" package="com.aptana.Studio" type="one-file">
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x
+    "%setup%" /S /D=%CD%
+</file>
+        <file path=".Npackd\Uninstall.bat">uninst.exe /S _?=%CD%
+</file>
+        <dependency package="com.googlecode.msysgit.MSysGit" versions="[1.7, 2)"/>
+        <url>http://d1iwq2e2xrohf.cloudfront.net/tools/studio/standalone/3.2.0.201206251729/win/Aptana_Studio_3_Setup_3.2.0.exe</url> 
+        <sha1>ea4815dc799ad0c8b1bbf226530e274f40d5fa5c</sha1>
     </version>
 
     <version name="4.16" package="com.sysinternals.BgInfo">

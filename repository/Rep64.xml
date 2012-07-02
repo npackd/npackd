@@ -304,6 +304,14 @@ This package uses internal version numbers. For example, 1.7.0.1 corresponds to 
         <description>Java web server</description>
         <license>org.apache.ApacheLicense2</license>
     </package>
+    <package name="org.areca-backup.ArecaBackup64">
+        <title>Areca 64 bit</title>
+        <url>http://www.areca-backup.org/</url>
+        <description>Backup</description>
+        <!-- GPL -->
+        <icon>https://lh4.googleusercontent.com/-g98Kw-2f51E/T2h0GH1P4LI/AAAAAAAAAYQ/2H4_NS_I54E/s800/org.areca-backup.ArecaBackup.png</icon>
+        <license>org.gnu.GPLv2</license>
+    </package>
     <package name="org.bitbucket.tortoisehg.TortoiseHg64">
         <title>TortoiseHg 64 bit</title>
         <url>http://tortoisehg.bitbucket.org/</url>
@@ -371,6 +379,11 @@ This package uses internal version numbers. For example, 1.7.0.1 corresponds to 
         <url>http://www.miranda-im.org</url>
         <description>instant messenger</description>
         <license>org.gnu.GPLv2</license>
+    </package>
+    <package name="org.nodejs.NodeJS64">
+        <title>Node.js 64 bit</title>
+        <url>http://nodejs.org/</url>
+        <description>JavaScript runtime</description>
     </package>
     <package name="org.sourceforge.ultradefrag.UltraDefrag64">
         <title>UltraDefrag 64 bit</title>
@@ -1529,6 +1542,44 @@ verify
         <dependency package="com.googlecode.windows-package-manager.CLU" versions="[1, 2)"/>
         <url>http://downloads.activestate.com/ActivePerl/releases/5.14.2.1402/ActivePerl-5.14.2.1402-MSWin32-x64-295342.msi</url>
         <sha1>3b6b47484e8ab9bec09ae81a90546c5e0269ad04</sha1>
+    </version>
+    <version name="5.16.0.1600" package="com.activestate.ActivePerl64"
+            type="one-file">
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.msi') do set setup=%%x
+copy "%setup%" .Npackd
+msiexec.exe /qn /norestart /Lime .Npackd\MSI.log /i "%setup%" TARGETDIR="%CD%" ALLUSERS=1
+set err=%errorlevel%
+type .Npackd\MSI.log
+rem 3010=restart required
+if %err% equ 3010 exit /b 0
+if %err% neq 0 exit /b %err%
+
+if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
+set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.CLU" "--versions=[1, 2)"
+for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set clu=%%x
+"%clu%\clu" add-path --path "%CD%\Perl64\bin"
+verify
+</file>
+        <file path=".Npackd\Uninstall.bat">move .Npackd\*.msi .
+for /f "delims=" %%x in ('dir /b *.msi') do set setup=%%x
+msiexec.exe /qn /norestart /Lime .Npackd\MSI.log /x "%setup%"
+set err=%errorlevel%
+type .Npackd\MSI.log
+rem 3010=restart required
+if %err% equ 3010 exit /b 0
+if %err% neq 0 exit /b %err%
+
+if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
+set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.CLU" "--versions=[1, 2)"
+for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set clu=%%x
+"%clu%\clu" remove-path --path "%CD%\Perl64\bin"
+verify
+</file>
+        <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.15.7, 2)"/>
+        <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1, 1]"/>
+        <dependency package="com.googlecode.windows-package-manager.CLU" versions="[1, 2)"/>
+        <url>http://downloads.activestate.com/ActivePerl/releases/5.16.0.1600/ActivePerl-5.16.0.1600-MSWin32-x64-295879.msi</url>
+        <sha1>cd71c9427b27dd643eee5be7db96075e3887dde0</sha1>
     </version>
 
     <version name="2010.762" package="com.mythicsoft.AgentRansack64"
@@ -4448,6 +4499,82 @@ if %err% neq 0 exit %err%
 </file>
         <url>http://downloads.sourceforge.net/project/shareaza/Shareaza/Shareaza%202.6.0.0/Shareaza_2.6.0.0_x64.exe</url>
         <sha1>217faa7b467eaf26340b35936cdf7cf3d91dd6cc</sha1>
+    </version>
+    <!-- Detected -->
+
+    <version package="org.nodejs.NodeJS64" type="one-file" name="0.8.1">
+        <file path=".Npackd\AddProperty.vbs">Option Explicit
+
+Const MSI_FILE = "node.msi"
+
+Dim installer, database, view
+
+Set installer = CreateObject("WindowsInstaller.Installer")
+Set database = installer.OpenDatabase(MSI_FILE, 1)
+
+'Set view = database.OpenView("INSERT INTO Property (Property, Value) VALUES ('TARGETDIR', 'C:\')")
+'view.Execute
+'Set view = database.OpenView("DELETE FROM Directory WHERE Directory='TARGETDIR'")
+'view.Execute
+Set view = database.OpenView("UPDATE Directory SET Directory_Parent='TARGETDIR', DefaultDir='.' WHERE Directory='NodeRoot'")
+view.Execute
+database.Commit
+
+Set database = Nothing
+Set installer = Nothing
+Set view = Nothing
+</file>
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.msi') do set setup=%%x
+ren "%setup%" node.msi
+ 
+.Npackd\AddProperty.vbs
+if %errorlevel% neq 0 exit %errorlevel%
+
+if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
+set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.NpackdInstallerHelper" "--versions=[1, 1]"
+for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set npackdih=%%x
+call "%npackdih%\InstallMSI.bat" TARGETDIR
+if %errorlevel% neq 0 exit %errorlevel%
+
+if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
+set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.CLU" "--versions=[1, 2)"
+for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set clu=%%x
+"%clu%\clu" add-path --path "%CD%"
+verify
+</file>
+        <file path=".Npackd\Uninstall.bat">if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
+set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.NpackdInstallerHelper" "--versions=[1, 1]"
+for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set npackdih=%%x
+call "%npackdih%\UninstallMSI.bat"
+if %errorlevel% neq 0 exit %errorlevel%
+
+if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
+set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.CLU" "--versions=[1, 2)"
+for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set clu=%%x
+"%clu%\clu" remove-path --path "%CD%"
+verify
+</file>
+        <url>http://nodejs.org/dist/v0.8.1/x64/node-v0.8.1-x64.msi</url>
+        <sha1>c6d99aa58167c5489e56e2f99da99731fb4f282e</sha1>
+        <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.15.7, 2)"/>
+        <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1, 1]"/>
+        <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1, 1]"/>
+    </version>
+    <!-- Detected -->
+
+    <version package="org.areca-backup.ArecaBackup64" name="7.2.10">
+        <important-file title="Areca" path="areca.exe"/>
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b areca*') do set name=%%x
+cd "%name%"
+for /f "delims=" %%a in ('dir /b') do (
+  move "%%a" ..
+)
+cd ..
+rmdir "%name%"
+</file>
+        <url>http://downloads.sourceforge.net/project/areca/areca-stable/areca-7.2.10/areca-7.2.10-windows-jre64.zip</url>
+        <sha1>7abfc8dca72d45db30aa68365c2f331b5f0b3d6a</sha1>
+        <dependency package="com.oracle.JRE64" versions="[1.6, 2)"/>
     </version>
     <!-- Detected -->
 </root>

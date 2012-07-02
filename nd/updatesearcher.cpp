@@ -1084,6 +1084,8 @@ PackageVersion* UpdateSearcher::findUpdatesSimple(Job* job,
                 QString version3Parts = ret->version.getVersionString(3);
                 QString version2PartsWithoutDots = version2Parts;
                 version2PartsWithoutDots.remove('.');
+                QString actualVersionWithUnderscores = version;
+                actualVersionWithUnderscores.replace('.', '_');
 
                 QMap<QString, QString> vars;
                 vars.insert("version", ret->version.getVersionString());
@@ -1092,6 +1094,8 @@ PackageVersion* UpdateSearcher::findUpdatesSimple(Job* job,
                 vars.insert("version2PartsWithoutDots", version2PartsWithoutDots);
                 vars.insert("actualVersion", version);
                 vars.insert("actualVersionWithoutDots", v);
+                vars.insert("actualVersionWithUnderscores",
+                        actualVersionWithUnderscores);
                 ret->download  = WPMUtils::format(downloadTemplate, vars);
                 job->setProgress(0.35);
             } else {
@@ -1367,6 +1371,11 @@ void UpdateSearcher::findUpdates(Job* job)
             ">v([\\d\\.]+)<",
             "http://nodejs.org/dist/v${{version}}/node-v${{version}}-x86.msi"));
     dis.append(DiscoveryInfo(
+            "org.nodejs.NodeJS64",
+            "http://nodejs.org/",
+            ">v([\\d\\.]+)<",
+            "http://nodejs.org/dist/v${{version}}/x64/node-v${{version}}-x64.msi"));
+    dis.append(DiscoveryInfo(
             "com.opera.Opera",
             "http://www.opera.com/browser/",
             "version ([\\d\\.]+) for Windows",
@@ -1527,6 +1536,18 @@ void UpdateSearcher::findUpdates(Job* job)
             "http://sourceforge.net/api/file/index/project-id/110672/mtime/desc/limit/20/rss",
             "http://sourceforge\\.net/projects/shareaza/files/Shareaza/Shareaza%20[\\d\\.]+/Shareaza_([\\d\\.]+)_x64\\.exe/download",
             "http://downloads.sourceforge.net/project/shareaza/Shareaza/Shareaza%20${{actualVersion}}/Shareaza_${{actualVersion}}_x64.exe"));
+    dis.append(DiscoveryInfo("org.areca-backup.ArecaBackup",
+            "http://sourceforge.net/api/file/index/project-id/171505/mtime/desc/limit/20/rss",
+            "areca-([\\d\\.]+)-windows-jre32.zip",
+            "http://downloads.sourceforge.net/project/areca/areca-stable/areca-${{actualVersion}}/areca-${{actualVersion}}-windows-jre32.zip"));
+    dis.append(DiscoveryInfo("org.areca-backup.ArecaBackup64",
+            "http://sourceforge.net/api/file/index/project-id/171505/mtime/desc/limit/20/rss",
+            "areca-([\\d\\.]+)-windows-jre32.zip",
+            "http://downloads.sourceforge.net/project/areca/areca-stable/areca-${{actualVersion}}/areca-${{actualVersion}}-windows-jre64.zip"));
+    dis.append(DiscoveryInfo("org.boost.Boost",
+            "http://sourceforge.net/api/file/index/project-id/7586/mtime/desc/limit/20/rss",
+            "boost/([\\d\\.]+)/",
+            "http://downloads.sourceforge.net/project/boost/boost/${{actualVersion}}/boost_${{actualVersionWithUnderscores}}.zip"));
 
     /*
     ${{version}}
@@ -1535,6 +1556,7 @@ void UpdateSearcher::findUpdates(Job* job)
     ${{version2PartsWithoutDots}}
     ${{actualVersion}}
     ${{actualVersionWithoutDots}}
+    ${{actualVersionWithUnderscores}}
     ${{match}}
     */
     Repository* templ = new Repository();
