@@ -929,16 +929,9 @@ void PackageVersion::install(Job* job, const QString& where)
             job->setErrorMessage(err);
     }
 
-    if (job->getErrorMessage().isEmpty() && !job->isCancelled()) {
-        job->setHint(QString("Deleting desktop shortcuts %1").
-                     arg(WPMUtils::getShellDir(CSIDL_DESKTOP)));
-        Job* sub = job->newSubJob(0.03);
-        deleteShortcuts(d.absolutePath(), sub, false, true, true);
-        delete sub;
-    }
-
     if (!job->getErrorMessage().isEmpty() || job->isCancelled()) {
-        job->setHint(QString("Deleting start menu and desktop shortcuts"));
+        job->setHint(QString(
+                "Deleting start menu, desktop and quick launch shortcuts"));
         Job* sub = new Job();
         deleteShortcuts(d.absolutePath(), sub, true, true, true);
         delete sub;
