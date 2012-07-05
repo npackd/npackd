@@ -2956,6 +2956,19 @@ call "%npackdih%\InstallMSI.bat" INSTALLLOCATION yes
         <url>http://cdn04.foxitsoftware.com/pub/foxit/reader/desktop/win/5.x/5.1/enu/FoxitReader514.0104_enu.msi</url>
         <sha1>c9ade025fd01394d3be2bcf3819c2a6393072c88</sha1>
     </version>
+    <version name="5.3.1.606" package="com.foxitsoftware.FoxitReader"
+            type="one-file">
+        <file path=".Npackd\Install.bat">if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
+set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.NpackdInstallerHelper" "--versions=[1.1, 2)"
+for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set npackdih=%%x
+call "%npackdih%\InstallMSI.bat" INSTALLLOCATION yes
+</file>
+        <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.1, 2)"/>
+        <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.15.7, 2)"/>
+        <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1, 1]"/>
+        <url>http://cdn04.foxitsoftware.com/pub/foxit/reader/desktop/win/5.x/5.3/enu/FoxitReader531.0606_enu.msi</url>
+        <sha1>c9ade025fd01394d3be2bcf3819c2a6393072c88</sha1>
+    </version>
 
     <!-- uninstallation shows 3 dialogs -->
     <version name="0.9.136" package="com.cyolito.comicrack.ComicRack" type="one-file">
@@ -7047,6 +7060,14 @@ if %err% neq 0 exit /b %err%
         <url>http://dl.dropbox.com/u/17046326/files/org.foobar2000.Foobar2000-1.1.12.1.exe</url>
         <sha1>4c1117f2b19b174e9c5902d9aa9007ff86da5776</sha1>
     </version>
+    <version name="1.1.13" package="org.foobar2000.Foobar2000" type="one-file">
+        <file path=".Npackd\Install.bat">for /f %%x in ('dir /b *.exe') do set setup=%%x
+"%setup%" /S /D=%CD%\Prog
+</file>
+        <file path=".Npackd\Uninstall.bat">Prog\uninstall.exe /S</file>
+        <url>http://dl.dropbox.com/u/17046326/files/org.foobar2000.Foobar2000-1.1.13.exe</url>
+        <sha1>164b63a37d3d9107e529abcc6ce328bfc0bafd6b</sha1>
+    </version>
 
     <version name="3.6" package="org.eclipse.EclipseIDEJEE">
         <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b eclipse*') do set name=%%x
@@ -7087,6 +7108,16 @@ rmdir /s /q "%name%"
         <url>http://ftp-stud.fht-esslingen.de/pub/Mirrors/eclipse/technology/epp/downloads/release/indigo/SR2/eclipse-jee-indigo-SR2-win32.zip</url>
         <dependency package="com.oracle.JRE" versions="[1.6, 2)"/>
         <sha1>d34e4b0b3c70299a1de2bffd583dae005669bd85</sha1>
+    </version>
+    <version name="4.2" package="org.eclipse.EclipseIDEJEE">
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b eclipse*') do set name=%%x
+xcopy "%name%\*" . /E /H
+rmdir /s /q "%name%"
+</file>
+        <important-file path="eclipse.exe" title="Eclipse IDE for Java EE"/>
+        <url>http://downloads.sourceforge.net/project/npackd/org.eclipse.EclipseIDEJEE-4.2.zip</url>
+        <dependency package="com.oracle.JRE" versions="[1.6, 2)"/>
+        <sha1>8a5947118aa5826bbbd2e9628a8ce7d46f8c9c31</sha1>
     </version>
 
     <version name="3.6.1" package="org.eclipse.EclipseIDEJava">
@@ -7130,6 +7161,20 @@ rmdir "%name%"
         <url>http://downloads.sourceforge.net/project/npackd/org.eclipse.EclipseIDEJava-3.7.2.zip</url>
         <dependency package="com.oracle.JRE" versions="[1.6, 2)"/>
         <sha1>341fa1f498af872764eb2ea98fb93dc0f634fd7d</sha1>
+    </version>
+    <version name="4.2" package="org.eclipse.EclipseIDEJava">
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b eclipse*') do set name=%%x
+cd "%name%"        
+for /f "delims=" %%a in ('dir /b') do (
+  move "%%a" ..
+)
+cd ..
+rmdir "%name%"
+</file>
+        <important-file path="eclipse.exe" title="Eclipse IDE for Java"/>
+        <url>http://downloads.sourceforge.net/project/npackd/org.eclipse.EclipseIDEJava-4.2.zip</url>
+        <dependency package="com.oracle.JRE" versions="[1.6, 2)"/>
+        <sha1>76b1135999d7b149e7cd0dc63c59fc4947ff22b9</sha1>
     </version>
 
     <!--
@@ -9386,7 +9431,7 @@ if %err% neq 0 exit /b %err%
         <url>http://fpdownload.macromedia.com/get/shockwave/default/english/win95nt/latest/Shockwave_Installer_Slim.exe</url>
     </version>
 
-    <version name="11.2.202.235" package="com.adobe.FlashPlayer"
+    <version name="11.3.300.262" package="com.adobe.FlashPlayer"
             type="one-file">
         <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x
 "%setup%" -install
@@ -9403,7 +9448,7 @@ echo AutoUpdateDisable=1 > %f%
         <url>http://fpdownload.macromedia.com/pub/flashplayer/current/licensing/win/install_flash_player_11_plugin_32bit.exe</url>
     </version>
     
-    <version name="11.2.202.235" package="com.adobe.FlashPlayerActiveX"
+    <version name="11.3.300.262" package="com.adobe.FlashPlayerActiveX"
             type="one-file">
         <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x
 "%setup%" -install
@@ -13095,6 +13140,36 @@ verify
         <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1, 1]"/>
         <dependency package="com.googlecode.windows-package-manager.CLU" versions="[1, 2)"/>
     </version>
+    <version package="com.selenic.mercurial.Mercurial" type="one-file" name="2.2.3">
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x
+"%setup%" /SP- /VERYSILENT /SUPPRESSMSGBOXES /NOCANCEL /NORESTART /DIR="%CD%" /SAVEINF="%CD%\.Npackd\InnoSetupInfo.ini" /LOG="%CD%\.Npackd\InnoSetupInstall.log"
+set err=%errorlevel%
+type .Npackd\InnoSetupInstall.log
+if %err% neq 0 exit %err%
+
+if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
+set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.CLU" "--versions=[1, 2)"
+for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set clu=%%x
+"%clu%\clu" add-path --path "%CD%"
+verify
+</file>
+        <file path=".Npackd\Uninstall.bat">unins000.exe /VERYSILENT /SUPPRESSMSGBOXES /NORESTART /LOG="%CD%\.Npackd\InnoSetupUninstall.log"
+set err=%errorlevel%
+type .Npackd\InnoSetupUninstall.log
+if %err% neq 0 exit %err%
+
+if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
+set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.CLU" "--versions=[1, 2)"
+for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set clu=%%x
+"%clu%\clu" remove-path --path "%CD%"
+verify
+</file>
+        <url>http://mercurial.selenic.com/release/windows/Mercurial-2.2.3.exe</url>
+        <sha1>c0e4f14365c54a1306d5dacb5a45da5ee488c778</sha1>
+        <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.15.7, 2)"/>
+        <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1, 1]"/>
+        <dependency package="com.googlecode.windows-package-manager.CLU" versions="[1, 2)"/>
+    </version>
     <!-- Detected -->
     
     <version name="6.5.1" package="org.netbeans.NetBeansMLJava">
@@ -16208,6 +16283,19 @@ call "%npackdih%\InstallMSI.bat" TARGETDIR yes
         <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1, 1]"/>
         <dependency package="com.googlecode.msysgit.MSysGit" versions="[1.7.6.2011.7.8, 1.8)"/>
     </version>
+    <version package="com.googlecode.tortoisegit.TortoiseGit" type="one-file" name="1.7.11">
+        <file path=".Npackd\Install.bat">if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
+set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.NpackdInstallerHelper" "--versions=[1.1, 2)"
+for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set npackdih=%%x
+call "%npackdih%\InstallMSI.bat" TARGETDIR yes
+</file>
+        <url>http://tortoisegit.googlecode.com/files/TortoiseGit-1.7.11.0-32bit.msi</url>
+        <sha1>868f5151d54051e6cb3db285221f32090c2978cd</sha1>
+        <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.1, 2)"/>
+        <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.15.7, 2)"/>
+        <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1, 1]"/>
+        <dependency package="com.googlecode.msysgit.MSysGit" versions="[1.7.6.2011.7.8, 1.8)"/>
+    </version>
     <!-- Detected -->
     
     <version name="1.7.4.2011.2.4" package="com.googlecode.msysgit.MSysGit"
@@ -16931,6 +17019,17 @@ verify
 </file>
         <url>http://sourceforge.net/projects/jabref/files/jabref/2.8/JabRef-2.8-setup.exe</url>
         <sha1>7c82716ff458cb97912471cc6e89c5a0248d5cae</sha1>
+        <dependency package="com.oracle.JRE" versions="[1.5, 2)"/>
+    </version>
+    <version package="net.sourceforge.jabref.JabRef" type="one-file" name="2.8.1">
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x
+"%setup%" /S /D=%CD%\Prog
+</file>
+        <file path=".Npackd\Uninstall.bat">Prog\uninstall.exe /S _?=%CD%\Prog
+verify        
+</file>
+        <url>http://sourceforge.net/projects/jabref/files/jabref/2.8.1/JabRef-2.8.1-setup.exe</url>
+        <sha1>a075dadfcab3bb2bec2a90707fdc0ead639937dc</sha1>
         <dependency package="com.oracle.JRE" versions="[1.5, 2)"/>
     </version>
     <!-- Detected -->
@@ -17761,6 +17860,20 @@ rmdir "%name%"
         <dependency package="com.oracle.JRE" versions="[1.6, 2)"/>
         <sha1>4fa48d35e63bf3eeca0d3e4f054bf6ace27fe298</sha1>
     </version>
+    <version name="4.2" package="org.eclipse.EclipseIDECPP">
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b eclipse*') do set name=%%x
+cd "%name%"        
+for /f "delims=" %%a in ('dir /b') do (
+  move "%%a" ..
+)
+cd ..
+rmdir "%name%"
+</file>
+        <important-file path="eclipse.exe" title="Eclipse IDE for C and C++"/>
+        <url>http://downloads.sourceforge.net/project/npackd/org.eclipse.EclipseIDECPP-4.2.zip</url>
+        <dependency package="com.oracle.JRE" versions="[1.6, 2)"/>
+        <sha1>8de5718275545ec9b080c59600395dc369e8c02b</sha1>
+    </version>
 
     <!-- 
         installation opens a page in the browser and does not use the 
@@ -18590,6 +18703,7 @@ verify
         <file path=".Npackd\Uninstall.bat">uninst.exe /S _?=%CD%
 </file>
         <url>http://dl.dropbox.com/u/17046326/files/com.fiddler2.Fiddler-2.3.9.7.exe</url>
+        <sha1>ecc967b7cae5a4934e9e14c4248b0ae005308f8c</sha1>
     </version>
     <version name="2.3.9.9" package="com.fiddler2.Fiddler" type="one-file">
         <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x
@@ -18598,6 +18712,16 @@ verify
         <file path=".Npackd\Uninstall.bat">uninst.exe /S _?=%CD%
 </file>
         <url>http://dl.dropbox.com/u/17046326/files/com.fiddler2.Fiddler-2.3.9.9.exe</url>
+        <sha1>2c3f78ae1092df989748f7cfc0332a67424fbc37</sha1>
+    </version>
+    <version name="2.4" package="com.fiddler2.Fiddler" type="one-file">
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x
+"%setup%" /S /D=%CD%
+</file>
+        <file path=".Npackd\Uninstall.bat">uninst.exe /S _?=%CD%
+</file>
+        <url>http://dl.dropbox.com/u/17046326/files/com.fiddler2.Fiddler-2.4.exe</url>
+        <sha1>a3d88f850b32c5b4c8034b07e9016ea94e4b35ee</sha1>
     </version>
     
     <!-- .zip file uses LZMA encoding -->
