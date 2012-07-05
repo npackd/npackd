@@ -1375,6 +1375,29 @@ if %err% neq 0 exit /b %err%
         <sha1>109c49c0a70922d93ff2b134ece938384f7efc1c</sha1>
         <dependency package="com.googlecode.msysgit.MSysGit" versions="[1.7.6.2011.7.8, 1.8)"/>
     </version>
+    <version package="com.googlecode.tortoisegit.TortoiseGit64" type="one-file" name="1.7.11">
+        <file path=".Npackd\Install.bat">for /f %%x in ('dir /b *.msi') do set setup=%%x
+copy "%setup%" .Npackd
+msiexec.exe /qn /norestart /Lime .Npackd\MSI.log /i "%setup%" TARGETDIR="%CD%" ALLUSERS=1
+set err=%errorlevel%
+type .Npackd\MSI.log
+rem 3010=restart required
+if %err% equ 3010 exit /b 0
+if %err% neq 0 exit /b %err%
+</file>
+        <file path=".Npackd\Uninstall.bat">move .Npackd\*.msi .
+for /f %%x in ('dir /b *.msi') do set setup=%%x
+msiexec.exe /qn /norestart /Lime .Npackd\MSI.log /x "%setup%"
+set err=%errorlevel%
+type .Npackd\MSI.log
+rem 3010=restart required
+if %err% equ 3010 exit /b 0
+if %err% neq 0 exit /b %err%
+</file>
+        <url>http://tortoisegit.googlecode.com/files/TortoiseGit-1.7.11.0-64bit.msi</url>
+        <sha1>eba95b3a6058685b581ded82b17b5da557da20c8</sha1>
+        <dependency package="com.googlecode.msysgit.MSysGit" versions="[1.7.6.2011.7.8, 1.8)"/>
+    </version>
     <!-- Detected -->
     
     <version name="9.20" package="org.7-zip.SevenZIP64" type="one-file">
@@ -2143,6 +2166,36 @@ verify
 </file>
         <url>http://mercurial.selenic.com/release/windows/Mercurial-2.2.2-x64.exe</url>
         <sha1>a49f8c3428e0fb43fb97f871ad16a4465cc037f6</sha1>
+        <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.15.7, 2)"/>
+        <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1, 1]"/>
+        <dependency package="com.googlecode.windows-package-manager.CLU" versions="[1, 2)"/>
+    </version>
+    <version package="com.selenic.mercurial.Mercurial64" type="one-file" name="2.2.3">
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x
+"%setup%" /SP- /VERYSILENT /SUPPRESSMSGBOXES /NOCANCEL /NORESTART /DIR="%CD%" /SAVEINF="%CD%\.Npackd\InnoSetupInfo.ini" /LOG="%CD%\.Npackd\InnoSetupInstall.log"
+set err=%errorlevel%
+type .Npackd\InnoSetupInstall.log
+if %err% neq 0 exit %err%
+
+if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
+set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.CLU" "--versions=[1, 2)"
+for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set clu=%%x
+"%clu%\clu" add-path --path "%CD%"
+verify
+</file>
+        <file path=".Npackd\Uninstall.bat">unins000.exe /VERYSILENT /SUPPRESSMSGBOXES /NORESTART /LOG="%CD%\.Npackd\InnoSetupUninstall.log"
+set err=%errorlevel%
+type .Npackd\InnoSetupUninstall.log
+if %err% neq 0 exit %err%
+
+if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
+set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.CLU" "--versions=[1, 2)"
+for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set clu=%%x
+"%clu%\clu" remove-path --path "%CD%"
+verify
+</file>
+        <url>http://mercurial.selenic.com/release/windows/Mercurial-2.2.3-x64.exe</url>
+        <sha1>1cd8664f4377cbd63e2ba9eca364f7f16d2a68a4</sha1>
         <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.15.7, 2)"/>
         <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1, 1]"/>
         <dependency package="com.googlecode.windows-package-manager.CLU" versions="[1, 2)"/>
@@ -4007,6 +4060,16 @@ rmdir /s /q "%name%"
         <dependency package="com.oracle.JRE64" versions="[1.6, 2)"/>
         <sha1>f90a8882bad8fc77aef537fc2f3401d0aba52f90</sha1>
     </version>
+    <version name="4.2" package="org.eclipse.EclipseIDEJEE64">
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b eclipse*') do set name=%%x
+xcopy "%name%\*" . /E /H
+rmdir /s /q "%name%"
+</file>
+        <important-file path="eclipse.exe" title="Eclipse"/>
+        <url>http://downloads.sourceforge.net/project/npackd/org.eclipse.EclipseIDEJEE64-4.2.zip</url>
+        <dependency package="com.oracle.JRE64" versions="[1.6, 2)"/>
+        <sha1>60cb494980bf13967a0e9a9eaf87511604bee9f2</sha1>
+    </version>
 
     <version name="3.6.1" package="org.eclipse.EclipseIDEJava64">
         <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b eclipse*') do set name=%%x
@@ -4049,6 +4112,20 @@ rmdir "%name%"
         <url>http://downloads.sourceforge.net/project/npackd/org.eclipse.EclipseIDEJava64-3.7.2.zip</url>
         <dependency package="com.oracle.JRE64" versions="[1.6, 2)"/>
         <sha1>83104e872fa57e54d7817381842f40d8bfd80fe1</sha1>
+    </version>
+    <version name="4.2" package="org.eclipse.EclipseIDEJava64">
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b eclipse*') do set name=%%x
+cd "%name%"        
+for /f "delims=" %%a in ('dir /b') do (
+  move "%%a" ..
+)
+cd ..
+rmdir "%name%"
+</file>
+        <important-file path="eclipse.exe" title="Eclipse IDE for Java"/>
+        <url>http://downloads.sourceforge.net/project/npackd/org.eclipse.EclipseIDEJava64-4.2.zip</url>
+        <dependency package="com.oracle.JRE64" versions="[1.6, 2)"/>
+        <sha1>5c75b2b4211e3873ec580f6bb5a242a6c100e6c2</sha1>
     </version>
 
     <version name="2.4.1" package="org.initd.PsycopgInstaller64" type="one-file">
@@ -4162,8 +4239,22 @@ rmdir "%name%"
         <dependency package="com.oracle.JRE" versions="[1.6, 2)"/>
         <sha1>0a079de2a58caa022a794708f9e03d72ab040192</sha1>
     </version>
+    <version name="4.2" package="org.eclipse.EclipseIDECPP64">
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b eclipse*') do set name=%%x
+cd "%name%"
+for /f "delims=" %%a in ('dir /b') do (
+  move "%%a" ..
+)
+cd ..
+rmdir "%name%"
+</file>
+        <important-file path="eclipse.exe" title="Eclipse IDE for C and C++"/>
+        <url>http://downloads.sourceforge.net/project/npackd/org.eclipse.EclipseIDECPP64-4.2.zip</url>
+        <dependency package="com.oracle.JRE" versions="[1.6, 2)"/>
+        <sha1>fe45ac421a96e06a0da1b3bf0aa972354d0759ab</sha1>
+    </version>
 
-    <version name="11.2.202.235" package="com.adobe.FlashPlayer64"
+    <version name="11.3.300.262" package="com.adobe.FlashPlayer64"
             type="one-file">
         <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x
 "%setup%" -install
@@ -4178,7 +4269,7 @@ echo AutoUpdateDisable=1 > %windir%\SysWOW64\Macromed\Flash\mms.cfg
         <url>http://fpdownload.macromedia.com/pub/flashplayer/current/licensing/win/install_flash_player_11_plugin_64bit.exe</url>
     </version>
     
-    <version name="11.2.202.235" package="com.adobe.FlashPlayerActiveX64"
+    <version name="11.3.300.262" package="com.adobe.FlashPlayerActiveX64"
             type="one-file">
         <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x
 "%setup%" -install

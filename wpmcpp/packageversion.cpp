@@ -604,7 +604,12 @@ bool PackageVersion::createShortcuts(const QString& dir, QString *errMsg)
         QString path(ifile);
         path.prepend("\\");
         path.prepend(d.absolutePath());
-        path = path.replace('/' , '\\');
+        path.replace('/' , '\\');
+
+        if (!d.exists(path)) {
+            *errMsg = QString("Shortcut target %1 does not exist").arg(path);
+            return false;
+        }
 
         QString workingDir = path;
         int pos = workingDir.lastIndexOf('\\');
@@ -645,8 +650,8 @@ bool PackageVersion::createShortcuts(const QString& dir, QString *errMsg)
                 (WCHAR*) workingDir.utf16());
 
         if (!SUCCEEDED(r)) {
-            qDebug() << "shortcut creation failed" +
-                    path + " " + from + " " + desc + " " + workingDir << r;
+            *errMsg = QString("Shortcut creation from %1 to %2 failed").
+                    arg(from).arg(path);
             return false;
         }
     }
@@ -922,7 +927,7 @@ void PackageVersion::install(Job* job, const QString& where)
 
     if (!job->isCancelled() && job->getErrorMessage().isEmpty()) {
         QString err;
-        this->createShortcuts(d.absolutePath(), &err); // ignore errors
+        this->createShortcuts(d.absolutePath(), &err);
         if (err.isEmpty())
             job->setProgress(0.97);
         else
