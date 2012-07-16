@@ -1504,12 +1504,12 @@ void UpdateSearcher::findUpdates(Job* job)
             "https://miranda.googlecode.com/files/miranda-im-v${{actualVersion}}-x64.7z"));
     dis.append(DiscoveryInfo("com.mysql.MySQLCommunityServer",
             "http://www.mysql.com/downloads/mysql/",
-            "<h1>MySQL Community Server ([\\d\\.]+)</h1>",
+            "<h1>MySQL Community Server ([\\d\\.]+[a-z]?)</h1>",
             "http://mysql.mirrors.ovh.net/ftp.mysql.com/Downloads/MySQL-${{version2Parts}}/mysql-${{actualVersion}}-win32.msi",
             DT_SOURCEFORGE));
     dis.append(DiscoveryInfo("com.mysql.MySQLCommunityServer64",
             "http://www.mysql.com/downloads/mysql/",
-            "<h1>MySQL Community Server ([\\d\\.]+)</h1>",
+            "<h1>MySQL Community Server ([\\d\\.]+[a-z]?)</h1>",
             "http://mysql.mirrors.ovh.net/ftp.mysql.com/Downloads/MySQL-${{version2Parts}}/mysql-${{actualVersion}}-winx64.msi",
             DT_SOURCEFORGE));
     dis.append(DiscoveryInfo("org.python.Python",
