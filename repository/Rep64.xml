@@ -1009,6 +1009,29 @@ if %err% neq 0 exit /b %err%
         <url>http://cdn.bitbucket.org/tortoisehg/thg/downloads/tortoisehg-2.4.1-hg-2.2.2-x64.msi</url>
         <sha1>822f8089bb26a11d6ae5c7e8801566e89a2a484e</sha1>
     </version>
+    <version name="2.4.2" package="org.bitbucket.tortoisehg.TortoiseHg64"
+            type="one-file">
+        <file path=".Npackd\Install.bat">for /f %%x in ('dir /b *.msi') do set setup=%%x
+copy "%setup%" .Npackd
+msiexec.exe /qn /norestart /Lime .Npackd\MSI.log /i "%setup%" TARGETDIR="%CD%" ALLUSERS=1
+set err=%errorlevel%
+type .Npackd\MSI.log
+rem 3010=restart required
+if %err% equ 3010 exit /b 0
+if %err% neq 0 exit /b %err%
+</file>
+        <file path=".Npackd\Uninstall.bat">copy .Npackd\*.msi .
+for /f %%x in ('dir /b *.msi') do set setup=%%x
+msiexec.exe /qn /norestart /Lime .Npackd\MSI.log /x "%setup%"
+set err=%errorlevel%
+type .Npackd\MSI.log
+rem 3010=restart required
+if %err% equ 3010 exit /b 0
+if %err% neq 0 exit /b %err%
+</file>
+        <url>http://cdn.bitbucket.org/tortoisehg/files/downloads/tortoisehg-2.4.2-hg-2.2.3-x64.msi</url>
+        <sha1>46e1df9d85f135408f27966aa0994661e132a2bc</sha1>
+    </version>
 
     <version name="2.5.192" package="com.tracker-software.PDFXChangeViewer64"
             type="one-file">
@@ -2801,6 +2824,20 @@ del Q-Dir.ini
         <url>http://dl.dropbox.com/u/17046326/files/com.softwareok.QDir64-5.21.zip</url>
         <sha1>95f81d53faf18af3aa3d0d8fd2ddb8b06ad49c92</sha1>
     </version>
+    <version package="com.softwareok.QDir64" name="5.25">
+        <important-file title="Q-Dir" path="Q-Dir.exe"/>
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b Q*') do set name=%%x
+cd "%name%"        
+for /f "delims=" %%a in ('dir /b') do (
+  move "%%a" ..
+)
+cd ..
+rmdir "%name%"
+del Q-Dir.ini
+</file>
+        <url>http://dl.dropbox.com/u/17046326/files/com.softwareok.QDir64-5.25.zip</url>
+        <sha1>fcd2d2f74d3a21f39361c0d177c4844d64890491</sha1>
+    </version>
     <!-- Detected -->
     
     <version name="7.0.12" package="org.apache.tomcat.Tomcat64">
@@ -2910,6 +2947,16 @@ rmdir "%name%"
 </file>
         <url>http://npackd.googlecode.com/files/org.apache.tomcat.Tomcat-7.0.27.exe</url>
         <sha1>c3e98a3adae9ddde79c4b9411b71605b5d628a19</sha1>
+        <dependency package="com.oracle.JRE" versions="[1.5, 2)"/>
+    </version>
+    <version name="7.0.29" package="org.apache.tomcat.Tomcat64" type="one-file">
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x
+"%setup%" /S /D=%CD%
+</file>
+        <file path=".Npackd\Uninstall.bat">Uninstall.exe -ServiceName="Tomcat7" /S _?=%CD%
+</file>
+        <url>http://downloads.sourceforge.net/project/npackd/org.apache.tomcat.Tomcat-7.0.29.exe</url>
+        <sha1>826a146d7d403f977f41491dd64a27911a3fdd73</sha1>
         <dependency package="com.oracle.JRE" versions="[1.5, 2)"/>
     </version>
 
@@ -4422,6 +4469,14 @@ echo AutoUpdateDisable=1 > %windir%\SysWOW64\Macromed\Flash\mms.cfg
         <url>http://downloads.sourceforge.net/project/npackd/org.wireshark.Wireshark64-1.6.8.exe</url>
         <sha1>4134f492fdb4c965cc6cf50eddd5998a7dd0faf2</sha1>
     </version>
+    <version name="1.8" package="org.wireshark.Wireshark64" type="one-file">
+        <file path=".Npackd\Install.bat">for /f %%x in ('dir /b *.exe') do set setup=%%x
+"%setup%" /S /D=%CD%
+</file>
+        <file path=".Npackd\Uninstall.bat">uninstall.exe /S _=%CD%</file>
+        <url>http://downloads.sourceforge.net/project/npackd/org.wireshark.Wireshark64-1.8.exe</url>
+        <sha1>5813b3e271f1a384025dcc668aff951fd2a44079</sha1>
+    </version>
 
     <version name="3.7.2" package="org.eclipse.EclipseIDEJavascript64">
         <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b eclipse*') do set name=%%x
@@ -4685,6 +4740,18 @@ call "%npackdih%\InstallMSI.bat" INSTALLDIR yes
         <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1, 1]"/>
         <url>http://www.tightvnc.com/download/2.5.1/tightvnc-2.5.1-setup-64bit.msi</url>
         <sha1>ec481a20c928fef2364c5f0f99bfc4ed67dc0895</sha1>
+    </version>
+    <version name="2.5.2" package="com.tightvnc.TightVNC64" type="one-file">
+        <file path=".Npackd\Install.bat">if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
+set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.NpackdInstallerHelper" "--versions=[1.1, 2)"
+for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set npackdih=%%x
+call "%npackdih%\InstallMSI.bat" INSTALLDIR yes
+</file>
+        <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.1, 2)"/>
+        <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.15.7, 2)"/>
+        <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1, 1]"/>
+        <url>http://www.tightvnc.com/download/2.5.2/tightvnc-2.5.2-setup-64bit.msi</url>
+        <sha1>9fcb68c79eba641b85ea7c7810091b4e1284ee0e</sha1>
     </version>
 
     <version package="net.sourceforge.shareaza.Shareaza64" type="one-file" name="2.6">

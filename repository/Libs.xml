@@ -282,6 +282,19 @@ rmdir "%name%"
         <sha1>60d0bfbb49fe2ee18c7759d7a2d03fb2eb07ee40</sha1>
         <dependency package="net.zlib.ZLibSource" versions="[1.2.5, 1.2.5]"/>
     </version>
+    <version name="0.4.4" package="net.sourceforge.quazip.QuaZIPSource">
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b quazip*') do set name=%%x
+cd "%name%"        
+for /f "delims=" %%a in ('dir /b') do (
+  move "%%a" ..
+)
+cd ..
+rmdir "%name%"
+</file>
+        <url>http://downloads.sourceforge.net/project/quazip/quazip/0.4.4/quazip-0.4.4.zip</url>
+        <sha1>cfc5ca35ff157e77328fc55de40b73591f425592</sha1>
+        <dependency package="net.zlib.ZLibSource" versions="[1.2.5, 1.2.5]"/>
+    </version>
     
     <version name="1.2.5" package="net.zlib.ZLibSource">
         <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b zlib*') do set name=%%x
@@ -424,6 +437,33 @@ rmdir "%name%"
 </file>
         <url>http://oligarchy.co.uk/xapian/1.2.10/xapian-core-1.2.10.tar.gz</url>
         <sha1>1be1896ab11a3a66c6c0ade962c700d96678116e</sha1>
+        <dependency package="org.7-zip.SevenZIPA" versions="[9.20, 9.20]"/>
+        <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.15.7, 2)"/>
+        <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1, 1]"/>
+    </version>
+    <version name="1.2.12" package="org.xapian.XapianCore" type="one-file">
+        <file path=".Npackd\Install.bat">if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
+set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=org.7-zip.SevenZIPA" "--versions=[9.20, 9.20]"
+for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set sevenzipa=%%x
+
+for /f "delims=" %%x in ('dir /b *.tar.gz') do set setup=%%x
+"%sevenzipa%\7za.exe" x "%setup%"
+del "%setup%"
+
+for /f "delims=" %%x in ('dir /b *.tar') do set setup=%%x
+"%sevenzipa%\7za.exe" x "%setup%"
+del "%setup%"
+
+for /f "delims=" %%x in ('dir /b xapian*') do set name=%%x
+cd "%name%"
+for /f "delims=" %%a in ('dir /b') do (
+  move "%%a" ..
+)
+cd ..
+rmdir "%name%"
+</file>
+        <url>http://oligarchy.co.uk/xapian/1.2.12/xapian-core-1.2.12.tar.gz</url>
+        <sha1>2b96800280fee41eed767289620172f5226c9c4f</sha1>
         <dependency package="org.7-zip.SevenZIPA" versions="[9.20, 9.20]"/>
         <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.15.7, 2)"/>
         <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1, 1]"/>

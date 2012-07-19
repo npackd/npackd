@@ -2967,7 +2967,6 @@ call "%npackdih%\InstallMSI.bat" INSTALLLOCATION yes
         <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.15.7, 2)"/>
         <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1, 1]"/>
         <url>http://cdn04.foxitsoftware.com/pub/foxit/reader/desktop/win/5.x/5.3/enu/FoxitReader531.0606_enu.msi</url>
-        <sha1>dc1126626107f8fd534ef03ad6d0f6ceaa47cc15</sha1>
     </version>
 
     <!-- uninstallation shows 3 dialogs -->
@@ -3230,6 +3229,14 @@ if %err% neq 0 exit %err%
         <file path=".Npackd\Uninstall.bat">uninstall.exe /S _=%CD%</file>
         <url>http://downloads.sourceforge.net/project/npackd/org.wireshark.Wireshark-1.6.8.exe</url>
         <sha1>2a76df5b32c119039756196720b802f1e01f9b5b</sha1>
+    </version>
+    <version name="1.8" package="org.wireshark.Wireshark" type="one-file">
+        <file path=".Npackd\Install.bat">for /f %%x in ('dir /b *.exe') do set setup=%%x
+"%setup%" /S /D=%CD%
+</file>
+        <file path=".Npackd\Uninstall.bat">uninstall.exe /S _=%CD%</file>
+        <url>http://downloads.sourceforge.net/project/npackd/org.wireshark.Wireshark-1.8.exe</url>
+        <sha1>86a8b46131107e5a6f776e71720987601ac30f8b</sha1>
     </version>
 
     <version name="0.4" package="com.netstumbler.NetStumbler"
@@ -6014,6 +6021,14 @@ ren "%setup%" TrueCryptInstaller.exe
         <url>http://dl.dropbox.com/u/17046326/files/com.piriform.Recuva-1.42.544.exe</url>
         <sha1>3094664d1394f9fb6acc4749637602f05c91e58d</sha1>
     </version>
+    <version name="1.43.623" package="com.piriform.Recuva" type="one-file">
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x
+"%setup%" /S /D=%CD%
+</file>
+        <file path=".Npackd\Uninstall.bat">uninst.exe /S _?=%CD%</file>
+        <url>http://dl.dropbox.com/u/17046326/files/com.piriform.Recuva-1.43.623.exe</url>
+        <sha1>5f55d21eccb62249ec949c7b5719dbc011c07ca7</sha1>
+    </version>
 
     <version name="1.21.209" package="com.piriform.Defraggler" type="one-file">
         <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x
@@ -6537,6 +6552,18 @@ call "%npackdih%\InstallMSI.bat" INSTALLDIR yes
         <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1, 1]"/>
         <url>http://www.tightvnc.com/download/2.5.1/tightvnc-2.5.1-setup-32bit.msi</url>
         <sha1>cfd795f1abe5e96a6ee1b397f388d72862521e80</sha1>
+    </version>
+    <version name="2.5.2" package="com.tightvnc.TightVNC" type="one-file">
+        <file path=".Npackd\Install.bat">if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
+set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.NpackdInstallerHelper" "--versions=[1.1, 2)"
+for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set npackdih=%%x
+call "%npackdih%\InstallMSI.bat" INSTALLDIR yes
+</file>
+        <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.1, 2)"/>
+        <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.15.7, 2)"/>
+        <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1, 1]"/>
+        <url>http://www.tightvnc.com/download/2.5.2/tightvnc-2.5.2-setup-32bit.msi</url>
+        <sha1>5a9fe93816d8a004c140a3f247d456ff09f7420b</sha1>
     </version>
         
     <version name="1.0.5" package="com.uvnc.UltraVNC">
@@ -7544,6 +7571,20 @@ del Q-Dir.ini
 </file>
         <url>http://dl.dropbox.com/u/17046326/files/com.softwareok.QDir-5.21.zip</url>
         <sha1>d09ae5bd947a68870221c04cea1e78d3847f2404</sha1>
+    </version>
+    <version package="com.softwareok.QDir" name="5.25">
+        <important-file title="Q-Dir" path="Q-Dir.exe"/>
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b Q*') do set name=%%x
+cd "%name%"        
+for /f "delims=" %%a in ('dir /b') do (
+  move "%%a" ..
+)
+cd ..
+rmdir "%name%"
+del Q-Dir.ini
+</file>
+        <url>http://dl.dropbox.com/u/17046326/files/com.softwareok.QDir-5.25.zip</url>
+        <sha1>954375113126d8a7753378778404c4c455798d1d</sha1>
     </version>
     <!-- Detected -->
     
@@ -8770,6 +8811,15 @@ rmdir "%name%"
         <url>http://downloads.sourceforge.net/project/npackd/com.getsongbird.Songbird-1.10.3.2288.exe</url>
         <sha1>9e9e4b4215dea228454ce40c875e1a273b91369d</sha1>
     </version>
+    <version name="2.0.0.2311" package="com.getsongbird.Songbird"
+            type="one-file">
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x
+"%setup%" /S /D=%CD%
+</file>
+        <file path=".Npackd\Uninstall.bat">Songbird-Uninstall.exe /S</file>
+        <url>http://downloads.sourceforge.net/project/npackd/com.getsongbird.Songbird-2.0.0.2311.exe</url>
+        <sha1>df42a85b548c31a50765ad0ffa336a84594b252d</sha1>
+    </version>
 
     <version name="3.2.6.63112" package="org.virtualbox.VirtualBoxInstaller"
             type="one-file">
@@ -8914,6 +8964,15 @@ ren "%setup%" VirtualBox.exe
         <important-file path="VirtualBox.exe" title="Installer"/>
         <url>http://dlc.sun.com.edgesuite.net/virtualbox/4.1.16/VirtualBox-4.1.16-78094-Win.exe</url>
         <sha1>a156e44b6b92c4729baa3feef719dfb09ee51677</sha1>
+    </version>
+    <version name="4.1.18.78361" package="org.virtualbox.VirtualBoxInstaller"
+            type="one-file">
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x
+ren "%setup%" VirtualBox.exe
+</file>
+        <important-file path="VirtualBox.exe" title="Installer"/>
+        <url>http://dlc.sun.com.edgesuite.net/virtualbox/4.1.18/VirtualBox-4.1.18-78361-Win.exe</url>
+        <sha1>6c37a66ba07a851a1c7690f5f0c302d941aa8117</sha1>
     </version>
 
     <version name="2.8.0.8" package="com.cutepdf.CutePDFWriterInstaller"
@@ -9877,6 +9936,54 @@ for %%g in (%extensions%) do reg delete HKLM\SOFTWARE\Classes\.%%g\OpenWithList\
         <url>http://downloads.sourceforge.net/project/vlc/2.0.1/win32/vlc-2.0.1-win32.zip</url> 
         <sha1>7eb389ada78bee9b36b05fa61efd022fff81886e</sha1> 
     </version> 
+    <version name="2.0.2" package="com.videolan.VLCMediaPlayer"> 
+        <important-file path="vlc.exe" title="VLC Media Player"/> 
+        <file path=".Npackd\Extensions.txt">a52 aac ac3 adt adts aif ifc iff mr aob ape cda dts flac it m4a m4p mid mka mlp mod mp1 mp2 mp3 mpc oga ogg oma rmi s3m spx tta voc vqf w64 wav wma wv xa xm 3g2 3gp 3gp2 3gpp amv asf avi bin cue divx dv flv gxf iso m1v m2v m2t m2ts m4v mkv mov mp2 mp2v mp4 mp4v mpa mpe mpeg mpeg1 mpeg2 mpeg4 mpg mpv2 mts mxf nsv nuv ogg ogm ogv ogx ps rec rm rmvb tod ts tts vob vro webm wmv asx b4s ifo m3u m3u8 pls ram rar sdp vlc xspf zip cdg idx srt sub utf ass ssa aqt jss psb rt smi
+</file>
+        <file path=".Npackd\Install.bat">for /f %%x in ('dir /b vlc*') do set name=%%x
+for /f "delims=" %%x in ('dir /b aria*') do set name=%%x
+cd "%name%"        
+for /f "delims=" %%a in ('dir /b') do (
+  move "%%a" ..
+)
+cd ..
+rmdir "%name%"
+
+set package=com.videolan.VLCMediaPlayer
+set version=2.0.2
+set key=%package%-%version%
+
+reg add HKLM\SOFTWARE\Classes\Applications\%key%\shell\open /v FriendlyAppName /d "VLC Media Player (%version%)" /f
+set c=\"%CD%\vlc.exe\" \"%%1\"
+reg add HKLM\SOFTWARE\Classes\Applications\%KEY%\shell\open\command /d "%c%" /f
+
+rem read extensions from the file
+for /f "usebackq delims=" %%a in (.Npackd\Extensions.txt) do (
+set extensions=%%a
+goto out
+)
+:out
+
+for %%g in (%extensions%) do reg add HKLM\SOFTWARE\Classes\.%%g\OpenWithList\%key% /f
+</file> 
+        <file path=".Npackd\Uninstall.bat">set package=com.videolan.VLCMediaPlayer
+set version=2.0.2
+set key=%package%-%version%
+
+reg delete HKLM\SOFTWARE\Classes\Applications\%key% /f
+
+rem read extensions from the file
+for /f "usebackq delims=" %%a in (.Npackd\Extensions.txt) do (
+set extensions=%%a
+goto out
+)
+:out
+
+for %%g in (%extensions%) do reg delete HKLM\SOFTWARE\Classes\.%%g\OpenWithList\%key% /f
+</file> 
+        <url>http://downloads.sourceforge.net/project/vlc/2.0.2/win32/vlc-2.0.2-win32.zip</url> 
+        <sha1>a5562a2954e0d819a217f9ea0c78e77f1d834378</sha1> 
+    </version> 
 
     <version name="2.6.1.9" package="com.divx.DivXInstaller"
             type="one-file">
@@ -10373,6 +10480,14 @@ verify
         <file path=".Npackd\Uninstall.bat">Prog\UninstWA.exe /S _?=%CD%\Prog</file>
         <url>http://download.nullsoft.com/winamp/client/winamp5623_full_emusic-7plus_en-us.exe</url>
     </version>
+    <version name="5.63" package="com.winamp.WinampStandard" type="one-file">
+        <important-file path="Prog\winamp.exe" title="WinAmp"/>
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x
+%setup% /S /D=%CD%\Prog
+</file>
+        <file path=".Npackd\Uninstall.bat">Prog\UninstWA.exe /S _?=%CD%\Prog</file>
+        <url>http://download.nullsoft.com/winamp/client/winamp563_full_emusic-7plus_en-us.exe</url>
+    </version>
 
     <version name="2.1"
             package="com.microsoft.VirtualCDControlPanelInstaller"
@@ -10588,6 +10703,18 @@ for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x
         <file path=".Npackd\Uninstall.bat">uninstall\helper.exe /S</file>
         <url>http://npackd.googlecode.com/files/org.mozilla.Thunderbird-13.0.1.exe</url>
         <sha1>4927ee265f065baaacc96e95aa6230648af01a0e</sha1>
+    </version>
+    <version package="org.mozilla.Thunderbird" type="one-file" name="14">
+        <file path=".Npackd\Install.bat">echo [Install] > .Npackd\FF.ini
+echo InstallDirectoryPath=%CD% >> .Npackd\FF.ini
+echo QuickLaunchShortcut=false >> .Npackd\FF.ini
+echo DesktopShortcut=false >> .Npackd\FF.ini
+for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x
+"%setup%" /INI="%CD%\.Npackd\FF.ini"
+</file>
+        <file path=".Npackd\Uninstall.bat">uninstall\helper.exe /S</file>
+        <url>http://npackd.googlecode.com/files/org.mozilla.Thunderbird-14.exe</url>
+        <sha1>c522632a8fbb71c0750035106ce7a1e3ee2d7765</sha1>
     </version>
     <!-- Detected -->
     
@@ -13717,12 +13844,12 @@ if %err% neq 0 exit %err%
         <sha1>dd9db460b7e7e46cc3242d95fb592c7973e35228</sha1>
     </version>
 
-    <version name="15.20" package="com.microsoft.ProcessExplorer">
+    <version name="15.22" package="com.microsoft.ProcessExplorer">
         <important-file path="procexp.exe" title="Process Explorer"/>
         <url>http://download.sysinternals.com/files/ProcessExplorer.zip</url>
     </version>
 
-    <version name="3.1" package="com.microsoft.ProcessMonitor">
+    <version name="3.3" package="com.microsoft.ProcessMonitor">
         <important-file path="Procmon.exe" title="Process Monitor"/>
         <url>http://download.sysinternals.com/files/ProcessMonitor.zip</url>
     </version>
@@ -15112,6 +15239,16 @@ rmdir "%name%"
         <sha1>c3e98a3adae9ddde79c4b9411b71605b5d628a19</sha1>
         <dependency package="com.oracle.JRE" versions="[1.5, 2)"/>
     </version>
+    <version name="7.0.29" package="org.apache.tomcat.Tomcat" type="one-file">
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x
+"%setup%" /S /D=%CD%
+</file>
+        <file path=".Npackd\Uninstall.bat">Uninstall.exe -ServiceName="Tomcat7" /S _?=%CD%
+</file>
+        <url>http://downloads.sourceforge.net/project/npackd/org.apache.tomcat.Tomcat-7.0.29.exe</url>
+        <sha1>826a146d7d403f977f41491dd64a27911a3fdd73</sha1>
+        <dependency package="com.oracle.JRE" versions="[1.5, 2)"/>
+    </version>
 
     <version name="4.71.1015" package="com.microsoft.Mathematics"
             type="one-file">
@@ -15553,6 +15690,19 @@ call "%npackdih%\InstallMSI.bat" TARGETDIR yes
         <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1, 1]"/>
         <url>http://cdn.bitbucket.org/tortoisehg/thg/downloads/tortoisehg-2.4.1-hg-2.2.2-x86.msi</url>
         <sha1>704ac608467e2633937474f2a1ecd2320c26f797</sha1>
+    </version>
+    <version name="2.4.2" package="org.bitbucket.tortoisehg.TortoiseHg"
+            type="one-file">
+        <file path=".Npackd\Install.bat">if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
+set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.NpackdInstallerHelper" "--versions=[1.1, 2)"
+for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set npackdih=%%x
+call "%npackdih%\InstallMSI.bat" TARGETDIR yes
+</file>
+        <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.1, 2)"/>
+        <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.15.7, 2)"/>
+        <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1, 1]"/>
+        <url>http://cdn.bitbucket.org/tortoisehg/files/downloads/tortoisehg-2.4.2-hg-2.2.3-x86.msi</url>
+        <sha1>241171ed773e7660f5f91bbeba4cad8e6209f045</sha1>
     </version>
     
     <version package="com.googlecode.golangide.GoLangIDE" name="11.4.1">
@@ -17681,7 +17831,7 @@ if %err% neq 0 exit /b %err%
 </file>
         <url>http://download.skype.com/f24afc6fbb8fbce427a8269d30bf6d67/SkypeSetup.exe</url>
     </version>
-    <version name="5.9.0.123" package="com.skype.Skype" type="one-file">
+    <version name="5.10.0.116" package="com.skype.Skype" type="one-file">
         <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x
 "%setup%" /SP- /VERYSILENT /SUPPRESSMSGBOXES /NOCANCEL /NORESTART /DIR="%CD%" /SAVEINF="%CD%\.Npackd\InnoSetupInfo.ini" /LOG="%CD%\.Npackd\InnoSetupInstall.log"
 set err=%errorlevel%
@@ -17697,7 +17847,7 @@ rem 3010=restart required
 if %err% equ 3010 exit /b 0
 if %err% neq 0 exit /b %err%
 </file>
-        <url>http://download.skype.com/42565dfc9f73bad7dc0d606b04f58b4c/SkypeSetup.exe</url>
+        <url>http://download.skype.com/ce0b222b5e04303dba1df2805ab1d5ed/SkypeSetup.exe</url>
     </version>
 
     <version name="3.98.3" package="ar.com.buanzo.lame.LameForAudacity" type="one-file">
@@ -17817,7 +17967,23 @@ cd ..
 rmdir "%name%"
 </file>
         <url>http://tikzedt.googlecode.com/files/TikzEdt%200.2.zip</url>
-        <sha1>d41fa7f45266926d12425d0277e688114987122e </sha1>
+        <sha1>d41fa7f45266926d12425d0277e688114987122e</sha1>
+        <dependency package="com.microsoft.DotNetRedistributable"
+                versions="[4, 5)"/>
+        <dependency package="org.miktex.MiKTeX" versions="[2.9, 3)"/>
+    </version>
+    <version name="0.2.1" package="com.googlecode.tikzedt.TikzEdt">
+        <important-file path="TikzEdt.exe" title="TikzEdt"/>
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b Tikz*') do set name=%%x
+cd "%name%"        
+for /f "delims=" %%a in ('dir /b') do (
+  move "%%a" ..
+)
+cd ..
+rmdir "%name%"
+</file>
+        <url>http://tikzedt.googlecode.com/files/TikzEdtBeta0_2_1.zip</url>
+        <sha1>16edc8f4e096d49fbd4d25612fa5def44c04ef65 </sha1>
         <dependency package="com.microsoft.DotNetRedistributable"
                 versions="[4, 5)"/>
         <dependency package="org.miktex.MiKTeX" versions="[2.9, 3)"/>
@@ -17919,7 +18085,7 @@ verify
         <url>http://download.sysinternals.com/files/AutoLogon.zip</url>
     </version>
 
-    <version name="4.2" package="com.microsoft.ZoomIt">
+    <version name="4.31" package="com.microsoft.ZoomIt">
         <important-file path="ZoomIt.exe" title="ZoomIt"/>
         <url>http://download.sysinternals.com/files/ZoomIt.zip</url>
     </version>
@@ -19187,7 +19353,7 @@ verify
         <sha1>25c18230073df66559bb28f3f1c6bede02a51dca</sha1>
     </version>
 
-    <version name="1.3.3" package="com.screenpresso.Screenpresso" 
+    <version name="1.3.4" package="com.screenpresso.Screenpresso" 
             type="one-file">
         <file path=".Npackd\Install.bat">Screenpresso.exe -silent -install pf</file>
         <file path=".Npackd\Uninstall.bat">Screenpresso.exe -silent -uninstall pf</file>
