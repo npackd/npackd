@@ -1291,8 +1291,17 @@ void Repository::scanPre1_15Dir(bool exact)
 QString Repository::computeNpackdCLEnvVar()
 {
     QString v;
-    PackageVersion* pv = findNewestInstalledPackageVersion(
+    PackageVersion* pv;
+    if (WPMUtils::is64BitWindows())
+        pv = findNewestInstalledPackageVersion(
+            "com.googlecode.windows-package-manager.NpackdCL64");
+    else
+        pv = 0;
+
+    if (!pv)
+        pv = findNewestInstalledPackageVersion(
             "com.googlecode.windows-package-manager.NpackdCL");
+
     if (pv)
         v = pv->getPath();
 
