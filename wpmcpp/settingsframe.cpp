@@ -98,7 +98,7 @@ void SettingsFrame::on_buttonBox_clicked(QAbstractButton *button)
             WPMUtils::setInstallationDirectory(getInstallationDirectory());
             Repository::setRepositoryURLs(urls);
             mw->closeDetailTabs();
-            mw->recognizeAndLoadRepositories();
+            mw->recognizeAndLoadRepositories(true);
         } else {
             mw->addErrorMessage(err, err, true, QMessageBox::Critical);
         }

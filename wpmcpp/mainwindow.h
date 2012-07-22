@@ -171,8 +171,10 @@ public:
     /**
      * Reloads the content of all repositories and recognizes all installed
      * packages again.
+     *
+     * @param useCache true = use HTTP cache
      */
-    void recognizeAndLoadRepositories();
+    void recognizeAndLoadRepositories(bool useCache);
 
     /**
      * Unregistered a currently running monitored job.
