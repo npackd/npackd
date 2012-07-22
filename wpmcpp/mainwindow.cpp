@@ -575,7 +575,7 @@ void MainWindow::monitor(Job* job, const QString& title, QThread* thread)
 
 void MainWindow::onShow()
 {
-    recognizeAndLoadRepositories();
+    recognizeAndLoadRepositories(true);
 }
 
 void MainWindow::selectPackage(Package* p)
@@ -1312,7 +1312,7 @@ void MainWindow::closeDetailTabs()
     }
 }
 
-void MainWindow::recognizeAndLoadRepositories()
+void MainWindow::recognizeAndLoadRepositories(bool useCache)
 {
     QTableWidget* t = this->mainFrame->getTableWidget();
     t->clearContents();
@@ -1320,7 +1320,7 @@ void MainWindow::recognizeAndLoadRepositories()
 
     Job* job = new Job();
     InstallThread* it = new InstallThread(0, 3, job);
-    it->useCache = false;
+    it->useCache = useCache;
 
     connect(it, SIGNAL(finished()), this,
             SLOT(recognizeAndLoadRepositoriesThreadFinished()),
@@ -1758,7 +1758,7 @@ void MainWindow::on_actionReload_Repositories_triggered()
         this->addErrorMessage(msg.arg(locked->toString()));
     } else {
         closeDetailTabs();
-        recognizeAndLoadRepositories();
+        recognizeAndLoadRepositories(false);
     }
 }
 
