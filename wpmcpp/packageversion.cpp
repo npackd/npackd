@@ -314,7 +314,8 @@ void PackageVersion::uninstall(Job* job)
             delete rjob;
         }
 
-        if (this->package == "com.googlecode.windows-package-manager.NpackdCL") {
+        if (this->package == "com.googlecode.windows-package-manager.NpackdCL" ||
+                this->package == "com.googlecode.windows-package-manager.NpackdCL64") {
             job->setHint("Updating NPACKD_CL");
             Repository::getDefault()->updateNpackdCLEnvVar();
         }
@@ -905,7 +906,8 @@ void PackageVersion::install(Job* job, const QString& where)
             setPath(path);
         }
 
-        if (this->package == "com.googlecode.windows-package-manager.NpackdCL") {
+        if (this->package == "com.googlecode.windows-package-manager.NpackdCL" ||
+                this->package == "com.googlecode.windows-package-manager.NpackdCL64") {
             job->setHint("Updating NPACKD_CL");
             Repository::getDefault()->updateNpackdCLEnvVar();
         }

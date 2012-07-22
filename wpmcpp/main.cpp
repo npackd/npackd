@@ -23,6 +23,15 @@ int main(int argc, char *argv[])
     qRegisterMetaType<JobState>("JobState");
     qRegisterMetaType<FileLoaderItem>("FileLoaderItem");
 
+#ifndef __MINGW64__
+    if (WPMUtils::is64BitWindows()) {
+        QMessageBox::critical(0, "Error",
+                "The 32 bit version of Npackd requires a 32 bit operating system.\n"
+                "Please download the 64 bit version from http://code.google.com/p/windows-package-manager/");
+        return 1;
+    }
+#endif
+
     MainWindow w;
 
     w.prepare();
