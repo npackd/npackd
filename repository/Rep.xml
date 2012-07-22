@@ -2301,6 +2301,12 @@ yes - Print a string repeatedly.</description>
         <url>http://live.gnome.org/Planner</url>
         <description>project management</description>
     </package>
+    <package name="org.gnu.GDB">
+        <title>GDB</title>
+        <url>http://www.gnu.org/software/gdb/</url>
+        <description>debugger</description>
+        <license>org.gnu.GPLv3</license>
+    </package>
     <package name="org.gnucash.GNUCash">
         <title>GnuCash</title>
         <url>http://www.gnucash.org/?lang=en_US</url>
@@ -19695,6 +19701,19 @@ verify
         <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.15.7, 2)"/>
         <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1, 1]"/>
         <dependency package="com.googlecode.windows-package-manager.CLU" versions="[1, 2)"/>
+    </version>
+    
+    <version name="7.1.90" package="org.gnu.GDB">
+        <file path=".WPM\Install.bat">for /f "delims=" %%x in ('dir /b mingw*') do set name=%%x
+cd "%name%"
+for /f "delims=" %%a in ('dir /b') do (
+  move "%%a" ..
+)
+cd ..
+rmdir "%name%"
+</file>
+        <url>http://downloads.sourceforge.net/project/mingw-w64/External%20binary%20packages%20%28Win64%20hosted%29/gdb/i686-w64-mingw32-gdb-7.1.90.20100730.zip</url>
+        <sha1>4b842493866b3d93d92dced48be93823403d3706</sha1>
     </version>
     
     
