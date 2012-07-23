@@ -36,6 +36,8 @@ void Downloader::downloadWin(Job* job, const QUrl& url, QFile* file,
     QString agent("Npackd/");
     agent.append(WPMUtils::NPACKD_VERSION);
 
+    agent += " (compatible; MSIE 9.0)";
+
     void* internet = InternetOpenW((WCHAR*) agent.utf16(),
             INTERNET_OPEN_TYPE_PRECONFIG,
             0, 0, 0);
@@ -95,7 +97,7 @@ void Downloader::downloadWin(Job* job, const QUrl& url, QFile* file,
     }
 
     if (!HttpAddRequestHeadersW(hResourceHandle,
-            L"Accept-Encoding: gzip", -1,
+            L"Accept-Encoding: gzip, deflate", -1,
             HTTP_ADDREQ_FLAG_ADD)) {
         QString errMsg;
         WPMUtils::formatMessage(GetLastError(), &errMsg);
@@ -263,7 +265,7 @@ out:
             &contentEncodingBuffer, &bufferLength, &index)) {
         QString contentEncoding;
         contentEncoding.setUtf16((ushort*) contentEncodingBuffer, bufferLength / 2);
-        gzip = contentEncoding == "gzip";
+        gzip = contentEncoding == "gzip" || contentEncoding == "deflate";
     }
 
     job->setProgress(0.04);
@@ -369,6 +371,7 @@ void Downloader::readDataGZip(Job* job, HINTERNET hResourceHandle, QFile* file,
         if (!zlibStreamInitialized) {
             unsigned int cur = 0;
 
+            /*
             if (cur + 10 > bufferLength) {
                 job->setErrorMessage("Less than 10 bytes");
                 goto out;
@@ -434,7 +437,7 @@ void Downloader::readDataGZip(Job* job, HINTERNET hResourceHandle, QFile* file,
                 } else {
                     cur += 2;
                 }
-            }
+            }*/
 
             d_stream.zalloc = (alloc_func) 0;
             d_stream.zfree = (free_func) 0;
@@ -446,7 +449,8 @@ void Downloader::readDataGZip(Job* job, HINTERNET hResourceHandle, QFile* file,
             d_stream.next_out = buffer2;
             zlibStreamInitialized = true;
 
-            int err = inflateInit2(&d_stream, -15);
+            // 15 = maximum buffer size, 32 = zlib and gzip formats are parsed
+            int err = inflateInit2(&d_stream, 15 + 32);
             if (err != Z_OK) {
                 job->setErrorMessage(QString("zlib error %1").arg(err));
                 job->complete();
@@ -504,7 +508,7 @@ void Downloader::readDataGZip(Job* job, HINTERNET hResourceHandle, QFile* file,
     if (sha1 && !job->isCancelled() && job->getErrorMessage().isEmpty())
         *sha1 = hash.result().toHex().toLower();
 
-out:
+// out:
     delete[] buffer;
     delete[] buffer2;
 

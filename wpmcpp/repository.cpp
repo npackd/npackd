@@ -690,21 +690,21 @@ void Repository::detectControlPanelPrograms()
 
     detectControlPanelProgramsFrom(HKEY_LOCAL_MACHINE,
             "SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Uninstall",
-            false, packagePaths, &foundDetectionInfos
+            false, &packagePaths, &foundDetectionInfos
     );
     if (WPMUtils::is64BitWindows())
         detectControlPanelProgramsFrom(HKEY_LOCAL_MACHINE,
                 "SOFTWARE\\WoW6432Node\\Microsoft\\Windows\\CurrentVersion\\Uninstall",
-                false, packagePaths, &foundDetectionInfos
+                false, &packagePaths, &foundDetectionInfos
         );
     detectControlPanelProgramsFrom(HKEY_CURRENT_USER,
             "SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Uninstall",
-            false, packagePaths, &foundDetectionInfos
+            false, &packagePaths, &foundDetectionInfos
     );
     if (WPMUtils::is64BitWindows())
         detectControlPanelProgramsFrom(HKEY_CURRENT_USER,
                 "SOFTWARE\\WoW6432Node\\Microsoft\\Windows\\CurrentVersion\\Uninstall",
-                false, packagePaths, &foundDetectionInfos
+                false, &packagePaths, &foundDetectionInfos
         );
 
     // remove uninstalled packages
@@ -721,7 +721,7 @@ void Repository::detectControlPanelPrograms()
 }
 
 void Repository::detectControlPanelProgramsFrom(HKEY root,
-        const QString& path, bool useWoWNode, const QStringList& packagePaths,
+        const QString& path, bool useWoWNode, QStringList* packagePaths,
         QStringList* foundDetectionInfos) {
     WindowsRegistry wr;
     QString err;
@@ -760,7 +760,7 @@ void Repository::detectControlPanelProgramsFrom(HKEY root,
 
 void Repository::detectOneControlPanelProgram(const QString& registryPath,
         WindowsRegistry& k,
-        const QString& keyName, const QStringList& packagePaths,
+        const QString& keyName, QStringList* packagePaths,
         QStringList* foundDetectionInfos)
 {
     QString package = keyName;
@@ -904,7 +904,7 @@ void Repository::detectOneControlPanelProgram(const QString& registryPath,
     if (useThisEntry) {
         if (!dir.isEmpty()) {
             dir = WPMUtils::normalizePath(dir);
-            if (WPMUtils::isUnderOrEquals(dir, packagePaths))
+            if (WPMUtils::isUnderOrEquals(dir, *packagePaths))
                 useThisEntry = false;
         }
     }
@@ -934,6 +934,7 @@ void Repository::detectOneControlPanelProgram(const QString& registryPath,
                     pv->setPath(dir);
                 }
             }
+            packagePaths->append(dir);
         }
 
         foundDetectionInfos->append(pv->detectionInfo);

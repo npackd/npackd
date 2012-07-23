@@ -228,6 +228,10 @@ MainWindow::MainWindow(QWidget *parent) :
         }
     }
 
+    connect(QApplication::instance(),
+            SIGNAL(focusChanged(QWidget*, QWidget*)), this,
+            SLOT(applicationFocusChanged(QWidget*, QWidget*)));
+
     this->ui->tabWidget->addTab(mainFrame, "Packages");
     this->addJobsTab();
     this->mainFrame->getFilterLineEdit()->setFocus();
@@ -252,6 +256,11 @@ MainWindow::MainWindow(QWidget *parent) :
     if (lpfChangeWindowMessageFilterEx)
         lpfChangeWindowMessageFilterEx(winId(), taskbarMessageId, 1, 0);
     FreeLibrary(hInstLib);
+}
+
+void MainWindow::applicationFocusChanged(QWidget* old, QWidget* now)
+{
+    updateActions();
 }
 
 bool MainWindow::winEvent(MSG* message, long* result)
@@ -1429,6 +1438,18 @@ void MainWindow::recognizeAndLoadRepositoriesThreadFinished()
 
     this->reloadRepositoriesThreadRunning = false;
     updateActions();
+}
+
+QList<void*> MainWindow::getSelected(const QString& type) const
+{
+    QWidget* w = this->ui->tabWidget->currentWidget();
+    QList<void*> r;
+    if (w) {
+        Selection* sel = dynamic_cast<Selection*>(w);
+        if (sel)
+            r = sel->getSelected(type);
+    }
+    return r;
 }
 
 void MainWindow::addTab(QWidget* w, const QIcon& icon, const QString& title)
