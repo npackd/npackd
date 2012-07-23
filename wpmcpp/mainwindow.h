@@ -40,7 +40,7 @@ const UINT NIN_KEYSELECT = NIN_SELECT or NINF_KEY;
 /**
  * Main window.
  */
-class MainWindow : public QMainWindow {
+class MainWindow : public QMainWindow, public Selection {
     Q_OBJECT
 private:
     static MainWindow* instance;
@@ -191,6 +191,8 @@ public:
      * @param title tab title
      */
     void addTab(QWidget* w, const QIcon& icon, const QString& title);
+
+    QList<void*> getSelected(const QString& type) const;
 protected:
     void changeEvent(QEvent *e);
 
@@ -222,6 +224,7 @@ private slots:
     void monitoredJobChanged(const JobState& state);
     void on_actionFile_an_Issue_triggered();
     void updateActionsSlot();
+    void applicationFocusChanged(QWidget* old, QWidget* now);
 };
 
 #endif // MAINWINDOW_H

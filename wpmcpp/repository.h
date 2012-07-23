@@ -43,11 +43,11 @@ private:
     void detectControlPanelPrograms();
     void detectControlPanelProgramsFrom(HKEY root,
             const QString& path, bool useWoWNode,
-            const QStringList& packagePaths,
+            QStringList *packagePaths,
             QStringList* foundDetectionInfos);
     void detectOneControlPanelProgram(const QString& registryPath,
             WindowsRegistry& k,
-            const QString& keyName, const QStringList& packagePaths,
+            const QString& keyName, QStringList *packagePaths,
             QStringList* foundDetectionInfos);
 
     void detectMSIProducts();
