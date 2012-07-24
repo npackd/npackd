@@ -587,16 +587,20 @@ void MainWindow::onShow()
     recognizeAndLoadRepositories(true);
 }
 
-void MainWindow::selectPackage(Package* p)
+void MainWindow::selectPackages(QList<Package*> ps)
 {
     QTableWidget* t = this->mainFrame->getTableWidget();
+    t->clearSelection();
     for (int i = 0; i < t->rowCount(); i++) {
         const QVariant v = t->item(i, 1)->
                 data(Qt::UserRole);
         Package* f = (Package*) v.value<void*>();
-        if (f == p) {
-            t->selectRow(i);
-            break;
+        if (ps.contains(f)) {
+            //topLeft = t->selectionModel()->selection().
+            QModelIndex topLeft = t->model()->index(i, 0);
+            // QModelIndex bottomRight = t->model()->index(i, t->columnCount() - 1);
+            t->selectionModel()->select(topLeft, QItemSelectionModel::Rows |
+                    QItemSelectionModel::Select);
         }
     }
 }
@@ -894,9 +898,14 @@ void MainWindow::process(QList<InstallOperation*> &install)
 
     bool b;
     QString msg;
+    QString title;
     if (installCount == 1 && uninstallCount == 0) {
         b = true;
+        title = QString("Installing %1").arg(
+                install.at(0)->packageVersion->toString());
     } else if (installCount == 0 && uninstallCount == 1) {
+        title = QString("Uninstalling %1").arg(
+                install.at(0)->packageVersion->toString());
         msg = QString("The package %1 will be uninstalled. "
                 "The corresponding directory %2 "
                 "will be completely deleted. "
@@ -905,10 +914,14 @@ void MainWindow::process(QList<InstallOperation*> &install)
                 arg(install.at(0)->packageVersion->getPath());
         b = UIUtils::confirm(this, "Uninstall", msg);
     } else if (installCount > 0 && uninstallCount == 0) {
+        title = QString("Installing %1 packages").arg(
+                installCount);
         msg = QString("%1 package(s) will be installed: %2").
                 arg(installCount).arg(installNames);
         b = UIUtils::confirm(this, "Install", msg);
     } else if (installCount == 0 && uninstallCount > 0) {
+        title = QString("Uninstalling %1 packages").arg(
+                uninstallCount);
         msg = QString("%1 package(s) will be uninstalled: %2. "
                 "The corresponding directories "
                 "will be completely deleted. "
@@ -916,6 +929,8 @@ void MainWindow::process(QList<InstallOperation*> &install)
                 arg(uninstallCount).arg(names);
         b = UIUtils::confirm(this, "Uninstall", msg);
     } else {
+        title = QString("Installing %1 packages, uninstalling %2 packages").arg(
+                installCount).arg(uninstallCount);
         msg = QString("%1 package(s) will be uninstalled: %2 ("
                 "the corresponding directories "
                 "will be completely deleted; "
@@ -937,7 +952,7 @@ void MainWindow::process(QList<InstallOperation*> &install)
                 SLOT(processThreadFinished()),
                 Qt::QueuedConnection);
 
-        monitor(job, "Install/Uninstall", it);
+        monitor(job, title, it);
     } else {
         qDeleteAll(install);
         install.clear();
@@ -946,10 +961,14 @@ void MainWindow::process(QList<InstallOperation*> &install)
 
 void MainWindow::processThreadFinished()
 {
-    Package* sel = mainFrame->getSelectedPackageInTable();
+    QTableWidget* t = this->mainFrame->getTableWidget();
+    QList<Package*> sel = mainFrame->getSelectedPackagesInTable();
+    int col = t->currentColumn();
+    int row = t->currentRow();
     fillList();
     updateStatusInDetailTabs();
-    selectPackage(sel);
+    t->setCurrentCell(row, col);
+    selectPackages(sel);
     updateActions();
 }
 
