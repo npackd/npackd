@@ -81,9 +81,9 @@ private:
     void updateScanHardDrivesAction();
 
     /**
-     * @param p a package or 0
+     * @param ps selected packages
      */
-    void selectPackage(Package* p);
+    void selectPackages(QList<Package*> ps);
 
     /**
      * Adds an entry in the "Progress" tab and monitors a task.
