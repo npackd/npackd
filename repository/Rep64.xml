@@ -164,6 +164,12 @@
         <description>Windows Explorer extensions for Git</description>
         <license>org.gnu.GPLv2</license>
     </package>
+    <package name="com.httrack.HTTrack64">
+        <title>HTTrack 64 bit</title>
+        <url>http://www.httrack.com/page/2/en/index.html</url>
+        <description>offline browsing</description>
+        <license>org.gnu.GPLv3</license>
+    </package>
     <package name="com.lockhunter.LockHunter64">
         <title>LockHunter 64 bit</title>
         <url>http://lockhunter.com/</url>
@@ -4922,5 +4928,21 @@ rmdir "%name%"
 </file>
         <url>http://downloads.sourceforge.net/project/mingw-w64/External%20binary%20packages%20%28Win64%20hosted%29/gdb/x86_64-w64-mingw32-gdb-7.1.90.20100730.zip</url>
         <sha1>b2c81549b04261c107f6b240e5fef2083496a4d3</sha1>
+    </version>
+
+    <version name="3.46.1" package="com.httrack.HTTrack64" type="one-file">
+        <file path=".WPM\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x
+"%setup%" /SP- /VERYSILENT /SUPPRESSMSGBOXES /NOCANCEL /NORESTART /DIR="%CD%" /SAVEINF="%CD%\.WPM\InnoSetupInfo.ini" /LOG="%CD%\.WPM\InnoSetupInstall.log"
+set err=%errorlevel%
+type .WPM\InnoSetupInstall.log
+if %err% neq 0 exit %err%
+</file>
+        <file path=".WPM\Uninstall.bat">unins000.exe /VERYSILENT /SUPPRESSMSGBOXES /NORESTART /LOG="%CD%\.WPM\InnoSetupUninstall.log"
+set err=%errorlevel%
+type .WPM\InnoSetupUninstall.log
+if %err% neq 0 exit %err%
+</file>
+        <url>http://download.httrack.com/httrack_x64-3.46.1.exe</url>
+        <sha1>cf6866c576118d6473666ccbc31f617de9e559cf</sha1>
     </version>
 </root>

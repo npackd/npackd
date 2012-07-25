@@ -901,11 +901,9 @@ void MainWindow::process(QList<InstallOperation*> &install)
     QString title;
     if (installCount == 1 && uninstallCount == 0) {
         b = true;
-        title = QString("Installing %1").arg(
-                install.at(0)->packageVersion->toString());
+        title = "Installing";
     } else if (installCount == 0 && uninstallCount == 1) {
-        title = QString("Uninstalling %1").arg(
-                install.at(0)->packageVersion->toString());
+        title = "Uninstalling %1";
         msg = QString("The package %1 will be uninstalled. "
                 "The corresponding directory %2 "
                 "will be completely deleted. "

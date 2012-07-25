@@ -819,6 +819,12 @@
         <description>database</description>
         <license>com.h2database.License</license>
     </package>
+    <package name="com.httrack.HTTrack">
+        <title>HTTrack</title>
+        <url>http://www.httrack.com/page/2/en/index.html</url>
+        <description>offline browsing</description>
+        <license>org.gnu.GPLv3</license>
+    </package>
     <package name="com.icq.ICQInstaller">
         <title>ICQ installer</title>
         <url>http://download.icq.com/download/icq/</url>
@@ -19714,6 +19720,22 @@ rmdir "%name%"
 </file>
         <url>http://downloads.sourceforge.net/project/mingw-w64/External%20binary%20packages%20%28Win64%20hosted%29/gdb/i686-w64-mingw32-gdb-7.1.90.20100730.zip</url>
         <sha1>4b842493866b3d93d92dced48be93823403d3706</sha1>
+    </version>
+    
+    <version name="3.46.1" package="com.httrack.HTTrack" type="one-file">
+        <file path=".WPM\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x
+"%setup%" /SP- /VERYSILENT /SUPPRESSMSGBOXES /NOCANCEL /NORESTART /DIR="%CD%" /SAVEINF="%CD%\.WPM\InnoSetupInfo.ini" /LOG="%CD%\.WPM\InnoSetupInstall.log"
+set err=%errorlevel%
+type .WPM\InnoSetupInstall.log
+if %err% neq 0 exit %err%
+</file>
+        <file path=".WPM\Uninstall.bat">unins000.exe /VERYSILENT /SUPPRESSMSGBOXES /NORESTART /LOG="%CD%\.WPM\InnoSetupUninstall.log"
+set err=%errorlevel%
+type .WPM\InnoSetupUninstall.log
+if %err% neq 0 exit %err%
+</file>
+        <url>http://download.httrack.com/httrack-3.46.1.exe</url>
+        <sha1>7ba2f52e34e7a329c0b2a56a2af29867963be18e</sha1>
     </version>
     
     
