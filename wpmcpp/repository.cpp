@@ -683,7 +683,6 @@ void Repository::detectOneDotNet(const WindowsRegistry& wr,
 
 void Repository::detectControlPanelPrograms()
 {
-    // TODO: each detectControlPanelProgramsFrom may also change this list
     QStringList packagePaths = getAllInstalledPackagePaths();
 
     QStringList foundDetectionInfos;
