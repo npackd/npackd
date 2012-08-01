@@ -473,20 +473,12 @@ void MainWindow::updateStatusInTable()
         Package* p = (Package *) v.value<void*>();
         PackageVersion* newestInstallable =
                 r->findNewestInstallablePackageVersion(p->name);
+        PackageVersion* newestInstalled =
+                r->findNewestInstalledPackageVersion(p->name);
 
-        QList<PackageVersion*> pvs = r->getPackageVersions(p->name);
-        QString installed;
-        for (int j = pvs.count() - 1; j >= 0; j--) {
-            PackageVersion* pv = pvs.at(j);
-            if (pv->installed()) {
-                if (!installed.isEmpty())
-                    installed.append(", ");
-                installed.append(pv->version.getVersionString());
-            }
-        }
-
-        if (!installed.isEmpty() && newestInstallable &&
-                !newestInstallable->installed())
+        if (newestInstalled && newestInstallable &&
+                newestInstallable->version.compare(
+                newestInstalled->version) > 0)
             newItem->setBackgroundColor(QColor(255, 0xc7, 0xc7));
         else
             newItem->setBackgroundColor(QColor(255, 255, 255));
@@ -674,7 +666,6 @@ void MainWindow::fillList()
 
     int n = 0;
     for (int i = 0; i < r->packages.count(); i++) {
-
         Package* p = r->packages.at(i);
 
         // filter by text
@@ -768,8 +759,11 @@ void MainWindow::fillList()
         t->setItem(n, 3, newItem);
 
         newItem = new QCITableWidgetItem(installed);
-        if (!installed.isEmpty() && newestInstallable &&
-                !newestInstallable->installed())
+        PackageVersion* newestInstalled =
+                r->findNewestInstalledPackageVersion(p->name);
+        if (newestInstalled && newestInstallable &&
+                newestInstallable->version.compare(
+                newestInstalled->version) > 0)
             newItem->setBackgroundColor(QColor(255, 0xc7, 0xc7));
         newItem->setData(Qt::UserRole, qVariantFromValue((void*) p));
         t->setItem(n, 4, newItem);
