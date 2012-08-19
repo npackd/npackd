@@ -437,81 +437,6 @@ PackageVersion* UpdateSearcher::findIrfanViewUpdates(Job* job)
     return ret;
 }
 
-PackageVersion* UpdateSearcher::findFirefoxUpdates(Job* job)
-{
-    job->setHint("Preparing");
-
-    PackageVersion* ret = 0;
-
-    QString version;
-    if (job->shouldProceed("Searching for updates")) {
-        Job* sub = job->newSubJob(0.2);
-        ret = findUpdate(sub, "org.mozilla.Firefox",
-                "http://www.mozilla.org/en-US/firefox/all.html",
-                "<td class=\"curVersion\" >([\\d\\.]+)</td>", &version);
-        if (!sub->getErrorMessage().isEmpty())
-            job->setErrorMessage(QString("Error searching for the newest version: %1").
-                    arg(sub->getErrorMessage()));
-        delete sub;
-    }
-
-    if (!job->isCancelled() && job->getErrorMessage().isEmpty()) {
-        if (ret) {
-            job->setHint("Searching for the download URL");
-
-            ret->type = 1;
-            ret->download = QUrl("http://download.mozilla.org/?product=firefox-" +
-                    version + "&os=win&lang=en-US");
-        }
-        job->setProgress(0.3);
-    }
-
-    if (!job->isCancelled() && job->getErrorMessage().isEmpty()) {
-        if (ret) {
-            job->setHint("Examining the binary");
-
-            Job* sub = job->newSubJob(0.65);
-            ret->type = 1;
-            setDownload(sub, ret, ret->download.toEncoded());
-            if (!sub->getErrorMessage().isEmpty())
-                job->setErrorMessage(QString("Error downloading the package binary: %1").
-                        arg(sub->getErrorMessage()));
-            delete sub;
-        }
-    }
-
-    if (job->shouldProceed("Setting scripts")) {
-        if (ret) {
-            ret->download = QUrl("http://npackd.googlecode.com/files/org.mozilla.Firefox-" +
-                    ret->version.getVersionString() + ".exe");
-            const QString installScript =
-                    "echo [Install] > .WPM\\FF.ini\n"
-                    "echo InstallDirectoryPath=%CD% >> .WPM\\FF.ini\n"
-                    "echo QuickLaunchShortcut=false >> .WPM\\FF.ini\n"
-                    "echo DesktopShortcut=false >> .WPM\\FF.ini\n"
-                    "for /f \"delims=\" %%x in ('dir /b *.exe') do set setup=%%x\n"
-                    "\"%setup%\" /INI=\"%CD%\\.WPM\\FF.ini\"\n";
-            const QString uninstallScript =
-                    "uninstall\\helper.exe /S\n";
-
-            PackageVersionFile* pvf = new PackageVersionFile(".WPM\\Install.bat",
-                    installScript);
-            ret->files.append(pvf);
-            pvf = new PackageVersionFile(".WPM\\Uninstall.bat",
-                    uninstallScript);
-            ret->files.append(pvf);
-
-            ret->importantFiles.append("firefox.exe");
-            ret->importantFilesTitles.append("Firefox");
-        }
-        job->setProgress(1);
-    }
-
-    job->complete();
-
-    return ret;
-}
-
 PackageVersion* UpdateSearcher::findAC3FilterUpdates(Job* job)
 {
     job->setHint("Preparing");
@@ -1339,7 +1264,7 @@ void UpdateSearcher::findUpdates(Job* job)
             "org.libreoffice.LibreOffice",
             "http://www.libreoffice.org/download/?type=win-x86&lang=en-US",
             ">([\\d\\.]+)<",
-            "http://ftp5.gwdg.de/pub/tdf/libreoffice/stable/${{version}}/win/x86/LibO_${{version}}_Win_x86_install_multi.msi",
+            "http://ftp.uni-muenster.de/pub/software/DocumentFoundation/libreoffice/stable/${{actualVersion}}/win/x86/LibO_${{actualVersion}}_Win_x86_install_multi.msi",
             DT_SOURCEFORGE));
     dis.append(DiscoveryInfo(
             "com.selenic.mercurial.Mercurial",
@@ -1470,7 +1395,7 @@ void UpdateSearcher::findUpdates(Job* job)
             "http://www.srware.net/software_srware_iron_download.php",
             "<strong>([\\d\\.]+)</strong>",
             "http://www.srware.net/downloads/srware_iron.exe",
-            DT_GOOGLECODE));
+            DT_SOURCEFORGE));
     dis.append(DiscoveryInfo("org.apache.jakarta.JMeter",
             "http://jmeter.apache.org/download_jmeter.cgi",
             "Apache JMeter ([\\d\\.]+) ",
@@ -1545,9 +1470,14 @@ void UpdateSearcher::findUpdates(Job* job)
             "areca-([\\d\\.]+)-windows-jre32.zip",
             "http://downloads.sourceforge.net/project/areca/areca-stable/areca-${{actualVersion}}/areca-${{actualVersion}}-windows-jre64.zip"));
     dis.append(DiscoveryInfo("org.boost.Boost",
-            "http://sourceforge.net/api/file/index/project-id/7586/mtime/desc/limit/20/rss",
+            "http://sourceforge.net/api/file/index/project-id/7586/mtime/desc/limit/120/rss",
             "boost/([\\d\\.]+)/",
             "http://downloads.sourceforge.net/project/boost/boost/${{actualVersion}}/boost_${{actualVersionWithUnderscores}}.zip"));
+    dis.append(DiscoveryInfo("org.mozilla.Firefox",
+            "http://www.mozilla.org/en-US/firefox/all.html",
+            "<td class=\"curVersion\" >([\\d\\.]+)</td>",
+            "http://download.mozilla.org/?product=firefox-${{actualVersion}}&os=win&lang=en-US",
+            DT_SOURCEFORGE));
 
     /*
     ${{version}}
@@ -1597,7 +1527,7 @@ void UpdateSearcher::findUpdates(Job* job)
                 pv = findIrfanViewUpdates(sub);
                 break;
             case 6:
-                pv = findFirefoxUpdates(sub);
+                // TODO: remove
                 break;
             case 7:
                 pv = findAC3FilterUpdates(sub);
@@ -1631,7 +1561,8 @@ void UpdateSearcher::findUpdates(Job* job)
             HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
             CONSOLE_SCREEN_BUFFER_INFO csbi;
             GetConsoleScreenBufferInfo(hConsole, &csbi);
-            SetConsoleTextAttribute(hConsole, FOREGROUND_RED);
+            SetConsoleTextAttribute(hConsole, FOREGROUND_RED |
+                    FOREGROUND_INTENSITY);
             WPMUtils::outputTextConsole(package + ": " +
                     sub->getErrorMessage() + "\n", false);
             SetConsoleTextAttribute(hConsole, csbi.wAttributes);
