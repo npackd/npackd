@@ -1277,4 +1277,30 @@ rmdir "%name%"
         <url>http://downloads.sourceforge.net/project/boost/boost/1.49.0/boost_1_49_0.zip</url>
         <sha1>e2e778a444e7ae7157b97f4f1fedf363cf87940c</sha1>
     </version>
+
+    <version package="org.mozilla.Firefox" type="one-file" name="1">
+        <important-file title="Firefox" path="firefox.exe"/>
+        <file path=".WPM\Install.bat">echo [Install] > .WPM\FF.ini
+echo InstallDirectoryPath=%CD% >> .WPM\FF.ini
+echo QuickLaunchShortcut=false >> .WPM\FF.ini
+echo DesktopShortcut=false >> .WPM\FF.ini
+for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x
+"%setup%" /INI="%CD%\.WPM\FF.ini"
+</file>
+        <file path=".WPM\Uninstall.bat">uninstall\helper.exe /S
+</file>
+        <url>http://downloads.sourceforge.net/project/npackd/org.mozilla.Firefox-14.0.1.exe</url>
+        <sha1>27c54f9ce5570c1c2b141c5b174ead247d06524b</sha1>
+    </version>
+
+    <version package="fr.handbrake.HandBrake" type="one-file" name="1">
+        <file path=".Npackd\Install.bat">ren rotation.php setup.exe
+setup.exe /S /D=%CD%
+</file>
+        <file path=".Npackd\Uninstall.bat">uninst.exe /S
+</file>
+        <url>http://handbrake.fr/rotation.php?file=HandBrake-0.9.6-i686-Win_GUI.exe</url>
+        <sha1>35f699550effdbbf5ea75648b3a33843f3e8be4e</sha1>
+        <dependency package="com.microsoft.DotNetRedistributable" versions="[2, 3)"/>
+    </version>
 </root>

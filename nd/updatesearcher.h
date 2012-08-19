@@ -56,7 +56,6 @@ private:
     PackageVersion* findH2Updates(Job* job);
     PackageVersion* findImgBurnUpdates(Job* job);
     PackageVersion* findIrfanViewUpdates(Job* job);
-    PackageVersion* findFirefoxUpdates(Job* job);
     PackageVersion* findAC3FilterUpdates(Job* job);
     PackageVersion* findAdobeReaderUpdates(Job* job);
     PackageVersion* findSharpDevelopUpdates(Job* job);

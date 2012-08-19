@@ -31,6 +31,12 @@
         <icon>http://code.google.com/p/windows-package-manager/logo?cct=1284230282</icon>
         <license>org.gnu.GPLv3</license>
     </package>
+    <package name="com.googlecode.btj.BTJ">
+        <title>BTJ</title>
+        <url>http://code.google.com/p/btj/</url>
+        <description>build tool for Java</description>
+        <license>org.gnu.GPLv3</license>
+    </package>
     <package name="org.argolinux.sqlkit.SQLKit">
         <title>SqlKit</title>
         <url>http://sqlkit.argolinux.org</url>
@@ -141,5 +147,78 @@ for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set python=%%x
         <important-file path="FreeCommander.exe" title="FreeCommander"/>
         <url>http://dl.dropbox.com/u/17046326/files/com.freecommander.FreeCommander-2012.591.zip</url>
         <sha1>4b6012d5bcb07be9a5612bae5767560bbab5d103</sha1>
+    </version>    
+    
+    <version name="0.1" package="com.googlecode.btj.BTJ">
+        <file path=".Npackd\Install.bat">if "%npackd_cl%" equ "" set npackd_cl=.
+set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.CLU" "--versions=[1, 2)"
+for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set clu=%%x
+"%clu%\clu" add-path --path "%CD%"
+verify
+</file>
+        <file path=".Npackd\Uninstall.bat">if "%npackd_cl%" equ "" set npackd_cl=.
+set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.CLU" "--versions=[1, 2)"
+for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set clu=%%x
+"%clu%\clu" remove-path --path "%CD%"
+verify
+</file>
+        <url>http://btj.googlecode.com/files/btj-0.1.zip</url>
+        <sha1>ef58bd6a624ede1ddd1384b24c628168aa21e646</sha1>
+        <dependency package="com.googlecode.windows-package-manager.CLU" versions="[1, 2)"/>
+        <dependency package="com.oracle.JDK" versions="[1.7, 2)"/>
+    </version>    
+    <version name="0.2" package="com.googlecode.btj.BTJ">
+        <file path=".Npackd\Install.bat">if "%npackd_cl%" equ "" set npackd_cl=.
+set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.CLU" "--versions=[1, 2)"
+for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set clu=%%x
+"%clu%\clu" add-path --path "%CD%"
+verify
+</file>
+        <file path=".Npackd\Uninstall.bat">if "%npackd_cl%" equ "" set npackd_cl=.
+set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.CLU" "--versions=[1, 2)"
+for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set clu=%%x
+"%clu%\clu" remove-path --path "%CD%"
+verify
+</file>
+        <url>http://btj.googlecode.com/files/btj-0.2.zip</url>
+        <sha1>63e5a7c04e1a7e92e9d9ba5c86ca0aa02953617a</sha1>
+        <dependency package="com.googlecode.windows-package-manager.CLU" versions="[1, 2)"/>
+        <dependency package="com.oracle.JDK" versions="[1.7, 2)"/>
+    </version>
+    <version name="0.3" package="com.googlecode.btj.BTJ">
+        <file path=".Npackd\Install.bat">if "%npackd_cl%" equ "" set npackd_cl=.
+set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.CLU" "--versions=[1, 2)"
+for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set clu=%%x
+"%clu%\clu" add-path --path "%CD%"
+verify
+</file>
+        <file path=".Npackd\Uninstall.bat">if "%npackd_cl%" equ "" set npackd_cl=.
+set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.CLU" "--versions=[1, 2)"
+for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set clu=%%x
+"%clu%\clu" remove-path --path "%CD%"
+verify
+</file>
+        <url>http://btj.googlecode.com/files/btj-0.3.zip</url>
+        <sha1>2292c89e150584ae4131f60ce2b32b83110078f0</sha1>
+        <dependency package="com.googlecode.windows-package-manager.CLU" versions="[1, 2)"/>
+        <dependency package="com.oracle.JDK" versions="[1.7, 2)"/>
+    </version>    
+    <version name="0.5" package="com.googlecode.btj.BTJ">
+        <file path=".Npackd\Install.bat">if "%npackd_cl%" equ "" set npackd_cl=.
+set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.CLU" "--versions=[1, 2)"
+for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set clu=%%x
+"%clu%\clu" add-path --path "%CD%"
+verify
+</file>
+        <file path=".Npackd\Uninstall.bat">if "%npackd_cl%" equ "" set npackd_cl=.
+set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.CLU" "--versions=[1, 2)"
+for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set clu=%%x
+"%clu%\clu" remove-path --path "%CD%"
+verify
+</file>
+        <url>http://btj.googlecode.com/files/btj-0.5.zip</url>
+        <sha1>17fdd5f941d88cb6e4800a9e67d7fa27b7a195a3</sha1>
+        <dependency package="com.googlecode.windows-package-manager.CLU" versions="[1, 2)"/>
+        <dependency package="com.oracle.JDK" versions="[1.7, 2)"/>
     </version>    
 </root>

@@ -3350,7 +3350,17 @@ setup.exe /S /D=%CD%
         <sha1>35f699550effdbbf5ea75648b3a33843f3e8be4e</sha1>
         <dependency package="com.microsoft.DotNetRedistributable" versions="[2, 3)"/>
     </version>
-    <!-- Detected by NpackdCL -->
+    <version package="fr.handbrake.HandBrake" type="one-file" name="0.9.8">
+        <file path=".Npackd\Install.bat">ren rotation.php setup.exe
+setup.exe /S /D=%CD%
+</file>
+        <file path=".Npackd\Uninstall.bat">uninst.exe /S
+</file>
+        <url>http://handbrake.fr/rotation.php?file=HandBrake-0.9.8-i686-Win_GUI.exe</url>
+        <sha1>4c38058c681b4b88c74c51534f734f3ddd74339a</sha1>
+        <dependency package="com.microsoft.DotNetRedistributable" versions="[4, 5)"/>
+    </version>
+    <!-- Detected -->
 
     <version name="2003"
             package="com.microsoft.WindowsServer2003ResourceKitToolsInstaller"
@@ -3570,6 +3580,20 @@ for /f %%x in ('dir /b *.exe') do set setup=%%x
 </file>
         <url>http://get-tsw-1.opera.com/pub/opera/win/1200/int/Opera_1200_int_Setup.exe</url>
         <sha1>2b71040fa67ae93e7e14e34faf96e9f5d16cf7a1</sha1>
+        <dependency package="org.7-zip.SevenZIPA" versions="[9.20, 9.20]"/>
+        <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.15.7, 2)"/>
+        <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1, 1]"/>
+    </version>
+    <version package="com.opera.Opera" type="one-file" name="12.1">
+        <important-file title="Opera" path="Opera.exe"/>
+        <file path=".Npackd\Install.bat">if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
+set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=org.7-zip.SevenZIPA" "--versions=[9.20, 9.20]"
+for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set sevenzipa=%%x
+for /f %%x in ('dir /b *.exe') do set setup=%%x
+"%sevenzipa%\7za.exe" x "%setup%" > Output.txt &amp;&amp; type Output.txt
+</file>
+        <url>http://get-tsw-1.opera.com/pub/opera/win/1201/int/Opera_1201_int_Setup.exe</url>
+        <sha1>bdd29fb8f801139744672f49f6b8a460cd1f96f0</sha1>
         <dependency package="org.7-zip.SevenZIPA" versions="[9.20, 9.20]"/>
         <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.15.7, 2)"/>
         <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1, 1]"/>
@@ -3853,6 +3877,22 @@ if %err% neq 0 exit %err%
         <url>http://npackd.googlecode.com/files/net.srware.Iron-19.0.1100.exe</url>
         <sha1>7666b27dd7ce56eb18cd92a902da6e067b6e1ccc</sha1>
     </version>
+    <version package="net.srware.Iron" type="one-file" name="21.0.1200">
+        <file path=".Npackd\Install.bat">for /f %%x in ('dir /b *.exe') do set setup=%%x
+%setup% /SP- /VERYSILENT /SUPPRESSMSGBOXES /NOCANCEL /NORESTART /DIR="%CD%" /SAVEINF="%CD%\.Npackd\InnoSetupInfo.ini" /LOG="%CD%\.Npackd\InnoSetupInstall.log"
+set err=%errorlevel%
+type .Npackd\InnoSetupInstall.log
+if %err% neq 0 exit %err%
+</file>
+        <file path=".Npackd\Uninstall.bat">
+unins000.exe /VERYSILENT /SUPPRESSMSGBOXES /NORESTART /LOG="%CD%\.Npackd\InnoSetupUninstall.log"
+set err=%errorlevel%
+type .Npackd\InnoSetupUninstall.log
+if %err% neq 0 exit %err%
+</file>
+        <url>http://downloads.sourceforge.net/project/npackd/net.srware.Iron-21.0.1200.exe</url>
+        <sha1>b279723fe1c422cb98e782a2d4994bd84f38947c</sha1>
+    </version>
     <!-- Detected -->
     
     <version name="0.53.6501" package="org.latexeditor.LEd">
@@ -3975,6 +4015,31 @@ verify
 </file>
         <url>http://downloads.sourceforge.net/project/blat/Blat Full Version/32 bit versions/Win2000 and newer/blat302_32.full.zip</url>
         <sha1>965584e5f22b0401bc92c8a9b3982a0df82c78d2</sha1>
+        <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.15.7, 2)"/>
+        <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1, 1]"/>
+        <dependency package="com.googlecode.windows-package-manager.CLU" versions="[1, 2)"/>
+    </version>
+    <version package="net.blat.Blat" name="3.0.7">
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b blat*') do set name=%%x
+move %name%\docs docs
+copy %name%\full\*.* .
+rmdir /s /q %name%
+if %errorlevel% neq 0 exit /b %errorlevel%
+
+if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
+set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.CLU" "--versions=[1, 2)"
+for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set clu=%%x
+"%clu%\clu" add-path --path "%CD%"
+verify
+</file>
+        <file path=".Npackd\Uninstall.bat">if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
+set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.CLU" "--versions=[1, 2)"
+for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set clu=%%x
+"%clu%\clu" remove-path --path "%CD%"
+verify
+</file>
+        <url>http://downloads.sourceforge.net/project/blat/Blat%20Full%20Version/32%20bit%20versions/Win2000%20and%20newer/blat307_32.full.zip</url>
+        <sha1>25224fbc4748fac1c0b28060a5f34e34e0ee38c0</sha1>
         <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.15.7, 2)"/>
         <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1, 1]"/>
         <dependency package="com.googlecode.windows-package-manager.CLU" versions="[1, 2)"/>
@@ -5173,6 +5238,14 @@ ren "%setup%" qt-creator-win-opensource.exe
         <url>http://get.qt.nokia.com/qtcreator/qt-creator-win-opensource-2.5.0.exe</url>
         <sha1>1022a135e2dce1d70fc0933f40076ff6530f6abc</sha1>
     </version>
+    <version package="com.nokia.QtCreatorInstaller" type="one-file" name="2.5.2">
+        <important-file title="Installer" path="qt-creator-win-opensource.exe"/>
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x
+ren "%setup%" qt-creator-win-opensource.exe
+</file>
+        <url>http://get.qt.nokia.com/qtcreator/qt-creator-win-opensource-2.5.2.exe</url>
+        <sha1>63ee89d11c3b7d823f6f8d7b3612bb09ac9ae1f8</sha1>
+    </version>
     <!-- Detected -->
 
     <version name="4.4" package="org.sourceforge.ultradefrag.UltraDefrag">
@@ -5557,6 +5630,14 @@ ren "%setup%" com.dvdvideosoft.FreeYouTubeToMP3ConverterInstaller.exe
 </file>
         <url>http://dl.dropbox.com/u/17046326/files/com.dvdvideosoft.FreeYouTubeToMP3ConverterInstaller-3.11.25.627.exe</url>
         <sha1>768ab00622964af093ae369c2098265984ca583c</sha1>
+    </version>
+    <version package="com.dvdvideosoft.FreeYouTubeToMP3ConverterInstaller" type="one-file" name="3.11.26.706">
+        <important-file title="Installer" path="com.dvdvideosoft.FreeYouTubeToMP3ConverterInstaller.exe"/>
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x
+ren "%setup%" com.dvdvideosoft.FreeYouTubeToMP3ConverterInstaller.exe
+</file>
+        <url>http://dl.dropbox.com/u/17046326/files/com.dvdvideosoft.FreeYouTubeToMP3ConverterInstaller-3.11.26.706.exe</url>
+        <sha1>474bbf68c7aac25a6adbfd471993f52584caea89</sha1>
     </version>
     <!-- Detected -->
 
@@ -6341,6 +6422,14 @@ ren "%setup%" TrueCryptInstaller.exe
 </file>
         <file path=".Npackd\Uninstall.bat">uninst.exe /S _?=%CD%</file>
         <url>http://download.piriform.com/ccsetup320.exe</url>
+    </version>
+    <version package="com.piriform.CCleaner" type="one-file" name="3.21.1767">
+        <important-file title="CCleaner" path="CCleaner.exe"/>
+        <file path=".Npackd\Install.bat">for /f %%x in ('dir /b *.exe') do set setup=%%x
+"%setup%" /S /D=%CD%
+</file>
+        <file path=".Npackd\Uninstall.bat">uninst.exe /S _?=%CD%</file>
+        <url>http://download.piriform.com/ccsetup321.exe</url>
     </version>
     <!-- Detected -->
 
@@ -7629,6 +7718,20 @@ del Q-Dir.ini
         <url>http://dl.dropbox.com/u/17046326/files/com.softwareok.QDir-5.25.zip</url>
         <sha1>954375113126d8a7753378778404c4c455798d1d</sha1>
     </version>
+    <version package="com.softwareok.QDir" name="5.30">
+        <important-file title="Q-Dir" path="Q-Dir.exe"/>
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b Q*') do set name=%%x
+cd "%name%"        
+for /f "delims=" %%a in ('dir /b') do (
+  move "%%a" ..
+)
+cd ..
+rmdir "%name%"
+del Q-Dir.ini
+</file>
+        <url>http://dl.dropbox.com/u/17046326/files/com.softwareok.QDir-5.30.zip</url>
+        <sha1>47624e46a346902c629da978f529356c6f30bf2d</sha1>
+    </version>
     <!-- Detected -->
     
     <version name="1.17" package="info.keepass.KeePassClassic">
@@ -7921,6 +8024,18 @@ call "%npackdih%\InstallMSI.bat" INSTALLDIR yes
         <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.15.7, 2)"/>
         <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1, 1]"/>
     </version>
+    <version package="com.mysql.MySQLCommunityServer" type="one-file" name="5.5.27">
+        <file path=".Npackd\Install.bat">if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
+set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.NpackdInstallerHelper" "--versions=[1.1, 2)"
+for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set npackdih=%%x
+call "%npackdih%\InstallMSI.bat" INSTALLDIR yes
+</file>
+        <url>http://downloads.sourceforge.net/project/npackd/com.mysql.MySQLCommunityServer-5.5.27.msi</url>
+        <sha1>a1bd8a795dff804b065ddced6953a28be386d52c</sha1>
+        <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.1, 2)"/>
+        <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.15.7, 2)"/>
+        <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1, 1]"/>
+    </version>
     <!-- Detected -->
 
     <version name="1.0.3.8" package="org.bluemars.ClipX" type="one-file">
@@ -8164,6 +8279,15 @@ rmdir /s /q "%name%"
         <url>http://downloads.sourceforge.net/project/mpc-hc/MPC%20HomeCinema%20-%20Win32/MPC-HC_v1.6.2.4902_x86/MPC-HC.1.6.2.4902.x86.zip</url>
         <sha1>58d5c56bc579a69cbac10d14dca5880df14e0866</sha1>
     </version>
+    <version package="net.sourceforge.mpc-hc.MediaPlayerClassicHomeCinema" name="1.6.3.5818">
+        <important-file title="Media Player Classic - Home Cinema" path="mpc-hc.exe"/>
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b MPC*') do set name=%%x
+xcopy "%name%\*" . /E /H
+rmdir /s /q "%name%"
+</file>
+        <url>http://downloads.sourceforge.net/project/mpc-hc/MPC%20HomeCinema%20-%20Win32/MPC-HC_v1.6.3.5818_x86/MPC-HC.1.6.3.5818.x86.zip</url>
+        <sha1>e2a2aa5abc197485a208444bb9a60e3dea4316e6</sha1>
+    </version>
     <!-- Detected -->
     
     <!--
@@ -8367,16 +8491,14 @@ call "%npackdih%\InstallMSI.bat" INSTALLLOCATION yes
     </version>
 
     <!-- uninstallation opens a web page in the default browser -->
-    <version name="9.3" 
-            package="com.advancedinstaller.AdvancedInstallerFreeware"
-            type="one-file">
+    <version package="com.advancedinstaller.AdvancedInstallerFreeware" type="one-file" name="9.4">
         <file path=".Npackd\Install.bat">if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
 set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.NpackdInstallerHelper" "--versions=[1.1, 2)"
 for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set npackdih=%%x
 call "%npackdih%\InstallMSI.bat" APPDIR yes
 </file>
-        <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.1, 2)"/>
         <url>http://www.advancedinstaller.com/downloads/advinst.msi</url>
+        <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.1, 2)"/>
         <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.15.7, 2)"/>
         <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1, 1]"/>
     </version>
@@ -8504,6 +8626,12 @@ call "%npackdih%\InstallMSI.bat" APPDIR yes
         <important-file title="CDBurnerXP" path="cdbxpp.exe"/>
         <url>http://download.cdburnerxp.se/portable/CDBurnerXP-4.4.1.3243.zip</url>
         <sha1>c14f7f2ad412a96df44de110ecfd49261d0093e0</sha1>
+        <dependency package="com.microsoft.DotNetRedistributable" versions="[2.0, 5)"/>
+    </version>
+    <version package="se.cdburnerxp.CDBurnerXP" name="4.4.1.3341">
+        <important-file title="CDBurnerXP" path="cdbxpp.exe"/>
+        <url>http://download.cdburnerxp.se/portable/CDBurnerXP-4.4.1.3341.zip</url>
+        <sha1>228c32d89088a8ebd576bd8025745ce5c740d014</sha1>
         <dependency package="com.microsoft.DotNetRedistributable" versions="[2.0, 5)"/>
     </version>
     <!-- Detected -->
@@ -9558,38 +9686,104 @@ if %err% neq 0 exit /b %err%
         <url>http://fpdownload.macromedia.com/get/shockwave/default/english/win95nt/latest/Shockwave_Installer_Slim.exe</url>
     </version>
 
+    <!-- http://www.adobe.com/products/flashplayer/distribution3.html -->
     <version name="11.3.300.262" package="com.adobe.FlashPlayer"
             type="one-file">
-        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x
-"%setup%" -install
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.msi') do set setup=%%x
+mkdir .Npackd
+move "%setup%" .Npackd
+set err=%errorlevel%
+if %err% neq 0 exit %err%
 
+rem MSIFASTINSTALL: http://msdn.microsoft.com/en-us/library/dd408005%28v=VS.85%29.aspx
+msiexec.exe /qn /norestart /Lime .Npackd\InstallMSI.log /i ".Npackd\%setup%" INSTALLDIR="%CD%" ALLUSERS=1 MSIFASTINSTALL=7
+set err=%errorlevel%
+type .Npackd\InstallMSI.log
+
+rem list of errors: http://msdn.microsoft.com/en-us/library/windows/desktop/aa368542(v=vs.85).aspx
+rem 3010=restart required
+if %err% equ 3010 goto cont
+if %err% neq 0 exit %err%
+
+:cont
 rem disable automatic updates
 rem http://kb2.adobe.com/cps/167/16701594.html
 if not exist "%ProgramFiles(x86)%" set f=%windir%\System32\Macromed\Flash\mms.cfg
 if exist "%ProgramFiles(x86)%" set f=%windir%\SysWOW64\Macromed\Flash\mms.cfg
 echo AutoUpdateDisable=1 > %f%
 </file>
-        <file path=".Npackd\Uninstall.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x
+        <file path=".Npackd\Uninstall.bat">move .Npackd\*.msi .
+for /f "delims=" %%x in ('dir /b *.msi') do set setup=%%x
+
+rem MSIFASTINSTALL: http://msdn.microsoft.com/en-us/library/dd408005%28v=VS.85%29.aspx
+msiexec.exe /qn /norestart /Lime .Npackd\UninstallMSI.log /x "%setup%" MSIFASTINSTALL=7
+set err=%errorlevel%
+type .Npackd\UninstallMSI.log
+rem 3010=restart required
+if %err% equ 3010 goto cont
+if %err% neq 0 exit %err%
+
+:cont
+if not exist "%ProgramFiles(x86)%" set d=%windir%\System32\Macromed\Flash
+if exist "%ProgramFiles(x86)%" set d=%windir%\SysWOW64\Macromed\Flash
+cd "%d%"
+for /f "delims=" %%x in ('dir /b FlashUtil32*Plugin.exe') do set setup=%%x
 "%setup%" -uninstall
 </file>
-        <url>http://fpdownload.macromedia.com/pub/flashplayer/current/licensing/win/install_flash_player_11_plugin_32bit.exe</url>
+        <url>http://download.macromedia.com/get/flashplayer/current/licensing/win/install_flash_player_11_plugin.msi</url>
+        <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.1, 2)"/>
+        <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.15.7, 2)"/>
+        <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1, 1]"/>
     </version>
     
+    <!-- http://www.adobe.com/products/flashplayer/distribution3.html -->
     <version name="11.3.300.262" package="com.adobe.FlashPlayerActiveX"
             type="one-file">
-        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x
-"%setup%" -install
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.msi') do set setup=%%x
+mkdir .Npackd
+move "%setup%" .Npackd
+set err=%errorlevel%
+if %err% neq 0 exit %err%
 
+rem MSIFASTINSTALL: http://msdn.microsoft.com/en-us/library/dd408005%28v=VS.85%29.aspx
+msiexec.exe /qn /norestart /Lime .Npackd\InstallMSI.log /i ".Npackd\%setup%" INSTALLDIR="%CD%" ALLUSERS=1 MSIFASTINSTALL=7
+set err=%errorlevel%
+type .Npackd\InstallMSI.log
+
+rem list of errors: http://msdn.microsoft.com/en-us/library/windows/desktop/aa368542(v=vs.85).aspx
+rem 3010=restart required
+if %err% equ 3010 goto cont
+if %err% neq 0 exit %err%
+
+:cont
 rem disable automatic updates
 rem http://kb2.adobe.com/cps/167/16701594.html
 if not exist "%ProgramFiles(x86)%" set f=%windir%\System32\Macromed\Flash\mms.cfg
 if exist "%ProgramFiles(x86)%" set f=%windir%\SysWOW64\Macromed\Flash\mms.cfg
 echo AutoUpdateDisable=1 > %f%
 </file>
-        <file path=".Npackd\Uninstall.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x
+        <file path=".Npackd\Uninstall.bat">move .Npackd\*.msi .
+for /f "delims=" %%x in ('dir /b *.msi') do set setup=%%x
+
+rem MSIFASTINSTALL: http://msdn.microsoft.com/en-us/library/dd408005%28v=VS.85%29.aspx
+msiexec.exe /qn /norestart /Lime .Npackd\UninstallMSI.log /x "%setup%" MSIFASTINSTALL=7
+set err=%errorlevel%
+type .Npackd\UninstallMSI.log
+rem 3010=restart required
+if %err% equ 3010 goto cont
+if %err% neq 0 exit %err%
+
+:cont
+if not exist "%ProgramFiles(x86)%" set d=%windir%\System32\Macromed\Flash
+if exist "%ProgramFiles(x86)%" set d=%windir%\SysWOW64\Macromed\Flash
+cd "%d%"
+for /f "delims=" %%x in ('dir /b FlashUtil32*ActiveX.exe') do set setup=%%x
 "%setup%" -uninstall
 </file>
-        <url>http://fpdownload.macromedia.com/pub/flashplayer/current/licensing/win/install_flash_player_11_active_x_32bit.exe</url>
+        <url>http://download.macromedia.com/get/flashplayer/current/licensing/win/install_flash_player_11_active_x.msi</url>
+        <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.1, 2)"/>
+        <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.15.7, 2)"/>
+        <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1, 1]"/>
     </version>
 
     <version name="1.1.1" package="com.videolan.VLCMediaPlayer"
@@ -11750,6 +11944,35 @@ if %err% neq 0 exit %err%
         <url>http://ardownload.adobe.com/pub/adobe/reader/win/10.x/10.1.3/en_US/AdbeRdr1013_en_US.exe</url>
         <sha1>29c4dcffb6d75f107ee54de72a24dfc81ea81fe1</sha1>
     </version>
+    <version package="com.adobe.AdobeReader" type="one-file" name="10.1.4">
+        <file path=".WPM\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x
+"%setup%" /sAll /rs /msi /Lime "%CD%\.WPM\MSI.log" ALLUSERS=1 INSTALLDIR="%CD%"
+set err=%errorlevel%
+type .WPM\MSI.log
+rem 3010=restart required
+if %err% equ 3010 exit /b 0
+if %err% neq 0 exit /b %err%
+
+rem disable automatic updates
+if "%ProgramFiles(x86)%" NEQ "" goto x64
+REG ADD "HKLM\SOFTWARE\Adobe\Adobe ARM\1.0\ARM" /f /v iCheckReader /t REG_DWORD /d 0
+if %errorlevel% neq 0 exit /b %errorlevel%
+goto :eof
+
+:x64
+REG ADD "HKLM\SOFTWARE\Wow6432Node\Adobe\Adobe ARM\1.0\ARM" /f /v iCheckReader /t REG_DWORD /d 0
+if %errorlevel% neq 0 exit /b %errorlevel%
+goto :eof
+</file>
+        <file path=".WPM\Uninstall.bat">msiexec.exe /qn /norestart /Lime .WPM\MSI.log /X{AC76BA86-7AD7-1033-7B44-AA1000000001}
+set err=%errorlevel%
+type .WPM\MSI.log
+if %err% neq 0 exit %err%
+</file>
+        <url>http://ardownload.adobe.com/pub/adobe/reader/win/10.x/10.1.4/en_US/AdbeRdr1014_en_US.exe</url>
+        <sha1>fe6808d5d11e94dc5581f33ed386ce552f0c84d6</sha1>
+    </version>
+    <!-- Detected -->
 
     <version name="2.7.1" package="net.sourceforge.pidgin.Pidgin"
             type="one-file">
@@ -12052,7 +12275,7 @@ if %err% neq 0 exit %err%
         https://www.google.com/intl/en/chrome/business/browser/#utm_campaign=c4b&utm_medium=link&utm_source=apps
         Different versions are distributed from the same URL.
     -->    
-    <version name="20.0.1132.57" package="com.google.Chrome" type="one-file">
+    <version name="21.0.1180.79" package="com.google.Chrome" type="one-file">
         <file path=".Npackd\AddProperty.vbs">Option Explicit
 
 Const MSI_FILE = "GoogleChromeStandaloneEnterprise.msi"
@@ -12358,7 +12581,21 @@ for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x
         <url>http://npackd.googlecode.com/files/org.mozilla.Firefox-13.0.1.exe</url>
         <sha1>268a067cae2197be571ee103fcce34de01478afb</sha1>
     </version>
-    <!-- Detected by NpackdCL -->
+    <version package="org.mozilla.Firefox" type="one-file" name="14.0.1">
+        <important-file title="Firefox" path="firefox.exe"/>
+        <file path=".WPM\Install.bat">echo [Install] > .WPM\FF.ini
+echo InstallDirectoryPath=%CD% >> .WPM\FF.ini
+echo QuickLaunchShortcut=false >> .WPM\FF.ini
+echo DesktopShortcut=false >> .WPM\FF.ini
+for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x
+"%setup%" /INI="%CD%\.WPM\FF.ini"
+</file>
+        <file path=".WPM\Uninstall.bat">uninstall\helper.exe /S
+</file>
+        <url>http://downloads.sourceforge.net/project/npackd/org.mozilla.Firefox-14.0.1.exe</url>
+        <sha1>27c54f9ce5570c1c2b141c5b174ead247d06524b</sha1>
+    </version>
+    <!-- Detected -->
 
     <version name="1.33" package="org.gexperts.GExpertsDelphi7Installer"
             type="one-file">
@@ -13400,6 +13637,36 @@ verify
         <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1, 1]"/>
         <dependency package="com.googlecode.windows-package-manager.CLU" versions="[1, 2)"/>
     </version>
+    <version package="com.selenic.mercurial.Mercurial" type="one-file" name="2.3">
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x
+"%setup%" /SP- /VERYSILENT /SUPPRESSMSGBOXES /NOCANCEL /NORESTART /DIR="%CD%" /SAVEINF="%CD%\.Npackd\InnoSetupInfo.ini" /LOG="%CD%\.Npackd\InnoSetupInstall.log"
+set err=%errorlevel%
+type .Npackd\InnoSetupInstall.log
+if %err% neq 0 exit %err%
+
+if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
+set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.CLU" "--versions=[1, 2)"
+for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set clu=%%x
+"%clu%\clu" add-path --path "%CD%"
+verify
+</file>
+        <file path=".Npackd\Uninstall.bat">unins000.exe /VERYSILENT /SUPPRESSMSGBOXES /NORESTART /LOG="%CD%\.Npackd\InnoSetupUninstall.log"
+set err=%errorlevel%
+type .Npackd\InnoSetupUninstall.log
+if %err% neq 0 exit %err%
+
+if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
+set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.CLU" "--versions=[1, 2)"
+for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set clu=%%x
+"%clu%\clu" remove-path --path "%CD%"
+verify
+</file>
+        <url>http://mercurial.selenic.com/release/windows/Mercurial-2.3.exe</url>
+        <sha1>c2193b0a0e526f649527d569069acde44f3a472b</sha1>
+        <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.15.7, 2)"/>
+        <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1, 1]"/>
+        <dependency package="com.googlecode.windows-package-manager.CLU" versions="[1, 2)"/>
+    </version>
     <!-- Detected -->
     
     <version name="6.5.1" package="org.netbeans.NetBeansMLJava">
@@ -13707,6 +13974,19 @@ call "%npackdih%\InstallMSI.bat" TARGETDIR yes
         <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.1, 2)"/>
         <url>http://downloads.sourceforge.net/project/npackd/org.libreoffice.LibreOffice-3.5.5.msi</url>
         <sha1>5bf6bad4f10ad621f4588b9bab5a5ba2a6208322</sha1>
+        <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.15.7, 2)"/>
+        <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1, 1]"/>
+        <dependency package="com.oracle.JRE" versions="[1.6, 2)"/>
+    </version>
+    <version package="org.libreoffice.LibreOffice" type="one-file" name="3.6">
+        <file path=".Npackd\Install.bat">if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
+set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.NpackdInstallerHelper" "--versions=[1.1, 2)"
+for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set npackdih=%%x
+call "%npackdih%\InstallMSI.bat" TARGETDIR yes
+</file>
+        <url>http://downloads.sourceforge.net/project/npackd/org.libreoffice.LibreOffice-3.6.msi</url>
+        <sha1>da9bd1f03a17cd15d5fdf4713f4490ea65fcef4b</sha1>
+        <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.1, 2)"/>
         <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.15.7, 2)"/>
         <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1, 1]"/>
         <dependency package="com.oracle.JRE" versions="[1.6, 2)"/>
@@ -16245,6 +16525,15 @@ verify
         <url>https://miranda.googlecode.com/files/miranda-im-v0.9.52-unicode.exe</url>
         <sha1>f96146b3a9ecc59f665288d8b8f1de6fcf026b0e</sha1>
     </version>
+    <version package="org.miranda-im.MirandaIM" type="one-file" name="0.10">
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x
+"%setup%" /S /D=%CD%
+</file>
+        <file path=".Npackd\Uninstall.bat">Uninstall.exe /S _?=%CD%
+</file>
+        <url>https://miranda.googlecode.com/files/miranda-im-v0.10.0-unicode.exe</url>
+        <sha1>297469b42cf7d0d0a3ec87da8c830849c5016ba6</sha1>
+    </version>
     <!-- Detected -->
 
     <version name="2009.2.2" package="com.freecommander.FreeCommander">
@@ -16372,6 +16661,24 @@ if %err% neq 0 exit %err%
 </file>
         <url>http://ftp.osuosl.org/pub/pculture.org/Miro/win/Miro-5.0.1.exe</url>
         <sha1>aae66094910ce98f1c3d54fb2ac4ddeb8204d294</sha1>
+    </version>
+    <version package="com.getmiro.Miro" type="one-file" name="5.0.2">
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x
+"%setup%" /S /D=%CD%
+</file>
+        <file path=".Npackd\Uninstall.bat">Uninstall.exe /S _?=%CD%
+</file>
+        <url>http://ftp.osuosl.org/pub/pculture.org/Miro/win/Miro-5.0.2.exe</url>
+        <sha1>134d0e7180dec02c3a11d1ada1747d4a5a0c8da4</sha1>
+    </version>
+    <version package="de.mp3tag.MP3Tag" type="one-file" name="2.52">
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x
+"%setup%" /S /D=%CD%
+</file>
+        <file path=".Npackd\Uninstall.bat">Mp3tagUninstall.exe /S _?=%CD%
+</file>
+        <url>http://dl.dropbox.com/u/17046326/files/de.mp3tag.MP3Tag-2.52.exe</url>
+        <sha1>8d4bc35d4a878cdde5c82a8d0fa0c974172ed91a</sha1>
     </version>
     <!-- Detected -->
     
@@ -16627,6 +16934,19 @@ call "%npackdih%\InstallMSI.bat" TARGETDIR yes
 </file>
         <url>http://tortoisegit.googlecode.com/files/TortoiseGit-1.7.11.3-32bit.msi</url>
         <sha1>abba42f0e89b6dd60f8d82f21b3ebd2826b7c78e</sha1>
+        <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.1, 2)"/>
+        <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.15.7, 2)"/>
+        <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1, 1]"/>
+        <dependency package="com.googlecode.msysgit.MSysGit" versions="[1.7.6.2011.7.8, 1.8)"/>
+    </version>
+    <version package="com.googlecode.tortoisegit.TortoiseGit" type="one-file" name="1.7.12">
+        <file path=".Npackd\Install.bat">if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
+set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.NpackdInstallerHelper" "--versions=[1.1, 2)"
+for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set npackdih=%%x
+call "%npackdih%\InstallMSI.bat" TARGETDIR yes
+</file>
+        <url>http://tortoisegit.googlecode.com/files/TortoiseGit-1.7.12.0-32bit.msi</url>
+        <sha1>be44330147b1e7892a5bdea4dadf3ceeec283ed0</sha1>
         <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.1, 2)"/>
         <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.15.7, 2)"/>
         <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1, 1]"/>
@@ -17644,6 +17964,34 @@ verify
 </file>
         <url>http://www.cmake.org/files/v2.8/cmake-2.8.8-win32-x86.zip</url>
         <sha1>3e93868b4be00e4cee1787c8d0479b2bf3807602</sha1>
+        <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.15.7, 2)"/>
+        <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1, 1]"/>
+        <dependency package="com.googlecode.windows-package-manager.CLU" versions="[1, 2)"/>
+    </version>
+    <version package="org.cmake.CMake" name="2.8.9">
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b cmake*') do set name=%%x
+cd "%name%"        
+for /f "delims=" %%a in ('dir /b') do (
+  move "%%a" ..
+)
+cd ..
+rmdir "%name%"
+if %errorlevel% neq 0 exit /b %errorlevel%
+
+if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
+set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.CLU" "--versions=[1, 2)"
+for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set clu=%%x
+"%clu%\clu" add-path --path "%CD%\bin"
+verify
+</file>
+        <file path=".Npackd\Uninstall.bat">if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
+set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.CLU" "--versions=[1, 2)"
+for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set clu=%%x
+"%clu%\clu" remove-path --path "%CD%\bin"
+verify
+</file>
+        <url>http://www.cmake.org/files/v2.8/cmake-2.8.9-win32-x86.zip</url>
+        <sha1>c17521cf958d7503cee5bc1f6885aba02d3468da</sha1>
         <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.15.7, 2)"/>
         <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1, 1]"/>
         <dependency package="com.googlecode.windows-package-manager.CLU" versions="[1, 2)"/>
@@ -19168,6 +19516,122 @@ verify
 </file>
         <url>http://nodejs.org/dist/v0.8.2/node-v0.8.2-x86.msi</url>
         <sha1>6571b7aad17ed4860d9ecb7946098dcd569e3eb0</sha1>
+        <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.15.7, 2)"/>
+        <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1, 1]"/>
+        <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1, 1]"/>
+    </version>
+    <version package="org.nodejs.NodeJS" type="one-file" name="0.8.6">
+        <file path=".Npackd\AddProperty.vbs">Option Explicit
+
+Const MSI_FILE = "node.msi"
+
+Dim installer, database, view
+
+Set installer = CreateObject("WindowsInstaller.Installer")
+Set database = installer.OpenDatabase(MSI_FILE, 1)
+
+'Set view = database.OpenView("INSERT INTO Property (Property, Value) VALUES ('TARGETDIR', 'C:\')")
+'view.Execute
+'Set view = database.OpenView("DELETE FROM Directory WHERE Directory='TARGETDIR'")
+'view.Execute
+Set view = database.OpenView("UPDATE Directory SET Directory_Parent='TARGETDIR', DefaultDir='.' WHERE Directory='NodeRoot'")
+view.Execute
+database.Commit
+
+Set database = Nothing
+Set installer = Nothing
+Set view = Nothing
+</file>
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.msi') do set setup=%%x
+ren "%setup%" node.msi
+ 
+.Npackd\AddProperty.vbs
+if %errorlevel% neq 0 exit %errorlevel%
+
+if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
+set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.NpackdInstallerHelper" "--versions=[1, 1]"
+for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set npackdih=%%x
+call "%npackdih%\InstallMSI.bat" TARGETDIR
+if %errorlevel% neq 0 exit %errorlevel%
+
+if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
+set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.CLU" "--versions=[1, 2)"
+for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set clu=%%x
+"%clu%\clu" add-path --path "%CD%"
+verify
+</file>
+        <file path=".Npackd\Uninstall.bat">if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
+set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.NpackdInstallerHelper" "--versions=[1, 1]"
+for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set npackdih=%%x
+call "%npackdih%\UninstallMSI.bat"
+if %errorlevel% neq 0 exit %errorlevel%
+
+if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
+set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.CLU" "--versions=[1, 2)"
+for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set clu=%%x
+"%clu%\clu" remove-path --path "%CD%"
+verify
+</file>
+        <url>http://nodejs.org/dist/v0.8.6/node-v0.8.6-x86.msi</url>
+        <sha1>0a2aca229c9cb2ec4a4a82ff88de7ea0868d1890</sha1>
+        <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.15.7, 2)"/>
+        <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1, 1]"/>
+        <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1, 1]"/>
+    </version>
+    <version package="org.nodejs.NodeJS" type="one-file" name="0.8.7">
+        <file path=".Npackd\AddProperty.vbs">Option Explicit
+
+Const MSI_FILE = "node.msi"
+
+Dim installer, database, view
+
+Set installer = CreateObject("WindowsInstaller.Installer")
+Set database = installer.OpenDatabase(MSI_FILE, 1)
+
+'Set view = database.OpenView("INSERT INTO Property (Property, Value) VALUES ('TARGETDIR', 'C:\')")
+'view.Execute
+'Set view = database.OpenView("DELETE FROM Directory WHERE Directory='TARGETDIR'")
+'view.Execute
+Set view = database.OpenView("UPDATE Directory SET Directory_Parent='TARGETDIR', DefaultDir='.' WHERE Directory='NodeRoot'")
+view.Execute
+database.Commit
+
+Set database = Nothing
+Set installer = Nothing
+Set view = Nothing
+</file>
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.msi') do set setup=%%x
+ren "%setup%" node.msi
+ 
+.Npackd\AddProperty.vbs
+if %errorlevel% neq 0 exit %errorlevel%
+
+if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
+set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.NpackdInstallerHelper" "--versions=[1, 1]"
+for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set npackdih=%%x
+call "%npackdih%\InstallMSI.bat" TARGETDIR
+if %errorlevel% neq 0 exit %errorlevel%
+
+if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
+set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.CLU" "--versions=[1, 2)"
+for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set clu=%%x
+"%clu%\clu" add-path --path "%CD%"
+verify
+</file>
+        <file path=".Npackd\Uninstall.bat">if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
+set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.NpackdInstallerHelper" "--versions=[1, 1]"
+for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set npackdih=%%x
+call "%npackdih%\UninstallMSI.bat"
+if %errorlevel% neq 0 exit %errorlevel%
+
+if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
+set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.CLU" "--versions=[1, 2)"
+for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set clu=%%x
+"%clu%\clu" remove-path --path "%CD%"
+verify
+</file>
+        <url>http://nodejs.org/dist/v0.8.7/node-v0.8.7-x86.msi</url>
+        <sha1>19f90a0cfa41c7eaf683393d46d06aecc2f99f84</sha1>
         <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.15.7, 2)"/>
         <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1, 1]"/>
         <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1, 1]"/>
