@@ -5690,6 +5690,19 @@ if %err% neq 0 exit /b %err%
         <sha1>58da3d74db353aad03588cbb5cea8234166d8b99</sha1>
         <detect-msi>{0A0CADCF-78DA-33C4-A350-CD51849B9702}</detect-msi>
     </version>
+    <version name="4.5.50709.17929" package="com.microsoft.DotNetRedistributable"
+            type="one-file">
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x
+"%setup%" /norestart /q</file>
+        <file path=".Npackd\Uninstall.bat">msiexec.exe /qn /norestart /Lime .Npackd\MSI.log /x{1ad147d0-be0e-3d6c-ac11-64f6dc4163f1}
+set err=%errorlevel%
+type .Npackd\MSI.log
+if %err% neq 0 exit /b %err%
+</file>
+        <url>http://download.microsoft.com/download/b/a/4/ba4a7e71-2906-4b2d-a0e1-80cf16844f5f/dotnetfx45_full_x86_x64.exe</url>
+        <sha1>CD57380514DC157DF75A09D3E54C96D1DF3DF51A</sha1>
+        <detect-msi>{1ad147d0-be0e-3d6c-ac11-64f6dc4163f1}</detect-msi>
+    </version>
 
     <version name="0.9.28.2" package="org.freepascal.lazarus.Lazarus"
             type="one-file">
