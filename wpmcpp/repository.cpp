@@ -712,8 +712,7 @@ void Repository::detectControlPanelPrograms()
         if (pv->detectionInfo.indexOf("control-panel:") == 0 &&
                 pv->installed() &&
                 !foundDetectionInfos.contains(pv->detectionInfo)) {
-            // qDebug() << "uninstall " << pv->package << " " <<
-            //         pv->version.getVersionString();
+            //qDebug() << "control-panel package removed: " << pv->toString();
             pv->setPath("");
         }
     }
@@ -826,6 +825,8 @@ void Repository::detectOneControlPanelProgram(const QString& registryPath,
         this->package2versions.insert(package, pv);
     }
 
+    foundDetectionInfos->append(pv->detectionInfo);
+
     Package* p = this->findPackage(package);
     if (!p) {
         p = new Package(package, package);
@@ -930,13 +931,13 @@ void Repository::detectOneControlPanelProgram(const QString& registryPath,
 
                     stream << txt;
                     file.close();
+
+                    // qDebug() << "setting path for " << pv->toString() << " to" << dir;
                     pv->setPath(dir);
                 }
             }
             packagePaths->append(dir);
         }
-
-        foundDetectionInfos->append(pv->detectionInfo);
     }
 }
 
