@@ -1471,13 +1471,48 @@ void UpdateSearcher::findUpdates(Job* job)
             "http://downloads.sourceforge.net/project/areca/areca-stable/areca-${{actualVersion}}/areca-${{actualVersion}}-windows-jre64.zip"));
     dis.append(DiscoveryInfo("org.boost.Boost",
             "http://sourceforge.net/api/file/index/project-id/7586/mtime/desc/limit/120/rss",
-            "boost/([\\d\\.]+)/",
+            "/boost-binaries/([\\d\\.]+)/",
             "http://downloads.sourceforge.net/project/boost/boost/${{actualVersion}}/boost_${{actualVersionWithUnderscores}}.zip"));
     dis.append(DiscoveryInfo("org.mozilla.Firefox",
             "http://www.mozilla.org/en-US/firefox/all.html",
             "<td class=\"curVersion\" >([\\d\\.]+)</td>",
             "http://download.mozilla.org/?product=firefox-${{actualVersion}}&os=win&lang=en-US",
             DT_SOURCEFORGE));
+    dis.append(DiscoveryInfo("net.sourceforge.audacity.Audacity",
+            "http://audacity.sourceforge.net/?lang=en",
+            "<h3>Download Audacity ([\\d\\.]+)</h3>",
+            "http://audacity.googlecode.com/files/audacity-win-${{actualVersion}}.exe"));
+    dis.append(DiscoveryInfo("com.clamwin.ClamWin",
+            "http://sourceforge.net/api/file/index/project-id/105508/mtime/desc/limit/20/rss",
+            "\\[/clamwin/[\\d\\.]+/clamwin-([\\d\\.]+)-setup.exe\\]",
+            "http://downloads.sourceforge.net/project/clamwin/clamwin/${{actualVersion}}/clamwin-${{actualVersion}}-setup.exe"));
+    dis.append(DiscoveryInfo("se.haxx.curl.CURL",
+            "http://curl.haxx.se/",
+            ">The most recent stable version of curl is version ([\\d\\.]+)<",
+            "http://curl.haxx.se/gknw.net/${{actualVersion}}/dist-w32/curl-${{actualVersion}}-rtmp-ssh2-ssl-sspi-zlib-idn-static-bin-w32.zip",
+            DT_SOURCEFORGE));
+    dis.append(DiscoveryInfo("se.haxx.curl.CURL64",
+            "http://curl.haxx.se/",
+            ">The most recent stable version of curl is version ([\\d\\.]+)<",
+            "http://curl.haxx.se/gknw.net/${{actualVersion}}/dist-w64/curl-${{actualVersion}}-rtmp-ssh2-ssl-sspi-zlib-winidn-static-bin-w64.7z",
+            DT_SOURCEFORGE));
+    dis.append(DiscoveryInfo("com.ghostscript.GhostScriptInstaller",
+            "http://www.ghostscript.com/download/",
+            ">Ghostscript ([\\d\\.]+)<",
+            "http://downloads.ghostscript.com/public/gs${{actualVersionWithoutDots}}w32.exe"));
+    dis.append(DiscoveryInfo("com.ghostscript.GhostScript64Installer",
+            "http://www.ghostscript.com/download/",
+            ">Ghostscript ([\\d\\.]+)<",
+            "http://downloads.ghostscript.com/public/gs${{actualVersionWithoutDots}}w64.exe"));
+    dis.append(DiscoveryInfo("net.java.dev.glassfish.GlassFishWebProfile",
+            "http://glassfish.java.net/",
+            "Open Source Edition ([\\d\\.]+)",
+            "http://download.java.net/glassfish/${{actualVersion}}/release/glassfish-${{actualVersion}}-web-ml.zip"));
+    dis.append(DiscoveryInfo("org.gnucash.GNUCash",
+            "http://sourceforge.net/api/file/index/project-id/192/mtime/desc/limit/20/rss",
+            "\\[/gnucash \\(stable\\)/[\\d\\.]+/gnucash-([\\d\\.]+)-setup.exe\\]",
+            "https://downloads.sourceforge.net/project/gnucash/gnucash%20%28stable%29/${{actualVersion}}/gnucash-${{actualVersion}}-setup.exe"));
+
 
     /*
     ${{version}}

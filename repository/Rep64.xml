@@ -1575,6 +1575,7 @@ verify
         <dependency package="com.googlecode.windows-package-manager.CLU" versions="[1, 2)"/>
         <url>http://downloads.sourceforge.net/project/sevenzip/7-Zip/9.20/7z920-x64.msi?ts=1300625243</url>
         <sha1>4173FEA2AF9A595FA0BE1EF8251F412229687BE1</sha1>
+        <detect-msi>{23170f69-40c1-2702-0920-000001000000}</detect-msi>
     </version>
 
     <version name="5.12.3.1204" package="com.activestate.ActivePerl64"
@@ -3494,7 +3495,16 @@ ren "%setup%" gsw64.exe
         <url>http://downloads.ghostscript.com/public/gs905w64.exe</url>
         <sha1>f620bb5779b150792b6c1212f21a0eb79e172b73</sha1>
     </version>
-    
+    <version package="com.ghostscript.GhostScript64Installer" type="one-file" name="9.6">
+        <important-file title="Installer" path="gsw64.exe"/>
+        <file path=".Npackd\Install.bat">for /f %%x in ('dir /b *.exe') do set setup=%%x
+ren "%setup%" gsw64.exe
+</file>
+        <url>http://downloads.ghostscript.com/public/gs906w64.exe</url>
+        <sha1>45d8579bd20b5ff8470b93849b291b8d7a395744</sha1>
+    </version>
+    <!-- Detected -->
+   
     <version name="4.71.1015" package="com.microsoft.Mathematics64"
             type="one-file">
         <file path=".Npackd\Install.bat">for /f %%x in ('dir /b *.exe') do set setup=%%x
@@ -3968,6 +3978,22 @@ if %err% neq 0 exit /b %err%
         <dependency package="com.microsoft.VisualCPPRedistributable64"
                 versions="[10, 11)"/>
     </version>
+    <version package="se.haxx.curl.CURL64" type="one-file" name="7.27">
+        <file path=".Npackd\Install.bat">if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
+set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=org.7-zip.SevenZIPA" "--versions=[9.20, 9.20]"
+for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set sevenzipa=%%x
+for /f %%x in ('dir /b *.7z') do set setup=%%x
+"%sevenzipa%\7za.exe" x "%setup%"
+del "%setup%"
+</file>
+        <url>http://downloads.sourceforge.net/project/npackd/se.haxx.curl.CURL64-7.27.7z</url>
+        <sha1>01e5728ce72a08f28dcb7b9f942ff203048939b5</sha1>
+        <dependency package="com.microsoft.VisualCPPRedistributable64" versions="[10, 11)"/>
+        <dependency package="org.7-zip.SevenZIPA" versions="[9.20, 9.20]"/>
+        <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.15.7, 2)"/>
+        <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1, 1]"/>
+    </version>
+    <!-- Detected -->
 
     <!-- old versions are regularly deleted -->
     <version name="2.9.4407"
