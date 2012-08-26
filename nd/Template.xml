@@ -1303,4 +1303,133 @@ setup.exe /S /D=%CD%
         <sha1>35f699550effdbbf5ea75648b3a33843f3e8be4e</sha1>
         <dependency package="com.microsoft.DotNetRedistributable" versions="[2, 3)"/>
     </version>
+
+    <version name="1" package="net.sourceforge.audacity.Audacity" 
+            type="one-file">
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x
+"%setup%" /SP- /VERYSILENT /SUPPRESSMSGBOXES /NOCANCEL /NORESTART /DIR="%CD%" /SAVEINF="%CD%\.Npackd\InnoSetupInfo.ini" /LOG="%CD%\.Npackd\InnoSetupInstall.log"
+set err=%errorlevel%
+type .Npackd\InnoSetupInstall.log
+if %err% neq 0 exit %err%
+</file>
+        <file path=".Npackd\Uninstall.bat">unins000.exe /VERYSILENT /SUPPRESSMSGBOXES /NORESTART /LOG="%CD%\.Npackd\InnoSetupUninstall.log"
+set err=%errorlevel%
+type .Npackd\InnoSetupUninstall.log
+if %err% neq 0 exit %err%
+</file>
+        <url>http://audacity.googlecode.com/files/audacity-win-2.0.exe</url>
+        <sha1>c7ed8695effa9db52af0e34c5abe7e8da7909b4f</sha1>
+        <dependency package="ar.com.buanzo.lame.LameForAudacity" versions="[3.98.3, 3.98.3]"/>
+    </version>
+
+    <version name="1" package="com.clamwin.ClamWin" type="one-file">
+        <file path=".Npackd\Install.bat">for /f %%x in ('dir /b *setup.exe') do set setup=%%x
+"%setup%" /SP- /VERYSILENT /SUPPRESSMSGBOXES /NOCANCEL /NORESTART /DIR="%CD%\ClamWin" /SAVEINF="%CD%\.Npackd\InnoSetupInfo.ini" /LOG="%CD%\.Npackd\InnoSetupInstall.log" /TASKS=
+if %errorlevel% neq 0 exit %errorlevel%
+type .Npackd\InnoSetupInstall.log
+taskkill /f /im ClamTray.exe
+</file>
+        <file path=".Npackd\Uninstall.bat">set key=com.clamwin.ClamWin-%NPACKD_VERSION%
+set trash=..\.Trash\%key%_%random%
+mkdir %trash%
+move ClamWin\bin\ExpShell*.dll %trash%
+ClamWin\unins000.exe /VERYSILENT /SUPPRESSMSGBOXES /NORESTART /LOG="%CD%\.Npackd\InnoSetupUninstall.log"
+if %errorlevel% neq 0 exit %errorlevel%
+type .Npackd\InnoSetupUninstall.log
+</file>
+        <url>http://downloads.sourceforge.net/project/clamwin/clamwin/0.97.4/clamwin-0.97.4-setup.exe?ts=1334489891</url>
+        <sha1>732bf294e310d2de8fe59bfdaf9a40544e11e4f9</sha1>
+    </version>
+
+    <version name="1" package="se.haxx.curl.CURL">
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b curl*') do set name=%%x
+cd "%name%"        
+for /f "delims=" %%a in ('dir /b') do (
+  move "%%a" ..
+)
+cd ..
+rmdir "%name%"
+
+if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
+set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.CLU" "--versions=[1, 2)"
+for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set clu=%%x
+"%clu%\clu" add-path --path "%CD%"
+verify
+</file>
+        <file path=".Npackd\Uninstall.bat">if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
+set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.CLU" "--versions=[1, 2)"
+for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set clu=%%x
+"%clu%\clu" remove-path --path "%CD%"
+verify
+</file>
+        <url>http://downloads.sourceforge.net/project/npackd/se.haxx.curl.CURL-7.26.zip</url>
+        <sha1>67d85504d01e661e4f2ff92a7d99fe2a16ee921f</sha1>
+        <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.15.7, 2)"/>
+        <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1, 1]"/>
+        <dependency package="com.googlecode.windows-package-manager.CLU" versions="[1, 2)"/>
+    </version>
+
+    <version name="1" package="se.haxx.curl.CURL64" type="one-file">
+        <file path=".Npackd\Install.bat">if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
+set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=org.7-zip.SevenZIPA" "--versions=[9.20, 9.20]"
+for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set sevenzipa=%%x
+for /f %%x in ('dir /b *.7z') do set setup=%%x
+"%sevenzipa%\7za.exe" x "%setup%"
+del "%setup%"
+</file>
+        <url>http://curl.haxx.se/download/curl-7.23.1-win64-ssl-sspi.7z</url>
+        <sha1>2ff5b66cf325070524127354f980ffd28174763e</sha1>
+        <dependency package="com.microsoft.VisualCPPRedistributable64"
+                versions="[10, 11)"/>
+        <dependency package="org.7-zip.SevenZIPA" versions="[9.20, 9.20]"/>
+        <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.15.7, 2)"/>
+        <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1, 1]"/>
+    </version>
+
+    <version name="1" package="com.ghostscript.GhostScriptInstaller"
+            type="one-file">
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x
+ren "%setup%" gs.exe
+</file>
+        <important-file path="gs.exe" title="Installer"/>
+        <url>http://downloads.ghostscript.com/public/gs905w32.exe</url>
+        <sha1>8c954a652d5ad85047f7711992a2fcb400a1de80</sha1>
+    </version>
+
+    <version name="1" package="com.ghostscript.GhostScript64Installer"
+            type="one-file">
+        <file path=".Npackd\Install.bat">for /f %%x in ('dir /b *.exe') do set setup=%%x
+ren "%setup%" gsw64.exe
+</file>
+        <important-file path="gsw64.exe" title="Installer"/>
+        <url>http://downloads.ghostscript.com/public/gs905w64.exe</url>
+        <sha1>f620bb5779b150792b6c1212f21a0eb79e172b73</sha1>
+    </version>
+
+    <version name="1" package="net.java.dev.glassfish.GlassFishWebProfile">
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b glassfish*') do set name=%%x
+xcopy "%name%\*" . /E /H
+rmdir /s /q "%name%"
+</file>
+        <important-file path="bin\asadmin.bat" title="ASAdmin"/>
+        <dependency package="com.oracle.JDK" versions="[1.6, 2)"/>
+        <url>http://download.java.net/glassfish/3.1.2/release/glassfish-3.1.2-web-ml.zip</url>
+        <sha1>2fd25227ce4bb1e7e0d66d7c28f86ccb5648b70b</sha1>
+    </version>
+
+    <version name="1" package="org.gnucash.GNUCash" type="one-file">
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x
+"%setup%" /SP- /VERYSILENT /SUPPRESSMSGBOXES /NOCANCEL /NORESTART /DIR="%CD%" /SAVEINF="%CD%\.Npackd\InnoSetupInfo.ini" /LOG="%CD%\.Npackd\InnoSetupInstall.log"
+set err=%errorlevel%
+type .Npackd\InnoSetupInstall.log
+if %err% neq 0 exit %err%
+</file>
+        <file path=".Npackd\Uninstall.bat">uninstall\gnucash\unins000.exe /VERYSILENT /SUPPRESSMSGBOXES /NORESTART /LOG="%CD%\.Npackd\InnoSetupUninstall.log"
+set err=%errorlevel%
+type .Npackd\InnoSetupUninstall.log
+if %err% neq 0 exit %err%
+</file>
+        <url>https://downloads.sourceforge.net/project/gnucash/gnucash%20%28stable%29/2.4.10/gnucash-2.4.10-1-setup.exe?ts=1331978635</url>
+        <sha1>9248aa8e67529b39458449c3252173df46bb7598</sha1>
+    </version>
 </root>

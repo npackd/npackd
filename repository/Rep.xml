@@ -4265,6 +4265,23 @@ if %err% neq 0 exit %err%
         <sha1>e01d7fa8231efd6c96c734d3579de90269176fc7</sha1>
         <dependency package="com.microsoft.DotNetRedistributable" versions="[4, 5)"/>
     </version>
+    <version name="3.1.1.4" package="com.freemake.FreeVideoConverter"
+            type="one-file">
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x
+"%setup%" /SP- /VERYSILENT /SUPPRESSMSGBOXES /NOCANCEL /NORESTART /DIR="%CD%" /SAVEINF="%CD%\.Npackd\InnoSetupInfo.ini" /LOG="%CD%\.Npackd\InnoSetupInstall.log"
+set err=%errorlevel%
+type .Npackd\InnoSetupInstall.log
+if %err% neq 0 exit %err%
+</file>
+        <file path=".Npackd\Uninstall.bat">"Freemake Video Converter\Uninstall\unins000.exe" /VERYSILENT /SUPPRESSMSGBOXES /NORESTART /LOG="%CD%\.Npackd\InnoSetupUninstall.log"
+set err=%errorlevel%
+type .Npackd\InnoSetupUninstall.log
+if %err% neq 0 exit %err%
+</file>
+        <url>http://download.freemake.com/VideoConverter/Online/3.1.1.4/FreemakeVideoConverterSetup.exe</url>
+        <sha1>284CF94691C920F93E059E8C55A5420247F80F4B</sha1>
+        <dependency package="com.microsoft.DotNetRedistributable" versions="[4, 5)"/>
+    </version>
 
     <version name="2.4" package="org.apache.jakarta.JMeter">
         <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b jakarta*') do set name=%%x
@@ -4727,6 +4744,7 @@ if %err% neq 0 exit %err%
 </file>
         <url>http://archive.apache.org/dist/httpd/binaries/win32/httpd-2.2.19-win32-x86-openssl-0.9.8r.msi</url>
         <sha1>B20FB19CDCF9F14D289C20AF3BE901299E801260</sha1>
+        <detect-msi>{85262a06-2d8c-4bc1-b6ed-5a705d09cffc}</detect-msi>
     </version>
     <version name="2.2.20" package="org.apache.httpd.HTTPServer"
             type="one-file">
@@ -5639,6 +5657,14 @@ ren "%setup%" com.dvdvideosoft.FreeYouTubeToMP3ConverterInstaller.exe
         <url>http://dl.dropbox.com/u/17046326/files/com.dvdvideosoft.FreeYouTubeToMP3ConverterInstaller-3.11.26.706.exe</url>
         <sha1>474bbf68c7aac25a6adbfd471993f52584caea89</sha1>
     </version>
+    <version package="com.dvdvideosoft.FreeYouTubeToMP3ConverterInstaller" type="one-file" name="3.11.29.824">
+        <important-file title="Installer" path="com.dvdvideosoft.FreeYouTubeToMP3ConverterInstaller.exe"/>
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x
+ren "%setup%" com.dvdvideosoft.FreeYouTubeToMP3ConverterInstaller.exe
+</file>
+        <url>http://dl.dropbox.com/u/17046326/files/com.dvdvideosoft.FreeYouTubeToMP3ConverterInstaller-3.11.29.824.exe</url>
+        <sha1>17cef2d1558f60e6f5e2d2027046ff02c2658627</sha1>
+    </version>
     <!-- Detected -->
 
     <version name="2.2" package="com.microsoft.LogParser"
@@ -6082,6 +6108,20 @@ move *.dll %trash%
         <url>http://dl.dropbox.com/u/17046326/files/com.dropbox.Dropbox-1.4.9.exe</url>
         <sha1>e0fe168472525ee3c4b066d8c28e84f5a80bf0c2</sha1>
     </version>
+    <version name="1.4.12" package="com.dropbox.Dropbox" type="one-file">
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x
+"%setup%" /S /D=%CD%
+taskkill /f /im dropbox.exe
+</file>
+        <file path=".Npackd\Uninstall.bat">Uninstall.exe /S _?=%CD%
+set key=com.dropbox.Dropbox-1.4.12
+set trash=..\.Trash\%key%_%RANDOM%
+mkdir %trash%
+move *.dll %trash%
+</file>
+        <url>http://dl.dropbox.com/u/17046326/files/com.dropbox.Dropbox-1.4.12.exe</url>
+        <sha1>B09A72564EF52B88E7D3DFD05ABCB7CBF43E7C43</sha1>
+    </version>
 
     <version name="1.94" package="com.revouninstaller.Revo" type="one-file">
         <file path=".Npackd\Install.bat">revosetup.exe /S /D=%CD%</file>
@@ -6444,6 +6484,14 @@ ren "%setup%" TrueCryptInstaller.exe
         <file path=".Npackd\Uninstall.bat">uninst.exe /S _?=%CD%</file>
         <url>http://download.piriform.com/ccsetup321.exe</url>
     </version>
+    <version package="com.piriform.CCleaner" type="one-file" name="3.22.1800">
+        <important-file title="CCleaner" path="CCleaner.exe"/>
+        <file path=".Npackd\Install.bat">for /f %%x in ('dir /b *.exe') do set setup=%%x
+"%setup%" /S /D=%CD%
+</file>
+        <file path=".Npackd\Uninstall.bat">uninst.exe /S _?=%CD%</file>
+        <url>http://download.piriform.com/ccsetup322.exe</url>
+    </version>
     <!-- Detected -->
 
     <version name="1.2.1.371" package="com.voidtools.Everything">
@@ -6523,6 +6571,15 @@ ren "%setup%" avg.exe
         <important-file path="avg.exe" title="Installer"/>
         <url>http://aa-download.avg.com/filedir/inst/avg_free_stb_eu_2012_2180_free.exe</url>
         <sha1>586dd3dd86de40f9b94ba425e67b389081315de6</sha1>
+    </version>
+    <version name="2012.2197" package="com.avg.AVGAntiVirusFreeInstaller"
+            type="one-file">
+        <file path=".Npackd\Install.bat">for /f %%x in ('dir /b *.exe') do set setup=%%x
+ren "%setup%" avg.exe
+</file>
+        <important-file path="avg.exe" title="Installer"/>
+        <url>http://aa-download.avg.com/filedir/inst/avg_free_stb_eu_2012_2197_free.exe</url>
+        <sha1>128C835CBDF1F77B36609DF51E27006C715BC11E</sha1>
     </version>
 
     <version name="3.2.2" package="org.glest.Glest" type="one-file">
@@ -6829,6 +6886,34 @@ verify
         <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1, 1]"/>
         <dependency package="com.googlecode.windows-package-manager.CLU" versions="[1, 2)"/>
     </version>
+    <version package="se.haxx.curl.CURL" name="7.27">
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b curl*') do set name=%%x
+cd "%name%"        
+for /f "delims=" %%a in ('dir /b') do (
+  move "%%a" ..
+)
+cd ..
+rmdir "%name%"
+
+if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
+set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.CLU" "--versions=[1, 2)"
+for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set clu=%%x
+"%clu%\clu" add-path --path "%CD%"
+verify
+</file>
+        <file path=".Npackd\Uninstall.bat">if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
+set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.CLU" "--versions=[1, 2)"
+for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set clu=%%x
+"%clu%\clu" remove-path --path "%CD%"
+verify
+</file>
+        <url>http://downloads.sourceforge.net/project/npackd/se.haxx.curl.CURL-7.27.zip</url>
+        <sha1>4cc114fde989d9795f23b5170e44c87d6e557758</sha1>
+        <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.15.7, 2)"/>
+        <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1, 1]"/>
+        <dependency package="com.googlecode.windows-package-manager.CLU" versions="[1, 2)"/>
+    </version>
+    <!-- Detected -->
 
     <version name="0.96.1" package="com.clamwin.ClamWin" type="one-file">
         <file path=".Npackd\Install.bat">for /f %%x in ('dir /b *setup.exe') do set setup=%%x
@@ -6999,7 +7084,7 @@ if %errorlevel% neq 0 exit %errorlevel%
 type .Npackd\InnoSetupInstall.log
 taskkill /f /im ClamTray.exe
 </file>
-        <file path=".Npackd\Uninstall.bat">set key=com.clamwin.ClamWin-0.97.3
+        <file path=".Npackd\Uninstall.bat">set key=com.clamwin.ClamWin-0.97.4
 set trash=..\.Trash\%key%_%random%
 mkdir %trash%
 move ClamWin\bin\ExpShell*.dll %trash%
@@ -7010,6 +7095,25 @@ type .Npackd\InnoSetupUninstall.log
         <url>http://downloads.sourceforge.net/project/clamwin/clamwin/0.97.4/clamwin-0.97.4-setup.exe?ts=1334489891</url>
         <sha1>732bf294e310d2de8fe59bfdaf9a40544e11e4f9</sha1>
     </version>
+    <version package="com.clamwin.ClamWin" type="one-file" name="0.97.5">
+        <file path=".Npackd\Install.bat">for /f %%x in ('dir /b *setup.exe') do set setup=%%x
+"%setup%" /SP- /VERYSILENT /SUPPRESSMSGBOXES /NOCANCEL /NORESTART /DIR="%CD%\ClamWin" /SAVEINF="%CD%\.Npackd\InnoSetupInfo.ini" /LOG="%CD%\.Npackd\InnoSetupInstall.log" /TASKS=
+if %errorlevel% neq 0 exit %errorlevel%
+type .Npackd\InnoSetupInstall.log
+taskkill /f /im ClamTray.exe
+</file>
+        <file path=".Npackd\Uninstall.bat">set key=com.clamwin.ClamWin-%NPACKD_VERSION%
+set trash=..\.Trash\%key%_%random%
+mkdir %trash%
+move ClamWin\bin\ExpShell*.dll %trash%
+ClamWin\unins000.exe /VERYSILENT /SUPPRESSMSGBOXES /NORESTART /LOG="%CD%\.Npackd\InnoSetupUninstall.log"
+if %errorlevel% neq 0 exit %errorlevel%
+type .Npackd\InnoSetupUninstall.log
+</file>
+        <url>http://downloads.sourceforge.net/project/clamwin/clamwin/0.97.5/clamwin-0.97.5-setup.exe</url>
+        <sha1>a4315ed74665ccb681a374f26faffc700221c9c7</sha1>
+    </version>
+    <!-- Detected -->
 
     <version name="1.2.5" package="info.emuleplus.EMulePlus">
         <important-file path="eMule.exe" title="eMule Plus"/>
@@ -7239,6 +7343,14 @@ if %err% neq 0 exit /b %err%
         <file path=".Npackd\Uninstall.bat">Prog\uninstall.exe /S</file>
         <url>http://dl.dropbox.com/u/17046326/files/org.foobar2000.Foobar2000-1.1.13.exe</url>
         <sha1>164b63a37d3d9107e529abcc6ce328bfc0bafd6b</sha1>
+    </version>
+    <version name="1.1.14.1" package="org.foobar2000.Foobar2000" type="one-file">
+        <file path=".Npackd\Install.bat">for /f %%x in ('dir /b *.exe') do set setup=%%x
+"%setup%" /S /D=%CD%\Prog
+</file>
+        <file path=".Npackd\Uninstall.bat">Prog\uninstall.exe /S</file>
+        <url>http://dl.dropbox.com/u/17046326/files/org.foobar2000.Foobar2000-1.1.14.1.exe</url>
+        <sha1>5C604FB57135AB26AE4E44F181E4A70DE966AA64</sha1>
     </version>
 
     <version name="3.6" package="org.eclipse.EclipseIDEJEE">
@@ -8504,6 +8616,9 @@ call "%npackdih%\InstallMSI.bat" INSTALLLOCATION yes
     </version>
 
     <!-- uninstallation opens a web page in the default browser -->
+    <version package="com.advancedinstaller.AdvancedInstallerFreeware" type="one-file" name="9.2">
+        <detect-msi>{38ab0bf8-6c59-4c34-a2e2-9ebdaef568fe}</detect-msi>
+    </version>
     <version package="com.advancedinstaller.AdvancedInstallerFreeware" type="one-file" name="9.4">
         <file path=".Npackd\Install.bat">if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
 set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.NpackdInstallerHelper" "--versions=[1.1, 2)"
@@ -8974,6 +9089,15 @@ rmdir "%name%"
         <file path=".Npackd\Uninstall.bat">uninst.exe /S</file>
         <url>http://l.autohotkey.net/v/AutoHotkey110703_Install.exe</url>
         <sha1>49f2186520354dc96fbf01e48461d3598c6fef4b</sha1>
+    </version>
+    <!-- the actual version is 1.1.8.1 -->
+    <version name="1.4.1.8.1" package="com.autohotkey.AutoHotKey"
+            type="one-file">
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x
+"%setup%" /S /D=%CD%
+</file>
+        <url>http://l.autohotkey.net/v/AutoHotkey110801_Install.exe</url>
+        <sha1>8AEF492E73777E814DDE22BC0DB00D83041ADBE9</sha1>
     </version>
 
     <!-- direct downloads do not work (probably a cookie is required) -->
@@ -9797,6 +9921,7 @@ for /f "delims=" %%x in ('dir /b FlashUtil32*ActiveX.exe') do set setup=%%x
         <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.1, 2)"/>
         <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.15.7, 2)"/>
         <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1, 1]"/>
+        <detect-msi>{25f2ab39-e3dd-4cd7-8697-e98cf27ba1f1}</detect-msi>
     </version>
 
     <version name="1.1.1" package="com.videolan.VLCMediaPlayer"
@@ -10464,6 +10589,23 @@ if %err% neq 0 exit %err%
         <sha1>c7ed8695effa9db52af0e34c5abe7e8da7909b4f</sha1>
         <dependency package="ar.com.buanzo.lame.LameForAudacity" versions="[3.98.3, 3.98.3]"/>
     </version>
+    <version package="net.sourceforge.audacity.Audacity" type="one-file" name="2.0.1">
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x
+"%setup%" /SP- /VERYSILENT /SUPPRESSMSGBOXES /NOCANCEL /NORESTART /DIR="%CD%" /SAVEINF="%CD%\.Npackd\InnoSetupInfo.ini" /LOG="%CD%\.Npackd\InnoSetupInstall.log"
+set err=%errorlevel%
+type .Npackd\InnoSetupInstall.log
+if %err% neq 0 exit %err%
+</file>
+        <file path=".Npackd\Uninstall.bat">unins000.exe /VERYSILENT /SUPPRESSMSGBOXES /NORESTART /LOG="%CD%\.Npackd\InnoSetupUninstall.log"
+set err=%errorlevel%
+type .Npackd\InnoSetupUninstall.log
+if %err% neq 0 exit %err%
+</file>
+        <url>http://audacity.googlecode.com/files/audacity-win-2.0.1.exe</url>
+        <sha1>c5d7aa4cba54980da1dd9606926910feb150ef19</sha1>
+        <dependency package="ar.com.buanzo.lame.LameForAudacity" versions="[3.98.3, 3.98.3]"/>
+    </version>
+    <!-- Detected -->
 
     <version name="4.2.7" package="net.winscp.WinSCP">
         <file path=".Npackd\Install.bat">if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
@@ -12288,7 +12430,7 @@ if %err% neq 0 exit %err%
         https://www.google.com/intl/en/chrome/business/browser/#utm_campaign=c4b&utm_medium=link&utm_source=apps
         Different versions are distributed from the same URL.
     -->    
-    <version name="21.0.1180.79" package="com.google.Chrome" type="one-file">
+    <version name="21.0.1180.83" package="com.google.Chrome" type="one-file">
         <file path=".Npackd\AddProperty.vbs">Option Explicit
 
 Const MSI_FILE = "GoogleChromeStandaloneEnterprise.msi"
@@ -12738,6 +12880,15 @@ ren "%setup%" gs.exe
         <url>http://downloads.ghostscript.com/public/gs905w32.exe</url>
         <sha1>8c954a652d5ad85047f7711992a2fcb400a1de80</sha1>
     </version>
+    <version package="com.ghostscript.GhostScriptInstaller" type="one-file" name="9.6">
+        <important-file title="Installer" path="gs.exe"/>
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x
+ren "%setup%" gs.exe
+</file>
+        <url>http://downloads.ghostscript.com/public/gs906w32.exe</url>
+        <sha1>1d227d1f280df52077ef381ad7707d1a0a7ccc82</sha1>
+    </version>
+    <!-- Detected -->
 
     <version name="1.3.12" package="org.graphicsmagick.GraphicsMagickQ16"
             type="one-file">
@@ -12969,6 +13120,30 @@ for %%g in (xcf pix matte mask alpha als fli flc xcf.bz2 bz2 xcfbz2 desktop dcm 
         <url>http://downloads.sourceforge.net/project/gimp-win/GIMP%20%2B%20GTK%2B%20%28stable%20release%29/GIMP%202.8.0/gimp-2.8.0-setup.exe</url>
         <sha1>e75fed214f1c3a45870aad9d028aa76cc886b81b</sha1>
     </version>
+    <version name="2.8.2" package="org.gimp.Gimp" type="one-file">
+        <important-file path="bin\gimp-2.8.exe" title="Gimp"/>
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x
+"%setup%" /SP- /VERYSILENT /SUPPRESSMSGBOXES /NOCANCEL /NORESTART /DIR="%CD%"
+set err=%errorlevel%
+if %err% neq 0 exit /b %err%
+
+set key=org.gimp.Gimp-2.8.2
+reg add HKLM\SOFTWARE\Classes\Applications\%key%\shell\open /v FriendlyAppName /d "Gimp (2.8.2)" /f
+set c=\"%CD%\bin\gimp-2.8.exe\" \"%%1\"
+reg add HKLM\SOFTWARE\Classes\Applications\%KEY%\shell\open\command /d "%c%" /f
+for %%g in (xcf pix matte mask alpha als fli flc xcf.bz2 bz2 xcfbz2 desktop dcm dicom eps fit fits g3 gif pat gbr gpb gih xcf.gz gz xcfgz jpg jpeg jpe cel ico wmf apm psp tub pspimage psd png pnm ppm pgm pbm pdf ps sgi rgb rgba bw ico im1 im8 im24 im32 rs ras svg tga vda icb vst tif tiff bmp xbm icon bitmap xpm xwd pcx pcc) do reg add HKLM\SOFTWARE\Classes\.%%g\OpenWithList\%key% /f
+</file>
+        <file path=".Npackd\Uninstall.bat">setup\unins000.exe /VERYSILENT /SUPPRESSMSGBOXES /NORESTART
+set err=%errorlevel%
+if %err% neq 0 exit /b %err%
+
+set key=org.gimp.Gimp-2.8.2
+reg delete HKLM\SOFTWARE\Classes\Applications\%key% /f
+for %%g in (xcf pix matte mask alpha als fli flc xcf.bz2 bz2 xcfbz2 desktop dcm dicom eps fit fits g3 gif pat gbr gpb gih xcf.gz gz xcfgz jpg jpeg jpe cel ico wmf apm psp tub pspimage psd png pnm ppm pgm pbm pdf ps sgi rgb rgba bw ico im1 im8 im24 im32 rs ras svg tga vda icb vst tif tiff bmp xbm icon bitmap xpm xwd pcx pcc) do reg delete HKLM\SOFTWARE\Classes\.%%g\OpenWithList\%key% /f
+</file>
+        <url>http://downloads.sourceforge.net/project/gimp-win/GIMP%20%2B%20GTK%2B%20%28stable%20release%29/GIMP%202.8.2/gimp-2.8.2-setup.exe</url>
+        <sha1>8DE2514C38B50B8ABFD92025464B855294C03E4A</sha1>
+    </version>
 
     <version name="3.46" package="com.sysinternals.Handle">
         <file path=".Npackd\Install.bat">if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
@@ -13029,6 +13204,17 @@ rmdir /s /q "%name%"
         <url>http://download.java.net/glassfish/3.1.2/release/glassfish-3.1.2-web-ml.zip</url>
         <sha1>2fd25227ce4bb1e7e0d66d7c28f86ccb5648b70b</sha1>
     </version>
+    <version package="net.java.dev.glassfish.GlassFishWebProfile" name="3.1.2.2">
+        <important-file title="ASAdmin" path="bin\asadmin.bat"/>
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b glassfish*') do set name=%%x
+xcopy "%name%\*" . /E /H
+rmdir /s /q "%name%"
+</file>
+        <url>http://download.java.net/glassfish/3.1.2.2/release/glassfish-3.1.2.2-web-ml.zip</url>
+        <sha1>d984906af333a749791bfd488d9c76ac109dec38</sha1>
+        <dependency package="com.oracle.JDK" versions="[1.6, 2)"/>
+    </version>
+    <!-- Detected -->
 
     <version name="3.0.1" package="net.sourceforge.launch4j.Launch4j">
         <important-file path="launch4j\launch4j.exe" title="Launch4j"/>
@@ -15665,7 +15851,7 @@ if %err% neq 0 exit /b %err%
         <detect-msi>{59F24743-2EA1-3A45-B8C2-6E0E1E078FA8}</detect-msi>
     </version>
 
-    <version name="11.32" package="com.microsoft.AutoRuns">
+    <version name="11.33" package="com.microsoft.AutoRuns">
         <important-file path="autoruns.exe" title="AutoRuns"/>
         <url>http://download.sysinternals.com/files/Autoruns.zip</url>
     </version>
@@ -19688,6 +19874,15 @@ verify
         <url>http://dl.dropbox.com/u/17046326/files/com.fiddler2.Fiddler-2.4.exe</url>
         <sha1>a3d88f850b32c5b4c8034b07e9016ea94e4b35ee</sha1>
     </version>
+    <version name="2.4.0.6" package="com.fiddler2.Fiddler" type="one-file">
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x
+"%setup%" /S /D=%CD%
+</file>
+        <file path=".Npackd\Uninstall.bat">uninst.exe /S _?=%CD%
+</file>
+        <url>http://dl.dropbox.com/u/17046326/files/com.fiddler2.Fiddler-2.4.0.6.exe</url>
+        <sha1>A906908BC028FA82E93981176F86375F0F91BD30</sha1>
+    </version>
     
     <!-- .zip file uses LZMA encoding -->
     <version name="2011.5.26" package="org.mingw.MSYS" type="one-file">
@@ -19805,7 +20000,7 @@ if %err% neq 0 exit %err%
         <sha1>C9F4C97509560682998E76E488C542A480409952</sha1>
     </version>
 
-    <version name="3.62" package="com.codesector.DirectFolders" type="one-file">
+    <version name="3.72" package="com.codesector.DirectFolders" type="one-file">
         <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x
 "%setup%" /SP- /VERYSILENT /SUPPRESSMSGBOXES /NOCANCEL /NORESTART /DIR="%CD%" /SAVEINF="%CD%\.Npackd\InnoSetupInfo.ini" /LOG="%CD%\.Npackd\InnoSetupInstall.log"
 set err=%errorlevel%
@@ -20155,6 +20350,21 @@ call "%npackdih%\InstallMSI.bat" INSTALLDIR yes
         <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1, 1]"/>
         <dependency package="com.googlecode.msysgit.MSysGit" versions="[1.7.4.2011.2.4, 2)"/>
     </version>
+    <version package="com.googlecode.gitextensions.GitExtensions" type="one-file" name="2.40">
+        <file path=".Npackd\Install.bat">if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
+set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.NpackdInstallerHelper" "--versions=[1.1, 2)"
+for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set npackdih=%%x
+call "%npackdih%\InstallMSI.bat" INSTALLDIR yes
+</file>
+        <url>http://gitextensions.googlecode.com/files/GitExtensions240Setup.msi</url>
+        <sha1>81cc7e962c612999009843c4d5fb24d5bf89d461</sha1>
+        <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.1, 2)"/>
+        <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.15.7, 2)"/>
+        <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1, 1]"/>
+        <dependency package="com.googlecode.msysgit.MSysGit" versions="[1.7.4.2011.2.4, 2)"/>
+    </version>
+    <!-- Detected -->
+    
     <version package="org.mozilla.XULRunner" name="13.0.2">
         <file path=".WPM\Install.bat">for /f "delims=" %%x in ('dir /b xulrunner*') do set name=%%x
 cd "%name%"

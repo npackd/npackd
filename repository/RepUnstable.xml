@@ -220,5 +220,41 @@ verify
         <sha1>17fdd5f941d88cb6e4800a9e67d7fa27b7a195a3</sha1>
         <dependency package="com.googlecode.windows-package-manager.CLU" versions="[1, 2)"/>
         <dependency package="com.oracle.JDK" versions="[1.7, 2)"/>
+    </version>
+    <version name="0.7" package="com.googlecode.btj.BTJ">
+        <file path=".Npackd\Install.bat">if "%npackd_cl%" equ "" set npackd_cl=.
+set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.CLU" "--versions=[1, 2)"
+for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set clu=%%x
+"%clu%\clu" add-path --path "%CD%"
+verify
+</file>
+        <file path=".Npackd\Uninstall.bat">if "%npackd_cl%" equ "" set npackd_cl=.
+set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.CLU" "--versions=[1, 2)"
+for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set clu=%%x
+"%clu%\clu" remove-path --path "%CD%"
+verify
+</file>
+        <url>http://btj.googlecode.com/files/btj-0.7.zip</url>
+        <sha1>63d852423ba7996ec4f545ed99f386916bb4ca79</sha1>
+        <dependency package="com.googlecode.windows-package-manager.CLU" versions="[1, 2)"/>
+        <dependency package="com.oracle.JDK" versions="[1.7, 2)"/>
+    </version>    
+    <version name="0.8" package="com.googlecode.btj.BTJ">
+        <file path=".Npackd\Install.bat">if "%npackd_cl%" equ "" set npackd_cl=.
+set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.CLU" "--versions=[1, 2)"
+for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set clu=%%x
+"%clu%\clu" add-path --path "%CD%"
+verify
+</file>
+        <file path=".Npackd\Uninstall.bat">if "%npackd_cl%" equ "" set npackd_cl=.
+set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.CLU" "--versions=[1, 2)"
+for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set clu=%%x
+"%clu%\clu" remove-path --path "%CD%"
+verify
+</file>
+        <url>http://btj.googlecode.com/files/btj-0.8.zip</url>
+        <sha1>fe9445e75cb39fe31c40dfa562622eb59ca56e52</sha1>
+        <dependency package="com.googlecode.windows-package-manager.CLU" versions="[1, 2)"/>
+        <dependency package="com.oracle.JDK" versions="[1.7, 2)"/>
     </version>    
 </root>
