@@ -256,5 +256,23 @@ verify
         <sha1>fe9445e75cb39fe31c40dfa562622eb59ca56e52</sha1>
         <dependency package="com.googlecode.windows-package-manager.CLU" versions="[1, 2)"/>
         <dependency package="com.oracle.JDK" versions="[1.7, 2)"/>
-    </version>    
+    </version>
+    <version name="0.8.1" package="com.googlecode.btj.BTJ">
+        <file path=".Npackd\Install.bat">if "%npackd_cl%" equ "" set npackd_cl=.
+set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.CLU" "--versions=[1, 2)"
+for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set clu=%%x
+"%clu%\clu" add-path --path "%CD%"
+verify
+</file>
+        <file path=".Npackd\Uninstall.bat">if "%npackd_cl%" equ "" set npackd_cl=.
+set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.CLU" "--versions=[1, 2)"
+for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set clu=%%x
+"%clu%\clu" remove-path --path "%CD%"
+verify
+</file>
+        <url>http://btj.googlecode.com/files/btj-0.8.1.zip</url>
+        <sha1>af6121b1f999721f731a00a49694dd31287b2fa2</sha1>
+        <dependency package="com.googlecode.windows-package-manager.CLU" versions="[1, 2)"/>
+        <dependency package="com.oracle.JDK" versions="[1.7, 2)"/>
+    </version>
 </root>
