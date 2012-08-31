@@ -155,16 +155,25 @@ PackageVersion::~PackageVersion()
 QString PackageVersion::saveInstallationInfo()
 {
     WindowsRegistry machineWR(HKEY_LOCAL_MACHINE, false);
-    QString err;
-    WindowsRegistry wr = machineWR.createSubKey(
-            "SOFTWARE\\Npackd\\Npackd\\Packages\\" +
-            this->package + "-" + this->version.getVersionString(), &err);
-    if (!err.isEmpty())
-        return err;
-
-    wr.set("Path", this->ipath);
-    wr.set("DetectionInfo", this->detectionInfo);
-    return "";
+    QString r;
+    QString keyName = "SOFTWARE\\Npackd\\Npackd\\Packages";
+    QString pn = this->package + "-" + this->version.getVersionString();
+    if (!this->ipath.isEmpty()) {
+        WindowsRegistry wr = machineWR.createSubKey(keyName + "\\" + pn, &r);
+        if (r.isEmpty()) {
+            r = wr.set("Path", this->ipath);
+            if (r.isEmpty())
+                r = wr.set("DetectionInfo", this->detectionInfo);
+        }
+    } else {
+        qDebug() << "deleting " << pn;
+        WindowsRegistry packages;
+        r = packages.open(machineWR, keyName, KEY_ALL_ACCESS);
+        if (r.isEmpty()) {
+            r = packages.remove(pn);
+        }
+    }
+    return r;
 }
 
 bool PackageVersion::installed() const

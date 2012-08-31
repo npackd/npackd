@@ -44,6 +44,14 @@ public:
     ~WindowsRegistry();
 
     /**
+     * Delete a sub-key.
+     *
+     * @param name name of the sub-key (cannot contain \)
+     * @return error message or ""
+     */
+    QString remove(const QString& name) const;
+
+    /**
      * Reads a REG_SZ value.
      *
      * @param name name of the variable
