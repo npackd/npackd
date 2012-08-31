@@ -271,3 +271,13 @@ QString WindowsRegistry::close()
         return "";
     }
 }
+
+QString WindowsRegistry::remove(const QString& name) const
+{
+    QString result;
+    LONG r = RegDeleteKeyW(this->hkey, (WCHAR*) name.utf16());
+    if (r != ERROR_SUCCESS) {
+        WPMUtils::formatMessage(r, &result);
+    }
+    return result;
+}
