@@ -13133,7 +13133,7 @@ set c=\"%CD%\bin\gimp-2.8.exe\" \"%%1\"
 reg add HKLM\SOFTWARE\Classes\Applications\%KEY%\shell\open\command /d "%c%" /f
 for %%g in (xcf pix matte mask alpha als fli flc xcf.bz2 bz2 xcfbz2 desktop dcm dicom eps fit fits g3 gif pat gbr gpb gih xcf.gz gz xcfgz jpg jpeg jpe cel ico wmf apm psp tub pspimage psd png pnm ppm pgm pbm pdf ps sgi rgb rgba bw ico im1 im8 im24 im32 rs ras svg tga vda icb vst tif tiff bmp xbm icon bitmap xpm xwd pcx pcc) do reg add HKLM\SOFTWARE\Classes\.%%g\OpenWithList\%key% /f
 </file>
-        <file path=".Npackd\Uninstall.bat">setup\unins000.exe /VERYSILENT /SUPPRESSMSGBOXES /NORESTART
+        <file path=".Npackd\Uninstall.bat">uninst\unins000.exe /VERYSILENT /SUPPRESSMSGBOXES /NORESTART
 set err=%errorlevel%
 if %err% neq 0 exit /b %err%
 
