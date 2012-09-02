@@ -645,6 +645,22 @@ if %err% neq 0 exit /b %err%
         <sha1>d8e03d758ee9f9eb0ab5d9e4fa4b40c52eebf6ec</sha1>
         <detect-msi>{26A24AE4-039D-4CA4-87B4-2F86417005FF}</detect-msi>
     </version>
+    <version name="1.7.0.7" package="com.oracle.JRE64" type="one-file">
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x
+"%setup%" /s /v"/qn /Lime .Npackd\MSI.log /norestart AgreeToLicense=YES IEXPLORER=1 MOZILLA=1 REBOOT=Suppress ALLUSERS=1 INSTALLDIR="""%CD%""" SYSTRAY=0"
+set err=%errorlevel%
+type .Npackd\MSI.log
+if %err% neq 0 exit /b %err%
+</file>
+        <file path=".Npackd\Uninstall.bat">MsiExec.exe /qn /norestart /Lime .Npackd\MSI.log /X{26A24AE4-039D-4CA4-87B4-2F86417007FF}
+set err=%errorlevel%
+type .Npackd\MSI.log
+if %err% neq 0 exit /b %err%
+</file>
+        <url>http://downloads.sourceforge.net/project/npackd/com.oracle.JRE64-1.7.0.7.exe</url>
+        <sha1>B960D3DF4C5FFFFE725E0DFFF6A24F17596933D8</sha1>
+        <detect-msi>{26A24AE4-039D-4CA4-87B4-2F86417007FF}</detect-msi>
+    </version>
 
     <!--
 http://safebrowsing.clients.google.com/safebrowsing/diagnostic?site=http%3A%2F%2Fwww.wampserver.com%2Fen%2F&client=googlechrome&hl=de    
@@ -4330,6 +4346,37 @@ verify
         <sha1>8c62394aa54249d1807a969ac6624a5b9bbb132a</sha1>
         <detect-msi>{64A3A4F4-B792-11D6-A78A-00B0D0170050}</detect-msi>
     </version>
+    <version name="1.7.0.7" package="com.oracle.JDK64" type="one-file">
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x
+"%setup%" /s /v"/qn /Lime .Npackd\MSI.log /norestart REBOOT=Suppress ALLUSERS=1 ADDLOCAL="""ToolsFeature,SourceFeature""" INSTALLDIR="""%CD%""" "
+set err=%errorlevel%
+type .Npackd\MSI.log
+if %err% neq 0 exit /b %err%
+
+if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
+set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.CLU" "--versions=[1, 2)"
+for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set clu=%%x
+"%clu%\clu" add-path --path "%CD%\bin"
+verify
+</file>
+        <file path=".Npackd\Uninstall.bat">MsiExec.exe /qn /norestart /Lime .Npackd\MSI.log /X{64A3A4F4-B792-11D6-A78A-00B0D0170070}
+set err=%errorlevel%
+type .Npackd\MSI.log
+if %err% neq 0 exit /b %err%
+
+if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
+set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.CLU" "--versions=[1, 2)"
+for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set clu=%%x
+"%clu%\clu" remove-path --path "%CD%\bin"
+verify
+</file>
+        <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.15.7, 2)"/>
+        <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1, 1]"/>
+        <dependency package="com.googlecode.windows-package-manager.CLU" versions="[1, 2)"/>
+        <url>http://downloads.sourceforge.net/project/npackd/com.oracle.JDK64-1.7.0.7.exe</url>
+        <sha1>28994186C2D94303199099847095DF4FCE924557</sha1>
+        <detect-msi>{64A3A4F4-B792-11D6-A78A-00B0D0170070}</detect-msi>
+    </version>
 
     <version name="3.6.1" package="org.eclipse.EclipseIDEJEE64">
         <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b eclipse*') do set name=%%x
@@ -4555,7 +4602,7 @@ rmdir "%name%"
         <sha1>fe45ac421a96e06a0da1b3bf0aa972354d0759ab</sha1>
     </version>
 
-    <version name="11.3.300.262" package="com.adobe.FlashPlayer64"
+    <version name="11.4.402.265" package="com.adobe.FlashPlayer64"
             type="one-file">
         <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x
 "%setup%" -install
@@ -4570,7 +4617,7 @@ echo AutoUpdateDisable=1 > %windir%\SysWOW64\Macromed\Flash\mms.cfg
         <url>http://fpdownload.macromedia.com/pub/flashplayer/current/licensing/win/install_flash_player_11_plugin_64bit.exe</url>
     </version>
     
-    <version name="11.3.300.262" package="com.adobe.FlashPlayerActiveX64"
+    <version name="11.4.402.265" package="com.adobe.FlashPlayerActiveX64"
             type="one-file">
         <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x
 "%setup%" -install

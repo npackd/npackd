@@ -5440,6 +5440,16 @@ verify
         <dependency package="com.oracle.JRE" versions="[1.5, 2)"/>
         <sha1>831719319a65d3cb8ddac0d625ae1d68f59795a1</sha1>
     </version>
+    <version name="1.3.167" package="com.h2database.H2"
+            type="one-file">
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x
+"%setup%" /S /D=%CD%\Program
+</file>
+        <file path=".Npackd\Uninstall.bat">Program\Uninstall.exe /S _?=%CD%\Program</file>
+        <url>http://downloads.sourceforge.net/project/npackd/com.h2database.H2-1.3.167.exe</url>
+        <dependency package="com.oracle.JRE" versions="[1.5, 2)"/>
+        <sha1>756aa7137a5c757f69f0f6220cf16f72817b5b7d</sha1>
+    </version>
 
     <version name="0.97.1.1" package="org.gnome.live.dia.Dia"
             type="one-file">
@@ -5664,6 +5674,14 @@ ren "%setup%" com.dvdvideosoft.FreeYouTubeToMP3ConverterInstaller.exe
 </file>
         <url>http://dl.dropbox.com/u/17046326/files/com.dvdvideosoft.FreeYouTubeToMP3ConverterInstaller-3.11.29.824.exe</url>
         <sha1>17cef2d1558f60e6f5e2d2027046ff02c2658627</sha1>
+    </version>
+    <version package="com.dvdvideosoft.FreeYouTubeToMP3ConverterInstaller" type="one-file" name="3.11.29.825">
+        <important-file title="Installer" path="com.dvdvideosoft.FreeYouTubeToMP3ConverterInstaller.exe"/>
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x
+ren "%setup%" com.dvdvideosoft.FreeYouTubeToMP3ConverterInstaller.exe
+</file>
+        <url>http://dl.dropbox.com/u/17046326/files/com.dvdvideosoft.FreeYouTubeToMP3ConverterInstaller-3.11.29.825.exe</url>
+        <sha1>fd5d1274d9e28f6af00c6d0719fefd0754798d6b</sha1>
     </version>
     <!-- Detected -->
 
@@ -6122,6 +6140,20 @@ move *.dll %trash%
         <url>http://dl.dropbox.com/u/17046326/files/com.dropbox.Dropbox-1.4.12.exe</url>
         <sha1>B09A72564EF52B88E7D3DFD05ABCB7CBF43E7C43</sha1>
     </version>
+    <version name="1.4.17" package="com.dropbox.Dropbox" type="one-file">
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x
+"%setup%" /S /D=%CD%
+taskkill /f /im dropbox.exe
+</file>
+        <file path=".Npackd\Uninstall.bat">Uninstall.exe /S _?=%CD%
+set key=com.dropbox.Dropbox-1.4.17
+set trash=..\.Trash\%key%_%RANDOM%
+mkdir %trash%
+move *.dll %trash%
+</file>
+        <url>http://dl.dropbox.com/u/17046326/files/com.dropbox.Dropbox-1.4.17.exe</url>
+        <sha1>3B791EE176AD1D0A7957538D4D4AAF40008ED24E</sha1>
+    </version>
 
     <version name="1.94" package="com.revouninstaller.Revo" type="one-file">
         <file path=".Npackd\Install.bat">revosetup.exe /S /D=%CD%</file>
@@ -6301,7 +6333,7 @@ ren "%setup%" TrueCryptInstaller.exe
     <!-- Detected -->
 
     <!-- installs an Ask toolbar in Firefox & Chrome -->
-    <version name="3.4.3.5" package="com.auslogics.DiskDefrag" type="one-file">
+    <version name="3.5.0.10" package="com.auslogics.DiskDefrag" type="one-file">
         <file path=".Npackd\Install.bat">disk-defrag-setup.exe /SP- /VERYSILENT /SUPPRESSMSGBOXES /NOCANCEL /NORESTART /DIR="%CD%"</file>
         <file path=".Npackd\Uninstall.bat">unins000.exe /VERYSILENT /SUPPRESSMSGBOXES /NORESTART</file>
         <url>http://www.auslogics.com/en/downloads/disk-defrag/disk-defrag-setup.exe</url>
@@ -9824,7 +9856,7 @@ if %err% neq 0 exit /b %err%
     </version>
 
     <!-- http://www.adobe.com/products/flashplayer/distribution3.html -->
-    <version name="11.3.300.262" package="com.adobe.FlashPlayer"
+    <version name="11.4.402.265" package="com.adobe.FlashPlayer"
             type="one-file">
         <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.msi') do set setup=%%x
 mkdir .Npackd
@@ -9874,7 +9906,7 @@ for /f "delims=" %%x in ('dir /b FlashUtil32*Plugin.exe') do set setup=%%x
     </version>
     
     <!-- http://www.adobe.com/products/flashplayer/distribution3.html -->
-    <version name="11.3.300.262" package="com.adobe.FlashPlayerActiveX"
+    <version name="11.4.402.265" package="com.adobe.FlashPlayerActiveX"
             type="one-file">
         <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.msi') do set setup=%%x
 mkdir .Npackd
@@ -11334,6 +11366,26 @@ if %err% neq 0 exit /b %err%
         <sha1>d1b8bb337341d5db4fcf4efc991fa14e35886df4</sha1>
         <detect-msi>{26A24AE4-039D-4CA4-87B4-2F83217005FF}</detect-msi>
     </version>
+    <version name="1.7.0.7" package="com.oracle.JRE" type="one-file">
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x
+"%setup%" /s /v"/qn /Lime .Npackd\MSI.log /norestart AgreeToLicense=YES IEXPLORER=1 MOZILLA=1 REBOOT=Suppress ALLUSERS=1 INSTALLDIR="""%CD%""" SYSTRAY=0"
+set err=%errorlevel%
+type .Npackd\MSI.log
+if %err% neq 0 exit /b %err%
+
+if not exist "%ProgramFiles(x86)%" REG ADD "HKLM\SOFTWARE\JavaSoft\Java Update\Policy" /f /v EnableJavaUpdate /t REG_DWORD /d 0
+if exist "%ProgramFiles(x86)%" REG ADD "HKLM\SOFTWARE\Wow6432Node\JavaSoft\Java Update\Policy" /f /v EnableJavaUpdate /t REG_DWORD /d 0
+verify
+</file>
+        <file path=".Npackd\Uninstall.bat">MsiExec.exe /qn /norestart /Lime .Npackd\MSI.log /X{26A24AE4-039D-4CA4-87B4-2F83217007FF}
+set err=%errorlevel%
+type .Npackd\MSI.log
+if %err% neq 0 exit /b %err%
+</file>
+        <url>http://downloads.sourceforge.net/project/npackd/com.oracle.JRE-1.7.0.7.exe</url>
+        <sha1>FAD4496CD61A0EF1B42C27AEB405A3739EA0943F</sha1>
+        <detect-msi>{26A24AE4-039D-4CA4-87B4-2F83217007FF}</detect-msi>
+    </version>
 
     <version name="4.28" package="de.irfanview.IrfanView">
         <file path=".Npackd\Install.bat">set KEY=de.irfanview.IrfanView-4.28
@@ -11935,7 +11987,7 @@ set d=%ProgramFiles%
         <sha1>2618f701f1d1a853e33138a57bec193bcd08438e</sha1>
     </version>
 
-    <version name="7.13" package="com.icq.ICQInstaller"
+    <version name="7.70" package="com.icq.ICQInstaller"
             type="one-file">
         <important-file path="install_icq7.exe" title="Installer"/>
         <url>http://ftp.icq.com/pub/ICQ7/install_icq7.exe</url>
@@ -12750,6 +12802,20 @@ for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x
         <url>http://downloads.sourceforge.net/project/npackd/org.mozilla.Firefox-14.0.1.exe</url>
         <sha1>27c54f9ce5570c1c2b141c5b174ead247d06524b</sha1>
     </version>
+    <version package="org.mozilla.Firefox" type="one-file" name="15">
+        <important-file title="Firefox" path="firefox.exe"/>
+        <file path=".WPM\Install.bat">echo [Install] > .WPM\FF.ini
+echo InstallDirectoryPath=%CD% >> .WPM\FF.ini
+echo QuickLaunchShortcut=false >> .WPM\FF.ini
+echo DesktopShortcut=false >> .WPM\FF.ini
+for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x
+"%setup%" /INI="%CD%\.WPM\FF.ini"
+</file>
+        <file path=".WPM\Uninstall.bat">uninstall\helper.exe /S
+</file>
+        <url>http://downloads.sourceforge.net/project/npackd/org.mozilla.Firefox-15.exe</url>
+        <sha1>97396b13cb7355d387b7a366e1332e1e5fd93f8d</sha1>
+    </version>
     <!-- Detected -->
 
     <version name="1.33" package="org.gexperts.GExpertsDelphi7Installer"
@@ -13145,7 +13211,7 @@ for %%g in (xcf pix matte mask alpha als fli flc xcf.bz2 bz2 xcfbz2 desktop dcm 
         <sha1>3cd65db5cdfa38651077692e84eeceb327b2ca71</sha1>
     </version>
 
-    <version name="3.46" package="com.sysinternals.Handle">
+    <version name="3.50" package="com.sysinternals.Handle">
         <file path=".Npackd\Install.bat">if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
 set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.CLU" "--versions=[1, 2)"
 for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set clu=%%x
@@ -16282,6 +16348,38 @@ call liteide.exe
         <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.15.7, 2)"/>
         <dependency package="org.golang.Go" versions="[1, 2)"/>
     </version>
+    <version package="com.googlecode.golangide.GoLangIDE" name="12.2"
+            type="one-file">
+        <important-file title="Go LiteIDE" path="bin\liteide.bat"/>
+        <file path=".Npackd\Install.bat">if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
+set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=org.7-zip.SevenZIPA" "--versions=[9.20, 9.20]"
+for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set sevenzipa=%%x
+for /f %%x in ('dir /b *.7z') do set setup=%%x
+"%sevenzipa%\7za.exe" x "%setup%" &gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt
+
+set name=liteide
+cd "%name%" 
+for /f "delims=" %%a in ('dir /b') do (
+  move "%%a" ..
+)
+cd ..
+rmdir "%name%"
+</file>
+        <file path="liteide\bin\liteide.bat">if "%npackd_cl%" equ "" set npackd_cl=..\..\com.googlecode.windows-package-manager.NpackdCL-1
+set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=org.golang.Go" "--versions=[1, 2)"
+for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set goroot=%%x
+set GOARCH=386
+set GOOS=windows
+set PATH=%GOROOT%\bin
+call liteide.exe
+</file>
+        <url>http://golangide.googlecode.com/files/liteidex12.2.windows.hg586.7z</url>
+        <sha1>b8fdd887b99fbc495e36636868a0a222168f003c</sha1>
+        <dependency package="org.7-zip.SevenZIPA" versions="[9.20, 9.20]"/>
+        <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1, 1]"/>
+        <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.15.7, 2)"/>
+        <dependency package="org.golang.Go" versions="[1, 2)"/>
+    </version>
 
     <version name="2.9" package="net.sourceforge.discoverd.Discover">
         <important-file path="Discover.exe" title="Discover"/>
@@ -17750,6 +17848,37 @@ verify
         <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1, 1]"/>
         <dependency package="com.googlecode.windows-package-manager.CLU" versions="[1, 2)"/>
     </version>
+    <version name="1.7.0.7" package="com.oracle.JDK" type="one-file">
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x
+"%setup%" /s /v"/qn /Lime .Npackd\MSI.log /norestart REBOOT=Suppress ALLUSERS=1 ADDLOCAL="""ToolsFeature,SourceFeature""" INSTALLDIR="""%CD%""" "
+set err=%errorlevel%
+type .Npackd\MSI.log
+if %err% neq 0 exit /b %err%
+
+if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
+set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.CLU" "--versions=[1, 2)"
+for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set clu=%%x
+"%clu%\clu" add-path --path "%CD%\bin"
+verify
+</file>
+        <file path=".Npackd\Uninstall.bat">MsiExec.exe /qn /norestart /Lime .Npackd\MSI.log /X{32A3A4F4-B792-11D6-A78A-00B0D0170070}
+set err=%errorlevel%
+type .Npackd\MSI.log
+if %err% neq 0 exit /b %err%
+
+if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
+set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.CLU" "--versions=[1, 2)"
+for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set clu=%%x
+"%clu%\clu" remove-path --path "%CD%\bin"
+verify
+</file>
+        <url>http://downloads.sourceforge.net/project/npackd/com.oracle.JDK-1.7.0.7.exe</url>
+        <sha1>0FEE54E3122A0984C9B2AC69E5A930EE06B8CD83</sha1>
+        <detect-msi>{32A3A4F4-B792-11D6-A78A-00B0D0170070}</detect-msi>
+        <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.15.7, 2)"/>
+        <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1, 1]"/>
+        <dependency package="com.googlecode.windows-package-manager.CLU" versions="[1, 2)"/>
+    </version>
 
     <version name="2.4.3" package="org.gnucash.GNUCash" type="one-file">
         <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x
@@ -17856,6 +17985,22 @@ if %err% neq 0 exit %err%
         <url>https://downloads.sourceforge.net/project/gnucash/gnucash%20%28stable%29/2.4.10/gnucash-2.4.10-1-setup.exe?ts=1331978635</url>
         <sha1>9248aa8e67529b39458449c3252173df46bb7598</sha1>
     </version>
+    <version package="org.gnucash.GNUCash" type="one-file" name="2.4.11">
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x
+"%setup%" /SP- /VERYSILENT /SUPPRESSMSGBOXES /NOCANCEL /NORESTART /DIR="%CD%" /SAVEINF="%CD%\.Npackd\InnoSetupInfo.ini" /LOG="%CD%\.Npackd\InnoSetupInstall.log"
+set err=%errorlevel%
+type .Npackd\InnoSetupInstall.log
+if %err% neq 0 exit %err%
+</file>
+        <file path=".Npackd\Uninstall.bat">uninstall\gnucash\unins000.exe /VERYSILENT /SUPPRESSMSGBOXES /NORESTART /LOG="%CD%\.Npackd\InnoSetupUninstall.log"
+set err=%errorlevel%
+type .Npackd\InnoSetupUninstall.log
+if %err% neq 0 exit %err%
+</file>
+        <url>http://downloads.sourceforge.net/project/gnucash/gnucash%20%2528stable%2529/2.4.11/gnucash-2.4.11-setup.exe</url>
+        <sha1>aae3d57c1e59e29bb9438ddc07acda95d6e09bf3</sha1>
+    </version>
+    <!-- Detected -->
 
     <!-- un-installation shows a confirmation dialog -->
     <version name="3.0.852" package="org.freedownloadmanager.FreeDownloadManager" 
@@ -18328,6 +18473,22 @@ if %err% neq 0 exit %err%
         <url>http://dl.dropbox.com/u/17046326/files/org.izarc.IZArc-4.1.6.exe</url>
         <sha1>8AF1FBF0DDB3F17E4B38755D5A4533D605713B41</sha1>
     </version>
+    <version package="org.izarc.IZArc" type="one-file" name="4.1.7">
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x
+"%setup%" /SP- /NOCANDY /VERYSILENT /SUPPRESSMSGBOXES /NOCANCEL /NORESTART /DIR="%CD%\Prog" /SAVEINF="%CD%\.Npackd\InnoSetupInfo.ini" /LOG="%CD%\.Npackd\InnoSetupInstall.log"
+set err=%errorlevel%
+type .Npackd\InnoSetupInstall.log
+if %err% neq 0 exit %err%
+</file>
+        <file path=".Npackd\Uninstall.bat">Prog\unins000.exe /VERYSILENT /SUPPRESSMSGBOXES /NORESTART /LOG="%CD%\.Npackd\InnoSetupUninstall.log"
+set err=%errorlevel%
+type .Npackd\InnoSetupUninstall.log
+if %err% neq 0 exit %err%
+</file>
+        <url>http://dl.dropbox.com/u/17046326/files/org.izarc.IZArc-4.1.7.exe</url>
+        <sha1>6cffddb76345fa7bb63579e11cd5f6bb5e2f44f6</sha1>
+    </version>
+    <!-- Detected -->
 
     <!-- 
         Installation shows a dialog.
@@ -19853,6 +20014,8 @@ verify
 </file>
         <file path=".Npackd\Uninstall.bat">uninst.exe /S _?=%CD%
 </file>
+        <dependency package="com.microsoft.DotNetRedistributable"
+                versions="[2.0, 3)"/>
         <url>http://dl.dropbox.com/u/17046326/files/com.fiddler2.Fiddler-2.3.9.7.exe</url>
         <sha1>ecc967b7cae5a4934e9e14c4248b0ae005308f8c</sha1>
     </version>
@@ -19862,6 +20025,8 @@ verify
 </file>
         <file path=".Npackd\Uninstall.bat">uninst.exe /S _?=%CD%
 </file>
+        <dependency package="com.microsoft.DotNetRedistributable"
+                versions="[2.0, 3)"/>
         <url>http://dl.dropbox.com/u/17046326/files/com.fiddler2.Fiddler-2.3.9.9.exe</url>
         <sha1>2c3f78ae1092df989748f7cfc0332a67424fbc37</sha1>
     </version>
@@ -19871,6 +20036,8 @@ verify
 </file>
         <file path=".Npackd\Uninstall.bat">uninst.exe /S _?=%CD%
 </file>
+        <dependency package="com.microsoft.DotNetRedistributable"
+                versions="[2.0, 3)"/>
         <url>http://dl.dropbox.com/u/17046326/files/com.fiddler2.Fiddler-2.4.exe</url>
         <sha1>a3d88f850b32c5b4c8034b07e9016ea94e4b35ee</sha1>
     </version>
@@ -19880,8 +20047,21 @@ verify
 </file>
         <file path=".Npackd\Uninstall.bat">uninst.exe /S _?=%CD%
 </file>
+        <dependency package="com.microsoft.DotNetRedistributable"
+                versions="[2.0, 3)"/>
         <url>http://dl.dropbox.com/u/17046326/files/com.fiddler2.Fiddler-2.4.0.6.exe</url>
         <sha1>A906908BC028FA82E93981176F86375F0F91BD30</sha1>
+    </version>
+    <version name="2.4.1" package="com.fiddler2.Fiddler" type="one-file">
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x
+"%setup%" /S /D=%CD%
+</file>
+        <file path=".Npackd\Uninstall.bat">uninst.exe /S _?=%CD%
+</file>
+        <dependency package="com.microsoft.DotNetRedistributable"
+                versions="[2.0, 3)"/>
+        <url>http://dl.dropbox.com/u/17046326/files/com.fiddler2.Fiddler-2.4.1.exe</url>
+        <sha1>39FCAEABFFC7FBDB8E1537535957EFEDCD7180BA</sha1>
     </version>
     
     <!-- .zip file uses LZMA encoding -->
@@ -19998,6 +20178,10 @@ if %err% neq 0 exit %err%
     <version name="2.1.6" package="org.firebirdsql.JaybirdJava1_6">
         <url>http://downloads.sourceforge.net/project/firebird/firebird-jca-jdbc-driver/2.1.6-release-jdk16/Jaybird-2.1.6JDK_1.6.zip?ts=1322132447</url>
         <sha1>C9F4C97509560682998E76E488C542A480409952</sha1>
+    </version>
+    <version name="2.2" package="org.firebirdsql.JaybirdJava1_6">
+        <url>http://downloads.sourceforge.net/project/firebird/firebird-jca-jdbc-driver/2.2.0-release-jdk16/Jaybird-2.2.0JDK_1.6.zip</url>
+        <sha1>45889CCE0D316BA7E29B20E1E96E6A9AF047FBB9</sha1>
     </version>
 
     <version name="3.72" package="com.codesector.DirectFolders" type="one-file">
