@@ -1511,8 +1511,13 @@ void UpdateSearcher::findUpdates(Job* job)
     dis.append(DiscoveryInfo("org.gnucash.GNUCash",
             "http://sourceforge.net/api/file/index/project-id/192/mtime/desc/limit/20/rss",
             "\\[/gnucash \\(stable\\)/[\\d\\.]+/gnucash-([\\d\\.]+)-setup.exe\\]",
-            "https://downloads.sourceforge.net/project/gnucash/gnucash%20%28stable%29/${{actualVersion}}/gnucash-${{actualVersion}}-setup.exe"));
-
+            "http://downloads.sourceforge.net/project/gnucash/gnucash%20%28stable%29/${{actualVersion}}/gnucash-${{actualVersion}}-setup.exe",
+            DT_SOURCEFORGE));
+    dis.append(DiscoveryInfo("org.izarc.IZArc",
+            "http://www.izarc.org/download.html",
+            "<b>([\\d\\.]+)</b>",
+            "http://www.izarc.org/download/IZArcInstall.exe",
+            DT_DROPBOX));
 
     /*
     ${{version}}

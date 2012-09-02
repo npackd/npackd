@@ -1432,4 +1432,22 @@ if %err% neq 0 exit %err%
         <url>https://downloads.sourceforge.net/project/gnucash/gnucash%20%28stable%29/2.4.10/gnucash-2.4.10-1-setup.exe?ts=1331978635</url>
         <sha1>9248aa8e67529b39458449c3252173df46bb7598</sha1>
     </version>
+
+    <version name="1" package="org.izarc.IZArc" type="one-file">
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x
+"%setup%" /SP- /VERYSILENT /SUPPRESSMSGBOXES /NOCANCEL /NORESTART /DIR="%CD%\Prog" /SAVEINF="%CD%\.Npackd\InnoSetupInfo.ini" /LOG="%CD%\.Npackd\InnoSetupInstall.log"
+set err=%errorlevel%
+type .Npackd\InnoSetupInstall.log
+if %err% neq 0 exit %err%
+</file>
+        <file path=".Npackd\Uninstall.bat">Prog\unins000.exe /VERYSILENT /SUPPRESSMSGBOXES /NORESTART /LOG="%CD%\.Npackd\InnoSetupUninstall.log"
+set err=%errorlevel%
+type .Npackd\InnoSetupUninstall.log
+if %err% neq 0 exit %err%
+</file>
+        <url>http://dl.dropbox.com/u/17046326/files/org.izarc.IZArc-4.1.6.exe</url>
+        <sha1>8AF1FBF0DDB3F17E4B38755D5A4533D605713B41</sha1>
+    </version>
+    
+    <!-- http://downloads.sourceforge.net/project/npackd/... -->
 </root>

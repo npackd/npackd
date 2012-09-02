@@ -166,7 +166,7 @@ QString PackageVersion::saveInstallationInfo()
                 r = wr.set("DetectionInfo", this->detectionInfo);
         }
     } else {
-        qDebug() << "deleting " << pn;
+        // qDebug() << "deleting " << pn;
         WindowsRegistry packages;
         r = packages.open(machineWR, keyName, KEY_ALL_ACCESS);
         if (r.isEmpty()) {
