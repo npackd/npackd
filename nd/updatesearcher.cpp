@@ -1292,12 +1292,12 @@ void UpdateSearcher::findUpdates(Job* job)
             DT_DROPBOX));
     dis.append(DiscoveryInfo(
             "org.nodejs.NodeJS",
-            "http://nodejs.org/",
+            "http://nodejs.org/download/",
             ">v([\\d\\.]+)<",
             "http://nodejs.org/dist/v${{version}}/node-v${{version}}-x86.msi"));
     dis.append(DiscoveryInfo(
             "org.nodejs.NodeJS64",
-            "http://nodejs.org/",
+            "http://nodejs.org/download/",
             ">v([\\d\\.]+)<",
             "http://nodejs.org/dist/v${{version}}/x64/node-v${{version}}-x64.msi"));
     dis.append(DiscoveryInfo(
@@ -1518,6 +1518,10 @@ void UpdateSearcher::findUpdates(Job* job)
             "<b>([\\d\\.]+)</b>",
             "http://www.izarc.org/download/IZArcInstall.exe",
             DT_DROPBOX));
+    dis.append(DiscoveryInfo("org.pdfforge.PDFCreator",
+            "http://www.pdfforge.org/download",
+            "Download PDFCreator ([\\d\\.]+)",
+            "http://blue.download.pdfforge.org/pdfcreator/${{actualVersion}}/PDFCreator-${{actualVersionWithUnderscores}}_setup.exe"));
 
     /*
     ${{version}}

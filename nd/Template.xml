@@ -1449,5 +1449,24 @@ if %err% neq 0 exit %err%
         <sha1>8AF1FBF0DDB3F17E4B38755D5A4533D605713B41</sha1>
     </version>
     
+    <version name="1" package="org.pdfforge.PDFCreator" type="one-file">
+        <file path=".Npackd\InnoSetupDef.ini">[Setup]
+Toolbar=0
+</file>
+        <file path=".Npackd\Install.bat">for /f %%x in ('dir /b *.exe') do set setup=%%x
+"%setup%" /SP- /VERYSILENT /SUPPRESSMSGBOXES /NOCANCEL /NORESTART /DIR="%CD%" /SAVEINF="%CD%\.Npackd\InnoSetupInfo.ini" /LOG="%CD%\.Npackd\InnoSetupInstall.log" /LOADINF="%CD%\.Npackd\InnoSetupDef.ini"
+set err=%errorlevel%
+type .Npackd\InnoSetupInstall.log
+if %err% neq 0 exit %err%
+</file>
+        <file path=".Npackd\Uninstall.bat">unins000.exe /VERYSILENT /SUPPRESSMSGBOXES /NORESTART /LOG="%CD%\.Npackd\InnoSetupUninstall.log"
+set err=%errorlevel%
+type .Npackd\InnoSetupUninstall.log
+if %err% neq 0 exit %err%
+</file>
+        <url>http://blue.download.pdfforge.org/pdfcreator/1.4.2/PDFCreator-1_4_2_setup.exe</url>
+        <sha1>0586ec805089633505a79fea87e45f951b035c35</sha1>
+    </version>
+
     <!-- http://downloads.sourceforge.net/project/npackd/... -->
 </root>
