@@ -1065,6 +1065,29 @@ if %err% neq 0 exit /b %err%
         <url>http://cdn.bitbucket.org/tortoisehg/files/downloads/tortoisehg-2.4.2-hg-2.2.3-x64.msi</url>
         <sha1>46e1df9d85f135408f27966aa0994661e132a2bc</sha1>
     </version>
+    <version name="2.5" package="org.bitbucket.tortoisehg.TortoiseHg64"
+            type="one-file">
+        <file path=".Npackd\Install.bat">for /f %%x in ('dir /b *.msi') do set setup=%%x
+copy "%setup%" .Npackd
+msiexec.exe /qn /norestart /Lime .Npackd\MSI.log /i "%setup%" TARGETDIR="%CD%" ALLUSERS=1
+set err=%errorlevel%
+type .Npackd\MSI.log
+rem 3010=restart required
+if %err% equ 3010 exit /b 0
+if %err% neq 0 exit /b %err%
+</file>
+        <file path=".Npackd\Uninstall.bat">copy .Npackd\*.msi .
+for /f %%x in ('dir /b *.msi') do set setup=%%x
+msiexec.exe /qn /norestart /Lime .Npackd\MSI.log /x "%setup%"
+set err=%errorlevel%
+type .Npackd\MSI.log
+rem 3010=restart required
+if %err% equ 3010 exit /b 0
+if %err% neq 0 exit /b %err%
+</file>
+        <url>http://cdn.bitbucket.org/tortoisehg/files/downloads/tortoisehg-2.5.0-hg-2.3.1-x64.msi</url>
+        <sha1>2fcc221b883d3861d6be0c6dc00a407cd89909df</sha1>
+    </version>
 
     <version name="2.5.192" package="com.tracker-software.PDFXChangeViewer64"
             type="one-file">
@@ -3232,6 +3255,17 @@ rmdir "%name%"
         <sha1>826a146d7d403f977f41491dd64a27911a3fdd73</sha1>
         <dependency package="com.oracle.JRE" versions="[1.5, 2)"/>
     </version>
+    <version package="org.apache.tomcat.Tomcat64" type="one-file" name="7.0.30">
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x
+"%setup%" /S /D=%CD%
+</file>
+        <file path=".Npackd\Uninstall.bat">Uninstall.exe -ServiceName="Tomcat7" /S _?=%CD%
+</file>
+        <url>http://downloads.sourceforge.net/project/npackd/org.apache.tomcat.Tomcat-7.0.30.exe</url>
+        <sha1>3b3c254d0535efc4bab6362d66a73beb90ea5afa</sha1>
+        <dependency package="com.oracle.JRE" versions="[1.5, 2)"/>
+    </version>
+    <!-- Detected -->
 
     <version name="1.6.16" package="org.apache.subversion.Subversion64"
             type="one-file">
@@ -3461,7 +3495,45 @@ verify
         <url>http://www.sliksvn.com/pub/Slik-Subversion-1.7.5-x64.msi</url>
         <sha1>7885c2a3ac2430db2a0b103de1ab625874a90f3d</sha1>
     </version>
+    <version package="org.apache.subversion.Subversion64" type="one-file" name="1.7.6">
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.msi') do set setup=%%x
+copy "%setup%" .Npackd        
+msiexec.exe /qn /norestart /Lime .Npackd\MSI.log /i "%setup%" INSTALLLOCATION="%CD%" ALLUSERS=1
+set err=%errorlevel%
+type .Npackd\MSI.log
+rem 3010=restart required
+if %err% equ 3010 exit /b 0
+if %err% neq 0 exit /b %err%
 
+if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
+set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.CLU" "--versions=[1, 2)"
+for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set clu=%%x
+"%clu%\clu" remove-path --path "%CD%\bin"
+verify
+</file>
+        <file path=".Npackd\Uninstall.bat">copy .Npackd\*.msi .
+for /f "delims=" %%x in ('dir /b *.msi') do set setup=%%x
+msiexec.exe /qn /norestart /Lime .Npackd\MSI.log /x "%setup%"
+set err=%errorlevel%
+type .Npackd\MSI.log
+rem 3010=restart required
+if %err% equ 3010 exit /b 0
+if %err% neq 0 exit /b %err%
+
+if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
+set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.CLU" "--versions=[1, 2)"
+for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set clu=%%x
+"%clu%\clu" remove-path --path "%CD%\bin"
+verify
+</file>
+        <url>http://www.sliksvn.com/pub/Slik-Subversion-1.7.6-x64.msi</url>
+        <sha1>18138d9e0248f752bdb7f93a65d05ac0cb0fae37</sha1>
+        <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.15.7, 2)"/>
+        <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1, 1]"/>
+        <dependency package="com.googlecode.windows-package-manager.CLU" versions="[1, 2)"/>
+    </version>
+    <!-- Detected -->
+    
     <version name="1.6.15.21042"
             package="net.tortoisesvn.TortoiseSVN64"
             type="one-file">
@@ -3578,6 +3650,29 @@ if %err% neq 0 exit /b %err%
 </file>
         <url>http://downloads.sourceforge.net/project/tortoisesvn/1.7.7/Application/TortoiseSVN-1.7.7.22907-x64-svn-1.7.5.msi</url>
         <sha1>72719edf92d4068b119e81657ae27284123a6b27</sha1>
+    </version>
+    <version name="1.7.9.23248" package="net.tortoisesvn.TortoiseSVN64" 
+            type="one-file">
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.msi') do set setup=%%x
+copy "%setup%" .Npackd
+msiexec.exe /qn /norestart /Lime .Npackd\MSI.log /i "%setup%" INSTALLDIR="%CD%" ALLUSERS=1
+set err=%errorlevel%
+type .Npackd\MSI.log
+rem 3010=restart required
+if %err% equ 3010 exit /b 0
+if %err% neq 0 exit /b %err%
+</file>
+        <file path=".Npackd\Uninstall.bat">copy .Npackd\*.msi .
+for /f "delims=" %%x in ('dir /b *.msi') do set setup=%%x
+msiexec.exe /qn /norestart /Lime .Npackd\MSI.log /x "%setup%"
+set err=%errorlevel%
+type .Npackd\MSI.log
+rem 3010=restart required
+if %err% equ 3010 exit /b 0
+if %err% neq 0 exit /b %err%
+</file>
+        <url>http://downloads.sourceforge.net/project/tortoisesvn/1.7.9/Application/TortoiseSVN-1.7.9.23248-x64-svn-1.7.6.msi</url>
+        <sha1>df590b7f732f4470a9641f6dd56d84b4e03d73bc</sha1>
     </version>
 
     <version name="1.0.9.6" package="com.uvnc.UltraVNC64">
@@ -4030,6 +4125,15 @@ rmdir /s /q "%name%"
         <url>http://downloads.sourceforge.net/project/ultradefrag/stable-release/5.0.6/ultradefrag-portable-5.0.6.bin.amd64.zip</url>
         <sha1>9cb2cfb811a523b60c9ae2efd7e6202a350725b9</sha1>
     </version>
+    <version package="org.sourceforge.ultradefrag.UltraDefrag64" name="5.0.7">
+        <important-file title="UltraDefrag" path="ultradefrag.exe"/>
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b ultra*') do set name=%%x
+xcopy "%name%\*" . /E /H
+rmdir /s /q "%name%"    
+</file>
+        <url>http://downloads.sourceforge.net/project/ultradefrag/stable-release/5.0.7/ultradefrag-portable-5.0.7.bin.amd64.zip</url>
+        <sha1>8142d21dbe5e5679f9642f8dbba828df8a2b584f</sha1>
+    </version>
     <!-- Detected -->
     
     <version name="7.3" package="org.vim.Vim64">
@@ -4052,12 +4156,14 @@ rmdir "%name%"
         <sha1>F7E933E0CB64C5FBF08E61C7965B77BB0F6AA8F4</sha1>
     </version>
     
+    <!-- not available anymore (September 2012)
     <version name="2007" package="com.microsoft.VirtualPC64Installer"
             type="one-file">
         <important-file path="setup.exe" title="Installer"/>
         <url>http://download.microsoft.com/download/8/5/6/856bfc39-fa48-4315-a2b3-e6697a54ca88/64%20BIT/setup.exe</url>
         <sha1>69BD32EB47FCC7AA7E7C9582DB624FA28C7A7007</sha1>
     </version>
+    -->
     
     <version name="8.0.51011"
             package="com.microsoft.VisualCPPRedistributable64">
@@ -4110,6 +4216,26 @@ if %err% neq 0 exit /b %err%
 </file>
         <url>http://download.microsoft.com/download/3/2/2/3224B87F-CFA0-4E70-BDA3-3DE650EFEBA5/vcredist_x64.exe</url>
         <sha1>B330B760A8F16D5A31C2DC815627F5EB40861008</sha1>
+    </version>
+    <version name="11.0.50727.1"
+            package="com.microsoft.VisualCPPRedistributable64"
+            type="one-file">
+        <file path=".Npackd\Install.bat">vcredist_x64.exe /q /log .Npackd\VCRInstall.log /norestart
+set err=%errorlevel%
+type .Npackd\VCRInstall.log
+rem 3010=restart required
+if %err% equ 3010 exit /b 0
+if %err% neq 0 exit /b %err%
+</file>
+        <file path=".Npackd\Uninstall.bat">vcredist_x64.exe /q /uninstall /log .Npackd\VCRUninstall.log /norestart
+set err=%errorlevel%
+type .Npackd\VCRUninstall.log
+rem 3010=restart required
+if %err% equ 3010 exit /b 0
+if %err% neq 0 exit /b %err%
+</file>
+        <url>http://download.microsoft.com/download/1/6/B/16B06F60-3B20-4FF2-B699-5E9B7962F9AE/vcredist_x64.exe</url>
+        <sha1>60727ca083e3625a76c3edbba22b40d8a35ffd6b</sha1>
     </version>
     
     <version name="7.21.6" package="se.haxx.curl.CURL64">
@@ -4815,7 +4941,16 @@ echo AutoUpdateDisable=1 > %windir%\SysWOW64\Macromed\Flash\mms.cfg
         <url>http://downloads.sourceforge.net/project/npackd/org.wireshark.Wireshark64-1.8.exe</url>
         <sha1>5813b3e271f1a384025dcc668aff951fd2a44079</sha1>
     </version>
-
+    <version package="org.wireshark.Wireshark64" type="one-file" name="1.8.2">
+        <file path=".Npackd\Install.bat">for /f %%x in ('dir /b *.exe') do set setup=%%x
+"%setup%" /S /D=%CD%
+</file>
+        <file path=".Npackd\Uninstall.bat">uninstall.exe /S _=%CD%</file>
+        <url>http://downloads.sourceforge.net/project/npackd/org.wireshark.Wireshark64-1.8.2.exe</url>
+        <sha1>c12d8d3b954c26df0a2b34ae85810223734c344d</sha1>
+    </version>
+    <!-- Detected -->
+    
     <version name="3.7.2" package="org.eclipse.EclipseIDEJavascript64">
         <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b eclipse*') do set name=%%x
 cd "%name%" 
