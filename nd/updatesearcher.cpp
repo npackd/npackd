@@ -599,126 +599,6 @@ PackageVersion* UpdateSearcher::findAdobeReaderUpdates(Job* job)
     return ret;
 }
 
-PackageVersion* UpdateSearcher::findSharpDevelopUpdates(Job* job)
-{
-    job->setHint("Preparing");
-
-    PackageVersion* ret = 0;
-
-    QString version;
-    if (job->shouldProceed("Searching for updates")) {
-        Job* sub = job->newSubJob(0.2);
-        ret = findUpdate(sub, "net.icsharpcode.SharpDevelop",
-                "https://sourceforge.net/api/file/index/project-id/17610/mtime/desc/limit/120/rss",
-                "http://sourceforge.net/projects/sharpdevelop/files/SharpDevelop.+/SharpDevelop_([\\d\\.]+)_Setup.msi", &version);
-        if (!sub->getErrorMessage().isEmpty())
-            job->setErrorMessage(QString("Error searching for the newest version: %1").
-                    arg(sub->getErrorMessage()));
-        delete sub;
-    }
-
-    if (!job->isCancelled() && job->getErrorMessage().isEmpty()) {
-        if (ret) {
-            job->setHint("Searching for the download URL");
-
-            ret->type = 1;
-            Job* sub = job->newSubJob(0.2);
-            QString url = findTextInPage(sub,
-                    "https://sourceforge.net/api/file/index/project-id/17610/mtime/desc/limit/120/rss",
-                    "(http://sourceforge.net/projects/sharpdevelop/files/SharpDevelop.+/SharpDevelop_[\\d\\.]+_Setup.msi)");
-            if (!sub->getErrorMessage().isEmpty())
-                job->setErrorMessage(QString("Error searching for the newest version: %1").
-                        arg(sub->getErrorMessage()));
-            delete sub;
-
-            if (job->getErrorMessage().isEmpty())
-                ret->download = QUrl(url);
-        }
-        job->setProgress(0.3);
-    }
-
-    if (!job->isCancelled() && job->getErrorMessage().isEmpty()) {
-        if (ret) {
-            job->setHint("Examining the binary");
-
-            Job* sub = job->newSubJob(0.65);
-            ret->type = 1;
-            setDownload(sub, ret, ret->download.toEncoded());
-            if (!sub->getErrorMessage().isEmpty())
-                job->setErrorMessage(QString("Error downloading the package binary: %1").
-                        arg(sub->getErrorMessage()));
-            delete sub;
-        }
-    }
-
-    if (job->shouldProceed("Setting scripts")) {
-        if (ret) {
-            const QString installScript =
-                    "if \"%npackd_cl%\" equ \"\" set npackd_cl=..\\com.googlecode.windows-package-manager.NpackdCL-1\n"
-                    "set onecmd=\"%npackd_cl%\\npackdcl.exe\" \"path\" \"--package=com.googlecode.windows-package-manager.NpackdInstallerHelper\" \"--versions=[1, 1]\"\n"
-                    "for /f \"usebackq delims=\" %%x in (`%%onecmd%%`) do set npackdih=%%x\n"
-                    "call \"%npackdih%\\InstallMSI.bat\" INSTALLDIR\n";
-            const QString uninstallScript =
-                    "if \"%npackd_cl%\" equ \"\" set npackd_cl=..\\com.googlecode.windows-package-manager.NpackdCL-1\n"
-                    "set onecmd=\"%npackd_cl%\\npackdcl.exe\" \"path\" \"--package=com.googlecode.windows-package-manager.NpackdInstallerHelper\" \"--versions=[1, 1]\"\n"
-                    "for /f \"usebackq delims=\" %%x in (`%%onecmd%%`) do set npackdih=%%x\n"
-                    "call \"%npackdih%\\UninstallMSI.bat\n";
-
-            PackageVersionFile* pvf = new PackageVersionFile(".WPM\\Install.bat",
-                    installScript);
-            ret->files.append(pvf);
-            pvf = new PackageVersionFile(".WPM\\Uninstall.bat",
-                    uninstallScript);
-            ret->files.append(pvf);
-
-            Dependency* d = new Dependency();
-            d->package = "com.googlecode.windows-package-manager.NpackdCL";
-            d->minIncluded = true;
-            d->min.setVersion(1, 15, 7);
-            d->min.normalize();
-            d->maxIncluded = false;
-            d->max.setVersion(2, 0);
-            d->max.normalize();
-            ret->dependencies.append(d);
-
-            d = new Dependency();
-            d->package = "com.googlecode.windows-package-manager.NpackdCL";
-            d->minIncluded = true;
-            d->min.setVersion(1, 0);
-            d->min.normalize();
-            d->maxIncluded = true;
-            d->max.setVersion(1, 0);
-            d->max.normalize();
-            ret->dependencies.append(d);
-
-            d = new Dependency();
-            d->package = "com.googlecode.windows-package-manager.NpackdInstallerHelper";
-            d->minIncluded = true;
-            d->min.setVersion(1, 0);
-            d->min.normalize();
-            d->maxIncluded = true;
-            d->max.setVersion(1, 0);
-            d->max.normalize();
-            ret->dependencies.append(d);
-
-            d = new Dependency();
-            d->package = "com.microsoft.DotNetRedistributable";
-            d->minIncluded = true;
-            d->min.setVersion(4, 0);
-            d->min.normalize();
-            d->maxIncluded = false;
-            d->max.setVersion(5, 0);
-            d->max.normalize();
-            ret->dependencies.append(d);
-        }
-        job->setProgress(1);
-    }
-
-    job->complete();
-
-    return ret;
-}
-
 PackageVersion* UpdateSearcher::findXULRunnerUpdates(Job* job)
 {
     job->setHint("Preparing");
@@ -1347,7 +1227,7 @@ void UpdateSearcher::findUpdates(Job* job)
             "http://www.mozilla.org/en-US/thunderbird/all.html",
             ">([\\d\\.]+)<",
             "http://mirror.informatik.uni-mannheim.de/pub/mirrors/mozilla.org/thunderbird/releases/${{actualVersion}}/win32/en-US/Thunderbird%20Setup%20${{actualVersion}}.exe",
-            DT_GOOGLECODE));
+            DT_SOURCEFORGE));
     dis.append(DiscoveryInfo(
             "com.googlecode.tortoisegit.TortoiseGit",
             "http://code.google.com/p/tortoisegit/downloads/list",
@@ -1522,6 +1402,51 @@ void UpdateSearcher::findUpdates(Job* job)
             "http://www.pdfforge.org/download",
             "Download PDFCreator ([\\d\\.]+)",
             "http://blue.download.pdfforge.org/pdfcreator/${{actualVersion}}/PDFCreator-${{actualVersionWithUnderscores}}_setup.exe"));
+    dis.append(DiscoveryInfo("net.icsharpcode.SharpDevelop",
+            "https://sourceforge.net/api/file/index/project-id/17610/mtime/desc/limit/120/rss",
+            "http://sourceforge.net/projects/sharpdevelop/files/SharpDevelop.+/SharpDevelop_([\\d\\.]+)_Setup.msi",
+            "http://sourceforge.net/projects/sharpdevelop/files/SharpDevelop%204.x/${{version2Parts}}/SharpDevelop_${{actualVersion}}_Setup.msi"));
+    dis.append(DiscoveryInfo("org.apache.subversion.Subversion",
+            "http://www.sliksvn.com/en/download",
+            "> ([\\d\\.]+)<",
+            "http://www.sliksvn.com/pub/Slik-Subversion-${{actualVersion}}-win32.msi"));
+    dis.append(DiscoveryInfo("org.apache.subversion.Subversion64",
+            "http://www.sliksvn.com/en/download",
+            "> ([\\d\\.]+)<",
+            "http://www.sliksvn.com/pub/Slik-Subversion-${{actualVersion}}-x64.msi"));
+    dis.append(DiscoveryInfo("org.apache.tomcat.Tomcat",
+            "http://tomcat.apache.org/download-70.cgi",
+            "<strong>([\\d\\.]+)</strong>",
+            "http://ftp.halifax.rwth-aachen.de/apache/tomcat/tomcat-7/v${{actualVersion}}/bin/apache-tomcat-${{actualVersion}}.exe",
+            DT_SOURCEFORGE));
+    dis.append(DiscoveryInfo("org.apache.tomcat.Tomcat64",
+            "http://tomcat.apache.org/download-70.cgi",
+            "<strong>([\\d\\.]+)</strong>",
+            "http://ftp.halifax.rwth-aachen.de/apache/tomcat/tomcat-7/v${{actualVersion}}/bin/apache-tomcat-${{actualVersion}}.exe",
+            DT_SOURCEFORGE));
+    dis.append(DiscoveryInfo("net.sourceforge.winrun4j.WinRun4j",
+            "http://sourceforge.net/api/file/index/project-id/195634/mtime/desc/limit/20/rss",
+            "winrun4J-([\\d\\.]+)\\.zip",
+            "http://downloads.sourceforge.net/project/winrun4j/winrun4j/${{actualVersion}}/winrun4J-${{actualVersion}}.zip"));
+    dis.append(DiscoveryInfo("net.winscp.WinSCP",
+            "http://winscp.net/eng/download.php",
+            ">WinSCP ([\\d\\.]+)<",
+            "http://downloads.sourceforge.net/project/winscp/WinSCP/${{actualVersion}}/winscp${{actualVersionWithoutDots}}.zip"));
+    dis.append(DiscoveryInfo("org.wireshark.Wireshark",
+            "http://www.wireshark.org/download.html",
+            "The current stable release of Wireshark is ([\\d\\.]+)\\.",
+            "http://wiresharkdownloads.riverbed.com/wireshark/win32/Wireshark-win32-${{actualVersion}}.exe",
+            DT_SOURCEFORGE));
+    dis.append(DiscoveryInfo("org.wireshark.Wireshark64",
+            "http://www.wireshark.org/download.html",
+            "The current stable release of Wireshark is ([\\d\\.]+)\\.",
+            "http://wiresharkdownloads.riverbed.com/wireshark/win64/Wireshark-win64-${{actualVersion}}.exe",
+            DT_SOURCEFORGE));
+    dis.append(DiscoveryInfo("org.xapian.XapianCore",
+            "http://xapian.org/",
+            "latest stable version is ([\\d\\.]+)<",
+            "http://oligarchy.co.uk/xapian/${{actualVersion}}/xapian-core-${{actualVersion}}.tar.gz"));
+
 
     /*
     ${{version}}
@@ -1580,7 +1505,7 @@ void UpdateSearcher::findUpdates(Job* job)
                 pv = findAdobeReaderUpdates(sub);
                 break;
             case 9:
-                pv = findSharpDevelopUpdates(sub);
+                // TODO: remove
                 break;
             case 10:
                 pv = findXULRunnerUpdates(sub);

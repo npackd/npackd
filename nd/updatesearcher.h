@@ -58,7 +58,6 @@ private:
     PackageVersion* findIrfanViewUpdates(Job* job);
     PackageVersion* findAC3FilterUpdates(Job* job);
     PackageVersion* findAdobeReaderUpdates(Job* job);
-    PackageVersion* findSharpDevelopUpdates(Job* job);
     PackageVersion* findXULRunnerUpdates(Job* job);    
     PackageVersion* findClementineUpdates(Job* job);
     PackageVersion* findAdvancedInstallerFreewareUpdates(Job* job,

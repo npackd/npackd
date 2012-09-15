@@ -307,6 +307,19 @@ rmdir "%name%"
         <sha1>cfc5ca35ff157e77328fc55de40b73591f425592</sha1>
         <dependency package="net.zlib.ZLibSource" versions="[1.2.5, 1.2.5]"/>
     </version>
+    <version name="0.5" package="net.sourceforge.quazip.QuaZIPSource">
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b quazip*') do set name=%%x
+cd "%name%"        
+for /f "delims=" %%a in ('dir /b') do (
+  move "%%a" ..
+)
+cd ..
+rmdir "%name%"
+</file>
+        <url>http://downloads.sourceforge.net/project/quazip/quazip/0.5/quazip-0.5.zip</url>
+        <sha1>154e459acd763e5114dc1bb2fe528f9a515feba5</sha1>
+        <dependency package="net.zlib.ZLibSource" versions="[1.2.5, 1.2.5]"/>
+    </version>
     
     <version name="1.2.5" package="net.zlib.ZLibSource">
         <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b zlib*') do set name=%%x
@@ -480,6 +493,7 @@ rmdir "%name%"
         <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.15.7, 2)"/>
         <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1, 1]"/>
     </version>
+    <!-- Detected -->
     
     <version name="4.8.1" package="com.nokia.QtDev-i686-w64" type="one-file">
         <file path=".Npackd\Install.bat">if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
