@@ -747,6 +747,12 @@
         <description>programming language</description>
         <license>org.opensource.MITLicense</license>
     </package>
+    <package name="com.googlecode.conemu-maximus5.ConEmu">
+        <title>ConEmu</title>
+        <url>http://code.google.com/p/conemu-maximus5/</url>
+        <description>console emulator</description>
+        <license>org.opensource.BSD3ClauseLicense</license>
+    </package>
     <package name="com.googlecode.golangide.GoLangIDE">
         <title>Go LiteIDE</title>
         <url>http://code.google.com/p/golangide/</url>
@@ -21265,6 +21271,22 @@ if %err% neq 0 exit %err%
         <sha1>7ba2f52e34e7a329c0b2a56a2af29867963be18e</sha1>
     </version>
     
+    <version name="12.7.27.3" package="com.googlecode.conemu-maximus5.ConEmu" 
+            type="one-file">
+        <file path=".Npackd\Install.bat">if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
+set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=org.7-zip.SevenZIPA" "--versions=[9.20, 9.20]"
+for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set sevenzipa=%%x
+
+for /f %%x in ('dir /b *.7z') do set setup=%%x
+"%sevenzipa%\7za.exe" x "%setup%" &gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt
+</file>
+        <important-file title="ConEmu" path="ConEmu.exe"/>
+        <dependency package="org.7-zip.SevenZIPA" versions="[9.20, 9.20]"/>
+        <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.15.7, 2)"/>
+        <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1, 1]"/>
+        <url>http://conemu-maximus5.googlecode.com/files/ConEmuPack.120727c.7z</url>
+        <sha1>9827e9aeddb62cee727234a245aac11507ed44a5</sha1>
+    </version>
     
     <!-- http://downloads.sourceforge.net/project/npackd/... -->
 </root>

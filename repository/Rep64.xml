@@ -152,6 +152,12 @@
         <description>PDF and PostScript interpreter</description>
         <license>org.gnu.GPLv2</license>
     </package>
+    <package name="com.googlecode.conemu-maximus5.ConEmu64">
+        <title>ConEmu 64 bit</title>
+        <url>http://code.google.com/p/conemu-maximus5/</url>
+        <description>console emulator</description>
+        <license>org.opensource.BSD3ClauseLicense</license>
+    </package>
     <package name="com.googlecode.gomingw.GoMinGW64">
         <title>Go MinGW weekly 64 bit</title>
         <url>http://code.google.com/p/gomingw/</url>
@@ -5546,5 +5552,22 @@ if %err% neq 0 exit %err%
 </file>
         <url>http://download.httrack.com/httrack_x64-3.46.1.exe</url>
         <sha1>cf6866c576118d6473666ccbc31f617de9e559cf</sha1>
+    </version>
+
+    <version name="12.7.27.3" package="com.googlecode.conemu-maximus5.ConEmu64" 
+            type="one-file">
+        <file path=".Npackd\Install.bat">if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
+set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=org.7-zip.SevenZIPA" "--versions=[9.20, 9.20]"
+for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set sevenzipa=%%x
+
+for /f %%x in ('dir /b *.7z') do set setup=%%x
+"%sevenzipa%\7za.exe" x "%setup%" &gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt
+</file>
+        <important-file title="ConEmu" path="ConEmu64.exe"/>
+        <dependency package="org.7-zip.SevenZIPA" versions="[9.20, 9.20]"/>
+        <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.15.7, 2)"/>
+        <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1, 1]"/>
+        <url>http://conemu-maximus5.googlecode.com/files/ConEmuPack.120727c.7z</url>
+        <sha1>9827e9aeddb62cee727234a245aac11507ed44a5</sha1>
     </version>
 </root>
