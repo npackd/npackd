@@ -21319,6 +21319,14 @@ for /f %%x in ('dir /b *.7z') do set setup=%%x
     </version>
     
     <version name="1.2.3" package="org.nginx.Nginx">
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b nginx*') do set name=%%x
+cd "%name%"        
+for /f "delims=" %%a in ('dir /b') do (
+  move "%%a" ..
+)
+cd ..
+rmdir "%name%"
+</file>
         <url>http://nginx.org/download/nginx-1.2.3.zip</url>
         <sha1>005ac71b44956010458e15272d7f997399095756</sha1>
     </version>
