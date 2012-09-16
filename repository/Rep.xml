@@ -239,6 +239,10 @@
         <title>EPLv1</title>
         <url>http://www.eclipse.org/legal/epl-v10.html</url>
     </license>
+    <license name="org.erlang.EPLv1_1">
+        <title>Erlang public license 1.1</title>
+        <url>http://www.erlang.org/EPLICENSE</url>
+    </license>
     <license name="org.firebirdsql.InitialDevelopersPublicLicense">
         <title>Initial Developer's Public License</title>
         <url>http://www.firebirdsql.org/en/initial-developer-s-public-license-version-1-0/</url>
@@ -2218,6 +2222,12 @@ yes - Print a string repeatedly.</description>
         <!-- CPL -->
         <icon>https://lh3.googleusercontent.com/-U3-vb3c4Hlg/T2h0IZg9KaI/AAAAAAAAAY0/mb-U_2_MU50/s800/org.eclipse.EclipseIDEJava.png</icon>
         <license>org.eclipse.EPLv1</license>
+    </package>
+    <package name="org.erlang.Erlang">
+        <title>Erlang</title>
+        <url>http://www.erlang.org/</url>
+        <description>programming language</description>
+        <license>org.erlang.EPLv1_1</license>
     </package>
     <package name="org.faststone.ImageViewer">
         <title>FastStone Image Viewer</title>
@@ -21286,6 +21296,16 @@ for /f %%x in ('dir /b *.7z') do set setup=%%x
         <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1, 1]"/>
         <url>http://conemu-maximus5.googlecode.com/files/ConEmuPack.120727c.7z</url>
         <sha1>9827e9aeddb62cee727234a245aac11507ed44a5</sha1>
+    </version>
+    
+    <!-- running Uninstall.exe returns 1 from cmd.exe -->
+    <version name="15.2" package="org.erlang.Erlang" 
+            type="one-file">
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x
+"%setup%" /S /D=%CD%
+</file>
+        <url>http://www.erlang.org/download/otp_win32_R15B02.exe</url>
+        <sha1>08f8720cde6a98d4a16c73059c5190e933f5d3c0</sha1>
     </version>
     
     <!-- http://downloads.sourceforge.net/project/npackd/... -->
