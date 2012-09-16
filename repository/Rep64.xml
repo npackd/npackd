@@ -80,6 +80,10 @@
         <title>EPLv1</title>
         <url>http://www.eclipse.org/legal/epl-v10.html</url>
     </license>
+    <license name="org.erlang.EPLv1_1">
+        <title>Erlang public license 1.1</title>
+        <url>http://www.erlang.org/EPLICENSE</url>
+    </license>
     <license name="org.gnu.LGPLv2_1">
         <title>LGPLv2.1</title>
         <url>http://www.gnu.org/licenses/old-licenses/lgpl-2.1.html</url>
@@ -366,6 +370,12 @@ This package uses internal version numbers. For example, 1.7.0.1 corresponds to 
         <!-- CPL -->
         <icon>https://lh3.googleusercontent.com/-U3-vb3c4Hlg/T2h0IZg9KaI/AAAAAAAAAY0/mb-U_2_MU50/s800/org.eclipse.EclipseIDEJava.png</icon>
         <license>org.eclipse.EPLv1</license>
+    </package>
+    <package name="org.erlang.Erlang64">
+        <title>Erlang 64 bit</title>
+        <url>http://www.erlang.org/</url>
+        <description>programming language</description>
+        <license>org.erlang.EPLv1_1</license>
     </package>
     <package name="org.freepascal.lazarus.Lazarus64">
         <title>Lazarus 64 bit</title>
@@ -5569,5 +5579,15 @@ for /f %%x in ('dir /b *.7z') do set setup=%%x
         <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1, 1]"/>
         <url>http://conemu-maximus5.googlecode.com/files/ConEmuPack.120727c.7z</url>
         <sha1>9827e9aeddb62cee727234a245aac11507ed44a5</sha1>
+    </version>
+
+    <!-- running Uninstall.exe returns 1 from cmd.exe -->
+    <version name="15.2" package="org.erlang.Erlang64" 
+            type="one-file">
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x
+"%setup%" /S /D=%CD%
+</file>
+        <url>http://www.erlang.org/download/otp_win64_R15B02.exe</url>
+        <sha1>e565c34fe66f51441b79cca6f277fd28a6f2857b</sha1>
     </version>
 </root>
