@@ -98,6 +98,11 @@
         <title>MiKTeX license</title>
         <url>http://www.miktex.org/copying</url>
     </license>
+    <package name="org.mongodb.MongoDB64">
+        <title>MongoDB 64 bit</title>
+        <url>http://www.mongodb.org/</url>
+        <description>NoSQL database</description>
+    </package>
     <license name="se.cdburnerxp.License">
         <title>CDBurnerXP license</title>
         <url>http://cdburnerxp.se/help/Intro/license</url>
@@ -5589,5 +5594,18 @@ for /f %%x in ('dir /b *.7z') do set setup=%%x
 </file>
         <url>http://www.erlang.org/download/otp_win64_R15B02.exe</url>
         <sha1>e565c34fe66f51441b79cca6f277fd28a6f2857b</sha1>
+    </version>
+
+    <version name="2.2" package="org.mongodb.MongoDB64">
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b mongo*') do set name=%%x
+cd "%name%" 
+for /f "delims=" %%a in ('dir /b') do (
+move "%%a" ..
+)
+cd ..
+rmdir "%name%"
+</file>
+        <url>http://downloads.mongodb.org/win32/mongodb-win32-x86_64-2.2.0.zip</url>
+        <sha1>C85E2D756E03F8FC2DF44BFEE96222140A689D95</sha1>
     </version>
 </root>

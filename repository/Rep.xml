@@ -2509,6 +2509,11 @@ yes - Print a string repeatedly.</description>
         <description>instant messenger</description>
         <license>org.gnu.GPLv2</license>
     </package>
+    <package name="org.mongodb.MongoDB">
+        <title>MongoDB</title>
+        <url>http://www.mongodb.org/</url>
+        <description>NoSQL database</description>
+    </package>
     <package name="org.mozilla.Firefox">
         <title>Firefox</title>
         <url>http://www.mozilla.com/en-US/firefox/new/</url>
@@ -21331,5 +21336,18 @@ rmdir "%name%"
         <sha1>005ac71b44956010458e15272d7f997399095756</sha1>
     </version>
     
+    <version name="2.2" package="org.mongodb.MongoDB">
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b mongo*') do set name=%%x
+cd "%name%" 
+for /f "delims=" %%a in ('dir /b') do (
+move "%%a" ..
+)
+cd ..
+rmdir "%name%"
+</file>
+        <url>http://downloads.mongodb.org/win32/mongodb-win32-i386-2.2.0.zip</url>
+        <sha1>3C826845989D74E0E4F3ABC52457CDDB1A7C7578</sha1>
+    </version>
+
     <!-- http://downloads.sourceforge.net/project/npackd/... -->
 </root>
