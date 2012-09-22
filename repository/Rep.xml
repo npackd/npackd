@@ -2015,6 +2015,12 @@ yes - Print a string repeatedly.</description>
         <description>X server</description>
         <license>net.sourceforge.xming.XMingLicense</license>
     </package>
+    <package name="net.sourceforge.xmlstar.XMLStarlet">
+        <title>XMLStarlet</title>
+        <url>http://sourceforge.net/projects/xming/</url>
+        <description>command line XML toolkit</description>
+        <license>org.opensource.MITLicense</license>
+    </package>
     <package name="net.srware.Iron">
         <title>Iron</title>
         <url>http://www.srware.net/software_srware_iron.php</url>
@@ -21347,6 +21353,34 @@ rmdir "%name%"
 </file>
         <url>http://downloads.mongodb.org/win32/mongodb-win32-i386-2.2.0.zip</url>
         <sha1>3C826845989D74E0E4F3ABC52457CDDB1A7C7578</sha1>
+    </version>
+
+    <version name="1.4" package="net.sourceforge.xmlstar.XMLStarlet">
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b xml*') do set name=%%x
+cd "%name%" 
+for /f "delims=" %%a in ('dir /b') do (
+move "%%a" ..
+)
+cd ..
+rmdir "%name%"
+
+if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
+set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.CLU" "--versions=[1, 2)"
+for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set clu=%%x
+"%clu%\clu" add-path --path "%CD%"
+verify
+</file>
+        <file path=".WPM\Uninstall.bat">if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
+set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.CLU" "--versions=[1, 2)"
+for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set clu=%%x
+"%clu%\clu" remove-path --path "%CD%"
+verify
+</file>
+        <url>http://heanet.dl.sourceforge.net/project/xmlstar/xmlstarlet/1.4.0/xmlstarlet-1.4.0-win32.zip</url>
+        <sha1>238089faf9fe96dfb61aecd7c91feaaa951ac622</sha1>
+        <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.15.7, 2)"/>
+        <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1, 1]"/>
+        <dependency package="com.googlecode.windows-package-manager.CLU" versions="[1, 2)"/>
     </version>
 
     <!-- http://downloads.sourceforge.net/project/npackd/... -->

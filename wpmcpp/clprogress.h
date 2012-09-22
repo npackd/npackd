@@ -19,6 +19,7 @@ private slots:
     void jobChanged(const JobState& s);
     void jobChangedSimple(const JobState& s);
 private:
+    int updateRate;
     CONSOLE_SCREEN_BUFFER_INFO progressPos;
     time_t lastJobChange;
     QString lastHint;
