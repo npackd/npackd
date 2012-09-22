@@ -4,7 +4,7 @@
 #include "wpmutils.h"
 
 CLProgress::CLProgress(QObject *parent) :
-    QObject(parent)
+    QObject(parent), updateRate(5)
 {
 }
 
@@ -14,7 +14,7 @@ void CLProgress::jobChanged(const JobState& s)
 
     time_t now = time(0);
     if (!s.completed) {
-        if (now - this->lastJobChange != 0) {
+        if (now - this->lastJobChange >= this->updateRate) {
             this->lastJobChange = now;
             if (!WPMUtils::isOutputRedirected(true)) {
                 int w = progressPos.dwSize.X - 6;
@@ -47,7 +47,7 @@ void CLProgress::jobChangedSimple(const JobState& s)
 {
     if (!s.completed) {
         time_t now = time(0);
-        if (now - this->lastJobChange != 0) {
+        if (now - this->lastJobChange >= this->updateRate) {
             this->lastJobChange = now;
 
             int n = 0;
@@ -93,8 +93,8 @@ Job* CLProgress::createJob()
     connect(job, SIGNAL(changed(const JobState&)), this,
             SLOT(jobChangedSimple(const JobState&)));
 
-    // -1 so that we do not have the initial 1 second delay
-    this->lastJobChange = time(0) - 1;
+    // -updateRate so that we do not have the initial delay
+    this->lastJobChange = time(0) - this->updateRate;
 
     return job;
 }

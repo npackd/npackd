@@ -190,6 +190,8 @@ void App::usage()
         "        appends a repository to the list",
         "    npackdcl remove-repo --url=<repository>",
         "        removes a repository from the list",
+        "    npackdcl download",
+        "        download all packages",
         "Options:",
     };
     for (int i = 0; i < (int) (sizeof(lines) / sizeof(lines[0])); i++) {
