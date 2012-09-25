@@ -315,6 +315,10 @@
         <title>PSF license</title>
         <url>http://docs.python.org/license.html</url>
     </license>
+    <license name="org.quickdic.QuickDicLicense">
+        <title>QuickDic license</title>
+        <url>http://quickdic.org/Contents/info_e.html</url>
+    </license>
     <license name="org.truecrypt.License">
         <title>TrueCrypt license</title>
         <url>http://www.truecrypt.org/legal/license</url>
@@ -2669,6 +2673,12 @@ yes - Print a string repeatedly.</description>
         <description>programming language</description>
         <license>org.python.PSFLicense</license>
     </package>
+    <package name="org.quickdic.QuickDic">
+        <title>QuickDic</title>
+        <url>http://www.quickdic.de/</url>
+        <description>German English dictionary</description>
+        <license>org.quickdic.QuickDicLicense</license>
+    </package>
     <package name="org.safer-networking.SpyBotSearchAndDestroyInstaller">
         <title>Spybot Search&amp;Destroy installer</title>
         <url>http://www.safer-networking.org/en/home/index.html</url>
@@ -3352,7 +3362,6 @@ taskkill /F /FI "WINDOWTITLE eq NetStumbler*"
     <version name="1.6.6" package="org.unrealvoodoo.hiteck.AlbumArt"
             type="one-file">
         <file path=".Npackd\Install.bat">albumart-1.6.6-win32-setup.exe /S /D=%CD%</file>
-        <file path=".Npackd\Uninstall.bat">uninst.exe /S</file>
         <url>http://www.unrealvoodoo.org/hiteck/projects/albumart/dist/albumart-1.6.6-win32-setup.exe</url>
         <sha1>b009f154c58894b8796a9c85cde62cd123114d49</sha1>
     </version>
@@ -8843,7 +8852,7 @@ call "%npackdih%\InstallMSI.bat" INSTALLLOCATION yes
     <version package="com.advancedinstaller.AdvancedInstallerFreeware" type="one-file" name="9.2">
         <detect-msi>{38ab0bf8-6c59-4c34-a2e2-9ebdaef568fe}</detect-msi>
     </version>
-    <version package="com.advancedinstaller.AdvancedInstallerFreeware" type="one-file" name="9.4">
+    <version package="com.advancedinstaller.AdvancedInstallerFreeware" type="one-file" name="9.5">
         <file path=".Npackd\Install.bat">if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
 set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.NpackdInstallerHelper" "--versions=[1.1, 2)"
 for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set npackdih=%%x
@@ -10722,40 +10731,10 @@ ren "%setup%" BitTorrent.exe
         <url>http://download.bittorrent.com/7.6.1/BitTorrent8.exe</url>
     </version>
 
-    <!-- old releases are regularly deleted -->
-    <version name="5.12.3.1204" package="com.activestate.ActivePerl"
-            type="one-file">
-        <file path=".Npackd\Install.bat">if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
-set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.NpackdInstallerHelper" "--versions=[1, 1]"
-for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set npackdih=%%x
-call "%npackdih%\InstallMSI.bat" TARGETDIR
-if %errorlevel% neq 0 exit /b %errorlevel%
-
-if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
-set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.CLU" "--versions=[1, 2)"
-for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set clu=%%x
-"%clu%\clu" add-path --path "%CD%\Perl\bin"
-verify
-</file>
-        <file path=".Npackd\Uninstall.bat">if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
-set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.NpackdInstallerHelper" "--versions=[1, 1]"
-for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set npackdih=%%x
-call "%npackdih%\UninstallMSI.bat"
-if %errorlevel% neq 0 exit /b %errorlevel%
-
-if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
-set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.CLU" "--versions=[1, 2)"
-for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set clu=%%x
-"%clu%\clu" remove-path --path "%CD%\Perl\bin"
-verify
-</file>
-        <url>http://downloads.activestate.com/ActivePerl/releases/5.12.3.1204/ActivePerl-5.12.3.1204-MSWin32-x86-294330.msi</url>
-        <sha1>9C2B8C6BCAD201FA11576B91E6840689EF58E3EF</sha1>
-        <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1, 1]"/>
-        <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.15.7, 2)"/>
-        <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1, 1]"/>
-        <dependency package="com.googlecode.windows-package-manager.CLU" versions="[1, 2)"/>
-    </version>
+    <!-- 
+        old releases are regularly deleted, but the default license does not
+        allow redistribution
+    -->
     <version name="5.14.1.1401" package="com.activestate.ActivePerl"
             type="one-file">
         <file path=".Npackd\Install.bat">if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
@@ -10850,6 +10829,39 @@ verify
 </file>
         <url>http://downloads.activestate.com/ActivePerl/releases/5.16.0.1600/ActivePerl-5.16.0.1600-MSWin32-x86-295879.msi</url>
         <sha1>616d55bced549e0238d577b4d7c6b2cc20da22ca</sha1>
+        <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1, 1]"/>
+        <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.15.7, 2)"/>
+        <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1, 1]"/>
+        <dependency package="com.googlecode.windows-package-manager.CLU" versions="[1, 2)"/>
+    </version>
+    <version name="5.16.1.1601" package="com.activestate.ActivePerl"
+            type="one-file">
+        <file path=".Npackd\Install.bat">if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
+set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.NpackdInstallerHelper" "--versions=[1, 1]"
+for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set npackdih=%%x
+call "%npackdih%\InstallMSI.bat" TARGETDIR
+if %errorlevel% neq 0 exit /b %errorlevel%
+
+if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
+set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.CLU" "--versions=[1, 2)"
+for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set clu=%%x
+"%clu%\clu" add-path --path "%CD%\Perl\bin"
+verify
+</file>
+        <file path=".Npackd\Uninstall.bat">if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
+set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.NpackdInstallerHelper" "--versions=[1, 1]"
+for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set npackdih=%%x
+call "%npackdih%\UninstallMSI.bat"
+if %errorlevel% neq 0 exit /b %errorlevel%
+
+if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
+set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.CLU" "--versions=[1, 2)"
+for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set clu=%%x
+"%clu%\clu" remove-path --path "%CD%\Perl\bin"
+verify
+</file>
+        <url>http://downloads.activestate.com/ActivePerl/releases/5.16.1.1601/ActivePerl-5.16.1.1601-MSWin32-x86-296175.msi</url>
+        <sha1>53400c76b8497c667d6f79c87f9e3007f75e8a69</sha1>
         <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1, 1]"/>
         <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.15.7, 2)"/>
         <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1, 1]"/>
@@ -11862,11 +11874,9 @@ ren "%setup%" EraserInstaller.exe
 
     <version name="1.0.1.2" package="com.aim.AIM2" type="one-file">
         <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x
-"%setup%" /S /D=%CD%\Prog
+"%setup%" /S /D=%CD%
 if %errorlevel% neq 0 exit /b %errorlevel%
 taskkill /f /im aim.exe
-</file>
-        <file path=".Npackd\Uninstall.bat">"Prog\Uninstall AIM.exe" /S _?=%CD%\Prog
 </file>
         <url>http://download.newaol.com/aim/win/AIM_Install.exe</url>
     </version>
@@ -21381,6 +21391,18 @@ verify
         <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.15.7, 2)"/>
         <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1, 1]"/>
         <dependency package="com.googlecode.windows-package-manager.CLU" versions="[1, 2)"/>
+    </version>
+
+    <version name="7.3.48" package="org.quickdic.QuickDic" type="one-file">
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x
+"%setup%" "-d%CD%" -s
+if %errorlevel% neq 0 exit /b %errorlevel%
+
+taskkill /f /im QuickDic.exe
+verify
+</file>
+        <url>http://quickdic.org/Contents/data/QuickDic73_db48.exe</url>
+        <sha1>eacfd5c497237e07cf2967e1075b1ab8de5c4b38</sha1>
     </version>
 
     <!-- http://downloads.sourceforge.net/project/npackd/... -->
