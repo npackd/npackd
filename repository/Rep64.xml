@@ -35,6 +35,10 @@
         <title>Dependency Walker license</title>
         <url>http://www.dependencywalker.com/</url>
     </license>
+    <license name="com.microsoft.SecurityEssentialsLicense">
+        <title>Security Essentials license</title>
+        <url>http://windows.microsoft.com/en-US/windows/products/security-essentials/eula</url>
+    </license>
     <license name="com.mythicsoft.AgentRansackLicense">
         <title>Agent Ransack license</title>
         <url>http://www.mythicsoft.com/kb/Agent%20Ransack%20EULA.ashx</url>
@@ -204,6 +208,12 @@
         <title>Microsoft Core XML Services MSXML 64 bit</title>
         <url>http://www.microsoft.com/downloads/en/details.aspx?FamilyID=993c0bcf-3bcf-4009-be21-27e85e1857b1#Overview</url>
         <description>XML library</description>
+    </package>
+    <package name="com.microsoft.SecurityEssentials64">
+        <title>Security Essentials 64 bit</title>
+        <url>http://windows.microsoft.com/en-US/windows/products/security-essentials</url>
+        <description>antivirus</description>
+        <license>com.microsoft.SecurityEssentialsLicense</license>
     </package>
     <package name="com.microsoft.VirtualPC64Installer">
         <title>VirtualPC 64 bit installer</title>
@@ -5640,5 +5650,16 @@ rmdir "%name%"
 </file>
         <url>http://downloads.mongodb.org/win32/mongodb-win32-x86_64-2.2.0.zip</url>
         <sha1>C85E2D756E03F8FC2DF44BFEE96222140A689D95</sha1>
+    </version>
+
+    <version name="4.1.522" package="com.microsoft.SecurityEssentials64" 
+            type="one-file">
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x
+"%setup%" /s /o /runwgacheck
+</file>
+        <file path=".Npackd\Uninstall.bat">mseinstall.exe /u /s
+</file>
+        <url>http://mse.dlservice.microsoft.com/download/A/3/8/A38FFBF2-1122-48B4-AF60-E44F6DC28BD8/enus/amd64/mseinstall.exe</url>
+        <sha1>6B50F94AD10FE5540BFFA7F7C7CB008FD5463FC5</sha1>
     </version>
 </root>
