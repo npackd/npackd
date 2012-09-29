@@ -138,6 +138,8 @@ int App::process()
             r = update();
         } else if (cmd == "download") {
             r = download();
+        } else if (cmd == "detect") {
+            r = detect();
         } else {
             WPMUtils::outputTextConsole("Wrong command: " + cmd + "\n", false);
             r = 1;
@@ -162,7 +164,7 @@ void App::addNpackdCL()
 void App::usage()
 {
     WPMUtils::outputTextConsole(QString(
-            "NpackdCL %1 - Npackd command line tool").
+            "NpackdCL %1 - Npackd command line tool\n").
             arg(WPMUtils::NPACKD_VERSION));
     const char* lines[] = {
         "Usage:",
@@ -192,6 +194,8 @@ void App::usage()
         "        removes a repository from the list",
         "    npackdcl download",
         "        download all packages",
+        "    npackdcl detect",
+        "        detect packages from the MSI database and software control panel",
         "Options:",
     };
     for (int i = 0; i < (int) (sizeof(lines) / sizeof(lines[0])); i++) {
@@ -964,6 +968,26 @@ int App::download()
         WPMUtils::outputTextConsole(QString("Failed package versions: %1").
                 arg(sl.join(", ")), false);
     }
+
+    job->complete();
+
+    return r;
+}
+
+int App::detect()
+{
+    int r = 0;
+
+    Job* job = clp.createJob();
+    job->setHint("Loading repositories");
+
+    Repository* rep = Repository::getDefault();
+    rep->reload(job);
+    if (!job->getErrorMessage().isEmpty()) {
+        WPMUtils::outputTextConsole(job->getErrorMessage() + "\n", false);
+        r = 1;
+    }
+    delete sub;
 
     job->complete();
 
