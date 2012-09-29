@@ -1561,7 +1561,7 @@ void Repository::load(Job* job, bool useCache)
         for (int i = 0; i < urls.count(); i++) {
             job->setHint(QString("Repository %1 of %2").arg(i + 1).
                          arg(urls.count()));
-            Job* s = job->newSubJob(0.9 / urls.count());
+            Job* s = job->newSubJob(1.0 / urls.count());
             loadOne(urls.at(i), s, useCache);
             if (!s->getErrorMessage().isEmpty()) {
                 job->setErrorMessage(QString(
@@ -1578,7 +1578,7 @@ void Repository::load(Job* job, bool useCache)
         }
     } else {
         job->setErrorMessage("No repositories defined");
-        job->setProgress(0.9);
+        job->setProgress(1);
     }
 
     // qDebug() << "Repository::load.3";

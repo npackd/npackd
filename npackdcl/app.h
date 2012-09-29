@@ -35,6 +35,7 @@ private:
     int info();
     int update();
     int download();
+    int detect();
 
     /**
      * Internal tests.
