@@ -21065,6 +21065,16 @@ rmdir "%name%"
         <url>http://d1iwq2e2xrohf.cloudfront.net/tools/studio/standalone/3.2.0.201206251729/win/Aptana_Studio_3_Setup_3.2.0.exe</url> 
         <sha1>ea4815dc799ad0c8b1bbf226530e274f40d5fa5c</sha1>
     </version>
+    <version name="3.2.2" package="com.aptana.Studio" type="one-file">
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x
+"%setup%" /S /D=%CD%
+</file>
+        <file path=".Npackd\Uninstall.bat">uninst.exe /S _?=%CD%
+</file>
+        <dependency package="com.googlecode.msysgit.MSysGit" versions="[1.7, 2)"/>
+        <url>http://d1iwq2e2xrohf.cloudfront.net/tools/studio/standalone/3.2.2.201208201020/win/Aptana_Studio_3_Setup_3.2.2.exe</url> 
+        <sha1>99F606DC1D6BE31D2DDDCDB955A5A0F194F03856</sha1>
+    </version>
 
     <version name="4.16" package="com.sysinternals.BgInfo">
         <important-file path="Bginfo.exe" title="BgInfo"/>
