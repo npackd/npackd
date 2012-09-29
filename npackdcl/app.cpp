@@ -141,7 +141,8 @@ int App::process()
         } else if (cmd == "detect") {
             r = detect();
         } else {
-            WPMUtils::outputTextConsole("Wrong command: " + cmd + "\n", false);
+            WPMUtils::outputTextConsole("Wrong command: " + cmd +
+                    ". Try npackdcl help\n", false);
             r = 1;
         }
     }
@@ -551,213 +552,219 @@ int App::update()
 
 int App::add()
 {
-    int r = 0;
-
-    Repository* rep = Repository::getDefault();
     Job* job = clp.createJob();
-    rep->reload(job);
-    if (!job->getErrorMessage().isEmpty()) {
-        WPMUtils::outputTextConsole(job->getErrorMessage() + "\n", false);
-        r = 1;
+
+    if (job->shouldProceed("Loading repositories")) {
+        Repository* rep = Repository::getDefault();
+        Job* rjob = job->newSubJob(0.1);
+        rep->reload(rjob);
+        if (!rjob->getErrorMessage().isEmpty()) {
+            job->setErrorMessage(rjob->getErrorMessage());
+        }
+        delete rjob;
     }
-    delete job;
 
     addNpackdCL();
 
     QString package = cl.get("package");
     QString version = cl.get("version");
 
-    if (r == 0) {
+    if (job->shouldProceed()) {
         if (package.isNull()) {
-            WPMUtils::outputTextConsole("Missing option: --package\n", false);
-            r = 1;
+            job->setErrorMessage("Missing option: --package");
         }
     }
 
-    if (r == 0) {
-        do {
-            if (!Package::isValidName(package)) {
-                WPMUtils::outputTextConsole("Invalid package name: " +
-                        package + "\n", false);
-                r = 1;
-                break;
-            }
+    if (job->shouldProceed()) {
+        if (!Package::isValidName(package)) {
+            job->setErrorMessage("Invalid package name: " +
+                    package);
+        }
+    }
 
-            Repository* rep = Repository::getDefault();
-            QList<Package*> packages = rep->findPackages(package);
-            if (packages.count() == 0) {
-                WPMUtils::outputTextConsole("Unknown package: " +
-                        package + "\n", false);
-                r = 1;
-                break;
-            }
-            if (packages.count() > 1) {
-                WPMUtils::outputTextConsole("Ambiguous package name\n", false);
-                r = 1;
-                break;
-            }
+    Repository* rep = Repository::getDefault();
+    QList<Package*> packages;
+    if (job->shouldProceed()) {
+        packages = rep->findPackages(package);
+        if (packages.count() == 0) {
+            job->setErrorMessage("Unknown package: " +
+                    package);
+        } else if (packages.count() > 1) {
+            job->setErrorMessage("Ambiguous package name");
+        }
+    }
 
-            // debug: WPMUtils::outputTextConsole <<  package) << " " << versions);
-            PackageVersion* pv;
-            if (version.isNull()) {
-                pv = rep->findNewestInstallablePackageVersion(
-                        packages.at(0)->name);
+    // debug: WPMUtils::outputTextConsole <<  package) << " " << versions);
+    PackageVersion* pv = 0;
+    if (job->shouldProceed()) {
+        if (version.isNull()) {
+            pv = rep->findNewestInstallablePackageVersion(
+                    packages.at(0)->name);
+        } else {
+            Version v;
+            if (!v.setVersion(version)) {
+                job->setErrorMessage("Cannot parse version: " + version);
             } else {
-                Version v;
-                if (!v.setVersion(version)) {
-                    WPMUtils::outputTextConsole("Cannot parse version: " +
-                            version + "\n", false);
-                    r = 1;
-                    break;
-                }
                 pv = rep->findPackageVersion(packages.at(0)->name, version);
             }
-
-            // debug: WPMUtils::outputTextConsole << "Versions: " << d.toString()) << std::endl;
-            if (!pv) {
-                WPMUtils::outputTextConsole("Package version not found\n", false);
-                r = 1;
-                break;
-            }
-            if (pv->installed()) {
-                WPMUtils::outputTextConsole("Package is already installed in " +
-                        pv->getPath() + "\n", false);
-                r = 0;
-                break;
-            }
-
-            QList<InstallOperation*> ops;
-            QList<PackageVersion*> installed =
-                    Repository::getDefault()->getInstalled();
-            QList<PackageVersion*> avoid;
-            QString err = pv->planInstallation(installed, ops, avoid);
-            if (!err.isEmpty()) {
-                WPMUtils::outputTextConsole(err + "\n", false);
-                r = 1;
-                break;
-            }
-
-            Job* ijob = clp.createJob();
-            rep->process(ijob, ops);
-            if (!ijob->getErrorMessage().isEmpty()) {
-                WPMUtils::outputTextConsole(
-                        QString("Error installing %1: %2\n").
-                        arg(pv->toString()).arg(ijob->getErrorMessage()),
-                        false);
-                r = 1;
-            } else {
-                WPMUtils::outputTextConsole("The package was installed successfully\n");
-            }
-            delete ijob;
-        } while (false);
+        }
     }
+
+    // debug: WPMUtils::outputTextConsole << "Versions: " << d.toString()) << std::endl;
+    if (job->shouldProceed()) {
+        if (!pv) {
+            job->setErrorMessage("Package version not found");
+        }
+    }
+
+    bool alreadyInstalled = false;
+    if (job->shouldProceed()) {
+        if (pv->installed()) {
+            WPMUtils::outputTextConsole("Package is already installed in " +
+                    pv->getPath() + "\n");
+            alreadyInstalled = true;
+        }
+    }
+
+    QList<InstallOperation*> ops;
+    if (job->shouldProceed() && !alreadyInstalled) {
+        QList<PackageVersion*> installed =
+                Repository::getDefault()->getInstalled();
+        QList<PackageVersion*> avoid;
+        QString err = pv->planInstallation(installed, ops, avoid);
+        if (!err.isEmpty()) {
+            job->setErrorMessage(err);
+        }
+    }
+
+    if (!alreadyInstalled && job->shouldProceed("Installing")) {
+        Job* ijob = job->newSubJob(0.9);
+        rep->process(ijob, ops);
+        if (!ijob->getErrorMessage().isEmpty())
+            job->setErrorMessage(QString("Error installing %1: %2\n").
+                    arg(pv->toString()).arg(ijob->getErrorMessage()));
+
+        delete ijob;
+    }
+
+    job->complete();
+
+    int r;
+    if (!job->getErrorMessage().isEmpty()) {
+        WPMUtils::outputTextConsole(job->getErrorMessage(), false);
+        r = 1;
+    } else {
+        if (!alreadyInstalled)
+            WPMUtils::outputTextConsole("The package was installed successfully\n");
+        r = 0;
+    }
+
+    delete job;
 
     return r;
 }
 
 int App::remove()
 {
-    int r = 0;
+    Job* job = clp.createJob();
 
     Repository* rep = Repository::getDefault();
-    Job* job = clp.createJob();
-    rep->reload(job);
-    if (!job->getErrorMessage().isEmpty()) {
-        WPMUtils::outputTextConsole(job->getErrorMessage() + "\n", false);
-        r = 1;
+
+    if (job->shouldProceed("Loading repositories")) {
+        Job* rjob = job->newSubJob(0.1);
+        rep->reload(rjob);
+        if (!rjob->getErrorMessage().isEmpty()) {
+            job->setErrorMessage(rjob->getErrorMessage());
+        }
+        delete rjob;
     }
-    delete job;
 
     addNpackdCL();
 
     QString package = cl.get("package");
     QString version = cl.get("version");
 
-    if (r == 0) {
+    if (job->shouldProceed()) {
         if (package.isNull()) {
-            WPMUtils::outputTextConsole("Missing option: --package\n", false);
-            r = 1;
+            job->setErrorMessage("Missing option: --package");
         }
     }
 
-    if (r == 0) {
+    if (job->shouldProceed()) {
         if (version.isNull()) {
-            WPMUtils::outputTextConsole("Missing option: --version\n", false);
-            r = 1;
+            job->setErrorMessage("Missing option: --version");
         }
     }
 
-    if (r == 0) {
-        do {
-            if (!Package::isValidName(package)) {
-                WPMUtils::outputTextConsole("Invalid package name: " +
-                        package + "\n", false);
-                r = 1;
-                break;
-            }
-
-            Repository* rep = Repository::getDefault();
-            QList<Package*> packages = rep->findPackages(package);
-            if (packages.count() == 0) {
-                WPMUtils::outputTextConsole("Unknown package: " +
-                        package + "\n", false);
-                r = 1;
-                break;
-            }
-            if (packages.count() > 1) {
-                WPMUtils::outputTextConsole("Ambiguous package name\n", false);
-                r = 1;
-                break;
-            }
-
-            // debug: WPMUtils::outputTextConsole <<  package) << " " << versions);
-            Version v;
-            if (!v.setVersion(version)) {
-                WPMUtils::outputTextConsole("Cannot parse version: " +
-                        version + "\n", false);
-                r = 1;
-                break;
-            }
-
-            // debug: WPMUtils::outputTextConsole << "Versions: " << d.toString()) << std::endl;
-            PackageVersion* pv = rep->findPackageVersion(
-                    packages.at(0)->name, version);
-            if (!pv) {
-                WPMUtils::outputTextConsole("Package not found\n", false);
-                r = 1;
-                break;
-            }
-
-            if (!pv->installed()) {
-                WPMUtils::outputTextConsole("Package is not installed\n", false);
-                r = 0;
-                break;
-            }
-
-            QList<InstallOperation*> ops;
-            QList<PackageVersion*> installed =
-                    Repository::getDefault()->getInstalled();
-            QString err = pv->planUninstallation(installed, ops);
-            if (!err.isEmpty()) {
-                WPMUtils::outputTextConsole(err + "\n", false);
-                r = 1;
-                break;
-            }
-
-            Job* job = clp.createJob();
-            rep->process(job, ops);
-            if (!job->getErrorMessage().isEmpty()) {
-                WPMUtils::outputTextConsole(
-                        QString("Error removing %1: %2\n").
-                        arg(pv->toString()).arg(job->getErrorMessage()),
-                        false);
-                r = 1;
-            } else {
-                WPMUtils::outputTextConsole("The package was removed successfully\n");
-            }
-            delete job;
-        } while (false);
+    if (job->shouldProceed()) {
+        if (!Package::isValidName(package)) {
+            job->setErrorMessage("Invalid package name: " + package);
+        }
     }
+
+    QList<Package*> packages;
+    if (job->shouldProceed()) {
+        packages = rep->findPackages(package);
+        if (packages.count() == 0) {
+            job->setErrorMessage("Unknown package: " + package);
+        } else if (packages.count() > 1) {
+            job->setErrorMessage("Ambiguous package name");
+        }
+    }
+
+    // debug: WPMUtils::outputTextConsole <<  package) << " " << versions);
+    Version v;
+    if (job->shouldProceed()) {
+        if (!v.setVersion(version)) {
+            job->setErrorMessage("Cannot parse version: " + version);
+        }
+    }
+
+    // debug: WPMUtils::outputTextConsole << "Versions: " << d.toString()) << std::endl;
+    PackageVersion* pv;
+    if (job->shouldProceed()) {
+        pv = rep->findPackageVersion(packages.at(0)->name, version);
+        if (!pv) {
+            job->setErrorMessage("Package not found");
+        }
+    }
+
+    if (job->shouldProceed()) {
+        if (!pv->installed()) {
+            job->setErrorMessage("Package is not installed");
+        }
+    }
+
+    QList<InstallOperation*> ops;
+    if (job->shouldProceed()) {
+        QList<PackageVersion*> installed =
+                Repository::getDefault()->getInstalled();
+        QString err = pv->planUninstallation(installed, ops);
+        if (!err.isEmpty()) {
+            job->setErrorMessage(err);
+        }
+    }
+
+    if (job->shouldProceed("Removing")) {
+        Job* removeJob = job->newSubJob(0.9);
+        rep->process(removeJob, ops);
+        if (!removeJob->getErrorMessage().isEmpty())
+            job->setErrorMessage(QString("Error removing %1: %2\n").
+                    arg(pv->toString()).arg(removeJob->getErrorMessage()));
+        delete removeJob;
+    }
+
+    job->complete();
+
+    int r;
+    if (!job->getErrorMessage().isEmpty()) {
+        WPMUtils::outputTextConsole(job->getErrorMessage(), false);
+        r = 1;
+    } else {
+        WPMUtils::outputTextConsole("The package was removed successfully\n");
+        r = 0;
+    }
+    delete job;
 
     return r;
 }
@@ -986,10 +993,10 @@ int App::detect()
     if (!job->getErrorMessage().isEmpty()) {
         WPMUtils::outputTextConsole(job->getErrorMessage() + "\n", false);
         r = 1;
+    } else {
+        WPMUtils::outputTextConsole("Package detection completed successfully\n");
     }
-    delete sub;
-
-    job->complete();
+    delete job;
 
     return r;
 }

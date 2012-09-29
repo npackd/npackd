@@ -136,7 +136,7 @@ public:
     /**
      * @return true if this job was cancelled.
      */
-    bool isCancelled();
+    bool isCancelled() const;
 
     /**
      * Creates a sub-job for the specified part of this job. The error message
@@ -199,6 +199,21 @@ public:
      * }
      */
     bool shouldProceed(const QString& hint);
+
+    /**
+     * This function can be used to simplify the following case:
+     *
+     * if (!job->isCancelled() && job->getErrorMessage().isEmpty() {
+     *     ...
+     * }
+     *
+     * as follows:
+     *
+     * if (job->shouldProceed() {
+     *     ...
+     * }
+     */
+    bool shouldProceed() const;
 signals:
     /**
      * This signal will be fired each time something in this object

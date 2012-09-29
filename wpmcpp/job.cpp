@@ -84,7 +84,7 @@ void Job::complete()
     }
 }
 
-bool Job::isCancelled()
+bool Job::isCancelled() const
 {
     return this->cancelRequested;
 }
@@ -206,6 +206,12 @@ bool Job::shouldProceed(const QString& hint)
     bool b = !this->isCancelled() && this->getErrorMessage().isEmpty();
     if (b)
         setHint(hint);
+    return b;
+}
+
+bool Job::shouldProceed() const
+{
+    bool b = !this->isCancelled() && this->getErrorMessage().isEmpty();
     return b;
 }
 
