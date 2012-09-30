@@ -5265,6 +5265,15 @@ rmdir /s /q "%name%"
         <url>http://downloads.sourceforge.net/project/aria2/stable/aria2-1.15.1/aria2-1.15.1-x86_64-w64-mingw32-build1.zip</url>
         <sha1>4c33c0cf245d0f95ad5d0656c5d1c811e017e835</sha1>
     </version>
+    <version package="net.sourceforge.aria2.Aria2_64" name="1.15.2">
+        <important-file title="Read Me" path="README.html"/>
+        <file path=".Npackd\Install.bat">for /f %%x in ('dir /b aria*') do set name=%%x
+xcopy "%name%\*" . /E /H
+rmdir /s /q "%name%"
+</file>
+        <url>http://downloads.sourceforge.net/project/aria2/stable/aria2-1.15.2/aria2-1.15.2-win-64bit-build1.zip</url>
+        <sha1>b6352b117af70deb794e1ee2c46da28a235854f3</sha1>
+    </version>
     <!-- Detected -->
 
     <version name="10.6.1" package="com.apple.ITunes64Installer"
@@ -5579,6 +5588,20 @@ rmdir "%name%"
 </file>
         <url>http://downloads.sourceforge.net/project/areca/areca-stable/areca-7.2.10/areca-7.2.10-windows-jre64.zip</url>
         <sha1>7abfc8dca72d45db30aa68365c2f331b5f0b3d6a</sha1>
+        <dependency package="com.oracle.JRE64" versions="[1.6, 2)"/>
+    </version>
+    <version package="org.areca-backup.ArecaBackup64" name="7.2.12">
+        <important-file title="Areca" path="areca.exe"/>
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b areca*') do set name=%%x
+cd "%name%"
+for /f "delims=" %%a in ('dir /b') do (
+  move "%%a" ..
+)
+cd ..
+rmdir "%name%"
+</file>
+        <url>http://downloads.sourceforge.net/project/areca/areca-stable/areca-7.2.12/areca-7.2.12-windows-jre64.zip</url>
+        <sha1>a776d6dc24255cfd9ac9004907c77283844fd344</sha1>
         <dependency package="com.oracle.JRE64" versions="[1.6, 2)"/>
     </version>
     <!-- Detected -->
