@@ -792,61 +792,6 @@ PackageVersion* UpdateSearcher::findAdvancedInstallerFreewareUpdates(Job* job,
     return ret;
 }
 
-PackageVersion* UpdateSearcher::findAria2Updates(Job* job,
-        Repository* templ)
-{
-    job->setHint("Preparing");
-
-    QString package = "net.sourceforge.aria2.Aria2";
-    PackageVersion* ret = 0;
-
-    QString version;
-    if (job->shouldProceed("Searching for updates")) {
-        Job* sub = job->newSubJob(0.2);
-        ret = findUpdate(sub, package,
-                "http://aria2.sourceforge.net/",
-                ">Get ([\\d\\.]+)</a>", &version);
-        if (!sub->getErrorMessage().isEmpty())
-            job->setErrorMessage(QString("Error searching for the newest version: %1").
-                    arg(sub->getErrorMessage()));
-        delete sub;
-    }
-
-    if (!job->isCancelled() && job->getErrorMessage().isEmpty()) {
-        if (ret) {
-            job->setHint("Searching for the download URL");
-
-            PackageVersion* t = templ->findPackageVersion(
-                    package,
-                    Version())->clone();
-            t->version = ret->version;
-            delete ret;
-            ret = t;
-
-            ret->download  = QUrl("http://downloads.sourceforge.net/project/aria2/stable/aria2-" +
-                    version + "/aria2-" + version + "-i686-w64-mingw32-build1.zip");
-        }
-        job->setProgress(0.35);
-    }
-
-    if (!job->isCancelled() && job->getErrorMessage().isEmpty()) {
-        if (ret) {
-            job->setHint("Examining the binary");
-
-            Job* sub = job->newSubJob(0.65);
-            setDownload(sub, ret, ret->download.toEncoded());
-            if (!sub->getErrorMessage().isEmpty())
-                job->setErrorMessage(QString("Error downloading the package binary: %1").
-                        arg(sub->getErrorMessage()));
-            delete sub;
-        }
-    }
-
-    job->complete();
-
-    return ret;
-}
-
 PackageVersion* UpdateSearcher::findUpdatesSimple(Job* job,
         const QString& package,
         const QString& versionPage, const QString& versionRE,
@@ -954,16 +899,30 @@ PackageVersion* UpdateSearcher::findUpdatesSimple(Job* job,
 
 void UpdateSearcher::findUpdates(Job* job)
 {
+    Repository* rep = Repository::getDefault();
     if (!job->isCancelled() && job->getErrorMessage().isEmpty()) {
         job->setHint("Downloading repositories");
 
-        Repository* rep = Repository::getDefault();
-        Job* sub = job->newSubJob(0.39);
+        Job* sub = job->newSubJob(0.29);
         rep->reload(sub, false);
         if (!sub->getErrorMessage().isEmpty()) {
             job->setErrorMessage(sub->getErrorMessage());
         }
         delete sub;
+    }
+
+    if (job->shouldProceed("Loading FoundPackages.xml")) {
+        QFileInfo fi("FoundPackages.xml");
+        if (fi.exists()) {
+            Job* sub = job->newSubJob(0.1);
+            rep->loadOne("FoundPackages.xml", sub);
+            if (!sub->getErrorMessage().isEmpty()) {
+                job->setErrorMessage(sub->getErrorMessage());
+            }
+            delete sub;
+        } else {
+            job->setProgress(0.39);
+        }
     }
 
     QList<DiscoveryInfo> dis;
@@ -1023,18 +982,22 @@ void UpdateSearcher::findUpdates(Job* job)
             "http://www.blat.net/",
             "Blat v([\\d\\.]+)",
             "http://downloads.sourceforge.net/project/blat/Blat%20Full%20Version/32%20bit%20versions/Win2000%20and%20newer/blat${{actualVersionWithoutDots}}_32.full.zip"));
-    dis.append(DiscoveryInfo("Aria2",
-            "http://www.blat.net/",
-            "Blat v([\\d\\.]+)",
-            "http://downloads.sourceforge.net/project/blat/Blat%20Full%20Version/32%20bit%20versions/Win2000%20and%20newer/blat${{actualVersionWithoutDots}}_32.full.zip"));
+    dis.append(DiscoveryInfo("org.xapian.XapianCore",
+            "http://xapian.org/",
+            "latest stable version is ([\\d\\.]+)<",
+            "http://oligarchy.co.uk/xapian/${{actualVersion}}/xapian-core-${{actualVersion}}.tar.gz"));
+    dis.append(DiscoveryInfo("net.sourceforge.aria2.Aria2",
+            "http://sourceforge.net/api/file/index/project-id/159897/mtime/desc/limit/20/rss",
+            "stable/aria2-([\\d\\.]+)/",
+            "http://downloads.sourceforge.net/project/aria2/stable/aria2-${{actualVersion}}/aria2-${{actualVersion}}-win-32bit-build1.zip"));
     dis.append(DiscoveryInfo("net.blat.Blat",
             "http://www.blat.net/",
             "Blat v([\\d\\.]+)",
             "http://downloads.sourceforge.net/project/blat/Blat%20Full%20Version/32%20bit%20versions/Win2000%20and%20newer/blat${{actualVersionWithoutDots}}_32.full.zip"));
     dis.append(DiscoveryInfo("net.sourceforge.aria2.Aria2_64",
-            "http://aria2.sourceforge.net/",
-            ">Get ([\\d\\.]+)</a>",
-            "http://downloads.sourceforge.net/project/aria2/stable/aria2-${{actualVersion}}/aria2-${{actualVersion}}-x86_64-w64-mingw32-build1.zip"));
+            "http://sourceforge.net/api/file/index/project-id/159897/mtime/desc/limit/20/rss",
+            "stable/aria2-([\\d\\.]+)/",
+            "http://downloads.sourceforge.net/project/aria2/stable/aria2-${{actualVersion}}/aria2-${{actualVersion}}-win-64bit-build1.zip"));
     dis.append(DiscoveryInfo("net.blat.Blat64",
             "http://www.blat.net/",
             "Blat v([\\d\\.]+)",
@@ -1447,7 +1410,6 @@ void UpdateSearcher::findUpdates(Job* job)
             "latest stable version is ([\\d\\.]+)<",
             "http://oligarchy.co.uk/xapian/${{actualVersion}}/xapian-core-${{actualVersion}}.tar.gz"));
 
-
     /*
     ${{version}}
     ${{version2Parts}}
@@ -1517,7 +1479,6 @@ void UpdateSearcher::findUpdates(Job* job)
                 pv = findAdvancedInstallerFreewareUpdates(sub, templ);
                 break;
             case 13:
-                pv = findAria2Updates(sub, templ);
                 break;
             default:
                 pv = findUpdatesSimple(sub, di.package, di.versionPage,
