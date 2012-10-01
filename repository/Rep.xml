@@ -708,6 +708,12 @@
         <description>PDF and PostScript interpreter</description>
         <license>org.gnu.GPLv2</license>
     </package>
+    <package name="com.google.AppEnginePythonSDK">
+        <title>App Engine SDK for Python</title>
+        <url>https://developers.google.com/appengine/</url>
+        <description>SDK</description>
+        <license>org.apache.ApacheLicense2</license>
+    </package>
     <package name="com.google.Chrome">
         <title>Chrome</title>
         <url>http://www.google.com/chrome</url>
@@ -6782,6 +6788,15 @@ ren "%setup%" avg.exe
         <url>http://aa-download.avg.com/filedir/inst/avg_free_stb_eu_2012_2197_free.exe</url>
         <sha1>128C835CBDF1F77B36609DF51E27006C715BC11E</sha1>
     </version>
+    <version name="2013.2677" package="com.avg.AVGAntiVirusFreeInstaller"
+            type="one-file">
+        <file path=".Npackd\Install.bat">for /f %%x in ('dir /b *.exe') do set setup=%%x
+ren "%setup%" avg.exe
+</file>
+        <important-file path="avg.exe" title="Installer"/>
+        <url>http://aa-download.avg.com/filedir/inst/avg_free_stb_eu_2013_2677_free.exe</url>
+        <sha1>cb7cacb5e969c103e9bbbd17191ed2edcda22495</sha1>
+    </version>
 
     <version name="3.2.2" package="org.glest.Glest" type="one-file">
         <file path=".Npackd\Install.bat">glest_3.2.2.exe /SP- /VERYSILENT /SUPPRESSMSGBOXES /NOCANCEL /NORESTART /DIR="%CD%"</file>
@@ -9253,30 +9268,31 @@ rmdir "%name%"
     </version>
     <!-- Detected -->
     
+    <!-- 1.4.1.8.1 is actually 1.1.8.1 etc. -->
     <version name="1.0.48.05" package="com.autohotkey.AutoHotKey"
             type="one-file">
-        <file path=".Npackd\Install.bat">AutoHotkeyInstall.exe /S /D=%CD%</file>
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x
+"%setup%" /S /D=%CD%
+</file>
         <file path=".Npackd\Uninstall.bat">uninst.exe /S</file>
-        <url>http://www.autohotkey.com/download/AutoHotkeyInstall.exe</url>
+        <url>http://downloads.sourceforge.net/project/npackd/com.autohotkey.AutoHotKey-1.0.48.05.exe</url>
         <sha1>13e5a9ca6d5b7705f1cd02560c3af4d38b1904fc</sha1>
     </version>
-    <!-- the actual version is 1.1.7.3 -->
     <version name="1.4.1.7.3" package="com.autohotkey.AutoHotKey"
             type="one-file">
         <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x
 "%setup%" /S /D=%CD%
 </file>
         <file path=".Npackd\Uninstall.bat">uninst.exe /S</file>
-        <url>http://l.autohotkey.net/v/AutoHotkey110703_Install.exe</url>
-        <sha1>49f2186520354dc96fbf01e48461d3598c6fef4b</sha1>
+        <url>http://downloads.sourceforge.net/project/npackd/com.autohotkey.AutoHotKey-1.4.1.7.3.exe</url>
+        <sha1>55fd1014ee29fcd5628ebcb4f049eaa77eed0dd6</sha1>
     </version>
-    <!-- the actual version is 1.1.8.1 -->
     <version name="1.4.1.8.1" package="com.autohotkey.AutoHotKey"
             type="one-file">
         <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x
 "%setup%" /S /D=%CD%
 </file>
-        <url>http://l.autohotkey.net/v/AutoHotkey110801_Install.exe</url>
+        <url>http://downloads.sourceforge.net/project/npackd/com.autohotkey.AutoHotKey-1.4.1.8.1.exe</url>
         <sha1>8AEF492E73777E814DDE22BC0DB00D83041ADBE9</sha1>
     </version>
 
@@ -14856,8 +14872,40 @@ if %err% neq 0 exit %err%
         <url>http://download.sysinternals.com/files/ProcessMonitor.zip</url>
     </version>
 
+    <version name="2.5.4" package="org.python.Python" type="one-file">
+        <file path=".Npackd\Install.bat">if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
+set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.NpackdInstallerHelper" "--versions=[1, 1]"
+for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set npackdih=%%x
+call "%npackdih%\InstallMSI.bat" TARGETDIR
+if %errorlevel% neq 0 exit /b %errorlevel%
+
+if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
+set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.CLU" "--versions=[1, 2)"
+for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set clu=%%x
+"%clu%\clu" add-path --path "%CD%"
+verify
+</file>
+        <file path=".Npackd\Uninstall.bat">if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
+set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.NpackdInstallerHelper" "--versions=[1, 1]"
+for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set npackdih=%%x
+call "%npackdih%\UninstallMSI.bat"
+if %errorlevel% neq 0 exit /b %errorlevel%
+
+if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
+set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.CLU" "--versions=[1, 2)"
+for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set clu=%%x
+"%clu%\clu" remove-path --path "%CD%"
+verify
+</file>
+        <dependency package="com.googlecode.windows-package-manager.CLU" versions="[1, 2)"/>
+        <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1, 1]"/>
+        <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.15.7, 2)"/>
+        <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1, 1]"/>
+        <url>http://www.python.org/ftp/python/2.5.4/python-2.5.4.msi</url>
+        <sha1>e880de3c14d458c13db05682adf33703827baa90</sha1>
+    </version>
     <version name="2.6.6" package="org.python.Python" type="one-file">
-       <file path=".Npackd\Install.bat">if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
+        <file path=".Npackd\Install.bat">if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
 set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.NpackdInstallerHelper" "--versions=[1, 1]"
 for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set npackdih=%%x
 call "%npackdih%\InstallMSI.bat" TARGETDIR
@@ -16419,7 +16467,7 @@ if %err% neq 0 exit /b %err%
         <detect-msi>{59F24743-2EA1-3A45-B8C2-6E0E1E078FA8}</detect-msi>
     </version>
 
-    <version name="11.33" package="com.microsoft.AutoRuns">
+    <version name="11.34" package="com.microsoft.AutoRuns">
         <important-file path="autoruns.exe" title="AutoRuns"/>
         <url>http://download.sysinternals.com/files/Autoruns.zip</url>
     </version>
@@ -19809,7 +19857,6 @@ set err=%errorlevel%
 type .Npackd\MSI.log
 if %err% neq 0 exit %err%
 </file>
-        <important-file path="Console.exe" title="Console"/>
         <url>http://www.bitkinex.com/ftp/client/bitkinex323.exe</url>
         <sha1>1b78c656b20813ebd599bd814013b771357d2e0c</sha1>
     </version>
@@ -21410,6 +21457,20 @@ verify
 </file>
         <url>http://download.microsoft.com/download/A/3/8/A38FFBF2-1122-48B4-AF60-E44F6DC28BD8/enus/x86/mseinstall.exe</url>
         <sha1>79FAA9FED87546DACD2F008B6EA5C61B195E5CDA</sha1>
+    </version>
+
+    <version name="1.7.2" package="com.google.AppEnginePythonSDK" type="one-file">
+        <file path=".Npackd\Install.bat">if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
+set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.NpackdInstallerHelper" "--versions=[1.1, 2)"
+for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set npackdih=%%x
+call "%npackdih%\InstallMSI.bat" INSTALLDIR yes
+</file>
+        <url>http://googleappengine.googlecode.com/files/GoogleAppEngine-1.7.2.msi</url>
+        <sha1>d49cc41a6d182801d4f649c60a062e3c2e0777b8</sha1>
+        <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.1, 2)"/>
+        <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.15.7, 2)"/>
+        <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1, 1]"/>
+        <dependency package="org.python.Python" versions="[2.5, 2.6)"/>
     </version>
 
     <!-- http://downloads.sourceforge.net/project/npackd/... -->
