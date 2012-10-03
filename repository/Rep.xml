@@ -708,6 +708,12 @@
         <description>PDF and PostScript interpreter</description>
         <license>org.gnu.GPLv2</license>
     </package>
+    <package name="com.google.AppEngineJavaSDK">
+        <title>App Engine SDK for Java</title>
+        <url>https://developers.google.com/appengine/</url>
+        <description>SDK</description>
+        <license>org.apache.ApacheLicense2</license>
+    </package>
     <package name="com.google.AppEnginePythonSDK">
         <title>App Engine SDK for Python</title>
         <url>https://developers.google.com/appengine/</url>
@@ -21471,6 +21477,20 @@ call "%npackdih%\InstallMSI.bat" INSTALLDIR yes
         <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.15.7, 2)"/>
         <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1, 1]"/>
         <dependency package="org.python.Python" versions="[2.5, 2.6)"/>
+    </version>
+
+    <version name="1.7.2.1" package="com.google.AppEngineJavaSDK">
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b appengine*') do set name=%%x
+cd "%name%"        
+for /f "delims=" %%a in ('dir /b') do (
+  move "%%a" ..
+)
+cd ..
+rmdir "%name%"
+</file>
+        <url>http://googleappengine.googlecode.com/files/appengine-java-sdk-1.7.2.1.zip</url>
+        <sha1>bdf698b6053de50921dde3eba9e67794ca9ee945</sha1>
+        <dependency package="com.oracle.JRE" versions="[1.5, 2)"/>
     </version>
 
     <!-- http://downloads.sourceforge.net/project/npackd/... -->
