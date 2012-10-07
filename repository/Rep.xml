@@ -7575,6 +7575,16 @@ if %err% neq 0 exit /b %err%
         <sha1>5C604FB57135AB26AE4E44F181E4A70DE966AA64</sha1>
     </version>
 
+    <version name="3.5.2" package="org.eclipse.EclipseIDEJEE">
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b eclipse*') do set name=%%x
+xcopy "%name%\*" . /E /H
+rmdir /s /q "%name%"
+</file>
+        <important-file path="eclipse.exe" title="Eclipse IDE for Java EE"/>
+        <url>http://downloads.sourceforge.net/project/npackd/org.eclipse.EclipseIDEJEE-3.5.2.zip</url>
+        <dependency package="com.oracle.JRE" versions="[1.6, 2)"/>
+        <sha1>3fa03c715fe9ca798020a8ed41c04cc6202675f7</sha1>
+    </version>
     <version name="3.6" package="org.eclipse.EclipseIDEJEE">
         <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b eclipse*') do set name=%%x
 xcopy "%name%\*" . /E /H
@@ -10643,7 +10653,7 @@ for %%g in (%extensions%) do reg delete HKLM\SOFTWARE\Classes\.%%g\OpenWithList\
         <url>http://download.divx.com/divx/DivXInstaller.exe</url>
     </version>
 
-    <!-- old versions are regularly deleted -->
+    <!-- old versions are regularly deleted  -->
     <version name="7" package="com.bittorrent.BitTorrentInstaller"
             type="one-file">
         <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x
@@ -10700,15 +10710,15 @@ ren "%setup%" BitTorrent.exe
         <important-file path="BitTorrent.exe" title="Installer"/>
         <url>http://download.bittorrent.com/7.6.1/BitTorrent.exe</url>
     </version>
-    <version name="8" package="com.bittorrent.BitTorrentInstaller"
+    <version name="7.7" package="com.bittorrent.BitTorrentInstaller"
             type="one-file">
         <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x
 ren "%setup%" BitTorrent.exe
 </file>
         <important-file path="BitTorrent.exe" title="Installer"/>
-        <url>http://download.bittorrent.com/7.6.1/BitTorrent8.exe</url>
+        <url>http://download.bittorrent.com/7.7/BitTorrent.exe?tbf=7</url>
     </version>
-
+    
     <!-- 
         old releases are regularly deleted, but the default license does not
         allow redistribution
