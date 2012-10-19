@@ -2,17 +2,17 @@
 <root>
     <!--
     This file is part of Npackd.
-
+    
     Npackd is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
     the Free Software Foundation, either version 3 of the License, or
     (at your option) any later version.
-
+    
     Npackd is distributed in the hope that it will be useful,
     but WITHOUT ANY WARRANTY; without even the implied warranty of
     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
     GNU General Public License for more details.
-
+    
     You should have received a copy of the GNU General Public License
     along with Npackd.  If not, see <http://www.gnu.org/licenses/>.
     -->
@@ -21,28 +21,22 @@
         <title>Boost license</title>
         <url>http://www.boost.org/users/license.html</url>
     </license>
-    <license name="org.gnu.GPLv2">
-        <title>GPLv2</title>
-        <url>http://www.gnu.org/licenses/gpl.html</url>
+    <license name="org.gnu.LGPLv2_1">
+        <title>LGPLv2.1</title>
+        <url>http://www.gnu.org/licenses/old-licenses/lgpl-2.1.html</url>
     </license>
     <license name="org.gnu.GPLv3">
         <title>GPLv3</title>
         <url>http://www.gnu.org/licenses/gpl.html</url>
     </license>
-    <license name="org.gnu.LGPLv2_1">
-        <title>LGPLv2.1</title>
-        <url>http://www.gnu.org/licenses/old-licenses/lgpl-2.1.html</url>
+    <license name="org.gnu.GPLv2">
+        <title>GPLv2</title>
+        <url>http://www.gnu.org/licenses/gpl.html</url>
     </license>
-    
-    <!--
-        Packages in alphabetical order (including the reversed domain name prefix).
-    -->
-    <package name="com.nokia.QtMinGWInstaller">
-        <title>Qt for MinGW installer</title>
-        <url>http://qt.nokia.com/products/library</url>
-        <description>C++ library (development)</description>
-        <license>org.gnu.GPLv3</license>
-    </package>
+    <license name="net.zlib.ZLibLicense">
+        <title>zlib license</title>
+        <url>http://www.zlib.net/zlib_license.html</url>
+    </license>
     <package name="com.nokia.QtDev-i686-w64">
         <title>Qt for MinGW-w64 32 bit</title>
         <url>http://qt.nokia.com/products/library</url>
@@ -55,17 +49,17 @@
         <description>C++ library (development)</description>
         <license>org.gnu.GPLv3</license>
     </package>
+    <package name="com.nokia.QtMinGWInstaller">
+        <title>Qt for MinGW installer</title>
+        <url>http://qt.nokia.com/products/library</url>
+        <description>C++ library (development)</description>
+        <license>org.gnu.GPLv3</license>
+    </package>
     <package name="com.nokia.QtSource">
         <title>Qt</title>
         <url>http://qt.nokia.com/products/library</url>
         <description>C++ library (source code)</description>
         <license>org.gnu.GPLv3</license>
-    </package>
-    <package name="org.boost.Boost">
-        <title>Boost</title>
-        <url>http://www.boost.org/</url>
-        <description>set of C++ general purpose libraries (source code)</description>
-        <license>org.boost.License</license>
     </package>
     <package name="net.sourceforge.quazip.QuaZIPSource">
         <title>QuaZIP</title>
@@ -79,19 +73,19 @@
         <description>compression library in C (source code)</description>
         <license>net.zlib.ZLibLicense</license>
     </package>
+    <package name="org.boost.Boost">
+        <title>Boost</title>
+        <url>http://www.boost.org/</url>
+        <description>set of C++ general purpose libraries (source code)</description>
+        <license>org.boost.License</license>
+    </package>
     <package name="org.xapian.XapianCore">
         <title>Xapian core</title>
         <url>http://xapian.org/</url>
         <description>search engine library in C++ (source code)</description>
         <license>org.gnu.GPLv2</license>
     </package>
- 
-    <!--
-        The package versions are not sorted by the package, but different
-        version
-        of a package should stay together. Newer versions should appear under
-        older ones.
-    -->
+
     <version name="4.8.1" package="com.nokia.QtDev-i686-w64" type="one-file">
         <file path=".Npackd\Install.bat">if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
 set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=org.7-zip.SevenZIPA" "--versions=[9.20, 9.20]"
@@ -138,6 +132,47 @@ rmdir "%name%"
         <dependency package="org.7-zip.SevenZIPA" versions="[9.20, 9.20]"/>
         <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.15.7, 2)"/>
         <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1, 1]"/>
+    </version>
+
+    <version name="4.7.3" package="com.nokia.QtMinGWInstaller" type="one-file">
+        <important-file path="qt-win-opensource-mingw.exe" title="Installer"/>
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x
+ren "%setup%" qt-win-opensource-mingw.exe
+</file>
+        <url>http://get.qt.nokia.com/qt/source/qt-win-opensource-4.7.3-mingw.exe</url>
+        <sha1>9FF5A18722D8E15F7BDCAFBC3942B39605B9E88F</sha1>
+    </version>
+    <version name="4.7.4" package="com.nokia.QtMinGWInstaller" type="one-file">
+        <important-file path="qt-win-opensource-mingw.exe" title="Installer"/>
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x
+ren "%setup%" qt-win-opensource-mingw.exe
+</file>
+        <url>http://get.qt.nokia.com/qt/source/qt-win-opensource-4.7.4-mingw.exe</url>
+        <sha1>6d72f08425360794b4523c2ccc24663af0d0323c</sha1>
+    </version>
+    <version name="4.8" package="com.nokia.QtMinGWInstaller" type="one-file">
+        <important-file path="qt-win-opensource-mingw.exe" title="Installer"/>
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x
+ren "%setup%" qt-win-opensource-mingw.exe
+</file>
+        <url>http://get.qt.nokia.com/qt/source/qt-win-opensource-4.8.0-mingw.exe</url>
+        <sha1>4c533e5f8324c0803280954d0bebbdcc5fd03494</sha1>
+    </version>
+    <version name="4.8.1" package="com.nokia.QtMinGWInstaller" type="one-file">
+        <important-file path="qt-win-opensource-mingw.exe" title="Installer"/>
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x
+ren "%setup%" qt-win-opensource-mingw.exe
+</file>
+        <url>http://get.qt.nokia.com/qt/source/qt-win-opensource-4.8.1-mingw.exe</url>
+        <sha1>c5392a5fb07b1b8c0328f8dcb5f2ccd4d2f01fca</sha1>
+    </version>
+    <version name="4.8.2" package="com.nokia.QtMinGWInstaller" type="one-file">
+        <important-file path="qt-win-opensource-mingw.exe" title="Installer"/>
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x
+ren "%setup%" qt-win-opensource-mingw.exe
+</file>
+        <url>http://releases.qt-project.org/qt4/source/qt-win-opensource-4.8.2-mingw.exe</url>
+        <sha1>1be1de77e69df8d3563fc616bfd436972a576cf5</sha1>
     </version>
 
     <version name="4.7.3" package="com.nokia.QtSource">
@@ -188,7 +223,7 @@ rmdir "%name%"
         <url>http://download.qt.nokia.com/qt/source/qt-everywhere-opensource-src-4.8.1.zip</url>
         <sha1>93b3010fd7068c1f8a3193ea8b917de24e4c3996</sha1>
     </version>
-     <version package="com.nokia.QtSource" name="4.8.2">
+    <version name="4.8.2" package="com.nokia.QtSource">
         <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b qt*') do set name=%%x
 cd "%name%"        
 for /f "delims=" %%a in ('dir /b') do (
@@ -200,112 +235,7 @@ rmdir "%name%"
         <url>http://releases.qt-project.org/qt4/source/qt-everywhere-opensource-src-4.8.2.zip</url>
         <sha1>6bafae4e3435c796df94ca31ef5c3813acd7fea6</sha1>
     </version>
-    <!-- Detected -->
-   
-    <version name="4.7.3" package="com.nokia.QtMinGWInstaller" type="one-file">
-        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x
-ren "%setup%" qt-win-opensource-mingw.exe
-</file>
-        <url>http://get.qt.nokia.com/qt/source/qt-win-opensource-4.7.3-mingw.exe</url>
-        <important-file path="qt-win-opensource-mingw.exe" title="Installer"/>
-        <sha1>9FF5A18722D8E15F7BDCAFBC3942B39605B9E88F</sha1>
-    </version>
-    <version name="4.7.4" package="com.nokia.QtMinGWInstaller" type="one-file">
-        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x
-ren "%setup%" qt-win-opensource-mingw.exe
-</file>
-        <url>http://get.qt.nokia.com/qt/source/qt-win-opensource-4.7.4-mingw.exe</url>
-        <important-file path="qt-win-opensource-mingw.exe" title="Installer"/>
-        <sha1>6d72f08425360794b4523c2ccc24663af0d0323c</sha1>
-    </version>
-    <version name="4.8" package="com.nokia.QtMinGWInstaller" type="one-file">
-        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x
-ren "%setup%" qt-win-opensource-mingw.exe
-</file>
-        <url>http://get.qt.nokia.com/qt/source/qt-win-opensource-4.8.0-mingw.exe</url>
-        <important-file path="qt-win-opensource-mingw.exe" title="Installer"/>
-        <sha1>4c533e5f8324c0803280954d0bebbdcc5fd03494</sha1>
-    </version>
-    <version name="4.8.1" package="com.nokia.QtMinGWInstaller" type="one-file">
-        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x
-ren "%setup%" qt-win-opensource-mingw.exe
-</file>
-        <url>http://get.qt.nokia.com/qt/source/qt-win-opensource-4.8.1-mingw.exe</url>
-        <important-file path="qt-win-opensource-mingw.exe" title="Installer"/>
-        <sha1>c5392a5fb07b1b8c0328f8dcb5f2ccd4d2f01fca</sha1>
-    </version>
-    <version package="com.nokia.QtMinGWInstaller" type="one-file" name="4.8.2">
-        <important-file title="Installer" path="qt-win-opensource-mingw.exe"/>
-        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x
-ren "%setup%" qt-win-opensource-mingw.exe
-</file>
-        <url>http://releases.qt-project.org/qt4/source/qt-win-opensource-4.8.2-mingw.exe</url>
-        <sha1>1be1de77e69df8d3563fc616bfd436972a576cf5</sha1>
-    </version>
-    <!-- Detected -->
 
-    <version name="1.47" package="org.boost.Boost">
-        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b boost*') do set name=%%x
-cd "%name%"        
-for /f "delims=" %%a in ('dir /b') do (
-  move "%%a" ..
-)
-cd ..
-rmdir "%name%"
-</file>
-        <url>http://downloads.sourceforge.net/project/boost/boost/1.47.0/boost_1_47_0.zip?ts=1314724967</url>
-        <sha1>06ce149fe2c3052ffb8dc79bbd0e61a7da011162</sha1>
-    </version>
-    <version name="1.48" package="org.boost.Boost">
-        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b boost*') do set name=%%x
-cd "%name%"        
-for /f "delims=" %%a in ('dir /b') do (
-  move "%%a" ..
-)
-cd ..
-rmdir "%name%"
-</file>
-        <url>http://downloads.sourceforge.net/project/boost/boost/1.48.0/boost_1_48_0.zip?ts=1323554313</url>
-        <sha1>5ae06dadfee8cd615b2905eeb068bd756f959d58</sha1>
-    </version>
-    <version name="1.49" package="org.boost.Boost">
-        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b boost*') do set name=%%x
-cd "%name%"        
-for /f "delims=" %%a in ('dir /b') do (
-  move "%%a" ..
-)
-cd ..
-rmdir "%name%"
-</file>
-        <url>http://downloads.sourceforge.net/project/boost/boost/1.49.0/boost_1_49_0.zip</url>
-        <sha1>e2e778a444e7ae7157b97f4f1fedf363cf87940c</sha1>
-    </version>
-     <version package="org.boost.Boost" name="1.50">
-        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b boost*') do set name=%%x
-cd "%name%"        
-for /f "delims=" %%a in ('dir /b') do (
-  move "%%a" ..
-)
-cd ..
-rmdir "%name%"
-</file>
-        <url>http://downloads.sourceforge.net/project/boost/boost/1.50.0/boost_1_50_0.zip</url>
-        <sha1>024513dbee97d709de73f84b843e76d7750c7cd2</sha1>
-    </version>
-    <version package="org.boost.Boost" name="1.51">
-        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b boost*') do set name=%%x
-cd "%name%"        
-for /f "delims=" %%a in ('dir /b') do (
-  move "%%a" ..
-)
-cd ..
-rmdir "%name%"
-</file>
-        <url>http://downloads.sourceforge.net/project/boost/boost/1.51.0/boost_1_51_0.zip</url>
-        <sha1>9aec6b31a099190790b0a95a7edc72dcb62b9f7d</sha1>
-    </version>
-    <!-- Detected -->
-   
     <version name="0.4.2" package="net.sourceforge.quazip.QuaZIPSource">
         <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b quazip*') do set name=%%x
 cd "%name%"        
@@ -358,7 +288,7 @@ rmdir "%name%"
         <sha1>154e459acd763e5114dc1bb2fe528f9a515feba5</sha1>
         <dependency package="net.zlib.ZLibSource" versions="[1.2.5, 1.2.5]"/>
     </version>
-    
+
     <version name="1.2.5" package="net.zlib.ZLibSource">
         <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b zlib*') do set name=%%x
 cd "%name%"        
@@ -394,6 +324,67 @@ rmdir "%name%"
 </file>
         <url>http://npackd.googlecode.com/files/net.zlib.ZLibSource-1.2.7.zip</url>
         <sha1>98bc07e25018f81d80d15e623c66bccb19fb39b5</sha1>
+    </version>
+
+    <version name="1.47" package="org.boost.Boost">
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b boost*') do set name=%%x
+cd "%name%"        
+for /f "delims=" %%a in ('dir /b') do (
+  move "%%a" ..
+)
+cd ..
+rmdir "%name%"
+</file>
+        <url>http://downloads.sourceforge.net/project/boost/boost/1.47.0/boost_1_47_0.zip?ts=1314724967</url>
+        <sha1>06ce149fe2c3052ffb8dc79bbd0e61a7da011162</sha1>
+    </version>
+    <version name="1.48" package="org.boost.Boost">
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b boost*') do set name=%%x
+cd "%name%"        
+for /f "delims=" %%a in ('dir /b') do (
+  move "%%a" ..
+)
+cd ..
+rmdir "%name%"
+</file>
+        <url>http://downloads.sourceforge.net/project/boost/boost/1.48.0/boost_1_48_0.zip?ts=1323554313</url>
+        <sha1>5ae06dadfee8cd615b2905eeb068bd756f959d58</sha1>
+    </version>
+    <version name="1.49" package="org.boost.Boost">
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b boost*') do set name=%%x
+cd "%name%"        
+for /f "delims=" %%a in ('dir /b') do (
+  move "%%a" ..
+)
+cd ..
+rmdir "%name%"
+</file>
+        <url>http://downloads.sourceforge.net/project/boost/boost/1.49.0/boost_1_49_0.zip</url>
+        <sha1>e2e778a444e7ae7157b97f4f1fedf363cf87940c</sha1>
+    </version>
+    <version name="1.50" package="org.boost.Boost">
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b boost*') do set name=%%x
+cd "%name%"        
+for /f "delims=" %%a in ('dir /b') do (
+  move "%%a" ..
+)
+cd ..
+rmdir "%name%"
+</file>
+        <url>http://downloads.sourceforge.net/project/boost/boost/1.50.0/boost_1_50_0.zip</url>
+        <sha1>024513dbee97d709de73f84b843e76d7750c7cd2</sha1>
+    </version>
+    <version name="1.51" package="org.boost.Boost">
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b boost*') do set name=%%x
+cd "%name%"        
+for /f "delims=" %%a in ('dir /b') do (
+  move "%%a" ..
+)
+cd ..
+rmdir "%name%"
+</file>
+        <url>http://downloads.sourceforge.net/project/boost/boost/1.51.0/boost_1_51_0.zip</url>
+        <sha1>9aec6b31a099190790b0a95a7edc72dcb62b9f7d</sha1>
     </version>
 
     <version name="1.2.7" package="org.xapian.XapianCore" type="one-file">
@@ -531,5 +522,4 @@ rmdir "%name%"
         <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.15.7, 2)"/>
         <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1, 1]"/>
     </version>
-    <!-- Detected -->
 </root>
