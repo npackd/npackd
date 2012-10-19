@@ -55,100 +55,12 @@
     of a package should stay together. Newer versions should appear under older
     ones.
     -->
-    <version name="2.54.999.1" package="org.blender.Blender">
-        <important-file path="blender-2.55-beta-windows32\blender.exe" title="Blender"/>
-        <url>http://download.blender.org/release//Blender2.55beta/blender-2.55-beta-windows32.zip</url>
-        <sha1>36556fb9b4ac5defe1e99bac1f3ee2d6c61c53e4</sha1>
-    </version>
-    <version name="2.56" package="org.blender.Blender">
-        <important-file path="blender-2.56-beta-windows32\blender.exe" title="Blender"/>
-        <url>http://download.blender.org/release//Blender2.56beta/blender-2.56-beta-windows32.zip</url>
-        <sha1>f7b6276e13392a334713b41cfb2635cdd268a9e5</sha1>
-    </version>
-    <version name="2.56.1" package="org.blender.Blender">
-        <important-file path="blender-2.56a-beta-windows32\blender.exe" title="Blender"/>
-        <url>http://download.blender.org/release//Blender2.56abeta/blender-2.56a-beta-windows32.zip</url>
-        <sha1>68146fd76846b3c83a314cd1bb1f32808f844e51</sha1>
-    </version>
-
-    <version name="1.15" package="com.googlecode.windows-package-manager.NpackdCL">
-        <url>http://dl.dropbox.com/u/17046326/files/org.googlecode.windows-package-manager.NpackdCL-1.15.zip</url>
-        <sha1>182741DEB99A652D991799D5B58DDC2C942B7B1E</sha1>
-    </version>
-    <version name="1.15.3" package="com.googlecode.windows-package-manager.NpackdCL">
-        <url>http://dl.dropbox.com/u/17046326/files/org.googlecode.windows-package-manager.NpackdCL-1.15.3.zip</url>
-        <sha1>318C93EEDA1FAE898356A8A2E99196380C0D49E2</sha1>
-    </version>
-    <version name="1.15.4" package="com.googlecode.windows-package-manager.NpackdCL">
-        <url>http://dl.dropbox.com/u/17046326/files/org.googlecode.windows-package-manager.NpackdCL-1.15.4.zip</url>
-        <sha1>101818481EF0E6B83CD12ED42092308AE2ACC641</sha1>
-    </version>
-    <version name="1.16.1" package="com.googlecode.windows-package-manager.NpackdCL">
-        <file path=".WPM\Install.bat">if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
-set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.CLU" "--versions=[1, 2)"
-for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set clu=%%x
-"%clu%\clu" add-path --path "%CD%"
-verify
-</file>
-        <file path=".WPM\Uninstall.bat">if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
-set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.CLU" "--versions=[1, 2)"
-for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set clu=%%x
-"%clu%\clu" remove-path --path "%CD%"
-verify
-</file>
-        <url>http://windows-package-manager.googlecode.com/files/NpackdCL-1.16.1.zip</url>
-        <sha1>64d5d1d65082931193258eca26adc23296f1cb60</sha1>
-        <dependency package="com.googlecode.windows-package-manager.CLU" versions="[1, 2)"/>
-    </version>
-    <version name="1.16.3" package="com.googlecode.windows-package-manager.NpackdCL">
-        <file path=".WPM\Install.bat">if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
-set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.CLU" "--versions=[1, 2)"
-for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set clu=%%x
-"%clu%\clu" add-path --path "%CD%"
-verify
-</file>
-        <file path=".WPM\Uninstall.bat">if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
-set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.CLU" "--versions=[1, 2)"
-for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set clu=%%x
-"%clu%\clu" remove-path --path "%CD%"
-verify
-</file>
-        <url>http://windows-package-manager.googlecode.com/files/NpackdCL-1.16.3.zip</url>
-        <sha1>d241b27a11626a5c8c5bc61d69cc350033d01a91</sha1>
-        <dependency package="com.googlecode.windows-package-manager.CLU" versions="[1, 2)"/>
-    </version>
-
-    <version name="0.9.3.2" package="org.argolinux.sqlkit.SQLKit">
-        <important-file path="sqledit.bat" title="Sqledit"/>
-        <file path="sqledit.bat">if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
-set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=org.python.Python" "--versions=[2.6.6, 2.6.6]"
-for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set python=%%x
-
-start "" "%python%\Scripts\sqledit.exe"
-</file>
-        <file path=".WPM\Install.bat">for /f "delims=" %%x in ('dir /b sqlkit*') do set name=%%x
-xcopy "%name%\*" . /E /H
-rmdir /s /q "%name%"
-
-if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
-set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=org.python.Python" "--versions=[2.6.6, 2.6.6]"
-for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set python=%%x
-
-"%python%\python.exe" setup.py install
-</file>
-        <url>http://sqlkit.argolinux.org/download/sqlkit-0.9.3.2.zip</url>
-        <dependency package="org.pygtk.PyGTKAllInOne" versions="[2.22.6, 2.22.6]"/>
-        <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.15.7, 2)"/>
-        <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1, 1]"/>
-        <sha1>2F39B1756466AC2CB5331314281569044B01A790</sha1>
-    </version>
-
     <version name="2012.591" package="com.freecommander.FreeCommander">
         <important-file path="FreeCommander.exe" title="FreeCommander"/>
         <url>http://dl.dropbox.com/u/17046326/files/com.freecommander.FreeCommander-2012.591.zip</url>
         <sha1>4b6012d5bcb07be9a5612bae5767560bbab5d103</sha1>
     </version>    
-    
+
     <version name="0.1" package="com.googlecode.btj.BTJ">
         <file path=".Npackd\Install.bat">if "%npackd_cl%" equ "" set npackd_cl=.
 set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.CLU" "--versions=[1, 2)"
@@ -274,5 +186,93 @@ verify
         <sha1>af6121b1f999721f731a00a49694dd31287b2fa2</sha1>
         <dependency package="com.googlecode.windows-package-manager.CLU" versions="[1, 2)"/>
         <dependency package="com.oracle.JDK" versions="[1.7, 2)"/>
+    </version>
+
+    <version name="1.15" package="com.googlecode.windows-package-manager.NpackdCL">
+        <url>http://dl.dropbox.com/u/17046326/files/org.googlecode.windows-package-manager.NpackdCL-1.15.zip</url>
+        <sha1>182741DEB99A652D991799D5B58DDC2C942B7B1E</sha1>
+    </version>
+    <version name="1.15.3" package="com.googlecode.windows-package-manager.NpackdCL">
+        <url>http://dl.dropbox.com/u/17046326/files/org.googlecode.windows-package-manager.NpackdCL-1.15.3.zip</url>
+        <sha1>318C93EEDA1FAE898356A8A2E99196380C0D49E2</sha1>
+    </version>
+    <version name="1.15.4" package="com.googlecode.windows-package-manager.NpackdCL">
+        <url>http://dl.dropbox.com/u/17046326/files/org.googlecode.windows-package-manager.NpackdCL-1.15.4.zip</url>
+        <sha1>101818481EF0E6B83CD12ED42092308AE2ACC641</sha1>
+    </version>
+    <version name="1.16.1" package="com.googlecode.windows-package-manager.NpackdCL">
+        <file path=".WPM\Install.bat">if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
+set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.CLU" "--versions=[1, 2)"
+for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set clu=%%x
+"%clu%\clu" add-path --path "%CD%"
+verify
+</file>
+        <file path=".WPM\Uninstall.bat">if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
+set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.CLU" "--versions=[1, 2)"
+for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set clu=%%x
+"%clu%\clu" remove-path --path "%CD%"
+verify
+</file>
+        <url>http://windows-package-manager.googlecode.com/files/NpackdCL-1.16.1.zip</url>
+        <sha1>64d5d1d65082931193258eca26adc23296f1cb60</sha1>
+        <dependency package="com.googlecode.windows-package-manager.CLU" versions="[1, 2)"/>
+    </version>
+    <version name="1.16.3" package="com.googlecode.windows-package-manager.NpackdCL">
+        <file path=".WPM\Install.bat">if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
+set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.CLU" "--versions=[1, 2)"
+for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set clu=%%x
+"%clu%\clu" add-path --path "%CD%"
+verify
+</file>
+        <file path=".WPM\Uninstall.bat">if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
+set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.CLU" "--versions=[1, 2)"
+for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set clu=%%x
+"%clu%\clu" remove-path --path "%CD%"
+verify
+</file>
+        <url>http://windows-package-manager.googlecode.com/files/NpackdCL-1.16.3.zip</url>
+        <sha1>d241b27a11626a5c8c5bc61d69cc350033d01a91</sha1>
+        <dependency package="com.googlecode.windows-package-manager.CLU" versions="[1, 2)"/>
+    </version>
+    
+    <version name="0.9.3.2" package="org.argolinux.sqlkit.SQLKit">
+        <important-file path="sqledit.bat" title="Sqledit"/>
+        <file path="sqledit.bat">if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
+set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=org.python.Python" "--versions=[2.6.6, 2.6.6]"
+for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set python=%%x
+
+start "" "%python%\Scripts\sqledit.exe"
+</file>
+        <file path=".WPM\Install.bat">for /f "delims=" %%x in ('dir /b sqlkit*') do set name=%%x
+xcopy "%name%\*" . /E /H
+rmdir /s /q "%name%"
+
+if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
+set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=org.python.Python" "--versions=[2.6.6, 2.6.6]"
+for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set python=%%x
+
+"%python%\python.exe" setup.py install
+</file>
+        <url>http://sqlkit.argolinux.org/download/sqlkit-0.9.3.2.zip</url>
+        <dependency package="org.pygtk.PyGTKAllInOne" versions="[2.22.6, 2.22.6]"/>
+        <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.15.7, 2)"/>
+        <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1, 1]"/>
+        <sha1>2F39B1756466AC2CB5331314281569044B01A790</sha1>
+    </version>
+
+    <version name="2.54.999.1" package="org.blender.Blender">
+        <important-file path="blender-2.55-beta-windows32\blender.exe" title="Blender"/>
+        <url>http://download.blender.org/release//Blender2.55beta/blender-2.55-beta-windows32.zip</url>
+        <sha1>36556fb9b4ac5defe1e99bac1f3ee2d6c61c53e4</sha1>
+    </version>
+    <version name="2.56" package="org.blender.Blender">
+        <important-file path="blender-2.56-beta-windows32\blender.exe" title="Blender"/>
+        <url>http://download.blender.org/release//Blender2.56beta/blender-2.56-beta-windows32.zip</url>
+        <sha1>f7b6276e13392a334713b41cfb2635cdd268a9e5</sha1>
+    </version>
+    <version name="2.56.1" package="org.blender.Blender">
+        <important-file path="blender-2.56a-beta-windows32\blender.exe" title="Blender"/>
+        <url>http://download.blender.org/release//Blender2.56abeta/blender-2.56a-beta-windows32.zip</url>
+        <sha1>68146fd76846b3c83a314cd1bb1f32808f844e51</sha1>
     </version>
 </root>
