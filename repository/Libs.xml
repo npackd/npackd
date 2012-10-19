@@ -102,6 +102,54 @@
         of a package should stay together. Newer versions should appear under
         older ones.
     -->
+    <version name="4.8.1" package="com.nokia.QtDev-i686-w64" type="one-file">
+        <file path=".Npackd\Install.bat">if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
+set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=org.7-zip.SevenZIPA" "--versions=[9.20, 9.20]"
+for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set sevenzipa=%%x
+
+for /f "delims=" %%x in ('dir /b *.7z') do set setup=%%x
+"%sevenzipa%\7za.exe" x "%setup%"
+del "%setup%"
+
+for /f "delims=" %%x in ('dir /b 4.*') do set name=%%x
+cd "%name%"
+for /f "delims=" %%a in ('dir /b') do (
+  move "%%a" ..
+)
+cd ..
+rmdir "%name%"
+</file>
+        <url>https://mingw-w64-dgn.googlecode.com/files/qt-4.8.1-i686-w64-mingw32-20120413.7z</url>
+        <sha1>d1b2df59cb62d84b4c67bf6d73e96a32fafd2d49</sha1>
+        <dependency package="org.7-zip.SevenZIPA" versions="[9.20, 9.20]"/>
+        <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.15.7, 2)"/>
+        <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1, 1]"/>
+    </version>
+
+    <version name="4.8.1" package="com.nokia.QtDev-x86_64-w64" type="one-file">
+        <file path=".Npackd\Install.bat">if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
+set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=org.7-zip.SevenZIPA" "--versions=[9.20, 9.20]"
+for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set sevenzipa=%%x
+
+for /f "delims=" %%x in ('dir /b *.7z') do set setup=%%x
+"%sevenzipa%\7za.exe" x "%setup%"
+del "%setup%"
+
+for /f "delims=" %%x in ('dir /b 4.*') do set name=%%x
+cd "%name%"
+for /f "delims=" %%a in ('dir /b') do (
+  move "%%a" ..
+)
+cd ..
+rmdir "%name%"
+</file>
+        <url>https://mingw-w64-dgn.googlecode.com/files/qt-4.8.1-x86_64-w64-mingw32-20120413.7z</url>
+        <sha1>41443e83998963e83e6df88af6dddd39ae837d4b</sha1>
+        <dependency package="org.7-zip.SevenZIPA" versions="[9.20, 9.20]"/>
+        <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.15.7, 2)"/>
+        <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1, 1]"/>
+    </version>
+
     <version name="4.7.3" package="com.nokia.QtSource">
         <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b qt*') do set name=%%x
 cd "%name%"        
@@ -494,52 +542,4 @@ rmdir "%name%"
         <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1, 1]"/>
     </version>
     <!-- Detected -->
-    
-    <version name="4.8.1" package="com.nokia.QtDev-i686-w64" type="one-file">
-        <file path=".Npackd\Install.bat">if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
-set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=org.7-zip.SevenZIPA" "--versions=[9.20, 9.20]"
-for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set sevenzipa=%%x
-
-for /f "delims=" %%x in ('dir /b *.7z') do set setup=%%x
-"%sevenzipa%\7za.exe" x "%setup%"
-del "%setup%"
-
-for /f "delims=" %%x in ('dir /b 4.*') do set name=%%x
-cd "%name%"
-for /f "delims=" %%a in ('dir /b') do (
-  move "%%a" ..
-)
-cd ..
-rmdir "%name%"
-</file>
-        <url>https://mingw-w64-dgn.googlecode.com/files/qt-4.8.1-i686-w64-mingw32-20120413.7z</url>
-        <sha1>d1b2df59cb62d84b4c67bf6d73e96a32fafd2d49</sha1>
-        <dependency package="org.7-zip.SevenZIPA" versions="[9.20, 9.20]"/>
-        <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.15.7, 2)"/>
-        <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1, 1]"/>
-    </version>
-
-    <version name="4.8.1" package="com.nokia.QtDev-x86_64-w64" type="one-file">
-        <file path=".Npackd\Install.bat">if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
-set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=org.7-zip.SevenZIPA" "--versions=[9.20, 9.20]"
-for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set sevenzipa=%%x
-
-for /f "delims=" %%x in ('dir /b *.7z') do set setup=%%x
-"%sevenzipa%\7za.exe" x "%setup%"
-del "%setup%"
-
-for /f "delims=" %%x in ('dir /b 4.*') do set name=%%x
-cd "%name%"
-for /f "delims=" %%a in ('dir /b') do (
-  move "%%a" ..
-)
-cd ..
-rmdir "%name%"
-</file>
-        <url>https://mingw-w64-dgn.googlecode.com/files/qt-4.8.1-x86_64-w64-mingw32-20120413.7z</url>
-        <sha1>41443e83998963e83e6df88af6dddd39ae837d4b</sha1>
-        <dependency package="org.7-zip.SevenZIPA" versions="[9.20, 9.20]"/>
-        <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.15.7, 2)"/>
-        <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1, 1]"/>
-    </version>
 </root>
