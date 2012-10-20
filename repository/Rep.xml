@@ -1351,6 +1351,12 @@ This package uses internal version numbers. For example, 1.7.0.1 corresponds to 
         <description>editor for file type associacions</description>
         <license>net.nirsoft.FreewareLicense</license>
     </package>
+    <package name="net.nirsoft.HashMyFiles">
+        <title>HashMyFiles</title>
+        <url>http://www.nirsoft.net/utils/hash_my_files.html</url>
+        <description>calculate the MD5 and SHA1 hashes of one or more files in your system</description>
+        <license>org.wikipedia.Freeware</license>
+    </package>
     <package name="net.nirsoft.NirCmd">
         <title>NirCmd</title>
         <url>http://www.nirsoft.net/utils/nircmd.html</url>
@@ -10744,6 +10750,11 @@ ren "%setup%" Setup-MsgPlus.exe
         <url>http://www.nirsoft.net/utils/filetypesman.zip</url>
     </version>
 
+    <version name="1.90" package="net.nirsoft.HashMyFiles">
+        <important-file path="HashMyFiles.exe" title="HashMyFiles"/>
+        <url>http://www.nirsoft.net/utils/hashmyfiles_u.zip</url>
+    </version>
+
     <version name="2.65" package="net.nirsoft.NirCmd">
         <file path=".Npackd\Install.bat">if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
 set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.CLU" "--versions=[1, 2)"
@@ -19714,8 +19725,19 @@ ren "%setup%" VirtualBox.exe
 
     <version name="2.12.4" package="org.winmerge.WinMerge">
         <important-file path="WinMerge-2.12.4-exe\WinMergeU.exe" title="WinMerge"/>
-        <url>http://downloads.sourceforge.net/project/winmerge/stable/2.12.4/WinMerge-2.12.4-exe.zip?ts=1292842345</url>
-        <sha1>4c721b1b1c2c36e1e9b013d5c8909783d3ab26f0</sha1>
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
+"%setup%" /SP- /VERYSILENT /SUPPRESSMSGBOXES /NOCANCEL /NORESTART /DIR="%CD%" /SAVEINF="%CD%\.Npackd\InnoSetupInfo.ini" /LOG="%CD%\.Npackd\InnoSetupInstall.log"&#13;
+set err=%errorlevel%&#13;
+type .Npackd\InnoSetupInstall.log&#13;
+if %err% neq 0 exit %err%&#13;
+&lt;/file&gt;&#13;
+&lt;file path=".Npackd\Uninstall.bat"&gt;unins000.exe /VERYSILENT /SUPPRESSMSGBOXES /NORESTART /LOG="%CD%\.Npackd\InnoSetupUninstall.log"&#13;
+set err=%errorlevel%&#13;
+type .Npackd\InnoSetupUninstall.log&#13;
+if %err% neq 0 exit %err%&#13;
+</file>
+        <url>http://downloads.sourceforge.net/project/winmerge/stable/2.12.4/WinMerge-2.12.4-Setup.exe</url>
+        <sha1>345e957fc483d5eba8d0e99010a9c24e588aeaa1</sha1>
     </version>
 
     <version name="4.1.2" package="org.winpcap.WinPcapInstaller" type="one-file">
