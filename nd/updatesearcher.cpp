@@ -1004,11 +1004,11 @@ void UpdateSearcher::findUpdates(Job* job)
             "http://downloads.sourceforge.net/project/blat/Blat%20Full%20Version/64%20bit%20versions/blat${{actualVersionWithoutDots}}_64.full.zip"));
     dis.append(DiscoveryInfo("org.blender.Blender",
             "http://www.blender.org/download/get-blender/",
-            "Blender ([\\d\\.]+[a-z]?) is latest release",
+            "Blender ([\\d\\.]+[a-z]?) is the latest release",
             "http://download.blender.org/release/Blender${{version2Parts}}/blender-${{actualVersion}}-release-windows32.zip"));
     dis.append(DiscoveryInfo("org.blender.Blender64",
             "http://www.blender.org/download/get-blender/",
-            "Blender ([\\d\\.]+[a-z]?) is latest release",
+            "Blender ([\\d\\.]+[a-z]?) is the latest release",
             "http://download.blender.org/release/Blender${{version2Parts}}/blender-${{actualVersion}}-release-windows64.zip"));
     dis.append(DiscoveryInfo("com.piriform.CCleaner",
             "http://www.piriform.com/ccleaner/download",
