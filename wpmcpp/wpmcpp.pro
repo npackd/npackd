@@ -96,3 +96,5 @@ RESOURCES += wpmcpp.qrc
 # build
 # QMAKE_CXXFLAGS_RELEASE += -g
 # QMAKE_LFLAGS_RELEASE -= -Wl,-s
+
+QMAKE_LFLAGS_RELEASE += -Wl,-Map,wpmcpp_release.map

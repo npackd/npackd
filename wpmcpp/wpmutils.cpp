@@ -28,7 +28,7 @@
 #include "windowsregistry.h"
 #include "mstask.h"
 
-const char* WPMUtils::NPACKD_VERSION = "1.17.4";
+const char* WPMUtils::NPACKD_VERSION = "1.17.6";
 
 WPMUtils::WPMUtils()
 {
@@ -681,7 +681,11 @@ QString WPMUtils::regQueryValue(HKEY hk, const QString &var)
     DWORD valueSize = sizeof(value);
     if (RegQueryValueEx(hk, (WCHAR*) var.utf16(), 0, 0, (BYTE*) value,
             &valueSize) == ERROR_SUCCESS) {
-        value_.setUtf16((ushort*) value, valueSize / 2 - 1);
+        // the next line is important
+        // valueSize is sometimes == 0 and the expression (valueSize /2 - 1)
+        // below leads to an AV
+        if (valueSize != 0)
+            value_.setUtf16((ushort*) value, valueSize / 2 - 1);
     }
     return value_;
 }

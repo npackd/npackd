@@ -68,16 +68,21 @@ QString WindowsRegistry::get(QString name, QString* err) const
     if (r != ERROR_SUCCESS) {
         WPMUtils::formatMessage(r, err);
     } else {
-        char* value = new char[valueSize];
-        r = RegQueryValueEx(this->hkey,
-                    (WCHAR*) name.utf16(), 0, 0, (BYTE*) value,
-                    &valueSize);
-        if (r != ERROR_SUCCESS) {
-            WPMUtils::formatMessage(r, err);
-        } else {
-            value_.setUtf16((ushort*) value, valueSize / 2 - 1);
+        // the next line is important
+        // valueSize is sometimes == 0 and the expression (valueSize /2 - 1)
+        // below leads to an AV
+        if (valueSize != 0) {
+            char* value = new char[valueSize];
+            r = RegQueryValueEx(this->hkey,
+                        (WCHAR*) name.utf16(), 0, 0, (BYTE*) value,
+                        &valueSize);
+            if (r != ERROR_SUCCESS) {
+                WPMUtils::formatMessage(r, err);
+            } else {
+                value_.setUtf16((ushort*) value, valueSize / 2 - 1);
+            }
+            delete[] value;
         }
-        delete[] value;
     }
 
     return value_;

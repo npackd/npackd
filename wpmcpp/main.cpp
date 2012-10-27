@@ -18,6 +18,10 @@ int main(int argc, char *argv[])
     //CoInitialize(NULL);
     //WPMUtils::createMSTask();
 
+#ifndef __MINGW64__
+    LoadLibrary(L"exchndl.dll");
+#endif
+
     QApplication a(argc, argv);
 
     qRegisterMetaType<JobState>("JobState");
