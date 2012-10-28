@@ -1045,6 +1045,11 @@ This package uses internal version numbers. For example, 1.7.0.1 corresponds to 
 This package uses internal version numbers. For example, 1.7.0.1 corresponds to "Version 7 update 1 or 7u1"</description>
         <license>com.oracle.JavaSELicense</license>
     </package>
+    <package name="com.owncloud.OwnCloudClient">
+        <title>ownCloud client</title>
+        <url>https://owncloud.com/</url>
+        <license>org.gnu.GPLv2</license>
+    </package>
     <package name="com.pantaray.SuperOrca">
         <title>SuperOrca</title>
         <url>http://pantaray.com/msi_super_orca.html</url>
@@ -1184,6 +1189,10 @@ This package uses internal version numbers. For example, 1.7.0.1 corresponds to 
         <url>http://www.winamp.com/media-player/en</url>
         <description>media player</description>
     </package>
+    <package name="com.xnview.XnView">
+        <title>XnView</title>
+        <url>http://www.xnview.com/</url>
+    </package>
     <package name="com.xxcopy.XXCopy">
         <title>XXCopy</title>
         <url>http://www.xxcopy.com/xcpymain.htm</url>
@@ -1275,6 +1284,11 @@ This package uses internal version numbers. For example, 1.7.0.1 corresponds to 
         <description>password safe</description>
         <icon>https://lh6.googleusercontent.com/-dISe8rn4O6U/T2iKpmjzBrI/AAAAAAAAAb4/ifUL0joi80k/s800/info.keepass.KeePassClassic.png</icon>
         <license>org.gnu.GPLv2</license>
+    </package>
+    <package name="info.kowalczyk.blog.SumatraPDF">
+        <title>Sumatra PDF</title>
+        <url>http://blog.kowalczyk.info/software/sumatrapdf/free-pdf-reader.html</url>
+        <description>PDF, eBook (ePub, Mobi), XPS, DjVu, CHM, Comic Book (CBZ and CBR) reader</description>
     </package>
     <package name="info.windirstat.WinDirStat">
         <title>WinDirStat</title>
@@ -7390,6 +7404,17 @@ verify
         <detect-msi>{26A24AE4-039D-4CA4-87B4-2F83217007FF}</detect-msi>
     </version>
 
+    <version name="1.1.1" package="com.owncloud.OwnCloudClient" type="one-file">
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x
+"%setup%" /S /D=%CD%
+</file>
+        <file path=".Npackd\Uninstall.bat">uninstall.exe /S _?=%CD%
+verify
+</file>
+        <url>http://download.owncloud.com/download/owncloud-1.1.1-setup.exe</url>
+        <sha1>1503246c977ef7ed53bcb9e60e4f847232fc2e5a</sha1>
+    </version>
+
     <version name="11" package="com.pantaray.SuperOrca" type="one-file">
         <file path=".Npackd\Install.bat">SuperOrcaSetup.exe /Silent /Hide /InstallDir="%CD%"
 set err=%errorlevel%
@@ -9829,6 +9854,21 @@ for %%g in (%extensions%) do reg add HKLM\SOFTWARE\Classes\.%%g\OpenWithList\%ke
         <url>http://download.nullsoft.com/winamp/client/winamp563_full_emusic-7plus_en-us.exe</url>
     </version>
 
+    <version name="1.99.5" package="com.xnview.XnView" type="one-file">
+        <file path=".Npackd/Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x
+"%setup%" /SP- /VERYSILENT /SUPPRESSMSGBOXES /NOCANCEL /NORESTART /DIR="%CD%" /SAVEINF="%CD%\.Npackd\InnoSetupInfo.ini" /LOG="%CD%\.Npackd\InnoSetupInstall.log"
+set err=%errorlevel%
+type .Npackd\InnoSetupInstall.log
+if %err% neq 0 exit %err%
+</file>
+        <file path=".Npackd/Uninstall.bat">unins000.exe /VERYSILENT /SUPPRESSMSGBOXES /NORESTART /LOG="%CD%\.Npackd\InnoSetupUninstall.log"
+set err=%errorlevel%
+type .Npackd\InnoSetupUninstall.log
+if %err% neq 0 exit %err%
+</file>
+        <url>https://dl.dropbox.com/u/17046326/files/com.xnview.XnView-1.99.5.exe</url>
+    </version>
+
     <version name="3.6.2" package="com.xxcopy.XXCopy">
         <url>http://xxcopy.com/download/xxfw3062.zip</url>
         <sha1>7cb2ff93b3e7b9cf8040d7ae1a1d598d2b4fa0bc</sha1>
@@ -10303,6 +10343,16 @@ if %err% neq 0 exit %err%
 </file>
         <url>http://sourceforge.net/projects/keepass/files/KeePass%201.x/1.24/KeePass-1.24-Setup.exe</url>
         <sha1>44a795115dbadcff7a1fa43701b5cf528800f8f3</sha1>
+    </version>
+
+    <version name="2.1.1" package="info.kowalczyk.blog.SumatraPDF" type="one-file">
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x
+"%setup%" /S /D "%CD%"
+</file>
+        <file path=".Npackd\Uninstall.bat">uninstall.exe /S&#13;
+</file>
+        <url>https://kjkpub.s3.amazonaws.com/sumatrapdf/rel/SumatraPDF-2.1.1-install.exe</url>
+        <sha1>0cc62ecf8924e03482ee815f1629f95d19b92754</sha1>
     </version>
 
     <version name="1.1.2" package="info.windirstat.WinDirStat">
