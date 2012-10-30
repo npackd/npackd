@@ -621,6 +621,12 @@
         <description>PDF and PostScript interpreter</description>
         <license>org.gnu.GPLv2</license>
     </package>
+    <package name="com.github.jsulak.Switcheroo">
+        <title>Switcheroo</title>
+        <url>https://github.com/jsulak/Switcheroo</url>
+        <description>incremental-search task switcher</description>
+        <license>org.gnu.GPLv3</license>
+    </package>
     <package name="com.google.AppEngineJavaSDK">
         <title>App Engine SDK for Java</title>
         <url>https://developers.google.com/appengine/</url>
@@ -1048,6 +1054,7 @@ This package uses internal version numbers. For example, 1.7.0.1 corresponds to 
     <package name="com.owncloud.OwnCloudClient">
         <title>ownCloud client</title>
         <url>https://owncloud.com/</url>
+        <description>client for the ownCloud</description>
         <license>org.gnu.GPLv2</license>
     </package>
     <package name="com.pantaray.SuperOrca">
@@ -1192,6 +1199,7 @@ This package uses internal version numbers. For example, 1.7.0.1 corresponds to 
     <package name="com.xnview.XnView">
         <title>XnView</title>
         <url>http://www.xnview.com/</url>
+        <description>viewing and converting graphic files</description>
     </package>
     <package name="com.xxcopy.XXCopy">
         <title>XXCopy</title>
@@ -3515,6 +3523,24 @@ type .Npackd\InnoSetupUninstall.log
         <url>http://downloads.sourceforge.net/project/clamwin/clamwin/0.97.5/clamwin-0.97.5-setup.exe</url>
         <sha1>a4315ed74665ccb681a374f26faffc700221c9c7</sha1>
     </version>
+    <version name="0.97.6" package="com.clamwin.ClamWin" type="one-file">
+        <file path=".Npackd\Install.bat">for /f %%x in ('dir /b *setup.exe') do set setup=%%x
+"%setup%" /SP- /VERYSILENT /SUPPRESSMSGBOXES /NOCANCEL /NORESTART /DIR="%CD%\ClamWin" /SAVEINF="%CD%\.Npackd\InnoSetupInfo.ini" /LOG="%CD%\.Npackd\InnoSetupInstall.log" /TASKS=
+if %errorlevel% neq 0 exit %errorlevel%
+type .Npackd\InnoSetupInstall.log
+taskkill /f /im ClamTray.exe
+</file>
+        <file path=".Npackd\Uninstall.bat">set key=com.clamwin.ClamWin-%NPACKD_VERSION%
+set trash=..\.Trash\%key%_%random%
+mkdir %trash%
+move ClamWin\bin\ExpShell*.dll %trash%
+ClamWin\unins000.exe /VERYSILENT /SUPPRESSMSGBOXES /NORESTART /LOG="%CD%\.Npackd\InnoSetupUninstall.log"
+if %errorlevel% neq 0 exit %errorlevel%
+type .Npackd\InnoSetupUninstall.log
+</file>
+        <url>https://downloads.sourceforge.net/project/clamwin/clamwin/0.97.6/clamwin-0.97.6-setup.exe</url>
+        <sha1>308b5a8388862886748c47e7af536ab12756eb46</sha1>
+    </version>
 
     <version name="3.72" package="com.codesector.DirectFolders" type="one-file">
         <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x
@@ -3687,6 +3713,16 @@ ren "%setup%" CuteWriter.exe
 </file>
         <url>http://dl.dropbox.com/u/17046326/files/com.cyolito.comicrack.ComicRack-0.9.155.exe</url>
         <sha1>3956315fc3a171e3bfbccbb247e8372023950394</sha1>
+        <dependency package="com.microsoft.DotNetRedistributable" versions="[2.0, 3)"/>
+    </version>
+    <version name="0.9.156" package="com.cyolito.comicrack.ComicRack" type="one-file">
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x
+"%setup%" /S /D=%CD%
+</file>
+        <file path=".Npackd\Uninstall.bat">uninst.exe /S _?=%CD%
+</file>
+        <url>http://dl.dropbox.com/u/17046326/files/com.cyolito.comicrack.ComicRack-0.9.156.exe</url>
+        <sha1>97ea1c22c8baf69eda837c38b039fe124958aefc</sha1>
         <dependency package="com.microsoft.DotNetRedistributable" versions="[2.0, 3)"/>
     </version>
 
@@ -4682,6 +4718,22 @@ ren "%setup%" gs.exe
         <sha1>1d227d1f280df52077ef381ad7707d1a0a7ccc82</sha1>
     </version>
 
+    <version name="0.5" package="com.github.jsulak.Switcheroo" type="one-file">
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x
+"%setup%" /SP- /VERYSILENT /SUPPRESSMSGBOXES /NOCANCEL /NORESTART /DIR="%CD%" /SAVEINF="%CD%\.Npackd\InnoSetupInfo.ini" /LOG="%CD%\.Npackd\InnoSetupInstall.log"
+set err=%errorlevel%
+type .Npackd\InnoSetupInstall.log
+if %err% neq 0 exit %err%
+</file>
+        <file path=".Npackd\Uninstall.bat">unins000.exe /VERYSILENT /SUPPRESSMSGBOXES /NORESTART /LOG="%CD%\.Npackd\InnoSetupUninstall.log"
+set err=%errorlevel%
+type .Npackd\InnoSetupUninstall.log
+if %err% neq 0 exit %err%
+</file>
+        <url>http://cloud.github.com/downloads/jsulak/Switcheroo/Switcheroo_v0.5_setup.exe</url>
+        <sha1>e4c4797fa51542f4dc319157eb30039628140789</sha1>
+    </version>
+
     <version name="1.7.2.1" package="com.google.AppEngineJavaSDK">
         <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b appengine*') do set name=%%x
 cd "%name%"        
@@ -4710,8 +4762,8 @@ call "%npackdih%\InstallMSI.bat" INSTALLDIR yes
         <dependency package="org.python.Python" versions="[2.5, 2.6)"/>
     </version>
 
-    <version name="21.0.1180.83" package="com.google.Chrome" type="one-file">
-        <file path=".Npackd\AddProperty.vbs">.Npackd\AddProperty.vbs
+    <version name="22.0.1229.96" package="com.google.Chrome" type="one-file">
+        <file path=".Npackd\Install.bat">.Npackd\AddProperty.vbs
 if %errorlevel% neq 0 exit %errorlevel%
 
 if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
@@ -4719,7 +4771,7 @@ set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-p
 for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set npackdih=%%x
 call "%npackdih%\InstallMSI.bat" TARGETDIRDIR yes
 </file>
-        <file path=".Npackd\Install.bat">Option Explicit
+        <file path=".Npackd\AddProperty.vbs">Option Explicit
 
 Const MSI_FILE = "GoogleChromeStandaloneEnterprise.msi"
 
@@ -7621,6 +7673,14 @@ for %%g in (msi) do reg delete HKLM\SOFTWARE\Classes\.%%g\OpenWithList\%key% /f
 </file>
         <file path=".Npackd\Uninstall.bat">uninst.exe /S _?=%CD%</file>
         <url>http://download.piriform.com/ccsetup322.exe</url>
+    </version>
+    <version name="3.23.1823" package="com.piriform.CCleaner" type="one-file">
+        <important-file path="CCleaner.exe" title="CCleaner"/>
+        <file path=".Npackd\Install.bat">for /f %%x in ('dir /b *.exe') do set setup=%%x
+"%setup%" /S /D=%CD%
+</file>
+        <file path=".Npackd\Uninstall.bat">uninst.exe /S _?=%CD%</file>
+        <url>http://download.piriform.com/ccsetup323.exe</url>
     </version>
 
     <version name="1.21.209" package="com.piriform.Defraggler" type="one-file">
@@ -11325,6 +11385,11 @@ rmdir "%name%"
         <url>http://dl.dropbox.com/u/17046326/files/net.sourceforge.dcplusplus.DCPlusPlus-0.799.zip</url>
         <sha1>f9f7a2246b8d52a57150231552c6735043ad9cdd</sha1>
     </version>
+    <version name="0.802" package="net.sourceforge.dcplusplus.DCPlusPlus">
+        <important-file path="DCPlusPlus.exe" title="DC++"/>
+        <url>http://dl.dropbox.com/u/17046326/files/net.sourceforge.dcplusplus.DCPlusPlus-0.802.zip</url>
+        <sha1>8a18e895fe7d1f44c183e687c5fd7f0b4352d2f7</sha1>
+    </version>
 
     <version name="2.9" package="net.sourceforge.discoverd.Discover">
         <important-file path="Discover.exe" title="Discover"/>
@@ -14723,6 +14788,19 @@ rmdir "%name%"
         <url>http://download.blender.org/release/Blender2.63/blender-2.63a-release-windows32.zip</url>
         <sha1>071cb622b5e2b160ec0e832f30397c2e8ab31fb1</sha1>
     </version>
+    <version name="2.64.1" package="org.blender.Blender">
+        <important-file path="blender.exe" title="Blender"/>
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b blender*') do set name=%%x
+cd "%name%"        
+for /f "delims=" %%a in ('dir /b') do (
+  move "%%a" ..
+)
+cd ..
+rmdir "%name%"
+</file>
+        <url>http://download.blender.org/release/Blender2.64/blender-2.64a-release-windows32.zip</url>
+        <sha1>b6b874479ff2829d71084325f1db148032b6e6fe</sha1>
+    </version>
 
     <version name="1.0.3.8" package="org.bluemars.ClipX" type="one-file">
         <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x
@@ -14870,6 +14948,35 @@ verify
 </file>
         <url>http://clementine-player.googlecode.com/files/ClementineSetup-1.0.1.exe</url>
         <sha1>88e241ce9eab88d0d4749852a3650cd12f1ab9e4</sha1>
+    </version>
+    <version name="1.1" package="org.clementine-player.Clementine" type="one-file">
+        <file path=".Npackd\Uninstall.bat">Uninstall.exe /S _?=%CD%
+if %errorlevel% neq 0 exit /b %errorlevel%
+
+set package=org.clementine-player.Clementine
+set version=1.1
+set key=%package%-%version%
+
+reg delete HKLM\SOFTWARE\Classes\Applications\%key% /f
+for %%g in (mp3 ogg flac mpc m4a aac wma mp4 spx wav m3u m3u8 xspf pls asx asxini) do reg delete HKLM\SOFTWARE\Classes\.%%g\OpenWithList\%key% /f
+verify
+</file>
+        <file path=".Npackd\Install.bat">for /f %%x in ('dir /b *.exe') do set setup=%%x
+"%setup%" /S /D=%CD%
+if %errorlevel% neq 0 exit /b %errorlevel%
+
+set package=org.clementine-player.Clementine
+set version=1.1
+set key=%package%-%version%
+
+reg add HKLM\SOFTWARE\Classes\Applications\%key%\shell\open /v FriendlyAppName /d "Clementine (%version%)" /f
+set c=\"%CD%\clementine.exe\" \"%%1\"
+reg add HKLM\SOFTWARE\Classes\Applications\%KEY%\shell\open\command /d "%c%" /f
+for %%g in (mp3 ogg flac mpc m4a aac wma mp4 spx wav m3u m3u8 xspf pls asx asxini) do reg add HKLM\SOFTWARE\Classes\.%%g\OpenWithList\%key% /f
+verify
+</file>
+        <url>http://clementine-player.googlecode.com/files/ClementineSetup-1.1.0.exe</url>
+        <sha1>9efc174bacb13d2cac3db38fb9c00e0e6e6fae46</sha1>
     </version>
 
     <version name="2.8.4" package="org.cmake.CMake">
@@ -20203,6 +20310,12 @@ if %err% neq 0 exit %err%
         <important-file path="cdbxpp.exe" title="CDBurnerXP"/>
         <url>http://download.cdburnerxp.se/portable/CDBurnerXP-4.4.1.3341.zip</url>
         <sha1>228c32d89088a8ebd576bd8025745ce5c740d014</sha1>
+        <dependency package="com.microsoft.DotNetRedistributable" versions="[2.0, 5)"/>
+    </version>
+    <version name="4.4.2.3442" package="se.cdburnerxp.CDBurnerXP">
+        <important-file path="cdbxpp.exe" title="CDBurnerXP"/>
+        <url>http://download.cdburnerxp.se/portable/CDBurnerXP-4.4.2.3442.zip</url>
+        <sha1>678e8c6853336f076802ef822e58af2214f55a37</sha1>
         <dependency package="com.microsoft.DotNetRedistributable" versions="[2.0, 5)"/>
     </version>
 
