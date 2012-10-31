@@ -21,12 +21,12 @@
         <title>FreeCommander license</title>
         <url>http://www.freecommander.com/license_en.htm</url>
     </license>
-    <license name="org.gnu.GPLv3">
-        <title>GPLv3</title>
-        <url>http://www.gnu.org/licenses/gpl.html</url>
-    </license>
     <license name="org.gnu.GPLv2">
         <title>GPLv2</title>
+        <url>http://www.gnu.org/licenses/gpl.html</url>
+    </license>
+    <license name="org.gnu.GPLv3">
+        <title>GPLv3</title>
         <url>http://www.gnu.org/licenses/gpl.html</url>
     </license>
     <package name="com.freecommander.FreeCommander">
@@ -59,6 +59,13 @@
         <url>http://www.blender.org/</url>
         <description>3D content creator</description>
         <icon>https://lh5.googleusercontent.com/-kFYTFEF166c/T2h0G2-FprI/AAAAAAAAAYw/tYsLnlw3vfU/s800/org.blender.Blender.png</icon>
+        <license>org.gnu.GPLv2</license>
+    </package>
+    <package name="org.grisbi.Grisbi">
+        <title>Grisbi</title>
+        <url>http://www.grisbi.org/</url>
+        <description>personal accounting</description>
+        <icon>http://www.grisbi.org/images/logo-euro.png</icon>
         <license>org.gnu.GPLv2</license>
     </package>
 
@@ -281,5 +288,15 @@ for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set python=%%x
         <important-file path="blender-2.56a-beta-windows32\blender.exe" title="Blender"/>
         <url>http://download.blender.org/release//Blender2.56abeta/blender-2.56a-beta-windows32.zip</url>
         <sha1>68146fd76846b3c83a314cd1bb1f32808f844e51</sha1>
+    </version>
+
+    <version name="0.9.4" package="org.grisbi.Grisbi" type="one-file">
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x
+"%setup%" /S /D=%CD%
+</file>
+        <file path=".Npackd\Uninstall.bat">uninstall.exe /S _?=%CD%
+</file>
+        <url>http://sourceforge.net/projects/grisbi/files/grisbi%20unstable/0.9.4/Grisbi_0.9.4_win32_mingw_goffice.exe</url>
+        <sha1>fd674320dece2fe6b8de7e2ce55251c42b908a09</sha1>
     </version>
 </root>
