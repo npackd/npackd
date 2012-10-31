@@ -2026,6 +2026,13 @@ yes - Print a string repeatedly.</description>
         <description>graph visualization</description>
         <license>org.eclipse.EPLv1</license>
     </package>
+    <package name="org.grisbi.Grisbi">
+        <title>Grisbi</title>
+        <url>http://www.grisbi.org/</url>
+        <description>personal accounting</description>
+        <icon>http://www.grisbi.org/images/logo-euro.png</icon>
+        <license>org.gnu.GPLv2</license>
+    </package>
     <package name="org.gtk.GTKPlusBundle">
         <title>GTK+ with dependencies</title>
         <url>http://www.gtk.org/</url>
@@ -7773,6 +7780,13 @@ for %%g in (msi) do reg delete HKLM\SOFTWARE\Classes\.%%g\OpenWithList\%key% /f
 </file>
         <file path=".Npackd\Uninstall.bat">uninst.exe /S _?=%CD%</file>
         <url>http://download.piriform.com/dfsetup210.exe</url>
+    </version>
+    <version name="2.11.560" package="com.piriform.Defraggler" type="one-file">
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x
+"%setup%" /S /D=%CD%
+</file>
+        <file path=".Npackd\Uninstall.bat">uninst.exe /S _?=%CD%</file>
+        <url>http://download.piriform.com/dfsetup211.exe</url>
     </version>
 
     <version name="1.38.504" package="com.piriform.Recuva" type="one-file">
@@ -16465,6 +16479,16 @@ call "%npackdih%\InstallMSI.bat" TARGETDIR yes
         <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.1, 2)"/>
         <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.15.7, 2)"/>
         <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1, 1]"/>
+    </version>
+
+    <version name="0.8.9.3" package="org.grisbi.Grisbi" type="one-file">
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x
+"%setup%" /S /D=%CD%
+</file>
+        <file path=".Npackd\Uninstall.bat">uninstall.exe /S _?=%CD%
+</file>
+        <url>http://downloads.sourceforge.net/project/grisbi/grisbi%20stable/0.8.x/Grisbi_0.8.9-3_win32_mingw.exe</url>
+        <sha1>01d95ea043c231fa817da406a67064ab0201a187</sha1>
     </version>
 
     <version name="2.22.0" package="org.gtk.GTKPlusBundle">
