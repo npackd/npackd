@@ -495,13 +495,13 @@ This package uses internal version numbers. For example, 1.7.0.1 corresponds to 
 
     <version name="4.2.25" package="ch.flos-freeware.Notepad264">
         <important-file path="Notepad2.exe" title="Notepad2"/>
-        <file path=".Npackd\Install.bat">set version=4.2.25
+        <file path=".Npackd\Uninstall.bat">set version=4.2.25
 set key=ch.flos-freeware.Notepad264-%version%
 reg delete HKLM\SOFTWARE\Classes\Applications\%key% /f
 for %%g in (txt log ini h hpp hxx c cpp cxx cc m java cs pas inc html htm php phtml js jsp asp css xml sh bsh nsi nsh lua pl pm py as mx vb vbs f for f90 f95 f2k tex sql nfo mak) do reg delete HKLM\SOFTWARE\Classes\.%%g\OpenWithList\%key% /f
 verify
 </file>
-        <file path=".Npackd\Uninstall.bat">
+        <file path=".Npackd\Install.bat">
 set version=4.2.25
 set key=ch.flos-freeware.Notepad264-%version%
 reg add HKLM\SOFTWARE\Classes\Applications\%key%\shell\open /v FriendlyAppName /d "Notepad2 64 bit (%version%)" /f
@@ -1400,7 +1400,7 @@ if %err% neq 0 exit %err%
     </version>
 
     <version name="1.6.0.25" package="com.oracle.JDK64" type="one-file">
-        <file path=".Npackd\Install.bat">MsiExec.exe /qn /norestart /Lime .Npackd\MSI.log /X{64A3A4F4-B792-11D6-A78A-00B0D0160250}
+        <file path=".Npackd\Uninstall.bat">MsiExec.exe /qn /norestart /Lime .Npackd\MSI.log /X{64A3A4F4-B792-11D6-A78A-00B0D0160250}
 set err=%errorlevel%
 type .Npackd\MSI.log
 if %err% neq 0 exit /b %err%
@@ -1411,7 +1411,7 @@ for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set clu=%%x
 "%clu%\clu" remove-path --path "%CD%\bin"
 verify
 </file>
-        <file path=".Npackd\Uninstall.bat">ren AutoDL AutoDL.exe
+        <file path=".Npackd\Install.bat">ren AutoDL AutoDL.exe
 AutoDL.exe /s /v"/qn /Lime .Npackd\MSI.log /norestart REBOOT=Suppress ALLUSERS=1 ADDLOCAL="""ToolsFeature,DemosFeature,SourceFeature""" INSTALLDIR="""%CD%""" "
 set err=%errorlevel%
 type .Npackd\MSI.log
@@ -1431,7 +1431,7 @@ verify
         <detect-msi>{64A3A4F4-B792-11D6-A78A-00B0D0160250}</detect-msi>
     </version>
     <version name="1.6.0.26" package="com.oracle.JDK64" type="one-file">
-        <file path=".Npackd\Install.bat">MsiExec.exe /qn /norestart /Lime .Npackd\MSI.log /X{64A3A4F4-B792-11D6-A78A-00B0D0160260}
+        <file path=".Npackd\Uninstall.bat">MsiExec.exe /qn /norestart /Lime .Npackd\MSI.log /X{64A3A4F4-B792-11D6-A78A-00B0D0160260}
 set err=%errorlevel%
 type .Npackd\MSI.log
 if %err% neq 0 exit /b %err%
@@ -1442,7 +1442,7 @@ for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set clu=%%x
 "%clu%\clu" remove-path --path "%CD%\bin"
 verify
 </file>
-        <file path=".Npackd\Uninstall.bat">ren AutoDL AutoDL.exe
+        <file path=".Npackd\Install.bat">ren AutoDL AutoDL.exe
 AutoDL.exe /s /v"/qn /Lime .Npackd\MSI.log /norestart REBOOT=Suppress ALLUSERS=1 ADDLOCAL="""ToolsFeature,DemosFeature,SourceFeature""" INSTALLDIR="""%CD%""" "
 set err=%errorlevel%
 type .Npackd\MSI.log
@@ -1462,7 +1462,7 @@ verify
         <detect-msi>{64A3A4F4-B792-11D6-A78A-00B0D0160260}</detect-msi>
     </version>
     <version name="1.6.0.30" package="com.oracle.JDK64" type="one-file">
-        <file path=".Npackd\Install.bat">MsiExec.exe /qn /norestart /Lime .Npackd\MSI.log /X{64A3A4F4-B792-11D6-A78A-00B0D0160300}
+        <file path=".Npackd\Uninstall.bat">MsiExec.exe /qn /norestart /Lime .Npackd\MSI.log /X{64A3A4F4-B792-11D6-A78A-00B0D0160300}
 set err=%errorlevel%
 type .Npackd\MSI.log
 if %err% neq 0 exit /b %err%
@@ -1473,7 +1473,7 @@ for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set clu=%%x
 "%clu%\clu" remove-path --path "%CD%\bin"
 verify
 </file>
-        <file path=".Npackd\Uninstall.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x
 "%setup%" /s /v"/qn /Lime .Npackd\MSI.log /norestart REBOOT=Suppress ALLUSERS=1 ADDLOCAL="""ToolsFeature,DemosFeature,SourceFeature""" INSTALLDIR="""%CD%""" "
 set err=%errorlevel%
 type .Npackd\MSI.log
@@ -1493,7 +1493,7 @@ verify
         <detect-msi>{64A3A4F4-B792-11D6-A78A-00B0D0160300}</detect-msi>
     </version>
     <version name="1.7" package="com.oracle.JDK64" type="one-file">
-        <file path=".Npackd\Install.bat">MsiExec.exe /qn /norestart /Lime .Npackd\MSI.log /X{64A3A4F4-B792-11D6-A78A-00B0D0170000}
+        <file path=".Npackd\Uninstall.bat">MsiExec.exe /qn /norestart /Lime .Npackd\MSI.log /X{64A3A4F4-B792-11D6-A78A-00B0D0170000}
 set err=%errorlevel%
 type .Npackd\MSI.log
 if %err% neq 0 exit /b %err%
@@ -1504,7 +1504,7 @@ for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set clu=%%x
 "%clu%\clu" remove-path --path "%CD%\bin"
 verify
 </file>
-        <file path=".Npackd\Uninstall.bat">ren AutoDL AutoDL.exe
+        <file path=".Npackd\Install.bat">ren AutoDL AutoDL.exe
 AutoDL.exe /s /v"/qn /Lime .Npackd\MSI.log /norestart REBOOT=Suppress ALLUSERS=1 ADDLOCAL="""ToolsFeature,DemosFeature,SourceFeature""" INSTALLDIR="""%CD%""" "
 set err=%errorlevel%
 type .Npackd\MSI.log
@@ -1524,7 +1524,7 @@ verify
         <detect-msi>{64A3A4F4-B792-11D6-A78A-00B0D0170000}</detect-msi>
     </version>
     <version name="1.7.0.1" package="com.oracle.JDK64" type="one-file">
-        <file path=".Npackd\Install.bat">MsiExec.exe /qn /norestart /Lime .Npackd\MSI.log /X{64A3A4F4-B792-11D6-A78A-00B0D0170010}
+        <file path=".Npackd\Uninstall.bat">MsiExec.exe /qn /norestart /Lime .Npackd\MSI.log /X{64A3A4F4-B792-11D6-A78A-00B0D0170010}
 set err=%errorlevel%
 type .Npackd\MSI.log
 if %err% neq 0 exit /b %err%
@@ -1535,7 +1535,7 @@ for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set clu=%%x
 "%clu%\clu" remove-path --path "%CD%\bin"
 verify
 </file>
-        <file path=".Npackd\Uninstall.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x
 "%setup%" /s /v"/qn /Lime .Npackd\MSI.log /norestart REBOOT=Suppress ALLUSERS=1 ADDLOCAL="""ToolsFeature,DemosFeature,SourceFeature""" INSTALLDIR="""%CD%""" "
 set err=%errorlevel%
 type .Npackd\MSI.log
@@ -1555,7 +1555,7 @@ verify
         <detect-msi>{64A3A4F4-B792-11D6-A78A-00B0D0170010}</detect-msi>
     </version>
     <version name="1.7.0.2" package="com.oracle.JDK64" type="one-file">
-        <file path=".Npackd\Install.bat">MsiExec.exe /qn /norestart /Lime .Npackd\MSI.log /X{64A3A4F4-B792-11D6-A78A-00B0D0170020}
+        <file path=".Npackd\Uninstall.bat">MsiExec.exe /qn /norestart /Lime .Npackd\MSI.log /X{64A3A4F4-B792-11D6-A78A-00B0D0170020}
 set err=%errorlevel%
 type .Npackd\MSI.log
 if %err% neq 0 exit /b %err%
@@ -1566,7 +1566,7 @@ for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set clu=%%x
 "%clu%\clu" remove-path --path "%CD%\bin"
 verify
 </file>
-        <file path=".Npackd\Uninstall.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x
 "%setup%" /s /v"/qn /Lime """"""%CD%\.Npackd\MSI.log"""""" /norestart REBOOT=Suppress ALLUSERS=1 ADDLOCAL=""""""ToolsFeature,SourceFeature"""""" INSTALLDIR=""""""%CD%"""""" "
 set err=%errorlevel%
 type .Npackd\MSI.log
@@ -1586,7 +1586,7 @@ verify
         <detect-msi>{64A3A4F4-B792-11D6-A78A-00B0D0170020}</detect-msi>
     </version>
     <version name="1.7.0.3" package="com.oracle.JDK64" type="one-file">
-        <file path=".Npackd\Install.bat">MsiExec.exe /qn /norestart /Lime .Npackd\MSI.log /X{64A3A4F4-B792-11D6-A78A-00B0D0170030}
+        <file path=".Npackd\Uninstall.bat">MsiExec.exe /qn /norestart /Lime .Npackd\MSI.log /X{64A3A4F4-B792-11D6-A78A-00B0D0170030}
 set err=%errorlevel%
 type .Npackd\MSI.log
 if %err% neq 0 exit /b %err%
@@ -1597,7 +1597,7 @@ for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set clu=%%x
 "%clu%\clu" remove-path --path "%CD%\bin"
 verify
 </file>
-        <file path=".Npackd\Uninstall.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x
 "%setup%" /s /v"/qn /Lime """"""%CD%\.Npackd\MSI.log"""""" /norestart REBOOT=Suppress ALLUSERS=1 ADDLOCAL=""""""ToolsFeature,SourceFeature"""""" INSTALLDIR=""""""%CD%"""""" "
 set err=%errorlevel%
 type .Npackd\MSI.log
@@ -1617,7 +1617,7 @@ verify
         <detect-msi>{64A3A4F4-B792-11D6-A78A-00B0D0170030}</detect-msi>
     </version>
     <version name="1.7.0.4" package="com.oracle.JDK64" type="one-file">
-        <file path=".Npackd\Install.bat">MsiExec.exe /qn /norestart /Lime .Npackd\MSI.log /X{64A3A4F4-B792-11D6-A78A-00B0D0170040}
+        <file path=".Npackd\Uninstall.bat">MsiExec.exe /qn /norestart /Lime .Npackd\MSI.log /X{64A3A4F4-B792-11D6-A78A-00B0D0170040}
 set err=%errorlevel%
 type .Npackd\MSI.log
 if %err% neq 0 exit /b %err%
@@ -1628,7 +1628,7 @@ for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set clu=%%x
 "%clu%\clu" remove-path --path "%CD%\bin"
 verify
 </file>
-        <file path=".Npackd\Uninstall.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x
 "%setup%" /s /v"/qn /Lime .Npackd\MSI.log /norestart REBOOT=Suppress ALLUSERS=1 ADDLOCAL="""ToolsFeature,SourceFeature""" INSTALLDIR="""%CD%""" "
 set err=%errorlevel%
 type .Npackd\MSI.log
@@ -1648,7 +1648,7 @@ verify
         <detect-msi>{64A3A4F4-B792-11D6-A78A-00B0D0170040}</detect-msi>
     </version>
     <version name="1.7.0.5" package="com.oracle.JDK64" type="one-file">
-        <file path=".Npackd\Install.bat">MsiExec.exe /qn /norestart /Lime .Npackd\MSI.log /X{64A3A4F4-B792-11D6-A78A-00B0D0170050}
+        <file path=".Npackd\Uninstall.bat">MsiExec.exe /qn /norestart /Lime .Npackd\MSI.log /X{64A3A4F4-B792-11D6-A78A-00B0D0170050}
 set err=%errorlevel%
 type .Npackd\MSI.log
 if %err% neq 0 exit /b %err%
@@ -1659,7 +1659,7 @@ for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set clu=%%x
 "%clu%\clu" remove-path --path "%CD%\bin"
 verify
 </file>
-        <file path=".Npackd\Uninstall.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x
 "%setup%" /s /v"/qn /Lime .Npackd\MSI.log /norestart REBOOT=Suppress ALLUSERS=1 ADDLOCAL="""ToolsFeature,SourceFeature""" INSTALLDIR="""%CD%""" "
 set err=%errorlevel%
 type .Npackd\MSI.log
@@ -1679,7 +1679,7 @@ verify
         <detect-msi>{64A3A4F4-B792-11D6-A78A-00B0D0170050}</detect-msi>
     </version>
     <version name="1.7.0.7" package="com.oracle.JDK64" type="one-file">
-        <file path=".Npackd\Install.bat">MsiExec.exe /qn /norestart /Lime .Npackd\MSI.log /X{64A3A4F4-B792-11D6-A78A-00B0D0170070}
+        <file path=".Npackd\Uninstall.bat">MsiExec.exe /qn /norestart /Lime .Npackd\MSI.log /X{64A3A4F4-B792-11D6-A78A-00B0D0170070}
 set err=%errorlevel%
 type .Npackd\MSI.log
 if %err% neq 0 exit /b %err%
@@ -1690,7 +1690,7 @@ for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set clu=%%x
 "%clu%\clu" remove-path --path "%CD%\bin"
 verify
 </file>
-        <file path=".Npackd\Uninstall.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x
 "%setup%" /s /v"/qn /Lime .Npackd\MSI.log /norestart REBOOT=Suppress ALLUSERS=1 ADDLOCAL="""ToolsFeature,SourceFeature""" INSTALLDIR="""%CD%""" "
 set err=%errorlevel%
 type .Npackd\MSI.log
@@ -2057,7 +2057,7 @@ verify
         <dependency package="com.googlecode.windows-package-manager.CLU" versions="[1, 2)"/>
     </version>
     <version name="2" package="com.selenic.mercurial.Mercurial64" type="one-file">
-        <file path=".Npackd\Install.bat">unins000.exe /VERYSILENT /SUPPRESSMSGBOXES /NORESTART /LOG="%CD%\.Npackd\InnoSetupUninstall.log"
+        <file path=".Npackd\Uninstall.bat">unins000.exe /VERYSILENT /SUPPRESSMSGBOXES /NORESTART /LOG="%CD%\.Npackd\InnoSetupUninstall.log"
 set err=%errorlevel%
 type .Npackd\InnoSetupUninstall.log
 if %err% neq 0 exit %err%
@@ -2068,7 +2068,7 @@ for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set clu=%%x
 "%clu%\clu" remove-path --path "%CD%"
 verify
 </file>
-        <file path=".Npackd\Uninstall.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x
 "%setup%" /SP- /VERYSILENT /SUPPRESSMSGBOXES /NOCANCEL /NORESTART /DIR="%CD%" /SAVEINF="%CD%\.Npackd\InnoSetupInfo.ini" /LOG="%CD%\.Npackd\InnoSetupInstall.log"
 set err=%errorlevel%
 type .Npackd\InnoSetupInstall.log
@@ -2087,7 +2087,7 @@ verify
         <dependency package="com.googlecode.windows-package-manager.CLU" versions="[1, 2)"/>
     </version>
     <version name="2.0.2" package="com.selenic.mercurial.Mercurial64" type="one-file">
-        <file path=".Npackd\Install.bat">unins000.exe /VERYSILENT /SUPPRESSMSGBOXES /NORESTART /LOG="%CD%\.Npackd\InnoSetupUninstall.log"
+        <file path=".Npackd\Uninstall.bat">unins000.exe /VERYSILENT /SUPPRESSMSGBOXES /NORESTART /LOG="%CD%\.Npackd\InnoSetupUninstall.log"
 set err=%errorlevel%
 type .Npackd\InnoSetupUninstall.log
 if %err% neq 0 exit %err%
@@ -2098,7 +2098,7 @@ for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set clu=%%x
 "%clu%\clu" remove-path --path "%CD%"
 verify
 </file>
-        <file path=".Npackd\Uninstall.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x
 "%setup%" /SP- /VERYSILENT /SUPPRESSMSGBOXES /NOCANCEL /NORESTART /DIR="%CD%" /SAVEINF="%CD%\.Npackd\InnoSetupInfo.ini" /LOG="%CD%\.Npackd\InnoSetupInstall.log"
 set err=%errorlevel%
 type .Npackd\InnoSetupInstall.log
@@ -2117,7 +2117,7 @@ verify
         <dependency package="com.googlecode.windows-package-manager.CLU" versions="[1, 2)"/>
     </version>
     <version name="2.1.2" package="com.selenic.mercurial.Mercurial64" type="one-file">
-        <file path=".Npackd\Install.bat">unins000.exe /VERYSILENT /SUPPRESSMSGBOXES /NORESTART /LOG="%CD%\.Npackd\InnoSetupUninstall.log"
+        <file path=".Npackd\Uninstall.bat">unins000.exe /VERYSILENT /SUPPRESSMSGBOXES /NORESTART /LOG="%CD%\.Npackd\InnoSetupUninstall.log"
 set err=%errorlevel%
 type .Npackd\InnoSetupUninstall.log
 if %err% neq 0 exit %err%
@@ -2128,7 +2128,7 @@ for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set clu=%%x
 "%clu%\clu" remove-path --path "%CD%"
 verify
 </file>
-        <file path=".Npackd\Uninstall.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x
 "%setup%" /SP- /VERYSILENT /SUPPRESSMSGBOXES /NOCANCEL /NORESTART /DIR="%CD%" /SAVEINF="%CD%\.Npackd\InnoSetupInfo.ini" /LOG="%CD%\.Npackd\InnoSetupInstall.log"
 set err=%errorlevel%
 type .Npackd\InnoSetupInstall.log
@@ -2147,7 +2147,7 @@ verify
         <dependency package="com.googlecode.windows-package-manager.CLU" versions="[1, 2)"/>
     </version>
     <version name="2.2.1" package="com.selenic.mercurial.Mercurial64" type="one-file">
-        <file path=".Npackd\Install.bat">unins000.exe /VERYSILENT /SUPPRESSMSGBOXES /NORESTART /LOG="%CD%\.Npackd\InnoSetupUninstall.log"
+        <file path=".Npackd\Uninstall.bat">unins000.exe /VERYSILENT /SUPPRESSMSGBOXES /NORESTART /LOG="%CD%\.Npackd\InnoSetupUninstall.log"
 set err=%errorlevel%
 type .Npackd\InnoSetupUninstall.log
 if %err% neq 0 exit %err%
@@ -2158,7 +2158,7 @@ for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set clu=%%x
 "%clu%\clu" remove-path --path "%CD%"
 verify
 </file>
-        <file path=".Npackd\Uninstall.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x
 "%setup%" /SP- /VERYSILENT /SUPPRESSMSGBOXES /NOCANCEL /NORESTART /DIR="%CD%" /SAVEINF="%CD%\.Npackd\InnoSetupInfo.ini" /LOG="%CD%\.Npackd\InnoSetupInstall.log"
 set err=%errorlevel%
 type .Npackd\InnoSetupInstall.log
@@ -2177,7 +2177,7 @@ verify
         <dependency package="com.googlecode.windows-package-manager.CLU" versions="[1, 2)"/>
     </version>
     <version name="2.2.2" package="com.selenic.mercurial.Mercurial64" type="one-file">
-        <file path=".Npackd\Install.bat">unins000.exe /VERYSILENT /SUPPRESSMSGBOXES /NORESTART /LOG="%CD%\.Npackd\InnoSetupUninstall.log"
+        <file path=".Npackd\Uninstall.bat">unins000.exe /VERYSILENT /SUPPRESSMSGBOXES /NORESTART /LOG="%CD%\.Npackd\InnoSetupUninstall.log"
 set err=%errorlevel%
 type .Npackd\InnoSetupUninstall.log
 if %err% neq 0 exit %err%
@@ -2188,7 +2188,7 @@ for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set clu=%%x
 "%clu%\clu" remove-path --path "%CD%"
 verify
 </file>
-        <file path=".Npackd\Uninstall.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x
 "%setup%" /SP- /VERYSILENT /SUPPRESSMSGBOXES /NOCANCEL /NORESTART /DIR="%CD%" /SAVEINF="%CD%\.Npackd\InnoSetupInfo.ini" /LOG="%CD%\.Npackd\InnoSetupInstall.log"
 set err=%errorlevel%
 type .Npackd\InnoSetupInstall.log
@@ -2207,7 +2207,7 @@ verify
         <dependency package="com.googlecode.windows-package-manager.CLU" versions="[1, 2)"/>
     </version>
     <version name="2.2.3" package="com.selenic.mercurial.Mercurial64" type="one-file">
-        <file path=".Npackd\Install.bat">unins000.exe /VERYSILENT /SUPPRESSMSGBOXES /NORESTART /LOG="%CD%\.Npackd\InnoSetupUninstall.log"
+        <file path=".Npackd\Uninstall.bat">unins000.exe /VERYSILENT /SUPPRESSMSGBOXES /NORESTART /LOG="%CD%\.Npackd\InnoSetupUninstall.log"
 set err=%errorlevel%
 type .Npackd\InnoSetupUninstall.log
 if %err% neq 0 exit %err%
@@ -2218,7 +2218,7 @@ for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set clu=%%x
 "%clu%\clu" remove-path --path "%CD%"
 verify
 </file>
-        <file path=".Npackd\Uninstall.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x
 "%setup%" /SP- /VERYSILENT /SUPPRESSMSGBOXES /NOCANCEL /NORESTART /DIR="%CD%" /SAVEINF="%CD%\.Npackd\InnoSetupInfo.ini" /LOG="%CD%\.Npackd\InnoSetupInstall.log"
 set err=%errorlevel%
 type .Npackd\InnoSetupInstall.log
@@ -2237,7 +2237,7 @@ verify
         <dependency package="com.googlecode.windows-package-manager.CLU" versions="[1, 2)"/>
     </version>
     <version name="2.3" package="com.selenic.mercurial.Mercurial64" type="one-file">
-        <file path=".Npackd\Install.bat">unins000.exe /VERYSILENT /SUPPRESSMSGBOXES /NORESTART /LOG="%CD%\.Npackd\InnoSetupUninstall.log"
+        <file path=".Npackd\Uninstall.bat">unins000.exe /VERYSILENT /SUPPRESSMSGBOXES /NORESTART /LOG="%CD%\.Npackd\InnoSetupUninstall.log"
 set err=%errorlevel%
 type .Npackd\InnoSetupUninstall.log
 if %err% neq 0 exit %err%
@@ -2248,7 +2248,7 @@ for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set clu=%%x
 "%clu%\clu" remove-path --path "%CD%"
 verify
 </file>
-        <file path=".Npackd\Uninstall.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x
 "%setup%" /SP- /VERYSILENT /SUPPRESSMSGBOXES /NOCANCEL /NORESTART /DIR="%CD%" /SAVEINF="%CD%\.Npackd\InnoSetupInfo.ini" /LOG="%CD%\.Npackd\InnoSetupInstall.log"
 set err=%errorlevel%
 type .Npackd\InnoSetupInstall.log
@@ -2267,7 +2267,7 @@ verify
         <dependency package="com.googlecode.windows-package-manager.CLU" versions="[1, 2)"/>
     </version>
     <version name="2.3.1" package="com.selenic.mercurial.Mercurial64" type="one-file">
-        <file path=".Npackd\Install.bat">unins000.exe /VERYSILENT /SUPPRESSMSGBOXES /NORESTART /LOG="%CD%\.Npackd\InnoSetupUninstall.log"
+        <file path=".Npackd\Uninstall.bat">unins000.exe /VERYSILENT /SUPPRESSMSGBOXES /NORESTART /LOG="%CD%\.Npackd\InnoSetupUninstall.log"
 set err=%errorlevel%
 type .Npackd\InnoSetupUninstall.log
 if %err% neq 0 exit %err%
@@ -2278,7 +2278,7 @@ for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set clu=%%x
 "%clu%\clu" remove-path --path "%CD%"
 verify
 </file>
-        <file path=".Npackd\Uninstall.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x
 "%setup%" /SP- /VERYSILENT /SUPPRESSMSGBOXES /NOCANCEL /NORESTART /DIR="%CD%" /SAVEINF="%CD%\.Npackd\InnoSetupInfo.ini" /LOG="%CD%\.Npackd\InnoSetupInstall.log"
 set err=%errorlevel%
 type .Npackd\InnoSetupInstall.log
@@ -2993,13 +2993,13 @@ verify
         <dependency package="com.googlecode.windows-package-manager.CLU" versions="[1, 2)"/>
     </version>
     <version name="4.7.1.2" package="net.sourceforge.mingw-w64.MinGWW6464" type="one-file">
-        <file path=".Npackd\Install.bat">if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
+        <file path=".Npackd\Uninstall.bat">if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
 set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.CLU" "--versions=[1, 2)"
 for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set clu=%%x
 "%clu%\clu" remove-path --path "%CD%\bin"
 verify
 </file>
-        <file path=".Npackd\Uninstall.bat">if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
+        <file path=".Npackd\Install.bat">if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
 set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=org.7-zip.SevenZIPA" "--versions=[9.20, 9.20]"
 for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set sevenzipa=%%x
 for /f %%x in ('dir /b *.7z') do set setup=%%x
@@ -4135,6 +4135,19 @@ rmdir "%name%"
         <url>http://download.blender.org/release/Blender2.63/blender-2.63a-release-windows64.zip</url>
         <sha1>3b031654bdf6d74a680006a45efa1433d3d21ee2</sha1>
     </version>
+    <version name="2.64.1" package="org.blender.Blender64">
+        <important-file path="blender.exe" title="Blender"/>
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b blender*') do set name=%%x
+cd "%name%"        
+for /f "delims=" %%a in ('dir /b') do (
+  move "%%a" ..
+)
+cd ..
+rmdir "%name%"
+</file>
+        <url>http://download.blender.org/release/Blender2.64/blender-2.64a-release-windows64.zip</url>
+        <sha1>8e164a994aa87ccb682676071459c56db9d615e4</sha1>
+    </version>
 
     <version name="1.0.3.8" package="org.bluemars.ClipX64" type="one-file">
         <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x
@@ -4356,7 +4369,7 @@ rmdir "%name%"
     </version>
 
     <version name="1" package="org.golang.Go64" type="one-file">
-        <file path=".Npackd\AddProperty.vbs">.Npackd\AddProperty.vbs
+        <file path=".Npackd\Install.bat">.Npackd\AddProperty.vbs
 if %errorlevel% neq 0 exit %errorlevel%
 
 if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
@@ -4364,12 +4377,12 @@ set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-p
 for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set npackdih=%%x
 call "%npackdih%\InstallMSI.bat" INSTALLDIR
 </file>
-        <file path=".Npackd\Install.bat">if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
+        <file path=".Npackd\Uninstall.bat">if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
 set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.NpackdInstallerHelper" "--versions=[1, 1]"
 for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set npackdih=%%x
 call "%npackdih%\UninstallMSI.bat"
 </file>
-        <file path=".Npackd\Uninstall.bat">Option Explicit
+        <file path=".Npackd\AddProperty.vbs">Option Explicit
 
 Const MSI_FILE = "go.go1.windows-amd64.msi"
 
@@ -4397,7 +4410,7 @@ Set view = Nothing
         <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1, 1]"/>
     </version>
     <version name="1.0.1" package="org.golang.Go64" type="one-file">
-        <file path=".Npackd\AddProperty.vbs">for /f "delims=" %%x in ('dir /b *.msi') do set setup=%%x
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.msi') do set setup=%%x
 .Npackd\AddProperty.vbs "%setup%"
 if %errorlevel% neq 0 exit %errorlevel%
 
@@ -4406,12 +4419,12 @@ set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-p
 for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set npackdih=%%x
 call "%npackdih%\InstallMSI.bat" INSTALLDIR
 </file>
-        <file path=".Npackd\Install.bat">if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
+        <file path=".Npackd\Uninstall.bat">if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
 set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.NpackdInstallerHelper" "--versions=[1, 1]"
 for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set npackdih=%%x
 call "%npackdih%\UninstallMSI.bat"
 </file>
-        <file path=".Npackd\Uninstall.bat">Option Explicit
+        <file path=".Npackd\AddProperty.vbs">Option Explicit
 
 Dim MSI_FILE
 MSI_FILE = Wscript.Arguments(0)
@@ -4440,7 +4453,7 @@ Set view = Nothing
         <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1, 1]"/>
     </version>
     <version name="1.0.2" package="org.golang.Go64" type="one-file">
-        <file path=".Npackd\AddProperty.vbs">for /f "delims=" %%x in ('dir /b *.msi') do set setup=%%x
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.msi') do set setup=%%x
 .Npackd\AddProperty.vbs "%setup%"
 if %errorlevel% neq 0 exit %errorlevel%
 
@@ -4449,12 +4462,12 @@ set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-p
 for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set npackdih=%%x
 call "%npackdih%\InstallMSI.bat" INSTALLDIR
 </file>
-        <file path=".Npackd\Install.bat">if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
+        <file path=".Npackd\Uninstall.bat">if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
 set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.NpackdInstallerHelper" "--versions=[1, 1]"
 for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set npackdih=%%x
 call "%npackdih%\UninstallMSI.bat"
 </file>
-        <file path=".Npackd\Uninstall.bat">Option Explicit
+        <file path=".Npackd\AddProperty.vbs">Option Explicit
 
 Dim MSI_FILE
 MSI_FILE = Wscript.Arguments(0)
@@ -5416,6 +5429,12 @@ rmdir "%name%"
         <important-file path="cdbxpp.exe" title="CDBurnerXP"/>
         <url>http://download.cdburnerxp.se/portable/CDBurnerXP-x64-4.4.1.3341.zip</url>
         <sha1>48fcafe44c103a4ca771596fc25e0aa3799c9c64</sha1>
+        <dependency package="com.microsoft.DotNetRedistributable" versions="[2.0, 5)"/>
+    </version>
+    <version name="4.4.2.3442" package="se.cdburnerxp.CDBurnerXP64">
+        <important-file path="cdbxpp.exe" title="CDBurnerXP"/>
+        <url>http://download.cdburnerxp.se/portable/CDBurnerXP-x64-4.4.2.3442.zip</url>
+        <sha1>d96a378c9f1c24483d19c2b8d2387b67dbfff9d2</sha1>
         <dependency package="com.microsoft.DotNetRedistributable" versions="[2.0, 5)"/>
     </version>
 
