@@ -41,6 +41,10 @@
         <title>Java SE license</title>
         <url>http://www.oracle.com/technetwork/java/javase/terms/license/index.html</url>
     </license>
+    <license name="edu.mit.web.MIT">
+        <title>MIT</title>
+        <url>http://opensource.org/licenses/MIT</url>
+    </license>
     <license name="net.blat.License">
         <title>Blat license</title>
         <url>http://www.blat.net/?docs/license.txt</url>
@@ -284,6 +288,12 @@ This package uses internal version numbers. For example, 1.7.0.1 corresponds to 
         <description>file download</description>
         <license>org.gnu.GPLv2</license>
     </package>
+    <package name="net.sourceforge.classicshell.ClassicShell64">
+        <title>Classic Shell 64 bit</title>
+        <url>http://classicshell.sourceforge.net/</url>
+        <description>features from old Windows versions for the newer</description>
+        <license>edu.mit.web.MIT</license>
+    </package>
     <package name="net.sourceforge.mingw-w64.MinGWW6464">
         <title>MinGW-w64 64 bit</title>
         <url>http://mingw-w64.sourceforge.net/</url>
@@ -295,6 +305,12 @@ This package uses internal version numbers. For example, 1.7.0.1 corresponds to 
         <url>http://mpc-hc.sourceforge.net/</url>
         <description>media player</description>
         <license>org.gnu.GPLv2</license>
+    </package>
+    <package name="net.sourceforge.peazip.PeaZip64">
+        <title>PeaZip 64 bit</title>
+        <url>http://peazip.sourceforge.net/</url>
+        <description>extract RAR, TAR, ZIP files. Compress, convert, split and encrypt archives, 150+ archive formats supported</description>
+        <license>org.gnu.LGPLv2_1</license>
     </package>
     <package name="net.sourceforge.shareaza.Shareaza64">
         <title>Shareaza 64 bit</title>
@@ -417,6 +433,12 @@ This package uses internal version numbers. For example, 1.7.0.1 corresponds to 
         <url>http://www.gtk.org/</url>
         <description>GUI library</description>
         <license>org.gnu.LGPLv2_1</license>
+    </package>
+    <package name="org.infrarecorder.InfraRecorder64">
+        <title>InfraRecorder 64 bit</title>
+        <url>http://infrarecorder.org/</url>
+        <description>CD/DVD burning</description>
+        <license>org.gnu.GPLv2</license>
     </package>
     <package name="org.initd.PsycopgInstaller64">
         <title>Psycopg 64 bit installer</title>
@@ -2931,6 +2953,22 @@ rmdir /s /q "%name%"
         <sha1>b6352b117af70deb794e1ee2c46da28a235854f3</sha1>
     </version>
 
+    <version name="3.6.2" package="net.sourceforge.classicshell.ClassicShell64" type="one-file">
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x
+"%setup%" extract64
+
+if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
+set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.NpackdInstallerHelper" "--versions=[1.1, 2)"
+for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set npackdih=%%x
+call "%npackdih%\InstallMSI.bat" INSTALLDIR yes
+</file>
+        <url>http://downloads.sourceforge.net/project/classicshell/Version%203.6.2%20general%20release/ClassicShellSetup_3_6_2.exe</url>
+        <sha1>bc31282c2581e20903a2cf261057489ef3acbeb6</sha1>
+        <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.1, 2)"/>
+        <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.15.7, 2)"/>
+        <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1, 1]"/>
+    </version>
+
     <version name="1.0.2011.7.18" package="net.sourceforge.mingw-w64.MinGWW6464">
         <file path=".Npackd\Install.bat">if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
 set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.CLU" "--versions=[1, 2)"
@@ -3096,6 +3134,22 @@ rmdir /s /q "%name%"
 </file>
         <url>http://downloads.sourceforge.net/project/mpc-hc/MPC%20HomeCinema%20-%20x64/MPC-HC_v1.6.3.5818_x64/MPC-HC.1.6.3.5818.x64.zip</url>
         <sha1>5f2ee2774672fc827a1a0f50218683ca5fb37bf0</sha1>
+    </version>
+
+    <version name="4.7.3" package="net.sourceforge.peazip.PeaZip64" type="one-file">
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x
+"%setup%" /SP- /VERYSILENT /SUPPRESSMSGBOXES /NOCANCEL /NORESTART /DIR="%CD%" /SAVEINF="%CD%\.Npackd\InnoSetupInfo.ini" /LOG="%CD%\.Npackd\InnoSetupInstall.log"
+set err=%errorlevel%
+type .Npackd\InnoSetupInstall.log
+if %err% neq 0 exit %err%
+</file>
+        <file path=".Npackd\Uninstall.bat">unins000.exe /VERYSILENT /SUPPRESSMSGBOXES /NORESTART /LOG="%CD%\.Npackd\InnoSetupUninstall.log"
+set err=%errorlevel%
+type .Npackd\InnoSetupUninstall.log
+if %err% neq 0 exit %err%
+</file>
+        <url>https://peazip.googlecode.com/files/peazip-4.7.3.WIN64.exe</url>
+        <sha1>ebe242f029510b4c1cafbaad71458048cb3195b0</sha1>
     </version>
 
     <version name="2.6" package="net.sourceforge.shareaza.Shareaza64" type="one-file">
@@ -4519,6 +4573,19 @@ verify
         <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.15.7, 2)"/>
         <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1, 1]"/>
         <dependency package="com.googlecode.windows-package-manager.CLU" versions="[1, 2)"/>
+    </version>
+
+    <version name="0.53" package="org.infrarecorder.InfraRecorder64" type="one-file">
+        <file path=".Npackd\Install.bat">if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
+set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.NpackdInstallerHelper" "--versions=[1.1, 2)"
+for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set npackdih=%%x
+call "%npackdih%\InstallMSI.bat" INSTALLDIR yes
+</file>
+        <url>http://downloads.sourceforge.net/project/infrarecorder/InfraRecorder/0.53/ir053_x64.msi</url>
+        <sha1>03611f6c59f5997bd169a9c91ef871958a4a50ba</sha1>
+        <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.1, 2)"/>
+        <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.15.7, 2)"/>
+        <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1, 1]"/>
     </version>
 
     <version name="2.4.1" package="org.initd.PsycopgInstaller64" type="one-file">
