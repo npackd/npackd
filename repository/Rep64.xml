@@ -417,7 +417,7 @@ This package uses internal version numbers. For example, 1.7.0.1 corresponds to 
         <license>org.gnu.GPLv2</license>
     </package>
     <package name="org.gnu.GDB64">
-        <title>GDB 64 bit</title>
+        <title>GDB 64 bit (deprecated, please use the mingw-w64 package instead)</title>
         <url>http://www.gnu.org/software/gdb/</url>
         <description>debugger</description>
         <license>org.gnu.GPLv3</license>
@@ -734,8 +734,34 @@ echo AutoUpdateDisable=1 &gt; %windir%\SysWOW64\Macromed\Flash\mms.cfg
 </file>
         <url>http://fpdownload.macromedia.com/pub/flashplayer/current/licensing/win/install_flash_player_11_plugin_64bit.exe</url>
     </version>
+    <version name="11.5.502.110" package="com.adobe.FlashPlayer64" type="one-file">
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x
+"%setup%" -install
+
+rem disable automatic updates
+rem http://kb2.adobe.com/cps/167/16701594.html
+echo AutoUpdateDisable=1 &gt; %windir%\SysWOW64\Macromed\Flash\mms.cfg
+</file>
+        <file path=".Npackd\Uninstall.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x
+"%setup%" -uninstall
+</file>
+        <url>http://fpdownload.macromedia.com/pub/flashplayer/current/licensing/win/install_flash_player_11_plugin_64bit.exe</url>
+    </version>
 
     <version name="11.4.402.265" package="com.adobe.FlashPlayerActiveX64" type="one-file">
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x
+"%setup%" -install
+
+rem disable automatic updates
+rem http://kb2.adobe.com/cps/167/16701594.html
+echo AutoUpdateDisable=1 &gt; %windir%\SysWOW64\Macromed\Flash\mms.cfg
+</file>
+        <file path=".Npackd\Uninstall.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x
+"%setup%" -uninstall
+</file>
+        <url>http://fpdownload.macromedia.com/pub/flashplayer/current/licensing/win/install_flash_player_11_active_x_64bit.exe</url>
+    </version>
+    <version name="11.5.502.110" package="com.adobe.FlashPlayerActiveX64" type="one-file">
         <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x
 "%setup%" -install
 
@@ -2920,7 +2946,7 @@ verify
         <dependency package="com.googlecode.windows-package-manager.CLU" versions="[1, 2)"/>
     </version>
 
-    <version name="1.61" package="net.nirsoft.FileTypesMan64">
+    <version name="1.62" package="net.nirsoft.FileTypesMan64">
         <important-file path="FileTypesMan.exe" title="FileTypesMan"/>
         <url>http://www.nirsoft.net/utils/filetypesman-x64.zip</url>
     </version>
@@ -4260,6 +4286,20 @@ rmdir "%name%"
         <sha1>fe45ac421a96e06a0da1b3bf0aa972354d0759ab</sha1>
         <dependency package="com.oracle.JRE" versions="[1.6, 2)"/>
     </version>
+    <version name="4.2.1" package="org.eclipse.EclipseIDECPP64">
+        <important-file path="eclipse.exe" title="Eclipse IDE for C and C++"/>
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b eclipse*') do set name=%%x
+cd "%name%"
+for /f "delims=" %%a in ('dir /b') do (
+  move "%%a" ..
+)
+cd ..
+rmdir "%name%"
+</file>
+        <url>http://downloads.sourceforge.net/project/npackd/org.eclipse.EclipseIDECPP64-4.2.1.zip</url>
+        <sha1>0670b04d12f2eaad06ff08b90910433554db2cd9</sha1>
+        <dependency package="com.oracle.JRE" versions="[1.6, 2)"/>
+    </version>
 
     <version name="3.6.1" package="org.eclipse.EclipseIDEJava64">
         <important-file path="eclipse.exe" title="Eclipse IDE for Java"/>
@@ -4317,6 +4357,20 @@ rmdir "%name%"
         <sha1>5c75b2b4211e3873ec580f6bb5a242a6c100e6c2</sha1>
         <dependency package="com.oracle.JRE64" versions="[1.6, 2)"/>
     </version>
+    <version name="4.2.1" package="org.eclipse.EclipseIDEJava64">
+        <important-file path="eclipse.exe" title="Eclipse IDE for Java"/>
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b eclipse*') do set name=%%x
+cd "%name%"        
+for /f "delims=" %%a in ('dir /b') do (
+  move "%%a" ..
+)
+cd ..
+rmdir "%name%"
+</file>
+        <url>http://downloads.sourceforge.net/project/npackd/org.eclipse.EclipseIDEJava64-4.2.1.zip</url>
+        <sha1>58059b79dd9075093e1c64a219879b1e6de4f19d</sha1>
+        <dependency package="com.oracle.JRE64" versions="[1.6, 2)"/>
+    </version>
 
     <version name="3.7.2" package="org.eclipse.EclipseIDEJavascript64">
         <important-file path="eclipse.exe" title="Eclipse IDE for Javascript Web Developers"/>
@@ -4371,6 +4425,16 @@ rmdir /s /q "%name%"
 </file>
         <url>http://downloads.sourceforge.net/project/npackd/org.eclipse.EclipseIDEJEE64-4.2.zip</url>
         <sha1>60cb494980bf13967a0e9a9eaf87511604bee9f2</sha1>
+        <dependency package="com.oracle.JRE64" versions="[1.6, 2)"/>
+    </version>
+    <version name="4.2.1" package="org.eclipse.EclipseIDEJEE64">
+        <important-file path="eclipse.exe" title="Eclipse"/>
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b eclipse*') do set name=%%x
+xcopy "%name%\*" . /E /H
+rmdir /s /q "%name%"
+</file>
+        <url>http://downloads.sourceforge.net/project/npackd/org.eclipse.EclipseIDEJEE64-4.2.1.zip</url>
+        <sha1>98c1a4d69ca91bf7d771bc0e4b2c62da904612f8</sha1>
         <dependency package="com.oracle.JRE64" versions="[1.6, 2)"/>
     </version>
 

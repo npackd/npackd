@@ -997,7 +997,7 @@ PsUptime - shows you how long a system has been running since its last reboot (P
     </package>
     <package name="com.microsoft.VirtualCDControlPanelInstaller">
         <title>Virtual CD-ROM Control Panel installer</title>
-        <url>http://support.microsoft.com/kb/916902</url>
+        <url>http://www.softpedia.com/get/CD-DVD-Tools/Virtual-CD-DVD-Rom/Virtual-CDROM-Control-Panel.shtml</url>
         <description>virtual CD</description>
     </package>
     <package name="com.microsoft.VirtualPCInstaller">
@@ -2145,7 +2145,7 @@ yes - Print a string repeatedly.</description>
         <description>project management</description>
     </package>
     <package name="org.gnu.GDB">
-        <title>GDB</title>
+        <title>GDB (deprecated, please use the mingw-w64 package instead)</title>
         <url>http://www.gnu.org/software/gdb/</url>
         <description>debugger</description>
         <license>org.gnu.GPLv3</license>
@@ -3075,8 +3075,103 @@ for /f "delims=" %%x in ('dir /b FlashUtil32*Plugin.exe') do set setup=%%x
         <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.15.7, 2)"/>
         <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1, 1]"/>
     </version>
+    <version name="11.5.502.110" package="com.adobe.FlashPlayer" type="one-file">
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.msi') do set setup=%%x
+mkdir .Npackd
+move "%setup%" .Npackd
+set err=%errorlevel%
+if %err% neq 0 exit %err%
+
+rem MSIFASTINSTALL: http://msdn.microsoft.com/en-us/library/dd408005%28v=VS.85%29.aspx
+msiexec.exe /qn /norestart /Lime .Npackd\InstallMSI.log /i ".Npackd\%setup%" INSTALLDIR="%CD%" ALLUSERS=1 MSIFASTINSTALL=7
+set err=%errorlevel%
+type .Npackd\InstallMSI.log
+
+rem list of errors: http://msdn.microsoft.com/en-us/library/windows/desktop/aa368542(v=vs.85).aspx
+rem 3010=restart required
+if %err% equ 3010 goto cont
+if %err% neq 0 exit %err%
+
+:cont
+rem disable automatic updates
+rem http://kb2.adobe.com/cps/167/16701594.html
+if not exist "%ProgramFiles(x86)%" set f=%windir%\System32\Macromed\Flash\mms.cfg
+if exist "%ProgramFiles(x86)%" set f=%windir%\SysWOW64\Macromed\Flash\mms.cfg
+echo AutoUpdateDisable=1 &gt; %f%
+</file>
+        <file path=".Npackd\Uninstall.bat">move .Npackd\*.msi .
+for /f "delims=" %%x in ('dir /b *.msi') do set setup=%%x
+
+rem MSIFASTINSTALL: http://msdn.microsoft.com/en-us/library/dd408005%28v=VS.85%29.aspx
+msiexec.exe /qn /norestart /Lime .Npackd\UninstallMSI.log /x "%setup%" MSIFASTINSTALL=7
+set err=%errorlevel%
+type .Npackd\UninstallMSI.log
+rem 3010=restart required
+if %err% equ 3010 goto cont
+if %err% neq 0 exit %err%
+
+:cont
+if not exist "%ProgramFiles(x86)%" set d=%windir%\System32\Macromed\Flash
+if exist "%ProgramFiles(x86)%" set d=%windir%\SysWOW64\Macromed\Flash
+cd "%d%"
+for /f "delims=" %%x in ('dir /b FlashUtil32*Plugin.exe') do set setup=%%x
+"%setup%" -uninstall
+</file>
+        <url>http://download.macromedia.com/get/flashplayer/current/licensing/win/install_flash_player_11_plugin.msi</url>
+        <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.1, 2)"/>
+        <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.15.7, 2)"/>
+        <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1, 1]"/>
+    </version>
 
     <version name="11.4.402.265" package="com.adobe.FlashPlayerActiveX" type="one-file">
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.msi') do set setup=%%x
+mkdir .Npackd
+move "%setup%" .Npackd
+set err=%errorlevel%
+if %err% neq 0 exit %err%
+
+rem MSIFASTINSTALL: http://msdn.microsoft.com/en-us/library/dd408005%28v=VS.85%29.aspx
+msiexec.exe /qn /norestart /Lime .Npackd\InstallMSI.log /i ".Npackd\%setup%" INSTALLDIR="%CD%" ALLUSERS=1 MSIFASTINSTALL=7
+set err=%errorlevel%
+type .Npackd\InstallMSI.log
+
+rem list of errors: http://msdn.microsoft.com/en-us/library/windows/desktop/aa368542(v=vs.85).aspx
+rem 3010=restart required
+if %err% equ 3010 goto cont
+if %err% neq 0 exit %err%
+
+:cont
+rem disable automatic updates
+rem http://kb2.adobe.com/cps/167/16701594.html
+if not exist "%ProgramFiles(x86)%" set f=%windir%\System32\Macromed\Flash\mms.cfg
+if exist "%ProgramFiles(x86)%" set f=%windir%\SysWOW64\Macromed\Flash\mms.cfg
+echo AutoUpdateDisable=1 &gt; %f%
+</file>
+        <file path=".Npackd\Uninstall.bat">move .Npackd\*.msi .
+for /f "delims=" %%x in ('dir /b *.msi') do set setup=%%x
+
+rem MSIFASTINSTALL: http://msdn.microsoft.com/en-us/library/dd408005%28v=VS.85%29.aspx
+msiexec.exe /qn /norestart /Lime .Npackd\UninstallMSI.log /x "%setup%" MSIFASTINSTALL=7
+set err=%errorlevel%
+type .Npackd\UninstallMSI.log
+rem 3010=restart required
+if %err% equ 3010 goto cont
+if %err% neq 0 exit %err%
+
+:cont
+if not exist "%ProgramFiles(x86)%" set d=%windir%\System32\Macromed\Flash
+if exist "%ProgramFiles(x86)%" set d=%windir%\SysWOW64\Macromed\Flash
+cd "%d%"
+for /f "delims=" %%x in ('dir /b FlashUtil32*ActiveX.exe') do set setup=%%x
+"%setup%" -uninstall
+</file>
+        <url>http://download.macromedia.com/get/flashplayer/current/licensing/win/install_flash_player_11_active_x.msi</url>
+        <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.1, 2)"/>
+        <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.15.7, 2)"/>
+        <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1, 1]"/>
+        <detect-msi>{25f2ab39-e3dd-4cd7-8697-e98cf27ba1f1}</detect-msi>
+    </version>
+    <version name="11.5.502.110" package="com.adobe.FlashPlayerActiveX" type="one-file">
         <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.msi') do set setup=%%x
 mkdir .Npackd
 move "%setup%" .Npackd
@@ -3478,48 +3573,6 @@ ren "%setup%" avg.exe
         <sha1>08dd57a6d5fec458a3cfd5cace016f1e764e1398</sha1>
     </version>
 
-    <version name="7" package="com.bittorrent.BitTorrentInstaller" type="one-file">
-        <important-file path="BitTorrent.exe" title="Installer"/>
-        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x
-ren "%setup%" BitTorrent.exe
-</file>
-        <url>http://download.bittorrent.com/dl/BitTorrent-7.0.exe</url>
-    </version>
-    <version name="7.1" package="com.bittorrent.BitTorrentInstaller" type="one-file">
-        <important-file path="BitTorrent.exe" title="Installer"/>
-        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x
-ren "%setup%" BitTorrent.exe
-</file>
-        <url>http://download.bittorrent.com/dl/BitTorrent-7.1.exe</url>
-    </version>
-    <version name="7.2" package="com.bittorrent.BitTorrentInstaller" type="one-file">
-        <important-file path="BitTorrent.exe" title="Installer"/>
-        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x
-ren "%setup%" BitTorrent.exe
-</file>
-        <url>http://download.bittorrent.com/dl/BitTorrent-7.2.exe</url>
-    </version>
-    <version name="7.2.1" package="com.bittorrent.BitTorrentInstaller" type="one-file">
-        <important-file path="BitTorrent.exe" title="Installer"/>
-        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x
-ren "%setup%" BitTorrent.exe
-</file>
-        <url>http://download.bittorrent.com/dl/BitTorrent-7.2.1.exe</url>
-    </version>
-    <version name="7.5" package="com.bittorrent.BitTorrentInstaller" type="one-file">
-        <important-file path="BitTorrent.exe" title="Installer"/>
-        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x
-ren "%setup%" BitTorrent.exe
-</file>
-        <url>http://download.bittorrent.com/dl/BitTorrent-7.5.exe</url>
-    </version>
-    <version name="7.6" package="com.bittorrent.BitTorrentInstaller" type="one-file">
-        <important-file path="BitTorrent.exe" title="Installer"/>
-        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x
-ren "%setup%" BitTorrent.exe
-</file>
-        <url>http://download.bittorrent.com/dl/BitTorrent-7.6.exe</url>
-    </version>
     <version name="7.6.1" package="com.bittorrent.BitTorrentInstaller" type="one-file">
         <important-file path="BitTorrent.exe" title="Installer"/>
         <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x
@@ -3969,6 +4022,21 @@ if %err% neq 0 exit %err%
         <url>http://dl.dropbox.com/u/17046326/files/com.donationcoder.FARR-2.105.01.exe</url>
         <sha1>e0e74c88002ce830deff882884a7a2c971d674cc</sha1>
     </version>
+    <version name="2.203.1" package="com.donationcoder.FARR" type="one-file">
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x
+"%setup%" /SP- /VERYSILENT /SUPPRESSMSGBOXES /NOCANCEL /NORESTART /DIR="%CD%" /SAVEINF="%CD%\.Npackd\InnoSetupInfo.ini" /LOG="%CD%\.Npackd\InnoSetupInstall.log"
+set err=%errorlevel%
+type .Npackd\InnoSetupInstall.log
+if %err% neq 0 exit %err%
+</file>
+        <file path=".Npackd\Uninstall.bat">unins000.exe /VERYSILENT /SUPPRESSMSGBOXES /NORESTART /LOG="%CD%\.Npackd\InnoSetupUninstall.log"
+set err=%errorlevel%
+type .Npackd\InnoSetupUninstall.log
+if %err% neq 0 exit %err%
+</file>
+        <url>http://dl.dropbox.com/u/17046326/files/com.donationcoder.FARR-2.203.1.exe</url>
+        <sha1>262354eb1022f41de396f665aef002182a9192b1</sha1>
+    </version>
 
     <version name="1.1.34" package="com.dropbox.Dropbox" type="one-file">
         <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x
@@ -4138,6 +4206,20 @@ move *.dll %trash%
         <url>https://ddr3luum8vl5r.cloudfront.net/Dropbox%201.4.20.exe</url>
         <sha1>6ef01bcc5c93f964403c53265e31954c9a7f65e6</sha1>
     </version>
+    <version name="1.6" package="com.dropbox.Dropbox" type="one-file">
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
+"%setup%" /S /D=%CD%&#13;
+rem taskkill /f /im dropbox.exe&#13;
+rem verify</file>
+        <file path=".Npackd\Uninstall.bat">Uninstall.exe /S _?=%CD%
+set key=com.dropbox.Dropbox-1.4.9
+set trash=..\.Trash\%key%_%RANDOM%
+mkdir %trash%
+move *.dll %trash%
+</file>
+        <url>http://dl.dropbox.com/u/17046326/files/com.dropbox.Dropbox-1.6.exe</url>
+        <sha1>b0037b1ee5a907951b9dc87e5d365cd126945a41</sha1>
+    </version>
 
     <version name="3.8" package="com.dvdvideosoft.FreeYouTubeToMP3ConverterInstaller" type="one-file">
         <important-file path="com.dvdvideosoft.FreeYouTubeToMP3ConverterInstaller.exe" title="Installer"/>
@@ -4283,6 +4365,14 @@ ren "%setup%" com.dvdvideosoft.FreeYouTubeToMP3ConverterInstaller.exe
         <url>http://dl.dropbox.com/u/17046326/files/com.dvdvideosoft.FreeYouTubeToMP3ConverterInstaller-3.11.29.825.exe</url>
         <sha1>fd5d1274d9e28f6af00c6d0719fefd0754798d6b</sha1>
     </version>
+    <version name="3.11.35.1031" package="com.dvdvideosoft.FreeYouTubeToMP3ConverterInstaller" type="one-file">
+        <important-file path="com.dvdvideosoft.FreeYouTubeToMP3ConverterInstaller.exe" title="Installer"/>
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x
+ren "%setup%" com.dvdvideosoft.FreeYouTubeToMP3ConverterInstaller.exe
+</file>
+        <url>http://dl.dropbox.com/u/17046326/files/com.dvdvideosoft.FreeYouTubeToMP3ConverterInstaller-3.11.35.1031.exe</url>
+        <sha1>aa190194cd322f27b81b57b66f0e48b16ddf09fc</sha1>
+    </version>
 
     <version name="1.0.19" package="com.eldos.SFTPNetDriveInstaller" type="one-file">
         <important-file path="SftpNetDrive.exe" title="Installer"/>
@@ -4370,6 +4460,16 @@ copy "%contigdir%\Contig.exe" .
 </file>
         <url>http://dl.dropbox.com/u/17046326/files/com.fiddler2.Fiddler-2.4.1.exe</url>
         <sha1>39FCAEABFFC7FBDB8E1537535957EFEDCD7180BA</sha1>
+        <dependency package="com.microsoft.DotNetRedistributable" versions="[2.0, 3)"/>
+    </version>
+    <version name="2.4.1.1" package="com.fiddler2.Fiddler" type="one-file">
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x
+"%setup%" /S /D=%CD%
+</file>
+        <file path=".Npackd\Uninstall.bat">uninst.exe /S _?=%CD%
+</file>
+        <url>http://dl.dropbox.com/u/17046326/files/com.fiddler2.Fiddler-2.4.1.1.exe</url>
+        <sha1>d822007a23577296b7ff376bbbf076b461fc8bd2</sha1>
         <dependency package="com.microsoft.DotNetRedistributable" versions="[2.0, 3)"/>
     </version>
 
@@ -4553,6 +4653,17 @@ for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set npackdih=%%x
 call "%npackdih%\InstallMSI.bat" INSTALLLOCATION yes
 </file>
         <url>http://cdn04.foxitsoftware.com/pub/foxit/reader/desktop/win/5.x/5.3/enu/FoxitReader531.0606_enu.msi</url>
+        <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.1, 2)"/>
+        <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.15.7, 2)"/>
+        <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1, 1]"/>
+    </version>
+    <version name="5.4.3.920" package="com.foxitsoftware.FoxitReader" type="one-file">
+        <file path=".Npackd\Install.bat">if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
+set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.NpackdInstallerHelper" "--versions=[1.1, 2)"
+for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set npackdih=%%x
+call "%npackdih%\InstallMSI.bat" INSTALLLOCATION yes
+</file>
+        <url>http://cdn04.foxitsoftware.com/pub/foxit/reader/desktop/win/5.x/5.4/enu/FoxitReader543.0920_enu.msi</url>
         <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.1, 2)"/>
         <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.15.7, 2)"/>
         <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1, 1]"/>
@@ -4780,6 +4891,22 @@ if %err% neq 0 exit %err%
 </file>
         <url>http://download.freemake.com/VideoConverter/Online/3.1.1.4/FreemakeVideoConverterSetup.exe</url>
         <sha1>284CF94691C920F93E059E8C55A5420247F80F4B</sha1>
+        <dependency package="com.microsoft.DotNetRedistributable" versions="[4, 5)"/>
+    </version>
+    <version name="3.1.2" package="com.freemake.FreeVideoConverter" type="one-file">
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x
+"%setup%" /SP- /VERYSILENT /SUPPRESSMSGBOXES /NOCANCEL /NORESTART /DIR="%CD%" /SAVEINF="%CD%\.Npackd\InnoSetupInfo.ini" /LOG="%CD%\.Npackd\InnoSetupInstall.log"
+set err=%errorlevel%
+type .Npackd\InnoSetupInstall.log
+if %err% neq 0 exit %err%
+</file>
+        <file path=".Npackd\Uninstall.bat">"Freemake Video Converter\Uninstall\unins000.exe" /VERYSILENT /SUPPRESSMSGBOXES /NORESTART /LOG="%CD%\.Npackd\InnoSetupUninstall.log"
+set err=%errorlevel%
+type .Npackd\InnoSetupUninstall.log
+if %err% neq 0 exit %err%
+</file>
+        <url>http://download.freemake.com/VideoConverter/Online/3.1.2.0/FreemakeVideoConverterSetup.exe</url>
+        <sha1>3825de2525f8b667d79da8787892ca15be509a70</sha1>
         <dependency package="com.microsoft.DotNetRedistributable" versions="[4, 5)"/>
     </version>
 
@@ -5071,6 +5198,10 @@ set d=%ProgramFiles%
         <url>https://sites.google.com/site/dbxfirebird/download/dbxFirebird.4.1.v36.zip?attredirects=0&amp;d=1</url>
         <sha1>297F2B9D95A41D8BC357E128BDE24E4147D50EA0</sha1>
     </version>
+    <version name="4.1.38" package="com.google.sites.dbxfirebird.FirebirdDBExpressDriver">
+        <url>http://b256de2d-a-62cb3a1a-s-sites.googlegroups.com/site/dbxfirebird/download/dbxFirebird.4.1.v38.zip?attredirects=0&amp;d=1</url>
+        <sha1>32b5a0d50983b560899e71c9d2aaa225ea68e2be</sha1>
+    </version>
 
     <version name="12.7.27.3" package="com.googlecode.conemu-maximus5.ConEmu" type="one-file">
         <important-file path="ConEmu.exe" title="ConEmu"/>
@@ -5140,6 +5271,19 @@ call "%npackdih%\InstallMSI.bat" INSTALLDIR yes
         <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1, 1]"/>
         <dependency package="com.googlecode.msysgit.MSysGit" versions="[1.7.4.2011.2.4, 2)"/>
     </version>
+    <version name="2.43" package="com.googlecode.gitextensions.GitExtensions" type="one-file">
+        <file path=".Npackd\Install.bat">if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
+set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.NpackdInstallerHelper" "--versions=[1.1, 2)"
+for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set npackdih=%%x
+call "%npackdih%\InstallMSI.bat" INSTALLDIR yes
+</file>
+        <url>http://gitextensions.googlecode.com/files/GitExtensions243Setup.msi</url>
+        <sha1>460abd7cb1649a24dd65092a9e51ec34b2edd0cb</sha1>
+        <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.1, 2)"/>
+        <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.15.7, 2)"/>
+        <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1, 1]"/>
+        <dependency package="com.googlecode.msysgit.MSysGit" versions="[1.7.4.2011.2.4, 2)"/>
+    </version>
 
     <version name="0.6" package="com.googlecode.gitso.Gitso" type="one-file">
         <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x
@@ -5171,37 +5315,6 @@ call liteide.exe
 </file>
         <url>http://golangide.googlecode.com/files/liteidex11.4.1.windows.zip</url>
         <sha1>be517291534d52e5088d407b29873498ba527d5d</sha1>
-        <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.15.7, 2)"/>
-        <dependency package="org.golang.Go" versions="[1, 2)"/>
-    </version>
-    <version name="12.1.1" package="com.googlecode.golangide.GoLangIDE" type="one-file">
-        <important-file path="bin\liteide.bat" title="Go LiteIDE"/>
-        <file path=".Npackd\Install.bat">if "%npackd_cl%" equ "" set npackd_cl=..\..\com.googlecode.windows-package-manager.NpackdCL-1
-set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=org.golang.Go" "--versions=[1, 2)"
-for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set goroot=%%x
-set GOARCH=386
-set GOOS=windows
-set PATH=%GOROOT%\bin
-call liteide.exe
-</file>
-        <file path="liteide\bin\liteide.bat">if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
-set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=org.7-zip.SevenZIPA" "--versions=[9.20, 9.20]"
-for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set sevenzipa=%%x
-for /f %%x in ('dir /b *.7z') do set setup=%%x
-"%sevenzipa%\7za.exe" x "%setup%" &gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt
-
-set name=liteide
-cd "%name%" 
-for /f "delims=" %%a in ('dir /b') do (
-  move "%%a" ..
-)
-cd ..
-rmdir "%name%"
-</file>
-        <url>http://golangide.googlecode.com/files/liteidex12.1.1.windows.hg575.7z</url>
-        <sha1>717e98771aa6668c714c4f83cbb6d2eea3c99394</sha1>
-        <dependency package="org.7-zip.SevenZIPA" versions="[9.20, 9.20]"/>
-        <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1, 1]"/>
         <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.15.7, 2)"/>
         <dependency package="org.golang.Go" versions="[1, 2)"/>
     </version>
@@ -6464,8 +6577,8 @@ rmdir "%name%"
     </version>
 
     <version name="2.1" package="com.microsoft.VirtualCDControlPanelInstaller" type="one-file">
-        <important-file path="winxpvirtualcdcontrolpanel_21.exe" title="Installer"/>
-        <url>http://download.microsoft.com/download/7/b/6/7b6abd84-7841-4978-96f5-bd58df02efa2/winxpvirtualcdcontrolpanel_21.exe</url>
+        <important-file path="com.microsoft.VirtualCDControlPanelInstaller-2.1.exe" title="Installer"/>
+        <url>https://dl.dropbox.com/u/17046326/files/com.microsoft.VirtualCDControlPanelInstaller-2.1.exe</url>
         <sha1>c62e976aa2d6ecadac238b7c4ac779b81c323457</sha1>
     </version>
 
@@ -6691,6 +6804,15 @@ if %err% neq 0 exit /b %err%
     </version>
 
     <version name="4.3.2" package="com.microsoft.XPSP3IE6VHD" type="one-file">
+        <file path=".Npackd\Install.bat">for /f %%x in ('dir /b *.exe') do set setup=%%x
+"%setup%" /Q /C /T:"%CD%"
+if %errorlevel% neq 0 exit /b %errorlevel%
+
+del "%setup%"
+</file>
+        <url>http://download.microsoft.com/download/B/7/2/B72085AE-0F04-4C6F-9182-BF1EE90F5273/Windows_XP_IE6.exe</url>
+    </version>
+    <version name="4.3.3" package="com.microsoft.XPSP3IE6VHD" type="one-file">
         <file path=".Npackd\Install.bat">for /f %%x in ('dir /b *.exe') do set setup=%%x
 "%setup%" /Q /C /T:"%CD%"
 if %errorlevel% neq 0 exit /b %errorlevel%
@@ -7057,20 +7179,6 @@ for /f %%x in ('dir /b *.exe') do set setup=%%x
 </file>
         <url>http://get10.opera.com/pub/opera/win/1111/int/Opera_1111_int_Setup.exe</url>
         <sha1>838847A620E890C5C99BDA5BE43D8FECB75D14CD</sha1>
-        <dependency package="org.7-zip.SevenZIPA" versions="[9.20, 9.20]"/>
-        <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.15.7, 2)"/>
-        <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1, 1]"/>
-    </version>
-    <version name="11.50" package="com.opera.Opera" type="one-file">
-        <important-file path="Opera.exe" title="Opera"/>
-        <file path=".Npackd\Install.bat">if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
-set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=org.7-zip.SevenZIPA" "--versions=[9.20, 9.20]"
-for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set sevenzipa=%%x
-for /f %%x in ('dir /b *.exe') do set setup=%%x
-"%sevenzipa%\7za.exe" x "%setup%" &gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt
-</file>
-        <url>http://os.nogetec.de/win/1150/int/Opera_1150_int_Setup.exe</url>
-        <sha1>5441171B11BD69FB1E78450526E528D587550222</sha1>
         <dependency package="org.7-zip.SevenZIPA" versions="[9.20, 9.20]"/>
         <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.15.7, 2)"/>
         <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1, 1]"/>
@@ -8747,57 +8855,6 @@ verify
         <dependency package="com.googlecode.windows-package-manager.CLU" versions="[1, 2)"/>
     </version>
 
-    <version name="5.5.0.113" package="com.skype.Skype" type="one-file">
-        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x
-"%setup%" /SP- /VERYSILENT /SUPPRESSMSGBOXES /NOCANCEL /NORESTART /DIR="%CD%" /SAVEINF="%CD%\.Npackd\InnoSetupInfo.ini" /LOG="%CD%\.Npackd\InnoSetupInstall.log"
-set err=%errorlevel%
-type .Npackd\InnoSetupInstall.log
-if %err% neq 0 exit %err%
-taskkill /f /im Skype.exe
-</file>
-        <file path=".Npackd\Uninstall.bat">msiexec.exe /qn /norestart /Lime .Npackd\MSI.log /x{5335DADB-34BA-4AE8-A519-648D78498846}
-set err=%errorlevel%
-type .Npackd\MSI.log
-rem 3010=restart required
-if %err% equ 3010 exit /b 0
-if %err% neq 0 exit /b %err%
-</file>
-        <url>http://download.skype.com/partner/trackable/259/SkypeSetup.exe</url>
-    </version>
-    <version name="5.5.0.119" package="com.skype.Skype" type="one-file">
-        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x
-"%setup%" /SP- /VERYSILENT /SUPPRESSMSGBOXES /NOCANCEL /NORESTART /DIR="%CD%" /SAVEINF="%CD%\.Npackd\InnoSetupInfo.ini" /LOG="%CD%\.Npackd\InnoSetupInstall.log"
-set err=%errorlevel%
-type .Npackd\InnoSetupInstall.log
-if %err% neq 0 exit %err%
-taskkill /f /im Skype.exe
-</file>
-        <file path=".Npackd\Uninstall.bat">msiexec.exe /qn /norestart /Lime .Npackd\MSI.log /x{5335DADB-34BA-4AE8-A519-648D78498846}
-set err=%errorlevel%
-type .Npackd\MSI.log
-rem 3010=restart required
-if %err% equ 3010 exit /b 0
-if %err% neq 0 exit /b %err%
-</file>
-        <url>http://download.skype.com/36fb37ebd4136ada97432624336b491b/partner/trackable/259/SkypeSetup.exe</url>
-    </version>
-    <version name="5.5.0.124" package="com.skype.Skype" type="one-file">
-        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x
-"%setup%" /SP- /VERYSILENT /SUPPRESSMSGBOXES /NOCANCEL /NORESTART /DIR="%CD%" /SAVEINF="%CD%\.Npackd\InnoSetupInfo.ini" /LOG="%CD%\.Npackd\InnoSetupInstall.log"
-set err=%errorlevel%
-type .Npackd\InnoSetupInstall.log
-if %err% neq 0 exit %err%
-taskkill /f /im Skype.exe
-</file>
-        <file path=".Npackd\Uninstall.bat">msiexec.exe /qn /norestart /Lime .Npackd\MSI.log /x{AA59DDE4-B672-4621-A016-4C248204957A}
-set err=%errorlevel%
-type .Npackd\MSI.log
-rem 3010=restart required
-if %err% equ 3010 exit /b 0
-if %err% neq 0 exit /b %err%
-</file>
-        <url>http://download.skype.com/3694814915aaa38100bfa0933f948e65/partner/trackable/259/SkypeSetup.exe</url>
-    </version>
     <version name="5.9.0.114" package="com.skype.Skype" type="one-file">
         <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x
 "%setup%" /SP- /VERYSILENT /SUPPRESSMSGBOXES /NOCANCEL /NORESTART /DIR="%CD%" /SAVEINF="%CD%\.Npackd\InnoSetupInfo.ini" /LOG="%CD%\.Npackd\InnoSetupInstall.log"
@@ -9339,6 +9396,16 @@ set PYTHONPATH=setuptools-0.6c11-py2.7.egg
 		</file>
         <url>http://www.telerik.com/downloads/productfiles/bddgg/TelerikJustDecompileSetup_2012.3.1016.8.exe</url>
         <sha1>29645520748245344a6b2777ef58bb41ac6c1bbc</sha1>
+    </version>
+    <version name="2012.3.1119.12" package="com.telerik.FreeNetDecompiler" type="one-file">
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x
+"%setup%" /S /D=%CD%
+</file>
+        <file path=".Npackd\Uninstall.bat">uninst.exe /S _?=%CD%
+</file>
+        <url>http://www.telerik.com/downloads/productfiles/bdkgk/TelerikJustDecompileSetup_2012.3.1119.12.exe</url>
+        <sha1>29645520748245344a6b2777ef58bb41ac6c1bbc</sha1>
+        <dependency package="com.microsoft.DotNetRedistributable" versions="[4, 5)"/>
     </version>
 
     <version name="1.3.10" package="com.tightvnc.TightVNC">
@@ -11312,7 +11379,7 @@ ren "%setup%" Setup-MsgPlus.exe
         <sha1>fe0ea129d1d4c4e6b52dd0c89e29d7d40a83d6a9</sha1>
     </version>
 
-    <version name="1.61" package="net.nirsoft.FileTypesMan">
+    <version name="1.62" package="net.nirsoft.FileTypesMan">
         <important-file path="FileTypesMan.exe" title="FileTypesMan"/>
         <url>http://www.nirsoft.net/utils/filetypesman.zip</url>
     </version>
@@ -14901,6 +14968,20 @@ rmdir "%name%"
         <sha1>22da498d4338dcae981a1dd5b7d1939518461c41</sha1>
         <dependency package="com.oracle.JRE" versions="[1.6, 2)"/>
     </version>
+    <version name="7.2.16" package="org.areca-backup.ArecaBackup">
+        <important-file path="areca.exe" title="Areca"/>
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b areca*') do set name=%%x
+cd "%name%"
+for /f "delims=" %%a in ('dir /b') do (
+  move "%%a" ..
+)
+cd ..
+rmdir "%name%"
+</file>
+        <url>http://sourceforge.net/projects/areca/files/areca-stable/areca-7.2.16/areca-7.2.16-windows-jre32.zip</url>
+        <sha1>e34c5e656517a7f2be371cb455413629ede3db92</sha1>
+        <dependency package="com.oracle.JRE" versions="[1.6, 2)"/>
+    </version>
 
     <version name="0.9.5.1" package="org.argolinux.sqlkit.SQLKit">
         <important-file path="sqledit.bat" title="Sqledit"/>
@@ -15617,6 +15698,20 @@ rmdir "%name%"
         <sha1>8de5718275545ec9b080c59600395dc369e8c02b</sha1>
         <dependency package="com.oracle.JRE" versions="[1.6, 2)"/>
     </version>
+    <version name="4.2.1" package="org.eclipse.EclipseIDECPP">
+        <important-file path="eclipse.exe" title="Eclipse IDE for C and C++"/>
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b eclipse*') do set name=%%x
+cd "%name%"        
+for /f "delims=" %%a in ('dir /b') do (
+  move "%%a" ..
+)
+cd ..
+rmdir "%name%"
+</file>
+        <url>http://downloads.sourceforge.net/project/npackd/org.eclipse.EclipseIDECPP-4.2.1.zip</url>
+        <sha1>a78abeb918e908569a13bdc446a407e20f4b9b9c</sha1>
+        <dependency package="com.oracle.JRE" versions="[1.6, 2)"/>
+    </version>
 
     <version name="3.6.1" package="org.eclipse.EclipseIDEJava">
         <important-file path="eclipse.exe" title="Eclipse IDE for Java"/>
@@ -15672,6 +15767,20 @@ rmdir "%name%"
 </file>
         <url>http://downloads.sourceforge.net/project/npackd/org.eclipse.EclipseIDEJava-4.2.zip</url>
         <sha1>76b1135999d7b149e7cd0dc63c59fc4947ff22b9</sha1>
+        <dependency package="com.oracle.JRE" versions="[1.6, 2)"/>
+    </version>
+    <version name="4.2.1" package="org.eclipse.EclipseIDEJava">
+        <important-file path="eclipse.exe" title="Eclipse IDE for Java"/>
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b eclipse*') do set name=%%x
+cd "%name%"        
+for /f "delims=" %%a in ('dir /b') do (
+  move "%%a" ..
+)
+cd ..
+rmdir "%name%"
+</file>
+        <url>http://downloads.sourceforge.net/project/npackd/org.eclipse.EclipseIDEJava-4.2.1.zip</url>
+        <sha1>34a2e39226df9cfdb5c6f99faafd7492034bfdcb</sha1>
         <dependency package="com.oracle.JRE" versions="[1.6, 2)"/>
     </version>
 
@@ -15748,6 +15857,16 @@ rmdir /s /q "%name%"
 </file>
         <url>http://downloads.sourceforge.net/project/npackd/org.eclipse.EclipseIDEJEE-4.2.zip</url>
         <sha1>8a5947118aa5826bbbd2e9628a8ce7d46f8c9c31</sha1>
+        <dependency package="com.oracle.JRE" versions="[1.6, 2)"/>
+    </version>
+    <version name="4.2.1" package="org.eclipse.EclipseIDEJEE">
+        <important-file path="eclipse.exe" title="Eclipse IDE for Java EE"/>
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b eclipse*') do set name=%%x
+xcopy "%name%\*" . /E /H
+rmdir /s /q "%name%"
+</file>
+        <url>http://downloads.sourceforge.net/project/npackd/org.eclipse.EclipseIDEJEE-4.2.1.zip</url>
+        <sha1>58f233ba2469ad5bd10728d1cbb51c8826c9fe44</sha1>
         <dependency package="com.oracle.JRE" versions="[1.6, 2)"/>
     </version>
 
@@ -15898,10 +16017,27 @@ rmdir "%name%"
         <url>https://downloads.sourceforge.net/project/filezilla/FileZilla_Client/3.5.3/FileZilla_3.5.3_win32.zip?ts=1331978302</url>
         <sha1>0429c7fe185fe2e5343cbd9beb511d898296ae17</sha1>
     </version>
+    <version name="3.6.0.1" package="org.filezilla-project.FileZillaClient">
+        <important-file path="filezilla.exe" title="FileZilla Client"/>
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b File*') do set name=%%x
+cd "%name%"        
+for /f "delims=" %%a in ('dir /b') do (
+  move "%%a" ..
+)
+cd ..
+rmdir "%name%"
+</file>
+        <url>http://downloads.sourceforge.net/project/filezilla/FileZilla_Client/3.6.0.1/FileZilla_3.6.0.1_win32.zip</url>
+        <sha1>3d1c21035918a1fa5c546f7c29131d217f698cef</sha1>
+    </version>
 
     <version name="2.5.1.26351" package="org.firebirdsql.FirebirdEmbedded">
         <url>http://downloads.sourceforge.net/project/firebird/firebird-win32/2.5.1-Release/Firebird-2.5.1.26351-0_Win32_embed.zip?ts=1321278391</url>
         <sha1>336DF6FB97BBB7F9E70329A563BB00436664F939</sha1>
+    </version>
+    <version name="2.5.2.26539" package="org.firebirdsql.FirebirdEmbedded">
+        <url>http://downloads.sourceforge.net/project/firebird/firebird-win32/2.5.2-Release/Firebird-2.5.2.26539-0_Win32_embed.zip</url>
+        <sha1>ce11abc9aa69bf3db7523263d83a6a9c01bb9281</sha1>
     </version>
 
     <version name="2.1.6" package="org.firebirdsql.JaybirdJava1_6">
@@ -17999,6 +18135,20 @@ for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x
 </file>
         <url>http://downloads.sourceforge.net/project/npackd/org.mozilla.Firefox-15.exe</url>
         <sha1>97396b13cb7355d387b7a366e1332e1e5fd93f8d</sha1>
+    </version>
+    <version name="17" package="org.mozilla.Firefox" type="one-file">
+        <important-file path="firefox.exe" title="Firefox"/>
+        <file path=".WPM\Install.bat">echo [Install] &gt; .WPM\FF.ini
+echo InstallDirectoryPath=%CD% &gt;&gt; .WPM\FF.ini
+echo QuickLaunchShortcut=false &gt;&gt; .WPM\FF.ini
+echo DesktopShortcut=false &gt;&gt; .WPM\FF.ini
+for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x
+"%setup%" /INI="%CD%\.WPM\FF.ini"
+</file>
+        <file path=".WPM\Uninstall.bat">uninstall\helper.exe /S
+</file>
+        <url>http://downloads.sourceforge.net/project/npackd/org.mozilla.Firefox-17.exe</url>
+        <sha1>ba5594d7cc5170266801e146802558d00d0c0aa5</sha1>
     </version>
 
     <version name="1.0.1" package="org.mozilla.SunbirdInstaller" type="one-file">
