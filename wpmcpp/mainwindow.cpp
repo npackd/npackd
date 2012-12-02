@@ -87,7 +87,7 @@ InstallThread::InstallThread(PackageVersion *pv, int type, Job* job)
     this->pv = pv;
     this->type = type;
     this->job = job;
-    this->useCache = true;
+    this->useCache = false;
 }
 
 void InstallThread::scanHardDrives()
@@ -576,7 +576,7 @@ void MainWindow::monitor(Job* job, const QString& title, QThread* thread)
 
 void MainWindow::onShow()
 {
-    recognizeAndLoadRepositories(true);
+    recognizeAndLoadRepositories(false);
 }
 
 void MainWindow::selectPackages(QList<Package*> ps)
