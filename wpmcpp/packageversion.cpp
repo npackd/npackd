@@ -164,6 +164,11 @@ QString PackageVersion::saveInstallationInfo()
             r = wr.set("Path", this->ipath);
             if (r.isEmpty())
                 r = wr.set("DetectionInfo", this->detectionInfo);
+
+            // for compatibility with Npackd 1.16 and earlier. They
+            // see all package versions by default as "externally installed"
+            if (r.isEmpty())
+                r = wr.setDWORD("External", 0);
         }
     } else {
         // qDebug() << "deleting " << pn;
