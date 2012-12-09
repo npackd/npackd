@@ -73,6 +73,10 @@
         <title>Erlang public license 1.1</title>
         <url>http://www.erlang.org/EPLICENSE</url>
     </license>
+    <license name="org.gnu.gpl2">
+        <title>GPLv2</title>
+        <url>https://www.gnu.org/licenses/old-licenses/gpl-2.0.html</url>
+    </license>
     <license name="org.gnu.GPLv2">
         <title>GPLv2</title>
         <url>http://www.gnu.org/licenses/gpl.html</url>
@@ -138,13 +142,13 @@
     <package name="com.adobe.FlashPlayer64">
         <title>Flash Player Plugin 64 bit</title>
         <url>http://get.adobe.com/de/flashplayer/</url>
-        <description>WARNING! Npackd disables automatic updates. Install without Npackd if unsure. A browser plugin for graphics and multimedia for Firefox, Safari and Opera.</description>
+        <description>browser plugin for graphics and multimedia for Firefox, Safari and Opera.</description>
         <license>com.adobe.FlashPlayerLicense</license>
     </package>
     <package name="com.adobe.FlashPlayerActiveX64">
         <title>Flash Player ActiveX 64 bit</title>
         <url>http://get.adobe.com/de/flashplayer/</url>
-        <description>WARNING! Npackd disables automatic updates. Install without Npackd if unsure. A browser plugin for graphics and multimedia for Internet Explorer.</description>
+        <description>browser plugin for graphics and multimedia for Internet Explorer.</description>
         <license>com.adobe.FlashPlayerLicense</license>
     </package>
     <package name="com.apple.ITunes64Installer">
@@ -212,6 +216,13 @@
         <title>Visual C++ redistributable package 64 bit</title>
         <url>http://www.microsoft.com/downloads/en/details.aspx?FamilyID=BD512D9E-43C8-4655-81BF-9350143D5867</url>
         <description>Visual C++ runtime</description>
+    </package>
+    <package name="com.mysql.dev.MySQLODBCConnector64bits">
+        <title>MySQL ODBC Connector 64-bit</title>
+        <url>http://www.mysql.com/products/connector/</url>
+        <description>MySQL ODBC Connector x86, 64-bit</description>
+        <icon>https://dev.mysql.com/common/logos/logo-mysql-110x57.png</icon>
+        <license>org.gnu.gpl2</license>
     </package>
     <package name="com.mysql.MySQLCommunityServer64">
         <title>MySQL Community Server 64 bit</title>
@@ -546,13 +557,11 @@ verify
     </version>
 
     <version name="1.3.0.1" package="com.3ds.DraftSight64" type="one-file">
-        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x
-"%setup%" /Q "/T:%CD%"
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
+"%setup%" /Q "/T:%CD%"&#13;
 </file>
-        <file path=".Npackd\Uninstall.bat">
-</file>
+        <file path=".Npackd\Uninstall.bat"/>
         <url>http://dl-ak.solidworks.com/nonsecure/draftsight/V1R3.0.1/DraftSight64.exe</url>
-        <sha1>4445632470863fc24316173cb3f2e8fe6c786cec</sha1>
     </version>
 
     <version name="5.12.3.1204" package="com.activestate.ActivePerl64" type="one-file">
@@ -737,55 +746,39 @@ verify
     </version>
 
     <version name="11.4.402.265" package="com.adobe.FlashPlayer64" type="one-file">
-        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x
-"%setup%" -install
-
-rem disable automatic updates
-rem http://kb2.adobe.com/cps/167/16701594.html
-echo AutoUpdateDisable=1 &gt; %windir%\SysWOW64\Macromed\Flash\mms.cfg
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
+"%setup%" -install&#13;
 </file>
-        <file path=".Npackd\Uninstall.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x
-"%setup%" -uninstall
+        <file path=".Npackd\Uninstall.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
+"%setup%" -uninstall&#13;
 </file>
         <url>http://fpdownload.macromedia.com/pub/flashplayer/current/licensing/win/install_flash_player_11_plugin_64bit.exe</url>
     </version>
     <version name="11.5.502.110" package="com.adobe.FlashPlayer64" type="one-file">
-        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x
-"%setup%" -install
-
-rem disable automatic updates
-rem http://kb2.adobe.com/cps/167/16701594.html
-echo AutoUpdateDisable=1 &gt; %windir%\SysWOW64\Macromed\Flash\mms.cfg
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
+"%setup%" -install&#13;
 </file>
-        <file path=".Npackd\Uninstall.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x
-"%setup%" -uninstall
+        <file path=".Npackd\Uninstall.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
+"%setup%" -uninstall&#13;
 </file>
         <url>http://fpdownload.macromedia.com/pub/flashplayer/current/licensing/win/install_flash_player_11_plugin_64bit.exe</url>
     </version>
 
     <version name="11.4.402.265" package="com.adobe.FlashPlayerActiveX64" type="one-file">
-        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x
-"%setup%" -install
-
-rem disable automatic updates
-rem http://kb2.adobe.com/cps/167/16701594.html
-echo AutoUpdateDisable=1 &gt; %windir%\SysWOW64\Macromed\Flash\mms.cfg
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
+"%setup%" -install&#13;
 </file>
-        <file path=".Npackd\Uninstall.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x
-"%setup%" -uninstall
+        <file path=".Npackd\Uninstall.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
+"%setup%" -uninstall&#13;
 </file>
         <url>http://fpdownload.macromedia.com/pub/flashplayer/current/licensing/win/install_flash_player_11_active_x_64bit.exe</url>
     </version>
     <version name="11.5.502.110" package="com.adobe.FlashPlayerActiveX64" type="one-file">
-        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x
-"%setup%" -install
-
-rem disable automatic updates
-rem http://kb2.adobe.com/cps/167/16701594.html
-echo AutoUpdateDisable=1 &gt; %windir%\SysWOW64\Macromed\Flash\mms.cfg
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
+"%setup%" -install&#13;
 </file>
-        <file path=".Npackd\Uninstall.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x
-"%setup%" -uninstall
+        <file path=".Npackd\Uninstall.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
+"%setup%" -uninstall&#13;
 </file>
         <url>http://fpdownload.macromedia.com/pub/flashplayer/current/licensing/win/install_flash_player_11_active_x_64bit.exe</url>
     </version>
@@ -1386,6 +1379,17 @@ if %err% neq 0 exit /b %err%
 </file>
         <url>http://download.microsoft.com/download/1/6/B/16B06F60-3B20-4FF2-B699-5E9B7962F9AE/VSU1/vcredist_x64.exe</url>
         <sha1>abe47e4996cf0409a794c1844f1fa8404032edb2</sha1>
+    </version>
+
+    <version name="5.2.2" package="com.mysql.dev.MySQLODBCConnector64bits" type="one-file">
+        <file path=".Npackd\Install.bat">if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1&#13;
+set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.NpackdInstallerHelper" "--versions=[1.1, 2)"&#13;
+for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set npackdih=%%x&#13;
+call "%npackdih%\InstallMSI.bat" INSTALLDIR yes&#13;
+		</file>
+        <url>http://cdn.mysql.com/Downloads/Connector-ODBC/5.2/mysql-connector-odbc-5.2.2-winx64.msi</url>
+        <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.1, 2)"/>
+        <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.15.7, 2)"/>
     </version>
 
     <version name="5.5.16" package="com.mysql.MySQLCommunityServer64" type="one-file">
