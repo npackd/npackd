@@ -267,6 +267,27 @@ rmdir "%name%"
         <url>http://releases.qt-project.org/qt4/source/qt-everywhere-opensource-src-4.8.4.zip</url>
         <sha1>d52304a9ff7f398ba2afba88c622ffb206a95944</sha1>
     </version>
+    <version name="5" package="com.nokia.QtSource" type="one-file">
+        <file path=".Npackd\Install.bat">if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1&#13;
+set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=org.7-zip.SevenZIPA" "--versions=[9.20, 9.20]"&#13;
+for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set sevenzipa=%%x&#13;
+for /f %%x in ('dir /b *.zip') do set setup=%%x&#13;
+"%sevenzipa%\7za.exe" x "%setup%" &gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+del "%setup%"&#13;
+&#13;
+for /f "delims=" %%x in ('dir /b qt*') do set name=%%x&#13;
+cd "%name%"        &#13;
+for /f "delims=" %%a in ('dir /b') do (&#13;
+  move "%%a" ..&#13;
+)&#13;
+cd ..&#13;
+rmdir "%name%"</file>
+        <url>http://releases.qt-project.org/qt5/5.0.0/single/qt-everywhere-opensource-src-5.0.0.zip</url>
+        <sha1>b621c78dc0a1c64096463b5cc9a05a812ce8a27a</sha1>
+        <dependency package="org.7-zip.SevenZIPA" versions="[9.20, 9.20]"/>
+        <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.15.7, 2)"/>
+        <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1, 1]"/>
+    </version>
 
     <version name="0.4.2" package="net.sourceforge.quazip.QuaZIPSource">
         <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b quazip*') do set name=%%x
@@ -417,6 +438,18 @@ rmdir "%name%"
 </file>
         <url>http://downloads.sourceforge.net/project/boost/boost/1.51.0/boost_1_51_0.zip</url>
         <sha1>9aec6b31a099190790b0a95a7edc72dcb62b9f7d</sha1>
+    </version>
+    <version name="1.52" package="org.boost.Boost">
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b boost*') do set name=%%x&#13;
+cd "%name%"        &#13;
+for /f "delims=" %%a in ('dir /b') do (&#13;
+  move "%%a" ..&#13;
+)&#13;
+cd ..&#13;
+rmdir "%name%"&#13;
+</file>
+        <url>http://downloads.sourceforge.net/project/boost/boost/1.52.0/boost_1_52_0.zip</url>
+        <sha1>5cfe29351e0b734993a2e6717e22b709680dd132</sha1>
     </version>
 
     <version name="1.2.7" package="org.xapian.XapianCore" type="one-file">
