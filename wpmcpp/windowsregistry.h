@@ -54,7 +54,7 @@ public:
     /**
      * Reads a REG_SZ value.
      *
-     * @param name name of the variable
+     * @param name name of the variable. Use "" for the default value.
      * @param err error message will be stored here
      * @return the value
      */
