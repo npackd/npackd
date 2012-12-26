@@ -96,11 +96,18 @@ private:
 
     QStringList getAllInstalledPackagePaths() const;
     PackageVersion* findPackageVersionByMSIGUID(
-            const QString& guid) const;
+            const QString& guid) const;            
     void clearPackagesInNestedDirectories();
+
+    /**
+     * @param hk root key
+     * @param path registry path
+     * @return list of repositories in the specified registry key
+     */
+    static QStringList getRepositoryURLs(HKEY hk, const QString &path);
 public:
     /**
-     * @return newly created object pointing to the repositories
+     * @return newly created list of repositories
      */
     static QList<QUrl*> getRepositoryURLs();
 
