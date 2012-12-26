@@ -512,7 +512,7 @@ int App::update()
     if (r == 0) {
         newest = rep->findNewestInstallablePackageVersion(
             packages.at(0)->name);
-        if (newesti == 0) {
+        if (newest == 0) {
             WPMUtils::outputTextConsole("No installable versions found\n", false);
             r = 1;
         }
