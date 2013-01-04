@@ -125,9 +125,21 @@ int App::process()
         } else if (cmd == "add") {
             r = add();
         } else if (cmd == "add-repo") {
-            r = addRepo();
+            QString err = addRepo();
+            if (err.isEmpty())
+                r = 0;
+            else {
+                r = 1;
+                WPMUtils::outputTextConsole(err + "\n", false);
+            }
         } else if (cmd == "remove-repo") {
-            r = removeRepo();
+            QString err = removeRepo();
+            if (err.isEmpty())
+                r = 0;
+            else {
+                r = 1;
+                WPMUtils::outputTextConsole(err + "\n", false);
+            }
         } else if (cmd == "list") {
             r = list();
         } else if (cmd == "unit-tests") {
@@ -213,54 +225,55 @@ void App::usage()
     }
 }
 
-int App::addRepo()
+QString App::addRepo()
 {
-    int r = 0;
+    QString err;
 
     QString url = cl.get("url");
 
-    if (r == 0) {
+    if (err.isEmpty()) {
         if (url.isNull()) {
-            WPMUtils::outputTextConsole("Missing option: --url\n", false);
-            r = 1;
+            err = "Missing option: --url";
         }
     }
 
     QUrl* url_ = 0;
-    if (r == 0) {
+    if (err.isEmpty()) {
         url_ = new QUrl();
         url_->setUrl(url, QUrl::StrictMode);
         if (!url_->isValid()) {
-            WPMUtils::outputTextConsole("Invalid URL: " + url, false);
-            r = 1;
+            err = "Invalid URL: " + url;
         }
     }
 
-    if (r == 0) {
+    if (err.isEmpty()) {
         Repository* rep = Repository::getDefault();
-        QList<QUrl*> urls = rep->getRepositoryURLs();
-        int found = -1;
-        for (int i = 0; i < urls.size(); i++) {
-            if (urls.at(i)->toString() == url_->toString()) {
-                found = i;
-                break;
+        QList<QUrl*> urls = rep->getRepositoryURLs(&err);
+        if (err.isEmpty()) {
+            int found = -1;
+            for (int i = 0; i < urls.size(); i++) {
+                if (urls.at(i)->toString() == url_->toString()) {
+                    found = i;
+                    break;
+                }
             }
-        }
-        if (found >= 0) {
-            WPMUtils::outputTextConsole(
-                    "This repository is already registered: " + url + "\n");
-        } else {
-            urls.append(url_);
-            url_ = 0;
-            rep->setRepositoryURLs(urls);
-            WPMUtils::outputTextConsole("The repository was added successfully\n");
+            if (found >= 0) {
+                WPMUtils::outputTextConsole(
+                        "This repository is already registered: " + url + "\n");
+            } else {
+                urls.append(url_);
+                url_ = 0;
+                rep->setRepositoryURLs(urls, &err);
+                if (err.isEmpty())
+                    WPMUtils::outputTextConsole("The repository was added successfully\n");
+            }
         }
         qDeleteAll(urls);
     }
 
     delete url_;
 
-    return r;
+    return err;
 }
 
 bool packageVersionLessThan(const PackageVersion* pv1, const PackageVersion* pv2)
@@ -337,53 +350,54 @@ int App::list()
     return r;
 }
 
-int App::removeRepo()
+QString App::removeRepo()
 {
-    int r = 0;
+    QString err;
 
     QString url = cl.get("url");
 
-    if (r == 0) {
+    if (err.isEmpty()) {
         if (url.isNull()) {
-            WPMUtils::outputTextConsole("Missing option: --url\n", false);
-            r = 1;
+            err = "Missing option: --url";
         }
     }
 
     QUrl* url_ = 0;
-    if (r == 0) {
+    if (err.isEmpty()) {
         url_ = new QUrl();
         url_->setUrl(url, QUrl::StrictMode);
         if (!url_->isValid()) {
-            WPMUtils::outputTextConsole("Invalid URL: " + url + "\n", false);
-            r = 1;
+            err = "Invalid URL: " + url;
         }
     }
 
-    if (r == 0) {
+    if (err.isEmpty()) {
         Repository* rep = Repository::getDefault();
-        QList<QUrl*> urls = rep->getRepositoryURLs();
-        int found = -1;
-        for (int i = 0; i < urls.size(); i++) {
-            if (urls.at(i)->toString() == url_->toString()) {
-                found = i;
-                break;
+        QList<QUrl*> urls = rep->getRepositoryURLs(&err);
+        if (err.isEmpty()) {
+            int found = -1;
+            for (int i = 0; i < urls.size(); i++) {
+                if (urls.at(i)->toString() == url_->toString()) {
+                    found = i;
+                    break;
+                }
             }
-        }
-        if (found < 0) {
-            WPMUtils::outputTextConsole("The repository was not in the list: " +
-                    url + "\n");
-        } else {
-            delete urls.takeAt(found);
-            rep->setRepositoryURLs(urls);
-            WPMUtils::outputTextConsole("The repository was removed successfully\n");
+            if (found < 0) {
+                WPMUtils::outputTextConsole("The repository was not in the list: " +
+                        url + "\n");
+            } else {
+                delete urls.takeAt(found);
+                rep->setRepositoryURLs(urls, &err);
+                if (err.isEmpty())
+                    WPMUtils::outputTextConsole("The repository was removed successfully\n");
+            }
         }
         qDeleteAll(urls);
     }
 
     delete url_;
 
-    return r;
+    return err;
 }
 
 int App::path()
@@ -449,103 +463,120 @@ int App::path()
 
 int App::update()
 {
-    int r = 0;
-
     Repository* rep = Repository::getDefault();
     Job* job = clp.createJob();
-    rep->reload(job);
-    if (!job->getErrorMessage().isEmpty()) {
-        WPMUtils::outputTextConsole(job->getErrorMessage() + "\n", false);
-        r = 1;
+
+    if (job->shouldProceed("Loading repositories")) {
+        Job* rjob = job->newSubJob(0.05);
+        rep->reload(rjob);
+        if (!rjob->getErrorMessage().isEmpty()) {
+            job->setErrorMessage(rjob->getErrorMessage());
+        }
+        delete rjob;
     }
-    delete job;
 
     addNpackdCL();
 
     QString package = cl.get("package");
 
-    if (r == 0) {
+    if (job->shouldProceed()) {
         if (package.isNull()) {
-            WPMUtils::outputTextConsole("Missing option: --package\n", false);
-            r = 1;
+            job->setErrorMessage("Missing option: --package");
         }
     }
 
-    if (r == 0) {
+    if (job->shouldProceed()) {
         if (!Package::isValidName(package)) {
-            WPMUtils::outputTextConsole("Invalid package name: " +
-                    package + "\n", false);
-            r = 1;
+            job->setErrorMessage("Invalid package name: " + package);
         }
     }
 
     QList<Package*> packages;
 
-    if (r == 0) {
+    if (job->shouldProceed()) {
         packages = rep->findPackages(package);
         if (packages.count() == 0) {
-            WPMUtils::outputTextConsole("Unknown package: " +
-                    package + "\n", false);
-            r = 1;
+            job->setErrorMessage("Unknown package: " + package);
         }
     }
 
-    if (r == 0) {
+    if (job->shouldProceed()) {
         if (packages.count() > 1) {
-            WPMUtils::outputTextConsole("Ambiguous package name\n", false);
-            r = 1;
+            job->setErrorMessage("Ambiguous package name");
         }
     }
 
     PackageVersion* newesti = 0;
-    if (r == 0) {
+    if (job->shouldProceed()) {
         // debug: WPMUtils::outputTextConsole <<  package) << " " << versions);
-        newesti = rep->findNewestInstalledPackageVersion(
-                packages.at(0)->name);
+        newesti = rep->findNewestInstalledPackageVersion(packages.at(0)->name);
         if (newesti == 0) {
-            WPMUtils::outputTextConsole("Package is not installed\n", false);
-            r = 1;
+            job->setErrorMessage("Package is not installed");
         }
     }
 
     PackageVersion* newest = 0;
-    if (r == 0) {
-        newest = rep->findNewestInstallablePackageVersion(
-            packages.at(0)->name);
+    if (job->shouldProceed()) {
+        newest = rep->findNewestInstallablePackageVersion(packages.at(0)->name);
         if (newest == 0) {
-            WPMUtils::outputTextConsole("No installable versions found\n", false);
-            r = 1;
+            job->setErrorMessage("No installable versions found");
         }
     }
 
-    if (r == 0) {
-        if (newest->version.compare(newesti->version) <= 0) {
-            WPMUtils::outputTextConsole("The package is already up-to-date\n", true);
-        } else {
-            QList<InstallOperation*> ops;
-            QString err = rep->planUpdates(packages, ops);
+    bool up2date = false;
 
-            if (err.isEmpty()) {
-                Job* ijob = clp.createJob();
-                rep->process(ijob, ops);
-                if (!ijob->getErrorMessage().isEmpty()) {
-                    WPMUtils::outputTextConsole(
-                            QString("Error updating %1: %2\n").
-                            arg(packages[0]->title).arg(ijob->getErrorMessage()),
-                            false);
-                    r = 1;
-                } else {
-                    WPMUtils::outputTextConsole("The package was updated successfully\n");
-                }
-                delete ijob;
-            } else {
-                WPMUtils::outputTextConsole(err + "\n", false);
-                r = 1;
-            }
+    if (job->shouldProceed()) {
+        if (newest->version.compare(newesti->version) <= 0)
+            up2date = true;
 
-            qDeleteAll(ops);
-        }
+        job->setProgress(0.1);
     }
+
+    QList<InstallOperation*> ops;
+    if (job->shouldProceed("Planning") && !up2date) {
+        QString err = rep->planUpdates(packages, ops);
+        if (!err.isEmpty())
+            job->setErrorMessage(err);
+        else
+            job->setProgress(0.12);
+    }
+
+    if (job->shouldProceed("Checking locked files and directories") &&
+            !up2date) {
+        QString msg = Repository::checkLockedFilesForUninstall(ops);
+        if (!msg.isEmpty())
+            job->setErrorMessage(msg);
+        else
+            job->setProgress(0.14);
+    }
+
+    if (job->shouldProceed("Updating") && !up2date) {
+        Job* ijob = job->newSubJob(0.86);
+        rep->process(ijob, ops);
+        if (!ijob->getErrorMessage().isEmpty()) {
+            job->setErrorMessage(QString("Error updating %1: %2").
+                    arg(packages[0]->title).arg(ijob->getErrorMessage()));
+        }
+        delete ijob;
+    }
+    qDeleteAll(ops);
+
+    job->complete();
+
+    int r;
+    if (!job->getErrorMessage().isEmpty()) {
+        WPMUtils::outputTextConsole(job->getErrorMessage() + "\n", false);
+        r = 1;
+    } else if (up2date) {
+        WPMUtils::outputTextConsole("The package is already up-to-date\n",
+                true);
+        r = 0;
+    } else {
+        WPMUtils::outputTextConsole("The package was removed successfully\n");
+        r = 0;
+    }
+
+    delete job;
 
     return r;
 }
@@ -651,7 +682,7 @@ int App::add()
 
     int r;
     if (!job->getErrorMessage().isEmpty()) {
-        WPMUtils::outputTextConsole(job->getErrorMessage(), false);
+        WPMUtils::outputTextConsole(job->getErrorMessage() + "\n", false);
         r = 1;
     } else {
         if (!alreadyInstalled)
@@ -745,6 +776,12 @@ int App::remove()
         }
     }
 
+    if (job->shouldProceed("Checking locked files and directories")) {
+        QString msg = Repository::checkLockedFilesForUninstall(ops);
+        if (!msg.isEmpty())
+            job->setErrorMessage(msg);
+    }
+
     if (job->shouldProceed("Removing")) {
         Job* removeJob = job->newSubJob(0.9);
         rep->process(removeJob, ops);
@@ -758,12 +795,13 @@ int App::remove()
 
     int r;
     if (!job->getErrorMessage().isEmpty()) {
-        WPMUtils::outputTextConsole(job->getErrorMessage(), false);
+        WPMUtils::outputTextConsole(job->getErrorMessage() + "\n", false);
         r = 1;
     } else {
         WPMUtils::outputTextConsole("The package was removed successfully\n");
         r = 0;
     }
+
     delete job;
 
     return r;

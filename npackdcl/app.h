@@ -29,8 +29,8 @@ private:
     int path();
     int add();
     int remove();
-    int addRepo();
-    int removeRepo();
+    QString addRepo();
+    QString removeRepo();
     int list();
     int info();
     int update();

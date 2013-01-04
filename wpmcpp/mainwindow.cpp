@@ -190,18 +190,6 @@ MainWindow::MainWindow(QWidget *parent) :
 
     this->mainFrame = new MainFrame(this);
 
-    QList<QUrl*> urls = Repository::getRepositoryURLs();
-    if (urls.count() == 0) {
-        urls.append(new QUrl(
-                "https://windows-package-manager.googlecode.com/hg/repository/Rep.xml"));
-        if (WPMUtils::is64BitWindows())
-            urls.append(new QUrl(
-                    "https://windows-package-manager.googlecode.com/hg/repository/Rep64.xml"));
-        Repository::setRepositoryURLs(urls);
-    }
-    qDeleteAll(urls);
-    urls.clear();
-
     //this->ui->formLayout_2->setSizeConstraint(QLayout::SetDefaultConstraint);
 
     updateActions();
@@ -816,48 +804,12 @@ void MainWindow::process(QList<InstallOperation*> &install)
         }
     }
 
-    QStringList locked = WPMUtils::getProcessFiles();
-    QStringList lockedUninstall;
-    for (int j = 0; j < install.size(); j++) {
-        InstallOperation* op = install.at(j);
-        if (!op->install) {
-            PackageVersion* pv = op->packageVersion;
-            QString path = pv->getPath();
-            for (int i = 0; i < locked.size(); i++) {
-                if (WPMUtils::isUnder(locked.at(i), path)) {
-                    lockedUninstall.append(locked.at(i));
-                }
-            }
-        }
-    }
-
-    if (lockedUninstall.size() > 0) {
-        QString locked_ = lockedUninstall.join(", \n");
-        QString msg = QString("The package(s) cannot be uninstalled because "
-                "the following files are in use "
-                "(please close the corresponding applications): "
-                "%1").arg(locked_);
-        addErrorMessage(msg, msg, true, QMessageBox::Critical);
+    QString err = Repository::checkLockedFilesForUninstall(install);
+    if (!err.isEmpty()) {
+        addErrorMessage(err, err, true, QMessageBox::Critical);
         qDeleteAll(install);
         install.clear();
         return;
-    }
-
-    for (int i = 0; i < install.count(); i++) {
-        InstallOperation* op = install.at(i);
-        if (!op->install) {
-            PackageVersion* pv = op->packageVersion;
-            if (pv->isDirectoryLocked()) {
-                QString msg = QString("The package %1 cannot be uninstalled because "
-                        "some files or directories under %2 are in use.").
-                        arg(pv->toString()).
-                        arg(pv->getPath());
-                addErrorMessage(msg, msg, true, QMessageBox::Critical);
-                qDeleteAll(install);
-                install.clear();
-                return;
-            }
-        }
     }
 
     QString names;
@@ -1563,7 +1515,8 @@ void MainWindow::on_actionSettings_triggered()
     } else {
         d = new SettingsFrame(this->ui->tabWidget);
 
-        QList<QUrl*> urls = Repository::getRepositoryURLs();
+        QString err;
+        QList<QUrl*> urls = Repository::getRepositoryURLs(&err);
         QStringList list;
         for (int i = 0; i < urls.count(); i++) {
             list.append(urls.at(i)->toString());

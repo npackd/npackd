@@ -1556,7 +1556,8 @@ void Repository::load(Job* job, bool useCache)
     qDeleteAll(this->packageVersions);
     this->packageVersions.clear();
 
-    QList<QUrl*> urls = getRepositoryURLs();
+    QString err;
+    QList<QUrl*> urls = getRepositoryURLs(&err);
     if (urls.count() > 0) {
         for (int i = 0; i < urls.count(); i++) {
             job->setHint(QString("Repository %1 of %2").arg(i + 1).
@@ -1755,44 +1756,104 @@ PackageVersion* Repository::findLockedPackageVersion() const
     return r;
 }
 
-QStringList Repository::getRepositoryURLs(HKEY hk, const QString& path)
+QStringList Repository::getRepositoryURLs(HKEY hk, const QString& path,
+        QString* err)
 {
     WindowsRegistry wr;
-    QString err = wr.open(hk, path, false, KEY_READ);
+    *err = wr.open(hk, path, false, KEY_READ);
     QStringList urls;
-    if (err.isEmpty()) {
-        int size = wr.getDWORD("size", &err);
-        if (err.isEmpty()) {
+    if (err->isEmpty()) {
+        int size = wr.getDWORD("size", err);
+        if (err->isEmpty()) {
             for (int i = 1; i <= size; i++) {
                 WindowsRegistry er;
-                err = er.open(wr, QString("%1").arg(i), KEY_READ);
-                if (err.isEmpty()) {
-                    QString url = er.get("repository", &err);
-                    if (err.isEmpty())
+                *err = er.open(wr, QString("%1").arg(i), KEY_READ);
+                if (err->isEmpty()) {
+                    QString url = er.get("repository", err);
+                    if (err->isEmpty())
                         urls.append(url);
                 }
             }
+
+            // ignore any errors while reading the entries
+            *err = "";
         }
     }
 
     return urls;
 }
 
-QList<QUrl*> Repository::getRepositoryURLs()
+QString Repository::checkLockedFilesForUninstall(
+        const QList<InstallOperation*> &install)
 {
+    QStringList locked = WPMUtils::getProcessFiles();
+    QStringList lockedUninstall;
+    for (int j = 0; j < install.size(); j++) {
+        InstallOperation* op = install.at(j);
+        if (!op->install) {
+            PackageVersion* pv = op->packageVersion;
+            QString path = pv->getPath();
+            for (int i = 0; i < locked.size(); i++) {
+                if (WPMUtils::isUnder(locked.at(i), path)) {
+                    lockedUninstall.append(locked.at(i));
+                }
+            }
+        }
+    }
+
+    if (lockedUninstall.size() > 0) {
+        QString locked_ = lockedUninstall.join(", \n");
+        QString msg = QString("The package(s) cannot be uninstalled because "
+                "the following files are in use "
+                "(please close the corresponding applications): "
+                "%1").arg(locked_);
+        return msg;
+    }
+
+    for (int i = 0; i < install.count(); i++) {
+        InstallOperation* op = install.at(i);
+        if (!op->install) {
+            PackageVersion* pv = op->packageVersion;
+            if (pv->isDirectoryLocked()) {
+                QString msg = QString("The package %1 cannot be uninstalled because "
+                        "some files or directories under %2 are in use.").
+                        arg(pv->toString()).
+                        arg(pv->getPath());
+                return msg;
+            }
+        }
+    }
+
+    return "";
+}
+
+QList<QUrl*> Repository::getRepositoryURLs(QString* err)
+{
+    // the most errors in this method are ignored so that we get the URLs even
+    // if something cannot be done
+    QString e;
+
     QStringList urls = getRepositoryURLs(HKEY_LOCAL_MACHINE,
-            "Software\\Npackd\\Npackd\\Reps");
+            "Software\\Npackd\\Npackd\\Reps", &e);
 
     bool save = false;
 
     // compatibility for Npackd < 1.17
     if (urls.isEmpty()) {
         urls = getRepositoryURLs(HKEY_CURRENT_USER,
-                "Software\\Npackd\\Npackd\\repositories");
+                "Software\\Npackd\\Npackd\\repositories", &e);
         if (urls.isEmpty())
             urls = getRepositoryURLs(HKEY_CURRENT_USER,
-                    "Software\\WPM\\Windows Package Manager\\repositories");
+                    "Software\\WPM\\Windows Package Manager\\repositories",
+                    &e);
 
+        if (urls.isEmpty()) {
+            urls.append(
+                    "https://windows-package-manager.googlecode.com/hg/repository/Rep.xml");
+            if (WPMUtils::is64BitWindows())
+                urls.append(
+                        "https://windows-package-manager.googlecode.com/hg/repository/Rep64.xml");
+        }
         save = true;
     }
 
@@ -1802,26 +1863,26 @@ QList<QUrl*> Repository::getRepositoryURLs()
     }
 
     if (save)
-        setRepositoryURLs(r);
+        setRepositoryURLs(r, &e);
 
     return r;
 }
 
-void Repository::setRepositoryURLs(QList<QUrl*>& urls)
+void Repository::setRepositoryURLs(QList<QUrl*>& urls, QString* err)
 {
     WindowsRegistry wr;
-    QString err = wr.open(HKEY_LOCAL_MACHINE, "",
+    *err = wr.open(HKEY_LOCAL_MACHINE, "",
             false, KEY_CREATE_SUB_KEY);
-    if (err.isEmpty()) {
+    if (err->isEmpty()) {
         WindowsRegistry wrr = wr.createSubKey(
-                "Software\\Npackd\\Npackd\\Reps", &err,
+                "Software\\Npackd\\Npackd\\Reps", err,
                 KEY_ALL_ACCESS);
-        if (err.isEmpty()) {
+        if (err->isEmpty()) {
             wrr.setDWORD("size", urls.count());
             for (int i = 0; i < urls.count(); i++) {
                 WindowsRegistry r = wrr.createSubKey(QString("%1").arg(i + 1),
-                        &err, KEY_ALL_ACCESS);
-                if (err.isEmpty()) {
+                        err, KEY_ALL_ACCESS);
+                if (err->isEmpty()) {
                     r.set("repository", urls.at(i)->toString());
                 }
             }
