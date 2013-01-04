@@ -102,21 +102,35 @@ private:
     /**
      * @param hk root key
      * @param path registry path
+     * @param err error message will be stored here
      * @return list of repositories in the specified registry key
      */
-    static QStringList getRepositoryURLs(HKEY hk, const QString &path);
+    static QStringList getRepositoryURLs(HKEY hk, const QString &path,
+            QString *err);
 public:
     /**
+     * Checks the directories of packages in the uninstall operations in the
+     * given list for locked files.
+     *
+     * @return error message if a file or a directory is locked and cannot be
+     *     uninstalled
+     */
+    static QString checkLockedFilesForUninstall(
+            const QList<InstallOperation*> &install);
+
+    /**
+     * @param err error message will be stored here
      * @return newly created list of repositories
      */
-    static QList<QUrl*> getRepositoryURLs();
+    static QList<QUrl*> getRepositoryURLs(QString *err);
 
     /*
      * Changes the default repository url.
      *
      * @param urls new URLs
+     * @param err error message will be stored here
      */
-    static void setRepositoryURLs(QList<QUrl*>& urls);
+    static void setRepositoryURLs(QList<QUrl*>& urls, QString *err);
 
     /**
      * @return default repository

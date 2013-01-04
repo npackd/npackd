@@ -96,9 +96,13 @@ void SettingsFrame::on_buttonBox_clicked(QAbstractButton *button)
         }
         if (err.isEmpty()) {
             WPMUtils::setInstallationDirectory(getInstallationDirectory());
-            Repository::setRepositoryURLs(urls);
-            mw->closeDetailTabs();
-            mw->recognizeAndLoadRepositories(false);
+            Repository::setRepositoryURLs(urls, &err);
+            if (err.isEmpty()) {
+                mw->closeDetailTabs();
+                mw->recognizeAndLoadRepositories(false);
+            } else {
+                mw->addErrorMessage(err, err, true, QMessageBox::Critical);
+            }
         } else {
             mw->addErrorMessage(err, err, true, QMessageBox::Critical);
         }
