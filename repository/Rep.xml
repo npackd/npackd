@@ -502,7 +502,8 @@
     <package name="com.aptana.Studio">
         <title>Aptana Studio</title>
         <url>http://www.aptana.com/products/studio3</url>
-        <description>IDE with support for HTML5, CSS3, JavaScript, Ruby, Rails, PHP and Python</description>
+        <description>IDE with support for HTML5, CSS3, JavaScript, Ruby, Rails, PHP and Python&#13;
+</description>
         <icon>http://www.aptana.com/images/promos/aanda.png</icon>
         <license>org.gnu.GPLv3</license>
     </package>
@@ -542,6 +543,13 @@ kw: scripting program</description>
         <description>scripting language</description>
         <icon>http://aut2.autoit-cdn.com/site/wp-content/themes/TheCorporation/images/logo.png</icon>
         <license>com.autoscript.AutoItLicense</license>
+    </package>
+    <package name="com.avg.AVGAntiVirusFree">
+        <title>AVG Anti-Virus</title>
+        <url>http://free.avg.com/</url>
+        <description>antivirus</description>
+        <icon>http://www.avg.com/content/dam/avg/img/products/avfree_icon_90x90.png</icon>
+        <license>com.avg.AVGAntiVirusLicense</license>
     </package>
     <package name="com.avg.AVGAntiVirusFreeInstaller">
         <title>AVG Anti-Virus installer</title>
@@ -1214,7 +1222,7 @@ This package uses internal version numbers. For example, 1.7.0.1 corresponds to 
     <package name="com.piriform.Defraggler">
         <title>Defraggler</title>
         <url>http://www.piriform.com/defraggler</url>
-        <description>Use Defraggler to defrag your entire hard drive, or individual files - unique in the industry. This compact and portable Windows application supports NTFS and FAT32 file systems.</description>
+        <description>defrags your entire hard drive or individual files. Supports NTFS and FAT32 file systems.</description>
         <icon>http://static.piriform.com/pf/icon/df_64.png</icon>
         <license>com.piriform.DefragglerLicense</license>
     </package>
@@ -1320,7 +1328,7 @@ This package uses internal version numbers. For example, 1.7.0.1 corresponds to 
     <package name="com.ultrapico.Expresso">
         <title>Expresso</title>
         <url>http://www.ultrapico.com/Expresso.htm</url>
-        <description>The premier regular expression development tool</description>
+        <description>regular expression development tool</description>
         <icon>http://www.ultrapico.com/images/Cup.jpg</icon>
     </package>
     <package name="com.utorrent.UTorrentInstaller">
@@ -3434,6 +3442,11 @@ if %err% neq 0 exit %err%
         <url>http://appldnld.apple.com/iTunes11/041-1850.20121129.S2Ux2/iTunesSetup.exe</url>
         <sha1>432f1ec928aaec3c91c08873502d91223b29c456</sha1>
     </version>
+    <version name="11.0.1.12" package="com.apple.ITunesInstaller" type="one-file">
+        <important-file path="iTunesSetup.exe" title="Installer"/>
+        <url>http://appldnld.apple.com/iTunes11/041-8974.20121213.Vgt69/iTunesSetup.exe</url>
+        <sha1>8f4a9261bfba2876b24763848a0745179fba8a3a</sha1>
+    </version>
 
     <version name="7.6.6" package="com.apple.QuickTimeInstaller" type="one-file">
         <important-file path="QuickTimeInstaller.exe" title="Installer"/>
@@ -3477,53 +3490,73 @@ if %err% neq 0 exit %err%
     </version>
 
     <version name="3.1.1" package="com.aptana.Studio" type="one-file">
-        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x
-    "%setup%" /S /D=%CD%
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
+    "%setup%" /S /D=%CD%&#13;
 </file>
-        <file path=".Npackd\Uninstall.bat">uninst.exe /S _?=%CD%
+        <file path=".Npackd\Uninstall.bat">if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1&#13;
+set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=net.nirsoft.MyUninstaller" "--versions=[1.74, 1.74]"&#13;
+for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set myun=%%x&#13;
+"%myun%\myuninst.exe" /uninstall "Aptana Studio 3"&#13;
 </file>
         <url>http://d1iwq2e2xrohf.cloudfront.net/tools/studio/standalone/3.1.1.201204131931/win/Aptana_Studio_3_Setup_3.1.1.exe</url>
         <sha1>EB9DAECFA4880C78A82EEDCEDBAF1F4A01582A37</sha1>
         <dependency package="com.googlecode.msysgit.MSysGit" versions="[1.7, 2)"/>
+        <dependency package="net.nirsoft.MyUninstaller" versions="[1.74, 1.74]"/>
     </version>
     <version name="3.1.3" package="com.aptana.Studio" type="one-file">
-        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x
-    "%setup%" /S /D=%CD%
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
+    "%setup%" /S /D=%CD%&#13;
 </file>
-        <file path=".Npackd\Uninstall.bat">uninst.exe /S _?=%CD%
+        <file path=".Npackd\Uninstall.bat">if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1&#13;
+set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=net.nirsoft.MyUninstaller" "--versions=[1.74, 1.74]"&#13;
+for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set myun=%%x&#13;
+"%myun%\myuninst.exe" /uninstall "Aptana Studio 3"&#13;
 </file>
         <url>http://d1iwq2e2xrohf.cloudfront.net/tools/studio/standalone/3.1.3.201205292243/win/Aptana_Studio_3_Setup_3.1.3.exe</url>
         <sha1>b336df74908ef1780d3e1d9391f4718ce78e24a6</sha1>
         <dependency package="com.googlecode.msysgit.MSysGit" versions="[1.7, 2)"/>
+        <dependency package="net.nirsoft.MyUninstaller" versions="[1.74, 1.74]"/>
     </version>
     <version name="3.2" package="com.aptana.Studio" type="one-file">
-        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x
-    "%setup%" /S /D=%CD%
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
+    "%setup%" /S /D=%CD%&#13;
 </file>
-        <file path=".Npackd\Uninstall.bat">uninst.exe /S _?=%CD%
+        <file path=".Npackd\Uninstall.bat">if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1&#13;
+set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=net.nirsoft.MyUninstaller" "--versions=[1.74, 1.74]"&#13;
+for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set myun=%%x&#13;
+"%myun%\myuninst.exe" /uninstall "Aptana Studio 3"&#13;
 </file>
         <url>http://d1iwq2e2xrohf.cloudfront.net/tools/studio/standalone/3.2.0.201206251729/win/Aptana_Studio_3_Setup_3.2.0.exe</url>
         <sha1>ea4815dc799ad0c8b1bbf226530e274f40d5fa5c</sha1>
         <dependency package="com.googlecode.msysgit.MSysGit" versions="[1.7, 2)"/>
+        <dependency package="net.nirsoft.MyUninstaller" versions="[1.74, 1.74]"/>
     </version>
     <version name="3.2.2" package="com.aptana.Studio" type="one-file">
-        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x
-"%setup%" /S /D=%CD%
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
+"%setup%" /S /D=%CD%&#13;
 </file>
-        <file path=".Npackd\Uninstall.bat">uninst.exe /S _?=%CD%
+        <file path=".Npackd\Uninstall.bat">if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1&#13;
+set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=net.nirsoft.MyUninstaller" "--versions=[1.74, 1.74]"&#13;
+for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set myun=%%x&#13;
+"%myun%\myuninst.exe" /uninstall "Aptana Studio 3"&#13;
 </file>
         <url>http://d1iwq2e2xrohf.cloudfront.net/tools/studio/standalone/3.2.2.201208201020/win/Aptana_Studio_3_Setup_3.2.2.exe</url>
         <sha1>99F606DC1D6BE31D2DDDCDB955A5A0F194F03856</sha1>
         <dependency package="com.googlecode.msysgit.MSysGit" versions="[1.7, 2)"/>
+        <dependency package="net.nirsoft.MyUninstaller" versions="[1.74, 1.74]"/>
     </version>
     <version name="3.3" package="com.aptana.Studio" type="one-file">
         <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
 "%setup%" /S /D=%CD%&#13;
 </file>
-        <file path=".Npackd\Uninstall.bat">uninst.exe /S _?=%CD%&#13;
+        <file path=".Npackd\Uninstall.bat">if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1&#13;
+set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=net.nirsoft.MyUninstaller" "--versions=[1.74, 1.74]"&#13;
+for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set myun=%%x&#13;
+"%myun%\myuninst.exe" /uninstall "Aptana Studio 3"&#13;
 </file>
         <url>http://d1iwq2e2xrohf.cloudfront.net/tools/studio/standalone/3.3.0.201212131616/win/Aptana_Studio_3_Setup_3.3.0.exe</url>
         <dependency package="com.googlecode.msysgit.MSysGit" versions="[1.7, 2)"/>
+        <dependency package="net.nirsoft.MyUninstaller" versions="[1.74, 1.74]"/>
     </version>
 
     <version name="6.80.4312" package="com.ashampoo.BurningStudioFreeInstaller" type="one-file">
@@ -3595,6 +3628,20 @@ ren "%setup%" ashampoo_burning_studio.exe&#13;
         <file path=".Npackd\Uninstall.bat">Uninstall.exe /S</file>
         <url>http://dl.dropbox.com/u/17046326/files/com.autoitscript.AutoItFull-3.3.8.1.exe</url>
         <sha1>16acff6abd348e87111cd64674f06f13c8165291</sha1>
+    </version>
+
+    <version name="2013.2805.1.5946" package="com.avg.AVGAntiVirusFree" type="one-file">
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
+"%setup%" /AppMode=Setup /UILevel=silent /InstallToolbar=0&#13;
+if %errorlevel% neq 0 exit %err%&#13;
+</file>
+        <file path=".Npackd\Uninstall.bat">unins000.exe /VERYSILENT /SUPPRESSMSGBOXES /NORESTART /LOG="%CD%\.Npackd\InnoSetupUninstall.log"&#13;
+set err=%errorlevel%&#13;
+type .Npackd\InnoSetupUninstall.log&#13;
+if %err% neq 0 exit %err%&#13;
+</file>
+        <url>http://download.avgfree.com/filedir/inst/avg_free_x86_all_2013_2805a5946.exe</url>
+        <sha1>ac77cde7bd1647105e27c79dce488775a889ab01</sha1>
     </version>
 
     <version name="2012.1796" package="com.avg.AVGAntiVirusFreeInstaller" type="one-file">
@@ -8469,6 +8516,16 @@ verify
         <url>http://download.owncloud.com/download/owncloud-1.1.3-setup.exe</url>
         <sha1>1344d692d39792b8c8045e2e4baadf9ad3d7a976</sha1>
     </version>
+    <version name="1.1.4" package="com.owncloud.OwnCloudClient" type="one-file">
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
+"%setup%" /S /D=%CD%&#13;
+</file>
+        <file path=".Npackd\Uninstall.bat">uninstall.exe /S _?=%CD%&#13;
+verify&#13;
+</file>
+        <url>http://download.owncloud.com/download/owncloud-1.1.4-setup.exe</url>
+        <sha1>a223248b35b5887eb0226fa495bd62b51a4b25a5</sha1>
+    </version>
 
     <version name="11.0.0.1" package="com.pantaray.SuperOrca" type="one-file">
         <file path=".Npackd\Install.bat">SuperOrcaSetup.exe /Silent /Hide /InstallDir="%CD%"&#13;
@@ -10465,6 +10522,10 @@ call "%npackdih%\InstallMSI.bat" INSTALLDIR yes
     <version name="3.2.2" package="com.utorrent.UTorrentInstaller" type="one-file">
         <important-file path="utorrent.exe" title="Installer"/>
         <url>http://ll.download3.utorrent.com/3.2.2/uTorrent.exe</url>
+    </version>
+    <version name="3.2.3" package="com.utorrent.UTorrentInstaller" type="one-file">
+        <important-file path="utorrent.exe" title="Installer"/>
+        <url>http://download.utorrent.com/3.2.3/uTorrent.exe</url>
     </version>
 
     <version name="1.0.5" package="com.uvnc.UltraVNC">
@@ -20443,6 +20504,18 @@ rmdir "%name%"
         <url>http://nginx.org/download/nginx-1.2.5.zip</url>
         <sha1>9dcf042100db990fd9ff1c6529df7dfdd209e153</sha1>
     </version>
+    <version name="1.2.6" package="org.nginx.Nginx">
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b nginx*') do set name=%%x&#13;
+cd "%name%"        &#13;
+for /f "delims=" %%a in ('dir /b') do (&#13;
+  move "%%a" ..&#13;
+)&#13;
+cd ..&#13;
+rmdir "%name%"&#13;
+</file>
+        <url>http://nginx.org/download/nginx-1.2.6.zip</url>
+        <sha1>61cce6c189ee5e92ab95fc6ef4a7091e76e18273</sha1>
+    </version>
 
     <version name="6.0.1" package="org.nmap.Zenmap" type="one-file">
         <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x
@@ -22125,6 +22198,15 @@ verify
 </file>
         <url>http://downloads.sourceforge.net/project/qbittorrent/qbittorrent-win32/qbittorrent-3.0.5/qbittorrent_3.0.5_setup.exe</url>
         <sha1>45d17f2bfe4994e4facec6522f9b0c67c3f7dd83</sha1>
+    </version>
+    <version name="3.0.6" package="org.qbittorrent.QBittorrent" type="one-file">
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
+"%setup%" /S /D=%CD%&#13;
+</file>
+        <file path=".Npackd\Uninstall.bat">uninst.exe /S _?=%CD%&#13;
+</file>
+        <url>http://downloads.sourceforge.net/project/qbittorrent/qbittorrent-win32/qbittorrent-3.0.6/qbittorrent_3.0.6_setup.exe</url>
+        <sha1>688355e474654d97bffe40f46c427b872850c193</sha1>
     </version>
 
     <version name="7.3.48" package="org.quickdic.QuickDic" type="one-file">
