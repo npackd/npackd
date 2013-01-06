@@ -31,6 +31,7 @@ private:
     int remove();
     QString addRepo();
     QString removeRepo();
+    QString search();
     int list();
     int info();
     int update();
