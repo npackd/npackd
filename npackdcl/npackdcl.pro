@@ -53,3 +53,5 @@ HEADERS += ../wpmcpp/repository.h \
     ../wpmcpp/xmlutils.h \
     ../wpmcpp/clprogress.h
 FORMS += 
+
+QMAKE_LFLAGS_RELEASE += -Wl,-Map,npackdcl_release.map
