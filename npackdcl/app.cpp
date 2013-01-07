@@ -846,7 +846,7 @@ int App::remove()
     }
 
     // debug: WPMUtils::outputTextConsole << "Versions: " << d.toString()) << std::endl;
-    PackageVersion* pv;
+    PackageVersion* pv = 0;
     if (job->shouldProceed()) {
         pv = rep->findPackageVersion(packages.at(0)->name, version);
         if (!pv) {
@@ -961,7 +961,7 @@ int App::info()
             }
 
             // debug: WPMUtils::outputTextConsole << "Versions: " << d.toString()) << std::endl;
-            PackageVersion* pv;
+            PackageVersion* pv = 0;
             Package* p = packages.at(0);
 
             if (!version.isNull()) {
