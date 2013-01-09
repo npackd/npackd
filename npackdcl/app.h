@@ -35,7 +35,6 @@ private:
     int list();
     int info();
     int update();
-    int download();
     int detect();
 
     /**
