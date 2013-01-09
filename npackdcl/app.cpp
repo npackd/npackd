@@ -158,8 +158,6 @@ int App::process()
             r = info();
         } else if (cmd == "update") {
             r = update();
-        } else if (cmd == "download") {
-            r = download();
         } else if (cmd == "detect") {
             r = detect();
         } else {
@@ -209,7 +207,7 @@ void App::usage()
         "        Only installed package versions are shown by default.",
         "    npackdcl search [--query=<search terms>] [--status=installed | all] [--bare-format]",
         "        lists found packages sorted by package name.",
-        "        All package versions are shown by default.",
+        "        All packages are shown by default.",
         "    npackdcl info --package=<package> [--version=<version>]",
         "        shows information about the specified package or package version",
         "    npackdcl path --package=<package> [--versions=<versions>]",
@@ -218,8 +216,6 @@ void App::usage()
         "        appends a repository to the list",
         "    npackdcl remove-repo --url=<repository>",
         "        removes a repository from the list",
-        "    npackdcl download",
-        "        download all packages",
         "    npackdcl detect",
         "        detect packages from the MSI database and software control panel",
         "Options:",
@@ -1040,91 +1036,6 @@ int App::info()
             }
         } while (false);
     }
-
-    return r;
-}
-
-int App::download()
-{
-    int r = 0;
-
-    Job* job = clp.createJob();
-    job->setHint("Loading repositories");
-
-    Repository* rep = Repository::getDefault();
-    Job* sub = job->newSubJob(0.01);
-    rep->reload(sub);
-    if (!sub->getErrorMessage().isEmpty()) {
-        WPMUtils::outputTextConsole(sub->getErrorMessage() + "\n", false);
-        r = 1;
-    }
-    delete sub;
-
-    if (r == 0) {
-        Repository* rep = Repository::getDefault();
-        int n = rep->packageVersions.count();
-        QList<PackageVersion*> failures;
-        for (int i = 0; i < n; i++) {
-            PackageVersion* pv = rep->packageVersions.at(i);
-            job->setHint(pv->package + " " + pv->version.getVersionString());
-            QUrl url = pv->download;
-            if (url.isValid()) {
-                QString fn2 = url.path();
-                QStringList parts = fn2.split('/');
-                fn2 = parts.at(parts.count() - 1);
-                int last = fn2.lastIndexOf(".");
-                QString ext = fn2.mid(last);
-
-                QString fn = pv->package + "-" + pv->version.getVersionString() +
-                        ext;
-                QFileInfo fi(fn);
-                if (!fi.exists()) {
-                    QFile* f = new QFile(fn);
-                    if (!f->open(QIODevice::WriteOnly)) {
-                        WPMUtils::outputTextConsole(QString(
-                                "Error creating file %1\n").
-                                arg(fn));
-                    } else {
-                        QString sha1;
-                        Job* sub = job->newSubJob(0.99 / n);
-                        Downloader::download(sub, url, f, &sha1);
-                        if (!sub->getErrorMessage().isEmpty()) {
-                            WPMUtils::outputTextConsole(QString(
-                                    "Error downloading %1 %2: %3\n").
-                                    arg(pv->package).
-                                    arg(pv->version.getVersionString()).
-                                    arg(sub->getErrorMessage()), false);
-                            f->remove();
-                            failures.append(pv);
-                        } else if (!pv->sha1.isEmpty() && sha1 != pv->sha1) {
-                            WPMUtils::outputTextConsole(QString(
-                                    "SHA1 check failed for %1 %2\n").
-                                    arg(pv->package).
-                                    arg(pv->version.getVersionString()), false);
-                            f->remove();
-                            failures.append(pv);
-                        }
-                        delete sub;
-                    }
-                    delete f;
-                }
-            }
-
-            job->setProgress(0.01 + 0.99 / n * (i + 1));
-        }
-
-        QStringList sl;
-        for (int i = 0; i < failures.count(); i++) {
-            PackageVersion* pv = failures.at(i);
-            QString s = pv->package + " " + pv->version.getVersionString();
-            sl.append(s);
-        }
-
-        WPMUtils::outputTextConsole(QString("Failed package versions: %1").
-                arg(sl.join(", ")), false);
-    }
-
-    job->complete();
 
     return r;
 }
