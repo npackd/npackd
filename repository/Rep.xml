@@ -588,6 +588,11 @@ kw: scripting program</description>
         <url>http://www.codesector.com/teracopy.php</url>
         <description>software for copying files</description>
     </package>
+    <package name="com.comodo.InternetSecurity">
+        <title>Internet Security</title>
+        <url>http://www.comodo.com/home/internet-security/free-internet-security.php</url>
+        <description>anti-virus</description>
+    </package>
     <package name="com.compuphase.Termite">
         <title>Termite</title>
         <url>http://www.compuphase.com/software_termite.htm</url>
@@ -1619,6 +1624,12 @@ This package uses internal version numbers. For example, 1.7.0.1 corresponds to 
         <icon>http://audacity.sourceforge.net/images/Audacity-logo-r_50pct.jpg</icon>
         <license>org.gnu.GPLv2</license>
     </package>
+    <package name="net.sourceforge.avidemux.Avidemux">
+        <title>Avidemux</title>
+        <url>http://avidemux.sourceforge.net/index.html</url>
+        <description>video editor</description>
+        <license>org.gnu.GPLv2</license>
+    </package>
     <package name="net.sourceforge.azureus.Vuze">
         <title>Vuze</title>
         <url>http://www.vuze.com/</url>
@@ -2418,6 +2429,11 @@ yes - Print a string repeatedly.</description>
         <title>NUnit</title>
         <url>http://www.nunit.org/index.php?p=home</url>
         <description>unit-testing framework for all .Net languages. Initially ported from JUnit, the current production release, version 2.6, is the seventh major release of this xUnit based unit testing tool for Microsoft .NET. It is written entirely in C# and has been completely redesigned to take advantage of many .NET language features, for example custom attributes and other reflection related capabilities. NUnit brings xUnit to all .NET languages.</description>
+    </package>
+    <package name="org.openocr.Cuneiform">
+        <title>Cuneiform</title>
+        <url>http://en.openocr.org/</url>
+        <description>OCR</description>
     </package>
     <package name="org.openoffice.OpenOffice">
         <title>OpenOffice</title>
@@ -3632,12 +3648,11 @@ ren "%setup%" ashampoo_burning_studio.exe&#13;
 
     <version name="2013.2805.1.5946" package="com.avg.AVGAntiVirusFree" type="one-file">
         <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
-"%setup%" /AppMode=Setup /UILevel=silent /InstallToolbar=0&#13;
+"%setup%" /AppMode=Setup /UILevel=silent /InstallToolbar=0 /LoggerPath="%CD%\.Npackd" /TargetInstallationPath="%CD%" /ChangeBrowserSearchProvider=0 /InstallSidebar=0 /ParticipateProductImprovement=0 /DontRestart /KillProcessesIfNeeded&#13;
 if %errorlevel% neq 0 exit %err%&#13;
 </file>
-        <file path=".Npackd\Uninstall.bat">unins000.exe /VERYSILENT /SUPPRESSMSGBOXES /NORESTART /LOG="%CD%\.Npackd\InnoSetupUninstall.log"&#13;
+        <file path=".Npackd\Uninstall.bat">avgmfapx.exe /AppMode=SETUP /Uninstall /UILevel=Silent /DontRestart&#13;
 set err=%errorlevel%&#13;
-type .Npackd\InnoSetupUninstall.log&#13;
 if %err% neq 0 exit %err%&#13;
 </file>
         <url>http://download.avgfree.com/filedir/inst/avg_free_x86_all_2013_2805a5946.exe</url>
@@ -4000,6 +4015,51 @@ ren teracopy.exe teracopyi.exe
 teracopyi.exe /SP- /VERYSILENT /SUPPRESSMSGBOXES /NOCANCEL /NORESTART /DIR="%CD%\Files"</file>
         <file path=".Npackd\Uninstall.bat">Files\unins000.exe /VERYSILENT /SUPPRESSMSGBOXES /NORESTART</file>
         <url>http://www.codesector.com/files/teracopy.exe</url>
+    </version>
+
+    <version name="6.0.64131.2674" package="com.comodo.InternetSecurity" type="one-file">
+        <file path=".Npackd\Install.bat">if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1&#13;
+set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=org.7-zip.SevenZIPA" "--versions=[9.20, 9.20]"&#13;
+for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set sevenzipa=%%x&#13;
+for /f %%x in ('dir /b *.exe') do set setup=%%x&#13;
+"%sevenzipa%\7za.exe" x -o.Npackd\install "%setup%" &gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+&#13;
+if "%ProgramFiles(x86)%" NEQ "" goto x64&#13;
+set setup=.Npackd\install\cis\download\installs\xml_binaries\cis\cis_setup_x86.msi&#13;
+goto install&#13;
+&#13;
+:x64&#13;
+set setup=.Npackd\install\cis\download\installs\xml_binaries\cis\cis_setup_x64.msi&#13;
+goto install&#13;
+&#13;
+:install&#13;
+msiexec.exe /qn /norestart /Lime .Npackd\MSI.log /i "%setup%" TARGETDIR="%CD%" ALLUSERS=1&#13;
+set err=%errorlevel%&#13;
+type .Npackd\MSI.log&#13;
+rem 3010=restart required&#13;
+if %err% equ 3010 exit 0&#13;
+if %err% neq 0 exit %err%&#13;
+</file>
+        <file path=".Npackd\Uninstall.bat">if "%ProgramFiles(x86)%" NEQ "" goto x64&#13;
+set setup=.Npackd\install\cis\download\installs\xml_binaries\cis\cis_setup_x86.msi&#13;
+goto install&#13;
+&#13;
+:x64&#13;
+set setup=.Npackd\install\cis\download\installs\xml_binaries\cis\cis_setup_x64.msi&#13;
+goto install&#13;
+&#13;
+:install&#13;
+msiexec.exe /norestart /Lime .Npackd\MSI.log /x "%setup%"&#13;
+set err=%errorlevel%&#13;
+type .Npackd\MSI.log&#13;
+rem 3010=restart required&#13;
+if %err% equ 3010 exit 0&#13;
+if %err% neq 0 exit %err%&#13;
+</file>
+        <url>http://download.comodo.com/cis/download/installs/2000/standalone/cispremium_installer.exe</url>
+        <dependency package="org.7-zip.SevenZIPA" versions="[9.20, 9.20]"/>
+        <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.15.7, 2)"/>
+        <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1, 1]"/>
     </version>
 
     <version name="2.6" package="com.compuphase.Termite">
@@ -12774,6 +12834,18 @@ if %err% neq 0 exit %err%
         <dependency package="ar.com.buanzo.lame.LameForAudacity" versions="[3.98.3, 4)"/>
     </version>
 
+    <version name="2.6.1" package="net.sourceforge.avidemux.Avidemux" type="one-file">
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
+"%setup%" /S /D=%CD%&#13;
+verify&#13;
+</file>
+        <file path=".Npackd\Uninstall.bat">uninstall.exe /S _?=%CD%&#13;
+verify&#13;
+</file>
+        <url>http://downloads.sourceforge.net/project/avidemux-mswin/2.6.1%20%288321%29/avidemux_2.6.1_win32.exe</url>
+        <sha1>355943a5a4956e1bc88ff186e7609c830b251a4d</sha1>
+    </version>
+
     <version name="4.5.1.0.2" package="net.sourceforge.azureus.Vuze" type="one-file">
         <file path=".Npackd\Install.bat">Vuze_4510b_windows.exe -q -dir "%CD%"</file>
         <file path=".Npackd\Uninstall.bat">uninstall.exe -q</file>
@@ -21308,6 +21380,19 @@ call "%npackdih%\InstallMSI.bat" INSTALLDIR yes
 		</file>
         <url>http://launchpad.net/nunitv2/2.6.2/2.6.2/+download/NUnit-2.6.2.msi</url>
         <sha1>c4617149a9ad637844f0dc48cf87acd797aa593a</sha1>
+    </version>
+
+    <version name="12.0.0.58851" package="org.openocr.Cuneiform" type="one-file">
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
+"%setup%" /s /v"/qn /norestart /Lime .Npackd\MSI.log AgreeToLicense=YES REBOOT=Suppress ALLUSERS=1 INSTALLDIR="""%CD%""" SYSTRAY=0"&#13;
+set err=%errorlevel%&#13;
+type .Npackd\MSI.log&#13;
+if %err% neq 0 exit %err%</file>
+        <file path=".Npackd\Uninstall.bat">MsiExec.exe /qn /norestart /Lime .Npackd\MSI.log /X{2c695618-6950-4c88-b836-a4fe7dd7fc9f}&#13;
+set err=%errorlevel%&#13;
+type .Npackd\MSI.log&#13;
+if %err% neq 0 exit %err%</file>
+        <url>http://cognitiveforms.ru/downloads/setup_openocr_cuneiform_en.exe</url>
     </version>
 
     <version name="3.3" package="org.openoffice.OpenOffice" type="one-file">
