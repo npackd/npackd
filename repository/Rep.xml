@@ -551,13 +551,6 @@ kw: scripting program</description>
         <icon>http://www.avg.com/content/dam/avg/img/products/avfree_icon_90x90.png</icon>
         <license>com.avg.AVGAntiVirusLicense</license>
     </package>
-    <package name="com.avg.AVGAntiVirusFreeInstaller">
-        <title>AVG Anti-Virus installer</title>
-        <url>http://free.avg.com/</url>
-        <description>antivirus</description>
-        <icon>http://www.avg.com/content/dam/avg/img/products/avfree_icon_90x90.png</icon>
-        <license>com.avg.AVGAntiVirusLicense</license>
-    </package>
     <package name="com.avira.AviraFree">
         <title>Avira</title>
         <url>http://www.avira.com/</url>
@@ -589,9 +582,9 @@ kw: scripting program</description>
         <description>software for copying files</description>
     </package>
     <package name="com.comodo.InternetSecurity">
-        <title>Internet Security</title>
+        <title>Comodo Internet Security</title>
         <url>http://www.comodo.com/home/internet-security/free-internet-security.php</url>
-        <description>anti-virus</description>
+        <description>WARNING: a system restart is required. Anti-virus</description>
     </package>
     <package name="com.compuphase.Termite">
         <title>Termite</title>
@@ -1579,6 +1572,11 @@ This package uses internal version numbers. For example, 1.7.0.1 corresponds to 
         <description>calculate the MD5 and SHA1 hashes of one or more files in your system</description>
         <icon>http://www.nirsoft.net/utils/hashmyfiles_icon.gif</icon>
         <license>org.wikipedia.Freeware</license>
+    </package>
+    <package name="net.nirsoft.MyUninstaller">
+        <title>MyUninstaller</title>
+        <url>http://www.nirsoft.net/utils/myuninst.html</url>
+        <description>alternative uninstaller utility to the standard Add/Remove applet in the control panel</description>
     </package>
     <package name="net.nirsoft.NirCmd">
         <title>NirCmd</title>
@@ -3648,102 +3646,22 @@ ren "%setup%" ashampoo_burning_studio.exe&#13;
 
     <version name="2013.2805.1.5946" package="com.avg.AVGAntiVirusFree" type="one-file">
         <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
-"%setup%" /AppMode=Setup /UILevel=silent /InstallToolbar=0 /LoggerPath="%CD%\.Npackd" /TargetInstallationPath="%CD%" /ChangeBrowserSearchProvider=0 /InstallSidebar=0 /ParticipateProductImprovement=0 /DontRestart /KillProcessesIfNeeded&#13;
+rem /TargetInstallationPath="%CD%..\AVG_Anti_Virus_Program" is not used as this would prevent un-installation (the files would be locked)&#13;
+"%setup%" /AppMode=Setup /UILevel=silent /InstallToolbar=0 /LoggerPath="%CD%\.Npackd" /ChangeBrowserSearchProvider=0 /InstallSidebar=0 /ParticipateProductImprovement=0 /DontRestart /KillProcessesIfNeeded&#13;
 if %errorlevel% neq 0 exit %err%&#13;
 </file>
-        <file path=".Npackd\Uninstall.bat">avgmfapx.exe /AppMode=SETUP /Uninstall /UILevel=Silent /DontRestart&#13;
-set err=%errorlevel%&#13;
-if %err% neq 0 exit %err%&#13;
-</file>
+        <file path=".Npackd\Uninstall.bat">rem direct un-installation does not work as the files are always locked&#13;
+rem "avgmfapx.exe" /AppMode=SETUP /Uninstall /UILevel=Silent /DontRestart&#13;
+&#13;
+if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1&#13;
+set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=net.nirsoft.MyUninstaller" "--versions=[1.74, 1.74]"&#13;
+for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set myun=%%x&#13;
+"%myun%\myuninst.exe" /uninstall "AVG 2013"</file>
         <url>http://download.avgfree.com/filedir/inst/avg_free_x86_all_2013_2805a5946.exe</url>
         <sha1>ac77cde7bd1647105e27c79dce488775a889ab01</sha1>
-    </version>
-
-    <version name="2012.1796" package="com.avg.AVGAntiVirusFreeInstaller" type="one-file">
-        <important-file path="avg.exe" title="Installer"/>
-        <file path=".Npackd\Install.bat">for /f %%x in ('dir /b *.exe') do set setup=%%x
-ren "%setup%" avg.exe</file>
-        <url>http://af-download.avg.com/filedir/inst/avg_free_stb_eu_2012_1796_free.exe</url>
-        <sha1>2635f97e30f49e57130a40cffbc6f8d1e926655f</sha1>
-    </version>
-    <version name="2012.1873" package="com.avg.AVGAntiVirusFreeInstaller" type="one-file">
-        <important-file path="avg.exe" title="Installer"/>
-        <file path=".Npackd\Install.bat">for /f %%x in ('dir /b *.exe') do set setup=%%x
-ren "%setup%" avg.exe
-</file>
-        <url>http://aa-download.avg.com/filedir/inst/avg_free_stb_eu_2012_1873_free.exe</url>
-        <sha1>ff2b0bc3cdefe60b70e3b6ac448e601a5cd2389e</sha1>
-    </version>
-    <version name="2012.1901" package="com.avg.AVGAntiVirusFreeInstaller" type="one-file">
-        <important-file path="avg.exe" title="Installer"/>
-        <file path=".Npackd\Install.bat">for /f %%x in ('dir /b *.exe') do set setup=%%x
-ren "%setup%" avg.exe
-</file>
-        <url>http://aa-download.avg.com/filedir/inst/avg_free_stb_eu_2012_1901_free.exe</url>
-        <sha1>63a5a24d78244173a623a2a8ab8589cb134828e2</sha1>
-    </version>
-    <version name="2012.1913" package="com.avg.AVGAntiVirusFreeInstaller" type="one-file">
-        <important-file path="avg.exe" title="Installer"/>
-        <file path=".Npackd\Install.bat">for /f %%x in ('dir /b *.exe') do set setup=%%x
-ren "%setup%" avg.exe
-</file>
-        <url>http://aa-download.avg.com/filedir/inst/avg_free_stb_eu_2012_1913_free.exe</url>
-        <sha1>934f0675ce6ad558b78032f1e96648ec8862b266</sha1>
-    </version>
-    <version name="2012.2127" package="com.avg.AVGAntiVirusFreeInstaller" type="one-file">
-        <important-file path="avg.exe" title="Installer"/>
-        <file path=".Npackd\Install.bat">for /f %%x in ('dir /b *.exe') do set setup=%%x
-ren "%setup%" avg.exe
-</file>
-        <url>http://aa-download.avg.com/filedir/inst/avg_free_stb_eu_2012_2127_free.exe</url>
-        <sha1>32a1ac7bdd07481c62cdf1b16cd2dceae29e115f</sha1>
-    </version>
-    <version name="2012.2171" package="com.avg.AVGAntiVirusFreeInstaller" type="one-file">
-        <important-file path="avg.exe" title="Installer"/>
-        <file path=".Npackd\Install.bat">for /f %%x in ('dir /b *.exe') do set setup=%%x
-ren "%setup%" avg.exe
-</file>
-        <url>http://aa-download.avg.com/filedir/inst/avg_free_stb_eu_2012_2171_free.exe</url>
-        <sha1>edf8db19914a605a63f3e93e76b4839c75bb0ded</sha1>
-    </version>
-    <version name="2012.2178" package="com.avg.AVGAntiVirusFreeInstaller" type="one-file">
-        <important-file path="avg.exe" title="Installer"/>
-        <file path=".Npackd\Install.bat">for /f %%x in ('dir /b *.exe') do set setup=%%x
-ren "%setup%" avg.exe
-</file>
-        <url>http://aa-download.avg.com/filedir/inst/avg_free_stb_eu_2012_2178_free.exe</url>
-        <sha1>ea62e75ab8e1770b499224bf672d9864723572a9</sha1>
-    </version>
-    <version name="2012.2180" package="com.avg.AVGAntiVirusFreeInstaller" type="one-file">
-        <important-file path="avg.exe" title="Installer"/>
-        <file path=".Npackd\Install.bat">for /f %%x in ('dir /b *.exe') do set setup=%%x
-ren "%setup%" avg.exe
-</file>
-        <url>http://aa-download.avg.com/filedir/inst/avg_free_stb_eu_2012_2180_free.exe</url>
-        <sha1>586dd3dd86de40f9b94ba425e67b389081315de6</sha1>
-    </version>
-    <version name="2012.2197" package="com.avg.AVGAntiVirusFreeInstaller" type="one-file">
-        <important-file path="avg.exe" title="Installer"/>
-        <file path=".Npackd\Install.bat">for /f %%x in ('dir /b *.exe') do set setup=%%x
-ren "%setup%" avg.exe
-</file>
-        <url>http://aa-download.avg.com/filedir/inst/avg_free_stb_eu_2012_2197_free.exe</url>
-        <sha1>128C835CBDF1F77B36609DF51E27006C715BC11E</sha1>
-    </version>
-    <version name="2013.2677" package="com.avg.AVGAntiVirusFreeInstaller" type="one-file">
-        <important-file path="avg.exe" title="Installer"/>
-        <file path=".Npackd\Install.bat">for /f %%x in ('dir /b *.exe') do set setup=%%x
-ren "%setup%" avg.exe
-</file>
-        <url>http://aa-download.avg.com/filedir/inst/avg_free_stb_eu_2013_2677_free.exe</url>
-        <sha1>cb7cacb5e969c103e9bbbd17191ed2edcda22495</sha1>
-    </version>
-    <version name="2013.2805" package="com.avg.AVGAntiVirusFreeInstaller" type="one-file">
-        <important-file path="avg.exe" title="Installer"/>
-        <file path=".Npackd\Install.bat">for /f %%x in ('dir /b *.exe') do set setup=%%x&#13;
-ren "%setup%" avg.exe&#13;
-</file>
-        <url>http://aa-download.avg.com/filedir/inst/avg_free_stb_eu_2013_2805_free.exe</url>
+        <dependency package="net.nirsoft.MyUninstaller" versions="[1.74, 1.74]"/>
+        <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.15.7, 2)"/>
+        <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1, 1]"/>
     </version>
 
     <version name="2013" package="com.avira.AviraFree" type="one-file">
@@ -4019,45 +3937,12 @@ teracopyi.exe /SP- /VERYSILENT /SUPPRESSMSGBOXES /NOCANCEL /NORESTART /DIR="%CD%
 
     <version name="6.0.64131.2674" package="com.comodo.InternetSecurity" type="one-file">
         <file path=".Npackd\Install.bat">if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1&#13;
-set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=org.7-zip.SevenZIPA" "--versions=[9.20, 9.20]"&#13;
-for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set sevenzipa=%%x&#13;
-for /f %%x in ('dir /b *.exe') do set setup=%%x&#13;
-"%sevenzipa%\7za.exe" x -o.Npackd\install "%setup%" &gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
-&#13;
-if "%ProgramFiles(x86)%" NEQ "" goto x64&#13;
-set setup=.Npackd\install\cis\download\installs\xml_binaries\cis\cis_setup_x86.msi&#13;
-goto install&#13;
-&#13;
-:x64&#13;
-set setup=.Npackd\install\cis\download\installs\xml_binaries\cis\cis_setup_x64.msi&#13;
-goto install&#13;
-&#13;
-:install&#13;
-msiexec.exe /qn /norestart /Lime .Npackd\MSI.log /i "%setup%" TARGETDIR="%CD%" ALLUSERS=1&#13;
-set err=%errorlevel%&#13;
-type .Npackd\MSI.log&#13;
-rem 3010=restart required&#13;
-if %err% equ 3010 exit 0&#13;
-if %err% neq 0 exit %err%&#13;
+set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.NpackdInstallerHelper" "--versions=[1.1, 2)"&#13;
+for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set npackdih=%%x&#13;
+call "%npackdih%\InstallMSI.bat" NONEXISTENT yes&#13;
 </file>
-        <file path=".Npackd\Uninstall.bat">if "%ProgramFiles(x86)%" NEQ "" goto x64&#13;
-set setup=.Npackd\install\cis\download\installs\xml_binaries\cis\cis_setup_x86.msi&#13;
-goto install&#13;
-&#13;
-:x64&#13;
-set setup=.Npackd\install\cis\download\installs\xml_binaries\cis\cis_setup_x64.msi&#13;
-goto install&#13;
-&#13;
-:install&#13;
-msiexec.exe /norestart /Lime .Npackd\MSI.log /x "%setup%"&#13;
-set err=%errorlevel%&#13;
-type .Npackd\MSI.log&#13;
-rem 3010=restart required&#13;
-if %err% equ 3010 exit 0&#13;
-if %err% neq 0 exit %err%&#13;
-</file>
-        <url>http://download.comodo.com/cis/download/installs/2000/standalone/cispremium_installer.exe</url>
-        <dependency package="org.7-zip.SevenZIPA" versions="[9.20, 9.20]"/>
+        <url>http://download.comodo.com/cis/download/installs/1000/xml_binaries/cis/cis_setup_x86.msi</url>
+        <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.1, 2)"/>
         <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.15.7, 2)"/>
         <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1, 1]"/>
     </version>
@@ -12466,6 +12351,12 @@ ren "%setup%" Setup-MsgPlus.exe
     <version name="1.90" package="net.nirsoft.HashMyFiles">
         <important-file path="HashMyFiles.exe" title="HashMyFiles"/>
         <url>http://www.nirsoft.net/utils/hashmyfiles_u.zip</url>
+    </version>
+
+    <version name="1.74" package="net.nirsoft.MyUninstaller">
+        <important-file path="myuninst.exe" title="MyUninstaller"/>
+        <url>https://dl.dropbox.com/u/17046326/files/net.nirsoft.MyUninstaller-1.74.zip</url>
+        <sha1>d46061075f1bc2f30f10b674289549b21090ada5</sha1>
     </version>
 
     <version name="2.71" package="net.nirsoft.NirCmd">

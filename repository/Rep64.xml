@@ -25,6 +25,10 @@
         <title>Flash Player license</title>
         <url>http://www.adobe.com/products/eulas/pdfs/PlatformClients_PC_WWEULA_Combined_20100108_1657.pdf</url>
     </license>
+    <license name="com.avg.AVGAntiVirusLicense">
+        <title>AVG license</title>
+        <url>http://www.avg.com/de-en/283723</url>
+    </license>
     <license name="com.dependencywalker.DependencyWalkerLicense">
         <title>Dependency Walker license</title>
         <url>http://www.dependencywalker.com/</url>
@@ -151,6 +155,18 @@
         <title>iTunes installer 64 bit</title>
         <url>http://www.apple.com/de/itunes/</url>
         <description>media player</description>
+    </package>
+    <package name="com.avg.AVGAntiVirusFree64">
+        <title>AVG Anti-Virus 64 bit</title>
+        <url>http://free.avg.com/</url>
+        <description>antivirus</description>
+        <icon>http://www.avg.com/content/dam/avg/img/products/avfree_icon_90x90.png</icon>
+        <license>com.avg.AVGAntiVirusLicense</license>
+    </package>
+    <package name="com.comodo.InternetSecurity64">
+        <title>Comodo Internet Security 64 bit</title>
+        <url>http://www.comodo.com/home/internet-security/free-internet-security.php</url>
+        <description>WARNING: a system restart is required. Anti-virus</description>
     </package>
     <package name="com.dependencywalker.DependencyWalker64">
         <title>Dependency Walker 64 bit</title>
@@ -808,6 +824,38 @@ verify
         <important-file path="iTunes64Setup.exe" title="Installer"/>
         <url>http://appldnld.apple.com/iTunes11/041-8975.20121213.54tO7y/iTunes64Setup.exe</url>
         <sha1>36004574ad0c0e44aede9146183fa005e402e1f6</sha1>
+    </version>
+
+    <version name="2013.2805.1.5946" package="com.avg.AVGAntiVirusFree64" type="one-file">
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
+rem /TargetInstallationPath="%CD%..\AVG_Anti_Virus_Program" is not used as this would prevent un-installation (the files would be locked)&#13;
+"%setup%" /AppMode=Setup /UILevel=silent /InstallToolbar=0 /LoggerPath="%CD%\.Npackd" /ChangeBrowserSearchProvider=0 /InstallSidebar=0 /ParticipateProductImprovement=0 /DontRestart /KillProcessesIfNeeded&#13;
+if %errorlevel% neq 0 exit %err%&#13;
+</file>
+        <file path=".Npackd\Uninstall.bat">rem direct un-installation does not work as the files are always locked&#13;
+rem "avgmfapx.exe" /AppMode=SETUP /Uninstall /UILevel=Silent /DontRestart&#13;
+&#13;
+if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1&#13;
+set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=net.nirsoft.MyUninstaller" "--versions=[1.74, 1.74]"&#13;
+for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set myun=%%x&#13;
+"%myun%\myuninst.exe" /uninstall "AVG 2013"</file>
+        <url>http://download.avgfree.com/filedir/inst/avg_free_x64_all_2013_2805a5946.exe</url>
+        <sha1>76476df988fa8a747ddb282d6271c245169fcdf9</sha1>
+        <dependency package="net.nirsoft.MyUninstaller" versions="[1.74, 1.74]"/>
+        <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.15.7, 2)"/>
+        <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1, 1]"/>
+    </version>
+
+    <version name="6.0.64131.2674" package="com.comodo.InternetSecurity64" type="one-file">
+        <file path=".Npackd\Install.bat">if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1&#13;
+set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.NpackdInstallerHelper" "--versions=[1.1, 2)"&#13;
+for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set npackdih=%%x&#13;
+call "%npackdih%\InstallMSI.bat" NONEXISTENT yes&#13;
+</file>
+        <url>http://download.comodo.com/cis/download/installs/1000/xml_binaries/cis/cis_setup_x64.msi</url>
+        <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.1, 2)"/>
+        <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.15.7, 2)"/>
+        <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1, 1]"/>
     </version>
 
     <version name="2.2.6000" package="com.dependencywalker.DependencyWalker64">
