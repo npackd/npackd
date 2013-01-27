@@ -79,8 +79,8 @@ FORMS += mainwindow.ui \
     settingsframe.ui \
     packageframe.ui \
     mainframe.ui
+#    -lz \
 LIBS += -lquazip \
-    -lz \
     -lole32 \
     -luuid \
     -lwininet \
@@ -89,6 +89,7 @@ LIBS += -lquazip \
     -lversion \
     -lmsi
 CONFIG += embed_manifest_exe
+CONFIG += static
 RC_FILE = wpmcpp.rc
 RESOURCES += wpmcpp.qrc
 
@@ -96,5 +97,8 @@ RESOURCES += wpmcpp.qrc
 # build
 # QMAKE_CXXFLAGS_RELEASE += -g
 # QMAKE_LFLAGS_RELEASE -= -Wl,-s
+
+QMAKE_CXXFLAGS += -static-libstdc++ -static-libgcc
+QMAKE_LFLAGS += -static
 
 QMAKE_LFLAGS_RELEASE += -Wl,-Map,wpmcpp_release.map
