@@ -7,7 +7,7 @@
 # TST = $$system($${SYSTEM_CMD})
 # message(This looks like ($$TST) to me)
 
-QT += xml
+QT += xml sql
 TARGET = wpmcpp
 TEMPLATE = app
 SOURCES += main.cpp \
@@ -39,7 +39,8 @@ SOURCES += main.cpp \
     selection.cpp \
     hrtimer.cpp \
     clprogress.cpp \
-    mainframe.cpp
+    mainframe.cpp \
+    dbrepository.cpp
 HEADERS += mainwindow.h \
     packageversion.h \
     repository.h \
@@ -70,7 +71,8 @@ HEADERS += mainwindow.h \
     hrtimer.h \
     clprogress.h \
     mainframe.h \
-    taskbar.h
+    taskbar.h \
+    dbrepository.h
 FORMS += mainwindow.ui \
     packageversionform.ui \
     licenseform.ui \

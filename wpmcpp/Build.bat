@@ -6,19 +6,19 @@ set zlib_path=C:/Users/t/projects/library-builder/zlib-i686-w32-1.2.5
 set sevenzipa_path=C:/Program Files (x86)/7-ZIP_A
 set msi_path=C:/Users/t/projects/library-builder/MSI-i686-w32-5
 
-rem compiling
-set path=%mingw_path%/bin
-cd ../wpmcpp-build-desktop
-"%qt_path%/bin/qmake.exe" ../wpmcpp/wpmcpp.pro -r -spec win32-g++ "DEFINES+=QUAZIP_STATIC=1" CONFIG+=release "INCLUDEPATH+=%quazip_path%/quazip %zlib_path% %msi_path%" "QMAKE_LIBDIR+=%quazip_path%/quazip/release %zlib_path% %msi_path%"
-if %errorlevel% neq 0 exit /b %errorlevel%
-
-"%mingw_path%\bin\mingw32-make.exe"
-if %errorlevel% neq 0 exit /b %errorlevel%
-
-cd ..\wpmcpp
 
 mkdir .Build
 mkdir .Build\32
+mkdir .Build\Release-64
+
+rem compiling
+set path=%mingw_path%/bin
+pushd .Build\Release-64
+"%qt_path%/bin/qmake.exe" ../../wpmcpp.pro -r -spec win32-g++ "DEFINES+=QUAZIP_STATIC=1" CONFIG+=release "INCLUDEPATH+=%quazip_path%/quazip %zlib_path% %msi_path%" "QMAKE_LIBDIR+=%quazip_path%/quazip/release %zlib_path% %msi_path%"
+if %errorlevel% neq 0 goto out
+
+"%mingw_path%\bin\mingw32-make.exe"
+if %errorlevel% neq 0 goto out
 
 rem copying files
 rem copy "%mingw_path%\bin\libgcc_s_dw2-1.dll" .Build\32\
@@ -27,14 +27,14 @@ rem if %errorlevel% neq 0 exit /b %errorlevel%
 rem copy "%mingw_path%\bin\mingwm10.dll" .Build\32\
 rem if %errorlevel% neq 0 exit /b %errorlevel%
 
-copy LICENSE.txt .Build\32\
-if %errorlevel% neq 0 exit /b %errorlevel%
+rem copy LICENSE.txt .Build\32\
+rem if %errorlevel% neq 0 goto out
 
-copy CrystalIcons_LICENSE.txt .Build\32\
-if %errorlevel% neq 0 exit /b %errorlevel%
+rem copy CrystalIcons_LICENSE.txt .Build\32\
+rem if %errorlevel% neq 0 goto out
 
-copy "..\wpmcpp-build-desktop\release\wpmcpp.exe" .Build\32\npackdg.exe
-if %errorlevel% neq 0 exit /b %errorlevel%
+rem copy "..\wpmcpp-build-desktop\release\wpmcpp.exe" .Build\32\npackdg.exe
+rem if %errorlevel% neq 0 goto out
 
 rem copy "%qt_path%\bin\QtCore4.dll" .Build\32\
 rem if %errorlevel% neq 0 exit /b %errorlevel%
@@ -55,11 +55,20 @@ rem copy "%zlib_path%\zlib1.dll" .Build\32\
 rem if %errorlevel% neq 0 exit /b %errorlevel%
 
 rem creating .zip
-cd .Build\32\
-"%sevenzipa_path%\7za" a ..\Npackd.zip *
-if %errorlevel% neq 0 exit /b %errorlevel%
-cd ..\..
+rem cd .Build\32\
+rem "%sevenzipa_path%\7za" a ..\Npackd.zip *
+rem if %errorlevel% neq 0 goto out
+rem cd ..\..
 
 rem creating .msi
-"%ai_path%\bin\x86\AdvancedInstaller.com" /build wpmcpp.aip
-if %errorlevel% neq 0 exit /b %errorlevel%
+rem "%ai_path%\bin\x86\AdvancedInstaller.com" /build wpmcpp.aip
+rem if %errorlevel% neq 0 goto out
+
+popd
+"C:\Program Files (x86)\NirCmd\nircmd.exe" stdbeep
+goto :eof
+
+:out
+popd
+echo %errorlevel%
+"C:\Program Files (x86)\NirCmd\nircmd.exe" beep 500 1000
