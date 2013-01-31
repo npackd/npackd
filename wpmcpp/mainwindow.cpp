@@ -42,6 +42,7 @@
 #include "licenseform.h"
 #include "packageframe.h"
 #include "hrtimer.h"
+#include "dbrepository.h"
 
 extern HWND defaultPasswordWindow;
 
@@ -109,13 +110,20 @@ void InstallThread::run()
         break;
     case 3:
     case 4: {
-        Repository* r = Repository::getDefault();
-        r->reload(job, this->useCache);
-        PackageVersion* pv = r->findOrCreatePackageVersion(
-                "com.googlecode.windows-package-manager.Npackd",
-                Version(WPMUtils::NPACKD_VERSION));
-        if (!pv->installed()) {
-            pv->setPath(WPMUtils::getExeDir());
+        DBRepository* dbr = DBRepository::getDefault();
+        QString err = dbr->open();
+        if (!err.isEmpty())
+            job->setErrorMessage(err);
+
+        if (job->shouldProceed()) {
+            Repository* r = Repository::getDefault();
+            r->reload(job, this->useCache);
+            PackageVersion* pv = r->findOrCreatePackageVersion(
+                    "com.googlecode.windows-package-manager.Npackd",
+                    Version(WPMUtils::NPACKD_VERSION));
+            if (!pv->installed()) {
+                pv->setPath(WPMUtils::getExeDir());
+            }
         }
         break;
     }
