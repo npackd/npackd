@@ -65,7 +65,7 @@ rem "%ai_path%\bin\x86\AdvancedInstaller.com" /build wpmcpp.aip
 rem if %errorlevel% neq 0 goto out
 
 popd
-"C:\Program Files (x86)\NirCmd\nircmd.exe" stdbeep
+.Build\Release-64\release\wpmcpp.exe
 goto :eof
 
 :out
