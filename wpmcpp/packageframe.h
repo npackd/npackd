@@ -3,6 +3,7 @@
 
 #include <QFrame>
 #include <QModelIndex>
+#include <QSharedPointer>
 
 #include "package.h"
 #include "selection.h"
@@ -19,7 +20,7 @@ private:
     void showDetails();
 public:
     /** package associated with this form or 0 */
-    Package* p;
+    QSharedPointer<Package> p;
 
     explicit PackageFrame(QWidget *parent = 0);
     ~PackageFrame();
@@ -29,7 +30,7 @@ public:
      *
      * @param p a package
      */
-    void fillForm(Package* p);
+    void fillForm(QSharedPointer<Package> p);
 
     /**
      * Updates the view if a new icon was downloaded.

@@ -111,13 +111,22 @@ void InstallThread::run()
     case 3:
     case 4: {
         DBRepository* dbr = DBRepository::getDefault();
-        QString err = dbr->open();
-        if (!err.isEmpty())
-            job->setErrorMessage(err);
+        if (job->shouldProceed("Opening the local database")) {
+            QString err = dbr->open();
+            if (!err.isEmpty())
+                job->setErrorMessage(err);
+            else
+                job->setProgress(0.01);
+        }
 
-        if (job->shouldProceed()) {
-            Repository* r = Repository::getDefault();
-            r->reload(job, this->useCache);
+        Repository* r = Repository::getDefault();
+        if (job->shouldProceed("Downloading the remote repositories")) {
+            Job* sub = job->newSubJob(0.8);
+            r->reload(sub, this->useCache);
+            if (!sub->getErrorMessage().isEmpty())
+                job->setErrorMessage(sub->getErrorMessage());
+            delete sub;
+
             PackageVersion* pv = r->findOrCreatePackageVersion(
                     "com.googlecode.windows-package-manager.Npackd",
                     Version(WPMUtils::NPACKD_VERSION));
@@ -125,6 +134,15 @@ void InstallThread::run()
                 pv->setPath(WPMUtils::getExeDir());
             }
         }
+
+        if (job->shouldProceed("Filling the local database")) {
+            Job* sub = job->newSubJob(0.19);
+            dbr->reloadFrom(sub, r);
+            if (!sub->getErrorMessage().isEmpty())
+                job->setErrorMessage(sub->getErrorMessage());
+            delete sub;
+        }
+
         break;
     }
     case 8:
@@ -307,13 +325,17 @@ void MainWindow::showDetails()
                 int index = this->findPackageTab(p->name);
                 if (index < 0) {
                     PackageFrame* pf = new PackageFrame(this->ui->tabWidget);
-                    pf->fillForm(p);
-                    QIcon icon = getPackageVersionIcon(p->name);
-                    QString t = p->title;
-                    if (t.isEmpty())
-                        t = p->name;
-                    this->ui->tabWidget->addTab(pf, icon, t);
-                    index = this->ui->tabWidget->count() - 1;
+                    QSharedPointer<Package> p_ = DBRepository::getDefault()->
+                            findPackage(p->name);
+                    if (p_) {
+                        pf->fillForm(p_);
+                        QIcon icon = getPackageVersionIcon(p->name);
+                        QString t = p->title;
+                        if (t.isEmpty())
+                            t = p->name;
+                        this->ui->tabWidget->addTab(pf, icon, t);
+                        index = this->ui->tabWidget->count() - 1;
+                    }
                 }
 
                 if (i == selected.count() - 1)
