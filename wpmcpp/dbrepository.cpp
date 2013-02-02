@@ -32,10 +32,10 @@ QString DBRepository::clearPackages()
     return toString(q.lastError());
 }
 
-QString DBRepository::clearPackageVersions()
+QString DBRepository::exec(const QString& sql)
 {
     QSqlQuery q;
-    q.exec("DELETE FROM PACKAGE_VERSION");
+    q.exec(sql);
     return toString(q.lastError());
 }
 
@@ -122,6 +122,14 @@ QSharedPointer<Package> DBRepository::findPackage(const QString& name)
 
 void DBRepository::reloadFrom(Job* job, Repository* r)
 {
+    if (job->shouldProceed("Starting an SQL transaction")) {
+        QString err = exec("BEGIN TRANSACTION");
+        if (!err.isEmpty())
+            job->setErrorMessage(err);
+        else
+            job->setProgress(0.01);
+    }
+
     if (job->shouldProceed("Clearing the packages table")) {
         QString err = clearPackages();
         if (!err.isEmpty())
@@ -139,7 +147,7 @@ void DBRepository::reloadFrom(Job* job, Repository* r)
     }
 
     if (job->shouldProceed("Clearing the package versions table")) {
-        QString err = clearPackageVersions();
+        QString err = exec("DELETE FROM PACKAGE_VERSION");
         if (!err.isEmpty())
             job->setErrorMessage(err);
         else
@@ -149,9 +157,17 @@ void DBRepository::reloadFrom(Job* job, Repository* r)
     if (job->shouldProceed("Inserting data in the package versions table")) {
         QString err = insertPackageVersions(r);
         if (err.isEmpty())
-            job->setProgress(1);
+            job->setProgress(0.95);
         else
             job->setErrorMessage(err);
+    }
+
+    if (job->shouldProceed("Commiting the SQL transaction")) {
+        QString err = exec("COMMIT");
+        if (!err.isEmpty())
+            job->setErrorMessage(err);
+        else
+            job->setProgress(1);
     }
 
     job->complete();
