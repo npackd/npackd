@@ -30,7 +30,7 @@ private:
     QString insertPackages(Repository* r);
     QString insertPackageVersions(Repository* r);
     QString clearPackages();
-    QString clearPackageVersions();
+    QString exec(const QString& sql);
 public:
     /**
      * @return default repository
