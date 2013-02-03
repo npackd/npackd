@@ -24,6 +24,7 @@ private:
     static QString toString(const QSqlError& e);
 
     QMap<QString, QWeakPointer<Package> > packagesCache;
+    QMap<QString, QWeakPointer<PackageVersion> > packageVersionsCache;
 
     QString insertPackage(Package* p);
     QString insertPackageVersion(PackageVersion* p);
@@ -63,6 +64,15 @@ public:
      * @return found package or 0
      */
     QSharedPointer<Package> findPackage(const QString& name);
+
+    /**
+     * @brief searches for a package version
+     * @param package full package name
+     * @param version version number
+     * @return found package or 0
+     */
+    QSharedPointer<PackageVersion> findPackageVersion(
+            const QString& package, const Version& version);
 };
 
 #endif // DBREPOSITORY_H

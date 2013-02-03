@@ -147,18 +147,15 @@ void PackageFrame::on_labelLicense_linkActivated(const QString &link)
 void PackageFrame::showDetails()
 {
     MainWindow* mw = MainWindow::getInstance();
-    QList<QTableWidgetItem*> sel = this->ui->tableWidgetVersions->selectedItems();
+    QList<QTableWidgetItem*> sel =
+            this->ui->tableWidgetVersions->selectedItems();
     for (int i = 0; i < sel.count(); i++) {
         QTableWidgetItem* item = sel.at(i);
         if (item->column() == 0) {
             const QVariant v = item->data(Qt::UserRole);
 
             PackageVersion* pv = (PackageVersion*) v.value<void*>();
-            PackageVersionForm* pvf = new PackageVersionForm(0);
-            pvf->fillForm(pv);
-            QIcon icon = mw->getPackageVersionIcon(pv->package);
-            mw->addTab(pvf, icon, p->title + " " +
-                    pv->version.getVersionString());
+            mw->openPackageVersion(pv->package, pv->version, true);
         }
     }
 }
