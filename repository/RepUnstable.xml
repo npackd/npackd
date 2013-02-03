@@ -62,6 +62,13 @@
         <icon>https://lh5.googleusercontent.com/-kFYTFEF166c/T2h0G2-FprI/AAAAAAAAAYw/tYsLnlw3vfU/s800/org.blender.Blender.png</icon>
         <license>org.gnu.GPLv2</license>
     </package>
+    <package name="org.goldendict.GoldenDictRuEn">
+        <title>GoldenDict Ru-En</title>
+        <url>http://goldendict.org</url>
+        <description>Russian English dictionary</description>
+        <icon>https://lh5.googleusercontent.com/-ZkdOs6kvJCY/UQt4UCxlEnI/AAAAAAAAAOc/07m2NzXSGnE/s800/goldendict_32.jpg</icon>
+        <license>org.gnu.GPLv3</license>
+    </package>
     <package name="org.grisbi.Grisbi">
         <title>Grisbi</title>
         <url>http://www.grisbi.org/</url>
@@ -293,6 +300,15 @@ for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set python=%%x
         <important-file path="blender-2.56a-beta-windows32\blender.exe" title="Blender"/>
         <url>http://download.blender.org/release//Blender2.56abeta/blender-2.56a-beta-windows32.zip</url>
         <sha1>68146fd76846b3c83a314cd1bb1f32808f844e51</sha1>
+    </version>
+
+    <version name="1.0.1" package="org.goldendict.GoldenDictRuEn" type="one-file">
+        <file path=".Npackd\Install.bat">for /f %%x in ('dir /b *.exe') do set setup=%%x&#13;
+"%setup%" /S /D=%CD%</file>
+        <file path=".Npackd\Uninstall.bat">rem Uninstall lead to Npackd crash&#13;
+Uninstall.exe /S</file>
+        <url>https://downloads.sourceforge.net/project/goldendict/goldendict/1.0/GoldenDict-1.0.1-1-EnRuEn-Install.exe</url>
+        <sha1>50c74048efd1a8827dcb7a0d0c4f1470fa1fa330</sha1>
     </version>
 
     <version name="0.9.4" package="org.grisbi.Grisbi" type="one-file">
