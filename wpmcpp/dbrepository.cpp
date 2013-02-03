@@ -120,6 +120,48 @@ QSharedPointer<Package> DBRepository::findPackage(const QString& name)
     return r;
 }
 
+QSharedPointer<PackageVersion> DBRepository::findPackageVersion(
+        const QString& package, const Version& version)
+{
+    QString version_ = version.getVersionString();
+    QSharedPointer<PackageVersion> r;
+    QWeakPointer<PackageVersion> wp = this->packageVersionsCache.value(
+            package + "/" + version_);
+    r = wp.toStrongRef();
+
+    if (!r) {
+        QSqlQuery q;
+        q.prepare("SELECT ID, NAME, "
+                "PACKAGE, CONTENT FROM PACKAGE_VERSION "
+                "WHERE NAME = :NAME AND PACKAGE = :PACKAGE");
+        q.bindValue(":NAME", version_);
+        q.bindValue(":PACKAGE", package);
+        q.exec();
+        if (q.next()) {
+            // TODO: handle error
+            QDomDocument doc;
+            int errorLine, errorColumn;
+            QString err;
+            if (!doc.setContent(q.value(3).toByteArray(),
+                    &err, &errorLine, &errorColumn))
+                err = QString(
+                        "XML parsing failed at line %1, column %2: %3").
+                        arg(errorLine).arg(errorColumn).arg(err);
+
+            QDomElement root = doc.documentElement();
+            PackageVersion* p = PackageVersion::parse(&root, &err);
+
+            // TODO: handle this error
+            if (err.isEmpty()) {
+                r = QSharedPointer<PackageVersion>(p);
+                this->packageVersionsCache.insert(package + "/" + version_, r);
+            }
+        }
+    }
+
+    return r;
+}
+
 void DBRepository::reloadFrom(Job* job, Repository* r)
 {
     if (job->shouldProceed("Starting an SQL transaction")) {

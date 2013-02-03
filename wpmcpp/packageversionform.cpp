@@ -1,7 +1,9 @@
 #include "packageversionform.h"
 #include "ui_packageversionform.h"
 
-#include "qdesktopservices.h"
+#include <QDesktopServices>
+#include <QSharedPointer>
+#include <QDebug>
 
 #include "package.h"
 #include "repository.h"
@@ -14,7 +16,6 @@ PackageVersionForm::PackageVersionForm(QWidget *parent) :
     ui(new Ui::PackageVersionForm)
 {
     ui->setupUi(this);
-    this->pv = 0;
 }
 
 void PackageVersionForm::updateIcons()
@@ -28,7 +29,7 @@ QList<void*> PackageVersionForm::getSelected(const QString& type) const
 {
     QList<void*> res;
     if (type == "PackageVersion" && this->pv) {
-        res.append(this->pv);
+        res.append(this->pv.data());
     }
     return res;
 }
@@ -39,9 +40,11 @@ void PackageVersionForm::updateStatus()
     this->ui->lineEditPath->setText(pv->getPath());
 }
 
-void PackageVersionForm::fillForm(PackageVersion* pv)
+void PackageVersionForm::fillForm(QSharedPointer<PackageVersion> pv)
 {
     this->pv = pv;
+
+    // qDebug() << pv.data()->toString();
 
     Repository* r = Repository::getDefault();
 

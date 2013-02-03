@@ -60,7 +60,8 @@ private:
     ITaskbarList3* taskbarInterface;
 
     int findPackageTab(const QString& package) const;
-    int findPackageVersionTab(PackageVersion* pv) const;
+    int findPackageVersionTab(const QString &package,
+            const Version &version) const;
 
     void addJobsTab();
     void showDetails();
@@ -191,6 +192,17 @@ public:
      * @param title tab title
      */
     void addTab(QWidget* w, const QIcon& icon, const QString& title);
+
+    /**
+     * @brief opens a new tab for the specified package version. A new tab will
+     *     not be created if there is already a tab for the package version. The
+     *     package version should exist.
+     * @param package full package name
+     * @param version version
+     * @param select true = select the newly created tab
+     */
+    void openPackageVersion(const QString& package,
+            const Version& version, bool select);
 
     QList<void*> getSelected(const QString& type) const;
 protected:

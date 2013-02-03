@@ -26,6 +26,7 @@
 #include <QCloseEvent>
 #include <QTextBrowser>
 #include <QTableWidget>
+#include <QDebug>
 
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
@@ -306,10 +307,15 @@ void MainWindow::showDetails()
             for (int i = 0; i < selected.count(); i++) {
                 PackageVersion* pv = (PackageVersion*) selected.at(i);
 
-                int index = this->findPackageVersionTab(pv);
+                int index = this->findPackageVersionTab(pv->package,
+                        pv->version);
                 if (index < 0) {
-                    PackageVersionForm* pvf = new PackageVersionForm(this->ui->tabWidget);
-                    pvf->fillForm(pv);
+                    PackageVersionForm* pvf = new PackageVersionForm(
+                            this->ui->tabWidget);
+                    QSharedPointer<PackageVersion> pv_ =
+                            DBRepository::getDefault()->
+                            findPackageVersion(pv->package, pv->version);
+                    pvf->fillForm(pv_);
                     QIcon icon = getPackageVersionIcon(pv->package);
                     this->ui->tabWidget->addTab(pvf, icon, pv->toString());
                     index = this->ui->tabWidget->count() - 1;
@@ -385,14 +391,17 @@ int MainWindow::findPackageTab(const QString& package) const
     return r;
 }
 
-int MainWindow::findPackageVersionTab(PackageVersion* pv) const
+int MainWindow::findPackageVersionTab(const QString& package,
+        const Version& version) const
 {
     int r = -1;
     for (int i = 0; i < this->ui->tabWidget->count(); i++) {
         QWidget* w = this->ui->tabWidget->widget(i);
         PackageVersionForm* pvf = dynamic_cast<PackageVersionForm*>(w);
         if (pvf) {
-            if (pvf->pv == pv) {
+            //qDebug() << pvf->pv.data()->toString() << "---" <<
+            //        package << version.getVersionString();
+            if (pvf->pv->package == package && pvf->pv->version == version) {
                 r = i;
                 break;
             }
@@ -1443,6 +1452,25 @@ QList<void*> MainWindow::getSelected(const QString& type) const
             r = sel->getSelected(type);
     }
     return r;
+}
+
+void MainWindow::openPackageVersion(const QString& package,
+        const Version& version, bool select)
+{
+    int index = this->findPackageVersionTab(package, version);
+    if (index < 0) {
+        PackageVersionForm* pvf = new PackageVersionForm(
+                this->ui->tabWidget);
+        QSharedPointer<PackageVersion> pv_ =
+                DBRepository::getDefault()->
+                findPackageVersion(package, version);
+        pvf->fillForm(pv_);
+        QIcon icon = getPackageVersionIcon(package);
+        this->ui->tabWidget->addTab(pvf, icon, pv_->toString());
+        index = this->ui->tabWidget->count() - 1;
+    }
+    if (select)
+        this->ui->tabWidget->setCurrentIndex(index);
 }
 
 void MainWindow::addTab(QWidget* w, const QIcon& icon, const QString& title)

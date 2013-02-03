@@ -2,6 +2,7 @@
 #define PACKAGEVERSIONFORM_H
 
 #include <QWidget>
+#include <QSharedPointer>
 
 #include "packageversion.h"
 #include "selection.h"
@@ -14,7 +15,7 @@ class PackageVersionForm : public QWidget, public Selection {
     Q_OBJECT
 public:
     /** PackageVersion associated with this form or 0 */
-    PackageVersion* pv;
+    QSharedPointer<PackageVersion> pv;
 
     PackageVersionForm(QWidget *parent = 0);
     ~PackageVersionForm();
@@ -24,7 +25,7 @@ public:
      *
      * @param pv package version
      */
-    void fillForm(PackageVersion* pv);
+    void fillForm(QSharedPointer<PackageVersion> pv);
 
     /**
      * Updates the view if a new icon was downloaded.
