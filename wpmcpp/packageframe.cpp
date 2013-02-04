@@ -126,22 +126,7 @@ void PackageFrame::changeEvent(QEvent *e)
 
 void PackageFrame::on_labelLicense_linkActivated(const QString &link)
 {
-    QTabWidget* tabWidget = dynamic_cast<QTabWidget*>(
-            this->parentWidget()->parentWidget());
-    if (!tabWidget)
-        return;
-
-    LicenseForm* f = new LicenseForm(tabWidget);
-
-    Repository* r = Repository::getDefault();
-
-    License* lic = r->findLicense(p->license);
-    if (!lic)
-        return;
-
-    f->fillForm(lic);
-    tabWidget->addTab(f, lic->title);
-    tabWidget->setCurrentIndex(tabWidget->count() - 1);
+    MainWindow::getInstance()->openLicense(p->license, true);
 }
 
 void PackageFrame::showDetails()
