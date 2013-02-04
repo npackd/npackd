@@ -25,13 +25,6 @@ DBRepository* DBRepository::getDefault()
     return &def;
 }
 
-QString DBRepository::clearPackages()
-{
-    QSqlQuery q;
-    q.exec("DELETE FROM PACKAGE");
-    return toString(q.lastError());
-}
-
 QString DBRepository::exec(const QString& sql)
 {
     QSqlQuery q;
@@ -74,6 +67,21 @@ QString DBRepository::insertPackageVersion(PackageVersion* p)
     doc.save(s, 4);
 
     q.bindValue(":CONTENT", QVariant(file));
+    q.exec();
+    return toString(q.lastError());
+}
+
+QString DBRepository::insertLicense(License* p)
+{
+    QSqlQuery q;
+    q.prepare("INSERT INTO LICENSE "
+            "(ID, NAME, TITLE, DESCRIPTION, URL)"
+            "VALUES(:ID, :NAME, :TITLE, :DESCRIPTION, :URL)");
+    q.bindValue(":ID", QVariant(QVariant::Int));
+    q.bindValue(":NAME", p->name);
+    q.bindValue(":TITLE", p->title);
+    q.bindValue(":DESCRIPTION", p->description);
+    q.bindValue(":URL", p->url);
     q.exec();
     return toString(q.lastError());
 }
@@ -162,6 +170,32 @@ QSharedPointer<PackageVersion> DBRepository::findPackageVersion(
     return r;
 }
 
+QSharedPointer<License> DBRepository::findLicense(const QString& name)
+{
+    QSharedPointer<License> r;
+    QWeakPointer<License> wp = this->licensesCache.value(name);
+    r = wp.toStrongRef();
+
+    if (!r) {
+        QSqlQuery q;
+        q.prepare("SELECT ID, NAME, TITLE, DESCRIPTION, URL "
+                "FROM LICENSE "
+                "WHERE NAME = :NAME");
+        q.bindValue(":NAME", name);
+        q.exec();
+        if (q.next()) {
+            // TODO: handle error
+            License* p = new License(name, q.value(2).toString());
+            p->description = q.value(3).toString();
+            p->url = q.value(4).toString();
+            r = QSharedPointer<License>(p);
+            this->licensesCache.insert(name, r);
+        }
+    }
+
+    return r;
+}
+
 void DBRepository::reloadFrom(Job* job, Repository* r)
 {
     if (job->shouldProceed("Starting an SQL transaction")) {
@@ -173,7 +207,7 @@ void DBRepository::reloadFrom(Job* job, Repository* r)
     }
 
     if (job->shouldProceed("Clearing the packages table")) {
-        QString err = clearPackages();
+        QString err = exec("DELETE FROM PACKAGE");
         if (!err.isEmpty())
             job->setErrorMessage(err);
         else
@@ -204,6 +238,22 @@ void DBRepository::reloadFrom(Job* job, Repository* r)
             job->setErrorMessage(err);
     }
 
+    if (job->shouldProceed("Clearing the licenses table")) {
+        QString err = exec("DELETE FROM LICENSE");
+        if (!err.isEmpty())
+            job->setErrorMessage(err);
+        else
+            job->setProgress(0.96);
+    }
+
+    if (job->shouldProceed("Inserting data in the licenses table")) {
+        QString err = insertLicenses(r);
+        if (err.isEmpty())
+            job->setProgress(0.98);
+        else
+            job->setErrorMessage(err);
+    }
+
     if (job->shouldProceed("Commiting the SQL transaction")) {
         QString err = exec("COMMIT");
         if (!err.isEmpty())
@@ -221,6 +271,19 @@ QString DBRepository::insertPackages(Repository* r)
     for (int i = 0; i < r->packages.count(); i++) {
         Package* p = r->packages.at(i);
         err = insertPackage(p);
+        if (!err.isEmpty())
+            break;
+    }
+
+    return err;
+}
+
+QString DBRepository::insertLicenses(Repository* r)
+{
+    QString err;
+    for (int i = 0; i < r->licenses.count(); i++) {
+        License* p = r->licenses.at(i);
+        err = insertLicense(p);
         if (!err.isEmpty())
             break;
     }
@@ -285,6 +348,21 @@ QString DBRepository::open()
             db.exec("CREATE TABLE PACKAGE_VERSION(ID INTEGER PRIMARY KEY, NAME TEXT, "
                     "PACKAGE TEXT, "
                     "CONTENT BLOB"
+                    ")");
+            err = toString(db.lastError());
+        }
+    }
+
+    if (err.isEmpty()) {
+        e = tableExists(&db, "LICENSE", &err);
+    }
+
+    if (err.isEmpty()) {
+        if (!e) {
+            db.exec("CREATE TABLE LICENSE(ID INTEGER PRIMARY KEY, NAME TEXT, "
+                    "TITLE TEXT, "
+                    "DESCRIPTION TEXT, "
+                    "URL TEXT"
                     ")");
             err = toString(db.lastError());
         }

@@ -307,21 +307,7 @@ void MainWindow::showDetails()
             for (int i = 0; i < selected.count(); i++) {
                 PackageVersion* pv = (PackageVersion*) selected.at(i);
 
-                int index = this->findPackageVersionTab(pv->package,
-                        pv->version);
-                if (index < 0) {
-                    PackageVersionForm* pvf = new PackageVersionForm(
-                            this->ui->tabWidget);
-                    QSharedPointer<PackageVersion> pv_ =
-                            DBRepository::getDefault()->
-                            findPackageVersion(pv->package, pv->version);
-                    pvf->fillForm(pv_);
-                    QIcon icon = getPackageVersionIcon(pv->package);
-                    this->ui->tabWidget->addTab(pvf, icon, pv->toString());
-                    index = this->ui->tabWidget->count() - 1;
-                }
-                if (i == selected.count() - 1)
-                    this->ui->tabWidget->setCurrentIndex(index);
+                openPackageVersion(pv->package, pv->version, true);
             }
         } else {
             selected = sel->getSelected("Package");
@@ -402,6 +388,24 @@ int MainWindow::findPackageVersionTab(const QString& package,
             //qDebug() << pvf->pv.data()->toString() << "---" <<
             //        package << version.getVersionString();
             if (pvf->pv->package == package && pvf->pv->version == version) {
+                r = i;
+                break;
+            }
+        }
+    }
+    return r;
+}
+
+int MainWindow::findLicenseTab(const QString& name) const
+{
+    int r = -1;
+    for (int i = 0; i < this->ui->tabWidget->count(); i++) {
+        QWidget* w = this->ui->tabWidget->widget(i);
+        LicenseForm* pvf = dynamic_cast<LicenseForm*>(w);
+        if (pvf) {
+            //qDebug() << pvf->pv.data()->toString() << "---" <<
+            //        package << version.getVersionString();
+            if (pvf->license->name == name) {
                 r = i;
                 break;
             }
@@ -1452,6 +1456,22 @@ QList<void*> MainWindow::getSelected(const QString& type) const
             r = sel->getSelected(type);
     }
     return r;
+}
+
+void MainWindow::openLicense(const QString& name, bool select)
+{
+    int index = this->findLicenseTab(name);
+    if (index < 0) {
+        LicenseForm* f = new LicenseForm(this->ui->tabWidget);
+        QSharedPointer<License> lic =
+                DBRepository::getDefault()->
+                findLicense(name);
+        f->fillForm(lic);
+        this->ui->tabWidget->addTab(f, lic->title);
+        index = this->ui->tabWidget->count() - 1;
+    }
+    if (select)
+        this->ui->tabWidget->setCurrentIndex(index);
 }
 
 void MainWindow::openPackageVersion(const QString& package,

@@ -60,8 +60,9 @@ private:
     ITaskbarList3* taskbarInterface;
 
     int findPackageTab(const QString& package) const;
-    int findPackageVersionTab(const QString &package,
-            const Version &version) const;
+    int findPackageVersionTab(const QString& package,
+            const Version& version) const;
+    int findLicenseTab(const QString& name) const;
 
     void addJobsTab();
     void showDetails();
@@ -203,6 +204,15 @@ public:
      */
     void openPackageVersion(const QString& package,
             const Version& version, bool select);
+
+    /**
+     * @brief opens a new tab for the specified license. A new tab will
+     *     not be created if there is already a tab for the license. The
+     *     license should exist.
+     * @param name full internal name
+     * @param select true = select the newly created tab
+     */
+    void openLicense(const QString& name, bool select);
 
     QList<void*> getSelected(const QString& type) const;
 protected:

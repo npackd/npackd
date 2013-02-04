@@ -11,6 +11,7 @@
 #include "package.h"
 #include "repository.h"
 #include "packageversion.h"
+#include "license.h"
 
 /**
  * @brief A repository stored in an SQLite database.
@@ -25,12 +26,16 @@ private:
 
     QMap<QString, QWeakPointer<Package> > packagesCache;
     QMap<QString, QWeakPointer<PackageVersion> > packageVersionsCache;
+    QMap<QString, QWeakPointer<License> > licensesCache;
 
     QString insertPackage(Package* p);
     QString insertPackageVersion(PackageVersion* p);
+    QString insertLicense(License* p);
+
     QString insertPackages(Repository* r);
     QString insertPackageVersions(Repository* r);
-    QString clearPackages();
+    QString insertLicenses(Repository* r);
+
     QString exec(const QString& sql);
 public:
     /**
@@ -73,6 +78,13 @@ public:
      */
     QSharedPointer<PackageVersion> findPackageVersion(
             const QString& package, const Version& version);
+
+    /**
+     * @brief searches for a license
+     * @param name full internal name of the license
+     * @return found license or 0
+     */
+    QSharedPointer<License> findLicense(const QString& name);
 };
 
 #endif // DBREPOSITORY_H

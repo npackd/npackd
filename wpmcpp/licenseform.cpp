@@ -13,8 +13,9 @@ LicenseForm::~LicenseForm()
     delete ui;
 }
 
-void LicenseForm::fillForm(License* license)
+void LicenseForm::fillForm(QSharedPointer<License> license)
 {
+    this->license = license;
     this->ui->lineEditTitle->setText(license->title);
 
     QString dl;

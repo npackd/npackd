@@ -137,13 +137,6 @@ void PackageVersionForm::changeEvent(QEvent *e)
 
 void PackageVersionForm::on_labelLicense_linkActivated(QString link)
 {
-    QTabWidget* tabWidget = dynamic_cast<QTabWidget*>(
-            this->parentWidget()->parentWidget());
-    if (!tabWidget)
-        return;
-
-    LicenseForm* f = new LicenseForm(tabWidget);
-
     Repository* r = Repository::getDefault();
     Package* p = r->findPackage(pv->package);
 
@@ -153,8 +146,6 @@ void PackageVersionForm::on_labelLicense_linkActivated(QString link)
     if (!lic)
         return;
 
-    f->fillForm(lic);
-    tabWidget->addTab(f, lic->title);
-    tabWidget->setCurrentIndex(tabWidget->count() - 1);
+    MainWindow::getInstance()->openLicense(p->license, true);
 }
 
