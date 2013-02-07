@@ -7,6 +7,7 @@
 #include <QSharedPointer>
 #include <QMap>
 #include <QWeakPointer>
+#include <QMultiMap>
 
 #include "package.h"
 #include "repository.h"
@@ -85,6 +86,17 @@ public:
      * @return found license or 0
      */
     QSharedPointer<License> findLicense(const QString& name);
+
+    /**
+     * Finds all versions of a package.
+     *
+     * @param package full package name
+     * @param err error message will be stored here
+     * @return the list of package versions sorted by the version number.
+     *     The first returned object has the highest version number.
+     */
+    QList<QSharedPointer<PackageVersion> > getPackageVersions(
+            const QString& package, QString* err);
 };
 
 #endif // DBREPOSITORY_H

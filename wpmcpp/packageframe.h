@@ -4,9 +4,11 @@
 #include <QFrame>
 #include <QModelIndex>
 #include <QSharedPointer>
+#include <QList>
 
 #include "package.h"
 #include "selection.h"
+#include "packageversion.h"
 
 namespace Ui {
     class PackageFrame;
@@ -17,6 +19,7 @@ class PackageFrame : public QFrame, public Selection
     Q_OBJECT
 
 private:
+    QList<QSharedPointer<PackageVersion> > pvs;
     void showDetails();
 public:
     /** package associated with this form or 0 */
