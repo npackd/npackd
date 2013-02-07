@@ -40,7 +40,9 @@ SOURCES += main.cpp \
     hrtimer.cpp \
     clprogress.cpp \
     mainframe.cpp \
-    dbrepository.cpp
+    dbrepository.cpp \
+    installedpackages.cpp \
+    installedpackageversion.cpp
 HEADERS += mainwindow.h \
     packageversion.h \
     repository.h \
@@ -72,7 +74,9 @@ HEADERS += mainwindow.h \
     clprogress.h \
     mainframe.h \
     taskbar.h \
-    dbrepository.h
+    dbrepository.h \
+    installedpackages.h \
+    installedpackageversion.h
 FORMS += mainwindow.ui \
     packageversionform.ui \
     licenseform.ui \
@@ -97,8 +101,8 @@ RESOURCES += wpmcpp.qrc
 
 # these 2 options can be used to add the debugging information to the "release"
 # build
-# QMAKE_CXXFLAGS_RELEASE += -g
-# QMAKE_LFLAGS_RELEASE -= -Wl,-s
+QMAKE_CXXFLAGS_RELEASE += -g
+QMAKE_LFLAGS_RELEASE -= -Wl,-s
 
 QMAKE_CXXFLAGS += -static-libstdc++ -static-libgcc -Werror
 QMAKE_LFLAGS += -static

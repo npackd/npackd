@@ -4,7 +4,9 @@
 #include "packageversionform.h"
 #include "ui_packageversionform.h"
 
-#include "qdesktopservices.h"
+#include <QDesktopServices>
+#include <QSharedPointer>
+#include <QDebug>
 
 #include "package.h"
 #include "repository.h"
@@ -12,6 +14,7 @@
 #include "license.h"
 #include "licenseform.h"
 #include "packageversionform.h"
+#include "dbrepository.h"
 
 PackageFrame::PackageFrame(QWidget *parent) :
     QFrame(parent),
@@ -44,9 +47,9 @@ void PackageFrame::updateIcons()
 void PackageFrame::updateStatus()
 {
     for (int i = 0; i < this->ui->tableWidgetVersions->rowCount(); i++) {
+        // TODO: the table may be sorted...
+        QSharedPointer<PackageVersion> pv = this->pvs.at(i);
         QTableWidgetItem* item = this->ui->tableWidgetVersions->item(i, 1);
-        const QVariant v = item->data(Qt::UserRole);
-        PackageVersion* pv = (PackageVersion*) v.value<void*>();
         item->setText(pv->getPath());
     }
 }
@@ -55,14 +58,14 @@ void PackageFrame::fillForm(QSharedPointer<Package> p)
 {
     this->p = p;
 
-    Repository* r = Repository::getDefault();
-
     this->ui->lineEditTitle->setText(p->title);
     this->ui->lineEditInternalName->setText(p->name);
 
+    DBRepository* dbr = DBRepository::getDefault();
+
     QString licenseTitle = "unknown";
     if (p) {
-        License* lic = r->findLicense(p->license);
+        QSharedPointer<License> lic = dbr->findLicense(p->license);
         if (lic) {
             licenseTitle = "<a href=\"http://www.example.com\">" +
                     Qt::escape(lic->title) + "</a>";
@@ -96,18 +99,22 @@ void PackageFrame::fillForm(QSharedPointer<Package> p)
     newItem = new QTableWidgetItem("Installation path");
     t->setHorizontalHeaderItem(1, newItem);
 
-    QList<PackageVersion*> pvs = r->getPackageVersions(p->name);
+    // TODO: error is ignored
+    QString err;
+    pvs = dbr->getPackageVersions(p->name, &err);
+
+    //qDebug() << "PackageFrame::fillForm " << pvs.count() << " " <<
+    //        pvs.at(0)->version.getVersionString();
+
     t->setRowCount(pvs.size());
     for (int i = pvs.count() - 1; i >= 0; i--) {
-        PackageVersion* pv = pvs.at(i);
+        QSharedPointer<PackageVersion> pv = pvs.at(i);
 
         newItem = new QTableWidgetItem(pv->version.getVersionString());
-        newItem->setData(Qt::UserRole, qVariantFromValue((void*) pv));
         t->setItem(pvs.count() - i - 1, 0, newItem);
 
         newItem = new QTableWidgetItem("");
         newItem->setText(pv->getPath());
-        newItem->setData(Qt::UserRole, qVariantFromValue((void*) pv));
         t->setItem(pvs.count() - i - 1, 1, newItem);
     }
 }
@@ -137,9 +144,8 @@ void PackageFrame::showDetails()
     for (int i = 0; i < sel.count(); i++) {
         QTableWidgetItem* item = sel.at(i);
         if (item->column() == 0) {
-            const QVariant v = item->data(Qt::UserRole);
-
-            PackageVersion* pv = (PackageVersion*) v.value<void*>();
+            // TODO: table may be sorted
+            QSharedPointer<PackageVersion> pv = this->pvs.at(i);
             mw->openPackageVersion(pv->package, pv->version, true);
         }
     }
@@ -157,10 +163,9 @@ QList<void*> PackageFrame::getSelected(const QString& type) const
             for (int i = 0; i < sel.count(); i++) {
                 QTableWidgetItem* item = sel.at(i);
                 if (item->column() == 0) {
-                    const QVariant v = item->data(Qt::UserRole);
-
-                    PackageVersion* pv = (PackageVersion*) v.value<void*>();
-                    res.append(pv);
+                    // TODO: table may be sorted
+                    QSharedPointer<PackageVersion> pv = this->pvs.at(i);
+                    res.append(pv.data());
                 }
             }
         }
