@@ -40,7 +40,8 @@ public:
     Version version;
 
     /**
-     * @return installation directory
+     * @return installation directory or "" if the package version is not
+     *     installed
      */
     QString getDirectory() const;
 

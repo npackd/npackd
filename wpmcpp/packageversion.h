@@ -28,9 +28,6 @@ private:
     static QSemaphore httpConnections;
     static QSemaphore installationScripts;
 
-    /** installation directory or "", if the package version is not installed */
-    QString ipath;
-
     /**
      * If true, this package version is locked and cannot be
      * installed/uninstalled.
@@ -59,13 +56,6 @@ private:
      * @param dir this directory will be deleted
      */
     void removeDirectory(Job* job, const QString& dir);
-
-    /**
-     * Saves the installation information (path etc) in the registry.
-     *
-     * @return error message
-     */
-    QString saveInstallationInfo();
 
     void emitStatusChanged();
     void addDependencyVars(QStringList* vars);

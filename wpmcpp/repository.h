@@ -34,8 +34,6 @@ private:
 
     void addWindowsPackage();
 
-    void clearExternallyInstalled(QString package);
-
     /**
      * All paths should be in lower case
      * and separated with \ and not / and cannot end with \.

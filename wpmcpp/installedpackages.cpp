@@ -28,7 +28,7 @@ InstalledPackageVersion* InstalledPackages::find(const QString& package,
     return this->data[package + "/" + version.getVersionString()];
 }
 
-void InstalledPackages::addInstallation(const QString& package,
+QString InstalledPackages::addInstallation(const QString& package,
         const Version& version,
         const QString& directory)
 {
@@ -40,6 +40,10 @@ void InstalledPackages::addInstallation(const QString& package,
         ipv->directory = directory;
     }
     // TODO: store information in the Windows registry
+    QString r = ipv->save();
+    // TODO: PackageVersion::emitStatusChanged();
+
+    return r;
 }
 
 void InstalledPackages::readRegistryDatabase()
@@ -72,7 +76,7 @@ void InstalledPackages::readRegistryDatabase()
                                     ipv);
                         }
 
-                        qDebug() << "loading " << packageName << ":" << version.getVersionString();
+                        // qDebug() << "loading " << packageName << ":" << version.getVersionString();
 
                         ipv->loadFromRegistry();
                     }

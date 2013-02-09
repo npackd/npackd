@@ -75,7 +75,8 @@ public:
      * @param package full package name
      * @param version package version
      * @return found information or 0 if the specified package version is not
-     *     installed
+     *     installed. The returned object may still represent a not installed
+     *     package version. Please check InstalledPackageVersion::getDirectory()
      */
     InstalledPackageVersion* find(const QString& package,
             const Version& version) const;
@@ -85,8 +86,9 @@ public:
      * @param package full package name
      * @param version package version
      * @param directory installation directory. This value cannot be empty.
+     * @return error message
      */
-    void addInstallation(const QString& package, const Version& version,
+    QString addInstallation(const QString& package, const Version& version,
             const QString& directory);
 
     /**
