@@ -28,22 +28,38 @@ InstalledPackageVersion* InstalledPackages::find(const QString& package,
     return this->data[package + "/" + version.getVersionString()];
 }
 
-QString InstalledPackages::addInstallation(const QString& package,
+InstalledPackageVersion* InstalledPackages::findOrCreate(const QString& package,
+        const Version& version)
+{
+    QString key = package + "/" + version.getVersionString();
+    InstalledPackageVersion* r = this->data[key];
+    if (!r) {
+        r = new InstalledPackageVersion(package, version, "");
+        this->data.insert(key, r);
+        r->save();
+    }
+    return r;
+}
+
+QString InstalledPackages::setPackageVersionPath(const QString& package,
         const Version& version,
         const QString& directory)
 {
+    QString err;
+
     InstalledPackageVersion* ipv = this->find(package, version);
     if (!ipv) {
         ipv = new InstalledPackageVersion(package, version, directory);
         this->data.insert(package + "/" + version.getVersionString(), ipv);
-    } else {
-        ipv->directory = directory;
+        ipv->loadFromRegistry();
     }
-    // TODO: store information in the Windows registry
-    QString r = ipv->save();
+
+    if (err.isEmpty()) {
+        ipv->setPath(directory);
+    }
     // TODO: PackageVersion::emitStatusChanged();
 
-    return r;
+    return err;
 }
 
 void InstalledPackages::readRegistryDatabase()
@@ -334,13 +350,15 @@ void InstalledPackages::detectControlPanelPrograms()
         );
 
     // remove uninstalled packages
-    for (int i = 0; i < rep->packageVersions.count(); i++) {
-        PackageVersion* pv = rep->packageVersions.at(i);
-        if (pv->detectionInfo.indexOf("control-panel:") == 0 &&
-                pv->installed() &&
-                !foundDetectionInfos.contains(pv->detectionInfo)) {
+    QMapIterator<QString, InstalledPackageVersion*> i(data);
+    while (i.hasNext()) {
+        i.next();
+        InstalledPackageVersion* ipv = i.value();
+        if (ipv->detectionInfo.indexOf("control-panel:") == 0 &&
+                ipv->installed() &&
+                !foundDetectionInfos.contains(ipv->detectionInfo)) {
             //qDebug() << "control-panel package removed: " << pv->toString();
-            pv->setPath("");
+            ipv->setPath("");
         }
     }
 }
@@ -444,16 +462,11 @@ void InstalledPackages::detectOneControlPanelProgram(const QString& registryPath
     }
 
     Repository* rep = Repository::getDefault();
-    PackageVersion* pv = rep->findPackageVersion(package, version);
-    if (!pv) {
-        pv = new PackageVersion(package);
-        pv->detectionInfo = "control-panel:" + registryPath;
-        pv->version = version;
-        rep->packageVersions.append(pv);
-        rep->package2versions.insert(package, pv);
-    }
-
-    foundDetectionInfos->append(pv->detectionInfo);
+    PackageVersion* pv = rep->findOrCreatePackageVersion(package, version);
+    InstalledPackageVersion* ipv = this->findOrCreate(package, version);
+    QString di = "control-panel:" + registryPath;
+    ipv->setDetectionInfo(di);
+    foundDetectionInfos->append(di);
 
     Package* p = rep->findPackage(package);
     if (!p) {
@@ -646,7 +659,9 @@ void InstalledPackages::detectMSIProducts()
                     dir = "";
             }
 
-            pv->detectionInfo = "msi:" + guid;
+            InstalledPackageVersion* ipv = this->findOrCreate(pv->package,
+                    pv->version);
+            ipv->setDetectionInfo("msi:" + guid);
             if (dir.isEmpty() || !d.exists(dir)) {
                 dir = WPMUtils::getInstallationDirectory() +
                         "\\NpackdDetected\\" +
@@ -681,15 +696,17 @@ void InstalledPackages::detectMSIProducts()
     }
 
     // remove uninstalled MSI packages
-    for (int i = 0; i < rep->packageVersions.count(); i++) {
-        PackageVersion* pv = rep->packageVersions.at(i);
-        if (pv->detectionInfo.length() == 4 + 38 &&
-                pv->detectionInfo.left(4) == "msi:" &&
-                pv->installed() &&
-                !all.contains(pv->detectionInfo.right(38))) {
+    QMapIterator<QString, InstalledPackageVersion*> i(this->data);
+    while (i.hasNext()) {
+        i.next();
+        InstalledPackageVersion* ipv = i.value();
+        if (ipv->detectionInfo.length() == 4 + 38 &&
+                ipv->detectionInfo.left(4) == "msi:" &&
+                ipv->installed() &&
+                !all.contains(ipv->detectionInfo.right(38))) {
             // DEBUG qDebug() << "uninstall " << pv->package << " " <<
             // DEBUG         pv->version.getVersionString();
-            pv->setPath("");
+            ipv->setPath("");
         }
     }
 }

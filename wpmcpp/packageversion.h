@@ -50,7 +50,7 @@ private:
     /**
      * Deletes a directory. If something cannot be deleted, it waits and
      * tries to delete the directory again. Moves the directory to .Trash if
-     * it cannot be move to the recycle bin.
+     * it cannot be moved to the recycle bin.
      *
      * @param job progress for this task
      * @param dir this directory will be deleted
@@ -103,16 +103,6 @@ public:
      * if not available. Should be always in lower case
      */
     QString msiGUID;
-
-    /**
-     * The value is not empty for externally installed and detected packages.
-     * For example, packages detected from the MSI database have here the MSI
-     * product GUID.
-     *
-     * MSI: "msi:{86ce85e6-dbac-3ffd-b977-e4b79f83c909}"
-     * Contol Panel Programs: "control-panel:Active Script 1.0"
-     */
-    QString detectionInfo;
 
     PackageVersion();
     PackageVersion(const QString& package);

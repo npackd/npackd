@@ -84,7 +84,7 @@ QString PackageVersion::getPath() const
 void PackageVersion::setPath(const QString& path)
 {
     InstalledPackages* ip = InstalledPackages::getDefault();
-    ip->addInstallation(this->package, this->version, path);
+    ip->setPackageVersionPath(this->package, this->version, path);
 }
 
 bool PackageVersion::isDirectoryLocked()
@@ -881,7 +881,7 @@ void PackageVersion::install(Job* job, const QString& where)
 
     if (!job->isCancelled() && job->getErrorMessage().isEmpty()) {
         InstalledPackages* ip = InstalledPackages::getDefault();
-        QString err = ip->addInstallation(this->package, this->version,
+        QString err = ip->setPackageVersionPath(this->package, this->version,
                 installationPath);
         if (!err.isEmpty()) {
             job->setErrorMessage(err);
