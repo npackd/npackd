@@ -25,6 +25,7 @@
 #include "version.h"
 #include "windowsregistry.h"
 #include "xmlutils.h"
+#include "installedpackages.h"
 
 QSemaphore PackageVersion::httpConnections(3);
 QSemaphore PackageVersion::installationScripts(1);
@@ -70,39 +71,14 @@ bool PackageVersion::isLocked() const
     return this->locked;
 }
 
-void PackageVersion::loadFromRegistry()
-{
-    WindowsRegistry entryWR;
-    QString err = entryWR.open(HKEY_LOCAL_MACHINE,
-            "SOFTWARE\\Npackd\\Npackd\\Packages\\" +
-            this->package + "-" + this->version.getVersionString(),
-            false, KEY_READ);
-    if (!err.isEmpty())
-        return;
-
-    QString p = entryWR.get("Path", &err).trimmed();
-    if (!err.isEmpty())
-        return;
-
-    if (p.isEmpty())
-        this->ipath = "";
-    else {
-        QDir d(p);
-        if (d.exists()) {
-            this->ipath = p;
-        } else {
-            this->ipath = "";
-        }
-    }
-
-    this->detectionInfo = entryWR.get("DetectionInfo", &err);
-
-    emitStatusChanged();
-}
-
 QString PackageVersion::getPath() const
 {
-    return this->ipath;
+    InstalledPackageVersion* ipv = InstalledPackages::getDefault()->
+            find(this->package, this->version);
+    if (ipv)
+        return ipv->getDirectory();
+    else
+        return "";
 }
 
 void PackageVersion::setPath(const QString& path)
@@ -117,7 +93,7 @@ void PackageVersion::setPath(const QString& path)
 bool PackageVersion::isDirectoryLocked()
 {
     if (installed()) {
-        QDir d(ipath);
+        QDir d(getPath());
         QDateTime now = QDateTime::currentDateTime();
         QString newName = QString("%1-%2").arg(d.absolutePath()).arg(now.toTime_t());
 
@@ -183,7 +159,7 @@ QString PackageVersion::saveInstallationInfo()
 
 bool PackageVersion::installed() const
 {
-    return !ipath.isEmpty();
+    return !InstalledPackages::getDefault()->find(this->package, this->version);
 }
 
 void PackageVersion::deleteShortcuts(const QString& dir, Job* job,
@@ -231,7 +207,7 @@ void PackageVersion::uninstall(Job* job)
         return;
     }
 
-    QDir d(ipath);
+    QDir d(getPath());
 
     if (job->getErrorMessage().isEmpty()) {
         job->setHint("Deleting shortcuts");
@@ -1109,7 +1085,7 @@ QStringList PackageVersion::findLockedFiles()
     QStringList r;
     if (installed()) {
         QStringList files = WPMUtils::getProcessFiles();
-        QString dir(ipath);
+        QString dir(getPath());
         for (int i = 0; i < files.count(); i++) {
             if (WPMUtils::isUnder(files.at(i), dir)) {
                 r.append(files.at(i));

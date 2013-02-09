@@ -30,44 +30,11 @@ private:
     static PackageVersion* createPackageVersion(QDomElement* e,
             QString* err);
 
-    QMultiMap<QString, PackageVersion*> package2versions;
-
     void loadOne(QUrl* url, Job* job, bool useCache=true);
 
     void addWindowsPackage();
 
     void clearExternallyInstalled(QString package);
-
-    void detectOneDotNet(const WindowsRegistry& wr, const QString& keyName);
-
-    void detectControlPanelPrograms();
-    void detectControlPanelProgramsFrom(HKEY root,
-            const QString& path, bool useWoWNode,
-            QStringList *packagePaths,
-            QStringList* foundDetectionInfos);
-    void detectOneControlPanelProgram(const QString& registryPath,
-            WindowsRegistry& k,
-            const QString& keyName, QStringList *packagePaths,
-            QStringList* foundDetectionInfos);
-
-    void detectMSIProducts();
-    void detectDotNet();
-    void detectMicrosoftInstaller();
-    void detectMSXML();
-    void detectJRE(bool w64bit);
-    void detectJDK(bool w64bit);
-    void detectWindows();
-
-    /**
-     * @param exact if true, only exact matches to packages from current
-     *     repositories recognized as existing software (e.g. something like
-     *     com.mysoftware.MySoftware-2.2.3). This setting should help in rare
-     *     cases when Npackd 1.14 and 1.15 are used in parallel for some time
-     *     If the value is false, also
-     *     packages not known in current repositories are recognized as
-     *     installed.
-     */
-    void scanPre1_15Dir(bool exact);
 
     /**
      * All paths should be in lower case
@@ -87,16 +54,8 @@ private:
      */
     void load(Job* job, bool useCache=true);
 
-    /**
-     * Adds unknown in the repository, but installed packages.
-     */
-    void detectPre_1_15_Packages();
-
     void addWellKnownPackages();
 
-    QStringList getAllInstalledPackagePaths() const;
-    PackageVersion* findPackageVersionByMSIGUID(
-            const QString& guid) const;            
     void clearPackagesInNestedDirectories();
 
     /**
@@ -108,6 +67,9 @@ private:
     static QStringList getRepositoryURLs(HKEY hk, const QString &path,
             QString *err);
 public:
+    /** full package name -> all defined package versions */
+    QMultiMap<QString, PackageVersion*> package2versions;
+
     /**
      * Checks the directories of packages in the uninstall operations in the
      * given list for locked files.
@@ -136,6 +98,20 @@ public:
      * @return default repository
      */
     static Repository* getDefault();
+
+    /**
+     * @brief searches for a package version by the associated MSI GUID
+     * @param guid MSI package GUID
+     * @return found package version or 0
+     */
+    PackageVersion* findPackageVersionByMSIGUID(
+            const QString& guid) const;
+
+    /**
+     * @brief paths to all installed package versions
+     * @return list of directories
+     */
+    QStringList getAllInstalledPackagePaths() const;
 
     /**
      * Package versions. All version numbers should be normalized.
@@ -189,11 +165,6 @@ public:
     void loadOne(const QString& filename, Job* job);
 
     /**
-     * Reads the package statuses from the registry.
-     */
-    void readRegistryDatabase();
-
-    /**
      * Changes the value of the system-wide NPACKD_CL variable to point to the
      * newest installed version of NpackdCL.
      */
@@ -203,14 +174,6 @@ public:
      * @return new NPACKD_CL value
      */
     QString computeNpackdCLEnvVar();
-
-    /**
-     * Recognizes some applications installed without Npackd. This method does
-     * not scan the hard drive and is fast.
-     *
-     * @param job job object
-     */
-    void detect(Job* job);
 
     /**
      * Writes this repository to an XML file.

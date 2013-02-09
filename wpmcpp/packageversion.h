@@ -147,11 +147,6 @@ public:
     bool isLocked() const;
 
     /**
-     * Loads the information about this package from the Windows registry.
-     */
-    void loadFromRegistry();
-
-    /**
      * @return installation path or "" if the package is not installed
      */
     QString getPath() const;
