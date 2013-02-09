@@ -745,7 +745,7 @@ void Repository::refresh(Job *job)
     if (!job->isCancelled() && job->getErrorMessage().isEmpty()) {
         job->setHint("Detecting software");
         Job* d = job->newSubJob(0.2);
-        // TODO: this->detect(d);
+        ip->detect(d);
         delete d;
     }
 

@@ -83,11 +83,8 @@ QString PackageVersion::getPath() const
 
 void PackageVersion::setPath(const QString& path)
 {
-    if (this->ipath != path) {
-        this->ipath = path;
-        saveInstallationInfo();
-        emitStatusChanged();
-    }
+    InstalledPackages* ip = InstalledPackages::getDefault();
+    ip->addInstallation(this->package, this->version, path);
 }
 
 bool PackageVersion::isDirectoryLocked()
@@ -128,38 +125,11 @@ PackageVersion::~PackageVersion()
     qDeleteAll(this->dependencies);
 }
 
-QString PackageVersion::saveInstallationInfo()
-{
-    WindowsRegistry machineWR(HKEY_LOCAL_MACHINE, false);
-    QString r;
-    QString keyName = "SOFTWARE\\Npackd\\Npackd\\Packages";
-    QString pn = this->package + "-" + this->version.getVersionString();
-    if (!this->ipath.isEmpty()) {
-        WindowsRegistry wr = machineWR.createSubKey(keyName + "\\" + pn, &r);
-        if (r.isEmpty()) {
-            r = wr.set("Path", this->ipath);
-            if (r.isEmpty())
-                r = wr.set("DetectionInfo", this->detectionInfo);
-
-            // for compatibility with Npackd 1.16 and earlier. They
-            // see all package versions by default as "externally installed"
-            if (r.isEmpty())
-                r = wr.setDWORD("External", 0);
-        }
-    } else {
-        // qDebug() << "deleting " << pn;
-        WindowsRegistry packages;
-        r = packages.open(machineWR, keyName, KEY_ALL_ACCESS);
-        if (r.isEmpty()) {
-            r = packages.remove(pn);
-        }
-    }
-    return r;
-}
-
 bool PackageVersion::installed() const
 {
-    return !InstalledPackages::getDefault()->find(this->package, this->version);
+    InstalledPackageVersion* ipv = InstalledPackages::getDefault()->
+            find(this->package, this->version);
+    return ipv && !ipv->getDirectory().isEmpty();
 }
 
 void PackageVersion::deleteShortcuts(const QString& dir, Job* job,
@@ -860,6 +830,7 @@ void PackageVersion::install(Job* job, const QString& where)
         }
     }
 
+    QString installationPath;
     if (!job->isCancelled() && job->getErrorMessage().isEmpty()) {
         if (!installationScript.isEmpty()) {
             job->setHint("Running the installation script (this may take some time)");
@@ -909,7 +880,9 @@ void PackageVersion::install(Job* job, const QString& where)
         installationScripts.release();
 
     if (!job->isCancelled() && job->getErrorMessage().isEmpty()) {
-        QString err = saveInstallationInfo();
+        InstalledPackages* ip = InstalledPackages::getDefault();
+        QString err = ip->addInstallation(this->package, this->version,
+                installationPath);
         if (!err.isEmpty()) {
             job->setErrorMessage(err);
         } else {
