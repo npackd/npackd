@@ -17,6 +17,34 @@ QString InstalledPackageVersion::getDirectory() const
     return this->directory;
 }
 
+QString InstalledPackageVersion::getDetectionInfo() const
+{
+    return this->detectionInfo;
+}
+
+bool InstalledPackageVersion::installed() const
+{
+    return !this->getDirectory().isEmpty();
+}
+
+void InstalledPackageVersion::setPath(const QString& path)
+{
+    if (this->directory != path) {
+        this->directory = path;
+        this->save();
+    }
+}
+
+QString InstalledPackageVersion::setDetectionInfo(const QString& info)
+{
+    QString r;
+    if (this->detectionInfo != info) {
+        this->detectionInfo = info;
+        this->save();
+    }
+    return r;
+}
+
 QString InstalledPackageVersion::save() const
 {
     WindowsRegistry machineWR(HKEY_LOCAL_MACHINE, false);

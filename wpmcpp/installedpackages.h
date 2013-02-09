@@ -74,6 +74,15 @@ public:
      * @brief finds the specified installed package version
      * @param package full package name
      * @param version package version
+     * @return found or newly created information
+     */
+    InstalledPackageVersion* findOrCreate(const QString& package,
+            const Version& version);
+
+    /**
+     * @brief finds the specified installed package version
+     * @param package full package name
+     * @param version package version
      * @return found information or 0 if the specified package version is not
      *     installed. The returned object may still represent a not installed
      *     package version. Please check InstalledPackageVersion::getDirectory()
@@ -88,7 +97,7 @@ public:
      * @param directory installation directory. This value cannot be empty.
      * @return error message
      */
-    QString addInstallation(const QString& package, const Version& version,
+    QString setPackageVersionPath(const QString& package, const Version& version,
             const QString& directory);
 
     /**
