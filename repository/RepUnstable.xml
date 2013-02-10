@@ -36,6 +36,13 @@
         <icon>http://pics.glarysoft.com/icons/14/14178.png</icon>
         <license>com.freecommander.License</license>
     </package>
+    <package name="com.google.codeexchangerxml">
+        <title>Exchanger XML Editor</title>
+        <url>http://code.google.com/p/exchangerxml/</url>
+        <description>The Exchanger XML Editor is the most comprehensive multi platform XML Editor currently available. The Editor facilitates easy editing, browsing, managing and conversion of XML Documents.</description>
+        <icon>http://code.google.com/p/exchangerxml/logo?cct=1276090411</icon>
+        <license>org.gnu.GPLv2</license>
+    </package>
     <package name="com.googlecode.btj.BTJ">
         <title>BTJ</title>
         <url>http://code.google.com/p/btj/</url>
@@ -85,6 +92,22 @@
         <important-file path="FreeCommander.exe" title="FreeCommander"/>
         <url>http://dl.dropbox.com/u/17046326/files/com.freecommander.FreeCommander-2012.609.zip</url>
         <sha1>5102a08f8bdba95beba6db486023bea8ca62bb6d</sha1>
+    </version>
+
+    <version name="3.3.1" package="com.google.codeexchangerxml" type="one-file">
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
+"%setup%"&#13;
+set err=%errorlevel%&#13;
+type .Npackd\InnoSetupInstall.log&#13;
+if %err% neq 0 exit %err%    &#13;
+</file>
+        <file path=".Npackd\Uninstall.bat">unins000.exe /VERYSILENT /SUPPRESSMSGBOXES /NORESTART /LOG="%CD%\.Npackd\InnoSetupUninstall.log"&#13;
+set err=%errorlevel%&#13;
+type .Npackd\InnoSetupUninstall.log&#13;
+if %err% neq 0 exit %err%&#13;
+</file>
+        <url>http://exchangerxml.googlecode.com/files/Exchanger%20XML%20Editor%20Installer.exe</url>
+        <sha1>07a16d585cebe0d5b9ca4fab2c8d03411dff7df3</sha1>
     </version>
 
     <version name="0.1" package="com.googlecode.btj.BTJ">
@@ -305,10 +328,18 @@ for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set python=%%x
     <version name="1.0.1" package="org.goldendict.GoldenDictRuEn" type="one-file">
         <file path=".Npackd\Install.bat">for /f %%x in ('dir /b *.exe') do set setup=%%x&#13;
 "%setup%" /S /D=%CD%</file>
-        <file path=".Npackd\Uninstall.bat">rem Uninstall lead to Npackd crash&#13;
-Uninstall.exe /S</file>
-        <url>https://downloads.sourceforge.net/project/goldendict/goldendict/1.0/GoldenDict-1.0.1-1-EnRuEn-Install.exe</url>
+        <file path=".Npackd\Uninstall.bat">rem both ways lead to Npackd crash&#13;
+Uninstall.exe /S&#13;
+&#13;
+rem if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1&#13;
+rem set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=net.nirsoft.MyUninstaller" "--versions=[1.74, 1.74]"&#13;
+rem for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set myun=%%x&#13;
+rem "%myun%\myuninst.exe" /uninstall "GoldenDict"</file>
+        <url>http://downloads.sourceforge.net/project/goldendict/goldendict/1.0/GoldenDict-1.0.1-1-EnRuEn-Install.exe</url>
         <sha1>50c74048efd1a8827dcb7a0d0c4f1470fa1fa330</sha1>
+        <dependency package="net.nirsoft.MyUninstaller" versions="[1.74, 1.74]"/>
+        <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.15.7, 2)"/>
+        <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1, 1]"/>
     </version>
 
     <version name="0.9.4" package="org.grisbi.Grisbi" type="one-file">
