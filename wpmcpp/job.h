@@ -4,7 +4,7 @@
 #include <qstring.h>
 #include <qobject.h>
 #include "qmetatype.h"
-#include "qmutex.h"
+#include <QMutex>
 #include "qqueue.h"
 #include "QTime"
 
@@ -82,6 +82,8 @@ class Job: public QObject
 {
     Q_OBJECT
 private:
+    mutable QMutex mutex;
+
     /** progress 0...1 */
     double progress;
 
@@ -97,25 +99,41 @@ private:
     double subJobStart;
 
     /** true if the user presses the "cancel" button. */
-    volatile bool cancelRequested;
+    bool cancelRequested;
 
     bool completed;
 
-    void updateParentHint();
-    void updateParentProgress();
-    void fireChange();
-public slots:
-    void parentJobChanged(const JobState& s);
-public:
-    static QList<Job*> jobs;
-
     /** time when this job was started or 0 */
     time_t started;
+
+    /**
+     * @threadsafe
+     */
+    void updateParentHint();
+
+    /**
+     * @threadsafe
+     */
+    void updateParentProgress();
+
+    /**
+     * @threadsafe
+     */
+    void fireChange();
+public slots:
+    /**
+     * @threadsafe
+     */
+    void parentJobChanged(const JobState& s);
+public:
+    /** currently running jobs */
+    static QList<Job*> jobs;
 
     Job();
     ~Job();
 
     /**
+     * @threadsafe
      * @return true if this job was completed: with or without an error. If a
      *     user cancells this job and it is not yet completed it means that the
      *     cancelling is in progress.
@@ -125,16 +143,21 @@ public:
     /**
      * This must be called in order to complete the job regardless of
      * setProgress.
+     *
+     * @threadsafe
      */
     void complete();
 
     /**
      * Request cancelling of this job.
+     *
+     * @threadsafe
      */
     void cancel();
 
     /**
      * @return true if this job was cancelled.
+     * @threadsafe
      */
     bool isCancelled() const;
 
@@ -144,21 +167,25 @@ public:
      *
      * @param part 0..1 part of this for the created sub-job
      * @return child job with parent=this
+     * @threadsafe
      */
     Job* newSubJob(double part);
 
     /**
      * @return progress of this job (0...1)
+     * @threadsafe
      */
     double getProgress() const;
 
     /**
      * @return current hint
+     * @threadsafe
      */
     QString getHint() const;
 
     /**
      * @param hint new hint
+     * @threadsafe
      */
     void setHint(const QString& hint);
 
@@ -167,12 +194,14 @@ public:
      * call complete() at the end anyway.
      *
      * @param progress new progress (0...1)
+     * @threadsafe
      */
     void setProgress(double progress);
 
     /**
      * @return error message. If the error message is not empty, the
      *     job ended with an error.
+     * @threadsafe
      */
     QString getErrorMessage() const;
 
@@ -181,6 +210,7 @@ public:
      * automatically propagate to the parent job.
      *
      * @param errorMessage new error message
+     * @threadsafe
      */
     void setErrorMessage(const QString &errorMessage);
 
@@ -197,6 +227,10 @@ public:
      * if (job->shouldProceed("Testing") {
      *     ...
      * }
+     *
+     * @param hint new hint
+     * @return true if this job is neither cancelled nor failed
+     * @threadsafe
      */
     bool shouldProceed(const QString& hint);
 
@@ -212,6 +246,9 @@ public:
      * if (job->shouldProceed() {
      *     ...
      * }
+     *
+     * @return true if this job is neither cancelled nor failed
+     * @threadsafe
      */
     bool shouldProceed() const;
 signals:

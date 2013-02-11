@@ -8,7 +8,7 @@
 #include "qurl.h"
 #include "qtemporaryfile.h"
 #include "qdom.h"
-#include <QReadWriteLock>
+#include <QMutex>
 #include <QMultiMap>
 
 #include "package.h"
@@ -67,6 +67,12 @@ private:
 public:
     /** full package name -> all defined package versions */
     QMultiMap<QString, PackageVersion*> package2versions;
+
+    /**
+     * @brief any operation (reading or writing) on repositories, packages,
+     *     package versions, licenses etc. should be done under this lock
+     */
+    static QMutex mutex;
 
     /**
      * Checks the directories of packages in the uninstall operations in the
@@ -247,6 +253,7 @@ public:
      * Scans the hard drive for existing applications.
      *
      * @param job job for this method
+     * @threadsafe
      */
     void scanHardDrive(Job* job);
 

@@ -87,6 +87,7 @@ public:
      *
      * @param path a file/directory path
      * @return normalized path
+     * @threadsafe
      */
     static QString normalizePath(const QString& path);
 
@@ -264,6 +265,7 @@ public:
 
     /**
      * @return C:\Windows
+     * @threadsafe
      */
     static QString getWindowsDir();
 

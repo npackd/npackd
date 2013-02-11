@@ -19,6 +19,7 @@
 #include "installedpackages.h"
 
 Repository Repository::def;
+QMutex Repository::mutex;
 
 Repository::Repository(): QObject()
 {
@@ -608,7 +609,7 @@ void Repository::scan(const QString& path, Job* job, int level,
                     QString fullPath = path + "\\" + df->path;
                     QFileInfo f(fullPath);
                     if (f.isFile() && f.isReadable()) {
-                        QString sha1 = path2sha1[df->path];
+                        QString sha1 = path2sha1.value(df->path);
                         if (sha1.isEmpty()) {
                             sha1 = WPMUtils::sha1(fullPath);
                             path2sha1[df->path] = sha1;
