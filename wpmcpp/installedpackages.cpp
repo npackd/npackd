@@ -25,14 +25,14 @@ InstalledPackages::InstalledPackages()
 InstalledPackageVersion* InstalledPackages::find(const QString& package,
         const Version& version) const
 {
-    return this->data[package + "/" + version.getVersionString()];
+    return this->data.value(package + "/" + version.getVersionString());
 }
 
 InstalledPackageVersion* InstalledPackages::findOrCreate(const QString& package,
         const Version& version)
 {
     QString key = package + "/" + version.getVersionString();
-    InstalledPackageVersion* r = this->data[key];
+    InstalledPackageVersion* r = this->data.value(key);
     if (!r) {
         r = new InstalledPackageVersion(package, version, "");
         this->data.insert(key, r);

@@ -60,7 +60,7 @@ time_t JobState::remainingTime()
 
 QList<Job*> Job::jobs;
 
-Job::Job()
+Job::Job() : mutex(QMutex::Recursive)
 {
     this->progress = 0.0;
     this->parentJob = 0;
@@ -71,41 +71,62 @@ Job::Job()
 
 Job::~Job()
 {
-    if (parentJob) {
-        parentJob->setHint(parentHintStart);
+    Job* parentJob_;
+    this->mutex.lock();
+    parentJob_ = this->parentJob;
+    this->mutex.unlock();
+
+    if (parentJob_) {
+        parentJob_->setHint(parentHintStart);
     }
 }
 
 void Job::complete()
 {
-    if (!this->completed) {
+    bool completed_;
+    this->mutex.lock();
+    completed_ = this->completed;
+    if (!completed_) {
         this->completed = true;
-        fireChange();
     }
+    this->mutex.unlock();
+
+    if (!completed_)
+        fireChange();
 }
 
 bool Job::isCancelled() const
 {
-    return this->cancelRequested;
+    bool cancelRequested_;
+    this->mutex.lock();
+    cancelRequested_ = this->cancelRequested;
+    this->mutex.unlock();
+
+    return cancelRequested_;
 }
 
 void Job::cancel()
 {
-    // qDebug() << "Job::cancel";
-    if (!this->cancelRequested) {
+    bool cancelRequested_;
+    Job* parentJob_;
+    this->mutex.lock();
+    cancelRequested_ = this->cancelRequested;
+    parentJob_ = this->parentJob;
+    if (!cancelRequested_) {
         this->cancelRequested = true;
-        // qDebug() << "Job::cancel.2";
-        if (parentJob)
-            parentJob->cancel();
+    }
+    this->mutex.unlock();
+
+    if (!cancelRequested_) {
+        if (parentJob_)
+            parentJob_->cancel();
 
         fireChange();
-        // qDebug() << "Job::cancel.3";
     }
 }
 
 void Job::parentJobChanged(const JobState& s)
 {
-    // qDebug() << "Job::parentJobChanged";
     if (s.cancelRequested && !this->isCancelled())
         this->cancel();
 }
@@ -116,23 +137,28 @@ Job* Job::newSubJob(double part)
     r->parentJob = this;
     r->subJobSteps = part;
     r->subJobStart = this->getProgress();
-    r->parentHintStart = hint;
+    r->parentHintStart = getHint();
 
     // bool success =
     connect(this, SIGNAL(changed(const JobState&)),
             r, SLOT(parentJobChanged(const JobState&)),
             Qt::DirectConnection);
-    // qDebug() << "Job::newSubJob " << success;
+
     return r;
 }
 
 bool Job::isCompleted()
 {
-    return this->completed;
+    bool completed_;
+    this->mutex.lock();
+    completed_ = this->completed;
+    this->mutex.unlock();
+    return completed_;
 }
 
 void Job::fireChange()
 {
+    this->mutex.lock();
     if (this->started == 0)
         time(&this->started);
 
@@ -144,12 +170,16 @@ void Job::fireChange()
     state.hint = this->hint;
     state.progress = this->progress;
     state.started = this->started;
+    this->mutex.unlock();
+
     emit changed(state);
 }
 
 void Job::setProgress(double progress)
 {
+    this->mutex.lock();
     this->progress = progress;
+    this->mutex.unlock();
 
     fireChange();
 
@@ -159,26 +189,47 @@ void Job::setProgress(double progress)
 
 void Job::updateParentProgress()
 {
+    Job* parentJob_;
+    double d;
+    this->mutex.lock();
+    parentJob_ = parentJob;
     if (parentJob) {
-        double d = this->subJobStart +
+        d = this->subJobStart +
                 this->getProgress() * this->subJobSteps;
-        parentJob->setProgress(d);
+    } else {
+        d = 0.0;
     }
+    this->mutex.unlock();
+
+    if (parentJob_)
+        parentJob_->setProgress(d);
 }
 
 double Job::getProgress() const
 {
-    return this->progress;
+    double progress_;
+    this->mutex.lock();
+    progress_ = this->progress;
+    this->mutex.unlock();
+
+    return progress_;
 }
 
 QString Job::getHint() const
 {
-    return this->hint;
+    QString hint_;
+    this->mutex.lock();
+    hint_ = this->hint;
+    this->mutex.unlock();
+
+    return hint_;
 }
 
 void Job::setHint(const QString &hint)
 {
+    this->mutex.lock();
     this->hint = hint;
+    this->mutex.unlock();
 
     fireChange();
 
@@ -187,18 +238,32 @@ void Job::setHint(const QString &hint)
 
 void Job::updateParentHint()
 {
-    if (parentJob) {
+    Job* parentJob_;
+    QString hint_;
+    QString parentHintStart_;
+    this->mutex.lock();
+    parentJob_ = this->parentJob;
+    hint_ = this->hint;
+    parentHintStart_ = this->parentHintStart;
+    this->mutex.unlock();
+
+    if (parentJob_) {
         if ((isCompleted() && getErrorMessage().isEmpty())
-                || this->hint.isEmpty())
-            parentJob->setHint(parentHintStart);
+                || hint_.isEmpty())
+            parentJob_->setHint(parentHintStart_);
         else
-            parentJob->setHint(parentHintStart + " / " + this->hint);
+            parentJob_->setHint(parentHintStart_ + " / " + hint_);
     }
 }
 
 QString Job::getErrorMessage() const
 {
-    return this->errorMessage;
+    QString errorMessage_;
+    this->mutex.lock();
+    errorMessage_ = this->errorMessage;
+    this->mutex.unlock();
+
+    return errorMessage_;
 }
 
 bool Job::shouldProceed(const QString& hint)
@@ -217,7 +282,8 @@ bool Job::shouldProceed() const
 
 void Job::setErrorMessage(const QString &errorMessage)
 {
+    this->mutex.lock();
     this->errorMessage = errorMessage;
-
+    this->mutex.unlock();
     fireChange();
 }
