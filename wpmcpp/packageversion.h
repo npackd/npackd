@@ -31,8 +31,13 @@ private:
     /**
      * Set of PackageVersion::getStringId() for the locked package versions.
      * A locked package version cannot be installed or uninstalled.
+     * Access to this data should be only done under the
+     * lockedPackageVersionsMutex
      */
     static QSet<QString> lockedPackageVersions;
+
+    /** mutex for lockedPackageVersions */
+    static QMutex lockedPackageVersionsMutex;
 
     static PackageVersionFile* createPackageVersionFile(QDomElement* e,
             QString* err);

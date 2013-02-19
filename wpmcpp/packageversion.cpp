@@ -5,18 +5,19 @@
 #include <stdlib.h>
 #include <time.h>
 
-#include "repository.h"
-#include "qurl.h"
-#include "QtDebug"
-#include "qiodevice.h"
-#include "qprocess.h"
+#include <QUrl>
+#include <QDebug>
+#include <QIODevice>
+#include <QProcess>
 #include <QDomElement>
 #include <QDomDocument>
+#include <QMutex>
 
 #include "quazip.h"
 #include "quazipfile.h"
 #include "zlib.h"
 
+#include "repository.h"
 #include "packageversion.h"
 #include "job.h"
 #include "downloader.h"
@@ -30,6 +31,7 @@
 QSemaphore PackageVersion::httpConnections(3);
 QSemaphore PackageVersion::installationScripts(1);
 QSet<QString> PackageVersion::lockedPackageVersions;
+QMutex PackageVersion::lockedPackageVersionsMutex(QMutex::Recursive);
 
 PackageVersion::PackageVersion(const QString& package)
 {
@@ -52,24 +54,42 @@ void PackageVersion::emitStatusChanged()
 void PackageVersion::lock()
 {
     QString key = getStringId();
+
+    bool changed = false;
+    lockedPackageVersionsMutex.lock();
     if (!lockedPackageVersions.contains(key)) {
         lockedPackageVersions.insert(key);
-        emitStatusChanged();
+        changed = true;
     }
+    lockedPackageVersionsMutex.unlock();
+
+    if (changed)
+        emitStatusChanged();
 }
 
 void PackageVersion::unlock()
 {
     QString key = getStringId();
+
+    bool changed = false;
+    lockedPackageVersionsMutex.lock();
     if (lockedPackageVersions.contains(key)) {
         lockedPackageVersions.remove(key);
-        emitStatusChanged();
+        changed = true;
     }
+    lockedPackageVersionsMutex.unlock();
+
+    if (changed)
+        emitStatusChanged();
 }
 
 bool PackageVersion::isLocked() const
 {
-    return lockedPackageVersions.contains(getStringId());
+    bool r;
+    lockedPackageVersionsMutex.lock();
+    r = lockedPackageVersions.contains(getStringId());
+    lockedPackageVersionsMutex.unlock();
+    return r;
 }
 
 QString PackageVersion::getStringId() const
@@ -1052,8 +1072,7 @@ QString PackageVersion::getStatus() const
             status += ", obsolete";
     }
 
-    QString key = getStringId();
-    if (lockedPackageVersions.contains(key)) {
+    if (isLocked()) {
         if (!status.isEmpty())
             status = ", " + status;
         status = "locked" + status;
