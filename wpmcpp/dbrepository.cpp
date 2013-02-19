@@ -175,14 +175,13 @@ QSharedPointer<PackageVersion> DBRepository::findPackageVersion(
     return r;
 }
 
-QList<QSharedPointer<PackageVersion> > DBRepository::getPackageVersions(
+QList<PackageVersion*> DBRepository::getPackageVersions(
         const QString& package, QString* err)
 {
     *err = "";
 
-    QList<QSharedPointer<PackageVersion> > r;
+    QList<PackageVersion*> r;
 
-    QList<Version> vs;
     QSqlQuery q;
     q.prepare("SELECT ID, NAME, "
             "PACKAGE, CONTENT FROM PACKAGE_VERSION "
@@ -193,38 +192,25 @@ QList<QSharedPointer<PackageVersion> > DBRepository::getPackageVersions(
     }
 
     while (err->isEmpty() && q.next()) {
-        QString version = q.value(1).toString();
-
-        QSharedPointer<PackageVersion> pv = this->packageVersionsCache.value(
-                package + "/" + version);
-        if (!pv) {
-            QDomDocument doc;
-            int errorLine, errorColumn;
-            if (!doc.setContent(q.value(3).toByteArray(),
-                    err, &errorLine, &errorColumn)) {
-                *err = QString(
-                        "XML parsing failed at line %1, column %2: %3").
-                        arg(errorLine).arg(errorColumn).arg(*err);
-            }
-
-            QDomElement root = doc.documentElement();
-            PackageVersion* p = 0;
-
-            if (err->isEmpty()) {
-                p = PackageVersion::parse(&root, err);
-            }
-
-            if (err->isEmpty()) {
-                pv = QSharedPointer<PackageVersion>(p);
-                this->packageVersionsCache.insert(
-                        package + "/" + version, pv);
-            }
+        QDomDocument doc;
+        int errorLine, errorColumn;
+        if (!doc.setContent(q.value(3).toByteArray(),
+                err, &errorLine, &errorColumn)) {
+            *err = QString(
+                    "XML parsing failed at line %1, column %2: %3").
+                    arg(errorLine).arg(errorColumn).arg(*err);
         }
-        vs.append(pv->version);
-        r.append(pv);
+
+        QDomElement root = doc.documentElement();
+
+        if (err->isEmpty()) {
+            PackageVersion* pv = PackageVersion::parse(&root, err);
+            if (err->isEmpty())
+                r.append(pv);
+        }
     }
 
-    qDebug() << vs.count();
+    // qDebug() << vs.count();
 
     // TODO: sort versions
     //qSort(vs.begin(), vs.end(), qGreater<Version>());
