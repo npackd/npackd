@@ -1504,6 +1504,12 @@ This package uses internal version numbers. For example, 1.7.0.1 corresponds to 
         <url>http://www.xxcopy.com/xcpymain.htm</url>
         <description>file copying</description>
     </package>
+    <package name="cz.mitec.ExeExplorer">
+        <title>EXE Explorer</title>
+        <url>http://www.mitec.cz/exe.html</url>
+        <description>displays executable file properties and structure. It is compatible with PE32 (Portable Executable), PE32+ (64bit), NE (Windows 3.x New Executable) and VxD (Windows 9x Virtual Device Driver) file types. .NET executables are supported too.</description>
+        <license>org.wikipedia.Freeware</license>
+    </package>
     <package name="de.clipgrab.ClipGrab">
         <title>ClipGrab</title>
         <url>http://clipgrab.de/en</url>
@@ -1565,6 +1571,12 @@ This package uses internal version numbers. For example, 1.7.0.1 corresponds to 
         <url>http://jarnal.wikispaces.com/</url>
         <description>notetaking, sketching, keeping a journal, making a presentation, annotating a document - including pdf - or collaborating using a stylus, mouse or keyboard</description>
         <license>org.gnu.GPLv3</license>
+    </package>
+    <package name="fr.free.decompiler.java.JDGUI">
+        <title>JD-GUI</title>
+        <url>http://java.decompiler.free.fr/?q=jdgui</url>
+        <description>Java decompiler. It can open .class and .jar files</description>
+        <license>org.wikipedia.Freeware</license>
     </package>
     <package name="fr.handbrake.HandBrake">
         <title>HandBrake</title>
@@ -2019,7 +2031,7 @@ yes - Print a string repeatedly.</description>
     <package name="net.sourceforge.mingw-w64.MinGWW64">
         <title>MinGW-w64</title>
         <url>http://mingw-w64.sourceforge.net/</url>
-        <description>GCC toolchain (C, Ada, C++, Fortran, Object C and Objective C++)</description>
+        <description>32 bit GCC toolchain (C, Ada, C++, Fortran, Object C and Objective C++)</description>
         <license>org.gnu.LGPLv2_1</license>
     </package>
     <package name="net.sourceforge.mpc-hc.MediaPlayerClassicHomeCinema">
@@ -2147,6 +2159,8 @@ yes - Print a string repeatedly.</description>
         <title>Iron</title>
         <url>http://www.srware.net/software_srware_iron.php</url>
         <description>web browser</description>
+        <icon>https://lh3.googleusercontent.com/-b9ARo8ecm_c/URdY8sC94CI/AAAAAAAAAiA/xHfSEFziU6w/s800/iron.png</icon>
+        <license>org.opensource.BSDLicense</license>
     </package>
     <package name="net.tortoisesvn.TortoiseSVN">
         <title>TortoiseSVN</title>
@@ -2819,6 +2833,20 @@ yes - Print a string repeatedly.</description>
         <url>http://ultrastardx.sourceforge.net/</url>
         <description>karaoke</description>
         <license>org.gnu.GPLv2</license>
+    </package>
+    <package name="org.springsource.STS">
+        <title>Spring Tool Suite</title>
+        <url>http://www.springsource.org/sts</url>
+        <description>IDE for the enterprise Java&#13;
+&#13;
+kw: STS</description>
+    </package>
+    <package name="org.springsource.STS64">
+        <title>Spring Tool Suite 64 bit</title>
+        <url>http://www.springsource.org/sts</url>
+        <description>IDE for the enterprise Java&#13;
+&#13;
+kw: STS</description>
     </package>
     <package name="org.sqlexplorer.SQLExplorer">
         <title>SQL Explorer</title>
@@ -4506,6 +4534,21 @@ if %err% neq 0 exit %err%
 </file>
         <url>http://dl.dropbox.com/u/17046326/files/com.donationcoder.FARR-2.203.1.exe</url>
         <sha1>262354eb1022f41de396f665aef002182a9192b1</sha1>
+    </version>
+    <version name="2.206.1" package="com.donationcoder.FARR" type="one-file">
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
+"%setup%" /SP- /VERYSILENT /SUPPRESSMSGBOXES /NOCANCEL /NORESTART /DIR="%CD%" /SAVEINF="%CD%\.Npackd\InnoSetupInfo.ini" /LOG="%CD%\.Npackd\InnoSetupInstall.log"&#13;
+set err=%errorlevel%&#13;
+type .Npackd\InnoSetupInstall.log&#13;
+if %err% neq 0 exit %err%&#13;
+</file>
+        <file path=".Npackd\Uninstall.bat">unins000.exe /VERYSILENT /SUPPRESSMSGBOXES /NORESTART /LOG="%CD%\.Npackd\InnoSetupUninstall.log"&#13;
+set err=%errorlevel%&#13;
+type .Npackd\InnoSetupUninstall.log&#13;
+if %err% neq 0 exit %err%&#13;
+</file>
+        <url>http://dl.dropbox.com/u/17046326/files/com.donationcoder.FARR-2.206.1.exe</url>
+        <sha1>39c67b83804690952c89ff51e36e1dc582b28e47</sha1>
     </version>
 
     <version name="1.1.34" package="com.dropbox.Dropbox" type="one-file">
@@ -6717,6 +6760,23 @@ verify
 </file>
         <url>http://windows-package-manager.googlecode.com/files/NpackdCL-1.16.4.zip</url>
         <sha1>8842a0b4ceeb01238a7acd3c8426edc0c539d406</sha1>
+        <dependency package="com.googlecode.windows-package-manager.CLU" versions="[1, 2)"/>
+    </version>
+    <version name="1.17.9" package="com.googlecode.windows-package-manager.NpackdCL">
+        <file path=".Npackd\Install.bat">if "%npackd_cl%" equ "" set npackd_cl=.
+set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.CLU" "--versions=[1, 2)"
+for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set clu=%%x
+"%clu%\clu" add-path --path "%CD%"
+verify
+</file>
+        <file path=".Npackd\Uninstall.bat">if "%npackd_cl%" equ "" set npackd_cl=.
+set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.CLU" "--versions=[1, 2)"
+for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set clu=%%x
+"%clu%\clu" remove-path --path "%CD%"
+verify
+</file>
+        <url>http://windows-package-manager.googlecode.com/files/NpackdCL-1.17.9.zip</url>
+        <sha1>cb6c3b623a3d0d60c244048ff836cf07d8ab6a5d</sha1>
         <dependency package="com.googlecode.windows-package-manager.CLU" versions="[1, 2)"/>
     </version>
 
@@ -11708,6 +11768,11 @@ if %err% neq 0 exit %err%&#13;
         <sha1>129f5411b1b442d4e44b55bb1a1492f4d514dcf2</sha1>
     </version>
 
+    <version name="1.4" package="cz.mitec.ExeExplorer">
+        <important-file path="EXE.exe" title="EXE Explorer"/>
+        <url>http://www.mitec.cz/Downloads/EXE.zip</url>
+    </version>
+
     <version name="3.2.0.9" package="de.clipgrab.ClipGrab" type="one-file">
         <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x
 "%setup%" /SP- /VERYSILENT /SUPPRESSMSGBOXES /NOCANCEL /NORESTART /DIR="%CD%" /SAVEINF="%CD%\.Npackd\InnoSetupInfo.ini" /LOG="%CD%\.Npackd\InnoSetupInstall.log"
@@ -11972,6 +12037,12 @@ if %err% neq 0 exit %err%
         <url>http://dl.dropbox.com/u/17046326/files/edu.ucla.sscnet.levine.Jarnal-2.71.zip</url>
         <sha1>ECFFEA61D3AB4727B64B43135CB1E30779B33853</sha1>
         <dependency package="com.oracle.JRE" versions="[1.5, 2)"/>
+    </version>
+
+    <version name="0.3.5" package="fr.free.decompiler.java.JDGUI">
+        <important-file path="jd-gui.exe" title="JD-GUI"/>
+        <url>http://jd.benow.ca/jd-gui/downloads/jd-gui-0.3.5.windows.zip</url>
+        <sha1>dfc4fc53094d13f371cf19a4da5ab494d85f9bce</sha1>
     </version>
 
     <version name="0.9.4" package="fr.handbrake.HandBrake" type="one-file">
@@ -13793,44 +13864,6 @@ verify
         <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1, 1]"/>
         <dependency package="com.googlecode.windows-package-manager.CLU" versions="[1, 2)"/>
     </version>
-    <version name="1.0.2011.11.1" package="net.sourceforge.mingw-w64.MinGWW64">
-        <file path=".Npackd\Uninstall.bat">if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
-set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.CLU" "--versions=[1, 2)"
-for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set clu=%%x
-"%clu%\clu" remove-path --path "%CD%\bin"
-verify
-</file>
-        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b mingw64*') do set name=%%x
-cd "%name%"        
-for /f "delims=" %%a in ('dir /b') do (
-  move "%%a" ..
-)
-cd ..
-rmdir "%name%"
-
-rem rename prefixed binaries
-cd bin
-setlocal enabledelayedexpansion
-for /f "delims=" %%a in ('dir /b x86_64-w64-mingw32-*.exe') do (
-  set n=%%a
-  set n2=!n:~19!
-  ren "%%a" !n2!
-)
-endlocal
-cd ..
-
-if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
-set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.CLU" "--versions=[1, 2)"
-for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set clu=%%x
-"%clu%\clu" add-path --path "%CD%\bin"
-verify
-</file>
-        <url>http://downloads.sourceforge.net/project/mingw-w64/Toolchains%20targetting%20Win64/Personal%20Builds/sezero_4.5_20111101/mingw-w64-bin_i686-mingw_20111101_sezero.zip</url>
-        <sha1>62144060b8def433804e02acf0cd9328b46dd34a</sha1>
-        <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.15.7, 2)"/>
-        <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1, 1]"/>
-        <dependency package="com.googlecode.windows-package-manager.CLU" versions="[1, 2)"/>
-    </version>
     <version name="4.7.1.2" package="net.sourceforge.mingw-w64.MinGWW64" type="one-file">
         <file path=".Npackd\Uninstall.bat">if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
 set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.CLU" "--versions=[1, 2)"
@@ -13867,35 +13900,35 @@ verify
         <dependency package="org.7-zip.SevenZIPA" versions="[9.20, 9.20]"/>
     </version>
     <version name="4.7.2" package="net.sourceforge.mingw-w64.MinGWW64" type="one-file">
-        <file path=".Npackd\Uninstall.bat">if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
-set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.CLU" "--versions=[1, 2)"
-for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set clu=%%x
-"%clu%\clu" remove-path --path "%CD%\bin"
-verify
+        <file path=".Npackd\Uninstall.bat">if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1&#13;
+set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.CLU" "--versions=[1, 2)"&#13;
+for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set clu=%%x&#13;
+"%clu%\clu" remove-path --path "%CD%\bin"&#13;
+verify&#13;
 </file>
-        <file path=".Npackd\Install.bat">if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
-set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=org.7-zip.SevenZIPA" "--versions=[9.20, 9.20]"
-for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set sevenzipa=%%x
-for /f %%x in ('dir /b *.7z') do set setup=%%x
-"%sevenzipa%\7za.exe" x "%setup%" &gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt
-del "%setup%"
-
-for /f "delims=" %%x in ('dir /b mingw32*') do set name=%%x
-cd "%name%"        
-for /f "delims=" %%a in ('dir /b') do (
-  move "%%a" ..
-)
-cd ..
-rmdir "%name%"
-
-if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
-set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.CLU" "--versions=[1, 2)"
-for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set clu=%%x
-"%clu%\clu" add-path --path "%CD%\bin"
-verify
+        <file path=".Npackd\Install.bat">if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1&#13;
+set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=org.7-zip.SevenZIPA" "--versions=[9.20, 9.20]"&#13;
+for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set sevenzipa=%%x&#13;
+for /f %%x in ('dir /b *.7z') do set setup=%%x&#13;
+"%sevenzipa%\7za.exe" x "%setup%" &gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+del "%setup%"&#13;
+&#13;
+for /f "delims=" %%x in ('dir /b mingw32*') do set name=%%x&#13;
+cd "%name%"        &#13;
+for /f "delims=" %%a in ('dir /b') do (&#13;
+  move "%%a" ..&#13;
+)&#13;
+cd ..&#13;
+rmdir "%name%"&#13;
+&#13;
+if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1&#13;
+set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.CLU" "--versions=[1, 2)"&#13;
+for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set clu=%%x&#13;
+"%clu%\clu" add-path --path "%CD%\bin"&#13;
+verify&#13;
 </file>
-        <url>http://downloads.sourceforge.net/project/mingw-w64/Toolchains%20targetting%20Win64/Personal%20Builds/rubenvb/gcc-4.7-release/x86_64-w64-mingw32-gcc-4.7.2-release-win32_rubenvb.7z</url>
-        <sha1>80ea0ced7183792324b922d0eef56dce1b5eb258</sha1>
+        <url>http://downloads.sourceforge.net/project/mingw-w64/Toolchains%20targetting%20Win32/Personal%20Builds/rubenvb/gcc-4.7-release/i686-w64-mingw32-gcc-4.7.2-release-win32_rubenvb.7z</url>
+        <sha1>c4be0a0de9c0d4ed895e76f982377489d3fb4ec6</sha1>
         <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.15.7, 2)"/>
         <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1, 1]"/>
         <dependency package="com.googlecode.windows-package-manager.CLU" versions="[1, 2)"/>
@@ -22977,6 +23010,34 @@ rmdir "%name%"&#13;
         <important-file path="UltraStar Deluxe 1.1RC\ultrastardx.exe" title="UltraStar Deluxe"/>
         <url>http://downloads.sourceforge.net/project/ultrastardx/UltraStar%20Deluxe/Version%201.1%20rc/Windows/ultrastardx-1.1rc-lite.zip?ts=1280579734</url>
         <sha1>1ec7c03c0eebef2990a18d711cda50c9558abcae</sha1>
+    </version>
+
+    <version name="3.1" package="org.springsource.STS">
+        <important-file path="sts-3.1.0.RELEASE\STS.exe" title="Spring Tool Suite"/>
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b spring*') do set name=%%x&#13;
+cd "%name%"        &#13;
+for /f "delims=" %%a in ('dir /b') do (&#13;
+  move "%%a" ..&#13;
+)&#13;
+cd ..&#13;
+rmdir "%name%"</file>
+        <url>http://download.springsource.com/release/STS/3.1.0/dist/e4.2/spring-tool-suite-3.1.0.RELEASE-e4.2-win32.zip</url>
+        <sha1>5d3f01db40f63c5be9d907019bdc5485218a868b</sha1>
+        <dependency package="com.oracle.JRE" versions="[1.5, 2)"/>
+    </version>
+
+    <version name="3.1" package="org.springsource.STS64">
+        <important-file path="sts-3.1.0.RELEASE\STS.exe" title="Spring Tool Suite"/>
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b spring*') do set name=%%x&#13;
+cd "%name%"        &#13;
+for /f "delims=" %%a in ('dir /b') do (&#13;
+  move "%%a" ..&#13;
+)&#13;
+cd ..&#13;
+rmdir "%name%"</file>
+        <url>http://download.springsource.com/release/STS/3.1.0/dist/e4.2/spring-tool-suite-3.1.0.RELEASE-e4.2-win32-x86_64.zip</url>
+        <sha1>da621cc09dca190c537d3229492b12a30f599db5</sha1>
+        <dependency package="com.oracle.JRE64" versions="[1.5, 2)"/>
     </version>
 
     <version name="3.6.1" package="org.sqlexplorer.SQLExplorer">
