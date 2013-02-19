@@ -40,6 +40,7 @@ private:
      *
      * @param path directory
      * @param ignore ignored directories
+     * @threadsafe
      */
     void scan(const QString& path, Job* job, int level, QStringList& ignore);
 
@@ -139,6 +140,13 @@ public:
 
     virtual ~Repository();
 
+    /**
+     * @brief processes the given operatios
+     * @param job job
+     * @param install operations that should be performed
+     *
+     * TODO: this method is not thread-safe
+     */
     void process(Job* job, const QList<InstallOperation*> &install);
 
     /**
