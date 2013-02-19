@@ -29,10 +29,10 @@ private:
     static QSemaphore installationScripts;
 
     /**
-     * If true, this package version is locked and cannot be
-     * installed/uninstalled.
+     * Set of PackageVersion::getStringId() for the locked package versions.
+     * A locked package version cannot be installed or uninstalled.
      */
-    volatile bool locked;
+    static QSet<QString> lockedPackageVersions;
 
     static PackageVersionFile* createPackageVersionFile(QDomElement* e,
             QString* err);
@@ -271,6 +271,12 @@ public:
      *     directories
      */
     bool isInWindowsDir() const;
+
+    /**
+     * @brief string that can be used to identify this package and version
+     * @return "package/version"
+     */
+    QString getStringId() const;
 
     /**
      * @param e <version>

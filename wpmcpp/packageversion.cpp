@@ -29,19 +29,18 @@
 
 QSemaphore PackageVersion::httpConnections(3);
 QSemaphore PackageVersion::installationScripts(1);
+QSet<QString> PackageVersion::lockedPackageVersions;
 
 PackageVersion::PackageVersion(const QString& package)
 {
     this->package = package;
     this->type = 0;
-    this->locked = false;
 }
 
 PackageVersion::PackageVersion()
 {
     this->package = "unknown";
     this->type = 0;
-    this->locked = false;
 }
 
 void PackageVersion::emitStatusChanged()
@@ -52,23 +51,30 @@ void PackageVersion::emitStatusChanged()
 
 void PackageVersion::lock()
 {
-    if (!this->locked) {
-        this->locked = true;
+    QString key = getStringId();
+    if (!lockedPackageVersions.contains(key)) {
+        lockedPackageVersions.insert(key);
         emitStatusChanged();
     }
 }
 
 void PackageVersion::unlock()
 {
-    if (this->locked) {
-        this->locked = false;
+    QString key = getStringId();
+    if (lockedPackageVersions.contains(key)) {
+        lockedPackageVersions.remove(key);
         emitStatusChanged();
     }
 }
 
 bool PackageVersion::isLocked() const
 {
-    return this->locked;
+    return lockedPackageVersions.contains(getStringId());
+}
+
+QString PackageVersion::getStringId() const
+{
+    return this->package + "/" + this->version.getVersionString();
 }
 
 QString PackageVersion::getPath() const
@@ -1045,7 +1051,9 @@ QString PackageVersion::getStatus() const
         else
             status += ", obsolete";
     }
-    if (locked) {
+
+    QString key = getStringId();
+    if (lockedPackageVersions.contains(key)) {
         if (!status.isEmpty())
             status = ", " + status;
         status = "locked" + status;

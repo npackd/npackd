@@ -588,6 +588,8 @@ void Repository::updateNpackdCLEnvVar()
 void Repository::scan(const QString& path, Job* job, int level,
         QStringList& ignore)
 {
+    // TODO: this method is not thread-safe
+
     if (ignore.contains(path))
         return;
 
