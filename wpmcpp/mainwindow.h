@@ -59,6 +59,8 @@ private:
     UINT taskbarMessageId;
     ITaskbarList3* taskbarInterface;
 
+    QList<Package*> found;
+
     int findPackageTab(const QString& package) const;
     int findPackageVersionTab(const QString& package,
             const Version& version) const;
@@ -106,6 +108,7 @@ private:
 public:
     void updateActions();
 
+    /** URL -> icon */
     static QMap<QString, QIcon> icons;
 
     /**

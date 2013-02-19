@@ -38,8 +38,9 @@ QString DBRepository::insertPackage(Package* p)
 {
     QSqlQuery q;
     q.prepare("INSERT INTO PACKAGE "
-            "(ID, NAME, TITLE, URL, ICON, DESCRIPTION, LICENSE)"
-            "VALUES(:ID, :NAME, :TITLE, :URL, :ICON, :DESCRIPTION, :LICENSE)");
+            "(ID, NAME, TITLE, URL, ICON, DESCRIPTION, LICENSE, FULLTEXT)"
+            "VALUES(:ID, :NAME, :TITLE, :URL, :ICON, :DESCRIPTION, :LICENSE, "
+            ":FULLTEXT)");
     q.bindValue(":ID", QVariant(QVariant::Int));
     q.bindValue(":NAME", p->name);
     q.bindValue(":TITLE", p->title);
@@ -47,6 +48,8 @@ QString DBRepository::insertPackage(Package* p)
     q.bindValue(":ICON", p->icon);
     q.bindValue(":DESCRIPTION", p->description);
     q.bindValue(":LICENSE", p->license);
+    q.bindValue(":FULLTEXT", (p->title + " " + p->description + " " +
+            p->name).toLower());
     q.exec();
     return toString(q.lastError());
 }
@@ -255,6 +258,31 @@ QSharedPointer<License> DBRepository::findLicense(const QString& name)
     return r;
 }
 
+QList<Package*> DBRepository::findPackages(const QStringList& keywords) const
+{
+    // TODO: not all keywords are not used
+    // TODO: errors are not handled
+
+    QList<Package*> r;
+
+    QSqlQuery q;
+    q.prepare("SELECT ID, NAME, TITLE, URL, ICON, "
+            "DESCRIPTION, LICENSE FROM PACKAGE WHERE FULLTEXT LIKE :FULLTEXT");
+    q.bindValue(":FULLTEXT", keywords.count() > 0 ?
+            "%" + keywords.at(0).toLower() + "%" : "%");
+    q.exec();
+    while (q.next()) {
+        Package* p = new Package(q.value(1).toString(), q.value(2).toString());
+        p->url = q.value(3).toString();
+        p->icon = q.value(4).toString();
+        p->description = q.value(5).toString();
+        p->license = q.value(6).toString();
+        r.append(p);
+    }
+
+    return r;
+}
+
 void DBRepository::reloadFrom(Job* job, Repository* r)
 {
     if (job->shouldProceed("Starting an SQL transaction")) {
@@ -392,7 +420,8 @@ QString DBRepository::open()
                     "URL TEXT, "
                     "ICON TEXT, "
                     "DESCRIPTION TEXT, "
-                    "LICENSE TEXT"
+                    "LICENSE TEXT, "
+                    "FULLTEXT TEXT"
                     ")");
             err = toString(db.lastError());
         }

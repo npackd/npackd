@@ -98,6 +98,13 @@ public:
      */
     QList<QSharedPointer<PackageVersion> > getPackageVersions(
             const QString& package, QString* err);
+
+    /**
+     * @brief searches for packages that match the specified keywords
+     * @param keywords list of keywords
+     * @return found packages. The objects should be destroyed later.
+     */
+    QList<Package*> findPackages(const QStringList& keywords) const;
 };
 
 #endif // DBREPOSITORY_H

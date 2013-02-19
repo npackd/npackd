@@ -112,14 +112,6 @@ void InstallThread::run()
     case 3:
     case 4: {
         DBRepository* dbr = DBRepository::getDefault();
-        if (job->shouldProceed("Opening the local database")) {
-            QString err = dbr->open();
-            if (!err.isEmpty())
-                job->setErrorMessage(err);
-            else
-                job->setProgress(0.01);
-        }
-
         Repository* r = Repository::getDefault();
         if (job->shouldProceed("Downloading the remote repositories")) {
             Job* sub = job->newSubJob(0.8);
@@ -565,6 +557,7 @@ MainWindow::~MainWindow()
     this->fileLoader.terminated = 1;
     if (!this->fileLoader.wait(1000))
         this->fileLoader.terminate();
+    qDeleteAll(found);
     delete ui;
 }
 
@@ -607,7 +600,12 @@ void MainWindow::monitor(Job* job, const QString& title, QThread* thread)
 
 void MainWindow::onShow()
 {
-    recognizeAndLoadRepositories(false);
+    DBRepository* dbr = DBRepository::getDefault();
+    QString err = dbr->open();
+    if (err.isEmpty())
+        recognizeAndLoadRepositories(false);
+    else
+        this->addErrorMessage(err, err, true, QMessageBox::Critical);
 }
 
 void MainWindow::selectPackages(QList<Package*> ps)
@@ -691,24 +689,41 @@ void MainWindow::fillList()
             this->mainFrame->getFilterLineEdit()->text().
             toLower().simplified().split(" ");
 
-    t->setRowCount(r->packages.count());
-
     QSet<QString> requestedIcons;
 
+    t->setRowCount(0);
+    DBRepository* dbr = DBRepository::getDefault();
+    qDeleteAll(found);
+    found = dbr->findPackages(textFilter);
+    t->setRowCount(found.count());
+
+    for (int i = 0; i < found.count(); i++) {
+        Package* p = found.at(i);
+        if (!p->icon.isEmpty()) {
+            if (!icons.contains(p->icon)) {
+                FileLoaderItem it;
+                it.url = p->icon;
+                // qDebug() << "MainWindow::loadRepository " << it.url;
+                this->fileLoader.work.append(it);
+            }
+        }
+    }
+    // qDebug() << "MainWindow::loadRepository";
+
     int n = 0;
-    for (int i = 0; i < r->packages.count(); i++) {
-        Package* p = r->packages.at(i);
+    for (int i = 0; i < found.count(); i++) {
+        Package* p = found.at(i);
 
-        // filter by text
-        if (!p->matches(textFilter))
-            continue;
-
+        /* TODO:
         QList<PackageVersion*> pvs = r->getPackageVersions(p->name);
         if (pvs.count() == 0)
             continue;
+            */
 
         QString installed;
         bool atLeastOneInstalled = false;
+
+        /* TODO:
         for (int j = pvs.count() - 1; j >= 0; j--) {
             PackageVersion* pv = pvs.at(j);
             if (pv->installed()) {
@@ -718,6 +733,7 @@ void MainWindow::fillList()
                 installed.append(pv->version.getVersionString());
             }
         }
+        */
 
         bool updateEnabled = isUpdateEnabled(p->name);
 
@@ -1429,18 +1445,6 @@ void MainWindow::setActionAccelerators(QWidget* w) {
 void MainWindow::recognizeAndLoadRepositoriesThreadFinished()
 {
     fillList();
-
-    Repository* r = Repository::getDefault();
-    for (int i = 0; i < r->packages.count(); i++) {
-        Package* p = r->packages.at(i);
-        if (!p->icon.isEmpty()) {
-            FileLoaderItem it;
-            it.url = p->icon;
-            // qDebug() << "MainWindow::loadRepository " << it.url;
-            this->fileLoader.work.append(it);
-        }
-    }
-    // qDebug() << "MainWindow::loadRepository";
 
     this->reloadRepositoriesThreadRunning = false;
     updateActions();
