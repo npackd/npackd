@@ -1760,15 +1760,13 @@ void MainWindow::on_actionScan_Hard_Drives_triggered()
 {
     Repository* r = Repository::getDefault();
 
-    for (int i = 0; i < r->packageVersions.size(); i++) {
-        PackageVersion* pv = r->packageVersions.at(i);
-        if (pv->isLocked()) {
-            QString msg("Cannot start the scan now. "
-                    "The package %1 is locked by a "
-                    "currently running installation/removal.");
-            this->addErrorMessage(msg.arg(pv->toString()));
-            return;
-        }
+    PackageVersion* locked = r->findLockedPackageVersion();
+    if (locked) {
+        QString msg("Cannot start the scan now. "
+                "The package %1 is locked by a "
+                "currently running installation/removal.");
+        this->addErrorMessage(msg.arg(locked->toString()));
+        return;
     }
 
     Job* job = new Job();

@@ -19,7 +19,7 @@ class PackageFrame : public QFrame, public Selection
     Q_OBJECT
 
 private:
-    QList<QSharedPointer<PackageVersion> > pvs;
+    QList<PackageVersion*> pvs;
     void showDetails();
 public:
     /** package associated with this form or 0 */

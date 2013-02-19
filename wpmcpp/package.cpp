@@ -17,24 +17,6 @@ bool Package::isValidName(QString& name)
     return r;
 }
 
-bool Package::matches(const QStringList& terms) const
-{
-    bool b = true;
-    if (terms.count() > 0) {
-        for (int i = 0; i < terms.count(); i++) {
-            const QString& term = terms.at(i);
-            if (!this->title.contains(term, Qt::CaseInsensitive) &&
-                    !this->description.contains(term, Qt::CaseInsensitive) &&
-                    !this->name.contains(term, Qt::CaseInsensitive)
-            ) {
-                b = false;
-                break;
-            }
-        }
-    }
-    return b;
-}
-
 void Package::saveTo(QDomElement& e) const {
     e.setAttribute("name", name);
     XMLUtils::addTextTag(e, "title", title);

@@ -94,10 +94,11 @@ public:
      * @param package full package name
      * @param err error message will be stored here
      * @return the list of package versions sorted by the version number.
-     *     The first returned object has the highest version number.
+     *     The first returned object has the highest version number. The objects
+     *     must be destroyed later.
      */
-    QList<QSharedPointer<PackageVersion> > getPackageVersions(
-            const QString& package, QString* err);
+    QList<PackageVersion*> getPackageVersions(const QString& package,
+            QString* err);
 
     /**
      * @brief searches for packages that match the specified keywords

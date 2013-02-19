@@ -61,15 +61,13 @@ void SettingsFrame::on_buttonBox_clicked(QAbstractButton *button)
 
     Repository* r = Repository::getDefault();
 
-    for (int i = 0; i < r->packageVersions.size(); i++) {
-        PackageVersion* pv = r->packageVersions.at(i);
-        if (pv->isLocked()) {
-            QString msg("Cannot change settings now. "
-                    "The package %1 is locked by a "
-                    "currently running installation/removal.");
-            mw->addErrorMessage(msg.arg(pv->toString()));
-            return;
-        }
+    PackageVersion* locked = r->findLockedPackageVersion();
+    if (locked) {
+        QString msg("Cannot change settings now. "
+                "The package %1 is locked by a "
+                "currently running installation/removal.");
+        mw->addErrorMessage(msg.arg(locked->toString()));
+        return;
     }
 
     QStringList list = getRepositoryURLs();

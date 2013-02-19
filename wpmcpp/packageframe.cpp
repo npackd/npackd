@@ -34,6 +34,8 @@ PackageFrame::PackageFrame(QWidget *parent) :
 
 PackageFrame::~PackageFrame()
 {
+    qDeleteAll(this->pvs);
+    this->pvs.clear();
     delete ui;
 }
 
@@ -48,7 +50,7 @@ void PackageFrame::updateStatus()
 {
     for (int i = 0; i < this->ui->tableWidgetVersions->rowCount(); i++) {
         // TODO: the table may be sorted...
-        QSharedPointer<PackageVersion> pv = this->pvs.at(i);
+        PackageVersion* pv = this->pvs.at(i);
         QTableWidgetItem* item = this->ui->tableWidgetVersions->item(i, 1);
         item->setText(pv->getPath());
     }
@@ -101,6 +103,7 @@ void PackageFrame::fillForm(QSharedPointer<Package> p)
 
     // TODO: error is ignored
     QString err;
+    qDeleteAll(this->pvs);
     pvs = dbr->getPackageVersions(p->name, &err);
 
     //qDebug() << "PackageFrame::fillForm " << pvs.count() << " " <<
@@ -108,7 +111,7 @@ void PackageFrame::fillForm(QSharedPointer<Package> p)
 
     t->setRowCount(pvs.size());
     for (int i = pvs.count() - 1; i >= 0; i--) {
-        QSharedPointer<PackageVersion> pv = pvs.at(i);
+        PackageVersion* pv = pvs.at(i);
 
         newItem = new QTableWidgetItem(pv->version.getVersionString());
         t->setItem(pvs.count() - i - 1, 0, newItem);
@@ -145,7 +148,7 @@ void PackageFrame::showDetails()
         QTableWidgetItem* item = sel.at(i);
         if (item->column() == 0) {
             // TODO: table may be sorted
-            QSharedPointer<PackageVersion> pv = this->pvs.at(i);
+            PackageVersion* pv = this->pvs.at(i);
             mw->openPackageVersion(pv->package, pv->version, true);
         }
     }
@@ -164,8 +167,8 @@ QList<void*> PackageFrame::getSelected(const QString& type) const
                 QTableWidgetItem* item = sel.at(i);
                 if (item->column() == 0) {
                     // TODO: table may be sorted
-                    QSharedPointer<PackageVersion> pv = this->pvs.at(i);
-                    res.append(pv.data());
+                    PackageVersion* pv = this->pvs.at(i);
+                    res.append(pv);
                 }
             }
         }
