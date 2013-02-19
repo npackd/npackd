@@ -41,6 +41,7 @@ private:
 public:
     /**
      * @return default repository
+     * @threadsafe
      */
     static DBRepository* getDefault();
 
