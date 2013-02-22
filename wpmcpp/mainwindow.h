@@ -2,6 +2,8 @@
 #define MAINWINDOW_H
 
 #include <windows.h>
+#include <shobjidl.h>
+
 #include <QMainWindow>
 #include <QProgressDialog>
 #include <QTimer>
@@ -16,7 +18,6 @@
 #include "package.h"
 #include "job.h"
 #include "fileloader.h"
-#include "taskbar.h"
 #include "selection.h"
 #include "mainframe.h"
 

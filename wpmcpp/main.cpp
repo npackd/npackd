@@ -1,13 +1,14 @@
 #define _WIN32_IE 0x0500
 
 #include <windows.h>
+#include <shobjidl.h>
 #include <shellapi.h>
 
-#include <QtGui/QApplication>
-#include "QMetaType"
-#include "mainwindow.h"
-#include "qdebug.h"
+#include <QApplication>
+#include <QMetaType>
+#include <QDebug>
 
+#include "mainwindow.h"
 #include "repository.h"
 #include "wpmutils.h"
 #include "job.h"
