@@ -85,7 +85,6 @@ FORMS += mainwindow.ui \
     settingsframe.ui \
     packageframe.ui \
     mainframe.ui
-#    -lz \
 LIBS += -lquazip \
     -lole32 \
     -luuid \
@@ -98,6 +97,8 @@ CONFIG += embed_manifest_exe
 CONFIG += static
 RC_FILE = wpmcpp.rc
 RESOURCES += wpmcpp.qrc
+DEFINES+=QUAZIP_STATIC=1
+INCLUDEPATH+=$$[QT_INSTALL_PREFIX]/src/3rdparty/zlib
 
 # these 2 options can be used to add the debugging information to the "release"
 # build

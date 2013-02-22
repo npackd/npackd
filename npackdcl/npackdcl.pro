@@ -1,7 +1,7 @@
 # -------------------------------------------------
 # Project created by QtCreator 2010-11-21T18:29:49
 # -------------------------------------------------
-QT += xml
+QT += xml sql
 QT -= gui
 TARGET = npackdcl
 CONFIG += console
@@ -9,7 +9,6 @@ CONFIG -= app_bundle
 TEMPLATE = app
 RC_FILE = npackdcl.rc
 LIBS += -lquazip \
-    -lz \
     -lole32 \
     -luuid \
     -lwininet \
@@ -33,6 +32,8 @@ SOURCES += main.cpp \
     app.cpp \
     ../wpmcpp/commandline.cpp \
     ../wpmcpp/xmlutils.cpp \
+    ../wpmcpp/installedpackages.cpp \
+    ../wpmcpp/installedpackageversion.cpp \
     ../wpmcpp/clprogress.cpp
 HEADERS += ../wpmcpp/repository.h \
     ../wpmcpp/version.h \
@@ -43,15 +44,24 @@ HEADERS += ../wpmcpp/repository.h \
     ../wpmcpp/installoperation.h \
     ../wpmcpp/dependency.h \
     ../wpmcpp/wpmutils.h \
-    ../wpmcpp/msi.h \
     ../wpmcpp/downloader.h \
     ../wpmcpp/license.h \
     ../wpmcpp/windowsregistry.h \
     ../wpmcpp/detectfile.h \
     app.h \
+    ../wpmcpp/installedpackages.h \
+    ../wpmcpp/installedpackageversion.h \
     ../wpmcpp/commandline.h \
     ../wpmcpp/xmlutils.h \
     ../wpmcpp/clprogress.h
 FORMS += 
+
+CONFIG += static
+
+DEFINES+=QUAZIP_STATIC=1
+INCLUDEPATH+=$$[QT_INSTALL_PREFIX]/src/3rdparty/zlib
+
+QMAKE_CXXFLAGS += -static-libstdc++ -static-libgcc -Werror
+QMAKE_LFLAGS += -static
 
 QMAKE_LFLAGS_RELEASE += -Wl,-Map,npackdcl_release.map

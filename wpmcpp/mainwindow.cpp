@@ -51,8 +51,8 @@ QMap<QString, QIcon> MainWindow::icons;
 QIcon MainWindow::genericAppIcon;
 MainWindow* MainWindow::instance = 0;
 
-DEFINE_GUID_(CLSID_TaskbarList,0x56fdf344,0xfd6d,0x11d0,0x95,0x8a,0x0,0x60,0x97,0xc9,0xa0,0x90);
-DEFINE_GUID_(IID_ITaskbarList3,0xea1afb91,0x9e28,0x4b86,0x90,0xE9,0x9e,0x9f,0x8a,0x5e,0xef,0xaf);
+//DEFINE_GUID_(CLSID_TaskbarList,0x56fdf344,0xfd6d,0x11d0,0x95,0x8a,0x0,0x60,0x97,0xc9,0xa0,0x90);
+//DEFINE_GUID_(IID_ITaskbarList3,0xea1afb91,0x9e28,0x4b86,0x90,0xE9,0x9e,0x9f,0x8a,0x5e,0xef,0xaf);
 
 class InstallThread: public QThread
 {
@@ -714,16 +714,13 @@ void MainWindow::fillList()
     for (int i = 0; i < found.count(); i++) {
         Package* p = found.at(i);
 
-        /* TODO:
-        QList<PackageVersion*> pvs = r->getPackageVersions(p->name);
+        QString err;
+        // TODO: error is not handled
+        QList<PackageVersion*> pvs = dbr->getPackageVersions(p->name, &err);
         if (pvs.count() == 0)
             continue;
-            */
-
         QString installed;
         bool atLeastOneInstalled = false;
-
-        /* TODO:
         for (int j = pvs.count() - 1; j >= 0; j--) {
             PackageVersion* pv = pvs.at(j);
             if (pv->installed()) {
@@ -733,7 +730,8 @@ void MainWindow::fillList()
                 installed.append(pv->version.getVersionString());
             }
         }
-        */
+        qDeleteAll(pvs);
+        pvs.clear();
 
         bool updateEnabled = isUpdateEnabled(p->name);
 

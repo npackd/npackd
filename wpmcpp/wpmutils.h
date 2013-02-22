@@ -372,7 +372,7 @@ public:
      */
     static void fireEnvChanged();
 
-    static void createMSTask();
+    //static void createMSTask();
 };
 
 #endif // WPMUTILS_H

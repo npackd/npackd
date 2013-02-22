@@ -16,6 +16,15 @@
 #include "packageversion.h"
 #include "wpmutils.h"
 
+bool packageVersionLessThan(const PackageVersion* a, const PackageVersion* b) {
+    int r = a->package.compare(b->package);
+    if (r == 0) {
+        r = a->version.compare(b->version);
+    }
+
+    return r > 0;
+}
+
 DBRepository DBRepository::def;
 
 DBRepository::DBRepository()
@@ -212,8 +221,7 @@ QList<PackageVersion*> DBRepository::getPackageVersions(
 
     // qDebug() << vs.count();
 
-    // TODO: sort versions
-    //qSort(vs.begin(), vs.end(), qGreater<Version>());
+    qSort(r.begin(), r.end(), packageVersionLessThan);
 
     return r;
 }
@@ -246,7 +254,7 @@ QSharedPointer<License> DBRepository::findLicense(const QString& name)
 
 QList<Package*> DBRepository::findPackages(const QStringList& keywords) const
 {
-    // TODO: not all keywords are not used
+    // TODO: not all keywords are used
     // TODO: errors are not handled
 
     QList<Package*> r;
