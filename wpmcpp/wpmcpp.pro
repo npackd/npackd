@@ -73,7 +73,6 @@ HEADERS += mainwindow.h \
     hrtimer.h \
     clprogress.h \
     mainframe.h \
-    taskbar.h \
     dbrepository.h \
     installedpackages.h \
     installedpackageversion.h

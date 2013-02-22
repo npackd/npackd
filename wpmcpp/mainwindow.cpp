@@ -7,21 +7,24 @@
 #include <qwaitcondition.h>
 #include <qthread.h>
 #include <windows.h>
-#include <qtimer.h>
-#include <qdebug.h>
+#include <shlobj.h>
+#include <shobjidl.h>
+
+#include <QTimer>
+#include <QDebug>
 #include <QObject>
 #include <QString>
 #include <QStringList>
 #include <QRegExp>
-#include <qdatetime.h>
-#include "qdesktopservices.h"
+#include <QDateTime>
+#include <QDesktopServices>
 #include <qinputdialog.h>
 #include <qfiledialog.h>
-#include <qtextstream.h>
-#include <qiodevice.h>
-#include <qmenu.h>
-#include <qtextedit.h>
-#include <qscrollarea.h>
+#include <QTextStream>
+#include <QIODevice>
+#include <QMenu>
+#include <QTextEdit>
+#include <QScrollArea>
 #include <QPushButton>
 #include <QCloseEvent>
 #include <QTextBrowser>
@@ -50,9 +53,6 @@ extern HWND defaultPasswordWindow;
 QMap<QString, QIcon> MainWindow::icons;
 QIcon MainWindow::genericAppIcon;
 MainWindow* MainWindow::instance = 0;
-
-//DEFINE_GUID_(CLSID_TaskbarList,0x56fdf344,0xfd6d,0x11d0,0x95,0x8a,0x0,0x60,0x97,0xc9,0xa0,0x90);
-//DEFINE_GUID_(IID_ITaskbarList3,0xea1afb91,0x9e28,0x4b86,0x90,0xE9,0x9e,0x9f,0x8a,0x5e,0xef,0xaf);
 
 class InstallThread: public QThread
 {
