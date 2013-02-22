@@ -3,12 +3,13 @@
 
 #include <shlobj.h>
 
-#if defined(__MINGW64__)
+#if defined(__x86_64__)
 #define GUID_SECT
 #endif
 
 #define DEFINE_GUID_(n,l,w1,w2,b1,b2,b3,b4,b5,b6,b7,b8) const GUID n GUID_SECT = {l,w1,w2,{b1,b2,b3,b4,b5,b6,b7,b8}}
 
+/*
 typedef enum STPFLAG
 {
     STPF_NONE = 0,
@@ -55,10 +56,11 @@ typedef enum TBPFLAG
     TBPF_ERROR = 0x4,
     TBPF_PAUSED = 0x8
 } TBPFLAG;
+*/
 
-#if !defined(__MINGW64__)
+#if !defined(__x86_64__)
 //MIDL_INTERFACE("56FDF342-FD6D-11d0-958A-006097C9A090")
-DECLARE_INTERFACE_(ITaskbarList, IUnknown)
+/*DECLARE_INTERFACE_(ITaskbarList, IUnknown)
 {
     STDMETHOD (HrInit) (THIS) PURE;
     STDMETHOD (AddTab) (THIS_ HWND hwnd) PURE;
@@ -74,10 +76,11 @@ DECLARE_INTERFACE_(ITaskbarList2, ITaskbarList)
     STDMETHOD (MarkFullscreenWindow) (THIS_ HWND hwnd, int fFullscreen) PURE;
 };
 typedef ITaskbarList2 *LPITaskbarList2;
+*/
 #endif
 
 //MIDL_INTERFACE("ea1afb91-9e28-4b86-90e9-9e9f8a5eefaf")
-DECLARE_INTERFACE_(ITaskbarList3, ITaskbarList2)
+/*DECLARE_INTERFACE_(ITaskbarList3, ITaskbarList2)
 {
     STDMETHOD (SetProgressValue) (THIS_ HWND hwnd, ULONGLONG ullCompleted, ULONGLONG ullTotal) PURE;
     STDMETHOD (SetProgressState) (THIS_ HWND hwnd, TBPFLAG tbpFlags) PURE;
@@ -100,8 +103,8 @@ DECLARE_INTERFACE_(ITaskbarList4, ITaskbarList3)
     STDMETHOD (SetTabProperties) (HWND hwndTab, STPFLAG stpFlags) PURE;
 };
 typedef ITaskbarList4 *LPITaskbarList4;
-
-//#if !defined(__MINGW64__)
+*/
+//#if !defined(__x86_64__)
 //DEFINE_GUID_(CLSID_TaskbarList,0x56fdf344,0xfd6d,0x11d0,0x95,0x8a,0x0,0x60,0x97,0xc9,0xa0,0x90);
 
 //DEFINE_GUID_(IID_ITaskbarList,0x56FDF342,0xFD6D,0x11d0,0x95,0x8A,0x00,0x60,0x97,0xC9,0xA0,0x90);

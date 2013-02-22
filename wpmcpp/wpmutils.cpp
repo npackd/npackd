@@ -34,6 +34,7 @@ WPMUtils::WPMUtils()
 {
 }
 
+/*
 void WPMUtils::createMSTask()
 {
     ITaskScheduler *pITS;
@@ -70,6 +71,7 @@ void WPMUtils::createMSTask()
     pITask->Release();
 
 }
+*/
 
 QString WPMUtils::parentDirectory(const QString& path)
 {
@@ -827,12 +829,12 @@ QString WPMUtils::moveToRecycleBin(QString dir)
 
 bool WPMUtils::is64BitWindows()
 {
-#ifdef __MINGW64__
+#ifdef __x86_64__
     return true;
 #else
     // 32-bit programs run on both 32-bit and 64-bit Windows
     // so must sniff
-    WINBASEAPI BOOL WINAPI (*lpfIsWow64Process_) (HANDLE,PBOOL);
+    BOOL WINAPI (* lpfIsWow64Process_) (HANDLE,PBOOL);
 
     HINSTANCE hInstLib = LoadLibraryA("KERNEL32.DLL");
     lpfIsWow64Process_ =

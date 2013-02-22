@@ -114,11 +114,11 @@ void PackageFrame::fillForm(QSharedPointer<Package> p)
         PackageVersion* pv = pvs.at(i);
 
         newItem = new QTableWidgetItem(pv->version.getVersionString());
-        t->setItem(pvs.count() - i - 1, 0, newItem);
+        t->setItem(i, 0, newItem);
 
         newItem = new QTableWidgetItem("");
         newItem->setText(pv->getPath());
-        t->setItem(pvs.count() - i - 1, 1, newItem);
+        t->setItem(i, 1, newItem);
     }
 }
 

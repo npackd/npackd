@@ -6,6 +6,7 @@
 #include "..\wpmcpp\wpmutils.h"
 #include "..\wpmcpp\commandline.h"
 #include "..\wpmcpp\downloader.h"
+#include "..\wpmcpp\installedpackages.h"
 
 QString App::reinstallTestPackage(QString rep)
 {
@@ -28,7 +29,8 @@ QString App::reinstallTestPackage(QString rep)
         err = job->getErrorMessage();
         delete job;
 
-        r->readRegistryDatabase();
+        InstalledPackages* ip = InstalledPackages::getDefault();
+        ip->readRegistryDatabase();
     }
 
     PackageVersion* pv = r->findPackageVersion(
@@ -408,8 +410,8 @@ QString App::search()
             Package* p = rep->packages.at(i);
 
             // filter by text
-            if (!p->matches(textFilter))
-                continue;
+            // TODO: if (!p->matches(textFilter))
+            //    continue;
 
             PackageVersion* pv = rep->findNewestInstalledPackageVersion(
                     p->name);
