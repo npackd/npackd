@@ -43,10 +43,58 @@
         <description>C++ library (development)</description>
         <license>org.gnu.GPLv3</license>
     </package>
+    <package name="com.nokia.QtDev-i686-w64-Npackd-Release">
+        <title>Qt for MinGW-w64 32 bit release mode for Npackd</title>
+        <url>http://qt.nokia.com/products/library</url>
+        <description>C++ library (development). This library will be used to build Npackd itself.&#13;
+&#13;
+The installation will create a symbolic link to the directory in C:\NpackdSymlinks. This symbolic link should be used instead of the installation directory instead as a Qt build cannot be easily moved to another directory.&#13;
+&#13;
+Please note that you have to define an appropriate toolchain in Qt Creator first before defining a new Qt build there. Otherwise adding a new Qt in the configuration dialog would just not work without any error message (Qt Creator 2.6.1)&#13;
+&#13;
+Compiling Qt for Npackd:&#13;
+1. install mingw-w64 32 bit&#13;
+2. install Qt sources&#13;
+3. install ActivePerl&#13;
+4. copy Qt sources to c:\Libs\com.nokia.QtDev-i686-w64-Npackd-4.8.2 (replace the version number by the version of this package)&#13;
+5. set path=%mingww64%\bin;%activeperl%\bin&#13;
+6. configure.exe -opensource -confirm-license -release -static -no-qt3support -no-opengl -no-dsp -no-vcproj -no-dbus -no-phonon  -no-phonon-backend -no-multimedia -no-webkit -no-script -no-scripttools -no-declarative -nomake examples -nomake demos&#13;
+7. mingw32-make.exe&#13;
+8. mingw32-make.exe clean&#13;
+&#13;
+Software used to built particular versions of this package:&#13;
+ * 4.8.2: MinGW-w64 32 bit 4.7.2; Qt 4.8.2; ActivePerl 5.14.2.1402&#13;
+</description>
+        <license>org.gnu.GPLv3</license>
+    </package>
     <package name="com.nokia.QtDev-x86_64-w64">
         <title>Qt for MinGW-w64 64 bit</title>
         <url>http://qt.nokia.com/products/library</url>
         <description>C++ library (development)</description>
+        <license>org.gnu.GPLv3</license>
+    </package>
+    <package name="com.nokia.QtDev-x86_64-w64-Npackd-Release">
+        <title>Qt for MinGW-w64 64 bit release mode for Npackd</title>
+        <url>http://qt.nokia.com/products/library</url>
+        <description>C++ library (development). This library will be used to build Npackd itself.&#13;
+&#13;
+The installation will create a symbolic link to the directory in C:\NpackdSymlinks. This symbolic link should be used instead of the installation directory instead as a Qt build cannot be easily moved to another directory.&#13;
+&#13;
+Please note that you have to define an appropriate toolchain in Qt Creator first before defining a new Qt build there. Otherwise adding a new Qt in the configuration dialog would just not work without any error message (Qt Creator 2.6.1)&#13;
+&#13;
+Compiling Qt for Npackd:&#13;
+1. install mingw-w64 64 bit&#13;
+2. install Qt sources&#13;
+3. install ActivePerl&#13;
+4. copy Qt sources to c:\Libs\com.nokia.QtDev-x86_64-w64-Npackd-4.8.2 (replace the version number by the version of this package)&#13;
+5. set path=%mingww64%\bin;%activeperl%\bin&#13;
+6. configure.exe -opensource -confirm-license -release -static -no-qt3support -no-opengl -no-dsp -no-vcproj -no-dbus -no-phonon -no-phonon-backend -no-multimedia -no-webkit -no-script -no-scripttools -no-declarative -nomake examples -nomake demos -nomake tests -no-style-plastique -no-style-cleanlooks -no-style-motif -no-style-cde -qt-style-windowsvista -qt-style-windowsxp&#13;
+7. mingw32-make.exe&#13;
+8. mingw32-make.exe clean&#13;
+&#13;
+Software used to built particular versions of this package:&#13;
+ * 4.8.2: MinGW-w64 64 bit 4.7.2; Qt 4.8.2; ActivePerl 5.14.2.1402&#13;
+</description>
         <license>org.gnu.GPLv3</license>
     </package>
     <package name="com.nokia.QtMinGWInstaller">
@@ -111,6 +159,22 @@ rmdir "%name%"
         <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1, 1]"/>
     </version>
 
+    <version name="4.8.2" package="com.nokia.QtDev-i686-w64-Npackd-Release" type="one-file">
+        <file path=".Npackd\Install.bat">if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1&#13;
+set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=org.7-zip.SevenZIPA" "--versions=[9.20, 9.20]"&#13;
+for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set sevenzipa=%%x&#13;
+for /f %%x in ('dir /b *.7z') do set setup=%%x&#13;
+"%sevenzipa%\7za.exe" x "%setup%" &gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+&#13;
+mklink /D C:\NpackdSymlinks\com.nokia.QtDev-i686-w64-Npackd-Release-4.8.2 "%CD%"</file>
+        <file path=".Npackd\Uninstall.bat">rmdir C:\NpackdSymlinks\com.nokia.QtDev-i686-w64-Npackd-Release-4.8.2</file>
+        <url>http://downloads.sourceforge.net/project/npackd/com.nokia.QtDev-i686-w32-Npackd-Release-4.8.2.7z</url>
+        <sha1>854eba001e8e849e1e36e6dbf2c3e23ccc5e55e9</sha1>
+        <dependency package="org.7-zip.SevenZIPA" versions="[9.20, 9.20]"/>
+        <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.15.7, 2)"/>
+        <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1, 1]"/>
+    </version>
+
     <version name="4.8.1" package="com.nokia.QtDev-x86_64-w64" type="one-file">
         <file path=".Npackd\Install.bat">if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
 set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=org.7-zip.SevenZIPA" "--versions=[9.20, 9.20]"
@@ -130,6 +194,22 @@ rmdir "%name%"
 </file>
         <url>https://mingw-w64-dgn.googlecode.com/files/qt-4.8.1-x86_64-w64-mingw32-20120413.7z</url>
         <sha1>41443e83998963e83e6df88af6dddd39ae837d4b</sha1>
+        <dependency package="org.7-zip.SevenZIPA" versions="[9.20, 9.20]"/>
+        <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.15.7, 2)"/>
+        <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1, 1]"/>
+    </version>
+
+    <version name="4.8.2" package="com.nokia.QtDev-x86_64-w64-Npackd-Release" type="one-file">
+        <file path=".Npackd\Install.bat">if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1&#13;
+set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=org.7-zip.SevenZIPA" "--versions=[9.20, 9.20]"&#13;
+for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set sevenzipa=%%x&#13;
+for /f %%x in ('dir /b *.7z') do set setup=%%x&#13;
+"%sevenzipa%\7za.exe" x "%setup%" &gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+&#13;
+mklink /D C:\NpackdSymlinks\com.nokia.QtDev-x86_64-w64-Npackd-Release-4.8.2 "%CD%"</file>
+        <file path=".Npackd\Uninstall.bat">rmdir C:\NpackdSymlinks\com.nokia.QtDev-x86_64-w64-Npackd-Release-4.8.2</file>
+        <url>http://downloads.sourceforge.net/project/npackd/com.nokia.QtDev-x86_64-w64-Npackd-Release-4.8.2.7z</url>
+        <sha1>80723c84e8ea8875390fb03719fd885e38c10b50</sha1>
         <dependency package="org.7-zip.SevenZIPA" versions="[9.20, 9.20]"/>
         <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.15.7, 2)"/>
         <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1, 1]"/>
