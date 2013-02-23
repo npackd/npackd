@@ -68,9 +68,9 @@ public:
     /**
      * @brief searches for a package with the given name
      * @param name full package name
-     * @return found package or 0
+     * @return found package or 0. The returned object should be destroyed later.
      */
-    QSharedPointer<Package> findPackage(const QString& name);
+    Package* findPackage(const QString& name);
 
     /**
      * @brief searches for a package version

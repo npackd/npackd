@@ -116,27 +116,22 @@ bool DBRepository::tableExists(QSqlDatabase* db,
     return e;
 }
 
-QSharedPointer<Package> DBRepository::findPackage(const QString& name)
+Package* DBRepository::findPackage(const QString& name)
 {
-    QSharedPointer<Package> r;
-    QWeakPointer<Package> wp = this->packagesCache.value(name);
-    r = wp.toStrongRef();
+    Package* r = 0;
 
-    if (!r) {
-        QSqlQuery q;
-        q.prepare("SELECT ID, NAME, TITLE, URL, ICON, "
-                "DESCRIPTION, LICENSE FROM PACKAGE WHERE NAME = :NAME");
-        q.bindValue(":NAME", name);
-        q.exec();
-        if (q.next()) {
-            Package* p = new Package(name, q.value(2).toString());
-            p->url = q.value(3).toString();
-            p->icon = q.value(4).toString();
-            p->description = q.value(5).toString();
-            p->license = q.value(6).toString();
-            r = QSharedPointer<Package>(p);
-            this->packagesCache.insert(name, r);
-        }
+    QSqlQuery q;
+    q.prepare("SELECT ID, NAME, TITLE, URL, ICON, "
+            "DESCRIPTION, LICENSE FROM PACKAGE WHERE NAME = :NAME");
+    q.bindValue(":NAME", name);
+    q.exec();
+    if (q.next()) {
+        Package* p = new Package(name, q.value(2).toString());
+        p->url = q.value(3).toString();
+        p->icon = q.value(4).toString();
+        p->description = q.value(5).toString();
+        p->license = q.value(6).toString();
+        r = p;
     }
 
     return r;
