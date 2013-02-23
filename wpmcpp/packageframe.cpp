@@ -20,6 +20,7 @@ PackageFrame::PackageFrame(QWidget *parent) :
     QFrame(parent),
     ui(new Ui::PackageFrame)
 {
+    this->p = 0;
     ui->setupUi(this);
 
     MainWindow* mw = MainWindow::getInstance();
@@ -36,6 +37,7 @@ PackageFrame::~PackageFrame()
 {
     qDeleteAll(this->pvs);
     this->pvs.clear();
+    delete this->p;
     delete ui;
 }
 
@@ -56,8 +58,9 @@ void PackageFrame::updateStatus()
     }
 }
 
-void PackageFrame::fillForm(QSharedPointer<Package> p)
+void PackageFrame::fillForm(Package* p)
 {
+    delete this->p;
     this->p = p;
 
     this->ui->lineEditTitle->setText(p->title);
@@ -158,7 +161,7 @@ QList<void*> PackageFrame::getSelected(const QString& type) const
 {
     QList<void*> res;
     if (type == "Package" && this->p) {
-        res.append(this->p.data());
+        res.append(this->p);
     } else if (type == "PackageVersion") {
         if (this->ui->tableWidgetVersions->hasFocus()) {
             QList<QTableWidgetItem*> sel =

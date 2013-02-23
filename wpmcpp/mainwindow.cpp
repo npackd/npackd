@@ -309,7 +309,7 @@ void MainWindow::showDetails()
                 int index = this->findPackageTab(p->name);
                 if (index < 0) {
                     PackageFrame* pf = new PackageFrame(this->ui->tabWidget);
-                    QSharedPointer<Package> p_ = DBRepository::getDefault()->
+                    Package* p_ = DBRepository::getDefault()->
                             findPackage(p->name);
                     if (p_) {
                         pf->fillForm(p_);

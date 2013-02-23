@@ -23,7 +23,7 @@ private:
     void showDetails();
 public:
     /** package associated with this form or 0 */
-    QSharedPointer<Package> p;
+    Package* p;
 
     explicit PackageFrame(QWidget *parent = 0);
     ~PackageFrame();
@@ -31,9 +31,9 @@ public:
     /**
      * Fills the form with the data of a package.
      *
-     * @param p a package
+     * @param p a package. This object will be stored here.
      */
-    void fillForm(QSharedPointer<Package> p);
+    void fillForm(Package *p);
 
     /**
      * Updates the view if a new icon was downloaded.
