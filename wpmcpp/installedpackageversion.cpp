@@ -12,8 +12,8 @@ InstalledPackageVersion::InstalledPackageVersion(const QString &package,
     this->version = version;
     this->directory = directory;
 
-    qDebug() << "InstalledPackageVersion::InstalledPackageVersion " <<
-            package << " " << directory;
+    //qDebug() << "InstalledPackageVersion::InstalledPackageVersion " <<
+    //        package << " " << directory;
 }
 
 QString InstalledPackageVersion::getDirectory() const
@@ -75,14 +75,14 @@ QString InstalledPackageVersion::save() const
             r = packages.remove(pn);
         }
     }
-    qDebug() << "InstalledPackageVersion::save " << pn << " " <<
-            this->directory;
+    //qDebug() << "InstalledPackageVersion::save " << pn << " " <<
+    //        this->directory;
     return r;
 }
 
 void InstalledPackageVersion::loadFromRegistry()
 {
-    qDebug() << "InstalledPackageVersion::loadFromRegistry";
+    // qDebug() << "InstalledPackageVersion::loadFromRegistry";
 
     WindowsRegistry entryWR;
     QString err = entryWR.open(HKEY_LOCAL_MACHINE,

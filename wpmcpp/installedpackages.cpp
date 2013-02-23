@@ -37,7 +37,7 @@ InstalledPackageVersion* InstalledPackages::findOrCreate(const QString& package,
         r = new InstalledPackageVersion(package, version, "");
         this->data.insert(key, r);
 
-        qDebug() << "InstalledPackages::findOrCreate " << package;
+        // qDebug() << "InstalledPackages::findOrCreate " << package;
         r->save();
     }
     return r;
@@ -466,7 +466,7 @@ void InstalledPackages::detectOneControlPanelProgram(const QString& registryPath
 
     Repository* rep = Repository::getDefault();
 
-    qDebug() << "InstalledPackages::detectOneControlPanelProgram.0";
+    //qDebug() << "InstalledPackages::detectOneControlPanelProgram.0";
 
     PackageVersion* pv = rep->findOrCreatePackageVersion(package, version);
     InstalledPackageVersion* ipv = this->findOrCreate(package, version);

@@ -15,6 +15,7 @@ PackageVersionForm::PackageVersionForm(QWidget *parent) :
     QWidget(parent),
     ui(new Ui::PackageVersionForm)
 {
+    this->pv = 0;
     ui->setupUi(this);
 }
 
@@ -29,7 +30,7 @@ QList<void*> PackageVersionForm::getSelected(const QString& type) const
 {
     QList<void*> res;
     if (type == "PackageVersion" && this->pv) {
-        res.append(this->pv.data());
+        res.append(this->pv);
     }
     return res;
 }
@@ -40,8 +41,9 @@ void PackageVersionForm::updateStatus()
     this->ui->lineEditPath->setText(pv->getPath());
 }
 
-void PackageVersionForm::fillForm(QSharedPointer<PackageVersion> pv)
+void PackageVersionForm::fillForm(PackageVersion* pv)
 {
+    delete this->pv;
     this->pv = pv;
 
     // qDebug() << pv.data()->toString();
@@ -120,6 +122,7 @@ void PackageVersionForm::fillForm(QSharedPointer<PackageVersion> pv)
 
 PackageVersionForm::~PackageVersionForm()
 {
+    delete pv;
     delete ui;
 }
 

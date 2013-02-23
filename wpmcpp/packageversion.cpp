@@ -33,6 +33,32 @@ QSemaphore PackageVersion::installationScripts(1);
 QSet<QString> PackageVersion::lockedPackageVersions;
 QMutex PackageVersion::lockedPackageVersionsMutex(QMutex::Recursive);
 
+PackageVersion* PackageVersion::findLockedPackageVersion()
+{
+    PackageVersion* r = 0;
+
+    lockedPackageVersionsMutex.lock();
+    QSetIterator<QString> i(lockedPackageVersions);
+    QString key;
+    if (i.hasNext()) {
+        key = i.next();
+    }
+    lockedPackageVersionsMutex.unlock();
+
+    if (!key.isEmpty()) {
+        QStringList parts = key.split('/');
+        if (parts.count() == 2) {
+            QString package = parts.at(0);
+            Version version;
+            if (version.setVersion(parts.at(1))) {
+                Repository* rep = Repository::getDefault();
+                r = rep->findPackageVersion(package, version);
+            }
+        }
+    }
+    return r;
+}
+
 PackageVersion::PackageVersion(const QString& package)
 {
     this->package = package;
