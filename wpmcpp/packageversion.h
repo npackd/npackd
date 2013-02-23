@@ -65,6 +65,11 @@ private:
     void emitStatusChanged();
     void addDependencyVars(QStringList* vars);
 public:
+    /**
+     * @return the first found locked PackageVersion or 0
+     */
+    static PackageVersion* findLockedPackageVersion();
+
     /** package version */
     Version version;
 

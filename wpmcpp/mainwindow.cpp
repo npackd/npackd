@@ -1449,13 +1449,15 @@ void MainWindow::openPackageVersion(const QString& package,
     if (index < 0) {
         PackageVersionForm* pvf = new PackageVersionForm(
                 this->ui->tabWidget);
-        QSharedPointer<PackageVersion> pv_ =
+        PackageVersion* pv_ =
                 DBRepository::getDefault()->
                 findPackageVersion(package, version);
-        pvf->fillForm(pv_);
-        QIcon icon = getPackageVersionIcon(package);
-        this->ui->tabWidget->addTab(pvf, icon, pv_->toString());
-        index = this->ui->tabWidget->count() - 1;
+        if (pv_) {
+            pvf->fillForm(pv_);
+            QIcon icon = getPackageVersionIcon(package);
+            this->ui->tabWidget->addTab(pvf, icon, pv_->toString());
+            index = this->ui->tabWidget->count() - 1;
+        }
     }
     if (select)
         this->ui->tabWidget->setCurrentIndex(index);

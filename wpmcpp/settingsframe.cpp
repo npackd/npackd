@@ -59,9 +59,7 @@ void SettingsFrame::on_buttonBox_clicked(QAbstractButton *button)
         return;
     }
 
-    Repository* r = Repository::getDefault();
-
-    PackageVersion* locked = r->findLockedPackageVersion();
+    PackageVersion* locked = PackageVersion::findLockedPackageVersion();
     if (locked) {
         QString msg("Cannot change settings now. "
                 "The package %1 is locked by a "

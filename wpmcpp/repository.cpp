@@ -964,15 +964,7 @@ void Repository::fireStatusChanged(PackageVersion *pv)
 
 PackageVersion* Repository::findLockedPackageVersion() const
 {
-    PackageVersion* r = 0;
-    for (int i = 0; i < packageVersions.size(); i++) {
-        PackageVersion* pv = packageVersions.at(i);
-        if (pv->isLocked()) {
-            r = pv;
-            break;
-        }
-    }
-    return r;
+    return PackageVersion::findLockedPackageVersion();
 }
 
 QStringList Repository::getRepositoryURLs(HKEY hk, const QString& path,

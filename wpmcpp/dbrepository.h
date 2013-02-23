@@ -76,9 +76,9 @@ public:
      * @brief searches for a package version
      * @param package full package name
      * @param version version number
-     * @return found package or 0
+     * @return found package or 0. The returned object should be destroyed later.
      */
-    QSharedPointer<PackageVersion> findPackageVersion(
+    PackageVersion* findPackageVersion(
             const QString& package, const Version& version);
 
     /**
