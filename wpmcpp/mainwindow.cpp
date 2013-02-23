@@ -1012,40 +1012,6 @@ void MainWindow::unregisterJob(Job *job)
 
 void MainWindow::on_actionUninstall_activated()
 {
-    Selection* selection = Selection::findCurrent();
-    QList<void*> selected;
-    if (selection)
-        selected = selection->getSelected("PackageVersion");
-
-    if (selected.count() == 0) {
-        Repository* r = Repository::getDefault();
-        selected = selection->getSelected("Package");
-        for (int i = 0; i < selected.count(); ) {
-            Package* p = (Package*) selected.at(i);
-            PackageVersion* pv = r->findNewestInstalledPackageVersion(p->name);
-            if (pv) {
-                selected.replace(i, pv);
-                i++;
-            } else
-                selected.removeAt(i);
-        }
-    }
-
-    QList<InstallOperation*> ops;
-    QList<PackageVersion*> installed = Repository::getDefault()->getInstalled();
-
-    QString err;
-    for (int i = 0; i < selected.count(); i++) {
-        PackageVersion* pv = (PackageVersion*) selected.at(i);
-        err = pv->planUninstallation(installed, ops);
-        if (!err.isEmpty())
-            break;
-    }
-
-    if (err.isEmpty())
-        process(ops);
-    else
-        addErrorMessage(err, err, true, QMessageBox::Critical);
 }
 
 bool MainWindow::isUpdateEnabled(const QString& package)
@@ -1503,45 +1469,6 @@ void MainWindow::addTab(QWidget* w, const QIcon& icon, const QString& title)
 
 void MainWindow::on_actionInstall_activated()
 {
-    Selection* selection = Selection::findCurrent();
-    if (selection) {
-        QList<void*> selected = selection->getSelected("PackageVersion");
-
-        if (selected.count() == 0) {
-            Repository* r = Repository::getDefault();
-            selected = selection->getSelected("Package");
-            for (int i = 0; i < selected.count(); ) {
-                Package* p = (Package*) selected.at(i);
-                PackageVersion* pv = r->findNewestInstallablePackageVersion(
-                        p->name);
-                if (pv) {
-                    selected.replace(i, pv);
-                    i++;
-                } else
-                    selected.removeAt(i);
-            }
-        }
-
-        QList<InstallOperation*> ops;
-        QList<PackageVersion*> installed =
-                Repository::getDefault()->getInstalled();
-        QList<PackageVersion*> avoid;
-
-        QString err;
-        for (int i = 0; i < selected.count(); i++) {
-            PackageVersion* pv = (PackageVersion*) selected.at(i);
-
-            avoid.clear();
-            err = pv->planInstallation(installed, ops, avoid);
-            if (!err.isEmpty())
-                break;
-        }
-
-        if (err.isEmpty())
-            process(ops);
-        else
-            addErrorMessage(err, err, true, QMessageBox::Critical);
-    }
 }
 
 void MainWindow::on_actionGotoPackageURL_triggered()
@@ -1842,4 +1769,85 @@ void MainWindow::on_actionFile_an_Issue_triggered()
 {
     QDesktopServices::openUrl(QUrl(
             "http://code.google.com/p/windows-package-manager/issues/entry?template=Defect%20report%20from%20user"));
+}
+
+void MainWindow::on_actionInstall_triggered()
+{
+    Selection* selection = Selection::findCurrent();
+    if (selection) {
+        QList<void*> selected = selection->getSelected("PackageVersion");
+
+        if (selected.count() == 0) {
+            Repository* r = Repository::getDefault();
+            selected = selection->getSelected("Package");
+            for (int i = 0; i < selected.count(); ) {
+                Package* p = (Package*) selected.at(i);
+                PackageVersion* pv = r->findNewestInstallablePackageVersion(
+                        p->name);
+                if (pv) {
+                    selected.replace(i, pv);
+                    i++;
+                } else
+                    selected.removeAt(i);
+            }
+        }
+
+        QList<InstallOperation*> ops;
+        QList<PackageVersion*> installed =
+                Repository::getDefault()->getInstalled();
+        QList<PackageVersion*> avoid;
+
+        QString err;
+        for (int i = 0; i < selected.count(); i++) {
+            PackageVersion* pv = (PackageVersion*) selected.at(i);
+
+            avoid.clear();
+            err = pv->planInstallation(installed, ops, avoid);
+            if (!err.isEmpty())
+                break;
+        }
+
+        if (err.isEmpty())
+            process(ops);
+        else
+            addErrorMessage(err, err, true, QMessageBox::Critical);
+    }
+}
+
+void MainWindow::on_actionUninstall_triggered()
+{
+    Selection* selection = Selection::findCurrent();
+    QList<void*> selected;
+    if (selection)
+        selected = selection->getSelected("PackageVersion");
+
+    if (selected.count() == 0) {
+        Repository* r = Repository::getDefault();
+        selected = selection->getSelected("Package");
+        for (int i = 0; i < selected.count(); ) {
+            Package* p = (Package*) selected.at(i);
+            PackageVersion* pv = r->findNewestInstalledPackageVersion(p->name);
+            if (pv) {
+                selected.replace(i, pv);
+                i++;
+            } else
+                selected.removeAt(i);
+        }
+    }
+
+    QList<InstallOperation*> ops;
+    QList<PackageVersion*> installed = Repository::getDefault()->getInstalled();
+
+    QString err;
+    for (int i = 0; i < selected.count(); i++) {
+        PackageVersion* pv = (PackageVersion*) selected.at(i);
+        err = pv->planUninstallation(installed, ops);
+        if (!err.isEmpty())
+            break;
+    }
+
+    if (err.isEmpty())
+        process(ops);
+    else
+        addErrorMessage(err, err, true, QMessageBox::Critical);
 }

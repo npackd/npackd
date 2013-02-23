@@ -36,6 +36,8 @@ InstalledPackageVersion* InstalledPackages::findOrCreate(const QString& package,
     if (!r) {
         r = new InstalledPackageVersion(package, version, "");
         this->data.insert(key, r);
+
+        qDebug() << "InstalledPackages::findOrCreate " << package;
         r->save();
     }
     return r;
@@ -51,12 +53,11 @@ QString InstalledPackages::setPackageVersionPath(const QString& package,
     if (!ipv) {
         ipv = new InstalledPackageVersion(package, version, directory);
         this->data.insert(package + "/" + version.getVersionString(), ipv);
-        ipv->loadFromRegistry();
-    }
-
-    if (err.isEmpty()) {
+        err = ipv->save();
+    } else {
         ipv->setPath(directory);
     }
+
     // TODO: PackageVersion::emitStatusChanged();
 
     return err;
@@ -64,6 +65,8 @@ QString InstalledPackages::setPackageVersionPath(const QString& package,
 
 void InstalledPackages::readRegistryDatabase()
 {
+    this->data.clear();
+
     WindowsRegistry machineWR(HKEY_LOCAL_MACHINE, false, KEY_READ);
 
     Repository* rep = Repository::getDefault();
@@ -357,7 +360,7 @@ void InstalledPackages::detectControlPanelPrograms()
         if (ipv->detectionInfo.indexOf("control-panel:") == 0 &&
                 ipv->installed() &&
                 !foundDetectionInfos.contains(ipv->detectionInfo)) {
-            //qDebug() << "control-panel package removed: " << pv->toString();
+            qDebug() << "control-panel package removed: " << ipv->package;
             ipv->setPath("");
         }
     }
@@ -462,6 +465,9 @@ void InstalledPackages::detectOneControlPanelProgram(const QString& registryPath
     }
 
     Repository* rep = Repository::getDefault();
+
+    qDebug() << "InstalledPackages::detectOneControlPanelProgram.0";
+
     PackageVersion* pv = rep->findOrCreatePackageVersion(package, version);
     InstalledPackageVersion* ipv = this->findOrCreate(package, version);
     QString di = "control-panel:" + registryPath;
@@ -573,7 +579,8 @@ void InstalledPackages::detectOneControlPanelProgram(const QString& registryPath
                     stream << txt;
                     file.close();
 
-                    // qDebug() << "setting path for " << pv->toString() << " to" << dir;
+                    qDebug() << "InstalledPackages::detectOneControlPanelProgram "
+                            "setting path for " << pv->toString() << " to" << dir;
                     pv->setPath(dir);
                 }
             }

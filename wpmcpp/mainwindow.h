@@ -251,6 +251,8 @@ private slots:
     void on_actionFile_an_Issue_triggered();
     void updateActionsSlot();
     void applicationFocusChanged(QWidget* old, QWidget* now);
+    void on_actionInstall_triggered();
+    void on_actionUninstall_triggered();
 };
 
 #endif // MAINWINDOW_H
