@@ -109,6 +109,7 @@ QString PackageVersion::getPath() const
 
 void PackageVersion::setPath(const QString& path)
 {
+    qDebug() << "PackageVersion::setPath " << path;
     InstalledPackages* ip = InstalledPackages::getDefault();
     ip->setPackageVersionPath(this->package, this->version, path);
 }
@@ -856,7 +857,6 @@ void PackageVersion::install(Job* job, const QString& where)
         }
     }
 
-    QString installationPath;
     if (!job->isCancelled() && job->getErrorMessage().isEmpty()) {
         if (!installationScript.isEmpty()) {
             job->setHint("Running the installation script (this may take some time)");
@@ -904,17 +904,6 @@ void PackageVersion::install(Job* job, const QString& where)
 
     if (installationScriptAcquired)
         installationScripts.release();
-
-    if (!job->isCancelled() && job->getErrorMessage().isEmpty()) {
-        InstalledPackages* ip = InstalledPackages::getDefault();
-        QString err = ip->setPackageVersionPath(this->package, this->version,
-                installationPath);
-        if (!err.isEmpty()) {
-            job->setErrorMessage(err);
-        } else {
-            job->setProgress(0.96);
-        }
-    }
 
     if (!job->isCancelled() && job->getErrorMessage().isEmpty()) {
         QString err;
