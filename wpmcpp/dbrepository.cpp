@@ -215,27 +215,22 @@ QList<PackageVersion*> DBRepository::getPackageVersions(
     return r;
 }
 
-QSharedPointer<License> DBRepository::findLicense(const QString& name)
+License *DBRepository::findLicense(const QString& name)
 {
-    QSharedPointer<License> r;
-    QWeakPointer<License> wp = this->licensesCache.value(name);
-    r = wp.toStrongRef();
+    License* r = 0;
 
-    if (!r) {
-        QSqlQuery q;
-        q.prepare("SELECT ID, NAME, TITLE, DESCRIPTION, URL "
-                "FROM LICENSE "
-                "WHERE NAME = :NAME");
-        q.bindValue(":NAME", name);
-        q.exec();
-        if (q.next()) {
-            // TODO: handle error
-            License* p = new License(name, q.value(2).toString());
-            p->description = q.value(3).toString();
-            p->url = q.value(4).toString();
-            r = QSharedPointer<License>(p);
-            this->licensesCache.insert(name, r);
-        }
+    QSqlQuery q;
+    q.prepare("SELECT ID, NAME, TITLE, DESCRIPTION, URL "
+            "FROM LICENSE "
+            "WHERE NAME = :NAME");
+    q.bindValue(":NAME", name);
+    q.exec();
+    if (q.next()) {
+        // TODO: handle error
+        License* p = new License(name, q.value(2).toString());
+        p->description = q.value(3).toString();
+        p->url = q.value(4).toString();
+        r = p;
     }
 
     return r;

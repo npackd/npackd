@@ -1431,7 +1431,7 @@ void MainWindow::openLicense(const QString& name, bool select)
     int index = this->findLicenseTab(name);
     if (index < 0) {
         LicenseForm* f = new LicenseForm(this->ui->tabWidget);
-        QSharedPointer<License> lic =
+        License* lic =
                 DBRepository::getDefault()->
                 findLicense(name);
         f->fillForm(lic);

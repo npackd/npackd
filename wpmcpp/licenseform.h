@@ -18,15 +18,15 @@ class LicenseForm : public QWidget {
     Q_OBJECT
 public:
     /** the license */
-    QSharedPointer<License> license;
+    License* license;
 
     LicenseForm(QWidget *parent = 0);
     ~LicenseForm();
 
     /**
-     * @param license a license
+     * @param license a license. The object will be managed here.
      */
-    void fillForm(QSharedPointer<License> license);
+    void fillForm(License *license);
 protected:
     void changeEvent(QEvent *e);
 
