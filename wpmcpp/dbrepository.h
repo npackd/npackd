@@ -84,9 +84,9 @@ public:
     /**
      * @brief searches for a license
      * @param name full internal name of the license
-     * @return found license or 0
+     * @return found license or 0. The returned object should be destroyed later.
      */
-    QSharedPointer<License> findLicense(const QString& name);
+    License* findLicense(const QString& name);
 
     /**
      * Finds all versions of a package.

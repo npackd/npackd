@@ -5,16 +5,19 @@ LicenseForm::LicenseForm(QWidget *parent) :
     QWidget(parent),
     ui(new Ui::LicenseForm)
 {
+    this->license = 0;
     ui->setupUi(this);
 }
 
 LicenseForm::~LicenseForm()
 {
+    delete this->license;
     delete ui;
 }
 
-void LicenseForm::fillForm(QSharedPointer<License> license)
+void LicenseForm::fillForm(License* license)
 {
+    delete this->license;
     this->license = license;
     this->ui->lineEditTitle->setText(license->title);
 

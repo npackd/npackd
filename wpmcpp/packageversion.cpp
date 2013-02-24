@@ -135,7 +135,7 @@ QString PackageVersion::getPath() const
 
 void PackageVersion::setPath(const QString& path)
 {
-    qDebug() << "PackageVersion::setPath " << path;
+    //qDebug() << "PackageVersion::setPath " << path;
     InstalledPackages* ip = InstalledPackages::getDefault();
     ip->setPackageVersionPath(this->package, this->version, path);
 }

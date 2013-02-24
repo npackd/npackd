@@ -70,10 +70,11 @@ void PackageFrame::fillForm(Package* p)
 
     QString licenseTitle = "unknown";
     if (p) {
-        QSharedPointer<License> lic = dbr->findLicense(p->license);
+        License* lic = dbr->findLicense(p->license);
         if (lic) {
             licenseTitle = "<a href=\"http://www.example.com\">" +
                     Qt::escape(lic->title) + "</a>";
+            delete lic;
         }
     }
     this->ui->labelLicense->setText(licenseTitle);
