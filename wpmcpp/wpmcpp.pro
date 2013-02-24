@@ -42,7 +42,8 @@ SOURCES += main.cpp \
     mainframe.cpp \
     dbrepository.cpp \
     installedpackages.cpp \
-    installedpackageversion.cpp
+    installedpackageversion.cpp \
+    abstractrepository.cpp
 HEADERS += mainwindow.h \
     packageversion.h \
     repository.h \
@@ -75,7 +76,8 @@ HEADERS += mainwindow.h \
     mainframe.h \
     dbrepository.h \
     installedpackages.h \
-    installedpackageversion.h
+    installedpackageversion.h \
+    abstractrepository.h
 FORMS += mainwindow.ui \
     packageversionform.ui \
     licenseform.ui \

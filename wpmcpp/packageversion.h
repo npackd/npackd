@@ -66,7 +66,25 @@ private:
     void addDependencyVars(QStringList* vars);
 public:
     /**
-     * @return the first found locked PackageVersion or 0
+     * @brief string ID for the specified package version
+     * @param package full package name
+     * @param version package version
+     * @return package + "/" + version
+     */
+    static QString getStringId(const QString& package, const Version& version);
+
+    /**
+     * @brief searches for the specified object in the specified list. Objects
+     *     will be compared only by package and version.
+     * @param pvs list of package versions
+     * @param f search for this object
+     * @return index of the found object or -1
+     */
+    static int indexOf(const QList<PackageVersion*> pvs, PackageVersion* f);
+
+    /**
+     * @return the first found locked PackageVersion or 0. The returned object
+     *     should be destroyed later
      */
     static PackageVersion* findLockedPackageVersion();
 

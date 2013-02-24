@@ -243,10 +243,10 @@ MainWindow::MainWindow(QWidget *parent) :
     this->addJobsTab();
     this->mainFrame->getFilterLineEdit()->setFocus();
 
-    Repository* r = Repository::getDefault();
-    connect(r, SIGNAL(statusChanged(PackageVersion*)), this,
-            SLOT(repositoryStatusChanged(PackageVersion*)),
-            Qt::QueuedConnection);
+    //Repository* r = Repository::getDefault();
+    /* TODO: connect(r, SIGNAL(statusChanged(const QString&)), this,
+            SLOT(repositoryStatusChanged(const QString&)),
+            Qt::QueuedConnection);*/
 
     defaultPasswordWindow = this->winId();
 
@@ -452,7 +452,7 @@ void MainWindow::closeEvent(QCloseEvent *event)
     }
 }
 
-void MainWindow::repositoryStatusChanged(PackageVersion* pv)
+void MainWindow::repositoryStatusChanged(const QString&)
 {
     // qDebug() << "MainWindow::repositoryStatusChanged" << pv->toString();
 
@@ -1693,6 +1693,7 @@ void MainWindow::on_actionScan_Hard_Drives_triggered()
                 "The package %1 is locked by a "
                 "currently running installation/removal.");
         this->addErrorMessage(msg.arg(locked->toString()));
+        delete locked;
         return;
     }
 
@@ -1748,6 +1749,7 @@ void MainWindow::on_actionReload_Repositories_triggered()
                 "The package %1 is locked by a "
                 "currently running installation/removal.");
         this->addErrorMessage(msg.arg(locked->toString()));
+        delete locked;
     } else {
         closeDetailTabs();
         recognizeAndLoadRepositories(false);

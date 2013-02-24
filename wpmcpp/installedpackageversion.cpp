@@ -4,6 +4,7 @@
 #include <QDebug>
 
 #include "windowsregistry.h"
+#include "repository.h"
 
 InstalledPackageVersion::InstalledPackageVersion(const QString &package,
         const Version &version, const QString &directory)
@@ -109,6 +110,8 @@ void InstalledPackageVersion::loadFromRegistry()
 
     this->detectionInfo = entryWR.get("DetectionInfo", &err);
 
-    // TODO: emitStatusChanged();
+    /* TODO: Repository::getDefault()->fireStatusChanged(
+            PackageVersion::getStringId(this->package,
+            this->version));*/
 }
 

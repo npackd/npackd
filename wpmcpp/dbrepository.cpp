@@ -16,7 +16,7 @@
 #include "packageversion.h"
 #include "wpmutils.h"
 
-bool packageVersionLessThan(const PackageVersion* a, const PackageVersion* b) {
+bool packageVersionLessThan3(const PackageVersion* a, const PackageVersion* b) {
     int r = a->package.compare(b->package);
     if (r == 0) {
         r = a->version.compare(b->version);
@@ -173,8 +173,14 @@ PackageVersion* DBRepository::findPackageVersion(
     return r;
 }
 
+QList<PackageVersion*> DBRepository::getPackageVersions_(
+        const QString& package, QString* err) const
+{
+    return this->getPackageVersions(package, err);
+}
+
 QList<PackageVersion*> DBRepository::getPackageVersions(
-        const QString& package, QString* err)
+        const QString& package, QString* err) const
 {
     *err = "";
 
@@ -210,7 +216,7 @@ QList<PackageVersion*> DBRepository::getPackageVersions(
 
     // qDebug() << vs.count();
 
-    qSort(r.begin(), r.end(), packageVersionLessThan);
+    qSort(r.begin(), r.end(), packageVersionLessThan3);
 
     return r;
 }
@@ -259,6 +265,52 @@ QList<Package*> DBRepository::findPackages(const QStringList& keywords) const
     }
 
     return r;
+}
+
+PackageVersion* DBRepository::findNewestInstalledPackageVersion(
+        const QString &name) const
+{
+    PackageVersion* r = 0;
+
+    QString err; // TODO: error is not handled
+    QList<PackageVersion*> pvs = this->getPackageVersions_(name, &err);
+    for (int i = 0; i < pvs.count(); i++) {
+        PackageVersion* p = pvs.at(i);
+        if (p->installed()) {
+            if (r == 0 || p->version.compare(r->version) > 0) {
+                r = p;
+            }
+        }
+    }
+
+    if (r)
+        r = r->clone();
+
+    qDeleteAll(pvs);
+
+    return r;
+}
+
+QString DBRepository::computeNpackdCLEnvVar() const
+{
+    QString v;
+    PackageVersion* pv;
+    if (WPMUtils::is64BitWindows())
+        pv = findNewestInstalledPackageVersion(
+            "com.googlecode.windows-package-manager.NpackdCL64");
+    else
+        pv = 0;
+
+    if (!pv)
+        pv = findNewestInstalledPackageVersion(
+            "com.googlecode.windows-package-manager.NpackdCL");
+
+    if (pv)
+        v = pv->getPath();
+
+    delete pv;
+
+    return v;
 }
 
 void DBRepository::reloadFrom(Job* job, Repository* r)

@@ -65,6 +65,7 @@ void SettingsFrame::on_buttonBox_clicked(QAbstractButton *button)
                 "The package %1 is locked by a "
                 "currently running installation/removal.");
         mw->addErrorMessage(msg.arg(locked->toString()));
+        delete locked;
         return;
     }
 

@@ -28,11 +28,31 @@
 #include "xmlutils.h"
 #include "installedpackages.h"
 #include "installedpackageversion.h"
+#include "dbrepository.h"
 
 QSemaphore PackageVersion::httpConnections(3);
 QSemaphore PackageVersion::installationScripts(1);
 QSet<QString> PackageVersion::lockedPackageVersions;
 QMutex PackageVersion::lockedPackageVersionsMutex(QMutex::Recursive);
+
+QString PackageVersion::getStringId(const QString& package,
+    const Version& version)
+{
+    return package + "/" + version.getVersionString();
+}
+
+int PackageVersion::indexOf(const QList<PackageVersion*> pvs, PackageVersion* f)
+{
+    int r = -1;
+    for (int i = 0; i < pvs.count(); i++) {
+        PackageVersion* pv = pvs.at(i);
+        if (pv->package == f->package && pv->version == f->version) {
+            r = i;
+            break;
+        }
+    }
+    return r;
+}
 
 PackageVersion* PackageVersion::findLockedPackageVersion()
 {
@@ -52,7 +72,7 @@ PackageVersion* PackageVersion::findLockedPackageVersion()
             QString package = parts.at(0);
             Version version;
             if (version.setVersion(parts.at(1))) {
-                Repository* rep = Repository::getDefault();
+                DBRepository* rep = DBRepository::getDefault();
                 r = rep->findPackageVersion(package, version);
             }
         }
@@ -74,8 +94,8 @@ PackageVersion::PackageVersion()
 
 void PackageVersion::emitStatusChanged()
 {
-    Repository* r = Repository::getDefault();
-    r->fireStatusChanged(this);
+    //Repository* r = Repository::getDefault();
+    // TODO: r->fireStatusChanged(this);
 }
 
 void PackageVersion::lock()
@@ -121,7 +141,7 @@ bool PackageVersion::isLocked() const
 
 QString PackageVersion::getStringId() const
 {
-    return this->package + "/" + this->version.getVersionString();
+    return getStringId(this->package, this->version);
 }
 
 QString PackageVersion::getPath() const
@@ -416,6 +436,7 @@ QString PackageVersion::planInstallation(QList<PackageVersion*>& installed,
             }
         }
         if (!depok) {
+            // TODO: returned object is not destroyed
             PackageVersion* pv = d->findBestMatchToInstall(avoid);
             if (!pv) {
                 res = QString("Unsatisfied dependency: %1").
