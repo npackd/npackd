@@ -572,21 +572,15 @@ void Repository::process(Job *job, const QList<InstallOperation *> &install)
 
 QString Repository::computeNpackdCLEnvVar()
 {
-    return DBRepository::getDefault()->computeNpackdCLEnvVar();
+    return computeNpackdCLEnvVar_();
 }
 
-void Repository::updateNpackdCLEnvVar()
+Package *Repository::findPackage_(const QString &name)
 {
-    QString v = computeNpackdCLEnvVar();
-
-    // ignore the error for the case NPACKD_CL does not yet exist
-    QString err;
-    QString cur = WPMUtils::getSystemEnvVar("NPACKD_CL", &err);
-
-    if (v != cur) {
-        if (WPMUtils::setSystemEnvVar("NPACKD_CL", v).isEmpty())
-            WPMUtils::fireEnvChanged();
-    }
+    Package* p = findPackage(name);
+    if (p)
+        p = p->clone();
+    return p;
 }
 
 void Repository::scan(const QString& path, Job* job, int level,
@@ -964,6 +958,17 @@ void Repository::loadOne(QDomDocument* doc, Job* job)
 PackageVersion* Repository::findLockedPackageVersion() const
 {
     return PackageVersion::findLockedPackageVersion();
+}
+
+void Repository::addPackageVersion(const QString &package, const Version &version)
+{
+    PackageVersion* pv = findPackageVersion(package, version);
+    if (!pv) {
+        pv = new PackageVersion(package);
+        pv->version = version;
+        this->packageVersions.append(pv);
+        this->package2versions.insert(package, pv);
+    }
 }
 
 QStringList Repository::getRepositoryURLs(HKEY hk, const QString& path,

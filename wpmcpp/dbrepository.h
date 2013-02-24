@@ -73,6 +73,8 @@ public:
      */
     Package* findPackage(const QString& name);
 
+    Package* findPackage_(const QString& name);
+
     /**
      * @brief searches for a package version
      * @param package full package name
@@ -124,6 +126,8 @@ public:
      *     destroyed later.
      */
     PackageVersion *findNewestInstalledPackageVersion(const QString &name) const;
+
+    void addPackageVersion(const QString& package, const Version& version);
 };
 
 #endif // DBREPOSITORY_H

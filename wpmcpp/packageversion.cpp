@@ -312,7 +312,7 @@ void PackageVersion::uninstall(Job* job)
             env.append("NPACKD_PACKAGE_VERSION");
             env.append(this->version.getVersionString());
             env.append("NPACKD_CL");
-            env.append(Repository::getDefault()->computeNpackdCLEnvVar());
+            env.append(AbstractRepository::getDefault_()->computeNpackdCLEnvVar_());
 
             addDependencyVars(&env);
 
@@ -351,7 +351,7 @@ void PackageVersion::uninstall(Job* job)
         if (this->package == "com.googlecode.windows-package-manager.NpackdCL" ||
                 this->package == "com.googlecode.windows-package-manager.NpackdCL64") {
             job->setHint("Updating NPACKD_CL");
-            Repository::getDefault()->updateNpackdCLEnvVar();
+            AbstractRepository::getDefault_()->updateNpackdCLEnvVar();
         }
         job->setProgress(1);
     }
@@ -616,23 +616,27 @@ QString PackageVersion::downloadAndComputeSHA1(Job* job)
 
 QString PackageVersion::getPackageTitle() const
 {
-    Repository* rep = Repository::getDefault();
+    AbstractRepository* rep = AbstractRepository::getDefault_();
 
     QString pn;
-    Package* package = rep->findPackage(this->package);
+    Package* package = rep->findPackage_(this->package);
     if (package)
         pn = package->title;
     else
         pn = this->package;
+    delete package;
+
     return pn;
 }
 
 bool PackageVersion::createShortcuts(const QString& dir, QString *errMsg)
 {
+    *errMsg = "";
+
     QString packageTitle = this->getPackageTitle();
 
     QDir d(dir);
-    Package* p = Repository::getDefault()->findPackage(this->package);
+    Package* p = AbstractRepository::getDefault_()->findPackage_(this->package);
     for (int i = 0; i < this->importantFiles.count(); i++) {
         QString ifile = this->importantFiles.at(i);
         QString ift = this->importantFilesTitles.at(i);
@@ -644,7 +648,7 @@ bool PackageVersion::createShortcuts(const QString& dir, QString *errMsg)
 
         if (!d.exists(path)) {
             *errMsg = QString("Shortcut target %1 does not exist").arg(path);
-            return false;
+            break;
         }
 
         QString workingDir = path;
@@ -688,10 +692,12 @@ bool PackageVersion::createShortcuts(const QString& dir, QString *errMsg)
         if (!SUCCEEDED(r)) {
             *errMsg = QString("Shortcut creation from %1 to %2 failed").
                     arg(from).arg(path);
-            return false;
+            break;
         }
     }
-    return true;
+    delete p;
+
+    return errMsg->isEmpty();
 }
 
 QString PackageVersion::getPreferredInstallationDirectory()
@@ -918,7 +924,7 @@ void PackageVersion::install(Job* job, const QString& where)
             env.append("NPACKD_PACKAGE_VERSION");
             env.append(this->version.getVersionString());
             env.append("NPACKD_CL");
-            env.append(Repository::getDefault()->computeNpackdCLEnvVar());
+            env.append(AbstractRepository::getDefault_()->computeNpackdCLEnvVar_());
 
             addDependencyVars(&env);
 
@@ -944,7 +950,7 @@ void PackageVersion::install(Job* job, const QString& where)
         if (this->package == "com.googlecode.windows-package-manager.NpackdCL" ||
                 this->package == "com.googlecode.windows-package-manager.NpackdCL64") {
             job->setHint("Updating NPACKD_CL");
-            Repository::getDefault()->updateNpackdCLEnvVar();
+            AbstractRepository::getDefault_()->updateNpackdCLEnvVar();
         }
 
         job->setProgress(0.95);
@@ -1096,8 +1102,8 @@ QString PackageVersion::getStatus() const
 {
     QString status;
     bool installed = this->installed();
-    Repository* r = Repository::getDefault();
-    PackageVersion* newest = r->findNewestInstallablePackageVersion(
+    AbstractRepository* r = AbstractRepository::getDefault_();
+    PackageVersion* newest = r->findNewestInstallablePackageVersion_(
             this->package);
     if (installed) {
         status = "installed";
@@ -1114,6 +1120,9 @@ QString PackageVersion::getStatus() const
             status = ", " + status;
         status = "locked" + status;
     }
+
+    delete newest;
+
     return status;
 }
 
