@@ -63,6 +63,11 @@ QString InstalledPackages::setPackageVersionPath(const QString& package,
     return err;
 }
 
+QList<InstalledPackageVersion*> InstalledPackages::getAll() const
+{
+    return this->data.values();
+}
+
 void InstalledPackages::readRegistryDatabase()
 {
     this->data.clear();

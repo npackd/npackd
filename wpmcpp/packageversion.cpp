@@ -27,6 +27,7 @@
 #include "windowsregistry.h"
 #include "xmlutils.h"
 #include "installedpackages.h"
+#include "installedpackageversion.h"
 
 QSemaphore PackageVersion::httpConnections(3);
 QSemaphore PackageVersion::installationScripts(1);
@@ -967,9 +968,9 @@ void PackageVersion::addDependencyVars(QStringList* vars)
         Dependency* d = this->dependencies.at(i);
         if (!d->var.isEmpty()) {
             vars->append(d->var);
-            PackageVersion* pv = d->findHighestInstalledMatch();
-            if (pv) {
-                vars->append(pv->getPath());
+            InstalledPackageVersion* ipv = d->findHighestInstalledMatch();
+            if (ipv) {
+                vars->append(ipv->getDirectory());
             } else {
                 // this could happen if a package was un-installed manually
                 // without Npackd or the repository has changed after this
