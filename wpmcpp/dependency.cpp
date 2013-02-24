@@ -175,18 +175,24 @@ bool Dependency::setVersions(const QString versions)
 PackageVersion* Dependency::findBestMatchToInstall(
         const QList<PackageVersion*>& avoid)
 {
-    Repository* r = Repository::getDefault();
+    DBRepository* r = DBRepository::getDefault();
     PackageVersion* res = 0;
-    QList<PackageVersion*> pvs = r->getPackageVersions(this->package);
+    QString err;
+    // TODO: handle returned error
+    QList<PackageVersion*> pvs = r->getPackageVersions(this->package, &err);
     for (int i = 0; i < pvs.count(); i++) {
         PackageVersion* pv = pvs.at(i);
         if (this->test(pv->version) &&
                 pv->download.isValid() &&
-                !avoid.contains(pv)) {
+                PackageVersion::indexOf(avoid, pv) < 0) {
             if (res == 0 || pv->version.compare(res->version) > 0)
                 res = pv;
         }
     }
+    if (res) {
+        res = res->clone();
+    }
+    qDeleteAll(pvs);
     return res;
 }
 

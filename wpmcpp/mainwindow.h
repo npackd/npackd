@@ -246,7 +246,7 @@ private slots:
     void iconDownloaded(const FileLoaderItem& it);
     void on_actionReload_Repositories_triggered();
     void on_actionClose_Tab_triggered();
-    void repositoryStatusChanged(PackageVersion* pv);
+    void repositoryStatusChanged(const QString &);
     void monitoredJobChanged(const JobState& state);
     void on_actionFile_an_Issue_triggered();
     void updateActionsSlot();

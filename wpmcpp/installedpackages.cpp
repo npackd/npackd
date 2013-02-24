@@ -58,7 +58,8 @@ QString InstalledPackages::setPackageVersionPath(const QString& package,
         ipv->setPath(directory);
     }
 
-    // TODO: PackageVersion::emitStatusChanged();
+    /*Repository::getDefault()->fireStatusChanged(
+            PackageVersion::getStringId(package, version)); TODO: */
 
     return err;
 }

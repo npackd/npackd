@@ -17,11 +17,12 @@
 #include "xmlutils.h"
 #include "wpmutils.h"
 #include "installedpackages.h"
+#include "dbrepository.h"
 
 Repository Repository::def;
 QMutex Repository::mutex;
 
-Repository::Repository(): QObject()
+Repository::Repository(): AbstractRepository()
 {
     addWellKnownPackages();
 }
@@ -41,6 +42,22 @@ QList<PackageVersion*> Repository::getPackageVersions(const QString& package)
     QList<PackageVersion*> ret = this->package2versions.values(package);
 
     qSort(ret.begin(), ret.end(), packageVersionLessThan2);
+
+    return ret;
+}
+
+QList<PackageVersion*> Repository::getPackageVersions_(const QString& package,
+        QString* err) const
+{
+    *err = "";
+
+    QList<PackageVersion*> ret = this->package2versions.values(package);
+
+    qSort(ret.begin(), ret.end(), packageVersionLessThan2);
+
+    for (int i = 0; i < ret.count(); i++) {
+        ret[i] = ret.at(i)->clone();
+    }
 
     return ret;
 }
@@ -555,22 +572,7 @@ void Repository::process(Job *job, const QList<InstallOperation *> &install)
 
 QString Repository::computeNpackdCLEnvVar()
 {
-    QString v;
-    PackageVersion* pv;
-    if (WPMUtils::is64BitWindows())
-        pv = findNewestInstalledPackageVersion(
-            "com.googlecode.windows-package-manager.NpackdCL64");
-    else
-        pv = 0;
-
-    if (!pv)
-        pv = findNewestInstalledPackageVersion(
-            "com.googlecode.windows-package-manager.NpackdCL");
-
-    if (pv)
-        v = pv->getPath();
-
-    return v;
+    return DBRepository::getDefault()->computeNpackdCLEnvVar();
 }
 
 void Repository::updateNpackdCLEnvVar()
@@ -957,11 +959,6 @@ void Repository::loadOne(QDomDocument* doc, Job* job)
     }
 
     job->complete();
-}
-
-void Repository::fireStatusChanged(PackageVersion *pv)
-{
-    emit statusChanged(pv);
 }
 
 PackageVersion* Repository::findLockedPackageVersion() const

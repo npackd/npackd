@@ -15,13 +15,13 @@
 #include "packageversion.h"
 #include "license.h"
 #include "windowsregistry.h"
+#include "abstractrepository.h"
 
 /**
  * A repository is a list of packages and package versions.
  */
-class Repository: public QObject
+class Repository: public AbstractRepository
 {
-    Q_OBJECT
 private:
     static Repository def;
 
@@ -223,6 +223,9 @@ public:
      */
     QList<PackageVersion*> getPackageVersions(const QString& package) const;
 
+    QList<PackageVersion*> getPackageVersions_(const QString& package,
+            QString* err) const;
+
     /**
      * Finds all installed package versions.
      *
@@ -317,22 +320,10 @@ public:
             const Version& version);
 
     /**
-     * @return the first found locked PackageVersion or 0
+     * @return the first found locked PackageVersion or 0. The returned object
+     *     should be destroyed later
      */
     PackageVersion* findLockedPackageVersion() const;
-
-    /**
-     * Emits the statusChanged(PackageVersion*) signal.
-     *
-     * @param pv this PackageVersion has changed
-     */
-    void fireStatusChanged(PackageVersion* pv);
-signals:
-    /**
-     * This signal will be fired each time the status of a package changes.
-     * For example, this happens if a package is installed.
-     */
-    void statusChanged(PackageVersion* pv);
 };
 
 #endif // REPOSITORY_H

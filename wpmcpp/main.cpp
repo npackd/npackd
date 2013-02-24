@@ -13,22 +13,26 @@
 #include "wpmutils.h"
 #include "job.h"
 #include "fileloader.h"
+#include "abstractrepository.h"
+#include "dbrepository.h"
 
 int main(int argc, char *argv[])
 {
     //CoInitialize(NULL);
     //WPMUtils::createMSTask();
 
-#ifndef __MINGW64__
+#if !defined(__x86_64__)
     LoadLibrary(L"exchndl.dll");
 #endif
+
+    AbstractRepository::setDefault_(DBRepository::getDefault());
 
     QApplication a(argc, argv);
 
     qRegisterMetaType<JobState>("JobState");
     qRegisterMetaType<FileLoaderItem>("FileLoaderItem");
 
-#ifndef __MINGW64__
+#if !defined(__x86_64__)
     if (WPMUtils::is64BitWindows()) {
         QMessageBox::critical(0, "Error",
                 "The 32 bit version of Npackd requires a 32 bit operating system.\n"

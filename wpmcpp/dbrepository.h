@@ -13,11 +13,12 @@
 #include "repository.h"
 #include "packageversion.h"
 #include "license.h"
+#include "abstractrepository.h"
 
 /**
  * @brief A repository stored in an SQLite database.
  */
-class DBRepository
+class DBRepository: public AbstractRepository
 {
 private:
     static DBRepository def;
@@ -98,7 +99,10 @@ public:
      *     must be destroyed later.
      */
     QList<PackageVersion*> getPackageVersions(const QString& package,
-            QString* err);
+            QString* err) const;
+
+    QList<PackageVersion*> getPackageVersions_(const QString& package,
+            QString* err) const;
 
     /**
      * @brief searches for packages that match the specified keywords
@@ -106,6 +110,20 @@ public:
      * @return found packages. The objects should be destroyed later.
      */
     QList<Package*> findPackages(const QStringList& keywords) const;
+
+    /**
+     * @return new NPACKD_CL value
+     */
+    QString computeNpackdCLEnvVar() const;
+
+    /**
+     * Find the newest installed package version.
+     *
+     * @param name name of the package like "org.server.Word"
+     * @return found package version or 0. The returned object should be
+     *     destroyed later.
+     */
+    PackageVersion *findNewestInstalledPackageVersion(const QString &name) const;
 };
 
 #endif // DBREPOSITORY_H
