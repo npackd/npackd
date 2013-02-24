@@ -75,7 +75,7 @@ void InstalledPackages::readRegistryDatabase()
 
     WindowsRegistry machineWR(HKEY_LOCAL_MACHINE, false, KEY_READ);
 
-    Repository* rep = Repository::getDefault();
+    AbstractRepository* rep = AbstractRepository::getDefault_();
 
     QString err;
     WindowsRegistry packagesWR;
@@ -92,8 +92,7 @@ void InstalledPackages::readRegistryDatabase()
                     QString versionName = name.right(name.length() - pos - 1);
                     Version version;
                     if (version.setVersion(versionName)) {
-                        rep->findOrCreatePackageVersion(
-                                packageName, version);
+                        rep->addPackageVersion(packageName, version);
                         InstalledPackageVersion* ipv = this->find(packageName, version);
                         if (!ipv) {
                             ipv = new InstalledPackageVersion(packageName, version, "");
@@ -184,7 +183,7 @@ void InstalledPackages::detectJRE(bool w64bit)
     if (w64bit && !WPMUtils::is64BitWindows())
         return;
 
-    Repository* rep = Repository::getDefault();
+    AbstractRepository* rep = AbstractRepository::getDefault_();
     WindowsRegistry jreWR;
     QString err = jreWR.open(HKEY_LOCAL_MACHINE,
             "Software\\JavaSoft\\Java Runtime Environment", !w64bit, KEY_READ);
@@ -210,11 +209,13 @@ void InstalledPackages::detectJRE(bool w64bit)
             if (!d.exists())
                 continue;
 
-            PackageVersion* pv = rep->findOrCreatePackageVersion(
-                    w64bit ? "com.oracle.JRE64" :
-                    "com.oracle.JRE", v);
-            if (!pv->installed()) {
-                pv->setPath(path);
+            QString package = w64bit ? "com.oracle.JRE64" :
+                    "com.oracle.JRE";
+            rep->addPackageVersion(package, v);
+            InstalledPackageVersion* ipv = InstalledPackages::getDefault()->
+                    findOrCreate(package, v);
+            if (!ipv->installed()) {
+                ipv->setPath(path);
             }
         }
     }
@@ -227,7 +228,7 @@ void InstalledPackages::detectJDK(bool w64bit)
     if (w64bit && !WPMUtils::is64BitWindows())
         return;
 
-    Repository* rep = Repository::getDefault();
+    AbstractRepository* rep = AbstractRepository::getDefault_();
     WindowsRegistry wr;
     QString err = wr.open(HKEY_LOCAL_MACHINE,
             "Software\\JavaSoft\\Java Development Kit",
@@ -255,10 +256,11 @@ void InstalledPackages::detectJDK(bool w64bit)
                 if (!d.exists())
                     continue;
 
-                PackageVersion* pv = rep->findOrCreatePackageVersion(
-                        p, v);
-                if (!pv->installed()) {
-                    pv->setPath(path);
+                rep->addPackageVersion(p, v);
+                InstalledPackageVersion* ipv = InstalledPackages::getDefault()->
+                        findOrCreate(p, v);
+                if (!ipv->installed()) {
+                    ipv->setPath(path);
                 }
             }
         }
@@ -274,15 +276,19 @@ void InstalledPackages::detectWindows()
     v.setVersion(osvi.dwMajorVersion, osvi.dwMinorVersion,
             osvi.dwBuildNumber);
 
-    Repository* rep = Repository::getDefault();
-    PackageVersion* pv = rep->findOrCreatePackageVersion("com.microsoft.Windows", v);
-    pv->setPath(WPMUtils::getWindowsDir());
+    AbstractRepository* rep = AbstractRepository::getDefault_();
+    rep->addPackageVersion("com.microsoft.Windows", v);
+    setPackageVersionPath("com.microsoft.Windows", v,
+            WPMUtils::getWindowsDir());
+
     if (WPMUtils::is64BitWindows()) {
-        pv = rep->findOrCreatePackageVersion("com.microsoft.Windows64", v);
-        pv->setPath(WPMUtils::getWindowsDir());
+        rep->addPackageVersion("com.microsoft.Windows64", v);
+        setPackageVersionPath("com.microsoft.Windows64", v,
+                WPMUtils::getWindowsDir());
     } else {
-        pv = rep->findOrCreatePackageVersion("com.microsoft.Windows32", v);
-        pv->setPath(WPMUtils::getWindowsDir());
+        rep->addPackageVersion("com.microsoft.Windows32", v);
+        setPackageVersionPath("com.microsoft.Windows32", v,
+                WPMUtils::getWindowsDir());
     }
 }
 
@@ -324,10 +330,11 @@ void InstalledPackages::detectOneDotNet(const WindowsRegistry& wr,
     }
 
     if (found) {
-        Repository* rep = Repository::getDefault();
-        PackageVersion* pv = rep->findOrCreatePackageVersion(packageName, v);
-        if (!pv->installed()) {
-            pv->setPath(WPMUtils::getWindowsDir());
+        AbstractRepository* rep = AbstractRepository::getDefault_();
+        rep->addPackageVersion(packageName, v);
+        InstalledPackageVersion* ipv = findOrCreate(packageName, v);
+        if (!ipv->installed()) {
+            ipv->setPath(WPMUtils::getWindowsDir());
         }
     }
 }

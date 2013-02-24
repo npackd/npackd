@@ -45,6 +45,11 @@ public:
      * @param e <package>
      */
     void saveTo(QDomElement& e) const;
+
+    /**
+     * @return copy of this object
+     */
+    Package* clone() const;
 };
 
 #endif // PACKAGE_H

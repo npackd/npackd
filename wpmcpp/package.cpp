@@ -29,3 +29,14 @@ void Package::saveTo(QDomElement& e) const {
     if (!this->license.isEmpty())
         XMLUtils::addTextTag(e, "license", this->license);
 }
+
+Package *Package::clone() const
+{
+    Package* np = new Package(this->name, this->title);
+    np->url = this->url;
+    np->icon = this->icon;
+    np->description = this->description;
+    np->license = this->license;
+
+    return np;
+}

@@ -177,15 +177,11 @@ public:
     void loadOne(const QString& filename, Job* job);
 
     /**
-     * Changes the value of the system-wide NPACKD_CL variable to point to the
-     * newest installed version of NpackdCL.
-     */
-    void updateNpackdCLEnvVar();
-
-    /**
      * @return new NPACKD_CL value
      */
     QString computeNpackdCLEnvVar();
+
+    Package* findPackage_(const QString& name);
 
     /**
      * Writes this repository to an XML file.
@@ -324,6 +320,8 @@ public:
      *     should be destroyed later
      */
     PackageVersion* findLockedPackageVersion() const;
+
+    void addPackageVersion(const QString& package, const Version& version);
 };
 
 #endif // REPOSITORY_H
