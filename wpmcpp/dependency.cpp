@@ -2,6 +2,9 @@
 #include "repository.h"
 #include "packageversion.h"
 #include "package.h"
+#include "dbrepository.h"
+#include "installedpackages.h"
+#include "installedpackageversion.h"
 
 Dependency::Dependency()
 {
@@ -36,12 +39,13 @@ QString Dependency::toString()
 {
     QString res;
 
-    Repository* r = Repository::getDefault();
+    DBRepository* r = DBRepository::getDefault();
     Package* p = r->findPackage(this->package);
     if (p)
         res.append(p->title);
     else
         res.append(package);
+    delete p;
 
     res.append(" ");
 
@@ -66,13 +70,13 @@ QString Dependency::toString()
 
 bool Dependency::isInstalled()
 {
-    Repository* r = Repository::getDefault();
-    QList<PackageVersion*> installed = r->getInstalled();
+    InstalledPackages* ip = InstalledPackages::getDefault();
+    QList<InstalledPackageVersion*> installed = ip->getAll();
     bool res = false;
     for (int i = 0; i < installed.count(); i++) {
-        PackageVersion* pv = installed.at(i);
-        if (pv->package == this->package && pv->installed() &&
-                this->test(pv->version)) {
+        InstalledPackageVersion* ipv = installed.at(i);
+        if (ipv->package == this->package && ipv->installed() &&
+                this->test(ipv->version)) {
             res = true;
             break;
         }
@@ -80,16 +84,19 @@ bool Dependency::isInstalled()
     return res;
 }
 
-void Dependency::findAllInstalledMatches(QList<PackageVersion*>& res)
+QList<InstalledPackageVersion*> Dependency::findAllInstalledMatches() const
 {
-    Repository* r = Repository::getDefault();
-    QList<PackageVersion*> installed = r->getInstalled();
+    QList<InstalledPackageVersion*> r;
+    InstalledPackages* ip = InstalledPackages::getDefault();
+    QList<InstalledPackageVersion*> installed = ip->getAll();
     for (int i = 0; i < installed.count(); i++) {
-        PackageVersion* pv = installed.at(i);
-        if (pv->package == this->package && this->test(pv->version)) {
-            res.append(pv);
+        InstalledPackageVersion* ipv = installed.at(i);
+        if (ipv->package == this->package && ipv->installed() &&
+                this->test(ipv->version)) {
+            r.append(ipv);
         }
     }
+    return r;
 }
 
 bool Dependency::autoFulfilledIf(const Dependency& dep)
@@ -183,20 +190,20 @@ PackageVersion* Dependency::findBestMatchToInstall(
     return res;
 }
 
-PackageVersion* Dependency::findHighestInstalledMatch()
+InstalledPackageVersion* Dependency::findHighestInstalledMatch() const
 {
-    QList<PackageVersion*> list;
-    findAllInstalledMatches(list);
-    PackageVersion* res = 0;
+    QList<InstalledPackageVersion*> list = findAllInstalledMatches();
+    InstalledPackageVersion* res = 0;
     for (int i = 0; i < list.count(); i++) {
-        PackageVersion* pv = list.at(i);
-        if (res == 0 || pv->version.compare(res->version) > 0)
-            res = pv;
+        InstalledPackageVersion* ipv = list.at(i);
+        if (res == 0 || ipv->version.compare(res->version) > 0)
+            res = ipv;
     }
+
     return res;
 }
 
-bool Dependency::test(const Version& v)
+bool Dependency::test(const Version& v) const
 {
     int a = v.compare(this->min);
     int b = v.compare(this->max);

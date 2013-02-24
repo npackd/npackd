@@ -10,6 +10,7 @@
 #include "mainwindow.h"
 #include "license.h"
 #include "licenseform.h"
+#include "dbrepository.h"
 
 PackageVersionForm::PackageVersionForm(QWidget *parent) :
     QWidget(parent),
@@ -48,7 +49,7 @@ void PackageVersionForm::fillForm(PackageVersion* pv)
 
     // qDebug() << pv.data()->toString();
 
-    Repository* r = Repository::getDefault();
+    DBRepository* r = DBRepository::getDefault();
 
     this->ui->lineEditTitle->setText(pv->getPackageTitle());
     this->ui->lineEditVersion->setText(pv->version.getVersionString());
@@ -62,6 +63,7 @@ void PackageVersionForm::fillForm(PackageVersion* pv)
         if (lic) {
             licenseTitle = "<a href=\"http://www.example.com\">" +
                     Qt::escape(lic->title) + "</a>";
+            delete lic;
         }
     }
     this->ui->labelLicense->setText(licenseTitle);
@@ -118,6 +120,8 @@ void PackageVersionForm::fillForm(PackageVersion* pv)
     this->ui->textEditDependencies->setText(details);
 
     updateIcons();
+
+    delete p;
 }
 
 PackageVersionForm::~PackageVersionForm()
@@ -140,15 +144,16 @@ void PackageVersionForm::changeEvent(QEvent *e)
 
 void PackageVersionForm::on_labelLicense_linkActivated(QString link)
 {
-    Repository* r = Repository::getDefault();
+    DBRepository* r = DBRepository::getDefault();
     Package* p = r->findPackage(pv->package);
 
     License* lic = 0;
     if (p)
         lic = r->findLicense(p->license);
-    if (!lic)
-        return;
+    if (lic)
+        MainWindow::getInstance()->openLicense(p->license, true);
 
-    MainWindow::getInstance()->openLicense(p->license, true);
+    delete lic;
+    delete p;
 }
 

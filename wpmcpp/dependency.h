@@ -4,6 +4,7 @@
 #include <QString>
 
 #include "version.h"
+#include "installedpackageversion.h"
 
 class PackageVersion;
 
@@ -40,13 +41,12 @@ public:
      * @param v a version
      * @return true if the version can be used for this dependency
      */
-    bool test(const Version& v);
+    bool test(const Version& v) const;
 
     /**
-     * @param res all package versions that match this dependency and are
-     *     installed will be stored here
+     * @return all package versions that match this dependency and are installed
      */
-    void findAllInstalledMatches(QList<PackageVersion*>& res);
+    QList<InstalledPackageVersion*> findAllInstalledMatches() const;
 
     /**
      * @param avoid list of package versions that should be avoided and cannot
@@ -76,7 +76,7 @@ public:
      * @return the newest package version that matches this dependency and are
      *     installed
      */
-    PackageVersion* findHighestInstalledMatch();
+    InstalledPackageVersion* findHighestInstalledMatch() const;
 
     /**
      * @return true if a package, that satisfies this dependency, is installed

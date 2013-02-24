@@ -64,10 +64,12 @@ QList<PackageVersion*> Repository::getInstalledPackageVersions(
 QList<PackageVersion*> Repository::getInstalled()
 {
     QList<PackageVersion*> ret;
-
-    for (int i = 0; i < packageVersions.count(); i++) {
-        PackageVersion* pv = packageVersions.at(i);
-        if (pv->installed()) {
+    QList<InstalledPackageVersion*> ipvs;
+    for (int i = 0; i < ipvs.count(); i++) {
+        InstalledPackageVersion* ipv = ipvs.at(i);
+        PackageVersion* pv = this->findPackageVersion(ipv->package,
+                ipv->version);
+        if (pv) {
             ret.append(pv);
         }
     }

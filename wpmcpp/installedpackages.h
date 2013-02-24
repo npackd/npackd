@@ -104,6 +104,12 @@ public:
      * Reads the package statuses from the registry.
      */
     void readRegistryDatabase();
+
+    /**
+     * @return installed packages. Note all versions may be installed. It is
+     *     also necessary to check InstalledPackageVersion::installed()
+     */
+    QList<InstalledPackageVersion*> getAll() const;
 };
 
 #endif // INSTALLEDPACKAGES_H

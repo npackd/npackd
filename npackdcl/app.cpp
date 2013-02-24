@@ -7,6 +7,7 @@
 #include "..\wpmcpp\commandline.h"
 #include "..\wpmcpp\downloader.h"
 #include "..\wpmcpp\installedpackages.h"
+#include "..\wpmcpp\installedpackageversion.h"
 
 QString App::reinstallTestPackage(QString rep)
 {
@@ -541,9 +542,9 @@ int App::path()
 
         if (r == 0) {
             // debug: WPMUtils::outputTextConsole << "Versions: " << d.toString()) << std::endl;
-            PackageVersion* pv = d.findHighestInstalledMatch();
-            if (pv) {
-                QString p = pv->getPath();
+            InstalledPackageVersion* ipv = d.findHighestInstalledMatch();
+            if (ipv) {
+                QString p = ipv->getDirectory();
                 p.replace('/', '\\');
                 WPMUtils::outputTextConsole(p + "\n");
             }
