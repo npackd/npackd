@@ -28,6 +28,12 @@ public:
      * @param title title of this license
      */
     License(QString name, QString title);
+
+    /**
+     * @brief creates a copy of this object
+     * @return [ownership:caller] copy
+     */
+    License* clone() const;
 };
 
 #endif // LICENSE_H

@@ -330,6 +330,8 @@ public:
 
     PackageVersion* findPackageVersion_(const QString& package,
             const Version& version);
+
+    License* findLicense_(const QString& name);
 };
 
 #endif // REPOSITORY_H

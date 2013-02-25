@@ -423,8 +423,8 @@ void MainWindow::updateStatusInDetailTabs()
 
 QIcon MainWindow::getPackageVersionIcon(const QString& package)
 {
-    Repository* r = Repository::getDefault();
-    Package* p = r->findPackage(package);
+    AbstractRepository* r = AbstractRepository::getDefault_();
+    Package* p = r->findPackage_(package);
 
     QIcon icon = MainWindow::genericAppIcon;
     if (p) {
@@ -432,6 +432,8 @@ QIcon MainWindow::getPackageVersionIcon(const QString& package)
             icon = MainWindow::icons[p->icon];
         }
     }
+    delete p;
+
     return icon;
 }
 
@@ -487,7 +489,7 @@ void MainWindow::prepare()
 
 void MainWindow::updateStatusInTable()
 {
-    Repository* r = Repository::getDefault();
+    AbstractRepository* r = AbstractRepository::getDefault_();
     QTableWidget* t = this->mainFrame->getTableWidget();
     for (int i = 0; i < t->rowCount(); i++) {
         QTableWidgetItem* newItem = t->item(i, 4);
@@ -495,9 +497,9 @@ void MainWindow::updateStatusInTable()
         const QVariant v = newItem->data(Qt::UserRole);
         Package* p = (Package *) v.value<void*>();
         PackageVersion* newestInstallable =
-                r->findNewestInstallablePackageVersion(p->name);
+                r->findNewestInstallablePackageVersion_(p->name);
         PackageVersion* newestInstalled =
-                r->findNewestInstalledPackageVersion(p->name);
+                r->findNewestInstalledPackageVersion_(p->name);
 
         if (newestInstalled && newestInstallable &&
                 newestInstallable->version.compare(
@@ -505,6 +507,9 @@ void MainWindow::updateStatusInTable()
             newItem->setBackgroundColor(QColor(255, 0xc7, 0xc7));
         else
             newItem->setBackgroundColor(QColor(255, 255, 255));
+
+        delete newestInstallable;
+        delete newestInstalled;
     }
 }
 
@@ -662,7 +667,7 @@ void MainWindow::fillList()
     t->setUpdatesEnabled(false);
     t->setSortingEnabled(false);
 
-    Repository* r = Repository::getDefault();
+    AbstractRepository* r = AbstractRepository::getDefault_();
 
     t->setColumnCount(6);
 
@@ -719,6 +724,7 @@ void MainWindow::fillList()
         QList<PackageVersion*> pvs = dbr->getPackageVersions(p->name, &err);
         if (pvs.count() == 0)
             continue;
+
         QString installed;
         bool atLeastOneInstalled = false;
         for (int j = pvs.count() - 1; j >= 0; j--) {
@@ -735,8 +741,8 @@ void MainWindow::fillList()
 
         bool updateEnabled = isUpdateEnabled(p->name);
 
-        PackageVersion* newestInstallable =
-                r->findNewestInstallablePackageVersion(p->name);
+        QSharedPointer<PackageVersion> newestInstallable(
+                r->findNewestInstallablePackageVersion_(p->name));
 
         if (!atLeastOneInstalled && !newestInstallable)
             continue;
@@ -804,8 +810,8 @@ void MainWindow::fillList()
         t->setItem(n, 3, newItem);
 
         newItem = new QCITableWidgetItem(installed);
-        PackageVersion* newestInstalled =
-                r->findNewestInstalledPackageVersion(p->name);
+        QSharedPointer<PackageVersion> newestInstalled(
+                r->findNewestInstalledPackageVersion_(p->name));
         if (newestInstalled && newestInstallable &&
                 newestInstallable->version.compare(
                 newestInstalled->version) > 0)
@@ -816,7 +822,7 @@ void MainWindow::fillList()
         newItem = new QCITableWidgetItem("");
         QString licenseTitle;
         if (p) {
-            License* lic = r->findLicense(p->license);
+            QSharedPointer<License> lic(r->findLicense_(p->license));
             if (lic)
                 licenseTitle = lic->title;
         }
@@ -840,7 +846,7 @@ void MainWindow::process(QList<InstallOperation*> &install)
     if (install.size() == 2) {
         InstallOperation* first = install.at(0);
         InstallOperation* second = install.at(1);
-        if (first->packageVersion->package == second->packageVersion->package &&
+        if (first->package == second->package &&
                 first->install && !second->install) {
             install.insert(0, second);
             install.removeAt(2);
@@ -849,7 +855,8 @@ void MainWindow::process(QList<InstallOperation*> &install)
 
     for (int j = 0; j < install.size(); j++) {
         InstallOperation* op = install.at(j);
-        PackageVersion* pv = op->packageVersion;
+        // TODO: op->findPackageVersion() may return 0
+        QScopedPointer<PackageVersion> pv(op->findPackageVersion());
         if (pv->isLocked()) {
             QString msg("The package %1 is locked by a "
                     "currently running installation/removal.");
@@ -873,7 +880,8 @@ void MainWindow::process(QList<InstallOperation*> &install)
     for (int i = 0; i < install.count(); i++) {
         InstallOperation* op = install.at(i);
         if (!op->install) {
-            PackageVersion* pv = op->packageVersion;
+            // TODO: op->findPackageVersion() may return 0
+            QScopedPointer<PackageVersion> pv(op->findPackageVersion());
             if (!names.isEmpty())
                 names.append(", ");
             names.append(pv->toString());
@@ -883,7 +891,8 @@ void MainWindow::process(QList<InstallOperation*> &install)
     for (int i = 0; i < install.count(); i++) {
         InstallOperation* op = install.at(i);
         if (op->install) {
-            PackageVersion* pv = op->packageVersion;
+            // TODO: op->findPackageVersion() may return 0
+            QScopedPointer<PackageVersion> pv(op->findPackageVersion());
             if (!installNames.isEmpty())
                 installNames.append(", ");
             installNames.append(pv->toString());
@@ -907,12 +916,14 @@ void MainWindow::process(QList<InstallOperation*> &install)
         title = "Installing";
     } else if (installCount == 0 && uninstallCount == 1) {
         title = "Uninstalling";
+        // TODO: install.at(0)->findPackageVersion() may return 0
+        QScopedPointer<PackageVersion> pv(install.at(0)->findPackageVersion());
         msg = QString("The package %1 will be uninstalled. "
                 "The corresponding directory %2 "
                 "will be completely deleted. "
                 "There is no way to restore the files.").
-                arg(install.at(0)->packageVersion->toString()).
-                arg(install.at(0)->packageVersion->getPath());
+                arg(pv->toString()).
+                arg(pv->getPath());
         b = UIUtils::confirm(this, "Uninstall", msg);
     } else if (installCount > 0 && uninstallCount == 0) {
         title = QString("Installing %1 packages").arg(
@@ -1016,10 +1027,11 @@ void MainWindow::on_actionUninstall_activated()
 
 bool MainWindow::isUpdateEnabled(const QString& package)
 {
-    Repository* r = Repository::getDefault();
-    PackageVersion* newest = r->findNewestInstallablePackageVersion(
+    bool res = false;
+    AbstractRepository* r = AbstractRepository::getDefault_();
+    PackageVersion* newest = r->findNewestInstallablePackageVersion_(
             package);
-    PackageVersion* newesti = r->findNewestInstalledPackageVersion(
+    PackageVersion* newesti = r->findNewestInstalledPackageVersion_(
             package);
     if (newest != 0 && newesti != 0) {
         // qDebug() << newest->version.getVersionString() << " " <<
@@ -1031,11 +1043,13 @@ bool MainWindow::isUpdateEnabled(const QString& package)
 
         // qDebug() << canInstall << " " << canUninstall;
 
-        return canInstall && canUninstall &&
+        res = canInstall && canUninstall &&
                 newest->version.compare(newesti->version) > 0;
-    } else {
-        return false;
     }
+    delete newest;
+    delete newesti;
+
+    return res;
 }
 
 void MainWindow::updateActions()
@@ -1072,7 +1086,7 @@ void MainWindow::updateInstallAction()
                         pv->download.isValid();
             }
         } else {
-            Repository* r = Repository::getDefault();
+            AbstractRepository* r = AbstractRepository::getDefault_();
             selected = selection->getSelected("Package");
             enabled = selected.count() > 0 &&
                     !hardDriveScanRunning && !reloadRepositoriesThreadRunning;
@@ -1081,13 +1095,15 @@ void MainWindow::updateInstallAction()
                     break;
 
                 Package* p = (Package*) selected.at(i);
-                PackageVersion* pv  = r->findNewestInstallablePackageVersion(
+                PackageVersion* pv  = r->findNewestInstallablePackageVersion_(
                         p->name);
 
                 enabled = enabled &&
                         pv && !pv->isLocked() &&
                         !pv->installed() &&
                         pv->download.isValid();
+
+                delete pv;
             }
         }
     }
@@ -1119,7 +1135,7 @@ void MainWindow::updateUninstallAction()
             }
             // qDebug() << "MainWindow::updateUninstallAction 2:" << selected.count();
         } else {
-            Repository* r = Repository::getDefault();
+            AbstractRepository* r = AbstractRepository::getDefault_();
             QList<void*> selected = selection->getSelected("Package");
             enabled = selected.count() > 0 &&
                     !hardDriveScanRunning && !reloadRepositoriesThreadRunning;
@@ -1128,12 +1144,14 @@ void MainWindow::updateUninstallAction()
                     break;
 
                 Package* p = (Package*) selected.at(i);
-                PackageVersion* pv = r->findNewestInstalledPackageVersion(
+                PackageVersion* pv = r->findNewestInstalledPackageVersion_(
                         p->name);
 
                 enabled = enabled &&
                         pv && !pv->isLocked() &&
                         pv->installed() && !pv->isInWindowsDir();
+
+                delete pv;
             }
         }
     }
@@ -1230,17 +1248,19 @@ void MainWindow::updateTestDownloadSiteAction()
                 }
             }
         } else {
-            Repository* r = Repository::getDefault();
+            AbstractRepository* r = AbstractRepository::getDefault_();
             selected = selection->getSelected("Package");
             if (!reloadRepositoriesThreadRunning) {
                 for (int i = 0; i < selected.count(); i++) {
                     Package* p = (Package*) selected.at(i);
-                    PackageVersion* pv = r->findNewestInstallablePackageVersion(
+                    PackageVersion* pv = r->findNewestInstallablePackageVersion_(
                             p->name);
                     if (pv && pv->download.isValid()) {
                         enabled = true;
+                        delete pv;
                         break;
                     }
+                    delete pv;
                 }
             }
         }
@@ -1256,14 +1276,16 @@ void MainWindow::updateGotoPackageURLAction()
     if (selection) {
         QList<void*> selected = selection->getSelected("PackageVersion");
         if (selected.count() > 0) {
-            Repository* r = Repository::getDefault();
+            AbstractRepository* r = Repository::getDefault_();
             if (!reloadRepositoriesThreadRunning) {
                 for (int i = 0; i < selected.count(); i++) {
                     PackageVersion* pv = (PackageVersion*) selected.at(i);
 
-                    Package* p = r->findPackage(pv->package);
+                    Package* p = r->findPackage_(pv->package);
                     if (p) {
                         QUrl url(p->url);
+                        delete p;
+
                         if (url.isValid()) {
                             enabled = true;
                             break;
@@ -1489,11 +1511,11 @@ void MainWindow::on_actionGotoPackageURL_triggered()
                     urls.insert(url);
             }
         } else {
-            Repository* r = Repository::getDefault();
+            AbstractRepository* r = AbstractRepository::getDefault_();
             selected = selection->getSelected("PackageVersion");
             for (int i = 0; i < selected.count(); i++) {
                 PackageVersion* pv = (PackageVersion*) selected.at(i);
-                Package* p = r->findPackage(pv->package);
+                QScopedPointer<Package> p(r->findPackage_(pv->package));
                 if (p) {
                     QUrl url(p->url);
                     if (url.isValid())
@@ -1590,12 +1612,12 @@ void MainWindow::on_actionTest_Download_Site_triggered()
                 urls.insert(pv->download.host());
             }
         } else {
-            Repository* r = Repository::getDefault();
+            AbstractRepository* r = AbstractRepository::getDefault_();
             selected = sel->getSelected("Package");
             for (int i = 0; i < selected.count(); i++) {
                 Package* p = (Package*) selected.at(i);
-                PackageVersion* pv = r->findNewestInstallablePackageVersion(
-                        p->name);
+                QScopedPointer<PackageVersion> pv(
+                        r->findNewestInstallablePackageVersion_(p->name));
                 if (pv) {
                     urls.insert(pv->download.host());
                 }
@@ -1685,9 +1707,7 @@ void MainWindow::on_actionShow_Details_triggered()
 
 void MainWindow::on_actionScan_Hard_Drives_triggered()
 {
-    Repository* r = Repository::getDefault();
-
-    PackageVersion* locked = r->findLockedPackageVersion();
+    PackageVersion* locked = PackageVersion::findLockedPackageVersion();
     if (locked) {
         QString msg("Cannot start the scan now. "
                 "The package %1 is locked by a "
@@ -1742,8 +1762,7 @@ void MainWindow::addErrorMessage(const QString& msg, const QString& details,
 
 void MainWindow::on_actionReload_Repositories_triggered()
 {
-    Repository* r = Repository::getDefault();
-    PackageVersion* locked = r->findLockedPackageVersion();
+    PackageVersion* locked = PackageVersion::findLockedPackageVersion();
     if (locked) {
         QString msg("Cannot reload the repositories now. "
                 "The package %1 is locked by a "

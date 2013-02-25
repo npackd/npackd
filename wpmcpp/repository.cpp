@@ -523,9 +523,17 @@ PackageVersion* Repository::findPackageVersion(const QString& package,
 
 void Repository::process(Job *job, const QList<InstallOperation *> &install)
 {
-    for (int j = 0; j < install.size(); j++) {
-        InstallOperation* op = install.at(j);
-        PackageVersion* pv = op->packageVersion;
+    QList<PackageVersion*> pvs;
+    for (int i = 0; i < install.size(); i++) {
+        InstallOperation* op = install.at(i);
+
+        // TODO: findPackageVersion() may return 0
+        PackageVersion* pv = op->findPackageVersion();
+        pvs.append(pv);
+    }
+
+    for (int j = 0; j < pvs.size(); j++) {
+        PackageVersion* pv = pvs.at(j);
         pv->lock();
     }
 
@@ -533,7 +541,7 @@ void Repository::process(Job *job, const QList<InstallOperation *> &install)
 
     for (int i = 0; i < install.count(); i++) {
         InstallOperation* op = install.at(i);
-        PackageVersion* pv = op->packageVersion;
+        PackageVersion* pv = pvs.at(i);
         if (op->install)
             job->setHint(QString("Installing %1").arg(
                     pv->toString()));
@@ -553,11 +561,12 @@ void Repository::process(Job *job, const QList<InstallOperation *> &install)
             break;
     }
 
-    for (int j = 0; j < install.size(); j++) {
-        InstallOperation* op = install.at(j);
-        PackageVersion* pv = op->packageVersion;
+    for (int j = 0; j < pvs.size(); j++) {
+        PackageVersion* pv = pvs.at(j);
         pv->unlock();
     }
+
+    qDeleteAll(pvs);
 
     job->complete();
 }
@@ -996,6 +1005,14 @@ PackageVersion *Repository::findPackageVersion_(const QString &package,
     return pv;
 }
 
+License *Repository::findLicense_(const QString &name)
+{
+    License* r = findLicense(name);
+    if (r)
+        r = r->clone();
+    return r;
+}
+
 QStringList Repository::getRepositoryURLs(HKEY hk, const QString& path,
         QString* err)
 {
@@ -1026,16 +1043,20 @@ QStringList Repository::getRepositoryURLs(HKEY hk, const QString& path,
 QString Repository::checkLockedFilesForUninstall(
         const QList<InstallOperation*> &install)
 {
+    InstalledPackages* ip = InstalledPackages::getDefault();
+
     QStringList locked = WPMUtils::getProcessFiles();
     QStringList lockedUninstall;
     for (int j = 0; j < install.size(); j++) {
         InstallOperation* op = install.at(j);
         if (!op->install) {
-            PackageVersion* pv = op->packageVersion;
-            QString path = pv->getPath();
-            for (int i = 0; i < locked.size(); i++) {
-                if (WPMUtils::isUnder(locked.at(i), path)) {
-                    lockedUninstall.append(locked.at(i));
+            InstalledPackageVersion* ipv = ip->find(op->package, op->version);
+            if (ipv && ipv->installed()) {
+                QString path = ipv->getDirectory();
+                for (int i = 0; i < locked.size(); i++) {
+                    if (WPMUtils::isUnder(locked.at(i), path)) {
+                        lockedUninstall.append(locked.at(i));
+                    }
                 }
             }
         }
@@ -1053,7 +1074,8 @@ QString Repository::checkLockedFilesForUninstall(
     for (int i = 0; i < install.count(); i++) {
         InstallOperation* op = install.at(i);
         if (!op->install) {
-            PackageVersion* pv = op->packageVersion;
+            // TODO: op.findPackageVersion may return 0
+            QScopedPointer<PackageVersion> pv(op->findPackageVersion());
             if (pv->isDirectoryLocked()) {
                 QString msg = QString("The package %1 cannot be uninstalled because "
                         "some files or directories under %2 are in use.").

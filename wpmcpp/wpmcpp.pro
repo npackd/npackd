@@ -100,6 +100,8 @@ RC_FILE = wpmcpp.rc
 RESOURCES += wpmcpp.qrc
 DEFINES+=QUAZIP_STATIC=1
 INCLUDEPATH+=$$[QT_INSTALL_PREFIX]/src/3rdparty/zlib
+INCLUDEPATH+=$$(QUAZIP_PATH)/quazip
+QMAKE_LIBDIR+=$$(QUAZIP_PATH)/quazip/release
 
 # these 2 options can be used to add the debugging information to the "release"
 # build

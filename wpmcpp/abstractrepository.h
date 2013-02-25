@@ -6,6 +6,7 @@
 
 #include "packageversion.h"
 #include "package.h"
+#include "license.h"
 
 /**
  * @brief basis for repositories
@@ -115,6 +116,15 @@ public:
      */
     virtual PackageVersion* findPackageVersion_(const QString& package,
             const Version& version) = 0;
+
+
+    /**
+     * Searches for a license by name.
+     *
+     * @param name name of the license like "org.gnu.GPLv3"
+     * @return [ownership:caller] found license or 0
+     */
+    virtual License* findLicense_(const QString& name) = 0;
 };
 
 #endif // ABSTRACTREPOSITORY_H
