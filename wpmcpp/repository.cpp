@@ -488,15 +488,7 @@ PackageVersion* Repository::findOrCreatePackageVersion(const QString &package,
 
 QStringList Repository::getAllInstalledPackagePaths() const
 {
-    QStringList r;
-    for (int i = 0; i < this->packageVersions.count(); i++) {
-        PackageVersion* pv = (PackageVersion*) this->packageVersions.at(i);
-        if (pv->installed()) {
-            QString dir = pv->getPath();
-            r.append(dir);
-        }
-    }
-    return r;
+    return InstalledPackages::getDefault()->getAllInstalledPackagePaths();
 }
 
 PackageVersion* Repository::findPackageVersionByMSIGUID(
@@ -969,6 +961,39 @@ void Repository::addPackageVersion(const QString &package, const Version &versio
         this->packageVersions.append(pv);
         this->package2versions.insert(package, pv);
     }
+}
+
+QString Repository::savePackage(Package *p)
+{
+    Package* fp = findPackage(p->name);
+    if (!fp) {
+        fp = new Package(p->name, p->title);
+        this->packages.append(fp);
+    }
+    fp->title = p->title;
+    fp->url = p->url;
+    fp->icon = p->icon;
+    fp->description = p->description;
+    fp->license = p->license;
+
+    return "";
+}
+
+PackageVersion *Repository::findPackageVersionByMSIGUID_(const QString &guid) const
+{
+    PackageVersion* r = findPackageVersionByMSIGUID(guid);
+    if (r)
+        r = r->clone();
+    return r;
+}
+
+PackageVersion *Repository::findPackageVersion_(const QString &package,
+        const Version &version)
+{
+    PackageVersion* pv = findPackageVersion(package, version);
+    if (pv)
+        pv = pv->clone();
+    return pv;
 }
 
 QStringList Repository::getRepositoryURLs(HKEY hk, const QString& path,

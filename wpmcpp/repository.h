@@ -322,6 +322,14 @@ public:
     PackageVersion* findLockedPackageVersion() const;
 
     void addPackageVersion(const QString& package, const Version& version);
+
+    QString savePackage(Package* p);
+
+    PackageVersion* findPackageVersionByMSIGUID_(
+            const QString& guid) const;
+
+    PackageVersion* findPackageVersion_(const QString& package,
+            const Version& version);
 };
 
 #endif // REPOSITORY_H

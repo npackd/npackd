@@ -79,7 +79,7 @@ public:
      * @brief searches for a package version
      * @param package full package name
      * @param version version number
-     * @return found package or 0. The returned object should be destroyed later.
+     * @return [ownership:caller] found package or 0
      */
     PackageVersion* findPackageVersion(
             const QString& package, const Version& version);
@@ -128,6 +128,13 @@ public:
     PackageVersion *findNewestInstalledPackageVersion(const QString &name) const;
 
     void addPackageVersion(const QString& package, const Version& version);
+
+    QString savePackage(Package* p);
+
+    PackageVersion* findPackageVersionByMSIGUID_(const QString& guid) const;
+
+    PackageVersion* findPackageVersion_(const QString& package,
+            const Version& version);
 };
 
 #endif // DBREPOSITORY_H

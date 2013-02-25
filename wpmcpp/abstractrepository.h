@@ -90,6 +90,31 @@ public:
      */
     virtual void addPackageVersion(const QString& package,
             const Version& version) = 0;
+
+    /**
+     * @brief saves (creates or updates) the data about a package
+     * @param p [ownership:copy] package
+     * @return error message
+     */
+    virtual QString savePackage(Package* p) = 0;
+
+    /**
+     * @brief searches for a package version by the associated MSI GUID
+     * @param guid MSI package GUID
+     * @return [ownership:new] found package version or 0
+     */
+    virtual PackageVersion* findPackageVersionByMSIGUID_(
+            const QString& guid) const = 0;
+
+    /**
+     * Find the newest available package version.
+     *
+     * @param package name of the package like "org.server.Word"
+     * @param version package version
+     * @return [ownership:new] found package version or 0
+     */
+    virtual PackageVersion* findPackageVersion_(const QString& package,
+            const Version& version) = 0;
 };
 
 #endif // ABSTRACTREPOSITORY_H
