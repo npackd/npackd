@@ -40,6 +40,8 @@ private:
     void detectJRE(bool w64bit);
     void detectJDK(bool w64bit);
     void detectWindows();
+    void setPackageVersionPathIfNotInstalled(const QString &package,
+            const Version &version, const QString &directory);
 public:
     /**
      * @return default instance
@@ -110,6 +112,12 @@ public:
      *     also necessary to check InstalledPackageVersion::installed()
      */
     QList<InstalledPackageVersion*> getAll() const;
+
+    /**
+     * @brief paths to all installed package versions
+     * @return list of directories
+     */
+    QStringList getAllInstalledPackagePaths() const;
 };
 
 #endif // INSTALLEDPACKAGES_H

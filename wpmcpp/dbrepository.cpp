@@ -67,11 +67,12 @@ QString DBRepository::insertPackageVersion(PackageVersion* p)
 {
     QSqlQuery q;
     q.prepare("INSERT INTO PACKAGE_VERSION "
-            "(ID, NAME, PACKAGE, CONTENT)"
-            "VALUES(:ID, :NAME, :PACKAGE, :CONTENT)");
+            "(ID, NAME, PACKAGE, CONTENT, MSIGUID)"
+            "VALUES(:ID, :NAME, :PACKAGE, :CONTENT, :MSIGUID)");
     q.bindValue(":ID", QVariant(QVariant::Int));
     q.bindValue(":NAME", p->version.getVersionString());
     q.bindValue(":PACKAGE", p->package);
+    q.bindValue(":MSIGUID", p->msiGUID);
     QDomDocument doc;
     QDomElement root = doc.createElement("version");
     doc.appendChild(root);
@@ -150,7 +151,7 @@ PackageVersion* DBRepository::findPackageVersion(
 
     QSqlQuery q;
     q.prepare("SELECT ID, NAME, "
-            "PACKAGE, CONTENT FROM PACKAGE_VERSION "
+            "PACKAGE, CONTENT, MSIGUID FROM PACKAGE_VERSION "
             "WHERE NAME = :NAME AND PACKAGE = :PACKAGE");
     q.bindValue(":NAME", version_);
     q.bindValue(":PACKAGE", package);
@@ -193,7 +194,7 @@ QList<PackageVersion*> DBRepository::getPackageVersions(
 
     QSqlQuery q;
     q.prepare("SELECT ID, NAME, "
-            "PACKAGE, CONTENT FROM PACKAGE_VERSION "
+            "PACKAGE, CONTENT, MSIGUID FROM PACKAGE_VERSION "
             "WHERE PACKAGE = :PACKAGE");
     q.bindValue(":PACKAGE", package);
     if (!q.exec()) {
@@ -289,6 +290,76 @@ void DBRepository::addPackageVersion(const QString &package, const Version &vers
         insertPackageVersion(pv);
     }
     delete pv;
+}
+
+QString DBRepository::savePackage(Package *p)
+{
+    QString r;
+
+    Package* fp = findPackage(p->name);
+    if (fp) {
+        delete fp;
+
+        QSqlQuery q;
+        q.prepare("UPDATE PACKAGE "
+                "SET TITLE=:TITLE, URL=:URL, ICON=:ICON, "
+                "DESCRIPTION=:DESCRIPTION, LICENSE=:LICENSE, "
+                "FULLTEXT=:FULLTEXT "
+                "WHERE NAME=:NAME");
+        q.bindValue(":TITLE", p->title);
+        q.bindValue(":URL", p->url);
+        q.bindValue(":ICON", p->icon);
+        q.bindValue(":DESCRIPTION", p->description);
+        q.bindValue(":LICENSE", p->license);
+        q.bindValue(":FULLTEXT", (p->title + " " + p->description + " " +
+                p->name).toLower());
+        q.bindValue(":NAME", p->name);
+        q.exec();
+        r = toString(q.lastError());
+    } else {
+        r = insertPackage(p);
+    }
+
+    return r;
+}
+
+PackageVersion *DBRepository::findPackageVersionByMSIGUID_(const QString &guid) const
+{
+    PackageVersion* r = 0;
+
+    QSqlQuery q;
+    q.prepare("SELECT ID, NAME, "
+            "PACKAGE, CONTENT FROM PACKAGE_VERSION "
+            "WHERE MSIGUID = :MSIGUID");
+    q.bindValue(":MSIGUID", guid);
+    q.exec();
+    if (q.next()) {
+        // TODO: handle error
+        QDomDocument doc;
+        int errorLine, errorColumn;
+        QString err;
+        if (!doc.setContent(q.value(3).toByteArray(),
+                &err, &errorLine, &errorColumn))
+            err = QString(
+                    "XML parsing failed at line %1, column %2: %3").
+                    arg(errorLine).arg(errorColumn).arg(err);
+
+        QDomElement root = doc.documentElement();
+        PackageVersion* p = PackageVersion::parse(&root, &err);
+
+        // TODO: handle this error
+        if (err.isEmpty()) {
+            r = p;
+        }
+    }
+
+    return r;
+}
+
+PackageVersion *DBRepository::findPackageVersion_(const QString &package,
+        const Version &version)
+{
+    return findPackageVersion(package, version);
 }
 
 QString DBRepository::computeNpackdCLEnvVar() const
@@ -448,8 +519,7 @@ QString DBRepository::open()
         if (!e) {
             db.exec("CREATE TABLE PACKAGE_VERSION(ID INTEGER PRIMARY KEY, NAME TEXT, "
                     "PACKAGE TEXT, "
-                    "CONTENT BLOB"
-                    ")");
+                    "CONTENT BLOB, MSIGUID TEXT)");
             err = toString(db.lastError());
         }
     }
