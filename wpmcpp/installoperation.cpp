@@ -1,9 +1,15 @@
 #include "installoperation.h"
+#include "abstractrepository.h"
 
 InstallOperation::InstallOperation()
 {
     this->install = true;
-    this->packageVersion = 0;
+}
+
+PackageVersion *InstallOperation::findPackageVersion() const
+{
+    return AbstractRepository::getDefault_()->findPackageVersion_(this->package,
+            this->version);
 }
 
 void InstallOperation::simplify(QList<InstallOperation*> ops)
@@ -14,7 +20,8 @@ void InstallOperation::simplify(QList<InstallOperation*> ops)
         int found = -1;
         for (int j = i + 1; j < ops.size(); j++) {
             InstallOperation* op2 = ops.at(j);
-            if (op->packageVersion == op2->packageVersion &&
+            if (op->package == op2->package &&
+                    op->version == op2->version &&
                     !op->install && op2->install) {
                 found = j;
                 break;

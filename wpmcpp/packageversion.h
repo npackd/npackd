@@ -83,8 +83,7 @@ public:
     static int indexOf(const QList<PackageVersion*> pvs, PackageVersion* f);
 
     /**
-     * @return the first found locked PackageVersion or 0. The returned object
-     *     should be destroyed later
+     * @return [ownership:caller] the first found locked PackageVersion or 0
      */
     static PackageVersion* findLockedPackageVersion();
 

@@ -135,6 +135,8 @@ public:
 
     PackageVersion* findPackageVersion_(const QString& package,
             const Version& version);
+
+    License* findLicense_(const QString& name);
 };
 
 #endif // DBREPOSITORY_H

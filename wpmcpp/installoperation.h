@@ -11,13 +11,22 @@
 class InstallOperation
 {
 public:
-    /** this will be changed. The object is not owned by this one. */
-    PackageVersion* packageVersion;
-
     /** true = install, false = uninstall */
     bool install;
 
+    /** full package name. This package will be modified. */
+    QString package;
+
+    /** package version */
+    Version version;
+
     InstallOperation();
+
+    /**
+     * @brief finds the corresponding package version
+     * @return [ownership:caller] found package version or 0
+     */
+    PackageVersion* findPackageVersion() const;
 
     /**
      * Simplifies a list of operations.

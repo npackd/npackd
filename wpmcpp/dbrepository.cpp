@@ -362,6 +362,11 @@ PackageVersion *DBRepository::findPackageVersion_(const QString &package,
     return findPackageVersion(package, version);
 }
 
+License *DBRepository::findLicense_(const QString &name)
+{
+    return findLicense(name);
+}
+
 QString DBRepository::computeNpackdCLEnvVar() const
 {
     return computeNpackdCLEnvVar_();

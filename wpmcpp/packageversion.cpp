@@ -453,7 +453,8 @@ QString PackageVersion::planInstallation(QList<PackageVersion*>& installed,
     if (res.isEmpty()) {
         InstallOperation* io = new InstallOperation();
         io->install = true;
-        io->packageVersion = this;
+        io->package = this->package;
+        io->version = this->version;
         ops.append(io);
         installed.append(this);
     }
@@ -509,7 +510,8 @@ QString PackageVersion::planUninstallation(QList<PackageVersion*>& installed,
     if (res.isEmpty()) {
         InstallOperation* op = new InstallOperation();
         op->install = false;
-        op->packageVersion = this;
+        op->package = this->package;
+        op->version = this->version;
         ops.append(op);
         installed.removeOne(this);
     }
