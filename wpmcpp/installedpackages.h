@@ -23,6 +23,8 @@ private:
     InstalledPackages();
     void detectOneDotNet(const WindowsRegistry& wr, const QString& keyName);
 
+    void clearPackagesInNestedDirectories();
+
     void detectControlPanelPrograms();
     void detectControlPanelProgramsFrom(HKEY root,
             const QString& path, bool useWoWNode,
@@ -118,6 +120,16 @@ public:
      * @return list of directories
      */
     QStringList getAllInstalledPackagePaths() const;
+
+    /**
+     * Reloads the database about installed packages from the
+     * registry and performs a quick detection of packages from the MSI database
+     * and "Software" control panel. Checks also that the package versions
+     * directories are still present.
+     *
+     * @param job job for this method
+     */
+    void refresh(Job* job);
 };
 
 #endif // INSTALLEDPACKAGES_H

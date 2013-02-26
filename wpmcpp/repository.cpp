@@ -24,7 +24,6 @@ QMutex Repository::mutex;
 
 Repository::Repository(): AbstractRepository()
 {
-    addWellKnownPackages();
 }
 
 bool packageVersionLessThan2(const PackageVersion* a, const PackageVersion* b) {
@@ -99,28 +98,6 @@ Repository::~Repository()
     qDeleteAll(this->packages);
     qDeleteAll(this->packageVersions);
     qDeleteAll(this->licenses);
-}
-
-void Repository::clearPackagesInNestedDirectories() {
-    QList<PackageVersion*> pvs = this->getInstalled();
-    qSort(pvs.begin(), pvs.end(), packageVersionLessThan2);
-
-    for (int j = 0; j < pvs.count(); j++) {
-        PackageVersion* pv = pvs.at(j);
-        if (pv->installed() && !WPMUtils::pathEquals(pv->getPath(),
-                WPMUtils::getWindowsDir())) {
-            for (int i = j + 1; i < pvs.count(); i++) {
-                PackageVersion* pv2 = pvs.at(i);
-                if (pv2->installed() && !WPMUtils::pathEquals(pv2->getPath(),
-                        WPMUtils::getWindowsDir())) {
-                    if (WPMUtils::isUnder(pv2->getPath(), pv->getPath()) ||
-                            WPMUtils::pathEquals(pv2->getPath(), pv->getPath())) {
-                        pv2->setPath("");
-                    }
-                }
-            }
-        }
-    }
 }
 
 PackageVersion* Repository::findNewestInstallablePackageVersion(
@@ -267,80 +244,6 @@ int Repository::countUpdates()
         }
     }
     return r;
-}
-
-void Repository::addWellKnownPackages()
-{
-    if (!this->findPackage("com.microsoft.Windows")) {
-        Package* p = new Package("com.microsoft.Windows", "Windows");
-        p->url = "http://www.microsoft.com/windows/";
-        p->description = "Operating system";
-        this->packages.append(p);
-    }
-    if (!this->findPackage("com.microsoft.Windows32")) {
-        Package* p = new Package("com.microsoft.Windows32", "Windows/32 bit");
-        p->url = "http://www.microsoft.com/windows/";
-        p->description = "Operating system";
-        this->packages.append(p);
-    }
-    if (!this->findPackage("com.microsoft.Windows64")) {
-        Package* p = new Package("com.microsoft.Windows64", "Windows/64 bit");
-        p->url = "http://www.microsoft.com/windows/";
-        p->description = "Operating system";
-        this->packages.append(p);
-    }
-    if (!findPackage("com.googlecode.windows-package-manager.Npackd")) {
-        Package* p = new Package("com.googlecode.windows-package-manager.Npackd",
-                "Npackd");
-        p->url = "http://code.google.com/p/windows-package-manager/";
-        p->description = "package manager";
-        packages.append(p);
-    }
-    if (!this->findPackage("com.oracle.JRE")) {
-        Package* p = new Package("com.oracle.JRE", "JRE");
-        p->url = "http://www.java.com/";
-        p->description = "Java runtime";
-        this->packages.append(p);
-    }
-    if (!this->findPackage("com.oracle.JRE64")) {
-        Package* p = new Package("com.oracle.JRE64", "JRE/64 bit");
-        p->url = "http://www.java.com/";
-        p->description = "Java runtime";
-        this->packages.append(p);
-    }
-    if (!this->findPackage("com.oracle.JDK")) {
-        Package* p = new Package("com.oracle.JDK", "JDK");
-        p->url = "http://www.oracle.com/technetwork/java/javase/overview/index.html";
-        p->description = "Java development kit";
-        this->packages.append(p);
-    }
-    if (!this->findPackage("com.oracle.JDK64")) {
-        Package* p = new Package("com.oracle.JDK64", "JDK/64 bit");
-        p->url = "http://www.oracle.com/technetwork/java/javase/overview/index.html";
-        p->description = "Java development kit";
-        this->packages.append(p);
-    }
-    if (!this->findPackage("com.microsoft.DotNetRedistributable")) {
-        Package* p = new Package("com.microsoft.DotNetRedistributable",
-                ".NET redistributable runtime");
-        p->url = "http://msdn.microsoft.com/en-us/netframework/default.aspx";
-        p->description = ".NET runtime";
-        this->packages.append(p);
-    }
-    if (!this->findPackage("com.microsoft.WindowsInstaller")) {
-        Package* p = new Package("com.microsoft.WindowsInstaller",
-                "Windows Installer");
-        p->url = "http://msdn.microsoft.com/en-us/library/cc185688(VS.85).aspx";
-        p->description = "Package manager";
-        this->packages.append(p);
-    }
-    if (!this->findPackage("com.microsoft.MSXML")) {
-        Package* p = new Package("com.microsoft.MSXML",
-                "Microsoft Core XML Services (MSXML)");
-        p->url = "http://www.microsoft.com/downloads/en/details.aspx?FamilyID=993c0bcf-3bcf-4009-be21-27e85e1857b1#Overview";
-        p->description = "XML library";
-        this->packages.append(p);
-    }
 }
 
 QString Repository::planUpdates(const QList<Package*> packages,
@@ -521,56 +424,6 @@ PackageVersion* Repository::findPackageVersion(const QString& package,
     return r;
 }
 
-void Repository::process(Job *job, const QList<InstallOperation *> &install)
-{
-    QList<PackageVersion*> pvs;
-    for (int i = 0; i < install.size(); i++) {
-        InstallOperation* op = install.at(i);
-
-        // TODO: findPackageVersion() may return 0
-        PackageVersion* pv = op->findPackageVersion();
-        pvs.append(pv);
-    }
-
-    for (int j = 0; j < pvs.size(); j++) {
-        PackageVersion* pv = pvs.at(j);
-        pv->lock();
-    }
-
-    int n = install.count();
-
-    for (int i = 0; i < install.count(); i++) {
-        InstallOperation* op = install.at(i);
-        PackageVersion* pv = pvs.at(i);
-        if (op->install)
-            job->setHint(QString("Installing %1").arg(
-                    pv->toString()));
-        else
-            job->setHint(QString("Uninstalling %1").arg(
-                    pv->toString()));
-        Job* sub = job->newSubJob(1.0 / n);
-        if (op->install)
-            pv->install(sub, pv->getPreferredInstallationDirectory());
-        else
-            pv->uninstall(sub);
-        if (!sub->getErrorMessage().isEmpty())
-            job->setErrorMessage(sub->getErrorMessage());
-        delete sub;
-
-        if (!job->getErrorMessage().isEmpty())
-            break;
-    }
-
-    for (int j = 0; j < pvs.size(); j++) {
-        PackageVersion* pv = pvs.at(j);
-        pv->unlock();
-    }
-
-    qDeleteAll(pvs);
-
-    job->complete();
-}
-
 QString Repository::computeNpackdCLEnvVar()
 {
     return computeNpackdCLEnvVar_();
@@ -701,8 +554,6 @@ void Repository::reload(Job *job, bool useCache)
         job->setErrorMessage(d->getErrorMessage());
     delete d;
 
-    addWellKnownPackages();
-
     if (!job->isCancelled() && job->getErrorMessage().isEmpty()) {
         d = job->newSubJob(0.25);
         job->setHint("Refreshing installation statuses");
@@ -715,55 +566,7 @@ void Repository::reload(Job *job, bool useCache)
 
 void Repository::refresh(Job *job)
 {
-    if (!job->isCancelled() && job->getErrorMessage().isEmpty()) {
-        job->setHint("Detecting directories deleted externally");
-        for (int i = 0; i < this->packageVersions.count(); i++) {
-            PackageVersion* pv = this->packageVersions.at(i);
-            QString path = pv->getPath();
-            if (!path.isEmpty()) {
-                QDir d(path);
-                d.refresh();
-                if (!d.exists()) {
-                    pv->setPath("");
-                }
-            }
-        }
-        job->setProgress(0.2);
-    }
-
-    InstalledPackages* ip = InstalledPackages::getDefault();
-    if (!job->isCancelled() && job->getErrorMessage().isEmpty()) {
-        job->setHint("Detecting packages installed by Npackd 1.14 or earlier");
-        ip->detectPre_1_15_Packages();
-        job->setProgress(0.4);
-    }
-
-    if (!job->isCancelled() && job->getErrorMessage().isEmpty()) {
-        job->setHint("Reading registry package database");
-        InstalledPackages::getDefault()->readRegistryDatabase();
-        job->setProgress(0.5);
-    }
-
-    if (!job->isCancelled() && job->getErrorMessage().isEmpty()) {
-        job->setHint("Detecting software");
-        Job* d = job->newSubJob(0.2);
-        ip->detect(d);
-        delete d;
-    }
-
-    if (!job->isCancelled() && job->getErrorMessage().isEmpty()) {
-        job->setHint("Detecting packages installed by Npackd 1.14 or earlier (2)");
-        ip->scanPre1_15Dir(true);
-        job->setProgress(0.9);
-    }
-
-    if (job->shouldProceed(
-            "Clearing information about installed package versions in nested directories")) {
-        clearPackagesInNestedDirectories();
-        job->setProgress(1);
-    }
-
-    job->complete();
+    InstalledPackages::getDefault()->refresh(job);
 }
 
 void Repository::load(Job* job, bool useCache)
@@ -1011,6 +814,22 @@ License *Repository::findLicense_(const QString &name)
     if (r)
         r = r->clone();
     return r;
+}
+
+QString Repository::clear()
+{
+    qDeleteAll(this->packages);
+    this->packages.clear();
+
+    qDeleteAll(this->packageVersions);
+    this->packageVersions.clear();
+
+    this->package2versions.clear();
+
+    qDeleteAll(this->licenses);
+    this->licenses.clear();
+
+    return "";
 }
 
 QStringList Repository::getRepositoryURLs(HKEY hk, const QString& path,

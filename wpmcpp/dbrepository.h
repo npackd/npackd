@@ -26,10 +26,6 @@ private:
             const QString& table, QString* err);
     static QString toString(const QSqlError& e);
 
-    QMap<QString, QWeakPointer<Package> > packagesCache;
-    QMap<QString, QWeakPointer<PackageVersion> > packageVersionsCache;
-    QMap<QString, QWeakPointer<License> > licensesCache;
-
     QString insertPackage(Package* p);
     QString insertPackageVersion(PackageVersion* p);
     QString insertLicense(License* p);
@@ -39,6 +35,8 @@ private:
     QString insertLicenses(Repository* r);
 
     QString exec(const QString& sql);
+
+    void addWellKnownPackages();
 public:
     /**
      * @return default repository
@@ -64,7 +62,7 @@ public:
      * @param r the repository
      * @return error message
      */
-    void reloadFrom(Job* job, Repository* r);
+    void insertAll(Job* job, Repository* r);
 
     /**
      * @brief searches for a package with the given name
@@ -127,6 +125,14 @@ public:
      */
     PackageVersion *findNewestInstalledPackageVersion(const QString &name) const;
 
+    /**
+     * @brief loads does all the necessary updates when F5 is pressed. The
+     *    repositories from the Internet are loaded and the MSI database and
+     *    "Software" control panel data will be scanned.
+     * @param job job
+     */
+    void updateF5(Job *job);
+
     void addPackageVersion(const QString& package, const Version& version);
 
     QString savePackage(Package* p);
@@ -137,6 +143,8 @@ public:
             const Version& version);
 
     License* findLicense_(const QString& name);
+
+    QString clear();
 };
 
 #endif // DBREPOSITORY_H

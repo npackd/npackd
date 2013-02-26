@@ -15,6 +15,7 @@
 #include "repository.h"
 #include "packageversion.h"
 #include "wpmutils.h"
+#include "installedpackages.h"
 
 bool packageVersionLessThan3(const PackageVersion* a, const PackageVersion* b) {
     int r = a->package.compare(b->package);
@@ -367,13 +368,10 @@ License *DBRepository::findLicense_(const QString &name)
     return findLicense(name);
 }
 
-QString DBRepository::computeNpackdCLEnvVar() const
+QString DBRepository::clear()
 {
-    return computeNpackdCLEnvVar_();
-}
+    Job* job = new Job();
 
-void DBRepository::reloadFrom(Job* job, Repository* r)
-{
     if (job->shouldProceed("Starting an SQL transaction")) {
         QString err = exec("BEGIN TRANSACTION");
         if (!err.isEmpty())
@@ -390,14 +388,6 @@ void DBRepository::reloadFrom(Job* job, Repository* r)
             job->setProgress(0.1);
     }
 
-    if (job->shouldProceed("Inserting data in the packages table")) {
-        QString err = insertPackages(r);
-        if (err.isEmpty())
-            job->setProgress(0.6);
-        else
-            job->setErrorMessage(err);
-    }
-
     if (job->shouldProceed("Clearing the package versions table")) {
         QString err = exec("DELETE FROM PACKAGE_VERSION");
         if (!err.isEmpty())
@@ -406,20 +396,235 @@ void DBRepository::reloadFrom(Job* job, Repository* r)
             job->setProgress(0.7);
     }
 
-    if (job->shouldProceed("Inserting data in the package versions table")) {
-        QString err = insertPackageVersions(r);
-        if (err.isEmpty())
-            job->setProgress(0.95);
-        else
-            job->setErrorMessage(err);
-    }
-
     if (job->shouldProceed("Clearing the licenses table")) {
         QString err = exec("DELETE FROM LICENSE");
         if (!err.isEmpty())
             job->setErrorMessage(err);
         else
             job->setProgress(0.96);
+    }
+
+    if (job->shouldProceed("Commiting the SQL transaction")) {
+        QString err = exec("COMMIT");
+        if (!err.isEmpty())
+            job->setErrorMessage(err);
+        else
+            job->setProgress(1);
+    }
+
+    job->complete();
+
+    return "";
+}
+
+QString DBRepository::computeNpackdCLEnvVar() const
+{
+    return computeNpackdCLEnvVar_();
+}
+
+void DBRepository::updateF5(Job* job)
+{
+    Repository* r = Repository::getDefault();
+    if (job->shouldProceed("Clearing the database")) {
+        // TODO: error is ignored
+        clear();
+        job->setProgress(0.1);
+    }
+
+    if (job->shouldProceed("Downloading the remote repositories")) {
+        Job* sub = job->newSubJob(0.69);
+        // TODO: reload was here before
+        r->load(sub, false);
+        if (!sub->getErrorMessage().isEmpty())
+            job->setErrorMessage(sub->getErrorMessage());
+        delete sub;
+
+        PackageVersion* pv = r->findOrCreatePackageVersion(
+                "com.googlecode.windows-package-manager.Npackd",
+                Version(WPMUtils::NPACKD_VERSION));
+        if (!pv->installed()) {
+            pv->setPath(WPMUtils::getExeDir());
+        }
+    }
+
+    if (job->shouldProceed("Adding well-known packages")) {
+        addWellKnownPackages();
+        job->setProgress(0.8);
+    }
+
+    if (job->shouldProceed("Filling the local database")) {
+        Job* sub = job->newSubJob(0.09);
+        insertAll(sub, r);
+        if (!sub->getErrorMessage().isEmpty())
+            job->setErrorMessage(sub->getErrorMessage());
+        delete sub;
+    }
+
+    if (job->shouldProceed("Refreshing the installation status")) {
+        Job* sub = job->newSubJob(0.1);
+        InstalledPackages::getDefault()->refresh(sub);
+        if (!sub->getErrorMessage().isEmpty())
+            job->setErrorMessage(sub->getErrorMessage());
+        delete sub;
+    }
+
+    job->complete();
+}
+
+void DBRepository::addWellKnownPackages()
+{
+    Package* p;
+
+    p = this->findPackage("com.microsoft.Windows");
+    if (!p) {
+        Package* p = new Package("com.microsoft.Windows", "Windows");
+        p->url = "http://www.microsoft.com/windows/";
+        p->description = "Operating system";
+
+        // TODO: error message is ignored
+        insertPackage(p);
+    }
+    delete p;
+
+    p = this->findPackage("com.microsoft.Windows32");
+    if (!p) {
+        Package* p = new Package("com.microsoft.Windows32", "Windows/32 bit");
+        p->url = "http://www.microsoft.com/windows/";
+        p->description = "Operating system";
+
+        // TODO: error message is ignored
+        insertPackage(p);
+    }
+    delete p;
+
+    p = this->findPackage("com.microsoft.Windows64");
+    if (!p) {
+        Package* p = new Package("com.microsoft.Windows64", "Windows/64 bit");
+        p->url = "http://www.microsoft.com/windows/";
+        p->description = "Operating system";
+
+        // TODO: error message is ignored
+        insertPackage(p);
+    }
+    delete p;
+
+    p = findPackage("com.googlecode.windows-package-manager.Npackd");
+    if (!p) {
+        Package* p = new Package("com.googlecode.windows-package-manager.Npackd",
+                "Npackd");
+        p->url = "http://code.google.com/p/windows-package-manager/";
+        p->description = "package manager";
+
+        // TODO: error message is ignored
+        insertPackage(p);
+    }
+    delete p;
+
+    p = this->findPackage("com.oracle.JRE");
+    if (!p) {
+        Package* p = new Package("com.oracle.JRE", "JRE");
+        p->url = "http://www.java.com/";
+        p->description = "Java runtime";
+
+        // TODO: error message is ignored
+        insertPackage(p);
+    }
+    delete p;
+
+    p = this->findPackage("com.oracle.JRE64");
+    if (!p) {
+        Package* p = new Package("com.oracle.JRE64", "JRE/64 bit");
+        p->url = "http://www.java.com/";
+        p->description = "Java runtime";
+
+        // TODO: error message is ignored
+        insertPackage(p);
+    }
+    delete p;
+
+    p = this->findPackage("com.oracle.JDK");
+    if (!p) {
+        Package* p = new Package("com.oracle.JDK", "JDK");
+        p->url = "http://www.oracle.com/technetwork/java/javase/overview/index.html";
+        p->description = "Java development kit";
+
+        // TODO: error message is ignored
+        insertPackage(p);
+    }
+    delete p;
+
+    p = this->findPackage("com.oracle.JDK64");
+    if (!p) {
+        Package* p = new Package("com.oracle.JDK64", "JDK/64 bit");
+        p->url = "http://www.oracle.com/technetwork/java/javase/overview/index.html";
+        p->description = "Java development kit";
+
+        // TODO: error message is ignored
+        insertPackage(p);
+    }
+    delete p;
+
+    p = this->findPackage("com.microsoft.DotNetRedistributable");
+    if (!p) {
+        Package* p = new Package("com.microsoft.DotNetRedistributable",
+                ".NET redistributable runtime");
+        p->url = "http://msdn.microsoft.com/en-us/netframework/default.aspx";
+        p->description = ".NET runtime";
+
+        // TODO: error message is ignored
+        insertPackage(p);
+    }
+    delete p;
+
+    p = this->findPackage("com.microsoft.WindowsInstaller");
+    if (!p) {
+        Package* p = new Package("com.microsoft.WindowsInstaller",
+                "Windows Installer");
+        p->url = "http://msdn.microsoft.com/en-us/library/cc185688(VS.85).aspx";
+        p->description = "Package manager";
+
+        // TODO: error message is ignored
+        insertPackage(p);
+    }
+    delete p;
+
+    p = this->findPackage("com.microsoft.MSXML");
+    if (!p) {
+        Package* p = new Package("com.microsoft.MSXML",
+                "Microsoft Core XML Services (MSXML)");
+        p->url = "http://www.microsoft.com/downloads/en/details.aspx?FamilyID=993c0bcf-3bcf-4009-be21-27e85e1857b1#Overview";
+        p->description = "XML library";
+
+        // TODO: error message is ignored
+        insertPackage(p);
+    }
+    delete p;
+}
+
+void DBRepository::insertAll(Job* job, Repository* r)
+{
+    if (job->shouldProceed("Starting an SQL transaction")) {
+        QString err = exec("BEGIN TRANSACTION");
+        if (!err.isEmpty())
+            job->setErrorMessage(err);
+        else
+            job->setProgress(0.01);
+    }
+
+    if (job->shouldProceed("Inserting data in the packages table")) {
+        QString err = insertPackages(r);
+        if (err.isEmpty())
+            job->setProgress(0.6);
+        else
+            job->setErrorMessage(err);
+    }
+
+    if (job->shouldProceed("Inserting data in the package versions table")) {
+        QString err = insertPackageVersions(r);
+        if (err.isEmpty())
+            job->setProgress(0.95);
+        else
+            job->setErrorMessage(err);
     }
 
     if (job->shouldProceed("Inserting data in the licenses table")) {

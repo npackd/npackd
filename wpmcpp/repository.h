@@ -45,19 +45,6 @@ private:
     void scan(const QString& path, Job* job, int level, QStringList& ignore);
 
     /**
-     * Loads the content from the URLs. None of the packages has the information
-     * about installation path after this method was called.
-     *
-     * @param job job for this method
-     * @param useCache true = cache will be used
-     */
-    void load(Job* job, bool useCache=true);
-
-    void addWellKnownPackages();
-
-    void clearPackagesInNestedDirectories();
-
-    /**
      * @param hk root key
      * @param path registry path
      * @param err error message will be stored here
@@ -113,6 +100,15 @@ public:
             const QString& guid) const;
 
     /**
+     * Loads the content from the URLs. None of the packages has the information
+     * about installation path after this method was called.
+     *
+     * @param job job for this method
+     * @param useCache true = cache will be used
+     */
+    void load(Job* job, bool useCache=true);
+
+    /**
      * @brief paths to all installed package versions
      * @return list of directories
      */
@@ -139,15 +135,6 @@ public:
     Repository();
 
     virtual ~Repository();
-
-    /**
-     * @brief processes the given operatios
-     * @param job job
-     * @param install operations that should be performed
-     *
-     * TODO: this method is not thread-safe
-     */
-    void process(Job* job, const QList<InstallOperation*> &install);
 
     /**
      * Plans updates for the given packages.
@@ -332,6 +319,8 @@ public:
             const Version& version);
 
     License* findLicense_(const QString& name);
+
+    QString clear();
 };
 
 #endif // REPOSITORY_H

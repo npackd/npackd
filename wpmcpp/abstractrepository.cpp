@@ -28,6 +28,57 @@ void AbstractRepository::updateNpackdCLEnvVar()
     }
 }
 
+void AbstractRepository::process(Job *job,
+        const QList<InstallOperation *> &install)
+{
+    QList<PackageVersion*> pvs;
+    for (int i = 0; i < install.size(); i++) {
+        InstallOperation* op = install.at(i);
+
+        // TODO: findPackageVersion() may return 0
+        PackageVersion* pv = op->findPackageVersion();
+        pvs.append(pv);
+    }
+
+    for (int j = 0; j < pvs.size(); j++) {
+        PackageVersion* pv = pvs.at(j);
+        pv->lock();
+    }
+
+    int n = install.count();
+
+    for (int i = 0; i < install.count(); i++) {
+        InstallOperation* op = install.at(i);
+        PackageVersion* pv = pvs.at(i);
+        if (op->install)
+            job->setHint(QString("Installing %1").arg(
+                    pv->toString()));
+        else
+            job->setHint(QString("Uninstalling %1").arg(
+                    pv->toString()));
+        Job* sub = job->newSubJob(1.0 / n);
+        if (op->install)
+            pv->install(sub, pv->getPreferredInstallationDirectory());
+        else
+            pv->uninstall(sub);
+        if (!sub->getErrorMessage().isEmpty())
+            job->setErrorMessage(sub->getErrorMessage());
+        delete sub;
+
+        if (!job->getErrorMessage().isEmpty())
+            break;
+    }
+
+    for (int j = 0; j < pvs.size(); j++) {
+        PackageVersion* pv = pvs.at(j);
+        pv->unlock();
+    }
+
+    qDeleteAll(pvs);
+
+    job->complete();
+}
+
 PackageVersion* AbstractRepository::findNewestInstalledPackageVersion_(
         const QString &name) const
 {
