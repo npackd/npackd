@@ -91,6 +91,83 @@ QStringList InstalledPackages::getAllInstalledPackagePaths() const
     return r;
 }
 
+void InstalledPackages::refresh(Job *job)
+{
+
+    if (!job->isCancelled() && job->getErrorMessage().isEmpty()) {
+        job->setHint("Detecting directories deleted externally");
+        QList<InstalledPackageVersion*> ipvs = this->data.values();
+        for (int i = 0; i < ipvs.count(); i++) {
+            InstalledPackageVersion* ipv = ipvs.at(i);
+            if (ipv->installed()) {
+                QDir d(ipv->getDirectory());
+                d.refresh();
+                if (!d.exists()) {
+                    ipv->setPath("");
+                }
+            }
+        }
+        job->setProgress(0.2);
+    }
+
+    if (!job->isCancelled() && job->getErrorMessage().isEmpty()) {
+        job->setHint("Detecting packages installed by Npackd 1.14 or earlier");
+        detectPre_1_15_Packages();
+        job->setProgress(0.4);
+    }
+
+    if (!job->isCancelled() && job->getErrorMessage().isEmpty()) {
+        job->setHint("Reading registry package database");
+        readRegistryDatabase();
+        job->setProgress(0.5);
+    }
+
+    if (!job->isCancelled() && job->getErrorMessage().isEmpty()) {
+        job->setHint("Detecting software");
+        Job* d = job->newSubJob(0.2);
+        detect(d);
+        delete d;
+    }
+
+    if (!job->isCancelled() && job->getErrorMessage().isEmpty()) {
+        job->setHint("Detecting packages installed by Npackd 1.14 or earlier (2)");
+        scanPre1_15Dir(true);
+        job->setProgress(0.9);
+    }
+
+    if (job->shouldProceed(
+            "Clearing information about installed package versions in nested directories")) {
+        clearPackagesInNestedDirectories();
+        job->setProgress(1);
+    }
+
+    job->complete();
+}
+
+void InstalledPackages::clearPackagesInNestedDirectories() {
+    /* TODO:
+    QList<PackageVersion*> pvs = this->getInstalled();
+    qSort(pvs.begin(), pvs.end(), packageVersionLessThan2);
+
+    for (int j = 0; j < pvs.count(); j++) {
+        PackageVersion* pv = pvs.at(j);
+        if (pv->installed() && !WPMUtils::pathEquals(pv->getPath(),
+                WPMUtils::getWindowsDir())) {
+            for (int i = j + 1; i < pvs.count(); i++) {
+                PackageVersion* pv2 = pvs.at(i);
+                if (pv2->installed() && !WPMUtils::pathEquals(pv2->getPath(),
+                        WPMUtils::getWindowsDir())) {
+                    if (WPMUtils::isUnder(pv2->getPath(), pv->getPath()) ||
+                            WPMUtils::pathEquals(pv2->getPath(), pv->getPath())) {
+                        pv2->setPath("");
+                    }
+                }
+            }
+        }
+    }
+    */
+}
+
 void InstalledPackages::readRegistryDatabase()
 {
     this->data.clear();

@@ -107,35 +107,12 @@ void InstallThread::run()
     case 0:
     case 1:
     case 2:
-        Repository::getDefault()->process(job, install);
+        AbstractRepository::getDefault_()->process(job, install);
         break;
     case 3:
     case 4: {
         DBRepository* dbr = DBRepository::getDefault();
-        Repository* r = Repository::getDefault();
-        if (job->shouldProceed("Downloading the remote repositories")) {
-            Job* sub = job->newSubJob(0.8);
-            r->reload(sub, this->useCache);
-            if (!sub->getErrorMessage().isEmpty())
-                job->setErrorMessage(sub->getErrorMessage());
-            delete sub;
-
-            PackageVersion* pv = r->findOrCreatePackageVersion(
-                    "com.googlecode.windows-package-manager.Npackd",
-                    Version(WPMUtils::NPACKD_VERSION));
-            if (!pv->installed()) {
-                pv->setPath(WPMUtils::getExeDir());
-            }
-        }
-
-        if (job->shouldProceed("Filling the local database")) {
-            Job* sub = job->newSubJob(0.19);
-            dbr->reloadFrom(sub, r);
-            if (!sub->getErrorMessage().isEmpty())
-                job->setErrorMessage(sub->getErrorMessage());
-            delete sub;
-        }
-
+        dbr->updateF5(job);
         break;
     }
     case 8:
@@ -463,11 +440,40 @@ void MainWindow::repositoryStatusChanged(const QString&)
     this->updateActions();
 }
 
+QImage toGray(const QImage& img)
+{
+    QImage img_gray(img.width(), img.height(), QImage::Format_Indexed8);
+
+    QVector<QRgb> grayscales;
+    for (int i=0; i<256; ++i)
+        grayscales.push_back(qRgb(i,i,i));
+    img_gray.setColorTable(grayscales);
+
+    // farben übertragen
+    for (int y=0; y<img.height(); ++y) {
+        for (int x=0; x<img.width(); ++x) {
+            // farbwert holen
+            QRgb rgb = img.pixel(x,y);
+            // umrechnen in graustufe
+            unsigned char gray = 0.299*qRed(rgb) + 0.587*qGreen(rgb) + 0.114*qBlue(rgb);
+            // dem graustufen bild den wert zuweisen
+            img_gray.setPixel(x,y, gray);
+        }
+    }
+    return img_gray;
+}
+
 void MainWindow::iconDownloaded(const FileLoaderItem& it)
 {
     if (it.f) {
-        // qDebug() << "MainWindow::iconDownloaded.2 " << it.url;
         QPixmap pm(it.f->fileName());
+
+        /* gray
+        QStyleOption opt(0);
+        opt.palette = QApplication::palette();
+        pm = QApplication::style()->generatedIconPixmap(QIcon::Disabled, pm, &opt);
+        */
+
         delete it.f;
         if (!pm.isNull()) {
             QIcon icon(pm);

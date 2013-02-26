@@ -7,6 +7,7 @@
 #include "packageversion.h"
 #include "package.h"
 #include "license.h"
+#include "installoperation.h"
 
 /**
  * @brief basis for repositories
@@ -85,6 +86,15 @@ public:
     void updateNpackdCLEnvVar();
 
     /**
+     * @brief processes the given operatios
+     * @param job job
+     * @param install operations that should be performed
+     *
+     * TODO: this method is not thread-safe
+     */
+    void process(Job* job, const QList<InstallOperation*> &install);
+
+    /**
      * @brief adds an existing package version
      * @param package full package name
      * @param version version number
@@ -125,6 +135,12 @@ public:
      * @return [ownership:caller] found license or 0
      */
     virtual License* findLicense_(const QString& name) = 0;
+
+    /**
+     * @brief removes all package, version and license definitions
+     * @return error message
+     */
+    virtual QString clear() = 0;
 };
 
 #endif // ABSTRACTREPOSITORY_H
