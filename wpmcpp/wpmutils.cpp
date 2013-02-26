@@ -13,14 +13,14 @@
 #include <ole2.h>
 #include <wchar.h>
 
-#include "qdebug.h"
-#include "qdir.h"
-#include "qstring.h"
-#include "qfile.h"
+#include <QDebug>
+#include <QDir>
+#include <QString>
+#include <QFile>
 #include <QCryptographicHash>
 #include <QFile>
-#include "qsettings.h"
-#include "qvariant.h"
+#include <QSettings>
+#include <QVariant>
 #include <QProcessEnvironment>
 
 #include "wpmutils.h"
@@ -28,7 +28,7 @@
 #include "windowsregistry.h"
 #include "mstask.h"
 
-const char* WPMUtils::NPACKD_VERSION = "1.17.9";
+const char* WPMUtils::NPACKD_VERSION = "1.18";
 
 WPMUtils::WPMUtils()
 {
@@ -728,16 +728,21 @@ QString WPMUtils::getShellFileOperationErrorMessage(int res)
             r = "The source and destination files are the same file.";
             break;
         case 0x72:
-            r = "Multiple file paths were specified in the source buffer, but only one destination file path.";
+            r = "Multiple file paths were specified in the source buffer, "
+                    "but only one destination file path.";
             break;
         case 0x73:
-            r = "Rename operation was specified but the destination path is a different directory. Use the move operation instead.";
+            r = "Rename operation was specified but the destination path "
+                    "is a different directory. Use the move operation instead.";
             break;
         case 0x74:
-            r = "The source is a root directory, which cannot be moved or renamed.";
+            r = "The source is a root directory, which cannot be moved or "
+                    "renamed.";
             break;
         case 0x75:
-            r = "The operation was canceled by the user, or silently canceled if the appropriate flags were supplied to SHFileOperation.";
+            r = "The operation was canceled by the user, or silently "
+                    "canceled if the appropriate flags were supplied to "
+                    "SHFileOperation.";
             break;
         case 0x76:
             r = "The destination is a subtree of the source.";
@@ -746,10 +751,12 @@ QString WPMUtils::getShellFileOperationErrorMessage(int res)
             r = "Security settings denied access to the source.";
             break;
         case 0x79:
-            r = "The source or destination path exceeded or would exceed MAX_PATH.";
+            r = "The source or destination path exceeded or would exceed "
+                    "MAX_PATH.";
             break;
         case 0x7A:
-            r = "The operation involved multiple destination paths, which can fail in the case of a move operation.";
+            r = "The operation involved multiple destination paths, which can "
+                    "fail in the case of a move operation.";
             break;
         case 0x7C:
             r = "The path in the source or destination or both was invalid.";
@@ -776,7 +783,8 @@ QString WPMUtils::getShellFileOperationErrorMessage(int res)
             r = "The destination is a writable CD-ROM, possibly unformatted.";
             break;
         case 0x85:
-            r = "The file involved in the operation is too large for the destination media or file system.";
+            r = "The file involved in the operation is too large for the "
+                    "destination media or file system.";
             break;
         case 0x86:
             r = "The source is a read-only CD-ROM, possibly unformatted.";
@@ -791,7 +799,9 @@ QString WPMUtils::getShellFileOperationErrorMessage(int res)
             r = "MAX_PATH was exceeded during the operation.";
             break;
         case 0x402:
-            r = "An unknown error occurred. This is typically due to an invalid path in the source or destination. This error does not occur on Windows Vista and later.";
+            r = "An unknown error occurred. This is typically due to an "
+                    "invalid path in the source or destination. "
+                    "This error does not occur on Windows Vista and later.";
             break;
         case 0x10000:
             r = "An unspecified error occurred on the destination.";
@@ -852,7 +862,8 @@ bool WPMUtils::is64BitWindows()
 #endif
 }
 
-HRESULT WPMUtils::createLink(LPCWSTR lpszPathObj, LPCWSTR lpszPathLink, LPCWSTR lpszDesc,
+HRESULT WPMUtils::createLink(LPCWSTR lpszPathObj, LPCWSTR lpszPathLink,
+        LPCWSTR lpszDesc,
         LPCWSTR workingDir)
 {
     HRESULT hres;

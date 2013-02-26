@@ -12,10 +12,10 @@
 #include <QDomElement>
 #include <QDomDocument>
 #include <QMutex>
+#include <zlib.h>
 
 #include "quazip.h"
 #include "quazipfile.h"
-#include "zlib.h"
 
 #include "repository.h"
 #include "packageversion.h"
@@ -307,7 +307,8 @@ void PackageVersion::uninstall(Job* job)
 
     if (!job->isCancelled() && job->getErrorMessage().isEmpty()) {
         if (!uninstallationScript.isEmpty()) {
-            job->setHint("Waiting while other (un)installation scripts are running");
+            job->setHint("Waiting while other (un)installation "
+                    "scripts are running");
 
             time_t start = time(NULL);
             while (!job->isCancelled()) {
@@ -320,7 +321,8 @@ void PackageVersion::uninstall(Job* job)
 
                 time_t seconds = time(NULL) - start;
                 job->setHint(QString(
-                        "Waiting while other (un)installation scripts are running (%1 minutes)").
+                        "Waiting while other (un)installation scripts are "
+                        "running (%1 minutes)").
                         arg(seconds / 60));
             }
         } else {
@@ -330,7 +332,8 @@ void PackageVersion::uninstall(Job* job)
 
     if (!job->isCancelled() && job->getErrorMessage().isEmpty()) {
         if (!uninstallationScript.isEmpty()) {
-            job->setHint("Running the uninstallation script (this may take some time)");
+            job->setHint("Running the uninstallation script "
+                    "(this may take some time)");
             if (!d.exists(".Npackd"))
                 d.mkdir(".Npackd");
             Job* sub = job->newSubJob(0.20);
@@ -342,7 +345,8 @@ void PackageVersion::uninstall(Job* job)
             env.append("NPACKD_PACKAGE_VERSION");
             env.append(this->version.getVersionString());
             env.append("NPACKD_CL");
-            env.append(AbstractRepository::getDefault_()->computeNpackdCLEnvVar_());
+            env.append(AbstractRepository::getDefault_()->
+                    computeNpackdCLEnvVar_());
 
             addDependencyVars(&env);
 
@@ -452,22 +456,22 @@ QString PackageVersion::planInstallation(QList<PackageVersion*>& installed,
 {
     QString res;
 
-    avoid.append(this);
+    avoid.append(this->clone());
 
     for (int i = 0; i < this->dependencies.count(); i++) {
         Dependency* d = this->dependencies.at(i);
         bool depok = false;
         for (int j = 0; j < installed.size(); j++) {
             PackageVersion* pv = installed.at(j);
-            if (pv != this && pv->package == d->package &&
+            if ((pv->package != this->package || pv->version != this->version) &&
+                    pv->package == d->package &&
                     d->test(pv->version)) {
                 depok = true;
                 break;
             }
         }
         if (!depok) {
-            // TODO: returned object is not destroyed
-            PackageVersion* pv = d->findBestMatchToInstall(avoid);
+            QScopedPointer<PackageVersion> pv(d->findBestMatchToInstall(avoid));
             if (!pv) {
                 res = QString("Unsatisfied dependency: %1").
                            arg(d->toString());
@@ -486,7 +490,7 @@ QString PackageVersion::planInstallation(QList<PackageVersion*>& installed,
         io->package = this->package;
         io->version = this->version;
         ops.append(io);
-        installed.append(this);
+        installed.append(this->clone());
     }
 
     return res;
@@ -498,7 +502,7 @@ QString PackageVersion::planUninstallation(QList<PackageVersion*>& installed,
     // qDebug() << "PackageVersion::planUninstallation()" << this->toString();
     QString res;
 
-    if (!installed.contains(this))
+    if (!PackageVersion::contains(installed, this))
         return res;
 
     // this loop ensures that all the items in "installed" are processed
@@ -508,14 +512,15 @@ QString PackageVersion::planUninstallation(QList<PackageVersion*>& installed,
         int oldCount = installed.count();
         for (int i = 0; i < installed.count(); i++) {
             PackageVersion* pv = installed.at(i);
-            if (pv != this) {
+            if (pv->package != this->package || pv->version != this->version) {
                 for (int j = 0; j < pv->dependencies.count(); j++) {
                     Dependency* d = pv->dependencies.at(j);
                     if (d->package == this->package && d->test(this->version)) {
                         int n = 0;
                         for (int k = 0; k < installed.count(); k++) {
                             PackageVersion* pv2 = installed.at(k);
-                            if (d->package == pv2->package && d->test(pv2->version)) {
+                            if (d->package == pv2->package &&
+                                    d->test(pv2->version)) {
                                 n++;
                             }
                             if (n > 1)
@@ -543,7 +548,7 @@ QString PackageVersion::planUninstallation(QList<PackageVersion*>& installed,
         op->package = this->package;
         op->version = this->version;
         ops.append(op);
-        installed.removeOne(this);
+        installed.removeAt(PackageVersion::indexOf(installed, this));
     }
 
     return res;
@@ -922,7 +927,8 @@ void PackageVersion::install(Job* job, const QString& where)
 
     if (!job->isCancelled() && job->getErrorMessage().isEmpty()) {
         if (!installationScript.isEmpty()) {
-            job->setHint("Waiting while other (un)installation scripts are running");
+            job->setHint("Waiting while other (un)installation "
+                    "scripts are running");
 
             time_t start = time(NULL);
             while (!job->isCancelled()) {
@@ -935,7 +941,8 @@ void PackageVersion::install(Job* job, const QString& where)
 
                 time_t seconds = time(NULL) - start;
                 job->setHint(QString(
-                        "Waiting while other (un)installation scripts are running (%1 minutes)").
+                        "Waiting while other (un)installation scripts are "
+                        "running (%1 minutes)").
                         arg(seconds / 60));
             }
         } else {
@@ -945,7 +952,8 @@ void PackageVersion::install(Job* job, const QString& where)
 
     if (!job->isCancelled() && job->getErrorMessage().isEmpty()) {
         if (!installationScript.isEmpty()) {
-            job->setHint("Running the installation script (this may take some time)");
+            job->setHint("Running the installation script "
+                    "(this may take some time)");
             Job* exec = job->newSubJob(0.09);
             if (!d.exists(".Npackd"))
                 d.mkdir(".Npackd");
@@ -956,7 +964,8 @@ void PackageVersion::install(Job* job, const QString& where)
             env.append("NPACKD_PACKAGE_VERSION");
             env.append(this->version.getVersionString());
             env.append("NPACKD_CL");
-            env.append(AbstractRepository::getDefault_()->computeNpackdCLEnvVar_());
+            env.append(AbstractRepository::getDefault_()->
+                    computeNpackdCLEnvVar_());
 
             addDependencyVars(&env);
 
@@ -1061,7 +1070,8 @@ void PackageVersion::unzip(Job* job, QString zipfile, QString outputdir)
         for (bool more = zip.goToFirstFile(); more; more = zip.goToNextFile()) {
             QString name = zip.getCurrentFileName();
             if (!file.open(QIODevice::ReadOnly)) {
-                job->setErrorMessage(QString("Error unzipping the file %1: Error %2 in %3").
+                job->setErrorMessage(QString(
+                        "Error unzipping the file %1: Error %2 in %3").
                         arg(zipfile).arg(file.getZipError()).
                         arg(name));
                 break;
@@ -1386,13 +1396,15 @@ PackageVersion* PackageVersion::parse(QDomElement* e, QString* err)
                 p = e.attribute("name").trimmed();
 
             if (p.isEmpty()) {
-                err->append(QString("Empty 'path' attribute value for <important-file> for %1").
+                err->append(QString("Empty 'path' attribute value for "
+                        "<important-file> for %1").
                         arg(a->toString()));
                 break;
             }
 
             if (a->importantFiles.contains(p)) {
-                err->append(QString("More than one <important-file> with the same 'path' attribute %1 for %2").
+                err->append(QString("More than one <important-file> with "
+                        "the same 'path' attribute %1 for %2").
                         arg(p).arg(a->toString()));
                 break;
             }
@@ -1401,7 +1413,8 @@ PackageVersion* PackageVersion::parse(QDomElement* e, QString* err)
 
             QString title = e.attribute("title").trimmed();
             if (title.isEmpty()) {
-                err->append(QString("Empty 'title' attribute value for <important-file> for %1").
+                err->append(QString("Empty 'title' attribute value for "
+                        "<important-file> for %1").
                         arg(a->toString()));
                 break;
             }
@@ -1459,7 +1472,8 @@ PackageVersion* PackageVersion::parse(QDomElement* e, QString* err)
             for (int j = i + 1; j < a->detectFiles.count(); j++) {
                 DetectFile* fj = a->detectFiles.at(j);
                 if (fi->path == fj->path) {
-                    err->append(QString("Duplicate <detect-file> entry for %1 in %2").
+                    err->append(QString(
+                            "Duplicate <detect-file> entry for %1 in %2").
                             arg(fi->path).arg(a->toString()));
                     goto out2;
                 }
@@ -1511,6 +1525,12 @@ PackageVersion* PackageVersion::parse(QDomElement* e, QString* err)
         delete a;
         return 0;
     }
+}
+
+bool PackageVersion::contains(const QList<PackageVersion *> &list,
+        PackageVersion *pv)
+{
+    return indexOf(list, pv) >= 0;
 }
 
 void PackageVersion::toXML(QDomElement* version) const {

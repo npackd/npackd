@@ -159,8 +159,8 @@ public:
      * @param package full package name
      * @param version version number
      */
-    virtual void addPackageVersion(const QString& package,
-            const Version& version) = 0;
+    void addPackageVersion(const QString& package,
+            const Version& version);
 
     /**
      * @brief saves (creates or updates) the data about a package

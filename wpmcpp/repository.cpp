@@ -1,18 +1,18 @@
 #include <windows.h>
 #include <shlobj.h>
+#include <msi.h>
 
-#include "qtemporaryfile.h"
+#include <QTemporaryFile>
+#include <QSettings>
+#include <qdom.h>
+#include <QDebug>
+
 #include "downloader.h"
-#include "qsettings.h"
-#include "qdom.h"
-#include "qdebug.h"
-
 #include "repository.h"
 #include "downloader.h"
 #include "packageversionfile.h"
 #include "wpmutils.h"
 #include "version.h"
-#include "msi.h"
 #include "windowsregistry.h"
 #include "xmlutils.h"
 #include "wpmutils.h"
@@ -26,7 +26,8 @@ Repository::Repository(): AbstractRepository()
 {
 }
 
-bool packageVersionLessThan2(const PackageVersion* a, const PackageVersion* b) {
+static bool packageVersionLessThan2(const PackageVersion* a,
+        const PackageVersion* b) {
     int r = a->package.compare(b->package);
     if (r == 0) {
         r = a->version.compare(b->version);
@@ -501,7 +502,8 @@ void Repository::loadOne(QDomDocument* doc, Job* job)
                 if (specVersion_.compare(Version(4, 0)) >= 0)
                     job->setErrorMessage(QString(
                             "Incompatible repository specification version: %1. \n"
-                            "Plese download a newer version of Npackd from http://code.google.com/p/windows-package-manager/").
+                            "Plese download a newer version of Npackd from "
+                            "http://code.google.com/p/windows-package-manager/").
                             arg(specVersion));
                 else
                     job->setProgress(0.01);
@@ -560,17 +562,6 @@ void Repository::loadOne(QDomDocument* doc, Job* job)
 PackageVersion* Repository::findLockedPackageVersion() const
 {
     return PackageVersion::findLockedPackageVersion();
-}
-
-void Repository::addPackageVersion(const QString &package, const Version &version)
-{
-    PackageVersion* pv = findPackageVersion(package, version);
-    if (!pv) {
-        pv = new PackageVersion(package);
-        pv->version = version;
-        this->packageVersions.append(pv);
-        this->package2versions.insert(package, pv);
-    }
 }
 
 QString Repository::savePackage(Package *p)
@@ -692,5 +683,3 @@ QString Repository::checkLockedFilesForUninstall(
 
     return "";
 }
-
-

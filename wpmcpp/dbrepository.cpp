@@ -17,7 +17,8 @@
 #include "wpmutils.h"
 #include "installedpackages.h"
 
-bool packageVersionLessThan3(const PackageVersion* a, const PackageVersion* b) {
+static bool packageVersionLessThan3(const PackageVersion* a,
+        const PackageVersion* b) {
     int r = a->package.compare(b->package);
     if (r == 0) {
         r = a->version.compare(b->version);
@@ -313,19 +314,6 @@ PackageVersion* DBRepository::findNewestInstalledPackageVersion(
     return this->findNewestInstalledPackageVersion_(name);
 }
 
-void DBRepository::addPackageVersion(const QString &package, const Version &version)
-{
-    PackageVersion* pv = this->findPackageVersion(package, version);
-    if (!pv) {
-        pv = new PackageVersion(package);
-        pv->version = version;
-
-        // TODO: error message is ignored
-        insertPackageVersion(pv);
-    }
-    delete pv;
-}
-
 QString DBRepository::savePackage(Package *p)
 {
     QString r;
@@ -390,7 +378,8 @@ QString DBRepository::savePackageVersion(PackageVersion *p)
     return r;
 }
 
-PackageVersion *DBRepository::findPackageVersionByMSIGUID_(const QString &guid) const
+PackageVersion *DBRepository::findPackageVersionByMSIGUID_(
+        const QString &guid) const
 {
     PackageVersion* r = 0;
 
@@ -514,17 +503,17 @@ void DBRepository::updateF5(Job* job)
         */
     }
 
-    if (job->shouldProceed("Adding well-known packages")) {
-        addWellKnownPackages();
-        job->setProgress(0.8);
-    }
-
     if (job->shouldProceed("Filling the local database")) {
         Job* sub = job->newSubJob(0.09);
         insertAll(sub, r);
         if (!sub->getErrorMessage().isEmpty())
             job->setErrorMessage(sub->getErrorMessage());
         delete sub;
+    }
+
+    if (job->shouldProceed("Adding well-known packages")) {
+        addWellKnownPackages();
+        job->setProgress(0.9);
     }
 
     if (job->shouldProceed("Refreshing the installation status")) {

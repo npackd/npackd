@@ -94,6 +94,16 @@ public:
      */
     static PackageVersion* parse(QDomElement* e, QString* err);
 
+    /**
+     * @brief searches for a package version only using the package name and
+     *     version number
+     * @param list searching in this list
+     * @param pv searching for this package version
+     * @return true if the list contains the specified package version
+     */
+    static bool contains(const QList<PackageVersion*>& list,
+            PackageVersion* pv);
+
     /** package version */
     Version version;
 
@@ -205,12 +215,15 @@ public:
     /**
      * Plans installation of this package and all the dependencies recursively.
      *
-     * @param installed list of installed packages. This list should be
+     * @param installed [ownership:caller] list of installed packages.
+     *     This list should be
      *     consulted instead of .installed() and will be updated and contains
      *     all installed package versions after the process
-     * @param op necessary operations will be appended here. The existing
+     * @param op [ownership:caller] necessary operations will be appended here.
+     *     The existing
      *     elements will not be modified in any way.
-     * @param avoid list of package versions that cannot be installed. The list
+     * @param avoid [ownership:caller] list of package versions that cannot be
+     *     installed. The list
      *     will be changed by this method. Normally this is an empty list and
      *     objects will be added to it on different recursion levels.
      * @return error message or ""

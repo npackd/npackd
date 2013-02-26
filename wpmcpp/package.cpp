@@ -2,6 +2,24 @@
 
 #include "xmlutils.h"
 
+int Package::indexOf(const QList<Package*> pvs, Package* f)
+{
+    int r = -1;
+    for (int i = 0; i < pvs.count(); i++) {
+        Package* pv = pvs.at(i);
+        if (pv->name == f->name) {
+            r = i;
+            break;
+        }
+    }
+    return r;
+}
+
+bool Package::contains(const QList<Package*> &list, Package *pv)
+{
+    return indexOf(list, pv) >= 0;
+}
+
 Package::Package(const QString& name, const QString& title)
 {
     this->name = name;

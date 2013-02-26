@@ -25,13 +25,13 @@ InstalledPackages::InstalledPackages()
 InstalledPackageVersion* InstalledPackages::find(const QString& package,
         const Version& version) const
 {
-    return this->data.value(package + "/" + version.getVersionString());
+    return this->data.value(PackageVersion::getStringId(package, version));
 }
 
 InstalledPackageVersion* InstalledPackages::findOrCreate(const QString& package,
         const Version& version)
 {
-    QString key = package + "/" + version.getVersionString();
+    QString key = PackageVersion::getStringId(package, version);
     InstalledPackageVersion* r = this->data.value(key);
     if (!r) {
         r = new InstalledPackageVersion(package, version, "");
@@ -192,14 +192,17 @@ void InstalledPackages::readRegistryDatabase()
                     Version version;
                     if (version.setVersion(versionName)) {
                         rep->addPackageVersion(packageName, version);
-                        InstalledPackageVersion* ipv = this->find(packageName, version);
+                        InstalledPackageVersion* ipv = this->find(
+                                packageName, version);
                         if (!ipv) {
-                            ipv = new InstalledPackageVersion(packageName, version, "");
-                            this->data.insert(packageName + "/" + version.getVersionString(),
-                                    ipv);
+                            ipv = new InstalledPackageVersion(
+                                    packageName, version, "");
+                            this->data.insert(PackageVersion::getStringId(
+                                    packageName, version), ipv);
                         }
 
-                        // qDebug() << "loading " << packageName << ":" << version.getVersionString();
+                        // qDebug() << "loading " << packageName << ":" <<
+                        //version.getVersionString();
 
                         ipv->loadFromRegistry();
                     }
@@ -796,7 +799,8 @@ void InstalledPackages::detectMSIProducts()
                     if (file.open(QIODevice::WriteOnly | QIODevice::Truncate)) {
                         QTextStream stream(&file);
                         stream.setCodec("UTF-8");
-                        QString txt = "msiexec.exe /qn /norestart /Lime .Npackd\\UninstallMSI.log /x" + guid + "\r\n" +
+                        QString txt = "msiexec.exe /qn /norestart /Lime "
+                                ".Npackd\\UninstallMSI.log /x" + guid + "\r\n" +
                                 "set err=%errorlevel%" + "\r\n" +
                                 "type .Npackd\\UninstallMSI.log" + "\r\n" +
                                 "rem 3010=restart required" + "\r\n" +

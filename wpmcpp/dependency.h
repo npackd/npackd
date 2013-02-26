@@ -51,7 +51,8 @@ public:
     /**
      * @param avoid list of package versions that should be avoided and cannot
      *     be considered to be a match
-     * @return the newest package version that matches this dependency by
+     * @return [ownership:caller] the newest package version that matches this
+     *     dependency by
      *     being installed. Returned object should be destroyed later.
      */
     PackageVersion* findBestMatchToInstall(const QList<PackageVersion*>& avoid);

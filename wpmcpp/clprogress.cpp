@@ -36,9 +36,11 @@ void CLProgress::jobChanged(const JobState& s)
         if (!WPMUtils::isOutputRedirected(true)) {
             QString filled;
             filled.fill(' ', progressPos.dwSize.X - 1);
-            SetConsoleCursorPosition(hOutputHandle, progressPos.dwCursorPosition);
+            SetConsoleCursorPosition(hOutputHandle,
+                    progressPos.dwCursorPosition);
             WPMUtils::outputTextConsole(filled);
-            SetConsoleCursorPosition(hOutputHandle, progressPos.dwCursorPosition);
+            SetConsoleCursorPosition(hOutputHandle,
+                    progressPos.dwCursorPosition);
         }
     }
 }

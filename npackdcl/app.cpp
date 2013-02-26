@@ -107,7 +107,8 @@ void App::addNpackdCL()
             "com.googlecode.windows-package-manager.NpackdCL",
             Version(WPMUtils::NPACKD_VERSION));
     if (!pv) {
-        pv = new PackageVersion("com.googlecode.windows-package-manager.NpackdCL");
+        pv = new PackageVersion(
+                "com.googlecode.windows-package-manager.NpackdCL");
         pv->version = Version(WPMUtils::NPACKD_VERSION);
         r->savePackageVersion(pv);
     }
@@ -220,7 +221,8 @@ QString App::addRepo()
     return err;
 }
 
-bool packageVersionLessThan(const PackageVersion* pv1, const PackageVersion* pv2)
+static bool packageVersionLessThan(const PackageVersion* pv1,
+        const PackageVersion* pv2)
 {
     if (pv1->package == pv2->package)
         return pv1->version.compare(pv2->version) < 0;
@@ -614,6 +616,8 @@ int App::update()
 
     delete job;
 
+    qDeleteAll(packages);
+
     return r;
 }
 
@@ -730,6 +734,9 @@ int App::add()
     delete pv;
     delete job;
 
+    qDeleteAll(ops);
+    qDeleteAll(packages);
+
     return r;
 }
 
@@ -843,6 +850,9 @@ int App::remove()
 
     delete pv;
     delete job;
+
+    qDeleteAll(ops);
+    qDeleteAll(packages);
 
     return r;
 }

@@ -11,6 +11,23 @@
 class Package
 {
 public:
+    /**
+     * @brief searches for a package only using the package name
+     * @param list searching in this list
+     * @param pv searching for this package
+     * @return true if the list contains the specified package
+     */
+    static bool contains(const QList<Package*>& list, Package* pv);
+
+    /**
+     * @brief searches for the specified object in the specified list. Objects
+     *     will be compared only by package name.
+     * @param pvs list of packages
+     * @param f search for this object
+     * @return index of the found object or -1
+     */
+    static int indexOf(const QList<Package*> pvs, Package* f);
+
     /** name of the package like "org.buggysoft.BuggyEditor" */
     QString name;
 
