@@ -60,12 +60,9 @@ class InstallThread: public QThread
 
     // 0, 1, 2 = install/uninstall
     // 3, 4 = recognize installed applications + load repositories
-    // 8 = scan hard drives
     int type;
 
     Job* job;
-
-    void scanHardDrives();
 public:
     // name of the log file for type=6
     // directory for type=7
@@ -92,32 +89,23 @@ InstallThread::InstallThread(PackageVersion *pv, int type, Job* job)
     this->useCache = false;
 }
 
-void InstallThread::scanHardDrives()
-{
-    Repository* r = Repository::getDefault();
-    r->scanHardDrive(job);
-}
-
 void InstallThread::run()
 {
     CoInitialize(NULL);
 
     // qDebug() << "InstallThread::run.1";
     switch (this->type) {
-    case 0:
-    case 1:
-    case 2:
-        AbstractRepository::getDefault_()->process(job, install);
-        break;
-    case 3:
-    case 4: {
-        DBRepository* dbr = DBRepository::getDefault();
-        dbr->updateF5(job);
-        break;
-    }
-    case 8:
-        scanHardDrives();
-        break;
+        case 0:
+        case 1:
+        case 2:
+            AbstractRepository::getDefault_()->process(job, install);
+            break;
+        case 3:
+        case 4: {
+            DBRepository* dbr = DBRepository::getDefault();
+            dbr->updateF5(job);
+            break;
+        }
     }
 
     CoUninitialize();
@@ -146,17 +134,21 @@ ScanHardDrivesThread::ScanHardDrivesThread(Job *job)
 
 void ScanHardDrivesThread::run()
 {
-    Repository* r = Repository::getDefault();
-    QList<PackageVersion*> s1 = r->getInstalled();
+    AbstractRepository* r = AbstractRepository::getDefault_();
+    QList<PackageVersion*> s1 = r->getInstalled_();
     r->scanHardDrive(job);
-    QList<PackageVersion*> s2 = r->getInstalled();
+    QList<PackageVersion*> s2 = r->getInstalled_();
 
+    // TODO: object comparison is wrong
     for (int i = 0; i < s2.count(); i++) {
         PackageVersion* pv = s2.at(i);
         if (!s1.contains(pv)) {
             detected.append(pv);
         }
     }
+
+    qDeleteAll(s1);
+    qDeleteAll(s2);
 }
 
 MainWindow::MainWindow(QWidget *parent) :
@@ -1572,29 +1564,39 @@ void MainWindow::on_actionSettings_triggered()
 void MainWindow::on_actionUpdate_triggered()
 {
     Selection* sel = Selection::findCurrent();
-    if (sel) {
-        Repository* r = Repository::getDefault();
-        QList<void*> selected = sel->getSelected("PackageVersion");
-        QList<Package*> packages;
-        if (selected.count() > 0) {
-            for (int i = 0; i < selected.count(); i++) {
-                PackageVersion* pv = (PackageVersion*) selected.at(i);
-                Package* p = r->findPackage(pv->package);
+    QList<void*> selected;
+    if (sel)
+        selected = sel->getSelected("PackageVersion");
 
-                // multiple versions of the same package could be selected in the table,
-                // but only one should be updated
-                if (p != 0 && !packages.contains(p)) {
+    AbstractRepository* r = AbstractRepository::getDefault_();
+    QList<Package*> packages;
+    if (selected.count() > 0) {
+        // multiple versions of the same package could be selected in the table,
+        // but only one should be updated
+        QSet<QString> used;
+
+        for (int i = 0; i < selected.count(); i++) {
+            PackageVersion* pv = (PackageVersion*) selected.at(i);
+            if (!used.contains(pv->package)) {
+                Package* p = r->findPackage_(pv->package);
+
+                if (p != 0) {
                     packages.append(p);
+                    used.insert(pv->package);
                 }
             }
-        } else {
+        }
+    } else {
+        if (sel) {
             selected = sel->getSelected("Package");
             for (int i = 0; i < selected.count(); i++) {
                 Package* p = (Package*) selected.at(i);
-                packages.append(p);
+                packages.append(p->clone());
             }
         }
+    }
 
+    if (packages.count() > 0) {
         QList<InstallOperation*> ops;
         QString err = r->planUpdates(packages, ops);
 
@@ -1603,6 +1605,8 @@ void MainWindow::on_actionUpdate_triggered()
         } else
             addErrorMessage(err, err, true, QMessageBox::Critical);
     }
+
+    qDeleteAll(packages);
 }
 
 void MainWindow::on_actionTest_Download_Site_triggered()
@@ -1803,44 +1807,49 @@ void MainWindow::on_actionFile_an_Issue_triggered()
 void MainWindow::on_actionInstall_triggered()
 {
     Selection* selection = Selection::findCurrent();
-    if (selection) {
-        QList<void*> selected = selection->getSelected("PackageVersion");
+    QList<void*> selected;
+    if (selection)
+        selected = selection->getSelected("PackageVersion");
 
-        if (selected.count() == 0) {
-            Repository* r = Repository::getDefault();
-            selected = selection->getSelected("Package");
-            for (int i = 0; i < selected.count(); ) {
-                Package* p = (Package*) selected.at(i);
-                PackageVersion* pv = r->findNewestInstallablePackageVersion(
-                        p->name);
-                if (pv) {
-                    selected.replace(i, pv);
-                    i++;
-                } else
-                    selected.removeAt(i);
-            }
+    QList<PackageVersion*> pvs;
+    if (selected.count() == 0) {
+        AbstractRepository* r = AbstractRepository::getDefault_();
+        selected = selection->getSelected("Package");
+        for (int i = 0; i < selected.count(); ) {
+            Package* p = (Package*) selected.at(i);
+            PackageVersion* pv = r->findNewestInstallablePackageVersion_(
+                    p->name);
+            if (pv)
+                pvs.append(pv);
         }
-
-        QList<InstallOperation*> ops;
-        QList<PackageVersion*> installed =
-                Repository::getDefault()->getInstalled();
-        QList<PackageVersion*> avoid;
-
-        QString err;
+    } else {
         for (int i = 0; i < selected.count(); i++) {
-            PackageVersion* pv = (PackageVersion*) selected.at(i);
-
-            avoid.clear();
-            err = pv->planInstallation(installed, ops, avoid);
-            if (!err.isEmpty())
-                break;
+            pvs.append(((PackageVersion*) selected.at(i))->clone());
         }
-
-        if (err.isEmpty())
-            process(ops);
-        else
-            addErrorMessage(err, err, true, QMessageBox::Critical);
     }
+
+    QList<InstallOperation*> ops;
+    QList<PackageVersion*> installed =
+            AbstractRepository::getDefault_()->getInstalled_();
+    QList<PackageVersion*> avoid;
+
+    QString err;
+    for (int i = 0; i < pvs.count(); i++) {
+        PackageVersion* pv = pvs.at(i);
+
+        avoid.clear();
+        err = pv->planInstallation(installed, ops, avoid);
+        if (!err.isEmpty())
+            break;
+    }
+
+    if (err.isEmpty())
+        process(ops);
+    else
+        addErrorMessage(err, err, true, QMessageBox::Critical);
+
+    qDeleteAll(installed);
+    qDeleteAll(pvs);
 }
 
 void MainWindow::on_actionUninstall_triggered()
@@ -1850,26 +1859,30 @@ void MainWindow::on_actionUninstall_triggered()
     if (selection)
         selected = selection->getSelected("PackageVersion");
 
+    QList<PackageVersion*> pvs;
     if (selected.count() == 0) {
-        Repository* r = Repository::getDefault();
+        AbstractRepository* r = AbstractRepository::getDefault_();
         selected = selection->getSelected("Package");
         for (int i = 0; i < selected.count(); ) {
             Package* p = (Package*) selected.at(i);
-            PackageVersion* pv = r->findNewestInstalledPackageVersion(p->name);
+            PackageVersion* pv = r->findNewestInstalledPackageVersion_(p->name);
             if (pv) {
-                selected.replace(i, pv);
-                i++;
-            } else
-                selected.removeAt(i);
+                pvs.append(pv);
+            }
+        }
+    } else {
+        for (int i = 0; i < selected.count(); i++) {
+            pvs.append(((PackageVersion*) selected.at(i))->clone());
         }
     }
 
     QList<InstallOperation*> ops;
-    QList<PackageVersion*> installed = Repository::getDefault()->getInstalled();
+    QList<PackageVersion*> installed = AbstractRepository::getDefault_()->
+            getInstalled_();
 
     QString err;
-    for (int i = 0; i < selected.count(); i++) {
-        PackageVersion* pv = (PackageVersion*) selected.at(i);
+    for (int i = 0; i < pvs.count(); i++) {
+        PackageVersion* pv = pvs.at(i);
         err = pv->planUninstallation(installed, ops);
         if (!err.isEmpty())
             break;
@@ -1879,4 +1892,7 @@ void MainWindow::on_actionUninstall_triggered()
         process(ops);
     else
         addErrorMessage(err, err, true, QMessageBox::Critical);
+
+    qDeleteAll(installed);
+    qDeleteAll(pvs);
 }

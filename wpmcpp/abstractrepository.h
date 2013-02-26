@@ -1,6 +1,8 @@
 #ifndef ABSTRACTREPOSITORY_H
 #define ABSTRACTREPOSITORY_H
 
+#include <windows.h>
+
 #include <QList>
 #include <QString>
 
@@ -16,7 +18,40 @@ class AbstractRepository
 {
 private:
     static AbstractRepository* def;
+
+    /**
+     * @param hk root key
+     * @param path registry path
+     * @param err error message will be stored here
+     * @return list of repositories in the specified registry key
+     */
+    static QStringList getRepositoryURLs(HKEY hk, const QString &path,
+            QString *err);
+
+    /**
+     * All paths should be in lower case
+     * and separated with \ and not / and cannot end with \.
+     *
+     * @param path directory
+     * @param ignore ignored directories
+     * @threadsafe
+     */
+    void scan(const QString& path, Job* job, int level, QStringList& ignore);
 public:
+    /**
+     * @param err error message will be stored here
+     * @return newly created list of repositories
+     */
+    static QList<QUrl*> getRepositoryURLs(QString *err);
+
+    /*
+     * Changes the default repository url.
+     *
+     * @param urls new URLs
+     * @param err error message will be stored here
+     */
+    static void setRepositoryURLs(QList<QUrl*>& urls, QString *err);
+
     /**
      * @return default repository
      */
@@ -58,8 +93,7 @@ public:
      * Find the newest installed package version.
      *
      * @param name name of the package like "org.server.Word"
-     * @return found package version or 0. The returned object should be
-     *     destroyed later.
+     * @return [ownership:caller] found package version or 0
      */
     PackageVersion *findNewestInstalledPackageVersion_(
             const QString &name) const;
@@ -95,6 +129,32 @@ public:
     void process(Job* job, const QList<InstallOperation*> &install);
 
     /**
+     * Scans the hard drive for existing applications.
+     *
+     * @param job job for this method
+     * @threadsafe
+     */
+    void scanHardDrive(Job* job);
+
+    /**
+     * Finds all installed packages.
+     *
+     * @return [ownership:caller] the list of installed package versions
+     */
+    QList<PackageVersion*> getInstalled_();
+
+    /**
+     * Plans updates for the given packages.
+     *
+     * @param packages these packages should be updated. No duplicates are
+     *     allowed here
+     * @param ops installation operations will be appended here
+     * @return error message or ""
+     */
+    QString planUpdates(const QList<Package*> packages,
+            QList<InstallOperation*>& ops);
+
+    /**
      * @brief adds an existing package version
      * @param package full package name
      * @param version version number
@@ -104,10 +164,17 @@ public:
 
     /**
      * @brief saves (creates or updates) the data about a package
-     * @param p [ownership:copy] package
+     * @param p [ownership:caller] package
      * @return error message
      */
     virtual QString savePackage(Package* p) = 0;
+
+    /**
+     * @brief saves (creates or updates) the data about a package
+     * @param p [ownership:caller] package version
+     * @return error message
+     */
+    virtual QString savePackageVersion(PackageVersion* p) = 0;
 
     /**
      * @brief searches for a package version by the associated MSI GUID

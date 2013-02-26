@@ -3,6 +3,9 @@
 
 #include "qstring.h"
 
+/**
+ * @brief <file>
+ */
 class PackageVersionFile
 {
 public:
@@ -13,6 +16,11 @@ public:
     QString content;
 
     PackageVersionFile(const QString& path, const QString& content);
+
+    /**
+     * @return [ownership:caller] copy of this object
+     */
+    PackageVersionFile* clone() const;
 };
 
 #endif // PACKAGEVERSIONFILE_H

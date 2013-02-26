@@ -9,7 +9,16 @@ InstallOperation::InstallOperation()
 PackageVersion *InstallOperation::findPackageVersion() const
 {
     return AbstractRepository::getDefault_()->findPackageVersion_(this->package,
-            this->version);
+                                                                  this->version);
+}
+
+InstallOperation *InstallOperation::clone() const
+{
+    InstallOperation* r = new InstallOperation();
+    r->install = this->install;
+    r->package = this->package;
+    r->version = this->version;
+    return r;
 }
 
 void InstallOperation::simplify(QList<InstallOperation*> ops)

@@ -274,6 +274,39 @@ QList<Package*> DBRepository::findPackages(const QStringList& keywords) const
     return r;
 }
 
+QList<PackageVersion *> DBRepository::findPackageVersions() const
+{
+    // TODO: errors are not handled
+
+    QList<PackageVersion*> r;
+
+    QSqlQuery q;
+    q.prepare("SELECT ID, NAME, "
+            "PACKAGE, CONTENT, MSIGUID FROM PACKAGE_VERSION");
+    q.exec();
+    while (q.next()) {
+        // TODO: handle error
+        QDomDocument doc;
+        int errorLine, errorColumn;
+        QString err;
+        if (!doc.setContent(q.value(3).toByteArray(),
+                &err, &errorLine, &errorColumn))
+            err = QString(
+                    "XML parsing failed at line %1, column %2: %3").
+                    arg(errorLine).arg(errorColumn).arg(err);
+
+        QDomElement root = doc.documentElement();
+        PackageVersion* p = PackageVersion::parse(&root, &err);
+
+        // TODO: handle this error
+        if (err.isEmpty()) {
+            r.append(p);
+        }
+    }
+
+    return r;
+}
+
 PackageVersion* DBRepository::findNewestInstalledPackageVersion(
         const QString &name) const
 {
@@ -319,6 +352,39 @@ QString DBRepository::savePackage(Package *p)
         r = toString(q.lastError());
     } else {
         r = insertPackage(p);
+    }
+
+    return r;
+}
+
+QString DBRepository::savePackageVersion(PackageVersion *p)
+{
+    QString r;
+
+    PackageVersion* fp = findPackageVersion_(p->package, p->version);
+    if (fp) {
+        delete fp;
+
+        QSqlQuery q;
+        q.prepare("UPDATE PACKAGE_VERSION "
+                "SET CONTENT=:CONTENT, "
+                "MSIGUID=:MSIGUID "
+                "WHERE PACKAGE=:PACKAGE AND NAME=:NAME");
+        q.bindValue(":NAME", p->version.getVersionString());
+        q.bindValue(":PACKAGE", p->package);
+        q.bindValue(":MSIGUID", p->msiGUID);
+        QDomDocument doc;
+        QDomElement root = doc.createElement("version");
+        doc.appendChild(root);
+        p->toXML(&root);
+        QByteArray file;
+        QTextStream s(&file);
+        doc.save(s, 4);
+        q.bindValue(":CONTENT", QVariant(file));
+        q.exec();
+        r = toString(q.lastError());
+    } else {
+        r = insertPackageVersion(p);
     }
 
     return r;
@@ -424,7 +490,7 @@ QString DBRepository::computeNpackdCLEnvVar() const
 
 void DBRepository::updateF5(Job* job)
 {
-    Repository* r = Repository::getDefault();
+    Repository* r = new Repository();
     if (job->shouldProceed("Clearing the database")) {
         // TODO: error is ignored
         clear();
@@ -433,18 +499,19 @@ void DBRepository::updateF5(Job* job)
 
     if (job->shouldProceed("Downloading the remote repositories")) {
         Job* sub = job->newSubJob(0.69);
-        // TODO: reload was here before
         r->load(sub, false);
         if (!sub->getErrorMessage().isEmpty())
             job->setErrorMessage(sub->getErrorMessage());
         delete sub;
 
+        /* TODO
         PackageVersion* pv = r->findOrCreatePackageVersion(
                 "com.googlecode.windows-package-manager.Npackd",
                 Version(WPMUtils::NPACKD_VERSION));
         if (!pv->installed()) {
             pv->setPath(WPMUtils::getExeDir());
         }
+        */
     }
 
     if (job->shouldProceed("Adding well-known packages")) {
@@ -468,6 +535,7 @@ void DBRepository::updateF5(Job* job)
         delete sub;
     }
 
+    delete r;
     job->complete();
 }
 
