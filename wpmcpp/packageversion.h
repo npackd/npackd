@@ -87,6 +87,13 @@ public:
      */
     static PackageVersion* findLockedPackageVersion();
 
+    /**
+     * @param e <version>
+     * @param err error message will be stored here
+     * @return created object or 0
+     */
+    static PackageVersion* parse(QDomElement* e, QString* err);
+
     /** package version */
     Version version;
 
@@ -306,11 +313,10 @@ public:
     QString getStringId() const;
 
     /**
-     * @param e <version>
-     * @param err error message will be stored here
-     * @return created object or 0
+     * @brief transfers all data from another object into this
+     * @param pv another package version
      */
-    static PackageVersion* parse(QDomElement* e, QString* err);
+    void fillFrom(PackageVersion* pv);
 };
 
 Q_DECLARE_METATYPE(PackageVersion);

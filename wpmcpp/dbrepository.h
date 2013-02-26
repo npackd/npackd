@@ -67,7 +67,7 @@ public:
     /**
      * @brief searches for a package with the given name
      * @param name full package name
-     * @return found package or 0. The returned object should be destroyed later.
+     * @return [ownership:caller] found package or 0
      */
     Package* findPackage(const QString& name);
 
@@ -107,9 +107,14 @@ public:
     /**
      * @brief searches for packages that match the specified keywords
      * @param keywords list of keywords
-     * @return found packages. The objects should be destroyed later.
+     * @return [ownership:caller] found packages
      */
     QList<Package*> findPackages(const QStringList& keywords) const;
+
+    /**
+     * @return [ownership:caller] found package versions
+     */
+    QList<PackageVersion*> findPackageVersions() const;
 
     /**
      * @return new NPACKD_CL value
@@ -136,6 +141,8 @@ public:
     void addPackageVersion(const QString& package, const Version& version);
 
     QString savePackage(Package* p);
+
+    QString savePackageVersion(PackageVersion* p);
 
     PackageVersion* findPackageVersionByMSIGUID_(const QString& guid) const;
 

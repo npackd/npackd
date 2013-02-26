@@ -19,6 +19,11 @@ public:
     QString sha1;
 
     DetectFile();
+
+    /**
+     * @return [ownership:caller] copy of this object
+     */
+    DetectFile* clone() const;
 };
 
 #endif // DETECTFILE_H

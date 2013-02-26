@@ -35,8 +35,8 @@ SOURCES += main.cpp \
     ../wpmcpp/installedpackages.cpp \
     ../wpmcpp/installedpackageversion.cpp \
     ../wpmcpp/clprogress.cpp \
-    ../wpmcpp/abstractrepository.cpp \
-    ../wpmcpp/dbrepository.cpp
+    ../wpmcpp/dbrepository.cpp \
+    ../wpmcpp/abstractrepository.cpp
 HEADERS += ../wpmcpp/repository.h \
     ../wpmcpp/version.h \
     ../wpmcpp/packageversionfile.h \
@@ -56,8 +56,8 @@ HEADERS += ../wpmcpp/repository.h \
     ../wpmcpp/commandline.h \
     ../wpmcpp/xmlutils.h \
     ../wpmcpp/clprogress.h \
-    ../wpmcpp/abstractrepository.h \
-    ../wpmcpp/dbrepository.h
+    ../wpmcpp/dbrepository.h \
+    ../wpmcpp/abstractrepository.h
 FORMS += 
 
 CONFIG += static

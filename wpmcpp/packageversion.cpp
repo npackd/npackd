@@ -144,6 +144,36 @@ QString PackageVersion::getStringId() const
     return getStringId(this->package, this->version);
 }
 
+void PackageVersion::fillFrom(PackageVersion *pv)
+{
+    this->package = pv->package;
+    this->version = pv->version;
+    this->importantFiles = pv->importantFiles;
+    this->importantFilesTitles = pv->importantFilesTitles;
+    this->type = pv->type;
+    this->sha1 = pv->sha1;
+    this->download = pv->download;
+    this->msiGUID = pv->msiGUID;
+
+    qDeleteAll(this->files);
+    this->files.clear();
+    for (int i = 0; i < pv->files.count(); i++) {
+        this->files.append(pv->files.at(i)->clone());
+    }
+
+    qDeleteAll(this->detectFiles);
+    this->detectFiles.clear();
+    for (int i = 0; i < pv->detectFiles.count(); i++) {
+        this->detectFiles.append(pv->detectFiles.at(i)->clone());
+    }
+
+    qDeleteAll(this->dependencies);
+    this->dependencies.clear();
+    for (int i = 0; i < pv->dependencies.count(); i++) {
+        this->dependencies.append(pv->dependencies.at(i)->clone());
+    }
+}
+
 QString PackageVersion::getPath() const
 {
     InstalledPackageVersion* ipv = InstalledPackages::getDefault()->

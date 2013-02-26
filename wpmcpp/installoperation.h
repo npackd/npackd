@@ -29,6 +29,11 @@ public:
     PackageVersion* findPackageVersion() const;
 
     /**
+     * @return [ownership:caller] copy of this object
+     */
+    InstallOperation* clone() const;
+
+    /**
      * Simplifies a list of operations.
      *
      * @param ops a list of operations. The list will be modified and

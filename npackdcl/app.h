@@ -36,17 +36,6 @@ private:
     int info();
     int update();
     int detect();
-
-    /**
-     * Internal tests.
-     *
-     * @param argc number of arguments
-     * @param argv arguments
-     * @return exit code
-     */
-    int unitTests();
-
-    QString reinstallTestPackage(QString rep);
 public:
     /**
      * Process the command line.

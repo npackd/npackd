@@ -35,6 +35,18 @@ QString Dependency::versionsToString() const
     return res;
 }
 
+Dependency *Dependency::clone() const
+{
+    Dependency* r = new Dependency();
+    r->package = this->package;
+    r->min = this->min;
+    r->max = this->max;
+    r->minIncluded = this->minIncluded;
+    r->maxIncluded = this->maxIncluded;
+    r->var = this->var;
+    return r;
+}
+
 QString Dependency::toString()
 {
     QString res;

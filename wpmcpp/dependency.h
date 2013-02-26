@@ -92,6 +92,11 @@ public:
      * @return [min, max]
      */
     QString versionsToString() const;
+
+    /**
+     * @return [ownership:caller] copy of this object
+     */
+    Dependency* clone() const;
 };
 
 #endif // DEPENDENCY_H

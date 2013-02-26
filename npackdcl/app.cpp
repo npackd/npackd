@@ -1,6 +1,8 @@
 #include <limits>
 #include <math.h>
+
 #include <QRegExp>
+#include <QScopedPointer>
 
 #include "app.h"
 #include "..\wpmcpp\wpmutils.h"
@@ -8,81 +10,8 @@
 #include "..\wpmcpp\downloader.h"
 #include "..\wpmcpp\installedpackages.h"
 #include "..\wpmcpp\installedpackageversion.h"
-
-QString App::reinstallTestPackage(QString rep)
-{
-    QString err;
-
-    Repository* r = Repository::getDefault();
-
-    QDomDocument doc;
-    int errorLine, errorColumn;
-    QFile f(rep);
-    if (!f.open(QIODevice::ReadOnly))
-        err = "Cannot open the repository file";
-
-    if (err.isEmpty())
-        doc.setContent(&f, false, &err, &errorLine, &errorColumn);
-
-    if (err.isEmpty()) {
-        Job* job = new Job();
-        r->loadOne(&doc, job);
-        err = job->getErrorMessage();
-        delete job;
-
-        InstalledPackages* ip = InstalledPackages::getDefault();
-        ip->readRegistryDatabase();
-    }
-
-    PackageVersion* pv = r->findPackageVersion(
-            "com.googlecode.windows-package-manager.Test",
-            Version(1, 0));
-
-    if (err.isEmpty()) {
-        if (pv->installed()) {
-            Job* job = new Job();
-            pv->uninstall(job);
-            err = job->getErrorMessage();
-            delete job;
-        }
-    }
-
-    if (err.isEmpty()) {
-        QList<PackageVersion*> installed;
-        QList<PackageVersion*> avoid;
-        QList<InstallOperation*> ops;
-        err = pv->planInstallation(installed, ops, avoid);
-
-        if (err.isEmpty()) {
-            err = "Packages cannot depend on itself";
-        } else {
-            err = "";
-        }
-    }
-
-    return err;
-}
-
-int App::unitTests()
-{
-    WPMUtils::outputTextConsole("Starting internal tests\n");
-
-    WPMUtils::outputTextConsole("testDependsOnItself\n");
-    QString err = reinstallTestPackage("npackdcl\\TestDependsOnItself.xml");
-    if (err.isEmpty())
-        WPMUtils::outputTextConsole("Internal tests were successful\n");
-    else
-        WPMUtils::outputTextConsole("Internal tests failed: " + err + "\n");
-
-    WPMUtils::outputTextConsole("testPackageMissing\n");
-    err = reinstallTestPackage("npackdcl\\TestPackageMissing.xml");
-    if (err.isEmpty())
-        WPMUtils::outputTextConsole("Internal tests were successful\n");
-    else
-        WPMUtils::outputTextConsole("Internal tests failed: " + err + "\n");
-
-    return 0;
-}
+#include "..\wpmcpp\abstractrepository.h"
+#include "..\wpmcpp\dbrepository.h"
 
 int App::process()
 {
@@ -155,8 +84,6 @@ int App::process()
             }
         } else if (cmd == "list") {
             r = list();
-        } else if (cmd == "unit-tests") {
-            r = unitTests();
         } else if (cmd == "info") {
             r = info();
         } else if (cmd == "update") {
@@ -175,14 +102,20 @@ int App::process()
 
 void App::addNpackdCL()
 {
-    Repository* r = Repository::getDefault();
-    PackageVersion* pv = r->findOrCreatePackageVersion(
+    AbstractRepository* r = AbstractRepository::getDefault_();
+    PackageVersion* pv = r->findPackageVersion_(
             "com.googlecode.windows-package-manager.NpackdCL",
             Version(WPMUtils::NPACKD_VERSION));
+    if (!pv) {
+        pv = new PackageVersion("com.googlecode.windows-package-manager.NpackdCL");
+        pv->version = Version(WPMUtils::NPACKD_VERSION);
+        r->savePackageVersion(pv);
+    }
     if (!pv->installed()) {
         pv->setPath(WPMUtils::getExeDir());
         r->updateNpackdCLEnvVar();
     }
+    delete pv;
 }
 
 void App::usage()
@@ -259,8 +192,7 @@ QString App::addRepo()
     }
 
     if (err.isEmpty()) {
-        Repository* rep = Repository::getDefault();
-        QList<QUrl*> urls = rep->getRepositoryURLs(&err);
+        QList<QUrl*> urls = AbstractRepository::getRepositoryURLs(&err);
         if (err.isEmpty()) {
             int found = -1;
             for (int i = 0; i < urls.size(); i++) {
@@ -275,7 +207,7 @@ QString App::addRepo()
             } else {
                 urls.append(url_);
                 url_ = 0;
-                rep->setRepositoryURLs(urls, &err);
+                AbstractRepository::setRepositoryURLs(urls, &err);
                 if (err.isEmpty())
                     WPMUtils::outputTextConsole("The repository was added successfully\n");
             }
@@ -310,13 +242,13 @@ int App::list()
 
     int r = 0;
 
-    Repository* rep = Repository::getDefault();
+    DBRepository* rep = DBRepository::getDefault();
     Job* job;
     if (bare)
         job = new Job();
     else
         job = clp.createJob();
-    rep->reload(job);
+    rep->updateF5(job);
     if (!job->getErrorMessage().isEmpty()) {
         WPMUtils::outputTextConsole(job->getErrorMessage() + "\n", false);
         r = 1;
@@ -339,13 +271,12 @@ int App::list()
     }
 
     if (r == 0) {
-        Repository* rep = Repository::getDefault();
+        AbstractRepository* rep = AbstractRepository::getDefault_();
         QList<PackageVersion*> list;
-        for (int i = 0; i < rep->packageVersions.count(); i++) {
-            PackageVersion* pv = rep->packageVersions.at(i);
-            if (!onlyInstalled || pv->installed())
-                list.append(pv);
-        }
+        if (onlyInstalled)
+            list = rep->getInstalled_();
+        else
+            list = DBRepository::getDefault()->findPackageVersions();
         qSort(list.begin(), list.end(), packageVersionLessThan);
 
         if (!bare)
@@ -362,6 +293,8 @@ int App::list()
                         pv->version.getVersionString() + " " +
                         pv->getPackageTitle() + "\n");
         }
+
+        qDeleteAll(list);
     }
 
     return r;
@@ -392,11 +325,11 @@ QString App::search()
         }
     }
 
-    Repository* rep = Repository::getDefault();
+    DBRepository* rep = DBRepository::getDefault();
 
     if (job->shouldProceed("Loading repositories")) {
         Job* rjob = job->newSubJob(0.99);
-        rep->reload(rjob);
+        rep->updateF5(rjob);
         if (!rjob->getErrorMessage().isEmpty()) {
             job->setErrorMessage(rjob->getErrorMessage());
         }
@@ -407,17 +340,22 @@ QString App::search()
         QStringList textFilter =query.toLower().simplified().split(" ");
 
         QList<Package*> list;
-        for (int i = 0; i < rep->packages.count(); i++) {
-            Package* p = rep->packages.at(i);
-
-            // filter by text
-            // TODO: if (!p->matches(textFilter))
-            //    continue;
-
-            PackageVersion* pv = rep->findNewestInstalledPackageVersion(
-                    p->name);
-            if (!onlyInstalled || pv)
-                list.append(p);
+        if (onlyInstalled) {
+            QList<InstalledPackageVersion*> installed =
+                    InstalledPackages::getDefault()->getAll();
+            QSet<QString> used;
+            for (int i = 0; i < installed.count(); i++) {
+                InstalledPackageVersion* ipv = installed.at(i);
+                if (ipv->installed() && !used.contains(ipv->package)) {
+                    Package* p = rep->findPackage(ipv->package);
+                    if (p) {
+                        list.append(p);
+                        used.insert(ipv->package);
+                    }
+                }
+            }
+        } else {
+            list = rep->findPackages(textFilter);
         }
         qSort(list.begin(), list.end(), packageLessThan);
 
@@ -434,6 +372,8 @@ QString App::search()
                 WPMUtils::outputTextConsole(p->name + " " +
                         p->title + "\n");
         }
+
+        qDeleteAll(list);
     }
 
     job->complete();
@@ -465,8 +405,7 @@ QString App::removeRepo()
     }
 
     if (err.isEmpty()) {
-        Repository* rep = Repository::getDefault();
-        QList<QUrl*> urls = rep->getRepositoryURLs(&err);
+        QList<QUrl*> urls = AbstractRepository::getRepositoryURLs(&err);
         if (err.isEmpty()) {
             int found = -1;
             for (int i = 0; i < urls.size(); i++) {
@@ -480,7 +419,7 @@ QString App::removeRepo()
                         url + "\n");
             } else {
                 delete urls.takeAt(found);
-                rep->setRepositoryURLs(urls, &err);
+                AbstractRepository::setRepositoryURLs(urls, &err);
                 if (err.isEmpty())
                     WPMUtils::outputTextConsole("The repository was removed successfully\n");
             }
@@ -497,9 +436,9 @@ int App::path()
 {
     int r = 0;
 
-    Repository* rep = Repository::getDefault();
+    DBRepository* rep = DBRepository::getDefault();
     Job* job = new Job();
-    rep->refresh(job);
+    rep->updateF5(job);
     if (!job->getErrorMessage().isEmpty()) {
         WPMUtils::outputTextConsole(job->getErrorMessage() + "\n", false);
         r = 1;
@@ -520,7 +459,8 @@ int App::path()
 
     if (r == 0) {
         if (!Package::isValidName(package)) {
-            WPMUtils::outputTextConsole("Invalid package name: " + package + "\n", false);
+            WPMUtils::outputTextConsole("Invalid package name: " + package +
+                    "\n", false);
             r = 1;
         }
     }
@@ -556,12 +496,12 @@ int App::path()
 
 int App::update()
 {
-    Repository* rep = Repository::getDefault();
+    DBRepository* rep = DBRepository::getDefault();
     Job* job = clp.createJob();
 
     if (job->shouldProceed("Loading repositories")) {
         Job* rjob = job->newSubJob(0.05);
-        rep->reload(rjob);
+        rep->updateF5(rjob);
         if (!rjob->getErrorMessage().isEmpty()) {
             job->setErrorMessage(rjob->getErrorMessage());
         }
@@ -587,7 +527,7 @@ int App::update()
     QList<Package*> packages;
 
     if (job->shouldProceed()) {
-        packages = rep->findPackages(package);
+        //TODO: short package names packages = rep->findPackages(package);
         if (packages.count() == 0) {
             job->setErrorMessage("Unknown package: " + package);
         }
@@ -602,7 +542,7 @@ int App::update()
     PackageVersion* newesti = 0;
     if (job->shouldProceed()) {
         // debug: WPMUtils::outputTextConsole <<  package) << " " << versions);
-        newesti = rep->findNewestInstalledPackageVersion(packages.at(0)->name);
+        newesti = rep->findNewestInstalledPackageVersion_(packages.at(0)->name);
         if (newesti == 0) {
             job->setErrorMessage("Package is not installed");
         }
@@ -610,7 +550,7 @@ int App::update()
 
     PackageVersion* newest = 0;
     if (job->shouldProceed()) {
-        newest = rep->findNewestInstallablePackageVersion(packages.at(0)->name);
+        newest = rep->findNewestInstallablePackageVersion_(packages.at(0)->name);
         if (newest == 0) {
             job->setErrorMessage("No installable versions found");
         }
@@ -669,6 +609,9 @@ int App::update()
         r = 0;
     }
 
+    delete newest;
+    delete newesti;
+
     delete job;
 
     return r;
@@ -679,9 +622,9 @@ int App::add()
     Job* job = clp.createJob();
 
     if (job->shouldProceed("Loading repositories")) {
-        Repository* rep = Repository::getDefault();
+        DBRepository* rep = DBRepository::getDefault();
         Job* rjob = job->newSubJob(0.1);
-        rep->reload(rjob);
+        rep->updateF5(rjob);
         if (!rjob->getErrorMessage().isEmpty()) {
             job->setErrorMessage(rjob->getErrorMessage());
         }
@@ -706,10 +649,10 @@ int App::add()
         }
     }
 
-    Repository* rep = Repository::getDefault();
+    AbstractRepository* rep = AbstractRepository::getDefault_();
     QList<Package*> packages;
     if (job->shouldProceed()) {
-        packages = rep->findPackages(package);
+        // TODO: short package names packages = rep->findPackages(package);
         if (packages.count() == 0) {
             job->setErrorMessage("Unknown package: " +
                     package);
@@ -722,14 +665,14 @@ int App::add()
     PackageVersion* pv = 0;
     if (job->shouldProceed()) {
         if (version.isNull()) {
-            pv = rep->findNewestInstallablePackageVersion(
+            pv = rep->findNewestInstallablePackageVersion_(
                     packages.at(0)->name);
         } else {
             Version v;
             if (!v.setVersion(version)) {
                 job->setErrorMessage("Cannot parse version: " + version);
             } else {
-                pv = rep->findPackageVersion(packages.at(0)->name, version);
+                pv = rep->findPackageVersion_(packages.at(0)->name, version);
             }
         }
     }
@@ -753,12 +696,13 @@ int App::add()
     QList<InstallOperation*> ops;
     if (job->shouldProceed() && !alreadyInstalled) {
         QList<PackageVersion*> installed =
-                Repository::getDefault()->getInstalled();
+                AbstractRepository::getDefault_()->getInstalled_();
         QList<PackageVersion*> avoid;
         QString err = pv->planInstallation(installed, ops, avoid);
         if (!err.isEmpty()) {
             job->setErrorMessage(err);
         }
+        qDeleteAll(installed);
     }
 
     if (!alreadyInstalled && job->shouldProceed("Installing")) {
@@ -783,6 +727,7 @@ int App::add()
         r = 0;
     }
 
+    delete pv;
     delete job;
 
     return r;
@@ -792,11 +737,11 @@ int App::remove()
 {
     Job* job = clp.createJob();
 
-    Repository* rep = Repository::getDefault();
+    DBRepository* rep = DBRepository::getDefault();
 
     if (job->shouldProceed("Loading repositories")) {
         Job* rjob = job->newSubJob(0.1);
-        rep->reload(rjob);
+        rep->updateF5(rjob);
         if (!rjob->getErrorMessage().isEmpty()) {
             job->setErrorMessage(rjob->getErrorMessage());
         }
@@ -828,7 +773,7 @@ int App::remove()
 
     QList<Package*> packages;
     if (job->shouldProceed()) {
-        packages = rep->findPackages(package);
+        // TODO: short package names packages = rep->findPackages(package);
         if (packages.count() == 0) {
             job->setErrorMessage("Unknown package: " + package);
         } else if (packages.count() > 1) {
@@ -847,7 +792,7 @@ int App::remove()
     // debug: WPMUtils::outputTextConsole << "Versions: " << d.toString()) << std::endl;
     PackageVersion* pv = 0;
     if (job->shouldProceed()) {
-        pv = rep->findPackageVersion(packages.at(0)->name, version);
+        pv = rep->findPackageVersion_(packages.at(0)->name, version);
         if (!pv) {
             job->setErrorMessage("Package not found");
         }
@@ -862,11 +807,12 @@ int App::remove()
     QList<InstallOperation*> ops;
     if (job->shouldProceed()) {
         QList<PackageVersion*> installed =
-                Repository::getDefault()->getInstalled();
+                AbstractRepository::getDefault_()->getInstalled_();
         QString err = pv->planUninstallation(installed, ops);
         if (!err.isEmpty()) {
             job->setErrorMessage(err);
         }
+        qDeleteAll(installed);
     }
 
     if (job->shouldProceed("Checking locked files and directories")) {
@@ -895,6 +841,7 @@ int App::remove()
         r = 0;
     }
 
+    delete pv;
     delete job;
 
     return r;
@@ -904,9 +851,9 @@ int App::info()
 {
     int r = 0;
 
-    Repository* rep = Repository::getDefault();
+    DBRepository* rep = DBRepository::getDefault();
     Job* job = clp.createJob();
-    rep->reload(job);
+    rep->updateF5(job);
     if (!job->getErrorMessage().isEmpty()) {
         WPMUtils::outputTextConsole(job->getErrorMessage() + "\n", false);
         r = 1;
@@ -934,7 +881,8 @@ int App::info()
                 break;
             }
 
-            Repository* rep = Repository::getDefault();
+            DBRepository* rep = DBRepository::getDefault();
+            /* TODO: search for short package names
             QList<Package*> packages = rep->findPackages(package);
             if (packages.count() == 0) {
                 WPMUtils::outputTextConsole("Unknown package: " +
@@ -947,6 +895,7 @@ int App::info()
                 r = 1;
                 break;
             }
+            */
 
             // debug: WPMUtils::outputTextConsole <<  package) << " " << versions);
             Version v;
@@ -961,11 +910,10 @@ int App::info()
 
             // debug: WPMUtils::outputTextConsole << "Versions: " << d.toString()) << std::endl;
             PackageVersion* pv = 0;
-            Package* p = packages.at(0);
+            Package* p = 0; // TODO = packages.at(0);
 
             if (!version.isNull()) {
-                pv = rep->findPackageVersion(
-                        packages.at(0)->name, version);
+                pv = rep->findPackageVersion(p->name, version);
                 if (!pv) {
                     WPMUtils::outputTextConsole("Package not found\n", false);
                     r = 1;
@@ -1027,16 +975,21 @@ int App::info()
 
             if (!pv) {
                 QString versions;
-                QList<PackageVersion*> pvs = rep->getPackageVersions(p->name);
+                QString err; //TODO: error is not handled
+                QList<PackageVersion*> pvs = rep->getPackageVersions_(p->name,
+                        &err);
                 for (int i = 0; i < pvs.count(); i++) {
                     PackageVersion* opv = pvs.at(i);
                     if (i != 0)
                         versions.append(", ");
                     versions.append(opv->version.getVersionString());
                 }
+                qDeleteAll(pvs);
                 WPMUtils::outputTextConsole("Versions: " +
                         versions + "\n");
             }
+
+            delete pv;
         } while (false);
     }
 
@@ -1050,8 +1003,8 @@ int App::detect()
     Job* job = clp.createJob();
     job->setHint("Loading repositories");
 
-    Repository* rep = Repository::getDefault();
-    rep->reload(job);
+    DBRepository* rep = DBRepository::getDefault();
+    rep->updateF5(job);
     if (!job->getErrorMessage().isEmpty()) {
         WPMUtils::outputTextConsole(job->getErrorMessage() + "\n", false);
         r = 1;
