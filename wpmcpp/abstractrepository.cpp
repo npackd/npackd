@@ -153,7 +153,8 @@ QString AbstractRepository::planUpdates(const QList<Package*> packages,
         }
 
         if (a->version.compare(b->version) <= 0) {
-            err = QString("The newest version (%1) for the package %2 is already installed").
+            err = QString("The newest version (%1) for the package %2 "
+                    "is already installed").
                     arg(b->version.getVersionString()).arg(p->title);
             break;
         }
@@ -164,17 +165,21 @@ QString AbstractRepository::planUpdates(const QList<Package*> packages,
     }
 
     if (err.isEmpty()) {
-        // many packages cannot be installed side-by-side and overwrite for example
+        // many packages cannot be installed side-by-side and overwrite for
+        // example
         // the shortcuts of the old version in the start menu. We try to find
-        // those packages where the old version can be uninstalled first and then
+        // those packages where the old version can be uninstalled first and
+        // then
         // the new version installed. This is the reversed order for an update.
-        // If this is possible and does not affect other packages, we do this first.
+        // If this is possible and does not affect other packages, we do this
+        // first.
         for (int i = 0; i < newest.count(); i++) {
             QList<PackageVersion*> avoid;
             QList<InstallOperation*> ops2;
             QList<PackageVersion*> installedCopy = installed;
 
-            QString err = newesti.at(i)->planUninstallation(installedCopy, ops2);
+            QString err = newesti.at(i)->planUninstallation(
+                    installedCopy, ops2);
             if (err.isEmpty()) {
                 err = newest.at(i)->planInstallation(installedCopy, ops2, avoid);
                 if (err.isEmpty()) {
@@ -222,6 +227,18 @@ QString AbstractRepository::planUpdates(const QList<Package*> packages,
     qDeleteAll(newesti);
 
     return err;
+}
+
+void AbstractRepository::addPackageVersion(const QString &package,
+        const Version &version)
+{
+    PackageVersion* pv = findPackageVersion_(package, version);
+    if (!pv) {
+        pv = new PackageVersion(package);
+        pv->version = version;
+        this->savePackageVersion(pv);
+    }
+    delete pv;
 }
 
 QList<QUrl*> AbstractRepository::getRepositoryURLs(QString* err)

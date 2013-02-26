@@ -8,8 +8,8 @@ InstallOperation::InstallOperation()
 
 PackageVersion *InstallOperation::findPackageVersion() const
 {
-    return AbstractRepository::getDefault_()->findPackageVersion_(this->package,
-                                                                  this->version);
+    return AbstractRepository::getDefault_()->findPackageVersion_(
+            this->package, this->version);
 }
 
 InstallOperation *InstallOperation::clone() const

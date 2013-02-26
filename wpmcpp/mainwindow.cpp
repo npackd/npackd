@@ -142,7 +142,7 @@ void ScanHardDrivesThread::run()
     // TODO: object comparison is wrong
     for (int i = 0; i < s2.count(); i++) {
         PackageVersion* pv = s2.at(i);
-        if (!s1.contains(pv)) {
+        if (!PackageVersion::contains(s1, pv)) {
             detected.append(pv);
         }
     }
@@ -177,8 +177,6 @@ MainWindow::MainWindow(QWidget *parent) :
     this->genericAppIcon = QIcon(":/images/app.png");
 
     this->mainFrame = new MainFrame(this);
-
-    //this->ui->formLayout_2->setSizeConstraint(QLayout::SetDefaultConstraint);
 
     updateActions();
 
@@ -432,7 +430,7 @@ void MainWindow::repositoryStatusChanged(const QString&)
     this->updateActions();
 }
 
-QImage toGray(const QImage& img)
+/*static QImage toGray(const QImage& img)
 {
     QImage img_gray(img.width(), img.height(), QImage::Format_Indexed8);
 
@@ -447,13 +445,14 @@ QImage toGray(const QImage& img)
             // farbwert holen
             QRgb rgb = img.pixel(x,y);
             // umrechnen in graustufe
-            unsigned char gray = 0.299*qRed(rgb) + 0.587*qGreen(rgb) + 0.114*qBlue(rgb);
+            unsigned char gray = 0.299*qRed(rgb) + 0.587*qGreen(rgb) +
+                    0.114*qBlue(rgb);
             // dem graustufen bild den wert zuweisen
             img_gray.setPixel(x,y, gray);
         }
     }
     return img_gray;
-}
+}*/
 
 void MainWindow::iconDownloaded(const FileLoaderItem& it)
 {
@@ -619,7 +618,7 @@ void MainWindow::selectPackages(QList<Package*> ps)
         const QVariant v = t->item(i, 1)->
                 data(Qt::UserRole);
         Package* f = (Package*) v.value<void*>();
-        if (ps.contains(f)) {
+        if (Package::contains(ps, f)) {
             //topLeft = t->selectionModel()->selection().
             QModelIndex topLeft = t->model()->index(i, 0);
             // QModelIndex bottomRight = t->model()->index(i, t->columnCount() - 1);
@@ -956,7 +955,7 @@ void MainWindow::process(QList<InstallOperation*> &install)
         Job* job = new Job();
         InstallThread* it = new InstallThread(0, 1, job);
         it->install = install;
-        install.clear();
+        install .clear();
 
         connect(it, SIGNAL(finished()), this,
                 SLOT(processThreadFinished()),
@@ -1814,8 +1813,9 @@ void MainWindow::on_actionInstall_triggered()
     QList<PackageVersion*> pvs;
     if (selected.count() == 0) {
         AbstractRepository* r = AbstractRepository::getDefault_();
-        selected = selection->getSelected("Package");
-        for (int i = 0; i < selected.count(); ) {
+        if (selection)
+            selected = selection->getSelected("Package");
+        for (int i = 0; i < selected.count(); i++) {
             Package* p = (Package*) selected.at(i);
             PackageVersion* pv = r->findNewestInstallablePackageVersion_(
                     p->name);
@@ -1862,8 +1862,9 @@ void MainWindow::on_actionUninstall_triggered()
     QList<PackageVersion*> pvs;
     if (selected.count() == 0) {
         AbstractRepository* r = AbstractRepository::getDefault_();
-        selected = selection->getSelected("Package");
-        for (int i = 0; i < selected.count(); ) {
+        if (selection)
+            selected = selection->getSelected("Package");
+        for (int i = 0; i < selected.count(); i++) {
             Package* p = (Package*) selected.at(i);
             PackageVersion* pv = r->findNewestInstalledPackageVersion_(p->name);
             if (pv) {

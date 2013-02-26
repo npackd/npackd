@@ -251,8 +251,6 @@ public:
      */
     PackageVersion* findLockedPackageVersion() const;
 
-    void addPackageVersion(const QString& package, const Version& version);
-
     QString savePackage(Package* p);
 
     QString savePackageVersion(PackageVersion* p);

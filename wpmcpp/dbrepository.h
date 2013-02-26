@@ -138,8 +138,6 @@ public:
      */
     void updateF5(Job *job);
 
-    void addPackageVersion(const QString& package, const Version& version);
-
     QString savePackage(Package* p);
 
     QString savePackageVersion(PackageVersion* p);

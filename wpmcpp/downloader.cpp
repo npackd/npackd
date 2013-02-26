@@ -74,7 +74,8 @@ void Downloader::downloadWin(Job* job, const QUrl& url, QFile* file,
     // qDebug() << "download.4";
 
     // flags: http://msdn.microsoft.com/en-us/library/aa383661(v=vs.85).aspx
-    //We support accepting any mime file type since this is a simple download of a file
+    // We support accepting any mime file type since this is a simple download
+    // of a file
     LPCTSTR ppszAcceptTypes[2];
     ppszAcceptTypes[0] = L"*/*";
     ppszAcceptTypes[1] = NULL;
@@ -181,7 +182,8 @@ void Downloader::downloadWin(Job* job, const QUrl& url, QFile* file,
                     goto out;
                 }
             } else if (dwStatus == HTTP_STATUS_DENIED) {
-                WPMUtils::outputTextConsole("\nThe HTTP server requires authentication.\n");
+                WPMUtils::outputTextConsole(
+                        "\nThe HTTP server requires authentication.\n");
                 WPMUtils::outputTextConsole("Username: ");
                 username = WPMUtils::inputTextConsole();
                 WPMUtils::outputTextConsole("Password: ");
@@ -264,7 +266,8 @@ out:
     if (HttpQueryInfoW(hResourceHandle, HTTP_QUERY_CONTENT_ENCODING,
             &contentEncodingBuffer, &bufferLength, &index)) {
         QString contentEncoding;
-        contentEncoding.setUtf16((ushort*) contentEncodingBuffer, bufferLength / 2);
+        contentEncoding.setUtf16((ushort*) contentEncodingBuffer,
+                bufferLength / 2);
         gzip = contentEncoding == "gzip" || contentEncoding == "deflate";
     }
 

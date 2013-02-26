@@ -39,7 +39,6 @@ void JobState::operator=(const JobState& s)
     this->started = s.started;
 }
 
-
 time_t JobState::remainingTime()
 {
     time_t result;
