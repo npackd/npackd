@@ -47,6 +47,18 @@ public:
      * @param packages [ownership:this] list of packages
      */
     void setPackages(const QList<Package*> packages);
+
+    /**
+     * @brief should be called if an icon has changed
+     * @param url URL of the icon
+     */
+    void iconUpdated(const QString& url);
+
+    /**
+     * @brief should be called if the "installed" status of a package version
+     *     has changed
+     */
+    void installedStatusChanged();
 };
 
 #endif // PACKAGEITEMMODEL_H

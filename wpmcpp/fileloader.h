@@ -2,12 +2,13 @@
 #define FILELOADER_H
 
 #include "qmetatype.h"
-#include "qobject.h"
-#include "qqueue.h"
-#include "qurl.h"
-#include "qtemporaryfile.h"
-#include "qthread.h"
-#include "qatomic.h"
+#include <QObject>
+#include <QQueue>
+#include <QUrl>
+#include <QTemporaryFile>
+#include <QThread>
+#include <QAtomicInt>
+#include <QMutex>
 
 #include "fileloaderitem.h"
 
@@ -17,21 +18,29 @@
 class FileLoader: public QThread
 {
     Q_OBJECT
-public:
-    /** set this to 1 to terminate this thread. */
-    QAtomicInt terminated;
 
     /**
      * Add items to this queue and they will be downloaded.
      */
     QQueue<FileLoaderItem> work;
 
+    QMutex mutex;
+public:
+    /** set this to 1 to terminate this thread. */
+    QAtomicInt terminated;
+
     /**
      * The thread is not started.
      */
     FileLoader();
 
-    virtual ~FileLoader() {};
+    virtual ~FileLoader() {}
+
+    /**
+     * @brief adds a work item
+     * @param item work item
+     */
+    void addWork(const FileLoaderItem& item);
 
     void run();
 signals:

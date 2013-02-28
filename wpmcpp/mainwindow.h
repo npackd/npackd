@@ -52,7 +52,6 @@ private:
 
     Ui::MainWindow *ui;
 
-    FileLoader fileLoader;
     QFrame* progressContent;
     QWidget* jobsTab;
     MainFrame* mainFrame;
@@ -67,7 +66,7 @@ private:
 
     void addJobsTab();
     void showDetails();
-    void updateIcons();
+    void updateIcon(const QString &url);
     bool isUpdateEnabled(const QString& package);
     void setMenuAccelerators();
     void setActionAccelerators(QWidget* w);
@@ -101,7 +100,6 @@ private:
 
     void updateStatusInDetailTabs();
     void updateProgressTabTitle();
-    void updateStatusInTable();
 
     virtual void closeEvent(QCloseEvent *event);
 public:
@@ -126,11 +124,19 @@ public:
      */
     static QIcon genericAppIcon;
 
+    /**
+     * This icon is used if a package icon is being downloaded
+     */
+    static QIcon waitAppIcon;
+
     /** true if the hard drive scan is runnig */
     bool hardDriveScanRunning;
 
     /** true if the repositories are being reloaded */
     bool reloadRepositoriesThreadRunning;
+
+    /** file loader thread */
+    FileLoader fileLoader;
 
     MainWindow(QWidget *parent = 0);
     ~MainWindow();

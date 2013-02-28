@@ -349,7 +349,7 @@ QString App::search()
             for (int i = 0; i < installed.count(); i++) {
                 InstalledPackageVersion* ipv = installed.at(i);
                 if (ipv->installed() && !used.contains(ipv->package)) {
-                    Package* p = rep->findPackage(ipv->package);
+                    Package* p = rep->findPackage_(ipv->package);
                     if (p) {
                         list.append(p);
                         used.insert(ipv->package);

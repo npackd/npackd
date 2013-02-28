@@ -69,13 +69,6 @@ public:
      */
     void insertAll(Job* job, Repository* r);
 
-    /**
-     * @brief searches for a package with the given name
-     * @param name full package name
-     * @return [ownership:caller] found package or 0
-     */
-    Package* findPackage(const QString& name);
-
     Package* findPackage_(const QString& name);
 
     /**
