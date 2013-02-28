@@ -148,7 +148,7 @@ bool DBRepository::tableExists(QSqlDatabase* db,
     return e;
 }
 
-Package* DBRepository::findPackage(const QString& name)
+Package *DBRepository::findPackage_(const QString &name)
 {
     Package* r = 0;
 
@@ -167,11 +167,6 @@ Package* DBRepository::findPackage(const QString& name)
     }
 
     return r;
-}
-
-Package *DBRepository::findPackage_(const QString &name)
-{
-    return findPackage(name);
 }
 
 PackageVersion* DBRepository::findPackageVersion(
@@ -347,7 +342,7 @@ QString DBRepository::savePackage(Package *p)
 {
     QString r;
 
-    Package* fp = findPackage(p->name);
+    Package* fp = findPackage_(p->name);
     if (fp) {
         delete fp;
 
@@ -561,7 +556,7 @@ void DBRepository::addWellKnownPackages()
 {
     Package* p;
 
-    p = this->findPackage("com.microsoft.Windows");
+    p = this->findPackage_("com.microsoft.Windows");
     if (!p) {
         Package* p = new Package("com.microsoft.Windows", "Windows");
         p->url = "http://www.microsoft.com/windows/";
@@ -572,7 +567,7 @@ void DBRepository::addWellKnownPackages()
     }
     delete p;
 
-    p = this->findPackage("com.microsoft.Windows32");
+    p = this->findPackage_("com.microsoft.Windows32");
     if (!p) {
         Package* p = new Package("com.microsoft.Windows32", "Windows/32 bit");
         p->url = "http://www.microsoft.com/windows/";
@@ -583,7 +578,7 @@ void DBRepository::addWellKnownPackages()
     }
     delete p;
 
-    p = this->findPackage("com.microsoft.Windows64");
+    p = this->findPackage_("com.microsoft.Windows64");
     if (!p) {
         Package* p = new Package("com.microsoft.Windows64", "Windows/64 bit");
         p->url = "http://www.microsoft.com/windows/";
@@ -594,7 +589,7 @@ void DBRepository::addWellKnownPackages()
     }
     delete p;
 
-    p = findPackage("com.googlecode.windows-package-manager.Npackd");
+    p = findPackage_("com.googlecode.windows-package-manager.Npackd");
     if (!p) {
         Package* p = new Package("com.googlecode.windows-package-manager.Npackd",
                 "Npackd");
@@ -606,7 +601,7 @@ void DBRepository::addWellKnownPackages()
     }
     delete p;
 
-    p = this->findPackage("com.oracle.JRE");
+    p = this->findPackage_("com.oracle.JRE");
     if (!p) {
         Package* p = new Package("com.oracle.JRE", "JRE");
         p->url = "http://www.java.com/";
@@ -617,7 +612,7 @@ void DBRepository::addWellKnownPackages()
     }
     delete p;
 
-    p = this->findPackage("com.oracle.JRE64");
+    p = this->findPackage_("com.oracle.JRE64");
     if (!p) {
         Package* p = new Package("com.oracle.JRE64", "JRE/64 bit");
         p->url = "http://www.java.com/";
@@ -628,7 +623,7 @@ void DBRepository::addWellKnownPackages()
     }
     delete p;
 
-    p = this->findPackage("com.oracle.JDK");
+    p = this->findPackage_("com.oracle.JDK");
     if (!p) {
         Package* p = new Package("com.oracle.JDK", "JDK");
         p->url = "http://www.oracle.com/technetwork/java/javase/overview/index.html";
@@ -639,7 +634,7 @@ void DBRepository::addWellKnownPackages()
     }
     delete p;
 
-    p = this->findPackage("com.oracle.JDK64");
+    p = this->findPackage_("com.oracle.JDK64");
     if (!p) {
         Package* p = new Package("com.oracle.JDK64", "JDK/64 bit");
         p->url = "http://www.oracle.com/technetwork/java/javase/overview/index.html";
@@ -650,7 +645,7 @@ void DBRepository::addWellKnownPackages()
     }
     delete p;
 
-    p = this->findPackage("com.microsoft.DotNetRedistributable");
+    p = this->findPackage_("com.microsoft.DotNetRedistributable");
     if (!p) {
         Package* p = new Package("com.microsoft.DotNetRedistributable",
                 ".NET redistributable runtime");
@@ -662,7 +657,7 @@ void DBRepository::addWellKnownPackages()
     }
     delete p;
 
-    p = this->findPackage("com.microsoft.WindowsInstaller");
+    p = this->findPackage_("com.microsoft.WindowsInstaller");
     if (!p) {
         Package* p = new Package("com.microsoft.WindowsInstaller",
                 "Windows Installer");
@@ -674,7 +669,7 @@ void DBRepository::addWellKnownPackages()
     }
     delete p;
 
-    p = this->findPackage("com.microsoft.MSXML");
+    p = this->findPackage_("com.microsoft.MSXML");
     if (!p) {
         Package* p = new Package("com.microsoft.MSXML",
                 "Microsoft Core XML Services (MSXML)");

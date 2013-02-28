@@ -52,7 +52,7 @@ QString Dependency::toString()
     QString res;
 
     DBRepository* r = DBRepository::getDefault();
-    Package* p = r->findPackage(this->package);
+    Package* p = r->findPackage_(this->package);
     if (p)
         res.append(p->title);
     else

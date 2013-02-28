@@ -4,6 +4,7 @@
 #include "packageitemmodel.h"
 #include "abstractrepository.h"
 #include "mainwindow.h"
+#include "fileloaderitem.h"
 
 PackageItemModel::PackageItemModel(const QList<Package *> packages) :
         obsoleteBrush(QColor(255, 0xc7, 0xc7))
@@ -123,9 +124,17 @@ QVariant PackageItemModel::data(const QModelIndex &index, int role) const
         switch (index.column()) {
             case 0: {
                 MainWindow* mw = MainWindow::getInstance();
-                if (!p->icon.isEmpty() && mw->icons.contains(p->icon)) {
-                    QIcon icon = mw->icons[p->icon];
-                    r = qVariantFromValue(icon);
+                if (!p->icon.isEmpty()) {
+                    if (mw->icons.contains(p->icon)) {
+                        QIcon icon = mw->icons[p->icon];
+                        r = qVariantFromValue(icon);
+                    } else {
+                        FileLoaderItem it;
+                        it.url = p->icon;
+                        // qDebug() << "MainWindow::loadRepository " << it.url;
+                        mw->fileLoader.addWork(it);
+                        r = qVariantFromValue(MainWindow::waitAppIcon);
+                    }
                 } else {
                     r = qVariantFromValue(MainWindow::genericAppIcon);
                 }
@@ -198,4 +207,20 @@ void PackageItemModel::setPackages(const QList<Package *> packages)
     qDeleteAll(this->packages);
     this->packages = packages;
     this->endResetModel();
+}
+
+void PackageItemModel::iconUpdated(const QString &url)
+{
+    for (int i = 0; i < this->packages.count(); i++) {
+        Package* p = this->packages.at(i);
+        if (p->icon == url) {
+            this->dataChanged(this->index(i, 0), this->index(i, 0));
+        }
+    }
+}
+
+void PackageItemModel::installedStatusChanged()
+{
+    this->dataChanged(this->index(0, 4),
+            this->index(this->packages.count() - 1, 4));
 }

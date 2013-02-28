@@ -17,9 +17,9 @@ MainFrame::MainFrame(QWidget *parent) :
     QTableView* t = this->ui->tableWidget;
     t->setModel(new PackageItemModel(QList<Package*>()));
     t->setEditTriggers(QTableWidget::NoEditTriggers);
+    t->setSortingEnabled(false);
 
     t->verticalHeader()->setDefaultSectionSize(36);
-    // TODO: this->ui->tableWidget->sortItems(1);
     t->setColumnWidth(0, 40);
     t->setColumnWidth(1, 150);
     t->setColumnWidth(2, 300);

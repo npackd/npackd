@@ -53,6 +53,7 @@ extern HWND defaultPasswordWindow;
 
 QMap<QString, QIcon> MainWindow::icons;
 QIcon MainWindow::genericAppIcon;
+QIcon MainWindow::waitAppIcon;
 MainWindow* MainWindow::instance = 0;
 
 class InstallThread: public QThread
@@ -176,6 +177,7 @@ MainWindow::MainWindow(QWidget *parent) :
     setWindowTitle("Npackd");
 
     this->genericAppIcon = QIcon(":/images/app.png");
+    this->waitAppIcon = QIcon(":/images/wait.png");
 
     this->mainFrame = new MainFrame(this);
 
@@ -278,7 +280,7 @@ void MainWindow::showDetails()
                 if (index < 0) {
                     PackageFrame* pf = new PackageFrame(this->ui->tabWidget);
                     Package* p_ = DBRepository::getDefault()->
-                            findPackage(p->name);
+                            findPackage_(p->name);
                     if (p_) {
                         pf->fillForm(p_);
                         QIcon icon = getPackageVersionIcon(p->name);
@@ -297,20 +299,11 @@ void MainWindow::showDetails()
     }
 }
 
-void MainWindow::updateIcons()
+void MainWindow::updateIcon(const QString& url)
 {
     QTableView* t = this->mainFrame->getTableWidget();
-    QAbstractItemModel* m = t->model();
-    for (int i = 0; i < m->rowCount(); i++) {
-        const QVariant v = m->data(m->index(i, 0), Qt::UserRole);
-        QString icon = v.toString();
-
-        /* TODO:
-        if (!icon.isEmpty() && this->icons.contains(icon)) {
-            item->setIcon(this->icons[icon]);
-        }
-        */
-    }
+    PackageItemModel* m = (PackageItemModel*) t->model();
+    m->iconUpdated(url);
 
     for (int i = 0; i < this->ui->tabWidget->count(); i++) {
         QWidget* w = this->ui->tabWidget->widget(i);
@@ -428,7 +421,9 @@ void MainWindow::repositoryStatusChanged(const QString&)
 {
     // qDebug() << "MainWindow::repositoryStatusChanged" << pv->toString();
 
-    this->updateStatusInTable();
+    QTableView* t = this->mainFrame->getTableWidget();
+    PackageItemModel* m = (PackageItemModel*) t->model();
+    m->installedStatusChanged();
     this->updateStatusInDetailTabs();
     this->updateActions();
 }
@@ -473,7 +468,7 @@ void MainWindow::iconDownloaded(const FileLoaderItem& it)
             QIcon icon(pm);
             icon.detach();
             this->icons.insert(it.url, icon);
-            updateIcons();
+            updateIcon(it.url);
         }
     }
 }
@@ -485,34 +480,6 @@ void MainWindow::prepare()
     connect(pTimer, SIGNAL(timeout()), this, SLOT(onShow()));
 
     pTimer->start(0);
-}
-
-void MainWindow::updateStatusInTable()
-{
-    AbstractRepository* r = AbstractRepository::getDefault_();
-    QTableView* t = this->mainFrame->getTableWidget();
-    QAbstractItemModel* m = t->model();
-    for (int i = 0; i < m->rowCount(); i++) {
-        const QVariant v = m->data(m->index(i, 4), Qt::UserRole);
-
-        Package* p = (Package *) v.value<void*>();
-        PackageVersion* newestInstallable =
-                r->findNewestInstallablePackageVersion_(p->name);
-        PackageVersion* newestInstalled =
-                r->findNewestInstalledPackageVersion_(p->name);
-
-        /* TODO:
-        if (newestInstalled && newestInstallable &&
-                newestInstallable->version.compare(
-                newestInstalled->version) > 0)
-            newItem->setBackgroundColor(QColor(255, 0xc7, 0xc7));
-        else
-            newItem->setBackgroundColor(QColor(255, 255, 255));
-            */
-
-        delete newestInstallable;
-        delete newestInstalled;
-    }
 }
 
 void MainWindow::updateProgressTabTitle()
@@ -665,7 +632,6 @@ void MainWindow::fillList()
     QTableView* t = this->mainFrame->getTableWidget();
 
     t->setUpdatesEnabled(false);
-    t->setSortingEnabled(false);
 
     // TODO: int statusFilter = this->mainFrame->getStatusComboBox()->currentIndex();
     QStringList textFilter =
@@ -676,18 +642,6 @@ void MainWindow::fillList()
 
     DBRepository* dbr = DBRepository::getDefault();
     QList<Package*> found = dbr->findPackages(textFilter);
-
-    for (int i = 0; i < found.count(); i++) {
-        Package* p = found.at(i);
-        if (!p->icon.isEmpty()) {
-            if (!icons.contains(p->icon)) {
-                FileLoaderItem it;
-                it.url = p->icon;
-                // qDebug() << "MainWindow::loadRepository " << it.url;
-                this->fileLoader.work.append(it);
-            }
-        }
-    }
 
     PackageItemModel* m = (PackageItemModel*) t->model();
     m->setPackages(found);
@@ -733,7 +687,6 @@ void MainWindow::fillList()
     }
 
     */
-    t->setSortingEnabled(true);
     t->setUpdatesEnabled(true);
 }
 
@@ -871,13 +824,13 @@ void MainWindow::process(QList<InstallOperation*> &install)
 
 void MainWindow::processThreadFinished()
 {
-    // TODO: QTableView* t = this->mainFrame->getTableWidget();
+    QTableView* t = this->mainFrame->getTableWidget();
+    QItemSelectionModel* sm = t->selectionModel();
     QList<Package*> sel = mainFrame->getSelectedPackagesInTable();
-    /* TODO: int col = t->currentColumn();
-    int row = t->currentRow();*/
+    QModelIndex index = sm->currentIndex();
     fillList();
     updateStatusInDetailTabs();
-    // TODO: t->setCurrentCell(row, col);
+    sm->setCurrentIndex(index, QItemSelectionModel::Current);
     selectPackages(sel);
     updateActions();
 }
@@ -1225,9 +1178,9 @@ void MainWindow::closeDetailTabs()
 
 void MainWindow::recognizeAndLoadRepositories(bool useCache)
 {
-    // TODO: QTableView* t = this->mainFrame->getTableWidget();
-    /* TODO: t->clearContents();
-    t->setRowCount(0);*/
+    QTableView* t = this->mainFrame->getTableWidget();
+    PackageItemModel* m = (PackageItemModel*) t->model();
+    m->setPackages(QList<Package*>());
 
     Job* job = new Job();
     InstallThread* it = new InstallThread(0, 3, job);
