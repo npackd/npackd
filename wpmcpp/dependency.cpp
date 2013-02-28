@@ -193,7 +193,7 @@ PackageVersion* Dependency::findBestMatchToInstall(
     PackageVersion* res = 0;
     QString err;
     // TODO: handle returned error
-    QList<PackageVersion*> pvs = r->getPackageVersions(this->package, &err);
+    QList<PackageVersion*> pvs = r->getPackageVersions_(this->package, &err);
     for (int i = 0; i < pvs.count(); i++) {
         PackageVersion* pv = pvs.at(i);
         if (this->test(pv->version) &&

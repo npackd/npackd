@@ -1,6 +1,7 @@
 #include "abstractrepository.h"
 #include "wpmutils.h"
 #include "windowsregistry.h"
+#include "installedpackages.h"
 
 AbstractRepository* AbstractRepository::def = 0;
 
@@ -110,7 +111,8 @@ void AbstractRepository::process(Job *job,
 QList<PackageVersion*> AbstractRepository::getInstalled_()
 {
     QList<PackageVersion*> ret;
-    QList<InstalledPackageVersion*> ipvs;
+    QList<InstalledPackageVersion*> ipvs =
+            InstalledPackages::getDefault()->getAll();
     for (int i = 0; i < ipvs.count(); i++) {
         InstalledPackageVersion* ipv = ipvs.at(i);
         if (ipv->installed()) {

@@ -43,7 +43,8 @@ SOURCES += main.cpp \
     dbrepository.cpp \
     installedpackages.cpp \
     installedpackageversion.cpp \
-    abstractrepository.cpp
+    abstractrepository.cpp \
+    packageitemmodel.cpp
 HEADERS += mainwindow.h \
     packageversion.h \
     repository.h \
@@ -77,7 +78,8 @@ HEADERS += mainwindow.h \
     dbrepository.h \
     installedpackages.h \
     installedpackageversion.h \
-    abstractrepository.h
+    abstractrepository.h \
+    packageitemmodel.h
 FORMS += mainwindow.ui \
     packageversionform.ui \
     licenseform.ui \
@@ -112,3 +114,8 @@ QMAKE_CXXFLAGS += -static-libstdc++ -static-libgcc -Werror
 QMAKE_LFLAGS += -static
 
 QMAKE_LFLAGS_RELEASE += -Wl,-Map,wpmcpp_release.map
+
+gprof {
+    QMAKE_CXXFLAGS+=-pg
+    QMAKE_LFLAGS+=-pg
+}

@@ -81,10 +81,8 @@ public:
      *
      * @param package full package name
      * @param err error message will be stored here
-     * @return the list of package versions (the objects should not
-     *     be freed) sorted by the version number. The first returned object
-     *     has the highest version number. The returned objects should be
-     *     destroyed later.
+     * @return [ownership:caller] the list of package versions.
+     *     The first returned object has the highest version number.
      */
     virtual QList<PackageVersion*> getPackageVersions_(
             const QString& package, QString* err) const = 0;

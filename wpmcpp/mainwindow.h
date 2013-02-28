@@ -60,8 +60,6 @@ private:
     UINT taskbarMessageId;
     ITaskbarList3* taskbarInterface;
 
-    QList<Package*> found;
-
     int findPackageTab(const QString& package) const;
     int findPackageVersionTab(const QString& package,
             const Version& version) const;
@@ -240,8 +238,6 @@ private slots:
     void on_actionSettings_triggered();
     void on_actionGotoPackageURL_triggered();
     void onShow();
-    void on_actionInstall_activated();
-    void on_actionUninstall_activated();
     void on_actionExit_triggered();
     void iconDownloaded(const FileLoaderItem& it);
     void on_actionReload_Repositories_triggered();

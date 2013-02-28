@@ -8,6 +8,7 @@
 #include <QMap>
 #include <QWeakPointer>
 #include <QMultiMap>
+#include <QCache>
 
 #include "package.h"
 #include "repository.h"
@@ -25,6 +26,8 @@ private:
     static bool tableExists(QSqlDatabase* db,
             const QString& table, QString* err);
     static QString toString(const QSqlError& e);
+
+    QCache<QString, License> licenses;
 
     QString insertPackage(Package* p);
     QString insertPackageVersion(PackageVersion* p);
@@ -48,6 +51,8 @@ public:
      * @brief -
      */
     DBRepository();
+
+    virtual ~DBRepository();
 
     /**
      * @brief opens the database
@@ -88,18 +93,6 @@ public:
      * @return found license or 0. The returned object should be destroyed later.
      */
     License* findLicense(const QString& name);
-
-    /**
-     * Finds all versions of a package.
-     *
-     * @param package full package name
-     * @param err error message will be stored here
-     * @return the list of package versions sorted by the version number.
-     *     The first returned object has the highest version number. The objects
-     *     must be destroyed later.
-     */
-    QList<PackageVersion*> getPackageVersions(const QString& package,
-            QString* err) const;
 
     QList<PackageVersion*> getPackageVersions_(const QString& package,
             QString* err) const;
