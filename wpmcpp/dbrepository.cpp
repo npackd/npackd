@@ -18,7 +18,8 @@
 #include "installedpackages.h"
 
 static bool packageVersionLessThan3(const PackageVersion* a,
-        const PackageVersion* b) {
+        const PackageVersion* b)
+{
     int r = a->package.compare(b->package);
     if (r == 0) {
         r = a->version.compare(b->version);
@@ -27,9 +28,35 @@ static bool packageVersionLessThan3(const PackageVersion* a,
     return r > 0;
 }
 
+class QMySqlQuery: public QSqlQuery {
+public:
+    bool exec(const QString& query);
+    bool exec();
+};
+
+bool QMySqlQuery::exec(const QString &query)
+{
+    //DWORD start = GetTickCount();
+    bool r = QSqlQuery::exec(query);
+    // qDebug() << query << (GetTickCount() - start);
+    return r;
+}
+
+bool QMySqlQuery::exec()
+{
+    //DWORD start = GetTickCount();
+    bool r = QSqlQuery::exec();
+    // qDebug() << this->lastQuery() << (GetTickCount() - start);
+    return r;
+}
+
 DBRepository DBRepository::def;
 
 DBRepository::DBRepository()
+{
+}
+
+DBRepository::~DBRepository()
 {
 }
 
@@ -40,14 +67,14 @@ DBRepository* DBRepository::getDefault()
 
 QString DBRepository::exec(const QString& sql)
 {
-    QSqlQuery q;
+    QMySqlQuery q;
     q.exec(sql);
     return toString(q.lastError());
 }
 
 QString DBRepository::insertPackage(Package* p)
 {
-    QSqlQuery q;
+    QMySqlQuery q;
     q.prepare("INSERT INTO PACKAGE "
             "(ID, NAME, TITLE, URL, ICON, DESCRIPTION, LICENSE, FULLTEXT)"
             "VALUES(:ID, :NAME, :TITLE, :URL, :ICON, :DESCRIPTION, :LICENSE, "
@@ -67,7 +94,7 @@ QString DBRepository::insertPackage(Package* p)
 
 QString DBRepository::insertPackageVersion(PackageVersion* p)
 {
-    QSqlQuery q;
+    QMySqlQuery q;
     q.prepare("INSERT INTO PACKAGE_VERSION "
             "(ID, NAME, PACKAGE, CONTENT, MSIGUID)"
             "VALUES(:ID, :NAME, :PACKAGE, :CONTENT, :MSIGUID)");
@@ -90,7 +117,7 @@ QString DBRepository::insertPackageVersion(PackageVersion* p)
 
 QString DBRepository::insertLicense(License* p)
 {
-    QSqlQuery q;
+    QMySqlQuery q;
     q.prepare("INSERT INTO LICENSE "
             "(ID, NAME, TITLE, DESCRIPTION, URL)"
             "VALUES(:ID, :NAME, :TITLE, :DESCRIPTION, :URL)");
@@ -107,9 +134,11 @@ bool DBRepository::tableExists(QSqlDatabase* db,
         const QString& table, QString* err)
 {
     *err = "";
-    QString sql = QString("SELECT name FROM sqlite_master WHERE "
-            "type='table' AND name='%1'").arg(table);
-    QSqlQuery q = db->exec(sql);
+    QMySqlQuery q;
+    q.prepare("SELECT name FROM sqlite_master WHERE "
+            "type='table' AND name=:NAME");
+    q.bindValue(":NAME", table);
+    q.exec();
     *err = toString(q.lastError());
 
     bool e = false;
@@ -123,7 +152,7 @@ Package* DBRepository::findPackage(const QString& name)
 {
     Package* r = 0;
 
-    QSqlQuery q;
+    QMySqlQuery q;
     q.prepare("SELECT ID, NAME, TITLE, URL, ICON, "
             "DESCRIPTION, LICENSE FROM PACKAGE WHERE NAME = :NAME");
     q.bindValue(":NAME", name);
@@ -151,7 +180,7 @@ PackageVersion* DBRepository::findPackageVersion(
     QString version_ = version.getVersionString();
     PackageVersion* r = 0;
 
-    QSqlQuery q;
+    QMySqlQuery q;
     q.prepare("SELECT ID, NAME, "
             "PACKAGE, CONTENT, MSIGUID FROM PACKAGE_VERSION "
             "WHERE NAME = :NAME AND PACKAGE = :PACKAGE");
@@ -184,17 +213,11 @@ PackageVersion* DBRepository::findPackageVersion(
 QList<PackageVersion*> DBRepository::getPackageVersions_(
         const QString& package, QString* err) const
 {
-    return this->getPackageVersions(package, err);
-}
-
-QList<PackageVersion*> DBRepository::getPackageVersions(
-        const QString& package, QString* err) const
-{
     *err = "";
 
     QList<PackageVersion*> r;
 
-    QSqlQuery q;
+    QMySqlQuery q;
     q.prepare("SELECT ID, NAME, "
             "PACKAGE, CONTENT, MSIGUID FROM PACKAGE_VERSION "
             "WHERE PACKAGE = :PACKAGE");
@@ -232,19 +255,24 @@ QList<PackageVersion*> DBRepository::getPackageVersions(
 License *DBRepository::findLicense(const QString& name)
 {
     License* r = 0;
-
-    QSqlQuery q;
-    q.prepare("SELECT ID, NAME, TITLE, DESCRIPTION, URL "
-            "FROM LICENSE "
-            "WHERE NAME = :NAME");
-    q.bindValue(":NAME", name);
-    q.exec();
-    if (q.next()) {
-        // TODO: handle error
-        License* p = new License(name, q.value(2).toString());
-        p->description = q.value(3).toString();
-        p->url = q.value(4).toString();
-        r = p;
+    License* cached = this->licenses.object(name);
+    if (!cached) {
+        QMySqlQuery q;
+        q.prepare("SELECT ID, NAME, TITLE, DESCRIPTION, URL "
+                "FROM LICENSE "
+                "WHERE NAME = :NAME");
+        q.bindValue(":NAME", name);
+        q.exec();
+        if (q.next()) {
+            // TODO: handle error
+            cached = new License(name, q.value(2).toString());
+            cached->description = q.value(3).toString();
+            cached->url = q.value(4).toString();
+            r = cached->clone();
+            this->licenses.insert(name, cached);
+        }
+    } else {
+        r = cached->clone();
     }
 
     return r;
@@ -257,9 +285,10 @@ QList<Package*> DBRepository::findPackages(const QStringList& keywords) const
 
     QList<Package*> r;
 
-    QSqlQuery q;
+    QMySqlQuery q;
     q.prepare("SELECT ID, NAME, TITLE, URL, ICON, "
-            "DESCRIPTION, LICENSE FROM PACKAGE WHERE FULLTEXT LIKE :FULLTEXT");
+            "DESCRIPTION, LICENSE FROM PACKAGE WHERE FULLTEXT LIKE :FULLTEXT "
+            "ORDER BY TITLE");
     q.bindValue(":FULLTEXT", keywords.count() > 0 ?
             "%" + keywords.at(0).toLower() + "%" : "%");
     q.exec();
@@ -281,7 +310,7 @@ QList<PackageVersion *> DBRepository::findPackageVersions() const
 
     QList<PackageVersion*> r;
 
-    QSqlQuery q;
+    QMySqlQuery q;
     q.prepare("SELECT ID, NAME, "
             "PACKAGE, CONTENT, MSIGUID FROM PACKAGE_VERSION");
     q.exec();
@@ -322,7 +351,7 @@ QString DBRepository::savePackage(Package *p)
     if (fp) {
         delete fp;
 
-        QSqlQuery q;
+        QMySqlQuery q;
         q.prepare("UPDATE PACKAGE "
                 "SET TITLE=:TITLE, URL=:URL, ICON=:ICON, "
                 "DESCRIPTION=:DESCRIPTION, LICENSE=:LICENSE, "
@@ -353,7 +382,7 @@ QString DBRepository::savePackageVersion(PackageVersion *p)
     if (fp) {
         delete fp;
 
-        QSqlQuery q;
+        QMySqlQuery q;
         q.prepare("UPDATE PACKAGE_VERSION "
                 "SET CONTENT=:CONTENT, "
                 "MSIGUID=:MSIGUID "
@@ -383,7 +412,7 @@ PackageVersion *DBRepository::findPackageVersionByMSIGUID_(
 {
     PackageVersion* r = 0;
 
-    QSqlQuery q;
+    QMySqlQuery q;
     q.prepare("SELECT ID, NAME, "
             "PACKAGE, CONTENT FROM PACKAGE_VERSION "
             "WHERE MSIGUID = :MSIGUID");
@@ -779,6 +808,13 @@ QString DBRepository::open()
     }
 
     if (err.isEmpty()) {
+        if (!e) {
+            db.exec("CREATE INDEX PACKAGE_FULLTEXT ON PACKAGE(FULLTEXT)");
+            err = toString(db.lastError());
+        }
+    }
+
+    if (err.isEmpty()) {
         e = tableExists(&db, "PACKAGE_VERSION", &err);
     }
 
@@ -787,6 +823,14 @@ QString DBRepository::open()
             db.exec("CREATE TABLE PACKAGE_VERSION(ID INTEGER PRIMARY KEY, NAME TEXT, "
                     "PACKAGE TEXT, "
                     "CONTENT BLOB, MSIGUID TEXT)");
+            err = toString(db.lastError());
+        }
+    }
+
+    if (err.isEmpty()) {
+        if (!e) {
+            db.exec("CREATE INDEX PACKAGE_VERSION_PACKAGE ON PACKAGE_VERSION("
+                    "PACKAGE)");
             err = toString(db.lastError());
         }
     }

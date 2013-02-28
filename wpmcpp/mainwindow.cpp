@@ -47,6 +47,7 @@
 #include "packageframe.h"
 #include "hrtimer.h"
 #include "dbrepository.h"
+#include "packageitemmodel.h"
 
 extern HWND defaultPasswordWindow;
 
@@ -180,7 +181,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
     updateActions();
 
-    QTableWidget* t = this->mainFrame->getTableWidget();
+    QTableView* t = this->mainFrame->getTableWidget();
     t->addAction(this->ui->actionInstall);
     t->addAction(this->ui->actionUninstall);
     t->addAction(this->ui->actionUpdate);
@@ -298,15 +299,17 @@ void MainWindow::showDetails()
 
 void MainWindow::updateIcons()
 {
-    QTableWidget* t = this->mainFrame->getTableWidget();
-    for (int i = 0; i < t->rowCount(); i++) {
-        QTableWidgetItem *item = t->item(i, 0);
-        const QVariant v = item->data(Qt::UserRole);
+    QTableView* t = this->mainFrame->getTableWidget();
+    QAbstractItemModel* m = t->model();
+    for (int i = 0; i < m->rowCount(); i++) {
+        const QVariant v = m->data(m->index(i, 0), Qt::UserRole);
         QString icon = v.toString();
 
+        /* TODO:
         if (!icon.isEmpty() && this->icons.contains(icon)) {
             item->setIcon(this->icons[icon]);
         }
+        */
     }
 
     for (int i = 0; i < this->ui->tabWidget->count(); i++) {
@@ -487,23 +490,25 @@ void MainWindow::prepare()
 void MainWindow::updateStatusInTable()
 {
     AbstractRepository* r = AbstractRepository::getDefault_();
-    QTableWidget* t = this->mainFrame->getTableWidget();
-    for (int i = 0; i < t->rowCount(); i++) {
-        QTableWidgetItem* newItem = t->item(i, 4);
+    QTableView* t = this->mainFrame->getTableWidget();
+    QAbstractItemModel* m = t->model();
+    for (int i = 0; i < m->rowCount(); i++) {
+        const QVariant v = m->data(m->index(i, 4), Qt::UserRole);
 
-        const QVariant v = newItem->data(Qt::UserRole);
         Package* p = (Package *) v.value<void*>();
         PackageVersion* newestInstallable =
                 r->findNewestInstallablePackageVersion_(p->name);
         PackageVersion* newestInstalled =
                 r->findNewestInstalledPackageVersion_(p->name);
 
+        /* TODO:
         if (newestInstalled && newestInstallable &&
                 newestInstallable->version.compare(
                 newestInstalled->version) > 0)
             newItem->setBackgroundColor(QColor(255, 0xc7, 0xc7));
         else
             newItem->setBackgroundColor(QColor(255, 255, 255));
+            */
 
         delete newestInstallable;
         delete newestInstalled;
@@ -559,7 +564,6 @@ MainWindow::~MainWindow()
     this->fileLoader.terminated = 1;
     if (!this->fileLoader.wait(1000))
         this->fileLoader.terminate();
-    qDeleteAll(found);
     delete ui;
 }
 
@@ -612,11 +616,11 @@ void MainWindow::onShow()
 
 void MainWindow::selectPackages(QList<Package*> ps)
 {
-    QTableWidget* t = this->mainFrame->getTableWidget();
+    QTableView* t = this->mainFrame->getTableWidget();
     t->clearSelection();
-    for (int i = 0; i < t->rowCount(); i++) {
-        const QVariant v = t->item(i, 1)->
-                data(Qt::UserRole);
+    QAbstractItemModel* m = t->model();
+    for (int i = 0; i < m->rowCount(); i++) {
+        const QVariant v = m->data(m->index(i, 1), Qt::UserRole);
         Package* f = (Package*) v.value<void*>();
         if (Package::contains(ps, f)) {
             //topLeft = t->selectionModel()->selection().
@@ -658,46 +662,20 @@ void MainWindow::fillList()
     // 5: license Package*
 
     // qDebug() << "MainWindow::fillList";
-    QTableWidget* t = this->mainFrame->getTableWidget();
+    QTableView* t = this->mainFrame->getTableWidget();
 
-    t->clearContents();
     t->setUpdatesEnabled(false);
     t->setSortingEnabled(false);
 
-    AbstractRepository* r = AbstractRepository::getDefault_();
-
-    t->setColumnCount(6);
-
-    QTableWidgetItem *newItem = new QTableWidgetItem("Icon");
-    t->setHorizontalHeaderItem(0, newItem);
-
-    newItem = new QTableWidgetItem("Title");
-    t->setHorizontalHeaderItem(1, newItem);
-
-    newItem = new QTableWidgetItem("Description");
-    t->setHorizontalHeaderItem(2, newItem);
-
-    newItem = new QTableWidgetItem("Available");
-    t->setHorizontalHeaderItem(3, newItem);
-
-    newItem = new QTableWidgetItem("Installed");
-    t->setHorizontalHeaderItem(4, newItem);
-
-    newItem = new QTableWidgetItem("License");
-    t->setHorizontalHeaderItem(5, newItem);
-
-    int statusFilter = this->mainFrame->getStatusComboBox()->currentIndex();
+    // TODO: int statusFilter = this->mainFrame->getStatusComboBox()->currentIndex();
     QStringList textFilter =
             this->mainFrame->getFilterLineEdit()->text().
             toLower().simplified().split(" ");
 
-    QSet<QString> requestedIcons;
+    //QSet<QString> requestedIcons;
 
-    t->setRowCount(0);
     DBRepository* dbr = DBRepository::getDefault();
-    qDeleteAll(found);
-    found = dbr->findPackages(textFilter);
-    t->setRowCount(found.count());
+    QList<Package*> found = dbr->findPackages(textFilter);
 
     for (int i = 0; i < found.count(); i++) {
         Package* p = found.at(i);
@@ -710,36 +688,19 @@ void MainWindow::fillList()
             }
         }
     }
+
+    PackageItemModel* m = (PackageItemModel*) t->model();
+    m->setPackages(found);
+
     // qDebug() << "MainWindow::loadRepository";
 
+    /* TODO
     int n = 0;
     for (int i = 0; i < found.count(); i++) {
         Package* p = found.at(i);
 
-        QString err;
-        // TODO: error is not handled
-        QList<PackageVersion*> pvs = dbr->getPackageVersions(p->name, &err);
-        if (pvs.count() == 0)
-            continue;
-
-        QString installed;
-        bool atLeastOneInstalled = false;
-        for (int j = pvs.count() - 1; j >= 0; j--) {
-            PackageVersion* pv = pvs.at(j);
-            if (pv->installed()) {
-                atLeastOneInstalled = true;
-                if (!installed.isEmpty())
-                    installed.append(", ");
-                installed.append(pv->version.getVersionString());
-            }
-        }
-        qDeleteAll(pvs);
-        pvs.clear();
 
         bool updateEnabled = isUpdateEnabled(p->name);
-
-        QSharedPointer<PackageVersion> newestInstallable(
-                r->findNewestInstallablePackageVersion_(p->name));
 
         if (!atLeastOneInstalled && !newestInstallable)
             continue;
@@ -769,71 +730,11 @@ void MainWindow::fillList()
         if (!statusOK)
             continue;
 
-        if (!p->icon.isEmpty() && !requestedIcons.contains(p->icon)) {
-            FileLoaderItem it;
-            it.url = p->icon;
-            // qDebug() << "MainWindow::loadRepository " << it.url;
-            this->fileLoader.work.append(it);
-            requestedIcons += p->icon;
-        }
-
-        newItem = new QTableWidgetItem("");
-        newItem->setData(Qt::UserRole, qVariantFromValue(p->icon));
-        if (p) {
-            if (!p->icon.isEmpty() && this->icons.contains(p->icon)) {
-                QIcon icon = this->icons[p->icon];
-                newItem->setIcon(icon);
-            } else {
-                newItem->setIcon(MainWindow::genericAppIcon);
-            }
-        } else {
-            newItem->setIcon(MainWindow::genericAppIcon);
-        }
-        t->setItem(n, 0, newItem);
-
-        newItem = new QCITableWidgetItem(p->title);
-        newItem->setStatusTip(p->name);
-        newItem->setData(Qt::UserRole, qVariantFromValue((void*) p));
-        t->setItem(n, 1, newItem);
-
-        newItem = new QCITableWidgetItem(p->description);
-        newItem->setData(Qt::UserRole, qVariantFromValue((void*) p));
-        t->setItem(n, 2, newItem);
-
-        newItem = new QTableWidgetItem("");
-        if (newestInstallable)
-            newItem->setText(newestInstallable->version.getVersionString());
-        newItem->setData(Qt::UserRole, qVariantFromValue((void*) p));
-        t->setItem(n, 3, newItem);
-
-        newItem = new QCITableWidgetItem(installed);
-        QSharedPointer<PackageVersion> newestInstalled(
-                r->findNewestInstalledPackageVersion_(p->name));
-        if (newestInstalled && newestInstallable &&
-                newestInstallable->version.compare(
-                newestInstalled->version) > 0)
-            newItem->setBackgroundColor(QColor(255, 0xc7, 0xc7));
-        newItem->setData(Qt::UserRole, qVariantFromValue((void*) p));
-        t->setItem(n, 4, newItem);
-
-        newItem = new QCITableWidgetItem("");
-        QString licenseTitle;
-        if (p) {
-            QSharedPointer<License> lic(r->findLicense_(p->license));
-            if (lic)
-                licenseTitle = lic->title;
-        }
-        newItem->setText(licenseTitle);
-        newItem->setData(Qt::UserRole, qVariantFromValue((void*) p));
-        t->setItem(n, 5, newItem);
-
-        n++;
     }
 
-    t->setRowCount(n);
+    */
     t->setSortingEnabled(true);
     t->setUpdatesEnabled(true);
-    // qDebug() << "MainWindow::fillList.2";
 }
 
 void MainWindow::process(QList<InstallOperation*> &install)
@@ -970,13 +871,13 @@ void MainWindow::process(QList<InstallOperation*> &install)
 
 void MainWindow::processThreadFinished()
 {
-    QTableWidget* t = this->mainFrame->getTableWidget();
+    // TODO: QTableView* t = this->mainFrame->getTableWidget();
     QList<Package*> sel = mainFrame->getSelectedPackagesInTable();
-    int col = t->currentColumn();
-    int row = t->currentRow();
+    /* TODO: int col = t->currentColumn();
+    int row = t->currentRow();*/
     fillList();
     updateStatusInDetailTabs();
-    t->setCurrentCell(row, col);
+    // TODO: t->setCurrentCell(row, col);
     selectPackages(sel);
     updateActions();
 }
@@ -1016,10 +917,6 @@ void MainWindow::unregisterJob(Job *job)
     }
 
     this->updateProgressTabTitle();
-}
-
-void MainWindow::on_actionUninstall_activated()
-{
 }
 
 bool MainWindow::isUpdateEnabled(const QString& package)
@@ -1328,9 +1225,9 @@ void MainWindow::closeDetailTabs()
 
 void MainWindow::recognizeAndLoadRepositories(bool useCache)
 {
-    QTableWidget* t = this->mainFrame->getTableWidget();
-    t->clearContents();
-    t->setRowCount(0);
+    // TODO: QTableView* t = this->mainFrame->getTableWidget();
+    /* TODO: t->clearContents();
+    t->setRowCount(0);*/
 
     Job* job = new Job();
     InstallThread* it = new InstallThread(0, 3, job);
@@ -1486,10 +1383,6 @@ void MainWindow::addTab(QWidget* w, const QIcon& icon, const QString& title)
 {
     this->ui->tabWidget->addTab(w, icon, title);
     this->ui->tabWidget->setCurrentIndex(this->ui->tabWidget->count() - 1);
-}
-
-void MainWindow::on_actionInstall_activated()
-{
 }
 
 void MainWindow::on_actionGotoPackageURL_triggered()

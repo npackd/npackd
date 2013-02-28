@@ -2,26 +2,36 @@
 #include "ui_mainframe.h"
 
 #include <QDebug>
+#include <QList>
 
 #include "mainwindow.h"
-
+#include "package.h"
+#include "packageitemmodel.h"
 
 MainFrame::MainFrame(QWidget *parent) :
     QFrame(parent), Selection(),
     ui(new Ui::MainFrame)
 {
     ui->setupUi(this);
-    this->ui->tableWidget->setEditTriggers(QTableWidget::NoEditTriggers);
 
-    this->ui->tableWidget->setColumnCount(6);
-    this->ui->tableWidget->setColumnWidth(0, 40);
-    this->ui->tableWidget->setColumnWidth(1, 150);
-    this->ui->tableWidget->setColumnWidth(2, 300);
-    this->ui->tableWidget->setColumnWidth(3, 100);
-    this->ui->tableWidget->setColumnWidth(4, 100);
-    this->ui->tableWidget->setColumnWidth(5, 100);
-    this->ui->tableWidget->setIconSize(QSize(32, 32));
-    this->ui->tableWidget->sortItems(1);
+    QTableView* t = this->ui->tableWidget;
+    t->setModel(new PackageItemModel(QList<Package*>()));
+    t->setEditTriggers(QTableWidget::NoEditTriggers);
+
+    t->verticalHeader()->setDefaultSectionSize(36);
+    // TODO: this->ui->tableWidget->sortItems(1);
+    t->setColumnWidth(0, 40);
+    t->setColumnWidth(1, 150);
+    t->setColumnWidth(2, 300);
+    t->setColumnWidth(3, 100);
+    t->setColumnWidth(4, 100);
+    t->setColumnWidth(5, 100);
+    t->setIconSize(QSize(32, 32));
+
+    connect(t->selectionModel(),
+            SIGNAL(selectionChanged(QItemSelection,QItemSelection)),
+            this,
+            SLOT(tableWidget_selectionChanged()));
 }
 
 MainFrame::~MainFrame()
@@ -29,7 +39,7 @@ MainFrame::~MainFrame()
     delete ui;
 }
 
-QTableWidget * MainFrame::getTableWidget() const
+QTableView * MainFrame::getTableWidget() const
 {
     return this->ui->tableWidget;
 }
@@ -58,11 +68,14 @@ QList<void*> MainFrame::getSelected(const QString& type) const
 
 Package* MainFrame::getSelectedPackageInTable()
 {
-    QList<QTableWidgetItem*> sel = this->ui->tableWidget->selectedItems();
+    QAbstractItemModel* m = this->ui->tableWidget->model();
+    QItemSelectionModel* sm = this->ui->tableWidget->selectionModel();
+    QModelIndexList sel = sm->selectedRows();
     if (sel.count() > 0) {
-        const QVariant v = sel.at(1)->data(Qt::UserRole);
-        Package* pv = (Package*) v.value<void*>();
-        return pv;
+        QModelIndex index = m->index(sel.at(0).row(), 1);
+        const QVariant v = index.data(Qt::UserRole);
+        Package* p = (Package*) v.value<void*>();
+        return p;
     }
     return 0;
 }
@@ -70,14 +83,14 @@ Package* MainFrame::getSelectedPackageInTable()
 QList<Package*> MainFrame::getSelectedPackagesInTable() const
 {
     QList<Package*> result;
-    QList<QTableWidgetItem*> sel = this->ui->tableWidget->selectedItems();
+    QAbstractItemModel* m = this->ui->tableWidget->model();
+    QItemSelectionModel* sm = this->ui->tableWidget->selectionModel();
+    QModelIndexList sel = sm->selectedRows();
     for (int i = 0; i < sel.count(); i++) {
-        QTableWidgetItem* item = sel.at(i);
-        if (item->column() == 1) {
-            const QVariant v = item->data(Qt::UserRole);
-            Package* p = (Package*) v.value<void*>();
-            result.append(p);
-        }
+        QModelIndex index = m->index(sel.at(i).row(), 1);
+        const QVariant v = index.data(Qt::UserRole);
+        Package* p = (Package*) v.value<void*>();
+        result.append(p);
     }
     return result;
 }
@@ -104,13 +117,7 @@ void MainFrame::on_comboBoxStatus_currentIndexChanged(int index)
         mw->fillList();
 }
 
-void MainFrame::on_tableWidget_itemSelectionChanged()
+void MainFrame::tableWidget_selectionChanged()
 {
     MainWindow::getInstance()->updateActions();
-}
-
-
-void MainFrame::on_tableWidget_itemDoubleClicked(QTableWidgetItem *item)
-{
-
 }

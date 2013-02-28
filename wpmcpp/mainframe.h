@@ -45,7 +45,7 @@ public:
     /**
      * @return table with packages
      */
-    QTableWidget* getTableWidget() const;
+    QTableView *getTableWidget() const;
 
     /**
      * @return filter line edit
@@ -62,8 +62,7 @@ private slots:
     void on_tableWidget_doubleClicked(QModelIndex index);
     void on_lineEditText_textChanged(QString );
     void on_comboBoxStatus_currentIndexChanged(int index);
-    void on_tableWidget_itemSelectionChanged();
-    void on_tableWidget_itemDoubleClicked(QTableWidgetItem *item);
+    void tableWidget_selectionChanged();
 };
 
 #endif // MAINFRAME_H

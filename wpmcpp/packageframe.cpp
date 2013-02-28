@@ -108,7 +108,7 @@ void PackageFrame::fillForm(Package* p)
     // TODO: error is ignored
     QString err;
     qDeleteAll(this->pvs);
-    pvs = dbr->getPackageVersions(p->name, &err);
+    pvs = dbr->getPackageVersions_(p->name, &err);
 
     //qDebug() << "PackageFrame::fillForm " << pvs.count() << " " <<
     //        pvs.at(0)->version.getVersionString();
