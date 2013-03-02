@@ -73,7 +73,7 @@ PackageVersion* PackageVersion::findLockedPackageVersion()
             Version version;
             if (version.setVersion(parts.at(1))) {
                 DBRepository* rep = DBRepository::getDefault();
-                r = rep->findPackageVersion(package, version);
+                r = rep->findPackageVersion_(package, version);
             }
         }
     }

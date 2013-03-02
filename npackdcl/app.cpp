@@ -339,8 +339,6 @@ QString App::search()
     }
 
     if (job->shouldProceed()) {
-        QStringList textFilter =query.toLower().simplified().split(" ");
-
         QList<Package*> list;
         if (onlyInstalled) {
             QList<InstalledPackageVersion*> installed =
@@ -357,7 +355,7 @@ QString App::search()
                 }
             }
         } else {
-            list = rep->findPackages(textFilter);
+            list = rep->findPackages(query);
         }
         qSort(list.begin(), list.end(), packageLessThan);
 
@@ -923,7 +921,7 @@ int App::info()
             Package* p = 0; // TODO = packages.at(0);
 
             if (!version.isNull()) {
-                pv = rep->findPackageVersion(p->name, version);
+                pv = rep->findPackageVersion_(p->name, version);
                 if (!pv) {
                     WPMUtils::outputTextConsole("Package not found\n", false);
                     r = 1;

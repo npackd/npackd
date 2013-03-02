@@ -71,50 +71,20 @@ public:
 
     Package* findPackage_(const QString& name);
 
-    /**
-     * @brief searches for a package version
-     * @param package full package name
-     * @param version version number
-     * @return [ownership:caller] found package or 0
-     */
-    PackageVersion* findPackageVersion(
-            const QString& package, const Version& version);
-
-    /**
-     * @brief searches for a license
-     * @param name full internal name of the license
-     * @return found license or 0. The returned object should be destroyed later.
-     */
-    License* findLicense(const QString& name);
-
     QList<PackageVersion*> getPackageVersions_(const QString& package,
             QString* err) const;
 
     /**
      * @brief searches for packages that match the specified keywords
-     * @param keywords list of keywords
+     * @param query search query (keywords)
      * @return [ownership:caller] found packages
      */
-    QList<Package*> findPackages(const QStringList& keywords) const;
+    QList<Package*> findPackages(const QString &query) const;
 
     /**
      * @return [ownership:caller] found package versions
      */
     QList<PackageVersion*> findPackageVersions() const;
-
-    /**
-     * @return new NPACKD_CL value
-     */
-    QString computeNpackdCLEnvVar() const;
-
-    /**
-     * Find the newest installed package version.
-     *
-     * @param name name of the package like "org.server.Word"
-     * @return found package version or 0. The returned object should be
-     *     destroyed later.
-     */
-    PackageVersion *findNewestInstalledPackageVersion(const QString &name) const;
 
     /**
      * @brief loads does all the necessary updates when F5 is pressed. The

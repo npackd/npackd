@@ -169,7 +169,7 @@ Package *DBRepository::findPackage_(const QString &name)
     return r;
 }
 
-PackageVersion* DBRepository::findPackageVersion(
+PackageVersion* DBRepository::findPackageVersion_(
         const QString& package, const Version& version)
 {
     QString version_ = version.getVersionString();
@@ -247,7 +247,7 @@ QList<PackageVersion*> DBRepository::getPackageVersions_(
     return r;
 }
 
-License *DBRepository::findLicense(const QString& name)
+License *DBRepository::findLicense_(const QString& name)
 {
     License* r = 0;
     License* cached = this->licenses.object(name);
@@ -273,19 +273,31 @@ License *DBRepository::findLicense(const QString& name)
     return r;
 }
 
-QList<Package*> DBRepository::findPackages(const QStringList& keywords) const
+QList<Package*> DBRepository::findPackages(const QString& query) const
 {
-    // TODO: not all keywords are used
     // TODO: errors are not handled
+    QStringList keywords = query.toLower().simplified().split(" ",
+            QString::SkipEmptyParts);
 
     QList<Package*> r;
 
     QMySqlQuery q;
-    q.prepare("SELECT ID, NAME, TITLE, URL, ICON, "
-            "DESCRIPTION, LICENSE FROM PACKAGE WHERE FULLTEXT LIKE :FULLTEXT "
-            "ORDER BY TITLE");
-    q.bindValue(":FULLTEXT", keywords.count() > 0 ?
-            "%" + keywords.at(0).toLower() + "%" : "%");
+    QString sql = "SELECT ID, NAME, TITLE, URL, ICON, "
+            "DESCRIPTION, LICENSE FROM PACKAGE";
+    for (int i = 0; i < keywords.count(); i++) {
+        if (i == 0)
+            sql += " WHERE";
+        else
+            sql += " AND";
+        sql += QString(" FULLTEXT LIKE :FULLTEXT%1").arg(i);
+    }
+    sql += " ORDER BY TITLE";
+    // qDebug() << sql;
+    q.prepare(sql);
+    for (int i = 0; i < keywords.count(); i++) {
+        q.bindValue(QString(":FULLTEXT%1").arg(i),
+                "%" + keywords.at(i).toLower() + "%");
+    }
     q.exec();
     while (q.next()) {
         Package* p = new Package(q.value(1).toString(), q.value(2).toString());
@@ -330,12 +342,6 @@ QList<PackageVersion *> DBRepository::findPackageVersions() const
     }
 
     return r;
-}
-
-PackageVersion* DBRepository::findNewestInstalledPackageVersion(
-        const QString &name) const
-{
-    return this->findNewestInstalledPackageVersion_(name);
 }
 
 QString DBRepository::savePackage(Package *p)
@@ -436,17 +442,6 @@ PackageVersion *DBRepository::findPackageVersionByMSIGUID_(
     return r;
 }
 
-PackageVersion *DBRepository::findPackageVersion_(const QString &package,
-        const Version &version)
-{
-    return findPackageVersion(package, version);
-}
-
-License *DBRepository::findLicense_(const QString &name)
-{
-    return findLicense(name);
-}
-
 QString DBRepository::clear()
 {
     Job* job = new Job();
@@ -494,11 +489,6 @@ QString DBRepository::clear()
     job->complete();
 
     return "";
-}
-
-QString DBRepository::computeNpackdCLEnvVar() const
-{
-    return computeNpackdCLEnvVar_();
 }
 
 void DBRepository::updateF5(Job* job)

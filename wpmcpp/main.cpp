@@ -8,6 +8,7 @@
 #include <QMetaType>
 #include <QDebug>
 
+#include "version.h"
 #include "mainwindow.h"
 #include "repository.h"
 #include "wpmutils.h"
@@ -31,6 +32,7 @@ int main(int argc, char *argv[])
 
     qRegisterMetaType<JobState>("JobState");
     qRegisterMetaType<FileLoaderItem>("FileLoaderItem");
+    qRegisterMetaType<Version>("Version");
 
 #if !defined(__x86_64__)
     if (WPMUtils::is64BitWindows()) {

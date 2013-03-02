@@ -48,6 +48,7 @@
 #include "hrtimer.h"
 #include "dbrepository.h"
 #include "packageitemmodel.h"
+#include "installedpackages.h"
 
 extern HWND defaultPasswordWindow;
 
@@ -213,10 +214,10 @@ MainWindow::MainWindow(QWidget *parent) :
     this->addJobsTab();
     this->mainFrame->getFilterLineEdit()->setFocus();
 
-    //Repository* r = Repository::getDefault();
-    /* TODO: connect(r, SIGNAL(statusChanged(const QString&)), this,
-            SLOT(repositoryStatusChanged(const QString&)),
-            Qt::QueuedConnection);*/
+    InstalledPackages* ip = InstalledPackages::getDefault();
+    connect(ip, SIGNAL(statusChanged(const QString&, const Version&)), this,
+            SLOT(repositoryStatusChanged(const QString&, const Version&)),
+            Qt::QueuedConnection);
 
     defaultPasswordWindow = this->winId();
 
@@ -313,6 +314,12 @@ void MainWindow::updateIcon(const QString& url)
             QIcon icon = getPackageVersionIcon(pvf->pv->package);
             this->ui->tabWidget->setTabIcon(i, icon);
         }
+        PackageFrame* pf = dynamic_cast<PackageFrame*>(w);
+        if (pf) {
+            pf->updateIcons();
+            QIcon icon = getPackageVersionIcon(pf->p->name);
+            this->ui->tabWidget->setTabIcon(i, icon);
+        }
     }
 }
 
@@ -391,8 +398,11 @@ QIcon MainWindow::getPackageVersionIcon(const QString& package)
 
     QIcon icon = MainWindow::genericAppIcon;
     if (p) {
-        if (!p->icon.isEmpty() && MainWindow::icons.contains(p->icon)) {
-            icon = MainWindow::icons[p->icon];
+        if (!p->icon.isEmpty()) {
+            if (MainWindow::icons.contains(p->icon))
+                icon = MainWindow::icons[p->icon];
+            else
+                icon = MainWindow::waitAppIcon;
         }
     }
     delete p;
@@ -417,13 +427,14 @@ void MainWindow::closeEvent(QCloseEvent *event)
     }
 }
 
-void MainWindow::repositoryStatusChanged(const QString&)
+void MainWindow::repositoryStatusChanged(const QString& package,
+        const Version& version)
 {
     // qDebug() << "MainWindow::repositoryStatusChanged" << pv->toString();
 
     QTableView* t = this->mainFrame->getTableWidget();
     PackageItemModel* m = (PackageItemModel*) t->model();
-    m->installedStatusChanged();
+    m->installedStatusChanged(package, version);
     this->updateStatusInDetailTabs();
     this->updateActions();
 }
@@ -634,14 +645,12 @@ void MainWindow::fillList()
     t->setUpdatesEnabled(false);
 
     // TODO: int statusFilter = this->mainFrame->getStatusComboBox()->currentIndex();
-    QStringList textFilter =
-            this->mainFrame->getFilterLineEdit()->text().
-            toLower().simplified().split(" ");
+    QString query = this->mainFrame->getFilterLineEdit()->text();
 
     //QSet<QString> requestedIcons;
 
     DBRepository* dbr = DBRepository::getDefault();
-    QList<Package*> found = dbr->findPackages(textFilter);
+    QList<Package*> found = dbr->findPackages(query);
 
     PackageItemModel* m = (PackageItemModel*) t->model();
     m->setPackages(found);
@@ -1302,7 +1311,7 @@ void MainWindow::openLicense(const QString& name, bool select)
         LicenseForm* f = new LicenseForm(this->ui->tabWidget);
         License* lic =
                 DBRepository::getDefault()->
-                findLicense(name);
+                findLicense_(name);
         f->fillForm(lic);
         this->ui->tabWidget->addTab(f, lic->title);
         index = this->ui->tabWidget->count() - 1;
@@ -1320,7 +1329,7 @@ void MainWindow::openPackageVersion(const QString& package,
                 this->ui->tabWidget);
         PackageVersion* pv_ =
                 DBRepository::getDefault()->
-                findPackageVersion(package, version);
+                findPackageVersion_(package, version);
         if (pv_) {
             pvf->fillForm(pv_);
             QIcon icon = getPackageVersionIcon(package);

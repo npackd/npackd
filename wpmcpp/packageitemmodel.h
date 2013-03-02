@@ -6,6 +6,7 @@
 #include <QBrush>
 
 #include "package.h"
+#include "version.h"
 
 /**
  * @brief shows packages
@@ -57,8 +58,10 @@ public:
     /**
      * @brief should be called if the "installed" status of a package version
      *     has changed
+     * @param package full package name
+     * @param version version number
      */
-    void installedStatusChanged();
+    void installedStatusChanged(const QString &package, const Version &version);
 };
 
 #endif // PACKAGEITEMMODEL_H
