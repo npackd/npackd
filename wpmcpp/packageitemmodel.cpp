@@ -1,4 +1,5 @@
 #include <QSharedPointer>
+#include <QDebug>
 
 #include "license.h"
 #include "packageitemmodel.h"
@@ -222,11 +223,20 @@ void PackageItemModel::iconUpdated(const QString &url)
 void PackageItemModel::installedStatusChanged(const QString& package,
         const Version& version)
 {
+    qDebug() << "PackageItemModel::installedStatusChanged" << package <<
+            version.getVersionString();
     this->cache.remove(package);
     for (int i = 0; i < this->packages.count(); i++) {
         Package* p = this->packages.at(i);
         if (p->name == package) {
-            this->dataChanged(this->index(i, 0), this->index(i, 0));
+            this->dataChanged(this->index(i, 4), this->index(i, 4));
         }
     }
+}
+
+void PackageItemModel::clearCache()
+{
+    this->cache.clear();
+    this->dataChanged(this->index(0, 3),
+            this->index(this->packages.count() - 1, 4));
 }

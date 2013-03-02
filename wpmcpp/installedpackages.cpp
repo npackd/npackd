@@ -39,6 +39,7 @@ InstalledPackageVersion* InstalledPackages::findOrCreate(const QString& package,
 
         // qDebug() << "InstalledPackages::findOrCreate " << package;
         r->save();
+        fireStatusChanged(package, version);
     }
     return r;
 }
@@ -54,12 +55,10 @@ QString InstalledPackages::setPackageVersionPath(const QString& package,
         ipv = new InstalledPackageVersion(package, version, directory);
         this->data.insert(package + "/" + version.getVersionString(), ipv);
         err = ipv->save();
+        fireStatusChanged(package, version);
     } else {
         ipv->setPath(directory);
     }
-
-    /*Repository::getDefault()->fireStatusChanged(
-            PackageVersion::getStringId(package, version)); TODO: */
 
     return err;
 }
@@ -205,6 +204,7 @@ void InstalledPackages::readRegistryDatabase()
                                     packageName, version, "");
                             this->data.insert(PackageVersion::getStringId(
                                     packageName, version), ipv);
+                            fireStatusChanged(packageName, version);
                         }
 
                         // qDebug() << "loading " << packageName << ":" <<
@@ -993,5 +993,3 @@ void InstalledPackages::detectPre_1_15_Packages()
         }
     }
 }
-
-

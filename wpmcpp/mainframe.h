@@ -38,7 +38,7 @@ public:
     /**
      * This method returns all selected Package* items
      *
-     * @return selected packages
+     * @return [ownership:this] selected packages
      */
     QList<Package*> getSelectedPackagesInTable() const;
 
