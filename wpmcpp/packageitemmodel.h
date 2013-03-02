@@ -62,6 +62,11 @@ public:
      * @param version version number
      */
     void installedStatusChanged(const QString &package, const Version &version);
+
+    /**
+     * @brief clears the cache
+     */
+    void clearCache();
 };
 
 #endif // PACKAGEITEMMODEL_H

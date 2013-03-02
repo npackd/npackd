@@ -49,6 +49,8 @@ QString InstalledPackageVersion::setDetectionInfo(const QString& info)
     if (this->detectionInfo != info) {
         this->detectionInfo = info;
         this->save();
+        InstalledPackages::getDefault()->fireStatusChanged(
+                this->package, this->version);
     }
     return r;
 }

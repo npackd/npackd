@@ -836,11 +836,15 @@ void MainWindow::processThreadFinished()
     QTableView* t = this->mainFrame->getTableWidget();
     QItemSelectionModel* sm = t->selectionModel();
     QList<Package*> sel = mainFrame->getSelectedPackagesInTable();
+    for (int i = 0; i < sel.count(); i++) {
+        sel[i] = sel[i]->clone();
+    }
     QModelIndex index = sm->currentIndex();
     fillList();
     updateStatusInDetailTabs();
     sm->setCurrentIndex(index, QItemSelectionModel::Current);
     selectPackages(sel);
+    qDeleteAll(sel);
     updateActions();
 }
 
@@ -1190,6 +1194,7 @@ void MainWindow::recognizeAndLoadRepositories(bool useCache)
     QTableView* t = this->mainFrame->getTableWidget();
     PackageItemModel* m = (PackageItemModel*) t->model();
     m->setPackages(QList<Package*>());
+    m->clearCache();
 
     Job* job = new Job();
     InstallThread* it = new InstallThread(0, 3, job);
