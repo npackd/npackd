@@ -219,8 +219,14 @@ void PackageItemModel::iconUpdated(const QString &url)
     }
 }
 
-void PackageItemModel::installedStatusChanged()
+void PackageItemModel::installedStatusChanged(const QString& package,
+        const Version& version)
 {
-    this->dataChanged(this->index(0, 4),
-            this->index(this->packages.count() - 1, 4));
+    this->cache.remove(package);
+    for (int i = 0; i < this->packages.count(); i++) {
+        Package* p = this->packages.at(i);
+        if (p->name == package) {
+            this->dataChanged(this->index(i, 0), this->index(i, 0));
+        }
+    }
 }

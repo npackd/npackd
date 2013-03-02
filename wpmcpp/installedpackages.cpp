@@ -144,6 +144,12 @@ void InstalledPackages::refresh(Job *job)
     job->complete();
 }
 
+void InstalledPackages::fireStatusChanged(const QString &package,
+        const Version &version)
+{
+    emit statusChanged(package, version);
+}
+
 void InstalledPackages::clearPackagesInNestedDirectories() {
     /* TODO:
     QList<PackageVersion*> pvs = this->getInstalled();
@@ -512,7 +518,7 @@ void InstalledPackages::detectControlPanelProgramsFrom(HKEY root,
             err = k.open(wr, entries.at(i), KEY_READ);
             if (err.isEmpty()) {
                 detectOneControlPanelProgram(fullPath + "\\" + entries.at(i),
-                    k, entries.at(i), packagePaths, foundDetectionInfos);
+                        k, entries.at(i), packagePaths, foundDetectionInfos);
             }
         }
     }
@@ -581,12 +587,21 @@ void InstalledPackages::detectOneControlPanelProgram(const QString& registryPath
 
     //qDebug() << "InstalledPackages::detectOneControlPanelProgram.0";
 
+    AbstractRepository* rep = AbstractRepository::getDefault_();
+
+    PackageVersion* pv = rep->findPackageVersion_(package, version);
+    if (!pv) {
+        pv = new PackageVersion(package);
+        pv->version = version;
+        rep->savePackageVersion(pv);
+    }
+    delete pv;
+
     InstalledPackageVersion* ipv = this->findOrCreate(package, version);
     QString di = "control-panel:" + registryPath;
     ipv->setDetectionInfo(di);
     foundDetectionInfos->append(di);
 
-    AbstractRepository* rep = AbstractRepository::getDefault_();
     Package* p = rep->findPackage_(package);
     if (!p) {
         p = new Package(package, package);

@@ -25,7 +25,6 @@ class InstalledPackageVersion
      */
     void loadFromRegistry();
 public:
-
     /** full package version. This value should not be chaged. */
     QString package;
 

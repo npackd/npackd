@@ -5,6 +5,7 @@
 
 #include "windowsregistry.h"
 #include "repository.h"
+#include "installedpackages.h"
 
 InstalledPackageVersion::InstalledPackageVersion(const QString &package,
         const Version &version, const QString &directory)
@@ -37,6 +38,8 @@ void InstalledPackageVersion::setPath(const QString& path)
     if (this->directory != path) {
         this->directory = path;
         this->save();
+        InstalledPackages::getDefault()->fireStatusChanged(
+                this->package, this->version);
     }
 }
 

@@ -4,6 +4,7 @@
 #include <windows.h>
 
 #include <QMap>
+#include <QObject>
 
 #include "installedpackageversion.h"
 #include "version.h"
@@ -13,14 +14,16 @@
 /**
  * @brief information about installed packages
  */
-class InstalledPackages
+class InstalledPackages: public QObject
 {
+    Q_OBJECT
 private:
     static InstalledPackages def;
 
     QMap<QString, InstalledPackageVersion*> data;
 
     InstalledPackages();
+
     void detectOneDotNet(const WindowsRegistry& wr, const QString& keyName);
 
     void clearPackagesInNestedDirectories();
@@ -130,6 +133,20 @@ public:
      * @param job job for this method
      */
     void refresh(Job* job);
+
+    /**
+     * @brief fires the statusChanged() event
+     * @param package full package name
+     * @param version package version number
+     */
+    void fireStatusChanged(const QString& package, const Version& version);
+signals:
+    /**
+     * @brief fired if a package version was installed or uninstalled
+     * @param package full package version
+     * @param version version number
+     */
+    void statusChanged(const QString& package, const Version& version);
 };
 
 #endif // INSTALLEDPACKAGES_H

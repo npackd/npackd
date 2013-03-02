@@ -62,38 +62,6 @@ QList<PackageVersion*> Repository::getPackageVersions_(const QString& package,
     return ret;
 }
 
-QList<PackageVersion*> Repository::getInstalledPackageVersions(
-        const QString& package) const
-{
-    QList<PackageVersion*> ret = getPackageVersions(package);
-
-    for (int i = 0; i < ret.count(); ) {
-        PackageVersion* pv = ret.at(i);
-        if (!pv->installed())
-            ret.removeAt(i);
-        else
-            i++;
-    }
-
-    return ret;
-}
-
-QList<PackageVersion*> Repository::getInstalled()
-{
-    QList<PackageVersion*> ret;
-    QList<InstalledPackageVersion*> ipvs;
-    for (int i = 0; i < ipvs.count(); i++) {
-        InstalledPackageVersion* ipv = ipvs.at(i);
-        PackageVersion* pv = this->findPackageVersion(ipv->package,
-                ipv->version);
-        if (pv) {
-            ret.append(pv);
-        }
-    }
-
-    return ret;
-}
-
 Repository::~Repository()
 {
     qDeleteAll(this->packages);
@@ -112,23 +80,6 @@ PackageVersion* Repository::findNewestInstallablePackageVersion(
         if (r == 0 || p->version.compare(r->version) > 0) {
             if (p->download.isValid())
                 r = p;
-        }
-    }
-    return r;
-}
-
-PackageVersion* Repository::findNewestInstalledPackageVersion(
-        const QString &name)
-{
-    PackageVersion* r = 0;
-
-    QList<PackageVersion*> pvs = this->getPackageVersions(name);
-    for (int i = 0; i < pvs.count(); i++) {
-        PackageVersion* p = pvs.at(i);
-        if (p->installed()) {
-            if (r == 0 || p->version.compare(r->version) > 0) {
-                r = p;
-            }
         }
     }
     return r;
@@ -207,22 +158,6 @@ License* Repository::findLicense(const QString& name)
     return 0;
 }
 
-QList<Package*> Repository::findPackages(const QString& name)
-{
-    QList<Package*> r;
-    bool shortName = name.indexOf('.') < 0;
-    QString suffix = '.' + name;
-    for (int i = 0; i < this->packages.count(); i++) {
-        Package* p = this->packages.at(i);
-        if (p->name == name) {
-            r.append(p);
-        } else if (shortName && p->name.endsWith(suffix)) {
-            r.append(p);
-        }
-    }
-    return r;
-}
-
 Package* Repository::findPackage(const QString& name)
 {
     for (int i = 0; i < this->packages.count(); i++) {
@@ -230,21 +165,6 @@ Package* Repository::findPackage(const QString& name)
             return this->packages.at(i);
     }
     return 0;
-}
-
-int Repository::countUpdates()
-{
-    int r = 0;
-    for (int i = 0; i < this->packageVersions.count(); i++) {
-        PackageVersion* p = this->packageVersions.at(i);
-        if (p->installed()) {
-            PackageVersion* newest = findNewestInstallablePackageVersion(
-                    p->package);
-            if (newest->version.compare(p->version) > 0 && !newest->installed())
-                r++;
-        }
-    }
-    return r;
 }
 
 QString Repository::writeTo(const QString& filename) const
@@ -282,39 +202,6 @@ QString Repository::writeTo(const QString& filename) const
     return "";
 }
 
-PackageVersion* Repository::findOrCreatePackageVersion(const QString &package,
-        const Version &v)
-{
-    PackageVersion* pv = findPackageVersion(package, v);
-    if (!pv) {
-        pv = new PackageVersion(package);
-        pv->version = v;
-        pv->version.normalize();
-        this->packageVersions.append(pv);
-        this->package2versions.insert(package, pv);
-    }
-    return pv;
-}
-
-QStringList Repository::getAllInstalledPackagePaths() const
-{
-    return InstalledPackages::getDefault()->getAllInstalledPackagePaths();
-}
-
-PackageVersion* Repository::findPackageVersionByMSIGUID(
-        const QString& guid) const
-{
-    PackageVersion* r = 0;
-    for (int i = 0; i < this->packageVersions.count(); i++) {
-        PackageVersion* pv = (PackageVersion*) this->packageVersions.at(i);
-        if (pv->msiGUID == guid) {
-            r = pv;
-            break;
-        }
-    }
-    return r;
-}
-
 PackageVersion* Repository::findPackageVersion(const QString& package,
         const Version& version)
 {
@@ -331,41 +218,12 @@ PackageVersion* Repository::findPackageVersion(const QString& package,
     return r;
 }
 
-QString Repository::computeNpackdCLEnvVar()
-{
-    return computeNpackdCLEnvVar_();
-}
-
 Package *Repository::findPackage_(const QString &name)
 {
     Package* p = findPackage(name);
     if (p)
         p = p->clone();
     return p;
-}
-
-void Repository::reload(Job *job, bool useCache)
-{
-    job->setHint("Loading repositories");
-    Job* d = job->newSubJob(0.75);
-    load(d, useCache);
-    if (!d->getErrorMessage().isEmpty())
-        job->setErrorMessage(d->getErrorMessage());
-    delete d;
-
-    if (!job->isCancelled() && job->getErrorMessage().isEmpty()) {
-        d = job->newSubJob(0.25);
-        job->setHint("Refreshing installation statuses");
-        refresh(d);
-        delete d;
-    }
-
-    job->complete();
-}
-
-void Repository::refresh(Job *job)
-{
-    InstalledPackages::getDefault()->refresh(job);
 }
 
 void Repository::load(Job* job, bool useCache)
@@ -559,11 +417,6 @@ void Repository::loadOne(QDomDocument* doc, Job* job)
     job->complete();
 }
 
-PackageVersion* Repository::findLockedPackageVersion() const
-{
-    return PackageVersion::findLockedPackageVersion();
-}
-
 QString Repository::savePackage(Package *p)
 {
     Package* fp = findPackage(p->name);
@@ -596,9 +449,18 @@ QString Repository::savePackageVersion(PackageVersion *p)
 
 PackageVersion *Repository::findPackageVersionByMSIGUID_(const QString &guid) const
 {
-    PackageVersion* r = findPackageVersionByMSIGUID(guid);
+    PackageVersion* r = 0;
+    for (int i = 0; i < this->packageVersions.count(); i++) {
+        PackageVersion* pv = (PackageVersion*) this->packageVersions.at(i);
+        if (pv->msiGUID == guid) {
+            r = pv;
+            break;
+        }
+    }
+
     if (r)
         r = r->clone();
+
     return r;
 }
 
