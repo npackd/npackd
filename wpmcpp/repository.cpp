@@ -507,9 +507,8 @@ QString Repository::checkLockedFilesForUninstall(
     for (int j = 0; j < install.size(); j++) {
         InstallOperation* op = install.at(j);
         if (!op->install) {
-            InstalledPackageVersion* ipv = ip->find(op->package, op->version);
-            if (ipv && ipv->installed()) {
-                QString path = ipv->getDirectory();
+            QString path = ip->getPath(op->package, op->version);
+            if (!path.isEmpty()) {
                 for (int i = 0; i < locked.size(); i++) {
                     if (WPMUtils::isUnder(locked.at(i), path)) {
                         lockedUninstall.append(locked.at(i));

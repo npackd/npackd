@@ -87,12 +87,13 @@ bool Dependency::isInstalled()
     bool res = false;
     for (int i = 0; i < installed.count(); i++) {
         InstalledPackageVersion* ipv = installed.at(i);
-        if (ipv->package == this->package && ipv->installed() &&
+        if (ipv->package == this->package &&
                 this->test(ipv->version)) {
             res = true;
             break;
         }
     }
+    qDeleteAll(installed);
     return res;
 }
 
@@ -103,11 +104,12 @@ QList<InstalledPackageVersion*> Dependency::findAllInstalledMatches() const
     QList<InstalledPackageVersion*> installed = ip->getAll();
     for (int i = 0; i < installed.count(); i++) {
         InstalledPackageVersion* ipv = installed.at(i);
-        if (ipv->package == this->package && ipv->installed() &&
+        if (ipv->package == this->package &&
                 this->test(ipv->version)) {
             r.append(ipv);
         }
     }
+    qDeleteAll(installed);
     return r;
 }
 

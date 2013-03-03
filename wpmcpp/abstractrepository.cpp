@@ -115,14 +115,13 @@ QList<PackageVersion*> AbstractRepository::getInstalled_()
             InstalledPackages::getDefault()->getAll();
     for (int i = 0; i < ipvs.count(); i++) {
         InstalledPackageVersion* ipv = ipvs.at(i);
-        if (ipv->installed()) {
-            PackageVersion* pv = this->findPackageVersion_(ipv->package,
-                    ipv->version);
-            if (pv) {
-                ret.append(pv);
-            }
+        PackageVersion* pv = this->findPackageVersion_(ipv->package,
+                ipv->version);
+        if (pv) {
+            ret.append(pv);
         }
     }
+    qDeleteAll(ipvs);
 
     return ret;
 }
