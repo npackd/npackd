@@ -86,6 +86,13 @@ PackageVersion::PackageVersion(const QString& package)
     this->type = 0;
 }
 
+PackageVersion::PackageVersion(const QString &package, const Version &version)
+{
+    this->package = package;
+    this->version = version;
+    this->type = 0;
+}
+
 PackageVersion::PackageVersion()
 {
     this->package = "unknown";

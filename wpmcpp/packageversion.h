@@ -150,6 +150,7 @@ public:
 
     PackageVersion();
     PackageVersion(const QString& package);
+    PackageVersion(const QString& package, const Version& version);
     virtual ~PackageVersion();
 
     /**
