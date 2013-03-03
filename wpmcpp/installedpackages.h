@@ -29,18 +29,6 @@ private:
 
     void clearPackagesInNestedDirectories();
 
-    void detectControlPanelPrograms();
-    void detectControlPanelProgramsFrom(HKEY root,
-            const QString& path, bool useWoWNode,
-            QStringList *packagePaths,
-            QStringList* foundDetectionInfos);
-    void detectOneControlPanelProgram(const QString& registryPath,
-            WindowsRegistry& k,
-            const QString& keyName, QStringList *packagePaths,
-            QStringList* foundDetectionInfos);
-
-    void detectMSIProducts();
-    void detectDotNet();
     void detectMicrosoftInstaller();
     void detectMSXML();
     void detectJRE(bool w64bit);
@@ -64,14 +52,6 @@ private:
      * Adds unknown in the repository, but installed packages.
      */
     void detectPre_1_15_Packages();
-
-    /**
-     * Recognizes some applications installed without Npackd. This method does
-     * not scan the hard drive and is fast.
-     *
-     * @param job job object
-     */
-    void detect(Job* job);
 
     /**
      * Reads the package statuses from the registry.
