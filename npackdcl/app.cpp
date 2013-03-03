@@ -346,7 +346,7 @@ QString App::search()
             QSet<QString> used;
             for (int i = 0; i < installed.count(); i++) {
                 InstalledPackageVersion* ipv = installed.at(i);
-                if (ipv->installed() && !used.contains(ipv->package)) {
+                if (!used.contains(ipv->package)) {
                     Package* p = rep->findPackage_(ipv->package);
                     if (p) {
                         list.append(p);
@@ -354,6 +354,7 @@ QString App::search()
                     }
                 }
             }
+            qDeleteAll(installed);
         } else {
             list = rep->findPackages(query);
         }

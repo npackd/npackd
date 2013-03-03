@@ -44,7 +44,9 @@ SOURCES += main.cpp \
     installedpackages.cpp \
     installedpackageversion.cpp \
     abstractrepository.cpp \
-    packageitemmodel.cpp
+    packageitemmodel.cpp \
+    abstractthirdpartypm.cpp \
+    controlpanelthirdpartypm.cpp
 HEADERS += mainwindow.h \
     packageversion.h \
     repository.h \
@@ -79,7 +81,9 @@ HEADERS += mainwindow.h \
     installedpackages.h \
     installedpackageversion.h \
     abstractrepository.h \
-    packageitemmodel.h
+    packageitemmodel.h \
+    abstractthirdpartypm.h \
+    controlpanelthirdpartypm.h
 FORMS += mainwindow.ui \
     packageversionform.ui \
     licenseform.ui \

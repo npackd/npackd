@@ -176,12 +176,8 @@ void PackageVersion::fillFrom(PackageVersion *pv)
 
 QString PackageVersion::getPath() const
 {
-    InstalledPackageVersion* ipv = InstalledPackages::getDefault()->
-            find(this->package, this->version);
-    if (ipv)
-        return ipv->getDirectory();
-    else
-        return "";
+    return InstalledPackages::getDefault()->
+            getPath(this->package, this->version);
 }
 
 void PackageVersion::setPath(const QString& path)
@@ -231,9 +227,8 @@ PackageVersion::~PackageVersion()
 
 bool PackageVersion::installed() const
 {
-    InstalledPackageVersion* ipv = InstalledPackages::getDefault()->
-            find(this->package, this->version);
-    return ipv && !ipv->getDirectory().isEmpty();
+    return InstalledPackages::getDefault()->isInstalled(this->package,
+            this->version);
 }
 
 void PackageVersion::deleteShortcuts(const QString& dir, Job* job,
@@ -1586,4 +1581,18 @@ QString PackageVersion::serialize() const
     toXML(&version);
 
     return doc.toString(4);
+}
+
+PackageVersionFile* PackageVersion::findFile(const QString& path) const
+{
+    PackageVersionFile* r = 0;
+    QString lowerPath = path.toLower();
+    for (int i = 0; i < this->files.count(); i++) {
+        PackageVersionFile* pvf = this->files.at(i);
+        if (pvf->path.toLower() == lowerPath) {
+            r = pvf;
+            break;
+        }
+    }
+    return r;
 }

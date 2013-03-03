@@ -10,6 +10,7 @@
 #include "version.h"
 #include "windowsregistry.h"
 #include "job.h"
+#include "abstractthirdpartypm.h"
 
 /**
  * @brief information about installed packages
@@ -47,11 +48,6 @@ private:
     void detectWindows();
     void setPackageVersionPathIfNotInstalled(const QString &package,
             const Version &version, const QString &directory);
-public:
-    /**
-     * @return default instance
-     */
-    static InstalledPackages* getDefault();
 
     /**
      * @param exact if true, only exact matches to packages from current
@@ -78,6 +74,11 @@ public:
     void detect(Job* job);
 
     /**
+     * Reads the package statuses from the registry.
+     */
+    void readRegistryDatabase();
+
+    /**
      * @brief finds the specified installed package version
      * @param package full package name
      * @param version package version
@@ -98,6 +99,28 @@ public:
             const Version& version) const;
 
     /**
+     * @brief detects packages, package versions etc. from another package
+     *     manager
+     * @param pm [ownership:caller] a 3rd party package manager
+     */
+    void detect3rdParty(AbstractThirdPartyPM* pm);
+
+    static InstalledPackageVersion* loadFromRegistry(const QString &package,
+            const Version &version);
+
+    /**
+     * @brief saves the information in the Windows registry
+     * @param ipv information about an installed package version
+     * @return error message
+     */
+    static QString saveToRegistry(InstalledPackageVersion* ipv);
+public:
+    /**
+     * @return default instance
+     */
+    static InstalledPackages* getDefault();
+
+    /**
      * @brief registers an installed package version
      * @param package full package name
      * @param version package version
@@ -108,13 +131,7 @@ public:
             const QString& directory);
 
     /**
-     * Reads the package statuses from the registry.
-     */
-    void readRegistryDatabase();
-
-    /**
-     * @return installed packages. Note all versions may be installed. It is
-     *     also necessary to check InstalledPackageVersion::installed()
+     * @return [ownership:caller] installed packages
      */
     QList<InstalledPackageVersion*> getAll() const;
 
@@ -133,6 +150,22 @@ public:
      * @param job job for this method
      */
     void refresh(Job* job);
+
+    /**
+     * @brief returns the path of an installed package version
+     * @param package full package name
+     * @param version package version
+     * @return installation path or "" if the package version is not installed
+     */
+    QString getPath(const QString& package, const Version& version) const;
+
+    /**
+     * @brief checks whether a package version is installed
+     * @param package full package name
+     * @param version version number
+     * @return true = installed
+     */
+    bool isInstalled(const QString& package, const Version& version) const;
 
     /**
      * @brief fires the statusChanged() event

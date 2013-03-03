@@ -330,6 +330,13 @@ public:
      * @param pv another package version
      */
     void fillFrom(PackageVersion* pv);
+
+    /**
+     * @brief searches for a definition of a text file
+     * @param path file path (case-insensitive)
+     * @return [ownership:this] found file or 0
+     */
+    PackageVersionFile *findFile(const QString &path) const;
 };
 
 Q_DECLARE_METATYPE(PackageVersion);
