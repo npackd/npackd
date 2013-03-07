@@ -106,7 +106,7 @@ QList<InstalledPackageVersion*> Dependency::findAllInstalledMatches() const
         InstalledPackageVersion* ipv = installed.at(i);
         if (ipv->package == this->package &&
                 this->test(ipv->version)) {
-            r.append(ipv);
+            r.append(ipv->clone());
         }
     }
     qDeleteAll(installed);

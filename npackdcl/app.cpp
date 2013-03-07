@@ -356,7 +356,7 @@ QString App::search()
             }
             qDeleteAll(installed);
         } else {
-            list = rep->findPackages(query);
+            list = rep->findPackages(Package::INSTALLED, false, query);
         }
         qSort(list.begin(), list.end(), packageLessThan);
 

@@ -644,58 +644,28 @@ void MainWindow::fillList()
 
     t->setUpdatesEnabled(false);
 
-    // TODO: int statusFilter = this->mainFrame->getStatusComboBox()->currentIndex();
     QString query = this->mainFrame->getFilterLineEdit()->text();
 
     //QSet<QString> requestedIcons;
+    int statusFilter = this->mainFrame->getStatusComboBox()->currentIndex();
+    Package::Status status = Package::INSTALLED;
+    bool filterByStatus = false;
+    switch (statusFilter) {
+        case 1:
+            status = Package::INSTALLED;
+            filterByStatus = true;
+            break;
+        case 2:
+            status = Package::UPDATEABLE;
+            filterByStatus = true;
+            break;
+    }
 
     DBRepository* dbr = DBRepository::getDefault();
-    QList<Package*> found = dbr->findPackages(query);
+    QList<Package*> found = dbr->findPackages(status, filterByStatus, query);
 
     PackageItemModel* m = (PackageItemModel*) t->model();
     m->setPackages(found);
-
-    // qDebug() << "MainWindow::loadRepository";
-
-    /* TODO
-    int n = 0;
-    for (int i = 0; i < found.count(); i++) {
-        Package* p = found.at(i);
-
-
-        bool updateEnabled = isUpdateEnabled(p->name);
-
-        if (!atLeastOneInstalled && !newestInstallable)
-            continue;
-
-        bool statusOK;
-        switch (statusFilter) {
-            case 0:
-                // all
-                statusOK = true;
-                break;
-            case 1:
-                // not installed
-                statusOK = !atLeastOneInstalled;
-                break;
-            case 2:
-                // installed
-                statusOK = atLeastOneInstalled;
-                break;
-            case 3:
-                // installed, updateable
-                statusOK = atLeastOneInstalled && updateEnabled;
-                break;
-            default:
-                statusOK = true;
-                break;
-        }
-        if (!statusOK)
-            continue;
-
-    }
-
-    */
     t->setUpdatesEnabled(true);
 }
 

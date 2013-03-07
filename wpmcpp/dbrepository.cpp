@@ -76,9 +76,10 @@ QString DBRepository::insertPackage(Package* p)
 {
     QMySqlQuery q;
     q.prepare("INSERT INTO PACKAGE "
-            "(ID, NAME, TITLE, URL, ICON, DESCRIPTION, LICENSE, FULLTEXT)"
+            "(ID, NAME, TITLE, URL, ICON, DESCRIPTION, LICENSE, FULLTEXT, "
+            "STATUS)"
             "VALUES(:ID, :NAME, :TITLE, :URL, :ICON, :DESCRIPTION, :LICENSE, "
-            ":FULLTEXT)");
+            ":FULLTEXT, :STATUS)");
     q.bindValue(":ID", QVariant(QVariant::Int));
     q.bindValue(":NAME", p->name);
     q.bindValue(":TITLE", p->title);
@@ -88,6 +89,7 @@ QString DBRepository::insertPackage(Package* p)
     q.bindValue(":LICENSE", p->license);
     q.bindValue(":FULLTEXT", (p->title + " " + p->description + " " +
             p->name).toLower());
+    q.bindValue(":STATUS", Package::NOT_INSTALLED);
     q.exec();
     return toString(q.lastError());
 }
@@ -273,7 +275,9 @@ License *DBRepository::findLicense_(const QString& name)
     return r;
 }
 
-QList<Package*> DBRepository::findPackages(const QString& query) const
+QList<Package*> DBRepository::findPackages(
+        Package::Status status, bool filterByStatus,
+        const QString& query) const
 {
     // TODO: errors are not handled
     QStringList keywords = query.toLower().simplified().split(" ",
@@ -284,13 +288,19 @@ QList<Package*> DBRepository::findPackages(const QString& query) const
     QMySqlQuery q;
     QString sql = "SELECT ID, NAME, TITLE, URL, ICON, "
             "DESCRIPTION, LICENSE FROM PACKAGE";
+    QString where;
     for (int i = 0; i < keywords.count(); i++) {
-        if (i == 0)
-            sql += " WHERE";
-        else
-            sql += " AND";
-        sql += QString(" FULLTEXT LIKE :FULLTEXT%1").arg(i);
+        if (!where.isEmpty())
+            where += " AND ";
+        where += QString("FULLTEXT LIKE :FULLTEXT%1").arg(i);
     }
+    if (filterByStatus) {
+        if (!where.isEmpty())
+            where += " AND ";
+        where += "STATUS = :STATUS";
+    }
+    if (!where.isEmpty())
+        sql += " WHERE " + where;
     sql += " ORDER BY TITLE";
     // qDebug() << sql;
     q.prepare(sql);
@@ -298,6 +308,8 @@ QList<Package*> DBRepository::findPackages(const QString& query) const
         q.bindValue(QString(":FULLTEXT%1").arg(i),
                 "%" + keywords.at(i).toLower() + "%");
     }
+    if (filterByStatus)
+        q.bindValue(":STATUS", status);
     q.exec();
     while (q.next()) {
         Package* p = new Package(q.value(1).toString(), q.value(2).toString());
@@ -518,7 +530,7 @@ void DBRepository::updateF5(Job* job)
     }
 
     if (job->shouldProceed("Filling the local database")) {
-        Job* sub = job->newSubJob(0.09);
+        Job* sub = job->newSubJob(0.06);
         insertAll(sub, r);
         if (!sub->getErrorMessage().isEmpty())
             job->setErrorMessage(sub->getErrorMessage());
@@ -527,7 +539,7 @@ void DBRepository::updateF5(Job* job)
 
     if (job->shouldProceed("Adding well-known packages")) {
         addWellKnownPackages();
-        job->setProgress(0.9);
+        job->setProgress(0.8);
     }
 
     if (job->shouldProceed("Refreshing the installation status")) {
@@ -538,46 +550,20 @@ void DBRepository::updateF5(Job* job)
         delete sub;
     }
 
+    if (job->shouldProceed(
+            "Updating the status for installed packages in the database")) {
+        updateStatusForInstalled();
+        job->setProgress(1);
+    }
+
     delete r;
     job->complete();
 }
 
 void DBRepository::addWellKnownPackages()
 {
+    /* TODO: Npackd or NpackdCL depending on the binary
     Package* p;
-
-    p = this->findPackage_("com.microsoft.Windows");
-    if (!p) {
-        Package* p = new Package("com.microsoft.Windows", "Windows");
-        p->url = "http://www.microsoft.com/windows/";
-        p->description = "Operating system";
-
-        // TODO: error message is ignored
-        insertPackage(p);
-    }
-    delete p;
-
-    p = this->findPackage_("com.microsoft.Windows32");
-    if (!p) {
-        Package* p = new Package("com.microsoft.Windows32", "Windows/32 bit");
-        p->url = "http://www.microsoft.com/windows/";
-        p->description = "Operating system";
-
-        // TODO: error message is ignored
-        insertPackage(p);
-    }
-    delete p;
-
-    p = this->findPackage_("com.microsoft.Windows64");
-    if (!p) {
-        Package* p = new Package("com.microsoft.Windows64", "Windows/64 bit");
-        p->url = "http://www.microsoft.com/windows/";
-        p->description = "Operating system";
-
-        // TODO: error message is ignored
-        insertPackage(p);
-    }
-    delete p;
 
     p = findPackage_("com.googlecode.windows-package-manager.Npackd");
     if (!p) {
@@ -591,85 +577,7 @@ void DBRepository::addWellKnownPackages()
     }
     delete p;
 
-    p = this->findPackage_("com.oracle.JRE");
-    if (!p) {
-        Package* p = new Package("com.oracle.JRE", "JRE");
-        p->url = "http://www.java.com/";
-        p->description = "Java runtime";
-
-        // TODO: error message is ignored
-        insertPackage(p);
-    }
-    delete p;
-
-    p = this->findPackage_("com.oracle.JRE64");
-    if (!p) {
-        Package* p = new Package("com.oracle.JRE64", "JRE/64 bit");
-        p->url = "http://www.java.com/";
-        p->description = "Java runtime";
-
-        // TODO: error message is ignored
-        insertPackage(p);
-    }
-    delete p;
-
-    p = this->findPackage_("com.oracle.JDK");
-    if (!p) {
-        Package* p = new Package("com.oracle.JDK", "JDK");
-        p->url = "http://www.oracle.com/technetwork/java/javase/overview/index.html";
-        p->description = "Java development kit";
-
-        // TODO: error message is ignored
-        insertPackage(p);
-    }
-    delete p;
-
-    p = this->findPackage_("com.oracle.JDK64");
-    if (!p) {
-        Package* p = new Package("com.oracle.JDK64", "JDK/64 bit");
-        p->url = "http://www.oracle.com/technetwork/java/javase/overview/index.html";
-        p->description = "Java development kit";
-
-        // TODO: error message is ignored
-        insertPackage(p);
-    }
-    delete p;
-
-    p = this->findPackage_("com.microsoft.DotNetRedistributable");
-    if (!p) {
-        Package* p = new Package("com.microsoft.DotNetRedistributable",
-                ".NET redistributable runtime");
-        p->url = "http://msdn.microsoft.com/en-us/netframework/default.aspx";
-        p->description = ".NET runtime";
-
-        // TODO: error message is ignored
-        insertPackage(p);
-    }
-    delete p;
-
-    p = this->findPackage_("com.microsoft.WindowsInstaller");
-    if (!p) {
-        Package* p = new Package("com.microsoft.WindowsInstaller",
-                "Windows Installer");
-        p->url = "http://msdn.microsoft.com/en-us/library/cc185688(VS.85).aspx";
-        p->description = "Package manager";
-
-        // TODO: error message is ignored
-        insertPackage(p);
-    }
-    delete p;
-
-    p = this->findPackage_("com.microsoft.MSXML");
-    if (!p) {
-        Package* p = new Package("com.microsoft.MSXML",
-                "Microsoft Core XML Services (MSXML)");
-        p->url = "http://www.microsoft.com/downloads/en/details.aspx?FamilyID=993c0bcf-3bcf-4009-be21-27e85e1857b1#Overview";
-        p->description = "XML library";
-
-        // TODO: error message is ignored
-        insertPackage(p);
-    }
-    delete p;
+    */
 }
 
 void DBRepository::insertAll(Job* job, Repository* r)
@@ -717,6 +625,24 @@ void DBRepository::insertAll(Job* job, Repository* r)
     job->complete();
 }
 
+void DBRepository::updateStatusForInstalled()
+{
+    QList<InstalledPackageVersion*> pvs = InstalledPackages::getDefault()->getAll();
+    QSet<QString> packages;
+    for (int i = 0; i < pvs.count(); i++) {
+        InstalledPackageVersion* pv = pvs.at(i);
+        packages.insert(pv->package);
+    }
+    qDeleteAll(pvs);
+    pvs.clear();
+
+    QList<QString> packages_ = packages.values();
+    for (int i = 0; i < packages_.count(); i++) {
+        QString package = packages_.at(i);
+        updateStatus(package);
+    }
+}
+
 QString DBRepository::insertPackages(Repository* r)
 {
     QString err;
@@ -761,6 +687,58 @@ QString DBRepository::toString(const QSqlError& e)
     return e.type() == QSqlError::NoError ? "" : e.text();
 }
 
+QString DBRepository::updateStatus(const QString& package)
+{
+    QString err;
+
+    QList<PackageVersion*> pvs = getPackageVersions_(package, &err);
+    PackageVersion* newestInstallable = 0;
+    PackageVersion* newestInstalled = 0;
+    if (err.isEmpty()) {
+        for (int j = 0; j < pvs.count(); j++) {
+            PackageVersion* pv = pvs.at(j);
+            if (pv->installed()) {
+                if (!newestInstalled ||
+                        newestInstalled->version.compare(pv->version) < 0)
+                    newestInstalled = pv;
+            }
+
+            if (pv->download.isValid()) {
+                if (!newestInstallable ||
+                        newestInstallable->version.compare(pv->version) < 0)
+                    newestInstallable = pv;
+            }
+        }
+    }
+
+    if (err.isEmpty()) {
+        Package::Status status;
+        if (newestInstalled) {
+            bool up2date = !(newestInstalled && newestInstallable &&
+                    newestInstallable->version.compare(
+                    newestInstalled->version) > 0);
+            if (up2date)
+                status = Package::INSTALLED;
+            else
+                status = Package::UPDATEABLE;
+        } else {
+            status = Package::NOT_INSTALLED;
+        }
+
+        QMySqlQuery q;
+        q.prepare("UPDATE PACKAGE "
+                "SET STATUS=:STATUS "
+                "WHERE NAME=:NAME");
+        q.bindValue(":STATUS", status);
+        q.bindValue(":NAME", package);
+        q.exec();
+        err = toString(q.lastError());
+    }
+    qDeleteAll(pvs);
+
+    return err;
+}
+
 QString DBRepository::open()
 {
     QString err;
@@ -786,7 +764,8 @@ QString DBRepository::open()
                     "ICON TEXT, "
                     "DESCRIPTION TEXT, "
                     "LICENSE TEXT, "
-                    "FULLTEXT TEXT"
+                    "FULLTEXT TEXT,"
+                    "STATUS INTEGER"
                     ")");
             err = toString(db.lastError());
         }

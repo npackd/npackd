@@ -1,4 +1,5 @@
 #include <QUrl>
+#include <QDebug>
 
 #include "controlpanelthirdpartypm.h"
 #include "windowsregistry.h"
@@ -181,6 +182,8 @@ void ControlPanelThirdPartyPM::detectOneControlPanelProgram(
 
         if (uninstall.trimmed().isEmpty())
             useThisEntry = false;
+
+        // qDebug() << uninstall;
     }
 
     // already detected as an MSI package
@@ -201,13 +204,13 @@ void ControlPanelThirdPartyPM::detectOneControlPanelProgram(
             QStringList params = WPMUtils::parseCommandLine(uninstall, &err);
             if (err.isEmpty() && params.count() > 0 && d.exists(params[0])) {
                 dir = WPMUtils::parentDirectory(params[0]);
-            } /* DEBUG else {
+            } /* DEBUG  else {
                 qDebug() << "cannot parse " << uninstall << " " << err <<
                         " " << params.count();
                 if (params.count() > 0)
                     qDebug() << "cannot parse2 " << params[0] << " " <<
                             d.exists(params[0]);
-            }*/
+            } */
         }
     }
 
@@ -220,6 +223,7 @@ void ControlPanelThirdPartyPM::detectOneControlPanelProgram(
     }
 
     if (useThisEntry) {
+        // qDebug() << package << version.getVersionString() << dir;
         InstalledPackageVersion* ipv = new InstalledPackageVersion(package,
                 version, dir);
         ipv->detectionInfo = "control-panel:" + registryPath;
@@ -228,7 +232,7 @@ void ControlPanelThirdPartyPM::detectOneControlPanelProgram(
         QScopedPointer<PackageVersion> pv(new PackageVersion(package));
         pv->version = version;
         PackageVersionFile* pvf = new PackageVersionFile(
-                "\\.Npackd\\Uninstall.bat", uninstall + "\r\n");
+                ".Npackd\\Uninstall.bat", uninstall + "\r\n");
         pv->files.append(pvf);
         rep->savePackageVersion(pv.data());
     }

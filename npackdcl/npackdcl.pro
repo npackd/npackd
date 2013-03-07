@@ -36,7 +36,11 @@ SOURCES += main.cpp \
     ../wpmcpp/installedpackageversion.cpp \
     ../wpmcpp/clprogress.cpp \
     ../wpmcpp/dbrepository.cpp \
-    ../wpmcpp/abstractrepository.cpp
+    ../wpmcpp/abstractrepository.cpp \
+    ../wpmcpp/abstractthirdpartypm.cpp \
+    ../wpmcpp/msithirdpartypm.cpp \
+    ../wpmcpp/controlpanelthirdpartypm.cpp \
+    ../wpmcpp/wellknownprogramsthirdpartypm.cpp
 HEADERS += ../wpmcpp/repository.h \
     ../wpmcpp/version.h \
     ../wpmcpp/packageversionfile.h \
@@ -57,7 +61,11 @@ HEADERS += ../wpmcpp/repository.h \
     ../wpmcpp/xmlutils.h \
     ../wpmcpp/clprogress.h \
     ../wpmcpp/dbrepository.h \
-    ../wpmcpp/abstractrepository.h
+    ../wpmcpp/abstractrepository.h \
+    ../wpmcpp/abstractthirdpartypm.h \
+    ../wpmcpp/msithirdpartypm.h \
+    ../wpmcpp/controlpanelthirdpartypm.h \
+    ../wpmcpp/wellknownprogramsthirdpartypm.h
 FORMS += 
 
 CONFIG += static
@@ -69,3 +77,8 @@ QMAKE_CXXFLAGS += -static-libstdc++ -static-libgcc -Werror
 QMAKE_LFLAGS += -static
 
 QMAKE_LFLAGS_RELEASE += -Wl,-Map,npackdcl_release.map
+
+# these 2 options can be used to add the debugging information to the "release"
+# build
+QMAKE_CXXFLAGS_RELEASE += -g
+QMAKE_LFLAGS_RELEASE -= -Wl,-s

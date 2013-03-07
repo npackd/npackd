@@ -161,6 +161,8 @@ QString InstalledPackages::setPackageVersionPath(const QString& package,
         fireStatusChanged(package, version);
     } else {
         ipv->setPath(directory);
+        err = saveToRegistry(ipv);
+        fireStatusChanged(package, version);
     }
 
     return err;
