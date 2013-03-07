@@ -44,7 +44,8 @@ public:
     bool test(const Version& v) const;
 
     /**
-     * @return all package versions that match this dependency and are installed
+     * @return [ownership:caller] all package versions that match
+     *     this dependency and are installed
      */
     QList<InstalledPackageVersion*> findAllInstalledMatches() const;
 

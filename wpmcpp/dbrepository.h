@@ -40,6 +40,7 @@ private:
     QString exec(const QString& sql);
 
     void addWellKnownPackages();
+    QString updateStatus(const QString &package);
 public:
     /**
      * @return default repository
@@ -69,6 +70,12 @@ public:
      */
     void insertAll(Job* job, Repository* r);
 
+    /**
+     * @brief updates the status for currently installed packages in
+     *     PACKAGE.STATUS
+     */
+    void updateStatusForInstalled();
+
     Package* findPackage_(const QString& name);
 
     QList<PackageVersion*> getPackageVersions_(const QString& package,
@@ -76,10 +83,13 @@ public:
 
     /**
      * @brief searches for packages that match the specified keywords
+     * @param status filter for the package status if filterByStatus is true
+     * @param filterByStatus if true, the packages will be filtered by status
      * @param query search query (keywords)
      * @return [ownership:caller] found packages
      */
-    QList<Package*> findPackages(const QString &query) const;
+    QList<Package*> findPackages(Package::Status status, bool filterByStatus,
+            const QString &query) const;
 
     /**
      * @return [ownership:caller] found package versions

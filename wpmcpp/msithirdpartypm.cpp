@@ -34,7 +34,7 @@ void MSIThirdPartyPM::scan(QList<InstalledPackageVersion *> *installed,
         // Uninstall.bat
         // TODO: full path to msiexec.exe
         PackageVersionFile* pvf = new PackageVersionFile(
-                "\\.Npackd\\Uninstall.bat",
+                ".Npackd\\Uninstall.bat",
                 "msiexec.exe /qn /norestart /Lime "
                             ".Npackd\\UninstallMSI.log /x" + guid + "\r\n" +
                             "set err=%errorlevel%" + "\r\n" +

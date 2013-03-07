@@ -28,7 +28,8 @@ int PackageItemModel::columnCount(const QModelIndex &parent) const
     return 6;
 }
 
-PackageItemModel::Info* PackageItemModel::createInfo(const QString& package) const
+PackageItemModel::Info* PackageItemModel::createInfo(
+        const QString& package) const
 {
     Info* r = new Info();
 
@@ -223,8 +224,8 @@ void PackageItemModel::iconUpdated(const QString &url)
 void PackageItemModel::installedStatusChanged(const QString& package,
         const Version& version)
 {
-    qDebug() << "PackageItemModel::installedStatusChanged" << package <<
-            version.getVersionString();
+    //qDebug() << "PackageItemModel::installedStatusChanged" << package <<
+    //        version.getVersionString();
     this->cache.remove(package);
     for (int i = 0; i < this->packages.count(); i++) {
         Package* p = this->packages.at(i);
