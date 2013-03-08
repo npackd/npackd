@@ -21,6 +21,8 @@ namespace Ui {
 class MainFrame : public QFrame, public Selection
 {
     Q_OBJECT
+private:
+    void fillList();
 public:
     explicit MainFrame(QWidget *parent = 0);
     ~MainFrame();
@@ -53,16 +55,29 @@ public:
     QLineEdit* getFilterLineEdit() const;
 
     /**
-     * @return combobox for the status filter
+     * @brief filter for the status
+     * @return 0=All, 1=Installed, 2=Updateable
      */
-    QComboBox* getStatusComboBox() const;
+    int getStatusFilter() const;
+
+    /**
+     * @brief saves the column widths in the Windows registry
+     */
+    void saveColumns() const;
+
+    /**
+     * @brief load column widths from the Windows registry
+     */
+    void loadColumns() const;
 private:
     Ui::MainFrame *ui;
 private slots:
     void on_tableWidget_doubleClicked(QModelIndex index);
     void on_lineEditText_textChanged(QString );
-    void on_comboBoxStatus_currentIndexChanged(int index);
     void tableWidget_selectionChanged();
+    void on_radioButtonAll_toggled(bool checked);
+    void on_radioButtonInstalled_toggled(bool checked);
+    void on_radioButtonUpdateable_toggled(bool checked);
 };
 
 #endif // MAINFRAME_H

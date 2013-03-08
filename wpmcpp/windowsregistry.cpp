@@ -1,10 +1,10 @@
-#include "windowsregistry.h"
-
+#include <shlwapi.h>
 #include <windows.h>
 #include <aclapi.h>
 
-#include "qstring.h"
+#include <QString>
 
+#include "windowsregistry.h"
 #include "wpmutils.h"
 
 WindowsRegistry::WindowsRegistry()
@@ -16,26 +16,10 @@ WindowsRegistry::WindowsRegistry()
 
 WindowsRegistry::WindowsRegistry(const WindowsRegistry& wr)
 {
-    this->useWow6432Node = wr.useWow6432Node;
-
-    if (wr.hkey == 0)
-        this->hkey = 0;
-    else {
-        REGSAM samDesired = wr.samDesired;
-#if !defined(__x86_64__)
-        //const REGSAM KEY_WOW64_64KEY = 0x0100;
-        bool w64bit = WPMUtils::is64BitWindows() && !useWow6432Node;
-        samDesired |= (w64bit ? KEY_WOW64_64KEY : 0);
-#else
-#endif
-        LONG r = RegOpenKeyEx(wr.hkey,
-                L"",
-                0, samDesired,
-                &this->hkey);
-        if (r != ERROR_SUCCESS) {
-            this->hkey = 0;
-        }
-    }
+    this->hkey = 0;
+    this->useWow6432Node = false;
+    this->samDesired = KEY_ALL_ACCESS;
+    *this = wr;
 }
 
 WindowsRegistry::WindowsRegistry(HKEY hk, bool useWow6432Node,
@@ -49,6 +33,57 @@ WindowsRegistry::WindowsRegistry(HKEY hk, bool useWow6432Node,
 WindowsRegistry::~WindowsRegistry()
 {
     close();
+}
+
+WindowsRegistry& WindowsRegistry::operator=(const WindowsRegistry& wr)
+{
+    if (this != &wr) {
+        close();
+
+        this->useWow6432Node = wr.useWow6432Node;
+        this->samDesired = wr.samDesired;
+
+        if (wr.hkey == 0)
+            this->hkey = 0;
+        else
+            this->hkey = SHRegDuplicateHKey(wr.hkey);
+    }
+
+    // to support chained assignment operators (a=b=c), always return *this
+    return *this;
+}
+
+QStringList WindowsRegistry::loadStringList(QString* err) const
+{
+    QStringList r;
+
+    *err = "";
+    int n = getDWORD("", err);
+    if (err->isEmpty()) {
+        for (int i = 0; i < n; i++) {
+            QString v = get(QString::number(i), err);
+            if (!err->isEmpty())
+                break;
+            r.append(v);
+        }
+    }
+
+    return r;
+}
+
+QString WindowsRegistry::saveStringList(const QStringList &values) const
+{
+    QString err = setDWORD("", values.count());
+
+    if (err.isEmpty()) {
+        for (int i = 0; i < values.count(); i++) {
+            err = set(QString::number(i), values.at(i));
+            if (!err.isEmpty())
+                break;
+        }
+    }
+
+    return err;
 }
 
 QString WindowsRegistry::get(QString name, QString* err) const
@@ -88,7 +123,7 @@ QString WindowsRegistry::get(QString name, QString* err) const
     return value_;
 }
 
-DWORD WindowsRegistry::getDWORD(QString name, QString* err)
+DWORD WindowsRegistry::getDWORD(QString name, QString* err) const
 {
     err->clear();
 
@@ -111,7 +146,7 @@ DWORD WindowsRegistry::getDWORD(QString name, QString* err)
     return value;
 }
 
-QString WindowsRegistry::setDWORD(QString name, DWORD value)
+QString WindowsRegistry::setDWORD(QString name, DWORD value) const
 {
     QString err;
 
@@ -129,7 +164,7 @@ QString WindowsRegistry::setDWORD(QString name, DWORD value)
     return err;
 }
 
-QString WindowsRegistry::set(QString name, QString value)
+QString WindowsRegistry::set(QString name, QString value) const
 {
     QString err;
 
@@ -147,7 +182,7 @@ QString WindowsRegistry::set(QString name, QString value)
     return err;
 }
 
-QString WindowsRegistry::setExpand(QString name, QString value)
+QString WindowsRegistry::setExpand(QString name, QString value) const
 {
     QString err;
 
@@ -165,7 +200,7 @@ QString WindowsRegistry::setExpand(QString name, QString value)
     return err;
 }
 
-QStringList WindowsRegistry::list(QString* err)
+QStringList WindowsRegistry::list(QString* err) const
 {
     err->clear();
 
@@ -231,7 +266,7 @@ QString WindowsRegistry::open(HKEY hk, QString path, bool useWow6432Node,
 }
 
 WindowsRegistry WindowsRegistry::createSubKey(QString name, QString* err,
-        REGSAM samDesired)
+        REGSAM samDesired) const
 {
     err->clear();
 

@@ -1,3 +1,5 @@
+#include <algorithm>
+
 #include "mainframe.h"
 #include "ui_mainframe.h"
 
@@ -7,6 +9,7 @@
 #include "mainwindow.h"
 #include "package.h"
 #include "packageitemmodel.h"
+#include "windowsregistry.h"
 
 MainFrame::MainFrame(QWidget *parent) :
     QFrame(parent), Selection(),
@@ -39,19 +42,76 @@ MainFrame::~MainFrame()
     delete ui;
 }
 
+void MainFrame::saveColumns() const
+{
+    WindowsRegistry wr;
+    QString err = wr.open(HKEY_CURRENT_USER, "", false);
+
+    WindowsRegistry wrr;
+    if (err.isEmpty()) {
+        wrr = wr.createSubKey(
+                "Software\\Npackd\\Npackd\\TableColumns", &err,
+                KEY_ALL_ACCESS);
+    }
+
+    if (err.isEmpty()) {
+        QTableView* t = this->ui->tableWidget;
+        QStringList v;
+        for (int i = 0; i < t->model()->columnCount(); i++) {
+            v.append(QString::number(t->columnWidth(i)));
+        }
+
+        wrr.saveStringList(v);
+    }
+}
+
+void MainFrame::loadColumns() const
+{
+    WindowsRegistry wr;
+    QString err = wr.open(HKEY_CURRENT_USER,
+            "Software\\Npackd\\Npackd\\TableColumns", false,
+            KEY_READ);
+
+    QStringList v;
+    if (err.isEmpty()) {
+        v = wr.loadStringList(&err);
+    }
+
+    if (err.isEmpty()) {
+        QTableView* t = this->ui->tableWidget;
+        for (int i = 0; i < std::min(t->model()->columnCount(),
+                v.count()); i++) {
+            bool ok;
+            int w = v.at(i).toInt(&ok);
+            if (!ok)
+                break;
+
+            t->setColumnWidth(i, w);
+        }
+    }
+}
+
 QTableView * MainFrame::getTableWidget() const
 {
     return this->ui->tableWidget;
 }
 
-QLineEdit* MainFrame::getFilterLineEdit() const
+QLineEdit *MainFrame::getFilterLineEdit() const
 {
     return this->ui->lineEditText;
 }
 
-QComboBox* MainFrame::getStatusComboBox() const
+int MainFrame::getStatusFilter() const
 {
-    return this->ui->comboBoxStatus;
+    int r;
+    if (this->ui->radioButtonInstalled->isChecked())
+        r = 1;
+    else if (this->ui->radioButtonUpdateable->isChecked())
+        r = 2;
+    else
+        r = 0;
+
+    return r;
 }
 
 QList<void*> MainFrame::getSelected(const QString& type) const
@@ -105,19 +165,32 @@ void MainFrame::on_tableWidget_doubleClicked(QModelIndex index)
 
 void MainFrame::on_lineEditText_textChanged(QString )
 {
-    MainWindow* mw = MainWindow::getInstance();
-    if (!mw->reloadRepositoriesThreadRunning && !mw->hardDriveScanRunning)
-        mw->fillList();
-}
-
-void MainFrame::on_comboBoxStatus_currentIndexChanged(int index)
-{
-    MainWindow* mw = MainWindow::getInstance();
-    if (!mw->reloadRepositoriesThreadRunning && !mw->hardDriveScanRunning)
-        mw->fillList();
+    fillList();
 }
 
 void MainFrame::tableWidget_selectionChanged()
 {
     MainWindow::getInstance()->updateActions();
+}
+
+void MainFrame::fillList()
+{
+    MainWindow* mw = MainWindow::getInstance();
+    if (!mw->reloadRepositoriesThreadRunning && !mw->hardDriveScanRunning)
+        mw->fillList();
+}
+
+void MainFrame::on_radioButtonAll_toggled(bool checked)
+{
+    fillList();
+}
+
+void MainFrame::on_radioButtonInstalled_toggled(bool checked)
+{
+    fillList();
+}
+
+void MainFrame::on_radioButtonUpdateable_toggled(bool checked)
+{
+    fillList();
 }

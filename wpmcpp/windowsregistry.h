@@ -43,6 +43,15 @@ public:
 
     ~WindowsRegistry();
 
+    WindowsRegistry& operator=(const WindowsRegistry& wr);
+
+    /**
+     * @brief saves a list of values
+     * @param values the values
+     * @return error message
+     */
+    QString saveStringList(const QStringList& values) const;
+
     /**
      * Delete a sub-key.
      *
@@ -74,7 +83,7 @@ public:
      * @param err error message will be stored here
      * @return the value
      */
-    DWORD getDWORD(QString name, QString* err);
+    DWORD getDWORD(QString name, QString* err) const;
 
     /**
      * Writes a DWORD value.
@@ -83,7 +92,7 @@ public:
      * @return error message
      * @param value the value
      */
-    QString setDWORD(QString name, DWORD value);
+    QString setDWORD(QString name, DWORD value) const;
 
     /**
      * Writes a REG_SZ value.
@@ -92,7 +101,7 @@ public:
      * @param value the value
      * @return error message
      */
-    QString set(QString name, QString value);
+    QString set(QString name, QString value) const;
 
     /**
      * Writes a REG_EXPAND_SZ value.
@@ -101,7 +110,7 @@ public:
      * @param value the value
      * @return error message
      */
-    QString setExpand(QString name, QString value);
+    QString setExpand(QString name, QString value) const;
 
     /**
      * Opens a key. The previously open key (if any) will be closed.
@@ -135,7 +144,7 @@ public:
      * @return created key (uninitialized, if an error occured)
      */
     WindowsRegistry createSubKey(QString name, QString* err,
-            REGSAM samDesired = KEY_ALL_ACCESS);
+            REGSAM samDesired = KEY_ALL_ACCESS) const;
 
     /**
      * Closes the current key.
@@ -148,7 +157,14 @@ public:
      * @param err the error message will be stored here
      * @return list of sub-keys
      */
-    QStringList list(QString* err);
+    QStringList list(QString* err) const;
+
+    /**
+     * @brief loads QStringList from this key
+     * @param err error message
+     * @return data from the registry
+     */
+    QStringList loadStringList(QString *err) const;
 };
 
 #endif // WINDOWSREGISTRY_H

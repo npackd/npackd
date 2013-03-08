@@ -14,6 +14,7 @@ LIBS += -lquazip \
     -lwininet \
     -lpsapi \
     -lversion \
+    -lshlwapi \
     -lmsi
 SOURCES += main.cpp \
     ../wpmcpp/repository.cpp \
