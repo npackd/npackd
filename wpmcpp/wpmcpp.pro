@@ -103,6 +103,7 @@ LIBS += -lquazip \
     -lpsapi \
     -lshell32 \
     -lversion \
+    -lshlwapi \
     -lmsi
 CONFIG += embed_manifest_exe
 CONFIG += static

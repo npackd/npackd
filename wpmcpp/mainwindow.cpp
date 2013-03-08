@@ -211,6 +211,8 @@ MainWindow::MainWindow(QWidget *parent) :
             SLOT(applicationFocusChanged(QWidget*, QWidget*)));
 
     this->ui->tabWidget->addTab(mainFrame, "Packages");
+    mainFrame->loadColumns();
+
     this->addJobsTab();
     this->mainFrame->getFilterLineEdit()->setFocus();
 
@@ -420,6 +422,7 @@ void MainWindow::closeEvent(QCloseEvent *event)
     int n = this->runningJobs.count();
 
     if (n == 0) {
+        this->mainFrame->saveColumns();
         event->accept();
     } else {
         addErrorMessage("Cannot exit while jobs are running");
@@ -647,7 +650,7 @@ void MainWindow::fillList()
     QString query = this->mainFrame->getFilterLineEdit()->text();
 
     //QSet<QString> requestedIcons;
-    int statusFilter = this->mainFrame->getStatusComboBox()->currentIndex();
+    int statusFilter = this->mainFrame->getStatusFilter();
     Package::Status status = Package::INSTALLED;
     bool filterByStatus = false;
     switch (statusFilter) {
