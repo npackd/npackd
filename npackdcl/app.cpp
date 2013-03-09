@@ -15,6 +15,12 @@
 
 int App::process()
 {
+    // TODO: handle error
+    DBRepository::getDefault()->open();
+
+    // TODO: call this function one more time on exit?
+    addNpackdCL();
+
     cl.add("package", 'p',
             "internal package name (e.g. com.example.Editor or just Editor)",
             "package", false);
@@ -43,10 +49,12 @@ int App::process()
     QStringList fr = cl.getFreeArguments();
 
     if (fr.count() == 0) {
-        WPMUtils::outputTextConsole("Missing command. Try npackdcl help\n", false);
+        WPMUtils::outputTextConsole("Missing command. Try npackdcl help\n",
+                false);
         r = 1;
     } else if (fr.count() > 1) {
-        WPMUtils::outputTextConsole("Unexpected argument: " + fr.at(1) + "\n", false);
+        WPMUtils::outputTextConsole("Unexpected argument: " +
+                fr.at(1) + "\n", false);
         r = 1;
     } else {
         const QString cmd = fr.at(0);
@@ -218,6 +226,8 @@ QString App::addRepo()
 
     delete url_;
 
+    // TODO: updateF5?
+
     return err;
 }
 
@@ -244,13 +254,12 @@ int App::list()
 
     int r = 0;
 
-    DBRepository* rep = DBRepository::getDefault();
     Job* job;
     if (bare)
         job = new Job();
     else
         job = clp.createJob();
-    rep->updateF5(job);
+    InstalledPackages::getDefault()->refresh(job);
     if (!job->getErrorMessage().isEmpty()) {
         WPMUtils::outputTextConsole(job->getErrorMessage() + "\n", false);
         r = 1;
@@ -331,7 +340,7 @@ QString App::search()
 
     if (job->shouldProceed("Loading repositories")) {
         Job* rjob = job->newSubJob(0.99);
-        rep->updateF5(rjob);
+        InstalledPackages::getDefault()->refresh(rjob);
         if (!rjob->getErrorMessage().isEmpty()) {
             job->setErrorMessage(rjob->getErrorMessage());
         }
@@ -430,6 +439,8 @@ QString App::removeRepo()
 
     delete url_;
 
+    // TODO: updateF5?
+
     return err;
 }
 
@@ -437,16 +448,13 @@ int App::path()
 {
     int r = 0;
 
-    DBRepository* rep = DBRepository::getDefault();
     Job* job = new Job();
-    rep->updateF5(job);
+    InstalledPackages::getDefault()->refresh(job);
     if (!job->getErrorMessage().isEmpty()) {
         WPMUtils::outputTextConsole(job->getErrorMessage() + "\n", false);
         r = 1;
     }
     delete job;
-
-    addNpackdCL();
 
     QString package = cl.get("package");
     QString versions = cl.get("versions");
@@ -482,7 +490,8 @@ int App::path()
         }
 
         if (r == 0) {
-            // debug: WPMUtils::outputTextConsole << "Versions: " << d.toString()) << std::endl;
+            // debug: WPMUtils::outputTextConsole << "Versions: " <<
+            //         d.toString()) << std::endl;
             InstalledPackageVersion* ipv = d.findHighestInstalledMatch();
             if (ipv) {
                 QString p = ipv->getDirectory();
@@ -502,14 +511,12 @@ int App::update()
 
     if (job->shouldProceed("Loading repositories")) {
         Job* rjob = job->newSubJob(0.05);
-        rep->updateF5(rjob);
+        InstalledPackages::getDefault()->refresh(rjob);
         if (!rjob->getErrorMessage().isEmpty()) {
             job->setErrorMessage(rjob->getErrorMessage());
         }
         delete rjob;
     }
-
-    addNpackdCL();
 
     QString package = cl.get("package");
 
@@ -625,16 +632,13 @@ int App::add()
     Job* job = clp.createJob();
 
     if (job->shouldProceed("Loading repositories")) {
-        DBRepository* rep = DBRepository::getDefault();
         Job* rjob = job->newSubJob(0.1);
-        rep->updateF5(rjob);
+        InstalledPackages::getDefault()->refresh(rjob);
         if (!rjob->getErrorMessage().isEmpty()) {
             job->setErrorMessage(rjob->getErrorMessage());
         }
         delete rjob;
     }
-
-    addNpackdCL();
 
     QString package = cl.get("package");
     QString version = cl.get("version");
@@ -747,14 +751,12 @@ int App::remove()
 
     if (job->shouldProceed("Loading repositories")) {
         Job* rjob = job->newSubJob(0.1);
-        rep->updateF5(rjob);
+        InstalledPackages::getDefault()->refresh(rjob);
         if (!rjob->getErrorMessage().isEmpty()) {
             job->setErrorMessage(rjob->getErrorMessage());
         }
         delete rjob;
     }
-
-    addNpackdCL();
 
     QString package = cl.get("package");
     QString version = cl.get("version");
@@ -860,16 +862,13 @@ int App::info()
 {
     int r = 0;
 
-    DBRepository* rep = DBRepository::getDefault();
     Job* job = clp.createJob();
-    rep->updateF5(job);
+    InstalledPackages::getDefault()->refresh(job);
     if (!job->getErrorMessage().isEmpty()) {
         WPMUtils::outputTextConsole(job->getErrorMessage() + "\n", false);
         r = 1;
     }
     delete job;
-
-    addNpackdCL();
 
     QString package = cl.get("package");
     QString version = cl.get("version");
