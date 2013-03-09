@@ -25,9 +25,6 @@ int main(int argc, char *argv[])
 
     App app;
 
-    // TODO: handle error
-    DBRepository::getDefault()->open();
-
     return app.process();
 }
 
