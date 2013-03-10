@@ -182,6 +182,7 @@ void WPMUtils::formatMessage(DWORD err, QString* errMsg)
 {
     HLOCAL pBuffer;
     DWORD n;
+
     if (err >= INTERNET_ERROR_BASE && err <= INTERNET_ERROR_LAST) {
         // wininet.dll-errors
         n = FormatMessageW(FORMAT_MESSAGE_ALLOCATE_BUFFER |
@@ -862,10 +863,11 @@ bool WPMUtils::is64BitWindows()
 #endif
 }
 
-HRESULT WPMUtils::createLink(LPCWSTR lpszPathObj, LPCWSTR lpszPathLink,
+QString WPMUtils::createLink(LPCWSTR lpszPathObj, LPCWSTR lpszPathLink,
         LPCWSTR lpszDesc,
         LPCWSTR workingDir)
 {
+    QString r;
     HRESULT hres;
     IShellLink* psl;
 
@@ -893,7 +895,12 @@ HRESULT WPMUtils::createLink(LPCWSTR lpszPathObj, LPCWSTR lpszPathLink,
         }
         psl->Release();
     }
-    return hres;
+
+    if (!SUCCEEDED(hres)) {
+        formatMessage(hres, &r);
+    }
+
+    return r;
 }
 
 void WPMUtils::removeDirectory(Job* job, QDir &aDir)

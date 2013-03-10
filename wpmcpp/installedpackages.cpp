@@ -328,8 +328,6 @@ void InstalledPackages::readRegistryDatabase(bool definePackageVersions)
             "SOFTWARE\\Npackd\\Npackd\\Packages", false, KEY_READ);
 
     if (err.isEmpty()) {
-        HRTimer timer(2);
-
         QStringList entries = packagesWR.list(&err);
         for (int i = 0; i < entries.count(); ++i) {
             QString name = entries.at(i);
@@ -355,8 +353,6 @@ void InstalledPackages::readRegistryDatabase(bool definePackageVersions)
             if (!err.isEmpty())
                 continue;
 
-            timer.time(0);
-
             QString dir;
             if (p.isEmpty())
                 dir = "";
@@ -368,8 +364,6 @@ void InstalledPackages::readRegistryDatabase(bool definePackageVersions)
                     dir = "";
                 }
             }
-
-            timer.time(1);
 
             if (dir.isEmpty())
                 continue;
@@ -397,7 +391,6 @@ void InstalledPackages::readRegistryDatabase(bool definePackageVersions)
                 delete ipv;
             }
         }
-        timer.dump();
     }
 }
 
