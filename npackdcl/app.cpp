@@ -890,8 +890,13 @@ int App::info()
             }
 
             DBRepository* rep = DBRepository::getDefault();
-            /* TODO: search for short package names
-            QList<Package*> packages = rep->findPackages(package);
+            /* TODO: search for short package names */
+            QList<Package*> packages;
+            Package* p = rep->findPackage_(package);
+            if (p)
+                packages.append(p);
+
+            // = rep->findPackages(package);
             if (packages.count() == 0) {
                 WPMUtils::outputTextConsole("Unknown package: " +
                         package + "\n", false);
@@ -903,7 +908,6 @@ int App::info()
                 r = 1;
                 break;
             }
-            */
 
             // debug: WPMUtils::outputTextConsole <<  package) << " " << versions);
             Version v;
@@ -918,7 +922,7 @@ int App::info()
 
             // debug: WPMUtils::outputTextConsole << "Versions: " << d.toString()) << std::endl;
             PackageVersion* pv = 0;
-            Package* p = 0; // TODO = packages.at(0);
+            p = packages.at(0);
 
             if (!version.isNull()) {
                 pv = rep->findPackageVersion_(p->name, version);
@@ -997,6 +1001,7 @@ int App::info()
                         versions + "\n");
             }
 
+            qDeleteAll(packages);
             delete pv;
         } while (false);
     }
