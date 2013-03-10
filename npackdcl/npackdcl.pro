@@ -72,7 +72,11 @@ FORMS +=
 CONFIG += static
 
 DEFINES+=QUAZIP_STATIC=1
+
 INCLUDEPATH+=$$[QT_INSTALL_PREFIX]/src/3rdparty/zlib
+INCLUDEPATH+=$$(QUAZIP_PATH)/quazip
+
+QMAKE_LIBDIR+=$$(QUAZIP_PATH)/quazip/release
 
 QMAKE_CXXFLAGS += -static-libstdc++ -static-libgcc -Werror
 QMAKE_LFLAGS += -static
@@ -83,3 +87,8 @@ QMAKE_LFLAGS_RELEASE += -Wl,-Map,npackdcl_release.map
 # build
 QMAKE_CXXFLAGS_RELEASE += -g
 QMAKE_LFLAGS_RELEASE -= -Wl,-s
+
+gprof {
+    QMAKE_CXXFLAGS+=-pg
+    QMAKE_LFLAGS+=-pg
+}

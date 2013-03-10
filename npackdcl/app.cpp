@@ -15,8 +15,11 @@
 
 int App::process()
 {
-    // TODO: handle error
-    DBRepository::getDefault()->open();
+    QString err = DBRepository::getDefault()->open();
+    if (!err.isEmpty()) {
+        WPMUtils::outputTextConsole("Error: " + err + "\n");
+        return 1;
+    }
 
     // TODO: call this function one more time on exit?
     addNpackdCL();
@@ -37,17 +40,16 @@ int App::process()
     cl.add("query", 'q', "search terms (e.g. editor)",
             "search terms", false);
 
-    QString err = cl.parse();
+    err = cl.parse();
     if (!err.isEmpty()) {
         WPMUtils::outputTextConsole("Error: " + err + "\n");
         return 1;
     }
     // cl.dump();
 
-    int r = 0;
-
     QStringList fr = cl.getFreeArguments();
 
+    int r = 0;
     if (fr.count() == 0) {
         WPMUtils::outputTextConsole("Missing command. Try npackdcl help\n",
                 false);
@@ -338,7 +340,7 @@ QString App::search()
 
     DBRepository* rep = DBRepository::getDefault();
 
-    if (job->shouldProceed("Loading repositories")) {
+    if (job->shouldProceed("Detecting installed software")) {
         Job* rjob = job->newSubJob(0.99);
         InstalledPackages::getDefault()->refresh(rjob);
         if (!rjob->getErrorMessage().isEmpty()) {
@@ -448,13 +450,8 @@ int App::path()
 {
     int r = 0;
 
-    Job* job = new Job();
-    InstalledPackages::getDefault()->refresh(job);
-    if (!job->getErrorMessage().isEmpty()) {
-        WPMUtils::outputTextConsole(job->getErrorMessage() + "\n", false);
-        r = 1;
-    }
-    delete job;
+    // no long-running operation can be done here. "npackdcl path" must be fast.
+    InstalledPackages::getDefault()->readRegistryDatabase();
 
     QString package = cl.get("package");
     QString versions = cl.get("versions");
@@ -509,7 +506,7 @@ int App::update()
     DBRepository* rep = DBRepository::getDefault();
     Job* job = clp.createJob();
 
-    if (job->shouldProceed("Loading repositories")) {
+    if (job->shouldProceed("Detecting installed software")) {
         Job* rjob = job->newSubJob(0.05);
         InstalledPackages::getDefault()->refresh(rjob);
         if (!rjob->getErrorMessage().isEmpty()) {
@@ -631,7 +628,7 @@ int App::add()
 {
     Job* job = clp.createJob();
 
-    if (job->shouldProceed("Loading repositories")) {
+    if (job->shouldProceed("Detecting installed software")) {
         Job* rjob = job->newSubJob(0.1);
         InstalledPackages::getDefault()->refresh(rjob);
         if (!rjob->getErrorMessage().isEmpty()) {
@@ -658,6 +655,9 @@ int App::add()
 
     AbstractRepository* rep = AbstractRepository::getDefault_();
     QList<Package*> packages;
+    Package* p = rep->findPackage_(package);
+    if (p)
+        packages.append(p);
     if (job->shouldProceed()) {
         // TODO: short package names packages = rep->findPackages(package);
         if (packages.count() == 0) {
@@ -694,8 +694,9 @@ int App::add()
     bool alreadyInstalled = false;
     if (job->shouldProceed()) {
         if (pv->installed()) {
-            WPMUtils::outputTextConsole("Package is already installed in " +
-                    pv->getPath() + "\n");
+            WPMUtils::outputTextConsole(QString(
+                    "%1 is already installed in %2").arg(pv->toString()).
+                    arg(pv->getPath()) + "\n");
             alreadyInstalled = true;
         }
     }
@@ -739,7 +740,6 @@ int App::add()
 
     qDeleteAll(ops);
     qDeleteAll(packages);
-
     return r;
 }
 
@@ -749,7 +749,7 @@ int App::remove()
 
     DBRepository* rep = DBRepository::getDefault();
 
-    if (job->shouldProceed("Loading repositories")) {
+    if (job->shouldProceed("Detecting installed software")) {
         Job* rjob = job->newSubJob(0.1);
         InstalledPackages::getDefault()->refresh(rjob);
         if (!rjob->getErrorMessage().isEmpty()) {
@@ -780,6 +780,9 @@ int App::remove()
     }
 
     QList<Package*> packages;
+    Package* p = rep->findPackage_(package);
+    if (p)
+        packages.append(p);
     if (job->shouldProceed()) {
         // TODO: short package names packages = rep->findPackages(package);
         if (packages.count() == 0) {
@@ -1009,7 +1012,7 @@ int App::detect()
     int r = 0;
 
     Job* job = clp.createJob();
-    job->setHint("Loading repositories");
+    job->setHint("Loading repositories and detecting installed software");
 
     DBRepository* rep = DBRepository::getDefault();
     rep->updateF5(job);

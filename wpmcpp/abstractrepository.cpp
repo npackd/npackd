@@ -45,6 +45,8 @@ void AbstractRepository::setDefault_(AbstractRepository* d)
 
 void AbstractRepository::updateNpackdCLEnvVar()
 {
+    // TODO: update user var if the system variable cannot be changed?
+
     QString v = computeNpackdCLEnvVar_();
 
     // ignore the error for the case NPACKD_CL does not yet exist

@@ -53,7 +53,7 @@ public:
     QString saveStringList(const QStringList& values) const;
 
     /**
-     * Delete a sub-key.
+     * Delete a sub-key without children.
      *
      * @param name name of the sub-key (cannot contain \)
      * @return error message or ""
@@ -165,6 +165,14 @@ public:
      * @return data from the registry
      */
     QStringList loadStringList(QString *err) const;
+
+    /**
+     * Delete a sub-key recursively.
+     *
+     * @param name name of the sub-key (cannot contain \)
+     * @return error message or ""
+     */
+    QString removeRecursively(const QString &name) const;
 };
 
 #endif // WINDOWSREGISTRY_H

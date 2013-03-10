@@ -204,7 +204,6 @@ QStringList InstalledPackages::getAllInstalledPackagePaths() const
 
 void InstalledPackages::refresh(Job *job)
 {
-
     if (!job->isCancelled() && job->getErrorMessage().isEmpty()) {
         job->setHint("Detecting directories deleted externally");
         QList<InstalledPackageVersion*> ipvs = this->data.values();
@@ -317,6 +316,7 @@ void InstalledPackages::clearPackagesInNestedDirectories() {
 
 void InstalledPackages::readRegistryDatabase()
 {
+    // TODO: return error message?
     this->data.clear();
 
     WindowsRegistry machineWR(HKEY_LOCAL_MACHINE, false, KEY_READ);
@@ -327,70 +327,69 @@ void InstalledPackages::readRegistryDatabase()
     WindowsRegistry packagesWR;
     err = packagesWR.open(machineWR,
             "SOFTWARE\\Npackd\\Npackd\\Packages", KEY_READ);
+
     if (err.isEmpty()) {
         QStringList entries = packagesWR.list(&err);
         for (int i = 0; i < entries.count(); ++i) {
             QString name = entries.at(i);
             int pos = name.lastIndexOf("-");
-            if (pos > 0) {
-                QString packageName = name.left(pos);
-                if (Package::isValidName(packageName)) {
-                    QString versionName = name.right(name.length() - pos - 1);
-                    Version version;
-                    if (version.setVersion(versionName)) {
-                        rep->addPackageVersion(packageName, version);
-                        InstalledPackageVersion* ipv =
-                                loadFromRegistry(packageName, version);
-                        if (ipv) {
-                            this->data.insert(PackageVersion::getStringId(
-                                    packageName, version), ipv);
-                            fireStatusChanged(packageName, version);
-                        }
-                    }
+            if (pos <= 0)
+                continue;
+
+            QString packageName = name.left(pos);
+            if (!Package::isValidName(packageName))
+                continue;
+
+            QString versionName = name.right(name.length() - pos - 1);
+            Version version;
+            if (!version.setVersion(versionName))
+                continue;
+
+            WindowsRegistry entryWR;
+            err = entryWR.open(packagesWR, name, KEY_READ);
+            if (!err.isEmpty())
+                continue;
+
+            QString p = entryWR.get("Path", &err).trimmed();
+            if (!err.isEmpty())
+                continue;
+
+            QString dir;
+            if (p.isEmpty())
+                dir = "";
+            else {
+                QDir d(p);
+                if (d.exists()) {
+                    dir = p;
+                } else {
+                    dir = "";
                 }
+            }
+
+            if (dir.isEmpty())
+                continue;
+
+            InstalledPackageVersion* ipv = new InstalledPackageVersion(
+                    packageName, version, dir);
+            ipv->detectionInfo = entryWR.get("DetectionInfo", &err);
+            if (!err.isEmpty())
+                continue;
+
+            rep->addPackageVersion(packageName, version);
+            if (!ipv->directory.isEmpty()) {
+                /*
+                qDebug() << "adding " << ipv->package <<
+                        ipv->version.getVersionString() << "in" <<
+                        ipv->directory;*/
+                this->data.insert(PackageVersion::getStringId(
+                        packageName, version), ipv);
+
+                fireStatusChanged(packageName, version);
+            } else {
+                delete ipv;
             }
         }
     }
-}
-
-InstalledPackageVersion* InstalledPackages::loadFromRegistry(
-        const QString& package,
-        const Version& version)
-{
-    InstalledPackageVersion* r = 0;
-
-    // qDebug() << "InstalledPackageVersion::loadFromRegistry";
-
-    WindowsRegistry entryWR;
-    QString err = entryWR.open(HKEY_LOCAL_MACHINE,
-            "SOFTWARE\\Npackd\\Npackd\\Packages\\" +
-            package + "-" + version.getVersionString(),
-            false, KEY_READ);
-    if (!err.isEmpty())
-        return r;
-
-    QString p = entryWR.get("Path", &err).trimmed();
-    if (!err.isEmpty())
-        return r;
-
-    QString dir;
-    if (p.isEmpty())
-        dir = "";
-    else {
-        QDir d(p);
-        if (d.exists()) {
-            dir = p;
-        } else {
-            dir = "";
-        }
-    }
-
-    QString detectionInfo = entryWR.get("DetectionInfo", &err);
-
-    r = new InstalledPackageVersion(package, version, dir);
-    r->detectionInfo = detectionInfo;
-
-    return r;
 }
 
 QString InstalledPackages::saveToRegistry(InstalledPackageVersion *ipv)
