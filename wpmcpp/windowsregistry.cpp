@@ -321,3 +321,13 @@ QString WindowsRegistry::remove(const QString& name) const
     }
     return result;
 }
+
+QString WindowsRegistry::removeRecursively(const QString& name) const
+{
+    QString result;
+    LONG r = SHDeleteKeyW(this->hkey, (WCHAR*) name.utf16());
+    if (r != ERROR_SUCCESS) {
+        WPMUtils::formatMessage(r, &result);
+    }
+    return result;
+}

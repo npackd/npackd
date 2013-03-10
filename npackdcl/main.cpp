@@ -8,12 +8,13 @@
 #include "..\wpmcpp\wpmutils.h"
 #include "..\wpmcpp\abstractrepository.h"
 #include "..\wpmcpp\dbrepository.h"
+#include "..\wpmcpp\version.h"
 
 #include "app.h"
 
 int main(int argc, char *argv[])
 {
-#ifndef __MINGW64__
+#if !defined(__x86_64__)
     LoadLibrary(L"exchndl.dll");
 #endif
 
@@ -22,6 +23,7 @@ int main(int argc, char *argv[])
     CoInitializeEx(0, COINIT_MULTITHREADED);
 
     qRegisterMetaType<JobState>("JobState");
+    qRegisterMetaType<Version>("Version");
 
     App app;
 

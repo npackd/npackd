@@ -157,7 +157,7 @@ public:
      * @param package full package name
      * @param version version number
      */
-    void addPackageVersion(const QString& package,
+    virtual void addPackageVersion(const QString& package,
             const Version& version);
 
     /**

@@ -779,6 +779,13 @@ QString DBRepository::open()
     }
 
     if (err.isEmpty()) {
+        if (!e) {
+            db.exec("CREATE INDEX PACKAGE_NAME ON PACKAGE(NAME)");
+            err = toString(db.lastError());
+        }
+    }
+
+    if (err.isEmpty()) {
         e = tableExists(&db, "PACKAGE_VERSION", &err);
     }
 

@@ -54,11 +54,6 @@ private:
     void detectPre_1_15_Packages();
 
     /**
-     * Reads the package statuses from the registry.
-     */
-    void readRegistryDatabase();
-
-    /**
      * @brief finds the specified installed package version
      * @param package full package name
      * @param version package version
@@ -85,9 +80,6 @@ private:
      */
     void detect3rdParty(AbstractThirdPartyPM* pm);
 
-    static InstalledPackageVersion* loadFromRegistry(const QString &package,
-            const Version &version);
-
     /**
      * @brief saves the information in the Windows registry
      * @param ipv information about an installed package version
@@ -99,6 +91,11 @@ public:
      * @return default instance
      */
     static InstalledPackages* getDefault();
+
+    /**
+     * Reads the package statuses from the registry.
+     */
+    void readRegistryDatabase();
 
     /**
      * @brief registers an installed package version
