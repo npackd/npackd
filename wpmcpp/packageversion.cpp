@@ -722,15 +722,15 @@ bool PackageVersion::createShortcuts(const QString& dir, QString *errMsg)
             desc = p->description;
         if (desc.isEmpty())
             desc = this->package;
-        HRESULT r = WPMUtils::createLink(
+        QString r = WPMUtils::createLink(
                 (WCHAR*) path.replace('/', '\\').utf16(),
                 (WCHAR*) from.utf16(),
                 (WCHAR*) desc.utf16(),
                 (WCHAR*) workingDir.utf16());
 
-        if (!SUCCEEDED(r)) {
-            *errMsg = QString("Shortcut creation from %1 to %2 failed").
-                    arg(from).arg(path);
+        if (!r.isEmpty()) {
+            *errMsg = QString("Shortcut creation from %1 to %2 failed: %3").
+                    arg(from).arg(path).arg(r);
             break;
         }
     }

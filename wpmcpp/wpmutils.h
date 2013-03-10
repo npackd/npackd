@@ -54,7 +54,7 @@ public:
      * Uses the Shell's IShellLink and IPersistFile interfaces
      * to create and store a shortcut to the specified object.
      *
-     * @return the result of calling the member functions of the interfaces.
+     * @return error message
      * @param lpszPathObj - address of a buffer containing the path of the object.
      * @param lpszPathLink - address of a buffer containing the path where the
      *      Shell link is to be stored.
@@ -62,7 +62,7 @@ public:
      *      Shell link.
      * @param workingDir working directory
      */
-    static HRESULT createLink(LPCWSTR lpszPathObj, LPCWSTR lpszPathLink,
+    static QString createLink(LPCWSTR lpszPathObj, LPCWSTR lpszPathLink,
             LPCWSTR lpszDesc,
             LPCWSTR workingDir);
 
@@ -148,7 +148,7 @@ public:
     /**
      * Formats a Windows error message.
      *
-     * @param err see GetLastError()
+     * @param err see GetLastError() or HRESULT
      * @param errMsg the message will be stored her
      */
     static void formatMessage(DWORD err, QString* errMsg);
