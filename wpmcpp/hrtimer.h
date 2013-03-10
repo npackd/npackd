@@ -23,7 +23,7 @@ public:
     HRTimer(int size);
 
     /**
-     * @param point measuring point index (0, 1, 2, ...)
+     * @param point measuring point index (0, 1, 2, ..., size - 1)
      */
     void time(int point);
 

@@ -153,7 +153,7 @@ public:
             QList<InstallOperation*>& ops);
 
     /**
-     * @brief adds an existing package version
+     * @brief adds an existing package version if it does not exist yet
      * @param package full package name
      * @param version version number
      */

@@ -30,7 +30,6 @@ private:
     QCache<QString, License> licenses;
 
     QString insertPackage(Package* p);
-    QString insertPackageVersion(PackageVersion* p);
     QString insertLicense(License* p);
 
     QString insertPackages(Repository* r);
@@ -41,6 +40,15 @@ private:
 
     void addWellKnownPackages();
     QString updateStatus(const QString &package);
+
+    /**
+     * @brief inserts or updates an existing package version
+     * @param p a package version
+     * @param replace what to do if an entry already exists:
+     *     true = replace, false = ignore
+     * @return error message
+     */
+    QString savePackageVersion(PackageVersion *p, bool replace);
 public:
     /**
      * @return default repository
@@ -116,6 +124,9 @@ public:
     License* findLicense_(const QString& name);
 
     QString clear();
+
+    void addPackageVersion(const QString& package,
+                           const Version& version);
 };
 
 #endif // DBREPOSITORY_H

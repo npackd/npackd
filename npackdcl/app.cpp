@@ -12,6 +12,7 @@
 #include "..\wpmcpp\installedpackageversion.h"
 #include "..\wpmcpp\abstractrepository.h"
 #include "..\wpmcpp\dbrepository.h"
+#include "..\wpmcpp\hrtimer.h"
 
 int App::process()
 {
@@ -450,9 +451,6 @@ int App::path()
 {
     int r = 0;
 
-    // no long-running operation can be done here. "npackdcl path" must be fast.
-    InstalledPackages::getDefault()->readRegistryDatabase();
-
     QString package = cl.get("package");
     QString versions = cl.get("versions");
 
@@ -487,11 +485,10 @@ int App::path()
         }
 
         if (r == 0) {
-            // debug: WPMUtils::outputTextConsole << "Versions: " <<
-            //         d.toString()) << std::endl;
-            InstalledPackageVersion* ipv = d.findHighestInstalledMatch();
-            if (ipv) {
-                QString p = ipv->getDirectory();
+            // no long-running operation can be done here.
+            // "npackdcl path" must be fast.
+            QString p = InstalledPackages::getDefault()->findPath_npackdcl(d);
+            if (!p.isEmpty()) {
                 p.replace('/', '\\');
                 WPMUtils::outputTextConsole(p + "\n");
             }
