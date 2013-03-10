@@ -94,8 +94,19 @@ public:
 
     /**
      * Reads the package statuses from the registry.
+     *
+     * @param definePackageVersions true = insert found package versions into
+     *     the default repository
      */
-    void readRegistryDatabase();
+    void readRegistryDatabase(bool definePackageVersions=true);
+
+    /**
+     * @brief searches for a dependency in the list of installed packages. This
+     *     function uses the Windows registry directly and should be only used
+     *     from "npackdcl path". It should be fast.
+     * @param dep dependency
+     */
+    QString findPath_npackdcl(const Dependency& dep);
 
     /**
      * @brief registers an installed package version

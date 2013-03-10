@@ -13,6 +13,7 @@
 #include "controlpanelthirdpartypm.h"
 #include "msithirdpartypm.h"
 #include "wellknownprogramsthirdpartypm.h"
+#include "hrtimer.h"
 
 InstalledPackages InstalledPackages::def;
 
@@ -314,21 +315,21 @@ void InstalledPackages::clearPackagesInNestedDirectories() {
     */
 }
 
-void InstalledPackages::readRegistryDatabase()
+void InstalledPackages::readRegistryDatabase(bool definePackageVersions)
 {
     // TODO: return error message?
     this->data.clear();
-
-    WindowsRegistry machineWR(HKEY_LOCAL_MACHINE, false, KEY_READ);
 
     AbstractRepository* rep = AbstractRepository::getDefault_();
 
     QString err;
     WindowsRegistry packagesWR;
-    err = packagesWR.open(machineWR,
-            "SOFTWARE\\Npackd\\Npackd\\Packages", KEY_READ);
+    err = packagesWR.open(HKEY_LOCAL_MACHINE,
+            "SOFTWARE\\Npackd\\Npackd\\Packages", false, KEY_READ);
 
     if (err.isEmpty()) {
+        HRTimer timer(2);
+
         QStringList entries = packagesWR.list(&err);
         for (int i = 0; i < entries.count(); ++i) {
             QString name = entries.at(i);
@@ -354,6 +355,97 @@ void InstalledPackages::readRegistryDatabase()
             if (!err.isEmpty())
                 continue;
 
+            timer.time(0);
+
+            QString dir;
+            if (p.isEmpty())
+                dir = "";
+            else {
+                QDir d(p);
+                if (d.exists()) {
+                    dir = p;
+                } else {
+                    dir = "";
+                }
+            }
+
+            timer.time(1);
+
+            if (dir.isEmpty())
+                continue;
+
+            InstalledPackageVersion* ipv = new InstalledPackageVersion(
+                    packageName, version, dir);
+            ipv->detectionInfo = entryWR.get("DetectionInfo", &err);
+            if (!err.isEmpty())
+                continue;
+
+            // TODO: error message ignored
+            if (definePackageVersions)
+                rep->addPackageVersion(packageName, version);
+
+            if (!ipv->directory.isEmpty()) {
+                /*
+                qDebug() << "adding " << ipv->package <<
+                        ipv->version.getVersionString() << "in" <<
+                        ipv->directory;*/
+                this->data.insert(PackageVersion::getStringId(
+                        packageName, version), ipv);
+
+                fireStatusChanged(packageName, version);
+            } else {
+                delete ipv;
+            }
+        }
+        timer.dump();
+    }
+}
+
+QString InstalledPackages::findPath_npackdcl(const Dependency& dep)
+{
+    QString ret;
+
+    QString err;
+    WindowsRegistry packagesWR;
+    err = packagesWR.open(HKEY_LOCAL_MACHINE,
+            "SOFTWARE\\Npackd\\Npackd\\Packages", false, KEY_READ);
+
+    if (err.isEmpty()) {
+        Version found = Version::EMPTY;
+
+        QStringList entries = packagesWR.list(&err);
+        for (int i = 0; i < entries.count(); ++i) {
+            QString name = entries.at(i);
+            int pos = name.lastIndexOf("-");
+            if (pos <= 0)
+                continue;
+
+            QString packageName = name.left(pos);
+            if (packageName != dep.package)
+                continue;
+
+            QString versionName = name.right(name.length() - pos - 1);
+            Version version;
+            if (!version.setVersion(versionName))
+                continue;
+
+            if (!dep.test(version))
+                continue;
+
+            if (found != Version::EMPTY) {
+                if (version.compare(found) < 0)
+                    continue;
+            }
+
+            WindowsRegistry entryWR;
+            err = entryWR.open(packagesWR, name, KEY_READ);
+            if (!err.isEmpty())
+                continue;
+
+            QString p = entryWR.get("Path", &err).trimmed();
+            if (!err.isEmpty())
+                continue;
+
             QString dir;
             if (p.isEmpty())
                 dir = "";
@@ -369,27 +461,12 @@ void InstalledPackages::readRegistryDatabase()
             if (dir.isEmpty())
                 continue;
 
-            InstalledPackageVersion* ipv = new InstalledPackageVersion(
-                    packageName, version, dir);
-            ipv->detectionInfo = entryWR.get("DetectionInfo", &err);
-            if (!err.isEmpty())
-                continue;
-
-            rep->addPackageVersion(packageName, version);
-            if (!ipv->directory.isEmpty()) {
-                /*
-                qDebug() << "adding " << ipv->package <<
-                        ipv->version.getVersionString() << "in" <<
-                        ipv->directory;*/
-                this->data.insert(PackageVersion::getStringId(
-                        packageName, version), ipv);
-
-                fireStatusChanged(packageName, version);
-            } else {
-                delete ipv;
-            }
+            found = version;
+            ret = dir;
         }
     }
+
+    return ret;
 }
 
 QString InstalledPackages::saveToRegistry(InstalledPackageVersion *ipv)

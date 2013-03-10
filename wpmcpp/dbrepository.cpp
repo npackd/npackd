@@ -94,29 +94,6 @@ QString DBRepository::insertPackage(Package* p)
     return toString(q.lastError());
 }
 
-QString DBRepository::insertPackageVersion(PackageVersion* p)
-{
-    QMySqlQuery q;
-    q.prepare("INSERT INTO PACKAGE_VERSION "
-            "(ID, NAME, PACKAGE, CONTENT, MSIGUID)"
-            "VALUES(:ID, :NAME, :PACKAGE, :CONTENT, :MSIGUID)");
-    q.bindValue(":ID", QVariant(QVariant::Int));
-    q.bindValue(":NAME", p->version.getVersionString());
-    q.bindValue(":PACKAGE", p->package);
-    q.bindValue(":MSIGUID", p->msiGUID);
-    QDomDocument doc;
-    QDomElement root = doc.createElement("version");
-    doc.appendChild(root);
-    p->toXML(&root);
-    QByteArray file;
-    QTextStream s(&file);
-    doc.save(s, 4);
-
-    q.bindValue(":CONTENT", QVariant(file));
-    q.exec();
-    return toString(q.lastError());
-}
-
 QString DBRepository::insertLicense(License* p)
 {
     QMySqlQuery q;
@@ -389,35 +366,36 @@ QString DBRepository::savePackage(Package *p)
 
 QString DBRepository::savePackageVersion(PackageVersion *p)
 {
-    QString r;
+    return savePackageVersion(p, true);
+}
 
-    PackageVersion* fp = findPackageVersion_(p->package, p->version);
-    if (fp) {
-        delete fp;
+QString DBRepository::savePackageVersion(PackageVersion *p, bool replace)
+{
+    QMySqlQuery q;
+    QString sql = "INSERT OR ";
+    if (replace)
+        sql += "REPLACE";
+    else
+        sql += "IGNORE";
+    sql += " INTO PACKAGE_VERSION "
+            "(ID, NAME, PACKAGE, CONTENT, MSIGUID)"
+            "VALUES(:ID, :NAME, :PACKAGE, :CONTENT, :MSIGUID)";
+    q.prepare(sql);
+    q.bindValue(":ID", QVariant(QVariant::Int));
+    q.bindValue(":NAME", p->version.getVersionString());
+    q.bindValue(":PACKAGE", p->package);
+    q.bindValue(":MSIGUID", p->msiGUID);
+    QDomDocument doc;
+    QDomElement root = doc.createElement("version");
+    doc.appendChild(root);
+    p->toXML(&root);
+    QByteArray file;
+    QTextStream s(&file);
+    doc.save(s, 4);
 
-        QMySqlQuery q;
-        q.prepare("UPDATE PACKAGE_VERSION "
-                "SET CONTENT=:CONTENT, "
-                "MSIGUID=:MSIGUID "
-                "WHERE PACKAGE=:PACKAGE AND NAME=:NAME");
-        q.bindValue(":NAME", p->version.getVersionString());
-        q.bindValue(":PACKAGE", p->package);
-        q.bindValue(":MSIGUID", p->msiGUID);
-        QDomDocument doc;
-        QDomElement root = doc.createElement("version");
-        doc.appendChild(root);
-        p->toXML(&root);
-        QByteArray file;
-        QTextStream s(&file);
-        doc.save(s, 4);
-        q.bindValue(":CONTENT", QVariant(file));
-        q.exec();
-        r = toString(q.lastError());
-    } else {
-        r = insertPackageVersion(p);
-    }
-
-    return r;
+    q.bindValue(":CONTENT", QVariant(file));
+    q.exec();
+    return toString(q.lastError());
 }
 
 PackageVersion *DBRepository::findPackageVersionByMSIGUID_(
@@ -501,6 +479,15 @@ QString DBRepository::clear()
     job->complete();
 
     return "";
+}
+
+void DBRepository::addPackageVersion(const QString &package,
+        const Version &version)
+{
+    PackageVersion* pv = new PackageVersion(package, version);
+    // TODO: error ignored
+    savePackageVersion(pv, false);
+    delete pv;
 }
 
 void DBRepository::updateF5(Job* job)
@@ -674,7 +661,7 @@ QString DBRepository::insertPackageVersions(Repository* r)
     QString err;
     for (int i = 0; i < r->packageVersions.count(); i++) {
         PackageVersion* p = r->packageVersions.at(i);
-        err = insertPackageVersion(p);
+        err = savePackageVersion(p);
         if (!err.isEmpty())
             break;
     }
@@ -802,6 +789,15 @@ QString DBRepository::open()
         if (!e) {
             db.exec("CREATE INDEX PACKAGE_VERSION_PACKAGE ON PACKAGE_VERSION("
                     "PACKAGE)");
+            err = toString(db.lastError());
+        }
+    }
+
+    if (err.isEmpty()) {
+        if (!e) {
+            db.exec("CREATE UNIQUE INDEX PACKAGE_VERSION_PACKAGE_NAME ON "
+                    "PACKAGE_VERSION("
+                    "PACKAGE, NAME)");
             err = toString(db.lastError());
         }
     }
