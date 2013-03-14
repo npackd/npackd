@@ -49,6 +49,15 @@ private:
      * @return error message
      */
     QString savePackageVersion(PackageVersion *p, bool replace);
+
+    /**
+     * @brief inserts or updates an existing package
+     * @param p a package
+     * @param replace what to do if an entry already exists:
+     *     true = replace, false = ignore
+     * @return error message
+     */
+    QString savePackage(Package *p, bool replace);
 public:
     /**
      * @return default repository
@@ -127,6 +136,8 @@ public:
 
     void addPackageVersion(const QString& package,
                            const Version& version);
+
+    QList<Package*> findPackagesByShortName(const QString &name);
 };
 
 #endif // DBREPOSITORY_H

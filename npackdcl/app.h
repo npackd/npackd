@@ -36,6 +36,13 @@ private:
     int info();
     int update();
     int detect();
+
+    /**
+     * @param package full or short package name
+     * @param err error message will be stored here
+     * @return [ownership:caller] found package or 0
+     */
+    Package *findOnePackage(const QString &package, QString *err);
 public:
     /**
      * Process the command line.

@@ -497,6 +497,20 @@ QString Repository::clear()
     return "";
 }
 
+QList<Package*> Repository::findPackagesByShortName(const QString &name)
+{
+    QString suffix = "." + name;
+    QList<Package*> r;
+    for (int i = 0; i < this->packages.count(); i++) {
+        QString n = this->packages.at(i)->name;
+        if (n.endsWith(suffix) || n == name) {
+            r.append(this->packages.at(i)->clone());
+        }
+    }
+
+    return r;
+}
+
 QString Repository::checkLockedFilesForUninstall(
         const QList<InstallOperation*> &install)
 {

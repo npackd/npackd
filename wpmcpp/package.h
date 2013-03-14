@@ -70,6 +70,12 @@ public:
      * @return copy of this object
      */
     Package* clone() const;
+
+    /**
+     * @return short name for this package. The short name contains only the
+     *     part after the last dot.
+     */
+    QString getShortName() const;
 };
 
 #endif // PACKAGE_H

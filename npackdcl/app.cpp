@@ -449,51 +449,68 @@ QString App::removeRepo()
 
 int App::path()
 {
-    int r = 0;
+    Job* job = clp.createJob();
 
     QString package = cl.get("package");
     QString versions = cl.get("versions");
 
-    if (r == 0) {
+    if (job->shouldProceed()) {
         if (package.isNull()) {
-            WPMUtils::outputTextConsole("Missing option: --package\n", false);
-            r = 1;
+            job->setErrorMessage("Missing option: --package");
         }
     }
 
-    if (r == 0) {
+    if (job->shouldProceed()) {
         if (!Package::isValidName(package)) {
-            WPMUtils::outputTextConsole("Invalid package name: " + package +
-                    "\n", false);
-            r = 1;
+            job->setErrorMessage("Invalid package name: " + package);
         }
     }
 
-    if (r == 0) {
+    Package* p = 0;
+
+    if (job->shouldProceed()) {
+        QString err;
+        p = findOnePackage(package, &err);
+        if (!err.isEmpty())
+            job->setErrorMessage(err);
+    }
+
+    Dependency d;
+    if (job->shouldProceed()) {
         // debug: WPMUtils::outputTextConsole <<  package) << " " << versions);
-        Dependency d;
-        d.package = package;
+        d.package = p->name;
         if (versions.isNull()) {
             d.min.setVersion(0, 0);
             d.max.setVersion(std::numeric_limits<int>::max(), 0);
         } else {
             if (!d.setVersions(versions)) {
-                WPMUtils::outputTextConsole("Cannot parse versions: " +
-                        versions + "\n", false);
-                r = 1;
-            }
-        }
-
-        if (r == 0) {
-            // no long-running operation can be done here.
-            // "npackdcl path" must be fast.
-            QString p = InstalledPackages::getDefault()->findPath_npackdcl(d);
-            if (!p.isEmpty()) {
-                p.replace('/', '\\');
-                WPMUtils::outputTextConsole(p + "\n");
+                job->setErrorMessage("Cannot parse versions: " +
+                        versions);
             }
         }
     }
+
+    if (job->shouldProceed()) {
+        // no long-running operation can be done here.
+        // "npackdcl path" must be fast.
+        QString p = InstalledPackages::getDefault()->findPath_npackdcl(d);
+        if (!p.isEmpty()) {
+            p.replace('/', '\\');
+            WPMUtils::outputTextConsole(p + "\n");
+        }
+    }
+    job->complete();
+
+    int r;
+    if (!job->getErrorMessage().isEmpty()) {
+        WPMUtils::outputTextConsole(job->getErrorMessage() + "\n", false);
+        r = 1;
+    } else {
+        r = 0;
+    }
+
+    delete p;
+    delete job;
 
     return r;
 }
@@ -529,14 +546,19 @@ int App::update()
     QList<Package*> packages;
 
     if (job->shouldProceed()) {
-        //TODO: short package names packages = rep->findPackages(package);
-        if (packages.count() == 0) {
-            job->setErrorMessage("Unknown package: " + package);
+        if (package.contains('.')) {
+            Package* p = rep->findPackage_(package);
+            if (p)
+                packages.append(p);
+        } else {
+            packages = rep->findPackagesByShortName(package);
         }
     }
 
     if (job->shouldProceed()) {
-        if (packages.count() > 1) {
+        if (packages.count() == 0) {
+            job->setErrorMessage("Unknown package: " + package);
+        } else if (packages.count() > 1) {
             job->setErrorMessage("Ambiguous package name");
         }
     }
@@ -621,6 +643,29 @@ int App::update()
     return r;
 }
 
+Package* App::findOnePackage(const QString& package, QString* err)
+{
+    Package* p = 0;
+
+    AbstractRepository* rep = AbstractRepository::getDefault_();
+    if (package.contains('.')) {
+        p = rep->findPackage_(package);
+    } else {
+        QList<Package*> packages = rep->findPackagesByShortName(package);
+
+        if (packages.count() == 0) {
+            *err = "Unknown package: " + package;
+        } else if (packages.count() > 1) {
+            *err = "Ambiguous package name";
+            qDeleteAll(packages);
+        } else {
+            p = packages.at(0);
+        }
+    }
+
+    return p;
+}
+
 int App::add()
 {
     Job* job = clp.createJob();
@@ -651,18 +696,13 @@ int App::add()
     }
 
     AbstractRepository* rep = AbstractRepository::getDefault_();
-    QList<Package*> packages;
-    Package* p = rep->findPackage_(package);
-    if (p)
-        packages.append(p);
+    Package* p = 0;
+
     if (job->shouldProceed()) {
-        // TODO: short package names packages = rep->findPackages(package);
-        if (packages.count() == 0) {
-            job->setErrorMessage("Unknown package: " +
-                    package);
-        } else if (packages.count() > 1) {
-            job->setErrorMessage("Ambiguous package name");
-        }
+        QString err;
+        p = findOnePackage(package, &err);
+        if (!err.isEmpty())
+            job->setErrorMessage(err);
     }
 
     // debug: WPMUtils::outputTextConsole <<  package) << " " << versions);
@@ -670,13 +710,13 @@ int App::add()
     if (job->shouldProceed()) {
         if (version.isNull()) {
             pv = rep->findNewestInstallablePackageVersion_(
-                    packages.at(0)->name);
+                    p->name);
         } else {
             Version v;
             if (!v.setVersion(version)) {
                 job->setErrorMessage("Cannot parse version: " + version);
             } else {
-                pv = rep->findPackageVersion_(packages.at(0)->name, version);
+                pv = rep->findPackageVersion_(p->name, version);
             }
         }
     }
@@ -734,9 +774,9 @@ int App::add()
 
     delete pv;
     delete job;
+    delete p;
 
     qDeleteAll(ops);
-    qDeleteAll(packages);
     return r;
 }
 
@@ -777,11 +817,17 @@ int App::remove()
     }
 
     QList<Package*> packages;
-    Package* p = rep->findPackage_(package);
-    if (p)
-        packages.append(p);
     if (job->shouldProceed()) {
-        // TODO: short package names packages = rep->findPackages(package);
+        if (package.contains('.')) {
+            Package* p = rep->findPackage_(package);
+            if (p)
+                packages.append(p);
+        } else {
+            packages = rep->findPackagesByShortName(package);
+        }
+    }
+
+    if (job->shouldProceed()) {
         if (packages.count() == 0) {
             job->setErrorMessage("Unknown package: " + package);
         } else if (packages.count() > 1) {
@@ -890,13 +936,18 @@ int App::info()
             }
 
             DBRepository* rep = DBRepository::getDefault();
-            /* TODO: search for short package names */
+            // TODO: break here would leak memory in packages
             QList<Package*> packages;
-            Package* p = rep->findPackage_(package);
-            if (p)
-                packages.append(p);
+            if (job->shouldProceed()) {
+                if (package.contains('.')) {
+                    Package* p = rep->findPackage_(package);
+                    if (p)
+                        packages.append(p);
+                } else {
+                    packages = rep->findPackagesByShortName(package);
+                }
+            }
 
-            // = rep->findPackages(package);
             if (packages.count() == 0) {
                 WPMUtils::outputTextConsole("Unknown package: " +
                         package + "\n", false);
@@ -922,7 +973,7 @@ int App::info()
 
             // debug: WPMUtils::outputTextConsole << "Versions: " << d.toString()) << std::endl;
             PackageVersion* pv = 0;
-            p = packages.at(0);
+            Package* p = packages.at(0);
 
             if (!version.isNull()) {
                 pv = rep->findPackageVersion_(p->name, version);

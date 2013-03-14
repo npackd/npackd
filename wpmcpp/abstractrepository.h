@@ -70,6 +70,13 @@ public:
     virtual ~AbstractRepository();
 
     /**
+     * @brief searches for a package with the given short name
+     * @param name full package name
+     * @return [ownership:caller] found packages.
+     */
+    virtual QList<Package*> findPackagesByShortName(const QString& name) = 0;
+
+    /**
      * @brief searches for a package with the given name
      * @param name full package name
      * @return found package or 0. The returned object should be destroyed later.
