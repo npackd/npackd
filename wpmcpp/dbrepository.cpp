@@ -77,9 +77,9 @@ QString DBRepository::insertPackage(Package* p)
     QMySqlQuery q;
     q.prepare("INSERT INTO PACKAGE "
             "(ID, NAME, TITLE, URL, ICON, DESCRIPTION, LICENSE, FULLTEXT, "
-            "STATUS)"
+            "STATUS, SHORT_NAME)"
             "VALUES(:ID, :NAME, :TITLE, :URL, :ICON, :DESCRIPTION, :LICENSE, "
-            ":FULLTEXT, :STATUS)");
+            ":FULLTEXT, :STATUS, :SHORT_NAME)");
     q.bindValue(":ID", QVariant(QVariant::Int));
     q.bindValue(":NAME", p->name);
     q.bindValue(":TITLE", p->title);
@@ -90,6 +90,7 @@ QString DBRepository::insertPackage(Package* p)
     q.bindValue(":FULLTEXT", (p->title + " " + p->description + " " +
             p->name).toLower());
     q.bindValue(":STATUS", Package::NOT_INSTALLED);
+    q.bindValue(":SHORT_NAME", p->getShortName());
     q.exec();
     return toString(q.lastError());
 }
@@ -137,7 +138,7 @@ Package *DBRepository::findPackage_(const QString &name)
     q.bindValue(":NAME", name);
     q.exec();
     if (q.next()) {
-        Package* p = new Package(name, q.value(2).toString());
+        Package* p = new Package(q.value(1).toString(), q.value(2).toString());
         p->url = q.value(3).toString();
         p->icon = q.value(4).toString();
         p->description = q.value(5).toString();
@@ -333,40 +334,61 @@ QList<PackageVersion *> DBRepository::findPackageVersions() const
     return r;
 }
 
+QString DBRepository::savePackage(Package *p, bool replace)
+{
+    QMySqlQuery q;
+    QString sql = "INSERT OR ";
+    if (replace)
+        sql += "REPLACE";
+    else
+        sql += "IGNORE";
+    sql += " INTO PACKAGE "
+            "(ID, NAME, TITLE, URL, ICON, DESCRIPTION, LICENSE, FULLTEXT, "
+            "STATUS, SHORT_NAME)"
+            "VALUES(:ID, :NAME, :TITLE, :URL, :ICON, :DESCRIPTION, :LICENSE, "
+            ":FULLTEXT, :STATUS, :SHORT_NAME)";
+    q.prepare(sql);
+    q.bindValue(":TITLE", p->title);
+    q.bindValue(":URL", p->url);
+    q.bindValue(":ICON", p->icon);
+    q.bindValue(":DESCRIPTION", p->description);
+    q.bindValue(":LICENSE", p->license);
+    q.bindValue(":FULLTEXT", (p->title + " " + p->description + " " +
+            p->name).toLower());
+    q.bindValue(":SHORT_NAME", p->getShortName());
+    q.exec();
+    return toString(q.lastError());
+}
+
 QString DBRepository::savePackage(Package *p)
 {
-    QString r;
-
-    Package* fp = findPackage_(p->name);
-    if (fp) {
-        delete fp;
-
-        QMySqlQuery q;
-        q.prepare("UPDATE PACKAGE "
-                "SET TITLE=:TITLE, URL=:URL, ICON=:ICON, "
-                "DESCRIPTION=:DESCRIPTION, LICENSE=:LICENSE, "
-                "FULLTEXT=:FULLTEXT "
-                "WHERE NAME=:NAME");
-        q.bindValue(":TITLE", p->title);
-        q.bindValue(":URL", p->url);
-        q.bindValue(":ICON", p->icon);
-        q.bindValue(":DESCRIPTION", p->description);
-        q.bindValue(":LICENSE", p->license);
-        q.bindValue(":FULLTEXT", (p->title + " " + p->description + " " +
-                p->name).toLower());
-        q.bindValue(":NAME", p->name);
-        q.exec();
-        r = toString(q.lastError());
-    } else {
-        r = insertPackage(p);
-    }
-
-    return r;
+    return savePackage(p, true);
 }
 
 QString DBRepository::savePackageVersion(PackageVersion *p)
 {
     return savePackageVersion(p, true);
+}
+
+QList<Package*> DBRepository::findPackagesByShortName(const QString &name)
+{
+    QList<Package*> r;
+
+    QMySqlQuery q;
+    q.prepare("SELECT ID, NAME, TITLE, URL, ICON, "
+            "DESCRIPTION, LICENSE FROM PACKAGE WHERE SHORT_NAME = :SHORT_NAME");
+    q.bindValue(":SHORT_NAME", name);
+    q.exec();
+    while (q.next()) {
+        Package* p = new Package(q.value(1).toString(), q.value(2).toString());
+        p->url = q.value(3).toString();
+        p->icon = q.value(4).toString();
+        p->description = q.value(5).toString();
+        p->license = q.value(6).toString();
+        r.append(p);
+    }
+
+    return r;
 }
 
 QString DBRepository::savePackageVersion(PackageVersion *p, bool replace)
@@ -751,8 +773,9 @@ QString DBRepository::open()
                     "ICON TEXT, "
                     "DESCRIPTION TEXT, "
                     "LICENSE TEXT, "
-                    "FULLTEXT TEXT,"
-                    "STATUS INTEGER"
+                    "FULLTEXT TEXT, "
+                    "STATUS INTEGER, "
+                    "SHORT_NAME TEXT"
                     ")");
             err = toString(db.lastError());
         }
@@ -767,7 +790,14 @@ QString DBRepository::open()
 
     if (err.isEmpty()) {
         if (!e) {
-            db.exec("CREATE INDEX PACKAGE_NAME ON PACKAGE(NAME)");
+            db.exec("CREATE UNIQUE INDEX PACKAGE_NAME ON PACKAGE(NAME)");
+            err = toString(db.lastError());
+        }
+    }
+
+    if (err.isEmpty()) {
+        if (!e) {
+            db.exec("CREATE INDEX PACKAGE_SHORT_NAME ON PACKAGE(SHORT_NAME)");
             err = toString(db.lastError());
         }
     }

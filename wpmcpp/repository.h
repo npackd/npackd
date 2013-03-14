@@ -170,6 +170,8 @@ public:
     License* findLicense_(const QString& name);
 
     QString clear();
+
+    QList<Package*> findPackagesByShortName(const QString& name);
 };
 
 #endif // REPOSITORY_H

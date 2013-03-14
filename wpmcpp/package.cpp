@@ -26,6 +26,17 @@ Package::Package(const QString& name, const QString& title)
     this->title = title;
 }
 
+QString Package::getShortName() const
+{
+    QString r;
+    int index = this->name.lastIndexOf('.');
+    if (index < 0)
+        r = this->name;
+    else
+        r = this->name.mid(index + 1);
+    return r;
+}
+
 bool Package::isValidName(QString& name)
 {
     bool r = false;
