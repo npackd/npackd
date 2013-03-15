@@ -348,6 +348,7 @@ QString DBRepository::savePackage(Package *p, bool replace)
             "VALUES(:ID, :NAME, :TITLE, :URL, :ICON, :DESCRIPTION, :LICENSE, "
             ":FULLTEXT, :STATUS, :SHORT_NAME)";
     q.prepare(sql);
+    q.bindValue(":NAME", p->name);
     q.bindValue(":TITLE", p->title);
     q.bindValue(":URL", p->url);
     q.bindValue(":ICON", p->icon);
@@ -355,6 +356,7 @@ QString DBRepository::savePackage(Package *p, bool replace)
     q.bindValue(":LICENSE", p->license);
     q.bindValue(":FULLTEXT", (p->title + " " + p->description + " " +
             p->name).toLower());
+    q.bindValue(":STATUS", 0);
     q.bindValue(":SHORT_NAME", p->getShortName());
     q.exec();
     return toString(q.lastError());

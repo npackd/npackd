@@ -74,6 +74,14 @@ void InstalledPackages::detect3rdParty(AbstractThirdPartyPM *pm)
                     path = ipv->directory;
                     if (path.isEmpty()) {
                         Package* p = r->findPackage_(ipv->package);
+
+                        // TODO: remove
+                        /* if (!p)
+                            WPMUtils::outputTextConsole("Cannot find package for " +
+                                    ipv->package + " " +
+                                    ipv->version.getVersionString() + "\n");
+                                    */
+
                         path = WPMUtils::getInstallationDirectory() +
                                 "\\NpackdDetected\\" +
                         WPMUtils::makeValidFilename(p->title, '_');
@@ -186,6 +194,19 @@ QList<InstalledPackageVersion*> InstalledPackages::getAll() const
     for (int i = 0; i < all.count(); i++) {
         InstalledPackageVersion* ipv = all.at(i);
         if (ipv->installed())
+            r.append(ipv->clone());
+    }
+    return r;
+}
+
+QList<InstalledPackageVersion *> InstalledPackages::getByPackage(
+        const QString &package) const
+{
+    QList<InstalledPackageVersion*> all = this->data.values();
+    QList<InstalledPackageVersion*> r;
+    for (int i = 0; i < all.count(); i++) {
+        InstalledPackageVersion* ipv = all.at(i);
+        if (ipv->installed() && ipv->package == package)
             r.append(ipv->clone());
     }
     return r;

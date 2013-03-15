@@ -26,6 +26,22 @@ Package::Package(const QString& name, const QString& title)
     this->title = title;
 }
 
+bool Package::matchesFullText(const QStringList& keywords) const
+{
+    bool r = true;
+    for(int i = 0; i < keywords.count(); i++) {
+        const QString& kw = keywords.at(i);
+        bool ok = this->title.contains(kw, Qt::CaseInsensitive) ||
+                this->description.contains(kw, Qt::CaseInsensitive) ||
+                this->name.contains(kw, Qt::CaseInsensitive);
+        if (!ok) {
+            r = false;
+            break;
+        }
+    }
+    return r;
+}
+
 QString Package::getShortName() const
 {
     QString r;

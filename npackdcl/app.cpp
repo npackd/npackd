@@ -353,6 +353,8 @@ QString App::search()
     if (job->shouldProceed()) {
         QList<Package*> list;
         if (onlyInstalled) {
+            QStringList keywords = query.toLower().simplified().split(" ",
+                    QString::SkipEmptyParts);
             QList<InstalledPackageVersion*> installed =
                     InstalledPackages::getDefault()->getAll();
             QSet<QString> used;
@@ -360,7 +362,7 @@ QString App::search()
                 InstalledPackageVersion* ipv = installed.at(i);
                 if (!used.contains(ipv->package)) {
                     Package* p = rep->findPackage_(ipv->package);
-                    if (p) {
+                    if (p && p->matchesFullText(keywords)) {
                         list.append(p);
                         used.insert(ipv->package);
                     }
@@ -768,7 +770,9 @@ int App::add()
         r = 1;
     } else {
         if (!alreadyInstalled)
-            WPMUtils::outputTextConsole("The package was installed successfully\n");
+            WPMUtils::outputTextConsole(QString(
+                    "The package %1 was installed successfully in %2\n").arg(
+                    pv->toString()).arg(pv->getPath()));
         r = 0;
     }
 
@@ -805,33 +809,34 @@ int App::remove()
     }
 
     if (job->shouldProceed()) {
-        if (version.isNull()) {
-            job->setErrorMessage("Missing option: --version");
-        }
-    }
-
-    if (job->shouldProceed()) {
         if (!Package::isValidName(package)) {
             job->setErrorMessage("Invalid package name: " + package);
         }
     }
 
-    QList<Package*> packages;
+    Package* p = 0;
     if (job->shouldProceed()) {
-        if (package.contains('.')) {
-            Package* p = rep->findPackage_(package);
-            if (p)
-                packages.append(p);
-        } else {
-            packages = rep->findPackagesByShortName(package);
-        }
+        QString err;
+        p = this->findOnePackage(package, &err);
+        if (!err.isEmpty())
+            job->setErrorMessage(err);
     }
 
     if (job->shouldProceed()) {
-        if (packages.count() == 0) {
-            job->setErrorMessage("Unknown package: " + package);
-        } else if (packages.count() > 1) {
-            job->setErrorMessage("Ambiguous package name");
+        if (version.isNull()) {
+            QList<InstalledPackageVersion*> ipvs =
+                    InstalledPackages::getDefault()->getByPackage(p->name);
+            QString vns;
+            for (int i = 0; i < ipvs.count(); i++) {
+                InstalledPackageVersion* ipv = ipvs.at(i);
+                if (!vns.isEmpty())
+                    vns.append(", ");
+                vns.append(ipv->version.getVersionString());
+            }
+            qDeleteAll(ipvs);
+            job->setErrorMessage(QString(
+                    "Missing option: --version. Installed versions: %1").
+                    arg(vns));
         }
     }
 
@@ -846,15 +851,18 @@ int App::remove()
     // debug: WPMUtils::outputTextConsole << "Versions: " << d.toString()) << std::endl;
     PackageVersion* pv = 0;
     if (job->shouldProceed()) {
-        pv = rep->findPackageVersion_(packages.at(0)->name, version);
+        pv = rep->findPackageVersion_(p->name, v);
         if (!pv) {
-            job->setErrorMessage("Package not found");
+            job->setErrorMessage(QString("Package version %1 was not found").
+                    arg(v.getVersionString()));
         }
     }
 
     if (job->shouldProceed()) {
         if (!pv->installed()) {
-            job->setErrorMessage("Package is not installed");
+            job->setErrorMessage(QString(
+                    "Package version %1 is not installed").
+                    arg(v.getVersionString()));
         }
     }
 
@@ -899,7 +907,7 @@ int App::remove()
     delete job;
 
     qDeleteAll(ops);
-    qDeleteAll(packages);
+    delete p;
 
     return r;
 }
