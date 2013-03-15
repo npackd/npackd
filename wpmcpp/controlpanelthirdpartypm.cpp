@@ -157,6 +157,7 @@ void ControlPanelThirdPartyPM::detectOneControlPanelProgram(
         url = "";
     p->url = url;
 
+    // qDebug() << "adding package " << p.data()->name;
     rep->savePackage(p.data());
 
     QDir d;

@@ -124,6 +124,13 @@ public:
     QList<InstalledPackageVersion*> getAll() const;
 
     /**
+     * Searches for installed versions of a package.
+     *
+     * @return [ownership:caller] installed packages
+     */
+    QList<InstalledPackageVersion*> getByPackage(const QString& package) const;
+
+    /**
      * @brief paths to all installed package versions
      * @return list of directories
      */

@@ -76,6 +76,14 @@ public:
      *     part after the last dot.
      */
     QString getShortName() const;
+
+    /**
+     * Checks whether this package matches all of the specified keywords.
+     *
+     * @param keywords list of keywords
+     * @return true if yes
+     */
+    bool matchesFullText(const QStringList &keywords) const;
 };
 
 #endif // PACKAGE_H
