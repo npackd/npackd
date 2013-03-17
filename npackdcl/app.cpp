@@ -85,6 +85,14 @@ int App::process()
                 r = 1;
                 WPMUtils::outputTextConsole(err + "\n", false);
             }
+        } else if (cmd == "list-repos") {
+            QString err = listRepos();
+            if (err.isEmpty())
+                r = 0;
+            else {
+                r = 1;
+                WPMUtils::outputTextConsole(err + "\n", false);
+            }
         } else if (cmd == "search") {
             QString err = search();
             if (err.isEmpty())
@@ -164,6 +172,8 @@ void App::usage()
         "        appends a repository to the list",
         "    npackdcl remove-repo --url=<repository>",
         "        removes a repository from the list",
+        "    npackdcl list-repos",
+        "        list currently defined repositories",
         "    npackdcl detect",
         "        detect packages from the MSI database and software control panel",
         "Options:",
@@ -180,6 +190,23 @@ void App::usage()
     for (int i = 0; i < (int) (sizeof(lines2) / sizeof(lines2[0])); i++) {
         WPMUtils::outputTextConsole(QString(lines2[i]) + "\n");
     }
+}
+
+QString App::listRepos()
+{
+    QString err;
+
+    QList<QUrl*> urls = AbstractRepository::getRepositoryURLs(&err);
+    if (err.isEmpty()) {
+        WPMUtils::outputTextConsole(QString("%1 repositories are defined:\n\n").
+                arg(urls.size()));
+        for (int i = 0; i < urls.size(); i++) {
+            WPMUtils::outputTextConsole(urls.at(i)->toString() + "\n");
+        }
+    }
+    qDeleteAll(urls);
+
+    return err;
 }
 
 QString App::addRepo()
@@ -451,7 +478,7 @@ QString App::removeRepo()
 
 int App::path()
 {
-    Job* job = clp.createJob();
+    Job* job = new Job();
 
     QString package = cl.get("package");
     QString versions = cl.get("versions");
