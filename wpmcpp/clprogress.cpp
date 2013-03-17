@@ -92,7 +92,7 @@ Job* CLProgress::createJob()
     HANDLE hOutputHandle = GetStdHandle(STD_OUTPUT_HANDLE);
     GetConsoleScreenBufferInfo(hOutputHandle, &progressPos);
     if (progressPos.dwCursorPosition.Y >= progressPos.dwSize.Y - 1) {
-        WPMUtils::outputTextConsole("\n");
+        // WPMUtils::outputTextConsole("\n");
         progressPos.dwCursorPosition.Y--;
     }
 
