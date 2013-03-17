@@ -849,29 +849,34 @@ int App::remove()
             job->setErrorMessage(err);
     }
 
+    Version v;
     if (job->shouldProceed()) {
         if (version.isNull()) {
             QList<InstalledPackageVersion*> ipvs =
                     InstalledPackages::getDefault()->getByPackage(p->name);
-            QString vns;
-            for (int i = 0; i < ipvs.count(); i++) {
-                InstalledPackageVersion* ipv = ipvs.at(i);
-                if (!vns.isEmpty())
-                    vns.append(", ");
-                vns.append(ipv->version.getVersionString());
+            if (ipvs.count() == 0) {
+                job->setErrorMessage(QString(
+                        "Package %1 (%2) is not installed").
+                        arg(p->title).arg(p->name));
+            } else if (ipvs.count() > 1) {
+                QString vns;
+                for (int i = 0; i < ipvs.count(); i++) {
+                    InstalledPackageVersion* ipv = ipvs.at(i);
+                    if (!vns.isEmpty())
+                        vns.append(", ");
+                    vns.append(ipv->version.getVersionString());
+                }
+                job->setErrorMessage(QString(
+                        "More than one version of the package %1 (%2) "
+                        "is installed: %3").arg(p->title).arg(p->name).
+                        arg(vns));
+            } else {
+                v = ipvs.at(0)->version;
             }
             qDeleteAll(ipvs);
-            job->setErrorMessage(QString(
-                    "Missing option: --version. Installed versions: %1").
-                    arg(vns));
-        }
-    }
-
-    // debug: WPMUtils::outputTextConsole <<  package) << " " << versions);
-    Version v;
-    if (job->shouldProceed()) {
-        if (!v.setVersion(version)) {
-            job->setErrorMessage("Cannot parse version: " + version);
+        } else {
+            if (!v.setVersion(version))
+                job->setErrorMessage("Cannot parse version: " + version);
         }
     }
 
