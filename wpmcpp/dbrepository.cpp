@@ -498,6 +498,8 @@ QString DBRepository::clear()
             job->setErrorMessage(err);
         else
             job->setProgress(1);
+    } else {
+        exec("ROLLBACK");
     }
 
     job->complete();
@@ -519,8 +521,11 @@ void DBRepository::updateF5(Job* job)
     Repository* r = new Repository();
     if (job->shouldProceed("Clearing the database")) {
         // TODO: error is ignored
-        clear();
-        job->setProgress(0.1);
+        QString err = clear();
+        if (!err.isEmpty())
+            job->setErrorMessage(err);
+        else
+            job->setProgress(0.1);
     }
 
     if (job->shouldProceed("Downloading the remote repositories")) {

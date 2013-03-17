@@ -827,7 +827,8 @@ void PackageVersion::install(Job* job, const QString& where)
             Job* djob = job->newSubJob(0.58);
             Downloader::download(djob, this->download, f,
                     this->sha1.isEmpty() ? 0 : &dsha1);
-            downloadOK = !djob->isCancelled() && djob->getErrorMessage().isEmpty();
+            downloadOK = !djob->isCancelled() &&
+                    djob->getErrorMessage().isEmpty();
             f->close();
             delete djob;
         }
@@ -848,7 +849,9 @@ void PackageVersion::install(Job* job, const QString& where)
                 Downloader::download(djob, this->download, f,
                         this->sha1.isEmpty() ? 0 : &dsha1);
                 if (!djob->getErrorMessage().isEmpty())
-                    job->setErrorMessage(djob->getErrorMessage());
+                    job->setErrorMessage(QString("Error downloading %1: %2").
+                        arg(this->download.toString()).arg(
+                        djob->getErrorMessage()));
                 f->close();
                 delete djob;
             }
@@ -1554,7 +1557,7 @@ void PackageVersion::toXML(QDomElement* version) const {
         file.appendChild(doc.createTextNode(files.at(i)->content));
     }
     if (this->download.isValid()) {
-        XMLUtils::addTextTag(*version, "url", this->download.toEncoded());
+        XMLUtils::addTextTag(*version, "url", this->download.toString());
     }
     if (!this->sha1.isEmpty()) {
         XMLUtils::addTextTag(*version, "sha1", this->sha1);
