@@ -65,7 +65,7 @@ int App::process()
             usage();
         } else if (cmd == "path") {
             r = path();
-        } else if (cmd == "remove") {
+        } else if (cmd == "remove" || cmd == "rm") {
             r = remove();
         } else if (cmd == "add") {
             r = add();
@@ -150,7 +150,7 @@ void App::usage()
         "    npackdcl add --package=<package> [--version=<version>]",
         "        installs a package. Short package names can be used here",
         "        (e.g. App instead of com.example.App)",
-        "    npackdcl remove --package=<package> --version=<version>",
+        "    npackdcl remove|rm --package=<package> --version=<version>",
         "        removes a package. Short package names can be used here",
         "        (e.g. App instead of com.example.App)",
         "    npackdcl update --package=<package>",
@@ -685,7 +685,15 @@ Package* App::findOnePackage(const QString& package, QString* err)
         if (packages.count() == 0) {
             *err = "Unknown package: " + package;
         } else if (packages.count() > 1) {
-            *err = "Ambiguous package name";
+            QString names;
+            for (int i = 0; i < packages.count(); ++i) {
+                if (i != 0)
+                    names.append(", ");
+                Package* pi = packages.at(i);
+                names.append(pi->title).append(" (").append(pi->name).
+                        append(")");
+            }
+            *err = QString("Move than one package was found: %1").arg(names);
             qDeleteAll(packages);
         } else {
             p = packages.at(0);

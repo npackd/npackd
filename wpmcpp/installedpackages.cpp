@@ -62,66 +62,73 @@ void InstalledPackages::detect3rdParty(AbstractThirdPartyPM *pm)
         delete p;
     }
 
+    QStringList packagePaths = this->getAllInstalledPackagePaths();
     QDir d;
     for (int i = 0; i < installed.count(); i++) {
         InstalledPackageVersion* ipv = installed.at(i);
-        PackageVersion* pv = r->findPackageVersion_(ipv->package, ipv->version);
-        if (pv) {
-            QString path = getPath(ipv->package, ipv->version);
-            if (path.isEmpty()) {
-                PackageVersionFile* u = pv->findFile(".Npackd\\Uninstall.bat");
-                if (u) {
-                    path = ipv->directory;
-                    if (path.isEmpty()) {
-                        Package* p = r->findPackage_(ipv->package);
+        QScopedPointer<PackageVersion> pv(
+                r->findPackageVersion_(ipv->package, ipv->version));
+        if (!pv)
+            continue;
 
-                        // TODO: remove
-                        /* if (!p)
-                            WPMUtils::outputTextConsole("Cannot find package for " +
-                                    ipv->package + " " +
-                                    ipv->version.getVersionString() + "\n");
-                                    */
+        QString path = getPath(ipv->package, ipv->version);
+        if (!path.isEmpty()) {
+            continue;
+        }
 
-                        path = WPMUtils::getInstallationDirectory() +
-                                "\\NpackdDetected\\" +
-                        WPMUtils::makeValidFilename(p->title, '_');
-                        if (d.exists(path)) {
-                            path = WPMUtils::findNonExistingFile(path + "-" +
-                                    ipv->version.getVersionString() + "%1");
-                        }
-                        d.mkpath(path);
-                        delete p;
-                    }
-                    if (d.exists(path)) {
-                        if (d.mkpath(path + "\\.Npackd")) {
-                            QFile file(path + "\\.Npackd\\Uninstall.bat");
-                            if (file.open(QIODevice::WriteOnly |
-                                    QIODevice::Truncate)) {
-                                QTextStream stream(&file);
-                                stream.setCodec("UTF-8");
-                                stream << u->content;
-                                file.close();
+        PackageVersionFile* u = pv->findFile(".Npackd\\Uninstall.bat");
+        if (!u)
+            continue;
 
-                                //qDebug() << "InstalledPackages::detectOneControlPanelProgram "
-                                //        "setting path for " << pv->toString() << " to" << dir;
-                                setPackageVersionPath(ipv->package,
-                                        ipv->version, path);
-                            }
-                        }
-                    }
+        path = ipv->directory;
+
+        if (!path.isEmpty()) {
+            path = WPMUtils::normalizePath(path);
+            if (WPMUtils::isUnderOrEquals(path, packagePaths))
+                continue;
+        }
+
+        if (path.isEmpty()) {
+            Package* p = r->findPackage_(ipv->package);
+
+            // TODO: remove
+            /* if (!p)
+                WPMUtils::outputTextConsole("Cannot find package for " +
+                        ipv->package + " " +
+                        ipv->version.getVersionString() + "\n");
+                        */
+
+            path = WPMUtils::getInstallationDirectory() +
+                    "\\NpackdDetected\\" +
+            WPMUtils::makeValidFilename(p->title, '_');
+            if (d.exists(path)) {
+                path = WPMUtils::findNonExistingFile(path + "-" +
+                        ipv->version.getVersionString() + "%1");
+            }
+            d.mkpath(path);
+            delete p;
+        }
+        if (d.exists(path)) {
+            if (d.mkpath(path + "\\.Npackd")) {
+                QFile file(path + "\\.Npackd\\Uninstall.bat");
+                if (file.open(QIODevice::WriteOnly |
+                        QIODevice::Truncate)) {
+                    QTextStream stream(&file);
+                    stream.setCodec("UTF-8");
+                    stream << u->content;
+                    file.close();
+
+                    //qDebug() << "InstalledPackages::detectOneControlPanelProgram "
+                    //        "setting path for " << pv->toString() << " to" << dir;
+                    setPackageVersionPath(ipv->package,
+                            ipv->version, path);
                 }
             }
-            delete pv;
         }
     }
     qDeleteAll(installed);
 
     /* TODO:
-     *        if (!dir.isEmpty()) {
-            dir = WPMUtils::normalizePath(dir);
-            if (WPMUtils::isUnderOrEquals(dir, packagePaths))
-                dir = "";
-        }
 */
     /* TODO:
     // remove uninstalled packages
