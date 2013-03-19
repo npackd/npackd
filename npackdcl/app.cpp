@@ -40,6 +40,8 @@ int App::process()
             "", false);
     cl.add("query", 'q', "search terms (e.g. editor)",
             "search terms", false);
+    cl.add("rate", 't', "output update rate in seconds "
+            "(use 0 to output everything)", "rate", false);
 
     err = cl.parse();
     if (!err.isEmpty()) {
@@ -47,6 +49,19 @@ int App::process()
         return 1;
     }
     // cl.dump();
+
+    QString rate = cl.get("rate");
+    if (!rate.isNull()) {
+        bool ok;
+        int r = rate.toInt(&ok);
+        if (ok && r >= 0)
+            clp.setUpdateRate(r);
+        else {
+            WPMUtils::outputTextConsole("Error: invalid update rate: " + rate +
+                    "\n");
+            return 1;
+        }
+    }
 
     QStringList fr = cl.getFreeArguments();
 
@@ -791,7 +806,7 @@ int App::add()
         Job* ijob = job->newSubJob(0.9);
         rep->process(ijob, ops);
         if (!ijob->getErrorMessage().isEmpty())
-            job->setErrorMessage(QString("Error installing %1: %2\n").
+            job->setErrorMessage(QString("Error installing %1: %2").
                     arg(pv->toString()).arg(ijob->getErrorMessage()));
 
         delete ijob;

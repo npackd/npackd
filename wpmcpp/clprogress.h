@@ -30,6 +30,13 @@ public:
      * @return a new job object connected to the console output
      */
     Job* createJob();
+
+    /**
+     * Changes the update rate
+     *
+     * @param r new update rate in seconds. 0 means "output everything"
+     */
+    void setUpdateRate(int r);
 signals:
 
 public slots:
