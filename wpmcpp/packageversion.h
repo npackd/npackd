@@ -47,9 +47,14 @@ private:
     void unzip(Job* job, QString zipfile, QString outputdir);
     bool createShortcuts(const QString& dir, QString* errMsg);
     QString saveFiles(const QDir& d);
-    QString executeFile(Job* job, const QString& where,
+
+    /**
+     * @return program output
+     */
+    QByteArray executeFile(Job* job, const QString& where,
             const QString& path, const QString& outputFile,
             const QStringList& env);
+
     void deleteShortcuts(const QString& dir,
             Job* job, bool menu, bool desktop, bool quickLaunch);
     /**
@@ -181,8 +186,10 @@ public:
      * be used if the package was detected.
      *
      * @param path installation path
+     * @return error message
+     * TODO: this function now returns an error
      */
-    void setPath(const QString& path);
+    QString setPath(const QString& path);
 
     /**
      * Renames the directory for this package to a temporary name and then

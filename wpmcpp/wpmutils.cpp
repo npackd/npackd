@@ -964,7 +964,14 @@ QString WPMUtils::makeValidFilename(const QString &name, QChar rep)
 
 void WPMUtils::outputTextConsole(const QString& txt, bool stdout_)
 {
-    HANDLE hStdout = GetStdHandle(stdout_ ? STD_OUTPUT_HANDLE : STD_ERROR_HANDLE);
+    HANDLE hStdout;
+    if (stdout_)
+        hStdout = GetStdHandle(STD_OUTPUT_HANDLE);
+    else {
+        hStdout = GetStdHandle(STD_ERROR_HANDLE);
+        if (hStdout == INVALID_HANDLE_VALUE)
+            hStdout = GetStdHandle(STD_OUTPUT_HANDLE);
+    }
     if (hStdout != INVALID_HANDLE_VALUE) {
         DWORD consoleMode;
         bool consoleOutput = (GetFileType(hStdout) & ~(FILE_TYPE_REMOTE)) ==

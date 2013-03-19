@@ -56,7 +56,7 @@ void CLProgress::jobChangedSimple(const JobState& s)
             output = true;
         }
     } else {
-        // this->lastHint = "";
+        output = true;
     }
 
     if (output) {
@@ -104,5 +104,10 @@ Job* CLProgress::createJob()
     this->lastJobChange = time(0) - this->updateRate;
 
     return job;
+}
+
+void CLProgress::setUpdateRate(int rate)
+{
+    this->updateRate = rate;
 }
 

@@ -187,11 +187,17 @@ QString PackageVersion::getPath() const
             getPath(this->package, this->version);
 }
 
-void PackageVersion::setPath(const QString& path)
+QString PackageVersion::setPath(const QString& path)
 {
     //qDebug() << "PackageVersion::setPath " << path;
     InstalledPackages* ip = InstalledPackages::getDefault();
-    ip->setPackageVersionPath(this->package, this->version, path);
+    QString err = ip->setPackageVersionPath(this->package, this->version, path);
+    if (!err.isEmpty()) {
+        err = QString("Error storing the information about an "
+                "installed package version in the Windows "
+                "registry: %1").arg(err);
+    }
+    return err;
 }
 
 bool PackageVersion::isDirectoryLocked()
@@ -352,13 +358,20 @@ void PackageVersion::uninstall(Job* job)
 
             addDependencyVars(&env);
 
-            QString output = this->executeFile(sub, d.absolutePath(),
+            QByteArray output = this->executeFile(sub, d.absolutePath(),
                     uninstallationScript, ".Npackd\\Uninstall.log", env);
             if (!sub->getErrorMessage().isEmpty()) {
-                QString err = sub->getErrorMessage();
-                err.append("\n");
-                err.append(output);
-                job->setErrorMessage(err);
+                // TODO: the output should be visible in the GUI also
+                QTemporaryFile of;
+                of.setAutoRemove(false);
+                if (of.open()) {
+                    of.write(output);
+                }
+
+                job->setErrorMessage(QString(
+                        "%1. Full output was saved in %2").arg(
+                        sub->getErrorMessage()).
+                        arg(of.fileName()));
             }
             delete sub;
         }
@@ -974,17 +987,26 @@ void PackageVersion::install(Job* job, const QString& where)
 
             addDependencyVars(&env);
 
-            QString output = this->executeFile(exec, d.absolutePath(),
+            QByteArray output = this->executeFile(exec, d.absolutePath(),
                     installationScript, ".Npackd\\Install.log", env);
             if (!exec->getErrorMessage().isEmpty()) {
-                QString err = exec->getErrorMessage();
-                err.append("\n");
-                err.append(output);
-                job->setErrorMessage(err);
+                QTemporaryFile of;
+                of.setAutoRemove(false);
+                if (of.open()) {
+                    of.write(output);
+                }
+
+                job->setErrorMessage(QString(
+                        "%1. Full output was saved in %2").arg(
+                        exec->getErrorMessage()).
+                        arg(of.fileName()));
             } else {
                 QString path = d.absolutePath();
                 path.replace('/', '\\');
-                setPath(path);
+                QString err = setPath(path);
+                if (!err.isEmpty()) {
+                    job->setErrorMessage(err);
+                }
             }
             delete exec;
         } else {
@@ -1188,11 +1210,11 @@ QStringList PackageVersion::findLockedFiles()
     return r;
 }
 
-QString PackageVersion::executeFile(Job* job, const QString& where,
+QByteArray PackageVersion::executeFile(Job* job, const QString& where,
         const QString& path,
         const QString& outputFile, const QStringList& env)
 {
-    QString ret;
+    QByteArray ret;
 
     QDir d(where);
     QProcess p(0);
@@ -1237,10 +1259,8 @@ QString PackageVersion::executeFile(Job* job, const QString& where,
             }
             QFile f(d.absolutePath() + "\\" + outputFile);
             if (f.open(QIODevice::WriteOnly)) {
-                QByteArray output = p.readAll();
-                ret.setUtf16((const ushort*) output.constData(),
-                        output.size() / 2);
-                f.write(output);
+                ret = p.readAll();
+                f.write(ret);
                 f.close();
             }
             break;
