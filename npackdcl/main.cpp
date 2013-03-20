@@ -17,7 +17,6 @@ int main(int argc, char *argv[])
 #if !defined(__x86_64__)
     LoadLibrary(L"exchndl.dll");
 #endif
-
     AbstractRepository::setDefault_(DBRepository::getDefault());
 
     CoInitializeEx(0, COINIT_MULTITHREADED);

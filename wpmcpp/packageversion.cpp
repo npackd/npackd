@@ -1031,7 +1031,7 @@ void PackageVersion::install(Job* job, const QString& where)
         QString err;
         this->createShortcuts(d.absolutePath(), &err);
         if (err.isEmpty())
-            job->setProgress(0.97);
+            job->setProgress(1);
         else
             job->setErrorMessage(err);
     }
