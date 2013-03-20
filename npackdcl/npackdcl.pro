@@ -42,7 +42,8 @@ SOURCES += main.cpp \
     ../wpmcpp/msithirdpartypm.cpp \
     ../wpmcpp/controlpanelthirdpartypm.cpp \
     ../wpmcpp/wellknownprogramsthirdpartypm.cpp \
-    ../wpmcpp/hrtimer.cpp
+    ../wpmcpp/hrtimer.cpp \
+    ../wpmcpp/installedpackagesthirdpartypm.cpp
 HEADERS += ../wpmcpp/repository.h \
     ../wpmcpp/version.h \
     ../wpmcpp/packageversionfile.h \
@@ -68,7 +69,8 @@ HEADERS += ../wpmcpp/repository.h \
     ../wpmcpp/msithirdpartypm.h \
     ../wpmcpp/controlpanelthirdpartypm.h \
     ../wpmcpp/wellknownprogramsthirdpartypm.h \
-    ../wpmcpp/hrtimer.h
+    ../wpmcpp/hrtimer.h \
+    ../wpmcpp/installedpackagesthirdpartypm.h
 FORMS += 
 
 CONFIG += static

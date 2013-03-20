@@ -271,12 +271,12 @@ QString App::which()
             Package* p = rep->findPackage_(f->package);
             QString title = p ? p->title : "?";
             WPMUtils::outputTextConsole(QString(
-                    "%1 %2 (%3) is installed in %4\n").
+                    "%1 %2 (%3) is installed in \"%4\"\n").
                     arg(title).arg(f->version.getVersionString()).
                     arg(f->package).arg(f->directory));
             delete p;
         } else
-            WPMUtils::outputTextConsole(QString("No package found for %1\n").
+            WPMUtils::outputTextConsole(QString("No package found for \"%1\"\n").
                     arg(file));
 
         qDeleteAll(ipvs);
@@ -422,11 +422,7 @@ QString App::search()
     bool bare = cl.isPresent("bare-format");
     QString query = cl.get("query");
 
-    Job* job;
-    if (bare)
-        job = new Job();
-    else
-        job = clp.createJob();
+    Job* job = new Job();
 
     bool onlyInstalled = false;
     if (job->shouldProceed()) {
@@ -478,7 +474,7 @@ QString App::search()
         qSort(list.begin(), list.end(), packageLessThan);
 
         if (!bare)
-            WPMUtils::outputTextConsole(QString("\n%1 packages found:\n\n").
+            WPMUtils::outputTextConsole(QString("%1 packages found:\n\n").
                     arg(list.count()));
 
         for (int i = 0; i < list.count(); i++) {
@@ -579,6 +575,8 @@ int App::path()
         p = findOnePackage(package, &err);
         if (!err.isEmpty())
             job->setErrorMessage(err);
+        else if (!p)
+            job->setErrorMessage(QString("Unknown package: %1").arg(package));
     }
 
     Dependency d;
@@ -817,6 +815,8 @@ int App::add()
         p = findOnePackage(package, &err);
         if (!err.isEmpty())
             job->setErrorMessage(err);
+        else if (!p)
+            job->setErrorMessage(QString("Unknown package: %1").arg(package));
     }
 
     // debug: WPMUtils::outputTextConsole <<  package) << " " << versions);
@@ -932,6 +932,8 @@ int App::remove()
         p = this->findOnePackage(package, &err);
         if (!err.isEmpty())
             job->setErrorMessage(err);
+        else if (!p)
+            job->setErrorMessage(QString("Unknown package: %1").arg(package));
     }
 
     Version v;
