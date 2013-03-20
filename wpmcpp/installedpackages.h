@@ -94,11 +94,8 @@ public:
 
     /**
      * Reads the package statuses from the registry.
-     *
-     * @param definePackageVersions true = insert found package versions into
-     *     the default repository
      */
-    void readRegistryDatabase(bool definePackageVersions=true);
+    void readRegistryDatabase();
 
     /**
      * @brief searches for a dependency in the list of installed packages. This

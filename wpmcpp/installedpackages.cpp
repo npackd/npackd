@@ -14,6 +14,7 @@
 #include "msithirdpartypm.h"
 #include "wellknownprogramsthirdpartypm.h"
 #include "hrtimer.h"
+#include "installedpackagesthirdpartypm.h"
 
 InstalledPackages InstalledPackages::def;
 
@@ -268,8 +269,11 @@ void InstalledPackages::refresh(Job *job)
         rep->updateNpackdCLEnvVar();
         job->setProgress(1);
         */
+        AbstractThirdPartyPM* pm = new InstalledPackagesThirdPartyPM();
+        detect3rdParty(pm);
+        delete pm;
 
-        AbstractThirdPartyPM* pm = new WellKnownProgramsThirdPartyPM();
+        pm = new WellKnownProgramsThirdPartyPM();
         detect3rdParty(pm);
         delete pm;
 
@@ -286,8 +290,8 @@ void InstalledPackages::refresh(Job *job)
         delete d;
     }
 
-    if (job->shouldProceed(
-            "Clearing information about installed package versions in nested directories")) {
+    if (job->shouldProceed("Clearing information about installed package "
+            "versions in nested directories")) {
         clearPackagesInNestedDirectories();
         job->setProgress(1);
     }
@@ -343,12 +347,10 @@ void InstalledPackages::clearPackagesInNestedDirectories() {
     */
 }
 
-void InstalledPackages::readRegistryDatabase(bool definePackageVersions)
+void InstalledPackages::readRegistryDatabase()
 {
     // TODO: return error message?
     this->data.clear();
-
-    AbstractRepository* rep = AbstractRepository::getDefault_();
 
     QString err;
     WindowsRegistry packagesWR;
@@ -401,10 +403,6 @@ void InstalledPackages::readRegistryDatabase(bool definePackageVersions)
             ipv->detectionInfo = entryWR.get("DetectionInfo", &err);
             if (!err.isEmpty())
                 continue;
-
-            // TODO: error message ignored
-            if (definePackageVersions)
-                rep->addPackageVersion(packageName, version);
 
             if (!ipv->directory.isEmpty()) {
                 /*

@@ -48,7 +48,8 @@ SOURCES += main.cpp \
     abstractthirdpartypm.cpp \
     controlpanelthirdpartypm.cpp \
     msithirdpartypm.cpp \
-    wellknownprogramsthirdpartypm.cpp
+    wellknownprogramsthirdpartypm.cpp \
+    installedpackagesthirdpartypm.cpp
 HEADERS += mainwindow.h \
     packageversion.h \
     repository.h \
@@ -87,7 +88,8 @@ HEADERS += mainwindow.h \
     abstractthirdpartypm.h \
     controlpanelthirdpartypm.h \
     msithirdpartypm.h \
-    wellknownprogramsthirdpartypm.h
+    wellknownprogramsthirdpartypm.h \
+    installedpackagesthirdpartypm.h
 FORMS += mainwindow.ui \
     packageversionform.ui \
     licenseform.ui \
