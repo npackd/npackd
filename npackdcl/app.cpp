@@ -42,6 +42,7 @@ int App::process()
             "search terms", false);
     cl.add("rate", 't', "output update rate in seconds "
             "(use 0 to output everything)", "rate", false);
+    cl.add("file", 'f', "file or directory", "file", false);
 
     err = cl.parse();
     if (!err.isEmpty()) {
@@ -110,6 +111,14 @@ int App::process()
             }
         } else if (cmd == "search") {
             QString err = search();
+            if (err.isEmpty())
+                r = 0;
+            else {
+                r = 1;
+                WPMUtils::outputTextConsole(err + "\n", false);
+            }
+        } else if (cmd == "which") {
+            QString err = which();
             if (err.isEmpty())
                 r = 0;
             else {
@@ -191,6 +200,8 @@ void App::usage()
         "        list currently defined repositories",
         "    npackdcl detect",
         "        detect packages from the MSI database and software control panel",
+        "    npackdcl which --file=<file>",
+        "        finds the package that owns the specified file or directory",
         "Options:",
     };
     for (int i = 0; i < (int) (sizeof(lines) / sizeof(lines[0])); i++) {
@@ -222,6 +233,56 @@ QString App::listRepos()
     qDeleteAll(urls);
 
     return err;
+}
+
+QString App::which()
+{
+    QString r;
+
+    Job* job = new Job();
+    InstalledPackages* ip = InstalledPackages::getDefault();
+    ip->refresh(job);
+    if (!job->getErrorMessage().isEmpty()) {
+        r = job->getErrorMessage();
+    }
+    delete job;
+
+    QString file = cl.get("file");
+    if (r.isEmpty()) {
+        if (file.isNull()) {
+            r = "Missing option: --file";
+        }
+    }
+
+    if (r.isEmpty()) {
+        InstalledPackageVersion* f = 0;
+        QList<InstalledPackageVersion*> ipvs = ip->getAll();
+        for (int i = 0; i < ipvs.count(); ++i) {
+            InstalledPackageVersion* ipv = ipvs.at(i);
+            QString dir = ipv->getDirectory();
+            if (!dir.isEmpty() && (WPMUtils::WPMUtils::pathEquals(file, dir) ||
+                    WPMUtils::isUnder(file, dir))) {
+                f = ipv;
+                break;
+            }
+        }
+        if (f) {
+            AbstractRepository* rep = AbstractRepository::getDefault_();
+            Package* p = rep->findPackage_(f->package);
+            QString title = p ? p->title : "?";
+            WPMUtils::outputTextConsole(QString(
+                    "%1 %2 (%3) is installed in %4\n").
+                    arg(title).arg(f->version.getVersionString()).
+                    arg(f->package).arg(f->directory));
+            delete p;
+        } else
+            WPMUtils::outputTextConsole(QString("No package found for %1\n").
+                    arg(file));
+
+        qDeleteAll(ipvs);
+    }
+
+    return r;
 }
 
 QString App::addRepo()
@@ -392,7 +453,7 @@ QString App::search()
         delete rjob;
     }
 
-    if (job->shouldProceed()) {
+    if (job->shouldProceed("Searching for packages")) {
         QList<Package*> list;
         if (onlyInstalled) {
             QStringList keywords = query.toLower().simplified().split(" ",
@@ -431,6 +492,7 @@ QString App::search()
         }
 
         qDeleteAll(list);
+        job->setProgress(1);
     }
 
     job->complete();

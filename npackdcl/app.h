@@ -37,6 +37,7 @@ private:
     int update();
     int detect();
     QString listRepos();
+    QString which();
 
     /**
      * @param package full or short package name
