@@ -18,11 +18,11 @@ void InstalledPackagesThirdPartyPM::scan(
     for (int i = 0; i < ipvs.count(); ++i) {
         InstalledPackageVersion* ipv = ipvs.at(i);
         if (!used.contains(ipv->package)) {
-            QString package = ipv->package;
-            int pos = package.lastIndexOf('.');
+            QString title = ipv->package;
+            int pos = title.lastIndexOf('.');
             if (pos > 1)
-                package = package.right(package.count() - pos - 1);
-            Package* p = new Package(package, ipv->package);
+                title = title.right(title.count() - pos - 1);
+            Package* p = new Package(ipv->package, title);
             rep->packages.append(p);
             used.insert(ipv->package);
         }
