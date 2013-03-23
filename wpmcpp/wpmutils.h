@@ -373,6 +373,13 @@ public:
     static void fireEnvChanged();
 
     //static void createMSTask();
+
+    /**
+     * Asks the user to confirm an operation
+     *
+     * @return true if y was entered
+     */
+    static bool confirmConsole(const QString &msg);
 };
 
 #endif // WPMUTILS_H

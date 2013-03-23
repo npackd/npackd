@@ -18,6 +18,17 @@
 
 InstalledPackages InstalledPackages::def;
 
+static bool installedPackageVersionLessThan(const InstalledPackageVersion* a,
+        const InstalledPackageVersion* b)
+{
+    int r = a->package.compare(b->package);
+    if (r == 0) {
+        r = a->version.compare(b->version);
+    }
+
+    return r > 0;
+}
+
 InstalledPackages* InstalledPackages::getDefault()
 {
     return &def;
@@ -324,27 +335,30 @@ void InstalledPackages::fireStatusChanged(const QString &package,
 }
 
 void InstalledPackages::clearPackagesInNestedDirectories() {
-    /* TODO:
-    QList<PackageVersion*> pvs = this->getInstalled();
-    qSort(pvs.begin(), pvs.end(), packageVersionLessThan2);
+    QList<InstalledPackageVersion*> pvs = this->getAll();
+    qSort(pvs.begin(), pvs.end(), installedPackageVersionLessThan);
 
     for (int j = 0; j < pvs.count(); j++) {
-        PackageVersion* pv = pvs.at(j);
-        if (pv->installed() && !WPMUtils::pathEquals(pv->getPath(),
+        InstalledPackageVersion* pv = pvs.at(j);
+        if (pv->installed() && !WPMUtils::pathEquals(pv->getDirectory(),
                 WPMUtils::getWindowsDir())) {
             for (int i = j + 1; i < pvs.count(); i++) {
-                PackageVersion* pv2 = pvs.at(i);
-                if (pv2->installed() && !WPMUtils::pathEquals(pv2->getPath(),
+                InstalledPackageVersion* pv2 = pvs.at(i);
+                if (pv2->installed() && !WPMUtils::pathEquals(pv2->getDirectory(),
                         WPMUtils::getWindowsDir())) {
-                    if (WPMUtils::isUnder(pv2->getPath(), pv->getPath()) ||
-                            WPMUtils::pathEquals(pv2->getPath(), pv->getPath())) {
+                    if (WPMUtils::isUnder(pv2->getDirectory(),
+                            pv->getDirectory()) ||
+                            WPMUtils::pathEquals(pv2->getDirectory(),
+                                    pv->getDirectory())) {
                         pv2->setPath("");
+
+                        // TODO: error message is ignored
+                        saveToRegistry(pv2);
                     }
                 }
             }
         }
     }
-    */
 }
 
 void InstalledPackages::readRegistryDatabase()

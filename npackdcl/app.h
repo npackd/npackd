@@ -33,16 +33,19 @@ private:
     QString removeRepo();
     QString search();
     int list();
-    int info();
+    QString info();
     int update();
     int detect();
     QString listRepos();
     QString which();
 
+    bool confirm(const QList<InstallOperation *> ops, QString *title);
+
     /**
      * @param package full or short package name
      * @param err error message will be stored here
-     * @return [ownership:caller] found package or 0
+     * @return [ownership:caller] found package or 0. The returned value is
+     *     only 0 if the error is not empty
      */
     Package *findOnePackage(const QString &package, QString *err);
 public:
