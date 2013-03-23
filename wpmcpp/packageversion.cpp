@@ -220,9 +220,11 @@ bool PackageVersion::isDirectoryLocked()
 }
 
 
-QString PackageVersion::toString()
+QString PackageVersion::toString(bool includeFullPackageName)
 {
-    return this->getPackageTitle() + " " + this->version.getVersionString();
+    QString r = this->getPackageTitle(includeFullPackageName) + " " +
+            this->version.getVersionString();
+    return r;
 }
 
 QString PackageVersion::getShortPackageName()
@@ -666,7 +668,8 @@ QString PackageVersion::downloadAndComputeSHA1(Job* job)
     return r;
 }
 
-QString PackageVersion::getPackageTitle() const
+QString PackageVersion::getPackageTitle(
+        bool includeFullPackageName) const
 {
     AbstractRepository* rep = AbstractRepository::getDefault_();
 
@@ -677,6 +680,9 @@ QString PackageVersion::getPackageTitle() const
     else
         pn = this->package;
     delete package;
+
+    if (includeFullPackageName)
+        pn += " (" + this->package + ")";
 
     return pn;
 }

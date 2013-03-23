@@ -38,6 +38,7 @@ private:
     int detect();
     QString listRepos();
     QString which();
+    QString check();
 
     bool confirm(const QList<InstallOperation *> ops, QString *title);
 

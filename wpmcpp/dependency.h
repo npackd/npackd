@@ -86,9 +86,10 @@ public:
     bool isInstalled();
 
     /**
+     * @param includeFullPackageName true = the full package name will be added
      * @return human readable representation of this dependency
      */
-    QString toString();
+    QString toString(bool includeFullPackageName=false);
 
     /**
      * @return [min, max]

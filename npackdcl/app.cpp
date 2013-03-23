@@ -14,6 +14,23 @@
 #include "..\wpmcpp\dbrepository.h"
 #include "..\wpmcpp\hrtimer.h"
 
+static bool packageVersionLessThan(const PackageVersion* pv1,
+        const PackageVersion* pv2)
+{
+    if (pv1->package == pv2->package)
+        return pv1->version.compare(pv2->version) < 0;
+    else {
+        QString pt1 = pv1->getPackageTitle();
+        QString pt2 = pv2->getPackageTitle();
+        return pt1.toLower() < pt2.toLower();
+    }
+}
+
+bool packageLessThan(const Package* p1, const Package* p2)
+{
+    return p1->title.toLower() < p2->title.toLower();
+}
+
 int App::process()
 {
     QString err = DBRepository::getDefault()->open();
@@ -117,6 +134,14 @@ int App::process()
                 r = 1;
                 WPMUtils::outputTextConsole(err + "\n", false);
             }
+        } else if (cmd == "check") {
+            QString err = check();
+            if (err.isEmpty())
+                r = 0;
+            else {
+                r = 1;
+                WPMUtils::outputTextConsole(err + "\n", false);
+            }
         } else if (cmd == "which") {
             QString err = which();
             if (err.isEmpty())
@@ -206,6 +231,8 @@ void App::usage()
         "        list currently defined repositories",
         "    npackdcl detect",
         "        detect packages from the MSI database and software control panel",
+        "    npackdcl check",
+        "        checks the installed packages for missing dependencies",
         "    npackdcl which --file=<file>",
         "        finds the package that owns the specified file or directory",
         "Options:",
@@ -291,6 +318,46 @@ QString App::which()
     return r;
 }
 
+QString App::check()
+{
+    QString r;
+
+    Job* job = new Job();
+    InstalledPackages::getDefault()->refresh(job);
+    if (!job->getErrorMessage().isEmpty()) {
+        r = job->getErrorMessage();
+    }
+    delete job;
+
+    if (r.isEmpty()) {
+        AbstractRepository* rep = AbstractRepository::getDefault_();
+        QList<PackageVersion*> list = rep->getInstalled_();
+        qSort(list.begin(), list.end(), packageVersionLessThan);
+
+        int n = 0;
+        for (int i = 0; i < list.count(); i++) {
+            PackageVersion* pv = list.at(i);
+            for (int j = 0; j < pv->dependencies.count(); j++) {
+                Dependency* d = pv->dependencies.at(j);
+                if (!d->isInstalled()) {
+                    WPMUtils::outputTextConsole(QString(
+                            "%1 depends on %2, which is not installed\n").
+                            arg(pv->toString(true)).
+                            arg(d->toString(true)));
+                    n++;
+                }
+            }
+        }
+
+        if (n == 0)
+            WPMUtils::outputTextConsole("All dependencies are installed\n");
+
+        qDeleteAll(list);
+    }
+
+    return r;
+}
+
 QString App::addRepo()
 {
     QString err;
@@ -341,23 +408,6 @@ QString App::addRepo()
     // TODO: updateF5?
 
     return err;
-}
-
-static bool packageVersionLessThan(const PackageVersion* pv1,
-        const PackageVersion* pv2)
-{
-    if (pv1->package == pv2->package)
-        return pv1->version.compare(pv2->version) < 0;
-    else {
-        QString pt1 = pv1->getPackageTitle();
-        QString pt2 = pv2->getPackageTitle();
-        return pt1.toLower() < pt2.toLower();
-    }
-}
-
-bool packageLessThan(const Package* p1, const Package* p2)
-{
-    return p1->title.toLower() < p2->title.toLower();
 }
 
 int App::list()

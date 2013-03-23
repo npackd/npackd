@@ -47,7 +47,7 @@ Dependency *Dependency::clone() const
     return r;
 }
 
-QString Dependency::toString()
+QString Dependency::toString(bool includeFullPackageName)
 {
     QString res;
 
@@ -58,6 +58,10 @@ QString Dependency::toString()
     else
         res.append(package);
     delete p;
+
+    if (includeFullPackageName) {
+        res.append(" (").append(this->package).append(")");
+    }
 
     res.append(" ");
 

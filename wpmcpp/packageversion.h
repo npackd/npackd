@@ -254,9 +254,10 @@ public:
             QList<InstallOperation*>& ops);
 
     /**
+     * @param includeFullPackageName true = full package name will be added
      * @return package title
      */
-    QString getPackageTitle() const;
+    QString getPackageTitle(bool includeFullPackageName=false) const;
 
     /**
      * @return only the last part of the package name (without a dot)
@@ -264,9 +265,10 @@ public:
     QString getShortPackageName();
 
     /**
+     * @param includeFullPackageName true = the full package name will be added
      * @return human readable title for this package version
      */
-    QString toString();
+    QString toString(bool includeFullPackageName=false);
 
     /**
      * @return true if this package version is installed
