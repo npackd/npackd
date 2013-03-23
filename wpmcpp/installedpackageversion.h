@@ -20,8 +20,8 @@ public:
      * For example, packages detected from the MSI database have here the MSI
      * product GUID.
      *
-     * MSI: "msi:{86ce85e6-dbac-3ffd-b977-e4b79f83c909}"
-     * Contol Panel Programs: "control-panel:Active Script 1.0"
+     * MSI: "msi:{86ce85e6-dbac -3ffd-b977-e4b79f83c909}"
+     * Control Panel Programs: "control-panel:Active Script 1.0"
      * @return detection information
      */
     QString getDetectionInfo() const;

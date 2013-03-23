@@ -1019,6 +1019,12 @@ QTime WPMUtils::durationToTime(time_t diff)
     return QTime(h, min, sec);
 }
 
+bool WPMUtils::confirmConsole(const QString& msg)
+{
+   outputTextConsole(msg);
+   return inputTextConsole().trimmed().toLower() == "y";
+}
+
 QString WPMUtils::inputTextConsole()
 {
     // http://msdn.microsoft.com/en-us/library/ms686974(v=VS.85).aspx

@@ -128,7 +128,13 @@ int App::process()
         } else if (cmd == "list") {
             r = list();
         } else if (cmd == "info") {
-            r = info();
+            QString err = info();
+            if (err.isEmpty())
+                r = 0;
+            else {
+                r = 1;
+                WPMUtils::outputTextConsole(err + "\n", false);
+            }
         } else if (cmd == "update") {
             r = update();
         } else if (cmd == "detect") {
@@ -711,6 +717,12 @@ int App::update()
             job->setProgress(0.14);
     }
 
+    if (job->shouldProceed()) {
+        QString title;
+        if (!confirm(ops, &title))
+            job->cancel();
+    }
+
     if (job->shouldProceed("Updating") && !up2date) {
         Job* ijob = job->newSubJob(0.86);
         rep->process(ijob, ops);
@@ -725,7 +737,10 @@ int App::update()
     job->complete();
 
     int r;
-    if (!job->getErrorMessage().isEmpty()) {
+    if (job->isCancelled()) {
+        WPMUtils::outputTextConsole("The package update was cancelled\n");
+        r = 2;
+    } else if (!job->getErrorMessage().isEmpty()) {
         WPMUtils::outputTextConsole(job->getErrorMessage() + "\n", false);
         r = 1;
     } else if (up2date) {
@@ -733,7 +748,7 @@ int App::update()
                 true);
         r = 0;
     } else {
-        WPMUtils::outputTextConsole("The package was removed successfully\n");
+        WPMUtils::outputTextConsole("The package was updated successfully\n");
         r = 0;
     }
 
@@ -754,6 +769,9 @@ Package* App::findOnePackage(const QString& package, QString* err)
     AbstractRepository* rep = AbstractRepository::getDefault_();
     if (package.contains('.')) {
         p = rep->findPackage_(package);
+        if (!p) {
+            *err = "Unknown package: " + package;
+        }
     } else {
         QList<Package*> packages = rep->findPackagesByShortName(package);
 
@@ -896,6 +914,89 @@ int App::add()
     return r;
 }
 
+bool App::confirm(const QList<InstallOperation*> install, QString* title)
+{
+    QString names;
+    for (int i = 0; i < install.count(); i++) {
+        InstallOperation* op = install.at(i);
+        if (!op->install) {
+            // TODO: op->findPackageVersion() may return 0
+            QScopedPointer<PackageVersion> pv(op->findPackageVersion());
+            if (!names.isEmpty())
+                names.append(", ");
+            names.append(pv->toString());
+        }
+    }
+    QString installNames;
+    for (int i = 0; i < install.count(); i++) {
+        InstallOperation* op = install.at(i);
+        if (op->install) {
+            // TODO: op->findPackageVersion() may return 0
+            QScopedPointer<PackageVersion> pv(op->findPackageVersion());
+            if (!installNames.isEmpty())
+                installNames.append(", ");
+            installNames.append(pv->toString());
+        }
+    }
+
+    int installCount = 0, uninstallCount = 0;
+    for (int i = 0; i < install.count(); i++) {
+        InstallOperation* op = install.at(i);
+        if (op->install)
+            installCount++;
+        else
+            uninstallCount++;
+    }
+
+    bool b;
+    QString msg;
+    if (installCount == 1 && uninstallCount == 0) {
+        b = true;
+        *title = "Installing";
+    } else if (installCount == 0 && uninstallCount == 1) {
+        *title = "Uninstalling";
+        // TODO: install.at(0)->findPackageVersion() may return 0
+        QScopedPointer<PackageVersion> pv(install.at(0)->findPackageVersion());
+        msg = QString("The package %1 will be uninstalled. "
+                "The corresponding directory %2 "
+                "will be completely deleted. "
+                "There is no way to restore the files. Are you sure (y/n)?:").
+                arg(pv->toString()).
+                arg(pv->getPath());
+        b = WPMUtils::confirmConsole(msg);
+    } else if (installCount > 0 && uninstallCount == 0) {
+        *title = QString("Installing %1 packages").arg(
+                installCount);
+        msg = QString("%1 package(s) will be installed: %2. Are you sure (y/n)?:").
+                arg(installCount).arg(installNames);
+        b = WPMUtils::confirmConsole(msg);
+    } else if (installCount == 0 && uninstallCount > 0) {
+        *title = QString("Uninstalling %1 packages").arg(
+                uninstallCount);
+        msg = QString("%1 package(s) will be uninstalled: %2. "
+                "The corresponding directories "
+                "will be completely deleted. "
+                "There is no way to restore the files. Are you sure (y/n)?:").
+                arg(uninstallCount).arg(names);
+        b = WPMUtils::confirmConsole(msg);
+    } else {
+        *title = QString("Installing %1 packages, uninstalling %2 packages").arg(
+                installCount).arg(uninstallCount);
+        msg = QString("%1 package(s) will be uninstalled: %2 ("
+                "the corresponding directories "
+                "will be completely deleted; "
+                "there is no way to restore the files) "
+                "and %3 package(s) will be installed: %4. Are you sure (y/n)?:").
+                arg(uninstallCount).
+                arg(names).
+                arg(installCount).
+                arg(installNames);
+        b = WPMUtils::confirmConsole(msg);
+    }
+
+    return b;
+}
+
 int App::remove()
 {
     Job* job = clp.createJob();
@@ -985,10 +1086,10 @@ int App::remove()
         }
     }
 
+    AbstractRepository* ar = AbstractRepository::getDefault_();
     QList<InstallOperation*> ops;
     if (job->shouldProceed()) {
-        QList<PackageVersion*> installed =
-                AbstractRepository::getDefault_()->getInstalled_();
+        QList<PackageVersion*> installed = ar->getInstalled_();
         QString err = pv->planUninstallation(installed, ops);
         if (!err.isEmpty()) {
             job->setErrorMessage(err);
@@ -1000,6 +1101,12 @@ int App::remove()
         QString msg = Repository::checkLockedFilesForUninstall(ops);
         if (!msg.isEmpty())
             job->setErrorMessage(msg);
+    }
+
+    if (job->shouldProceed()) {
+        QString title;
+        if (!confirm(ops, &title))
+            job->cancel();
     }
 
     if (job->shouldProceed("Removing")) {
@@ -1014,7 +1121,10 @@ int App::remove()
     job->complete();
 
     int r;
-    if (!job->getErrorMessage().isEmpty()) {
+    if (job->isCancelled()) {
+        WPMUtils::outputTextConsole("The package removal was cancelled\n");
+        r = 2;
+    } else if (!job->getErrorMessage().isEmpty()) {
         WPMUtils::outputTextConsole(job->getErrorMessage() + "\n", false);
         r = 1;
     } else {
@@ -1031,158 +1141,136 @@ int App::remove()
     return r;
 }
 
-int App::info()
+QString App::info()
 {
-    int r = 0;
+    QString r;
 
-    Job* job = clp.createJob();
+    Job* job = new Job();
     InstalledPackages::getDefault()->refresh(job);
     if (!job->getErrorMessage().isEmpty()) {
-        WPMUtils::outputTextConsole(job->getErrorMessage() + "\n", false);
-        r = 1;
+        r = job->getErrorMessage();
     }
     delete job;
 
     QString package = cl.get("package");
     QString version = cl.get("version");
 
-    if (r == 0) {
+    if (r.isEmpty()) {
         if (package.isNull()) {
-            WPMUtils::outputTextConsole("Missing option: --package\n", false);
-            r = 1;
+            r = "Missing option: --package";
         }
     }
 
-    if (r == 0) {
-        do {
-            if (!Package::isValidName(package)) {
-                WPMUtils::outputTextConsole("Invalid package name: " +
-                        package + "\n", false);
-                r = 1;
-                break;
-            }
-
-            DBRepository* rep = DBRepository::getDefault();
-            // TODO: break here would leak memory in packages
-            QList<Package*> packages;
-            if (job->shouldProceed()) {
-                if (package.contains('.')) {
-                    Package* p = rep->findPackage_(package);
-                    if (p)
-                        packages.append(p);
-                } else {
-                    packages = rep->findPackagesByShortName(package);
-                }
-            }
-
-            if (packages.count() == 0) {
-                WPMUtils::outputTextConsole("Unknown package: " +
-                        package + "\n", false);
-                r = 1;
-                break;
-            }
-            if (packages.count() > 1) {
-                WPMUtils::outputTextConsole("Ambiguous package name\n", false);
-                r = 1;
-                break;
-            }
-
-            // debug: WPMUtils::outputTextConsole <<  package) << " " << versions);
-            Version v;
-            if (!version.isNull()) {
-                if (!v.setVersion(version)) {
-                    WPMUtils::outputTextConsole("Cannot parse version: " +
-                            version + "\n", false);
-                    r = 1;
-                    break;
-                }
-            }
-
-            // debug: WPMUtils::outputTextConsole << "Versions: " << d.toString()) << std::endl;
-            PackageVersion* pv = 0;
-            Package* p = packages.at(0);
-
-            if (!version.isNull()) {
-                pv = rep->findPackageVersion_(p->name, version);
-                if (!pv) {
-                    WPMUtils::outputTextConsole("Package not found\n", false);
-                    r = 1;
-                    break;
-                }
-            }
-
-            WPMUtils::outputTextConsole("Icon: " +
-                    p->icon + "\n");
-            WPMUtils::outputTextConsole("Title: " +
-                    p->title + "\n");
-            if (pv)
-                WPMUtils::outputTextConsole("Version: " +
-                        pv->version.getVersionString() + "\n");
-            WPMUtils::outputTextConsole("Description: " +
-                    p->description + "\n");
-            WPMUtils::outputTextConsole("License: " +
-                    p->license + "\n");
-            if (pv) {
-                WPMUtils::outputTextConsole("Installation path: " +
-                        pv->getPath() + "\n");
-                WPMUtils::outputTextConsole("Internal package name: " +
-                        pv->package + "\n");
-                WPMUtils::outputTextConsole("Status: " +
-                        pv->getStatus() + "\n");
-                WPMUtils::outputTextConsole("Download URL: " +
-                        pv->download.toString() + "\n");
-            }
-            WPMUtils::outputTextConsole("Package home page: " +
-                    p->url + "\n");
-            if (pv) {
-                WPMUtils::outputTextConsole(QString("Type: ") +
-                        (pv->type == 0 ? "zip" : "one-file") + "\n");
-                WPMUtils::outputTextConsole("SHA1: " +
-                        pv->sha1 + "\n");
-
-                QString details;
-                for (int i = 0; i < pv->importantFiles.count(); i++) {
-                    if (i != 0)
-                        details.append("; ");
-                    details.append(pv->importantFilesTitles.at(i));
-                    details.append(" (");
-                    details.append(pv->importantFiles.at(i));
-                    details.append(")");
-                }
-                WPMUtils::outputTextConsole("Important files: " +
-                        details + "\n");
-
-                details = "";
-                for (int i = 0; i < pv->dependencies.count(); i++) {
-                    if (i != 0)
-                        details.append("; ");
-                    Dependency* d = pv->dependencies.at(i);
-                    details.append(d->toString());
-                }
-                WPMUtils::outputTextConsole("Dependencies: " +
-                        details + "\n");
-            }
-
-            if (!pv) {
-                QString versions;
-                QString err; //TODO: error is not handled
-                QList<PackageVersion*> pvs = rep->getPackageVersions_(p->name,
-                        &err);
-                for (int i = 0; i < pvs.count(); i++) {
-                    PackageVersion* opv = pvs.at(i);
-                    if (i != 0)
-                        versions.append(", ");
-                    versions.append(opv->version.getVersionString());
-                }
-                qDeleteAll(pvs);
-                WPMUtils::outputTextConsole("Versions: " +
-                        versions + "\n");
-            }
-
-            qDeleteAll(packages);
-            delete pv;
-        } while (false);
+    if (r.isEmpty()) {
+        if (!Package::isValidName(package)) {
+            r = "Invalid package name: " + package;
+        }
     }
+
+    DBRepository* rep = DBRepository::getDefault();
+    Package* p = 0;
+    if (r.isEmpty()) {
+        p = this->findOnePackage(package, &r);
+    }
+
+    if (r.isEmpty()) {
+        // debug: WPMUtils::outputTextConsole <<  package) << " " << versions);
+        Version v;
+        if (!version.isNull()) {
+            if (!v.setVersion(version)) {
+                r = "Cannot parse version: " + version;
+            }
+        }
+    }
+
+    PackageVersion* pv = 0;
+    if (r.isEmpty()) {
+        if (!version.isNull()) {
+            pv = rep->findPackageVersion_(p->name, version);
+            if (!pv) {
+                r = "Package version not found";
+            }
+        }
+    }
+
+    if (r.isEmpty()) {
+        WPMUtils::outputTextConsole("Title: " +
+                p->title + "\n");
+        if (pv)
+            WPMUtils::outputTextConsole("Version: " +
+                    pv->version.getVersionString() + "\n");
+        WPMUtils::outputTextConsole("Description: " + p->description + "\n");
+        WPMUtils::outputTextConsole("License: " + p->license + "\n");
+        if (pv) {
+            WPMUtils::outputTextConsole("Installation path: " +
+                    pv->getPath() + "\n");
+            WPMUtils::outputTextConsole("Internal package name: " +
+                    pv->package + "\n");
+            WPMUtils::outputTextConsole("Status: " +
+                    pv->getStatus() + "\n");
+            WPMUtils::outputTextConsole("Download URL: " +
+                    pv->download.toString() + "\n");
+        }
+        WPMUtils::outputTextConsole("Package home page: " + p->url + "\n");
+        WPMUtils::outputTextConsole("Icon: " + p->icon + "\n");
+        if (pv) {
+            WPMUtils::outputTextConsole(QString("Type: ") +
+                    (pv->type == 0 ? "zip" : "one-file") + "\n");
+            WPMUtils::outputTextConsole("SHA1: " + pv->sha1 + "\n");
+
+            QString details;
+            for (int i = 0; i < pv->importantFiles.count(); i++) {
+                if (i != 0)
+                    details.append("; ");
+                details.append(pv->importantFilesTitles.at(i));
+                details.append(" (");
+                details.append(pv->importantFiles.at(i));
+                details.append(")");
+            }
+            WPMUtils::outputTextConsole("Important files: " + details + "\n");
+
+            details = "";
+            for (int i = 0; i < pv->dependencies.count(); i++) {
+                if (i != 0)
+                    details.append("; ");
+                Dependency* d = pv->dependencies.at(i);
+                details.append(d->toString());
+            }
+            WPMUtils::outputTextConsole("Dependencies: " + details + "\n");
+        }
+
+        if (!pv) {
+            QString versions;
+            QList<PackageVersion*> pvs = rep->getPackageVersions_(p->name, &r);
+            for (int i = 0; i < pvs.count(); i++) {
+                PackageVersion* opv = pvs.at(i);
+                if (i != 0)
+                    versions.append(", ");
+                versions.append(opv->version.getVersionString());
+            }
+            qDeleteAll(pvs);
+            WPMUtils::outputTextConsole("Versions: " + versions + "\n");
+        }
+
+        InstalledPackages* ip = InstalledPackages::getDefault();
+        QList<InstalledPackageVersion*> ipvs = ip->getByPackage(p->name);
+        if (ipvs.count() > 0) {
+            WPMUtils::outputTextConsole(QString("%1 versions are installed:\n").
+                    arg(ipvs.count()));
+            for (int i = 0; i < ipvs.count(); ++i) {
+                InstalledPackageVersion* ipv = ipvs.at(i);
+                if (!ipv->getDirectory().isEmpty())
+                    WPMUtils::outputTextConsole("    " +
+                            ipv->version.getVersionString() +
+                            " in " + ipv->getDirectory() + "\n");
+            }
+        } else {
+            WPMUtils::outputTextConsole("No versions are installed\n");
+        }
+        qDeleteAll(ipvs);
+    }
+
+    delete pv;
 
     return r;
 }
