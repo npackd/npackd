@@ -364,7 +364,8 @@ void PackageVersion::uninstall(Job* job)
                     uninstallationScript, ".Npackd\\Uninstall.log", env);
             if (!sub->getErrorMessage().isEmpty()) {
                 // TODO: the output should be visible in the GUI also
-                QTemporaryFile of;
+                QTemporaryFile of(QDir::tempPath() +
+                                  "\\NpackdUninstallXXXXXX.log");
                 of.setAutoRemove(false);
                 if (of.open()) {
                     of.write(output);
@@ -996,7 +997,8 @@ void PackageVersion::install(Job* job, const QString& where)
             QByteArray output = this->executeFile(exec, d.absolutePath(),
                     installationScript, ".Npackd\\Install.log", env);
             if (!exec->getErrorMessage().isEmpty()) {
-                QTemporaryFile of;
+                QTemporaryFile of(QDir::tempPath() +
+                                  "\\NpackdInstallXXXXXX.log");
                 of.setAutoRemove(false);
                 if (of.open()) {
                     of.write(output);
@@ -1072,6 +1074,7 @@ void PackageVersion::addDependencyVars(QStringList* vars)
             InstalledPackageVersion* ipv = d->findHighestInstalledMatch();
             if (ipv) {
                 vars->append(ipv->getDirectory());
+                delete ipv;
             } else {
                 // this could happen if a package was un-installed manually
                 // without Npackd or the repository has changed after this
