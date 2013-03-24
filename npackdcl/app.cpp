@@ -1223,9 +1223,9 @@ QString App::info()
         p = this->findOnePackage(package, &r);
     }
 
+    Version v;
     if (r.isEmpty()) {
         // debug: WPMUtils::outputTextConsole <<  package) << " " << versions);
-        Version v;
         if (!version.isNull()) {
             if (!v.setVersion(version)) {
                 r = "Cannot parse version: " + version;
@@ -1236,9 +1236,10 @@ QString App::info()
     PackageVersion* pv = 0;
     if (r.isEmpty()) {
         if (!version.isNull()) {
-            pv = rep->findPackageVersion_(p->name, version);
+            pv = rep->findPackageVersion_(p->name, v);
             if (!pv) {
-                r = "Package version not found";
+                r = QString("Package version %1 not found").
+                        arg(v.getVersionString());
             }
         }
     }
@@ -1318,11 +1319,44 @@ QString App::info()
             WPMUtils::outputTextConsole("No versions are installed\n");
         }
         qDeleteAll(ipvs);
+
+        if (pv) {
+            WPMUtils::outputTextConsole("Dependency tree:\n");
+            printDependencies(1, pv);
+        }
     }
 
     delete pv;
 
     return r;
+}
+
+void App::printDependencies(int level, PackageVersion* pv)
+{
+    QString prefix = QString("  ").repeated(level);
+    for (int i = 0; i < pv->dependencies.count(); ++i) {
+        Dependency* d = pv->dependencies.at(i);
+        InstalledPackageVersion* ipv = d->findHighestInstalledMatch();
+        WPMUtils::outputTextConsole(prefix);
+        if (!ipv) {
+            WPMUtils::outputTextConsole(QString("Missing dependency on %1\n").
+                    arg(d->toString(true)));
+        } else {
+            PackageVersion* pvd = AbstractRepository::getDefault_()->
+                    findPackageVersion_(ipv->package, ipv->version);
+            if (!pvd)
+                WPMUtils::outputTextConsole(QString("Missing dependency on %1\n").
+                        arg(d->toString(true)));
+            else {
+                WPMUtils::outputTextConsole(QString("%1 resolved to %2\n").
+                        arg(d->toString(true)).
+                        arg(ipv->version.getVersionString()));
+                printDependencies(level + 1, pvd);
+                delete pvd;
+            }
+            delete ipv;
+        }
+    }
 }
 
 int App::detect()

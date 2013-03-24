@@ -41,6 +41,7 @@ private:
     QString check();
 
     bool confirm(const QList<InstallOperation *> ops, QString *title);
+    void printDependencies(int level, PackageVersion *pv);
 
     /**
      * @param package full or short package name
