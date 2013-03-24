@@ -223,8 +223,11 @@ InstalledPackageVersion* Dependency::findHighestInstalledMatch() const
     for (int i = 0; i < list.count(); i++) {
         InstalledPackageVersion* ipv = list.at(i);
         if (res == 0 || ipv->version.compare(res->version) > 0)
-            res = ipv;
+            res = ipv;            
     }
+    if (res)
+        res = res->clone();
+    qDeleteAll(list);
 
     return res;
 }
