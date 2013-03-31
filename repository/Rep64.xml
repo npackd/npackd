@@ -307,6 +307,7 @@ Visual Studio .NET (2002) - 7.0&#13;
 Visual Studio .NET 2003 - 7.1&#13;
 Visual Studio 2005 - 8.0&#13;
 Visual Studio 2008 - 9.0&#13;
+Visual Studio 2008 SP1 - 9.0.30729.17&#13;
 Visual Studio 2010 - 10.0&#13;
 Visual Studio 2012 - 11.0&#13;
 </description>
@@ -715,6 +716,13 @@ Eclipse version names:&#13;
         <icon>https://lh5.googleusercontent.com/-vXWAhWIC0E8/USjYxw-BPsI/AAAAAAAAAwM/z-JU7uagAog/s800/psycopg.png</icon>
         <license>org.gnu.LGPLv3</license>
     </package>
+    <package name="org.jitsi.Jitsi64">
+        <title>Jitsi 64 bit</title>
+        <url>https://jitsi.org</url>
+        <description>voice (VoIP), videoconferencing and instant messager</description>
+        <icon>https://lh6.googleusercontent.com/-wQ42Tqy-7GI/UVb5QHMb0LI/AAAAAAAABf8/eamLpHRipuA/s800/jitsi.png</icon>
+        <license>org.gnu.LGPLv2_1</license>
+    </package>
     <package name="org.miktex.MiKTeX64">
         <title>MiKTeX 64 bit</title>
         <url>http://www.miktex.org/about</url>
@@ -741,6 +749,13 @@ Eclipse version names:&#13;
         <description>Node.js is a platform built on [Chrome's JavaScript runtime](http://code.google.com/p/v8/ "Chrome's JavaScript runtime") for easily building fast, scalable network applications. Node.js uses an event-driven, non-blocking I/O model that makes it lightweight and efficient, perfect for data-intensive real-time applications that run across distributed devices.</description>
         <icon>https://lh5.googleusercontent.com/-Cf3XEJvYyz8/USjRLWHPlUI/AAAAAAAAAuk/rFnSh7VOLNo/s800/nodejs.png</icon>
         <license>org.opensource.MITLicense</license>
+    </package>
+    <package name="org.psiim.Psi64">
+        <title>Psi 64 bit</title>
+        <url>http://psi-im.org</url>
+        <description>instant messenger</description>
+        <icon>https://lh5.googleusercontent.com/-EysmZa8_6ZM/UVbzdzRXZxI/AAAAAAAABfs/EP3vCSYJF4g/s800/psi.png</icon>
+        <license>org.gnu.GPLv2</license>
     </package>
     <package name="org.python.Python64">
         <title>Python 64 bit</title>
@@ -1744,6 +1759,29 @@ if %err% neq 0 exit /b %err%
         <sha1>932daa956171bec8fc403f6cf738146215b8073f</sha1>
         <dependency package="com.googlecode.msysgit.MSysGit" versions="[1.7.6.2011.7.8, 1.8)"/>
     </version>
+    <version name="1.8.1" package="com.googlecode.tortoisegit.TortoiseGit64" type="one-file">
+        <file path=".Npackd\Install.bat">for /f %%x in ('dir /b *.msi') do set setup=%%x&#13;
+copy "%setup%" .Npackd&#13;
+msiexec.exe /qn /norestart /Lime .Npackd\MSI.log /i "%setup%" INSTALLDIR="%CD%" ALLUSERS=1&#13;
+set err=%errorlevel%&#13;
+type .Npackd\MSI.log&#13;
+rem 3010=restart required&#13;
+if %err% equ 3010 exit /b 0&#13;
+if %err% neq 0 exit /b %err%&#13;
+</file>
+        <file path=".Npackd\Uninstall.bat">move .Npackd\*.msi .&#13;
+for /f %%x in ('dir /b *.msi') do set setup=%%x&#13;
+msiexec.exe /qn /norestart /Lime .Npackd\MSI.log /x "%setup%"&#13;
+set err=%errorlevel%&#13;
+type .Npackd\MSI.log&#13;
+rem 3010=restart required&#13;
+if %err% equ 3010 exit /b 0&#13;
+if %err% neq 0 exit /b %err%&#13;
+</file>
+        <url>http://tortoisegit.googlecode.com/files/TortoiseGit-1.8.1.0-64bit.msi</url>
+        <sha1>1a44dafb62eb9c432fca3d1d500ca3690a1919da</sha1>
+        <dependency package="com.googlecode.msysgit.MSysGit" versions="[1.7.6.2011.7.8, 1.8)"/>
+    </version>
 
     <version name="3.46.1" package="com.httrack.HTTrack64" type="one-file">
         <file path=".WPM\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x
@@ -2069,6 +2107,21 @@ rmdir "%name%"&#13;
 </file>
         <url>http://cdn.mysql.com/Downloads/MySQL-5.5/mysql-5.5.29-winx64.zip</url>
         <sha1>c37413576d9fc52f1b3764733e2dcbae0b637fed</sha1>
+        <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.1, 2)"/>
+        <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.15.7, 2)"/>
+        <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1, 1]"/>
+    </version>
+    <version name="5.6.10" package="com.mysql.MySQLCommunityServer64">
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b mysql*') do set name=%%x&#13;
+cd "%name%"        &#13;
+for /f "delims=" %%a in ('dir /b') do (&#13;
+  move "%%a" ..&#13;
+)&#13;
+cd ..&#13;
+rmdir "%name%"&#13;
+</file>
+        <url>http://cdn.mysql.com/Downloads/MySQL-5.6/mysql-5.6.10-winx64.zip</url>
+        <sha1>6035b45079d6a0944b41a637dc49629bd55693c3</sha1>
         <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.1, 2)"/>
         <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.15.7, 2)"/>
         <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1, 1]"/>
@@ -3497,6 +3550,20 @@ del Q-Dir.ini&#13;
 </file>
         <url>http://dl.dropbox.com/u/17046326/files/com.softwareok.QDir64-5.45.zip</url>
         <sha1>afbdf9b1f544d93e52c19012077f67f333cebd95</sha1>
+    </version>
+    <version name="5.51" package="com.softwareok.QDir64">
+        <important-file path="Q-Dir.exe" title="Q-Dir"/>
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b Q*') do set name=%%x&#13;
+cd "%name%"        &#13;
+for /f "delims=" %%a in ('dir /b') do (&#13;
+  move "%%a" ..&#13;
+)&#13;
+cd ..&#13;
+rmdir "%name%"&#13;
+del Q-Dir.ini&#13;
+</file>
+        <url>https://drive.google.com/uc?export=download&amp;id=0Bzt53EW9ybrwTnJTSHJBTkpxSHc</url>
+        <sha1>c7b1b83ad2fbd1cbd06cb3a91ab3bfabdba333bf</sha1>
     </version>
 
     <version name="2.5.1" package="com.tightvnc.TightVNC64" type="one-file">
@@ -5038,6 +5105,43 @@ verify
         <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1, 1]"/>
         <dependency package="com.googlecode.windows-package-manager.CLU" versions="[1, 2)"/>
     </version>
+    <version name="1.7.8" package="org.apache.subversion.Subversion64" type="one-file">
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.msi') do set setup=%%x&#13;
+copy "%setup%" .Npackd        &#13;
+msiexec.exe /qn /norestart /Lime .Npackd\MSI.log /i "%setup%" INSTALLLOCATION="%CD%" ALLUSERS=1&#13;
+set err=%errorlevel%&#13;
+type .Npackd\MSI.log&#13;
+rem 3010=restart required&#13;
+if %err% equ 3010 exit /b 0&#13;
+if %err% neq 0 exit /b %err%&#13;
+&#13;
+if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1&#13;
+set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.CLU" "--versions=[1, 2)"&#13;
+for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set clu=%%x&#13;
+"%clu%\clu" remove-path --path "%CD%\bin"&#13;
+verify&#13;
+</file>
+        <file path=".Npackd\Uninstall.bat">copy .Npackd\*.msi .&#13;
+for /f "delims=" %%x in ('dir /b *.msi') do set setup=%%x&#13;
+msiexec.exe /qn /norestart /Lime .Npackd\MSI.log /x "%setup%"&#13;
+set err=%errorlevel%&#13;
+type .Npackd\MSI.log&#13;
+rem 3010=restart required&#13;
+if %err% equ 3010 exit /b 0&#13;
+if %err% neq 0 exit /b %err%&#13;
+&#13;
+if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1&#13;
+set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.CLU" "--versions=[1, 2)"&#13;
+for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set clu=%%x&#13;
+"%clu%\clu" remove-path --path "%CD%\bin"&#13;
+verify&#13;
+</file>
+        <url>http://www.sliksvn.com/pub/Slik-Subversion-1.7.8-x64.msi</url>
+        <sha1>dd389629dc9513c8eda88beb28ccff70052e6cb0</sha1>
+        <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.15.7, 2)"/>
+        <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1, 1]"/>
+        <dependency package="com.googlecode.windows-package-manager.CLU" versions="[1, 2)"/>
+    </version>
 
     <version name="7.0.12" package="org.apache.tomcat.Tomcat64">
         <important-file path="bin\startup.bat" title="Start"/>
@@ -5186,6 +5290,16 @@ rmdir "%name%"
 </file>
         <url>http://downloads.sourceforge.net/project/npackd/org.apache.tomcat.Tomcat-7.0.34.exe</url>
         <sha1>724dd63f1647a419f72049c154091e0e2efe7cec</sha1>
+        <dependency package="com.oracle.JRE" versions="[1.5, 2)"/>
+    </version>
+    <version name="7.0.37" package="org.apache.tomcat.Tomcat64" type="one-file">
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
+"%setup%" /S /D=%CD%&#13;
+</file>
+        <file path=".Npackd\Uninstall.bat">Uninstall.exe -ServiceName="Tomcat7" /S _?=%CD%&#13;
+</file>
+        <url>http://downloads.sourceforge.net/project/npackd/org.apache.tomcat.Tomcat-7.0.37.exe</url>
+        <sha1>7d359e4af415327ee61c11787b2bf77a92bbd91b</sha1>
         <dependency package="com.oracle.JRE" versions="[1.5, 2)"/>
     </version>
 
@@ -5582,6 +5696,28 @@ if %err% neq 0 exit /b %err%&#13;
 </file>
         <url>http://cdn.bitbucket.org/tortoisehg/files/downloads/tortoisehg-2.6.1-hg-2.4.1-x64.msi</url>
         <sha1>b4cc7b7806cedf40846a466456a84c8648ce38b8</sha1>
+    </version>
+    <version name="2.7.1" package="org.bitbucket.tortoisehg.TortoiseHg64" type="one-file">
+        <file path=".Npackd\Install.bat">for /f %%x in ('dir /b *.msi') do set setup=%%x&#13;
+copy "%setup%" .Npackd&#13;
+msiexec.exe /qn /norestart /Lime .Npackd\MSI.log /i "%setup%" INSTALLDIR="%CD%" ALLUSERS=1&#13;
+set err=%errorlevel%&#13;
+type .Npackd\MSI.log&#13;
+rem 3010=restart required&#13;
+if %err% equ 3010 exit /b 0&#13;
+if %err% neq 0 exit /b %err%&#13;
+</file>
+        <file path=".Npackd\Uninstall.bat">copy .Npackd\*.msi .&#13;
+for /f %%x in ('dir /b *.msi') do set setup=%%x&#13;
+msiexec.exe /qn /norestart /Lime .Npackd\MSI.log /x "%setup%"&#13;
+set err=%errorlevel%&#13;
+type .Npackd\MSI.log&#13;
+rem 3010=restart required&#13;
+if %err% equ 3010 exit /b 0&#13;
+if %err% neq 0 exit /b %err%&#13;
+</file>
+        <url>http://cdn.bitbucket.org/tortoisehg/files/downloads/tortoisehg-2.7.1-hg-2.5.2-x64.msi</url>
+        <sha1>e8256ff8d6bcc5d7a1bcf5165ed986c05470e60b</sha1>
     </version>
 
     <version name="2.49.2" package="org.blender.Blender64">
@@ -6065,6 +6201,21 @@ if %err% neq 0 exit %err%&#13;
         <url>http://downloads.sourceforge.net/project/npackd/org.freepascal.lazarus.Lazarus64-1.0.4.exe</url>
         <sha1>aae0be349e3eee77681ecc054251fd295d2338a4</sha1>
     </version>
+    <version name="1.0.8" package="org.freepascal.lazarus.Lazarus64" type="one-file">
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
+"%setup%" /SP- /VERYSILENT /SUPPRESSMSGBOXES /NOCANCEL /NORESTART /DIR="%CD%" /SAVEINF="%CD%\.Npackd\InnoSetupInfo.ini" /LOG="%CD%\.Npackd\InnoSetupInstall.log"&#13;
+set err=%errorlevel%&#13;
+type .Npackd\InnoSetupInstall.log&#13;
+if %err% neq 0 exit %err%&#13;
+</file>
+        <file path=".Npackd\Uninstall.bat">unins000.exe /VERYSILENT /SUPPRESSMSGBOXES /NORESTART /LOG="%CD%\.Npackd\InnoSetupUninstall.log"&#13;
+set err=%errorlevel%&#13;
+type .Npackd\InnoSetupUninstall.log&#13;
+if %err% neq 0 exit %err%&#13;
+</file>
+        <url>http://downloads.sourceforge.net/project/npackd/org.freepascal.lazarus.Lazarus64-1.0.8.exe</url>
+        <sha1>28ba229d4cac509a138c5cebc7c8163fe0cb8b91</sha1>
+    </version>
 
     <version name="7.1.90" package="org.gnu.GDB64">
         <file path=".WPM\Install.bat">for /f "delims=" %%x in ('dir /b mingw*') do set name=%%x
@@ -6330,6 +6481,26 @@ ren "%setup%" Psycopg.exe&#13;
         <dependency package="org.python.Python64" versions="[3.2, 3.3)"/>
     </version>
 
+    <version name="2.0.4506.10553" package="org.jitsi.Jitsi64" type="one-file">
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.msi') do set setup=%%x&#13;
+msiexec.exe /qn /norestart /lime .Npackd\MSI.log /i "%setup%" TARGETDIR="%CD%" ALLUSERS=1&#13;
+set err=%errorlevel%&#13;
+type .Npackd\MSI.log&#13;
+rem 3010=restart required&#13;
+if %err% equ 3010 exit 0&#13;
+if %err% neq 0 exit %err%&#13;
+</file>
+        <file path=".Npackd\Uninstall.bat">for /f "delims=" %%x in ('dir /b *.msi') do set setup=%%x&#13;
+msiexec.exe /qn /norestart /lime .Npackd\MSI.log /x "%setup%"&#13;
+set err=%errorlevel%&#13;
+type .Npackd\MSI.log&#13;
+rem 3010=restart required&#13;
+if %err% equ 3010 exit 0&#13;
+if %err% neq 0 exit %err%&#13;
+</file>
+        <url>https://download.jitsi.org/jitsi/msi/jitsi-2.0-latest-x64.msi</url>
+    </version>
+
     <version name="2.9.4407" package="org.miktex.MiKTeX64" type="one-file">
         <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x
 "%setup%" --common-install="%CD%" --shared --unattended
@@ -6378,6 +6549,32 @@ verify
 </file>
         <url>http://downloads.sourceforge.net/project/npackd/org.miktex.MiKTeX64-2.9.4521.exe</url>
         <sha1>c2398d2b65353e91e85163ce386984f6adc4b76e</sha1>
+        <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.15.7, 2)"/>
+        <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1, 1]"/>
+        <dependency package="com.googlecode.windows-package-manager.CLU" versions="[1, 2)"/>
+    </version>
+    <version name="2.9.4813" package="org.miktex.MiKTeX64" type="one-file">
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
+"%setup%" --common-install="%CD%" --shared --unattended&#13;
+if %errorlevel% neq 0 exit /b %errorlevel%&#13;
+&#13;
+if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1&#13;
+set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.CLU" "--versions=[1, 2)"&#13;
+for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set clu=%%x&#13;
+"%clu%\clu" add-path --path "%CD%\miktex\bin\x64"&#13;
+verify&#13;
+</file>
+        <file path=".Npackd\Unnstall.bat">miktex\bin\internal\copystart_admin.exe "%CD%\miktex/bin/internal\uninstall_admin.exe"&#13;
+if %errorlevel% neq 0 exit /b %errorlevel%&#13;
+&#13;
+if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1&#13;
+set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.CLU" "--versions=[1, 2)"&#13;
+for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set clu=%%x&#13;
+"%clu%\clu" remove-path --path "%CD%\miktex\bin\x64"&#13;
+verify&#13;
+</file>
+        <url>http://downloads.sourceforge.net/project/npackd/org.miktex.MiKTeX64-2.9.4813.exe</url>
+        <sha1>f7437d6ac412a63b04a53d57cda0a1ed818c4400</sha1>
         <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.15.7, 2)"/>
         <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1, 1]"/>
         <dependency package="com.googlecode.windows-package-manager.CLU" versions="[1, 2)"/>
@@ -7067,6 +7264,28 @@ verify&#13;
         <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1, 1]"/>
         <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1, 1]"/>
     </version>
+    <version name="0.10.1" package="org.nodejs.NodeJS64" type="one-file">
+        <file path=".Npackd\Install.bat">if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1&#13;
+set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.NpackdInstallerHelper" "--versions=[1.1, 2)"&#13;
+for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set npackdih=%%x&#13;
+call "%npackdih%\InstallMSI.bat" INSTALLDIR yes&#13;
+</file>
+        <url>http://nodejs.org/dist/v0.10.1/x64/node-v0.10.1-x64.msi</url>
+        <sha1>0958d68900b80419e2af7a5448c4a451af06d0b4</sha1>
+        <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.15.7, 2)"/>
+        <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1, 1]"/>
+        <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1, 1]"/>
+    </version>
+
+    <version name="0.15" package="org.psiim.Psi64" type="one-file">
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
+"%setup%" /S /D=%CD%&#13;
+</file>
+        <file path=".Npackd\Uninstall.bat">uninstall.exe /S _?=%CD%&#13;
+</file>
+        <url>http://ignum.dl.sourceforge.net/project/psi/Psi/0.15/psi-0.15-win64-setup.exe</url>
+        <sha1>b959562f9fb6be45057be7563bd4ad81b2109d68</sha1>
+    </version>
 
     <version name="2.6.6" package="org.python.Python64" type="one-file">
         <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.msi') do set setup=%%x
@@ -7363,6 +7582,15 @@ rmdir /s /q "%name%"    &#13;
         <url>http://downloads.sourceforge.net/project/ultradefrag/stable-release/5.1.2/ultradefrag-portable-5.1.2.bin.amd64.zip</url>
         <sha1>b2dac445d79e487c14bbad935ca9330617bfb8ba</sha1>
     </version>
+    <version name="6" package="org.sourceforge.ultradefrag.UltraDefrag64">
+        <important-file path="ultradefrag.exe" title="UltraDefrag"/>
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b ultra*') do set name=%%x&#13;
+xcopy "%name%\*" . /E /H&#13;
+rmdir /s /q "%name%"    &#13;
+</file>
+        <url>http://downloads.sourceforge.net/project/ultradefrag/stable-release/6.0.0/ultradefrag-portable-6.0.0.bin.amd64.zip</url>
+        <sha1>96850995e06202338736fa561616f59a7ed18515</sha1>
+    </version>
 
     <version name="3.1" package="org.springsource.STS64">
         <important-file path="sts-3.1.0.RELEASE\STS.exe" title="Spring Tool Suite"/>
@@ -7375,6 +7603,19 @@ cd ..&#13;
 rmdir "%name%"</file>
         <url>http://download.springsource.com/release/STS/3.1.0/dist/e4.2/spring-tool-suite-3.1.0.RELEASE-e4.2-win32-x86_64.zip</url>
         <sha1>da621cc09dca190c537d3229492b12a30f599db5</sha1>
+        <dependency package="com.oracle.JRE64" versions="[1.5, 2)"/>
+    </version>
+    <version name="3.2" package="org.springsource.STS64">
+        <important-file path="sts-3.2.0.RELEASE\STS.exe" title="Spring Tool Suite"/>
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b spring*') do set name=%%x&#13;
+cd "%name%"        &#13;
+for /f "delims=" %%a in ('dir /b') do (&#13;
+  move "%%a" ..&#13;
+)&#13;
+cd ..&#13;
+rmdir "%name%"</file>
+        <url>http://download.springsource.com/release/STS/3.2.0/dist/e4.2/spring-tool-suite-3.2.0.RELEASE-e4.2.2-win32-x86_64.zip</url>
+        <sha1>a21e610ec61875ef0c5c070d2d808615231d06b9</sha1>
         <dependency package="com.oracle.JRE64" versions="[1.5, 2)"/>
     </version>
 
@@ -7463,6 +7704,43 @@ if %err% neq 0 exit %err%</file>
         <sha1>600d7fd3a62bf039f40ca948661055030febc8e5</sha1>
         <dependency package="org.7-zip.SevenZIP64" versions="[9.20, 9.20]"/>
     </version>
+    <version name="4.2.10" package="org.virtualbox.virtualbox64" type="one-file">
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
+"%setup%" -x -s -p "%CD%"&#13;
+&#13;
+if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1&#13;
+set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=org.7-zip.SevenZIP64" "--versions=[9.20, 9.20]"&#13;
+for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set sevenzip=%%x&#13;
+&#13;
+"%sevenzip%\7z.exe" x common.cab -aos -o"%CD%\common"&#13;
+"%sevenzip%\7z.exe" x "%CD%\common\file_VBoxGuestAdditions.iso" -aos -o"%CD%\common\file_VBoxGuestAdditions"&#13;
+&#13;
+certutil.exe -addstore -f "TrustedPublisher" "%CD%\common\file_VBoxGuestAdditions\cert\oracle-vbox.cer"&#13;
+&#13;
+for /f "delims=" %%x in ('dir /b *MultiArch_amd64.msi') do set setup=%%x&#13;
+msiexec.exe /qn /norestart /Lime .Npackd\MSI.log /i "%setup%"&#13;
+set err=%errorlevel%&#13;
+type .Npackd\MSI.log&#13;
+rem 3010=restart required&#13;
+if %err% equ 3010 exit 0&#13;
+if %err% neq 0 exit %err%&#13;
+&#13;
+for /f "delims=" %%x in ('dir /b *MultiArch_x86.msi') do set trash=%%x&#13;
+del /q /f "%trash%"&#13;
+&#13;
+if exist "%CD%\common" (rd /s /q "%CD%\common")&#13;
+</file>
+        <file path=".Npackd\Uninstall.bat">for /f "delims=" %%x in ('dir /b *.msi') do set setup=%%x&#13;
+msiexec.exe /qn /norestart /Lime .Npackd\MSI.log /x "%setup%"&#13;
+set err=%errorlevel%&#13;
+type .Npackd\MSI.log&#13;
+rem 3010=restart required&#13;
+if %err% equ 3010 exit 0&#13;
+if %err% neq 0 exit %err%</file>
+        <url>http://download.virtualbox.org/virtualbox/4.2.10/VirtualBox-4.2.10-84105-Win.exe</url>
+        <sha1>20521e79d5100e48363b1a74f06c1b3a403cadcf</sha1>
+        <dependency package="org.7-zip.SevenZIP64" versions="[9.20, 9.20]"/>
+    </version>
 
     <version name="1.9.11" package="org.virtualdub.VirtualDub64">
         <important-file path="Veedub64.exe" title="VirtualDub"/>
@@ -7526,6 +7804,15 @@ if %err% neq 0 exit %err%</file>
 </file>
         <url>http://downloads.sourceforge.net/project/npackd/org.wireshark.Wireshark64-1.8.4.exe</url>
         <sha1>a2e4516476711221db3edaf66f490c8bb3fae955</sha1>
+    </version>
+    <version name="1.8.6" package="org.wireshark.Wireshark64" type="one-file">
+        <file path=".Npackd\Install.bat">for /f %%x in ('dir /b *.exe') do set setup=%%x&#13;
+"%setup%" /S /D=%CD%&#13;
+</file>
+        <file path=".Npackd\Uninstall.bat">uninstall.exe /S _=%CD%&#13;
+</file>
+        <url>http://downloads.sourceforge.net/project/npackd/org.wireshark.Wireshark64-1.8.6.exe</url>
+        <sha1>0d042dce029072dfcb8f52f49aa0c84bfb6d8a69</sha1>
     </version>
 
     <version name="4.3.8.2523" package="se.cdburnerxp.CDBurnerXP64">
@@ -7652,6 +7939,28 @@ del "%setup%"
 </file>
         <url>http://downloads.sourceforge.net/project/npackd/se.haxx.curl.CURL64-7.28.1.7z</url>
         <sha1>49494187c84cb0be39d55ca953fc5bd0e1d6c3c1</sha1>
+        <dependency package="com.microsoft.VisualCPPRedistributable64" versions="[10, 11)"/>
+        <dependency package="org.7-zip.SevenZIPA" versions="[9.20, 9.20]"/>
+        <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.15.7, 2)"/>
+        <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1, 1]"/>
+    </version>
+    <version name="7.29" package="se.haxx.curl.CURL64" type="one-file">
+        <file path=".Npackd\Install.bat">if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1&#13;
+set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=org.7-zip.SevenZIPA" "--versions=[9.20, 9.20]"&#13;
+for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set sevenzipa=%%x&#13;
+for /f %%x in ('dir /b *.7z') do set setup=%%x&#13;
+"%sevenzipa%\7za.exe" x "%setup%"&#13;
+del "%setup%"&#13;
+&#13;
+for /f "delims=" %%x in ('dir /b curl*') do set name=%%x&#13;
+cd "%name%"        &#13;
+for /f "delims=" %%a in ('dir /b') do (&#13;
+  move "%%a" ..&#13;
+)&#13;
+cd ..&#13;
+rmdir "%name%"</file>
+        <url>http://downloads.sourceforge.net/project/npackd/se.haxx.curl.CURL64-7.29.7z</url>
+        <sha1>766e21b447d2d1cf1eb5ba30de9b828b0afad8e7</sha1>
         <dependency package="com.microsoft.VisualCPPRedistributable64" versions="[10, 11)"/>
         <dependency package="org.7-zip.SevenZIPA" versions="[9.20, 9.20]"/>
         <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.15.7, 2)"/>

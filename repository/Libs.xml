@@ -379,6 +379,27 @@ rmdir "%name%"</file>
         <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.15.7, 2)"/>
         <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1, 1]"/>
     </version>
+    <version name="5.0.1" package="com.nokia.QtSource" type="one-file">
+        <file path=".Npackd\Install.bat">if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1&#13;
+set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=org.7-zip.SevenZIPA" "--versions=[9.20, 9.20]"&#13;
+for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set sevenzipa=%%x&#13;
+for /f %%x in ('dir /b *.zip') do set setup=%%x&#13;
+"%sevenzipa%\7za.exe" x "%setup%" &gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+del "%setup%"&#13;
+&#13;
+for /f "delims=" %%x in ('dir /b qt*') do set name=%%x&#13;
+cd "%name%"        &#13;
+for /f "delims=" %%a in ('dir /b') do (&#13;
+  move "%%a" ..&#13;
+)&#13;
+cd ..&#13;
+rmdir "%name%"</file>
+        <url>http://releases.qt-project.org/qt5/5.0.1/single/qt-everywhere-opensource-src-5.0.1.zip</url>
+        <sha1>75d06c96bae8ded783fad1a76d3a1cf39368755d</sha1>
+        <dependency package="org.7-zip.SevenZIPA" versions="[9.20, 9.20]"/>
+        <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.15.7, 2)"/>
+        <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1, 1]"/>
+    </version>
 
     <version name="0.4.2" package="net.sourceforge.quazip.QuaZIPSource">
         <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b quazip*') do set name=%%x
@@ -430,6 +451,19 @@ rmdir "%name%"
 </file>
         <url>http://downloads.sourceforge.net/project/quazip/quazip/0.5/quazip-0.5.zip</url>
         <sha1>154e459acd763e5114dc1bb2fe528f9a515feba5</sha1>
+        <dependency package="net.zlib.ZLibSource" versions="[1.2.5, 1.2.5]"/>
+    </version>
+    <version name="0.5.1" package="net.sourceforge.quazip.QuaZIPSource">
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b quazip*') do set name=%%x&#13;
+cd "%name%"        &#13;
+for /f "delims=" %%a in ('dir /b') do (&#13;
+  move "%%a" ..&#13;
+)&#13;
+cd ..&#13;
+rmdir "%name%"&#13;
+</file>
+        <url>http://downloads.sourceforge.net/project/quazip/quazip/0.5.1/quazip-0.5.1.zip</url>
+        <sha1>ddbd4cf48a24ea3b4fad77212e8f71ef5012c54f</sha1>
         <dependency package="net.zlib.ZLibSource" versions="[1.2.5, 1.2.5]"/>
     </version>
 
@@ -686,6 +720,33 @@ rmdir "%name%"
 </file>
         <url>http://oligarchy.co.uk/xapian/1.2.12/xapian-core-1.2.12.tar.gz</url>
         <sha1>2b96800280fee41eed767289620172f5226c9c4f</sha1>
+        <dependency package="org.7-zip.SevenZIPA" versions="[9.20, 9.20]"/>
+        <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.15.7, 2)"/>
+        <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1, 1]"/>
+    </version>
+    <version name="1.2.14" package="org.xapian.XapianCore" type="one-file">
+        <file path=".Npackd\Install.bat">if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1&#13;
+set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=org.7-zip.SevenZIPA" "--versions=[9.20, 9.20]"&#13;
+for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set sevenzipa=%%x&#13;
+&#13;
+for /f "delims=" %%x in ('dir /b *.tar.gz') do set setup=%%x&#13;
+"%sevenzipa%\7za.exe" x "%setup%"&#13;
+del "%setup%"&#13;
+&#13;
+for /f "delims=" %%x in ('dir /b *.tar') do set setup=%%x&#13;
+"%sevenzipa%\7za.exe" x "%setup%"&#13;
+del "%setup%"&#13;
+&#13;
+for /f "delims=" %%x in ('dir /b xapian*') do set name=%%x&#13;
+cd "%name%"&#13;
+for /f "delims=" %%a in ('dir /b') do (&#13;
+  move "%%a" ..&#13;
+)&#13;
+cd ..&#13;
+rmdir "%name%"&#13;
+</file>
+        <url>http://oligarchy.co.uk/xapian/1.2.14/xapian-core-1.2.14.tar.gz</url>
+        <sha1>0199483021b7e8704ddbc9c27c3d1531566a847a</sha1>
         <dependency package="org.7-zip.SevenZIPA" versions="[9.20, 9.20]"/>
         <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.15.7, 2)"/>
         <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1, 1]"/>
