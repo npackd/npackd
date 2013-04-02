@@ -641,6 +641,13 @@ WARNING: un-installation requires a system restart. Anti-virus</description>
         <icon>http://cdn.alternativeto.net/i/256fa651-7789-4396-93f0-f30a96af584b_12111.png</icon>
         <license>com.bittorrent.License</license>
     </package>
+    <package name="com.calibreebook.Calibre">
+        <title>Calibre</title>
+        <url>http://calibre-ebook.com</url>
+        <description>E-book management utility</description>
+        <icon>https://lh3.googleusercontent.com/-Dirr06cGJEw/UVknJgOzhRI/AAAAAAAABgg/Ov6o2zsYmUQ/s800/calibre.png</icon>
+        <license>org.gnu.GPLv3</license>
+    </package>
     <package name="com.clamwin.ClamWin">
         <title>ClamWin</title>
         <url>http://www.clamwin.com</url>
@@ -1849,10 +1856,11 @@ This package uses internal version numbers. For example, 1.7.0.1 corresponds to 
         <license>com.microsoft.SysinternalsLicense</license>
     </package>
     <package name="com.teamviewer.complete">
-        <title>Teamviewer</title>
-        <url>http://www.teamviewer.com/</url>
-        <description>Remote assistance.</description>
+        <title>TeamViewer</title>
+        <url>http://www.teamviewer.com</url>
+        <description>remote desktop, online meetings, web conferencing and file transfer between computers</description>
         <icon>http://download.filesin.com/uploads/158.png</icon>
+        <license>org.wikipedia.Freeware</license>
     </package>
     <package name="com.techpowerup.GPUZ">
         <title>GPU-Z</title>
@@ -2071,6 +2079,13 @@ If you have a dive computer, then you can import your recorded dives and thus yo
         <description>notetaking, sketching, keeping a journal, making a presentation, annotating a document - including pdf - or collaborating using a stylus, mouse or keyboard</description>
         <icon>https://lh6.googleusercontent.com/-9Sg1WXAbyNU/USi6om5byFI/AAAAAAAAAqo/pVqD0lbjHsE/s800/jarnal.png</icon>
         <license>org.gnu.GPLv3</license>
+    </package>
+    <package name="fm.banshee.Banshee">
+        <title>Banshee</title>
+        <url>http://banshee.fm</url>
+        <description>media player. WARNING: a system restart is required</description>
+        <icon>https://lh3.googleusercontent.com/-C6phnjwo62M/UVlRbzJCc9I/AAAAAAAABhc/h-6wM-owYU0/s800/banshee.png</icon>
+        <license>org.opensource.MITLicense</license>
     </package>
     <package name="fr.free.decompiler.java.JDGUI">
         <title>JD-GUI</title>
@@ -3281,6 +3296,13 @@ Eclipse version names:&#13;
         <icon>http://openiconlibrary.sourceforge.net/gallery2/open_icon_library-full/icons/png/32x32/apps/evince.png</icon>
         <license>org.gnu.GPLv2</license>
     </package>
+    <package name="org.gnomeprojects.gedit.gedit">
+        <title>gedit</title>
+        <url>http://projects.gnome.org/gedit</url>
+        <description>text editor</description>
+        <icon>https://lh3.googleusercontent.com/--meR3LsCnss/UVksoHrp9iI/AAAAAAAABgo/M0l4Y5gkbx0/s800/gedit.png</icon>
+        <license>org.gnu.GPLv3</license>
+    </package>
     <package name="org.gnu.Emacs">
         <title>Emacs</title>
         <url>http://www.gnu.org/software/emacs/</url>
@@ -3462,6 +3484,13 @@ The features of GNU Emacs include:&#13;
         <description>voice (VoIP), videoconferencing and instant messager</description>
         <icon>https://lh6.googleusercontent.com/-wQ42Tqy-7GI/UVb5QHMb0LI/AAAAAAAABf8/eamLpHRipuA/s800/jitsi.png</icon>
         <license>org.gnu.LGPLv2_1</license>
+    </package>
+    <package name="org.kde.amarok.Amarok">
+        <title>Amarok</title>
+        <url>http://amarok.kde.org</url>
+        <description>audio player</description>
+        <icon>https://lh5.googleusercontent.com/-WQGlXFKtOZc/UVkxnM4zTfI/AAAAAAAABg4/dDkMUL--xpQ/s800/amarok.png</icon>
+        <license>org.gnu.GPLv2</license>
     </package>
     <package name="org.krita.Krita">
         <title>Krita</title>
@@ -4631,49 +4660,7 @@ if %err% neq 0 exit /b %err%&#13;
         <url>http://ardownload.adobe.com/pub/adobe/reader/win/11.x/11.0.02/en_US/AdbeRdr11002_en_US.exe</url>
     </version>
 
-    <version name="11.4.402.265" package="com.adobe.FlashPlayer" type="one-file">
-        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.msi') do set setup=%%x&#13;
-mkdir .Npackd&#13;
-move "%setup%" .Npackd&#13;
-set err=%errorlevel%&#13;
-if %err% neq 0 exit %err%&#13;
-&#13;
-rem MSIFASTINSTALL: http://msdn.microsoft.com/en-us/library/dd408005%28v=VS.85%29.aspx&#13;
-msiexec.exe /qn /norestart /Lime .Npackd\InstallMSI.log /i ".Npackd\%setup%" INSTALLDIR="%CD%" ALLUSERS=1 MSIFASTINSTALL=7&#13;
-set err=%errorlevel%&#13;
-type .Npackd\InstallMSI.log&#13;
-&#13;
-rem list of errors: http://msdn.microsoft.com/en-us/library/windows/desktop/aa368542(v=vs.85).aspx&#13;
-rem 3010=restart required&#13;
-if %err% equ 3010 goto cont&#13;
-if %err% neq 0 exit %err%&#13;
-&#13;
-:cont&#13;
-</file>
-        <file path=".Npackd\Uninstall.bat">move .Npackd\*.msi .&#13;
-for /f "delims=" %%x in ('dir /b *.msi') do set setup=%%x&#13;
-&#13;
-rem MSIFASTINSTALL: http://msdn.microsoft.com/en-us/library/dd408005%28v=VS.85%29.aspx&#13;
-msiexec.exe /qn /norestart /Lime .Npackd\UninstallMSI.log /x "%setup%" MSIFASTINSTALL=7&#13;
-set err=%errorlevel%&#13;
-type .Npackd\UninstallMSI.log&#13;
-rem 3010=restart required&#13;
-if %err% equ 3010 goto cont&#13;
-if %err% neq 0 exit %err%&#13;
-&#13;
-:cont&#13;
-if not exist "%ProgramFiles(x86)%" set d=%windir%\System32\Macromed\Flash&#13;
-if exist "%ProgramFiles(x86)%" set d=%windir%\SysWOW64\Macromed\Flash&#13;
-cd "%d%"&#13;
-for /f "delims=" %%x in ('dir /b FlashUtil32*Plugin.exe') do set setup=%%x&#13;
-"%setup%" -uninstall&#13;
-</file>
-        <url>http://download.macromedia.com/get/flashplayer/current/licensing/win/install_flash_player_11_plugin.msi</url>
-        <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.1, 2)"/>
-        <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.15.7, 2)"/>
-        <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1, 1]"/>
-    </version>
-    <version name="11.5.502.110" package="com.adobe.FlashPlayer" type="one-file">
+    <version name="11.6.602.180" package="com.adobe.FlashPlayer" type="one-file">
         <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.msi') do set setup=%%x&#13;
 mkdir .Npackd&#13;
 move "%setup%" .Npackd&#13;
@@ -5205,6 +5192,27 @@ verify</file>
 verify&#13;
 rd /s /q "%APPDATA%\BitTorrent"</file>
         <url>http://download.bittorrent.com/7.8/BitTorrent.exe</url>
+    </version>
+
+    <version name="0.9.25" package="com.calibreebook.Calibre" type="one-file">
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.msi') do set setup=%%x&#13;
+msiexec.exe /qn /norestart /lime .Npackd\MSI.log /i "%setup%" TARGETDIR="%CD%" ALLUSERS=1&#13;
+set err=%errorlevel%&#13;
+type .Npackd\MSI.log&#13;
+rem 3010=restart required&#13;
+if %err% equ 3010 exit 0&#13;
+if %err% neq 0 exit %err%&#13;
+</file>
+        <file path=".Npackd\Uninstall.bat">for /f "delims=" %%x in ('dir /b *.msi') do set setup=%%x&#13;
+msiexec.exe /qn /norestart /lime .Npackd\MSI.log /x "%setup%"&#13;
+set err=%errorlevel%&#13;
+type .Npackd\MSI.log&#13;
+rem 3010=restart required&#13;
+if %err% equ 3010 exit 0&#13;
+if %err% neq 0 exit %err%&#13;
+</file>
+        <url>http://downloads.sourceforge.net/project/calibre/0.9.25/calibre-0.9.25.msi</url>
+        <sha1>19e15c45f38e049a63b94cf3a05d0a2f996e6c4d</sha1>
     </version>
 
     <version name="0.96.1" package="com.clamwin.ClamWin" type="one-file">
@@ -8608,9 +8616,9 @@ rd /s /q "%ProgramFiles%\KeySwitcherData"</file>
         <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
 "%setup%" /S&#13;
 &#13;
-reg add HKCU\Software\Kingsoft\Office\6.0\Common\wpshomeoptions /v StartWithBlank /t REG_SZ /d 00000001&#13;
-reg add HKCU\Software\Kingsoft\Office\6.0\Common\wpshomeoptions /v StartWithHome /t REG_SZ /d 00000000&#13;
-reg add HKCU\Software\Kingsoft\Office\6.0\Common\updateinfo /v UpdateMode /t REG_SZ /d manual</file>
+reg add HKCU\Software\Kingsoft\Office\6.0\Common\wpshomeoptions /v StartWithBlank /t REG_SZ /d 00000001 /f&#13;
+reg add HKCU\Software\Kingsoft\Office\6.0\Common\wpshomeoptions /v StartWithHome /t REG_SZ /d 00000000 /f&#13;
+reg add HKCU\Software\Kingsoft\Office\6.0\Common\updateinfo /v UpdateMode /t REG_SZ /d manual /f</file>
         <file path=".Npackd\Uninstall.bat">taskkill /im updateself.exe /f /t&#13;
 &#13;
 "%ProgramFiles%\Kingsoft\Kingsoft Office\utility\uninst.exe" /S || "%ProgramFiles(x86)%\Kingsoft\Kingsoft Office\utility\uninst.exe" /S</file>
@@ -12704,21 +12712,11 @@ for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set myun=%%x&#13;
     </version>
     <version name="8.0.16642" package="com.teamviewer.complete" type="one-file">
         <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
-rem /TargetInstallationPath="%CD%..\AVG_Anti_Virus_Program" is not used as this would prevent un-installation (the files would be locked)&#13;
-"%setup%" /AppMode=Setup /UILevel=silent /InstallToolbar=0 /LoggerPath="%CD%\.Npackd" /ChangeBrowserSearchProvider=0 /InstallSidebar=0 /ParticipateProductImprovement=0 /DontRestart /KillProcessesIfNeeded&#13;
-if %errorlevel% neq 0 exit %err%&#13;
+"%setup%" /S /D=%ProgramFiles%\TeamviewerData</file>
+        <file path=".Npackd\Uninstall.bat">taskkill /im TeamViewer_Service.exe /f /t&#13;
+"%ProgramFiles%\TeamviewerData\uninstall.exe" /S&#13;
 </file>
-        <file path=".Npackd\Uninstall.bat">rem direct un-installation does not work as the files are always locked&#13;
-rem "avgmfapx.exe" /AppMode=SETUP /Uninstall /UILevel=Silent /DontRestart&#13;
-&#13;
-if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1&#13;
-set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=net.nirsoft.MyUninstaller" "--versions=[1.74, 1.74]"&#13;
-for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set myun=%%x&#13;
-"%myun%\myuninst.exe" /uninstall "AVG 2013"</file>
-        <url>http://www.teamviewer.com/download/TeamViewer_Setup-ckc.exe</url>
-        <sha1>41347d07644f7af6f88203a31f415ce6606d9503</sha1>
-        <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.15.7, 2)"/>
-        <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1, 1]"/>
+        <url>http://download.teamviewer.com/download/TeamViewer_Setup.exe</url>
     </version>
 
     <version name="0.6.8" package="com.techpowerup.GPUZ" type="one-file">
@@ -14217,6 +14215,41 @@ if %err% neq 0 exit %err%
         <url>http://dl.dropbox.com/u/17046326/files/edu.ucla.sscnet.levine.Jarnal-2.71.zip</url>
         <sha1>ECFFEA61D3AB4727B64B43135CB1E30779B33853</sha1>
         <dependency package="com.oracle.JRE" versions="[1.5, 2)"/>
+    </version>
+
+    <version name="2.4" package="fm.banshee.Banshee" type="one-file">
+        <file path=".Npackd\Install.bat">reg add HKCU\Software\Microsoft\Windows\CurrentVersion\Policies\Attachments /v SaveZoneInformation /t REG_DWORD /d 00000001 /f&#13;
+reg add HKCU\Software\Microsoft\Windows\CurrentVersion\Policies\Associations /v LowRiskFileTypes /t REG_SZ /d .avi;.bat;.com;.cmd;.exe;.htm;.html;.lnk;.mpg;.mpeg;.mov;.mp3;.msi;.m3u;.rar;.reg;.txt;.vbs;.wav;.zip; /f&#13;
+reg delete HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\Attachments /v SaveZoneInformation /f&#13;
+reg delete HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\Associations /v LowRiskFileTypes /f&#13;
+taskkill /im reg.exe /f&#13;
+taskkill /im explorer.exe /f&#13;
+start explorer.exe&#13;
+&#13;
+for /f "delims=" %%x in ('dir /b *.msi') do set setup=%%x&#13;
+msiexec.exe /qn /norestart /lime .Npackd\MSI.log /i "%setup%" TARGETDIR="%CD%" ALLUSERS=1&#13;
+set err=%errorlevel%&#13;
+type .Npackd\MSI.log&#13;
+rem 3010=restart required&#13;
+if %err% equ 3010 exit 0&#13;
+if %err% neq 0 exit %err%&#13;
+&#13;
+reg delete HKCU\Software\Microsoft\Windows\CurrentVersion\Policies\Attachments /v SaveZoneInformation /f&#13;
+reg delete HKCU\Software\Microsoft\Windows\CurrentVersion\Policies\Associations /v LowRiskFileTypes /f&#13;
+reg delete HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\Attachments /v SaveZoneInformation /f&#13;
+reg delete HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\Associations /v LowRiskFileTypes /f&#13;
+taskkill /im reg.exe /f&#13;
+taskkill /im explorer.exe /f&#13;
+start explorer.exe</file>
+        <file path=".Npackd\Uninstall.bat">for /f "delims=" %%x in ('dir /b *.msi') do set setup=%%x&#13;
+msiexec.exe /qn /norestart /Lime .Npackd\MSI.log /X{5B613B0D-4197-4B57-BF22-7BD229FEB2F4}&#13;
+set err=%errorlevel%&#13;
+type .Npackd\MSI.log&#13;
+rem 3010=restart required&#13;
+if %err% equ 3010 exit 0&#13;
+if %err% neq 0 exit %err%</file>
+        <url>http://ftp.gnome.org/pub/GNOME/binaries/win32/banshee/2.4/Banshee-2.4.0.msi</url>
+        <sha1>1624fb8cccfedf802051a02cdbd1998813de7bbf</sha1>
     </version>
 
     <version name="0.3.5" package="fr.free.decompiler.java.JDGUI">
@@ -21938,6 +21971,24 @@ msiexec.exe /qn /norestart /x "%setup%"</file>
         <sha1>ac0b0317a92c9ceaf96e98268e09765e969d81d5</sha1>
     </version>
 
+    <version name="2.30.1.1" package="org.gnomeprojects.gedit.gedit" type="one-file">
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
+"%setup%" /SP- /VERYSILENT /SUPPRESSMSGBOXES /NOCANCEL /NORESTART /DIR="%ProgramFiles%\geditdata" /SAVEINF="%CD%\.Npackd\InnoSetupInfo.ini" /LOG="%CD%\.Npackd\InnoSetupInstall.log"&#13;
+set err=%errorlevel%&#13;
+type .Npackd\InnoSetupInstall.log&#13;
+if %err% neq 0 exit %err%&#13;
+</file>
+        <file path=".Npackd\Uninstall.bat">taskkill /im gconfd-2.exe /f /t&#13;
+&#13;
+"%ProgramFiles%\geditdata\unins000.exe" /VERYSILENT /SUPPRESSMSGBOXES /NORESTART /LOG="%CD%\.Npackd\InnoSetupUninstall.log"&#13;
+set err=%errorlevel%&#13;
+type .Npackd\InnoSetupUninstall.log&#13;
+if %err% neq 0 exit %err%&#13;
+</file>
+        <url>http://ftp.gnome.org/pub/gnome/binaries/win32/gedit/2.30/gedit-setup-2.30.1-1.exe</url>
+        <sha1>0d519fb3019c6eafd9422c59fefaeab94b464324</sha1>
+    </version>
+
     <version name="24.2" package="org.gnu.Emacs">
         <important-file path="bin\runemacs.exe" title="Emacs"/>
         <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b emacs*') do set name=%%x&#13;
@@ -22990,6 +23041,22 @@ if %err% equ 3010 exit 0&#13;
 if %err% neq 0 exit %err%&#13;
 </file>
         <url>http://download.jitsi.org/jitsi/msi/jitsi-2.0-latest-x86.msi</url>
+    </version>
+
+    <version name="2.6" package="org.kde.amarok.Amarok" type="one-file">
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
+"%setup%" /S</file>
+        <file path=".Npackd\Uninstall.bat">taskkill /im dbus-daemon.exe /f /t&#13;
+taskkill /im kded4.exe /f /t&#13;
+taskkill /im kglobalaccel.exe /f /t&#13;
+taskkill /im kio_http_cache_cleaner.exe /f /t&#13;
+taskkill /im klauncher.exe /f /t&#13;
+taskkill /im knotify4.exe /f /t&#13;
+&#13;
+"%ProgramFiles%\Amarok\uninstall.exe" /S || "%ProgramFiles(x86)%\Amarok\uninstall.exe" /S&#13;
+</file>
+        <url>http://download.kde.org/stable/amarok/2.6.0/win32/amarok-x86-setup-2.6.0.exe</url>
+        <sha1>664dab0a5a03559e39e84ba2737317fe8ce4836c </sha1>
     </version>
 
     <version name="2.6.8.5" package="org.krita.Krita" type="one-file">
