@@ -973,12 +973,20 @@ void WPMUtils::outputTextConsole(const QString& txt, bool stdout_)
             hStdout = GetStdHandle(STD_OUTPUT_HANDLE);
     }
     if (hStdout != INVALID_HANDLE_VALUE) {
+        // we do not check GetLastError here as it sometimes returns
+        // 2=The system cannot find the file specified.
+        // GetFileType returns 0 if an error occures so that the == check below
+        // is sufficient
+        DWORD ft = GetFileType(hStdout);
+        bool consoleOutput = (ft & ~(FILE_TYPE_REMOTE)) ==
+                FILE_TYPE_CHAR;
+
+        // TODO
         DWORD consoleMode;
-        bool consoleOutput = (GetFileType(hStdout) & ~(FILE_TYPE_REMOTE)) ==
-                FILE_TYPE_CHAR &&
-                (GetLastError() == 0) &&
-                GetConsoleMode(hStdout, &consoleMode) &&
-                (GetLastError() == 0);
+        if (consoleOutput) {
+            if (!GetConsoleMode(hStdout, &consoleMode))
+                consoleOutput = false;
+        }
 
         DWORD written;
         if (consoleOutput) {

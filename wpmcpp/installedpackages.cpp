@@ -415,8 +415,11 @@ void InstalledPackages::readRegistryDatabase()
             InstalledPackageVersion* ipv = new InstalledPackageVersion(
                     packageName, version, dir);
             ipv->detectionInfo = entryWR.get("DetectionInfo", &err);
-            if (!err.isEmpty())
-                continue;
+            if (!err.isEmpty()) {
+                // ignore
+                ipv->detectionInfo = "";
+                err = "";
+            }
 
             if (!ipv->directory.isEmpty()) {
                 /*
@@ -508,6 +511,12 @@ QString InstalledPackages::saveToRegistry(InstalledPackageVersion *ipv)
     QString r;
     QString keyName = "SOFTWARE\\Npackd\\Npackd\\Packages";
     QString pn = ipv->package + "-" + ipv->version.getVersionString();
+
+    // TODO: remove
+    WPMUtils::outputTextConsole(
+            "InstalledPackages::saveToRegistry " + ipv->directory + " " +
+            ipv->package + " " + ipv->version.getVersionString() + "\n");
+
     if (!ipv->directory.isEmpty()) {
         WindowsRegistry wr = machineWR.createSubKey(keyName + "\\" + pn, &r);
         if (r.isEmpty()) {
