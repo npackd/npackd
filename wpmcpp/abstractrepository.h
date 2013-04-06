@@ -194,7 +194,7 @@ public:
      *
      * @param package name of the package like "org.server.Word"
      * @param version package version
-     * @return [ownership:new] found package version or 0
+     * @return [ownership:caller] found package version or 0
      */
     virtual PackageVersion* findPackageVersion_(const QString& package,
             const Version& version) = 0;

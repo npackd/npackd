@@ -40,7 +40,7 @@ int App::process()
     }
 
     // TODO: call this function one more time on exit?
-    addNpackdCL();
+    // addNpackdCL();
 
     cl.add("package", 'p',
             "internal package name (e.g. com.example.Editor or just Editor)",
@@ -767,7 +767,7 @@ int App::update()
             job->setProgress(0.14);
     }
 
-    if (job->shouldProceed()) {
+    if (job->shouldProceed() && !up2date) {
         QString title;
         if (!confirm(ops, &title))
             job->cancel();
@@ -1280,6 +1280,7 @@ QString App::info()
             }
             WPMUtils::outputTextConsole("Important files: " + details + "\n");
 
+            /* TODO: remove?
             details = "";
             for (int i = 0; i < pv->dependencies.count(); i++) {
                 if (i != 0)
@@ -1288,6 +1289,7 @@ QString App::info()
                 details.append(d->toString());
             }
             WPMUtils::outputTextConsole("Dependencies: " + details + "\n");
+            */
         }
 
         if (!pv) {
@@ -1303,26 +1305,28 @@ QString App::info()
             WPMUtils::outputTextConsole("Versions: " + versions + "\n");
         }
 
-        InstalledPackages* ip = InstalledPackages::getDefault();
-        QList<InstalledPackageVersion*> ipvs = ip->getByPackage(p->name);
-        if (ipvs.count() > 0) {
-            WPMUtils::outputTextConsole(QString("%1 versions are installed:\n").
-                    arg(ipvs.count()));
-            for (int i = 0; i < ipvs.count(); ++i) {
-                InstalledPackageVersion* ipv = ipvs.at(i);
-                if (!ipv->getDirectory().isEmpty())
-                    WPMUtils::outputTextConsole("    " +
-                            ipv->version.getVersionString() +
-                            " in " + ipv->getDirectory() + "\n");
+        if (!pv) {
+            InstalledPackages* ip = InstalledPackages::getDefault();
+            QList<InstalledPackageVersion*> ipvs = ip->getByPackage(p->name);
+            if (ipvs.count() > 0) {
+                WPMUtils::outputTextConsole(QString("%1 versions are installed:\n").
+                        arg(ipvs.count()));
+                for (int i = 0; i < ipvs.count(); ++i) {
+                    InstalledPackageVersion* ipv = ipvs.at(i);
+                    if (!ipv->getDirectory().isEmpty())
+                        WPMUtils::outputTextConsole("    " +
+                                ipv->version.getVersionString() +
+                                " in " + ipv->getDirectory() + "\n");
+                }
+            } else {
+                WPMUtils::outputTextConsole("No versions are installed\n");
             }
-        } else {
-            WPMUtils::outputTextConsole("No versions are installed\n");
+            qDeleteAll(ipvs);
         }
-        qDeleteAll(ipvs);
 
         if (pv) {
             WPMUtils::outputTextConsole("Dependency tree:\n");
-            printDependencies(1, pv);
+            printDependencies(pv->installed(), "", 1, pv);
         }
     }
 
@@ -1331,30 +1335,60 @@ QString App::info()
     return r;
 }
 
-void App::printDependencies(int level, PackageVersion* pv)
+void App::printDependencies(bool onlyInstalled, const QString parentPrefix,
+        int level, PackageVersion* pv)
 {
-    QString prefix = QString("  ").repeated(level);
     for (int i = 0; i < pv->dependencies.count(); ++i) {
+        QString prefix;
+        if (i == pv->dependencies.count() - 1)
+            prefix = (QString() + ((QChar)0x2514) + ((QChar)0x2500));
+        else
+            prefix = (QString() + ((QChar)0x251c) + ((QChar)0x2500));
+
         Dependency* d = pv->dependencies.at(i);
         InstalledPackageVersion* ipv = d->findHighestInstalledMatch();
-        WPMUtils::outputTextConsole(prefix);
-        if (!ipv) {
-            WPMUtils::outputTextConsole(QString("Missing dependency on %1\n").
-                    arg(d->toString(true)));
-        } else {
-            PackageVersion* pvd = AbstractRepository::getDefault_()->
+
+        PackageVersion* pvd = 0;
+
+        QString s;
+        if (ipv) {
+            pvd = AbstractRepository::getDefault_()->
                     findPackageVersion_(ipv->package, ipv->version);
-            if (!pvd)
-                WPMUtils::outputTextConsole(QString("Missing dependency on %1\n").
-                        arg(d->toString(true)));
-            else {
-                WPMUtils::outputTextConsole(QString("%1 resolved to %2\n").
-                        arg(d->toString(true)).
-                        arg(ipv->version.getVersionString()));
-                printDependencies(level + 1, pvd);
-                delete pvd;
-            }
-            delete ipv;
+        } else {
+            pvd = d->findBestMatchToInstall(QList<PackageVersion*>());
+        }
+        delete ipv;
+
+        QChar before;
+        if (!pvd) {
+            s = QString("Missing dependency on %1").
+                    arg(d->toString(true));
+            before = ' ';
+        } else {
+            s = QString("%1 resolved to %2").
+                    arg(d->toString(true)).
+                    arg(pvd->version.getVersionString());
+            if (!pvd->installed())
+                s += " (not yet installed)";
+
+            if (pvd->dependencies.count() > 0)
+                before = (QChar) 0xb7;
+            else
+                before = ' ';
+        }
+
+        WPMUtils::outputTextConsole(parentPrefix + prefix + before + s + "\n");
+
+        if (pvd) {
+            QString nestedPrefix;
+            if (i == pv->dependencies.count() - 1)
+                nestedPrefix = parentPrefix + "  ";
+            else
+                nestedPrefix = parentPrefix + ((QChar)0x2502) + " ";
+            printDependencies(onlyInstalled,
+                    nestedPrefix,
+                    level + 1, pvd);
+            delete pvd;
         }
     }
 }
