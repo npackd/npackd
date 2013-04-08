@@ -142,7 +142,7 @@ public:
     void scanHardDrive(Job* job);
 
     /**
-     * Finds all installed packages.
+     * Finds all installed package versions.
      *
      * @return [ownership:caller] the list of installed package versions
      */
@@ -198,7 +198,6 @@ public:
      */
     virtual PackageVersion* findPackageVersion_(const QString& package,
             const Version& version) = 0;
-
 
     /**
      * Searches for a license by name.

@@ -245,6 +245,17 @@ QStringList InstalledPackages::getAllInstalledPackagePaths() const
 
 void InstalledPackages::refresh(Job *job)
 {
+    HRTimer timer(5);
+    /*
+     * Example:
+     *  0 :  0  ms
+        1 :  0  ms
+        2 :  207  ms
+        3 :  23015  ms
+        4 :  1116  ms
+     */
+    timer.time(0);
+
     if (!job->isCancelled() && job->getErrorMessage().isEmpty()) {
         job->setHint("Detecting directories deleted externally");
         QList<InstalledPackageVersion*> ipvs = this->data.values();
@@ -263,17 +274,29 @@ void InstalledPackages::refresh(Job *job)
         }
         job->setProgress(0.2);
     }
+    timer.time(1);
 
     if (!job->isCancelled() && job->getErrorMessage().isEmpty()) {
         job->setHint("Reading registry package database");
         readRegistryDatabase();
         job->setProgress(0.5);
     }
+    timer.time(2);
 
     if (!job->isCancelled() && job->getErrorMessage().isEmpty()) {
         job->setHint("Detecting software");
         Job* d = job->newSubJob(0.2);
 
+        HRTimer timer2(5);
+        /*
+         * Example:
+         *  0 :  0  ms
+            1 :  13990  ms
+            2 :  49  ms
+            3 :  443  ms
+            4 :  5677  ms
+         */
+        timer2.time(0);
         /* TODO
         job->setHint("Updating NPACKD_CL");
         AbstractRepository* rep = AbstractRepository::getDefault_();
@@ -283,29 +306,38 @@ void InstalledPackages::refresh(Job *job)
         AbstractThirdPartyPM* pm = new InstalledPackagesThirdPartyPM();
         detect3rdParty(pm);
         delete pm;
+        timer2.time(1);
 
         pm = new WellKnownProgramsThirdPartyPM();
         detect3rdParty(pm);
         delete pm;
+        timer2.time(2);
 
         // MSI package detection should happen before the detection for
         // control panel programs
         pm = new MSIThirdPartyPM();
         detect3rdParty(pm);
         delete pm;
+        timer2.time(3);
 
         pm = new ControlPanelThirdPartyPM();
         detect3rdParty(pm);
         delete pm;
+        timer2.time(4);
+
+        timer2.dump();
 
         delete d;
     }
+    timer.time(3);
 
     if (job->shouldProceed("Clearing information about installed package "
             "versions in nested directories")) {
         clearPackagesInNestedDirectories();
         job->setProgress(1);
     }
+    timer.time(4);
+    // timer.dump();
 
     job->complete();
 }
