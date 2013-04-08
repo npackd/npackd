@@ -15,6 +15,7 @@
 #include "wellknownprogramsthirdpartypm.h"
 #include "hrtimer.h"
 #include "installedpackagesthirdpartypm.h"
+#include "dbrepository.h"
 
 InstalledPackages InstalledPackages::def;
 
@@ -49,7 +50,14 @@ void InstalledPackages::detect3rdParty(AbstractThirdPartyPM *pm)
     Repository rep;
     QList<InstalledPackageVersion*> installed;
     pm->scan(&installed, &rep);
+
+    // TODO: handle error
+    Job* job = new Job();
+    DBRepository::getDefault()->insertAll(job, &rep);
+    delete job;
+
     AbstractRepository* r = AbstractRepository::getDefault_();
+    /*
     for (int i = 0; i < rep.packages.count(); i++) {
         Package* p = rep.packages.at(i);
         Package* fp = r->findPackage_(p->name);
@@ -73,6 +81,7 @@ void InstalledPackages::detect3rdParty(AbstractThirdPartyPM *pm)
         }
         delete p;
     }
+    */
 
     QStringList packagePaths = this->getAllInstalledPackagePaths();
     QDir d;
@@ -325,7 +334,7 @@ void InstalledPackages::refresh(Job *job)
         delete pm;
         timer2.time(4);
 
-        timer2.dump();
+        //timer2.dump();
 
         delete d;
     }
