@@ -981,7 +981,6 @@ void WPMUtils::outputTextConsole(const QString& txt, bool stdout_)
         bool consoleOutput = (ft & ~(FILE_TYPE_REMOTE)) ==
                 FILE_TYPE_CHAR;
 
-        // TODO
         DWORD consoleMode;
         if (consoleOutput) {
             if (!GetConsoleMode(hStdout, &consoleMode))
