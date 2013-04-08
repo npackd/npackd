@@ -37,6 +37,7 @@ WPMUtils::WPMUtils()
 /*
 void WPMUtils::createMSTask()
 {
+    // this function requires better error handling
     ITaskScheduler *pITS;
     HRESULT hr = CoCreateInstance(CLSID_CTaskScheduler,
             NULL,
@@ -54,7 +55,7 @@ void WPMUtils::createMSTask()
     //Release ITaskScheduler interface.
     pITS->Release();
 
-    // TODO: if (FAILED(hr))
+    // !!!!!!!!! if (FAILED(hr))
 
     IPersistFile *pIPersistFile;
 

@@ -16,6 +16,7 @@
 #include "packageversion.h"
 #include "wpmutils.h"
 #include "installedpackages.h"
+#include "hrtimer.h"
 
 static bool packageVersionLessThan3(const PackageVersion* a,
         const PackageVersion* b)
@@ -72,36 +73,12 @@ QString DBRepository::exec(const QString& sql)
     return toString(q.lastError());
 }
 
-QString DBRepository::insertPackage(Package* p)
-{
-    QMySqlQuery q;
-    q.prepare("INSERT INTO PACKAGE "
-            "(ID, NAME, TITLE, URL, ICON, DESCRIPTION, LICENSE, FULLTEXT, "
-            "STATUS, SHORT_NAME)"
-            "VALUES(:ID, :NAME, :TITLE, :URL, :ICON, :DESCRIPTION, :LICENSE, "
-            ":FULLTEXT, :STATUS, :SHORT_NAME)");
-    q.bindValue(":ID", QVariant(QVariant::Int));
-    q.bindValue(":NAME", p->name);
-    q.bindValue(":TITLE", p->title);
-    q.bindValue(":URL", p->url);
-    q.bindValue(":ICON", p->icon);
-    q.bindValue(":DESCRIPTION", p->description);
-    q.bindValue(":LICENSE", p->license);
-    q.bindValue(":FULLTEXT", (p->title + " " + p->description + " " +
-            p->name).toLower());
-    q.bindValue(":STATUS", Package::NOT_INSTALLED);
-    q.bindValue(":SHORT_NAME", p->getShortName());
-    q.exec();
-    return toString(q.lastError());
-}
-
 QString DBRepository::insertLicense(License* p)
 {
     QMySqlQuery q;
     q.prepare("INSERT INTO LICENSE "
-            "(ID, NAME, TITLE, DESCRIPTION, URL)"
-            "VALUES(:ID, :NAME, :TITLE, :DESCRIPTION, :URL)");
-    q.bindValue(":ID", QVariant(QVariant::Int));
+            "(NAME, TITLE, DESCRIPTION, URL)"
+            "VALUES(:NAME, :TITLE, :DESCRIPTION, :URL)");
     q.bindValue(":NAME", p->name);
     q.bindValue(":TITLE", p->title);
     q.bindValue(":DESCRIPTION", p->description);
@@ -133,16 +110,16 @@ Package *DBRepository::findPackage_(const QString &name)
     Package* r = 0;
 
     QMySqlQuery q;
-    q.prepare("SELECT ID, NAME, TITLE, URL, ICON, "
+    q.prepare("SELECT NAME, TITLE, URL, ICON, "
             "DESCRIPTION, LICENSE FROM PACKAGE WHERE NAME = :NAME");
     q.bindValue(":NAME", name);
     q.exec();
     if (q.next()) {
-        Package* p = new Package(q.value(1).toString(), q.value(2).toString());
-        p->url = q.value(3).toString();
-        p->icon = q.value(4).toString();
-        p->description = q.value(5).toString();
-        p->license = q.value(6).toString();
+        Package* p = new Package(q.value(0).toString(), q.value(1).toString());
+        p->url = q.value(2).toString();
+        p->icon = q.value(3).toString();
+        p->description = q.value(4).toString();
+        p->license = q.value(5).toString();
         r = p;
     }
 
@@ -156,7 +133,7 @@ PackageVersion* DBRepository::findPackageVersion_(
     PackageVersion* r = 0;
 
     QMySqlQuery q;
-    q.prepare("SELECT ID, NAME, "
+    q.prepare("SELECT NAME, "
             "PACKAGE, CONTENT, MSIGUID FROM PACKAGE_VERSION "
             "WHERE NAME = :NAME AND PACKAGE = :PACKAGE");
     q.bindValue(":NAME", version_);
@@ -167,7 +144,7 @@ PackageVersion* DBRepository::findPackageVersion_(
         QDomDocument doc;
         int errorLine, errorColumn;
         QString err;
-        if (!doc.setContent(q.value(3).toByteArray(),
+        if (!doc.setContent(q.value(2).toByteArray(),
                 &err, &errorLine, &errorColumn))
             err = QString(
                     "XML parsing failed at line %1, column %2: %3").
@@ -193,7 +170,7 @@ QList<PackageVersion*> DBRepository::getPackageVersions_(
     QList<PackageVersion*> r;
 
     QMySqlQuery q;
-    q.prepare("SELECT ID, NAME, "
+    q.prepare("SELECT NAME, "
             "PACKAGE, CONTENT, MSIGUID FROM PACKAGE_VERSION "
             "WHERE PACKAGE = :PACKAGE");
     q.bindValue(":PACKAGE", package);
@@ -204,7 +181,7 @@ QList<PackageVersion*> DBRepository::getPackageVersions_(
     while (err->isEmpty() && q.next()) {
         QDomDocument doc;
         int errorLine, errorColumn;
-        if (!doc.setContent(q.value(3).toByteArray(),
+        if (!doc.setContent(q.value(2).toByteArray(),
                 err, &errorLine, &errorColumn)) {
             *err = QString(
                     "XML parsing failed at line %1, column %2: %3").
@@ -233,16 +210,16 @@ License *DBRepository::findLicense_(const QString& name)
     License* cached = this->licenses.object(name);
     if (!cached) {
         QMySqlQuery q;
-        q.prepare("SELECT ID, NAME, TITLE, DESCRIPTION, URL "
+        q.prepare("SELECT NAME, TITLE, DESCRIPTION, URL "
                 "FROM LICENSE "
                 "WHERE NAME = :NAME");
         q.bindValue(":NAME", name);
         q.exec();
         if (q.next()) {
             // TODO: handle error
-            cached = new License(name, q.value(2).toString());
-            cached->description = q.value(3).toString();
-            cached->url = q.value(4).toString();
+            cached = new License(name, q.value(1).toString());
+            cached->description = q.value(2).toString();
+            cached->url = q.value(3).toString();
             r = cached->clone();
             this->licenses.insert(name, cached);
         }
@@ -264,7 +241,7 @@ QList<Package*> DBRepository::findPackages(
     QList<Package*> r;
 
     QMySqlQuery q;
-    QString sql = "SELECT ID, NAME, TITLE, URL, ICON, "
+    QString sql = "SELECT NAME, TITLE, URL, ICON, "
             "DESCRIPTION, LICENSE FROM PACKAGE";
     QString where;
     for (int i = 0; i < keywords.count(); i++) {
@@ -290,11 +267,11 @@ QList<Package*> DBRepository::findPackages(
         q.bindValue(":STATUS", status);
     q.exec();
     while (q.next()) {
-        Package* p = new Package(q.value(1).toString(), q.value(2).toString());
-        p->url = q.value(3).toString();
-        p->icon = q.value(4).toString();
-        p->description = q.value(5).toString();
-        p->license = q.value(6).toString();
+        Package* p = new Package(q.value(0).toString(), q.value(1).toString());
+        p->url = q.value(2).toString();
+        p->icon = q.value(3).toString();
+        p->description = q.value(4).toString();
+        p->license = q.value(5).toString();
         r.append(p);
     }
 
@@ -308,7 +285,7 @@ QList<PackageVersion *> DBRepository::findPackageVersions() const
     QList<PackageVersion*> r;
 
     QMySqlQuery q;
-    q.prepare("SELECT ID, NAME, "
+    q.prepare("SELECT NAME, "
             "PACKAGE, CONTENT, MSIGUID FROM PACKAGE_VERSION");
     q.exec();
     while (q.next()) {
@@ -316,7 +293,7 @@ QList<PackageVersion *> DBRepository::findPackageVersions() const
         QDomDocument doc;
         int errorLine, errorColumn;
         QString err;
-        if (!doc.setContent(q.value(3).toByteArray(),
+        if (!doc.setContent(q.value(2).toByteArray(),
                 &err, &errorLine, &errorColumn))
             err = QString(
                     "XML parsing failed at line %1, column %2: %3").
@@ -343,9 +320,9 @@ QString DBRepository::savePackage(Package *p, bool replace)
     else
         sql += "IGNORE";
     sql += " INTO PACKAGE "
-            "(ID, NAME, TITLE, URL, ICON, DESCRIPTION, LICENSE, FULLTEXT, "
+            "(NAME, TITLE, URL, ICON, DESCRIPTION, LICENSE, FULLTEXT, "
             "STATUS, SHORT_NAME)"
-            "VALUES(:ID, :NAME, :TITLE, :URL, :ICON, :DESCRIPTION, :LICENSE, "
+            "VALUES(:NAME, :TITLE, :URL, :ICON, :DESCRIPTION, :LICENSE, "
             ":FULLTEXT, :STATUS, :SHORT_NAME)";
     q.prepare(sql);
     q.bindValue(":NAME", p->name);
@@ -377,16 +354,16 @@ QList<Package*> DBRepository::findPackagesByShortName(const QString &name)
     QList<Package*> r;
 
     QMySqlQuery q;
-    q.prepare("SELECT ID, NAME, TITLE, URL, ICON, "
+    q.prepare("SELECT NAME, TITLE, URL, ICON, "
             "DESCRIPTION, LICENSE FROM PACKAGE WHERE SHORT_NAME = :SHORT_NAME");
     q.bindValue(":SHORT_NAME", name);
     q.exec();
     while (q.next()) {
-        Package* p = new Package(q.value(1).toString(), q.value(2).toString());
-        p->url = q.value(3).toString();
-        p->icon = q.value(4).toString();
-        p->description = q.value(5).toString();
-        p->license = q.value(6).toString();
+        Package* p = new Package(q.value(0).toString(), q.value(1).toString());
+        p->url = q.value(2).toString();
+        p->icon = q.value(3).toString();
+        p->description = q.value(4).toString();
+        p->license = q.value(5).toString();
         r.append(p);
     }
 
@@ -402,10 +379,9 @@ QString DBRepository::savePackageVersion(PackageVersion *p, bool replace)
     else
         sql += "IGNORE";
     sql += " INTO PACKAGE_VERSION "
-            "(ID, NAME, PACKAGE, CONTENT, MSIGUID)"
-            "VALUES(:ID, :NAME, :PACKAGE, :CONTENT, :MSIGUID)";
+            "(NAME, PACKAGE, CONTENT, MSIGUID)"
+            "VALUES(:NAME, :PACKAGE, :CONTENT, :MSIGUID)";
     q.prepare(sql);
-    q.bindValue(":ID", QVariant(QVariant::Int));
     q.bindValue(":NAME", p->version.getVersionString());
     q.bindValue(":PACKAGE", p->package);
     q.bindValue(":MSIGUID", p->msiGUID);
@@ -428,7 +404,7 @@ PackageVersion *DBRepository::findPackageVersionByMSIGUID_(
     PackageVersion* r = 0;
 
     QMySqlQuery q;
-    q.prepare("SELECT ID, NAME, "
+    q.prepare("SELECT NAME, "
             "PACKAGE, CONTENT FROM PACKAGE_VERSION "
             "WHERE MSIGUID = :MSIGUID");
     q.bindValue(":MSIGUID", guid);
@@ -438,7 +414,7 @@ PackageVersion *DBRepository::findPackageVersionByMSIGUID_(
         QDomDocument doc;
         int errorLine, errorColumn;
         QString err;
-        if (!doc.setContent(q.value(3).toByteArray(),
+        if (!doc.setContent(q.value(2).toByteArray(),
                 &err, &errorLine, &errorColumn))
             err = QString(
                     "XML parsing failed at line %1, column %2: %3").
@@ -518,6 +494,18 @@ void DBRepository::addPackageVersion(const QString &package,
 
 void DBRepository::updateF5(Job* job)
 {
+    HRTimer timer(7);
+
+    /*
+     * Example: 0 :  0  ms
+        1 :  127  ms
+        2 :  13975  ms
+        3 :  1665  ms
+        4 :  0  ms
+        5 :  18189  ms
+        6 :  4400  ms
+     */
+    timer.time(0);
     Repository* r = new Repository();
     if (job->shouldProceed("Clearing the database")) {
         // TODO: error is ignored
@@ -528,6 +516,7 @@ void DBRepository::updateF5(Job* job)
             job->setProgress(0.1);
     }
 
+    timer.time(1);
     if (job->shouldProceed("Downloading the remote repositories")) {
         Job* sub = job->newSubJob(0.69);
         r->load(sub, false);
@@ -545,6 +534,7 @@ void DBRepository::updateF5(Job* job)
         */
     }
 
+    timer.time(2);
     if (job->shouldProceed("Filling the local database")) {
         Job* sub = job->newSubJob(0.06);
         insertAll(sub, r);
@@ -552,12 +542,14 @@ void DBRepository::updateF5(Job* job)
             job->setErrorMessage(sub->getErrorMessage());
         delete sub;
     }
+    timer.time(3);
 
     if (job->shouldProceed("Adding well-known packages")) {
         addWellKnownPackages();
         job->setProgress(0.8);
     }
 
+    timer.time(4);
     if (job->shouldProceed("Refreshing the installation status")) {
         Job* sub = job->newSubJob(0.1);
         InstalledPackages::getDefault()->refresh(sub);
@@ -566,6 +558,7 @@ void DBRepository::updateF5(Job* job)
         delete sub;
     }
 
+    timer.time(5);
     if (job->shouldProceed(
             "Updating the status for installed packages in the database")) {
         updateStatusForInstalled();
@@ -573,6 +566,10 @@ void DBRepository::updateF5(Job* job)
     }
 
     delete r;
+    timer.time(6);
+
+    // timer.dump();
+
     job->complete();
 }
 
@@ -636,6 +633,8 @@ void DBRepository::insertAll(Job* job, Repository* r)
             job->setErrorMessage(err);
         else
             job->setProgress(1);
+    } else {
+        exec("ROLLBACK");
     }
 
     job->complete();
@@ -664,7 +663,7 @@ QString DBRepository::insertPackages(Repository* r)
     QString err;
     for (int i = 0; i < r->packages.count(); i++) {
         Package* p = r->packages.at(i);
-        err = insertPackage(p);
+        err = savePackage(p, false);
         if (!err.isEmpty())
             break;
     }
@@ -774,7 +773,7 @@ QString DBRepository::open()
 
     if (err.isEmpty()) {
         if (!e) {
-            db.exec("CREATE TABLE PACKAGE(ID INTEGER PRIMARY KEY, NAME TEXT, "
+            db.exec("CREATE TABLE PACKAGE(NAME TEXT, "
                     "TITLE TEXT, "
                     "URL TEXT, "
                     "ICON TEXT, "
@@ -815,7 +814,7 @@ QString DBRepository::open()
 
     if (err.isEmpty()) {
         if (!e) {
-            db.exec("CREATE TABLE PACKAGE_VERSION(ID INTEGER PRIMARY KEY, NAME TEXT, "
+            db.exec("CREATE TABLE PACKAGE_VERSION(NAME TEXT, "
                     "PACKAGE TEXT, "
                     "CONTENT BLOB, MSIGUID TEXT)");
             err = toString(db.lastError());
@@ -845,7 +844,7 @@ QString DBRepository::open()
 
     if (err.isEmpty()) {
         if (!e) {
-            db.exec("CREATE TABLE LICENSE(ID INTEGER PRIMARY KEY, NAME TEXT, "
+            db.exec("CREATE TABLE LICENSE(NAME TEXT, "
                     "TITLE TEXT, "
                     "DESCRIPTION TEXT, "
                     "URL TEXT"

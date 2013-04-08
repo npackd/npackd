@@ -29,7 +29,6 @@ private:
 
     QCache<QString, License> licenses;
 
-    QString insertPackage(Package* p);
     QString insertLicense(License* p);
 
     QString insertPackages(Repository* r);
