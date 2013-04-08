@@ -586,13 +586,15 @@ QString App::removeRepo()
                 }
             }
             if (found < 0) {
-                WPMUtils::outputTextConsole("The repository was not in the list: " +
+                WPMUtils::outputTextConsole(
+                        "The repository was not in the list: " +
                         url + "\n");
             } else {
                 delete urls.takeAt(found);
                 AbstractRepository::setRepositoryURLs(urls, &err);
                 if (err.isEmpty())
-                    WPMUtils::outputTextConsole("The repository was removed successfully\n");
+                    WPMUtils::outputTextConsole(
+                            "The repository was removed successfully\n");
             }
         }
         qDeleteAll(urls);
