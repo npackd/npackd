@@ -299,11 +299,11 @@ void InstalledPackages::refresh(Job *job)
         HRTimer timer2(5);
         /*
          * Example:
-         *  0 :  0  ms
-            1 :  13990  ms
-            2 :  49  ms
-            3 :  443  ms
-            4 :  5677  ms
+            0 :  0  ms
+            1 :  1095  ms
+            2 :  123  ms
+            3 :  567  ms
+            4 :  487  ms
          */
         timer2.time(0);
         /* TODO
