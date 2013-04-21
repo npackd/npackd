@@ -429,6 +429,13 @@ This package uses internal version numbers. For example, 1.7.0.1 corresponds to 
         <icon>https://lh5.googleusercontent.com/-1YTOYKMqk5w/UUITQMuyU7I/AAAAAAAABU0/piOYYPzOGNQ/s800/-xnconvert.png</icon>
         <license>org.wikipedia.Freeware</license>
     </package>
+    <package name="de.twotoasts.midori.Midori64">
+        <title>Midori 64 bit</title>
+        <url>http://twotoasts.de/index.php/midori</url>
+        <description>web browser</description>
+        <icon>https://lh6.googleusercontent.com/-DQ5SpEwrXXQ/UWusy9JP5QI/AAAAAAAABwc/47mW1TEu4rk/s800/midori.png</icon>
+        <license>org.gnu.LGPLv2_1</license>
+    </package>
     <package name="fr.handbrake.HandBrake64">
         <title>HandBrake 64 bit</title>
         <url>http://handbrake.fr</url>
@@ -512,11 +519,25 @@ This package uses internal version numbers. For example, 1.7.0.1 corresponds to 
         <icon>https://lh6.googleusercontent.com/-kM9twrKMtVc/UQIX_bJqs4I/AAAAAAAAABU/cnK5K2brsrE/s800/avidemux_32.png</icon>
         <license>org.gnu.GPLv2</license>
     </package>
+    <package name="net.sourceforge.dittocp.Ditto64">
+        <title>Ditto 64 bit</title>
+        <url>http://ditto-cp.sourceforge.net</url>
+        <description>an extension to the standard windows clipboard that saves each item placed on the clipboard (text, images, html, custom formats, etc)</description>
+        <icon>https://lh5.googleusercontent.com/-7GCXw9cjD3s/UWzfs9RdGnI/AAAAAAAAByU/HyVHNDiLN9E/s800/ditto.png</icon>
+        <license>org.gnu.GPLv2</license>
+    </package>
     <package name="net.sourceforge.Doublecmd64">
         <title>Double Commander 64 bit</title>
         <url>http://doublecmd.sourceforge.net/site/eng/index.html</url>
         <description>file manager with two panels side by side</description>
         <icon>https://lh4.googleusercontent.com/-hddaumBciZY/URTtspWdPGI/AAAAAAAAAek/wUG15q9KTLg/s800/doublecmd.png</icon>
+        <license>org.gnu.GPLv2</license>
+    </package>
+    <package name="net.sourceforge.lmms.LMMS64">
+        <title>Linux MultiMedia Studio 64 bit</title>
+        <url>http://lmms.sourceforge.net</url>
+        <description>digital audio workstation</description>
+        <icon>https://lh3.googleusercontent.com/-c6sKyKBVqv8/UWvIfEsLsoI/AAAAAAAABxU/ZumcQcGi92M/s800/lmms.png</icon>
         <license>org.gnu.GPLv2</license>
     </package>
     <package name="net.sourceforge.mingw-w64.MinGWW6464">
@@ -616,6 +637,13 @@ This package uses internal version numbers. For example, 1.7.0.1 corresponds to 
         <description>clipboard history</description>
         <icon>http://cdn.alternativeto.net/i/a137a5c5-5bf8-de11-8cae-0022190f5762_23092.png</icon>
         <license>org.bluemars.ClipXLicense</license>
+    </package>
+    <package name="org.cgsecurity.testdisk.TestDisk64">
+        <title>TestDisk &amp; PhotoRec 64 bit</title>
+        <url>http://www.cgsecurity.org/wiki/TestDisk</url>
+        <description>command line tools for recover lost partitions, make non-booting disks bootable again, fix partition table, recover FAT32/NTFS boot sector from its backup, rebuild FAT12/FAT16/FAT32/NTFS boot sector, fix FAT tables, copy files from deleted FAT/exFAT/NTFS/ext2/ext3/ext4 partitions and etc</description>
+        <icon>https://lh6.googleusercontent.com/-4YDIq37cDvk/UWzozWUQRDI/AAAAAAAAByk/XctjiJ8dsUA/s800/testdisk.png</icon>
+        <license>org.gnu.GPLv2</license>
     </package>
     <package name="org.eclipse.EclipseIDECPP64">
         <title>Eclipse IDE for C and C++ Developers 64 bit</title>
@@ -3268,6 +3296,35 @@ verify&#13;
         <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.15.7, 2)"/>
         <dependency package="com.googlecode.windows-package-manager.CLU" versions="[1, 2)"/>
     </version>
+    <version name="2.5.4" package="com.selenic.mercurial.Mercurial64" type="one-file">
+        <file path=".Npackd\Uninstall.bat">unins000.exe /VERYSILENT /SUPPRESSMSGBOXES /NORESTART /LOG="%CD%\.Npackd\InnoSetupUninstall.log"&#13;
+set err=%errorlevel%&#13;
+type .Npackd\InnoSetupUninstall.log&#13;
+if %err% neq 0 exit %err%&#13;
+&#13;
+if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1&#13;
+set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.CLU" "--versions=[1, 2)"&#13;
+for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set clu=%%x&#13;
+"%clu%\clu" remove-path --path "%CD%"&#13;
+verify&#13;
+</file>
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
+"%setup%" /SP- /VERYSILENT /SUPPRESSMSGBOXES /NOCANCEL /NORESTART /DIR="%CD%" /SAVEINF="%CD%\.Npackd\InnoSetupInfo.ini" /LOG="%CD%\.Npackd\InnoSetupInstall.log"&#13;
+set err=%errorlevel%&#13;
+type .Npackd\InnoSetupInstall.log&#13;
+if %err% neq 0 exit %err%&#13;
+&#13;
+if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1&#13;
+set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.CLU" "--versions=[1, 2)"&#13;
+for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set clu=%%x&#13;
+"%clu%\clu" add-path --path "%CD%"&#13;
+verify&#13;
+</file>
+        <url>http://mercurial.selenic.com/release/windows/Mercurial-2.5.2-x64.exe</url>
+        <sha1>6db5e8a847203b5d8fcdaa2e321961fc3b025dc7</sha1>
+        <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.15.7, 2)"/>
+        <dependency package="com.googlecode.windows-package-manager.CLU" versions="[1, 2)"/>
+    </version>
 
     <version name="4.51" package="com.softwareok.QDir64">
         <important-file path="Q-Dir.exe" title="Q-Dir"/>
@@ -3548,6 +3605,20 @@ del Q-Dir.ini&#13;
 </file>
         <url>https://drive.google.com/uc?export=download&amp;id=0Bzt53EW9ybrwTnJTSHJBTkpxSHc</url>
         <sha1>c7b1b83ad2fbd1cbd06cb3a91ab3bfabdba333bf</sha1>
+    </version>
+    <version name="5.52" package="com.softwareok.QDir64">
+        <important-file path="Q-Dir.exe" title="Q-Dir"/>
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b Q*') do set name=%%x&#13;
+cd "%name%"        &#13;
+for /f "delims=" %%a in ('dir /b') do (&#13;
+  move "%%a" ..&#13;
+)&#13;
+cd ..&#13;
+rmdir "%name%"&#13;
+del Q-Dir.ini&#13;
+</file>
+        <url>https://drive.google.com/uc?export=download&amp;id=0Bzt53EW9ybrwUzVKMGdNLWZwa1E</url>
+        <sha1>9cb4857bab110b93a57615ecb9488931e5826a91</sha1>
     </version>
 
     <version name="5.16.3.1" package="com.strawberryperl.StrawberryPerl64" type="one-file">
@@ -3848,9 +3919,7 @@ if %err% neq 0 exit /b %err%
         <sha1>df769f04f2c64f7cd819161e79aed66493e66ef5</sha1>
     </version>
     <version name="2.5.210" package="com.tracker-software.PDFXChangeViewer64" type="one-file">
-        <file path=".Npackd\Install.bat">ren uc PDFXChangeViewer64.msi&#13;
-&#13;
-for /f %%x in ('dir /b *.msi') do set setup=%%x&#13;
+        <file path=".Npackd\Install.bat">for /f %%x in ('dir /b *.msi') do set setup=%%x&#13;
 copy "%setup%" .Npackd&#13;
 msiexec.exe /qn /norestart /Lime .Npackd\MSI.log /i "%setup%" INSTALLLOCATION="%CD%" ALLUSERS=1&#13;
 set err=%errorlevel%&#13;
@@ -3868,7 +3937,7 @@ rem 3010=restart required&#13;
 if %err% equ 3010 exit /b 0&#13;
 if %err% neq 0 exit /b %err%&#13;
 </file>
-        <url>https://drive.google.com/uc?export=download&amp;confirm=no_antivirus&amp;id=0Bzt53EW9ybrwMm1DR2ItQ2RyVXM</url>
+        <url>https://dl.dropboxusercontent.com/u/17046326/files/com.tracker-software.PDFXChangeViewer64-2.5.210.msi</url>
         <sha1>ad23c56d8b3d4c1d20563794498ca98030cd55c0</sha1>
     </version>
 
@@ -3976,6 +4045,29 @@ type .Npackd\InnoSetupUninstall.log&#13;
 if %err% neq 0 exit %err%&#13;
 </file>
         <url>http://download.xnview.com/XnConvert-win-x64.exe</url>
+    </version>
+
+    <version name="0.4.8" package="de.twotoasts.midori.Midori64" type="one-file">
+        <important-file path="bin\midori.exe" title="Midori"/>
+        <file path=".Npackd\Install.bat">if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1&#13;
+set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=org.7-zip.SevenZIPA" "--versions=[9.20, 9.20]"&#13;
+for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set sevenzipa=%%x&#13;
+&#13;
+for /f "delims=" %%y in ('dir /b *.7z') do set setup=%%y&#13;
+"%sevenzipa%\7za.exe" x "%setup%" -aoa&#13;
+&#13;
+del /q /f *.7z&#13;
+&#13;
+for /f "delims=" %%x in ('dir /b midori*') do set name=%%x&#13;
+cd "%name%"        &#13;
+for /f "delims=" %%a in ('dir /b') do (&#13;
+  move "%%a" ..&#13;
+)&#13;
+cd ..&#13;
+rmdir "%name%"</file>
+        <url>http://www.twotoasts.de/media/midori-0.4.8-x64_86-portable.7z</url>
+        <sha1>8e1b88f49fb3b93c80c4416d2cd87f671fa668ec</sha1>
+        <dependency package="org.7-zip.SevenZIPA" versions="[9.20, 9.20]"/>
     </version>
 
     <version name="0.9.6" package="fr.handbrake.HandBrake64" type="one-file">
@@ -4249,6 +4341,25 @@ verify&#13;
         <sha1>ffe185c39d1b151239cca8af85f201cabce18cff</sha1>
     </version>
 
+    <version name="3.18.46" package="net.sourceforge.dittocp.Ditto64" type="one-file">
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
+"%setup%" /SP- /VERYSILENT /SUPPRESSMSGBOXES /NOCANCEL /NORESTART /DIR="%CD%" /SAVEINF="%CD%\.Npackd\InnoSetupInfo.ini" /LOG="%CD%\.Npackd\InnoSetupInstall.log"&#13;
+set err=%errorlevel%&#13;
+type .Npackd\InnoSetupInstall.log&#13;
+if %err% neq 0 exit %err%&#13;
+</file>
+        <file path=".Npackd\Uninstall.bat">unins000.exe /VERYSILENT /SUPPRESSMSGBOXES /NORESTART /LOG="%CD%\.Npackd\InnoSetupUninstall.log"&#13;
+set err=%errorlevel%&#13;
+type .Npackd\InnoSetupUninstall.log&#13;
+if %err% neq 0 exit %err%&#13;
+&#13;
+rd /s /q "%ALLUSERSPROFILE%\Start Menu\Programs\Ditto" || rd /s /q "%ALLUSERSPROFILE%\Microsoft\Windows\Start Menu\Programs\Ditto"&#13;
+verify&#13;
+</file>
+        <url>http://downloads.sourceforge.net/project/ditto-cp/Ditto/3.18.46.0/DittoSetup_64bit_3_18_46_0.exe</url>
+        <sha1>d451a20ba040d99a378673831cfcb2e2c9cded7c</sha1>
+    </version>
+
     <version name="0.5.4" package="net.sourceforge.Doublecmd64" type="one-file">
         <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
 "%setup%" /SP- /VERYSILENT /SUPPRESSMSGBOXES /NOCANCEL /NORESTART /DIR="%CD%" /SAVEINF="%CD%\.Npackd\InnoSetupInfo.ini" /LOG="%CD%\.Npackd\InnoSetupInstall.log"&#13;
@@ -4261,6 +4372,16 @@ type .Npackd\InnoSetupUninstall.log&#13;
 if %err% neq 0 exit %err%</file>
         <url>http://downloads.sourceforge.net/project/doublecmd/DC%20for%20Windows%2064%20bit/Double%20Commander%200.5.4%20beta/doublecmd-0.5.4.x86_64-win64.exe</url>
         <sha1>66918d623fd0cacc6f53aa4a947b18c81af83c0f</sha1>
+    </version>
+
+    <version name="0.4.13" package="net.sourceforge.lmms.LMMS64" type="one-file">
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
+"%setup%" /S /D=%CD%&#13;
+</file>
+        <file path=".Npackd\Uninstall.bat">Uninstall.exe /S _?=%CD%&#13;
+</file>
+        <url>http://downloads.sourceforge.net/project/lmms/lmms/0.4.13/lmms-0.4.13-win64.exe</url>
+        <sha1>4ba25ce1ebcc503aff9964bc599228ae2f98eeb1</sha1>
     </version>
 
     <version name="1.0.2011.7.18" package="net.sourceforge.mingw-w64.MinGWW6464">
@@ -4420,6 +4541,52 @@ verify&#13;
         <dependency package="org.7-zip.SevenZIPA" versions="[9.20, 9.20]"/>
         <dependency package="com.googlecode.windows-package-manager.CLU" versions="[1, 2)"/>
     </version>
+    <version name="4.8" package="net.sourceforge.mingw-w64.MinGWW6464" type="one-file">
+        <file path=".Npackd\Uninstall.bat">if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1&#13;
+set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.CLU" "--versions=[1, 2)"&#13;
+for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set clu=%%x&#13;
+"%clu%\clu" remove-path --path "%CD%\bin"&#13;
+verify&#13;
+</file>
+        <file path=".Npackd\Install.bat">if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1&#13;
+set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=org.7-zip.SevenZIPA" "--versions=[9.20, 9.20]"&#13;
+for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set sevenzipa=%%x&#13;
+for /f %%x in ('dir /b *.7z') do set setup=%%x&#13;
+"%sevenzipa%\7za.exe" x "%setup%" &gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+del "%setup%"&#13;
+&#13;
+rem remove intermediate directory&#13;
+for /f "delims=" %%x in ('dir /b mingw32*') do set name=%%x&#13;
+cd "%name%"        &#13;
+for /f "delims=" %%a in ('dir /b') do (&#13;
+  move "%%a" ..&#13;
+)&#13;
+cd ..&#13;
+rmdir "%name%"&#13;
+&#13;
+rem rename prefixed binaries&#13;
+cd bin&#13;
+setlocal enabledelayedexpansion&#13;
+for /f "delims=" %%a in ('dir /b i686-w64-mingw32-*.exe') do (&#13;
+  set n=%%a&#13;
+  set n2=!n:~17!&#13;
+  ren "%%a" !n2!&#13;
+)&#13;
+endlocal&#13;
+cd ..&#13;
+&#13;
+if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1&#13;
+set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.CLU" "--versions=[1, 2)"&#13;
+for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set clu=%%x&#13;
+"%clu%\clu" add-path --path "%CD%\bin"&#13;
+verify&#13;
+</file>
+        <url>https://downloads.sourceforge.net/project/mingw-w64/Toolchains%20targetting%20Win32/Personal%20Builds/rubenvb/gcc-4.8-release/i686-w64-mingw32-gcc-4.8.0-win64_rubenvb.7z</url>
+        <sha1>02f07b855419d9e6b9c692ce7cbf9247d6423650</sha1>
+        <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.15.7, 2)"/>
+        <dependency package="org.7-zip.SevenZIPA" versions="[9.20, 9.20]"/>
+        <dependency package="com.googlecode.windows-package-manager.CLU" versions="[1, 2)"/>
+    </version>
 
     <version name="1.5.0.2827" package="net.sourceforge.mpc-hc.MediaPlayerClassicHomeCinema64">
         <important-file path="mpc-hc64.exe" title="Media Player Classic - Home Cinema"/>
@@ -4548,6 +4715,21 @@ if %err% neq 0 exit %err%&#13;
         <url>https://peazip.googlecode.com/files/peazip-4.9.WIN64.exe</url>
         <sha1>be690f913c44ebaa0f266c27eaa2401d9c2e8b2a</sha1>
     </version>
+    <version name="4.9.1" package="net.sourceforge.peazip.PeaZip64" type="one-file">
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
+"%setup%" /SP- /VERYSILENT /SUPPRESSMSGBOXES /NOCANCEL /NORESTART /DIR="%CD%" /SAVEINF="%CD%\.Npackd\InnoSetupInfo.ini" /LOG="%CD%\.Npackd\InnoSetupInstall.log"&#13;
+set err=%errorlevel%&#13;
+type .Npackd\InnoSetupInstall.log&#13;
+if %err% neq 0 exit %err%&#13;
+</file>
+        <file path=".Npackd\Uninstall.bat">unins000.exe /VERYSILENT /SUPPRESSMSGBOXES /NORESTART /LOG="%CD%\.Npackd\InnoSetupUninstall.log"&#13;
+set err=%errorlevel%&#13;
+type .Npackd\InnoSetupUninstall.log&#13;
+if %err% neq 0 exit %err%&#13;
+</file>
+        <url>https://peazip.googlecode.com/files/peazip-4.9.1.WIN64.exe</url>
+        <sha1>4f247263e8fa18885fb7e2d0a7bea15a8a46bd85</sha1>
+    </version>
 
     <version name="2.6" package="net.sourceforge.shareaza.Shareaza64" type="one-file">
         <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x
@@ -4591,6 +4773,15 @@ if %err% neq 0 exit %err%
 </file>
         <url>http://downloads.sourceforge.net/project/smplayer/SMPlayer/0.8.3/smplayer-0.8.3-x64.exe</url>
         <sha1>7c4e2dc170f8a99c208751f9a6066377b931e22b</sha1>
+    </version>
+    <version name="0.8.4" package="net.sourceforge.smplayer.SMPlayer64" type="one-file">
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
+"%setup%" /S /D=%CD%&#13;
+</file>
+        <file path=".Npackd\Uninstall.bat">uninst.exe /S _?=%CD%        &#13;
+</file>
+        <url>http://downloads.sourceforge.net/project/smplayer/SMPlayer/0.8.4/smplayer-0.8.4-x64.exe</url>
+        <sha1>936b10f4e7e55bbe74488eb145c393059c28fe69</sha1>
     </version>
 
     <version name="2.42" package="net.sourceforge.strongdc.StrongDCPlusPlus64" type="one-file">
@@ -5923,6 +6114,21 @@ taskkill /f /im clipx.exe
         <sha1>4CB775BC35EB274BA46BBBF2439896DC7643CDD5</sha1>
     </version>
 
+    <version name="6.14" package="org.cgsecurity.testdisk.TestDisk64">
+        <important-file path="testdisk_win.exe" title="TestDisk"/>
+        <important-file path="photorec_win.exe" title="PhotoRec"/>
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b testdisk*') do set name=%%x&#13;
+cd "%name%"        &#13;
+for /f "delims=" %%a in ('dir /b') do (&#13;
+  move "%%a" ..&#13;
+)&#13;
+cd ..&#13;
+rmdir "%name%"&#13;
+</file>
+        <url>http://www.cgsecurity.org/testdisk-6.14-WIP.win64.zip</url>
+        <sha1>a5ece30aaa5f5333eb2eeb4c51309396fde65def</sha1>
+    </version>
+
     <version name="3.7" package="org.eclipse.EclipseIDECPP64">
         <important-file path="eclipse.exe" title="Eclipse IDE for C and C++"/>
         <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b eclipse*') do set name=%%x
@@ -6854,6 +7060,18 @@ for /f %%x in ('dir /b *.7z') do set setup=%%x&#13;
         <sha1>acb3a113873b07660f270d25e36432b55e2f3f47</sha1>
         <dependency package="org.7-zip.SevenZIPA" versions="[9.20, 9.20]"/>
     </version>
+    <version name="0.10.12" package="org.miranda-im.MirandaIM64" type="one-file">
+        <important-file path="miranda64.exe" title="Miranda IM"/>
+        <file path=".Npackd\Install.bat">if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1&#13;
+set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=org.7-zip.SevenZIPA" "--versions=[9.20, 9.20]"&#13;
+for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set sevenzipa=%%x&#13;
+for /f %%x in ('dir /b *.7z') do set setup=%%x&#13;
+"%sevenzipa%\7za.exe" x "%setup%"&#13;
+</file>
+        <url>https://miranda.googlecode.com/files/miranda-im-v0.10.12-x64.7z</url>
+        <sha1>bce2f7cd2e0b1847714ecc1a117377a5c687b0ec</sha1>
+        <dependency package="org.7-zip.SevenZIPA" versions="[9.20, 9.20]"/>
+    </version>
 
     <version name="2.2" package="org.mongodb.MongoDB64">
         <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b mongo*') do set name=%%x
@@ -7321,6 +7539,17 @@ call "%npackdih%\InstallMSI.bat" INSTALLDIR yes&#13;
         <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.15.7, 2)"/>
         <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.1, 2)"/>
     </version>
+    <version name="0.10.4" package="org.nodejs.NodeJS64" type="one-file">
+        <file path=".Npackd\Install.bat">if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1&#13;
+set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.NpackdInstallerHelper" "--versions=[1.1, 2)"&#13;
+for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set npackdih=%%x&#13;
+call "%npackdih%\InstallMSI.bat" INSTALLDIR yes&#13;
+</file>
+        <url>http://nodejs.org/dist/v0.10.4/x64/node-v0.10.4-x64.msi</url>
+        <sha1>31bd64f33436fa543f0599f80c5df97c14b10224</sha1>
+        <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.15.7, 2)"/>
+        <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.1, 2)"/>
+    </version>
 
     <version name="0.15" package="org.psiim.Psi64" type="one-file">
         <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
@@ -7550,6 +7779,42 @@ verify&#13;
 </file>
         <url>http://www.python.org/ftp/python/3.3.0/python-3.3.0.amd64.msi</url>
         <sha1>d9830f6d1ea8cca2107d2d66b355c8eb254e242e</sha1>
+        <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.15.7, 2)"/>
+        <dependency package="com.googlecode.windows-package-manager.CLU" versions="[1, 2)"/>
+    </version>
+    <version name="3.3.1" package="org.python.Python64" type="one-file">
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.msi') do set setup=%%x&#13;
+copy "%setup%" .Npackd&#13;
+msiexec.exe /qn /norestart /Lime .Npackd\MSI.log /i "%setup%" TARGETDIR="%CD%" ALLUSERS=1&#13;
+set err=%errorlevel%&#13;
+type .Npackd\MSI.log&#13;
+rem 3010=restart required&#13;
+if %err% equ 3010 exit /b 0&#13;
+if %err% neq 0 exit /b %err%&#13;
+&#13;
+if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1&#13;
+set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.CLU" "--versions=[1, 2)"&#13;
+for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set clu=%%x&#13;
+"%clu%\clu" add-path --path "%CD%"&#13;
+verify&#13;
+</file>
+        <file path=".Npackd\Uninstall.bat">move .Npackd\*.msi .&#13;
+for /f "delims=" %%x in ('dir /b *.msi') do set setup=%%x&#13;
+msiexec.exe /qn /norestart /Lime .Npackd\MSI.log /x "%setup%"&#13;
+set err=%errorlevel%&#13;
+type .Npackd\MSI.log&#13;
+rem 3010=restart required&#13;
+if %err% equ 3010 exit /b 0&#13;
+if %err% neq 0 exit /b %err%&#13;
+&#13;
+if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1&#13;
+set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.CLU" "--versions=[1, 2)"&#13;
+for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set clu=%%x&#13;
+"%clu%\clu" remove-path --path "%CD%"&#13;
+verify&#13;
+</file>
+        <url>http://www.python.org/ftp/python/3.3.1/python-3.3.1.amd64.msi</url>
+        <sha1>2a0402a0b575b8c37466ac9abcdc2cd5b398d1b4</sha1>
         <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.15.7, 2)"/>
         <dependency package="com.googlecode.windows-package-manager.CLU" versions="[1, 2)"/>
     </version>
