@@ -972,22 +972,28 @@ bool App::confirm(const QList<InstallOperation*> install, QString* title)
     for (int i = 0; i < install.count(); i++) {
         InstallOperation* op = install.at(i);
         if (!op->install) {
-            // TODO: op->findPackageVersion() may return 0
             QScopedPointer<PackageVersion> pv(op->findPackageVersion());
             if (!names.isEmpty())
                 names.append(", ");
-            names.append(pv->toString());
+            if (pv.isNull())
+                names.append(op->package + " " +
+                        op->version.getVersionString());
+            else
+                names.append(pv->toString());
         }
     }
     QString installNames;
     for (int i = 0; i < install.count(); i++) {
         InstallOperation* op = install.at(i);
         if (op->install) {
-            // TODO: op->findPackageVersion() may return 0
             QScopedPointer<PackageVersion> pv(op->findPackageVersion());
             if (!installNames.isEmpty())
                 installNames.append(", ");
-            installNames.append(pv->toString());
+            if (pv.isNull())
+                installNames.append(op->package + " " +
+                        op->version.getVersionString());
+            else
+                installNames.append(pv->toString());
         }
     }
 
@@ -1007,8 +1013,12 @@ bool App::confirm(const QList<InstallOperation*> install, QString* title)
         *title = "Installing";
     } else if (installCount == 0 && uninstallCount == 1) {
         *title = "Uninstalling";
-        // TODO: install.at(0)->findPackageVersion() may return 0
-        QScopedPointer<PackageVersion> pv(install.at(0)->findPackageVersion());
+        InstallOperation* op0 = install.at(0);
+
+        QScopedPointer<PackageVersion> pv(op0->findPackageVersion());
+        if (pv.isNull())
+            pv.Preset(new PackageVersion(op0->package, op0->version));
+
         msg = QString("The package %1 will be uninstalled. "
                 "The corresponding directory %2 "
                 "will be completely deleted. "
