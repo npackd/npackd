@@ -29,14 +29,16 @@
         <title>GPLv3</title>
         <url>http://www.gnu.org/licenses/gpl.html</url>
     </license>
+    <license name="org.wikipedia.Freeware">
+        <title>Freeware</title>
+        <url>http://en.wikipedia.org/wiki/Freeware</url>
+    </license>
     <package name="com.ekahau.HeatMapper">
         <title>Ekahau Heatmapper</title>
-        <url>http://www.ekahau.com/</url>
-        <description>Ekahau HeatMapper is a free software tool for quick and easy coverage mapping of Wi-Fi (802.11) networks. It's the only free, easy-to-use tool that shows, on a map, the wireless network coverage in your home or small office. HeatMapper also locates all access points.&#13;
-&#13;
-HeatMapper also provides a real-time view to all access points and their configurations.&#13;
-&#13;
-HeatMapper uses your built-in wireless network adapter, therefore, all you need is a Windows-based laptop with wireless. And it takes just one minute to install.</description>
+        <url>http://www.ekahau.com</url>
+        <description>Wi-Fi coverage mapping site survey tool</description>
+        <icon>https://lh3.googleusercontent.com/-FXSs3QDe2OM/UWwt-Zq9BdI/AAAAAAAABx0/R0gh0Vr_PD0/s800/ekahauheatmapper.png</icon>
+        <license>org.wikipedia.Freeware</license>
     </package>
     <package name="com.freecommander.FreeCommanderXE">
         <title>FreeCommanderXE</title>
@@ -93,14 +95,13 @@ HeatMapper uses your built-in wireless network adapter, therefore, all you need 
         <license>org.gnu.GPLv2</license>
     </package>
 
-    <version name="1" package="com.ekahau.HeatMapper">
+    <version name="1" package="com.ekahau.HeatMapper" type="one-file">
         <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
 "%setup%" /S /D=%CD%&#13;
 </file>
-        <file path=".Npackd\Uninstall.bat">uninst.exe /S _?=%CD%&#13;
+        <file path=".Npackd\Uninstall.bat">"%ProgramFiles%\Ekahau\Ekahau Heatmapper\uninstall.exe" /S&#13;
 </file>
         <url>http://www.ekahau.com/download/client/Ekahau%20Heatmapper-Setup.exe</url>
-        <sha1>4ef1877fecc42ca501bd80d3050a929385e3d9f4</sha1>
     </version>
 
     <version name="2012.591" package="com.freecommander.FreeCommanderXE">
