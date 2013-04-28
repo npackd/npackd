@@ -450,12 +450,33 @@ This package uses internal version numbers. For example, 1.7.0.1 corresponds to 
         <icon>https://lh3.googleusercontent.com/-Ae6yzhj9-fg/URT4f6zjvgI/AAAAAAAAAfY/l3EXkkexIrA/s800/checksumscalc.png</icon>
         <license>org.wikipedia.Freeware</license>
     </package>
+    <package name="housecall64">
+        <title>HouseCall 64 bit</title>
+        <url>http://housecall.trendmicro.com</url>
+        <description>web-based utility which scans for and cleans computers of viruses, Trojans, spyware, and other malware</description>
+        <icon>https://lh4.googleusercontent.com/-52NjFqSJH0M/UXjQgCUbTnI/AAAAAAAAB40/aQSpeox3hXY/s800/housecall.png</icon>
+        <license>org.wikipedia.Freeware</license>
+    </package>
+    <package name="hugin64">
+        <title>Hugin 64 bit</title>
+        <url>http://hugin.sourceforge.net</url>
+        <description>panorama photo stitching and HDR merging</description>
+        <icon>https://lh3.googleusercontent.com/-mUgWzoAYV14/UXTqI3hzclI/AAAAAAAAB2E/VXDC_1KB0L4/s800/hugin.png</icon>
+        <license>org.gnu.GPLv2</license>
+    </package>
     <package name="ie.heidi.eraser.eraser64">
         <title>Eraser 64 bit</title>
         <url>http://eraser.heidi.ie</url>
         <description>security 'data erasure' tool. WARNING: please, close Eraser in the System Tray before remove it</description>
         <icon>https://lh5.googleusercontent.com/-B7UE1OhjElg/UQgazYHXdHI/AAAAAAAAAKQ/xQYJp9Gqyrs/s800/eraser_32.png</icon>
         <license>org.gnu.GPLv2</license>
+    </package>
+    <package name="imagemagick64">
+        <title>ImageMagick 64 bit</title>
+        <url>http://www.imagemagick.org</url>
+        <description>raster graphics editor used to batch process</description>
+        <icon>https://lh6.googleusercontent.com/-5jkg4Q_EGYA/UXeOt05HYII/AAAAAAAAB4E/q0cqD9biXt4/s800/imagemagick.png</icon>
+        <license>org.apache.ApacheLicense2</license>
     </package>
     <package name="kr.pe.nyam.Imagine64">
         <title>Imagine 64 bit</title>
@@ -1803,6 +1824,29 @@ if %err% neq 0 exit /b %err%&#13;
 </file>
         <url>http://tortoisegit.googlecode.com/files/TortoiseGit-1.8.1.0-64bit.msi</url>
         <sha1>1a44dafb62eb9c432fca3d1d500ca3690a1919da</sha1>
+        <dependency package="com.googlecode.msysgit.MSysGit" versions="[1.7.6.2011.7.8, 1.8)"/>
+    </version>
+    <version name="1.8.2" package="com.googlecode.tortoisegit.TortoiseGit64" type="one-file">
+        <file path=".Npackd\Install.bat">for /f %%x in ('dir /b *.msi') do set setup=%%x&#13;
+copy "%setup%" .Npackd&#13;
+msiexec.exe /qn /norestart /Lime .Npackd\MSI.log /i "%setup%" INSTALLDIR="%CD%" ALLUSERS=1&#13;
+set err=%errorlevel%&#13;
+type .Npackd\MSI.log&#13;
+rem 3010=restart required&#13;
+if %err% equ 3010 exit /b 0&#13;
+if %err% neq 0 exit /b %err%&#13;
+</file>
+        <file path=".Npackd\Uninstall.bat">move .Npackd\*.msi .&#13;
+for /f %%x in ('dir /b *.msi') do set setup=%%x&#13;
+msiexec.exe /qn /norestart /Lime .Npackd\MSI.log /x "%setup%"&#13;
+set err=%errorlevel%&#13;
+type .Npackd\MSI.log&#13;
+rem 3010=restart required&#13;
+if %err% equ 3010 exit /b 0&#13;
+if %err% neq 0 exit /b %err%&#13;
+</file>
+        <url>http://tortoisegit.googlecode.com/files/TortoiseGit-1.8.2.0-64bit.msi</url>
+        <sha1>4a9a03df2813eed306e7a6b63b12e1cb1666d020</sha1>
         <dependency package="com.googlecode.msysgit.MSysGit" versions="[1.7.6.2011.7.8, 1.8)"/>
     </version>
 
@@ -3697,6 +3741,17 @@ call "%npackdih%\InstallMSI.bat" INSTALLDIR yes&#13;
         <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.1, 2)"/>
         <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.15.7, 2)"/>
     </version>
+    <version name="2.7.1" package="com.tightvnc.TightVNC64" type="one-file">
+        <file path=".Npackd\Install.bat">if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1&#13;
+set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.NpackdInstallerHelper" "--versions=[1.1, 2)"&#13;
+for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set npackdih=%%x&#13;
+call "%npackdih%\InstallMSI.bat" INSTALLDIR yes&#13;
+</file>
+        <url>http://www.tightvnc.com/download/2.7.1/tightvnc-2.7.1-setup-64bit.msi</url>
+        <sha1>03df730a5e11885d15229aeba87383c5ef92fc7a</sha1>
+        <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.1, 2)"/>
+        <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.15.7, 2)"/>
+    </version>
 
     <version name="2.5.192" package="com.tracker-software.PDFXChangeViewer64" type="one-file">
         <file path=".Npackd\Install.bat">for /f %%x in ('dir /b *.msi') do set setup=%%x
@@ -4109,6 +4164,21 @@ rmdir "%name%"</file>
         <sha1>1f0b1a0c90d6f96a0062360962d4dcb41ce1442a</sha1>
     </version>
 
+    <version name="7.1" package="housecall64" type="one-file">
+        <important-file path="HousecallLauncher64.exe" title="HouseCall"/>
+        <url>http://go.trendmicro.com/housecall7/HousecallLauncher64.exe</url>
+    </version>
+
+    <version name="2012" package="hugin64" type="one-file">
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
+"%setup%" /S /D=%CD%&#13;
+</file>
+        <file path=".Npackd\Uninstall.bat">Uninstall.exe /S _?=%CD%&#13;
+</file>
+        <url>http://downloads.sourceforge.net/project/hugin/hugin/hugin-2012.0/HuginSetup_2012.0.0_64bit_Windows.exe</url>
+        <sha1>e17a28eb1fe8485f82ba8e878d0a830a7efc0a6e</sha1>
+    </version>
+
     <version name="6.0.10.2620" package="ie.heidi.eraser.eraser64" type="one-file">
         <file path=".Npackd\Install.bat">if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1&#13;
 set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=org.7-zip.SevenZIPA" "--versions=[9.20, 9.20]"&#13;
@@ -4138,6 +4208,37 @@ if %err% neq 0 exit %err%</file>
         <sha1>f6c4003ef93bd226a37ef9a86dae4aa21cdbc8d7</sha1>
         <dependency package="org.7-zip.SevenZIPA" versions="[9.20, 9.20]"/>
         <dependency package="com.microsoft.DotNetRedistributable" versions="[3.5.30729.1, 3.5.30729.1]"/>
+    </version>
+
+    <version name="6.8.4.10" package="imagemagick64" type="one-file">
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
+"%setup%" /SP- /VERYSILENT /SUPPRESSMSGBOXES /NOCANCEL /NORESTART /DIR="%CD%" /SAVEINF="%CD%\.Npackd\InnoSetupInfo.ini" /LOG="%CD%\.Npackd\InnoSetupInstall.log"&#13;
+set err=%errorlevel%&#13;
+type .Npackd\InnoSetupInstall.log&#13;
+if %err% neq 0 exit %err%&#13;
+</file>
+        <file path=".Npackd\Uninstall.bat">unins000.exe /VERYSILENT /SUPPRESSMSGBOXES /NORESTART /LOG="%CD%\.Npackd\InnoSetupUninstall.log"&#13;
+set err=%errorlevel%&#13;
+type .Npackd\InnoSetupUninstall.log&#13;
+if %err% neq 0 exit %err%&#13;
+</file>
+        <url>http://image_magick.veidrodis.com:8003/image_magick/binaries/ImageMagick-6.8.4-10-Q16-x64-dll.exe</url>
+        <sha1>ff6e500eb1507f2c362ab629c7f92ed46a3fdfcc</sha1>
+    </version>
+    <version name="6.8.5" package="imagemagick64" type="one-file">
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
+"%setup%" /SP- /VERYSILENT /SUPPRESSMSGBOXES /NOCANCEL /NORESTART /DIR="%CD%" /SAVEINF="%CD%\.Npackd\InnoSetupInfo.ini" /LOG="%CD%\.Npackd\InnoSetupInstall.log"&#13;
+set err=%errorlevel%&#13;
+type .Npackd\InnoSetupInstall.log&#13;
+if %err% neq 0 exit %err%&#13;
+</file>
+        <file path=".Npackd\Uninstall.bat">unins000.exe /VERYSILENT /SUPPRESSMSGBOXES /NORESTART /LOG="%CD%\.Npackd\InnoSetupUninstall.log"&#13;
+set err=%errorlevel%&#13;
+type .Npackd\InnoSetupUninstall.log&#13;
+if %err% neq 0 exit %err%&#13;
+</file>
+        <url>http://image_magick.veidrodis.com:8003/image_magick/binaries/ImageMagick-6.8.5-0-Q16-x64-dll.exe</url>
+        <sha1>65439faa0b2600aabd6ceca1696908f8aeaae744</sha1>
     </version>
 
     <version name="1.0.9" package="kr.pe.nyam.Imagine64">
@@ -4992,6 +5093,28 @@ if %err% neq 0 exit /b %err%&#13;
         <url>http://downloads.sourceforge.net/project/tortoisesvn/1.7.11/Application/TortoiseSVN-1.7.11.23600-x64-svn-1.7.8.msi</url>
         <sha1>2c0f33c56c5bd172f0ebab1d016ba7a102bf5033</sha1>
     </version>
+    <version name="1.7.12" package="net.tortoisesvn.TortoiseSVN64" type="one-file">
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.msi') do set setup=%%x&#13;
+copy "%setup%" .Npackd&#13;
+msiexec.exe /qn /norestart /Lime .Npackd\MSI.log /i "%setup%" INSTALLDIR="%CD%" ALLUSERS=1&#13;
+set err=%errorlevel%&#13;
+type .Npackd\MSI.log&#13;
+rem 3010=restart required&#13;
+if %err% equ 3010 exit /b 0&#13;
+if %err% neq 0 exit /b %err%&#13;
+</file>
+        <file path=".Npackd\Uninstall.bat">copy .Npackd\*.msi .&#13;
+for /f "delims=" %%x in ('dir /b *.msi') do set setup=%%x&#13;
+msiexec.exe /qn /norestart /Lime .Npackd\MSI.log /x "%setup%"&#13;
+set err=%errorlevel%&#13;
+type .Npackd\MSI.log&#13;
+rem 3010=restart required&#13;
+if %err% equ 3010 exit /b 0&#13;
+if %err% neq 0 exit /b %err%&#13;
+</file>
+        <url>http://heanet.dl.sourceforge.net/project/tortoisesvn/1.7.12/Application/TortoiseSVN-1.7.12.24070-x64-svn-1.7.9.msi</url>
+        <sha1>f1a6d3f290eee2640fc392461a830665d46f0900</sha1>
+    </version>
 
     <version name="9.20" package="org.7-zip.SevenZIP64" type="one-file">
         <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.msi') do set setup=%%x&#13;
@@ -5573,6 +5696,16 @@ rmdir "%name%"
         <sha1>7d359e4af415327ee61c11787b2bf77a92bbd91b</sha1>
         <dependency package="com.oracle.JRE" versions="[1.5, 2)"/>
     </version>
+    <version name="7.0.39" package="org.apache.tomcat.Tomcat64" type="one-file">
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
+"%setup%" /S /D=%CD%&#13;
+</file>
+        <file path=".Npackd\Uninstall.bat">Uninstall.exe -ServiceName="Tomcat7" /S _?=%CD%&#13;
+</file>
+        <url>http://downloads.sourceforge.net/project/npackd/org.apache.tomcat.Tomcat-7.0.39.exe</url>
+        <sha1>fe81e118074ded7ab2ad2cb7b1a0965a7db49762</sha1>
+        <dependency package="com.oracle.JRE" versions="[1.5, 2)"/>
+    </version>
 
     <version name="7.2.10" package="org.areca-backup.ArecaBackup64">
         <important-file path="areca.exe" title="Areca"/>
@@ -6003,6 +6136,28 @@ if %err% neq 0 exit /b %err%&#13;
 </file>
         <url>http://cdn.bitbucket.org/tortoisehg/files/downloads/tortoisehg-2.7.1-hg-2.5.2-x64.msi</url>
         <sha1>e8256ff8d6bcc5d7a1bcf5165ed986c05470e60b</sha1>
+    </version>
+    <version name="2.7.2" package="org.bitbucket.tortoisehg.TortoiseHg64" type="one-file">
+        <file path=".Npackd\Install.bat">for /f %%x in ('dir /b *.msi') do set setup=%%x&#13;
+copy "%setup%" .Npackd&#13;
+msiexec.exe /qn /norestart /Lime .Npackd\MSI.log /i "%setup%" INSTALLDIR="%CD%" ALLUSERS=1&#13;
+set err=%errorlevel%&#13;
+type .Npackd\MSI.log&#13;
+rem 3010=restart required&#13;
+if %err% equ 3010 exit /b 0&#13;
+if %err% neq 0 exit /b %err%&#13;
+</file>
+        <file path=".Npackd\Uninstall.bat">copy .Npackd\*.msi .&#13;
+for /f %%x in ('dir /b *.msi') do set setup=%%x&#13;
+msiexec.exe /qn /norestart /Lime .Npackd\MSI.log /x "%setup%"&#13;
+set err=%errorlevel%&#13;
+type .Npackd\MSI.log&#13;
+rem 3010=restart required&#13;
+if %err% equ 3010 exit /b 0&#13;
+if %err% neq 0 exit /b %err%&#13;
+</file>
+        <url>http://cdn.bitbucket.org/tortoisehg/files/downloads/tortoisehg-2.7.2-hg-2.5.4-x64.msi</url>
+        <sha1>89ce48537e54ad8016894801aa47bcadda319488</sha1>
     </version>
 
     <version name="2.49.2" package="org.blender.Blender64">
@@ -7974,6 +8129,15 @@ rmdir /s /q "%name%"    &#13;
         <url>http://downloads.sourceforge.net/project/ultradefrag/stable-release/6.0.0/ultradefrag-portable-6.0.0.bin.amd64.zip</url>
         <sha1>96850995e06202338736fa561616f59a7ed18515</sha1>
     </version>
+    <version name="6.0.1" package="org.sourceforge.ultradefrag.UltraDefrag64">
+        <important-file path="ultradefrag.exe" title="UltraDefrag"/>
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b ultra*') do set name=%%x&#13;
+xcopy "%name%\*" . /E /H&#13;
+rmdir /s /q "%name%"    &#13;
+</file>
+        <url>http://downloads.sourceforge.net/project/ultradefrag/stable-release/6.0.1/ultradefrag-portable-6.0.1.bin.amd64.zip</url>
+        <sha1>b3389dfe4af71cd31577311351b4b2f1f7b9b5fc</sha1>
+    </version>
 
     <version name="3.1" package="org.springsource.STS64">
         <important-file path="sts-3.1.0.RELEASE\STS.exe" title="Spring Tool Suite"/>
@@ -8027,6 +8191,17 @@ taskkill /im synergy.exe /f /t</file>
         <url>http://synergy.googlecode.com/files/synergy-1.4.10-Windows-x64.exe</url>
         <sha1>94a19205df0b30715507b3d4b287e8faa186f432</sha1>
         <dependency package="com.microsoft.VisualCPPRedistributable64" versions="[10.0.30319.1, 10.0.30319.1]"/>
+    </version>
+    <version name="1.4.11" package="org.synergyfoss.Synergy64" type="one-file">
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
+"%setup%" /S /D=%CD%&#13;
+&#13;
+taskkill /im synergy.exe /f /t</file>
+        <file path=".Npackd\Uninstall.bat">uninstall.exe /S _?=%CD%&#13;
+</file>
+        <url>http://synergy.googlecode.com/files/synergy-1.4.11-Windows-x64.exe</url>
+        <sha1>fb99f34106710ccdd3f6f75a747e399c14a72cbd</sha1>
+        <dependency package="com.microsoft.VisualCPPRedistributable64" versions="[10, 11)"/>
     </version>
 
     <version name="3.6" package="org.sysprogs.WinCDEmu64" type="one-file">
