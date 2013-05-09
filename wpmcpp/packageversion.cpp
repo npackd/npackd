@@ -5,6 +5,7 @@
 #include <stdlib.h>
 #include <time.h>
 
+#include <QApplication>
 #include <QUrl>
 #include <QDebug>
 #include <QIODevice>
@@ -193,9 +194,7 @@ QString PackageVersion::setPath(const QString& path)
     InstalledPackages* ip = InstalledPackages::getDefault();
     QString err = ip->setPackageVersionPath(this->package, this->version, path);
     if (!err.isEmpty()) {
-        err = QString("Error storing the information about an "
-                "installed package version in the Windows "
-                "registry: %1").arg(err);
+        err = QString(QApplication::tr("Error storing the information about an installed package version in the Windows registry: %1")).arg(err);
     }
     return err;
 }
@@ -250,7 +249,7 @@ void PackageVersion::deleteShortcuts(const QString& dir, Job* job,
         bool menu, bool desktop, bool quickLaunch)
 {
     if (menu) {
-        job->setHint("Start menu");
+        job->setHint(QApplication::tr("Start menu"));
         QDir d(WPMUtils::getShellDir(CSIDL_STARTMENU));
         WPMUtils::deleteShortcuts(dir, d);
 
@@ -260,7 +259,7 @@ void PackageVersion::deleteShortcuts(const QString& dir, Job* job,
     job->setProgress(0.33);
 
     if (desktop) {
-        job->setHint("Desktop");
+        job->setHint(QApplication::tr("Desktop"));
         QDir d3(WPMUtils::getShellDir(CSIDL_DESKTOP));
         WPMUtils::deleteShortcuts(dir, d3);
 
@@ -270,7 +269,7 @@ void PackageVersion::deleteShortcuts(const QString& dir, Job* job,
     job->setProgress(0.66);
 
     if (quickLaunch) {
-        job->setHint("Quick launch bar");
+        job->setHint(QApplication::tr("Quick launch bar"));
         const char* A = "\\Microsoft\\Internet Explorer\\Quick Launch";
         QDir d3(WPMUtils::getShellDir(CSIDL_APPDATA) + A);
         WPMUtils::deleteShortcuts(dir, d3);
@@ -294,7 +293,7 @@ void PackageVersion::uninstall(Job* job)
     QDir d(getPath());
 
     if (job->getErrorMessage().isEmpty()) {
-        job->setHint("Deleting shortcuts");
+        job->setHint(QApplication::tr("Deleting shortcuts"));
         Job* sub = job->newSubJob(0.20);
         deleteShortcuts(d.absolutePath(), sub, true, false, false);
         delete sub;
@@ -317,8 +316,7 @@ void PackageVersion::uninstall(Job* job)
 
     if (!job->isCancelled() && job->getErrorMessage().isEmpty()) {
         if (!uninstallationScript.isEmpty()) {
-            job->setHint("Waiting while other (un)installation "
-                    "scripts are running");
+            job->setHint(QApplication::tr("Waiting while other (un)installation scripts are running"));
 
             time_t start = time(NULL);
             while (!job->isCancelled()) {
@@ -331,8 +329,7 @@ void PackageVersion::uninstall(Job* job)
 
                 time_t seconds = time(NULL) - start;
                 job->setHint(QString(
-                        "Waiting while other (un)installation scripts are "
-                        "running (%1 minutes)").
+                        QApplication::tr("Waiting while other (un)installation scripts are running (%1 minutes)")).
                         arg(seconds / 60));
             }
         } else {
@@ -342,8 +339,7 @@ void PackageVersion::uninstall(Job* job)
 
     if (!job->isCancelled() && job->getErrorMessage().isEmpty()) {
         if (!uninstallationScript.isEmpty()) {
-            job->setHint("Running the uninstallation script "
-                    "(this may take some time)");
+            job->setHint(QApplication::tr("Running the uninstallation script (this may take some time)"));
             if (!d.exists(".Npackd"))
                 d.mkdir(".Npackd");
             Job* sub = job->newSubJob(0.20);
@@ -372,7 +368,7 @@ void PackageVersion::uninstall(Job* job)
                 }
 
                 job->setErrorMessage(QString(
-                        "%1. Full output was saved in %2").arg(
+                        QApplication::tr("%1. Full output was saved in %2")).arg(
                         sub->getErrorMessage()).
                         arg(of.fileName()));
             }
@@ -389,7 +385,7 @@ void PackageVersion::uninstall(Job* job)
 
     if (job->getErrorMessage().isEmpty()) {
         if (d.exists()) {
-            job->setHint("Deleting files");
+            job->setHint(QApplication::tr("Deleting files"));
             Job* rjob = job->newSubJob(0.54);
             removeDirectory(rjob, d.absolutePath());
             if (!rjob->getErrorMessage().isEmpty())
@@ -433,14 +429,14 @@ void PackageVersion::removeDirectory(Job* job, const QString& dir)
             Sleep(5000); // 5 Seconds
             QString oldName = d.dirName();
             if (!d.cdUp())
-                job->setErrorMessage("Cannot change directory to " +
-                        d.absolutePath() + "\\..");
+                job->setErrorMessage(QApplication::tr("Cannot change directory to %1").arg(
+                        d.absolutePath() + "\\.."));
             else {
                 QString trash = ".NpackdTrash";
                 if (!d.exists(trash)) {
                     if (!d.mkdir(trash))
                         job->setErrorMessage(QString(
-                                "Cannot create directory %0\%1").
+                                QApplication::tr("Cannot create directory %0\%1")).
                                 arg(d.absolutePath()).arg(trash));
                 }
                 if (d.exists(trash)) {
@@ -451,7 +447,7 @@ void PackageVersion::removeDirectory(Job* job, const QString& dir)
                         if (!d.exists(newName)) {
                             if (!d.rename(oldName, newName)) {
                                 job->setErrorMessage(QString(
-                                        "Cannot rename %1 to %2 in %3").
+                                        QApplication::tr("Cannot rename %1 to %2 in %3")).
                                         arg(oldName).arg(newName).
                                         arg(d.absolutePath()));
                             }
@@ -491,7 +487,7 @@ QString PackageVersion::planInstallation(QList<PackageVersion*>& installed,
         if (!depok) {
             QScopedPointer<PackageVersion> pv(d->findBestMatchToInstall(avoid));
             if (!pv) {
-                res = QString("Unsatisfied dependency: %1").
+                res = QString(QApplication::tr("Unsatisfied dependency: %1")).
                            arg(d->toString());
                 break;
             } else {
@@ -575,30 +571,30 @@ QString PackageVersion::planUninstallation(QList<PackageVersion*>& installed,
 void PackageVersion::downloadTo(Job* job, QString filename)
 {
     if (!this->download.isValid()) {
-        job->setErrorMessage("No download URL");
+        job->setErrorMessage(QApplication::tr("No download URL"));
         job->complete();
         return;
     }
 
     QString r;
 
-    job->setHint("Downloading");
+    job->setHint(QApplication::tr("Downloading"));
     QTemporaryFile* f = 0;
     Job* djob = job->newSubJob(0.9);
     f = Downloader::download(djob, this->download);
     if (!djob->getErrorMessage().isEmpty())
-        job->setErrorMessage(QString("Download failed: %1").arg(
+        job->setErrorMessage(QString(QApplication::tr("Download failed: %1")).arg(
                 djob->getErrorMessage()));
     delete djob;
 
     if (!job->isCancelled() && job->getErrorMessage().isEmpty()) {
-        job->setHint("Computing SHA1");
+        job->setHint(QApplication::tr("Computing SHA1"));
         r = WPMUtils::sha1(f->fileName());
         job->setProgress(0.95);
 
         if (!this->sha1.isEmpty() && this->sha1.toLower() != r.toLower()) {
             job->setErrorMessage(QString(
-                    "Wrong SHA1: %1 was expected, but %2 found").
+                    QApplication::tr("Wrong SHA1: %1 was expected, but %2 found")).
                     arg(this->sha1).arg(r));
         }
     }
@@ -639,24 +635,24 @@ QString PackageVersion::getFileExtension()
 QString PackageVersion::downloadAndComputeSHA1(Job* job)
 {
     if (!this->download.isValid()) {
-        job->setErrorMessage("No download URL");
+        job->setErrorMessage(QApplication::tr("No download URL"));
         job->complete();
         return "";
     }
 
     QString r;
 
-    job->setHint("Downloading");
+    job->setHint(QApplication::tr("Downloading"));
     QTemporaryFile* f = 0;
     Job* djob = job->newSubJob(0.95);
     f = Downloader::download(djob, this->download);
     if (!djob->getErrorMessage().isEmpty())
-        job->setErrorMessage(QString("Download failed: %1").arg(
-                djob->getErrorMessage()));
+        job->setErrorMessage(QString(QApplication::tr("Download failed: %1")).
+                arg(djob->getErrorMessage()));
     delete djob;
 
     if (!job->isCancelled() && job->getErrorMessage().isEmpty()) {
-        job->setHint("Computing SHA1");
+        job->setHint(QApplication::tr("Computing SHA1"));
         r = WPMUtils::sha1(f->fileName());
         job->setProgress(1);
     }
@@ -706,7 +702,8 @@ bool PackageVersion::createShortcuts(const QString& dir, QString *errMsg)
         path.replace('/' , '\\');
 
         if (!d.exists(path)) {
-            *errMsg = QString("Shortcut target %1 does not exist").arg(path);
+            *errMsg = QString(QApplication::tr("Shortcut target %1 does not exist")).
+                    arg(path);
             break;
         }
 
@@ -749,7 +746,7 @@ bool PackageVersion::createShortcuts(const QString& dir, QString *errMsg)
                 (WCHAR*) workingDir.utf16());
 
         if (!r.isEmpty()) {
-            *errMsg = QString("Shortcut creation from %1 to %2 failed: %3").
+            *errMsg = QString(QApplication::tr("Shortcut creation from %1 to %2 failed: %3")).
                     arg(from).arg(path).arg(r);
             break;
         }
@@ -772,7 +769,7 @@ QString PackageVersion::getPreferredInstallationDirectory()
 
 void PackageVersion::install(Job* job, const QString& where)
 {
-    job->setHint("Preparing");
+    job->setHint(QApplication::tr("Preparing"));
 
     if (installed()) {
         job->setProgress(1);
@@ -781,7 +778,7 @@ void PackageVersion::install(Job* job, const QString& where)
     }
 
     if (!this->download.isValid()) {
-        job->setErrorMessage("No download URL");
+        job->setErrorMessage(QApplication::tr("No download URL"));
         job->complete();
         return;
     }
@@ -791,10 +788,10 @@ void PackageVersion::install(Job* job, const QString& where)
     QString npackdDir = where + "\\.Npackd";
 
     if (!job->isCancelled() && job->getErrorMessage().isEmpty()) {
-        job->setHint("Creating directory");
+        job->setHint(QApplication::tr("Creating directory"));
         QString s = d.absolutePath();
         if (!d.mkpath(s)) {
-            job->setErrorMessage(QString("Cannot create directory: %0").
+            job->setErrorMessage(QString(QApplication::tr("Cannot create directory: %0")).
                     arg(s));
         } else {
             job->setProgress(0.01);
@@ -802,10 +799,10 @@ void PackageVersion::install(Job* job, const QString& where)
     }
 
     if (!job->isCancelled() && job->getErrorMessage().isEmpty()) {
-        job->setHint("Creating .Npackd sub-directory");
+        job->setHint(QApplication::tr("Creating .Npackd sub-directory"));
         QString s = npackdDir;
         if (!d.mkpath(s)) {
-            job->setErrorMessage(QString("Cannot create directory: %0").
+            job->setErrorMessage(QString(QApplication::tr("Cannot create directory: %0")).
                     arg(s));
         } else {
             job->setProgress(0.02);
@@ -815,7 +812,7 @@ void PackageVersion::install(Job* job, const QString& where)
     bool httpConnectionAcquired = false;
 
     if (!job->isCancelled() && job->getErrorMessage().isEmpty()) {
-        job->setHint("Waiting for a free HTTP connection");
+        job->setHint(QApplication::tr("Waiting for a free HTTP connection"));
 
         time_t start = time(NULL);
         while (!job->isCancelled()) {
@@ -827,7 +824,7 @@ void PackageVersion::install(Job* job, const QString& where)
 
             time_t seconds = time(NULL) - start;
             job->setHint(QString(
-                    "Waiting for a free HTTP connection (%1 minutes)").
+                    QApplication::tr("Waiting for a free HTTP connection (%1 minutes)")).
                     arg(seconds / 60));
         }
     }
@@ -839,9 +836,9 @@ void PackageVersion::install(Job* job, const QString& where)
     QString dsha1;
 
     if (!job->isCancelled() && job->getErrorMessage().isEmpty()) {
-        job->setHint("Downloading & computing hash sum");
+        job->setHint(QApplication::tr("Downloading & computing hash sum"));
         if (!f->open(QIODevice::ReadWrite)) {
-            job->setErrorMessage(QString("Cannot open the file: %0").
+            job->setErrorMessage(QString(QApplication::tr("Cannot open the file: %0")).
                     arg(f->fileName()));
         } else {
             Job* djob = job->newSubJob(0.58);
@@ -860,16 +857,16 @@ void PackageVersion::install(Job* job, const QString& where)
     if (!job->isCancelled() && job->getErrorMessage().isEmpty()) {
         if (!downloadOK) {
             if (!f->open(QIODevice::ReadWrite)) {
-                job->setErrorMessage(QString("Cannot open the file: %0").
+                job->setErrorMessage(QString(QApplication::tr("Cannot open the file: %0")).
                         arg(f->fileName()));
             } else {
-                job->setHint("Downloading & computing hash sum (2nd try)");
+                job->setHint(QApplication::tr("Downloading & computing hash sum (2nd try)"));
                 double rest = 0.63 - job->getProgress();
                 Job* djob = job->newSubJob(rest);
                 Downloader::download(djob, this->download, f,
                         this->sha1.isEmpty() ? 0 : &dsha1);
                 if (!djob->getErrorMessage().isEmpty())
-                    job->setErrorMessage(QString("Error downloading %1: %2").
+                    job->setErrorMessage(QString(QApplication::tr("Error downloading %1: %2")).
                         arg(this->download.toString()).arg(
                         djob->getErrorMessage()));
                 f->close();
@@ -884,8 +881,7 @@ void PackageVersion::install(Job* job, const QString& where)
         if (!this->sha1.isEmpty()) {
             if (dsha1.toLower() != this->sha1.toLower()) {
                 job->setErrorMessage(QString(
-                        "Hash sum (SHA1) %1 found, but %2 "
-                        "was expected. The file has changed.").arg(dsha1).
+                        QApplication::tr("Hash sum (SHA1) %1 found, but %2 was expected. The file has changed.")).arg(dsha1).
                         arg(this->sha1));
             } else {
                 job->setProgress(0.64);
@@ -897,19 +893,19 @@ void PackageVersion::install(Job* job, const QString& where)
 
     if (!job->isCancelled() && job->getErrorMessage().isEmpty()) {
         if (this->type == 0) {
-            job->setHint("Extracting files");
+            job->setHint(QApplication::tr("Extracting files"));
             Job* djob = job->newSubJob(0.11);
             unzip(djob, f->fileName(), d.absolutePath() + "\\");
             if (!djob->getErrorMessage().isEmpty())
                 job->setErrorMessage(QString(
-                        "Error unzipping file into directory %0: %1").
+                        QApplication::tr("Error unzipping file into directory %0: %1")).
                         arg(d.absolutePath()).
                         arg(djob->getErrorMessage()));
             else if (!job->isCancelled())
                 job->setProgress(0.75);
             delete djob;
         } else {
-            job->setHint("Renaming the downloaded file");
+            job->setHint(QApplication::tr("Renaming the downloaded file"));
             QString t = d.absolutePath();
             t.append("\\");
             QString fn = this->download.path();
@@ -918,7 +914,7 @@ void PackageVersion::install(Job* job, const QString& where)
             t.replace('/', '\\');
 
             if (!QFile::rename(f->fileName(), t)) {
-                job->setErrorMessage(QString("Cannot rename %0 to %1").
+                job->setErrorMessage(QString(QApplication::tr("Cannot rename %0 to %1")).
                         arg(f->fileName()).arg(t));
             } else {
                 job->setProgress(0.75);
@@ -952,8 +948,7 @@ void PackageVersion::install(Job* job, const QString& where)
 
     if (!job->isCancelled() && job->getErrorMessage().isEmpty()) {
         if (!installationScript.isEmpty()) {
-            job->setHint("Waiting while other (un)installation "
-                    "scripts are running");
+            job->setHint(QApplication::tr("Waiting while other (un)installation scripts are running"));
 
             time_t start = time(NULL);
             while (!job->isCancelled()) {
@@ -966,8 +961,7 @@ void PackageVersion::install(Job* job, const QString& where)
 
                 time_t seconds = time(NULL) - start;
                 job->setHint(QString(
-                        "Waiting while other (un)installation scripts are "
-                        "running (%1 minutes)").
+                        QApplication::tr("Waiting while other (un)installation scripts are running (%1 minutes)")).
                         arg(seconds / 60));
             }
         } else {
@@ -977,8 +971,7 @@ void PackageVersion::install(Job* job, const QString& where)
 
     if (!job->isCancelled() && job->getErrorMessage().isEmpty()) {
         if (!installationScript.isEmpty()) {
-            job->setHint("Running the installation script "
-                    "(this may take some time)");
+            job->setHint(QApplication::tr("Running the installation script (this may take some time)"));
             Job* exec = job->newSubJob(0.09);
             if (!d.exists(".Npackd"))
                 d.mkdir(".Npackd");
@@ -1005,7 +998,7 @@ void PackageVersion::install(Job* job, const QString& where)
                 }
 
                 job->setErrorMessage(QString(
-                        "%1. Full output was saved in %2").arg(
+                        QApplication::tr("%1. Full output was saved in %2")).arg(
                         exec->getErrorMessage()).
                         arg(of.fileName()));
             } else {
@@ -1046,12 +1039,12 @@ void PackageVersion::install(Job* job, const QString& where)
 
     if (!job->getErrorMessage().isEmpty() || job->isCancelled()) {
         job->setHint(QString(
-                "Deleting start menu, desktop and quick launch shortcuts"));
+                QApplication::tr("Deleting start menu, desktop and quick launch shortcuts")));
         Job* sub = new Job();
         deleteShortcuts(d.absolutePath(), sub, true, true, true);
         delete sub;
 
-        job->setHint(QString("Deleting files"));
+        job->setHint(QString(QApplication::tr("Deleting files")));
         Job* rjob = new Job();
         removeDirectory(rjob, d.absolutePath());
         delete rjob;
@@ -1087,17 +1080,17 @@ void PackageVersion::addDependencyVars(QStringList* vars)
 
 void PackageVersion::unzip(Job* job, QString zipfile, QString outputdir)
 {
-    job->setHint("Opening ZIP file");
+    job->setHint(QApplication::tr("Opening ZIP file"));
     QuaZip zip(zipfile);
     if (!zip.open(QuaZip::mdUnzip)) {
-        job->setErrorMessage(QString("Cannot open the ZIP file %1: %2").
+        job->setErrorMessage(QString(QApplication::tr("Cannot open the ZIP file %1: %2")).
                        arg(zipfile).arg(zip.getZipError()));
     } else {
         job->setProgress(0.01);
     }
 
     if (!job->isCancelled() && job->getErrorMessage().isEmpty()) {
-        job->setHint("Extracting");
+        job->setHint(QApplication::tr("Extracting"));
         QuaZipFile file(&zip);
         int n = zip.getEntriesCount();
         int blockSize = 1024 * 1024;
@@ -1107,7 +1100,7 @@ void PackageVersion::unzip(Job* job, QString zipfile, QString outputdir)
             QString name = zip.getCurrentFileName();
             if (!file.open(QIODevice::ReadOnly)) {
                 job->setErrorMessage(QString(
-                        "Error unzipping the file %1: Error %2 in %3").
+                        QApplication::tr("Error unzipping the file %1: Error %2 in %3")).
                         arg(zipfile).arg(file.getZipError()).
                         arg(name));
                 break;
@@ -1127,7 +1120,7 @@ void PackageVersion::unzip(Job* job, QString zipfile, QString outputdir)
                     meminfo.close();
                 }
             } else {
-                job->setErrorMessage(QString("Cannot create directory %1").arg(
+                job->setErrorMessage(QString(QApplication::tr("Cannot create directory %1")).arg(
                         infofile.absolutePath()));
                 file.close();
             }
@@ -1135,7 +1128,7 @@ void PackageVersion::unzip(Job* job, QString zipfile, QString outputdir)
             i++;
             job->setProgress(0.01 + 0.99 * i / n);
             if (i % 100 == 0)
-                job->setHint(QString("%L1 files").arg(i));
+                job->setHint(QString(QApplication::tr("%L1 files")).arg(i));
 
             if (job->isCancelled() || !job->getErrorMessage().isEmpty())
                 break;
@@ -1163,12 +1156,12 @@ QString PackageVersion::saveFiles(const QDir& d)
                 stream << f->content;
                 file.close();
             } else {
-                res = QString("Could not create file %1").arg(
+                res = QString(QApplication::tr("Could not create file %1")).arg(
                         fullPath);
                 break;
             }
         } else {
-            res = QString("Could not create directory %1").arg(
+            res = QString(QApplication::tr("Could not create directory %1")).arg(
                     fullDir);
             break;
         }
@@ -1184,19 +1177,19 @@ QString PackageVersion::getStatus() const
     PackageVersion* newest = r->findNewestInstallablePackageVersion_(
             this->package);
     if (installed) {
-        status = "installed";
+        status = QApplication::tr("installed");
     }
     if (installed && newest != 0 && version.compare(newest->version) < 0) {
         if (!newest->installed())
-            status += ", updateable";
+            status += ", " + QApplication::tr("updateable");
         else
-            status += ", obsolete";
+            status += ", " + QApplication::tr("obsolete");
     }
 
     if (isLocked()) {
         if (!status.isEmpty())
             status = ", " + status;
-        status = "locked" + status;
+        status = QApplication::tr("locked") + status;
     }
 
     delete newest;
@@ -1263,7 +1256,8 @@ QByteArray PackageVersion::executeFile(Job* job, const QString& where,
             job->setProgress(1);
             if (p.exitCode() != 0) {
                 job->setErrorMessage(
-                        QString("Process %1 exited with the code %2").arg(
+                        QString(QApplication::tr("Process %1 exited with the code %2")).
+                        arg(
                         exe).arg(p.exitCode()));
             }
             QFile f(d.absolutePath() + "\\" + outputFile);
@@ -1279,7 +1273,8 @@ QByteArray PackageVersion::executeFile(Job* job, const QString& where,
         if (percents > 0.9)
             percents = 0.9;
         job->setProgress(percents);
-        job->setHint(QString("%1 minutes").arg(seconds / 60));
+        job->setHint(QString(QApplication::tr("%1 minutes")).
+                arg(seconds / 60));
     }
     job->complete();
 
@@ -1323,14 +1318,14 @@ DetectFile* PackageVersion::createDetectFile(QDomElement* e, QString* err)
     a->path = XMLUtils::getTagContent(*e, "path").trimmed();
     a->path.replace('/', '\\');
     if (a->path.isEmpty()) {
-        err->append("Empty tag <path> under <detect-file>");
+        err->append(QApplication::tr("Empty tag <path> under <detect-file>"));
     }
 
     if (err->isEmpty()) {
         a->sha1 = XMLUtils::getTagContent(*e, "sha1").trimmed().toLower();
         *err = WPMUtils::validateSHA1(a->sha1);
         if (!err->isEmpty()) {
-            err->prepend("Wrong SHA1 in <detect-file>: ");
+            err->prepend(QApplication::tr("Wrong SHA1 in <detect-file>: "));
         }
     }
 
@@ -1370,7 +1365,7 @@ PackageVersion* PackageVersion::parse(QDomElement* e, QString* err)
     QString packageName = e->attribute("package").trimmed();
     *err = WPMUtils::validateFullPackageName(packageName);
     if (!err->isEmpty()) {
-        err->prepend("Error in the attribute 'package' in <version>: ");
+        err->prepend(QApplication::tr("Error in the attribute 'package' in <version>: "));
     }
 
     PackageVersion* a = new PackageVersion(packageName);
@@ -1382,7 +1377,7 @@ PackageVersion* PackageVersion::parse(QDomElement* e, QString* err)
             QUrl d = a->download;
             if (!d.isValid() || d.isRelative() ||
                     (d.scheme() != "http" && d.scheme() != "https")) {
-                err->append(QString("Not a valid download URL for %1: %2").
+                err->append(QString(QApplication::tr("Not a valid download URL for %1: %2")).
                         arg(a->package).arg(url));
             }
         }
@@ -1393,7 +1388,7 @@ PackageVersion* PackageVersion::parse(QDomElement* e, QString* err)
         if (a->version.setVersion(name)) {
             a->version.normalize();
         } else {
-            err->append(QString("Not a valid version for %1: %2").
+            err->append(QString(QApplication::tr("Not a valid version for %1: %2")).
                     arg(a->package).arg(name));
         }
     }
@@ -1403,7 +1398,7 @@ PackageVersion* PackageVersion::parse(QDomElement* e, QString* err)
         if (!a->sha1.isEmpty()) {
             *err = WPMUtils::validateSHA1(a->sha1);
             if (!err->isEmpty()) {
-                err->prepend(QString("Invalid SHA1 for %1: ").
+                err->prepend(QString(QApplication::tr("Invalid SHA1 for %1: ")).
                         arg(a->toString()));
             }
         }
@@ -1416,7 +1411,8 @@ PackageVersion* PackageVersion::parse(QDomElement* e, QString* err)
         else if (type == "" || type == "zip")
             a->type = 0;
         else {
-            err->append(QString("Wrong value for the attribute 'type' for %1: %3").
+            err->append(QString(
+                    QApplication::tr("Wrong value for the attribute 'type' for %1: %3")).
                     arg(a->toString()).arg(type));
         }
     }
@@ -1430,15 +1426,15 @@ PackageVersion* PackageVersion::parse(QDomElement* e, QString* err)
                 p = e.attribute("name").trimmed();
 
             if (p.isEmpty()) {
-                err->append(QString("Empty 'path' attribute value for "
-                        "<important-file> for %1").
+                err->append(QString(
+                        QApplication::tr("Empty 'path' attribute value for <important-file> for %1")).
                         arg(a->toString()));
                 break;
             }
 
             if (a->importantFiles.contains(p)) {
-                err->append(QString("More than one <important-file> with "
-                        "the same 'path' attribute %1 for %2").
+                err->append(QString(
+                        QApplication::tr("More than one <important-file> with the same 'path' attribute %1 for %2")).
                         arg(p).arg(a->toString()));
                 break;
             }
@@ -1447,8 +1443,8 @@ PackageVersion* PackageVersion::parse(QDomElement* e, QString* err)
 
             QString title = e.attribute("title").trimmed();
             if (title.isEmpty()) {
-                err->append(QString("Empty 'title' attribute value for "
-                        "<important-file> for %1").
+                err->append(QString(
+                        QApplication::tr("Empty 'title' attribute value for <important-file> for %1")).
                         arg(a->toString()));
                 break;
             }
@@ -1476,7 +1472,8 @@ PackageVersion* PackageVersion::parse(QDomElement* e, QString* err)
             for (int j = i + 1; j < a->files.count(); j++) {
                 PackageVersionFile* fj = a->files.at(j);
                 if (fi->path == fj->path) {
-                    err->append(QString("Duplicate <file> entry for %1 in %2").
+                    err->append(QString(
+                        QApplication::tr("Duplicate <file> entry for %1 in %2")).
                             arg(fi->path).arg(a->toString()));
                     goto out;
                 }
@@ -1493,7 +1490,8 @@ PackageVersion* PackageVersion::parse(QDomElement* e, QString* err)
             if (df) {
                 a->detectFiles.append(df);
             } else {
-                err->prepend(QString("Invalid <detect-file> for %1: ").
+                err->prepend(QString(
+                        QApplication::tr("Invalid <detect-file> for %1: ")).
                         arg(a->toString()));
                 break;
             }
@@ -1507,7 +1505,7 @@ PackageVersion* PackageVersion::parse(QDomElement* e, QString* err)
                 DetectFile* fj = a->detectFiles.at(j);
                 if (fi->path == fj->path) {
                     err->append(QString(
-                            "Duplicate <detect-file> entry for %1 in %2").
+                            QApplication::tr("Duplicate <detect-file> entry for %1 in %2")).
                             arg(fi->path).arg(a->toString()));
                     goto out2;
                 }
@@ -1533,7 +1531,8 @@ PackageVersion* PackageVersion::parse(QDomElement* e, QString* err)
                 Dependency* fj = a->dependencies.at(j);
                 if (fi->autoFulfilledIf(*fj) ||
                         fj->autoFulfilledIf(*fi)) {
-                    err->append(QString("Duplicate <dependency> for %1 in %2").
+                    err->append(QString(
+                            QApplication::tr("Duplicate <dependency> for %1 in %2")).
                             arg(fi->package).arg(a->toString()));
                     goto out3;
                 }
@@ -1548,7 +1547,8 @@ PackageVersion* PackageVersion::parse(QDomElement* e, QString* err)
         if (!a->msiGUID.isEmpty()) {
             *err = WPMUtils::validateGUID(a->msiGUID);
             if (!err->isEmpty())
-                *err = QString("Wrong MSI GUID for %1: %2").
+                *err = QString(
+                        QApplication::tr("Wrong MSI GUID for %1: %2")).
                         arg(a->toString()).arg(a->msiGUID);
         }
     }

@@ -13,6 +13,7 @@
 #include <ole2.h>
 #include <wchar.h>
 
+#include <QApplication>
 #include <QDebug>
 #include <QDir>
 #include <QString>
@@ -109,7 +110,7 @@ QStringList WPMUtils::parseCommandLine(const QString& commandLine,
     int nArgs;
     LPWSTR* szArglist = CommandLineToArgvW((WCHAR*) commandLine.utf16(), &nArgs);
     if (NULL == szArglist) {
-        *err = "CommandLineToArgvW failed";
+        *err = QApplication::tr("CommandLineToArgvW failed");
     } else {
         for(int i = 0; i < nArgs; i++) {
             QString s;
@@ -141,7 +142,7 @@ QString WPMUtils::validateGUID(const QString& guid)
 {
     QString err;
     if (guid.length() != 38) {
-        err = "A GUID must be 38 characters long";
+        err = QApplication::tr("A GUID must be 38 characters long");
     } else {
         for (int i = 0; i < guid.length(); i++) {
             QChar c = guid.at(i);
@@ -159,7 +160,8 @@ QString WPMUtils::validateGUID(const QString& guid)
             }
 
             if (!valid) {
-                err = QString("Wrong character at position %1").arg(i + 1);
+                err = QString(QApplication::tr("Wrong character at position %1")).
+                        arg(i + 1);
                 break;
             }
         }
@@ -196,11 +198,11 @@ void WPMUtils::formatMessage(DWORD err, QString* errMsg)
                        0, err, 0, (LPTSTR)&pBuffer, 0, 0);
     }
     if (n == 0)
-        errMsg->append(QString("Error %1").arg(err));
+        errMsg->append(QString(QApplication::tr("Error %1")).arg(err));
     else {
         QString msg;
         msg.setUtf16((ushort*) pBuffer, n);
-        errMsg->append(QString("Error %1: %2").arg(err).arg(msg));
+        errMsg->append(QString(QApplication::tr("Error %1: %2")).arg(err).arg(msg));
         LocalFree(pBuffer);
     }
 }
@@ -300,16 +302,16 @@ QString WPMUtils::getShellDir(int type)
 QString WPMUtils::validateFullPackageName(const QString& n)
 {
     if (n.length() == 0) {
-        return "Empty package name";
+        return QApplication::tr("Empty package name");
     } else {
         int pos = n.indexOf("..");
         if (pos >= 0)
-            return QString("Empty segment at position %1 in %2").
+            return QString(QApplication::tr("Empty segment at position %1 in %2")).
                     arg(pos + 1).arg(n);
 
         pos = n.indexOf("--");
         if (pos >= 0)
-            return QString("-- at position %1 in %2").
+            return QString(QApplication::tr("-- at position %1 in %2")).
                     arg(pos + 1).arg(n);
 
         QStringList parts = n.split('.', QString::SkipEmptyParts);
@@ -318,7 +320,7 @@ QString WPMUtils::validateFullPackageName(const QString& n)
 
             int pos = part.indexOf("--");
             if (pos >= 0)
-                return QString("-- at position %1 in %2").
+                return QString(QApplication::tr("-- at position %1 in %2")).
                         arg(pos + 1).arg(part);
 
             if (!part.isEmpty()) {
@@ -328,7 +330,7 @@ QString WPMUtils::validateFullPackageName(const QString& n)
                         (c == '_') ||
                         (c >= 'a' && c <= 'z') ||
                         c.isLetter()))
-                    return QString("Wrong character at position 1 in %1").
+                    return QString(QApplication::tr("Wrong character at position 1 in %1")).
                             arg(part);
             }
 
@@ -340,7 +342,7 @@ QString WPMUtils::validateFullPackageName(const QString& n)
                         (c == '-') ||
                         (c >= 'a' && c <= 'z') ||
                         c.isLetter()))
-                    return QString("Wrong character at position %1 in %2").
+                    return QString(QApplication::tr("Wrong character at position %1 in %2")).
                             arg(i + 1).arg(part);
             }
 
@@ -351,7 +353,7 @@ QString WPMUtils::validateFullPackageName(const QString& n)
                         (c == '_') ||
                         (c >= 'a' && c <= 'z') ||
                         c.isLetter()))
-                    return QString("Wrong character at position %1 in %2").
+                    return QString(QApplication::tr("Wrong character at position %1 in %2")).
                             arg(part.length()).arg(part);
             }
         }
@@ -414,14 +416,14 @@ QString WPMUtils::makeValidFullPackageName(const QString& name)
 QString WPMUtils::validateSHA1(const QString& sha1)
 {
     if (sha1.length() != 40) {
-        return QString("Wrong length: %1").arg(sha1);
+        return QString(QApplication::tr("Wrong length: %1")).arg(sha1);
     } else {
         for (int i = 0; i < sha1.length(); i++) {
             QChar c = sha1.at(i);
             if (!((c >= '0' && c <= '9') ||
                 (c >= 'a' && c <= 'f') ||
                 (c >= 'A' && c <= 'F'))) {
-                return QString("Wrong character at position %1 in %2").
+                return QString(QApplication::tr("Wrong character at position %1 in %2")).
                         arg(i + 1).arg(sha1);
             }
         }
@@ -576,7 +578,7 @@ QString WPMUtils::getMSIProductAttribute(const QString &guid,
         p.setUtf16((ushort*) value, len);
         err->clear();
     } else {
-        *err = QString("Cannot determine MSI product location for GUID %1").
+        *err = QString(QApplication::tr("Cannot determine MSI product location for GUID %1")).
                 arg(guid);
     }
     return p;
@@ -727,89 +729,79 @@ QString WPMUtils::getShellFileOperationErrorMessage(int res)
             r = "";
             break;
         case 0x71:
-            r = "The source and destination files are the same file.";
+            r = QApplication::tr("The source and destination files are the same file.");
             break;
         case 0x72:
-            r = "Multiple file paths were specified in the source buffer, "
-                    "but only one destination file path.";
+            r = QApplication::tr("Multiple file paths were specified in the source buffer, but only one destination file path.");
             break;
         case 0x73:
-            r = "Rename operation was specified but the destination path "
-                    "is a different directory. Use the move operation instead.";
+            r = QApplication::tr("Rename operation was specified but the destination path is a different directory. Use the move operation instead.");
             break;
         case 0x74:
-            r = "The source is a root directory, which cannot be moved or "
-                    "renamed.";
+            r = QApplication::tr("The source is a root directory, which cannot be moved or renamed.");
             break;
         case 0x75:
-            r = "The operation was canceled by the user, or silently "
-                    "canceled if the appropriate flags were supplied to "
-                    "SHFileOperation.";
+            r = QApplication::tr("The operation was canceled by the user, or silently canceled if the appropriate flags were supplied to SHFileOperation.");
             break;
         case 0x76:
-            r = "The destination is a subtree of the source.";
+            r = QApplication::tr("The destination is a subtree of the source.");
             break;
         case 0x78:
-            r = "Security settings denied access to the source.";
+            r = QApplication::tr("Security settings denied access to the source.");
             break;
         case 0x79:
-            r = "The source or destination path exceeded or would exceed "
-                    "MAX_PATH.";
+            r = QApplication::tr("The source or destination path exceeded or would exceed MAX_PATH.");
             break;
         case 0x7A:
-            r = "The operation involved multiple destination paths, which can "
-                    "fail in the case of a move operation.";
+            r = QApplication::tr("The operation involved multiple destination paths, which can fail in the case of a move operation.");
             break;
         case 0x7C:
-            r = "The path in the source or destination or both was invalid.";
+            r = QApplication::tr("The path in the source or destination or both was invalid.");
             break;
         case 0x7D:
-            r = "The source and destination have the same parent folder.";
+            r = QApplication::tr("The source and destination have the same parent folder.");
             break;
         case 0x7E:
-            r = "The destination path is an existing file.";
+            r = QApplication::tr("The destination path is an existing file.");
             break;
         case 0x80:
-            r = "The destination path is an existing folder.";
+            r = QApplication::tr("The destination path is an existing folder.");
             break;
         case 0x81:
-            r = "The name of the file exceeds MAX_PATH.";
+            r = QApplication::tr("The name of the file exceeds MAX_PATH.");
             break;
         case 0x82:
-            r = "The destination is a read-only CD-ROM, possibly unformatted.";
+            r = QApplication::tr("The destination is a read-only CD-ROM, possibly unformatted.");
             break;
         case 0x83:
-            r = "The destination is a read-only DVD, possibly unformatted.";
+            r = QApplication::tr("The destination is a read-only DVD, possibly unformatted.");
             break;
         case 0x84:
-            r = "The destination is a writable CD-ROM, possibly unformatted.";
+            r = QApplication::tr("The destination is a writable CD-ROM, possibly unformatted.");
             break;
         case 0x85:
-            r = "The file involved in the operation is too large for the "
-                    "destination media or file system.";
+            r = QApplication::tr("The file involved in the operation is too large for the destination media or file system.");
             break;
         case 0x86:
-            r = "The source is a read-only CD-ROM, possibly unformatted.";
+            r = QApplication::tr("The source is a read-only CD-ROM, possibly unformatted.");
             break;
         case 0x87:
-            r = "The source is a read-only DVD, possibly unformatted.";
+            r = QApplication::tr("The source is a read-only DVD, possibly unformatted.");
             break;
         case 0x88:
-            r = "The source is a writable CD-ROM, possibly unformatted.";
+            r = QApplication::tr("The source is a writable CD-ROM, possibly unformatted.");
             break;
         case 0xB7:
-            r = "MAX_PATH was exceeded during the operation.";
+            r = QApplication::tr("MAX_PATH was exceeded during the operation.");
             break;
         case 0x402:
-            r = "An unknown error occurred. This is typically due to an "
-                    "invalid path in the source or destination. "
-                    "This error does not occur on Windows Vista and later.";
+            r = QApplication::tr("An unknown error occurred. This is typically due to an invalid path in the source or destination. This error does not occur on Windows Vista and later.");
             break;
         case 0x10000:
-            r = "An unspecified error occurred on the destination.";
+            r = QApplication::tr("An unspecified error occurred on the destination.");
             break;
         case 0x10074:
-            r = "Destination is a root directory and cannot be renamed.";
+            r = QApplication::tr("Destination is a root directory and cannot be renamed.");
             break;
         default:
             WPMUtils::formatMessage(res, &r);
@@ -834,7 +826,8 @@ QString WPMUtils::moveToRecycleBin(QString dir)
     if (r == 0)
         return "";
     else {
-        return QString("Error deleting %1: %2").arg(dir).arg(
+        return QString(QApplication::tr("Error deleting %1: %2")).
+                arg(dir).arg(
                 WPMUtils::getShellFileOperationErrorMessage(r));
     }
 }
@@ -926,7 +919,7 @@ void WPMUtils::removeDirectory(Job* job, QDir &aDir)
             } else {
                 QFile file(path);
                 if (!file.remove() && file.exists()) {
-                    job->setErrorMessage(QString("Cannot delete the file: %1").
+                    job->setErrorMessage(QString(QApplication::tr("Cannot delete the file: %1")).
                             arg(path));
                     // qDebug() << "WPMUtils::removeDirectory.1" << *errMsg;
                 } else {
@@ -940,7 +933,8 @@ void WPMUtils::removeDirectory(Job* job, QDir &aDir)
         if (job->getErrorMessage().isEmpty()) {
             if (!aDir.rmdir(aDir.absolutePath()))
                 // qDebug() << "WPMUtils::removeDirectory.2";
-                job->setErrorMessage(QString("Cannot delete the directory: %1").
+                job->setErrorMessage(QString(
+                        QApplication::tr("Cannot delete the directory: %1")).
                         arg(aDir.absolutePath()));
             else
                 job->setProgress(1);

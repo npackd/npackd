@@ -1,3 +1,5 @@
+#include <QApplication>
+
 #include "wellknownprogramsthirdpartypm.h"
 #include "wpmutils.h"
 
@@ -9,7 +11,7 @@ void WellKnownProgramsThirdPartyPM::scanDotNet(
     Package* p = new Package("com.microsoft.DotNetRedistributable",
             ".NET redistributable runtime");
     p->url = "http://msdn.microsoft.com/en-us/netframework/default.aspx";
-    p->description = ".NET runtime";
+    p->description = QApplication::tr(".NET runtime");
     // TODO: error message is ignored
     rep->savePackage(p);
     delete p;
@@ -91,9 +93,9 @@ void WellKnownProgramsThirdPartyPM::detectMSXML(
 {
     QScopedPointer<Package> p(
             new Package("com.microsoft.MSXML",
-            "Microsoft Core XML Services (MSXML)"));
+            QApplication::tr("Microsoft Core XML Services (MSXML)")));
     p->url = "http://www.microsoft.com/downloads/en/details.aspx?FamilyID=993c0bcf-3bcf-4009-be21-27e85e1857b1#Overview";
-    p->description = "XML library";
+    p->description = QApplication::tr("XML library");
     // TODO: error message is ignored
     rep->savePackage(p.data());
 
@@ -155,7 +157,7 @@ void WellKnownProgramsThirdPartyPM::detectWindows(
 
     QScopedPointer<Package> p(new Package("com.microsoft.Windows",
             "Windows"));
-    p->description = "operating system";
+    p->description = QApplication::tr("operating system");
     p->url = "http://www.microsoft.com/windows/";
     rep->savePackage(p.data());
     QScopedPointer<PackageVersion> pv(new PackageVersion(p->name, v));
@@ -165,8 +167,8 @@ void WellKnownProgramsThirdPartyPM::detectWindows(
 
     if (!WPMUtils::is64BitWindows()) {
         QScopedPointer<Package> p32(new Package("com.microsoft.Windows32",
-                "Windows 32 bit"));
-        p32->description = "operating system";
+                QApplication::tr("Windows 32 bit")));
+        p32->description = QApplication::tr("operating system");
         p32->url = "http://www.microsoft.com/windows/";
         QScopedPointer<PackageVersion> pv32(new PackageVersion(p32->name, v));
         rep->savePackage(p32.data());
@@ -175,8 +177,8 @@ void WellKnownProgramsThirdPartyPM::detectWindows(
                 WPMUtils::getWindowsDir()));
     } else {
         QScopedPointer<Package> p64(new Package("com.microsoft.Windows64",
-                "Windows 64 bit"));
-        p64->description = "operating system";
+                QApplication::tr("Windows 64 bit")));
+        p64->description = QApplication::tr("operating system");
         p64->url = "http://www.microsoft.com/windows/";
         QScopedPointer<PackageVersion> pv64(new PackageVersion(p64->name, v));
         rep->savePackage(p64.data());
@@ -197,8 +199,8 @@ void WellKnownProgramsThirdPartyPM::detectJRE(
             "com.oracle.JRE";
 
     QScopedPointer<Package> p(new Package(package, w64bit ? "JRE 64 bit" :
-            "JRE"));
-    p->description = "Java runtime";
+            QApplication::tr("JRE")));
+    p->description = QApplication::tr("Java runtime");
     p->url = "http://www.java.com/";
     rep->savePackage(p.data());
 
@@ -245,9 +247,9 @@ void WellKnownProgramsThirdPartyPM::detectJDK(
         return;
 
     QScopedPointer<Package> p(new Package(package,
-            w64bit ? "JDK 64 bit" : "JDK"));
+            w64bit ? QApplication::tr("JDK 64 bit") : QApplication::tr("JDK")));
     p->url = "http://www.oracle.com/technetwork/java/javase/overview/index.html";
-    p->description = "Java development kit";
+    p->description = QApplication::tr("Java development kit");
     rep->savePackage(p.data());
 
     WindowsRegistry wr;
@@ -294,9 +296,9 @@ void WellKnownProgramsThirdPartyPM::detectMicrosoftInstaller(
     Version nullNull(0, 0);
     if (v.compare(nullNull) > 0) {
         QScopedPointer<Package> p(new Package("com.microsoft.WindowsInstaller",
-                "Windows Installer"));
+                QApplication::tr("Windows Installer")));
         p->url = "http://msdn.microsoft.com/en-us/library/cc185688(VS.85).aspx";
-        p->description = "Package manager";
+        p->description = QApplication::tr("Package manager");
         // TODO: error message is ignored
         rep->savePackage(p.data());
 

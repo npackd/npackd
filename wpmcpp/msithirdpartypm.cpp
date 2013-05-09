@@ -1,6 +1,8 @@
 #include <windows.h>
 #include <msi.h>
 
+#include <QApplication>
+
 #include "msithirdpartypm.h"
 #include "wpmutils.h"
 
@@ -50,7 +52,8 @@ void MSIThirdPartyPM::scan(QList<InstalledPackageVersion *> *installed,
         if (!err.isEmpty())
             title = guid;
         QScopedPointer<Package> p(new Package(pv->package, title));
-        p->description = "[MSI database] " + p->title + " GUID: " + guid;
+        p->description = "[" + QApplication::tr("MSI database") +
+                "] " + p->title + " GUID: " + guid;
         QString url = WPMUtils::getMSIProductAttribute(guid,
                 INSTALLPROPERTY_URLINFOABOUT, &err);
         if (err.isEmpty() && QUrl(url).isValid())

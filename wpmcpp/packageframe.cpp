@@ -4,6 +4,7 @@
 #include "packageversionform.h"
 #include "ui_packageversionform.h"
 
+#include <QApplication>
 #include <QDesktopServices>
 #include <QSharedPointer>
 #include <QDebug>
@@ -68,7 +69,7 @@ void PackageFrame::fillForm(Package* p)
 
     DBRepository* dbr = DBRepository::getDefault();
 
-    QString licenseTitle = "unknown";
+    QString licenseTitle = QApplication::tr("unknown");
     if (p) {
         License* lic = dbr->findLicense_(p->license);
         if (lic) {
@@ -84,7 +85,7 @@ void PackageFrame::fillForm(Package* p)
 
         QString hp;
         if (p->url.isEmpty())
-            hp = "unknown";
+            hp = QApplication::tr("unknown");
         else{
             hp = p->url;
             hp = "<a href=\"" + Qt::escape(hp) + "\">" + Qt::escape(hp) +
@@ -100,9 +101,9 @@ void PackageFrame::fillForm(Package* p)
     t->clear();
     t->setColumnCount(2);
     t->setColumnWidth(1, 400);
-    newItem = new QTableWidgetItem("Version");
+    newItem = new QTableWidgetItem(QApplication::tr("Version"));
     t->setHorizontalHeaderItem(0, newItem);
-    newItem = new QTableWidgetItem("Installation path");
+    newItem = new QTableWidgetItem(QApplication::tr("Installation path"));
     t->setHorizontalHeaderItem(1, newItem);
 
     // TODO: error is ignored

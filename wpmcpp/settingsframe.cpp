@@ -1,6 +1,8 @@
 #include "settingsframe.h"
 #include "ui_settingsframe.h"
 
+#include <QApplication>
+
 #include "repository.h"
 #include "mainwindow.h"
 #include "wpmutils.h"
@@ -48,22 +50,18 @@ void SettingsFrame::on_buttonBox_clicked(QAbstractButton *button)
     MainWindow* mw = MainWindow::getInstance();
 
     if (mw->hardDriveScanRunning) {
-        mw->addErrorMessage("Cannot change settings now. "
-                "The hard drive scan is running.");
+        mw->addErrorMessage(QApplication::tr("Cannot change settings now. The hard drive scan is running."));
         return;
     }
 
     if (mw->reloadRepositoriesThreadRunning) {
-        mw->addErrorMessage("Cannot change settings now. "
-                "The repositories download is running.");
+        mw->addErrorMessage(QApplication::tr("Cannot change settings now. The repositories download is running."));
         return;
     }
 
     PackageVersion* locked = PackageVersion::findLockedPackageVersion();
     if (locked) {
-        QString msg("Cannot change settings now. "
-                "The package %1 is locked by a "
-                "currently running installation/removal.");
+        QString msg(QApplication::tr("Cannot change settings now. The package %1 is locked by a currently running installation/removal."));
         mw->addErrorMessage(msg.arg(locked->toString()));
         delete locked;
         return;
@@ -71,13 +69,13 @@ void SettingsFrame::on_buttonBox_clicked(QAbstractButton *button)
 
     QStringList list = getRepositoryURLs();
     if (list.count() == 0) {
-        QString msg("No repositories defined");
+        QString msg(QApplication::tr("No repositories defined"));
         mw->addErrorMessage(msg, msg, true, QMessageBox::Critical);
     } else if (getInstallationDirectory().isEmpty()) {
-        QString msg("The installation directory cannot be empty");
+        QString msg(QApplication::tr("The installation directory cannot be empty"));
         mw->addErrorMessage(msg, msg, true, QMessageBox::Critical);
     } else if (!QDir(getInstallationDirectory()).exists()) {
-        QString msg("The installation directory does not exist");
+        QString msg(QApplication::tr("The installation directory does not exist"));
         mw->addErrorMessage(msg, msg, true, QMessageBox::Critical);
     } else {
         QString err;
@@ -86,7 +84,7 @@ void SettingsFrame::on_buttonBox_clicked(QAbstractButton *button)
             QUrl* url = new QUrl(list.at(i));
             urls.append(url);
             if (!url->isValid()) {
-                err = QString("%1 is not a valid repository address").arg(
+                err = QString(QApplication::tr("%1 is not a valid repository address")).arg(
                         list.at(i));
                 break;
             }

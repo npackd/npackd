@@ -3,6 +3,7 @@
 
 #include <windows.h>
 
+#include <QApplication>
 #include <QTimer>
 
 #include "mainwindow.h"
@@ -15,10 +16,11 @@ MessageFrame::MessageFrame(QWidget *parent, const QString& msg,
     ui->setupUi(this);
 
     if (seconds == 0)
-        this->ui->pushButtonDismiss->setText("Dismiss");
+        this->ui->pushButtonDismiss->setText(QApplication::tr("Dismiss"));
     else
         this->ui->pushButtonDismiss->setText(
-                QString("Dismiss (%1 seconds)").arg(seconds));
+                QString(QApplication::tr("Dismiss (%1 seconds)")).
+                arg(seconds));
     this->seconds = seconds;
     this->ui->label->setText(msg);
     this->details = details;
@@ -55,7 +57,7 @@ void MessageFrame::timerTimeout()
     }
 
     this->ui->pushButtonDismiss->setText(
-            QString("Dismiss (%1 seconds)").arg(seconds));
+            QString(QApplication::tr("Dismiss (%1 seconds)")).arg(seconds));
     if (active) {
         this->seconds -= 10;
         if (this->seconds <= 0) {

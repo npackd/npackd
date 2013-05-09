@@ -1017,7 +1017,7 @@ bool App::confirm(const QList<InstallOperation*> install, QString* title)
 
         QScopedPointer<PackageVersion> pv(op0->findPackageVersion());
         if (pv.isNull())
-            pv.Preset(new PackageVersion(op0->package, op0->version));
+            pv.reset(new PackageVersion(op0->package, op0->version));
 
         msg = QString("The package %1 will be uninstalled. "
                 "The corresponding directory %2 "
