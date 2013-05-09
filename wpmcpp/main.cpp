@@ -7,6 +7,7 @@
 #include <QApplication>
 #include <QMetaType>
 #include <QDebug>
+#include <QTranslator>
 
 #include "version.h"
 #include "mainwindow.h"
@@ -19,6 +20,7 @@
 
 int main(int argc, char *argv[])
 {
+    // test: scheduling a task
     //CoInitialize(NULL);
     //WPMUtils::createMSTask();
 
@@ -29,6 +31,21 @@ int main(int argc, char *argv[])
     AbstractRepository::setDefault_(DBRepository::getDefault());
 
     QApplication a(argc, argv);
+
+/*
+ * this should translate the Qt messages
+    QTranslator qtTranslator;
+    qtTranslator.load("qt_" + QLocale::system().name(),
+            QLibraryInfo::location(QLibraryInfo::TranslationsPath));
+    app.installTranslator(&qtTranslator);
+*/
+
+    QTranslator myappTranslator;
+    bool r = myappTranslator.load("npackdg_" + QLocale::system().name(),
+            a.applicationDirPath(),
+            "_.", ".qm");
+    if (r)
+        a.installTranslator(&myappTranslator);
 
     qRegisterMetaType<JobState>("JobState");
     qRegisterMetaType<FileLoaderItem>("FileLoaderItem");
