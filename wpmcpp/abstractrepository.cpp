@@ -1,3 +1,5 @@
+#include <QApplication>
+
 #include "abstractrepository.h"
 #include "wpmutils.h"
 #include "windowsregistry.h"
@@ -67,7 +69,8 @@ void AbstractRepository::process(Job *job,
         PackageVersion* pv = op->findPackageVersion();
         if (!pv) {
             job->setErrorMessage(QString(
-                    "Cannot find the package version %1 %2").arg(op->package).
+                    QApplication::tr("Cannot find the package version %1 %2")).
+                    arg(op->package).
                     arg(op->version.getVersionString()));
             break;
         }
@@ -88,10 +91,10 @@ void AbstractRepository::process(Job *job,
             InstallOperation* op = install.at(i);
             PackageVersion* pv = pvs.at(i);
             if (op->install)
-                job->setHint(QString("Installing %1").arg(
+                job->setHint(QString(QApplication::tr("Installing %1")).arg(
                         pv->toString()));
             else
-                job->setHint(QString("Uninstalling %1").arg(
+                job->setHint(QString(QApplication::tr("Uninstalling %1")).arg(
                         pv->toString()));
             Job* sub = job->newSubJob(1.0 / n);
             if (op->install)
@@ -150,21 +153,20 @@ QString AbstractRepository::planUpdates(const QList<Package*> packages,
 
         PackageVersion* a = findNewestInstallablePackageVersion_(p->name);
         if (a == 0) {
-            err = QString("No installable version found for the package %1").
+            err = QString(QApplication::tr("No installable version found for the package %1")).
                     arg(p->title);
             break;
         }
 
         PackageVersion* b = findNewestInstalledPackageVersion_(p->name);
         if (b == 0) {
-            err = QString("No installed version found for the package %1").
+            err = QString(QApplication::tr("No installed version found for the package %1")).
                     arg(p->title);
             break;
         }
 
         if (a->version.compare(b->version) <= 0) {
-            err = QString("The newest version (%1) for the package %2 "
-                    "is already installed").
+            err = QString(QApplication::tr("The newest version (%1) for the package %2 is already installed")).
                     arg(b->version.getVersionString()).arg(p->title);
             break;
         }
@@ -413,7 +415,7 @@ void AbstractRepository::scanHardDrive(Job* job)
 
         QFileInfo fi = fil.at(i);
 
-        job->setHint(QString("Scanning %1").arg(fi.absolutePath()));
+        job->setHint(QString(QApplication::tr("Scanning %1")).arg(fi.absolutePath()));
         Job* djob = job->newSubJob(1.0 / fil.count());
         QString path = WPMUtils::normalizePath(fi.absolutePath());
         UINT t = GetDriveType((WCHAR*) path.utf16());

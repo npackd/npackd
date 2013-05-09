@@ -1,7 +1,9 @@
 #include <time.h>
 #include <math.h>
+
 #include <QTime>
 #include <QTimer>
+#include <QApplication>
 
 #include "progressframe.h"
 #include "ui_progressframe.h"
@@ -39,7 +41,8 @@ ProgressFrame::ProgressFrame(QWidget *parent, Job* job, const QString& title,
 ProgressFrame::~ProgressFrame()
 {
     if (!job->getErrorMessage().isEmpty()) {
-        MainWindow::getInstance()->addErrorMessage("Error: " + this->title +
+        MainWindow::getInstance()->addErrorMessage(
+                QApplication::tr("Error") + ": " + this->title +
                 " / " + job->getHint() +
                 ": " + WPMUtils::getFirstLine(job->getErrorMessage()),
                 job->getHint() + "\n" +

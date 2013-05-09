@@ -6,6 +6,7 @@
 #include <QSettings>
 #include <qdom.h>
 #include <QDebug>
+#include <QApplication>
 
 #include "downloader.h"
 #include "repository.h"
@@ -97,7 +98,7 @@ Package* Repository::createPackage(QDomElement* e, QString* err)
     QString name = e->attribute("name").trimmed();
     *err = WPMUtils::validateFullPackageName(name);
     if (!err->isEmpty()) {
-        err->prepend("Error in attribute 'name' in <package>: ");
+        err->prepend(QApplication::tr("Error in attribute 'name' in <package>: "));
     }
 
     Package* a = new Package(name, name);
@@ -114,7 +115,8 @@ Package* Repository::createPackage(QDomElement* e, QString* err)
             QUrl u(a->icon);
             if (!u.isValid() || u.isRelative() ||
                     !(u.scheme() == "http" || u.scheme() == "https")) {
-                err->append(QString("Invalid icon URL for %1: %2").
+                err->append(QString(
+                        QApplication::tr("Invalid icon URL for %1: %2")).
                         arg(a->title).arg(a->icon));
             }
         }
@@ -196,7 +198,7 @@ QString Repository::writeTo(const QString& filename) const
         QTextStream s(&file);
         doc.save(s, 4);
     } else {
-        r = QString("Cannot open %1 for writing").arg(filename);
+        r = QString(QApplication::tr("Cannot open %1 for writing")).arg(filename);
     }
 
     return "";
@@ -238,13 +240,14 @@ void Repository::load(Job* job, bool useCache)
     QList<QUrl*> urls = AbstractRepository::getRepositoryURLs(&err);
     if (urls.count() > 0) {
         for (int i = 0; i < urls.count(); i++) {
-            job->setHint(QString("Repository %1 of %2").arg(i + 1).
+            job->setHint(QString(
+                    QApplication::tr("Repository %1 of %2")).arg(i + 1).
                          arg(urls.count()));
             Job* s = job->newSubJob(1.0 / urls.count());
             loadOne(urls.at(i), s, useCache);
             if (!s->getErrorMessage().isEmpty()) {
                 job->setErrorMessage(QString(
-                        "Error loading the repository %1: %2").arg(
+                        QApplication::tr("Error loading the repository %1: %2")).arg(
                         urls.at(i)->toString()).arg(
                         s->getErrorMessage()));
                 delete s;
@@ -256,7 +259,7 @@ void Repository::load(Job* job, bool useCache)
                 break;
         }
     } else {
-        job->setErrorMessage("No repositories defined");
+        job->setErrorMessage(QApplication::tr("No repositories defined"));
         job->setProgress(1);
     }
 
@@ -269,28 +272,29 @@ void Repository::load(Job* job, bool useCache)
 }
 
 void Repository::loadOne(QUrl* url, Job* job, bool useCache) {
-    job->setHint("Downloading");
+    job->setHint(QApplication::tr("Downloading"));
 
     QTemporaryFile* f = 0;
     if (job->getErrorMessage().isEmpty() && !job->isCancelled()) {
         Job* djob = job->newSubJob(0.90);
         f = Downloader::download(djob, *url, 0, useCache);
         if (!djob->getErrorMessage().isEmpty())
-            job->setErrorMessage(QString("Download failed: %2").
+            job->setErrorMessage(QString(
+                    QApplication::tr("Download failed: %2")).
                     arg(djob->getErrorMessage()));
         delete djob;
     }
 
     QDomDocument doc;
     if (job->getErrorMessage().isEmpty() && !job->isCancelled()) {
-        job->setHint("Parsing the content");
+        job->setHint(QApplication::tr("Parsing the content"));
         // qDebug() << "Repository::loadOne.2";
         int errorLine;
         int errorColumn;
         QString errMsg;
         if (!doc.setContent(f, &errMsg, &errorLine, &errorColumn))
             job->setErrorMessage(QString(
-                    "XML parsing failed at line %1, column %2: %3").
+                    QApplication::tr("XML parsing failed at line %1, column %2: %3")).
                     arg(errorLine).arg(errorColumn).arg(errMsg));
         else
             job->setProgress(0.91);
@@ -300,7 +304,8 @@ void Repository::loadOne(QUrl* url, Job* job, bool useCache) {
         Job* djob = job->newSubJob(0.09);
         loadOne(&doc, djob);
         if (!djob->getErrorMessage().isEmpty())
-            job->setErrorMessage(QString("Error loading XML: %2").
+            job->setErrorMessage(QString(
+                    QApplication::tr("Error loading XML: %2")).
                     arg(djob->getErrorMessage()));
         delete djob;
     }
@@ -313,26 +318,26 @@ void Repository::loadOne(QUrl* url, Job* job, bool useCache) {
 void Repository::loadOne(const QString& filename, Job* job)
 {
     QFile f(filename);
-    if (job->shouldProceed("Opening file")) {
+    if (job->shouldProceed(QApplication::tr("Opening file"))) {
         if (!f.open(QIODevice::ReadOnly))
-            job->setErrorMessage("Cannot open the file");
+            job->setErrorMessage(QApplication::tr("Cannot open the file"));
         else
             job->setProgress(0.1);
     }
 
     QDomDocument doc;
-    if (job->shouldProceed("Parsing XML")) {
+    if (job->shouldProceed(QApplication::tr("Parsing XML"))) {
         int errorLine, errorColumn;
         QString err;
         if (!doc.setContent(&f, false, &err, &errorLine, &errorColumn))
             job->setErrorMessage(QString(
-                    "XML parsing failed at line %1, column %2: %3").
+                    QApplication::tr("XML parsing failed at line %1, column %2: %3")).
                     arg(errorLine).arg(errorColumn).arg(err));
         else
             job->setProgress(0.6);
     }
 
-    if (job->shouldProceed("Analyzing the content")) {
+    if (job->shouldProceed(QApplication::tr("Analyzing the content"))) {
         Job* sub = job->newSubJob(0.4);
         loadOne(&doc, sub);
         if (sub->getErrorMessage().isEmpty())
@@ -354,14 +359,13 @@ void Repository::loadOne(QDomDocument* doc, Job* job)
             Version specVersion_;
             if (!specVersion_.setVersion(specVersion)) {
                 job->setErrorMessage(QString(
-                        "Invalid repository specification version: %1").
+                        QApplication::tr("Invalid repository specification version: %1")).
                         arg(specVersion));
             } else {
                 if (specVersion_.compare(Version(4, 0)) >= 0)
                     job->setErrorMessage(QString(
-                            "Incompatible repository specification version: %1. \n"
-                            "Plese download a newer version of Npackd from "
-                            "http://code.google.com/p/windows-package-manager/").
+                            QApplication::tr("Incompatible repository specification version: %1.") + " \n" +
+                            QApplication::tr("Plese download a newer version of Npackd from http://code.google.com/p/windows-package-manager/")).
                             arg(specVersion));
                 else
                     job->setProgress(0.01);
@@ -534,10 +538,8 @@ QString Repository::checkLockedFilesForUninstall(
 
     if (lockedUninstall.size() > 0) {
         QString locked_ = lockedUninstall.join(", \n");
-        QString msg = QString("The package(s) cannot be uninstalled because "
-                "the following files are in use "
-                "(please close the corresponding applications): "
-                "%1").arg(locked_);
+        QString msg = QString(
+                QApplication::tr("The package(s) cannot be uninstalled because the following files are in use (please close the corresponding applications): %1")).arg(locked_);
         return msg;
     }
 
@@ -547,8 +549,8 @@ QString Repository::checkLockedFilesForUninstall(
             // TODO: op.findPackageVersion may return 0
             QScopedPointer<PackageVersion> pv(op->findPackageVersion());
             if (pv->isDirectoryLocked()) {
-                QString msg = QString("The package %1 cannot be uninstalled because "
-                        "some files or directories under %2 are in use.").
+                QString msg = QString(
+                        QApplication::tr("The package %1 cannot be uninstalled because some files or directories under %2 are in use.")).
                         arg(pv->toString()).
                         arg(pv->getPath());
                 return msg;

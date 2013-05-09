@@ -1,5 +1,6 @@
 #include "dbrepository.h"
 
+#include <QApplication>
 #include <QSqlDatabase>
 #include <QSqlError>
 #include <QSqlQuery>
@@ -147,7 +148,7 @@ PackageVersion* DBRepository::findPackageVersion_(
         if (!doc.setContent(q.value(2).toByteArray(),
                 &err, &errorLine, &errorColumn))
             err = QString(
-                    "XML parsing failed at line %1, column %2: %3").
+                    QApplication::tr("XML parsing failed at line %1, column %2: %3")).
                     arg(errorLine).arg(errorColumn).arg(err);
 
         QDomElement root = doc.documentElement();
@@ -184,7 +185,7 @@ QList<PackageVersion*> DBRepository::getPackageVersions_(
         if (!doc.setContent(q.value(2).toByteArray(),
                 err, &errorLine, &errorColumn)) {
             *err = QString(
-                    "XML parsing failed at line %1, column %2: %3").
+                    QApplication::tr("XML parsing failed at line %1, column %2: %3")).
                     arg(errorLine).arg(errorColumn).arg(*err);
         }
 
@@ -296,7 +297,7 @@ QList<PackageVersion *> DBRepository::findPackageVersions() const
         if (!doc.setContent(q.value(2).toByteArray(),
                 &err, &errorLine, &errorColumn))
             err = QString(
-                    "XML parsing failed at line %1, column %2: %3").
+                    QApplication::tr("XML parsing failed at line %1, column %2: %3")).
                     arg(errorLine).arg(errorColumn).arg(err);
 
         QDomElement root = doc.documentElement();
@@ -417,7 +418,7 @@ PackageVersion *DBRepository::findPackageVersionByMSIGUID_(
         if (!doc.setContent(q.value(2).toByteArray(),
                 &err, &errorLine, &errorColumn))
             err = QString(
-                    "XML parsing failed at line %1, column %2: %3").
+                    QApplication::tr("XML parsing failed at line %1, column %2: %3")).
                     arg(errorLine).arg(errorColumn).arg(err);
 
         QDomElement root = doc.documentElement();
@@ -436,7 +437,7 @@ QString DBRepository::clear()
 {
     Job* job = new Job();
 
-    if (job->shouldProceed("Starting an SQL transaction")) {
+    if (job->shouldProceed(QApplication::tr("Starting an SQL transaction"))) {
         QString err = exec("BEGIN TRANSACTION");
         if (!err.isEmpty())
             job->setErrorMessage(err);
@@ -444,7 +445,7 @@ QString DBRepository::clear()
             job->setProgress(0.01);
     }
 
-    if (job->shouldProceed("Clearing the packages table")) {
+    if (job->shouldProceed(QApplication::tr("Clearing the packages table"))) {
         QString err = exec("DELETE FROM PACKAGE");
         if (!err.isEmpty())
             job->setErrorMessage(err);
@@ -452,7 +453,7 @@ QString DBRepository::clear()
             job->setProgress(0.1);
     }
 
-    if (job->shouldProceed("Clearing the package versions table")) {
+    if (job->shouldProceed(QApplication::tr("Clearing the package versions table"))) {
         QString err = exec("DELETE FROM PACKAGE_VERSION");
         if (!err.isEmpty())
             job->setErrorMessage(err);
@@ -460,7 +461,7 @@ QString DBRepository::clear()
             job->setProgress(0.7);
     }
 
-    if (job->shouldProceed("Clearing the licenses table")) {
+    if (job->shouldProceed(QApplication::tr("Clearing the licenses table"))) {
         QString err = exec("DELETE FROM LICENSE");
         if (!err.isEmpty())
             job->setErrorMessage(err);
@@ -468,7 +469,7 @@ QString DBRepository::clear()
             job->setProgress(0.96);
     }
 
-    if (job->shouldProceed("Commiting the SQL transaction")) {
+    if (job->shouldProceed(QApplication::tr("Commiting the SQL transaction"))) {
         QString err = exec("COMMIT");
         if (!err.isEmpty())
             job->setErrorMessage(err);
@@ -507,7 +508,7 @@ void DBRepository::updateF5(Job* job)
      */
     timer.time(0);
     Repository* r = new Repository();
-    if (job->shouldProceed("Clearing the database")) {
+    if (job->shouldProceed(QApplication::tr("Clearing the database"))) {
         // TODO: error is ignored
         QString err = clear();
         if (!err.isEmpty())
@@ -517,7 +518,7 @@ void DBRepository::updateF5(Job* job)
     }
 
     timer.time(1);
-    if (job->shouldProceed("Downloading the remote repositories")) {
+    if (job->shouldProceed(QApplication::tr("Downloading the remote repositories"))) {
         Job* sub = job->newSubJob(0.69);
         r->load(sub, false);
         if (!sub->getErrorMessage().isEmpty())
@@ -535,7 +536,7 @@ void DBRepository::updateF5(Job* job)
     }
 
     timer.time(2);
-    if (job->shouldProceed("Filling the local database")) {
+    if (job->shouldProceed(QApplication::tr("Filling the local database"))) {
         Job* sub = job->newSubJob(0.06);
         insertAll(sub, r);
         if (!sub->getErrorMessage().isEmpty())
@@ -544,13 +545,13 @@ void DBRepository::updateF5(Job* job)
     }
     timer.time(3);
 
-    if (job->shouldProceed("Adding well-known packages")) {
+    if (job->shouldProceed(QApplication::tr("Adding well-known packages"))) {
         addWellKnownPackages();
         job->setProgress(0.8);
     }
 
     timer.time(4);
-    if (job->shouldProceed("Refreshing the installation status")) {
+    if (job->shouldProceed(QApplication::tr("Refreshing the installation status"))) {
         Job* sub = job->newSubJob(0.1);
         InstalledPackages::getDefault()->refresh(sub);
         if (!sub->getErrorMessage().isEmpty())
@@ -560,7 +561,7 @@ void DBRepository::updateF5(Job* job)
 
     timer.time(5);
     if (job->shouldProceed(
-            "Updating the status for installed packages in the database")) {
+            QApplication::tr("Updating the status for installed packages in the database"))) {
         updateStatusForInstalled();
         job->setProgress(1);
     }
@@ -595,7 +596,7 @@ void DBRepository::addWellKnownPackages()
 
 void DBRepository::insertAll(Job* job, Repository* r)
 {
-    if (job->shouldProceed("Starting an SQL transaction")) {
+    if (job->shouldProceed(QApplication::tr("Starting an SQL transaction"))) {
         QString err = exec("BEGIN TRANSACTION");
         if (!err.isEmpty())
             job->setErrorMessage(err);
@@ -603,7 +604,7 @@ void DBRepository::insertAll(Job* job, Repository* r)
             job->setProgress(0.01);
     }
 
-    if (job->shouldProceed("Inserting data in the packages table")) {
+    if (job->shouldProceed(QApplication::tr("Inserting data in the packages table"))) {
         QString err = insertPackages(r);
         if (err.isEmpty())
             job->setProgress(0.6);
@@ -611,7 +612,7 @@ void DBRepository::insertAll(Job* job, Repository* r)
             job->setErrorMessage(err);
     }
 
-    if (job->shouldProceed("Inserting data in the package versions table")) {
+    if (job->shouldProceed(QApplication::tr("Inserting data in the package versions table"))) {
         QString err = insertPackageVersions(r);
         if (err.isEmpty())
             job->setProgress(0.95);
@@ -619,7 +620,7 @@ void DBRepository::insertAll(Job* job, Repository* r)
             job->setErrorMessage(err);
     }
 
-    if (job->shouldProceed("Inserting data in the licenses table")) {
+    if (job->shouldProceed(QApplication::tr("Inserting data in the licenses table"))) {
         QString err = insertLicenses(r);
         if (err.isEmpty())
             job->setProgress(0.98);
@@ -627,7 +628,7 @@ void DBRepository::insertAll(Job* job, Repository* r)
             job->setErrorMessage(err);
     }
 
-    if (job->shouldProceed("Commiting the SQL transaction")) {
+    if (job->shouldProceed(QApplication::tr("Commiting the SQL transaction"))) {
         QString err = exec("COMMIT");
         if (!err.isEmpty())
             job->setErrorMessage(err);

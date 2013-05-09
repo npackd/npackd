@@ -41,3 +41,4 @@ rem cd ..\..
 rem creating .msi
 rem "%ai_path%\bin\x86\AdvancedInstaller.com" /build wpmcpp.aip
 rem if %errorlevel% neq 0 goto out
+

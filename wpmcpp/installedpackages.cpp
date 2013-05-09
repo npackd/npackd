@@ -1,8 +1,10 @@
 #include "installedpackages.h"
 
 #include <windows.h>
-#include <QDebug>
 #include <msi.h>
+
+#include <QApplication>
+#include <QDebug>
 
 #include "windowsregistry.h"
 #include "package.h"
@@ -266,7 +268,7 @@ void InstalledPackages::refresh(Job *job)
     timer.time(0);
 
     if (!job->isCancelled() && job->getErrorMessage().isEmpty()) {
-        job->setHint("Detecting directories deleted externally");
+        job->setHint(QApplication::tr("Detecting directories deleted externally"));
         QList<InstalledPackageVersion*> ipvs = this->data.values();
         for (int i = 0; i < ipvs.count(); i++) {
             InstalledPackageVersion* ipv = ipvs.at(i);
@@ -286,14 +288,14 @@ void InstalledPackages::refresh(Job *job)
     timer.time(1);
 
     if (!job->isCancelled() && job->getErrorMessage().isEmpty()) {
-        job->setHint("Reading registry package database");
+        job->setHint(QApplication::tr("Reading registry package database"));
         readRegistryDatabase();
         job->setProgress(0.5);
     }
     timer.time(2);
 
     if (!job->isCancelled() && job->getErrorMessage().isEmpty()) {
-        job->setHint("Detecting software");
+        job->setHint(QApplication::tr("Detecting software"));
         Job* d = job->newSubJob(0.2);
 
         HRTimer timer2(5);
@@ -340,8 +342,7 @@ void InstalledPackages::refresh(Job *job)
     }
     timer.time(3);
 
-    if (job->shouldProceed("Clearing information about installed package "
-            "versions in nested directories")) {
+    if (job->shouldProceed(QApplication::tr("Clearing information about installed package versions in nested directories"))) {
         clearPackagesInNestedDirectories();
         job->setProgress(1);
     }

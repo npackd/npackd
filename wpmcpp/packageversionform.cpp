@@ -1,6 +1,7 @@
 #include "packageversionform.h"
 #include "ui_packageversionform.h"
 
+#include <QApplication>
 #include <QDesktopServices>
 #include <QSharedPointer>
 #include <QDebug>
@@ -57,7 +58,7 @@ void PackageVersionForm::fillForm(PackageVersion* pv)
 
     Package* p = r->findPackage_(pv->package);
 
-    QString licenseTitle = "unknown";
+    QString licenseTitle = QApplication::tr("unknown");
     if (p) {
         License* lic = r->findLicense_(p->license);
         if (lic) {
@@ -73,7 +74,7 @@ void PackageVersionForm::fillForm(PackageVersion* pv)
 
         QString hp;
         if (p->url.isEmpty())
-            hp = "unknown";
+            hp = QApplication::tr("unknown");
         else{
             hp = p->url;
             hp = "<a href=\"" + Qt::escape(hp) + "\">" + Qt::escape(hp) +
@@ -86,7 +87,7 @@ void PackageVersionForm::fillForm(PackageVersion* pv)
 
     QString dl;
     if (!pv->download.isValid())
-        dl = "n/a";
+        dl = QApplication::tr("n/a");
     else {
         dl = pv->download.toString();        
         dl = "<a href=\"" + Qt::escape(dl) + "\">" + Qt::escape(dl) + "</a>";
@@ -95,7 +96,7 @@ void PackageVersionForm::fillForm(PackageVersion* pv)
 
     QString sha1;
     if (pv->sha1.isEmpty())
-        sha1 = "n/a";
+        sha1 = QApplication::tr("n/a");
     else
         sha1 = pv->sha1;
     this->ui->lineEditSHA1->setText(sha1);

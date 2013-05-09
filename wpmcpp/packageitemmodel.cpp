@@ -1,6 +1,8 @@
 #include <QSharedPointer>
 #include <QDebug>
 
+#include <QApplication>
+
 #include "license.h"
 #include "packageitemmodel.h"
 #include "abstractrepository.h"
@@ -178,22 +180,22 @@ QVariant PackageItemModel::headerData(int section, Qt::Orientation orientation,
         if (orientation == Qt::Horizontal) {
             switch (section) {
                 case 0:
-                    r = "Icon";
+                    r = QApplication::tr("Icon");
                     break;
                 case 1:
-                    r = "Title";
+                    r = QApplication::tr("Title");
                     break;
                 case 2:
-                    r = "Description";
+                    r = QApplication::tr("Description");
                     break;
                 case 3:
-                    r = "Available";
+                    r = QApplication::tr("Available");
                     break;
                 case 4:
-                    r = "Installed";
+                    r = QApplication::tr("Installed");
                     break;
                 case 5:
-                    r = "License";
+                    r = QApplication::tr("License");
                     break;
             }
         } else {
