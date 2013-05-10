@@ -40,8 +40,10 @@ int main(int argc, char *argv[])
     app.installTranslator(&qtTranslator);
 */
 
+    // to use a resource: ":/resources/translations"
     QTranslator myappTranslator;
-    bool r = myappTranslator.load("npackdg_" + QLocale::system().name(),
+    bool r = myappTranslator.load(/*"wpmcpp_es"*/ // for testing
+            "npackdg_" + QLocale::system().name(),
             a.applicationDirPath(),
             "_.", ".qm");
     if (r)

@@ -47,7 +47,7 @@ InstalledPackageVersion* InstalledPackages::find(const QString& package,
     return this->data.value(PackageVersion::getStringId(package, version));
 }
 
-void InstalledPackages::detect3rdParty(AbstractThirdPartyPM *pm)
+void InstalledPackages::detect3rdParty(AbstractThirdPartyPM *pm, bool replace)
 {
     Repository rep;
     QList<InstalledPackageVersion*> installed;
@@ -55,7 +55,7 @@ void InstalledPackages::detect3rdParty(AbstractThirdPartyPM *pm)
 
     // TODO: handle error
     Job* job = new Job();
-    DBRepository::getDefault()->insertAll(job, &rep);
+    DBRepository::getDefault()->saveAll(job, &rep, replace);
     delete job;
 
     AbstractRepository* r = AbstractRepository::getDefault_();
@@ -315,24 +315,24 @@ void InstalledPackages::refresh(Job *job)
         job->setProgress(1);
         */
         AbstractThirdPartyPM* pm = new InstalledPackagesThirdPartyPM();
-        detect3rdParty(pm);
+        detect3rdParty(pm, false);
         delete pm;
         timer2.time(1);
 
         pm = new WellKnownProgramsThirdPartyPM();
-        detect3rdParty(pm);
+        detect3rdParty(pm, false);
         delete pm;
         timer2.time(2);
 
         // MSI package detection should happen before the detection for
         // control panel programs
         pm = new MSIThirdPartyPM();
-        detect3rdParty(pm);
+        detect3rdParty(pm, true);
         delete pm;
         timer2.time(3);
 
         pm = new ControlPanelThirdPartyPM();
-        detect3rdParty(pm);
+        detect3rdParty(pm, true);
         delete pm;
         timer2.time(4);
 

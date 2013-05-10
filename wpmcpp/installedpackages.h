@@ -77,8 +77,9 @@ private:
      * @brief detects packages, package versions etc. from another package
      *     manager
      * @param pm [ownership:caller] a 3rd party package manager
+     * @param replace should the existing entries be replaced?
      */
-    void detect3rdParty(AbstractThirdPartyPM* pm);
+    void detect3rdParty(AbstractThirdPartyPM* pm, bool replace=false);
 
     /**
      * @brief saves the information in the Windows registry

@@ -29,11 +29,41 @@ private:
 
     QCache<QString, License> licenses;
 
-    QString insertLicense(License* p);
+    /**
+     * @brief inserts or updates an existing license
+     * @param p a license
+     * @param replace what to do if an entry already exists:
+     *     true = replace, false = ignore
+     * @return error message
+     */
+    QString saveLicense(License* p, bool replace);
 
-    QString insertPackages(Repository* r);
-    QString insertPackageVersions(Repository* r);
-    QString insertLicenses(Repository* r);
+    /**
+     * @brief inserts or updates existing packages
+     * @param r repository with packages
+     * @param replace what to do if an entry already exists:
+     *     true = replace, false = ignore
+     * @return error message
+     */
+    QString savePackages(Repository* r, bool replace);
+
+    /**
+     * @brief inserts or updates existing package versions
+     * @param r repository with package versions
+     * @param replace what to do if an entry already exists:
+     *     true = replace, false = ignore
+     * @return error message
+     */
+    QString savePackageVersions(Repository* r, bool replace);
+
+    /**
+     * @brief inserts or updates existing licenses
+     * @param r repository with licenses
+     * @param replace what to do if an entry already exists:
+     *     true = replace, false = ignore
+     * @return error message
+     */
+    QString saveLicenses(Repository* r, bool replace);
 
     QString exec(const QString& sql);
 
@@ -78,13 +108,14 @@ public:
     QString open();
 
     /**
-     * @brief reloadFrom clears the database and populates the table with the
-     *     data from the given repository
+     * @brief inserts the data from the given repository
      * @param job job
      * @param r the repository
+     * @param replace what to to if an entry already exists:
+     *     true = replace, false = ignore
      * @return error message
      */
-    void insertAll(Job* job, Repository* r);
+    void saveAll(Job* job, Repository* r, bool replace=false);
 
     /**
      * @brief updates the status for currently installed packages in
@@ -100,7 +131,8 @@ public:
     /**
      * @brief searches for packages that match the specified keywords
      * @param status filter for the package status if filterByStatus is true
-     * @param filterByStatus if true, the packages will be filtered by status
+     * @param statusInclude true = only return packages with the given status,
+     *     false = return all packages with the status not equal to the given
      * @param query search query (keywords)
      * @return [ownership:caller] found packages
      */

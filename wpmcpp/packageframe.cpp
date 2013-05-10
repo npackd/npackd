@@ -52,7 +52,6 @@ void PackageFrame::updateIcons()
 void PackageFrame::updateStatus()
 {
     for (int i = 0; i < this->ui->tableWidgetVersions->rowCount(); i++) {
-        // TODO: the table may be sorted...
         PackageVersion* pv = this->pvs.at(i);
         QTableWidgetItem* item = this->ui->tableWidgetVersions->item(i, 1);
         item->setText(pv->getPath());
@@ -152,7 +151,6 @@ void PackageFrame::showDetails()
     for (int i = 0; i < sel.count(); i++) {
         QTableWidgetItem* item = sel.at(i);
         if (item->column() == 0) {
-            // TODO: table may be sorted
             PackageVersion* pv = this->pvs.at(i);
             mw->openPackageVersion(pv->package, pv->version, true);
         }
@@ -171,8 +169,7 @@ QList<void*> PackageFrame::getSelected(const QString& type) const
             for (int i = 0; i < sel.count(); i++) {
                 QTableWidgetItem* item = sel.at(i);
                 if (item->column() == 0) {
-                    // TODO: table may be sorted
-                    PackageVersion* pv = this->pvs.at(i);
+                    PackageVersion* pv = this->pvs.at(item->row());
                     res.append(pv);
                 }
             }
