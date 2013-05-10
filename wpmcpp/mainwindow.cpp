@@ -653,21 +653,21 @@ void MainWindow::fillList()
 
     //QSet<QString> requestedIcons;
     int statusFilter = this->mainFrame->getStatusFilter();
-    Package::Status status = Package::INSTALLED;
-    bool filterByStatus = false;
+    Package::Status status = Package::NOT_INSTALLED;
+    bool statusInclude = false;
     switch (statusFilter) {
         case 1:
             status = Package::INSTALLED;
-            filterByStatus = true;
+            statusInclude = true;
             break;
         case 2:
             status = Package::UPDATEABLE;
-            filterByStatus = true;
+            statusInclude = true;
             break;
     }
 
     DBRepository* dbr = DBRepository::getDefault();
-    QList<Package*> found = dbr->findPackages(status, filterByStatus, query);
+    QList<Package*> found = dbr->findPackages(status, statusInclude, query);
 
     PackageItemModel* m = (PackageItemModel*) t->model();
     m->setPackages(found);

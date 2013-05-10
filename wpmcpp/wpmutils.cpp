@@ -578,7 +578,7 @@ QString WPMUtils::getMSIProductAttribute(const QString &guid,
         p.setUtf16((ushort*) value, len);
         err->clear();
     } else {
-        *err = QString(QApplication::tr("Cannot determine MSI product location for GUID %1")).
+        *err = QApplication::tr("Cannot determine MSI product location for GUID %1").
                 arg(guid);
     }
     return p;

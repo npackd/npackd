@@ -74,12 +74,19 @@ QString DBRepository::exec(const QString& sql)
     return toString(q.lastError());
 }
 
-QString DBRepository::insertLicense(License* p)
+QString DBRepository::saveLicense(License* p, bool replace)
 {
     QMySqlQuery q;
-    q.prepare("INSERT INTO LICENSE "
+
+    QString sql = "INSERT OR ";
+    if (replace)
+        sql += "REPLACE";
+    else
+        sql += "IGNORE";
+    sql += " INTO LICENSE "
             "(NAME, TITLE, DESCRIPTION, URL)"
-            "VALUES(:NAME, :TITLE, :DESCRIPTION, :URL)");
+            "VALUES(:NAME, :TITLE, :DESCRIPTION, :URL)";
+    q.prepare(sql);
     q.bindValue(":NAME", p->name);
     q.bindValue(":TITLE", p->title);
     q.bindValue(":DESCRIPTION", p->description);
@@ -538,7 +545,7 @@ void DBRepository::updateF5(Job* job)
     timer.time(2);
     if (job->shouldProceed(QApplication::tr("Filling the local database"))) {
         Job* sub = job->newSubJob(0.06);
-        insertAll(sub, r);
+        saveAll(sub, r, false);
         if (!sub->getErrorMessage().isEmpty())
             job->setErrorMessage(sub->getErrorMessage());
         delete sub;
@@ -563,7 +570,17 @@ void DBRepository::updateF5(Job* job)
     if (job->shouldProceed(
             QApplication::tr("Updating the status for installed packages in the database"))) {
         updateStatusForInstalled();
-        job->setProgress(1);
+        job->setProgress(0.98);
+    }
+
+    if (job->shouldProceed(
+            QApplication::tr("Removing packages without versions"))) {
+        QString err = exec("DELETE FROM PACKAGE WHERE NOT EXISTS "
+                "(SELECT * FROM PACKAGE_VERSION WHERE PACKAGE = PACKAGE.NAME)");
+        if (err.isEmpty())
+            job->setProgress(1);
+        else
+            job->setErrorMessage(err);
     }
 
     delete r;
@@ -594,7 +611,7 @@ void DBRepository::addWellKnownPackages()
     */
 }
 
-void DBRepository::insertAll(Job* job, Repository* r)
+void DBRepository::saveAll(Job* job, Repository* r, bool replace)
 {
     if (job->shouldProceed(QApplication::tr("Starting an SQL transaction"))) {
         QString err = exec("BEGIN TRANSACTION");
@@ -605,7 +622,7 @@ void DBRepository::insertAll(Job* job, Repository* r)
     }
 
     if (job->shouldProceed(QApplication::tr("Inserting data in the packages table"))) {
-        QString err = insertPackages(r);
+        QString err = savePackages(r, replace);
         if (err.isEmpty())
             job->setProgress(0.6);
         else
@@ -613,7 +630,7 @@ void DBRepository::insertAll(Job* job, Repository* r)
     }
 
     if (job->shouldProceed(QApplication::tr("Inserting data in the package versions table"))) {
-        QString err = insertPackageVersions(r);
+        QString err = savePackageVersions(r, replace);
         if (err.isEmpty())
             job->setProgress(0.95);
         else
@@ -621,7 +638,7 @@ void DBRepository::insertAll(Job* job, Repository* r)
     }
 
     if (job->shouldProceed(QApplication::tr("Inserting data in the licenses table"))) {
-        QString err = insertLicenses(r);
+        QString err = saveLicenses(r, replace);
         if (err.isEmpty())
             job->setProgress(0.98);
         else
@@ -659,12 +676,12 @@ void DBRepository::updateStatusForInstalled()
     }
 }
 
-QString DBRepository::insertPackages(Repository* r)
+QString DBRepository::savePackages(Repository* r, bool replace)
 {
     QString err;
     for (int i = 0; i < r->packages.count(); i++) {
         Package* p = r->packages.at(i);
-        err = savePackage(p, false);
+        err = savePackage(p, replace);
         if (!err.isEmpty())
             break;
     }
@@ -672,12 +689,12 @@ QString DBRepository::insertPackages(Repository* r)
     return err;
 }
 
-QString DBRepository::insertLicenses(Repository* r)
+QString DBRepository::saveLicenses(Repository* r, bool replace)
 {
     QString err;
     for (int i = 0; i < r->licenses.count(); i++) {
         License* p = r->licenses.at(i);
-        err = insertLicense(p);
+        err = saveLicense(p, replace);
         if (!err.isEmpty())
             break;
     }
@@ -685,12 +702,12 @@ QString DBRepository::insertLicenses(Repository* r)
     return err;
 }
 
-QString DBRepository::insertPackageVersions(Repository* r)
+QString DBRepository::savePackageVersions(Repository* r, bool replace)
 {
     QString err;
     for (int i = 0; i < r->packageVersions.count(); i++) {
         PackageVersion* p = r->packageVersions.at(i);
-        err = savePackageVersion(p);
+        err = savePackageVersion(p, replace);
         if (!err.isEmpty())
             break;
     }
@@ -850,6 +867,13 @@ QString DBRepository::open()
                     "DESCRIPTION TEXT, "
                     "URL TEXT"
                     ")");
+            err = toString(db.lastError());
+        }
+    }
+
+    if (err.isEmpty()) {
+        if (!e) {
+            db.exec("CREATE UNIQUE INDEX LICENSE_NAME ON LICENSE(NAME)");
             err = toString(db.lastError());
         }
     }
