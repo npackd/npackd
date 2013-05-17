@@ -546,9 +546,8 @@ QString Repository::checkLockedFilesForUninstall(
     for (int i = 0; i < install.count(); i++) {
         InstallOperation* op = install.at(i);
         if (!op->install) {
-            // TODO: op.findPackageVersion may return 0
             QScopedPointer<PackageVersion> pv(op->findPackageVersion());
-            if (pv->isDirectoryLocked()) {
+            if (!pv.isNull() && pv->isDirectoryLocked()) {
                 QString msg = QString(
                         QApplication::tr("The package %1 cannot be uninstalled because some files or directories under %2 are in use.")).
                         arg(pv->toString()).
