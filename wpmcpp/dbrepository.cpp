@@ -172,8 +172,8 @@ PackageVersion* DBRepository::findPackageVersion_(
     return r;
 }
 
-QList<PackageVersion*> DBRepository::getPackageVersions_(
-        const QString& package, QString* err) const
+QList<PackageVersion*> DBRepository::getPackageVersions_(const QString& package,
+        QString *err) const
 {
     *err = "";
 

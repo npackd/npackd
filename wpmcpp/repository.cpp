@@ -48,7 +48,7 @@ QList<PackageVersion*> Repository::getPackageVersions(const QString& package)
 }
 
 QList<PackageVersion*> Repository::getPackageVersions_(const QString& package,
-        QString* err) const
+        QString *err) const
 {
     *err = "";
 

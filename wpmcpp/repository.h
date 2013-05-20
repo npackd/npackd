@@ -155,7 +155,7 @@ public:
     QString writeTo(const QString& filename) const;
 
     QList<PackageVersion*> getPackageVersions_(const QString& package,
-            QString* err) const;
+            QString *err) const;
 
     QString savePackage(Package* p);
 

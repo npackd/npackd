@@ -52,11 +52,13 @@ public:
     /**
      * @param avoid list of package versions that should be avoided and cannot
      *     be considered to be a match
+     * @param err error message will be stored here
      * @return [ownership:caller] the newest package version that matches this
      *     dependency by
      *     being installed. Returned object should be destroyed later.
      */
-    PackageVersion* findBestMatchToInstall(const QList<PackageVersion*>& avoid);
+    PackageVersion* findBestMatchToInstall(const QList<PackageVersion*>& avoid,
+            QString *err);
 
     /**
      * Changes the versions.
