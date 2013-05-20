@@ -1,5 +1,7 @@
 #include "dbrepository.h"
 
+#include <shlobj.h>
+
 #include <QApplication>
 #include <QSqlDatabase>
 #include <QSqlError>
@@ -777,8 +779,8 @@ QString DBRepository::open()
     QString err;
 
     QSqlDatabase db = QSqlDatabase::addDatabase("QSQLITE");
-    QString path(QDir::home().path());
-    path.append(QDir::separator()).append("Npackd.db");
+    QString path(WPMUtils::getShellDir(CSIDL_COMMON_APPDATA));
+    path.append("\\Npackd\\Data.db");
     path = QDir::toNativeSeparators(path);
     db.setDatabaseName(path);
     db.open();
