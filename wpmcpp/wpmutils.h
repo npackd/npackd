@@ -242,12 +242,15 @@ public:
      * Creates a path for a non-existing file/directory based on the start
      * value.
      *
-     * @param start start path (e.g. C:\Program Files\Prog 1.0%1). %1 will be
-     *     either replaced by "" or by "_2", "_3", ...
+     * @param start base file or directory name
+     *     (e.g. C:\Program Files\Prog 1.0). If the file or directory already
+     *     exists, "_2", "_3", etc. will be used
+     * @param ext file extension (e.g. ".txt")
      * @return non-existing path based on start
-     *     (e.g. C:\Program Files\Prog 1.0_2)
+     *     (e.g. C:\Program Files\Prog 1.0_2.txt)
      */
-    static QString findNonExistingFile(const QString& start);
+    static QString findNonExistingFile(const QString& start,
+            const QString ext = ".txt");
 
     /**
      * Reads a value from the registry.

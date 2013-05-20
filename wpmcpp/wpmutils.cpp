@@ -1095,17 +1095,20 @@ QString WPMUtils::inputPasswordConsole()
     return result;
 }
 
-QString WPMUtils::findNonExistingFile(const QString& start)
+QString WPMUtils::findNonExistingFile(const QString& start,
+        const QString ext)
 {
-    if (!QFileInfo(start.arg("")).exists())
-        return start.arg("");
+    QString result = start + ext;
+    if (!QFileInfo(result).exists())
+        return result;
 
-    for (int i = 2;; i++) {
-        QString r = QString("_%1").arg(i);
-        QString p = start.arg(r);
-        if (!QFileInfo(p).exists())
-            return p;
+    for (int i = 2; i < 100; i++) {
+        result = start + "_" + QString::number(i) + ext;
+        if (!QFileInfo(result).exists())
+            return result;
     }
+
+    return start + ext;
 }
 
 void WPMUtils::deleteShortcuts(const QString& dir, QDir& d)
