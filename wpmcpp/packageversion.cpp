@@ -720,14 +720,14 @@ bool PackageVersion::createShortcuts(const QString& dir, QString *errMsg)
         }
 
         simple = WPMUtils::makeValidFilename(simple, ' ') + ".lnk";
-        withVersion = WPMUtils::makeValidFilename(withVersion, ' ') + "%1.lnk";
+        withVersion = WPMUtils::makeValidFilename(withVersion, ' ');
         QString commonStartMenu = WPMUtils::getShellDir(CSIDL_COMMON_STARTMENU);
         simple = commonStartMenu + "\\" + simple;
         withVersion = commonStartMenu + "\\" + withVersion;
 
         QString from;
         if (QFileInfo(simple).exists())
-            from = WPMUtils::findNonExistingFile(withVersion);
+            from = WPMUtils::findNonExistingFile(withVersion, ".lnk");
         else
             from = simple;
 
@@ -764,7 +764,7 @@ QString PackageVersion::getPreferredInstallationDirectory()
         return name;
     else
         return WPMUtils::findNonExistingFile(name + "-" +
-                this->version.getVersionString() + "%1");
+                this->version.getVersionString());
 }
 
 void PackageVersion::install(Job* job, const QString& where)
