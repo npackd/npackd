@@ -126,7 +126,7 @@ public:
     Package* findPackage_(const QString& name);
 
     QList<PackageVersion*> getPackageVersions_(const QString& package,
-            QString* err) const;
+            QString *err) const;
 
     /**
      * @brief searches for packages that match the specified keywords

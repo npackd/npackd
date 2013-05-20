@@ -485,7 +485,15 @@ QString PackageVersion::planInstallation(QList<PackageVersion*>& installed,
             }
         }
         if (!depok) {
-            QScopedPointer<PackageVersion> pv(d->findBestMatchToInstall(avoid));
+            QString err;
+            QScopedPointer<PackageVersion> pv(d->findBestMatchToInstall(avoid,
+                    &err));
+            if (!err.isEmpty()) {
+                res = QString(QApplication::tr("Error searching for the best dependency match: %1")).
+                           arg(err);
+                break;
+            }
+
             if (!pv) {
                 res = QString(QApplication::tr("Unsatisfied dependency: %1")).
                            arg(d->toString());
