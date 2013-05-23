@@ -31,6 +31,7 @@
 #include <QTextBrowser>
 #include <QTableWidget>
 #include <QDebug>
+#include <QLabel>
 
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
@@ -50,6 +51,7 @@
 #include "dbrepository.h"
 #include "packageitemmodel.h"
 #include "installedpackages.h"
+#include "flowlayout.h"
 
 extern HWND defaultPasswordWindow;
 
@@ -124,6 +126,8 @@ class ScanHardDrivesThread: public QThread
 {
     Job* job;
 public:
+    QMap<QString, int> words;
+
     QList<PackageVersion*> detected;
 
     ScanHardDrivesThread(Job* job);
@@ -138,12 +142,38 @@ ScanHardDrivesThread::ScanHardDrivesThread(Job *job)
 
 void ScanHardDrivesThread::run()
 {
+    QList<Package*> ps = DBRepository::getDefault()->findPackages(
+            Package::INSTALLED, false, "");
+    words.clear();
+    QRegExp re("\\W+", Qt::CaseInsensitive);
+    for (int i = 0; i < ps.count(); i++) {
+        Package* p = ps.at(i);
+        QString txt = p->title + " " + p->description;
+        QStringList sl = txt.toLower().split(re, QString::SkipEmptyParts);
+        sl.removeDuplicates();
+        for (int j = 0; j < sl.count(); j++) {
+            QString w = sl.at(j);
+            if (w.length() > 3) {
+                int n = words.value(w);
+                n++;
+                words.insert(w, n);
+            }
+        }
+    }
+    qDeleteAll(ps);
+
+    QStringList stopWords = QString("a an and are as at be but by for if in "
+            "into is it no not of on or such that the their then there these "
+            "they this to was will with").split(" ");
+    for (int i = 0; i < stopWords.count(); i++)
+        words.remove(stopWords.at(i));
+
+    /* TODO:
     AbstractRepository* r = AbstractRepository::getDefault_();
     QList<PackageVersion*> s1 = r->getInstalled_();
     r->scanHardDrive(job);
     QList<PackageVersion*> s2 = r->getInstalled_();
 
-    // TODO: object comparison is wrong
     for (int i = 0; i < s2.count(); i++) {
         PackageVersion* pv = s2.at(i);
         if (!PackageVersion::contains(s1, pv)) {
@@ -153,6 +183,7 @@ void ScanHardDrivesThread::run()
 
     qDeleteAll(s1);
     qDeleteAll(s2);
+    */
 }
 
 MainWindow::MainWindow(QWidget *parent) :
@@ -852,12 +883,15 @@ void MainWindow::unregisterJob(Job *job)
 
 bool MainWindow::isUpdateEnabled(const QString& package)
 {
+    // TODO: error message is ignored
+    QString err;
+
     bool res = false;
     AbstractRepository* r = AbstractRepository::getDefault_();
     PackageVersion* newest = r->findNewestInstallablePackageVersion_(
             package);
     PackageVersion* newesti = r->findNewestInstalledPackageVersion_(
-            package);
+            package, &err);
     if (newest != 0 && newesti != 0) {
         // qDebug() << newest->version.getVersionString() << " " <<
                 newesti->version.getVersionString();
@@ -969,8 +1003,11 @@ void MainWindow::updateUninstallAction()
                     break;
 
                 Package* p = (Package*) selected.at(i);
+
+                // TODO: error message is ignored
+                QString err;
                 PackageVersion* pv = r->findNewestInstalledPackageVersion_(
-                        p->name);
+                        p->name, &err);
 
                 enabled = enabled &&
                         pv && !pv->isLocked() &&
@@ -1561,8 +1598,52 @@ void MainWindow::on_actionScan_Hard_Drives_triggered()
     monitor(job, QApplication::tr("Install/Uninstall"), it);
 }
 
+bool comparesi(const QPair<QString, int>& a, const QPair<QString, int>& b)
+{
+    return a.second > b.second;
+}
+
 void MainWindow::hardDriveScanThreadFinished()
 {
+    QScrollArea* jobsScrollArea = new QScrollArea(this->ui->tabWidget);
+    jobsScrollArea->setFrameStyle(0);
+
+    ScanHardDrivesThread* it = (ScanHardDrivesThread*) this->sender();
+    QList<QPair<QString, int> > entries;
+    QList<QString> words = it->words.keys();
+    for (int i = 0; i < words.count(); i++) {
+        QString w = words.at(i);
+        entries.append(QPair<QString, int>(w, it->words.value(w)));
+    }
+    qSort(entries.begin(), entries.end(), comparesi);
+
+    QWidget *window = new QWidget(jobsScrollArea);
+    FlowLayout *layout = new FlowLayout();
+    window->setLayout(layout);
+
+    QSizePolicy sp;
+    sp.setVerticalPolicy(QSizePolicy::Preferred);
+    sp.setHorizontalPolicy(QSizePolicy::Ignored);
+    sp.setHorizontalStretch(100);
+    window->setSizePolicy(sp);
+
+    for (int i = 0; i < entries.count(); i++) {
+        QString w = entries.at(i).first;
+        int n = entries.at(i).second;
+
+        QLabel *b = new QLabel("<a href=\"http://www.test.de\">" +
+                w + " (" + QString::number(n) + ")</a>");
+        b->setMouseTracking(true);
+        b->setFocusPolicy(Qt::StrongFocus);
+        b->setTextInteractionFlags(Qt::TextSelectableByMouse |
+                Qt::TextSelectableByKeyboard | Qt::LinksAccessibleByMouse);
+        layout->addWidget(b);
+    }
+    jobsScrollArea->setWidget(window);
+    jobsScrollArea->setWidgetResizable(true);
+    addTab(jobsScrollArea, genericAppIcon, "Tags");
+
+    /* TODO: old
     QStringList detected;
     ScanHardDrivesThread* it = (ScanHardDrivesThread*) this->sender();
     for (int i = 0; i < it->detected.count(); i++) {
@@ -1581,6 +1662,7 @@ void MainWindow::hardDriveScanThreadFinished()
 
     this->hardDriveScanRunning = false;
     this->updateActions();
+    */
 }
 
 void MainWindow::addErrorMessage(const QString& msg, const QString& details,
@@ -1687,7 +1769,11 @@ void MainWindow::on_actionUninstall_triggered()
             selected = selection->getSelected("Package");
         for (int i = 0; i < selected.count(); i++) {
             Package* p = (Package*) selected.at(i);
-            PackageVersion* pv = r->findNewestInstalledPackageVersion_(p->name);
+
+            // TODO: error message is ignored
+            QString err;
+            PackageVersion* pv = r->findNewestInstalledPackageVersion_(
+                    p->name, &err);
             if (pv) {
                 pvs.append(pv);
             }

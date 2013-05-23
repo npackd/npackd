@@ -98,10 +98,11 @@ public:
      * Find the newest installed package version.
      *
      * @param name name of the package like "org.server.Word"
+     * @param err error message will be stored here
      * @return [ownership:caller] found package version or 0
      */
     PackageVersion *findNewestInstalledPackageVersion_(
-            const QString &name) const;
+            const QString &name, QString* err) const;
 
     /**
      * Find the newest installable package version.
