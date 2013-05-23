@@ -105,10 +105,15 @@ void PackageFrame::fillForm(Package* p)
     newItem = new QTableWidgetItem(QApplication::tr("Installation path"));
     t->setHorizontalHeaderItem(1, newItem);
 
-    // TODO: error is ignored
     QString err;
     qDeleteAll(this->pvs);
     pvs = dbr->getPackageVersions_(p->name, &err);
+
+    if (!err.isEmpty()) {
+        MainWindow::getInstance()->addErrorMessage(err,
+                QApplication::tr("Error fetching package versions: %1").
+                arg(err), true, QMessageBox::Critical);
+    }
 
     //qDebug() << "PackageFrame::fillForm " << pvs.count() << " " <<
     //        pvs.at(0)->version.getVersionString();

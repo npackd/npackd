@@ -35,10 +35,10 @@ PackageItemModel::Info* PackageItemModel::createInfo(
 {
     Info* r = new Info();
 
-    QString err;
-
-    // TODO: error is not handled
     AbstractRepository* rep = AbstractRepository::getDefault_();
+
+    // error is ignored here
+    QString err;
     QList<PackageVersion*> pvs = rep->getPackageVersions_(package, &err);
 
     PackageVersion* newestInstallable = 0;
