@@ -34,8 +34,9 @@ public:
      * @param rep [ownership:caller] packages, package versions and licenses
      *     will be stored here. Package versions with a file named
      *     ".Npackd\Uninstall.bat" will be used to define uninstallers
+     * @return error message
      */
-    virtual void scan(QList<InstalledPackageVersion*>* installed,
+    virtual QString scan(QList<InstalledPackageVersion*>* installed,
             Repository* rep) const = 0;
 };
 

@@ -12,13 +12,17 @@ void WellKnownProgramsThirdPartyPM::scanDotNet(
             ".NET redistributable runtime");
     p->url = "http://msdn.microsoft.com/en-us/netframework/default.aspx";
     p->description = QApplication::tr(".NET runtime");
-    // TODO: error message is ignored
-    rep->savePackage(p);
+
+    QString err = rep->savePackage(p);
     delete p;
 
     WindowsRegistry wr;
-    QString err = wr.open(HKEY_LOCAL_MACHINE,
-            "Software\\Microsoft\\NET Framework Setup\\NDP", false, KEY_READ);
+    if (err.isEmpty()) {
+        err = wr.open(HKEY_LOCAL_MACHINE,
+                "Software\\Microsoft\\NET Framework Setup\\NDP", false,
+                KEY_READ);
+    }
+
     if (err.isEmpty()) {
         QStringList entries = wr.list(&err);
         if (err.isEmpty()) {
@@ -88,61 +92,83 @@ void WellKnownProgramsThirdPartyPM::detectOneDotNet(
     }
 }
 
-void WellKnownProgramsThirdPartyPM::detectMSXML(
+QString WellKnownProgramsThirdPartyPM::detectMSXML(
         QList<InstalledPackageVersion *> *installed, Repository *rep) const
 {
+    QString err;
+
     QScopedPointer<Package> p(
             new Package("com.microsoft.MSXML",
             QApplication::tr("Microsoft Core XML Services (MSXML)")));
     p->url = "http://www.microsoft.com/downloads/en/details.aspx?FamilyID=993c0bcf-3bcf-4009-be21-27e85e1857b1#Overview";
     p->description = QApplication::tr("XML library");
-    // TODO: error message is ignored
-    rep->savePackage(p.data());
+    err = rep->savePackage(p.data());
 
-    Version v = WPMUtils::getDLLVersion("msxml.dll");
+    Version v;
     Version nullNull(0, 0);
-    if (v.compare(nullNull) > 0) {
-        QScopedPointer<PackageVersion> pv(new PackageVersion(p->name, v));
-        rep->savePackageVersion(pv.data());
-        installed->append(new InstalledPackageVersion(p->name, v,
-                WPMUtils::getWindowsDir()));
+
+    if (err.isEmpty()) {
+        v = WPMUtils::getDLLVersion("msxml.dll");
+        if (v.compare(nullNull) > 0) {
+            QScopedPointer<PackageVersion> pv(new PackageVersion(p->name, v));
+            err = rep->savePackageVersion(pv.data());
+            installed->append(new InstalledPackageVersion(p->name, v,
+                    WPMUtils::getWindowsDir()));
+        }
     }
-    v = WPMUtils::getDLLVersion("msxml2.dll");
-    if (v.compare(nullNull) > 0) {
-        QScopedPointer<PackageVersion> pv(new PackageVersion(p->name, v));
-        rep->savePackageVersion(pv.data());
-        installed->append(new InstalledPackageVersion(p->name, v,
-                WPMUtils::getWindowsDir()));
+
+    if (err.isEmpty()) {
+        v = WPMUtils::getDLLVersion("msxml2.dll");
+        if (v.compare(nullNull) > 0) {
+            QScopedPointer<PackageVersion> pv(new PackageVersion(p->name, v));
+            err = rep->savePackageVersion(pv.data());
+            installed->append(new InstalledPackageVersion(p->name, v,
+                    WPMUtils::getWindowsDir()));
+        }
     }
-    v = WPMUtils::getDLLVersion("msxml3.dll");
-    if (v.compare(nullNull) > 0) {
-        v.prepend(3);
-        QScopedPointer<PackageVersion> pv(new PackageVersion(p->name, v));
-        rep->savePackageVersion(pv.data());
-        installed->append(new InstalledPackageVersion(p->name, v,
-                WPMUtils::getWindowsDir()));
+
+    if (err.isEmpty()) {
+        v = WPMUtils::getDLLVersion("msxml3.dll");
+        if (v.compare(nullNull) > 0) {
+            v.prepend(3);
+            QScopedPointer<PackageVersion> pv(new PackageVersion(p->name, v));
+            err = rep->savePackageVersion(pv.data());
+            installed->append(new InstalledPackageVersion(p->name, v,
+                    WPMUtils::getWindowsDir()));
+        }
     }
-    v = WPMUtils::getDLLVersion("msxml4.dll");
-    if (v.compare(nullNull) > 0) {
-        QScopedPointer<PackageVersion> pv(new PackageVersion(p->name, v));
-        rep->savePackageVersion(pv.data());
-        installed->append(new InstalledPackageVersion(p->name, v,
-                WPMUtils::getWindowsDir()));
+
+    if (err.isEmpty()) {
+        v = WPMUtils::getDLLVersion("msxml4.dll");
+        if (v.compare(nullNull) > 0) {
+            QScopedPointer<PackageVersion> pv(new PackageVersion(p->name, v));
+            err = rep->savePackageVersion(pv.data());
+            installed->append(new InstalledPackageVersion(p->name, v,
+                    WPMUtils::getWindowsDir()));
+        }
     }
-    v = WPMUtils::getDLLVersion("msxml5.dll");
-    if (v.compare(nullNull) > 0) {
-        QScopedPointer<PackageVersion> pv(new PackageVersion(p->name, v));
-        rep->savePackageVersion(pv.data());
-        installed->append(new InstalledPackageVersion(p->name, v,
-                WPMUtils::getWindowsDir()));
+
+    if (err.isEmpty()) {
+        v = WPMUtils::getDLLVersion("msxml5.dll");
+        if (v.compare(nullNull) > 0) {
+            QScopedPointer<PackageVersion> pv(new PackageVersion(p->name, v));
+            err = rep->savePackageVersion(pv.data());
+            installed->append(new InstalledPackageVersion(p->name, v,
+                    WPMUtils::getWindowsDir()));
+        }
     }
-    v = WPMUtils::getDLLVersion("msxml6.dll");
-    if (v.compare(nullNull) > 0) {
-        QScopedPointer<PackageVersion> pv(new PackageVersion(p->name, v));
-        rep->savePackageVersion(pv.data());
-        installed->append(new InstalledPackageVersion(p->name, v,
-                WPMUtils::getWindowsDir()));
+
+    if (err.isEmpty()) {
+        v = WPMUtils::getDLLVersion("msxml6.dll");
+        if (v.compare(nullNull) > 0) {
+            QScopedPointer<PackageVersion> pv(new PackageVersion(p->name, v));
+            err = rep->savePackageVersion(pv.data());
+            installed->append(new InstalledPackageVersion(p->name, v,
+                    WPMUtils::getWindowsDir()));
+        }
     }
+
+    return err;
 }
 
 void WellKnownProgramsThirdPartyPM::detectWindows(
@@ -289,34 +315,45 @@ void WellKnownProgramsThirdPartyPM::detectJDK(
     }
 }
 
-void WellKnownProgramsThirdPartyPM::detectMicrosoftInstaller(
+QString WellKnownProgramsThirdPartyPM::detectMicrosoftInstaller(
         QList<InstalledPackageVersion *> *installed, Repository *rep) const
 {
-    Version v = WPMUtils::getDLLVersion("MSI.dll");
+    QString err;
+
+    QScopedPointer<Package> p(new Package("com.microsoft.WindowsInstaller",
+            QApplication::tr("Windows Installer")));
+    p->url = "http://msdn.microsoft.com/en-us/library/cc185688(VS.85).aspx";
+    p->description = QApplication::tr("Package manager");
+
+    err = rep->savePackage(p.data());
+
+    Version v;
     Version nullNull(0, 0);
-    if (v.compare(nullNull) > 0) {
-        QScopedPointer<Package> p(new Package("com.microsoft.WindowsInstaller",
-                QApplication::tr("Windows Installer")));
-        p->url = "http://msdn.microsoft.com/en-us/library/cc185688(VS.85).aspx";
-        p->description = QApplication::tr("Package manager");
-        // TODO: error message is ignored
-        rep->savePackage(p.data());
+    if (err.isEmpty()) {
+        v = WPMUtils::getDLLVersion("MSI.dll");
+        if (v.compare(nullNull) > 0) {
+            QScopedPointer<PackageVersion> pv(new PackageVersion(p->name, v));
+            err = rep->savePackageVersion(pv.data());
 
-        QScopedPointer<PackageVersion> pv(new PackageVersion(p->name, v));
-        rep->savePackageVersion(pv.data());
-
-        installed->append(new InstalledPackageVersion(p->name, v,
-                WPMUtils::getWindowsDir()));
+            installed->append(new InstalledPackageVersion(p->name, v,
+                    WPMUtils::getWindowsDir()));
+        }
     }
+
+    return err;
 }
 
-void WellKnownProgramsThirdPartyPM::scan(
+QString WellKnownProgramsThirdPartyPM::scan(
         QList<InstalledPackageVersion *> *installed, Repository *rep) const
 {
+    QString err;
+
     detectWindows(installed, rep);
     scanDotNet(installed, rep);
-    detectMSXML(installed, rep);
-    detectMicrosoftInstaller(installed, rep);
+
+    err = detectMSXML(installed, rep);
+    if (err.isEmpty())
+        err = detectMicrosoftInstaller(installed, rep);
 
     detectJRE(installed, rep, false);
     if (WPMUtils::is64BitWindows())
@@ -324,5 +361,7 @@ void WellKnownProgramsThirdPartyPM::scan(
     detectJDK(installed, rep, false);
     if (WPMUtils::is64BitWindows())
         detectJDK(installed, rep, true);
+
+    return err;
 }
 

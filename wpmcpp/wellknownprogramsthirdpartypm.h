@@ -20,18 +20,39 @@ class WellKnownProgramsThirdPartyPM: public AbstractThirdPartyPM
             Repository *rep,
             const WindowsRegistry& wr,
             const QString& keyName) const;
-    void detectMSXML(QList<InstalledPackageVersion *> *installed,
+
+    /**
+     * @brief detects MS XML libraries
+     * @param installed information about installed packages will be stored here
+     * @param rep information about packages and versions will be stored here
+     * @return error message
+     */
+    QString detectMSXML(QList<InstalledPackageVersion *> *installed,
             Repository *rep) const;
+
     void detectWindows(QList<InstalledPackageVersion *> *installed,
             Repository *rep) const;
     void detectJRE(QList<InstalledPackageVersion *> *installed,
             Repository *rep, bool w64bit) const;
     void detectJDK(QList<InstalledPackageVersion *> *installed,
             Repository *rep, bool w64bit) const;
-    void detectMicrosoftInstaller(QList<InstalledPackageVersion *> *installed,
+
+    /**
+     * @brief detects MSI
+     * @param installed information about installed packages will be stored here
+     * @param rep information about packages and versions will be stored here
+     * @return error message
+     */
+    QString detectMicrosoftInstaller(QList<InstalledPackageVersion *> *installed,
             Repository *rep) const;
 public:
-    void scan(QList<InstalledPackageVersion*>* installed,
+    /**
+     * @brief detects packages and versions
+     * @param installed information about installed packages will be stored here
+     * @param rep information about packages and versions will be stored here
+     * @return error message
+     */
+    QString scan(QList<InstalledPackageVersion*>* installed,
               Repository* rep) const;
 };
 

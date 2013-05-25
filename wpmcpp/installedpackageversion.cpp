@@ -44,13 +44,6 @@ bool InstalledPackageVersion::installed() const
 void InstalledPackageVersion::setPath(const QString& path)
 {
     this->directory = path;
-    /* TODO
-    if (this->directory != path) {
-        this->directory = path;
-        this->save();
-        InstalledPackages::getDefault()->fireStatusChanged(
-                this->package, this->version);
-    }*/
 }
 
 

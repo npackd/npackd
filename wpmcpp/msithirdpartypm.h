@@ -11,7 +11,7 @@
 class MSIThirdPartyPM: public AbstractThirdPartyPM
 {
 public:
-    void scan(QList<InstalledPackageVersion*>* installed,
+    QString scan(QList<InstalledPackageVersion*>* installed,
             Repository* rep) const;
 };
 

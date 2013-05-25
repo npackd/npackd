@@ -19,7 +19,7 @@ public:
      */
     InstalledPackagesThirdPartyPM();
 
-    void scan(QList<InstalledPackageVersion*>* installed,
+    QString scan(QList<InstalledPackageVersion*>* installed,
             Repository* rep) const;
 };
 
