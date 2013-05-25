@@ -9,9 +9,11 @@ InstalledPackagesThirdPartyPM::InstalledPackagesThirdPartyPM()
 {
 }
 
-void InstalledPackagesThirdPartyPM::scan(
+QString InstalledPackagesThirdPartyPM::scan(
         QList<InstalledPackageVersion *> *installed, Repository *rep) const
 {
+    QString err;
+
     InstalledPackages* ip = InstalledPackages::getDefault();
     QList<InstalledPackageVersion*> ipvs = ip->getAll();
     QSet<QString> used;
@@ -31,4 +33,6 @@ void InstalledPackagesThirdPartyPM::scan(
         rep->package2versions.insert(ipv->package, pv);
     }
     qDeleteAll(ipvs);
+
+    return err;
 }

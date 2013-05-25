@@ -6,9 +6,11 @@
 #include "msithirdpartypm.h"
 #include "wpmutils.h"
 
-void MSIThirdPartyPM::scan(QList<InstalledPackageVersion *> *installed,
+QString MSIThirdPartyPM::scan(QList<InstalledPackageVersion *> *installed,
         Repository *rep) const
 {
+    QString err;
+
     QStringList all = WPMUtils::findInstalledMSIProducts();
     // qDebug() << all.at(0);
 
@@ -93,4 +95,6 @@ void MSIThirdPartyPM::scan(QList<InstalledPackageVersion *> *installed,
         }
     }
     */
+
+    return err;
 }

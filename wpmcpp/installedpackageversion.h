@@ -37,8 +37,8 @@ public:
             const QString& directory);
 
     /**
-     * Changes the installation path for this package. This method should only
-     * be used if the package was detected.
+     * Changes the installation path for this package. The value is not saved
+     * in the registry.
      *
      * @param path installation path
      */

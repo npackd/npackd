@@ -213,8 +213,13 @@ void InstalledPackages::setPackageVersionPathIfNotInstalled(
         const QString& directory)
 {
     InstalledPackageVersion* ipv = findOrCreate(package, version);
-    if (!ipv->installed())
+    if (!ipv->installed()) {
         ipv->setPath(directory);
+
+        // TODO: error is ignored
+        saveToRegistry(ipv);
+        fireStatusChanged(ipv->package, ipv->version);
+    }
 }
 
 QList<InstalledPackageVersion*> InstalledPackages::getAll() const
@@ -398,6 +403,7 @@ void InstalledPackages::clearPackagesInNestedDirectories() {
 
                         // TODO: error message is ignored
                         saveToRegistry(pv2);
+                        fireStatusChanged(pv2->package, pv2->version);
                     }
                 }
             }

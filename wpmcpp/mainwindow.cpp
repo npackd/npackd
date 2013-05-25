@@ -721,9 +721,8 @@ void MainWindow::process(QList<InstallOperation*> &install)
 
     for (int j = 0; j < install.size(); j++) {
         InstallOperation* op = install.at(j);
-        // TODO: op->findPackageVersion() may return 0
         QScopedPointer<PackageVersion> pv(op->findPackageVersion());
-        if (pv->isLocked()) {
+        if (!pv.isNull() && pv->isLocked()) {
             QString msg(QApplication::tr("The package %1 is locked by a currently running installation/removal."));
             this->addErrorMessage(msg.arg(pv->toString()),
                     msg.arg(pv->toString()), true, QMessageBox::Critical);
@@ -745,22 +744,24 @@ void MainWindow::process(QList<InstallOperation*> &install)
     for (int i = 0; i < install.count(); i++) {
         InstallOperation* op = install.at(i);
         if (!op->install) {
-            // TODO: op->findPackageVersion() may return 0
             QScopedPointer<PackageVersion> pv(op->findPackageVersion());
-            if (!names.isEmpty())
-                names.append(", ");
-            names.append(pv->toString());
+            if (!pv.isNull()) {
+                if (!names.isEmpty())
+                    names.append(", ");
+                names.append(pv->toString());
+            }
         }
     }
     QString installNames;
     for (int i = 0; i < install.count(); i++) {
         InstallOperation* op = install.at(i);
         if (op->install) {
-            // TODO: op->findPackageVersion() may return 0
             QScopedPointer<PackageVersion> pv(op->findPackageVersion());
-            if (!installNames.isEmpty())
-                installNames.append(", ");
-            installNames.append(pv->toString());
+            if (!pv.isNull()) {
+                if (!installNames.isEmpty())
+                    installNames.append(", ");
+                installNames.append(pv->toString());
+            }
         }
     }
 
@@ -781,8 +782,11 @@ void MainWindow::process(QList<InstallOperation*> &install)
         title = QApplication::tr("Installing");
     } else if (installCount == 0 && uninstallCount == 1) {
         title = QApplication::tr("Uninstalling");
-        // TODO: install.at(0)->findPackageVersion() may return 0
+
         QScopedPointer<PackageVersion> pv(install.at(0)->findPackageVersion());
+        if (pv.isNull())
+            return;
+
         msg = QString(QApplication::tr("The package %1 will be uninstalled. The corresponding directory %2 will be completely deleted. There is no way to restore the files.")).
                 arg(pv->toString()).
                 arg(pv->getPath());
@@ -1004,10 +1008,14 @@ void MainWindow::updateUninstallAction()
 
                 Package* p = (Package*) selected.at(i);
 
-                // TODO: error message is ignored
                 QString err;
                 PackageVersion* pv = r->findNewestInstalledPackageVersion_(
                         p->name, &err);
+                if (!err.isEmpty()) {
+                    err = QApplication::tr("Error finding the newest installed version for %1: %2").
+                            arg(p->title).arg(err);
+                    addErrorMessage(err, err, true, QMessageBox::Critical);
+                }
 
                 enabled = enabled &&
                         pv && !pv->isLocked() &&
