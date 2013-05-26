@@ -129,6 +129,13 @@
         <title>cURL license</title>
         <url>http://curl.haxx.se/legal/licmix.html</url>
     </license>
+    <package name="aspia64">
+        <title>Aspia 64 bit</title>
+        <url>http://www.aspia.ru</url>
+        <description>system profiler that provides detailed information about the software installed and hardware attached to a computer. WARNING: only Russian web page</description>
+        <icon>https://lh5.googleusercontent.com/-x0WXkwUZERI/UZyEoH4A-mI/AAAAAAAACBE/WMHdJmIsc4g/s800/aspia.png</icon>
+        <license>org.gnu.LGPLv2_1</license>
+    </package>
     <package name="ch.flos-freeware.Notepad264">
         <title>Notepad2 64 bit</title>
         <url>http://www.flos-freeware.ch/notepad2.html</url>
@@ -325,6 +332,7 @@
         <title>Microsoft Core XML Services MSXML 64 bit</title>
         <url>http://msdn.microsoft.com/en-us/data/bb190600.aspx</url>
         <description>XML library</description>
+        <icon>https://lh5.googleusercontent.com/-moib0rXMm2c/UZ89P1jefQI/AAAAAAAACHc/OHY3aSVG7yY/s800/microsoft.png</icon>
         <tags>cat-dev</tags>
     </package>
     <package name="com.microsoft.SecurityEssentials64">
@@ -351,7 +359,7 @@ Visual Studio 2008 - 9.0&#13;
 Visual Studio 2008 SP1 - 9.0.30729.17&#13;
 Visual Studio 2010 - 10.0&#13;
 Visual Studio 2012 - 11.0</description>
-        <icon>http://cdn.alternativeto.net/i/0ea597f3-03b0-4d48-991f-9a2147f52049_10443.png</icon>
+        <icon>https://lh4.googleusercontent.com/-vzTCP1Ext4I/UZ8yfUsPiNI/AAAAAAAACGA/LNIXeyzPMJY/s800/visualstudio11.png</icon>
         <license>com.microsoft.VisualCPPRedistributableLicense</license>
         <tags>cat-dev</tags>
     </package>
@@ -984,7 +992,7 @@ kw: STS</description>
         <title>Vim 64 bit</title>
         <url>http://www.vim.org/</url>
         <description>Text editor</description>
-        <icon>https://lh6.googleusercontent.com/-pIVXBTFFwVk/T2h0MAjpj8I/AAAAAAAAAZ0/v1oUD-FrVvs/s800/org.vim.Vim.png</icon>
+        <icon>https://lh6.googleusercontent.com/-oPg5OrLBr74/UZ8rV_mHduI/AAAAAAAACE0/twSVwJ4sOTQ/s800/vim.png</icon>
         <license>org.gnu.GPLv2</license>
         <tags>cat-productivity</tags>
     </package>
@@ -1012,6 +1020,14 @@ kw: STS</description>
         <license>org.gnu.GPLv2</license>
         <tags>cat-tools</tags>
     </package>
+    <package name="panda-cloud-antivirus64">
+        <title>Panda Cloud Antivirus 64 bit</title>
+        <url>http://www.cloudantivirus.com/en</url>
+        <description>antivirus</description>
+        <icon>https://lh5.googleusercontent.com/-ff7jr3Mg6G4/UZ3FL1WkgiI/AAAAAAAACDE/Gn--JYtnsOA/s800/pandacloudantivirus.png</icon>
+        <license>org.wikipedia.Freeware</license>
+        <tags>cat-security</tags>
+    </package>
     <package name="pdfsam64">
         <title>PDFsam 64 bit</title>
         <url>http://www.pdfsam.org</url>
@@ -1036,6 +1052,15 @@ kw: STS</description>
         <license>se.haxx.curl.CURLLicense</license>
         <tags>cat-tools</tags>
     </package>
+
+    <version name="0.3" package="aspia64">
+        <important-file path="aspia64.exe" title="Aspia"/>
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
+"%setup%" /S /D=%CD%&#13;
+</file>
+        <url>http://www.aspia.ru/download/aspia/aspia-0.3.0.zip</url>
+        <sha1>62209d84e2e3152badaaa6a5f22bab365af33cfc</sha1>
+    </version>
 
     <version name="4.2.25" package="ch.flos-freeware.Notepad264">
         <important-file path="Notepad2.exe" title="Notepad2"/>
@@ -8527,6 +8552,25 @@ if %err% neq 0 exit %err%</file>
 </file>
         <url>http://downloads.sourceforge.net/project/npackd/org.wireshark.Wireshark64-1.8.6.exe</url>
         <sha1>0d042dce029072dfcb8f52f49aa0c84bfb6d8a69</sha1>
+    </version>
+
+    <version name="2.1.1" package="panda-cloud-antivirus64" type="one-file">
+        <file path=".Npackd\Install.bat">if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1&#13;
+set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=org.7-zip.SevenZIP64" "--versions=[9.20, 9.20]"&#13;
+for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set sevenzip=%%x&#13;
+&#13;
+for /f "delims=" %%y in ('dir /b *.exe') do set setup=%%y&#13;
+"%sevenzip%\7z.exe" x "%setup%" -aos -o"%CD%\setup" &gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+&#13;
+msiexec /i setup\PandaCloudAntivirus_x64.msi /qn INSTALLDIR="%ProgramFiles%\PandaCloudAntivirusData" ProductLanguage="1033" ALLOWINFOPANDA="true" REBOOT="r" SETUPEXEDIR="%CD%\setup\" PS_LOG_FILE_PATH=".Npackd\MSI.log"&#13;
+&#13;
+del /q /f "%setup%"</file>
+        <file path=".Npackd\Uninstall.bat">msiexec /qn /norestart /lime .Npackd\MSI2.log /X{DEE69E05-EF81-4B86-8385-BE448339227F}&#13;
+set err=%errorlevel%&#13;
+type .Npackd\MSI2.log&#13;
+if %err% neq 0 exit %err%</file>
+        <url>http://acs.pandasoftware.com/cloud/CloudAntivirus.exe</url>
+        <dependency package="org.7-zip.SevenZIP64" versions="[9.20, 9.20]"/>
     </version>
 
     <version name="2.2.2" package="pdfsam64" type="one-file">
