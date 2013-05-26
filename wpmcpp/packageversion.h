@@ -187,7 +187,6 @@ public:
      *
      * @param path installation path
      * @return error message
-     * TODO: this function now returns an error
      */
     QString setPath(const QString& path);
 
