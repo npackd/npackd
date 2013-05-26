@@ -391,7 +391,9 @@ void PackageVersion::uninstall(Job* job)
             if (!rjob->getErrorMessage().isEmpty())
                 job->setErrorMessage(rjob->getErrorMessage());
             else {
-                setPath("");
+                QString err = setPath("");
+                if (!err.isEmpty())
+                    job->setErrorMessage(err);
             }
             delete rjob;
         }
@@ -1021,7 +1023,9 @@ void PackageVersion::install(Job* job, const QString& where)
         } else {
             QString path = d.absolutePath();
             path.replace('/', '\\');
-            setPath(path);
+            QString err = setPath(path);
+            if (!err.isEmpty())
+                job->setErrorMessage(err);
         }
 
         if (this->package == "com.googlecode.windows-package-manager.NpackdCL" ||
