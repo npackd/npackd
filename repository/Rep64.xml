@@ -129,6 +129,14 @@
         <title>cURL license</title>
         <url>http://curl.haxx.se/legal/licmix.html</url>
     </license>
+    <package name="android-studio64">
+        <title>Android Studio 64 bit</title>
+        <url>http://developer.android.com/sdk/installing/studio.html</url>
+        <description>IDE for android development</description>
+        <icon>https://lh5.googleusercontent.com/-9BTPmP49GRM/Uadu5jdbOeI/AAAAAAAACJM/Pk8E9lpof9E/s800/androidstudio.png</icon>
+        <license>org.apache.ApacheLicense2</license>
+        <tags>cat-dev</tags>
+    </package>
     <package name="aspia64">
         <title>Aspia 64 bit</title>
         <url>http://www.aspia.ru</url>
@@ -338,8 +346,7 @@
     <package name="com.microsoft.SecurityEssentials64">
         <title>Security Essentials 64 bit</title>
         <url>http://windows.microsoft.com/en-US/windows/products/security-essentials</url>
-        <description>WARNING: at least XP SP2 is required.&#13;
-antivirus</description>
+        <description>antivirus. WARNING: at least XP SP2 is required</description>
         <icon>http://cdn.alternativeto.net/i/9a445632-e6d8-41cf-a6a4-d964c7e43531_19281.png</icon>
         <license>com.microsoft.SecurityEssentialsLicense</license>
         <tags>cat-security</tags>
@@ -990,8 +997,8 @@ kw: STS</description>
     </package>
     <package name="org.vim.Vim64">
         <title>Vim 64 bit</title>
-        <url>http://www.vim.org/</url>
-        <description>Text editor</description>
+        <url>http://www.vim.org</url>
+        <description>text editor</description>
         <icon>https://lh6.googleusercontent.com/-oPg5OrLBr74/UZ8rV_mHduI/AAAAAAAACE0/twSVwJ4sOTQ/s800/vim.png</icon>
         <license>org.gnu.GPLv2</license>
         <tags>cat-productivity</tags>
@@ -1052,6 +1059,28 @@ kw: STS</description>
         <license>se.haxx.curl.CURLLicense</license>
         <tags>cat-tools</tags>
     </package>
+    <package name="stellarium64">
+        <title>Stellarium 64 bit</title>
+        <url>http://www.stellarium.org</url>
+        <description>planetarium. It uses OpenGL to render a realistic projection of the night sky in real time</description>
+        <icon>https://lh3.googleusercontent.com/-lzpqH_lGGF0/Uag0uSXZEcI/AAAAAAAACJc/B5H5K1sr5rY/s800/stellarium.png</icon>
+        <license>org.gnu.GPLv2</license>
+        <tags>cat-education</tags>
+    </package>
+
+    <version name="0.1.1.130.677228" package="android-studio64" type="one-file">
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
+"%setup%" /S&#13;
+</file>
+        <file path=".Npackd\Uninstall.bat">"%USERPROFILE%\Local Settings\Application Data\Android\android-studio\uninstall.exe" /S || "%LOCALAPPDATA%\Android\android-studio\uninstall.exe" /S&#13;
+&#13;
+</file>
+        <url>http://dl.google.com/android/studio/android-studio-bundle-130.687321-windows.exe</url>
+        <sha1>c3e1f85db396085d9729e662677309afac2c5507</sha1>
+        <dependency package="com.oracle.JDK64" versions="[1.7.0.17, 2)"/>
+        <dependency package="com.microsoft.VisualCPPRedistributable" versions="[9.0.21022.8, 9.0.21022.8]"/>
+        <dependency package="com.microsoft.VisualCPPRedistributable64" versions="[9.0.21022, 9.0.21022]"/>
+    </version>
 
     <version name="0.3" package="aspia64">
         <important-file path="aspia64.exe" title="Aspia"/>
@@ -2111,7 +2140,23 @@ if %err% neq 0 exit /b %err%
     <version name="9.0.0.623" package="com.microsoft.VisualCPPRedistributable64">
         <detect-msi>{2FDBBCEA-62DB-45F4-B6E5-0E1FB2A1F29D}</detect-msi>
     </version>
-    <version name="9.0.21022" package="com.microsoft.VisualCPPRedistributable64">
+    <version name="9.0.21022" package="com.microsoft.VisualCPPRedistributable64" type="one-file">
+        <file path=".Npackd\Install.bat">vcredist_x64.exe /q /log .Npackd\VCRInstall.log /norestart&#13;
+set err=%errorlevel%&#13;
+type .Npackd\VCRInstall.log&#13;
+rem 3010=restart required&#13;
+if %err% equ 3010 exit /b 0&#13;
+if %err% neq 0 exit /b %err%&#13;
+</file>
+        <file path=".Npackd\Uninstall.bat">vcredist_x64.exe /q /uninstall /log .Npackd\VCRUninstall.log /norestart&#13;
+set err=%errorlevel%&#13;
+type .Npackd\VCRUninstall.log&#13;
+rem 3010=restart required&#13;
+if %err% equ 3010 exit /b 0&#13;
+if %err% neq 0 exit /b %err%&#13;
+</file>
+        <url>http://download.microsoft.com/download/d/2/4/d242c3fb-da5a-4542-ad66-f9661d0a8d19/vcredist_x64.exe</url>
+        <sha1>5580072a056fdd50cdf93d470239538636f8f3a9</sha1>
         <detect-msi>{350AA351-21FA-3270-8B7A-835434E766AD}</detect-msi>
     </version>
     <version name="9.0.30729" package="com.microsoft.VisualCPPRedistributable64">
@@ -4526,7 +4571,7 @@ reg delete HKLM\SOFTWARE\Classes\Applications\%key% /f&#13;
 for %%g in (pdf ps eps svg svgz sxd odg sla sla.gz scd scd.gz) do reg delete HKLM\SOFTWARE\Classes\.%%g\OpenWithList\%key% /f</file>
         <url>http://downloads.sourceforge.net/project/scribus/scribus/1.4.2/scribus-1.4.2-windows-x64.exe</url>
         <sha1>9490d5ad2b4b5667274f60011eb2f69e570f6757</sha1>
-        <dependency package="com.ghostscript.Ghostscript64" versions="[9.06, 9.06]"/>
+        <dependency package="com.ghostscript.Ghostscript64" versions="[9.06, 10)"/>
     </version>
 
     <version name="1.15" package="net.sourceforge.aria2.Aria2_64">
@@ -8300,15 +8345,15 @@ rmdir "%name%"</file>
 
     <version name="3.6.1" package="org.sqlexplorer.SQLExplorer64">
         <important-file path="sqlexplorer.exe" title="SQL Explorer"/>
-        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b SQL*') do set name=%%x
-cd "%name%"        
-for /f "delims=" %%a in ('dir /b') do (
-  move "%%a" ..
-)
-cd ..
-rmdir "%name%"    
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b SQL*') do set name=%%x&#13;
+cd "%name%"        &#13;
+for /f "delims=" %%a in ('dir /b') do (&#13;
+  move "%%a" ..&#13;
+)&#13;
+cd ..&#13;
+rmdir "%name%"    &#13;
 </file>
-        <url>http://downloads.sourceforge.net/project/eclipsesql/SQL%20Explorer%20RCP%20%28exc%20JRE%29/3.6.1/sqlexplorer_rcp-3.6.1.win32.win32.x86_64.zip?ts=1308675560</url>
+        <url>http://downloads.sourceforge.net/project/eclipsesql/SQL%20Explorer%20RCP%20%28exc%20JRE%29/3.6.1/sqlexplorer_rcp-3.6.1.win32.win32.x86_64.zip</url>
         <sha1>1C5A8170A8F9A7C52CF81ED57569B9759C6E28C8</sha1>
         <dependency package="com.oracle.JRE64" versions="[1.5, 2)"/>
     </version>
@@ -8483,7 +8528,7 @@ if %err% neq 0 exit %err%</file>
 
     <version name="1.9.11" package="org.virtualdub.VirtualDub64">
         <important-file path="Veedub64.exe" title="VirtualDub"/>
-        <url>http://downloads.sourceforge.net/project/virtualdub/virtualdub-win/1.9.11.32842/VirtualDub-1.9.11-AMD64.zip?ts=1304244938</url>
+        <url>http://downloads.sourceforge.net/project/virtualdub/virtualdub-win/1.9.11.32842/VirtualDub-1.9.11-AMD64.zip</url>
         <sha1>F7E933E0CB64C5FBF08E61C7965B77BB0F6AA8F4</sha1>
     </version>
 
@@ -8764,5 +8809,21 @@ rmdir "%name%"</file>
         <dependency package="com.microsoft.VisualCPPRedistributable64" versions="[10, 11)"/>
         <dependency package="org.7-zip.SevenZIPA" versions="[9.20, 9.20]"/>
         <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.15.7, 2)"/>
+    </version>
+
+    <version name="0.12.1" package="stellarium64" type="one-file">
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
+"%setup%" /SP- /VERYSILENT /SUPPRESSMSGBOXES /NOCANCEL /NORESTART /DIR="%CD%" /SAVEINF="%CD%\.Npackd\InnoSetupInfo.ini" /LOG="%CD%\.Npackd\InnoSetupInstall.log"&#13;
+set err=%errorlevel%&#13;
+type .Npackd\InnoSetupInstall.log&#13;
+if %err% neq 0 exit %err%&#13;
+</file>
+        <file path=".Npackd\Uninstall.bat">unins000.exe /VERYSILENT /SUPPRESSMSGBOXES /NORESTART /LOG="%CD%\.Npackd\InnoSetupUninstall.log"&#13;
+set err=%errorlevel%&#13;
+type .Npackd\InnoSetupUninstall.log&#13;
+if %err% neq 0 exit %err%&#13;
+</file>
+        <url>http://downloads.sourceforge.net/project/stellarium/Stellarium-win32/0.12.1/stellarium-0.12.1-win64.exe</url>
+        <sha1>6668397ada3032c01b6a5f3ad9e1b6b856866b1e</sha1>
     </version>
 </root>
