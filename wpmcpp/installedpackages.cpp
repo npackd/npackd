@@ -126,7 +126,7 @@ void InstalledPackages::detect3rdParty(AbstractThirdPartyPM *pm, bool replace)
             WPMUtils::makeValidFilename(p->title, '_');
             if (d.exists(path)) {
                 path = WPMUtils::findNonExistingFile(path + "-" +
-                        ipv->version.getVersionString());
+                        ipv->version.getVersionString(), "");
             }
             d.mkpath(path);
             delete p;
