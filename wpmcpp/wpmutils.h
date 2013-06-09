@@ -249,8 +249,7 @@ public:
      * @return non-existing path based on start
      *     (e.g. C:\Program Files\Prog 1.0_2.txt)
      */
-    static QString findNonExistingFile(const QString& start,
-            const QString ext = ".txt");
+    static QString findNonExistingFile(const QString& start, const QString ext);
 
     /**
      * Reads a value from the registry.

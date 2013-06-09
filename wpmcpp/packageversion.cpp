@@ -774,7 +774,7 @@ QString PackageVersion::getPreferredInstallationDirectory()
         return name;
     else
         return WPMUtils::findNonExistingFile(name + "-" +
-                this->version.getVersionString());
+                this->version.getVersionString(), "");
 }
 
 void PackageVersion::install(Job* job, const QString& where)

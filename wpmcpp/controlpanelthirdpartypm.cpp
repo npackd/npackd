@@ -222,8 +222,6 @@ void ControlPanelThirdPartyPM::detectOneControlPanelProgram(
     if (useThisEntry) {
         if (!dir.isEmpty()) {
             dir = WPMUtils::normalizePath(dir);
-            /*if (WPMUtils::isUnderOrEquals(dir, *packagePaths))
-                useThisEntry = false; TODO */
         }
     }
 
