@@ -362,9 +362,11 @@ Visual Studio 6.0 - 6.0&#13;
 Visual Studio .NET (2002) - 7.0&#13;
 Visual Studio .NET 2003 - 7.1&#13;
 Visual Studio 2005 - 8.0&#13;
+Visual Studio 2005 sp1 - 8.0.56336&#13;
 Visual Studio 2008 - 9.0&#13;
 Visual Studio 2008 SP1 - 9.0.30729.17&#13;
 Visual Studio 2010 - 10.0&#13;
+Visual Studio 2010 sp1 - 10.0.40219&#13;
 Visual Studio 2012 - 11.0</description>
         <icon>https://lh4.googleusercontent.com/-vzTCP1Ext4I/UZ8yfUsPiNI/AAAAAAAACGA/LNIXeyzPMJY/s800/visualstudio11.png</icon>
         <license>com.microsoft.VisualCPPRedistributableLicense</license>
@@ -547,6 +549,14 @@ This package uses internal version numbers. For example, 1.7.0.1 corresponds to 
         <icon>https://lh6.googleusercontent.com/-wXjaXoY5v1E/UQlZEWQXCsI/AAAAAAAAALI/dtycwDJqAnc/s800/imagine_32.png</icon>
         <license>org.wikipedia.Freeware</license>
         <tags>cat-photo</tags>
+    </package>
+    <package name="lightworks64">
+        <title>Lightworks 64 bit</title>
+        <url>http://www.lwks.com</url>
+        <description>non-linear video editor. WARNING: windows firewall service will be disabled after installation, please start it manually, if you use it. WARNING: registration is required</description>
+        <icon>https://lh4.googleusercontent.com/-o1zD6Wz6Z7E/UWvMobzrrvI/AAAAAAAABxk/FjPM0GheCp8/s800/-lightworks.png</icon>
+        <license>org.wikipedia.Freeware</license>
+        <tags>cat-productivity</tags>
     </package>
     <package name="net.blat.Blat64">
         <title>Blat 64 bit</title>
@@ -1066,6 +1076,14 @@ kw: STS</description>
         <icon>https://lh3.googleusercontent.com/-lzpqH_lGGF0/Uag0uSXZEcI/AAAAAAAACJc/B5H5K1sr5rY/s800/stellarium.png</icon>
         <license>org.gnu.GPLv2</license>
         <tags>cat-education</tags>
+    </package>
+    <package name="virtual-pc64">
+        <title>Virtual PC 64 bit</title>
+        <url>http://www.microsoft.com/downloads/details.aspx?displaylang=en&amp;FamilyID=04d26402-3199-48a3-afa2-2dc0b40a73b6</url>
+        <description>virtual machine (VM)</description>
+        <icon>https://lh4.googleusercontent.com/-ZCmHnYGQLYw/UaxlRgfV1kI/AAAAAAAACKw/TF9hPv3PoW8/s800/virtualpc.png</icon>
+        <license>org.wikipedia.Freeware</license>
+        <tags>cat-tools</tags>
     </package>
 
     <version name="0.1.1.130.677228" package="android-studio64" type="one-file">
@@ -2185,6 +2203,22 @@ if %err% neq 0 exit /b %err%
 </file>
         <url>http://download.microsoft.com/download/3/2/2/3224B87F-CFA0-4E70-BDA3-3DE650EFEBA5/vcredist_x64.exe</url>
         <sha1>B330B760A8F16D5A31C2DC815627F5EB40861008</sha1>
+    </version>
+    <version name="10.0.40219" package="com.microsoft.VisualCPPRedistributable64" type="one-file">
+        <file path=".Npackd\Install.bat">vcredist_x64.exe /q /norestart&#13;
+set err=%errorlevel%&#13;
+rem 3010=restart required&#13;
+if %err% equ 3010 exit /b 0&#13;
+if %err% neq 0 exit /b %err%&#13;
+</file>
+        <file path=".Npackd\Uninstall.bat">vcredist_x64.exe /q /uninstall /norestart&#13;
+set err=%errorlevel%&#13;
+rem 3010=restart required&#13;
+if %err% equ 3010 exit /b 0&#13;
+if %err% neq 0 exit /b %err%&#13;
+</file>
+        <url>http://download.microsoft.com/download/A/8/0/A80747C3-41BD-45DF-B505-E9710D2744E0/vcredist_x64.exe</url>
+        <sha1>027d0c2749ec5eb21b031f46aee14c905206f482</sha1>
     </version>
     <version name="11.0.50727.1" package="com.microsoft.VisualCPPRedistributable64" type="one-file">
         <file path=".Npackd\Install.bat">vcredist_x64.exe /q /log .Npackd\VCRInstall.log /norestart
@@ -4282,7 +4316,7 @@ goto out&#13;
 &#13;
 for %%g in (%extensions%) do reg add HKLM\SOFTWARE\Classes\.%%g\OpenWithList\%key% /f&#13;
 </file>
-        <url>http://downloads.sourceforge.net/project/npackd/com.videolan.VLCMediaPlayer64-2.0.6.zip</url>
+        <url>http://download.videolan.org/pub/videolan/vlc/2.0.6/win64/vlc-2.0.6-win64.zip</url>
         <sha1>535e55239ad5ba3e01fab8d661fa0f4e7ae172ec</sha1>
     </version>
 
@@ -4426,6 +4460,28 @@ if %err% neq 0 exit %err%&#13;
         <sha1>c7bf0a46bd40eab39bf33e13325aac33793b8623</sha1>
     </version>
 
+    <version name="11.1" package="lightworks64" type="one-file">
+        <important-file path="Lightworks.exe" title="Lightworks"/>
+        <file path=".Npackd\Install.bat">sc config MpsSvc start= auto&#13;
+net start MpsSvc&#13;
+&#13;
+for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
+"%setup%" /S /D=%CD%&#13;
+&#13;
+net stop MpsSvc&#13;
+sc config MpsSvc start= disabled&#13;
+&#13;
+taskkill /im Lightworks.exe /f /t&#13;
+&#13;
+</file>
+        <file path=".Npackd\Uninstall.bat">uninstall.exe /S _?=%CD%&#13;
+</file>
+        <url>https://dl.dropboxusercontent.com/s/7cpf9o8sy8qvshr/Lightworks_11.1_full_64bit.exe</url>
+        <sha1>ad4f48c06da63e48ca50028ec5811bc2b2e090b5</sha1>
+        <dependency package="com.microsoft.DotNetRedistributable" versions="[3.5.30729.1, 3.5.30729.1]"/>
+        <dependency package="com.microsoft.VisualCPPRedistributable64" versions="[10.0.40219, 10.0.40219]"/>
+    </version>
+
     <version name="3" package="net.blat.Blat64">
         <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b blat*') do set name=%%x
 move %name%\docs docs
@@ -4503,20 +4559,20 @@ verify&#13;
 
     <version name="3.5.10" package="net.getpaint.paintdotnet64" type="one-file">
         <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.msi') do set setup=%%x&#13;
-msiexec.exe /qn /norestart /lime .Npackd\MSI.log /i "%setup%" TARGETDIR="%CD%" ALLUSERS=1&#13;
+msiexec /qn /norestart /lime .Npackd\MSI.log /i "%setup%" TARGETDIR="%CD%" ALLUSERS=1&#13;
 set err=%errorlevel%&#13;
 type .Npackd\MSI.log&#13;
 rem 3010=restart required&#13;
 if %err% equ 3010 exit 0&#13;
 if %err% neq 0 exit %err%</file>
         <file path=".Npackd\Uninstall.bat">for /f "delims=" %%x in ('dir /b *.msi') do set setup=%%x&#13;
-msiexec.exe /qn /norestart /lime .Npackd\MSI.log /x "%setup%"&#13;
+msiexec /qn /norestart /lime .Npackd\MSI.log /x "%setup%"&#13;
 set err=%errorlevel%&#13;
 type .Npackd\MSI.log&#13;
 rem 3010=restart required&#13;
 if %err% equ 3010 exit 0&#13;
 if %err% neq 0 exit %err%</file>
-        <url>https://dl.dropbox.com/s/t4g58b8b34lmxyi/PaintDotNet.x64.msi</url>
+        <url>https://dl.dropboxusercontent.com/s/xsqe3sre9gcwttr/PaintDotNet_3.5.10_x64.msi</url>
         <sha1>a6ee01329a828d76eabb552e9a91e1c44161f867</sha1>
         <dependency package="com.microsoft.DotNetRedistributable" versions="[3.5.30729.1, 3.5.30729.1]"/>
     </version>
@@ -4535,7 +4591,7 @@ del /q /f "CINEBENCH Windows 32 Bit.exe"</file>
     </version>
 
     <version name="2.3.1" package="net.openvpn.OpenVPN64" type="one-file">
-        <file path=".Npackd\Install.bat">"%ProgramFiles%\Wget\bin\wget.exe" -O openvpn.p7b http://dl.dropbox.com/s/b28f1xnn7o79c9w/openvpn.p7b&#13;
+        <file path=".Npackd\Install.bat">"%ProgramFiles%\GowData\bin\wget.exe" -O openvpn.p7b http://dl.dropboxusercontent.com/s/cqvn6qkvamwyjv4/openvpn.p7b&#13;
 certutil -addstore -f "TrustedPublisher" "%CD%\openvpn.p7b" &gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
 &#13;
 for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
@@ -4545,9 +4601,25 @@ reg add HKLM\SOFTWARE\OpenVPN-GUI /v allow_service /t REG_SZ /d 0 /f&#13;
 </file>
         <file path=".Npackd\Uninstall.bat">Uninstall.exe /S _?=%CD%&#13;
 </file>
-        <url>http://swupdate.openvpn.org/community/releases/openvpn-install-2.3.1-I001-x86_64.exe</url>
+        <url>https://dl.dropboxusercontent.com/s/uc1g0kdtrfhblh5/openvpn-install-2.3.1-I001-x86_64.exe</url>
         <sha1>7cb2a87c1f349fdb5aa11b258b6a8d2e9172c20c</sha1>
-        <dependency package="net.sourceforge.gnuwin32.Wget" versions="[1.11.4.1, 2)"/>
+        <dependency package="com.github.bmatzelle.Gow" versions="[0.7, 2)"/>
+    </version>
+    <version name="2.3.2" package="net.openvpn.OpenVPN64" type="one-file">
+        <file path=".Npackd\Install.bat">"%ProgramFiles%\GowData\bin\wget.exe" -O openvpn.p7b http://dl.dropboxusercontent.com/s/cqvn6qkvamwyjv4/openvpn.p7b&#13;
+certutil -addstore -f "TrustedPublisher" "%CD%\openvpn.p7b" &gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+&#13;
+for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
+"%setup%" /S /D=%CD%&#13;
+&#13;
+reg add HKLM\SOFTWARE\OpenVPN-GUI /v allow_service /t REG_SZ /d 0 /f&#13;
+&#13;
+</file>
+        <file path=".Npackd\Uninstall.bat">Uninstall.exe /S _?=%CD%&#13;
+</file>
+        <url>https://dl.dropboxusercontent.com/s/t6oroyaonrqaa3h/openvpn-install-2.3.2-I001-x86_64.exe</url>
+        <sha1>bcd8e3314dd48e417f22c158c777eb4efa977e13</sha1>
+        <dependency package="com.github.bmatzelle.Gow" versions="[0.7, 2)"/>
     </version>
 
     <version name="1.4.2" package="net.scribus.Scribus64" type="one-file">
@@ -4881,7 +4953,7 @@ for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set clu=%%x&#13;
 "%clu%\clu" add-path --path "%CD%\bin"&#13;
 verify&#13;
 </file>
-        <url>https://downloads.sourceforge.net/project/mingw-w64/Toolchains%20targetting%20Win32/Personal%20Builds/rubenvb/gcc-4.8-release/i686-w64-mingw32-gcc-4.8.0-win64_rubenvb.7z</url>
+        <url>http://downloads.sourceforge.net/project/mingw-w64/Toolchains%20targetting%20Win32/Personal%20Builds/rubenvb/gcc-4.8-release/i686-w64-mingw32-gcc-4.8.0-win64_rubenvb.7z</url>
         <sha1>02f07b855419d9e6b9c692ce7cbf9247d6423650</sha1>
         <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.15.7, 2)"/>
         <dependency package="org.7-zip.SevenZIPA" versions="[9.20, 9.20]"/>
@@ -5289,7 +5361,7 @@ rem 3010=restart required&#13;
 if %err% equ 3010 exit /b 0&#13;
 if %err% neq 0 exit /b %err%&#13;
 </file>
-        <url>http://heanet.dl.sourceforge.net/project/tortoisesvn/1.7.12/Application/TortoiseSVN-1.7.12.24070-x64-svn-1.7.9.msi</url>
+        <url>http://downloads.sourceforge.net/project/tortoisesvn/1.7.12/Application/TortoiseSVN-1.7.12.24070-x64-svn-1.7.9.msi</url>
         <sha1>f1a6d3f290eee2640fc392461a830665d46f0900</sha1>
     </version>
 
@@ -5338,7 +5410,7 @@ for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set clu=%%x&#13;
 "%clu%\clu" remove-path --path "%CD%"&#13;
 verify&#13;
 </file>
-        <url>http://downloads.sourceforge.net/project/sevenzip/7-Zip/9.20/7z920-x64.msi?ts=1300625243</url>
+        <url>http://downloads.sourceforge.net/project/sevenzip/7-Zip/9.20/7z920-x64.msi</url>
         <sha1>4173FEA2AF9A595FA0BE1EF8251F412229687BE1</sha1>
         <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.15.7, 2)"/>
         <dependency package="com.googlecode.windows-package-manager.CLU" versions="[1, 2)"/>
@@ -5879,7 +5951,7 @@ rmdir "%name%"
 </file>
         <file path=".Npackd\Uninstall.bat">Uninstall.exe -ServiceName="Tomcat7" /S _?=%CD%&#13;
 </file>
-        <url>http://downloads.sourceforge.net/project/npackd/org.apache.tomcat.Tomcat-7.0.39.exe</url>
+        <url>http://archive.apache.org/dist/tomcat/tomcat-7/v7.0.39/bin/apache-tomcat-7.0.39.exe</url>
         <sha1>fe81e118074ded7ab2ad2cb7b1a0965a7db49762</sha1>
         <dependency package="com.oracle.JRE" versions="[1.5, 2)"/>
     </version>
@@ -7141,7 +7213,8 @@ rem 3010=restart required&#13;
 if %err% equ 3010 exit 0&#13;
 if %err% neq 0 exit %err%&#13;
 </file>
-        <url>https://download.jitsi.org/jitsi/msi/jitsi-2.0-latest-x64.msi</url>
+        <url>https://download.jitsi.org/jitsi/msi/jitsi-2.0.4506.10553-x64.msi</url>
+        <sha1>1dcaa6c2737d7706b54e00227190889278a7a3de</sha1>
     </version>
 
     <version name="2.9.4407" package="org.miktex.MiKTeX64" type="one-file">
@@ -7947,7 +8020,7 @@ call "%npackdih%\InstallMSI.bat" INSTALLDIR yes&#13;
 </file>
         <file path=".Npackd\Uninstall.bat">uninstall.exe /S _?=%CD%&#13;
 </file>
-        <url>http://ignum.dl.sourceforge.net/project/psi/Psi/0.15/psi-0.15-win64-setup.exe</url>
+        <url>http://downloads.sourceforge.net/project/psi/Psi/0.15/psi-0.15-win64-setup.exe</url>
         <sha1>b959562f9fb6be45057be7563bd4ad81b2109d68</sha1>
     </version>
 
@@ -8382,7 +8455,7 @@ taskkill /im synergy.exe /f /t</file>
     </version>
 
     <version name="3.6" package="org.sysprogs.WinCDEmu64" type="one-file">
-        <file path=".Npackd\Install.bat">"%ProgramFiles%\Wget\bin\wget.exe" -O wincdemu.cer http://dl.dropbox.com/s/qd4zhwsj5m9d8f4/wincdemu.cer&#13;
+        <file path=".Npackd\Install.bat">"%ProgramFiles%\GowData\bin\wget.exe" -O wincdemu.cer http://dl.dropboxusercontent.com/s/x4u9hlz8o411c8w/wincdemu.cer&#13;
 certutil -addstore -f "TrustedPublisher" wincdemu.cer&#13;
 &#13;
 for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
@@ -8395,9 +8468,9 @@ del /q /f "%ProgramFiles(x86)%\WinCDEmu\uninstall.exe"</file>
         <file path=".Npackd\Uninstall.bat">"%ProgramFiles(x86)%\WinCDEmu\uninstall64.exe" /UNATTENDED&#13;
 &#13;
 rd /s /q "%ALLUSERSPROFILE%\Start Menu\Programs\WinCDEmu" || rd /s /q "%ALLUSERSPROFILE%\Microsoft\Windows\Start Menu\Programs\WinCDEmu"</file>
-        <url>http://wincdemu.sysprogs.org/download/WinCDEmu-3.6.exe</url>
+        <url>https://dl.dropboxusercontent.com/s/od2tlosuf6637xy/WinCDEmu-3.6.exe</url>
         <sha1>ab69a293680948da9bc865d29becb02bad5b2d94</sha1>
-        <dependency package="net.sourceforge.gnuwin32.Wget" versions="[1.11.4.1, 2)"/>
+        <dependency package="com.github.bmatzelle.Gow" versions="[0.7, 2)"/>
     </version>
 
     <version name="7.3" package="org.vim.Vim64">
@@ -8595,7 +8668,7 @@ if %err% neq 0 exit %err%</file>
 </file>
         <file path=".Npackd\Uninstall.bat">uninstall.exe /S _=%CD%&#13;
 </file>
-        <url>http://downloads.sourceforge.net/project/npackd/org.wireshark.Wireshark64-1.8.6.exe</url>
+        <url>http://wiresharkdownloads.riverbed.com/wireshark/win64/all-versions/Wireshark-win64-1.8.6.exe</url>
         <sha1>0d042dce029072dfcb8f52f49aa0c84bfb6d8a69</sha1>
     </version>
 
@@ -8825,5 +8898,26 @@ if %err% neq 0 exit %err%&#13;
 </file>
         <url>http://downloads.sourceforge.net/project/stellarium/Stellarium-win32/0.12.1/stellarium-0.12.1-win64.exe</url>
         <sha1>6668397ada3032c01b6a5f3ad9e1b6b856866b1e</sha1>
+    </version>
+
+    <version name="2007.6.0.192" package="virtual-pc64" type="one-file">
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.msi') do set setup=%%x&#13;
+msiexec /qn /norestart /lime .Npackd\MSI.log /i "%setup%" ALLUSERS=1&#13;
+set err=%errorlevel%&#13;
+type .Npackd\MSI.log&#13;
+rem 3010=restart required&#13;
+if %err% equ 3010 exit 0&#13;
+if %err% neq 0 exit %err%&#13;
+</file>
+        <file path=".Npackd\Uninstall.bat">for /f "delims=" %%x in ('dir /b *.msi') do set setup=%%x&#13;
+msiexec /qn /norestart /lime .Npackd\MSI.log /x "%setup%"&#13;
+set err=%errorlevel%&#13;
+type .Npackd\MSI.log&#13;
+rem 3010=restart required&#13;
+if %err% equ 3010 exit 0&#13;
+if %err% neq 0 exit %err%&#13;
+</file>
+        <url>https://dl.dropboxusercontent.com/s/5iwy83gdexdqk0v/Virtual_PC_2007_6.0.192.0_x64.msi</url>
+        <sha1>b9a674baca528c5ebe5b61b8d244f15f24dfba65</sha1>
     </version>
 </root>
