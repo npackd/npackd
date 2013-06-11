@@ -70,7 +70,12 @@ void PackageFrame::fillForm(Package* p)
 
     QString licenseTitle = QApplication::tr("unknown");
     if (p) {
-        License* lic = dbr->findLicense_(p->license);
+        QString err;
+        License* lic = dbr->findLicense_(p->license, &err);
+        if (!err.isEmpty()) {
+            MainWindow::getInstance()->addErrorMessage(err, err, true,
+                    QMessageBox::Critical);
+        }
         if (lic) {
             licenseTitle = "<a href=\"http://www.example.com\">" +
                     Qt::escape(lic->title) + "</a>";

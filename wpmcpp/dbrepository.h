@@ -134,15 +134,11 @@ public:
      * @param statusInclude true = only return packages with the given status,
      *     false = return all packages with the status not equal to the given
      * @param query search query (keywords)
+     * @param err error message will be stored here
      * @return [ownership:caller] found packages
      */
     QList<Package*> findPackages(Package::Status status, bool filterByStatus,
-            const QString &query) const;
-
-    /**
-     * @return [ownership:caller] found package versions
-     */
-    QList<PackageVersion*> findPackageVersions() const;
+            const QString &query, QString* err) const;
 
     /**
      * @brief loads does all the necessary updates when F5 is pressed. The
@@ -159,14 +155,11 @@ public:
     PackageVersion* findPackageVersionByMSIGUID_(const QString& guid) const;
 
     PackageVersion* findPackageVersion_(const QString& package,
-            const Version& version);
+            const Version& version, QString *err);
 
-    License* findLicense_(const QString& name);
+    License* findLicense_(const QString& name, QString* err);
 
     QString clear();
-
-    void addPackageVersion(const QString& package,
-                           const Version& version);
 
     QList<Package*> findPackagesByShortName(const QString &name);
 };

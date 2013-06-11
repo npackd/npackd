@@ -137,8 +137,10 @@ Package *DBRepository::findPackage_(const QString &name)
 }
 
 PackageVersion* DBRepository::findPackageVersion_(
-        const QString& package, const Version& version)
+        const QString& package, const Version& version, QString* err)
 {
+    *err = "";
+
     QString version_ = version.getVersionString();
     PackageVersion* r = 0;
 
@@ -150,22 +152,21 @@ PackageVersion* DBRepository::findPackageVersion_(
     q.bindValue(":PACKAGE", package);
     q.exec();
     if (q.next()) {
-        // TODO: handle error
         QDomDocument doc;
         int errorLine, errorColumn;
-        QString err;
         if (!doc.setContent(q.value(2).toByteArray(),
-                &err, &errorLine, &errorColumn))
-            err = QString(
+                err, &errorLine, &errorColumn))
+            *err = QString(
                     QApplication::tr("XML parsing failed at line %1, column %2: %3")).
-                    arg(errorLine).arg(errorColumn).arg(err);
+                    arg(errorLine).arg(errorColumn).arg(*err);
 
-        QDomElement root = doc.documentElement();
-        PackageVersion* p = PackageVersion::parse(&root, &err);
+        if (err->isEmpty()) {
+            QDomElement root = doc.documentElement();
+            PackageVersion* p = PackageVersion::parse(&root, err);
 
-        // TODO: handle this error
-        if (err.isEmpty()) {
-            r = p;
+            if (err->isEmpty()) {
+                r = p;
+            }
         }
     }
 
@@ -214,8 +215,10 @@ QList<PackageVersion*> DBRepository::getPackageVersions_(const QString& package,
     return r;
 }
 
-License *DBRepository::findLicense_(const QString& name)
+License *DBRepository::findLicense_(const QString& name, QString *err)
 {
+    *err = "";
+
     License* r = 0;
     License* cached = this->licenses.object(name);
     if (!cached) {
@@ -224,14 +227,17 @@ License *DBRepository::findLicense_(const QString& name)
                 "FROM LICENSE "
                 "WHERE NAME = :NAME");
         q.bindValue(":NAME", name);
-        q.exec();
-        if (q.next()) {
-            // TODO: handle error
-            cached = new License(name, q.value(1).toString());
-            cached->description = q.value(2).toString();
-            cached->url = q.value(3).toString();
-            r = cached->clone();
-            this->licenses.insert(name, cached);
+        if (!q.exec())
+            *err = toString(q.lastError());
+
+        if (err->isEmpty()) {
+            if (q.next()) {
+                cached = new License(name, q.value(1).toString());
+                cached->description = q.value(2).toString();
+                cached->url = q.value(3).toString();
+                r = cached->clone();
+                this->licenses.insert(name, cached);
+            }
         }
     } else {
         r = cached->clone();
@@ -240,11 +246,11 @@ License *DBRepository::findLicense_(const QString& name)
     return r;
 }
 
-QList<Package*> DBRepository::findPackages(
-        Package::Status status, bool filterByStatus,
-        const QString& query) const
+QList<Package*> DBRepository::findPackages(Package::Status status, bool filterByStatus,
+        const QString& query, QString *err) const
 {
-    // TODO: errors are not handled
+    *err = "";
+
     QStringList keywords = query.toLower().simplified().split(" ",
             QString::SkipEmptyParts);
 
@@ -257,7 +263,7 @@ QList<Package*> DBRepository::findPackages(
     for (int i = 0; i < keywords.count(); i++) {
         if (!where.isEmpty())
             where += " AND ";
-        where += QString("FULLTEXT LIKE :FULLTEXT%1").arg(i);
+        where += "FULLTEXT LIKE :FULLTEXT" + QString::number(i);
     }
     if (filterByStatus) {
         if (!where.isEmpty())
@@ -267,53 +273,29 @@ QList<Package*> DBRepository::findPackages(
     if (!where.isEmpty())
         sql += " WHERE " + where;
     sql += " ORDER BY TITLE";
-    // qDebug() << sql;
-    q.prepare(sql);
-    for (int i = 0; i < keywords.count(); i++) {
-        q.bindValue(QString(":FULLTEXT%1").arg(i),
-                "%" + keywords.at(i).toLower() + "%");
-    }
-    if (filterByStatus)
-        q.bindValue(":STATUS", status);
-    q.exec();
-    while (q.next()) {
-        Package* p = new Package(q.value(0).toString(), q.value(1).toString());
-        p->url = q.value(2).toString();
-        p->icon = q.value(3).toString();
-        p->description = q.value(4).toString();
-        p->license = q.value(5).toString();
-        r.append(p);
+
+    if (!q.prepare(sql))
+        *err = DBRepository::toString(q.lastError());
+
+    if (err->isEmpty()) {
+        for (int i = 0; i < keywords.count(); i++) {
+            q.bindValue(":FULLTEXT" + QString::number(i),
+                    "%" + keywords.at(i).toLower() + "%");
+        }
+        if (filterByStatus)
+            q.bindValue(":STATUS", status);
     }
 
-    return r;
-}
+    if (err->isEmpty()) {
+        if (!q.exec())
+            *err = toString(q.lastError());
 
-QList<PackageVersion *> DBRepository::findPackageVersions() const
-{
-    // TODO: errors are not handled
-
-    QList<PackageVersion*> r;
-
-    QMySqlQuery q;
-    q.prepare("SELECT NAME, "
-            "PACKAGE, CONTENT, MSIGUID FROM PACKAGE_VERSION");
-    q.exec();
-    while (q.next()) {
-        // TODO: handle error
-        QDomDocument doc;
-        int errorLine, errorColumn;
-        QString err;
-        if (!doc.setContent(q.value(2).toByteArray(),
-                &err, &errorLine, &errorColumn))
-            err = QString(
-                    QApplication::tr("XML parsing failed at line %1, column %2: %3")).
-                    arg(errorLine).arg(errorColumn).arg(err);
-
-        QDomElement root = doc.documentElement();
-        PackageVersion* p = PackageVersion::parse(&root, &err);
-
-        // TODO: handle this error
-        if (err.isEmpty()) {
+        while (q.next()) {
+            Package* p = new Package(q.value(0).toString(), q.value(1).toString());
+            p->url = q.value(2).toString();
+            p->icon = q.value(3).toString();
+            p->description = q.value(4).toString();
+            p->license = q.value(5).toString();
             r.append(p);
         }
     }
@@ -491,15 +473,6 @@ QString DBRepository::clear()
     job->complete();
 
     return "";
-}
-
-void DBRepository::addPackageVersion(const QString &package,
-        const Version &version)
-{
-    PackageVersion* pv = new PackageVersion(package, version);
-    // TODO: error ignored
-    savePackageVersion(pv, false);
-    delete pv;
 }
 
 void DBRepository::updateF5(Job* job)

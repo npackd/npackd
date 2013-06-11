@@ -6,10 +6,10 @@ InstallOperation::InstallOperation()
     this->install = true;
 }
 
-PackageVersion *InstallOperation::findPackageVersion() const
+PackageVersion *InstallOperation::findPackageVersion(QString* err) const
 {
     return AbstractRepository::getDefault_()->findPackageVersion_(
-            this->package, this->version);
+            this->package, this->version, err);
 }
 
 InstallOperation *InstallOperation::clone() const

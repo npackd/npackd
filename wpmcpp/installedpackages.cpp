@@ -89,8 +89,9 @@ void InstalledPackages::detect3rdParty(AbstractThirdPartyPM *pm, bool replace)
     QDir d;
     for (int i = 0; i < installed.count(); i++) {
         InstalledPackageVersion* ipv = installed.at(i);
+        QString err; // TODO: handle error
         QScopedPointer<PackageVersion> pv(
-                r->findPackageVersion_(ipv->package, ipv->version));
+                r->findPackageVersion_(ipv->package, ipv->version, &err));
         if (!pv)
             continue;
 

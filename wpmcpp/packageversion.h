@@ -88,9 +88,10 @@ public:
     static int indexOf(const QList<PackageVersion*> pvs, PackageVersion* f);
 
     /**
+     * @param err error message will be stored here
      * @return [ownership:caller] the first found locked PackageVersion or 0
      */
-    static PackageVersion* findLockedPackageVersion();
+    static PackageVersion* findLockedPackageVersion(QString* err);
 
     /**
      * @param e <version>

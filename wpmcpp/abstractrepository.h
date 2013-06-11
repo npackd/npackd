@@ -161,14 +161,6 @@ public:
             QList<InstallOperation*>& ops);
 
     /**
-     * @brief adds an existing package version if it does not exist yet
-     * @param package full package name
-     * @param version version number
-     */
-    virtual void addPackageVersion(const QString& package,
-            const Version& version);
-
-    /**
      * @brief saves (creates or updates) the data about a package
      * @param p [ownership:caller] package
      * @return error message
@@ -195,18 +187,21 @@ public:
      *
      * @param package name of the package like "org.server.Word"
      * @param version package version
+     * @param err error message will be stored here
      * @return [ownership:caller] found package version or 0
+     * TODO: this function now returns an error
      */
     virtual PackageVersion* findPackageVersion_(const QString& package,
-            const Version& version) = 0;
+            const Version& version, QString* err) = 0;
 
     /**
      * Searches for a license by name.
      *
      * @param name name of the license like "org.gnu.GPLv3"
+     * @param err error message will be stored here
      * @return [ownership:caller] found license or 0
      */
-    virtual License* findLicense_(const QString& name) = 0;
+    virtual License* findLicense_(const QString& name, QString* err) = 0;
 
     /**
      * @brief removes all package, version and license definitions

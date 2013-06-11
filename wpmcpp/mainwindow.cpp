@@ -142,8 +142,9 @@ ScanHardDrivesThread::ScanHardDrivesThread(Job *job)
 
 void ScanHardDrivesThread::run()
 {
+    QString err; // TODO: handle error
     QList<Package*> ps = DBRepository::getDefault()->findPackages(
-            Package::INSTALLED, false, "");
+            Package::INSTALLED, false, "", &err);
     words.clear();
     QRegExp re("\\W+", Qt::CaseInsensitive);
     for (int i = 0; i < ps.count(); i++) {
@@ -698,7 +699,12 @@ void MainWindow::fillList()
     }
 
     DBRepository* dbr = DBRepository::getDefault();
-    QList<Package*> found = dbr->findPackages(status, statusInclude, query);
+    QString err;
+    QList<Package*> found = dbr->findPackages(status, statusInclude, query,
+            &err);
+
+    if (!err.isEmpty())
+        addErrorMessage(err, err, true, QMessageBox::Critical);
 
     PackageItemModel* m = (PackageItemModel*) t->model();
     m->setPackages(found);
@@ -707,6 +713,8 @@ void MainWindow::fillList()
 
 void MainWindow::process(QList<InstallOperation*> &install)
 {
+    QString err;
+
     // reoder the operations if a package is updated. In this case it is better
     // to uninstall the old first and then install the new one.
     if (install.size() == 2) {
@@ -721,46 +729,55 @@ void MainWindow::process(QList<InstallOperation*> &install)
 
     for (int j = 0; j < install.size(); j++) {
         InstallOperation* op = install.at(j);
-        QScopedPointer<PackageVersion> pv(op->findPackageVersion());
+        QScopedPointer<PackageVersion> pv(op->findPackageVersion(&err));
+        if (!err.isEmpty()) {
+            err = QApplication::tr("Cannot find the package version %1: %2").arg(
+                    pv->toString()).arg(err);
+            break;
+        }
+
         if (!pv.isNull() && pv->isLocked()) {
-            QString msg(QApplication::tr("The package %1 is locked by a currently running installation/removal."));
-            this->addErrorMessage(msg.arg(pv->toString()),
-                    msg.arg(pv->toString()), true, QMessageBox::Critical);
-            qDeleteAll(install);
-            install.clear();
-            return;
+            err = QApplication::tr("The package %1 is locked by a currently running installation/removal.").
+                    arg(pv->toString());
+            break;
         }
     }
 
-    QString err = Repository::checkLockedFilesForUninstall(install);
-    if (!err.isEmpty()) {
-        addErrorMessage(err, err, true, QMessageBox::Critical);
-        qDeleteAll(install);
-        install.clear();
-        return;
-    }
+    if (err.isEmpty())
+        err = Repository::checkLockedFilesForUninstall(install);
 
     QString names;
-    for (int i = 0; i < install.count(); i++) {
-        InstallOperation* op = install.at(i);
-        if (!op->install) {
-            QScopedPointer<PackageVersion> pv(op->findPackageVersion());
-            if (!pv.isNull()) {
-                if (!names.isEmpty())
-                    names.append(", ");
-                names.append(pv->toString());
+    if (err.isEmpty()) {
+        for (int i = 0; i < install.count(); i++) {
+            InstallOperation* op = install.at(i);
+            if (!op->install) {
+                QScopedPointer<PackageVersion> pv(op->findPackageVersion(&err));
+                if (!err.isEmpty())
+                    break;
+
+                if (!pv.isNull()) {
+                    if (!names.isEmpty())
+                        names.append(", ");
+                    names.append(pv->toString());
+                }
             }
         }
     }
+
     QString installNames;
-    for (int i = 0; i < install.count(); i++) {
-        InstallOperation* op = install.at(i);
-        if (op->install) {
-            QScopedPointer<PackageVersion> pv(op->findPackageVersion());
-            if (!pv.isNull()) {
-                if (!installNames.isEmpty())
-                    installNames.append(", ");
-                installNames.append(pv->toString());
+    if (err.isEmpty()) {
+        for (int i = 0; i < install.count(); i++) {
+            InstallOperation* op = install.at(i);
+            if (op->install) {
+                QScopedPointer<PackageVersion> pv(op->findPackageVersion(&err));
+                if (!err.isEmpty())
+                    break;
+
+                if (!pv.isNull()) {
+                    if (!installNames.isEmpty())
+                        installNames.append(", ");
+                    installNames.append(pv->toString());
+                }
             }
         }
     }
@@ -774,6 +791,13 @@ void MainWindow::process(QList<InstallOperation*> &install)
             uninstallCount++;
     }
 
+    if (!err.isEmpty()) {
+        addErrorMessage(err, err, true, QMessageBox::Critical);
+        qDeleteAll(install);
+        install.clear();
+        return;
+    }
+
     bool b;
     QString msg;
     QString title;
@@ -783,9 +807,22 @@ void MainWindow::process(QList<InstallOperation*> &install)
     } else if (installCount == 0 && uninstallCount == 1) {
         title = QApplication::tr("Uninstalling");
 
-        QScopedPointer<PackageVersion> pv(install.at(0)->findPackageVersion());
-        if (pv.isNull())
+        QScopedPointer<PackageVersion> pv(
+                install.at(0)->findPackageVersion(&err));
+        if (!err.isEmpty()) {
+            addErrorMessage(err, err, true, QMessageBox::Critical);
+            qDeleteAll(install);
+            install.clear();
             return;
+        }
+
+        if (pv.isNull()) {
+            err = QApplication::tr("Cannot find the package version");
+            addErrorMessage(err, err, true, QMessageBox::Critical);
+            qDeleteAll(install);
+            install.clear();
+            return;
+        }
 
         msg = QString(QApplication::tr("The package %1 will be uninstalled. The corresponding directory %2 will be completely deleted. There is no way to restore the files.")).
                 arg(pv->toString()).
@@ -887,7 +924,6 @@ void MainWindow::unregisterJob(Job *job)
 
 bool MainWindow::isUpdateEnabled(const QString& package)
 {
-    // TODO: error message is ignored
     QString err;
 
     bool res = false;
@@ -1324,9 +1360,10 @@ void MainWindow::openLicense(const QString& name, bool select)
     int index = this->findLicenseTab(name);
     if (index < 0) {
         LicenseForm* f = new LicenseForm(this->ui->tabWidget);
+        QString err; // TODO: handle error
         License* lic =
                 DBRepository::getDefault()->
-                findLicense_(name);
+                findLicense_(name, &err);
         f->fillForm(lic);
         this->ui->tabWidget->addTab(f, lic->title);
         index = this->ui->tabWidget->count() - 1;
@@ -1342,9 +1379,12 @@ void MainWindow::openPackageVersion(const QString& package,
     if (index < 0) {
         PackageVersionForm* pvf = new PackageVersionForm(
                 this->ui->tabWidget);
+        QString err;
         PackageVersion* pv_ =
                 DBRepository::getDefault()->
-                findPackageVersion_(package, version);
+                findPackageVersion_(package, version, &err);
+        if (!err.isEmpty())
+            addErrorMessage(err, err, true, QMessageBox::Critical);
         if (pv_) {
             pvf->fillForm(pv_);
             QIcon icon = getPackageVersionIcon(package);
@@ -1585,7 +1625,13 @@ void MainWindow::on_actionShow_Details_triggered()
 
 void MainWindow::on_actionScan_Hard_Drives_triggered()
 {
-    PackageVersion* locked = PackageVersion::findLockedPackageVersion();
+    QString err;
+    PackageVersion* locked = PackageVersion::findLockedPackageVersion(&err);
+    if (!err.isEmpty()) {
+        this->addErrorMessage(err, err, true, QMessageBox::Critical);
+        delete locked;
+        return;
+    }
     if (locked) {
         QString msg(QApplication::tr("Cannot start the scan now. The package %1 is locked by a currently running installation/removal."));
         this->addErrorMessage(msg.arg(locked->toString()));
@@ -1684,7 +1730,10 @@ void MainWindow::addErrorMessage(const QString& msg, const QString& details,
 
 void MainWindow::on_actionReload_Repositories_triggered()
 {
-    PackageVersion* locked = PackageVersion::findLockedPackageVersion();
+    QString err;
+    PackageVersion* locked = PackageVersion::findLockedPackageVersion(&err);
+    if (!err.isEmpty())
+        addErrorMessage(err, err, true, QMessageBox::Critical);
     if (locked) {
         QString msg(QApplication::tr("Cannot reload the repositories now. The package %1 is locked by a currently running installation/removal."));
         this->addErrorMessage(msg.arg(locked->toString()));
@@ -1778,10 +1827,11 @@ void MainWindow::on_actionUninstall_triggered()
         for (int i = 0; i < selected.count(); i++) {
             Package* p = (Package*) selected.at(i);
 
-            // TODO: error message is ignored
             QString err;
             PackageVersion* pv = r->findNewestInstalledPackageVersion_(
                     p->name, &err);
+            if (!err.isEmpty())
+                addErrorMessage(err, err, true, QMessageBox::Critical);
             if (pv) {
                 pvs.append(pv);
             }

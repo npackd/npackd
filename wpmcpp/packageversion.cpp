@@ -55,8 +55,10 @@ int PackageVersion::indexOf(const QList<PackageVersion*> pvs, PackageVersion* f)
     return r;
 }
 
-PackageVersion* PackageVersion::findLockedPackageVersion()
+PackageVersion* PackageVersion::findLockedPackageVersion(QString *err)
 {
+    *err = "";
+
     PackageVersion* r = 0;
 
     lockedPackageVersionsMutex.lock();
@@ -74,7 +76,7 @@ PackageVersion* PackageVersion::findLockedPackageVersion()
             Version version;
             if (version.setVersion(parts.at(1))) {
                 DBRepository* rep = DBRepository::getDefault();
-                r = rep->findPackageVersion_(package, version);
+                r = rep->findPackageVersion_(package, version, err);
             }
         }
     }

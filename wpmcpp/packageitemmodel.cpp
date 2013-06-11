@@ -110,7 +110,10 @@ QVariant PackageItemModel::data(const QModelIndex &index, int role) const
                 break;
             }
             case 5: {
-                QSharedPointer<License> lic(rep->findLicense_(p->license));
+                // the error message is ignored
+                QString err;
+                QSharedPointer<License> lic(rep->findLicense_(
+                        p->license, &err));
                 if (lic)
                     r = lic->title;
                 break;

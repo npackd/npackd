@@ -469,16 +469,19 @@ PackageVersion *Repository::findPackageVersionByMSIGUID_(const QString &guid) co
 }
 
 PackageVersion *Repository::findPackageVersion_(const QString &package,
-        const Version &version)
+        const Version &version, QString *err)
 {
+    *err = "";
+
     PackageVersion* pv = findPackageVersion(package, version);
     if (pv)
         pv = pv->clone();
     return pv;
 }
 
-License *Repository::findLicense_(const QString &name)
+License *Repository::findLicense_(const QString &name, QString* err)
 {
+    *err = "";
     License* r = findLicense(name);
     if (r)
         r = r->clone();
@@ -518,6 +521,8 @@ QList<Package*> Repository::findPackagesByShortName(const QString &name)
 QString Repository::checkLockedFilesForUninstall(
         const QList<InstallOperation*> &install)
 {
+    QString err;
+
     InstalledPackages* ip = InstalledPackages::getDefault();
 
     QStringList locked = WPMUtils::getProcessFiles();
@@ -538,24 +543,28 @@ QString Repository::checkLockedFilesForUninstall(
 
     if (lockedUninstall.size() > 0) {
         QString locked_ = lockedUninstall.join(", \n");
-        QString msg = QString(
+        err = QString(
                 QApplication::tr("The package(s) cannot be uninstalled because the following files are in use (please close the corresponding applications): %1")).arg(locked_);
-        return msg;
     }
 
-    for (int i = 0; i < install.count(); i++) {
-        InstallOperation* op = install.at(i);
-        if (!op->install) {
-            QScopedPointer<PackageVersion> pv(op->findPackageVersion());
-            if (!pv.isNull() && pv->isDirectoryLocked()) {
-                QString msg = QString(
-                        QApplication::tr("The package %1 cannot be uninstalled because some files or directories under %2 are in use.")).
-                        arg(pv->toString()).
-                        arg(pv->getPath());
-                return msg;
+    if (err.isEmpty()) {
+        for (int i = 0; i < install.count(); i++) {
+            InstallOperation* op = install.at(i);
+            if (!op->install) {
+                QScopedPointer<PackageVersion> pv(op->findPackageVersion(&err));
+                if (!err.isEmpty())
+                    break;
+
+                if (!pv.isNull() && pv->isDirectoryLocked()) {
+                    err = QString(
+                            QApplication::tr("The package %1 cannot be uninstalled because some files or directories under %2 are in use.")).
+                            arg(pv->toString()).
+                            arg(pv->getPath());
+                    break;
+                }
             }
         }
     }
 
-    return "";
+    return err;
 }

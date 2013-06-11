@@ -66,7 +66,8 @@ void AbstractRepository::process(Job *job,
     for (int i = 0; i < install.size(); i++) {
         InstallOperation* op = install.at(i);
 
-        PackageVersion* pv = op->findPackageVersion();
+        QString err; // TODO: handle error
+        PackageVersion* pv = op->findPackageVersion(&err);
         if (!pv) {
             job->setErrorMessage(QString(
                     QApplication::tr("Cannot find the package version %1 %2")).
@@ -127,8 +128,9 @@ QList<PackageVersion*> AbstractRepository::getInstalled_()
             InstalledPackages::getDefault()->getAll();
     for (int i = 0; i < ipvs.count(); i++) {
         InstalledPackageVersion* ipv = ipvs.at(i);
+        QString err; // TODO: handle error
         PackageVersion* pv = this->findPackageVersion_(ipv->package,
-                ipv->version);
+                ipv->version, &err);
         if (pv) {
             ret.append(pv);
         }
@@ -245,18 +247,6 @@ QString AbstractRepository::planUpdates(const QList<Package*> packages,
     qDeleteAll(newesti);
 
     return err;
-}
-
-void AbstractRepository::addPackageVersion(const QString &package,
-        const Version &version)
-{
-    PackageVersion* pv = findPackageVersion_(package, version);
-    if (!pv) {
-        pv = new PackageVersion(package);
-        pv->version = version;
-        this->savePackageVersion(pv);
-    }
-    delete pv;
 }
 
 QList<QUrl*> AbstractRepository::getRepositoryURLs(QString* err)

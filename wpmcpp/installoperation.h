@@ -24,9 +24,10 @@ public:
 
     /**
      * @brief finds the corresponding package version
+     * @param err error message will be stored here
      * @return [ownership:caller] found package version or 0
      */
-    PackageVersion* findPackageVersion() const;
+    PackageVersion* findPackageVersion(QString *err) const;
 
     /**
      * @return [ownership:caller] copy of this object
