@@ -60,8 +60,11 @@ void PackageVersionForm::fillForm(PackageVersion* pv)
 
     QString licenseTitle = QApplication::tr("unknown");
     if (p) {
-        QString err; // TODO: handle error
+        QString err;
         License* lic = r->findLicense_(p->license, &err);
+        if (!err.isEmpty())
+            MainWindow::getInstance()->addErrorMessage(err, err, true,
+                    QMessageBox::Critical);
         if (lic) {
             licenseTitle = "<a href=\"http://www.example.com\">" +
                     Qt::escape(lic->title) + "</a>";
@@ -150,9 +153,13 @@ void PackageVersionForm::on_labelLicense_linkActivated(QString link)
     Package* p = r->findPackage_(pv->package);
 
     License* lic = 0;
-    QString err; // TODO: handle error
-    if (p)
+    QString err;
+    if (p) {
         lic = r->findLicense_(p->license, &err);
+        if (!err.isEmpty())
+            MainWindow::getInstance()->addErrorMessage(err, err, true,
+                    QMessageBox::Critical);
+    }
     if (lic)
         MainWindow::getInstance()->openLicense(p->license, true);
 

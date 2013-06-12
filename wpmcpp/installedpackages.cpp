@@ -330,7 +330,6 @@ void InstalledPackages::refresh(Job *job)
         delete pm;
         timer2.time(2);
 
-        /* TODO: ???
         // MSI package detection should happen before the detection for
         // control panel programs
         pm = new MSIThirdPartyPM();
@@ -342,7 +341,6 @@ void InstalledPackages::refresh(Job *job)
         detect3rdParty(pm, true);
         delete pm;
         timer2.time(4);
-        */
 
         //timer2.dump();
 

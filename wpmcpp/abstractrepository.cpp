@@ -66,8 +66,16 @@ void AbstractRepository::process(Job *job,
     for (int i = 0; i < install.size(); i++) {
         InstallOperation* op = install.at(i);
 
-        QString err; // TODO: handle error
+        QString err;
         PackageVersion* pv = op->findPackageVersion(&err);
+        if (!err.isEmpty()) {
+            job->setErrorMessage(QString(
+                    QApplication::tr("Cannot find the package version %1 %2: %3")).
+                    arg(op->package).
+                    arg(op->version.getVersionString()).
+                    arg(err));
+            break;
+        }
         if (!pv) {
             job->setErrorMessage(QString(
                     QApplication::tr("Cannot find the package version %1 %2")).
@@ -121,16 +129,19 @@ void AbstractRepository::process(Job *job,
     job->complete();
 }
 
-QList<PackageVersion*> AbstractRepository::getInstalled_()
+QList<PackageVersion*> AbstractRepository::getInstalled_(QString *err)
 {
+    *err = "";
+
     QList<PackageVersion*> ret;
     QList<InstalledPackageVersion*> ipvs =
             InstalledPackages::getDefault()->getAll();
     for (int i = 0; i < ipvs.count(); i++) {
         InstalledPackageVersion* ipv = ipvs.at(i);
-        QString err; // TODO: handle error
         PackageVersion* pv = this->findPackageVersion_(ipv->package,
-                ipv->version, &err);
+                ipv->version, err);
+        if (!err->isEmpty())
+            break;
         if (pv) {
             ret.append(pv);
         }
@@ -144,11 +155,11 @@ QList<PackageVersion*> AbstractRepository::getInstalled_()
 QString AbstractRepository::planUpdates(const QList<Package*> packages,
         QList<InstallOperation*>& ops)
 {
-    QList<PackageVersion*> installed = getInstalled_();
+    QString err;
+
+    QList<PackageVersion*> installed = getInstalled_(&err); // TODO: handle error
     QList<PackageVersion*> newest, newesti;
     QList<bool> used;
-
-    QString err;
 
     for (int i = 0; i < packages.count(); i++) {
         Package* p = packages.at(i);

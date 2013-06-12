@@ -145,9 +145,10 @@ public:
     /**
      * Finds all installed package versions.
      *
+     * @param err error message will be stored here
      * @return [ownership:caller] the list of installed package versions
      */
-    QList<PackageVersion*> getInstalled_();
+    QList<PackageVersion*> getInstalled_(QString* err);
 
     /**
      * Plans updates for the given packages.

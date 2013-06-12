@@ -1788,12 +1788,12 @@ void MainWindow::on_actionInstall_triggered()
         }
     }
 
+    QString err; // TODO: error is not handled
     QList<InstallOperation*> ops;
     QList<PackageVersion*> installed =
-            AbstractRepository::getDefault_()->getInstalled_();
+            AbstractRepository::getDefault_()->getInstalled_(&err);
     QList<PackageVersion*> avoid;
 
-    QString err;
     for (int i = 0; i < pvs.count(); i++) {
         PackageVersion* pv = pvs.at(i);
 
@@ -1842,11 +1842,13 @@ void MainWindow::on_actionUninstall_triggered()
         }
     }
 
-    QList<InstallOperation*> ops;
-    QList<PackageVersion*> installed = AbstractRepository::getDefault_()->
-            getInstalled_();
-
     QString err;
+    QList<InstallOperation*> ops;
+
+    // TODO: error is not handled
+    QList<PackageVersion*> installed = AbstractRepository::getDefault_()->
+            getInstalled_(&err);
+
     for (int i = 0; i < pvs.count(); i++) {
         PackageVersion* pv = pvs.at(i);
         err = pv->planUninstallation(installed, ops);
