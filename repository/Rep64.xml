@@ -701,6 +701,23 @@ This package uses internal version numbers. For example, 1.7.0.1 corresponds to 
         <license>org.gnu.GPLv2</license>
         <tags>cat-dev</tags>
     </package>
+    <package name="npackd-gae-gc-rep-transfer">
+        <title>Npackd GAE to Google Code repositories transfer</title>
+        <url>http://code.google.com/p/windows-package-manager/</url>
+        <description>This script transfers the 4 default repositories from http://npackd.appspot.com&#13;
+to the Mercurial source repository at http://code.google.com/p/windows-package-manager so that the repositories are available e.g. under https://windows-package-manager.googlecode.com/hg/repository/Rep.xml&#13;
+&#13;
+The 4 repositories are:&#13;
+* http://npackd.appspot.com/rep/xml?tag=stable&#13;
+* http://npackd.appspot.com/rep/xml?tag=stable64&#13;
+* http://npackd.appspot.com/rep/xml?tag=libs &#13;
+* http://npackd.appspot.com/rep/xml?tag=unstable&#13;
+&#13;
+You would require commit permission for the Mercurial repository.</description>
+        <icon>https://lh5.googleusercontent.com/-Clv-5HRjnqw/T2iH5F-IJYI/AAAAAAAAAbY/PRAIafxwI1c/s800/com.googlecode.windows-package-manager.Npackd.png</icon>
+        <license>org.gnu.GPLv3</license>
+        <tags>cat-tools</tags>
+    </package>
     <package name="org.7-zip.SevenZIP64">
         <title>7-ZIP 64 bit</title>
         <url>http://www.7-zip.org/</url>
@@ -5365,6 +5382,16 @@ if %err% neq 0 exit /b %err%&#13;
         <sha1>f1a6d3f290eee2640fc392461a830665d46f0900</sha1>
     </version>
 
+    <version name="1" package="npackd-gae-gc-rep-transfer">
+        <url>https://dl.dropboxusercontent.com/u/17046326/files/npackd-gae-gc-rep-transfer-1.zip</url>
+        <sha1>0dafde06545bf82d5152d7f8a3740a1602a4d83d</sha1>
+        <dependency package="org.xmlsoft.LibXML" versions="[2.4.12,2.4.12]"/>
+        <dependency package="com.selenic.mercurial.Mercurial64" versions="[1.8,3)"/>
+        <dependency package="se.haxx.curl.CURL64" versions="[7,10)"/>
+        <dependency package="org.mingw.MSYS" versions="[2011,2020)"/>
+        <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.17.9, 2)"/>
+    </version>
+
     <version name="9.20" package="org.7-zip.SevenZIP64" type="one-file">
         <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.msi') do set setup=%%x&#13;
 copy "%setup%" .Npackd&#13;
@@ -8687,7 +8714,8 @@ del /q /f "%setup%"</file>
 set err=%errorlevel%&#13;
 type .Npackd\MSI2.log&#13;
 if %err% neq 0 exit %err%</file>
-        <url>http://acs.pandasoftware.com/cloud/CloudAntivirus.exe</url>
+        <url>https://dl.dropboxusercontent.com/s/heej35s7intfvng/PandaCloudAntivirus_2.1.1.exe</url>
+        <sha1>b7a8548bab0300fe63cd43eece636f82756ec437</sha1>
         <dependency package="org.7-zip.SevenZIP64" versions="[9.20, 9.20]"/>
     </version>
 
