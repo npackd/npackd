@@ -704,7 +704,7 @@ This package uses internal version numbers. For example, 1.7.0.1 corresponds to 
     <package name="npackd-gae-gc-rep-transfer">
         <title>Npackd GAE to Google Code repositories transfer</title>
         <url>http://code.google.com/p/windows-package-manager/</url>
-        <description>This script transfers the 4 default repositories from http://npackd.appspot.com&#13;
+        <description>this script transfers the 4 default repositories from http://npackd.appspot.com&#13;
 to the Mercurial source repository at http://code.google.com/p/windows-package-manager so that the repositories are available e.g. under https://windows-package-manager.googlecode.com/hg/repository/Rep.xml&#13;
 &#13;
 The 4 repositories are:&#13;
@@ -8051,6 +8051,43 @@ call "%npackdih%\InstallMSI.bat" INSTALLDIR yes&#13;
         <sha1>b959562f9fb6be45057be7563bd4ad81b2109d68</sha1>
     </version>
 
+    <version name="2.5" package="org.python.Python64" type="one-file">
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.msi') do set setup=%%x
+copy "%setup%" .Npackd
+msiexec.exe /qn /norestart /Lime .Npackd\MSI.log /i "%setup%" TARGETDIR="%CD%" ALLUSERS=1
+set err=%errorlevel%
+type .Npackd\MSI.log
+rem 3010=restart required
+if %err% equ 3010 exit /b 0
+if %err% neq 0 exit /b %err%
+
+if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
+set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.CLU" "--versions=[1, 2)"
+for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set clu=%%x
+"%clu%\clu" add-path --path "%CD%"
+verify
+</file>
+        <file path=".Npackd\Uninstall.bat">move .Npackd\*.msi .
+for /f "delims=" %%x in ('dir /b *.msi') do set setup=%%x
+msiexec.exe /qn /norestart /Lime .Npackd\MSI.log /x "%setup%"
+set err=%errorlevel%
+type .Npackd\MSI.log
+rem 3010=restart required
+if %err% equ 3010 exit /b 0
+if %err% neq 0 exit /b %err%
+
+if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
+set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.CLU" "--versions=[1, 2)"
+for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set clu=%%x
+"%clu%\clu" remove-path --path "%CD%"
+verify
+</file>
+        <url>http://www.python.org/ftp/python/2.5/python-2.5.amd64.msi</url>
+        <sha1>58a904f45d2b227e42bd59d3a141a2564336522c</sha1>
+        <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.15.7, 2)"/>
+        <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1, 1]"/>
+        <dependency package="com.googlecode.windows-package-manager.CLU" versions="[1, 2)"/>
+    </version>
     <version name="2.6.6" package="org.python.Python64" type="one-file">
         <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.msi') do set setup=%%x
 copy "%setup%" .Npackd
