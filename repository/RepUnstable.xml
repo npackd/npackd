@@ -29,6 +29,10 @@
         <title>GPLv3</title>
         <url>http://www.gnu.org/licenses/gpl.html</url>
     </license>
+    <license name="org.opensource.BSDLicense">
+        <title>BSD license</title>
+        <url>http://www.opensource.org/licenses/bsd-license.html</url>
+    </license>
     <license name="org.wikipedia.Freeware">
         <title>Freeware</title>
         <url>http://en.wikipedia.org/wiki/Freeware</url>
@@ -84,7 +88,7 @@
         <title>SqlKit</title>
         <url>http://sqlkit.argolinux.org</url>
         <description>application to edit data in a database and python library. Suggestion: install also Postgresql and/or Mysql python driver!</description>
-        <icon>https://lh3.googleusercontent.com/-rVbxesfY47o/UQZsaOVIwrI/AAAAAAAAAHI/LbeacF5OSf8/s800/python_32.png</icon>
+        <icon>https://lh3.googleusercontent.com/--CLxMMKTezM/UcKfVSv3sVI/AAAAAAAACME/ikiC3gkqfes/s800/python.png</icon>
         <license>org.gnu.GPLv3</license>
         <tags>cat-dev</tags>
     </package>
@@ -103,6 +107,14 @@
         <icon>https://lh6.googleusercontent.com/-LayoRgzE8rY/USin2mtr9TI/AAAAAAAAAoc/x3AEOoaaSZs/s800/grisbi.png</icon>
         <license>org.gnu.GPLv2</license>
         <tags>cat-finance</tags>
+    </package>
+    <package name="python-multiprocessing">
+        <title>Python multiprocessing</title>
+        <url>https://pypi.python.org/pypi/multiprocessing#downloads</url>
+        <description>Python multiprocessing</description>
+        <icon>https://lh3.googleusercontent.com/--CLxMMKTezM/UcKfVSv3sVI/AAAAAAAACME/ikiC3gkqfes/s800/python.png</icon>
+        <license>org.opensource.BSDLicense</license>
+        <tags>cat-dev</tags>
     </package>
 
     <version name="1" package="com.ekahau.HeatMapper" type="one-file">
@@ -360,5 +372,14 @@ for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set python=%%x
 </file>
         <url>http://downloads.sourceforge.net/project/grisbi/grisbi%20unstable/0.9.4/Grisbi_0.9.4_win32_mingw_goffice.exe</url>
         <sha1>fd674320dece2fe6b8de7e2ce55251c42b908a09</sha1>
+    </version>
+
+    <version name="2.6.2.1" package="python-multiprocessing" type="one-file">
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
+"%setup%"&#13;
+</file>
+        <url>https://pypi.python.org/packages/2.5/m/multiprocessing/multiprocessing-2.6.2.1.win32-py2.5.exe</url>
+        <sha1>ec3a4c402d460b4b4e2eaa84e984839fed081d77</sha1>
+        <dependency package="org.python.Python" versions="[2.5.4, 2.5.4]"/>
     </version>
 </root>
