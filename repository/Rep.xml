@@ -4608,7 +4608,9 @@ The features of GNU Emacs include:&#13;
     <package name="org.picpick.PicPick">
         <title>PicPick</title>
         <url>http://www.picpick.org/en</url>
-        <description>screen capture tool and image editor</description>
+        <description>WARNING: offers to install additional software including a browser toolbar&#13;
+&#13;
+screen capture tool and image editor</description>
         <icon>https://lh5.googleusercontent.com/-ijo1soEoLf4/UUbg749nzLI/AAAAAAAABXs/zQp9is27zpY/s800/-picpick.png</icon>
         <license>org.wikipedia.Freeware</license>
         <category>cat-photo</category>
@@ -4890,7 +4892,7 @@ kw: STS</description>
         <url>http://www.vim.org</url>
         <description>text editor&#13;
 &#13;
-kw: gvim</description>
+kw: gvim, vi</description>
         <icon>https://lh6.googleusercontent.com/-oPg5OrLBr74/UZ8rV_mHduI/AAAAAAAACE0/twSVwJ4sOTQ/s800/vim.png</icon>
         <license>org.gnu.GPLv2</license>
         <category>cat-productivity</category>
@@ -4898,7 +4900,9 @@ kw: gvim</description>
     <package name="org.vim.VimRuntime">
         <title>Vim runtime</title>
         <url>http://www.vim.org/</url>
-        <description>runtime for Vim</description>
+        <description>runtime for Vim&#13;
+&#13;
+kw: gvim, vi</description>
         <icon>https://lh6.googleusercontent.com/-oPg5OrLBr74/UZ8rV_mHduI/AAAAAAAACE0/twSVwJ4sOTQ/s800/vim.png</icon>
         <license>org.gnu.GPLv2</license>
         <category>cat-dev</category>
@@ -5632,6 +5636,15 @@ call "%npackdih%\InstallMSI.bat" INSTALLDIR yes&#13;
 		</file>
         <url>https://power8.googlecode.com/files/Power8_v.1.4.1.569.msi</url>
         <sha1>e86f84a345797346b002e4a3f10f7690d1e7b70b</sha1>
+    </version>
+    <version name="1.4.3.619" package="code.google.Power8" type="one-file">
+        <file path=".Npackd\Install.bat">if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1&#13;
+set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.NpackdInstallerHelper" "--versions=[1.1, 2)"&#13;
+for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set npackdih=%%x&#13;
+call "%npackdih%\InstallMSI.bat" INSTALLDIR yes&#13;
+		</file>
+        <url>https://power8.googlecode.com/files/Power8_v.1.4.3.619.msi</url>
+        <sha1>b5b0ffa7d799ec65871989a2dfe00575d885e3ee</sha1>
     </version>
 
     <version name="1.3.0.1" package="com.3ds.DraftSight" type="one-file">
@@ -10642,12 +10655,12 @@ if %err% neq 0 exit /b %err%
         <sha1>5644d4efa439180c3cecceaa4c2c3639f99cfb6c</sha1>
     </version>
 
-    <version name="15.23" package="com.microsoft.ProcessExplorer">
+    <version name="15.31" package="com.microsoft.ProcessExplorer">
         <important-file path="procexp.exe" title="Process Explorer"/>
         <url>http://download.sysinternals.com/files/ProcessExplorer.zip</url>
     </version>
 
-    <version name="3.4" package="com.microsoft.ProcessMonitor">
+    <version name="3.5" package="com.microsoft.ProcessMonitor">
         <important-file path="Procmon.exe" title="Process Monitor"/>
         <url>http://download.sysinternals.com/files/ProcessMonitor.zip</url>
     </version>
@@ -11693,6 +11706,14 @@ for /f %%x in ('dir /b *.exe') do set setup=%%x&#13;
 </file>
         <url>http://get-tsw-1.opera.com/pub/opera/win/1215/int/Opera_1215_int_Setup.exe</url>
         <sha1>16b6eba8007f19a320d3c36a35b159e3c12cafce</sha1>
+    </version>
+    <version name="12.16" package="com.opera.Opera" type="one-file">
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
+"%setup%" /installfolder "%ProgramFiles%\Opera" /silent /launchopera 0 /desktopshortcut 0 /setdefaultbrowser 0 /allusers</file>
+        <file path=".Npackd\Uninstall.bat">"%ProgramFiles%\Opera\opera.exe" /uninstall /silent&#13;
+</file>
+        <url>http://get-tsw-1.opera.com/pub/opera/win/1216/int/Opera_1216_int_Setup.exe</url>
+        <sha1>5b0b904fca9b0d856aa2701b762a0308fe0f49f5</sha1>
     </version>
 
     <version name="2.0.2.4" package="com.oracle.JavaAutoUpdater">
@@ -14347,6 +14368,20 @@ del Q-Dir.ini&#13;
         <url>https://drive.google.com/uc?export=download&amp;id=0Bzt53EW9ybrwWlNmNHdvdzZqWWs</url>
         <sha1>a93e2be719b21e0ccb546887fc55a1486381b342</sha1>
     </version>
+    <version name="5.62" package="com.softwareok.QDir">
+        <important-file path="Q-Dir.exe" title="Q-Dir"/>
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b Q*') do set name=%%x&#13;
+cd "%name%"        &#13;
+for /f "delims=" %%a in ('dir /b') do (&#13;
+  move "%%a" ..&#13;
+)&#13;
+cd ..&#13;
+rmdir "%name%"&#13;
+del Q-Dir.ini&#13;
+</file>
+        <url>https://dl.dropboxusercontent.com/u/176999101/com.softwareok.QDir-5.62.zip</url>
+        <sha1>3316b86ad75e7b54dac8d741856779db7f3a5a54</sha1>
+    </version>
 
     <version name="0.9.0.1" package="com.sourcetreeapp.SourceTree">
         <important-file path="SourceTree.application" title="SourceTree"/>
@@ -14944,6 +14979,17 @@ call "%npackdih%\InstallMSI.bat" INSTALLLOCATION yes&#13;
 </file>
         <url>https://dl.dropboxusercontent.com/u/17046326/files/com.tracker-software.PDFXChangeViewer-2.58.210.msi</url>
         <sha1>d98c860b840e21e8c97d6b1066048442729f3e01</sha1>
+        <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.1, 2)"/>
+        <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.15.7, 2)"/>
+    </version>
+    <version name="2.58.211" package="com.tracker-software.PDFXChangeViewer" type="one-file">
+        <file path=".Npackd\Install.bat">if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1&#13;
+set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.NpackdInstallerHelper" "--versions=[1.1, 2)"&#13;
+for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set npackdih=%%x&#13;
+call "%npackdih%\InstallMSI.bat" INSTALLLOCATION yes&#13;
+</file>
+        <url>https://dl.dropboxusercontent.com/u/176999101/com.tracker-software.PDFXChangeViewer-2.58.211.msi</url>
+        <sha1>444bfc320581a2dcf66c45f05be102d890edfeec</sha1>
         <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.1, 2)"/>
         <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.15.7, 2)"/>
     </version>
@@ -17951,6 +17997,11 @@ ren "%setup%" Setup-MsgPlus.exe
         <url>http://download.nirsoft.net/nirsoft_package_1.18.03.zip</url>
         <sha1>f964c100266c7d14ee4c7dd8c514e2aa0e156413</sha1>
     </version>
+    <version name="1.18.16" package="net.nirsoft.Launcher">
+        <important-file path="NirLauncher.exe" title="NirLauncher"/>
+        <url>http://download.nirsoft.net/nirsoft_package_1.18.16.zip</url>
+        <sha1>c68c534051a3d8b3ec279db9658e3788a1059ed6</sha1>
+    </version>
 
     <version name="1.74" package="net.nirsoft.MyUninstaller">
         <important-file path="myuninst.exe" title="MyUninstaller"/>
@@ -18021,20 +18072,6 @@ if %err% neq 0 exit %err%&#13;
 </file>
         <url>http://pivotanimator.net/pivot_setup_OC.zip</url>
     </version>
-    <version name="4.1.8" package="net.pivotanimator.PivotAnimator">
-        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
-"%setup%" /SP- /VERYSILENT /SUPPRESSMSGBOXES /NOCANCEL /NORESTART /DIR="%CD%" /SAVEINF="%CD%\.Npackd\InnoSetupInfo.ini" /LOG="%CD%\.Npackd\InnoSetupInstall.log"&#13;
-set err=%errorlevel%&#13;
-type .Npackd\InnoSetupInstall.log&#13;
-if %err% neq 0 exit %err%&#13;
-</file>
-        <file path=".Npackd\Uninstall.bat">unins000.exe /VERYSILENT /SUPPRESSMSGBOXES /NORESTART /LOG="%CD%\.Npackd\InnoSetupUninstall.log"&#13;
-set err=%errorlevel%&#13;
-type .Npackd\InnoSetupUninstall.log&#13;
-if %err% neq 0 exit %err%&#13;
-</file>
-        <url>http://pivotanimator.net/pivot_v4-1_beta_setup_OC.zip</url>
-    </version>
 
     <version name="1.4.6" package="net.poedit.POEdit" type="one-file">
         <file path=".Npackd\Install.bat">poedit-1.4.6-setup.exe /SP- /VERYSILENT /SUPPRESSMSGBOXES /NOCANCEL /NORESTART /DIR="%CD%"</file>
@@ -18068,6 +18105,15 @@ if %err% neq 0 exit %err%&#13;
 </file>
         <url>http://downloads.sourceforge.net/project/poedit/poedit/1.5/poedit-1.5.5-setup.exe</url>
         <sha1>2fd2003e38b3f4f1cbfbcfb9788dbc5f67439588</sha1>
+    </version>
+    <version name="1.5.7" package="net.poedit.POEdit" type="one-file">
+        <file path=".Npackd\Install.bat">for /f %%x in ('dir /b *.exe') do set setup=%%x&#13;
+"%setup%" /SP- /VERYSILENT /SUPPRESSMSGBOXES /NOCANCEL /NORESTART /DIR="%CD%"&#13;
+</file>
+        <file path=".Npackd\Uninstall.bat">unins000.exe /VERYSILENT /SUPPRESSMSGBOXES /NORESTART&#13;
+</file>
+        <url>http://downloads.sourceforge.net/project/poedit/poedit/1.5/poedit-1.5.7-setup.exe</url>
+        <sha1>f675d8667bef9f1d4cfe8e288a057e6ec007a9fb</sha1>
     </version>
 
     <version name="1.3.3.14" package="net.scribus.Scribus" type="one-file">
@@ -20156,6 +20202,44 @@ verify&#13;
         <url>http://download.tuxfamily.org/notepadplus/6.3.2/npp.6.3.2.Installer.exe</url>
         <sha1>b329b1b71115e3d247e28c7b8a35caaa0e4014d4</sha1>
     </version>
+    <version name="6.4.2" package="net.sourceforge.NotepadPlusPlus" type="one-file">
+        <important-file path="notepad++.exe" title="Notepad++"/>
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
+"%setup%" /S /D=%CD%&#13;
+if %errorlevel% neq 0 exit /b %errorlevel%&#13;
+&#13;
+set package=net.sourceforge.NotepadPlusPlus&#13;
+set version=%NPACKD_PACKAGE_VERSION%&#13;
+set key=%package%&#13;
+&#13;
+reg add HKLM\SOFTWARE\Classes\Applications\%KEY%\shell\open /v FriendlyAppName /d "Notepad++ (%version%)" /f&#13;
+set c=\"%CD%\notepad++.exe\" \"%%1\"&#13;
+reg add HKLM\SOFTWARE\Classes\Applications\%KEY%\shell\open\command /d "%c%" /f&#13;
+for %%g in (txt log ini h hpp hxx c cpp cxx cc m java cs pas inc html htm php phtml properties js jsp asp css xml sh bsh nsi nsh lua pl pm py as mx vb vbs f for f90 f95 f2k tex sql nfo mak hgignore) do reg add HKLM\SOFTWARE\Classes\.%%g\OpenWithList\%key% /f&#13;
+		</file>
+        <file path=".Npackd\Uninstall.bat">set package=net.sourceforge.NotepadPlusPlus&#13;
+set version=%NPACKD_PACKAGE_VERSION%&#13;
+set key=%package%&#13;
+&#13;
+set newname=%key%_%random%&#13;
+ren %appdata%\Notepad++ %newname%&#13;
+uninstall.exe /S _?=%CD%&#13;
+if %errorlevel% neq 0 exit /b %errorlevel%&#13;
+ren %appdata%\%newname% Notepad++&#13;
+&#13;
+rem unregister "Open With..." entries&#13;
+reg delete HKLM\SOFTWARE\Classes\Applications\%KEY% /f&#13;
+for %%g in (txt log ini h hpp hxx c cpp cxx cc m java cs pas inc html htm php phtml properties js jsp asp css xml sh bsh nsi nsh lua pl pm py as mx vb vbs f for f90 f95 f2k tex sql nfo mak hgignore) do reg delete HKLM\SOFTWARE\Classes\.%%g\OpenWithList\%key% /f&#13;
+&#13;
+rem remove Explorer extension&#13;
+set trash=..\.Trash\%key%_%random%&#13;
+mkdir %trash%&#13;
+move NppShell*.dll %trash%&#13;
+verify&#13;
+		</file>
+        <url>http://download.tuxfamily.org/notepadplus/6.4.2/npp.6.4.2.Installer.exe</url>
+        <sha1>505235dc23896c6f1c1d66eafaa708bd1c34017b</sha1>
+    </version>
 
     <version name="2.46" package="net.sourceforge.nsis">
         <important-file path="nsis-2.46\NSIS.exe" title="NSIS"/>
@@ -20222,6 +20306,21 @@ if %err% neq 0 exit %err%&#13;
 </file>
         <url>https://peazip.googlecode.com/files/peazip-4.9.1.WINDOWS.exe</url>
         <sha1>8af7199d89f090c8da9b6371d48280ce7155f453</sha1>
+    </version>
+    <version name="5" package="net.sourceforge.peazip.PeaZip" type="one-file">
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
+"%setup%" /SP- /VERYSILENT /SUPPRESSMSGBOXES /NOCANCEL /NORESTART /DIR="%CD%" /SAVEINF="%CD%\.Npackd\InnoSetupInfo.ini" /LOG="%CD%\.Npackd\InnoSetupInstall.log"&#13;
+set err=%errorlevel%&#13;
+type .Npackd\InnoSetupInstall.log&#13;
+if %err% neq 0 exit %err%&#13;
+</file>
+        <file path=".Npackd\Uninstall.bat">unins000.exe /VERYSILENT /SUPPRESSMSGBOXES /NORESTART /LOG="%CD%\.Npackd\InnoSetupUninstall.log"&#13;
+set err=%errorlevel%&#13;
+type .Npackd\InnoSetupUninstall.log&#13;
+if %err% neq 0 exit %err%&#13;
+</file>
+        <url>https://peazip.googlecode.com/files/peazip-5.0.WINDOWS.exe</url>
+        <sha1>a40388c7c08444734e2e1871d05f2268d8e6df71</sha1>
     </version>
 
     <version name="2.7.1" package="net.sourceforge.pidgin.Pidgin" type="one-file">
@@ -21713,6 +21812,16 @@ if %err% neq 0 exit %err%&#13;
         <sha1>e92d0a1679734e88db76cbc185dc60a5f21e25a3</sha1>
         <dependency package="com.microsoft.VisualCPPRedistributable" versions="[10.0.30319.1, 10.0.30319.1]"/>
     </version>
+    <version name="3.6.4" package="octave" type="one-file">
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
+"%setup%" /S /D=%ProgramFiles%\OctaveData&#13;
+</file>
+        <file path=".Npackd\Uninstall.bat">"%ProgramFiles%\OctaveData\uninst.exe" /S&#13;
+</file>
+        <url>http://downloads.sourceforge.net/project/octave/Octave%20Windows%20binaries/Octave%203.6.4%20for%20Windows%20Microsoft%20Visual%20Studio/octave-3.6.4-vs2010-setup.exe</url>
+        <sha1>30529fdb4af6a89c3a8f0a126e1ee5677740a8c8</sha1>
+        <dependency package="com.microsoft.VisualCPPRedistributable" versions="[10.0.30319.1, 10.0.30319.1]"/>
+    </version>
 
     <version name="0.5.1" package="open-hardware-monitor">
         <important-file path="OpenHardwareMonitor.exe" title="OpenHardwareMonitor"/>
@@ -21724,6 +21833,18 @@ cd ..&#13;
 rmdir OpenHardwareMonitor</file>
         <url>http://openhardwaremonitor.org/files/openhardwaremonitor-v0.5.1-beta.zip</url>
         <sha1>61bbe0c35bef4cf4bf2b5dc382401f0a8535aa10</sha1>
+        <dependency package="com.microsoft.DotNetRedistributable" versions="[2.0.50727.42, 4.5.50709.17929]"/>
+    </version>
+    <version name="0.6" package="open-hardware-monitor">
+        <important-file path="OpenHardwareMonitor.exe" title="OpenHardwareMonitor"/>
+        <file path=".Npackd\Install.bat">cd OpenHardwareMonitor&#13;
+for /f "delims=" %%a in ('dir /b') do (&#13;
+  move "%%a" ..&#13;
+)&#13;
+cd ..&#13;
+rmdir OpenHardwareMonitor</file>
+        <url>http://openhardwaremonitor.org/files/openhardwaremonitor-v0.6.0-beta.zip</url>
+        <sha1>9ef0987a1494d4493bbce3e58bc9179b74d16a83</sha1>
         <dependency package="com.microsoft.DotNetRedistributable" versions="[2.0.50727.42, 4.5.50709.17929]"/>
     </version>
 
@@ -26703,6 +26824,15 @@ ren "%setup%" Psycopg.exe&#13;
         <sha1>bc19f8400cc2cc168a9cc32facc98dadc7b59254</sha1>
         <dependency package="org.python.Python" versions="[3.2, 3.3)"/>
     </version>
+    <version name="2.5.1" package="org.initd.PsycopgInstaller" type="one-file">
+        <important-file path="Psycopg.exe" title="Installer"/>
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
+ren "%setup%" Psycopg.exe&#13;
+</file>
+        <url>http://www.stickpeople.com/projects/python/win-psycopg/2.5.1/psycopg2-2.5.1.win32-py3.3-pg9.2.4-release.exe</url>
+        <sha1>b799385c9aceed26632d8ce5e97afef204f7f773</sha1>
+        <dependency package="org.python.Python" versions="[3.3, 3.4)"/>
+    </version>
 
     <version name="0.47.3" package="org.inkscape.Inkscape" type="one-file">
         <file path=".Npackd\Install.bat">Inkscape-0.47-3.exe /S /D=%CD%\Prog</file>
@@ -29576,6 +29706,17 @@ call "%npackdih%\InstallMSI.bat" INSTALLDIR yes&#13;
         <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.15.7, 2)"/>
         <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.1, 2)"/>
     </version>
+    <version name="0.10.13" package="org.nodejs.NodeJS" type="one-file">
+        <file path=".Npackd\Install.bat">if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1&#13;
+set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.NpackdInstallerHelper" "--versions=[1.1, 2)"&#13;
+for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set npackdih=%%x&#13;
+call "%npackdih%\InstallMSI.bat" INSTALLDIR yes&#13;
+</file>
+        <url>http://nodejs.org/dist/v0.10.13/node-v0.10.13-x86.msi</url>
+        <sha1>5d020e9d3ef1021216e5cc294449c1a699b3f458</sha1>
+        <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.15.7, 2)"/>
+        <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.1, 2)"/>
+    </version>
 
     <version name="2.6.0.12051" package="org.nunit.NUnit" type="one-file">
         <file path=".Npackd\Install.bat">if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
@@ -29896,21 +30037,32 @@ if %err% neq 0 exit %err%</file>
         <url>http://azure.download.pdfforge.org/pdfcreator/1.7.0/PDFCreator-1_7_0_setup.exe</url>
         <sha1>d0357617961bf3d526befaab0048cbb983ea4df9</sha1>
     </version>
+    <version name="1.7.1" package="org.pdfforge.PDFCreator" type="one-file">
+        <file path=".Npackd\InnoSetupDef.ini">[Setup]&#13;
+Toolbar=0</file>
+        <file path=".Npackd\Install.bat">net start Spooler&#13;
+sc config Spooler start= auto&#13;
+for /f %%x in ('dir /b *.exe') do set setup=%%x&#13;
+"%setup%" /SP- /VERYSILENT /SUPPRESSMSGBOXES /NOCANCEL /NORESTART /DIR="%CD%" /SAVEINF="%CD%\.Npackd\InnoSetupInfo.ini" /LOG="%CD%\.Npackd\InnoSetupInstall.log" /LOADINF="%CD%\.Npackd\InnoSetupDef.ini"&#13;
+set err=%errorlevel%&#13;
+type .Npackd\InnoSetupInstall.log&#13;
+if %err% neq 0 exit %err%</file>
+        <file path=".Npackd\Uninstall.bat">unins000.exe /VERYSILENT /SUPPRESSMSGBOXES /NORESTART /LOG="%CD%\.Npackd\InnoSetupUninstall.log"&#13;
+set err=%errorlevel%&#13;
+type .Npackd\InnoSetupUninstall.log&#13;
+if %err% neq 0 exit %err%</file>
+        <url>http://azure.download.pdfforge.org/pdfcreator/1.7.1/PDFCreator-1_7_1_setup.exe</url>
+        <sha1>9434866971dd357600c9f2b1e31b7893c3a070f0</sha1>
+    </version>
 
-    <version name="3.2.3" package="org.picpick.PicPick">
-        <important-file path="picpick.exe" title="PicPick"/>
-        <url>https://dl.dropboxusercontent.com/s/kavil8b0oou8cli/picpick_3.2.3.zip</url>
-        <sha1>27a9a361ae803067960c25d6a2abb63746876c9c</sha1>
-    </version>
-    <version name="3.2.4" package="org.picpick.PicPick">
-        <important-file path="picpick.exe" title="PicPick"/>
-        <url>https://dl.dropboxusercontent.com/s/eyhgpcquzbxa0xf/picpick_3.2.4.zip</url>
-        <sha1>6d62176de6a1e96aac5a3319e56083356b3a755e</sha1>
-    </version>
-    <version name="3.2.5" package="org.picpick.PicPick">
-        <important-file path="picpick.exe" title="PicPick"/>
-        <url>https://dl.dropboxusercontent.com/s/3awbdcogag3909h/picpick_3.2.5.zip</url>
-        <sha1>212cfb8afc2951624168a3754bea2f94438a3d66</sha1>
+    <version name="3.2.6" package="org.picpick.PicPick" type="one-file">
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
+"%setup%" /S /D=%CD%&#13;
+</file>
+        <file path=".Npackd\Uninstall.bat">uninst.exe /S _?=%CD%&#13;
+</file>
+        <url>https://dl.dropboxusercontent.com/u/176999101/org.picpick.PicPick-3.2.6.exe</url>
+        <sha1>5115311e34260af7a85f1b910bda7185b3858834</sha1>
     </version>
 
     <version name="2.2.0.2240" package="org.pnotepad.ProgrammersNotepad" type="one-file">
@@ -29974,6 +30126,16 @@ rmdir /s /q "%name%"
 </file>
         <url>http://processing.googlecode.com/files/processing-1.5.1-windows-expert.zip</url>
         <sha1>D3044E07C34B6EDA2360987D67FAF8C1CD687FFA</sha1>
+        <dependency package="com.oracle.JDK" versions="[1.5, 2)"/>
+    </version>
+    <version name="2.0.1" package="org.processing.Processing">
+        <important-file path="processing.exe" title="Processing"/>
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b processing*') do set name=%%x&#13;
+xcopy "%name%\*" . /E /H&#13;
+rmdir /s /q "%name%"&#13;
+</file>
+        <url>http://processing.googlecode.com/files/processing-2.0.1-windows32.zip</url>
+        <sha1>ccda6a30606e9579154a1ca9d6f94f62a4a1fc5b</sha1>
         <dependency package="com.oracle.JDK" versions="[1.5, 2)"/>
     </version>
 
@@ -30559,6 +30721,37 @@ verify&#13;
 </file>
         <url>http://www.python.org/ftp/python/3.3.1/python-3.3.1.msi</url>
         <sha1>0676c452fd6220eaa437d9bce42ef63a091275fc</sha1>
+        <dependency package="com.googlecode.windows-package-manager.CLU" versions="[1, 2)"/>
+        <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1, 1]"/>
+        <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.15.7, 2)"/>
+    </version>
+    <version name="3.3.2" package="org.python.Python" type="one-file">
+        <file path=".Npackd\Install.bat">if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1&#13;
+set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.NpackdInstallerHelper" "--versions=[1, 1]"&#13;
+for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set npackdih=%%x&#13;
+call "%npackdih%\InstallMSI.bat" TARGETDIR&#13;
+if %errorlevel% neq 0 exit /b %errorlevel%&#13;
+&#13;
+if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1&#13;
+set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.CLU" "--versions=[1, 2)"&#13;
+for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set clu=%%x&#13;
+"%clu%\clu" add-path --path "%CD%"&#13;
+verify&#13;
+</file>
+        <file path=".Npackd\Uninstall.bat">if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1&#13;
+set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.NpackdInstallerHelper" "--versions=[1, 1]"&#13;
+for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set npackdih=%%x&#13;
+call "%npackdih%\UninstallMSI.bat"&#13;
+if %errorlevel% neq 0 exit /b %errorlevel%&#13;
+&#13;
+if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1&#13;
+set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.CLU" "--versions=[1, 2)"&#13;
+for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set clu=%%x&#13;
+"%clu%\clu" remove-path --path "%CD%"&#13;
+verify&#13;
+</file>
+        <url>http://www.python.org/ftp/python/3.3.2/python-3.3.2.msi</url>
+        <sha1>c5b51812587c6cd1faf6a9a25417725a77564b9a</sha1>
         <dependency package="com.googlecode.windows-package-manager.CLU" versions="[1, 2)"/>
         <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1, 1]"/>
         <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.15.7, 2)"/>
@@ -31801,7 +31994,7 @@ rmdir "%name%"&#13;
         <sha1>d58f0896dbeab543ebc4376be5424305af243846</sha1>
     </version>
 
-    <version name="2.1.1" package="panda-cloud-antivirus" type="one-file">
+    <version name="2.2" package="panda-cloud-antivirus" type="one-file">
         <file path=".Npackd\Install.bat">if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1&#13;
 set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=org.7-zip.SevenZIP" "--versions=[9.20, 9.20]"&#13;
 for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set sevenzip=%%x&#13;
@@ -31817,8 +32010,7 @@ set err=%errorlevel%&#13;
 type .Npackd\MSI2.log&#13;
 if %err% neq 0 exit %err%&#13;
 </file>
-        <url>https://dl.dropboxusercontent.com/s/heej35s7intfvng/PandaCloudAntivirus_2.1.1.exe</url>
-        <sha1>b7a8548bab0300fe63cd43eece636f82756ec437</sha1>
+        <url>http://acs.pandasoftware.com/cloud/PandaCloudAntivirus.exe</url>
         <dependency package="org.7-zip.SevenZIP" versions="[9.20, 9.20]"/>
     </version>
 
@@ -31870,6 +32062,16 @@ if %err% neq 0 exit %err%
         <sha1>4f01f4730aaf1e451e2fafeb46685450a701de09</sha1>
         <dependency package="com.oracle.JRE" versions="[1.7.0.17, 2)"/>
     </version>
+    <version name="1.82" package="ps3-media-server" type="one-file">
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
+"%setup%" /S /D=%CD%&#13;
+</file>
+        <file path=".Npackd\Uninstall.bat">uninst.exe /S _?=%CD%&#13;
+</file>
+        <url>http://ps3mediaserver.googlecode.com/files/pms-setup-windows-1.82.0.exe</url>
+        <sha1>c164a05ff3ff77ccf2121720088dc6f8c51e959e</sha1>
+        <dependency package="com.oracle.JRE" versions="[1.7.0.17, 2)"/>
+    </version>
 
     <version name="1.4" package="qemu">
         <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b Qemu-windows*') do set name=%%x&#13;
@@ -31881,6 +32083,17 @@ cd ..&#13;
 rmdir "%name%"</file>
         <url>http://lassauge.free.fr/qemu/release/Qemu-1.4.0-windows-nok.zip</url>
         <sha1>3e0fcf371d49386549873753e4e92b81f5eb877e</sha1>
+    </version>
+    <version name="1.5.1" package="qemu">
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b Qemu-windows*') do set name=%%x&#13;
+cd "%name%"        &#13;
+for /f "delims=" %%a in ('dir /b') do (&#13;
+  move "%%a" ..&#13;
+)&#13;
+cd ..&#13;
+rmdir "%name%"</file>
+        <url>http://lassauge.free.fr/qemu/release/Qemu-1.5.1-windows.zip</url>
+        <sha1>94da925aa7510ec616fe600bd06228e743e77fbf</sha1>
     </version>
 
     <version name="4.6" package="qt-linguist" type="one-file">
