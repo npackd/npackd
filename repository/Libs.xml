@@ -117,7 +117,7 @@ Software used to built particular versions of this package:&#13;
         <category>cat-dev</category>
     </package>
     <package name="com.nokia.QtSource">
-        <title>Qt</title>
+        <title>Qt source</title>
         <url>http://qt.nokia.com/products/library</url>
         <description>C++ library (source code)</description>
         <icon>https://lh4.googleusercontent.com/-M_yIydoQVxw/USjbka862GI/AAAAAAAAAws/UJAvKDOPwkY/s800/qt.png</icon>
@@ -133,7 +133,7 @@ Software used to built particular versions of this package:&#13;
         <category>cat-dev</category>
     </package>
     <package name="net.sourceforge.quazip.QuaZIPSource">
-        <title>QuaZIP</title>
+        <title>QuaZIP source</title>
         <url>http://quazip.sourceforge.net</url>
         <description>Qt based library to access ZIP archives (source code)</description>
         <icon>https://lh4.googleusercontent.com/-M_yIydoQVxw/USjbka862GI/AAAAAAAAAws/UJAvKDOPwkY/s800/qt.png</icon>
@@ -146,6 +146,14 @@ Software used to built particular versions of this package:&#13;
         <description>compression library in C (source code)</description>
         <icon>https://lh3.googleusercontent.com/-K6sVETtVcbY/USs7NeQKUAI/AAAAAAAAA44/q2F6W0GgCMA/s800/zlib.png</icon>
         <license>net.zlib.ZLibLicense</license>
+        <category>cat-dev</category>
+    </package>
+    <package name="npackd-dev-i686-w64">
+        <title>Npackd dev i686 w64</title>
+        <url>http://code.google.com/p/windows-package-manager/</url>
+        <description>Npackd source code, scripts to build it and object files for i686/MinGW-w64. The version of this package corresponds to the Npackd version that should be built.</description>
+        <icon>https://lh5.googleusercontent.com/-Clv-5HRjnqw/T2iH5F-IJYI/AAAAAAAAAbY/PRAIafxwI1c/s800/com.googlecode.windows-package-manager.Npackd.png</icon>
+        <license>org.gnu.GPLv3</license>
         <category>cat-dev</category>
     </package>
     <package name="org.boost.Boost">
@@ -165,7 +173,7 @@ Software used to built particular versions of this package:&#13;
         <category>cat-dev</category>
     </package>
     <package name="quazip-dev-i686-w64-static">
-        <title>QuaZIP i686 w64 static</title>
+        <title>QuaZIP dev i686 w64 static</title>
         <url>http://quazip.sourceforge.net</url>
         <description>QuaZIP for i686 MinGW-w64, statically compiled</description>
         <icon>https://lh4.googleusercontent.com/-M_yIydoQVxw/USjbka862GI/AAAAAAAAAws/UJAvKDOPwkY/s800/qt.png</icon>
@@ -173,7 +181,7 @@ Software used to built particular versions of this package:&#13;
         <category>cat-dev</category>
     </package>
     <package name="quazip-dev-x86_64-w64-static">
-        <title>QuaZIP x86_64 w64 static</title>
+        <title>QuaZIP dev x86_64 w64 static</title>
         <url>http://quazip.sourceforge.net</url>
         <description>QuaZIP for x86_64 MinGW-w64, statically compiled</description>
         <icon>https://lh4.googleusercontent.com/-M_yIydoQVxw/USjbka862GI/AAAAAAAAAws/UJAvKDOPwkY/s800/qt.png</icon>
@@ -349,6 +357,14 @@ ren "%setup%" qt-win-opensource-mingw.exe
         <url>http://releases.qt-project.org/qt4/source/qt-win-opensource-4.8.4-mingw.exe</url>
         <sha1>372fc94629f03e42200e5460ff23ba49b5a3fa1b</sha1>
     </version>
+    <version name="5.1" package="com.nokia.QtMinGWInstaller" type="one-file">
+        <important-file path="qt-win-opensource-mingw.exe" title="Installer"/>
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
+ren "%setup%" qt-win-opensource-mingw.exe&#13;
+</file>
+        <url>http://files.linux-addicted.net/qtproject/official_releases/qt/5.1/5.1.0/qt-windows-opensource-5.1.0-mingw48_opengl-x86-offline.exe</url>
+        <sha1>1141dbec5af5ba4e24e6ae11fb99c8065cdbbee2</sha1>
+    </version>
 
     <version name="4.7.3" package="com.nokia.QtSource">
         <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b qt*') do set name=%%x&#13;
@@ -412,6 +428,26 @@ cd ..&#13;
 rmdir "%name%"</file>
         <url>http://releases.qt-project.org/qt5/5.0.1/single/qt-everywhere-opensource-src-5.0.1.zip</url>
         <sha1>75d06c96bae8ded783fad1a76d3a1cf39368755d</sha1>
+        <dependency package="org.7-zip.SevenZIPA" versions="[9.20, 9.20]"/>
+        <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.15.7, 2)"/>
+    </version>
+    <version name="5.1" package="com.nokia.QtSource" type="one-file">
+        <file path=".Npackd\Install.bat">if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1&#13;
+set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=org.7-zip.SevenZIPA" "--versions=[9.20, 9.20]"&#13;
+for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set sevenzipa=%%x&#13;
+for /f %%x in ('dir /b *.zip') do set setup=%%x&#13;
+"%sevenzipa%\7za.exe" x "%setup%" &gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+del "%setup%"&#13;
+&#13;
+for /f "delims=" %%x in ('dir /b qt*') do set name=%%x&#13;
+cd "%name%"        &#13;
+for /f "delims=" %%a in ('dir /b') do (&#13;
+  move "%%a" ..&#13;
+)&#13;
+cd ..&#13;
+rmdir "%name%"</file>
+        <url>http://qt-mirror.dannhauer.de/official_releases/qt/5.1/5.1.0/single/qt-everywhere-opensource-src-5.1.0.zip</url>
+        <sha1>11dbc7fc19f4ffe6711a18c667f52ffab4a57044</sha1>
         <dependency package="org.7-zip.SevenZIPA" versions="[9.20, 9.20]"/>
         <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.15.7, 2)"/>
     </version>
@@ -522,6 +558,17 @@ rmdir "%name%"
 </file>
         <url>http://npackd.googlecode.com/files/net.zlib.ZLibSource-1.2.7.zip</url>
         <sha1>98bc07e25018f81d80d15e623c66bccb19fb39b5</sha1>
+    </version>
+
+    <version name="1.18" package="npackd-dev-i686-w64">
+        <url>http://downloads.sourceforge.net/project/npackd/npackd-dev-i686-w64-1.18.zip</url>
+        <sha1>f3308ca6bf841585c849f35d28cb3260a390992d</sha1>
+        <dependency package="com.nokia.QtDev-i686-w64-Npackd-Release" versions="[4.8.2, 4.8.2]"/>
+        <dependency package="net.sourceforge.mingw-w64.MinGWW64" versions="[4.7.2, 4.7.2]"/>
+        <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.17.9, 2)"/>
+        <dependency package="com.advancedinstaller.AdvancedInstallerFreeware" versions="[10, 11)"/>
+        <dependency package="org.7-zip.SevenZIP" versions="[9, 10)"/>
+        <dependency package="org.mingw.MinGWUtilities" versions="[0.3, 0.3]"/>
     </version>
 
     <version name="1.47" package="org.boost.Boost">
