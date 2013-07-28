@@ -1264,7 +1264,7 @@ verify&#13;
         <dependency package="com.googlecode.windows-package-manager.CLU" versions="[1, 2)"/>
     </version>
 
-    <version name="11.7.700.169" package="com.adobe.FlashPlayer64" type="one-file">
+    <version name="11.8.800.94" package="com.adobe.FlashPlayer64" type="one-file">
         <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.msi') do set setup=%%x&#13;
 mkdir .Npackd&#13;
 move "%setup%" .Npackd&#13;
@@ -1306,7 +1306,7 @@ for /f "delims=" %%x in ('dir /b FlashUtil32*Plugin.exe') do set setup=%%x&#13;
         <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.15.7, 2)"/>
     </version>
 
-    <version name="11.7.700.169" package="com.adobe.FlashPlayerActiveX64" type="one-file">
+    <version name="11.8.800.94" package="com.adobe.FlashPlayerActiveX64" type="one-file">
         <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.msi') do set setup=%%x&#13;
 mkdir .Npackd&#13;
 move "%setup%" .Npackd&#13;
@@ -9421,6 +9421,43 @@ if %err% neq 0 exit %err%</file>
         <sha1>5d2370e9f86822ae6dc1f03cc0dbf4bf1e6f7d46</sha1>
         <dependency package="org.7-zip.SevenZIP64" versions="[9.20, 9.20]"/>
     </version>
+    <version name="4.2.16" package="org.virtualbox.virtualbox64" type="one-file">
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
+"%setup%" -x -s -p "%CD%"&#13;
+&#13;
+if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1&#13;
+set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=org.7-zip.SevenZIP64" "--versions=[9.20, 9.20]"&#13;
+for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set sevenzip=%%x&#13;
+&#13;
+"%sevenzip%\7z.exe" x common.cab -aos -o"%CD%\common"&#13;
+"%sevenzip%\7z.exe" x "%CD%\common\file_VBoxGuestAdditions.iso" -aos -o"%CD%\common\file_VBoxGuestAdditions"&#13;
+&#13;
+certutil.exe -addstore -f "TrustedPublisher" "%CD%\common\file_VBoxGuestAdditions\cert\oracle-vbox.cer"&#13;
+&#13;
+for /f "delims=" %%x in ('dir /b *MultiArch_amd64.msi') do set setup=%%x&#13;
+msiexec.exe /qn /norestart /Lime .Npackd\MSI.log /i "%setup%"&#13;
+set err=%errorlevel%&#13;
+type .Npackd\MSI.log&#13;
+rem 3010=restart required&#13;
+if %err% equ 3010 exit 0&#13;
+if %err% neq 0 exit %err%&#13;
+&#13;
+for /f "delims=" %%x in ('dir /b *MultiArch_x86.msi') do set trash=%%x&#13;
+del /q /f "%trash%"&#13;
+&#13;
+if exist "%CD%\common" (rd /s /q "%CD%\common")&#13;
+</file>
+        <file path=".Npackd\Uninstall.bat">for /f "delims=" %%x in ('dir /b *.msi') do set setup=%%x&#13;
+msiexec.exe /qn /norestart /Lime .Npackd\MSI.log /x "%setup%"&#13;
+set err=%errorlevel%&#13;
+type .Npackd\MSI.log&#13;
+rem 3010=restart required&#13;
+if %err% equ 3010 exit 0&#13;
+if %err% neq 0 exit %err%</file>
+        <url>http://dlc.sun.com.edgesuite.net/virtualbox/4.2.16/VirtualBox-4.2.16-86992-Win.exe</url>
+        <sha1>45aa4b834a66f8f219e10e6a6b5725ced4905b16</sha1>
+        <dependency package="org.7-zip.SevenZIP64" versions="[9.20, 9.20]"/>
+    </version>
 
     <version name="1.9.11" package="org.virtualdub.VirtualDub64">
         <important-file path="Veedub64.exe" title="VirtualDub"/>
@@ -9493,6 +9530,15 @@ if %err% neq 0 exit %err%</file>
 </file>
         <url>http://wiresharkdownloads.riverbed.com/wireshark/win64/all-versions/Wireshark-win64-1.8.6.exe</url>
         <sha1>0d042dce029072dfcb8f52f49aa0c84bfb6d8a69</sha1>
+    </version>
+    <version name="1.10.1" package="org.wireshark.Wireshark64" type="one-file">
+        <file path=".Npackd\Install.bat">for /f %%x in ('dir /b *.exe') do set setup=%%x&#13;
+"%setup%" /S /D=%CD%&#13;
+</file>
+        <file path=".Npackd\Uninstall.bat">uninstall.exe /S _=%CD%&#13;
+</file>
+        <url>http://wiresharkdownloads.riverbed.com/wireshark/win64/all-versions/Wireshark-win64-1.10.1.exe</url>
+        <sha1>53d6ae9712ef9082fa265044bf25a538194904f3</sha1>
     </version>
 
     <version name="2.2" package="panda-cloud-antivirus64" type="one-file">
@@ -9708,6 +9754,21 @@ cd ..&#13;
 rmdir "%name%"</file>
         <url>http://downloads.sourceforge.net/project/npackd/se.haxx.curl.CURL64-7.30.7z</url>
         <sha1>60922d6d2808dcc848e9bd07f0276e8343057d95</sha1>
+        <dependency package="com.microsoft.VisualCPPRedistributable64" versions="[10, 11)"/>
+        <dependency package="org.7-zip.SevenZIPA" versions="[9.20, 9.20]"/>
+        <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.15.7, 2)"/>
+    </version>
+    <version name="7.31" package="se.haxx.curl.CURL64" type="one-file">
+        <file path=".Npackd\Install.bat">if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1&#13;
+set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=org.7-zip.SevenZIPA" "--versions=[9.20, 9.20]"&#13;
+for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set sevenzipa=%%x&#13;
+for /f %%x in ('dir /b *.7z') do set setup=%%x&#13;
+"%sevenzipa%\7za.exe" x "%setup%"&#13;
+del "%setup%"&#13;
+&#13;
+</file>
+        <url>https://dl.dropboxusercontent.com/u/176999101/se.haxx.curl.CURL64-7.31.7z</url>
+        <sha1>8eb71b0503a0d1f4e40fcd8cbca5fdcc84211421</sha1>
         <dependency package="com.microsoft.VisualCPPRedistributable64" versions="[10, 11)"/>
         <dependency package="org.7-zip.SevenZIPA" versions="[9.20, 9.20]"/>
         <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.15.7, 2)"/>
