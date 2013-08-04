@@ -156,6 +156,14 @@ Software used to built particular versions of this package:&#13;
         <license>org.gnu.GPLv3</license>
         <category>cat-dev</category>
     </package>
+    <package name="npackd-dev-x86_64-w64">
+        <title>Npackd dev x86_64 w64</title>
+        <url>http://code.google.com/p/windows-package-manager/</url>
+        <description>Npackd source code, scripts to build it and object files for x86_64/MinGW-w64. The version of this package corresponds to the Npackd version that should be built.</description>
+        <icon>https://lh5.googleusercontent.com/-Clv-5HRjnqw/T2iH5F-IJYI/AAAAAAAAAbY/PRAIafxwI1c/s800/com.googlecode.windows-package-manager.Npackd.png</icon>
+        <license>org.gnu.GPLv3</license>
+        <category>cat-dev</category>
+    </package>
     <package name="org.boost.Boost">
         <title>Boost</title>
         <url>http://www.boost.org</url>
@@ -471,13 +479,13 @@ rmdir "%name%"
         <dependency package="net.zlib.ZLibSource" versions="[1.2.5, 1.2.5]"/>
     </version>
     <version name="0.4.3" package="net.sourceforge.quazip.QuaZIPSource">
-        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b quazip*') do set name=%%x
-cd "%name%"        
-for /f "delims=" %%a in ('dir /b') do (
-  move "%%a" ..
-)
-cd ..
-rmdir "%name%"
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b quazip*') do set name=%%x&#13;
+cd "%name%"        &#13;
+for /f "delims=" %%a in ('dir /b') do (&#13;
+  move "%%a" ..&#13;
+)&#13;
+cd ..&#13;
+rmdir "%name%"&#13;
 </file>
         <url>http://downloads.sourceforge.net/project/quazip/quazip/0.4.3/quazip-0.4.3.zip?ts=1318172630</url>
         <sha1>60d0bfbb49fe2ee18c7759d7a2d03fb2eb07ee40</sha1>
@@ -581,6 +589,16 @@ rmdir "%name%"&#13;
         <dependency package="com.advancedinstaller.AdvancedInstallerFreeware" versions="[10, 11)"/>
         <dependency package="org.7-zip.SevenZIP" versions="[9, 10)"/>
         <dependency package="org.mingw.MinGWUtilities" versions="[0.3, 0.3]"/>
+    </version>
+
+    <version name="1.18.1" package="npackd-dev-x86_64-w64">
+        <url>http://downloads.sourceforge.net/project/npackd/npackd-dev-x86_64-w64-1.18.1.zip</url>
+        <sha1>963795be57fc8669d14c717bb18815568e4339d0</sha1>
+        <dependency package="com.nokia.QtDev-x86_64-w64-Npackd-Release" versions="[4.8.2, 4.8.2]"/>
+        <dependency package="net.sourceforge.mingw-w64.MinGWW6464" versions="[4.7.2, 4.7.2]"/>
+        <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.17.9, 2)"/>
+        <dependency package="com.advancedinstaller.AdvancedInstallerFreeware" versions="[10, 11)"/>
+        <dependency package="org.7-zip.SevenZIP" versions="[9, 10)"/>
     </version>
 
     <version name="1.47" package="org.boost.Boost">
