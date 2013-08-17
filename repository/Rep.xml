@@ -613,7 +613,9 @@
     <package name="com.aim.AIM2">
         <title>AIM</title>
         <url>http://www.aim.com</url>
-        <description>chat program</description>
+        <description>WARNING: if not explicitly switched off, installs the TuneUp utilities.&#13;
+WARNING: if not explicitly switched off, installs a browser toolbar and changes the default search engine and home page.&#13;
+chat program</description>
         <icon>https://lh6.googleusercontent.com/-ABQzjeiv2m0/UclUAzzxrXI/AAAAAAAACQc/QtOpg1Bu9dI/s800/aim.png</icon>
         <license>com.aim.AIMLicense</license>
         <category>cat-communications</category>
@@ -762,7 +764,8 @@ kw: Text Expander</description>
     <package name="com.bittorrent.BitTorrent">
         <title>BitTorrent</title>
         <url>http://www.bittorrent.com</url>
-        <description>torrent client</description>
+        <description>WARNING: the installer uses the OpenCandy technology to install unwanted software.&#13;
+torrent client</description>
         <icon>http://cdn.alternativeto.net/i/256fa651-7789-4396-93f0-f30a96af584b_12111.png</icon>
         <license>com.bittorrent.License</license>
         <category>cat-tools</category>
@@ -2428,7 +2431,7 @@ Downloader and converter for YouTube, Vimeo, Dailymotion and many other online v
     </package>
     <package name="de.twotoasts.midori.Midori">
         <title>Midori</title>
-        <url>http://twotoasts.de/index.php/midori</url>
+        <url>http://www.midori-browser.org/</url>
         <description>web browser</description>
         <icon>https://lh6.googleusercontent.com/-DQ5SpEwrXXQ/UWusy9JP5QI/AAAAAAAABwc/47mW1TEu4rk/s800/midori.png</icon>
         <license>org.gnu.LGPLv2_1</license>
@@ -2797,6 +2800,14 @@ utility, etc.)</description>
         <license>org.gnu.GPLv3</license>
         <category>cat-tools</category>
     </package>
+    <package name="myeventviewer">
+        <title>MyEventViewer</title>
+        <url>http://www.nirsoft.net/utils/my_event_viewer.html</url>
+        <description>simple alternative to the standard event viewer of Windows. As oppose to Windows event viewer, MyEventViewer allows you to watch multiple event logs in one list, as well as the event description and data are displayed in the main window, instead of opening a new one. Also, with MyEventViewer you can easily select multiple event items and then save them to HTML/Text/XML file, or copy them to the clipboard (Ctrl+C) and then paste them into Excel.</description>
+        <icon>https://lh3.googleusercontent.com/-PJ-lGn72xD4/Uf_iJCF7L7I/AAAAAAAABHY/bRUgTRVal44/s32/myeventviewer.png</icon>
+        <license>net.nirsoft.FreewareLicense</license>
+        <category>cat-tools</category>
+    </package>
     <package name="net.ac3filter.AC3Filter">
         <title>AC3Filter</title>
         <url>http://ac3filter.net/projects/ac3filter</url>
@@ -2993,7 +3004,7 @@ utility, etc.)</description>
         <url>http://www.nirsoft.net/utils/hash_my_files.html</url>
         <description>calculate the MD5 and SHA1 hashes of one or more files in your system</description>
         <icon>https://lh4.googleusercontent.com/-AvJrlHdXzcw/USiqRuz9X2I/AAAAAAAAApE/ptUDY2Ki3MA/s800/-hashmyfiles.png</icon>
-        <license>org.wikipedia.Freeware</license>
+        <license>net.nirsoft.FreewareLicense</license>
         <category>cat-tools</category>
     </package>
     <package name="net.nirsoft.Launcher">
@@ -3018,14 +3029,6 @@ utility, etc.)</description>
         <description>command line utility</description>
         <icon>http://cdn.alternativeto.net/i/f072b106-f4d2-df11-8b73-0200d897d049_6406.png</icon>
         <license>net.nirsoft.FreewareLicense</license>
-        <category>cat-tools</category>
-    </package>
-    <package name="net.openvpn.OpenVPN">
-        <title>OpenVPN</title>
-        <url>http://openvpn.net</url>
-        <description>virtual private network (VPN). WARNING: confirmation about unsigned driver on windows XP</description>
-        <icon>https://lh6.googleusercontent.com/-oxK63F3ddnw/UWO7gfI9A9I/AAAAAAAABtM/dFLObLdo4Pg/s800/openvpn.png</icon>
-        <license>org.gnu.GPLv2</license>
         <category>cat-tools</category>
     </package>
     <package name="net.pivotanimator.PivotAnimator">
@@ -5404,7 +5407,20 @@ kw: CDBurner XP</description>
         <url>http://dl.google.com/android/studio/android-studio-bundle-130.687321-windows.exe</url>
         <sha1>c3e1f85db396085d9729e662677309afac2c5507</sha1>
         <dependency package="com.oracle.JDK" versions="[1.7.0.17, 2)"/>
-        <dependency package="com.microsoft.VisualCPPRedistributable" versions="[9.0.21022.8, 9.0.21022.8]"/>
+        <dependency package="com.microsoft.VisualCPPRedistributable" versions="[9.0.21022.8, 10)"/>
+    </version>
+    <version name="0.2.130.737825" package="android-studio" type="one-file">
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
+"%setup%" /S /D=%CD% &amp;&amp; del /f /q "%setup%"</file>
+        <file path=".Npackd\Uninstall.bat">set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=net.nirsoft.MyUninstaller" "--versions=[1.74, 2)"&#13;
+for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set myun=%%x&#13;
+"%myun%\myuninst.exe" /uninstall "Android Studio"&#13;
+</file>
+        <url>http://dl.google.com/android/studio/android-studio-bundle-130.737825-windows.exe</url>
+        <sha1>4ec4c74c69b0b61789066f94b3a65dd185c4ee25</sha1>
+        <dependency package="com.oracle.JDK" versions="[1.7.0.17, 2)"/>
+        <dependency package="com.microsoft.VisualCPPRedistributable" versions="[9.0.21022.8, 10)"/>
+        <dependency package="net.nirsoft.MyUninstaller" versions="[1.74, 2)"/>
     </version>
 
     <version name="3.98.3" package="ar.com.buanzo.lame.LameForAudacity" type="one-file">
@@ -5482,6 +5498,23 @@ if %err% neq 0 exit %err%&#13;
         <url>https://dl.dropboxusercontent.com/u/176999101/artweaver-free-3.1.5.exe</url>
         <sha1>9b0a85f94588aa0cfe18df037a7bc2682607ecc7</sha1>
     </version>
+    <version name="4" package="artweaver-free" type="one-file">
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set name=%%x&#13;
+rename "%name%" ArtweaverFreeSetup.exe&#13;
+&#13;
+ArtweaverFreeSetup.exe /SP- /VERYSILENT /SUPPRESSMSGBOXES /NOCANCEL /NORESTART /DIR="%CD%" /SAVEINF="%CD%\.Npackd\InnoSetupInfo.ini" /LOG="%CD%\.Npackd\InnoSetupInstall.log"&#13;
+set err=%errorlevel%&#13;
+type .Npackd\InnoSetupInstall.log&#13;
+if %err% neq 0 exit %err%&#13;
+</file>
+        <file path=".Npackd\Uninstall.bat">unins000.exe /VERYSILENT /SUPPRESSMSGBOXES /NORESTART /LOG="%CD%\.Npackd\InnoSetupUninstall.log"&#13;
+set err=%errorlevel%&#13;
+type .Npackd\InnoSetupUninstall.log&#13;
+if %err% neq 0 exit %err%&#13;
+</file>
+        <url>https://dl.dropboxusercontent.com/u/176999101/artweaver-free-4.exe</url>
+        <sha1>13c19f617e4a4827689abd94bfa6bc654308323a</sha1>
+    </version>
 
     <version name="0.50.2.3" package="aspell-de" type="one-file">
         <file path=".Npackd\Install.bat">if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1&#13;
@@ -5534,7 +5567,7 @@ if %err% neq 0 exit %err%&#13;
     <version name="3.3.4" package="audacious">
         <important-file path="bin\audacious.exe" title="Audacious"/>
         <url>http://distfiles.audacious-media-player.org/audacious-3.3.4-win32.zip</url>
-        <sha1>a995f4ed67d674a44758c3d274a91d2d09b9202e</sha1>
+        <sha1>bc78ca0b483fce7cda7c8ca8562b5d537b211fd9</sha1>
     </version>
     <version name="3.4" package="audacious">
         <important-file path="bin\audacious.exe" title="Audacious"/>
@@ -6172,19 +6205,20 @@ call "%npackdih%\InstallMSI.bat" APPDIR yes</file>
         <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.15.7, 2)"/>
     </version>
 
-    <version name="0.0.8.234" package="com.aim.AIM2" type="one-file">
+    <version name="8.0.1.5" package="com.aim.AIM2" type="one-file">
         <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
 "%setup%" /S /D=%ProgramFiles%\AIMData&#13;
 &#13;
 taskkill /im aim.exe /f /t&#13;
 &#13;
-rd /s /q "%USERPROFILE%\Start Menu\Programs\AIM" || rd /s /q "%APPDATA%\Microsoft\Windows\Start Menu\Programs\AIM"</file>
+rd /s /q "%USERPROFILE%\Start Menu\Programs\AIM" || rd /s /q "%APPDATA%\Microsoft\Windows\Start Menu\Programs\AIM"&#13;
+&#13;
+verify</file>
         <file path=".Npackd\Uninstall.bat">"%ProgramFiles%\AIMData\uninstaller.exe" /S&#13;
 &#13;
 rd /s /q "%USERPROFILE%\Local Settings\Application Data\AOL" || rd /s /q "%LOCALAPPDATA%\AOL"&#13;
-</file>
-        <url>https://dl.dropboxusercontent.com/s/5539ild1i0qf7dc/AIM_0.0.8.234.exe</url>
-        <sha1>b94fefa3a2c0ff70441f60e988e06db7d8b57947</sha1>
+verify</file>
+        <url>http://download.newaol.com/aim/win/AIM_Install.exe</url>
     </version>
 
     <version name="1.0.1236" package="com.alcpu.CoreTemp">
@@ -6248,6 +6282,25 @@ if %err% equ 3010 exit 0&#13;
 if %err% neq 0 exit %err%</file>
         <url>https://dl.dropboxusercontent.com/s/zm7obzogsqkwr0l/AppleApplicationSupport_2.3.msi</url>
         <sha1>d0651bc6ea787f3d2800f0ce87682a1a19861441</sha1>
+    </version>
+    <version name="2.3.4" package="com.apple.appleas" type="one-file">
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
+"%setup%" /extract&#13;
+&#13;
+msiexec /qn /norestart /lime .Npackd\MSI.log /i AppleApplicationSupport.msi ALLUSERS=1&#13;
+set err=%errorlevel%&#13;
+type .Npackd\MSI.log&#13;
+rem 3010=restart required&#13;
+if %err% equ 3010 exit 0&#13;
+if %err% neq 0 exit %err%</file>
+        <file path=".Npackd\Uninstall.bat">msiexec /qn /norestart /lime .Npackd\MSI.log /x AppleApplicationSupport.msi&#13;
+set err=%errorlevel%&#13;
+type .Npackd\MSI.log&#13;
+rem 3010=restart required&#13;
+if %err% equ 3010 exit 0&#13;
+if %err% neq 0 exit %err%</file>
+        <url>https://secure-appldnld.apple.com/iTunes11/091-6059.20130605.205Rf/iTunesSetup.exe</url>
+        <sha1>0fcbc773ab3c6f05ccb73468aea96f6b5109b52d</sha1>
     </version>
 
     <version name="11.0.2.26" package="com.apple.itunes" type="one-file">
@@ -6492,6 +6545,16 @@ verify</file>
         <url>http://ashampoo.downloadcluster.com/public/ash/0710/ashampoo_burning_studio_6_free_6.83_4312.exe</url>
         <sha1>a0867e6c018019d4e76b0da3e067413c1e9193d5</sha1>
     </version>
+    <version name="6.84.13471" package="com.ashampoo.BurningStudioFree" type="one-file">
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
+"%setup%" /VERYSILENT /SUPPRESSMSGBOXES /NOCANCEL /NORESTART /DIR="%CD%"&#13;
+(del /q /f "%Public%\Desktop\Your Software Deals.url") || (del /q /f "%ALLUSERSPROFILE%\Desktop\Your Software Deals.url")&#13;
+verify</file>
+        <file path=".Npackd\Uninstall.bat">("%ProgramFiles%\Ashampoo\Ashampoo Burning Studio 6 FREE\unins000.exe" /VERYSILENT /SUPPRESSMSGBOXES /NORESTART) || ("%ProgramFiles(x86)%\Ashampoo\Ashampoo Burning Studio 6 FREE\unins000.exe" /VERYSILENT /SUPPRESSMSGBOXES /NORESTART)&#13;
+</file>
+        <url>http://ashampoo.downloadcluster.com/public/ash/0710/ashampoo_burning_studio_6_free_6.84_13471.exe</url>
+        <sha1>97ab3450e77b6ff3d03569045857b0a2ec94d97f</sha1>
+    </version>
 
     <version name="3.6" package="com.auslogics.DiskDefrag" type="one-file">
         <file path=".Npackd\Install.bat">disk-defrag-setup.exe /SP- /VERYSILENT /SUPPRESSMSGBOXES /NOCANCEL /NORESTART /DIR="%CD%"</file>
@@ -6549,6 +6612,13 @@ verify</file>
 </file>
         <url>http://downloads.sourceforge.net/project/npackd/com.autohotkey.AutoHotKey-1.4.1.11.1.exe</url>
         <sha1>f6bec39561ad80697f8757964ac47d29bbaa5f2b</sha1>
+    </version>
+    <version name="1.4.1.12" package="com.autohotkey.AutoHotKey" type="one-file">
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
+"%setup%" /S /D=%CD%&#13;
+</file>
+        <url>http://downloads.sourceforge.net/project/npackd/com.autohotkey.AutoHotKey-1.4.1.12.exe</url>
+        <sha1>5c0dab19b492914784f52a7f876d715e9af553e7</sha1>
     </version>
 
     <version name="3.3.8" package="com.autoitscript.AutoItFull" type="one-file">
@@ -6657,6 +6727,24 @@ for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set myun=%%x&#13;
         <dependency package="net.nirsoft.MyUninstaller" versions="[1.74, 1.74]"/>
         <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.15.7, 2)"/>
     </version>
+    <version name="2013.3392" package="com.avg.AVGAntiVirusFree" type="one-file">
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
+rem /TargetInstallationPath="%CD%..\AVG_Anti_Virus_Program" is not used as this would prevent un-installation (the files would be locked)&#13;
+"%setup%" /AppMode=Setup /UILevel=silent /InstallToolbar=0 /LoggerPath="%CD%\.Npackd" /ChangeBrowserSearchProvider=0 /InstallSidebar=0 /ParticipateProductImprovement=0 /DontRestart /KillProcessesIfNeeded&#13;
+if %errorlevel% neq 0 exit %err%&#13;
+</file>
+        <file path=".Npackd\Uninstall.bat">rem direct un-installation does not work as the files are always locked&#13;
+rem "avgmfapx.exe" /AppMode=SETUP /Uninstall /UILevel=Silent /DontRestart&#13;
+&#13;
+if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1&#13;
+set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=net.nirsoft.MyUninstaller" "--versions=[1.74, 1.74]"&#13;
+for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set myun=%%x&#13;
+"%myun%\myuninst.exe" /uninstall "AVG 2013"</file>
+        <url>http://aa-download.avg.com/filedir/inst/avg_free_x86_all_2013_3392a6523.exe</url>
+        <sha1>3bbe236faff8d90cc2a007749d8810d3f78798f1</sha1>
+        <dependency package="net.nirsoft.MyUninstaller" versions="[1.74, 1.74]"/>
+        <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.15.7, 2)"/>
+    </version>
 
     <version name="2013" package="com.avira.AviraFree" type="one-file">
         <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
@@ -6674,7 +6762,7 @@ for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set myun=%%x&#13;
         <url>http://download.bitcomet.com/bitcomet/bitcomet_x86_setup.exe</url>
     </version>
 
-    <version name="7.8.29112" package="com.bittorrent.BitTorrent" type="one-file">
+    <version name="7.8.30016" package="com.bittorrent.BitTorrent" type="one-file">
         <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
 "%setup%" /PERFORMINSTALL 2 /S&#13;
 verify</file>
@@ -6730,6 +6818,20 @@ call "%npackdih%\InstallMSI.bat" TARGETDIR yes&#13;
 </file>
         <url>http://downloads.sourceforge.net/project/calibre/0.9.38/calibre-0.9.38.msi</url>
         <sha1>24cbc7a308f983ad488e21fc0347ca86880d148d</sha1>
+        <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.2, 2)"/>
+    </version>
+    <version name="0.9.43" package="com.calibreebook.Calibre" type="one-file">
+        <file path=".Npackd\Install.bat">if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1&#13;
+set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.NpackdInstallerHelper" "--versions=[1.1, 2)"&#13;
+for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set npackdih=%%x&#13;
+&#13;
+call "%npackdih%\AddTargetDirProperty.bat"&#13;
+if %errorlevel% neq 0 exit /b %errorlevel%&#13;
+&#13;
+call "%npackdih%\InstallMSI.bat" TARGETDIR yes&#13;
+</file>
+        <url>http://downloads.sourceforge.net/project/calibre/0.9.43/calibre-0.9.43.msi</url>
+        <sha1>d55cc045c233f8fd1287c4b82d7d3017d871ac23</sha1>
         <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.2, 2)"/>
     </version>
 
@@ -7096,7 +7198,6 @@ rem 3010=restart required&#13;
 if %err% equ 3010 exit 0&#13;
 if %err% neq 0 exit %err%</file>
         <url>http://download.comodo.com/cis/download/installs/2000/xml_binaries/cis/cis_setup_x86.msi</url>
-        <sha1>fb5589b044309e02edd8f99b11078f669e6a82c6</sha1>
     </version>
 
     <version name="5.12.256249.2599" package="com.comodo.ComodoFW" type="one-file">
@@ -8719,6 +8820,19 @@ rmdir "%name%"&#13;
         <sha1>8fa22976df73aca4ad8dec1515a076e9c299b40f</sha1>
         <dependency package="com.oracle.JRE" versions="[1.5, 2)"/>
     </version>
+    <version name="1.8.3" package="com.google.AppEngineJavaSDK">
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b appengine*') do set name=%%x&#13;
+cd "%name%"        &#13;
+for /f "delims=" %%a in ('dir /b') do (&#13;
+  move "%%a" ..&#13;
+)&#13;
+cd ..&#13;
+rmdir "%name%"&#13;
+</file>
+        <url>http://googleappengine.googlecode.com/files/appengine-java-sdk-1.8.3.zip</url>
+        <sha1>3fa3fcb10cf4dd7602393d2f25ab5b905026b2a5</sha1>
+        <dependency package="com.oracle.JRE" versions="[1.5, 2)"/>
+    </version>
 
     <version name="1.7.2" package="com.google.AppEnginePythonSDK" type="one-file">
         <file path=".Npackd\Install.bat">if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
@@ -8780,8 +8894,20 @@ call "%npackdih%\InstallMSI.bat" INSTALLDIR yes&#13;
         <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.15.7, 2)"/>
         <dependency package="org.python.Python" versions="[2.5, 2.8)"/>
     </version>
+    <version name="1.8.3" package="com.google.AppEnginePythonSDK" type="one-file">
+        <file path=".Npackd\Install.bat">if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1&#13;
+set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.NpackdInstallerHelper" "--versions=[1.1, 2)"&#13;
+for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set npackdih=%%x&#13;
+call "%npackdih%\InstallMSI.bat" INSTALLDIR yes&#13;
+</file>
+        <url>http://googleappengine.googlecode.com/files/GoogleAppEngine-1.8.3.msi</url>
+        <sha1>f04d140a6cafa4364a449d9b42c2df59731f88ff</sha1>
+        <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.1, 2)"/>
+        <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.15.7, 2)"/>
+        <dependency package="org.python.Python" versions="[2.5, 2.8)"/>
+    </version>
 
-    <version name="27.0.1453.116" package="com.google.Chrome" type="one-file">
+    <version name="28.0.1500.95" package="com.google.Chrome" type="one-file">
         <file path=".Npackd\Install.bat">if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1&#13;
 set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.NpackdInstallerHelper" "--versions=[1.2, 2)"&#13;
 for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set npackdih=%%x&#13;
@@ -10559,7 +10685,7 @@ verify&#13;
         <url>http://download.sysinternals.com/files/AutoLogon.zip</url>
     </version>
 
-    <version name="11.62" package="com.microsoft.AutoRuns">
+    <version name="11.70" package="com.microsoft.AutoRuns">
         <important-file path="autoruns.exe" title="AutoRuns"/>
         <url>http://download.sysinternals.com/files/Autoruns.zip</url>
     </version>
@@ -11384,8 +11510,8 @@ type .Npackd\MSI.log&#13;
 if %err% neq 0 exit %err%</file>
         <url>https://dl.dropboxusercontent.com/s/7akguauim7l7zzo/NanoCad_35E%281510%29.exe</url>
         <sha1>a975163103570f17a7397c4565eb50fdd9aad46f</sha1>
-        <dependency package="com.microsoft.DotNetRedistributable" versions="[3.5.30729.1, 3.5.30729.1]"/>
-        <dependency package="com.microsoft.VisualCPPRedistributable" versions="[9.0.30729.17, 9.0.30729.17]"/>
+        <dependency package="com.microsoft.DotNetRedistributable" versions="[3.5.30729.1, 4)"/>
+        <dependency package="com.microsoft.VisualCPPRedistributable" versions="[9.0.30729.17, 10)"/>
     </version>
     <version name="4.5.2133.1409" package="com.nanocad.Nanocad" type="one-file">
         <file path=".Npackd\Install.bat">for /f %%x in ('dir /b *.exe') do set setup=%%x&#13;
@@ -11432,7 +11558,7 @@ set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=net.nirsoft.MyUninstalle
 for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set myun=%%x&#13;
 "%myun%\myuninst.exe" /uninstall "Qt Creator 2.1"&#13;
 </file>
-        <url>http://get.qt.nokia.com/qtcreator/qt-creator-win-opensource-2.1.0.exe</url>
+        <url>http://download.qt-project.org/archive/qtcreator/2.1/qt-creator-win-opensource-2.1.0.exe</url>
         <sha1>E212DAC4C556E6A05A58EE566F9F0EF3D931ADCA</sha1>
         <dependency package="net.nirsoft.MyUninstaller" versions="[1.74, 1.74]"/>
     </version>
@@ -11445,7 +11571,7 @@ set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=net.nirsoft.MyUninstalle
 for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set myun=%%x&#13;
 "%myun%\myuninst.exe" /quninstall "Qt Creator"&#13;
 </file>
-        <url>http://get.qt.nokia.com/qtcreator/qt-creator-win-opensource-2.2.0.exe</url>
+        <url>http://download.qt-project.org/archive/qtcreator/2.2/qt-creator-win-opensource-2.2.0.exe</url>
         <sha1>0FD57624B67F4766AAE82D561B948FE453E8229F</sha1>
         <dependency package="net.nirsoft.MyUninstaller" versions="[1.74, 1.74]"/>
     </version>
@@ -11458,7 +11584,7 @@ set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=net.nirsoft.MyUninstalle
 for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set myun=%%x&#13;
 "%myun%\myuninst.exe" /quninstall "Qt Creator"&#13;
 </file>
-        <url>http://get.qt.nokia.com/qtcreator/qt-creator-win-opensource-2.2.1.exe</url>
+        <url>http://download.qt-project.org/archive/qtcreator/2.2/qt-creator-win-opensource-2.2.1.exe</url>
         <sha1>25FE8CACECB396AB0C53228AC97D4B47333A647E</sha1>
         <dependency package="net.nirsoft.MyUninstaller" versions="[1.74, 1.74]"/>
     </version>
@@ -11471,7 +11597,7 @@ set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=net.nirsoft.MyUninstalle
 for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set myun=%%x&#13;
 "%myun%\myuninst.exe" /quninstall "Qt Creator"&#13;
 </file>
-        <url>http://get.qt.nokia.com/qtcreator/qt-creator-win-opensource-2.3.0.exe</url>
+        <url>http://download.qt-project.org/archive/qtcreator/2.3/qt-creator-win-opensource-2.3.0.exe</url>
         <sha1>8d2a5a34b9f1832f568c4104827d003ea32ed846</sha1>
         <dependency package="net.nirsoft.MyUninstaller" versions="[1.74, 1.74]"/>
     </version>
@@ -11484,7 +11610,7 @@ set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=net.nirsoft.MyUninstalle
 for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set myun=%%x&#13;
 "%myun%\myuninst.exe" /quninstall "Qt Creator"&#13;
 </file>
-        <url>http://get.qt.nokia.com/qtcreator/qt-creator-win-opensource-2.3.1.exe</url>
+        <url>http://download.qt-project.org/archive/qtcreator/2.3/qt-creator-win-opensource-2.3.1.exe</url>
         <sha1>46bf15dfe32b6065abd1359ab19186c30ce41188</sha1>
         <dependency package="net.nirsoft.MyUninstaller" versions="[1.74, 1.74]"/>
     </version>
@@ -11497,7 +11623,7 @@ set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=net.nirsoft.MyUninstalle
 for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set myun=%%x&#13;
 "%myun%\myuninst.exe" /quninstall "Qt Creator"&#13;
 </file>
-        <url>http://get.qt.nokia.com/qtcreator/qt-creator-win-opensource-2.4.0.exe</url>
+        <url>http://download.qt-project.org/archive/qtcreator/2.4/qt-creator-win-opensource-2.4.0.exe</url>
         <sha1>e7204694d5283a417e2ba3bd71302c947bdeda64</sha1>
         <dependency package="net.nirsoft.MyUninstaller" versions="[1.74, 1.74]"/>
     </version>
@@ -11510,7 +11636,7 @@ set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=net.nirsoft.MyUninstalle
 for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set myun=%%x&#13;
 "%myun%\myuninst.exe" /quninstall "Qt Creator"&#13;
 </file>
-        <url>http://get.qt.nokia.com/qtcreator/qt-creator-win-opensource-2.4.1.exe</url>
+        <url>http://download.qt-project.org/archive/qtcreator/2.4/qt-creator-win-opensource-2.4.1.exe</url>
         <sha1>9d42581ebc4f93b95671336d3beb1154244a7deb</sha1>
         <dependency package="net.nirsoft.MyUninstaller" versions="[1.74, 1.74]"/>
     </version>
@@ -11523,7 +11649,7 @@ set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=net.nirsoft.MyUninstalle
 for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set myun=%%x&#13;
 "%myun%\myuninst.exe" /quninstall "Qt Creator"&#13;
 </file>
-        <url>http://get.qt.nokia.com/qtcreator/qt-creator-win-opensource-2.5.0.exe</url>
+        <url>http://download.qt-project.org/archive/qtcreator/2.5/qt-creator-win-opensource-2.5.0.exe</url>
         <sha1>1022a135e2dce1d70fc0933f40076ff6530f6abc</sha1>
         <dependency package="net.nirsoft.MyUninstaller" versions="[1.74, 1.74]"/>
     </version>
@@ -11536,7 +11662,7 @@ set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=net.nirsoft.MyUninstalle
 for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set myun=%%x&#13;
 "%myun%\myuninst.exe" /quninstall "Qt Creator"&#13;
 </file>
-        <url>http://get.qt.nokia.com/qtcreator/qt-creator-win-opensource-2.5.2.exe</url>
+        <url>http://download.qt-project.org/archive/qtcreator/2.5/qt-creator-win-opensource-2.5.2.exe</url>
         <sha1>63ee89d11c3b7d823f6f8d7b3612bb09ac9ae1f8</sha1>
         <dependency package="net.nirsoft.MyUninstaller" versions="[1.74, 1.74]"/>
     </version>
@@ -12635,7 +12761,6 @@ for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set npackdih=%%x&#13;
 call "%npackdih%\InstallMSI.bat" INSTALLDIR yes&#13;
 </file>
         <url>http://www.phraseexpress.com/PhraseExpressSetup.msi</url>
-        <sha1>def7341d3444e0c9b96e637b5aec993d10b1309d</sha1>
     </version>
 
     <version name="2.34" package="com.piriform.CCleaner" type="one-file">
@@ -12862,6 +12987,14 @@ call "%npackdih%\InstallMSI.bat" INSTALLDIR yes&#13;
 </file>
         <file path=".Npackd\Uninstall.bat">uninst.exe /S _?=%CD%</file>
         <url>http://download.piriform.com/ccsetup403.exe</url>
+    </version>
+    <version name="4.4.4197" package="com.piriform.CCleaner" type="one-file">
+        <important-file path="CCleaner.exe" title="CCleaner"/>
+        <file path=".Npackd\Install.bat">for /f %%x in ('dir /b *.exe') do set setup=%%x&#13;
+"%setup%" /S /D=%CD%&#13;
+</file>
+        <file path=".Npackd\Uninstall.bat">uninst.exe /S _?=%CD%</file>
+        <url>http://download.piriform.com/ccsetup404.exe</url>
     </version>
 
     <version name="1.21.209" package="com.piriform.Defraggler" type="one-file">
@@ -14695,7 +14828,7 @@ if %err% neq 0 exit %err%&#13;
         <sha1>50008668c401957d98d0fe6094e4ad89151fd4b4</sha1>
     </version>
 
-    <version name="4.16" package="com.sysinternals.BgInfo">
+    <version name="4.20" package="com.sysinternals.BgInfo">
         <important-file path="Bginfo.exe" title="BgInfo"/>
         <url>http://download.sysinternals.com/files/BGInfo.zip</url>
     </version>
@@ -15115,8 +15248,10 @@ call "%npackdih%\InstallMSI.bat" TARGETDIR yes&#13;
 "%setup%" /PERFORMINSTALL 2 /S&#13;
 verify</file>
         <file path=".Npackd\Uninstall.bat">"%APPDATA%\uTorrent\uTorrent.exe" /UNINSTALL /S&#13;
-verify&#13;
-rd /s /q "%APPDATA%\uTorrent"</file>
+&#13;
+rd /s /q "%APPDATA%\uTorrent"&#13;
+&#13;
+verify</file>
         <url>http://download-new.utorrent.com/endpoint/utorrent/os/win/track/stable/utorrent.exe</url>
     </version>
 
@@ -15954,7 +16089,7 @@ for %%g in (%extensions%) do reg add HKLM\SOFTWARE\Classes\.%%g\OpenWithList\%ke
         <file path=".Npackd\Uninstall.bat">Prog\UninstWA.exe /S _?=%CD%\Prog&#13;
 </file>
         <url>http://download.nullsoft.com/winamp/client/winamp564_full_emusic-7plus_all.exe</url>
-        <sha1>3819c37a6ba5ec97b5de4fa61c17582896f04e41</sha1>
+        <sha1>26504ce028802da32528bc75cf9818ea784ee0b5</sha1>
     </version>
     <version name="5.65" package="com.winamp.WinampStandard" type="one-file">
         <important-file path="Prog\winamp.exe" title="Winamp"/>
@@ -16088,7 +16223,7 @@ if %err% neq 0 exit %err%&#13;
     </version>
     <version name="3.11.2" package="com.xxcopy.XXCopy">
         <url>http://xxcopy.com/download/xxfw3112.zip</url>
-        <sha1>129f5411b1b442d4e44b55bb1a1492f4d514dcf2</sha1>
+        <sha1>4b7e006e88bf290f1825766e806ae31e61150fc6</sha1>
     </version>
 
     <version name="1.51" package="com.zsnes.ZSNES">
@@ -16176,6 +16311,29 @@ Components=&#13;
         <url>http://download.clipgrab.de/clipgrab-3.2.1.0.exe</url>
         <sha1>c7405864d176872ac6e186179c63033235183a2c</sha1>
         <dependency package="net.nirsoft.MyUninstaller" versions="[1.74, 1.74]"/>
+    </version>
+    <version name="3.2.1.2" package="de.clipgrab.ClipGrab" type="one-file">
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
+"%setup%" /SP- /VERYSILENT /SUPPRESSMSGBOXES /NOCANCEL /NORESTART /DIR="%CD%" /SAVEINF="%CD%\.Npackd\InnoSetupInfo.ini" /LOG="%CD%\.Npackd\InnoSetupInstall.log" /LOADINF="%CD%\.Npackd\InnoSetupDef.ini"&#13;
+set err=%errorlevel%&#13;
+type .Npackd\InnoSetupInstall.log&#13;
+if %err% neq 0 exit %err%&#13;
+</file>
+        <file path=".Npackd\Uninstall.bat">unins000.exe /VERYSILENT /SUPPRESSMSGBOXES /NORESTART /LOG="%CD%\.Npackd\InnoSetupUninstall.log"&#13;
+set err=%errorlevel%&#13;
+type .Npackd\InnoSetupUninstall.log&#13;
+if %err% neq 0 exit %err%&#13;
+&#13;
+if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1&#13;
+set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=net.nirsoft.MyUninstaller" "--versions=[1.74, 2)"&#13;
+for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set myun=%%x&#13;
+"%myun%\myuninst.exe" /uninstall "ClipGrab Toolbar"</file>
+        <file path=".Npackd\InnoSetupDef.ini">[Setup]&#13;
+Components=&#13;
+</file>
+        <url>http://download.clipgrab.de/clipgrab-3.2.1.2.exe</url>
+        <sha1>594f367445d34da68a1229e2e6805f96dc2900f2</sha1>
+        <dependency package="net.nirsoft.MyUninstaller" versions="[1.74, 2)"/>
     </version>
 
     <version name="1" package="de.exactaudiocopy.EAC" type="one-file">
@@ -16469,23 +16627,14 @@ for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
         <sha1>078548bbacf363cc42938ae9a837b1721d39edd9</sha1>
     </version>
 
-    <version name="0.5.2" package="de.twotoasts.midori.Midori" type="one-file">
-        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
-"%setup%" /S /D=%CD%&#13;
-</file>
-        <file path=".Npackd\Uninstall.bat">uninst.exe /S _?=%CD%&#13;
-</file>
-        <url>http://www.midori-browser.org/downloads/midori_0.5.2_32_.exe</url>
-        <sha1>9d7aea692da025f48272bca865fe9f519e26f387</sha1>
-    </version>
     <version name="0.5.4" package="de.twotoasts.midori.Midori" type="one-file">
         <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
 "%setup%" /S /D=%CD%&#13;
 </file>
         <file path=".Npackd\Uninstall.bat">uninst.exe /S _?=%CD%&#13;
 </file>
-        <url>http://www.midori-browser.org/downloads/midori_0.5.2_32_.exe</url>
-        <sha1>9d7aea692da025f48272bca865fe9f519e26f387</sha1>
+        <url>http://downloads.sourceforge.net/project/npackd/de.twotoasts.midori.Midori-0.5.4.exe</url>
+        <sha1>2123956cb13a70d0c85a760a8f55dcd3bfc75293</sha1>
     </version>
 
     <version name="2.9" package="digikam" type="one-file">
@@ -16702,16 +16851,6 @@ if %err% neq 0 exit %err%</file>
         <sha1>fcc7f913cca364dfcc356f0f10d5d2fd79a0e3f2</sha1>
         <dependency package="com.microsoft.DotNetRedistributable" versions="[2.0, 3)"/>
     </version>
-    <version name="0.9.6" package="fr.handbrake.HandBrake" type="one-file">
-        <file path=".Npackd\Install.bat">ren rotation.php setup.exe
-setup.exe /S /D=%CD%
-</file>
-        <file path=".Npackd\Uninstall.bat">uninst.exe /S
-</file>
-        <url>http://handbrake.fr/rotation.php?file=HandBrake-0.9.6-i686-Win_GUI.exe</url>
-        <sha1>35f699550effdbbf5ea75648b3a33843f3e8be4e</sha1>
-        <dependency package="com.microsoft.DotNetRedistributable" versions="[2, 3)"/>
-    </version>
     <version name="0.9.8" package="fr.handbrake.HandBrake" type="one-file">
         <file path=".Npackd\Install.bat">ren rotation.php setup.exe&#13;
 setup.exe /S /D=%CD%&#13;
@@ -16753,7 +16892,7 @@ taskkill /im FrostWire.exe /f /t</file>
 rd /s /q "%ALLUSERSPROFILE%\Start Menu\Programs\FrostWire 5" || rd /s /q "%ALLUSERSPROFILE%\Microsoft\Windows\Start Menu\Programs\FrostWire 5"&#13;
 verify</file>
         <url>http://dl.frostwire.com/frostwire/5.5.6/frostwire-5.5.6.windows.exe</url>
-        <sha1>d187cd6570e3f9e4e27db52e518d8311b192ec4e</sha1>
+        <sha1>43f44a4a6d2968f698bed5cc64f9a24c226bd203</sha1>
     </version>
     <version name="5.6.2" package="frostwire" type="one-file">
         <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
@@ -17428,6 +17567,12 @@ if %err% neq 0 exit %err%&#13;
         <dependency package="com.oracle.JRE" versions="[1.7.0.17, 2)"/>
     </version>
 
+    <version name="2" package="myeventviewer">
+        <important-file path="MyEventViewer.exe" title="MyEventViewer"/>
+        <url>https://dl.dropboxusercontent.com/u/176999101/myeventviewer-2.zip</url>
+        <sha1>df460185f05d7453e1bf325da3af91e25b2bdf0a</sha1>
+    </version>
+
     <version name="1.63.2" package="net.ac3filter.AC3Filter" type="one-file">
         <file path=".Npackd\Install.bat">ac3filter_1_63b.exe /SP- /VERYSILENT /SUPPRESSMSGBOXES /NOCANCEL /NORESTART /DIR="%CD%"</file>
         <file path=".Npackd\Uninstall.bat">unins000.exe /VERYSILENT /SUPPRESSMSGBOXES /NORESTART</file>
@@ -17570,6 +17715,15 @@ if %err% neq 0 exit %err%&#13;
         <url>https://anki.googlecode.com/files/anki-2.0.11.exe</url>
         <sha1>8dfdb792885b8ad2366628b798d5dc94da0d70f3</sha1>
     </version>
+    <version name="2.0.12" package="net.ankisrs.Anki" type="one-file">
+        <file path=".Npackd\Install.bat">for /f %%x in ('dir /b *.exe') do set setup=%%x&#13;
+"%setup%" /S /D=%CD%&#13;
+</file>
+        <file path=".Npackd\Uninstall.bat">uninstall.exe /S&#13;
+</file>
+        <url>https://anki.googlecode.com/files/anki-2.0.12.exe</url>
+        <sha1>a73f57a8898949776092d912e52d29e79a53d785</sha1>
+    </version>
 
     <version name="1.4.1" package="net.apexdc.ApexDCPlusPlus" type="one-file">
         <important-file path="ApexDC.exe" title="ApexDC++"/>
@@ -17667,6 +17821,16 @@ if %err% neq 0 exit %err%&#13;
 </file>
         <url>http://downloads.sourceforge.net/project/apexdc/ApexDC%2B%2B/1.5.6/ApexDC%2B%2B_1.5.6_Setup.exe</url>
         <sha1>560e90a6e0267bfc2490b9a41a50aec78d632ed0</sha1>
+    </version>
+    <version name="1.5.7" package="net.apexdc.ApexDCPlusPlus" type="one-file">
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
+"%setup%" /SP- /VERYSILENT /SUPPRESSMSGBOXES /NOCANCEL /NORESTART /DIR="%CD%" /SAVEINF="%CD%\.Npackd\InnoSetupInfo.ini" /LOG="%CD%\.Npackd\InnoSetupInstall.log"&#13;
+set err=%errorlevel%&#13;
+type .Npackd\InnoSetupInstall.log&#13;
+if %err% neq 0 exit %err%&#13;
+</file>
+        <url>http://downloads.sourceforge.net/project/apexdc/ApexDC%2B%2B/1.5.7/ApexDC%2B%2B_1.5.7_Setup.exe</url>
+        <sha1>80402f97a1ec434c04f6e39ca85ecde41f0f1748</sha1>
     </version>
 
     <version name="0.50.3" package="net.aspell.Aspell" type="one-file">
@@ -18174,11 +18338,10 @@ ren "%setup%" Setup-MsgPlus.exe
     </version>
     <version name="5.2.712" package="net.msgplus.MessengerPlusInstaller" type="one-file">
         <important-file path="Setup-MsgPlus.exe" title="Installer"/>
-        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x
-ren "%setup%" Setup-MsgPlus.exe
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
+ren "%setup%" Setup-MsgPlus.exe&#13;
 </file>
         <url>http://mirror10.msgpluslive.net/20110531/LK/Setup-MsgPlus-502.exe</url>
-        <sha1>94D2B13DDCA2BD1929356325B6D0B72B2AF7E8B1</sha1>
         <dependency package="com.microsoft.WindowsLiveMessenger" versions="[15.4.3502.922, 15.4.3502.922]"/>
     </version>
     <version name="5.3.0.716" package="net.msgplus.MessengerPlusInstaller" type="one-file">
@@ -18192,67 +18355,55 @@ ren "%setup%" Setup-MsgPlus.exe
     </version>
     <version name="5.10" package="net.msgplus.MessengerPlusInstaller" type="one-file">
         <important-file path="Setup-MsgPlus.exe" title="Installer"/>
-        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x
-ren "%setup%" Setup-MsgPlus.exe
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
+ren "%setup%" Setup-MsgPlus.exe&#13;
 </file>
         <url>http://mirror10.msgpluslive.net/20110907/LK/Setup-MsgPlus-510.exe</url>
-        <sha1>45898c229986bed9e42025ebcad553bb9a198e49</sha1>
         <dependency package="com.microsoft.WindowsLiveMessenger" versions="[15.4.3502.922, 15.4.3502.922]"/>
     </version>
     <version name="5.11.0.760" package="net.msgplus.MessengerPlusInstaller" type="one-file">
         <important-file path="Setup-MsgPlus.exe" title="Installer"/>
-        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x
-ren "%setup%" Setup-MsgPlus.exe
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
+ren "%setup%" Setup-MsgPlus.exe&#13;
 </file>
         <url>http://mirror10.msgpluslive.net/20111016/LKSBC/Setup-MsgPlus-511.exe</url>
-        <sha1>e96eef170d6e002db3eeee4f465988d62335efd3</sha1>
         <dependency package="com.microsoft.WindowsLiveMessenger" versions="[15.4.3502.922, 15.4.3502.922]"/>
     </version>
     <version name="5.50.0.763" package="net.msgplus.MessengerPlusInstaller" type="one-file">
         <important-file path="Setup-MsgPlus.exe" title="Installer"/>
-        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x
-ren "%setup%" Setup-MsgPlus.exe
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
+ren "%setup%" Setup-MsgPlus.exe&#13;
 </file>
         <url>http://mirror10.msgpluslive.net/20120725/LKBCH/Setup-MsgPlus-550.exe</url>
-        <sha1>9d2d9d452934981ce2e27e68b360f3e4ea225ed7</sha1>
         <dependency package="com.microsoft.WindowsLiveMessenger" versions="[15.4.3502.922, 15.4.3502.922]"/>
     </version>
     <version name="6.0.0.773" package="net.msgplus.MessengerPlusInstaller" type="one-file">
         <important-file path="Setup-MsgPlus.exe" title="Installer"/>
-        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x
-ren "%setup%" Setup-MsgPlus.exe
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
+ren "%setup%" Setup-MsgPlus.exe&#13;
 </file>
         <url>http://mirror10.msgpluslive.net/20120927/LKBCH/Setup-MsgPlus-600.exe</url>
-        <sha1>c5d0c490fc4cc924681782bf1fa0df16e0027555</sha1>
         <dependency package="com.microsoft.WindowsLiveMessenger" versions="[15.4.3502.922, 15.4.3502.922]"/>
     </version>
 
     <version name="1.12" package="net.nirsoft.ActiveXHelper">
         <important-file path="axhelper.exe" title="ActiveXHelper"/>
-        <url>http://www.nirsoft.net/utils/axhelper.zip</url>
+        <url>https://dl.dropboxusercontent.com/u/176999101/net.nirsoft.ActiveXHelper-1.12.zip</url>
         <sha1>fe0ea129d1d4c4e6b52dd0c89e29d7d40a83d6a9</sha1>
     </version>
 
     <version name="1.62" package="net.nirsoft.FileTypesMan">
         <important-file path="FileTypesMan.exe" title="FileTypesMan"/>
-        <url>http://www.nirsoft.net/utils/filetypesman.zip</url>
+        <url>https://dl.dropboxusercontent.com/u/176999101/net.nirsoft.FileTypesMan-1.62.zip</url>
+        <sha1>ec84b2950de0736a7f45b68e2a16f674f7d25669</sha1>
     </version>
 
-    <version name="1.97" package="net.nirsoft.HashMyFiles">
+    <version name="2.1" package="net.nirsoft.HashMyFiles">
         <important-file path="HashMyFiles.exe" title="HashMyFiles"/>
-        <url>http://www.nirsoft.net/utils/hashmyfiles_u.zip</url>
+        <url>https://dl.dropboxusercontent.com/u/176999101/net.nirsoft.HashMyFiles-2.1.zip</url>
+        <sha1>b7c4e207c81dd82fae5dfc29c4e07f19e6386efe</sha1>
     </version>
 
-    <version name="1.17.18" package="net.nirsoft.Launcher">
-        <important-file path="NirLauncher.exe" title="NirLauncher"/>
-        <url>http://download.nirsoft.net/nirsoft_package_1.17.18.zip</url>
-        <sha1>f8a709a8bbf56c596969b3266a5c829d33e9482d</sha1>
-    </version>
-    <version name="1.17.22" package="net.nirsoft.Launcher">
-        <important-file path="NirLauncher.exe" title="NirLauncher"/>
-        <url>http://download.nirsoft.net/nirsoft_package_1.17.22.zip</url>
-        <sha1>b631809c621e7b8d97191e056f2b3e1ee516fd12</sha1>
-    </version>
     <version name="1.18.3" package="net.nirsoft.Launcher">
         <important-file path="NirLauncher.exe" title="NirLauncher"/>
         <url>http://download.nirsoft.net/nirsoft_package_1.18.03.zip</url>
@@ -18283,40 +18434,10 @@ for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set clu=%%x&#13;
 "%clu%\clu" remove-path --path "%CD%"&#13;
 verify&#13;
 </file>
-        <url>http://www.nirsoft.net/utils/nircmd.zip</url>
+        <url>https://dl.dropboxusercontent.com/u/176999101/net.nirsoft.NirCmd-2.71.zip</url>
+        <sha1>136dfc57e303fa40d60ff7428d69b61b1e89cb75</sha1>
         <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.15.7, 2)"/>
         <dependency package="com.googlecode.windows-package-manager.CLU" versions="[1, 2)"/>
-    </version>
-
-    <version name="2.3.1" package="net.openvpn.OpenVPN" type="one-file">
-        <file path=".Npackd\Install.bat">"%ProgramFiles%\GowData\bin\wget.exe" -O openvpn.p7b http://dl.dropboxusercontent.com/s/cqvn6qkvamwyjv4/openvpn.p7b&#13;
-certutil -addstore -f "TrustedPublisher" "%CD%\openvpn.p7b" &gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
-&#13;
-for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
-"%setup%" /S /D=%CD%&#13;
-&#13;
-reg add HKLM\SOFTWARE\OpenVPN-GUI /v allow_service /t REG_SZ /d 0 /f&#13;
-</file>
-        <file path=".Npackd\Uninstall.bat">Uninstall.exe /S _?=%CD%&#13;
-</file>
-        <url>https://dl.dropboxusercontent.com/s/ohgwh62a8qb9fmi/openvpn-install-2.3.1-I001-i686.exe</url>
-        <sha1>db048680725c9f6d554716f773ae2dad9a83a377</sha1>
-        <dependency package="com.github.bmatzelle.Gow" versions="[0.7, 2)"/>
-    </version>
-    <version name="2.3.2" package="net.openvpn.OpenVPN" type="one-file">
-        <file path=".Npackd\Install.bat">"%ProgramFiles%\GowData\bin\wget.exe" -O openvpn.p7b http://dl.dropboxusercontent.com/s/cqvn6qkvamwyjv4/openvpn.p7b&#13;
-certutil -addstore -f "TrustedPublisher" "%CD%\openvpn.p7b" &gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
-&#13;
-for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
-"%setup%" /S /D=%CD%&#13;
-&#13;
-reg add HKLM\SOFTWARE\OpenVPN-GUI /v allow_service /t REG_SZ /d 0 /f&#13;
-</file>
-        <file path=".Npackd\Uninstall.bat">Uninstall.exe /S _?=%CD%&#13;
-</file>
-        <url>https://dl.dropboxusercontent.com/s/ohgwh62a8qb9fmi/openvpn-install-2.3.1-I001-i686.exe</url>
-        <sha1>d026f6be25271e06618e72033a6b0ab96d41d221</sha1>
-        <dependency package="com.github.bmatzelle.Gow" versions="[0.7, 2)"/>
     </version>
 
     <version name="2.2.7" package="net.pivotanimator.PivotAnimator">
@@ -18785,6 +18906,17 @@ verify&#13;
         <url>http://downloads.sourceforge.net/project/avidemux-mswin/2.6.1%20%288321%29/avidemux_2.6.1_win32.exe</url>
         <sha1>355943a5a4956e1bc88ff186e7609c830b251a4d</sha1>
     </version>
+    <version name="2.6.4" package="net.sourceforge.avidemux.Avidemux" type="one-file">
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
+"%setup%" /S /D=%CD%&#13;
+verify&#13;
+</file>
+        <file path=".Npackd\Uninstall.bat">uninstall.exe /S _?=%CD%&#13;
+verify&#13;
+</file>
+        <url>http://downloads.sourceforge.net/project/avidemux/avidemux/2.6.4/avidemux_2.6.4_win32.exe</url>
+        <sha1>6145df13ee64ceae2019d954d03c5b9e2f861757</sha1>
+    </version>
 
     <version name="4.5.1.0.2" package="net.sourceforge.azureus.Vuze" type="one-file">
         <file path=".Npackd\Install.bat">Vuze_4510b_windows.exe -q -dir "%CD%"</file>
@@ -18805,7 +18937,7 @@ verify&#13;
 </file>
         <file path=".Npackd\Uninstall.bat">uninstall.exe -q</file>
         <url>http://downloads.sourceforge.net/project/azureus/vuze/Vuze_4800/Vuze_4800_Installer32.exe</url>
-        <sha1>b7c85873793e368f2640ef84651eba038cda8425</sha1>
+        <sha1>1c569a1bd83423f7f06f3fbcdbc94a7cacafc9be</sha1>
         <dependency package="com.oracle.JRE" versions="[1.5, 2)"/>
     </version>
     <version name="4.8.1.2" package="net.sourceforge.azureus.Vuze" type="one-file">
@@ -18814,7 +18946,7 @@ verify&#13;
 </file>
         <file path=".Npackd\Uninstall.bat">uninstall.exe -q</file>
         <url>http://downloads.sourceforge.net/project/azureus/vuze/Vuze_4812/Vuze_4812_Installer32.exe</url>
-        <sha1>ef2c80d9b514317c745c9ae63e261a3e3aa41bbe</sha1>
+        <sha1>765bbb389367c4e4a5610cdfab9522439b99267c</sha1>
         <dependency package="com.oracle.JRE" versions="[1.5, 2)"/>
     </version>
     <version name="4.9" package="net.sourceforge.azureus.Vuze" type="one-file">
@@ -19061,12 +19193,12 @@ verify</file>
         <sha1>4e8963e22a738dc35e0c063f38316d4025dfb535</sha1>
     </version>
     <version name="4.9" package="net.sourceforge.djvu.DjView" type="one-file">
-        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x
-"%setup%" /S /D=%CD%
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
+"%setup%" /S /D=%CD%&#13;
 </file>
         <file path=".Npackd\Uninstall.bat">uninst.exe /S</file>
-        <url>http://sourceforge.net/projects/djvu/files/DjVuLibre_Windows/3.5.25%2B4.9/DjVuLibre%2BDjView-3.5.25.3%2B4.9-Setup.exe</url>
-        <sha1>ce49912a5ab2d1a67eaa9d43ca3f90703f0169e8</sha1>
+        <url>http://downloads.sourceforge.net/project/djvu/DjVuLibre_Windows/3.5.25%2B4.9/DjVuLibre-3.5.25.4_DjView-4.9.2_Setup.exe</url>
+        <sha1>b2188d653a175b01188175f704438384f0e34c7f</sha1>
     </version>
     <version name="4.9.2" package="net.sourceforge.djvu.DjView" type="one-file">
         <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
@@ -20852,7 +20984,7 @@ if %err% neq 0 exit %err%
         <file path=".Npackd\Uninstall.bat">uninst.exe /S _?=%CD%        
 </file>
         <url>http://downloads.sourceforge.net/project/smplayer/SMPlayer/0.6.9/smplayer-0.6.9-win32.exe?ts=1300524228</url>
-        <sha1>AC165A42850DD9F81E332C15E7E2E8842D713DE5</sha1>
+        <sha1>e31ade00b57b6b4dfcb2b9ee82993487df4f40a5</sha1>
     </version>
     <version name="0.6.10" package="net.sourceforge.smplayer.SMPlayer" type="one-file">
         <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x
@@ -20906,7 +21038,7 @@ if %err% neq 0 exit %err%
         <file path=".Npackd\Uninstall.bat">uninst.exe /S _?=%CD%        &#13;
 </file>
         <url>http://downloads.sourceforge.net/project/smplayer/SMPlayer/0.8.4/smplayer-0.8.4-win32.exe</url>
-        <sha1>8a42a612a0462fe5422723853bde31c91004ac35</sha1>
+        <sha1>64ae73595539e6fe91540dad6d930875a9d2ca52</sha1>
     </version>
     <version name="0.8.5" package="net.sourceforge.smplayer.SMPlayer" type="one-file">
         <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
@@ -21760,7 +21892,7 @@ type .Npackd\MSI.log&#13;
 rem 3010=restart required&#13;
 if %err% equ 3010 exit /b 0&#13;
 if %err% neq 0 exit /b %err%</file>
-        <url>http://downloads.sourceforge.net/project/tortoisesvn/1.8.0/application/TortoiseSVN-1.8.0.24401-win32-svn-1.8.0.msi</url>
+        <url>http://downloads.sourceforge.net/project/tortoisesvn/1.8.0/Application/TortoiseSVN-1.8.0.24401-win32-svn-1.8.0.msi</url>
         <sha1>44f07df2e56a557219204f07c6f77d06d04ac0a1</sha1>
     </version>
 
@@ -22403,6 +22535,19 @@ rmdir "%name%"&#13;
 </file>
         <url>http://archive.apache.org/dist/ant/binaries/apache-ant-1.9.1-bin.zip</url>
         <sha1>178b992a888e3501c4d6ccc41e2247d9572ace7b</sha1>
+        <dependency package="com.oracle.JDK" versions="[1.4, 2)"/>
+    </version>
+    <version name="1.9.2" package="org.apache.Ant">
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b apache-ant*') do set name=%%x&#13;
+cd "%name%"        &#13;
+for /f "delims=" %%a in ('dir /b') do (&#13;
+  move "%%a" ..&#13;
+)&#13;
+cd ..&#13;
+rmdir "%name%"&#13;
+</file>
+        <url>http://archive.apache.org/dist/ant/binaries/apache-ant-1.9.2-bin.zip</url>
+        <sha1>97b809ae3227d0bec2c250db8f39b9be04d40c3d</sha1>
         <dependency package="com.oracle.JDK" versions="[1.4, 2)"/>
     </version>
 
@@ -23514,6 +23659,20 @@ rmdir "%name%"&#13;
         <sha1>da439f335f8b83b366c0dcebead781568361f066</sha1>
         <dependency package="com.oracle.JRE" versions="[1.6, 2)"/>
     </version>
+    <version name="7.3.5" package="org.areca-backup.ArecaBackup">
+        <important-file path="areca.exe" title="Areca"/>
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b areca*') do set name=%%x&#13;
+cd "%name%"&#13;
+for /f "delims=" %%a in ('dir /b') do (&#13;
+  move "%%a" ..&#13;
+)&#13;
+cd ..&#13;
+rmdir "%name%"&#13;
+</file>
+        <url>http://downloads.sourceforge.net/project/areca/areca-stable/areca-7.3.5/areca-7.3.5-windows-jre32.zip</url>
+        <sha1>8b94da500f777b26b952f58e6f0aa3c90aec58fe</sha1>
+        <dependency package="com.oracle.JRE" versions="[1.6, 2)"/>
+    </version>
 
     <version name="0.9.5.1" package="org.argolinux.sqlkit.SQLKit">
         <important-file path="sqledit.bat" title="Sqledit"/>
@@ -23976,6 +24135,20 @@ rmdir "%name%"&#13;
         <sha1>231c8b17ceb4ef25d7b21d17287834f05bd1084f</sha1>
         <dependency package="com.microsoft.VisualCPPRedistributable" versions="[9, 10)"/>
     </version>
+    <version name="2.68.1" package="org.blender.Blender">
+        <important-file path="blender.exe" title="Blender"/>
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b blender*') do set name=%%x&#13;
+cd "%name%"        &#13;
+for /f "delims=" %%a in ('dir /b') do (&#13;
+  move "%%a" ..&#13;
+)&#13;
+cd ..&#13;
+rmdir "%name%"&#13;
+</file>
+        <url>http://ftp.nluug.nl/pub/graphics/blender/release//Blender2.68/blender-2.68a-windows32.zip</url>
+        <sha1>d9b507d5666d46f979d358000ccb4f1b2be88765</sha1>
+        <dependency package="com.microsoft.VisualCPPRedistributable" versions="[9, 10)"/>
+    </version>
 
     <version name="1.0.3.8" package="org.bluemars.ClipX" type="one-file">
         <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x
@@ -24105,8 +24278,8 @@ cd ..&#13;
 rmdir "%name%"&#13;
 &#13;
 </file>
-        <url>http://www.cgsecurity.org/testdisk-6.14-WIP.win.zip</url>
-        <sha1>d80fcdf0403a67004f53b70201e688aff7c9d65d</sha1>
+        <url>http://www.cgsecurity.org/testdisk-6.14.win.zip</url>
+        <sha1>0d326893885181ed94a3e55709d386db3fe09f71</sha1>
     </version>
 
     <version name="0.6" package="org.clementine-player.Clementine" type="one-file">
@@ -25126,12 +25299,8 @@ rmdir "%name%"&#13;
         <url>http://downloads.sourceforge.net/project/firebird/firebird-win32/2.5.1-Release/Firebird-2.5.1.26351-0_Win32_embed.zip?ts=1321278391</url>
         <sha1>336DF6FB97BBB7F9E70329A563BB00436664F939</sha1>
     </version>
-    <version name="2.5.2.26539" package="org.firebirdsql.FirebirdEmbedded">
-        <url>http://downloads.sourceforge.net/project/firebird/firebird-win32/2.5.2-Release/Firebird-2.5.2.26539-0_Win32_embed.zip</url>
-        <sha1>ce11abc9aa69bf3db7523263d83a6a9c01bb9281</sha1>
-    </version>
     <version name="2.5.2.26540" package="org.firebirdsql.FirebirdEmbedded">
-        <url>http://downloads.sourceforge.net/project/firebird/firebird-win32/2.5.2-Release/Firebird-2.5.2.26540-0_Win32_embed.zip</url>
+        <url>http://downloads.sourceforge.net/project/npackd/org.firebirdsql.FirebirdEmbedded-2.5.2.26540.zip</url>
         <sha1>e0d38395ee91b82c29af38050e3161a704b624b6</sha1>
     </version>
 
@@ -26961,13 +27130,13 @@ verify&#13;
     </version>
 
     <version name="2.28" package="org.graphviz.Graphviz" type="one-file">
-        <file path=".Npackd\Install.bat">if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
-set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.NpackdInstallerHelper" "--versions=[1.1, 2)"
-for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set npackdih=%%x
-call "%npackdih%\InstallMSI.bat" TARGETDIR yes
+        <file path=".Npackd\Install.bat">if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1&#13;
+set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.NpackdInstallerHelper" "--versions=[1.1, 2)"&#13;
+for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set npackdih=%%x&#13;
+call "%npackdih%\InstallMSI.bat" TARGETDIR yes&#13;
 </file>
         <url>http://www.graphviz.org/pub/graphviz/stable/windows/graphviz-2.28.0.msi</url>
-        <sha1>92D80CDACC377F9F4695315125B6AF4BE823E532</sha1>
+        <sha1>92d80cdacc377f9f4695315125b6af4be823e532</sha1>
         <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.1, 2)"/>
         <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.15.7, 2)"/>
         <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1, 1]"/>
@@ -28170,7 +28339,7 @@ cd ..
 rmdir "%name%"
 </file>
         <url>http://downloads.mongodb.org/win32/mongodb-win32-i386-2.2.0.zip</url>
-        <sha1>3C826845989D74E0E4F3ABC52457CDDB1A7C7578</sha1>
+        <sha1>3c826845989d74e0e4f3abc52457cddb1a7c7578</sha1>
     </version>
     <version name="2.2.1" package="org.mongodb.MongoDB">
         <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b mongo*') do set name=%%x
@@ -28956,7 +29125,7 @@ rmdir "%name%"&#13;
 
     <version name="6.5.1" package="org.netbeans.NetBeansMLJava">
         <important-file path="netbeans\bin\netbeans.exe" title="NetBeans"/>
-        <url>http://www.mirrorservice.org/sites/download.netbeans.org/6.5.1/zip/netbeans-6.5.1-200903060201-ml-java.zip</url>
+        <url>http://dlc.sun.com.edgesuite.net/netbeans/6.5.1/final/zip/netbeans-6.5.1-200903060201-ml-java.zip</url>
         <sha1>44314d419b86e2b73422991d55555b461b9cd579</sha1>
         <dependency package="com.oracle.JDK" versions="[1.5, 2)"/>
     </version>
@@ -29041,15 +29210,15 @@ rmdir "%name%"&#13;
 
     <version name="6.5.1" package="org.netbeans.NetBeansMLJavaSE">
         <important-file path="bin\netbeans.exe" title="NetBeans"/>
-        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b netbeans*') do set name=%%x
-cd "%name%"        
-for /f "delims=" %%a in ('dir /b') do (
-  move "%%a" ..
-)
-cd ..
-rmdir "%name%"
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b netbeans*') do set name=%%x&#13;
+cd "%name%"        &#13;
+for /f "delims=" %%a in ('dir /b') do (&#13;
+  move "%%a" ..&#13;
+)&#13;
+cd ..&#13;
+rmdir "%name%"&#13;
 </file>
-        <url>http://www.mirrorservice.org/sites/download.netbeans.org/6.5.1/zip/netbeans-6.5.1-200903060201-ml-javase.zip</url>
+        <url>http://dlc.sun.com.edgesuite.net/netbeans/6.5.1/final/zip/netbeans-6.5.1-200903060201-ml-javase.zip</url>
         <sha1>81796d262b4792e44700c670ddddd282f998d2d0</sha1>
         <dependency package="com.oracle.JDK" versions="[1.5, 2)"/>
     </version>
@@ -30167,6 +30336,21 @@ if %err% neq 0 exit %err%
 </file>
         <url>http://downloads.sourceforge.net/project/openofficeorg.mirror/stable/3.4.1/Apache_OpenOffice_incubating_3.4.1_Win_x86_install_en-US.exe</url>
         <sha1>96b71c14e75e20727eb9a0844e63dfad5abe2dc3</sha1>
+    </version>
+    <version name="4" package="org.openoffice.OpenOffice" type="one-file">
+        <file path=".Npackd\Install.bat">for /f %%x in ('dir /b *.exe') do set setup=%%x&#13;
+"%setup%" /S /D=%CD%&#13;
+</file>
+        <file path=".Npackd\Uninstall.bat">for /f "delims=" %%x in ('dir /b *.msi') do set setup=%%x&#13;
+msiexec.exe /qn /norestart /Lime .Npackd\MSI.log /x "%setup%"&#13;
+set err=%errorlevel%&#13;
+type .Npackd\MSI.log&#13;
+rem 3010=restart required&#13;
+if %err% equ 3010 exit 0&#13;
+if %err% neq 0 exit %err%&#13;
+</file>
+        <url>http://downloads.sourceforge.net/project/npackd/org.openoffice.OpenOffice-4.exe</url>
+        <sha1>abe4bada0209efe508aec4c9c66d41657be840dc</sha1>
     </version>
 
     <version name="1.0.1" package="org.pdfforge.PDFCreator" type="one-file">
@@ -32009,6 +32193,41 @@ for %%g in (vim txt in hp hxx c cpp cxx cc m java cs pas inc html htm php phtml 
         <sha1>de679dc1ade3caafbb27bc88071f1e00a677cdc2</sha1>
         <dependency package="org.vim.VimRuntime" versions="[7.3.46, 7.3.46]"/>
     </version>
+    <version name="7.4" package="org.vim.Vim">
+        <important-file path="gvim.exe" title="Vim"/>
+        <file path=".Npackd\Uninstall.bat">set KEY=org.vim.Vim-7.4&#13;
+reg delete HKLM\SOFTWARE\Classes\Applications\%KEY% /f&#13;
+for %%g in (vim txt in hp hxx c cpp cxx cc m java cs pas inc html htm php phtml js jsp asp css xml sh bsh nsi nsh lua pl pm py as mx vb vbs f for f90 f95 f2k tex sql nfo mak) do reg delete HKLM\SOFTWARE\Classes\.%%g\OpenWithList\%key% /f&#13;
+</file>
+        <file path=".Npackd\Exclude.txt">.Npackd&#13;
+.Npackd&#13;
+</file>
+        <file path=".Npackd\Install.bat">set name=vim\vim74&#13;
+cd "%name%"&#13;
+for /f "delims=" %%a in ('dir /b') do (&#13;
+    move "%%a" ..\..&#13;
+    if %errorlevel% neq 0 exit /b %errorlevel%&#13;
+)&#13;
+cd ..\..&#13;
+rmdir "%name%"&#13;
+rmdir vim&#13;
+if %errorlevel% neq 0 exit /b %errorlevel%&#13;
+&#13;
+set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=org.vim.VimRuntime" "--versions=[7.4, 7.4]"&#13;
+for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set vimruntime=%%x&#13;
+&#13;
+xcopy "%vimruntime%\*" . /E /H /EXCLUDE:.Npackd\Exclude.txt&#13;
+set KEY=org.vim.Vim-7.4&#13;
+reg add HKLM\SOFTWARE\Classes\Applications\%KEY%\shell\open /v FriendlyAppName /d "Vim (7.4)" /f&#13;
+set c=\"%CD%\gvim.exe\" \"%%1\"&#13;
+reg add HKLM\SOFTWARE\Classes\Applications\%KEY%\shell\open\command /d "%c%" /f&#13;
+for %%g in (vim txt in hp hxx c cpp cxx cc m java cs pas inc html htm php phtml js jsp asp css xml sh bsh nsi nsh lua pl pm py as mx vb vbs f for f90 f95 f2k tex sql nfo mak) do reg add HKLM\SOFTWARE\Classes\.%%g\OpenWithList\%key% /f&#13;
+</file>
+        <url>http://ftp.vim.org/pub/vim/pc/gvim74.zip</url>
+        <sha1>017d24a694f2ce56171d8161cecd2baf1de85e92</sha1>
+        <dependency package="org.vim.VimRuntime" versions="[7.4, 7.4]"/>
+        <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.15.7, 2)"/>
+    </version>
 
     <version name="7.3.46" package="org.vim.VimRuntime">
         <file path=".Npackd\Install.bat">set name=vim\vim73
@@ -32023,6 +32242,20 @@ rmdir vim
 </file>
         <url>http://ftp.vim.org/pub/vim/pc/vim73_46rt.zip</url>
         <sha1>cde31a99db352464be75078dbae9176a5b0722f3</sha1>
+    </version>
+    <version name="7.4" package="org.vim.VimRuntime">
+        <file path=".Npackd\Install.bat">set name=vim\vim74&#13;
+cd "%name%"&#13;
+for /f "delims=" %%a in ('dir /b') do (&#13;
+    move "%%a" ..\..&#13;
+    if %errorlevel% neq 0 exit /b %errorlevel%&#13;
+)&#13;
+cd ..\..&#13;
+rmdir "%name%"&#13;
+rmdir vim&#13;
+</file>
+        <url>http://ftp.vim.org/pub/vim/pc/vim74rt.zip</url>
+        <sha1>2c318ab66e7f36e3d7738c8bd207c459ee612c3d</sha1>
     </version>
 
     <version name="4.2.8.83876" package="org.virtualbox.virtualbox" type="one-file">
@@ -32389,11 +32622,11 @@ if %err% neq 0 exit %err%&#13;
 
     <version name="3.6.3303.1" package="org.wixtoolset.WiX" type="one-file">
         <file path=".Npackd\Install.bat">ren Release WixToolset.exe&#13;
-WixToolset.exe -quiet /D=%CD%
+WixToolset.exe -quiet /D=%CD%&#13;
 </file>
-        <file path=".Npackd\Uninstall.bat">uninstall.exe /S _?=%CD%
+        <file path=".Npackd\Uninstall.bat">uninstall.exe /S _?=%CD%&#13;
 </file>
-        <url>http://download-codeplex.sec.s-msft.com/Download/Release?ProjectName=wix&amp;DownloadId=482065&amp;FileTime=129912599418170000&amp;Build=19692</url>
+        <url>http://downloads.sourceforge.net/project/npackd/org.wixtoolset.WiX-3.6.3303.1.exe</url>
         <sha1>44f3a0754aba1d9149fb0b37c1a9f34b25e6c22d</sha1>
     </version>
     <version name="3.7" package="org.wixtoolset.WiX" type="one-file">
@@ -32402,7 +32635,7 @@ WixToolset.exe -quiet /D=%CD%&#13;
 </file>
         <file path=".Npackd\Uninstall.bat">uninstall.exe /S _?=%CD%&#13;
 </file>
-        <url>http://download-codeplex.sec.s-msft.com/Download/Release?ProjectName=wix&amp;DownloadId=582218&amp;FileTime=130008656354370000&amp;Build=20310</url>
+        <url>http://downloads.sourceforge.net/project/npackd/org.wixtoolset.WiX-3.7.exe</url>
         <sha1>599774f760cdf2fcfdc5e343731e9d74c2fc5235</sha1>
     </version>
 
@@ -32800,27 +33033,6 @@ if %err% neq 0 exit %err%</file>
         <sha1>460ebc52ea2b2c2aad3b05d3758bed7d7c77ccc2</sha1>
     </version>
 
-    <version name="5.1.630" package="ru.xdlab.tagscanner" type="one-file">
-        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
-"%setup%" /VERYSILENT /SUPPRESSMSGBOXES /NOCANCEL /NORESTART /DIR="%CD%"</file>
-        <file path=".Npackd\Uninstall.bat">unins000.exe /VERYSILENT /SUPPRESSMSGBOXES /NORESTART</file>
-        <url>http://xdlab.ru/files/tagscan5.1.630setup.exe</url>
-        <sha1>cfb6b89415c3c39911a42f8bf6ae9676af37efc7</sha1>
-    </version>
-    <version name="5.1.631" package="ru.xdlab.tagscanner" type="one-file">
-        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
-"%setup%" /VERYSILENT /SUPPRESSMSGBOXES /NOCANCEL /NORESTART /DIR="%CD%"</file>
-        <file path=".Npackd\Uninstall.bat">unins000.exe /VERYSILENT /SUPPRESSMSGBOXES /NORESTART</file>
-        <url>http://xdlab.ru/files/tagscan5.1.631setup.exe</url>
-        <sha1>a2554b18f83773257e65dece261f4d12cd204fc0</sha1>
-    </version>
-    <version name="5.1.635" package="ru.xdlab.tagscanner" type="one-file">
-        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
-"%setup%" /VERYSILENT /SUPPRESSMSGBOXES /NOCANCEL /NORESTART /DIR="%CD%"</file>
-        <file path=".Npackd\Uninstall.bat">unins000.exe /VERYSILENT /SUPPRESSMSGBOXES /NORESTART</file>
-        <url>http://xdlab.ru/files/tagscan5.1.635setup.exe</url>
-        <sha1>4b5e1edf62e915aaccba9f4a2881030e63be9f29</sha1>
-    </version>
     <version name="5.1.637" package="ru.xdlab.tagscanner" type="one-file">
         <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
 "%setup%" /VERYSILENT /SUPPRESSMSGBOXES /NOCANCEL /NORESTART /DIR="%CD%"</file>
@@ -33017,6 +33229,12 @@ rmdir "%name%"</file>
         <important-file path="cdbxpp.exe" title="CDBurnerXP"/>
         <url>http://download.cdburnerxp.se/portable/CDBurnerXP-4.5.1.4003.zip</url>
         <sha1>578cca9e0559fc3caad66fa9fda02753338100ad</sha1>
+        <dependency package="com.microsoft.DotNetRedistributable" versions="[2.0, 5)"/>
+    </version>
+    <version name="4.5.2.4214" package="se.cdburnerxp.CDBurnerXP">
+        <important-file path="cdbxpp.exe" title="CDBurnerXP"/>
+        <url>http://download.cdburnerxp.se/portable/CDBurnerXP-4.5.2.4214.zip</url>
+        <sha1>51535fc5628714bf121ef6fd6dd44e178f604304</sha1>
         <dependency package="com.microsoft.DotNetRedistributable" versions="[2.0, 5)"/>
     </version>
 
@@ -33558,18 +33776,18 @@ if %err% neq 0 exit %err%&#13;
 
     <version name="0.62" package="uk.org.greenend.chiark.sgtatham.Putty" type="one-file">
         <important-file path="putty.exe" title="Putty"/>
-        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x
-"%setup%" /SP- /VERYSILENT /SUPPRESSMSGBOXES /NOCANCEL /NORESTART /DIR="%CD%" /SAVEINF="%CD%\.Npackd\InnoSetupInfo.ini" /LOG="%CD%\.Npackd\InnoSetupInstall.log"
-set err=%errorlevel%
-type .Npackd\InnoSetupInstall.log
-if %err% neq 0 exit %err%
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
+"%setup%" /SP- /VERYSILENT /SUPPRESSMSGBOXES /NOCANCEL /NORESTART /DIR="%CD%" /SAVEINF="%CD%\.Npackd\InnoSetupInfo.ini" /LOG="%CD%\.Npackd\InnoSetupInstall.log"&#13;
+set err=%errorlevel%&#13;
+type .Npackd\InnoSetupInstall.log&#13;
+if %err% neq 0 exit %err%&#13;
 </file>
-        <file path=".Npackd\Uninstall.bat">unins000.exe /VERYSILENT /SUPPRESSMSGBOXES /NORESTART /LOG="%CD%\.Npackd\InnoSetupUninstall.log"
-set err=%errorlevel%
-type .Npackd\InnoSetupUninstall.log
-if %err% neq 0 exit %err%
+        <file path=".Npackd\Uninstall.bat">unins000.exe /VERYSILENT /SUPPRESSMSGBOXES /NORESTART /LOG="%CD%\.Npackd\InnoSetupUninstall.log"&#13;
+set err=%errorlevel%&#13;
+type .Npackd\InnoSetupUninstall.log&#13;
+if %err% neq 0 exit %err%&#13;
 </file>
-        <url>http://the.earth.li/~sgtatham/putty/latest/x86/putty-0.62-installer.exe</url>
+        <url>http://the.earth.li/~sgtatham/putty/0.62/x86/putty-0.62-installer.exe</url>
         <sha1>3a352006f927e425b94e04c46769f2523288a3af</sha1>
     </version>
 
