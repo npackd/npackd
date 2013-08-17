@@ -504,14 +504,6 @@ Visual Studio 2012 - 11.0</description>
         <license>org.gnu.GPLv2</license>
         <category>cat-tools</category>
     </package>
-    <package name="de.twotoasts.midori.Midori64">
-        <title>Midori 64 bit</title>
-        <url>http://twotoasts.de/index.php/midori</url>
-        <description>web browser</description>
-        <icon>https://lh6.googleusercontent.com/-DQ5SpEwrXXQ/UWusy9JP5QI/AAAAAAAABwc/47mW1TEu4rk/s800/midori.png</icon>
-        <license>org.gnu.LGPLv2_1</license>
-        <category>cat-productivity</category>
-    </package>
     <package name="drmingw64">
         <title>Dr. Mingw 64 bit</title>
         <url>http://code.google.com/p/jrfonseca/wiki/DrMingw</url>
@@ -586,6 +578,14 @@ Windows XP or later is required. It relies upon the DbgHelp library to resolve s
         <icon>https://lh4.googleusercontent.com/-o1zD6Wz6Z7E/UWvMobzrrvI/AAAAAAAABxk/FjPM0GheCp8/s800/-lightworks.png</icon>
         <license>org.wikipedia.Freeware</license>
         <category>cat-productivity</category>
+    </package>
+    <package name="myeventviewer64">
+        <title>MyEventViewer 64 bit</title>
+        <url>http://www.nirsoft.net/utils/my_event_viewer.html</url>
+        <description>simple alternative to the standard event viewer of Windows. As oppose to Windows event viewer, MyEventViewer allows you to watch multiple event logs in one list, as well as the event description and data are displayed in the main window, instead of opening a new one. Also, with MyEventViewer you can easily select multiple event items and then save them to HTML/Text/XML file, or copy them to the clipboard (Ctrl+C) and then paste them into Excel.</description>
+        <icon>https://lh3.googleusercontent.com/-PJ-lGn72xD4/Uf_iJCF7L7I/AAAAAAAABHY/bRUgTRVal44/s32/myeventviewer.png</icon>
+        <license>net.nirsoft.FreewareLicense</license>
+        <category>cat-tools</category>
     </package>
     <package name="net.blat.Blat64">
         <title>Blat 64 bit</title>
@@ -1136,6 +1136,13 @@ kw: CDBurner XP</description>
         <license>org.gnu.GPLv2</license>
         <category>cat-education</category>
     </package>
+    <package name="transmission-qt64">
+        <title>Transmission-Qt 64 bit</title>
+        <url>https://sourceforge.net/projects/trqtw</url>
+        <description>BitTorrent client</description>
+        <icon>https://lh4.googleusercontent.com/-UwyFtt8bBqo/URO5SDgcCpI/AAAAAAAAAbA/Y_5QrEUr2GA/s800/transmission.png</icon>
+        <license>org.gnu.GPLv2</license>
+    </package>
     <package name="virtual-pc64">
         <title>Virtual PC 64 bit</title>
         <url>http://www.microsoft.com/downloads/details.aspx?displaylang=en&amp;FamilyID=04d26402-3199-48a3-afa2-2dc0b40a73b6</url>
@@ -1163,8 +1170,20 @@ kw: CDBurner XP</description>
         <url>http://dl.google.com/android/studio/android-studio-bundle-130.687321-windows.exe</url>
         <sha1>c3e1f85db396085d9729e662677309afac2c5507</sha1>
         <dependency package="com.oracle.JDK64" versions="[1.7.0.17, 2)"/>
-        <dependency package="com.microsoft.VisualCPPRedistributable" versions="[9.0.21022.8, 9.0.21022.8]"/>
-        <dependency package="com.microsoft.VisualCPPRedistributable64" versions="[9.0.21022, 9.0.21022]"/>
+        <dependency package="com.microsoft.VisualCPPRedistributable64" versions="[9, 10)"/>
+    </version>
+    <version name="0.2.130.737825" package="android-studio64" type="one-file">
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
+"%setup%" /S /D=%CD% &amp;&amp; del /f /q "%setup%"</file>
+        <file path=".Npackd\Uninstall.bat">set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=net.nirsoft.MyUninstaller" "--versions=[1.74, 2)"&#13;
+for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set myun=%%x&#13;
+"%myun%\myuninst.exe" /uninstall "Android Studio"&#13;
+</file>
+        <url>http://dl.google.com/android/studio/android-studio-bundle-130.737825-windows.exe</url>
+        <sha1>4ec4c74c69b0b61789066f94b3a65dd185c4ee25</sha1>
+        <dependency package="com.oracle.JDK64" versions="[1.7.0.17, 2)"/>
+        <dependency package="com.microsoft.VisualCPPRedistributable64" versions="[9, 10)"/>
+        <dependency package="net.nirsoft.MyUninstaller" versions="[1.74, 2)"/>
     </version>
 
     <version name="0.3" package="aspia64">
@@ -1491,6 +1510,24 @@ for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set myun=%%x&#13;
         <dependency package="net.nirsoft.MyUninstaller" versions="[1.74, 1.74]"/>
         <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.15.7, 2)"/>
     </version>
+    <version name="2013.3392" package="com.avg.AVGAntiVirusFree64" type="one-file">
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
+rem /TargetInstallationPath="%CD%..\AVG_Anti_Virus_Program" is not used as this would prevent un-installation (the files would be locked)&#13;
+"%setup%" /AppMode=Setup /UILevel=silent /InstallToolbar=0 /LoggerPath="%CD%\.Npackd" /ChangeBrowserSearchProvider=0 /InstallSidebar=0 /ParticipateProductImprovement=0 /DontRestart /KillProcessesIfNeeded&#13;
+if %errorlevel% neq 0 exit %err%&#13;
+</file>
+        <file path=".Npackd\Uninstall.bat">rem direct un-installation does not work as the files are always locked&#13;
+rem "avgmfapx.exe" /AppMode=SETUP /Uninstall /UILevel=Silent /DontRestart&#13;
+&#13;
+if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1&#13;
+set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=net.nirsoft.MyUninstaller" "--versions=[1.74, 1.74]"&#13;
+for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set myun=%%x&#13;
+"%myun%\myuninst.exe" /uninstall "AVG 2013"</file>
+        <url>http://aa-download.avg.com/filedir/inst/avg_free_x64_all_2013_3392a6523.exe</url>
+        <sha1>5eeca7e61b2583d020405b410ee5c1da3cc46161</sha1>
+        <dependency package="net.nirsoft.MyUninstaller" versions="[1.74, 1.74]"/>
+        <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.15.7, 2)"/>
+    </version>
 
     <version name="1.36" package="com.bitcomet.BitComet64" type="one-file">
         <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
@@ -1555,6 +1592,25 @@ if %err% neq 0 exit %err%&#13;
 </file>
         <url>http://downloads.sourceforge.net/project/calibre/0.9.38/calibre-64bit-0.9.38.msi</url>
         <sha1>f62914f41d3e6032407a0d16f7f6eb16dd71c2b8</sha1>
+    </version>
+    <version name="0.9.43" package="com.calibreebook.Calibre64" type="one-file">
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.msi') do set setup=%%x&#13;
+msiexec.exe /qn /norestart /lime .Npackd\MSI.log /i "%setup%" TARGETDIR="%CD%" ALLUSERS=1&#13;
+set err=%errorlevel%&#13;
+type .Npackd\MSI.log&#13;
+rem 3010=restart required&#13;
+if %err% equ 3010 exit 0&#13;
+if %err% neq 0 exit %err%</file>
+        <file path=".Npackd\Uninstall.bat">for /f "delims=" %%x in ('dir /b *.msi') do set setup=%%x&#13;
+msiexec.exe /qn /norestart /lime .Npackd\MSI.log /x "%setup%"&#13;
+set err=%errorlevel%&#13;
+type .Npackd\MSI.log&#13;
+rem 3010=restart required&#13;
+if %err% equ 3010 exit 0&#13;
+if %err% neq 0 exit %err%&#13;
+</file>
+        <url>http://downloads.sourceforge.net/project/calibre/0.9.43/calibre-64bit-0.9.43.msi</url>
+        <sha1>cade6f47d57c37f279c533a527a832d710417c1a</sha1>
     </version>
 
     <version name="9.8" package="com.codecguide.KLite64" type="one-file">
@@ -2542,35 +2598,6 @@ call "%npackdih%\InstallMSI.bat" INSTALLDIR yes
         <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.1, 2)"/>
         <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.15.7, 2)"/>
         <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1, 1]"/>
-    </version>
-    <version name="5.5.29" package="com.mysql.MySQLCommunityServer64">
-        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b mysql*') do set name=%%x&#13;
-cd "%name%"        &#13;
-for /f "delims=" %%a in ('dir /b') do (&#13;
-  move "%%a" ..&#13;
-)&#13;
-cd ..&#13;
-rmdir "%name%"&#13;
-</file>
-        <url>http://cdn.mysql.com/Downloads/MySQL-5.5/mysql-5.5.29-winx64.zip</url>
-        <sha1>c37413576d9fc52f1b3764733e2dcbae0b637fed</sha1>
-        <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.1, 2)"/>
-        <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.15.7, 2)"/>
-        <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1, 1]"/>
-    </version>
-    <version name="5.6.10" package="com.mysql.MySQLCommunityServer64">
-        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b mysql*') do set name=%%x&#13;
-cd "%name%"        &#13;
-for /f "delims=" %%a in ('dir /b') do (&#13;
-  move "%%a" ..&#13;
-)&#13;
-cd ..&#13;
-rmdir "%name%"&#13;
-</file>
-        <url>http://cdn.mysql.com/Downloads/MySQL-5.6/mysql-5.6.10-winx64.zip</url>
-        <sha1>6035b45079d6a0944b41a637dc49629bd55693c3</sha1>
-        <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.1, 2)"/>
-        <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.15.7, 2)"/>
     </version>
     <version name="5.6.12" package="com.mysql.MySQLCommunityServer64">
         <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b mysql*') do set name=%%x&#13;
@@ -4705,29 +4732,6 @@ if %err% neq 0 exit %err%&#13;
         <sha1>f02e5d54e3802350ebcd31047dbf2e0aa53259d2</sha1>
     </version>
 
-    <version name="0.4.8" package="de.twotoasts.midori.Midori64" type="one-file">
-        <important-file path="bin\midori.exe" title="Midori"/>
-        <file path=".Npackd\Install.bat">if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1&#13;
-set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=org.7-zip.SevenZIPA" "--versions=[9.20, 9.20]"&#13;
-for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set sevenzipa=%%x&#13;
-&#13;
-for /f "delims=" %%y in ('dir /b *.7z') do set setup=%%y&#13;
-"%sevenzipa%\7za.exe" x "%setup%" -aoa&#13;
-&#13;
-del /q /f *.7z&#13;
-&#13;
-for /f "delims=" %%x in ('dir /b midori*') do set name=%%x&#13;
-cd "%name%"        &#13;
-for /f "delims=" %%a in ('dir /b') do (&#13;
-  move "%%a" ..&#13;
-)&#13;
-cd ..&#13;
-rmdir "%name%"</file>
-        <url>http://www.twotoasts.de/media/midori-0.4.8-x64_86-portable.7z</url>
-        <sha1>8e1b88f49fb3b93c80c4416d2cd87f671fa668ec</sha1>
-        <dependency package="org.7-zip.SevenZIPA" versions="[9.20, 9.20]"/>
-    </version>
-
     <version name="0.6.1" package="drmingw64">
         <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b drmingw*') do set name=%%x&#13;
 cd "%name%"        &#13;
@@ -4889,6 +4893,12 @@ taskkill /im Lightworks.exe /f /t&#13;
         <dependency package="com.microsoft.VisualCPPRedistributable64" versions="[10.0.40219, 10.0.40219]"/>
     </version>
 
+    <version name="2" package="myeventviewer64">
+        <important-file path="MyEventViewer.exe" title="MyEventViewer"/>
+        <url>https://dl.dropboxusercontent.com/u/176999101/myeventviewer64-2.zip</url>
+        <sha1>af0deadc224f6a79c1633beb8a7b69ddf677ffd8</sha1>
+    </version>
+
     <version name="3" package="net.blat.Blat64">
         <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b blat*') do set name=%%x
 move %name%\docs docs
@@ -4994,7 +5004,8 @@ del /q /f "CINEBENCH Windows 32 Bit.exe"</file>
 
     <version name="1.62" package="net.nirsoft.FileTypesMan64">
         <important-file path="FileTypesMan.exe" title="FileTypesMan"/>
-        <url>http://www.nirsoft.net/utils/filetypesman-x64.zip</url>
+        <url>https://dl.dropboxusercontent.com/u/176999101/net.nirsoft.FileTypesMan64-1.62.zip</url>
+        <sha1>a2b5e931f78b1d6545104808e53efb06fa3f2372</sha1>
     </version>
 
     <version name="2.3.1" package="net.openvpn.OpenVPN64" type="one-file">
@@ -5852,7 +5863,7 @@ rem 3010=restart required&#13;
 if %err% equ 3010 exit /b 0&#13;
 if %err% neq 0 exit /b %err%&#13;
 </file>
-        <url>http://downloads.sourceforge.net/project/tortoisesvn/1.8.0/application/TortoiseSVN-1.8.0.24401-x64-svn-1.8.0.msi</url>
+        <url>http://downloads.sourceforge.net/project/tortoisesvn/1.8.0/Application/TortoiseSVN-1.8.0.24401-x64-svn-1.8.0.msi</url>
         <sha1>eba41a7230286e51b3e37468792b4a8cb6a5592c</sha1>
     </version>
 
@@ -6572,6 +6583,20 @@ rmdir "%name%"&#13;
         <sha1>08d7733fb8e10388d82499f06afa41f13e6f348e</sha1>
         <dependency package="com.oracle.JRE64" versions="[1.6, 2)"/>
     </version>
+    <version name="7.3.5" package="org.areca-backup.ArecaBackup64">
+        <important-file path="areca.exe" title="Areca"/>
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b areca*') do set name=%%x&#13;
+cd "%name%"&#13;
+for /f "delims=" %%a in ('dir /b') do (&#13;
+  move "%%a" ..&#13;
+)&#13;
+cd ..&#13;
+rmdir "%name%"&#13;
+</file>
+        <url>http://downloads.sourceforge.net/project/areca/areca-stable/areca-7.3.5/areca-7.3.5-windows-jre64.zip</url>
+        <sha1>53b7e0372766cc12424571a8aa12d85e167dbf4a</sha1>
+        <dependency package="com.oracle.JRE64" versions="[1.6, 2)"/>
+    </version>
 
     <version name="1.1.8" package="org.bitbucket.tortoisehg.TortoiseHg64" type="one-file">
         <file path=".Npackd\Install.bat">for /f %%x in ('dir /b *.msi') do set setup=%%x
@@ -7139,6 +7164,20 @@ rmdir "%name%"&#13;
         <sha1>329e369a416fa79a08cfabcbdf035865116c29ab</sha1>
         <dependency package="com.microsoft.VisualCPPRedistributable64" versions="[9, 10)"/>
     </version>
+    <version name="2.68.1" package="org.blender.Blender64">
+        <important-file path="blender.exe" title="Blender"/>
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b blender*') do set name=%%x&#13;
+cd "%name%"        &#13;
+for /f "delims=" %%a in ('dir /b') do (&#13;
+  move "%%a" ..&#13;
+)&#13;
+cd ..&#13;
+rmdir "%name%"&#13;
+</file>
+        <url>http://ftp.nluug.nl/pub/graphics/blender/release//Blender2.68/blender-2.68a-windows64.zip</url>
+        <sha1>5da7dbd0edeecff1fb3d1a38b77f32bed20cd6d9</sha1>
+        <dependency package="com.microsoft.VisualCPPRedistributable64" versions="[9, 10)"/>
+    </version>
 
     <version name="1.0.3.8" package="org.bluemars.ClipX64" type="one-file">
         <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x
@@ -7162,8 +7201,8 @@ for /f "delims=" %%a in ('dir /b') do (&#13;
 cd ..&#13;
 rmdir "%name%"&#13;
 </file>
-        <url>http://www.cgsecurity.org/testdisk-6.14-WIP.win64.zip</url>
-        <sha1>a5ece30aaa5f5333eb2eeb4c51309396fde65def</sha1>
+        <url>http://www.cgsecurity.org/testdisk-6.14.win64.zip</url>
+        <sha1>43e5b9902d606f6b735e16409f2f12e293559656</sha1>
     </version>
 
     <version name="3.7" package="org.eclipse.EclipseIDECPP64">
@@ -8250,7 +8289,7 @@ cd ..
 rmdir "%name%"
 </file>
         <url>http://downloads.mongodb.org/win32/mongodb-win32-x86_64-2.2.0.zip</url>
-        <sha1>C85E2D756E03F8FC2DF44BFEE96222140A689D95</sha1>
+        <sha1>c85e2d756e03f8fc2df44bfee96222140a689d95</sha1>
     </version>
     <version name="2.2.1" package="org.mongodb.MongoDB64">
         <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b mongo*') do set name=%%x
@@ -9688,6 +9727,12 @@ if %err% neq 0 exit %err%</file>
         <sha1>03eeb52c0fa13d8c8f5fccd0056a2ad4c74974b1</sha1>
         <dependency package="com.microsoft.DotNetRedistributable" versions="[2.0, 5)"/>
     </version>
+    <version name="4.5.2.4214" package="se.cdburnerxp.CDBurnerXP64">
+        <important-file path="cdbxpp.exe" title="CDBurnerXP"/>
+        <url>http://download.cdburnerxp.se/portable/CDBurnerXP-x64-4.5.2.4214.zip</url>
+        <sha1>ba4ed724feae3cb0af4c7006a16cc6d3898afc70</sha1>
+        <dependency package="com.microsoft.DotNetRedistributable" versions="[2.0, 5)"/>
+    </version>
 
     <version name="7.21.6" package="se.haxx.curl.CURL64">
         <url>http://curl.haxx.se/download/curl-7.21.6-win64-ssl-sspi.zip</url>
@@ -9811,6 +9856,13 @@ if %err% neq 0 exit %err%&#13;
 </file>
         <url>http://downloads.sourceforge.net/project/stellarium/Stellarium-win32/0.12.1/stellarium-0.12.1-win64.exe</url>
         <sha1>6668397ada3032c01b6a5f3ad9e1b6b856866b1e</sha1>
+    </version>
+
+    <version name="2.82" package="transmission-qt64" type="one-file">
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
+"%setup%" --mode unattended --prefix "%CD%"</file>
+        <url>http://downloads.sourceforge.net/project/trqtw/Transmission-Qt/2.8x/Transmission-Qt-2.82-x86_64-installer.exe</url>
+        <sha1>77604c54d63c243392a7b0cded35a3096a839088</sha1>
     </version>
 
     <version name="2007.6.0.192" package="virtual-pc64" type="one-file">
