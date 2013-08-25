@@ -893,7 +893,7 @@ torrent client</description>
     <package name="com.cygwin.cygwin">
         <title>Cygwin</title>
         <url>http://www.cygwin.com</url>
-        <description>Linux-like environment. WARNING: shows download tools process and installation process. WARNING: please, terminate all Cygwin services before remove Cygwin</description>
+        <description>Linux-like environment. WARNING: shows download tools process and installation process.</description>
         <icon>https://lh5.googleusercontent.com/-cfUak8ZXd5s/UTX0oSrqXYI/AAAAAAAABCc/lv1byzKo4uA/s800/cygwin.png</icon>
         <license>org.gnu.GPLv2</license>
         <category>cat-tools</category>
@@ -6556,7 +6556,7 @@ verify</file>
         <sha1>97ab3450e77b6ff3d03569045857b0a2ec94d97f</sha1>
     </version>
 
-    <version name="3.6" package="com.auslogics.DiskDefrag" type="one-file">
+    <version name="4.1" package="com.auslogics.DiskDefrag" type="one-file">
         <file path=".Npackd\Install.bat">disk-defrag-setup.exe /SP- /VERYSILENT /SUPPRESSMSGBOXES /NOCANCEL /NORESTART /DIR="%CD%"</file>
         <file path=".Npackd\Uninstall.bat">unins000.exe /VERYSILENT /SUPPRESSMSGBOXES /NORESTART</file>
         <url>http://www.auslogics.com/en/downloads/disk-defrag/disk-defrag-setup.exe</url>
@@ -7344,6 +7344,22 @@ for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set myun=%%x&#13;
         <sha1>0f83e64227e3280dc06d90014e70ab5034ab2d86</sha1>
         <dependency package="net.nirsoft.MyUninstaller" versions="[1.74, 1.74]"/>
     </version>
+    <version name="3.0.0.5" package="com.cutepdf.CutePDFWriter" type="one-file">
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
+"%setup%" /SP- /VERYSILENT /SUPPRESSMSGBOXES /NOCANCEL /NORESTART /DIR="%CD%" /SAVEINF="%CD%\.Npackd\InnoSetupInfo.ini" /LOG="%CD%\.Npackd\InnoSetupInstall.log"&#13;
+set err=%errorlevel%&#13;
+type .Npackd\InnoSetupInstall.log&#13;
+if %err% neq 0 exit %err%&#13;
+</file>
+        <file path=".Npackd\Uninstall.bat">set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=net.nirsoft.MyUninstaller" "--versions=[1.74, 2)"&#13;
+for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set myun=%%x&#13;
+"%myun%\myuninst.exe" /quninstall "CutePDF Writer 3.0"&#13;
+</file>
+        <url>https://dl.dropboxusercontent.com/u/176999101/com.cutepdf.CutePDFWriter-3.0.0.5.exe</url>
+        <sha1>5a55768ebd69a2a31aac377153133135f3cd500a</sha1>
+        <dependency package="net.nirsoft.MyUninstaller" versions="[1.74, 2)"/>
+        <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.15.7, 2)"/>
+    </version>
 
     <version name="1.7.15" package="com.cygwin.cygwin" type="one-file">
         <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
@@ -7503,6 +7519,20 @@ for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set myun=%%x&#13;
 </file>
         <url>https://dl.dropboxusercontent.com/u/176999101/com.cyolito.comicrack.ComicRack-0.9.170.exe</url>
         <sha1>364ca4e80ad2c8710668e64690e521ec9b302460</sha1>
+        <dependency package="net.nirsoft.MyUninstaller" versions="[1.74, 1.74]"/>
+        <dependency package="com.microsoft.DotNetRedistributable" versions="[2.0, 3)"/>
+    </version>
+    <version name="0.9.171" package="com.cyolito.comicrack.ComicRack" type="one-file">
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
+"%setup%" /S /D=%CD%&#13;
+</file>
+        <file path=".Npackd\Uninstall.bat">if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1&#13;
+set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=net.nirsoft.MyUninstaller" "--versions=[1.74, 1.74]"&#13;
+for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set myun=%%x&#13;
+"%myun%\myuninst.exe" /quninstall "ComicRack v0.9.171"&#13;
+</file>
+        <url>https://dl.dropboxusercontent.com/u/176999101/com.cyolito.comicrack.ComicRack-0.9.171.exe</url>
+        <sha1>2de6252db451aaa589200fff1e3d0290d94cc4db</sha1>
         <dependency package="net.nirsoft.MyUninstaller" versions="[1.74, 1.74]"/>
         <dependency package="com.microsoft.DotNetRedistributable" versions="[2.0, 3)"/>
     </version>
@@ -7813,6 +7843,20 @@ move *.dll %trash%&#13;
         <url>https://dl.dropboxusercontent.com/u/17046326/files/com.dropbox.Dropbox-2.0.5.exe</url>
         <sha1>9378b022fbff13b70bf21d40682a75b0bbe7b218</sha1>
     </version>
+    <version name="2.2.0.26" package="com.dropbox.Dropbox" type="one-file">
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
+"%setup%" /S /D=%CD%&#13;
+rem taskkill /f /im dropbox.exe&#13;
+rem verify</file>
+        <file path=".Npackd\Uninstall.bat">Uninstall.exe /S _?=%CD%&#13;
+set key=com.dropbox.Dropbox-%NPACKD_PACKAGE_VERSION%&#13;
+set trash=..\.Trash\%key%_%RANDOM%&#13;
+mkdir %trash%&#13;
+move *.dll %trash%&#13;
+</file>
+        <url>https://dl.dropboxusercontent.com/u/176999101/com.dropbox.Dropbox-2.2.0.26.exe</url>
+        <sha1>fd459e666b6501572b7192953e45e021345e081c</sha1>
+    </version>
     <version name="2.2.8" package="com.dropbox.Dropbox" type="one-file">
         <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
 "%setup%" /S /D=%CD%&#13;
@@ -7826,6 +7870,20 @@ move *.dll %trash%&#13;
 </file>
         <url>https://dl.dropboxusercontent.com/u/176999101/com.dropbox.Dropbox-2.2.8.exe</url>
         <sha1>fd459e666b6501572b7192953e45e021345e081c</sha1>
+    </version>
+    <version name="2.2.8.0.26" package="com.dropbox.Dropbox" type="one-file">
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
+"%setup%" /S /D=%CD%&#13;
+rem taskkill /f /im dropbox.exe&#13;
+rem verify</file>
+        <file path=".Npackd\Uninstall.bat">Uninstall.exe /S _?=%CD%&#13;
+set key=com.dropbox.Dropbox-%NPACKD_PACKAGE_VERSION%&#13;
+set trash=..\.Trash\%key%_%RANDOM%&#13;
+mkdir %trash%&#13;
+move *.dll %trash%&#13;
+</file>
+        <url>https://dl.dropboxusercontent.com/u/176999101/com.dropbox.Dropbox-2.2.0.26.exe</url>
+        <sha1>e845ab67533f031529bb34c226aac832a827760d</sha1>
     </version>
 
     <version name="2.0" package="com.ducklink.CmdCapture" type="one-file">
@@ -8071,6 +8129,24 @@ type .Npackd\MSI.log&#13;
 if %err% neq 0 exit %err%</file>
         <url>http://cdn1.evernote.com/win4/public/Evernote_4.6.6.8360.exe</url>
         <sha1>8ecbd448c7778a153b6ea9462cb13af7530f0043</sha1>
+    </version>
+    <version name="4.6.7.8409" package="com.evernote.Evernote" type="one-file">
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
+"%setup%" /qn /norestart /Lime .Npackd\InstallMSI.log INSTALLLOCATION="%CD%" ALLUSERS=1 MSIFASTINSTALL=7&#13;
+set err=%errorlevel%&#13;
+type .Npackd\InstallMSI.log&#13;
+&#13;
+rem list of errors: http://msdn.microsoft.com/en-us/library/windows/desktop/aa368542(v=vs.85).aspx&#13;
+rem 3010=restart required&#13;
+if %err% equ 3010 goto eof&#13;
+if %err% neq 0 exit %err%&#13;
+		</file>
+        <file path=".Npackd\Uninstall.bat">MsiExec.exe /qn /norestart /Lime .Npackd\MSI.log /X{6146B9DC-C33D-11E2-BDE1-984BE15F174E}&#13;
+set err=%errorlevel%&#13;
+type .Npackd\MSI.log&#13;
+if %err% neq 0 exit %err%</file>
+        <url>http://cdn1.evernote.com/win4/public/Evernote_4.6.7.8409.exe</url>
+        <sha1>b80270ea606061e6b14bc593767cf13cdf8ed7d3</sha1>
     </version>
 
     <version name="3" package="com.excessivesoftware.PowerDefragmenter">
@@ -13116,6 +13192,13 @@ call "%npackdih%\InstallMSI.bat" INSTALLDIR yes&#13;
         <file path=".Npackd\Uninstall.bat">uninst.exe /S _?=%CD%</file>
         <url>http://download.piriform.com/dfsetup214.exe</url>
     </version>
+    <version name="2.15.741" package="com.piriform.Defraggler" type="one-file">
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
+"%setup%" /S /D=%CD%&#13;
+</file>
+        <file path=".Npackd\Uninstall.bat">uninst.exe /S _?=%CD%</file>
+        <url>http://download.piriform.com/dfsetup215.exe</url>
+    </version>
 
     <version name="1.38.504" package="com.piriform.Recuva" type="one-file">
         <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x
@@ -16238,9 +16321,10 @@ if %err% neq 0 exit %err%&#13;
         <sha1>2b1796be4401bd263ae635bc94454a592083d5c1</sha1>
     </version>
 
-    <version name="1.4" package="cz.mitec.ExeExplorer">
+    <version name="1.4.1" package="cz.mitec.ExeExplorer">
         <important-file path="EXE.exe" title="EXE Explorer"/>
-        <url>http://www.mitec.cz/Downloads/EXE.zip</url>
+        <url>https://dl.dropboxusercontent.com/u/176999101/cz.mitec.ExeExplorer-1.4.1.zip</url>
+        <sha1>4538c968d672dfcd6c4f149da37638977ccf4e60</sha1>
     </version>
 
     <version name="3.2.0.9" package="de.clipgrab.ClipGrab" type="one-file">
@@ -16747,6 +16831,20 @@ if %err% neq 0 exit %err%&#13;
         <url>https://dl.dropboxusercontent.com/u/176999101/eagleget-1.0.9.2.exe</url>
         <sha1>f7a3d1a04dd39787efc0a57ff56fdd57d6a6e2ee</sha1>
     </version>
+    <version name="1.1.0.3" package="eagleget" type="one-file">
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
+"%setup%" /SP- /VERYSILENT /SUPPRESSMSGBOXES /NOCANCEL /NORESTART /DIR="%CD%" /SAVEINF="%CD%\.Npackd\InnoSetupInfo.ini" /LOG="%CD%\.Npackd\InnoSetupInstall.log"&#13;
+set err=%errorlevel%&#13;
+type .Npackd\InnoSetupInstall.log&#13;
+if %err% neq 0 exit %err%</file>
+        <file path=".Npackd\Uninstall.bat">unins000.exe /VERYSILENT /SUPPRESSMSGBOXES /NORESTART /LOG="%CD%\.Npackd\InnoSetupUninstall.log"&#13;
+set err=%errorlevel%&#13;
+type .Npackd\InnoSetupUninstall.log&#13;
+if %err% neq 0 exit %err%&#13;
+</file>
+        <url>https://dl.dropboxusercontent.com/u/176999101/eagleget-1.1.0.3.exe</url>
+        <sha1>e80c5207fc0c7b0bacd614fd15d65626ba269ca3</sha1>
+    </version>
 
     <version name="0.44" package="ecere-sdk" type="one-file">
         <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
@@ -16758,6 +16856,18 @@ for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set myun=%%x&#13;
 </file>
         <url>http://www.ecere.com/downloads/setup-ecere-0.44-win32.exe</url>
         <sha1>6ad9172961aa35a1501d1d91dd75674374e16b55</sha1>
+        <dependency package="net.nirsoft.MyUninstaller" versions="[1.74, 2)"/>
+    </version>
+    <version name="0.44.8" package="ecere-sdk" type="one-file">
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
+"%setup%"</file>
+        <file path=".Npackd\Uninstall.bat">if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1&#13;
+set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=net.nirsoft.MyUninstaller" "--versions=[1.74, 2)"&#13;
+for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set myun=%%x&#13;
+"%myun%\myuninst.exe" /uninstall "ECERE SDK 0.44"&#13;
+</file>
+        <url>https://launchpadlibrarian.net/147169996/setup-ecere-0.44.08-win32.exe</url>
+        <sha1>5c0717ef2e894e77c17ce9cda6b8ad25f17c5e35</sha1>
         <dependency package="net.nirsoft.MyUninstaller" versions="[1.74, 2)"/>
     </version>
 
@@ -19127,6 +19237,11 @@ rmdir "%name%"&#13;
         <url>http://downloads.sourceforge.net/project/npackd/net.sourceforge.dcplusplus.DCPlusPlus-0.825.zip</url>
         <sha1>00c614720066b23a7dc4f3be360b8b9ea8550511</sha1>
     </version>
+    <version name="0.828" package="net.sourceforge.dcplusplus.DCPlusPlus">
+        <important-file path="DCPlusPlus.exe" title="DC++"/>
+        <url>http://downloads.sourceforge.net/project/npackd/net.sourceforge.dcplusplus.DCPlusPlus-0.828.zip</url>
+        <sha1>80901d1244f3004a0bbd9e37d47e308cdc796644</sha1>
+    </version>
 
     <version name="2.9" package="net.sourceforge.discoverd.Discover">
         <important-file path="Discover.exe" title="Discover"/>
@@ -19235,6 +19350,19 @@ type .Npackd\InnoSetupUninstall.log&#13;
 if %err% neq 0 exit %err%</file>
         <url>http://downloads.sourceforge.net/project/doublecmd/DC%20for%20Windows%2032%20bit/Double%20Commander%200.5.5%20beta/doublecmd-0.5.5.i386-win32.exe</url>
         <sha1>e23ce0f70acdcbc8c38669c6b31bc69c6877c744</sha1>
+    </version>
+    <version name="0.5.6" package="net.sourceforge.Doublecmd" type="one-file">
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
+"%setup%" /SP- /VERYSILENT /SUPPRESSMSGBOXES /NOCANCEL /NORESTART /DIR="%CD%" /SAVEINF="%CD%\.Npackd\InnoSetupInfo.ini" /LOG="%CD%\.Npackd\InnoSetupInstall.log"&#13;
+set err=%errorlevel%&#13;
+type .Npackd\InnoSetupInstall.log&#13;
+if %err% neq 0 exit %err%</file>
+        <file path=".Npackd\Uninstall.bat">unins000.exe /VERYSILENT /SUPPRESSMSGBOXES /NORESTART /LOG="%CD%\.Npackd\InnoSetupUninstall.log"&#13;
+set err=%errorlevel%&#13;
+type .Npackd\InnoSetupUninstall.log&#13;
+if %err% neq 0 exit %err%</file>
+        <url>http://downloads.sourceforge.net/project/doublecmd/DC%20for%20Windows%2032%20bit/Double%20Commander%200.5.6%20beta/doublecmd-0.5.6.i386-win32.exe</url>
+        <sha1>61d7af0af0d7c0881bb44da4f2e1bf5b79a46f82</sha1>
     </version>
 
     <version name="5.8" package="net.sourceforge.ExuberantCtags">
@@ -24782,6 +24910,21 @@ if %err% neq 0 exit %err%&#13;
         <url>http://downloads.sourceforge.net/project/dvdstyler/dvdstyler/2.4.3/DVDStylerPortable-2.4.3-win32.exe</url>
         <sha1>b9025f736caa61f50334b81a3c7b3cfd8b9e6b71</sha1>
     </version>
+    <version name="2.5.2" package="org.dvdstyler.DVDStyler" type="one-file">
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
+"%setup%" /SP- /VERYSILENT /SUPPRESSMSGBOXES /NOCANCEL /NORESTART /DIR="%CD%" /SAVEINF="%CD%\.Npackd\InnoSetupInfo.ini" /LOG="%CD%\.Npackd\InnoSetupInstall.log"&#13;
+set err=%errorlevel%&#13;
+type .Npackd\InnoSetupInstall.log&#13;
+if %err% neq 0 exit %err%&#13;
+</file>
+        <file path=".Npackd\Uninstall.bat">unins000.exe /VERYSILENT /SUPPRESSMSGBOXES /NORESTART /LOG="%CD%\.Npackd\InnoSetupUninstall.log"&#13;
+set err=%errorlevel%&#13;
+type .Npackd\InnoSetupUninstall.log&#13;
+if %err% neq 0 exit %err%&#13;
+</file>
+        <url>http://downloads.sourceforge.net/project/dvdstyler/dvdstyler/2.5.2/DVDStylerPortable-2.5.2-win32.exe</url>
+        <sha1>40df096920f4bb04918faa9c550accce94d1a064</sha1>
+    </version>
 
     <version name="3.7" package="org.eclipse.EclipseIDECPP">
         <important-file path="eclipse.exe" title="Eclipse IDE for C and C++"/>
@@ -25067,6 +25210,15 @@ rmdir /s /q "%name%"&#13;
 </file>
         <url>http://electricsheep.googlecode.com/files/electricsheep-2.7b34c.exe</url>
         <sha1>09a1ba3fef6825d146c53e47711baceb0a582e69</sha1>
+    </version>
+    <version name="2.7.2.35" package="org.electricsheep.ElectricSheep" type="one-file">
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
+"%setup%" /S /D=%CD%\Prog&#13;
+</file>
+        <file path=".Npackd\Uninstall.bat">Prog\uninst.exe /S _?=%CD%\Prog&#13;
+</file>
+        <url>http://electricsheep.googlecode.com/files/electricsheep-2.7b35.exe</url>
+        <sha1>1de3f030f86c139d6cdfa9d2aa437730d9e1b961</sha1>
     </version>
 
     <version name="15.2" package="org.erlang.Erlang" type="one-file">
@@ -32200,7 +32352,6 @@ reg delete HKLM\SOFTWARE\Classes\Applications\%KEY% /f&#13;
 for %%g in (vim txt in hp hxx c cpp cxx cc m java cs pas inc html htm php phtml js jsp asp css xml sh bsh nsi nsh lua pl pm py as mx vb vbs f for f90 f95 f2k tex sql nfo mak) do reg delete HKLM\SOFTWARE\Classes\.%%g\OpenWithList\%key% /f&#13;
 </file>
         <file path=".Npackd\Exclude.txt">.Npackd&#13;
-.Npackd&#13;
 </file>
         <file path=".Npackd\Install.bat">set name=vim\vim74&#13;
 cd "%name%"&#13;
@@ -32216,13 +32367,12 @@ if %errorlevel% neq 0 exit /b %errorlevel%&#13;
 set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=org.vim.VimRuntime" "--versions=[7.4, 7.4]"&#13;
 for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set vimruntime=%%x&#13;
 &#13;
-xcopy "%vimruntime%\*" . /E /H /EXCLUDE:.Npackd\Exclude.txt&#13;
+xcopy "%vimruntime%\*" . /E /H /Y /EXCLUDE:.Npackd\Exclude.txt &gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
 set KEY=org.vim.Vim-7.4&#13;
-reg add HKLM\SOFTWARE\Classes\Applications\%KEY%\shell\open /v FriendlyAppName /d "Vim (7.4)" /f&#13;
+reg add HKLM\SOFTWARE\Classes\Applications\%KEY%\shell\open /v FriendlyAppName /d "Vim (7.4)" /f &gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
 set c=\"%CD%\gvim.exe\" \"%%1\"&#13;
-reg add HKLM\SOFTWARE\Classes\Applications\%KEY%\shell\open\command /d "%c%" /f&#13;
-for %%g in (vim txt in hp hxx c cpp cxx cc m java cs pas inc html htm php phtml js jsp asp css xml sh bsh nsi nsh lua pl pm py as mx vb vbs f for f90 f95 f2k tex sql nfo mak) do reg add HKLM\SOFTWARE\Classes\.%%g\OpenWithList\%key% /f&#13;
-</file>
+reg add HKLM\SOFTWARE\Classes\Applications\%KEY%\shell\open\command /d "%c%" /f &gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+for %%g in (vim txt in hp hxx c cpp cxx cc m java cs pas inc html htm php phtml js jsp asp css xml sh bsh nsi nsh lua pl pm py as mx vb vbs f for f90 f95 f2k tex sql nfo mak) do reg add HKLM\SOFTWARE\Classes\.%%g\OpenWithList\%key% /f &gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt</file>
         <url>http://ftp.vim.org/pub/vim/pc/gvim74.zip</url>
         <sha1>017d24a694f2ce56171d8161cecd2baf1de85e92</sha1>
         <dependency package="org.vim.VimRuntime" versions="[7.4, 7.4]"/>
