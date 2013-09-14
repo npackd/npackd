@@ -241,6 +241,28 @@ rmdir "%name%"&#13;
         <dependency package="org.7-zip.SevenZIPA" versions="[9.20, 9.20]"/>
         <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.15.7, 2)"/>
     </version>
+    <version name="5.1" package="com.nokia.QtDev-i686-w64" type="one-file">
+        <file path=".Npackd\Install.bat">if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1&#13;
+set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=org.7-zip.SevenZIPA" "--versions=[9.20, 9.20]"&#13;
+for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set sevenzipa=%%x&#13;
+&#13;
+for /f "delims=" %%x in ('dir /b *.7z') do set setup=%%x&#13;
+"%sevenzipa%\7za.exe" x "%setup%" &gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+del "%setup%"&#13;
+&#13;
+for /f "delims=" %%x in ('dir /b qt5.*') do set name=%%x&#13;
+cd "%name%"&#13;
+for /f "delims=" %%a in ('dir /b') do (&#13;
+  move "%%a" ..&#13;
+)&#13;
+cd ..&#13;
+rmdir "%name%"&#13;
+</file>
+        <url>https://mingw-w64-dgn.googlecode.com/files/qt-5.1.0-w32-bin-i686-20130811.7z</url>
+        <sha1>6a2e77273eca4b6c6f53271deec32b05f2f55302</sha1>
+        <dependency package="org.7-zip.SevenZIPA" versions="[9.20, 9.20]"/>
+        <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.15.7, 2)"/>
+    </version>
 
     <version name="4.8.2" package="com.nokia.QtDev-i686-w64-Npackd-Release" type="one-file">
         <file path=".Npackd\Install.bat">if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1&#13;
@@ -299,6 +321,28 @@ rmdir "%name%"&#13;
         <url>https://mingw-w64-dgn.googlecode.com/files/qt-4.8.4-w64-bin-x86_64-20130406.7z</url>
         <sha1>cd3d800b36cf04ff0bc42b7a49074cff1b958806</sha1>
         <dependency package="org.7-zip.SevenZIPA" versions="[9.20, 9.20]"/>
+        <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.15.7, 2)"/>
+    </version>
+    <version name="5.1" package="com.nokia.QtDev-x86_64-w64" type="one-file">
+        <file path=".Npackd\Install.bat">if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1&#13;
+set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=org.7-zip.SevenZIPA" "--versions=[9.20, 9.20]"&#13;
+for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set sevenzipa=%%x&#13;
+&#13;
+for /f "delims=" %%x in ('dir /b *.7z') do set setup=%%x&#13;
+"%sevenzipa%\7za.exe" x "%setup%" &gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+del "%setup%"&#13;
+&#13;
+for /f "delims=" %%x in ('dir /b qt5.*') do set name=%%x&#13;
+cd "%name%"&#13;
+for /f "delims=" %%a in ('dir /b') do (&#13;
+  move "%%a" ..&#13;
+)&#13;
+cd ..&#13;
+rmdir "%name%"&#13;
+</file>
+        <url>https://mingw-w64-dgn.googlecode.com/files/qt-5.1.0-w64-bin-x86_64-20130808.7z</url>
+        <sha1>aeaedbd9ce5a3a24934542714cb2aea97f61873c</sha1>
+        <dependency package="org.7-zip.SevenZIPA" versions="[9.20, 10)"/>
         <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.15.7, 2)"/>
     </version>
 
@@ -372,6 +416,14 @@ ren "%setup%" qt-win-opensource-mingw.exe&#13;
 </file>
         <url>http://files.linux-addicted.net/qtproject/official_releases/qt/5.1/5.1.0/qt-windows-opensource-5.1.0-mingw48_opengl-x86-offline.exe</url>
         <sha1>1141dbec5af5ba4e24e6ae11fb99c8065cdbbee2</sha1>
+    </version>
+    <version name="5.1.1" package="com.nokia.QtMinGWInstaller" type="one-file">
+        <important-file path="qt-win-opensource-mingw.exe" title="Installer"/>
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
+ren "%setup%" qt-win-opensource-mingw.exe&#13;
+</file>
+        <url>http://files.linux-addicted.net/qtproject/official_releases/qt/5.1/5.1.1/qt-windows-opensource-5.1.1-mingw48_opengl-x86-offline.exe</url>
+        <sha1>fc85eb1a5efa2c3548c83994c93de45f02829711</sha1>
     </version>
 
     <version name="4.7.3" package="com.nokia.QtSource">
@@ -456,6 +508,25 @@ rmdir "%name%"</file>
         <url>http://qt-mirror.dannhauer.de/official_releases/qt/5.1/5.1.0/single/qt-everywhere-opensource-src-5.1.0.zip</url>
         <sha1>11dbc7fc19f4ffe6711a18c667f52ffab4a57044</sha1>
         <dependency package="org.7-zip.SevenZIPA" versions="[9.20, 9.20]"/>
+        <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.15.7, 2)"/>
+    </version>
+    <version name="5.1.1" package="com.nokia.QtSource" type="one-file">
+        <file path=".Npackd\Install.bat">set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=org.7-zip.SevenZIPA" "--versions=[9.20, 9.20]"&#13;
+for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set sevenzipa=%%x&#13;
+for /f %%x in ('dir /b *.zip') do set setup=%%x&#13;
+"%sevenzipa%\7za.exe" x "%setup%" &gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+del "%setup%"&#13;
+&#13;
+for /f "delims=" %%x in ('dir /b qt*') do set name=%%x&#13;
+cd "%name%"        &#13;
+for /f "delims=" %%a in ('dir /b') do (&#13;
+  move "%%a" ..&#13;
+)&#13;
+cd ..&#13;
+rmdir "%name%"</file>
+        <url>http://qt-mirror.dannhauer.de/official_releases/qt/5.1/5.1.1/single/qt-everywhere-opensource-src-5.1.1.zip</url>
+        <sha1>54271a90951eb356f138ac71a912d3937c62d9e9</sha1>
+        <dependency package="org.7-zip.SevenZIPA" versions="[9.20, 10)"/>
         <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.15.7, 2)"/>
     </version>
 

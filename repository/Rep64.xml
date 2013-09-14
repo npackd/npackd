@@ -240,14 +240,6 @@
         <license>org.gnu.GPLv3</license>
         <category>cat-tools</category>
     </package>
-    <package name="com.codecguide.KLite64">
-        <title>K-Lite Codec Pack 64 bit</title>
-        <url>http://codecguide.com/download_kl.htm</url>
-        <description>64-bit DirectShow filters and codecs. Highly recommended to install both the 64-bit pack and also one of the 32-bit variants from above. That way you can play your media files in both 32-bit and 64-bit applications. Many programs are still 32-bit, that is why you also need the 32-bit codecs.</description>
-        <icon>https://lh4.googleusercontent.com/-tTRQAZSc7Cs/UQIYCIWVrPI/AAAAAAAAACE/g_4xsjRHpW0/s800/mediaplayerclassic_32.png</icon>
-        <license>org.wikipedia.Freeware</license>
-        <category>cat-video</category>
-    </package>
     <package name="com.comodo.comodoav64">
         <title>Comodo Antivirus 64 bit</title>
         <url>http://www.comodo.com/home/internet-security/antivirus.php</url>
@@ -508,6 +500,14 @@ Visual Studio 2012 - 11.0</description>
         <license>org.wikipedia.Freeware</license>
         <category>cat-photo</category>
     </package>
+    <package name="cygwin64">
+        <title>Cygwin 64 bit</title>
+        <url>http://www.cygwin.com</url>
+        <description>Linux-like environment. WARNING: shows download tools process and installation process.</description>
+        <icon>https://lh5.googleusercontent.com/-cfUak8ZXd5s/UTX0oSrqXYI/AAAAAAAABCc/lv1byzKo4uA/s800/cygwin.png</icon>
+        <license>org.gnu.GPLv2</license>
+        <category>cat-tools</category>
+    </package>
     <package name="dcplusplus64">
         <title>DC++ 64 bit</title>
         <url>http://dcplusplus.sourceforge.net</url>
@@ -756,6 +756,14 @@ Windows XP or later is required. It relies upon the DbgHelp library to resolve s
         <icon>https://lh6.googleusercontent.com/-wAvbg_r0rL4/USkA9Udr0BI/AAAAAAAAA0g/TVSAwRj45fA/s800/tortoisesvn.png</icon>
         <license>org.gnu.GPLv2</license>
         <category>cat-dev</category>
+    </package>
+    <package name="nircmd64">
+        <title>NirCmd 64 bit</title>
+        <url>http://www.nirsoft.net/utils/nircmd.html</url>
+        <description>command line utility</description>
+        <icon>http://cdn.alternativeto.net/i/f072b106-f4d2-df11-8b73-0200d897d049_6406.png</icon>
+        <license>net.nirsoft.FreewareLicense</license>
+        <category>cat-tools</category>
     </package>
     <package name="npackd-gae-gc-rep-transfer">
         <title>Npackd GAE to Google Code repositories transfer</title>
@@ -1653,25 +1661,6 @@ if %err% neq 0 exit %err%&#13;
 </file>
         <url>http://downloads.sourceforge.net/project/calibre/0.9.43/calibre-64bit-0.9.43.msi</url>
         <sha1>cade6f47d57c37f279c533a527a832d710417c1a</sha1>
-    </version>
-
-    <version name="9.8" package="com.codecguide.KLite64" type="one-file">
-        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
-"%setup%" /VERYSILENT /SUPPRESSMSGBOXES /NOCANCEL /NORESTART /DIR="%CD%"</file>
-        <file path=".Npackd\Uninstall.bat">unins000.exe /VERYSILENT /SUPPRESSMSGBOXES /NORESTART</file>
-        <url>http://fileforum.betanews.com/sendfile/1094057842/5/1361528855.05da9dcfed95cb4c93575751bc7607e436c90f16/K-Lite_Codec_Pack_975_x64.exe</url>
-    </version>
-    <version name="9.8.5" package="com.codecguide.KLite64" type="one-file">
-        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
-"%setup%" /VERYSILENT /SUPPRESSMSGBOXES /NOCANCEL /NORESTART /DIR="%CD%"</file>
-        <file path=".Npackd\Uninstall.bat">unins000.exe /VERYSILENT /SUPPRESSMSGBOXES /NORESTART</file>
-        <url>http://fileforum.betanews.com/sendfile/1094057842/5/1365936806.8bf75d97582284e54661ca0498ef35fe9e90af85/K-Lite_Codec_Pack_985_x64.exe</url>
-    </version>
-    <version name="9.9.9" package="com.codecguide.KLite64" type="one-file">
-        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
-"%setup%" /VERYSILENT /SUPPRESSMSGBOXES /NOCANCEL /NORESTART /DIR="%CD%"</file>
-        <file path=".Npackd\Uninstall.bat">unins000.exe /VERYSILENT /SUPPRESSMSGBOXES /NORESTART</file>
-        <url>http://download.betanews.com/download/1094057842-5/K-Lite_Codec_Pack_999_x64.exe</url>
     </version>
 
     <version name="5.12.256249.2599" package="com.comodo.comodoav64" type="one-file">
@@ -2682,6 +2671,20 @@ rmdir "%name%"&#13;
 </file>
         <url>http://cdn.mysql.com/Downloads/MySQL-5.6/mysql-5.6.12-winx64.zip</url>
         <sha1>f64bf64f3a1639fdc5cb17e2db400554ec8046ed</sha1>
+        <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.1, 2)"/>
+        <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.15.7, 2)"/>
+    </version>
+    <version name="5.6.13" package="com.mysql.MySQLCommunityServer64">
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b mysql*') do set name=%%x&#13;
+cd "%name%"        &#13;
+for /f "delims=" %%a in ('dir /b') do (&#13;
+  move "%%a" ..&#13;
+)&#13;
+cd ..&#13;
+rmdir "%name%"&#13;
+</file>
+        <url>http://downloads.sourceforge.net/project/npackd/com.mysql.MySQLCommunityServer64-5.6.13.zip</url>
+        <sha1>c3556188868d0281929a8fc377090cc84a948f26</sha1>
         <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.1, 2)"/>
         <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.15.7, 2)"/>
     </version>
@@ -4292,6 +4295,20 @@ del Q-Dir.ini&#13;
         <url>https://dl.dropboxusercontent.com/u/176999101/com.softwareok.QDir64-5.62.zip</url>
         <sha1>b1688a3987f3dffe12fb068e95ee7dcb3a1c20da</sha1>
     </version>
+    <version name="5.70" package="com.softwareok.QDir64">
+        <important-file path="Q-Dir.exe" title="Q-Dir"/>
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b Q*') do set name=%%x&#13;
+cd "%name%"        &#13;
+for /f "delims=" %%a in ('dir /b') do (&#13;
+  move "%%a" ..&#13;
+)&#13;
+cd ..&#13;
+rmdir "%name%"&#13;
+del Q-Dir.ini&#13;
+</file>
+        <url>https://dl.dropboxusercontent.com/u/176999101/com.softwareok.QDir64-5.70.zip</url>
+        <sha1>03d7c10fe799e6e20619e40e388d8697534d94db</sha1>
+    </version>
 
     <version name="5.16.3.1" package="com.strawberryperl.StrawberryPerl64" type="one-file">
         <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.msi') do set setup=%%x&#13;
@@ -4656,6 +4673,28 @@ if %err% neq 0 exit /b %err%&#13;
         <url>https://dl.dropboxusercontent.com/u/176999101/com.tracker-software.PDFXChangeViewer64-2.5.211.msi</url>
         <sha1>b52385ccc2042d467b63975ec2ec910fada3b7fd</sha1>
     </version>
+    <version name="2.5.212" package="com.tracker-software.PDFXChangeViewer64" type="one-file">
+        <file path=".Npackd\Install.bat">for /f %%x in ('dir /b *.msi') do set setup=%%x&#13;
+copy "%setup%" .Npackd&#13;
+msiexec.exe /qn /norestart /Lime .Npackd\MSI.log /i "%setup%" INSTALLLOCATION="%CD%" ALLUSERS=1&#13;
+set err=%errorlevel%&#13;
+type .Npackd\MSI.log&#13;
+rem 3010=restart required&#13;
+if %err% equ 3010 exit /b 0&#13;
+if %err% neq 0 exit /b %err%&#13;
+</file>
+        <file path=".Npackd\Uninstall.bat">copy .Npackd\*.msi .&#13;
+for /f %%x in ('dir /b *.msi') do set setup=%%x&#13;
+msiexec.exe /qn /norestart /Lime .Npackd\MSI.log /x "%setup%"&#13;
+set err=%errorlevel%&#13;
+type .Npackd\MSI.log&#13;
+rem 3010=restart required&#13;
+if %err% equ 3010 exit /b 0&#13;
+if %err% neq 0 exit /b %err%&#13;
+</file>
+        <url>https://dl.dropboxusercontent.com/u/176999101/com.tracker-software.PDFXChangeViewer64-2.5.211.msi</url>
+        <sha1>b52385ccc2042d467b63975ec2ec910fada3b7fd</sha1>
+    </version>
 
     <version name="1.0.9.6" package="com.uvnc.UltraVNC64">
         <important-file path="winvnc.exe" title="UltraVNC Server"/>
@@ -4823,6 +4862,16 @@ if %err% neq 0 exit %err%&#13;
 </file>
         <url>http://download.xnview.com/XnConvert-win-x64.exe</url>
         <dependency package="com.microsoft.VisualCPPRedistributable64" versions="[9.0.21022, 9.0.21022]"/>
+    </version>
+
+    <version name="1.7.15" package="cygwin64" type="one-file">
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
+"%setup%" -q -D -R "%ProgramFiles%\Cygwin64Data" -s http://box-soft.com -l "%ProgramFiles%\Cygwin64Data\packages"&#13;
+"%setup%" -q -L -R "%ProgramFiles%\Cygwin64Data" -l "%ProgramFiles%\Cygwin64Data\packages"</file>
+        <file path=".Npackd\Uninstall.bat">rd /s /q "%ProgramFiles%\Cygwin64Data"&#13;
+del /q /f "%Public%\Desktop\Cygwin Terminal.lnk" || del /q /f "%ALLUSERSPROFILE%\Desktop\Cygwin Terminal.lnk"&#13;
+rd /s /q "%ALLUSERSPROFILE%\Start Menu\Programs\Cygwin" || rd /s /q "%ALLUSERSPROFILE%\Microsoft\Windows\Start Menu\Programs\Cygwin"</file>
+        <url>http://cygwin.com/setup-x86_64.exe</url>
     </version>
 
     <version name="0.825" package="dcplusplus64">
@@ -5146,7 +5195,26 @@ if %err% equ 3010 exit 0&#13;
 if %err% neq 0 exit %err%</file>
         <url>https://dl.dropboxusercontent.com/s/xsqe3sre9gcwttr/PaintDotNet_3.5.10_x64.msi</url>
         <sha1>a6ee01329a828d76eabb552e9a91e1c44161f867</sha1>
-        <dependency package="com.microsoft.DotNetRedistributable" versions="[3.5.30729.1, 3.5.30729.1]"/>
+        <dependency package="com.microsoft.DotNetRedistributable" versions="[3.5, 4)"/>
+    </version>
+    <version name="3.5.11" package="net.getpaint.paintdotnet64" type="one-file">
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.msi') do set setup=%%x&#13;
+msiexec /qn /norestart /lime .Npackd\MSI.log /i "%setup%" TARGETDIR="%CD%" ALLUSERS=1&#13;
+set err=%errorlevel%&#13;
+type .Npackd\MSI.log&#13;
+rem 3010=restart required&#13;
+if %err% equ 3010 exit 0&#13;
+if %err% neq 0 exit %err%</file>
+        <file path=".Npackd\Uninstall.bat">for /f "delims=" %%x in ('dir /b *.msi') do set setup=%%x&#13;
+msiexec /qn /norestart /lime .Npackd\MSI.log /x "%setup%"&#13;
+set err=%errorlevel%&#13;
+type .Npackd\MSI.log&#13;
+rem 3010=restart required&#13;
+if %err% equ 3010 exit 0&#13;
+if %err% neq 0 exit %err%</file>
+        <url>https://dl.dropboxusercontent.com/u/176999101/net.getpaint.paintdotnet64-3.5.11.msi</url>
+        <sha1>cb2328646b2f1409c4f57d8edf8aac35c42053cf</sha1>
+        <dependency package="com.microsoft.DotNetRedistributable" versions="[3.5, 4)"/>
     </version>
 
     <version name="11.529" package="net.maxon.cinebench.Cinebench64">
@@ -5743,6 +5811,21 @@ if %err% neq 0 exit %err%&#13;
         <url>https://peazip.googlecode.com/files/peazip-5.0.WIN64.exe</url>
         <sha1>075e443710381ac7302492cbbf87800c65f5cd03</sha1>
     </version>
+    <version name="5.1" package="net.sourceforge.peazip.PeaZip64" type="one-file">
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
+"%setup%" /SP- /VERYSILENT /SUPPRESSMSGBOXES /NOCANCEL /NORESTART /DIR="%CD%" /SAVEINF="%CD%\.Npackd\InnoSetupInfo.ini" /LOG="%CD%\.Npackd\InnoSetupInstall.log"&#13;
+set err=%errorlevel%&#13;
+type .Npackd\InnoSetupInstall.log&#13;
+if %err% neq 0 exit %err%&#13;
+</file>
+        <file path=".Npackd\Uninstall.bat">unins000.exe /VERYSILENT /SUPPRESSMSGBOXES /NORESTART /LOG="%CD%\.Npackd\InnoSetupUninstall.log"&#13;
+set err=%errorlevel%&#13;
+type .Npackd\InnoSetupUninstall.log&#13;
+if %err% neq 0 exit %err%&#13;
+</file>
+        <url>https://dl.dropboxusercontent.com/u/176999101/net.sourceforge.peazip.PeaZip64-5.1.exe</url>
+        <sha1>9bc1160a3214e1751038c090935be7d94feb73c2</sha1>
+    </version>
 
     <version name="2.6" package="net.sourceforge.shareaza.Shareaza64" type="one-file">
         <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x
@@ -6033,6 +6116,23 @@ if %err% neq 0 exit /b %err%&#13;
 </file>
         <url>http://downloads.sourceforge.net/project/tortoisesvn/1.8.0/Application/TortoiseSVN-1.8.0.24401-x64-svn-1.8.0.msi</url>
         <sha1>eba41a7230286e51b3e37468792b4a8cb6a5592c</sha1>
+    </version>
+
+    <version name="2.75" package="nircmd64">
+        <file path=".Npackd\Install.bat">set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.CLU" "--versions=[1, 2)"&#13;
+for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set clu=%%x&#13;
+"%clu%\clu" add-path --path "%CD%"&#13;
+verify&#13;
+</file>
+        <file path=".Npackd\Uninstall.bat">set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.CLU" "--versions=[1, 2)"&#13;
+for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set clu=%%x&#13;
+"%clu%\clu" remove-path --path "%CD%"&#13;
+verify&#13;
+</file>
+        <url>https://dl.dropboxusercontent.com/u/176999101/nircmd64-2.75.zip</url>
+        <sha1>91cae2743d2db1a7eb4d894938d4587893b36b57</sha1>
+        <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.15.7, 2)"/>
+        <dependency package="com.googlecode.windows-package-manager.CLU" versions="[1, 2)"/>
     </version>
 
     <version name="1" package="npackd-gae-gc-rep-transfer">
@@ -9003,6 +9103,16 @@ call "%npackdih%\InstallMSI.bat" INSTALLDIR yes&#13;
         <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.15.7, 2)"/>
         <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.1, 2)"/>
     </version>
+    <version name="0.10.18" package="org.nodejs.NodeJS64" type="one-file">
+        <file path=".Npackd\Install.bat">set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.NpackdInstallerHelper" "--versions=[1.1, 2)"&#13;
+for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set npackdih=%%x&#13;
+call "%npackdih%\InstallMSI.bat" INSTALLDIR yes&#13;
+</file>
+        <url>http://nodejs.org/dist/v0.10.18/x64/node-v0.10.18-x64.msi</url>
+        <sha1>8b845fe8723480f740d2efbfac3da11cb712ce66</sha1>
+        <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.15.7, 2)"/>
+        <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.1, 2)"/>
+    </version>
 
     <version name="2.0.1" package="org.processing.Processing64">
         <important-file path="processing.exe" title="Processing"/>
@@ -9012,6 +9122,16 @@ rmdir /s /q "%name%"&#13;
 </file>
         <url>http://processing.googlecode.com/files/processing-2.0.1-windows64.zip</url>
         <sha1>a4aa1b162994495ff659036d8f31fc7dd665abaa</sha1>
+        <dependency package="com.oracle.JDK" versions="[1.5, 2)"/>
+    </version>
+    <version name="2.0.3" package="org.processing.Processing64">
+        <important-file path="processing.exe" title="Processing"/>
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b processing*') do set name=%%x&#13;
+xcopy "%name%\*" . /E /H&#13;
+rmdir /s /q "%name%"&#13;
+</file>
+        <url>http://processing.googlecode.com/files/processing-2.0.3-windows64.zip</url>
+        <sha1>e1ae224933547fd92918909a3d177d30ab649744</sha1>
         <dependency package="com.oracle.JDK" versions="[1.5, 2)"/>
     </version>
 
