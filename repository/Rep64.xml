@@ -573,6 +573,12 @@ Windows XP or later is required. It relies upon the DbgHelp library to resolve s
         <license>org.gnu.GPLv2</license>
         <category>cat-photo</category>
     </package>
+    <package name="hwinfo64">
+        <title>HWiNFO 64 bit</title>
+        <url>http://www.hwinfo.com/</url>
+        <description>professional hardware information and diagnostic tools supporting latest components, industry technologies and standards. Both tools are designed to collect and present the maximum amount of information possible about computers hardware which makes them suitable for users searching for driver updates, computer manufacturers, system integrators and technical experts as well. Retrieved information is presented in a logical and easily understandable form and can be exported into various types of reports.</description>
+        <icon>http://i.suse.me/hw/hwinfo32.png</icon>
+    </package>
     <package name="ie.heidi.eraser.eraser64">
         <title>Eraser 64 bit</title>
         <url>http://eraser.heidi.ie</url>
@@ -5129,6 +5135,22 @@ call "%npackdih%\InstallMSI.bat" INSTALLDIR yes&#13;
 </file>
         <url>http://downloads.sourceforge.net/project/hugin/hugin/hugin-2012.0/HuginSetup_2012.0.0_64bit_Windows.exe</url>
         <sha1>e17a28eb1fe8485f82ba8e878d0a830a7efc0a6e</sha1>
+    </version>
+
+    <version name="4.24" package="hwinfo64" type="one-file">
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
+"%setup%" /SP- /VERYSILENT /SUPPRESSMSGBOXES /NOCANCEL /NORESTART /DIR="%CD%" /SAVEINF="%CD%\.Npackd\InnoSetupInfo.ini" /LOG="%CD%\.Npackd\InnoSetupInstall.log"&#13;
+set err=%errorlevel%&#13;
+type .Npackd\InnoSetupInstall.log&#13;
+if %err% neq 0 exit %err%&#13;
+</file>
+        <file path=".Npackd\Uninstall.bat">unins000.exe /VERYSILENT /SUPPRESSMSGBOXES /NORESTART /LOG="%CD%\.Npackd\InnoSetupUninstall.log"&#13;
+set err=%errorlevel%&#13;
+type .Npackd\InnoSetupUninstall.log&#13;
+if %err% neq 0 exit %err%&#13;
+</file>
+        <url>http://www.hwinfo.com/files/hw64_424.exe</url>
+        <sha1>f17cc39c3299ca941d231e7fda4cea5217cff556</sha1>
     </version>
 
     <version name="6.0.10.2620" package="ie.heidi.eraser.eraser64" type="one-file">

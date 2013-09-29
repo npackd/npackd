@@ -377,6 +377,13 @@
         <title>cURL license</title>
         <url>http://curl.haxx.se/legal/licmix.html</url>
     </license>
+    <package name="aimp">
+        <title>AIMP</title>
+        <url>http://www.aimp.ru/</url>
+        <description>audio player</description>
+        <icon>https://lh6.googleusercontent.com/-3vh4E1Y5YpU/Uj8iJzcdQwI/AAAAAAAABIo/z4KtX_l8tRc/s48-no/aimp.png</icon>
+        <category>cat-music</category>
+    </package>
     <package name="android-studio">
         <title>Android Studio</title>
         <url>http://developer.android.com/sdk/installing/studio.html</url>
@@ -2526,6 +2533,15 @@ utility, etc.)</description>
         <license>org.gnu.GPLv3</license>
         <category>cat-productivity</category>
     </package>
+    <package name="ExpressProfiler">
+        <title>ExpressProfiler</title>
+        <url>http://expressprofiler.codeplex.com/</url>
+        <description>ExpressProfiler (aka SqlExpress Profiler) is a simple but good enough replacement for SQL Server Profiler with basic GUI&#13;
+No requirements, no installation. &#13;
+Can be used with both Express and non-Express Database editions of SQL Server 2005/2008/2008r2/2012 (including LocalDB)</description>
+        <icon>https://lh5.googleusercontent.com/-WxftTuKeshs/UkNAWEQbpBI/AAAAAAAABJA/HeRCMcPxSgQ/s48-no/ExpressProfiler.png</icon>
+        <category>cat-dev</category>
+    </package>
     <package name="fbreader">
         <title>FBReader</title>
         <url>http://fbreader.org</url>
@@ -2687,6 +2703,13 @@ utility, etc.)</description>
         <icon>https://lh3.googleusercontent.com/-mUgWzoAYV14/UXTqI3hzclI/AAAAAAAAB2E/VXDC_1KB0L4/s800/hugin.png</icon>
         <license>org.gnu.GPLv2</license>
         <category>cat-photo</category>
+    </package>
+    <package name="hwinfo">
+        <title>HWiNFO</title>
+        <url>http://www.hwinfo.com/</url>
+        <description>professional hardware information and diagnostic tools supporting latest components, industry technologies and standards. Both tools are designed to collect and present the maximum amount of information possible about computers hardware which makes them suitable for users searching for driver updates, computer manufacturers, system integrators and technical experts as well. Retrieved information is presented in a logical and easily understandable form and can be exported into various types of reports.</description>
+        <icon>http://i.suse.me/hw/hwinfo32.png</icon>
+        <category>cat-tools</category>
     </package>
     <package name="ie.heidi.eraser.eraser">
         <title>Eraser</title>
@@ -5436,6 +5459,16 @@ Urban Terror can be described as a Hollywood tactical shooter; somewhat realism 
         <license>org.gnu.GPLv2</license>
         <category>cat-dev</category>
     </package>
+
+    <version name="3.55.1298" package="aimp" type="one-file">
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
+"%setup%" /SILENT /AUTO="%CD%\Prog"&#13;
+</file>
+        <file path=".Npackd\Uninstall.bat">Prog\Uninstall.exe /SILENT&#13;
+</file>
+        <url>http://files.programki.net/aimp/aimp_3.55.1298_beta.exe</url>
+        <sha1>22a2ec9d948d70de38b2e5cc606292130b555495</sha1>
+    </version>
 
     <version name="0.1.1.130.677228" package="android-studio" type="one-file">
         <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
@@ -17462,6 +17495,12 @@ for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set myun=%%x&#13;
         <dependency package="com.oracle.JRE" versions="[1.5, 2)"/>
     </version>
 
+    <version name="2" package="ExpressProfiler">
+        <important-file path="ExpressProfiler.exe" title="ExpressProfiler"/>
+        <url>http://download-codeplex.sec.s-msft.com/Download/Release?ProjectName=expressprofiler&amp;DownloadId=725687&amp;FileTime=130232721088900000&amp;Build=20779</url>
+        <sha1>59f52915d7fe7d6c7691949d805b2d2582ac6f84</sha1>
+    </version>
+
     <version name="0.12.10" package="fbreader" type="one-file">
         <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
 "%setup%" /S /D=%CD%&#13;
@@ -17798,6 +17837,22 @@ if %err% neq 0 exit %err%</file>
 </file>
         <url>http://downloads.sourceforge.net/project/hugin/hugin/hugin-2012.0/HuginSetup_2012.0.0_32bit_Windows.exe</url>
         <sha1>1aa9f1ee3994fbb08720d74650c9f05a22fdf9bf</sha1>
+    </version>
+
+    <version name="4.24" package="hwinfo" type="one-file">
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
+"%setup%" /SP- /VERYSILENT /SUPPRESSMSGBOXES /NOCANCEL /NORESTART /DIR="%CD%" /SAVEINF="%CD%\.Npackd\InnoSetupInfo.ini" /LOG="%CD%\.Npackd\InnoSetupInstall.log"&#13;
+set err=%errorlevel%&#13;
+type .Npackd\InnoSetupInstall.log&#13;
+if %err% neq 0 exit %err%&#13;
+</file>
+        <file path=".Npackd\Uninstall.bat">unins000.exe /VERYSILENT /SUPPRESSMSGBOXES /NORESTART /LOG="%CD%\.Npackd\InnoSetupUninstall.log"&#13;
+set err=%errorlevel%&#13;
+type .Npackd\InnoSetupUninstall.log&#13;
+if %err% neq 0 exit %err%&#13;
+</file>
+        <url>http://www.hwinfo.com/files/hw32_424.exe</url>
+        <sha1>7f0e27a0819ae538ed0d3be660018c591c799402</sha1>
     </version>
 
     <version name="6.0.10.2620" package="ie.heidi.eraser.eraser" type="one-file">
@@ -28662,36 +28717,6 @@ if %err% neq 0 exit %err%
 </file>
         <url>http://dl.dropbox.com/u/17046326/files/org.izarc.IZArc-4.1.6.exe</url>
         <sha1>8AF1FBF0DDB3F17E4B38755D5A4533D605713B41</sha1>
-    </version>
-    <version name="4.1.7" package="org.izarc.IZArc" type="one-file">
-        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x
-"%setup%" /SP- /NOCANDY /VERYSILENT /SUPPRESSMSGBOXES /NOCANCEL /NORESTART /DIR="%CD%\Prog" /SAVEINF="%CD%\.Npackd\InnoSetupInfo.ini" /LOG="%CD%\.Npackd\InnoSetupInstall.log"
-set err=%errorlevel%
-type .Npackd\InnoSetupInstall.log
-if %err% neq 0 exit %err%
-</file>
-        <file path=".Npackd\Uninstall.bat">Prog\unins000.exe /VERYSILENT /SUPPRESSMSGBOXES /NORESTART /LOG="%CD%\.Npackd\InnoSetupUninstall.log"
-set err=%errorlevel%
-type .Npackd\InnoSetupUninstall.log
-if %err% neq 0 exit %err%
-</file>
-        <url>http://dl.dropbox.com/u/17046326/files/org.izarc.IZArc-4.1.7.exe</url>
-        <sha1>6cffddb76345fa7bb63579e11cd5f6bb5e2f44f6</sha1>
-    </version>
-    <version name="4.1.8" package="org.izarc.IZArc" type="one-file">
-        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
-"%setup%" /SP- /NOCANDY /VERYSILENT /SUPPRESSMSGBOXES /NOCANCEL /NORESTART /DIR="%CD%\Prog" /SAVEINF="%CD%\.Npackd\InnoSetupInfo.ini" /LOG="%CD%\.Npackd\InnoSetupInstall.log"&#13;
-set err=%errorlevel%&#13;
-type .Npackd\InnoSetupInstall.log&#13;
-if %err% neq 0 exit %err%&#13;
-</file>
-        <file path=".Npackd\Uninstall.bat">Prog\unins000.exe /VERYSILENT /SUPPRESSMSGBOXES /NORESTART /LOG="%CD%\.Npackd\InnoSetupUninstall.log"&#13;
-set err=%errorlevel%&#13;
-type .Npackd\InnoSetupUninstall.log&#13;
-if %err% neq 0 exit %err%&#13;
-</file>
-        <url>https://dl.dropboxusercontent.com/u/176999101/org.izarc.IZArc-4.1.8.exe</url>
-        <sha1>9f78a63de63dd957ef14ba44b15cb78447fdbdab</sha1>
     </version>
 
     <version name="2.0.4506.10553" package="org.jitsi.Jitsi" type="one-file">
