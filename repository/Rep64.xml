@@ -500,6 +500,13 @@ Visual Studio 2012 - 11.0</description>
         <license>org.wikipedia.Freeware</license>
         <category>cat-photo</category>
     </package>
+    <package name="cyberfox">
+        <title>Cyberfox</title>
+        <url>https://8pecxstudios.com/?page_id=52</url>
+        <description>web browser</description>
+        <icon>https://8pecxstudios.com/wp-content/uploads/2013/01/default48.png</icon>
+        <category>cat-productivity</category>
+    </package>
     <package name="cygwin64">
         <title>Cygwin 64 bit</title>
         <url>http://www.cygwin.com</url>
@@ -1331,6 +1338,28 @@ if %err% equ 3010 exit 0&#13;
 if %err% neq 0 exit %err%</file>
         <url>http://dl-ak.solidworks.com/nonsecure/draftsight/V1R3.1/DraftSight64.exe</url>
     </version>
+    <version name="1.4" package="com.3ds.DraftSight64" type="one-file">
+        <file path=".Npackd\Install.bat">md msi&#13;
+&#13;
+for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
+"%setup%" /Q /T:"%CD%\msi" /C&#13;
+&#13;
+for /f "delims=" %%x in ('dir /b msi\*.msi') do set setup=%%x&#13;
+msiexec /qn /norestart /lime .Npackd\MSI.log /i "msi\%setup%" TARGETDIR="%CD%" ALLUSERS=1&#13;
+set err=%errorlevel%&#13;
+type .Npackd\MSI.log&#13;
+rem 3010=restart required&#13;
+if %err% equ 3010 exit 0&#13;
+if %err% neq 0 exit %err%</file>
+        <file path=".Npackd\Uninstall.bat">for /f "delims=" %%x in ('dir /b msi\*.msi') do set setup=%%x&#13;
+msiexec /qn /norestart /lime .Npackd\MSI.log /x "msi\%setup%"&#13;
+set err=%errorlevel%&#13;
+type .Npackd\MSI.log&#13;
+rem 3010=restart required&#13;
+if %err% equ 3010 exit 0&#13;
+if %err% neq 0 exit %err%</file>
+        <url>http://dl-ak.solidworks.com/nonsecure/draftsight/V1R4.0/DraftSight64.exe</url>
+    </version>
 
     <version name="5.16.3.1603" package="com.activestate.ActivePerl64" type="one-file">
         <file path=".Npackd\Install.bat">if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1&#13;
@@ -1650,6 +1679,23 @@ for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set myun=%%x&#13;
         <dependency package="net.nirsoft.MyUninstaller" versions="[1.74, 1.74]"/>
         <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.15.7, 2)"/>
     </version>
+    <version name="2014.4142" package="com.avg.AVGAntiVirusFree64" type="one-file">
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
+rem /TargetInstallationPath="%CD%..\AVG_Anti_Virus_Program" is not used as this would prevent un-installation (the files would be locked)&#13;
+"%setup%" /AppMode=Setup /UILevel=silent /InstallToolbar=0 /LoggerPath="%CD%\.Npackd" /ChangeBrowserSearchProvider=0 /InstallSidebar=0 /ParticipateProductImprovement=0 /DontRestart /KillProcessesIfNeeded&#13;
+if %errorlevel% neq 0 exit %err%&#13;
+</file>
+        <file path=".Npackd\Uninstall.bat">rem direct un-installation does not work as the files are always locked&#13;
+rem "avgmfapx.exe" /AppMode=SETUP /Uninstall /UILevel=Silent /DontRestart&#13;
+&#13;
+set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=net.nirsoft.MyUninstaller" "--versions=[1.74, 2)"&#13;
+for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set myun=%%x&#13;
+"%myun%\myuninst.exe" /uninstall "AVG 2014"</file>
+        <url>http://aa-download.avg.com/filedir/inst/avg_free_x64_all_2014_4142a6696.exe</url>
+        <sha1>f8270a0d5a1346c773c6f274a1b084f4d31709f0</sha1>
+        <dependency package="net.nirsoft.MyUninstaller" versions="[1.74, 2)"/>
+        <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.15.7, 2)"/>
+    </version>
 
     <version name="1.36" package="com.bitcomet.BitComet64" type="one-file">
         <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
@@ -1734,6 +1780,25 @@ if %err% neq 0 exit %err%&#13;
         <url>http://downloads.sourceforge.net/project/calibre/0.9.43/calibre-64bit-0.9.43.msi</url>
         <sha1>cade6f47d57c37f279c533a527a832d710417c1a</sha1>
     </version>
+    <version name="1.5" package="com.calibreebook.Calibre64" type="one-file">
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.msi') do set setup=%%x&#13;
+msiexec.exe /qn /norestart /lime .Npackd\MSI.log /i "%setup%" TARGETDIR="%CD%" ALLUSERS=1&#13;
+set err=%errorlevel%&#13;
+type .Npackd\MSI.log&#13;
+rem 3010=restart required&#13;
+if %err% equ 3010 exit 0&#13;
+if %err% neq 0 exit %err%</file>
+        <file path=".Npackd\Uninstall.bat">for /f "delims=" %%x in ('dir /b *.msi') do set setup=%%x&#13;
+msiexec.exe /qn /norestart /lime .Npackd\MSI.log /x "%setup%"&#13;
+set err=%errorlevel%&#13;
+type .Npackd\MSI.log&#13;
+rem 3010=restart required&#13;
+if %err% equ 3010 exit 0&#13;
+if %err% neq 0 exit %err%&#13;
+</file>
+        <url>http://download.calibre-ebook.com/1.5.0/calibre-64bit-1.5.0.msi</url>
+        <sha1>28421911f9e65078ea53008629bb4915df672893</sha1>
+    </version>
 
     <version name="5.12.256249.2599" package="com.comodo.comodoav64" type="one-file">
         <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.msi') do set setup=%%x&#13;
@@ -1753,7 +1818,7 @@ if %err% equ 3010 exit 0&#13;
 if %err% neq 0 exit %err%</file>
         <url>http://download.comodo.com/cis/download/installs/1000/xml_binaries/cis/cis_setup_x64.msi</url>
     </version>
-    <version name="6.0.264710.2708" package="com.comodo.comodoav64" type="one-file">
+    <version name="6.3.32439.2937" package="com.comodo.comodoav64" type="one-file">
         <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.msi') do set setup=%%x&#13;
 msiexec.exe /qn /norestart /Lime .Npackd\MSI.log /i "%setup%" INSTALLFIREWALL=0&#13;
 set err=%errorlevel%&#13;
@@ -1789,7 +1854,7 @@ if %err% equ 3010 exit 0&#13;
 if %err% neq 0 exit %err%</file>
         <url>http://download.comodo.com/cis/download/installs/1000/xml_binaries/cis/cis_setup_x64.msi</url>
     </version>
-    <version name="6.0.264710.2708" package="com.comodo.ComodoFW64" type="one-file">
+    <version name="6.3.32439.2937" package="com.comodo.ComodoFW64" type="one-file">
         <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.msi') do set setup=%%x&#13;
 msiexec.exe /qn /norestart /lime .Npackd\MSI.log /i "%setup%" FWFEATURES=1 INSTALLANTIVIRUS=0&#13;
 set err=%errorlevel%&#13;
@@ -1825,7 +1890,7 @@ if %err% equ 3010 exit 0&#13;
 if %err% neq 0 exit %err%</file>
         <url>http://download.comodo.com/cis/download/installs/1000/xml_binaries/cis/cis_setup_x64.msi</url>
     </version>
-    <version name="6.0.264710.2708" package="com.comodo.InternetSecurity64" type="one-file">
+    <version name="6.3.32439.2937" package="com.comodo.InternetSecurity64" type="one-file">
         <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.msi') do set setup=%%x&#13;
 msiexec.exe /qn /norestart /lime .Npackd\MSI.log /i "%setup%"&#13;
 set err=%errorlevel%&#13;
@@ -1856,6 +1921,11 @@ if %err% neq 0 exit %err%</file>
         <important-file path="cpuz_x64.exe" title="CPU-Z"/>
         <url>https://dl.dropboxusercontent.com/u/176999101/com.cpuid.CPUZ64-1.65.zip</url>
         <sha1>a3ebf0465aa95e0b67888f9544c15f141b8af49f</sha1>
+    </version>
+    <version name="1.66.1" package="com.cpuid.CPUZ64">
+        <important-file path="cpuz_x64.exe" title="CPU-Z"/>
+        <url>https://dl.dropboxusercontent.com/u/176999101/com.cpuid.CPUZ64-1.66.1.zip</url>
+        <sha1>21c40051da65430bdec32749e392b3470516f269</sha1>
     </version>
 
     <version name="2.2.6000" package="com.dependencywalker.DependencyWalker64">
@@ -5052,6 +5122,22 @@ if %err% neq 0 exit %err%&#13;
         <dependency package="com.microsoft.VisualCPPRedistributable64" versions="[9.0.21022, 9.0.21022]"/>
     </version>
 
+    <version name="24" package="cyberfox" type="one-file">
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
+"%setup%" /SP- /VERYSILENT /SUPPRESSMSGBOXES /NOCANCEL /NORESTART /DIR="%CD%" /SAVEINF="%CD%\.Npackd\InnoSetupInfo.ini" /LOG="%CD%\.Npackd\InnoSetupInstall.log"&#13;
+set err=%errorlevel%&#13;
+type .Npackd\InnoSetupInstall.log&#13;
+if %err% neq 0 exit %err%&#13;
+</file>
+        <file path=".Npackd\Uninstall.bat">unins000.exe /VERYSILENT /SUPPRESSMSGBOXES /NORESTART /LOG="%CD%\.Npackd\InnoSetupUninstall.log"&#13;
+set err=%errorlevel%&#13;
+type .Npackd\InnoSetupUninstall.log&#13;
+if %err% neq 0 exit %err%&#13;
+</file>
+        <url>https://dl.dropboxusercontent.com/u/176999101/cyberfox-24.exe</url>
+        <sha1>0ea77817f4b631cf5e64ca7288e20a722eedac6e</sha1>
+    </version>
+
     <version name="1.7.15" package="cygwin64" type="one-file">
         <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
 "%setup%" -q -D -R "%ProgramFiles%\Cygwin64Data" -s http://box-soft.com -l "%ProgramFiles%\Cygwin64Data\packages"&#13;
@@ -5071,6 +5157,11 @@ rd /s /q "%ALLUSERSPROFILE%\Start Menu\Programs\Cygwin" || rd /s /q "%ALLUSERSPR
         <important-file path="DCPlusPlus.exe" title="DC++"/>
         <url>http://downloads.sourceforge.net/project/npackd/dcplusplus64-0.828.zip</url>
         <sha1>0840d9700c69a3a305f1353ce20557964a8d7277</sha1>
+    </version>
+    <version name="0.830" package="dcplusplus64">
+        <important-file path="DCPlusPlus.exe" title="DC++"/>
+        <url>http://downloads.sourceforge.net/project/npackd/dcplusplus64-0.830.zip</url>
+        <sha1>bdd7b03168e7637e99476b36657d27f083c24a81</sha1>
     </version>
 
     <version name="0.6.1" package="drmingw64">
@@ -5382,6 +5473,28 @@ verify&#13;
         <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.15.7, 2)"/>
         <dependency package="com.googlecode.windows-package-manager.CLU" versions="[1, 2)"/>
     </version>
+    <version name="3.1.1" package="net.blat.Blat64">
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b blat*') do set name=%%x&#13;
+move %name%\docs docs&#13;
+copy %name%\full\*.* .&#13;
+rmdir /s /q %name%&#13;
+if %errorlevel% neq 0 exit /b %errorlevel%&#13;
+&#13;
+set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.CLU" "--versions=[1, 2)"&#13;
+for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set clu=%%x&#13;
+"%clu%\clu" add-path --path "%CD%"&#13;
+verify&#13;
+</file>
+        <file path=".Npackd\Uninstall.bat">set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.CLU" "--versions=[1, 2)"&#13;
+for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set clu=%%x&#13;
+"%clu%\clu" remove-path --path "%CD%"&#13;
+verify&#13;
+</file>
+        <url>http://downloads.sourceforge.net/project/blat/Blat%20Full%20Version/64%20bit%20versions/blat311_64.full.zip</url>
+        <sha1>d801876f733d486faa6826c84748ca79376921aa</sha1>
+        <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.15.7, 2)"/>
+        <dependency package="com.googlecode.windows-package-manager.CLU" versions="[1, 2)"/>
+    </version>
 
     <version name="3.5.10" package="net.getpaint.paintdotnet64" type="one-file">
         <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.msi') do set setup=%%x&#13;
@@ -5577,6 +5690,15 @@ rmdir /s /q "%name%"&#13;
         <url>http://downloads.sourceforge.net/project/aria2/stable/aria2-1.17.1/aria2-1.17.1-win-64bit-build1.zip</url>
         <sha1>da0374d9257d82690586af2b51a346d2df264a35</sha1>
     </version>
+    <version name="1.18" package="net.sourceforge.aria2.Aria2_64">
+        <important-file path="README.html" title="Read Me"/>
+        <file path=".Npackd\Install.bat">for /f %%x in ('dir /b aria*') do set name=%%x&#13;
+xcopy "%name%\*" . /E /H&#13;
+rmdir /s /q "%name%"&#13;
+</file>
+        <url>http://downloads.sourceforge.net/project/aria2/stable/aria2-1.18.0/aria2-1.18.0-win-64bit-build1.zip</url>
+        <sha1>08ad0e3f70dd8c7049fe802a6003fd055f2571cd</sha1>
+    </version>
 
     <version name="2.6.1" package="net.sourceforge.avidemux.Avidemux64" type="one-file">
         <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
@@ -5588,6 +5710,17 @@ verify&#13;
 </file>
         <url>http://downloads.sourceforge.net/project/avidemux-mswin/2.6.1%20%288321%29/avidemux_2.6.1_win64.exe</url>
         <sha1>ffe185c39d1b151239cca8af85f201cabce18cff</sha1>
+    </version>
+    <version name="2.6.6" package="net.sourceforge.avidemux.Avidemux64" type="one-file">
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
+"%setup%" /S /D=%CD%&#13;
+verify&#13;
+</file>
+        <file path=".Npackd\Uninstall.bat">uninstall.exe /S _?=%CD%&#13;
+verify&#13;
+</file>
+        <url>https://downloads.sourceforge.net/project/avidemux/avidemux/2.6.6/avidemux_2.6.6_win64.exe</url>
+        <sha1>9d51ee58953898c77a100b715454eee86f662da9</sha1>
     </version>
 
     <version name="3.18.46" package="net.sourceforge.dittocp.Ditto64" type="one-file">
@@ -5647,6 +5780,19 @@ type .Npackd\InnoSetupUninstall.log&#13;
 if %err% neq 0 exit %err%</file>
         <url>http://downloads.sourceforge.net/project/doublecmd/DC%20for%20Windows%2064%20bit/Double%20Commander%200.5.6%20beta/doublecmd-0.5.6.x86_64-win64.exe</url>
         <sha1>3b75a69b1bc1e0ac5e98ce0660a824b966a16c43</sha1>
+    </version>
+    <version name="0.5.7" package="net.sourceforge.Doublecmd64" type="one-file">
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
+"%setup%" /SP- /VERYSILENT /SUPPRESSMSGBOXES /NOCANCEL /NORESTART /DIR="%CD%" /SAVEINF="%CD%\.Npackd\InnoSetupInfo.ini" /LOG="%CD%\.Npackd\InnoSetupInstall.log"&#13;
+set err=%errorlevel%&#13;
+type .Npackd\InnoSetupInstall.log&#13;
+if %err% neq 0 exit %err%</file>
+        <file path=".Npackd\Uninstall.bat">unins000.exe /VERYSILENT /SUPPRESSMSGBOXES /NORESTART /LOG="%CD%\.Npackd\InnoSetupUninstall.log"&#13;
+set err=%errorlevel%&#13;
+type .Npackd\InnoSetupUninstall.log&#13;
+if %err% neq 0 exit %err%</file>
+        <url>http://downloads.sourceforge.net/project/doublecmd/DC%20for%20Windows%2064%20bit/Double%20Commander%200.5.7%20beta/doublecmd-0.5.7.x86_64-win64.exe</url>
+        <sha1>1cf0534f6040be6c1ce4a89036620383840389dc</sha1>
     </version>
 
     <version name="0.4.13" package="net.sourceforge.lmms.LMMS64" type="one-file">
@@ -7155,6 +7301,20 @@ rmdir "%name%"&#13;
         <sha1>53b7e0372766cc12424571a8aa12d85e167dbf4a</sha1>
         <dependency package="com.oracle.JRE64" versions="[1.6, 2)"/>
     </version>
+    <version name="7.3.7" package="org.areca-backup.ArecaBackup64">
+        <important-file path="areca.exe" title="Areca"/>
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b areca*') do set name=%%x&#13;
+cd "%name%"&#13;
+for /f "delims=" %%a in ('dir /b') do (&#13;
+  move "%%a" ..&#13;
+)&#13;
+cd ..&#13;
+rmdir "%name%"&#13;
+</file>
+        <url>http://downloads.sourceforge.net/project/areca/areca-stable/areca-7.3.7/areca-7.3.7-windows-jre64.zip</url>
+        <sha1>21433e0a83bbcd0ea21381336f84f5941e2852ad</sha1>
+        <dependency package="com.oracle.JRE64" versions="[1.6, 2)"/>
+    </version>
 
     <version name="1.1.8" package="org.bitbucket.tortoisehg.TortoiseHg64" type="one-file">
         <file path=".Npackd\Install.bat">for /f %%x in ('dir /b *.msi') do set setup=%%x
@@ -7869,6 +8029,20 @@ rmdir "%name%"&#13;
         <sha1>e8f5251d54fcf4a0f7c46e8cffb9d48093881839</sha1>
         <dependency package="com.oracle.JRE" versions="[1.6, 2)"/>
     </version>
+    <version name="4.3.1" package="org.eclipse.EclipseIDECPP64">
+        <important-file path="eclipse.exe" title="Eclipse IDE for C and C++"/>
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b eclipse*') do set name=%%x&#13;
+cd "%name%"&#13;
+for /f "delims=" %%a in ('dir /b') do (&#13;
+  move "%%a" ..&#13;
+)&#13;
+cd ..&#13;
+rmdir "%name%"&#13;
+</file>
+        <url>http://downloads.sourceforge.net/project/npackd/org.eclipse.EclipseIDECPP64-4.3.1.zip</url>
+        <sha1>1a2bdeed0504c1e2ccc421a5c9098ad756a1fc05</sha1>
+        <dependency package="com.oracle.JRE64" versions="[1.6, 2)"/>
+    </version>
 
     <version name="3.6.1" package="org.eclipse.EclipseIDEJava64">
         <important-file path="eclipse.exe" title="Eclipse IDE for Java"/>
@@ -8038,6 +8212,16 @@ rmdir /s /q "%name%"&#13;
 </file>
         <url>http://downloads.sourceforge.net/project/npackd/org.eclipse.EclipseIDEJEE64-4.3.zip</url>
         <sha1>a05a26cb9e257dd36ab2fbeb28fe72ad76fd0d21</sha1>
+        <dependency package="com.oracle.JRE64" versions="[1.6, 2)"/>
+    </version>
+    <version name="4.3.1" package="org.eclipse.EclipseIDEJEE64">
+        <important-file path="eclipse.exe" title="Eclipse"/>
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b eclipse*') do set name=%%x&#13;
+xcopy "%name%\*" . /E /H&#13;
+rmdir /s /q "%name%"&#13;
+</file>
+        <url>http://downloads.sourceforge.net/project/npackd/org.eclipse.EclipseIDEJEE64-4.3.1.zip</url>
+        <sha1>3a27f302ea0401a450313b65ede565238ccdc0e8</sha1>
         <dependency package="com.oracle.JRE64" versions="[1.6, 2)"/>
     </version>
 
@@ -9969,7 +10153,7 @@ cd ..&#13;
 rmdir "%name%"    &#13;
 </file>
         <url>http://downloads.sourceforge.net/project/eclipsesql/SQL%20Explorer%20RCP%20%28exc%20JRE%29/3.6.1/sqlexplorer_rcp-3.6.1.win32.win32.x86_64.zip</url>
-        <sha1>1C5A8170A8F9A7C52CF81ED57569B9759C6E28C8</sha1>
+        <sha1>1c5a8170a8f9a7c52cf81ed57569b9759c6e28c8</sha1>
         <dependency package="com.oracle.JRE64" versions="[1.5, 2)"/>
     </version>
 
@@ -10444,6 +10628,12 @@ if %err% neq 0 exit %err%</file>
         <important-file path="cdbxpp.exe" title="CDBurnerXP"/>
         <url>http://download.cdburnerxp.se/portable/CDBurnerXP-x64-4.5.2.4214.zip</url>
         <sha1>ba4ed724feae3cb0af4c7006a16cc6d3898afc70</sha1>
+        <dependency package="com.microsoft.DotNetRedistributable" versions="[2.0, 5)"/>
+    </version>
+    <version name="4.5.2.4291" package="se.cdburnerxp.CDBurnerXP64">
+        <important-file path="cdbxpp.exe" title="CDBurnerXP"/>
+        <url>http://download.cdburnerxp.se/portable/CDBurnerXP-x64-4.5.2.4291.zip</url>
+        <sha1>70117357e4cf5aaa473c541c4de621a0ce841c94</sha1>
         <dependency package="com.microsoft.DotNetRedistributable" versions="[2.0, 5)"/>
     </version>
 
