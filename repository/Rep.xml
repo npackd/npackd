@@ -535,6 +535,13 @@
         <license>org.apache.ApacheLicense2</license>
         <category>cat-dev</category>
     </package>
+    <package name="clover">
+        <title>Clover</title>
+        <url>http://ejie.me/</url>
+        <description>extension of the Windows Explorer, to add multi-tab functionality similar to Google Chrome browser - See more at: http://ejie.me/#sthash.xpRD37IO.dpuf</description>
+        <icon>https://lh5.googleusercontent.com/-AImor7qot6g/UlhiJ5WnKHI/AAAAAAAABMo/s32QPEBvxpE/s48-no/clover.png</icon>
+        <category>cat-tools</category>
+    </package>
     <package name="code.google.Power8">
         <title>Power8</title>
         <url>https://code.google.com/p/power8/</url>
@@ -5204,6 +5211,14 @@ kw: statistics</description>
         <license>org.gnu.GPLv2</license>
         <category>cat-dev</category>
     </package>
+    <package name="racket">
+        <title>Racket</title>
+        <url>http://racket-lang.org/</url>
+        <description>programming language and IDE. A Lisp variant, based on Scheme R6RS.</description>
+        <icon>http://racket-lang.org/logo.png</icon>
+        <license>org.gnu.LGPLv2_1</license>
+        <category>cat-dev</category>
+    </package>
     <package name="realterm">
         <title>Realterm</title>
         <url>http://realterm.sourceforge.net</url>
@@ -5333,6 +5348,13 @@ kw: CDBurner XP</description>
         <icon>http://ru.iobit.com/wp-content/themes/iobit/img/icon_256_smart_defrag.png</icon>
         <category>cat-tools</category>
     </package>
+    <package name="smath">
+        <title>SMath</title>
+        <url>http://en.smath.info/forum/</url>
+        <description>mathematical program with "paper"-like interface and numerous computing features (now with integrated mathematical reference book).</description>
+        <icon>https://lh5.googleusercontent.com/-RVLWZlaZW1Q/UlL0btXQlQI/AAAAAAAABL4/eGDOPWTS1EI/s64-no/smath.png</icon>
+        <category>cat-education</category>
+    </package>
     <package name="sparkleshare">
         <title>SparkleShare</title>
         <url>http://sparkleshare.org</url>
@@ -5360,7 +5382,7 @@ kw: CDBurner XP</description>
         <title>SQLStress</title>
         <url>http://www.sqlstress.com/Download.aspx</url>
         <description>SQLStress is a tool to stress test a Microsoft SQL Server installation. Its main purpose is to find infrastructure problems within an installation. It can also be used for hardware sizing, system tuning or benchmarking. The focus is on simplicity. You should be up and running within minutes.</description>
-        <category>cat-tools|SQL</category>
+        <category>cat-tools/SQL</category>
     </package>
     <package name="stellarium">
         <title>Stellarium</title>
@@ -5879,6 +5901,16 @@ verify
     <version name="1.1" package="chainsaw">
         <url>http://downloads.sourceforge.net/project/logui/chainsaw/1.1/chainsaw-1.1.zip</url>
         <sha1>9a8a191698e8514d6fc5c9d75d2855bec0c43517</sha1>
+    </version>
+
+    <version name="3.0.386" package="clover">
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
+"%setup%" /S /D=%CD% &amp;&amp; del /f /q "%setup%"&#13;
+</file>
+        <file path=".Npackd\Uninstall.bat">uninst.exe /S _?=%CD%&#13;
+</file>
+        <url>http://ejie.me/uploads/Clover_Setup_3.0.386.zip</url>
+        <sha1>7584958dac2c42428dca8f9595060120d712adfe</sha1>
     </version>
 
     <version name="1.2.1.0" package="code.google.Power8" type="one-file">
@@ -8233,20 +8265,6 @@ move *.dll %trash%&#13;
         <url>http://dl.dropbox.com/u/17046326/files/com.dropbox.Dropbox-1.6.6.exe</url>
         <sha1>ea1a364d775aba60e56f6a9bd5df2a61ede4e65d</sha1>
     </version>
-    <version name="1.6.17" package="com.dropbox.Dropbox" type="one-file">
-        <file path=".Npackd\Install.bat">ren uc setup.exe&#13;
-setup.exe /S /D=%CD%&#13;
-rem taskkill /f /im dropbox.exe&#13;
-rem verify</file>
-        <file path=".Npackd\Uninstall.bat">Uninstall.exe /S _?=%CD%&#13;
-set key=com.dropbox.Dropbox-1.6.17&#13;
-set trash=..\.Trash\%key%_%RANDOM%&#13;
-mkdir %trash%&#13;
-move *.dll %trash%&#13;
-</file>
-        <url>https://drive.google.com/uc?export=download&amp;id=0Bzt53EW9ybrwTFFUM0NwN2xtaHM</url>
-        <sha1>AAD2ED6E224968531FCA00EB495E48E83C79E30A</sha1>
-    </version>
     <version name="2.0.5" package="com.dropbox.Dropbox" type="one-file">
         <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
 "%setup%" /S /D=%CD%&#13;
@@ -8408,6 +8426,27 @@ rd /s /q "%APPDATA%\DVDVideoSoftIEHelpers"&#13;
 verify</file>
         <url>https://dl.dropboxusercontent.com/u/176999101/com.dvdvideosoft.fy2mp3converter-3.12.12.827.exe</url>
         <sha1>bf7a4930b284d6377c58fcacfd443c4eb0b3018e</sha1>
+    </version>
+    <version name="3.12.13.925" package="com.dvdvideosoft.fy2mp3converter" type="one-file">
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
+"%setup%" /SP- /VERYSILENT /SUPPRESSMSGBOXES /NOCANCEL /NORESTART /DIR="%CD%" /LOG="%CD%\.Npackd\InnoSetupInstall.log" &amp;&amp; del /f /q "%setup%"&#13;
+set err=%errorlevel%&#13;
+type .Npackd\InnoSetupInstall.log&#13;
+if %err% neq 0 exit %err%</file>
+        <file path=".Npackd\Uninstall.bat">rem the un-installation does not seem to work&#13;
+rem unins000.exe /VERYSILENT /SUPPRESSMSGBOXES /NORESTART /LOG="%CD%\.Npackd\InnoSetupUninstall.log"&#13;
+rem set err=%errorlevel%&#13;
+rem type .Npackd\InnoSetupUninstall.log&#13;
+rem if %err% neq 0 exit %err%&#13;
+&#13;
+rd /s /q "%ALLUSERSPROFILE%\Start Menu\Programs\DVDVideoSoft" || rd /s /q "%ALLUSERSPROFILE%\Microsoft\Windows\Start Menu\Programs\DVDVideoSoft"&#13;
+verify&#13;
+del /q /f "%Public%\Desktop\DVDVideoSoft Free Studio.lnk" || del /q /f "%ALLUSERSPROFILE%\Desktop\DVDVideoSoft Free Studio.lnk"&#13;
+verify&#13;
+rd /s /q "%APPDATA%\DVDVideoSoftIEHelpers"&#13;
+verify</file>
+        <url>https://dl.dropboxusercontent.com/u/176999101/com.dvdvideosoft.fy2mp3converter-3.12.13.925.exe</url>
+        <sha1>fce23486143d2a05c8dd14a44e9efdf7d58538aa</sha1>
     </version>
 
     <version name="1.1" package="com.ekahau.HeatMapper" type="one-file">
@@ -8587,6 +8626,25 @@ if %err% neq 0 exit %err%</file>
         <url>http://cdn1.evernote.com/win4/public/Evernote_4.6.7.8409.exe</url>
         <sha1>b80270ea606061e6b14bc593767cf13cdf8ed7d3</sha1>
     </version>
+    <version name="5.0.2.1392" package="com.evernote.Evernote" type="one-file">
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
+"%setup%" /qn /norestart /Lime .Npackd\InstallMSI.log INSTALLLOCATION="%CD%" ALLUSERS=1 MSIFASTINSTALL=7 &amp;&amp; del /f /q "%setup%"&#13;
+set err=%errorlevel%&#13;
+type .Npackd\InstallMSI.log&#13;
+&#13;
+rem list of errors: http://msdn.microsoft.com/en-us/library/windows/desktop/aa368542(v=vs.85).aspx&#13;
+rem 3010=restart required&#13;
+if %err% equ 3010 goto eof&#13;
+if %err% neq 0 exit %err%&#13;
+		</file>
+        <file path=".Npackd\Uninstall.bat">MsiExec.exe /qn /norestart /Lime .Npackd\MSI.log /X{C2EECB42-2C7F-11E3-8960-00163E98E7D0}&#13;
+set err=%errorlevel%&#13;
+type .Npackd\MSI.log&#13;
+if %err% neq 0 exit %err%</file>
+        <url>http://cdn1.evernote.com/win5/public/Evernote_5.0.2.1392.exe</url>
+        <sha1>947b6cf8c6bdb1979896ed1f23b49da85265bbf4</sha1>
+        <dependency package="net.nirsoft.MyUninstaller" versions="[1.74, 2)"/>
+    </version>
 
     <version name="3" package="com.excessivesoftware.PowerDefragmenter">
         <important-file path="PowerDefragmenter.exe" title="PowerDefragmenter"/>
@@ -8762,6 +8820,16 @@ verify</file>
 </file>
         <url>https://dl.dropboxusercontent.com/u/176999101/com.fiddler2.Fiddler-2.4.5.exe</url>
         <sha1>f8a6f957ccaa0725dc0419c89d2c75ec1e6391d3</sha1>
+        <dependency package="com.microsoft.DotNetRedistributable" versions="[2.0, 3)"/>
+    </version>
+    <version name="2.4.5.3" package="com.fiddler2.Fiddler" type="one-file">
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
+"%setup%" /S /D=%CD% &amp;&amp; del /f /q "%setup%"&#13;
+verify</file>
+        <file path=".Npackd\Uninstall.bat">uninst.exe /S _?=%CD%&#13;
+</file>
+        <url>https://dl.dropboxusercontent.com/u/176999101/com.fiddler2.Fiddler-2.4.5.3.exe</url>
+        <sha1>6d9548492f644db6d9e21e96fcd4e03c4064f21b</sha1>
         <dependency package="com.microsoft.DotNetRedistributable" versions="[2.0, 3)"/>
     </version>
 
@@ -9267,6 +9335,13 @@ if %err% neq 0 exit %err%&#13;
         <url>http://downloads.ghostscript.com/public/gs907w32.exe</url>
         <sha1>1ca075965983d2ce63edfe184032304d0e9d4f4f</sha1>
     </version>
+    <version name="9.10" package="com.ghostscript.Ghostscript" type="one-file">
+        <file path=".Npackd\Install.bat">for /f %%x in ('dir /b *.exe') do set setup=%%x&#13;
+"%setup%" /S /D=%CD% &amp;&amp; del /f /q "%setup%"</file>
+        <file path=".Npackd\Uninstall.bat">uninstgs.exe /S</file>
+        <url>http://downloads.ghostscript.com/public/gs910w32.exe</url>
+        <sha1>d6e653b024a058d25178899e73ff5b1e8aecb721</sha1>
+    </version>
 
     <version name="0.7" package="com.github.bmatzelle.Gow" type="one-file">
         <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
@@ -9628,6 +9703,15 @@ for /f %%x in ('dir /b *.7z') do set setup=%%x&#13;
 verify</file>
         <url>http://eiskaltdc.googlecode.com/files/EiskaltDC%2B%2B-2.2.8-x86.exe</url>
         <sha1>2a5259f24b079354272d8d3146c05d34becdc3a5</sha1>
+    </version>
+    <version name="2.2.9" package="com.googlecode.eiskaltdc.EiskaltDCPlusPlus" type="one-file">
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
+"%setup%" /S /D=%CD%&#13;
+</file>
+        <file path=".Npackd\Uninstall.bat">uninstall.exe /S _?=%CD%&#13;
+verify</file>
+        <url>http://eiskaltdc.googlecode.com/files/EiskaltDC%2B%2B-2.2.9-x86.exe</url>
+        <sha1>aab07a00b289950756a460fc016a8bd3453dcc98</sha1>
     </version>
 
     <version name="2.31" package="com.googlecode.gitextensions.GitExtensions" type="one-file">
@@ -10880,6 +10964,18 @@ verify&#13;
         <url>https://dl.dropboxusercontent.com/u/176999101/com.gotomeeting.GoToMeetingCodec-5.8.0.1189.exe</url>
         <sha1>9d9fdb2d4e49d81d30e6df3b11646152f44ca742</sha1>
     </version>
+    <version name="5.9.0.1216" package="com.gotomeeting.GoToMeetingCodec" type="one-file">
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
+"%setup%" /silent&#13;
+</file>
+        <file path=".Npackd\Uninstall.bat">set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=net.nirsoft.MyUninstaller" "--versions=[1.74, 2)"
+for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set myun=%%x
+"%myun%\myuninst.exe" /uninstall "GoToMeeting %NPACKD_PACKAGE_VERSION%"
+</file>
+        <url>https://dl.dropboxusercontent.com/u/176999101/com.gotomeeting.GoToMeetingCodec-5.9.0.1216.exe</url>
+        <sha1>96bd4cced5f730a1ac071f21cc923235932554da</sha1>
+        <dependency package="net.nirsoft.MyUninstaller" versions="[1.74, 2)"/>
+    </version>
 
     <version name="1.2.155" package="com.h2database.H2" type="one-file">
         <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x
@@ -11033,6 +11129,20 @@ if %err% neq 0 exit %err%&#13;
         <url>http://downloads.sourceforge.net/project/npackd/com.heroku.toolbelt-2.39.exe</url>
         <sha1>8250e5541b6717cdf8d90e590442d559956e5041</sha1>
     </version>
+    <version name="3" package="com.heroku.toolbelt" type="one-file">
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
+"%setup%" /SP- /VERYSILENT /SUPPRESSMSGBOXES /NOCANCEL /NORESTART /DIR="%CD%" /SAVEINF="%CD%\.Npackd\InnoSetupInfo.ini" /LOG="%CD%\.Npackd\InnoSetupInstall.log" &amp;&amp; del /f /q "%setup%"&#13;
+set err=%errorlevel%&#13;
+type .Npackd\InnoSetupInstall.log&#13;
+if %err% neq 0 exit %err%</file>
+        <file path=".Npackd\Uninstall.bat">unins000.exe /VERYSILENT /SUPPRESSMSGBOXES /NORESTART /LOG="%CD%\.Npackd\InnoSetupUninstall.log"&#13;
+set err=%errorlevel%&#13;
+type .Npackd\InnoSetupUninstall.log&#13;
+if %err% neq 0 exit %err%&#13;
+</file>
+        <url>http://downloads.sourceforge.net/project/npackd/com.heroku.toolbelt-3.exe</url>
+        <sha1>e7c758c6c094fb1d62f151222060061221148b82</sha1>
+    </version>
 
     <version name="3.47.21" package="com.httrack.HTTrack" type="one-file">
         <file path=".WPM\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
@@ -11063,6 +11173,20 @@ if %err% neq 0 exit %err%&#13;
 </file>
         <url>http://downloads.sourceforge.net/project/npackd/com.httrack.HTTrack-3.47.25.exe</url>
         <sha1>b8d3eec6f26c1d6c5b0eac3b796fb57d4669724e</sha1>
+    </version>
+    <version name="3.47.27" package="com.httrack.HTTrack" type="one-file">
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
+"%setup%" /SP- /VERYSILENT /SUPPRESSMSGBOXES /NOCANCEL /NORESTART /DIR="%CD%" /SAVEINF="%CD%\.Npackd\InnoSetupInfo.ini" /LOG="%CD%\.Npackd\InnoSetupInstall.log" &amp;&amp; del /f /q "%setup%"&#13;
+set err=%errorlevel%&#13;
+type .Npackd\InnoSetupInstall.log&#13;
+if %err% neq 0 exit %err%</file>
+        <file path=".Npackd\Uninstall.bat">unins000.exe /VERYSILENT /SUPPRESSMSGBOXES /NORESTART /LOG="%CD%\.Npackd\InnoSetupUninstall.log"&#13;
+set err=%errorlevel%&#13;
+type .WPM\InnoSetupUninstall.log&#13;
+if %err% neq 0 exit %err%&#13;
+</file>
+        <url>http://downloads.sourceforge.net/project/npackd/com.httrack.HTTrack-3.47.27.exe</url>
+        <sha1>86c639f59ec0639b42c0a2c9ad2909e075ce0b86</sha1>
     </version>
 
     <version name="8.0" package="com.icq.icq" type="one-file">
@@ -15858,6 +15982,13 @@ verify</file>
         <url>http://us1-dl.techpowerup.com//SysInfo/GPU-Z/GPU-Z.0.7.2.exe</url>
         <sha1>a3f82abc4c97aa10a446057765de35d4d778ccf6</sha1>
     </version>
+    <version name="0.7.3" package="com.techpowerup.GPUZ" type="one-file">
+        <important-file path="GPU-Z.0.7.3.exe" title="GPU-Z"/>
+        <file path=".Npackd\Uninstall.bat">("%ProgramFiles%\GPU-Z\uninstall.exe" /S) || ("%ProgramFiles(x86)%\GPU-Z\uninstall.exe" /S)&#13;
+verify</file>
+        <url>http://us1-dl.techpowerup.com//SysInfo/GPU-Z/GPU-Z.0.7.3.exe</url>
+        <sha1>360ff8041e6ebda9d3ab15d6a8800f803c970edb</sha1>
+    </version>
 
     <version name="0.6.3.11" package="com.telecommunity.peak.SetupTools" type="one-file">
         <file path=".Npackd\Install.bat">if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1&#13;
@@ -18001,6 +18132,15 @@ setup.exe /S /D=%CD%&#13;
         <sha1>4c38058c681b4b88c74c51534f734f3ddd74339a</sha1>
         <dependency package="com.microsoft.DotNetRedistributable" versions="[4, 5)"/>
     </version>
+    <version name="0.9.9" package="fr.handbrake.HandBrake" type="one-file">
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
+"%setup%" /S /D=%CD% &amp;&amp; del /f /q "%setup%"</file>
+        <file path=".Npackd\Uninstall.bat">uninst.exe /S&#13;
+</file>
+        <url>http://downloads.sourceforge.net/project/handbrake/0.9.9/HandBrake-0.9.9-1_i686-Win_GUI.exe</url>
+        <sha1>2610a34a5e399bebaf1831ac22038e2f5373eeef</sha1>
+        <dependency package="com.microsoft.DotNetRedistributable" versions="[4, 5)"/>
+    </version>
 
     <version name="4.1.1" package="freemat" type="one-file">
         <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
@@ -18057,6 +18197,18 @@ verify</file>
         <url>http://dl.frostwire.com/frostwire/5.6.3/frostwire-5.6.3.windows.exe</url>
         <sha1>4e289a018fa334c22401dd7dc6538b43886d3821</sha1>
     </version>
+    <version name="5.6.5" package="frostwire" type="one-file">
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
+"%setup%" /S /D=%CD% &amp;&amp; del /f /q "%setup%"&#13;
+&#13;
+taskkill /im FrostWire.exe /f /t</file>
+        <file path=".Npackd\Uninstall.bat">uninst.exe /S _?=%CD%&#13;
+&#13;
+rd /s /q "%ALLUSERSPROFILE%\Start Menu\Programs\FrostWire 5" || rd /s /q "%ALLUSERSPROFILE%\Microsoft\Windows\Start Menu\Programs\FrostWire 5"&#13;
+verify</file>
+        <url>http://dl.frostwire.com/frostwire/5.6.5/frostwire-5.6.5.windows.exe</url>
+        <sha1>8e73209e47375c5c93bb5fb85a0f106730bb2656</sha1>
+    </version>
 
     <version name="2.2.6" package="gnunano">
         <important-file path="nano.exe" title="GNUnano"/>
@@ -18111,6 +18263,19 @@ rmdir "%name%"&#13;
 </file>
         <url>http://services.gradle.org/distributions/gradle-1.7-bin.zip</url>
         <sha1>0cbadad3ced2ba5c53bbb7e6ec3e779c1cd3966c</sha1>
+        <dependency package="com.oracle.JRE" versions="[1.5, 2)"/>
+    </version>
+    <version name="1.8" package="gradle">
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b gradle*') do set name=%%x&#13;
+cd "%name%"        &#13;
+for /f "delims=" %%a in ('dir /b') do (&#13;
+  move "%%a" ..&#13;
+)&#13;
+cd ..&#13;
+rmdir "%name%"&#13;
+</file>
+        <url>http://services.gradle.org/distributions/gradle-1.8-bin.zip</url>
+        <sha1>f14299582a1ab6c1293a43697ecda4b2673e34b1</sha1>
         <dependency package="com.oracle.JRE" versions="[1.5, 2)"/>
     </version>
 
@@ -18169,21 +18334,6 @@ if %err% neq 0 exit %err%&#13;
         <url>http://code.kliu.org/hashcheck/downloads/HashCheckInstall-2.1.11.exe</url>
         <sha1>D3CB884C8FC3F04720D176777508C4F5DD2DF40C</sha1>
     </version>
-    <version name="2.1.11.1" package="hashcheck" type="one-file">
-        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
-"%setup%" /quiet &#13;
-set err=%errorlevel%&#13;
-type .Npackd\InnoSetupInstall.log&#13;
-if %err% neq 0 exit %err%&#13;
-</file>
-        <file path=".Npackd\Uninstall.bat">unins000.exe /VERYSILENT /SUPPRESSMSGBOXES /NORESTART /LOG="%CD%\.Npackd\InnoSetupUninstall.log"&#13;
-set err=%errorlevel%&#13;
-type .Npackd\InnoSetupUninstall.log&#13;
-if %err% neq 0 exit %err%&#13;
-</file>
-        <url>http://code.kliu.org/hashcheck/downloads/HashCheckInstall-2.1.11.exe</url>
-        <sha1>D3CB884C8FC3F04720D176777508C4F5DD2DF40C</sha1>
-    </version>
 
     <version name="8" package="heidisql" type="one-file">
         <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
@@ -18214,6 +18364,20 @@ if %err% neq 0 exit %err%&#13;
 </file>
         <url>http://www.heidisql.com/installers/HeidiSQL_8.0.0.4396_Setup.exe</url>
         <sha1>1f4c06279e4df919a9c92ede9d489014714a3d90</sha1>
+    </version>
+    <version name="8.1.0.4545" package="heidisql" type="one-file">
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
+"%setup%" /SP- /VERYSILENT /SUPPRESSMSGBOXES /NOCANCEL /NORESTART /DIR="%CD%" /SAVEINF="%CD%\.Npackd\InnoSetupInfo.ini" /LOG="%CD%\.Npackd\InnoSetupInstall.log" &amp;&amp; del /f /q "%setup%"&#13;
+set err=%errorlevel%&#13;
+type .Npackd\InnoSetupInstall.log&#13;
+if %err% neq 0 exit %err%</file>
+        <file path=".Npackd\Uninstall.bat">unins000.exe /VERYSILENT /SUPPRESSMSGBOXES /NORESTART /LOG="%CD%\.Npackd\InnoSetupUninstall.log"&#13;
+set err=%errorlevel%&#13;
+type .Npackd\InnoSetupUninstall.log&#13;
+if %err% neq 0 exit %err%&#13;
+</file>
+        <url>http://www.heidisql.com/installers/HeidiSQL_8.1.0.4545_Setup.exe</url>
+        <sha1>816c55b75c1faa6190a6405684fa42dffbff34fb</sha1>
     </version>
 
     <version name="2.0.4" package="hijackthis" type="one-file">
@@ -18369,6 +18533,20 @@ if %err% neq 0 exit %err%&#13;
 </file>
         <url>http://www.imagemagick.org/download/binaries/ImageMagick-6.8.6-9-Q16-x86-dll.exe</url>
         <sha1>840555a0c368efa83ac1ba3ab05b827e54e2ce30</sha1>
+    </version>
+    <version name="6.8.7" package="imagemagick" type="one-file">
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
+"%setup%" /SP- /VERYSILENT /SUPPRESSMSGBOXES /NOCANCEL /NORESTART /DIR="%CD%" /SAVEINF="%CD%\.Npackd\InnoSetupInfo.ini" /LOG="%CD%\.Npackd\InnoSetupInstall.log" &amp;&amp; del /f /q "%setup%"&#13;
+set err=%errorlevel%&#13;
+type .Npackd\InnoSetupInstall.log&#13;
+if %err% neq 0 exit %err%</file>
+        <file path=".Npackd\Uninstall.bat">unins000.exe /VERYSILENT /SUPPRESSMSGBOXES /NORESTART /LOG="%CD%\.Npackd\InnoSetupUninstall.log"&#13;
+set err=%errorlevel%&#13;
+type .Npackd\InnoSetupUninstall.log&#13;
+if %err% neq 0 exit %err%&#13;
+</file>
+        <url>http://www.imagemagick.org/download/binaries/ImageMagick-6.8.7-0-Q16-x86-dll.exe</url>
+        <sha1>904862b74d2460945ce538b725b1d9e876d017b9</sha1>
     </version>
 
     <version name="1.7.4" package="info.delphitools.SamplingProfiler">
@@ -19788,6 +19966,11 @@ ren "%setup%" Setup-MsgPlus.exe&#13;
         <url>https://dl.dropboxusercontent.com/u/176999101/net.nirsoft.FileTypesMan-1.62.zip</url>
         <sha1>ec84b2950de0736a7f45b68e2a16f674f7d25669</sha1>
     </version>
+    <version name="1.65" package="net.nirsoft.FileTypesMan">
+        <important-file path="FileTypesMan.exe" title="FileTypesMan"/>
+        <url>https://dl.dropboxusercontent.com/u/176999101/net.nirsoft.FileTypesMan-1.65.zip</url>
+        <sha1>d34513946bd6d866a6e2d6b687a2b0e1fe198368</sha1>
+    </version>
 
     <version name="2.1" package="net.nirsoft.HashMyFiles">
         <important-file path="HashMyFiles.exe" title="HashMyFiles"/>
@@ -20808,6 +20991,14 @@ rmdir "%name%"</file>
         <url>http://downloads.sourceforge.net/project/npackd/net.sourceforge.freefilesync.FreeFileSync-5.20.exe</url>
         <sha1>6cc66428b9c1e8c48055e342cf83906fb6f39e65</sha1>
     </version>
+    <version name="5.22" package="net.sourceforge.freefilesync.FreeFileSync" type="one-file">
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
+"%setup%" /S /D=%CD% &amp;&amp; del /f /q "%setup%"</file>
+        <file path=".Npackd\Uninstall.bat">uninstall.exe /S _?=%CD%&#13;
+</file>
+        <url>http://downloads.sourceforge.net/project/npackd/net.sourceforge.freefilesync.FreeFileSync-5.22.exe</url>
+        <sha1>085f0ce3866704a55fad187ab8920cf0f145d6ff</sha1>
+    </version>
 
     <version name="0.9" package="net.sourceforge.freemind.FreeMind" type="one-file">
         <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
@@ -20823,7 +21014,7 @@ if %err% neq 0 exit %err%&#13;
 </file>
         <url>http://downloads.sourceforge.net/project/freemind/freemind/0.9.0/FreeMind-Windows-Installer-0.9.0-max.exe</url>
         <sha1>b66de0a183d26b6cfd477a57b0bad18e48bb94df</sha1>
-        <dependency package="com.oracle.JRE" versions="[1.6.0.23, 3)"/>
+        <dependency package="com.oracle.JRE" versions="[1.4, 3)"/>
     </version>
 
     <version name="5.3" package="net.sourceforge.gnuwin32.CoreUtils" type="one-file">
@@ -21036,6 +21227,10 @@ verify&#13;
     <version name="0.16.1.1" package="net.sourceforge.gparted.GPartedLive" type="one-file">
         <url>http://downloads.sourceforge.net/project/gparted/gparted-live-stable/0.16.1-1/gparted-live-0.16.1-1-i486.iso</url>
         <sha1>6e47277502f1bdacaf0d3c8b53cf539521768bbd</sha1>
+    </version>
+    <version name="0.16.2.1.2" package="net.sourceforge.gparted.GPartedLive" type="one-file">
+        <url>http://downloads.sourceforge.net/project/gparted/gparted-live-stable/0.16.2-1b/gparted-live-0.16.2-1b-i486.iso</url>
+        <sha1>0e635e9647d181a471fae57f14ca26a27ed52ae3</sha1>
     </version>
 
     <version name="2.6" package="net.sourceforge.jabref.JabRef" type="one-file">
@@ -26884,6 +27079,13 @@ rmdir /s /q "%name%"&#13;
         <url>http://www.erlang.org/download/otp_win32_R16B01.exe</url>
         <sha1>536cdec5977c451cb8f3bfe221968e69c5706edf</sha1>
     </version>
+    <version name="16.2.2" package="org.erlang.Erlang" type="one-file">
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
+"%setup%" /S /D=%CD%&#13;
+</file>
+        <url>http://www.erlang.org/download/otp_win32_R16B02.exe</url>
+        <sha1>76f3810de5ac09760e7927462e305bf66f040b20</sha1>
+    </version>
 
     <version name="4.3" package="org.faststone.ImageViewer" type="one-file">
         <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x
@@ -27177,6 +27379,17 @@ if %err% neq 0 exit %err%&#13;
         <dependency package="com.oracle.JDK" versions="[1.6, 2)"/>
         <dependency package="com.adobe.FlashPlayerActiveX" versions="[11.5.502.110, 20)"/>
     </version>
+    <version name="4.4.3" package="org.flashdevelop.FlashDevelop" type="one-file">
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
+"%setup%" /S /D=%CD% &amp;&amp; del /f /q "%setup%"</file>
+        <file path=".Npackd\Uninstall.bat">uninstall.exe /S _?=%CD%&#13;
+</file>
+        <url>http://www.flashdevelop.org/downloads/releases/FlashDevelop-4.4.3-RTM.exe</url>
+        <sha1>33cc770ef765ca1283818a5da774eb01cb1c9549</sha1>
+        <dependency package="com.microsoft.DotNetRedistributable" versions="[2, 3)"/>
+        <dependency package="com.oracle.JDK" versions="[1.6, 2)"/>
+        <dependency package="com.adobe.FlashPlayerActiveX" versions="[11, 20)"/>
+    </version>
 
     <version name="1.0.3" package="org.foobar2000.Foobar2000" type="one-file">
         <file path=".Npackd\Install.bat">for /f %%x in ('dir /b *.exe') do set setup=%%x
@@ -27415,6 +27628,20 @@ if %err% neq 0 exit %err%&#13;
 </file>
         <url>http://downloads.sourceforge.net/project/npackd/org.freedownloadmanager.FreeDownloadManager-3.9.21303.exe</url>
         <sha1>f0e2329a50485ad5f8928e8e98a066761e182e5f</sha1>
+    </version>
+    <version name="3.9.31359" package="org.freedownloadmanager.FreeDownloadManager" type="one-file">
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
+"%setup%" /SP- /VERYSILENT /SUPPRESSMSGBOXES /NOCANCEL /NORESTART /DIR="%CD%" /SAVEINF="%CD%\.Npackd\InnoSetupInfo.ini" /LOG="%CD%\.Npackd\InnoSetupInstall.log" &amp;&amp; del /f /q "%setup%"&#13;
+set err=%errorlevel%&#13;
+type .Npackd\InnoSetupInstall.log&#13;
+if %err% neq 0 exit %err%</file>
+        <file path=".Npackd\Uninstall.bat">unins000.exe /VERYSILENT /SUPPRESSMSGBOXES /NORESTART /LOG="%CD%\.Npackd\InnoSetupUninstall.log"&#13;
+set err=%errorlevel%&#13;
+type .Npackd\InnoSetupUninstall.log&#13;
+if %err% neq 0 exit %err%&#13;
+</file>
+        <url>http://downloads.sourceforge.net/project/npackd/org.freedownloadmanager.FreeDownloadManager-3.9.31359.exe</url>
+        <sha1>28625fd51407db4b313153bd81361784324a23bd</sha1>
     </version>
 
     <version name="0.9.28.2" package="org.freepascal.lazarus.Lazarus" type="one-file">
@@ -29028,6 +29255,16 @@ call "%npackdih%\InstallMSI.bat" TARGETDIR yes&#13;
         <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.1, 2)"/>
         <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.15.7, 2)"/>
     </version>
+    <version name="2.34" package="org.graphviz.Graphviz" type="one-file">
+        <file path=".Npackd\Install.bat">set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.NpackdInstallerHelper" "--versions=[1.1, 2)"&#13;
+for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set npackdih=%%x&#13;
+call "%npackdih%\InstallMSI.bat" TARGETDIR yes&#13;
+</file>
+        <url>http://www.graphviz.org/pub/graphviz/stable/windows/graphviz-2.34.msi</url>
+        <sha1>119e7842bbe91f2ffa6796865486def76bcf7364</sha1>
+        <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.1, 2)"/>
+        <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.15.7, 2)"/>
+    </version>
 
     <version name="0.8.9.3" package="org.grisbi.Grisbi" type="one-file">
         <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
@@ -29136,6 +29373,14 @@ verify&#13;
 </file>
         <url>http://haxe.org/file/haxe-3.0.0-win.exe</url>
         <sha1>58be129104a8edf9af295ea44821860a85014020</sha1>
+    </version>
+    <version name="3.0.1" package="org.haxe.Haxe" type="one-file">
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
+"%setup%" /S /D=%CD% &amp;&amp; del /f /q "%setup%"</file>
+        <file path=".Npackd\Uninstall.bat">Uninstall.exe /S _?=%CD%&#13;
+</file>
+        <url>http://haxe.org/file/haxe-3.0.1-win.exe</url>
+        <sha1>7375afa3854688cf482982e83b4980a9b115aa52</sha1>
     </version>
 
     <version name="0.9.19" package="org.hedgewars.Hedgewars" type="one-file">
@@ -30658,6 +30903,17 @@ for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
         <file path=".WPM\Uninstall.bat">uninstall\helper.exe /S</file>
         <url>http://download-origin.cdn.mozilla.net/pub/mozilla.org/firefox/releases/23.0.1/win32/en-US/Firefox%20Setup%2023.0.1.exe</url>
         <sha1>77c3a97d88666505bd26ed7f06429388ceec46b2</sha1>
+    </version>
+    <version name="24" package="org.mozilla.Firefox" type="one-file">
+        <file path=".Npackd\Install.bat">echo [Install] &gt; .Npackd\FF.ini&#13;
+echo InstallDirectoryPath=%CD% &gt;&gt; .Npackd\FF.ini&#13;
+echo QuickLaunchShortcut=false &gt;&gt; .Npackd\FF.ini&#13;
+echo DesktopShortcut=false &gt;&gt; .Npackd\FF.ini&#13;
+for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
+"%setup%" /INI="%CD%\.Npackd\FF.ini" &amp;&amp; del /f /q "%setup%"</file>
+        <file path=".Npackd\Uninstall.bat">uninstall\helper.exe /S</file>
+        <url>http://download-origin.cdn.mozilla.net/pub/mozilla.org/firefox/releases/24.0/win32/en-US/Firefox%20Setup%2024.0.exe</url>
+        <sha1>d6213601b69a606f4537c394dfa0dd7968b17b93</sha1>
     </version>
 
     <version name="1.0" package="org.mozilla.sunbird" type="one-file">
@@ -35077,6 +35333,15 @@ if %err% neq 0 exit %err%&#13;
         <sha1>7d1ecd5b518996408d1e4917c1fe26b9ff39f51d</sha1>
     </version>
 
+    <version name="5.3.6" package="racket" type="one-file">
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
+"%setup%" /S /D=%CD%\Prog &amp;&amp; del /f /q "%setup%"</file>
+        <file path=".Npackd\Uninstall.bat">Prog\uninstall.exe /S _?=%CD%\Prog&#13;
+</file>
+        <url>http://download.racket-lang.org/installers/5.3.6/racket/racket-5.3.6-bin-i386-win32.exe</url>
+        <sha1>4d4439e00da481b3b37630f145933735b4673393</sha1>
+    </version>
+
     <version name="2.0.0.70" package="realterm" type="one-file">
         <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
 "%setup%" /S /D=%CD%&#13;
@@ -35747,6 +36012,17 @@ if %err% neq 0 exit %err%&#13;
         <sha1>b5d356631bd696a90a9e767bde407807829e7d29</sha1>
         <dependency package="org.7-zip.SevenZIP" versions="[9.20, 10)"/>
         <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.15.7, 2)"/>
+    </version>
+
+    <version name="0.96.4868" package="smath" type="one-file">
+        <file path=".Npackd\Install.bat">set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.NpackdInstallerHelper" "--versions=[1.1, 2)"&#13;
+for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set npackdih=%%x&#13;
+call "%npackdih%\InstallMSI.bat" INSTALLDIR yes&#13;
+</file>
+        <url>https://dl.dropboxusercontent.com/u/176999101/smath-0.96.4868.msi</url>
+        <sha1>863e1f8c4474980a8710a9362033fc35aa8f526a</sha1>
+        <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.1, 2)"/>
+        <dependency package="com.microsoft.DotNetRedistributable" versions="[2,3)"/>
     </version>
 
     <version name="1" package="sparkleshare" type="one-file">
