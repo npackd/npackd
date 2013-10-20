@@ -512,6 +512,13 @@
         <license>org.wikipedia.Freeware</license>
         <category>cat-tools</category>
     </package>
+    <package name="cgminer">
+        <title>CGMiner</title>
+        <url>https://en.bitcoin.it/wiki/CGMiner</url>
+        <description>CGMiner is an open source ASIC/FPGA/GPU miner written in C, cross platform for Linux, Windows and OS X, and including support and binaries for RPi, OpenWrt routers and others</description>
+        <icon>https://en.bitcoin.it/img/bc_logo_135.png</icon>
+        <category>cat-finance</category>
+    </package>
     <package name="ch.cyberduck.Cyberduck">
         <title>Cyberduck</title>
         <url>http://cyberduck.ch</url>
@@ -534,6 +541,14 @@
         <description>GUI log viewer and filter for the Log4J package. It listens for LoggingEvent objects sent using the SocketAppender and displays them in a table. The events can be filtered based on Priority, Thread name, Category name and Message</description>
         <license>org.apache.ApacheLicense2</license>
         <category>cat-dev</category>
+    </package>
+    <package name="claws-mail">
+        <title>Claws Mail</title>
+        <url>http://www.claws-mail.org/</url>
+        <description>email client (and news reader)</description>
+        <icon>https://lh4.googleusercontent.com/-R8y39bMhPK0/UmJJkRbRtPI/AAAAAAAABNw/0lMcxV23gJM/s119-no/claws-mail.png</icon>
+        <license>org.gnu.GPLv3</license>
+        <category>cat-communications</category>
     </package>
     <package name="clover">
         <title>Clover</title>
@@ -2838,12 +2853,28 @@ Format Factory's Feature:&#13;
         <icon>http://www.iobit.com/tpl/images/products/unlocker/icon_256x256.png</icon>
         <category>cat-tools</category>
     </package>
+    <package name="jdownloader">
+        <title>JDownloader</title>
+        <url>http://jdownloader.org/</url>
+        <description>download manager, written in Java, which allows the automatic downloading of files and split files from one-click hosting sites such as RapidShare</description>
+        <icon>http://jdownloader.org/_media/knowledge/wiki/jdownloader.png</icon>
+        <license>org.gnu.GPLv3</license>
+        <category>cat-tools</category>
+    </package>
     <package name="junction">
         <title>Junction</title>
         <url>http://technet.microsoft.com/en-us/sysinternals/bb896768</url>
         <description>command line tool for managing NTFS symbolic links</description>
         <license>com.microsoft.SysinternalsLicense</license>
         <category>cat-tools</category>
+    </package>
+    <package name="kid3">
+        <title>Kid3</title>
+        <url>http://kid3.sourceforge.net/</url>
+        <description>possible to easily tag multiple MP3, Ogg/Vorbis, FLAC, MPC, MP4/AAC, MP2, Speex, TrueAudio, WavPack, WMA, WAV and AIFF files (e.g. full albums) without typing the same information again and again and have control over both ID3v1 and ID3v2 tags</description>
+        <icon>http://kid3.sourceforge.net/hi48-app-kid3.png</icon>
+        <license>org.gnu.GPLv3</license>
+        <category>cat-music</category>
     </package>
     <package name="kmplayer">
         <title>KMPlayer</title>
@@ -4497,7 +4528,7 @@ The features of GNU Emacs include:&#13;
         <title>Inkscape</title>
         <url>http://www.inkscape.org/</url>
         <description>vector graphics editor</description>
-        <icon>http://img222.imageshack.us/img222/80/inkscape.png</icon>
+        <icon>https://lh5.googleusercontent.com/-lDyi0CDWwb8/UlxZKrL7IWI/AAAAAAAABNA/XWcMN8VuMXw/s100-no/org.inkscape.Inkscape.png</icon>
         <license>org.gnu.GPLv2</license>
         <category>cat-productivity</category>
     </package>
@@ -5503,6 +5534,13 @@ Urban Terror can be described as a Hollywood tactical shooter; somewhat realism 
         <license>org.gnu.GPLv2</license>
         <category>cat-productivity</category>
     </package>
+    <package name="wcftestclient">
+        <title>WCF Test Client</title>
+        <url>http://weblogs.asp.net/guillermo/archive/2009/02/23/info-running-wcftestclient-tool-in-a-pc-without-vs-net-2008.aspx</url>
+        <description>WcfTestClient Tool on a PC without VS.Net 2008</description>
+        <icon>https://lh4.googleusercontent.com/-wbD0uJ3-rGU/UmJREw9pheI/AAAAAAAABOI/MEsEWxybA88/s32-no/wcftestclient.png</icon>
+        <category>cat-dev</category>
+    </package>
     <package name="win32-disk-imager">
         <title>Win32 Disk Imager</title>
         <url>http://sourceforge.net/projects/win32diskimager/</url>
@@ -5861,6 +5899,33 @@ verify&#13;
         <sha1>1867142971e46cefbdc91d1c32bddb89b9cc2fcb</sha1>
     </version>
 
+    <version name="3.6.2" package="cgminer">
+        <important-file path="cgminer.exe" title="CGMiner"/>
+        <important-file path="cgminer-nogpu.exe" title="CGMiner-NoGPU"/>
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b cgminer*') do set name=%%x&#13;
+cd "%name%"        &#13;
+for /f "delims=" %%a in ('dir /b') do (&#13;
+  move "%%a" ..&#13;
+)&#13;
+cd ..&#13;
+rmdir "%name%"</file>
+        <url>http://ck.kolivas.org/apps/cgminer/3.6/cgminer-3.6.2-windows.zip</url>
+        <sha1>3fbcb8cba6d2b302b178f80a405101b82084c32d</sha1>
+    </version>
+    <version name="3.6.4" package="cgminer">
+        <important-file path="cgminer.exe" title="CGMiner"/>
+        <important-file path="cgminer-nogpu.exe" title="CGMiner-NoGPU"/>
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b cgminer*') do set name=%%x&#13;
+cd "%name%"        &#13;
+for /f "delims=" %%a in ('dir /b') do (&#13;
+  move "%%a" ..&#13;
+)&#13;
+cd ..&#13;
+rmdir "%name%"</file>
+        <url>http://ck.kolivas.org/apps/cgminer/3.6/cgminer-3.6.2-windows.zip</url>
+        <sha1>3fbcb8cba6d2b302b178f80a405101b82084c32d</sha1>
+    </version>
+
     <version name="4.2.1" package="ch.cyberduck.Cyberduck" type="one-file">
         <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
 "%setup%" /S /D=%ProgramFiles%\CyberduckData&#13;
@@ -5901,6 +5966,15 @@ verify
     <version name="1.1" package="chainsaw">
         <url>http://downloads.sourceforge.net/project/logui/chainsaw/1.1/chainsaw-1.1.zip</url>
         <sha1>9a8a191698e8514d6fc5c9d75d2855bec0c43517</sha1>
+    </version>
+
+    <version name="3.9.2" package="claws-mail" type="one-file">
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
+"%setup%" /S /D=%CD% &amp;&amp; del /f /q "%setup%"&#13;
+</file>
+        <file path=".Npackd\Uninstall.bat">claws-mail-uninstall.exe /S _?=%CD%</file>
+        <url>http://www.claws-mail.org/win32/claws-mail-3.9.2git55-pkg43.exe</url>
+        <sha1>0cc544d30b906dc9b3c9d03ef7ae517c17d9e4be</sha1>
     </version>
 
     <version name="3.0.386" package="clover">
@@ -18900,8 +18974,35 @@ if %err% neq 0 exit %err%&#13;
         <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.15.7, 2)"/>
     </version>
 
+    <version name="0.9.581" package="jdownloader">
+        <important-file path="JDownloader.exe" title="JDownloader"/>
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b jdownloader*') do set name=%%x&#13;
+cd "%name%"        &#13;
+for /f "delims=" %%a in ('dir /b') do (&#13;
+  move "%%a" ..&#13;
+)&#13;
+cd ..&#13;
+rmdir "%name%"</file>
+        <url>http://downloads.sourceforge.net/project/npackd/jdownloader-0.9.581.zip</url>
+        <sha1>007a76b848326fb13f447422f253d1af839c1710</sha1>
+        <dependency package="com.oracle.JRE" versions="[1.5, 2)"/>
+    </version>
+
     <version name="1.6" package="junction">
         <url>http://download.sysinternals.com/files/Junction.zip</url>
+    </version>
+
+    <version name="2.3" package="kid3">
+        <important-file path="kid3.exe" title="Kid3"/>
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b kid3*') do set name=%%x&#13;
+cd "%name%"        &#13;
+for /f "delims=" %%a in ('dir /b') do (&#13;
+  move "%%a" ..&#13;
+)&#13;
+cd ..&#13;
+rmdir "%name%"</file>
+        <url>http://downloads.sourceforge.net/project/kid3/kid3/2.3/kid3-2.3.0-win32.zip</url>
+        <sha1>f985ff0dff44b24027e07f71329c42994a2c255d</sha1>
     </version>
 
     <version name="3.7.0.109" package="kmplayer" type="one-file">
@@ -23500,6 +23601,19 @@ type .Npackd\InnoSetupUninstall.log&#13;
 if %err% neq 0 exit %err%</file>
         <url>http://downloads.sourceforge.net/project/npackd/net.srware.Iron-28.0.1550.exe</url>
         <sha1>b93eda9e70ecd21029566748657c51bcbb7daaa1</sha1>
+    </version>
+    <version name="29.0.1600.1" package="net.srware.Iron" type="one-file">
+        <file path=".Npackd\Install.bat">for /f %%x in ('dir /b *.exe') do set setup=%%x&#13;
+%setup% /SP- /VERYSILENT /SUPPRESSMSGBOXES /NOCANCEL /NORESTART /DIR="%CD%" /SAVEINF="%CD%\.Npackd\InnoSetupInfo.ini" /LOG="%CD%\.Npackd\InnoSetupInstall.log" &amp;&amp; del /f /q "%setup%"&#13;
+set err=%errorlevel%&#13;
+type .Npackd\InnoSetupInstall.log&#13;
+if %err% neq 0 exit %err%</file>
+        <file path=".Npackd\Uninstall.bat">unins000.exe /VERYSILENT /SUPPRESSMSGBOXES /NORESTART /LOG="%CD%\.Npackd\InnoSetupUninstall.log"&#13;
+set err=%errorlevel%&#13;
+type .Npackd\InnoSetupUninstall.log&#13;
+if %err% neq 0 exit %err%</file>
+        <url>http://downloads.sourceforge.net/project/npackd/net.srware.Iron-29.0.1600.1.exe</url>
+        <sha1>2cd02f52bd41104bccfc458feeb40e15674267c2</sha1>
     </version>
 
     <version name="1.0.2" package="net.stykz.Stykz">
@@ -36445,6 +36559,12 @@ rd /s /q "%ALLUSERSPROFILE%\Start Menu\Programs\Evolus" || rd /s /q "%ALLUSERSPR
 verify</file>
         <url>http://evoluspencil.googlecode.com/files/Pencil-2.0.3.win32.installer.exe</url>
         <sha1>2c65380ca2b495b5b36df0af9de9404c024cdfc9</sha1>
+    </version>
+
+    <version name="2009.2.23" package="wcftestclient">
+        <important-file path="WcfTestClient\WcfTestClient.exe" title="WCFTestClient"/>
+        <url>http://weblogs.asp.net/blogs/guillermo/Code/WcfTestClient.zip</url>
+        <sha1>8812db1901c8b285d00585624d2d53ce759b4061</sha1>
     </version>
 
     <version name="0.9" package="win32-disk-imager">
