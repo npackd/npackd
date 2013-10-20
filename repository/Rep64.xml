@@ -5374,6 +5374,20 @@ if %err% neq 0 exit %err%&#13;
         <url>http://www.imagemagick.org/download/binaries/ImageMagick-6.8.6-9-Q16-x64-dll.exe</url>
         <sha1>599bbe56d6d76136caedaf4200fb6a876addd7fe</sha1>
     </version>
+    <version name="6.8.7" package="imagemagick64" type="one-file">
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
+"%setup%" /SP- /VERYSILENT /SUPPRESSMSGBOXES /NOCANCEL /NORESTART /DIR="%CD%" /SAVEINF="%CD%\.Npackd\InnoSetupInfo.ini" /LOG="%CD%\.Npackd\InnoSetupInstall.log" &amp;&amp; del /f /q "%setup%"&#13;
+set err=%errorlevel%&#13;
+type .Npackd\InnoSetupInstall.log&#13;
+if %err% neq 0 exit %err%</file>
+        <file path=".Npackd\Uninstall.bat">unins000.exe /VERYSILENT /SUPPRESSMSGBOXES /NORESTART /LOG="%CD%\.Npackd\InnoSetupUninstall.log"&#13;
+set err=%errorlevel%&#13;
+type .Npackd\InnoSetupUninstall.log&#13;
+if %err% neq 0 exit %err%&#13;
+</file>
+        <url>http://www.imagemagick.org/download/binaries/ImageMagick-6.8.7-0-Q16-x64-dll.exe</url>
+        <sha1>b33d381c9c123a8bfe8454fdb0ed71069ae25dea</sha1>
+    </version>
 
     <version name="1.0.9" package="kr.pe.nyam.Imagine64">
         <important-file path="Imagine64.exe" title="Imagine"/>
