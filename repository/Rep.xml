@@ -1801,7 +1801,7 @@ Visual Studio 2012 - 11.0</description>
         <description>documentation for the Windows Scripting: Microsoft Visual Basic® Scripting Edition, Microsoft JScript®, Windows Script Host, Windows Script components&#13;
 WARNING: the default .chm file viewer does not show the content. Please use another software</description>
         <icon>https://lh5.googleusercontent.com/-gHZAeoMyeCI/UZ816tz7AgI/AAAAAAAACGQ/nBBqUDeYlrg/s800/scriptdocumentation.png</icon>
-        <category>cat-books</category>
+        <category>cat-dev</category>
     </package>
     <package name="com.microsoft.WMIAdministrativeTools">
         <title>WMI Administrative Tools</title>
@@ -1939,7 +1939,7 @@ WARNING: the default .chm file viewer does not show the content. Please use anot
     <package name="com.oracle.JDK">
         <title>JDK</title>
         <url>http://java.sun.com/javase/downloads/index.jsp</url>
-        <description>Java SDK. WARNING! Requires Npackd 1.15 for the installation. This package uses internal version numbers. For example, 1.7.0.1 corresponds to "Version 7 update 1 or 7u1"</description>
+        <description>Java SDK. This package uses internal version numbers. For example, 1.7.0.1 corresponds to "Version 7 update 1 or 7u1"</description>
         <icon>https://lh3.googleusercontent.com/-sXXEAE_p8bQ/Ucq_VzLdikI/AAAAAAAACRg/S2kpAQb-ymQ/s800/jre.png</icon>
         <license>com.oracle.JavaSELicense</license>
         <category>cat-dev</category>
@@ -2444,7 +2444,7 @@ Downloader and converter for YouTube, Vimeo, Dailymotion and many other online v
         <description>electronic dive log for divers</description>
         <icon>https://lh3.googleusercontent.com/-2-9YDgN6i8A/UcKtIIEof1I/AAAAAAAACNA/ZuHRbcZlgYg/s800/octopuslog.png</icon>
         <license>org.gnu.GPLv2</license>
-        <category>cat-sports</category>
+        <category>cat-tools</category>
     </package>
     <package name="de.nextsoft.HexEditorMX">
         <title>Hex-Editor MX</title>
@@ -2506,6 +2506,16 @@ Downloader and converter for YouTube, Vimeo, Dailymotion and many other online v
         <description>driver updater</description>
         <icon>http://www.iobit.com/tpl/images/products/db/icon_256x256.png</icon>
         <category>cat-tools</category>
+    </package>
+    <package name="drmemory">
+        <title>Dr. Memory</title>
+        <url>http://drmemory.org/</url>
+        <description>a memory monitoring tool capable of identifying memory-related programming errors such as accesses of uninitialized memory, accesses to unaddressable memory (including outside of allocated heap units and heap underflow and overflow), accesses to freed memory, double frees, memory leaks, and (on Windows) access to un-reserved thread local storage slots.&#13;
+&#13;
+Dr. Memory operates on unmodified application binaries running on Windows or Linux on commodity IA-32 and AMD64 hardware. Dr. Memory currently targets 32-bit applications only.</description>
+        <icon>https://lh4.googleusercontent.com/-ivhdW7cYMOE/UmPDcqiLuzI/AAAAAAAABOg/U2ONEjWSI7k/s16-no/drmemory.png</icon>
+        <license>org.gnu.LGPLv3</license>
+        <category>cat-dev</category>
     </package>
     <package name="drmingw">
         <title>Dr. Mingw</title>
@@ -5127,7 +5137,7 @@ kw: gvim, vi</description>
         <description>assists in the recovery and prevention of Repetitive Strain Injury (RSI). The program frequently alerts you to take micro-pauses, rest breaks and restricts you to your daily limit</description>
         <icon>https://lh3.googleusercontent.com/-uWcn383tIU8/USkjIZUURsI/AAAAAAAAA3Y/HcEgJtcMSnI/s800/workrave.png</icon>
         <license>org.gnu.GPLv3</license>
-        <category>cat-health</category>
+        <category>cat-tools</category>
     </package>
     <package name="org.xmlsoft.LibXML">
         <title>LibXML</title>
@@ -5362,7 +5372,7 @@ kw: CDBurner XP</description>
         <description>EPUB ebook editor</description>
         <icon>https://code.google.com/p/sigil/logo?cct=1374703485</icon>
         <license>org.gnu.GPLv3</license>
-        <category>cat-books</category>
+        <category>cat-tools</category>
     </package>
     <package name="skychart">
         <title>SkyChart / Cartes du Ciel</title>
@@ -13286,6 +13296,35 @@ verify&#13;
         <dependency package="com.googlecode.windows-package-manager.CLU" versions="[1, 2)"/>
         <detect-msi>{32A3A4F4-B792-11D6-A78A-00B0D0170250}</detect-msi>
     </version>
+    <version name="1.7.0.40" package="com.oracle.JDK" type="one-file">
+        <file path=".Npackd\Uninstall.bat">MsiExec.exe /qn /norestart /Lime .Npackd\MSI.log /X{32A3A4F4-B792-11D6-A78A-00B0D0170400}&#13;
+set err=%errorlevel%&#13;
+type .Npackd\MSI.log&#13;
+if %err% neq 0 exit /b %err%&#13;
+&#13;
+set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.CLU" "--versions=[1, 2)"&#13;
+for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set clu=%%x&#13;
+"%clu%\clu" remove-path --path "%CD%\bin"&#13;
+verify&#13;
+</file>
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
+"%setup%" /s /v"/qn /Lime .Npackd\MSI.log /norestart REBOOT=Suppress ALLUSERS=1 ADDLOCAL="""ToolsFeature,SourceFeature""" INSTALLDIR="""%CD%""" "&#13;
+set err=%errorlevel%&#13;
+type .Npackd\MSI.log&#13;
+if %err% neq 0 exit /b %err%&#13;
+&#13;
+set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.CLU" "--versions=[1, 2)"&#13;
+for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set clu=%%x&#13;
+"%clu%\clu" add-path --path "%CD%\bin"&#13;
+verify&#13;
+&#13;
+</file>
+        <url>http://downloads.sourceforge.net/project/npackd/com.oracle.JDK-1.7.0.40.exe</url>
+        <sha1>b611fb48bb5071b54ef45633cd796a27d5cd0ffd</sha1>
+        <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.15.7, 2)"/>
+        <dependency package="com.googlecode.windows-package-manager.CLU" versions="[1, 2)"/>
+        <detect-msi>{32A3A4F4-B792-11D6-A78A-00B0D0170400}</detect-msi>
+    </version>
 
     <version name="1.6.0.23" package="com.oracle.JRE" type="one-file">
         <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x
@@ -17989,6 +18028,16 @@ if %err% neq 0 exit %err%&#13;
 </file>
         <url>https://dl.dropboxusercontent.com/u/176999101/driver-booster-1.exe</url>
         <sha1>b9756ad048e366a80269eea8cf67fd09422802c4</sha1>
+    </version>
+
+    <version name="1.6.0.2" package="drmemory" type="one-file">
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
+"%setup%" /S /D=%CD% &amp;&amp; del /f /q "%setup%"&#13;
+</file>
+        <file path=".Npackd\Uninstall.bat">Uninstall.exe /S _?=%CD%&#13;
+</file>
+        <url>https://drmemory.googlecode.com/files/DrMemory-Windows-1.6.0-2.exe</url>
+        <sha1>a3cffd6849e63f686c403cacd1cc6f9b6625284f</sha1>
     </version>
 
     <version name="0.6.1" package="drmingw">
@@ -23614,6 +23663,19 @@ type .Npackd\InnoSetupUninstall.log&#13;
 if %err% neq 0 exit %err%</file>
         <url>http://downloads.sourceforge.net/project/npackd/net.srware.Iron-29.0.1600.1.exe</url>
         <sha1>2cd02f52bd41104bccfc458feeb40e15674267c2</sha1>
+    </version>
+    <version name="30.0.1650" package="net.srware.Iron" type="one-file">
+        <file path=".Npackd\Install.bat">for /f %%x in ('dir /b *.exe') do set setup=%%x&#13;
+%setup% /SP- /VERYSILENT /SUPPRESSMSGBOXES /NOCANCEL /NORESTART /DIR="%CD%" /SAVEINF="%CD%\.Npackd\InnoSetupInfo.ini" /LOG="%CD%\.Npackd\InnoSetupInstall.log" &amp;&amp; del /f /q "%setup%"&#13;
+set err=%errorlevel%&#13;
+type .Npackd\InnoSetupInstall.log&#13;
+if %err% neq 0 exit %err%</file>
+        <file path=".Npackd\Uninstall.bat">unins000.exe /VERYSILENT /SUPPRESSMSGBOXES /NORESTART /LOG="%CD%\.Npackd\InnoSetupUninstall.log"&#13;
+set err=%errorlevel%&#13;
+type .Npackd\InnoSetupUninstall.log&#13;
+if %err% neq 0 exit %err%</file>
+        <url>http://downloads.sourceforge.net/project/npackd/net.srware.Iron-30.0.1650.exe</url>
+        <sha1>40ac4b6d98e0fdd94700632f87f47d66cee37ff7</sha1>
     </version>
 
     <version name="1.0.2" package="net.stykz.Stykz">
