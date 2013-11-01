@@ -412,14 +412,6 @@ Visual Studio 2012 - 11.0</description>
         <license>com.mythicsoft.AgentRansackLicense</license>
         <category>cat-tools</category>
     </package>
-    <package name="com.opera.Opera64">
-        <title>Opera 64 bit</title>
-        <url>http://www.opera.com</url>
-        <description>web browser</description>
-        <icon>https://lh6.googleusercontent.com/-e3-_mowNlCo/UQd3tnxYGBI/AAAAAAAAAJc/o2Ew31gy56A/s800/opera_32.png</icon>
-        <license>org.wikipedia.Freeware</license>
-        <category>cat-tools</category>
-    </package>
     <package name="com.oracle.JDK64">
         <title>JDK 64 bit</title>
         <url>http://java.sun.com/javase/downloads/index.jsp</url>
@@ -618,6 +610,38 @@ Windows XP or later is required. It relies upon the DbgHelp library to resolve s
         <license>org.gnu.GPLv2</license>
         <category>cat-photo</category>
     </package>
+    <package name="mingw-w64-x86_64-seh-posix">
+        <title>MinGW-w64 x86_64, SEH, POSIX threads</title>
+        <url>http://mingw-w64.sourceforge.net/</url>
+        <description>64 bit GCC toolchain (C, Ada, C++, Fortran, Object C and Objective C++)</description>
+        <icon>http://gcc.gnu.org/img/gccegg-65.png</icon>
+        <license>org.gnu.LGPLv2_1</license>
+        <category>cat-dev</category>
+    </package>
+    <package name="mingw-w64-x86_64-seh-win">
+        <title>MinGW-w64 x86_64, SEH, Windows threads</title>
+        <url>http://mingw-w64.sourceforge.net/</url>
+        <description>64 bit GCC toolchain (C, Ada, C++, Fortran, Object C and Objective C++)</description>
+        <icon>http://gcc.gnu.org/img/gccegg-65.png</icon>
+        <license>org.gnu.LGPLv2_1</license>
+        <category>cat-dev</category>
+    </package>
+    <package name="mingw-w64-x86_64-sjlj-posix">
+        <title>MinGW-w64 x86_64, SJLJ, POSIX threads</title>
+        <url>http://mingw-w64.sourceforge.net/</url>
+        <description>64 bit GCC toolchain (C, Ada, C++, Fortran, Object C and Objective C++)</description>
+        <icon>http://gcc.gnu.org/img/gccegg-65.png</icon>
+        <license>org.gnu.LGPLv2_1</license>
+        <category>cat-dev</category>
+    </package>
+    <package name="mingw-w64-x86_64-sjlj-win">
+        <title>MinGW-w64 x86_64, SJLJ, Windows threads</title>
+        <url>http://mingw-w64.sourceforge.net/</url>
+        <description>64 bit GCC toolchain (C, Ada, C++, Fortran, Object C and Objective C++)</description>
+        <icon>http://gcc.gnu.org/img/gccegg-65.png</icon>
+        <license>org.gnu.LGPLv2_1</license>
+        <category>cat-dev</category>
+    </package>
     <package name="myeventviewer64">
         <title>MyEventViewer 64 bit</title>
         <url>http://www.nirsoft.net/utils/my_event_viewer.html</url>
@@ -716,7 +740,9 @@ Windows XP or later is required. It relies upon the DbgHelp library to resolve s
     <package name="net.sourceforge.mingw-w64.MinGWW6464">
         <title>MinGW-w64 64 bit</title>
         <url>http://mingw-w64.sourceforge.net/</url>
-        <description>64 bit GCC toolchain (C, Ada, C++, Fortran, Object C and Objective C++)</description>
+        <description>Deprecated. Please use one of the packages with exact choice of the exception handling and threading.&#13;
+&#13;
+64 bit GCC toolchain (C, Ada, C++, Fortran, Object C and Objective C++)</description>
         <icon>http://gcc.gnu.org/img/gccegg-65.png</icon>
         <license>org.gnu.LGPLv2_1</license>
         <category>cat-dev</category>
@@ -2743,6 +2769,15 @@ call "%npackdih%\InstallMSI.bat" INSTALLDIR yes&#13;
         <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.1, 2)"/>
         <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.15.7, 2)"/>
     </version>
+    <version name="5.2.6" package="com.mysql.dev.MySQLODBCConnector64bits" type="one-file">
+        <file path=".Npackd\Install.bat">set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.NpackdInstallerHelper" "--versions=[1.1, 2)"&#13;
+for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set npackdih=%%x&#13;
+call "%npackdih%\InstallMSI.bat" INSTALLDIR yes&#13;
+		</file>
+        <url>http://cdn.mysql.com/Downloads/Connector-ODBC/5.2/mysql-connector-odbc-5.2.6-winx64.msi</url>
+        <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.1, 2)"/>
+        <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.15.7, 2)"/>
+    </version>
 
     <version name="5.5.16" package="com.mysql.MySQLCommunityServer64" type="one-file">
         <file path=".Npackd\Install.bat">if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
@@ -2892,6 +2927,20 @@ rmdir "%name%"&#13;
         <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.1, 2)"/>
         <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.15.7, 2)"/>
     </version>
+    <version name="5.6.14" package="com.mysql.MySQLCommunityServer64">
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b mysql*') do set name=%%x&#13;
+cd "%name%"        &#13;
+for /f "delims=" %%a in ('dir /b') do (&#13;
+  move "%%a" ..&#13;
+)&#13;
+cd ..&#13;
+rmdir "%name%"&#13;
+</file>
+        <url>http://downloads.sourceforge.net/project/npackd/com.mysql.MySQLCommunityServer64-5.6.14.zip</url>
+        <sha1>85458D57AA5198DA9925DD6971ECED779C8366E6</sha1>
+        <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.1, 2)"/>
+        <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.15.7, 2)"/>
+    </version>
 
     <version name="2010.762" package="com.mythicsoft.AgentRansack64" type="one-file">
         <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x
@@ -2906,31 +2955,6 @@ type .Npackd\InnoSetupUninstall.log
 if %err% neq 0 exit %err%
 </file>
         <url>http://download.mythicsoft.com/agentran_64.exe</url>
-    </version>
-
-    <version name="12.14" package="com.opera.Opera64" type="one-file">
-        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
-"%setup%" /installfolder "%ProgramFiles%\Opera_64_bit" /silent /launchopera 0 /desktopshortcut 0 /setdefaultbrowser 0 /allusers&#13;
-</file>
-        <file path=".Npackd\Uninstall.bat">"%ProgramFiles%\Opera_64_bit\opera.exe" /uninstall /silent&#13;
-</file>
-        <url>http://get-tsw-1.opera.com/pub/opera/win/1214/int/Opera_1214_int_Setup_x64.exe</url>
-    </version>
-    <version name="12.15" package="com.opera.Opera64" type="one-file">
-        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
-"%setup%" /installfolder "%ProgramFiles%\Opera_64_bit" /silent /launchopera 0 /desktopshortcut 0 /setdefaultbrowser 0 /allusers</file>
-        <file path=".Npackd\Uninstall.bat">"%ProgramFiles%\Opera_64_bit\opera.exe" /uninstall /silent&#13;
-</file>
-        <url>http://get-tsw-1.opera.com/pub/opera/win/1215/int/Opera_1215_int_Setup_x64.exe</url>
-        <sha1>0557e2a5f513a79417bfb6b43903f030af637cad</sha1>
-    </version>
-    <version name="12.16" package="com.opera.Opera64" type="one-file">
-        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
-"%setup%" /installfolder "%ProgramFiles%\Opera_64_bit" /silent /launchopera 0 /desktopshortcut 0 /setdefaultbrowser 0 /allusers</file>
-        <file path=".Npackd\Uninstall.bat">"%ProgramFiles%\Opera_64_bit\opera.exe" /uninstall /silent&#13;
-</file>
-        <url>http://get-tsw-1.opera.com/pub/opera/win/1216/int/Opera_1216_int_Setup_x64.exe</url>
-        <sha1>880d2d3d5611d8f25b6101fd6f845081faeafc12</sha1>
     </version>
 
     <version name="1.6.0.25" package="com.oracle.JDK64" type="one-file">
@@ -4233,6 +4257,33 @@ verify&#13;
         <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.15.7, 2)"/>
         <dependency package="com.googlecode.windows-package-manager.CLU" versions="[1, 2)"/>
     </version>
+    <version name="2.7.2" package="com.selenic.mercurial.Mercurial64" type="one-file">
+        <file path=".Npackd\Uninstall.bat">unins000.exe /VERYSILENT /SUPPRESSMSGBOXES /NORESTART /LOG="%CD%\.Npackd\InnoSetupUninstall.log"&#13;
+set err=%errorlevel%&#13;
+type .Npackd\InnoSetupUninstall.log&#13;
+if %err% neq 0 exit %err%&#13;
+&#13;
+set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.CLU" "--versions=[1, 2)"&#13;
+for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set clu=%%x&#13;
+"%clu%\clu" remove-path --path "%CD%"&#13;
+verify&#13;
+</file>
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
+"%setup%" /SP- /VERYSILENT /SUPPRESSMSGBOXES /NOCANCEL /NORESTART /DIR="%CD%" /SAVEINF="%CD%\.Npackd\InnoSetupInfo.ini" /LOG="%CD%\.Npackd\InnoSetupInstall.log"&#13;
+set err=%errorlevel%&#13;
+type .Npackd\InnoSetupInstall.log&#13;
+if %err% neq 0 exit %err%&#13;
+&#13;
+set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.CLU" "--versions=[1, 2)"&#13;
+for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set clu=%%x&#13;
+"%clu%\clu" add-path --path "%CD%"&#13;
+verify&#13;
+</file>
+        <url>http://mercurial.selenic.com/release/windows/Mercurial-2.7.2-x64.exe</url>
+        <sha1>cb8e278a716bb85c90b0c9bc12200f0e8c33725d</sha1>
+        <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.15.7, 2)"/>
+        <dependency package="com.googlecode.windows-package-manager.CLU" versions="[1, 2)"/>
+    </version>
 
     <version name="4.51" package="com.softwareok.QDir64">
         <important-file path="Q-Dir.exe" title="Q-Dir"/>
@@ -5463,6 +5514,122 @@ call "%npackdih%\InstallMSI.bat" TARGETDIR yes&#13;
         <sha1>5dcc13d15fc8e3ed1ca2e2cfa3b37822228629bb</sha1>
     </version>
 
+    <version name="4.8.2" package="mingw-w64-x86_64-seh-posix" type="one-file">
+        <file path=".Npackd\Uninstall.bat">"%clu%\clu" remove-path --path "%CD%\bin"&#13;
+verify&#13;
+</file>
+        <file path=".Npackd\Install.bat">for /f %%x in ('dir /b *.7z') do set setup=%%x&#13;
+"%sevenzipa%\7za.exe" x "%setup%" &gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+del "%setup%"&#13;
+&#13;
+for /f "delims=" %%x in ('dir /b mingw64*') do set name=%%x&#13;
+cd "%name%"        &#13;
+for /f "delims=" %%a in ('dir /b') do (&#13;
+  move "%%a" ..&#13;
+)&#13;
+cd ..&#13;
+rmdir "%name%"&#13;
+&#13;
+"%clu%\clu" add-path --path "%CD%\bin"&#13;
+verify&#13;
+</file>
+        <url>http://downloads.sourceforge.net/project/mingw-w64/Toolchains%20targetting%20Win64/Personal%20Builds/mingw-builds/4.8.2/threads-posix/seh/x86_64-4.8.2-release-posix-seh-rt_v3-rev0.7z</url>
+        <sha1>8E9C60581AE6388CE202285C767B8EE29F5B2137</sha1>
+        <dependency package="com.googlecode.windows-package-manager.CLU" versions="[1, 2)">
+            <variable>CLU</variable>
+        </dependency>
+        <dependency package="org.7-zip.SevenZIPA" versions="[9.20, 10)">
+            <variable>sevenzipa</variable>
+        </dependency>
+    </version>
+
+    <version name="4.8.2" package="mingw-w64-x86_64-seh-win" type="one-file">
+        <file path=".Npackd\Uninstall.bat">"%clu%\clu" remove-path --path "%CD%\bin"&#13;
+verify&#13;
+</file>
+        <file path=".Npackd\Install.bat">for /f %%x in ('dir /b *.7z') do set setup=%%x&#13;
+"%sevenzipa%\7za.exe" x "%setup%" &gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+del "%setup%"&#13;
+&#13;
+for /f "delims=" %%x in ('dir /b mingw64*') do set name=%%x&#13;
+cd "%name%"        &#13;
+for /f "delims=" %%a in ('dir /b') do (&#13;
+  move "%%a" ..&#13;
+)&#13;
+cd ..&#13;
+rmdir "%name%"&#13;
+&#13;
+"%clu%\clu" add-path --path "%CD%\bin"&#13;
+verify&#13;
+</file>
+        <url>http://downloads.sourceforge.net/project/mingw-w64/Toolchains%20targetting%20Win64/Personal%20Builds/mingw-builds/4.8.2/threads-win32/seh/x86_64-4.8.2-release-win32-seh-rt_v3-rev0.7z</url>
+        <sha1>8442D65168E9C166DDC37597EC858A5E9C315707</sha1>
+        <dependency package="com.googlecode.windows-package-manager.CLU" versions="[1, 2)">
+            <variable>CLU</variable>
+        </dependency>
+        <dependency package="org.7-zip.SevenZIPA" versions="[9.20, 10)">
+            <variable>sevenzipa</variable>
+        </dependency>
+    </version>
+
+    <version name="4.8.2" package="mingw-w64-x86_64-sjlj-posix" type="one-file">
+        <file path=".Npackd\Uninstall.bat">"%clu%\clu" remove-path --path "%CD%\bin"&#13;
+verify&#13;
+</file>
+        <file path=".Npackd\Install.bat">for /f %%x in ('dir /b *.7z') do set setup=%%x&#13;
+"%sevenzipa%\7za.exe" x "%setup%" &gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+del "%setup%"&#13;
+&#13;
+for /f "delims=" %%x in ('dir /b mingw64*') do set name=%%x&#13;
+cd "%name%"        &#13;
+for /f "delims=" %%a in ('dir /b') do (&#13;
+  move "%%a" ..&#13;
+)&#13;
+cd ..&#13;
+rmdir "%name%"&#13;
+&#13;
+"%clu%\clu" add-path --path "%CD%\bin"&#13;
+verify&#13;
+</file>
+        <url>http://downloads.sourceforge.net/project/mingw-w64/Toolchains%20targetting%20Win64/Personal%20Builds/mingw-builds/4.8.2/threads-posix/sjlj/x86_64-4.8.2-release-posix-sjlj-rt_v3-rev0.7z</url>
+        <sha1>D712AC9C693ED8172C92B14C4BA01A041022F9C2</sha1>
+        <dependency package="com.googlecode.windows-package-manager.CLU" versions="[1, 2)">
+            <variable>CLU</variable>
+        </dependency>
+        <dependency package="org.7-zip.SevenZIPA" versions="[9.20, 10)">
+            <variable>sevenzipa</variable>
+        </dependency>
+    </version>
+
+    <version name="4.8.2" package="mingw-w64-x86_64-sjlj-win" type="one-file">
+        <file path=".Npackd\Uninstall.bat">"%clu%\clu" remove-path --path "%CD%\bin"&#13;
+verify&#13;
+</file>
+        <file path=".Npackd\Install.bat">for /f %%x in ('dir /b *.7z') do set setup=%%x&#13;
+"%sevenzipa%\7za.exe" x "%setup%" &gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+del "%setup%"&#13;
+&#13;
+for /f "delims=" %%x in ('dir /b mingw64*') do set name=%%x&#13;
+cd "%name%"        &#13;
+for /f "delims=" %%a in ('dir /b') do (&#13;
+  move "%%a" ..&#13;
+)&#13;
+cd ..&#13;
+rmdir "%name%"&#13;
+&#13;
+"%clu%\clu" add-path --path "%CD%\bin"&#13;
+verify&#13;
+</file>
+        <url>http://downloads.sourceforge.net/project/mingw-w64/Toolchains%20targetting%20Win64/Personal%20Builds/mingw-builds/4.8.2/threads-win32/sjlj/x86_64-4.8.2-release-win32-sjlj-rt_v3-rev0.7z</url>
+        <sha1>1DA8F1C9B7E76814F0B4C7544D42F44BB7D23E04</sha1>
+        <dependency package="com.googlecode.windows-package-manager.CLU" versions="[1, 2)">
+            <variable>CLU</variable>
+        </dependency>
+        <dependency package="org.7-zip.SevenZIPA" versions="[9.20, 10)">
+            <variable>sevenzipa</variable>
+        </dependency>
+    </version>
+
     <version name="2" package="myeventviewer64">
         <important-file path="MyEventViewer.exe" title="MyEventViewer"/>
         <url>https://dl.dropboxusercontent.com/u/176999101/myeventviewer64-2.zip</url>
@@ -5472,6 +5639,11 @@ call "%npackdih%\InstallMSI.bat" TARGETDIR yes&#13;
         <important-file path="MyEventViewer.exe" title="MyEventViewer"/>
         <url>https://dl.dropboxusercontent.com/u/176999101/myeventviewer64-2.1.zip</url>
         <sha1>0e2f163aa43c9c663718d194f8f9266809345424</sha1>
+    </version>
+    <version name="2.5" package="myeventviewer64">
+        <important-file path="MyEventViewer.exe" title="MyEventViewer"/>
+        <url>https://dl.dropboxusercontent.com/u/176999101/myeventviewer64-2.5.zip</url>
+        <sha1>38232a8b0e80b28483a9f2d808651057f5877467</sha1>
     </version>
 
     <version name="3" package="net.blat.Blat64">
@@ -6187,6 +6359,15 @@ rmdir /s /q "%name%"&#13;
 </file>
         <url>http://downloads.sourceforge.net/project/mpc-hc/MPC%20HomeCinema%20-%20x64/MPC-HC_v1.6.8_x64/MPC-HC.1.6.8.x64.zip</url>
         <sha1>00c90231c2301d4fc8e05b2899b651d63e72efc3</sha1>
+    </version>
+    <version name="1.7" package="net.sourceforge.mpc-hc.MediaPlayerClassicHomeCinema64">
+        <important-file path="mpc-hc64.exe" title="Media Player Classic - Home Cinema"/>
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b MPC*') do set name=%%x&#13;
+xcopy "%name%\*" . /E /H&#13;
+rmdir /s /q "%name%"&#13;
+</file>
+        <url>http://downloads.sourceforge.net/project/mpc-hc/MPC%20HomeCinema%20-%20x64/MPC-HC_v1.7.0_x64/MPC-HC.1.7.0.x64.zip</url>
+        <sha1>d2f8ac10a49246714e9ff91e4269e086afbb0459</sha1>
     </version>
 
     <version name="4.7.3" package="net.sourceforge.peazip.PeaZip64" type="one-file">

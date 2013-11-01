@@ -347,6 +347,23 @@ verify&#13;
         <sha1>4e783a4bebd7ce49441b2efa89b1788fe1121c4b</sha1>
         <dependency package="com.googlecode.windows-package-manager.CLU" versions="[1, 2)"/>
     </version>
+    <version name="1.18.5" package="com.googlecode.windows-package-manager.NpackdCL">
+        <file path=".Npackd\Install.bat">if "%npackd_cl%" equ "" set npackd_cl=.&#13;
+set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.CLU" "--versions=[1, 2)"&#13;
+for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set clu=%%x&#13;
+"%clu%\clu" add-path --path "%CD%"&#13;
+verify&#13;
+</file>
+        <file path=".Npackd\Uninstall.bat">if "%npackd_cl%" equ "" set npackd_cl=.&#13;
+set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.CLU" "--versions=[1, 2)"&#13;
+for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set clu=%%x&#13;
+"%clu%\clu" remove-path --path "%CD%"&#13;
+verify&#13;
+</file>
+        <url>http://windows-package-manager.googlecode.com/files/NpackdCL-1.18.5.zip</url>
+        <sha1>1af90bbc04e86a57fc1bd57da26680944d825bb0</sha1>
+        <dependency package="com.googlecode.windows-package-manager.CLU" versions="[1, 2)"/>
+    </version>
 
     <version name="4.1.8" package="net.pivotanimator.PivotAnimator">
         <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
