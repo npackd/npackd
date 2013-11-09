@@ -806,14 +806,15 @@ Windows XP or later is required. It relies upon the DbgHelp library to resolve s
     <package name="npackd-gae-gc-rep-transfer">
         <title>Npackd GAE to Google Code repositories transfer</title>
         <url>http://code.google.com/p/windows-package-manager/</url>
-        <description>this script transfers the 4 default repositories from http://npackd.appspot.com&#13;
+        <description>this script transfers the default repositories from http://npackd.appspot.com&#13;
 to the Mercurial source repository at http://code.google.com/p/windows-package-manager so that the repositories are available e.g. under https://windows-package-manager.googlecode.com/hg/repository/Rep.xml&#13;
 &#13;
-The 4 repositories are:&#13;
+The repositories are:&#13;
 * http://npackd.appspot.com/rep/xml?tag=stable&#13;
 * http://npackd.appspot.com/rep/xml?tag=stable64&#13;
 * http://npackd.appspot.com/rep/xml?tag=libs &#13;
 * http://npackd.appspot.com/rep/xml?tag=unstable&#13;
+* http://npackd.appspot.com/rep/xml?tag=vim&#13;
 &#13;
 You would require commit permission for the Mercurial repository.</description>
         <icon>https://lh5.googleusercontent.com/-Clv-5HRjnqw/T2iH5F-IJYI/AAAAAAAAAbY/PRAIafxwI1c/s800/com.googlecode.windows-package-manager.Npackd.png</icon>
@@ -1208,6 +1209,14 @@ kw: CDBurner XP</description>
         <icon>http://curl.haxx.se/ds-curlicon.png</icon>
         <license>se.haxx.curl.CURLLicense</license>
         <category>cat-tools</category>
+    </package>
+    <package name="soapui64">
+        <title>SoapUI 64 bit</title>
+        <url>http://www.soapui.org</url>
+        <description>tool to test webservices</description>
+        <icon>https://lh6.googleusercontent.com/-V__QNdBCBAY/UTpC3Gi7oqI/AAAAAAAABAU/tbThXhHeXgw/s48/org.soapui.SoapUI.png</icon>
+        <license>org.gnu.LGPLv2_1</license>
+        <category>cat-dev</category>
     </package>
     <package name="stellarium64">
         <title>Stellarium 64 bit</title>
@@ -4607,6 +4616,20 @@ del Q-Dir.ini&#13;
         <url>https://dl.dropboxusercontent.com/u/176999101/com.softwareok.QDir64-5.70.zip</url>
         <sha1>03d7c10fe799e6e20619e40e388d8697534d94db</sha1>
     </version>
+    <version name="5.76" package="com.softwareok.QDir64">
+        <important-file path="Q-Dir.exe" title="Q-Dir"/>
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b Q*') do set name=%%x&#13;
+cd "%name%"        &#13;
+for /f "delims=" %%a in ('dir /b') do (&#13;
+  move "%%a" ..&#13;
+)&#13;
+cd ..&#13;
+rmdir "%name%"&#13;
+del Q-Dir.ini&#13;
+</file>
+        <url>https://dl.dropboxusercontent.com/u/176999101/com.softwareok.QDir64-5.76.zip</url>
+        <sha1>357fa6fe90344885c420e2feea9e9548b0a886a2</sha1>
+    </version>
 
     <version name="5.16.3.1" package="com.strawberryperl.StrawberryPerl64" type="one-file">
         <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.msi') do set setup=%%x&#13;
@@ -5021,6 +5044,16 @@ if %err% neq 0 exit /b %err%&#13;
 </file>
         <url>https://dl.dropboxusercontent.com/u/176999101/com.tracker-software.PDFXChangeViewer64-2.5.211.msi</url>
         <sha1>b52385ccc2042d467b63975ec2ec910fada3b7fd</sha1>
+    </version>
+    <version name="2.5.213" package="com.tracker-software.PDFXChangeViewer64" type="one-file">
+        <file path=".Npackd\Install.bat">set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.NpackdInstallerHelper" "--versions=[1.1, 2)"&#13;
+for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set npackdih=%%x&#13;
+call "%npackdih%\InstallMSI.bat" INSTALLDIR yes&#13;
+</file>
+        <url>https://dl.dropboxusercontent.com/u/176999101/com.tracker-software.PDFXChangeViewer64-2.58.213.msi</url>
+        <sha1>a9fd3b798c41deb721003ddea50350ff2c25f4e1</sha1>
+        <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.1, 2)"/>
+        <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.15.7, 2)"/>
     </version>
 
     <version name="1.0.9.6" package="com.uvnc.UltraVNC64">
@@ -6801,6 +6834,15 @@ verify&#13;
     <version name="1" package="npackd-gae-gc-rep-transfer">
         <url>https://dl.dropboxusercontent.com/u/17046326/files/npackd-gae-gc-rep-transfer-1.zip</url>
         <sha1>0dafde06545bf82d5152d7f8a3740a1602a4d83d</sha1>
+        <dependency package="org.xmlsoft.LibXML" versions="[2.4.12,2.4.12]"/>
+        <dependency package="com.selenic.mercurial.Mercurial64" versions="[1.8,3)"/>
+        <dependency package="se.haxx.curl.CURL64" versions="[7,10)"/>
+        <dependency package="org.mingw.MSYS" versions="[2011,2020)"/>
+        <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.17.9, 2)"/>
+    </version>
+    <version name="1.1" package="npackd-gae-gc-rep-transfer">
+        <url>https://npackd.googlecode.com/files/npackd-gae-gc-rep-transfer-1.1.zip</url>
+        <sha1>5e7da8c8dcbaead0dd40f5453c4137ad5f024d7a</sha1>
         <dependency package="org.xmlsoft.LibXML" versions="[2.4.12,2.4.12]"/>
         <dependency package="com.selenic.mercurial.Mercurial64" versions="[1.8,3)"/>
         <dependency package="se.haxx.curl.CURL64" versions="[7,10)"/>
@@ -9891,6 +9933,16 @@ call "%npackdih%\InstallMSI.bat" INSTALLDIR yes&#13;
         <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.15.7, 2)"/>
         <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.1, 2)"/>
     </version>
+    <version name="0.10.21" package="org.nodejs.NodeJS64" type="one-file">
+        <file path=".Npackd\Install.bat">set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.NpackdInstallerHelper" "--versions=[1.1, 2)"&#13;
+for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set npackdih=%%x&#13;
+call "%npackdih%\InstallMSI.bat" INSTALLDIR yes&#13;
+</file>
+        <url>http://nodejs.org/dist/v0.10.21/x64/node-v0.10.21-x64.msi</url>
+        <sha1>29632c5a21a4ebf89703e417852306a676f6ede8</sha1>
+        <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.15.7, 2)"/>
+        <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.1, 2)"/>
+    </version>
 
     <version name="2.0.1" package="org.processing.Processing64">
         <important-file path="processing.exe" title="Processing"/>
@@ -9910,6 +9962,16 @@ rmdir /s /q "%name%"&#13;
 </file>
         <url>http://processing.googlecode.com/files/processing-2.0.3-windows64.zip</url>
         <sha1>e1ae224933547fd92918909a3d177d30ab649744</sha1>
+        <dependency package="com.oracle.JDK" versions="[1.5, 2)"/>
+    </version>
+    <version name="2.1" package="org.processing.Processing64">
+        <important-file path="processing.exe" title="Processing"/>
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b processing*') do set name=%%x&#13;
+xcopy "%name%\*" . /E /H&#13;
+rmdir /s /q "%name%"&#13;
+</file>
+        <url>http://processing.googlecode.com/files/processing-2.1-windows64.zip</url>
+        <sha1>BC6E3075DB03342C10CD9CD3457989C9D6051BAA</sha1>
         <dependency package="com.oracle.JDK" versions="[1.5, 2)"/>
     </version>
 
@@ -10420,6 +10482,19 @@ for /f "delims=" %%a in ('dir /b') do (&#13;
 cd ..&#13;
 rmdir "%name%"</file>
         <url>http://download.springsource.com/release/STS/3.3.0/dist/e4.3/spring-tool-suite-3.3.0.RELEASE-e4.3-win32-x86_64.zip</url>
+        <sha1>13c034aab2862268bf9f9755fb547e9e1ac52a2d</sha1>
+        <dependency package="com.oracle.JRE64" versions="[1.5, 2)"/>
+    </version>
+    <version name="3.4" package="org.springsource.STS64">
+        <important-file path="sts-3.4.0.RELEASE\STS.exe" title="Spring Tool Suite"/>
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b spring*') do set name=%%x&#13;
+cd "%name%"        &#13;
+for /f "delims=" %%a in ('dir /b') do (&#13;
+  move "%%a" ..&#13;
+)&#13;
+cd ..&#13;
+rmdir "%name%"</file>
+        <url>http://download.springsource.com/release/STS/3.4.0/dist/e4.3/spring-tool-suite-3.4.0.RELEASE-e4.3.1-win32-x86_64.zip</url>
         <sha1>13c034aab2862268bf9f9755fb547e9e1ac52a2d</sha1>
         <dependency package="com.oracle.JRE64" versions="[1.5, 2)"/>
     </version>
@@ -11034,6 +11109,17 @@ del "%setup%"&#13;
         <dependency package="com.microsoft.VisualCPPRedistributable64" versions="[10, 11)"/>
         <dependency package="org.7-zip.SevenZIPA" versions="[9.20, 9.20]"/>
         <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.15.7, 2)"/>
+    </version>
+
+    <version name="4.6.1" package="soapui64" type="one-file">
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
+rem Install4j&#13;
+"%setup%" -q -dir "%CD%"&#13;
+</file>
+        <file path=".Npackd\Uninstall.bat">uninstall.exe -q&#13;
+</file>
+        <url>http://downloads.sourceforge.net/project/soapui/soapui/4.6.1/SoapUI-x64-4.6.1.exe</url>
+        <sha1>e71aadf8d1f903d354a01ee2725c221515b139de</sha1>
     </version>
 
     <version name="0.12.1" package="stellarium64" type="one-file">
