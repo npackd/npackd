@@ -195,6 +195,17 @@ See the pathogen description for how to install.</description>
         <icon>https://lh6.googleusercontent.com/-oPg5OrLBr74/UZ8rV_mHduI/AAAAAAAACE0/twSVwJ4sOTQ/s800/vim.png</icon>
         <category>cat-productivity</category>
     </package>
+    <package name="vim-syntastic">
+        <title>Vim plugin syntastic</title>
+        <url>https://github.com/scrooloose/syntastic</url>
+        <description>syntax checking plugin that runs files through external syntax checkers and displays any resulting errors to the user. This can be done on demand, or automatically as files are saved. If syntax errors are detected, the user is notified and is happy because they didn't have to compile their code or execute their script to find them.&#13;
+&#13;
+At the time of this writing, syntax checking plugins exist for Ada, AppleScript, AsciiDoc, Bourne shell, C, C++, C#, Chef, CoffeeScript, Coco, Coq, CSS, Cucumber, CUDA, D, Dart, DocBook, Dust, Elixir, Erlang, eRuby, Fortran, Gentoo metadata, Go, Haml, Haskell, Haxe, Handlebars, HSS, HTML, Java, JavaScript, JSON, LESS, LISP, LLVM intermediate language, Lua, MATLAB, NASM, Objective-C, Objective-C++, OCaml, Perl, Perl POD, PHP, Puppet, Python, reStructuredText, Ruby, Rust, SASS/SCSS, Scala, Slim, Tcl, TeX, Twig, TypeScript, Vala, Verilog, VHDL, xHtml, XML, XSLT, YAML, z80, Zope page templates, zsh.&#13;
+&#13;
+See the pathogen description for how to install.</description>
+        <icon>https://lh6.googleusercontent.com/-oPg5OrLBr74/UZ8rV_mHduI/AAAAAAAACE0/twSVwJ4sOTQ/s800/vim.png</icon>
+        <category>cat-productivity</category>
+    </package>
     <package name="vim-tagbar">
         <title>Vim plugin Tagbar</title>
         <url>http://majutsushi.github.com/tagbar/</url>
@@ -535,6 +546,26 @@ verify
 </file>
         <url>https://codeload.github.com/ervandew/supertab/zip/2.0</url>
         <sha1>3ada0fd490935355aaaa012827cd7a6c75ac91a1</sha1>
+    </version>
+
+    <version name="3.2" package="vim-syntastic">
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b syntastic*') do set name=%%x
+cd "%name%"        
+for /f "delims=" %%a in ('dir /b') do (
+  move "%%a" ..
+)
+cd ..
+rmdir "%name%"            
+
+mkdir "%ALLUSERSPROFILE%/Npackd/VimPlugins/"
+mklink /D "%ALLUSERSPROFILE%/Npackd/VimPlugins/%NPACKD_PACKAGE_NAME%" "%CD%"
+</file>
+        <file path=".Npackd\Uninstall.bat">
+rmdir "%ALLUSERSPROFILE%/Npackd/VimPlugins/%NPACKD_PACKAGE_NAME%"
+verify
+</file>
+        <url>https://codeload.github.com/scrooloose/syntastic/zip/3.2.0</url>
+        <sha1>d110ae1a307f5808bbd914276238bb47f2838449</sha1>
     </version>
 
     <version name="2.5" package="vim-tagbar">

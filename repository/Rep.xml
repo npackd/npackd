@@ -390,6 +390,15 @@
         <icon>https://lh6.googleusercontent.com/--sPXTadsKsc/UkrMwoAS_0I/AAAAAAAABKc/886vCXRj_vs/s16-no/akelpad.png</icon>
         <category>cat-tools</category>
     </package>
+    <package name="amazon-ec2-api-tools">
+        <title>Amazon EC2 API Tools</title>
+        <url>http://aws.amazon.com/developertools/Amazon-EC2/351</url>
+        <description>The API tools serve as the client interface to the Amazon EC2 web service. Use these tools to register and launch instances, manipulate security groups, and more. &#13;
+&#13;
+Keywords: AWS</description>
+        <icon>http://d36cz9buwru1tt.cloudfront.net/catalog/icons/developertools-25x25.png</icon>
+        <category>cat-dev</category>
+    </package>
     <package name="android-studio">
         <title>Android Studio</title>
         <url>http://developer.android.com/sdk/installing/studio.html</url>
@@ -5696,6 +5705,11 @@ verify&#13;
 </file>
         <url>http://downloads.sourceforge.net/project/akelpad/AkelPad%204/4.8.5/AkelPad-4.8.5-setup.exe</url>
         <sha1>d38b6d56b20a4b623f6e9cc28f4af8508c5a48a2</sha1>
+    </version>
+
+    <version name="1.6.11" package="amazon-ec2-api-tools">
+        <url>http://s3.amazonaws.com/ec2-downloads/ec2-api-tools.zip</url>
+        <sha1>4404d129870d6af750750bd3962fbb121c967bde</sha1>
     </version>
 
     <version name="0.1.1.130.677228" package="android-studio" type="one-file">
@@ -19043,6 +19057,21 @@ if %err% neq 0 exit %err%
         <url>http://netcologne.dl.sourceforge.net/project/keepass/KeePass%202.x/2.23/KeePass-2.23-Setup.exe</url>
         <sha1>37a6f9100a34fe4daaa5f4870af12a845916c216</sha1>
     </version>
+    <version name="2.24.0" package="info.keepass.KeePass" type="one-file">
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x
+"%setup%" /SP- /VERYSILENT /SUPPRESSMSGBOXES /NOCANCEL /NORESTART /DIR="%CD%" /SAVEINF="%CD%\.Npackd\InnoSetupInfo.ini" /LOG="%CD%\.Npackd\InnoSetupInstall.log"
+set err=%errorlevel%
+type .Npackd\InnoSetupInstall.log
+if %err% neq 0 exit %err%    
+</file>
+        <file path=".Npackd\Uninstall.bat">unins000.exe /VERYSILENT /SUPPRESSMSGBOXES /NORESTART /LOG="%CD%\.Npackd\InnoSetupUninstall.log"
+set err=%errorlevel%
+type .Npackd\InnoSetupUninstall.log
+if %err% neq 0 exit %err%
+</file>
+        <url>http://netcologne.dl.sourceforge.net/project/keepass/KeePass%202.x/2.24/KeePass-2.24-Setup.exe</url>
+        <sha1>58ec2ed96babdc2615f4bee3679d5f9a2e4bc34e</sha1>
+    </version>
 
     <version name="1.17" package="info.keepass.KeePassClassic">
         <important-file path="KeePass.exe" title="KeePass"/>
@@ -28562,6 +28591,22 @@ if %err% neq 0 exit %err%
 </file>
         <url>http://downloads.sourceforge.net/project/greenshot/Greenshot/Greenshot%201.1/Greenshot-INSTALLER-1.1.5.2643.exe</url>
         <sha1>8a277e3f342575d3024064d18313386cbd17eb96</sha1>
+    </version>
+    <version name="1.1.6.2779" package="org.getgreenshot.Greenshot" type="one-file">
+        <important-file path="Prog\greenshot.exe" title="Greenshot"/>
+        <file path=".Npackd\Install.bat">for /f %%x in ('dir /b *.exe') do set setup=%%x
+"%setup%" /SP- /VERYSILENT /SUPPRESSMSGBOXES /NOCANCEL /NORESTART /DIR="%CD%\Prog" /SAVEINF="%CD%\.Npackd\InnoSetupInfo.ini" /LOG="%CD%\.Npackd\InnoSetupInstall.log"
+type .Npackd\InnoSetupInstall.log
+taskkill /f /im greenshot.exe
+verify
+</file>
+        <file path=".Npackd\Uninstall.bat">Prog\unins000.exe /VERYSILENT /SUPPRESSMSGBOXES /NORESTART /LOG="%CD%\.Npackd\InnoSetupUninstall.log"
+set err=%errorlevel%
+type .Npackd\InnoSetupUninstall.log
+if %err% neq 0 exit %err%
+</file>
+        <url>http://netcologne.dl.sourceforge.net/project/greenshot/Greenshot/Greenshot%201.1/Greenshot-INSTALLER-1.1.6.2779.exe</url>
+        <sha1>476fe42c65776865d4095122173baf001f41d5a8</sha1>
     </version>
 
     <version name="0.9.9" package="org.getopt.Luke" type="one-file">
