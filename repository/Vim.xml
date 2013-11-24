@@ -195,6 +195,15 @@ See the pathogen description for how to install.</description>
         <icon>https://lh6.googleusercontent.com/-oPg5OrLBr74/UZ8rV_mHduI/AAAAAAAACE0/twSVwJ4sOTQ/s800/vim.png</icon>
         <category>cat-productivity</category>
     </package>
+    <package name="vim-surround">
+        <title>Vim plugin surround</title>
+        <url>https://github.com/tpope/vim-surround</url>
+        <description>Surround.vim is all about "surroundings": parentheses, brackets, quotes, XML tags, and more. The plugin provides mappings to easily delete, change and add such surroundings in pairs.&#13;
+&#13;
+See the pathogen description for how to install.</description>
+        <icon>https://lh6.googleusercontent.com/-oPg5OrLBr74/UZ8rV_mHduI/AAAAAAAACE0/twSVwJ4sOTQ/s800/vim.png</icon>
+        <category>cat-productivity</category>
+    </package>
     <package name="vim-syntastic">
         <title>Vim plugin syntastic</title>
         <url>https://github.com/scrooloose/syntastic</url>
@@ -546,6 +555,26 @@ verify
 </file>
         <url>https://codeload.github.com/ervandew/supertab/zip/2.0</url>
         <sha1>3ada0fd490935355aaaa012827cd7a6c75ac91a1</sha1>
+    </version>
+
+    <version name="2" package="vim-surround">
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b vim-surround*') do set name=%%x
+cd "%name%"        
+for /f "delims=" %%a in ('dir /b') do (
+  move "%%a" ..
+)
+cd ..
+rmdir "%name%"            
+
+mkdir "%ALLUSERSPROFILE%/Npackd/VimPlugins/"
+mklink /D "%ALLUSERSPROFILE%/Npackd/VimPlugins/%NPACKD_PACKAGE_NAME%" "%CD%"
+</file>
+        <file path=".Npackd\Uninstall.bat">
+rmdir "%ALLUSERSPROFILE%/Npackd/VimPlugins/%NPACKD_PACKAGE_NAME%"
+verify
+</file>
+        <url>https://codeload.github.com/tpope/vim-surround/zip/v2.0</url>
+        <sha1>dbe3b83e3b5887b09976ed5c31821ad4cef65bcc</sha1>
     </version>
 
     <version name="3.2" package="vim-syntastic">
