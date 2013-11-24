@@ -387,7 +387,7 @@
         <title>AkelPad</title>
         <url>http://akelpad.sourceforge.net/en/index.php</url>
         <description>text editor</description>
-        <icon>https://lh6.googleusercontent.com/--sPXTadsKsc/UkrMwoAS_0I/AAAAAAAABKc/886vCXRj_vs/s16-no/akelpad.png</icon>
+        <icon>https://lh4.googleusercontent.com/-R05IRo1-2sg/Uoe07h82awI/AAAAAAAABPs/ulRbOohyxr4/s32/akelpad.png</icon>
         <category>cat-tools</category>
     </package>
     <package name="amazon-ec2-api-tools">
@@ -5700,6 +5700,7 @@ verify&#13;
     </version>
 
     <version name="4.8.5" package="akelpad" type="one-file">
+        <important-file path="AkelPad.exe" title="AkelPad"/>
         <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
 "%setup%" /S /D=%CD%&#13;
 </file>
@@ -12403,33 +12404,14 @@ if %err% neq 0 exit %err%&#13;
         <sha1>DBE4DC7F5AE14914134F35456083424E857476A2</sha1>
     </version>
 
-    <version name="5.2.2" package="com.mysql.dev.MySQLODBCConnector32bits" type="one-file">
-        <file path=".Npackd\Install.bat">if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
-set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.NpackdInstallerHelper" "--versions=[1.1, 2)"
-for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set npackdih=%%x
-call "%npackdih%\InstallMSI.bat" INSTALLDIR yes
-		</file>
-        <url>http://cdn.mysql.com/Downloads/Connector-ODBC/5.2/mysql-connector-odbc-5.2.2-win32.msi</url>
-        <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.1, 2)"/>
-        <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.15.7, 2)"/>
-    </version>
-    <version name="5.2.4" package="com.mysql.dev.MySQLODBCConnector32bits" type="one-file">
-        <file path=".Npackd\Install.bat">if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1&#13;
-set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.NpackdInstallerHelper" "--versions=[1.1, 2)"&#13;
-for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set npackdih=%%x&#13;
-call "%npackdih%\InstallMSI.bat" INSTALLDIR yes&#13;
-		</file>
-        <url>http://cdn.mysql.com/Downloads/Connector-ODBC/5.2/mysql-connector-odbc-5.2.4-win32.msi</url>
-        <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.1, 2)"/>
-        <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.15.7, 2)"/>
-    </version>
     <version name="5.2.5" package="com.mysql.dev.MySQLODBCConnector32bits" type="one-file">
         <file path=".Npackd\Install.bat">if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1&#13;
 set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.NpackdInstallerHelper" "--versions=[1.1, 2)"&#13;
 for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set npackdih=%%x&#13;
 call "%npackdih%\InstallMSI.bat" INSTALLDIR yes&#13;
 		</file>
-        <url>http://cdn.mysql.com/Downloads/Connector-ODBC/5.2/mysql-connector-odbc-5.2.5-win32.msi</url>
+        <url>http://downloads.sourceforge.net/project/npackd/com.mysql.dev.MySQLODBCConnector32bits-5.2.5.msi</url>
+        <sha1>e4ca37203dba1d877e72bb8b1bfff693b3b9c938</sha1>
         <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.1, 2)"/>
         <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.15.7, 2)"/>
     </version>
@@ -12438,7 +12420,8 @@ call "%npackdih%\InstallMSI.bat" INSTALLDIR yes&#13;
 for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set npackdih=%%x&#13;
 call "%npackdih%\InstallMSI.bat" INSTALLDIR yes&#13;
 		</file>
-        <url>http://cdn.mysql.com/Downloads/Connector-ODBC/5.2/mysql-connector-odbc-5.2.6-win32.msi</url>
+        <url>http://downloads.sourceforge.net/project/npackd/com.mysql.dev.MySQLODBCConnector32bits-5.2.6.msi</url>
+        <sha1>2dde0c3ac6285dc106e57ffa8608e2d58fb747d9</sha1>
         <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.1, 2)"/>
         <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.15.7, 2)"/>
     </version>
@@ -12480,6 +12463,18 @@ for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set npackdih=%%x&#13;
 call "%npackdih%\InstallMSI.bat" INSTALLDIR yes&#13;
 		</file>
         <url>http://cdn.mysql.com/Downloads/MySQLGUITools/mysql-workbench-community-6.0.7-win32.msi</url>
+        <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.1, 2)"/>
+        <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.15.7, 2)"/>
+        <dependency package="com.microsoft.VisualCPPRedistributable" versions="[10, 11)"/>
+        <dependency package="com.microsoft.DotNetRedistributable" versions="[4, 5)"/>
+    </version>
+    <version name="6.0.8" package="com.mysql.dev.MySQLWorkbench" type="one-file">
+        <file path=".Npackd\Install.bat">if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1&#13;
+set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.NpackdInstallerHelper" "--versions=[1.1, 2)"&#13;
+for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set npackdih=%%x&#13;
+call "%npackdih%\InstallMSI.bat" INSTALLDIR yes&#13;
+		</file>
+        <url>http://cdn.mysql.com/Downloads/MySQLGUITools/mysql-workbench-community-6.0.8-win32.msi</url>
         <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.1, 2)"/>
         <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.15.7, 2)"/>
         <dependency package="com.microsoft.VisualCPPRedistributable" versions="[10, 11)"/>
@@ -15995,6 +15990,16 @@ copy /y Contributions.sh3f "%APPDATA%\eTeks\Sweet Home 3D\furniture\"</file>
         <sha1>11ceb01df242c4e0eebec49b4e73b9e873696854</sha1>
         <dependency package="com.sweethome3d.SweetHome3D" versions="[3.7, 6)"/>
     </version>
+    <version name="1.3.1" package="com.sweethome3d.SH3DContributions">
+        <file path=".Npackd\Install.bat">md "%APPDATA%\eTeks"&#13;
+md "%APPDATA%\eTeks\Sweet Home 3D"&#13;
+md "%APPDATA%\eTeks\Sweet Home 3D\furniture"&#13;
+copy /y Contributions.sh3f "%APPDATA%\eTeks\Sweet Home 3D\furniture\"</file>
+        <file path=".Npackd\Uninstall.bat">del /q /f "%APPDATA%\eTeks\Sweet Home 3D\furniture\Contributions.sh3f"</file>
+        <url>http://downloads.sourceforge.net/project/sweethome3d/SweetHome3D-models/3DModels-1.3.1/3DModels-Contributions-1.3.1.zip</url>
+        <sha1>8c23803ec1671ebb0006dbb01bcf3ec7f7964fd2</sha1>
+        <dependency package="com.sweethome3d.SweetHome3D" versions="[3.7, 6)"/>
+    </version>
 
     <version name="1.2.1" package="com.sweethome3d.SH3DKatorLega">
         <file path=".Npackd\Install.bat">md "%APPDATA%\eTeks"&#13;
@@ -16024,6 +16029,16 @@ copy /y KatorLegaz.sh3f "%APPDATA%\eTeks\Sweet Home 3D\furniture\"</file>
         <file path=".Npackd\Uninstall.bat">del /q /f "%APPDATA%\eTeks\Sweet Home 3D\furniture\KatorLegaz.sh3f"</file>
         <url>http://downloads.sourceforge.net/project/sweethome3d/SweetHome3D-models/3DModels-1.3/3DModels-KatorLegaz-1.3.zip</url>
         <sha1>6b374e43351cd0fdb96b6295ceb422fad04ec0cc</sha1>
+        <dependency package="com.sweethome3d.SweetHome3D" versions="[3.7, 6)"/>
+    </version>
+    <version name="1.3.1" package="com.sweethome3d.SH3DKatorLega">
+        <file path=".Npackd\Install.bat">md "%APPDATA%\eTeks"&#13;
+md "%APPDATA%\eTeks\Sweet Home 3D"&#13;
+md "%APPDATA%\eTeks\Sweet Home 3D\furniture"&#13;
+copy /y KatorLegaz.sh3f "%APPDATA%\eTeks\Sweet Home 3D\furniture\"</file>
+        <file path=".Npackd\Uninstall.bat">del /q /f "%APPDATA%\eTeks\Sweet Home 3D\furniture\KatorLegaz.sh3f"</file>
+        <url>http://downloads.sourceforge.net/project/sweethome3d/SweetHome3D-models/3DModels-1.3.1/3DModels-KatorLegaz-1.3.1.zip</url>
+        <sha1>0c4298068b57e89d5b13f7d85d877a892f2403a4</sha1>
         <dependency package="com.sweethome3d.SweetHome3D" versions="[3.7, 6)"/>
     </version>
 
@@ -16057,6 +16072,16 @@ copy /y LucaPresidente.sh3f "%APPDATA%\eTeks\Sweet Home 3D\furniture\"</file>
         <sha1>597d8c87e2f9d41778906041523e56b21bb7801d</sha1>
         <dependency package="com.sweethome3d.SweetHome3D" versions="[3.7, 6)"/>
     </version>
+    <version name="1.3.1" package="com.sweethome3d.SH3DLucaPresidente">
+        <file path=".Npackd\Install.bat">md "%APPDATA%\eTeks"&#13;
+md "%APPDATA%\eTeks\Sweet Home 3D"&#13;
+md "%APPDATA%\eTeks\Sweet Home 3D\furniture"&#13;
+copy /y LucaPresidente.sh3f "%APPDATA%\eTeks\Sweet Home 3D\furniture\"</file>
+        <file path=".Npackd\Uninstall.bat">del /q /f "%APPDATA%\eTeks\Sweet Home 3D\furniture\LucaPresidente.sh3f"</file>
+        <url>http://downloads.sourceforge.net/project/sweethome3d/SweetHome3D-models/3DModels-1.3.1/3DModels-LucaPresidente-1.3.1.zip</url>
+        <sha1>6f6513d1c614fb0cc47f3f6b4f0e0cf1c24b826c</sha1>
+        <dependency package="com.sweethome3d.SweetHome3D" versions="[3.7, 6)"/>
+    </version>
 
     <version name="1.2.1" package="com.sweethome3d.SH3DReallusion">
         <file path=".Npackd\Install.bat">md "%APPDATA%\eTeks"&#13;
@@ -16086,6 +16111,16 @@ copy /y Reallusion.sh3f "%APPDATA%\eTeks\Sweet Home 3D\furniture\"</file>
         <file path=".Npackd\Uninstall.bat">del /q /f "%APPDATA%\eTeks\Sweet Home 3D\furniture\Reallusion.sh3f"</file>
         <url>http://downloads.sourceforge.net/project/sweethome3d/SweetHome3D-models/3DModels-1.3/3DModels-Reallusion-1.3.zip</url>
         <sha1>fb2aac23737e0adc400fe95e7a68f663238a626b</sha1>
+        <dependency package="com.sweethome3d.SweetHome3D" versions="[3.7, 6)"/>
+    </version>
+    <version name="1.3.1" package="com.sweethome3d.SH3DReallusion">
+        <file path=".Npackd\Install.bat">md "%APPDATA%\eTeks"&#13;
+md "%APPDATA%\eTeks\Sweet Home 3D"&#13;
+md "%APPDATA%\eTeks\Sweet Home 3D\furniture"&#13;
+copy /y Reallusion.sh3f "%APPDATA%\eTeks\Sweet Home 3D\furniture\"</file>
+        <file path=".Npackd\Uninstall.bat">del /q /f "%APPDATA%\eTeks\Sweet Home 3D\furniture\Reallusion.sh3f"</file>
+        <url>http://downloads.sourceforge.net/project/sweethome3d/SweetHome3D-models/3DModels-1.3.1/3DModels-Reallusion-1.3.1.zip</url>
+        <sha1>e6f14aa47f4467c3e27f4b30ea4c19a653fd6517</sha1>
         <dependency package="com.sweethome3d.SweetHome3D" versions="[3.7, 6)"/>
     </version>
 
@@ -16119,6 +16154,16 @@ copy /y Scopia.sh3f "%APPDATA%\eTeks\Sweet Home 3D\furniture\"</file>
         <sha1>9ec35eed2510a2470fa822e544382545c898f982</sha1>
         <dependency package="com.sweethome3d.SweetHome3D" versions="[3.7, 6)"/>
     </version>
+    <version name="1.3.1" package="com.sweethome3d.SH3DScopia">
+        <file path=".Npackd\Install.bat">md "%APPDATA%\eTeks"&#13;
+md "%APPDATA%\eTeks\Sweet Home 3D"&#13;
+md "%APPDATA%\eTeks\Sweet Home 3D\furniture"&#13;
+copy /y Scopia.sh3f "%APPDATA%\eTeks\Sweet Home 3D\furniture\"</file>
+        <file path=".Npackd\Uninstall.bat">del /q /f "%APPDATA%\eTeks\Sweet Home 3D\furniture\Scopia.sh3f"</file>
+        <url>http://downloads.sourceforge.net/project/sweethome3d/SweetHome3D-models/3DModels-1.3.1/3DModels-Scopia-1.3.1.zip</url>
+        <sha1>72f18613b7cea8ec6547ef0686822c2b45d71155</sha1>
+        <dependency package="com.sweethome3d.SweetHome3D" versions="[3.7, 6)"/>
+    </version>
 
     <version name="1.2.1" package="com.sweethome3d.SH3DTrees">
         <file path=".Npackd\Install.bat">md "%APPDATA%\eTeks"&#13;
@@ -16148,6 +16193,16 @@ copy /y Trees.sh3f "%APPDATA%\eTeks\Sweet Home 3D\furniture\"</file>
         <file path=".Npackd\Uninstall.bat">del /q /f "%APPDATA%\eTeks\Sweet Home 3D\furniture\Trees.sh3f"</file>
         <url>http://downloads.sourceforge.net/project/sweethome3d/SweetHome3D-models/3DModels-1.3/3DModels-Trees-1.3.zip</url>
         <sha1>c4d035191ed0cbe0b1b1de2be8942e04af414830</sha1>
+        <dependency package="com.sweethome3d.SweetHome3D" versions="[3.7, 6)"/>
+    </version>
+    <version name="1.3.1" package="com.sweethome3d.SH3DTrees">
+        <file path=".Npackd\Install.bat">md "%APPDATA%\eTeks"&#13;
+md "%APPDATA%\eTeks\Sweet Home 3D"&#13;
+md "%APPDATA%\eTeks\Sweet Home 3D\furniture"&#13;
+copy /y Trees.sh3f "%APPDATA%\eTeks\Sweet Home 3D\furniture\"</file>
+        <file path=".Npackd\Uninstall.bat">del /q /f "%APPDATA%\eTeks\Sweet Home 3D\furniture\Trees.sh3f"</file>
+        <url>http://downloads.sourceforge.net/project/sweethome3d/SweetHome3D-models/3DModels-1.3.1/3DModels-Trees-1.3.1.zip</url>
+        <sha1>54a3cb359605d331ee14f931494730b36a4a6ac4</sha1>
         <dependency package="com.sweethome3d.SweetHome3D" versions="[3.7, 6)"/>
     </version>
 
@@ -16195,6 +16250,21 @@ if %err% neq 0 exit %err%&#13;
 </file>
         <url>http://downloads.sourceforge.net/project/sweethome3d/SweetHome3D/SweetHome3D-4.1/SweetHome3D-4.1-windows-oc.exe</url>
         <sha1>557b7e335f9d1bc597f63d8f72bff3f6d699696b</sha1>
+    </version>
+    <version name="4.2" package="com.sweethome3d.SweetHome3D" type="one-file">
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
+"%setup%" /SP- /VERYSILENT /SUPPRESSMSGBOXES /NOCANCEL /NORESTART /DIR="%CD%" /SAVEINF="%CD%\.Npackd\InnoSetupInfo.ini" /LOG="%CD%\.Npackd\InnoSetupInstall.log"&#13;
+set err=%errorlevel%&#13;
+type .Npackd\InnoSetupInstall.log&#13;
+if %err% neq 0 exit %err%&#13;
+</file>
+        <file path=".Npackd\Uninstall.bat">unins000.exe /VERYSILENT /SUPPRESSMSGBOXES /NORESTART /LOG="%CD%\.Npackd\InnoSetupUninstall.log"&#13;
+set err=%errorlevel%&#13;
+type .Npackd\InnoSetupUninstall.log&#13;
+if %err% neq 0 exit %err%&#13;
+</file>
+        <url>http://downloads.sourceforge.net/project/sweethome3d/SweetHome3D/SweetHome3D-4.2/SweetHome3D-4.2-windows-oc.exe</url>
+        <sha1>395feeff08b636e268bc387391ed3c3e72846a44</sha1>
     </version>
 
     <version name="5.2" package="com.swiftgear.LargeTextFileViewer">
@@ -19210,6 +19280,15 @@ if %err% neq 0 exit %err%&#13;
 </file>
         <url>https://kjkpub.s3.amazonaws.com/sumatrapdf/rel/SumatraPDF-2.3.2-install.exe</url>
         <sha1>d6aa7205c4a8f5f0599395c6e64a43c099247401</sha1>
+    </version>
+    <version name="2.4" package="info.kowalczyk.blog.SumatraPDF" type="one-file">
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
+"%setup%" /S /D "%CD%"&#13;
+</file>
+        <file path=".Npackd\Uninstall.bat">uninstall.exe /S&#13;
+</file>
+        <url>https://kjkpub.s3.amazonaws.com/sumatrapdf/rel/SumatraPDF-2.4-install.exe</url>
+        <sha1>bff38fe5111fb210f1f64e929082ac3a8eb10c5e</sha1>
     </version>
 
     <version name="1.1.2" package="info.windirstat.WinDirStat">
@@ -23011,7 +23090,14 @@ verify&#13;
     </version>
 
     <version name="2.46" package="net.sourceforge.nsis">
-        <important-file path="nsis-2.46\NSIS.exe" title="NSIS"/>
+        <important-file path="NSIS.exe" title="NSIS"/>
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b nsis*') do set name=%%x&#13;
+cd "%name%"        &#13;
+for /f "delims=" %%a in ('dir /b') do (&#13;
+  move "%%a" ..&#13;
+)&#13;
+cd ..&#13;
+rmdir "%name%"</file>
         <url>http://downloads.sourceforge.net/project/nsis/NSIS%202/2.46/nsis-2.46.zip</url>
         <sha1>adeff823a1f8af3c19783700a6b8d9054cf0f3c2</sha1>
     </version>
@@ -25866,6 +25952,33 @@ verify&#13;
 </file>
         <url>http://www.sliksvn.com/pub/Slik-Subversion-1.8.3-win32.msi</url>
         <sha1>54f76399ce60a382dc297d612eabf055ffe36489</sha1>
+        <dependency package="com.googlecode.windows-package-manager.CLU" versions="[1, 2)"/>
+        <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1, 1]"/>
+        <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.15.7, 2)"/>
+    </version>
+    <version name="1.8.4" package="org.apache.subversion.Subversion" type="one-file">
+        <file path=".Npackd\Install.bat">set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.NpackdInstallerHelper" "--versions=[1, 1]"&#13;
+for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set npackdih=%%x&#13;
+call "%npackdih%\InstallMSI.bat" INSTALLLOCATION&#13;
+if %errorlevel% neq 0 exit /b %errorlevel%&#13;
+&#13;
+set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.CLU" "--versions=[1, 2)"&#13;
+for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set clu=%%x&#13;
+"%clu%\clu" add-path --path "%CD%\bin"&#13;
+verify&#13;
+</file>
+        <file path=".Npackd\Uninstall.bat">set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.NpackdInstallerHelper" "--versions=[1, 1]"&#13;
+for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set npackdih=%%x&#13;
+call "%npackdih%\UninstallMSI.bat"&#13;
+if %errorlevel% neq 0 exit /b %errorlevel%&#13;
+&#13;
+set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.CLU" "--versions=[1, 2)"&#13;
+for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set clu=%%x&#13;
+"%clu%\clu" remove-path --path "%CD%\bin"&#13;
+verify&#13;
+</file>
+        <url>http://www.sliksvn.com/pub/Slik-Subversion-1.8.4-win32.msi</url>
+        <sha1>17d784f07e073b8827a8129551d49bc574567e74</sha1>
         <dependency package="com.googlecode.windows-package-manager.CLU" versions="[1, 2)"/>
         <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1, 1]"/>
         <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.15.7, 2)"/>
@@ -28874,7 +28987,9 @@ for %%g in (xcf pix matte mask alpha als fli flc xcf.bz2 bz2 xcfbz2 desktop dcm 
     </version>
     <version name="2.8.6" package="org.gimp.Gimp" type="one-file">
         <important-file path="bin\gimp-2.8.exe" title="Gimp"/>
-        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
+        <file path=".Npackd\Install.bat">path&#13;
+&#13;
+for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
 "%setup%" /SP- /VERYSILENT /SUPPRESSMSGBOXES /NOCANCEL /NORESTART /DIR="%CD%"&#13;
 set err=%errorlevel%&#13;
 if %err% neq 0 exit /b %err%&#13;
@@ -34529,8 +34644,8 @@ set err=%errorlevel%&#13;
 type .Npackd\InnoSetupUninstall.log&#13;
 if %err% neq 0 exit %err%&#13;
 </file>
-        <url>https://dl.dropboxusercontent.com/u/176999101/org.safer-networking.SpyBotSearchAndDestroy-2.1.exe</url>
-        <sha1>306ed6a75e9db93d6a85f79e40198ded79bd3092</sha1>
+        <url>https://dl.dropboxusercontent.com/u/176999101/org.safer-networking.SpyBotSearchAndDestroy-2.2.exe</url>
+        <sha1>edb14207f54e014b30bba38f721d02607b5c0c38</sha1>
     </version>
 
     <version name="1.6.2" package="org.safer-networking.SpyBotSearchAndDestroyInstaller" type="one-file">
@@ -35017,6 +35132,18 @@ taskkill /im synergy.exe /f /t&#13;
         <sha1>20d22f66ca0ebcf92a60fc81b10835087b110fa3</sha1>
         <dependency package="com.microsoft.VisualCPPRedistributable" versions="[10,  11)"/>
     </version>
+    <version name="1.4.15" package="org.synergyfoss.Synergy" type="one-file">
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
+"%setup%" /S /D=%CD%&#13;
+&#13;
+taskkill /im synergy.exe /f /t&#13;
+</file>
+        <file path=".Npackd\Uninstall.bat">uninstall.exe /S _?=%CD%&#13;
+</file>
+        <url>http://synergy.googlecode.com/files/synergy-1.4.15-Windows-x86.exe</url>
+        <sha1>13da52a8246e372f4663d124395223e1c00fefff</sha1>
+        <dependency package="com.microsoft.VisualCPPRedistributable" versions="[10,  11)"/>
+    </version>
 
     <version name="3.6" package="org.sysprogs.WinCDEmu" type="one-file">
         <file path=".Npackd\Install.bat">"%ProgramFiles%\GowData\bin\wget.exe" -O wincdemu.cer http://dl.dropboxusercontent.com/s/x4u9hlz8o411c8w/wincdemu.cer&#13;
@@ -35068,6 +35195,21 @@ if %err% neq 0 exit %err%&#13;
 </file>
         <url>http://downloads.sourceforge.net/project/texniccenter/TeXnicCenter/2.0%20Stable/TXCSetup_2.0Stable_Win32.exe</url>
         <sha1>0111523dce1fd5987872a3e0a5b280f95860aa71</sha1>
+    </version>
+    <version name="2.2" package="org.texniccenter.TeXnicCenter" type="one-file">
+        <file path=".Npackd\Install.bat">for /f %%x in ('dir /b *.exe') do set setup=%%x&#13;
+"%setup%" /SP- /VERYSILENT /SUPPRESSMSGBOXES /NOCANCEL /NORESTART /DIR="%CD%" /SAVEINF="%CD%\.Npackd\InnoSetupInfo.ini" /LOG="%CD%\.Npackd\InnoSetupInstall.log"&#13;
+set err=%errorlevel%&#13;
+type .Npackd\InnoSetupInstall.log&#13;
+if %err% neq 0 exit %err%&#13;
+</file>
+        <file path=".Npackd\Uninstall.bat">unins000.exe /VERYSILENT /SUPPRESSMSGBOXES /NORESTART /LOG="%CD%\.Npackd\InnoSetupUninstall.log"&#13;
+set err=%errorlevel%&#13;
+type .Npackd\InnoSetupUninstall.log&#13;
+if %err% neq 0 exit %err%&#13;
+</file>
+        <url>http://downloads.sourceforge.net/project/texniccenter/TeXnicCenter/2.02%20Stable/TXCSetup_2.02Stable_Win32.exe</url>
+        <sha1>7400624feb2a89fba8e00b96d9a8583984a9ceac</sha1>
     </version>
 
     <version name="2.3.25.6" package="org.torproject.Tor" type="one-file">
@@ -35809,10 +35951,12 @@ WixToolset.exe -quiet /D=%CD%&#13;
         <sha1>44f3a0754aba1d9149fb0b37c1a9f34b25e6c22d</sha1>
     </version>
     <version name="3.7" package="org.wixtoolset.WiX" type="one-file">
-        <file path=".Npackd\Install.bat">ren Release WixToolset.exe&#13;
-WixToolset.exe -quiet /D=%CD%&#13;
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
+"%setup%" -q&#13;
+&#13;
 </file>
-        <file path=".Npackd\Uninstall.bat">uninstall.exe /S _?=%CD%&#13;
+        <file path=".Npackd\Uninstall.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
+"%setup%" -q -uninstall&#13;
 </file>
         <url>http://downloads.sourceforge.net/project/npackd/org.wixtoolset.WiX-3.7.exe</url>
         <sha1>599774f760cdf2fcfdc5e343731e9d74c2fc5235</sha1>
@@ -36380,19 +36524,12 @@ if %err% neq 0 exit %err%</file>
         <sha1>b8daad080a41b0f74bc20c0320f0c51fe68fe41a</sha1>
     </version>
 
-    <version name="5.1.637" package="ru.xdlab.tagscanner" type="one-file">
+    <version name="5.1.643" package="ru.xdlab.tagscanner" type="one-file">
         <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
 "%setup%" /VERYSILENT /SUPPRESSMSGBOXES /NOCANCEL /NORESTART /DIR="%CD%"</file>
         <file path=".Npackd\Uninstall.bat">unins000.exe /VERYSILENT /SUPPRESSMSGBOXES /NORESTART</file>
-        <url>http://xdlab.ru/files/tagscan5.1.637setup.exe</url>
-        <sha1>08a4e3437315cbead7ed2d328b60ed19fa857e75</sha1>
-    </version>
-    <version name="5.1.638" package="ru.xdlab.tagscanner" type="one-file">
-        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
-"%setup%" /VERYSILENT /SUPPRESSMSGBOXES /NOCANCEL /NORESTART /DIR="%CD%"</file>
-        <file path=".Npackd\Uninstall.bat">unins000.exe /VERYSILENT /SUPPRESSMSGBOXES /NORESTART</file>
-        <url>http://xdlab.ru/files/tagscan5.1.638setup.exe</url>
-        <sha1>cad1d9cb7bd81c7ffcdd19d6bbf9875cc88e49a9</sha1>
+        <url>https://dl.dropboxusercontent.com/u/176999101/ru.xdlab.tagscanner-5.1.643.exe</url>
+        <sha1>15ccdc0e103f4e881f214942ada09c4c811df5b6</sha1>
     </version>
 
     <version name="2.10.1" package="scala">
@@ -37153,8 +37290,8 @@ set err=%errorlevel%&#13;
 type .Npackd\InnoSetupUninstall.log&#13;
 if %err% neq 0 exit %err%&#13;
 </file>
-        <url>http://downloads.sourceforge.net/project/stellarium/Stellarium-win32/0.12.3/stellarium-0.12.3-win32.exe</url>
-        <sha1>41087badc0c07adb2651f009a0fb7ab4fd3ce212</sha1>
+        <url>http://downloads.sourceforge.net/project/stellarium/Stellarium-win32/0.12.4/stellarium-0.12.4-win32.exe</url>
+        <sha1>ceb4005aa99f0e4a940d416dc86f8830521609ee</sha1>
     </version>
 
     <version name="1.2" package="superf4-64" type="one-file">
@@ -37276,6 +37413,21 @@ if %err% neq 0 exit %err%&#13;
         <url>http://downloads.sourceforge.net/project/taskcoach/taskcoach/Release-1.3.32/TaskCoach-1.3.32-win32.exe</url>
         <sha1>2280fa22d5fba801be4c2c5d642edffa6bbcaf68</sha1>
     </version>
+    <version name="1.3.33" package="task-coach" type="one-file">
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
+"%setup%" /SP- /VERYSILENT /SUPPRESSMSGBOXES /NOCANCEL /NORESTART /DIR="%CD%" /SAVEINF="%CD%\.Npackd\InnoSetupInfo.ini" /LOG="%CD%\.Npackd\InnoSetupInstall.log"&#13;
+set err=%errorlevel%&#13;
+type .Npackd\InnoSetupInstall.log&#13;
+if %err% neq 0 exit %err%&#13;
+</file>
+        <file path=".Npackd\Uninstall.bat">unins000.exe /VERYSILENT /SUPPRESSMSGBOXES /NORESTART /LOG="%CD%\.Npackd\InnoSetupUninstall.log"&#13;
+set err=%errorlevel%&#13;
+type .Npackd\InnoSetupUninstall.log&#13;
+if %err% neq 0 exit %err%&#13;
+</file>
+        <url>http://downloads.sourceforge.net/project/taskcoach/taskcoach/Release-1.3.33/TaskCoach-1.3.33-win32.exe</url>
+        <sha1>88b336cce9b6e9c94bc9517c84e693be7a6a20f8</sha1>
+    </version>
 
     <version name="2.5.2" package="texstudio" type="one-file">
         <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
@@ -37325,6 +37477,22 @@ type .Npackd\InnoSetupUninstall.log&#13;
 if %err% neq 0 exit %err%</file>
         <url>http://downloads.sourceforge.net/project/texstudio/texstudio/TeXstudio%202.6.2/texstudio262_win32.exe</url>
         <sha1>14d73f910afb046ada2fe7dace8dd607d6bae35c</sha1>
+    </version>
+    <version name="2.6.6" package="texstudio" type="one-file">
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
+"%setup%" /SP- /VERYSILENT /SUPPRESSMSGBOXES /NOCANCEL /NORESTART /DIR="%CD%" /SAVEINF="%CD%\.Npackd\InnoSetupInfo.ini" /LOG="%CD%\.Npackd\InnoSetupInstall.log"&#13;
+set err=%errorlevel%&#13;
+type .Npackd\InnoSetupInstall.log&#13;
+if %err% neq 0 exit %err%&#13;
+&#13;
+taskkill /im texstudio.exe /f /t&#13;
+</file>
+        <file path=".Npackd\Uninstall.bat">unins000.exe /VERYSILENT /SUPPRESSMSGBOXES /NORESTART /LOG="%CD%\.Npackd\InnoSetupUninstall.log"&#13;
+set err=%errorlevel%&#13;
+type .Npackd\InnoSetupUninstall.log&#13;
+if %err% neq 0 exit %err%</file>
+        <url>http://downloads.sourceforge.net/project/texstudio/texstudio/TeXstudio%202.6.6/texstudio266_win32.exe</url>
+        <sha1>190cf6a43afc1ed70a425f2249c4ca8dae508e19</sha1>
     </version>
 
     <version name="1.1" package="to.pho.editor.PhotoEditor" type="one-file">
