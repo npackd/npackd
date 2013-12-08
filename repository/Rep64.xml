@@ -2469,6 +2469,29 @@ if %err% neq 0 exit /b %err%&#13;
         <sha1>fbc5faa217a17a8c82f4b86052be041214fb23f3</sha1>
         <dependency package="com.googlecode.msysgit.MSysGit" versions="[1.7.6.2011.7.8, 1.8)"/>
     </version>
+    <version name="1.8.6" package="com.googlecode.tortoisegit.TortoiseGit64" type="one-file">
+        <file path=".Npackd\Install.bat">for /f %%x in ('dir /b *.msi') do set setup=%%x&#13;
+copy "%setup%" .Npackd&#13;
+msiexec.exe /qn /norestart /Lime .Npackd\MSI.log /i "%setup%" INSTALLDIR="%CD%" ALLUSERS=1&#13;
+set err=%errorlevel%&#13;
+type .Npackd\MSI.log&#13;
+rem 3010=restart required&#13;
+if %err% equ 3010 exit /b 0&#13;
+if %err% neq 0 exit /b %err%&#13;
+</file>
+        <file path=".Npackd\Uninstall.bat">move .Npackd\*.msi .&#13;
+for /f %%x in ('dir /b *.msi') do set setup=%%x&#13;
+msiexec.exe /qn /norestart /Lime .Npackd\MSI.log /x "%setup%"&#13;
+set err=%errorlevel%&#13;
+type .Npackd\MSI.log&#13;
+rem 3010=restart required&#13;
+if %err% equ 3010 exit /b 0&#13;
+if %err% neq 0 exit /b %err%&#13;
+</file>
+        <url>http://tortoisegit.googlecode.com/files/TortoiseGit-1.8.6.0-64bit.msi</url>
+        <sha1>bf236a9baf55cae6a0ebd234a8be9f475a8a1b8d</sha1>
+        <dependency package="com.googlecode.msysgit.MSysGit" versions="[1.7.6.2011.7.8, 1.8)"/>
+    </version>
 
     <version name="3.47.21" package="com.httrack.HTTrack64" type="one-file">
         <file path=".WPM\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
@@ -2758,23 +2781,14 @@ if %err% neq 0 exit /b %err%&#13;
         <sha1>c4ac45564e801e1bfd87936cac8a76c5754cdbd4</sha1>
     </version>
 
-    <version name="5.2.2" package="com.mysql.dev.MySQLODBCConnector64bits" type="one-file">
-        <file path=".Npackd\Install.bat">if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1&#13;
-set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.NpackdInstallerHelper" "--versions=[1.1, 2)"&#13;
-for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set npackdih=%%x&#13;
-call "%npackdih%\InstallMSI.bat" INSTALLDIR yes&#13;
-		</file>
-        <url>http://cdn.mysql.com/Downloads/Connector-ODBC/5.2/mysql-connector-odbc-5.2.2-winx64.msi</url>
-        <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.1, 2)"/>
-        <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.15.7, 2)"/>
-    </version>
     <version name="5.2.5" package="com.mysql.dev.MySQLODBCConnector64bits" type="one-file">
         <file path=".Npackd\Install.bat">if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1&#13;
 set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.NpackdInstallerHelper" "--versions=[1.1, 2)"&#13;
 for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set npackdih=%%x&#13;
 call "%npackdih%\InstallMSI.bat" INSTALLDIR yes&#13;
 		</file>
-        <url>http://cdn.mysql.com/Downloads/Connector-ODBC/5.2/mysql-connector-odbc-5.2.5-winx64.msi</url>
+        <url>http://downloads.sourceforge.net/project/npackd/com.mysql.dev.MySQLODBCConnector64bits-5.2.5.msi</url>
+        <sha1>e76c8981b9e2a07fb600a189f1d60145ff6db8ac</sha1>
         <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.1, 2)"/>
         <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.15.7, 2)"/>
     </version>
@@ -2783,7 +2797,8 @@ call "%npackdih%\InstallMSI.bat" INSTALLDIR yes&#13;
 for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set npackdih=%%x&#13;
 call "%npackdih%\InstallMSI.bat" INSTALLDIR yes&#13;
 		</file>
-        <url>http://cdn.mysql.com/Downloads/Connector-ODBC/5.2/mysql-connector-odbc-5.2.6-winx64.msi</url>
+        <url>http://downloads.sourceforge.net/project/npackd/com.mysql.dev.MySQLODBCConnector64bits-5.2.6.msi</url>
+        <sha1>9f7aed62463cd916e6deb3b62c818e8d5a5ddfab</sha1>
         <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.1, 2)"/>
         <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.15.7, 2)"/>
     </version>
@@ -2907,20 +2922,6 @@ call "%npackdih%\InstallMSI.bat" INSTALLDIR yes
         <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.1, 2)"/>
         <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.15.7, 2)"/>
         <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1, 1]"/>
-    </version>
-    <version name="5.6.12" package="com.mysql.MySQLCommunityServer64">
-        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b mysql*') do set name=%%x&#13;
-cd "%name%"        &#13;
-for /f "delims=" %%a in ('dir /b') do (&#13;
-  move "%%a" ..&#13;
-)&#13;
-cd ..&#13;
-rmdir "%name%"&#13;
-</file>
-        <url>http://cdn.mysql.com/Downloads/MySQL-5.6/mysql-5.6.12-winx64.zip</url>
-        <sha1>f64bf64f3a1639fdc5cb17e2db400554ec8046ed</sha1>
-        <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.1, 2)"/>
-        <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.15.7, 2)"/>
     </version>
     <version name="5.6.13" package="com.mysql.MySQLCommunityServer64">
         <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b mysql*') do set name=%%x&#13;
@@ -5386,7 +5387,7 @@ call "%npackdih%\InstallMSI.bat" INSTALLDIR yes&#13;
         <sha1>e17a28eb1fe8485f82ba8e878d0a830a7efc0a6e</sha1>
     </version>
 
-    <version name="4.24" package="hwinfo64" type="one-file">
+    <version name="4.26" package="hwinfo64" type="one-file">
         <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
 "%setup%" /SP- /VERYSILENT /SUPPRESSMSGBOXES /NOCANCEL /NORESTART /DIR="%CD%" /SAVEINF="%CD%\.Npackd\InnoSetupInfo.ini" /LOG="%CD%\.Npackd\InnoSetupInstall.log"&#13;
 set err=%errorlevel%&#13;
@@ -5398,8 +5399,8 @@ set err=%errorlevel%&#13;
 type .Npackd\InnoSetupUninstall.log&#13;
 if %err% neq 0 exit %err%&#13;
 </file>
-        <url>http://www.hwinfo.com/files/hw64_424.exe</url>
-        <sha1>f17cc39c3299ca941d231e7fda4cea5217cff556</sha1>
+        <url>http://downloads.sourceforge.net/project/npackd/hwinfo64-4.26.exe</url>
+        <sha1>079b16c08afb4ee5688e8cd3db97f64d2fa10f0a</sha1>
     </version>
 
     <version name="6.0.10.2620" package="ie.heidi.eraser.eraser64" type="one-file">
@@ -5433,67 +5434,7 @@ if %err% neq 0 exit %err%</file>
         <dependency package="com.microsoft.DotNetRedistributable" versions="[3.5.30729.1, 3.5.30729.1]"/>
     </version>
 
-    <version name="6.8.4.10" package="imagemagick64" type="one-file">
-        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
-"%setup%" /SP- /VERYSILENT /SUPPRESSMSGBOXES /NOCANCEL /NORESTART /DIR="%CD%" /SAVEINF="%CD%\.Npackd\InnoSetupInfo.ini" /LOG="%CD%\.Npackd\InnoSetupInstall.log"&#13;
-set err=%errorlevel%&#13;
-type .Npackd\InnoSetupInstall.log&#13;
-if %err% neq 0 exit %err%&#13;
-</file>
-        <file path=".Npackd\Uninstall.bat">unins000.exe /VERYSILENT /SUPPRESSMSGBOXES /NORESTART /LOG="%CD%\.Npackd\InnoSetupUninstall.log"&#13;
-set err=%errorlevel%&#13;
-type .Npackd\InnoSetupUninstall.log&#13;
-if %err% neq 0 exit %err%&#13;
-</file>
-        <url>http://image_magick.veidrodis.com:8003/image_magick/binaries/ImageMagick-6.8.4-10-Q16-x64-dll.exe</url>
-        <sha1>ff6e500eb1507f2c362ab629c7f92ed46a3fdfcc</sha1>
-    </version>
-    <version name="6.8.5" package="imagemagick64" type="one-file">
-        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
-"%setup%" /SP- /VERYSILENT /SUPPRESSMSGBOXES /NOCANCEL /NORESTART /DIR="%CD%" /SAVEINF="%CD%\.Npackd\InnoSetupInfo.ini" /LOG="%CD%\.Npackd\InnoSetupInstall.log"&#13;
-set err=%errorlevel%&#13;
-type .Npackd\InnoSetupInstall.log&#13;
-if %err% neq 0 exit %err%&#13;
-</file>
-        <file path=".Npackd\Uninstall.bat">unins000.exe /VERYSILENT /SUPPRESSMSGBOXES /NORESTART /LOG="%CD%\.Npackd\InnoSetupUninstall.log"&#13;
-set err=%errorlevel%&#13;
-type .Npackd\InnoSetupUninstall.log&#13;
-if %err% neq 0 exit %err%&#13;
-</file>
-        <url>http://image_magick.veidrodis.com:8003/image_magick/binaries/ImageMagick-6.8.5-0-Q16-x64-dll.exe</url>
-        <sha1>65439faa0b2600aabd6ceca1696908f8aeaae744</sha1>
-    </version>
-    <version name="6.8.6.4" package="imagemagick64" type="one-file">
-        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
-"%setup%" /SP- /VERYSILENT /SUPPRESSMSGBOXES /NOCANCEL /NORESTART /DIR="%CD%" /SAVEINF="%CD%\.Npackd\InnoSetupInfo.ini" /LOG="%CD%\.Npackd\InnoSetupInstall.log"&#13;
-set err=%errorlevel%&#13;
-type .Npackd\InnoSetupInstall.log&#13;
-if %err% neq 0 exit %err%&#13;
-</file>
-        <file path=".Npackd\Uninstall.bat">unins000.exe /VERYSILENT /SUPPRESSMSGBOXES /NORESTART /LOG="%CD%\.Npackd\InnoSetupUninstall.log"&#13;
-set err=%errorlevel%&#13;
-type .Npackd\InnoSetupUninstall.log&#13;
-if %err% neq 0 exit %err%&#13;
-</file>
-        <url>http://image_magick.veidrodis.com:8003/image_magick/binaries/ImageMagick-6.8.6-4-Q16-x64-dll.exe</url>
-        <sha1>3bceface443f52438a628805b1e625c15f1b4182</sha1>
-    </version>
-    <version name="6.8.6.9" package="imagemagick64" type="one-file">
-        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
-"%setup%" /SP- /VERYSILENT /SUPPRESSMSGBOXES /NOCANCEL /NORESTART /DIR="%CD%" /SAVEINF="%CD%\.Npackd\InnoSetupInfo.ini" /LOG="%CD%\.Npackd\InnoSetupInstall.log"&#13;
-set err=%errorlevel%&#13;
-type .Npackd\InnoSetupInstall.log&#13;
-if %err% neq 0 exit %err%&#13;
-</file>
-        <file path=".Npackd\Uninstall.bat">unins000.exe /VERYSILENT /SUPPRESSMSGBOXES /NORESTART /LOG="%CD%\.Npackd\InnoSetupUninstall.log"&#13;
-set err=%errorlevel%&#13;
-type .Npackd\InnoSetupUninstall.log&#13;
-if %err% neq 0 exit %err%&#13;
-</file>
-        <url>http://www.imagemagick.org/download/binaries/ImageMagick-6.8.6-9-Q16-x64-dll.exe</url>
-        <sha1>599bbe56d6d76136caedaf4200fb6a876addd7fe</sha1>
-    </version>
-    <version name="6.8.7" package="imagemagick64" type="one-file">
+    <version name="6.8.7.8" package="imagemagick64" type="one-file">
         <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
 "%setup%" /SP- /VERYSILENT /SUPPRESSMSGBOXES /NOCANCEL /NORESTART /DIR="%CD%" /SAVEINF="%CD%\.Npackd\InnoSetupInfo.ini" /LOG="%CD%\.Npackd\InnoSetupInstall.log" &amp;&amp; del /f /q "%setup%"&#13;
 set err=%errorlevel%&#13;
@@ -5504,8 +5445,8 @@ set err=%errorlevel%&#13;
 type .Npackd\InnoSetupUninstall.log&#13;
 if %err% neq 0 exit %err%&#13;
 </file>
-        <url>http://www.imagemagick.org/download/binaries/ImageMagick-6.8.7-0-Q16-x64-dll.exe</url>
-        <sha1>b33d381c9c123a8bfe8454fdb0ed71069ae25dea</sha1>
+        <url>http://downloads.sourceforge.net/project/npackd/imagemagick64-6.8.7.8.exe</url>
+        <sha1>99ec752a0f20f0e5127089cd66acfd4f65dda363</sha1>
     </version>
 
     <version name="1.0.9" package="kr.pe.nyam.Imagine64">
@@ -6813,6 +6754,26 @@ if %err% neq 0 exit /b %err%&#13;
         <url>http://downloads.sourceforge.net/project/tortoisesvn/1.8.2/Application/TortoiseSVN-1.8.2.24708-x64-svn-1.8.3.msi</url>
         <sha1>312522d75d740b012bc50714a8c8916a8f9ceaf9</sha1>
     </version>
+    <version name="1.8.4" package="net.tortoisesvn.TortoiseSVN64" type="one-file">
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.msi') do set setup=%%x&#13;
+msiexec /qn /norestart /lime .Npackd\MSI.log /i "%setup%" INSTALLDIR="%CD%" ALLUSERS=1&#13;
+set err=%errorlevel%&#13;
+type .Npackd\MSI.log&#13;
+rem 3010=restart required&#13;
+if %err% equ 3010 exit /b 0&#13;
+if %err% neq 0 exit /b %err%&#13;
+</file>
+        <file path=".Npackd\Uninstall.bat">for /f "delims=" %%x in ('dir /b *.msi') do set setup=%%x&#13;
+msiexec /qn /norestart /lime .Npackd\MSI.log /x "%setup%"&#13;
+set err=%errorlevel%&#13;
+type .Npackd\MSI.log&#13;
+rem 3010=restart required&#13;
+if %err% equ 3010 exit /b 0&#13;
+if %err% neq 0 exit /b %err%&#13;
+</file>
+        <url>http://downloads.sourceforge.net/project/tortoisesvn/1.8.4/Application/TortoiseSVN-1.8.4.24972-x64-svn-1.8.5.msi</url>
+        <sha1>48ac3bf56cb903b7a31882d35a51093c8bc1b237</sha1>
+    </version>
 
     <version name="2.75" package="nircmd64">
         <file path=".Npackd\Install.bat">set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.CLU" "--versions=[1, 2)"&#13;
@@ -7554,6 +7515,16 @@ rmdir "%name%"
         <sha1>3f980424864c5fd8e7fdbe421702b3f3cca19f8f</sha1>
         <dependency package="com.oracle.JRE" versions="[1.5, 2)"/>
     </version>
+    <version name="7.0.47" package="org.apache.tomcat.Tomcat64" type="one-file">
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
+"%setup%" /S /D=%CD%&#13;
+</file>
+        <file path=".Npackd\Uninstall.bat">Uninstall.exe -ServiceName="Tomcat7" /S _?=%CD%&#13;
+</file>
+        <url>http://archive.apache.org/dist/tomcat/tomcat-7/v7.0.47/bin/apache-tomcat-7.0.47.exe</url>
+        <sha1>3094b88aba68c659df1e628814053ed554815d44</sha1>
+        <dependency package="com.oracle.JRE" versions="[1.5, 2)"/>
+    </version>
 
     <version name="7.2.10" package="org.areca-backup.ArecaBackup64">
         <important-file path="areca.exe" title="Areca"/>
@@ -8070,6 +8041,28 @@ if %err% neq 0 exit /b %err%&#13;
 </file>
         <url>http://cdn.bitbucket.org/tortoisehg/files/downloads/tortoisehg-2.9.1-hg-2.7.1-x64.msi</url>
         <sha1>148ed89a701b96ab69b0fcf7c1e1ab52f6d991ca</sha1>
+    </version>
+    <version name="2.10" package="org.bitbucket.tortoisehg.TortoiseHg64" type="one-file">
+        <file path=".Npackd\Install.bat">for /f %%x in ('dir /b *.msi') do set setup=%%x&#13;
+copy "%setup%" .Npackd&#13;
+msiexec.exe /qn /norestart /Lime .Npackd\MSI.log /i "%setup%" INSTALLDIR="%CD%" ALLUSERS=1&#13;
+set err=%errorlevel%&#13;
+type .Npackd\MSI.log&#13;
+rem 3010=restart required&#13;
+if %err% equ 3010 exit /b 0&#13;
+if %err% neq 0 exit /b %err%&#13;
+</file>
+        <file path=".Npackd\Uninstall.bat">copy .Npackd\*.msi .&#13;
+for /f %%x in ('dir /b *.msi') do set setup=%%x&#13;
+msiexec.exe /qn /norestart /Lime .Npackd\MSI.log /x "%setup%"&#13;
+set err=%errorlevel%&#13;
+type .Npackd\MSI.log&#13;
+rem 3010=restart required&#13;
+if %err% equ 3010 exit /b 0&#13;
+if %err% neq 0 exit /b %err%&#13;
+</file>
+        <url>http://cdn.bitbucket.org/tortoisehg/files/downloads/tortoisehg-2.10-hg-2.8-x64.msi</url>
+        <sha1>581f3e21098cdd9e2330e302df7052a59e7b6889</sha1>
     </version>
 
     <version name="2.49.2" package="org.blender.Blender64">
@@ -10941,6 +10934,10 @@ if %err% neq 0 exit %err%</file>
         <sha1>1b4d703deee0b0689bb814e881b939603d7d1490</sha1>
         <dependency package="com.oracle.JRE64" versions="[1.6.0.23, 2)"/>
     </version>
+
+    
+
+    
 
     <version name="5.3.6" package="racket64" type="one-file">
         <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
