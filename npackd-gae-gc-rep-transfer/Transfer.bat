@@ -1,14 +1,15 @@
-rem This script transfers the 4 default repositories from 
+rem This script transfers the 5 default repositories from 
 rem http://npackd.appspot.com
 rem to the Mercurial source repository at
 rem http://code.google.com/p/windows-package-manager so that the repositories
 rem are available e.g. under 
 rem https://windows-package-manager.googlecode.com/hg/repository/Rep.xml
-rem The 4 repositories are:
+rem The 5 repositories are:
 rem http://npackd.appspot.com/rep/xml?tag=stable
 rem http://npackd.appspot.com/rep/xml?tag=stable64
 rem http://npackd.appspot.com/rep/xml?tag=libs 
 rem http://npackd.appspot.com/rep/xml?tag=unstable
+rem http://npackd.appspot.com/rep/xml?tag=vim
 rem You would require commit permission for the Mercurial repository.
 
 set onecmd="%npackd_cl%\npackdcl.exe" path --package=org.xmlsoft.LibXML --versions=[2.4.12,2.4.12]
@@ -48,7 +49,10 @@ if %errorlevel% neq 0 goto error
 "%curl%\curl.exe" -o "%d%\repository\RepUnstable.xml" http://npackd.appspot.com/rep/xml?tag=unstable
 if %errorlevel% neq 0 goto error
 
-"%msys%\bin\unix2dos" "%d%\repository\Rep.xml" "%d%\repository\Rep64.xml" "%d%\repository\Libs.xml" "%d%\repository\RepUnstable.xml"
+"%curl%\curl.exe" -o "%d%\repository\Vim.xml" http://npackd.appspot.com/rep/xml?tag=vim
+if %errorlevel% neq 0 goto error
+
+"%msys%\bin\unix2dos" "%d%\repository\Rep.xml" "%d%\repository\Rep64.xml" "%d%\repository\Libs.xml" "%d%\repository\RepUnstable.xml" "%d%\repository\Vim.xml"
 if %errorlevel% neq 0 goto error
 
 "%libxml%\bin\xmllint.exe" --noout "%d%\repository\Rep.xml"
@@ -58,6 +62,9 @@ if %errorlevel% neq 0 goto error
 if %errorlevel% neq 0 goto error
 
 "%libxml%\bin\xmllint.exe" --noout "%d%\repository\Libs.xml"
+if %errorlevel% neq 0 goto error
+
+"%libxml%\bin\xmllint.exe" --noout "%d%\repository\Vim.xml"
 if %errorlevel% neq 0 goto error
 
 "%mercurial%\hg.exe" commit -R "%d%"
