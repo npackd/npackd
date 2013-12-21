@@ -5702,14 +5702,14 @@ verify&#13;
         <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.15.7, 2)"/>
     </version>
 
-    <version name="3.55.1298" package="aimp" type="one-file">
+    <version name="3.55.1324" package="aimp" type="one-file">
         <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
 "%setup%" /SILENT /AUTO="%CD%\Prog"&#13;
 </file>
         <file path=".Npackd\Uninstall.bat">Prog\Uninstall.exe /SILENT&#13;
 </file>
-        <url>http://files.programki.net/aimp/aimp_3.55.1298_beta.exe</url>
-        <sha1>22a2ec9d948d70de38b2e5cc606292130b555495</sha1>
+        <url>https://dl.dropboxusercontent.com/u/176999101/aimp-3.55.1324.exe</url>
+        <sha1>2776ef8b62c24c8a437d275cd62fa538f7161f34</sha1>
     </version>
 
     <version name="4.8.5" package="akelpad" type="one-file">
@@ -7232,98 +7232,7 @@ for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set myun=%%x&#13;
         <dependency package="net.nirsoft.MyUninstaller" versions="[1.74, 1.74]"/>
     </version>
 
-    <version name="2013.2805.1.5946" package="com.avg.AVGAntiVirusFree" type="one-file">
-        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
-rem /TargetInstallationPath="%CD%..\AVG_Anti_Virus_Program" is not used as this would prevent un-installation (the files would be locked)&#13;
-"%setup%" /AppMode=Setup /UILevel=silent /InstallToolbar=0 /LoggerPath="%CD%\.Npackd" /ChangeBrowserSearchProvider=0 /InstallSidebar=0 /ParticipateProductImprovement=0 /DontRestart /KillProcessesIfNeeded&#13;
-if %errorlevel% neq 0 exit %err%&#13;
-</file>
-        <file path=".Npackd\Uninstall.bat">rem direct un-installation does not work as the files are always locked&#13;
-rem "avgmfapx.exe" /AppMode=SETUP /Uninstall /UILevel=Silent /DontRestart&#13;
-&#13;
-if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1&#13;
-set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=net.nirsoft.MyUninstaller" "--versions=[1.74, 1.74]"&#13;
-for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set myun=%%x&#13;
-"%myun%\myuninst.exe" /uninstall "AVG 2013"</file>
-        <url>http://download.avgfree.com/filedir/inst/avg_free_x86_all_2013_2805a5946.exe</url>
-        <sha1>ac77cde7bd1647105e27c79dce488775a889ab01</sha1>
-        <dependency package="net.nirsoft.MyUninstaller" versions="[1.74, 1.74]"/>
-        <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.15.7, 2)"/>
-        <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1, 1]"/>
-    </version>
-    <version name="2013.2899.1.6087" package="com.avg.AVGAntiVirusFree" type="one-file">
-        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
-rem /TargetInstallationPath="%CD%..\AVG_Anti_Virus_Program" is not used as this would prevent un-installation (the files would be locked)&#13;
-"%setup%" /AppMode=Setup /UILevel=silent /InstallToolbar=0 /LoggerPath="%CD%\.Npackd" /ChangeBrowserSearchProvider=0 /InstallSidebar=0 /ParticipateProductImprovement=0 /DontRestart /KillProcessesIfNeeded&#13;
-if %errorlevel% neq 0 exit %err%&#13;
-</file>
-        <file path=".Npackd\Uninstall.bat">rem direct un-installation does not work as the files are always locked&#13;
-rem "avgmfapx.exe" /AppMode=SETUP /Uninstall /UILevel=Silent /DontRestart&#13;
-&#13;
-if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1&#13;
-set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=net.nirsoft.MyUninstaller" "--versions=[1.74, 1.74]"&#13;
-for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set myun=%%x&#13;
-"%myun%\myuninst.exe" /uninstall "AVG 2013"</file>
-        <url>http://aa-download.avg.com/filedir/inst/avg_free_x86_all_2013_2899a6087.exe</url>
-        <sha1>dbf92e457d4bdd2687896fed57e9a63fa45f82d9</sha1>
-        <dependency package="net.nirsoft.MyUninstaller" versions="[1.74, 1.74]"/>
-        <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.15.7, 2)"/>
-    </version>
-    <version name="2013.3272" package="com.avg.AVGAntiVirusFree" type="one-file">
-        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
-rem /TargetInstallationPath="%CD%..\AVG_Anti_Virus_Program" is not used as this would prevent un-installation (the files would be locked)&#13;
-"%setup%" /AppMode=Setup /UILevel=silent /InstallToolbar=0 /LoggerPath="%CD%\.Npackd" /ChangeBrowserSearchProvider=0 /InstallSidebar=0 /ParticipateProductImprovement=0 /DontRestart /KillProcessesIfNeeded&#13;
-if %errorlevel% neq 0 exit %err%&#13;
-</file>
-        <file path=".Npackd\Uninstall.bat">rem direct un-installation does not work as the files are always locked&#13;
-rem "avgmfapx.exe" /AppMode=SETUP /Uninstall /UILevel=Silent /DontRestart&#13;
-&#13;
-if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1&#13;
-set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=net.nirsoft.MyUninstaller" "--versions=[1.74, 1.74]"&#13;
-for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set myun=%%x&#13;
-"%myun%\myuninst.exe" /uninstall "AVG 2013"</file>
-        <url>http://aa-download.avg.com/filedir/inst/avg_free_x86_all_2013_3272a6212.exe</url>
-        <sha1>ea0e0ec020f89cc92bc4a86d5c421cef4b669bd6</sha1>
-        <dependency package="net.nirsoft.MyUninstaller" versions="[1.74, 1.74]"/>
-        <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.15.7, 2)"/>
-    </version>
-    <version name="2013.3345" package="com.avg.AVGAntiVirusFree" type="one-file">
-        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
-rem /TargetInstallationPath="%CD%..\AVG_Anti_Virus_Program" is not used as this would prevent un-installation (the files would be locked)&#13;
-"%setup%" /AppMode=Setup /UILevel=silent /InstallToolbar=0 /LoggerPath="%CD%\.Npackd" /ChangeBrowserSearchProvider=0 /InstallSidebar=0 /ParticipateProductImprovement=0 /DontRestart /KillProcessesIfNeeded&#13;
-if %errorlevel% neq 0 exit %err%&#13;
-</file>
-        <file path=".Npackd\Uninstall.bat">rem direct un-installation does not work as the files are always locked&#13;
-rem "avgmfapx.exe" /AppMode=SETUP /Uninstall /UILevel=Silent /DontRestart&#13;
-&#13;
-if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1&#13;
-set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=net.nirsoft.MyUninstaller" "--versions=[1.74, 1.74]"&#13;
-for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set myun=%%x&#13;
-"%myun%\myuninst.exe" /uninstall "AVG 2013"</file>
-        <url>http://aa-download.avg.com/filedir/inst/avg_free_x86_all_2013_3345a6382.exe</url>
-        <sha1>515c4888ffb67ad1418cbf22668273c30870d072</sha1>
-        <dependency package="net.nirsoft.MyUninstaller" versions="[1.74, 1.74]"/>
-        <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.15.7, 2)"/>
-    </version>
-    <version name="2013.3392" package="com.avg.AVGAntiVirusFree" type="one-file">
-        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
-rem /TargetInstallationPath="%CD%..\AVG_Anti_Virus_Program" is not used as this would prevent un-installation (the files would be locked)&#13;
-"%setup%" /AppMode=Setup /UILevel=silent /InstallToolbar=0 /LoggerPath="%CD%\.Npackd" /ChangeBrowserSearchProvider=0 /InstallSidebar=0 /ParticipateProductImprovement=0 /DontRestart /KillProcessesIfNeeded&#13;
-if %errorlevel% neq 0 exit %err%&#13;
-</file>
-        <file path=".Npackd\Uninstall.bat">rem direct un-installation does not work as the files are always locked&#13;
-rem "avgmfapx.exe" /AppMode=SETUP /Uninstall /UILevel=Silent /DontRestart&#13;
-&#13;
-if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1&#13;
-set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=net.nirsoft.MyUninstaller" "--versions=[1.74, 1.74]"&#13;
-for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set myun=%%x&#13;
-"%myun%\myuninst.exe" /uninstall "AVG 2013"</file>
-        <url>http://aa-download.avg.com/filedir/inst/avg_free_x86_all_2013_3392a6523.exe</url>
-        <sha1>3bbe236faff8d90cc2a007749d8810d3f78798f1</sha1>
-        <dependency package="net.nirsoft.MyUninstaller" versions="[1.74, 1.74]"/>
-        <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.15.7, 2)"/>
-    </version>
-    <version name="2014.4142" package="com.avg.AVGAntiVirusFree" type="one-file">
+    <version name="2014.4259" package="com.avg.AVGAntiVirusFree" type="one-file">
         <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
 rem /TargetInstallationPath="%CD%..\AVG_Anti_Virus_Program" is not used as this would prevent un-installation (the files would be locked)&#13;
 "%setup%" /AppMode=Setup /UILevel=silent /InstallToolbar=0 /LoggerPath="%CD%\.Npackd" /ChangeBrowserSearchProvider=0 /InstallSidebar=0 /ParticipateProductImprovement=0 /DontRestart /KillProcessesIfNeeded&#13;
@@ -7335,8 +7244,8 @@ rem "avgmfapx.exe" /AppMode=SETUP /Uninstall /UILevel=Silent /DontRestart&#13;
 set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=net.nirsoft.MyUninstaller" "--versions=[1.74, 2)"&#13;
 for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set myun=%%x&#13;
 "%myun%\myuninst.exe" /uninstall "AVG 2014"</file>
-        <url>http://aa-download.avg.com/filedir/inst/avg_free_x86_all_2014_4142a6696.exe</url>
-        <sha1>d717c24233cc64269428a59feb421ca841fcb911</sha1>
+        <url>http://aa-download.avg.com/filedir/inst/avg_free_x86_all_2014_4259a6848.exe</url>
+        <sha1>cecd7a053128b1a755a5331a454b6767a58d57d3</sha1>
         <dependency package="net.nirsoft.MyUninstaller" versions="[1.74, 2)"/>
         <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.15.7, 2)"/>
     </version>
@@ -9699,6 +9608,19 @@ rmdir "%name%"&#13;
 </file>
         <url>http://googleappengine.googlecode.com/files/appengine-java-sdk-1.8.5.zip</url>
         <sha1>1fd19eed87d5442b7c3fc434d77a458937424284</sha1>
+        <dependency package="com.oracle.JRE" versions="[1.5, 2)"/>
+    </version>
+    <version name="1.8.8" package="com.google.AppEngineJavaSDK">
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b appengine*') do set name=%%x&#13;
+cd "%name%"        &#13;
+for /f "delims=" %%a in ('dir /b') do (&#13;
+  move "%%a" ..&#13;
+)&#13;
+cd ..&#13;
+rmdir "%name%"&#13;
+</file>
+        <url>http://googleappengine.googlecode.com/files/appengine-java-sdk-1.8.8.zip</url>
+        <sha1>ecb3f8ed390e7e68fb3622b2aca523ae0818d4ab</sha1>
         <dependency package="com.oracle.JRE" versions="[1.5, 2)"/>
     </version>
 
@@ -15339,6 +15261,16 @@ for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set myun=%%x&#13;
         <url>http://static.slysoft.com/SetupVirtualCloneDrive5460.exe</url>
         <dependency package="com.github.bmatzelle.Gow" versions="[0.7, 2)"/>
     </version>
+    <version name="5.4.7" package="com.slysoft.virtualclonedrive.VirtualCloneDrive" type="one-file">
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
+"%setup%" /S /D="%ProgramFiles%\Virtual_CloneDriveData"&#13;
+</file>
+        <file path=".Npackd\Uninstall.bat">taskkill /im VCDDaemon.exe /f /t&#13;
+"%ProgramFiles%\Virtual_CloneDriveData\vcd-uninst.exe" /S&#13;
+</file>
+        <url>http://static.slysoft.com/SetupVirtualCloneDrive5470.exe</url>
+        <dependency package="com.github.bmatzelle.Gow" versions="[0.7, 2)"/>
+    </version>
 
     <version name="4.18" package="com.softwareok.QDir">
         <important-file path="Q-Dir.exe" title="Q-Dir"/>
@@ -17555,6 +17487,52 @@ goto out&#13;
 for %%g in (%extensions%) do reg add HKLM\SOFTWARE\Classes\.%%g\OpenWithList\%key% /f</file>
         <url>http://download.videolan.org/pub/videolan/vlc/2.0.8/win32/vlc-2.0.8-win32.zip</url>
         <sha1>6708ed732b481be80ef49dd95062627fa12ff2a0</sha1>
+    </version>
+    <version name="2.1.2" package="com.videolan.VLCMediaPlayer">
+        <important-file path="vlc.exe" title="VLC Media Player"/>
+        <file path=".Npackd\Extensions.txt">a52 aac ac3 adt adts aif ifc iff mr aob ape cda dts flac it m4a m4p mid mka mlp mod mp1 mp2 mp3 mpc oga ogg oma rmi s3m spx tta voc vqf w64 wav wma wv xa xm 3g2 3gp 3gp2 3gpp amv asf avi bin cue divx dv flv gxf iso m1v m2v m2t m2ts m4v mkv mov mp2 mp2v mp4 mp4v mpa mpe mpeg mpeg1 mpeg2 mpeg4 mpg mpv2 mts mxf nsv nuv ogg ogm ogv ogx ps rec rm rmvb tod ts tts vob vro webm wmv asx b4s ifo m3u m3u8 pls ram rar sdp vlc xspf zip cdg idx srt sub utf ass ssa aqt jss psb rt smi&#13;
+</file>
+        <file path=".Npackd\Uninstall.bat">set package=com.videolan.VLCMediaPlayer&#13;
+set version=%NPACKD_PACKAGE_VERSION%&#13;
+set key=%package%-%version%&#13;
+&#13;
+reg delete HKLM\SOFTWARE\Classes\Applications\%key% /f&#13;
+&#13;
+rem read extensions from the file&#13;
+for /f "usebackq delims=" %%a in (.Npackd\Extensions.txt) do (&#13;
+set extensions=%%a&#13;
+goto out&#13;
+)&#13;
+:out&#13;
+&#13;
+for %%g in (%extensions%) do reg delete HKLM\SOFTWARE\Classes\.%%g\OpenWithList\%key% /f</file>
+        <file path=".Npackd\Install.bat">for /f %%x in ('dir /b vlc*') do set name=%%x&#13;
+for /f "delims=" %%x in ('dir /b aria*') do set name=%%x&#13;
+cd "%name%"        &#13;
+for /f "delims=" %%a in ('dir /b') do (&#13;
+  move "%%a" ..&#13;
+)&#13;
+cd ..&#13;
+rmdir "%name%"&#13;
+&#13;
+set package=com.videolan.VLCMediaPlayer&#13;
+set version=%NPACKD_PACKAGE_VERSION%&#13;
+set key=%package%-%version%&#13;
+&#13;
+reg add HKLM\SOFTWARE\Classes\Applications\%key%\shell\open /v FriendlyAppName /d "VLC Media Player (%version%)" /f&#13;
+set c=\"%CD%\vlc.exe\" \"%%1\"&#13;
+reg add HKLM\SOFTWARE\Classes\Applications\%KEY%\shell\open\command /d "%c%" /f&#13;
+&#13;
+rem read extensions from the file&#13;
+for /f "usebackq delims=" %%a in (.Npackd\Extensions.txt) do (&#13;
+set extensions=%%a&#13;
+goto out&#13;
+)&#13;
+:out&#13;
+&#13;
+for %%g in (%extensions%) do reg add HKLM\SOFTWARE\Classes\.%%g\OpenWithList\%key% /f</file>
+        <url>http://download.videolan.org/pub/videolan/vlc/2.1.2/win32/vlc-2.1.2-win32.zip</url>
+        <sha1>96d6db02e56627005581f5940daf3b22450631a0</sha1>
     </version>
 
     <version name="1.10.3" package="com.visuex.uget.uGet">
@@ -21218,6 +21196,16 @@ verify&#13;
         <sha1>81118dcd5489be4e22c78a5e9de61f0b084937e2</sha1>
         <dependency package="com.oracle.JRE" versions="[1.5, 2)"/>
     </version>
+    <version name="5.2" package="net.sourceforge.azureus.Vuze" type="one-file">
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
+"%setup%" -q -dir "%CD%"&#13;
+</file>
+        <file path=".Npackd\Uninstall.bat">uninstall.exe -q&#13;
+</file>
+        <url>http://downloads.sourceforge.net/project/azureus/vuze/Vuze_5200/Vuze_5200_Installer32.exe</url>
+        <sha1>e9f3e241a86ede7456342c3661e76c1dd0ee945f</sha1>
+        <dependency package="com.oracle.JRE" versions="[1.5, 2)"/>
+    </version>
 
     <version name="1.51" package="net.sourceforge.cdexos.CDex">
         <important-file path="CDex.exe" title="CDex"/>
@@ -23712,6 +23700,34 @@ verify&#13;
 </file>
         <url>http://upx.sourceforge.net/download/upx309w.zip</url>
         <sha1>c735d341ecce5e44214f475db23222bf249a3eab</sha1>
+        <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.15.7, 2)"/>
+        <dependency package="com.googlecode.windows-package-manager.CLU" versions="[1, 2)"/>
+    </version>
+    <version name="3.91" package="net.sourceforge.upx.UPX">
+        <important-file path="upx.html" title="Man Page"/>
+        <file path=".Npackd\Uninstall.bat">if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1&#13;
+set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.CLU" "--versions=[1, 2)"&#13;
+for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set clu=%%x&#13;
+"%clu%\clu" remove-path --path "%CD%"&#13;
+verify&#13;
+</file>
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b upx*') do set name=%%x&#13;
+cd "%name%"        &#13;
+for /f "delims=" %%a in ('dir /b') do (&#13;
+  move "%%a" ..&#13;
+)&#13;
+cd ..&#13;
+rmdir "%name%"&#13;
+if %errorlevel% neq 0 exit /b %errorlevel%&#13;
+&#13;
+if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1&#13;
+set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.CLU" "--versions=[1, 2)"&#13;
+for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set clu=%%x&#13;
+"%clu%\clu" add-path --path "%CD%"&#13;
+verify&#13;
+</file>
+        <url>http://upx.sourceforge.net/download/upx391w.zip</url>
+        <sha1>259d16f16ba6ca48ce3e63304b922f2401650c64</sha1>
         <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.15.7, 2)"/>
         <dependency package="com.googlecode.windows-package-manager.CLU" versions="[1, 2)"/>
     </version>
@@ -26620,8 +26636,7 @@ call "%npackdih%\InstallMSI.bat" TARGETDIR yes&#13;
     <version name="2.10" package="org.bitbucket.tortoisehg.TortoiseHg" type="one-file">
         <file path=".Npackd\Install.bat">set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.NpackdInstallerHelper" "--versions=[1.1, 2)"&#13;
 for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set npackdih=%%x&#13;
-call "%npackdih%\InstallMSI.bat" TARGETDIR yes&#13;
-</file>
+call "%npackdih%\InstallMSI.bat" TARGETDIR yes</file>
         <url>http://cdn.bitbucket.org/tortoisehg/files/downloads/tortoisehg-2.10-hg-2.8-x86.msi</url>
         <sha1>10db0d877189ca256c55074372e903a9b43acb30</sha1>
         <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.1, 2)"/>
@@ -26742,14 +26757,13 @@ rmdir "%name%"
     </version>
     <version name="2.63" package="org.blender.Blender">
         <important-file path="blender.exe" title="Blender"/>
-        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b blender*') do set name=%%x
-cd "%name%"        
-for /f "delims=" %%a in ('dir /b') do (
-  move "%%a" ..
-)
-cd ..
-rmdir "%name%"
-</file>
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b blender*') do set name=%%x&#13;
+cd "%name%"        &#13;
+for /f "delims=" %%a in ('dir /b') do (&#13;
+  move "%%a" ..&#13;
+)&#13;
+cd ..&#13;
+rmdir "%name%"</file>
         <url>http://download.blender.org/release/Blender2.63/blender-2.63-release-windows32.zip</url>
         <sha1>5dcc756890bb42af9925182c50512a1d188504fb</sha1>
     </version>
@@ -27943,10 +27957,9 @@ rmdir /s /q "%name%"
     </version>
     <version name="3.3.4" package="org.filezilla-project.FileZillaClient">
         <important-file path="filezilla.exe" title="FileZilla Client"/>
-        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b File*') do set name=%%x
-xcopy "%name%\*" . /E /H
-rmdir /s /q "%name%"
-</file>
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b File*') do set name=%%x&#13;
+xcopy "%name%\*" . /E /H&#13;
+rmdir /s /q "%name%"</file>
         <url>http://downloads.sourceforge.net/project/filezilla/FileZilla_Client/3.3.4/FileZilla_3.3.4_win32.zip?ts=1293742488</url>
         <sha1>d4d760ea0818e7deda3491a4a3b2d5f428fc8b9e</sha1>
     </version>
@@ -35421,6 +35434,19 @@ verify&#13;
         <url>http://downloads.sourceforge.net/project/unknownhorizons/Unknown%20Horizons/2013.2/unknown-horizons-2013.2_win32.exe</url>
         <sha1>d34b5beea6301437a4883149c6d55d2ba5b8651c</sha1>
     </version>
+    <version name="2013.3" package="org.unknownhorizons.UnknownHorizons" type="one-file">
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
+"%setup%" /S /D=%CD%&#13;
+</file>
+        <file path=".Npackd\Uninstall.bat">uninst.exe /S _?=%CD%&#13;
+&#13;
+("%ProgramFiles%\OpenAL\oalinst.exe" /U) || ("%ProgramFiles(x86)%\OpenAL\oalinst.exe" /U)&#13;
+(rd /s /q "%ALLUSERSPROFILE%\Start Menu\Programs\Unknown Horizons") || (rd /s /q "%ALLUSERSPROFILE%\Microsoft\Windows\Start Menu\Programs\Unknown Horizons")&#13;
+verify&#13;
+</file>
+        <url>http://downloads.sourceforge.net/project/unknownhorizons/Unknown%20Horizons/2013.3/unknown-horizons-2013.3_win32.exe</url>
+        <sha1>34c9962c6434caa079d92d041c29bb1e0df853d9</sha1>
+    </version>
 
     <version name="1.6.6" package="org.unrealvoodoo.hiteck.AlbumArt" type="one-file">
         <file path=".Npackd\Install.bat">albumart-1.6.6-win32-setup.exe /S /D=%CD%</file>
@@ -35700,6 +35726,40 @@ if %err% neq 0 exit %err%</file>
         <sha1>4831cd3dc1fb34bb9b1726df759684d5ccafc3e1</sha1>
         <dependency package="org.7-zip.SevenZIP" versions="[9.20, 10)"/>
     </version>
+    <version name="4.3.4" package="org.virtualbox.virtualbox" type="one-file">
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
+"%setup%" -x -s -p "%CD%"&#13;
+&#13;
+set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=org.7-zip.SevenZIP" "--versions=[9.20, 9.20]"&#13;
+for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set sevenzip=%%x&#13;
+&#13;
+"%sevenzip%\7z.exe" x common.cab -aos -o"%CD%\common" &gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+"%sevenzip%\7z.exe" x "%CD%\common\file_VBoxGuestAdditions.iso" -aos -o"%CD%\common\file_VBoxGuestAdditions" &gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+&#13;
+certutil.exe -addstore -f "TrustedPublisher" "%CD%\common\file_VBoxGuestAdditions\cert\oracle-vbox.cer" &gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+&#13;
+for /f "delims=" %%x in ('dir /b *MultiArch_x86.msi') do set setup=%%x&#13;
+msiexec.exe /qn /norestart /Lime .Npackd\MSI.log /i "%setup%"&#13;
+set err=%errorlevel%&#13;
+type .Npackd\MSI.log&#13;
+rem 3010=restart required&#13;
+if %err% equ 3010 exit 0&#13;
+if %err% neq 0 exit %err%&#13;
+for /f "delims=" %%x in ('dir /b *MultiArch_amd64.msi') do set trash=%%x&#13;
+del /q /f "%trash%"&#13;
+&#13;
+</file>
+        <file path=".Npackd\Uninstall.bat">for /f "delims=" %%x in ('dir /b *.msi') do set setup=%%x&#13;
+msiexec.exe /qn /norestart /Lime .Npackd\MSI.log /x "%setup%"&#13;
+set err=%errorlevel%&#13;
+type .Npackd\MSI.log&#13;
+rem 3010=restart required&#13;
+if %err% equ 3010 exit 0&#13;
+if %err% neq 0 exit %err%</file>
+        <url>http://dlc.sun.com.edgesuite.net/virtualbox/4.3.4/VirtualBox-4.3.4-91027-Win.exe</url>
+        <sha1>eb4aed3e479b7364140ed81db48dc01dcd832c89</sha1>
+        <dependency package="org.7-zip.SevenZIP" versions="[9.20, 10)"/>
+    </version>
 
     <version name="1.9.9" package="org.virtualdub.VirtualDub">
         <important-file path="VirtualDub.exe" title="VirtualDub"/>
@@ -35715,6 +35775,11 @@ if %err% neq 0 exit %err%</file>
         <important-file path="VirtualDub.exe" title="VirtualDub"/>
         <url>http://downloads.sourceforge.net/project/virtualdub/virtualdub-win/1.9.11.32842/VirtualDub-1.9.11.zip</url>
         <sha1>04f5c1a40e1046526483a19dd8b674e916f94ad7</sha1>
+    </version>
+    <version name="1.10.4" package="org.virtualdub.VirtualDub">
+        <important-file path="VirtualDub.exe" title="VirtualDub"/>
+        <url>http://downloads.sourceforge.net/project/virtualdub/virtualdub-win/1.10.4.35491/VirtualDub-1.10.4.zip</url>
+        <sha1>ea14a0f331f6fb94c735633bc6be1da3db13ed7b</sha1>
     </version>
 
     <version name="1.4.2" package="org.winff.WinFF" type="one-file">
@@ -35956,6 +36021,17 @@ WixToolset.exe -quiet /D=%CD%&#13;
         <sha1>44f3a0754aba1d9149fb0b37c1a9f34b25e6c22d</sha1>
     </version>
     <version name="3.7" package="org.wixtoolset.WiX" type="one-file">
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
+"%setup%" -q&#13;
+&#13;
+</file>
+        <file path=".Npackd\Uninstall.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
+"%setup%" -q -uninstall&#13;
+</file>
+        <url>http://downloads.sourceforge.net/project/npackd/org.wixtoolset.WiX-3.7.exe</url>
+        <sha1>599774f760cdf2fcfdc5e343731e9d74c2fc5235</sha1>
+    </version>
+    <version name="3.8" package="org.wixtoolset.WiX" type="one-file">
         <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
 "%setup%" -q&#13;
 &#13;
@@ -37650,6 +37726,19 @@ rmdir "%name%"&#13;
         <url>http://mirror.urtstats.net/urbanterror/UrbanTerror42_full014.zip</url>
         <sha1>d2b40247859496bfdd535421df5d9abc60400e5f</sha1>
     </version>
+    <version name="4.2.16" package="urban-terror">
+        <important-file path="Quake3-UrT.exe" title="Urban Terror"/>
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b Urban*') do set name=%%x&#13;
+cd "%name%"        &#13;
+for /f "delims=" %%a in ('dir /b') do (&#13;
+  move "%%a" ..&#13;
+)&#13;
+cd ..&#13;
+rmdir "%name%"&#13;
+</file>
+        <url>http://mirror.urtstats.net/urbanterror/UrbanTerror42_full016.zip</url>
+        <sha1>ba5aa9d65e8ecb366845d61923646f61341a5213</sha1>
+    </version>
 
     <version name="1.0.1.4" package="usbvaccine" type="one-file">
         <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
@@ -37675,6 +37764,18 @@ if %err% neq 0 exit %err%&#13;
 </file>
         <url>http://downloads.sourceforge.net/project/cream/Vim/7.4.52/gvim-7-4-52.exe</url>
         <sha1>fc9c291776a9541506c2d51668b25057a08f63e4</sha1>
+    </version>
+    <version name="7.4.110" package="vim-huge" type="one-file">
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
+"%setup%" /S /D=%CD% &amp;&amp; del /f /q "%setup%"&#13;
+</file>
+        <file path=".Npackd\Uninstall.bat">set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=net.nirsoft.MyUninstaller" "--versions=[1.74, 2)"&#13;
+for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set myun=%%x&#13;
+"%myun%\myuninst.exe" /uninstall "Vim %NPACKD_PACKAGE_VERSION%"&#13;
+</file>
+        <url>http://downloads.sourceforge.net/project/cream/Vim/7.4.110/gvim-7-4-110.exe</url>
+        <sha1>4b80c8174a2b37ed9ac451fbfa2c8505282410ee</sha1>
+        <dependency package="net.nirsoft.MyUninstaller" versions="[1.74, 2)"/>
     </version>
 
     <version name="2007.6.0.192" package="virtual-pc" type="one-file">
