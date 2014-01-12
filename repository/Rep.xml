@@ -1549,7 +1549,9 @@ basename cat chgrp chmod chown cksum comm cp csplit cut dd df dircolors dirname 
     <package name="com.microsoft.DotNetRedistributable">
         <title>.NET redistributable runtime</title>
         <url>http://msdn.microsoft.com/en-us/netframework/default.aspx</url>
-        <description>.NET runtime</description>
+        <description>.NET runtime&#13;
+&#13;
+4.5.1: 4.5.50938.18408</description>
         <icon>http://cdn.alternativeto.net/i/f2623bce-fcb2-e111-9456-0025902c7e73_18256.png</icon>
         <license>com.microsoft.DotNetRedistributableLicense</license>
         <category>Development</category>
@@ -2556,6 +2558,12 @@ utility, etc.)</description>
         <icon>https://lh6.googleusercontent.com/-9Sg1WXAbyNU/USi6om5byFI/AAAAAAAAAqo/pVqD0lbjHsE/s800/jarnal.png</icon>
         <license>org.gnu.GPLv3</license>
         <category>Productivity</category>
+    </package>
+    <package name="emet">
+        <title>Enhanced Mitigation Experience Toolkit</title>
+        <url>http://support.microsoft.com/kb/2458544/en-us</url>
+        <description>A toolkit for deploying and configuring security mitigation technologies</description>
+        <category>Security</category>
     </package>
     <package name="ExpressProfiler">
         <title>ExpressProfiler</title>
@@ -4716,6 +4724,14 @@ The features of GNU Emacs include:&#13;
         <license>com.mozilla.MozillaFirefoxLicense2</license>
         <category>Productivity</category>
     </package>
+    <package name="org.mozilla.FirefoxESR">
+        <title>Firefox ESR</title>
+        <url>http://www.mozilla.org/en-US/firefox/organizations/all.html</url>
+        <description>web browser</description>
+        <icon>https://lh5.googleusercontent.com/-fiLdJPeoq90/UcqWcTrNzmI/AAAAAAAACQs/2O0Dm0H6dlE/s800/firefox.png</icon>
+        <license>com.mozilla.MozillaFirefoxLicense2</license>
+        <category>Productivity</category>
+    </package>
     <package name="org.mozilla.sunbird">
         <title>Sunbird</title>
         <url>http://www.mozilla.org/projects/calendar/sunbird</url>
@@ -5129,6 +5145,25 @@ kw: gvim, vi</description>
         <icon>http://openiconlibrary.sourceforge.net/gallery2/open_icon_library-full/icons/png/32x32/apps/virtualdub.png</icon>
         <license>org.gnu.GPLv2</license>
         <category>Video</category>
+    </package>
+    <package name="org.win-builds.binutils-i686-w64-mingw32">
+        <title>binutils i686-w64-mingw32</title>
+        <description>Binutils is a collection of binary utilities.  It includes "as" (the portable GNU assembler), "ld" (the GNU linker), and other utilities for creating and working with binary programs.&#13;
+&#13;
+Packager email: adrien@notk.org&#13;
+Packager name: Adrien Nader</description>
+        <license>org.gnu.GPLv2</license>
+        <category>Tools</category>
+    </package>
+    <package name="org.win-builds.yypkg-i686-w64-mingw32">
+        <title>yypkg i686-w64-mingw32</title>
+        <url>http://win-builds.org/</url>
+        <description>package manager for Win-builds&#13;
+&#13;
+Packager email: adrien@notk.org&#13;
+Packager name: Adrien Nader</description>
+        <license>org.gnu.GPLv2</license>
+        <category>Tools</category>
     </package>
     <package name="org.winff.WinFF">
         <title>WinFF</title>
@@ -5675,12 +5710,6 @@ It can also be user to write Linux distributions installer images to USB drives,
         <license>org.gnu.GPLv2</license>
         <category>Development</category>
     </package>
-    <package name="yypkg">
-        <title>yypkg</title>
-        <url>http://win-builds.org/</url>
-        <description>package manager for Win-builds</description>
-        <category>Development</category>
-    </package>
 
     <version name="6.4" package="advanced-systemcare" type="one-file">
         <file path=".Npackd\Install.bat">set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=org.7-zip.SevenZIP" "--versions=[9.20, 10)"&#13;
@@ -5704,6 +5733,15 @@ verify&#13;
         <dependency package="org.7-zip.SevenZIP" versions="[9.20, 10)"/>
         <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.15.7, 2)"/>
     </version>
+    <version name="7.1" package="advanced-systemcare" type="one-file">
+        <file path=".Npackd\Install.bat">"%NIH%\InstallInnoSetup.bat"</file>
+        <file path=".Npackd\Uninstall.bat">"%NIH%\UninstallInnoSetup.bat" unins000.exe</file>
+        <url>https://dl.dropboxusercontent.com/u/176999101/advanced-systemcare-7.1.exe</url>
+        <sha1>8b2ab94df6ae2daacaeeb58e7c9269f728d38af4</sha1>
+        <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
+            <variable>NIH</variable>
+        </dependency>
+    </version>
 
     <version name="3.55.1324" package="aimp" type="one-file">
         <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
@@ -5723,8 +5761,23 @@ verify&#13;
         <url>http://downloads.sourceforge.net/project/akelpad/AkelPad%204/4.8.5/AkelPad-4.8.5-setup.exe</url>
         <sha1>d38b6d56b20a4b623f6e9cc28f4af8508c5a48a2</sha1>
     </version>
+    <version name="4.8.6" package="akelpad" type="one-file">
+        <important-file path="AkelPad.exe" title="AkelPad"/>
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
+"%setup%" /S /D=%CD%&#13;
+</file>
+        <url>http://downloads.sourceforge.net/project/akelpad/AkelPad%204/4.8.6/AkelPad-4.8.6-setup.exe</url>
+        <sha1>b5715ea1f6cb1992bc65675052ff919211622b86</sha1>
+    </version>
 
-    <version name="1.6.11" package="amazon-ec2-api-tools">
+    <version name="1.6.12" package="amazon-ec2-api-tools">
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b ec2-api-tools-*') do set name=%%x&#13;
+cd "%name%"        &#13;
+for /f "delims=" %%a in ('dir /b') do (&#13;
+  move "%%a" ..&#13;
+)&#13;
+cd ..&#13;
+rmdir "%name%"</file>
         <url>http://s3.amazonaws.com/ec2-downloads/ec2-api-tools.zip</url>
     </version>
 
@@ -5747,9 +5800,9 @@ for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set myun=%%x&#13;
 "%myun%\myuninst.exe" /uninstall "Android Studio"&#13;
 </file>
         <url>https://dl.google.com/android/studio/install/0.3.2/android-studio-bundle-132.893413-windows.exe</url>
-        <sha1>4ec4c74c69b0b61789066f94b3a65dd185c4ee25</sha1>
+        <sha1>fbd51f039247ed3b76a2e0bb486017badb1f560a</sha1>
         <dependency package="com.oracle.JDK" versions="[1.7.0.17, 2)"/>
-        <dependency package="com.microsoft.VisualCPPRedistributable" versions="[9.0.21022.8, 10)"/>
+        <dependency package="com.microsoft.VisualCPPRedistributable" versions="[9, 10)"/>
         <dependency package="net.nirsoft.MyUninstaller" versions="[1.74, 2)"/>
     </version>
 
@@ -6702,7 +6755,7 @@ if "%setup%" neq "" "%setup%" -uninstall&#13;
         <url>http://fpdownload.macromedia.com/get/shockwave/default/english/win95nt/latest/Shockwave_Installer_Slim.exe</url>
     </version>
 
-    <version name="10.6" package="com.advancedinstaller.AdvancedInstallerFreeware" type="one-file">
+    <version name="10.8" package="com.advancedinstaller.AdvancedInstallerFreeware" type="one-file">
         <file path=".Npackd\Install.bat">set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.NpackdInstallerHelper" "--versions=[1.1, 2)"&#13;
 for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set npackdih=%%x&#13;
 call "%npackdih%\InstallMSI.bat" APPDIR yes</file>
@@ -9735,6 +9788,17 @@ call "%npackdih%\InstallMSI.bat" INSTALLDIR yes&#13;
         <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.15.7, 2)"/>
         <dependency package="org.python.Python" versions="[2.5, 2.8)"/>
     </version>
+    <version name="1.8.8" package="com.google.AppEnginePythonSDK" type="one-file">
+        <file path=".Npackd\Install.bat">set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.NpackdInstallerHelper" "--versions=[1.1, 2)"&#13;
+for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set npackdih=%%x&#13;
+call "%npackdih%\InstallMSI.bat" INSTALLDIR yes&#13;
+</file>
+        <url>http://googleappengine.googlecode.com/files/GoogleAppEngine-1.8.8.msi</url>
+        <sha1>f9374ec6d1347af5b47c6a7e13ba9073c1789461</sha1>
+        <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.1, 2)"/>
+        <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.15.7, 2)"/>
+        <dependency package="org.python.Python" versions="[2.5, 2.8)"/>
+    </version>
 
     <version name="30.0.1599.69" package="com.google.Chrome" type="one-file">
         <file path=".Npackd\Install.bat">set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.NpackdInstallerHelper" "--versions=[1.2, 2)"&#13;
@@ -11766,6 +11830,24 @@ if %err% neq 0 exit /b %err%&#13;
         <url>http://download.microsoft.com/download/b/a/4/ba4a7e71-2906-4b2d-a0e1-80cf16844f5f/dotnetfx45_full_x86_x64.exe</url>
         <detect-msi>{1ad147d0-be0e-3d6c-ac11-64f6dc4163f1}</detect-msi>
     </version>
+    <version name="4.5.50938.18408" package="com.microsoft.DotNetRedistributable" type="one-file">
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
+"%setup%" /norestart /q &gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+&#13;
+rem list of errors: http://msdn.microsoft.com/en-us/library/windows/desktop/aa368542(v=vs.85).aspx&#13;
+rem 3010=restart required&#13;
+if %errorlevel% equ 3010 exit /b 0&#13;
+</file>
+        <file path=".Npackd\Uninstall.bat">msiexec.exe /qn /norestart /Lime .Npackd\MSI.log /x{7DEBE4EB-6B40-3766-BB35-5CBBC385DA37}&#13;
+set err=%errorlevel%&#13;
+type .Npackd\MSI.log&#13;
+&#13;
+if %err% equ 3010 goto eof&#13;
+if %err% neq 0 exit /b %err%&#13;
+</file>
+        <url>http://download.microsoft.com/download/1/6/7/167F0D79-9317-48AE-AEDB-17120579F8E2/NDP451-KB2858728-x86-x64-AllOS-ENU.exe</url>
+        <detect-msi>{7DEBE4EB-6B40-3766-BB35-5CBBC385DA37}</detect-msi>
+    </version>
 
     <version name="12.0.4518.1071" package="com.microsoft.ExcelViewer" type="one-file">
         <file path=".Npackd\Install.bat">ExcelViewer.exe /quiet /norestart</file>
@@ -12624,6 +12706,17 @@ rmdir "%name%"</file>
         <file path=".Npackd\Install.bat">agentran.exe /SP- /VERYSILENT /SUPPRESSMSGBOXES /NOCANCEL /NORESTART /DIR="%CD%"</file>
         <file path=".Npackd\Uninstall.bat">unins000.exe /VERYSILENT /SUPPRESSMSGBOXES /NORESTART</file>
         <url>http://download.mythicsoft.com/agentran.exe</url>
+    </version>
+    <version name="2014" package="com.mythicsoft.AgentRansack" type="one-file">
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
+"%setup%" /S /D=%CD% &amp;&amp; del /f /q "%setup%"&#13;
+</file>
+        <file path=".Npackd\Uninstall.bat">MsiExec.exe /qn /norestart /Lime .Npackd\MSI.log /X{538caceb-028e-47f6-bb16-c334e0e8c0ce}
+set err=%errorlevel%
+type .Npackd\MSI.log
+if %err% neq 0 exit %err%
+</file>
+        <url>http://download.mythicsoft.com/ar/813/AgentRansack_813.exe</url>
     </version>
 
     <version name="3.5.1880.1071" package="com.nanocad.Nanocad" type="one-file">
@@ -14355,6 +14448,15 @@ for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
 </file>
         <url>http://downloads.sourceforge.net/project/zero-ad/releases/0ad-0.0.14-alpha-win32.exe</url>
         <sha1>7d33c71cf4ffec914b45726b11492a8d6cd2865e</sha1>
+    </version>
+    <version name="0.0.15" package="com.play0ad.0AD" type="one-file">
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
+"%setup%" /S /D=%CD%&#13;
+</file>
+        <file path=".Npackd\Uninstall.bat">Uninstall.exe /S _?=%CD%&#13;
+</file>
+        <url>http://downloads.sourceforge.net/project/zero-ad/releases/0ad-0.0.15-alpha-win32.exe</url>
+        <sha1>aac53a7482dfa0de82c06f1f365d5c6b5191fc70</sha1>
     </version>
 
     <version name="16.0.3.51" package="com.real.realplayer" type="one-file">
@@ -18445,6 +18547,15 @@ for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set myun=%%x&#13;
         <dependency package="com.oracle.JRE" versions="[1.5, 2)"/>
     </version>
 
+    <version name="4.1" package="emet" type="one-file">
+        <file path=".Npackd\Install.bat">set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.NpackdInstallerHelper" "--versions=[1.1, 2)"&#13;
+for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set npackdih=%%x&#13;
+call "%npackdih%\InstallMSI.bat" TARGETDIR yes&#13;
+</file>
+        <url>http://download.microsoft.com/download/7/A/A/7AA570E7-92DF-4C28-BE12-E72831797666/EMET%20Setup.msi</url>
+        <sha1>f2a3a9bcca351c45d72f343d53b1922987708692</sha1>
+    </version>
+
     <version name="2" package="ExpressProfiler">
         <important-file path="ExpressProfiler.exe" title="ExpressProfiler"/>
         <url>https://dl.dropboxusercontent.com/u/176999101/ExpressProfiler-2.zip</url>
@@ -18525,36 +18636,12 @@ if %err% neq 0 exit %err%</file>
         <url>http://ophilipp.free.fr/soft/mTail.zip</url>
     </version>
 
-    <version name="0.9.4" package="fr.handbrake.HandBrake" type="one-file">
-        <file path=".Npackd\Install.bat">HandBrake-0.9.4-Win_GUI.exe /S /D=%CD%</file>
-        <file path=".Npackd\Uninstall.bat">uninst.exe /S</file>
-        <url>http://downloads.sourceforge.net/project/handbrake/0.9.4/HandBrake-0.9.4-Win_GUI.exe?ts=1278845734</url>
-        <sha1>d5e800b29b7845f679554fb3d47650d9c3ed031b</sha1>
-        <dependency package="com.microsoft.DotNetRedistributable" versions="[2.0, 3)"/>
-    </version>
-    <version name="0.9.5" package="fr.handbrake.HandBrake" type="one-file">
-        <file path=".Npackd\Install.bat">HandBrake-0.9.5-Win_GUI.exe /S /D=%CD%</file>
-        <file path=".Npackd\Uninstall.bat">uninst.exe /S</file>
-        <url>http://downloads.sourceforge.net/project/handbrake/0.9.5/HandBrake-0.9.5-Win_GUI.exe?ts=1294399616</url>
-        <sha1>fcc7f913cca364dfcc356f0f10d5d2fd79a0e3f2</sha1>
-        <dependency package="com.microsoft.DotNetRedistributable" versions="[2.0, 3)"/>
-    </version>
-    <version name="0.9.8" package="fr.handbrake.HandBrake" type="one-file">
-        <file path=".Npackd\Install.bat">ren rotation.php setup.exe&#13;
-setup.exe /S /D=%CD%&#13;
-</file>
-        <file path=".Npackd\Uninstall.bat">uninst.exe /S&#13;
-</file>
-        <url>http://downloads.sourceforge.net/project/handbrake/0.9.8/HandBrake-0.9.8-i686-Win_GUI.exe</url>
-        <sha1>4c38058c681b4b88c74c51534f734f3ddd74339a</sha1>
-        <dependency package="com.microsoft.DotNetRedistributable" versions="[4, 5)"/>
-    </version>
     <version name="0.9.9" package="fr.handbrake.HandBrake" type="one-file">
         <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
 "%setup%" /S /D=%CD% &amp;&amp; del /f /q "%setup%"</file>
         <file path=".Npackd\Uninstall.bat">uninst.exe /S&#13;
 </file>
-        <url>http://downloads.sourceforge.net/project/handbrake/0.9.9/HandBrake-0.9.9-1_i686-Win_GUI.exe</url>
+        <url>http://downloads.sourceforge.net/project/npackd/fr.handbrake.HandBrake-0.9.9.exe</url>
         <sha1>2610a34a5e399bebaf1831ac22038e2f5373eeef</sha1>
         <dependency package="com.microsoft.DotNetRedistributable" versions="[4, 5)"/>
     </version>
@@ -19771,6 +19858,15 @@ if %err% neq 0 exit %err%&#13;
         <url>http://ankisrs.net/download/mirror/anki-2.0.18.exe</url>
         <sha1>26aab75b34cda5bb66fd568747007045c8a6a062</sha1>
     </version>
+    <version name="2.0.20" package="net.ankisrs.Anki" type="one-file">
+        <file path=".Npackd\Install.bat">for /f %%x in ('dir /b *.exe') do set setup=%%x&#13;
+"%setup%" /S /D=%CD%&#13;
+</file>
+        <file path=".Npackd\Uninstall.bat">uninstall.exe /S&#13;
+</file>
+        <url>http://ankisrs.net/download/mirror/anki-2.0.20.exe</url>
+        <sha1>32f3471c5f6acd89100ade9ae2f099cf3f6a1870</sha1>
+    </version>
 
     <version name="1.4.1" package="net.apexdc.ApexDCPlusPlus" type="one-file">
         <important-file path="ApexDC.exe" title="ApexDC++"/>
@@ -19888,6 +19984,16 @@ if %err% neq 0 exit %err%&#13;
 </file>
         <url>https://downloads.sourceforge.net/project/apexdc/ApexDC%2B%2B/1.5.8/ApexDC%2B%2B_1.5.8._Setup.exe</url>
         <sha1>c59e5962cacfd0fd528e003269d79b7e4f6d411a</sha1>
+    </version>
+    <version name="1.5.9" package="net.apexdc.ApexDCPlusPlus" type="one-file">
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
+"%setup%" /SP- /VERYSILENT /SUPPRESSMSGBOXES /NOCANCEL /NORESTART /DIR="%CD%" /SAVEINF="%CD%\.Npackd\InnoSetupInfo.ini" /LOG="%CD%\.Npackd\InnoSetupInstall.log"&#13;
+set err=%errorlevel%&#13;
+type .Npackd\InnoSetupInstall.log&#13;
+if %err% neq 0 exit %err%&#13;
+</file>
+        <url>http://downloads.sourceforge.net/project/apexdc/ApexDC%2B%2B/1.5.9/ApexDC%2B%2B_1.5.9_Setup.exe</url>
+        <sha1>634973fed94f4f6be2de90b43d14d1221309df25</sha1>
     </version>
 
     <version name="0.50.3" package="net.aspell.Aspell" type="one-file">
@@ -20831,6 +20937,14 @@ taskkill /f /im ares.exe</file>
         <sha1>09c7c70a50da4f9cc77c722281a697db6eb24718</sha1>
     </version>
     <version name="2.2.4" package="net.sourceforge.aresgalaxy.AresRegular" type="one-file">
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
+"%setup%" /S /D=%CD%&#13;
+taskkill /f /im ares.exe</file>
+        <file path=".Npackd\Uninstall.bat">Uninstall.exe /S</file>
+        <url>http://downloads.sourceforge.net/project/aresgalaxy/aresgalaxy/AresRegular224_021013/aresregular224_installer.exe</url>
+        <sha1>0288429e1b4029b194a4b1d0f212cb2f051a3669</sha1>
+    </version>
+    <version name="2.2.6" package="net.sourceforge.aresgalaxy.AresRegular" type="one-file">
         <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
 "%setup%" /S /D=%CD%&#13;
 taskkill /f /im ares.exe</file>
@@ -25155,6 +25269,19 @@ rmdir "%name%"&#13;
         <sha1>97b809ae3227d0bec2c250db8f39b9be04d40c3d</sha1>
         <dependency package="com.oracle.JDK" versions="[1.4, 2)"/>
     </version>
+    <version name="1.9.3" package="org.apache.Ant">
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b apache-ant*') do set name=%%x&#13;
+cd "%name%"        &#13;
+for /f "delims=" %%a in ('dir /b') do (&#13;
+  move "%%a" ..&#13;
+)&#13;
+cd ..&#13;
+rmdir "%name%"&#13;
+</file>
+        <url>http://archive.apache.org/dist/ant/binaries/apache-ant-1.9.3-bin.zip</url>
+        <sha1>ae5d0b236ddeb8646db92dd33524e724d4e5d499</sha1>
+        <dependency package="com.oracle.JDK" versions="[1.4, 2)"/>
+    </version>
 
     <version name="2.2.17" package="org.apache.httpd.HTTPServer" type="one-file">
         <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.msi') do set setup=%%x
@@ -26404,6 +26531,20 @@ rmdir "%name%"&#13;
 </file>
         <url>http://downloads.sourceforge.net/project/areca/areca-stable/areca-7.3.7/areca-7.3.7-windows-jre32.zip</url>
         <sha1>666d71c5c3c165911cb0f4ecc6ce8f42d9cf5afc</sha1>
+        <dependency package="com.oracle.JRE" versions="[1.6, 2)"/>
+    </version>
+    <version name="7.4" package="org.areca-backup.ArecaBackup">
+        <important-file path="areca.exe" title="Areca"/>
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b areca*') do set name=%%x&#13;
+cd "%name%"&#13;
+for /f "delims=" %%a in ('dir /b') do (&#13;
+  move "%%a" ..&#13;
+)&#13;
+cd ..&#13;
+rmdir "%name%"&#13;
+</file>
+        <url>http://downloads.sourceforge.net/project/areca/areca-stable/areca-7.4/areca-7.4-windows-jre32.zip</url>
+        <sha1>45198eae847c1fe286dfb73f9a205b8b647754ea</sha1>
         <dependency package="com.oracle.JRE" versions="[1.6, 2)"/>
     </version>
 
@@ -31815,6 +31956,23 @@ for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
         <sha1>d6213601b69a606f4537c394dfa0dd7968b17b93</sha1>
     </version>
 
+    <version name="24.2" package="org.mozilla.FirefoxESR" type="one-file">
+        <file path=".Npackd\Install.bat">echo [Install] &amp;gt; .Npackd\FF.ini&#13;
+&#13;
+echo InstallDirectoryPath=%CD% &amp;gt;&amp;gt; .Npackd\FF.ini&#13;
+&#13;
+echo QuickLaunchShortcut=false &amp;gt;&amp;gt; .Npackd\FF.ini&#13;
+&#13;
+echo DesktopShortcut=false &amp;gt;&amp;gt; .Npackd\FF.ini&#13;
+&#13;
+for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
+&#13;
+"%setup%" /INI="%CD%\.Npackd\FF.ini" &amp;amp;&amp;amp; del /f /q "%setup%"</file>
+        <file path=".Npackd\Uninstall.bat">uninstall\helper.exe /S</file>
+        <url>http://download-origin.cdn.mozilla.net/pub/mozilla.org/firefox/releases/24.2.0esr/win32/en-US/Firefox%20Setup%2024.2.0esr.exe</url>
+        <sha1>8AD7EF63FEC83CFEC736455EB8D4EAEDBC3B8025</sha1>
+    </version>
+
     <version name="1.0" package="org.mozilla.sunbird" type="one-file">
         <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
 "%setup%" -ms /D=%CD%</file>
@@ -35861,6 +36019,34 @@ if %err% neq 0 exit %err%</file>
         <sha1>ea14a0f331f6fb94c735633bc6be1da3db13ed7b</sha1>
     </version>
 
+    <version name="2.23.2.2" package="org.win-builds.binutils-i686-w64-mingw32" type="one-file">
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.txz') do set setup=%%x&#13;
+"%YYPKG%\yypkg" -prefix C:/win-builds-32 -install "%setup%" &gt; .Npackd\Output.txt 2&gt;&amp;1 &amp;&amp; type .Npackd\Output.txt</file>
+        <file path=".Npackd\Uninstall.bat">"%YYPKG%\yypkg" -prefix C:/win-builds-32 -uninstall binutils &gt; .Npackd\Output.txt 2&gt;&amp;1 &amp;&amp; type .Npackd\Output.txt</file>
+        <url>http://win-builds.org/1.3-rc1/packages/windows_32/binutils-2.23.2-2-i686-w64-mingw32-i686-w64-mingw32.txz</url>
+        <sha1>4a943e9222030a2677790c127e3853c54ce158a5</sha1>
+        <dependency package="org.win-builds.yypkg-i686-w64-mingw32" versions="[1.3.1, 2)">
+            <variable>YYPKG</variable>
+        </dependency>
+    </version>
+
+    <version name="1.3.1" package="org.win-builds.yypkg-i686-w64-mingw32">
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b win-builds-*') do set name=%%x&#13;
+cd "%name%"        &#13;
+for /f "delims=" %%a in ('dir /b') do (&#13;
+  move "%%a" ..&#13;
+)&#13;
+cd ..&#13;
+rmdir "%name%"&#13;
+&#13;
+set YYPREFIX=C:/win-builds-32&#13;
+yypkg -init &gt; .Npackd\Output.txt 2&gt;&amp;1 &amp;&amp; type .Npackd\Output.txt&#13;
+yypkg -config -setpreds host="i686-w64-mingw32" &gt; .Npackd\Output.txt 2&gt;&amp;1 &amp;&amp; type .Npackd\Output.txt&#13;
+yypkg -config -setpreds target="i686-w64-mingw32" &gt; .Npackd\Output.txt 2&gt;&amp;1 &amp;&amp; type .Npackd\Output.txt</file>
+        <url>http://win-builds.org/1.3-rc1/win-builds-bundle-1.3-rc1.zip</url>
+        <sha1>beee23c68d62edae640cecc7fc533035d9d9743a</sha1>
+    </version>
+
     <version name="1.4.2" package="org.winff.WinFF" type="one-file">
         <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x
 "%setup%" /SP- /VERYSILENT /SUPPRESSMSGBOXES /NOCANCEL /NORESTART /DIR="%CD%" /SAVEINF="%CD%\.Npackd\InnoSetupInfo.ini" /LOG="%CD%\.Npackd\InnoSetupInstall.log"
@@ -38016,17 +38202,5 @@ rd /s /q "%SYSTEMDRIVE%\xampp"&#13;
         <url>http://downloads.sourceforge.net/project/xampp/XAMPP%20Windows/1.8.2/xampp-win32-1.8.2-0-VC9-installer.exe</url>
         <sha1>035930494b0d0a0349fb2493364e49a347e3a5c7</sha1>
         <dependency package="com.microsoft.VisualCPPRedistributable" versions="[9.0.30729.17, 10)"/>
-    </version>
-
-    <version name="1.3.1" package="yypkg">
-        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b win-builds-*') do set name=%%x&#13;
-cd "%name%"        &#13;
-for /f "delims=" %%a in ('dir /b') do (&#13;
-  move "%%a" ..&#13;
-)&#13;
-cd ..&#13;
-rmdir "%name%"</file>
-        <url>http://win-builds.org/1.3-rc1/win-builds-bundle-1.3-rc1.zip</url>
-        <sha1>beee23c68d62edae640cecc7fc533035d9d9743a</sha1>
     </version>
 </root>
