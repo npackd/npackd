@@ -873,6 +873,18 @@ rmdir "%name%"&#13;
         <url>http://downloads.sourceforge.net/project/boost/boost/1.54.0/boost_1_54_0.zip</url>
         <sha1>88b50519da5f9b272b1560f02745773f51bcf766</sha1>
     </version>
+    <version name="1.55" package="org.boost.Boost">
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b boost*') do set name=%%x&#13;
+cd "%name%"        &#13;
+for /f "delims=" %%a in ('dir /b') do (&#13;
+  move "%%a" ..&#13;
+)&#13;
+cd ..&#13;
+rmdir "%name%"&#13;
+</file>
+        <url>http://downloads.sourceforge.net/project/boost/boost/1.55.0/boost_1_55_0.zip</url>
+        <sha1>1d479557177c49d74001c904979b60cce8cc2d12</sha1>
+    </version>
 
     <version name="1.2.7" package="org.xapian.XapianCore" type="one-file">
         <file path=".Npackd\Install.bat">if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
