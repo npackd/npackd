@@ -277,11 +277,6 @@ verify
         <url>http://windows-package-manager.googlecode.com/files/Npackd32-1.18.6.zip</url>
         <sha1>223843e6a38de156fb7389279313e0f40bc2e08e</sha1>
     </version>
-    <version name="1.18.7" package="com.googlecode.windows-package-manager.Npackd">
-        <important-file path="npackdg.exe" title="Npackd"/>
-        <url>http://windows-package-manager.googlecode.com/files/Npackd32-1.18.7.zip</url>
-        <sha1>26cf80dfbe9f37b2f20160365d98d385563dc8b7</sha1>
-    </version>
 
     <version name="1.17.9" package="com.googlecode.windows-package-manager.Npackd64">
         <important-file path="npackdg.exe" title="Npackd"/>
@@ -302,11 +297,6 @@ verify
         <important-file path="npackdg.exe" title="Npackd"/>
         <url>http://windows-package-manager.googlecode.com/files/Npackd64-1.18.6.zip</url>
         <sha1>34b46874606dc412b6ee925fce7c44fd3bbeb111</sha1>
-    </version>
-    <version name="1.18.7" package="com.googlecode.windows-package-manager.Npackd64">
-        <important-file path="npackdg.exe" title="Npackd"/>
-        <url>http://windows-package-manager.googlecode.com/files/Npackd64-1.18.7.zip</url>
-        <sha1>86a08b48fc8758deabcd577fdab8b3def5e584ce</sha1>
     </version>
 
     <version name="1.15" package="com.googlecode.windows-package-manager.NpackdCL">
@@ -404,23 +394,6 @@ verify&#13;
 </file>
         <url>http://windows-package-manager.googlecode.com/files/NpackdCL-1.18.6.zip</url>
         <sha1>3ea6e960b31fb4d12e120a8f69cfa2f5007ab86d</sha1>
-        <dependency package="com.googlecode.windows-package-manager.CLU" versions="[1, 2)"/>
-    </version>
-    <version name="1.18.7" package="com.googlecode.windows-package-manager.NpackdCL">
-        <file path=".Npackd\Install.bat">if "%npackd_cl%" equ "" set npackd_cl=.&#13;
-set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.CLU" "--versions=[1, 2)"&#13;
-for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set clu=%%x&#13;
-"%clu%\clu" add-path --path "%CD%"&#13;
-verify&#13;
-</file>
-        <file path=".Npackd\Uninstall.bat">if "%npackd_cl%" equ "" set npackd_cl=.&#13;
-set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.CLU" "--versions=[1, 2)"&#13;
-for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set clu=%%x&#13;
-"%clu%\clu" remove-path --path "%CD%"&#13;
-verify&#13;
-</file>
-        <url>http://windows-package-manager.googlecode.com/files/NpackdCL-1.18.7.zip</url>
-        <sha1>a54c15edff699e000d7d2a3bf0ff51725d5266f1</sha1>
         <dependency package="com.googlecode.windows-package-manager.CLU" versions="[1, 2)"/>
     </version>
 
