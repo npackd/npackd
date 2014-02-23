@@ -37,6 +37,10 @@
         <title>Freeware</title>
         <url>http://en.wikipedia.org/wiki/Freeware</url>
     </license>
+    <license name="se.haxx.curl.CURLLicense">
+        <title>cURL license</title>
+        <url>http://curl.haxx.se/legal/licmix.html</url>
+    </license>
     <package name="com.freecommander.FreeCommanderXE">
         <title>FreeCommanderXE</title>
         <url>http://www.freecommander.com</url>
@@ -107,6 +111,14 @@
         <icon>https://lh3.googleusercontent.com/--CLxMMKTezM/UcKfVSv3sVI/AAAAAAAACME/ikiC3gkqfes/s800/python.png</icon>
         <license>org.opensource.BSDLicense</license>
         <category>Development</category>
+    </package>
+    <package name="se.haxx.curl.CURL">
+        <title>cURL</title>
+        <url>http://curl.haxx.se/</url>
+        <description>data transfer utility</description>
+        <icon>http://curl.haxx.se/ds-curlicon.png</icon>
+        <license>se.haxx.curl.CURLLicense</license>
+        <category>Tools</category>
     </package>
 
     <version name="2012.591" package="com.freecommander.FreeCommanderXE">
@@ -445,5 +457,17 @@ if %err% neq 0 exit %err%&#13;
         <url>https://pypi.python.org/packages/2.5/m/multiprocessing/multiprocessing-2.6.2.1.win32-py2.5.exe</url>
         <sha1>ec3a4c402d460b4b4e2eaa84e984839fed081d77</sha1>
         <dependency package="org.python.Python" versions="[2.5.4, 2.5.4]"/>
+    </version>
+
+    <version name="7.35" package="se.haxx.curl.CURL" type="one-file">
+        <file path=".Npackd\Install.bat">set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.NpackdInstallerHelper" "--versions=[1.1, 2)"&#13;
+for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set npackdih=%%x&#13;
+call "%npackdih%\InstallMSI.bat" APPLICATIONFOLDER yes&#13;
+</file>
+        <url>http://www.confusedbycode.com/curl/curl-7.35.0-win32.msi</url>
+        <sha1>afb2d71f5fc42ed59c60119e5be2090b50457f93</sha1>
+        <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.1, 2)"/>
+        <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.15.7, 2)"/>
+        <dependency package="com.microsoft.VisualCPPRedistributable" versions="[11, 12)"/>
     </version>
 </root>
