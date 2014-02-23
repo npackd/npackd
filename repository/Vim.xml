@@ -20,16 +20,16 @@
     <package name="vim-airline">
         <title>Vim plugin Airline</title>
         <url>https://github.com/bling/vim-airline</url>
-        <description>Lean &amp; mean status/tabline
-
+        <description>Lean &amp; mean status/tabline&#13;
+&#13;
 See the pathogen description for how to install.</description>
         <icon>https://lh6.googleusercontent.com/-oPg5OrLBr74/UZ8rV_mHduI/AAAAAAAACE0/twSVwJ4sOTQ/s800/vim.png</icon>
     </package>
     <package name="vim-bufferline">
         <title>Vim plugin Bufferline</title>
         <url>https://github.com/bling/vim-bufferline</url>
-        <description>Super simple vim plugin to show the list of buffers in the command bar.
-
+        <description>Super simple vim plugin to show the list of buffers in the command bar.&#13;
+&#13;
 See the pathogen description for how to install.</description>
         <icon>https://lh6.googleusercontent.com/-oPg5OrLBr74/UZ8rV_mHduI/AAAAAAAACE0/twSVwJ4sOTQ/s800/vim.png</icon>
     </package>
@@ -44,7 +44,7 @@ See the pathogen description for how to install.</description>
     </package>
     <package name="vim-ctrlp">
         <title>Vim plugin CtrlP</title>
-        <url>http://kien.github.com/ctrlp.vim/</url>
+        <url>http://kien.github.io/ctrlp.vim/</url>
         <description>Full path fuzzy file, buffer, mru, tag, ... finder&#13;
 &#13;
 See the pathogen description for how to install.</description>
@@ -378,6 +378,24 @@ verify</file>
         <url>http://www.vim.org/scripts/download_script.php?src_id=16838</url>
         <sha1>ad22da293dc54b729cd18ba3b84b9f39736a97c1</sha1>
     </version>
+    <version name="2" package="vim-easymotion">
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b vim-*') do set name=%%x&#13;
+cd "%name%"        &#13;
+for /f "delims=" %%a in ('dir /b') do (&#13;
+  move "%%a" ..&#13;
+)&#13;
+cd ..&#13;
+rmdir "%name%"&#13;
+if %errorlevel% neq 0 exit /b %errorlevel%&#13;
+&#13;
+mkdir "%ALLUSERSPROFILE%/Npackd/VimPlugins/"&#13;
+mklink /D "%ALLUSERSPROFILE%/Npackd/VimPlugins/%NPACKD_PACKAGE_NAME%" "%CD%"&#13;
+</file>
+        <file path=".Npackd\Uninstall.bat">rmdir "%ALLUSERSPROFILE%/Npackd/VimPlugins/%NPACKD_PACKAGE_NAME%"&#13;
+verify</file>
+        <url>https://codeload.github.com/Lokaltog/vim-easymotion/zip/2.0</url>
+        <sha1>0eb28e772c7f984b880244e3b860eae87f4f8573</sha1>
+    </version>
 
     <version name="4.2.2" package="vim-fuzzyfinder">
         <file path=".Npackd\Install.bat">mkdir "%ALLUSERSPROFILE%/Npackd/VimPlugins/"&#13;
@@ -596,6 +614,24 @@ verify
         <url>https://codeload.github.com/scrooloose/syntastic/zip/3.2.0</url>
         <sha1>d110ae1a307f5808bbd914276238bb47f2838449</sha1>
     </version>
+    <version name="3.3" package="vim-syntastic">
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b syntastic*') do set name=%%x&#13;
+cd "%name%"        &#13;
+for /f "delims=" %%a in ('dir /b') do (&#13;
+  move "%%a" ..&#13;
+)&#13;
+cd ..&#13;
+rmdir "%name%"            &#13;
+&#13;
+mkdir "%ALLUSERSPROFILE%/Npackd/VimPlugins/"&#13;
+mklink /D "%ALLUSERSPROFILE%/Npackd/VimPlugins/%NPACKD_PACKAGE_NAME%" "%CD%"&#13;
+</file>
+        <file path=".Npackd\Uninstall.bat">rmdir "%ALLUSERSPROFILE%/Npackd/VimPlugins/%NPACKD_PACKAGE_NAME%"&#13;
+verify&#13;
+</file>
+        <url>https://codeload.github.com/scrooloose/syntastic/zip/3.3.0</url>
+        <sha1>59c0621b8a6712b25f4251da36d31a607861c930</sha1>
+    </version>
 
     <version name="2.5" package="vim-tagbar">
         <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b majutsushi-tagbar*') do set name=%%x&#13;
@@ -635,6 +671,25 @@ verify</file>
         <sha1>4299676469f7a215121435cf568c5c9f3effb862</sha1>
         <dependency package="net.sourceforge.ExuberantCtags" versions="[5.8, 6)"/>
     </version>
+    <version name="2.6.1" package="vim-tagbar">
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b majutsushi-tagbar*') do set name=%%x&#13;
+cd "%name%"        &#13;
+for /f "delims=" %%a in ('dir /b') do (&#13;
+  move "%%a" ..&#13;
+)&#13;
+cd ..&#13;
+rmdir "%name%"&#13;
+if %errorlevel% neq 0 exit /b %errorlevel%&#13;
+&#13;
+mkdir "%ALLUSERSPROFILE%/Npackd/VimPlugins/"&#13;
+mklink /D "%ALLUSERSPROFILE%/Npackd/VimPlugins/%NPACKD_PACKAGE_NAME%" "%CD%"&#13;
+</file>
+        <file path=".Npackd\Uninstall.bat">rmdir "%ALLUSERSPROFILE%/Npackd/VimPlugins/%NPACKD_PACKAGE_NAME%"&#13;
+verify</file>
+        <url>http://github.com/majutsushi/tagbar/zipball/v2.6.1</url>
+        <sha1>f5f5bf29dd0889d91ed50fadddfd8badf1e65242</sha1>
+        <dependency package="net.sourceforge.ExuberantCtags" versions="[5.8, 6)"/>
+    </version>
 
     <version name="5" package="vim-unite">
         <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b unite.vim*') do set name=%%x&#13;
@@ -653,6 +708,25 @@ mklink /D "%ALLUSERSPROFILE%/Npackd/VimPlugins/%NPACKD_PACKAGE_NAME%" "%CD%"&#13
 verify</file>
         <url>https://codeload.github.com/Shougo/unite.vim/zip/ver.5.0</url>
         <sha1>559889d7a24fe9f2707e429f09fa410c593b45b6</sha1>
+        <dependency package="net.sourceforge.ExuberantCtags" versions="[5.8, 6)"/>
+    </version>
+    <version name="5.1" package="vim-unite">
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b unite.vim*') do set name=%%x&#13;
+cd "%name%"        &#13;
+for /f "delims=" %%a in ('dir /b') do (&#13;
+  move "%%a" ..&#13;
+)&#13;
+cd ..&#13;
+rmdir "%name%"&#13;
+if %errorlevel% neq 0 exit /b %errorlevel%&#13;
+&#13;
+mkdir "%ALLUSERSPROFILE%/Npackd/VimPlugins/"&#13;
+mklink /D "%ALLUSERSPROFILE%/Npackd/VimPlugins/%NPACKD_PACKAGE_NAME%" "%CD%"&#13;
+</file>
+        <file path=".Npackd\Uninstall.bat">rmdir "%ALLUSERSPROFILE%/Npackd/VimPlugins/%NPACKD_PACKAGE_NAME%"&#13;
+verify</file>
+        <url>https://codeload.github.com/Shougo/unite.vim/zip/ver.5.1</url>
+        <sha1>aee0b5188d4226bd2df591197e5471e58978331c</sha1>
         <dependency package="net.sourceforge.ExuberantCtags" versions="[5.8, 6)"/>
     </version>
 
