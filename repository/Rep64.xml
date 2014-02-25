@@ -530,6 +530,7 @@ Dr. Mingw can read debugging information in DWARF and Stabs formats — generate
 Windows XP or later is required. It relies upon the DbgHelp library to resolve symbols in modules compiled by the Microsoft tools.</description>
         <icon>https://lh3.googleusercontent.com/-UVGlwhCgQPA/Uf0356i6EDI/AAAAAAAABHI/kSrIVdpL-lo/s32/drmingw.png</icon>
         <license>org.gnu.GPLv2</license>
+        <category>Development</category>
     </package>
     <package name="far-manager64">
         <title>FAR Manager 64 bit</title>
@@ -1906,23 +1907,13 @@ if %err% neq 0 exit %err%&#13;
         <sha1>28421911f9e65078ea53008629bb4915df672893</sha1>
     </version>
     <version name="1.19" package="com.calibreebook.Calibre64" type="one-file">
-        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.msi') do set setup=%%x&#13;
-msiexec.exe /qn /norestart /lime .Npackd\MSI.log /i "%setup%" TARGETDIR="%CD%" ALLUSERS=1&#13;
-set err=%errorlevel%&#13;
-type .Npackd\MSI.log&#13;
-rem 3010=restart required&#13;
-if %err% equ 3010 exit 0&#13;
-if %err% neq 0 exit %err%</file>
-        <file path=".Npackd\Uninstall.bat">for /f "delims=" %%x in ('dir /b *.msi') do set setup=%%x&#13;
-msiexec.exe /qn /norestart /lime .Npackd\MSI.log /x "%setup%"&#13;
-set err=%errorlevel%&#13;
-type .Npackd\MSI.log&#13;
-rem 3010=restart required&#13;
-if %err% equ 3010 exit 0&#13;
-if %err% neq 0 exit %err%&#13;
+        <file path=".Npackd\Install.bat">set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.NpackdInstallerHelper" "--versions=[1.1, 2)"&#13;
+for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set npackdih=%%x&#13;
+call "%npackdih%\InstallMSI.bat" APPLICATIONFOLDER yes&#13;
 </file>
         <url>http://download.calibre-ebook.com/1.19.0/calibre-64bit-1.19.0.msi</url>
         <sha1>9103cad758b9ee3ec6b8424a5203f27cea408603</sha1>
+        <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.2, 2)"/>
     </version>
 
     <version name="5.12.256249.2599" package="com.comodo.comodoav64" type="one-file">
@@ -2778,24 +2769,13 @@ if %err% neq 0 exit /b %err%
     </version>
 
     <version name="6.0.3883.8" package="com.microsoft.MSXML64" type="one-file">
-        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.msi') do set setup=%%x
-msiexec.exe /qn /norestart /Lime .Npackd\MSI.log /i "%setup%" TARGETDIR="%CD%" ALLUSERS=1
-set err=%errorlevel%
-type .Npackd\MSI.log
-rem 3010=restart required
-if %err% equ 3010 exit /b 0
-if %err% neq 0 exit /b %err%
-</file>
-        <file path=".Npackd\Uninstall.bat">for /f "delims=" %%x in ('dir /b *.msi') do set setup=%%x
-msiexec.exe /qn /norestart /Lime .Npackd\MSI.log /x "%setup%"
-set err=%errorlevel%
-type .Npackd\MSI.log
-rem 3010=restart required
-if %err% equ 3010 exit /b 0
-if %err% neq 0 exit /b %err%
+        <file path=".Npackd\Install.bat">set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.NpackdInstallerHelper" "--versions=[1.1, 2)"&#13;
+for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set npackdih=%%x&#13;
+call "%npackdih%\InstallMSI.bat" TARGETDIR yes&#13;
 </file>
         <url>http://download.microsoft.com/download/2/e/0/2e01308a-e17f-4bf9-bf48-161356cf9c81/msxml6_x64.msi</url>
         <sha1>1EB84EEAE7729EA5DB7FE79779F4E216114261BA</sha1>
+        <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.1, 2)"/>
     </version>
 
     <version name="4.3.216" package="com.microsoft.SecurityEssentials64" type="one-file">
@@ -3597,26 +3577,15 @@ verify</file>
 set err=%errorlevel%&#13;
 type .Npackd\MSI.log&#13;
 if %err% neq 0 exit /b %err%&#13;
-&#13;
-set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.CLU" "--versions=[1, 2)"&#13;
-for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set clu=%%x&#13;
-"%clu%\clu" remove-path --path "%CD%\bin"&#13;
-verify&#13;
 </file>
         <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
 "%setup%" /s /v"/qn /Lime .Npackd\MSI.log /norestart REBOOT=Suppress ALLUSERS=1 ADDLOCAL="""ToolsFeature,SourceFeature""" INSTALLDIR="""%CD%""" " &amp;&amp; del /f /q "%setup%"&#13;
 set err=%errorlevel%&#13;
 type .Npackd\MSI.log&#13;
 if %err% neq 0 exit /b %err%&#13;
-&#13;
-set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.CLU" "--versions=[1, 2)"&#13;
-for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set clu=%%x&#13;
-"%clu%\clu" add-path --path "%CD%\bin"&#13;
-verify</file>
+</file>
         <url>http://downloads.sourceforge.net/project/npackd/com.oracle.JDK64-1.7.0.51.exe</url>
         <sha1>f74df2b577c8959a310d2625689533407831b91a</sha1>
-        <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.15.7, 2)"/>
-        <dependency package="com.googlecode.windows-package-manager.CLU" versions="[1, 2)"/>
         <detect-msi>{64A3A4F4-B792-11D6-A78A-00B0D0170510}</detect-msi>
     </version>
 
@@ -4508,27 +4477,15 @@ verify&#13;
 set err=%errorlevel%&#13;
 type .Npackd\InnoSetupUninstall.log&#13;
 if %err% neq 0 exit %err%&#13;
-&#13;
-set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.CLU" "--versions=[1, 2)"&#13;
-for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set clu=%%x&#13;
-"%clu%\clu" remove-path --path "%CD%"&#13;
-verify&#13;
 </file>
         <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
 "%setup%" /SP- /VERYSILENT /SUPPRESSMSGBOXES /NOCANCEL /NORESTART /DIR="%CD%" /SAVEINF="%CD%\.Npackd\InnoSetupInfo.ini" /LOG="%CD%\.Npackd\InnoSetupInstall.log"&#13;
 set err=%errorlevel%&#13;
 type .Npackd\InnoSetupInstall.log&#13;
 if %err% neq 0 exit %err%&#13;
-&#13;
-set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.CLU" "--versions=[1, 2)"&#13;
-for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set clu=%%x&#13;
-"%clu%\clu" add-path --path "%CD%"&#13;
-verify&#13;
 </file>
         <url>http://mercurial.selenic.com/release/windows/Mercurial-2.9-x64.exe</url>
         <sha1>01efe6af50409707dbfb8c5c5577a522bbb62543</sha1>
-        <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.15.7, 2)"/>
-        <dependency package="com.googlecode.windows-package-manager.CLU" versions="[1, 2)"/>
     </version>
 
     <version name="4.51" package="com.softwareok.QDir64">
@@ -5835,7 +5792,7 @@ if %err% neq 0 exit %err%</file>
         <url>http://downloads.sourceforge.net/project/eraser/Eraser%206/6.0.10/Eraser%206.0.10.2620.exe</url>
         <sha1>f6c4003ef93bd226a37ef9a86dae4aa21cdbc8d7</sha1>
         <dependency package="org.7-zip.SevenZIPA" versions="[9.20, 9.20]"/>
-        <dependency package="com.microsoft.DotNetRedistributable" versions="[3.5.30729.1, 3.5.30729.1]"/>
+        <dependency package="com.microsoft.DotNetRedistributable" versions="[3.5, 4)"/>
     </version>
 
     <version name="6.8.7.8" package="imagemagick64" type="one-file">
@@ -6108,20 +6065,9 @@ copy %name%\full\*.* .&#13;
 rmdir /s /q %name%&#13;
 if %errorlevel% neq 0 exit /b %errorlevel%&#13;
 &#13;
-set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.CLU" "--versions=[1, 2)"&#13;
-for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set clu=%%x&#13;
-"%clu%\clu" add-path --path "%CD%"&#13;
-verify&#13;
-</file>
-        <file path=".Npackd\Uninstall.bat">set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.CLU" "--versions=[1, 2)"&#13;
-for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set clu=%%x&#13;
-"%clu%\clu" remove-path --path "%CD%"&#13;
-verify&#13;
 </file>
         <url>http://downloads.sourceforge.net/project/blat/Blat%20Full%20Version/64%20bit%20versions/blat311_64.full.zip</url>
         <sha1>d801876f733d486faa6826c84748ca79376921aa</sha1>
-        <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.15.7, 2)"/>
-        <dependency package="com.googlecode.windows-package-manager.CLU" versions="[1, 2)"/>
     </version>
 
     <version name="3.5.10" package="net.getpaint.paintdotnet64" type="one-file">
@@ -6144,23 +6090,14 @@ if %err% neq 0 exit %err%</file>
         <dependency package="com.microsoft.DotNetRedistributable" versions="[3.5, 4)"/>
     </version>
     <version name="3.5.11" package="net.getpaint.paintdotnet64" type="one-file">
-        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.msi') do set setup=%%x&#13;
-msiexec /qn /norestart /lime .Npackd\MSI.log /i "%setup%" TARGETDIR="%CD%" ALLUSERS=1&#13;
-set err=%errorlevel%&#13;
-type .Npackd\MSI.log&#13;
-rem 3010=restart required&#13;
-if %err% equ 3010 exit 0&#13;
-if %err% neq 0 exit %err%</file>
-        <file path=".Npackd\Uninstall.bat">for /f "delims=" %%x in ('dir /b *.msi') do set setup=%%x&#13;
-msiexec /qn /norestart /lime .Npackd\MSI.log /x "%setup%"&#13;
-set err=%errorlevel%&#13;
-type .Npackd\MSI.log&#13;
-rem 3010=restart required&#13;
-if %err% equ 3010 exit 0&#13;
-if %err% neq 0 exit %err%</file>
+        <file path=".Npackd\Install.bat">set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.NpackdInstallerHelper" "--versions=[1.1, 2)"&#13;
+for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set npackdih=%%x&#13;
+call "%npackdih%\InstallMSI.bat" TARGETDIR yes&#13;
+</file>
         <url>https://dl.dropboxusercontent.com/u/176999101/net.getpaint.paintdotnet64-3.5.11.msi</url>
         <sha1>cb2328646b2f1409c4f57d8edf8aac35c42053cf</sha1>
         <dependency package="com.microsoft.DotNetRedistributable" versions="[3.5, 4)"/>
+        <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.1, 2)"/>
     </version>
 
     <version name="11.529" package="net.maxon.cinebench.Cinebench64">
@@ -6610,14 +6547,7 @@ verify&#13;
         <dependency package="com.googlecode.windows-package-manager.CLU" versions="[1, 2)"/>
     </version>
     <version name="4.8" package="net.sourceforge.mingw-w64.MinGWW6464" type="one-file">
-        <file path=".Npackd\Uninstall.bat">if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1&#13;
-set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.CLU" "--versions=[1, 2)"&#13;
-for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set clu=%%x&#13;
-"%clu%\clu" remove-path --path "%CD%\bin"&#13;
-verify&#13;
-</file>
-        <file path=".Npackd\Install.bat">if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1&#13;
-set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=org.7-zip.SevenZIPA" "--versions=[9.20, 9.20]"&#13;
+        <file path=".Npackd\Install.bat">set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=org.7-zip.SevenZIPA" "--versions=[9.20, 9.20]"&#13;
 for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set sevenzipa=%%x&#13;
 for /f %%x in ('dir /b *.7z') do set setup=%%x&#13;
 "%sevenzipa%\7za.exe" x "%setup%" &gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
@@ -6642,18 +6572,11 @@ for /f "delims=" %%a in ('dir /b i686-w64-mingw32-*.exe') do (&#13;
 )&#13;
 endlocal&#13;
 cd ..&#13;
-&#13;
-if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1&#13;
-set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.CLU" "--versions=[1, 2)"&#13;
-for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set clu=%%x&#13;
-"%clu%\clu" add-path --path "%CD%\bin"&#13;
-verify&#13;
 </file>
         <url>http://downloads.sourceforge.net/project/mingw-w64/Toolchains%20targetting%20Win32/Personal%20Builds/rubenvb/gcc-4.8-release/i686-w64-mingw32-gcc-4.8.0-win64_rubenvb.7z</url>
         <sha1>02f07b855419d9e6b9c692ce7cbf9247d6423650</sha1>
         <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.15.7, 2)"/>
         <dependency package="org.7-zip.SevenZIPA" versions="[9.20, 9.20]"/>
-        <dependency package="com.googlecode.windows-package-manager.CLU" versions="[1, 2)"/>
     </version>
 
     <version name="1.5.0.2827" package="net.sourceforge.mpc-hc.MediaPlayerClassicHomeCinema64">
@@ -7227,20 +7150,8 @@ if %err% neq 0 exit /b %err%&#13;
     </version>
 
     <version name="2.75" package="nircmd64">
-        <file path=".Npackd\Install.bat">set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.CLU" "--versions=[1, 2)"&#13;
-for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set clu=%%x&#13;
-"%clu%\clu" add-path --path "%CD%"&#13;
-verify&#13;
-</file>
-        <file path=".Npackd\Uninstall.bat">set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.CLU" "--versions=[1, 2)"&#13;
-for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set clu=%%x&#13;
-"%clu%\clu" remove-path --path "%CD%"&#13;
-verify&#13;
-</file>
         <url>https://dl.dropboxusercontent.com/u/176999101/nircmd64-2.75.zip</url>
         <sha1>91cae2743d2db1a7eb4d894938d4587893b36b57</sha1>
-        <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.15.7, 2)"/>
-        <dependency package="com.googlecode.windows-package-manager.CLU" versions="[1, 2)"/>
     </version>
 
     <version name="1" package="npackd-gae-gc-rep-transfer">
@@ -7312,32 +7223,24 @@ reg add HKLM\SOFTWARE\OpenVPN-GUI /v allow_service /t REG_SZ /d 0 /f&#13;
     </version>
 
     <version name="9.20" package="org.7-zip.SevenZIP64" type="one-file">
-        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.msi') do set setup=%%x&#13;
-copy "%setup%" .Npackd&#13;
-msiexec.exe /qn /norestart /Lime .Npackd\MSI.log /i "%setup%" INSTALLDIR="%CD%" ALLUSERS=1&#13;
-set err=%errorlevel%&#13;
-type .Npackd\MSI.log&#13;
-rem 3010=restart required&#13;
-if %err% equ 3010 exit /b 0&#13;
-if %err% neq 0 exit /b %err%&#13;
+        <file path=".Npackd\Install.bat">set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.NpackdInstallerHelper" "--versions=[1.1, 2)"&#13;
+for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set npackdih=%%x&#13;
+call "%npackdih%\InstallMSI.bat" INSTALLDIR&#13;
+if %errorlevel% neq 0 exit %errorlevel%&#13;
 &#13;
-set key=org.7-zip.SevenZIP64-9.20&#13;
-reg add HKLM\SOFTWARE\Classes\Applications\%KEY%\shell\open /v FriendlyAppName /d "7-Zip File Manager (7-ZIP/64 bit 9.20)" /f&#13;
+set key=org.7-zip.SevenZIP64-%NPACKD_PACKAGE_VERSION%&#13;
+reg add HKLM\SOFTWARE\Classes\Applications\%KEY%\shell\open /v FriendlyAppName /d "7-Zip File Manager (7-ZIP/64 bit %NPACKD_PACKAGE_VERSION%)" /f&#13;
 set c=\"%CD%\7zFM.exe\" \"%%1\"&#13;
 reg add HKLM\SOFTWARE\Classes\Applications\%KEY%\shell\open\command /d "%c%" /f&#13;
 for %%g in (001 7z arj bz2 bzip2 cab cpio deb dmg egg fat gz gzip hfs iso lha lzh lzma ntfs rar rpm squashfs swm tar taz tbz tbz2 tgz tpz txz vhd wim xar xz z zip) do reg add HKLM\SOFTWARE\Classes\.%%g\OpenWithList\%key% /f&#13;
 &#13;
 </file>
-        <file path=".Npackd\Uninstall.bat">copy .Npackd\*.msi .&#13;
-for /f "delims=" %%x in ('dir /b *.msi') do set setup=%%x&#13;
-msiexec.exe /qn /norestart /Lime .Npackd\MSI.log /x "%setup%"&#13;
-set err=%errorlevel%&#13;
-type .Npackd\MSI.log&#13;
-rem 3010=restart required&#13;
-if %err% equ 3010 exit /b 0&#13;
-if %err% neq 0 exit /b %err%&#13;
+        <file path=".Npackd\Uninstall.bat">set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.NpackdInstallerHelper" "--versions=[1.1, 2)"&#13;
+for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set npackdih=%%x&#13;
+call "%npackdih%\UninstallMSI.bat" INSTALLDIR&#13;
+if %errorlevel% neq 0 exit %errorlevel%&#13;
 &#13;
-set key=org.7-zip.SevenZIP64-9.20&#13;
+set key=org.7-zip.SevenZIP64-%NPACKD_PACKAGE_VERSION%&#13;
 reg delete HKLM\SOFTWARE\Classes\Applications\%KEY% /f&#13;
 for %%g in (001 7z arj bz2 bzip2 cab cpio deb dmg egg fat gz gzip hfs iso lha lzh lzma ntfs rar rpm squashfs swm tar taz tbz tbz2 tgz tpz txz vhd wim xar xz z zip) do reg delete HKLM\SOFTWARE\Classes\.%%g\OpenWithList\%key% /f&#13;
 &#13;
@@ -7349,7 +7252,7 @@ echo clear the error code&#13;
         <url>http://downloads.sourceforge.net/project/sevenzip/7-Zip/9.20/7z920-x64.msi</url>
         <sha1>4173FEA2AF9A595FA0BE1EF8251F412229687BE1</sha1>
         <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.15.7, 2)"/>
-        <dependency package="com.googlecode.windows-package-manager.CLU" versions="[1, 2)"/>
+        <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.1, 2)"/>
         <detect-msi>{23170f69-40c1-2702-0920-000001000000}</detect-msi>
     </version>
 
@@ -7835,10 +7738,6 @@ rem 3010=restart required&#13;
 if %err% equ 3010 exit /b 0&#13;
 if %err% neq 0 exit /b %err%&#13;
 &#13;
-set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.CLU" "--versions=[1, 2)"&#13;
-for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set clu=%%x&#13;
-"%clu%\clu" remove-path --path "%CD%\bin"&#13;
-verify&#13;
 </file>
         <file path=".Npackd\Uninstall.bat">copy .Npackd\*.msi .&#13;
 for /f "delims=" %%x in ('dir /b *.msi') do set setup=%%x&#13;
@@ -7849,15 +7748,9 @@ rem 3010=restart required&#13;
 if %err% equ 3010 exit /b 0&#13;
 if %err% neq 0 exit /b %err%&#13;
 &#13;
-set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.CLU" "--versions=[1, 2)"&#13;
-for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set clu=%%x&#13;
-"%clu%\clu" remove-path --path "%CD%\bin"&#13;
-verify&#13;
 </file>
         <url>http://www.sliksvn.com/pub/Slik-Subversion-1.8.5-1-x64.msi</url>
         <sha1>1198c92b549208b4a381c714e27fb60ca0755b83</sha1>
-        <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.15.7, 2)"/>
-        <dependency package="com.googlecode.windows-package-manager.CLU" versions="[1, 2)"/>
     </version>
 
     <version name="7.0.12" package="org.apache.tomcat.Tomcat64">
@@ -9637,23 +9530,9 @@ Set view = Nothing&#13;
     </version>
 
     <version name="2.22.1" package="org.gtk.GTKPlusBundle64">
-        <file path=".Npackd\Install.bat">if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1&#13;
-set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.CLU" "--versions=[1, 2)"&#13;
-for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set clu=%%x&#13;
-"%clu%\clu" add-path --path "%CD%\bin"&#13;
-verify&#13;
-</file>
-        <file path=".Npackd\Uninstall.bat">if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1&#13;
-set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.CLU" "--versions=[1, 2)"&#13;
-for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set clu=%%x&#13;
-"%clu%\clu" remove-path --path "%CD%\bin"&#13;
-verify&#13;
-</file>
         <file path="etc\gtk-2.0\gtkrc">gtk-theme-name = "MS-Windows"</file>
         <url>http://ftp.gnome.org/pub/gnome/binaries/win64/gtk+/2.22/gtk+-bundle_2.22.1-20101229_win64.zip</url>
         <sha1>CBB44740C8B7508E355463CD000B5D4C42962C77</sha1>
-        <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.15.7, 2)"/>
-        <dependency package="com.googlecode.windows-package-manager.CLU" versions="[1, 2)"/>
     </version>
 
     <version name="0.53" package="org.infrarecorder.InfraRecorder64" type="one-file">
@@ -9863,26 +9742,12 @@ verify&#13;
         <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
 "%setup%" --common-install="%CD%" --shared --unattended&#13;
 if %errorlevel% neq 0 exit /b %errorlevel%&#13;
-&#13;
-if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1&#13;
-set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.CLU" "--versions=[1, 2)"&#13;
-for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set clu=%%x&#13;
-"%clu%\clu" add-path --path "%CD%\miktex\bin\x64"&#13;
-verify&#13;
 </file>
         <file path=".Npackd\Unnstall.bat">miktex\bin\internal\copystart_admin.exe "%CD%\miktex/bin/internal\uninstall_admin.exe"&#13;
 if %errorlevel% neq 0 exit /b %errorlevel%&#13;
-&#13;
-if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1&#13;
-set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.CLU" "--versions=[1, 2)"&#13;
-for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set clu=%%x&#13;
-"%clu%\clu" remove-path --path "%CD%\miktex\bin\x64"&#13;
-verify&#13;
 </file>
         <url>http://downloads.sourceforge.net/project/npackd/org.miktex.MiKTeX64-2.9.5105.exe</url>
         <sha1>d3e4736a134914cf35fcba1b925c12e2120368ac</sha1>
-        <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.15.7, 2)"/>
-        <dependency package="com.googlecode.windows-package-manager.CLU" versions="[1, 2)"/>
     </version>
 
     <version name="0.9.19" package="org.miranda-im.MirandaIM64" type="one-file">
@@ -11061,40 +10926,13 @@ verify&#13;
         <dependency package="com.googlecode.windows-package-manager.CLU" versions="[1, 2)"/>
     </version>
     <version name="3.3.4" package="org.python.Python64" type="one-file">
-        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.msi') do set setup=%%x&#13;
-copy "%setup%" .Npackd&#13;
-msiexec.exe /qn /norestart /Lime .Npackd\MSI.log /i "%setup%" TARGETDIR="%CD%" ALLUSERS=1&#13;
-set err=%errorlevel%&#13;
-type .Npackd\MSI.log&#13;
-rem 3010=restart required&#13;
-if %err% equ 3010 exit /b 0&#13;
-if %err% neq 0 exit /b %err%&#13;
-&#13;
-if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1&#13;
-set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.CLU" "--versions=[1, 2)"&#13;
-for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set clu=%%x&#13;
-"%clu%\clu" add-path --path "%CD%"&#13;
-verify&#13;
-</file>
-        <file path=".Npackd\Uninstall.bat">move .Npackd\*.msi .&#13;
-for /f "delims=" %%x in ('dir /b *.msi') do set setup=%%x&#13;
-msiexec.exe /qn /norestart /Lime .Npackd\MSI.log /x "%setup%"&#13;
-set err=%errorlevel%&#13;
-type .Npackd\MSI.log&#13;
-rem 3010=restart required&#13;
-if %err% equ 3010 exit /b 0&#13;
-if %err% neq 0 exit /b %err%&#13;
-&#13;
-if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1&#13;
-set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.CLU" "--versions=[1, 2)"&#13;
-for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set clu=%%x&#13;
-"%clu%\clu" remove-path --path "%CD%"&#13;
-verify&#13;
+        <file path=".Npackd\Install.bat">set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.NpackdInstallerHelper" "--versions=[1.1, 2)"&#13;
+for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set npackdih=%%x&#13;
+call "%npackdih%\InstallMSI.bat" TARGETDIR yes&#13;
 </file>
         <url>http://www.python.org/ftp/python/3.3.4/python-3.3.4.amd64.msi</url>
         <sha1>c6cfe6f55e24ba7a0b0cb9b8ec9f96e746e29e6f</sha1>
-        <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.15.7, 2)"/>
-        <dependency package="com.googlecode.windows-package-manager.CLU" versions="[1, 2)"/>
+        <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.1, 2)"/>
     </version>
 
     <version name="2" package="org.rubylang.Ruby64" type="one-file">
@@ -11755,24 +11593,16 @@ if %err% neq 0 exit %err%</file>
     </version>
 
     <version name="2.2.2" package="pdfsam64" type="one-file">
-        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.msi') do set setup=%%x&#13;
-msiexec.exe /qn /norestart /lime .Npackd\MSI.log /i "%setup%" TARGETDIR="%CD%" ALLUSERS=1&#13;
-set err=%errorlevel%&#13;
-type .Npackd\MSI.log&#13;
-rem 3010=restart required&#13;
-if %err% equ 3010 exit 0&#13;
-if %err% neq 0 exit %err%&#13;
+        <file path=".Npackd\Install.bat">set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.NpackdInstallerHelper" "--versions=[1.1, 2)"&#13;
+for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set npackdih=%%x&#13;
+&#13;
+rem un-installation tries to remove .Npackd and fails =&gt; 2 to install the program somewhere else&#13;
+call "%npackdih%\InstallMSI.bat" APPLICATIONFOLDER2 yes&#13;
 </file>
-        <file path=".Npackd\Uninstall.bat">for /f "delims=" %%x in ('dir /b *.msi') do set setup=%%x&#13;
-msiexec.exe /qn /norestart /lime .Npackd\MSI.log /x "%setup%"&#13;
-set err=%errorlevel%&#13;
-type .Npackd\MSI.log&#13;
-rem 3010=restart required&#13;
-if %err% equ 3010 exit 0&#13;
-if %err% neq 0 exit %err%</file>
         <url>http://downloads.sourceforge.net/project/pdfsam/pdfsam/2.2.2/pdfsam-x64-v2_2_2.msi</url>
         <sha1>1b4d703deee0b0689bb814e881b939603d7d1490</sha1>
         <dependency package="com.oracle.JRE64" versions="[1.6.0.23, 2)"/>
+        <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.1, 2)"/>
     </version>
 
     <version name="0.8" package="Primeminer">
