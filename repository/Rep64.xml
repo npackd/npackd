@@ -2187,26 +2187,13 @@ if %err% neq 0 exit /b %err%&#13;
         <sha1>deebb476d4275acba829c13a804faea18c9cd175</sha1>
     </version>
     <version name="1.8.5" package="com.googlecode.stexbar.StExBar64" type="one-file">
-        <file path=".Npackd\Install.bat">for /f %%x in ('dir /b *.msi') do set setup=%%x&#13;
-copy "%setup%" .Npackd        &#13;
-msiexec.exe /qn /norestart /Lime .Npackd\MSI.log /i "%setup%" TARGETDIR="%CD%" ALLUSERS=1&#13;
-set err=%errorlevel%&#13;
-type .Npackd\MSI.log&#13;
-rem 3010=restart required&#13;
-if %err% equ 3010 exit /b 0&#13;
-if %err% neq 0 exit /b %err%&#13;
-</file>
-        <file path=".Npackd\Uninstall.bat">copy .Npackd\*.msi .&#13;
-for /f %%x in ('dir /b *.msi') do set setup=%%x&#13;
-msiexec.exe /qn /norestart /Lime .Npackd\MSI.log /x "%setup%"&#13;
-set err=%errorlevel%&#13;
-type .Npackd\MSI.log&#13;
-rem 3010=restart required&#13;
-if %err% equ 3010 exit /b 0&#13;
-if %err% neq 0 exit /b %err%&#13;
+        <file path=".Npackd\Install.bat">set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.NpackdInstallerHelper" "--versions=[1.1, 2)"&#13;
+for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set npackdih=%%x&#13;
+call "%npackdih%\InstallMSI.bat" TARGETDIR yes&#13;
 </file>
         <url>http://downloads.sourceforge.net/project/stefanstools/StExBar/StExBar64-1.8.5.msi</url>
         <sha1>dfede1d0daef72fcdac8e10a3a019718a38cea66</sha1>
+        <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.1, 2)"/>
     </version>
 
     <version name="1.6.5" package="com.googlecode.tortoisegit.TortoiseGit64" type="one-file">
@@ -2601,27 +2588,14 @@ if %err% neq 0 exit /b %err%&#13;
         <dependency package="com.googlecode.msysgit.MSysGit" versions="[1.7.6.2011.7.8, 1.8)"/>
     </version>
     <version name="1.8.7" package="com.googlecode.tortoisegit.TortoiseGit64" type="one-file">
-        <file path=".Npackd\Install.bat">for /f %%x in ('dir /b *.msi') do set setup=%%x&#13;
-copy "%setup%" .Npackd&#13;
-msiexec.exe /qn /norestart /Lime .Npackd\MSI.log /i "%setup%" INSTALLDIR="%CD%" ALLUSERS=1&#13;
-set err=%errorlevel%&#13;
-type .Npackd\MSI.log&#13;
-rem 3010=restart required&#13;
-if %err% equ 3010 exit /b 0&#13;
-if %err% neq 0 exit /b %err%&#13;
-</file>
-        <file path=".Npackd\Uninstall.bat">move .Npackd\*.msi .&#13;
-for /f %%x in ('dir /b *.msi') do set setup=%%x&#13;
-msiexec.exe /qn /norestart /Lime .Npackd\MSI.log /x "%setup%"&#13;
-set err=%errorlevel%&#13;
-type .Npackd\MSI.log&#13;
-rem 3010=restart required&#13;
-if %err% equ 3010 exit /b 0&#13;
-if %err% neq 0 exit /b %err%&#13;
+        <file path=".Npackd\Install.bat">set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.NpackdInstallerHelper" "--versions=[1.1, 2)"&#13;
+for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set npackdih=%%x&#13;
+call "%npackdih%\InstallMSI.bat" INSTALLDIR yes&#13;
 </file>
         <url>http://download.tortoisegit.org/tgit/1.8.7.0/TortoiseGit-1.8.7.0-64bit.msi</url>
         <sha1>c67204ed68a72b9c1e7717fd01eba429347c4711</sha1>
         <dependency package="com.googlecode.msysgit.MSysGit" versions="[1.7.6.2011.7.8, 1.8)"/>
+        <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3.1, 2)"/>
     </version>
 
     <version name="3.47.21" package="com.httrack.HTTrack64" type="one-file">
@@ -4876,22 +4850,13 @@ if %err% neq 0 exit %err%</file>
         <sha1>590274e73638aa63e8e9e7b6a4241e2b0b53f688</sha1>
     </version>
     <version name="5.18.2.1" package="com.strawberryperl.StrawberryPerl64" type="one-file">
-        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.msi') do set setup=%%x&#13;
-msiexec.exe /qn /norestart /lime .Npackd\MSI.log /i "%setup%" INSTALLDIR="%CD%" ALLUSERS=1&#13;
-set err=%errorlevel%&#13;
-type .Npackd\MSI.log&#13;
-rem 3010=restart required&#13;
-if %err% equ 3010 exit 0&#13;
-if %err% neq 0 exit %err%</file>
-        <file path=".Npackd\Uninstall.bat">for /f "delims=" %%x in ('dir /b *.msi') do set setup=%%x&#13;
-msiexec.exe /qn /norestart /lime .Npackd\MSI.log /x "%setup%"&#13;
-set err=%errorlevel%&#13;
-type .Npackd\MSI.log&#13;
-rem 3010=restart required&#13;
-if %err% equ 3010 exit 0&#13;
-if %err% neq 0 exit %err%</file>
+        <file path=".Npackd\Install.bat">set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.NpackdInstallerHelper" "--versions=[1.1, 2)"&#13;
+for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set npackdih=%%x&#13;
+call "%npackdih%\InstallMSI.bat" INSTALLDIR yes&#13;
+</file>
         <url>http://strawberryperl.com/download/5.18.2.1/strawberry-perl-5.18.2.1-64bit.msi</url>
         <sha1>d2aefdd2b0645d9fabd553db7802f2803eeec68f</sha1>
+        <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.1, 2)"/>
     </version>
 
     <version name="2.5.1" package="com.tightvnc.TightVNC64" type="one-file">
@@ -7129,24 +7094,13 @@ if %err% neq 0 exit /b %err%&#13;
         <sha1>312522d75d740b012bc50714a8c8916a8f9ceaf9</sha1>
     </version>
     <version name="1.8.4" package="net.tortoisesvn.TortoiseSVN64" type="one-file">
-        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.msi') do set setup=%%x&#13;
-msiexec /qn /norestart /lime .Npackd\MSI.log /i "%setup%" INSTALLDIR="%CD%" ALLUSERS=1&#13;
-set err=%errorlevel%&#13;
-type .Npackd\MSI.log&#13;
-rem 3010=restart required&#13;
-if %err% equ 3010 exit /b 0&#13;
-if %err% neq 0 exit /b %err%&#13;
-</file>
-        <file path=".Npackd\Uninstall.bat">for /f "delims=" %%x in ('dir /b *.msi') do set setup=%%x&#13;
-msiexec /qn /norestart /lime .Npackd\MSI.log /x "%setup%"&#13;
-set err=%errorlevel%&#13;
-type .Npackd\MSI.log&#13;
-rem 3010=restart required&#13;
-if %err% equ 3010 exit /b 0&#13;
-if %err% neq 0 exit /b %err%&#13;
+        <file path=".Npackd\Install.bat">set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.NpackdInstallerHelper" "--versions=[1.1, 2)"&#13;
+for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set npackdih=%%x&#13;
+call "%npackdih%\InstallMSI.bat" INSTALLDIR yes&#13;
 </file>
         <url>http://downloads.sourceforge.net/project/tortoisesvn/1.8.4/Application/TortoiseSVN-1.8.4.24972-x64-svn-1.8.5.msi</url>
         <sha1>48ac3bf56cb903b7a31882d35a51093c8bc1b237</sha1>
+        <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3.1, 2)"/>
     </version>
 
     <version name="2.75" package="nircmd64">
@@ -7729,28 +7683,13 @@ verify&#13;
         <dependency package="com.googlecode.windows-package-manager.CLU" versions="[1, 2)"/>
     </version>
     <version name="1.8.5.1" package="org.apache.subversion.Subversion64" type="one-file">
-        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.msi') do set setup=%%x&#13;
-copy "%setup%" .Npackd        &#13;
-msiexec.exe /qn /norestart /Lime .Npackd\MSI.log /i "%setup%" INSTALLLOCATION="%CD%" ALLUSERS=1&#13;
-set err=%errorlevel%&#13;
-type .Npackd\MSI.log&#13;
-rem 3010=restart required&#13;
-if %err% equ 3010 exit /b 0&#13;
-if %err% neq 0 exit /b %err%&#13;
-&#13;
-</file>
-        <file path=".Npackd\Uninstall.bat">copy .Npackd\*.msi .&#13;
-for /f "delims=" %%x in ('dir /b *.msi') do set setup=%%x&#13;
-msiexec.exe /qn /norestart /Lime .Npackd\MSI.log /x "%setup%"&#13;
-set err=%errorlevel%&#13;
-type .Npackd\MSI.log&#13;
-rem 3010=restart required&#13;
-if %err% equ 3010 exit /b 0&#13;
-if %err% neq 0 exit /b %err%&#13;
-&#13;
+        <file path=".Npackd\Install.bat">set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.NpackdInstallerHelper" "--versions=[1.1, 2)"&#13;
+for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set npackdih=%%x&#13;
+call "%npackdih%\InstallMSI.bat" INSTALLLOCATION yes&#13;
 </file>
         <url>http://www.sliksvn.com/pub/Slik-Subversion-1.8.5-1-x64.msi</url>
         <sha1>1198c92b549208b4a381c714e27fb60ca0755b83</sha1>
+        <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.1, 2)"/>
     </version>
 
     <version name="7.0.12" package="org.apache.tomcat.Tomcat64">
@@ -8506,26 +8445,13 @@ if %err% neq 0 exit /b %err%&#13;
         <sha1>581f3e21098cdd9e2330e302df7052a59e7b6889</sha1>
     </version>
     <version name="2.11" package="org.bitbucket.tortoisehg.TortoiseHg64" type="one-file">
-        <file path=".Npackd\Install.bat">for /f %%x in ('dir /b *.msi') do set setup=%%x&#13;
-copy "%setup%" .Npackd&#13;
-msiexec.exe /qn /norestart /Lime .Npackd\MSI.log /i "%setup%" INSTALLDIR="%CD%" ALLUSERS=1&#13;
-set err=%errorlevel%&#13;
-type .Npackd\MSI.log&#13;
-rem 3010=restart required&#13;
-if %err% equ 3010 exit /b 0&#13;
-if %err% neq 0 exit /b %err%&#13;
-</file>
-        <file path=".Npackd\Uninstall.bat">copy .Npackd\*.msi .&#13;
-for /f %%x in ('dir /b *.msi') do set setup=%%x&#13;
-msiexec.exe /qn /norestart /Lime .Npackd\MSI.log /x "%setup%"&#13;
-set err=%errorlevel%&#13;
-type .Npackd\MSI.log&#13;
-rem 3010=restart required&#13;
-if %err% equ 3010 exit /b 0&#13;
-if %err% neq 0 exit /b %err%&#13;
+        <file path=".Npackd\Install.bat">set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.NpackdInstallerHelper" "--versions=[1.1, 2)"&#13;
+for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set npackdih=%%x&#13;
+call "%npackdih%\InstallMSI.bat" INSTALLDIR yes&#13;
 </file>
         <url>http://cdn.bitbucket.org/tortoisehg/files/downloads/tortoisehg-2.11-hg-2.9-x64.msi</url>
         <sha1>575e75bf1a1a4a88132ddb1a9b218f98e032015d</sha1>
+        <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3.1, 2)"/>
     </version>
 
     <version name="2.49.2" package="org.blender.Blender64">
