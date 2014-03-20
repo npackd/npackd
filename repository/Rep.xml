@@ -388,7 +388,7 @@
         <url>http://akelpad.sourceforge.net/en/index.php</url>
         <description>text editor</description>
         <icon>https://lh4.googleusercontent.com/-R05IRo1-2sg/Uoe07h82awI/AAAAAAAABPs/ulRbOohyxr4/s32/akelpad.png</icon>
-        <category>Tools</category>
+        <category>Productivity</category>
     </package>
     <package name="amazon-ec2-api-tools">
         <title>Amazon EC2 API Tools</title>
@@ -2366,6 +2366,14 @@ MySQL Client Pack for Windows 32bits</description>
         <license>org.gnu.GPLv2</license>
         <category>Tools</category>
     </package>
+    <package name="cppcheck">
+        <title>Cppcheck</title>
+        <url>http://cppcheck.sourceforge.net/</url>
+        <description>static analysis tool for C/C++ code</description>
+        <icon>https://lh4.googleusercontent.com/-vsxlF4rGcfg/Uyiz4LjVx8I/AAAAAAAABSk/0sLF92eS1Ug/s48-no/cppcheck.png</icon>
+        <license>org.gnu.GPLv2</license>
+        <category>Development</category>
+    </package>
     <package name="cz.mitec.ExeExplorer">
         <title>EXE Explorer</title>
         <url>http://www.mitec.cz/exe.html</url>
@@ -2588,6 +2596,14 @@ Can be used with both Express and non-Express Database editions of SQL Server 20
         <description>text editor</description>
         <icon>https://lh6.googleusercontent.com/-R_NlidvMNE0/UZscgKVyG4I/AAAAAAAAB_0/-zHiuzb4-1w/s800/focuswriter.png</icon>
         <license>org.gnu.GPLv3</license>
+    </package>
+    <package name="fontforge">
+        <title>FontForge</title>
+        <url>http://fontforge.org/</url>
+        <description>An outline font editor that lets you create your own postscript, truetype, opentype, cid-keyed, multi-master, cff, svg and bitmap (bdf, FON, NFNT) fonts, or edit existing ones. Also lets you convert one format to another. FontForge has support for many macintosh font formats.</description>
+        <icon>http://fontforge.org/fftype32.png</icon>
+        <license>org.opensource.BSDLicense</license>
+        <category>Tools</category>
     </package>
     <package name="format-factory">
         <title>Format Factory</title>
@@ -5618,7 +5634,7 @@ kw: CDBurner XP</description>
         <title>SQLStress</title>
         <url>http://www.sqlstress.com/Download.aspx</url>
         <description>SQLStress is a tool to stress test a Microsoft SQL Server installation. Its main purpose is to find infrastructure problems within an installation. It can also be used for hardware sizing, system tuning or benchmarking. The focus is on simplicity. You should be up and running within minutes.</description>
-        <category>cat-tools/SQL</category>
+        <category>Development</category>
     </package>
     <package name="stellarium">
         <title>Stellarium</title>
@@ -5664,6 +5680,14 @@ kw: CDBurner XP</description>
         <icon>https://lh3.googleusercontent.com/-IC7hIIchdSc/UW-rR20AjqI/AAAAAAAABzk/LaT7NgQ5-LU/s800/texstudio.png</icon>
         <license>org.gnu.GPLv2</license>
         <category>Productivity</category>
+    </package>
+    <package name="tigervnc">
+        <title>TigerVNC</title>
+        <url>http://sourceforge.net/apps/mediawiki/tigervnc/index.php?title=Main_Page</url>
+        <description>a client/server application that allows users to launch and interact with graphical applications on remote machines.</description>
+        <icon>http://sourceforge.net/apps/mediawiki/tigervnc/nfs/project/t/ti/tigervnc/7/70/MediaWikiSidebarLogo.png</icon>
+        <license>org.gnu.GPLv2</license>
+        <category>Communications</category>
     </package>
     <package name="to.pho.editor.PhotoEditor">
         <title>Photo! Editor</title>
@@ -10496,6 +10520,34 @@ rmdir "%name%"&#13;
 </file>
         <url>https://golangide.googlecode.com/files/liteidex20.1.windows.7z</url>
         <sha1>e5b981838c71d598f7a75a79edeaec6ffe276a26</sha1>
+        <dependency package="org.7-zip.SevenZIPA" versions="[9.20, 9.20]"/>
+        <dependency package="org.golang.Go" versions="[1, 2)"/>
+        <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.15.7, 2)"/>
+    </version>
+    <version name="21" package="com.googlecode.golangide.GoLangIDE" type="one-file">
+        <important-file path="bin\liteide.bat" title="Go LiteIDE"/>
+        <file path="liteide\bin\liteide.bat">set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=org.golang.Go" "--versions=[1, 2)"&#13;
+for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set goroot=%%x&#13;
+set GOARCH=386&#13;
+set GOOS=windows&#13;
+set PATH=%GOROOT%\bin&#13;
+call liteide.exe&#13;
+</file>
+        <file path=".Npackd\Install.bat">set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=org.7-zip.SevenZIPA" "--versions=[9.20, 9.20]"&#13;
+for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set sevenzipa=%%x&#13;
+for /f %%x in ('dir /b *.7z') do set setup=%%x&#13;
+"%sevenzipa%\7za.exe" x "%setup%" &gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+&#13;
+set name=liteide&#13;
+cd "%name%" &#13;
+for /f "delims=" %%a in ('dir /b') do (&#13;
+  move "%%a" ..&#13;
+)&#13;
+cd ..&#13;
+rmdir "%name%"&#13;
+</file>
+        <url>http://downloads.sourceforge.net/project/liteide/x21/liteidex21.windows.7z</url>
+        <sha1>ae04d685d055cc8d1db7f7cbc70a899eccf9e1c2</sha1>
         <dependency package="org.7-zip.SevenZIPA" versions="[9.20, 9.20]"/>
         <dependency package="org.golang.Go" versions="[1, 2)"/>
         <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.15.7, 2)"/>
@@ -18542,6 +18594,16 @@ if %err% neq 0 exit %err%&#13;
         <sha1>3a73bbacadd9d126f4a6d6fe230a312a489176cb</sha1>
     </version>
 
+    <version name="1.64" package="cppcheck" type="one-file">
+        <file path=".Npackd\Install.bat">set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.NpackdInstallerHelper" "--versions=[1.1, 2)"&#13;
+for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set npackdih=%%x&#13;
+call "%npackdih%\InstallMSI.bat" INSTALLDIR yes&#13;
+</file>
+        <url>http://downloads.sourceforge.net/project/cppcheck/cppcheck/1.64/cppcheck-1.64-x86-Setup.msi</url>
+        <sha1>d847c90e5c1d8f30ea5ea34a20b337ffa993a02b</sha1>
+        <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.1, 2)"/>
+    </version>
+
     <version name="1.4.1" package="cz.mitec.ExeExplorer">
         <important-file path="EXE.exe" title="EXE Explorer"/>
         <url>https://dl.dropboxusercontent.com/u/176999101/cz.mitec.ExeExplorer-1.4.1.zip</url>
@@ -19264,6 +19326,16 @@ call "%npackdih%\InstallMSI.bat" TARGETDIR yes&#13;
         <important-file path="FocusWriter.exe" title="FocusWriter"/>
         <url>http://gottcode.org/focuswriter/FocusWriter_1.4.3.zip</url>
         <sha1>ab4b10bfc51d174fcb01a90f66532c2cd4a9a00f</sha1>
+    </version>
+
+    <version name="2013.11.21" package="fontforge" type="one-file">
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
+"%setup%" /S /D=%CD% &amp;&amp; del /f /q "%setup%"&#13;
+</file>
+        <file path=".Npackd\Uninstall.bat">uninstall.exe /S _?=%CD%&#13;
+</file>
+        <url>https://bitbucket.org/mpetroff/unofficial-fontforge-mingw-sdk/downloads/FontForgeSetup_2013-11-21.exe</url>
+        <sha1>b03011444bd82ea60330b5032de61eea34a3811c</sha1>
     </version>
 
     <version name="3.1.1" package="format-factory" type="one-file">
@@ -21129,12 +21201,12 @@ call "%npackdih%\InstallMSI.bat" TARGETDIR yes&#13;
     </version>
 
     <version name="4.1.0.8000" package="net.icsharpcode.SharpDevelop" type="one-file">
-        <file path=".Npackd\Install.bat">if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
-set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.NpackdInstallerHelper" "--versions=[1.1, 2)"
-for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set npackdih=%%x
-call "%npackdih%\InstallMSI.bat" INSTALLDIR yes
+        <file path=".Npackd\Install.bat">if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1&#13;
+set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.NpackdInstallerHelper" "--versions=[1.1, 2)"&#13;
+for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set npackdih=%%x&#13;
+call "%npackdih%\InstallMSI.bat" INSTALLDIR yes&#13;
 </file>
-        <url>http://sourceforge.net/projects/sharpdevelop/files/SharpDevelop 4.x/4.1/SharpDevelop_4.1.0.8000_Setup.msi</url>
+        <url>http://sourceforge.net/projects/sharpdevelop/files/SharpDevelop%204.x/4.1/SharpDevelop_4.1.0.8000_Setup.msi</url>
         <sha1>eac8b9fae6285f2ab6e6788a65ab7b711e55395f</sha1>
         <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.1, 2)"/>
         <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.15.7, 2)"/>
@@ -39613,6 +39685,22 @@ type .Npackd\InnoSetupUninstall.log&#13;
 if %err% neq 0 exit %err%</file>
         <url>http://downloads.sourceforge.net/project/texstudio/texstudio/TeXstudio%202.6.6/texstudio266_win32.exe</url>
         <sha1>a1ebc942a5b1a98f293503368a0f517a1843a088</sha1>
+    </version>
+
+    <version name="1.3" package="tigervnc" type="one-file">
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
+"%setup%" /SP- /VERYSILENT /SUPPRESSMSGBOXES /NOCANCEL /NORESTART /DIR="%CD%" /SAVEINF="%CD%\.Npackd\InnoSetupInfo.ini" /LOG="%CD%\.Npackd\InnoSetupInstall.log" &amp;&amp; del /f /q "%setup%"&#13;
+set err=%errorlevel%&#13;
+type .Npackd\InnoSetupInstall.log&#13;
+if %err% neq 0 exit %err%&#13;
+</file>
+        <file path=".Npackd\Uninstall.bat">unins000.exe /VERYSILENT /SUPPRESSMSGBOXES /NORESTART /LOG="%CD%\.Npackd\InnoSetupUninstall.log"&#13;
+set err=%errorlevel%&#13;
+type .Npackd\InnoSetupUninstall.log&#13;
+if %err% neq 0 exit %err%&#13;
+</file>
+        <url>http://downloads.sourceforge.net/project/tigervnc/tigervnc/1.3.0/tigervnc-1.3.0.exe</url>
+        <sha1>814afb355fb8727709f829a7ae7f0282bcb34d92</sha1>
     </version>
 
     <version name="1.1" package="to.pho.editor.PhotoEditor" type="one-file">
