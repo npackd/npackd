@@ -257,6 +257,25 @@ mklink /D C:\NpackdSymlinks\com.nokia.QtDev-i686-w64-Npackd-Release-4.8.2 "%CD%"
         <dependency package="org.7-zip.SevenZIPA" versions="[9.20, 9.20]"/>
         <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.15.7, 2)"/>
     </version>
+    <version name="5.2.1" package="com.nokia.QtDev-i686-w64-Npackd-Release" type="one-file">
+        <file path=".Npackd\Install.bat">for /f %%x in ('dir /b *.7z') do set setup=%%x&#13;
+"%sevenzipa%\7za.exe" x "%setup%" &gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+if %errorlevel% neq 0 exit /b %errorlevel%&#13;
+&#13;
+del "%setup%"&#13;
+if %errorlevel% neq 0 exit /b %errorlevel%&#13;
+&#13;
+mklink /D C:\NpackdSymlinks\com.nokia.QtDev-i686-w64-Npackd-Release-%NPACKD_PACKAGE_VERSION% "%CD%"</file>
+        <file path=".Npackd\Uninstall.bat">rmdir C:\NpackdSymlinks\com.nokia.QtDev-i686-w64-Npackd-Release-%NPACKD_PACKAGE_VERSION%</file>
+        <url>http://downloads.sourceforge.net/project/npackd/com.nokia.QtDev-i686-w64-Npackd-Release-5.2.1.7z</url>
+        <sha1>A8E32E9B56087678DEBA785A4396A3708987AA7C</sha1>
+        <dependency package="org.7-zip.SevenZIPA" versions="[9.20, 10)">
+            <variable>SEVENZIPA</variable>
+        </dependency>
+        <dependency package="mingw-w64-i686-sjlj-posix" versions="[4.8.2, 4.8.2]"/>
+        <dependency package="com.activestate.ActivePerl64" versions="[5.16, 5.17)"/>
+        <dependency package="org.python.Python64" versions="[3.3.4, 3.4)"/>
+    </version>
 
     <version name="4.8.1" package="com.nokia.QtDev-x86_64-w64" type="one-file">
         <file path=".Npackd\Install.bat">if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1&#13;
@@ -1181,6 +1200,11 @@ rmdir "%name%"&#13;
         <sha1>c0b4ae5eba44b9f6434b91c2ee903950a2510da5</sha1>
         <dependency package="com.nokia.QtDev-i686-w64-Npackd-Release" versions="[4.8.2, 4.8.2]"/>
         <dependency package="net.sourceforge.mingw-w64.MinGWW64" versions="[4.7.2, 4.7.2]"/>
+    </version>
+    <version name="0.6.2" package="quazip-dev-i686-w64-static">
+        <url>http://downloads.sourceforge.net/project/npackd/quazip-dev-i686-w64-static-0.6.2.zip</url>
+        <sha1>c8b9a7a126fcff2db43877ea78478a3f66bf4cb4</sha1>
+        <dependency package="com.nokia.QtDev-i686-w64-Npackd-Release" versions="[5.2.1, 5.2.1]"/>
     </version>
 
     <version name="0.5" package="quazip-dev-x86_64-w64-static">
