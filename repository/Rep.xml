@@ -2904,6 +2904,14 @@ Format Factory's Feature:&#13;
         <license>org.wikipedia.Freeware</license>
         <category>Development</category>
     </package>
+    <package name="io.github.hexchat">
+        <title>HexChat</title>
+        <url>http://hexchat.github.io</url>
+        <description>Cross-platform IRC client supporting features such as: DCC, SASL, proxies, spellcheck, alerts, logging, custom themes, and Python/Perl scripts.</description>
+        <icon>https://raw.githubusercontent.com/hexchat/hexchat/master/data/icons/hexchat.png</icon>
+        <license>org.gnu.GPLv2</license>
+        <category>Communications</category>
+    </package>
     <package name="iobit-uninstaller">
         <title>IObit Uninstaller</title>
         <url>http://www.iobit.com/advanceduninstaller.php</url>
@@ -4000,6 +4008,14 @@ kw: VIPS</description>
         <description>project management. Common Public Attribution License</description>
         <icon>https://lh6.googleusercontent.com/-GnOg3oGMl-I/UXjBOJ91_1I/AAAAAAAAB4U/NXrXsvFePTU/s800/openproj.png</icon>
         <category>Productivity</category>
+    </package>
+    <package name="openra">
+        <title>OpenRA</title>
+        <url>http://openra.res0l.net/</url>
+        <description>Free Real Time Strategy project that recreates the classic Command &amp; Conquer titles</description>
+        <icon>https://lh6.googleusercontent.com/-0THxC9EMcAs/UzsbyIqXukI/AAAAAAAABTg/FZan0_5UOPE/s128-no/openra.png</icon>
+        <license>org.gnu.GPLv3</license>
+        <category>Games</category>
     </package>
     <package name="org.7-zip.SevenZIP">
         <title>7-ZIP</title>
@@ -5914,6 +5930,15 @@ verify&#13;
         <url>https://dl.dropboxusercontent.com/u/176999101/aimp-3.55.1324.exe</url>
         <sha1>2776ef8b62c24c8a437d275cd62fa538f7161f34</sha1>
     </version>
+    <version name="3.55.1345" package="aimp" type="one-file">
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
+"%setup%" /SILENT /AUTO="%CD%\Prog"&#13;
+</file>
+        <file path=".Npackd\Uninstall.bat">Prog\Uninstall.exe /SILENT&#13;
+</file>
+        <url>https://dl.dropboxusercontent.com/u/176999101/aimp-3.55.1345.exe</url>
+        <sha1>b5ddbeaea74522b8ddfd4d96465efdb276773a55</sha1>
+    </version>
 
     <version name="4.8.5" package="akelpad" type="one-file">
         <important-file path="AkelPad.exe" title="AkelPad"/>
@@ -7549,6 +7574,23 @@ for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set myun=%%x&#13;
 "%myun%\myuninst.exe" /uninstall "AVG 2014"</file>
         <url>http://aa-download.avg.com/filedir/inst/avg_free_x86_all_2014_4259a6848.exe</url>
         <sha1>cecd7a053128b1a755a5331a454b6767a58d57d3</sha1>
+        <dependency package="net.nirsoft.MyUninstaller" versions="[1.74, 2)"/>
+        <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.15.7, 2)"/>
+    </version>
+    <version name="2014.4355" package="com.avg.AVGAntiVirusFree" type="one-file">
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
+rem /TargetInstallationPath="%CD%..\AVG_Anti_Virus_Program" is not used as this would prevent un-installation (the files would be locked)&#13;
+"%setup%" /AppMode=Setup /UILevel=silent /InstallToolbar=0 /LoggerPath="%CD%\.Npackd" /ChangeBrowserSearchProvider=0 /InstallSidebar=0 /ParticipateProductImprovement=0 /DontRestart /KillProcessesIfNeeded&#13;
+if %errorlevel% neq 0 exit %err%&#13;
+</file>
+        <file path=".Npackd\Uninstall.bat">rem direct un-installation does not work as the files are always locked&#13;
+rem "avgmfapx.exe" /AppMode=SETUP /Uninstall /UILevel=Silent /DontRestart&#13;
+&#13;
+set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=net.nirsoft.MyUninstaller" "--versions=[1.74, 2)"&#13;
+for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set myun=%%x&#13;
+"%myun%\myuninst.exe" /uninstall "AVG 2014"</file>
+        <url>http://aa-download.avg.com/filedir/inst/avg_free_x86_all_2014_4355a7262.exe</url>
+        <sha1>b81de11e0d219881842954382f9cb8f1f2de296d</sha1>
         <dependency package="net.nirsoft.MyUninstaller" versions="[1.74, 2)"/>
         <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.15.7, 2)"/>
     </version>
@@ -12780,7 +12822,7 @@ if %err% equ 3010 exit /b 0&#13;
 if %err% neq 0 exit /b %err%&#13;
 </file>
         <url>http://download.microsoft.com/download/1/6/B/16B06F60-3B20-4FF2-B699-5E9B7962F9AE/VSU3/vcredist_x86.exe</url>
-        <sha1>eff561e720aebef4f4dcdc6c099e8f6f1cfb1f04</sha1>
+        <sha1>7d6f654c16f9ce534bb2c4b1669d7dc039c433c9</sha1>
     </version>
 
     <version name="10.0.30319.1" package="com.microsoft.VisualCSharpExpress" type="one-file">
@@ -19142,7 +19184,58 @@ for /f "delims=" %%a in ('dir /b') do (&#13;
   move "%%a" ..&#13;
 )&#13;
 cd ..&#13;
-rmdir "%name%"</file>
+rmdir "%name%"&#13;
+if %errorlevel% neq 0 exit /b %errorlevel%&#13;
+&#13;
+cscript .Npackd\CreateShortcuts.js&#13;
+verify&#13;
+</file>
+        <file path="dmd2\dmd2vars32.bat">@echo.&#13;
+@echo Setting up 32-bit environment for using DMD 2 from %~dp0\windows\bin.&#13;
+@set PATH=%~dp0\windows\bin;%PATH%</file>
+        <file path=".Npackd\Uninstall.bat">cscript .Npackd\DeleteShortcuts.js&#13;
+verify&#13;
+</file>
+        <file path=".Npackd\CreateShortcuts.js">var shell = new ActiveXObject("WScript.Shell"); &#13;
+var dir = shell.CurrentDirectory;&#13;
+var menu = shell.SpecialFolders("AllUsersStartMenu"); &#13;
+&#13;
+var fso = new ActiveXObject("Scripting.FileSystemObject");&#13;
+if (!fso.FolderExists(menu + "\\D"))&#13;
+    fso.CreateFolder(menu + "\\D");&#13;
+&#13;
+var s = shell.CreateShortcut(menu + "\\D\\D2 32-bit Command Prompt.lnk"); &#13;
+s.TargetPath = "%comspec%";&#13;
+s.Arguments = "/K \"" + dir + "\\dmd2vars32.bat\"";&#13;
+s.Save(); &#13;
+&#13;
+s = shell.CreateShortcut(menu + "\\D\\D2 Documentation.lnk"); &#13;
+s.TargetPath = dir + "\\html\\d\\index.html";&#13;
+s.Save(); &#13;
+&#13;
+s = shell.CreateShortcut(menu + "\\D\\D2 HTML Documentatio.lnk"); &#13;
+s.TargetPath = dir + "\\windows\\bin\\d.chm";&#13;
+s.Save(); &#13;
+</file>
+        <file path=".Npackd\DeleteShortcuts.js">var shell = new ActiveXObject("WScript.Shell"); &#13;
+var menu = shell.SpecialFolders("AllUsersStartMenu"); &#13;
+var fso = new ActiveXObject("Scripting.FileSystemObject");&#13;
+&#13;
+function deleteIfExists(f) {&#13;
+    if (fso.FileExists(f))&#13;
+        fso.DeleteFile(f, true);&#13;
+}&#13;
+&#13;
+deleteIfExists(menu + "\\D\\D2 32-bit Command Prompt.lnk");&#13;
+deleteIfExists(menu + "\\D\\D2 Documentation.lnk");&#13;
+deleteIfExists(menu + "\\D\\D2 HTML Documentatio.lnk");&#13;
+&#13;
+if (fso.FolderExists(menu + "\\D")) {&#13;
+    var f = fso.GetFolder(menu + "\\D");&#13;
+    if (new Enumerator(f.SubFolders).atEnd() &amp;&amp; new Enumerator(f.Files).atEnd())&#13;
+        f.Delete(true);&#13;
+}&#13;
+</file>
         <url>http://downloads.dlang.org/releases/2014/dmd.2.065.0.zip</url>
         <sha1>cff1d0978736b2c83c63450fbc0a0692c7ecba68</sha1>
     </version>
@@ -20256,6 +20349,22 @@ if %err% neq 0 exit %err%&#13;
 </file>
         <url>http://files.jrsoftware.org/ispack/ispack-5.5.4-unicode.exe</url>
         <sha1>4789207d5fefd8aa5813ed7c214c6d2f4d174ea7</sha1>
+    </version>
+
+    <version name="2.9.6.1" package="io.github.hexchat" type="one-file">
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
+"%setup%" /SP- /VERYSILENT /SUPPRESSMSGBOXES /NOCANCEL /NORESTART /DIR="%CD%" /SAVEINF="%CD%\.Npackd\InnoSetupInfo.ini" /LOG="%CD%\.Npackd\InnoSetupInstall.log" &amp;&amp; del /f /q "%setup%"&#13;
+set err=%errorlevel%&#13;
+type .Npackd\InnoSetupInstall.log&#13;
+if %err% neq 0 exit %err%&#13;
+</file>
+        <file path=".Npackd\Uninstall.bat">unins000.exe /VERYSILENT /SUPPRESSMSGBOXES /NORESTART /LOG="%CD%\.Npackd\InnoSetupUninstall.log"&#13;
+set err=%errorlevel%&#13;
+type .Npackd\InnoSetupUninstall.log&#13;
+if %err% neq 0 exit %err%&#13;
+</file>
+        <url>http://dl.hexchat.net/hexchat/HexChat%202.9.6.1%20x86.exe</url>
+        <sha1>fbd0ebbaca95d63a09a9b3298be0ed503999061f</sha1>
     </version>
 
     <version name="2.4" package="iobit-uninstaller" type="one-file">
@@ -26150,6 +26259,16 @@ call "%npackdih%\InstallMSI.bat" APPDIR yes&#13;
         <sha1>da2866075ef421613ae0416b1cafce19275762e3</sha1>
         <dependency package="com.oracle.JRE" versions="[1.7.0.17, 2)"/>
         <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.1, 2)"/>
+    </version>
+
+    <version name="2013.12.23" package="openra" type="one-file">
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
+"%setup%" /S /D=%CD% &amp;&amp; del /f /q "%setup%"&#13;
+</file>
+        <file path=".Npackd\Uninstall.bat">uninstaller.exe /S _?=%CD%&#13;
+</file>
+        <url>https://github.com/OpenRA/OpenRA/releases/download/release-20131223/OpenRA-release-20131223.exe</url>
+        <sha1>c9d3b09ebf2e36a04d7d2c0b74bca62bfb2c60a3</sha1>
     </version>
 
     <version name="4.65" package="org.7-zip.SevenZIP" type="one-file">
