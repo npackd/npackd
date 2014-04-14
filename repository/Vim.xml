@@ -237,28 +237,37 @@ See the pathogen description for how to install.</description>
     </package>
     <package name="vim-xml">
         <title>Vim plugin XML</title>
-        <url>https://github.com/othree/xml.vim</url>
-        <description>A plugin for editing xml.
-The script does retain most of the functionality of the original xml.vim (http://www.vim.org/scripts/script.php?script_id=301)
- - closing tags while you type
- - optional adding attributes
- - and more
- - % matches end or begin tag
-it adds:
- - fold tags, comments and Cdata 
- - add start tag
- - add end tags
- - add  tag around a visual blok or a tag,
- - join 2 adjacent same tags
- - delete tag
- - delete tag section
- - change a tag 
- - visual mode  (blocks, listitems
-The documentation will be created once the script is loaded e.g edit a xml file.
-Read the help documentation by typing from within vim  :help xml-plugin
-
+        <url>http://www.vim.org/scripts/script.php?script_id=1397</url>
+        <description>A plugin for editing xml.&#13;
+The script does retain most of the functionality of the original xml.vim (http://www.vim.org/scripts/script.php?script_id=301)&#13;
+ - closing tags while you type&#13;
+ - optional adding attributes&#13;
+ - and more&#13;
+ - % matches end or begin tag&#13;
+it adds:&#13;
+ - fold tags, comments and Cdata &#13;
+ - add start tag&#13;
+ - add end tags&#13;
+ - add  tag around a visual blok or a tag,&#13;
+ - join 2 adjacent same tags&#13;
+ - delete tag&#13;
+ - delete tag section&#13;
+ - change a tag &#13;
+ - visual mode  (blocks, listitems&#13;
+The documentation will be created once the script is loaded e.g edit a xml file.&#13;
+Read the help documentation by typing from within vim  :help xml-plugin&#13;
+&#13;
 See the pathogen description for how to install.</description>
         <icon>https://lh6.googleusercontent.com/-oPg5OrLBr74/UZ8rV_mHduI/AAAAAAAACE0/twSVwJ4sOTQ/s800/vim.png</icon>
+    </package>
+    <package name="vim-youcompleteme">
+        <title>Vim plugin youcompleteme</title>
+        <url>https://bitbucket.org/Haroogan/vim-youcompleteme-for-windows/src</url>
+        <description>as-you-type, fuzzy-search code completion engine for Vim. It has several completion engines: an identifier-based engine that works with every programming language, a semantic, Clang-based engine that provides native semantic code completion for C/C++/Objective-C/Objective-C++ (from now on referred to as "the C-family languages"), a Jedi-based completion engine for Python, an OmniSharp-based completion engine for C# and an omnifunc-based completer that uses data from Vim's omnicomplete system to provide semantic completions for many other languages (Ruby, PHP etc.).&#13;
+&#13;
+See the pathogen description for how to install.</description>
+        <icon>https://lh6.googleusercontent.com/-oPg5OrLBr74/UZ8rV_mHduI/AAAAAAAACE0/twSVwJ4sOTQ/s800/vim.png</icon>
+        <category>Productivity</category>
     </package>
 
     <version name="0.6" package="vim-airline">
@@ -334,6 +343,23 @@ mklink /D "%ALLUSERSPROFILE%/Npackd/VimPlugins/%NPACKD_PACKAGE_NAME%" "%CD%"</fi
 verify</file>
         <url>http://downloads.sourceforge.net/project/npackd/vim-colorschemes-2013.5.22.zip</url>
         <sha1>bc67b510770e72b1677aad7932468fc32f510586</sha1>
+    </version>
+    <version name="2014.4.13" package="vim-colorschemes">
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b vim-colorschemes*') do set name=%%x&#13;
+cd "%name%"        &#13;
+for /f "delims=" %%a in ('dir /b') do (&#13;
+  move "%%a" ..&#13;
+)&#13;
+cd ..&#13;
+rmdir "%name%"&#13;
+if %errorlevel% neq 0 exit /b %errorlevel%&#13;
+&#13;
+mkdir "%ALLUSERSPROFILE%/Npackd/VimPlugins/"&#13;
+mklink /D "%ALLUSERSPROFILE%/Npackd/VimPlugins/%NPACKD_PACKAGE_NAME%" "%CD%"</file>
+        <file path=".Npackd\Uninstall.bat">rmdir "%ALLUSERSPROFILE%/Npackd/VimPlugins/%NPACKD_PACKAGE_NAME%"&#13;
+verify</file>
+        <url>http://downloads.sourceforge.net/project/npackd/vim-colorschemes-2014.4.13.zip</url>
+        <sha1>2a89fd0c421dfa1b5f52e5f2096f7696e37e0ed1</sha1>
     </version>
 
     <version name="1.79" package="vim-ctrlp">
@@ -574,6 +600,24 @@ verify
         <url>https://codeload.github.com/ervandew/supertab/zip/2.0</url>
         <sha1>3ada0fd490935355aaaa012827cd7a6c75ac91a1</sha1>
     </version>
+    <version name="2.1" package="vim-supertab">
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b supertab*') do set name=%%x&#13;
+cd "%name%"        &#13;
+for /f "delims=" %%a in ('dir /b') do (&#13;
+  move "%%a" ..&#13;
+)&#13;
+cd ..&#13;
+rmdir "%name%"            &#13;
+&#13;
+mkdir "%ALLUSERSPROFILE%/Npackd/VimPlugins/"&#13;
+mklink /D "%ALLUSERSPROFILE%/Npackd/VimPlugins/%NPACKD_PACKAGE_NAME%" "%CD%"&#13;
+</file>
+        <file path=".Npackd\Uninstall.bat">rmdir "%ALLUSERSPROFILE%/Npackd/VimPlugins/%NPACKD_PACKAGE_NAME%"&#13;
+verify&#13;
+</file>
+        <url>https://codeload.github.com/ervandew/supertab/zip/2.1</url>
+        <sha1>7e7af4c97307ceb65efe480016db503658da655c</sha1>
+    </version>
 
     <version name="2" package="vim-surround">
         <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b vim-surround*') do set name=%%x
@@ -631,6 +675,24 @@ verify&#13;
 </file>
         <url>https://codeload.github.com/scrooloose/syntastic/zip/3.3.0</url>
         <sha1>59c0621b8a6712b25f4251da36d31a607861c930</sha1>
+    </version>
+    <version name="3.4" package="vim-syntastic">
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b syntastic*') do set name=%%x&#13;
+cd "%name%"        &#13;
+for /f "delims=" %%a in ('dir /b') do (&#13;
+  move "%%a" ..&#13;
+)&#13;
+cd ..&#13;
+rmdir "%name%"            &#13;
+&#13;
+mkdir "%ALLUSERSPROFILE%/Npackd/VimPlugins/"&#13;
+mklink /D "%ALLUSERSPROFILE%/Npackd/VimPlugins/%NPACKD_PACKAGE_NAME%" "%CD%"&#13;
+</file>
+        <file path=".Npackd\Uninstall.bat">rmdir "%ALLUSERSPROFILE%/Npackd/VimPlugins/%NPACKD_PACKAGE_NAME%"&#13;
+verify&#13;
+</file>
+        <url>https://codeload.github.com/scrooloose/syntastic/zip/3.4.0</url>
+        <sha1>a10e40e893b9d430b27422e497dfa64f5b9c4a5c</sha1>
     </version>
 
     <version name="2.5" package="vim-tagbar">
@@ -749,5 +811,30 @@ verify&#13;
         <sha1>a90c92d8e6074aaa0b216fbb7314367cb817f313</sha1>
         <dependency package="org.7-zip.SevenZIPA" versions="[9.20, 10)"/>
         <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.15.7, 2)"/>
+    </version>
+
+    <version name="2014.3.11" package="vim-youcompleteme">
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b vim-ycm*') do set name=%%x&#13;
+cd "%name%"        &#13;
+for /f "delims=" %%a in ('dir /b') do (&#13;
+  move "%%a" ..&#13;
+)&#13;
+cd ..&#13;
+rmdir "%name%"            &#13;
+&#13;
+mkdir "%ALLUSERSPROFILE%/Npackd/VimPlugins/"&#13;
+mklink /D "%ALLUSERSPROFILE%/Npackd/VimPlugins/%NPACKD_PACKAGE_NAME%" "%CD%"&#13;
+&#13;
+copy "%CLANG%\bin\libclang.dll" python\&#13;
+</file>
+        <file path=".Npackd\Uninstall.bat">rmdir "%ALLUSERSPROFILE%/Npackd/VimPlugins/%NPACKD_PACKAGE_NAME%"&#13;
+verify&#13;
+</file>
+        <url>https://bitbucket.org/Haroogan/vim-youcompleteme-for-windows/downloads/vim-ycm-9e54390-windows-x86.zip</url>
+        <sha1>17c7435bd68e8076879a88b48fddb17d2b274ebc</sha1>
+        <dependency package="clang" versions="[3.4, 3.4]">
+            <variable>CLANG</variable>
+        </dependency>
+        <dependency package="vim-huge" versions="[7.3.584, 7.5)"/>
     </version>
 </root>
