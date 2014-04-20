@@ -165,6 +165,7 @@
         <title>clang 64 bit</title>
         <url>http://clang.llvm.org/</url>
         <description>C language family frontend for LLVM</description>
+        <icon>http://upload.wikimedia.org/wikipedia/en/thumb/4/4c/LLVM_Logo.svg/225px-LLVM_Logo.svg.png</icon>
         <license>org.opensource.BSD2ClauseLicense</license>
         <category>Development</category>
     </package>
@@ -612,6 +613,14 @@ Windows XP or later is required. It relies upon the DbgHelp library to resolve s
         <icon>https://lh6.googleusercontent.com/-5jkg4Q_EGYA/UXeOt05HYII/AAAAAAAAB4E/q0cqD9biXt4/s800/imagemagick.png</icon>
         <license>org.apache.ApacheLicense2</license>
         <category>Tools</category>
+    </package>
+    <package name="io.mpv.mpv-64">
+        <title>mpv 64-bit</title>
+        <url>http://mpv.io/</url>
+        <description>a versatile command line movie player based on MPlayer and mplayer2</description>
+        <icon>https://raw.githubusercontent.com/mpv-player/mpv/master/etc/mpv-icon-8bit-32x32.png</icon>
+        <license>org.gnu.GPLv2</license>
+        <category>Video</category>
     </package>
     <package name="kr.pe.nyam.Imagine64">
         <title>Imagine 64 bit</title>
@@ -6199,6 +6208,18 @@ if %err% neq 0 exit %err%&#13;
         <sha1>812ff5441a4634f78d3ebc16c7db3e84b7ff03a0</sha1>
     </version>
 
+    <version name="0.3.8" package="io.mpv.mpv-64" type="one-file">
+        <file path=".Npackd\Install.bat">set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=org.7-zip.SevenZIPA" "--versions=[9.20, 10)"&#13;
+for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set sevenzipa=%%x&#13;
+for /f %%x in ('dir /b *.7z') do set setup=%%x&#13;
+"%sevenzipa%\7za.exe" x "%setup%" &gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+</file>
+        <url>https://github.com/mpv-player/mpv/releases/download/v0.3.8/mpv_v0.3.8_windows_64bit.7z</url>
+        <sha1>49f24315fb54ff026b24ef85e5dbf35950c2da25</sha1>
+        <dependency package="org.7-zip.SevenZIPA" versions="[9.20, 10)"/>
+        <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.15.7, 2)"/>
+    </version>
+
     <version name="1.0.9" package="kr.pe.nyam.Imagine64">
         <important-file path="Imagine64.exe" title="Imagine"/>
         <file path=".Npackd\Install.bat">Imagine64.exe /assocext</file>
@@ -6808,7 +6829,7 @@ if %err% neq 0 exit %err%</file>
 </file>
         <file path=".Npackd\Uninstall.bat">Uninstall.exe /S _?=%CD%&#13;
 </file>
-        <url>http://downloads.sourceforge.net/project/lmms/lmms/0.4.13/lmms-0.4.13-win64.exe</url>
+        <url>http://downloads.sourceforge.net/project/lmms/lmms/0.4.13-eol/lmms-0.4.13-win64.exe</url>
         <sha1>4ba25ce1ebcc503aff9964bc599228ae2f98eeb1</sha1>
     </version>
     <version name="0.4.15" package="net.sourceforge.lmms.LMMS64" type="one-file">
@@ -6817,7 +6838,7 @@ if %err% neq 0 exit %err%</file>
 </file>
         <file path=".Npackd\Uninstall.bat">Uninstall.exe /S _?=%CD%&#13;
 </file>
-        <url>http://downloads.sourceforge.net/project/lmms/lmms/0.4.15/lmms-0.4.15-win64.exe</url>
+        <url>http://downloads.sourceforge.net/project/lmms/lmms/0.4.15-eol/lmms-0.4.15-win64.exe</url>
         <sha1>176b60861290c3dcd6c466db15daa23c3532b1cd</sha1>
     </version>
     <version name="1" package="net.sourceforge.lmms.LMMS64" type="one-file">
