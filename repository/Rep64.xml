@@ -519,7 +519,10 @@ Visual Studio 2012 - 11.0</description>
     <package name="cygwin64">
         <title>Cygwin 64 bit</title>
         <url>http://www.cygwin.com</url>
-        <description>Linux-like environment. WARNING: shows download tools process and installation process.</description>
+        <description>WARNING: this package always installs the newest version&#13;
+WARNING: shows download tools process and installation process.&#13;
+&#13;
+Linux-like environment.</description>
         <icon>https://lh5.googleusercontent.com/-cfUak8ZXd5s/UTX0oSrqXYI/AAAAAAAABCc/lv1byzKo4uA/s800/cygwin.png</icon>
         <license>org.gnu.GPLv2</license>
         <category>Tools</category>
@@ -1969,7 +1972,13 @@ if %err% neq 0 exit %err%</file>
 &#13;
 del /q /f SetupAdmin.exe&#13;
 del /q /f AppleSoftwareUpdate.msi&#13;
-del /q /f AppleApplicationSupport.msi&#13;
+&#13;
+msiexec.exe /qn /norestart /Lime .Npackd\MSI.log /i AppleApplicationSupport.msi ALLUSERS=1&#13;
+set err=%errorlevel%&#13;
+type .Npackd\MSI.log&#13;
+rem 3010=restart required&#13;
+if %err% equ 3010 exit 0&#13;
+if %err% neq 0 exit %err%&#13;
 &#13;
 msiexec.exe /qn /norestart /Lime .Npackd\MSI.log /i iTunes64.msi ALLUSERS=1&#13;
 set err=%errorlevel%&#13;
@@ -2013,7 +2022,6 @@ if %err% equ 3010 exit 0&#13;
 if %err% neq 0 exit %err%</file>
         <url>https://secure-appldnld.apple.com/iTunes11/031-3482.20140225.kdX8s/iTunes64Setup.exe</url>
         <sha1>58e609dd24ad89c3cc5174b09a0e282f6bb681b5</sha1>
-        <dependency package="com.apple.appleas" versions="[2.3.6, 2.3.6]"/>
     </version>
 
     <version name="2014.4259" package="com.avg.AVGAntiVirusFree64" type="one-file">
@@ -5978,11 +5986,8 @@ if %err% neq 0 exit %err%&#13;
 
     <version name="1.7.15" package="cygwin64" type="one-file">
         <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
-"%setup%" -q -D -R "%ProgramFiles%\Cygwin64Data" -s http://box-soft.com -l "%ProgramFiles%\Cygwin64Data\packages"&#13;
-"%setup%" -q -L -R "%ProgramFiles%\Cygwin64Data" -l "%ProgramFiles%\Cygwin64Data\packages"</file>
-        <file path=".Npackd\Uninstall.bat">rd /s /q "%ProgramFiles%\Cygwin64Data"&#13;
-del /q /f "%Public%\Desktop\Cygwin Terminal.lnk" || del /q /f "%ALLUSERSPROFILE%\Desktop\Cygwin Terminal.lnk"&#13;
-rd /s /q "%ALLUSERSPROFILE%\Start Menu\Programs\Cygwin" || rd /s /q "%ALLUSERSPROFILE%\Microsoft\Windows\Start Menu\Programs\Cygwin"</file>
+"%setup%" -q -D -R "%CD%" -s http://box-soft.com -l "%CD%\packages"&#13;
+"%setup%" -q -L -R "%CD%" -l "%CD%\packages"</file>
         <url>http://cygwin.com/setup-x86_64.exe</url>
     </version>
 

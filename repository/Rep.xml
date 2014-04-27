@@ -936,7 +936,10 @@ collection of audio and video codecs. Same as Basic, plus: Media Player Classic 
     <package name="com.cygwin.cygwin">
         <title>Cygwin</title>
         <url>http://www.cygwin.com</url>
-        <description>Linux-like environment. WARNING: shows download tools process and installation process.</description>
+        <description>WARNING: this package always installs the newest version&#13;
+WARNING: shows download tools process and installation process.&#13;
+&#13;
+Linux-like environment.</description>
         <icon>https://lh5.googleusercontent.com/-cfUak8ZXd5s/UTX0oSrqXYI/AAAAAAAABCc/lv1byzKo4uA/s800/cygwin.png</icon>
         <license>org.gnu.GPLv2</license>
         <category>Tools</category>
@@ -1516,6 +1519,16 @@ basename cat chgrp chmod chown cksum comm cp csplit cut dd df dircolors dirname 
         <icon>https://lh4.googleusercontent.com/-sDuLaIHqJYs/UQ5iakBzHaI/AAAAAAAAARY/oyeFr5X0UDo/s800/lockhunter_32.png</icon>
         <license>org.wikipedia.Freeware</license>
         <category>Tools</category>
+    </package>
+    <package name="com.makemkv.makemkv">
+        <title>MakeMKV</title>
+        <url>http://makemkv.com/</url>
+        <description>Convert Blu-ray and DVD that you own into a (DRM) free format that can be played anywhere. Make sure you are in compliance with local laws.&#13;
+&#13;
+Full functionality is free while in beta:&#13;
+http://www.makemkv.com/forum2/viewtopic.php?f=5&amp;t=1053</description>
+        <icon>http://www.makemkv.com/favicon.ico</icon>
+        <category>Video</category>
     </package>
     <package name="com.maniactools.FreeM4aToMP3Converter">
         <title>Free M4A to MP3 Converter</title>
@@ -2516,6 +2529,14 @@ torrent client</description>
         <description>gettext for Delphi</description>
         <license>org.gnu.GPLv2</license>
         <category>Development</category>
+    </package>
+    <package name="dk.software.hulubulu.advancedrenamer">
+        <title>Advanced Renamer</title>
+        <url>http://www.advancedrenamer.com/</url>
+        <description>Advanced Renamer is a free program for renaming multiple files and folders at once. By configuring renaming methods the names can be manipulated in various ways.</description>
+        <icon>http://www.advancedrenamer.com/favicon.ico</icon>
+        <license>org.wikipedia.Freeware</license>
+        <category>Tools</category>
     </package>
     <package name="dmc">
         <title>Digital Mars C/C++</title>
@@ -3930,7 +3951,9 @@ command line HTTP and FTP client</description>
     <package name="net.sourceforge.winlirc.winlirc">
         <title>WinLIRC</title>
         <url>http://winlirc.sourceforge.net/</url>
-        <description>transmit and receive standard infrared remote control signals</description>
+        <description>WARNING: The configuration is stored in WinLIRC/plugins/WinLIRC.ini. If you install the program in the "Program Files" directory, you will have to run it as administrator for the initial setup. See also https://sourceforge.net/p/winlirc/support-requests/25/&#13;
+&#13;
+transmit and receive standard infrared remote control signals</description>
         <icon>http://winlirc.sourceforge.net/winlirc.png</icon>
         <license>org.gnu.GPLv2</license>
         <category>Tools|automation|multimedia</category>
@@ -6399,7 +6422,7 @@ for /f "delims=" %%a in ('dir /b') do (&#13;
 )&#13;
 cd ..&#13;
 rmdir "%name%"</file>
-        <url>http://ck.kolivas.org/apps/cgminer/3.10/cgminer-3.10.0-windows.zip</url>
+        <url>http://ck.kolivas.org/apps/cgminer/old/3.10/cgminer-3.10.0-windows.zip</url>
         <sha1>c6e8a4d932abe07c58b3228f4d9154dbd0398c2b</sha1>
     </version>
     <version name="4.2.2" package="cgminer">
@@ -8770,6 +8793,22 @@ for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set myun=%%x&#13;
 "%myun%\myuninst.exe" /uninstall "CutePDF Writer 3.0"&#13;
 </file>
         <url>https://dl.dropboxusercontent.com/u/176999101/com.cutepdf.CutePDFWriter-3.0.0.6.exe</url>
+        <sha1>0cb23054498b9d72048e7d9a3785cacf06089312</sha1>
+        <dependency package="net.nirsoft.MyUninstaller" versions="[1.74, 2)"/>
+        <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.15.7, 2)"/>
+    </version>
+    <version name="3.0.0.7" package="com.cutepdf.CutePDFWriter" type="one-file">
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
+"%setup%" /SP- /VERYSILENT /SUPPRESSMSGBOXES /NOCANCEL /NORESTART /DIR="%CD%" /SAVEINF="%CD%\.Npackd\InnoSetupInfo.ini" /LOG="%CD%\.Npackd\InnoSetupInstall.log"&#13;
+set err=%errorlevel%&#13;
+type .Npackd\InnoSetupInstall.log&#13;
+if %err% neq 0 exit %err%&#13;
+</file>
+        <file path=".Npackd\Uninstall.bat">set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=net.nirsoft.MyUninstaller" "--versions=[1.74, 2)"&#13;
+for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set myun=%%x&#13;
+"%myun%\myuninst.exe" /uninstall "CutePDF Writer 3.0"&#13;
+</file>
+        <url>https://dl.dropboxusercontent.com/u/176999101/com.cutepdf.CutePDFWriter-3.0.0.7.exe</url>
         <sha1>3a5aadf9c98dc459914d5cf4d3e9d9029bb5472d</sha1>
         <dependency package="net.nirsoft.MyUninstaller" versions="[1.74, 2)"/>
         <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.15.7, 2)"/>
@@ -8777,11 +8816,8 @@ for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set myun=%%x&#13;
 
     <version name="1.7.15" package="com.cygwin.cygwin" type="one-file">
         <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
-"%setup%" -q -D -R "%ProgramFiles%\CygwinData" -s http://box-soft.com -l "%ProgramFiles%\CygwinData\packages"&#13;
-"%setup%" -q -L -R "%ProgramFiles%\CygwinData" -l "%ProgramFiles%\CygwinData\packages"</file>
-        <file path=".Npackd\Uninstall.bat">rd /s /q "%ProgramFiles%\CygwinData"&#13;
-del /q /f "%Public%\Desktop\Cygwin Terminal.lnk" || del /q /f "%ALLUSERSPROFILE%\Desktop\Cygwin Terminal.lnk"&#13;
-rd /s /q "%ALLUSERSPROFILE%\Start Menu\Programs\Cygwin" || rd /s /q "%ALLUSERSPROFILE%\Microsoft\Windows\Start Menu\Programs\Cygwin"</file>
+"%setup%" -q -D -R "%CD%" -s http://box-soft.com -l "%CD%\packages"&#13;
+"%setup%" -q -L -R "%CD%" -l "%CD%\packages"</file>
         <url>http://cygwin.com/setup-x86.exe</url>
     </version>
 
@@ -10527,9 +10563,9 @@ if %err% neq 0 exit %err%&#13;
 
     <version name="0.7" package="com.github.bmatzelle.Gow" type="one-file">
         <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
-"%setup%" /S /D=%ProgramFiles%\GowData&#13;
+"%setup%" /S /D=%CD% &amp;&amp; del /f /q "%setup%"&#13;
 </file>
-        <file path=".Npackd\Uninstall.bat">"%ProgramFiles%\GowData\Uninstall.exe" /S&#13;
+        <file path=".Npackd\Uninstall.bat">Uninstall.exe /S _?=%CD%&#13;
 </file>
         <url>https://github.com/downloads/bmatzelle/gow/Gow-0.7.0.exe</url>
         <sha1>07ff02edfccd9cb1017f0d9aa645737f43370f1a</sha1>
@@ -12870,6 +12906,16 @@ if %err% neq 0 exit %err%&#13;
 </file>
         <url>https://dl.dropboxusercontent.com/u/176999101/com.lockhunter.LockHunter-3.1.1.exe</url>
         <sha1>00bc0902bf89210cc086632fdd086eecef4d6b03</sha1>
+    </version>
+
+    <version name="1.8.10" package="com.makemkv.makemkv" type="one-file">
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
+"%setup%" /S /D=%CD% &amp;&amp; del /f /q "%setup%"&#13;
+</file>
+        <file path=".Npackd\Uninstall.bat">uninst.exe /S _?=%CD%&#13;
+</file>
+        <url>http://www.makemkv.com/download/Setup_MakeMKV_v1.8.10.exe</url>
+        <sha1>9cf622084fdfc7a7c7bbf3d4a0036ced2ecc6a0e</sha1>
     </version>
 
     <version name="7.0.61" package="com.maniactools.FreeM4aToMP3Converter" type="one-file">
@@ -20028,6 +20074,18 @@ if %err% neq 0 exit %err%&#13;
         <file path=".Npackd\Uninstall.bat">unins000.exe /VERYSILENT /SUPPRESSMSGBOXES /NORESTART</file>
         <url>http://downloads.sourceforge.net/project/dxgettext/For%20Delphi%20and%20C%2B%2B%20Builder/1.2.2/dxgettext-1.2.2.exe</url>
         <sha1>1a6a7b97b4113ef4f3f1d67e88a97a7d260f1801</sha1>
+    </version>
+
+    <version name="3.64" package="dk.software.hulubulu.advancedrenamer" type="one-file">
+        <file path=".Npackd\Install.bat">ren down Setup.exe&#13;
+"%nih%\InstallInnoSetup.bat"&#13;
+</file>
+        <file path=".Npackd\Uninstall.bat">"%nih%\UninstallInnoSetup.bat" unins000.exe</file>
+        <url>http://www.advancedrenamer.com/down?obj=10</url>
+        <sha1>2038533be09f2892d251afafeb95b5594253095e</sha1>
+        <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
+            <variable>nih</variable>
+        </dependency>
     </version>
 
     <version name="8.57" package="dmc">
@@ -41180,21 +41238,6 @@ if %err% neq 0 exit %err%&#13;
         <sha1>35dfb2bba9cc47a2e3507edb13fceb23a21cf18c</sha1>
     </version>
 
-    <version name="3.8.2450" package="skychart" type="one-file">
-        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
-"%setup%" /SP- /VERYSILENT /SUPPRESSMSGBOXES /NOCANCEL /NORESTART /DIR="%CD%" /SAVEINF="%CD%\.Npackd\InnoSetupInfo.ini" /LOG="%CD%\.Npackd\InnoSetupInstall.log"&#13;
-set err=%errorlevel%&#13;
-type .Npackd\InnoSetupInstall.log&#13;
-if %err% neq 0 exit %err%&#13;
-</file>
-        <file path=".Npackd\Uninstall.bat">unins000.exe /VERYSILENT /SUPPRESSMSGBOXES /NORESTART /LOG="%CD%\.Npackd\InnoSetupUninstall.log"&#13;
-set err=%errorlevel%&#13;
-type .Npackd\InnoSetupUninstall.log&#13;
-if %err% neq 0 exit %err%&#13;
-</file>
-        <url>http://downloads.sourceforge.net/project/skychart/1-%20cdc-skychart/version_3.8/skychart-3.8-2450-windows.exe</url>
-        <sha1>2d27df325d72506df116326b659bc67f136ff643</sha1>
-    </version>
     <version name="3.10" package="skychart" type="one-file">
         <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
 "%setup%" /SP- /VERYSILENT /SUPPRESSMSGBOXES /NOCANCEL /NORESTART /DIR="%CD%" /SAVEINF="%CD%\.Npackd\InnoSetupInfo.ini" /LOG="%CD%\.Npackd\InnoSetupInstall.log"&#13;
