@@ -1527,7 +1527,7 @@ basename cat chgrp chmod chown cksum comm cp csplit cut dd df dircolors dirname 
 &#13;
 Full functionality is free while in beta:&#13;
 http://www.makemkv.com/forum2/viewtopic.php?f=5&amp;t=1053</description>
-        <icon>http://www.makemkv.com/favicon.ico</icon>
+        <icon>https://lh4.googleusercontent.com/-b_i5zPRnkPo/U2Oo54kb1dI/AAAAAAAAAGI/SeWm4J7HrjE/s32-p/makemkv-2.png</icon>
         <category>Video</category>
     </package>
     <package name="com.maniactools.FreeM4aToMP3Converter">
@@ -2612,6 +2612,24 @@ utility, etc.)</description>
         <url>http://ecere.com</url>
         <description>An elegant, easy to learn, C style object oriented programming language: eC A light, fast and flexible cross-platform GUI toolkit. An IDE including a code editor, visual object designer, project management and debugger. A powerful 2D/3D graphics engine. Libraries for networking, file access, databases, multithreading and much more.</description>
         <icon>https://lh4.googleusercontent.com/-FaRITMAONsE/UZ8oO-qtXAI/AAAAAAAACEU/0LaGcwd6BjA/s800/eceresdk.png</icon>
+        <category>Development</category>
+    </package>
+    <package name="eclipse-rcp">
+        <title>Eclipse IDE for RCP and RAP developers</title>
+        <url>http://www.eclipse.org/home/categories/index.php?category=ide</url>
+        <description>Java IDE&#13;
+&#13;
+Eclipse version names:&#13;
+* Callisto - 3.2&#13;
+* Europa - 3.3&#13;
+* Ganymede - 3.4&#13;
+* Galileo - 3.5&#13;
+* Helios - 3.6&#13;
+* Indigo - 3.7&#13;
+* Juno - 4.2&#13;
+* Kepler - 4.3</description>
+        <icon>https://lh3.googleusercontent.com/-U3-vb3c4Hlg/T2h0IZg9KaI/AAAAAAAAAY0/mb-U_2_MU50/s800/org.eclipse.EclipseIDEJava.png</icon>
+        <license>org.eclipse.EPLv1</license>
         <category>Development</category>
     </package>
     <package name="edu.cmu.andrew.ftp.MPack">
@@ -5914,6 +5932,13 @@ kw: gvim, vi</description>
         <icon>https://lh4.googleusercontent.com/-wbD0uJ3-rGU/UmJREw9pheI/AAAAAAAABOI/MEsEWxybA88/s32-no/wcftestclient.png</icon>
         <category>Development</category>
     </package>
+    <package name="webpi">
+        <title>Microsoft Web Platform Installer</title>
+        <url>http://www.microsoft.com/web/downloads/platform.aspx</url>
+        <description>makes getting the latest components of the Microsoft Web Platform, including Internet Information Services (IIS), SQL Server Express, .NET Framework and Visual Web Developer easy. The Web PI also makes it easy to install and run the most popular free web applications for blogging, content management and more with the built-in Windows Web Application Gallery.</description>
+        <icon>http://cdn.altrn.tv/icons/microsoft-web-platform-installer_4490.png?width=32&amp;height=32&amp;mode=crop&amp;anchor=middlecenter</icon>
+        <category>Development</category>
+    </package>
     <package name="win32-disk-imager">
         <title>Win32 Disk Imager</title>
         <url>http://sourceforge.net/projects/win32diskimager/</url>
@@ -5979,7 +6004,7 @@ It can also be user to write Linux distributions installer images to USB drives,
         <title>youtube-dl-gui</title>
         <url>https://github.com/MrS0m30n3/youtube-dl-gui</url>
         <description>GUI for youtube-dl</description>
-        <icon>https://raw.githubusercontent.com/MrS0m30n3/youtube-dl-gui/master/icons/ytube.png</icon>
+        <icon>https://raw.githubusercontent.com/MrS0m30n3/youtube-dl-gui/master/youtube_dl_gui/icons/youtube-dl-gui.png</icon>
         <license>org.wikipedia.Freeware</license>
         <category>Video</category>
     </package>
@@ -7586,7 +7611,13 @@ if %err% neq 0 exit %err%</file>
 &#13;
 del /q /f SetupAdmin.exe&#13;
 del /q /f AppleSoftwareUpdate.msi&#13;
-del /q /f AppleApplicationSupport.msi&#13;
+&#13;
+msiexec.exe /qn /norestart /Lime .Npackd\MSI.log /i AppleApplicationSupport.msi ALLUSERS=1&#13;
+set err=%errorlevel%&#13;
+type .Npackd\MSI.log&#13;
+rem 3010=restart required&#13;
+if %err% equ 3010 exit 0&#13;
+if %err% neq 0 exit %err%&#13;
 &#13;
 msiexec.exe /qn /norestart /Lime .Npackd\MSI.log /i iTunes.msi ALLUSERS=1&#13;
 set err=%errorlevel%&#13;
@@ -7630,7 +7661,6 @@ if %err% equ 3010 exit 0&#13;
 if %err% neq 0 exit %err%</file>
         <url>https://secure-appldnld.apple.com/iTunes11/031-3481.20140225.SdYYY/iTunesSetup.exe</url>
         <sha1>191ed16f8bc474fe9f4aa487adfbaea41dae235f</sha1>
-        <dependency package="com.apple.appleas" versions="[2.3.6, 2.3.6]"/>
     </version>
 
     <version name="7.7.3" package="com.apple.quicktime" type="one-file">
@@ -20349,6 +20379,21 @@ for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set myun=%%x&#13;
         <dependency package="net.nirsoft.MyUninstaller" versions="[1.74, 2)"/>
     </version>
 
+    <version name="4.3.2" package="eclipse-rcp">
+        <important-file path="eclipse.exe" title="Eclipse IDE for Java"/>
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b eclipse*') do set name=%%x&#13;
+cd "%name%"        &#13;
+for /f "delims=" %%a in ('dir /b') do (&#13;
+  move "%%a" ..&#13;
+)&#13;
+cd ..&#13;
+rmdir "%name%"&#13;
+</file>
+        <url>http://downloads.sourceforge.net/project/npackd/eclipse-rcp-4.3.2.zip</url>
+        <sha1>4716b0da3555f8b40f84706e9448e2799d055039</sha1>
+        <dependency package="com.oracle.JRE" versions="[1.6, 2)"/>
+    </version>
+
     <version name="1.5" package="edu.cmu.andrew.ftp.MPack">
         <url>http://ftp.andrew.cmu.edu/pub/mpack/old/mpack15d.zip</url>
         <sha1>15d031a6a7a883019056c2502c5b437140cb8b6d</sha1>
@@ -31901,6 +31946,15 @@ ren "%setup%" lukeall.jar
         <sha1>b786ac92a0de21721c4019bc35dde90a9bb0c5a3</sha1>
         <dependency package="com.oracle.JRE" versions="[1.5, 2)"/>
     </version>
+    <version name="4.7" package="org.getopt.Luke" type="one-file">
+        <important-file path="lukeall.jar" title="Luke"/>
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.jar') do set setup=%%x&#13;
+ren "%setup%" lukeall.jar&#13;
+</file>
+        <url>https://github.com/DmitryKey/luke/releases/download/4.7.0/luke-with-deps.jar</url>
+        <sha1>3cab68191780c492893fcd262f1e25cd0013fe33</sha1>
+        <dependency package="com.oracle.JRE" versions="[1.5, 2)"/>
+    </version>
 
     <version name="1.33" package="org.gexperts.GExpertsDelphi2009Installer" type="one-file">
         <important-file path="GXRS2009.exe" title="Installer"/>
@@ -42088,6 +42142,15 @@ verify</file>
         <important-file path="WcfTestClient\WcfTestClient.exe" title="WCFTestClient"/>
         <url>http://weblogs.asp.net/blogs/guillermo/Code/WcfTestClient.zip</url>
         <sha1>8812db1901c8b285d00585624d2d53ce759b4061</sha1>
+    </version>
+
+    <version name="4.6" package="webpi" type="one-file">
+        <file path=".Npackd\Install.bat">call "%nih%\InstallMSI.bat" INSTALLDIR yes&#13;
+</file>
+        <url>http://download.microsoft.com/download/7/0/4/704CEB4C-9F42-4962-A2B0-5C84B0682C7A/WebPlatformInstaller_x86_en-US.msi</url>
+        <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.1, 2)">
+            <variable>nih</variable>
+        </dependency>
     </version>
 
     <version name="0.9" package="win32-disk-imager">
