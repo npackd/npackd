@@ -547,6 +547,24 @@ Windows XP or later is required. It relies upon the DbgHelp library to resolve s
         <license>org.gnu.GPLv2</license>
         <category>Development</category>
     </package>
+    <package name="eclipse-rcp64">
+        <title>Eclipse IDE for RCP and RAP developers 64 bit</title>
+        <url>http://www.eclipse.org/home/categories/index.php?category=ide</url>
+        <description>Java IDE&#13;
+&#13;
+Eclipse version names:&#13;
+* Callisto - 3.2&#13;
+* Europa - 3.3&#13;
+* Ganymede - 3.4&#13;
+* Galileo - 3.5&#13;
+* Helios - 3.6&#13;
+* Indigo - 3.7&#13;
+* Juno - 4.2&#13;
+* Kepler - 4.3</description>
+        <icon>https://lh3.googleusercontent.com/-U3-vb3c4Hlg/T2h0IZg9KaI/AAAAAAAAAY0/mb-U_2_MU50/s800/org.eclipse.EclipseIDEJava.png</icon>
+        <license>org.eclipse.EPLv1</license>
+        <category>Development</category>
+    </package>
     <package name="far-manager64">
         <title>FAR Manager 64 bit</title>
         <url>http://www.farmanager.com/index.php?l=en</url>
@@ -1330,6 +1348,21 @@ SoapUI is a free and open source cross-platform Functional Testing solution. Wit
         <icon>https://lh6.googleusercontent.com/-ljMG64aucII/UcgAGBLBbeI/AAAAAAAACO8/K_22D0Jl1CI/s800/vuze.png</icon>
         <license>org.gnu.GPLv2</license>
         <category>Tools</category>
+    </package>
+    <package name="webpi64">
+        <title>Microsoft Web Platform Installer 64 bit</title>
+        <url>http://www.microsoft.com/web/downloads/platform.aspx</url>
+        <description>makes getting the latest components of the Microsoft Web Platform, including Internet Information Services (IIS), SQL Server Express, .NET Framework and Visual Web Developer easy. The Web PI also makes it easy to install and run the most popular free web applications for blogging, content management and more with the built-in Windows Web Application Gallery.</description>
+        <icon>http://cdn.altrn.tv/icons/microsoft-web-platform-installer_4490.png?width=32&amp;height=32&amp;mode=crop&amp;anchor=middlecenter</icon>
+        <category>Development</category>
+    </package>
+    <package name="zulu64">
+        <title>Zulu 64 bit</title>
+        <url>http://www.azulsystems.com/products/zulu</url>
+        <description>a commercialized build of OpenJDK that is fully compliant with the Java SE standard</description>
+        <icon>https://lh5.googleusercontent.com/-tdPIcA0B3uk/U2NlPhsM6sI/AAAAAAAABYs/lPGuFl48jRs/s16-no/zulu.png</icon>
+        <license>org.gnu.GPLv2</license>
+        <category>Development</category>
     </package>
 
     <version name="0.3" package="aspia64">
@@ -6024,6 +6057,21 @@ rmdir "%name%"</file>
         <sha1>a8c1f9009f579e8e80a0cd3b7619f17ae5185824</sha1>
     </version>
 
+    <version name="4.3.2" package="eclipse-rcp64">
+        <important-file path="eclipse.exe" title="Eclipse IDE for Java"/>
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b eclipse*') do set name=%%x&#13;
+cd "%name%"        &#13;
+for /f "delims=" %%a in ('dir /b') do (&#13;
+  move "%%a" ..&#13;
+)&#13;
+cd ..&#13;
+rmdir "%name%"&#13;
+</file>
+        <url>http://downloads.sourceforge.net/project/npackd/eclipse-rcp64-4.3.2.zip</url>
+        <sha1>e688a49668256258ba27c922fa44cf2ab81b8fb0</sha1>
+        <dependency package="com.oracle.JRE64" versions="[1.6, 2)"/>
+    </version>
+
     <version name="3.0.3525" package="far-manager64" type="one-file">
         <file path=".Npackd\Install.bat">set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.NpackdInstallerHelper" "--versions=[1.1, 2)"&#13;
 for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set npackdih=%%x&#13;
@@ -6214,6 +6262,17 @@ if %err% neq 0 exit %err%&#13;
     </version>
 
     <version name="0.3.8" package="io.mpv.mpv-64" type="one-file">
+        <file path=".Npackd\Install.bat">set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=org.7-zip.SevenZIPA" "--versions=[9.20, 10)"&#13;
+for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set sevenzipa=%%x&#13;
+for /f %%x in ('dir /b *.7z') do set setup=%%x&#13;
+"%sevenzipa%\7za.exe" x "%setup%" &gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+</file>
+        <url>https://github.com/mpv-player/mpv/releases/download/v0.3.8/mpv_v0.3.8_windows_64bit.7z</url>
+        <sha1>49f24315fb54ff026b24ef85e5dbf35950c2da25</sha1>
+        <dependency package="org.7-zip.SevenZIPA" versions="[9.20, 10)"/>
+        <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.15.7, 2)"/>
+    </version>
+    <version name="0.3.9" package="io.mpv.mpv-64" type="one-file">
         <file path=".Npackd\Install.bat">set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=org.7-zip.SevenZIPA" "--versions=[9.20, 10)"&#13;
 for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set sevenzipa=%%x&#13;
 for /f %%x in ('dir /b *.7z') do set setup=%%x&#13;
@@ -12834,5 +12893,29 @@ if %err% neq 0 exit %err%&#13;
         <url>http://downloads.sourceforge.net/project/azureus/vuze/Vuze_5300/Vuze_5300_Installer64.exe</url>
         <sha1>293b56716e753c97d49a6ac6bb8a7c0560ab93a6</sha1>
         <dependency package="com.oracle.JRE64" versions="[1.6.0.23, 2)"/>
+    </version>
+
+    <version name="4.6" package="webpi64" type="one-file">
+        <file path=".Npackd\Install.bat">call "%nih%\InstallMSI.bat" TARGETDIR yes&#13;
+</file>
+        <url>http://download.microsoft.com/download/7/0/4/704CEB4C-9F42-4962-A2B0-5C84B0682C7A/WebPlatformInstaller_amd64_en-US.msi</url>
+        <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.1, 2)">
+            <variable>nih</variable>
+        </dependency>
+    </version>
+
+    <version name="8.0.0.3" package="zulu64">
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b zulu*') do set name=%%x&#13;
+cd "%name%"        &#13;
+for /f "delims=" %%a in ('dir /b') do (&#13;
+  move "%%a" ..&#13;
+)&#13;
+cd ..&#13;
+rmdir "%name%"</file>
+        <url>http://downloads.sourceforge.net/project/npackd/zulu64-8.0.0.3.zip</url>
+        <sha1>573fb478f89ac81b8e157472d2791449f1b7f88e</sha1>
+        <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.1, 2)">
+            <variable>nih</variable>
+        </dependency>
     </version>
 </root>
