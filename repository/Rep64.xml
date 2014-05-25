@@ -1246,6 +1246,13 @@ kw: gvim, vi</description>
         <license>org.gnu.GPLv2</license>
         <category>Tools</category>
     </package>
+    <package name="pale-moon64">
+        <title>Pale Moon 64 bit</title>
+        <url>http://www.palemoon.org/</url>
+        <description>Firefox-based web browser available for Microsoft Windows and Linux, focusing on efficiency and ease of use</description>
+        <icon>http://upload.wikimedia.org/wikipedia/en/0/02/Pale_Moon_browser_logo.png</icon>
+        <category>Productivity</category>
+    </package>
     <package name="panda-cloud-antivirus64">
         <title>Panda Cloud Antivirus 64 bit</title>
         <url>http://www.cloudantivirus.com/en</url>
@@ -6258,7 +6265,7 @@ type .Npackd\InnoSetupUninstall.log&#13;
 if %err% neq 0 exit %err%&#13;
 </file>
         <url>http://downloads.sourceforge.net/project/npackd/imagemagick64-6.8.9.exe</url>
-        <sha1>812ff5441a4634f78d3ebc16c7db3e84b7ff03a0</sha1>
+        <sha1>1c2536bbb323aa1ed6fa4fc77bc0291bbfa9e6b3</sha1>
     </version>
 
     <version name="0.3.8" package="io.mpv.mpv-64" type="one-file">
@@ -12391,6 +12398,18 @@ if %err% neq 0 exit %err%</file>
 </file>
         <url>http://wiresharkdownloads.riverbed.com/wireshark/win64/all-versions/Wireshark-win64-1.10.6.exe</url>
         <sha1>b80d3ac8f5d5a8a117791e04f5dab535082a3b26</sha1>
+    </version>
+
+    <version name="24.5" package="pale-moon64" type="one-file">
+        <file path=".Npackd\Install.bat">echo [Install] &gt; .Npackd\FF.ini&#13;
+echo InstallDirectoryPath=%CD% &gt;&gt; .Npackd\FF.ini&#13;
+echo QuickLaunchShortcut=false &gt;&gt; .Npackd\FF.ini&#13;
+echo DesktopShortcut=false &gt;&gt; .Npackd\FF.ini&#13;
+for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
+"%setup%" /INI="%CD%\.Npackd\FF.ini" &amp;&amp; del /f /q "%setup%"</file>
+        <file path=".Npackd\Uninstall.bat">uninstall\helper.exe /S</file>
+        <url>http://relmirror.palemoon.org/release/palemoon-24.5.0.win64.installer.exe</url>
+        <sha1>4981ec52749e22809b2fe6335b4b874b50efab39</sha1>
     </version>
 
     <version name="2.2" package="panda-cloud-antivirus64" type="one-file">
