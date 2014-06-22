@@ -2216,7 +2216,6 @@ for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set npackdih=%%x&#13;
 call "%npackdih%\InstallMSI.bat" APPLICATIONFOLDER yes&#13;
 </file>
         <url>http://download.calibre-ebook.com/1.31.0/calibre-64bit-1.31.0.msi</url>
-        <sha1>b295caca4f5ce61252b3a2253a661e6d6a1b96ae</sha1>
         <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.2, 2)"/>
     </version>
 
@@ -2389,7 +2388,7 @@ if %err% neq 0 exit %err%</file>
 "%setup%" /S /D=%CD% &amp;&amp; del /f /q "%setup%"</file>
         <file path=".Npackd\Uninstall.bat">uninstgs.exe /S</file>
         <url>http://downloads.ghostscript.com/public/gs910w64.exe</url>
-        <sha1>b2585cab00a753f425bb7593849b032e446d1db3</sha1>
+        <sha1>41d205e981d1d8553e2bbda9491afc3a0db1ab97</sha1>
     </version>
     <version name="9.14" package="com.ghostscript.Ghostscript64" type="one-file">
         <file path=".Npackd\Install.bat">for /f %%x in ('dir /b *.exe') do set setup=%%x&#13;
@@ -8668,25 +8667,25 @@ rmdir "%name%"&#13;
     </version>
 
     <version name="1.1.8" package="org.bitbucket.tortoisehg.TortoiseHg64" type="one-file">
-        <file path=".Npackd\Install.bat">for /f %%x in ('dir /b *.msi') do set setup=%%x
-copy "%setup%" .Npackd
-msiexec.exe /qn /norestart /Lime .Npackd\MSI.log /i "%setup%" TARGETDIR="%CD%" ALLUSERS=1
-set err=%errorlevel%
-type .Npackd\MSI.log
-rem 3010=restart required
-if %err% equ 3010 exit /b 0
-if %err% neq 0 exit /b %err%
+        <file path=".Npackd\Install.bat">for /f %%x in ('dir /b *.msi') do set setup=%%x&#13;
+copy "%setup%" .Npackd&#13;
+msiexec.exe /qn /norestart /Lime .Npackd\MSI.log /i "%setup%" TARGETDIR="%CD%" ALLUSERS=1&#13;
+set err=%errorlevel%&#13;
+type .Npackd\MSI.log&#13;
+rem 3010=restart required&#13;
+if %err% equ 3010 exit /b 0&#13;
+if %err% neq 0 exit /b %err%&#13;
 </file>
-        <file path=".Npackd\Uninstall.bat">copy .Npackd\*.msi .
-for /f %%x in ('dir /b *.msi') do set setup=%%x
-msiexec.exe /qn /norestart /Lime .Npackd\MSI.log /x "%setup%"
-set err=%errorlevel%
-type .Npackd\MSI.log
-rem 3010=restart required
-if %err% equ 3010 exit /b 0
-if %err% neq 0 exit /b %err%
+        <file path=".Npackd\Uninstall.bat">copy .Npackd\*.msi .&#13;
+for /f %%x in ('dir /b *.msi') do set setup=%%x&#13;
+msiexec.exe /qn /norestart /Lime .Npackd\MSI.log /x "%setup%"&#13;
+set err=%errorlevel%&#13;
+type .Npackd\MSI.log&#13;
+rem 3010=restart required&#13;
+if %err% equ 3010 exit /b 0&#13;
+if %err% neq 0 exit /b %err%&#13;
 </file>
-        <url>http://cdn.bitbucket.org/tortoisehg/stable/downloads/tortoisehg-1.1.8-hg-1.7.3-x64.msi</url>
+        <url>http://bitbucket.org/tortoisehg/stable/downloads/tortoisehg-1.1.8-hg-1.7.3-x64.msi</url>
         <sha1>3688C127C9C2CD58EDB6B75D44E70041408D6746</sha1>
     </version>
     <version name="2.0.3" package="org.bitbucket.tortoisehg.TortoiseHg64" type="one-file">
@@ -8709,7 +8708,7 @@ if %err% equ 3010 exit /b 0
 if %err% neq 0 exit /b %err%
 </file>
         <url>http://bitbucket.org/tortoisehg/thg/downloads/tortoisehg-2.0.3-hg-1.8.2-x64.msi</url>
-        <sha1>F1347CF3CDF0C0DB8DECE1974F713D7A563749EB</sha1>
+        <sha1>f1347cf3cdf0c0db8dece1974f713d7a563749eb</sha1>
     </version>
     <version name="2.0.5" package="org.bitbucket.tortoisehg.TortoiseHg64" type="one-file">
         <file path=".Npackd\Install.bat">for /f %%x in ('dir /b *.msi') do set setup=%%x
@@ -8731,7 +8730,7 @@ if %err% equ 3010 exit /b 0
 if %err% neq 0 exit /b %err%
 </file>
         <url>http://bitbucket.org/tortoisehg/thg/downloads/tortoisehg-2.0.5-hg-1.8.4-x64.msi</url>
-        <sha1>1E3DDDEB1CE02D8299F2DA24C188AE352E324B2B</sha1>
+        <sha1>1e3dddeb1ce02d8299f2da24c188ae352e324b2b</sha1>
     </version>
     <version name="2.1.1" package="org.bitbucket.tortoisehg.TortoiseHg64" type="one-file">
         <file path=".Npackd\Install.bat">for /f %%x in ('dir /b *.msi') do set setup=%%x
@@ -8756,135 +8755,135 @@ if %err% neq 0 exit /b %err%
         <sha1>7c95fce2011398dc6f9f5952642c8f3bcd9ae2a4</sha1>
     </version>
     <version name="2.1.2" package="org.bitbucket.tortoisehg.TortoiseHg64" type="one-file">
-        <file path=".Npackd\Install.bat">for /f %%x in ('dir /b *.msi') do set setup=%%x
-copy "%setup%" .Npackd
-msiexec.exe /qn /norestart /Lime .Npackd\MSI.log /i "%setup%" TARGETDIR="%CD%" ALLUSERS=1
-set err=%errorlevel%
-type .Npackd\MSI.log
-rem 3010=restart required
-if %err% equ 3010 exit /b 0
-if %err% neq 0 exit /b %err%
+        <file path=".Npackd\Install.bat">for /f %%x in ('dir /b *.msi') do set setup=%%x&#13;
+copy "%setup%" .Npackd&#13;
+msiexec.exe /qn /norestart /Lime .Npackd\MSI.log /i "%setup%" TARGETDIR="%CD%" ALLUSERS=1&#13;
+set err=%errorlevel%&#13;
+type .Npackd\MSI.log&#13;
+rem 3010=restart required&#13;
+if %err% equ 3010 exit /b 0&#13;
+if %err% neq 0 exit /b %err%&#13;
 </file>
-        <file path=".Npackd\Uninstall.bat">copy .Npackd\*.msi .
-for /f %%x in ('dir /b *.msi') do set setup=%%x
-msiexec.exe /qn /norestart /Lime .Npackd\MSI.log /x "%setup%"
-set err=%errorlevel%
-type .Npackd\MSI.log
-rem 3010=restart required
-if %err% equ 3010 exit /b 0
-if %err% neq 0 exit /b %err%
+        <file path=".Npackd\Uninstall.bat">copy .Npackd\*.msi .&#13;
+for /f %%x in ('dir /b *.msi') do set setup=%%x&#13;
+msiexec.exe /qn /norestart /Lime .Npackd\MSI.log /x "%setup%"&#13;
+set err=%errorlevel%&#13;
+type .Npackd\MSI.log&#13;
+rem 3010=restart required&#13;
+if %err% equ 3010 exit /b 0&#13;
+if %err% neq 0 exit /b %err%&#13;
 </file>
-        <url>http://cdn.bitbucket.org/tortoisehg/thg/downloads/tortoisehg-2.1.2-hg-1.9.1-x64.msi</url>
+        <url>http://bitbucket.org/tortoisehg/thg/downloads/tortoisehg-2.1.2-hg-1.9.1-x64.msi</url>
         <sha1>6e6a44d66affb12d7386e3e54bcc2132d3aa2f68</sha1>
     </version>
     <version name="2.1.3" package="org.bitbucket.tortoisehg.TortoiseHg64" type="one-file">
-        <file path=".Npackd\Install.bat">for /f %%x in ('dir /b *.msi') do set setup=%%x
-copy "%setup%" .Npackd
-msiexec.exe /qn /norestart /Lime .Npackd\MSI.log /i "%setup%" TARGETDIR="%CD%" ALLUSERS=1
-set err=%errorlevel%
-type .Npackd\MSI.log
-rem 3010=restart required
-if %err% equ 3010 exit /b 0
-if %err% neq 0 exit /b %err%
+        <file path=".Npackd\Install.bat">for /f %%x in ('dir /b *.msi') do set setup=%%x&#13;
+copy "%setup%" .Npackd&#13;
+msiexec.exe /qn /norestart /Lime .Npackd\MSI.log /i "%setup%" TARGETDIR="%CD%" ALLUSERS=1&#13;
+set err=%errorlevel%&#13;
+type .Npackd\MSI.log&#13;
+rem 3010=restart required&#13;
+if %err% equ 3010 exit /b 0&#13;
+if %err% neq 0 exit /b %err%&#13;
 </file>
-        <file path=".Npackd\Uninstall.bat">copy .Npackd\*.msi .
-for /f %%x in ('dir /b *.msi') do set setup=%%x
-msiexec.exe /qn /norestart /Lime .Npackd\MSI.log /x "%setup%"
-set err=%errorlevel%
-type .Npackd\MSI.log
-rem 3010=restart required
-if %err% equ 3010 exit /b 0
-if %err% neq 0 exit /b %err%
+        <file path=".Npackd\Uninstall.bat">copy .Npackd\*.msi .&#13;
+for /f %%x in ('dir /b *.msi') do set setup=%%x&#13;
+msiexec.exe /qn /norestart /Lime .Npackd\MSI.log /x "%setup%"&#13;
+set err=%errorlevel%&#13;
+type .Npackd\MSI.log&#13;
+rem 3010=restart required&#13;
+if %err% equ 3010 exit /b 0&#13;
+if %err% neq 0 exit /b %err%&#13;
 </file>
-        <url>http://cdn.bitbucket.org/tortoisehg/thg/downloads/tortoisehg-2.1.3-hg-1.9.2-x64.msi</url>
+        <url>http://bitbucket.org/tortoisehg/thg/downloads/tortoisehg-2.1.3-hg-1.9.2-x64.msi</url>
         <sha1>ac36200ef5862a67c8c432bd2a1492b3b26028b9</sha1>
     </version>
     <version name="2.1.4" package="org.bitbucket.tortoisehg.TortoiseHg64" type="one-file">
-        <file path=".Npackd\Install.bat">for /f %%x in ('dir /b *.msi') do set setup=%%x
-copy "%setup%" .Npackd
-msiexec.exe /qn /norestart /Lime .Npackd\MSI.log /i "%setup%" TARGETDIR="%CD%" ALLUSERS=1
-set err=%errorlevel%
-type .Npackd\MSI.log
-rem 3010=restart required
-if %err% equ 3010 exit /b 0
-if %err% neq 0 exit /b %err%
+        <file path=".Npackd\Install.bat">for /f %%x in ('dir /b *.msi') do set setup=%%x&#13;
+copy "%setup%" .Npackd&#13;
+msiexec.exe /qn /norestart /Lime .Npackd\MSI.log /i "%setup%" TARGETDIR="%CD%" ALLUSERS=1&#13;
+set err=%errorlevel%&#13;
+type .Npackd\MSI.log&#13;
+rem 3010=restart required&#13;
+if %err% equ 3010 exit /b 0&#13;
+if %err% neq 0 exit /b %err%&#13;
 </file>
-        <file path=".Npackd\Uninstall.bat">copy .Npackd\*.msi .
-for /f %%x in ('dir /b *.msi') do set setup=%%x
-msiexec.exe /qn /norestart /Lime .Npackd\MSI.log /x "%setup%"
-set err=%errorlevel%
-type .Npackd\MSI.log
-rem 3010=restart required
-if %err% equ 3010 exit /b 0
-if %err% neq 0 exit /b %err%
+        <file path=".Npackd\Uninstall.bat">copy .Npackd\*.msi .&#13;
+for /f %%x in ('dir /b *.msi') do set setup=%%x&#13;
+msiexec.exe /qn /norestart /Lime .Npackd\MSI.log /x "%setup%"&#13;
+set err=%errorlevel%&#13;
+type .Npackd\MSI.log&#13;
+rem 3010=restart required&#13;
+if %err% equ 3010 exit /b 0&#13;
+if %err% neq 0 exit /b %err%&#13;
 </file>
-        <url>http://cdn.bitbucket.org/tortoisehg/thg/downloads/tortoisehg-2.1.4-hg-1.9.3-x64.msi</url>
+        <url>http://bitbucket.org/tortoisehg/thg/downloads/tortoisehg-2.1.4-hg-1.9.3-x64.msi</url>
         <sha1>0b072460476ce76b2da6b05cd08a292b414135e5</sha1>
     </version>
     <version name="2.2.1" package="org.bitbucket.tortoisehg.TortoiseHg64" type="one-file">
-        <file path=".Npackd\Install.bat">for /f %%x in ('dir /b *.msi') do set setup=%%x
-copy "%setup%" .Npackd
-msiexec.exe /qn /norestart /Lime .Npackd\MSI.log /i "%setup%" TARGETDIR="%CD%" ALLUSERS=1
-set err=%errorlevel%
-type .Npackd\MSI.log
-rem 3010=restart required
-if %err% equ 3010 exit /b 0
-if %err% neq 0 exit /b %err%
+        <file path=".Npackd\Install.bat">for /f %%x in ('dir /b *.msi') do set setup=%%x&#13;
+copy "%setup%" .Npackd&#13;
+msiexec.exe /qn /norestart /Lime .Npackd\MSI.log /i "%setup%" TARGETDIR="%CD%" ALLUSERS=1&#13;
+set err=%errorlevel%&#13;
+type .Npackd\MSI.log&#13;
+rem 3010=restart required&#13;
+if %err% equ 3010 exit /b 0&#13;
+if %err% neq 0 exit /b %err%&#13;
 </file>
-        <file path=".Npackd\Uninstall.bat">copy .Npackd\*.msi .
-for /f %%x in ('dir /b *.msi') do set setup=%%x
-msiexec.exe /qn /norestart /Lime .Npackd\MSI.log /x "%setup%"
-set err=%errorlevel%
-type .Npackd\MSI.log
-rem 3010=restart required
-if %err% equ 3010 exit /b 0
-if %err% neq 0 exit /b %err%
+        <file path=".Npackd\Uninstall.bat">copy .Npackd\*.msi .&#13;
+for /f %%x in ('dir /b *.msi') do set setup=%%x&#13;
+msiexec.exe /qn /norestart /Lime .Npackd\MSI.log /x "%setup%"&#13;
+set err=%errorlevel%&#13;
+type .Npackd\MSI.log&#13;
+rem 3010=restart required&#13;
+if %err% equ 3010 exit /b 0&#13;
+if %err% neq 0 exit /b %err%&#13;
 </file>
-        <url>http://cdn.bitbucket.org/tortoisehg/thg/downloads/tortoisehg-2.2.1-hg-2.0.1-x64.msi</url>
+        <url>http://bitbucket.org/tortoisehg/thg/downloads/tortoisehg-2.2.1-hg-2.0.1-x64.msi</url>
         <sha1>5a3f2bb9a525e5b9b2ca1dc6ce1f5f1a1a69440f</sha1>
     </version>
     <version name="2.2.2" package="org.bitbucket.tortoisehg.TortoiseHg64" type="one-file">
-        <file path=".Npackd\Install.bat">for /f %%x in ('dir /b *.msi') do set setup=%%x
-copy "%setup%" .Npackd
-msiexec.exe /qn /norestart /Lime .Npackd\MSI.log /i "%setup%" TARGETDIR="%CD%" ALLUSERS=1
-set err=%errorlevel%
-type .Npackd\MSI.log
-rem 3010=restart required
-if %err% equ 3010 exit /b 0
-if %err% neq 0 exit /b %err%
+        <file path=".Npackd\Install.bat">for /f %%x in ('dir /b *.msi') do set setup=%%x&#13;
+copy "%setup%" .Npackd&#13;
+msiexec.exe /qn /norestart /Lime .Npackd\MSI.log /i "%setup%" TARGETDIR="%CD%" ALLUSERS=1&#13;
+set err=%errorlevel%&#13;
+type .Npackd\MSI.log&#13;
+rem 3010=restart required&#13;
+if %err% equ 3010 exit /b 0&#13;
+if %err% neq 0 exit /b %err%&#13;
 </file>
-        <file path=".Npackd\Uninstall.bat">copy .Npackd\*.msi .
-for /f %%x in ('dir /b *.msi') do set setup=%%x
-msiexec.exe /qn /norestart /Lime .Npackd\MSI.log /x "%setup%"
-set err=%errorlevel%
-type .Npackd\MSI.log
-rem 3010=restart required
-if %err% equ 3010 exit /b 0
-if %err% neq 0 exit /b %err%
+        <file path=".Npackd\Uninstall.bat">copy .Npackd\*.msi .&#13;
+for /f %%x in ('dir /b *.msi') do set setup=%%x&#13;
+msiexec.exe /qn /norestart /Lime .Npackd\MSI.log /x "%setup%"&#13;
+set err=%errorlevel%&#13;
+type .Npackd\MSI.log&#13;
+rem 3010=restart required&#13;
+if %err% equ 3010 exit /b 0&#13;
+if %err% neq 0 exit /b %err%&#13;
 </file>
-        <url>http://cdn.bitbucket.org/tortoisehg/thg/downloads/tortoisehg-2.2.2-hg-2.0.2-x64.msi</url>
+        <url>http://bitbucket.org/tortoisehg/thg/downloads/tortoisehg-2.2.2-hg-2.0.2-x64.msi</url>
         <sha1>a49f50c1df07fbf7f8a7cd6de13f1f162d1bdcc6</sha1>
     </version>
     <version name="2.3.2" package="org.bitbucket.tortoisehg.TortoiseHg64" type="one-file">
-        <file path=".Npackd\Install.bat">for /f %%x in ('dir /b *.msi') do set setup=%%x
-copy "%setup%" .Npackd
-msiexec.exe /qn /norestart /Lime .Npackd\MSI.log /i "%setup%" TARGETDIR="%CD%" ALLUSERS=1
-set err=%errorlevel%
-type .Npackd\MSI.log
-rem 3010=restart required
-if %err% equ 3010 exit /b 0
-if %err% neq 0 exit /b %err%
+        <file path=".Npackd\Install.bat">for /f %%x in ('dir /b *.msi') do set setup=%%x&#13;
+copy "%setup%" .Npackd&#13;
+msiexec.exe /qn /norestart /Lime .Npackd\MSI.log /i "%setup%" TARGETDIR="%CD%" ALLUSERS=1&#13;
+set err=%errorlevel%&#13;
+type .Npackd\MSI.log&#13;
+rem 3010=restart required&#13;
+if %err% equ 3010 exit /b 0&#13;
+if %err% neq 0 exit /b %err%&#13;
 </file>
-        <file path=".Npackd\Uninstall.bat">copy .Npackd\*.msi .
-for /f %%x in ('dir /b *.msi') do set setup=%%x
-msiexec.exe /qn /norestart /Lime .Npackd\MSI.log /x "%setup%"
-set err=%errorlevel%
-type .Npackd\MSI.log
-rem 3010=restart required
-if %err% equ 3010 exit /b 0
-if %err% neq 0 exit /b %err%
+        <file path=".Npackd\Uninstall.bat">copy .Npackd\*.msi .&#13;
+for /f %%x in ('dir /b *.msi') do set setup=%%x&#13;
+msiexec.exe /qn /norestart /Lime .Npackd\MSI.log /x "%setup%"&#13;
+set err=%errorlevel%&#13;
+type .Npackd\MSI.log&#13;
+rem 3010=restart required&#13;
+if %err% equ 3010 exit /b 0&#13;
+if %err% neq 0 exit /b %err%&#13;
 </file>
-        <url>http://cdn.bitbucket.org/tortoisehg/thg/downloads/tortoisehg-2.3.2-hg-2.1.2-x64.msi</url>
+        <url>http://bitbucket.org/tortoisehg/thg/downloads/tortoisehg-2.3.2-hg-2.1.2-x64.msi</url>
         <sha1>b2ec13683cf9354fab8d36b347643d04493375b4</sha1>
     </version>
     <version name="2.4" package="org.bitbucket.tortoisehg.TortoiseHg64" type="one-file">
@@ -8910,91 +8909,91 @@ if %err% neq 0 exit /b %err%
         <sha1>658ff2e6fed29d873390a22e44df31ce72fa636f</sha1>
     </version>
     <version name="2.4.1" package="org.bitbucket.tortoisehg.TortoiseHg64" type="one-file">
-        <file path=".Npackd\Install.bat">for /f %%x in ('dir /b *.msi') do set setup=%%x
-copy "%setup%" .Npackd
-msiexec.exe /qn /norestart /Lime .Npackd\MSI.log /i "%setup%" TARGETDIR="%CD%" ALLUSERS=1
-set err=%errorlevel%
-type .Npackd\MSI.log
-rem 3010=restart required
-if %err% equ 3010 exit /b 0
-if %err% neq 0 exit /b %err%
+        <file path=".Npackd\Install.bat">for /f %%x in ('dir /b *.msi') do set setup=%%x&#13;
+copy "%setup%" .Npackd&#13;
+msiexec.exe /qn /norestart /Lime .Npackd\MSI.log /i "%setup%" TARGETDIR="%CD%" ALLUSERS=1&#13;
+set err=%errorlevel%&#13;
+type .Npackd\MSI.log&#13;
+rem 3010=restart required&#13;
+if %err% equ 3010 exit /b 0&#13;
+if %err% neq 0 exit /b %err%&#13;
 </file>
-        <file path=".Npackd\Uninstall.bat">copy .Npackd\*.msi .
-for /f %%x in ('dir /b *.msi') do set setup=%%x
-msiexec.exe /qn /norestart /Lime .Npackd\MSI.log /x "%setup%"
-set err=%errorlevel%
-type .Npackd\MSI.log
-rem 3010=restart required
-if %err% equ 3010 exit /b 0
-if %err% neq 0 exit /b %err%
+        <file path=".Npackd\Uninstall.bat">copy .Npackd\*.msi .&#13;
+for /f %%x in ('dir /b *.msi') do set setup=%%x&#13;
+msiexec.exe /qn /norestart /Lime .Npackd\MSI.log /x "%setup%"&#13;
+set err=%errorlevel%&#13;
+type .Npackd\MSI.log&#13;
+rem 3010=restart required&#13;
+if %err% equ 3010 exit /b 0&#13;
+if %err% neq 0 exit /b %err%&#13;
 </file>
-        <url>http://cdn.bitbucket.org/tortoisehg/thg/downloads/tortoisehg-2.4.1-hg-2.2.2-x64.msi</url>
+        <url>http://bitbucket.org/tortoisehg/thg/downloads/tortoisehg-2.4.1-hg-2.2.2-x64.msi</url>
         <sha1>822f8089bb26a11d6ae5c7e8801566e89a2a484e</sha1>
     </version>
     <version name="2.4.2" package="org.bitbucket.tortoisehg.TortoiseHg64" type="one-file">
-        <file path=".Npackd\Install.bat">for /f %%x in ('dir /b *.msi') do set setup=%%x
-copy "%setup%" .Npackd
-msiexec.exe /qn /norestart /Lime .Npackd\MSI.log /i "%setup%" TARGETDIR="%CD%" ALLUSERS=1
-set err=%errorlevel%
-type .Npackd\MSI.log
-rem 3010=restart required
-if %err% equ 3010 exit /b 0
-if %err% neq 0 exit /b %err%
+        <file path=".Npackd\Install.bat">for /f %%x in ('dir /b *.msi') do set setup=%%x&#13;
+copy "%setup%" .Npackd&#13;
+msiexec.exe /qn /norestart /Lime .Npackd\MSI.log /i "%setup%" TARGETDIR="%CD%" ALLUSERS=1&#13;
+set err=%errorlevel%&#13;
+type .Npackd\MSI.log&#13;
+rem 3010=restart required&#13;
+if %err% equ 3010 exit /b 0&#13;
+if %err% neq 0 exit /b %err%&#13;
 </file>
-        <file path=".Npackd\Uninstall.bat">copy .Npackd\*.msi .
-for /f %%x in ('dir /b *.msi') do set setup=%%x
-msiexec.exe /qn /norestart /Lime .Npackd\MSI.log /x "%setup%"
-set err=%errorlevel%
-type .Npackd\MSI.log
-rem 3010=restart required
-if %err% equ 3010 exit /b 0
-if %err% neq 0 exit /b %err%
+        <file path=".Npackd\Uninstall.bat">copy .Npackd\*.msi .&#13;
+for /f %%x in ('dir /b *.msi') do set setup=%%x&#13;
+msiexec.exe /qn /norestart /Lime .Npackd\MSI.log /x "%setup%"&#13;
+set err=%errorlevel%&#13;
+type .Npackd\MSI.log&#13;
+rem 3010=restart required&#13;
+if %err% equ 3010 exit /b 0&#13;
+if %err% neq 0 exit /b %err%&#13;
 </file>
-        <url>http://cdn.bitbucket.org/tortoisehg/files/downloads/tortoisehg-2.4.2-hg-2.2.3-x64.msi</url>
+        <url>http://bitbucket.org/tortoisehg/files/downloads/tortoisehg-2.4.2-hg-2.2.3-x64.msi</url>
         <sha1>46e1df9d85f135408f27966aa0994661e132a2bc</sha1>
     </version>
     <version name="2.5" package="org.bitbucket.tortoisehg.TortoiseHg64" type="one-file">
-        <file path=".Npackd\Install.bat">for /f %%x in ('dir /b *.msi') do set setup=%%x
-copy "%setup%" .Npackd
-msiexec.exe /qn /norestart /Lime .Npackd\MSI.log /i "%setup%" TARGETDIR="%CD%" ALLUSERS=1
-set err=%errorlevel%
-type .Npackd\MSI.log
-rem 3010=restart required
-if %err% equ 3010 exit /b 0
-if %err% neq 0 exit /b %err%
+        <file path=".Npackd\Install.bat">for /f %%x in ('dir /b *.msi') do set setup=%%x&#13;
+copy "%setup%" .Npackd&#13;
+msiexec.exe /qn /norestart /Lime .Npackd\MSI.log /i "%setup%" TARGETDIR="%CD%" ALLUSERS=1&#13;
+set err=%errorlevel%&#13;
+type .Npackd\MSI.log&#13;
+rem 3010=restart required&#13;
+if %err% equ 3010 exit /b 0&#13;
+if %err% neq 0 exit /b %err%&#13;
 </file>
-        <file path=".Npackd\Uninstall.bat">copy .Npackd\*.msi .
-for /f %%x in ('dir /b *.msi') do set setup=%%x
-msiexec.exe /qn /norestart /Lime .Npackd\MSI.log /x "%setup%"
-set err=%errorlevel%
-type .Npackd\MSI.log
-rem 3010=restart required
-if %err% equ 3010 exit /b 0
-if %err% neq 0 exit /b %err%
+        <file path=".Npackd\Uninstall.bat">copy .Npackd\*.msi .&#13;
+for /f %%x in ('dir /b *.msi') do set setup=%%x&#13;
+msiexec.exe /qn /norestart /Lime .Npackd\MSI.log /x "%setup%"&#13;
+set err=%errorlevel%&#13;
+type .Npackd\MSI.log&#13;
+rem 3010=restart required&#13;
+if %err% equ 3010 exit /b 0&#13;
+if %err% neq 0 exit /b %err%&#13;
 </file>
-        <url>http://cdn.bitbucket.org/tortoisehg/files/downloads/tortoisehg-2.5.0-hg-2.3.1-x64.msi</url>
+        <url>http://bitbucket.org/tortoisehg/files/downloads/tortoisehg-2.5.0-hg-2.3.1-x64.msi</url>
         <sha1>2fcc221b883d3861d6be0c6dc00a407cd89909df</sha1>
     </version>
     <version name="2.6" package="org.bitbucket.tortoisehg.TortoiseHg64" type="one-file">
-        <file path=".Npackd\Install.bat">for /f %%x in ('dir /b *.msi') do set setup=%%x
-copy "%setup%" .Npackd
-msiexec.exe /qn /norestart /Lime .Npackd\MSI.log /i "%setup%" TARGETDIR="%CD%" ALLUSERS=1
-set err=%errorlevel%
-type .Npackd\MSI.log
-rem 3010=restart required
-if %err% equ 3010 exit /b 0
-if %err% neq 0 exit /b %err%
+        <file path=".Npackd\Install.bat">for /f %%x in ('dir /b *.msi') do set setup=%%x&#13;
+copy "%setup%" .Npackd&#13;
+msiexec.exe /qn /norestart /Lime .Npackd\MSI.log /i "%setup%" TARGETDIR="%CD%" ALLUSERS=1&#13;
+set err=%errorlevel%&#13;
+type .Npackd\MSI.log&#13;
+rem 3010=restart required&#13;
+if %err% equ 3010 exit /b 0&#13;
+if %err% neq 0 exit /b %err%&#13;
 </file>
-        <file path=".Npackd\Uninstall.bat">copy .Npackd\*.msi .
-for /f %%x in ('dir /b *.msi') do set setup=%%x
-msiexec.exe /qn /norestart /Lime .Npackd\MSI.log /x "%setup%"
-set err=%errorlevel%
-type .Npackd\MSI.log
-rem 3010=restart required
-if %err% equ 3010 exit /b 0
-if %err% neq 0 exit /b %err%
+        <file path=".Npackd\Uninstall.bat">copy .Npackd\*.msi .&#13;
+for /f %%x in ('dir /b *.msi') do set setup=%%x&#13;
+msiexec.exe /qn /norestart /Lime .Npackd\MSI.log /x "%setup%"&#13;
+set err=%errorlevel%&#13;
+type .Npackd\MSI.log&#13;
+rem 3010=restart required&#13;
+if %err% equ 3010 exit /b 0&#13;
+if %err% neq 0 exit /b %err%&#13;
 </file>
-        <url>http://cdn.bitbucket.org/tortoisehg/files/downloads/tortoisehg-2.6.0-hg-2.4-x64.msi</url>
+        <url>http://bitbucket.org/tortoisehg/files/downloads/tortoisehg-2.6.0-hg-2.4-x64.msi</url>
         <sha1>0c74f4abdd0e95f331da55ea1da4035808021450</sha1>
     </version>
     <version name="2.6.1" package="org.bitbucket.tortoisehg.TortoiseHg64" type="one-file">
@@ -9016,7 +9015,7 @@ rem 3010=restart required&#13;
 if %err% equ 3010 exit /b 0&#13;
 if %err% neq 0 exit /b %err%&#13;
 </file>
-        <url>http://cdn.bitbucket.org/tortoisehg/files/downloads/tortoisehg-2.6.1-hg-2.4.1-x64.msi</url>
+        <url>http://bitbucket.org/tortoisehg/files/downloads/tortoisehg-2.6.1-hg-2.4.1-x64.msi</url>
         <sha1>b4cc7b7806cedf40846a466456a84c8648ce38b8</sha1>
     </version>
     <version name="2.7.1" package="org.bitbucket.tortoisehg.TortoiseHg64" type="one-file">
@@ -9038,7 +9037,7 @@ rem 3010=restart required&#13;
 if %err% equ 3010 exit /b 0&#13;
 if %err% neq 0 exit /b %err%&#13;
 </file>
-        <url>http://cdn.bitbucket.org/tortoisehg/files/downloads/tortoisehg-2.7.1-hg-2.5.2-x64.msi</url>
+        <url>http://bitbucket.org/tortoisehg/files/downloads/tortoisehg-2.7.1-hg-2.5.2-x64.msi</url>
         <sha1>e8256ff8d6bcc5d7a1bcf5165ed986c05470e60b</sha1>
     </version>
     <version name="2.7.2" package="org.bitbucket.tortoisehg.TortoiseHg64" type="one-file">
@@ -9060,7 +9059,7 @@ rem 3010=restart required&#13;
 if %err% equ 3010 exit /b 0&#13;
 if %err% neq 0 exit /b %err%&#13;
 </file>
-        <url>http://cdn.bitbucket.org/tortoisehg/files/downloads/tortoisehg-2.7.2-hg-2.5.4-x64.msi</url>
+        <url>http://bitbucket.org/tortoisehg/files/downloads/tortoisehg-2.7.2-hg-2.5.4-x64.msi</url>
         <sha1>89ce48537e54ad8016894801aa47bcadda319488</sha1>
     </version>
     <version name="2.9.1" package="org.bitbucket.tortoisehg.TortoiseHg64" type="one-file">
@@ -9082,7 +9081,7 @@ rem 3010=restart required&#13;
 if %err% equ 3010 exit /b 0&#13;
 if %err% neq 0 exit /b %err%&#13;
 </file>
-        <url>http://cdn.bitbucket.org/tortoisehg/files/downloads/tortoisehg-2.9.1-hg-2.7.1-x64.msi</url>
+        <url>http://bitbucket.org/tortoisehg/files/downloads/tortoisehg-2.9.1-hg-2.7.1-x64.msi</url>
         <sha1>148ed89a701b96ab69b0fcf7c1e1ab52f6d991ca</sha1>
     </version>
     <version name="2.10" package="org.bitbucket.tortoisehg.TortoiseHg64" type="one-file">
@@ -9104,7 +9103,7 @@ rem 3010=restart required&#13;
 if %err% equ 3010 exit /b 0&#13;
 if %err% neq 0 exit /b %err%&#13;
 </file>
-        <url>http://cdn.bitbucket.org/tortoisehg/files/downloads/tortoisehg-2.10-hg-2.8-x64.msi</url>
+        <url>http://bitbucket.org/tortoisehg/files/downloads/tortoisehg-2.10-hg-2.8-x64.msi</url>
         <sha1>581f3e21098cdd9e2330e302df7052a59e7b6889</sha1>
     </version>
     <version name="2.11" package="org.bitbucket.tortoisehg.TortoiseHg64" type="one-file">
@@ -9112,7 +9111,7 @@ if %err% neq 0 exit /b %err%&#13;
 for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set npackdih=%%x&#13;
 call "%npackdih%\InstallMSI.bat" INSTALLDIR yes&#13;
 </file>
-        <url>http://cdn.bitbucket.org/tortoisehg/files/downloads/tortoisehg-2.11-hg-2.9-x64.msi</url>
+        <url>http://bitbucket.org/tortoisehg/files/downloads/tortoisehg-2.11-hg-2.9-x64.msi</url>
         <sha1>575e75bf1a1a4a88132ddb1a9b218f98e032015d</sha1>
         <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3.1, 2)"/>
     </version>
@@ -9121,7 +9120,7 @@ call "%npackdih%\InstallMSI.bat" INSTALLDIR yes&#13;
 for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set npackdih=%%x&#13;
 call "%npackdih%\InstallMSI.bat" INSTALLDIR yes&#13;
 </file>
-        <url>http://cdn.bitbucket.org/tortoisehg/files/downloads/tortoisehg-2.11.2-hg-2.9.2-x64.msi</url>
+        <url>http://bitbucket.org/tortoisehg/files/downloads/tortoisehg-2.11.2-hg-2.9.2-x64.msi</url>
         <sha1>66260603d68184101489b9f6af28acffe5afffe7</sha1>
         <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3.1, 2)"/>
     </version>
@@ -11341,74 +11340,74 @@ rmdir /s /q "%name%"&#13;
     </version>
 
     <version name="2.5" package="org.python.Python64" type="one-file">
-        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.msi') do set setup=%%x
-copy "%setup%" .Npackd
-msiexec.exe /qn /norestart /Lime .Npackd\MSI.log /i "%setup%" TARGETDIR="%CD%" ALLUSERS=1
-set err=%errorlevel%
-type .Npackd\MSI.log
-rem 3010=restart required
-if %err% equ 3010 exit /b 0
-if %err% neq 0 exit /b %err%
-
-if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
-set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.CLU" "--versions=[1, 2)"
-for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set clu=%%x
-"%clu%\clu" add-path --path "%CD%"
-verify
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.msi') do set setup=%%x&#13;
+copy "%setup%" .Npackd&#13;
+msiexec.exe /qn /norestart /Lime .Npackd\MSI.log /i "%setup%" TARGETDIR="%CD%" ALLUSERS=1&#13;
+set err=%errorlevel%&#13;
+type .Npackd\MSI.log&#13;
+rem 3010=restart required&#13;
+if %err% equ 3010 exit /b 0&#13;
+if %err% neq 0 exit /b %err%&#13;
+&#13;
+if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1&#13;
+set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.CLU" "--versions=[1, 2)"&#13;
+for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set clu=%%x&#13;
+"%clu%\clu" add-path --path "%CD%"&#13;
+verify&#13;
 </file>
-        <file path=".Npackd\Uninstall.bat">move .Npackd\*.msi .
-for /f "delims=" %%x in ('dir /b *.msi') do set setup=%%x
-msiexec.exe /qn /norestart /Lime .Npackd\MSI.log /x "%setup%"
-set err=%errorlevel%
-type .Npackd\MSI.log
-rem 3010=restart required
-if %err% equ 3010 exit /b 0
-if %err% neq 0 exit /b %err%
-
-if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
-set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.CLU" "--versions=[1, 2)"
-for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set clu=%%x
-"%clu%\clu" remove-path --path "%CD%"
-verify
+        <file path=".Npackd\Uninstall.bat">move .Npackd\*.msi .&#13;
+for /f "delims=" %%x in ('dir /b *.msi') do set setup=%%x&#13;
+msiexec.exe /qn /norestart /Lime .Npackd\MSI.log /x "%setup%"&#13;
+set err=%errorlevel%&#13;
+type .Npackd\MSI.log&#13;
+rem 3010=restart required&#13;
+if %err% equ 3010 exit /b 0&#13;
+if %err% neq 0 exit /b %err%&#13;
+&#13;
+if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1&#13;
+set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.CLU" "--versions=[1, 2)"&#13;
+for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set clu=%%x&#13;
+"%clu%\clu" remove-path --path "%CD%"&#13;
+verify&#13;
 </file>
-        <url>http://www.python.org/ftp/python/2.5/python-2.5.amd64.msi</url>
+        <url>https://www.python.org/ftp/python/2.5/python-2.5.amd64.msi</url>
         <sha1>58a904f45d2b227e42bd59d3a141a2564336522c</sha1>
         <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.15.7, 2)"/>
         <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1, 1]"/>
         <dependency package="com.googlecode.windows-package-manager.CLU" versions="[1, 2)"/>
     </version>
     <version name="2.6.6" package="org.python.Python64" type="one-file">
-        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.msi') do set setup=%%x
-copy "%setup%" .Npackd
-msiexec.exe /qn /norestart /Lime .Npackd\MSI.log /i "%setup%" TARGETDIR="%CD%" ALLUSERS=1
-set err=%errorlevel%
-type .Npackd\MSI.log
-rem 3010=restart required
-if %err% equ 3010 exit /b 0
-if %err% neq 0 exit /b %err%
-
-if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
-set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.CLU" "--versions=[1, 2)"
-for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set clu=%%x
-"%clu%\clu" add-path --path "%CD%"
-verify
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.msi') do set setup=%%x&#13;
+copy "%setup%" .Npackd&#13;
+msiexec.exe /qn /norestart /Lime .Npackd\MSI.log /i "%setup%" TARGETDIR="%CD%" ALLUSERS=1&#13;
+set err=%errorlevel%&#13;
+type .Npackd\MSI.log&#13;
+rem 3010=restart required&#13;
+if %err% equ 3010 exit /b 0&#13;
+if %err% neq 0 exit /b %err%&#13;
+&#13;
+if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1&#13;
+set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.CLU" "--versions=[1, 2)"&#13;
+for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set clu=%%x&#13;
+"%clu%\clu" add-path --path "%CD%"&#13;
+verify&#13;
 </file>
-        <file path=".Npackd\Uninstall.bat">move .Npackd\*.msi .
-for /f "delims=" %%x in ('dir /b *.msi') do set setup=%%x
-msiexec.exe /qn /norestart /Lime .Npackd\MSI.log /x "%setup%"
-set err=%errorlevel%
-type .Npackd\MSI.log
-rem 3010=restart required
-if %err% equ 3010 exit /b 0
-if %err% neq 0 exit /b %err%
-
-if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
-set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.CLU" "--versions=[1, 2)"
-for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set clu=%%x
-"%clu%\clu" remove-path --path "%CD%"
-verify
+        <file path=".Npackd\Uninstall.bat">move .Npackd\*.msi .&#13;
+for /f "delims=" %%x in ('dir /b *.msi') do set setup=%%x&#13;
+msiexec.exe /qn /norestart /Lime .Npackd\MSI.log /x "%setup%"&#13;
+set err=%errorlevel%&#13;
+type .Npackd\MSI.log&#13;
+rem 3010=restart required&#13;
+if %err% equ 3010 exit /b 0&#13;
+if %err% neq 0 exit /b %err%&#13;
+&#13;
+if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1&#13;
+set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.CLU" "--versions=[1, 2)"&#13;
+for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set clu=%%x&#13;
+"%clu%\clu" remove-path --path "%CD%"&#13;
+verify&#13;
 </file>
-        <url>http://www.python.org/ftp/python/2.6.6/python-2.6.6.amd64.msi</url>
+        <url>https://www.python.org/ftp/python/2.6.6/python-2.6.6.amd64.msi</url>
         <sha1>CA745FC63E36DE3D7A9AED771BBB60BA5D9DD5F4</sha1>
         <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.15.7, 2)"/>
         <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1, 1]"/>
@@ -11445,7 +11444,7 @@ for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set clu=%%x&#13;
 "%clu%\clu" remove-path --path "%CD%"&#13;
 verify&#13;
 </file>
-        <url>http://www.python.org/ftp/python/3.2/python-3.2.amd64.msi</url>
+        <url>https://www.python.org/ftp/python/3.2/python-3.2.amd64.msi</url>
         <sha1>0dd61ce76829d88eaa8a608330dc917f04172767</sha1>
         <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.15.7, 2)"/>
         <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1, 1]"/>
@@ -11482,81 +11481,81 @@ for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set clu=%%x&#13;
 "%clu%\clu" remove-path --path "%CD%"&#13;
 verify&#13;
 </file>
-        <url>http://www.python.org/ftp/python/3.2.1/python-3.2.1.amd64.msi</url>
+        <url>https://www.python.org/ftp/python/3.2.1/python-3.2.1.amd64.msi</url>
         <sha1>8c59f4d527c0ac3e93a53c68088eaedba82283e8</sha1>
         <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.15.7, 2)"/>
         <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1, 1]"/>
         <dependency package="com.googlecode.windows-package-manager.CLU" versions="[1, 2)"/>
     </version>
     <version name="3.2.2" package="org.python.Python64" type="one-file">
-        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.msi') do set setup=%%x
-copy "%setup%" .Npackd
-msiexec.exe /qn /norestart /Lime .Npackd\MSI.log /i "%setup%" TARGETDIR="%CD%" ALLUSERS=1
-set err=%errorlevel%
-type .Npackd\MSI.log
-rem 3010=restart required
-if %err% equ 3010 exit /b 0
-if %err% neq 0 exit /b %err%
-
-if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
-set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.CLU" "--versions=[1, 2)"
-for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set clu=%%x
-"%clu%\clu" add-path --path "%CD%"
-verify
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.msi') do set setup=%%x&#13;
+copy "%setup%" .Npackd&#13;
+msiexec.exe /qn /norestart /Lime .Npackd\MSI.log /i "%setup%" TARGETDIR="%CD%" ALLUSERS=1&#13;
+set err=%errorlevel%&#13;
+type .Npackd\MSI.log&#13;
+rem 3010=restart required&#13;
+if %err% equ 3010 exit /b 0&#13;
+if %err% neq 0 exit /b %err%&#13;
+&#13;
+if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1&#13;
+set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.CLU" "--versions=[1, 2)"&#13;
+for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set clu=%%x&#13;
+"%clu%\clu" add-path --path "%CD%"&#13;
+verify&#13;
 </file>
-        <file path=".Npackd\Uninstall.bat">move .Npackd\*.msi .
-for /f "delims=" %%x in ('dir /b *.msi') do set setup=%%x
-msiexec.exe /qn /norestart /Lime .Npackd\MSI.log /x "%setup%"
-set err=%errorlevel%
-type .Npackd\MSI.log
-rem 3010=restart required
-if %err% equ 3010 exit /b 0
-if %err% neq 0 exit /b %err%
-
-if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
-set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.CLU" "--versions=[1, 2)"
-for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set clu=%%x
-"%clu%\clu" remove-path --path "%CD%"
-verify
+        <file path=".Npackd\Uninstall.bat">move .Npackd\*.msi .&#13;
+for /f "delims=" %%x in ('dir /b *.msi') do set setup=%%x&#13;
+msiexec.exe /qn /norestart /Lime .Npackd\MSI.log /x "%setup%"&#13;
+set err=%errorlevel%&#13;
+type .Npackd\MSI.log&#13;
+rem 3010=restart required&#13;
+if %err% equ 3010 exit /b 0&#13;
+if %err% neq 0 exit /b %err%&#13;
+&#13;
+if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1&#13;
+set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.CLU" "--versions=[1, 2)"&#13;
+for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set clu=%%x&#13;
+"%clu%\clu" remove-path --path "%CD%"&#13;
+verify&#13;
 </file>
-        <url>http://www.python.org/ftp/python/3.2.2/python-3.2.2.amd64.msi</url>
+        <url>https://www.python.org/ftp/python/3.2.2/python-3.2.2.amd64.msi</url>
         <sha1>3b507230774db964b5a769fb2bf8170729c7cab1</sha1>
         <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.15.7, 2)"/>
         <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1, 1]"/>
         <dependency package="com.googlecode.windows-package-manager.CLU" versions="[1, 2)"/>
     </version>
     <version name="3.2.3" package="org.python.Python64" type="one-file">
-        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.msi') do set setup=%%x
-copy "%setup%" .Npackd
-msiexec.exe /qn /norestart /Lime .Npackd\MSI.log /i "%setup%" TARGETDIR="%CD%" ALLUSERS=1
-set err=%errorlevel%
-type .Npackd\MSI.log
-rem 3010=restart required
-if %err% equ 3010 exit /b 0
-if %err% neq 0 exit /b %err%
-
-if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
-set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.CLU" "--versions=[1, 2)"
-for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set clu=%%x
-"%clu%\clu" add-path --path "%CD%"
-verify
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.msi') do set setup=%%x&#13;
+copy "%setup%" .Npackd&#13;
+msiexec.exe /qn /norestart /Lime .Npackd\MSI.log /i "%setup%" TARGETDIR="%CD%" ALLUSERS=1&#13;
+set err=%errorlevel%&#13;
+type .Npackd\MSI.log&#13;
+rem 3010=restart required&#13;
+if %err% equ 3010 exit /b 0&#13;
+if %err% neq 0 exit /b %err%&#13;
+&#13;
+if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1&#13;
+set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.CLU" "--versions=[1, 2)"&#13;
+for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set clu=%%x&#13;
+"%clu%\clu" add-path --path "%CD%"&#13;
+verify&#13;
 </file>
-        <file path=".Npackd\Uninstall.bat">move .Npackd\*.msi .
-for /f "delims=" %%x in ('dir /b *.msi') do set setup=%%x
-msiexec.exe /qn /norestart /Lime .Npackd\MSI.log /x "%setup%"
-set err=%errorlevel%
-type .Npackd\MSI.log
-rem 3010=restart required
-if %err% equ 3010 exit /b 0
-if %err% neq 0 exit /b %err%
-
-if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1
-set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.CLU" "--versions=[1, 2)"
-for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set clu=%%x
-"%clu%\clu" remove-path --path "%CD%"
-verify
+        <file path=".Npackd\Uninstall.bat">move .Npackd\*.msi .&#13;
+for /f "delims=" %%x in ('dir /b *.msi') do set setup=%%x&#13;
+msiexec.exe /qn /norestart /Lime .Npackd\MSI.log /x "%setup%"&#13;
+set err=%errorlevel%&#13;
+type .Npackd\MSI.log&#13;
+rem 3010=restart required&#13;
+if %err% equ 3010 exit /b 0&#13;
+if %err% neq 0 exit /b %err%&#13;
+&#13;
+if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1&#13;
+set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.CLU" "--versions=[1, 2)"&#13;
+for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set clu=%%x&#13;
+"%clu%\clu" remove-path --path "%CD%"&#13;
+verify&#13;
 </file>
-        <url>http://www.python.org/ftp/python/3.2.3/python-3.2.3.amd64.msi</url>
+        <url>https://www.python.org/ftp/python/3.2.3/python-3.2.3.amd64.msi</url>
         <sha1>241de9fa64b1e3ce1ac2413293a9c02dd8281a67</sha1>
         <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.15.7, 2)"/>
         <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1, 1]"/>
@@ -11593,7 +11592,7 @@ for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set clu=%%x&#13;
 "%clu%\clu" remove-path --path "%CD%"&#13;
 verify&#13;
 </file>
-        <url>http://www.python.org/ftp/python/3.3.0/python-3.3.0.amd64.msi</url>
+        <url>https://www.python.org/ftp/python/3.3.0/python-3.3.0.amd64.msi</url>
         <sha1>d9830f6d1ea8cca2107d2d66b355c8eb254e242e</sha1>
         <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.15.7, 2)"/>
         <dependency package="com.googlecode.windows-package-manager.CLU" versions="[1, 2)"/>
@@ -11629,7 +11628,7 @@ for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set clu=%%x&#13;
 "%clu%\clu" remove-path --path "%CD%"&#13;
 verify&#13;
 </file>
-        <url>http://www.python.org/ftp/python/3.3.1/python-3.3.1.amd64.msi</url>
+        <url>https://www.python.org/ftp/python/3.3.1/python-3.3.1.amd64.msi</url>
         <sha1>2a0402a0b575b8c37466ac9abcdc2cd5b398d1b4</sha1>
         <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.15.7, 2)"/>
         <dependency package="com.googlecode.windows-package-manager.CLU" versions="[1, 2)"/>
@@ -11665,7 +11664,7 @@ for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set clu=%%x&#13;
 "%clu%\clu" remove-path --path "%CD%"&#13;
 verify&#13;
 </file>
-        <url>http://www.python.org/ftp/python/3.3.2/python-3.3.2.amd64.msi</url>
+        <url>https://www.python.org/ftp/python/3.3.2/python-3.3.2.amd64.msi</url>
         <sha1>86d0339d8d501e6c6b5a5e27dbd8ddba7a2d1523</sha1>
         <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.15.7, 2)"/>
         <dependency package="com.googlecode.windows-package-manager.CLU" versions="[1, 2)"/>
@@ -11675,7 +11674,7 @@ verify&#13;
 for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set npackdih=%%x&#13;
 call "%npackdih%\InstallMSI.bat" TARGETDIR yes&#13;
 </file>
-        <url>http://www.python.org/ftp/python/3.3.4/python-3.3.4.amd64.msi</url>
+        <url>https://www.python.org/ftp/python/3.3.4/python-3.3.4.amd64.msi</url>
         <sha1>c6cfe6f55e24ba7a0b0cb9b8ec9f96e746e29e6f</sha1>
         <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.1, 2)"/>
     </version>
@@ -11684,26 +11683,11 @@ call "%npackdih%\InstallMSI.bat" TARGETDIR yes&#13;
 for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set npackdih=%%x&#13;
 call "%npackdih%\InstallMSI.bat" TARGETDIR yes&#13;
 </file>
-        <url>http://www.python.org/ftp/python/3.4.0/python-3.4.0.amd64.msi</url>
+        <url>https://www.python.org/ftp/python/3.4.0/python-3.4.0.amd64.msi</url>
         <sha1>bd4f0ff836f6bd3a39e511872f5c24f9e630a079</sha1>
         <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.1, 2)"/>
     </version>
 
-    <version name="2" package="org.rubylang.Ruby64" type="one-file">
-        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
-"%setup%" /SP- /VERYSILENT /SUPPRESSMSGBOXES /NOCANCEL /NORESTART /DIR="%CD%" /SAVEINF="%CD%\.Npackd\InnoSetupInfo.ini" /LOG="%CD%\.Npackd\InnoSetupInstall.log"&#13;
-set err=%errorlevel%&#13;
-type .Npackd\InnoSetupInstall.log&#13;
-if %err% neq 0 exit %err%&#13;
-</file>
-        <file path=".Npackd\Uninstall.bat">unins000.exe /VERYSILENT /SUPPRESSMSGBOXES /NORESTART /LOG="%CD%\.Npackd\InnoSetupUninstall.log"&#13;
-set err=%errorlevel%&#13;
-type .Npackd\InnoSetupUninstall.log&#13;
-if %err% neq 0 exit %err%&#13;
-</file>
-        <url>http://rubyforge.org/frs/download.php/76806/rubyinstaller-2.0.0-p0-x64.exe</url>
-        <sha1>dc3cf35333536d0f757bc259586dfa840233f34b</sha1>
-    </version>
     <version name="2.0.0.247" package="org.rubylang.Ruby64" type="one-file">
         <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
 "%setup%" /SP- /VERYSILENT /SUPPRESSMSGBOXES /NOCANCEL /NORESTART /DIR="%CD%" /SAVEINF="%CD%\.Npackd\InnoSetupInfo.ini" /LOG="%CD%\.Npackd\InnoSetupInstall.log"&#13;
