@@ -532,6 +532,22 @@ verify</file>
         <url>http://www.vim.org/scripts/download_script.php?src_id=19375</url>
         <sha1>70ca1322e06bd70bcaa3a419ce776ff4c02ddc71</sha1>
     </version>
+    <version name="2.3" package="vim-pathogen">
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b vim-pathogen*') do set name=%%x&#13;
+cd "%name%"        &#13;
+for /f "delims=" %%a in ('dir /b') do (&#13;
+  move "%%a" ..&#13;
+)&#13;
+cd ..&#13;
+rmdir "%name%"&#13;
+&#13;
+mkdir "%ALLUSERSPROFILE%/Npackd/VimPlugins/"&#13;
+mklink /D "%ALLUSERSPROFILE%/Npackd/VimPlugins/%NPACKD_PACKAGE_NAME%" "%CD%"</file>
+        <file path=".Npackd\Uninstall.bat">rmdir "%ALLUSERSPROFILE%/Npackd/VimPlugins/%NPACKD_PACKAGE_NAME%"&#13;
+verify</file>
+        <url>https://codeload.github.com/tpope/vim-pathogen/zip/v2.3</url>
+        <sha1>717f467d33975147c825753a9178d533df24605b</sha1>
+    </version>
 
     <version name="1.1" package="vim-quickfixsigns">
         <file path=".Npackd\Install.bat">mkdir "%ALLUSERSPROFILE%/Npackd/VimPlugins/"&#13;
@@ -540,6 +556,22 @@ mklink /D "%ALLUSERSPROFILE%/Npackd/VimPlugins/%NPACKD_PACKAGE_NAME%" "%CD%"</fi
 verify</file>
         <url>https://drive.google.com/uc?export=download&amp;id=0Bzt53EW9ybrwNTI4d3JidEhvYWs</url>
         <sha1>b9e32b254db9c24961fe25e8b1829d31c1370af3</sha1>
+    </version>
+    <version name="1.5" package="vim-quickfixsigns">
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b quickfixsigns_vim*') do set name=%%x&#13;
+cd "%name%"        &#13;
+for /f "delims=" %%a in ('dir /b') do (&#13;
+  move "%%a" ..&#13;
+)&#13;
+cd ..&#13;
+rmdir "%name%"&#13;
+&#13;
+mkdir "%ALLUSERSPROFILE%/Npackd/VimPlugins/"&#13;
+mklink /D "%ALLUSERSPROFILE%/Npackd/VimPlugins/%NPACKD_PACKAGE_NAME%" "%CD%"</file>
+        <file path=".Npackd\Uninstall.bat">rmdir "%ALLUSERSPROFILE%/Npackd/VimPlugins/%NPACKD_PACKAGE_NAME%"&#13;
+verify</file>
+        <url>https://codeload.github.com/tomtom/quickfixsigns_vim/zip/1.05</url>
+        <sha1>2fc5d401ff58207d793a31b1573385639c4b4f57</sha1>
     </version>
 
     <version name="1.1" package="vim-restore-view" type="one-file">
@@ -555,6 +587,19 @@ verify
 </file>
         <url>http://www.vim.org/scripts/download_script.php?src_id=17787</url>
         <sha1>1b2bee3255b255679b09de26b9e15b9cc90fcc2e</sha1>
+    </version>
+    <version name="1.2" package="vim-restore-view" type="one-file">
+        <file path=".Npackd\Install.bat">mkdir plugin&#13;
+move download_script.php plugin\restore_view.vim&#13;
+            &#13;
+mkdir "%ALLUSERSPROFILE%/Npackd/VimPlugins/"&#13;
+mklink /D "%ALLUSERSPROFILE%/Npackd/VimPlugins/%NPACKD_PACKAGE_NAME%" "%CD%"&#13;
+</file>
+        <file path=".Npackd\Uninstall.bat">rmdir "%ALLUSERSPROFILE%/Npackd/VimPlugins/%NPACKD_PACKAGE_NAME%"&#13;
+verify&#13;
+</file>
+        <url>http://www.vim.org/scripts/download_script.php?src_id=22255</url>
+        <sha1>557f8592b677d0873e21cfd7d6cb0586fb37ff4b</sha1>
     </version>
 
     <version name="1.9" package="vim-signify">
@@ -794,6 +839,25 @@ mklink /D "%ALLUSERSPROFILE%/Npackd/VimPlugins/%NPACKD_PACKAGE_NAME%" "%CD%"&#13
 verify</file>
         <url>https://codeload.github.com/Shougo/unite.vim/zip/ver.5.1</url>
         <sha1>aee0b5188d4226bd2df591197e5471e58978331c</sha1>
+        <dependency package="net.sourceforge.ExuberantCtags" versions="[5.8, 6)"/>
+    </version>
+    <version name="6" package="vim-unite">
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b unite.vim*') do set name=%%x&#13;
+cd "%name%"        &#13;
+for /f "delims=" %%a in ('dir /b') do (&#13;
+  move "%%a" ..&#13;
+)&#13;
+cd ..&#13;
+rmdir "%name%"&#13;
+if %errorlevel% neq 0 exit /b %errorlevel%&#13;
+&#13;
+mkdir "%ALLUSERSPROFILE%/Npackd/VimPlugins/"&#13;
+mklink /D "%ALLUSERSPROFILE%/Npackd/VimPlugins/%NPACKD_PACKAGE_NAME%" "%CD%"&#13;
+</file>
+        <file path=".Npackd\Uninstall.bat">rmdir "%ALLUSERSPROFILE%/Npackd/VimPlugins/%NPACKD_PACKAGE_NAME%"&#13;
+verify</file>
+        <url>https://codeload.github.com/Shougo/unite.vim/zip/ver.6.0</url>
+        <sha1>181624a7b777e179c46df3aeceab6b8a49a19865</sha1>
         <dependency package="net.sourceforge.ExuberantCtags" versions="[5.8, 6)"/>
     </version>
 
