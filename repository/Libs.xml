@@ -451,6 +451,14 @@ ren "%setup%" qt-win-opensource-mingw.exe&#13;
         <url>http://download.qt-project.org/official_releases/qt/5.2/5.2.1/qt-opensource-windows-x86-mingw48_opengl-5.2.1.exe</url>
         <sha1>d3b5078806f50e4c38455518936caf80ffcead25</sha1>
     </version>
+    <version name="5.3.1" package="com.nokia.QtMinGWInstaller" type="one-file">
+        <important-file path="qt-win-opensource-mingw.exe" title="Installer"/>
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
+ren "%setup%" qt-win-opensource-mingw.exe&#13;
+</file>
+        <url>http://download.qt-project.org/official_releases/qt/5.3/5.3.1/qt-opensource-windows-x86-mingw482_opengl-5.3.1.exe</url>
+        <sha1>3d7d17ec1647c111cb37bb7a080e5986484b5236</sha1>
+    </version>
 
     <version name="4.7.3" package="com.nokia.QtSource">
         <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b qt*') do set name=%%x&#13;
@@ -593,6 +601,25 @@ rmdir "%name%"</file>
         <dependency package="org.7-zip.SevenZIPA" versions="[9.20, 10)"/>
         <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.15.7, 2)"/>
     </version>
+    <version name="5.3.1" package="com.nokia.QtSource" type="one-file">
+        <file path=".Npackd\Install.bat">set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=org.7-zip.SevenZIPA" "--versions=[9.20, 9.20]"&#13;
+for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set sevenzipa=%%x&#13;
+for /f %%x in ('dir /b *.zip') do set setup=%%x&#13;
+"%sevenzipa%\7za.exe" x "%setup%" &gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+del "%setup%"&#13;
+&#13;
+for /f "delims=" %%x in ('dir /b qt*') do set name=%%x&#13;
+cd "%name%"        &#13;
+for /f "delims=" %%a in ('dir /b') do (&#13;
+  move "%%a" ..&#13;
+)&#13;
+cd ..&#13;
+rmdir "%name%"</file>
+        <url>http://qt-mirror.dannhauer.de/official_releases/qt/5.3/5.3.1/single/qt-everywhere-opensource-src-5.3.1.zip</url>
+        <sha1>4695389cacd256aef25fc42ce27e15355e44bff5</sha1>
+        <dependency package="org.7-zip.SevenZIPA" versions="[9.20, 10)"/>
+        <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.15.7, 2)"/>
+    </version>
 
     <version name="1.2.11" package="log4net">
         <url>http://downloads.sourceforge.net/project/npackd/log4net-1.2.11.zip</url>
@@ -697,6 +724,19 @@ rmdir "%name%"&#13;
 </file>
         <url>http://downloads.sourceforge.net/project/quazip/quazip/0.6.2/quazip-0.6.2.zip</url>
         <sha1>7f2ea645745b8a263691abc52696d136b16b0972</sha1>
+        <dependency package="net.zlib.ZLibSource" versions="[1.2.5, 1.2.5]"/>
+    </version>
+    <version name="0.7" package="net.sourceforge.quazip.QuaZIPSource">
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b quazip*') do set name=%%x&#13;
+cd "%name%"        &#13;
+for /f "delims=" %%a in ('dir /b') do (&#13;
+  move "%%a" ..&#13;
+)&#13;
+cd ..&#13;
+rmdir "%name%"&#13;
+</file>
+        <url>http://downloads.sourceforge.net/project/quazip/quazip/0.7/quazip-0.7.zip</url>
+        <sha1>c1cdb131f8eefa159a748539a09e41d197abe751</sha1>
         <dependency package="net.zlib.ZLibSource" versions="[1.2.5, 1.2.5]"/>
     </version>
 
@@ -1191,6 +1231,32 @@ rmdir "%name%"&#13;
 </file>
         <url>http://oligarchy.co.uk/xapian/1.2.17/xapian-core-1.2.17.tar.xz</url>
         <sha1>ee8df16fe2fba1b12badfc91ecdb94ffd0bbc8ef</sha1>
+        <dependency package="org.7-zip.SevenZIPA" versions="[9.20, 9.20]"/>
+        <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.15.7, 2)"/>
+    </version>
+    <version name="1.2.18" package="org.xapian.XapianCore" type="one-file">
+        <file path=".Npackd\Install.bat">if "%npackd_cl%" equ "" set npackd_cl=..\com.googlecode.windows-package-manager.NpackdCL-1&#13;
+set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=org.7-zip.SevenZIPA" "--versions=[9.20, 9.20]"&#13;
+for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set sevenzipa=%%x&#13;
+&#13;
+for /f "delims=" %%x in ('dir /b *.tar.xz') do set setup=%%x&#13;
+"%sevenzipa%\7za.exe" x "%setup%"&#13;
+del "%setup%"&#13;
+&#13;
+for /f "delims=" %%x in ('dir /b *.tar') do set setup=%%x&#13;
+"%sevenzipa%\7za.exe" x "%setup%"&#13;
+del "%setup%"&#13;
+&#13;
+for /f "delims=" %%x in ('dir /b xapian*') do set name=%%x&#13;
+cd "%name%"&#13;
+for /f "delims=" %%a in ('dir /b') do (&#13;
+  move "%%a" ..&#13;
+)&#13;
+cd ..&#13;
+rmdir "%name%"&#13;
+</file>
+        <url>http://oligarchy.co.uk/xapian/1.2.18/xapian-core-1.2.18.tar.xz</url>
+        <sha1>0eb07cfec9a213a6d310ae2472ccd3cd142d2d33</sha1>
         <dependency package="org.7-zip.SevenZIPA" versions="[9.20, 9.20]"/>
         <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.15.7, 2)"/>
     </version>
