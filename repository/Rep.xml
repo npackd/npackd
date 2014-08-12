@@ -1622,7 +1622,8 @@ http://www.makemkv.com/forum2/viewtopic.php?f=5&amp;t=1053</description>
     <package name="com.microsoft.AutoRuns">
         <title>AutoRuns</title>
         <url>http://technet.microsoft.com/en-us/sysinternals/bb963902</url>
-        <description>automatic program start management</description>
+        <description>WARNING: this package always installs the newest version.&#13;
+automatic program start management</description>
         <icon>http://cdn.alternativeto.net/i/d1f41f15-22c3-4e3d-92f5-1272d232fb71.png</icon>
         <license>com.microsoft.SysinternalsLicense</license>
         <category>Tools</category>
@@ -6391,6 +6392,13 @@ XYplorer is pronounced X-Y-plorer or Zaiplorer.</description>
         <icon>https://raw.githubusercontent.com/MrS0m30n3/youtube-dl-gui/master/youtube_dl_gui/icons/youtube-dl-gui_32x32.png</icon>
         <license>org.wikipedia.Freeware</license>
         <category>Video</category>
+    </package>
+    <package name="yypkg">
+        <title>yypkg</title>
+        <url>http://win-builds.org/download.html</url>
+        <description>package manager for http://win-builds.org/</description>
+        <license>org.gnu.GPLv3</license>
+        <category>Development</category>
     </package>
 
     <version name="1.44" package="active-directory-explorer">
@@ -26475,6 +26483,20 @@ set d=%ProgramFiles%&#13;
         <url>http://downloads.sourceforge.net/project/launchy/Launchy%20for%20Windows/0.5/Launchy2.5.exe</url>
         <sha1>9deaf27e1260cd9b77d84d1693d11ef65c47c578</sha1>
     </version>
+    <version name="2.6.2" package="net.sourceforge.launchy.Launchy" type="one-file">
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
+"%setup%" /SP- /VERYSILENT /SUPPRESSMSGBOXES /NOCANCEL /NORESTART /DIR="%CD%" /SAVEINF="%CD%\.Npackd\InnoSetupInfo.ini" /LOG="%CD%\.Npackd\InnoSetupInstall.log" &amp;&amp; del /f /q "%setup%"&#13;
+set err=%errorlevel%&#13;
+type .Npackd\InnoSetupInstall.log&#13;
+if %err% neq 0 exit %err%</file>
+        <file path=".Npackd\Uninstall.bat">set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=net.nirsoft.MyUninstaller" "--versions=[1.74, 2)"&#13;
+for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set myun=%%x&#13;
+"%myun%\myuninst.exe" /quninstall "Launchy 2.6 Beta 2"&#13;
+</file>
+        <url>http://www.launchy.net/downloads/win/LaunchySetup2.6B2.exe</url>
+        <sha1>8f471d32a4a6d4aa0157d03e1ff038e762381075</sha1>
+        <dependency package="net.nirsoft.MyUninstaller" versions="[1.74, 2)"/>
+    </version>
 
     <version name="0.4.13" package="net.sourceforge.lmms.LMMS" type="one-file">
         <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
@@ -45782,5 +45804,10 @@ if %err% neq 0 exit %err%&#13;
         <url>https://drive.google.com/uc?export=download&amp;id=0B4LUjPpAKNa1NTBvTkNwaUR5dTA</url>
         <sha1>ff99b58a41b4a9a2ad68bd922b87ed34083a5cef</sha1>
         <dependency package="wxpython" versions="[3, 3.1)"/>
+    </version>
+
+    <version name="1.4" package="yypkg" type="one-file">
+        <url>http://win-builds.org/1.4.0/yypkg-1.4.0.exe</url>
+        <sha1>97472e54ed1c9ba74d04c74970362199a5048b16</sha1>
     </version>
 </root>
