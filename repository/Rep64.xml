@@ -6720,7 +6720,7 @@ for /f %%x in ('dir /b *.7z') do set setup=%%x&#13;
 "%sevenzipa%\7za.exe" x "%setup%" &gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
 </file>
         <url>https://github.com/mpv-player/mpv/releases/download/v0.3.11/mpv_v0.3.11_windows_64bit.7z</url>
-        <hash-sum type="SHA-256">db3eb500bb61084dd4cf05409be25561a60641e38bb213c50514a123582dedc7</hash-sum>
+        <sha1>bb8a8ad6a70bf387b51067e46ad3c2d21a8abc01</sha1>
         <dependency package="org.7-zip.SevenZIPA" versions="[9.20, 10)"/>
         <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.15.7, 2)"/>
     </version>
@@ -6731,7 +6731,7 @@ for /f %%x in ('dir /b *.7z') do set setup=%%x&#13;
 "%sevenzipa%\7za.exe" x "%setup%" &gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
 </file>
         <url>https://github.com/mpv-player/mpv/releases/download/v0.4.0/mpv_v0.4.0_windows_64bit.7z</url>
-        <hash-sum type="SHA-256">cfb78b106a3039764ed19ef01a49805d96a9aa07f7e2c2a392e8d7d0511e020e</hash-sum>
+        <sha1>635f1da04e461b386c5d0cca2feda1f68acc0ebb</sha1>
         <dependency package="org.7-zip.SevenZIPA" versions="[9.20, 10)"/>
         <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.15.7, 2)"/>
     </version>
@@ -6742,7 +6742,7 @@ for /f %%x in ('dir /b *.7z') do set setup=%%x&#13;
 "%sevenzipa%\7za.exe" x "%setup%" &gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
 </file>
         <url>https://github.com/mpv-player/mpv/releases/download/v0.4.0/mpv_v0.4.0_windows_64bit.7z</url>
-        <hash-sum type="SHA-256">cfb78b106a3039764ed19ef01a49805d96a9aa07f7e2c2a392e8d7d0511e020e</hash-sum>
+        <sha1>635f1da04e461b386c5d0cca2feda1f68acc0ebb</sha1>
         <dependency package="org.7-zip.SevenZIPA" versions="[9.20, 10)"/>
         <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.15.7, 2)"/>
     </version>
@@ -9310,28 +9310,6 @@ rmdir "%name%"&#13;
         <dependency package="com.oracle.JRE64" versions="[1.6, 2)"/>
     </version>
 
-    <version name="1.1.8" package="org.bitbucket.tortoisehg.TortoiseHg64" type="one-file">
-        <file path=".Npackd\Install.bat">for /f %%x in ('dir /b *.msi') do set setup=%%x&#13;
-copy "%setup%" .Npackd&#13;
-msiexec.exe /qn /norestart /Lime .Npackd\MSI.log /i "%setup%" TARGETDIR="%CD%" ALLUSERS=1&#13;
-set err=%errorlevel%&#13;
-type .Npackd\MSI.log&#13;
-rem 3010=restart required&#13;
-if %err% equ 3010 exit /b 0&#13;
-if %err% neq 0 exit /b %err%&#13;
-</file>
-        <file path=".Npackd\Uninstall.bat">copy .Npackd\*.msi .&#13;
-for /f %%x in ('dir /b *.msi') do set setup=%%x&#13;
-msiexec.exe /qn /norestart /Lime .Npackd\MSI.log /x "%setup%"&#13;
-set err=%errorlevel%&#13;
-type .Npackd\MSI.log&#13;
-rem 3010=restart required&#13;
-if %err% equ 3010 exit /b 0&#13;
-if %err% neq 0 exit /b %err%&#13;
-</file>
-        <url>http://bitbucket.org/tortoisehg/stable/downloads/tortoisehg-1.1.8-hg-1.7.3-x64.msi</url>
-        <sha1>3688C127C9C2CD58EDB6B75D44E70041408D6746</sha1>
-    </version>
     <version name="2.0.3" package="org.bitbucket.tortoisehg.TortoiseHg64" type="one-file">
         <file path=".Npackd\Install.bat">for /f %%x in ('dir /b *.msi') do set setup=%%x
 copy "%setup%" .Npackd
@@ -13268,17 +13246,6 @@ if %err% neq 0 exit %err%</file>
         <sha1>91fc8bde4680fe283d325cd053fa2b3813cccebf</sha1>
     </version>
 
-    <version name="24.5" package="pale-moon64" type="one-file">
-        <file path=".Npackd\Install.bat">echo [Install] &gt; .Npackd\FF.ini&#13;
-echo InstallDirectoryPath=%CD% &gt;&gt; .Npackd\FF.ini&#13;
-echo QuickLaunchShortcut=false &gt;&gt; .Npackd\FF.ini&#13;
-echo DesktopShortcut=false &gt;&gt; .Npackd\FF.ini&#13;
-for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
-"%setup%" /INI="%CD%\.Npackd\FF.ini" &amp;&amp; del /f /q "%setup%"</file>
-        <file path=".Npackd\Uninstall.bat">uninstall\helper.exe /S</file>
-        <url>http://relmirror.palemoon.org/release/palemoon-24.5.0.win64.installer.exe</url>
-        <sha1>4981ec52749e22809b2fe6335b4b874b50efab39</sha1>
-    </version>
     <version name="24.6.2" package="pale-moon64" type="one-file">
         <file path=".Npackd\Install.bat">echo [Install] &gt; .Npackd\FF.ini&#13;
 echo InstallDirectoryPath=%CD% &gt;&gt; .Npackd\FF.ini&#13;
