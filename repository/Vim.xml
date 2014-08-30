@@ -290,31 +290,25 @@ See the pathogen description for how to install.</description>
     </package>
 
     <version name="0.6" package="vim-airline">
-        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b vim-airline*') do set name=%%x
-cd "%name%"        
-for /f "delims=" %%a in ('dir /b') do (
-  move "%%a" ..
-)
-cd ..
-rmdir "%name%"
-            
-mkdir "%ALLUSERSPROFILE%/Npackd/VimPlugins/"
-mklink /D "%ALLUSERSPROFILE%/Npackd/VimPlugins/%NPACKD_PACKAGE_NAME%" "%CD%"
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b vim-airline*') do set name=%%x&#13;
+call "%NIH%\ExtractDir.bat" "%name%" || exit /b %errorlevel%&#13;
+call "%NIH%\RegisterVimPlugin.bat" || exit /b %errorlevel%&#13;
 </file>
-        <file path=".Npackd\Uninstall.bat">
-rmdir "%ALLUSERSPROFILE%/Npackd/VimPlugins/%NPACKD_PACKAGE_NAME%"
-verify
+        <file path=".Npackd\Uninstall.bat">call "%NIH%\RegisterVimPlugin.bat" || exit /b %errorlevel%&#13;
 </file>
         <url>https://codeload.github.com/bling/vim-airline/zip/v0.6</url>
         <sha1>11fac81bb5f33ee9a30f9f4fd5ba162390f50255</sha1>
+        <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.4, 2)">
+            <variable>NIH</variable>
+        </dependency>
     </version>
 
     <version name="0.3" package="vim-bufferline">
         <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b vim-bufferline*') do set name=%%x&#13;
 call "%NIH%\ExtractDir.bat" "%name%" || exit /b %errorlevel%&#13;
-call "%NIH%\RegisterVimPlugin.bat" "%name%" || exit /b %errorlevel%&#13;
+call "%NIH%\RegisterVimPlugin.bat" || exit /b %errorlevel%&#13;
 </file>
-        <file path=".Npackd\Uninstall.bat">call "%NIH%\UnregisterVimPlugin.bat" "%name%" || exit /b %errorlevel%</file>
+        <file path=".Npackd\Uninstall.bat">call "%NIH%\UnregisterVimPlugin.bat" || exit /b %errorlevel%</file>
         <url>https://codeload.github.com/bling/vim-bufferline/zip/v0.3</url>
         <sha1>58361cedd09caf4b87aa6b5d9f1bc77c02cf7ab4</sha1>
         <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.4, 2)">
@@ -358,29 +352,28 @@ verify</file>
     </version>
     <version name="2014.4.13" package="vim-colorschemes">
         <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b vim-colorschemes*') do set name=%%x&#13;
-cd "%name%"        &#13;
-for /f "delims=" %%a in ('dir /b') do (&#13;
-  move "%%a" ..&#13;
-)&#13;
-cd ..&#13;
-rmdir "%name%"&#13;
-if %errorlevel% neq 0 exit /b %errorlevel%&#13;
-&#13;
-mkdir "%ALLUSERSPROFILE%/Npackd/VimPlugins/"&#13;
-mklink /D "%ALLUSERSPROFILE%/Npackd/VimPlugins/%NPACKD_PACKAGE_NAME%" "%CD%"</file>
-        <file path=".Npackd\Uninstall.bat">rmdir "%ALLUSERSPROFILE%/Npackd/VimPlugins/%NPACKD_PACKAGE_NAME%"&#13;
-verify</file>
+call "%NIH%\ExtractDir.bat" "%name%" || exit /b %errorlevel%&#13;
+call "%NIH%\RegisterVimPlugin.bat" || exit /b %errorlevel%&#13;
+</file>
+        <file path=".Npackd\Uninstall.bat">call "%NIH%\UnregisterVimPlugin.bat" || exit /b %errorlevel%&#13;
+</file>
         <url>http://downloads.sourceforge.net/project/npackd/vim-colorschemes-2014.4.13.zip</url>
         <sha1>2a89fd0c421dfa1b5f52e5f2096f7696e37e0ed1</sha1>
+        <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.4, 2)">
+            <variable>NIH</variable>
+        </dependency>
     </version>
 
     <version name="1.79" package="vim-ctrlp">
-        <file path=".Npackd\Install.bat">mkdir "%ALLUSERSPROFILE%/Npackd/VimPlugins/"&#13;
-mklink /D "%ALLUSERSPROFILE%/Npackd/VimPlugins/%NPACKD_PACKAGE_NAME%" "%CD%"</file>
-        <file path=".Npackd\Uninstall.bat">rmdir "%ALLUSERSPROFILE%/Npackd/VimPlugins/%NPACKD_PACKAGE_NAME%"&#13;
-verify</file>
+        <file path=".Npackd\Install.bat">call "%NIH%\RegisterVimPlugin.bat" || exit /b %errorlevel%&#13;
+</file>
+        <file path=".Npackd\Uninstall.bat">call "%NIH%\UnregisterVimPlugin.bat" || exit /b %errorlevel%&#13;
+</file>
         <url>http://www.vim.org/scripts/download_script.php?src_id=19448</url>
         <sha1>f00b76e3ed80801771e925db81c88d8835e0e609</sha1>
+        <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.4, 2)">
+            <variable>NIH</variable>
+        </dependency>
     </version>
 
     <version name="1" package="vim-delphi">
@@ -390,12 +383,15 @@ move pascal.vim syntax\&#13;
 del filetype.vim&#13;
 if %errorlevel% neq 0 exit /b %errorlevel%&#13;
 &#13;
-mkdir "%ALLUSERSPROFILE%/Npackd/VimPlugins/"&#13;
-mklink /D "%ALLUSERSPROFILE%/Npackd/VimPlugins/%NPACKD_PACKAGE_NAME%" "%CD%"</file>
-        <file path=".Npackd\Uninstall.bat">rmdir "%ALLUSERSPROFILE%/Npackd/VimPlugins/%NPACKD_PACKAGE_NAME%"&#13;
-verify</file>
+call "%NIH%\RegisterVimPlugin.bat" || exit /b %errorlevel%&#13;
+</file>
+        <file path=".Npackd\Uninstall.bat">call "%NIH%\UnregisterVimPlugin.bat" || exit /b %errorlevel%&#13;
+</file>
         <url>http://www.vim.org/scripts/download_script.php?src_id=12923</url>
         <sha1>16b54798afa87711cb1002d1889ecc4bf0e35442</sha1>
+        <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.4, 2)">
+            <variable>NIH</variable>
+        </dependency>
     </version>
 
     <version name="1.3" package="vim-easymotion">
@@ -418,32 +414,28 @@ verify</file>
     </version>
     <version name="2" package="vim-easymotion">
         <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b vim-*') do set name=%%x&#13;
-cd "%name%"        &#13;
-for /f "delims=" %%a in ('dir /b') do (&#13;
-  move "%%a" ..&#13;
-)&#13;
-cd ..&#13;
-rmdir "%name%"&#13;
-if %errorlevel% neq 0 exit /b %errorlevel%&#13;
-&#13;
-mkdir "%ALLUSERSPROFILE%/Npackd/VimPlugins/"&#13;
-mklink /D "%ALLUSERSPROFILE%/Npackd/VimPlugins/%NPACKD_PACKAGE_NAME%" "%CD%"&#13;
+call "%NIH%\ExtractDir.bat" "%name%" || exit /b %errorlevel%&#13;
+call "%NIH%\RegisterVimPlugin.bat" || exit /b %errorlevel%&#13;
 </file>
-        <file path=".Npackd\Uninstall.bat">rmdir "%ALLUSERSPROFILE%/Npackd/VimPlugins/%NPACKD_PACKAGE_NAME%"&#13;
-verify</file>
+        <file path=".Npackd\Uninstall.bat">call "%NIH%\UnregisterVimPlugin.bat" || exit /b %errorlevel%&#13;
+</file>
         <url>https://codeload.github.com/Lokaltog/vim-easymotion/zip/2.0</url>
         <sha1>0eb28e772c7f984b880244e3b860eae87f4f8573</sha1>
+        <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.4, 2)">
+            <variable>NIH</variable>
+        </dependency>
     </version>
 
     <version name="4.2.2" package="vim-fuzzyfinder">
-        <file path=".Npackd\Install.bat">mkdir "%ALLUSERSPROFILE%/Npackd/VimPlugins/"&#13;
-mklink /D "%ALLUSERSPROFILE%/Npackd/VimPlugins/%NPACKD_PACKAGE_NAME%" "%CD%"&#13;
+        <file path=".Npackd\Install.bat">call "%NIH%\RegisterVimPlugin.bat" || exit /b %errorlevel%&#13;
 </file>
-        <file path=".Npackd\Uninstall.bat">rmdir "%ALLUSERSPROFILE%/Npackd/VimPlugins/%NPACKD_PACKAGE_NAME%"&#13;
-verify&#13;
+        <file path=".Npackd\Uninstall.bat">call "%NIH%\UnregisterVimPlugin.bat" || exit /b %errorlevel%&#13;
 </file>
         <url>http://www.vim.org/scripts/download_script.php?src_id=13961</url>
         <sha1>4a1c157f228904dc612442c30b245613b1349d55</sha1>
+        <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.4, 2)">
+            <variable>NIH</variable>
+        </dependency>
         <dependency package="vim-l9" versions="[1.1, 2)"/>
     </version>
 
@@ -466,26 +458,29 @@ if %errorlevel% neq 0 exit /b %errorlevel%&#13;
 del "%setup%"&#13;
 if %errorlevel% neq 0 exit /b %errorlevel%&#13;
 &#13;
-mkdir "%ALLUSERSPROFILE%/Npackd/VimPlugins/"&#13;
-mklink /D "%ALLUSERSPROFILE%/Npackd/VimPlugins/%NPACKD_PACKAGE_NAME%" "%CD%"</file>
-        <file path=".Npackd\Uninstall.bat">rmdir "%ALLUSERSPROFILE%/Npackd/VimPlugins/%NPACKD_PACKAGE_NAME%"&#13;
-verify</file>
+call "%NIH%\RegisterVimPlugin.bat" || exit /b %errorlevel%&#13;
+</file>
+        <file path=".Npackd\Uninstall.bat">call "%NIH%\UnregisterVimPlugin.bat" || exit /b %errorlevel%&#13;
+</file>
         <url>http://www.vim.org/scripts/download_script.php?src_id=13989</url>
         <sha1>dbbf70518a31d9e259d70362c10d5e5c90bdffce</sha1>
-        <dependency package="org.7-zip.SevenZIPA" versions="[9.20, 9.20]"/>
+        <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.4, 2)">
+            <variable>NIH</variable>
+        </dependency>
         <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.15.7, 2)"/>
+        <dependency package="org.7-zip.SevenZIPA" versions="[9.20, 9.20]"/>
     </version>
 
     <version name="1.1" package="vim-l9">
-        <file path=".Npackd\Install.bat">mkdir "%ALLUSERSPROFILE%/Npackd/VimPlugins/"
-mklink /D "%ALLUSERSPROFILE%/Npackd/VimPlugins/%NPACKD_PACKAGE_NAME%" "%CD%"
+        <file path=".Npackd\Install.bat">call "%NIH%\RegisterVimPlugin.bat" || exit /b %errorlevel%&#13;
 </file>
-        <file path=".Npackd\Uninstall.bat">
-rmdir "%ALLUSERSPROFILE%/Npackd/VimPlugins/%NPACKD_PACKAGE_NAME%"
-verify
+        <file path=".Npackd\Uninstall.bat">call "%NIH%\UnregisterVimPlugin.bat" || exit /b %errorlevel%&#13;
 </file>
         <url>http://www.vim.org/scripts/download_script.php?src_id=13948</url>
         <sha1>4d9b9b29b259b16e4f728d945bc797f349375cdf</sha1>
+        <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.4, 2)">
+            <variable>NIH</variable>
+        </dependency>
     </version>
 
     <version name="6.4" package="vim-minibufexplorer">
@@ -500,51 +495,43 @@ verify&#13;
     </version>
     <version name="6.5.2" package="vim-minibufexplorer">
         <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b minibufexpl.vim*') do set name=%%x&#13;
-cd "%name%"        &#13;
-for /f "delims=" %%a in ('dir /b') do (&#13;
-  move "%%a" ..&#13;
-)&#13;
-cd ..&#13;
-rmdir "%name%"&#13;
-if %errorlevel% neq 0 exit /b %errorlevel%&#13;
-&#13;
-mkdir "%ALLUSERSPROFILE%/Npackd/VimPlugins/"&#13;
-mklink /D "%ALLUSERSPROFILE%/Npackd/VimPlugins/%NPACKD_PACKAGE_NAME%" "%CD%"</file>
-        <file path=".Npackd\Uninstall.bat">rmdir "%ALLUSERSPROFILE%/Npackd/VimPlugins/%NPACKD_PACKAGE_NAME%"&#13;
-verify&#13;
+call "%NIH%\ExtractDir.bat" "%name%" || exit /b %errorlevel%&#13;
+call "%NIH%\RegisterVimPlugin.bat" || exit /b %errorlevel%&#13;
+</file>
+        <file path=".Npackd\Uninstall.bat">call "%NIH%\UnregisterVimPlugin.bat" || exit /b %errorlevel%&#13;
 </file>
         <url>https://codeload.github.com/fholgado/minibufexpl.vim/zip/v6.5.2</url>
         <sha1>c8938815cb9643d86f0c06d675d5b8ff63a6eef5</sha1>
+        <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.4, 2)">
+            <variable>NIH</variable>
+        </dependency>
     </version>
 
     <version name="1" package="vim-neomru">
         <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b neomru.vim*') do set name=%%x&#13;
-cd "%name%"        &#13;
-for /f "delims=" %%a in ('dir /b') do (&#13;
-  move "%%a" ..&#13;
-)&#13;
-cd ..&#13;
-rmdir "%name%"&#13;
-&#13;
-mkdir "%ALLUSERSPROFILE%/Npackd/VimPlugins/"&#13;
-mklink /D "%ALLUSERSPROFILE%/Npackd/VimPlugins/%NPACKD_PACKAGE_NAME%" "%CD%"&#13;
+call "%NIH%\ExtractDir.bat" "%name%" || exit /b %errorlevel%&#13;
+call "%NIH%\RegisterVimPlugin.bat" || exit /b %errorlevel%&#13;
 </file>
-        <file path=".Npackd\Uninstall.bat">rmdir "%ALLUSERSPROFILE%/Npackd/VimPlugins/%NPACKD_PACKAGE_NAME%"&#13;
-verify&#13;
+        <file path=".Npackd\Uninstall.bat">call "%NIH%\UnregisterVimPlugin.bat" || exit /b %errorlevel%&#13;
 </file>
         <url>https://github.com/Shougo/neomru.vim/archive/f70be81d3e6faab5a0cff17743a5203ad08f62e2.zip</url>
         <sha1>d07d9d5c1926b38ea72bcbe49f7035e32725f1bf</sha1>
+        <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.4, 2)">
+            <variable>NIH</variable>
+        </dependency>
         <dependency package="vim-unite" versions="[6, 7)"/>
     </version>
 
     <version name="4.2" package="vim-nerdtree">
-        <file path=".Npackd\Install.bat">mkdir "%ALLUSERSPROFILE%/Npackd/VimPlugins/"&#13;
-mklink /D "%ALLUSERSPROFILE%/Npackd/VimPlugins/%NPACKD_PACKAGE_NAME%" "%CD%"&#13;
+        <file path=".Npackd\Install.bat">call "%NIH%\RegisterVimPlugin.bat" || exit /b %errorlevel%&#13;
 </file>
-        <file path=".Npackd\Uninstall.bat">rmdir "%ALLUSERSPROFILE%/Npackd/VimPlugins/%NPACKD_PACKAGE_NAME%"&#13;
-verify</file>
+        <file path=".Npackd\Uninstall.bat">call "%NIH%\UnregisterVimPlugin.bat" || exit /b %errorlevel%&#13;
+</file>
         <url>http://www.vim.org/scripts/download_script.php?src_id=17123</url>
         <sha1>8b4d8c0e86361c90c6c9953806cc8e50764b203c</sha1>
+        <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.4, 2)">
+            <variable>NIH</variable>
+        </dependency>
     </version>
 
     <version name="2.2" package="vim-pathogen" type="one-file">
@@ -561,19 +548,16 @@ verify</file>
     </version>
     <version name="2.3" package="vim-pathogen">
         <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b vim-pathogen*') do set name=%%x&#13;
-cd "%name%"        &#13;
-for /f "delims=" %%a in ('dir /b') do (&#13;
-  move "%%a" ..&#13;
-)&#13;
-cd ..&#13;
-rmdir "%name%"&#13;
-&#13;
-mkdir "%ALLUSERSPROFILE%/Npackd/VimPlugins/"&#13;
-mklink /D "%ALLUSERSPROFILE%/Npackd/VimPlugins/%NPACKD_PACKAGE_NAME%" "%CD%"</file>
-        <file path=".Npackd\Uninstall.bat">rmdir "%ALLUSERSPROFILE%/Npackd/VimPlugins/%NPACKD_PACKAGE_NAME%"&#13;
-verify</file>
+call "%NIH%\ExtractDir.bat" "%name%" || exit /b %errorlevel%&#13;
+call "%NIH%\RegisterVimPlugin.bat" || exit /b %errorlevel%&#13;
+</file>
+        <file path=".Npackd\Uninstall.bat">call "%NIH%\UnregisterVimPlugin.bat" || exit /b %errorlevel%&#13;
+</file>
         <url>https://codeload.github.com/tpope/vim-pathogen/zip/v2.3</url>
         <sha1>717f467d33975147c825753a9178d533df24605b</sha1>
+        <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.4, 2)">
+            <variable>NIH</variable>
+        </dependency>
     </version>
 
     <version name="1.1" package="vim-quickfixsigns">
@@ -586,19 +570,16 @@ verify</file>
     </version>
     <version name="1.5" package="vim-quickfixsigns">
         <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b quickfixsigns_vim*') do set name=%%x&#13;
-cd "%name%"        &#13;
-for /f "delims=" %%a in ('dir /b') do (&#13;
-  move "%%a" ..&#13;
-)&#13;
-cd ..&#13;
-rmdir "%name%"&#13;
-&#13;
-mkdir "%ALLUSERSPROFILE%/Npackd/VimPlugins/"&#13;
-mklink /D "%ALLUSERSPROFILE%/Npackd/VimPlugins/%NPACKD_PACKAGE_NAME%" "%CD%"</file>
-        <file path=".Npackd\Uninstall.bat">rmdir "%ALLUSERSPROFILE%/Npackd/VimPlugins/%NPACKD_PACKAGE_NAME%"&#13;
-verify</file>
+call "%NIH%\ExtractDir.bat" "%name%" || exit /b %errorlevel%&#13;
+call "%NIH%\RegisterVimPlugin.bat" || exit /b %errorlevel%&#13;
+</file>
+        <file path=".Npackd\Uninstall.bat">call "%NIH%\UnregisterVimPlugin.bat" || exit /b %errorlevel%&#13;
+</file>
         <url>https://codeload.github.com/tomtom/quickfixsigns_vim/zip/1.05</url>
         <sha1>2fc5d401ff58207d793a31b1573385639c4b4f57</sha1>
+        <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.4, 2)">
+            <variable>NIH</variable>
+        </dependency>
     </version>
 
     <version name="1.1" package="vim-restore-view" type="one-file">
@@ -619,43 +600,41 @@ verify
         <file path=".Npackd\Install.bat">mkdir plugin&#13;
 move download_script.php plugin\restore_view.vim&#13;
             &#13;
-mkdir "%ALLUSERSPROFILE%/Npackd/VimPlugins/"&#13;
-mklink /D "%ALLUSERSPROFILE%/Npackd/VimPlugins/%NPACKD_PACKAGE_NAME%" "%CD%"&#13;
+call "%NIH%\RegisterVimPlugin.bat" || exit /b %errorlevel%&#13;
 </file>
-        <file path=".Npackd\Uninstall.bat">rmdir "%ALLUSERSPROFILE%/Npackd/VimPlugins/%NPACKD_PACKAGE_NAME%"&#13;
-verify&#13;
+        <file path=".Npackd\Uninstall.bat">call "%NIH%\UnregisterVimPlugin.bat" || exit /b %errorlevel%&#13;
 </file>
         <url>http://www.vim.org/scripts/download_script.php?src_id=22255</url>
         <sha1>557f8592b677d0873e21cfd7d6cb0586fb37ff4b</sha1>
+        <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.4, 2)">
+            <variable>NIH</variable>
+        </dependency>
     </version>
 
     <version name="1.9" package="vim-signify">
-        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b vim-signify*') do set name=%%x
-cd "%name%"        
-for /f "delims=" %%a in ('dir /b') do (
-  move "%%a" ..
-)
-cd ..
-rmdir "%name%"
-            
-mkdir "%ALLUSERSPROFILE%/Npackd/VimPlugins/"
-mklink /D "%ALLUSERSPROFILE%/Npackd/VimPlugins/%NPACKD_PACKAGE_NAME%" "%CD%"
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b vim-signify*') do set name=%%x&#13;
+call "%NIH%\ExtractDir.bat" "%name%" || exit /b %errorlevel%&#13;
+call "%NIH%\RegisterVimPlugin.bat" || exit /b %errorlevel%&#13;
 </file>
-        <file path=".Npackd\Uninstall.bat">
-rmdir "%ALLUSERSPROFILE%/Npackd/VimPlugins/%NPACKD_PACKAGE_NAME%"
-verify
+        <file path=".Npackd\Uninstall.bat">call "%NIH%\UnregisterVimPlugin.bat" || exit /b %errorlevel%&#13;
 </file>
         <url>https://codeload.github.com/mhinz/vim-signify/zip/1.9</url>
         <sha1>02781953c2eb2bdf4d1327ff2b414fe46e832a9b</sha1>
+        <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.4, 2)">
+            <variable>NIH</variable>
+        </dependency>
     </version>
 
     <version name="0.83" package="vim-snipmate">
-        <file path=".Npackd\Install.bat">mkdir "%ALLUSERSPROFILE%/Npackd/VimPlugins/"&#13;
-mklink /D "%ALLUSERSPROFILE%/Npackd/VimPlugins/%NPACKD_PACKAGE_NAME%" "%CD%"</file>
-        <file path=".Npackd\Uninstall.bat">rmdir "%ALLUSERSPROFILE%/Npackd/VimPlugins/%NPACKD_PACKAGE_NAME%"&#13;
-verify</file>
+        <file path=".Npackd\Install.bat">call "%NIH%\RegisterVimPlugin.bat" || exit /b %errorlevel%&#13;
+</file>
+        <file path=".Npackd\Uninstall.bat">call "%NIH%\UnregisterVimPlugin.bat" || exit /b %errorlevel%&#13;
+</file>
         <url>http://www.vim.org/scripts/download_script.php?src_id=11006</url>
         <sha1>8af5b082f90cc5b65d71fc4dc7d1ebc9b858d992</sha1>
+        <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.4, 2)">
+            <variable>NIH</variable>
+        </dependency>
     </version>
 
     <version name="2" package="vim-supertab">
@@ -679,41 +658,30 @@ verify
     </version>
     <version name="2.1" package="vim-supertab">
         <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b supertab*') do set name=%%x&#13;
-cd "%name%"        &#13;
-for /f "delims=" %%a in ('dir /b') do (&#13;
-  move "%%a" ..&#13;
-)&#13;
-cd ..&#13;
-rmdir "%name%"            &#13;
-&#13;
-mkdir "%ALLUSERSPROFILE%/Npackd/VimPlugins/"&#13;
-mklink /D "%ALLUSERSPROFILE%/Npackd/VimPlugins/%NPACKD_PACKAGE_NAME%" "%CD%"&#13;
+call "%NIH%\ExtractDir.bat" "%name%" || exit /b %errorlevel%&#13;
+call "%NIH%\RegisterVimPlugin.bat" || exit /b %errorlevel%&#13;
 </file>
-        <file path=".Npackd\Uninstall.bat">rmdir "%ALLUSERSPROFILE%/Npackd/VimPlugins/%NPACKD_PACKAGE_NAME%"&#13;
-verify&#13;
+        <file path=".Npackd\Uninstall.bat">call "%NIH%\UnregisterVimPlugin.bat" || exit /b %errorlevel%&#13;
 </file>
         <url>https://codeload.github.com/ervandew/supertab/zip/2.1</url>
         <sha1>7e7af4c97307ceb65efe480016db503658da655c</sha1>
+        <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.4, 2)">
+            <variable>NIH</variable>
+        </dependency>
     </version>
 
     <version name="2" package="vim-surround">
-        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b vim-surround*') do set name=%%x
-cd "%name%"        
-for /f "delims=" %%a in ('dir /b') do (
-  move "%%a" ..
-)
-cd ..
-rmdir "%name%"            
-
-mkdir "%ALLUSERSPROFILE%/Npackd/VimPlugins/"
-mklink /D "%ALLUSERSPROFILE%/Npackd/VimPlugins/%NPACKD_PACKAGE_NAME%" "%CD%"
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b vim-surround*') do set name=%%x&#13;
+call "%NIH%\ExtractDir.bat" "%name%" || exit /b %errorlevel%&#13;
+call "%NIH%\RegisterVimPlugin.bat" || exit /b %errorlevel%&#13;
 </file>
-        <file path=".Npackd\Uninstall.bat">
-rmdir "%ALLUSERSPROFILE%/Npackd/VimPlugins/%NPACKD_PACKAGE_NAME%"
-verify
+        <file path=".Npackd\Uninstall.bat">call "%NIH%\UnregisterVimPlugin.bat" || exit /b %errorlevel%&#13;
 </file>
         <url>https://codeload.github.com/tpope/vim-surround/zip/v2.0</url>
         <sha1>dbe3b83e3b5887b09976ed5c31821ad4cef65bcc</sha1>
+        <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.4, 2)">
+            <variable>NIH</variable>
+        </dependency>
     </version>
 
     <version name="3.2" package="vim-syntastic">
@@ -755,21 +723,16 @@ verify&#13;
     </version>
     <version name="3.4" package="vim-syntastic">
         <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b syntastic*') do set name=%%x&#13;
-cd "%name%"        &#13;
-for /f "delims=" %%a in ('dir /b') do (&#13;
-  move "%%a" ..&#13;
-)&#13;
-cd ..&#13;
-rmdir "%name%"            &#13;
-&#13;
-mkdir "%ALLUSERSPROFILE%/Npackd/VimPlugins/"&#13;
-mklink /D "%ALLUSERSPROFILE%/Npackd/VimPlugins/%NPACKD_PACKAGE_NAME%" "%CD%"&#13;
+call "%NIH%\ExtractDir.bat" "%name%" || exit /b %errorlevel%&#13;
+call "%NIH%\RegisterVimPlugin.bat" || exit /b %errorlevel%&#13;
 </file>
-        <file path=".Npackd\Uninstall.bat">rmdir "%ALLUSERSPROFILE%/Npackd/VimPlugins/%NPACKD_PACKAGE_NAME%"&#13;
-verify&#13;
+        <file path=".Npackd\Uninstall.bat">call "%NIH%\UnregisterVimPlugin.bat" || exit /b %errorlevel%&#13;
 </file>
         <url>https://codeload.github.com/scrooloose/syntastic/zip/3.4.0</url>
         <sha1>a10e40e893b9d430b27422e497dfa64f5b9c4a5c</sha1>
+        <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.4, 2)">
+            <variable>NIH</variable>
+        </dependency>
     </version>
 
     <version name="2.5" package="vim-tagbar">
@@ -870,67 +833,52 @@ verify</file>
     </version>
     <version name="6" package="vim-unite">
         <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b unite.vim*') do set name=%%x&#13;
-cd "%name%"        &#13;
-for /f "delims=" %%a in ('dir /b') do (&#13;
-  move "%%a" ..&#13;
-)&#13;
-cd ..&#13;
-rmdir "%name%"&#13;
-if %errorlevel% neq 0 exit /b %errorlevel%&#13;
-&#13;
-mkdir "%ALLUSERSPROFILE%/Npackd/VimPlugins/"&#13;
-mklink /D "%ALLUSERSPROFILE%/Npackd/VimPlugins/%NPACKD_PACKAGE_NAME%" "%CD%"&#13;
+call "%NIH%\ExtractDir.bat" "%name%" || exit /b %errorlevel%&#13;
+call "%NIH%\RegisterVimPlugin.bat" || exit /b %errorlevel%&#13;
 </file>
-        <file path=".Npackd\Uninstall.bat">rmdir "%ALLUSERSPROFILE%/Npackd/VimPlugins/%NPACKD_PACKAGE_NAME%"&#13;
-verify</file>
+        <file path=".Npackd\Uninstall.bat">call "%NIH%\UnregisterVimPlugin.bat" || exit /b %errorlevel%&#13;
+</file>
         <url>https://codeload.github.com/Shougo/unite.vim/zip/ver.6.0</url>
         <sha1>181624a7b777e179c46df3aeceab6b8a49a19865</sha1>
+        <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.4, 2)">
+            <variable>NIH</variable>
+        </dependency>
         <dependency package="net.sourceforge.ExuberantCtags" versions="[5.8, 6)"/>
     </version>
 
     <version name="1.40" package="vim-xml">
         <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b xml.vim*') do set name=%%x&#13;
-cd "%name%"        &#13;
-for /f "delims=" %%a in ('dir /b') do (&#13;
-  move "%%a" ..&#13;
-)&#13;
-cd ..&#13;
-rmdir "%name%"&#13;
-            &#13;
-mkdir "%ALLUSERSPROFILE%/Npackd/VimPlugins/"&#13;
-mklink /D "%ALLUSERSPROFILE%/Npackd/VimPlugins/%NPACKD_PACKAGE_NAME%" "%CD%"&#13;
+call "%NIH%\ExtractDir.bat" "%name%" || exit /b %errorlevel%&#13;
+call "%NIH%\RegisterVimPlugin.bat" || exit /b %errorlevel%&#13;
 </file>
-        <file path=".Npackd\Uninstall.bat">rmdir "%ALLUSERSPROFILE%/Npackd/VimPlugins/%NPACKD_PACKAGE_NAME%"&#13;
-verify&#13;
+        <file path=".Npackd\Uninstall.bat">call "%NIH%\UnregisterVimPlugin.bat" || exit /b %errorlevel%&#13;
 </file>
         <url>http://downloads.sourceforge.net/project/npackd/vim-xml-1.40.zip</url>
         <sha1>a90c92d8e6074aaa0b216fbb7314367cb817f313</sha1>
-        <dependency package="org.7-zip.SevenZIPA" versions="[9.20, 10)"/>
+        <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.4, 2)">
+            <variable>NIH</variable>
+        </dependency>
         <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.15.7, 2)"/>
+        <dependency package="org.7-zip.SevenZIPA" versions="[9.20, 10)"/>
     </version>
 
     <version name="2014.3.11" package="vim-youcompleteme">
         <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b vim-ycm*') do set name=%%x&#13;
-cd "%name%"        &#13;
-for /f "delims=" %%a in ('dir /b') do (&#13;
-  move "%%a" ..&#13;
-)&#13;
-cd ..&#13;
-rmdir "%name%"            &#13;
-&#13;
-mkdir "%ALLUSERSPROFILE%/Npackd/VimPlugins/"&#13;
-mklink /D "%ALLUSERSPROFILE%/Npackd/VimPlugins/%NPACKD_PACKAGE_NAME%" "%CD%"&#13;
+call "%NIH%\ExtractDir.bat" "%name%" || exit /b %errorlevel%&#13;
+call "%NIH%\RegisterVimPlugin.bat" || exit /b %errorlevel%&#13;
 &#13;
 copy "%CLANG%\bin\libclang.dll" python\&#13;
 </file>
-        <file path=".Npackd\Uninstall.bat">rmdir "%ALLUSERSPROFILE%/Npackd/VimPlugins/%NPACKD_PACKAGE_NAME%"&#13;
-verify&#13;
+        <file path=".Npackd\Uninstall.bat">call "%NIH%\UnregisterVimPlugin.bat" || exit /b %errorlevel%&#13;
 </file>
         <url>https://bitbucket.org/Haroogan/vim-youcompleteme-for-windows/downloads/vim-ycm-9e54390-windows-x86.zip</url>
         <sha1>17c7435bd68e8076879a88b48fddb17d2b274ebc</sha1>
+        <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.4, 2)">
+            <variable>NIH</variable>
+        </dependency>
+        <dependency package="vim-huge" versions="[7.3.584, 7.5)"/>
         <dependency package="clang" versions="[3.4, 3.4]">
             <variable>CLANG</variable>
         </dependency>
-        <dependency package="vim-huge" versions="[7.3.584, 7.5)"/>
     </version>
 </root>
