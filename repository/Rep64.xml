@@ -615,6 +615,14 @@ Eclipse version names:&#13;
         <license>org.wikipedia.Freeware</license>
         <category>Tools</category>
     </package>
+    <package name="groovy-grails-tool-suite64">
+        <title>Groovy/Grails Tool Suite 64 bit</title>
+        <url>http://spring.io/tools/ggts</url>
+        <description>Eclipse-based development environment for developing, debugging and executing Groovy and Grails applications</description>
+        <icon>http://alt2cdn.blob.core.windows.net/dist/icons/spring_17846.png</icon>
+        <license>org.eclipse.EPLv1</license>
+        <category>Development</category>
+    </package>
     <package name="halite64">
         <title>Halite 64 bit</title>
         <url>http://www.binarynotions.com/halite-bittorrent-client/</url>
@@ -674,7 +682,9 @@ web-based utility which scans for and cleans computers of viruses, Trojans, spyw
     <package name="io.mpv.mpv-64">
         <title>mpv 64-bit</title>
         <url>http://mpv.io/</url>
-        <description>a versatile command line movie player based on MPlayer and mplayer2</description>
+        <description>WARNING: Upstream has stopped distributing release builds for Windows, therefore this package is out of date. Up to date development builds can be found at http://mplayer2.srsfckn.biz/&#13;
+&#13;
+a versatile command line movie player based on MPlayer and mplayer2</description>
         <icon>https://raw.githubusercontent.com/mpv-player/mpv/master/etc/mpv-icon-8bit-32x32.png</icon>
         <license>org.gnu.GPLv2</license>
         <category>Video</category>
@@ -1407,6 +1417,7 @@ SoapUI is a free and open source cross-platform Functional Testing solution. Wit
         <description>BitTorrent client</description>
         <icon>https://lh4.googleusercontent.com/-UwyFtt8bBqo/URO5SDgcCpI/AAAAAAAAAbA/Y_5QrEUr2GA/s800/transmission.png</icon>
         <license>org.gnu.GPLv2</license>
+        <category>Tools</category>
     </package>
     <package name="virtual-pc64">
         <title>Virtual PC 64 bit</title>
@@ -6236,6 +6247,19 @@ call "%npackdih%\InstallMSI.bat" INSTALLDIR yes&#13;
         <sha1>1f0b1a0c90d6f96a0062360962d4dcb41ce1442a</sha1>
     </version>
 
+    <version name="3.6.1" package="groovy-grails-tool-suite64">
+        <important-file path="ggts-3.6.1.RELEASE\GGTS.exe" title="GGTS 64 bit"/>
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b ggts*') do set name=%%x&#13;
+call "%nih%\ExtractDir.bat" "%name%"&#13;
+</file>
+        <url>http://download.springsource.com/release/STS/3.6.1/dist/e4.4/groovy-grails-tool-suite-3.6.1.RELEASE-e4.4-win32-x86_64.zip</url>
+        <sha1>32491456cfb7d11767b22514bc5d9b64e1a473d3</sha1>
+        <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.5, 2)">
+            <variable>nih</variable>
+        </dependency>
+        <dependency package="com.oracle.JRE64" versions="[1.6, 2)"/>
+    </version>
+
     <version name="0.3.4" package="halite64" type="one-file">
         <file path=".Npackd\Install.bat">set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.NpackdInstallerHelper" "--versions=[1.1, 2)"&#13;
 for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set npackdih=%%x&#13;
@@ -6459,17 +6483,6 @@ for /f %%x in ('dir /b *.7z') do set setup=%%x&#13;
         <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.15.7, 2)"/>
     </version>
     <version name="0.4" package="io.mpv.mpv-64" type="one-file">
-        <file path=".Npackd\Install.bat">set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=org.7-zip.SevenZIPA" "--versions=[9.20, 10)"&#13;
-for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set sevenzipa=%%x&#13;
-for /f %%x in ('dir /b *.7z') do set setup=%%x&#13;
-"%sevenzipa%\7za.exe" x "%setup%" &gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
-</file>
-        <url>https://github.com/mpv-player/mpv/releases/download/v0.4.0/mpv_v0.4.0_windows_64bit.7z</url>
-        <sha1>635f1da04e461b386c5d0cca2feda1f68acc0ebb</sha1>
-        <dependency package="org.7-zip.SevenZIPA" versions="[9.20, 10)"/>
-        <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.15.7, 2)"/>
-    </version>
-    <version name="0.4.2" package="io.mpv.mpv-64" type="one-file">
         <file path=".Npackd\Install.bat">set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=org.7-zip.SevenZIPA" "--versions=[9.20, 10)"&#13;
 for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set sevenzipa=%%x&#13;
 for /f %%x in ('dir /b *.7z') do set setup=%%x&#13;
