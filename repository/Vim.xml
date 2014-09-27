@@ -138,7 +138,9 @@ To enable it, add to your C:\Users\username\\.vimrc the following:&#13;
 Every Vim plugin including pathogen creates a directory link from %ALLUSERSPROFILE%/Npackd/VimPlugins/plugin-name to the plugin installation directory.&#13;
 &#13;
 To enable pathogen, add to your .vimrc the following:&#13;
-exec ':source ' . $ALLUSERSPROFILE . '/Npackd/VimPlugins/vim-pathogen-2.3/autoload/pathogen.vim'&#13;
+    exec ':source ' . $ALLUSERSPROFILE . '/Npackd/VimPlugins/vim-pathogen-2.3/autoload/pathogen.vim'&#13;
+    syntax on&#13;
+    filetype plugin indent on&#13;
 &#13;
 Add the following to your .vimrc to enable all Vim plugins installed by Npackd:&#13;
     execute pathogen#infect($ALLUSERSPROFILE . '/Npackd/VimPlugins/{}')</description>
@@ -605,6 +607,7 @@ call "%NIH%\RegisterVimPlugin.bat" || exit /b %errorlevel%&#13;
         <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.5, 2)">
             <variable>NIH</variable>
         </dependency>
+        <dependency package="vim-huge" versions="[5, 20)"/>
     </version>
 
     <version name="1.1" package="vim-quickfixsigns">
