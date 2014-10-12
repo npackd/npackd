@@ -223,7 +223,8 @@ browser plugin for graphics and multimedia for Internet Explorer</description>
     <package name="com.alcpu.CoreTemp64">
         <title>Core Temp 64 bit</title>
         <url>http://www.alcpu.com/CoreTemp</url>
-        <description>monitor processor temperature and other vital information</description>
+        <description>WARNING: this package always installs the newest version&#13;
+monitor processor temperature and other vital information</description>
         <icon>https://lh3.googleusercontent.com/--lfB9m0cw6c/URN9yolBsHI/AAAAAAAAAZM/V_XlHEFF9FU/s800/-coretemp.png</icon>
         <license>org.wikipedia.Freeware</license>
         <category>Tools</category>
@@ -341,6 +342,16 @@ system profiler that detects the central processing unit, RAM, motherboard chips
         <icon>https://lh4.googleusercontent.com/-B_i73iHxIEQ/UQvSx79NBFI/AAAAAAAAAPs/p7JaTYN5qtk/s800/tortoisegit_32.png</icon>
         <license>org.gnu.GPLv2</license>
         <category>Development</category>
+    </package>
+    <package name="com.googlecode.windows-package-manager.Npackd64">
+        <title>Npackd 64 bit</title>
+        <url>http://code.google.com/p/windows-package-manager/</url>
+        <description>package manager</description>
+        <icon>https://lh5.googleusercontent.com/-Clv-5HRjnqw/T2iH5F-IJYI/AAAAAAAAAbY/PRAIafxwI1c/s800/com.googlecode.windows-package-manager.Npackd.png</icon>
+        <license>org.gnu.GPLv3</license>
+        <category>Tools</category>
+        <changelog>https://code.google.com/p/windows-package-manager/wiki/ChangeLog</changelog>
+        <screenshot>http://npackd.appspot.com/Npackd.png</screenshot>
     </package>
     <package name="com.httrack.HTTrack64">
         <title>HTTrack 64 bit</title>
@@ -587,9 +598,17 @@ Eclipse version names:&#13;
 * Juno - 4.2&#13;
 * Kepler - 4.3&#13;
 * Luna - 4.4</description>
-        <icon>https://lh3.googleusercontent.com/-U3-vb3c4Hlg/T2h0IZg9KaI/AAAAAAAAAY0/mb-U_2_MU50/s800/org.eclipse.EclipseIDEJava.png</icon>
+        <icon>https://lh5.googleusercontent.com/-00Ppn9UkloU/VDbcff5RJ-I/AAAAAAAABzc/rEMA9uWWRQ0/s42/eclipse-rcp.png</icon>
         <license>org.eclipse.EPLv1</license>
         <category>Development</category>
+    </package>
+    <package name="everything64">
+        <title>Everything 64 bit</title>
+        <url>http://www.voidtools.com</url>
+        <description>desktop file search</description>
+        <icon>https://lh3.googleusercontent.com/-70rYXeHZNCw/URMeMqblHtI/AAAAAAAAAW8/YGpfuIRmceo/s800/-everything.png</icon>
+        <license>org.wikipedia.Freeware</license>
+        <category>Tools</category>
     </package>
     <package name="far-manager64">
         <title>FAR Manager 64 bit</title>
@@ -721,6 +740,14 @@ raster graphics editor.</description>
         <description>Complete open source solution for HDR photography</description>
         <icon>http://cdn.appstorm.net/windows.appstorm.net/files/2012/06/luminance-icon.jpg</icon>
         <license>org.gnu.GPLv2</license>
+        <category>Photo</category>
+    </package>
+    <package name="marble64">
+        <title>Marble 64 bit</title>
+        <url>http://marble.kde.org/index.php</url>
+        <description>Use Marble similar to a desktop globe; pan around and measure distances. At closer scale it becomes a world atlas, while OpenStreetMap takes you to street level. Search for places of interest, view Wikipedia articles, create routes by drag and drop and so much more.</description>
+        <icon>http://userbase.kde.org/images.userbase/8/82/Marble.png</icon>
+        <license>org.gnu.LGPLv2_1</license>
         <category>Photo</category>
     </package>
     <package name="mingw-w64-x86_64-seh-posix">
@@ -1059,7 +1086,7 @@ Eclipse version names:&#13;
 * Juno - 4.2&#13;
 * Kepler - 4.3&#13;
 * Luna - 4.4</description>
-        <icon>https://lh3.googleusercontent.com/-U3-vb3c4Hlg/T2h0IZg9KaI/AAAAAAAAAY0/mb-U_2_MU50/s800/org.eclipse.EclipseIDEJava.png</icon>
+        <icon>http://www.eclipse.org/downloads/images/java.png</icon>
         <license>org.eclipse.EPLv1</license>
         <category>Development</category>
     </package>
@@ -1597,6 +1624,28 @@ if %err% equ 3010 exit 0&#13;
 if %err% neq 0 exit %err%</file>
         <url>http://dl-ak.solidworks.com/nonsecure/draftsight/V1R5.1/DraftSight64.exe</url>
     </version>
+    <version name="1.5.2" package="com.3ds.DraftSight64" type="one-file">
+        <file path=".Npackd\Install.bat">md msi&#13;
+&#13;
+for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
+"%setup%" /Q /T:"%CD%\msi" /C&#13;
+&#13;
+for /f "delims=" %%x in ('dir /b msi\*.msi') do set setup=%%x&#13;
+msiexec /qn /norestart /lime .Npackd\MSI.log /i "msi\%setup%" TARGETDIR="%CD%" ALLUSERS=1&#13;
+set err=%errorlevel%&#13;
+type .Npackd\MSI.log&#13;
+rem 3010=restart required&#13;
+if %err% equ 3010 exit 0&#13;
+if %err% neq 0 exit %err%</file>
+        <file path=".Npackd\Uninstall.bat">for /f "delims=" %%x in ('dir /b msi\*.msi') do set setup=%%x&#13;
+msiexec /qn /norestart /lime .Npackd\MSI.log /x "msi\%setup%"&#13;
+set err=%errorlevel%&#13;
+type .Npackd\MSI.log&#13;
+rem 3010=restart required&#13;
+if %err% equ 3010 exit 0&#13;
+if %err% neq 0 exit %err%</file>
+        <url>http://dl-ak.solidworks.com/nonsecure/draftsight/V1R5.2/DraftSight64.exe</url>
+    </version>
 
     <version name="5.16.3.1603" package="com.activestate.ActivePerl64" type="one-file">
         <file path=".Npackd\Install.bat">set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.NpackdInstallerHelper" "--versions=[1, 1]"&#13;
@@ -1698,7 +1747,7 @@ if %errorlevel% neq 0 exit /b %errorlevel%&#13;
         <dependency package="com.googlecode.windows-package-manager.CLU" versions="[1, 2)"/>
     </version>
 
-    <version name="14" package="com.adobe.FlashPlayer64" type="one-file">
+    <version name="15" package="com.adobe.FlashPlayer64" type="one-file">
         <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.msi') do set setup=%%x&#13;
 mkdir .Npackd&#13;
 move "%setup%" .Npackd&#13;
@@ -1735,12 +1784,12 @@ cd "%d%"&#13;
 for /f "delims=" %%x in ('dir /b FlashUtil32*Plugin.exe') do set setup=%%x&#13;
 "%setup%" -uninstall&#13;
 </file>
-        <url>http://download.macromedia.com/get/flashplayer/current/licensing/win/install_flash_player_14_plugin.msi</url>
+        <url>http://download.macromedia.com/get/flashplayer/current/licensing/win/install_flash_player_15_plugin.msi</url>
         <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.1, 2)"/>
         <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.15.7, 2)"/>
     </version>
 
-    <version name="14" package="com.adobe.FlashPlayerActiveX64" type="one-file">
+    <version name="15" package="com.adobe.FlashPlayerActiveX64" type="one-file">
         <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.msi') do set setup=%%x&#13;
 mkdir .Npackd&#13;
 move "%setup%" .Npackd&#13;
@@ -1778,7 +1827,7 @@ set setup=&#13;
 for /f "delims=" %%x in ('dir /b FlashUtil32*ActiveX.exe') do set setup=%%x&#13;
 if "%setup%" neq "" "%setup%" -uninstall&#13;
 </file>
-        <url>http://download.macromedia.com/get/flashplayer/current/licensing/win/install_flash_player_14_active_x.msi</url>
+        <url>http://download.macromedia.com/get/flashplayer/current/licensing/win/install_flash_player_15_active_x.msi</url>
         <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.1, 2)"/>
         <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.15.7, 2)"/>
     </version>
@@ -2273,6 +2322,14 @@ call "%npackdih%\InstallMSI.bat" APPLICATIONFOLDER yes&#13;
         <url>http://download.calibre-ebook.com/1.43.0/calibre-64bit-1.43.0.msi</url>
         <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.2, 2)"/>
     </version>
+    <version name="2.5" package="com.calibreebook.Calibre64" type="one-file">
+        <file path=".Npackd\Install.bat">set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.NpackdInstallerHelper" "--versions=[1.1, 2)"&#13;
+for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set npackdih=%%x&#13;
+call "%npackdih%\InstallMSI.bat" APPLICATIONFOLDER yes&#13;
+</file>
+        <url>http://download.calibre-ebook.com/2.5.0/calibre-64bit-2.5.0.msi</url>
+        <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.2, 2)"/>
+    </version>
 
     <version name="5.12.256249.2599" package="com.comodo.comodoav64" type="one-file">
         <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.msi') do set setup=%%x&#13;
@@ -2451,6 +2508,13 @@ if %err% neq 0 exit %err%</file>
         <file path=".Npackd\Uninstall.bat">uninstgs.exe /S</file>
         <url>http://downloads.ghostscript.com/public/gs914w64.exe</url>
         <sha1>b30a1979c88f89f6d76dbf200e3358d64e5cf915</sha1>
+    </version>
+    <version name="9.15" package="com.ghostscript.Ghostscript64" type="one-file">
+        <file path=".Npackd\Install.bat">for /f %%x in ('dir /b *.exe') do set setup=%%x&#13;
+"%setup%" /S /D=%CD% &amp;&amp; del /f /q "%setup%"</file>
+        <file path=".Npackd\Uninstall.bat">uninstgs.exe /S</file>
+        <url>http://downloads.ghostscript.com/public/gs915w64.exe</url>
+        <sha1>25e67b37d30cea47e078652d40976ce8cadfcbdc</sha1>
     </version>
 
     <version name="12.7.27.3" package="com.googlecode.conemu-maximus5.ConEmu64" type="one-file">
@@ -2995,6 +3059,17 @@ call "%npackdih%\InstallMSI.bat" INSTALLDIR yes&#13;
         <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3.1, 2)"/>
     </version>
 
+    <version name="1.18.7" package="com.googlecode.windows-package-manager.Npackd64">
+        <important-file path="npackdg.exe" title="Npackd"/>
+        <url>http://windows-package-manager.googlecode.com/files/Npackd64-1.18.7.zip</url>
+        <sha1>86a08b48fc8758deabcd577fdab8b3def5e584ce</sha1>
+    </version>
+    <version name="1.19.13" package="com.googlecode.windows-package-manager.Npackd64">
+        <important-file path="npackdg.exe" title="Npackd"/>
+        <url>http://downloads.sourceforge.net/project/npackd/com.googlecode.windows-package-manager.Npackd64/Npackd64-1.19.13.zip</url>
+        <sha1>C413F838889B33A6481DEA98BA38185D6778D79E</sha1>
+    </version>
+
     <version name="3.47.21" package="com.httrack.HTTrack64" type="one-file">
         <file path=".WPM\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
 "%setup%" /SP- /VERYSILENT /SUPPRESSMSGBOXES /NOCANCEL /NORESTART /DIR="%CD%" /SAVEINF="%CD%\.WPM\InnoSetupInfo.ini" /LOG="%CD%\.WPM\InnoSetupInstall.log"&#13;
@@ -3066,6 +3141,20 @@ if %err% neq 0 exit %err%&#13;
 </file>
         <url>https://downloads.sourceforge.net/project/npackd/com.httrack.HTTrack64/com.httrack.HTTrack64-3.48.17.exe</url>
         <sha1>f25d340c25673b9e5910bf6d0c1afa78799dced1</sha1>
+    </version>
+    <version name="3.48.19" package="com.httrack.HTTrack64" type="one-file">
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
+"%setup%" /SP- /VERYSILENT /SUPPRESSMSGBOXES /NOCANCEL /NORESTART /DIR="%CD%" /SAVEINF="%CD%\.Npackd\InnoSetupInfo.ini" /LOG="%CD%\.Npackd\InnoSetupInstall.log" &amp;&amp; del /f /q "%setup%"&#13;
+set err=%errorlevel%&#13;
+type .Npackd\InnoSetupInstall.log&#13;
+if %err% neq 0 exit %err%</file>
+        <file path=".Npackd\Uninstall.bat">unins000.exe /VERYSILENT /SUPPRESSMSGBOXES /NORESTART /LOG="%CD%\.Npackd\InnoSetupUninstall.log"&#13;
+set err=%errorlevel%&#13;
+type .Npackd\InnoSetupUninstall.log&#13;
+if %err% neq 0 exit %err%&#13;
+</file>
+        <url>https://downloads.sourceforge.net/project/npackd/com.httrack.HTTrack64/com.httrack.HTTrack64-3.48.19.exe</url>
+        <sha1>763f33505ac180d8b4e8c6fbebe73e37afac2161</sha1>
     </version>
 
     <version name="1" package="com.intilinux.mypaint.MyPaint64" type="one-file">
@@ -3520,6 +3609,20 @@ rmdir "%name%"&#13;
         <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.1, 2)"/>
         <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.15.7, 2)"/>
     </version>
+    <version name="5.6.21" package="com.mysql.MySQLCommunityServer64">
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b mysql*') do set name=%%x&#13;
+cd "%name%"        &#13;
+for /f "delims=" %%a in ('dir /b') do (&#13;
+  move "%%a" ..&#13;
+)&#13;
+cd ..&#13;
+rmdir "%name%"&#13;
+</file>
+        <url>http://downloads.sourceforge.net/project/npackd/com.mysql.MySQLCommunityServer64/com.mysql.MySQLCommunityServer64-5.6.21.zip</url>
+        <sha1>182320d9155c3ffef834d4239249d9540b86b842</sha1>
+        <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.1, 2)"/>
+        <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.15.7, 2)"/>
+    </version>
 
     <version name="2014" package="com.mythicsoft.AgentRansack64" type="one-file">
         <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
@@ -3552,6 +3655,17 @@ for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set myun=%%x&#13;
 "%myun%\myuninst.exe" /uninstall "Agent Ransack x64"&#13;
 </file>
         <url>http://download.mythicsoft.com/ar/822/AgentRansack_822.exe</url>
+        <dependency package="net.nirsoft.MyUninstaller" versions="[1.74, 2)"/>
+    </version>
+    <version name="2014.825" package="com.mythicsoft.AgentRansack64" type="one-file">
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
+"%setup%" /S /D=%CD% &amp;&amp; del /f /q "%setup%"&#13;
+</file>
+        <file path=".Npackd\Uninstall.bat">set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=net.nirsoft.MyUninstaller" "--versions=[1.74, 2)"&#13;
+for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set myun=%%x&#13;
+"%myun%\myuninst.exe" /uninstall "Agent Ransack x64"&#13;
+</file>
+        <url>http://download.mythicsoft.com/ar/825/AgentRansack_825.exe</url>
         <dependency package="net.nirsoft.MyUninstaller" versions="[1.74, 2)"/>
     </version>
 
@@ -4010,6 +4124,22 @@ if %err% neq 0 exit /b %err%&#13;
         <sha1>ec7a920d68aa7aee298ca09840c2137136205ee1</sha1>
         <detect-msi>{64A3A4F4-B792-11D6-A78A-00B0D0180110}</detect-msi>
     </version>
+    <version name="1.8.0.20" package="com.oracle.JDK64" type="one-file">
+        <file path=".Npackd\Uninstall.bat">MsiExec.exe /qn /norestart /Lime .Npackd\MSI.log /X{64A3A4F4-B792-11D6-A78A-00B0D0180200}&#13;
+set err=%errorlevel%&#13;
+type .Npackd\MSI.log&#13;
+if %err% neq 0 exit /b %err%&#13;
+</file>
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
+"%setup%" /s /L .Npackd\MSI.log INSTALLDIR="%CD%" STATIC=1 &amp;&amp; del /f /q "%setup%"&#13;
+set err=%errorlevel%&#13;
+type .Npackd\MSI.log&#13;
+if %err% neq 0 exit /b %err%&#13;
+</file>
+        <url>http://downloads.sourceforge.net/project/npackd/com.oracle.JDK64/com.oracle.JDK64-1.8.0.20.exe</url>
+        <sha1>1e0b574a03b3554121d290b6b8c67228ef355e00</sha1>
+        <detect-msi>{64A3A4F4-B792-11D6-A78A-00B0D0180200}</detect-msi>
+    </version>
 
     <version name="1.6.0.23" package="com.oracle.JRE64" type="one-file">
         <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x
@@ -4314,6 +4444,22 @@ if %err% neq 0 exit /b %err%&#13;
         <url>http://downloads.sourceforge.net/project/npackd/com.oracle.JRE64/com.oracle.JRE64-1.8.0.11.exe</url>
         <sha1>64c8a112a621de206a303420dd612e9a36634515</sha1>
         <detect-msi>{26A24AE4-039D-4CA4-87B4-2F86418011F0}</detect-msi>
+    </version>
+    <version name="1.8.0.20" package="com.oracle.JRE64" type="one-file">
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
+"%setup%" /s /L .Npackd\MSI.log INSTALLDIR="%CD%" STATIC=1 &amp;&amp; del /f /q "%setup%"&#13;
+set err=%errorlevel%&#13;
+type .Npackd\MSI.log&#13;
+if %err% neq 0 exit /b %err%&#13;
+</file>
+        <file path=".Npackd\Uninstall.bat">MsiExec.exe /qn /norestart /Lime .Npackd\MSI.log /X{26A24AE4-039D-4CA4-87B4-2F86418020F0}&#13;
+set err=%errorlevel%&#13;
+type .Npackd\MSI.log&#13;
+if %err% neq 0 exit /b %err%&#13;
+</file>
+        <url>http://downloads.sourceforge.net/project/npackd/com.oracle.JRE64/com.oracle.JRE64-1.8.0.20.exe</url>
+        <sha1>f0eb0114437c152301a1dca4d0ed8d246b45457b</sha1>
+        <detect-msi>{26A24AE4-039D-4CA4-87B4-2F86418020F0}</detect-msi>
     </version>
 
     <version name="1.8.2" package="com.selenic.mercurial.Mercurial64" type="one-file">
@@ -4899,6 +5045,21 @@ if %err% neq 0 exit %err%&#13;
 </file>
         <url>http://mercurial.selenic.com/release/windows/Mercurial-3.0.2-x64.exe</url>
         <sha1>aae7b6149e4b3ff5df6484062baabe087b888688</sha1>
+    </version>
+    <version name="3.1.1" package="com.selenic.mercurial.Mercurial64" type="one-file">
+        <file path=".Npackd\Uninstall.bat">unins000.exe /VERYSILENT /SUPPRESSMSGBOXES /NORESTART /LOG="%CD%\.Npackd\InnoSetupUninstall.log"&#13;
+set err=%errorlevel%&#13;
+type .Npackd\InnoSetupUninstall.log&#13;
+if %err% neq 0 exit %err%&#13;
+</file>
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
+"%setup%" /SP- /VERYSILENT /SUPPRESSMSGBOXES /NOCANCEL /NORESTART /DIR="%CD%" /SAVEINF="%CD%\.Npackd\InnoSetupInfo.ini" /LOG="%CD%\.Npackd\InnoSetupInstall.log"&#13;
+set err=%errorlevel%&#13;
+type .Npackd\InnoSetupInstall.log&#13;
+if %err% neq 0 exit %err%&#13;
+</file>
+        <url>http://mercurial.selenic.com/release/windows/Mercurial-3.1.1-x64.exe</url>
+        <sha1>fda02eb5fc5750726d73f6a1554c1b3400d1d384</sha1>
     </version>
 
     <version name="4.51" package="com.softwareok.QDir64">
@@ -6200,9 +6361,29 @@ for /f "delims=" %%a in ('dir /b') do (&#13;
 cd ..&#13;
 rmdir "%name%"&#13;
 </file>
-        <url>https://downloads.sourceforge.net/project/npackd/eclipse-rcp64/eclipse-rcp64-4.4.zip</url>
+        <url>http://downloads.sourceforge.net/project/npackd/eclipse-rcp64/eclipse-rcp64-4.4.zip</url>
         <sha1>fb1f3690f53ccef7f5aa2975f282540fc54c14de</sha1>
         <dependency package="com.oracle.JRE64" versions="[1.6, 2)"/>
+    </version>
+    <version name="4.4.1" package="eclipse-rcp64">
+        <important-file path="eclipse.exe" title="Eclipse IDE for Java"/>
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b eclipse*') do set name=%%x&#13;
+cd "%name%"        &#13;
+for /f "delims=" %%a in ('dir /b') do (&#13;
+  move "%%a" ..&#13;
+)&#13;
+cd ..&#13;
+rmdir "%name%"&#13;
+</file>
+        <url>http://downloads.sourceforge.net/project/npackd/eclipse-rcp64/eclipse-rcp64-4.4.1.zip</url>
+        <sha1>4cbd08ebe6695374cc30eee9b3e497bf45c6e9a8</sha1>
+        <dependency package="com.oracle.JRE64" versions="[1.6, 2)"/>
+    </version>
+
+    <version name="1.3.4.686" package="everything64">
+        <important-file path="Everything.exe" title="Everything"/>
+        <url>http://www.voidtools.com/Everything-1.3.4.686.x64.zip</url>
+        <sha1>84fece8143fec602fccc2dd624ec577305ac89c0</sha1>
     </version>
 
     <version name="3.0.3525" package="far-manager64" type="one-file">
@@ -6229,6 +6410,14 @@ call "%npackdih%\InstallMSI.bat" INSTALLDIR yes&#13;
         <url>http://www.farmanager.com/files/Far30b4000.x64.20140714.msi</url>
         <sha1>3774dfcd40dd1670f5dc416e618139078a193891</sha1>
     </version>
+    <version name="3.0.4040" package="far-manager64" type="one-file">
+        <file path=".Npackd\Install.bat">set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.NpackdInstallerHelper" "--versions=[1.1, 2)"&#13;
+for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set npackdih=%%x&#13;
+call "%npackdih%\InstallMSI.bat" INSTALLDIR yes&#13;
+</file>
+        <url>http://www.farmanager.com/files/Far30b4040.x64.20140810.msi</url>
+        <sha1>112634cfc37d3cd5d99aa3f98a1d210ce9e81b84</sha1>
+    </version>
 
     <version name="0.9.9" package="fr.handbrake.HandBrake64" type="one-file">
         <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
@@ -6237,6 +6426,17 @@ call "%npackdih%\InstallMSI.bat" INSTALLDIR yes&#13;
         <file path=".Npackd\Uninstall.bat">uninst.exe /S&#13;
 </file>
         <url>http://downloads.sourceforge.net/project/handbrake/0.9.9/HandBrake-0.9.9-1_x86_64-Win_GUI.exe</url>
+        <sha1>011f7f179d649ef301955d2b7e5d24fd7f6a4bc2</sha1>
+        <dependency package="com.microsoft.DotNetRedistributable" versions="[2, 3)"/>
+    </version>
+    <version name="0.9.9.1" package="fr.handbrake.HandBrake64" type="one-file">
+        <file path=".Npackd\Install.bat">ren rotation.php setup.exe&#13;
+for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
+"%setup%" /S /D=%CD%&#13;
+</file>
+        <file path=".Npackd\Uninstall.bat">uninst.exe /S&#13;
+</file>
+        <url>https://handbrake.fr/rotation.php?file=HandBrake-0.9.9-1_x86_64-Win_GUI.exe</url>
         <sha1>011f7f179d649ef301955d2b7e5d24fd7f6a4bc2</sha1>
         <dependency package="com.microsoft.DotNetRedistributable" versions="[2, 3)"/>
     </version>
@@ -6275,6 +6475,11 @@ call "%npackdih%\InstallMSI.bat" INSTALLDIR yes&#13;
         <important-file path="HashMyFiles.exe" title="HashMyFiles"/>
         <url>https://dl.dropboxusercontent.com/u/176999101/hashmyfiles64-2.2.zip</url>
         <sha1>7a9878db3b2d8609f654b2202db04e8af6824486</sha1>
+    </version>
+    <version name="2.3" package="hashmyfiles64">
+        <important-file path="HashMyFiles.exe" title="HashMyFiles"/>
+        <url>https://dl.dropboxusercontent.com/u/176999101/hashmyfiles64-2.3.zip</url>
+        <sha1>aa56f7934d87f6c319201a472fa47ae534bba6cf</sha1>
     </version>
 
     <version name="7.1" package="housecall64" type="one-file">
@@ -6448,6 +6653,20 @@ if %err% neq 0 exit %err%&#13;
         <url>https://downloads.sourceforge.net/project/npackd/imagemagick64/imagemagick64-6.8.9.5.exe</url>
         <sha1>599bbe0d2b67269b5ce61f582df43bb4491ed571</sha1>
     </version>
+    <version name="6.8.9.8" package="imagemagick64" type="one-file">
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
+"%setup%" /SP- /VERYSILENT /SUPPRESSMSGBOXES /NOCANCEL /NORESTART /DIR="%CD%" /SAVEINF="%CD%\.Npackd\InnoSetupInfo.ini" /LOG="%CD%\.Npackd\InnoSetupInstall.log" &amp;&amp; del /f /q "%setup%"&#13;
+set err=%errorlevel%&#13;
+type .Npackd\InnoSetupInstall.log&#13;
+if %err% neq 0 exit %err%</file>
+        <file path=".Npackd\Uninstall.bat">unins000.exe /VERYSILENT /SUPPRESSMSGBOXES /NORESTART /LOG="%CD%\.Npackd\InnoSetupUninstall.log"&#13;
+set err=%errorlevel%&#13;
+type .Npackd\InnoSetupUninstall.log&#13;
+if %err% neq 0 exit %err%&#13;
+</file>
+        <url>https://downloads.sourceforge.net/project/npackd/imagemagick64/imagemagick64-6.8.9.8.exe</url>
+        <sha1>f1c36d659d8fa6718288c6fe4cbcaf3b4f70c455</sha1>
+    </version>
 
     <version name="0.3.8" package="io.mpv.mpv-64" type="one-file">
         <file path=".Npackd\Install.bat">set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=org.7-zip.SevenZIPA" "--versions=[9.20, 10)"&#13;
@@ -6576,6 +6795,16 @@ if %err% neq 0 exit %err%&#13;
 </file>
         <url>http://downloads.sourceforge.net/project/qtpfsgui/luminance/2.4.0/Luminance-HDR-x64-SETUP-v2.4.0.exe</url>
         <sha1>6aa5336800b179f808e36f822d7a1269979c42ef</sha1>
+    </version>
+
+    <version name="1.9.1" package="marble64" type="one-file">
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
+"%setup%" /S /D=%CD% &amp;&amp; del /f /q "%setup%"&#13;
+</file>
+        <file path=".Npackd\Uninstall.bat">uninstall.exe /S _?=%CD%&#13;
+</file>
+        <url>http://files.kde.org/marble/downloads/windows/marble-setup_1.9.1_x64.exe</url>
+        <sha1>b0c2ea34150749ee95cecc1a7b8a096dea647cc6</sha1>
     </version>
 
     <version name="4.8.2" package="mingw-w64-x86_64-seh-posix" type="one-file">
@@ -6767,6 +6996,17 @@ reg add HKCU\Software\mkvmergeGUI\GUI /v check_for_updates /t REG_DWORD /d 00000
         <url>http://downloads.sourceforge.net/project/npackd/mkvtoolnix64/mkvtoolnix64-7.exe</url>
         <sha1>d98281cbcde8924566798c6b26df4ef0732b01c8</sha1>
     </version>
+    <version name="7.2" package="mkvtoolnix64" type="one-file">
+        <file path=".Npackd\Install.bat">for /f %%x in ('dir /b *.exe') do set setup=%%x&#13;
+"%setup%" /S /D=%CD%&#13;
+&#13;
+reg add HKCU\Software\mkvmergeGUI\GUI /v check_for_updates /t REG_DWORD /d 00000000 /f&#13;
+</file>
+        <file path=".Npackd\Uninstall.bat">uninst.exe /S&#13;
+</file>
+        <url>http://downloads.sourceforge.net/project/npackd/mkvtoolnix64/mkvtoolnix64-7.2.exe</url>
+        <sha1>7ea2b538ab02b31544c8247c944a994a0eb19c90</sha1>
+    </version>
 
     <version name="2" package="myeventviewer64">
         <important-file path="MyEventViewer.exe" title="MyEventViewer"/>
@@ -6944,6 +7184,11 @@ del /q /f "CINEBENCH Windows 32 Bit.exe"</file>
         <url>https://dl.dropboxusercontent.com/u/176999101/net.nirsoft.FileTypesMan64-1.66.zip</url>
         <sha1>d5153e1caae867db92878d4d9dc7f86f725ff29f</sha1>
     </version>
+    <version name="1.68" package="net.nirsoft.FileTypesMan64">
+        <important-file path="FileTypesMan.exe" title="FileTypesMan"/>
+        <url>https://dl.dropboxusercontent.com/u/176999101/net.nirsoft.FileTypesMan64-1.68.zip</url>
+        <sha1>f9052bc7e5bc8287ecee16eaf6f2d20cafdefd97</sha1>
+    </version>
 
     <version name="1.4.2" package="net.scribus.Scribus64" type="one-file">
         <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
@@ -7102,6 +7347,15 @@ rmdir /s /q "%name%"&#13;
 </file>
         <url>http://downloads.sourceforge.net/project/aria2/stable/aria2-1.18.5/aria2-1.18.5-win-64bit-build1.zip</url>
         <sha1>34c611230a09fb25f0bb0aacfc2df4dd9bfda27d</sha1>
+    </version>
+    <version name="1.18.8" package="net.sourceforge.aria2.Aria2_64">
+        <important-file path="README.html" title="Read Me"/>
+        <file path=".Npackd\Install.bat">for /f %%x in ('dir /b aria*') do set name=%%x&#13;
+xcopy "%name%\*" . /E /H&#13;
+rmdir /s /q "%name%"&#13;
+</file>
+        <url>http://downloads.sourceforge.net/project/aria2/stable/aria2-1.18.8/aria2-1.18.8-win-64bit-build1.zip</url>
+        <sha1>32c304e01e3f63dac0cda1a4c28d564ca7e9abe8</sha1>
     </version>
 
     <version name="2.6.1" package="net.sourceforge.avidemux.Avidemux64" type="one-file">
@@ -7265,6 +7519,19 @@ type .Npackd\InnoSetupUninstall.log&#13;
 if %err% neq 0 exit %err%</file>
         <url>http://downloads.sourceforge.net/project/doublecmd/DC%20for%20Windows%2064%20bit/Double%20Commander%200.5.10%20beta/doublecmd-0.5.10.x86_64-win64.exe</url>
         <sha1>e9e1c627d169b23d949a980e976b492a86313aa0</sha1>
+    </version>
+    <version name="0.5.11" package="net.sourceforge.Doublecmd64" type="one-file">
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
+"%setup%" /SP- /VERYSILENT /SUPPRESSMSGBOXES /NOCANCEL /NORESTART /DIR="%CD%" /SAVEINF="%CD%\.Npackd\InnoSetupInfo.ini" /LOG="%CD%\.Npackd\InnoSetupInstall.log"&#13;
+set err=%errorlevel%&#13;
+type .Npackd\InnoSetupInstall.log&#13;
+if %err% neq 0 exit %err%</file>
+        <file path=".Npackd\Uninstall.bat">unins000.exe /VERYSILENT /SUPPRESSMSGBOXES /NORESTART /LOG="%CD%\.Npackd\InnoSetupUninstall.log"&#13;
+set err=%errorlevel%&#13;
+type .Npackd\InnoSetupUninstall.log&#13;
+if %err% neq 0 exit %err%</file>
+        <url>http://downloads.sourceforge.net/project/doublecmd/DC%20for%20Windows%2064%20bit/Double%20Commander%200.5.11%20beta/doublecmd-0.5.11.x86_64-win64.exe</url>
+        <sha1>87c2cff49f6ff6094ee77260243ce53a5279d7db</sha1>
     </version>
 
     <version name="0.4.13" package="net.sourceforge.lmms.LMMS64" type="one-file">
@@ -7584,6 +7851,15 @@ rmdir /s /q "%name%"&#13;
 </file>
         <url>http://downloads.sourceforge.net/project/mpc-hc/MPC%20HomeCinema%20-%20x64/MPC-HC_v1.7.6_x64/MPC-HC.1.7.6.x64.zip</url>
         <sha1>a7c44f5e805dcb07f48f9fcb9b216a3551d185be</sha1>
+    </version>
+    <version name="1.7.7" package="net.sourceforge.mpc-hc.MediaPlayerClassicHomeCinema64">
+        <important-file path="mpc-hc64.exe" title="Media Player Classic - Home Cinema"/>
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b MPC*') do set name=%%x&#13;
+xcopy "%name%\*" . /E /H&#13;
+rmdir /s /q "%name%"&#13;
+</file>
+        <url>http://downloads.sourceforge.net/project/mpc-hc/MPC%20HomeCinema%20-%20x64/MPC-HC_v1.7.7_x64/MPC-HC.1.7.7.x64.zip</url>
+        <sha1>f00f9bd87d47af6c40cf5c725d89295dac6e71fc</sha1>
     </version>
 
     <version name="4.7.3" package="net.sourceforge.peazip.PeaZip64" type="one-file">
@@ -8152,6 +8428,21 @@ if %err% neq 0 exit %err%&#13;
 </file>
         <url>http://downloads.sourceforge.net/project/npackd/openmpt64/openmpt64-1.23.4.exe</url>
         <sha1>eb5175a22f8c03680b2bf286e3f03da2544483fe</sha1>
+    </version>
+    <version name="1.23.5" package="openmpt64" type="one-file">
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
+"%setup%" /SP- /VERYSILENT /SUPPRESSMSGBOXES /NOCANCEL /NORESTART /DIR="%CD%" /SAVEINF="%CD%\.Npackd\InnoSetupInfo.ini" /LOG="%CD%\.Npackd\InnoSetupInstall.log" &amp;&amp; del /f /q "%setup%"&#13;
+set err=%errorlevel%&#13;
+type .Npackd\InnoSetupInstall.log&#13;
+if %err% neq 0 exit %err%&#13;
+</file>
+        <file path=".Npackd\Uninstall.bat">unins000.exe /VERYSILENT /SUPPRESSMSGBOXES /NORESTART /LOG="%CD%\.Npackd\InnoSetupUninstall.log"&#13;
+set err=%errorlevel%&#13;
+type .Npackd\InnoSetupUninstall.log&#13;
+if %err% neq 0 exit %err%&#13;
+</file>
+        <url>http://downloads.sourceforge.net/project/npackd/openmpt64/openmpt64-1.23.5.exe</url>
+        <sha1>5821a75aa2d9fc3588bc076bb8ae7932edee7da4</sha1>
     </version>
 
     <version name="2.3.2" package="openvpn" type="one-file">
@@ -9776,7 +10067,7 @@ for /f "delims=" %%a in ('dir /b') do (&#13;
 cd ..&#13;
 rmdir "%name%"&#13;
 </file>
-        <url>https://downloads.sourceforge.net/project/npackd/org.eclipse.EclipseIDECPP64-4.3.2.zip</url>
+        <url>http://downloads.sourceforge.net/project/npackd/org.eclipse.EclipseIDECPP64-4.3.2.zip</url>
         <sha1>acdd1cad88b9b5f7a75012586cd8083ce8529882</sha1>
         <dependency package="com.oracle.JRE64" versions="[1.6, 2)"/>
     </version>
@@ -9790,8 +10081,22 @@ for /f "delims=" %%a in ('dir /b') do (&#13;
 cd ..&#13;
 rmdir "%name%"&#13;
 </file>
-        <url>https://downloads.sourceforge.net/project/npackd/org.eclipse.EclipseIDECPP64/org.eclipse.EclipseIDECPP64-4.4.zip</url>
+        <url>http://downloads.sourceforge.net/project/npackd/org.eclipse.EclipseIDECPP64/org.eclipse.EclipseIDECPP64-4.4.zip</url>
         <sha1>47e17ef4a215fdfc1d14a601c37e84cb06ad1054</sha1>
+        <dependency package="com.oracle.JRE64" versions="[1.6, 2)"/>
+    </version>
+    <version name="4.4.1" package="org.eclipse.EclipseIDECPP64">
+        <important-file path="eclipse.exe" title="Eclipse IDE for C and C++"/>
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b eclipse*') do set name=%%x&#13;
+cd "%name%"&#13;
+for /f "delims=" %%a in ('dir /b') do (&#13;
+  move "%%a" ..&#13;
+)&#13;
+cd ..&#13;
+rmdir "%name%"&#13;
+</file>
+        <url>http://downloads.sourceforge.net/project/npackd/org.eclipse.EclipseIDECPP64/org.eclipse.EclipseIDECPP64-4.4.1.zip</url>
+        <sha1>e51c860148c1e1b93a0e3e5516d7fce1849ca720</sha1>
         <dependency package="com.oracle.JRE64" versions="[1.6, 2)"/>
     </version>
 
@@ -9917,8 +10222,22 @@ for /f "delims=" %%a in ('dir /b') do (&#13;
 cd ..&#13;
 rmdir "%name%"&#13;
 </file>
-        <url>https://downloads.sourceforge.net/project/npackd/org.eclipse.EclipseIDEJava64/org.eclipse.EclipseIDEJava64-4.4.zip</url>
+        <url>http://downloads.sourceforge.net/project/npackd/org.eclipse.EclipseIDEJava64/org.eclipse.EclipseIDEJava64-4.4.zip</url>
         <sha1>22fd63e344ca6958bc037e93a51fecbefa430ae5</sha1>
+        <dependency package="com.oracle.JRE64" versions="[1.6, 2)"/>
+    </version>
+    <version name="4.4.1" package="org.eclipse.EclipseIDEJava64">
+        <important-file path="eclipse.exe" title="Eclipse IDE for Java"/>
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b eclipse*') do set name=%%x&#13;
+cd "%name%"        &#13;
+for /f "delims=" %%a in ('dir /b') do (&#13;
+  move "%%a" ..&#13;
+)&#13;
+cd ..&#13;
+rmdir "%name%"&#13;
+</file>
+        <url>http://downloads.sourceforge.net/project/npackd/org.eclipse.EclipseIDEJava64/org.eclipse.EclipseIDEJava64-4.4.1.zip</url>
+        <sha1>7e08c7ac7f80a74aa7698bd8134011caa1448719</sha1>
         <dependency package="com.oracle.JRE64" versions="[1.6, 2)"/>
     </version>
 
@@ -10037,6 +10356,16 @@ rmdir /s /q "%name%"&#13;
         <sha1>3b362044274ab774c7a894c2ceaa57812f3f4b92</sha1>
         <dependency package="com.oracle.JRE64" versions="[1.6, 2)"/>
     </version>
+    <version name="4.4.1" package="org.eclipse.EclipseIDEJEE64">
+        <important-file path="eclipse.exe" title="Eclipse"/>
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b eclipse*') do set name=%%x&#13;
+xcopy "%name%\*" . /E /H&#13;
+rmdir /s /q "%name%"&#13;
+</file>
+        <url>http://downloads.sourceforge.net/project/npackd/org.eclipse.EclipseIDEJEE64/org.eclipse.EclipseIDEJEE64-4.4.1.zip</url>
+        <sha1>026c4ef376325b4cfd2554d4f9f199528775a864</sha1>
+        <dependency package="com.oracle.JRE64" versions="[1.6, 2)"/>
+    </version>
 
     <version name="15.2" package="org.erlang.Erlang64" type="one-file">
         <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x
@@ -10093,6 +10422,13 @@ rmdir /s /q "%name%"&#13;
 </file>
         <url>http://www.erlang.org/download/otp_win64_17.1.exe</url>
         <sha1>d6fe6be151aaaf559e9c1d5558c11ccbb4692dc2</sha1>
+    </version>
+    <version name="17.3" package="org.erlang.Erlang64" type="one-file">
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
+"%setup%" /S /D=%CD%&#13;
+</file>
+        <url>http://www.erlang.org/download/otp_win64_17.3.exe</url>
+        <sha1>b9a4f4563e76d2804bb5d8c1aa45bfc472f9bb88</sha1>
     </version>
 
     <version name="0.9.2.1" package="org.flamerobin.FlameRobin64" type="one-file">
@@ -10621,6 +10957,46 @@ Set view = Nothing&#13;
         <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1, 2)"/>
         <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.15.7, 2)"/>
     </version>
+    <version name="1.3.3" package="org.golang.Go64" type="one-file">
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.msi') do set setup=%%x&#13;
+.Npackd\AddProperty.vbs "%setup%"&#13;
+if %errorlevel% neq 0 exit %errorlevel%&#13;
+&#13;
+set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.NpackdInstallerHelper" "--versions=[1, 2)"&#13;
+for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set npackdih=%%x&#13;
+call "%npackdih%\InstallMSI.bat" INSTALLDIR&#13;
+</file>
+        <file path=".Npackd\Uninstall.bat">set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.NpackdInstallerHelper" "--versions=[1, 2)"&#13;
+for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set npackdih=%%x&#13;
+call "%npackdih%\UninstallMSI.bat"&#13;
+</file>
+        <file path=".Npackd\AddProperty.vbs">Option Explicit&#13;
+&#13;
+Dim MSI_FILE&#13;
+MSI_FILE = Wscript.Arguments(0)&#13;
+&#13;
+Dim installer, database, view&#13;
+&#13;
+Set installer = CreateObject("WindowsInstaller.Installer")&#13;
+Set database = installer.OpenDatabase(MSI_FILE, 1)&#13;
+&#13;
+Set view = database.OpenView("INSERT INTO Property (Property, Value) VALUES ('INSTALLDIR', 'C:\Go')")&#13;
+view.Execute&#13;
+'Set view = database.OpenView("DELETE FROM Directory WHERE Directory='TARGETDIR'")&#13;
+'view.Execute&#13;
+'Set view = database.OpenView("UPDATE Directory SET DefaultDir='INSTALLLOCATION' WHERE Directory='TARGETDIR'")&#13;
+'view.Execute&#13;
+database.Commit&#13;
+&#13;
+Set database = Nothing&#13;
+Set installer = Nothing&#13;
+Set view = Nothing&#13;
+</file>
+        <url>http://golang.org/dl/go1.3.3.windows-amd64.msi</url>
+        <sha1>25112a8c4df93dc4009e65eff00bc4ef76f94e46</sha1>
+        <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1, 2)"/>
+        <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.15.7, 2)"/>
+    </version>
 
     <version name="2.22.1" package="org.gtk.GTKPlusBundle64">
         <file path="etc\gtk-2.0\gtkrc">gtk-theme-name = "MS-Windows"</file>
@@ -11088,6 +11464,17 @@ for /f %%x in ('dir /b *.7z') do set setup=%%x&#13;
 </file>
         <url>http://files.miranda-im.org/stable/0.10.23.0/miranda-im-v0.10.23-x64.7z</url>
         <sha1>1ce5aa0670bc82bcc270425a09f0bb633e707e5b</sha1>
+        <dependency package="org.7-zip.SevenZIPA" versions="[9.20, 9.20]"/>
+    </version>
+    <version name="0.10.24" package="org.miranda-im.MirandaIM64" type="one-file">
+        <important-file path="miranda64.exe" title="Miranda IM"/>
+        <file path=".Npackd\Install.bat">set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=org.7-zip.SevenZIPA" "--versions=[9.20, 9.20]"&#13;
+for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set sevenzipa=%%x&#13;
+for /f %%x in ('dir /b *.7z') do set setup=%%x&#13;
+"%sevenzipa%\7za.exe" x "%setup%"&#13;
+</file>
+        <url>http://files.miranda-im.org/stable/0.10.24.0/miranda-im-v0.10.24-x64.7z</url>
+        <sha1>fa113fd97d0003e36db9fe039de9f5d8be42c1de</sha1>
         <dependency package="org.7-zip.SevenZIPA" versions="[9.20, 9.20]"/>
     </version>
 
@@ -11583,6 +11970,16 @@ call "%npackdih%\InstallMSI.bat" INSTALLDIR yes&#13;
 </file>
         <url>http://nodejs.org/dist/v0.10.29/x64/node-v0.10.29-x64.msi</url>
         <sha1>c6ae603f73ccb2e33fed2d34fbcf55fd8d952775</sha1>
+        <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.15.7, 2)"/>
+        <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.1, 2)"/>
+    </version>
+    <version name="0.10.32" package="org.nodejs.NodeJS64" type="one-file">
+        <file path=".Npackd\Install.bat">set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.NpackdInstallerHelper" "--versions=[1.1, 2)"&#13;
+for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set npackdih=%%x&#13;
+call "%npackdih%\InstallMSI.bat" INSTALLDIR yes&#13;
+</file>
+        <url>http://nodejs.org/dist/v0.10.32/x64/node-v0.10.32-x64.msi</url>
+        <sha1>df83faf27410a6fb7f099c29338c52b7d4224e2f</sha1>
         <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.15.7, 2)"/>
         <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.1, 2)"/>
     </version>
@@ -12934,6 +13331,12 @@ call "%npackdih%\InstallMSI.bat" APPLICATIONFOLDER2 yes&#13;
         <important-file path="cdbxpp.exe" title="CDBurnerXP"/>
         <url>http://download.cdburnerxp.se/portable/CDBurnerXP-x64-4.5.4.4852.zip</url>
         <sha1>1d028d107ea4fa2b5b9839bf9f575b7134ebb461</sha1>
+        <dependency package="com.microsoft.DotNetRedistributable" versions="[2.0, 5)"/>
+    </version>
+    <version name="4.5.4.5067" package="se.cdburnerxp.CDBurnerXP64">
+        <important-file path="cdbxpp.exe" title="CDBurnerXP"/>
+        <url>http://download.cdburnerxp.se/portable/CDBurnerXP-x64-4.5.4.5067.zip</url>
+        <sha1>64c258261ca3fd69d01eaad8bf97c41aea53e89b</sha1>
         <dependency package="com.microsoft.DotNetRedistributable" versions="[2.0, 5)"/>
     </version>
 
