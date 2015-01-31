@@ -116,6 +116,7 @@ Please see https://code.google.com/p/windows-package-manager/source/browse/?repo
         <icon>https://lh4.googleusercontent.com/-M_yIydoQVxw/USjbka862GI/AAAAAAAAAws/UJAvKDOPwkY/s800/qt.png</icon>
         <license>org.gnu.LGPLv2_1</license>
         <category>Development</category>
+        <changelog>https://sourceforge.net/p/quazip/code/HEAD/tree/trunk/quazip/NEWS.txt</changelog>
     </package>
     <package name="net.zlib.ZLibSource">
         <title>zlib source</title>
@@ -166,6 +167,7 @@ Please see https://code.google.com/p/windows-package-manager/source/browse/?repo
         <icon>https://lh4.googleusercontent.com/-M_yIydoQVxw/USjbka862GI/AAAAAAAAAws/UJAvKDOPwkY/s800/qt.png</icon>
         <license>org.gnu.LGPLv2_1</license>
         <category>Development</category>
+        <changelog>https://sourceforge.net/p/quazip/code/HEAD/tree/trunk/quazip/NEWS.txt</changelog>
     </package>
     <package name="quazip-dev-x86_64-w64-static">
         <title>QuaZIP dev x86_64 w64 static</title>
@@ -176,6 +178,7 @@ Please see https://code.google.com/p/windows-package-manager/source/browse/?repo
         <icon>https://lh4.googleusercontent.com/-M_yIydoQVxw/USjbka862GI/AAAAAAAAAws/UJAvKDOPwkY/s800/qt.png</icon>
         <license>org.gnu.LGPLv2_1</license>
         <category>Development</category>
+        <changelog>https://sourceforge.net/p/quazip/code/HEAD/tree/trunk/quazip/NEWS.txt</changelog>
     </package>
 
     <version name="4.8.1" package="com.nokia.QtDev-i686-w64" type="one-file">
@@ -455,6 +458,14 @@ ren "%setup%" qt-win-opensource-mingw.exe&#13;
         <url>http://download.qt-project.org/official_releases/qt/5.3/5.3.2/qt-opensource-windows-x86-mingw482_opengl-5.3.2.exe</url>
         <sha1>9b901a4423bb617e8ad5fb78f5e7af2b658f9803</sha1>
     </version>
+    <version name="5.4" package="com.nokia.QtMinGWInstaller" type="one-file">
+        <important-file path="qt-win-opensource-mingw.exe" title="Installer"/>
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
+ren "%setup%" qt-win-opensource-mingw.exe&#13;
+</file>
+        <url>http://download.qt-project.org/official_releases/qt/5.4/5.4.0/qt-opensource-windows-x86-mingw491_opengl-5.4.0.exe</url>
+        <sha1>2876D16830B524FDFFFE71880DF9AF985ACBE90A</sha1>
+    </version>
 
     <version name="4.7.3" package="com.nokia.QtSource">
         <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b qt*') do set name=%%x&#13;
@@ -632,6 +643,25 @@ rmdir "%name%"</file>
         <dependency package="org.7-zip.SevenZIPA" versions="[9.20, 10)"/>
         <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.15.7, 2)"/>
     </version>
+    <version name="5.4" package="com.nokia.QtSource" type="one-file">
+        <file path=".Npackd\Install.bat">set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=org.7-zip.SevenZIPA" "--versions=[9.20, 9.20]"&#13;
+for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set sevenzipa=%%x&#13;
+for /f %%x in ('dir /b *.zip') do set setup=%%x&#13;
+"%sevenzipa%\7za.exe" x "%setup%" &gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+del "%setup%"&#13;
+&#13;
+for /f "delims=" %%x in ('dir /b qt*') do set name=%%x&#13;
+cd "%name%"        &#13;
+for /f "delims=" %%a in ('dir /b') do (&#13;
+  move "%%a" ..&#13;
+)&#13;
+cd ..&#13;
+rmdir "%name%"</file>
+        <url>http://qt-mirror.dannhauer.de/official_releases/qt/5.4/5.4.0/single/qt-everywhere-opensource-src-5.4.0.zip</url>
+        <sha1>D098E27E441F6D806C0E56C65F40C57931754ACC</sha1>
+        <dependency package="org.7-zip.SevenZIPA" versions="[9.20, 10)"/>
+        <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.15.7, 2)"/>
+    </version>
 
     <version name="1.2.11" package="log4net">
         <url>http://downloads.sourceforge.net/project/npackd/log4net-1.2.11.zip</url>
@@ -749,6 +779,19 @@ rmdir "%name%"&#13;
 </file>
         <url>http://downloads.sourceforge.net/project/quazip/quazip/0.7/quazip-0.7.zip</url>
         <sha1>c1cdb131f8eefa159a748539a09e41d197abe751</sha1>
+        <dependency package="net.zlib.ZLibSource" versions="[1.2.5, 1.2.5]"/>
+    </version>
+    <version name="0.7.1" package="net.sourceforge.quazip.QuaZIPSource">
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b quazip*') do set name=%%x&#13;
+cd "%name%"        &#13;
+for /f "delims=" %%a in ('dir /b') do (&#13;
+  move "%%a" ..&#13;
+)&#13;
+cd ..&#13;
+rmdir "%name%"&#13;
+</file>
+        <url>http://downloads.sourceforge.net/project/quazip/quazip/0.7.1/quazip-0.7.1.zip</url>
+        <sha1>be5d98748948fa6d3ca852a7b2751aacc404a5a3</sha1>
         <dependency package="net.zlib.ZLibSource" versions="[1.2.5, 1.2.5]"/>
     </version>
 
@@ -1018,6 +1061,18 @@ rmdir "%name%"&#13;
         <url>http://downloads.sourceforge.net/project/boost/boost/1.56.0/boost_1_56_0.zip</url>
         <sha1>15b9719a92cd2a80170d54cfb9c3990a56193c56</sha1>
     </version>
+    <version name="1.57" package="org.boost.Boost">
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b boost*') do set name=%%x&#13;
+cd "%name%"        &#13;
+for /f "delims=" %%a in ('dir /b') do (&#13;
+  move "%%a" ..&#13;
+)&#13;
+cd ..&#13;
+rmdir "%name%"&#13;
+</file>
+        <url>http://downloads.sourceforge.net/project/boost/boost/1.57.0/boost_1_57_0.zip</url>
+        <sha1>b30404545e0a45e8aedcd84a22d36af27a859f57</sha1>
+    </version>
 
     <version name="1.2.7" package="org.xapian.XapianCore" type="one-file">
         <file path=".Npackd\Install.bat">set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=org.7-zip.SevenZIPA" "--versions=[9.20, 9.20]"&#13;
@@ -1256,6 +1311,30 @@ cd ..&#13;
 rmdir "%name%"</file>
         <url>http://oligarchy.co.uk/xapian/1.2.18/xapian-core-1.2.18.tar.xz</url>
         <sha1>0eb07cfec9a213a6d310ae2472ccd3cd142d2d33</sha1>
+        <dependency package="org.7-zip.SevenZIPA" versions="[9.20, 9.20]"/>
+        <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.15.7, 2)"/>
+    </version>
+    <version name="1.2.19" package="org.xapian.XapianCore" type="one-file">
+        <file path=".Npackd\Install.bat">set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=org.7-zip.SevenZIPA" "--versions=[9.20, 9.20]"&#13;
+for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set sevenzipa=%%x&#13;
+&#13;
+for /f "delims=" %%x in ('dir /b *.tar.xz') do set setup=%%x&#13;
+"%sevenzipa%\7za.exe" x "%setup%"&#13;
+del "%setup%"&#13;
+&#13;
+for /f "delims=" %%x in ('dir /b *.tar') do set setup=%%x&#13;
+"%sevenzipa%\7za.exe" x "%setup%"&#13;
+del "%setup%"&#13;
+&#13;
+for /f "delims=" %%x in ('dir /b xapian*') do set name=%%x&#13;
+cd "%name%"&#13;
+for /f "delims=" %%a in ('dir /b') do (&#13;
+  move "%%a" ..&#13;
+)&#13;
+cd ..&#13;
+rmdir "%name%"</file>
+        <url>http://oligarchy.co.uk/xapian/1.2.19/xapian-core-1.2.19.tar.xz</url>
+        <sha1>a8679cd0f708e32f2ec76bcdc198cd9fa2e1d65e</sha1>
         <dependency package="org.7-zip.SevenZIPA" versions="[9.20, 9.20]"/>
         <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.15.7, 2)"/>
     </version>
