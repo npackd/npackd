@@ -544,8 +544,6 @@ call "%NIH%\RegisterVimPlugin.bat" || exit /b %errorlevel%&#13;
     <version name="1" package="vim-gcw-syntax" type="one-file">
         <file path=".Npackd\Install.bat">ren download_script.php VimGCWSyntax.tar.gz&#13;
 &#13;
-set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=org.7-zip.SevenZIPA" "--versions=[9.20, 9.20]"&#13;
-for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set sevenzipa=%%x&#13;
 &#13;
 for /f %%x in ('dir /b *.gz') do set setup=%%x&#13;
 "%sevenzipa%\7za.exe" x "%setup%" &gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
@@ -568,7 +566,9 @@ call "%NIH%\RegisterVimPlugin.bat" || exit /b %errorlevel%</file>
             <variable>NIH</variable>
         </dependency>
         <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.15.7, 2)"/>
-        <dependency package="org.7-zip.SevenZIPA" versions="[9.20, 9.20]"/>
+        <dependency package="org.7-zip.SevenZIPA" versions="[9.20, 9.20]">
+            <variable>sevenzipa</variable>
+        </dependency>
         <dependency package="vim-pathogen" versions="[2.2, 3)"/>
     </version>
 
@@ -583,28 +583,27 @@ call "%NIH%\RegisterVimPlugin.bat" || exit /b %errorlevel%&#13;
         <file path="StartVimGo.bat">set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=org.vim.Vim" "--versions=[7.3, 8)"&#13;
 for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set vim=%%x&#13;
 &#13;
-set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.msysgit.MSysGit" "--versions=[1.9.4, 2)"&#13;
-for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set git=%%x&#13;
 &#13;
-set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.selenic.mercurial.Mercurial" "--versions=[2,4)"&#13;
-for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set hg=%%x&#13;
 &#13;
-set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=org.golang.Go" "--versions=[1.3,2)"&#13;
-for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set go=%%x&#13;
 &#13;
 set path=%go%\bin;%hg%;%git%\bin&#13;
-"%vim%\gvim.exe"&#13;
-</file>
+"%vim%\gvim.exe"</file>
         <url>https://codeload.github.com/fatih/vim-go/zip/772927e969fec4e61b956aa950df3c4f56c2fce5</url>
         <sha1>81dbd3cd1603a3ec7186e7005b1bdc8d43de28e6</sha1>
         <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.5, 2)">
             <variable>nih</variable>
         </dependency>
         <dependency package="vim-huge" versions="[7.3, 8)"/>
-        <dependency package="com.googlecode.msysgit.MSysGit" versions="[1.9.4, 2)"/>
-        <dependency package="com.selenic.mercurial.Mercurial" versions="[2,4)"/>
+        <dependency package="com.googlecode.msysgit.MSysGit" versions="[1.9.4, 2)">
+            <variable>git</variable>
+        </dependency>
+        <dependency package="com.selenic.mercurial.Mercurial" versions="[2,4)">
+            <variable>hg</variable>
+        </dependency>
         <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.1, 2)"/>
-        <dependency package="org.golang.Go" versions="[1.3, 2)"/>
+        <dependency package="org.golang.Go" versions="[1.3, 2)">
+            <variable>go</variable>
+        </dependency>
         <dependency package="vim-pathogen" versions="[2.2, 3)"/>
     </version>
     <version name="0.2014.10.18" package="vim-go">
@@ -618,28 +617,27 @@ call "%NIH%\RegisterVimPlugin.bat" || exit /b %errorlevel%&#13;
         <file path="StartVimGo.bat">set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=org.vim.Vim" "--versions=[7.3, 8)"&#13;
 for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set vim=%%x&#13;
 &#13;
-set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.msysgit.MSysGit" "--versions=[1.9.4, 2)"&#13;
-for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set git=%%x&#13;
 &#13;
-set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.selenic.mercurial.Mercurial" "--versions=[2,4)"&#13;
-for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set hg=%%x&#13;
 &#13;
-set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=org.golang.Go" "--versions=[1.3,2)"&#13;
-for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set go=%%x&#13;
 &#13;
 set path=%go%\bin;%hg%;%git%\bin&#13;
-"%vim%\gvim.exe"&#13;
-</file>
+"%vim%\gvim.exe"</file>
         <url>https://codeload.github.com/fatih/vim-go/zip/9b644da9d8f6cf4a1518e592082822c05dddfea6</url>
         <sha1>bc63c77b3d4f2b502b87d039fb64ab52473250d8</sha1>
         <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.5, 2)">
             <variable>nih</variable>
         </dependency>
         <dependency package="vim-huge" versions="[7.3, 8)"/>
-        <dependency package="com.googlecode.msysgit.MSysGit" versions="[1.9.4, 2)"/>
-        <dependency package="com.selenic.mercurial.Mercurial" versions="[2,4)"/>
+        <dependency package="com.googlecode.msysgit.MSysGit" versions="[1.9.4, 2)">
+            <variable>git</variable>
+        </dependency>
+        <dependency package="com.selenic.mercurial.Mercurial" versions="[2,4)">
+            <variable>hg</variable>
+        </dependency>
         <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.1, 2)"/>
-        <dependency package="org.golang.Go" versions="[1.3, 2)"/>
+        <dependency package="org.golang.Go" versions="[1.3, 2)">
+            <variable>go</variable>
+        </dependency>
         <dependency package="vim-pathogen" versions="[2.2, 3)"/>
     </version>
     <version name="1" package="vim-go">
@@ -653,28 +651,27 @@ call "%NIH%\RegisterVimPlugin.bat" || exit /b %errorlevel%&#13;
         <file path="StartVimGo.bat">set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=org.vim.Vim" "--versions=[7.3, 8)"&#13;
 for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set vim=%%x&#13;
 &#13;
-set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.msysgit.MSysGit" "--versions=[1.9.4, 2)"&#13;
-for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set git=%%x&#13;
 &#13;
-set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.selenic.mercurial.Mercurial" "--versions=[2,4)"&#13;
-for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set hg=%%x&#13;
 &#13;
-set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=org.golang.Go" "--versions=[1.3,2)"&#13;
-for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set go=%%x&#13;
 &#13;
 set path=%go%\bin;%hg%;%git%\bin&#13;
-"%vim%\gvim.exe"&#13;
-</file>
+"%vim%\gvim.exe"</file>
         <url>https://github.com/fatih/vim-go/archive/v1.0.zip</url>
         <sha1>7d1a355beab56f93c259f6467f1a45f992b442ec</sha1>
         <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.5, 2)">
             <variable>nih</variable>
         </dependency>
         <dependency package="vim-huge" versions="[7.3, 8)"/>
-        <dependency package="com.googlecode.msysgit.MSysGit" versions="[1.9.4, 2)"/>
-        <dependency package="com.selenic.mercurial.Mercurial" versions="[2,4)"/>
+        <dependency package="com.googlecode.msysgit.MSysGit" versions="[1.9.4, 2)">
+            <variable>git</variable>
+        </dependency>
+        <dependency package="com.selenic.mercurial.Mercurial" versions="[2,4)">
+            <variable>hg</variable>
+        </dependency>
         <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.1, 2)"/>
-        <dependency package="org.golang.Go" versions="[1.3, 2)"/>
+        <dependency package="org.golang.Go" versions="[1.3, 2)">
+            <variable>go</variable>
+        </dependency>
         <dependency package="vim-pathogen" versions="[2.2, 3)"/>
     </version>
 
