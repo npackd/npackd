@@ -182,9 +182,7 @@ Please see https://code.google.com/p/windows-package-manager/source/browse/?repo
     </package>
 
     <version name="4.8.1" package="com.nokia.QtDev-i686-w64" type="one-file">
-        <file path=".Npackd\Install.bat">set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=org.7-zip.SevenZIPA" "--versions=[9.20, 9.20]"&#13;
-for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set sevenzipa=%%x&#13;
-&#13;
+        <file path=".Npackd\Install.bat">&#13;
 for /f "delims=" %%x in ('dir /b *.7z') do set setup=%%x&#13;
 "%sevenzipa%\7za.exe" x "%setup%"&#13;
 del "%setup%"&#13;
@@ -198,13 +196,13 @@ cd ..&#13;
 rmdir "%name%"</file>
         <url>https://mingw-w64-dgn.googlecode.com/files/qt-4.8.1-i686-w64-mingw32-20120413.7z</url>
         <sha1>d1b2df59cb62d84b4c67bf6d73e96a32fafd2d49</sha1>
-        <dependency package="org.7-zip.SevenZIPA" versions="[9.20, 9.20]"/>
+        <dependency package="org.7-zip.SevenZIPA" versions="[9.20, 9.20]">
+            <variable>sevenzipa</variable>
+        </dependency>
         <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.15.7, 2)"/>
     </version>
     <version name="4.8.4" package="com.nokia.QtDev-i686-w64" type="one-file">
-        <file path=".Npackd\Install.bat">set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=org.7-zip.SevenZIPA" "--versions=[9.20, 9.20]"&#13;
-for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set sevenzipa=%%x&#13;
-&#13;
+        <file path=".Npackd\Install.bat">&#13;
 for /f "delims=" %%x in ('dir /b *.7z') do set setup=%%x&#13;
 "%sevenzipa%\7za.exe" x "%setup%" &gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
 del "%setup%"&#13;
@@ -218,13 +216,13 @@ cd ..&#13;
 rmdir "%name%"</file>
         <url>https://mingw-w64-dgn.googlecode.com/files/qt-4.8.4-w32-bin-i686-20130406.7z</url>
         <sha1>98643020bdbb50d3b6ceb20189990026b54472e0</sha1>
-        <dependency package="org.7-zip.SevenZIPA" versions="[9.20, 9.20]"/>
+        <dependency package="org.7-zip.SevenZIPA" versions="[9.20, 9.20]">
+            <variable>sevenzipa</variable>
+        </dependency>
         <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.15.7, 2)"/>
     </version>
     <version name="5.1" package="com.nokia.QtDev-i686-w64" type="one-file">
-        <file path=".Npackd\Install.bat">set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=org.7-zip.SevenZIPA" "--versions=[9.20, 9.20]"&#13;
-for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set sevenzipa=%%x&#13;
-&#13;
+        <file path=".Npackd\Install.bat">&#13;
 for /f "delims=" %%x in ('dir /b *.7z') do set setup=%%x&#13;
 "%sevenzipa%\7za.exe" x "%setup%" &gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
 del "%setup%"&#13;
@@ -238,21 +236,23 @@ cd ..&#13;
 rmdir "%name%"</file>
         <url>https://mingw-w64-dgn.googlecode.com/files/qt-5.1.0-w32-bin-i686-20130811.7z</url>
         <sha1>6a2e77273eca4b6c6f53271deec32b05f2f55302</sha1>
-        <dependency package="org.7-zip.SevenZIPA" versions="[9.20, 9.20]"/>
+        <dependency package="org.7-zip.SevenZIPA" versions="[9.20, 9.20]">
+            <variable>sevenzipa</variable>
+        </dependency>
         <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.15.7, 2)"/>
     </version>
 
     <version name="4.8.2" package="com.nokia.QtDev-i686-w64-Npackd-Release" type="one-file">
-        <file path=".Npackd\Install.bat">set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=org.7-zip.SevenZIPA" "--versions=[9.20, 9.20]"&#13;
-for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set sevenzipa=%%x&#13;
-for /f %%x in ('dir /b *.7z') do set setup=%%x&#13;
+        <file path=".Npackd\Install.bat">for /f %%x in ('dir /b *.7z') do set setup=%%x&#13;
 "%sevenzipa%\7za.exe" x "%setup%" &gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
 &#13;
 mklink /D C:\NpackdSymlinks\com.nokia.QtDev-i686-w64-Npackd-Release-4.8.2 "%CD%"</file>
         <file path=".Npackd\Uninstall.bat">rmdir C:\NpackdSymlinks\com.nokia.QtDev-i686-w64-Npackd-Release-4.8.2</file>
         <url>http://downloads.sourceforge.net/project/npackd/com.nokia.QtDev-i686-w64-Npackd-Release-4.8.2.7z</url>
         <sha1>a30da2c6c44e3ef5e836178405b81cd0b85bc84d</sha1>
-        <dependency package="org.7-zip.SevenZIPA" versions="[9.20, 9.20]"/>
+        <dependency package="org.7-zip.SevenZIPA" versions="[9.20, 9.20]">
+            <variable>sevenzipa</variable>
+        </dependency>
         <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.15.7, 2)"/>
     </version>
     <version name="5.2.1" package="com.nokia.QtDev-i686-w64-Npackd-Release" type="one-file">
@@ -276,9 +276,7 @@ mklink /D C:\NpackdSymlinks\com.nokia.QtDev-i686-w64-Npackd-Release-%NPACKD_PACK
     </version>
 
     <version name="4.8.1" package="com.nokia.QtDev-x86_64-w64" type="one-file">
-        <file path=".Npackd\Install.bat">set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=org.7-zip.SevenZIPA" "--versions=[9.20, 9.20]"&#13;
-for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set sevenzipa=%%x&#13;
-&#13;
+        <file path=".Npackd\Install.bat">&#13;
 for /f "delims=" %%x in ('dir /b *.7z') do set setup=%%x&#13;
 "%sevenzipa%\7za.exe" x "%setup%"&#13;
 del "%setup%"&#13;
@@ -292,13 +290,13 @@ cd ..&#13;
 rmdir "%name%"</file>
         <url>https://mingw-w64-dgn.googlecode.com/files/qt-4.8.1-x86_64-w64-mingw32-20120413.7z</url>
         <sha1>41443e83998963e83e6df88af6dddd39ae837d4b</sha1>
-        <dependency package="org.7-zip.SevenZIPA" versions="[9.20, 9.20]"/>
+        <dependency package="org.7-zip.SevenZIPA" versions="[9.20, 9.20]">
+            <variable>sevenzipa</variable>
+        </dependency>
         <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.15.7, 2)"/>
     </version>
     <version name="4.8.4" package="com.nokia.QtDev-x86_64-w64" type="one-file">
-        <file path=".Npackd\Install.bat">set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=org.7-zip.SevenZIPA" "--versions=[9.20, 9.20]"&#13;
-for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set sevenzipa=%%x&#13;
-&#13;
+        <file path=".Npackd\Install.bat">&#13;
 for /f "delims=" %%x in ('dir /b *.7z') do set setup=%%x&#13;
 "%sevenzipa%\7za.exe" x "%setup%" &gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
 del "%setup%"&#13;
@@ -312,7 +310,9 @@ cd ..&#13;
 rmdir "%name%"</file>
         <url>https://mingw-w64-dgn.googlecode.com/files/qt-4.8.4-w64-bin-x86_64-20130406.7z</url>
         <sha1>cd3d800b36cf04ff0bc42b7a49074cff1b958806</sha1>
-        <dependency package="org.7-zip.SevenZIPA" versions="[9.20, 9.20]"/>
+        <dependency package="org.7-zip.SevenZIPA" versions="[9.20, 9.20]">
+            <variable>sevenzipa</variable>
+        </dependency>
         <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.15.7, 2)"/>
     </version>
     <version name="5.1" package="com.nokia.QtDev-x86_64-w64" type="one-file">
@@ -337,16 +337,16 @@ rmdir "%name%"</file>
     </version>
 
     <version name="4.8.2" package="com.nokia.QtDev-x86_64-w64-Npackd-Release" type="one-file">
-        <file path=".Npackd\Install.bat">set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=org.7-zip.SevenZIPA" "--versions=[9.20, 9.20]"&#13;
-for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set sevenzipa=%%x&#13;
-for /f %%x in ('dir /b *.7z') do set setup=%%x&#13;
+        <file path=".Npackd\Install.bat">for /f %%x in ('dir /b *.7z') do set setup=%%x&#13;
 "%sevenzipa%\7za.exe" x "%setup%" &gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
 &#13;
 mklink /D C:\NpackdSymlinks\com.nokia.QtDev-x86_64-w64-Npackd-Release-4.8.2 "%CD%"</file>
         <file path=".Npackd\Uninstall.bat">rmdir C:\NpackdSymlinks\com.nokia.QtDev-x86_64-w64-Npackd-Release-4.8.2</file>
         <url>http://downloads.sourceforge.net/project/npackd/com.nokia.QtDev-x86_64-w64-Npackd-Release-4.8.2.7z</url>
         <sha1>5f88dd013245f94d07b7c9cdd04b6bc764b5742c</sha1>
-        <dependency package="org.7-zip.SevenZIPA" versions="[9.20, 9.20]"/>
+        <dependency package="org.7-zip.SevenZIPA" versions="[9.20, 9.20]">
+            <variable>sevenzipa</variable>
+        </dependency>
         <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.15.7, 2)"/>
     </version>
     <version name="5.2.1" package="com.nokia.QtDev-x86_64-w64-Npackd-Release" type="one-file">
@@ -511,9 +511,7 @@ rmdir "%name%"</file>
         <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.15.7, 2)"/>
     </version>
     <version name="5.0.1" package="com.nokia.QtSource" type="one-file">
-        <file path=".Npackd\Install.bat">set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=org.7-zip.SevenZIPA" "--versions=[9.20, 9.20]"&#13;
-for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set sevenzipa=%%x&#13;
-for /f %%x in ('dir /b *.zip') do set setup=%%x&#13;
+        <file path=".Npackd\Install.bat">for /f %%x in ('dir /b *.zip') do set setup=%%x&#13;
 "%sevenzipa%\7za.exe" x "%setup%" &gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
 del "%setup%"&#13;
 &#13;
@@ -526,13 +524,13 @@ cd ..&#13;
 rmdir "%name%"</file>
         <url>http://files.linux-addicted.net/qtproject/archive/qt/5.0/5.0.1/single/qt-everywhere-opensource-src-5.0.1.zip</url>
         <sha1>75d06c96bae8ded783fad1a76d3a1cf39368755d</sha1>
-        <dependency package="org.7-zip.SevenZIPA" versions="[9.20, 9.20]"/>
+        <dependency package="org.7-zip.SevenZIPA" versions="[9.20, 9.20]">
+            <variable>sevenzipa</variable>
+        </dependency>
         <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.15.7, 2)"/>
     </version>
     <version name="5.1" package="com.nokia.QtSource" type="one-file">
-        <file path=".Npackd\Install.bat">set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=org.7-zip.SevenZIPA" "--versions=[9.20, 9.20]"&#13;
-for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set sevenzipa=%%x&#13;
-for /f %%x in ('dir /b *.zip') do set setup=%%x&#13;
+        <file path=".Npackd\Install.bat">for /f %%x in ('dir /b *.zip') do set setup=%%x&#13;
 "%sevenzipa%\7za.exe" x "%setup%" &gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
 del "%setup%"&#13;
 &#13;
@@ -545,7 +543,9 @@ cd ..&#13;
 rmdir "%name%"</file>
         <url>http://qt-mirror.dannhauer.de/official_releases/qt/5.1/5.1.0/single/qt-everywhere-opensource-src-5.1.0.zip</url>
         <sha1>11dbc7fc19f4ffe6711a18c667f52ffab4a57044</sha1>
-        <dependency package="org.7-zip.SevenZIPA" versions="[9.20, 9.20]"/>
+        <dependency package="org.7-zip.SevenZIPA" versions="[9.20, 9.20]">
+            <variable>sevenzipa</variable>
+        </dependency>
         <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.15.7, 2)"/>
     </version>
     <version name="5.1.1" package="com.nokia.QtSource" type="one-file">
@@ -1075,9 +1075,7 @@ rmdir "%name%"&#13;
     </version>
 
     <version name="1.2.7" package="org.xapian.XapianCore" type="one-file">
-        <file path=".Npackd\Install.bat">set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=org.7-zip.SevenZIPA" "--versions=[9.20, 9.20]"&#13;
-for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set sevenzipa=%%x&#13;
-&#13;
+        <file path=".Npackd\Install.bat">&#13;
 for /f "delims=" %%x in ('dir /b *.tar.gz') do set setup=%%x&#13;
 "%sevenzipa%\7za.exe" x "%setup%"&#13;
 del "%setup%"&#13;
@@ -1095,13 +1093,13 @@ cd ..&#13;
 rmdir "%name%"</file>
         <url>http://oligarchy.co.uk/xapian/1.2.7/xapian-core-1.2.7.tar.gz</url>
         <sha1>c6c5c5b14d5d64481858ac2b181429a9b8bdc9a1</sha1>
-        <dependency package="org.7-zip.SevenZIPA" versions="[9.20, 9.20]"/>
+        <dependency package="org.7-zip.SevenZIPA" versions="[9.20, 9.20]">
+            <variable>sevenzipa</variable>
+        </dependency>
         <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.15.7, 2)"/>
     </version>
     <version name="1.2.8" package="org.xapian.XapianCore" type="one-file">
-        <file path=".Npackd\Install.bat">set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=org.7-zip.SevenZIPA" "--versions=[9.20, 9.20]"&#13;
-for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set sevenzipa=%%x&#13;
-&#13;
+        <file path=".Npackd\Install.bat">&#13;
 for /f "delims=" %%x in ('dir /b *.tar.gz') do set setup=%%x&#13;
 "%sevenzipa%\7za.exe" x "%setup%"&#13;
 del "%setup%"&#13;
@@ -1119,13 +1117,13 @@ cd ..&#13;
 rmdir "%name%"</file>
         <url>http://oligarchy.co.uk/xapian/1.2.8/xapian-core-1.2.8.tar.gz</url>
         <sha1>4bdd3845278812d467b8d0fb73ee27a5be05b2d9</sha1>
-        <dependency package="org.7-zip.SevenZIPA" versions="[9.20, 9.20]"/>
+        <dependency package="org.7-zip.SevenZIPA" versions="[9.20, 9.20]">
+            <variable>sevenzipa</variable>
+        </dependency>
         <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.15.7, 2)"/>
     </version>
     <version name="1.2.9" package="org.xapian.XapianCore" type="one-file">
-        <file path=".Npackd\Install.bat">set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=org.7-zip.SevenZIPA" "--versions=[9.20, 9.20]"&#13;
-for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set sevenzipa=%%x&#13;
-&#13;
+        <file path=".Npackd\Install.bat">&#13;
 for /f "delims=" %%x in ('dir /b *.tar.gz') do set setup=%%x&#13;
 "%sevenzipa%\7za.exe" x "%setup%"&#13;
 del "%setup%"&#13;
@@ -1143,13 +1141,13 @@ cd ..&#13;
 rmdir "%name%"</file>
         <url>http://oligarchy.co.uk/xapian/1.2.9/xapian-core-1.2.9.tar.gz</url>
         <sha1>ce66725d74790639e0703db4b117b7ab5b326216</sha1>
-        <dependency package="org.7-zip.SevenZIPA" versions="[9.20, 9.20]"/>
+        <dependency package="org.7-zip.SevenZIPA" versions="[9.20, 9.20]">
+            <variable>sevenzipa</variable>
+        </dependency>
         <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.15.7, 2)"/>
     </version>
     <version name="1.2.10" package="org.xapian.XapianCore" type="one-file">
-        <file path=".Npackd\Install.bat">set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=org.7-zip.SevenZIPA" "--versions=[9.20, 9.20]"&#13;
-for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set sevenzipa=%%x&#13;
-&#13;
+        <file path=".Npackd\Install.bat">&#13;
 for /f "delims=" %%x in ('dir /b *.tar.gz') do set setup=%%x&#13;
 "%sevenzipa%\7za.exe" x "%setup%"&#13;
 del "%setup%"&#13;
@@ -1167,13 +1165,13 @@ cd ..&#13;
 rmdir "%name%"</file>
         <url>http://oligarchy.co.uk/xapian/1.2.10/xapian-core-1.2.10.tar.gz</url>
         <sha1>1be1896ab11a3a66c6c0ade962c700d96678116e</sha1>
-        <dependency package="org.7-zip.SevenZIPA" versions="[9.20, 9.20]"/>
+        <dependency package="org.7-zip.SevenZIPA" versions="[9.20, 9.20]">
+            <variable>sevenzipa</variable>
+        </dependency>
         <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.15.7, 2)"/>
     </version>
     <version name="1.2.12" package="org.xapian.XapianCore" type="one-file">
-        <file path=".Npackd\Install.bat">set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=org.7-zip.SevenZIPA" "--versions=[9.20, 9.20]"&#13;
-for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set sevenzipa=%%x&#13;
-&#13;
+        <file path=".Npackd\Install.bat">&#13;
 for /f "delims=" %%x in ('dir /b *.tar.gz') do set setup=%%x&#13;
 "%sevenzipa%\7za.exe" x "%setup%"&#13;
 del "%setup%"&#13;
@@ -1191,13 +1189,13 @@ cd ..&#13;
 rmdir "%name%"</file>
         <url>http://oligarchy.co.uk/xapian/1.2.12/xapian-core-1.2.12.tar.gz</url>
         <sha1>2b96800280fee41eed767289620172f5226c9c4f</sha1>
-        <dependency package="org.7-zip.SevenZIPA" versions="[9.20, 9.20]"/>
+        <dependency package="org.7-zip.SevenZIPA" versions="[9.20, 9.20]">
+            <variable>sevenzipa</variable>
+        </dependency>
         <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.15.7, 2)"/>
     </version>
     <version name="1.2.14" package="org.xapian.XapianCore" type="one-file">
-        <file path=".Npackd\Install.bat">set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=org.7-zip.SevenZIPA" "--versions=[9.20, 9.20]"&#13;
-for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set sevenzipa=%%x&#13;
-&#13;
+        <file path=".Npackd\Install.bat">&#13;
 for /f "delims=" %%x in ('dir /b *.tar.gz') do set setup=%%x&#13;
 "%sevenzipa%\7za.exe" x "%setup%"&#13;
 del "%setup%"&#13;
@@ -1215,13 +1213,13 @@ cd ..&#13;
 rmdir "%name%"</file>
         <url>http://oligarchy.co.uk/xapian/1.2.14/xapian-core-1.2.14.tar.gz</url>
         <sha1>0199483021b7e8704ddbc9c27c3d1531566a847a</sha1>
-        <dependency package="org.7-zip.SevenZIPA" versions="[9.20, 9.20]"/>
+        <dependency package="org.7-zip.SevenZIPA" versions="[9.20, 9.20]">
+            <variable>sevenzipa</variable>
+        </dependency>
         <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.15.7, 2)"/>
     </version>
     <version name="1.2.15" package="org.xapian.XapianCore" type="one-file">
-        <file path=".Npackd\Install.bat">set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=org.7-zip.SevenZIPA" "--versions=[9.20, 9.20]"&#13;
-for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set sevenzipa=%%x&#13;
-&#13;
+        <file path=".Npackd\Install.bat">&#13;
 for /f "delims=" %%x in ('dir /b *.tar.gz') do set setup=%%x&#13;
 "%sevenzipa%\7za.exe" x "%setup%"&#13;
 del "%setup%"&#13;
@@ -1239,13 +1237,13 @@ cd ..&#13;
 rmdir "%name%"</file>
         <url>http://oligarchy.co.uk/xapian/1.2.14/xapian-core-1.2.14.tar.gz</url>
         <sha1>0199483021b7e8704ddbc9c27c3d1531566a847a</sha1>
-        <dependency package="org.7-zip.SevenZIPA" versions="[9.20, 9.20]"/>
+        <dependency package="org.7-zip.SevenZIPA" versions="[9.20, 9.20]">
+            <variable>sevenzipa</variable>
+        </dependency>
         <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.15.7, 2)"/>
     </version>
     <version name="1.2.16" package="org.xapian.XapianCore" type="one-file">
-        <file path=".Npackd\Install.bat">set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=org.7-zip.SevenZIPA" "--versions=[9.20, 9.20]"&#13;
-for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set sevenzipa=%%x&#13;
-&#13;
+        <file path=".Npackd\Install.bat">&#13;
 for /f "delims=" %%x in ('dir /b *.tar.xz') do set setup=%%x&#13;
 "%sevenzipa%\7za.exe" x "%setup%"&#13;
 del "%setup%"&#13;
@@ -1263,13 +1261,13 @@ cd ..&#13;
 rmdir "%name%"</file>
         <url>http://oligarchy.co.uk/xapian/1.2.16/xapian-core-1.2.16.tar.xz</url>
         <sha1>c280ee15b14416043874f7754e0b054ac0624e7b</sha1>
-        <dependency package="org.7-zip.SevenZIPA" versions="[9.20, 9.20]"/>
+        <dependency package="org.7-zip.SevenZIPA" versions="[9.20, 9.20]">
+            <variable>sevenzipa</variable>
+        </dependency>
         <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.15.7, 2)"/>
     </version>
     <version name="1.2.17" package="org.xapian.XapianCore" type="one-file">
-        <file path=".Npackd\Install.bat">set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=org.7-zip.SevenZIPA" "--versions=[9.20, 9.20]"&#13;
-for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set sevenzipa=%%x&#13;
-&#13;
+        <file path=".Npackd\Install.bat">&#13;
 for /f "delims=" %%x in ('dir /b *.tar.xz') do set setup=%%x&#13;
 "%sevenzipa%\7za.exe" x "%setup%"&#13;
 del "%setup%"&#13;
@@ -1287,13 +1285,13 @@ cd ..&#13;
 rmdir "%name%"</file>
         <url>http://oligarchy.co.uk/xapian/1.2.17/xapian-core-1.2.17.tar.xz</url>
         <sha1>ee8df16fe2fba1b12badfc91ecdb94ffd0bbc8ef</sha1>
-        <dependency package="org.7-zip.SevenZIPA" versions="[9.20, 9.20]"/>
+        <dependency package="org.7-zip.SevenZIPA" versions="[9.20, 9.20]">
+            <variable>sevenzipa</variable>
+        </dependency>
         <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.15.7, 2)"/>
     </version>
     <version name="1.2.18" package="org.xapian.XapianCore" type="one-file">
-        <file path=".Npackd\Install.bat">set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=org.7-zip.SevenZIPA" "--versions=[9.20, 9.20]"&#13;
-for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set sevenzipa=%%x&#13;
-&#13;
+        <file path=".Npackd\Install.bat">&#13;
 for /f "delims=" %%x in ('dir /b *.tar.xz') do set setup=%%x&#13;
 "%sevenzipa%\7za.exe" x "%setup%"&#13;
 del "%setup%"&#13;
@@ -1311,13 +1309,13 @@ cd ..&#13;
 rmdir "%name%"</file>
         <url>http://oligarchy.co.uk/xapian/1.2.18/xapian-core-1.2.18.tar.xz</url>
         <sha1>0eb07cfec9a213a6d310ae2472ccd3cd142d2d33</sha1>
-        <dependency package="org.7-zip.SevenZIPA" versions="[9.20, 9.20]"/>
+        <dependency package="org.7-zip.SevenZIPA" versions="[9.20, 9.20]">
+            <variable>sevenzipa</variable>
+        </dependency>
         <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.15.7, 2)"/>
     </version>
     <version name="1.2.19" package="org.xapian.XapianCore" type="one-file">
-        <file path=".Npackd\Install.bat">set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=org.7-zip.SevenZIPA" "--versions=[9.20, 9.20]"&#13;
-for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set sevenzipa=%%x&#13;
-&#13;
+        <file path=".Npackd\Install.bat">&#13;
 for /f "delims=" %%x in ('dir /b *.tar.xz') do set setup=%%x&#13;
 "%sevenzipa%\7za.exe" x "%setup%"&#13;
 del "%setup%"&#13;
@@ -1335,7 +1333,9 @@ cd ..&#13;
 rmdir "%name%"</file>
         <url>http://oligarchy.co.uk/xapian/1.2.19/xapian-core-1.2.19.tar.xz</url>
         <sha1>a8679cd0f708e32f2ec76bcdc198cd9fa2e1d65e</sha1>
-        <dependency package="org.7-zip.SevenZIPA" versions="[9.20, 9.20]"/>
+        <dependency package="org.7-zip.SevenZIPA" versions="[9.20, 9.20]">
+            <variable>sevenzipa</variable>
+        </dependency>
         <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.15.7, 2)"/>
     </version>
 
