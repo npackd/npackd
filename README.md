@@ -15,7 +15,7 @@ C:\> msiexec.exe /qb- /i http://bit.ly/npackdcl-1_19_13
 see [What is new in Npackd](https://github.com/tim-lebedkov/npackd/wiki/ChangeLog)
 
 ## Project status
-[https://ci.appveyor.com/api/projects/status/f0sqwvjci85dx5q0?notused=image.png](https://ci.appveyor.com/project/tim-lebedkov/windows-package-manager-npackd-cpp/build/artifacts)
+[https://ci.appveyor.com/project/tim-lebedkov/windows-package-manager-npackd-cpp/build/artifacts](https://ci.appveyor.com/api/projects/status/github/gruntjs/grunt)
 
 ## Add your packages
 You can add you packages (a Google account is required) [here](https://npackd.appspot.com/package/new).
