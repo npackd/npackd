@@ -1,7 +1,7 @@
 ﻿# Npackd
 
 * Home page: https://npackd.appspot.com
-* Downloads: https://code.google.com/p/windows-package-manager/wiki/Downloads?tm=2
+* Downloads: https://github.com/tim-lebedkov/npackd/wiki/Downloads
 
 ![Npackd](http://npackd.appspot.com/Npackd.png)
 
