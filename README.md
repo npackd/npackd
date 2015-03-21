@@ -1,10 +1,9 @@
 ﻿# Npackd
 
 * Home page: https://npackd.appspot.com
-* Issues: https://github.com/tim-lebedkov/npackd/issues
-* Source code: https://github.com/tim-lebedkov?tab=repositories
-* Wiki: https://github.com/tim-lebedkov/npackd/wiki
 * Downloads: https://code.google.com/p/windows-package-manager/wiki/Downloads?tm=2
+
+![Npackd](http://npackd.appspot.com/Npackd.png)
 
 Npackd (pronounced "unpacked") is an application store/package manager/marketplace for applications for Windows. It helps you to find and install software, keep your system up-to-date and uninstall it if no longer necessary. You can watch [this short video](http://www.youtube.com/watch?v=7ZkJ2i2xbow) to better understand how it works. The process of installing and uninstalling applications is completely automated (silent or unattended installation and un-installation). There is also a [command line](https://github.com/tim-lebedkov/npackd/wiki/CommandLine) based version of Npackd which you can [install](https://github.com/tim-lebedkov/npackd/wiki/CommandLineInstallation) from the command line: 
 
@@ -15,7 +14,7 @@ C:\> msiexec.exe /qb- /i http://bit.ly/npackdcl-1_19_13
 see [What is new in Npackd](https://github.com/tim-lebedkov/npackd/wiki/ChangeLog)
 
 ## Project status
-[![Build artifacts](https://ci.appveyor.com/api/projects/status/github/tim-lebedkov/npackd-cpp)](https://ci.appveyor.com/project/tim-lebedkov/windows-package-manager-npackd-cpp/build/artifacts)
+[![Build artifacts](https://ci.appveyor.com/api/projects/status/github/tim-lebedkov/npackd-cpp)](https://ci.appveyor.com/project/tim-lebedkov/npackd-cpp)
 
 The Atom Shell framework lets you write cross-platform desktop applications
 ## Add your packages
