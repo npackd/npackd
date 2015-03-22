@@ -16,7 +16,6 @@ see [What is new in Npackd](https://github.com/tim-lebedkov/npackd/wiki/ChangeLo
 ## Project status
 [![Build artifacts](https://ci.appveyor.com/api/projects/status/github/tim-lebedkov/npackd-cpp)](https://ci.appveyor.com/project/tim-lebedkov/npackd-cpp)
 
-The Atom Shell framework lets you write cross-platform desktop applications
 ## Add your packages
 You can add you packages (a Google account is required) [here](https://npackd.appspot.com/package/new).
 
