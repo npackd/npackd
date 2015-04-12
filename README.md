@@ -2,6 +2,8 @@
 
 * Home page: https://npackd.appspot.com
 * Downloads: https://github.com/tim-lebedkov/npackd/wiki/Downloads
+* GUI and command line source code: https://github.com/tim-lebedkov/npackd-cpp
+* Web based repository manager source code: https://github.com/tim-lebedkov/npackd-gae-web
 
 ![Npackd](http://npackd.appspot.com/Npackd.png)
 
@@ -12,10 +14,6 @@ C:\> msiexec.exe /qb- /i http://bit.ly/npackdcl-1_19_13
 ```
 
 see [What is new in Npackd](https://github.com/tim-lebedkov/npackd/wiki/ChangeLog)
-
-## Project status
-[![Build artifacts](https://ci.appveyor.com/api/projects/status/github/tim-lebedkov/npackd-cpp)](https://ci.appveyor.com/project/tim-lebedkov/npackd-cpp)
-[![Build artifacts](https://scan.coverity.com/projects/4151/badge.svg?flat=1)](https://scan.coverity.com/projects/4151?tab=overview)
 
 ## Add your packages
 You can add you packages (a Google account is required) [here](https://npackd.appspot.com/package/new).
@@ -51,21 +49,6 @@ The default repository for Vim plugins is located at `http://npackd.appspot.com/
 
 ##vim.org repository for Vim plugins
 The vim.org repository for Vim plugins is regularly (currently every 3 months) exported to an Npackd repository located at `http://downloads.sourceforge.net/project/npackd/VimOrgRep.xml`. Currently only plugins in .zip and .tar.gz files without additional directory levels are supported, the repository contains over 1400 packages.
-
-##Main features
-  * synchronizes information about installed programs with the control panel "Add or remove software" and MSI package database. Allow uninstallation of those packages. 
-  * support for proxies (use the internet settings control panel to configure it)
-  * password protected pages. This can be used to restrict access to your repository.
-  * fast installation and uninstallation without user interaction. A typical application is installed and uninstalled in seconds (downloading the package is the most lengthy operation)
-  * dependencies
-  * shortcuts in the start menu are automatically created/deleted
-  * multiple program versions can be installed side-by-side
-  * cryptographic checksum for packages (SHA1)
-  * prevents uninstallation of running programs
-
-[![Project Stats](https://www.openhub.net/p/windows-package-manager/widgets/project_thin_badge.gif)](https://www.openhub.net/p/windows-package-manager)
-
-<a class="addthis_button" href="http://www.addthis.com/bookmark.php?v=250&amp;username=xa-4c376eea7c4cc880"><img src="https://s7.addthis.com/static/btn/v2/lg-share-en.gif" width="125" height="16" alt="Bookmark and Share" style="border:0"/></a>
 
 Windows is a registered trademark of Microsoft Corporation in the United States and other countries.
 
