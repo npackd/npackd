@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<root>
+<?xml version="1.0" encoding="UTF-8"?><root>
     <!--
     This file is part of Npackd.
     
@@ -61,8 +60,8 @@ Provides [Tern](http://ternjs.net/)-based JavaScript editing support</descriptio
         <icon>https://lh6.googleusercontent.com/-oPg5OrLBr74/UZ8rV_mHduI/AAAAAAAACE0/twSVwJ4sOTQ/s800/vim.png</icon>
         <license>edu.mit.web.MIT</license>
         <category>Text</category>
-        <changelog>https://github.com/ap/vim-buftabline/commits/master</changelog>
-        <screenshot>https://camo.githubusercontent.com/3ae8a69591bc00bbbe8a0944edff7f3b92a2f134/687474703a2f2f61702e6769746875622e696f2f76696d2d6275667461626c696e652f73637265656e73686f742e706e67</screenshot>
+        <link href="https://github.com/ap/vim-buftabline/commits/master" rel="changelog"/>
+        <link href="https://camo.githubusercontent.com/3ae8a69591bc00bbbe8a0944edff7f3b92a2f134/687474703a2f2f61702e6769746875622e696f2f76696d2d6275667461626c696e652f73637265656e73686f742e706e67" rel="screenshot"/>
     </package>
     <package name="vim-colorschemes">
         <title>Vim plugin Colorschemes</title>
@@ -282,7 +281,7 @@ Read the help documentation by typing from within vim  :help xml-plugin</descrip
         <description>file type plugin to help edit XML documents. It includes tag completion and tag jumping.</description>
         <icon>https://lh6.googleusercontent.com/-oPg5OrLBr74/UZ8rV_mHduI/AAAAAAAACE0/twSVwJ4sOTQ/s800/vim.png</icon>
         <category>Text</category>
-        <changelog>https://github.com/sukima/xmledit/commits/master</changelog>
+        <link href="https://github.com/sukima/xmledit/commits/master" rel="changelog"/>
     </package>
     <package name="vim-youcompleteme">
         <title>Vim plugin youcompleteme</title>
@@ -674,6 +673,40 @@ set path=%go%\bin;%hg%;%git%\bin&#13;
         </dependency>
         <dependency package="vim-pathogen" versions="[2.2, 3)"/>
     </version>
+    <version name="1.0.4" package="vim-go">
+        <important-file path="StartVimGo.bat" title="Start Vim with vim-go"/>
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b vim-go*') do set name=%%x&#13;
+call "%NIH%\ExtractDir.bat" "%name%" || exit /b %errorlevel%&#13;
+call "%NIH%\RegisterVimPlugin.bat" || exit /b %errorlevel%&#13;
+</file>
+        <file path=".Npackd\Uninstall.bat">call "%NIH%\UnregisterVimPlugin.bat" || exit /b %errorlevel%&#13;
+</file>
+        <file path="StartVimGo.bat">set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=org.vim.Vim" "--versions=[7.3, 8)"&#13;
+for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set vim=%%x&#13;
+&#13;
+&#13;
+&#13;
+&#13;
+set path=%go%\bin;%hg%;%git%\bin&#13;
+"%vim%\gvim.exe"</file>
+        <url>https://github.com/fatih/vim-go/archive/v1.0.4.zip</url>
+        <sha1>6493cf5473c0dc2b2f7f33c8464b611ba57a851a</sha1>
+        <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.5, 2)">
+            <variable>nih</variable>
+        </dependency>
+        <dependency package="vim-huge" versions="[7.3, 8)"/>
+        <dependency package="com.googlecode.msysgit.MSysGit" versions="[1.9.4, 2)">
+            <variable>git</variable>
+        </dependency>
+        <dependency package="com.selenic.mercurial.Mercurial" versions="[2,4)">
+            <variable>hg</variable>
+        </dependency>
+        <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.1, 2)"/>
+        <dependency package="org.golang.Go" versions="[1.3, 2)">
+            <variable>go</variable>
+        </dependency>
+        <dependency package="vim-pathogen" versions="[2.2, 3)"/>
+    </version>
 
     <version name="1.1" package="vim-l9">
         <file path=".Npackd\Install.bat">call "%NIH%\RegisterVimPlugin.bat" || exit /b %errorlevel%&#13;
@@ -910,6 +943,20 @@ call "%NIH%\RegisterVimPlugin.bat" || exit /b %errorlevel%&#13;
 </file>
         <url>https://codeload.github.com/tpope/vim-surround/zip/v2.0</url>
         <sha1>dbe3b83e3b5887b09976ed5c31821ad4cef65bcc</sha1>
+        <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.5, 2)">
+            <variable>NIH</variable>
+        </dependency>
+        <dependency package="vim-pathogen" versions="[2.2, 3)"/>
+    </version>
+    <version name="2.1" package="vim-surround">
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b vim-surround*') do set name=%%x&#13;
+call "%NIH%\ExtractDir.bat" "%name%" || exit /b %errorlevel%&#13;
+call "%NIH%\RegisterVimPlugin.bat" || exit /b %errorlevel%&#13;
+</file>
+        <file path=".Npackd\Uninstall.bat">call "%NIH%\UnregisterVimPlugin.bat" || exit /b %errorlevel%&#13;
+</file>
+        <url>https://codeload.github.com/tpope/vim-surround/zip/v2.1</url>
+        <sha1>223c9b9a37c238ce2716643bda76e973cae4d56e</sha1>
         <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.5, 2)">
             <variable>NIH</variable>
         </dependency>
