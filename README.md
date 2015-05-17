@@ -2,6 +2,7 @@
 
 * Home page: https://npackd.appspot.com
 * Downloads: https://github.com/tim-lebedkov/npackd/wiki/Downloads
+* Forum: https://groups.google.com/forum/#!forum/npackd
 * GUI and command line source code: https://github.com/tim-lebedkov/npackd-cpp
 * Web based repository manager source code: https://github.com/tim-lebedkov/npackd-gae-web
 
