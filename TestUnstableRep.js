@@ -1,4 +1,4 @@
-var arguments = WScript.Arguments; 
+var arguments = WScript.Arguments;
 var password = arguments.Named.Item("password");
 WScript.Echo("password=" + password);
 
@@ -6,26 +6,45 @@ WScript.Echo("password=" + password);
 //var npackdcl = "C:\\Program Files\\NpackdCL\\npackdcl.exe";
 // var npackdcl = "C:\\ProgramFiles\\NpackdCL-1.19.13\\npackdcl.exe";
 var npackdcl = "C:\\Program Files (x86)\\NpackdCL\\ncl.exe";
+//var npackdcl = "C:\\ProgramFiles\\NpackdCL-1.20.5\\ncl.exe";
 
 function exec(cmd) {
-	return exec2("cmd.exe /c " + cmd + " 2>&1");
+	var result = exec2("cmd.exe /c " + cmd + " 2>&1");
+    return result[0];
+}
+
+/**
+ * @param package_ full package name
+ * @param version version number
+ * @return path to the specified package or "" if not installed
+ */
+function getPath(package_, version) {
+    var res = exec2("cmd.exe /c " + npackdcl + " path -p " + package_ + " -v " +
+            version + " 2>&1");
+    var lines = res[1];
+    if (lines.length > 0)
+        return lines[0];
+    else
+        return "";
 }
 
 /**
  * Executes the specified command, prints its output on the default output.
  *
  * @param cmd this command should be executed
- * @return exit code
+ * @return [exit code, [output line 1, output line2, ...]]
  */
 function exec2(cmd) {
     var shell = WScript.CreateObject("WScript.Shell");
     var p = shell.exec(cmd);
+    var output = [];
 	while (!p.StdOut.AtEndOfStream) {
 		var line = p.StdOut.ReadLine();
 		WScript.Echo(line);
+        output.push(line);
 	}
 
-    return p.ExitCode;
+    return [p.ExitCode, output];
 }
 
 /**
@@ -41,6 +60,13 @@ function process(package_, version) {
     if (ec !== 0) {
         WScript.Echo("npackdcl.exe add failed");
         return false;
+    }
+
+    var path = getPath(package_, version);
+    WScript.Echo("where=" + path);
+    if (path !== "") {
+        exec("cmd.exe /c tree \"" + path + "\"");
+        exec("cmd.exe /c dir \"" + path + "\"");
     }
 
     var ec = exec("\"" + npackdcl + "\" remove --package="+package_
