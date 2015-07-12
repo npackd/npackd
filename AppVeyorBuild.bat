@@ -1,4 +1,4 @@
 echo on
 
-cscript //B /password:abc || exit /b %errorlevel%
+cscript //B TestUnstableRep.js /password:%password% || exit /b %errorlevel%
 
