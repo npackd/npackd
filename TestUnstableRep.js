@@ -4,7 +4,8 @@ WScript.Echo("password=" + password);
 
 //var npackdcl = "C:\\ProgramFiles\\NpackdCL\\npackdcl.exe";
 //var npackdcl = "C:\\Program Files\\NpackdCL\\npackdcl.exe";
-var npackdcl = "C:\\ProgramFiles\\NpackdCL-1.19.13\\npackdcl.exe";
+// var npackdcl = "C:\\ProgramFiles\\NpackdCL-1.19.13\\npackdcl.exe";
+var npackdcl = "C:\\Program Files (x86)\\NpackdCL\\ncl.exe";
 
 function exec(cmd) {
 	return exec2("cmd.exe /c " + cmd + " 2>&1");
