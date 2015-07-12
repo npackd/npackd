@@ -1,6 +1,6 @@
 var arguments = WScript.Arguments;
 var password = arguments.Named.Item("password");
-WScript.Echo("password=" + password);
+//  WScript.Echo("password=" + password);
 
 //var npackdcl = "C:\\ProgramFiles\\NpackdCL\\npackdcl.exe";
 //var npackdcl = "C:\\Program Files\\NpackdCL\\npackdcl.exe";
@@ -19,8 +19,8 @@ function exec(cmd) {
  * @return path to the specified package or "" if not installed
  */
 function getPath(package_, version) {
-    var res = exec2("cmd.exe /c " + npackdcl + " path -p " + package_ + " -v " +
-            version + " 2>&1");
+    var res = exec2("cmd.exe /c \"" + npackdcl + "\" path -p " + package_ + 
+            " -v " + version + " 2>&1");
     var lines = res[1];
     if (lines.length > 0)
         return lines[0];
