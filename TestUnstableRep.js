@@ -9,7 +9,7 @@ var npackdcl = "C:\\Program Files (x86)\\NpackdCL\\ncl.exe";
 //var npackdcl = "C:\\ProgramFiles\\NpackdCL-1.20.5\\ncl.exe";
 
 function exec(cmd) {
-	var result = exec2("cmd.exe /c " + cmd + " 2>&1");
+    var result = exec2("cmd.exe /c " + cmd + " 2>&1");
     return result[0];
 }
 
@@ -38,11 +38,11 @@ function exec2(cmd) {
     var shell = WScript.CreateObject("WScript.Shell");
     var p = shell.exec(cmd);
     var output = [];
-	while (!p.StdOut.AtEndOfStream) {
-		var line = p.StdOut.ReadLine();
-		WScript.Echo(line);
+    while (!p.StdOut.AtEndOfStream) {
+        var line = p.StdOut.ReadLine();
+        WScript.Echo(line);
         output.push(line);
-	}
+    }
 
     return [p.ExitCode, output];
 }
@@ -67,7 +67,9 @@ function process(package_, version) {
     if (path !== "") {
         exec("cmd.exe /c tree \"" + path + "\"");
         exec("cmd.exe /c dir \"" + path + "\"");
-        exec("\"C:\\Program Files (x86)\\CLU\\clu.exe\" list-msi");
+        var msilist = package_ + "-" + version + "-msilist.txt";
+        exec2("\"C:\\Program Files (x86)\\CLU\\clu.exe\" list-msi > " + msilist + " 2>&1");
+        exec("appveyor PushArtifact " + msilist);
     }
 
     var ec = exec("\"" + npackdcl + "\" remove --package="+package_
@@ -84,27 +86,27 @@ var NF = 2;
 
 function countPackageFiles(Folder) {
     var n = 0;
-	
-	for (var objEnum = new Enumerator(Folder.Files); !objEnum.atEnd(); objEnum.moveNext()) {
-		n++;
-		if (n > NF)
-			break;
-	}
-	
-	
-	if (n <= NF) {
-		for (var objEnum = new Enumerator(Folder.SubFolders); !objEnum.atEnd(); objEnum.moveNext()) {
-			if (n > NF)
-				break;
-				
-			var d = objEnum.item();
-			if (d.Name.toLowerCase() !== ".npackd") {
-				n += countPackageFiles(d);
-			}
-		}
-	}
-	
-	return n;
+    
+    for (var objEnum = new Enumerator(Folder.Files); !objEnum.atEnd(); objEnum.moveNext()) {
+        n++;
+        if (n > NF)
+            break;
+    }
+    
+    
+    if (n <= NF) {
+        for (var objEnum = new Enumerator(Folder.SubFolders); !objEnum.atEnd(); objEnum.moveNext()) {
+            if (n > NF)
+                break;
+                
+            var d = objEnum.item();
+            if (d.Name.toLowerCase() !== ".npackd") {
+                n += countPackageFiles(d);
+            }
+        }
+    }
+    
+    return n;
 }
 
 /**
@@ -114,12 +116,12 @@ function countPackageFiles(Folder) {
  * @return true if the download was OK
  */
 function download(url) {
-	var Object = WScript.CreateObject('MSXML2.XMLHTTP');
+    var Object = WScript.CreateObject('MSXML2.XMLHTTP');
 
-	Object.Open('GET', url, false);
-	Object.Send();
+    Object.Open('GET', url, false);
+    Object.Send();
 
-	return Object.Status == 200;
+    return Object.Status == 200;
 }
 
 var ec = exec("\"" + npackdcl + "\" detect");
@@ -144,14 +146,14 @@ if (xDoc.load("http://npackd.appspot.com/rep/recent-xml?tag=untested")) {
         if (!process(package_, version)) {
             failed.push(package_ + "@" + version);
         } else {
-			if (download("http://npackd.appspot.com/package-version/mark-tested?package=" + 
-					package_ + "&version=" + version + 
-					"&password=" + password)) {
-				WScript.Echo(package_ + " " + version + " was marked as tested");
-			} else {
-				WScript.Echo("Failed to mark " + package_ + " " + version + " as tested");
-			}
-		}
+            if (download("http://npackd.appspot.com/package-version/mark-tested?package=" + 
+                    package_ + "&version=" + version + 
+                    "&password=" + password)) {
+                WScript.Echo(package_ + " " + version + " was marked as tested");
+            } else {
+                WScript.Echo("Failed to mark " + package_ + " " + version + " as tested");
+            }
+        }
     }
 
     if (failed.length > 0) {
