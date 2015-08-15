@@ -67,6 +67,7 @@ function process(package_, version) {
     if (path !== "") {
         exec("cmd.exe /c tree \"" + path + "\"");
         exec("cmd.exe /c dir \"" + path + "\"");
+        exec("C:\\Program Files (x86)\\CLU\\clu.exe list-msi");
     }
 
     var ec = exec("\"" + npackdcl + "\" remove --package="+package_
