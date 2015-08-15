@@ -68,7 +68,7 @@ function process(package_, version) {
         exec("cmd.exe /c tree \"" + path + "\"");
         exec("cmd.exe /c dir \"" + path + "\"");
         var msilist = package_ + "-" + version + "-msilist.txt";
-        exec2("\"C:\\Program Files (x86)\\CLU\\clu.exe\" list-msi > " + msilist + " 2>&1");
+        exec2("cmd.exe /c \"C:\\Program Files (x86)\\CLU\\clu.exe\" list-msi > " + msilist + " 2>&1");
         exec("appveyor PushArtifact " + msilist);
     }
 
