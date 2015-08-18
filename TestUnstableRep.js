@@ -146,7 +146,14 @@ function processURL(url, password) {
     xDoc.async = false;
     xDoc.setProperty("SelectionLanguage", "XPath");
     if (xDoc.load(url)) {
-        var pvs = xDoc.selectNodes("//version");
+        var pvs_ = xDoc.selectNodes("//version");
+
+        // copy the nodes into a real array
+        var pvs = [];
+        for (var i = 0; i < pvs_.length; i++) {
+            pvs.push(pvs_[i]);
+        }
+
         shuffle(pvs);
 
         // WScript.Echo(pvs.length + " versions found");
