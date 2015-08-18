@@ -84,8 +84,12 @@ function process(package_, version) {
     var path = getPath(package_, version);
     WScript.Echo("where=" + path);
     if (path !== "") {
-        exec("cmd.exe /c tree \"" + path + "\"");
+        var tree = package_ + "-" + version + "-tree.txt";
+        exec2("cmd.exe /c tree \"" + path + "\" > " + tree + " 2>&1");
+        exec("appveyor PushArtifact " + tree);
+
         exec("cmd.exe /c dir \"" + path + "\"");
+
         var msilist = package_ + "-" + version + "-msilist.txt";
         exec2("cmd.exe /c \"C:\\Program Files (x86)\\CLU\\clu.exe\" list-msi > " + msilist + " 2>&1");
         exec("appveyor PushArtifact " + msilist);
