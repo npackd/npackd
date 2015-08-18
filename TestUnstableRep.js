@@ -1,12 +1,31 @@
-var arguments = WScript.Arguments;
-var password = arguments.Named.Item("password");
-//  WScript.Echo("password=" + password);
-
 //var npackdcl = "C:\\ProgramFiles\\NpackdCL\\npackdcl.exe";
 //var npackdcl = "C:\\Program Files\\NpackdCL\\npackdcl.exe";
 // var npackdcl = "C:\\ProgramFiles\\NpackdCL-1.19.13\\npackdcl.exe";
 var npackdcl = "C:\\Program Files (x86)\\NpackdCL\\ncl.exe";
 //var npackdcl = "C:\\ProgramFiles\\NpackdCL-1.20.5\\ncl.exe";
+
+var FSO = new ActiveXObject("Scripting.FileSystemObject");
+
+// http://stackoverflow.com/questions/6274339/how-can-i-shuffle-an-array-in-javascript
+function shuffle(array) {
+    var counter = array.length, temp, index;
+
+    // While there are elements in the array
+    while (counter > 0) {
+        // Pick a random index
+        index = Math.floor(Math.random() * counter);
+
+        // Decrease counter by 1
+        counter--;
+
+        // And swap the last element with it
+        temp = array[counter];
+        array[counter] = array[index];
+        array[index] = temp;
+    }
+
+    return array;
+}
 
 function exec(cmd) {
     var result = exec2("cmd.exe /c " + cmd + " 2>&1");
@@ -81,10 +100,8 @@ function process(package_, version) {
     return true;
 }
 
-var FSO = new ActiveXObject("Scripting.FileSystemObject");
-var NF = 2;
-
 function countPackageFiles(Folder) {
+    var NF = 2;
     var n = 0;
     
     for (var objEnum = new Enumerator(Folder.Files); !objEnum.atEnd(); objEnum.moveNext()) {
@@ -124,50 +141,68 @@ function download(url) {
     return Object.Status == 200;
 }
 
+function processURL(url, password) {
+    var xDoc = new ActiveXObject("MSXML2.DOMDocument.6.0");
+    xDoc.async = false;
+    xDoc.setProperty("SelectionLanguage", "XPath");
+    if (xDoc.load(url)) {
+        var pvs = xDoc.selectNodes("//version");
+        shuffle(pvs);
+
+        // WScript.Echo(pvs.length + " versions found");
+        var failed = [];
+
+        for (var i = 0; i < pvs.length; i++) {
+            var pv = pvs[i];
+            var package_ =pv.getAttribute("package");
+            var version = pv.getAttribute("name");
+            WScript.Echo(package_ + " " + version);
+            if (!process(package_, version)) {
+                failed.push(package_ + "@" + version);
+            } else {
+                if (download("http://npackd.appspot.com/package-version/mark-tested?package=" + 
+                        package_ + "&version=" + version + 
+                        "&password=" + password)) {
+                    WScript.Echo(package_ + " " + version + " was marked as tested");
+                } else {
+                    WScript.Echo("Failed to mark " + package_ + " " + version + " as tested");
+                }
+            }
+        }
+
+        if (failed.length > 0) {
+            WScript.Echo(failed.length + " packages failed:");
+            for (var i = 0; i < failed.length; i++) {
+                WScript.Echo(failed[i]);
+            }
+            return 1;
+        } else {
+            WScript.Echo("All packages are OK in " + url);
+        }
+    } else {
+        WScript.Echo("Error loading XML");
+        return 1;
+    }
+
+    return 0;
+}
+
+var arguments = WScript.Arguments;
+var password = arguments.Named.Item("password");
+//  WScript.Echo("password=" + password);
+
 var ec = exec("\"" + npackdcl + "\" detect");
 if (ec !== 0) {
     WScript.Echo("npackdcl.exe detect failed: " + ec);
     WScript.Quit(1);
 }
 
-var xDoc = new ActiveXObject("MSXML2.DOMDocument.6.0");
-xDoc.async = false;
-xDoc.setProperty("SelectionLanguage", "XPath");
-if (xDoc.load("http://npackd.appspot.com/rep/recent-xml?tag=untested")) {
-    var pvs = xDoc.selectNodes("//version");
-    // WScript.Echo(pvs.length + " versions found");
-    var failed = [];
-
-    for (var i = 0; i < pvs.length; i++) {
-        var pv = pvs[i];
-        var package_ =pv.getAttribute("package");
-        var version = pv.getAttribute("name");
-        WScript.Echo(package_ + " " + version);
-        if (!process(package_, version)) {
-            failed.push(package_ + "@" + version);
-        } else {
-            if (download("http://npackd.appspot.com/package-version/mark-tested?package=" + 
-                    package_ + "&version=" + version + 
-                    "&password=" + password)) {
-                WScript.Echo(package_ + " " + version + " was marked as tested");
-            } else {
-                WScript.Echo("Failed to mark " + package_ + " " + version + " as tested");
-            }
-        }
-    }
-
-    if (failed.length > 0) {
-        WScript.Echo(failed.length + " packages failed:");
-        for (var i = 0; i < failed.length; i++) {
-            WScript.Echo(failed[i]);
-        }
-        WScript.Quit(1);
-    } else {
-        WScript.Echo("All packages are OK");
-    }
-} else {
-    WScript.Echo("Error loading XML");
+var r = processURL("http://npackd.appspot.com/rep/recent-xml?tag=untested", password);
+if (r != 0)
     WScript.Quit(1);
-}
+
+r = processURL("http://npackd.appspot.com/rep/xml?tag=stable64", password);
+if (r != 0)
+    WScript.Quit(1);
 
 
