@@ -179,6 +179,7 @@ function processURL(url, password) {
                     WScript.Echo("Failed to mark " + package_ + " " + version + " as tested");
                 }
             }
+            WScript.Echo("==================================================================");
         }
 
         if (failed.length > 0) {
