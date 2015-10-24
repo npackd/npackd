@@ -15,3 +15,5 @@ SET NPACKD_CL=C:\Program Files (x86)\NpackdCL|| exit /b %errorlevel%
 "%npackd_cl%\ncl" add -p nircmd64 -v 2.75 || exit /b %errorlevel%
 "%npackd_cl%\ncl" add -p com.googlecode.windows-package-manager.CLU -v 1.0.1 || exit /b %errorlevel%
 
+path
+
