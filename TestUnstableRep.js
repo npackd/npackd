@@ -38,7 +38,7 @@ function exec(cmd) {
  * @return path to the specified package or "" if not installed
  */
 function getPath(package_, version) {
-    var res = exec2("cmd.exe /c \"" + npackdcl + "\" path -p " + package_ + 
+    var res = exec2("cmd.exe /c \"" + npackdcl + "\" path -p " + package_ +
             " -v " + version + " 2>&1");
     var lines = res[1];
     if (lines.length > 0)
@@ -95,7 +95,7 @@ function process(package_, version) {
         exec("appveyor PushArtifact " + msilist);
     }
 
-    var ec = exec("\"" + npackdcl + "\" remove --package="+package_
+    var ec = exec("\"" + npackdcl + "\" remove -e=ck --package="+package_
                 + " --version=" + version);
     if (ec !== 0) {
         WScript.Echo("npackdcl.exe remove failed");
@@ -107,26 +107,26 @@ function process(package_, version) {
 function countPackageFiles(Folder) {
     var NF = 2;
     var n = 0;
-    
+
     for (var objEnum = new Enumerator(Folder.Files); !objEnum.atEnd(); objEnum.moveNext()) {
         n++;
         if (n > NF)
             break;
     }
-    
-    
+
+
     if (n <= NF) {
         for (var objEnum = new Enumerator(Folder.SubFolders); !objEnum.atEnd(); objEnum.moveNext()) {
             if (n > NF)
                 break;
-                
+
             var d = objEnum.item();
             if (d.Name.toLowerCase() !== ".npackd") {
                 n += countPackageFiles(d);
             }
         }
     }
-    
+
     return n;
 }
 
@@ -171,8 +171,8 @@ function processURL(url, password) {
             if (!process(package_, version)) {
                 failed.push(package_ + "@" + version);
             } else {
-                if (download("http://npackd.appspot.com/package-version/mark-tested?package=" + 
-                        package_ + "&version=" + version + 
+                if (download("http://npackd.appspot.com/package-version/mark-tested?package=" +
+                        package_ + "&version=" + version +
                         "&password=" + password)) {
                     WScript.Echo(package_ + " " + version + " was marked as tested");
                 } else {
@@ -216,5 +216,3 @@ if (r != 0)
 r = processURL("http://npackd.appspot.com/rep/xml?tag=stable64", password);
 if (r != 0)
     WScript.Quit(1);
-
-
