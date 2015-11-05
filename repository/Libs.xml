@@ -99,6 +99,7 @@ Please see https://github.com/tim-lebedkov/npackd-scripts for a complete build s
         <icon>https://lh4.googleusercontent.com/-M_yIydoQVxw/USjbka862GI/AAAAAAAAAws/UJAvKDOPwkY/s800/qt.png</icon>
         <license>org.gnu.GPLv3</license>
         <category>Development</category>
+        <link href="http://doc.qt.io/qt-5/whatsnew55.html" rel="changelog"/>
     </package>
     <package name="log4net">
         <title>Log4Net</title>
@@ -275,6 +276,24 @@ mklink /D C:\NpackdSymlinks\com.nokia.QtDev-i686-w64-Npackd-Release-%NPACKD_PACK
         </dependency>
         <dependency package="mingw-w64-i686-sjlj-posix" versions="[4.8.2, 4.8.2]"/>
     </version>
+    <version name="5.5" package="com.nokia.QtDev-i686-w64-Npackd-Release" type="one-file">
+        <file path=".Npackd\Install.bat">for /f %%x in ('dir /b *.7z') do set setup=%%x&#13;
+"%sevenzipa%\7za.exe" x "%setup%" &gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+if %errorlevel% neq 0 exit /b %errorlevel%&#13;
+&#13;
+del "%setup%"&#13;
+if %errorlevel% neq 0 exit /b %errorlevel%&#13;
+&#13;
+mkdir C:\NpackdSymlinks&#13;
+mklink /D C:\NpackdSymlinks\com.nokia.QtDev-i686-w64-Npackd-Release-%NPACKD_PACKAGE_VERSION% "%CD%"</file>
+        <file path=".Npackd\Uninstall.bat">rmdir C:\NpackdSymlinks\com.nokia.QtDev-i686-w64-Npackd-Release-%NPACKD_PACKAGE_VERSION%</file>
+        <url>https://github.com/tim-lebedkov/packages/releases/download/initial/com.nokia.QtDev-i686-w64-Npackd-Release-5.5.7z</url>
+        <sha1>1d0d484bf23313ce7ce1bf8de6e3e5e86189d34d</sha1>
+        <dependency package="org.7-zip.SevenZIPA" versions="[9.20, 10)">
+            <variable>SEVENZIPA</variable>
+        </dependency>
+        <dependency package="mingw-w64-i686-sjlj-posix" versions="[4.9.2, 4.9.2]"/>
+    </version>
 
     <version name="4.8.1" package="com.nokia.QtDev-x86_64-w64" type="one-file">
         <file path=".Npackd\Install.bat">&#13;
@@ -369,6 +388,25 @@ mklink /D C:\NpackdSymlinks\com.nokia.QtDev-x86_64-w64-Npackd-Release-%NPACKD_PA
             <variable>SEVENZIPA</variable>
         </dependency>
         <dependency package="mingw-w64-x86_64-seh-posix" versions="[4.8.2, 4.8.2]"/>
+    </version>
+    <version name="5.5" package="com.nokia.QtDev-x86_64-w64-Npackd-Release" type="one-file">
+        <file path=".Npackd\Install.bat">for /f %%x in ('dir /b *.7z') do set setup=%%x&#13;
+"%sevenzipa%\7za.exe" x "%setup%" &gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+if %errorlevel% neq 0 exit /b %errorlevel%&#13;
+&#13;
+del "%setup%"&#13;
+if %errorlevel% neq 0 exit /b %errorlevel%&#13;
+&#13;
+mkdir C:\NpackdSymlinks&#13;
+mklink /D C:\NpackdSymlinks\com.nokia.QtDev-x86_64-w64-Npackd-Release-%NPACKD_PACKAGE_VERSION% "%CD%"&#13;
+</file>
+        <file path=".Npackd\Uninstall.bat">rmdir C:\NpackdSymlinks\com.nokia.QtDev-x86_64-w64-Npackd-Release-%NPACKD_PACKAGE_VERSION%</file>
+        <url>https://github.com/tim-lebedkov/packages/releases/download/initial/com.nokia.QtDev-x86_64-w64-Npackd-Release-5.5.7z</url>
+        <sha1>12339c36cec7051661bda3be800208b9148e5ccd</sha1>
+        <dependency package="org.7-zip.SevenZIPA" versions="[9.20, 10)">
+            <variable>SEVENZIPA</variable>
+        </dependency>
+        <dependency package="mingw-w64-x86_64-seh-posix" versions="[4.9.2, 4.9.2]"/>
     </version>
 
     <version name="4.7.3" package="com.nokia.QtMinGWInstaller" type="one-file">
@@ -474,6 +512,14 @@ ren "%setup%" qt-win-opensource-mingw.exe&#13;
 </file>
         <url>http://download.qt.io/official_releases/qt/5.5/5.5.0/qt-opensource-windows-x86-mingw492-5.5.0.exe</url>
         <sha1>739f75c698108d25122051e48bdc0fbda469153c</sha1>
+    </version>
+    <version name="5.5.1" package="com.nokia.QtMinGWInstaller" type="one-file">
+        <important-file path="qt-win-opensource-mingw.exe" title="Installer"/>
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
+ren "%setup%" qt-win-opensource-mingw.exe&#13;
+</file>
+        <url>http://download.qt.io/official_releases/qt/5.5/5.5.1/qt-opensource-windows-x86-mingw492-5.5.1.exe</url>
+        <sha1>4adc3a7e73c4a03d729493fca3f6381bad2d7811</sha1>
     </version>
 
     <version name="4.7.3" package="com.nokia.QtSource">
@@ -709,6 +755,25 @@ rmdir "%name%"</file>
         </dependency>
         <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.15.7, 2)"/>
     </version>
+    <version name="5.5.1" package="com.nokia.QtSource" type="one-file">
+        <file path=".Npackd\Install.bat">for /f %%x in ('dir /b *.zip') do set setup=%%x&#13;
+"%sevenzipa%\7za.exe" x "%setup%" &gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+del "%setup%"&#13;
+&#13;
+for /f "delims=" %%x in ('dir /b qt*') do set name=%%x&#13;
+cd "%name%"        &#13;
+for /f "delims=" %%a in ('dir /b') do (&#13;
+  move "%%a" ..&#13;
+)&#13;
+cd ..&#13;
+rmdir "%name%"</file>
+        <url>http://download.qt.io/official_releases/qt/5.5/5.5.1/single/qt-everywhere-opensource-src-5.5.1.zip</url>
+        <sha1>310750e37ca6bf7408ef07343187d60025289e17</sha1>
+        <dependency package="org.7-zip.SevenZIPA" versions="[9.20, 10)">
+            <variable>sevenzipa</variable>
+        </dependency>
+        <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.15.7, 2)"/>
+    </version>
 
     <version name="1.2.11" package="log4net">
         <url>http://downloads.sourceforge.net/project/npackd/log4net-1.2.11.zip</url>
@@ -839,7 +904,7 @@ rmdir "%name%"&#13;
 </file>
         <url>http://downloads.sourceforge.net/project/quazip/quazip/0.7.1/quazip-0.7.1.zip</url>
         <sha1>be5d98748948fa6d3ca852a7b2751aacc404a5a3</sha1>
-        <dependency package="net.zlib.ZLibSource" versions="[1.2.5, 1.2.5]"/>
+        <dependency package="net.zlib.ZLibSource" versions="[1.2.5, 1.3)"/>
     </version>
 
     <version name="1.2.5" package="net.zlib.ZLibSource">
@@ -965,6 +1030,18 @@ rmdir "%name%"&#13;
         <dependency package="uk.org.greenend.chiark.sgtatham.Putty" versions="[0.62, 2)"/>
         <dependency package="exeproxy" versions="[0.2, 1)"/>
     </version>
+    <version name="1.21" package="npackd-dev-i686-w64" type="one-file">
+        <url>https://raw.githubusercontent.com/tim-lebedkov/npackd-cpp/master/README.md</url>
+        <dependency package="com.nokia.QtDev-i686-w64-Npackd-Release" versions="[5.5, 5.5]"/>
+        <dependency package="mingw-w64-i686-sjlj-posix" versions="[4.9.2, 4.9.2]"/>
+        <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.19.13, 2)"/>
+        <dependency package="com.advancedinstaller.AdvancedInstallerFreeware" versions="[10, 20)"/>
+        <dependency package="org.7-zip.SevenZIP" versions="[9, 10)"/>
+        <dependency package="org.mingw.MinGWUtilities" versions="[0.3, 0.3]"/>
+        <dependency package="quazip-dev-i686-w64-static" versions="[0.7.1, 0.7.1]"/>
+        <dependency package="uk.org.greenend.chiark.sgtatham.Putty" versions="[0.62, 2)"/>
+        <dependency package="exeproxy" versions="[0.2, 1)"/>
+    </version>
 
     <version name="1.18.1" package="npackd-dev-x86_64-w64">
         <url>http://downloads.sourceforge.net/project/npackd/npackd-dev-x86_64-w64-1.18.1.zip</url>
@@ -1031,15 +1108,25 @@ rmdir "%name%"&#13;
         <dependency package="quazip-dev-x86_64-w64-static" versions="[0.6.2, 0.6.2]"/>
         <dependency package="uk.org.greenend.chiark.sgtatham.Putty" versions="[0.62, 2)"/>
     </version>
+    <version name="1.21" package="npackd-dev-x86_64-w64" type="one-file">
+        <url>https://raw.githubusercontent.com/tim-lebedkov/npackd-cpp/master/README.md</url>
+        <dependency package="com.nokia.QtDev-x86_64-w64-Npackd-Release" versions="[5.5, 5.5]"/>
+        <dependency package="mingw-w64-x86_64-seh-posix" versions="[4.9.2, 4.9.2]"/>
+        <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.19.13, 2)"/>
+        <dependency package="com.advancedinstaller.AdvancedInstallerFreeware" versions="[10, 20)"/>
+        <dependency package="org.7-zip.SevenZIP" versions="[9, 10)"/>
+        <dependency package="quazip-dev-x86_64-w64-static" versions="[0.7.1, 0.7.1]"/>
+        <dependency package="uk.org.greenend.chiark.sgtatham.Putty" versions="[0.62, 2)"/>
+    </version>
 
     <version name="1.47" package="org.boost.Boost">
-        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b boost*') do set name=%%x
-cd "%name%"        
-for /f "delims=" %%a in ('dir /b') do (
-  move "%%a" ..
-)
-cd ..
-rmdir "%name%"
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b boost*') do set name=%%x&#13;
+cd "%name%"        &#13;
+for /f "delims=" %%a in ('dir /b') do (&#13;
+  move "%%a" ..&#13;
+)&#13;
+cd ..&#13;
+rmdir "%name%"&#13;
 </file>
         <url>http://downloads.sourceforge.net/project/boost/boost/1.47.0/boost_1_47_0.zip?ts=1314724967</url>
         <sha1>06ce149fe2c3052ffb8dc79bbd0e61a7da011162</sha1>
@@ -1175,6 +1262,18 @@ rmdir "%name%"&#13;
 </file>
         <url>http://downloads.sourceforge.net/project/boost/boost/1.58.0/boost_1_58_0.zip</url>
         <sha1>39c4c3bedd96ba191f9ed1ce8a90657d73c79544</sha1>
+    </version>
+    <version name="1.59" package="org.boost.Boost">
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b boost*') do set name=%%x&#13;
+cd "%name%"        &#13;
+for /f "delims=" %%a in ('dir /b') do (&#13;
+  move "%%a" ..&#13;
+)&#13;
+cd ..&#13;
+rmdir "%name%"&#13;
+</file>
+        <url>http://downloads.sourceforge.net/project/boost/boost/1.59.0/boost_1_59_0.zip</url>
+        <sha1>6950ff432f1d7b7134b452e9870fe627f76e42a7</sha1>
     </version>
 
     <version name="1.2.7" package="org.xapian.XapianCore" type="one-file">
@@ -1499,6 +1598,11 @@ rmdir "%name%"</file>
         <sha1>c8b9a7a126fcff2db43877ea78478a3f66bf4cb4</sha1>
         <dependency package="com.nokia.QtDev-i686-w64-Npackd-Release" versions="[5.2.1, 5.2.1]"/>
     </version>
+    <version name="0.7.1" package="quazip-dev-i686-w64-static">
+        <url>https://github.com/tim-lebedkov/packages/releases/download/initial/quazip-dev-i686-w64-static-0.7.1.zip</url>
+        <sha1>f26fc0e07a79b91a366503f2243ee381aa905d3b</sha1>
+        <dependency package="com.nokia.QtDev-i686-w64-Npackd-Release" versions="[5.5, 5.5]"/>
+    </version>
 
     <version name="0.5" package="quazip-dev-x86_64-w64-static">
         <url>http://downloads.sourceforge.net/project/npackd/quazip-dev-x86_64-w64-static.zip</url>
@@ -1510,5 +1614,10 @@ rmdir "%name%"</file>
         <url>http://downloads.sourceforge.net/project/npackd/quazip-dev-x86_64-w64-static-0.6.2.zip</url>
         <sha1>ca55b9821f6e1a318dff7d2160e8cd048186ccec</sha1>
         <dependency package="com.nokia.QtDev-x86_64-w64-Npackd-Release" versions="[5.2.1, 5.2.1]"/>
+    </version>
+    <version name="0.7.1" package="quazip-dev-x86_64-w64-static">
+        <url>https://github.com/tim-lebedkov/packages/releases/download/initial/quazip-dev-x86_64-w64-static-0.7.1.zip</url>
+        <sha1>6a8882c3658a29c7be58a2e7d266331841c85ec2</sha1>
+        <dependency package="com.nokia.QtDev-x86_64-w64-Npackd-Release" versions="[5.5, 5.5]"/>
     </version>
 </root>
