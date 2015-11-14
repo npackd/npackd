@@ -13,13 +13,13 @@ Npackd (pronounced "unpacked") is an application store/package manager/marketpla
 Easy installation of the graphical user interface from the command line (64 bit):
 
 ```Batchfile
-C:\> msiexec.exe /qb- /i http://bit.ly/npackd-1_20_5
+C:\> msiexec.exe /qb- /i https://bit.ly/npackd-1_20_5
 ```
 
 There is also a [command line](https://github.com/tim-lebedkov/npackd/wiki/CommandLine) based version of Npackd which you can [install](https://github.com/tim-lebedkov/npackd/wiki/CommandLineInstallation) from the command line: 
 
 ```Batchfile
-C:\> msiexec.exe /qb- /i http://bit.ly/npackdcl-1_20_5
+C:\> msiexec.exe /qb- /i https://bit.ly/npackdcl-1_20_5
 ```
 
 see [What is new in Npackd](https://github.com/tim-lebedkov/npackd/wiki/ChangeLog)
