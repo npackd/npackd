@@ -171,6 +171,7 @@ function processURL(url, password) {
     var xDoc = new ActiveXObject("MSXML2.DOMDocument.6.0");
     xDoc.async = false;
     xDoc.setProperty("SelectionLanguage", "XPath");
+    WScript.Echo("Loading " + url);
     if (xDoc.load(url)) {
         var pvs_ = xDoc.selectNodes("//version");
 
@@ -231,10 +232,6 @@ if (ec !== 0) {
     WScript.Quit(1);
 }
 
-var r = processURL("https://npackd.appspot.com/rep/recent-xml?tag=untested", password);
-if (r != 0)
-    WScript.Quit(1);
-
-r = processURL("https://npackd.appspot.com/rep/xml?tag=stable64", password);
-if (r != 0)
-    WScript.Quit(1);
+processURL("https://npackd.appspot.com/rep/recent-xml?tag=untested", password);
+processURL("https://npackd.appspot.com/rep/xml?tag=stable" + 
+        (Math.random() > 0.5 ? "64" : ""), password);
