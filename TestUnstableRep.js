@@ -233,5 +233,8 @@ if (ec !== 0) {
 }
 
 processURL("https://npackd.appspot.com/rep/recent-xml?tag=untested", password);
-processURL("https://npackd.appspot.com/rep/xml?tag=stable" + 
-        (Math.random() > 0.5 ? "64" : ""), password);
+
+var reps = ["stable", "stable64", "libs"];
+var index = Math.floor(Math.random() * reps.length);
+processURL("http://npackd.appspot.com/rep/xml?tag=" + reps[index], password);
+
