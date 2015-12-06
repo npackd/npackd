@@ -6,6 +6,14 @@ var npackdcl = "C:\\Program Files (x86)\\NpackdCL\\ncl.exe";
 
 var FSO = new ActiveXObject("Scripting.FileSystemObject");
 
+Array.prototype.contains = function(v) {
+    for (var i = 0; i < this.length; i++) {
+        if (this[i] == v)
+            return true;
+    }
+    return false;
+}
+
 // http://stackoverflow.com/questions/6274339/how-can-i-shuffle-an-array-in-javascript
 function shuffle(array) {
     var counter = array.length, temp, index;
@@ -168,6 +176,8 @@ function download(url) {
 }
 
 function processURL(url, password) {
+    var ignored = ["org.bitbucket.tortoisehg.TortoiseHg"];
+
     var xDoc = new ActiveXObject("MSXML2.DOMDocument.6.0");
     xDoc.async = false;
     xDoc.setProperty("SelectionLanguage", "XPath");
@@ -190,8 +200,11 @@ function processURL(url, password) {
             var pv = pvs[i];
             var package_ =pv.getAttribute("package");
             var version = pv.getAttribute("name");
+
             WScript.Echo(package_ + " " + version);
-            if (!process(package_, version)) {
+            if (ignored.contains(package_)) {
+                WScript.Echo("The package version " + package_ + " " + version + " was ignored.");
+            } else if (!process(package_, version)) {
                 failed.push(package_ + "@" + version);
             } else {
                 if (download("https://npackd.appspot.com/package-version/mark-tested?package=" +
