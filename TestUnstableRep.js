@@ -121,6 +121,10 @@ function process(package_, version) {
         var msilist = package_ + "-" + version + "-msilist.txt";
         exec2("cmd.exe /c \"C:\\Program Files (x86)\\CLU\\clu.exe\" list-msi > " + msilist + " 2>&1");
         exec("appveyor PushArtifact " + msilist);
+
+        var proglist = package_ + "-" + version + "-proglist.txt";
+        exec2("cmd.exe /c \"C:\\Program Files (x86)\\Sysinternals suite\\psinfo.exe\" -s /accepteula > " + proglist + " 2>&1");
+        exec("appveyor PushArtifact " + proglist);
     }
 
     var ec = exec("\"" + npackdcl + "\" remove -e=ck --package="+package_
