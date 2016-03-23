@@ -16,9 +16,10 @@ You can [suggest](https://github.com/tim-lebedkov/npackd/issues/new) a package f
 
 ## Third party tools working with Npackd:
   * [npackd-repoeditor](http://krason.biz/software/repoeditor.html) - Editor of small and medium size repositories of Npackd package manager.
-  * [Npackd plugin for chooie](https://github.com/TomPeters/chooie.Npackd)
   * [Puppet package provider for Npackd](http://forge.puppetlabs.com/badgerious/npackd)
   * [Npackd for Sublime Text Syntax - completions and snippets for creating Npackd XML files](https://sublime.wbond.net/packages/Npackd)
+  * [GNU Make](https://github.com/tim-lebedkov/npackd/wiki/UseInMake)
+  * [Npackd plugin for chooie](https://github.com/TomPeters/chooie.Npackd)
 
 ## Distribute your applications using Npackd!
 You can also distribute your own applications using Npackd: either through your own repository or through the one mentioned above. All you have to do is to package your application as a ZIP file so it is accessible through HTTP and describe it as shown in RepositoryFormat. It is even easier if you already have an .msi or .exe installer. In most cases they can be reused without re-packaging.
