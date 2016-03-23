@@ -252,6 +252,16 @@ if (ec !== 0) {
 processURL("https://npackd.appspot.com/rep/recent-xml?tag=untested", password);
 
 var reps = ["stable", "stable64", "libs"];
-var index = Math.floor(Math.random() * reps.length);
+
+// the stable repository is about 3900 KiB
+// and should be tested more often
+var index = Math.floor(Math.random() * 4000);
+if (index < 3000)
+	index = 0;
+else if (index < 3900)
+	index = 1;
+else
+	index = 2;
+
 processURL("http://npackd.appspot.com/rep/xml?tag=" + reps[index], password);
 
