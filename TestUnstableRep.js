@@ -105,6 +105,9 @@ function process(package_, version) {
     if (ec !== 0) {
         WScript.Echo("npackdcl.exe add failed");
         apiNotify(package_, version, true, false);
+		
+		exec("\"" + npackdcl + "\" add -d --package="+package_
+					+ " --version=" + version);
         return false;
     }
     apiNotify(package_, version, true, true);
@@ -132,6 +135,9 @@ function process(package_, version) {
     if (ec !== 0) {
         WScript.Echo("npackdcl.exe remove failed");
         apiNotify(package_, version, false, false);
+
+		exec("\"" + npackdcl + "\" remove -d -e=ck --package="+package_
+					+ " --version=" + version);
         return false;
     }
     apiNotify(package_, version, false, true);
