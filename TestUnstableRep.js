@@ -236,34 +236,31 @@ function processURL(url, password, onlyNewest) {
 
 		// only retain newest versions for each package
 		if (onlyNewest) {
-			for (var i = 0; i < pvs.length; ) {
+			WScript.Echo("Only testing the newest versions");
+			var newest = {};
+			for (var i = 0; i < pvs.length; i++) {
 				var pvi = pvs[i];
 				var pvip = pvi.getAttribute("package");
-				var pviv = pvi.getAttribute("name");
-				var pviv_ = pviv.split(".");
 				
-				var foundNewer = false;
-				for (var j = 0; j < pvs.length; j++) {
-					if (i !== j) {
-						var pvj = pvs[j];
-						var pvjp = pvj.getAttribute("package");
-						if (pvip === pvjp) {
-							var pvjv = pvj.getAttribute("name");
-							var pvjv_ = pvjv.split(".");
-							
-							if (compareVersions(pviv_, pvjv_) < 0) {
-								foundNewer = true;
-								break;
-							}
-						}
+				var pvj = newest[pvip];
+				if ((typeof pvj) === "undefined") {
+					newest[pvip] = pvi;
+				} else {
+					var pviv = pvi.getAttribute("name");
+					var pviv_ = pviv.split(".");
+					
+					var pvjv = pvj.getAttribute("name");
+					var pvjv_ = pvjv.split(".");
+					
+					if (compareVersions(pviv_, pvjv_) > 0) {
+						newest[pvip] = pvi;
 					}
 				}
-				
-				if (foundNewer) {
-					pvs.splice(i, 1);
-				} else {
-					i++;
-				}
+			}
+			
+			pvs = [];
+			for (var key in newest) {
+				pvs.push(newest[key]);
 			}
 		}
 
