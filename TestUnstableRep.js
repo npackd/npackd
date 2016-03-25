@@ -185,7 +185,40 @@ function download(url) {
     return Object.Status == 200;
 }
 
-function processURL(url, password) {
+/**
+ * @param a first version as an Array of numbers
+ * @param b first version as an Array of numbers
+ */
+function compareVersions(a, b) {
+	var len = Math.max(a.length, b.length);
+	
+	var r = 0;
+	
+	for (var i = 0; i < len; i++) {
+		var ai = 0;
+		var bi = 0;
+		
+		if (i < a.length)
+			ai = a[i];
+		if (i < b.length)
+			bi = b[i];
+		
+		if (ai < bi) {
+			r = -1;
+			break;
+		} else if (ai > bi) {
+			r = 1;
+			break;
+		}
+	}
+	
+	return r;
+}
+
+/**
+ * @param onlyNewest true = only test the newest versions
+ */
+function processURL(url, password, onlyNewest) {
     var ignored = ["org.bitbucket.tortoisehg.TortoiseHg"];
 
     var xDoc = new ActiveXObject("MSXML2.DOMDocument.6.0");
@@ -201,6 +234,39 @@ function processURL(url, password) {
             pvs.push(pvs_[i]);
         }
 
+		// only retain newest versions for each package
+		if (onlyNewest) {
+			for (var i = 0; i < pvs.length; ) {
+				var pvi = pvs[i];
+				var pvip = pvi.getAttribute("package");
+				var pviv = pvi.getAttribute("name");
+				var pviv_ = pviv.split(".");
+				
+				var foundNewer = false;
+				for (var j = 0; j < pvs.length; j++) {
+					if (i !== j) {
+						var pvj = pvs[j];
+						var pvjp = pvj.getAttribute("package");
+						if (pvip === pvjp) {
+							var pvjv = pvj.getAttribute("name");
+							var pvjv_ = pvjv.split(".");
+							
+							if (compareVersions(pviv_, pvjv_) < 0) {
+								foundNewer = true;
+								break;
+							}
+						}
+					}
+				}
+				
+				if (foundNewer) {
+					pvs.splice(i, 1);
+				} else {
+					i++;
+				}
+			}
+		}
+
         shuffle(pvs);
 
         // WScript.Echo(pvs.length + " versions found");
@@ -208,7 +274,7 @@ function processURL(url, password) {
 
         for (var i = 0; i < pvs.length; i++) {
             var pv = pvs[i];
-            var package_ =pv.getAttribute("package");
+            var package_ = pv.getAttribute("package");
             var version = pv.getAttribute("name");
 
             WScript.Echo(package_ + " " + version);
@@ -255,7 +321,8 @@ if (ec !== 0) {
     WScript.Quit(1);
 }
 
-processURL("https://npackd.appspot.com/rep/recent-xml?tag=untested", password);
+processURL("https://npackd.appspot.com/rep/recent-xml?tag=untested", 
+		password, false);
 
 var reps = ["stable", "stable64", "libs"];
 
@@ -269,5 +336,9 @@ else if (index < 3900)
 else
 	index = 2;
 
-processURL("http://npackd.appspot.com/rep/xml?tag=" + reps[index], password);
+// 9 of 10 times only check the newest versions
+var newest = Math.random() < 0.9;
+
+processURL("http://npackd.appspot.com/rep/xml?tag=" + reps[index], password, 
+		newest);
 
