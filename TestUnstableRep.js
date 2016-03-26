@@ -269,8 +269,6 @@ function processURL(url, password, onlyNewest) {
 			WScript.Echo("Only thew newest versions: " + pvs.length);
 		}
 		
-		return;
-
         shuffle(pvs);
 
         // WScript.Echo(pvs.length + " versions found");
