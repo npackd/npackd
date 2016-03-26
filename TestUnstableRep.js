@@ -186,10 +186,13 @@ function download(url) {
 }
 
 /**
- * @param a first version as an Array of numbers
- * @param b first version as an Array of numbers
+ * @param a first version as a String
+ * @param b first version as a String
  */
 function compareVersions(a, b) {
+	a = a.split(".");
+	b = b.split(".");
+	
 	var len = Math.max(a.length, b.length);
 	
 	var r = 0;
@@ -199,9 +202,11 @@ function compareVersions(a, b) {
 		var bi = 0;
 		
 		if (i < a.length)
-			ai = a[i];
+			ai = parseInt(a[i]);
 		if (i < b.length)
-			bi = b[i];
+			bi = parseInt(b[i]);
+
+		// WScript.Echo("comparing " + ai + " and " + bi);
 		
 		if (ai < bi) {
 			r = -1;
@@ -236,33 +241,35 @@ function processURL(url, password, onlyNewest) {
 
 		// only retain newest versions for each package
 		if (onlyNewest) {
-			WScript.Echo("Only testing the newest versions");
+			WScript.Echo("Only testing the newest versions out of " + pvs.length);
 			var newest = {};
 			for (var i = 0; i < pvs.length; i++) {
 				var pvi = pvs[i];
 				var pvip = pvi.getAttribute("package");
-				
 				var pvj = newest[pvip];
-				if ((typeof pvj) === "undefined") {
+				
+				if (((typeof pvj) === "undefined") ||
+						compareVersions(pvi.getAttribute("name"), 
+						pvj.getAttribute("name")) > 0) {
 					newest[pvip] = pvi;
-				} else {
-					var pviv = pvi.getAttribute("name");
-					var pviv_ = pviv.split(".");
-					
-					var pvjv = pvj.getAttribute("name");
-					var pvjv_ = pvjv.split(".");
-					
-					if (compareVersions(pviv_, pvjv_) > 0) {
-						newest[pvip] = pvi;
-					}
 				}
 			}
 			
 			pvs = [];
 			for (var key in newest) {
 				pvs.push(newest[key]);
+				
+				/*
+				WScript.Echo("Newest: " + newest[key].getAttribute("package") + 
+						" " +
+						newest[key].getAttribute("name"));
+				*/
 			}
+
+			WScript.Echo("Only thew newest versions: " + pvs.length);
 		}
+		
+		return;
 
         shuffle(pvs);
 
