@@ -106,8 +106,11 @@ function process(package_, version) {
         WScript.Echo("npackdcl.exe add failed");
         apiNotify(package_, version, true, false);
 		
-		exec("\"" + npackdcl + "\" add -d --package="+package_
-					+ " --version=" + version);
+        var log = package_ + "-" + version + "-install.log";
+        exec("cmd.exe /C \"" + npackdcl + "\" add -d --package="+ package_
+					+ " --version=" + version + " > " + log + " 2>&1");
+        exec("appveyor PushArtifact " + log);
+		
         return false;
     }
     apiNotify(package_, version, true, true);
@@ -136,8 +139,12 @@ function process(package_, version) {
         WScript.Echo("npackdcl.exe remove failed");
         apiNotify(package_, version, false, false);
 
-		exec("\"" + npackdcl + "\" remove -d -e=ck --package="+package_
-					+ " --version=" + version);
+        var log = package_ + "-" + version + "-uninstall.log";
+        exec("cmd.exe /C \"" + npackdcl + 
+                "\" remove -d -e=ck --package=" + package_
+                + " --version=" + version + " > " + log + " 2>&1");
+        exec("appveyor PushArtifact " + log);
+		
         return false;
     }
     apiNotify(package_, version, false, true);
