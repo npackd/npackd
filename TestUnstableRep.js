@@ -105,6 +105,12 @@ function process(package_, version) {
     if (ec !== 0) {
         WScript.Echo("npackdcl.exe add failed");
         apiNotify(package_, version, true, false);
+		
+        var log = package_ + "-" + version + "-install.log";
+        exec("cmd.exe /C \"" + npackdcl + "\" add -d --package="+ package_
+					+ " --version=" + version + " > " + log + " 2>&1");
+        exec("appveyor PushArtifact " + log);
+		
         return false;
     }
     apiNotify(package_, version, true, true);
@@ -123,7 +129,7 @@ function process(package_, version) {
         exec("appveyor PushArtifact " + msilist);
 
         var proglist = package_ + "-" + version + "-proglist.txt";
-        exec2("cmd.exe /c \"C:\\Program Files (x86)\\Sysinternals suite\\psinfo.exe\" -s /accepteula > " + proglist + " 2>&1");
+        exec2("cmd.exe /c \"C:\\Program Files (x86)\\Sysinternals_suite\\psinfo.exe\" -s /accepteula > " + proglist + " 2>&1");
         exec("appveyor PushArtifact " + proglist);
     }
 
@@ -132,6 +138,13 @@ function process(package_, version) {
     if (ec !== 0) {
         WScript.Echo("npackdcl.exe remove failed");
         apiNotify(package_, version, false, false);
+
+        var log = package_ + "-" + version + "-uninstall.log";
+        exec("cmd.exe /C \"" + npackdcl + 
+                "\" remove -d -e=ck --package=" + package_
+                + " --version=" + version + " > " + log + " 2>&1");
+        exec("appveyor PushArtifact " + log);
+		
         return false;
     }
     apiNotify(package_, version, false, true);
@@ -179,7 +192,45 @@ function download(url) {
     return Object.Status == 200;
 }
 
-function processURL(url, password) {
+/**
+ * @param a first version as a String
+ * @param b first version as a String
+ */
+function compareVersions(a, b) {
+	a = a.split(".");
+	b = b.split(".");
+	
+	var len = Math.max(a.length, b.length);
+	
+	var r = 0;
+	
+	for (var i = 0; i < len; i++) {
+		var ai = 0;
+		var bi = 0;
+		
+		if (i < a.length)
+			ai = parseInt(a[i]);
+		if (i < b.length)
+			bi = parseInt(b[i]);
+
+		// WScript.Echo("comparing " + ai + " and " + bi);
+		
+		if (ai < bi) {
+			r = -1;
+			break;
+		} else if (ai > bi) {
+			r = 1;
+			break;
+		}
+	}
+	
+	return r;
+}
+
+/**
+ * @param onlyNewest true = only test the newest versions
+ */
+function processURL(url, password, onlyNewest) {
     var ignored = ["org.bitbucket.tortoisehg.TortoiseHg"];
 
     var xDoc = new ActiveXObject("MSXML2.DOMDocument.6.0");
@@ -195,6 +246,36 @@ function processURL(url, password) {
             pvs.push(pvs_[i]);
         }
 
+		// only retain newest versions for each package
+		if (onlyNewest) {
+			WScript.Echo("Only testing the newest versions out of " + pvs.length);
+			var newest = {};
+			for (var i = 0; i < pvs.length; i++) {
+				var pvi = pvs[i];
+				var pvip = pvi.getAttribute("package");
+				var pvj = newest[pvip];
+				
+				if (((typeof pvj) === "undefined") ||
+						compareVersions(pvi.getAttribute("name"), 
+						pvj.getAttribute("name")) > 0) {
+					newest[pvip] = pvi;
+				}
+			}
+			
+			pvs = [];
+			for (var key in newest) {
+				pvs.push(newest[key]);
+				
+				/*
+				WScript.Echo("Newest: " + newest[key].getAttribute("package") + 
+						" " +
+						newest[key].getAttribute("name"));
+				*/
+			}
+
+			WScript.Echo("Only thew newest versions: " + pvs.length);
+		}
+		
         shuffle(pvs);
 
         // WScript.Echo(pvs.length + " versions found");
@@ -202,7 +283,7 @@ function processURL(url, password) {
 
         for (var i = 0; i < pvs.length; i++) {
             var pv = pvs[i];
-            var package_ =pv.getAttribute("package");
+            var package_ = pv.getAttribute("package");
             var version = pv.getAttribute("name");
 
             WScript.Echo(package_ + " " + version);
@@ -249,9 +330,24 @@ if (ec !== 0) {
     WScript.Quit(1);
 }
 
-processURL("https://npackd.appspot.com/rep/recent-xml?tag=untested", password);
+processURL("https://npackd.appspot.com/rep/recent-xml?tag=untested", 
+		password, false);
 
 var reps = ["stable", "stable64", "libs"];
-var index = Math.floor(Math.random() * reps.length);
-processURL("http://npackd.appspot.com/rep/xml?tag=" + reps[index], password);
+
+// the stable repository is about 3900 KiB
+// and should be tested more often
+var index = Math.floor(Math.random() * 4000);
+if (index < 3000)
+	index = 0;
+else if (index < 3900)
+	index = 1;
+else
+	index = 2;
+
+// 9 of 10 times only check the newest versions
+var newest = Math.random() < 0.9;
+
+processURL("http://npackd.appspot.com/rep/xml?tag=" + reps[index], password, 
+		newest);
 
