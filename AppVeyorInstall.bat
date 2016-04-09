@@ -3,7 +3,7 @@ echo on
 rem This script is used by AppVeyor automatic builds to install the necessary
 rem software dependencies.
 
-msiexec.exe /qn /i https://github.com/tim-lebedkov/npackd-cpp/releases/download/version_1.21.5/NpackdCL-1.21.5.msi
+msiexec.exe /qn /i https://github.com/tim-lebedkov/npackd-cpp/releases/download/version_1.21.6/NpackdCL-1.21.6.msi
 
 SET NPACKD_CL=C:\Program Files (x86)\NpackdCL
 "%npackd_cl%\ncl" add-repo --url=https://npackd.appspot.com/rep/recent-xml
