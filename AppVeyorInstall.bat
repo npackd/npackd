@@ -6,13 +6,7 @@ rem software dependencies.
 msiexec.exe /qn /i https://github.com/tim-lebedkov/npackd-cpp/releases/download/version_1.21.6/NpackdCL-1.21.6.msi
 
 SET NPACKD_CL=C:\Program Files (x86)\NpackdCL
-"%npackd_cl%\ncl" add-repo --url=https://npackd.appspot.com/rep/recent-xml
-if %errorlevel% neq 0 exit /b %errorlevel%
-"%npackd_cl%\ncl" add-repo --url=http://npackd.appspot.com/rep/recent-xml?tag=untested
-if %errorlevel% neq 0 exit /b %errorlevel%
-"%npackd_cl%\ncl" add-repo --url=https://npackd.appspot.com/rep/xml?tag=libs
-if %errorlevel% neq 0 exit /b %errorlevel%
-"%npackd_cl%\ncl" add-repo --url=https://npackd.appspot.com/rep/xml?tag=unstable
+"%npackd_cl%\ncl" set-repo -u https://npackd.appspot.com/rep/recent-xml -u https://npackd.appspot.com/rep/recent-xml?tag=untested -u https://npackd.appspot.com/rep/xml?tag=libs -u https://npackd.appspot.com/rep/xml?tag=unstable
 if %errorlevel% neq 0 exit /b %errorlevel%
 
 "%npackd_cl%\ncl" detect
