@@ -93,6 +93,23 @@ function apiNotify(package_, version, install, success) {
 }
 
 /**
+ * Adds or removes a tag for a package version at https://npackd.appspot.com .
+ *
+ * @param package_ package name
+ * @param version version number
+ * @param tag the name of the tag
+ * @param set true if the tag should be added, false if the tag should be 
+ *     removed
+ */
+function apiTag(package_, version, tag, set) {
+    download("https://npackd.appspot.com/api/tag?package=" +
+            package_ + "&version=" + version +
+            "&password=" + password +
+            "&name=" + tag + 
+            "&value=" + (set ? "1" : "0"));
+}
+
+/**
  * Processes one package version.
  *
  * @param package_ package name
@@ -105,6 +122,7 @@ function process(package_, version) {
     if (ec !== 0) {
         WScript.Echo("npackdcl.exe add failed");
         apiNotify(package_, version, true, false);
+        apiTag(package_, version, "test-failed", true);
 		
         var log = package_ + "-" + version + "-install.log";
         exec("cmd.exe /C \"" + npackdcl + "\" add -d --package="+ package_
@@ -138,6 +156,7 @@ function process(package_, version) {
     if (ec !== 0) {
         WScript.Echo("npackdcl.exe remove failed");
         apiNotify(package_, version, false, false);
+        apiTag(package_, version, "test-failed", true);
 
         var log = package_ + "-" + version + "-uninstall.log";
         exec("cmd.exe /C \"" + npackdcl + 
@@ -148,6 +167,7 @@ function process(package_, version) {
         return false;
     }
     apiNotify(package_, version, false, true);
+    apiTag(package_, version, "test-failed", false);
     return true;
 }
 
