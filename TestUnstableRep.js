@@ -100,9 +100,10 @@ function apiNotify(package_, version, install, success) {
  * @param tag the name of the tag
  * @param set true if the tag should be added, false if the tag should be 
  *     removed
+ * @return true if the call to the web service succeeded, false otherwise
  */
 function apiTag(package_, version, tag, set) {
-    download("https://npackd.appspot.com/api/tag?package=" +
+    return download("https://npackd.appspot.com/api/tag?package=" +
             package_ + "&version=" + version +
             "&password=" + password +
             "&name=" + tag + 
@@ -312,9 +313,7 @@ function processURL(url, password, onlyNewest) {
             } else if (!process(package_, version)) {
                 failed.push(package_ + "@" + version);
             } else {
-                if (download("https://npackd.appspot.com/package-version/mark-tested?package=" +
-                        package_ + "&version=" + version +
-                        "&password=" + password)) {
+                if (apiTag(package_, version, "untested", false)) {
                     WScript.Echo(package_ + " " + version + " was marked as tested");
                 } else {
                     WScript.Echo("Failed to mark " + package_ + " " + version + " as tested");
