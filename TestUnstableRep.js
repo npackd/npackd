@@ -249,7 +249,8 @@ function compareVersions(a, b) {
  */
 function processURL(url, password, onlyNewest) {
     var ignored = ["org.bitbucket.tortoisehg.TortoiseHg",
-            "net.sourceforge.classicshell.ClassicShell"];
+            "net.sourceforge.classicshell.ClassicShell",
+            "webpi"];
 
     var xDoc = new ActiveXObject("MSXML2.DOMDocument.6.0");
     xDoc.async = false;
