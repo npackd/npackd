@@ -1,8 +1,4 @@
-//var npackdcl = "C:\\ProgramFiles\\NpackdCL\\npackdcl.exe";
-//var npackdcl = "C:\\Program Files\\NpackdCL\\npackdcl.exe";
-// var npackdcl = "C:\\ProgramFiles\\NpackdCL-1.19.13\\npackdcl.exe";
 var npackdcl = "C:\\Program Files (x86)\\NpackdCL\\ncl.exe";
-//var npackdcl = "C:\\ProgramFiles\\NpackdCL-1.20.5\\ncl.exe";
 
 var FSO = new ActiveXObject("Scripting.FileSystemObject");
 
@@ -252,7 +248,8 @@ function compareVersions(a, b) {
  * @param onlyNewest true = only test the newest versions
  */
 function processURL(url, password, onlyNewest) {
-    var ignored = ["org.bitbucket.tortoisehg.TortoiseHg"];
+    var ignored = ["org.bitbucket.tortoisehg.TortoiseHg",
+            "net.sourceforge.classicshell.ClassicShell"];
 
     var xDoc = new ActiveXObject("MSXML2.DOMDocument.6.0");
     xDoc.async = false;
@@ -294,7 +291,7 @@ function processURL(url, password, onlyNewest) {
 				*/
 			}
 
-			WScript.Echo("Only thew newest versions: " + pvs.length);
+			WScript.Echo("Only the newest versions: " + pvs.length);
 		}
 		
         shuffle(pvs);
