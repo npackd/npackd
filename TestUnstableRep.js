@@ -250,7 +250,9 @@ function compareVersions(a, b) {
 function processURL(url, password, onlyNewest) {
     var ignored = ["org.bitbucket.tortoisehg.TortoiseHg",
             "net.sourceforge.classicshell.ClassicShell",
-            "webpi", "com.3ds.DraftSight"];
+            "webpi", "com.3ds.DraftSight",
+			"MinitoolPartition" // cannot be installed on a server OS
+			];
 
     var xDoc = new ActiveXObject("MSXML2.DOMDocument.6.0");
     xDoc.async = false;
