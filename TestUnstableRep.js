@@ -134,7 +134,7 @@ function process(package_, version) {
     WScript.Echo("where=" + path);
     if (path !== "") {
         var tree = package_ + "-" + version + "-tree.txt";
-        exec2("cmd.exe /c tree \"" + path + "\" > " + tree + " 2>&1");
+        exec2("cmd.exe /c tree \"" + path + "\" /F > " + tree + " 2>&1");
         exec("appveyor PushArtifact " + tree);
 
         exec("cmd.exe /c dir \"" + path + "\"");
