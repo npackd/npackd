@@ -195,7 +195,7 @@ for /f "delims=" %%a in ('dir /b') do (&#13;
 )&#13;
 cd ..&#13;
 rmdir "%name%"</file>
-        <url>https://mingw-w64-dgn.googlecode.com/files/qt-4.8.1-i686-w64-mingw32-20120413.7z</url>
+        <url>https://storage.googleapis.com/google-code-archive-downloads/v2/code.google.com/mingw-w64-dgn/qt-4.8.1-i686-w64-mingw32-20120413.7z</url>
         <sha1>d1b2df59cb62d84b4c67bf6d73e96a32fafd2d49</sha1>
         <dependency package="org.7-zip.SevenZIPA" versions="[9.20, 20)">
             <variable>sevenzipa</variable>
@@ -214,7 +214,7 @@ for /f "delims=" %%a in ('dir /b') do (&#13;
 )&#13;
 cd ..&#13;
 rmdir "%name%"</file>
-        <url>https://mingw-w64-dgn.googlecode.com/files/qt-4.8.4-w32-bin-i686-20130406.7z</url>
+        <url>https://storage.googleapis.com/google-code-archive-downloads/v2/code.google.com/mingw-w64-dgn/qt-4.8.4-w32-bin-i686-20130406.7z</url>
         <sha1>98643020bdbb50d3b6ceb20189990026b54472e0</sha1>
         <dependency package="org.7-zip.SevenZIPA" versions="[9.20, 20)">
             <variable>sevenzipa</variable>
@@ -233,7 +233,7 @@ for /f "delims=" %%a in ('dir /b') do (&#13;
 )&#13;
 cd ..&#13;
 rmdir "%name%"</file>
-        <url>https://mingw-w64-dgn.googlecode.com/files/qt-5.1.0-w32-bin-i686-20130811.7z</url>
+        <url>https://storage.googleapis.com/google-code-archive-downloads/v2/code.google.com/mingw-w64-dgn/qt-5.1.0-w32-bin-i686-20130811.7z</url>
         <sha1>6a2e77273eca4b6c6f53271deec32b05f2f55302</sha1>
         <dependency package="org.7-zip.SevenZIPA" versions="[9.20, 20)">
             <variable>sevenzipa</variable>
@@ -254,6 +254,25 @@ cd ..&#13;
 rmdir "%name%"</file>
         <url>http://downloads.sourceforge.net/project/mingw-w64-dgn/others/qt-5.5.1-w32-bin-i686-20151028.7z</url>
         <sha1>6654e7f5a326f4400884ae90400cd804959fc543</sha1>
+        <dependency package="org.7-zip.SevenZIPA" versions="[9.20, 20)">
+            <variable>sevenzipa</variable>
+        </dependency>
+        <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.15.7, 2)"/>
+    </version>
+    <version name="5.7" package="com.nokia.QtDev-i686-w64" type="one-file">
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.7z') do set setup=%%x&#13;
+"%sevenzipa%\7za.exe" x "%setup%" &gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+del "%setup%"&#13;
+&#13;
+for /f "delims=" %%x in ('dir /b qt5.*') do set name=%%x&#13;
+cd "%name%"&#13;
+for /f "delims=" %%a in ('dir /b') do (&#13;
+  move "%%a" ..&#13;
+)&#13;
+cd ..&#13;
+rmdir "%name%"</file>
+        <url>http://downloads.sourceforge.net/project/mingw-w64-dgn/others/qt-5.7.0-w32-bin-i686-20160825.7z</url>
+        <sha1>af2cd656b6799f2aa551cba9d4b9a40b214b3bad</sha1>
         <dependency package="org.7-zip.SevenZIPA" versions="[9.20, 20)">
             <variable>sevenzipa</variable>
         </dependency>
@@ -323,7 +342,7 @@ for /f "delims=" %%a in ('dir /b') do (&#13;
 )&#13;
 cd ..&#13;
 rmdir "%name%"</file>
-        <url>https://mingw-w64-dgn.googlecode.com/files/qt-4.8.1-x86_64-w64-mingw32-20120413.7z</url>
+        <url>https://storage.googleapis.com/google-code-archive-downloads/v2/code.google.com/mingw-w64-dgn/qt-4.8.1-x86_64-w64-mingw32-20120413.7z</url>
         <sha1>41443e83998963e83e6df88af6dddd39ae837d4b</sha1>
         <dependency package="org.7-zip.SevenZIPA" versions="[9.20, 20)">
             <variable>sevenzipa</variable>
@@ -342,7 +361,7 @@ for /f "delims=" %%a in ('dir /b') do (&#13;
 )&#13;
 cd ..&#13;
 rmdir "%name%"</file>
-        <url>https://mingw-w64-dgn.googlecode.com/files/qt-4.8.4-w64-bin-x86_64-20130406.7z</url>
+        <url>https://storage.googleapis.com/google-code-archive-downloads/v2/code.google.com/mingw-w64-dgn/qt-4.8.4-w64-bin-x86_64-20130406.7z</url>
         <sha1>cd3d800b36cf04ff0bc42b7a49074cff1b958806</sha1>
         <dependency package="org.7-zip.SevenZIPA" versions="[9.20, 20)">
             <variable>sevenzipa</variable>
@@ -364,7 +383,7 @@ for /f "delims=" %%a in ('dir /b') do (&#13;
 )&#13;
 cd ..&#13;
 rmdir "%name%"</file>
-        <url>https://mingw-w64-dgn.googlecode.com/files/qt-5.1.0-w64-bin-x86_64-20130808.7z</url>
+        <url>https://storage.googleapis.com/google-code-archive-downloads/v2/code.google.com/mingw-w64-dgn/qt-5.1.0-w64-bin-x86_64-20130808.7z</url>
         <sha1>aeaedbd9ce5a3a24934542714cb2aea97f61873c</sha1>
         <dependency package="org.7-zip.SevenZIPA" versions="[9.20, 20)"/>
         <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.15.7, 2)"/>
@@ -383,6 +402,25 @@ cd ..&#13;
 rmdir "%name%"</file>
         <url>http://downloads.sourceforge.net/project/mingw-w64-dgn/others/qt-5.5.1-w64-bin-x86_64-20151028.7z</url>
         <sha1>66fad4be700f86e0abd0eca4737dd70558c749db</sha1>
+        <dependency package="org.7-zip.SevenZIPA" versions="[9.20, 20)">
+            <variable>sevenzipa</variable>
+        </dependency>
+        <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.15.7, 2)"/>
+    </version>
+    <version name="5.7" package="com.nokia.QtDev-x86_64-w64" type="one-file">
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.7z') do set setup=%%x&#13;
+"%sevenzipa%\7za.exe" x "%setup%" &gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+del "%setup%"&#13;
+&#13;
+set name=qt5&#13;
+cd "%name%"&#13;
+for /f "delims=" %%a in ('dir /b') do (&#13;
+  move "%%a" ..&#13;
+)&#13;
+cd ..&#13;
+rmdir "%name%"</file>
+        <url>http://downloads.sourceforge.net/project/mingw-w64-dgn/others/qt-5.7.0-w64-bin-x86_64-20160825.7z</url>
+        <sha1>2e157754e977e20fb4d632a898dcec7058190c04</sha1>
         <dependency package="org.7-zip.SevenZIPA" versions="[9.20, 20)">
             <variable>sevenzipa</variable>
         </dependency>
@@ -560,6 +598,13 @@ ren "%setup%" qt-win-opensource-mingw.exe&#13;
 </file>
         <url>http://download.qt.io/official_releases/qt/5.6/5.6.0/qt-opensource-windows-x86-mingw492-5.6.0.exe</url>
         <sha1>ea713b37b5ed21ad1fdb4fcdb2e69dbfef1191c3</sha1>
+    </version>
+    <version name="5.7" package="com.nokia.QtMinGWInstaller" type="one-file">
+        <important-file path="qt-win-opensource-mingw.exe" title="Installer"/>
+        <file path=".Npackd\Install.bat">ren "%npackd_package_binary%" qt-win-opensource-mingw.exe&#13;
+</file>
+        <url>http://download.qt.io/official_releases/qt/5.7/5.7.0/qt-opensource-windows-x86-mingw530-5.7.0.exe</url>
+        <sha1>77b116af73c9fd336832e9b6ca54fc491df4fd06</sha1>
     </version>
 
     <version name="4.7.3" package="com.nokia.QtSource">
@@ -1010,39 +1055,39 @@ rmdir "%name%"&#13;
     </version>
 
     <version name="1.2.5" package="net.zlib.ZLibSource">
-        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b zlib*') do set name=%%x
-cd "%name%"        
-for /f "delims=" %%a in ('dir /b') do (
-  move "%%a" ..
-)
-cd ..
-rmdir "%name%"
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b zlib*') do set name=%%x&#13;
+cd "%name%"        &#13;
+for /f "delims=" %%a in ('dir /b') do (&#13;
+  move "%%a" ..&#13;
+)&#13;
+cd ..&#13;
+rmdir "%name%"&#13;
 </file>
-        <url>http://npackd.googlecode.com/files/net.zlib.ZLibSource-1.2.5.zip</url>
+        <url>https://storage.googleapis.com/google-code-archive-downloads/v2/code.google.com/npackd/net.zlib.ZLibSource-1.2.5.zip</url>
         <sha1>61fe8809e179d44ca53225ad033c57b7488d0fc5</sha1>
     </version>
     <version name="1.2.6" package="net.zlib.ZLibSource">
-        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b zlib*') do set name=%%x
-cd "%name%"        
-for /f "delims=" %%a in ('dir /b') do (
-  move "%%a" ..
-)
-cd ..
-rmdir "%name%"
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b zlib*') do set name=%%x&#13;
+cd "%name%"        &#13;
+for /f "delims=" %%a in ('dir /b') do (&#13;
+  move "%%a" ..&#13;
+)&#13;
+cd ..&#13;
+rmdir "%name%"&#13;
 </file>
-        <url>http://npackd.googlecode.com/files/net.zlib.ZLibSource-1.2.6.zip</url>
+        <url>https://storage.googleapis.com/google-code-archive-downloads/v2/code.google.com/npackd/net.zlib.ZLibSource-1.2.6.zip</url>
         <sha1>377ef9189925469bb5089a63f10d7bbaabe1ac10</sha1>
     </version>
     <version name="1.2.7" package="net.zlib.ZLibSource">
-        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b zlib*') do set name=%%x
-cd "%name%"        
-for /f "delims=" %%a in ('dir /b') do (
-  move "%%a" ..
-)
-cd ..
-rmdir "%name%"
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b zlib*') do set name=%%x&#13;
+cd "%name%"        &#13;
+for /f "delims=" %%a in ('dir /b') do (&#13;
+  move "%%a" ..&#13;
+)&#13;
+cd ..&#13;
+rmdir "%name%"&#13;
 </file>
-        <url>http://npackd.googlecode.com/files/net.zlib.ZLibSource-1.2.7.zip</url>
+        <url>https://storage.googleapis.com/google-code-archive-downloads/v2/code.google.com/npackd/net.zlib.ZLibSource-1.2.7.zip</url>
         <sha1>98bc07e25018f81d80d15e623c66bccb19fb39b5</sha1>
     </version>
     <version name="1.2.8" package="net.zlib.ZLibSource">
@@ -1570,6 +1615,15 @@ call "%nih%\Extract.bat" "%name%"</file>
             <variable>nih</variable>
         </dependency>
     </version>
+    <version name="1.62" package="org.boost.Boost">
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b boost*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."</file>
+        <url>http://downloads.sourceforge.net/project/boost/boost/1.62.0/boost_1_62_0.zip</url>
+        <sha1>9515e86e255e3d4db6ba4cee15d689e640e21e8d</sha1>
+        <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.19, 2)">
+            <variable>nih</variable>
+        </dependency>
+    </version>
 
     <version name="1.2.7" package="org.xapian.XapianCore" type="one-file">
         <file path=".Npackd\Install.bat">&#13;
@@ -1949,6 +2003,28 @@ rmdir "%name%"</file>
             <variable>sevenzipa</variable>
         </dependency>
         <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.15.7, 2)"/>
+    </version>
+    <version name="1.4.1" package="org.xapian.XapianCore" type="one-file">
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.tar.xz') do set setup=%%x&#13;
+"%sevenzipa%\7za.exe" x "%setup%"&#13;
+del "%setup%"&#13;
+&#13;
+for /f "delims=" %%x in ('dir /b *.tar') do set setup=%%x&#13;
+"%sevenzipa%\7za.exe" x "%setup%"&#13;
+del "%setup%"&#13;
+&#13;
+for /f "delims=" %%x in ('dir /b xapian*') do set name=%%x&#13;
+cd "%name%"&#13;
+for /f "delims=" %%a in ('dir /b') do (&#13;
+  move "%%a" ..&#13;
+)&#13;
+cd ..&#13;
+rmdir "%name%"</file>
+        <url>http://oligarchy.co.uk/xapian/1.4.1/xapian-core-1.4.1.tar.xz</url>
+        <sha1>23eeb1f2883882c7c25e6d36221e3f33a40b4205</sha1>
+        <dependency package="org.7-zip.SevenZIPA" versions="[9.20, 9.20]">
+            <variable>sevenzipa</variable>
+        </dependency>
     </version>
 
     <version name="0.5" package="quazip-dev-i686-w64-static">
