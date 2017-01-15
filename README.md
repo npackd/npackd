@@ -15,7 +15,7 @@ You can add you packages (a Google account is required) [here](https://npackd.ap
 You can [suggest](https://github.com/tim-lebedkov/npackd/issues/new) a package for inclusion if it is not yet available.
 
 ## Third party tools working with Npackd:
-  * [npackd-repoeditor](http://krason.biz/software/repoeditor.html) - Editor of small and medium size repositories of Npackd package manager.
+  * [npackd-repoeditor](http://krason.me/software/repoeditor.html) - Editor of small and medium size repositories of Npackd package manager.
   * [Puppet package provider for Npackd](http://forge.puppetlabs.com/badgerious/npackd)
   * [Npackd for Sublime Text Syntax - completions and snippets for creating Npackd XML files](https://sublime.wbond.net/packages/Npackd)
   * [GNU Make](https://github.com/tim-lebedkov/npackd/wiki/UseInMake)
