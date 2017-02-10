@@ -278,6 +278,25 @@ rmdir "%name%"</file>
         </dependency>
         <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.15.7, 2)"/>
     </version>
+    <version name="5.7.1" package="com.nokia.QtDev-i686-w64" type="one-file">
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.7z') do set setup=%%x&#13;
+"%sevenzipa%\7za.exe" x "%setup%" &gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+del "%setup%"&#13;
+&#13;
+for /f "delims=" %%x in ('dir /b qt5.*') do set name=%%x&#13;
+cd "%name%"&#13;
+for /f "delims=" %%a in ('dir /b') do (&#13;
+  move "%%a" ..&#13;
+)&#13;
+cd ..&#13;
+rmdir "%name%"</file>
+        <url>http://downloads.sourceforge.net/project/mingw-w64-dgn/others/qt-5.7.1-w32-bin-i686-20161221.7z</url>
+        <sha1>75346a99be821448f5e29d7bfaece81624e42840</sha1>
+        <dependency package="org.7-zip.SevenZIPA" versions="[9.20, 20)">
+            <variable>sevenzipa</variable>
+        </dependency>
+        <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.15.7, 2)"/>
+    </version>
 
     <version name="4.8.2" package="com.nokia.QtDev-i686-w64-Npackd-Release" type="one-file">
         <file path=".Npackd\Install.bat">for /f %%x in ('dir /b *.7z') do set setup=%%x&#13;
@@ -421,6 +440,25 @@ cd ..&#13;
 rmdir "%name%"</file>
         <url>http://downloads.sourceforge.net/project/mingw-w64-dgn/others/qt-5.7.0-w64-bin-x86_64-20160825.7z</url>
         <sha1>2e157754e977e20fb4d632a898dcec7058190c04</sha1>
+        <dependency package="org.7-zip.SevenZIPA" versions="[9.20, 20)">
+            <variable>sevenzipa</variable>
+        </dependency>
+        <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.15.7, 2)"/>
+    </version>
+    <version name="5.7.1" package="com.nokia.QtDev-x86_64-w64" type="one-file">
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.7z') do set setup=%%x&#13;
+"%sevenzipa%\7za.exe" x "%setup%" &gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+del "%setup%"&#13;
+&#13;
+set name=qt5&#13;
+cd "%name%"&#13;
+for /f "delims=" %%a in ('dir /b') do (&#13;
+  move "%%a" ..&#13;
+)&#13;
+cd ..&#13;
+rmdir "%name%"</file>
+        <url>http://downloads.sourceforge.net/project/mingw-w64-dgn/others/qt-5.7.1-w64-bin-x86_64-20161221.7z</url>
+        <sha1>43d9bbd54b83ea25b0b3b96e2f826fc2689c030a</sha1>
         <dependency package="org.7-zip.SevenZIPA" versions="[9.20, 20)">
             <variable>sevenzipa</variable>
         </dependency>
@@ -605,6 +643,13 @@ ren "%setup%" qt-win-opensource-mingw.exe&#13;
 </file>
         <url>http://download.qt.io/official_releases/qt/5.7/5.7.0/qt-opensource-windows-x86-mingw530-5.7.0.exe</url>
         <sha1>77b116af73c9fd336832e9b6ca54fc491df4fd06</sha1>
+    </version>
+    <version name="5.8" package="com.nokia.QtMinGWInstaller" type="one-file">
+        <important-file path="qt-win-opensource-mingw.exe" title="Installer"/>
+        <file path=".Npackd\Install.bat">ren "%npackd_package_binary%" qt-win-opensource-mingw.exe&#13;
+</file>
+        <url>http://download.qt.io/official_releases/qt/5.8/5.8.0/qt-opensource-windows-x86-mingw530-5.8.0.exe</url>
+        <sha1>917c2340854f4809a91e43e2b9fe2939faeaa685</sha1>
     </version>
 
     <version name="4.7.3" package="com.nokia.QtSource">
@@ -897,6 +942,25 @@ rmdir "%name%"</file>
         </dependency>
         <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.15.7, 2)"/>
     </version>
+    <version name="5.8" package="com.nokia.QtSource" type="one-file">
+        <file path=".Npackd\Install.bat">for /f %%x in ('dir /b *.zip') do set setup=%%x&#13;
+"%sevenzipa%\7za.exe" x "%setup%" &gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+del "%setup%"&#13;
+&#13;
+for /f "delims=" %%x in ('dir /b qt*') do set name=%%x&#13;
+cd "%name%"        &#13;
+for /f "delims=" %%a in ('dir /b') do (&#13;
+  move "%%a" ..&#13;
+)&#13;
+cd ..&#13;
+rmdir "%name%"</file>
+        <url>https://download.qt.io/official_releases/qt/5.7/5.7.1/single/qt-everywhere-opensource-src-5.7.1.zip</url>
+        <sha1>3a47f18cfd93c5bc46e0cbd1477ce539eaa6d5cd</sha1>
+        <dependency package="org.7-zip.SevenZIPA" versions="[9.20, 10)">
+            <variable>sevenzipa</variable>
+        </dependency>
+        <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.15.7, 2)"/>
+    </version>
 
     <version name="1.2.11" package="log4net">
         <url>http://downloads.sourceforge.net/project/npackd/log4net-1.2.11.zip</url>
@@ -1053,6 +1117,19 @@ rmdir "%name%"&#13;
         <sha1>bf55346f6c4aedf002ba179e979a86fde4689085</sha1>
         <dependency package="net.zlib.ZLibSource" versions="[1.2.5, 1.3)"/>
     </version>
+    <version name="0.7.3" package="net.sourceforge.quazip.QuaZIPSource">
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b quazip*') do set name=%%x&#13;
+cd "%name%"        &#13;
+for /f "delims=" %%a in ('dir /b') do (&#13;
+  move "%%a" ..&#13;
+)&#13;
+cd ..&#13;
+rmdir "%name%"&#13;
+</file>
+        <url>http://downloads.sourceforge.net/project/quazip/quazip/0.7.3/quazip-0.7.3.zip</url>
+        <sha1>22a87858eaf99200f51303e272664f55f4ad6245</sha1>
+        <dependency package="net.zlib.ZLibSource" versions="[1.2.5, 1.3)"/>
+    </version>
 
     <version name="1.2.5" package="net.zlib.ZLibSource">
         <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b zlib*') do set name=%%x&#13;
@@ -1101,6 +1178,18 @@ rmdir "%name%"&#13;
 </file>
         <url>http://downloads.sourceforge.net/project/npackd/net.zlib.ZLibSource-1.2.8.zip</url>
         <sha1>5782f3539015ead310234fd8637a7fe78af3d16c</sha1>
+    </version>
+    <version name="1.2.11" package="net.zlib.ZLibSource">
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b zlib*') do set name=%%x&#13;
+cd "%name%"        &#13;
+for /f "delims=" %%a in ('dir /b') do (&#13;
+  move "%%a" ..&#13;
+)&#13;
+cd ..&#13;
+rmdir "%name%"&#13;
+</file>
+        <url>http://zlib.net/zlib1211.zip</url>
+        <sha1>bccd93ad3cee39c3d08eee68d45b3e11910299f2</sha1>
     </version>
 
     <version name="1.18" package="npackd-dev-i686-w64">
@@ -1624,6 +1713,15 @@ call "%nih%\Extract.bat" "%name%" "."</file>
             <variable>nih</variable>
         </dependency>
     </version>
+    <version name="1.63" package="org.boost.Boost">
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b boost*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."</file>
+        <url>http://downloads.sourceforge.net/project/boost/boost/1.63.0/boost_1_63_0.zip</url>
+        <sha1>4364989afbe6b11f2d5e59df902c3ca4d7851824</sha1>
+        <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.19, 2)">
+            <variable>nih</variable>
+        </dependency>
+    </version>
 
     <version name="1.2.7" package="org.xapian.XapianCore" type="one-file">
         <file path=".Npackd\Install.bat">&#13;
@@ -2022,6 +2120,28 @@ cd ..&#13;
 rmdir "%name%"</file>
         <url>http://oligarchy.co.uk/xapian/1.4.1/xapian-core-1.4.1.tar.xz</url>
         <sha1>23eeb1f2883882c7c25e6d36221e3f33a40b4205</sha1>
+        <dependency package="org.7-zip.SevenZIPA" versions="[9.20, 9.20]">
+            <variable>sevenzipa</variable>
+        </dependency>
+    </version>
+    <version name="1.4.3" package="org.xapian.XapianCore" type="one-file">
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.tar.xz') do set setup=%%x&#13;
+"%sevenzipa%\7za.exe" x "%setup%"&#13;
+del "%setup%"&#13;
+&#13;
+for /f "delims=" %%x in ('dir /b *.tar') do set setup=%%x&#13;
+"%sevenzipa%\7za.exe" x "%setup%"&#13;
+del "%setup%"&#13;
+&#13;
+for /f "delims=" %%x in ('dir /b xapian*') do set name=%%x&#13;
+cd "%name%"&#13;
+for /f "delims=" %%a in ('dir /b') do (&#13;
+  move "%%a" ..&#13;
+)&#13;
+cd ..&#13;
+rmdir "%name%"</file>
+        <url>http://oligarchy.co.uk/xapian/1.4.3/xapian-core-1.4.3.tar.xz</url>
+        <sha1>77d8af79cf77fc700298e6e542844c69aed33cf9</sha1>
         <dependency package="org.7-zip.SevenZIPA" versions="[9.20, 9.20]">
             <variable>sevenzipa</variable>
         </dependency>
