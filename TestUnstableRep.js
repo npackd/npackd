@@ -148,6 +148,10 @@ function process(package_, version) {
 					+ " --version=" + version + " > " + info + " 2>&1");
         exec("appveyor PushArtifact " + info);
 
+        var list = package_ + "-" + version + "-list.txt";
+        exec("cmd.exe /C \"" + npackdcl + "\" list > " + list + " 2>&1");
+        exec("appveyor PushArtifact " + list);
+
         var proglist = package_ + "-" + version + "-proglist.txt";
         exec2("cmd.exe /c \"C:\\Program Files (x86)\\Sysinternals_suite\\psinfo.exe\" -s /accepteula > " + proglist + " 2>&1");
         exec("appveyor PushArtifact " + proglist);
