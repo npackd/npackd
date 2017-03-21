@@ -143,6 +143,11 @@ function process(package_, version) {
         exec2("cmd.exe /c \"C:\\Program Files (x86)\\CLU\\clu.exe\" list-msi > " + msilist + " 2>&1");
         exec("appveyor PushArtifact " + msilist);
 
+        var info = package_ + "-" + version + "-info.txt";
+        exec("cmd.exe /C \"" + npackdcl + "\" info --package="+ package_
+					+ " --version=" + version + " > " + info + " 2>&1");
+        exec("appveyor PushArtifact " + info);
+
         var proglist = package_ + "-" + version + "-proglist.txt";
         exec2("cmd.exe /c \"C:\\Program Files (x86)\\Sysinternals_suite\\psinfo.exe\" -s /accepteula > " + proglist + " 2>&1");
         exec("appveyor PushArtifact " + proglist);
