@@ -18,6 +18,9 @@ if %errorlevel% neq 0 exit /b %errorlevel%
 "%npackd_cl%\ncl" add -p com.googlecode.windows-package-manager.NpackdCL
 if %errorlevel% neq 0 exit /b %errorlevel%
 
+"%npackd_cl%\ncl" add -p com.googlecode.windows-package-manager.NpackdInstallerHelper
+if %errorlevel% neq 0 exit /b %errorlevel%
+
 "%npackd_cl%\ncl" add -p nircmd64 -v 2.75
 if %errorlevel% neq 0 exit /b %errorlevel%
 
