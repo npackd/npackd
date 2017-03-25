@@ -364,6 +364,8 @@ if (ec !== 0) {
     WScript.Quit(1);
 }
 
+exec("\"" + npackdcl + "\" help");
+
 processURL("https://npackd.appspot.com/rep/recent-xml?tag=untested", 
 		password, false);
 
