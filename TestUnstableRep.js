@@ -123,7 +123,7 @@ function process(package_, version) {
 		
         var log = package_ + "-" + version + "-install.log";
         exec("cmd.exe /C \"" + npackdcl + "\" add -d --package="+ package_
-					+ " --version=" + version + " > " + log + " 2>&1");
+					+ " --version=" + version + " -t 600 > " + log + " 2>&1");
         exec("appveyor PushArtifact " + log);
 		
         return false;
@@ -167,7 +167,7 @@ function process(package_, version) {
         var log = package_ + "-" + version + "-uninstall.log";
         exec("cmd.exe /C \"" + npackdcl + 
                 "\" remove -d -e=ck --package=" + package_
-                + " --version=" + version + " > " + log + " 2>&1");
+                + " --version=" + version + " -t 600 > " + log + " 2>&1");
         exec("appveyor PushArtifact " + log);
 		
         return false;
