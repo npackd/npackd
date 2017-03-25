@@ -115,7 +115,7 @@ function apiTag(package_, version, tag, set) {
  */
 function process(package_, version) {
     var ec = exec("\"" + npackdcl + "\" add --package="+package_
-                + " --version=" + version);
+                + " --version=" + version + " -t 600");
     if (ec !== 0) {
         WScript.Echo("npackdcl.exe add failed");
         apiNotify(package_, version, true, false);
@@ -158,7 +158,7 @@ function process(package_, version) {
     }
 
     var ec = exec("\"" + npackdcl + "\" remove -e=ck --package="+package_
-                + " --version=" + version);
+                + " --version=" + version + " -t 600");
     if (ec !== 0) {
         WScript.Echo("npackdcl.exe remove failed");
         apiNotify(package_, version, false, false);
