@@ -257,6 +257,8 @@ function compareVersions(a, b) {
  * @param onlyNewest true = only test the newest versions
  */
 function processURL(url, password, onlyNewest) {
+    var start = new Date();
+    
     var ignored = ["org.bitbucket.tortoisehg.TortoiseHg",
             "net.sourceforge.classicshell.ClassicShell",
             "webpi", "com.3ds.DraftSight",
@@ -329,6 +331,10 @@ function processURL(url, password, onlyNewest) {
                 }
             }
             WScript.Echo("==================================================================");
+
+	    if ((new Date()).getTime() - start.getTime() > 45 * 60 * 1000) {
+		break;
+	    }
         }
 
         if (failed.length > 0) {
