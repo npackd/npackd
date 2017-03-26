@@ -1,4 +1,6 @@
-﻿# Npackd
+﻿[![Build artifacts](https://ci.appveyor.com/api/projects/status/github/tim-lebedkov/npackd)](https://ci.appveyor.com/project/tim-lebedkov/npackd)
+
+# Npackd
 
 * Home page: https://npackd.appspot.com
 * Downloads: https://github.com/tim-lebedkov/npackd-cpp/releases
