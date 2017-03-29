@@ -259,12 +259,6 @@ function compareVersions(a, b) {
 function processURL(url, password, onlyNewest) {
     var start = new Date();
     
-    var ignored = ["org.bitbucket.tortoisehg.TortoiseHg",
-            "net.sourceforge.classicshell.ClassicShell",
-            "webpi", "com.3ds.DraftSight",
-			"MinitoolPartition" // cannot be installed on a server OS
-			];
-
     var xDoc = new ActiveXObject("MSXML2.DOMDocument.6.0");
     xDoc.async = false;
     xDoc.setProperty("SelectionLanguage", "XPath");
@@ -319,9 +313,7 @@ function processURL(url, password, onlyNewest) {
             var version = pv.getAttribute("name");
 
             WScript.Echo(package_ + " " + version);
-            if (ignored.contains(package_)) {
-                WScript.Echo("The package version " + package_ + " " + version + " was ignored.");
-            } else if (!process(package_, version)) {
+            if (!process(package_, version)) {
                 failed.push(package_ + "@" + version);
             } else {
                 if (apiTag(package_, version, "untested", false)) {
