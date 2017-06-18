@@ -261,6 +261,11 @@ if %err% neq 0 exit %err%&#13;
         <url>https://github.com/tim-lebedkov/npackd-cpp/releases/download/version_1.21.5/Npackd32-1.21.5.zip</url>
         <sha1>e6023d37efd64dfb9f2c43ce586aa12c4640a465</sha1>
     </version>
+    <version name="1.22" package="com.googlecode.windows-package-manager.Npackd">
+        <important-file path="npackdg.exe" title="Npackd"/>
+        <url>https://github.com/tim-lebedkov/npackd-cpp/releases/download/version_1.22/Npackd32-1.22.zip</url>
+        <sha1>ad172d5b94b2a59bd5df688a4a79c8b5b777596b</sha1>
+    </version>
 
     <version name="1.17.9" package="com.googlecode.windows-package-manager.Npackd64">
         <important-file path="npackdg.exe" title="Npackd"/>
@@ -351,6 +356,11 @@ if %err% neq 0 exit %err%&#13;
         <important-file path="npackdg.exe" title="Npackd"/>
         <url>https://github.com/tim-lebedkov/npackd-cpp/releases/download/version_1.21.5/Npackd64-1.21.5.zip</url>
         <sha1>18fb579c56a97e206e4fb4cdc183aa8743f42068</sha1>
+    </version>
+    <version name="1.22" package="com.googlecode.windows-package-manager.Npackd64">
+        <important-file path="npackdg.exe" title="Npackd"/>
+        <url>https://github.com/tim-lebedkov/npackd-cpp/releases/download/version_1.22/Npackd64-1.22.zip</url>
+        <sha1>f2bd8b51b9a69cffe490645357eeeab9595b757e</sha1>
     </version>
 
     <version name="1.15" package="com.googlecode.windows-package-manager.NpackdCL">
@@ -506,6 +516,10 @@ verify</file>
         <url>https://github.com/tim-lebedkov/npackd-cpp/releases/download/version_1.21.5/NpackdCL-1.21.5.zip</url>
         <sha1>5a3ac9bf32bb2d946043d8b9a4e9de6824b52753</sha1>
     </version>
+    <version name="1.22" package="com.googlecode.windows-package-manager.NpackdCL">
+        <url>https://github.com/tim-lebedkov/npackd-cpp/releases/download/version_1.22/NpackdCL-1.22.zip</url>
+        <sha1>81db4136d4908a8de1cf86cdf1ae9a047848ecdd</sha1>
+    </version>
 
     <version name="4.4" package="libreoffice64" type="one-file">
         <file path=".Npackd\Install.bat">call "%npackdih%\InstallMSI.bat" INSTALLLOCATION yes</file>
@@ -531,6 +545,16 @@ verify</file>
         <file path=".Npackd\Install.bat">call "%npackdih%\InstallMSI.bat" INSTALLLOCATION yes</file>
         <url>http://artfiles.org/documentfoundation.org/libreoffice/stable/5.3.0/win/x86_64/LibreOffice_5.3.0_Win_x64.msi</url>
         <sha1>1a5ed49e14a07d35c84e88c92768d94a14158bad</sha1>
+        <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.1, 2)">
+            <variable>npackdih</variable>
+        </dependency>
+        <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.15.7, 2)"/>
+        <dependency package="com.oracle.JRE" versions="[1.6, 2)"/>
+    </version>
+    <version name="5.3.2" package="libreoffice64" type="one-file">
+        <file path=".Npackd\Install.bat">call "%npackdih%\InstallMSI.bat" INSTALLLOCATION yes</file>
+        <url>http://artfiles.org/documentfoundation.org/libreoffice/stable/5.3.2/win/x86_64/LibreOffice_5.3.2_Win_x64.msi</url>
+        <sha1>a5d31a079733e78ed05be31e573b3bc34a662905</sha1>
         <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.1, 2)">
             <variable>npackdih</variable>
         </dependency>
