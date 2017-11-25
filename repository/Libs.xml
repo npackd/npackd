@@ -377,6 +377,24 @@ mklink /D C:\NpackdSymlinks\com.nokia.QtDev-i686-w64-Npackd-Release-%NPACKD_PACK
         </dependency>
         <dependency package="mingw-w64-i686-sjlj-posix" versions="[4.9.2, 4.9.2]"/>
     </version>
+    <version name="5.9.2" package="com.nokia.QtDev-i686-w64-Npackd-Release" type="one-file">
+        <file path=".Npackd\Install.bat">for /f %%x in ('dir /b *.7z') do set setup=%%x&#13;
+"%sevenzipa%\7za.exe" x "%setup%" &gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+if %errorlevel% neq 0 exit /b %errorlevel%&#13;
+&#13;
+del "%setup%"&#13;
+if %errorlevel% neq 0 exit /b %errorlevel%&#13;
+&#13;
+mkdir C:\NpackdSymlinks&#13;
+mklink /D C:\NpackdSymlinks\qt-npackd-%NPACKD_PACKAGE_VERSION% "%CD%"</file>
+        <file path=".Npackd\Uninstall.bat">rmdir C:\NpackdSymlinks\qt-npackd-%NPACKD_PACKAGE_VERSION%</file>
+        <url>https://github.com/tim-lebedkov/npackd-scripts/releases/download/release_2017.10.29/com.nokia.QtDev-i686-w64-Npackd-Release-5.9.2.7z</url>
+        <sha1>1d0d484bf23313ce7ce1bf8de6e3e5e86189d34d</sha1>
+        <dependency package="org.7-zip.SevenZIPA" versions="[9.20, 20)">
+            <variable>SEVENZIPA</variable>
+        </dependency>
+        <dependency package="mingw-w64-i686-sjlj-posix" versions="[4.9.2, 4.9.2]"/>
+    </version>
 
     <version name="4.8.1" package="com.nokia.QtDev-x86_64-w64" type="one-file">
         <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.7z') do set setup=%%x&#13;
@@ -565,6 +583,25 @@ mklink /D C:\NpackdSymlinks\com.nokia.QtDev-x86_64-w64-Npackd-Release-%NPACKD_PA
         </dependency>
         <dependency package="mingw-w64-x86_64-seh-posix" versions="[4.9.2, 4.9.2]"/>
     </version>
+    <version name="5.9.2" package="com.nokia.QtDev-x86_64-w64-Npackd-Release" type="one-file">
+        <file path=".Npackd\Install.bat">for /f %%x in ('dir /b *.7z') do set setup=%%x&#13;
+"%sevenzipa%\7za.exe" x "%setup%" &gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+if %errorlevel% neq 0 exit /b %errorlevel%&#13;
+&#13;
+del "%setup%"&#13;
+if %errorlevel% neq 0 exit /b %errorlevel%&#13;
+&#13;
+mkdir C:\NpackdSymlinks&#13;
+mklink /D C:\NpackdSymlinks\qt-npackd64-%NPACKD_PACKAGE_VERSION% "%CD%"&#13;
+</file>
+        <file path=".Npackd\Uninstall.bat">rmdir C:\NpackdSymlinks\qt-npackd64-%NPACKD_PACKAGE_VERSION%</file>
+        <url>https://github.com/tim-lebedkov/npackd-scripts/releases/download/release_2017.10.29/com.nokia.QtDev-x86_64-w64-Npackd-Release-5.9.2.7z</url>
+        <sha1>12339c36cec7051661bda3be800208b9148e5ccd</sha1>
+        <dependency package="org.7-zip.SevenZIPA" versions="[9.20, 20)">
+            <variable>SEVENZIPA</variable>
+        </dependency>
+        <dependency package="mingw-w64-x86_64-seh-posix" versions="[7.2, 7.2]"/>
+    </version>
 
     <version name="4.7.3" package="com.nokia.QtMinGWInstaller" type="one-file">
         <important-file path="qt-win-opensource-mingw.exe" title="Installer"/>
@@ -709,7 +746,7 @@ for /f "delims=" %%a in ('dir /b') do (&#13;
 cd ..&#13;
 rmdir "%name%"&#13;
 </file>
-        <url>http://download.qt-project.org/archive/qt/4.7/qt-everywhere-opensource-src-4.7.3.zip</url>
+        <url>https://download.qt.io/archive/qt/4.7/qt-everywhere-opensource-src-4.7.3.zip</url>
         <sha1>c3236efc694feb962ae8b48d7d10daeb0af244a7</sha1>
     </version>
     <version name="4.7.4" package="com.nokia.QtSource">
@@ -721,7 +758,7 @@ for /f "delims=" %%a in ('dir /b') do (&#13;
 cd ..&#13;
 rmdir "%name%"&#13;
 </file>
-        <url>http://download.qt-project.org/archive/qt/4.7/qt-everywhere-opensource-src-4.7.4.zip</url>
+        <url>https://download.qt.io/archive/qt/4.7/qt-everywhere-opensource-src-4.7.4.zip</url>
         <sha1>bb4aa9e164208237cef2777ff4bc7a1b0d13c76e</sha1>
     </version>
     <version name="5" package="com.nokia.QtSource" type="one-file">
@@ -736,7 +773,7 @@ for /f "delims=" %%a in ('dir /b') do (&#13;
 )&#13;
 cd ..&#13;
 rmdir "%name%"</file>
-        <url>http://download.qt-project.org/archive/qt/5.0/5.0.0/single/qt-everywhere-opensource-src-5.0.0.zip</url>
+        <url>https://download.qt.io/archive/qt/5.0/5.0.0/single/qt-everywhere-opensource-src-5.0.0.zip</url>
         <sha1>b621c78dc0a1c64096463b5cc9a05a812ce8a27a</sha1>
         <dependency package="org.7-zip.SevenZIPA" versions="[9.20, 10)">
             <variable>sevenzipa</variable>
@@ -755,7 +792,7 @@ for /f "delims=" %%a in ('dir /b') do (&#13;
 )&#13;
 cd ..&#13;
 rmdir "%name%"</file>
-        <url>http://files.linux-addicted.net/qtproject/archive/qt/5.0/5.0.1/single/qt-everywhere-opensource-src-5.0.1.zip</url>
+        <url>https://download.qt.io/archive/qt/5.0/5.0.1/single/qt-everywhere-opensource-src-5.0.1.zip</url>
         <sha1>75d06c96bae8ded783fad1a76d3a1cf39368755d</sha1>
         <dependency package="org.7-zip.SevenZIPA" versions="[9.20, 9.20]">
             <variable>sevenzipa</variable>
@@ -774,7 +811,7 @@ for /f "delims=" %%a in ('dir /b') do (&#13;
 )&#13;
 cd ..&#13;
 rmdir "%name%"</file>
-        <url>http://qt-mirror.dannhauer.de/official_releases/qt/5.1/5.1.0/single/qt-everywhere-opensource-src-5.1.0.zip</url>
+        <url>https://download.qt.io/archive/qt/5.1/5.1.0/single/qt-everywhere-opensource-src-5.1.0.zip</url>
         <sha1>11dbc7fc19f4ffe6711a18c667f52ffab4a57044</sha1>
         <dependency package="org.7-zip.SevenZIPA" versions="[9.20, 9.20]">
             <variable>sevenzipa</variable>
@@ -795,26 +832,7 @@ for /f "delims=" %%a in ('dir /b') do (&#13;
 )&#13;
 cd ..&#13;
 rmdir "%name%"</file>
-        <url>http://qt-mirror.dannhauer.de/official_releases/qt/5.1/5.1.1/single/qt-everywhere-opensource-src-5.1.1.zip</url>
-        <sha1>54271a90951eb356f138ac71a912d3937c62d9e9</sha1>
-        <dependency package="org.7-zip.SevenZIPA" versions="[9.20, 10)"/>
-        <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.15.7, 2)"/>
-    </version>
-    <version name="5.2" package="com.nokia.QtSource" type="one-file">
-        <file path=".Npackd\Install.bat">set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=org.7-zip.SevenZIPA" "--versions=[9.20, 9.20]"&#13;
-for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set sevenzipa=%%x&#13;
-for /f %%x in ('dir /b *.zip') do set setup=%%x&#13;
-"%sevenzipa%\7za.exe" x "%setup%" &gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
-del "%setup%"&#13;
-&#13;
-for /f "delims=" %%x in ('dir /b qt*') do set name=%%x&#13;
-cd "%name%"        &#13;
-for /f "delims=" %%a in ('dir /b') do (&#13;
-  move "%%a" ..&#13;
-)&#13;
-cd ..&#13;
-rmdir "%name%"</file>
-        <url>http://qt-mirror.dannhauer.de/official_releases/qt/5.1/5.1.1/single/qt-everywhere-opensource-src-5.1.1.zip</url>
+        <url>https://download.qt.io/archive/qt/5.1/5.1.1/single/qt-everywhere-opensource-src-5.1.1.zip</url>
         <sha1>54271a90951eb356f138ac71a912d3937c62d9e9</sha1>
         <dependency package="org.7-zip.SevenZIPA" versions="[9.20, 10)"/>
         <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.15.7, 2)"/>
@@ -833,7 +851,7 @@ for /f "delims=" %%a in ('dir /b') do (&#13;
 )&#13;
 cd ..&#13;
 rmdir "%name%"</file>
-        <url>http://qt-mirror.dannhauer.de/official_releases/qt/5.2/5.2.1/single/qt-everywhere-opensource-src-5.2.1.zip</url>
+        <url>https://download.qt.io/archive/qt/5.2/5.2.1/single/qt-everywhere-opensource-src-5.2.1.zip</url>
         <sha1>c65c6ed336dc5736e1083229bf373e4eddd0e17d</sha1>
         <dependency package="org.7-zip.SevenZIPA" versions="[9.20, 10)"/>
         <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.15.7, 2)"/>
@@ -852,7 +870,7 @@ for /f "delims=" %%a in ('dir /b') do (&#13;
 )&#13;
 cd ..&#13;
 rmdir "%name%"</file>
-        <url>http://qt-mirror.dannhauer.de/official_releases/qt/5.3/5.3.1/single/qt-everywhere-opensource-src-5.3.1.zip</url>
+        <url>https://download.qt.io/archive/qt/5.3/5.3.1/single/qt-everywhere-opensource-src-5.3.1.zip</url>
         <sha1>4695389cacd256aef25fc42ce27e15355e44bff5</sha1>
         <dependency package="org.7-zip.SevenZIPA" versions="[9.20, 10)"/>
         <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.15.7, 2)"/>
@@ -871,7 +889,7 @@ for /f "delims=" %%a in ('dir /b') do (&#13;
 )&#13;
 cd ..&#13;
 rmdir "%name%"</file>
-        <url>http://qt-mirror.dannhauer.de/official_releases/qt/5.3/5.3.2/single/qt-everywhere-opensource-src-5.3.2.zip</url>
+        <url>https://download.qt.io/archive/qt/5.3/5.3.2/single/qt-everywhere-opensource-src-5.3.2.zip</url>
         <sha1>7d62518a02fb324aa75068e1ea08b13553aec12e</sha1>
         <dependency package="org.7-zip.SevenZIPA" versions="[9.20, 20)"/>
         <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.15.7, 2)"/>
@@ -890,7 +908,7 @@ for /f "delims=" %%a in ('dir /b') do (&#13;
 )&#13;
 cd ..&#13;
 rmdir "%name%"</file>
-        <url>http://qt-mirror.dannhauer.de/official_releases/qt/5.4/5.4.0/single/qt-everywhere-opensource-src-5.4.0.zip</url>
+        <url>https://download.qt.io/archive/qt/5.4/5.4.0/single/qt-everywhere-opensource-src-5.4.0.zip</url>
         <sha1>D098E27E441F6D806C0E56C65F40C57931754ACC</sha1>
         <dependency package="org.7-zip.SevenZIPA" versions="[9.20, 20)"/>
         <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.15.7, 2)"/>
@@ -907,7 +925,7 @@ for /f "delims=" %%a in ('dir /b') do (&#13;
 )&#13;
 cd ..&#13;
 rmdir "%name%"</file>
-        <url>http://qt-mirror.dannhauer.de/official_releases/qt/5.4/5.4.1/single/qt-everywhere-opensource-src-5.4.1.zip</url>
+        <url>https://download.qt.io/archive/qt/5.4/5.4.1/single/qt-everywhere-opensource-src-5.4.1.zip</url>
         <sha1>40ade5606b42b1cfe9522e04323d2d6e2f3365c0</sha1>
         <dependency package="org.7-zip.SevenZIPA" versions="[9.20, 20)">
             <variable>sevenzipa</variable>
@@ -926,7 +944,7 @@ for /f "delims=" %%a in ('dir /b') do (&#13;
 )&#13;
 cd ..&#13;
 rmdir "%name%"</file>
-        <url>http://download.qt.io/official_releases/qt/5.5/5.5.0/single/qt-everywhere-opensource-src-5.5.0.zip</url>
+        <url>https://download.qt.io/archive/qt/5.5/5.5.0/single/qt-everywhere-opensource-src-5.5.0.zip</url>
         <sha1>6f240b450b0e46266a889bcb7ebe63f884169f4c</sha1>
         <dependency package="org.7-zip.SevenZIPA" versions="[9.20, 20)">
             <variable>sevenzipa</variable>
@@ -945,7 +963,7 @@ for /f "delims=" %%a in ('dir /b') do (&#13;
 )&#13;
 cd ..&#13;
 rmdir "%name%"</file>
-        <url>http://download.qt.io/official_releases/qt/5.5/5.5.1/single/qt-everywhere-opensource-src-5.5.1.zip</url>
+        <url>https://download.qt.io/archive/qt/5.5/5.5.1/single/qt-everywhere-opensource-src-5.5.1.zip</url>
         <sha1>310750e37ca6bf7408ef07343187d60025289e17</sha1>
         <dependency package="org.7-zip.SevenZIPA" versions="[9.20, 20)">
             <variable>sevenzipa</variable>
@@ -964,7 +982,7 @@ for /f "delims=" %%a in ('dir /b') do (&#13;
 )&#13;
 cd ..&#13;
 rmdir "%name%"</file>
-        <url>http://download.qt.io/official_releases/qt/5.6/5.6.0/single/qt-everywhere-opensource-src-5.6.0.zip</url>
+        <url>https://download.qt.io/archive/qt/5.6/5.6.0/single/qt-everywhere-opensource-src-5.6.0.zip</url>
         <sha1>99a54794639be6e8f4fa6d324435e63cdb116c18</sha1>
         <dependency package="org.7-zip.SevenZIPA" versions="[9.20, 20)">
             <variable>sevenzipa</variable>
@@ -983,7 +1001,7 @@ for /f "delims=" %%a in ('dir /b') do (&#13;
 )&#13;
 cd ..&#13;
 rmdir "%name%"</file>
-        <url>https://download.qt.io/official_releases/qt/5.7/5.7.0/single/qt-everywhere-opensource-src-5.7.0.zip</url>
+        <url>https://download.qt.io/archive/qt/5.7/5.7.0/single/qt-everywhere-opensource-src-5.7.0.zip</url>
         <sha1>410d220709d1f7e06dd1d611a29b0b0199583fea</sha1>
         <dependency package="org.7-zip.SevenZIPA" versions="[9.20, 20)">
             <variable>sevenzipa</variable>
@@ -1002,8 +1020,8 @@ for /f "delims=" %%a in ('dir /b') do (&#13;
 )&#13;
 cd ..&#13;
 rmdir "%name%"</file>
-        <url>https://download.qt.io/official_releases/qt/5.7/5.7.1/single/qt-everywhere-opensource-src-5.7.1.zip</url>
-        <sha1>3a47f18cfd93c5bc46e0cbd1477ce539eaa6d5cd</sha1>
+        <url>https://download.qt.io/official_releases/qt/5.8/5.8.0/single/qt-everywhere-opensource-src-5.8.0.zip</url>
+        <sha1>bfe7e2e9568d93f6f517facde00be5f953fc20cd</sha1>
         <dependency package="org.7-zip.SevenZIPA" versions="[9.20, 20)">
             <variable>sevenzipa</variable>
         </dependency>
@@ -1042,6 +1060,25 @@ cd ..&#13;
 rmdir "%name%"</file>
         <url>https://download.qt.io/official_releases/qt/5.9/5.9.1/single/qt-everywhere-opensource-src-5.9.1.zip</url>
         <sha1>bdac47fdcf6dd502a123eb403bb4260542f91034</sha1>
+        <dependency package="org.7-zip.SevenZIPA" versions="[9.20, 20)">
+            <variable>sevenzipa</variable>
+        </dependency>
+        <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.15.7, 2)"/>
+    </version>
+    <version name="5.9.2" package="com.nokia.QtSource" type="one-file">
+        <file path=".Npackd\Install.bat">for /f %%x in ('dir /b *.zip') do set setup=%%x&#13;
+"%sevenzipa%\7za.exe" x "%setup%" &gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+del "%setup%"&#13;
+&#13;
+for /f "delims=" %%x in ('dir /b qt*') do set name=%%x&#13;
+cd "%name%"        &#13;
+for /f "delims=" %%a in ('dir /b') do (&#13;
+  move "%%a" ..&#13;
+)&#13;
+cd ..&#13;
+rmdir "%name%"</file>
+        <url>https://download.qt.io/official_releases/qt/5.9/5.9.2/single/qt-everywhere-opensource-src-5.9.2.zip</url>
+        <sha1>246a0cc6dfb5173c2d768ab6a0a3e8b1a0410f08</sha1>
         <dependency package="org.7-zip.SevenZIPA" versions="[9.20, 20)">
             <variable>sevenzipa</variable>
         </dependency>
@@ -2371,6 +2408,28 @@ rmdir "%name%"</file>
         </dependency>
     </version>
     <version name="1.4.4" package="org.xapian.XapianCore" type="one-file">
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.tar.xz') do set setup=%%x&#13;
+"%sevenzipa%\7za.exe" x "%setup%"&#13;
+del "%setup%"&#13;
+&#13;
+for /f "delims=" %%x in ('dir /b *.tar') do set setup=%%x&#13;
+"%sevenzipa%\7za.exe" x "%setup%"&#13;
+del "%setup%"&#13;
+&#13;
+for /f "delims=" %%x in ('dir /b xapian*') do set name=%%x&#13;
+cd "%name%"&#13;
+for /f "delims=" %%a in ('dir /b') do (&#13;
+  move "%%a" ..&#13;
+)&#13;
+cd ..&#13;
+rmdir "%name%"</file>
+        <url>http://oligarchy.co.uk/xapian/1.4.4/xapian-core-1.4.4.tar.xz</url>
+        <sha1>6b8bf7eea3059dab8d5dd254c3ae0cf895bc4910</sha1>
+        <dependency package="org.7-zip.SevenZIPA" versions="[9.20, 9.20]">
+            <variable>sevenzipa</variable>
+        </dependency>
+    </version>
+    <version name="1.4.5" package="org.xapian.XapianCore" type="one-file">
         <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.tar.xz') do set setup=%%x&#13;
 "%sevenzipa%\7za.exe" x "%setup%"&#13;
 del "%setup%"&#13;
