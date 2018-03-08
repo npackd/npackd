@@ -353,7 +353,7 @@ var githubToken = arguments.Named.Item("github_token");
 
 // so that the password is not printed
 var shell = WScript.CreateObject("WScript.Shell");
-var oExec = shell.Exec("git push https://tim-lebedkov:" + githubToken +
+var oExec = shell.Exec("\"C:\\Program Files\\Git\\usr\\bin\\git\" push https://tim-lebedkov:" + githubToken +
      "@github.com/tim-lebedkov/npackd.git");
 while (oExec.Status == 0) {
      WScript.Sleep(100);
