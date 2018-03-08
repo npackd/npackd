@@ -353,7 +353,11 @@ var git = "C:\\Program Files\\Git\\cmd\\git.exe";
 var curl = "C:\\Tools\\curl\\bin\\curl.exe";
 //  WScript.Echo("password=" + password);
 
+// download the newest repository files and commit them to the project
 exec("\"" + git + "\" git checkout master");
+exec("\"" + curl + "\" -O repository\\RepUnstable.xml " +
+     "https://www.npackd.org/rep/xml?tag=unstable");
+exec("\"" + git + "\" commit -m \"Automatic data transfer from https://www.npackd.org\"");
 exec("\"" + git + "\" push https://tim-lebedkov:" + githubToken +
      "@github.com/tim-lebedkov/npackd.git");
 
