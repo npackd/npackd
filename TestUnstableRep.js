@@ -349,9 +349,12 @@ function processURL(url, password, onlyNewest) {
 var arguments = WScript.Arguments;
 var password = arguments.Named.Item("password");
 var githubToken = arguments.Named.Item("github_token");
+var git = "C:\\Program Files\\Git\\cmd\\git.exe";
+var curl = "C:\\Tools\\curl\\bin\\curl.exe";
 //  WScript.Echo("password=" + password);
 
-exec("\"C:\\Program Files\\Git\\cmd\\git.exe\" push https://tim-lebedkov:" + githubToken +
+exec("\"" + git + "\" git checkout master");
+exec("\"" + git + "\" push https://tim-lebedkov:" + githubToken +
      "@github.com/tim-lebedkov/npackd.git");
 
 var ec = exec("\"" + npackdcl + "\" detect");
