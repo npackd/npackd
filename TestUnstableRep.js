@@ -351,7 +351,7 @@ var password = arguments.Named.Item("password");
 var githubToken = arguments.Named.Item("github_token");
 //  WScript.Echo("password=" + password);
 
-exec2("\"C:\\Program Files\\Git\\cmd\\git.exe\" push https://tim-lebedkov:" + githubToken +
+exec("\"C:\\Program Files\\Git\\cmd\\git.exe\" push https://tim-lebedkov:" + githubToken +
      "@github.com/tim-lebedkov/npackd.git");
 
 var ec = exec("\"" + npackdcl + "\" detect");
