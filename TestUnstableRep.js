@@ -33,7 +33,7 @@ function shuffle(array) {
 }
 
 function exec(cmd) {
-    var result = exec2("cmd.exe /c " + cmd + " 2>&1");
+    var result = exec2("cmd.exe /s /c \"" + cmd + " 2>&1\"");
     return result[0];
 }
 
