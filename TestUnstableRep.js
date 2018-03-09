@@ -267,35 +267,35 @@ function processURL(url, password, onlyNewest) {
             pvs.push(pvs_[i]);
         }
 
-		// only retain newest versions for each package
-		if (onlyNewest) {
-			WScript.Echo("Only testing the newest versions out of " + pvs.length);
-			var newest = {};
-			for (var i = 0; i < pvs.length; i++) {
-				var pvi = pvs[i];
-				var pvip = pvi.getAttribute("package");
-				var pvj = newest[pvip];
-				
-				if (((typeof pvj) === "undefined") ||
-						compareVersions(pvi.getAttribute("name"), 
-						pvj.getAttribute("name")) > 0) {
-					newest[pvip] = pvi;
-				}
-			}
-			
-			pvs = [];
-			for (var key in newest) {
-				pvs.push(newest[key]);
-				
-				/*
-				WScript.Echo("Newest: " + newest[key].getAttribute("package") + 
-						" " +
-						newest[key].getAttribute("name"));
-				*/
-			}
-
-			WScript.Echo("Only the newest versions: " + pvs.length);
+	// only retain newest versions for each package
+	if (onlyNewest) {
+	    WScript.Echo("Only testing the newest versions out of " + pvs.length);
+	    var newest = {};
+	    for (var i = 0; i < pvs.length; i++) {
+		var pvi = pvs[i];
+		var pvip = pvi.getAttribute("package");
+		var pvj = newest[pvip];
+		
+		if (((typeof pvj) === "undefined") ||
+		    compareVersions(pvi.getAttribute("name"), 
+				    pvj.getAttribute("name")) > 0) {
+		    newest[pvip] = pvi;
 		}
+	    }
+	    
+	    pvs = [];
+	    for (var key in newest) {
+		pvs.push(newest[key]);
+		
+		/*
+		  WScript.Echo("Newest: " + newest[key].getAttribute("package") + 
+		  " " +
+		  newest[key].getAttribute("name"));
+		*/
+	    }
+
+	    WScript.Echo("Only the newest versions: " + pvs.length);
+	}
 		
         shuffle(pvs);
 
@@ -308,6 +308,7 @@ function processURL(url, password, onlyNewest) {
             var version = pv.getAttribute("name");
 
             WScript.Echo(package_ + " " + version);
+            WScript.Echo("https://www.npackd.org/p/" + package_ + "/" + version);
             if (!process(package_, version)) {
                 failed.push(package_ + "@" + version);
             } else {
