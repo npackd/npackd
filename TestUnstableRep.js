@@ -1,6 +1,7 @@
 var npackdcl = "C:\\Program Files (x86)\\NpackdCL\\ncl.exe";
 
 var FSO = new ActiveXObject("Scripting.FileSystemObject");
+var shell = WScript.CreateObject("WScript.Shell");
 
 Array.prototype.contains = function(v) {
     for (var i = 0; i < this.length; i++) {
@@ -58,7 +59,6 @@ function getPath(package_, version) {
  * @return [exit code, [output line 1, output line2, ...]]
  */
 function exec2(cmd) {
-    var shell = WScript.CreateObject("WScript.Shell");
     var p = shell.exec(cmd);
     var output = [];
     while (!p.StdOut.AtEndOfStream) {
@@ -348,10 +348,13 @@ function processURL(url, password, onlyNewest) {
 
 var arguments = WScript.Arguments;
 var password = arguments.Named.Item("password");
-var githubToken = arguments.Named.Item("github_token");
+
+var env = shell.Environment("Process");
+var githubToken = env("github_token");
+
 var git = "C:\\Program Files\\Git\\cmd\\git.exe";
 var curl = "C:\\Tools\\curl\\bin\\curl.exe";
-WScript.Echo("password=" + githubToken);
+// WScript.Echo("password=" + githubToken);
 
 // download the newest repository files and commit them to the project
 exec("\"" + git + "\" checkout master");
