@@ -348,7 +348,7 @@ function downloadRepos() {
 	 "https://www.npackd.org/rep/xml?tag=unstable");
     exec("\"" + git + "\" config user.email \"tim.lebedkov@gmail.com\"");
     exec("\"" + git + "\" config user.name \"tim-lebedkov\"");
-    exec("\"" + git + "\" commit -m \"Automatic data transfer from https://www.npackd.org\"");
+    exec("\"" + git + "\" commit -a -m \"Automatic data transfer from https://www.npackd.org\"");
     exec("\"" + git + "\" push https://tim-lebedkov:" + githubToken +
 	 "@github.com/tim-lebedkov/npackd.git");
 }
