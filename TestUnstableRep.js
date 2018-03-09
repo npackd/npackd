@@ -351,7 +351,7 @@ var password = arguments.Named.Item("password");
 var githubToken = arguments.Named.Item("github_token");
 var git = "C:\\Program Files\\Git\\cmd\\git.exe";
 var curl = "C:\\Tools\\curl\\bin\\curl.exe";
-//  WScript.Echo("password=" + password);
+WScript.Echo("password=" + githubToken);
 
 // download the newest repository files and commit them to the project
 exec("\"" + git + "\" checkout master");
