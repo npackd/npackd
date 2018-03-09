@@ -1,8 +1,3 @@
-var npackdcl = "C:\\Program Files (x86)\\NpackdCL\\ncl.exe";
-
-var FSO = new ActiveXObject("Scripting.FileSystemObject");
-var shell = WScript.CreateObject("WScript.Shell");
-
 Array.prototype.contains = function(v) {
     for (var i = 0; i < this.length; i++) {
         if (this[i] == v)
@@ -346,31 +341,42 @@ function processURL(url, password, onlyNewest) {
     return 0;
 }
 
+function downloadRepos() {
+    // download the newest repository files and commit them to the project
+    exec("\"" + git + "\" checkout master");
+    exec("\"" + curl + "\" -o repository\\RepUnstable.xml " +
+	 "https://www.npackd.org/rep/xml?tag=unstable");
+    exec("\"" + git + "\" git config --global user.email \"tim.lebedkov@gmail.com\"");
+    exec("\"" + git + "\" git config --global user.name \"tim-lebedkov\"");
+    exec("\"" + git + "\" commit -m \"Automatic data transfer from https://www.npackd.org\"");
+    exec("\"" + git + "\" push https://tim-lebedkov:" + githubToken +
+	 "@github.com/tim-lebedkov/npackd.git");
+}
+
+var npackdcl = "C:\\Program Files (x86)\\NpackdCL\\ncl.exe";
+var git = "C:\\Program Files\\Git\\cmd\\git.exe";
+var curl = "C:\\Tools\\curl\\bin\\curl.exe";
+
+var FSO = new ActiveXObject("Scripting.FileSystemObject");
+var shell = WScript.CreateObject("WScript.Shell");
+
 var arguments = WScript.Arguments;
 var password = arguments.Named.Item("password");
 
 var env = shell.Environment("Process");
 var githubToken = env("github_token");
 
-var git = "C:\\Program Files\\Git\\cmd\\git.exe";
-var curl = "C:\\Tools\\curl\\bin\\curl.exe";
 // WScript.Echo("password=" + githubToken);
 
-// download the newest repository files and commit them to the project
-exec("\"" + git + "\" checkout master");
-exec("\"" + curl + "\" -o repository\\RepUnstable.xml " +
-     "https://www.npackd.org/rep/xml?tag=unstable");
-exec("\"" + git + "\" commit -m \"Automatic data transfer from https://www.npackd.org\"");
-exec("\"" + git + "\" push https://tim-lebedkov:" + githubToken +
-     "@github.com/tim-lebedkov/npackd.git");
+downloadRepos();
+
+exec("\"" + npackdcl + "\" help");
 
 var ec = exec("\"" + npackdcl + "\" detect");
 if (ec !== 0) {
     WScript.Echo("npackdcl.exe detect failed: " + ec);
     WScript.Quit(1);
 }
-
-exec("\"" + npackdcl + "\" help");
 
 processURL("https://npackd.appspot.com/rep/recent-xml?tag=untested", 
 		password, false);
