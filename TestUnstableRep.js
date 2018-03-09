@@ -344,8 +344,16 @@ function processURL(url, password, onlyNewest) {
 function downloadRepos() {
     // download the newest repository files and commit them to the project
     exec("\"" + git + "\" checkout master");
+
     exec("\"" + curl + "\" -o repository\\RepUnstable.xml " +
 	 "https://www.npackd.org/rep/xml?tag=unstable");
+    exec("\"" + curl + "\" -o repository\\Rep.xml " +
+	 "https://www.npackd.org/rep/xml?tag=stable");
+    exec("\"" + curl + "\" -o repository\\Rep64.xml " +
+	 "https://www.npackd.org/rep/xml?tag=stable64");
+    exec("\"" + curl + "\" -o repository\\Libs.xml " +
+	 "https://www.npackd.org/rep/xml?tag=libs");
+
     exec("\"" + git + "\" config user.email \"tim.lebedkov@gmail.com\"");
     exec("\"" + git + "\" config user.name \"tim-lebedkov\"");
     exec("\"" + git + "\" commit -a -m \"Automatic data transfer from https://www.npackd.org\"");
