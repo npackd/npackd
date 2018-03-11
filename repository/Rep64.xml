@@ -3090,28 +3090,6 @@ if %err% neq 0 exit %err%</file>
         <url>http://dl-ak.solidworks.com/nonsecure/draftsight/2017SP03-1/DraftSight64.exe</url>
         <dependency package="com.microsoft.Windows64" versions="[5, 20)"/>
     </version>
-    <version name="2018" package="com.3ds.DraftSight64" type="one-file">
-        <file path=".Npackd\Install.bat">md msi&#13;
-&#13;
-"%npackd_package_binary%" /Q /T:"%CD%\msi" /C&#13;
-&#13;
-for /f "delims=" %%x in ('dir /b msi\*.msi') do set setup=%%x&#13;
-msiexec /qn /norestart /lime .Npackd\MSI.log /i "msi\%setup%" TARGETDIR="%CD%" ALLUSERS=1&#13;
-set err=%errorlevel%&#13;
-type .Npackd\MSI.log&#13;
-rem 3010=restart required&#13;
-if %err% equ 3010 exit 0&#13;
-if %err% neq 0 exit %err%</file>
-        <file path=".Npackd\Uninstall.bat">for /f "delims=" %%x in ('dir /b msi\*.msi') do set setup=%%x&#13;
-msiexec /qn /norestart /lime .Npackd\MSI.log /x "msi\%setup%"&#13;
-set err=%errorlevel%&#13;
-type .Npackd\MSI.log&#13;
-rem 3010=restart required&#13;
-if %err% equ 3010 exit 0&#13;
-if %err% neq 0 exit %err%</file>
-        <url>http://dl-ak.solidworks.com/nonsecure/draftsight/2018SP0/DraftSight64.exe</url>
-        <dependency package="com.microsoft.Windows64" versions="[5, 20)"/>
-    </version>
 
     <version name="5.24.1.2402" package="com.activestate.ActivePerl64" type="one-file">
         <file path=".Npackd\Install.bat">"%npackd_package_binary%" /quiet TARGETDIR="%cd%" PERL_PATH=Yes PERL_EXT=Yes</file>
@@ -11778,8 +11756,8 @@ for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
 </file>
         <file path=".Npackd\Uninstall.bat">uninst.exe /S _?=%CD%&#13;
 </file>
-        <url>https://handbrake.fr/mirror/HandBrake-1.0.7-x86_64-Win_GUI.exe</url>
-        <sha1>602e342cd786227812c34040574084ca95bad479</sha1>
+        <url>https://download2.handbrake.fr/1.0.7/HandBrake-1.0.7-x86_64-Win_GUI.exe</url>
+        <hash-sum type="SHA-256">3d63e96ba3e0e538d6d7fce86070fa5621b2bcd89123d53d25bbe625b7e7c4ba</hash-sum>
         <dependency package="com.microsoft.DotNetRedistributable" versions="[2, 3)"/>
     </version>
 
