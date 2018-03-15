@@ -4500,6 +4500,46 @@ if "%setup%" neq "" "%setup%" -uninstall&#13;
 </file>
         <url>https://download.macromedia.com/pub/flashplayer/pdc/28.0.0.161/install_flash_player_28_plugin.msi</url>
     </version>
+    <version name="29.0.0.113" package="com.adobe.FlashPlayerActiveX64" type="one-file">
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.msi') do set setup=%%x&#13;
+mkdir .Npackd&#13;
+move "%setup%" .Npackd&#13;
+set err=%errorlevel%&#13;
+if %err% neq 0 exit %err%&#13;
+&#13;
+rem MSIFASTINSTALL: http://msdn.microsoft.com/en-us/library/dd408005%28v=VS.85%29.aspx&#13;
+msiexec.exe /qn /norestart /Lime .Npackd\InstallMSI.log /i ".Npackd\%setup%" INSTALLDIR="%CD%" ALLUSERS=1 MSIFASTINSTALL=7&#13;
+set err=%errorlevel%&#13;
+type .Npackd\InstallMSI.log&#13;
+&#13;
+rem list of errors: http://msdn.microsoft.com/en-us/library/windows/desktop/aa368542(v=vs.85).aspx&#13;
+rem 3010=restart required&#13;
+if %err% equ 3010 goto cont&#13;
+if %err% neq 0 exit %err%&#13;
+&#13;
+:cont&#13;
+</file>
+        <file path=".Npackd\Uninstall.bat">move .Npackd\*.msi .&#13;
+for /f "delims=" %%x in ('dir /b *.msi') do set setup=%%x&#13;
+&#13;
+rem MSIFASTINSTALL: http://msdn.microsoft.com/en-us/library/dd408005%28v=VS.85%29.aspx&#13;
+msiexec.exe /qn /norestart /Lime .Npackd\UninstallMSI.log /x "%setup%" MSIFASTINSTALL=7&#13;
+set err=%errorlevel%&#13;
+type .Npackd\UninstallMSI.log&#13;
+rem 3010=restart required&#13;
+if %err% equ 3010 goto cont&#13;
+if %err% neq 0 exit %err%&#13;
+&#13;
+:cont&#13;
+if not exist "%ProgramFiles(x86)%" set d=%windir%\System32\Macromed\Flash&#13;
+if exist "%ProgramFiles(x86)%" set d=%windir%\SysWOW64\Macromed\Flash&#13;
+cd "%d%"&#13;
+set setup=&#13;
+for /f "delims=" %%x in ('dir /b FlashUtil32*ActiveX.exe') do set setup=%%x&#13;
+if "%setup%" neq "" "%setup%" -uninstall&#13;
+</file>
+        <url>https://download.macromedia.com/pub/flashplayer/pdc/29.0.0.113/install_flash_player_29_plugin.msi</url>
+    </version>
 
     <version name="1.11" package="com.alcpu.CoreTemp64">
         <important-file path="Core" title="Temp.exe CoreTemp"/>
@@ -7996,7 +8036,7 @@ if %err% neq 0 exit /b %err%&#13;
 &#13;
 "%clu%\clu" remove-path --path "%CD%"&#13;
 verify</file>
-        <url>http://mercurial.selenic.com/release/windows/mercurial-1.8.2-x64.msi</url>
+        <url>https://www.mercurial-scm.org/release/windows/mercurial-1.8.2-x64.msi</url>
         <sha1>C224AE8B4A6FE5C30C05CFD6B5D8503C4E0318CC</sha1>
         <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.15.7, 2)"/>
         <dependency package="com.googlecode.windows-package-manager.CLU" versions="[1, 2)">
@@ -8026,7 +8066,7 @@ if %err% neq 0 exit /b %err%&#13;
 &#13;
 "%clu%\clu" remove-path --path "%CD%"&#13;
 verify</file>
-        <url>http://mercurial.selenic.com/release/windows/mercurial-1.8.4-x64.msi</url>
+        <url>https://www.mercurial-scm.org/release/windows/mercurial-1.8.4-x64.msi</url>
         <sha1>17E4D1BD3D6B791F8180E10B418B7436DDC01225</sha1>
         <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.15.7, 2)"/>
         <dependency package="com.googlecode.windows-package-manager.CLU" versions="[1, 2)">
@@ -8056,7 +8096,7 @@ if %err% neq 0 exit /b %err%&#13;
 &#13;
 "%clu%\clu" remove-path --path "%CD%"&#13;
 verify</file>
-        <url>http://mercurial.selenic.com/release/windows/mercurial-1.9.0-x64.msi</url>
+        <url>https://www.mercurial-scm.org/release/windows/mercurial-1.9.0-x64.msi</url>
         <sha1>8c30276087d15f4c5b56a213b71bf2fc24d21a9c</sha1>
         <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.15.7, 2)"/>
         <dependency package="com.googlecode.windows-package-manager.CLU" versions="[1, 2)">
@@ -8086,7 +8126,7 @@ if %err% neq 0 exit /b %err%&#13;
 &#13;
 "%clu%\clu" remove-path --path "%CD%"&#13;
 verify</file>
-        <url>http://mercurial.selenic.com/release/windows/mercurial-1.9.1-x64.msi</url>
+        <url>https://www.mercurial-scm.org/release/windows/mercurial-1.9.1-x64.msi</url>
         <sha1>7042bb4326c67017a4b735229905a3a04a4439c4</sha1>
         <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.15.7, 2)"/>
         <dependency package="com.googlecode.windows-package-manager.CLU" versions="[1, 2)">
@@ -8116,7 +8156,7 @@ if %err% neq 0 exit /b %err%&#13;
 &#13;
 "%clu%\clu" remove-path --path "%CD%"&#13;
 verify</file>
-        <url>http://mercurial.selenic.com/release/windows/mercurial-1.9.2-x64.msi</url>
+        <url>https://www.mercurial-scm.org/release/windows/mercurial-1.9.2-x64.msi</url>
         <sha1>3206c244623b70d02ae31eed4db45cb6fcd7377c</sha1>
         <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.15.7, 2)"/>
         <dependency package="com.googlecode.windows-package-manager.CLU" versions="[1, 2)">
@@ -8139,7 +8179,7 @@ if %err% neq 0 exit %err%&#13;
 &#13;
 "%clu%\clu" add-path --path "%CD%"&#13;
 verify</file>
-        <url>http://mercurial.selenic.com/release/windows/Mercurial-2.0-x64.exe</url>
+        <url>https://www.mercurial-scm.org/release/windows/Mercurial-2.0-x64.exe</url>
         <sha1>c9c7a104b6d7d1980800207e546f490094a8cfa9</sha1>
         <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.15.7, 2)"/>
         <dependency package="com.googlecode.windows-package-manager.CLU" versions="[1, 2)">
@@ -8162,7 +8202,7 @@ if %err% neq 0 exit %err%&#13;
 &#13;
 "%clu%\clu" add-path --path "%CD%"&#13;
 verify</file>
-        <url>http://mercurial.selenic.com/release/windows/Mercurial-2.0.2-x64.exe</url>
+        <url>https://www.mercurial-scm.org/release/windows/Mercurial-2.0.2-x64.exe</url>
         <sha1>65288257ac3f75615d06ed633c4df79c636e2b0f</sha1>
         <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.15.7, 2)"/>
         <dependency package="com.googlecode.windows-package-manager.CLU" versions="[1, 2)">
@@ -8185,7 +8225,7 @@ if %err% neq 0 exit %err%&#13;
 &#13;
 "%clu%\clu" add-path --path "%CD%"&#13;
 verify</file>
-        <url>http://mercurial.selenic.com/release/windows/Mercurial-2.1.2-x64.exe</url>
+        <url>https://www.mercurial-scm.org/release/windows/Mercurial-2.1.2-x64.exe</url>
         <sha1>91ef65ae34f9866c9cc2c2428ecbc59aa1a01379</sha1>
         <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.15.7, 2)"/>
         <dependency package="com.googlecode.windows-package-manager.CLU" versions="[1, 2)">
@@ -8208,7 +8248,7 @@ if %err% neq 0 exit %err%&#13;
 &#13;
 "%clu%\clu" add-path --path "%CD%"&#13;
 verify</file>
-        <url>http://mercurial.selenic.com/release/windows/Mercurial-2.2.1-x64.exe</url>
+        <url>https://www.mercurial-scm.org/release/windows/Mercurial-2.2.1-x64.exe</url>
         <sha1>e5c98220359c3942b026ed5216be4839f1b96dd0</sha1>
         <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.15.7, 2)"/>
         <dependency package="com.googlecode.windows-package-manager.CLU" versions="[1, 2)">
@@ -8231,7 +8271,7 @@ if %err% neq 0 exit %err%&#13;
 &#13;
 "%clu%\clu" add-path --path "%CD%"&#13;
 verify</file>
-        <url>http://mercurial.selenic.com/release/windows/Mercurial-2.2.2-x64.exe</url>
+        <url>https://www.mercurial-scm.org/release/windows/Mercurial-2.2.2-x64.exe</url>
         <sha1>a49f8c3428e0fb43fb97f871ad16a4465cc037f6</sha1>
         <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.15.7, 2)"/>
         <dependency package="com.googlecode.windows-package-manager.CLU" versions="[1, 2)">
@@ -8254,7 +8294,7 @@ if %err% neq 0 exit %err%&#13;
 &#13;
 "%clu%\clu" add-path --path "%CD%"&#13;
 verify</file>
-        <url>http://mercurial.selenic.com/release/windows/Mercurial-2.2.3-x64.exe</url>
+        <url>https://www.mercurial-scm.org/release/windows/Mercurial-2.2.3-x64.exe</url>
         <sha1>1cd8664f4377cbd63e2ba9eca364f7f16d2a68a4</sha1>
         <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.15.7, 2)"/>
         <dependency package="com.googlecode.windows-package-manager.CLU" versions="[1, 2)">
@@ -8277,7 +8317,7 @@ if %err% neq 0 exit %err%&#13;
 &#13;
 "%clu%\clu" add-path --path "%CD%"&#13;
 verify</file>
-        <url>http://mercurial.selenic.com/release/windows/Mercurial-2.3-x64.exe</url>
+        <url>https://www.mercurial-scm.org/release/windows/Mercurial-2.3-x64.exe</url>
         <sha1>6cadbc11bccb137d3dc2cda3a7461b74a6e311a2</sha1>
         <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.15.7, 2)"/>
         <dependency package="com.googlecode.windows-package-manager.CLU" versions="[1, 2)">
@@ -8300,7 +8340,7 @@ if %err% neq 0 exit %err%&#13;
 &#13;
 "%clu%\clu" add-path --path "%CD%"&#13;
 verify</file>
-        <url>http://mercurial.selenic.com/release/windows/Mercurial-2.3.1-x64.exe</url>
+        <url>https://www.mercurial-scm.org/release/windows/Mercurial-2.3.1-x64.exe</url>
         <sha1>05d201eec7691353b46cf3a95c198ed228277c35</sha1>
         <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.15.7, 2)"/>
         <dependency package="com.googlecode.windows-package-manager.CLU" versions="[1, 2)">
@@ -8323,7 +8363,7 @@ if %err% neq 0 exit %err%&#13;
 &#13;
 "%clu%\clu" add-path --path "%CD%"&#13;
 verify</file>
-        <url>http://mercurial.selenic.com/release/windows/Mercurial-2.4-x64.exe</url>
+        <url>https://www.mercurial-scm.org/release/windows/Mercurial-2.4-x64.exe</url>
         <sha1>4fa34a0d1ed43fc8939f95e6a501a0f37d951b7a</sha1>
         <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.15.7, 2)"/>
         <dependency package="com.googlecode.windows-package-manager.CLU" versions="[1, 2)">
@@ -8346,7 +8386,7 @@ if %err% neq 0 exit %err%&#13;
 &#13;
 "%clu%\clu" add-path --path "%CD%"&#13;
 verify</file>
-        <url>http://mercurial.selenic.com/release/windows/Mercurial-2.4.1-x64.exe</url>
+        <url>https://www.mercurial-scm.org/release/windows/Mercurial-2.4.1-x64.exe</url>
         <sha1>ee1b94e73c09f6d3ef510e893009657eca3dc3e4</sha1>
         <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.15.7, 2)"/>
         <dependency package="com.googlecode.windows-package-manager.CLU" versions="[1, 2)">
@@ -8369,7 +8409,7 @@ if %err% neq 0 exit %err%&#13;
 &#13;
 "%clu%\clu" add-path --path "%CD%"&#13;
 verify</file>
-        <url>http://mercurial.selenic.com/release/windows/Mercurial-2.5.2-x64.exe</url>
+        <url>https://www.mercurial-scm.org/release/windows/Mercurial-2.5.2-x64.exe</url>
         <sha1>6db5e8a847203b5d8fcdaa2e321961fc3b025dc7</sha1>
         <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.15.7, 2)"/>
         <dependency package="com.googlecode.windows-package-manager.CLU" versions="[1, 2)">
@@ -8392,7 +8432,7 @@ if %err% neq 0 exit %err%&#13;
 &#13;
 "%clu%\clu" add-path --path "%CD%"&#13;
 verify</file>
-        <url>http://mercurial.selenic.com/release/windows/Mercurial-2.5.2-x64.exe</url>
+        <url>https://www.mercurial-scm.org/release/windows/Mercurial-2.5.2-x64.exe</url>
         <sha1>6db5e8a847203b5d8fcdaa2e321961fc3b025dc7</sha1>
         <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.15.7, 2)"/>
         <dependency package="com.googlecode.windows-package-manager.CLU" versions="[1, 2)">
@@ -8415,7 +8455,7 @@ if %err% neq 0 exit %err%&#13;
 &#13;
 "%clu%\clu" add-path --path "%CD%"&#13;
 verify</file>
-        <url>http://mercurial.selenic.com/release/windows/Mercurial-2.6.3-x64.exe</url>
+        <url>https://www.mercurial-scm.org/release/windows/Mercurial-2.6.3-x64.exe</url>
         <sha1>e620f0ca28aa89e864ec8ca70ed5fdd79f595a17</sha1>
         <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.15.7, 2)"/>
         <dependency package="com.googlecode.windows-package-manager.CLU" versions="[1, 2)">
@@ -8438,7 +8478,7 @@ if %err% neq 0 exit %err%&#13;
 &#13;
 "%clu%\clu" add-path --path "%CD%"&#13;
 verify</file>
-        <url>http://mercurial.selenic.com/release/windows/Mercurial-2.7.1-x64.exe</url>
+        <url>https://www.mercurial-scm.org/release/windows/Mercurial-2.7.1-x64.exe</url>
         <sha1>3e3548375b94f8aa064ae1304b33b013200a5534</sha1>
         <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.15.7, 2)"/>
         <dependency package="com.googlecode.windows-package-manager.CLU" versions="[1, 2)">
@@ -8461,7 +8501,7 @@ if %err% neq 0 exit %err%&#13;
 &#13;
 "%clu%\clu" add-path --path "%CD%"&#13;
 verify</file>
-        <url>http://mercurial.selenic.com/release/windows/Mercurial-2.7.2-x64.exe</url>
+        <url>https://www.mercurial-scm.org/release/windows/Mercurial-2.7.2-x64.exe</url>
         <sha1>cb8e278a716bb85c90b0c9bc12200f0e8c33725d</sha1>
         <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.15.7, 2)"/>
         <dependency package="com.googlecode.windows-package-manager.CLU" versions="[1, 2)">
@@ -8480,7 +8520,7 @@ set err=%errorlevel%&#13;
 type .Npackd\InnoSetupInstall.log&#13;
 if %err% neq 0 exit %err%&#13;
 </file>
-        <url>http://mercurial.selenic.com/release/windows/Mercurial-2.9-x64.exe</url>
+        <url>https://www.mercurial-scm.org/release/windows/Mercurial-2.9-x64.exe</url>
         <sha1>01efe6af50409707dbfb8c5c5577a522bbb62543</sha1>
     </version>
     <version name="2.9.1" package="com.selenic.mercurial.Mercurial64" type="one-file">
@@ -8495,7 +8535,7 @@ set err=%errorlevel%&#13;
 type .Npackd\InnoSetupInstall.log&#13;
 if %err% neq 0 exit %err%&#13;
 </file>
-        <url>http://mercurial.selenic.com/release/windows/Mercurial-2.9.1-x64.exe</url>
+        <url>https://www.mercurial-scm.org/release/windows/Mercurial-2.9.1-x64.exe</url>
         <sha1>3f6d10f3803fd302c9d2e2e2c89aa23122774977</sha1>
     </version>
     <version name="3.0.2" package="com.selenic.mercurial.Mercurial64" type="one-file">
@@ -8510,7 +8550,7 @@ set err=%errorlevel%&#13;
 type .Npackd\InnoSetupInstall.log&#13;
 if %err% neq 0 exit %err%&#13;
 </file>
-        <url>http://mercurial.selenic.com/release/windows/Mercurial-3.0.2-x64.exe</url>
+        <url>https://www.mercurial-scm.org/release/windows/Mercurial-3.0.2-x64.exe</url>
         <sha1>aae7b6149e4b3ff5df6484062baabe087b888688</sha1>
     </version>
     <version name="3.1.1" package="com.selenic.mercurial.Mercurial64" type="one-file">
@@ -8525,7 +8565,7 @@ set err=%errorlevel%&#13;
 type .Npackd\InnoSetupInstall.log&#13;
 if %err% neq 0 exit %err%&#13;
 </file>
-        <url>http://mercurial.selenic.com/release/windows/Mercurial-3.1.1-x64.exe</url>
+        <url>https://www.mercurial-scm.org/release/windows/Mercurial-3.1.1-x64.exe</url>
         <sha1>fda02eb5fc5750726d73f6a1554c1b3400d1d384</sha1>
     </version>
     <version name="3.2" package="com.selenic.mercurial.Mercurial64" type="one-file">
@@ -8533,7 +8573,7 @@ if %err% neq 0 exit %err%&#13;
 call "%nih%\RegisterCommand.bat" hg.exe yes || exit /b %errorlevel%</file>
         <file path=".Npackd\Uninstall.bat">call "%nih%\UnregisterCommand.bat" hg.exe&#13;
 call "%nih%\UninstallInnoSetup.bat" unins000.exe</file>
-        <url>http://mercurial.selenic.com/release/windows/Mercurial-3.2-x64.exe</url>
+        <url>https://www.mercurial-scm.org/release/windows/Mercurial-3.2-x64.exe</url>
         <sha1>b4f50f14b4e5291060e0bc7edccbbafb9fc47dc7</sha1>
         <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.7, 2)">
             <variable>nih</variable>
@@ -8544,7 +8584,7 @@ call "%nih%\UninstallInnoSetup.bat" unins000.exe</file>
 call "%nih%\RegisterCommand.bat" hg.exe yes || exit /b %errorlevel%</file>
         <file path=".Npackd\Uninstall.bat">call "%nih%\UnregisterCommand.bat" hg.exe&#13;
 call "%nih%\UninstallInnoSetup.bat" unins000.exe</file>
-        <url>http://mercurial.selenic.com/release/windows/Mercurial-3.2.3-x64.exe</url>
+        <url>https://www.mercurial-scm.org/release/windows/Mercurial-3.2.3-x64.exe</url>
         <sha1>92bd2ace7d0b941b437a8d6f10606ffc4ab99b70</sha1>
         <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.7, 2)">
             <variable>nih</variable>
@@ -8555,7 +8595,7 @@ call "%nih%\UninstallInnoSetup.bat" unins000.exe</file>
 call "%nih%\RegisterCommand.bat" hg.exe yes || exit /b %errorlevel%</file>
         <file path=".Npackd\Uninstall.bat">call "%nih%\UnregisterCommand.bat" hg.exe&#13;
 call "%nih%\UninstallInnoSetup.bat" unins000.exe</file>
-        <url>http://mercurial.selenic.com/release/windows/Mercurial-3.3.3-x64.exe</url>
+        <url>https://www.mercurial-scm.org/release/windows/Mercurial-3.3.3-x64.exe</url>
         <sha1>fbf76b868b6e1079ce355b060adcf69e64ff4a26</sha1>
         <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.7, 2)">
             <variable>nih</variable>
@@ -8566,7 +8606,7 @@ call "%nih%\UninstallInnoSetup.bat" unins000.exe</file>
 call "%nih%\RegisterCommand.bat" hg.exe yes || exit /b %errorlevel%</file>
         <file path=".Npackd\Uninstall.bat">call "%nih%\UnregisterCommand.bat" hg.exe&#13;
 call "%nih%\UninstallInnoSetup.bat" unins000.exe</file>
-        <url>http://mercurial.selenic.com/release/windows/Mercurial-3.5-x64.exe</url>
+        <url>https://www.mercurial-scm.org/release/windows/Mercurial-3.5-x64.exe</url>
         <sha1>c0ffa6d53cd988777a6ca580deb05aad19be50f4</sha1>
         <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.7, 2)">
             <variable>nih</variable>
@@ -8577,7 +8617,7 @@ call "%nih%\UninstallInnoSetup.bat" unins000.exe</file>
 call "%nih%\RegisterCommand.bat" hg.exe yes || exit /b %errorlevel%</file>
         <file path=".Npackd\Uninstall.bat">call "%nih%\UnregisterCommand.bat" hg.exe&#13;
 call "%nih%\UninstallInnoSetup.bat" unins000.exe</file>
-        <url>http://mercurial.selenic.com/release/windows/Mercurial-3.5.2-x64.exe</url>
+        <url>https://www.mercurial-scm.org/release/windows/Mercurial-3.5.2-x64.exe</url>
         <sha1>f7219fb13beea48b0891c3244bed7a8810281628</sha1>
         <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.7, 2)">
             <variable>nih</variable>
@@ -8588,7 +8628,7 @@ call "%nih%\UninstallInnoSetup.bat" unins000.exe</file>
 call "%nih%\RegisterCommand.bat" hg.exe yes || exit /b %errorlevel%</file>
         <file path=".Npackd\Uninstall.bat">call "%nih%\UnregisterCommand.bat" hg.exe&#13;
 call "%nih%\UninstallInnoSetup.bat" unins000.exe</file>
-        <url>http://mercurial.selenic.com/release/windows/Mercurial-3.7.1-x64.exe</url>
+        <url>https://www.mercurial-scm.org/release/windows/Mercurial-3.7.1-x64.exe</url>
         <sha1>0f3103bce871ef497a13baa4a45c22d533926df7</sha1>
         <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.7, 2)">
             <variable>nih</variable>
@@ -13383,6 +13423,17 @@ if %err% neq 0 exit %err%&#13;
             <variable>nih</variable>
         </dependency>
     </version>
+    <version name="7.0.7.26" package="imagemagick64" type="one-file">
+        <file path=".Npackd\Install.bat">call "%nih%\InstallInnoSetup.bat"&#13;
+</file>
+        <file path=".Npackd\Uninstall.bat">call "%nih%\UninstallInnoSetup.bat" unins000.exe&#13;
+</file>
+        <url>https://www.imagemagick.org/download/binaries/ImageMagick-7.0.7-26-Q16-x64-dll.exe</url>
+        <sha1>59dcd4266aced5052908fd3449599782ce7b7dd3</sha1>
+        <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
+            <variable>nih</variable>
+        </dependency>
+    </version>
 
     <version name="0.3.8" package="io.mpv.mpv-64" type="one-file">
         <file path=".Npackd\Install.bat">for /f %%x in ('dir /b *.7z') do set setup=%%x&#13;
@@ -15202,7 +15253,7 @@ if %errorlevel% neq 0 exit /b %errorlevel%&#13;
     <version name="6.3.10" package="mysql-workbench64" type="one-file">
         <file path=".Npackd\Install.bat">call "%npackdih%\InstallMSI.bat" INSTALLDIR yes&#13;
 		</file>
-        <url>https://dev.mysql.com/get/Downloads/MySQLGUITools/mysql-workbench-community-6.3.9-winx64.msi</url>
+        <url>https://dev.mysql.com/get/Downloads/MySQLGUITools/mysql-workbench-community-6.3.10-winx64.msi</url>
         <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.1, 2)">
             <variable>npackdih</variable>
         </dependency>
