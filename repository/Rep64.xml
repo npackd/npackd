@@ -3819,6 +3819,45 @@ for /f "delims=" %%x in ('dir /b FlashUtil32*Plugin.exe') do set setup=%%x&#13;
 </file>
         <url>https://download.macromedia.com/get/flashplayer/pdc/28.0.0.161/install_flash_player_28_plugin.msi</url>
     </version>
+    <version name="29.0.0.113" package="com.adobe.FlashPlayer64" type="one-file">
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.msi') do set setup=%%x&#13;
+mkdir .Npackd&#13;
+move "%setup%" .Npackd&#13;
+set err=%errorlevel%&#13;
+if %err% neq 0 exit %err%&#13;
+&#13;
+rem MSIFASTINSTALL: http://msdn.microsoft.com/en-us/library/dd408005%28v=VS.85%29.aspx&#13;
+msiexec.exe /qn /norestart /Lime .Npackd\InstallMSI.log /i ".Npackd\%setup%" INSTALLDIR="%CD%" ALLUSERS=1 MSIFASTINSTALL=7&#13;
+set err=%errorlevel%&#13;
+type .Npackd\InstallMSI.log&#13;
+&#13;
+rem list of errors: http://msdn.microsoft.com/en-us/library/windows/desktop/aa368542(v=vs.85).aspx&#13;
+rem 3010=restart required&#13;
+if %err% equ 3010 goto cont&#13;
+if %err% neq 0 exit %err%&#13;
+&#13;
+:cont&#13;
+</file>
+        <file path=".Npackd\Uninstall.bat">move .Npackd\*.msi .&#13;
+for /f "delims=" %%x in ('dir /b *.msi') do set setup=%%x&#13;
+&#13;
+rem MSIFASTINSTALL: http://msdn.microsoft.com/en-us/library/dd408005%28v=VS.85%29.aspx&#13;
+msiexec.exe /qn /norestart /Lime .Npackd\UninstallMSI.log /x "%setup%" MSIFASTINSTALL=7&#13;
+set err=%errorlevel%&#13;
+type .Npackd\UninstallMSI.log&#13;
+rem 3010=restart required&#13;
+if %err% equ 3010 goto cont&#13;
+if %err% neq 0 exit %err%&#13;
+&#13;
+:cont&#13;
+if not exist "%ProgramFiles(x86)%" set d=%windir%\System32\Macromed\Flash&#13;
+if exist "%ProgramFiles(x86)%" set d=%windir%\SysWOW64\Macromed\Flash&#13;
+cd "%d%"&#13;
+for /f "delims=" %%x in ('dir /b FlashUtil32*Plugin.exe') do set setup=%%x&#13;
+"%setup%" -uninstall&#13;
+</file>
+        <url>https://download.macromedia.com/get/flashplayer/pdc/29.0.0.113/install_flash_player_29_plugin.msi</url>
+    </version>
 
     <version name="24.0.0.194" package="com.adobe.FlashPlayerActiveX64" type="one-file">
         <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.msi') do set setup=%%x&#13;
@@ -10725,6 +10764,16 @@ if %err% neq 0 exit %err%&#13;
             <variable>nih</variable>
         </dependency>
     </version>
+    <version name="52.7" package="cyberfox64" type="one-file">
+        <file path=".Npackd\Install.bat">call "%nih%\InstallInnoSetup.bat"&#13;
+</file>
+        <file path=".Npackd\Uninstall.bat">call "%nih%\UninstallInnoSetup.bat" unins000.exe&#13;
+</file>
+        <url>https://download.8pecxstudios.com/latest/Cyberfox-52.7.0.en-US.win64-x86_64.intel.exe</url>
+        <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
+            <variable>nih</variable>
+        </dependency>
+    </version>
 
     <version name="2.10" package="cygwin64" type="one-file">
         <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
@@ -11738,6 +11787,17 @@ echo DesktopShortcut=false &gt;&gt; .Npackd\FF.ini&#13;
 verify</file>
         <url>https://download-installer.cdn.mozilla.net/pub/firefox/releases/58.0/win64/en-US/Firefox%20Setup%2058.0.exe</url>
         <sha1>9c031c1dcb9d2fe613c98a6f90c1c000beb3b7d0</sha1>
+    </version>
+    <version name="59" package="firefox64" type="one-file">
+        <file path=".Npackd\Install.bat">echo [Install] &gt; .Npackd\FF.ini&#13;
+echo InstallDirectoryPath=%CD% &gt;&gt; .Npackd\FF.ini&#13;
+echo QuickLaunchShortcut=false &gt;&gt; .Npackd\FF.ini&#13;
+echo DesktopShortcut=false &gt;&gt; .Npackd\FF.ini&#13;
+"%npackd_package_binary%" /INI="%CD%\.Npackd\FF.ini" &amp;&amp; del /f /q "%npackd_package_binary%"</file>
+        <file path=".Npackd\Uninstall.bat">uninstall\helper.exe /S&#13;
+verify</file>
+        <url>https://download-installer.cdn.mozilla.net/pub/firefox/releases/59.0/win64/en-US/Firefox%20Setup%2059.0.exe</url>
+        <hash-sum type="SHA-256">b56a1709029c7be564e6ca1734cab0cdf237aeacf1e5bda3b177ef3bd22527c2</hash-sum>
     </version>
 
     <version name="0.10" package="fr.handbrake.HandBrake64" type="one-file">
@@ -21448,6 +21508,12 @@ rmdir /s /q "%name%"&#13;
         <url>https://www.erlang.org/download/otp_win64_20.2.exe</url>
         <sha1>c759fbb8514c8af256f4dd84ed0b7e04fe281ed2</sha1>
     </version>
+    <version name="20.3" package="org.erlang.Erlang64" type="one-file">
+        <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD%&#13;
+</file>
+        <url>https://www.erlang.org/download/otp_win64_20.3.exe</url>
+        <sha1>143befb14093bd8c1a287d987b0049b6ae9dd802</sha1>
+    </version>
 
     <version name="0.9.2.1" package="org.flamerobin.FlameRobin64" type="one-file">
         <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
@@ -24505,6 +24571,16 @@ rmdir /s /q "%name%"&#13;
         <sha1>0614bba0258efa98d097b446feb6fe33392e27d4</sha1>
         <dependency package="com.oracle.JDK" versions="[1.5, 2)"/>
     </version>
+    <version name="3.3.7" package="org.processing.Processing64">
+        <important-file path="processing.exe" title="Processing"/>
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b processing*') do set name=%%x&#13;
+xcopy "%name%\*" . /E /H&#13;
+rmdir /s /q "%name%"&#13;
+</file>
+        <url>http://download.processing.org/processing-3.3.7-windows64.zip</url>
+        <sha1>514645761c46c02f9cd7565ec5ee5568996215e8</sha1>
+        <dependency package="com.oracle.JDK" versions="[1.5, 2)"/>
+    </version>
 
     <version name="0.15" package="org.psiim.Psi64" type="one-file">
         <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
@@ -26755,6 +26831,20 @@ call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Np
 </file>
         <url>https://github.com/vim/vim-win32-installer/releases/download/v8.0.1599/gvim_8.0.1599_x64.zip</url>
         <sha1>e9c7c69ceeaa68448e75c1244a9254448cba489d</sha1>
+        <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.19, 2)">
+            <variable>nih</variable>
+        </dependency>
+    </version>
+    <version name="8.0.1608" package="org.vim.Vim64">
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+if %errorlevel% neq 0 exit /b %errorlevel%&#13;
+&#13;
+for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+</file>
+        <url>https://github.com/vim/vim-win32-installer/releases/download/v8.0.1608/gvim_8.0.1608_x64.zip</url>
+        <sha1>35b110f8560e6edc01990bc07b9dea76ca542e6a</sha1>
         <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.19, 2)">
             <variable>nih</variable>
         </dependency>
