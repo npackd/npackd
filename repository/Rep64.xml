@@ -157,7 +157,7 @@
         <url>http://curl.haxx.se/legal/licmix.html</url>
     </license>
     <package name="anaconda64">
-        <title>Anaconda 64 Bit</title>
+        <title>Anaconda 64 bit</title>
         <url>https://www.anaconda.com/</url>
         <description>Python Data Science Platform
 x86_64</description>
@@ -12690,6 +12690,19 @@ rmdir "%name%"&#13;
 </file>
         <url>https://dl.google.com/dl/cloudsdk/channels/rapid/downloads/google-cloud-sdk-192.0.0-windows-x86_64.zip</url>
         <sha1>db820b587ab05faab9d89ca4b89c6d9bd0cdad63</sha1>
+        <dependency package="org.python.Python" versions="[2.7, 2.8)"/>
+    </version>
+    <version name="193" package="google-cloud-sdk64">
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b google-cloud-sdk*') do set name=%%x&#13;
+cd "%name%"&#13;
+for /f "delims=" %%a in ('dir /b') do (&#13;
+  move "%%a" ..&#13;
+)&#13;
+cd ..&#13;
+rmdir "%name%"&#13;
+</file>
+        <url>https://dl.google.com/dl/cloudsdk/channels/rapid/downloads/google-cloud-sdk-193.0.0-windows-x86_64.zip</url>
+        <sha1>942391c45d33b691f5b1cbec98ee2317f1530385</sha1>
         <dependency package="org.python.Python" versions="[2.7, 2.8)"/>
     </version>
 
@@ -29788,6 +29801,12 @@ Prog\setup.exe /Q /IACCEPTSQLSERVERLICENSETERMS /Q /ACTION=install &gt; .Npackd\
         <url>http://care.dlservice.microsoft.com/dl/download/E/A/E/EAE6F7FC-767A-4038-A954-49B8B05D04EB/MgmtStudio%2064BIT/SQLManagementStudio_x64_ENU.exe</url>
         <sha1>406a6dd55552d35fd99229c4d13e43375f131828</sha1>
     </version>
+    <version name="17.5" package="ssms64" type="one-file">
+        <file path=".Npackd\Install.bat">"%npackd_package_binary%" /install /quiet /log .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt</file>
+        <file path=".Npackd\Uninstall.bat">SSMS-Setup-ENU-17.5.exe /uninstall /quiet /log .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt</file>
+        <url>https://download.microsoft.com/download/8/8/3/883FD1FA-FE61-4E83-85F9-FA46D4A5B866/SSMS-Setup-ENU.exe</url>
+        <sha1>1513ead1209c40e24e9a930fa2ce1be4d7a332e2</sha1>
+    </version>
 
     <version name="0.12.1" package="stellarium64" type="one-file">
         <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
@@ -30267,6 +30286,14 @@ rmdir "%name%"</file>
 </file>
         <url>https://www.sysgauge.com/setups_x64/sysgauge_setup_v4.3.18_x64.exe</url>
         <sha1>9da30b3ab46c836eae10d855ca81256bf925f13e</sha1>
+    </version>
+    <version name="4.4.12" package="sysgauge64" type="one-file">
+        <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
+</file>
+        <file path=".Npackd\Uninstall.bat">uninstall.exe /S _?=%CD%&#13;
+</file>
+        <url>https://www.sysgauge.com/setups_x64/sysgauge_setup_v4.4.12_x64.exe</url>
+        <sha1>65055f4472ad9f59a0ae3d7f7229bed66459b969</sha1>
     </version>
 
     <version name="1" package="sysinternals-suite">
