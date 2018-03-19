@@ -1549,6 +1549,23 @@ x86_64</description>
         <link href="http://www.ocenaudio.com/changelog" rel="changelog"/>
         <link href="http://www.ocenaudio.com/imgs/sc6058.win.en.png" rel="screenshot"/>
     </package>
+    <package name="odbc-sqlite3-driver">
+        <title>ODBC sqlite3 driver</title>
+        <url>http://www.ch-werner.de/sqliteodbc/</url>
+        <description>
+x86_64</description>
+        <icon>https://cdn-images-1.medium.com/max/1013/1*fMPUMki182HzyVZvo_awDw.png</icon>
+        <category>Development</category>
+        <category>Tools</category>
+    </package>
+    <package name="odbc-sqlite3-driver64">
+        <title>ODBC sqlite3 driver 64 bit</title>
+        <url>http://www.ch-werner.de/sqliteodbc/</url>
+        <description>
+x86_64</description>
+        <icon>https://cdn-images-1.medium.com/max/1013/1*fMPUMki182HzyVZvo_awDw.png</icon>
+        <category>Development</category>
+    </package>
     <package name="open-broadcaster-software">
         <title>Open Broadcaster Software</title>
         <url>https://obsproject.com/</url>
@@ -2994,6 +3011,14 @@ call "%npackdih%\InstallMSI.bat" INSTALLDIR yes</file>
         <sha1>fd5b3481ec60c4a3d8cdad1e4e7978a075a34587</sha1>
     </version>
     <version name="3.16.0.1" package="claws-mail64" type="one-file">
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
+"%setup%" /S /D=%CD% &amp;&amp; del /f /q "%setup%"&#13;
+</file>
+        <file path=".Npackd\Uninstall.bat">claws-mail-uninstall.exe /S _?=%CD%</file>
+        <url>http://www.claws-mail.org//win32/claws-mail-3.15.0-1-64bit.exe</url>
+        <sha1>fd5b3481ec60c4a3d8cdad1e4e7978a075a34587</sha1>
+    </version>
+    <version name="3.16.0.2" package="claws-mail64" type="one-file">
         <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
 "%setup%" /S /D=%CD% &amp;&amp; del /f /q "%setup%"&#13;
 </file>
@@ -10774,6 +10799,16 @@ if %err% neq 0 exit %err%&#13;
             <variable>nih</variable>
         </dependency>
     </version>
+    <version name="52.7.1" package="cyberfox64" type="one-file">
+        <file path=".Npackd\Install.bat">call "%nih%\InstallInnoSetup.bat"&#13;
+</file>
+        <file path=".Npackd\Uninstall.bat">call "%nih%\UninstallInnoSetup.bat" unins000.exe&#13;
+</file>
+        <url>https://download.8pecxstudios.com/latest/Cyberfox-52.7.1.en-US.win64-x86_64.intel.exe</url>
+        <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
+            <variable>nih</variable>
+        </dependency>
+    </version>
 
     <version name="2.10" package="cygwin64" type="one-file">
         <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
@@ -17728,6 +17763,23 @@ verify&#13;
         <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.21, 2)">
             <variable>nih</variable>
         </dependency>
+    </version>
+
+    <version name="0.9996" package="odbc-sqlite3-driver" type="one-file">
+        <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
+</file>
+        <file path=".Npackd\Uninstall.bat">uninstall.exe /S _?=%CD%&#13;
+</file>
+        <url>http://www.ch-werner.de/sqliteodbc/sqliteodbc_msvcr100.exe</url>
+    </version>
+
+    <version name="0.9996" package="odbc-sqlite3-driver64" type="one-file">
+        <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
+</file>
+        <file path=".Npackd\Uninstall.bat">uninstall.exe /S _?=%CD%&#13;
+</file>
+        <url>http://www.ch-werner.de/sqliteodbc/sqliteodbc_w64_msvcr100.exe</url>
+        <sha1>8bc93731394d1b710e7f90608f847ecd7bed9a24</sha1>
     </version>
 
     <version name="18.0.1" package="open-broadcaster-software" type="one-file">
@@ -26862,6 +26914,20 @@ call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Np
             <variable>nih</variable>
         </dependency>
     </version>
+    <version name="8.0.1612" package="org.vim.Vim64">
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+if %errorlevel% neq 0 exit /b %errorlevel%&#13;
+&#13;
+for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+</file>
+        <url>https://github.com/vim/vim-win32-installer/releases/download/v8.0.1612/gvim_8.0.1612_x64.zip</url>
+        <sha1>5f12e1a53b34e23499049f7450b20d06d838f83a</sha1>
+        <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.19, 2)">
+            <variable>nih</variable>
+        </dependency>
+    </version>
 
     <version name="4.2.8.83876" package="org.virtualbox.virtualbox64" type="one-file">
         <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
@@ -30548,6 +30614,15 @@ if %err% neq 0 exit %err%&#13;
 </file>
         <url>https://releases.hashicorp.com/vagrant/2.0.2/vagrant_2.0.2_x86_64.msi</url>
         <sha1>5fefe0da929e003733f2e79277eb3b7083c5ddcb</sha1>
+        <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.1, 2)">
+            <variable>nih</variable>
+        </dependency>
+    </version>
+    <version name="2.0.3" package="vagrant64" type="one-file">
+        <file path=".Npackd\Install.bat">call "%nih%\InstallMSI.bat" INSTALLDIR yes&#13;
+</file>
+        <url>https://releases.hashicorp.com/vagrant/2.0.3/vagrant_2.0.3_x86_64.msi</url>
+        <sha1>2e065be405bb0ef58197b25e46df37894b9c9977</sha1>
         <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.1, 2)">
             <variable>nih</variable>
         </dependency>
