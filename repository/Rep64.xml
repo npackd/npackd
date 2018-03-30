@@ -10641,6 +10641,17 @@ if %err% neq 0 exit %err%&#13;
             <variable>nih</variable>
         </dependency>
     </version>
+    <version name="1.2" package="conan64" type="one-file">
+        <cmd-file path="conan\conan.exe"/>
+        <file path=".Npackd\Install.bat">"%nih%\InstallInnoSetup.bat"&#13;
+</file>
+        <file path=".Npackd\Uninstall.bat">"%nih%\UninstallInnoSetup.bat" unins000.exe</file>
+        <url>https://github.com/conan-io/conan/releases/download/1.2.0/conan-win-64_1_2_0.exe</url>
+        <sha1>7193eab4e66490b23cd4f6fd10b8b308644db26c</sha1>
+        <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
+            <variable>nih</variable>
+        </dependency>
+    </version>
 
     <version name="44" package="cyberfox64" type="one-file">
         <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
@@ -12207,6 +12218,17 @@ if %err% neq 0 exit %err%&#13;
             <variable>nih</variable>
         </dependency>
     </version>
+    <version name="2.16.3" package="git64" type="one-file">
+        <file path=".Npackd\Install.bat">call "%nih%\InstallInnoSetup.bat"&#13;
+</file>
+        <file path=".Npackd\Uninstall.bat">call "%nih%\UninstallInnoSetup.bat" unins000.exe&#13;
+</file>
+        <url>https://github.com/git-for-windows/git/releases/download/v2.16.3.windows.1/Git-2.16.3-64-bit.exe</url>
+        <sha1>9b48d28af473ae0f7a65186670f5ef8292c0c133</sha1>
+        <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
+            <variable>nih</variable>
+        </dependency>
+    </version>
 
     <version name="65.0.3325.181" package="google-chrome-x64" type="one-file">
         <file path=".Npackd\Install.bat">call "%npackdih%\InstallMSI.bat" TARGETDIR yes&#13;
@@ -12748,6 +12770,19 @@ rmdir "%name%"&#13;
 </file>
         <url>https://dl.google.com/dl/cloudsdk/channels/rapid/downloads/google-cloud-sdk-193.0.0-windows-x86_64.zip</url>
         <sha1>942391c45d33b691f5b1cbec98ee2317f1530385</sha1>
+        <dependency package="org.python.Python" versions="[2.7, 2.8)"/>
+    </version>
+    <version name="195" package="google-cloud-sdk64">
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b google-cloud-sdk*') do set name=%%x&#13;
+cd "%name%"&#13;
+for /f "delims=" %%a in ('dir /b') do (&#13;
+  move "%%a" ..&#13;
+)&#13;
+cd ..&#13;
+rmdir "%name%"&#13;
+</file>
+        <url>https://dl.google.com/dl/cloudsdk/channels/rapid/downloads/google-cloud-sdk-195.0.0-windows-x86_64.zip</url>
+        <sha1>ac511da77e0beeaecc054ef5bb9db4c9306668e5</sha1>
         <dependency package="org.python.Python" versions="[2.7, 2.8)"/>
     </version>
 
@@ -13733,6 +13768,18 @@ rmdir "%name%"&#13;
 </file>
         <url>https://dist.ipfs.io/go-ipfs/v0.4.13/go-ipfs_v0.4.13_windows-amd64.zip</url>
         <sha1>8f202cc0299730be4017675d734949ea126ca615</sha1>
+    </version>
+    <version name="0.4.14" package="ipfs64">
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b go-ipfs*') do set name=%%x&#13;
+cd "%name%"&#13;
+for /f "delims=" %%a in ('dir /b') do (&#13;
+  move "%%a" ..&#13;
+)&#13;
+cd ..&#13;
+rmdir "%name%"&#13;
+</file>
+        <url>https://dist.ipfs.io/go-ipfs/v0.4.14/go-ipfs_v0.4.14_windows-amd64.zip</url>
+        <sha1>2d74b9a8ef235db4cd7167d40542d2378c1e4f3c</sha1>
     </version>
 
     <version name="5" package="jclasslib64" type="one-file">
