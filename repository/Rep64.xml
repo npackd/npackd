@@ -867,22 +867,6 @@ x86_64</description>
         <license>org.wikipedia.Freeware</license>
         <category>Tools</category>
     </package>
-    <package name="f.lux">
-        <title>F.lux</title>
-        <url>https://justgetflux.com/</url>
-        <description>WARNING: this package always installs the newest version of the software.
-WARNING: this package always installs the newest version of the software.&#13;
-&#13;
-Ever notice how people texting at night have that eerie blue glow? Or wake up ready to write down the Next Great Idea, and get blinded by your computer screen? During the day, computer screens look good—they're designed to look like the sun. But, at 9PM, 10PM, or 3AM, you probably shouldn't be looking at the sun.&#13;
-&#13;
-f.lux fixes this: it makes the color of your computer's display adapt to the time of day, warm at night and like sunlight during the day.&#13;
-&#13;
-It's even possible that you're staying up too late because of your computer. You could use f.lux because it makes you sleep better, or you could just use it just because it makes your computer look better.
-x86_64</description>
-        <icon>https://justgetflux.com/flux-icon-sm.png</icon>
-        <category>Tools</category>
-        <category>same-url</category>
-    </package>
     <package name="far-manager64">
         <title>FAR Manager 64 bit</title>
         <url>http://www.farmanager.com/index.php?l=en</url>
@@ -11524,15 +11508,6 @@ rmdir "%name%"&#13;
         <important-file path="Everything.exe" title="Everything"/>
         <url>http://www.voidtools.com/Everything-1.4.1.895.x64.zip</url>
         <sha1>a838fd68513367ec90735f6f7741bc7d5f3b3a7d</sha1>
-    </version>
-
-    <version name="3.10" package="f.lux" type="one-file">
-        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
-"%setup%" /S /D=%CD% &amp;&amp; del /f /q "%setup%"&#13;
-</file>
-        <file path=".Npackd\Uninstall.bat">uninstall.exe /S _?=%CD%&#13;
-</file>
-        <url>https://justgetflux.com/flux-setup.exe</url>
     </version>
 
     <version name="3.0.3525" package="far-manager64" type="one-file">
@@ -23047,6 +23022,40 @@ Set view = Nothing&#13;
 </file>
         <url>https://golang.org/dl/go1.10.windows-amd64.msi</url>
         <sha1>c7f3ed9e501ca314b0d189ebce1f2a56bf8f0d6c</sha1>
+        <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1, 2)">
+            <variable>npackdih</variable>
+        </dependency>
+    </version>
+    <version name="1.10.1" package="org.golang.Go64" type="one-file">
+        <file path=".Npackd\Install.bat">.Npackd\AddProperty.vbs "%npackd_package_binary%"&#13;
+if %errorlevel% neq 0 exit %errorlevel%&#13;
+&#13;
+call "%npackdih%\InstallMSI.bat" INSTALLDIR</file>
+        <file path=".Npackd\Uninstall.bat">call "%npackdih%\UninstallMSI.bat"</file>
+        <file path=".Npackd\AddProperty.vbs">Option Explicit&#13;
+&#13;
+Dim MSI_FILE&#13;
+MSI_FILE = Wscript.Arguments(0)&#13;
+&#13;
+Dim installer, database, view&#13;
+&#13;
+Set installer = CreateObject("WindowsInstaller.Installer")&#13;
+Set database = installer.OpenDatabase(MSI_FILE, 1)&#13;
+&#13;
+Set view = database.OpenView("INSERT INTO Property (Property, Value) VALUES ('INSTALLDIR', 'C:\Go')")&#13;
+view.Execute&#13;
+'Set view = database.OpenView("DELETE FROM Directory WHERE Directory='TARGETDIR'")&#13;
+'view.Execute&#13;
+'Set view = database.OpenView("UPDATE Directory SET DefaultDir='INSTALLLOCATION' WHERE Directory='TARGETDIR'")&#13;
+'view.Execute&#13;
+database.Commit&#13;
+&#13;
+Set database = Nothing&#13;
+Set installer = Nothing&#13;
+Set view = Nothing&#13;
+</file>
+        <url>https://golang.org/dl/go1.10.1.windows-amd64.msi</url>
+        <sha1>5b25ef2e0da0e908a4706b071e6ba2e978d6a28f</sha1>
         <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1, 2)">
             <variable>npackdih</variable>
         </dependency>
