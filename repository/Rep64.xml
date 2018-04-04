@@ -867,6 +867,22 @@ x86_64</description>
         <license>org.wikipedia.Freeware</license>
         <category>Tools</category>
     </package>
+    <package name="f.lux">
+        <title>F.lux</title>
+        <url>https://justgetflux.com/</url>
+        <description>WARNING: this package always installs the newest version of the software.
+WARNING: this package always installs the newest version of the software.&#13;
+&#13;
+Ever notice how people texting at night have that eerie blue glow? Or wake up ready to write down the Next Great Idea, and get blinded by your computer screen? During the day, computer screens look good—they're designed to look like the sun. But, at 9PM, 10PM, or 3AM, you probably shouldn't be looking at the sun.&#13;
+&#13;
+f.lux fixes this: it makes the color of your computer's display adapt to the time of day, warm at night and like sunlight during the day.&#13;
+&#13;
+It's even possible that you're staying up too late because of your computer. You could use f.lux because it makes you sleep better, or you could just use it just because it makes your computer look better.
+x86_64</description>
+        <icon>https://justgetflux.com/flux-icon-sm.png</icon>
+        <category>Tools</category>
+        <category>same-url</category>
+    </package>
     <package name="far-manager64">
         <title>FAR Manager 64 bit</title>
         <url>http://www.farmanager.com/index.php?l=en</url>
@@ -875,6 +891,17 @@ x86_64</description>
         <icon>https://lh4.googleusercontent.com/-ZmijN52oVaY/USeFMjkme9I/AAAAAAAAAmI/YFDUt6owaYU/s800/-farmanager.png</icon>
         <license>org.opensource.BSDLicense</license>
         <category>Tools/File Managers</category>
+    </package>
+    <package name="firefox-developer-edition64">
+        <title>Firefox Developer Edition 64 bit</title>
+        <url>https://www.mozilla.org/en-GB/firefox/developer/</url>
+        <description>Firefox browser that offers cutting edge developer tools and latest features like CSS Grid support and framework debugging.
+x86_64</description>
+        <icon>https://i.imgur.com/qcLsev5.png</icon>
+        <license>com.mozilla.MozillaFirefoxLicense2</license>
+        <category>Browser</category>
+        <link href="https://developer.mozilla.org/en-US/Firefox/Releases" rel="changelog"/>
+        <link href="https://www.mozilla.org/media/img/firefox/developer/page-image.5c2b5c5ce10a.png" rel="screenshot"/>
     </package>
     <package name="firefox64">
         <title>Firefox 64 bit</title>
@@ -996,6 +1023,15 @@ x86_64</description>
         <license>net.nirsoft.FreewareLicense</license>
         <category>Tools</category>
         <category>same-url</category>
+    </package>
+    <package name="hexchat64">
+        <title>HexChat 64 bit</title>
+        <url>http://hexchat.github.io</url>
+        <description>Cross-platform IRC client supporting features such as: DCC, SASL, proxies, spellcheck, alerts, logging, custom themes, and Python/Perl scripts.
+x86_64</description>
+        <icon>https://raw.githubusercontent.com/hexchat/hexchat/master/data/icons/hexchat.png</icon>
+        <license>org.gnu.GPLv2</license>
+        <category>Communications</category>
     </package>
     <package name="housecall64">
         <title>HouseCall 64 bit</title>
@@ -2236,7 +2272,7 @@ x86_64</description>
         <title>RidNacs</title>
         <url>http://www.splashsoft.de/Freeware/ridnacs.html</url>
         <description>WARNING: this package always installs the newest version of the software.
-RidNacs RidNacs is a very fast disk space usage analyzer for Microsoft Windows. It scans your local drives, network drives or single directories and produces a tree view with a percentage bar chart column. This gives the user a quick and easy way to identify the largest directories and it's very useful for cleaning up the disk.
+a disk space usage analyzer. It scans your local drives, network drives or single directories and produces a tree view with a percentage bar chart column. This gives the user a quick and easy way to identify the largest directories and it's very useful for cleaning up the disk.
 x86_64</description>
         <icon>http://www.splashsoft.de/images/stories/RidNacs/RidNacs48.png</icon>
         <license>org.wikipedia.Freeware</license>
@@ -11477,6 +11513,20 @@ rmdir "%name%"&#13;
         <sha1>b69d6e7900322d7f84110b50f22dccf4e79bed9d</sha1>
         <dependency package="com.oracle.JRE64" versions="[1.6, 2)"/>
     </version>
+    <version name="4.7.3" package="eclipse-rcp64">
+        <important-file path="eclipse.exe" title="Eclipse IDE for Java"/>
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b eclipse*') do set name=%%x&#13;
+cd "%name%"        &#13;
+for /f "delims=" %%a in ('dir /b') do (&#13;
+  move "%%a" ..&#13;
+)&#13;
+cd ..&#13;
+rmdir "%name%"&#13;
+</file>
+        <url>http://download.eclipse.org/technology/epp/downloads/release/oxygen/3/eclipse-rcp-oxygen-3-win32-x86_64.zip</url>
+        <hash-sum type="SHA-256">d7e2ffc0a0c26acb7fbca0b8dfac32706b19d0ecc8c0c18f8150f04b9041bdfa</hash-sum>
+        <dependency package="com.oracle.JRE64" versions="[1.6, 2)"/>
+    </version>
 
     <version name="25.1" package="emacs64">
         <important-file path="bin\runemacs.exe" title="Emacs"/>
@@ -11508,6 +11558,15 @@ rmdir "%name%"&#13;
         <important-file path="Everything.exe" title="Everything"/>
         <url>http://www.voidtools.com/Everything-1.4.1.895.x64.zip</url>
         <sha1>a838fd68513367ec90735f6f7741bc7d5f3b3a7d</sha1>
+    </version>
+
+    <version name="4" package="f.lux" type="one-file">
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
+"%setup%" /S /D=%CD% &amp;&amp; del /f /q "%setup%"&#13;
+</file>
+        <file path=".Npackd\Uninstall.bat">uninstall.exe /S _?=%CD%&#13;
+</file>
+        <url>https://justgetflux.com/flux-setup.exe</url>
     </version>
 
     <version name="3.0.3525" package="far-manager64" type="one-file">
@@ -11623,6 +11682,18 @@ call "%npackdih%\InstallMSI.bat" INSTALLDIR yes&#13;
         <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.1, 2)">
             <variable>npackdih</variable>
         </dependency>
+    </version>
+
+    <version name="60.0.8" package="firefox-developer-edition64" type="one-file">
+        <file path=".Npackd\Install.bat">echo [Install] &gt; .Npackd\FF.ini&#13;
+echo InstallDirectoryPath=%CD% &gt;&gt; .Npackd\FF.ini&#13;
+echo QuickLaunchShortcut=false &gt;&gt; .Npackd\FF.ini&#13;
+echo DesktopShortcut=false &gt;&gt; .Npackd\FF.ini&#13;
+"%npackd_package_binary%" /INI="%CD%\.Npackd\FF.ini" &amp;&amp; del /f /q "%npackd_package_binary%"</file>
+        <file path=".Npackd\Uninstall.bat">uninstall\helper.exe /S&#13;
+verify</file>
+        <url>https://download-origin.cdn.mozilla.net/pub/devedition/releases/60.0b8/win64/en-US/Firefox%20Setup%2060.0b8.exe</url>
+        <hash-sum type="SHA-256">559665d58d59b0fbab46fd54172ea0c510d452e2a4b31c1a60e4254ad631b419</hash-sum>
     </version>
 
     <version name="43" package="firefox64" type="one-file">
@@ -12884,6 +12955,18 @@ verify&#13;
         <url>http://www.nirsoft.net/utils/hashmyfiles-x64.zip</url>
     </version>
 
+    <version name="2.14.1" package="hexchat64" type="one-file">
+        <file path=".Npackd\Install.bat">call "%nih%\InstallInnoSetup.bat"&#13;
+</file>
+        <file path=".Npackd\Uninstall.bat">call "%nih%\UninstallInnoSetup.bat" unins000.exe&#13;
+</file>
+        <url>https://dl.hexchat.net/hexchat/HexChat%202.14.1%20x64.exe</url>
+        <hash-sum type="SHA-256">b3f41f29bc1e01f5c3f566dc38f7278974a9ea0e1398142ee65b29e63c6203a3</hash-sum>
+        <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
+            <variable>nih</variable>
+        </dependency>
+    </version>
+
     <version name="8" package="housecall64" type="one-file">
         <important-file path="HousecallLauncher64.exe" title="HouseCall"/>
         <url>http://go.trendmicro.com/housecall7/HousecallLauncher64.exe</url>
@@ -14001,6 +14084,14 @@ call "%nih%\InstallMSI.bat" TARGETDIR yes&#13;
 </file>
         <url>http://download.kde.org/stable/krita/3.3.3/krita-3.3.3-x64-setup.exe</url>
         <sha1>2d90f01cdb67277d3a95771eeb3fe56364ff3b4f</sha1>
+    </version>
+    <version name="4" package="krita64" type="one-file">
+        <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
+</file>
+        <file path=".Npackd\Uninstall.bat">uninstall.exe /S _?=%CD%&#13;
+</file>
+        <url>https://download.kde.org/stable/krita/4.0.0/krita-x64-4.0.0-setup.exe</url>
+        <hash-sum type="SHA-256">22e0104fce24af55e2de460cf840a476913543fb716273f91af956604e573a34</hash-sum>
     </version>
 
     <version name="1.2" package="ldc64">
@@ -21047,6 +21138,20 @@ rmdir "%name%"&#13;
         <sha1>dd6cfd3c26e120af5aecb1b7a3d308632013f3f0</sha1>
         <dependency package="com.oracle.JRE64" versions="[1.6, 2)"/>
     </version>
+    <version name="4.7.3" package="org.eclipse.EclipseIDECPP64">
+        <important-file path="eclipse.exe" title="Eclipse IDE for C and C++"/>
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b eclipse*') do set name=%%x&#13;
+cd "%name%"&#13;
+for /f "delims=" %%a in ('dir /b') do (&#13;
+  move "%%a" ..&#13;
+)&#13;
+cd ..&#13;
+rmdir "%name%"&#13;
+</file>
+        <url>http://download.eclipse.org/technology/epp/downloads/release/oxygen/3/eclipse-cpp-oxygen-3-win32-x86_64.zip</url>
+        <hash-sum type="SHA-256">666f24ad58c056d208108fd8aa688293fd099f238502861535137485edae6e52</hash-sum>
+        <dependency package="com.oracle.JRE64" versions="[1.6, 2)"/>
+    </version>
 
     <version name="3.6.1" package="org.eclipse.EclipseIDEJava64">
         <important-file path="eclipse.exe" title="Eclipse IDE for Java"/>
@@ -21340,6 +21445,20 @@ rmdir "%name%"&#13;
 </file>
         <url>http://download.eclipse.org/technology/epp/downloads/release/oxygen/2/eclipse-java-oxygen-2-win32-x86_64.zip</url>
         <sha1>604723c4e73616267dc8910c0fa1615fc4389742</sha1>
+        <dependency package="com.oracle.JRE64" versions="[1.6, 2)"/>
+    </version>
+    <version name="4.7.3" package="org.eclipse.EclipseIDEJava64">
+        <important-file path="eclipse.exe" title="Eclipse IDE for Java"/>
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b eclipse*') do set name=%%x&#13;
+cd "%name%"        &#13;
+for /f "delims=" %%a in ('dir /b') do (&#13;
+  move "%%a" ..&#13;
+)&#13;
+cd ..&#13;
+rmdir "%name%"&#13;
+</file>
+        <url>http://download.eclipse.org/technology/epp/downloads/release/oxygen/3/eclipse-java-oxygen-3-win32-x86_64.zip</url>
+        <hash-sum type="SHA-256">9fa8a402da4620ec9f0840cce018b4d9d9aa467376f96587d9d24d5dac7a05ba</hash-sum>
         <dependency package="com.oracle.JRE64" versions="[1.6, 2)"/>
     </version>
 
