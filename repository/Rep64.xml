@@ -956,6 +956,15 @@ x86_64</description>
         <category>Tools</category>
         <link href="https://github.com/fusioninventory/fusioninventory-agent/commits/2.4.x" rel="changelog"/>
     </package>
+    <package name="gajim64">
+        <title>Gajim 64 bit</title>
+        <url>https://www.gajim.org</url>
+        <description>Jabber/XMPP client
+x86_64</description>
+        <icon>https://lh4.googleusercontent.com/-xXcPK6DZomo/UcKj5_8aRfI/AAAAAAAACMk/Eh7JME1sjrA/s800/gajim.png</icon>
+        <license>org.gnu.GPLv2</license>
+        <category>Communications</category>
+    </package>
     <package name="gedit64">
         <title>gedit 64 bit</title>
         <url>http://projects.gnome.org/gedit</url>
@@ -5724,6 +5733,63 @@ if %err% neq 0 exit %err%</file>
         <url>https://secure-appldnld.apple.com/itunes12/091-45357-20180123-72201840-FFEA-11E7-92F9-85B67CCC33A9/iTunes64Setup.exe</url>
         <sha1>dd8bf3c84965c4163847e48903928bde730eb9fb</sha1>
     </version>
+    <version name="12.7.4" package="com.apple.itunes64" type="one-file">
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
+"%setup%" /extract&#13;
+&#13;
+del /q /f SetupAdmin.exe&#13;
+del /q /f AppleSoftwareUpdate.msi&#13;
+&#13;
+msiexec.exe /qn /norestart /Lime .Npackd\MSI.log /i AppleApplicationSupport64.msi ALLUSERS=1&#13;
+set err=%errorlevel%&#13;
+type .Npackd\MSI.log&#13;
+rem 3010=restart required&#13;
+if %err% equ 3010 exit 0&#13;
+if %err% neq 0 exit %err%&#13;
+&#13;
+msiexec.exe /qn /norestart /Lime .Npackd\MSI.log /i iTunes6464.msi ALLUSERS=1&#13;
+set err=%errorlevel%&#13;
+type .Npackd\MSI.log&#13;
+rem 3010=restart required&#13;
+if %err% equ 3010 exit 0&#13;
+if %err% neq 0 exit %err%&#13;
+&#13;
+msiexec.exe /qn /norestart /Lime .Npackd\MSI.log /i Bonjour64.msi ALLUSERS=1&#13;
+set err=%errorlevel%&#13;
+type .Npackd\MSI.log&#13;
+rem 3010=restart required&#13;
+if %err% equ 3010 exit 0&#13;
+if %err% neq 0 exit %err%&#13;
+&#13;
+msiexec.exe /qn /norestart /Lime .Npackd\MSI.log /i AppleMobileDeviceSupport6464.msi ALLUSERS=1&#13;
+set err=%errorlevel%&#13;
+type .Npackd\MSI.log&#13;
+rem 3010=restart required&#13;
+if %err% equ 3010 exit 0&#13;
+if %err% neq 0 exit %err%</file>
+        <file path=".Npackd\Uninstall.bat">msiexec.exe /qn /norestart /Lime .Npackd\MSI.log /x iTunes6464.msi&#13;
+set err=%errorlevel%&#13;
+type .Npackd\MSI.log&#13;
+rem 3010=restart required&#13;
+if %err% equ 3010 exit 0&#13;
+if %err% neq 0 exit %err%&#13;
+&#13;
+msiexec.exe /qn /norestart /Lime .Npackd\MSI.log /x Bonjour64.msi&#13;
+set err=%errorlevel%&#13;
+type .Npackd\MSI.log&#13;
+rem 3010=restart required&#13;
+if %err% equ 3010 exit 0&#13;
+if %err% neq 0 exit %err%&#13;
+&#13;
+msiexec.exe /qn /norestart /Lime .Npackd\MSI.log /x AppleMobileDeviceSupport6464.msi&#13;
+set err=%errorlevel%&#13;
+type .Npackd\MSI.log&#13;
+rem 3010=restart required&#13;
+if %err% equ 3010 exit 0&#13;
+if %err% neq 0 exit %err%</file>
+        <url>https://secure-appldnld.apple.com/itunes12/091-45357-20180123-72201840-FFEA-11E7-92F9-85B67CCC33A9/iTunes64Setup.exe</url>
+        <sha1>dd8bf3c84965c4163847e48903928bde730eb9fb</sha1>
+    </version>
 
     <version name="2015.5645" package="com.avg.AVGAntiVirusFree64" type="one-file">
         <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
@@ -8019,6 +8085,19 @@ call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Np
 </file>
         <url>https://download.java.net/java/GA/jdk9/9.0.4/binaries/openjdk-9.0.4_windows-x64_bin.tar.gz</url>
         <sha1>53bcb5d15cd19c6e2ed0fdfed7b932d797377be7</sha1>
+        <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.19, 2)">
+            <variable>nih</variable>
+        </dependency>
+    </version>
+    <version name="10.0.44" package="com.oracle.JDK64" type="one-file">
+        <file path=".Npackd\Install.bat">call "%nih%\Extract.bat" "%npackd_package_binary%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+if %errorlevel% neq 0 exit /b %errorlevel%&#13;
+&#13;
+for /f "delims=" %%x in ('dir /b jdk*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+</file>
+        <url>https://download.java.net/openjdk/jdk10/ri/jdk-10+44_windows-x64_bin_ri.tar.gz</url>
+        <sha1>1eeaf2b9c1cb768384d1d478a86e87f823965e26</sha1>
         <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.19, 2)">
             <variable>nih</variable>
         </dependency>
@@ -11153,6 +11232,16 @@ if %err% neq 0 exit %err%&#13;
             <variable>nih</variable>
         </dependency>
     </version>
+    <version name="5.0.1" package="dbeaver64">
+        <important-file path="dbeaver.exe" title="DBeaver 64 bit"/>
+        <file path=".Npackd\Install.bat">"%NIH%\ExtractDir.bat" dbeaver</file>
+        <url>http://dbeaver.jkiss.org/files/5.0.1/dbeaver-ce-5.0.1-win32.win32.x86_64.zip</url>
+        <sha1>faee145801fc1b9494349e6a6c3d6a88d4f6e619</sha1>
+        <dependency package="com.oracle.JRE64" versions="[1.7, 20)"/>
+        <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
+            <variable>nih</variable>
+        </dependency>
+    </version>
     <version name="5.0.2" package="dbeaver64">
         <important-file path="dbeaver.exe" title="DBeaver 64 bit"/>
         <file path=".Npackd\Install.bat">"%NIH%\ExtractDir.bat" dbeaver</file>
@@ -12107,6 +12196,22 @@ if %err% neq 0 exit %err%</file>
         <url>https://launchpad.net/veracrypt/trunk/1.21/+download/VeraCrypt%20Setup%201.21.exe</url>
         <sha1>6a005061529a24da42b7a97a946fa153c208ab50</sha1>
     </version>
+    <version name="1.22" package="fr.veracrypt.veracrypt" type="one-file">
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
+"%setup%" /SP- /VERYSILENT /SUPPRESSMSGBOXES /NOCANCEL /NORESTART /DIR="%CD%" /SAVEINF="%CD%\.Npackd\InnoSetupInfo.ini" /LOG="%CD%\.Npackd\InnoSetupInstall.log" &amp;&amp; del /f /q "%setup%"&#13;
+set err=%errorlevel%&#13;
+type .Npackd\InnoSetupInstall.log&#13;
+if %err% neq 0 exit %err%</file>
+        <file path=".Npackd\Uninstall.bat">set name=%1&#13;
+if "%name%" equ "" set name=unins000.exe&#13;
+&#13;
+"%name%" /VERYSILENT /SUPPRESSMSGBOXES /NORESTART /LOG="%CD%\.Npackd\InnoSetupUninstall.log"&#13;
+set err=%errorlevel%&#13;
+type .Npackd\InnoSetupUninstall.log&#13;
+if %err% neq 0 exit %err%</file>
+        <url>https://launchpad.net/veracrypt/trunk/1.21/+download/VeraCrypt%20Setup%201.21.exe</url>
+        <sha1>6a005061529a24da42b7a97a946fa153c208ab50</sha1>
+    </version>
 
     <version name="2.4" package="fusioninventory-agent64" type="one-file">
         <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
@@ -12115,6 +12220,16 @@ if %err% neq 0 exit %err%</file>
 </file>
         <url>https://github.com/fusioninventory/fusioninventory-agent/releases/download/2.4/fusioninventory-agent_windows-x86_2.4.exe</url>
         <sha1>d4ccd450e03510cb837e6c4b7956311401a9a0a1</sha1>
+    </version>
+
+    <version name="1.0.1" package="gajim64" type="one-file">
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
+"%setup%" /S /D=%CD%&#13;
+</file>
+        <file path=".Npackd\Uninstall.bat">uninstall.exe /S _?=%CD%&#13;
+</file>
+        <url>https://gajim.org/downloads/1.0/gajim-1.0.1-64bits-1.exe</url>
+        <hash-sum type="SHA-256">1980aa28e4cb84c3c85cfcc5682b00dc12809bc8a94e9c93167bc902fbecb1da</hash-sum>
     </version>
 
     <version name="3.20.1" package="gedit64" type="one-file">
@@ -18313,6 +18428,11 @@ verify&#13;
         <important-file path="openttd.exe" title="OpenTTD"/>
         <url>https://binaries.openttd.org/releases/1.7.2/openttd-1.7.2-windows-win64.zip</url>
         <sha1>e25e94f33b47940ae934da0b0463b77bff4fff2a</sha1>
+    </version>
+    <version name="1.8" package="open-ttd64">
+        <important-file path="openttd.exe" title="OpenTTD"/>
+        <url>https://binaries.openttd.org/releases/1.8.0/openttd-1.8.0-windows-win64.zip</url>
+        <hash-sum type="SHA-256">f3e333d7597309b432d7f6529d746923ffd4339dffca43bb024d37db7beddc91</hash-sum>
     </version>
 
     <version name="1.23.4" package="openmpt64" type="one-file">
@@ -31296,6 +31416,14 @@ if %err% neq 0 exit %err%&#13;
 </file>
         <url>http://files.first-world.info/ultracopier/1.2.3.6/ultracopier-windows-x86_64-1.2.3.6-setup.exe</url>
         <sha1>5ed44022bf47fc8b38ad7832c9f4d5e3b95cce2e</sha1>
+    </version>
+    <version name="1.4.0.6" package="ultracopier64" type="one-file">
+        <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
+</file>
+        <file path=".Npackd\Uninstall.bat">uninst.exe /S _?=%CD%&#13;
+</file>
+        <url>http://files.first-world.info/ultracopier/1.4.0.6/ultracopier-windows-x86_64-1.4.0.6-setup.exe</url>
+        <hash-sum type="SHA-256">8c17fd7f14bcc305d0131829c8816bd28ced728e939882d16e1f803b4b1aa15c</hash-sum>
     </version>
 
     <version name="2.0.1" package="vagrant64" type="one-file">
