@@ -954,16 +954,6 @@ x86_64</description>
         <license>org.gnu.GPLv2</license>
         <category>Video</category>
     </package>
-    <package name="fr.veracrypt.veracrypt">
-        <title>Veracrypt</title>
-        <url>https://www.veracrypt.fr</url>
-        <description>Free open source disk encryption software for Windows, Mac OSX and Linux.
-x86_64</description>
-        <icon>https://www.veracrypt.fr/en/VeraCrypt128x128.png</icon>
-        <license>org.apache.ApacheLicense2</license>
-        <category>Security</category>
-        <link href="https://www.veracrypt.fr/en/Release%20Notes.html" rel="changelog"/>
-    </package>
     <package name="fusioninventory-agent64">
         <title>FusionInventory Agent 64 bit</title>
         <url>http://fusioninventory.org/</url>
@@ -12298,38 +12288,7 @@ for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
         <dependency package="com.microsoft.DotNetRedistributable" versions="[2, 3)"/>
     </version>
 
-    <version name="1.21" package="fr.veracrypt.veracrypt" type="one-file">
-        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
-"%setup%" /SP- /VERYSILENT /SUPPRESSMSGBOXES /NOCANCEL /NORESTART /DIR="%CD%" /SAVEINF="%CD%\.Npackd\InnoSetupInfo.ini" /LOG="%CD%\.Npackd\InnoSetupInstall.log" &amp;&amp; del /f /q "%setup%"&#13;
-set err=%errorlevel%&#13;
-type .Npackd\InnoSetupInstall.log&#13;
-if %err% neq 0 exit %err%</file>
-        <file path=".Npackd\Uninstall.bat">set name=%1&#13;
-if "%name%" equ "" set name=unins000.exe&#13;
-&#13;
-"%name%" /VERYSILENT /SUPPRESSMSGBOXES /NORESTART /LOG="%CD%\.Npackd\InnoSetupUninstall.log"&#13;
-set err=%errorlevel%&#13;
-type .Npackd\InnoSetupUninstall.log&#13;
-if %err% neq 0 exit %err%</file>
-        <url>https://launchpad.net/veracrypt/trunk/1.21/+download/VeraCrypt%20Setup%201.21.exe</url>
-        <sha1>6a005061529a24da42b7a97a946fa153c208ab50</sha1>
-    </version>
-    <version name="1.22" package="fr.veracrypt.veracrypt" type="one-file">
-        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
-"%setup%" /SP- /VERYSILENT /SUPPRESSMSGBOXES /NOCANCEL /NORESTART /DIR="%CD%" /SAVEINF="%CD%\.Npackd\InnoSetupInfo.ini" /LOG="%CD%\.Npackd\InnoSetupInstall.log" &amp;&amp; del /f /q "%setup%"&#13;
-set err=%errorlevel%&#13;
-type .Npackd\InnoSetupInstall.log&#13;
-if %err% neq 0 exit %err%</file>
-        <file path=".Npackd\Uninstall.bat">set name=%1&#13;
-if "%name%" equ "" set name=unins000.exe&#13;
-&#13;
-"%name%" /VERYSILENT /SUPPRESSMSGBOXES /NORESTART /LOG="%CD%\.Npackd\InnoSetupUninstall.log"&#13;
-set err=%errorlevel%&#13;
-type .Npackd\InnoSetupUninstall.log&#13;
-if %err% neq 0 exit %err%</file>
-        <url>https://launchpad.net/veracrypt/trunk/1.21/+download/VeraCrypt%20Setup%201.21.exe</url>
-        <sha1>6a005061529a24da42b7a97a946fa153c208ab50</sha1>
-    </version>
+    
 
     <version name="2.4" package="fusioninventory-agent64" type="one-file">
         <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
