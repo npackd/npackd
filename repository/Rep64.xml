@@ -1909,6 +1909,16 @@ x86_64</description>
         <license>org.gnu.GPLv2</license>
         <category>Development</category>
     </package>
+    <package name="org.gimp.Gimp">
+        <title>Gimp 64 bit</title>
+        <url>https://www.gimp.org</url>
+        <description>raster graphics editor
+i686
+x86_64</description>
+        <icon>http://npackd.sourceforge.net/org.gimp.Gimp.png</icon>
+        <license>org.gnu.GPLv3</license>
+        <category>Photo</category>
+    </package>
     <package name="org.gnu.GDB64">
         <title>GDB 64 bit</title>
         <url>http://www.gnu.org/software/gdb/</url>
@@ -22632,6 +22642,33 @@ verify&#13;
         <hash-sum type="SHA-256">b91517c673453f5aa355ffb3952e040433a8cdbbc5239be72c869b60131b4166</hash-sum>
     </version>
 
+    <version name="2.10" package="org.gimp.Gimp" type="one-file">
+        <important-file path="bin\gimp-2.10.exe" title="Gimp"/>
+        <file path=".Npackd\Install.bat">path&#13;
+&#13;
+for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
+"%setup%" /SP- /VERYSILENT /SUPPRESSMSGBOXES /NOCANCEL /NORESTART /DIR="%CD%"&#13;
+set err=%errorlevel%&#13;
+if %err% neq 0 exit /b %err%&#13;
+&#13;
+set key=org.gimp.Gimp-%NPACKD_PACKAGE_VERSION%&#13;
+reg add HKLM\SOFTWARE\Classes\Applications\%key%\shell\open /v FriendlyAppName /d "Gimp (%NPACKD_PACKAGE_VERSION%)" /f&#13;
+set c=\"%CD%\bin\gimp-2.8.exe\" \"%%1\"&#13;
+reg add HKLM\SOFTWARE\Classes\Applications\%KEY%\shell\open\command /d "%c%" /f&#13;
+for %%g in (xcf pix matte mask alpha als fli flc xcf.bz2 bz2 xcfbz2 desktop dcm dicom eps fit fits g3 gif pat gbr gpb gih xcf.gz gz xcfgz jpg jpeg jpe cel ico wmf apm psp tub pspimage psd png pnm ppm pgm pbm pdf ps sgi rgb rgba bw ico im1 im8 im24 im32 rs ras svg tga vda icb vst tif tiff bmp xbm icon bitmap xpm xwd pcx pcc) do reg add HKLM\SOFTWARE\Classes\.%%g\OpenWithList\%key% /f&#13;
+</file>
+        <file path=".Npackd\Uninstall.bat">uninst\unins000.exe /VERYSILENT /SUPPRESSMSGBOXES /NORESTART&#13;
+set err=%errorlevel%&#13;
+if %err% neq 0 exit /b %err%&#13;
+&#13;
+set key=org.gimp.Gimp-%NPACKD_PACKAGE_VERSION%&#13;
+reg delete HKLM\SOFTWARE\Classes\Applications\%key% /f&#13;
+for %%g in (xcf pix matte mask alpha als fli flc xcf.bz2 bz2 xcfbz2 desktop dcm dicom eps fit fits g3 gif pat gbr gpb gih xcf.gz gz xcfgz jpg jpeg jpe cel ico wmf apm psp tub pspimage psd png pnm ppm pgm pbm pdf ps sgi rgb rgba bw ico im1 im8 im24 im32 rs ras svg tga vda icb vst tif tiff bmp xbm icon bitmap xpm xwd pcx pcc) do reg delete HKLM\SOFTWARE\Classes\.%%g\OpenWithList\%key% /f&#13;
+</file>
+        <url>https://download.gimp.org/mirror/pub/gimp/v2.10/windows/gimp-2.10.0-x64-setup.exe</url>
+        <hash-sum type="SHA-256">1babc967a37ad4692d0c2cfb76309c381bab0f4208077e9e2f38c8deec5e0a44</hash-sum>
+    </version>
+
     <version name="7.1.90" package="org.gnu.GDB64">
         <file path=".WPM\Install.bat">for /f "delims=" %%x in ('dir /b mingw*') do set name=%%x
 cd "%name%"
@@ -30576,6 +30613,8 @@ if %err% neq 0 exit %err%&#13;
         <url>http://sourceforge.net/projects/skychart/files/1-software/version_4.0/skychart-4.0-3575-windows-x64.exe</url>
         <sha1>f63f1df6eada7eb6152ff30b50645658200b471f</sha1>
     </version>
+
+    
 
     <version name="5.2.1" package="soapui64" type="one-file">
         <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
