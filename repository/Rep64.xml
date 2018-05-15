@@ -7729,6 +7729,15 @@ if %err% neq 0 exit /b %err%&#13;
             <variable>npackdih</variable>
         </dependency>
     </version>
+    <version name="8.0.11" package="com.mysql.dev.MySQLODBCConnector64bits" type="one-file">
+        <file path=".Npackd\Install.bat">call "%npackdih%\InstallMSI.bat" INSTALLDIR yes&#13;
+		</file>
+        <url>https://cdn.mysql.com//Downloads/Connector-ODBC/8.0/mysql-connector-odbc-8.0.11-winx64.msi</url>
+        <hash-sum type="SHA-256">84bf6eededdf5f37f5f71510bdd19dc1e1e06c10d7a0145bd6e32e68ec5585fe</hash-sum>
+        <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.1, 2)">
+            <variable>npackdih</variable>
+        </dependency>
+    </version>
 
     <version name="5.5.16" package="com.mysql.MySQLCommunityServer64" type="one-file">
         <file path=".Npackd\Install.bat">call "%npackdih%\InstallMSI.bat" INSTALLDIR yes</file>
@@ -8009,6 +8018,18 @@ rmdir "%name%"&#13;
 </file>
         <url>https://cdn.mysql.com/Downloads/MySQL-5.7/mysql-5.7.21-winx64.zip</url>
         <sha1>f2e3e9c7e1f24fb7dcddea67f407bc85880efb32</sha1>
+    </version>
+    <version name="8.0.11" package="com.mysql.MySQLCommunityServer64">
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b mysql*') do set name=%%x&#13;
+cd "%name%"        &#13;
+for /f "delims=" %%a in ('dir /b') do (&#13;
+  move "%%a" ..&#13;
+)&#13;
+cd ..&#13;
+rmdir "%name%"&#13;
+</file>
+        <url>https://cdn.mysql.com/Downloads/MySQL-8.0/mysql-8.0.11-winx64.zip</url>
+        <hash-sum type="SHA-256">c26d46705fafbe2d43c1d8d237e1ae62f149276476e5fb1abacf6f8a1b57283f</hash-sum>
     </version>
 
     <version name="2014" package="com.mythicsoft.AgentRansack64" type="one-file">
@@ -9074,6 +9095,16 @@ call "%nih%\UninstallInnoSetup.bat" unins000.exe</file>
             <variable>nih</variable>
         </dependency>
     </version>
+    <version name="4.6" package="com.selenic.mercurial.Mercurial64" type="one-file">
+        <file path=".Npackd\Install.bat">call "%nih%\InstallInnoSetup.bat"&#13;
+</file>
+        <file path=".Npackd\Uninstall.bat">call "%nih%\UninstallInnoSetup.bat" unins000.exe</file>
+        <url>https://www.mercurial-scm.org/release/windows/Mercurial-4.6-x64.exe</url>
+        <hash-sum type="SHA-256">eaf1a30689a1cf357e366ab80d02cb566c46d4fc2c31f7113b3af8053b3da843</hash-sum>
+        <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.7, 2)">
+            <variable>nih</variable>
+        </dependency>
+    </version>
 
     <version name="2.11" package="com.sindresorhus.caprine" type="one-file">
         <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
@@ -9600,6 +9631,15 @@ if %err% neq 0 exit %err%</file>
 </file>
         <url>http://strawberryperl.com/download/5.26.1.1/strawberry-perl-5.26.1.1-64bit.msi</url>
         <sha1>871668bc5b45b8ba2a319602a6592c5e18d88cce</sha1>
+        <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.1, 2)">
+            <variable>npackdih</variable>
+        </dependency>
+    </version>
+    <version name="5.26.2.1" package="com.strawberryperl.StrawberryPerl64" type="one-file">
+        <file path=".Npackd\Install.bat">call "%npackdih%\InstallMSI.bat" INSTALLDIR yes&#13;
+</file>
+        <url>http://strawberryperl.com/download/5.26.2.1/strawberry-perl-5.26.2.1-64bit.msi</url>
+        <hash-sum type="SHA-256">41ca789c86db50b0d0af64fd7bff7816a51a20d22d145535f892ad2450a8b10b</hash-sum>
         <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.1, 2)">
             <variable>npackdih</variable>
         </dependency>
@@ -10946,6 +10986,17 @@ if %err% neq 0 exit %err%&#13;
             <variable>nih</variable>
         </dependency>
     </version>
+    <version name="1.3.3" package="conan64" type="one-file">
+        <cmd-file path="conan\conan.exe"/>
+        <file path=".Npackd\Install.bat">"%nih%\InstallInnoSetup.bat"&#13;
+</file>
+        <file path=".Npackd\Uninstall.bat">"%nih%\UninstallInnoSetup.bat" unins000.exe</file>
+        <url>https://github.com/conan-io/conan/releases/download/1.3.3/conan-win-64_1_3_3.exe</url>
+        <hash-sum type="SHA-256">5a34c3a51294f01a44b0ec48b15baaa4ea7181f44e2dbb1c5c0eb0b4eb3c8063</hash-sum>
+        <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
+            <variable>nih</variable>
+        </dependency>
+    </version>
 
     <version name="44" package="cyberfox64" type="one-file">
         <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
@@ -11120,6 +11171,16 @@ if %err% neq 0 exit %err%&#13;
         <file path=".Npackd\Uninstall.bat">call "%nih%\UninstallInnoSetup.bat" unins000.exe&#13;
 </file>
         <url>https://download.8pecxstudios.com/latest/Cyberfox-52.7.2.en-US.win64-x86_64.intel.exe</url>
+        <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
+            <variable>nih</variable>
+        </dependency>
+    </version>
+    <version name="52.7.4" package="cyberfox64" type="one-file">
+        <file path=".Npackd\Install.bat">call "%nih%\InstallInnoSetup.bat"&#13;
+</file>
+        <file path=".Npackd\Uninstall.bat">call "%nih%\UninstallInnoSetup.bat" unins000.exe&#13;
+</file>
+        <url>https://download.8pecxstudios.com/latest/Cyberfox-52.7.4.en-US.win64-x86_64.intel.exe</url>
         <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
             <variable>nih</variable>
         </dependency>
@@ -11385,6 +11446,16 @@ if %err% neq 0 exit %err%&#13;
         <file path=".Npackd\Install.bat">"%NIH%\ExtractDir.bat" dbeaver</file>
         <url>http://dbeaver.jkiss.org/files/5.0.2/dbeaver-ce-5.0.2-win32.win32.x86_64.zip</url>
         <hash-sum type="SHA-256">7dd2e16a4c7c3615811127e0d4713dca6cacc58564c2ebd623db96ac29609a37</hash-sum>
+        <dependency package="com.oracle.JRE64" versions="[1.7, 20)"/>
+        <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
+            <variable>nih</variable>
+        </dependency>
+    </version>
+    <version name="5.0.4" package="dbeaver64">
+        <important-file path="dbeaver.exe" title="DBeaver 64 bit"/>
+        <file path=".Npackd\Install.bat">"%NIH%\ExtractDir.bat" dbeaver</file>
+        <url>http://dbeaver.jkiss.org/files/5.0.4/dbeaver-ce-5.0.4-win32.win32.x86_64.zip</url>
+        <hash-sum type="SHA-256">75eff7d15155ea69737a4e1f9e7e6e245b3da9d7a5701122eea71ea5395fb616</hash-sum>
         <dependency package="com.oracle.JRE64" versions="[1.7, 20)"/>
         <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
             <variable>nih</variable>
