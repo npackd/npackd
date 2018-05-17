@@ -1995,6 +1995,24 @@ x86_64</description>
         <license>org.gnu.LGPLv2_1</license>
         <category>Video</category>
     </package>
+    <package name="org.keepassxc.keepassxc">
+        <title>KeePassXC</title>
+        <url>https://keepassxc.org</url>
+        <description>KeePassXC is a community fork of KeePassX, a native cross-platform port of KeePass Password Safe, with the goal to extend and improve it with new features and bugfixes to provide a feature-rich, fully cross-platform and modern open-source password manager.
+x86_64</description>
+        <icon>https://keepassxc.org/logo-small.png</icon>
+        <license>org.gnu.GPLv2</license>
+        <category>Security</category>
+        <link href="https://github.com/keepassxreboot/keepassxc/wiki/KeePassXC-Changelog" rel="changelog"/>
+        <link href="https://keepassxc.org/images/screenshots/windows/screen_001.png" rel="screenshot"/>
+        <link href="https://keepassxc.org/images/screenshots/windows/screen_002.png" rel="screenshot"/>
+        <link href="https://keepassxc.org/images/screenshots/windows/screen_003.png" rel="screenshot"/>
+        <link href="https://keepassxc.org/images/screenshots/windows/screen_004.png" rel="screenshot"/>
+        <link href="https://keepassxc.org/images/screenshots/windows/screen_005.png" rel="screenshot"/>
+        <link href="https://keepassxc.org/images/screenshots/windows/screen_006.png" rel="screenshot"/>
+        <link href="https://keepassxc.org/images/screenshots/windows/screen_007.png" rel="screenshot"/>
+        <link href="https://keepassxc.org/images/screenshots/windows/screen_008.png" rel="screenshot"/>
+    </package>
     <package name="org.miktex.MiKTeX64">
         <title>MiKTeX 64 bit</title>
         <url>http://www.miktex.org/about</url>
@@ -5954,7 +5972,7 @@ rem "avgmfapx.exe" /AppMode=SETUP /Uninstall /UILevel=Silent /DontRestart&#13;
         </dependency>
     </version>
 
-    <version name="1.49" package="com.bitcomet.BitComet64" type="one-file">
+    <version name="1.50" package="com.bitcomet.BitComet64" type="one-file">
         <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"</file>
         <file path=".Npackd\Uninstall.bat">"%nih%\ExecJS.bat" .Npackd\Uninstall.js</file>
         <file path=".Npackd\Uninstall.js">var shell = WScript.CreateObject("WScript.Shell");&#13;
@@ -24132,6 +24150,15 @@ if %err% neq 0 exit %err%&#13;
         </dependency>
     </version>
 
+    <version name="2.3.3" package="org.keepassxc.keepassxc" type="one-file">
+        <file path=".Npackd\Install.bat">call "%npackdih%\InstallMSI.bat" INSTALLDIR yes</file>
+        <url>https://github.com/keepassxreboot/keepassxc/releases/download/2.3.3/KeePassXC-2.3.3-Win64.msi</url>
+        <hash-sum type="SHA-256">cbafa14a8fb8f54ae2372946458935ab27900224aa714598bb5fdeb201027505</hash-sum>
+        <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.22, 2)">
+            <variable>npackdih</variable>
+        </dependency>
+    </version>
+
     <version name="2.9.4407" package="org.miktex.MiKTeX64" type="one-file">
         <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
 "%setup%" --common-install="%CD%" --shared --unattended&#13;
@@ -31045,6 +31072,10 @@ rem Install4j&#13;
         <url>https://www.sqlite.org/2018/sqlite-dll-win64-x64-3230000.zip</url>
         <hash-sum type="SHA-256">1727fb80d83340884c5c46d83155565d99eb9b511e1813d99eb3e862eff6bf28</hash-sum>
     </version>
+    <version name="3.23.1" package="sqlite64">
+        <url>https://www.sqlite.org/2018/sqlite-dll-win64-x64-3230100.zip</url>
+        <hash-sum type="SHA-256">1dc75d6928923ee609567311b8c4b1449c0e854ada771a40017e03a5c20f90a4</hash-sum>
+    </version>
 
     <version name="10.50.1600.1" package="sqlncli64" type="one-file">
         <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.msi') do set setup=%%x&#13;
@@ -31655,6 +31686,14 @@ rmdir "%name%"</file>
         <url>https://www.sysgauge.com/setups_x64/sysgauge_setup_v4.6.12_x64.exe</url>
         <hash-sum type="SHA-256">4f8b0143ef52d9b90a5dad063a70dedf7955da619e3de42581832819c67f4a6f</hash-sum>
     </version>
+    <version name="4.9.18" package="sysgauge64" type="one-file">
+        <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
+</file>
+        <file path=".Npackd\Uninstall.bat">uninstall.exe /S _?=%CD%&#13;
+</file>
+        <url>https://www.sysgauge.com/setups_x64/sysgauge_setup_v4.9.18_x64.exe</url>
+        <hash-sum type="SHA-256">02218848a2e8045c14e9d26b55ef2184c832d6aca9c135c5bdbf9ffda2c327e0</hash-sum>
+    </version>
 
     <version name="1" package="sysinternals-suite">
         <url>https://download.sysinternals.com/files/SysinternalsSuite.zip</url>
@@ -31860,6 +31899,15 @@ if %err% neq 0 exit %err%&#13;
             <variable>nih</variable>
         </dependency>
     </version>
+    <version name="2.94" package="transmission-qt64" type="one-file">
+        <file path=".Npackd\Install.bat">call "%nih%\InstallMSI.bat" INSTALLDIR yes&#13;
+</file>
+        <url>https://github.com/transmission/transmission-releases/raw/master/transmission-2.94-x64.msi</url>
+        <hash-sum type="SHA-256">a35672252661f16382072fd0ae87b8eafd47f5535439336fe2f161a542f9a1ab</hash-sum>
+        <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.1, 2)">
+            <variable>nih</variable>
+        </dependency>
+    </version>
 
     <version name="1.2.2.2" package="ultracopier64" type="one-file">
         <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
@@ -31925,6 +31973,15 @@ if %err% neq 0 exit %err%&#13;
 </file>
         <url>https://releases.hashicorp.com/vagrant/2.0.3/vagrant_2.0.3_x86_64.msi</url>
         <sha1>2e065be405bb0ef58197b25e46df37894b9c9977</sha1>
+        <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.1, 2)">
+            <variable>nih</variable>
+        </dependency>
+    </version>
+    <version name="2.1.1" package="vagrant64" type="one-file">
+        <file path=".Npackd\Install.bat">call "%nih%\InstallMSI.bat" INSTALLDIR yes&#13;
+</file>
+        <url>https://releases.hashicorp.com/vagrant/2.1.1/vagrant_2.1.1_x86_64.msi</url>
+        <hash-sum type="SHA-256">0a1267ca0fbfc768a2f8ae6c5d70e9bbdb95ea960eb2be5d524a327ccb32b20c</hash-sum>
         <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.1, 2)">
             <variable>nih</variable>
         </dependency>
@@ -32009,6 +32066,21 @@ if %err% neq 0 exit %err%&#13;
         <url>https://az764295.vo.msecnd.net/insider/d28f096018e2673a8437c788e3eed781ddb505ce/VSCodeSetup-ia32-1.21.0-insider.exe</url>
         <sha1>88142b530a8fe71c8f4962c157244a45f18959fc</sha1>
     </version>
+    <version name="1.23" package="vs-code" type="one-file">
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
+"%setup%" /SP- /VERYSILENT /SUPPRESSMSGBOXES /NOCANCEL /NORESTART /DIR="%CD%" /SAVEINF="%CD%\.Npackd\InnoSetupInfo.ini" /LOG="%CD%\.Npackd\InnoSetupInstall.log"&#13;
+set err=%errorlevel%&#13;
+type .Npackd\InnoSetupInstall.log&#13;
+if %err% neq 0 exit %err%&#13;
+</file>
+        <file path=".Npackd\Uninstall.bat">unins000.exe /VERYSILENT /SUPPRESSMSGBOXES /NORESTART /LOG="%CD%\.Npackd\InnoSetupUninstall.log"&#13;
+set err=%errorlevel%&#13;
+type .Npackd\InnoSetupUninstall.log&#13;
+if %err% neq 0 exit %err%&#13;
+</file>
+        <url>https://az764295.vo.msecnd.net/insider/d28f096018e2673a8437c788e3eed781ddb505ce/VSCodeSetup-ia32-1.21.0-insider.exe</url>
+        <sha1>88142b530a8fe71c8f4962c157244a45f18959fc</sha1>
+    </version>
 
     <version name="1.17.2" package="vs-code64" type="one-file">
         <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
@@ -32056,6 +32128,21 @@ if %err% neq 0 exit %err%&#13;
         <sha1>f73db938cfee6ab1ab0f940c923e4e663962c795</sha1>
     </version>
     <version name="1.22" package="vs-code64" type="one-file">
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
+"%setup%" /SP- /VERYSILENT /SUPPRESSMSGBOXES /NOCANCEL /NORESTART /DIR="%CD%" /SAVEINF="%CD%\.Npackd\InnoSetupInfo.ini" /LOG="%CD%\.Npackd\InnoSetupInstall.log"&#13;
+set err=%errorlevel%&#13;
+type .Npackd\InnoSetupInstall.log&#13;
+if %err% neq 0 exit %err%&#13;
+</file>
+        <file path=".Npackd\Uninstall.bat">unins000.exe /VERYSILENT /SUPPRESSMSGBOXES /NORESTART /LOG="%CD%\.Npackd\InnoSetupUninstall.log"&#13;
+set err=%errorlevel%&#13;
+type .Npackd\InnoSetupUninstall.log&#13;
+if %err% neq 0 exit %err%&#13;
+</file>
+        <url>https://az764295.vo.msecnd.net/insider/d28f096018e2673a8437c788e3eed781ddb505ce/VSCodeSetup-x64-1.21.0-insider.exe</url>
+        <sha1>f73db938cfee6ab1ab0f940c923e4e663962c795</sha1>
+    </version>
+    <version name="1.23" package="vs-code64" type="one-file">
         <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
 "%setup%" /SP- /VERYSILENT /SUPPRESSMSGBOXES /NOCANCEL /NORESTART /DIR="%CD%" /SAVEINF="%CD%\.Npackd\InnoSetupInfo.ini" /LOG="%CD%\.Npackd\InnoSetupInstall.log"&#13;
 set err=%errorlevel%&#13;
@@ -32306,6 +32393,20 @@ rmdir "%name%"</file>
         </dependency>
     </version>
     <version name="9.0.4.1" package="zulu64">
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b zulu*') do set name=%%x&#13;
+cd "%name%"        &#13;
+for /f "delims=" %%a in ('dir /b') do (&#13;
+  move "%%a" ..&#13;
+)&#13;
+cd ..&#13;
+rmdir "%name%"</file>
+        <url>https://cdn.azul.com/zulu/bin/zulu9.0.4.1-jdk9.0.4-win_x64.zip</url>
+        <sha1>1a86ff5e247cf5d5f9284017ad1f539a3e719e99</sha1>
+        <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.1, 2)">
+            <variable>nih</variable>
+        </dependency>
+    </version>
+    <version name="9.0.7.1" package="zulu64">
         <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b zulu*') do set name=%%x&#13;
 cd "%name%"        &#13;
 for /f "delims=" %%a in ('dir /b') do (&#13;
