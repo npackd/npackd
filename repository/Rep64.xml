@@ -16118,6 +16118,14 @@ if %errorlevel% neq 0 exit /b %errorlevel%&#13;
         <url>http://multicommander.com/files/updates/MultiCommander_x64_(7.7.0.2404).exe</url>
         <sha1>16835f12b09f19c30720d81493a3b8fd654fca14</sha1>
     </version>
+    <version name="8.1.0.2452" package="multi-commander64" type="one-file">
+        <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
+</file>
+        <file path=".Npackd\Uninstall.bat">"Uninstall MultiCommander.exe" /S _?=%CD%&#13;
+</file>
+        <url>http://multicommander.com/files/updates/MultiCommander_x64_(8.1.0.2452).exe</url>
+        <hash-sum type="SHA-256">99b00348632485351b184c96844cfae778515d784d5c3ff3dff95fc9bc718a96</hash-sum>
+    </version>
 
     <version name="2" package="myeventviewer64">
         <important-file path="MyEventViewer.exe" title="MyEventViewer"/>
@@ -29557,6 +29565,16 @@ echo DesktopShortcut=false &gt;&gt; .Npackd\FF.ini&#13;
         <file path=".Npackd\Uninstall.bat">uninstall\helper.exe /S</file>
         <url>http://relmirror.palemoon.org/release/palemoon-27.8.3.win64.installer.exe</url>
         <sha1>14765df1879a0ab9c541ae97816abb28a42751d7</sha1>
+    </version>
+    <version name="27.9.1" package="pale-moon64" type="one-file">
+        <file path=".Npackd\Install.bat">echo [Install] &gt; .Npackd\FF.ini&#13;
+echo InstallDirectoryPath=%CD% &gt;&gt; .Npackd\FF.ini&#13;
+echo QuickLaunchShortcut=false &gt;&gt; .Npackd\FF.ini&#13;
+echo DesktopShortcut=false &gt;&gt; .Npackd\FF.ini&#13;
+"%npackd_package_binary%" /INI="%CD%\.Npackd\FF.ini" &amp;&amp; del /f /q "%npackd_package_binary%"</file>
+        <file path=".Npackd\Uninstall.bat">uninstall\helper.exe /S</file>
+        <url>http://relmirror.palemoon.org/release/palemoon-27.9.1.win64.installer.exe</url>
+        <hash-sum type="SHA-256">500dc3ff9f47491427c5764f3a248b5a9888030bb4157d6d553534b732dc2de9</hash-sum>
     </version>
 
     <version name="2.2.2" package="pdfsam64" type="one-file">
