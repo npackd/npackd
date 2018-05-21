@@ -1920,7 +1920,7 @@ x86_64</description>
         <category>Development</category>
     </package>
     <package name="org.gimp.Gimp">
-        <title>Gimp 64 bit</title>
+        <title>Gimp</title>
         <url>https://www.gimp.org</url>
         <description>raster graphics editor
 i686
@@ -14714,6 +14714,19 @@ call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Np
 </file>
         <url>https://github.com/ldc-developers/ldc/releases/download/v1.8.0/ldc2-1.8.0-windows-x64.7z</url>
         <hash-sum type="SHA-256">c9d35c340b640202e06fb1a5279da34b96c82b73d43546efddf46de6c1687bb2</hash-sum>
+        <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.19, 2)">
+            <variable>nih</variable>
+        </dependency>
+    </version>
+    <version name="1.9" package="ldc64" type="one-file">
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.7z') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+&#13;
+for /f "delims=" %%x in ('dir /b ldc*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+</file>
+        <url>https://github.com/ldc-developers/ldc/releases/download/v1.9.0/ldc2-1.9.0-windows-x64.7z</url>
+        <hash-sum type="SHA-256">17fb0f2f1865e796f05d74fde6b3353c4c1d8a779e2dc51449b9c4b5b5c5ea9a</hash-sum>
         <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.19, 2)">
             <variable>nih</variable>
         </dependency>
@@ -30080,6 +30093,15 @@ lib.sendKeysToWindow("QCAD 3.12.4 Uninstall", "{ENTER}");&#13;
             <variable>nih</variable>
         </dependency>
     </version>
+    <version name="3.20.1" package="qcad64" type="one-file">
+        <file path=".Npackd\Install.bat">call "%nih%\InstallMSI.bat" INSTALLDIR yes&#13;
+</file>
+        <url>http://www.qcad.org/archives/qcad/qcad-3.20.1-trial-win64-installer.msi</url>
+        <hash-sum type="SHA-256">2f8f5221d29b5108f5fb0d112b080511f56114b93c00bb1e8c50c1b19e3c6696</hash-sum>
+        <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.1, 2)">
+            <variable>nih</variable>
+        </dependency>
+    </version>
 
     <version name="2.10.1" package="qgis64" type="one-file">
         <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
@@ -30210,6 +30232,14 @@ lib.sendKeysToWindow("QCAD 3.12.4 Uninstall", "{ENTER}");&#13;
 </file>
         <url>https://qgis.org/downloads/QGIS-OSGeo4W-3.0.1-1-Setup-x86_64.exe</url>
         <sha1>e9e7e65e5aad1d184e32cdf61668f56749b06b9c</sha1>
+    </version>
+    <version name="3.0.2" package="qgis64" type="one-file">
+        <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
+</file>
+        <file path=".Npackd\Uninstall.bat">uninstall.exe /S _?=%CD%&#13;
+</file>
+        <url>https://qgis.org/downloads/QGIS-OSGeo4W-3.0.2-1-Setup-x86_64.exe</url>
+        <hash-sum type="SHA-256">38477fd9d4e845df5980e8f87dd8efb991f9c36dec1d696d0c22b020ea0331f0</hash-sum>
     </version>
 
     <version name="1.11" package="qtox64" type="one-file">
