@@ -2221,6 +2221,15 @@ x86_64</description>
         <icon>http://www.palemoon.org/favicon.ico</icon>
         <category>Productivity</category>
     </package>
+    <package name="pandoc64">
+        <title>Pandoc 64 bit</title>
+        <url>http://pandoc.org</url>
+        <description>markup format converter
+x86_64</description>
+        <license>org.gnu.GPLv2</license>
+        <category>Productivity</category>
+        <link href="http://pandoc.org/releases.html" rel="changelog"/>
+    </package>
     <package name="pdfsam64">
         <title>PDFsam 64 bit</title>
         <url>http://www.pdfsam.org</url>
@@ -13466,6 +13475,19 @@ rmdir "%name%"&#13;
 </file>
         <url>https://dl.google.com/dl/cloudsdk/channels/rapid/downloads/google-cloud-sdk-201.0.0-windows-x86_64.zip</url>
         <hash-sum type="SHA-256">b5c0fa32d2d52c74f5c31155bf29eabdb8ffddcbd330ef5223ffe146365717ea</hash-sum>
+        <dependency package="org.python.Python" versions="[2.7, 2.8)"/>
+    </version>
+    <version name="202" package="google-cloud-sdk64">
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b google-cloud-sdk*') do set name=%%x&#13;
+cd "%name%"&#13;
+for /f "delims=" %%a in ('dir /b') do (&#13;
+  move "%%a" ..&#13;
+)&#13;
+cd ..&#13;
+rmdir "%name%"&#13;
+</file>
+        <url>https://dl.google.com/dl/cloudsdk/channels/rapid/downloads/google-cloud-sdk-202.0.0-windows-x86_64.zip</url>
+        <hash-sum type="SHA-256">4b483e488b1d19ade18446cd1f5cd756d155358f802badf5361def1fbe54551e</hash-sum>
         <dependency package="org.python.Python" versions="[2.7, 2.8)"/>
     </version>
 
@@ -29959,6 +29981,17 @@ echo DesktopShortcut=false &gt;&gt; .Npackd\FF.ini&#13;
         <file path=".Npackd\Uninstall.bat">uninstall\helper.exe /S</file>
         <url>http://relmirror.palemoon.org/release/palemoon-27.9.2.win64.installer.exe</url>
         <hash-sum type="SHA-256">9b8f5ca20ecb695a9946f7b21d44cef7f2570091a37481f1bd76c47c7201c680</hash-sum>
+    </version>
+
+    <version name="2.2.1" package="pandoc64" type="one-file">
+        <file path=".Npackd\Install.bat">call "%nih%\InstallMSI.bat" INSTALLDIR yes&#13;
+</file>
+        <url>https://github.com/jgm/pandoc/releases/download/2.2.1/pandoc-2.2.1-windows-x86_64.msi</url>
+        <hash-sum type="SHA-256">a95ba5f684f893b43e45d123ce4c70f48a31721b2db0536662943fb8332bdd2e</hash-sum>
+        <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.1, 2)">
+            <variable>nih</variable>
+        </dependency>
+        <dependency package="org.miktex.MiKTeX" versions="[2.9, 3)"/>
     </version>
 
     <version name="2.2.2" package="pdfsam64" type="one-file">
