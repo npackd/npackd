@@ -13892,13 +13892,13 @@ if %err% neq 0 exit %err%</file>
 "%sevenzipa%\7za.exe" x "%setup%" -aos&#13;
 dir&#13;
 &#13;
-msiexec.exe /qn /norestart /lime .Npackd\MSI.log /i "bin\Installer\Eraser (x64).msi" ALLUSERS=1&#13;
+msiexec.exe /qn /norestart /lime .Npackd\MSI.log /i "Eraser (x64).msi" ALLUSERS=1&#13;
 set err=%errorlevel%&#13;
 type .Npackd\MSI.log&#13;
 rem 3010=restart required&#13;
 if %err% equ 3010 exit 0&#13;
 if %err% neq 0 exit %err%</file>
-        <file path=".Npackd\Uninstall.bat">msiexec.exe /qn /norestart /lime .Npackd\MSI.log /x "bin\Installer\Eraser (x64).msi"&#13;
+        <file path=".Npackd\Uninstall.bat">msiexec.exe /qn /norestart /lime .Npackd\MSI.log /x "Eraser (x64).msi"&#13;
 set err=%errorlevel%&#13;
 type .Npackd\MSI.log&#13;
 rem 3010=restart required&#13;
@@ -14667,7 +14667,7 @@ rmdir "%name%"&#13;
         <file path=".Npackd\Install.bat">Imagine64.exe /assocext</file>
         <file path=".Npackd\Uninstall.bat">Imagine64.exe /dissocext</file>
         <url>http://www.nyam.pe.kr/dev/imagine/download/x64/Imagine_1.1.0_x64_Unicode.zip</url>
-        <sha1>a1e10aba54b59f46d294fead57cd835c6284d5e4</sha1>
+        <hash-sum type="SHA-256">322ebcb68e1a409f7671499ff6721399e71b0afc08b3a6210b9a547aad6c7cfe</hash-sum>
     </version>
 
     <version name="2.9.4.2" package="krita64" type="one-file">
