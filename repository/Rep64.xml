@@ -12906,6 +12906,17 @@ if %err% neq 0 exit %err%&#13;
             <variable>nih</variable>
         </dependency>
     </version>
+    <version name="2.17.1.2" package="git64" type="one-file">
+        <file path=".Npackd\Install.bat">call "%nih%\InstallInnoSetup.bat"&#13;
+</file>
+        <file path=".Npackd\Uninstall.bat">call "%nih%\UninstallInnoSetup.bat" unins000.exe&#13;
+</file>
+        <url>https://github.com/git-for-windows/git/releases/download/v2.17.1.windows.1/Git-2.17.1-64-bit.exe</url>
+        <hash-sum type="SHA-256">b3ae2969b317404346674b05ca0d1760f69140793457fcb76c8cda7664f235b5</hash-sum>
+        <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
+            <variable>nih</variable>
+        </dependency>
+    </version>
 
     <version name="67.0.3396.62" package="google-chrome-x64" type="one-file">
         <file path=".Npackd\Install.bat">call "%npackdih%\InstallMSI.bat" TARGETDIR yes&#13;
@@ -18106,6 +18117,14 @@ if %err% neq 0 exit %err%&#13;
 </file>
         <url>http://downloads.sourceforge.net/project/smplayer/SMPlayer/18.4.0/smplayer-18.4.0-x64.exe</url>
         <hash-sum type="SHA-256">1d8f81cbf29d9c836cd5c45631d155efc2676ca60ddaa568b282c8cf2900dff2</hash-sum>
+    </version>
+    <version name="18.5" package="net.sourceforge.smplayer.SMPlayer64" type="one-file">
+        <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD%&#13;
+</file>
+        <file path=".Npackd\Uninstall.bat">uninst.exe /S _?=%CD%        &#13;
+</file>
+        <url>http://downloads.sourceforge.net/project/smplayer/SMPlayer/18.5.0/smplayer-18.5.0-x64.exe</url>
+        <hash-sum type="SHA-256">b31f90a4470936e4ad972e1c3c4d42ebdec6e674a62fcb61a98b158dd659f534</hash-sum>
     </version>
 
     <version name="2.42" package="net.sourceforge.strongdc.StrongDCPlusPlus64" type="one-file">
