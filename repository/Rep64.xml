@@ -6391,6 +6391,15 @@ call "%npackdih%\InstallMSI.bat" APPLICATIONFOLDER yes&#13;
             <variable>npackdih</variable>
         </dependency>
     </version>
+    <version name="3.24.2" package="com.calibreebook.Calibre64" type="one-file">
+        <file path=".Npackd\Install.bat">call "%npackdih%\InstallMSI.bat" APPLICATIONFOLDER yes&#13;
+</file>
+        <url>https://download.calibre-ebook.com/3.24.2/calibre-64bit-3.24.2.msi</url>
+        <hash-sum type="SHA-256">cc113c06b427ffd98491bf6c020868e5d8127bee02d32c0ccba91cd5d1bf9f29</hash-sum>
+        <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.2, 2)">
+            <variable>npackdih</variable>
+        </dependency>
+    </version>
 
     <version name="5.12.256249.2599" package="com.comodo.comodoav64" type="one-file">
         <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.msi') do set setup=%%x&#13;
@@ -9853,6 +9862,14 @@ if %err% neq 0 exit %err%</file>
             <variable>npackdih</variable>
         </dependency>
     </version>
+    <version name="2.8.11" package="com.tightvnc.TightVNC64" type="one-file">
+        <file path=".Npackd\Install.bat">call "%npackdih%\InstallMSI.bat" INSTALLDIR yes</file>
+        <url>https://www.tightvnc.com/download/2.8.8/tightvnc-2.8.8-gpl-setup-64bit.msi</url>
+        <sha1>d4f10d4efaabf18d9ebb88e0245a81e6fc6bbd5e</sha1>
+        <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.1, 2)">
+            <variable>npackdih</variable>
+        </dependency>
+    </version>
 
     <version name="2.5.192" package="com.tracker-software.PDFXChangeViewer64" type="one-file">
         <file path=".Npackd\Install.bat">for /f %%x in ('dir /b *.msi') do set setup=%%x
@@ -11605,6 +11622,16 @@ if %err% neq 0 exit %err%&#13;
         <file path=".Npackd\Install.bat">"%NIH%\ExtractDir.bat" dbeaver</file>
         <url>http://dbeaver.jkiss.org/files/5.0.5/dbeaver-ce-5.0.5-win32.win32.x86_64.zip</url>
         <hash-sum type="SHA-256">025d1bcef342f3bc6c2b91acc3efc4e886c8d70babf4c13a4ef770f85b47f864</hash-sum>
+        <dependency package="com.oracle.JRE64" versions="[1.7, 20)"/>
+        <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
+            <variable>nih</variable>
+        </dependency>
+    </version>
+    <version name="5.0.6" package="dbeaver64">
+        <important-file path="dbeaver.exe" title="DBeaver 64 bit"/>
+        <file path=".Npackd\Install.bat">"%NIH%\ExtractDir.bat" dbeaver</file>
+        <url>http://dbeaver.jkiss.org/files/5.0.6/dbeaver-ce-5.0.6-win32.win32.x86_64.zip</url>
+        <hash-sum type="SHA-256">a1973046e5199792def9bb99ae93e5ab21018c031a0a8aaf16252e4cb5f69ce2</hash-sum>
         <dependency package="com.oracle.JRE64" versions="[1.7, 20)"/>
         <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
             <variable>nih</variable>
@@ -14008,369 +14035,6 @@ if %err% neq 0 exit %err%&#13;
 </file>
         <url>https://downloads.sourceforge.net/project/npackd/imagemagick64/imagemagick64-6.9.0.3.exe</url>
         <sha1>5eb3846511810a54a429c602ce9b6857dd311196</sha1>
-    </version>
-    <version name="6.9.3.8" package="imagemagick64" type="one-file">
-        <file path=".Npackd\Install.bat">call "%nih%\InstallInnoSetup.bat"&#13;
-</file>
-        <file path=".Npackd\Uninstall.bat">call "%nih%\UninstallInnoSetup.bat" unins000.exe&#13;
-</file>
-        <url>https://www.imagemagick.org/download/binaries/ImageMagick-6.9.3-8-Q16-x64-dll.exe</url>
-        <sha1>48eab388d69a6bd98ddb3be6bf11f4cb3aff3b04</sha1>
-        <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
-            <variable>nih</variable>
-        </dependency>
-    </version>
-    <version name="7.0.2.5" package="imagemagick64" type="one-file">
-        <file path=".Npackd\Install.bat">call "%nih%\InstallInnoSetup.bat"&#13;
-</file>
-        <file path=".Npackd\Uninstall.bat">call "%nih%\UninstallInnoSetup.bat" unins000.exe&#13;
-</file>
-        <url>https://www.imagemagick.org/download/binaries/ImageMagick-7.0.2-5-Q16-x64-dll.exe</url>
-        <sha1>f1a7b7f153e8f4c7a9e22fa99d274c440591509c</sha1>
-        <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
-            <variable>nih</variable>
-        </dependency>
-    </version>
-    <version name="7.0.3.4" package="imagemagick64" type="one-file">
-        <file path=".Npackd\Install.bat">call "%nih%\InstallInnoSetup.bat"&#13;
-</file>
-        <file path=".Npackd\Uninstall.bat">call "%nih%\UninstallInnoSetup.bat" unins000.exe&#13;
-</file>
-        <url>https://www.imagemagick.org/download/binaries/ImageMagick-7.0.3-4-Q16-x64-dll.exe</url>
-        <sha1>59d2941b6ca7c1ae1b0434de85c0983f58c19f70</sha1>
-        <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
-            <variable>nih</variable>
-        </dependency>
-    </version>
-    <version name="7.0.4.7" package="imagemagick64" type="one-file">
-        <file path=".Npackd\Install.bat">call "%nih%\InstallInnoSetup.bat"&#13;
-</file>
-        <file path=".Npackd\Uninstall.bat">call "%nih%\UninstallInnoSetup.bat" unins000.exe&#13;
-</file>
-        <url>https://www.imagemagick.org/download/binaries/ImageMagick-7.0.4-7-Q16-x64-dll.exe</url>
-        <sha1>a3c534598a4c790675364d416e130d2978545eeb</sha1>
-        <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
-            <variable>nih</variable>
-        </dependency>
-    </version>
-    <version name="7.0.5.5" package="imagemagick64" type="one-file">
-        <file path=".Npackd\Install.bat">call "%nih%\InstallInnoSetup.bat"&#13;
-</file>
-        <file path=".Npackd\Uninstall.bat">call "%nih%\UninstallInnoSetup.bat" unins000.exe&#13;
-</file>
-        <url>https://www.imagemagick.org/download/binaries/ImageMagick-7.0.5-5-Q16-x64-dll.exe</url>
-        <sha1>921c37c2875899cb6c565d0ed5fb70d34e694c02</sha1>
-        <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
-            <variable>nih</variable>
-        </dependency>
-    </version>
-    <version name="7.0.6" package="imagemagick64" type="one-file">
-        <file path=".Npackd\Install.bat">call "%nih%\InstallInnoSetup.bat"&#13;
-</file>
-        <file path=".Npackd\Uninstall.bat">call "%nih%\UninstallInnoSetup.bat" unins000.exe&#13;
-</file>
-        <url>https://www.imagemagick.org/download/binaries/ImageMagick-7.0.6-0-Q16-x64-dll.exe</url>
-        <sha1>d38dadd27d452933b5976e9046f07d7335284119</sha1>
-        <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
-            <variable>nih</variable>
-        </dependency>
-    </version>
-    <version name="7.0.6.1" package="imagemagick64" type="one-file">
-        <file path=".Npackd\Install.bat">call "%nih%\InstallInnoSetup.bat"&#13;
-</file>
-        <file path=".Npackd\Uninstall.bat">call "%nih%\UninstallInnoSetup.bat" unins000.exe&#13;
-</file>
-        <url>https://www.imagemagick.org/download/binaries/ImageMagick-7.0.6-1-Q16-x64-dll.exe</url>
-        <sha1>37959ba35171209bcc6e245d6ee95c71cad74239</sha1>
-        <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
-            <variable>nih</variable>
-        </dependency>
-    </version>
-    <version name="7.0.6.2" package="imagemagick64" type="one-file">
-        <file path=".Npackd\Install.bat">call "%nih%\InstallInnoSetup.bat"&#13;
-</file>
-        <file path=".Npackd\Uninstall.bat">call "%nih%\UninstallInnoSetup.bat" unins000.exe&#13;
-</file>
-        <url>https://www.imagemagick.org/download/binaries/ImageMagick-7.0.6-2-Q16-x64-dll.exe</url>
-        <sha1>eceefb4035938230f123a27eb3c4d2fc36e2b0fc</sha1>
-        <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
-            <variable>nih</variable>
-        </dependency>
-    </version>
-    <version name="7.0.6.3" package="imagemagick64" type="one-file">
-        <file path=".Npackd\Install.bat">call "%nih%\InstallInnoSetup.bat"&#13;
-</file>
-        <file path=".Npackd\Uninstall.bat">call "%nih%\UninstallInnoSetup.bat" unins000.exe&#13;
-</file>
-        <url>https://www.imagemagick.org/download/binaries/ImageMagick-7.0.6-3-Q16-x64-dll.exe</url>
-        <sha1>ebc68445bb4cc0d2fb709788bb5ab815995c6b8c</sha1>
-        <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
-            <variable>nih</variable>
-        </dependency>
-    </version>
-    <version name="7.0.6.4" package="imagemagick64" type="one-file">
-        <file path=".Npackd\Install.bat">call "%nih%\InstallInnoSetup.bat"&#13;
-</file>
-        <file path=".Npackd\Uninstall.bat">call "%nih%\UninstallInnoSetup.bat" unins000.exe&#13;
-</file>
-        <url>https://www.imagemagick.org/download/binaries/ImageMagick-7.0.6-4-Q16-x64-dll.exe</url>
-        <sha1>03693b4ed88431a3ae5163d12769b0225459b58a</sha1>
-        <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
-            <variable>nih</variable>
-        </dependency>
-    </version>
-    <version name="7.0.6.5" package="imagemagick64" type="one-file">
-        <file path=".Npackd\Install.bat">call "%nih%\InstallInnoSetup.bat"&#13;
-</file>
-        <file path=".Npackd\Uninstall.bat">call "%nih%\UninstallInnoSetup.bat" unins000.exe&#13;
-</file>
-        <url>https://www.imagemagick.org/download/binaries/ImageMagick-7.0.6-5-Q16-x64-dll.exe</url>
-        <sha1>653c36d9251e31c122c1006ea09a3062a3ae078a</sha1>
-        <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
-            <variable>nih</variable>
-        </dependency>
-    </version>
-    <version name="7.0.6.7" package="imagemagick64" type="one-file">
-        <file path=".Npackd\Install.bat">call "%nih%\InstallInnoSetup.bat"&#13;
-</file>
-        <file path=".Npackd\Uninstall.bat">call "%nih%\UninstallInnoSetup.bat" unins000.exe&#13;
-</file>
-        <url>https://www.imagemagick.org/download/binaries/ImageMagick-7.0.6-7-Q16-x64-dll.exe</url>
-        <sha1>61e71d0b507e45570d0f914b2e7a1b6570214b61</sha1>
-        <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
-            <variable>nih</variable>
-        </dependency>
-    </version>
-    <version name="7.0.6.9" package="imagemagick64" type="one-file">
-        <file path=".Npackd\Install.bat">call "%nih%\InstallInnoSetup.bat"&#13;
-</file>
-        <file path=".Npackd\Uninstall.bat">call "%nih%\UninstallInnoSetup.bat" unins000.exe&#13;
-</file>
-        <url>https://www.imagemagick.org/download/binaries/ImageMagick-7.0.6-9-Q16-x64-dll.exe</url>
-        <sha1>8846967708dcb792a24aa79519104d456b925b6a</sha1>
-        <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
-            <variable>nih</variable>
-        </dependency>
-    </version>
-    <version name="7.0.6.10" package="imagemagick64" type="one-file">
-        <file path=".Npackd\Install.bat">call "%nih%\InstallInnoSetup.bat"&#13;
-</file>
-        <file path=".Npackd\Uninstall.bat">call "%nih%\UninstallInnoSetup.bat" unins000.exe&#13;
-</file>
-        <url>https://www.imagemagick.org/download/binaries/ImageMagick-7.0.6-10-Q16-x64-dll.exe</url>
-        <sha1>91834edb6ab43c2080541d06f7fad8656cbf515f</sha1>
-        <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
-            <variable>nih</variable>
-        </dependency>
-    </version>
-    <version name="7.0.7" package="imagemagick64" type="one-file">
-        <file path=".Npackd\Install.bat">call "%nih%\InstallInnoSetup.bat"&#13;
-</file>
-        <file path=".Npackd\Uninstall.bat">call "%nih%\UninstallInnoSetup.bat" unins000.exe&#13;
-</file>
-        <url>https://www.imagemagick.org/download/binaries/ImageMagick-7.0.7-0-Q16-x64-dll.exe</url>
-        <sha1>034e16199095147e9b5959b5c1f2f4d6c67ec71a</sha1>
-        <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
-            <variable>nih</variable>
-        </dependency>
-    </version>
-    <version name="7.0.7.1" package="imagemagick64" type="one-file">
-        <file path=".Npackd\Install.bat">call "%nih%\InstallInnoSetup.bat"&#13;
-</file>
-        <file path=".Npackd\Uninstall.bat">call "%nih%\UninstallInnoSetup.bat" unins000.exe&#13;
-</file>
-        <url>https://www.imagemagick.org/download/binaries/ImageMagick-7.0.7-1-Q16-x64-dll.exe</url>
-        <sha1>a9fd7c83ca6d2eca88e9fa1fcbc34dfef65c1df6</sha1>
-        <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
-            <variable>nih</variable>
-        </dependency>
-    </version>
-    <version name="7.0.7.2" package="imagemagick64" type="one-file">
-        <file path=".Npackd\Install.bat">call "%nih%\InstallInnoSetup.bat"&#13;
-</file>
-        <file path=".Npackd\Uninstall.bat">call "%nih%\UninstallInnoSetup.bat" unins000.exe&#13;
-</file>
-        <url>https://www.imagemagick.org/download/binaries/ImageMagick-7.0.7-2-Q16-x64-dll.exe</url>
-        <sha1>5c7fa5a227e43a66dabe9ffb6a0a164410514ef2</sha1>
-        <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
-            <variable>nih</variable>
-        </dependency>
-    </version>
-    <version name="7.0.7.3" package="imagemagick64" type="one-file">
-        <file path=".Npackd\Install.bat">call "%nih%\InstallInnoSetup.bat"&#13;
-</file>
-        <file path=".Npackd\Uninstall.bat">call "%nih%\UninstallInnoSetup.bat" unins000.exe&#13;
-</file>
-        <url>https://www.imagemagick.org/download/binaries/ImageMagick-7.0.7-3-Q16-x64-dll.exe</url>
-        <sha1>6d41df0352e78953b1b54e0bd535595789a60987</sha1>
-        <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
-            <variable>nih</variable>
-        </dependency>
-    </version>
-    <version name="7.0.7.4" package="imagemagick64" type="one-file">
-        <file path=".Npackd\Install.bat">call "%nih%\InstallInnoSetup.bat"&#13;
-</file>
-        <file path=".Npackd\Uninstall.bat">call "%nih%\UninstallInnoSetup.bat" unins000.exe&#13;
-</file>
-        <url>https://www.imagemagick.org/download/binaries/ImageMagick-7.0.7-4-Q16-x64-dll.exe</url>
-        <sha1>dd49d24696f9209d958e0378aa4a3c1d9e3d8697</sha1>
-        <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
-            <variable>nih</variable>
-        </dependency>
-    </version>
-    <version name="7.0.7.5" package="imagemagick64" type="one-file">
-        <file path=".Npackd\Install.bat">call "%nih%\InstallInnoSetup.bat"&#13;
-</file>
-        <file path=".Npackd\Uninstall.bat">call "%nih%\UninstallInnoSetup.bat" unins000.exe&#13;
-</file>
-        <url>https://www.imagemagick.org/download/binaries/ImageMagick-7.0.7-5-Q16-x64-dll.exe</url>
-        <sha1>002e82213bc8b1b93f39fc5383e7e9f15396a1b8</sha1>
-        <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
-            <variable>nih</variable>
-        </dependency>
-    </version>
-    <version name="7.0.7.6" package="imagemagick64" type="one-file">
-        <file path=".Npackd\Install.bat">call "%nih%\InstallInnoSetup.bat"&#13;
-</file>
-        <file path=".Npackd\Uninstall.bat">call "%nih%\UninstallInnoSetup.bat" unins000.exe&#13;
-</file>
-        <url>https://www.imagemagick.org/download/binaries/ImageMagick-7.0.7-6-Q16-x64-dll.exe</url>
-        <sha1>bf4f2ac806a006c97f51cb6aa1481667cafa6eff</sha1>
-        <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
-            <variable>nih</variable>
-        </dependency>
-    </version>
-    <version name="7.0.7.11" package="imagemagick64" type="one-file">
-        <file path=".Npackd\Install.bat">call "%nih%\InstallInnoSetup.bat"&#13;
-</file>
-        <file path=".Npackd\Uninstall.bat">call "%nih%\UninstallInnoSetup.bat" unins000.exe&#13;
-</file>
-        <url>https://www.imagemagick.org/download/binaries/ImageMagick-7.0.7-11-Q16-x64-dll.exe</url>
-        <sha1>30557960468b1fe14ccf6a6d71864ecd608dbafa</sha1>
-        <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
-            <variable>nih</variable>
-        </dependency>
-    </version>
-    <version name="7.0.7.14" package="imagemagick64" type="one-file">
-        <file path=".Npackd\Install.bat">call "%nih%\InstallInnoSetup.bat"&#13;
-</file>
-        <file path=".Npackd\Uninstall.bat">call "%nih%\UninstallInnoSetup.bat" unins000.exe&#13;
-</file>
-        <url>https://www.imagemagick.org/download/binaries/ImageMagick-7.0.7-14-Q16-x64-dll.exe</url>
-        <sha1>aadfba5d7aba99b543ff3aa23a5cd7cbadfaedd0</sha1>
-        <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
-            <variable>nih</variable>
-        </dependency>
-    </version>
-    <version name="7.0.7.18" package="imagemagick64" type="one-file">
-        <file path=".Npackd\Install.bat">call "%nih%\InstallInnoSetup.bat"&#13;
-</file>
-        <file path=".Npackd\Uninstall.bat">call "%nih%\UninstallInnoSetup.bat" unins000.exe&#13;
-</file>
-        <url>https://www.imagemagick.org/download/binaries/ImageMagick-7.0.7-18-Q16-x64-dll.exe</url>
-        <sha1>53443f7f508c13bfc3c17beaa1fcace1616ec828</sha1>
-        <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
-            <variable>nih</variable>
-        </dependency>
-    </version>
-    <version name="7.0.7.19" package="imagemagick64" type="one-file">
-        <file path=".Npackd\Install.bat">call "%nih%\InstallInnoSetup.bat"&#13;
-</file>
-        <file path=".Npackd\Uninstall.bat">call "%nih%\UninstallInnoSetup.bat" unins000.exe&#13;
-</file>
-        <url>https://www.imagemagick.org/download/binaries/ImageMagick-7.0.7-19-Q16-x64-dll.exe</url>
-        <sha1>48470b415f9716118fa6e10f8585c1967734b4ac</sha1>
-        <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
-            <variable>nih</variable>
-        </dependency>
-    </version>
-    <version name="7.0.7.21" package="imagemagick64" type="one-file">
-        <file path=".Npackd\Install.bat">call "%nih%\InstallInnoSetup.bat"&#13;
-</file>
-        <file path=".Npackd\Uninstall.bat">call "%nih%\UninstallInnoSetup.bat" unins000.exe&#13;
-</file>
-        <url>https://www.imagemagick.org/download/binaries/ImageMagick-7.0.7-21-Q16-x64-dll.exe</url>
-        <sha1>42a869f386891b277a3e5b8b1d7578811082b15c</sha1>
-        <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
-            <variable>nih</variable>
-        </dependency>
-    </version>
-    <version name="7.0.7.22" package="imagemagick64" type="one-file">
-        <file path=".Npackd\Install.bat">call "%nih%\InstallInnoSetup.bat"&#13;
-</file>
-        <file path=".Npackd\Uninstall.bat">call "%nih%\UninstallInnoSetup.bat" unins000.exe&#13;
-</file>
-        <url>https://www.imagemagick.org/download/binaries/ImageMagick-7.0.7-22-Q16-x64-dll.exe</url>
-        <sha1>99087a307d956877186879ea49289c95221994f1</sha1>
-        <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
-            <variable>nih</variable>
-        </dependency>
-    </version>
-    <version name="7.0.7.23" package="imagemagick64" type="one-file">
-        <file path=".Npackd\Install.bat">call "%nih%\InstallInnoSetup.bat"&#13;
-</file>
-        <file path=".Npackd\Uninstall.bat">call "%nih%\UninstallInnoSetup.bat" unins000.exe&#13;
-</file>
-        <url>https://www.imagemagick.org/download/binaries/ImageMagick-7.0.7-23-Q16-x64-dll.exe</url>
-        <sha1>40f552673e8ab2a94389471a68457005fcdf2d98</sha1>
-        <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
-            <variable>nih</variable>
-        </dependency>
-    </version>
-    <version name="7.0.7.24" package="imagemagick64" type="one-file">
-        <file path=".Npackd\Install.bat">call "%nih%\InstallInnoSetup.bat"&#13;
-</file>
-        <file path=".Npackd\Uninstall.bat">call "%nih%\UninstallInnoSetup.bat" unins000.exe&#13;
-</file>
-        <url>https://www.imagemagick.org/download/binaries/ImageMagick-7.0.7-24-Q16-x64-dll.exe</url>
-        <sha1>76b576a17f58fa8b86c4e1b410fce774aeea3cf7</sha1>
-        <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
-            <variable>nih</variable>
-        </dependency>
-    </version>
-    <version name="7.0.7.25" package="imagemagick64" type="one-file">
-        <file path=".Npackd\Install.bat">call "%nih%\InstallInnoSetup.bat"&#13;
-</file>
-        <file path=".Npackd\Uninstall.bat">call "%nih%\UninstallInnoSetup.bat" unins000.exe&#13;
-</file>
-        <url>https://www.imagemagick.org/download/binaries/ImageMagick-7.0.7-25-Q16-x64-dll.exe</url>
-        <sha1>b407d62f8ed584e7c403102b0dfdc2f6fde2a866</sha1>
-        <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
-            <variable>nih</variable>
-        </dependency>
-    </version>
-    <version name="7.0.7.26" package="imagemagick64" type="one-file">
-        <file path=".Npackd\Install.bat">call "%nih%\InstallInnoSetup.bat"&#13;
-</file>
-        <file path=".Npackd\Uninstall.bat">call "%nih%\UninstallInnoSetup.bat" unins000.exe&#13;
-</file>
-        <url>https://www.imagemagick.org/download/binaries/ImageMagick-7.0.7-26-Q16-x64-dll.exe</url>
-        <sha1>59dcd4266aced5052908fd3449599782ce7b7dd3</sha1>
-        <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
-            <variable>nih</variable>
-        </dependency>
-    </version>
-    <version name="7.0.7.28" package="imagemagick64" type="one-file">
-        <file path=".Npackd\Install.bat">call "%nih%\InstallInnoSetup.bat"&#13;
-</file>
-        <file path=".Npackd\Uninstall.bat">call "%nih%\UninstallInnoSetup.bat" unins000.exe&#13;
-</file>
-        <url>https://www.imagemagick.org/download/binaries/ImageMagick-7.0.7-28-Q16-x64-dll.exe</url>
-        <sha1>be12ea6826246c126e94ef768689fc6609881bb7</sha1>
-        <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
-            <variable>nih</variable>
-        </dependency>
-    </version>
-    <version name="7.0.7.35" package="imagemagick64" type="one-file">
-        <file path=".Npackd\Install.bat">call "%nih%\InstallInnoSetup.bat"&#13;
-</file>
-        <file path=".Npackd\Uninstall.bat">call "%nih%\UninstallInnoSetup.bat" unins000.exe&#13;
-</file>
-        <url>https://www.imagemagick.org/download/binaries/ImageMagick-7.0.7-35-Q16-x64-dll.exe</url>
-        <hash-sum type="SHA-256">be15ca71c69e210d11d0228eb97a1f4699ea8923245d0c08bc422633ecb78829</hash-sum>
-        <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
-            <variable>nih</variable>
-        </dependency>
     </version>
 
     <version name="0.3.8" package="io.mpv.mpv-64" type="one-file">
