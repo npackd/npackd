@@ -2764,6 +2764,14 @@ x86_64</description>
         <url>https://repo.continuum.io/archive/Anaconda3-5.1.0-Windows-x86_64.exe</url>
         <sha1>322dea24f42353022e7422ee0c52cb058931d1df</sha1>
     </version>
+    <version name="5.2" package="anaconda64" type="one-file">
+        <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
+</file>
+        <file path=".Npackd\Uninstall.bat">Uninstall-Anaconda3.exe /S _?=%CD%&#13;
+</file>
+        <url>https://repo.continuum.io/archive/Anaconda3-5.2.0-Windows-x86_64.exe</url>
+        <sha1>555a4c6bbe0689a5e7418859c33e6cd6c0d982db</sha1>
+    </version>
 
     <version name="3.1.3" package="apple-application-support64" type="one-file">
         <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
@@ -6400,6 +6408,15 @@ call "%npackdih%\InstallMSI.bat" APPLICATIONFOLDER yes&#13;
             <variable>npackdih</variable>
         </dependency>
     </version>
+    <version name="3.25" package="com.calibreebook.Calibre64" type="one-file">
+        <file path=".Npackd\Install.bat">call "%npackdih%\InstallMSI.bat" APPLICATIONFOLDER yes&#13;
+</file>
+        <url>https://download.calibre-ebook.com/3.25.0/calibre-64bit-3.25.0.msi</url>
+        <hash-sum type="SHA-256">46737813f6b6b545ee785a8035db77701c075de41130a6fe45938e5975cf53c0</hash-sum>
+        <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.2, 2)">
+            <variable>npackdih</variable>
+        </dependency>
+    </version>
 
     <version name="5.12.256249.2599" package="com.comodo.comodoav64" type="one-file">
         <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.msi') do set setup=%%x&#13;
@@ -9627,7 +9644,7 @@ del Q-Dir.ini&#13;
         <url>http://files.npackd.org/com.softwareok.QDir64-5.99.9.zip</url>
         <sha1>fb6060796fae3fc641ba34fe1f2f8530d7c985a8</sha1>
     </version>
-    <version name="7.5" package="com.softwareok.QDir64">
+    <version name="7.6" package="com.softwareok.QDir64">
         <important-file path="Q-Dir.exe" title="Q-Dir"/>
         <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b Q*') do set name=%%x&#13;
 cd "%name%"        &#13;
@@ -11199,6 +11216,17 @@ if %err% neq 0 exit %err%&#13;
             <variable>nih</variable>
         </dependency>
     </version>
+    <version name="1.4.2" package="conan64" type="one-file">
+        <cmd-file path="conan\conan.exe"/>
+        <file path=".Npackd\Install.bat">"%nih%\InstallInnoSetup.bat"&#13;
+</file>
+        <file path=".Npackd\Uninstall.bat">"%nih%\UninstallInnoSetup.bat" unins000.exe</file>
+        <url>https://github.com/conan-io/conan/releases/download/1.4.2/conan-win-64_1_4_2.exe</url>
+        <hash-sum type="SHA-256">3a5664586db890b9a734b861101d51b4d5dc60e4926d059c6e283c71f0bd4c61</hash-sum>
+        <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
+            <variable>nih</variable>
+        </dependency>
+    </version>
 
     <version name="44" package="cyberfox64" type="one-file">
         <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
@@ -11683,6 +11711,16 @@ if %err% neq 0 exit %err%&#13;
             <variable>nih</variable>
         </dependency>
     </version>
+    <version name="5.1" package="dbeaver64">
+        <important-file path="dbeaver.exe" title="DBeaver 64 bit"/>
+        <file path=".Npackd\Install.bat">"%NIH%\ExtractDir.bat" dbeaver</file>
+        <url>http://dbeaver.jkiss.org/files/5.1.0/dbeaver-ce-5.1.0-win32.win32.x86_64.zip</url>
+        <hash-sum type="SHA-256">bcf23851d257ef6cac4d315dbf7d447eccf6ffa7d7d3fc456fef348b77c6b9a4</hash-sum>
+        <dependency package="com.oracle.JRE64" versions="[1.7, 20)"/>
+        <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
+            <variable>nih</variable>
+        </dependency>
+    </version>
 
     <version name="0.825" package="dcplusplus64">
         <important-file path="DCPlusPlus.exe" title="DC++"/>
@@ -12136,6 +12174,11 @@ rmdir "%name%"&#13;
         <sha1>ab2047de872f0a8745287eadf059ee803407a9a1</sha1>
     </version>
     <version name="25.3" package="emacs64">
+        <important-file path="bin\runemacs.exe" title="Emacs"/>
+        <url>https://ftp.gnu.org/gnu/emacs/windows/emacs-25.2-x86_64.zip</url>
+        <sha1>ab2047de872f0a8745287eadf059ee803407a9a1</sha1>
+    </version>
+    <version name="26.1" package="emacs64">
         <important-file path="bin\runemacs.exe" title="Emacs"/>
         <url>https://ftp.gnu.org/gnu/emacs/windows/emacs-25.2-x86_64.zip</url>
         <sha1>ab2047de872f0a8745287eadf059ee803407a9a1</sha1>
@@ -13598,6 +13641,19 @@ rmdir "%name%"&#13;
         <hash-sum type="SHA-256">4b483e488b1d19ade18446cd1f5cd756d155358f802badf5361def1fbe54551e</hash-sum>
         <dependency package="org.python.Python" versions="[2.7, 2.8)"/>
     </version>
+    <version name="204" package="google-cloud-sdk64">
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b google-cloud-sdk*') do set name=%%x&#13;
+cd "%name%"&#13;
+for /f "delims=" %%a in ('dir /b') do (&#13;
+  move "%%a" ..&#13;
+)&#13;
+cd ..&#13;
+rmdir "%name%"&#13;
+</file>
+        <url>https://dl.google.com/dl/cloudsdk/channels/rapid/downloads/google-cloud-sdk-204.0.0-windows-x86_64.zip</url>
+        <hash-sum type="SHA-256">5b9e38d37c983076cdad300e8df4b4a6c2dee3a898649d435e0cab92929656bc</hash-sum>
+        <dependency package="org.python.Python" versions="[2.7, 2.8)"/>
+    </version>
 
     <version name="3.6.1" package="groovy-grails-tool-suite64">
         <important-file path="ggts-3.6.1.RELEASE\GGTS.exe" title="GGTS 64 bit"/>
@@ -14089,6 +14145,17 @@ if %err% neq 0 exit %err%&#13;
 </file>
         <url>https://www.imagemagick.org/download/binaries/ImageMagick-7.0.7-37-Q16-x64-dll.exe</url>
         <hash-sum type="SHA-256">64a588abe2a6a9d970db6f5454219b48e3d4d61230bf824f8534f098a4675661</hash-sum>
+        <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
+            <variable>nih</variable>
+        </dependency>
+    </version>
+    <version name="7.0.7.38" package="imagemagick64" type="one-file">
+        <file path=".Npackd\Install.bat">call "%nih%\InstallInnoSetup.bat"&#13;
+</file>
+        <file path=".Npackd\Uninstall.bat">call "%nih%\UninstallInnoSetup.bat" unins000.exe&#13;
+</file>
+        <url>https://www.imagemagick.org/download/binaries/ImageMagick-7.0.7-38-Q16-x64-dll.exe</url>
+        <hash-sum type="SHA-256">4909caf41e8274bece42b2253bd54ce4c3b276c1cdd106d48358a782ef74298c</hash-sum>
         <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
             <variable>nih</variable>
         </dependency>
@@ -17062,6 +17129,17 @@ if %err% neq 0 exit %err%</file>
 </file>
         <url>https://ayera.dl.sourceforge.net/project/doublecmd/DC%20for%20Windows%2064%20bit/Double%20Commander%200.8.2%20beta/doublecmd-0.8.2.x86_64-win64.exe</url>
         <sha1>e9753f3f2d70f67e358a3a3318ee6aeae554f1ab</sha1>
+        <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
+            <variable>nih</variable>
+        </dependency>
+    </version>
+    <version name="0.8.3" package="net.sourceforge.Doublecmd64" type="one-file">
+        <file path=".Npackd\Install.bat">call "%nih%\InstallInnoSetup.bat"&#13;
+</file>
+        <file path=".Npackd\Uninstall.bat">call "%nih%\UninstallInnoSetup.bat" unins000.exe&#13;
+</file>
+        <url>http://downloads.sourceforge.net/project/doublecmd/DC%20for%20Windows%2064%20bit/Double%20Commander%200.8.3%20beta/doublecmd-0.8.3.x86_64-win64.exe</url>
+        <hash-sum type="SHA-256">33bad10b4c4ab5847c50f74e99516b6b39344fc709725c0e2386c0f1b232f846</hash-sum>
         <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
             <variable>nih</variable>
         </dependency>
@@ -28375,6 +28453,20 @@ call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Np
 </file>
         <url>https://github.com/vim/vim-win32-installer/releases/download/v8.1.0026/gvim_8.1.0026_x64.zip</url>
         <hash-sum type="SHA-256">b8b43b7bc63d788303cff1c5851ff1133a961d193d24f98055cd48628af2f81f</hash-sum>
+        <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.19, 2)">
+            <variable>nih</variable>
+        </dependency>
+    </version>
+    <version name="8.1.34" package="org.vim.Vim64">
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+if %errorlevel% neq 0 exit /b %errorlevel%&#13;
+&#13;
+for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+</file>
+        <url>https://github.com/vim/vim-win32-installer/releases/download/v8.1.0034/gvim_8.1.0034_x64.zip</url>
+        <hash-sum type="SHA-256">30737da47e40f6bc53c0c953056b0f884ca83df5f9ac8686e20b7cbd7a93ed4e</hash-sum>
         <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.19, 2)">
             <variable>nih</variable>
         </dependency>
