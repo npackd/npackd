@@ -2051,6 +2051,20 @@ x86_64</description>
         <category>Video</category>
         <link href="http://www.openshotvideo.com/" rel="changelog"/>
     </package>
+    <package name="org.owasp.zap64">
+        <title>ZAP 64 bit</title>
+        <url>https://www.owasp.org/index.php/ZAP</url>
+        <description>OWASP ZAP (short for Zed Attack Proxy) is an open-source web application security scanner. It is intended to be used by both those new to application security as well as professional penetration testers.
+x86_64</description>
+        <icon>https://raw.githubusercontent.com/wiki/zaproxy/zaproxy/images/zap32x32.png</icon>
+        <license>org.apache.ApacheLicense2</license>
+        <category>Security</category>
+        <link href="https://github.com/zaproxy/zaproxy/commits/develop" rel="changelog"/>
+        <link href="https://www.owasp.org/images/6/6d/ZAP-ScreenShotAddAlert.png" rel="screenshot"/>
+        <link href="https://www.owasp.org/images/7/78/ZAP-ScreenShotHelp.png" rel="screenshot"/>
+        <link href="https://www.owasp.org/images/d/d0/ZAP-ScreenShotHistoryFilter.png" rel="screenshot"/>
+        <link href="https://www.owasp.org/images/b/bc/ZAP-ScreenShotSearchTab.png" rel="screenshot"/>
+    </package>
     <package name="org.processing.Processing64">
         <title>Processing 64 bit</title>
         <url>https://processing.org</url>
@@ -2203,7 +2217,7 @@ x86_64</description>
 x86_64</description>
         <icon>https://lh4.googleusercontent.com/-_SZvi7-M6FM/UQlmLMh6FeI/AAAAAAAAALw/Am3p0JDO188/s800/wireshark_32.png</icon>
         <license>org.gnu.GPLv2</license>
-        <category>Tools</category>
+        <category>Security</category>
     </package>
     <package name="pale-moon64">
         <title>Pale Moon 64 bit</title>
@@ -2691,6 +2705,22 @@ x86_64</description>
         <icon>https://lh4.googleusercontent.com/-vzTCP1Ext4I/UZ8yfUsPiNI/AAAAAAAACGA/LNIXeyzPMJY/s800/visualstudio11.png</icon>
         <license>com.microsoft.VisualCPPRedistributableLicense</license>
         <category>Development</category>
+    </package>
+    <package name="vivaldi-browser-64">
+        <title>Vivaldi Browser 64bit</title>
+        <url>https://vivaldi.com/</url>
+        <description>Fast and flexible Web Browser
+x86_64</description>
+        <icon>https://vivaldi.com/assets/vivaldi-logo-32.png</icon>
+        <category>Communications</category>
+        <category>Productivity</category>
+        <category>Development</category>
+        <link href="https://vivaldi.com/assets/vivaldi-linux.jpg" rel="screenshot"/>
+        <link href="https://vivaldi.com/assets/history.jpg" rel="screenshot"/>
+        <link href="https://vivaldi.com/assets/notes_screenshot_linux.jpg" rel="screenshot"/>
+        <link href="https://vivaldi.com/assets/settings-linux.jpg" rel="screenshot"/>
+        <link href="https://vivaldi.com/assets/tab-stacks-linux.jpg" rel="screenshot"/>
+        <link href="https://vivaldi.com/assets/qc_animation.gif" rel="screenshot"/>
     </package>
     <package name="vs-code">
         <title>Microsoft Visual Studio Code</title>
@@ -9278,6 +9308,14 @@ call "%nih%\UninstallInnoSetup.bat" unins000.exe</file>
 </file>
         <url>https://github.com/sindresorhus/caprine/releases/download/v2.13.1/caprine-setup-2.13.1.exe</url>
         <hash-sum type="SHA-256">a05bcead061d4c1f6d3380d4a1300cd6f46c92fcbe3e148a5e1cf5fe2ecf2a47</hash-sum>
+    </version>
+    <version name="2.14" package="com.sindresorhus.caprine" type="one-file">
+        <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
+</file>
+        <file path=".Npackd\Uninstall.bat">uninstall.exe /S _?=%CD%&#13;
+</file>
+        <url>https://github.com/sindresorhus/caprine/releases/download/v2.14.0/caprine-setup-2.14.0.exe</url>
+        <hash-sum type="SHA-256">b5dbd1ae494dccddc052fe3c1aa277cd30247e5ce304cc47e878bd22a0cc477a</hash-sum>
     </version>
 
     <version name="4.51" package="com.softwareok.QDir64">
@@ -25832,6 +25870,17 @@ verify</file>
         </dependency>
     </version>
 
+    <version name="2.7" package="org.owasp.zap64" type="one-file">
+        <file path=".Npackd\Install.bat">ZAP_2_7_0_windows.exe -q&#13;
+cd "C:\Program Files\OWASP\Zed Attack Proxy"&#13;
+for /d %%i in (*) do move "%%i" "C:\Program Files\ZAP_64_bit"&#13;
+move * "C:\Program Files\ZAP_64_bit"</file>
+        <file path=".Npackd\Uninstall.bat">uninstall.exe -q</file>
+        <url>https://github.com/zaproxy/zaproxy/releases/download/2.7.0/ZAP_2_7_0_windows.exe</url>
+        <hash-sum type="SHA-256">e3243792525306731ae9eba0cc4697d289e54a58ac529da0c021f2c1ca109246</hash-sum>
+        <dependency package="com.oracle.JRE64" versions="[1.8,2)"/>
+    </version>
+
     <version name="2.0.1" package="org.processing.Processing64">
         <important-file path="processing.exe" title="Processing"/>
         <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b processing*') do set name=%%x&#13;
@@ -32484,6 +32533,18 @@ if %err% neq 0 exit /b %err%&#13;
     </version>
 
     <version name="12.0.21005" package="visual-cpp-additional-runtime64"/>
+
+    <version name="1.15.1147.42" package="vivaldi-browser-64" type="one-file">
+        <file path=".Npackd\Install.bat">"%npackd_package_binary%" &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
+</file>
+        <file path=".Npackd\Uninstall.bat">"%myun%\myuninst.exe" /uninstall "vivaldi-browser-64"&#13;
+</file>
+        <url>https://downloads.vivaldi.com/stable/Vivaldi.1.15.1147.42.x64.exe</url>
+        <hash-sum type="SHA-256">52a1bcaa686618c2da649da77c13175f832158947d5e7f696a7fed98d1e6ae59</hash-sum>
+        <dependency package="net.nirsoft.MyUninstaller" versions="[1.74, 2)">
+            <variable>myun</variable>
+        </dependency>
+    </version>
 
     <version name="1.18.1" package="vs-code" type="one-file">
         <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
