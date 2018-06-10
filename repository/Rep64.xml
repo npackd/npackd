@@ -621,6 +621,7 @@ x86_64</description>
         <title>Caprine</title>
         <url>https://sindresorhus.com/caprine</url>
         <description>Caprine is an unofficial and privacy focused Facebook Messenger app with many useful features.
+i686
 x86_64</description>
         <icon>https://raw.githubusercontent.com/sindresorhus/caprine/master/static/Icon.png</icon>
         <license>org.opensource.MITLicense</license>
@@ -25871,10 +25872,8 @@ verify</file>
     </version>
 
     <version name="2.7" package="org.owasp.zap64" type="one-file">
-        <file path=".Npackd\Install.bat">ZAP_2_7_0_windows.exe -q&#13;
-cd "C:\Program Files\OWASP\Zed Attack Proxy"&#13;
-for /d %%i in (*) do move "%%i" "C:\Program Files\ZAP_64_bit"&#13;
-move * "C:\Program Files\ZAP_64_bit"</file>
+        <file path=".Npackd\customdir.varfile">sys.installationDir=C\:\\Program Files\\ZAP_64_bit</file>
+        <file path=".Npackd\Install.bat">ZAP_2_7_0_windows.exe -q -varfile "C:\Program Files\ZAP_64_bit\.Npackd\customdir.varfile"</file>
         <file path=".Npackd\Uninstall.bat">uninstall.exe -q</file>
         <url>https://github.com/zaproxy/zaproxy/releases/download/2.7.0/ZAP_2_7_0_windows.exe</url>
         <hash-sum type="SHA-256">e3243792525306731ae9eba0cc4697d289e54a58ac529da0c021f2c1ca109246</hash-sum>
