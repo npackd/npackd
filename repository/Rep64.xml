@@ -9269,6 +9269,16 @@ call "%nih%\UninstallInnoSetup.bat" unins000.exe</file>
             <variable>nih</variable>
         </dependency>
     </version>
+    <version name="4.6.1" package="com.selenic.mercurial.Mercurial64" type="one-file">
+        <file path=".Npackd\Install.bat">call "%nih%\InstallInnoSetup.bat"&#13;
+</file>
+        <file path=".Npackd\Uninstall.bat">call "%nih%\UninstallInnoSetup.bat" unins000.exe</file>
+        <url>https://www.mercurial-scm.org/release/windows/Mercurial-4.6.1-x64.exe</url>
+        <hash-sum type="SHA-256">1ac01e7b090ce87eea98c29241f6c71f93b9a8af7ddb8b78c9fe61050c6c9baf</hash-sum>
+        <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.7, 2)">
+            <variable>nih</variable>
+        </dependency>
+    </version>
 
     <version name="2.11" package="com.sindresorhus.caprine" type="one-file">
         <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
@@ -11266,6 +11276,17 @@ if %err% neq 0 exit %err%&#13;
             <variable>nih</variable>
         </dependency>
     </version>
+    <version name="1.4.4" package="conan64" type="one-file">
+        <cmd-file path="conan\conan.exe"/>
+        <file path=".Npackd\Install.bat">"%nih%\InstallInnoSetup.bat"&#13;
+</file>
+        <file path=".Npackd\Uninstall.bat">"%nih%\UninstallInnoSetup.bat" unins000.exe</file>
+        <url>https://github.com/conan-io/conan/releases/download/1.4.4/conan-win-64_1_4_4.exe</url>
+        <hash-sum type="SHA-256">385f7670300d02625be957b436fbf047a66d556a77efb04659559216ccab2563</hash-sum>
+        <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
+            <variable>nih</variable>
+        </dependency>
+    </version>
 
     <version name="44" package="cyberfox64" type="one-file">
         <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
@@ -11450,6 +11471,16 @@ if %err% neq 0 exit %err%&#13;
         <file path=".Npackd\Uninstall.bat">call "%nih%\UninstallInnoSetup.bat" unins000.exe&#13;
 </file>
         <url>https://download.8pecxstudios.com/latest/Cyberfox-52.7.4.en-US.win64-x86_64.intel.exe</url>
+        <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
+            <variable>nih</variable>
+        </dependency>
+    </version>
+    <version name="52.8" package="cyberfox64" type="one-file">
+        <file path=".Npackd\Install.bat">call "%nih%\InstallInnoSetup.bat"&#13;
+</file>
+        <file path=".Npackd\Uninstall.bat">call "%nih%\UninstallInnoSetup.bat" unins000.exe&#13;
+</file>
+        <url>https://download.8pecxstudios.com/latest/Cyberfox-52.8.0.en-US.win64-x86_64.intel.exe</url>
         <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
             <variable>nih</variable>
         </dependency>
@@ -14176,28 +14207,6 @@ if %err% neq 0 exit %err%&#13;
 </file>
         <url>https://downloads.sourceforge.net/project/npackd/imagemagick64/imagemagick64-6.9.0.3.exe</url>
         <sha1>5eb3846511810a54a429c602ce9b6857dd311196</sha1>
-    </version>
-    <version name="7.0.7.37" package="imagemagick64" type="one-file">
-        <file path=".Npackd\Install.bat">call "%nih%\InstallInnoSetup.bat"&#13;
-</file>
-        <file path=".Npackd\Uninstall.bat">call "%nih%\UninstallInnoSetup.bat" unins000.exe&#13;
-</file>
-        <url>https://www.imagemagick.org/download/binaries/ImageMagick-7.0.7-37-Q16-x64-dll.exe</url>
-        <hash-sum type="SHA-256">64a588abe2a6a9d970db6f5454219b48e3d4d61230bf824f8534f098a4675661</hash-sum>
-        <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
-            <variable>nih</variable>
-        </dependency>
-    </version>
-    <version name="7.0.7.38" package="imagemagick64" type="one-file">
-        <file path=".Npackd\Install.bat">call "%nih%\InstallInnoSetup.bat"&#13;
-</file>
-        <file path=".Npackd\Uninstall.bat">call "%nih%\UninstallInnoSetup.bat" unins000.exe&#13;
-</file>
-        <url>https://www.imagemagick.org/download/binaries/ImageMagick-7.0.7-38-Q16-x64-dll.exe</url>
-        <hash-sum type="SHA-256">4909caf41e8274bece42b2253bd54ce4c3b276c1cdd106d48358a782ef74298c</hash-sum>
-        <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
-            <variable>nih</variable>
-        </dependency>
     </version>
 
     <version name="0.3.8" package="io.mpv.mpv-64" type="one-file">
@@ -29963,6 +29972,16 @@ echo DesktopShortcut=false &gt;&gt; .Npackd\FF.ini&#13;
         <url>http://relmirror.palemoon.org/release/palemoon-27.9.2.win64.installer.exe</url>
         <hash-sum type="SHA-256">9b8f5ca20ecb695a9946f7b21d44cef7f2570091a37481f1bd76c47c7201c680</hash-sum>
     </version>
+    <version name="27.9.3" package="pale-moon64" type="one-file">
+        <file path=".Npackd\Install.bat">echo [Install] &gt; .Npackd\FF.ini&#13;
+echo InstallDirectoryPath=%CD% &gt;&gt; .Npackd\FF.ini&#13;
+echo QuickLaunchShortcut=false &gt;&gt; .Npackd\FF.ini&#13;
+echo DesktopShortcut=false &gt;&gt; .Npackd\FF.ini&#13;
+"%npackd_package_binary%" /INI="%CD%\.Npackd\FF.ini" &amp;&amp; del /f /q "%npackd_package_binary%"</file>
+        <file path=".Npackd\Uninstall.bat">uninstall\helper.exe /S</file>
+        <url>http://relmirror.palemoon.org/release/palemoon-27.9.3.win64.installer.exe</url>
+        <hash-sum type="SHA-256">2257f0d48faa3578974a0bbf6ebb90755a2feed68383fbf89507df821fd1bb3b</hash-sum>
+    </version>
 
     <version name="2.2.1" package="pandoc64" type="one-file">
         <file path=".Npackd\Install.bat">call "%nih%\InstallMSI.bat" INSTALLDIR yes&#13;
@@ -31601,6 +31620,10 @@ rem Install4j&#13;
     <version name="3.23.1" package="sqlite64">
         <url>https://www.sqlite.org/2018/sqlite-dll-win64-x64-3230100.zip</url>
         <hash-sum type="SHA-256">1dc75d6928923ee609567311b8c4b1449c0e854ada771a40017e03a5c20f90a4</hash-sum>
+    </version>
+    <version name="3.24" package="sqlite64">
+        <url>https://www.sqlite.org/2018/sqlite-dll-win64-x64-3240000.zip</url>
+        <hash-sum type="SHA-256">c5ddae8b2c4fd486695e745506fd073a4a594764963e384eea516eabfef23b4d</hash-sum>
     </version>
 
     <version name="10.50.1600.1" package="sqlncli64" type="one-file">
