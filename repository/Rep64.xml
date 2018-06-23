@@ -2989,6 +2989,18 @@ verify&#13;
         <url>https://bitcoin.org/bin/bitcoin-core-0.16.0/bitcoin-0.16.0-win64-setup.exe</url>
         <sha1>2141e121f97d3bd964684053c6eb35f396cbb6e1</sha1>
     </version>
+    <version name="0.16.1" package="bitcoin-core64" type="one-file">
+        <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD%&#13;
+if %errorlevel% neq 0 exit /b %errorlevel%        &#13;
+&#13;
+del "%npackd_package_binary%"&#13;
+verify&#13;
+</file>
+        <file path=".Npackd\Uninstall.bat">uninstall.exe /S _?=%CD%&#13;
+</file>
+        <url>https://bitcoin.org/bin/bitcoin-core-0.16.1/bitcoin-0.16.1-win64-setup.exe</url>
+        <hash-sum type="SHA-256">c4e3a300952b71c970b617ca3a27c8eb7160078b28e221a7f8ab6f19db615216</hash-sum>
+    </version>
 
     <version name="2.4.1" package="bittorrent-sync64" type="one-file">
         <url>https://download-cdn.resilio.com/stable/windows64/Resilio-Sync_x64.exe</url>
@@ -6523,6 +6535,15 @@ call "%npackdih%\InstallMSI.bat" APPLICATIONFOLDER yes&#13;
 </file>
         <url>https://download.calibre-ebook.com/3.25.0/calibre-64bit-3.25.0.msi</url>
         <hash-sum type="SHA-256">46737813f6b6b545ee785a8035db77701c075de41130a6fe45938e5975cf53c0</hash-sum>
+        <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.2, 2)">
+            <variable>npackdih</variable>
+        </dependency>
+    </version>
+    <version name="3.26.1" package="com.calibreebook.Calibre64" type="one-file">
+        <file path=".Npackd\Install.bat">call "%npackdih%\InstallMSI.bat" APPLICATIONFOLDER yes&#13;
+</file>
+        <url>https://download.calibre-ebook.com/3.26.1/calibre-64bit-3.26.1.msi</url>
+        <hash-sum type="SHA-256">e49cc0c2ae5894ec0d16adc1e98a153e48af4c539426edc4ec264b0f88c18888</hash-sum>
         <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.2, 2)">
             <variable>npackdih</variable>
         </dependency>
@@ -12499,6 +12520,19 @@ rmdir "%name%"&#13;
         <url>https://dl1.cdn.filezilla-project.org/client/FileZilla_3.33.0_win64.zip</url>
         <hash-sum type="SHA-256">8a9b730c4bd3a8e0edcb122ae5e400e5b2f6d2683c1570fd31b483a429b37563</hash-sum>
     </version>
+    <version name="3.34" package="filezilla64">
+        <important-file path="filezilla.exe" title="FileZilla Client"/>
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b File*') do set name=%%x&#13;
+cd "%name%"        &#13;
+for /f "delims=" %%a in ('dir /b') do (&#13;
+  move "%%a" ..&#13;
+)&#13;
+cd ..&#13;
+rmdir "%name%"&#13;
+</file>
+        <url>https://dl1.cdn.filezilla-project.org/client/FileZilla_3.34.0_win64.zip</url>
+        <hash-sum type="SHA-256">bb9086bc460dbd9ad8fe010b0139488bb0aa023c589e6d5493c2cf42028bfe1f</hash-sum>
+    </version>
 
     <version name="60.0.8" package="firefox-developer-edition64" type="one-file">
         <file path=".Npackd\Install.bat">echo [Install] &gt; .Npackd\FF.ini&#13;
@@ -12833,6 +12867,15 @@ for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
 </file>
         <url>https://download2.handbrake.fr/1.1.0/HandBrake-1.1.0-x86_64-Win_GUI.exe</url>
         <hash-sum type="SHA-256">9cf7c0813f91e16218eb770f834380cad0d1641d93ba93926702562bd9d2eece</hash-sum>
+        <dependency package="com.microsoft.DotNetRedistributable" versions="[2, 3)"/>
+    </version>
+    <version name="1.1.1" package="fr.handbrake.HandBrake64" type="one-file">
+        <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
+</file>
+        <file path=".Npackd\Uninstall.bat">uninst.exe /S _?=%CD%&#13;
+</file>
+        <url>https://download2.handbrake.fr/1.1.1/HandBrake-1.1.1-x86_64-Win_GUI.exe</url>
+        <hash-sum type="SHA-256">7295a2934a37d9fe4dcbf97539cbf6c743f896dd91c7114ba827df7103b044e4</hash-sum>
         <dependency package="com.microsoft.DotNetRedistributable" versions="[2, 3)"/>
     </version>
 
@@ -14298,6 +14341,17 @@ if %err% neq 0 exit %err%&#13;
             <variable>nih</variable>
         </dependency>
     </version>
+    <version name="7.0.8.2" package="imagemagick64" type="one-file">
+        <file path=".Npackd\Install.bat">call "%nih%\InstallInnoSetup.bat"&#13;
+</file>
+        <file path=".Npackd\Uninstall.bat">call "%nih%\UninstallInnoSetup.bat" unins000.exe&#13;
+</file>
+        <url>https://www.imagemagick.org/download/binaries/ImageMagick-7.0.8-2-Q16-x64-dll.exe</url>
+        <hash-sum type="SHA-256">9cc02aea7385307f7f6c4f08a4030f53f5ed92d23b2bb880eb15834c38424c59</hash-sum>
+        <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
+            <variable>nih</variable>
+        </dependency>
+    </version>
 
     <version name="0.3.8" package="io.mpv.mpv-64" type="one-file">
         <file path=".Npackd\Install.bat">for /f %%x in ('dir /b *.7z') do set setup=%%x&#13;
@@ -14542,6 +14596,18 @@ rmdir "%name%"&#13;
             <variable>myun</variable>
         </dependency>
     </version>
+    <version name="5.3" package="jclasslib64" type="one-file">
+        <important-file path="bin\jclasslib.exe" title="jclasslib"/>
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
+"%setup%" -q -dir "%CD%" &amp;&amp; del /f /q "%setup%"&#13;
+</file>
+        <file path=".Npackd\Uninstall.bat">uninstall.exe -q</file>
+        <url>https://github.com/ingokegel/jclasslib/releases/download/5.3/jclasslib_win64_5_3.exe</url>
+        <hash-sum type="SHA-256">923d78581f622e66350ba147773afc7401d96ed2a8016f70f171620ac451a90e</hash-sum>
+        <dependency package="net.nirsoft.MyUninstaller" versions="[1.74, 2)">
+            <variable>myun</variable>
+        </dependency>
+    </version>
 
     <version name="17.8.2" package="kdenlive" type="one-file">
         <file path=".Npackd\Install.bat">"%sevenzipa%\7za.exe" x "%npackd_package_binary%" &gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt &amp;&amp; del /f /q "%setup%"&#13;
@@ -14740,6 +14806,14 @@ call "%nih%\InstallMSI.bat" TARGETDIR yes&#13;
         <url>https://download.kde.org/stable/krita/4.0.3/krita-x64-4.0.3-setup.exe</url>
         <hash-sum type="SHA-256">fd3556cb805dafeecf18822a8bda5d8692284a4cf938acd20e623d50fbd54956</hash-sum>
     </version>
+    <version name="4.0.4" package="krita64" type="one-file">
+        <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
+</file>
+        <file path=".Npackd\Uninstall.bat">uninstall.exe /S _?=%CD%&#13;
+</file>
+        <url>https://download.kde.org/stable/krita/4.0.4/krita-x64-4.0.4-setup.exe</url>
+        <hash-sum type="SHA-256">cab1f6516ba969a8307570d76138dd6f5b0f4c4a43c81e9a06bbf879467a0d99</hash-sum>
+    </version>
 
     <version name="1.2" package="ldc64">
         <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b ldc*') do set name=%%x&#13;
@@ -14830,6 +14904,19 @@ call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Np
             <variable>nih</variable>
         </dependency>
     </version>
+    <version name="1.10" package="ldc64" type="one-file">
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.7z') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+&#13;
+for /f "delims=" %%x in ('dir /b ldc*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+</file>
+        <url>https://github.com/ldc-developers/ldc/releases/download/v1.10.0/ldc2-1.10.0-windows-x64.7z</url>
+        <hash-sum type="SHA-256">d988306ab83291c4f0a8fa44b748272af6f6356e90a440a9eaaa46d16446908e</hash-sum>
+        <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.19, 2)">
+            <variable>nih</variable>
+        </dependency>
+    </version>
 
     <version name="5.3.4" package="libreoffice64" type="one-file">
         <file path=".Npackd\Install.bat">call "%npackdih%\InstallMSI.bat" INSTALLLOCATION yes</file>
@@ -14915,6 +15002,16 @@ call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Np
         <file path=".Npackd\Install.bat">call "%npackdih%\InstallMSI.bat" INSTALLLOCATION yes</file>
         <url>https://artfiles.org/documentfoundation.org/libreoffice/stable/6.0.4/win/x86_64/LibreOffice_6.0.4_Win_x64.msi</url>
         <hash-sum type="SHA-256">80d796f1875942e31f00d5983bdba5bc913174cf3fcae6d39cde42148133ddf9</hash-sum>
+        <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.1, 2)">
+            <variable>npackdih</variable>
+        </dependency>
+        <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.15.7, 2)"/>
+        <dependency package="com.oracle.JRE" versions="[1.6, 2)"/>
+    </version>
+    <version name="6.0.5" package="libreoffice64" type="one-file">
+        <file path=".Npackd\Install.bat">call "%npackdih%\InstallMSI.bat" INSTALLLOCATION yes</file>
+        <url>https://artfiles.org/documentfoundation.org/libreoffice/stable/6.0.5/win/x86_64/LibreOffice_6.0.5_Win_x64.msi</url>
+        <hash-sum type="SHA-256">52e2ae72baa2e4251e9de71fcd1b1d8c360729f71a7172fae96dcf9d304cf5b5</hash-sum>
         <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.1, 2)">
             <variable>npackdih</variable>
         </dependency>
@@ -15932,6 +16029,15 @@ rmdir "%name%"&#13;
         <sha1>785fa30ccd4bb4b5e07a38600071d492829ac447</sha1>
     </version>
     <version name="2.1" package="mixxx" type="one-file">
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
+"%setup%" /S /D=%CD% &amp;&amp; del /f /q "%setup%"&#13;
+</file>
+        <file path=".Npackd\Uninstall.bat">uninstall.exe /S _?=%CD%&#13;
+</file>
+        <url>http://downloads.mixxx.org/mixxx-2.1.0/mixxx-2.1.0-win64.exe</url>
+        <hash-sum type="SHA-256">ae3bd458aee0135cd4b6118ffe82870d5d9210accf962366f61ee8c63d4de1c1</hash-sum>
+    </version>
+    <version name="2.1.1" package="mixxx" type="one-file">
         <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
 "%setup%" /S /D=%CD% &amp;&amp; del /f /q "%setup%"&#13;
 </file>
@@ -21467,6 +21573,15 @@ if %err% neq 0 exit /b %err%&#13;
             <variable>nih</variable>
         </dependency>
     </version>
+    <version name="4.6.1" package="org.bitbucket.tortoisehg.TortoiseHg64" type="one-file">
+        <file path=".Npackd\Install.bat">call "%nih%\InstallMSI.bat" INSTALLDIR yes&#13;
+</file>
+        <url>https://bitbucket.org/tortoisehg/files/downloads/tortoisehg-4.6.1-x64.msi</url>
+        <hash-sum type="SHA-256">43091f3f3dc8916cb998616b041b6941bb84b2704824de67f8737699ee3c107f</hash-sum>
+        <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3.1, 2)">
+            <variable>nih</variable>
+        </dependency>
+    </version>
 
     <version name="2.49.2" package="org.blender.Blender64">
         <important-file path="blender.exe" title="Blender"/>
@@ -22895,6 +23010,12 @@ rmdir /s /q "%name%"&#13;
 </file>
         <url>https://www.erlang.org/download/otp_win64_20.3.exe</url>
         <sha1>143befb14093bd8c1a287d987b0049b6ae9dd802</sha1>
+    </version>
+    <version name="21" package="org.erlang.Erlang64" type="one-file">
+        <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD%&#13;
+</file>
+        <url>https://www.erlang.org/download/otp_win64_21.0.exe</url>
+        <hash-sum type="SHA-256">d1e6a4df59289a6e38e734bcc701da4f1ae7246a885ce75c1d1097895200c22a</hash-sum>
     </version>
 
     <version name="0.9.2.1" package="org.flamerobin.FlameRobin64" type="one-file">
@@ -28674,6 +28795,20 @@ call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Np
             <variable>nih</variable>
         </dependency>
     </version>
+    <version name="8.1.89" package="org.vim.Vim64">
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+if %errorlevel% neq 0 exit /b %errorlevel%&#13;
+&#13;
+for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+</file>
+        <url>https://github.com/vim/vim-win32-installer/releases/download/v8.1.0089/gvim_8.1.0089_x64.zip</url>
+        <hash-sum type="SHA-256">7e4f7e2c1a7f9bf62b5ceded4581ccc2e0c015e1ce2d7740698a8e8612a8224d</hash-sum>
+        <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.19, 2)">
+            <variable>nih</variable>
+        </dependency>
+    </version>
 
     <version name="4.2.8.83876" package="org.virtualbox.virtualbox64" type="one-file">
         <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
@@ -32374,6 +32509,14 @@ rmdir "%name%"</file>
 </file>
         <url>https://www.sysgauge.com/setups_x64/sysgauge_setup_v4.9.18_x64.exe</url>
         <hash-sum type="SHA-256">02218848a2e8045c14e9d26b55ef2184c832d6aca9c135c5bdbf9ffda2c327e0</hash-sum>
+    </version>
+    <version name="5.0.12" package="sysgauge64" type="one-file">
+        <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
+</file>
+        <file path=".Npackd\Uninstall.bat">uninstall.exe /S _?=%CD%&#13;
+</file>
+        <url>https://www.sysgauge.com/setups_x64/sysgauge_setup_v5.0.12_x64.exe</url>
+        <hash-sum type="SHA-256">5758b3f1324b8c5d91413104ff73c5b2e443b68154182f0e5cbd78f542cef368</hash-sum>
     </version>
 
     <version name="1" package="sysinternals-suite">
