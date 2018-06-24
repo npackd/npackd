@@ -2361,11 +2361,21 @@ but keeps all your important events and tasks always visible on your desktop. Ba
 x86_64</description>
         <icon>http://i1-win.softpedia-static.com/screenshots/ico/Rainlendar.gif</icon>
         <category>Productivity</category>
+        <link href="http://www.rainlendar.net/download/Changes.txt" rel="changelog"/>
         <link href="http://www.rainlendar.net/cms/components/com_rny_gallery/gallery-images/Horizontal.png" rel="screenshot"/>
         <link href="http://www.rainlendar.net/cms/components/com_rny_gallery/gallery-images/LargeCalendar.png" rel="screenshot"/>
         <link href="http://www.rainlendar.net/cms/components/com_rny_gallery/gallery-images/MonthView.png" rel="screenshot"/>
         <link href="http://www.rainlendar.net/cms/components/com_rny_gallery/gallery-images/Settings-Win.png" rel="screenshot"/>
         <link href="http://www.rainlendar.net/cms/components/com_rny_gallery/gallery-images/Traytip-Win.png" rel="screenshot"/>
+    </package>
+    <package name="rambox-64-bit">
+        <title>Rambox 64 bit</title>
+        <url>https://rambox.pro/</url>
+        <description>Free, Open Source and Cross Platform messaging and emailing app that combines common web applications (like Slack, Whatsapp, Messenger, Skype and much more) into one.
+x86_64</description>
+        <icon>https://rambox.pro/images/logo.png</icon>
+        <category>Communications</category>
+        <link href="https://raw.githubusercontent.com/saenzramiro/rambox/master/resources/screenshots/mac.png" rel="screenshot"/>
     </package>
     <package name="rdkit64">
         <title>RDKit 64 bit</title>
@@ -31097,6 +31107,18 @@ lib.sendKeysToWindow("QCAD 3.12.4 Uninstall", "{ENTER}");&#13;
 </file>
         <url>http://www.rainlendar.net/download/Rainlendar-Lite-2.14.2-64bit.exe</url>
         <hash-sum type="SHA-256">f52bb49530019ba47098f7dea1435a87335e20519803924fc7b3088127952a7a</hash-sum>
+    </version>
+
+    <version name="0.5.17" package="rambox-64-bit" type="one-file">
+        <file path=".Npackd\Install.bat">"%npackd_package_binary%" &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
+</file>
+        <file path=".Npackd\Uninstall.bat">"%myun%\myuninst.exe" /uninstall "rambox-64-bit"&#13;
+</file>
+        <url>https://github.com/saenzramiro/rambox/releases/download/0.5.17/Rambox.Setup.0.5.17-x64.exe</url>
+        <hash-sum type="SHA-256">e368ffe6766dbf6008157f9a773801665bcf6a1f14fb775f81456f5ec9766f9c</hash-sum>
+        <dependency package="net.nirsoft.MyUninstaller" versions="[1.74, 2)">
+            <variable>myun</variable>
+        </dependency>
     </version>
 
     <version name="2015.3.1" package="rdkit64">
