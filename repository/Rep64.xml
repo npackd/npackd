@@ -11595,6 +11595,16 @@ if %err% neq 0 exit %err%&#13;
             <variable>nih</variable>
         </dependency>
     </version>
+    <version name="52.9" package="cyberfox64" type="one-file">
+        <file path=".Npackd\Install.bat">call "%nih%\InstallInnoSetup.bat"&#13;
+</file>
+        <file path=".Npackd\Uninstall.bat">call "%nih%\UninstallInnoSetup.bat" unins000.exe&#13;
+</file>
+        <url>https://download.8pecxstudios.com/latest/Cyberfox-52.9.0.en-US.win64-x86_64.intel.exe</url>
+        <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
+            <variable>nih</variable>
+        </dependency>
+    </version>
 
     <version name="2.10" package="cygwin64" type="one-file">
         <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
@@ -13241,6 +13251,17 @@ if %err% neq 0 exit %err%&#13;
 </file>
         <url>https://github.com/git-for-windows/git/releases/download/v2.17.1.windows.1/Git-2.17.1-64-bit.exe</url>
         <hash-sum type="SHA-256">b3ae2969b317404346674b05ca0d1760f69140793457fcb76c8cda7664f235b5</hash-sum>
+        <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
+            <variable>nih</variable>
+        </dependency>
+    </version>
+    <version name="2.18" package="git64" type="one-file">
+        <file path=".Npackd\Install.bat">call "%nih%\InstallInnoSetup.bat"&#13;
+</file>
+        <file path=".Npackd\Uninstall.bat">call "%nih%\UninstallInnoSetup.bat" unins000.exe&#13;
+</file>
+        <url>https://github.com/git-for-windows/git/releases/download/v2.18.0.windows.1/Git-2.18.0-64-bit.exe</url>
+        <hash-sum type="SHA-256">aa81c9f2a81fd07ba0582095474365821880fd787b1cbe03abaf71d9aa69d359</hash-sum>
         <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
             <variable>nih</variable>
         </dependency>
@@ -18276,6 +18297,14 @@ if %err% neq 0 exit %err%&#13;
         <url>http://downloads.sourceforge.net/project/smplayer/SMPlayer/18.5.0/smplayer-18.5.0-x64.exe</url>
         <hash-sum type="SHA-256">b31f90a4470936e4ad972e1c3c4d42ebdec6e674a62fcb61a98b158dd659f534</hash-sum>
     </version>
+    <version name="18.6" package="net.sourceforge.smplayer.SMPlayer64" type="one-file">
+        <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD%&#13;
+</file>
+        <file path=".Npackd\Uninstall.bat">uninst.exe /S _?=%CD%        &#13;
+</file>
+        <url>http://downloads.sourceforge.net/project/smplayer/SMPlayer/18.6.0/smplayer-18.6.0-x64.exe</url>
+        <hash-sum type="SHA-256">280d835137148cb7a887762fdee35da62924cc57d1f0364966177e6b7cb296a9</hash-sum>
+    </version>
 
     <version name="2.42" package="net.sourceforge.strongdc.StrongDCPlusPlus64" type="one-file">
         <file path=".Npackd\Install.bat">for /f %%x in ('dir /b *.exe') do set setup=%%x&#13;
@@ -23043,6 +23072,12 @@ rmdir /s /q "%name%"&#13;
         <sha1>143befb14093bd8c1a287d987b0049b6ae9dd802</sha1>
     </version>
     <version name="21" package="org.erlang.Erlang64" type="one-file">
+        <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD%&#13;
+</file>
+        <url>https://www.erlang.org/download/otp_win64_21.0.exe</url>
+        <hash-sum type="SHA-256">d1e6a4df59289a6e38e734bcc701da4f1ae7246a885ce75c1d1097895200c22a</hash-sum>
+    </version>
+    <version name="21.0.1" package="org.erlang.Erlang64" type="one-file">
         <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD%&#13;
 </file>
         <url>https://www.erlang.org/download/otp_win64_21.0.exe</url>
