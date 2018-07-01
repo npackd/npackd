@@ -11397,6 +11397,17 @@ if %err% neq 0 exit %err%&#13;
             <variable>nih</variable>
         </dependency>
     </version>
+    <version name="1.4.5" package="conan64" type="one-file">
+        <cmd-file path="conan\conan.exe"/>
+        <file path=".Npackd\Install.bat">"%nih%\InstallInnoSetup.bat"&#13;
+</file>
+        <file path=".Npackd\Uninstall.bat">"%nih%\UninstallInnoSetup.bat" unins000.exe</file>
+        <url>https://github.com/conan-io/conan/releases/download/1.4.5/conan-win-64_1_4_5.exe</url>
+        <hash-sum type="SHA-256">cd73bffe05fd5464d9a954718087fdb7be6bc7330b7731e3c769fd5fbf09a70b</hash-sum>
+        <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
+            <variable>nih</variable>
+        </dependency>
+    </version>
 
     <version name="44" package="cyberfox64" type="one-file">
         <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
@@ -12017,6 +12028,21 @@ taskkill /im klauncher.exe /f /t&#13;
 verify</file>
         <url>http://download.kde.org/stable/digikam/digiKam-5.7.0-02-Win64.exe</url>
         <sha1>21fb53513d27a904bb63cd7a1f3cf19bf43a7447</sha1>
+    </version>
+    <version name="5.8.0.1" package="digikam64" type="one-file">
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
+"%setup%" /S /D=%ProgramFiles%\digiKamData&#13;
+</file>
+        <file path=".Npackd\Uninstall.bat">"%ProgramFiles%\digiKamData\Uninstall.exe" /S&#13;
+&#13;
+rd /s /q "APPDATA%\Start Menu\Programs\KDE Release" || rd /s /q "%ALLUSERSPROFILE%\Microsoft\Windows\Start Menu\Programs\KDE Release"&#13;
+verify</file>
+        <file path=".Npackd\Stop.bat">taskkill /im dbus-daemon.exe /f /t&#13;
+taskkill /im kded4.exe /f /t&#13;
+taskkill /im klauncher.exe /f /t&#13;
+verify</file>
+        <url>http://download.kde.org/stable/digikam/digiKam-5.8.0-01-Win64.exe</url>
+        <hash-sum type="SHA-256">b1cef36920a84a8fcc835bd053c4361763f9c6110088b7a5029877ae2f6b5f10</hash-sum>
     </version>
 
     <version name="0.6.1" package="drmingw64">
