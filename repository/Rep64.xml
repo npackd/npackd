@@ -2777,6 +2777,14 @@ x86_64</description>
         <category>Tools</category>
         <link href="https://msdn.microsoft.com/en-us/powershell/wmf/releasenotes" rel="changelog"/>
     </package>
+    <package name="yed64">
+        <title>yEd 64 bit</title>
+        <url>http://www.yworks.com/de/products_yed_about.html</url>
+        <description>Graph Editor
+x86_64</description>
+        <icon>https://lh6.googleusercontent.com/-fE4CdgUuVsg/Uq2v4PdsCDI/AAAAAAAABQU/CfTeYqYgNWc/s46/yed.png</icon>
+        <category>Productivity</category>
+    </package>
     <package name="zulu64">
         <title>Zulu 64 bit</title>
         <url>http://www.azulsystems.com/products/zulu</url>
@@ -31054,6 +31062,14 @@ lib.sendKeysToWindow("QCAD 3.12.4 Uninstall", "{ENTER}");&#13;
         <url>https://qgis.org/downloads/QGIS-OSGeo4W-3.0.3-1-Setup-x86_64.exe</url>
         <hash-sum type="SHA-256">95f5b5363c379d3a9d1db9f30e7faf763d1e9db2af9951e5be9c5a87c172c7cf</hash-sum>
     </version>
+    <version name="3.2" package="qgis64" type="one-file">
+        <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
+</file>
+        <file path=".Npackd\Uninstall.bat">uninstall.exe /S _?=%CD%&#13;
+</file>
+        <url>https://qgis.org/downloads/QGIS-OSGeo4W-3.2.0-1-Setup-x86_64.exe</url>
+        <hash-sum type="SHA-256">f84e05ce4dc5e5b61bf40dbc8f0ce27f15552f8649c700d45bfacddd6ddd40c0</hash-sum>
+    </version>
 
     <version name="1.11" package="qtox64" type="one-file">
         <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
@@ -33298,6 +33314,27 @@ if %err% neq 0 exit %err%&#13;
             <variable>nih</variable>
         </dependency>
         <dependency package="com.microsoft.DotNetRedistributable" versions="[4.5, 5)"/>
+    </version>
+
+    <version name="3.18.1" package="yed64" type="one-file">
+        <file path=".Npackd\Install.bat">"%npackd_package_binary%" -q -console -dir "%CD%" -varfile .Npackd\response.varfile &gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+rem &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
+</file>
+        <file path=".Npackd\Uninstall.bat">uninstall.exe -q -console</file>
+        <file path=".Npackd\response.varfile">#install4j response file for yEd Graph Editor&#13;
+#Fri Jan 03 20:51:31 CET 2014&#13;
+sys.adminRights$Boolean=true&#13;
+sys.programGroupDisabled$Boolean=false&#13;
+createDesktopLinkAction$Boolean=false&#13;
+sys.fileAssociation.launchers$StringArray="2","2","2","2","2","2","2"&#13;
+sys.programGroupAllUsers$Boolean=true&#13;
+sys.languageId=en&#13;
+#sys.installationDir=C\:\\ProgramFiles\\yEd&#13;
+createQuicklaunchIconAction$Boolean=false&#13;
+sys.programGroupName=yEd Graph Editor&#13;
+sys.fileAssociation.extensions$StringArray="graphml","graphmlz","ygf","gml","xgml","tgf","ged"&#13;
+</file>
+        <url>http://www.yworks.com/products/yed/demo/yEd-3.18.1_with-JRE_64-bit_setup.exe</url>
     </version>
 
     <version name="8.0.0.3" package="zulu64">
