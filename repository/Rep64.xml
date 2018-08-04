@@ -6716,6 +6716,15 @@ call "%npackdih%\InstallMSI.bat" APPLICATIONFOLDER yes&#13;
             <variable>npackdih</variable>
         </dependency>
     </version>
+    <version name="3.28" package="com.calibreebook.Calibre64" type="one-file">
+        <file path=".Npackd\Install.bat">call "%npackdih%\InstallMSI.bat" APPLICATIONFOLDER yes&#13;
+</file>
+        <url>https://download.calibre-ebook.com/3.28.0/calibre-64bit-3.28.0.msi</url>
+        <hash-sum type="SHA-256">c5e15a975fed954b42ec209ae951998f943c962d30756a323b9039b0fd008975</hash-sum>
+        <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.2, 2)">
+            <variable>npackdih</variable>
+        </dependency>
+    </version>
 
     <version name="5.12.256249.2599" package="com.comodo.comodoav64" type="one-file">
         <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.msi') do set setup=%%x&#13;
@@ -15302,6 +15311,14 @@ call "%nih%\InstallMSI.bat" TARGETDIR yes&#13;
         <url>https://download.kde.org/stable/krita/4.1.0/krita-x64-4.1.0-setup.exe</url>
         <hash-sum type="SHA-256">114b95d376be8571b37ae4cefe0e7762bfabb898514c721c13e8c4e1280348bf</hash-sum>
     </version>
+    <version name="4.1.1" package="krita64" type="one-file">
+        <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
+</file>
+        <file path=".Npackd\Uninstall.bat">uninstall.exe /S _?=%CD%&#13;
+</file>
+        <url>https://download.kde.org/stable/krita/4.1.1/krita-x64-4.1.1-setup.exe</url>
+        <hash-sum type="SHA-256">d2a394b9d84ac46bd7062ad0eda7bcafa1bed886f4974f03e0781c5960daf9b5</hash-sum>
+    </version>
 
     <version name="1.2" package="ldc64">
         <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b ldc*') do set name=%%x&#13;
@@ -15504,6 +15521,15 @@ call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Np
             <variable>npackdih</variable>
         </dependency>
         <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.15.7, 2)"/>
+        <dependency package="com.oracle.JRE" versions="[1.6, 2)"/>
+    </version>
+    <version name="6.0.6" package="libreoffice64" type="one-file">
+        <file path=".Npackd\Install.bat">call "%npackdih%\InstallMSI.bat" INSTALLLOCATION yes</file>
+        <url>https://download.documentfoundation.org/libreoffice/stable/6.0.6/win/x86_64/LibreOffice_6.0.6_Win_x64.msi</url>
+        <hash-sum type="SHA-256">7a4746ad788d15fb78f3e76bd4f6bfcdf5311f96e31b7969952a764c5adca08f</hash-sum>
+        <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.1, 2)">
+            <variable>npackdih</variable>
+        </dependency>
         <dependency package="com.oracle.JRE" versions="[1.6, 2)"/>
     </version>
 
@@ -16824,6 +16850,15 @@ reg add HKCU\Software\mkvmergeGUI\GUI /v check_for_updates /t REG_DWORD /d 00000
 </file>
         <url>https://download.mono-project.com/archive/5.12.0/windows-installer/mono-5.12.0.226-x64-0.msi</url>
         <hash-sum type="SHA-256">833b79327c6c75e9c724b50f8ff07ce9b82110a77496de85795e8fb0fbfad76a</hash-sum>
+        <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.1, 2)">
+            <variable>npackdih</variable>
+        </dependency>
+    </version>
+    <version name="5.12.0.301" package="mono64" type="one-file">
+        <file path=".Npackd\Install.bat">call "%npackdih%\InstallMSI.bat" INSTALLDIR yes&#13;
+</file>
+        <url>https://download.mono-project.com/archive/5.12.0/windows-installer/mono-5.12.0.301-x64-0.msi</url>
+        <hash-sum type="SHA-256">2196750fd4293bb3fc05ce6da6be2457991235112ae1941073721c8ab553f776</hash-sum>
         <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.1, 2)">
             <variable>npackdih</variable>
         </dependency>
@@ -19550,6 +19585,53 @@ verify&#13;
 		</file>
         <url>https://notepad-plus-plus.org/repository/7.x/7.5.7/npp.7.5.7.Installer.x64.exe</url>
         <hash-sum type="SHA-256">0cdeea549c6f7f2bd4104882c33aca88fd88c1a2751595f300d0f9aace85d5d8</hash-sum>
+    </version>
+    <version name="7.5.8" package="notepadpp64" type="one-file">
+        <file path=".Npackd\Install.bat">xcopy "%allusersprofile%\Npackd\Config\net.sourceforge.NotepadPlusPlus" .  /E /C /I /F /H /R /Y &gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+&#13;
+for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
+"%setup%" /S /D=%CD%&#13;
+if %errorlevel% neq 0 exit /b %errorlevel%&#13;
+&#13;
+set package=net.sourceforge.NotepadPlusPlus&#13;
+set version=%NPACKD_PACKAGE_VERSION%&#13;
+set key=%package%&#13;
+&#13;
+reg add HKLM\SOFTWARE\Classes\Applications\%KEY%\shell\open /v FriendlyAppName /d "Notepad++ (%version%)" /f &gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+set c=\"%CD%\notepad++.exe\" \"%%1\"&#13;
+reg add HKLM\SOFTWARE\Classes\Applications\%KEY%\shell\open\command /d "%c%" /f &gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+for %%g in (txt log ini h hpp hxx c cpp cxx cc m java cs pas inc html htm php phtml properties js jsp asp css xml sh bsh nsi nsh lua pl pm py as mx vb vbs f for f90 f95 f2k tex sql nfo mak hgignore) do reg add HKLM\SOFTWARE\Classes\.%%g\OpenWithList\%key% /f &gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+&#13;
+reg add "HKCR\*\shell\Notepad++\command" /ve /f /d "\"%cd%\notepad++.exe\" %%1" &gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+&#13;
+verify</file>
+        <file path=".Npackd\Uninstall.bat">rmdir /s /q "%allusersprofile%\Npackd\Config\net.sourceforge.NotepadPlusPlus"&#13;
+xcopy Plugins "%allusersprofile%\Npackd\Config\net.sourceforge.NotepadPlusPlus\Plugins" /E /C /I /F /H /R /Y &gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+&#13;
+set package=net.sourceforge.NotepadPlusPlus&#13;
+set version=%NPACKD_PACKAGE_VERSION%&#13;
+set key=%package%&#13;
+&#13;
+set newname=%key%_%random%&#13;
+ren %appdata%\Notepad++ %newname%&#13;
+uninstall.exe /S _?=%CD%&#13;
+if %errorlevel% neq 0 exit /b %errorlevel%&#13;
+ren %appdata%\%newname% Notepad++&#13;
+&#13;
+rem unregister "Open With..." entries&#13;
+reg delete HKLM\SOFTWARE\Classes\Applications\%KEY% /f &gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+for %%g in (txt log ini h hpp hxx c cpp cxx cc m java cs pas inc html htm php phtml properties js jsp asp css xml sh bsh nsi nsh lua pl pm py as mx vb vbs f for f90 f95 f2k tex sql nfo mak hgignore) do reg delete HKLM\SOFTWARE\Classes\.%%g\OpenWithList\%key% /f &gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+&#13;
+reg delete HKCR\*\shell\Notepad++ /f &gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+&#13;
+rem remove Explorer extension&#13;
+set trash=..\.Trash\%key%_%random%&#13;
+mkdir %trash%&#13;
+move NppShell*.dll %trash%&#13;
+verify&#13;
+		</file>
+        <url>https://notepad-plus-plus.org/repository/7.x/7.5.8/npp.7.5.8.Installer.x64.exe</url>
+        <hash-sum type="SHA-256">09d4cb9123c4aa8c91cb78a12cb8a35e56e337093aeb1600423cf4541be61031</hash-sum>
     </version>
 
     <version name="3.3.3" package="ocenaudio64" type="one-file">
@@ -26981,6 +27063,16 @@ rmdir /s /q "%name%"&#13;
         <sha1>514645761c46c02f9cd7565ec5ee5568996215e8</sha1>
         <dependency package="com.oracle.JDK" versions="[1.5, 2)"/>
     </version>
+    <version name="3.4" package="org.processing.Processing64">
+        <important-file path="processing.exe" title="Processing"/>
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b processing*') do set name=%%x&#13;
+xcopy "%name%\*" . /E /H&#13;
+rmdir /s /q "%name%"&#13;
+</file>
+        <url>http://download.processing.org/processing-3.4-windows64.zip</url>
+        <hash-sum type="SHA-256">5ef6b2d59a82b3900f3fbdc6a816ccea9bcc67dfce8a7a240476cb26a74dac80</hash-sum>
+        <dependency package="com.oracle.JDK" versions="[1.5, 2)"/>
+    </version>
 
     <version name="0.15" package="org.psiim.Psi64" type="one-file">
         <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
@@ -29609,6 +29701,34 @@ call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Np
             <variable>nih</variable>
         </dependency>
     </version>
+    <version name="8.1.207" package="org.vim.Vim64">
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+if %errorlevel% neq 0 exit /b %errorlevel%&#13;
+&#13;
+for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+</file>
+        <url>https://github.com/vim/vim-win32-installer/releases/download/v8.1.0207/gvim_8.1.0207_x64.zip</url>
+        <hash-sum type="SHA-256">f729971edc9fbf2462508a54837677072387013b60bea50d4360d9b1e49ccc0c</hash-sum>
+        <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.19, 2)">
+            <variable>nih</variable>
+        </dependency>
+    </version>
+    <version name="8.1.229" package="org.vim.Vim64">
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+if %errorlevel% neq 0 exit /b %errorlevel%&#13;
+&#13;
+for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+</file>
+        <url>https://github.com/vim/vim-win32-installer/releases/download/v8.1.0229/gvim_8.1.0229_x64.zip</url>
+        <hash-sum type="SHA-256">5ab12c3bf1556b2af7fa9c36fabb703f0b2b9b8376c6b8da69ce99ace1b20dbd</hash-sum>
+        <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.19, 2)">
+            <variable>nih</variable>
+        </dependency>
+    </version>
 
     <version name="4.2.8.83876" package="org.virtualbox.virtualbox64" type="one-file">
         <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
@@ -31158,6 +31278,16 @@ echo DesktopShortcut=false &gt;&gt; .Npackd\FF.ini&#13;
         </dependency>
         <dependency package="org.miktex.MiKTeX" versions="[2.9, 3)"/>
     </version>
+    <version name="2.2.2.1" package="pandoc64" type="one-file">
+        <file path=".Npackd\Install.bat">call "%nih%\InstallMSI.bat" INSTALLDIR yes&#13;
+</file>
+        <url>https://github.com/jgm/pandoc/releases/download/2.2.2.1/pandoc-2.2.2.1-windows-x86_64.msi</url>
+        <hash-sum type="SHA-256">30745a00debb149836f9c206b37c591438c910add401439246e59023a290a9fe</hash-sum>
+        <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.1, 2)">
+            <variable>nih</variable>
+        </dependency>
+        <dependency package="org.miktex.MiKTeX" versions="[2.9, 3)"/>
+    </version>
 
     <version name="2.2.2" package="pdfsam64" type="one-file">
         <file path=".Npackd\Install.bat">&#13;
@@ -31255,6 +31385,16 @@ call "%npackdih%\InstallMSI.bat" APPLICATIONFOLDER2 yes</file>
 call "%npackdih%\InstallMSI.bat" TARGETDIR yes</file>
         <url>https://github.com/torakiki/pdfsam/releases/download/v3.3.5/pdfsam-v3.3.5.msi</url>
         <sha1>3baf154bf6ce75d62746d866fc5106c4c8300776</sha1>
+        <dependency package="com.oracle.JRE64" versions="[1.6.0.23, 2)"/>
+        <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.1, 2)">
+            <variable>npackdih</variable>
+        </dependency>
+    </version>
+    <version name="3.3.6" package="pdfsam64" type="one-file">
+        <file path=".Npackd\Install.bat">rem un-installation tries to remove .Npackd and fails =&gt; 2 to install the program somewhere else&#13;
+call "%npackdih%\InstallMSI.bat" TARGETDIR yes</file>
+        <url>https://github.com/torakiki/pdfsam/releases/download/v3.3.6/pdfsam-3.3.6.msi</url>
+        <hash-sum type="SHA-256">c734a5ea28d0f92c54b2e85d4821daebf5e549c20cb97a36a396a919eb7f220e</hash-sum>
         <dependency package="com.oracle.JRE64" versions="[1.6.0.23, 2)"/>
         <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.1, 2)">
             <variable>npackdih</variable>
@@ -31861,6 +32001,14 @@ lib.sendKeysToWindow("QCAD 3.12.4 Uninstall", "{ENTER}");&#13;
         <url>https://qgis.org/downloads/QGIS-OSGeo4W-3.2.0-1-Setup-x86_64.exe</url>
         <hash-sum type="SHA-256">f84e05ce4dc5e5b61bf40dbc8f0ce27f15552f8649c700d45bfacddd6ddd40c0</hash-sum>
     </version>
+    <version name="3.2.1" package="qgis64" type="one-file">
+        <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
+</file>
+        <file path=".Npackd\Uninstall.bat">uninstall.exe /S _?=%CD%&#13;
+</file>
+        <url>https://qgis.org/downloads/QGIS-OSGeo4W-3.2.1-1-Setup-x86_64.exe</url>
+        <hash-sum type="SHA-256">66dcd0ef9eca5a48b4f06a1aed142983297da9a1113663991e8e56faaac17f09</hash-sum>
+    </version>
 
     <version name="1.11" package="qtox64" type="one-file">
         <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
@@ -32005,6 +32153,14 @@ lib.sendKeysToWindow("QCAD 3.12.4 Uninstall", "{ENTER}");&#13;
 </file>
         <url>https://download.racket-lang.org/installers/6.12/racket-6.12-x86_64-win32.exe</url>
         <sha1>668cb97c479231e31f34137de85e595c448e9284</sha1>
+    </version>
+    <version name="7" package="racket64" type="one-file">
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
+"%setup%" /S /D=%CD%\Prog &amp;&amp; del /f /q "%setup%"</file>
+        <file path=".Npackd\Uninstall.bat">Prog\uninstall.exe /S _?=%CD%\Prog&#13;
+</file>
+        <url>https://download.racket-lang.org/installers/7.0/racket-7.0-x86_64-win32.exe</url>
+        <hash-sum type="SHA-256">39784c066be45fde89bec1ce7cf5e9200a79efd6fe7ed996ad44cc6d535dddd0</hash-sum>
     </version>
 
     <version name="1.14.2" package="rainlendar-lite-64bit" type="one-file">
@@ -32673,6 +32829,17 @@ if %err% neq 0 exit %err%&#13;
         </dependency>
     </version>
     <version name="0.9.9" package="sigil64" type="one-file">
+        <file path=".Npackd\Install.bat">call "%nih%\InstallInnoSetup.bat"&#13;
+</file>
+        <file path=".Npackd\Uninstall.bat">call "%nih%\UninstallInnoSetup.bat" unins000.exe&#13;
+</file>
+        <url>https://github.com/user-none/Sigil/releases/download/0.9.8/Sigil-0.9.8-Windows-x64-Setup.exe</url>
+        <sha1>1dc08743c8e7d7b9d956f345466a2745b2bc9d18</sha1>
+        <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
+            <variable>nih</variable>
+        </dependency>
+    </version>
+    <version name="0.9.10" package="sigil64" type="one-file">
         <file path=".Npackd\Install.bat">call "%nih%\InstallInnoSetup.bat"&#13;
 </file>
         <file path=".Npackd\Uninstall.bat">call "%nih%\UninstallInnoSetup.bat" unins000.exe&#13;
