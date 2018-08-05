@@ -11658,6 +11658,17 @@ if %err% neq 0 exit %err%&#13;
             <variable>nih</variable>
         </dependency>
     </version>
+    <version name="1.6" package="conan64" type="one-file">
+        <cmd-file path="conan\conan.exe"/>
+        <file path=".Npackd\Install.bat">"%nih%\InstallInnoSetup.bat"&#13;
+</file>
+        <file path=".Npackd\Uninstall.bat">"%nih%\UninstallInnoSetup.bat" unins000.exe</file>
+        <url>https://github.com/conan-io/conan/releases/download/1.6.0/conan-win-64_1_6_0.exe</url>
+        <hash-sum type="SHA-256">79442b77e5aa91e104d8bbdde51ca138da39102c99c48e3fcb360a519a294d77</hash-sum>
+        <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
+            <variable>nih</variable>
+        </dependency>
+    </version>
     <version name="1.6.1" package="conan64" type="one-file">
         <cmd-file path="conan\conan.exe"/>
         <file path=".Npackd\Install.bat">"%nih%\InstallInnoSetup.bat"&#13;
@@ -12912,6 +12923,19 @@ rmdir "%name%"&#13;
 </file>
         <url>https://dl1.cdn.filezilla-project.org/client/FileZilla_3.34.0_win64.zip</url>
         <hash-sum type="SHA-256">bb9086bc460dbd9ad8fe010b0139488bb0aa023c589e6d5493c2cf42028bfe1f</hash-sum>
+    </version>
+    <version name="3.35.1" package="filezilla64">
+        <important-file path="filezilla.exe" title="FileZilla Client"/>
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b File*') do set name=%%x&#13;
+cd "%name%"        &#13;
+for /f "delims=" %%a in ('dir /b') do (&#13;
+  move "%%a" ..&#13;
+)&#13;
+cd ..&#13;
+rmdir "%name%"&#13;
+</file>
+        <url>https://dl1.cdn.filezilla-project.org/client/FileZilla_3.35.1_win64.zip</url>
+        <hash-sum type="SHA-256">fbe8a261ccc5a3fe1197ebe2d7768d73096aa95f349c41dee86031eff84b10a5</hash-sum>
     </version>
 
     <version name="60.0.8" package="firefox-developer-edition64" type="one-file">
@@ -14813,6 +14837,17 @@ if %err% neq 0 exit %err%&#13;
 </file>
         <url>https://www.imagemagick.org/download/binaries/ImageMagick-7.0.8-6-Q16-x64-dll.exe</url>
         <hash-sum type="SHA-256">434e480decc05e4f8dd4950ec6147bdbffd8156ebfe0f03f0ad15cfdd4d983f2</hash-sum>
+        <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
+            <variable>nih</variable>
+        </dependency>
+    </version>
+    <version name="7.0.8.8" package="imagemagick64" type="one-file">
+        <file path=".Npackd\Install.bat">call "%nih%\InstallInnoSetup.bat"&#13;
+</file>
+        <file path=".Npackd\Uninstall.bat">call "%nih%\UninstallInnoSetup.bat" unins000.exe&#13;
+</file>
+        <url>https://www.imagemagick.org/download/binaries/ImageMagick-7.0.8-8-Q16-x64-dll.exe</url>
+        <hash-sum type="SHA-256">3d53a7b26b42ce1be7a72512c8fc4192b6e24fea59cbb4f676e08bbb092c1559</hash-sum>
         <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
             <variable>nih</variable>
         </dependency>
@@ -34062,6 +34097,17 @@ if %err% neq 0 exit /b %err%&#13;
 </file>
         <url>https://downloads.vivaldi.com/stable/Vivaldi.1.15.1147.52.x64.exe</url>
         <hash-sum type="SHA-256">ce8dba2f47a67fb6002804ddeee7a22dab47db0053464afad7a83b34d0b3b0db</hash-sum>
+        <dependency package="net.nirsoft.MyUninstaller" versions="[1.74, 2)">
+            <variable>myun</variable>
+        </dependency>
+    </version>
+    <version name="1.15.1147.55" package="vivaldi-browser-64" type="one-file">
+        <file path=".Npackd\Install.bat">"%npackd_package_binary%" &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
+</file>
+        <file path=".Npackd\Uninstall.bat">"%myun%\myuninst.exe" /uninstall "vivaldi-browser-64"&#13;
+</file>
+        <url>https://downloads.vivaldi.com/stable/Vivaldi.1.15.1147.55.x64.exe</url>
+        <hash-sum type="SHA-256">fcae5cf1d0f2d85ddfe809d7463d1f9285b4367408422968fa5e7c473165ebd9</hash-sum>
         <dependency package="net.nirsoft.MyUninstaller" versions="[1.74, 2)">
             <variable>myun</variable>
         </dependency>
