@@ -12937,6 +12937,19 @@ rmdir "%name%"&#13;
         <url>https://dl1.cdn.filezilla-project.org/client/FileZilla_3.35.1_win64.zip</url>
         <hash-sum type="SHA-256">fbe8a261ccc5a3fe1197ebe2d7768d73096aa95f349c41dee86031eff84b10a5</hash-sum>
     </version>
+    <version name="3.35.2" package="filezilla64">
+        <important-file path="filezilla.exe" title="FileZilla Client"/>
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b File*') do set name=%%x&#13;
+cd "%name%"        &#13;
+for /f "delims=" %%a in ('dir /b') do (&#13;
+  move "%%a" ..&#13;
+)&#13;
+cd ..&#13;
+rmdir "%name%"&#13;
+</file>
+        <url>https://dl1.cdn.filezilla-project.org/client/FileZilla_3.35.2_win64.zip</url>
+        <hash-sum type="SHA-256">657a7271a7b7eb7d273928180fedbbda7250e1c8814dea5d94b2de8f1a610cb5</hash-sum>
+    </version>
 
     <version name="60.0.8" package="firefox-developer-edition64" type="one-file">
         <file path=".Npackd\Install.bat">echo [Install] &gt; .Npackd\FF.ini&#13;
@@ -14406,7 +14419,7 @@ verify&#13;
         <url>http://files.npackd.org/hashmyfiles64/hashmyfiles64-2.10.zip</url>
         <sha1>8848020689233adeffe2f4299085eb533e1495d5</sha1>
     </version>
-    <version name="2.30" package="hashmyfiles64">
+    <version name="2.31" package="hashmyfiles64">
         <important-file path="HashMyFiles.exe" title="HashMyFiles"/>
         <url>http://www.nirsoft.net/utils/hashmyfiles-x64.zip</url>
     </version>
@@ -14848,6 +14861,17 @@ if %err% neq 0 exit %err%&#13;
 </file>
         <url>https://www.imagemagick.org/download/binaries/ImageMagick-7.0.8-8-Q16-x64-dll.exe</url>
         <hash-sum type="SHA-256">3d53a7b26b42ce1be7a72512c8fc4192b6e24fea59cbb4f676e08bbb092c1559</hash-sum>
+        <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
+            <variable>nih</variable>
+        </dependency>
+    </version>
+    <version name="7.0.8.9" package="imagemagick64" type="one-file">
+        <file path=".Npackd\Install.bat">call "%nih%\InstallInnoSetup.bat"&#13;
+</file>
+        <file path=".Npackd\Uninstall.bat">call "%nih%\UninstallInnoSetup.bat" unins000.exe&#13;
+</file>
+        <url>https://www.imagemagick.org/download/binaries/ImageMagick-7.0.8-9-Q16-x64-dll.exe</url>
+        <hash-sum type="SHA-256">e08b3213404717bb29186de8474d4268d4a58c7a38b958d7cbf960d464f54d0d</hash-sum>
         <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
             <variable>nih</variable>
         </dependency>
@@ -16898,6 +16922,15 @@ reg add HKCU\Software\mkvmergeGUI\GUI /v check_for_updates /t REG_DWORD /d 00000
             <variable>npackdih</variable>
         </dependency>
     </version>
+    <version name="5.14.0.177" package="mono64" type="one-file">
+        <file path=".Npackd\Install.bat">call "%npackdih%\InstallMSI.bat" INSTALLDIR yes&#13;
+</file>
+        <url>https://download.mono-project.com/archive/5.14.0/windows-installer/mono-5.14.0.177-x64-0.msi</url>
+        <hash-sum type="SHA-256">0491f76d5909a012076ca0a417ea71431e845908ca4f2fa3414636fe0537e126</hash-sum>
+        <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.1, 2)">
+            <variable>npackdih</variable>
+        </dependency>
+    </version>
 
     <version name="2016.2.5" package="msys2_64" type="one-file">
         <file path=".Npackd\Install.bat">call "%nih%\Extract.bat" "%npackd_package_binary%" "."&#13;
@@ -17007,6 +17040,14 @@ if %errorlevel% neq 0 exit /b %errorlevel%&#13;
 </file>
         <url>http://multicommander.com/files/updates/MultiCommander_x64_(8.1.0.2452).exe</url>
         <hash-sum type="SHA-256">99b00348632485351b184c96844cfae778515d784d5c3ff3dff95fc9bc718a96</hash-sum>
+    </version>
+    <version name="8.3.0.2469" package="multi-commander64" type="one-file">
+        <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
+</file>
+        <file path=".Npackd\Uninstall.bat">"Uninstall MultiCommander.exe" /S _?=%CD%&#13;
+</file>
+        <url>http://multicommander.com/files/updates/MultiCommander_x64_(8.3.0.2469).exe</url>
+        <hash-sum type="SHA-256">58c7e63a607670c47098f80320e7ff62a47aaac2b17310f915fd360f4a0d04d7</hash-sum>
     </version>
 
     <version name="2" package="myeventviewer64">
@@ -29773,6 +29814,20 @@ call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Np
             <variable>nih</variable>
         </dependency>
     </version>
+    <version name="8.1.254" package="org.vim.Vim64">
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+if %errorlevel% neq 0 exit /b %errorlevel%&#13;
+&#13;
+for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+</file>
+        <url>https://github.com/vim/vim-win32-installer/releases/download/v8.1.0254/gvim_8.1.0254_x64.zip</url>
+        <hash-sum type="SHA-256">4e33ead9fb7e101877da79efd0dc7ce1c38330ceae9afa45eed3a6e79abb9c78</hash-sum>
+        <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.19, 2)">
+            <variable>nih</variable>
+        </dependency>
+    </version>
 
     <version name="4.2.8.83876" package="org.virtualbox.virtualbox64" type="one-file">
         <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
@@ -31332,6 +31387,16 @@ echo DesktopShortcut=false &gt;&gt; .Npackd\FF.ini&#13;
         </dependency>
         <dependency package="org.miktex.MiKTeX" versions="[2.9, 3)"/>
     </version>
+    <version name="2.2.3.2" package="pandoc64" type="one-file">
+        <file path=".Npackd\Install.bat">call "%nih%\InstallMSI.bat" INSTALLDIR yes&#13;
+</file>
+        <url>https://github.com/jgm/pandoc/releases/download/2.2.3.2/pandoc-2.2.3.2-windows-x86_64.msi</url>
+        <hash-sum type="SHA-256">c2a141c7564a02d33da5d52d2ade3491b6e44ba319004442b642c509526e9d6d</hash-sum>
+        <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.1, 2)">
+            <variable>nih</variable>
+        </dependency>
+        <dependency package="org.miktex.MiKTeX" versions="[2.9, 3)"/>
+    </version>
 
     <version name="2.2.2" package="pdfsam64" type="one-file">
         <file path=".Npackd\Install.bat">&#13;
@@ -32266,12 +32331,9 @@ lib.sendKeysToWindow("QCAD 3.12.4 Uninstall", "{ENTER}");&#13;
     </version>
 
     <version name="2.0.3" package="ridnacs" type="one-file">
-        <file path=".Npackd\Install.bat">dir&#13;
-move ddownload ridnacs-setup.exe&#13;
-dir&#13;
-"%nih%\InstallInnoSetup.bat"</file>
+        <file path=".Npackd\Install.bat">"%nih%\InstallInnoSetup.bat"</file>
         <file path=".Npackd\Uninstall.bat">"%nih%\UninstallInnoSetup.bat" unins000.exe</file>
-        <url>http://www.splashsoft.de/?ddownload=77</url>
+        <url>http://www.splashsoft.de/a.exe?ddownload=77</url>
         <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
             <variable>nih</variable>
         </dependency>
