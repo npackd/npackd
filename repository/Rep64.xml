@@ -7711,6 +7711,16 @@ call "%npackdih%\InstallMSI.bat" INSTALLDIR yes&#13;
             <variable>npackdih</variable>
         </dependency>
     </version>
+    <version name="2.7" package="com.googlecode.tortoisegit.TortoiseGit64" type="one-file">
+        <file path=".Npackd\Install.bat">call "%npackdih%\InstallMSI.bat" INSTALLDIR yes&#13;
+</file>
+        <url>https://download.tortoisegit.org/tgit/2.7.0.0/TortoiseGit-2.7.0.0-64bit.msi</url>
+        <hash-sum type="SHA-256">ea4d68423484143de7c2afe75d28eed29ecb695e3b4ad41c47d8365fe70c76bd</hash-sum>
+        <dependency package="git64" versions="[1.7.6.2011.7.8, 3)"/>
+        <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3.1, 2)">
+            <variable>npackdih</variable>
+        </dependency>
+    </version>
 
     <version name="1.18.7" package="com.googlecode.windows-package-manager.Npackd64">
         <important-file path="npackdg.exe" title="Npackd"/>
@@ -15600,6 +15610,19 @@ call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Np
             <variable>nih</variable>
         </dependency>
     </version>
+    <version name="1.11" package="ldc64" type="one-file">
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.7z') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+&#13;
+for /f "delims=" %%x in ('dir /b ldc*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+</file>
+        <url>https://github.com/ldc-developers/ldc/releases/download/v1.11.0/ldc2-1.11.0-windows-x64.7z</url>
+        <hash-sum type="SHA-256">b60d5ec1ba4c875aa0718dc32943a30a1889901d485b719bf3d7b1113b883368</hash-sum>
+        <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.19, 2)">
+            <variable>nih</variable>
+        </dependency>
+    </version>
 
     <version name="5.3.4" package="libreoffice64" type="one-file">
         <file path=".Npackd\Install.bat">call "%npackdih%\InstallMSI.bat" INSTALLLOCATION yes</file>
@@ -16747,6 +16770,15 @@ rmdir "%name%"&#13;
         <hash-sum type="SHA-256">ae3bd458aee0135cd4b6118ffe82870d5d9210accf962366f61ee8c63d4de1c1</hash-sum>
     </version>
     <version name="2.1.1" package="mixxx" type="one-file">
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
+"%setup%" /S /D=%CD% &amp;&amp; del /f /q "%setup%"&#13;
+</file>
+        <file path=".Npackd\Uninstall.bat">uninstall.exe /S _?=%CD%&#13;
+</file>
+        <url>http://downloads.mixxx.org/mixxx-2.1.0/mixxx-2.1.0-win64.exe</url>
+        <hash-sum type="SHA-256">ae3bd458aee0135cd4b6118ffe82870d5d9210accf962366f61ee8c63d4de1c1</hash-sum>
+    </version>
+    <version name="2.1.3" package="mixxx" type="one-file">
         <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
 "%setup%" /S /D=%CD% &amp;&amp; del /f /q "%setup%"&#13;
 </file>
@@ -18151,6 +18183,17 @@ if %err% neq 0 exit %err%</file>
 </file>
         <url>http://downloads.sourceforge.net/project/doublecmd/DC%20for%20Windows%2064%20bit/Double%20Commander%200.8.3%20beta/doublecmd-0.8.3.x86_64-win64.exe</url>
         <hash-sum type="SHA-256">33bad10b4c4ab5847c50f74e99516b6b39344fc709725c0e2386c0f1b232f846</hash-sum>
+        <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
+            <variable>nih</variable>
+        </dependency>
+    </version>
+    <version name="0.8.4" package="net.sourceforge.Doublecmd64" type="one-file">
+        <file path=".Npackd\Install.bat">call "%nih%\InstallInnoSetup.bat"&#13;
+</file>
+        <file path=".Npackd\Uninstall.bat">call "%nih%\UninstallInnoSetup.bat" unins000.exe&#13;
+</file>
+        <url>http://downloads.sourceforge.net/project/doublecmd/DC%20for%20Windows%2064%20bit/Double%20Commander%200.8.4%20beta/doublecmd-0.8.4.x86_64-win64.exe</url>
+        <hash-sum type="SHA-256">4c083f73594b37bbbd98ce8b920183efb7e394dfc24b395b56292ecbc26a86c7</hash-sum>
         <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
             <variable>nih</variable>
         </dependency>
@@ -22502,6 +22545,15 @@ if %err% neq 0 exit /b %err%&#13;
 </file>
         <url>https://bitbucket.org/tortoisehg/files/downloads/tortoisehg-4.6.1-x64.msi</url>
         <hash-sum type="SHA-256">43091f3f3dc8916cb998616b041b6941bb84b2704824de67f8737699ee3c107f</hash-sum>
+        <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3.1, 2)">
+            <variable>nih</variable>
+        </dependency>
+    </version>
+    <version name="4.7" package="org.bitbucket.tortoisehg.TortoiseHg64" type="one-file">
+        <file path=".Npackd\Install.bat">call "%nih%\InstallMSI.bat" INSTALLDIR yes&#13;
+</file>
+        <url>https://bitbucket.org/tortoisehg/files/downloads/tortoisehg-4.7.0-x64.msi</url>
+        <hash-sum type="SHA-256">0181c9559bd954722210990b243ce124c46975e84113b5f4823f7039c019f836</hash-sum>
         <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3.1, 2)">
             <variable>nih</variable>
         </dependency>
@@ -30982,6 +31034,41 @@ if %err% neq 0 exit %err%</file>
             <variable>sevenzip</variable>
         </dependency>
     </version>
+    <version name="5.2.18.124319" package="org.virtualbox.virtualbox64" type="one-file">
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
+"%setup%" -x -s -p "%CD%"&#13;
+&#13;
+&#13;
+"%sevenzip%\7z.exe" x common.cab -aos -o"%CD%\common"&#13;
+"%sevenzip%\7z.exe" x "%CD%\common\file_VBoxGuestAdditions.iso" -aos -o"%CD%\common\file_VBoxGuestAdditions"&#13;
+&#13;
+certutil.exe -addstore -f "TrustedPublisher" "%CD%\common\file_VBoxGuestAdditions\cert\oracle-vbox.cer"&#13;
+&#13;
+for /f "delims=" %%x in ('dir /b *MultiArch_amd64.msi') do set setup=%%x&#13;
+msiexec.exe /qn /norestart /Lime .Npackd\MSI.log /i "%setup%"&#13;
+set err=%errorlevel%&#13;
+type .Npackd\MSI.log&#13;
+rem 3010=restart required&#13;
+if %err% equ 3010 exit 0&#13;
+if %err% neq 0 exit %err%&#13;
+&#13;
+for /f "delims=" %%x in ('dir /b *MultiArch_x86.msi') do set trash=%%x&#13;
+del /q /f "%trash%"&#13;
+&#13;
+if exist "%CD%\common" (rd /s /q "%CD%\common")</file>
+        <file path=".Npackd\Uninstall.bat">for /f "delims=" %%x in ('dir /b *.msi') do set setup=%%x&#13;
+msiexec.exe /qn /norestart /Lime .Npackd\MSI.log /x "%setup%"&#13;
+set err=%errorlevel%&#13;
+type .Npackd\MSI.log&#13;
+rem 3010=restart required&#13;
+if %err% equ 3010 exit 0&#13;
+if %err% neq 0 exit %err%</file>
+        <url>http://download.virtualbox.org/virtualbox/5.2.18/VirtualBox-5.2.18-124319-Win.exe</url>
+        <hash-sum type="SHA-256">2607f510bcb5dca11a189ca769bbd28e0ff3ff1d082762c03f062b406c8763f3</hash-sum>
+        <dependency package="org.7-zip.SevenZIP64" versions="[9.20, 20)">
+            <variable>sevenzip</variable>
+        </dependency>
+    </version>
 
     <version name="1.9.11" package="org.virtualdub.VirtualDub64">
         <important-file path="Veedub64.exe" title="VirtualDub"/>
@@ -32309,6 +32396,14 @@ lib.sendKeysToWindow("QCAD 3.12.4 Uninstall", "{ENTER}");&#13;
         <url>https://qgis.org/downloads/QGIS-OSGeo4W-3.2.1-1-Setup-x86_64.exe</url>
         <hash-sum type="SHA-256">66dcd0ef9eca5a48b4f06a1aed142983297da9a1113663991e8e56faaac17f09</hash-sum>
     </version>
+    <version name="3.2.2" package="qgis64" type="one-file">
+        <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
+</file>
+        <file path=".Npackd\Uninstall.bat">uninstall.exe /S _?=%CD%&#13;
+</file>
+        <url>https://qgis.org/downloads/QGIS-OSGeo4W-3.2.2-1-Setup-x86_64.exe</url>
+        <hash-sum type="SHA-256">b71ce585414b130652eebbaae59ee840bcae172a03440bf6975c54758408c2bd</hash-sum>
+    </version>
 
     <version name="1.11" package="qtox64" type="one-file">
         <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
@@ -33205,8 +33300,8 @@ rem Install4j&#13;
 </file>
         <file path=".Npackd\Uninstall.bat">uninstall.exe -q&#13;
 </file>
-        <url>http://cdn01.downloads.smartbear.com/soapui/5.3.0/SoapUI-x64-5.3.0.exe</url>
-        <sha1>3c8db7195addf4fd9c9129ef188d9aa66936a2a5</sha1>
+        <url>https://s3.amazonaws.com/downloads.eviware/soapuios/5.4.0/SoapUI-x64-5.4.0.exe</url>
+        <sha1>76139fc7cee7f343315720d8c6d29965cd5dfee2</sha1>
     </version>
 
     <version name="1.28.709" package="speccy" type="one-file">
