@@ -6813,6 +6813,15 @@ call "%npackdih%\InstallMSI.bat" APPLICATIONFOLDER yes&#13;
             <variable>npackdih</variable>
         </dependency>
     </version>
+    <version name="3.30" package="com.calibreebook.Calibre64" type="one-file">
+        <file path=".Npackd\Install.bat">call "%npackdih%\InstallMSI.bat" APPLICATIONFOLDER yes&#13;
+</file>
+        <url>https://download.calibre-ebook.com/3.30.0/calibre-64bit-3.30.0.msi</url>
+        <hash-sum type="SHA-256">cb921b28fce746cd3ba16534786c48a0decbb61e87bab69ba7d367e55c4a1d9b</hash-sum>
+        <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.2, 2)">
+            <variable>npackdih</variable>
+        </dependency>
+    </version>
 
     <version name="5.12.256249.2599" package="com.comodo.comodoav64" type="one-file">
         <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.msi') do set setup=%%x&#13;
@@ -12357,6 +12366,16 @@ if %err% neq 0 exit %err%&#13;
         <file path=".Npackd\Install.bat">"%NIH%\ExtractDir.bat" dbeaver</file>
         <url>http://dbeaver.jkiss.org/files/5.1.5/dbeaver-ce-5.1.5-win32.win32.x86_64.zip</url>
         <hash-sum type="SHA-256">c771d6676fa5f845408e9baab19e20dd5a88be24a1b9b175f440e4e4001faf0f</hash-sum>
+        <dependency package="com.oracle.JRE64" versions="[1.7, 20)"/>
+        <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
+            <variable>nih</variable>
+        </dependency>
+    </version>
+    <version name="5.1.6" package="dbeaver64">
+        <important-file path="dbeaver.exe" title="DBeaver 64 bit"/>
+        <file path=".Npackd\Install.bat">"%NIH%\ExtractDir.bat" dbeaver</file>
+        <url>http://dbeaver.jkiss.org/files/5.1.6/dbeaver-ce-5.1.6-win32.win32.x86_64.zip</url>
+        <hash-sum type="SHA-256">17519c01eabddd0e4db39dba90bf362a925a22367a0fb7aa3c8faf78dd70eed7</hash-sum>
         <dependency package="com.oracle.JRE64" versions="[1.7, 20)"/>
         <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
             <variable>nih</variable>
@@ -25455,6 +25474,40 @@ Set view = Nothing&#13;
             <variable>npackdih</variable>
         </dependency>
     </version>
+    <version name="1.11" package="org.golang.Go64" type="one-file">
+        <file path=".Npackd\Install.bat">.Npackd\AddProperty.vbs "%npackd_package_binary%"&#13;
+if %errorlevel% neq 0 exit %errorlevel%&#13;
+&#13;
+call "%npackdih%\InstallMSI.bat" INSTALLDIR</file>
+        <file path=".Npackd\Uninstall.bat">call "%npackdih%\UninstallMSI.bat"</file>
+        <file path=".Npackd\AddProperty.vbs">Option Explicit&#13;
+&#13;
+Dim MSI_FILE&#13;
+MSI_FILE = Wscript.Arguments(0)&#13;
+&#13;
+Dim installer, database, view&#13;
+&#13;
+Set installer = CreateObject("WindowsInstaller.Installer")&#13;
+Set database = installer.OpenDatabase(MSI_FILE, 1)&#13;
+&#13;
+Set view = database.OpenView("INSERT INTO Property (Property, Value) VALUES ('INSTALLDIR', 'C:\Go')")&#13;
+view.Execute&#13;
+'Set view = database.OpenView("DELETE FROM Directory WHERE Directory='TARGETDIR'")&#13;
+'view.Execute&#13;
+'Set view = database.OpenView("UPDATE Directory SET DefaultDir='INSTALLLOCATION' WHERE Directory='TARGETDIR'")&#13;
+'view.Execute&#13;
+database.Commit&#13;
+&#13;
+Set database = Nothing&#13;
+Set installer = Nothing&#13;
+Set view = Nothing&#13;
+</file>
+        <url>https://golang.org/dl/go1.11.windows-amd64.msi</url>
+        <hash-sum type="SHA-256">f8ef6bd15a2657833c5f520490265d1431299856c8fce4a64390347d6c536e2e</hash-sum>
+        <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1, 2)">
+            <variable>npackdih</variable>
+        </dependency>
+    </version>
 
     <version name="2.22.1" package="org.gtk.GTKPlusBundle64">
         <file path="etc\gtk-2.0\gtkrc">gtk-theme-name = "MS-Windows"</file>
@@ -25669,6 +25722,14 @@ if %err% neq 0 exit %err%&#13;
         <file path=".Npackd\Install.bat">call "%npackdih%\InstallMSI.bat" INSTALLDIR yes</file>
         <url>https://github.com/keepassxreboot/keepassxc/releases/download/2.3.3/KeePassXC-2.3.3-Win64.msi</url>
         <hash-sum type="SHA-256">cbafa14a8fb8f54ae2372946458935ab27900224aa714598bb5fdeb201027505</hash-sum>
+        <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.22, 2)">
+            <variable>npackdih</variable>
+        </dependency>
+    </version>
+    <version name="2.3.4" package="org.keepassxc.keepassxc" type="one-file">
+        <file path=".Npackd\Install.bat">call "%npackdih%\InstallMSI.bat" INSTALLDIR yes</file>
+        <url>https://github.com/keepassxreboot/keepassxc/releases/download/2.3.4/KeePassXC-2.3.4-Win64.msi</url>
+        <hash-sum type="SHA-256">a3db8244e4ea142eb79fedda7efcfbd738e7c9e05407b8a25f35948d17d1f63d</hash-sum>
         <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.22, 2)">
             <variable>npackdih</variable>
         </dependency>
@@ -26508,6 +26569,15 @@ rmdir "%name%"&#13;
 </file>
         <url>https://fastdl.mongodb.org/win32/mongodb-win32-x86_64-2008plus-ssl-4.0.1-signed.msi</url>
         <hash-sum type="SHA-256">234bebe451ca4601a8fd5016ede6b3ad424ac059dfcb3d0e76abf934f4143af4</hash-sum>
+        <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.1, 2)">
+            <variable>nih</variable>
+        </dependency>
+    </version>
+    <version name="4.0.2" package="org.mongodb.MongoDB64" type="one-file">
+        <file path=".Npackd\Install.bat">call "%nih%\InstallMSI.bat" INSTALLDIR yes&#13;
+</file>
+        <url>https://fastdl.mongodb.org/win32/mongodb-win32-x86_64-2008plus-ssl-4.0.2-signed.msi</url>
+        <hash-sum type="SHA-256">a54030c609ef1ae99b85a78b9d4f1ef2d34fea991fc023830108e779f7fbee26</hash-sum>
         <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.1, 2)">
             <variable>nih</variable>
         </dependency>
@@ -30049,6 +30119,20 @@ call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Np
 </file>
         <url>https://github.com/vim/vim-win32-installer/releases/download/v8.1.0315/gvim_8.1.0315_x64.zip</url>
         <hash-sum type="SHA-256">4f3967256d2cbf5767cef964f358584d382adf17902bca7dc02709343409b2d4</hash-sum>
+        <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.19, 2)">
+            <variable>nih</variable>
+        </dependency>
+    </version>
+    <version name="8.1.332" package="org.vim.Vim64">
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+if %errorlevel% neq 0 exit /b %errorlevel%&#13;
+&#13;
+for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+</file>
+        <url>https://github.com/vim/vim-win32-installer/releases/download/v8.1.0332/gvim_8.1.0332_x64.zip</url>
+        <hash-sum type="SHA-256">677efb86f5c69bae510abd82dcbc12ba115ddcdf127dc43b56dcc5fb5b4a9dd3</hash-sum>
         <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.19, 2)">
             <variable>nih</variable>
         </dependency>
