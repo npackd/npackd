@@ -927,7 +927,9 @@ x86_64</description>
     <package name="filezilla64">
         <title>FileZilla Client 64 bit</title>
         <url>http://filezilla-project.org/</url>
-        <description>FTP client
+        <description>WARNING: this package will not be updated anymore as there are no direct downloads available.&#13;
+&#13;
+FTP client
 x86_64</description>
         <icon>https://lh6.googleusercontent.com/-Da8GO8Yb2o0/T2h0IsnfhcI/AAAAAAAAAY4/1x8oC75rbPo/s800/org.filezilla-project.FileZillaClient.png</icon>
         <license>org.gnu.GPLv2</license>
@@ -6993,6 +6995,12 @@ if %err% neq 0 exit %err%</file>
         <file path=".Npackd\Uninstall.bat">uninstgs.exe /S</file>
         <url>https://github.com/ArtifexSoftware/ghostpdl-downloads/releases/download/gs923/gs923w64.exe</url>
         <sha1>1aad0d141c9e9ca6e388fc1deaf5edac23893cec</sha1>
+    </version>
+    <version name="9.24" package="com.ghostscript.Ghostscript64" type="one-file">
+        <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD%</file>
+        <file path=".Npackd\Uninstall.bat">uninstgs.exe /S</file>
+        <url>https://github.com/ArtifexSoftware/ghostpdl-downloads/releases/download/gs924/gs924w64.exe</url>
+        <hash-sum type="SHA-256">7539332681adf0f2484a131f662af990002305988e4dc04f0ccd99652d63ed85</hash-sum>
     </version>
 
     <version name="12.7.27.3" package="com.googlecode.conemu-maximus5.ConEmu64" type="one-file">
@@ -14626,6 +14634,17 @@ verify&#13;
             <variable>nih</variable>
         </dependency>
     </version>
+    <version name="2.14.2" package="hexchat64" type="one-file">
+        <file path=".Npackd\Install.bat">call "%nih%\InstallInnoSetup.bat"&#13;
+</file>
+        <file path=".Npackd\Uninstall.bat">call "%nih%\UninstallInnoSetup.bat" unins000.exe&#13;
+</file>
+        <url>https://dl.hexchat.net/hexchat/HexChat%202.14.2%20x64.exe</url>
+        <hash-sum type="SHA-256">7b9cbadb5754dd7fae7805b2d2a842db3eec538cfd23f0b914f3c6747dbabbde</hash-sum>
+        <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
+            <variable>nih</variable>
+        </dependency>
+    </version>
 
     <version name="8" package="housecall64" type="one-file">
         <important-file path="HousecallLauncher64.exe" title="HouseCall"/>
@@ -15074,6 +15093,17 @@ if %err% neq 0 exit %err%&#13;
 </file>
         <url>https://www.imagemagick.org/download/binaries/ImageMagick-7.0.8-10-Q16-x64-dll.exe</url>
         <hash-sum type="SHA-256">d5dc70cab2e43af28d0f4af80cd6b3b402dd483e671a517e066ed3350cedfd42</hash-sum>
+        <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
+            <variable>nih</variable>
+        </dependency>
+    </version>
+    <version name="7.0.8.11" package="imagemagick64" type="one-file">
+        <file path=".Npackd\Install.bat">call "%nih%\InstallInnoSetup.bat"&#13;
+</file>
+        <file path=".Npackd\Uninstall.bat">call "%nih%\UninstallInnoSetup.bat" unins000.exe&#13;
+</file>
+        <url>https://www.imagemagick.org/download/binaries/ImageMagick-7.0.8-11-Q16-x64-dll.exe</url>
+        <hash-sum type="SHA-256">cacc412e6da8053484dcc1718d216700db6a1abb409bd2a856976956f16fce54</hash-sum>
         <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
             <variable>nih</variable>
         </dependency>
@@ -25945,6 +25975,17 @@ if %errorlevel% neq 0 exit /b %errorlevel%&#13;
         <url>https://miktex.org/download/ctan/systems/win32/miktex/setup/windows-x64/basic-miktex-2.9.6753-x64.exe</url>
         <hash-sum type="SHA-256">07837a9d0135d26706ef31c47e1932aa00dc18e996e5b35eac437cbfa4959ccf</hash-sum>
     </version>
+    <version name="2.9.6813" package="org.miktex.MiKTeX64" type="one-file">
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
+"%setup%" --common-install="%CD%" --shared --unattended&#13;
+if %errorlevel% neq 0 exit /b %errorlevel%&#13;
+</file>
+        <file path=".Npackd\Unnstall.bat">miktex\bin\internal\copystart_admin.exe "%CD%\miktex/bin/internal\uninstall_admin.exe"&#13;
+if %errorlevel% neq 0 exit /b %errorlevel%&#13;
+</file>
+        <url>https://miktex.org/download/ctan/systems/win32/miktex/setup/windows-x64/basic-miktex-2.9.6813-x64.exe</url>
+        <hash-sum type="SHA-256">9e4c0c60997c0e1a04998872a7394d7618a9abef0c3e06052b3ff71ec0b751b6</hash-sum>
+    </version>
 
     <version name="0.9.19" package="org.miranda-im.MirandaIM64" type="one-file">
         <important-file path="miranda64.exe" title="Miranda IM"/>
@@ -30187,6 +30228,20 @@ call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Np
 </file>
         <url>https://github.com/vim/vim-win32-installer/releases/download/v8.1.0332/gvim_8.1.0332_x64.zip</url>
         <hash-sum type="SHA-256">677efb86f5c69bae510abd82dcbc12ba115ddcdf127dc43b56dcc5fb5b4a9dd3</hash-sum>
+        <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.19, 2)">
+            <variable>nih</variable>
+        </dependency>
+    </version>
+    <version name="8.1.347" package="org.vim.Vim64">
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+if %errorlevel% neq 0 exit /b %errorlevel%&#13;
+&#13;
+for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+</file>
+        <url>https://github.com/vim/vim-win32-installer/releases/download/v8.1.0347/gvim_8.1.0347_x64.zip</url>
+        <hash-sum type="SHA-256">873b1a7afca4365d9defc2e7a9c32743b036e0391c7ced305116ec7eb1f3e31a</hash-sum>
         <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.19, 2)">
             <variable>nih</variable>
         </dependency>
@@ -34543,6 +34598,15 @@ if %err% neq 0 exit %err%&#13;
 </file>
         <url>https://releases.hashicorp.com/vagrant/2.1.2/vagrant_2.1.2_x86_64.msi</url>
         <hash-sum type="SHA-256">492e01d5ef25bf97a5ba157d6ae2101e54f1b6965f41f05c5299dc701dc73182</hash-sum>
+        <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.1, 2)">
+            <variable>nih</variable>
+        </dependency>
+    </version>
+    <version name="2.1.4" package="vagrant64" type="one-file">
+        <file path=".Npackd\Install.bat">call "%nih%\InstallMSI.bat" INSTALLDIR yes&#13;
+</file>
+        <url>https://releases.hashicorp.com/vagrant/2.1.4/vagrant_2.1.4_x86_64.msi</url>
+        <hash-sum type="SHA-256">e2a25aa4834033a6e77f95edccd0d04679d75dc9cf67f5819e73f446f68058d5</hash-sum>
         <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.1, 2)">
             <variable>nih</variable>
         </dependency>
