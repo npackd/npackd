@@ -16045,6 +16045,15 @@ call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Np
         </dependency>
         <dependency package="com.oracle.JRE" versions="[1.6, 2)"/>
     </version>
+    <version name="6.1.1" package="libreoffice64" type="one-file">
+        <file path=".Npackd\Install.bat">call "%npackdih%\InstallMSI.bat" INSTALLLOCATION yes</file>
+        <url>https://download.documentfoundation.org/libreoffice/stable/6.1.1/win/x86_64/LibreOffice_6.1.1_Win_x64.msi</url>
+        <hash-sum type="SHA-256">05b7cd7d55dc5feb2f5da401c3676f0c091ad7db820424cca2aff77f8a300cb5</hash-sum>
+        <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.1, 2)">
+            <variable>npackdih</variable>
+        </dependency>
+        <dependency package="com.oracle.JRE" versions="[1.6, 2)"/>
+    </version>
 
     <version name="12.6" package="lightworks64" type="one-file">
         <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
@@ -19394,6 +19403,14 @@ if %err% neq 0 exit %err%&#13;
 </file>
         <url>http://downloads.sourceforge.net/project/smplayer/SMPlayer/18.6.0/smplayer-18.6.0-x64.exe</url>
         <hash-sum type="SHA-256">280d835137148cb7a887762fdee35da62924cc57d1f0364966177e6b7cb296a9</hash-sum>
+    </version>
+    <version name="18.9" package="net.sourceforge.smplayer.SMPlayer64" type="one-file">
+        <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD%&#13;
+</file>
+        <file path=".Npackd\Uninstall.bat">uninst.exe /S _?=%CD%        &#13;
+</file>
+        <url>http://downloads.sourceforge.net/project/smplayer/SMPlayer/18.9.0/smplayer-18.9.0-x64.exe</url>
+        <hash-sum type="SHA-256">19c28b9d934ba4058dca9db16a16ba0305abb0d9d8d56570434b93fb42dd8515</hash-sum>
     </version>
 
     <version name="2.42" package="net.sourceforge.strongdc.StrongDCPlusPlus64" type="one-file">
@@ -32466,6 +32483,14 @@ verify</file>
         <url>https://downloads.sourceforge.net/project/qbittorrent/qbittorrent-win32/qbittorrent-4.1.2/qbittorrent_4.1.2_x64_setup.exe</url>
         <hash-sum type="SHA-256">75984324e325590517fd22ea40758f4fdd719a8b06f3c4010cdc5d669f1ca9cb</hash-sum>
     </version>
+    <version name="4.1.3" package="qbittorrent-64-bit" type="one-file">
+        <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD%&#13;
+verify</file>
+        <file path=".Npackd\Uninstall.bat">uninst.exe /S _?=%CD%&#13;
+verify</file>
+        <url>https://downloads.sourceforge.net/project/qbittorrent/qbittorrent-win32/qbittorrent-4.1.3/qbittorrent_4.1.3_x64_setup.exe</url>
+        <hash-sum type="SHA-256">e7112cd115c43a0c84e528b03db43f9555ce68a6698b8203c0ead10a5bbc1023</hash-sum>
+    </version>
 
     <version name="3.12.4.1" package="qcad64" type="one-file">
         <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
@@ -32697,6 +32722,15 @@ lib.sendKeysToWindow("QCAD 3.12.4 Uninstall", "{ENTER}");&#13;
             <variable>nih</variable>
         </dependency>
     </version>
+    <version name="3.21.3" package="qcad64" type="one-file">
+        <file path=".Npackd\Install.bat">call "%nih%\InstallMSI.bat" INSTALLDIR yes&#13;
+</file>
+        <url>http://www.qcad.org/archives/qcad/qcad-3.21.3-trial-win64-installer.msi</url>
+        <hash-sum type="SHA-256">fa6c6ccd6b0bce7bf2122b91b3570cf61422a99fb57cf91851f53b686fb45660</hash-sum>
+        <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.1, 2)">
+            <variable>nih</variable>
+        </dependency>
+    </version>
 
     <version name="2.10.1" package="qgis64" type="one-file">
         <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
@@ -32867,6 +32901,14 @@ lib.sendKeysToWindow("QCAD 3.12.4 Uninstall", "{ENTER}");&#13;
 </file>
         <url>https://qgis.org/downloads/QGIS-OSGeo4W-3.2.2-1-Setup-x86_64.exe</url>
         <hash-sum type="SHA-256">b71ce585414b130652eebbaae59ee840bcae172a03440bf6975c54758408c2bd</hash-sum>
+    </version>
+    <version name="3.2.3" package="qgis64" type="one-file">
+        <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
+</file>
+        <file path=".Npackd\Uninstall.bat">uninstall.exe /S _?=%CD%&#13;
+</file>
+        <url>https://qgis.org/downloads/QGIS-OSGeo4W-3.2.3-1-Setup-x86_64.exe</url>
+        <hash-sum type="SHA-256">7e2c77f52e823233f156cdbbd4a2d99d428e53ff982b4056fa2b1e17f2ae3c44</hash-sum>
     </version>
 
     <version name="1.11" package="qtox64" type="one-file">
@@ -33860,6 +33902,10 @@ rem Install4j&#13;
         <url>https://www.sqlite.org/2018/sqlite-dll-win64-x64-3240000.zip</url>
         <hash-sum type="SHA-256">c5ddae8b2c4fd486695e745506fd073a4a594764963e384eea516eabfef23b4d</hash-sum>
     </version>
+    <version name="3.25.1" package="sqlite64">
+        <url>https://www.sqlite.org/2018/sqlite-dll-win64-x64-3250100.zip</url>
+        <hash-sum type="SHA-256">4569ca78fe3ff9ab24f20d7abc10dddf9cf815264a95d32ca1ac0168fc0292fa</hash-sum>
+    </version>
 
     <version name="10.50.1600.1" package="sqlncli64" type="one-file">
         <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.msi') do set setup=%%x&#13;
@@ -34526,6 +34572,14 @@ rmdir "%name%"</file>
         <url>https://www.sysgauge.com/setups_x64/sysgauge_setup_v5.1.14_x64.exe</url>
         <hash-sum type="SHA-256">3c8a12749a4697184c6a4205a5d41f960ebc7dfd9ab285f2265aa6393de39a77</hash-sum>
     </version>
+    <version name="5.2.18" package="sysgauge64" type="one-file">
+        <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
+</file>
+        <file path=".Npackd\Uninstall.bat">uninstall.exe /S _?=%CD%&#13;
+</file>
+        <url>https://www.sysgauge.com/setups_x64/sysgauge_setup_v5.2.18_x64.exe</url>
+        <hash-sum type="SHA-256">4624c275c0d15b15b2675d23bea4aa2bec37a4df1cd139c766ab2e568ebec91a</hash-sum>
+    </version>
 
     <version name="1" package="sysinternals-suite">
         <url>https://download.sysinternals.com/files/SysinternalsSuite.zip</url>
@@ -34870,6 +34924,15 @@ if %err% neq 0 exit %err%&#13;
 </file>
         <url>https://releases.hashicorp.com/vagrant/2.1.4/vagrant_2.1.4_x86_64.msi</url>
         <hash-sum type="SHA-256">e2a25aa4834033a6e77f95edccd0d04679d75dc9cf67f5819e73f446f68058d5</hash-sum>
+        <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.1, 2)">
+            <variable>nih</variable>
+        </dependency>
+    </version>
+    <version name="2.1.5" package="vagrant64" type="one-file">
+        <file path=".Npackd\Install.bat">call "%nih%\InstallMSI.bat" INSTALLDIR yes&#13;
+</file>
+        <url>https://releases.hashicorp.com/vagrant/2.1.5/vagrant_2.1.5_x86_64.msi</url>
+        <hash-sum type="SHA-256">ae1221b1489afc03b5782acb8feb91dd26b847bc4aad336f769f9242fde6d373</hash-sum>
         <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.1, 2)">
             <variable>nih</variable>
         </dependency>
