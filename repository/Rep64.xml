@@ -2953,6 +2953,14 @@ if %err% neq 0 exit %err%</file>
         <url>https://github.com/Superjo149/auryo/releases/download/v2.1.1/auryo-setup-2.1.1.exe</url>
         <hash-sum type="SHA-256">f317a8c0c85b89d40b1e2a9119066017136289337aefdc6b5fab47d53dc65dce</hash-sum>
     </version>
+    <version name="2.1.2" package="auryo" type="one-file">
+        <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
+</file>
+        <file path=".Npackd\Uninstall.bat">uninstall.exe /S _?=%CD%&#13;
+</file>
+        <url>https://github.com/Superjo149/auryo/releases/download/v2.1.2/auryo-setup-2.1.2.exe</url>
+        <hash-sum type="SHA-256">e93815184f68f672b9de7793514c36a36eecec6d1b31e818f95fa2086cec382e</hash-sum>
+    </version>
 
     <version name="0.11.1" package="bitcoin-core64" type="one-file">
         <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
@@ -14853,6 +14861,17 @@ verify&#13;
         <url>https://ayera.dl.sourceforge.net/project/hammerdb/HammerDB/HammerDB-3.0/HammerDB-3.0-Win-x86-64-Setup.exe</url>
         <hash-sum type="SHA-256">be14d666456aca42823381e844c83f4f42e93447860d1509a7d4bd29c764fefb</hash-sum>
     </version>
+    <version name="3.1" package="hammerdb64" type="one-file">
+        <file path=".Npackd\Install.bat">"%npackd_package_binary%" /mode silent /prefix "%cd%"&#13;
+if %errorlevel% neq 0 exit /b %errorlevel%&#13;
+&#13;
+del /f /q "%npackd_package_binary%"&#13;
+verify&#13;
+</file>
+        <file path=".Npackd\Uninstall.bat">uninstall.exe /mode silent</file>
+        <url>https://ayera.dl.sourceforge.net/project/hammerdb/HammerDB/HammerDB-3.1/HammerDB-3.1-Win-x86-64-Setup.exe</url>
+        <hash-sum type="SHA-256">d3e2caa2b0de57e16f3cc55516253bb7abbebc3132fc4224a466922e6b4f45ad</hash-sum>
+    </version>
 
     <version name="2.2" package="hashmyfiles64">
         <important-file path="HashMyFiles.exe" title="HashMyFiles"/>
@@ -15411,7 +15430,7 @@ if %err% neq 0 exit %err%&#13;
         </dependency>
         <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.15.7, 2)"/>
     </version>
-    <version name="0.29" package="io.mpv.mpv-64" type="one-file">
+    <version name="0.29.1" package="io.mpv.mpv-64" type="one-file">
         <file path=".Npackd\Install.bat">for /f %%x in ('dir /b *.7z') do set setup=%%x&#13;
 "%sevenzipa%\7za.exe" x "%setup%" &gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt</file>
         <url>http://mpv.srsfckn.biz/mpv-x86_64-latest.7z</url>
@@ -16116,6 +16135,15 @@ call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Np
         </dependency>
         <dependency package="com.oracle.JRE" versions="[1.6, 2)"/>
     </version>
+    <version name="6.1.2" package="libreoffice64" type="one-file">
+        <file path=".Npackd\Install.bat">call "%npackdih%\InstallMSI.bat" INSTALLLOCATION yes</file>
+        <url>https://download.documentfoundation.org/libreoffice/stable/6.1.2/win/x86_64/LibreOffice_6.1.2_Win_x64.msi</url>
+        <hash-sum type="SHA-256">ddd4cf674cc2543f7d5f375562853386793fc6003fe70fa270baf905af7f00fe</hash-sum>
+        <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.1, 2)">
+            <variable>npackdih</variable>
+        </dependency>
+        <dependency package="com.oracle.JRE" versions="[1.6, 2)"/>
+    </version>
 
     <version name="12.6" package="lightworks64" type="one-file">
         <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
@@ -16218,6 +16246,14 @@ if %err% neq 0 exit %err%&#13;
 </file>
         <url>https://github.com/manisandro/gImageReader/releases/download/v3.2.99/gImageReader_3.2.99_qt5_x86_64.exe</url>
         <sha1>ce9ee66f67fc79c7731bd72443fa510313d5d129</sha1>
+    </version>
+    <version name="3.3" package="manisandro.gImageReader64" type="one-file">
+        <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
+</file>
+        <file path=".Npackd\Uninstall.bat">uninstall.exe /S _?=%CD%&#13;
+</file>
+        <url>https://github.com/manisandro/gImageReader/releases/download/v3.3.0/gImageReader_3.3.0_qt5_x86_64.exe</url>
+        <hash-sum type="SHA-256">6ae3455e8fd2943dfb1e202a4735e6aa878f437d5b1f0672b30f32d01114ce13</hash-sum>
     </version>
 
     <version name="1.9.1" package="marble64" type="one-file">
@@ -20822,6 +20858,29 @@ WshShell.SendKeys("{ESC}");&#13;
         <url>https://download.openmpt.org/OpenMPT-1.27.09.00-Setup-x64.exe</url>
         <hash-sum type="SHA-256">14c63bb6869c370a94b6a5eba221ba32ed58f20864e837341d4b86d2c6ada893</hash-sum>
     </version>
+    <version name="1.27.10" package="openmpt64" type="one-file">
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
+"%setup%" /SP- /VERYSILENT /SUPPRESSMSGBOXES /NOCANCEL /NORESTART /DIR="%CD%" /SAVEINF="%CD%\.Npackd\InnoSetupInfo.ini" /LOG="%CD%\.Npackd\InnoSetupInstall.log" &amp;&amp; del /f /q "%setup%"&#13;
+set err=%errorlevel%&#13;
+type .Npackd\InnoSetupInstall.log&#13;
+if %err% neq 0 exit %err%&#13;
+</file>
+        <file path=".Npackd\Uninstall.bat">start "Confirm Uninstall" cscript //Nologo //B //E:JScript //T:300 //U .Npackd\ConfirmUninstall.js&#13;
+&#13;
+unins000.exe /VERYSILENT /SUPPRESSMSGBOXES /NORESTART /LOG="%CD%\.Npackd\InnoSetupUninstall.log"&#13;
+set err=%errorlevel%&#13;
+type .Npackd\InnoSetupUninstall.log&#13;
+if %err% neq 0 exit %err%&#13;
+</file>
+        <file path=".Npackd\ConfirmUninstall.js">var WshShell = WScript.CreateObject("WScript.Shell");&#13;
+WScript.Sleep(60000);&#13;
+WshShell.AppActivate("Uninstall");&#13;
+WScript.Sleep(10000);&#13;
+WshShell.SendKeys("{ESC}");&#13;
+</file>
+        <url>https://download.openmpt.org/OpenMPT-1.27.10.00-Setup-x64.exe</url>
+        <hash-sum type="SHA-256">46d0d16e78e71bd6e72d25182af734273057d9b40938f0f2cc631d76c5c5291c</hash-sum>
+    </version>
 
     <version name="2015.3.2" package="openscad64" type="one-file">
         <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
@@ -22155,6 +22214,21 @@ rmdir "%name%"
 </file>
         <url>http://archive.apache.org/dist/tomcat/tomcat-7/v7.0.90/bin/apache-tomcat-7.0.90-windows-x64.zip</url>
         <hash-sum type="SHA-256">c6eb7e34cb04f69db0955ff70acf2503dda42abecd99f78842e58882046998ba</hash-sum>
+        <dependency package="com.oracle.JRE" versions="[1.5, 2)"/>
+    </version>
+    <version name="7.0.91" package="org.apache.tomcat.Tomcat64">
+        <important-file path="bin\startup.bat" title="Start"/>
+        <important-file path="bin\shutdown.bat" title="Stop"/>
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b apache*') do set name=%%x
+cd "%name%"        
+for /f "delims=" %%a in ('dir /b') do (
+  move "%%a" ..
+)
+cd ..
+rmdir "%name%"
+</file>
+        <url>http://archive.apache.org/dist/tomcat/tomcat-7/v7.0.91/bin/apache-tomcat-7.0.91-windows-x64.zip</url>
+        <hash-sum type="SHA-256">87e0a6c1eb0e1d32c845d81fc3c923622e12e83b8b9248171c868bb07cdf4848</hash-sum>
         <dependency package="com.oracle.JRE" versions="[1.5, 2)"/>
     </version>
 
@@ -25911,6 +25985,40 @@ Set view = Nothing&#13;
 </file>
         <url>https://golang.org/dl/go1.11.windows-amd64.msi</url>
         <hash-sum type="SHA-256">f8ef6bd15a2657833c5f520490265d1431299856c8fce4a64390347d6c536e2e</hash-sum>
+        <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1, 2)">
+            <variable>npackdih</variable>
+        </dependency>
+    </version>
+    <version name="1.11.1" package="org.golang.Go64" type="one-file">
+        <file path=".Npackd\Install.bat">.Npackd\AddProperty.vbs "%npackd_package_binary%"&#13;
+if %errorlevel% neq 0 exit %errorlevel%&#13;
+&#13;
+call "%npackdih%\InstallMSI.bat" INSTALLDIR</file>
+        <file path=".Npackd\Uninstall.bat">call "%npackdih%\UninstallMSI.bat"</file>
+        <file path=".Npackd\AddProperty.vbs">Option Explicit&#13;
+&#13;
+Dim MSI_FILE&#13;
+MSI_FILE = Wscript.Arguments(0)&#13;
+&#13;
+Dim installer, database, view&#13;
+&#13;
+Set installer = CreateObject("WindowsInstaller.Installer")&#13;
+Set database = installer.OpenDatabase(MSI_FILE, 1)&#13;
+&#13;
+Set view = database.OpenView("INSERT INTO Property (Property, Value) VALUES ('INSTALLDIR', 'C:\Go')")&#13;
+view.Execute&#13;
+'Set view = database.OpenView("DELETE FROM Directory WHERE Directory='TARGETDIR'")&#13;
+'view.Execute&#13;
+'Set view = database.OpenView("UPDATE Directory SET DefaultDir='INSTALLLOCATION' WHERE Directory='TARGETDIR'")&#13;
+'view.Execute&#13;
+database.Commit&#13;
+&#13;
+Set database = Nothing&#13;
+Set installer = Nothing&#13;
+Set view = Nothing&#13;
+</file>
+        <url>https://golang.org/dl/go1.11.1.windows-amd64.msi</url>
+        <hash-sum type="SHA-256">74ed33958f65f8f294c3bf4dc80cd912e1e8c4820bb35f42fc75059a2e37e493</hash-sum>
         <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1, 2)">
             <variable>npackdih</variable>
         </dependency>
@@ -30629,6 +30737,20 @@ call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Np
             <variable>nih</variable>
         </dependency>
     </version>
+    <version name="8.1.450" package="org.vim.Vim64">
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+if %errorlevel% neq 0 exit /b %errorlevel%&#13;
+&#13;
+for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+</file>
+        <url>https://github.com/vim/vim-win32-installer/releases/download/v8.1.0450/gvim_8.1.0450_x64.zip</url>
+        <hash-sum type="SHA-256">74830ec225ed5e935c2ce17d7f650f48c13f50488c4482d5dbf7d2f7ec76bbf4</hash-sum>
+        <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.19, 2)">
+            <variable>nih</variable>
+        </dependency>
+    </version>
 
     <version name="4.2.8.83876" package="org.virtualbox.virtualbox64" type="one-file">
         <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
@@ -32246,6 +32368,16 @@ echo DesktopShortcut=false &gt;&gt; .Npackd\FF.ini&#13;
 </file>
         <url>https://github.com/jgm/pandoc/releases/download/2.3/pandoc-2.3-windows-x86_64.msi</url>
         <hash-sum type="SHA-256">11355b3bfb337fb1d9896a8dc4219ce44d2a0fbfc7b92820c879b7a1e68c3705</hash-sum>
+        <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.1, 2)">
+            <variable>nih</variable>
+        </dependency>
+        <dependency package="org.miktex.MiKTeX" versions="[2.9, 3)"/>
+    </version>
+    <version name="2.3.1" package="pandoc64" type="one-file">
+        <file path=".Npackd\Install.bat">call "%nih%\InstallMSI.bat" INSTALLDIR yes&#13;
+</file>
+        <url>https://github.com/jgm/pandoc/releases/download/2.3.1/pandoc-2.3.1-windows-x86_64.msi</url>
+        <hash-sum type="SHA-256">68460fe71aea2d875b7abfdbbe3bfcc13b48d568c58eed282f8a0b9714f5466e</hash-sum>
         <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.1, 2)">
             <variable>nih</variable>
         </dependency>
@@ -34037,6 +34169,10 @@ rem Install4j&#13;
         <url>https://www.sqlite.org/2018/sqlite-dll-win64-x64-3250100.zip</url>
         <hash-sum type="SHA-256">4569ca78fe3ff9ab24f20d7abc10dddf9cf815264a95d32ca1ac0168fc0292fa</hash-sum>
     </version>
+    <version name="3.25.2" package="sqlite64">
+        <url>https://www.sqlite.org/2018/sqlite-dll-win64-x64-3250200.zip</url>
+        <hash-sum type="SHA-256">1694dc168bf9fe4c8cbe470903e5c89a5aed6e026c35dc65d7760a50f40ea872</hash-sum>
+    </version>
 
     <version name="10.50.1600.1" package="sqlncli64" type="one-file">
         <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.msi') do set setup=%%x&#13;
@@ -35154,6 +35290,28 @@ if %err% neq 0 exit /b %err%&#13;
 </file>
         <url>https://downloads.vivaldi.com/stable/Vivaldi.1.15.1147.64.x64.exe</url>
         <hash-sum type="SHA-256">125af5aa2e75a0d4f034bc6b4927e77a9c3505c0d308c578b3f0d04972865b13</hash-sum>
+        <dependency package="net.nirsoft.MyUninstaller" versions="[1.74, 2)">
+            <variable>myun</variable>
+        </dependency>
+    </version>
+    <version name="2.0.1309.29" package="vivaldi-browser-64" type="one-file">
+        <file path=".Npackd\Install.bat">"%npackd_package_binary%" &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
+</file>
+        <file path=".Npackd\Uninstall.bat">"%myun%\myuninst.exe" /uninstall "vivaldi-browser-64"&#13;
+</file>
+        <url>https://downloads.vivaldi.com/stable/Vivaldi.2.0.1309.29.x64.exe</url>
+        <hash-sum type="SHA-256">02462bb43379a866f23152791ed40ca99fb303e1e7a83b70b357d25e9587163d</hash-sum>
+        <dependency package="net.nirsoft.MyUninstaller" versions="[1.74, 2)">
+            <variable>myun</variable>
+        </dependency>
+    </version>
+    <version name="2.0.1309.37" package="vivaldi-browser-64" type="one-file">
+        <file path=".Npackd\Install.bat">"%npackd_package_binary%" &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
+</file>
+        <file path=".Npackd\Uninstall.bat">"%myun%\myuninst.exe" /uninstall "vivaldi-browser-64"&#13;
+</file>
+        <url>https://downloads.vivaldi.com/stable/Vivaldi.2.0.1309.37.x64.exe</url>
+        <hash-sum type="SHA-256">f090f73871a3d6a7279e5f8e4e8bf357b77df5fec3d01ea45db9327d448c095d</hash-sum>
         <dependency package="net.nirsoft.MyUninstaller" versions="[1.74, 2)">
             <variable>myun</variable>
         </dependency>
