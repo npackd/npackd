@@ -2849,6 +2849,14 @@ x86_64</description>
         <url>https://repo.continuum.io/archive/Anaconda3-5.2.0-Windows-x86_64.exe</url>
         <sha1>555a4c6bbe0689a5e7418859c33e6cd6c0d982db</sha1>
     </version>
+    <version name="5.3" package="anaconda64" type="one-file">
+        <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
+</file>
+        <file path=".Npackd\Uninstall.bat">Uninstall-Anaconda3.exe /S _?=%CD%&#13;
+</file>
+        <url>https://repo.continuum.io/archive/Anaconda3-5.3.0-Windows-x86_64.exe</url>
+        <sha1>f0f539277e735f8a0435b218c663cd8aa9572b72</sha1>
+    </version>
 
     <version name="2.4.33" package="apache-httpd64">
         <url>http://de.apachehaus.com/downloads/httpd-2.4.33-lre-2.7.3-x64-vc14-r3.zip</url>
@@ -2857,6 +2865,10 @@ x86_64</description>
     <version name="2.4.34" package="apache-httpd64">
         <url>http://de.apachehaus.com/downloads/httpd-2.4.33-lre-2.7.3-x64-vc14-r3.zip</url>
         <sha1>45e0e0d4015ffe9b7b769311021fbbe0412b55aa</sha1>
+    </version>
+    <version name="2.4.35" package="apache-httpd64">
+        <url>http://de.apachehaus.com/downloads/httpd-2.4.35-lre-2.7.4-x64-vc14.zip</url>
+        <sha1>096936dc05df4e8887f7c467755294d078347de8</sha1>
     </version>
 
     <version name="3.1.3" package="apple-application-support64" type="one-file">
@@ -6971,6 +6983,15 @@ call "%npackdih%\InstallMSI.bat" APPLICATIONFOLDER yes&#13;
 </file>
         <url>https://download.calibre-ebook.com/3.31.0/calibre-64bit-3.31.0.msi</url>
         <hash-sum type="SHA-256">150de859478ea323ad12c375343c2733a1f1e0a47a67434a0f9d2928bb907cca</hash-sum>
+        <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.2, 2)">
+            <variable>npackdih</variable>
+        </dependency>
+    </version>
+    <version name="3.32" package="com.calibreebook.Calibre64" type="one-file">
+        <file path=".Npackd\Install.bat">call "%npackdih%\InstallMSI.bat" APPLICATIONFOLDER yes&#13;
+</file>
+        <url>https://download.calibre-ebook.com/3.32.0/calibre-64bit-3.32.0.msi</url>
+        <hash-sum type="SHA-256">76e5de52d81cf0eb949146bb54185f1b8ee0c169e9ea3d603cf571ebb8ab32c5</hash-sum>
         <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.2, 2)">
             <variable>npackdih</variable>
         </dependency>
@@ -12043,6 +12064,17 @@ if %err% neq 0 exit %err%&#13;
         <file path=".Npackd\Uninstall.bat">"%nih%\UninstallInnoSetup.bat" unins000.exe</file>
         <url>https://github.com/conan-io/conan/releases/download/1.6.1/conan-win-64_1_6_1.exe</url>
         <hash-sum type="SHA-256">49811aa58465a0a01494a3ea0da19ca1262a55c088f82bbf1f271bc9657790d5</hash-sum>
+        <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
+            <variable>nih</variable>
+        </dependency>
+    </version>
+    <version name="1.7.4" package="conan64" type="one-file">
+        <cmd-file path="conan\conan.exe"/>
+        <file path=".Npackd\Install.bat">"%nih%\InstallInnoSetup.bat"&#13;
+</file>
+        <file path=".Npackd\Uninstall.bat">"%nih%\UninstallInnoSetup.bat" unins000.exe</file>
+        <url>https://github.com/conan-io/conan/releases/download/1.7.4/conan-win-64_1_7_4.exe</url>
+        <hash-sum type="SHA-256">1cbf1364652668993061cf49e16b0aa7f6ea3652091bd5e2749e0b8405a5ead3</hash-sum>
         <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
             <variable>nih</variable>
         </dependency>
