@@ -13603,6 +13603,17 @@ verify</file>
         <url>https://download-origin.cdn.mozilla.net/pub/devedition/releases/62.0b5/win64/en-US/Firefox%20Setup%2062.0b5.exe</url>
         <hash-sum type="SHA-256">08654ca796bf088a15611cd6ed10ac6b4050904def2ef1e31cdc0e8af5e3ada8</hash-sum>
     </version>
+    <version name="64.0.2" package="firefox-developer-edition64" type="one-file">
+        <file path=".Npackd\Install.bat">echo [Install] &gt; .Npackd\FF.ini&#13;
+echo InstallDirectoryPath=%CD% &gt;&gt; .Npackd\FF.ini&#13;
+echo QuickLaunchShortcut=false &gt;&gt; .Npackd\FF.ini&#13;
+echo DesktopShortcut=false &gt;&gt; .Npackd\FF.ini&#13;
+"%npackd_package_binary%" /INI="%CD%\.Npackd\FF.ini" &amp;&amp; del /f /q "%npackd_package_binary%"</file>
+        <file path=".Npackd\Uninstall.bat">uninstall\helper.exe /S&#13;
+verify</file>
+        <url>https://download-origin.cdn.mozilla.net/pub/devedition/releases/64.0b2/win64/en-US/Firefox%20Setup%2064.0b2.exe</url>
+        <hash-sum type="SHA-256">6011cf9eb60f77f836812660397bd5faf43b6b8d3eb121aabb829e4e84819e33</hash-sum>
+    </version>
 
     <version name="43" package="firefox64" type="one-file">
         <file path=".Npackd\Install.bat">echo [Install] &gt; .Npackd\FF.ini&#13;
