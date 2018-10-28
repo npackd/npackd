@@ -16533,6 +16533,14 @@ if %err% neq 0 exit %err%&#13;
         <url>https://ayera.dl.sourceforge.net/project/maxima/Maxima-Windows/5.39.0-Windows/maxima-clisp-sbcl-5.39.0.exe</url>
         <sha1>797cad186d91d0972f2a8cb03217f628cab042ed</sha1>
     </version>
+    <version name="5.42.1" package="maxima64" type="one-file">
+        <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
+</file>
+        <file path=".Npackd\Uninstall.bat">uninstall.exe /S _?=%CD%&#13;
+</file>
+        <url>https://ayera.dl.sourceforge.net/project/maxima/Maxima-Windows/5.42.1-Windows/maxima-clisp-sbcl-5.42.1-win64.exe</url>
+        <hash-sum type="SHA-256">d4f14e263c21ce6518cd04c5a6ac9c99335fce8756e2fd2db6b6cb15a8c00576</hash-sum>
+    </version>
 
     <version name="3.1" package="mevislab64" type="one-file">
         <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
@@ -18122,6 +18130,15 @@ if %err% neq 0 exit %err%</file>
         <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
 "%setup%" /auto "TARGETDIR=%CD%" CHECKFORUPDATES=0 JPGPNGBMPEDITOR=0 TGAEDITOR=0 DESKTOPSHORTCUT=0</file>
         <url>http://www.dotpdn.com/files/paint.net.4.1.1.install.zip</url>
+        <dependency package="com.microsoft.DotNetRedistributable" versions="[4.5, 10)"/>
+        <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.1, 2)">
+            <variable>npackdih</variable>
+        </dependency>
+    </version>
+    <version name="4.1.2" package="net.getpaint.paintdotnet64">
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
+"%setup%" /auto "TARGETDIR=%CD%" CHECKFORUPDATES=0 JPGPNGBMPEDITOR=0 TGAEDITOR=0 DESKTOPSHORTCUT=0</file>
+        <url>http://www.dotpdn.com/files/paint.net.4.1.2.install.zip</url>
         <dependency package="com.microsoft.DotNetRedistributable" versions="[4.5, 10)"/>
         <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.1, 2)">
             <variable>npackdih</variable>
@@ -19760,6 +19777,14 @@ if %err% neq 0 exit %err%&#13;
 </file>
         <url>http://downloads.sourceforge.net/project/smplayer/SMPlayer/18.9.0/smplayer-18.9.0-x64.exe</url>
         <hash-sum type="SHA-256">19c28b9d934ba4058dca9db16a16ba0305abb0d9d8d56570434b93fb42dd8515</hash-sum>
+    </version>
+    <version name="18.10" package="net.sourceforge.smplayer.SMPlayer64" type="one-file">
+        <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD%&#13;
+</file>
+        <file path=".Npackd\Uninstall.bat">uninst.exe /S _?=%CD%        &#13;
+</file>
+        <url>http://downloads.sourceforge.net/project/smplayer/SMPlayer/18.10.0/smplayer-18.10.0-x64.exe</url>
+        <hash-sum type="SHA-256">2fde1b443ba52f169f9f1c2a5ce794bd03b78eb4a9c79cb079df53ba4cbf98b6</hash-sum>
     </version>
 
     <version name="2.42" package="net.sourceforge.strongdc.StrongDCPlusPlus64" type="one-file">
