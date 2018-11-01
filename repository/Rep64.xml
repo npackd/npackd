@@ -904,7 +904,7 @@ x86_64</description>
         <url>https://etcher.io/</url>
         <description>an SD card flasher app that is simple for end users, extensible for developers, and works on any platform
 x86_64</description>
-        <icon>https://etcher.io/static/favicon.ico</icon>
+        <icon>https://www.balena.io/static/favicon-1cca17fb2763770422e49a1e4a9ae6b2.ico</icon>
         <license>org.apache.ApacheLicense2</license>
         <category>Tools</category>
         <link href="https://etcher.io/changelog/" rel="changelog"/>
@@ -1667,6 +1667,31 @@ x86_64</description>
     </package>
     <package name="open-broadcaster-software">
         <title>Open Broadcaster Software</title>
+        <url>https://obsproject.com/</url>
+        <description>Free, open source software for live streaming and recording&#13;
+&#13;
+Open Broadcaster Software is free and open source software for video recording and live streaming. Supported features include:&#13;
+&#13;
+- Encoding using H264 (x264) and AAC.&#13;
+- Support for Intel Quick Sync Video (QSV) and NVENC.&#13;
+- Unlimited number of scenes and sources.&#13;
+- Live RTMP streaming to Twitch, YouTube, DailyMotion, Hitbox and more.&#13;
+- File output to MP4 or FLV.&#13;
+- GPU-based game capture for high performance game streaming.&#13;
+- DirectShow capture device support (webcams, capture cards, etc).&#13;
+- Windows 8 high speed monitor capture support.&#13;
+- Bilinear or lanczos3 resampling.&#13;
+&#13;
+kw: obs, screen, cast
+x86_64</description>
+        <icon>https://obsproject.com/assets/images/new_icon_small.png</icon>
+        <license>org.gnu.GPLv2</license>
+        <category>Video</category>
+        <link href="https://obsproject.com/changelog" rel="changelog"/>
+        <link href="https://obsproject.com/assets/images/studio_mode.png" rel="screenshot"/>
+    </package>
+    <package name="open-broadcaster-software64">
+        <title>Open Broadcaster Software 64 bit</title>
         <url>https://obsproject.com/</url>
         <description>Free, open source software for live streaming and recording&#13;
 &#13;
@@ -10492,7 +10517,7 @@ del Q-Dir.ini&#13;
         <url>http://files.npackd.org/com.softwareok.QDir64-5.99.9.zip</url>
         <sha1>fb6060796fae3fc641ba34fe1f2f8530d7c985a8</sha1>
     </version>
-    <version name="7.24" package="com.softwareok.QDir64">
+    <version name="7.25" package="com.softwareok.QDir64">
         <important-file path="Q-Dir.exe" title="Q-Dir"/>
         <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b Q*') do set name=%%x&#13;
 cd "%name%"        &#13;
@@ -13338,6 +13363,20 @@ rmdir "%name%"&#13;
         <hash-sum type="SHA-256">80d3f80cffc8dd71254dd7eeb2a11489f79c2f480c5291eeeaebdd38dc96ea98</hash-sum>
         <dependency package="com.oracle.JRE64" versions="[1.6, 2)"/>
     </version>
+    <version name="2018.12" package="eclipse-rcp64">
+        <important-file path="eclipse.exe" title="Eclipse IDE for Java"/>
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b eclipse*') do set name=%%x&#13;
+cd "%name%"        &#13;
+for /f "delims=" %%a in ('dir /b') do (&#13;
+  move "%%a" ..&#13;
+)&#13;
+cd ..&#13;
+rmdir "%name%"&#13;
+</file>
+        <url>http://download.eclipse.org/technology/epp/downloads/release/2018-09/R/eclipse-rcp-2018-09-win32-x86_64.zip</url>
+        <hash-sum type="SHA-256">80d3f80cffc8dd71254dd7eeb2a11489f79c2f480c5291eeeaebdd38dc96ea98</hash-sum>
+        <dependency package="com.oracle.JRE64" versions="[1.6, 2)"/>
+    </version>
 
     <version name="25.1" package="emacs64">
         <important-file path="bin\runemacs.exe" title="Emacs"/>
@@ -14406,7 +14445,7 @@ if %err% neq 0 exit %err%&#13;
         </dependency>
     </version>
 
-    <version name="70.0.3538.67" package="google-chrome-x64" type="one-file">
+    <version name="70.0.3538.77" package="google-chrome-x64" type="one-file">
         <file path=".Npackd\Install.bat">call "%npackdih%\InstallMSI.bat" TARGETDIR yes&#13;
 </file>
         <url>https://dl.google.com/tag/s/appguid%3D%7B8A69D345-D564-463C-AFF1-A69D9E530F96%7D%26iid%3D%7B0A558A36-0536-8B3F-0AE0-420553CC97F3%7D%26lang%3Den%26browser%3D4%26usagestats%3D0%26appname%3DGoogle%2520Chrome%26needsadmin%3DFalse/edgedl/chrome/install/GoogleChromeStandaloneEnterprise64.msi</url>
@@ -20826,6 +20865,18 @@ verify&#13;
         <file path=".Npackd\Uninstall.bat">"%myun%\myuninst.exe" /uninstall "Open Broadcaster Software"</file>
         <url>https://github.com/jp9000/obs-studio/releases/download/22.0.2/OBS-Studio-22.0.2-Full-Installer-x86.exe</url>
         <hash-sum type="SHA-256">9ab68e33c3a47bad5c7068e2db4622da408ad8f21408db94d5dfc3c96ea035f7</hash-sum>
+        <dependency package="net.nirsoft.MyUninstaller" versions="[1.74, 2)">
+            <variable>myun</variable>
+        </dependency>
+    </version>
+
+    <version name="22.0.2" package="open-broadcaster-software64" type="one-file">
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
+"%setup%" /S /D=%CD% &amp;&amp; del /f /q "%setup%"&#13;
+</file>
+        <file path=".Npackd\Uninstall.bat">"%myun%\myuninst.exe" /uninstall "Open Broadcaster Software"</file>
+        <url>https://github.com/jp9000/obs-studio/releases/download/22.0.2/OBS-Studio-22.0.2-Full-Installer-x64.exe</url>
+        <hash-sum type="SHA-256">c6f01cec8c7c8a8512f9051247de4cb7b3cb89ec5ec76e53d6826bbe23966350</hash-sum>
         <dependency package="net.nirsoft.MyUninstaller" versions="[1.74, 2)">
             <variable>myun</variable>
         </dependency>
