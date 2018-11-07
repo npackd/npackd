@@ -18244,6 +18244,15 @@ if %err% neq 0 exit %err%</file>
             <variable>npackdih</variable>
         </dependency>
     </version>
+    <version name="4.1.4" package="net.getpaint.paintdotnet64">
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
+"%setup%" /auto "TARGETDIR=%CD%" CHECKFORUPDATES=0 JPGPNGBMPEDITOR=0 TGAEDITOR=0 DESKTOPSHORTCUT=0</file>
+        <url>http://www.dotpdn.com/files/paint.net.4.1.4.install.zip</url>
+        <dependency package="com.microsoft.DotNetRedistributable" versions="[4.5, 10)"/>
+        <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.1, 2)">
+            <variable>npackdih</variable>
+        </dependency>
+    </version>
 
     <version name="11.529" package="net.maxon.cinebench.Cinebench64">
         <file path=".Npackd\Install.bat">rd /s /q "CINEBENCH OSX.app"&#13;
@@ -33053,6 +33062,16 @@ echo DesktopShortcut=false &gt;&gt; .Npackd\FF.ini&#13;
         <file path=".Npackd\Uninstall.bat">uninstall\helper.exe /S</file>
         <url>http://relmirror.palemoon.org/release/palemoon-27.9.4.win64.installer.exe</url>
         <hash-sum type="SHA-256">14d46b3382ef8f30d8b662d4e7420f441260f6da393e2ca81320fe353ffe0c08</hash-sum>
+    </version>
+    <version name="28.1" package="pale-moon64" type="one-file">
+        <file path=".Npackd\Install.bat">echo [Install] &gt; .Npackd\FF.ini&#13;
+echo InstallDirectoryPath=%CD% &gt;&gt; .Npackd\FF.ini&#13;
+echo QuickLaunchShortcut=false &gt;&gt; .Npackd\FF.ini&#13;
+echo DesktopShortcut=false &gt;&gt; .Npackd\FF.ini&#13;
+"%npackd_package_binary%" /INI="%CD%\.Npackd\FF.ini" &amp;&amp; del /f /q "%npackd_package_binary%"</file>
+        <file path=".Npackd\Uninstall.bat">uninstall\helper.exe /S</file>
+        <url>http://relmirror.palemoon.org/release/palemoon-28.1.0.win64.installer.exe</url>
+        <hash-sum type="SHA-256">a1db58e9cf5fdd240ceb94d692d47c243b384a427ca8b97304f457b19121bf04</hash-sum>
     </version>
 
     <version name="2.2.1" package="pandoc64" type="one-file">
