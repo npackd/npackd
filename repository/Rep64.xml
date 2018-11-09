@@ -2400,6 +2400,15 @@ x86_64</description>
         <icon>http://qgis.org/de/_static/logo.png</icon>
         <category>Tools</category>
     </package>
+    <package name="Qt-Bitcoin-Trader64">
+        <title>Qt Bitcoin Trader 64 bit</title>
+        <url>https://sourceforge.net/projects/bitcointrader/</url>
+        <description>WARNING: this package always installs the newest version.&#13;
+helps you open and cancel Mt.Gox, BTC-e, Bitstamp, BTCChina orders very fast. Real time data monitoring.
+x86_64</description>
+        <icon>http://upload.wikimedia.org/wikipedia/commons/5/50/Bitcoin.png</icon>
+        <category>Finance</category>
+    </package>
     <package name="qtox64">
         <title>qTox 64 bit</title>
         <url>https://tox.chat/</url>
@@ -15965,6 +15974,18 @@ rmdir "%name%"&#13;
         <url>https://dist.ipfs.io/go-ipfs/v0.4.17/go-ipfs_v0.4.17_windows-amd64.zip</url>
         <hash-sum type="SHA-256">3a7a40f32fd6f2db998dc28bba3e171f5f5a3461349b61ba6c02cb44489bcadc</hash-sum>
     </version>
+    <version name="0.4.18" package="ipfs64">
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b go-ipfs*') do set name=%%x&#13;
+cd "%name%"&#13;
+for /f "delims=" %%a in ('dir /b') do (&#13;
+  move "%%a" ..&#13;
+)&#13;
+cd ..&#13;
+rmdir "%name%"&#13;
+</file>
+        <url>https://dist.ipfs.io/go-ipfs/v0.4.18/go-ipfs_v0.4.18_windows-amd64.zip</url>
+        <hash-sum type="SHA-256">9772bde679cb63c9d5e1a0e2d3c55127a3e9b023daef19b60956c4e7e08b0095</hash-sum>
+    </version>
 
     <version name="5" package="jclasslib64" type="one-file">
         <important-file path="bin\jclasslib.exe" title="jclasslib"/>
@@ -16525,6 +16546,15 @@ call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Np
         <file path=".Npackd\Install.bat">call "%npackdih%\InstallMSI.bat" INSTALLLOCATION yes</file>
         <url>https://download.documentfoundation.org/libreoffice/stable/6.1.2/win/x86_64/LibreOffice_6.1.2_Win_x64.msi</url>
         <hash-sum type="SHA-256">ddd4cf674cc2543f7d5f375562853386793fc6003fe70fa270baf905af7f00fe</hash-sum>
+        <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.1, 2)">
+            <variable>npackdih</variable>
+        </dependency>
+        <dependency package="com.oracle.JRE" versions="[1.6, 2)"/>
+    </version>
+    <version name="6.1.3" package="libreoffice64" type="one-file">
+        <file path=".Npackd\Install.bat">call "%npackdih%\InstallMSI.bat" INSTALLLOCATION yes</file>
+        <url>https://download.documentfoundation.org/libreoffice/stable/6.1.3/win/x86_64/LibreOffice_6.1.3_Win_x64.msi</url>
+        <hash-sum type="SHA-256">c3d2587a247b5c873286f80fdf0eef4b055808899e11e4f1c80874709b8df819</hash-sum>
         <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.1, 2)">
             <variable>npackdih</variable>
         </dependency>
@@ -20025,6 +20055,15 @@ if %err% neq 0 exit /b %err%
 </file>
         <url>https://dotsrc.dl.osdn.net/osdn/storage/g/t/to/tortoisesvn/1.10.2/Application/TortoiseSVN-1.10.2.28392-x64-svn-1.10.3.msi</url>
         <hash-sum type="SHA-256">64f4386691a9f3b145aadde0d0c8771203df78d050b67a0f8a9b7e6b1d80ba78</hash-sum>
+        <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3.1, 2)">
+            <variable>nih</variable>
+        </dependency>
+    </version>
+    <version name="1.11.0.28416" package="net.tortoisesvn.TortoiseSVN64" type="one-file">
+        <file path=".Npackd\Install.bat">call "%nih%\InstallMSI.bat" INSTALLDIR yes&#13;
+</file>
+        <url>http://rwthaachen.dl.osdn.jp/storage/g/t/to/tortoisesvn/1.11.0/Application/TortoiseSVN-1.11.0.28416-x64-svn-1.11.0.msi</url>
+        <hash-sum type="SHA-256">4d827fd5cd5f36c249fe619264ac9efa680d9ce2180f5ba508c6d64c2694c491</hash-sum>
         <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3.1, 2)">
             <variable>nih</variable>
         </dependency>
@@ -29295,6 +29334,14 @@ rmdir /s /q "%name%"    </file>
         <url>https://ayera.dl.sourceforge.net/project/ultradefrag/stable-release/7.0.2/ultradefrag-portable-7.0.2.bin.amd64.zip</url>
         <sha1>657a1d4340992475398232aff4d2488a27d79a09</sha1>
     </version>
+    <version name="7.1.1" package="org.sourceforge.ultradefrag.UltraDefrag64">
+        <important-file path="ultradefrag.exe" title="UltraDefrag"/>
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b ultra*') do set name=%%x&#13;
+xcopy "%name%\*" . /E /H&#13;
+rmdir /s /q "%name%"    </file>
+        <url>https://ayera.dl.sourceforge.net/project/ultradefrag/stable-release/7.1.1/ultradefrag-portable-7.1.1.bin.amd64.zip</url>
+        <hash-sum type="SHA-256">82bd27d14dfafcb88311fee465d129c9007e8c5623ff77e3bb4b0c49fa0b65fe</hash-sum>
+    </version>
 
     <version name="3.1" package="org.springsource.STS64">
         <important-file path="sts-3.1.0.RELEASE\STS.exe" title="Spring Tool Suite"/>
@@ -31449,6 +31496,20 @@ call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Np
             <variable>nih</variable>
         </dependency>
     </version>
+    <version name="8.1.513" package="org.vim.Vim64">
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+if %errorlevel% neq 0 exit /b %errorlevel%&#13;
+&#13;
+for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+</file>
+        <url>https://github.com/vim/vim-win32-installer/releases/download/v8.1.0513/gvim_8.1.0513_x64.zip</url>
+        <hash-sum type="SHA-256">9aaf04520205ccbbd9fb0e60f6f7f0a158e8e10229ccd263028353518edb4ee5</hash-sum>
+        <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.19, 2)">
+            <variable>nih</variable>
+        </dependency>
+    </version>
 
     <version name="4.2.8.83876" package="org.virtualbox.virtualbox64" type="one-file">
         <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
@@ -33134,6 +33195,16 @@ echo DesktopShortcut=false &gt;&gt; .Npackd\FF.ini&#13;
         </dependency>
         <dependency package="org.miktex.MiKTeX" versions="[2.9, 3)"/>
     </version>
+    <version name="2.4" package="pandoc64" type="one-file">
+        <file path=".Npackd\Install.bat">call "%nih%\InstallMSI.bat" INSTALLDIR yes&#13;
+</file>
+        <url>https://github.com/jgm/pandoc/releases/download/2.4/pandoc-2.4-windows-x86_64.msi</url>
+        <hash-sum type="SHA-256">32f844e65262641bd07951284a35078bb07495c6f7311e1662e00a51d7e754b4</hash-sum>
+        <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.1, 2)">
+            <variable>nih</variable>
+        </dependency>
+        <dependency package="org.miktex.MiKTeX" versions="[2.9, 3)"/>
+    </version>
 
     <version name="2.2.2" package="pdfsam64" type="one-file">
         <file path=".Npackd\Install.bat">&#13;
@@ -33926,6 +33997,11 @@ lib.sendKeysToWindow("QCAD 3.12.4 Uninstall", "{ENTER}");&#13;
         <url>https://qgis.org/downloads/QGIS-OSGeo4W-3.4.0-1-Setup-x86_64.exe</url>
     </version>
 
+    <version name="1.40.6" package="Qt-Bitcoin-Trader64" type="one-file">
+        <important-file path="qtbitcointrader.exe" title="Qt Bitcoin Trader"/>
+        <url>http://download.sourceforge.net/project/bitcointrader/Win64/QtBitcoinTrader.exe</url>
+    </version>
+
     <version name="1.11" package="qtox64" type="one-file">
         <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
 </file>
@@ -34596,6 +34672,16 @@ rmdir "%name%"</file>
             <variable>sevenzipa</variable>
         </dependency>
     </version>
+    <version name="7.62" package="se.haxx.curl.CURL64">
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b curl*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+</file>
+        <url>https://curl.haxx.se/windows/dl-7.62.0/curl-7.62.0-win64-mingw.zip</url>
+        <hash-sum type="SHA-256">8513ae2db518601cfdf84e95db63c6df59a267332c2f59c35edbf8d97ec66a6b</hash-sum>
+        <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.19, 2)">
+            <variable>nih</variable>
+        </dependency>
+    </version>
 
     <version name="2.1" package="sfml-dev-amd64-vc11">
         <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b SFML*') do set name=%%x&#13;
@@ -34953,6 +35039,10 @@ rem Install4j&#13;
     <version name="3.25.2" package="sqlite64">
         <url>https://www.sqlite.org/2018/sqlite-dll-win64-x64-3250200.zip</url>
         <hash-sum type="SHA-256">1694dc168bf9fe4c8cbe470903e5c89a5aed6e026c35dc65d7760a50f40ea872</hash-sum>
+    </version>
+    <version name="3.25.3" package="sqlite64">
+        <url>https://www.sqlite.org/2018/sqlite-dll-win64-x64-3250300.zip</url>
+        <hash-sum type="SHA-256">499c95b75ab2e80df3a1b3ceb6883147446f692ec102d7b306ddb7ae15ea66e7</hash-sum>
     </version>
 
     <version name="10.50.1600.1" package="sqlncli64" type="one-file">
@@ -35628,6 +35718,14 @@ rmdir "%name%"</file>
         <url>https://www.sysgauge.com/setups_x64/sysgauge_setup_v5.2.18_x64.exe</url>
         <hash-sum type="SHA-256">4624c275c0d15b15b2675d23bea4aa2bec37a4df1cd139c766ab2e568ebec91a</hash-sum>
     </version>
+    <version name="5.3.12" package="sysgauge64" type="one-file">
+        <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
+</file>
+        <file path=".Npackd\Uninstall.bat">uninstall.exe /S _?=%CD%&#13;
+</file>
+        <url>https://www.sysgauge.com/setups_x64/sysgauge_setup_v5.3.12_x64.exe</url>
+        <hash-sum type="SHA-256">d87cdc3c9b90d9cc34cff49966aa9db98869d79d78b0854cd647525db3695d9b</hash-sum>
+    </version>
 
     <version name="1" package="sysinternals-suite">
         <url>https://download.sysinternals.com/files/SysinternalsSuite.zip</url>
@@ -35920,6 +36018,14 @@ if %err% neq 0 exit %err%&#13;
 </file>
         <url>http://files.first-world.info/ultracopier/1.4.0.8/ultracopier-windows-x86_64-1.4.0.8-setup.exe</url>
         <hash-sum type="SHA-256">2ae32a1d5ef7ee4954558fc0082572d5f38178a3215763bebf57dae32e8bfbed</hash-sum>
+    </version>
+    <version name="1.4.1.3" package="ultracopier64" type="one-file">
+        <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
+</file>
+        <file path=".Npackd\Uninstall.bat">uninst.exe /S _?=%CD%&#13;
+</file>
+        <url>http://files.first-world.info/ultracopier/1.4.1.3/ultracopier-windows-x86_64-1.4.1.3-setup.exe</url>
+        <hash-sum type="SHA-256">625f76ee68026b9551fcd03d8be29a790f443be155abb1c2c91ff70df47b7548</hash-sum>
     </version>
 
     <version name="2.0.1" package="vagrant64" type="one-file">
