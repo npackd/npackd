@@ -32802,6 +32802,16 @@ echo DesktopShortcut=false &gt;&gt; .Npackd\FF.ini&#13;
         <url>http://relmirror.palemoon.org/release/palemoon-28.1.0.win64.installer.exe</url>
         <hash-sum type="SHA-256">a1db58e9cf5fdd240ceb94d692d47c243b384a427ca8b97304f457b19121bf04</hash-sum>
     </version>
+    <version name="28.2" package="pale-moon64" type="one-file">
+        <file path=".Npackd\Install.bat">echo [Install] &gt; .Npackd\FF.ini&#13;
+echo InstallDirectoryPath=%CD% &gt;&gt; .Npackd\FF.ini&#13;
+echo QuickLaunchShortcut=false &gt;&gt; .Npackd\FF.ini&#13;
+echo DesktopShortcut=false &gt;&gt; .Npackd\FF.ini&#13;
+"%npackd_package_binary%" /INI="%CD%\.Npackd\FF.ini" &amp;&amp; del /f /q "%npackd_package_binary%"</file>
+        <file path=".Npackd\Uninstall.bat">uninstall\helper.exe /S</file>
+        <url>http://relmirror.palemoon.org/release/palemoon-28.2.0.win64.installer.exe</url>
+        <hash-sum type="SHA-256">35ba1c13f8a68a43b8ceee1f7764d43010a3727303de9dd84c7d56993e6090a2</hash-sum>
+    </version>
 
     <version name="2.2.1" package="pandoc64" type="one-file">
         <file path=".Npackd\Install.bat">call "%nih%\InstallMSI.bat" INSTALLDIR yes&#13;
@@ -35041,6 +35051,8 @@ if %err% neq 0 exit %err%&#13;
             <variable>nih</variable>
         </dependency>
     </version>
+
+    
 
     <version name="2.0.2" package="sublime-text64" type="one-file">
         <file path=".Npackd\Install.bat">"%nih%\InstallInnoSetup.bat"&#13;
