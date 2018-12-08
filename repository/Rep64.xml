@@ -2837,6 +2837,14 @@ x86_64</description>
         <icon>http://cdn.altrn.tv/icons/microsoft-web-platform-installer_4490.png?width=32&amp;height=32&amp;mode=crop&amp;anchor=middlecenter</icon>
         <category>Development</category>
     </package>
+    <package name="winaero-tweaker">
+        <title>Winaero Tweaker</title>
+        <url>https://winaero.com</url>
+        <description>Apply hidden tweaks to Windows 7/8/8.1/10 and their Server varieties
+x86_64</description>
+        <license>org.7-zip.License</license>
+        <category>Tools</category>
+    </package>
     <package name="wmf64">
         <title>Windows Management Framework 64 bit</title>
         <url>https://support.microsoft.com/en-us/kb/968929</url>
@@ -10536,6 +10544,17 @@ if %err% neq 0 exit %err%&#13;
             <variable>nih</variable>
         </dependency>
     </version>
+    <version name="1.10" package="conan64" type="one-file">
+        <cmd-file path="conan\conan.exe"/>
+        <file path=".Npackd\Install.bat">"%nih%\InstallInnoSetup.bat"&#13;
+</file>
+        <file path=".Npackd\Uninstall.bat">"%nih%\UninstallInnoSetup.bat" unins000.exe</file>
+        <url>https://github.com/conan-io/conan/releases/download/1.10.0/conan-win-64_1_10_0.exe</url>
+        <hash-sum type="SHA-256">f0f36a1a038e5358e44aebc43882f99c8bacb274182535e8ce3f2548ae8c834f</hash-sum>
+        <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
+            <variable>nih</variable>
+        </dependency>
+    </version>
 
     <version name="44" package="cyberfox64" type="one-file">
         <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
@@ -13965,6 +13984,17 @@ if %err% neq 0 exit %err%&#13;
 </file>
         <url>https://www.imagemagick.org/download/binaries/ImageMagick-7.0.8-14-Q16-x64-dll.exe</url>
         <hash-sum type="SHA-256">5ed327a6639fcd41557d41f8ff72b8d4212cfe57d52077cdd13f02aa8896aa14</hash-sum>
+        <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
+            <variable>nih</variable>
+        </dependency>
+    </version>
+    <version name="7.0.8.15" package="imagemagick64" type="one-file">
+        <file path=".Npackd\Install.bat">call "%nih%\InstallInnoSetup.bat"&#13;
+</file>
+        <file path=".Npackd\Uninstall.bat">call "%nih%\UninstallInnoSetup.bat" unins000.exe&#13;
+</file>
+        <url>https://www.imagemagick.org/download/binaries/ImageMagick-7.0.8-15-Q16-x64-dll.exe</url>
+        <hash-sum type="SHA-256">f3b41a3f839b94e20a0c1f0fc8923d70750f68e92cc33f617b660ab583f5a32f</hash-sum>
         <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
             <variable>nih</variable>
         </dependency>
@@ -26422,6 +26452,14 @@ verify</file>
             <variable>npackdih</variable>
         </dependency>
     </version>
+    <version name="10.14.1" package="org.nodejs.NodeJS64" type="one-file">
+        <file path=".Npackd\Install.bat">call "%npackdih%\InstallMSI.bat" INSTALLDIR yes</file>
+        <url>https://nodejs.org/dist/v10.14.1/node-v10.14.1-x64.msi</url>
+        <hash-sum type="SHA-256">3b471bba5b19ef58b65460b1f0b71d27bceeaa9218809f75dedc98a6f7a426be</hash-sum>
+        <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.1, 2)">
+            <variable>npackdih</variable>
+        </dependency>
+    </version>
 
     <version name="2.2" package="org.openshot.openshot64" type="one-file">
         <file path=".Npackd\Install.bat">"%nih%\InstallInnoSetup.bat"&#13;
@@ -29577,6 +29615,20 @@ call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Np
             <variable>nih</variable>
         </dependency>
     </version>
+    <version name="8.1.563" package="org.vim.Vim64">
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+if %errorlevel% neq 0 exit /b %errorlevel%&#13;
+&#13;
+for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+</file>
+        <url>https://github.com/vim/vim-win32-installer/releases/download/v8.1.0563/gvim_8.1.0563_x64.zip</url>
+        <hash-sum type="SHA-256">8a136755ede3feed2379c5db56823e8f3f7cbc7b28aab0241aceafb0997ee175</hash-sum>
+        <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.19, 2)">
+            <variable>nih</variable>
+        </dependency>
+    </version>
 
     <version name="4.2.8.83876" package="org.virtualbox.virtualbox64" type="one-file">
         <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
@@ -30983,6 +31035,14 @@ if %err% neq 0 exit %err%</file>
 </file>
         <url>https://1.eu.dl.wireshark.org/win64/Wireshark-win64-2.6.4.exe</url>
         <hash-sum type="SHA-256">3ca543a311a9ec3f9b2045768ead78af3acd19f8fa447aae9885712c5f8aaddb</hash-sum>
+    </version>
+    <version name="2.6.5" package="org.wireshark.Wireshark64" type="one-file">
+        <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD%&#13;
+</file>
+        <file path=".Npackd\Uninstall.bat">uninstall.exe /S _=%CD%&#13;
+</file>
+        <url>https://1.eu.dl.wireshark.org/win64/Wireshark-win64-2.6.5.exe</url>
+        <hash-sum type="SHA-256">1ee5afdc18efda2781a88da6a360a28ae88feaaecdc7c3246fb98767abcc7654</hash-sum>
     </version>
 
     <version name="26.0.3" package="pale-moon64" type="one-file">
@@ -33881,6 +33941,14 @@ if %err% neq 0 exit %err%&#13;
         <url>http://files.first-world.info/ultracopier/1.4.1.3/ultracopier-windows-x86_64-1.4.1.3-setup.exe</url>
         <hash-sum type="SHA-256">625f76ee68026b9551fcd03d8be29a790f443be155abb1c2c91ff70df47b7548</hash-sum>
     </version>
+    <version name="1.6.0.1" package="ultracopier64" type="one-file">
+        <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
+</file>
+        <file path=".Npackd\Uninstall.bat">uninst.exe /S _?=%CD%&#13;
+</file>
+        <url>http://files.first-world.info/ultracopier/1.6.0.1/ultracopier-windows-x86_64-1.6.0.1-setup.exe</url>
+        <hash-sum type="SHA-256">ddb8d27548513870aec3b8a96e86698f7333cb3b409b4d7ffafdcb0904949b62</hash-sum>
+    </version>
 
     <version name="2.0.1" package="vagrant64" type="one-file">
         <file path=".Npackd\Install.bat">call "%nih%\InstallMSI.bat" INSTALLDIR yes&#13;
@@ -34522,6 +34590,14 @@ if %err% neq 0 exit %err%&#13;
         <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.1, 2)">
             <variable>nih</variable>
         </dependency>
+    </version>
+
+    <version name="12.1" package="winaero-tweaker">
+        <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
+</file>
+        <file path=".Npackd\Uninstall.bat">uninst.exe /S _?=%CD%&#13;
+</file>
+        <url>https://winaero.com/e107_files/downloads/winaerotweaker.zip</url>
     </version>
 
     <version name="4" package="wmf64" type="one-file">
