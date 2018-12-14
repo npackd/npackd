@@ -23048,6 +23048,12 @@ rmdir /s /q "%name%"&#13;
         <url>https://www.erlang.org/download/otp_win64_21.1.exe</url>
         <hash-sum type="SHA-256">170c44850a3e4f0a5b510653b500f7a7b99337fbfb38d19a745f38869baa23a5</hash-sum>
     </version>
+    <version name="21.2" package="org.erlang.Erlang64" type="one-file">
+        <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD%&#13;
+</file>
+        <url>https://www.erlang.org/download/otp_win64_21.2.exe</url>
+        <hash-sum type="SHA-256">468f50caa643bbed484be475419d200d47c87597efd4057142bdb000e1accb72</hash-sum>
+    </version>
 
     <version name="0.9.2.1" package="org.flamerobin.FlameRobin64" type="one-file">
         <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
@@ -26350,6 +26356,14 @@ verify</file>
             <variable>npackdih</variable>
         </dependency>
     </version>
+    <version name="10.14.2" package="org.nodejs.NodeJS64" type="one-file">
+        <file path=".Npackd\Install.bat">call "%npackdih%\InstallMSI.bat" INSTALLDIR yes</file>
+        <url>https://nodejs.org/dist/v10.14.2/node-v10.14.2-x64.msi</url>
+        <hash-sum type="SHA-256">1e19793063ea30bc0c24fe19502e4b99453044bdf1ce57b6fb351dbbd5da7933</hash-sum>
+        <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.1, 2)">
+            <variable>npackdih</variable>
+        </dependency>
+    </version>
 
     <version name="2.2" package="org.openshot.openshot64" type="one-file">
         <file path=".Npackd\Install.bat">"%nih%\InstallInnoSetup.bat"&#13;
@@ -29515,6 +29529,20 @@ call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Np
 </file>
         <url>https://github.com/vim/vim-win32-installer/releases/download/v8.1.0563/gvim_8.1.0563_x64.zip</url>
         <hash-sum type="SHA-256">8a136755ede3feed2379c5db56823e8f3f7cbc7b28aab0241aceafb0997ee175</hash-sum>
+        <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.19, 2)">
+            <variable>nih</variable>
+        </dependency>
+    </version>
+    <version name="8.1.577" package="org.vim.Vim64">
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+if %errorlevel% neq 0 exit /b %errorlevel%&#13;
+&#13;
+for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+</file>
+        <url>https://github.com/vim/vim-win32-installer/releases/download/v8.1.0577/gvim_8.1.0577_x64.zip</url>
+        <hash-sum type="SHA-256">c453113424546e17db6bc9b2b8f89b3ef0654528c6a6f621e5921af77fed13a5</hash-sum>
         <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.19, 2)">
             <variable>nih</variable>
         </dependency>
@@ -33276,6 +33304,14 @@ rmdir "%name%"</file>
 </file>
         <url>https://www.sysgauge.com/setups_x64/sysgauge_setup_v5.4.16_x64.exe</url>
         <hash-sum type="SHA-256">546c66aaba46ddb2475987ff51419d5a9b63c50d10ac8a5aa7bdd3eab65af122</hash-sum>
+    </version>
+    <version name="5.5.12" package="sysgauge64" type="one-file">
+        <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
+</file>
+        <file path=".Npackd\Uninstall.bat">uninstall.exe /S _?=%CD%&#13;
+</file>
+        <url>https://www.sysgauge.com/setups_x64/sysgauge_setup_v5.5.12_x64.exe</url>
+        <hash-sum type="SHA-256">576ca9040c4f0a147bbba05a49624e854e7e091c03a9189e3a1856c18ae06c64</hash-sum>
     </version>
 
     <version name="1" package="sysinternals-suite">
