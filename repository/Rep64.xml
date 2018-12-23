@@ -2837,14 +2837,6 @@ x86_64</description>
         <icon>http://cdn.altrn.tv/icons/microsoft-web-platform-installer_4490.png?width=32&amp;height=32&amp;mode=crop&amp;anchor=middlecenter</icon>
         <category>Development</category>
     </package>
-    <package name="winaero-tweaker">
-        <title>Winaero Tweaker</title>
-        <url>https://winaero.com</url>
-        <description>Apply hidden tweaks to Windows 7/8/8.1/10 and their Server varieties
-x86_64</description>
-        <license>org.7-zip.License</license>
-        <category>Tools</category>
-    </package>
     <package name="wmf64">
         <title>Windows Management Framework 64 bit</title>
         <url>https://support.microsoft.com/en-us/kb/968929</url>
@@ -3384,6 +3376,14 @@ verify
 </file>
         <url>http://llvm.org/releases/7.0.0/LLVM-7.0.0-win64.exe</url>
         <hash-sum type="SHA-256">74b197a3959b0408adf0824be01db8dddfa2f9a967f4085af3fad900ed5fdbf6</hash-sum>
+    </version>
+    <version name="7.0.1" package="clang64" type="one-file">
+        <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
+</file>
+        <file path=".Npackd\Uninstall.bat">uninstall.exe /S _?=%CD%&#13;
+</file>
+        <url>http://llvm.org/releases/7.0.1/LLVM-7.0.1-win64.exe</url>
+        <hash-sum type="SHA-256">672e4c420d6543a8a9f8ec5f1e5f283d88ac2155ef4c57232a399160a02bff57</hash-sum>
     </version>
 
     <version name="3.6.8" package="classic-shell64" type="one-file">
@@ -8486,6 +8486,14 @@ call "%nih%\UninstallInnoSetup.bat" unins000.exe</file>
 </file>
         <url>https://github.com/sindresorhus/caprine/releases/download/v2.22.1/caprine-setup-2.22.1.exe</url>
         <hash-sum type="SHA-256">087d59838a1b8f7f918e30d40ab9a3332e5ff90612395f7ee28e075b7869b00b</hash-sum>
+    </version>
+    <version name="2.23" package="com.sindresorhus.caprine" type="one-file">
+        <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
+</file>
+        <file path=".Npackd\Uninstall.bat">uninstall.exe /S _?=%CD%&#13;
+</file>
+        <url>https://github.com/sindresorhus/caprine/releases/download/v2.23.0/caprine-setup-2.23.0.exe</url>
+        <hash-sum type="SHA-256">dd450e348878c53c40d42b1880f4833448448f8ff8ca83fce3281d937a86032c</hash-sum>
     </version>
 
     <version name="4.51" package="com.softwareok.QDir64">
@@ -34670,14 +34678,6 @@ if %err% neq 0 exit %err%&#13;
         <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.1, 2)">
             <variable>nih</variable>
         </dependency>
-    </version>
-
-    <version name="12.1" package="winaero-tweaker">
-        <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
-</file>
-        <file path=".Npackd\Uninstall.bat">uninst.exe /S _?=%CD%&#13;
-</file>
-        <url>https://winaero.com/e107_files/downloads/winaerotweaker.zip</url>
     </version>
 
     <version name="4" package="wmf64" type="one-file">
