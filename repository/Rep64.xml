@@ -193,15 +193,6 @@ x86_64</description>
         <category>Tools</category>
         <category>end-of-life</category>
     </package>
-    <package name="auryo">
-        <title>Auryo</title>
-        <url>http://auryo.com/</url>
-        <description>A beautiful SoundCloud client for your desktop. Be more productive and enjoy a native experience.
-x86_64</description>
-        <icon>http://i1-win.softpedia-static.com/screenshots/ico/Auryo.png</icon>
-        <category>Music</category>
-        <link href="http://auryo.com/img/screens/stream.png" rel="screenshot"/>
-    </package>
     <package name="bitcoin-core64">
         <title>Bitcoin Core 64 bit</title>
         <url>http://bitcoin.org/en</url>
@@ -2900,6 +2891,14 @@ x86_64</description>
         <url>https://repo.continuum.io/archive/Anaconda3-5.3.1-Windows-x86_64.exe</url>
         <hash-sum type="SHA-256">295fed5940369d4ea1e2c6d04d418619d9942c19d925921cbeb941bbc5bd7659</hash-sum>
     </version>
+    <version name="2018.12" package="anaconda64" type="one-file">
+        <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
+</file>
+        <file path=".Npackd\Uninstall.bat">Uninstall-Anaconda3.exe /S _?=%CD%&#13;
+</file>
+        <url>https://repo.continuum.io/archive/Anaconda3-2018.12-Windows-x86_64.exe</url>
+        <hash-sum type="SHA-256">09d84a789013d5e2bfb0148bdd9f5d69a6baa2127edabb9a8e50e77c6fc57ecc</hash-sum>
+    </version>
 
     <version name="2.4.33" package="apache-httpd64">
         <url>http://de.apachehaus.com/downloads/httpd-2.4.33-lre-2.7.3-x64-vc14-r3.zip</url>
@@ -3002,31 +3001,6 @@ if %err% neq 0 exit %err%</file>
 </file>
         <url>http://www.aspia.ru/download/aspia/aspia-0.3.0.zip</url>
         <sha1>62209d84e2e3152badaaa6a5f22bab365af33cfc</sha1>
-    </version>
-
-    <version name="2.1.1" package="auryo" type="one-file">
-        <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
-</file>
-        <file path=".Npackd\Uninstall.bat">uninstall.exe /S _?=%CD%&#13;
-</file>
-        <url>https://github.com/Superjo149/auryo/releases/download/v2.1.1/auryo-setup-2.1.1.exe</url>
-        <hash-sum type="SHA-256">f317a8c0c85b89d40b1e2a9119066017136289337aefdc6b5fab47d53dc65dce</hash-sum>
-    </version>
-    <version name="2.1.2" package="auryo" type="one-file">
-        <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
-</file>
-        <file path=".Npackd\Uninstall.bat">uninstall.exe /S _?=%CD%&#13;
-</file>
-        <url>https://github.com/Superjo149/auryo/releases/download/v2.1.2/auryo-setup-2.1.2.exe</url>
-        <hash-sum type="SHA-256">e93815184f68f672b9de7793514c36a36eecec6d1b31e818f95fa2086cec382e</hash-sum>
-    </version>
-    <version name="2.2" package="auryo" type="one-file">
-        <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
-</file>
-        <file path=".Npackd\Uninstall.bat">uninstall.exe /S _?=%CD%&#13;
-</file>
-        <url>https://github.com/Superjo149/auryo/releases/download/v2.1.2/auryo-setup-2.1.2.exe</url>
-        <hash-sum type="SHA-256">e93815184f68f672b9de7793514c36a36eecec6d1b31e818f95fa2086cec382e</hash-sum>
     </version>
 
     <version name="0.11.1" package="bitcoin-core64" type="one-file">
@@ -3182,6 +3156,18 @@ verify&#13;
 </file>
         <url>https://bitcoin.org/bin/bitcoin-core-0.17.0.1/bitcoin-0.17.0.1-win64-setup.exe</url>
         <hash-sum type="SHA-256">a624de6c915871fed12cbe829d54474e3c8a1503b6d703ba168d32d3dd8ac0d3</hash-sum>
+    </version>
+    <version name="0.17.1" package="bitcoin-core64" type="one-file">
+        <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD%&#13;
+if %errorlevel% neq 0 exit /b %errorlevel%        &#13;
+&#13;
+del "%npackd_package_binary%"&#13;
+verify&#13;
+</file>
+        <file path=".Npackd\Uninstall.bat">uninstall.exe /S _?=%CD%&#13;
+</file>
+        <url>https://bitcoin.org/bin/bitcoin-core-0.17.1/bitcoin-0.17.1-win64-setup.exe</url>
+        <hash-sum type="SHA-256">fa1e80c5e4ecc705549a8061e5e7e0aa6b2d26967f99681b5989d9bd938d8467</hash-sum>
     </version>
 
     <version name="2.4.1" package="bittorrent-sync64" type="one-file">
@@ -3608,13 +3594,8 @@ if %err% neq 0 exit %err%</file>
     <version name="3.5.4.3504" package="com.activestate.ActivePython64" type="one-file">
         <file path=".Npackd\Install.bat">"%npackd_package_binary%" &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
 </file>
-        <file path=".Npackd\Uninstall.bat">"%myun%\myuninst.exe" /uninstall "com.activestate.ActivePython64"&#13;
-</file>
         <url>http://downloads.activestate.com/ActivePython/releases/3.6.0.3600/ActivePython-3.6.0.3600-win64-x64-401834.exe</url>
         <sha1>466a4002c989ffcbdac7ee614a67e401e12f0af8</sha1>
-        <dependency package="net.nirsoft.MyUninstaller" versions="[1.74, 2)">
-            <variable>myun</variable>
-        </dependency>
     </version>
 
     <version name="31.0.0.153" package="com.adobe.FlashPlayer64" type="one-file">
@@ -5457,6 +5438,15 @@ call "%npackdih%\InstallMSI.bat" APPLICATIONFOLDER yes&#13;
 </file>
         <url>https://download.calibre-ebook.com/3.35.0/calibre-64bit-3.35.0.msi</url>
         <hash-sum type="SHA-256">366d847d88ad381469f4c75044985e676f440c746eda004b8e185d6cac84ffca</hash-sum>
+        <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.2, 2)">
+            <variable>npackdih</variable>
+        </dependency>
+    </version>
+    <version name="3.36" package="com.calibreebook.Calibre64" type="one-file">
+        <file path=".Npackd\Install.bat">call "%npackdih%\InstallMSI.bat" APPLICATIONFOLDER yes&#13;
+</file>
+        <url>https://download.calibre-ebook.com/3.36.0/calibre-64bit-3.36.0.msi</url>
+        <hash-sum type="SHA-256">422ac710766315d0742e0dac253b9cc7f8bcb939b028b199c151eb3466589fe1</hash-sum>
         <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.2, 2)">
             <variable>npackdih</variable>
         </dependency>
@@ -10688,6 +10678,17 @@ if %err% neq 0 exit %err%&#13;
             <variable>nih</variable>
         </dependency>
     </version>
+    <version name="1.11.1" package="conan64" type="one-file">
+        <cmd-file path="conan\conan.exe"/>
+        <file path=".Npackd\Install.bat">"%nih%\InstallInnoSetup.bat"&#13;
+</file>
+        <file path=".Npackd\Uninstall.bat">"%nih%\UninstallInnoSetup.bat" unins000.exe</file>
+        <url>https://github.com/conan-io/conan/releases/download/1.11.1/conan-win-64_1_11_1.exe</url>
+        <hash-sum type="SHA-256">74bd28252f8dcca3b4fd1371a0a02697ebaefdcd545a5c76fbd620cb85ef1540</hash-sum>
+        <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
+            <variable>nih</variable>
+        </dependency>
+    </version>
 
     <version name="44" package="cyberfox64" type="one-file">
         <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
@@ -11342,6 +11343,16 @@ if %err% neq 0 exit %err%&#13;
             <variable>nih</variable>
         </dependency>
     </version>
+    <version name="5.3.1" package="dbeaver64">
+        <important-file path="dbeaver.exe" title="DBeaver 64 bit"/>
+        <file path=".Npackd\Install.bat">"%NIH%\ExtractDir.bat" dbeaver</file>
+        <url>http://dbeaver.jkiss.org/files/5.3.1/dbeaver-ce-5.3.1-win32.win32.x86_64.zip</url>
+        <hash-sum type="SHA-256">0e449e90652fcf49e53789decbc748df5cb4ec70c546730f844f2e1e68995fd6</hash-sum>
+        <dependency package="com.oracle.JRE64" versions="[1.7, 20)"/>
+        <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
+            <variable>nih</variable>
+        </dependency>
+    </version>
 
     <version name="0.825" package="dcplusplus64">
         <important-file path="DCPlusPlus.exe" title="DC++"/>
@@ -11925,6 +11936,14 @@ rmdir "%name%"&#13;
         <url>https://github.com/resin-io/etcher/releases/download/v1.4.8/balenaEtcher-Setup-1.4.8-x64.exe</url>
         <hash-sum type="SHA-256">b8f8114cc2e106c2a9bd4b1855180f547b7da6ffbcb763c66a8d0d3a1655fb0c</hash-sum>
     </version>
+    <version name="1.4.9" package="etcher64" type="one-file">
+        <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
+</file>
+        <file path=".Npackd\Uninstall.bat">uninstall.exe /S _?=%CD%&#13;
+</file>
+        <url>https://github.com/resin-io/etcher/releases/download/v1.4.9/balenaEtcher-Setup-1.4.9-x64.exe</url>
+        <hash-sum type="SHA-256">24b6d0d174dfa5883ed313f7546d1df36794d3fe9eb0d7397ab96d6f82af2a96</hash-sum>
+    </version>
 
     <version name="1.3.4.686" package="everything64">
         <important-file path="Everything.exe" title="Everything"/>
@@ -11945,6 +11964,11 @@ rmdir "%name%"&#13;
         <important-file path="Everything.exe" title="Everything"/>
         <url>http://www.voidtools.com/Everything-1.4.1.922.x64.zip</url>
         <hash-sum type="SHA-256">3cb34153b2d9354944e4a4b01d02765f182ce931f5657660a85945962d12117a</hash-sum>
+    </version>
+    <version name="1.4.1.924" package="everything64">
+        <important-file path="Everything.exe" title="Everything"/>
+        <url>http://www.voidtools.com/Everything-1.4.1.924.x64.zip</url>
+        <hash-sum type="SHA-256">3f4f73443ca52188a120b3277f27bb00e35b7aacc663dc3cfb954e0c2b1d21f5</hash-sum>
     </version>
 
     <version name="4" package="f.lux" type="one-file">
@@ -12522,6 +12546,15 @@ for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
         <hash-sum type="SHA-256">f4cce05a18402d9dfa768529cabac2dd721b733cb0d631b940125d6a94bf1a0e</hash-sum>
         <dependency package="com.microsoft.DotNetRedistributable" versions="[2, 3)"/>
     </version>
+    <version name="1.2" package="fr.handbrake.HandBrake64" type="one-file">
+        <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
+</file>
+        <file path=".Npackd\Uninstall.bat">uninst.exe /S _?=%CD%&#13;
+</file>
+        <url>https://download2.handbrake.fr/1.2.0/HandBrake-1.2.0-x86_64-Win_GUI.exe</url>
+        <hash-sum type="SHA-256">5bae36eeb01d3dd65bf00d9f0634376c89fc17fa05a04ff273ae8c22d1f25239</hash-sum>
+        <dependency package="com.microsoft.DotNetRedistributable" versions="[2, 3)"/>
+    </version>
 
     <version name="1.21" package="fr.veracrypt.veracrypt" type="one-file">
         <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
@@ -12617,6 +12650,15 @@ if %err% neq 0 exit %err%</file>
 </file>
         <url>https://gajim.org/downloads/1.1/gajim-1.1.0-64bits-1.exe</url>
         <hash-sum type="SHA-256">eddae148da8afaa253c02e901e0d4f377383b89684cde809dcf37df79fb45712</hash-sum>
+    </version>
+    <version name="1.1.1" package="gajim64" type="one-file">
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
+"%setup%" /S /D=%CD%&#13;
+</file>
+        <file path=".Npackd\Uninstall.bat">uninstall.exe /S _?=%CD%&#13;
+</file>
+        <url>https://gajim.org/downloads/1.1/gajim-1.1.1-64bits-1.exe</url>
+        <hash-sum type="SHA-256">84b7a247d3951ded9f4f00e9f9ba9c016555d15be13022589557649e995bfea8</hash-sum>
     </version>
 
     <version name="3.20.1" package="gedit64" type="one-file">
@@ -14077,6 +14119,17 @@ if %err% neq 0 exit %err%&#13;
 </file>
         <url>https://archive.org/download/npackd/imagemagick64/ImageMagick-7.0.8-19-Q16-x64-dll.exe</url>
         <hash-sum type="SHA-256">1586edde271eab3bd7ecc34cdbddb82c5fbdf408c11a0497bbf476a6f32bf340</hash-sum>
+        <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
+            <variable>nih</variable>
+        </dependency>
+    </version>
+    <version name="7.0.8.20" package="imagemagick64" type="one-file">
+        <file path=".Npackd\Install.bat">call "%nih%\InstallInnoSetup.bat"&#13;
+</file>
+        <file path=".Npackd\Uninstall.bat">call "%nih%\UninstallInnoSetup.bat" unins000.exe&#13;
+</file>
+        <url>https://www.imagemagick.org/download/binaries/ImageMagick-7.0.8-20-Q16-x64-dll.exe</url>
+        <hash-sum type="SHA-256">8eb8d2a219319275ccdd865b772051be0db0f89c58f9d23b6833d656f9c6a6dd</hash-sum>
         <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
             <variable>nih</variable>
         </dependency>
@@ -16004,6 +16057,15 @@ rmdir "%name%"&#13;
         <url>http://downloads.mixxx.org/mixxx-2.1.5/mixxx-2.1.5-win64.exe</url>
         <hash-sum type="SHA-256">59591fa240ea81760ca77b935595060df1cfc5dd2cee1de16cc10bb7c5cd3b25</hash-sum>
     </version>
+    <version name="2.2" package="mixxx" type="one-file">
+        <file path=".Npackd\Install.bat">"%npackd_package_binary%" -s -norestart -l .Npackd\Installer.log&#13;
+</file>
+        <file path=".Npackd\Uninstall.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
+"%setup%" -s -norestart -l .Npackd\Installer.log -uninstall&#13;
+</file>
+        <url>http://downloads.mixxx.org/mixxx-2.2.0/mixxx-2.2.0-win64.exe</url>
+        <hash-sum type="SHA-256">e1c53002b20fc7e841955815372baa1df88ee2bbd987f5098e04507713f43706</hash-sum>
+    </version>
 
     <version name="6.7" package="mkvtoolnix64" type="one-file">
         <file path=".Npackd\Install.bat">for /f %%x in ('dir /b *.exe') do set setup=%%x&#13;
@@ -17158,6 +17220,17 @@ verify&#13;
         </dependency>
     </version>
     <version name="3.21.258" package="net.sourceforge.dittocp.Ditto64" type="one-file">
+        <file path=".Npackd\Install.bat">call "%nih%\InstallInnoSetup.bat"&#13;
+</file>
+        <file path=".Npackd\Uninstall.bat">call "%nih%\UninstallInnoSetup.bat" unins000.exe&#13;
+</file>
+        <url>https://ayera.dl.sourceforge.net/project/ditto-cp/Ditto/3.21.134.0/DittoSetup_64bit_3_21_134_0.exe</url>
+        <sha1>828bed2c10a2a10fa1f152907cacf8eae1e287f7</sha1>
+        <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
+            <variable>nih</variable>
+        </dependency>
+    </version>
+    <version name="3.22.20" package="net.sourceforge.dittocp.Ditto64" type="one-file">
         <file path=".Npackd\Install.bat">call "%nih%\InstallInnoSetup.bat"&#13;
 </file>
         <file path=".Npackd\Uninstall.bat">call "%nih%\UninstallInnoSetup.bat" unins000.exe&#13;
@@ -19565,6 +19638,29 @@ WshShell.SendKeys("{ESC}");&#13;
 </file>
         <url>https://download.openmpt.org/OpenMPT-1.27.11.00-Setup-x64.exe</url>
         <hash-sum type="SHA-256">b338362fc0412ae89169186468883952960fe2dfb1b39b49683df31cac2f215c</hash-sum>
+    </version>
+    <version name="1.28.1" package="openmpt64" type="one-file">
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
+"%setup%" /SP- /VERYSILENT /SUPPRESSMSGBOXES /NOCANCEL /NORESTART /DIR="%CD%" /SAVEINF="%CD%\.Npackd\InnoSetupInfo.ini" /LOG="%CD%\.Npackd\InnoSetupInstall.log" &amp;&amp; del /f /q "%setup%"&#13;
+set err=%errorlevel%&#13;
+type .Npackd\InnoSetupInstall.log&#13;
+if %err% neq 0 exit %err%&#13;
+</file>
+        <file path=".Npackd\Uninstall.bat">start "Confirm Uninstall" cscript //Nologo //B //E:JScript //T:300 //U .Npackd\ConfirmUninstall.js&#13;
+&#13;
+unins000.exe /VERYSILENT /SUPPRESSMSGBOXES /NORESTART /LOG="%CD%\.Npackd\InnoSetupUninstall.log"&#13;
+set err=%errorlevel%&#13;
+type .Npackd\InnoSetupUninstall.log&#13;
+if %err% neq 0 exit %err%&#13;
+</file>
+        <file path=".Npackd\ConfirmUninstall.js">var WshShell = WScript.CreateObject("WScript.Shell");&#13;
+WScript.Sleep(60000);&#13;
+WshShell.AppActivate("Uninstall");&#13;
+WScript.Sleep(10000);&#13;
+WshShell.SendKeys("{ESC}");&#13;
+</file>
+        <url>https://download.openmpt.org/OpenMPT-1.28.01.00-Setup-x64.exe</url>
+        <hash-sum type="SHA-256">f3de7047c7d4c28310ddc6898c7ba993f9452214e802ce2c5e030088851729f5</hash-sum>
     </version>
 
     <version name="2015.3.2" package="openscad64" type="one-file">
@@ -27335,6 +27431,15 @@ if %err% neq 0 exit /b %err%&#13;
         <url>https://www.python.org/ftp/python/3.7.1/python-3.7.1-amd64.exe</url>
         <hash-sum type="SHA-256">86e38b5f819f4141a7fa14df39ab33e2aa97074e904a48ad498519ad3e69d017</hash-sum>
     </version>
+    <version name="3.7.2" package="org.python.Python64" type="one-file">
+        <file path=".Npackd\Install.bat">"%npackd_package_binary%" /quiet InstallAllUsers=1 "TargetDir=%cd%"&#13;
+</file>
+        <file path=".Npackd\Uninstall.bat">for /f "delims=" %%x in ('dir /b python-*.exe') do set setup=%%x&#13;
+%setup% /uninstall /quiet InstallAllUsers=1&#13;
+</file>
+        <url>https://www.python.org/ftp/python/3.7.2/python-3.7.2-amd64.exe</url>
+        <hash-sum type="SHA-256">0fe2a696f5a3e481fed795ef6896ed99157bcef273ef3c4a96f2905cbdb3aa13</hash-sum>
+    </version>
 
     <version name="2.0.0.247" package="org.rubylang.Ruby64" type="one-file">
         <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
@@ -27932,6 +28037,19 @@ cd ..&#13;
 rmdir "%name%"</file>
         <url>http://dist.springsource.com/release/STS/3.9.6.RELEASE/dist/e4.8/spring-tool-suite-3.9.6.RELEASE-e4.8.0-win32-x86_64.zip</url>
         <hash-sum type="SHA-256">bf9ff518c7456036d0781a4598ce48edc80ad4ea4aa3ce816774db0be8e626c5</hash-sum>
+        <dependency package="com.oracle.JRE64" versions="[1.7, 2)"/>
+    </version>
+    <version name="3.9.7" package="org.springsource.STS64">
+        <important-file path="sts-3.9.7.RELEASE\STS.exe" title="Spring Tool Suite"/>
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b sts*') do set name=%%x&#13;
+cd "%name%"        &#13;
+for /f "delims=" %%a in ('dir /b') do (&#13;
+  move "%%a" ..&#13;
+)&#13;
+cd ..&#13;
+rmdir "%name%"</file>
+        <url>http://dist.springsource.com/release/STS/3.9.7.RELEASE/dist/e4.8/spring-tool-suite-3.9.7.RELEASE-e4.8.0-win32-x86_64.zip</url>
+        <hash-sum type="SHA-256">aea482b75df26d47cde20e33f89f08959ec795fc6168cf66277a2a3f15f50b97</hash-sum>
         <dependency package="com.oracle.JRE64" versions="[1.7, 2)"/>
     </version>
 
@@ -29873,6 +29991,20 @@ call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Np
             <variable>nih</variable>
         </dependency>
     </version>
+    <version name="8.1.635" package="org.vim.Vim64">
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+if %errorlevel% neq 0 exit /b %errorlevel%&#13;
+&#13;
+for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+</file>
+        <url>https://github.com/vim/vim-win32-installer/releases/download/v8.1.0635/gvim_8.1.0635_x64.zip</url>
+        <hash-sum type="SHA-256">05da6b44c5d5f5ed347e130ca381064110f319fc0c0023adb0c190f00045d7ac</hash-sum>
+        <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.19, 2)">
+            <variable>nih</variable>
+        </dependency>
+    </version>
 
     <version name="4.2.8.83876" package="org.virtualbox.virtualbox64" type="one-file">
         <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
@@ -31806,6 +31938,14 @@ verify</file>
         <url>https://downloads.sourceforge.net/project/qbittorrent/qbittorrent-win32/qbittorrent-4.1.4/qbittorrent_4.1.4_x64_setup.exe</url>
         <hash-sum type="SHA-256">7aab70f038bb06d5107ef9444ea236b7b63ac7476b3491a5fc99da8354b14c38</hash-sum>
     </version>
+    <version name="4.1.5" package="qbittorrent-64-bit" type="one-file">
+        <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD%&#13;
+verify</file>
+        <file path=".Npackd\Uninstall.bat">uninst.exe /S _?=%CD%&#13;
+verify</file>
+        <url>https://downloads.sourceforge.net/project/qbittorrent/qbittorrent-win32/qbittorrent-4.1.5/qbittorrent_4.1.5_x64_setup.exe</url>
+        <hash-sum type="SHA-256">01c03c39c045e9b9f7fd35a25d58a909d4183e1e8f4ecc179d66e1fea505205c</hash-sum>
+    </version>
 
     <version name="3.12.4.1" package="qcad64" type="one-file">
         <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
@@ -32245,6 +32385,13 @@ lib.sendKeysToWindow("QCAD 3.12.4 Uninstall", "{ENTER}");&#13;
         <file path=".Npackd\Uninstall.bat">uninstall.exe /S _?=%CD%&#13;
 </file>
         <url>https://qgis.org/downloads/QGIS-OSGeo4W-3.4.2-1-Setup-x86_64.exe</url>
+    </version>
+    <version name="3.4.3" package="qgis64" type="one-file">
+        <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
+if %errorlevel% equ 3010 verify</file>
+        <file path=".Npackd\Uninstall.bat">uninstall.exe /S _?=%CD%&#13;
+</file>
+        <url>https://qgis.org/downloads/QGIS-OSGeo4W-3.4.3-1-Setup-x86_64.exe</url>
     </version>
 
     <version name="1.40.6" package="Qt-Bitcoin-Trader64" type="one-file">
@@ -32943,6 +33090,16 @@ call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Np
             <variable>nih</variable>
         </dependency>
     </version>
+    <version name="7.63" package="se.haxx.curl.CURL64">
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b curl*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+</file>
+        <url>https://curl.haxx.se/windows/dl-7.62.0/curl-7.62.0-win64-mingw.zip</url>
+        <hash-sum type="SHA-256">8513ae2db518601cfdf84e95db63c6df59a267332c2f59c35edbf8d97ec66a6b</hash-sum>
+        <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.19, 2)">
+            <variable>nih</variable>
+        </dependency>
+    </version>
 
     <version name="2.1" package="sfml-dev-amd64-vc11">
         <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b SFML*') do set name=%%x&#13;
@@ -33449,6 +33606,17 @@ Prog\setup.exe /Q /IACCEPTSQLSERVERLICENSETERMS /Q /ACTION=install &gt; .Npackd\
             <variable>nih</variable>
         </dependency>
     </version>
+    <version name="0.18.3" package="stellarium64" type="one-file">
+        <file path=".Npackd\Install.bat">call "%nih%\InstallInnoSetup.bat"&#13;
+</file>
+        <file path=".Npackd\Uninstall.bat">call "%nih%\UninstallInnoSetup.bat" unins000.exe&#13;
+</file>
+        <url>https://github.com/Stellarium/stellarium/releases/download/v0.18.3/stellarium-0.18.3-win64.exe</url>
+        <hash-sum type="SHA-256">c4da3b3d3e07cd5b22648f6cee3adbca45ab7d84fd58d09e49344326951055e5</hash-sum>
+        <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
+            <variable>nih</variable>
+        </dependency>
+    </version>
 
     <version name="2.0.2" package="sublime-text64" type="one-file">
         <file path=".Npackd\Install.bat">"%nih%\InstallInnoSetup.bat"&#13;
@@ -33683,6 +33851,14 @@ rmdir "%name%"</file>
 </file>
         <url>https://www.sysgauge.com/setups_x64/sysgauge_setup_v5.5.12_x64.exe</url>
         <hash-sum type="SHA-256">576ca9040c4f0a147bbba05a49624e854e7e091c03a9189e3a1856c18ae06c64</hash-sum>
+    </version>
+    <version name="5.6.18" package="sysgauge64" type="one-file">
+        <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
+</file>
+        <file path=".Npackd\Uninstall.bat">uninstall.exe /S _?=%CD%&#13;
+</file>
+        <url>https://www.sysgauge.com/setups_x64/sysgauge_setup_v5.6.18_x64.exe</url>
+        <hash-sum type="SHA-256">1b013510ef000b614568616fe99173f0ea1f74b4af314695960a61cfe9596952</hash-sum>
     </version>
 
     <version name="1" package="sysinternals-suite">
@@ -34001,6 +34177,14 @@ if %err% neq 0 exit %err%&#13;
         <url>http://files.first-world.info/ultracopier/1.6.0.2/ultracopier-windows-x86_64-1.6.0.2-setup.exe</url>
         <hash-sum type="SHA-256">0dfb9b37dbfbf89aa17b1716a9ea29e8598d26d258199787df61f7c374eb8119</hash-sum>
     </version>
+    <version name="1.6.1.1" package="ultracopier64" type="one-file">
+        <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
+</file>
+        <file path=".Npackd\Uninstall.bat">uninst.exe /S _?=%CD%&#13;
+</file>
+        <url>http://files.first-world.info/ultracopier/1.6.1.1/ultracopier-windows-x86_64-1.6.1.1-setup.exe</url>
+        <hash-sum type="SHA-256">0a08beedca42a202e4cfc8daf93a18d0d003dbb8e7ddac78f4aa30c8867daf96</hash-sum>
+    </version>
 
     <version name="2.0.1" package="vagrant64" type="one-file">
         <file path=".Npackd\Install.bat">call "%nih%\InstallMSI.bat" INSTALLDIR yes&#13;
@@ -34255,6 +34439,18 @@ if %err% neq 0 exit /b %err%&#13;
 </file>
         <url>https://downloads.vivaldi.com/stable/Vivaldi.2.2.1388.34.x64.exe</url>
         <hash-sum type="SHA-256">4ff454a5f9d58642329de11583209ce26fc2c92ae874dafa769cbab58906fef1</hash-sum>
+        <dependency package="net.nirsoft.MyUninstaller" versions="[1.74, 2)">
+            <variable>myun</variable>
+        </dependency>
+    </version>
+    <version name="2.2.1388.37" package="vivaldi-browser-64" type="one-file">
+        <file path=".Npackd\Install.bat">"%npackd_package_binary%" --vivaldi-standalone --vivaldi-install-dir="%CD%" &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
+&#13;
+</file>
+        <file path=".Npackd\Uninstall.bat">"%myun%\myuninst.exe" /uninstall "vivaldi-browser-64"&#13;
+</file>
+        <url>https://downloads.vivaldi.com/stable/Vivaldi.2.2.1388.37.x64.exe</url>
+        <hash-sum type="SHA-256">9a9fa3694a8ba737a66f983e2738ca9ca0689bd2d94d902bd2914b5893dce4a1</hash-sum>
         <dependency package="net.nirsoft.MyUninstaller" versions="[1.74, 2)">
             <variable>myun</variable>
         </dependency>
