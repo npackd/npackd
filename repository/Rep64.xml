@@ -4915,6 +4915,21 @@ rem "avgmfapx.exe" /AppMode=SETUP /Uninstall /UILevel=Silent /DontRestart&#13;
             <variable>myun</variable>
         </dependency>
     </version>
+    <version name="2015.5645.222.1" package="com.avg.AVGAntiVirusFree64" type="one-file">
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
+rem /TargetInstallationPath="%CD%..\AVG_Anti_Virus_Program" is not used as this would prevent un-installation (the files would be locked)&#13;
+"%setup%" /AppMode=Setup /UILevel=silent /InstallToolbar=0 /LoggerPath="%CD%\.Npackd" /ChangeBrowserSearchProvider=0 /InstallSidebar=0 /ParticipateProductImprovement=0 /DontRestart /KillProcessesIfNeeded&#13;
+&#13;
+</file>
+        <file path=".Npackd\Uninstall.bat">rem direct un-installation does not work as the files are always locked&#13;
+rem "avgmfapx.exe" /AppMode=SETUP /Uninstall /UILevel=Silent /DontRestart&#13;
+&#13;
+"%ncl%\ncl" remove-scp --title "AVG 2015"</file>
+        <url>http://files-download.avg.com/inst/av/avg_free_x64_all_2015_ltst_221.exe</url>
+        <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.24, 2)">
+            <variable>ncl</variable>
+        </dependency>
+    </version>
 
     <version name="1.52" package="com.bitcomet.BitComet64" type="one-file">
         <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"</file>
@@ -10382,9 +10397,18 @@ for %%g in (%extensions%) do reg add HKLM\SOFTWARE\Classes\.%%g\OpenWithList\%ke
         <file path=".Npackd\Uninstall.bat">"%myun%\myuninst.exe" /uninstall "com.whatsappinc.whatsapp-desktop-64"&#13;
 </file>
         <url>https://web.whatsapp.com/desktop/windows/release/x64/WhatsAppSetup.exe</url>
-        <hash-sum type="SHA-256">c7370c68569b989ef6f499cc4a287993d4f997ad98317de9682115c5e3f6bfaa</hash-sum>
         <dependency package="net.nirsoft.MyUninstaller" versions="[1.74, 2)">
             <variable>myun</variable>
+        </dependency>
+    </version>
+    <version name="0.5.1" package="com.whatsappinc.whatsapp-desktop-64" type="one-file">
+        <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
+</file>
+        <file path=".Npackd\Uninstall.bat">"%ncl%\ncl" remove-scp --title "WhatsApp"&#13;
+</file>
+        <url>https://web.whatsapp.com/desktop/windows/release/x64/WhatsAppSetup.exe</url>
+        <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.24, 2)">
+            <variable>ncl</variable>
         </dependency>
     </version>
 
@@ -11619,6 +11643,16 @@ rmdir "%name%"&#13;
         <url>http://download.autodesk.com/esd/dwgtrueview/2019/DWGTrueView_2019_ENU_64bit.sfx.exe</url>
         <dependency package="net.nirsoft.MyUninstaller" versions="[1.74, 2)">
             <variable>myun</variable>
+        </dependency>
+    </version>
+    <version name="2019.0.1" package="dwg-trueview64" type="one-file">
+        <file path=".Npackd\Install.bat">"%npackd_package_binary%" &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
+</file>
+        <file path=".Npackd\Uninstall.bat">"%ncl%\ncl" remove-scp --title "DWG TrueView"&#13;
+</file>
+        <url>http://download.autodesk.com/esd/dwgtrueview/2019/DWGTrueView_2019_ENU_64bit.sfx.exe</url>
+        <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.24, 2)">
+            <variable>ncl</variable>
         </dependency>
     </version>
 
