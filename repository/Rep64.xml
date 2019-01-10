@@ -3930,7 +3930,7 @@ if "%setup%" neq "" "%setup%" -uninstall&#13;
         <url>https://download.macromedia.com/pub/flashplayer/pdc/32.0.0.101/install_flash_player_32_plugin.msi</url>
     </version>
 
-    <version name="1.12.1" package="com.alcpu.CoreTemp64">
+    <version name="1.13" package="com.alcpu.CoreTemp64">
         <important-file path="Core" title="Temp.exe CoreTemp"/>
         <url>http://www.alcpu.com/CoreTemp/CoreTemp64.zip</url>
     </version>
@@ -5634,6 +5634,15 @@ call "%npackdih%\InstallMSI.bat" APPLICATIONFOLDER yes&#13;
 </file>
         <url>https://download.calibre-ebook.com/3.36.0/calibre-64bit-3.36.0.msi</url>
         <hash-sum type="SHA-256">422ac710766315d0742e0dac253b9cc7f8bcb939b028b199c151eb3466589fe1</hash-sum>
+        <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.2, 2)">
+            <variable>npackdih</variable>
+        </dependency>
+    </version>
+    <version name="3.37" package="com.calibreebook.Calibre64" type="one-file">
+        <file path=".Npackd\Install.bat">call "%npackdih%\InstallMSI.bat" APPLICATIONFOLDER yes&#13;
+</file>
+        <url>https://download.calibre-ebook.com/3.37.0/calibre-64bit-3.37.0.msi</url>
+        <hash-sum type="SHA-256">3a1f332b55f1eb5cba2f51c72d4d772fae7504f300d5141f2a3fbdc6512057d8</hash-sum>
         <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.2, 2)">
             <variable>npackdih</variable>
         </dependency>
@@ -34378,6 +34387,14 @@ if %err% neq 0 exit %err%&#13;
 </file>
         <url>http://files.first-world.info/ultracopier/1.6.1.1/ultracopier-windows-x86_64-1.6.1.1-setup.exe</url>
         <hash-sum type="SHA-256">0a08beedca42a202e4cfc8daf93a18d0d003dbb8e7ddac78f4aa30c8867daf96</hash-sum>
+    </version>
+    <version name="1.6.1.2" package="ultracopier64" type="one-file">
+        <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
+</file>
+        <file path=".Npackd\Uninstall.bat">uninst.exe /S _?=%CD%&#13;
+</file>
+        <url>http://files.first-world.info/ultracopier/1.6.1.2/ultracopier-windows-x86_64-1.6.1.2-setup.exe</url>
+        <hash-sum type="SHA-256">7f730e1217294ae66e269d5da86499bbd73f7ff0173b61c65bdd38f579a49d5d</hash-sum>
     </version>
 
     <version name="2.0.1" package="vagrant64" type="one-file">
