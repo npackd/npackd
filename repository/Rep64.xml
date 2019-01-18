@@ -861,7 +861,6 @@ WARNING: this package always installs the newest version of the software.&#13;
 &#13;
 Video player
 x86_64</description>
-        <icon>http://screenshots.en.sftcdn.net/en/scrn/116000/116888/potplayer-01-100x100.png</icon>
         <category>Video</category>
         <category>same-url</category>
         <category>stable64</category>
@@ -1137,6 +1136,16 @@ x86_64</description>
         <icon>https://cloud.google.com/_static/90d4f7a54a/images/apple-touch-icon.png</icon>
         <license>org.apache.ApacheLicense2</license>
         <category>Development</category>
+        <category>stable64</category>
+    </package>
+    <package name="grisbi64">
+        <title>Grisbi 64 bit</title>
+        <url>http://www.grisbi.org</url>
+        <description>personal accounting
+x86_64</description>
+        <icon>https://lh6.googleusercontent.com/-LayoRgzE8rY/USin2mtr9TI/AAAAAAAAAoc/x3AEOoaaSZs/s800/grisbi.png</icon>
+        <license>org.gnu.GPLv2</license>
+        <category>Finance</category>
         <category>stable64</category>
     </package>
     <package name="groovy-grails-tool-suite64">
@@ -9169,7 +9178,7 @@ del Q-Dir.ini&#13;
         <url>http://files.npackd.org/com.softwareok.QDir64-5.99.9.zip</url>
         <sha1>fb6060796fae3fc641ba34fe1f2f8530d7c985a8</sha1>
     </version>
-    <version name="7.35" package="com.softwareok.QDir64">
+    <version name="7.37" package="com.softwareok.QDir64">
         <important-file path="Q-Dir.exe" title="Q-Dir"/>
         <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b Q*') do set name=%%x&#13;
 cd "%name%"        &#13;
@@ -14030,6 +14039,15 @@ rmdir "%name%"&#13;
         <dependency package="org.python.Python" versions="[2.7, 2.8)"/>
     </version>
 
+    <version name="1.1.94" package="grisbi64" type="one-file">
+        <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
+</file>
+        <file path=".Npackd\Uninstall.bat">uninstall.exe /S _?=%CD%&#13;
+</file>
+        <url>https://ayera.dl.sourceforge.net/project/grisbi/grisbi%20unstable/1.1.94/Grisbi-64bit-1.1.94-2018.12.06-23-setup.exe</url>
+        <hash-sum type="SHA-256">8e7d8b75e6d8e052460b792b693963eab07e3fc3a9c313668d3ef8b2a22a742f</hash-sum>
+    </version>
+
     <version name="3.6.1" package="groovy-grails-tool-suite64">
         <important-file path="ggts-3.6.1.RELEASE\GGTS.exe" title="GGTS 64 bit"/>
         <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b ggts*') do set name=%%x&#13;
@@ -15556,6 +15574,13 @@ if %err% neq 0 exit %err%&#13;
         <file path=".Npackd\Uninstall.bat">Uninstall_MeVisLab.exe /S _?=%CD%&#13;
 </file>
         <url>https://mevislabdownloads.mevis.de/Download/MeVisLab3.1/Win/VS2017-64/MeVisLabSDK3.1_vs2017-64.exe</url>
+    </version>
+    <version name="3.1.1" package="mevislab64" type="one-file">
+        <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
+</file>
+        <file path=".Npackd\Uninstall.bat">Uninstall_MeVisLab.exe /S _?=%CD%&#13;
+</file>
+        <url>https://mevislabdownloads.mevis.de/Download/MeVisLab3.1.1/Win/VS2017-64/MeVisLabSDK3.1.1_vs2017-64.exe</url>
     </version>
 
     <version name="4.8.2" package="mingw-w64-x86_64-seh-posix" type="one-file">
@@ -32185,7 +32210,7 @@ call "%npackdih%\InstallMSI.bat" TARGETDIR yes</file>
         </dependency>
     </version>
 
-    <version name="6.4.4" package="postman64" type="one-file">
+    <version name="6.7.1" package="postman64" type="one-file">
         <file path=".Npackd\Install.bat">ren "%npackd_package_binary%" setup.exe&#13;
 setup.exe &amp;&amp; del /f /q setup.exe&#13;
 </file>
