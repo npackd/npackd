@@ -2712,7 +2712,7 @@ x86_64</description>
         <description>WARNING: this package always installs the newest version of the software.
 communication platform
 x86_64</description>
-        <icon>https://a.slack-edge.com/814a8/marketing/img/meta/favicon.ico</icon>
+        <icon>https://a.slack-edge.com/4f28/img/ico/favicon.ico</icon>
         <category>Communications</category>
         <category>same-url</category>
         <category>stable64</category>
@@ -18946,6 +18946,15 @@ if %err% neq 0 exit /b %err%
             <variable>nih</variable>
         </dependency>
     </version>
+    <version name="1.11.1.28492" package="net.tortoisesvn.TortoiseSVN64" type="one-file">
+        <file path=".Npackd\Install.bat">call "%nih%\InstallMSI.bat" INSTALLDIR yes&#13;
+</file>
+        <url>http://rwthaachen.dl.osdn.jp/storage/g/t/to/tortoisesvn/1.11.1/Application/TortoiseSVN-1.11.1.28492-x64-svn-1.11.1.msi</url>
+        <hash-sum type="SHA-256">e610c893048c48a9896eaca2646032dabefb1b59baade82fd65068ba32d86b70</hash-sum>
+        <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3.1, 2)">
+            <variable>nih</variable>
+        </dependency>
+    </version>
 
     <version name="2.75" package="nircmd64">
         <url>http://files.npackd.org/nircmd64-2.75.zip</url>
@@ -26576,6 +26585,15 @@ rmdir "%name%"&#13;
             <variable>nih</variable>
         </dependency>
     </version>
+    <version name="4.0.5" package="org.mongodb.MongoDB64" type="one-file">
+        <file path=".Npackd\Install.bat">call "%nih%\InstallMSI.bat" INSTALLDIR yes&#13;
+</file>
+        <url>https://fastdl.mongodb.org/win32/mongodb-win32-x86_64-2008plus-ssl-4.0.5-signed.msi</url>
+        <hash-sum type="SHA-256">e2ac83cfee3350012a641405ce5ba5c3cffe3f8d1a0cd5e0eb3e332246a9cc20</hash-sum>
+        <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.1, 2)">
+            <variable>nih</variable>
+        </dependency>
+    </version>
 
     <version name="0.8.1" package="org.nodejs.NodeJS64" type="one-file">
         <file path=".Npackd\AddProperty.vbs">Option Explicit&#13;
@@ -31994,6 +32012,16 @@ echo DesktopShortcut=false &gt;&gt; .Npackd\FF.ini&#13;
         <url>http://relmirror.palemoon.org/release/palemoon-28.2.2.win64.installer.exe</url>
         <hash-sum type="SHA-256">83f8f0fecba3a11969ab857178359a09ca50397c694d495652247c9312c90049</hash-sum>
     </version>
+    <version name="28.3" package="pale-moon64" type="one-file">
+        <file path=".Npackd\Install.bat">echo [Install] &gt; .Npackd\FF.ini&#13;
+echo InstallDirectoryPath=%CD% &gt;&gt; .Npackd\FF.ini&#13;
+echo QuickLaunchShortcut=false &gt;&gt; .Npackd\FF.ini&#13;
+echo DesktopShortcut=false &gt;&gt; .Npackd\FF.ini&#13;
+"%npackd_package_binary%" /INI="%CD%\.Npackd\FF.ini" &amp;&amp; del /f /q "%npackd_package_binary%"</file>
+        <file path=".Npackd\Uninstall.bat">uninstall\helper.exe /S</file>
+        <url>http://relmirror.palemoon.org/release/palemoon-28.3.0.win64.installer.exe</url>
+        <hash-sum type="SHA-256">e15a88b9ef1e89d965a894797d703ff5ce56c1deed9c49bb12c7c33c12b8dc27</hash-sum>
+    </version>
 
     <version name="2.2.1" package="pandoc64" type="one-file">
         <file path=".Npackd\Install.bat">call "%nih%\InstallMSI.bat" INSTALLDIR yes&#13;
@@ -33113,6 +33141,17 @@ if %errorlevel% equ 3010 verify</file>
 </file>
         <url>https://github.com/ramboxapp/community-edition/releases/download/0.6.2/Rambox-0.6.2-win.exe</url>
         <hash-sum type="SHA-256">320844bb30889165cb3834773e44b68cc17cc43f1117f705da52315272adb684</hash-sum>
+        <dependency package="net.nirsoft.MyUninstaller" versions="[1.74, 2)">
+            <variable>myun</variable>
+        </dependency>
+    </version>
+    <version name="0.6.3" package="rambox-64-bit" type="one-file">
+        <file path=".Npackd\Install.bat">"%npackd_package_binary%" &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
+</file>
+        <file path=".Npackd\Uninstall.bat">"%myun%\myuninst.exe" /uninstall "rambox-64-bit"&#13;
+</file>
+        <url>https://github.com/ramboxapp/community-edition/releases/download/0.6.3/Rambox-0.6.3-win.exe</url>
+        <hash-sum type="SHA-256">6de80561515559d96f6716c67083368f70f0c73031703644d88ae14000804b93</hash-sum>
         <dependency package="net.nirsoft.MyUninstaller" versions="[1.74, 2)">
             <variable>myun</variable>
         </dependency>
@@ -34320,6 +34359,14 @@ rmdir "%name%"</file>
         <url>https://www.sysgauge.com/setups_x64/sysgauge_setup_v5.6.18_x64.exe</url>
         <hash-sum type="SHA-256">1b013510ef000b614568616fe99173f0ea1f74b4af314695960a61cfe9596952</hash-sum>
     </version>
+    <version name="5.7.28" package="sysgauge64" type="one-file">
+        <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
+</file>
+        <file path=".Npackd\Uninstall.bat">uninstall.exe /S _?=%CD%&#13;
+</file>
+        <url>https://www.sysgauge.com/setups_x64/sysgauge_setup_v5.7.28_x64.exe</url>
+        <hash-sum type="SHA-256">8040e2c3a2ffa77ca3f6f31325305aad79028707cbc42d428aaf6a630a4de924</hash-sum>
+    </version>
 
     <version name="2" package="texniccenter64" type="one-file">
         <file path=".Npackd\Install.bat">for /f %%x in ('dir /b *.exe') do set setup=%%x&#13;
@@ -34736,6 +34783,15 @@ if %err% neq 0 exit %err%&#13;
 </file>
         <url>https://releases.hashicorp.com/vagrant/2.2.2/vagrant_2.2.2_x86_64.msi</url>
         <hash-sum type="SHA-256">6b3f76e3a8c63a53e89981f556863c3508635785a8b04e6b04eaea8efe8aefa5</hash-sum>
+        <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.1, 2)">
+            <variable>nih</variable>
+        </dependency>
+    </version>
+    <version name="2.2.3" package="vagrant64" type="one-file">
+        <file path=".Npackd\Install.bat">call "%nih%\InstallMSI.bat" INSTALLDIR yes&#13;
+</file>
+        <url>https://releases.hashicorp.com/vagrant/2.2.3/vagrant_2.2.3_x86_64.msi</url>
+        <hash-sum type="SHA-256">4ac00cd17e9de3294e3d9bbec68404b9bd09c20b91f78cbb73745f0b8f01b793</hash-sum>
         <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.1, 2)">
             <variable>nih</variable>
         </dependency>
