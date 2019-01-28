@@ -8874,6 +8874,14 @@ call "%nih%\UninstallInnoSetup.bat" unins000.exe</file>
         <url>https://github.com/sindresorhus/caprine/releases/download/v2.26.0/caprine-setup-2.26.0.exe</url>
         <hash-sum type="SHA-256">b3140152c1769dd690042b00b0cecf24f4d2d7bf5c56556dc7bc9a3d25dac00f</hash-sum>
     </version>
+    <version name="2.27.1" package="com.sindresorhus.caprine" type="one-file">
+        <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
+</file>
+        <file path=".Npackd\Uninstall.bat">uninstall.exe /S _?=%CD%&#13;
+</file>
+        <url>https://github.com/sindresorhus/caprine/releases/download/v2.27.1/caprine-setup-2.27.1.exe</url>
+        <hash-sum type="SHA-256">620866447647664cf987297138b97c2a0553e2b464a4e904d0356cff5fffce72</hash-sum>
+    </version>
 
     <version name="4.51" package="com.softwareok.QDir64">
         <important-file path="Q-Dir.exe" title="Q-Dir"/>
@@ -22519,6 +22527,15 @@ if %err% neq 0 exit /b %err%&#13;
             <variable>nih</variable>
         </dependency>
     </version>
+    <version name="4.8.2" package="org.bitbucket.tortoisehg.TortoiseHg64" type="one-file">
+        <file path=".Npackd\Install.bat">call "%nih%\InstallMSI.bat" INSTALLDIR yes&#13;
+</file>
+        <url>https://bitbucket.org/tortoisehg/files/downloads/tortoisehg-4.8.2-x64.msi</url>
+        <hash-sum type="SHA-256">8a48ddac69381d01c1364744c6054e275c5efe38158e32ba6a6286bcf0a7686d</hash-sum>
+        <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3.1, 2)">
+            <variable>nih</variable>
+        </dependency>
+    </version>
 
     <version name="2.49.2" package="org.blender.Blender64">
         <important-file path="blender.exe" title="Blender"/>
@@ -23276,6 +23293,20 @@ rmdir "%name%"&#13;
         <dependency package="com.oracle.JRE64" versions="[1.6, 2)"/>
     </version>
     <version name="2018.12" package="org.eclipse.EclipseIDECPP64">
+        <important-file path="eclipse.exe" title="Eclipse IDE for C and C++"/>
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b eclipse*') do set name=%%x&#13;
+cd "%name%"&#13;
+for /f "delims=" %%a in ('dir /b') do (&#13;
+  move "%%a" ..&#13;
+)&#13;
+cd ..&#13;
+rmdir "%name%"&#13;
+</file>
+        <url>http://download.eclipse.org/technology/epp/downloads/release/2018-09/R/eclipse-cpp-2018-09-win32-x86_64.zip</url>
+        <hash-sum type="SHA-256">7476aa17d1c5e4500c5bd098fd563844da1f9c9b5257075d647e6e19b7082af1</hash-sum>
+        <dependency package="com.oracle.JRE64" versions="[1.6, 2)"/>
+    </version>
+    <version name="2019.3" package="org.eclipse.EclipseIDECPP64">
         <important-file path="eclipse.exe" title="Eclipse IDE for C and C++"/>
         <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b eclipse*') do set name=%%x&#13;
 cd "%name%"&#13;
