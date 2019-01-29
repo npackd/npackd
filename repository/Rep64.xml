@@ -1474,6 +1474,18 @@ x86_64</description>
         <category>Video</category>
         <category>stable64</category>
     </package>
+    <package name="money-manager-ex64">
+        <title>Money Manager Ex 64 bit</title>
+        <url>https://www.moneymanagerex.org</url>
+        <description>cross-platform, easy-to-use personal finance software. It primarily helps organize one's finances and keeps track of where, when and how the money goes. It is also a great tool to get a bird's eye view of your financial worth.&#13;
+&#13;
+Money Manager includes all the basic features that 90% of users would want to see in a personal finance application. The design goals are to concentrate on simplicity and user-friendliness - something one can use everyday.
+x86_64</description>
+        <icon>https://www.moneymanagerex.org/images/headers/MMEX_Logo.png</icon>
+        <license>org.gnu.GPLv2</license>
+        <category>stable64</category>
+        <link href="https://www.moneymanagerex.org/development/changelog" rel="changelog"/>
+    </package>
     <package name="mono64">
         <title>Mono 64 bit</title>
         <url>http://www.mono-project.com</url>
@@ -16799,6 +16811,17 @@ reg add HKCU\Software\mkvmergeGUI\GUI /v check_for_updates /t REG_DWORD /d 00000
 </file>
         <url>https://mkvtoolnix.download/windows/releases/14.0.0/mkvtoolnix-64bit-14.0.0-setup.exe</url>
         <sha1>b7563fcdb6b97a76bd30f236a7e56d1409dc5d9e</sha1>
+    </version>
+
+    <version name="1.3.3" package="money-manager-ex64" type="one-file">
+        <file path=".Npackd\Install.bat">"%nih%\InstallInnoSetup.bat"&#13;
+</file>
+        <file path=".Npackd\Uninstall.bat">"%nih%\UninstallInnoSetup.bat" unins000.exe</file>
+        <url>https://ayera.dl.sourceforge.net/project/moneymanagerex/v1.3.3/mmex_1.3.3_x64_setup.exe</url>
+        <hash-sum type="SHA-256">645d945efebc8f61e5e3d6e3befa64265b6af3042e170d27c5c4dc5dfd347fe4</hash-sum>
+        <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
+            <variable>nih</variable>
+        </dependency>
     </version>
 
     <version name="4.4.1" package="mono64" type="one-file">
