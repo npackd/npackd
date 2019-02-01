@@ -12533,6 +12533,11 @@ rmdir "%name%"&#13;
         <url>http://www.voidtools.com/Everything-1.4.1.928.x64.zip</url>
         <hash-sum type="SHA-256">badd9b50bc3d7e7fa8e1857a248442591c7f8cac9b34ed3cb13511a4168c867e</hash-sum>
     </version>
+    <version name="1.4.1.932" package="everything64">
+        <important-file path="Everything.exe" title="Everything"/>
+        <url>http://www.voidtools.com/Everything-1.4.1.932.x64.zip</url>
+        <hash-sum type="SHA-256">fc2a63ef170a416059a413c9148bbdc853127bb4a186253c9911ed1fe68b4e6b</hash-sum>
+    </version>
 
     <version name="3.0.3525" package="far-manager64" type="one-file">
         <file path=".Npackd\Install.bat">set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.NpackdInstallerHelper" "--versions=[1.1, 2)"&#13;
@@ -13009,6 +13014,17 @@ echo DesktopShortcut=false &gt;&gt; .Npackd\FF.ini&#13;
 verify</file>
         <url>https://download-installer.cdn.mozilla.net/pub/firefox/releases/64.0/win64/en-US/Firefox%20Setup%2064.0.exe</url>
         <hash-sum type="SHA-256">509b75c6fcf4a201b13c2ca6f84fcdeaf0ea6a5ba3cca7b9039d2da8a41740de</hash-sum>
+    </version>
+    <version name="65" package="firefox64" type="one-file">
+        <file path=".Npackd\Install.bat">echo [Install] &gt; .Npackd\FF.ini&#13;
+echo InstallDirectoryPath=%CD% &gt;&gt; .Npackd\FF.ini&#13;
+echo QuickLaunchShortcut=false &gt;&gt; .Npackd\FF.ini&#13;
+echo DesktopShortcut=false &gt;&gt; .Npackd\FF.ini&#13;
+"%npackd_package_binary%" /INI="%CD%\.Npackd\FF.ini" &amp;&amp; del /f /q "%npackd_package_binary%"</file>
+        <file path=".Npackd\Uninstall.bat">uninstall\helper.exe /S&#13;
+verify</file>
+        <url>https://download-installer.cdn.mozilla.net/pub/firefox/releases/65.0/win64/en-US/Firefox%20Setup%2065.0.exe</url>
+        <hash-sum type="SHA-256">1450bdc09d41adac96caebb7d87c7774b2dcadb13b0e05da2efe303178fa59f8</hash-sum>
     </version>
 
     <version name="0.10" package="fr.handbrake.HandBrake64" type="one-file">
@@ -14749,6 +14765,17 @@ if %err% neq 0 exit %err%&#13;
 </file>
         <url>https://www.imagemagick.org/download/binaries/ImageMagick-7.0.8-24-Q16-x64-dll.exe</url>
         <hash-sum type="SHA-256">4e3cc874f021ba166f04981f12810a7a495f99b731e4be818122a8f5ac052da0</hash-sum>
+        <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
+            <variable>nih</variable>
+        </dependency>
+    </version>
+    <version name="7.0.8.25" package="imagemagick64" type="one-file">
+        <file path=".Npackd\Install.bat">call "%nih%\InstallInnoSetup.bat"&#13;
+</file>
+        <file path=".Npackd\Uninstall.bat">call "%nih%\UninstallInnoSetup.bat" unins000.exe&#13;
+</file>
+        <url>https://www.imagemagick.org/download/binaries/ImageMagick-7.0.8-25-Q16-x64-dll.exe</url>
+        <hash-sum type="SHA-256">b5783e6ef39d0dad7e5a48faf809bddd36041404dc5c3bbcf9e85543daf69bb7</hash-sum>
         <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
             <variable>nih</variable>
         </dependency>
@@ -19030,6 +19057,14 @@ if %err% neq 0 exit %err%&#13;
         <url>http://downloads.sourceforge.net/project/smplayer/SMPlayer/18.10.0/smplayer-18.10.0-x64.exe</url>
         <hash-sum type="SHA-256">2fde1b443ba52f169f9f1c2a5ce794bd03b78eb4a9c79cb079df53ba4cbf98b6</hash-sum>
     </version>
+    <version name="19.1" package="net.sourceforge.smplayer.SMPlayer64" type="one-file">
+        <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD%&#13;
+</file>
+        <file path=".Npackd\Uninstall.bat">uninst.exe /S _?=%CD%        &#13;
+</file>
+        <url>http://downloads.sourceforge.net/project/smplayer/SMPlayer/19.1.0/smplayer-19.1.0-x64.exe</url>
+        <hash-sum type="SHA-256">3c6f46e6b61b25b76ee82e70ee3a817f5a4262d5b8966c4f1fcb79bb374ff7bf</hash-sum>
+    </version>
 
     <version name="2.42" package="net.sourceforge.strongdc.StrongDCPlusPlus64" type="one-file">
         <file path=".Npackd\Install.bat">for /f %%x in ('dir /b *.exe') do set setup=%%x&#13;
@@ -20081,6 +20116,53 @@ verify&#13;
 		</file>
         <url>https://notepad-plus-plus.org/repository/7.x/7.6.2/npp.7.6.2.Installer.x64.exe</url>
         <hash-sum type="SHA-256">94b228c2b557fecad663ecf85b63eb09e27df8802c6095bf43a48fad5231520f</hash-sum>
+    </version>
+    <version name="7.6.3" package="notepadpp64" type="one-file">
+        <file path=".Npackd\Install.bat">xcopy "%allusersprofile%\Npackd\Config\net.sourceforge.NotepadPlusPlus" .  /E /C /I /F /H /R /Y &gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+&#13;
+for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
+"%setup%" /S /D=%CD%&#13;
+if %errorlevel% neq 0 exit /b %errorlevel%&#13;
+&#13;
+set package=net.sourceforge.NotepadPlusPlus&#13;
+set version=%NPACKD_PACKAGE_VERSION%&#13;
+set key=%package%&#13;
+&#13;
+reg add HKLM\SOFTWARE\Classes\Applications\%KEY%\shell\open /v FriendlyAppName /d "Notepad++ (%version%)" /f &gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+set c=\"%CD%\notepad++.exe\" \"%%1\"&#13;
+reg add HKLM\SOFTWARE\Classes\Applications\%KEY%\shell\open\command /d "%c%" /f &gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+for %%g in (txt log ini h hpp hxx c cpp cxx cc m java cs pas inc html htm php phtml properties js jsp asp css xml sh bsh nsi nsh lua pl pm py as mx vb vbs f for f90 f95 f2k tex sql nfo mak hgignore) do reg add HKLM\SOFTWARE\Classes\.%%g\OpenWithList\%key% /f &gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+&#13;
+reg add "HKCR\*\shell\Notepad++\command" /ve /f /d "\"%cd%\notepad++.exe\" %%1" &gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+&#13;
+verify</file>
+        <file path=".Npackd\Uninstall.bat">rmdir /s /q "%allusersprofile%\Npackd\Config\net.sourceforge.NotepadPlusPlus"&#13;
+xcopy Plugins "%allusersprofile%\Npackd\Config\net.sourceforge.NotepadPlusPlus\Plugins" /E /C /I /F /H /R /Y &gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+&#13;
+set package=net.sourceforge.NotepadPlusPlus&#13;
+set version=%NPACKD_PACKAGE_VERSION%&#13;
+set key=%package%&#13;
+&#13;
+set newname=%key%_%random%&#13;
+ren %appdata%\Notepad++ %newname%&#13;
+uninstall.exe /S _?=%CD%&#13;
+if %errorlevel% neq 0 exit /b %errorlevel%&#13;
+ren %appdata%\%newname% Notepad++&#13;
+&#13;
+rem unregister "Open With..." entries&#13;
+reg delete HKLM\SOFTWARE\Classes\Applications\%KEY% /f &gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+for %%g in (txt log ini h hpp hxx c cpp cxx cc m java cs pas inc html htm php phtml properties js jsp asp css xml sh bsh nsi nsh lua pl pm py as mx vb vbs f for f90 f95 f2k tex sql nfo mak hgignore) do reg delete HKLM\SOFTWARE\Classes\.%%g\OpenWithList\%key% /f &gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+&#13;
+reg delete HKCR\*\shell\Notepad++ /f &gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+&#13;
+rem remove Explorer extension&#13;
+set trash=..\.Trash\%key%_%random%&#13;
+mkdir %trash%&#13;
+move NppShell*.dll %trash%&#13;
+verify&#13;
+		</file>
+        <url>https://notepad-plus-plus.org/repository/7.x/7.6.3/npp.7.6.3.Installer.x64.exe</url>
+        <hash-sum type="SHA-256">c99e5ba7386010f85c1a19d88fbe48c1f0df281ab624c00b0a1fa6bf8d46ce42</hash-sum>
     </version>
 
     <version name="3.5.4" package="ocenaudio64" type="one-file">
@@ -25726,6 +25808,40 @@ Set view = Nothing&#13;
             <variable>npackdih</variable>
         </dependency>
     </version>
+    <version name="1.11.5" package="org.golang.Go64" type="one-file">
+        <file path=".Npackd\Install.bat">.Npackd\AddProperty.vbs "%npackd_package_binary%"&#13;
+if %errorlevel% neq 0 exit %errorlevel%&#13;
+&#13;
+call "%npackdih%\InstallMSI.bat" INSTALLDIR</file>
+        <file path=".Npackd\Uninstall.bat">call "%npackdih%\UninstallMSI.bat"</file>
+        <file path=".Npackd\AddProperty.vbs">Option Explicit&#13;
+&#13;
+Dim MSI_FILE&#13;
+MSI_FILE = Wscript.Arguments(0)&#13;
+&#13;
+Dim installer, database, view&#13;
+&#13;
+Set installer = CreateObject("WindowsInstaller.Installer")&#13;
+Set database = installer.OpenDatabase(MSI_FILE, 1)&#13;
+&#13;
+Set view = database.OpenView("INSERT INTO Property (Property, Value) VALUES ('INSTALLDIR', 'C:\Go')")&#13;
+view.Execute&#13;
+'Set view = database.OpenView("DELETE FROM Directory WHERE Directory='TARGETDIR'")&#13;
+'view.Execute&#13;
+'Set view = database.OpenView("UPDATE Directory SET DefaultDir='INSTALLLOCATION' WHERE Directory='TARGETDIR'")&#13;
+'view.Execute&#13;
+database.Commit&#13;
+&#13;
+Set database = Nothing&#13;
+Set installer = Nothing&#13;
+Set view = Nothing&#13;
+</file>
+        <url>https://golang.org/dl/go1.11.5.windows-amd64.msi</url>
+        <hash-sum type="SHA-256">01058e46f14f16d2817c762963dbd787b8326c421573bac1624cf7afbbbd499b</hash-sum>
+        <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1, 2)">
+            <variable>npackdih</variable>
+        </dependency>
+    </version>
 
     <version name="2.22.1" package="org.gtk.GTKPlusBundle64">
         <file path="etc\gtk-2.0\gtkrc">gtk-theme-name = "MS-Windows"</file>
@@ -27532,6 +27648,14 @@ verify</file>
         <file path=".Npackd\Install.bat">call "%npackdih%\InstallMSI.bat" INSTALLDIR yes</file>
         <url>https://nodejs.org/dist/v10.15.0/node-v10.15.0-x64.msi</url>
         <hash-sum type="SHA-256">1cf90ea486607a1e4e3191e4880d4e6a256168d800fe33a6e46680149b88e3ed</hash-sum>
+        <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.1, 2)">
+            <variable>npackdih</variable>
+        </dependency>
+    </version>
+    <version name="10.15.1" package="org.nodejs.NodeJS64" type="one-file">
+        <file path=".Npackd\Install.bat">call "%npackdih%\InstallMSI.bat" INSTALLDIR yes</file>
+        <url>https://nodejs.org/dist/v10.15.1/node-v10.15.1-x64.msi</url>
+        <hash-sum type="SHA-256">fbb258288090715ce82f7301198bd552ff9a9fc03652ffb63269ba232b626d22</hash-sum>
         <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.1, 2)">
             <variable>npackdih</variable>
         </dependency>
@@ -34696,6 +34820,15 @@ rmdir "%name%"</file>
 </file>
         <url>http://www.swi-prolog.org/download/stable/bin/swipl-8.0.0-1.x64.exe</url>
         <hash-sum type="SHA-256">3b3eb678937bd6a3ed9c5d2b699909da299d31274da9c97b116432de933ea4be</hash-sum>
+    </version>
+    <version name="8.0.1" package="swi-prolog64" type="one-file">
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
+"%setup%" /S /D=%CD% &amp;&amp; del /f /q "%setup%"&#13;
+</file>
+        <file path=".Npackd\Uninstall.bat">uninstall.exe /S _?=%CD%&#13;
+</file>
+        <url>http://www.swi-prolog.org/download/stable/bin/swipl-8.0.1-1.x64.exe</url>
+        <hash-sum type="SHA-256">e7f6a28e2d27d9aff16a6f4edd9e83b6b77733c56e8ecb29021520bf3a4b98cf</hash-sum>
     </version>
 
     <version name="0.64.3" package="synfig-studio64" type="one-file">
