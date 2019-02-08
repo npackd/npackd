@@ -8717,6 +8717,16 @@ call "%nih%\UninstallInnoSetup.bat" unins000.exe</file>
             <variable>nih</variable>
         </dependency>
     </version>
+    <version name="4.9" package="com.selenic.mercurial.Mercurial64" type="one-file">
+        <file path=".Npackd\Install.bat">call "%nih%\InstallInnoSetup.bat"&#13;
+</file>
+        <file path=".Npackd\Uninstall.bat">call "%nih%\UninstallInnoSetup.bat" unins000.exe</file>
+        <url>https://www.mercurial-scm.org/release/windows/Mercurial-4.9-x64.exe</url>
+        <hash-sum type="SHA-256">ad6e8ae1079aca6dd7857445bebb065678e53f9283e533a4b00f201a5e35bb80</hash-sum>
+        <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.7, 2)">
+            <variable>nih</variable>
+        </dependency>
+    </version>
 
     <version name="2.11" package="com.sindresorhus.caprine" type="one-file">
         <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
@@ -11884,6 +11894,16 @@ if %err% neq 0 exit %err%&#13;
         <file path=".Npackd\Install.bat">"%NIH%\ExtractDir.bat" dbeaver</file>
         <url>http://dbeaver.jkiss.org/files/5.3.3/dbeaver-ce-5.3.3-win32.win32.x86_64.zip</url>
         <hash-sum type="SHA-256">36467989ebf5c5bf9607e3d913aed89761abbed84b6eaf9b599803612fe25460</hash-sum>
+        <dependency package="com.oracle.JRE64" versions="[1.7, 20)"/>
+        <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
+            <variable>nih</variable>
+        </dependency>
+    </version>
+    <version name="5.3.4" package="dbeaver64">
+        <important-file path="dbeaver.exe" title="DBeaver 64 bit"/>
+        <file path=".Npackd\Install.bat">"%NIH%\ExtractDir.bat" dbeaver</file>
+        <url>http://dbeaver.jkiss.org/files/5.3.4/dbeaver-ce-5.3.4-win32.win32.x86_64.zip</url>
+        <hash-sum type="SHA-256">e6bebb14e181e692553327cc9d6ee8128688cb61447df097baa3e2ee0a65a7e2</hash-sum>
         <dependency package="com.oracle.JRE64" versions="[1.7, 20)"/>
         <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
             <variable>nih</variable>
@@ -32631,6 +32651,16 @@ echo DesktopShortcut=false &gt;&gt; .Npackd\FF.ini&#13;
         </dependency>
         <dependency package="org.miktex.MiKTeX" versions="[2.9, 3)"/>
     </version>
+    <version name="2.6" package="pandoc64" type="one-file">
+        <file path=".Npackd\Install.bat">call "%nih%\InstallMSI.bat" INSTALLDIR yes&#13;
+</file>
+        <url>https://github.com/jgm/pandoc/releases/download/2.6/pandoc-2.6-windows-x86_64.msi</url>
+        <hash-sum type="SHA-256">63338ebca7daf07f9492dc70fce4eac5e18ed26ec7c22c964603f63114314154</hash-sum>
+        <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.1, 2)">
+            <variable>nih</variable>
+        </dependency>
+        <dependency package="org.miktex.MiKTeX" versions="[2.9, 3)"/>
+    </version>
 
     <version name="2.2.2" package="pdfsam64" type="one-file">
         <file path=".Npackd\Install.bat">&#13;
@@ -33641,6 +33671,14 @@ if %errorlevel% equ 3010 verify</file>
 </file>
         <url>https://download.racket-lang.org/installers/7.1/racket-7.1-x86_64-win32.exe</url>
         <hash-sum type="SHA-256">788a9d1e37e9ca16cf39f9328afa8d8e2017d7a1d7de581baa4b50c0fd7af26e</hash-sum>
+    </version>
+    <version name="7.2" package="racket64" type="one-file">
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
+"%setup%" /S /D=%CD%\Prog &amp;&amp; del /f /q "%setup%"</file>
+        <file path=".Npackd\Uninstall.bat">Prog\uninstall.exe /S _?=%CD%\Prog&#13;
+</file>
+        <url>https://download.racket-lang.org/installers/7.2/racket-7.2-x86_64-win32.exe</url>
+        <hash-sum type="SHA-256">fead67267ef21747d6db4358e2eecb121356ea7983c8bdf0e7b3b2e485ae8525</hash-sum>
     </version>
 
     <version name="1.14.2" package="rainlendar-lite-64bit" type="one-file">
