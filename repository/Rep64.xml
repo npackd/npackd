@@ -1778,6 +1778,7 @@ x86_64</description>
         <license>org.gnu.GPLv2</license>
         <category>Text</category>
         <category>stable64</category>
+        <link href="https://notepad-plus-plus.org/news/" rel="changelog"/>
     </package>
     <package name="ocenaudio64">
         <title>Ocenaudio 64 bit</title>
@@ -24718,6 +24719,34 @@ verify&#13;
 </file>
         <url>http://downloads.sourceforge.net/project/lazarus/Lazarus%20Windows%2032%20bits/Lazarus%201.8.4/lazarus-1.8.4-fpc-3.0.4-win32.exe</url>
         <hash-sum type="SHA-256">2606898f3ab52379762fd647ea24b46866dcc248cca88207f355804a880528a1</hash-sum>
+    </version>
+    <version name="2" package="org.freepascal.lazarus.Lazarus64" type="one-file">
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
+&#13;
+set w=%cd%&#13;
+if x%w: =%x==x%w%x goto install&#13;
+mkdir %CD:~0,2%\NpackdSymlinks&#13;
+set w=%CD:~0,2%\NpackdSymlinks\org.freepascal.lazarus.Lazarus64-%NPACKD_PACKAGE_VERSION%&#13;
+mklink /D %w% "%CD%"&#13;
+cd %w%&#13;
+&#13;
+:install&#13;
+"%setup%" /SP- /VERYSILENT /SUPPRESSMSGBOXES /NOCANCEL /NORESTART /DIR="%CD%\Prog" /SAVEINF="%CD%\.Npackd\InnoSetupInfo.ini" /LOG="%CD%\.Npackd\InnoSetupInstall.log"&#13;
+set err=%errorlevel%&#13;
+type .Npackd\InnoSetupInstall.log&#13;
+if %err% neq 0 exit %err%&#13;
+</file>
+        <file path=".Npackd\Uninstall.bat">Prog\unins000.exe /VERYSILENT /SUPPRESSMSGBOXES /NORESTART /LOG="%CD%\.Npackd\InnoSetupUninstall.log"&#13;
+set err=%errorlevel%&#13;
+type .Npackd\InnoSetupUninstall.log&#13;
+if %err% neq 0 exit %err%&#13;
+&#13;
+set w=%CD:~0,2%\NpackdSymlinks\org.freepascal.lazarus.Lazarus-%NPACKD_PACKAGE_VERSION%&#13;
+rmdir %w%&#13;
+verify&#13;
+</file>
+        <url>http://downloads.sourceforge.net/project/lazarus/Lazarus%20Windows%2032%20bits/Lazarus%202.0.0/lazarus-2.0.0-fpc-3.0.4-win32.exe</url>
+        <hash-sum type="SHA-256">fb64be2210c3583f3a184a4a3acc2342624582f7d946ab06d4faf64c81e0326d</hash-sum>
     </version>
 
     <version name="7.1.90" package="org.gnu.GDB64">
