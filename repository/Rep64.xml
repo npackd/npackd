@@ -193,6 +193,16 @@ x86_64</description>
         <category>end-of-life</category>
         <category>stable64</category>
     </package>
+    <package name="barrier64">
+        <title>Barrier 64 bit</title>
+        <url>https://github.com/debauchee/barrier</url>
+        <description>share a single mouse and keyboard between multiple computers with different operating systems, each with its own display, without special hardware
+x86_64</description>
+        <icon>https://raw.githubusercontent.com/debauchee/barrier/master/res/barrier.png</icon>
+        <category>Tools</category>
+        <category>stable64</category>
+        <link href="https://github.com/debauchee/barrier/commits/master" rel="changelog"/>
+    </package>
     <package name="bitcoin-core64">
         <title>Bitcoin Core 64 bit</title>
         <url>http://bitcoin.org/en</url>
@@ -1483,6 +1493,7 @@ Money Manager includes all the basic features that 90% of users would want to se
 x86_64</description>
         <icon>https://www.moneymanagerex.org/images/headers/MMEX_Logo.png</icon>
         <license>org.gnu.GPLv2</license>
+        <category>Finance</category>
         <category>stable64</category>
         <link href="https://www.moneymanagerex.org/development/changelog" rel="changelog"/>
     </package>
@@ -1779,6 +1790,17 @@ x86_64</description>
         <category>Text</category>
         <category>stable64</category>
         <link href="https://notepad-plus-plus.org/news/" rel="changelog"/>
+    </package>
+    <package name="nubasic64">
+        <title>Nubasic 64 bit</title>
+        <url>http://www.nubasic.eu</url>
+        <description>programming language from the BASIC family
+x86_64</description>
+        <icon>http://www.nubasic.eu/_/rsrc/1468855535525/config/customLogo.gif?revision=9</icon>
+        <license>org.wikipedia.Freeware</license>
+        <category>Development</category>
+        <category>stable64</category>
+        <link href="https://sourceforge.net/projects/nubasic/" rel="changelog"/>
     </package>
     <package name="ocenaudio64">
         <title>Ocenaudio 64 bit</title>
@@ -3208,6 +3230,17 @@ if %err% neq 0 exit %err%</file>
 </file>
         <url>http://www.aspia.ru/download/aspia/aspia-0.3.0.zip</url>
         <sha1>62209d84e2e3152badaaa6a5f22bab365af33cfc</sha1>
+    </version>
+
+    <version name="2.1" package="barrier64" type="one-file">
+        <file path=".Npackd\Install.bat">"%nih%\InstallInnoSetup.bat"&#13;
+</file>
+        <file path=".Npackd\Uninstall.bat">"%nih%\UninstallInnoSetup.bat" unins000.exe</file>
+        <url>https://github.com/debauchee/barrier/releases/download/v2.1.0/BarrierSetup-amd64-2.1.0.exe</url>
+        <hash-sum type="SHA-256">5e82fb8f6ab845603c4144a5f97de971fa017600ce6d38903f00c766289de79b</hash-sum>
+        <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
+            <variable>nih</variable>
+        </dependency>
     </version>
 
     <version name="0.11.1" package="bitcoin-core64" type="one-file">
@@ -9013,6 +9046,14 @@ call "%nih%\UninstallInnoSetup.bat" unins000.exe</file>
 </file>
         <url>https://github.com/sindresorhus/caprine/releases/download/v2.27.1/caprine-setup-2.27.1.exe</url>
         <hash-sum type="SHA-256">620866447647664cf987297138b97c2a0553e2b464a4e904d0356cff5fffce72</hash-sum>
+    </version>
+    <version name="2.28" package="com.sindresorhus.caprine" type="one-file">
+        <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
+</file>
+        <file path=".Npackd\Uninstall.bat">uninstall.exe /S _?=%CD%&#13;
+</file>
+        <url>https://github.com/sindresorhus/caprine/releases/download/v2.28.0/caprine-setup-2.28.0.exe</url>
+        <hash-sum type="SHA-256">2da6940ab3255e8541c4b48f204c363488dbdfd61710d85256fadae6f8e25ad5</hash-sum>
     </version>
 
     <version name="4.51" package="com.softwareok.QDir64">
@@ -20393,6 +20434,18 @@ verify&#13;
 		</file>
         <url>https://notepad-plus-plus.org/repository/7.x/7.6.3/npp.7.6.3.Installer.x64.exe</url>
         <hash-sum type="SHA-256">c99e5ba7386010f85c1a19d88fbe48c1f0df281ab624c00b0a1fa6bf8d46ce42</hash-sum>
+    </version>
+
+    <version name="1.49" package="nubasic64">
+        <file path=".Npackd\Install.bat">call "%nih%\InstallInnoSetup.bat"&#13;
+</file>
+        <file path=".Npackd\Uninstall.bat">call "%nih%\UninstallInnoSetup.bat" unins000.exe&#13;
+</file>
+        <url>https://downloads.sourceforge.net/project/nubasic/binary/Windows/nubasic-ide-1.49-setup_x64.zip</url>
+        <hash-sum type="SHA-256">ad6263b4ab714bbc9b6489fcf9d620e22d5a12d6e72b5e02052c3e79ab22b6ee</hash-sum>
+        <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
+            <variable>nih</variable>
+        </dependency>
     </version>
 
     <version name="3.5.4" package="ocenaudio64" type="one-file">
@@ -34784,6 +34837,16 @@ rem Install4j&#13;
         <url>https://s3.amazonaws.com/downloads.eviware/soapuios/5.4.0/SoapUI-x64-5.4.0.exe</url>
         <sha1>76139fc7cee7f343315720d8c6d29965cd5dfee2</sha1>
     </version>
+    <version name="5.5" package="soapui64" type="one-file">
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
+rem Install4j&#13;
+"%setup%" -q -dir "%CD%"&#13;
+</file>
+        <file path=".Npackd\Uninstall.bat">uninstall.exe -q&#13;
+</file>
+        <url>https://s3.amazonaws.com/downloads.eviware/soapuios/5.4.0/SoapUI-x64-5.4.0.exe</url>
+        <sha1>76139fc7cee7f343315720d8c6d29965cd5dfee2</sha1>
+    </version>
 
     <version name="3.9.1" package="sqlite64">
         <url>http://www.sqlite.org/2015/sqlite-dll-win64-x64-3090100.zip</url>
@@ -34856,6 +34919,10 @@ rem Install4j&#13;
     <version name="3.26" package="sqlite64">
         <url>https://www.sqlite.org/2018/sqlite-dll-win64-x64-3260000.zip</url>
         <hash-sum type="SHA-256">216e35db57f408537e8f62c4574b5f7952c9cff22640513f16b618e42ee1addb</hash-sum>
+    </version>
+    <version name="3.27.1" package="sqlite64">
+        <url>https://www.sqlite.org/2019/sqlite-dll-win64-x64-3270100.zip</url>
+        <hash-sum type="SHA-256">fcbc476580ca2e16cae3a8e76cc3452d1cf5026a6764a7e673743ddaabf33006</hash-sum>
     </version>
 
     <version name="10.50.1600.1" package="sqlncli64" type="one-file">
@@ -35878,6 +35945,18 @@ if %err% neq 0 exit /b %err%&#13;
 </file>
         <url>https://downloads.vivaldi.com/stable/Vivaldi.2.2.1388.37.x64.exe</url>
         <hash-sum type="SHA-256">9a9fa3694a8ba737a66f983e2738ca9ca0689bd2d94d902bd2914b5893dce4a1</hash-sum>
+        <dependency package="net.nirsoft.MyUninstaller" versions="[1.74, 2)">
+            <variable>myun</variable>
+        </dependency>
+    </version>
+    <version name="2.3.1440.41" package="vivaldi-browser-64" type="one-file">
+        <file path=".Npackd\Install.bat">"%npackd_package_binary%" --vivaldi-standalone --vivaldi-install-dir="%CD%" &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
+&#13;
+</file>
+        <file path=".Npackd\Uninstall.bat">"%myun%\myuninst.exe" /uninstall "vivaldi-browser-64"&#13;
+</file>
+        <url>https://downloads.vivaldi.com/stable/Vivaldi.2.3.1440.41.x64.exe</url>
+        <hash-sum type="SHA-256">2adcfc06e0f98cdd129242f64314497e1c3e6ec538dfe803fd8e4b05d5e8a4b8</hash-sum>
         <dependency package="net.nirsoft.MyUninstaller" versions="[1.74, 2)">
             <variable>myun</variable>
         </dependency>
