@@ -20585,6 +20585,17 @@ verify&#13;
             <variable>myun</variable>
         </dependency>
     </version>
+    <version name="23.0.1" package="open-broadcaster-software64" type="one-file">
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
+"%setup%" /S /D=%CD% &amp;&amp; del /f /q "%setup%"&#13;
+</file>
+        <file path=".Npackd\Uninstall.bat">"%myun%\myuninst.exe" /uninstall "Open Broadcaster Software"</file>
+        <url>https://github.com/jp9000/obs-studio/releases/download/23.0.1/OBS-Studio-23.0.1-Full-Installer-x64.exe</url>
+        <hash-sum type="SHA-256">9d3727dc654adae7fd25a4301c0fb9384427f744779879f7a02c2da7005d74ee</hash-sum>
+        <dependency package="net.nirsoft.MyUninstaller" versions="[1.74, 2)">
+            <variable>myun</variable>
+        </dependency>
+    </version>
 
     <version name="1.6.1" package="open-ttd64">
         <important-file path="openttd.exe" title="OpenTTD"/>
