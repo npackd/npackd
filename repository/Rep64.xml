@@ -2617,6 +2617,17 @@ x86_64</description>
         <category>Finance</category>
         <category>stable64</category>
     </package>
+    <package name="qt-creator64">
+        <title>Qt Creator 64 bit</title>
+        <url>https://www.qt.io/ide/</url>
+        <description>C++ IDE
+x86_64</description>
+        <icon>https://lh4.googleusercontent.com/-M_yIydoQVxw/USjbka862GI/AAAAAAAAAws/UJAvKDOPwkY/s800/qt.png</icon>
+        <license>org.gnu.GPLv3</license>
+        <category>Development</category>
+        <category>stable64</category>
+        <link href="http://code.qt.io/cgit/qt-creator/qt-creator.git/log/" rel="changelog"/>
+    </package>
     <package name="qtox64">
         <title>qTox 64 bit</title>
         <url>https://tox.chat/</url>
@@ -6109,8 +6120,8 @@ if %err% neq 0 exit %err%</file>
     <version name="9.26" package="com.ghostscript.Ghostscript64" type="one-file">
         <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD%</file>
         <file path=".Npackd\Uninstall.bat">uninstgs.exe /S</file>
-        <url>https://github.com/ArtifexSoftware/ghostpdl-downloads/releases/download/gs926/gs926w64.exe</url>
-        <hash-sum type="SHA-256">56ab1f0cd518c0fa551ed464f2f87242819199f0dcfeb9a8d5392333d67e35d3</hash-sum>
+        <url>https://github.com/ArtifexSoftware/ghostpdl-downloads/releases/download/gs926/gs926aw64.exe</url>
+        <hash-sum type="SHA-256">fcc5108f13916bb749943c79ea16b9eee1465de578a2bc0bc86b01ff6a3a90b8</hash-sum>
     </version>
 
     <version name="12.7.27.3" package="com.googlecode.conemu-maximus5.ConEmu64" type="one-file">
@@ -6843,6 +6854,16 @@ call "%npackdih%\InstallMSI.bat" INSTALLDIR yes&#13;
 </file>
         <url>https://download.tortoisegit.org/tgit/2.7.0.0/TortoiseGit-2.7.0.0-64bit.msi</url>
         <hash-sum type="SHA-256">ea4d68423484143de7c2afe75d28eed29ecb695e3b4ad41c47d8365fe70c76bd</hash-sum>
+        <dependency package="git64" versions="[1.7.6.2011.7.8, 3)"/>
+        <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3.1, 2)">
+            <variable>npackdih</variable>
+        </dependency>
+    </version>
+    <version name="2.8" package="com.googlecode.tortoisegit.TortoiseGit64" type="one-file">
+        <file path=".Npackd\Install.bat">call "%npackdih%\InstallMSI.bat" INSTALLDIR yes&#13;
+</file>
+        <url>https://download.tortoisegit.org/tgit/2.8.0.0/TortoiseGit-2.8.0.0-64bit.msi</url>
+        <hash-sum type="SHA-256">d09af93152e0d22afd1dcae386bc39840136fa607398dd4529356fac46ed774f</hash-sum>
         <dependency package="git64" versions="[1.7.6.2011.7.8, 3)"/>
         <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3.1, 2)">
             <variable>npackdih</variable>
@@ -12754,6 +12775,14 @@ rmdir "%name%"&#13;
         <url>https://github.com/resin-io/etcher/releases/download/v1.4.9/balenaEtcher-Setup-1.4.9-x64.exe</url>
         <hash-sum type="SHA-256">24b6d0d174dfa5883ed313f7546d1df36794d3fe9eb0d7397ab96d6f82af2a96</hash-sum>
     </version>
+    <version name="1.5.5" package="etcher64" type="one-file">
+        <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
+</file>
+        <file path=".Npackd\Uninstall.bat">uninstall.exe /S _?=%CD%&#13;
+</file>
+        <url>https://github.com/resin-io/etcher/releases/download/v1.5.5/balenaEtcher-Setup-1.5.5-x64.exe</url>
+        <hash-sum type="SHA-256">3c4975873eda2d38f889d869217e039da510423d1409985a02e0469004f968f1</hash-sum>
+    </version>
 
     <version name="1.3.4.686" package="everything64">
         <important-file path="Everything.exe" title="Everything"/>
@@ -13477,6 +13506,14 @@ if %err% neq 0 exit %err%</file>
         <sha1>d4ccd450e03510cb837e6c4b7956311401a9a0a1</sha1>
     </version>
     <version name="2.4.2" package="fusioninventory-agent64" type="one-file">
+        <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
+</file>
+        <file path=".Npackd\Uninstall.bat">uninstall.exe /S _?=%CD%&#13;
+</file>
+        <url>https://github.com/fusioninventory/fusioninventory-agent/releases/download/2.4/fusioninventory-agent_windows-x86_2.4.exe</url>
+        <sha1>d4ccd450e03510cb837e6c4b7956311401a9a0a1</sha1>
+    </version>
+    <version name="2.4.3" package="fusioninventory-agent64" type="one-file">
         <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
 </file>
         <file path=".Npackd\Uninstall.bat">uninstall.exe /S _?=%CD%&#13;
@@ -15099,6 +15136,17 @@ if %err% neq 0 exit %err%&#13;
             <variable>nih</variable>
         </dependency>
     </version>
+    <version name="7.0.8.32" package="imagemagick64" type="one-file">
+        <file path=".Npackd\Install.bat">call "%nih%\InstallInnoSetup.bat"&#13;
+</file>
+        <file path=".Npackd\Uninstall.bat">call "%nih%\UninstallInnoSetup.bat" unins000.exe&#13;
+</file>
+        <url>https://www.imagemagick.org/download/binaries/ImageMagick-7.0.8-32-Q16-x64-dll.exe</url>
+        <hash-sum type="SHA-256">f3af6152b8c865b1f7ab20b34579472911aac96be289b8da9f09585b8122a427</hash-sum>
+        <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
+            <variable>nih</variable>
+        </dependency>
+    </version>
 
     <version name="0.3.8" package="io.mpv.mpv-64" type="one-file">
         <file path=".Npackd\Install.bat">for /f %%x in ('dir /b *.7z') do set setup=%%x&#13;
@@ -15329,6 +15377,18 @@ rmdir "%name%"&#13;
 </file>
         <url>https://dist.ipfs.io/go-ipfs/v0.4.18/go-ipfs_v0.4.18_windows-amd64.zip</url>
         <hash-sum type="SHA-256">9772bde679cb63c9d5e1a0e2d3c55127a3e9b023daef19b60956c4e7e08b0095</hash-sum>
+    </version>
+    <version name="0.4.19" package="ipfs64">
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b go-ipfs*') do set name=%%x&#13;
+cd "%name%"&#13;
+for /f "delims=" %%a in ('dir /b') do (&#13;
+  move "%%a" ..&#13;
+)&#13;
+cd ..&#13;
+rmdir "%name%"&#13;
+</file>
+        <url>https://dist.ipfs.io/go-ipfs/v0.4.19/go-ipfs_v0.4.19_windows-amd64.zip</url>
+        <hash-sum type="SHA-256">b5a377d96b1ff88b1b146ee8b14a509ea65f9f0a5c94308a0a4d7fe22d2a5ea4</hash-sum>
     </version>
 
     <version name="5" package="jclasslib64" type="one-file">
@@ -17875,6 +17935,28 @@ for %%g in (pdf ps eps svg svgz sxd odg sla sla.gz scd scd.gz) do reg delete HKL
         <dependency package="com.ghostscript.Ghostscript64" versions="[9.06, 10)"/>
     </version>
     <version name="1.4.7" package="net.scribus.Scribus64" type="one-file">
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
+"%setup%" /S /D=%CD%&#13;
+set err=%errorlevel%&#13;
+if %err% neq 0 exit /b %err%&#13;
+&#13;
+set key=%NPACKD_PACKAGE_NAME%-%NPACKD_PACKAGE_VERSION%&#13;
+reg add HKLM\SOFTWARE\Classes\Applications\%key%\shell\open /v FriendlyAppName /d "Scribus (%NPACKD_PACKAGE_VERSION%)" /f&#13;
+set c=\"%CD%\Scribus.exe\" \"%%1\"&#13;
+reg add HKLM\SOFTWARE\Classes\Applications\%KEY%\shell\open\command /d "%c%" /f&#13;
+for %%g in (pdf ps eps svg svgz sxd odg sla sla.gz scd scd.gz) do reg add HKLM\SOFTWARE\Classes\.%%g\OpenWithList\%key% /f</file>
+        <file path=".Npackd\Uninstall.bat">uninst.exe /S&#13;
+set err=%errorlevel%&#13;
+if %err% neq 0 exit /b %err%&#13;
+&#13;
+set key=%NPACKD_PACKAGE_NAME%-%NPACKD_PACKAGE_VERSION%&#13;
+reg delete HKLM\SOFTWARE\Classes\Applications\%key% /f&#13;
+for %%g in (pdf ps eps svg svgz sxd odg sla sla.gz scd scd.gz) do reg delete HKLM\SOFTWARE\Classes\.%%g\OpenWithList\%key% /f</file>
+        <url>https://ayera.dl.sourceforge.net/project/scribus/scribus/1.4.7/scribus-1.4.7-windows-x64.exe</url>
+        <hash-sum type="SHA-256">cadffc225b50375a7d1ddc8e46dbf3fe6e2e95d03ebb682bee1c230d6cb7532e</hash-sum>
+        <dependency package="com.ghostscript.Ghostscript64" versions="[9.06, 10)"/>
+    </version>
+    <version name="1.4.8" package="net.scribus.Scribus64" type="one-file">
         <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
 "%setup%" /S /D=%CD%&#13;
 set err=%errorlevel%&#13;
@@ -21035,6 +21117,21 @@ reg add HKLM\SOFTWARE\OpenVPN-GUI /v allow_service /t REG_SZ /d 0 /f&#13;
         <url>https://swupdate.openvpn.org/community/releases/openvpn-install-2.4.6-I602.exe</url>
         <hash-sum type="SHA-256">7397af1128c35a0e44bb104caa3cdad77b5be7c5106c8933a810771f99256800</hash-sum>
         <dependency package="com.github.bmatzelle.Gow" versions="[0.7, 2)"/>
+    </version>
+    <version name="2.4.7" package="openvpn64" type="one-file">
+        <file path=".Npackd\Install.bat">rem "%ProgramFiles%\GowData\bin\wget.exe" -O openvpn.p7b http://dl.dropboxusercontent.com/s/cqvn6qkvamwyjv4/openvpn.p7b&#13;
+rem certutil -addstore -f "TrustedPublisher" "%CD%\openvpn.p7b" &gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+&#13;
+for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
+"%setup%" /S /D=%CD%&#13;
+&#13;
+reg add HKLM\SOFTWARE\OpenVPN-GUI /v allow_service /t REG_SZ /d 0 /f&#13;
+&#13;
+</file>
+        <file path=".Npackd\Uninstall.bat">Uninstall.exe /S _?=%CD%&#13;
+</file>
+        <url>https://swupdate.openvpn.org/community/releases/openvpn-install-2.4.7-I603.exe</url>
+        <hash-sum type="SHA-256">0237be0be0156f869f38fb2f38842e3ab5df46c79b914eba580de3031c116651</hash-sum>
     </version>
 
     <version name="9.20" package="org.7-zip.SevenZIP64" type="one-file">
@@ -28246,6 +28343,14 @@ verify</file>
             <variable>npackdih</variable>
         </dependency>
     </version>
+    <version name="10.15.3" package="org.nodejs.NodeJS64" type="one-file">
+        <file path=".Npackd\Install.bat">call "%npackdih%\InstallMSI.bat" INSTALLDIR yes</file>
+        <url>https://nodejs.org/dist/v10.15.3/node-v10.15.3-x64.msi</url>
+        <hash-sum type="SHA-256">46b3d03c96de0b9e7d3a204c67772759283221f5e58ac225df813076a65e2738</hash-sum>
+        <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.1, 2)">
+            <variable>npackdih</variable>
+        </dependency>
+    </version>
 
     <version name="2.2" package="org.openshot.openshot64" type="one-file">
         <file path=".Npackd\Install.bat">"%nih%\InstallInnoSetup.bat"&#13;
@@ -31634,6 +31739,20 @@ call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Np
             <variable>nih</variable>
         </dependency>
     </version>
+    <version name="8.1.996" package="org.vim.Vim64">
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+if %errorlevel% neq 0 exit /b %errorlevel%&#13;
+&#13;
+for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+</file>
+        <url>https://github.com/vim/vim-win32-installer/releases/download/v8.1.0996/gvim_8.1.0996_x64.zip</url>
+        <hash-sum type="SHA-256">64874c7d60aa08119c388ebfffe8dd7ff1560986e1703563cd7769a385b185d9</hash-sum>
+        <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.19, 2)">
+            <variable>nih</variable>
+        </dependency>
+    </version>
 
     <version name="4.2.8.83876" package="org.virtualbox.virtualbox64" type="one-file">
         <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
@@ -32909,6 +33028,14 @@ if %err% neq 0 exit %err%</file>
         <url>https://1.eu.dl.wireshark.org/win64/Wireshark-win64-2.6.6.exe</url>
         <hash-sum type="SHA-256">e440a059fba3572000b5695ca89438d5765b9d73d830556344d7e8cdad071617</hash-sum>
     </version>
+    <version name="3" package="org.wireshark.Wireshark64" type="one-file">
+        <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD%&#13;
+</file>
+        <file path=".Npackd\Uninstall.bat">uninstall.exe /S _=%CD%&#13;
+</file>
+        <url>https://1.eu.dl.wireshark.org/win64/Wireshark-win64-3.0.0.exe</url>
+        <hash-sum type="SHA-256">b5d30a9c0b2835a41e8132b1d9246a01ad6f1461a4de14fa3ccbdf4919c70eac</hash-sum>
+    </version>
 
     <version name="26.0.3" package="pale-moon64" type="one-file">
         <file path=".Npackd\Install.bat">echo [Install] &gt; .Npackd\FF.ini&#13;
@@ -33307,6 +33434,16 @@ echo DesktopShortcut=false &gt;&gt; .Npackd\FF.ini&#13;
 </file>
         <url>https://github.com/jgm/pandoc/releases/download/2.6/pandoc-2.6-windows-x86_64.msi</url>
         <hash-sum type="SHA-256">63338ebca7daf07f9492dc70fce4eac5e18ed26ec7c22c964603f63114314154</hash-sum>
+        <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.1, 2)">
+            <variable>nih</variable>
+        </dependency>
+        <dependency package="org.miktex.MiKTeX" versions="[2.9, 3)"/>
+    </version>
+    <version name="2.7" package="pandoc64" type="one-file">
+        <file path=".Npackd\Install.bat">call "%nih%\InstallMSI.bat" INSTALLDIR yes&#13;
+</file>
+        <url>https://github.com/jgm/pandoc/releases/download/2.7/pandoc-2.7-windows-x86_64.msi</url>
+        <hash-sum type="SHA-256">bedad957839b6ccc732922fa71742a7b21e166a77c99f2229e6e9e443b8ce8e6</hash-sum>
         <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.1, 2)">
             <variable>nih</variable>
         </dependency>
@@ -33943,6 +34080,15 @@ lib.sendKeysToWindow("QCAD 3.12.4 Uninstall", "{ENTER}");&#13;
             <variable>nih</variable>
         </dependency>
     </version>
+    <version name="3.22" package="qcad64" type="one-file">
+        <file path=".Npackd\Install.bat">call "%nih%\InstallMSI.bat" INSTALLDIR yes&#13;
+</file>
+        <url>http://www.qcad.org/archives/qcad/qcad-3.22.0-trial-win64-installer.msi</url>
+        <hash-sum type="SHA-256">fbb89c29825e14cac1fa21fd267c00c0c697f6d698ef7bcf339c7ae210a73bc4</hash-sum>
+        <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.1, 2)">
+            <variable>nih</variable>
+        </dependency>
+    </version>
 
     <version name="2.10.1" package="qgis64" type="one-file">
         <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
@@ -34168,6 +34314,17 @@ if %errorlevel% equ 3010 verify</file>
     <version name="1.40.6" package="Qt-Bitcoin-Trader64" type="one-file">
         <important-file path="qtbitcointrader.exe" title="Qt Bitcoin Trader"/>
         <url>http://download.sourceforge.net/project/bitcointrader/Win64/QtBitcoinTrader.exe</url>
+    </version>
+
+    <version name="4.8.2" package="qt-creator64" type="one-file">
+        <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD%&#13;
+</file>
+        <file path=".Npackd\Uninstall.bat">"%ncl%\ncl.exe" remove-scp --title "/Qt Creator.*/"&#13;
+</file>
+        <url>http://download.qt.io/official_releases/qtcreator/4.8/4.8.2/qt-creator-opensource-windows-x86_64-4.8.2.exe</url>
+        <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.24, 2)">
+            <variable>ncl</variable>
+        </dependency>
     </version>
 
     <version name="1.11" package="qtox64" type="one-file">
@@ -35577,6 +35734,15 @@ rmdir "%name%"</file>
         <url>http://www.swi-prolog.org/download/stable/bin/swipl-8.0.1-1.x64.exe</url>
         <hash-sum type="SHA-256">e7f6a28e2d27d9aff16a6f4edd9e83b6b77733c56e8ecb29021520bf3a4b98cf</hash-sum>
     </version>
+    <version name="8.0.2" package="swi-prolog64" type="one-file">
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
+"%setup%" /S /D=%CD% &amp;&amp; del /f /q "%setup%"&#13;
+</file>
+        <file path=".Npackd\Uninstall.bat">uninstall.exe /S _?=%CD%&#13;
+</file>
+        <url>http://www.swi-prolog.org/download/stable/bin/swipl-8.0.2-1.x64.exe</url>
+        <hash-sum type="SHA-256">2c0a1be36effbbf602a8dbee15836294e5e907134f623c695bc1f52cf275aad9</hash-sum>
+    </version>
 
     <version name="0.64.3" package="synfig-studio64" type="one-file">
         <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
@@ -36111,6 +36277,15 @@ if %err% neq 0 exit %err%&#13;
             <variable>nih</variable>
         </dependency>
     </version>
+    <version name="2.2.4" package="vagrant64" type="one-file">
+        <file path=".Npackd\Install.bat">call "%nih%\InstallMSI.bat" INSTALLDIR yes&#13;
+</file>
+        <url>https://releases.hashicorp.com/vagrant/2.2.4/vagrant_2.2.4_x86_64.msi</url>
+        <hash-sum type="SHA-256">0c8cf856ed8c794db2cceef96e8cbd5f0096eeafe851b024fd0dd4b308291026</hash-sum>
+        <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.1, 2)">
+            <variable>nih</variable>
+        </dependency>
+    </version>
 
     <version name="2007.6.0.192" package="virtual-pc64" type="one-file">
         <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.msi') do set setup=%%x&#13;
@@ -36314,17 +36489,38 @@ if %err% neq 0 exit /b %err%&#13;
             <variable>myun</variable>
         </dependency>
     </version>
+    <version name="2.3.1440.57" package="vivaldi-browser-64" type="one-file">
+        <file path=".Npackd\Install.bat">"%npackd_package_binary%" --vivaldi-standalone --vivaldi-install-dir="%CD%" &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
+&#13;
+</file>
+        <file path=".Npackd\Uninstall.bat">"%ncl%\ncl.exe" remove-scp --title "vivaldi-browser-64"&#13;
+</file>
+        <url>https://downloads.vivaldi.com/stable/Vivaldi.2.3.1440.57.x64.exe</url>
+        <hash-sum type="SHA-256">a1a410cad0e70e8af0fd56ba90aa460e70b3f597ed3d394ce0f2b372dd892251</hash-sum>
+        <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.24, 2)">
+            <variable>ncl</variable>
+        </dependency>
+    </version>
+    <version name="2.3.1440.60" package="vivaldi-browser-64" type="one-file">
+        <file path=".Npackd\Install.bat">"%npackd_package_binary%" --vivaldi-standalone --vivaldi-install-dir="%CD%" &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
+&#13;
+</file>
+        <file path=".Npackd\Uninstall.bat">"%myun%\myuninst.exe" /uninstall "vivaldi-browser-64"&#13;
+</file>
+        <url>https://downloads.vivaldi.com/stable/Vivaldi.2.3.1440.60.x64.exe</url>
+        <hash-sum type="SHA-256">8a98b6f9e15b96999c390e50d5aabe6f6aa459a935b8238cfb9a72b2631174c6</hash-sum>
+        <dependency package="net.nirsoft.MyUninstaller" versions="[1.74, 2)">
+            <variable>myun</variable>
+        </dependency>
+    </version>
 
     <version name="15.0.2" package="vmware64" type="one-file">
         <file path=".Npackd\Install.bat">"%npackd_package_binary%" /a /s /v"/qn TARGETDIR=."&#13;
 &#13;
-call "%nih%\InstallMSI.bat" INSTALLDIR yes&#13;
+&#13;
 </file>
         <url>https://download3.vmware.com/software/player/file/VMware-player-15.0.2-10952284.exe</url>
         <hash-sum type="SHA-256">7d2f186ccf31c2d45b1e65cca10cadd9da5a596c0b0796cd85b525ee3e888302</hash-sum>
-        <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.1, 2)">
-            <variable>nih</variable>
-        </dependency>
     </version>
 
     <version name="1.18.1" package="vs-code" type="one-file">
