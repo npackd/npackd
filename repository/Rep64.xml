@@ -602,6 +602,7 @@ Visual Studio 2012 - 11.0&#13;
 Visual Studio 2012 Update 4 - 11.0.61030&#13;
 Visual Studio 2013 - 12.0 &#13;
 Visual Studio 2015 - 14.0&#13;
+Visual Studio 2017 - 14.16&#13;
 &#13;
 kw: vc9runtime, vc80crtredist, msvcrt, msvcrt110, vc9runtimex64, kb973923
 x86_64</description>
@@ -676,7 +677,7 @@ x86_64</description>
         <link href="http://www.oracle.com/technetwork/java/javase/jdk-relnotes-index-2162236.html" rel="changelog"/>
     </package>
     <package name="com.oracle.JRE64">
-        <title>JRE 64 bit</title>
+        <title>Java 64 bit</title>
         <url>http://www.java.com/en/</url>
         <description>Java runtime. This package uses internal version numbers. For example, 1.7.0.1 corresponds to "Version 7 update 1 or 7u1"
 x86_64</description>
@@ -2990,6 +2991,7 @@ Visual Studio 2012 - 11.0&#13;
 Visual Studio 2012 Update 4 - 11.0.61030&#13;
 Visual Studio 2013 - 12.0 &#13;
 Visual Studio 2015 - 14.0&#13;
+Visual Studio 2017 - 14.16&#13;
 &#13;
 kw: x86_64
 x86_64</description>
@@ -15266,6 +15268,17 @@ if %err% neq 0 exit %err%&#13;
             <variable>nih</variable>
         </dependency>
     </version>
+    <version name="7.0.8.34" package="imagemagick64" type="one-file">
+        <file path=".Npackd\Install.bat">call "%nih%\InstallInnoSetup.bat"&#13;
+</file>
+        <file path=".Npackd\Uninstall.bat">call "%nih%\UninstallInnoSetup.bat" unins000.exe&#13;
+</file>
+        <url>https://www.imagemagick.org/download/binaries/ImageMagick-7.0.8-34-Q16-x64-dll.exe</url>
+        <hash-sum type="SHA-256">4646e689394faacc2e6448582eb7f8471263108f8da0cfafff9dfd9f0d9e13e8</hash-sum>
+        <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
+            <variable>nih</variable>
+        </dependency>
+    </version>
 
     <version name="0.3.8" package="io.mpv.mpv-64" type="one-file">
         <file path=".Npackd\Install.bat">for /f %%x in ('dir /b *.7z') do set setup=%%x&#13;
@@ -17568,6 +17581,15 @@ reg add HKCU\Software\mkvmergeGUI\GUI /v check_for_updates /t REG_DWORD /d 00000
             <variable>npackdih</variable>
         </dependency>
     </version>
+    <version name="5.18.1" package="mono64" type="one-file">
+        <file path=".Npackd\Install.bat">call "%npackdih%\InstallMSI.bat" INSTALLDIR yes&#13;
+</file>
+        <url>https://download.mono-project.com/archive/5.18.1/windows-installer/mono-5.18.1-x64-0.msi</url>
+        <hash-sum type="SHA-256">e35cb806fd030693972ea23a69c62405b767cd185d6229cf30be627222201fa9</hash-sum>
+        <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.1, 2)">
+            <variable>npackdih</variable>
+        </dependency>
+    </version>
 
     <version name="2016.2.5" package="msys2_64" type="one-file">
         <file path=".Npackd\Install.bat">call "%nih%\Extract.bat" "%npackd_package_binary%" "."&#13;
@@ -19196,6 +19218,17 @@ if %err% neq 0 exit %err%&#13;
 </file>
         <url>https://ayera.dl.sourceforge.net/project/peazip/6.5.1/peazip-6.5.1.WINDOWS.exe</url>
         <sha1>871cf60f8fc8d1f3dfc48390b2f0ec90bc89a821</sha1>
+        <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
+            <variable>nih</variable>
+        </dependency>
+    </version>
+    <version name="6.7.1" package="net.sourceforge.peazip.PeaZip64" type="one-file">
+        <file path=".Npackd\Install.bat">call "%nih%\InstallInnoSetup.bat"&#13;
+</file>
+        <file path=".Npackd\Uninstall.bat">call "%nih%\UninstallInnoSetup.bat" unins000.exe&#13;
+</file>
+        <url>https://ayera.dl.sourceforge.net/project/peazip/6.5.1/peazip-6.5.1.WINDOWS.exe</url>
+        <hash-sum type="SHA-256">49bc326c084e743acff1bdf2437d0b17cdeedb5bde67efee2fd86a613efa9031</hash-sum>
         <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
             <variable>nih</variable>
         </dependency>
@@ -31949,6 +31982,20 @@ call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Np
 </file>
         <url>https://github.com/vim/vim-win32-installer/releases/download/v8.1.1002/gvim_8.1.1002_x64.zip</url>
         <hash-sum type="SHA-256">398c5a979813fea9f978e88266ba2a1bd627b2c541bfbf443ac60803ae3190c9</hash-sum>
+        <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.19, 2)">
+            <variable>nih</variable>
+        </dependency>
+    </version>
+    <version name="8.1.1023" package="org.vim.Vim64">
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+if %errorlevel% neq 0 exit /b %errorlevel%&#13;
+&#13;
+for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+</file>
+        <url>https://github.com/vim/vim-win32-installer/releases/download/v8.1.1023/gvim_8.1.1023_x64.zip</url>
+        <hash-sum type="SHA-256">4f1234f6eb5331844a47d5e4466ba6334f46cd59e07e249d5240f284853b9845</hash-sum>
         <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.19, 2)">
             <variable>nih</variable>
         </dependency>
