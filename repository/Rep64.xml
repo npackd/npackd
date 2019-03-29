@@ -28704,6 +28704,16 @@ verify</file>
             <variable>nih</variable>
         </dependency>
     </version>
+    <version name="2.4.4" package="org.openshot.openshot64" type="one-file">
+        <file path=".Npackd\Install.bat">"%nih%\InstallInnoSetup.bat"&#13;
+</file>
+        <file path=".Npackd\Uninstall.bat">"%nih%\UninstallInnoSetup.bat" unins000.exe</file>
+        <url>https://github.com/OpenShot/openshot-qt/releases/download/v2.4.4/OpenShot-v2.4.4-x86_64.exe</url>
+        <hash-sum type="SHA-256">7399cff9a3a1d45897656aa9a552e03a03eed1e92f281ec2da543e6b414ac98d</hash-sum>
+        <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
+            <variable>nih</variable>
+        </dependency>
+    </version>
 
     <version name="2.7" package="org.owasp.zap64" type="one-file">
         <file path=".Npackd\customdir.varfile">sys.installationDir=C\:\\Program Files\\ZAP_64_bit</file>
@@ -29320,6 +29330,15 @@ if %err% neq 0 exit /b %err%&#13;
 </file>
         <url>https://www.python.org/ftp/python/3.7.2/python-3.7.2-amd64.exe</url>
         <hash-sum type="SHA-256">0fe2a696f5a3e481fed795ef6896ed99157bcef273ef3c4a96f2905cbdb3aa13</hash-sum>
+    </version>
+    <version name="3.7.3" package="org.python.Python64" type="one-file">
+        <file path=".Npackd\Install.bat">"%npackd_package_binary%" /quiet InstallAllUsers=1 "TargetDir=%cd%"&#13;
+</file>
+        <file path=".Npackd\Uninstall.bat">for /f "delims=" %%x in ('dir /b python-*.exe') do set setup=%%x&#13;
+%setup% /uninstall /quiet InstallAllUsers=1&#13;
+</file>
+        <url>https://www.python.org/ftp/python/3.7.3/python-3.7.3-amd64.exe</url>
+        <hash-sum type="SHA-256">996b030930f5d81befa3e2452aa5b1630133837446f190c3768b28c63fd7f193</hash-sum>
     </version>
 
     <version name="2.0.0.247" package="org.rubylang.Ruby64" type="one-file">
