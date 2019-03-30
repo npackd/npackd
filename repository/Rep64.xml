@@ -3636,6 +3636,14 @@ verify
         <url>http://llvm.org/releases/7.0.1/LLVM-7.0.1-win64.exe</url>
         <hash-sum type="SHA-256">672e4c420d6543a8a9f8ec5f1e5f283d88ac2155ef4c57232a399160a02bff57</hash-sum>
     </version>
+    <version name="8" package="clang64" type="one-file">
+        <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
+</file>
+        <file path=".Npackd\Uninstall.bat">uninstall.exe /S _?=%CD%&#13;
+</file>
+        <url>http://llvm.org/releases/8.0.0/LLVM-8.0.0-win64.exe</url>
+        <hash-sum type="SHA-256">56d582eed2d5def6accaedabbe11ae368186600798e2a6a7eb86a727fa7bb20c</hash-sum>
+    </version>
 
     <version name="3.6.8" package="classic-shell64" type="one-file">
         <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
@@ -12903,6 +12911,14 @@ rmdir "%name%"&#13;
         <url>https://github.com/resin-io/etcher/releases/download/v1.5.5/balenaEtcher-Setup-1.5.5-x64.exe</url>
         <hash-sum type="SHA-256">3c4975873eda2d38f889d869217e039da510423d1409985a02e0469004f968f1</hash-sum>
     </version>
+    <version name="1.5.18" package="etcher64" type="one-file">
+        <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
+</file>
+        <file path=".Npackd\Uninstall.bat">uninstall.exe /S _?=%CD%&#13;
+</file>
+        <url>https://github.com/resin-io/etcher/releases/download/v1.5.18/balenaEtcher-Setup-1.5.18-x64.exe</url>
+        <hash-sum type="SHA-256">6c7b5f0b6e34b6646d444d2258d06f01fb34ef26c82afe5e8b1ce2ddead729c8</hash-sum>
+    </version>
 
     <version name="1.3.4.686" package="everything64">
         <important-file path="Everything.exe" title="Everything"/>
@@ -15300,6 +15316,17 @@ if %err% neq 0 exit %err%&#13;
             <variable>nih</variable>
         </dependency>
     </version>
+    <version name="7.0.8.35" package="imagemagick64" type="one-file">
+        <file path=".Npackd\Install.bat">call "%nih%\InstallInnoSetup.bat"&#13;
+</file>
+        <file path=".Npackd\Uninstall.bat">call "%nih%\UninstallInnoSetup.bat" unins000.exe&#13;
+</file>
+        <url>https://www.imagemagick.org/download/binaries/ImageMagick-7.0.8-35-Q16-x64-dll.exe</url>
+        <hash-sum type="SHA-256">c4868f9818209d4ba2973d51bad3ba3e97fdac8faf68d0ec683a019453168723</hash-sum>
+        <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
+            <variable>nih</variable>
+        </dependency>
+    </version>
 
     <version name="0.3.8" package="io.mpv.mpv-64" type="one-file">
         <file path=".Npackd\Install.bat">for /f %%x in ('dir /b *.7z') do set setup=%%x&#13;
@@ -16134,6 +16161,15 @@ call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Np
         <file path=".Npackd\Install.bat">call "%npackdih%\InstallMSI.bat" INSTALLLOCATION yes</file>
         <url>https://download.documentfoundation.org/libreoffice/stable/6.2.1/win/x86_64/LibreOffice_6.2.1_Win_x64.msi</url>
         <hash-sum type="SHA-256">2e873945053f7ca2be944de5027982cb76bade585a3056eb0463a0c63159b7f6</hash-sum>
+        <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.1, 2)">
+            <variable>npackdih</variable>
+        </dependency>
+        <dependency package="com.oracle.JRE" versions="[1.6, 2)"/>
+    </version>
+    <version name="6.2.2" package="libreoffice64" type="one-file">
+        <file path=".Npackd\Install.bat">call "%npackdih%\InstallMSI.bat" INSTALLLOCATION yes</file>
+        <url>https://download.documentfoundation.org/libreoffice/stable/6.2.2/win/x86_64/LibreOffice_6.2.2_Win_x64.msi</url>
+        <hash-sum type="SHA-256">ebed6400076d75a4886d4d55cb53012f066c59625f6edd5f8b162aecb51c718c</hash-sum>
         <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.1, 2)">
             <variable>npackdih</variable>
         </dependency>
@@ -27238,6 +27274,14 @@ if %errorlevel% neq 0 exit /b %errorlevel%&#13;
         <url>https://miktex.org/download/ctan/systems/win32/miktex/setup/windows-x64/basic-miktex-2.9.6942-x64.exe</url>
         <hash-sum type="SHA-256">78ca424fc20e33cf2b9bdb0870b68fb34319948bd41299dc3edb66880d103849</hash-sum>
     </version>
+    <version name="2.9.7021" package="org.miktex.MiKTeX64" type="one-file">
+        <file path=".Npackd\Install.bat">"%npackd_package_binary%" --common-install="%CD%" --shared --unattended&#13;
+</file>
+        <file path=".Npackd\Unnstall.bat">miktex\bin\miktexsetup.exe --verbose --shared uninstall&#13;
+</file>
+        <url>https://miktex.org/download/ctan/systems/win32/miktex/setup/windows-x64/basic-miktex-2.9.7021-x64.exe</url>
+        <hash-sum type="SHA-256">3d94a17831864e9d35552e875982a7598d91ae9573a49680fbee5ba597e7f37e</hash-sum>
+    </version>
 
     <version name="0.9.19" package="org.miranda-im.MirandaIM64" type="one-file">
         <important-file path="miranda64.exe" title="Miranda IM"/>
@@ -32082,6 +32126,20 @@ call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Np
             <variable>nih</variable>
         </dependency>
     </version>
+    <version name="8.1.1057" package="org.vim.Vim64">
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+if %errorlevel% neq 0 exit /b %errorlevel%&#13;
+&#13;
+for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+</file>
+        <url>https://github.com/vim/vim-win32-installer/releases/download/v8.1.1057/gvim_8.1.1057_x64.zip</url>
+        <hash-sum type="SHA-256">d5b702898cba2e3f602231a4842bb366a4b331004d6d7804122f91a67a5fe267</hash-sum>
+        <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.19, 2)">
+            <variable>nih</variable>
+        </dependency>
+    </version>
 
     <version name="4.2.8.83876" package="org.virtualbox.virtualbox64" type="one-file">
         <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
@@ -35130,6 +35188,12 @@ if %errorlevel% equ 3010 verify</file>
         <hash-sum type="SHA-256">3eb076061386bdfe3f4ed35e038b123a024acc22f6426d6e205391b51e566e3f</hash-sum>
         <dependency package="com.microsoft.DotNetRedistributable" versions="[2.0, 5)"/>
     </version>
+    <version name="4.5.8.7042" package="se.cdburnerxp.CDBurnerXP64">
+        <important-file path="cdbxpp.exe" title="CDBurnerXP"/>
+        <url>https://download.cdburnerxp.se/portable/CDBurnerXP-x64-4.5.8.7042.zip</url>
+        <hash-sum type="SHA-256">3c93d58a00636bb26500d5535775fa000a7fd5f6916c6a7c1ac3ab0849334fa7</hash-sum>
+        <dependency package="com.microsoft.DotNetRedistributable" versions="[2.0, 5)"/>
+    </version>
 
     <version name="7.27" package="se.haxx.curl.CURL64" type="one-file">
         <file path=".Npackd\Install.bat">for /f %%x in ('dir /b *.7z') do set setup=%%x&#13;
@@ -35600,6 +35664,17 @@ if %err% neq 0 exit %err%&#13;
             <variable>nih</variable>
         </dependency>
     </version>
+    <version name="0.9.13" package="sigil64" type="one-file">
+        <file path=".Npackd\Install.bat">call "%nih%\InstallInnoSetup.bat"&#13;
+</file>
+        <file path=".Npackd\Uninstall.bat">call "%nih%\UninstallInnoSetup.bat" unins000.exe&#13;
+</file>
+        <url>https://github.com/user-none/Sigil/releases/download/0.9.8/Sigil-0.9.8-Windows-x64-Setup.exe</url>
+        <sha1>1dc08743c8e7d7b9d956f345466a2745b2bc9d18</sha1>
+        <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
+            <variable>nih</variable>
+        </dependency>
+    </version>
 
     <version name="4" package="skychart64" type="one-file">
         <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
@@ -35899,6 +35974,17 @@ Prog\setup.exe /Q /IACCEPTSQLSERVERLICENSETERMS /Q /ACTION=install &gt; .Npackd\
 </file>
         <url>https://github.com/Stellarium/stellarium/releases/download/v0.18.3/stellarium-0.18.3-win64.exe</url>
         <hash-sum type="SHA-256">c4da3b3d3e07cd5b22648f6cee3adbca45ab7d84fd58d09e49344326951055e5</hash-sum>
+        <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
+            <variable>nih</variable>
+        </dependency>
+    </version>
+    <version name="0.19.0.1" package="stellarium64" type="one-file">
+        <file path=".Npackd\Install.bat">call "%nih%\InstallInnoSetup.bat"&#13;
+</file>
+        <file path=".Npackd\Uninstall.bat">call "%nih%\UninstallInnoSetup.bat" unins000.exe&#13;
+</file>
+        <url>https://github.com/Stellarium/stellarium/releases/download/v0.19.0/stellarium-0.19.0.1-win64.exe</url>
+        <hash-sum type="SHA-256">88fd7a8d372d614e402860628a842d61c6424432bfd488bf848a439416eab422</hash-sum>
         <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
             <variable>nih</variable>
         </dependency>
@@ -36537,6 +36623,14 @@ if %err% neq 0 exit %err%&#13;
         <url>http://files.first-world.info/ultracopier/1.6.1.3/ultracopier-windows-x86_64-1.6.1.3-setup.exe</url>
         <hash-sum type="SHA-256">2471b7e249582e0bba984e08eecfbc8615dd5617bd0eb31254216e509fa5f9cb</hash-sum>
     </version>
+    <version name="1.6.1.4" package="ultracopier64" type="one-file">
+        <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
+</file>
+        <file path=".Npackd\Uninstall.bat">uninst.exe /S _?=%CD%&#13;
+</file>
+        <url>http://files.first-world.info/ultracopier/1.6.1.4/ultracopier-windows-x86_64-1.6.1.4-setup.exe</url>
+        <hash-sum type="SHA-256">3cbdae5d4b9a7fc1d1e48591c30794bd9453e3a70fa9f7d23af10131cc91c532</hash-sum>
+    </version>
 
     <version name="2.0.1" package="vagrant64" type="one-file">
         <file path=".Npackd\Install.bat">call "%nih%\InstallMSI.bat" INSTALLDIR yes&#13;
@@ -36881,6 +36975,18 @@ if %err% neq 0 exit /b %err%&#13;
 </file>
         <url>https://downloads.vivaldi.com/stable/Vivaldi.2.3.1440.61.x64.exe</url>
         <hash-sum type="SHA-256">14a376cbfa674542a80b91d624e6615dae3dc4040134762d8cece6eb34b9fab0</hash-sum>
+        <dependency package="net.nirsoft.MyUninstaller" versions="[1.74, 2)">
+            <variable>myun</variable>
+        </dependency>
+    </version>
+    <version name="2.4.1488.35" package="vivaldi-browser-64" type="one-file">
+        <file path=".Npackd\Install.bat">"%npackd_package_binary%" --vivaldi-standalone --vivaldi-install-dir="%CD%" &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
+&#13;
+</file>
+        <file path=".Npackd\Uninstall.bat">"%myun%\myuninst.exe" /uninstall "vivaldi-browser-64"&#13;
+</file>
+        <url>https://downloads.vivaldi.com/stable/Vivaldi.2.4.1488.35.x64.exe</url>
+        <hash-sum type="SHA-256">e076e157ba65ea1caad440ffa7abc806780baa58f51231d8009fa83c7b8ad355</hash-sum>
         <dependency package="net.nirsoft.MyUninstaller" versions="[1.74, 2)">
             <variable>myun</variable>
         </dependency>
