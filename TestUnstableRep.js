@@ -118,6 +118,8 @@ function uploadToGithub(from, package_, version) {
 	throw new Error("Cannot download the file");
 
     var url = "https://uploads.github.com/repos/tim-lebedkov/packages/releases/2019_Q1/assets?name=" + file;
+    WScript.Echo("Uploading to  " + url);
+    
     result = exec2("\"" + curl + "\" -H \"Authorization: token " + githubToken + "\"" +
 		       " -H \"Content-Type: " + mime + "\"" +
 		       " --data-binary " + file + " \"" + url + "\"");
@@ -493,14 +495,6 @@ var githubToken = env("github_token");
 // WScript.Echo("password=" + githubToken);
 
 downloadRepos();
-
-exec("\"" + npackdcl + "\" help");
-
-var ec = exec("\"" + npackdcl + "\" detect");
-if (ec !== 0) {
-    WScript.Echo("npackdcl.exe detect failed: " + ec);
-    WScript.Quit(1);
-}
 
 var reps = ["stable", "stable64", "libs"];
 

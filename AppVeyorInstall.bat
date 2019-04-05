@@ -9,6 +9,9 @@ SET NPACKD_CL=C:\Program Files (x86)\NpackdCL
 "%npackd_cl%\ncl" set-repo -u https://npackd.appspot.com/rep/recent-xml -u https://npackd.appspot.com/rep/xml?tag=stable -u https://npackd.appspot.com/rep/xml?tag=stable64 -u https://npackd.appspot.com/rep/recent-xml?tag=untested -u https://npackd.appspot.com/rep/xml?tag=libs -u https://npackd.appspot.com/rep/xml?tag=unstable
 if %errorlevel% neq 0 exit /b %errorlevel%
 
+"%npackd_cl%\ncl" help
+if %errorlevel% neq 0 exit /b %errorlevel%
+
 "%npackd_cl%\ncl" detect
 if %errorlevel% neq 0 exit /b %errorlevel%
 
