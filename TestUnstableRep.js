@@ -27,6 +27,22 @@ function shuffle(array) {
     return array;
 }
 
+function uploadToGithub(from) {
+    var file = "ImageMagick-7.0.8-37-Q16-x86-dll.exe";
+    var mime = "application/vnd.microsoft.portable-executable";
+
+    var result = exec2("\"" + curl + "\" " + from + " --output " + file);
+    if (result[0] !== 0)
+	throw new Error("Cannot download the file");
+
+    var url = "https://uploads.github.com/repos/tim-lebedkov/packages/releases/2019_Q1/assets?name=" + file;
+    result = exec2("\"" + curl + "\" -H \"Authorization: token " + githubToken + "\"" +
+		       " -H \"Content-Type: " + mime + "\"" +
+		       " --data-binary " + file + " \"" + url + "\"");
+    if (result[0] !== 0)
+	throw new Error("Cannot upload the file to Github");
+}
+
 function exec(cmd) {
     var result = exec2("cmd.exe /s /c \"" + cmd + " 2>&1\"");
     return result[0];
@@ -376,6 +392,8 @@ var env = shell.Environment("Process");
 var githubToken = env("github_token");
 
 // WScript.Echo("password=" + githubToken);
+
+uploadToGithub("https://www.imagemagick.org/download/binaries/ImageMagick-7.0.8-37-Q16-x86-dll.exe");
 
 downloadRepos();
 
