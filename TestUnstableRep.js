@@ -355,7 +355,7 @@ function downloadJSON(url) {
     if (Object.Status == 200)
 	return [Object.Status, eval(Object.responseText)];
     else
-	throw [Object.Status, null];
+	return [Object.Status, null];
 }
 
 /**
@@ -539,6 +539,8 @@ for (var i = 0; i < releases.length; i++) {
 	break;
     }
 }
+
+WScript.Echo("Found release ID: " + releaseID);
 
 for (var i = 0; i < reps.length; i++) {
     uploadAllToGithub("https://npackd.appspot.com/rep/xml?tag=" + reps[i], releaseID);
