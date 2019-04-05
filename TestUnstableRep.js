@@ -1,3 +1,27 @@
+Error.prototype.toString = function() {
+  'use strict';
+
+  var obj = Object(this);
+  if (obj !== this) {
+    throw new TypeError();
+  }
+
+  var name = this.name;
+  name = (name === undefined) ? 'Error' : String(name);
+
+  var msg = this.message;
+  msg = (msg === undefined) ? '' : String(msg);
+
+  if (name === '') {
+    return msg;
+  }
+  if (msg === '') {
+    return name;
+  }
+
+  return name + ': ' + msg;
+};
+
 Array.prototype.contains = function(v) {
     for (var i = 0; i < this.length; i++) {
         if (this[i] == v)
@@ -27,10 +51,67 @@ function shuffle(array) {
     return array;
 }
 
-function uploadToGithub(from) {
-    var file = "ImageMagick-7.0.8-37-Q16-x86-dll.exe";
-    var mime = "application/vnd.microsoft.portable-executable";
+function uploadAllToGithub(url) {
+    WScript.Echo("Re-uploading packages in " + url);
 
+    var packages = ["imagemagick64"];
+    
+    var xDoc = new ActiveXObject("MSXML2.DOMDocument.6.0");
+    xDoc.async = false;
+    xDoc.setProperty("SelectionLanguage", "XPath");
+    WScript.Echo("Loading " + url);
+    if (xDoc.load(url)) {
+        var pvs_ = xDoc.selectNodes("//version");
+
+        // copy the nodes into a real array
+        var pvs = [];
+        for (var i = 0; i < pvs_.length; i++) {
+            pvs.push(pvs_[i]);
+        }
+
+        for (var i = 0; i < pvs.length; i++) {
+            var pv = pvs[i];
+            var package_ = pv.getAttribute("package");
+            var version = pv.getAttribute("name");
+	    var n = pv.selectNode("/url");
+	    var url = "";
+	    if (n !== null)
+		url = n.text;
+
+	    if (packages.contains(package_) && url.indexOf(
+		    "https://github.com/tim-lebedkov/packages/releases/download/") !== 0) {
+		WScript.Echo("https://www.npackd.org/p/" + package_ + "/" + version);
+
+		var newURL = uploadToGithub(url, package_, version);
+
+		try {
+                    if (apiSetURL(package_, version, newURL)) {
+			WScript.Echo(package_ + " " + version + " changed URL");
+                    } else {
+			WScript.Echo("Failed to change URL for " + package_ + " " + version);
+                    }
+		} catch (e) {
+		    WScript.Echo(e.toString());
+		}
+	    }
+
+	    WScript.Echo("==================================================================");
+        }
+    } else {
+        WScript.Echo("Error loading XML");
+        return 1;
+    }
+}
+
+function uploadToGithub(from, package_, version) {
+    WScript.Echo("Re-uploading " + url + " to Github");
+    var mime = "application/octet-stream";
+
+    var p = from.lastIndexOf("/");
+    var file = from.substring(p + 1);
+
+    file = package_ + "-" + version + "-" + file;
+    
     var result = exec2("\"" + curl + "\" " + from + " --output " + file);
     if (result[0] !== 0)
 	throw new Error("Cannot download the file");
@@ -41,6 +122,8 @@ function uploadToGithub(from) {
 		       " --data-binary " + file + " \"" + url + "\"");
     if (result[0] !== 0)
 	throw new Error("Cannot upload the file to Github");
+
+    return url;
 }
 
 function exec(cmd) {
@@ -115,6 +198,21 @@ function apiTag(package_, version, tag, set) {
             "&password=" + password +
             "&name=" + tag + 
             "&value=" + (set ? "1" : "0"));
+}
+
+/**
+ * Changes the URL for a package version at https://npackd.appspot.com .
+ *
+ * @param package_ package name
+ * @param version version number
+ * @param url new URL
+ * @return true if the call to the web service succeeded, false otherwise
+ */
+function apiSetURL(package_, version, url) {
+    return download("https://npackd.appspot.com/api/set-url?package=" +
+            package_ + "&version=" + version +
+            "&password=" + password +
+	    "&url=" + encodeURIComponent(url));
 }
 
 /**
@@ -393,8 +491,6 @@ var githubToken = env("github_token");
 
 // WScript.Echo("password=" + githubToken);
 
-uploadToGithub("https://www.imagemagick.org/download/binaries/ImageMagick-7.0.8-37-Q16-x86-dll.exe");
-
 downloadRepos();
 
 exec("\"" + npackdcl + "\" help");
@@ -405,10 +501,14 @@ if (ec !== 0) {
     WScript.Quit(1);
 }
 
+var reps = ["stable", "stable64", "libs"];
+
+for (var i = 0; i < reps.length; i++) {
+    uploadAllToGithub("https://npackd.appspot.com/rep/xml?tag=" + reps[i]);
+}
+
 processURL("https://npackd.appspot.com/rep/recent-xml?tag=untested", 
 		password, false);
-
-var reps = ["stable", "stable64", "libs"];
 
 // the stable repository is about 3900 KiB
 // and should be tested more often
@@ -423,6 +523,6 @@ else
 // 9 of 10 times only check the newest versions
 var newest = Math.random() < 0.9;
 
-processURL("http://npackd.appspot.com/rep/xml?tag=" + reps[index], password, 
+processURL("https://npackd.appspot.com/rep/xml?tag=" + reps[index], password, 
 		newest);
 
