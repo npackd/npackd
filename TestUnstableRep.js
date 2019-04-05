@@ -54,13 +54,19 @@ function shuffle(array) {
 function uploadAllToGithub(url) {
     WScript.Echo("Re-uploading packages in " + url);
 
-    var packages = ["imagemagick64"];
-    
     var xDoc = new ActiveXObject("MSXML2.DOMDocument.6.0");
     xDoc.async = false;
     xDoc.setProperty("SelectionLanguage", "XPath");
     WScript.Echo("Loading " + url);
     if (xDoc.load(url)) {
+        var packages_ = xDoc.selectNodes("//package[category='reupload']");
+
+	// copy the nodes into a real array
+	var packages = [];
+        for (var i = 0; i < packages_.length; i++) {
+            packages.push(packages_[i].getAttribute("name"));
+        }
+	
         var pvs_ = xDoc.selectNodes("//version");
 
         // copy the nodes into a real array
