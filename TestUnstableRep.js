@@ -106,7 +106,7 @@ function uploadAllToGithub(url) {
 
 function uploadToGithub(from, package_, version) {
     WScript.Echo("Re-uploading " + from + " to Github");
-    var mime = "application/octet-stream";
+    var mime = "application/vnd.microsoft.portable-executable"; // "application/octet-stream";
 
     var p = from.lastIndexOf("/");
     var file = from.substring(p + 1);
@@ -118,7 +118,7 @@ function uploadToGithub(from, package_, version) {
 	throw new Error("Cannot download the file");
 
     var url = "https://uploads.github.com/repos/tim-lebedkov/packages/releases/2019_Q1/assets?name=" + file;
-    WScript.Echo("Uploading to  " + url);
+    WScript.Echo("Uploading to " + url);
     
     result = exec2("\"" + curl + "\" -H \"Authorization: token " + githubToken + "\"" +
 		       " -H \"Content-Type: " + mime + "\"" +

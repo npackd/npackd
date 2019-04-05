@@ -18,19 +18,7 @@ if %errorlevel% neq 0 exit /b %errorlevel%
 "%npackd_cl%\ncl" set-install-dir -f "C:\Program Files (x86)"
 if %errorlevel% neq 0 exit /b %errorlevel%
 
-"%npackd_cl%\ncl" add -p com.googlecode.windows-package-manager.NpackdCL
-if %errorlevel% neq 0 exit /b %errorlevel%
-
-"%npackd_cl%\ncl" add -p com.googlecode.windows-package-manager.NpackdInstallerHelper
-if %errorlevel% neq 0 exit /b %errorlevel%
-
-"%npackd_cl%\ncl" add -p nircmd64 -v 2.75
-if %errorlevel% neq 0 exit /b %errorlevel%
-
-"%npackd_cl%\ncl" add -p com.googlecode.windows-package-manager.CLU -v 1.0.1
-if %errorlevel% neq 0 exit /b %errorlevel%
-
-"%npackd_cl%\ncl" add -p sysinternals-suite
+"%npackd_cl%\ncl" add -p com.googlecode.windows-package-manager.NpackdCL -p com.googlecode.windows-package-manager.NpackdInstallerHelper -p nircmd64 -v 2.75 -p com.googlecode.windows-package-manager.CLU -v 1.0.1 -p sysinternals-suite
 if %errorlevel% neq 0 exit /b %errorlevel%
 
 path
