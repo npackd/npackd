@@ -124,7 +124,7 @@ function uploadToGithub(from, package_, version) {
     var url = "https://uploads.github.com/repos/tim-lebedkov/packages/releases/14943317/assets?name=" + file;
     var downloadURL = "https://github.com/tim-lebedkov/packages/releases/download/2019_Q1/" + file;
     // WScript.Echo("Uploading to " + url);
-    WScript.Echo("Download from " + url);
+    WScript.Echo("Download from " + downloadURL);
     
     result = exec2("\"" + curl + "\" -f -H \"Authorization: token " + githubToken + "\"" +
 		       " -H \"Content-Type: " + mime + "\"" +
