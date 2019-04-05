@@ -111,7 +111,7 @@ function uploadToGithub(from, package_, version) {
     var p = from.lastIndexOf("/");
     var file = from.substring(p + 1);
 
-    file = package_ + "-" + version + "-" + file;
+    //file = package_ + "-" + version + "-" + file;
     
     var result = exec2("\"" + curl + "\" " + from + " --output " + file);
     if (result[0] !== 0)
