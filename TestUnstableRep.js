@@ -83,9 +83,8 @@ function uploadAllToGithub(url) {
 		url !== "") {
 		WScript.Echo("https://www.npackd.org/p/" + package_ + "/" + version);
 
-		var newURL = uploadToGithub(url, package_, version);
-
 		try {
+		    var newURL = uploadToGithub(url, package_, version);
                     if (apiSetURL(package_, version, newURL)) {
 			WScript.Echo(package_ + " " + version + " changed URL");
                     } else {
@@ -119,15 +118,15 @@ function uploadToGithub(from, package_, version) {
     if (result[0] !== 0)
 	throw new Error("Cannot download the file");
 
-    var url = "https://uploads.github.com/repos/tim-lebedkov/packages/releases/2019_Q1/assets?name=" + file;
+    // the following URL returns the IDs for the releases
+    // https://api.github.com/repos/tim-lebedkov/packages/releases
+    // 14943317 means the release for the tag "2019_Q1"
+    var url = "https://uploads.github.com/repos/tim-lebedkov/packages/releases/14943317/assets?name=" + file;
     WScript.Echo("Uploading to " + url);
     
-    WScript.Echo("\"" + curl + "\" -f -H \"Authorization: token githubToken\"" +
-		       " -H \"Content-Type: " + mime + "\"" +
-		       " --data-binary " + file + " \"" + url + "\"");
     result = exec2("\"" + curl + "\" -f -H \"Authorization: token " + githubToken + "\"" +
 		       " -H \"Content-Type: " + mime + "\"" +
-		       " --data-binary " + file + " \"" + url + "\"");
+		       " --data-binary @" + file + " \"" + url + "\"");
     if (result[0] !== 0)
 	throw new Error("Cannot upload the file to Github");
 
