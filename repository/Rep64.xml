@@ -1271,6 +1271,7 @@ x86_64</description>
         <license>org.apache.ApacheLicense2</license>
         <category>Tools</category>
         <category>stable64</category>
+        <category>archive</category>
     </package>
     <package name="io.mpv.mpv-64">
         <title>mpv 64-bit</title>
@@ -12921,6 +12922,14 @@ rmdir "%name%"&#13;
         <url>https://github.com/resin-io/etcher/releases/download/v1.5.18/balenaEtcher-Setup-1.5.18-x64.exe</url>
         <hash-sum type="SHA-256">6c7b5f0b6e34b6646d444d2258d06f01fb34ef26c82afe5e8b1ce2ddead729c8</hash-sum>
     </version>
+    <version name="1.5.22" package="etcher64" type="one-file">
+        <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
+</file>
+        <file path=".Npackd\Uninstall.bat">uninstall.exe /S _?=%CD%&#13;
+</file>
+        <url>https://github.com/resin-io/etcher/releases/download/v1.5.22/balenaEtcher-Setup-1.5.22-x64.exe</url>
+        <hash-sum type="SHA-256">f7f7d0d2efe01d8990b29a58ae9332139aef3f1a4361bbcc87a5d5eacaa99ff3</hash-sum>
+    </version>
 
     <version name="1.3.4.686" package="everything64">
         <important-file path="Everything.exe" title="Everything"/>
@@ -13105,7 +13114,7 @@ call "%npackdih%\InstallMSI.bat" INSTALLDIR yes&#13;
         </dependency>
     </version>
 
-    <version name="3.38.1" package="filezilla64">
+    <version name="3.41.2" package="filezilla64">
         <important-file path="filezilla.exe" title="FileZilla Client"/>
         <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b File*') do set name=%%x&#13;
 cd "%name%"        &#13;
@@ -13115,8 +13124,8 @@ for /f "delims=" %%a in ('dir /b') do (&#13;
 cd ..&#13;
 rmdir "%name%"&#13;
 </file>
-        <url>https://archive.org/download/FileZilla3.38.1Win32/FileZilla_3.38.1_win64.zip</url>
-        <hash-sum type="SHA-256">d4cfa5aead944d58efcaea48bdb98678ccf36ea9a8bafa2faec6bbfee71af158</hash-sum>
+        <url>https://github.com/tim-lebedkov/packages/releases/download/2019_Q1/FileZilla_3.41.2_win64.zip</url>
+        <hash-sum type="SHA-256">e2e90a3f1ad19270d3c2e746d1ab3abec45f56a0814f03f8b28b3468e94185a7</hash-sum>
     </version>
 
     <version name="60.0.8" package="firefox-developer-edition64" type="one-file">
@@ -15186,28 +15195,6 @@ if %err% neq 0 exit %err%&#13;
         <url>https://downloads.sourceforge.net/project/npackd/imagemagick64/imagemagick64-6.9.0.3.exe</url>
         <sha1>5eb3846511810a54a429c602ce9b6857dd311196</sha1>
     </version>
-    <version name="7.0.8.16" package="imagemagick64" type="one-file">
-        <file path=".Npackd\Install.bat">call "%nih%\InstallInnoSetup.bat"&#13;
-</file>
-        <file path=".Npackd\Uninstall.bat">call "%nih%\UninstallInnoSetup.bat" unins000.exe&#13;
-</file>
-        <url>https://archive.org/download/npackd/imagemagick64/ImageMagick-7.0.8-16-Q16-x64-dll.exe</url>
-        <hash-sum type="SHA-256">59556c7c7463dbfea698808375aeca91ec5c20e57a2a2ff25f6c936229075049</hash-sum>
-        <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
-            <variable>nih</variable>
-        </dependency>
-    </version>
-    <version name="7.0.8.19" package="imagemagick64" type="one-file">
-        <file path=".Npackd\Install.bat">call "%nih%\InstallInnoSetup.bat"&#13;
-</file>
-        <file path=".Npackd\Uninstall.bat">call "%nih%\UninstallInnoSetup.bat" unins000.exe&#13;
-</file>
-        <url>https://archive.org/download/npackd/imagemagick64/ImageMagick-7.0.8-19-Q16-x64-dll.exe</url>
-        <hash-sum type="SHA-256">1586edde271eab3bd7ecc34cdbddb82c5fbdf408c11a0497bbf476a6f32bf340</hash-sum>
-        <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
-            <variable>nih</variable>
-        </dependency>
-    </version>
     <version name="7.0.8.20" package="imagemagick64" type="one-file">
         <file path=".Npackd\Install.bat">call "%nih%\InstallInnoSetup.bat"&#13;
 </file>
@@ -15215,17 +15202,6 @@ if %err% neq 0 exit %err%&#13;
 </file>
         <url>https://www.imagemagick.org/download/binaries/ImageMagick-7.0.8-20-Q16-x64-dll.exe</url>
         <hash-sum type="SHA-256">8eb8d2a219319275ccdd865b772051be0db0f89c58f9d23b6833d656f9c6a6dd</hash-sum>
-        <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
-            <variable>nih</variable>
-        </dependency>
-    </version>
-    <version name="7.0.8.23" package="imagemagick64" type="one-file">
-        <file path=".Npackd\Install.bat">call "%nih%\InstallInnoSetup.bat"&#13;
-</file>
-        <file path=".Npackd\Uninstall.bat">call "%nih%\UninstallInnoSetup.bat" unins000.exe&#13;
-</file>
-        <url>https://archive.org/download/npackd/imagemagick64/ImageMagick-7.0.8-23-Q16-x64-dll.exe</url>
-        <hash-sum type="SHA-256">8722cda115ceb55fefce5a44767368df3478bc99d6b277b4bfd41a0f6d6061ab</hash-sum>
         <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
             <variable>nih</variable>
         </dependency>
@@ -15325,6 +15301,17 @@ if %err% neq 0 exit %err%&#13;
 </file>
         <url>https://www.imagemagick.org/download/binaries/ImageMagick-7.0.8-35-Q16-x64-dll.exe</url>
         <hash-sum type="SHA-256">c4868f9818209d4ba2973d51bad3ba3e97fdac8faf68d0ec683a019453168723</hash-sum>
+        <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
+            <variable>nih</variable>
+        </dependency>
+    </version>
+    <version name="7.0.8.37" package="imagemagick64" type="one-file">
+        <file path=".Npackd\Install.bat">call "%nih%\InstallInnoSetup.bat"&#13;
+</file>
+        <file path=".Npackd\Uninstall.bat">call "%nih%\UninstallInnoSetup.bat" unins000.exe&#13;
+</file>
+        <url>https://github.com/tim-lebedkov/packages/releases/download/2019_Q1/ImageMagick-7.0.8-37-Q16-x64-dll.exe</url>
+        <hash-sum type="SHA-256">e1a782e0aadef8d538bf000d41c79c0a1c3f6a5826b5130a817aad7c4d4c3c6b</hash-sum>
         <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
             <variable>nih</variable>
         </dependency>
@@ -19898,6 +19885,10 @@ if %err% neq 0 exit /b %err%
         <sha1>91cae2743d2db1a7eb4d894938d4587893b36b57</sha1>
     </version>
     <version name="2.81" package="nircmd64">
+        <url>http://files.npackd.org/nircmd64/nircmd-x64-2.81.zip</url>
+        <sha1>31fda8eee9fe628ee35bcce6c4833fd0e07503bc</sha1>
+    </version>
+    <version name="2.82" package="nircmd64">
         <url>http://files.npackd.org/nircmd64/nircmd-x64-2.81.zip</url>
         <sha1>31fda8eee9fe628ee35bcce6c4833fd0e07503bc</sha1>
     </version>
@@ -27169,113 +27160,6 @@ if %errorlevel% neq 0 exit /b %errorlevel%&#13;
         <url>https://ayera.dl.sourceforge.net/project/npackd/org.miktex.MiKTeX64/org.miktex.MiKTeX64-2.9.5721.exe</url>
         <sha1>488a25ebb9a86d38d16106c99cc431ec95c69b0a</sha1>
     </version>
-    <version name="2.9.6069" package="org.miktex.MiKTeX64" type="one-file">
-        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
-"%setup%" --common-install="%CD%" --shared --unattended&#13;
-if %errorlevel% neq 0 exit /b %errorlevel%&#13;
-</file>
-        <file path=".Npackd\Unnstall.bat">miktex\bin\internal\copystart_admin.exe "%CD%\miktex/bin/internal\uninstall_admin.exe"&#13;
-if %errorlevel% neq 0 exit /b %errorlevel%&#13;
-</file>
-        <url>http://mirrors.ctan.org/systems/win32/miktex/setup/basic-miktex-2.9.6069-x64.exe</url>
-        <sha1>30ab5145b3fc96022707ff6170eafff63eafbc68</sha1>
-    </version>
-    <version name="2.9.6236" package="org.miktex.MiKTeX64" type="one-file">
-        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
-"%setup%" --common-install="%CD%" --shared --unattended&#13;
-if %errorlevel% neq 0 exit /b %errorlevel%&#13;
-</file>
-        <file path=".Npackd\Unnstall.bat">miktex\bin\internal\copystart_admin.exe "%CD%\miktex/bin/internal\uninstall_admin.exe"&#13;
-if %errorlevel% neq 0 exit /b %errorlevel%&#13;
-</file>
-        <url>http://mirrors.ctan.org/systems/win32/miktex/setup/basic-miktex-2.9.6236-x64.exe</url>
-        <sha1>1805c9dac383011697c6d1cea17a206f29360c8b</sha1>
-    </version>
-    <version name="2.9.6361" package="org.miktex.MiKTeX64" type="one-file">
-        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
-"%setup%" --common-install="%CD%" --shared --unattended&#13;
-if %errorlevel% neq 0 exit /b %errorlevel%&#13;
-</file>
-        <file path=".Npackd\Unnstall.bat">miktex\bin\internal\copystart_admin.exe "%CD%\miktex/bin/internal\uninstall_admin.exe"&#13;
-if %errorlevel% neq 0 exit /b %errorlevel%&#13;
-</file>
-        <url>http://mirrors.ctan.org/systems/win32/miktex/setup/basic-miktex-2.9.6361-x64.exe</url>
-        <sha1>252b364e5fe341a74de94520d4e299b1e8204fb9</sha1>
-    </version>
-    <version name="2.9.6520" package="org.miktex.MiKTeX64" type="one-file">
-        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
-"%setup%" --common-install="%CD%" --shared --unattended&#13;
-if %errorlevel% neq 0 exit /b %errorlevel%&#13;
-</file>
-        <file path=".Npackd\Unnstall.bat">miktex\bin\internal\copystart_admin.exe "%CD%\miktex/bin/internal\uninstall_admin.exe"&#13;
-if %errorlevel% neq 0 exit /b %errorlevel%&#13;
-</file>
-        <url>http://mirrors.ctan.org/systems/win32/miktex/setup/basic-miktex-2.9.6520-x64.exe</url>
-        <sha1>4c3d48c4e7a0befc96503e0bc34e8eab56ff57b8</sha1>
-    </version>
-    <version name="2.9.6615" package="org.miktex.MiKTeX64" type="one-file">
-        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
-"%setup%" --common-install="%CD%" --shared --unattended&#13;
-if %errorlevel% neq 0 exit /b %errorlevel%&#13;
-</file>
-        <file path=".Npackd\Unnstall.bat">miktex\bin\internal\copystart_admin.exe "%CD%\miktex/bin/internal\uninstall_admin.exe"&#13;
-if %errorlevel% neq 0 exit /b %errorlevel%&#13;
-</file>
-        <url>https://miktex.org/download/ctan/systems/win32/miktex/setup/windows-x64/basic-miktex-2.9.6615-x64.exe</url>
-        <sha1>9ffc44f47e4230783ec306609e3d3e48ed7c156b</sha1>
-    </version>
-    <version name="2.9.6643" package="org.miktex.MiKTeX64" type="one-file">
-        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
-"%setup%" --common-install="%CD%" --shared --unattended&#13;
-if %errorlevel% neq 0 exit /b %errorlevel%&#13;
-</file>
-        <file path=".Npackd\Unnstall.bat">miktex\bin\internal\copystart_admin.exe "%CD%\miktex/bin/internal\uninstall_admin.exe"&#13;
-if %errorlevel% neq 0 exit /b %errorlevel%&#13;
-</file>
-        <url>https://miktex.org/download/ctan/systems/win32/miktex/setup/windows-x64/basic-miktex-2.9.6643-x64.exe</url>
-        <sha1>9050b11df78249ab9fb22787dd20aaacacdcb3af</sha1>
-    </version>
-    <version name="2.9.6753" package="org.miktex.MiKTeX64" type="one-file">
-        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
-"%setup%" --common-install="%CD%" --shared --unattended&#13;
-if %errorlevel% neq 0 exit /b %errorlevel%&#13;
-</file>
-        <file path=".Npackd\Unnstall.bat">miktex\bin\internal\copystart_admin.exe "%CD%\miktex/bin/internal\uninstall_admin.exe"&#13;
-if %errorlevel% neq 0 exit /b %errorlevel%&#13;
-</file>
-        <url>https://miktex.org/download/ctan/systems/win32/miktex/setup/windows-x64/basic-miktex-2.9.6753-x64.exe</url>
-        <hash-sum type="SHA-256">07837a9d0135d26706ef31c47e1932aa00dc18e996e5b35eac437cbfa4959ccf</hash-sum>
-    </version>
-    <version name="2.9.6813" package="org.miktex.MiKTeX64" type="one-file">
-        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
-"%setup%" --common-install="%CD%" --shared --unattended&#13;
-if %errorlevel% neq 0 exit /b %errorlevel%&#13;
-</file>
-        <file path=".Npackd\Unnstall.bat">miktex\bin\internal\copystart_admin.exe "%CD%\miktex/bin/internal\uninstall_admin.exe"&#13;
-if %errorlevel% neq 0 exit /b %errorlevel%&#13;
-</file>
-        <url>https://miktex.org/download/ctan/systems/win32/miktex/setup/windows-x64/basic-miktex-2.9.6813-x64.exe</url>
-        <hash-sum type="SHA-256">9e4c0c60997c0e1a04998872a7394d7618a9abef0c3e06052b3ff71ec0b751b6</hash-sum>
-    </version>
-    <version name="2.9.6850" package="org.miktex.MiKTeX64" type="one-file">
-        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
-"%setup%" --common-install="%CD%" --shared --unattended&#13;
-if %errorlevel% neq 0 exit /b %errorlevel%&#13;
-</file>
-        <file path=".Npackd\Unnstall.bat">miktex\bin\internal\copystart_admin.exe "%CD%\miktex/bin/internal\uninstall_admin.exe"&#13;
-if %errorlevel% neq 0 exit /b %errorlevel%&#13;
-</file>
-        <url>https://miktex.org/download/ctan/systems/win32/miktex/setup/windows-x64/basic-miktex-2.9.6850-x64.exe</url>
-        <hash-sum type="SHA-256">292d6eced7e43c369af2a560e9628f4aa949b409ab82c39eaa019bcd1c7d4e13</hash-sum>
-    </version>
-    <version name="2.9.6942" package="org.miktex.MiKTeX64" type="one-file">
-        <file path=".Npackd\Install.bat">"%npackd_package_binary%" --common-install="%CD%" --shared --unattended&#13;
-</file>
-        <file path=".Npackd\Unnstall.bat">miktex\bin\miktexsetup.exe --verbose --shared uninstall&#13;
-</file>
-        <url>https://miktex.org/download/ctan/systems/win32/miktex/setup/windows-x64/basic-miktex-2.9.6942-x64.exe</url>
-        <hash-sum type="SHA-256">78ca424fc20e33cf2b9bdb0870b68fb34319948bd41299dc3edb66880d103849</hash-sum>
-    </version>
     <version name="2.9.7021" package="org.miktex.MiKTeX64" type="one-file">
         <file path=".Npackd\Install.bat">"%npackd_package_binary%" --common-install="%CD%" --shared --unattended&#13;
 </file>
@@ -32142,6 +32026,20 @@ call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Np
             <variable>nih</variable>
         </dependency>
     </version>
+    <version name="8.1.1103" package="org.vim.Vim64">
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+if %errorlevel% neq 0 exit /b %errorlevel%&#13;
+&#13;
+for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+</file>
+        <url>https://github.com/vim/vim-win32-installer/releases/download/v8.1.1103/gvim_8.1.1103_x64.zip</url>
+        <hash-sum type="SHA-256">ddb25d74fb8ed91a4d87937334e30506da39843efdad50ea60aa8da58f4adc76</hash-sum>
+        <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.19, 2)">
+            <variable>nih</variable>
+        </dependency>
+    </version>
 
     <version name="4.2.8.83876" package="org.virtualbox.virtualbox64" type="one-file">
         <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
@@ -33737,6 +33635,16 @@ echo DesktopShortcut=false &gt;&gt; .Npackd\FF.ini&#13;
         <url>http://relmirror.palemoon.org/release/palemoon-28.4.0.win64.installer.exe</url>
         <hash-sum type="SHA-256">dc849bcd71fdef590e0ccc051a754e6cce25aafe615831368ab9b5cb7732a972</hash-sum>
     </version>
+    <version name="28.4.1" package="pale-moon64" type="one-file">
+        <file path=".Npackd\Install.bat">echo [Install] &gt; .Npackd\FF.ini&#13;
+echo InstallDirectoryPath=%CD% &gt;&gt; .Npackd\FF.ini&#13;
+echo QuickLaunchShortcut=false &gt;&gt; .Npackd\FF.ini&#13;
+echo DesktopShortcut=false &gt;&gt; .Npackd\FF.ini&#13;
+"%npackd_package_binary%" /INI="%CD%\.Npackd\FF.ini" &amp;&amp; del /f /q "%npackd_package_binary%"</file>
+        <file path=".Npackd\Uninstall.bat">uninstall\helper.exe /S</file>
+        <url>http://relmirror.palemoon.org/release/palemoon-28.4.1.win64.installer.exe</url>
+        <hash-sum type="SHA-256">749314bb3a6781f263d0a08ebb7bc9735963e7d6da3f459e77d0659bdef614e9</hash-sum>
+    </version>
 
     <version name="2.2.1" package="pandoc64" type="one-file">
         <file path=".Npackd\Install.bat">call "%nih%\InstallMSI.bat" INSTALLDIR yes&#13;
@@ -34709,6 +34617,13 @@ if %errorlevel% equ 3010 verify</file>
 </file>
         <url>https://qgis.org/downloads/QGIS-OSGeo4W-3.6.0-1-Setup-x86_64.exe</url>
     </version>
+    <version name="3.6.1" package="qgis64" type="one-file">
+        <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
+if %errorlevel% equ 3010 verify</file>
+        <file path=".Npackd\Uninstall.bat">uninstall.exe /S _?=%CD%&#13;
+</file>
+        <url>https://qgis.org/downloads/QGIS-OSGeo4W-3.6.1-1-Setup-x86_64.exe</url>
+    </version>
 
     <version name="1.40.6" package="Qt-Bitcoin-Trader64" type="one-file">
         <important-file path="qtbitcointrader.exe" title="Qt Bitcoin Trader"/>
@@ -35450,6 +35365,16 @@ call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Np
         </dependency>
     </version>
     <version name="7.64" package="se.haxx.curl.CURL64">
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b curl*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+</file>
+        <url>https://curl.haxx.se/windows/dl-7.62.0/curl-7.62.0-win64-mingw.zip</url>
+        <hash-sum type="SHA-256">8513ae2db518601cfdf84e95db63c6df59a267332c2f59c35edbf8d97ec66a6b</hash-sum>
+        <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.19, 2)">
+            <variable>nih</variable>
+        </dependency>
+    </version>
+    <version name="7.64.1" package="se.haxx.curl.CURL64">
         <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b curl*') do set name=%%x&#13;
 call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
 </file>
@@ -36326,6 +36251,14 @@ rmdir "%name%"</file>
 </file>
         <url>https://www.sysgauge.com/setups_x64/sysgauge_setup_v5.9.18_x64.exe</url>
         <hash-sum type="SHA-256">3bc5624114ca36cb440ae108cafb17a698fdb02b6e161cdef4bef36d14162132</hash-sum>
+    </version>
+    <version name="6.0.12" package="sysgauge64" type="one-file">
+        <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
+</file>
+        <file path=".Npackd\Uninstall.bat">uninstall.exe /S _?=%CD%&#13;
+</file>
+        <url>https://www.sysgauge.com/setups_x64/sysgauge_setup_v6.0.12_x64.exe</url>
+        <hash-sum type="SHA-256">1a197c0e3f6fbfb46fc750ce4de6de5d6d05c0d9833340c06bc4b25f0d5af53f</hash-sum>
     </version>
 
     <version name="2" package="texniccenter64" type="one-file">
