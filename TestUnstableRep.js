@@ -112,8 +112,10 @@ function uploadToGithub(from, package_, version) {
     var file = from.substring(p + 1);
 
     file = package_ + "-" + version + "-" + file;
-    
-    var result = exec2("\"" + curl + "\" -L " + from + " --output " + file);
+
+    var cmd = "\"" + curl + "\" -L " + from + " --output " + file;
+    WScript.Echo(cmd);
+    var result = exec2(cmd);
     if (result[0] !== 0)
 	throw new Error("Cannot download the file");
 
