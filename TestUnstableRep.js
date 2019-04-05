@@ -93,14 +93,14 @@ function uploadAllToGithub(url) {
 		} catch (e) {
 		    WScript.Echo(e.toString());
 		}
+		WScript.Echo("------------------------------------------------------------------");
 	    }
-
-	    WScript.Echo("==================================================================");
         }
     } else {
         WScript.Echo("Error loading XML");
         return 1;
     }
+    WScript.Echo("==================================================================");
 }
 
 function uploadToGithub(from, package_, version) {
