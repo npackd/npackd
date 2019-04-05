@@ -51,7 +51,7 @@ function shuffle(array) {
     return array;
 }
 
-function uploadAllToGithub(url) {
+function uploadAllToGithub(url, releaseID) {
     WScript.Echo("Re-uploading packages in " + url);
 
     var xDoc = new ActiveXObject("MSXML2.DOMDocument.6.0");
@@ -90,7 +90,7 @@ function uploadAllToGithub(url) {
 		WScript.Echo("https://www.npackd.org/p/" + package_ + "/" + version);
 
 		try {
-		    var newURL = uploadToGithub(url, package_, version);
+		    var newURL = uploadToGithub(url, package_, version, releaseID);
                     if (apiSetURL(package_, version, newURL)) {
 			WScript.Echo(package_ + " " + version + " changed URL");
                     } else {
@@ -109,7 +109,7 @@ function uploadAllToGithub(url) {
     WScript.Echo("==================================================================");
 }
 
-function uploadToGithub(from, package_, version) {
+function uploadToGithub(from, package_, version, releaseID) {
     WScript.Echo("Re-uploading " + from + " to Github");
     var mime = "application/vnd.microsoft.portable-executable"; // "application/octet-stream";
 
@@ -124,10 +124,8 @@ function uploadToGithub(from, package_, version) {
     if (result[0] !== 0)
 	throw new Error("Cannot download the file");
 
-    // the following URL returns the IDs for the releases
-    // https://api.github.com/repos/tim-lebedkov/packages/releases
-    // 14943317 means the release for the tag "2019_Q1"
-    var url = "https://uploads.github.com/repos/tim-lebedkov/packages/releases/14943317/assets?name=" + file;
+    var url = "https://uploads.github.com/repos/tim-lebedkov/packages/releases/" +
+	    releaseID + "/assets?name=" + file;
     var downloadURL = "https://github.com/tim-lebedkov/packages/releases/download/2019_Q1/" + file;
     // WScript.Echo("Uploading to " + url);
     WScript.Echo("Download from " + downloadURL);
@@ -343,6 +341,24 @@ function download(url) {
 }
 
 /**
+ * Downloads a JSON file.
+ *
+ * @param url URL
+ * @return [HTTP status, JSON]
+ */
+function downloadJSON(url) {
+    var Object = WScript.CreateObject('MSXML2.XMLHTTP');
+
+    Object.Open('GET', url, false);
+    Object.Send();
+
+    if (Object.Status == 200)
+	return [Object.Status, eval(Object.responseText)];
+    else
+	throw [Object.Status, null];
+}
+
+/**
  * @param a first version as a String
  * @param b first version as a String
  */
@@ -510,8 +526,22 @@ downloadRepos();
 
 var reps = ["stable", "stable64", "libs"];
 
+// determine the releaseID
+// see https://developer.github.com/v3/repos/releases/ for more details
+var res = downloadJSON("https://api.github.com/repos/tim-lebedkov/packages/releases");
+var releases = res[1];
+
+// 14943317 means the release for the tag "2019_Q1"
+var releaseID = 0; 
+for (var i = 0; i < releases.length; i++) {
+    if (releases[i].tag_name === "2019_Q1") {
+	releaseID = releases[i].id;
+	break;
+    }
+}
+
 for (var i = 0; i < reps.length; i++) {
-    uploadAllToGithub("https://npackd.appspot.com/rep/xml?tag=" + reps[i]);
+    uploadAllToGithub("https://npackd.appspot.com/rep/xml?tag=" + reps[i], releaseID);
 }
 
 processURL("https://npackd.appspot.com/rep/recent-xml?tag=untested", 
