@@ -73,7 +73,7 @@ function uploadAllToGithub(url) {
             var pv = pvs[i];
             var package_ = pv.getAttribute("package");
             var version = pv.getAttribute("name");
-	    var n = pv.selectNode("/url");
+	    var n = pv.selectSingleNode("/url");
 	    var url = "";
 	    if (n !== null)
 		url = n.text;
