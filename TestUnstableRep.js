@@ -122,7 +122,9 @@ function uploadToGithub(from, package_, version) {
     // https://api.github.com/repos/tim-lebedkov/packages/releases
     // 14943317 means the release for the tag "2019_Q1"
     var url = "https://uploads.github.com/repos/tim-lebedkov/packages/releases/14943317/assets?name=" + file;
-    WScript.Echo("Uploading to " + url);
+    var downloadURL = "https://github.com/tim-lebedkov/packages/releases/download/2019_Q1/" + file;
+    // WScript.Echo("Uploading to " + url);
+    WScript.Echo("Download from " + url);
     
     result = exec2("\"" + curl + "\" -f -H \"Authorization: token " + githubToken + "\"" +
 		       " -H \"Content-Type: " + mime + "\"" +
@@ -130,7 +132,7 @@ function uploadToGithub(from, package_, version) {
     if (result[0] !== 0)
 	throw new Error("Cannot upload the file to Github");
 
-    return url;
+    return downloadURL;
 }
 
 function exec(cmd) {
