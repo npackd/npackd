@@ -113,7 +113,7 @@ function uploadToGithub(from, package_, version) {
 
     file = package_ + "-" + version + "-" + file;
 
-    var cmd = "\"" + curl + "\" -L " + from + " --output " + file;
+    var cmd = "\"" + curl + "\" -f -L " + from + " --output " + file;
     WScript.Echo(cmd);
     var result = exec2(cmd);
     if (result[0] !== 0)
@@ -122,10 +122,10 @@ function uploadToGithub(from, package_, version) {
     var url = "https://uploads.github.com/repos/tim-lebedkov/packages/releases/2019_Q1/assets?name=" + file;
     WScript.Echo("Uploading to " + url);
     
-    WScript.Echo("\"" + curl + "\" -H \"Authorization: token githubToken\"" +
+    WScript.Echo("\"" + curl + "\" -f -H \"Authorization: token githubToken\"" +
 		       " -H \"Content-Type: " + mime + "\"" +
 		       " --data-binary " + file + " \"" + url + "\"");
-    result = exec2("\"" + curl + "\" -H \"Authorization: token " + githubToken + "\"" +
+    result = exec2("\"" + curl + "\" -f -H \"Authorization: token " + githubToken + "\"" +
 		       " -H \"Content-Type: " + mime + "\"" +
 		       " --data-binary " + file + " \"" + url + "\"");
     if (result[0] !== 0)
@@ -468,13 +468,13 @@ function downloadRepos() {
     // download the newest repository files and commit them to the project
     exec("\"" + git + "\" checkout master");
 
-    exec("\"" + curl + "\" -o repository\\RepUnstable.xml " +
+    exec("\"" + curl + "\" -f -o repository\\RepUnstable.xml " +
 	 "https://www.npackd.org/rep/xml?tag=unstable");
-    exec("\"" + curl + "\" -o repository\\Rep.xml " +
+    exec("\"" + curl + "\" -f -o repository\\Rep.xml " +
 	 "https://www.npackd.org/rep/xml?tag=stable");
-    exec("\"" + curl + "\" -o repository\\Rep64.xml " +
+    exec("\"" + curl + "\" -f -o repository\\Rep64.xml " +
 	 "https://www.npackd.org/rep/xml?tag=stable64");
-    exec("\"" + curl + "\" -o repository\\Libs.xml " +
+    exec("\"" + curl + "\" -f -o repository\\Libs.xml " +
 	 "https://www.npackd.org/rep/xml?tag=libs");
 
     exec("\"" + git + "\" config user.email \"tim.lebedkov@gmail.com\"");
