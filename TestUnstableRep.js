@@ -73,13 +73,14 @@ function uploadAllToGithub(url) {
             var pv = pvs[i];
             var package_ = pv.getAttribute("package");
             var version = pv.getAttribute("name");
-	    var n = pv.selectSingleNode("/url");
+	    var n = pv.selectSingleNode("url");
 	    var url = "";
 	    if (n !== null)
 		url = n.text;
 
 	    if (packages.contains(package_) && url.indexOf(
-		    "https://github.com/tim-lebedkov/packages/releases/download/") !== 0) {
+		"https://github.com/tim-lebedkov/packages/releases/download/") !== 0 &&
+		url !== "") {
 		WScript.Echo("https://www.npackd.org/p/" + package_ + "/" + version);
 
 		var newURL = uploadToGithub(url, package_, version);
@@ -104,7 +105,7 @@ function uploadAllToGithub(url) {
 }
 
 function uploadToGithub(from, package_, version) {
-    WScript.Echo("Re-uploading " + url + " to Github");
+    WScript.Echo("Re-uploading " + from + " to Github");
     var mime = "application/octet-stream";
 
     var p = from.lastIndexOf("/");
