@@ -454,7 +454,9 @@ function processURL(url, password, onlyNewest) {
 
             WScript.Echo(package_ + " " + version);
             WScript.Echo("https://www.npackd.org/p/" + package_ + "/" + version);
-            if (!process(package_, version)) {
+	    if (bigPackages.contains(package_)) {
+                WScript.Echo(package_ + " " + version + " ignored because of the download size");
+	    } else if (!process(package_, version)) {
                 failed.push(package_ + "@" + version);
             } else {
                 if (apiTag(package_, version, "untested", false)) {
@@ -519,6 +521,12 @@ var password = arguments.Named.Item("password");
 
 var env = shell.Environment("Process");
 var githubToken = env("github_token");
+
+// packages with the download size over 1 GiB
+var bigPackages = ["mevislab", "mevislab64", "nifi", "com.nokia.QtMinGWInstaller",
+		   "urban-terror", "com.microsoft.VisualStudioExpressCD",
+		   "com.microsoft.VisualCSharpExpress", "com.microsoft.VisualCPPExpress",
+		   "win10-edge-virtualbox", "win7-ie11-virtualbox"];
 
 // WScript.Echo("password=" + githubToken);
 
