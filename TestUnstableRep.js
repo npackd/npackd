@@ -118,7 +118,7 @@ function uploadToGithub(from, package_, version, releaseID) {
 
     file = package_ + "-" + version + "-" + file;
 
-    var cmd = "\"" + curl + "\" -f -L " + from + " --output " + file;
+    var cmd = "\"" + curl + "\" -f -L --connect-timeout 30 --max-time 900 " + from + " --output " + file;
     WScript.Echo(cmd);
     var result = exec2(cmd);
     if (result[0] !== 0)
