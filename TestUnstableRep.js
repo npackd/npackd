@@ -516,8 +516,6 @@ function downloadRepos() {
 var npackdcl = "C:\\Program Files (x86)\\NpackdCL\\ncl.exe";
 var git = "C:\\Program Files\\Git\\cmd\\git.exe";
 
-var curl = getPath("se.haxx.curl.CURL64", null) + "\\bin\\curl.exe";
-
 var FSO = new ActiveXObject("Scripting.FileSystemObject");
 var shell = WScript.CreateObject("WScript.Shell");
 
@@ -526,6 +524,8 @@ var password = arguments.Named.Item("password");
 
 var env = shell.Environment("Process");
 var githubToken = env("github_token");
+
+var curl = getPath("se.haxx.curl.CURL64", null) + "\\bin\\curl.exe";
 
 // packages with the download size over 1 GiB
 var bigPackages = ["mevislab", "mevislab64", "nifi", "com.nokia.QtMinGWInstaller",
