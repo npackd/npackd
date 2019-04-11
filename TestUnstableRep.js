@@ -550,6 +550,9 @@ for (var i = 0; i < releases.length; i++) {
 
 WScript.Echo("Found release ID: " + releaseID);
 
+// print curl version
+exec2("\"" + curl + "\" --version");
+
 for (var i = 0; i < reps.length; i++) {
     uploadAllToGithub("https://npackd.appspot.com/rep/xml?tag=" + reps[i], releaseID);
 }
