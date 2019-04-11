@@ -146,12 +146,16 @@ function exec(cmd) {
 
 /**
  * @param package_ full package name
- * @param version version number
+ * @param version version number or null for "newest"
  * @return path to the specified package or "" if not installed
  */
 function getPath(package_, version) {
-    var res = exec2("cmd.exe /c \"" + npackdcl + "\" path -p " + package_ +
-            " -v " + version + " 2>&1");
+    var cmd = "cmd.exe /c \"" + npackdcl + "\" path -p " + package_;
+    if (version !== null)
+        cmd += " -v " + version;
+    cmd += " 2>&1";
+    
+    var res = exec2(cmd);
     var lines = res[1];
     if (lines.length > 0)
         return lines[0];
@@ -511,7 +515,8 @@ function downloadRepos() {
 
 var npackdcl = "C:\\Program Files (x86)\\NpackdCL\\ncl.exe";
 var git = "C:\\Program Files\\Git\\cmd\\git.exe";
-var curl = "C:\\Tools\\curl\\bin\\curl.exe";
+
+var curl = getPath("se.haxx.curl.CURL64", null) + "\\bin\\curl.exe";
 
 var FSO = new ActiveXObject("Scripting.FileSystemObject");
 var shell = WScript.CreateObject("WScript.Shell");
