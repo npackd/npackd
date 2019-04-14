@@ -915,9 +915,7 @@ x86_64</description>
     <package name="dwg-trueview64">
         <title>DWG TrueView 64 bit</title>
         <url>http://www.autodesk.com/products/dwg/viewers#</url>
-        <description>enables you to view .dwg files and includes DWG TrueConvert™ software, which lets you convert newer .dwg files to work with older versions of AutoCAD.&#13;
-&#13;
-Internal version numbers:
+        <description>enables you to view .dwg files and includes DWG TrueConvert™ software, which lets you convert newer .dwg files to work with older versions of AutoCAD.
 x86_64</description>
         <icon>http://www.autodesk.com/favicon.ico</icon>
         <category>Photo</category>
@@ -1616,7 +1614,7 @@ x86_64</description>
     </package>
     <package name="net.sourceforge.aria2.Aria2_64">
         <title>Aria2 64 bit</title>
-        <url>http://aria2.sourceforge.net/</url>
+        <url>https://aria2.github.io/</url>
         <description>file download
 x86_64</description>
         <license>org.gnu.GPLv2</license>
@@ -3356,7 +3354,7 @@ verify&#13;
 
     <version name="2.9.6" package="calligra-suite64" type="one-file">
         <file path=".Npackd\Install.bat">call "%npackdih%\InstallMSI.bat" INSTALLDIR yes</file>
-        <url>https://download.kde.org/Attic/calligra-2.9.6/calligragemini_x64_2.9.6.0.msi</url>
+        <url>https://github.com/tim-lebedkov/packages/releases/download/2019_Q1/calligra-suite64-2.9.6-calligragemini_x64_2.9.6.0.msi</url>
         <hash-sum type="SHA-256">be090f451fc5797077c1016147242f21117d62e4d6b3ca9b8375258027b316a5</hash-sum>
         <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.1, 2)">
             <variable>npackdih</variable>
@@ -11290,6 +11288,17 @@ if %err% neq 0 exit %err%&#13;
             <variable>nih</variable>
         </dependency>
     </version>
+    <version name="1.14.1" package="conan64" type="one-file">
+        <cmd-file path="conan\conan.exe"/>
+        <file path=".Npackd\Install.bat">"%nih%\InstallInnoSetup.bat"&#13;
+</file>
+        <file path=".Npackd\Uninstall.bat">"%nih%\UninstallInnoSetup.bat" unins000.exe</file>
+        <url>https://github.com/conan-io/conan/releases/download/1.14.1/conan-win-64_1_14_1.exe</url>
+        <hash-sum type="SHA-256">16cce868135848f6fc1dc5bfacad230d0e2c92b2540a5bf6bb54b2fc29f609ad</hash-sum>
+        <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
+            <variable>nih</variable>
+        </dependency>
+    </version>
 
     <version name="3.0.6" package="cygwin64" type="one-file">
         <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
@@ -11781,6 +11790,16 @@ if %err% neq 0 exit %err%&#13;
         <file path=".Npackd\Install.bat">"%NIH%\ExtractDir.bat" dbeaver</file>
         <url>http://dbeaver.jkiss.org/files/6.0.0/dbeaver-ce-6.0.0-win32.win32.x86_64.zip</url>
         <hash-sum type="SHA-256">dfa8de9ecd6617bb025c6d55bab108a2d4be7e30206cb4a5723a3c88ceac141d</hash-sum>
+        <dependency package="com.oracle.JRE64" versions="[1.7, 20)"/>
+        <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
+            <variable>nih</variable>
+        </dependency>
+    </version>
+    <version name="6.0.2" package="dbeaver64">
+        <important-file path="dbeaver.exe" title="DBeaver 64 bit"/>
+        <file path=".Npackd\Install.bat">"%NIH%\ExtractDir.bat" dbeaver</file>
+        <url>http://dbeaver.jkiss.org/files/6.0.2/dbeaver-ce-6.0.2-win32.win32.x86_64.zip</url>
+        <hash-sum type="SHA-256">1a4b1c6de7c9c68a92dc2af7c1c8d46623c80cdc00a5daf3cc8e23f719ca4b3f</hash-sum>
         <dependency package="com.oracle.JRE64" versions="[1.7, 20)"/>
         <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
             <variable>nih</variable>
@@ -14404,6 +14423,15 @@ verify&#13;
             <variable>nih</variable>
         </dependency>
     </version>
+    <version name="2019" package="hugin64" type="one-file">
+        <file path=".Npackd\Install.bat">call "%nih%\InstallMSI.bat" INSTALLDIR yes&#13;
+</file>
+        <url>http://netix.dl.sourceforge.net/project/hugin/hugin/hugin-2018.0/Hugin-2018.0-win64.msi</url>
+        <sha1>4861dcdab43467be49f864926b410d38899c900d</sha1>
+        <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.1, 2)">
+            <variable>nih</variable>
+        </dependency>
+    </version>
 
     <version name="4.26" package="hwinfo64" type="one-file">
         <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
@@ -14710,6 +14738,17 @@ if %err% neq 0 exit %err%&#13;
 </file>
         <url>https://github.com/tim-lebedkov/packages/releases/download/2019_Q1/ImageMagick-7.0.8-37-Q16-x64-dll.exe</url>
         <hash-sum type="SHA-256">e1a782e0aadef8d538bf000d41c79c0a1c3f6a5826b5130a817aad7c4d4c3c6b</hash-sum>
+        <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
+            <variable>nih</variable>
+        </dependency>
+    </version>
+    <version name="7.0.8.39" package="imagemagick64" type="one-file">
+        <file path=".Npackd\Install.bat">call "%nih%\InstallInnoSetup.bat"&#13;
+</file>
+        <file path=".Npackd\Uninstall.bat">call "%nih%\UninstallInnoSetup.bat" unins000.exe&#13;
+</file>
+        <url>https://www.imagemagick.org/download/binaries/ImageMagick-7.0.8-39-Q16-x64-dll.exe</url>
+        <hash-sum type="SHA-256">c0cc673db899a114bd0dfbe4dfdd0f12ee2b54c8a722372047787065953ad219</hash-sum>
         <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
             <variable>nih</variable>
         </dependency>
@@ -15376,6 +15415,19 @@ call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Np
 </file>
         <url>https://github.com/ldc-developers/ldc/releases/download/v1.14.0/ldc2-1.14.0-windows-x64.7z</url>
         <hash-sum type="SHA-256">30f35444a6b260206669e16e1af7d31c141efd2f1524fb583483a5d418aa0911</hash-sum>
+        <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.19, 2)">
+            <variable>nih</variable>
+        </dependency>
+    </version>
+    <version name="1.15" package="ldc64" type="one-file">
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.7z') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+&#13;
+for /f "delims=" %%x in ('dir /b ldc*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+</file>
+        <url>https://github.com/ldc-developers/ldc/releases/download/v1.15.0/ldc2-1.15.0-windows-x64.7z</url>
+        <hash-sum type="SHA-256">0e58319651160fd97e6d90d9204f80c56025bd6012a5a89168a39f8e3ddc5881</hash-sum>
         <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.19, 2)">
             <variable>nih</variable>
         </dependency>
@@ -17030,6 +17082,15 @@ reg add HKCU\Software\mkvmergeGUI\GUI /v check_for_updates /t REG_DWORD /d 00000
 </file>
         <url>https://download.mono-project.com/archive/5.18.1/windows-installer/mono-5.18.1-x64-0.msi</url>
         <hash-sum type="SHA-256">e35cb806fd030693972ea23a69c62405b767cd185d6229cf30be627222201fa9</hash-sum>
+        <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.1, 2)">
+            <variable>npackdih</variable>
+        </dependency>
+    </version>
+    <version name="5.18.1.3" package="mono64" type="one-file">
+        <file path=".Npackd\Install.bat">call "%npackdih%\InstallMSI.bat" INSTALLDIR yes&#13;
+</file>
+        <url>https://download.mono-project.com/archive/5.18.1/windows-installer/mono-5.18.1.3-x64-0.msi</url>
+        <hash-sum type="SHA-256">ac6ace744864f4232c3d78dda45ad47559fd99fc7719f18e3fe8ce528953874a</hash-sum>
         <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.1, 2)">
             <variable>npackdih</variable>
         </dependency>
@@ -23335,7 +23396,7 @@ taskkill /f /im clipx.exe
 </file>
         <file path=".Npackd\Uninstall.bat">uninstall.exe /S</file>
         <url>http://bluemars.org/clipx/clipx-1.0.3.9g-setup-x64.exe</url>
-        <sha1>4CB775BC35EB274BA46BBBF2439896DC7643CDD5</sha1>
+        <sha1>4cb775bc35eb274ba46bbbf2439896dc7643cdd5</sha1>
     </version>
 
     <version name="6.14" package="org.cgsecurity.testdisk.TestDisk64">
@@ -36353,6 +36414,18 @@ if %err% neq 0 exit /b %err%&#13;
             <variable>myun</variable>
         </dependency>
     </version>
+    <version name="2.4.1488.36" package="vivaldi-browser-64" type="one-file">
+        <file path=".Npackd\Install.bat">"%npackd_package_binary%" --vivaldi-standalone --vivaldi-install-dir="%CD%" &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
+&#13;
+</file>
+        <file path=".Npackd\Uninstall.bat">"%ncl%\ncl.exe" --remove-scp "vivaldi-browser-64"&#13;
+</file>
+        <url>https://downloads.vivaldi.com/stable/Vivaldi.2.4.1488.36.x64.exe</url>
+        <hash-sum type="SHA-256">2149712a021cbc1d521b02b3de7f46da5b842a4774af6828d4518c40d1134869</hash-sum>
+        <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.24, 2)">
+            <variable>ncl</variable>
+        </dependency>
+    </version>
 
     <version name="15.0.2" package="vmware64" type="one-file">
         <file path=".Npackd\Install.bat">"%npackd_package_binary%" /a /s /v"/qn TARGETDIR=."&#13;
@@ -36544,6 +36617,21 @@ if %err% neq 0 exit %err%&#13;
         <sha1>88142b530a8fe71c8f4962c157244a45f18959fc</sha1>
     </version>
     <version name="1.32" package="vs-code" type="one-file">
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
+"%setup%" /SP- /VERYSILENT /SUPPRESSMSGBOXES /NOCANCEL /NORESTART /DIR="%CD%" /SAVEINF="%CD%\.Npackd\InnoSetupInfo.ini" /LOG="%CD%\.Npackd\InnoSetupInstall.log"&#13;
+set err=%errorlevel%&#13;
+type .Npackd\InnoSetupInstall.log&#13;
+if %err% neq 0 exit %err%&#13;
+</file>
+        <file path=".Npackd\Uninstall.bat">unins000.exe /VERYSILENT /SUPPRESSMSGBOXES /NORESTART /LOG="%CD%\.Npackd\InnoSetupUninstall.log"&#13;
+set err=%errorlevel%&#13;
+type .Npackd\InnoSetupUninstall.log&#13;
+if %err% neq 0 exit %err%&#13;
+</file>
+        <url>https://az764295.vo.msecnd.net/insider/d28f096018e2673a8437c788e3eed781ddb505ce/VSCodeSetup-ia32-1.21.0-insider.exe</url>
+        <sha1>88142b530a8fe71c8f4962c157244a45f18959fc</sha1>
+    </version>
+    <version name="1.33" package="vs-code" type="one-file">
         <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
 "%setup%" /SP- /VERYSILENT /SUPPRESSMSGBOXES /NOCANCEL /NORESTART /DIR="%CD%" /SAVEINF="%CD%\.Npackd\InnoSetupInfo.ini" /LOG="%CD%\.Npackd\InnoSetupInstall.log"&#13;
 set err=%errorlevel%&#13;
@@ -36769,6 +36857,21 @@ if %err% neq 0 exit %err%&#13;
         <url>https://az764295.vo.msecnd.net/insider/d28f096018e2673a8437c788e3eed781ddb505ce/VSCodeSetup-x64-1.21.0-insider.exe</url>
         <sha1>f73db938cfee6ab1ab0f940c923e4e663962c795</sha1>
     </version>
+    <version name="1.33" package="vs-code64" type="one-file">
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
+"%setup%" /SP- /VERYSILENT /SUPPRESSMSGBOXES /NOCANCEL /NORESTART /DIR="%CD%" /SAVEINF="%CD%\.Npackd\InnoSetupInfo.ini" /LOG="%CD%\.Npackd\InnoSetupInstall.log"&#13;
+set err=%errorlevel%&#13;
+type .Npackd\InnoSetupInstall.log&#13;
+if %err% neq 0 exit %err%&#13;
+</file>
+        <file path=".Npackd\Uninstall.bat">unins000.exe /VERYSILENT /SUPPRESSMSGBOXES /NORESTART /LOG="%CD%\.Npackd\InnoSetupUninstall.log"&#13;
+set err=%errorlevel%&#13;
+type .Npackd\InnoSetupUninstall.log&#13;
+if %err% neq 0 exit %err%&#13;
+</file>
+        <url>https://az764295.vo.msecnd.net/insider/d28f096018e2673a8437c788e3eed781ddb505ce/VSCodeSetup-x64-1.21.0-insider.exe</url>
+        <sha1>f73db938cfee6ab1ab0f940c923e4e663962c795</sha1>
+    </version>
 
     <version name="5" package="vuze64" type="one-file">
         <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
@@ -36862,6 +36965,21 @@ if %err% neq 0 exit %err%&#13;
 </file>
         <url>https://ayera.dl.sourceforge.net/project/winmerge/stable/2.16.0/WinMerge-2.16.0-x64-Setup.exe</url>
         <hash-sum type="SHA-256">ad55cec5b0a0e72d4ea066acca4ae7a2c083c3e85d8eed1a2d8bfb95307c2bec</hash-sum>
+    </version>
+    <version name="2.16.2" package="winmerge64" type="one-file">
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
+"%setup%" /SP- /VERYSILENT /SUPPRESSMSGBOXES /NOCANCEL /NORESTART /DIR="%CD%" /SAVEINF="%CD%\.Npackd\InnoSetupInfo.ini" /LOG="%CD%\.Npackd\InnoSetupInstall.log"&#13;
+set err=%errorlevel%&#13;
+type .Npackd\InnoSetupInstall.log&#13;
+if %err% neq 0 exit %err%&#13;
+</file>
+        <file path=".Npackd\Uninstall.bat">unins000.exe /VERYSILENT /SUPPRESSMSGBOXES /NORESTART /LOG="%CD%\.Npackd\InnoSetupUninstall.log"&#13;
+set err=%errorlevel%&#13;
+type .Npackd\InnoSetupUninstall.log&#13;
+if %err% neq 0 exit %err%&#13;
+</file>
+        <url>https://ayera.dl.sourceforge.net/project/winmerge/stable/2.16.2/WinMerge-2.16.2-x64-Setup.exe</url>
+        <hash-sum type="SHA-256">201251a256e9b67b932b696ddd859d22be8cb41996600d616ce8b64da104ed68</hash-sum>
     </version>
 
     <version name="4" package="wmf64" type="one-file">
