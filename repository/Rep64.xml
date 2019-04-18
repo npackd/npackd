@@ -6839,6 +6839,16 @@ verify&#13;
             <variable>nih</variable>
         </dependency>
     </version>
+    <version name="1.2.1" package="com.intilinux.mypaint.MyPaint64" type="one-file">
+        <file path=".Npackd\Install.bat">"%nih%\InstallInnoSetup.bat"&#13;
+</file>
+        <file path=".Npackd\Uninstall.bat">"%nih%\UninstallInnoSetup.bat" unins000.exe</file>
+        <url>https://github.com/mypaint/mypaint/releases/download/v1.2.1/mypaint-w64-1.2.1-20170129a-installer.exe</url>
+        <hash-sum type="SHA-256">414f49d4227c19dd54f026e8fbaaa5a8495a80b3ffe3aa5abf6a5ceaac0316a5</hash-sum>
+        <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
+            <variable>nih</variable>
+        </dependency>
+    </version>
 
     <version name="1.0.3" package="com.lockhunter.LockHunter64" type="one-file">
         <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x
@@ -14994,6 +15004,18 @@ rmdir "%name%"&#13;
 </file>
         <url>https://dist.ipfs.io/go-ipfs/v0.4.19/go-ipfs_v0.4.19_windows-amd64.zip</url>
         <hash-sum type="SHA-256">b5a377d96b1ff88b1b146ee8b14a509ea65f9f0a5c94308a0a4d7fe22d2a5ea4</hash-sum>
+    </version>
+    <version name="0.4.20" package="ipfs64">
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b go-ipfs*') do set name=%%x&#13;
+cd "%name%"&#13;
+for /f "delims=" %%a in ('dir /b') do (&#13;
+  move "%%a" ..&#13;
+)&#13;
+cd ..&#13;
+rmdir "%name%"&#13;
+</file>
+        <url>https://dist.ipfs.io/go-ipfs/v0.4.20/go-ipfs_v0.4.20_windows-amd64.zip</url>
+        <hash-sum type="SHA-256">f1424590740eb4fc69446ac5752855ca4e58e9a73ab630964b1b7a23d6014e55</hash-sum>
     </version>
 
     <version name="5" package="jclasslib64" type="one-file">
@@ -27492,6 +27514,15 @@ rmdir "%name%"&#13;
             <variable>nih</variable>
         </dependency>
     </version>
+    <version name="4.0.8" package="org.mongodb.MongoDB64" type="one-file">
+        <file path=".Npackd\Install.bat">call "%nih%\InstallMSI.bat" INSTALLDIR yes&#13;
+</file>
+        <url>https://fastdl.mongodb.org/win32/mongodb-win32-x86_64-2008plus-ssl-4.0.8-signed.msi</url>
+        <hash-sum type="SHA-256">70562c79cf88ac56666dc874699f2da50ec9a7dfc1583586db4b7db877dbcbd4</hash-sum>
+        <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.1, 2)">
+            <variable>nih</variable>
+        </dependency>
+    </version>
 
     <version name="0.8.1" package="org.nodejs.NodeJS64" type="one-file">
         <file path=".Npackd\AddProperty.vbs">Option Explicit&#13;
@@ -35957,6 +35988,14 @@ rmdir "%name%"</file>
 </file>
         <url>https://www.sysgauge.com/setups_x64/sysgauge_setup_v6.0.12_x64.exe</url>
         <hash-sum type="SHA-256">1a197c0e3f6fbfb46fc750ce4de6de5d6d05c0d9833340c06bc4b25f0d5af53f</hash-sum>
+    </version>
+    <version name="6.1.18" package="sysgauge64" type="one-file">
+        <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
+</file>
+        <file path=".Npackd\Uninstall.bat">uninstall.exe /S _?=%CD%&#13;
+</file>
+        <url>https://www.sysgauge.com/setups_x64/sysgauge_setup_v6.1.18_x64.exe</url>
+        <hash-sum type="SHA-256">9788b071e0d062382207ac670f5e2dd771146df4a82b4e1f6074198fa24d9c54</hash-sum>
     </version>
 
     <version name="2" package="texniccenter64" type="one-file">
