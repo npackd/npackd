@@ -9956,6 +9956,14 @@ if %err% neq 0 exit /b %err%&#13;
         <url>https://github.com/klembot/twinejs/releases/download/2.2.1/twine_2.2.1_win64.exe</url>
         <hash-sum type="SHA-256">53421857bc4a456ba4e11885d18d90bb02ccd263e7b12d15f37781e79df00ab0</hash-sum>
     </version>
+    <version name="2.3" package="com.twinery.twine64" type="one-file">
+        <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
+</file>
+        <file path=".Npackd\Uninstall.bat">uninstall.exe /S _?=%CD%&#13;
+</file>
+        <url>https://github.com/klembot/twinejs/releases/download/2.3.0/twine_2.3.0_win.exe</url>
+        <hash-sum type="SHA-256">ec1595a94eb8c2d68506764466a9d48bef45af0a786fe4eadc29d9479d8cfb03</hash-sum>
+    </version>
 
     <version name="1.0.9.6" package="com.uvnc.UltraVNC64">
         <important-file path="winvnc.exe" title="UltraVNC Server"/>
@@ -12365,6 +12373,11 @@ rmdir "%name%"&#13;
         <url>https://ftp.gnu.org/gnu/emacs/windows/emacs-26/emacs-26.1-x86_64.zip</url>
         <hash-sum type="SHA-256">995a9da608c8dca75c385769c1c7bf212ac39713c0d14e9af2e718363b5e8264</hash-sum>
     </version>
+    <version name="26.2" package="emacs64">
+        <important-file path="bin\runemacs.exe" title="Emacs"/>
+        <url>https://ftp.gnu.org/gnu/emacs/windows/emacs-26/emacs-26.2-x86_64.zip</url>
+        <hash-sum type="SHA-256">715b142278596b77da633e7ff86dd24d10ed601c8ece2bcf60a0cafa4dc38c2a</hash-sum>
+    </version>
 
     <version name="1.4.4" package="etcher64" type="one-file">
         <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
@@ -12445,6 +12458,14 @@ rmdir "%name%"&#13;
 </file>
         <url>https://github.com/resin-io/etcher/releases/download/v1.5.24/balenaEtcher-Setup-1.5.24-x64.exe</url>
         <hash-sum type="SHA-256">5dda7c8e2d634a500fffee5d713ff86fbd72d1bf526f074becab5cc6220a36b5</hash-sum>
+    </version>
+    <version name="1.5.26" package="etcher64" type="one-file">
+        <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
+</file>
+        <file path=".Npackd\Uninstall.bat">uninstall.exe /S _?=%CD%&#13;
+</file>
+        <url>https://github.com/resin-io/etcher/releases/download/v1.5.26/balenaEtcher-Setup-1.5.26-x64.exe</url>
+        <hash-sum type="SHA-256">6d4e37162699e979de85c8e71567446aef3b30bfb4db2832437c8741c1f5aa35</hash-sum>
     </version>
 
     <version name="1.3.4.686" package="everything64">
@@ -13208,6 +13229,14 @@ if %err% neq 0 exit %err%</file>
         <sha1>d4ccd450e03510cb837e6c4b7956311401a9a0a1</sha1>
     </version>
     <version name="2.4.3" package="fusioninventory-agent64" type="one-file">
+        <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
+</file>
+        <file path=".Npackd\Uninstall.bat">uninstall.exe /S _?=%CD%&#13;
+</file>
+        <url>https://github.com/fusioninventory/fusioninventory-agent/releases/download/2.4/fusioninventory-agent_windows-x86_2.4.exe</url>
+        <sha1>d4ccd450e03510cb837e6c4b7956311401a9a0a1</sha1>
+    </version>
+    <version name="2.5" package="fusioninventory-agent64" type="one-file">
         <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
 </file>
         <file path=".Npackd\Uninstall.bat">uninstall.exe /S _?=%CD%&#13;
@@ -17112,6 +17141,15 @@ reg add HKCU\Software\mkvmergeGUI\GUI /v check_for_updates /t REG_DWORD /d 00000
 </file>
         <url>https://download.mono-project.com/archive/5.18.1/windows-installer/mono-5.18.1.3-x64-0.msi</url>
         <hash-sum type="SHA-256">ac6ace744864f4232c3d78dda45ad47559fd99fc7719f18e3fe8ce528953874a</hash-sum>
+        <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.1, 2)">
+            <variable>npackdih</variable>
+        </dependency>
+    </version>
+    <version name="5.20.1.19" package="mono64" type="one-file">
+        <file path=".Npackd\Install.bat">call "%npackdih%\InstallMSI.bat" INSTALLDIR yes&#13;
+</file>
+        <url>https://download.mono-project.com/archive/5.20.1/windows-installer/mono-5.20.1.19-x64-0.msi</url>
+        <hash-sum type="SHA-256">f84dde8ac4cb7de9c063fa0deb4c0fe0f7fecc6d01fda9824ddaada823acf70b</hash-sum>
         <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.1, 2)">
             <variable>npackdih</variable>
         </dependency>
@@ -22262,6 +22300,21 @@ rmdir "%name%"
         <hash-sum type="SHA-256">c9d668bf2e599c55bc27be15fba600c8ce56c42e5084f0481ab16862176bfac1</hash-sum>
         <dependency package="com.oracle.JRE" versions="[1.5, 2)"/>
     </version>
+    <version name="7.0.94" package="org.apache.tomcat.Tomcat64">
+        <important-file path="bin\startup.bat" title="Start"/>
+        <important-file path="bin\shutdown.bat" title="Stop"/>
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b apache*') do set name=%%x
+cd "%name%"        
+for /f "delims=" %%a in ('dir /b') do (
+  move "%%a" ..
+)
+cd ..
+rmdir "%name%"
+</file>
+        <url>http://archive.apache.org/dist/tomcat/tomcat-7/v7.0.94/bin/apache-tomcat-7.0.94-windows-x64.zip</url>
+        <hash-sum type="SHA-256">5ec44c0aa56be194cc32f5cf52bab4767a6fef6faa05aab2019233c89f0f3aa0</hash-sum>
+        <dependency package="com.oracle.JRE" versions="[1.5, 2)"/>
+    </version>
 
     <version name="7.2.10" package="org.areca-backup.ArecaBackup64">
         <important-file path="areca.exe" title="Areca"/>
@@ -23124,6 +23177,15 @@ if %err% neq 0 exit /b %err%&#13;
 </file>
         <url>https://bitbucket.org/tortoisehg/files/downloads/tortoisehg-4.9.0-x64.msi</url>
         <hash-sum type="SHA-256">426c4cfffeb933b10c7f3e2c2b13e9d843b0a513ad1762ff17dda0b57492ec08</hash-sum>
+        <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3.1, 2)">
+            <variable>nih</variable>
+        </dependency>
+    </version>
+    <version name="4.9.1" package="org.bitbucket.tortoisehg.TortoiseHg64" type="one-file">
+        <file path=".Npackd\Install.bat">call "%nih%\InstallMSI.bat" INSTALLDIR yes&#13;
+</file>
+        <url>https://bitbucket.org/tortoisehg/files/downloads/tortoisehg-4.9.1-x64.msi</url>
+        <hash-sum type="SHA-256">b30d07a55386603c583aad9c1bec4ae3cd8d0749e08ca7994ad38ef534d069cf</hash-sum>
         <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3.1, 2)">
             <variable>nih</variable>
         </dependency>
@@ -26457,6 +26519,40 @@ Set view = Nothing&#13;
             <variable>npackdih</variable>
         </dependency>
     </version>
+    <version name="1.12.4" package="org.golang.Go64" type="one-file">
+        <file path=".Npackd\Install.bat">.Npackd\AddProperty.vbs "%npackd_package_binary%"&#13;
+if %errorlevel% neq 0 exit %errorlevel%&#13;
+&#13;
+call "%npackdih%\InstallMSI.bat" INSTALLDIR</file>
+        <file path=".Npackd\Uninstall.bat">call "%npackdih%\UninstallMSI.bat"</file>
+        <file path=".Npackd\AddProperty.vbs">Option Explicit&#13;
+&#13;
+Dim MSI_FILE&#13;
+MSI_FILE = Wscript.Arguments(0)&#13;
+&#13;
+Dim installer, database, view&#13;
+&#13;
+Set installer = CreateObject("WindowsInstaller.Installer")&#13;
+Set database = installer.OpenDatabase(MSI_FILE, 1)&#13;
+&#13;
+Set view = database.OpenView("INSERT INTO Property (Property, Value) VALUES ('INSTALLDIR', 'C:\Go')")&#13;
+view.Execute&#13;
+'Set view = database.OpenView("DELETE FROM Directory WHERE Directory='TARGETDIR'")&#13;
+'view.Execute&#13;
+'Set view = database.OpenView("UPDATE Directory SET DefaultDir='INSTALLLOCATION' WHERE Directory='TARGETDIR'")&#13;
+'view.Execute&#13;
+database.Commit&#13;
+&#13;
+Set database = Nothing&#13;
+Set installer = Nothing&#13;
+Set view = Nothing&#13;
+</file>
+        <url>https://golang.org/dl/go1.12.4.windows-amd64.msi</url>
+        <hash-sum type="SHA-256">abf0af385ea9963e9c53d2c46726af7e8aea6c00556817f99fca318e05d177ff</hash-sum>
+        <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1, 2)">
+            <variable>npackdih</variable>
+        </dependency>
+    </version>
 
     <version name="2.22.1" package="org.gtk.GTKPlusBundle64">
         <file path="etc\gtk-2.0\gtkrc">gtk-theme-name = "MS-Windows"</file>
@@ -26705,6 +26801,14 @@ if %err% neq 0 exit %err%&#13;
         <file path=".Npackd\Install.bat">call "%npackdih%\InstallMSI.bat" INSTALLDIR yes</file>
         <url>https://github.com/keepassxreboot/keepassxc/releases/download/2.4.0/KeePassXC-2.4.0-Win64.msi</url>
         <hash-sum type="SHA-256">6939a4b64217bddfb349431ec71b1878ca65d3ebefad4ba396cb19045ffb83e7</hash-sum>
+        <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.22, 2)">
+            <variable>npackdih</variable>
+        </dependency>
+    </version>
+    <version name="2.4.1" package="org.keepassxc.keepassxc" type="one-file">
+        <file path=".Npackd\Install.bat">call "%npackdih%\InstallMSI.bat" INSTALLDIR yes</file>
+        <url>https://github.com/keepassxreboot/keepassxc/releases/download/2.4.1/KeePassXC-2.4.1-Win64.msi</url>
+        <hash-sum type="SHA-256">c5abea61312f4d8ae3a7dc642a46e22718f54e36f64696a190523d644e346146</hash-sum>
         <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.22, 2)">
             <variable>npackdih</variable>
         </dependency>
@@ -31741,6 +31845,20 @@ call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Np
             <variable>nih</variable>
         </dependency>
     </version>
+    <version name="8.1.1177" package="org.vim.Vim64">
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+if %errorlevel% neq 0 exit /b %errorlevel%&#13;
+&#13;
+for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+</file>
+        <url>https://github.com/vim/vim-win32-installer/releases/download/v8.1.1177/gvim_8.1.1177_x64.zip</url>
+        <hash-sum type="SHA-256">077c285f84815bbaaa6b2b609bfd5f2116ac646dd0204d55cf4d231a994f5308</hash-sum>
+        <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.19, 2)">
+            <variable>nih</variable>
+        </dependency>
+    </version>
 
     <version name="4.2.8.83876" package="org.virtualbox.virtualbox64" type="one-file">
         <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
@@ -32928,6 +33046,41 @@ if %err% equ 3010 exit 0&#13;
 if %err% neq 0 exit %err%</file>
         <url>http://download.virtualbox.org/virtualbox/6.0.4/VirtualBox-6.0.4-128413-Win.exe</url>
         <hash-sum type="SHA-256">a7b340eaa8ad9de72373162bcbba3fc0eeed9696fa404a0e5b99c0983151a3fc</hash-sum>
+        <dependency package="org.7-zip.SevenZIP64" versions="[9.20, 20)">
+            <variable>sevenzip</variable>
+        </dependency>
+    </version>
+    <version name="6.0.6.130049" package="org.virtualbox.virtualbox64" type="one-file">
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
+"%setup%" -x -s -p "%CD%"&#13;
+&#13;
+&#13;
+"%sevenzip%\7z.exe" x common.cab -aos -o"%CD%\common"&#13;
+"%sevenzip%\7z.exe" x "%CD%\common\file_VBoxGuestAdditions.iso" -aos -o"%CD%\common\file_VBoxGuestAdditions"&#13;
+&#13;
+certutil.exe -addstore -f "TrustedPublisher" "%CD%\common\file_VBoxGuestAdditions\cert\oracle-vbox.cer" &gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+&#13;
+for /f "delims=" %%x in ('dir /b *MultiArch_amd64.msi') do set setup=%%x&#13;
+msiexec.exe /qn /norestart /Lime .Npackd\MSI.log /i "%setup%"&#13;
+set err=%errorlevel%&#13;
+type .Npackd\MSI.log&#13;
+rem 3010=restart required&#13;
+if %err% equ 3010 exit 0&#13;
+if %err% neq 0 exit %err%&#13;
+&#13;
+for /f "delims=" %%x in ('dir /b *MultiArch_x86.msi') do set trash=%%x&#13;
+del /q /f "%trash%"&#13;
+&#13;
+if exist "%CD%\common" (rd /s /q "%CD%\common")</file>
+        <file path=".Npackd\Uninstall.bat">for /f "delims=" %%x in ('dir /b *.msi') do set setup=%%x&#13;
+msiexec.exe /qn /norestart /Lime .Npackd\MSI.log /x "%setup%"&#13;
+set err=%errorlevel%&#13;
+type .Npackd\MSI.log&#13;
+rem 3010=restart required&#13;
+if %err% equ 3010 exit 0&#13;
+if %err% neq 0 exit %err%</file>
+        <url>http://download.virtualbox.org/virtualbox/6.0.6/VirtualBox-6.0.6-130049-Win.exe</url>
+        <hash-sum type="SHA-256">41be35c8624cf1441488ed58b0b84322acc4727d11307de38c055723eeee3877</hash-sum>
         <dependency package="org.7-zip.SevenZIP64" versions="[9.20, 20)">
             <variable>sevenzip</variable>
         </dependency>
@@ -34359,6 +34512,17 @@ if %errorlevel% equ 3010 verify</file>
             <variable>ncl</variable>
         </dependency>
     </version>
+    <version name="4.9" package="qt-creator64" type="one-file">
+        <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD%&#13;
+</file>
+        <file path=".Npackd\Uninstall.bat">"%ncl%\ncl.exe" remove-scp --title "/Qt Creator.*/"&#13;
+</file>
+        <url>http://download.qt-project.org/official_releases/qtcreator/4.9/4.9.0/qt-creator-opensource-windows-x86_64-4.9.0.exe</url>
+        <hash-sum type="SHA-256">be7f19abce439f5599f2467d28531e858aef3adec27919ae28445a831f48ba19</hash-sum>
+        <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.24, 2)">
+            <variable>ncl</variable>
+        </dependency>
+    </version>
 
     <version name="1.11" package="qtox64" type="one-file">
         <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
@@ -34594,6 +34758,17 @@ if %errorlevel% equ 3010 verify</file>
 </file>
         <url>https://github.com/ramboxapp/community-edition/releases/download/0.6.4/Rambox-0.6.4-win.exe</url>
         <hash-sum type="SHA-256">b3fba4bca032924d04484860255724233217f8834129a415dba68aa848f46458</hash-sum>
+        <dependency package="net.nirsoft.MyUninstaller" versions="[1.74, 2)">
+            <variable>myun</variable>
+        </dependency>
+    </version>
+    <version name="0.6.6" package="rambox-64-bit" type="one-file">
+        <file path=".Npackd\Install.bat">"%npackd_package_binary%" &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
+</file>
+        <file path=".Npackd\Uninstall.bat">"%myun%\myuninst.exe" /uninstall "rambox-64-bit"&#13;
+</file>
+        <url>https://github.com/saenzramiro/rambox/releases/download/0.6.6/Rambox-0.6.6-win.exe</url>
+        <hash-sum type="SHA-256">da971c0f2aad4a516b4dea0345f23c0f05fbac8eab20d85d6c775d3b6f81cbfd</hash-sum>
         <dependency package="net.nirsoft.MyUninstaller" versions="[1.74, 2)">
             <variable>myun</variable>
         </dependency>
@@ -36302,6 +36477,14 @@ if %err% neq 0 exit %err%&#13;
 </file>
         <url>http://files.first-world.info/ultracopier/1.6.1.4/ultracopier-windows-x86_64-1.6.1.4-setup.exe</url>
         <hash-sum type="SHA-256">3cbdae5d4b9a7fc1d1e48591c30794bd9453e3a70fa9f7d23af10131cc91c532</hash-sum>
+    </version>
+    <version name="1.6.1.5" package="ultracopier64" type="one-file">
+        <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
+</file>
+        <file path=".Npackd\Uninstall.bat">uninst.exe /S _?=%CD%&#13;
+</file>
+        <url>http://files.first-world.info/ultracopier/1.6.1.5/ultracopier-windows-x86_64-1.6.1.5-setup.exe</url>
+        <hash-sum type="SHA-256">73f2ad4fee637898fd539b64b96308bd6d28473dcdddea4fe8c801803c586ae3</hash-sum>
     </version>
 
     <version name="2.0.1" package="vagrant64" type="one-file">
