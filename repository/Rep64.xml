@@ -7701,6 +7701,16 @@ call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Np
             <variable>nih</variable>
         </dependency>
     </version>
+    <version name="12.0.1" package="com.oracle.JDK64">
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b jdk*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+</file>
+        <url>https://download.java.net/java/GA/jdk12.0.1/69cfe15208a647278a19ef0990eea691/12/GPL/openjdk-12.0.1_windows-x64_bin.zip</url>
+        <hash-sum type="SHA-256">fc7d9eee3c09ea6548b00ca25dbf34a348b3942c815405a1428e0bfef268d08d</hash-sum>
+        <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.19, 2)">
+            <variable>nih</variable>
+        </dependency>
+    </version>
 
     <version name="1.6.0.25" package="com.oracle.JRE64" type="one-file">
         <file path=".Npackd\Install.bat">ren AutoDL Install.exe
@@ -18811,6 +18821,17 @@ if %err% neq 0 exit %err%&#13;
         </dependency>
     </version>
     <version name="6.7.1" package="net.sourceforge.peazip.PeaZip64" type="one-file">
+        <file path=".Npackd\Install.bat">call "%nih%\InstallInnoSetup.bat"&#13;
+</file>
+        <file path=".Npackd\Uninstall.bat">call "%nih%\UninstallInnoSetup.bat" unins000.exe&#13;
+</file>
+        <url>https://ayera.dl.sourceforge.net/project/peazip/6.5.1/peazip-6.5.1.WINDOWS.exe</url>
+        <hash-sum type="SHA-256">49bc326c084e743acff1bdf2437d0b17cdeedb5bde67efee2fd86a613efa9031</hash-sum>
+        <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
+            <variable>nih</variable>
+        </dependency>
+    </version>
+    <version name="6.7.2" package="net.sourceforge.peazip.PeaZip64" type="one-file">
         <file path=".Npackd\Install.bat">call "%nih%\InstallInnoSetup.bat"&#13;
 </file>
         <file path=".Npackd\Uninstall.bat">call "%nih%\UninstallInnoSetup.bat" unins000.exe&#13;
@@ -36858,6 +36879,18 @@ if %err% neq 0 exit /b %err%&#13;
             <variable>ncl</variable>
         </dependency>
     </version>
+    <version name="2.4.1488.40" package="vivaldi-browser-64" type="one-file">
+        <file path=".Npackd\Install.bat">"%npackd_package_binary%" --vivaldi-standalone --vivaldi-install-dir="%CD%" &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
+&#13;
+</file>
+        <file path=".Npackd\Uninstall.bat">"%ncl%\ncl.exe" --remove-scp "vivaldi-browser-64"&#13;
+</file>
+        <url>https://downloads.vivaldi.com/stable/Vivaldi.2.4.1488.40.x64.exe</url>
+        <hash-sum type="SHA-256">bf8601b2d9087888ca8112feac2cf6c0d4e74ca4840f0ba49fdd74cc8d9f4be5</hash-sum>
+        <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.24, 2)">
+            <variable>ncl</variable>
+        </dependency>
+    </version>
 
     <version name="15.0.2" package="vmware64" type="one-file">
         <file path=".Npackd\Install.bat">"%npackd_package_binary%" /a /s /v"/qn TARGETDIR=."&#13;
@@ -36866,6 +36899,14 @@ if %err% neq 0 exit /b %err%&#13;
 </file>
         <url>https://download3.vmware.com/software/player/file/VMware-player-15.0.2-10952284.exe</url>
         <hash-sum type="SHA-256">7d2f186ccf31c2d45b1e65cca10cadd9da5a596c0b0796cd85b525ee3e888302</hash-sum>
+    </version>
+    <version name="15.0.4" package="vmware64" type="one-file">
+        <file path=".Npackd\Install.bat">"%npackd_package_binary%" /a /s /v"/qn TARGETDIR=."&#13;
+&#13;
+&#13;
+</file>
+        <url>https://download3.vmware.com/software/player/file/VMware-player-15.0.4-12990004.exe</url>
+        <hash-sum type="SHA-256">a028c0e42fe9e9928ec7f22495d35b96bb093ebba6e734193e699102d852334c</hash-sum>
     </version>
 
     <version name="1.18.1" package="vs-code" type="one-file">
