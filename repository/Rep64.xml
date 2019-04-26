@@ -5723,6 +5723,15 @@ call "%npackdih%\InstallMSI.bat" APPLICATIONFOLDER yes&#13;
             <variable>npackdih</variable>
         </dependency>
     </version>
+    <version name="3.41.3" package="com.calibreebook.Calibre64" type="one-file">
+        <file path=".Npackd\Install.bat">call "%npackdih%\InstallMSI.bat" APPLICATIONFOLDER yes&#13;
+</file>
+        <url>https://download.calibre-ebook.com/3.41.3/calibre-64bit-3.41.3.msi</url>
+        <hash-sum type="SHA-256">502d441871dc8582e3fafcea3adf4a179dc2eaa9124fc9f8af635ad932f37838</hash-sum>
+        <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.2, 2)">
+            <variable>npackdih</variable>
+        </dependency>
+    </version>
 
     <version name="5.12.256249.2599" package="com.comodo.comodoav64" type="one-file">
         <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.msi') do set setup=%%x&#13;
@@ -12481,6 +12490,14 @@ rmdir "%name%"&#13;
         <url>https://github.com/resin-io/etcher/releases/download/v1.5.26/balenaEtcher-Setup-1.5.26-x64.exe</url>
         <hash-sum type="SHA-256">6d4e37162699e979de85c8e71567446aef3b30bfb4db2832437c8741c1f5aa35</hash-sum>
     </version>
+    <version name="1.5.29" package="etcher64" type="one-file">
+        <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
+</file>
+        <file path=".Npackd\Uninstall.bat">uninstall.exe /S _?=%CD%&#13;
+</file>
+        <url>https://github.com/resin-io/etcher/releases/download/v1.5.29/balenaEtcher-Setup-1.5.29-x64.exe</url>
+        <hash-sum type="SHA-256">f8345fc25b4b28b0e3ce0aa4da148232e2ed7dfda4aab35d1e88ff2f99d15a8d</hash-sum>
+    </version>
 
     <version name="1.3.4.686" package="everything64">
         <important-file path="Everything.exe" title="Everything"/>
@@ -13312,6 +13329,15 @@ if %err% neq 0 exit %err%</file>
 </file>
         <url>https://gajim.org/downloads/1.1/gajim-1.1.2-64bits-1.exe</url>
         <hash-sum type="SHA-256">4249474573e96f08c2b351326f410dcc8b55a8eea81d791241a9a02d49c3d3a4</hash-sum>
+    </version>
+    <version name="1.1.3" package="gajim64" type="one-file">
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
+"%setup%" /S /D=%CD%&#13;
+</file>
+        <file path=".Npackd\Uninstall.bat">uninstall.exe /S _?=%CD%&#13;
+</file>
+        <url>https://gajim.org/downloads/1.1/gajim-1.1.3-64bits-1.exe</url>
+        <hash-sum type="SHA-256">1921a5ec774bc4ee5f20752e39fa1e00e1a87e7233c3cfefc07b9c497c3e34e6</hash-sum>
     </version>
 
     <version name="3.20.1" package="gedit64" type="one-file">
@@ -15678,6 +15704,15 @@ call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Np
         </dependency>
         <dependency package="com.oracle.JRE" versions="[1.6, 2)"/>
     </version>
+    <version name="6.2.3" package="libreoffice64" type="one-file">
+        <file path=".Npackd\Install.bat">call "%npackdih%\InstallMSI.bat" INSTALLLOCATION yes</file>
+        <url>https://download.documentfoundation.org/libreoffice/stable/6.2.3/win/x86_64/LibreOffice_6.2.3_Win_x64.msi</url>
+        <hash-sum type="SHA-256">579bc692bffa300d05c77c90bcccfe3afc9681f12f0967c2196bdedb1ac6430e</hash-sum>
+        <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.1, 2)">
+            <variable>npackdih</variable>
+        </dependency>
+        <dependency package="com.oracle.JRE" versions="[1.6, 2)"/>
+    </version>
 
     <version name="12.6" package="lightworks64" type="one-file">
         <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
@@ -16789,6 +16824,15 @@ rmdir "%name%"&#13;
 </file>
         <url>http://downloads.mixxx.org/mixxx-2.2.0/mixxx-2.2.0-win64.exe</url>
         <hash-sum type="SHA-256">e1c53002b20fc7e841955815372baa1df88ee2bbd987f5098e04507713f43706</hash-sum>
+    </version>
+    <version name="2.2.1" package="mixxx" type="one-file">
+        <file path=".Npackd\Install.bat">"%npackd_package_binary%" -s -norestart -l .Npackd\Installer.log&#13;
+</file>
+        <file path=".Npackd\Uninstall.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
+"%setup%" -s -norestart -l .Npackd\Installer.log -uninstall&#13;
+</file>
+        <url>http://downloads.mixxx.org/mixxx-2.2.1/mixxx-2.2.1-win64.exe</url>
+        <hash-sum type="SHA-256">65d4c02e27320a8a3ff8a22d1c4b4e09704cc88315384ba2d4482d93930afab9</hash-sum>
     </version>
 
     <version name="6.7" package="mkvtoolnix64" type="one-file">
@@ -19456,6 +19500,10 @@ if %err% neq 0 exit /b %err%
         <sha1>31fda8eee9fe628ee35bcce6c4833fd0e07503bc</sha1>
     </version>
     <version name="2.82" package="nircmd64">
+        <url>http://files.npackd.org/nircmd64/nircmd-x64-2.81.zip</url>
+        <sha1>31fda8eee9fe628ee35bcce6c4833fd0e07503bc</sha1>
+    </version>
+    <version name="2.83" package="nircmd64">
         <url>http://files.npackd.org/nircmd64/nircmd-x64-2.81.zip</url>
         <sha1>31fda8eee9fe628ee35bcce6c4833fd0e07503bc</sha1>
     </version>
@@ -29675,6 +29723,19 @@ rmdir "%name%"</file>
         <hash-sum type="SHA-256">5a8065b0312efa7fe819fc878f390cc99e2c449293e659892b80d284ade9e0f8</hash-sum>
         <dependency package="com.oracle.JRE64" versions="[1.7, 2)"/>
     </version>
+    <version name="4.2.1" package="org.springsource.STS64">
+        <important-file path="SpringToolSuite4.exe" title="Spring Tool Suite"/>
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b sts*') do set name=%%x&#13;
+cd "%name%"        &#13;
+for /f "delims=" %%a in ('dir /b') do (&#13;
+  move "%%a" ..&#13;
+)&#13;
+cd ..&#13;
+rmdir "%name%"</file>
+        <url>https://download.springsource.com/release/STS4/4.2.1.RELEASE/dist/e4.11/spring-tool-suite-4-4.2.1.RELEASE-e4.11.0-win32.win32.x86_64.zip</url>
+        <hash-sum type="SHA-256">7c10dfffdfebad2a347dc2368d151cad87916d5113197fe222c89f7d9dabf9ed</hash-sum>
+        <dependency package="com.oracle.JRE64" versions="[1.7, 2)"/>
+    </version>
 
     <version name="3.6.1" package="org.sqlexplorer.SQLExplorer64">
         <important-file path="sqlexplorer.exe" title="SQL Explorer"/>
@@ -31880,6 +31941,20 @@ call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Np
 </file>
         <url>https://github.com/vim/vim-win32-installer/releases/download/v8.1.1177/gvim_8.1.1177_x64.zip</url>
         <hash-sum type="SHA-256">077c285f84815bbaaa6b2b609bfd5f2116ac646dd0204d55cf4d231a994f5308</hash-sum>
+        <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.19, 2)">
+            <variable>nih</variable>
+        </dependency>
+    </version>
+    <version name="8.1.1200" package="org.vim.Vim64">
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+if %errorlevel% neq 0 exit /b %errorlevel%&#13;
+&#13;
+for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+</file>
+        <url>https://github.com/vim/vim-win32-installer/releases/download/v8.1.1200/gvim_8.1.1200_x64.zip</url>
+        <hash-sum type="SHA-256">44a688ce91fc2f483f093aac85dff85d309485298d559b81416cc825e2eee9b8</hash-sum>
         <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.19, 2)">
             <variable>nih</variable>
         </dependency>
@@ -34521,6 +34596,13 @@ if %errorlevel% equ 3010 verify</file>
 </file>
         <url>https://qgis.org/downloads/QGIS-OSGeo4W-3.6.1-1-Setup-x86_64.exe</url>
     </version>
+    <version name="3.6.2" package="qgis64" type="one-file">
+        <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
+if %errorlevel% equ 3010 verify</file>
+        <file path=".Npackd\Uninstall.bat">uninstall.exe /S _?=%CD%&#13;
+</file>
+        <url>https://qgis.org/downloads/QGIS-OSGeo4W-3.6.2-1-Setup-x86_64.exe</url>
+    </version>
 
     <version name="1.40.6" package="Qt-Bitcoin-Trader64" type="one-file">
         <important-file path="qtbitcointrader.exe" title="Qt Bitcoin Trader"/>
@@ -35672,6 +35754,10 @@ rem Install4j&#13;
     <version name="3.27.2" package="sqlite64">
         <url>https://www.sqlite.org/2019/sqlite-dll-win64-x64-3270200.zip</url>
         <hash-sum type="SHA-256">fc4337fef29a849a70378ef8d990e1d138b8656272455cbbabb472c19ce1a1f2</hash-sum>
+    </version>
+    <version name="3.28" package="sqlite64">
+        <url>https://www.sqlite.org/2019/sqlite-dll-win64-x64-3280000.zip</url>
+        <hash-sum type="SHA-256">cbffbd496c975102d8b5dae44e101ff8534b2533fc8a8f716f707a4220409453</hash-sum>
     </version>
 
     <version name="10.50.1600.1" package="sqlncli64" type="one-file">
