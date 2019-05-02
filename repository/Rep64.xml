@@ -1742,6 +1742,7 @@ x86_64</description>
         <license>org.gnu.GPLv2</license>
         <category>Development</category>
         <category>stable64</category>
+        <category>reupload</category>
     </package>
     <package name="nircmd64">
         <title>NirCmd 64 bit</title>
@@ -5741,6 +5742,15 @@ call "%npackdih%\InstallMSI.bat" APPLICATIONFOLDER yes&#13;
             <variable>npackdih</variable>
         </dependency>
     </version>
+    <version name="3.42" package="com.calibreebook.Calibre64" type="one-file">
+        <file path=".Npackd\Install.bat">call "%npackdih%\InstallMSI.bat" APPLICATIONFOLDER yes&#13;
+</file>
+        <url>https://download.calibre-ebook.com/3.42.0/calibre-64bit-3.42.0.msi</url>
+        <hash-sum type="SHA-256">e014242bc20e13ab9e9f8b89055c0e8c6e433abb6886dff4fdcab5977884a0a3</hash-sum>
+        <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.2, 2)">
+            <variable>npackdih</variable>
+        </dependency>
+    </version>
 
     <version name="5.12.256249.2599" package="com.comodo.comodoav64" type="one-file">
         <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.msi') do set setup=%%x&#13;
@@ -7282,6 +7292,15 @@ if %err% neq 0 exit /b %err%&#13;
             <variable>npackdih</variable>
         </dependency>
     </version>
+    <version name="8.0.16" package="com.mysql.dev.MySQLODBCConnector64bits" type="one-file">
+        <file path=".Npackd\Install.bat">call "%npackdih%\InstallMSI.bat" INSTALLDIR yes&#13;
+		</file>
+        <url>https://cdn.mysql.com//Downloads/Connector-ODBC/8.0/mysql-connector-odbc-8.0.16-winx64.msi</url>
+        <hash-sum type="SHA-256">f68319e983fac740caa592920eb43b2f60c82cefd61065771635292470a6327f</hash-sum>
+        <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.1, 2)">
+            <variable>npackdih</variable>
+        </dependency>
+    </version>
 
     <version name="5.5.16" package="com.mysql.MySQLCommunityServer64" type="one-file">
         <file path=".Npackd\Install.bat">call "%npackdih%\InstallMSI.bat" INSTALLDIR yes</file>
@@ -7538,6 +7557,18 @@ rmdir "%name%"&#13;
 </file>
         <url>https://cdn.mysql.com/Downloads/MySQL-8.0/mysql-8.0.15-winx64.zip</url>
         <hash-sum type="SHA-256">16bf0ad985dd862c81f030438e7907872c2989fbb67548177f5853803d3fb803</hash-sum>
+    </version>
+    <version name="8.0.16" package="com.mysql.MySQLCommunityServer64">
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b mysql*') do set name=%%x&#13;
+cd "%name%"        &#13;
+for /f "delims=" %%a in ('dir /b') do (&#13;
+  move "%%a" ..&#13;
+)&#13;
+cd ..&#13;
+rmdir "%name%"&#13;
+</file>
+        <url>https://cdn.mysql.com/Downloads/MySQL-8.0/mysql-8.0.16-winx64.zip</url>
+        <hash-sum type="SHA-256">51ab649e14570498a5f23b81578ed0e464d8e48fda83f097ea61087262d2e35e</hash-sum>
     </version>
 
     <version name="2014" package="com.mythicsoft.AgentRansack64" type="one-file">
@@ -8955,6 +8986,14 @@ call "%nih%\UninstallInnoSetup.bat" unins000.exe</file>
 </file>
         <url>https://github.com/sindresorhus/caprine/releases/download/v2.30.2/caprine-setup-2.30.2.exe</url>
         <hash-sum type="SHA-256">13aa511eda598bb9593994b1883e38f907753fa4476e81c83a7f3d87cacc7962</hash-sum>
+    </version>
+    <version name="2.31" package="com.sindresorhus.caprine" type="one-file">
+        <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
+</file>
+        <file path=".Npackd\Uninstall.bat">uninstall.exe /S _?=%CD%&#13;
+</file>
+        <url>https://github.com/sindresorhus/caprine/releases/download/v2.31.0/caprine-setup-2.31.0.exe</url>
+        <hash-sum type="SHA-256">4abe6d39a3de74e6459d7397a30688d37916b1a819b9fc574463352ebbf4e394</hash-sum>
     </version>
 
     <version name="4.51" package="com.softwareok.QDir64">
@@ -11328,8 +11367,19 @@ if %err% neq 0 exit %err%&#13;
             <variable>nih</variable>
         </dependency>
     </version>
+    <version name="1.14.5" package="conan64" type="one-file">
+        <cmd-file path="conan\conan.exe"/>
+        <file path=".Npackd\Install.bat">"%nih%\InstallInnoSetup.bat"&#13;
+</file>
+        <file path=".Npackd\Uninstall.bat">"%nih%\UninstallInnoSetup.bat" unins000.exe</file>
+        <url>https://github.com/conan-io/conan/releases/download/1.14.5/conan-win-64_1_14_5.exe</url>
+        <hash-sum type="SHA-256">a9155b80032dbfb6eb9496ce1a68245d9c2011d71408667c2820d30cbc4f1e61</hash-sum>
+        <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
+            <variable>nih</variable>
+        </dependency>
+    </version>
 
-    <version name="3.0.6" package="cygwin64" type="one-file">
+    <version name="3.0.7" package="cygwin64" type="one-file">
         <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
 "%setup%" -q -D -R "%CD%" -s http://box-soft.com -l "%CD%\packages"&#13;
 "%setup%" -q -L -R "%CD%" -l "%CD%\packages"</file>
@@ -12538,6 +12588,14 @@ rmdir "%name%"&#13;
 </file>
         <url>https://github.com/resin-io/etcher/releases/download/v1.5.29/balenaEtcher-Setup-1.5.29-x64.exe</url>
         <hash-sum type="SHA-256">f8345fc25b4b28b0e3ce0aa4da148232e2ed7dfda4aab35d1e88ff2f99d15a8d</hash-sum>
+    </version>
+    <version name="1.5.33" package="etcher64" type="one-file">
+        <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
+</file>
+        <file path=".Npackd\Uninstall.bat">uninstall.exe /S _?=%CD%&#13;
+</file>
+        <url>https://github.com/resin-io/etcher/releases/download/v1.5.33/balenaEtcher-Setup-1.5.33-x64.exe</url>
+        <hash-sum type="SHA-256">f613f40fba95ebf3aa92654ad0e670100f42ac8888ba253ac99a5f4495dfa2db</hash-sum>
     </version>
 
     <version name="1.3.4.686" package="everything64">
@@ -13753,7 +13811,7 @@ if %err% neq 0 exit %err%&#13;
         <url>https://download.glarysoft.com/gu5setup.exe</url>
     </version>
 
-    <version name="74.0.3729.108" package="google-chrome-x64" type="one-file">
+    <version name="74.0.3729.131" package="google-chrome-x64" type="one-file">
         <file path=".Npackd\Install.bat">call "%npackdih%\InstallMSI.bat" TARGETDIR yes&#13;
 </file>
         <url>https://dl.google.com/tag/s/appguid%3D%7B8A69D345-D564-463C-AFF1-A69D9E530F96%7D%26iid%3D%7B0A558A36-0536-8B3F-0AE0-420553CC97F3%7D%26lang%3Den%26browser%3D4%26usagestats%3D0%26appname%3DGoogle%2520Chrome%26needsadmin%3DFalse/edgedl/chrome/install/GoogleChromeStandaloneEnterprise64.msi</url>
@@ -14876,6 +14934,17 @@ if %err% neq 0 exit %err%&#13;
 </file>
         <url>https://github.com/tim-lebedkov/packages/releases/download/2019_Q1/imagemagick64-7.0.8.40-ImageMagick-7.0.8-40-Q16-x64-dll.exe</url>
         <hash-sum type="SHA-256">8fb4269233e91f49c189aa81d36864c41e383df437b6ce57be47c616f354fec3</hash-sum>
+        <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
+            <variable>nih</variable>
+        </dependency>
+    </version>
+    <version name="7.0.8.42" package="imagemagick64" type="one-file">
+        <file path=".Npackd\Install.bat">call "%nih%\InstallInnoSetup.bat"&#13;
+</file>
+        <file path=".Npackd\Uninstall.bat">call "%nih%\UninstallInnoSetup.bat" unins000.exe&#13;
+</file>
+        <url>https://www.imagemagick.org/download/binaries/ImageMagick-7.0.8-42-Q16-x64-dll.exe</url>
+        <hash-sum type="SHA-256">3b26c81fcb48013e100188512bc5fa313f58af2762108b6236c05f5a8bbeb0de</hash-sum>
         <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
             <variable>nih</variable>
         </dependency>
@@ -17470,6 +17539,16 @@ if %errorlevel% neq 0 exit /b %errorlevel%&#13;
         <dependency package="com.microsoft.DotNetRedistributable" versions="[4, 5)"/>
         <dependency package="com.microsoft.VisualCPPRedistributable" versions="[10, 11)"/>
     </version>
+    <version name="8.0.16" package="mysql-workbench64" type="one-file">
+        <file path=".Npackd\Install.bat">call "%npackdih%\InstallMSI.bat" INSTALLDIR yes&#13;
+		</file>
+        <url>https://dev.mysql.com/get/Downloads/MySQLGUITools/mysql-workbench-community-8.0.16-winx64.msi</url>
+        <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.1, 2)">
+            <variable>npackdih</variable>
+        </dependency>
+        <dependency package="com.microsoft.DotNetRedistributable" versions="[4, 5)"/>
+        <dependency package="com.microsoft.VisualCPPRedistributable" versions="[10, 11)"/>
+    </version>
 
     <version name="3" package="net.blat.Blat64">
         <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b blat*') do set name=%%x&#13;
@@ -19535,6 +19614,15 @@ if %err% neq 0 exit /b %err%
 </file>
         <url>http://rwthaachen.dl.osdn.jp/storage/g/t/to/tortoisesvn/1.11.1/Application/TortoiseSVN-1.11.1.28492-x64-svn-1.11.1.msi</url>
         <hash-sum type="SHA-256">e610c893048c48a9896eaca2646032dabefb1b59baade82fd65068ba32d86b70</hash-sum>
+        <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3.1, 2)">
+            <variable>nih</variable>
+        </dependency>
+    </version>
+    <version name="1.12.0.28568" package="net.tortoisesvn.TortoiseSVN64" type="one-file">
+        <file path=".Npackd\Install.bat">call "%nih%\InstallMSI.bat" INSTALLDIR yes&#13;
+</file>
+        <url>http://rwthaachen.dl.osdn.jp/storage/g/t/to/tortoisesvn/1.12.0/Application/TortoiseSVN-1.12.0.28568-x64-svn-1.12.0.msi</url>
+        <hash-sum type="SHA-256">4234aebcd04507e8b8ed6e2145d38fa4ad1ae0a80d5135e014104e98c3c0b11a</hash-sum>
         <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3.1, 2)">
             <variable>nih</variable>
         </dependency>
@@ -29352,6 +29440,10 @@ if %err% neq 0 exit %err%&#13;
         <url>https://github.com/mltframework/shotcut/releases/download/v19.02.28/shotcut-win64-190228.zip</url>
         <hash-sum type="SHA-256">f4ee089f507df9c7a7ccd12d24c8fc52a224113a8eaabaf4074a89cb14ed2f09</hash-sum>
     </version>
+    <version name="19.4.30" package="org.shotcut.shotcut">
+        <url>https://github.com/mltframework/shotcut/releases/download/v19.04.30/shotcut-win64-190430.zip</url>
+        <hash-sum type="SHA-256">991c12aa2eadfc7d68fad49442629a7c8e11cf5e296eb0260fd4f704b0a5df35</hash-sum>
+    </version>
 
     <version name="4.4" package="org.sourceforge.ultradefrag.UltraDefrag64">
         <important-file path="ultradefrag.exe" title="UltraDefrag"/>
@@ -32074,6 +32166,20 @@ call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Np
             <variable>nih</variable>
         </dependency>
     </version>
+    <version name="8.1.1240" package="org.vim.Vim64">
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+if %errorlevel% neq 0 exit /b %errorlevel%&#13;
+&#13;
+for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+</file>
+        <url>https://github.com/vim/vim-win32-installer/releases/download/v8.1.1240/gvim_8.1.1240_x64.zip</url>
+        <hash-sum type="SHA-256">d3fea30e71f8e669fce46edec0c812555d05b54fd10b8da90e7b54a59830db19</hash-sum>
+        <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.19, 2)">
+            <variable>nih</variable>
+        </dependency>
+    </version>
 
     <version name="4.2.8.83876" package="org.virtualbox.virtualbox64" type="one-file">
         <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
@@ -33722,6 +33828,16 @@ echo DesktopShortcut=false &gt;&gt; .Npackd\FF.ini&#13;
         <url>http://relmirror.palemoon.org/release/palemoon-28.4.1.win64.installer.exe</url>
         <hash-sum type="SHA-256">749314bb3a6781f263d0a08ebb7bc9735963e7d6da3f459e77d0659bdef614e9</hash-sum>
     </version>
+    <version name="28.5" package="pale-moon64" type="one-file">
+        <file path=".Npackd\Install.bat">echo [Install] &gt; .Npackd\FF.ini&#13;
+echo InstallDirectoryPath=%CD% &gt;&gt; .Npackd\FF.ini&#13;
+echo QuickLaunchShortcut=false &gt;&gt; .Npackd\FF.ini&#13;
+echo DesktopShortcut=false &gt;&gt; .Npackd\FF.ini&#13;
+"%npackd_package_binary%" /INI="%CD%\.Npackd\FF.ini" &amp;&amp; del /f /q "%npackd_package_binary%"</file>
+        <file path=".Npackd\Uninstall.bat">uninstall\helper.exe /S</file>
+        <url>http://relmirror.palemoon.org/release/palemoon-28.5.0.win64.installer.exe</url>
+        <hash-sum type="SHA-256">0a5e38458b9d9b300bfbb39ae32e80e44a419ca53efa4dfe423f90da3e67faf8</hash-sum>
+    </version>
 
     <version name="2.2.1" package="pandoc64" type="one-file">
         <file path=".Npackd\Install.bat">call "%nih%\InstallMSI.bat" INSTALLDIR yes&#13;
@@ -34991,6 +35107,17 @@ if %errorlevel% equ 3010 verify</file>
 </file>
         <url>https://github.com/saenzramiro/rambox/releases/download/0.6.6/Rambox-0.6.6-win.exe</url>
         <hash-sum type="SHA-256">da971c0f2aad4a516b4dea0345f23c0f05fbac8eab20d85d6c775d3b6f81cbfd</hash-sum>
+        <dependency package="net.nirsoft.MyUninstaller" versions="[1.74, 2)">
+            <variable>myun</variable>
+        </dependency>
+    </version>
+    <version name="0.6.7" package="rambox-64-bit" type="one-file">
+        <file path=".Npackd\Install.bat">"%npackd_package_binary%" &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
+</file>
+        <file path=".Npackd\Uninstall.bat">"%myun%\myuninst.exe" /uninstall "rambox-64-bit"&#13;
+</file>
+        <url>https://github.com/saenzramiro/rambox/releases/download/0.6.7/Rambox-0.6.7-win.exe</url>
+        <hash-sum type="SHA-256">2b8d1976e111d8f15883767336fbd0740a14f6e7ad3aed4c564fcccc3fb455a9</hash-sum>
         <dependency package="net.nirsoft.MyUninstaller" versions="[1.74, 2)">
             <variable>myun</variable>
         </dependency>
