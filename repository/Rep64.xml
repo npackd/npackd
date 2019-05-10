@@ -3392,6 +3392,18 @@ verify&#13;
         <url>https://bitcoin.org/bin/bitcoin-core-0.17.1/bitcoin-0.17.1-win64-setup.exe</url>
         <hash-sum type="SHA-256">fa1e80c5e4ecc705549a8061e5e7e0aa6b2d26967f99681b5989d9bd938d8467</hash-sum>
     </version>
+    <version name="0.18" package="bitcoin-core64" type="one-file">
+        <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD%&#13;
+if %errorlevel% neq 0 exit /b %errorlevel%        &#13;
+&#13;
+del "%npackd_package_binary%"&#13;
+verify&#13;
+</file>
+        <file path=".Npackd\Uninstall.bat">uninstall.exe /S _?=%CD%&#13;
+</file>
+        <url>https://bitcoin.org/bin/bitcoin-core-0.18.0/bitcoin-0.18.0-win64-setup.exe</url>
+        <hash-sum type="SHA-256">e2478cd7955c36a5b0d31133d876cc602fb47142e65ca367c0cf21ea6dce04db</hash-sum>
+    </version>
 
     <version name="2.4.1" package="bittorrent-sync64" type="one-file">
         <url>https://download-cdn.resilio.com/stable/windows64/Resilio-Sync_x64.exe</url>
@@ -9532,6 +9544,15 @@ if %err% neq 0 exit %err%</file>
             <variable>npackdih</variable>
         </dependency>
     </version>
+    <version name="5.28.2.1" package="com.strawberryperl.StrawberryPerl64" type="one-file">
+        <file path=".Npackd\Install.bat">call "%npackdih%\InstallMSI.bat" INSTALLDIR yes&#13;
+</file>
+        <url>http://strawberryperl.com/download/5.28.2.1/strawberry-perl-5.28.2.1-64bit.msi</url>
+        <hash-sum type="SHA-256">3560608e7848166f05513daa23cef4cb247c8993e9ee05ecda42e2d59908c274</hash-sum>
+        <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.1, 2)">
+            <variable>npackdih</variable>
+        </dependency>
+    </version>
 
     <version name="2.5.1" package="com.tightvnc.TightVNC64" type="one-file">
         <file path=".Npackd\Install.bat">call "%npackdih%\InstallMSI.bat" INSTALLDIR yes</file>
@@ -11367,6 +11388,17 @@ if %err% neq 0 exit %err%&#13;
             <variable>nih</variable>
         </dependency>
     </version>
+    <version name="1.15" package="conan64" type="one-file">
+        <cmd-file path="conan\conan.exe"/>
+        <file path=".Npackd\Install.bat">"%nih%\InstallInnoSetup.bat"&#13;
+</file>
+        <file path=".Npackd\Uninstall.bat">"%nih%\UninstallInnoSetup.bat" unins000.exe</file>
+        <url>https://github.com/conan-io/conan/releases/download/1.15.0/conan-win-64_1_15_0.exe</url>
+        <hash-sum type="SHA-256">e9c6d44d3cbecb043025c014ed5117f22c0d911891e99853b83a9fc51588f52a</hash-sum>
+        <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
+            <variable>nih</variable>
+        </dependency>
+    </version>
 
     <version name="3.0.7" package="cygwin64" type="one-file">
         <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
@@ -11878,6 +11910,16 @@ if %err% neq 0 exit %err%&#13;
         <file path=".Npackd\Install.bat">"%NIH%\ExtractDir.bat" dbeaver</file>
         <url>http://dbeaver.jkiss.org/files/6.0.3/dbeaver-ce-6.0.3-win32.win32.x86_64.zip</url>
         <hash-sum type="SHA-256">3ed2c19ca9d213cc62b77538425c2e6ac152c3373c6c0725155c391953b83e87</hash-sum>
+        <dependency package="com.oracle.JRE64" versions="[1.7, 20)"/>
+        <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
+            <variable>nih</variable>
+        </dependency>
+    </version>
+    <version name="6.0.4" package="dbeaver64">
+        <important-file path="dbeaver.exe" title="DBeaver 64 bit"/>
+        <file path=".Npackd\Install.bat">"%NIH%\ExtractDir.bat" dbeaver</file>
+        <url>http://dbeaver.jkiss.org/files/6.0.4/dbeaver-ce-6.0.4-win32.win32.x86_64.zip</url>
+        <hash-sum type="SHA-256">0e435007285905109b27426a587f8fc922c9edf4d94333adbf31c034ed84818b</hash-sum>
         <dependency package="com.oracle.JRE64" versions="[1.7, 20)"/>
         <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
             <variable>nih</variable>
@@ -14926,6 +14968,17 @@ if %err% neq 0 exit %err%&#13;
 </file>
         <url>https://github.com/tim-lebedkov/packages/releases/download/2019_Q1/imagemagick64-7.0.8.42-ImageMagick-7.0.8-42-Q16-x64-dll.exe</url>
         <hash-sum type="SHA-256">3b26c81fcb48013e100188512bc5fa313f58af2762108b6236c05f5a8bbeb0de</hash-sum>
+        <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
+            <variable>nih</variable>
+        </dependency>
+    </version>
+    <version name="7.0.8.44" package="imagemagick64" type="one-file">
+        <file path=".Npackd\Install.bat">call "%nih%\InstallInnoSetup.bat"&#13;
+</file>
+        <file path=".Npackd\Uninstall.bat">call "%nih%\UninstallInnoSetup.bat" unins000.exe&#13;
+</file>
+        <url>https://www.imagemagick.org/download/binaries/ImageMagick-7.0.8-44-Q16-x64-dll.exe</url>
+        <hash-sum type="SHA-256">68299bce44fd5d9ce0ad5bea2498b3b9b68a0c772c92a607963d4526eb87ef30</hash-sum>
         <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
             <variable>nih</variable>
         </dependency>
@@ -18989,6 +19042,17 @@ if %err% neq 0 exit %err%&#13;
         </dependency>
     </version>
     <version name="6.7.2" package="net.sourceforge.peazip.PeaZip64" type="one-file">
+        <file path=".Npackd\Install.bat">call "%nih%\InstallInnoSetup.bat"&#13;
+</file>
+        <file path=".Npackd\Uninstall.bat">call "%nih%\UninstallInnoSetup.bat" unins000.exe&#13;
+</file>
+        <url>https://ayera.dl.sourceforge.net/project/peazip/6.5.1/peazip-6.5.1.WINDOWS.exe</url>
+        <hash-sum type="SHA-256">49bc326c084e743acff1bdf2437d0b17cdeedb5bde67efee2fd86a613efa9031</hash-sum>
+        <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
+            <variable>nih</variable>
+        </dependency>
+    </version>
+    <version name="6.8" package="net.sourceforge.peazip.PeaZip64" type="one-file">
         <file path=".Npackd\Install.bat">call "%nih%\InstallInnoSetup.bat"&#13;
 </file>
         <file path=".Npackd\Uninstall.bat">call "%nih%\UninstallInnoSetup.bat" unins000.exe&#13;
@@ -26810,6 +26874,40 @@ Set view = Nothing&#13;
             <variable>npackdih</variable>
         </dependency>
     </version>
+    <version name="1.12.5" package="org.golang.Go64" type="one-file">
+        <file path=".Npackd\Install.bat">.Npackd\AddProperty.vbs "%npackd_package_binary%"&#13;
+if %errorlevel% neq 0 exit %errorlevel%&#13;
+&#13;
+call "%npackdih%\InstallMSI.bat" INSTALLDIR</file>
+        <file path=".Npackd\Uninstall.bat">call "%npackdih%\UninstallMSI.bat"</file>
+        <file path=".Npackd\AddProperty.vbs">Option Explicit&#13;
+&#13;
+Dim MSI_FILE&#13;
+MSI_FILE = Wscript.Arguments(0)&#13;
+&#13;
+Dim installer, database, view&#13;
+&#13;
+Set installer = CreateObject("WindowsInstaller.Installer")&#13;
+Set database = installer.OpenDatabase(MSI_FILE, 1)&#13;
+&#13;
+Set view = database.OpenView("INSERT INTO Property (Property, Value) VALUES ('INSTALLDIR', 'C:\Go')")&#13;
+view.Execute&#13;
+'Set view = database.OpenView("DELETE FROM Directory WHERE Directory='TARGETDIR'")&#13;
+'view.Execute&#13;
+'Set view = database.OpenView("UPDATE Directory SET DefaultDir='INSTALLLOCATION' WHERE Directory='TARGETDIR'")&#13;
+'view.Execute&#13;
+database.Commit&#13;
+&#13;
+Set database = Nothing&#13;
+Set installer = Nothing&#13;
+Set view = Nothing&#13;
+</file>
+        <url>https://golang.org/dl/go1.12.5.windows-amd64.msi</url>
+        <hash-sum type="SHA-256">35195b53fa7f8938beb42fa7b354cca62d2521eaf187f4f84b8644942bfc50ef</hash-sum>
+        <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1, 2)">
+            <variable>npackdih</variable>
+        </dependency>
+    </version>
 
     <version name="2.22.1" package="org.gtk.GTKPlusBundle64">
         <file path="etc\gtk-2.0\gtkrc">gtk-theme-name = "MS-Windows"</file>
@@ -28858,6 +28956,15 @@ rmdir /s /q "%name%"&#13;
 </file>
         <url>https://ayera.dl.sourceforge.net/project/psi/Psi/1.3/psi-1.3-win64-setup.exe</url>
         <sha1>642b4e0a71649def434242b9917408121189ee8d</sha1>
+    </version>
+    <version name="1.4" package="org.psiim.Psi64" type="one-file">
+        <file path=".Npackd\Install.bat">call "%nih%\Extract.bat" "%npackd_package_binary%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+</file>
+        <url>http://downloads.sourceforge.net/project/psi/Psi/1.4/psi-portable-1.4_win7_x86_64.7z</url>
+        <hash-sum type="SHA-256">764b182da3a702d18739c6b01a6b39606ffc86b0798b94ebc00e20ff3ece8e70</hash-sum>
+        <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.19, 2)">
+            <variable>nih</variable>
+        </dependency>
     </version>
 
     <version name="2.5" package="org.python.Python64" type="one-file">
@@ -32161,6 +32268,20 @@ call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Np
             <variable>nih</variable>
         </dependency>
     </version>
+    <version name="8.1.1286" package="org.vim.Vim64">
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+if %errorlevel% neq 0 exit /b %errorlevel%&#13;
+&#13;
+for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+</file>
+        <url>https://github.com/vim/vim-win32-installer/releases/download/v8.1.1286/gvim_8.1.1286_x64.zip</url>
+        <hash-sum type="SHA-256">59077b1e81004e182f0d2e1baabc81e77e036d4c2b7a6c3cb747e9fd110bfd65</hash-sum>
+        <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.19, 2)">
+            <variable>nih</variable>
+        </dependency>
+    </version>
 
     <version name="4.2.8.83876" package="org.virtualbox.virtualbox64" type="one-file">
         <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
@@ -34330,6 +34451,14 @@ verify</file>
 verify</file>
         <url>https://downloads.sourceforge.net/project/qbittorrent/qbittorrent-win32/qbittorrent-4.1.5/qbittorrent_4.1.5_x64_setup.exe</url>
         <hash-sum type="SHA-256">01c03c39c045e9b9f7fd35a25d58a909d4183e1e8f4ecc179d66e1fea505205c</hash-sum>
+    </version>
+    <version name="4.1.6" package="qbittorrent-64-bit" type="one-file">
+        <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD%&#13;
+verify</file>
+        <file path=".Npackd\Uninstall.bat">uninst.exe /S _?=%CD%&#13;
+verify</file>
+        <url>https://downloads.sourceforge.net/project/qbittorrent/qbittorrent-win32/qbittorrent-4.1.6/qbittorrent_4.1.6_x64_setup.exe</url>
+        <hash-sum type="SHA-256">32091feda94b25952cd7d22c64b7a45d2a541ab400cd5ff67ff26a601a5466da</hash-sum>
     </version>
 
     <version name="3.12.4.1" package="qcad64" type="one-file">
