@@ -3749,6 +3749,45 @@ for /f "delims=" %%x in ('dir /b FlashUtil32*Plugin.exe') do set setup=%%x&#13;
 </file>
         <url>https://download.macromedia.com/get/flashplayer/pdc/32.0.0.171/install_flash_player_32_plugin.msi</url>
     </version>
+    <version name="32.0.0.192" package="com.adobe.FlashPlayer64" type="one-file">
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.msi') do set setup=%%x&#13;
+mkdir .Npackd&#13;
+move "%setup%" .Npackd&#13;
+set err=%errorlevel%&#13;
+if %err% neq 0 exit %err%&#13;
+&#13;
+rem MSIFASTINSTALL: http://msdn.microsoft.com/en-us/library/dd408005%28v=VS.85%29.aspx&#13;
+msiexec.exe /qn /norestart /Lime .Npackd\InstallMSI.log /i ".Npackd\%setup%" INSTALLDIR="%CD%" ALLUSERS=1 MSIFASTINSTALL=7&#13;
+set err=%errorlevel%&#13;
+type .Npackd\InstallMSI.log&#13;
+&#13;
+rem list of errors: http://msdn.microsoft.com/en-us/library/windows/desktop/aa368542(v=vs.85).aspx&#13;
+rem 3010=restart required&#13;
+if %err% equ 3010 goto cont&#13;
+if %err% neq 0 exit %err%&#13;
+&#13;
+:cont&#13;
+</file>
+        <file path=".Npackd\Uninstall.bat">move .Npackd\*.msi .&#13;
+for /f "delims=" %%x in ('dir /b *.msi') do set setup=%%x&#13;
+&#13;
+rem MSIFASTINSTALL: http://msdn.microsoft.com/en-us/library/dd408005%28v=VS.85%29.aspx&#13;
+msiexec.exe /qn /norestart /Lime .Npackd\UninstallMSI.log /x "%setup%" MSIFASTINSTALL=7&#13;
+set err=%errorlevel%&#13;
+type .Npackd\UninstallMSI.log&#13;
+rem 3010=restart required&#13;
+if %err% equ 3010 goto cont&#13;
+if %err% neq 0 exit %err%&#13;
+&#13;
+:cont&#13;
+if not exist "%ProgramFiles(x86)%" set d=%windir%\System32\Macromed\Flash&#13;
+if exist "%ProgramFiles(x86)%" set d=%windir%\SysWOW64\Macromed\Flash&#13;
+cd "%d%"&#13;
+for /f "delims=" %%x in ('dir /b FlashUtil32*Plugin.exe') do set setup=%%x&#13;
+"%setup%" -uninstall&#13;
+</file>
+        <url>https://download.macromedia.com/get/flashplayer/pdc/32.0.0.192/install_flash_player_32_plugin.msi</url>
+    </version>
 
     <version name="31.0.0.153" package="com.adobe.FlashPlayerActiveX64" type="one-file">
         <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.msi') do set setup=%%x&#13;
@@ -3989,6 +4028,46 @@ for /f "delims=" %%x in ('dir /b FlashUtil32*ActiveX.exe') do set setup=%%x&#13;
 if "%setup%" neq "" "%setup%" -uninstall&#13;
 </file>
         <url>https://download.macromedia.com/pub/flashplayer/pdc/32.0.0.171/install_flash_player_32_plugin.msi</url>
+    </version>
+    <version name="32.0.0.192" package="com.adobe.FlashPlayerActiveX64" type="one-file">
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.msi') do set setup=%%x&#13;
+mkdir .Npackd&#13;
+move "%setup%" .Npackd&#13;
+set err=%errorlevel%&#13;
+if %err% neq 0 exit %err%&#13;
+&#13;
+rem MSIFASTINSTALL: http://msdn.microsoft.com/en-us/library/dd408005%28v=VS.85%29.aspx&#13;
+msiexec.exe /qn /norestart /Lime .Npackd\InstallMSI.log /i ".Npackd\%setup%" INSTALLDIR="%CD%" ALLUSERS=1 MSIFASTINSTALL=7&#13;
+set err=%errorlevel%&#13;
+type .Npackd\InstallMSI.log&#13;
+&#13;
+rem list of errors: http://msdn.microsoft.com/en-us/library/windows/desktop/aa368542(v=vs.85).aspx&#13;
+rem 3010=restart required&#13;
+if %err% equ 3010 goto cont&#13;
+if %err% neq 0 exit %err%&#13;
+&#13;
+:cont&#13;
+</file>
+        <file path=".Npackd\Uninstall.bat">move .Npackd\*.msi .&#13;
+for /f "delims=" %%x in ('dir /b *.msi') do set setup=%%x&#13;
+&#13;
+rem MSIFASTINSTALL: http://msdn.microsoft.com/en-us/library/dd408005%28v=VS.85%29.aspx&#13;
+msiexec.exe /qn /norestart /Lime .Npackd\UninstallMSI.log /x "%setup%" MSIFASTINSTALL=7&#13;
+set err=%errorlevel%&#13;
+type .Npackd\UninstallMSI.log&#13;
+rem 3010=restart required&#13;
+if %err% equ 3010 goto cont&#13;
+if %err% neq 0 exit %err%&#13;
+&#13;
+:cont&#13;
+if not exist "%ProgramFiles(x86)%" set d=%windir%\System32\Macromed\Flash&#13;
+if exist "%ProgramFiles(x86)%" set d=%windir%\SysWOW64\Macromed\Flash&#13;
+cd "%d%"&#13;
+set setup=&#13;
+for /f "delims=" %%x in ('dir /b FlashUtil32*ActiveX.exe') do set setup=%%x&#13;
+if "%setup%" neq "" "%setup%" -uninstall&#13;
+</file>
+        <url>https://download.macromedia.com/pub/flashplayer/pdc/32.0.0.192/install_flash_player_32_plugin.msi</url>
     </version>
 
     <version name="1.13" package="com.alcpu.CoreTemp64">
@@ -8779,6 +8858,16 @@ call "%nih%\UninstallInnoSetup.bat" unins000.exe</file>
             <variable>nih</variable>
         </dependency>
     </version>
+    <version name="5" package="com.selenic.mercurial.Mercurial64" type="one-file">
+        <file path=".Npackd\Install.bat">call "%nih%\InstallInnoSetup.bat"&#13;
+</file>
+        <file path=".Npackd\Uninstall.bat">call "%nih%\UninstallInnoSetup.bat" unins000.exe</file>
+        <url>https://www.mercurial-scm.org/release/windows/Mercurial-5.0-x64.exe</url>
+        <hash-sum type="SHA-256">f53b9c0e15bc7b445c4cb8aa76781a29badaaba4cc3dcff51aa4198190388118</hash-sum>
+        <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.7, 2)">
+            <variable>nih</variable>
+        </dependency>
+    </version>
 
     <version name="2.11" package="com.sindresorhus.caprine" type="one-file">
         <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
@@ -12628,6 +12717,14 @@ rmdir "%name%"&#13;
         <url>https://github.com/resin-io/etcher/releases/download/v1.5.33/balenaEtcher-Setup-1.5.33-x64.exe</url>
         <hash-sum type="SHA-256">f613f40fba95ebf3aa92654ad0e670100f42ac8888ba253ac99a5f4495dfa2db</hash-sum>
     </version>
+    <version name="1.5.39" package="etcher64" type="one-file">
+        <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
+</file>
+        <file path=".Npackd\Uninstall.bat">uninstall.exe /S _?=%CD%&#13;
+</file>
+        <url>https://github.com/resin-io/etcher/releases/download/v1.5.39/balenaEtcher-Setup-1.5.39-x64.exe</url>
+        <hash-sum type="SHA-256">deb5e27c9b655b792f0f2d07d396df53083410cc60984771df13fd1952538496</hash-sum>
+    </version>
 
     <version name="1.3.4.686" package="everything64">
         <important-file path="Everything.exe" title="Everything"/>
@@ -14988,7 +15085,7 @@ if %err% neq 0 exit %err%&#13;
 </file>
         <file path=".Npackd\Uninstall.bat">call "%nih%\UninstallInnoSetup.bat" unins000.exe&#13;
 </file>
-        <url>https://www.imagemagick.org/download/binaries/ImageMagick-7.0.8-45-Q16-x64-dll.exe</url>
+        <url>https://github.com/tim-lebedkov/packages/releases/download/2019_Q1/imagemagick64-7.0.8.45-ImageMagick-7.0.8-45-Q16-x64-dll.exe</url>
         <hash-sum type="SHA-256">6636a4f6a4658189dcebacd5adac585c49482b706e1cbab93a4dfdd94adb8b13</hash-sum>
         <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
             <variable>nih</variable>
@@ -19532,6 +19629,14 @@ if %err% neq 0 exit %err%&#13;
 </file>
         <url>http://downloads.sourceforge.net/project/smplayer/SMPlayer/19.1.0/smplayer-19.1.0-x64.exe</url>
         <hash-sum type="SHA-256">3c6f46e6b61b25b76ee82e70ee3a817f5a4262d5b8966c4f1fcb79bb374ff7bf</hash-sum>
+    </version>
+    <version name="19.5" package="net.sourceforge.smplayer.SMPlayer64" type="one-file">
+        <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD%&#13;
+</file>
+        <file path=".Npackd\Uninstall.bat">uninst.exe /S _?=%CD%        &#13;
+</file>
+        <url>http://downloads.sourceforge.net/project/smplayer/SMPlayer/19.5.0/smplayer-19.5.0-x64.exe</url>
+        <hash-sum type="SHA-256">c7085e1f52a8f066260d521315e38746bc54628e10a0c33d2e91fc73a6137c50</hash-sum>
     </version>
 
     <version name="2.42" package="net.sourceforge.strongdc.StrongDCPlusPlus64" type="one-file">
@@ -32299,6 +32404,20 @@ call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Np
             <variable>nih</variable>
         </dependency>
     </version>
+    <version name="8.1.1330" package="org.vim.Vim64">
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+if %errorlevel% neq 0 exit /b %errorlevel%&#13;
+&#13;
+for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+</file>
+        <url>https://github.com/vim/vim-win32-installer/releases/download/v8.1.1330/gvim_8.1.1330_x64.zip</url>
+        <hash-sum type="SHA-256">7d10049ccf0ccaf4e28c3e00cf497e2f9228c3fd34f29a2b4b777eb8841e6c7a</hash-sum>
+        <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.19, 2)">
+            <variable>nih</variable>
+        </dependency>
+    </version>
 
     <version name="4.2.8.83876" package="org.virtualbox.virtualbox64" type="one-file">
         <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
@@ -33521,6 +33640,41 @@ if %err% equ 3010 exit 0&#13;
 if %err% neq 0 exit %err%</file>
         <url>http://download.virtualbox.org/virtualbox/6.0.6/VirtualBox-6.0.6-130049-Win.exe</url>
         <hash-sum type="SHA-256">41be35c8624cf1441488ed58b0b84322acc4727d11307de38c055723eeee3877</hash-sum>
+        <dependency package="org.7-zip.SevenZIP64" versions="[9.20, 20)">
+            <variable>sevenzip</variable>
+        </dependency>
+    </version>
+    <version name="6.0.8.130520" package="org.virtualbox.virtualbox64" type="one-file">
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
+"%setup%" -x -s -p "%CD%"&#13;
+&#13;
+&#13;
+"%sevenzip%\7z.exe" x common.cab -aos -o"%CD%\common"&#13;
+"%sevenzip%\7z.exe" x "%CD%\common\file_VBoxGuestAdditions.iso" -aos -o"%CD%\common\file_VBoxGuestAdditions"&#13;
+&#13;
+certutil.exe -addstore -f "TrustedPublisher" "%CD%\common\file_VBoxGuestAdditions\cert\oracle-vbox.cer" &gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+&#13;
+for /f "delims=" %%x in ('dir /b *MultiArch_amd64.msi') do set setup=%%x&#13;
+msiexec.exe /qn /norestart /Lime .Npackd\MSI.log /i "%setup%"&#13;
+set err=%errorlevel%&#13;
+type .Npackd\MSI.log&#13;
+rem 3010=restart required&#13;
+if %err% equ 3010 exit 0&#13;
+if %err% neq 0 exit %err%&#13;
+&#13;
+for /f "delims=" %%x in ('dir /b *MultiArch_x86.msi') do set trash=%%x&#13;
+del /q /f "%trash%"&#13;
+&#13;
+if exist "%CD%\common" (rd /s /q "%CD%\common")</file>
+        <file path=".Npackd\Uninstall.bat">for /f "delims=" %%x in ('dir /b *.msi') do set setup=%%x&#13;
+msiexec.exe /qn /norestart /Lime .Npackd\MSI.log /x "%setup%"&#13;
+set err=%errorlevel%&#13;
+type .Npackd\MSI.log&#13;
+rem 3010=restart required&#13;
+if %err% equ 3010 exit 0&#13;
+if %err% neq 0 exit %err%</file>
+        <url>http://download.virtualbox.org/virtualbox/6.0.8/VirtualBox-6.0.8-130520-Win.exe</url>
+        <hash-sum type="SHA-256">81e05e3258b92637d75747096aa76464bc12223e0081cc03ee1736a16ed05764</hash-sum>
         <dependency package="org.7-zip.SevenZIP64" versions="[9.20, 20)">
             <variable>sevenzip</variable>
         </dependency>
@@ -37335,6 +37489,18 @@ if %err% neq 0 exit /b %err%&#13;
 </file>
         <url>https://downloads.vivaldi.com/stable/Vivaldi.2.4.1488.40.x64.exe</url>
         <hash-sum type="SHA-256">bf8601b2d9087888ca8112feac2cf6c0d4e74ca4840f0ba49fdd74cc8d9f4be5</hash-sum>
+        <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.24, 2)">
+            <variable>ncl</variable>
+        </dependency>
+    </version>
+    <version name="2.5.1525.41" package="vivaldi-browser-64" type="one-file">
+        <file path=".Npackd\Install.bat">"%npackd_package_binary%" --vivaldi-standalone --vivaldi-install-dir="%CD%" &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
+&#13;
+</file>
+        <file path=".Npackd\Uninstall.bat">"%ncl%\ncl.exe" remove-scp --title "vivaldi-browser-64"&#13;
+</file>
+        <url>https://downloads.vivaldi.com/stable/Vivaldi.2.5.1525.41.x64.exe</url>
+        <hash-sum type="SHA-256">5b53e80b3e7510e8580c7c5ac4e5d318ca24899efa99eb794a37bff0c0787cca</hash-sum>
         <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.24, 2)">
             <variable>ncl</variable>
         </dependency>
