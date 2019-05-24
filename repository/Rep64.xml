@@ -15091,6 +15091,17 @@ if %err% neq 0 exit %err%&#13;
             <variable>nih</variable>
         </dependency>
     </version>
+    <version name="7.0.8.46" package="imagemagick64" type="one-file">
+        <file path=".Npackd\Install.bat">call "%nih%\InstallInnoSetup.bat"&#13;
+</file>
+        <file path=".Npackd\Uninstall.bat">call "%nih%\UninstallInnoSetup.bat" unins000.exe&#13;
+</file>
+        <url>https://www.imagemagick.org/download/binaries/ImageMagick-7.0.8-46-Q16-x64-dll.exe</url>
+        <hash-sum type="SHA-256">154c2438fffecdcf11beb961f268d60aa74cf7b65b18690f2c314cb6ca2a6ae3</hash-sum>
+        <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
+            <variable>nih</variable>
+        </dependency>
+    </version>
 
     <version name="0.3.8" package="io.mpv.mpv-64" type="one-file">
         <file path=".Npackd\Install.bat">for /f %%x in ('dir /b *.7z') do set setup=%%x&#13;
@@ -36795,6 +36806,14 @@ rmdir "%name%"</file>
         <url>https://www.sysgauge.com/setups_x64/sysgauge_setup_v6.1.18_x64.exe</url>
         <hash-sum type="SHA-256">9788b071e0d062382207ac670f5e2dd771146df4a82b4e1f6074198fa24d9c54</hash-sum>
     </version>
+    <version name="6.2.12" package="sysgauge64" type="one-file">
+        <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
+</file>
+        <file path=".Npackd\Uninstall.bat">uninstall.exe /S _?=%CD%&#13;
+</file>
+        <url>https://www.sysgauge.com/setups_x64/sysgauge_setup_v6.2.12_x64.exe</url>
+        <hash-sum type="SHA-256">1212980afe75c6966b60fc9653517d052cc8616ec6d07adb3296f9899d99b0b1</hash-sum>
+    </version>
 
     <version name="2" package="texniccenter64" type="one-file">
         <file path=".Npackd\Install.bat">for /f %%x in ('dir /b *.exe') do set setup=%%x&#13;
@@ -37945,6 +37964,21 @@ if %err% neq 0 exit %err%&#13;
         <sha1>f73db938cfee6ab1ab0f940c923e4e663962c795</sha1>
     </version>
     <version name="1.33" package="vs-code64" type="one-file">
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
+"%setup%" /SP- /VERYSILENT /SUPPRESSMSGBOXES /NOCANCEL /NORESTART /DIR="%CD%" /SAVEINF="%CD%\.Npackd\InnoSetupInfo.ini" /LOG="%CD%\.Npackd\InnoSetupInstall.log"&#13;
+set err=%errorlevel%&#13;
+type .Npackd\InnoSetupInstall.log&#13;
+if %err% neq 0 exit %err%&#13;
+</file>
+        <file path=".Npackd\Uninstall.bat">unins000.exe /VERYSILENT /SUPPRESSMSGBOXES /NORESTART /LOG="%CD%\.Npackd\InnoSetupUninstall.log"&#13;
+set err=%errorlevel%&#13;
+type .Npackd\InnoSetupUninstall.log&#13;
+if %err% neq 0 exit %err%&#13;
+</file>
+        <url>https://az764295.vo.msecnd.net/insider/d28f096018e2673a8437c788e3eed781ddb505ce/VSCodeSetup-x64-1.21.0-insider.exe</url>
+        <sha1>f73db938cfee6ab1ab0f940c923e4e663962c795</sha1>
+    </version>
+    <version name="1.34" package="vs-code64" type="one-file">
         <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
 "%setup%" /SP- /VERYSILENT /SUPPRESSMSGBOXES /NOCANCEL /NORESTART /DIR="%CD%" /SAVEINF="%CD%\.Npackd\InnoSetupInfo.ini" /LOG="%CD%\.Npackd\InnoSetupInstall.log"&#13;
 set err=%errorlevel%&#13;
