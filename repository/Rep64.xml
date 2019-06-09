@@ -27519,6 +27519,14 @@ if %err% neq 0 exit %err%&#13;
             <variable>npackdih</variable>
         </dependency>
     </version>
+    <version name="2.4.2" package="org.keepassxc.keepassxc" type="one-file">
+        <file path=".Npackd\Install.bat">call "%npackdih%\InstallMSI.bat" INSTALLDIR yes</file>
+        <url>https://github.com/keepassxreboot/keepassxc/releases/download/2.4.2/KeePassXC-2.4.2-Win64.msi</url>
+        <hash-sum type="SHA-256">5818d30bb81037d0084148bb571b634cb5359fb036a876a780ca2b0c86b56d90</hash-sum>
+        <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.22, 2)">
+            <variable>npackdih</variable>
+        </dependency>
+    </version>
 
     <version name="2.9.4407" package="org.miktex.MiKTeX64" type="one-file">
         <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
@@ -32692,6 +32700,20 @@ call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Np
 </file>
         <url>https://github.com/vim/vim-win32-installer/releases/download/v8.1.1415/gvim_8.1.1415_x64.zip</url>
         <hash-sum type="SHA-256">157c7a1fbecfbeee40a06aeba8c7250a9bc5430f7496d692306efdc210a3a54c</hash-sum>
+        <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.19, 2)">
+            <variable>nih</variable>
+        </dependency>
+    </version>
+    <version name="8.1.1467" package="org.vim.Vim64">
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+if %errorlevel% neq 0 exit /b %errorlevel%&#13;
+&#13;
+for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+</file>
+        <url>https://github.com/vim/vim-win32-installer/releases/download/v8.1.1467/gvim_8.1.1467_x64.zip</url>
+        <hash-sum type="SHA-256">1c75eabb8bfd1e17d7aa24c0151f4413675939aa51278ba472e4c433a9fd615b</hash-sum>
         <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.19, 2)">
             <variable>nih</variable>
         </dependency>
