@@ -15485,6 +15485,17 @@ if %err% neq 0 exit %err%&#13;
             <variable>nih</variable>
         </dependency>
     </version>
+    <version name="7.0.8.53" package="imagemagick64" type="one-file">
+        <file path=".Npackd\Install.bat">call "%nih%\InstallInnoSetup.bat"&#13;
+</file>
+        <file path=".Npackd\Uninstall.bat">call "%nih%\UninstallInnoSetup.bat" unins000.exe&#13;
+</file>
+        <url>https://www.imagemagick.org/download/binaries/ImageMagick-7.0.8-53-Q16-x64-dll.exe</url>
+        <hash-sum type="SHA-256">1a230f8d3106afe35ebc9af2df66673fab6b9ee6d3902ff454cfb9dee192b642</hash-sum>
+        <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
+            <variable>nih</variable>
+        </dependency>
+    </version>
 
     <version name="0.3.8" package="io.mpv.mpv-64" type="one-file">
         <file path=".Npackd\Install.bat">for /f %%x in ('dir /b *.7z') do set setup=%%x&#13;
@@ -16432,6 +16443,15 @@ call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Np
         <file path=".Npackd\Install.bat">call "%npackdih%\InstallMSI.bat" INSTALLLOCATION yes</file>
         <url>https://download.documentfoundation.org/libreoffice/stable/6.2.4/win/x86_64/LibreOffice_6.2.4_Win_x64.msi</url>
         <hash-sum type="SHA-256">45d3dace90f0572a26bfd22c870cc25eb5665c52f0c148f36c07a17638a4c7d0</hash-sum>
+        <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.1, 2)">
+            <variable>npackdih</variable>
+        </dependency>
+        <dependency package="com.oracle.JRE" versions="[1.6, 2)"/>
+    </version>
+    <version name="6.2.5" package="libreoffice64" type="one-file">
+        <file path=".Npackd\Install.bat">call "%npackdih%\InstallMSI.bat" INSTALLLOCATION yes</file>
+        <url>https://download.documentfoundation.org/libreoffice/stable/6.2.5/win/x86_64/LibreOffice_6.2.5_Win_x64.msi</url>
+        <hash-sum type="SHA-256">9b01f6f382dbb31367e12cfb0ad4c684546f00edb20054eeac121e7e036a5389</hash-sum>
         <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.1, 2)">
             <variable>npackdih</variable>
         </dependency>
@@ -18100,6 +18120,15 @@ rmdir "%name%"&#13;
 </file>
         <url>https://github.com/musescore/MuseScore/releases/download/v3.2.2/MuseScore-3.2.2-x86_64.msi</url>
         <hash-sum type="SHA-256">933101105a30591ee49e42fa3565b6cbe422a61311de07d29c841560093abcf7</hash-sum>
+        <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.1, 2)">
+            <variable>nih</variable>
+        </dependency>
+    </version>
+    <version name="3.2.3" package="musescore64" type="one-file">
+        <file path=".Npackd\Install.bat">call "%nih%\InstallMSI.bat" INSTALLDIR yes&#13;
+</file>
+        <url>https://github.com/musescore/MuseScore/releases/download/v3.2.3/MuseScore-3.2.3-x86_64.msi</url>
+        <hash-sum type="SHA-256">c9aceb18f841784cd922552ea5b59ce266b7b22d78c5cc53dadff6d17cb495ab</hash-sum>
         <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.1, 2)">
             <variable>nih</variable>
         </dependency>
@@ -21618,6 +21647,11 @@ verify&#13;
         <important-file path="openttd.exe" title="OpenTTD"/>
         <url>https://proxy.binaries.openttd.org/openttd-releases/1.9.1/openttd-1.9.1-windows-win64.zip</url>
         <hash-sum type="SHA-256">47de0dc665ca3ce58f05ebad814957e04f4605e5e7474ffb0163f69ebe677caf</hash-sum>
+    </version>
+    <version name="1.9.2" package="open-ttd64">
+        <important-file path="openttd.exe" title="OpenTTD"/>
+        <url>https://proxy.binaries.openttd.org/openttd-releases/1.9.2/openttd-1.9.2-windows-win64.zip</url>
+        <hash-sum type="SHA-256">b1829382b632978ed6dfd39cc9427259694e23b98b5efebf9de507ead737848f</hash-sum>
     </version>
 
     <version name="1.23.4" package="openmpt64" type="one-file">
@@ -30265,6 +30299,15 @@ if %err% neq 0 exit /b %err%&#13;
         <url>https://www.python.org/ftp/python/3.7.3/python-3.7.3-amd64.exe</url>
         <hash-sum type="SHA-256">996b030930f5d81befa3e2452aa5b1630133837446f190c3768b28c63fd7f193</hash-sum>
     </version>
+    <version name="3.7.4" package="org.python.Python64" type="one-file">
+        <file path=".Npackd\Install.bat">"%npackd_package_binary%" /quiet InstallAllUsers=1 "TargetDir=%cd%"&#13;
+</file>
+        <file path=".Npackd\Uninstall.bat">for /f "delims=" %%x in ('dir /b python-*.exe') do set setup=%%x&#13;
+%setup% /uninstall /quiet InstallAllUsers=1&#13;
+</file>
+        <url>https://www.python.org/ftp/python/3.7.4/python-3.7.4-amd64.exe</url>
+        <hash-sum type="SHA-256">bab92f987320975c7826171a072bfd64f8f0941aaf2cdeba6924b7025c9968a3</hash-sum>
+    </version>
 
     <version name="2.0.0.247" package="org.rubylang.Ruby64" type="one-file">
         <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
@@ -33313,6 +33356,20 @@ call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Np
             <variable>nih</variable>
         </dependency>
     </version>
+    <version name="8.1.1657" package="org.vim.Vim64">
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+if %errorlevel% neq 0 exit /b %errorlevel%&#13;
+&#13;
+for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+</file>
+        <url>https://github.com/vim/vim-win32-installer/releases/download/v8.1.1657/gvim_8.1.1657_x64.zip</url>
+        <hash-sum type="SHA-256">e07a1d476ede1437e64f8f2af43024ea83a123c74f00badcaf80ed56edc6e690</hash-sum>
+        <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.19, 2)">
+            <variable>nih</variable>
+        </dependency>
+    </version>
 
     <version name="4.2.8.83876" package="org.virtualbox.virtualbox64" type="one-file">
         <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
@@ -35025,6 +35082,16 @@ echo DesktopShortcut=false &gt;&gt; .Npackd\FF.ini&#13;
         <hash-sum type="SHA-256">cbfea82db33b0bbb107e7b119388147f66fb1b31b310302053c6ef8a9d3ffaaf</hash-sum>
     </version>
     <version name="28.6" package="pale-moon64" type="one-file">
+        <file path=".Npackd\Install.bat">echo [Install] &gt; .Npackd\FF.ini&#13;
+echo InstallDirectoryPath=%CD% &gt;&gt; .Npackd\FF.ini&#13;
+echo QuickLaunchShortcut=false &gt;&gt; .Npackd\FF.ini&#13;
+echo DesktopShortcut=false &gt;&gt; .Npackd\FF.ini&#13;
+"%npackd_package_binary%" /INI="%CD%\.Npackd\FF.ini" &amp;&amp; del /f /q "%npackd_package_binary%"</file>
+        <file path=".Npackd\Uninstall.bat">uninstall\helper.exe /S</file>
+        <url>http://relmirror.palemoon.org/release/palemoon-28.6.0.win64.installer.exe</url>
+        <hash-sum type="SHA-256">e0117d8f353e1cf10043593b9e45abe458e7572b6417a5f8eb64789712957ac3</hash-sum>
+    </version>
+    <version name="28.6.0.1" package="pale-moon64" type="one-file">
         <file path=".Npackd\Install.bat">echo [Install] &gt; .Npackd\FF.ini&#13;
 echo InstallDirectoryPath=%CD% &gt;&gt; .Npackd\FF.ini&#13;
 echo QuickLaunchShortcut=false &gt;&gt; .Npackd\FF.ini&#13;
@@ -38866,6 +38933,21 @@ if %err% neq 0 exit %err%&#13;
         <url>https://az764295.vo.msecnd.net/insider/d28f096018e2673a8437c788e3eed781ddb505ce/VSCodeSetup-ia32-1.21.0-insider.exe</url>
         <sha1>88142b530a8fe71c8f4962c157244a45f18959fc</sha1>
     </version>
+    <version name="1.36" package="vs-code" type="one-file">
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
+"%setup%" /SP- /VERYSILENT /SUPPRESSMSGBOXES /NOCANCEL /NORESTART /DIR="%CD%" /SAVEINF="%CD%\.Npackd\InnoSetupInfo.ini" /LOG="%CD%\.Npackd\InnoSetupInstall.log"&#13;
+set err=%errorlevel%&#13;
+type .Npackd\InnoSetupInstall.log&#13;
+if %err% neq 0 exit %err%&#13;
+</file>
+        <file path=".Npackd\Uninstall.bat">unins000.exe /VERYSILENT /SUPPRESSMSGBOXES /NORESTART /LOG="%CD%\.Npackd\InnoSetupUninstall.log"&#13;
+set err=%errorlevel%&#13;
+type .Npackd\InnoSetupUninstall.log&#13;
+if %err% neq 0 exit %err%&#13;
+</file>
+        <url>https://az764295.vo.msecnd.net/insider/d28f096018e2673a8437c788e3eed781ddb505ce/VSCodeSetup-ia32-1.21.0-insider.exe</url>
+        <sha1>88142b530a8fe71c8f4962c157244a45f18959fc</sha1>
+    </version>
 
     <version name="1.17.2" package="vs-code64" type="one-file">
         <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
@@ -39108,6 +39190,21 @@ if %err% neq 0 exit %err%&#13;
         <sha1>f73db938cfee6ab1ab0f940c923e4e663962c795</sha1>
     </version>
     <version name="1.35" package="vs-code64" type="one-file">
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
+"%setup%" /SP- /VERYSILENT /SUPPRESSMSGBOXES /NOCANCEL /NORESTART /DIR="%CD%" /SAVEINF="%CD%\.Npackd\InnoSetupInfo.ini" /LOG="%CD%\.Npackd\InnoSetupInstall.log"&#13;
+set err=%errorlevel%&#13;
+type .Npackd\InnoSetupInstall.log&#13;
+if %err% neq 0 exit %err%&#13;
+</file>
+        <file path=".Npackd\Uninstall.bat">unins000.exe /VERYSILENT /SUPPRESSMSGBOXES /NORESTART /LOG="%CD%\.Npackd\InnoSetupUninstall.log"&#13;
+set err=%errorlevel%&#13;
+type .Npackd\InnoSetupUninstall.log&#13;
+if %err% neq 0 exit %err%&#13;
+</file>
+        <url>https://az764295.vo.msecnd.net/insider/d28f096018e2673a8437c788e3eed781ddb505ce/VSCodeSetup-x64-1.21.0-insider.exe</url>
+        <sha1>f73db938cfee6ab1ab0f940c923e4e663962c795</sha1>
+    </version>
+    <version name="1.36" package="vs-code64" type="one-file">
         <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
 "%setup%" /SP- /VERYSILENT /SUPPRESSMSGBOXES /NOCANCEL /NORESTART /DIR="%CD%" /SAVEINF="%CD%\.Npackd\InnoSetupInfo.ini" /LOG="%CD%\.Npackd\InnoSetupInstall.log"&#13;
 set err=%errorlevel%&#13;
