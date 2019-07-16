@@ -1295,6 +1295,16 @@ x86_64</description>
         <category>Development</category>
         <tag>stable64</tag>
     </package>
+    <package name="kodi64">
+        <title>Kodi 64 bit</title>
+        <url>https://kodi.tv/</url>
+        <description>Kodi (formerly known as XBMC) is an award-winning free and open source (GPL) software media player and entertainment hub that can be installed on Linux, OSX, Windows, iOS, and Android, featuring a 10-foot user interface for use with televisions and remote controls. It allows users to play and view most videos, music, podcasts, and other digital media files from local and network storage media and the internet.
+x86_64</description>
+        <icon>https://kodi.tv/favicon.ico</icon>
+        <license>org.gnu.GPLv3</license>
+        <category>Video</category>
+        <tag>stable64</tag>
+    </package>
     <package name="kr.pe.nyam.Imagine64">
         <title>Imagine 64 bit</title>
         <url>http://www.nyam.pe.kr/dev/imagine/</url>
@@ -2937,6 +2947,16 @@ x86_64</description>
         <icon>http://tigervnc.org/images/tigerlogo.png</icon>
         <license>org.gnu.GPLv2</license>
         <category>Communications</category>
+        <tag>stable64</tag>
+    </package>
+    <package name="tor64">
+        <title>Tor Browser 64 bit</title>
+        <url>https://www.torproject.org/projects/torbrowser.html.en</url>
+        <description>anonymous web browsing. WARNING: requires administrative rights every-time to start from Program Files. It could be moved to any other non-protected directory
+x86_64</description>
+        <icon>https://lh3.googleusercontent.com/-sWrByAYR6DI/UT9yMGuvciI/AAAAAAAABSo/b-V74wpnoi4/s800/tor.png</icon>
+        <license>org.opensource.BSDLicense</license>
+        <category>Security</category>
         <tag>stable64</tag>
     </package>
     <package name="transmission-qt64">
@@ -15937,6 +15957,15 @@ rmdir "%name%"&#13;
         <dependency package="net.nirsoft.MyUninstaller" versions="[1.74, 2)">
             <variable>myun</variable>
         </dependency>
+    </version>
+
+    <version name="18.1" package="kodi64" type="one-file">
+        <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
+</file>
+        <file path=".Npackd\Uninstall.bat">uninstall.exe /S _?=%CD%&#13;
+</file>
+        <url>http://mirrors.kodi.tv/releases/windows/win64/kodi-18.1-Leia-x64.exe</url>
+        <hash-sum type="SHA-256">2a898e4cc5cc7db32474aba6800024bb5958596a29d9f6eb852dc5ac4e189a32</hash-sum>
     </version>
 
     <version name="1.0.9" package="kr.pe.nyam.Imagine64">
@@ -38223,6 +38252,13 @@ if %err% neq 0 exit %err%&#13;
 </file>
         <url>https://bintray.com/artifact/download/tigervnc/stable/tigervnc64-1.8.0.exe</url>
         <sha1>f6ce938ee99fe5c1ca246628725065f438ef092c</sha1>
+    </version>
+
+    <version name="8.0.8" package="tor64" type="one-file">
+        <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
+</file>
+        <url>https://dist.torproject.org/torbrowser/8.0.8/torbrowser-install-win64-8.0.8_en-US.exe</url>
+        <hash-sum type="SHA-256">33ac5c0d8b73c217fd200183631a4ba91431efdb702ddef0b566dd60176d24c9</hash-sum>
     </version>
 
     <version name="2.84.9" package="transmission-qt64" type="one-file">
