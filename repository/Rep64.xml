@@ -6077,6 +6077,15 @@ call "%npackdih%\InstallMSI.bat" APPLICATIONFOLDER yes&#13;
             <variable>npackdih</variable>
         </dependency>
     </version>
+    <version name="3.45.2" package="com.calibreebook.Calibre64" type="one-file">
+        <file path=".Npackd\Install.bat">call "%npackdih%\InstallMSI.bat" APPLICATIONFOLDER yes&#13;
+</file>
+        <url>https://download.calibre-ebook.com/3.45.2/calibre-64bit-3.45.2.msi</url>
+        <hash-sum type="SHA-256">2a06c7dc8358038fafa78aa25fa4278262b398caac8fa4a818f4424d9935e73d</hash-sum>
+        <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.2, 2)">
+            <variable>npackdih</variable>
+        </dependency>
+    </version>
 
     <version name="5.12.256249.2599" package="com.comodo.comodoav64" type="one-file">
         <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.msi') do set setup=%%x&#13;
@@ -14363,7 +14372,7 @@ if %err% neq 0 exit %err%&#13;
         </dependency>
     </version>
 
-    <version name="75.0.3770.100" package="google-chrome-x64" type="one-file">
+    <version name="75.0.3770.142" package="google-chrome-x64" type="one-file">
         <file path=".Npackd\Install.bat">call "%npackdih%\InstallMSI.bat" TARGETDIR yes&#13;
 </file>
         <url>https://dl.google.com/tag/s/appguid%3D%7B8A69D345-D564-463C-AFF1-A69D9E530F96%7D%26iid%3D%7B0A558A36-0536-8B3F-0AE0-420553CC97F3%7D%26lang%3Den%26browser%3D4%26usagestats%3D0%26appname%3DGoogle%2520Chrome%26needsadmin%3DFalse/edgedl/chrome/install/GoogleChromeStandaloneEnterprise64.msi</url>
@@ -18484,7 +18493,7 @@ if %err% neq 0 exit %err%</file>
             <variable>npackdih</variable>
         </dependency>
     </version>
-    <version name="4.1.6" package="net.getpaint.paintdotnet64">
+    <version name="4.2" package="net.getpaint.paintdotnet64">
         <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
 "%setup%" /auto "TARGETDIR=%CD%" CHECKFORUPDATES=0 JPGPNGBMPEDITOR=0 TGAEDITOR=0 DESKTOPSHORTCUT=0</file>
         <url>http://www.dotpdn.com/files/paint.net.4.1.4.install.zip</url>
@@ -31178,6 +31187,19 @@ rmdir "%name%"</file>
         <hash-sum type="SHA-256">38c771341d41b3834429a9899f3a8b9975a463d1b7b5448e55cf0dbb2d2a731d</hash-sum>
         <dependency package="com.oracle.JRE64" versions="[1.7, 2)"/>
     </version>
+    <version name="4.3.1" package="org.springsource.STS64">
+        <important-file path="SpringToolSuite4.exe" title="Spring Tool Suite"/>
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b sts*') do set name=%%x&#13;
+cd "%name%"        &#13;
+for /f "delims=" %%a in ('dir /b') do (&#13;
+  move "%%a" ..&#13;
+)&#13;
+cd ..&#13;
+rmdir "%name%"</file>
+        <url>https://download.springsource.com/release/STS4/4.3.1.RELEASE/dist/e4.11/spring-tool-suite-4-4.3.1.RELEASE-e4.11.0-win32.win32.x86_64.zip</url>
+        <hash-sum type="SHA-256">2662369dc065654ce7156296063c5878e6a523090aaaf0a146a3245f8fa25196</hash-sum>
+        <dependency package="com.oracle.JRE64" versions="[1.7, 2)"/>
+    </version>
 
     <version name="3.6.1" package="org.sqlexplorer.SQLExplorer64">
         <important-file path="sqlexplorer.exe" title="SQL Explorer"/>
@@ -33551,6 +33573,20 @@ call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Np
 </file>
         <url>https://github.com/vim/vim-win32-installer/releases/download/v8.1.1657/gvim_8.1.1657_x64.zip</url>
         <hash-sum type="SHA-256">e07a1d476ede1437e64f8f2af43024ea83a123c74f00badcaf80ed56edc6e690</hash-sum>
+        <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.19, 2)">
+            <variable>nih</variable>
+        </dependency>
+    </version>
+    <version name="8.1.1705" package="org.vim.Vim64">
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+if %errorlevel% neq 0 exit /b %errorlevel%&#13;
+&#13;
+for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+</file>
+        <url>https://github.com/vim/vim-win32-installer/releases/download/v8.1.1705/gvim_8.1.1705_x64.zip</url>
+        <hash-sum type="SHA-256">dbab018b1bce7cb5fefa60c07c3ec417f6d5004a77638cc89b911a7979e96267</hash-sum>
         <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.19, 2)">
             <variable>nih</variable>
         </dependency>
@@ -37543,6 +37579,10 @@ rem Install4j&#13;
     <version name="3.28" package="sqlite64">
         <url>https://www.sqlite.org/2019/sqlite-dll-win64-x64-3280000.zip</url>
         <hash-sum type="SHA-256">cbffbd496c975102d8b5dae44e101ff8534b2533fc8a8f716f707a4220409453</hash-sum>
+    </version>
+    <version name="3.29" package="sqlite64">
+        <url>https://www.sqlite.org/2019/sqlite-dll-win64-x64-3290000.zip</url>
+        <hash-sum type="SHA-256">4879d00a2e7e2c67dce7f2d7dc47ea11ba9e10dc4cd8adfdbebed01b20ce5aaf</hash-sum>
     </version>
 
     <version name="10.50.1600.1" package="sqlncli64" type="one-file">
