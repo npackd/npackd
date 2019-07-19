@@ -18099,6 +18099,15 @@ reg add HKCU\Software\mkvmergeGUI\GUI /v check_for_updates /t REG_DWORD /d 00000
             <variable>npackdih</variable>
         </dependency>
     </version>
+    <version name="5.20.1.34" package="mono64" type="one-file">
+        <file path=".Npackd\Install.bat">call "%npackdih%\InstallMSI.bat" INSTALLDIR yes&#13;
+</file>
+        <url>https://download.mono-project.com/archive/5.20.1/windows-installer/mono-5.20.1.34-x64-0.msi</url>
+        <hash-sum type="SHA-256">c650713990b7bae92aa37629691f373a704fe4a0e0bee10553e6c7eaf1823890</hash-sum>
+        <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.1, 2)">
+            <variable>npackdih</variable>
+        </dependency>
+    </version>
 
     <version name="2016.2.5" package="msys2_64" type="one-file">
         <file path=".Npackd\Install.bat">call "%nih%\Extract.bat" "%npackd_package_binary%" "."&#13;
