@@ -15072,6 +15072,17 @@ verify&#13;
         <url>https://ayera.dl.sourceforge.net/project/hammerdb/HammerDB/HammerDB-3.1/HammerDB-3.1-Win-x86-64-Setup.exe</url>
         <hash-sum type="SHA-256">d3e2caa2b0de57e16f3cc55516253bb7abbebc3132fc4224a466922e6b4f45ad</hash-sum>
     </version>
+    <version name="3.2" package="hammerdb64" type="one-file">
+        <file path=".Npackd\Install.bat">"%npackd_package_binary%" /mode silent /prefix "%cd%"&#13;
+if %errorlevel% neq 0 exit /b %errorlevel%&#13;
+&#13;
+del /f /q "%npackd_package_binary%"&#13;
+verify&#13;
+</file>
+        <file path=".Npackd\Uninstall.bat">uninstall.exe /mode silent</file>
+        <url>https://ayera.dl.sourceforge.net/project/hammerdb/HammerDB/HammerDB-3.2/HammerDB-3.2-Win-x86-64-Setup.exe</url>
+        <hash-sum type="SHA-256">cb134ca849a87e899c48fde7141ab5dedccce54aac9b77d377be65b1941c9f98</hash-sum>
+    </version>
 
     <version name="2.2" package="hashmyfiles64">
         <important-file path="HashMyFiles.exe" title="HashMyFiles"/>
@@ -21683,6 +21694,17 @@ verify&#13;
 </file>
         <url>https://downloads.sourceforge.net/project/nubasic/binary/Windows/nubasic-ide-1.49-setup_x64.zip</url>
         <hash-sum type="SHA-256">ad6263b4ab714bbc9b6489fcf9d620e22d5a12d6e72b5e02052c3e79ab22b6ee</hash-sum>
+        <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
+            <variable>nih</variable>
+        </dependency>
+    </version>
+    <version name="1.50" package="nubasic64">
+        <file path=".Npackd\Install.bat">call "%nih%\InstallInnoSetup.bat"&#13;
+</file>
+        <file path=".Npackd\Uninstall.bat">call "%nih%\UninstallInnoSetup.bat" unins000.exe&#13;
+</file>
+        <url>https://downloads.sourceforge.net/project/nubasic/binary/Windows/nubasic-ide-1.50-setup_x64.zip</url>
+        <hash-sum type="SHA-256">0c4dccf54b84d093f0430871e7f0bb09132e85ab28a526aca568a0bf9b904cf4</hash-sum>
         <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
             <variable>nih</variable>
         </dependency>
@@ -34857,6 +34879,41 @@ if %err% equ 3010 exit 0&#13;
 if %err% neq 0 exit %err%</file>
         <url>http://download.virtualbox.org/virtualbox/6.0.8/VirtualBox-6.0.8-130520-Win.exe</url>
         <hash-sum type="SHA-256">81e05e3258b92637d75747096aa76464bc12223e0081cc03ee1736a16ed05764</hash-sum>
+        <dependency package="org.7-zip.SevenZIP64" versions="[9.20, 20)">
+            <variable>sevenzip</variable>
+        </dependency>
+    </version>
+    <version name="6.0.10.132072" package="org.virtualbox.virtualbox64" type="one-file">
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
+"%setup%" -x -s -p "%CD%"&#13;
+&#13;
+&#13;
+"%sevenzip%\7z.exe" x common.cab -aos -o"%CD%\common"&#13;
+"%sevenzip%\7z.exe" x "%CD%\common\file_VBoxGuestAdditions.iso" -aos -o"%CD%\common\file_VBoxGuestAdditions"&#13;
+&#13;
+certutil.exe -addstore -f "TrustedPublisher" "%CD%\common\file_VBoxGuestAdditions\cert\oracle-vbox.cer" &gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+&#13;
+for /f "delims=" %%x in ('dir /b *MultiArch_amd64.msi') do set setup=%%x&#13;
+msiexec.exe /qn /norestart /Lime .Npackd\MSI.log /i "%setup%"&#13;
+set err=%errorlevel%&#13;
+type .Npackd\MSI.log&#13;
+rem 3010=restart required&#13;
+if %err% equ 3010 exit 0&#13;
+if %err% neq 0 exit %err%&#13;
+&#13;
+for /f "delims=" %%x in ('dir /b *MultiArch_x86.msi') do set trash=%%x&#13;
+del /q /f "%trash%"&#13;
+&#13;
+if exist "%CD%\common" (rd /s /q "%CD%\common")</file>
+        <file path=".Npackd\Uninstall.bat">for /f "delims=" %%x in ('dir /b *.msi') do set setup=%%x&#13;
+msiexec.exe /qn /norestart /Lime .Npackd\MSI.log /x "%setup%"&#13;
+set err=%errorlevel%&#13;
+type .Npackd\MSI.log&#13;
+rem 3010=restart required&#13;
+if %err% equ 3010 exit 0&#13;
+if %err% neq 0 exit %err%</file>
+        <url>http://download.virtualbox.org/virtualbox/6.0.10/VirtualBox-6.0.10-132072-Win.exe</url>
+        <hash-sum type="SHA-256">e7c8d015c9831ffa6bde56d6b4aaa3ddf11ee410ae643bae7ded96bdb5c8f78d</hash-sum>
         <dependency package="org.7-zip.SevenZIP64" versions="[9.20, 20)">
             <variable>sevenzip</variable>
         </dependency>
