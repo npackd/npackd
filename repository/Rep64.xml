@@ -279,17 +279,6 @@ x86_64</description>
         <category>Development</category>
         <tag>stable64</tag>
     </package>
-    <package name="classic-shell64">
-        <title>Classic Shell 64 bit</title>
-        <url>http://classicshell.sourceforge.net</url>
-        <description>WARNING: this package will not be updated anymore. Since 3.9 the software is not open source and both 32 bit and 64 bit are distributed in the same binary. Please use the "Classic Shell (32 bit and 64 bit)" package instead.&#13;
-features from old Windows versions for the newer
-x86_64</description>
-        <icon>https://lh3.googleusercontent.com/-NzZnuJQll2U/UT3OflgXnSI/AAAAAAAABRI/kkKERiQWYqM/s800/classicshell.png</icon>
-        <license>edu.mit.web.MIT</license>
-        <category>Tools</category>
-        <tag>stable64</tag>
-    </package>
     <package name="claws-mail64">
         <title>Claws Mail 64 bit</title>
         <url>http://www.claws-mail.org/</url>
@@ -712,7 +701,7 @@ x86_64</description>
     <package name="com.sindresorhus.caprine">
         <title>Caprine</title>
         <url>https://sindresorhus.com/caprine</url>
-        <description>Caprine is an unofficial and privacy focused Facebook Messenger app with many useful features.
+        <description>unofficial and privacy focused Facebook Messenger app with many useful features.
 x86_64</description>
         <icon>https://raw.githubusercontent.com/sindresorhus/caprine/master/static/Icon.png</icon>
         <license>org.opensource.MITLicense</license>
@@ -3693,20 +3682,6 @@ verify
         <hash-sum type="SHA-256">56d582eed2d5def6accaedabbe11ae368186600798e2a6a7eb86a727fa7bb20c</hash-sum>
     </version>
 
-    <version name="3.6.8" package="classic-shell64" type="one-file">
-        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
-"%setup%" extract64&#13;
-&#13;
-call "%npackdih%\InstallMSI.bat" INSTALLDIR yes</file>
-        <url>https://sourceforge.net/projects/classicshell/files/Version%203.6.8%20general%20release/ClassicShellSetup_3_6_8.exe</url>
-        <sha1>5d6ff552ff8cc2bf650a0c8d16c67cc7dde6e33e</sha1>
-        <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.1, 2)">
-            <variable>npackdih</variable>
-        </dependency>
-        <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.15.7, 2)"/>
-        <dependency package="com.microsoft.Windows" versions="[6,10)"/>
-    </version>
-
     <version name="3.15.0.1" package="claws-mail64" type="one-file">
         <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
 "%setup%" /S /D=%CD% &amp;&amp; del /f /q "%setup%"&#13;
@@ -6082,6 +6057,15 @@ call "%npackdih%\InstallMSI.bat" APPLICATIONFOLDER yes&#13;
 </file>
         <url>https://download.calibre-ebook.com/3.45.2/calibre-64bit-3.45.2.msi</url>
         <hash-sum type="SHA-256">2a06c7dc8358038fafa78aa25fa4278262b398caac8fa4a818f4424d9935e73d</hash-sum>
+        <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.2, 2)">
+            <variable>npackdih</variable>
+        </dependency>
+    </version>
+    <version name="3.46" package="com.calibreebook.Calibre64" type="one-file">
+        <file path=".Npackd\Install.bat">call "%npackdih%\InstallMSI.bat" APPLICATIONFOLDER yes&#13;
+</file>
+        <url>https://download.calibre-ebook.com/3.46.0/calibre-64bit-3.46.0.msi</url>
+        <hash-sum type="SHA-256">57c526d9812427a1850c0d9fe65397e6c8acae9aff8bb69cf1b0ded0ad7d76b2</hash-sum>
         <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.2, 2)">
             <variable>npackdih</variable>
         </dependency>
@@ -30684,6 +30668,10 @@ if %err% neq 0 exit %err%&#13;
     <version name="19.6.15" package="org.shotcut.shotcut">
         <url>https://github.com/mltframework/shotcut/releases/download/v19.06.15/shotcut-win64-190615.zip</url>
         <hash-sum type="SHA-256">324b0f677a406ebf595ac9fd4ff55c6666a43a0e6c50b839581e7a0296af5ad9</hash-sum>
+    </version>
+    <version name="19.7.15" package="org.shotcut.shotcut">
+        <url>https://github.com/mltframework/shotcut/releases/download/v19.07.15/shotcut-win64-190715.zip</url>
+        <hash-sum type="SHA-256">fa435166b40d40855f2ec9f67fae7d82aa2628c534dce62d5398f2a82caa3e89</hash-sum>
     </version>
 
     <version name="4.4" package="org.sourceforge.ultradefrag.UltraDefrag64">
