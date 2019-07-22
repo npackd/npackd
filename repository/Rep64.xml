@@ -1359,17 +1359,21 @@ x86_64</description>
     <package name="Locate32_64">
         <title>Locate32 64 bit</title>
         <url>http://locate32.cogit.net/</url>
-        <description>finds files and directories based on file and folder names stored in a database. Locate32 saves to a database the names of all files on your hard drives. Once the file indexing has occurred, you can locate files quickly by using the application's search form. It works like "updatedb" and "locate" commands in Unix. In other words, it uses databases to store information about directory structures and uses these databases in searches. The use of these databases provides very fast searching speed. The software includes a dialog-based application as well as console programs that can be used to update and access the databases. Locate32 is not primarily meant to find text or data within files, but it has a primitive feature to do this. Supported operating systems: Windows 98/ME/NT4/2000/XP/Vista/7.
+        <description>WARNING: the development was stopped. There will be no new versions of this software.
+finds files and directories based on file and folder names stored in a database. Locate32 saves to a database the names of all files on your hard drives. Once the file indexing has occurred, you can locate files quickly by using the application's search form. It works like "updatedb" and "locate" commands in Unix. In other words, it uses databases to store information about directory structures and uses these databases in searches. The use of these databases provides very fast searching speed. The software includes a dialog-based application as well as console programs that can be used to update and access the databases. Locate32 is not primarily meant to find text or data within files, but it has a primitive feature to do this. Supported operating systems: Windows 98/ME/NT4/2000/XP/Vista/7.
 x86_64</description>
         <icon>http://alt2cdn.blob.core.windows.net/dist/icons/locate32_41567.png</icon>
         <license>org.opensource.BSDLicense</license>
         <category>Tools</category>
         <tag>stable64</tag>
+        <tag>end-of-life</tag>
     </package>
     <package name="luminance64">
-        <title>Luminance HDR 64 bit (Qtpfsgui)</title>
+        <title>Luminance HDR 64 bit</title>
         <url>http://qtpfsgui.sourceforge.net/</url>
-        <description>Complete open source solution for HDR photography
+        <description>Complete open source solution for HDR photography&#13;
+&#13;
+kw: Qtpfsguid
 x86_64</description>
         <icon>http://cdn.appstorm.net/windows.appstorm.net/files/2012/06/luminance-icon.jpg</icon>
         <license>org.gnu.GPLv2</license>
@@ -11828,6 +11832,17 @@ if %err% neq 0 exit %err%&#13;
             <variable>nih</variable>
         </dependency>
     </version>
+    <version name="1.17" package="conan64" type="one-file">
+        <cmd-file path="conan\conan.exe"/>
+        <file path=".Npackd\Install.bat">"%nih%\InstallInnoSetup.bat"&#13;
+</file>
+        <file path=".Npackd\Uninstall.bat">"%nih%\UninstallInnoSetup.bat" unins000.exe</file>
+        <url>https://github.com/conan-io/conan/releases/download/1.17.0/conan-win-64_1_17_0.exe</url>
+        <hash-sum type="SHA-256">3e39e4d74b191f25a9fda510f5fb0775fc5cea90aa073f849371b914589664fd</hash-sum>
+        <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
+            <variable>nih</variable>
+        </dependency>
+    </version>
 
     <version name="3.0.7" package="cygwin64" type="one-file">
         <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
@@ -15978,6 +15993,14 @@ rmdir "%name%"&#13;
         <url>http://mirrors.kodi.tv/releases/windows/win64/kodi-18.1-Leia-x64.exe</url>
         <hash-sum type="SHA-256">2a898e4cc5cc7db32474aba6800024bb5958596a29d9f6eb852dc5ac4e189a32</hash-sum>
     </version>
+    <version name="18.3" package="kodi64" type="one-file">
+        <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
+</file>
+        <file path=".Npackd\Uninstall.bat">uninstall.exe /S _?=%CD%&#13;
+</file>
+        <url>http://mirrors.kodi.tv/releases/windows/win64/kodi-18.3-Leia-x64.exe</url>
+        <hash-sum type="SHA-256">0252a0ccb6d2aaa3771062889c2d76120c84a011541fc6c853911c29286afb1f</hash-sum>
+    </version>
 
     <version name="1.0.9" package="kr.pe.nyam.Imagine64">
         <important-file path="Imagine64.exe" title="Imagine"/>
@@ -16618,7 +16641,7 @@ call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Np
 
     <version name="3.1.11.7100" package="Locate32_64">
         <url>http://locate32.cogit.net/download/locate32_x64-3.1.11.7100.zip</url>
-        <sha1>621ae929d57a239dca25e7178afd9f7fc9aa7d6a</sha1>
+        <hash-sum type="SHA-256">38e7fdf19b027ae3a4d03fe612ce69ea1dfd68a181f76099c16a32ccdb858116</hash-sum>
     </version>
 
     <version name="2.4" package="luminance64" type="one-file">
@@ -16654,6 +16677,17 @@ if %err% neq 0 exit %err%&#13;
 </file>
         <url>https://ayera.dl.sourceforge.net/project/qtpfsgui/luminance/2.5.1/Luminance-HDR-x64-SETUP-v2.5.1.exe</url>
         <sha1>e6d1edca6620f2a9f072d6cdbeaeb09b6b42460c</sha1>
+        <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
+            <variable>nih</variable>
+        </dependency>
+    </version>
+    <version name="2.6" package="luminance64" type="one-file">
+        <file path=".Npackd\Install.bat">call "%nih%\InstallInnoSetup.bat"&#13;
+</file>
+        <file path=".Npackd\Uninstall.bat">call "%nih%\UninstallInnoSetup.bat" unins000.exe&#13;
+</file>
+        <url>https://sourceforge.net/projects/qtpfsgui/files/luminance/2.6.0/Luminance-HDR_v.2.6.0_Windows_64.exe</url>
+        <hash-sum type="SHA-256">37c74f2e84dfc3cb686f7fe5e80e33f97eb8e506ec704bdd02ea90c3b8ca6af8</hash-sum>
         <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
             <variable>nih</variable>
         </dependency>
@@ -18169,6 +18203,19 @@ rmdir "%name%"&#13;
 </file>
         <url>https://github.com/milostosic/MTuner/releases/download/v4.1.7/mtuner64.zip</url>
         <hash-sum type="SHA-256">e57392a51fdf749508216439b6b164d448661befb6463146aef3b95331040e86</hash-sum>
+    </version>
+    <version name="4.2.9" package="mtuner">
+        <important-file path="MTuner.exe" title="MTuner"/>
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b MTuner*') do set name=%%x&#13;
+cd "%name%"&#13;
+for /f "delims=" %%a in ('dir /b') do (&#13;
+  move "%%a" ..&#13;
+)&#13;
+cd ..&#13;
+rmdir "%name%"&#13;
+</file>
+        <url>https://github.com/milostosic/MTuner/releases/download/v4.2.9/mtuner64.zip</url>
+        <hash-sum type="SHA-256">8de4bd26c474886927ad8756edd6a3f7c42bce3dbc34af20abdc1bea8906fb34</hash-sum>
     </version>
 
     <version name="6.9.1" package="multi-commander64" type="one-file">
