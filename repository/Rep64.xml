@@ -9814,7 +9814,7 @@ del Q-Dir.ini&#13;
         <url>http://files.npackd.org/com.softwareok.QDir64-5.99.9.zip</url>
         <sha1>fb6060796fae3fc641ba34fe1f2f8530d7c985a8</sha1>
     </version>
-    <version name="7.68" package="com.softwareok.QDir64">
+    <version name="7.69" package="com.softwareok.QDir64">
         <important-file path="Q-Dir.exe" title="Q-Dir"/>
         <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b Q*') do set name=%%x&#13;
 cd "%name%"        &#13;
@@ -11975,6 +11975,17 @@ if %err% neq 0 exit %err%&#13;
             <variable>nih</variable>
         </dependency>
     </version>
+    <version name="1.18" package="conan64" type="one-file">
+        <cmd-file path="conan\conan.exe"/>
+        <file path=".Npackd\Install.bat">"%nih%\InstallInnoSetup.bat"&#13;
+</file>
+        <file path=".Npackd\Uninstall.bat">"%nih%\UninstallInnoSetup.bat" unins000.exe</file>
+        <url>https://github.com/conan-io/conan/releases/download/1.18.0/conan-win-64_1_18_0.exe</url>
+        <hash-sum type="SHA-256">098441da01ad2c7767a2c55f5b6474ca186aa07129463877bcb666db00f0f60f</hash-sum>
+        <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
+            <variable>nih</variable>
+        </dependency>
+    </version>
 
     <version name="3.0.7" package="cygwin64" type="one-file">
         <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
@@ -12767,6 +12778,24 @@ rmdir "%name%"&#13;
 </file>
         <url>https://github.com/jrfonseca/drmingw/releases/download/0.9.1/drmingw-0.9.1-win64.7z</url>
         <hash-sum type="SHA-256">d06d48f08b174be99e127ea67e03a02747feafbe31f46a81eb248239872b32b0</hash-sum>
+        <dependency package="org.7-zip.SevenZIPA" versions="[9.20, 20)">
+            <variable>sevenzipa</variable>
+        </dependency>
+    </version>
+    <version name="0.9.2" package="drmingw64" type="one-file">
+        <file path=".Npackd\Install.bat">"%sevenzipa%\7za.exe" x "%npackd_package_binary%" &gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt &amp;&amp; del /f /q "%setup%"&#13;
+if %errorlevel% neq 0 exit /b %errorlevel%&#13;
+&#13;
+for /f "delims=" %%x in ('dir /b drmingw*') do set name=%%x&#13;
+cd "%name%"        &#13;
+for /f "delims=" %%a in ('dir /b') do (&#13;
+  move "%%a" ..&#13;
+)&#13;
+cd ..&#13;
+rmdir "%name%"&#13;
+</file>
+        <url>https://github.com/jrfonseca/drmingw/releases/download/0.9.2/drmingw-0.9.2-win64.7z</url>
+        <hash-sum type="SHA-256">ca78c5df3354d3962f36e955513745710743b77294d44dc07ab76df861a12a62</hash-sum>
         <dependency package="org.7-zip.SevenZIPA" versions="[9.20, 20)">
             <variable>sevenzipa</variable>
         </dependency>
@@ -14535,7 +14564,7 @@ if %err% neq 0 exit %err%&#13;
         </dependency>
     </version>
 
-    <version name="75.0.3770.142" package="google-chrome-x64" type="one-file">
+    <version name="76.0.3809.87" package="google-chrome-x64" type="one-file">
         <file path=".Npackd\Install.bat">call "%npackdih%\InstallMSI.bat" TARGETDIR yes&#13;
 </file>
         <url>https://dl.google.com/tag/s/appguid%3D%7B8A69D345-D564-463C-AFF1-A69D9E530F96%7D%26iid%3D%7B0A558A36-0536-8B3F-0AE0-420553CC97F3%7D%26lang%3Den%26browser%3D4%26usagestats%3D0%26appname%3DGoogle%2520Chrome%26needsadmin%3DFalse/edgedl/chrome/install/GoogleChromeStandaloneEnterprise64.msi</url>
@@ -15807,6 +15836,17 @@ if %err% neq 0 exit %err%&#13;
             <variable>nih</variable>
         </dependency>
     </version>
+    <version name="7.0.8.58" package="imagemagick64" type="one-file">
+        <file path=".Npackd\Install.bat">call "%nih%\InstallInnoSetup.bat"&#13;
+</file>
+        <file path=".Npackd\Uninstall.bat">call "%nih%\UninstallInnoSetup.bat" unins000.exe&#13;
+</file>
+        <url>https://www.imagemagick.org/download/binaries/ImageMagick-7.0.8-58-Q16-x64-dll.exe</url>
+        <hash-sum type="SHA-256">8ca4ecd4f343907b2cfafc7ff780f71702f34090821748103ee48c3514f855e0</hash-sum>
+        <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
+            <variable>nih</variable>
+        </dependency>
+    </version>
 
     <version name="0.3.8" package="io.mpv.mpv-64" type="one-file">
         <file path=".Npackd\Install.bat">for /f %%x in ('dir /b *.7z') do set setup=%%x&#13;
@@ -16923,6 +16963,14 @@ if %err% neq 0 exit %err%&#13;
 </file>
         <url>https://github.com/manisandro/gImageReader/releases/download/v3.3.0/gImageReader_3.3.0_qt5_x86_64.exe</url>
         <hash-sum type="SHA-256">6ae3455e8fd2943dfb1e202a4735e6aa878f437d5b1f0672b30f32d01114ce13</hash-sum>
+    </version>
+    <version name="3.3.1" package="manisandro.gImageReader64" type="one-file">
+        <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
+</file>
+        <file path=".Npackd\Uninstall.bat">uninstall.exe /S _?=%CD%&#13;
+</file>
+        <url>https://github.com/manisandro/gImageReader/releases/download/v3.3.1/gImageReader_3.3.1_qt5_x86_64.exe</url>
+        <hash-sum type="SHA-256">05f7a16a0cc4e914ef84bcf1246bfab0636c15cc4a335220e7f8111d6a053f70</hash-sum>
     </version>
 
     <version name="1.9.1" package="marble64" type="one-file">
@@ -18435,6 +18483,19 @@ rmdir "%name%"&#13;
         <url>https://github.com/milostosic/MTuner/releases/download/v4.2.9/mtuner64.zip</url>
         <hash-sum type="SHA-256">8de4bd26c474886927ad8756edd6a3f7c42bce3dbc34af20abdc1bea8906fb34</hash-sum>
     </version>
+    <version name="4.3.1" package="mtuner">
+        <important-file path="MTuner.exe" title="MTuner"/>
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b MTuner*') do set name=%%x&#13;
+cd "%name%"&#13;
+for /f "delims=" %%a in ('dir /b') do (&#13;
+  move "%%a" ..&#13;
+)&#13;
+cd ..&#13;
+rmdir "%name%"&#13;
+</file>
+        <url>https://github.com/milostosic/MTuner/releases/download/v4.2.9/mtuner64.zip</url>
+        <hash-sum type="SHA-256">8de4bd26c474886927ad8756edd6a3f7c42bce3dbc34af20abdc1bea8906fb34</hash-sum>
+    </version>
 
     <version name="6.9.1" package="multi-commander64" type="one-file">
         <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
@@ -18499,6 +18560,14 @@ rmdir "%name%"&#13;
 </file>
         <url>http://multicommander.com/files/updates/MultiCommander_x64_(8.3.0.2469).exe</url>
         <hash-sum type="SHA-256">58c7e63a607670c47098f80320e7ff62a47aaac2b17310f915fd360f4a0d04d7</hash-sum>
+    </version>
+    <version name="9.0.0.2532" package="multi-commander64" type="one-file">
+        <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
+</file>
+        <file path=".Npackd\Uninstall.bat">"Uninstall MultiCommander.exe" /S _?=%CD%&#13;
+</file>
+        <url>http://multicommander.com/files/updates/MultiCommander_x64_(9.0.0.2532).exe</url>
+        <hash-sum type="SHA-256">029cd0a3f79a6d358059dd319ea18a72bffb2b8848d01ce8815e01b367cb86e6</hash-sum>
     </version>
 
     <version name="3.1" package="musescore64" type="one-file">
@@ -25120,6 +25189,17 @@ rmdir "%name%"&#13;
 "%NIH%\ExtractDir.bat" "%name%"</file>
         <url>https://download.blender.org/release/Blender2.79/blender-2.79-windows64.zip</url>
         <sha1>5465aefbb19c08204693f938583119cefa8a4c2c</sha1>
+        <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
+            <variable>NIH</variable>
+        </dependency>
+        <dependency package="com.microsoft.VisualCPPRedistributable64" versions="[9, 10)"/>
+    </version>
+    <version name="2.80" package="org.blender.Blender64">
+        <important-file path="blender.exe" title="Blender"/>
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b blender*') do set name=%%x&#13;
+"%NIH%\ExtractDir.bat" "%name%"</file>
+        <url>https://download.blender.org/release/Blender2.80/blender-2.80-windows64.zip</url>
+        <hash-sum type="SHA-256">43dee970739c8a7b5054e782717b18bdafd54ba85b13ae71222611a7c6cd8ca8</hash-sum>
         <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
             <variable>NIH</variable>
         </dependency>
@@ -33990,6 +34070,20 @@ call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Np
             <variable>nih</variable>
         </dependency>
     </version>
+    <version name="8.1.1779" package="org.vim.Vim64">
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+if %errorlevel% neq 0 exit /b %errorlevel%&#13;
+&#13;
+for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+</file>
+        <url>https://github.com/vim/vim-win32-installer/releases/download/v8.1.1779/gvim_8.1.1779_x64.zip</url>
+        <hash-sum type="SHA-256">6ac7dc7457bc28e31b2fdd16e224962100e5bf1933c4af1a693bc922d6fbb23d</hash-sum>
+        <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.19, 2)">
+            <variable>nih</variable>
+        </dependency>
+    </version>
 
     <version name="4.2.8.83876" package="org.virtualbox.virtualbox64" type="one-file">
         <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
@@ -35763,6 +35857,16 @@ echo DesktopShortcut=false &gt;&gt; .Npackd\FF.ini&#13;
         <file path=".Npackd\Uninstall.bat">uninstall\helper.exe /S</file>
         <url>http://relmirror.palemoon.org/release/palemoon-28.6.0.win64.installer.exe</url>
         <hash-sum type="SHA-256">e0117d8f353e1cf10043593b9e45abe458e7572b6417a5f8eb64789712957ac3</hash-sum>
+    </version>
+    <version name="28.6.1" package="pale-moon64" type="one-file">
+        <file path=".Npackd\Install.bat">echo [Install] &gt; .Npackd\FF.ini&#13;
+echo InstallDirectoryPath=%CD% &gt;&gt; .Npackd\FF.ini&#13;
+echo QuickLaunchShortcut=false &gt;&gt; .Npackd\FF.ini&#13;
+echo DesktopShortcut=false &gt;&gt; .Npackd\FF.ini&#13;
+"%npackd_package_binary%" /INI="%CD%\.Npackd\FF.ini" &amp;&amp; del /f /q "%npackd_package_binary%"</file>
+        <file path=".Npackd\Uninstall.bat">uninstall\helper.exe /S</file>
+        <url>http://relmirror.palemoon.org/release/palemoon-28.6.1.win64.installer.exe</url>
+        <hash-sum type="SHA-256">31d433a8fb26dc1acc3d0449f5bea7c2fbba6c20d707fd9a76f0d16623b899ce</hash-sum>
     </version>
 
     <version name="2.2.1" package="pandoc64" type="one-file">
@@ -38612,6 +38716,14 @@ rmdir "%name%"</file>
         <url>https://www.sysgauge.com/setups_x64/sysgauge_setup_v6.3.18_x64.exe</url>
         <hash-sum type="SHA-256">91b85c33370e4a98715082c2805e66996b5f2372ca0d103d28a080f425455776</hash-sum>
     </version>
+    <version name="6.4.12" package="sysgauge64" type="one-file">
+        <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
+</file>
+        <file path=".Npackd\Uninstall.bat">uninstall.exe /S _?=%CD%&#13;
+</file>
+        <url>https://www.sysgauge.com/setups_x64/sysgauge_setup_v6.4.12_x64.exe</url>
+        <hash-sum type="SHA-256">f9f0c65f4be7258614bf1df3e773860d7951a03eaabd4c8ff9c57cd266dabf13</hash-sum>
+    </version>
 
     <version name="2" package="texniccenter64" type="one-file">
         <file path=".Npackd\Install.bat">for /f %%x in ('dir /b *.exe') do set setup=%%x&#13;
@@ -38785,6 +38897,12 @@ if %err% neq 0 exit %err%&#13;
 </file>
         <url>https://dist.torproject.org/torbrowser/8.0.8/torbrowser-install-win64-8.0.8_en-US.exe</url>
         <hash-sum type="SHA-256">33ac5c0d8b73c217fd200183631a4ba91431efdb702ddef0b566dd60176d24c9</hash-sum>
+    </version>
+    <version name="8.5.4" package="tor64" type="one-file">
+        <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
+</file>
+        <url>https://dist.torproject.org/torbrowser/8.5.4/torbrowser-install-8.5.4_en-US.exe</url>
+        <hash-sum type="SHA-256">258bfb46f083e55bef9bc56245095fbe8201f9e1257ce1890cf0df7a1fca4cbe</hash-sum>
     </version>
 
     <version name="2.84.9" package="transmission-qt64" type="one-file">
@@ -40058,6 +40176,21 @@ if %err% neq 0 exit %err%&#13;
 </file>
         <url>https://ayera.dl.sourceforge.net/project/winmerge/stable/2.16.2/WinMerge-2.16.2-x64-Setup.exe</url>
         <hash-sum type="SHA-256">201251a256e9b67b932b696ddd859d22be8cb41996600d616ce8b64da104ed68</hash-sum>
+    </version>
+    <version name="2.16.4" package="winmerge64" type="one-file">
+        <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
+"%setup%" /SP- /VERYSILENT /SUPPRESSMSGBOXES /NOCANCEL /NORESTART /DIR="%CD%" /SAVEINF="%CD%\.Npackd\InnoSetupInfo.ini" /LOG="%CD%\.Npackd\InnoSetupInstall.log"&#13;
+set err=%errorlevel%&#13;
+type .Npackd\InnoSetupInstall.log&#13;
+if %err% neq 0 exit %err%&#13;
+</file>
+        <file path=".Npackd\Uninstall.bat">unins000.exe /VERYSILENT /SUPPRESSMSGBOXES /NORESTART /LOG="%CD%\.Npackd\InnoSetupUninstall.log"&#13;
+set err=%errorlevel%&#13;
+type .Npackd\InnoSetupUninstall.log&#13;
+if %err% neq 0 exit %err%&#13;
+</file>
+        <url>https://ayera.dl.sourceforge.net/project/winmerge/stable/2.16.4/WinMerge-2.16.4-x64-Setup.exe</url>
+        <hash-sum type="SHA-256">018fcf478a6466ac48a81d8b5d40fb5f4c5c4af3caa84e25b5e8223368888745</hash-sum>
     </version>
 
     <version name="4" package="wmf64" type="one-file">
