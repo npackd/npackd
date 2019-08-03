@@ -1,3 +1,4 @@
+
 Error.prototype.toString = function() {
   'use strict';
 
