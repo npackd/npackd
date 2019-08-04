@@ -514,7 +514,7 @@ function downloadRepos() {
 	 "@github.com/tim-lebedkov/npackd.git");
 }
 
-var npackdcl = "C:\\Program Files (x86)\\NpackdCL\\ncl.exe";
+var npackdcl = "C:\\Program Files\\NpackdCL\\ncl.exe";
 var git = "C:\\Program Files\\Git\\cmd\\git.exe";
 
 var FSO = new ActiveXObject("Scripting.FileSystemObject");
