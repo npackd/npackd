@@ -5,6 +5,8 @@ rem software dependencies.
 
 msiexec.exe /qn /i https://github.com/tim-lebedkov/npackd-cpp/releases/download/version_1.25/Npackd64-1.25.0.msi
 
+tree "C:\Program Files"
+
 SET NPACKD_CL=C:\Program Files\NpackdCL
 "%npackd_cl%\ncl" set-repo -u https://npackd.appspot.com/rep/recent-xml -u https://npackd.appspot.com/rep/xml?tag=stable -u https://npackd.appspot.com/rep/xml?tag=stable64 -u https://npackd.appspot.com/rep/recent-xml?tag=untested -u https://npackd.appspot.com/rep/xml?tag=libs -u https://npackd.appspot.com/rep/xml?tag=unstable
 if %errorlevel% neq 0 exit /b %errorlevel%
