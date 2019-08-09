@@ -23982,6 +23982,21 @@ rmdir "%name%"
   <hash-sum type="SHA-256">5ec44c0aa56be194cc32f5cf52bab4767a6fef6faa05aab2019233c89f0f3aa0</hash-sum>
   <dependency package="com.oracle.JRE" versions="[1.5, 2)"/>
  </version>
+ <version name="7.0.96" package="org.apache.tomcat.Tomcat64">
+  <important-file path="bin\startup.bat" title="Start"/>
+  <important-file path="bin\shutdown.bat" title="Stop"/>
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b apache*') do set name=%%x
+cd "%name%"        
+for /f "delims=" %%a in ('dir /b') do (
+  move "%%a" ..
+)
+cd ..
+rmdir "%name%"
+</file>
+  <url>http://archive.apache.org/dist/tomcat/tomcat-7/v7.0.96/bin/apache-tomcat-7.0.96-windows-x64.zip</url>
+  <hash-sum type="SHA-256">a38b691e4fa57240bf23e80e6059359d4e49c713e7a1355dba455522c448edba</hash-sum>
+  <dependency package="com.oracle.JRE" versions="[1.5, 2)"/>
+ </version>
 
     <version name="7.2.10" package="org.areca-backup.ArecaBackup64">
   <important-file path="areca.exe" title="Areca"/>
