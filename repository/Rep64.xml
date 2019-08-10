@@ -903,6 +903,7 @@ x86_64</description>
   <license>org.gnu.GPLv2</license>
   <category>Photo</category>
   <tag>stable64</tag>
+  <tag>reupload</tag>
  </package>
  <package name="drmingw64">
   <title>Dr. Mingw 64 bit</title>
@@ -3253,6 +3254,14 @@ x86_64</description>
 </file>
   <url>https://repo.continuum.io/archive/Anaconda3-2019.03-Windows-x86_64.exe</url>
   <hash-sum type="SHA-256">d2c90169879f40816eac91bec585a1f9f788016fe0a8215ca066299e4b6531b9</hash-sum>
+ </version>
+ <version name="2019.7" package="anaconda64" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">Uninstall-Anaconda3.exe /S _?=%CD%&#13;
+</file>
+  <url>https://repo.continuum.io/archive/Anaconda3-2019.07-Windows-x86_64.exe</url>
+  <hash-sum type="SHA-256">37e753801a881649ceb608449b66ff9daa35a393409c6e651e56a60c5043bd46</hash-sum>
  </version>
 
     <version name="2.1.11" package="anki64" type="one-file">
@@ -27047,6 +27056,34 @@ verify&#13;
   <url>http://downloads.sourceforge.net/project/lazarus/Lazarus%20Windows%2032%20bits/Lazarus%202.0.2/lazarus-2.0.2-fpc-3.0.4-win32.exe</url>
   <hash-sum type="SHA-256">db3c8f93b18914774af5d9815f84cc44011c12fa07597399abf5e7d9edd5501e</hash-sum>
  </version>
+ <version name="2.0.4" package="org.freepascal.lazarus.Lazarus64" type="one-file">
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
+&#13;
+set w=%cd%&#13;
+if x%w: =%x==x%w%x goto install&#13;
+mkdir %CD:~0,2%\NpackdSymlinks&#13;
+set w=%CD:~0,2%\NpackdSymlinks\org.freepascal.lazarus.Lazarus64-%NPACKD_PACKAGE_VERSION%&#13;
+mklink /D %w% "%CD%"&#13;
+cd %w%&#13;
+&#13;
+:install&#13;
+"%setup%" /SP- /VERYSILENT /SUPPRESSMSGBOXES /NOCANCEL /NORESTART /DIR="%CD%\Prog" /SAVEINF="%CD%\.Npackd\InnoSetupInfo.ini" /LOG="%CD%\.Npackd\InnoSetupInstall.log"&#13;
+set err=%errorlevel%&#13;
+type .Npackd\InnoSetupInstall.log&#13;
+if %err% neq 0 exit %err%&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">Prog\unins000.exe /VERYSILENT /SUPPRESSMSGBOXES /NORESTART /LOG="%CD%\.Npackd\InnoSetupUninstall.log"&#13;
+set err=%errorlevel%&#13;
+type .Npackd\InnoSetupUninstall.log&#13;
+if %err% neq 0 exit %err%&#13;
+&#13;
+set w=%CD:~0,2%\NpackdSymlinks\org.freepascal.lazarus.Lazarus-%NPACKD_PACKAGE_VERSION%&#13;
+rmdir %w%&#13;
+verify&#13;
+</file>
+  <url>http://downloads.sourceforge.net/project/lazarus/Lazarus%20Windows%2032%20bits/Lazarus%202.0.4/lazarus-2.0.4-fpc-3.0.4-win32.exe</url>
+  <hash-sum type="SHA-256">3045aeeff9efbd7bc470b2c8cb82121cd9fa54ef98999b7b0e37a93e9257bd79</hash-sum>
+ </version>
 
     <version name="7.1.90" package="org.gnu.GDB64">
   <file path=".WPM\Install.bat">for /f "delims=" %%x in ('dir /b mingw*') do set name=%%x
@@ -34166,6 +34203,20 @@ call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Np
    <variable>nih</variable>
   </dependency>
  </version>
+ <version name="8.1.1824" package="org.vim.Vim64">
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+if %errorlevel% neq 0 exit /b %errorlevel%&#13;
+&#13;
+for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+</file>
+  <url>https://github.com/vim/vim-win32-installer/releases/download/v8.1.1824/gvim_8.1.1824_x64.zip</url>
+  <hash-sum type="SHA-256">19d66b26a4cd2e1974428b46a620cea5274eef76e289d7e3034c83ed07f9ddb2</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.19, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
 
     <version name="4.2.8.83876" package="org.virtualbox.virtualbox64" type="one-file">
   <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
@@ -39140,6 +39191,14 @@ if %err% neq 0 exit %err%&#13;
 </file>
   <url>http://files.first-world.info/ultracopier/1.6.1.5/ultracopier-windows-x86_64-1.6.1.5-setup.exe</url>
   <hash-sum type="SHA-256">73f2ad4fee637898fd539b64b96308bd6d28473dcdddea4fe8c801803c586ae3</hash-sum>
+ </version>
+ <version name="2.0.3.4" package="ultracopier64" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">uninst.exe /S _?=%CD%&#13;
+</file>
+  <url>http://files.first-world.info/ultracopier/2.0.3.4/ultracopier-windows-x86_64-2.0.3.4-setup.exe</url>
+  <hash-sum type="SHA-256">361fcd90ba908eefdfda28acf5d249fca8e97ce68e16095b464f29205a41d114</hash-sum>
  </version>
 
     <version name="2.0.1" package="vagrant64" type="one-file">
