@@ -15469,7 +15469,7 @@ verify&#13;
   <url>http://files.npackd.org/hashmyfiles64/hashmyfiles64-2.10.zip</url>
   <sha1>8848020689233adeffe2f4299085eb533e1495d5</sha1>
  </version>
- <version name="2.35" package="hashmyfiles64">
+ <version name="2.36" package="hashmyfiles64">
   <important-file path="HashMyFiles.exe" title="HashMyFiles"/>
   <url>http://www.nirsoft.net/utils/hashmyfiles-x64.zip</url>
  </version>
@@ -16645,6 +16645,14 @@ call "%nih%\InstallMSI.bat" TARGETDIR yes&#13;
 </file>
   <url>https://download.kde.org/stable/krita/4.2.3/krita-x64-4.2.3-setup.exe</url>
   <hash-sum type="SHA-256">ff56e61d6ccd3723b4f0acecaed7ef38e0e1bcd23229778aba87a32608bdd7d6</hash-sum>
+ </version>
+ <version name="4.2.5" package="krita64" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">uninstall.exe /S _?=%CD%&#13;
+</file>
+  <url>https://download.kde.org/stable/krita/4.2.5/krita-x64-4.2.5-setup.exe</url>
+  <hash-sum type="SHA-256">73c536423e456d61a2c7959d8eaaf17045440013e121ca146dba3c6ac2285aa2</hash-sum>
  </version>
 
     <version name="1.2" package="ldc64">
@@ -18192,6 +18200,15 @@ rmdir "%name%"&#13;
 </file>
   <url>http://downloads.mixxx.org/mixxx-2.2.1/mixxx-2.2.1-win64.exe</url>
   <hash-sum type="SHA-256">65d4c02e27320a8a3ff8a22d1c4b4e09704cc88315384ba2d4482d93930afab9</hash-sum>
+ </version>
+ <version name="2.2.2" package="mixxx" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" -s -norestart -l .Npackd\Installer.log&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
+"%setup%" -s -norestart -l .Npackd\Installer.log -uninstall&#13;
+</file>
+  <url>http://downloads.mixxx.org/mixxx-2.2.2/mixxx-2.2.2-win64.exe</url>
+  <hash-sum type="SHA-256">1b4d22a14551884caff0691c34923b7e9d87ef41d64ffb7327c0196ee806f233</hash-sum>
  </version>
 
     <version name="6.7" package="mkvtoolnix64" type="one-file">
@@ -37316,6 +37333,13 @@ if %errorlevel% equ 3010 verify</file>
   <file path=".Npackd\Uninstall.bat">uninstall.exe /S _?=%CD%&#13;
 </file>
   <url>https://qgis.org/downloads/QGIS-OSGeo4W-3.8.1-1-Setup-x86_64.exe</url>
+ </version>
+ <version name="3.8.2" package="qgis64" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
+if %errorlevel% equ 3010 verify</file>
+  <file path=".Npackd\Uninstall.bat">uninstall.exe /S _?=%CD%&#13;
+</file>
+  <url>https://qgis.org/downloads/QGIS-OSGeo4W-3.8.2-1-Setup-x86_64.exe</url>
  </version>
 
     <version name="1.40.6" package="Qt-Bitcoin-Trader64" type="one-file">
