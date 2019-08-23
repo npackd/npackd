@@ -14741,6 +14741,17 @@ if %err% neq 0 exit %err%&#13;
    <variable>nih</variable>
   </dependency>
  </version>
+ <version name="2.23" package="git64" type="one-file">
+  <file path=".Npackd\Install.bat">call "%nih%\InstallInnoSetup.bat"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">call "%nih%\UninstallInnoSetup.bat" unins000.exe&#13;
+</file>
+  <url>https://github.com/git-for-windows/git/releases/download/v2.23.0.windows.1/Git-2.23.0-64-bit.exe</url>
+  <hash-sum type="SHA-256">555cc19797fe6869fe60c156a59e9a29028f78476353775c3f6bca8e841940cd</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
 
     <version name="76.0.3809.100" package="google-chrome-x64" type="one-file">
   <file path=".Npackd\Install.bat">call "%npackdih%\InstallMSI.bat" TARGETDIR yes&#13;
@@ -16032,6 +16043,17 @@ if %err% neq 0 exit %err%&#13;
 </file>
   <url>https://www.imagemagick.org/download/binaries/ImageMagick-7.0.8-60-Q16-x64-dll.exe</url>
   <hash-sum type="SHA-256">b2a063cb943a999bd50cdf407c0e69d51cfac4c62d048254dc0958f7965f0a59</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
+ <version name="7.0.8.61" package="imagemagick64" type="one-file">
+  <file path=".Npackd\Install.bat">call "%nih%\InstallInnoSetup.bat"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">call "%nih%\UninstallInnoSetup.bat" unins000.exe&#13;
+</file>
+  <url>https://www.imagemagick.org/download/binaries/ImageMagick-7.0.8-61-Q16-x64-dll.exe</url>
+  <hash-sum type="SHA-256">e29225c1c09be2437bb30d8f3fbf086935e351862dc520a872bec95793ea7602</hash-sum>
   <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
    <variable>nih</variable>
   </dependency>
@@ -30583,6 +30605,14 @@ verify</file>
    <variable>npackdih</variable>
   </dependency>
  </version>
+ <version name="10.16.3" package="org.nodejs.NodeJS64" type="one-file">
+  <file path=".Npackd\Install.bat">call "%npackdih%\InstallMSI.bat" INSTALLDIR yes</file>
+  <url>https://nodejs.org/dist/v10.16.3/node-v10.16.3-x64.msi</url>
+  <hash-sum type="SHA-256">f68b75eea46232adb8fd38126c977dc244166d29e7c6cd2df930b460c38590a9</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.1, 2)">
+   <variable>npackdih</variable>
+  </dependency>
+ </version>
 
     <version name="2.2" package="org.openshot.openshot64" type="one-file">
   <file path=".Npackd\Install.bat">"%nih%\InstallInnoSetup.bat"&#13;
@@ -34475,6 +34505,20 @@ call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Np
 </file>
   <url>https://github.com/vim/vim-win32-installer/releases/download/v8.1.1845/gvim_8.1.1845_x64.zip</url>
   <hash-sum type="SHA-256">24d4da192ccb2b3f624f6793a3447a73e814a449ae3cc70dcc43eecfd5f3f2f2</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.19, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
+ <version name="8.1.1896" package="org.vim.Vim64">
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+if %errorlevel% neq 0 exit /b %errorlevel%&#13;
+&#13;
+for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+</file>
+  <url>https://github.com/vim/vim-win32-installer/releases/download/v8.1.1896/gvim_8.1.1896_x64.zip</url>
+  <hash-sum type="SHA-256">81c43314a32e465c6f5b4f2f2c1784ea849c756c0d4c7888136034d52746a11f</hash-sum>
   <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.19, 2)">
    <variable>nih</variable>
   </dependency>
