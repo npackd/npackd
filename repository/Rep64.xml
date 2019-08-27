@@ -3209,6 +3209,10 @@ x86_64</description>
   <url>https://de.apachehaus.com/downloads/httpd-2.4.39-o102r-x64-vc14.zip</url>
   <hash-sum type="SHA-256">01e2ec8bbc8eb1be045557e97e36cee3274c82513b0e0d53094bd416ed52efbc</hash-sum>
  </version>
+ <version name="2.4.41" package="apache-httpd64">
+  <url>https://de.apachehaus.com/downloads/httpd-2.4.41-o102s-x64-vc14-r2.zip</url>
+  <hash-sum type="SHA-256">3565084e98525524f7b99c21a46dca82687a3b90622fca30be7faa246eb4364c</hash-sum>
+ </version>
 
     <version name="3.1.3" package="apple-application-support64" type="one-file">
   <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
@@ -15685,17 +15689,6 @@ if %err% neq 0 exit %err%&#13;
 </file>
   <url>https://www.imagemagick.org/download/binaries/ImageMagick-7.0.8-60-Q16-x64-dll.exe</url>
   <hash-sum type="SHA-256">b2a063cb943a999bd50cdf407c0e69d51cfac4c62d048254dc0958f7965f0a59</hash-sum>
-  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
-   <variable>nih</variable>
-  </dependency>
- </version>
- <version name="7.0.8.61" package="imagemagick64" type="one-file">
-  <file path=".Npackd\Install.bat">call "%nih%\InstallInnoSetup.bat"&#13;
-</file>
-  <file path=".Npackd\Uninstall.bat">call "%nih%\UninstallInnoSetup.bat" unins000.exe&#13;
-</file>
-  <url>https://www.imagemagick.org/download/binaries/ImageMagick-7.0.8-61-Q16-x64-dll.exe</url>
-  <hash-sum type="SHA-256">e29225c1c09be2437bb30d8f3fbf086935e351862dc520a872bec95793ea7602</hash-sum>
   <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
    <variable>nih</variable>
   </dependency>
@@ -31024,6 +31017,19 @@ cd ..&#13;
 rmdir "%name%"</file>
   <url>https://download.springsource.com/release/STS4/4.3.1.RELEASE/dist/e4.11/spring-tool-suite-4-4.3.1.RELEASE-e4.11.0-win32.win32.x86_64.zip</url>
   <hash-sum type="SHA-256">2662369dc065654ce7156296063c5878e6a523090aaaf0a146a3245f8fa25196</hash-sum>
+  <dependency package="com.oracle.JRE64" versions="[1.7, 2)"/>
+ </version>
+ <version name="4.3.2" package="org.springsource.STS64">
+  <important-file path="SpringToolSuite4.exe" title="Spring Tool Suite"/>
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b sts*') do set name=%%x&#13;
+cd "%name%"        &#13;
+for /f "delims=" %%a in ('dir /b') do (&#13;
+  move "%%a" ..&#13;
+)&#13;
+cd ..&#13;
+rmdir "%name%"</file>
+  <url>https://download.springsource.com/release/STS4/4.3.2.RELEASE/dist/e4.12/spring-tool-suite-4-4.3.2.RELEASE-e4.12.0-win32.win32.x86_64.zip</url>
+  <hash-sum type="SHA-256">5f41486acc2876600195352ecbff08237e12351957514604727ef7b13fb0b039</hash-sum>
   <dependency package="com.oracle.JRE64" versions="[1.7, 2)"/>
  </version>
 
