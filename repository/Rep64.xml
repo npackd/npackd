@@ -4354,7 +4354,7 @@ if "%setup%" neq "" "%setup%" -uninstall&#13;
   <url>https://download.macromedia.com/pub/flashplayer/pdc/32.0.0.238/install_flash_player_32_plugin.msi</url>
  </version>
 
-    <version name="1.15" package="com.alcpu.CoreTemp64">
+    <version name="1.15.1" package="com.alcpu.CoreTemp64">
   <url>http://www.alcpu.com/CoreTemp/CoreTemp64.zip</url>
  </version>
 
@@ -9853,7 +9853,7 @@ del Q-Dir.ini&#13;
   <url>http://files.npackd.org/com.softwareok.QDir64-5.99.9.zip</url>
   <sha1>fb6060796fae3fc641ba34fe1f2f8530d7c985a8</sha1>
  </version>
- <version name="7.76" package="com.softwareok.QDir64">
+ <version name="7.78" package="com.softwareok.QDir64">
   <important-file path="Q-Dir.exe" title="Q-Dir"/>
   <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b Q*') do set name=%%x&#13;
 cd "%name%"        &#13;
@@ -12078,6 +12078,17 @@ if %err% neq 0 exit %err%&#13;
   <file path=".Npackd\Uninstall.bat">"%nih%\UninstallInnoSetup.bat" unins000.exe</file>
   <url>https://github.com/conan-io/conan/releases/download/1.18.1/conan-win-64_1_18_1.exe</url>
   <hash-sum type="SHA-256">9870a408efaca725e82e15c333de40dc97758ecec78213104bdc752ecef76213</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
+ <version name="1.18.2" package="conan64" type="one-file">
+  <cmd-file path="conan\conan.exe"/>
+  <file path=".Npackd\Install.bat">"%nih%\InstallInnoSetup.bat"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">"%nih%\UninstallInnoSetup.bat" unins000.exe</file>
+  <url>https://github.com/conan-io/conan/releases/download/1.18.2/conan-win-64_1_18_2.exe</url>
+  <hash-sum type="SHA-256">2ca9a88a01ac2202390bebc9efc60d70b9f09204066515fd94a6c51dd3c0350d</hash-sum>
   <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
    <variable>nih</variable>
   </dependency>
@@ -35332,6 +35343,16 @@ echo DesktopShortcut=false &gt;&gt; .Npackd\FF.ini&#13;
   <url>http://relmirror.palemoon.org/release/palemoon-28.6.1.win64.installer.exe</url>
   <hash-sum type="SHA-256">31d433a8fb26dc1acc3d0449f5bea7c2fbba6c20d707fd9a76f0d16623b899ce</hash-sum>
  </version>
+ <version name="28.7" package="pale-moon64" type="one-file">
+  <file path=".Npackd\Install.bat">echo [Install] &gt; .Npackd\FF.ini&#13;
+echo InstallDirectoryPath=%CD% &gt;&gt; .Npackd\FF.ini&#13;
+echo QuickLaunchShortcut=false &gt;&gt; .Npackd\FF.ini&#13;
+echo DesktopShortcut=false &gt;&gt; .Npackd\FF.ini&#13;
+"%npackd_package_binary%" /INI="%CD%\.Npackd\FF.ini" &amp;&amp; del /f /q "%npackd_package_binary%"</file>
+  <file path=".Npackd\Uninstall.bat">uninstall\helper.exe /S</file>
+  <url>http://relmirror.palemoon.org/release/palemoon-28.7.0.win64.installer.exe</url>
+  <hash-sum type="SHA-256">b7af7312336e1da9dce9a53fb81e6597fa634e7b991e5ea703fba9d62813b637</hash-sum>
+ </version>
 
     <version name="2.2.1" package="pandoc64" type="one-file">
   <file path=".Npackd\Install.bat">call "%nih%\InstallMSI.bat" INSTALLDIR yes&#13;
@@ -37505,6 +37526,17 @@ if %err% neq 0 exit %err%&#13;
    <variable>nih</variable>
   </dependency>
  </version>
+ <version name="0.9.18" package="sigil64" type="one-file">
+  <file path=".Npackd\Install.bat">call "%nih%\InstallInnoSetup.bat"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">call "%nih%\UninstallInnoSetup.bat" unins000.exe&#13;
+</file>
+  <url>https://github.com/user-none/Sigil/releases/download/0.9.8/Sigil-0.9.8-Windows-x64-Setup.exe</url>
+  <sha1>1dc08743c8e7d7b9d956f345466a2745b2bc9d18</sha1>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
 
     <version name="4" package="skychart64" type="one-file">
   <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
@@ -38401,6 +38433,12 @@ if %err% neq 0 exit %err%&#13;
 </file>
   <url>https://dist.torproject.org/torbrowser/8.5.4/torbrowser-install-8.5.4_en-US.exe</url>
   <hash-sum type="SHA-256">258bfb46f083e55bef9bc56245095fbe8201f9e1257ce1890cf0df7a1fca4cbe</hash-sum>
+ </version>
+ <version name="8.5.5" package="tor64" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
+</file>
+  <url>https://dist.torproject.org/torbrowser/8.5.5/torbrowser-install-8.5.5_en-US.exe</url>
+  <hash-sum type="SHA-256">a3aa7e626d1d2365dcecc6f17055f467f31c4ff9558a769e51d4b90640e48bb0</hash-sum>
  </version>
 
     <version name="2.84.9" package="transmission-qt64" type="one-file">
