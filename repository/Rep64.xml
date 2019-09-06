@@ -6151,6 +6151,15 @@ call "%npackdih%\InstallMSI.bat" APPLICATIONFOLDER yes&#13;
    <variable>npackdih</variable>
   </dependency>
  </version>
+ <version name="3.47.1" package="com.calibreebook.Calibre64" type="one-file">
+  <file path=".Npackd\Install.bat">call "%npackdih%\InstallMSI.bat" APPLICATIONFOLDER yes&#13;
+</file>
+  <url>https://download.calibre-ebook.com/3.47.1/calibre-64bit-3.47.1.msi</url>
+  <hash-sum type="SHA-256">ef4383e3805cc06ec5b218bc9bd567824633fedb6d75605a404d84143999a40c</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.2, 2)">
+   <variable>npackdih</variable>
+  </dependency>
+ </version>
 
     <version name="5.12.256249.2599" package="com.comodo.comodoav64" type="one-file">
   <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.msi') do set setup=%%x&#13;
@@ -13015,6 +13024,11 @@ rmdir "%name%"&#13;
   <url>https://ftp.gnu.org/gnu/emacs/windows/emacs-26/emacs-26.2-x86_64.zip</url>
   <hash-sum type="SHA-256">715b142278596b77da633e7ff86dd24d10ed601c8ece2bcf60a0cafa4dc38c2a</hash-sum>
  </version>
+ <version name="26.3" package="emacs64">
+  <important-file path="bin\runemacs.exe" title="Emacs"/>
+  <url>https://ftp.gnu.org/gnu/emacs/windows/emacs-26/emacs-26.3-x86_64.zip</url>
+  <hash-sum type="SHA-256">4cf4c41c77d3893a62ec8b88031680f63574b15b8658e614bcfc20ce0ef1ef1e</hash-sum>
+ </version>
 
     <version name="1.4.4" package="etcher64" type="one-file">
   <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
@@ -15726,6 +15740,17 @@ if %err% neq 0 exit %err%&#13;
    <variable>nih</variable>
   </dependency>
  </version>
+ <version name="7.0.8.63" package="imagemagick64" type="one-file">
+  <file path=".Npackd\Install.bat">call "%nih%\InstallInnoSetup.bat"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">call "%nih%\UninstallInnoSetup.bat" unins000.exe&#13;
+</file>
+  <url>https://www.imagemagick.org/download/binaries/ImageMagick-7.0.8-63-Q16-x64-dll.exe</url>
+  <hash-sum type="SHA-256">54b16f1c23af60e516592a9108ad2af5df4596bd3c92ee79c3c347193cbaecbc</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
 
     
 
@@ -18318,6 +18343,15 @@ reg add HKCU\Software\mkvmergeGUI\GUI /v check_for_updates /t REG_DWORD /d 00000
    <variable>npackdih</variable>
   </dependency>
  </version>
+ <version name="6.0.0.327" package="mono64" type="one-file">
+  <file path=".Npackd\Install.bat">call "%npackdih%\InstallMSI.bat" INSTALLDIR yes&#13;
+</file>
+  <url>https://download.mono-project.com/archive/6.0.0/windows-installer/mono-6.0.0.327-x64-0.msi</url>
+  <hash-sum type="SHA-256">0e9dc8749fed842ecb8316713159242220b78586505a610a6cb972563eb90149</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.1, 2)">
+   <variable>npackdih</variable>
+  </dependency>
+ </version>
 
     <version name="2016.2.5" package="msys2_64" type="one-file">
   <file path=".Npackd\Install.bat">call "%nih%\Extract.bat" "%npackd_package_binary%" "."&#13;
@@ -20205,6 +20239,17 @@ if %err% neq 0 exit %err%&#13;
   </dependency>
  </version>
  <version name="6.9.1" package="net.sourceforge.peazip.PeaZip64" type="one-file">
+  <file path=".Npackd\Install.bat">call "%nih%\InstallInnoSetup.bat"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">call "%nih%\UninstallInnoSetup.bat" unins000.exe&#13;
+</file>
+  <url>https://ayera.dl.sourceforge.net/project/peazip/6.5.1/peazip-6.5.1.WINDOWS.exe</url>
+  <hash-sum type="SHA-256">49bc326c084e743acff1bdf2437d0b17cdeedb5bde67efee2fd86a613efa9031</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
+ <version name="6.9.2" package="net.sourceforge.peazip.PeaZip64" type="one-file">
   <file path=".Npackd\Install.bat">call "%nih%\InstallInnoSetup.bat"&#13;
 </file>
   <file path=".Npackd\Uninstall.bat">call "%nih%\UninstallInnoSetup.bat" unins000.exe&#13;
@@ -33559,6 +33604,20 @@ call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Np
    <variable>nih</variable>
   </dependency>
  </version>
+ <version name="8.1.1972" package="org.vim.Vim64">
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+if %errorlevel% neq 0 exit /b %errorlevel%&#13;
+&#13;
+for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+</file>
+  <url>https://github.com/vim/vim-win32-installer/releases/download/v8.1.1972/gvim_8.1.1972_x64.zip</url>
+  <hash-sum type="SHA-256">7e4ec5af643a66c472987d209ed94cff10bebdda321f1b0721677e57b5fde692</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.19, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
 
     <version name="4.2.8.83876" package="org.virtualbox.virtualbox64" type="one-file">
   <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
@@ -38254,6 +38313,14 @@ rmdir "%name%"</file>
   <url>https://www.sysgauge.com/setups_x64/sysgauge_setup_v6.4.12_x64.exe</url>
   <hash-sum type="SHA-256">f9f0c65f4be7258614bf1df3e773860d7951a03eaabd4c8ff9c57cd266dabf13</hash-sum>
  </version>
+ <version name="6.5.18" package="sysgauge64" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">uninstall.exe /S _?=%CD%&#13;
+</file>
+  <url>https://www.sysgauge.com/setups_x64/sysgauge_setup_v6.5.18_x64.exe</url>
+  <hash-sum type="SHA-256">89b9b7cb9df3213022b014d5d955db25139b3ec8f164324ac370837e5a5ec20f</hash-sum>
+ </version>
 
     <version name="2" package="texniccenter64" type="one-file">
   <file path=".Npackd\Install.bat">for /f %%x in ('dir /b *.exe') do set setup=%%x&#13;
@@ -38610,6 +38677,14 @@ if %err% neq 0 exit %err%&#13;
 </file>
   <url>http://files.first-world.info/ultracopier/2.0.3.11/ultracopier-windows-x86_64-2.0.3.11-setup.exe</url>
   <hash-sum type="SHA-256">1297d1991ce69c7d6289649cee4d1417932f73014ebce4d4ce528b8e4933f4ef</hash-sum>
+ </version>
+ <version name="2.0.4.2" package="ultracopier64" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">uninst.exe /S _?=%CD%&#13;
+</file>
+  <url>http://files.first-world.info/ultracopier/2.0.4.2/ultracopier-windows-x86_64-2.0.4.2-setup.exe</url>
+  <hash-sum type="SHA-256">d5cafeeafb70d5e92a893db7ac975440cae6fcef350148e91ef975c17e265bfe</hash-sum>
  </version>
 
     <version name="2.0.1" package="vagrant64" type="one-file">
