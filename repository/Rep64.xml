@@ -15760,6 +15760,17 @@ if %err% neq 0 exit %err%&#13;
    <variable>nih</variable>
   </dependency>
  </version>
+ <version name="7.0.8.64" package="imagemagick64" type="one-file">
+  <file path=".Npackd\Install.bat">call "%nih%\InstallInnoSetup.bat"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">call "%nih%\UninstallInnoSetup.bat" unins000.exe&#13;
+</file>
+  <url>https://www.imagemagick.org/download/binaries/ImageMagick-7.0.8-64-Q16-x64-dll.exe</url>
+  <hash-sum type="SHA-256">bb97fc49b5ec89e6c0f4ba031ced85a9f6066bc1c02897558ae0b18017606b54</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
 
     <version name="0.3.8" package="io.mpv.mpv-64" type="one-file">
   <file path=".Npackd\Install.bat">for /f %%x in ('dir /b *.7z') do set setup=%%x&#13;
@@ -35759,6 +35770,16 @@ call "%npackdih%\InstallMSI.bat" TARGETDIR yes</file>
    <variable>npackdih</variable>
   </dependency>
  </version>
+ <version name="4.0.4" package="pdfsam64" type="one-file">
+  <file path=".Npackd\Install.bat">rem un-installation tries to remove .Npackd and fails =&gt; 2 to install the program somewhere else&#13;
+call "%npackdih%\InstallMSI.bat" TARGETDIR yes</file>
+  <url>https://github.com/torakiki/pdfsam/releases/download/v4.0.4/pdfsam-4.0.4.msi</url>
+  <hash-sum type="SHA-256">27dcee43bd547c6ec7cfade7fb8db926eb6ecbfe8b69618fa74a2cd20a84ac65</hash-sum>
+  <dependency package="com.oracle.JRE64" versions="[1.6.0.23, 2)"/>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.1, 2)">
+   <variable>npackdih</variable>
+  </dependency>
+ </version>
 
     <version name="0.15" package="picotorrent-64-bit" type="one-file">
   <file path=".Npackd\Install.bat">"%npackd_package_binary%" &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
@@ -38760,6 +38781,14 @@ if %err% neq 0 exit %err%&#13;
   <url>http://files.first-world.info/ultracopier/2.0.4.2/ultracopier-windows-x86_64-2.0.4.2-setup.exe</url>
   <hash-sum type="SHA-256">d5cafeeafb70d5e92a893db7ac975440cae6fcef350148e91ef975c17e265bfe</hash-sum>
  </version>
+ <version name="2.0.4.5" package="ultracopier64" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">uninst.exe /S _?=%CD%&#13;
+</file>
+  <url>http://files.first-world.info/ultracopier/2.0.4.5/ultracopier-windows-x86_64-2.0.4.5-setup.exe</url>
+  <hash-sum type="SHA-256">358a3796f3266c86c2b515ae98467d9976e467756d9c55825434f1d8a70f5c4f</hash-sum>
+ </version>
 
     <version name="2.0.1" package="vagrant64" type="one-file">
   <file path=".Npackd\Install.bat">call "%nih%\InstallMSI.bat" INSTALLDIR yes&#13;
@@ -39233,6 +39262,18 @@ if %err% neq 0 exit /b %err%&#13;
 </file>
   <url>https://downloads.vivaldi.com/stable/Vivaldi.2.7.1628.30.x64.exe</url>
   <hash-sum type="SHA-256">c7b9003a1f451b70d5f7e4dfb7695cdf76d2798815252434ac09d310d0834ca1</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.24, 2)">
+   <variable>ncl</variable>
+  </dependency>
+ </version>
+ <version name="2.7.1628.33" package="vivaldi-browser-64" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" --vivaldi-standalone --vivaldi-install-dir="%CD%" &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
+&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">"%ncl%\ncl.exe" remove-scp --title "vivaldi-browser-64"&#13;
+</file>
+  <url>https://downloads.vivaldi.com/stable/Vivaldi.2.7.1628.33.x64.exe</url>
+  <hash-sum type="SHA-256">d287f496988c83ae4808138795960b2fcc0b4a2d8ac7dc9ba9793a50d9301dd0</hash-sum>
   <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.24, 2)">
    <variable>ncl</variable>
   </dependency>
@@ -39820,6 +39861,21 @@ if %err% neq 0 exit %err%&#13;
   <sha1>f73db938cfee6ab1ab0f940c923e4e663962c795</sha1>
  </version>
  <version name="1.37" package="vs-code64" type="one-file">
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
+"%setup%" /SP- /VERYSILENT /SUPPRESSMSGBOXES /NOCANCEL /NORESTART /DIR="%CD%" /SAVEINF="%CD%\.Npackd\InnoSetupInfo.ini" /LOG="%CD%\.Npackd\InnoSetupInstall.log"&#13;
+set err=%errorlevel%&#13;
+type .Npackd\InnoSetupInstall.log&#13;
+if %err% neq 0 exit %err%&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">unins000.exe /VERYSILENT /SUPPRESSMSGBOXES /NORESTART /LOG="%CD%\.Npackd\InnoSetupUninstall.log"&#13;
+set err=%errorlevel%&#13;
+type .Npackd\InnoSetupUninstall.log&#13;
+if %err% neq 0 exit %err%&#13;
+</file>
+  <url>https://az764295.vo.msecnd.net/insider/d28f096018e2673a8437c788e3eed781ddb505ce/VSCodeSetup-x64-1.21.0-insider.exe</url>
+  <sha1>f73db938cfee6ab1ab0f940c923e4e663962c795</sha1>
+ </version>
+ <version name="1.38" package="vs-code64" type="one-file">
   <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
 "%setup%" /SP- /VERYSILENT /SUPPRESSMSGBOXES /NOCANCEL /NORESTART /DIR="%CD%" /SAVEINF="%CD%\.Npackd\InnoSetupInfo.ini" /LOG="%CD%\.Npackd\InnoSetupInstall.log"&#13;
 set err=%errorlevel%&#13;
