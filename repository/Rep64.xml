@@ -16387,6 +16387,14 @@ call "%nih%\InstallMSI.bat" TARGETDIR yes&#13;
   <url>https://download.kde.org/stable/krita/4.2.5/krita-x64-4.2.5-setup.exe</url>
   <hash-sum type="SHA-256">73c536423e456d61a2c7959d8eaaf17045440013e121ca146dba3c6ac2285aa2</hash-sum>
  </version>
+ <version name="4.2.6" package="krita64" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">uninstall.exe /S _?=%CD%&#13;
+</file>
+  <url>https://download.kde.org/stable/krita/4.2.6/krita-x64-4.2.6-setup.exe</url>
+  <hash-sum type="SHA-256">9946096460a37f6512c91166b90fac308e9bc6b18cd823224c8082fc153bbdc5</hash-sum>
+ </version>
 
     <version name="1.2" package="ldc64">
   <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b ldc*') do set name=%%x&#13;
@@ -33664,6 +33672,20 @@ call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Np
 </file>
   <url>https://github.com/vim/vim-win32-installer/releases/download/v8.1.1972/gvim_8.1.1972_x64.zip</url>
   <hash-sum type="SHA-256">7e4ec5af643a66c472987d209ed94cff10bebdda321f1b0721677e57b5fde692</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.19, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
+ <version name="8.1.2021" package="org.vim.Vim64">
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+if %errorlevel% neq 0 exit /b %errorlevel%&#13;
+&#13;
+for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+</file>
+  <url>https://github.com/vim/vim-win32-installer/releases/download/v8.1.2021/gvim_8.1.2021_x64.zip</url>
+  <hash-sum type="SHA-256">736fdb615dd214e5f9d8f3eeaefad26f2836ebbd1c572b9a3aca823a372613a6</hash-sum>
   <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.19, 2)">
    <variable>nih</variable>
   </dependency>
