@@ -8287,6 +8287,16 @@ call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Np
    <variable>nih</variable>
   </dependency>
  </version>
+ <version name="12.0.2.1" package="com.oracle.JDK64">
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b jdk*') do set name=%%x&#13;
+"%clu%\clu" unwrap-dir -p "%name%"&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+</file>
+  <url>https://download.java.net/java/GA/jdk12.0.2/e482c34c86bd4bf8b56c0b35558996b9/10/GPL/openjdk-12.0.2_windows-x64_bin.zip</url>
+  <hash-sum type="SHA-256">a30bed3d6d62f6ae1052aaf3c6956aaee8e3deb2f50f155575112f3f29411fba</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.CLU" versions="[1.25, 2)">
+   <variable>clu</variable>
+  </dependency>
+ </version>
 
     <version name="1.6.0.25" package="com.oracle.JRE64" type="one-file">
   <file path=".Npackd\Install.bat">ren AutoDL Install.exe
