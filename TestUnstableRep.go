@@ -27,9 +27,39 @@ func DownloadFile(url string) (*bytes.Buffer, error) {
 	return b, nil
 }
 
+/**
+ * Executes the specified command, prints its output on the default output.
+ *
+ * @param cmd this command should be executed
+ * @return [exit code, [output line 1, output line2, ...]]
+ */
+/*func exec2(cmd string) (exitCode int, output []string) {
+	var p = shell.exec(cmd)
+	output = make([]string)
+	while (!p.StdOut.AtEndOfStream) {
+		var line = p.StdOut.ReadLine();
+		WScript.Echo(line);
+		output.push(line);
+	}
+
+	return p.ExitCode, output;
+}
+*/
+
+
+func exec(cmd string) int {
+//	exitCode, _ = exec2("cmd.exe /s /c \"" + cmd + " 2>&1\"");
+	//	return exitCode;
+	return 0
+}
+
 func downloadRepos() {
+	git := "git"
+	curl := "curl"
+	githubToken := ""
+	
     // download the newest repository files and commit them to the project
-/*    exec.Command("git", "checkout", "master");
+    exec("\"" + git + "\" checkout master");
 
     exec("\"" + curl + "\" -f -o repository\\RepUnstable.xml " +
 	 "https://www.npackd.org/rep/xml?tag=unstable");
@@ -45,7 +75,7 @@ func downloadRepos() {
     exec("\"" + git + "\" commit -a -m \"Automatic data transfer from https://www.npackd.org\"");
     exec("\"" + git + "\" push https://tim-lebedkov:" + githubToken +
 	 "@github.com/tim-lebedkov/npackd.git");
-*/}
+}
 
 func main() {
 	/*
