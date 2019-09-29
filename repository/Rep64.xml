@@ -3683,6 +3683,14 @@ verify
   <url>https://github.com/llvm/llvm-project/releases/download/llvmorg-8.0.1/LLVM-8.0.1-win64.exe</url>
   <hash-sum type="SHA-256">e3af139c2f93075c13dcbc4091c1311f66fc6e4e8705649fcaf9bef8b3368f41</hash-sum>
  </version>
+ <version name="9" package="clang64" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">uninstall.exe /S _?=%CD%&#13;
+</file>
+  <url>http://releases.llvm.org/9.0.0/LLVM-9.0.0-win64.exe</url>
+  <hash-sum type="SHA-256">71ed99a6720945d76b6772584735f2ed472f12719dff184a0b1a6a35047b8863</hash-sum>
+ </version>
 
     <version name="3.15.0.1" package="claws-mail64" type="one-file">
   <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
@@ -8174,6 +8182,19 @@ if %err% neq 0 exit %err%&#13;
   </dependency>
   <dependency package="com.microsoft.Windows64" versions="[5, 15)"/>
  </version>
+ <version name="2019.2929" package="com.mythicsoft.AgentRansack64" type="one-file">
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
+"%setup%" /S /D=%CD% &amp;&amp; del /f /q "%setup%"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">"%myun%\myuninst.exe" /uninstall "Agent Ransack x64"&#13;
+</file>
+  <url>https://download.mythicsoft.com/flp/2929/agentransack_2929.exe</url>
+  <hash-sum type="SHA-256">51bfb5a8c736dbc091f4c44310625b78a604bbab41229ebfcefa99b1732191c9</hash-sum>
+  <dependency package="net.nirsoft.MyUninstaller" versions="[1.74, 2)">
+   <variable>myun</variable>
+  </dependency>
+  <dependency package="com.microsoft.Windows64" versions="[5, 15)"/>
+ </version>
 
     <version name="1.6.0.25" package="com.oracle.JDK64" type="one-file">
   <file path=".Npackd\Uninstall.bat">MsiExec.exe /qn /norestart /Lime .Npackd\MSI.log /X{64A3A4F4-B792-11D6-A78A-00B0D0160250}&#13;
@@ -10697,6 +10718,16 @@ if %err% neq 0 exit /b %err%&#13;
   <url>https://github.com/klembot/twinejs/releases/download/2.3.3/twine_2.3.3_win.exe</url>
   <hash-sum type="SHA-256">cbf5ecb2c7755883f180a5bc728f133f6c50b90b5a9b7076b276f4df40aeebbe</hash-sum>
  </version>
+ <version name="2.3.4" package="com.twinery.twine64" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">"%ncl%\ncl" remove-scp --title "/Twine %npackd_package_version%/i"&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt</file>
+  <url>https://github.com/klembot/twinejs/releases/download/2.3.4/twine_2.3.4_win.exe</url>
+  <hash-sum type="SHA-256">5870d39264bf355ca9a8c9cf06a618040f93ac042cdf2da6deddd002136ba7c3</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.25, 2)">
+   <variable>ncl</variable>
+  </dependency>
+ </version>
 
     <version name="1.0.9.6" package="com.uvnc.UltraVNC64">
   <important-file path="winvnc.exe" title="UltraVNC Server"/>
@@ -12813,6 +12844,14 @@ if %err% neq 0 exit %err%&#13;
 </file>
   <url>http://dbeaver.jkiss.org/files/6.2.0/dbeaver-ce-6.2.0-x86_64-setup.exe</url>
   <hash-sum type="SHA-256">bcac9683a1fddc0f81ffa6cb336e1534bf894cdcd0c44e67a70e1cdcef23937a</hash-sum>
+ </version>
+ <version name="6.2.1" package="dbeaver64" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" /allusers /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">uninstall.exe /allusers /S _?=%CD%&#13;
+</file>
+  <url>http://dbeaver.jkiss.org/files/6.2.1/dbeaver-ce-6.2.1-x86_64-setup.exe</url>
+  <hash-sum type="SHA-256">76324307b64a15f45a55dd0ea71fc17247b7eaade3455cc2f496267375c7a188</hash-sum>
  </version>
 
     <version name="0.825" package="dcplusplus64">
@@ -31471,6 +31510,19 @@ cd ..&#13;
 rmdir "%name%"</file>
   <url>https://download.springsource.com/release/STS4/4.3.2.RELEASE/dist/e4.12/spring-tool-suite-4-4.3.2.RELEASE-e4.12.0-win32.win32.x86_64.zip</url>
   <hash-sum type="SHA-256">5f41486acc2876600195352ecbff08237e12351957514604727ef7b13fb0b039</hash-sum>
+  <dependency package="com.oracle.JRE64" versions="[1.7, 2)"/>
+ </version>
+ <version name="4.4" package="org.springsource.STS64">
+  <important-file path="SpringToolSuite4.exe" title="Spring Tool Suite"/>
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b sts*') do set name=%%x&#13;
+cd "%name%"        &#13;
+for /f "delims=" %%a in ('dir /b') do (&#13;
+  move "%%a" ..&#13;
+)&#13;
+cd ..&#13;
+rmdir "%name%"</file>
+  <url>https://download.springsource.com/release/STS4/4.4.0.RELEASE/dist/e4.13/spring-tool-suite-4-4.4.0.RELEASE-e4.13.0-win32.win32.x86_64.zip</url>
+  <hash-sum type="SHA-256">b7c759c955c3216c75a1bfd17c76bddd62ae9c5d0db0beed49a1269257224c0d</hash-sum>
   <dependency package="com.oracle.JRE64" versions="[1.7, 2)"/>
  </version>
 
