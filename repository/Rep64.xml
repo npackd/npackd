@@ -5621,7 +5621,7 @@ rem "avgmfapx.exe" /AppMode=SETUP /Uninstall /UILevel=Silent /DontRestart&#13;
   </dependency>
  </version>
 
-    <version name="1.58.1" package="com.bitcomet.BitComet64" type="one-file">
+    <version name="1.59" package="com.bitcomet.BitComet64" type="one-file">
   <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
 </file>
   <file path=".Npackd\Uninstall.bat">%ncl%\ncl remove-scp --title "/BitComet.*/"</file>
@@ -9993,7 +9993,7 @@ del Q-Dir.ini&#13;
   <url>http://files.npackd.org/com.softwareok.QDir64-5.99.9.zip</url>
   <sha1>fb6060796fae3fc641ba34fe1f2f8530d7c985a8</sha1>
  </version>
- <version name="7.84" package="com.softwareok.QDir64">
+ <version name="7.85" package="com.softwareok.QDir64">
   <important-file path="Q-Dir.exe" title="Q-Dir"/>
   <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b Q*') do set name=%%x&#13;
 cd "%name%"        &#13;
@@ -12261,6 +12261,17 @@ if %err% neq 0 exit %err%&#13;
   <file path=".Npackd\Uninstall.bat">"%nih%\UninstallInnoSetup.bat" unins000.exe</file>
   <url>https://github.com/conan-io/conan/releases/download/1.18.5/conan-win-64_1_18_5.exe</url>
   <hash-sum type="SHA-256">75a99b6cd0638efe76422151e0b8b19fa9ec448622454f5f278f8edd3941b2af</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
+ <version name="1.19" package="conan64" type="one-file">
+  <cmd-file path="conan\conan.exe"/>
+  <file path=".Npackd\Install.bat">"%nih%\InstallInnoSetup.bat"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">"%nih%\UninstallInnoSetup.bat" unins000.exe</file>
+  <url>https://github.com/conan-io/conan/releases/download/1.19.0/conan-win-64_1_19_0.exe</url>
+  <hash-sum type="SHA-256">b09fb89504e92e86768596c4dfdec08d0c843726c305a546985636cc9a6a2089</hash-sum>
   <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
    <variable>nih</variable>
   </dependency>
@@ -15986,6 +15997,17 @@ if %err% neq 0 exit %err%&#13;
    <variable>nih</variable>
   </dependency>
  </version>
+ <version name="7.0.8.67" package="imagemagick64" type="one-file">
+  <file path=".Npackd\Install.bat">call "%nih%\InstallInnoSetup.bat"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">call "%nih%\UninstallInnoSetup.bat" unins000.exe&#13;
+</file>
+  <url>https://www.imagemagick.org/download/binaries/ImageMagick-7.0.8-67-Q16-x64-dll.exe</url>
+  <hash-sum type="SHA-256">70d6aff44ce5e382f3bbdc3ac66cf1cbd95b7f5f8ff20e7b9f7365ebd1852408</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
 
     <version name="0.3.8" package="io.mpv.mpv-64" type="one-file">
   <file path=".Npackd\Install.bat">for /f %%x in ('dir /b *.7z') do set setup=%%x&#13;
@@ -17038,6 +17060,15 @@ call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Np
   <file path=".Npackd\Install.bat">call "%npackdih%\InstallMSI.bat" INSTALLLOCATION yes</file>
   <url>https://download.documentfoundation.org/libreoffice/stable/6.3.1/win/x86_64/LibreOffice_6.3.1_Win_x64.msi</url>
   <hash-sum type="SHA-256">343fabba083ade4223cee497d50de4e32115290ce907c947e18015170ed9df67</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.1, 2)">
+   <variable>npackdih</variable>
+  </dependency>
+  <dependency package="com.oracle.JRE" versions="[1.6, 2)"/>
+ </version>
+ <version name="6.3.2" package="libreoffice64" type="one-file">
+  <file path=".Npackd\Install.bat">call "%npackdih%\InstallMSI.bat" INSTALLLOCATION yes</file>
+  <url>https://download.documentfoundation.org/libreoffice/stable/6.3.2/win/x86_64/LibreOffice_6.3.2_Win_x64.msi</url>
+  <hash-sum type="SHA-256">46405297aa4123acb34a2466fd533e218253081c74f32ab6e9cd26a814410243</hash-sum>
   <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.1, 2)">
    <variable>npackdih</variable>
   </dependency>
@@ -19096,7 +19127,7 @@ if %err% neq 0 exit %err%</file>
    <variable>npackdih</variable>
   </dependency>
  </version>
- <version name="4.2.4" package="net.getpaint.paintdotnet64">
+ <version name="4.2.5" package="net.getpaint.paintdotnet64">
   <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
 "%setup%" /auto "TARGETDIR=%CD%" CHECKFORUPDATES=0 JPGPNGBMPEDITOR=0 TGAEDITOR=0 DESKTOPSHORTCUT=0</file>
   <url>http://www.dotpdn.com/files/paint.net.4.1.4.install.zip</url>
@@ -28231,6 +28262,40 @@ Set view = Nothing&#13;
    <variable>npackdih</variable>
   </dependency>
  </version>
+ <version name="1.13.1" package="org.golang.Go64" type="one-file">
+  <file path=".Npackd\Install.bat">.Npackd\AddProperty.vbs "%npackd_package_binary%"&#13;
+if %errorlevel% neq 0 exit %errorlevel%&#13;
+&#13;
+call "%npackdih%\InstallMSI.bat" INSTALLDIR</file>
+  <file path=".Npackd\Uninstall.bat">call "%npackdih%\UninstallMSI.bat"</file>
+  <file path=".Npackd\AddProperty.vbs">Option Explicit&#13;
+&#13;
+Dim MSI_FILE&#13;
+MSI_FILE = Wscript.Arguments(0)&#13;
+&#13;
+Dim installer, database, view&#13;
+&#13;
+Set installer = CreateObject("WindowsInstaller.Installer")&#13;
+Set database = installer.OpenDatabase(MSI_FILE, 1)&#13;
+&#13;
+Set view = database.OpenView("INSERT INTO Property (Property, Value) VALUES ('INSTALLDIR', 'C:\Go')")&#13;
+view.Execute&#13;
+'Set view = database.OpenView("DELETE FROM Directory WHERE Directory='TARGETDIR'")&#13;
+'view.Execute&#13;
+'Set view = database.OpenView("UPDATE Directory SET DefaultDir='INSTALLLOCATION' WHERE Directory='TARGETDIR'")&#13;
+'view.Execute&#13;
+database.Commit&#13;
+&#13;
+Set database = Nothing&#13;
+Set installer = Nothing&#13;
+Set view = Nothing&#13;
+</file>
+  <url>https://golang.org/dl/go1.13.1.windows-amd64.msi</url>
+  <hash-sum type="SHA-256">ee6ff4f31766096e6ff00bdd855e007c473cc9080f3588d7be0c5ec0e0b85578</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1, 2)">
+   <variable>npackdih</variable>
+  </dependency>
+ </version>
 
     <version name="2.22.1" package="org.gtk.GTKPlusBundle64">
   <file path="etc\gtk-2.0\gtkrc">gtk-theme-name = "MS-Windows"</file>
@@ -34070,6 +34135,20 @@ call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Np
    <variable>nih</variable>
   </dependency>
  </version>
+ <version name="8.1.2108" package="org.vim.Vim64">
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+if %errorlevel% neq 0 exit /b %errorlevel%&#13;
+&#13;
+for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+</file>
+  <url>https://github.com/vim/vim-win32-installer/releases/download/v8.1.2108/gvim_8.1.2108_x64.zip</url>
+  <hash-sum type="SHA-256">f04874b0b3ba2e84a944b6409f1ac41ae1c337d4a36ed394f63c35a52092217c</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.19, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
 
     <version name="4.2.8.83876" package="org.virtualbox.virtualbox64" type="one-file">
   <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
@@ -36410,6 +36489,18 @@ rmdir "%name%"&#13;
   <url>https://ayera.dl.sourceforge.net/project/pycmd/pycmd/snapshots/PyCmd-20170512-w64.zip</url>
   <sha1>c907e13cd6068c3beddd3a5a852e9dda11dff036</sha1>
  </version>
+ <version name="20190930" package="pycmd64">
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b PyCmd*') do set name=%%x&#13;
+cd "%name%"&#13;
+for /f "delims=" %%a in ('dir /b') do (&#13;
+  move "%%a" ..&#13;
+)&#13;
+cd ..&#13;
+rmdir "%name%"&#13;
+</file>
+  <url>https://ayera.dl.sourceforge.net/project/pycmd/pycmd/snapshots/PyCmd-20170512-w64.zip</url>
+  <sha1>c907e13cd6068c3beddd3a5a852e9dda11dff036</sha1>
+ </version>
 
     <version name="4.0.4" package="qbittorrent-64-bit" type="one-file">
   <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD%&#13;
@@ -36482,6 +36573,14 @@ verify</file>
 verify</file>
   <url>https://downloads.sourceforge.net/project/qbittorrent/qbittorrent-win32/qbittorrent-4.1.7/qbittorrent_4.1.7_x64_setup.exe</url>
   <hash-sum type="SHA-256">8f336c26866cfc6322c5ad7b0a557fb896b31f93246dca7a187d8764f0b02fd1</hash-sum>
+ </version>
+ <version name="4.1.8" package="qbittorrent-64-bit" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD%&#13;
+verify</file>
+  <file path=".Npackd\Uninstall.bat">uninst.exe /S _?=%CD%&#13;
+verify</file>
+  <url>https://downloads.sourceforge.net/project/qbittorrent/qbittorrent-win32/qbittorrent-4.1.8/qbittorrent_4.1.8_x64_setup.exe</url>
+  <hash-sum type="SHA-256">62e5ea323a9e4d922d7919d9747ee6d598eb24546e896e2b4990e612e3b41b19</hash-sum>
  </version>
 
     <version name="3.12.4.1" package="qcad64" type="one-file">
@@ -38480,6 +38579,17 @@ Prog\setup.exe /Q /IACCEPTSQLSERVERLICENSETERMS /Q /ACTION=install &gt; .Npackd\
    <variable>nih</variable>
   </dependency>
  </version>
+ <version name="0.19.2" package="stellarium64" type="one-file">
+  <file path=".Npackd\Install.bat">call "%nih%\InstallInnoSetup.bat"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">call "%nih%\UninstallInnoSetup.bat" unins000.exe&#13;
+</file>
+  <url>https://github.com/Stellarium/stellarium/releases/download/v0.19.2/stellarium-0.19.2-win64.exe</url>
+  <hash-sum type="SHA-256">7cb40d060f12b900e05190352d47ae03375c81016e20fc235176ef22f280fd3f</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
 
     <version name="2.0.2" package="sublime-text64" type="one-file">
   <file path=".Npackd\Install.bat">"%nih%\InstallInnoSetup.bat"&#13;
@@ -38522,6 +38632,16 @@ Prog\setup.exe /Q /IACCEPTSQLSERVERLICENSETERMS /Q /ACTION=install &gt; .Npackd\
   </dependency>
  </version>
  <version name="3.2.1" package="sublime-text64" type="one-file">
+  <file path=".Npackd\Install.bat">"%nih%\InstallInnoSetup.bat"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">"%nih%\UninstallInnoSetup.bat" unins000.exe</file>
+  <url>https://download.sublimetext.com/Sublime%20Text%20Build%203176%20x64%20Setup.exe</url>
+  <hash-sum type="SHA-256">a6f2652584c98b39855252feb84a830b303fd7b09002c9956f71426543403257</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
+ <version name="3.2.2" package="sublime-text64" type="one-file">
   <file path=".Npackd\Install.bat">"%nih%\InstallInnoSetup.bat"&#13;
 </file>
   <file path=".Npackd\Uninstall.bat">"%nih%\UninstallInnoSetup.bat" unins000.exe</file>
@@ -39750,6 +39870,18 @@ if %err% neq 0 exit /b %err%&#13;
 </file>
   <url>https://downloads.vivaldi.com/stable/Vivaldi.2.8.1664.36.x64.exe</url>
   <hash-sum type="SHA-256">ecae4039f8560566d8b17a514aa50a5ac501397cccf9a66306b7414f5fe2b331</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.24, 2)">
+   <variable>ncl</variable>
+  </dependency>
+ </version>
+ <version name="2.8.1664.40" package="vivaldi-browser-64" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" --vivaldi-standalone --vivaldi-install-dir="%CD%" &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
+&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">"%ncl%\ncl.exe" remove-scp --title "vivaldi-browser-64"&#13;
+</file>
+  <url>https://downloads.vivaldi.com/stable/Vivaldi.2.8.1664.40.x64.exe</url>
+  <hash-sum type="SHA-256">cb653b3675b3c6e61a7157a075660e098f595c128eefec14b98d9a25855256c7</hash-sum>
   <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.24, 2)">
    <variable>ncl</variable>
   </dependency>
