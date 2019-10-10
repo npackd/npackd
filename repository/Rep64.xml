@@ -785,7 +785,8 @@ x86_64</description>
  <package name="com.uvnc.UltraVNC64">
   <title>UltraVNC 64 bit</title>
   <url>http://www.uvnc.com</url>
-  <description>WARNING: this package will not be updated anymore as there are no direct downloads available.&#13;
+  <description>WARNING: there will be no new versions of this package.
+WARNING: this package will not be updated anymore as there are no direct downloads available.&#13;
 &#13;
 remote control
 x86_64</description>
@@ -793,6 +794,7 @@ x86_64</description>
   <license>org.gnu.GPLv2</license>
   <category>Communications</category>
   <tag>stable64</tag>
+  <tag>end-of-life</tag>
  </package>
  <package name="com.videolan.VLCMediaPlayer64">
   <title>VLC Media Player 64 bit</title>
@@ -1085,7 +1087,8 @@ x86_64</description>
  <package name="gedit64">
   <title>gedit 64 bit</title>
   <url>http://projects.gnome.org/gedit</url>
-  <description>WARNING: newer versions are not packaged for Windows anymore.&#13;
+  <description>WARNING: there will be no new versions of this package.
+WARNING: newer versions are not packaged for Windows anymore.&#13;
 &#13;
 text editor
 x86_64</description>
@@ -1093,6 +1096,7 @@ x86_64</description>
   <license>org.gnu.GPLv3</license>
   <category>Text</category>
   <tag>stable64</tag>
+  <tag>end-of-life</tag>
  </package>
  <package name="git64">
   <title>Git 64 bit</title>
@@ -2334,12 +2338,16 @@ x86_64</description>
  <package name="org.sourceforge.ultradefrag.UltraDefrag64">
   <title>UltraDefrag 64 bit</title>
   <url>http://ultradefrag.sourceforge.net</url>
-  <description>disk defragmenter
+  <description>WARNING: there will be no new versions of this package.
+WARNING: this package will not be updated anymore as since version 9 UltraDefrag is not free anymore.&#13;
+&#13;
+disk defragmenter
 x86_64</description>
   <icon>https://lh5.googleusercontent.com/--Zmt8l0dGdM/USkDiwaEMkI/AAAAAAAAA04/4Wp3rhWrGRQ/s800/ultradefrag%2520.png</icon>
   <license>org.gnu.GPLv2</license>
   <category>Tools</category>
   <tag>stable64</tag>
+  <tag>end-of-life</tag>
  </package>
  <package name="org.springsource.STS64">
   <title>Spring Tool Suite 64 bit</title>
@@ -3043,7 +3051,8 @@ x86_64</description>
  <package name="vuze64">
   <title>Vuze 64 bit</title>
   <url>http://www.vuze.com</url>
-  <description>WARNING: this package will not be updated anymore as newer versions contain unrelated software.&#13;
+  <description>WARNING: there will be no new versions of this package.
+WARNING: this package will not be updated anymore as newer versions contain unrelated software.&#13;
 &#13;
 torrent client and media player
 x86_64</description>
@@ -3051,6 +3060,7 @@ x86_64</description>
   <license>org.gnu.GPLv2</license>
   <category>Communications</category>
   <tag>stable64</tag>
+  <tag>end-of-life</tag>
  </package>
  <package name="webpi64">
   <title>Microsoft Web Platform Installer 64 bit</title>
@@ -3096,7 +3106,8 @@ x86_64</description>
  <package name="zulu64">
   <title>Zulu 64 bit</title>
   <url>http://www.azulsystems.com/products/zulu</url>
-  <description>WARNING: this package will not be updated anymore as there are not direct downloads available.&#13;
+  <description>WARNING: there will be no new versions of this package.
+WARNING: this package will not be updated anymore as there are not direct downloads available.&#13;
 &#13;
 a commercialized build of OpenJDK that is fully compliant with the Java SE standard
 x86_64</description>
@@ -3104,6 +3115,7 @@ x86_64</description>
   <license>org.gnu.GPLv2</license>
   <category>Development</category>
   <tag>stable64</tag>
+  <tag>end-of-life</tag>
  </package>
 
     <version name="5.1" package="anaconda64" type="one-file">
@@ -9387,6 +9399,16 @@ if %err% neq 0 exit %err%&#13;
    <variable>nih</variable>
   </dependency>
  </version>
+ <version name="5.1.2" package="com.selenic.mercurial.Mercurial64" type="one-file">
+  <file path=".Npackd\Install.bat">call "%nih%\InstallInnoSetup.bat"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">call "%nih%\UninstallInnoSetup.bat" unins000.exe</file>
+  <url>https://www.mercurial-scm.org/release/windows/Mercurial-5.1.2-x64.exe</url>
+  <hash-sum type="SHA-256">e88ff4640f08e3ff9f4e366c547b5c9430e0670a99a8273ad4e522d122d47a14</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.7, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
 
     <version name="2.11" package="com.sindresorhus.caprine" type="one-file">
   <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
@@ -10732,6 +10754,16 @@ if %err% neq 0 exit /b %err%&#13;
   <file path=".Npackd\Uninstall.bat">"%ncl%\ncl" remove-scp --title "/Twine %npackd_package_version%/i"&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt</file>
   <url>https://github.com/klembot/twinejs/releases/download/2.3.4/twine_2.3.4_win.exe</url>
   <hash-sum type="SHA-256">5870d39264bf355ca9a8c9cf06a618040f93ac042cdf2da6deddd002136ba7c3</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.25, 2)">
+   <variable>ncl</variable>
+  </dependency>
+ </version>
+ <version name="2.3.5" package="com.twinery.twine64" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">"%ncl%\ncl" remove-scp --title "/Twine %npackd_package_version%/i"&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt</file>
+  <url>https://github.com/klembot/twinejs/releases/download/2.3.5/twine_2.3.5_win.exe</url>
+  <hash-sum type="SHA-256">90ace2f128f028ac8d9c11060c63719f16d85753f51797a072df13d3e2bfa7b5</hash-sum>
   <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.25, 2)">
    <variable>ncl</variable>
   </dependency>
@@ -12882,6 +12914,14 @@ if %err% neq 0 exit %err%&#13;
 </file>
   <url>http://dbeaver.jkiss.org/files/6.2.1/dbeaver-ce-6.2.1-x86_64-setup.exe</url>
   <hash-sum type="SHA-256">76324307b64a15f45a55dd0ea71fc17247b7eaade3455cc2f496267375c7a188</hash-sum>
+ </version>
+ <version name="6.2.2" package="dbeaver64" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" /allusers /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">uninstall.exe /allusers /S _?=%CD%&#13;
+</file>
+  <url>http://dbeaver.jkiss.org/files/6.2.2/dbeaver-ce-6.2.2-x86_64-setup.exe</url>
+  <hash-sum type="SHA-256">b8af2bca15550c5d6bfb40bdcfb44cf4076ebe214b69470c2f9224a3ee54083f</hash-sum>
  </version>
 
     <version name="0.825" package="dcplusplus64">
@@ -28739,6 +28779,22 @@ if %errorlevel% neq 0 exit /b %errorlevel%&#13;
   <url>https://miktex.org/download/ctan/systems/win32/miktex/setup/windows-x64/basic-miktex-2.9.7152-x64.exe</url>
   <hash-sum type="SHA-256">08e5dc604f71da9ae59f8ed46205f571dfdc5e327d3d4d27c2472e70c8375575</hash-sum>
  </version>
+ <version name="2.9.7216" package="org.miktex.MiKTeX64" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" --common-install="%CD%" --shared --unattended&#13;
+</file>
+  <file path=".Npackd\Unnstall.bat">miktex\bin\miktexsetup.exe --verbose --shared uninstall&#13;
+</file>
+  <url>https://miktex.org/download/ctan/systems/win32/miktex/setup/windows-x64/basic-miktex-2.9.7216-x64.exe</url>
+  <hash-sum type="SHA-256">7149f8ad1287d537e7a1e152ff048771c02711230fa0a9fdcd8e573765b6d2fb</hash-sum>
+ </version>
+ <version name="2.9.7219" package="org.miktex.MiKTeX64" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" --common-install="%CD%" --shared --unattended&#13;
+</file>
+  <file path=".Npackd\Unnstall.bat">miktex\bin\miktexsetup.exe --verbose --shared uninstall&#13;
+</file>
+  <url>https://miktex.org/download/ctan/systems/win32/miktex/setup/windows-x64/basic-miktex-2.9.7219-x64.exe</url>
+  <hash-sum type="SHA-256">fd73fa0118eb2a265fd603ab43f7c4182b4a772ed24738ba4f68ca195407b289</hash-sum>
+ </version>
 
     <version name="0.9.19" package="org.miranda-im.MirandaIM64" type="one-file">
   <important-file path="miranda64.exe" title="Miranda IM"/>
@@ -34204,6 +34260,20 @@ call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Np
    <variable>nih</variable>
   </dependency>
  </version>
+ <version name="8.1.2125" package="org.vim.Vim64">
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+if %errorlevel% neq 0 exit /b %errorlevel%&#13;
+&#13;
+for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+</file>
+  <url>https://github.com/vim/vim-win32-installer/releases/download/v8.1.2125/gvim_8.1.2125_x64.zip</url>
+  <hash-sum type="SHA-256">e7a59e6c8f3b56ae8efdb03b32aee496247d9abfc04a6889e64dd2b3493712ab</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.19, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
 
     <version name="4.2.8.83876" package="org.virtualbox.virtualbox64" type="one-file">
   <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
@@ -38460,6 +38530,10 @@ rem Install4j&#13;
  <version name="3.29" package="sqlite64">
   <url>https://www.sqlite.org/2019/sqlite-dll-win64-x64-3290000.zip</url>
   <hash-sum type="SHA-256">4879d00a2e7e2c67dce7f2d7dc47ea11ba9e10dc4cd8adfdbebed01b20ce5aaf</hash-sum>
+ </version>
+ <version name="3.30" package="sqlite64">
+  <url>https://www.sqlite.org/2019/sqlite-dll-win64-x64-3300000.zip</url>
+  <hash-sum type="SHA-256">a323ada55fdc838ddda355949d7a666f0ff8910447c4abe9f41769ba0b3d87ae</hash-sum>
  </version>
 
     <version name="10.50.1600.1" package="sqlncli64" type="one-file">
