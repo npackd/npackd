@@ -8374,6 +8374,16 @@ call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Np
    <variable>clu</variable>
   </dependency>
  </version>
+ <version name="13" package="com.oracle.JDK64">
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b jdk*') do set name=%%x&#13;
+"%clu%\clu" unwrap-dir -p "%name%"&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+</file>
+  <url>https://download.java.net/java/GA/jdk13/5b8a42f3905b406298b72d750b6919f6/33/GPL/openjdk-13_windows-x64_bin.zip</url>
+  <hash-sum type="SHA-256">053d8c87bb34347478512911a6218a389720bffcde4e496be5a54d51ad7c9c2f</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.CLU" versions="[1.25, 2)">
+   <variable>clu</variable>
+  </dependency>
+ </version>
 
     <version name="1.6.0.25" package="com.oracle.JRE64" type="one-file">
   <file path=".Npackd\Install.bat">ren AutoDL Install.exe
@@ -19615,6 +19625,15 @@ rmdir /s /q "%name%"&#13;
   <url>https://github.com/aria2/aria2/releases/download/release-1.34.0/aria2-1.34.0-win-64bit-build1.zip</url>
   <hash-sum type="SHA-256">2452e15b638be11c2919a5d1c15c0405a83eb8260c0f3853e8d195774dbdde61</hash-sum>
  </version>
+ <version name="1.35" package="net.sourceforge.aria2.Aria2_64">
+  <important-file path="README.html" title="Read Me"/>
+  <file path=".Npackd\Install.bat">for /f %%x in ('dir /b aria*') do set name=%%x&#13;
+xcopy "%name%\*" . /E /H&#13;
+rmdir /s /q "%name%"&#13;
+</file>
+  <url>https://github.com/aria2/aria2/releases/download/release-1.35.0/aria2-1.35.0-win-64bit-build1.zip</url>
+  <hash-sum type="SHA-256">81a231aa72966cf9a7a63bf40de9053261ff6b176877685e054591849c28eafa</hash-sum>
+ </version>
 
     <version name="2.6.1" package="net.sourceforge.avidemux.Avidemux64" type="one-file">
   <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
@@ -29575,6 +29594,15 @@ rmdir "%name%"&#13;
 </file>
   <url>https://fastdl.mongodb.org/win32/mongodb-win32-x86_64-2008plus-ssl-4.0.10-signed.msi</url>
   <hash-sum type="SHA-256">d1ddac7ba6e2fbdfaaa0a787b83c165d4ad61795c051dc0f3142717a0b6a3707</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.1, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
+ <version name="4.2" package="org.mongodb.MongoDB64" type="one-file">
+  <file path=".Npackd\Install.bat">call "%nih%\InstallMSI.bat" INSTALLDIR yes&#13;
+</file>
+  <url>https://fastdl.mongodb.org/win32/mongodb-win32-x86_64-2012plus-4.2.0-signed.msi</url>
+  <hash-sum type="SHA-256">f1a4f3771563a747a26d8a22990483dcfb6a0f68026672edd5996fdbee35cbcc</hash-sum>
   <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.1, 2)">
    <variable>nih</variable>
   </dependency>
