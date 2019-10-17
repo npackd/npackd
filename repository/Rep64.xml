@@ -10056,7 +10056,7 @@ del Q-Dir.ini&#13;
   <url>http://files.npackd.org/com.softwareok.QDir64-5.99.9.zip</url>
   <sha1>fb6060796fae3fc641ba34fe1f2f8530d7c985a8</sha1>
  </version>
- <version name="7.85" package="com.softwareok.QDir64">
+ <version name="7.88" package="com.softwareok.QDir64">
   <important-file path="Q-Dir.exe" title="Q-Dir"/>
   <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b Q*') do set name=%%x&#13;
 cd "%name%"        &#13;
@@ -14811,7 +14811,7 @@ if %err% neq 0 exit %err%&#13;
   <hash-sum type="SHA-256">cd94e96b6942156437c200a1855185bd7ab29dafd0ba8da921967176d82d19d2</hash-sum>
  </version>
 
-    <version name="77.0.3865.90" package="google-chrome-x64" type="one-file">
+    <version name="77.0.3865.120" package="google-chrome-x64" type="one-file">
   <file path=".Npackd\Install.bat">call "%npackdih%\InstallMSI.bat" TARGETDIR yes&#13;
 </file>
   <url>https://dl.google.com/tag/s/appguid%3D%7B8A69D345-D564-463C-AFF1-A69D9E530F96%7D%26iid%3D%7B0A558A36-0536-8B3F-0AE0-420553CC97F3%7D%26lang%3Den%26browser%3D4%26usagestats%3D0%26appname%3DGoogle%2520Chrome%26needsadmin%3DFalse/edgedl/chrome/install/GoogleChromeStandaloneEnterprise64.msi</url>
@@ -19338,7 +19338,7 @@ del /q /f "CINEBENCH Windows 32 Bit.exe"</file>
   <url>http://files.npackd.org/net.nirsoft.FileTypesMan64-1.68.zip</url>
   <sha1>f9052bc7e5bc8287ecee16eaf6f2d20cafdefd97</sha1>
  </version>
- <version name="1.85" package="net.nirsoft.FileTypesMan64">
+ <version name="1.86" package="net.nirsoft.FileTypesMan64">
   <important-file path="FileTypesMan.exe" title="FileTypesMan"/>
   <url>http://www.nirsoft.net/utils/filetypesman-x64.zip</url>
  </version>
@@ -38631,6 +38631,10 @@ rem Install4j&#13;
   <url>https://www.sqlite.org/2019/sqlite-dll-win64-x64-3300000.zip</url>
   <hash-sum type="SHA-256">a323ada55fdc838ddda355949d7a666f0ff8910447c4abe9f41769ba0b3d87ae</hash-sum>
  </version>
+ <version name="3.30.1" package="sqlite64">
+  <url>https://www.sqlite.org/2019/sqlite-dll-win64-x64-3300100.zip</url>
+  <hash-sum type="SHA-256">23bbc7cd2889734acb944e329e809c914923f5cb54276af4e2d21f4646d42c5c</hash-sum>
+ </version>
 
     <version name="10.50.1600.1" package="sqlncli64" type="one-file">
   <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.msi') do set setup=%%x&#13;
@@ -40416,6 +40420,21 @@ if %err% neq 0 exit %err%&#13;
   <sha1>88142b530a8fe71c8f4962c157244a45f18959fc</sha1>
  </version>
  <version name="1.38" package="vs-code" type="one-file">
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
+"%setup%" /SP- /VERYSILENT /SUPPRESSMSGBOXES /NOCANCEL /NORESTART /DIR="%CD%" /SAVEINF="%CD%\.Npackd\InnoSetupInfo.ini" /LOG="%CD%\.Npackd\InnoSetupInstall.log"&#13;
+set err=%errorlevel%&#13;
+type .Npackd\InnoSetupInstall.log&#13;
+if %err% neq 0 exit %err%&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">unins000.exe /VERYSILENT /SUPPRESSMSGBOXES /NORESTART /LOG="%CD%\.Npackd\InnoSetupUninstall.log"&#13;
+set err=%errorlevel%&#13;
+type .Npackd\InnoSetupUninstall.log&#13;
+if %err% neq 0 exit %err%&#13;
+</file>
+  <url>https://az764295.vo.msecnd.net/insider/d28f096018e2673a8437c788e3eed781ddb505ce/VSCodeSetup-ia32-1.21.0-insider.exe</url>
+  <sha1>88142b530a8fe71c8f4962c157244a45f18959fc</sha1>
+ </version>
+ <version name="1.39" package="vs-code" type="one-file">
   <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
 "%setup%" /SP- /VERYSILENT /SUPPRESSMSGBOXES /NOCANCEL /NORESTART /DIR="%CD%" /SAVEINF="%CD%\.Npackd\InnoSetupInfo.ini" /LOG="%CD%\.Npackd\InnoSetupInstall.log"&#13;
 set err=%errorlevel%&#13;
