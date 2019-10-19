@@ -6577,6 +6577,12 @@ if %err% neq 0 exit %err%</file>
   <url>https://github.com/ArtifexSoftware/ghostpdl-downloads/releases/download/gs927/gs927w64.exe</url>
   <hash-sum type="SHA-256">af6f57efafc4703c7337d594bd6a78b0af59d68aca21c1b924a97535e6978867</hash-sum>
  </version>
+ <version name="9.50" package="com.ghostscript.Ghostscript64" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD%</file>
+  <file path=".Npackd\Uninstall.bat">uninstgs.exe /S</file>
+  <url>https://github.com/ArtifexSoftware/ghostpdl-downloads/releases/download/gs950/gs950w64.exe</url>
+  <hash-sum type="SHA-256">9043c0d7aafffcc17726f2ad380cc374ddb67f7c20a08366a0ef20d64fda6e24</hash-sum>
+ </version>
 
     <version name="12.7.27.3" package="com.googlecode.conemu-maximus5.ConEmu64" type="one-file">
   <important-file path="ConEmu64.exe" title="ConEmu"/>
@@ -16226,6 +16232,17 @@ if %err% neq 0 exit %err%&#13;
    <variable>nih</variable>
   </dependency>
  </version>
+ <version name="7.0.8.68" package="imagemagick64" type="one-file">
+  <file path=".Npackd\Install.bat">call "%nih%\InstallInnoSetup.bat"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">call "%nih%\UninstallInnoSetup.bat" unins000.exe&#13;
+</file>
+  <url>https://www.imagemagick.org/download/binaries/ImageMagick-7.0.8-68-Q16-x64-dll.exe</url>
+  <hash-sum type="SHA-256">4cf7f47cc67b66ab50e5c72bd0bb09474d74e29d9e8b3afb748bc6046c296a04</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
 
     <version name="0.3.8" package="io.mpv.mpv-64" type="one-file">
   <file path=".Npackd\Install.bat">for /f %%x in ('dir /b *.7z') do set setup=%%x&#13;
@@ -19238,6 +19255,16 @@ rmdir "%name%"&#13;
   <file path=".Npackd\Install.bat">call "%npackdih%\InstallMSI.bat" INSTALLDIR yes&#13;
 		</file>
   <url>https://dev.mysql.com/get/Downloads/MySQLGUITools/mysql-workbench-community-8.0.17-winx64.msi</url>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.1, 2)">
+   <variable>npackdih</variable>
+  </dependency>
+  <dependency package="com.microsoft.DotNetRedistributable" versions="[4, 5)"/>
+  <dependency package="com.microsoft.VisualCPPRedistributable" versions="[10, 11)"/>
+ </version>
+ <version name="8.0.18" package="mysql-workbench64" type="one-file">
+  <file path=".Npackd\Install.bat">call "%npackdih%\InstallMSI.bat" INSTALLDIR yes&#13;
+		</file>
+  <url>https://dev.mysql.com/get/Downloads/MySQLGUITools/mysql-workbench-community-8.0.18-winx64.msi</url>
   <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.1, 2)">
    <variable>npackdih</variable>
   </dependency>
