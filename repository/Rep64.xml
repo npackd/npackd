@@ -6381,6 +6381,15 @@ call "%npackdih%\InstallMSI.bat" APPLICATIONFOLDER yes&#13;
    <variable>npackdih</variable>
   </dependency>
  </version>
+ <version name="4.2" package="com.calibreebook.Calibre64" type="one-file">
+  <file path=".Npackd\Install.bat">call "%npackdih%\InstallMSI.bat" APPLICATIONFOLDER yes&#13;
+</file>
+  <url>https://download.calibre-ebook.com/4.2.0/calibre-64bit-4.2.0.msi</url>
+  <hash-sum type="SHA-256">9f94e7b944ad3b28ef48f59d17212f89650e89a4ca9ce6deaf530981f0117930</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.2, 2)">
+   <variable>npackdih</variable>
+  </dependency>
+ </version>
 
     <version name="5.12.256249.2599" package="com.comodo.comodoav64" type="one-file">
   <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.msi') do set setup=%%x&#13;
@@ -14233,6 +14242,17 @@ verify</file>
   <url>https://download-installer.cdn.mozilla.net/pub/firefox/releases/69.0/win64/en-US/Firefox%20Setup%2069.0.exe</url>
   <hash-sum type="SHA-256">94e6f5a53b098561d5674727a9442a75a616cc95856b6b537200a3c8018c7728</hash-sum>
  </version>
+ <version name="70" package="firefox64" type="one-file">
+  <file path=".Npackd\Install.bat">echo [Install] &gt; .Npackd\FF.ini&#13;
+echo InstallDirectoryPath=%CD% &gt;&gt; .Npackd\FF.ini&#13;
+echo QuickLaunchShortcut=false &gt;&gt; .Npackd\FF.ini&#13;
+echo DesktopShortcut=false &gt;&gt; .Npackd\FF.ini&#13;
+"%npackd_package_binary%" /INI="%CD%\.Npackd\FF.ini" &amp;&amp; del /f /q "%npackd_package_binary%"</file>
+  <file path=".Npackd\Uninstall.bat">uninstall\helper.exe /S&#13;
+verify</file>
+  <url>https://download-installer.cdn.mozilla.net/pub/firefox/releases/70.0/win64/en-US/Firefox%20Setup%2070.0.exe</url>
+  <hash-sum type="SHA-256">9613e9c0c7689d15ccdecb36f84b64fb51c8824c3d10be0880d0bd0fe4bf9a62</hash-sum>
+ </version>
 
     <version name="0.10" package="fr.handbrake.HandBrake64" type="one-file">
   <file path=".Npackd\Install.bat">ren rotation.php setup.exe&#13;
@@ -20401,6 +20421,15 @@ if %err% neq 0 exit %err%</file>
 </file>
   <url>https://github.com/LMMS/lmms/releases/download/v1.2.0/lmms-1.2.0-win64.exe</url>
   <hash-sum type="SHA-256">c85121bf96d097a5bc9032721dae31a385084e2f8aafcc541b8db795a0027543</hash-sum>
+ </version>
+ <version name="1.2.1" package="net.sourceforge.lmms.LMMS64" type="one-file">
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
+"%setup%" /S /D=%CD%&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">Uninstall.exe /S _?=%CD%&#13;
+</file>
+  <url>https://github.com/LMMS/lmms/releases/download/v1.2.1/lmms-1.2.1-win64.exe</url>
+  <hash-sum type="SHA-256">6ec4c40df466e2b3d885c580fe0593915a766cb70cec8fcca19d5be59bdf80c5</hash-sum>
  </version>
 
     <version name="1.5.0.2827" package="net.sourceforge.mpc-hc.MediaPlayerClassicHomeCinema64">
@@ -36768,6 +36797,17 @@ call "%npackdih%\InstallMSI.bat" TARGETDIR yes</file>
    <variable>myun</variable>
   </dependency>
  </version>
+ <version name="0.16" package="picotorrent-64-bit" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">"%myun%\myuninst.exe" /uninstall "picotorrent-64-bit"&#13;
+</file>
+  <url>https://github.com/picotorrent/picotorrent/releases/download/v0.15.0/PicoTorrent-0.15.0-x64.exe</url>
+  <hash-sum type="SHA-256">f4f569d0d3d81ad7bbb62b4ad51a60f2fdcd6eb6bf705548e8461fc4d83dd217</hash-sum>
+  <dependency package="net.nirsoft.MyUninstaller" versions="[1.74, 2)">
+   <variable>myun</variable>
+  </dependency>
+ </version>
 
     <version name="7.8" package="postman64" type="one-file">
   <file path=".Npackd\Install.bat">ren "%npackd_package_binary%" setup.exe&#13;
@@ -38728,6 +38768,24 @@ if %err% neq 0 exit %err%&#13;
  </version>
 
     <version name="4" package="skychart64" type="one-file">
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
+"%setup%" /SP- /VERYSILENT /SUPPRESSMSGBOXES /NOCANCEL /NORESTART /DIR="%CD%" /SAVEINF="%CD%\.Npackd\InnoSetupInfo.ini" /LOG="%CD%\.Npackd\InnoSetupInstall.log"&#13;
+set err=%errorlevel%&#13;
+type .Npackd\InnoSetupInstall.log&#13;
+if %err% neq 0 exit %err%&#13;
+&#13;
+del "%setup%"&#13;
+verify&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">unins000.exe /VERYSILENT /SUPPRESSMSGBOXES /NORESTART /LOG="%CD%\.Npackd\InnoSetupUninstall.log"&#13;
+set err=%errorlevel%&#13;
+type .Npackd\InnoSetupUninstall.log&#13;
+if %err% neq 0 exit %err%&#13;
+</file>
+  <url>http://sourceforge.net/projects/skychart/files/1-software/version_4.0/skychart-4.0-3575-windows-x64.exe</url>
+  <sha1>f63f1df6eada7eb6152ff30b50645658200b471f</sha1>
+ </version>
+ <version name="4.2" package="skychart64" type="one-file">
   <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
 "%setup%" /SP- /VERYSILENT /SUPPRESSMSGBOXES /NOCANCEL /NORESTART /DIR="%CD%" /SAVEINF="%CD%\.Npackd\InnoSetupInfo.ini" /LOG="%CD%\.Npackd\InnoSetupInstall.log"&#13;
 set err=%errorlevel%&#13;
