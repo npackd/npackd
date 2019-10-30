@@ -8499,6 +8499,16 @@ call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Np
    <variable>clu</variable>
   </dependency>
  </version>
+ <version name="13.0.1" package="com.oracle.JDK64">
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b jdk*') do set name=%%x&#13;
+"%clu%\clu" unwrap-dir -p "%name%"&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+</file>
+  <url>https://download.java.net/java/GA/jdk13.0.1/cec27d702aa74d5a8630c65ae61e4305/9/GPL/openjdk-13.0.1_windows-x64_bin.zip</url>
+  <hash-sum type="SHA-256">438a6920f1851b1eeb6f09f05d9f91c4423c6586f7a1a7ccbb19df76ea5901ee</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.CLU" versions="[1.25, 2)">
+   <variable>clu</variable>
+  </dependency>
+ </version>
 
     <version name="1.6.0.25" package="com.oracle.JRE64" type="one-file">
   <file path=".Npackd\Install.bat">ren AutoDL Install.exe
@@ -31463,6 +31473,10 @@ if %err% neq 0 exit %err%&#13;
  <version name="19.9.14" package="org.shotcut.shotcut">
   <url>https://github.com/mltframework/shotcut/releases/download/v19.09.14/shotcut-win64-190914.zip</url>
   <hash-sum type="SHA-256">c05d124bd5e5acdd3584f26483e792b8d4306c5044e8dc403ebe2bea827ea07a</hash-sum>
+ </version>
+ <version name="19.10.20" package="org.shotcut.shotcut">
+  <url>https://github.com/mltframework/shotcut/releases/download/v19.10.20/shotcut-win64-191020.zip</url>
+  <hash-sum type="SHA-256">f6a56c8ef1f115325b21abad3ab0a78351b4931031595eeb67d1b71433edf985</hash-sum>
  </version>
 
     <version name="4.4" package="org.sourceforge.ultradefrag.UltraDefrag64">
