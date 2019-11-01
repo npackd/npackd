@@ -10468,6 +10468,14 @@ if %err% neq 0 exit %err%</file>
    <variable>npackdih</variable>
   </dependency>
  </version>
+ <version name="2.8.27" package="com.tightvnc.TightVNC64" type="one-file">
+  <file path=".Npackd\Install.bat">call "%npackdih%\InstallMSI.bat" INSTALLDIR yes</file>
+  <url>https://www.tightvnc.com/download/2.8.8/tightvnc-2.8.8-gpl-setup-64bit.msi</url>
+  <sha1>d4f10d4efaabf18d9ebb88e0245a81e6fc6bbd5e</sha1>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.1, 2)">
+   <variable>npackdih</variable>
+  </dependency>
+ </version>
 
     <version name="2.5.192" package="com.tracker-software.PDFXChangeViewer64" type="one-file">
   <file path=".Npackd\Install.bat">for /f %%x in ('dir /b *.msi') do set setup=%%x
@@ -21417,6 +21425,14 @@ if %err% neq 0 exit %err%&#13;
 </file>
   <url>http://downloads.sourceforge.net/project/smplayer/SMPlayer/19.5.0/smplayer-19.5.0-x64.exe</url>
   <hash-sum type="SHA-256">c7085e1f52a8f066260d521315e38746bc54628e10a0c33d2e91fc73a6137c50</hash-sum>
+ </version>
+ <version name="19.10" package="net.sourceforge.smplayer.SMPlayer64" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD%&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">uninst.exe /S _?=%CD%        &#13;
+</file>
+  <url>http://downloads.sourceforge.net/project/smplayer/SMPlayer/19.10.0/smplayer-19.10.0-x64.exe</url>
+  <hash-sum type="SHA-256">cc75d15d3c63137845c04d2737d9d0b90a7fe755e99bdd7415a5faf591fc47c5</hash-sum>
  </version>
 
     <version name="2.42" package="net.sourceforge.strongdc.StrongDCPlusPlus64" type="one-file">
@@ -36541,6 +36557,16 @@ echo DesktopShortcut=false &gt;&gt; .Npackd\FF.ini&#13;
   <url>http://relmirror.palemoon.org/release/palemoon-28.7.1.win64.installer.exe</url>
   <hash-sum type="SHA-256">7cc768bb5857446cfc1a07afa75fec5dffdcb8d58da3321698c0f7da988ebbb0</hash-sum>
  </version>
+ <version name="28.7.2" package="pale-moon64" type="one-file">
+  <file path=".Npackd\Install.bat">echo [Install] &gt; .Npackd\FF.ini&#13;
+echo InstallDirectoryPath=%CD% &gt;&gt; .Npackd\FF.ini&#13;
+echo QuickLaunchShortcut=false &gt;&gt; .Npackd\FF.ini&#13;
+echo DesktopShortcut=false &gt;&gt; .Npackd\FF.ini&#13;
+"%npackd_package_binary%" /INI="%CD%\.Npackd\FF.ini" &amp;&amp; del /f /q "%npackd_package_binary%"</file>
+  <file path=".Npackd\Uninstall.bat">uninstall\helper.exe /S</file>
+  <url>http://relmirror.palemoon.org/release/palemoon-28.7.2.win64.installer.exe</url>
+  <hash-sum type="SHA-256">2a331b1804f044a4ffadfc52400c405085c4cadccb1c84d1c4879c7b081b27aa</hash-sum>
+ </version>
 
     <version name="2.2.1" package="pandoc64" type="one-file">
   <file path=".Npackd\Install.bat">call "%nih%\InstallMSI.bat" INSTALLDIR yes&#13;
@@ -37140,6 +37166,14 @@ verify</file>
   <url>https://downloads.sourceforge.net/project/qbittorrent/qbittorrent-win32/qbittorrent-4.1.8/qbittorrent_4.1.8_x64_setup.exe</url>
   <hash-sum type="SHA-256">62e5ea323a9e4d922d7919d9747ee6d598eb24546e896e2b4990e612e3b41b19</hash-sum>
  </version>
+ <version name="4.1.9" package="qbittorrent-64-bit" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD%&#13;
+verify</file>
+  <file path=".Npackd\Uninstall.bat">uninst.exe /S _?=%CD%&#13;
+verify</file>
+  <url>https://downloads.sourceforge.net/project/qbittorrent/qbittorrent-win32/qbittorrent-4.1.9/qbittorrent_4.1.9_x64_setup.exe</url>
+  <hash-sum type="SHA-256">8d5473fc1496b1c37db56be6fd4d05af6e1833cb578482bca63f75a9c807178e</hash-sum>
+ </version>
 
     <version name="3.12.4.1" package="qcad64" type="one-file">
   <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
@@ -37676,6 +37710,13 @@ if %errorlevel% equ 3010 verify</file>
   <file path=".Npackd\Uninstall.bat">uninstall.exe /S _?=%CD%&#13;
 </file>
   <url>https://qgis.org/downloads/QGIS-OSGeo4W-3.8.3-1-Setup-x86_64.exe</url>
+ </version>
+ <version name="3.10" package="qgis64" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
+if %errorlevel% equ 3010 verify</file>
+  <file path=".Npackd\Uninstall.bat">uninstall.exe /S _?=%CD%&#13;
+</file>
+  <url>https://qgis.org/downloads/QGIS-OSGeo4W-3.10.0-1-Setup-x86_64.exe</url>
  </version>
 
     <version name="1.40.6" package="Qt-Bitcoin-Trader64" type="one-file">
@@ -39740,6 +39781,21 @@ if %err% neq 0 exit %err%&#13;
   <sha1>f6ce938ee99fe5c1ca246628725065f438ef092c</sha1>
  </version>
  <version name="1.9" package="tigervnc64" type="one-file">
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
+"%setup%" /SP- /VERYSILENT /SUPPRESSMSGBOXES /NOCANCEL /NORESTART /DIR="%CD%" /SAVEINF="%CD%\.Npackd\InnoSetupInfo.ini" /LOG="%CD%\.Npackd\InnoSetupInstall.log" &amp;&amp; del /f /q "%setup%"&#13;
+set err=%errorlevel%&#13;
+type .Npackd\InnoSetupInstall.log&#13;
+if %err% neq 0 exit %err%&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">unins000.exe /VERYSILENT /SUPPRESSMSGBOXES /NORESTART /LOG="%CD%\.Npackd\InnoSetupUninstall.log"&#13;
+set err=%errorlevel%&#13;
+type .Npackd\InnoSetupUninstall.log&#13;
+if %err% neq 0 exit %err%&#13;
+</file>
+  <url>https://bintray.com/artifact/download/tigervnc/stable/tigervnc64-1.8.0.exe</url>
+  <sha1>f6ce938ee99fe5c1ca246628725065f438ef092c</sha1>
+ </version>
+ <version name="1.9.90" package="tigervnc64" type="one-file">
   <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
 "%setup%" /SP- /VERYSILENT /SUPPRESSMSGBOXES /NOCANCEL /NORESTART /DIR="%CD%" /SAVEINF="%CD%\.Npackd\InnoSetupInfo.ini" /LOG="%CD%\.Npackd\InnoSetupInstall.log" &amp;&amp; del /f /q "%setup%"&#13;
 set err=%errorlevel%&#13;
