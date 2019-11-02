@@ -12504,6 +12504,17 @@ if %err% neq 0 exit %err%&#13;
    <variable>nih</variable>
   </dependency>
  </version>
+ <version name="1.19.3" package="conan64" type="one-file">
+  <cmd-file path="conan\conan.exe"/>
+  <file path=".Npackd\Install.bat">"%nih%\InstallInnoSetup.bat"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">"%nih%\UninstallInnoSetup.bat" unins000.exe</file>
+  <url>https://github.com/conan-io/conan/releases/download/1.19.3/conan-win-64_1_19_3.exe</url>
+  <hash-sum type="SHA-256">76ab5d2aa4da0b6023ab270d52fa45a352a41d79782db7346852333d69e204fc</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
 
     <version name="3.0.7" package="cygwin64" type="one-file">
   <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
@@ -23181,6 +23192,29 @@ WshShell.SendKeys("{ESC}");&#13;
   <url>https://download.openmpt.org/OpenMPT-1.28.07.00-Setup-x64.exe</url>
   <hash-sum type="SHA-256">7f559f8a041b0297c678a6adc79c3ad5d40927cf55dadf56244fdef419ff225e</hash-sum>
  </version>
+ <version name="1.28.8" package="openmpt64" type="one-file">
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
+"%setup%" /SP- /VERYSILENT /SUPPRESSMSGBOXES /NOCANCEL /NORESTART /DIR="%CD%" /SAVEINF="%CD%\.Npackd\InnoSetupInfo.ini" /LOG="%CD%\.Npackd\InnoSetupInstall.log" &amp;&amp; del /f /q "%setup%"&#13;
+set err=%errorlevel%&#13;
+type .Npackd\InnoSetupInstall.log&#13;
+if %err% neq 0 exit %err%&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">start "Confirm Uninstall" cscript //Nologo //B //E:JScript //T:300 //U .Npackd\ConfirmUninstall.js&#13;
+&#13;
+unins000.exe /VERYSILENT /SUPPRESSMSGBOXES /NORESTART /LOG="%CD%\.Npackd\InnoSetupUninstall.log"&#13;
+set err=%errorlevel%&#13;
+type .Npackd\InnoSetupUninstall.log&#13;
+if %err% neq 0 exit %err%&#13;
+</file>
+  <file path=".Npackd\ConfirmUninstall.js">var WshShell = WScript.CreateObject("WScript.Shell");&#13;
+WScript.Sleep(60000);&#13;
+WshShell.AppActivate("Uninstall");&#13;
+WScript.Sleep(10000);&#13;
+WshShell.SendKeys("{ESC}");&#13;
+</file>
+  <url>https://download.openmpt.org/OpenMPT-1.28.08.00-Setup-x64.exe</url>
+  <hash-sum type="SHA-256">6a1ce0b90200e6a1b76a25e0e5f13391894d4c43f8edccbc6554a522f2284ff9</hash-sum>
+ </version>
 
     <version name="2015.3.2" package="openscad64" type="one-file">
   <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
@@ -29002,6 +29036,14 @@ if %err% neq 0 exit %err%&#13;
    <variable>npackdih</variable>
   </dependency>
  </version>
+ <version name="2.5" package="org.keepassxc.keepassxc" type="one-file">
+  <file path=".Npackd\Install.bat">call "%npackdih%\InstallMSI.bat" INSTALLDIR yes</file>
+  <url>https://github.com/keepassxreboot/keepassxc/releases/download/2.5.0/KeePassXC-2.5.0-Win64.msi</url>
+  <hash-sum type="SHA-256">dc7190da9bb2e91aedd105abd7d78c61b8f184764de11bb4ee8bb640a1c77be7</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.22, 2)">
+   <variable>npackdih</variable>
+  </dependency>
+ </version>
 
     <version name="2.9.4407" package="org.miktex.MiKTeX64" type="one-file">
   <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
@@ -34667,6 +34709,20 @@ call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Np
    <variable>nih</variable>
   </dependency>
  </version>
+ <version name="8.1.2233" package="org.vim.Vim64">
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+if %errorlevel% neq 0 exit /b %errorlevel%&#13;
+&#13;
+for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+</file>
+  <url>https://github.com/vim/vim-win32-installer/releases/download/v8.1.2233/gvim_8.1.2233_x64.zip</url>
+  <hash-sum type="SHA-256">d8730f086b083132c3b87cc1c9540187ff63258f597de0d145915d1729f4a204</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.19, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
 
     <version name="4.2.8.83876" package="org.virtualbox.virtualbox64" type="one-file">
   <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
@@ -36164,6 +36220,14 @@ if %err% neq 0 exit %err%</file>
 </file>
   <url>https://1.eu.dl.wireshark.org/win64/Wireshark-win64-3.0.5.exe</url>
   <hash-sum type="SHA-256">888ff1269fe7ad887fe03d066094933df5c721100035ae76a85278b1380f8616</hash-sum>
+ </version>
+ <version name="3.0.6" package="org.wireshark.Wireshark64" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD%&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">uninstall.exe /S _=%CD%&#13;
+</file>
+  <url>https://1.eu.dl.wireshark.org/win64/Wireshark-win64-3.0.6.exe</url>
+  <hash-sum type="SHA-256">6cd2b1474d5a031b85fca00538d45487144b36d8e1db1d565fd35d251ac261d0</hash-sum>
  </version>
 
     <version name="26.0.3" package="pale-moon64" type="one-file">
@@ -38890,8 +38954,8 @@ set err=%errorlevel%&#13;
 type .Npackd\InnoSetupUninstall.log&#13;
 if %err% neq 0 exit %err%&#13;
 </file>
-  <url>http://sourceforge.net/projects/skychart/files/1-software/version_4.0/skychart-4.0-3575-windows-x64.exe</url>
-  <sha1>f63f1df6eada7eb6152ff30b50645658200b471f</sha1>
+  <url>https://sourceforge.net/projects/skychart/files/1-software/version_4.2/skychart-4.2-4046-windows-x64.exe</url>
+  <hash-sum type="SHA-256">4a249f439e47c23973a0674ec5728101996a365cdd838d274b4abdd5d2449a7c</hash-sum>
  </version>
 
     <version name="1" package="slack" type="one-file">
