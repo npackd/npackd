@@ -7339,6 +7339,16 @@ call "%npackdih%\InstallMSI.bat" INSTALLDIR yes&#13;
    <variable>npackdih</variable>
   </dependency>
  </version>
+ <version name="2.9" package="com.googlecode.tortoisegit.TortoiseGit64" type="one-file">
+  <file path=".Npackd\Install.bat">call "%npackdih%\InstallMSI.bat" INSTALLDIR yes&#13;
+</file>
+  <url>https://download.tortoisegit.org/tgit/2.9.0.0/TortoiseGit-2.9.0.0-64bit.msi</url>
+  <hash-sum type="SHA-256">d866cbce19251ce7b2eea5c178f6c85c567e932ae2aeed999bffe58004645ed7</hash-sum>
+  <dependency package="git64" versions="[1.7.6.2011.7.8, 3)"/>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3.1, 2)">
+   <variable>npackdih</variable>
+  </dependency>
+ </version>
 
     <version name="1.18.7" package="com.googlecode.windows-package-manager.Npackd64">
   <important-file path="npackdg.exe" title="Npackd"/>
@@ -10182,7 +10192,7 @@ del Q-Dir.ini&#13;
   <url>http://files.npackd.org/com.softwareok.QDir64-5.99.9.zip</url>
   <sha1>fb6060796fae3fc641ba34fe1f2f8530d7c985a8</sha1>
  </version>
- <version name="7.91.1" package="com.softwareok.QDir64">
+ <version name="7.93" package="com.softwareok.QDir64">
   <important-file path="Q-Dir.exe" title="Q-Dir"/>
   <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b Q*') do set name=%%x&#13;
 cd "%name%"        &#13;
@@ -12524,7 +12534,7 @@ if %err% neq 0 exit %err%&#13;
   <url>http://cygwin.com/setup-x86_64.exe</url>
  </version>
 
-    <version name="1.7.20538" package="daumpotplayer64" type="one-file">
+    <version name="1.7.20977" package="daumpotplayer64" type="one-file">
   <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
 </file>
   <file path=".Npackd\Uninstall.bat">uninstall.exe /S _?=%CD%&#13;
@@ -14994,7 +15004,7 @@ if %err% neq 0 exit %err%&#13;
   <hash-sum type="SHA-256">cd94e96b6942156437c200a1855185bd7ab29dafd0ba8da921967176d82d19d2</hash-sum>
  </version>
 
-    <version name="78.0.3904.70" package="google-chrome-x64" type="one-file">
+    <version name="78.0.3904.87" package="google-chrome-x64" type="one-file">
   <file path=".Npackd\Install.bat">call "%npackdih%\InstallMSI.bat" TARGETDIR yes&#13;
 </file>
   <url>https://dl.google.com/tag/s/appguid%3D%7B8A69D345-D564-463C-AFF1-A69D9E530F96%7D%26iid%3D%7B0A558A36-0536-8B3F-0AE0-420553CC97F3%7D%26lang%3Den%26browser%3D4%26usagestats%3D0%26appname%3DGoogle%2520Chrome%26needsadmin%3DFalse/edgedl/chrome/install/GoogleChromeStandaloneEnterprise64.msi</url>
