@@ -9578,6 +9578,16 @@ if %err% neq 0 exit %err%&#13;
    <variable>nih</variable>
   </dependency>
  </version>
+ <version name="5.2" package="com.selenic.mercurial.Mercurial64" type="one-file">
+  <file path=".Npackd\Install.bat">call "%nih%\InstallInnoSetup.bat"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">call "%nih%\UninstallInnoSetup.bat" unins000.exe</file>
+  <url>https://www.mercurial-scm.org/release/windows/Mercurial-5.2-x64.exe</url>
+  <hash-sum type="SHA-256">db4c88932dc0009f1719b49bd09f0f7e4531671ab38f42fe59d84239d3978fcf</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.7, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
 
     <version name="2.11" package="com.sindresorhus.caprine" type="one-file">
   <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
@@ -12526,6 +12536,17 @@ if %err% neq 0 exit %err%&#13;
    <variable>nih</variable>
   </dependency>
  </version>
+ <version name="1.20.2" package="conan64" type="one-file">
+  <cmd-file path="conan\conan.exe"/>
+  <file path=".Npackd\Install.bat">"%nih%\InstallInnoSetup.bat"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">"%nih%\UninstallInnoSetup.bat" unins000.exe</file>
+  <url>https://github.com/conan-io/conan/releases/download/1.20.2/conan-win-64_1_20_2.exe</url>
+  <hash-sum type="SHA-256">2f85e798b8cc4b919f73e6851a1c82a2892d79c49d9e4e8f660d1db82430f91b</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
 
     <version name="3.0.7" package="cygwin64" type="one-file">
   <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
@@ -13129,6 +13150,14 @@ if %err% neq 0 exit %err%&#13;
 </file>
   <url>http://dbeaver.jkiss.org/files/6.2.3/dbeaver-ce-6.2.3-x86_64-setup.exe</url>
   <hash-sum type="SHA-256">d5d5fbf40bf6f7d417a720b7710752154a32fe0886827819e159f1dfc40663b7</hash-sum>
+ </version>
+ <version name="6.2.4" package="dbeaver64" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" /allusers /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">uninstall.exe /allusers /S _?=%CD%&#13;
+</file>
+  <url>http://dbeaver.jkiss.org/files/6.2.4/dbeaver-ce-6.2.4-x86_64-setup.exe</url>
+  <hash-sum type="SHA-256">01701d26bdd8047f7b68bc0caa88f3d73e3ee0cf1a13c93630764af9edf07795</hash-sum>
  </version>
 
     <version name="0.825" package="dcplusplus64">
@@ -37257,6 +37286,14 @@ verify</file>
   <url>https://downloads.sourceforge.net/project/qbittorrent/qbittorrent-win32/qbittorrent-4.1.9/qbittorrent_4.1.9_x64_setup.exe</url>
   <hash-sum type="SHA-256">8d5473fc1496b1c37db56be6fd4d05af6e1833cb578482bca63f75a9c807178e</hash-sum>
  </version>
+ <version name="4.1.9.1" package="qbittorrent-64-bit" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD%&#13;
+verify</file>
+  <file path=".Npackd\Uninstall.bat">uninst.exe /S _?=%CD%&#13;
+verify</file>
+  <url>https://downloads.sourceforge.net/project/qbittorrent/qbittorrent-win32/qbittorrent-4.1.9.1/qbittorrent_4.1.9.1_x64_setup.exe</url>
+  <hash-sum type="SHA-256">b981598f9e4d43630b65c17a9fac7a1c1ebe5211a51b3699c7afda1cf04a13b2</hash-sum>
+ </version>
 
     <version name="3.12.4.1" package="qcad64" type="one-file">
   <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
@@ -39912,6 +39949,12 @@ if %err% neq 0 exit %err%&#13;
   <url>https://dist.torproject.org/torbrowser/8.5.5/torbrowser-install-8.5.5_en-US.exe</url>
   <hash-sum type="SHA-256">a3aa7e626d1d2365dcecc6f17055f467f31c4ff9558a769e51d4b90640e48bb0</hash-sum>
  </version>
+ <version name="9.0.1" package="tor64" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
+</file>
+  <url>https://dist.torproject.org/torbrowser/9.0.1/torbrowser-install-9.0.1_en-US.exe</url>
+  <hash-sum type="SHA-256">df5daddcf09d96e97c6156483f3a7d2a38c6ef942a961e0e16184b2c2120423b</hash-sum>
+ </version>
 
     <version name="2.84.9" package="transmission-qt64" type="one-file">
   <file path=".Npackd\Install.bat">"%npackd_package_binary%" --mode unattended --prefix "%CD%"</file>
@@ -40114,6 +40157,14 @@ if %err% neq 0 exit %err%&#13;
 </file>
   <url>http://files.first-world.info/ultracopier/2.0.4.7/ultracopier-windows-x86_64-2.0.4.7-setup.exe</url>
   <hash-sum type="SHA-256">afa957112d2a57dced363a2b115fbddb768a87a284ef93f1069bd357b121b9c2</hash-sum>
+ </version>
+ <version name="2.0.4.8" package="ultracopier64" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">uninst.exe /S _?=%CD%&#13;
+</file>
+  <url>http://files.first-world.info/ultracopier/2.0.4.8/ultracopier-windows-x86_64-2.0.4.8-setup.exe</url>
+  <hash-sum type="SHA-256">ea16556afa8bfa745178bf3ca636bd1d9c2fdab4051cd10af213a623611c8975</hash-sum>
  </version>
 
     <version name="2.0.1" package="vagrant64" type="one-file">
@@ -40645,6 +40696,18 @@ if %err% neq 0 exit /b %err%&#13;
 </file>
   <url>https://downloads.vivaldi.com/stable/Vivaldi.2.8.1664.44.x64.exe</url>
   <hash-sum type="SHA-256">d14260b72de7b5065e75c5b42676357343f8bf448e42f7eda4d55d220d70b48a</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.24, 2)">
+   <variable>ncl</variable>
+  </dependency>
+ </version>
+ <version name="2.9.1705.38" package="vivaldi-browser-64" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" --vivaldi-standalone --vivaldi-install-dir="%CD%" &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
+&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">"%ncl%\ncl.exe" remove-scp --title "vivaldi-browser-64"&#13;
+</file>
+  <url>https://downloads.vivaldi.com/stable/Vivaldi.2.9.1705.38.x64.exe</url>
+  <hash-sum type="SHA-256">bbed4b22c998810c33766f241abf9a704d714560bb133d2b8045d915a586d779</hash-sum>
   <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.24, 2)">
    <variable>ncl</variable>
   </dependency>
