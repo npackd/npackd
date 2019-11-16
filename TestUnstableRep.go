@@ -207,20 +207,22 @@ func getPath(package_ string, version string) string {
 func exec2(command string) (exitCode int, output []string) {
 	fmt.Println(command)
 
-	cmd := exec.Command("cmd.exe")
+	cmd := exec.Command(command)
 	cmd.SysProcAttr = &syscall.SysProcAttr{}
 	cmd.SysProcAttr.CmdLine = command
 
 	out, err := cmd.CombinedOutput()
-	if err != nil {
-		if exitError, ok := err.(*exec.ExitError); ok {
-			return exitError.ExitCode(), nil
-		}
-	}
 
 	lines := strings.Split(string(out), "\n")
 	for _, line := range lines {
 		fmt.Println(line)
+	}
+
+	if err != nil {
+		if exitError, ok := err.(*exec.ExitError); ok {
+			fmt.Printf("Exit code: %d\n", exitError.ExitCode())
+			return exitError.ExitCode(), nil
+		}
 	}
 
 	return 0, lines
