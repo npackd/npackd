@@ -4090,6 +4090,45 @@ for /f "delims=" %%x in ('dir /b FlashUtil32*Plugin.exe') do set setup=%%x&#13;
 </file>
   <url>https://download.macromedia.com/get/flashplayer/pdc/32.0.0.270/install_flash_player_32_plugin.msi</url>
  </version>
+ <version name="32.0.0.293" package="com.adobe.FlashPlayer64" type="one-file">
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.msi') do set setup=%%x&#13;
+mkdir .Npackd&#13;
+move "%setup%" .Npackd&#13;
+set err=%errorlevel%&#13;
+if %err% neq 0 exit %err%&#13;
+&#13;
+rem MSIFASTINSTALL: http://msdn.microsoft.com/en-us/library/dd408005%28v=VS.85%29.aspx&#13;
+msiexec.exe /qn /norestart /Lime .Npackd\InstallMSI.log /i ".Npackd\%setup%" INSTALLDIR="%CD%" ALLUSERS=1 MSIFASTINSTALL=7&#13;
+set err=%errorlevel%&#13;
+type .Npackd\InstallMSI.log&#13;
+&#13;
+rem list of errors: http://msdn.microsoft.com/en-us/library/windows/desktop/aa368542(v=vs.85).aspx&#13;
+rem 3010=restart required&#13;
+if %err% equ 3010 goto cont&#13;
+if %err% neq 0 exit %err%&#13;
+&#13;
+:cont&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">move .Npackd\*.msi .&#13;
+for /f "delims=" %%x in ('dir /b *.msi') do set setup=%%x&#13;
+&#13;
+rem MSIFASTINSTALL: http://msdn.microsoft.com/en-us/library/dd408005%28v=VS.85%29.aspx&#13;
+msiexec.exe /qn /norestart /Lime .Npackd\UninstallMSI.log /x "%setup%" MSIFASTINSTALL=7&#13;
+set err=%errorlevel%&#13;
+type .Npackd\UninstallMSI.log&#13;
+rem 3010=restart required&#13;
+if %err% equ 3010 goto cont&#13;
+if %err% neq 0 exit %err%&#13;
+&#13;
+:cont&#13;
+if not exist "%ProgramFiles(x86)%" set d=%windir%\System32\Macromed\Flash&#13;
+if exist "%ProgramFiles(x86)%" set d=%windir%\SysWOW64\Macromed\Flash&#13;
+cd "%d%"&#13;
+for /f "delims=" %%x in ('dir /b FlashUtil32*Plugin.exe') do set setup=%%x&#13;
+"%setup%" -uninstall&#13;
+</file>
+  <url>https://download.macromedia.com/get/flashplayer/pdc/32.0.0.293/install_flash_player_32_plugin.msi</url>
+ </version>
 
     <version name="31.0.0.153" package="com.adobe.FlashPlayerActiveX64" type="one-file">
   <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.msi') do set setup=%%x&#13;
@@ -4570,6 +4609,46 @@ for /f "delims=" %%x in ('dir /b FlashUtil32*ActiveX.exe') do set setup=%%x&#13;
 if "%setup%" neq "" "%setup%" -uninstall&#13;
 </file>
   <url>https://download.macromedia.com/pub/flashplayer/pdc/32.0.0.270/install_flash_player_32_plugin.msi</url>
+ </version>
+ <version name="32.0.0.293" package="com.adobe.FlashPlayerActiveX64" type="one-file">
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.msi') do set setup=%%x&#13;
+mkdir .Npackd&#13;
+move "%setup%" .Npackd&#13;
+set err=%errorlevel%&#13;
+if %err% neq 0 exit %err%&#13;
+&#13;
+rem MSIFASTINSTALL: http://msdn.microsoft.com/en-us/library/dd408005%28v=VS.85%29.aspx&#13;
+msiexec.exe /qn /norestart /Lime .Npackd\InstallMSI.log /i ".Npackd\%setup%" INSTALLDIR="%CD%" ALLUSERS=1 MSIFASTINSTALL=7&#13;
+set err=%errorlevel%&#13;
+type .Npackd\InstallMSI.log&#13;
+&#13;
+rem list of errors: http://msdn.microsoft.com/en-us/library/windows/desktop/aa368542(v=vs.85).aspx&#13;
+rem 3010=restart required&#13;
+if %err% equ 3010 goto cont&#13;
+if %err% neq 0 exit %err%&#13;
+&#13;
+:cont&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">move .Npackd\*.msi .&#13;
+for /f "delims=" %%x in ('dir /b *.msi') do set setup=%%x&#13;
+&#13;
+rem MSIFASTINSTALL: http://msdn.microsoft.com/en-us/library/dd408005%28v=VS.85%29.aspx&#13;
+msiexec.exe /qn /norestart /Lime .Npackd\UninstallMSI.log /x "%setup%" MSIFASTINSTALL=7&#13;
+set err=%errorlevel%&#13;
+type .Npackd\UninstallMSI.log&#13;
+rem 3010=restart required&#13;
+if %err% equ 3010 goto cont&#13;
+if %err% neq 0 exit %err%&#13;
+&#13;
+:cont&#13;
+if not exist "%ProgramFiles(x86)%" set d=%windir%\System32\Macromed\Flash&#13;
+if exist "%ProgramFiles(x86)%" set d=%windir%\SysWOW64\Macromed\Flash&#13;
+cd "%d%"&#13;
+set setup=&#13;
+for /f "delims=" %%x in ('dir /b FlashUtil32*ActiveX.exe') do set setup=%%x&#13;
+if "%setup%" neq "" "%setup%" -uninstall&#13;
+</file>
+  <url>https://download.macromedia.com/pub/flashplayer/pdc/32.0.0.293/install_flash_player_32_plugin.msi</url>
  </version>
 
     <version name="1.15.1" package="com.alcpu.CoreTemp64">
@@ -6396,6 +6475,15 @@ call "%npackdih%\InstallMSI.bat" APPLICATIONFOLDER yes&#13;
 </file>
   <url>https://download.calibre-ebook.com/4.2.0/calibre-64bit-4.2.0.msi</url>
   <hash-sum type="SHA-256">9f94e7b944ad3b28ef48f59d17212f89650e89a4ca9ce6deaf530981f0117930</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.2, 2)">
+   <variable>npackdih</variable>
+  </dependency>
+ </version>
+ <version name="4.3" package="com.calibreebook.Calibre64" type="one-file">
+  <file path=".Npackd\Install.bat">call "%npackdih%\InstallMSI.bat" APPLICATIONFOLDER yes&#13;
+</file>
+  <url>https://download.calibre-ebook.com/4.3.0/calibre-64bit-4.3.0.msi</url>
+  <hash-sum type="SHA-256">4aac664d2c1ec4744d4ef6d46426ebc4f5943121114ca1b71246917de8e5c86e</hash-sum>
   <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.2, 2)">
    <variable>npackdih</variable>
   </dependency>
@@ -13310,6 +13398,21 @@ verify</file>
   <url>http://mirror.kumi.systems/kde/ftp/stable/digikam/6.3.0/digiKam-6.3.0-Win64.exe</url>
   <hash-sum type="SHA-256">a498d34bd72ce3428138ec2288a5287a781b00cb49b3eb7d93b400c2705ff449</hash-sum>
  </version>
+ <version name="6.4" package="digikam64" type="one-file">
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
+"%setup%" /S /D=%ProgramFiles%\digiKamData&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">"%ProgramFiles%\digiKamData\Uninstall.exe" /S&#13;
+&#13;
+rd /s /q "APPDATA%\Start Menu\Programs\KDE Release" || rd /s /q "%ALLUSERSPROFILE%\Microsoft\Windows\Start Menu\Programs\KDE Release"&#13;
+verify</file>
+  <file path=".Npackd\Stop.bat">taskkill /im dbus-daemon.exe /f /t&#13;
+taskkill /im kded4.exe /f /t&#13;
+taskkill /im klauncher.exe /f /t&#13;
+verify</file>
+  <url>http://mirror.kumi.systems/kde/ftp/stable/digikam/6.4.0/digiKam-6.4.0-Win64.exe</url>
+  <hash-sum type="SHA-256">f4292385ed047d65681b10ac904f5bb48e0143a12900147271d296fbe8ac9fa5</hash-sum>
+ </version>
 
     <version name="0.6.1" package="drmingw64">
   <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b drmingw*') do set name=%%x&#13;
@@ -13730,6 +13833,14 @@ rmdir "%name%"&#13;
 </file>
   <url>https://github.com/balena-io/etcher/releases/download/v1.5.61/balenaEtcher-Setup-1.5.61.exe</url>
   <hash-sum type="SHA-256">39be8c5342e24e706b03496cde2cb7877526e4446404c39edc4064d644e74cc4</hash-sum>
+ </version>
+ <version name="1.5.63" package="etcher64" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">uninstall.exe /S _?=%CD%&#13;
+</file>
+  <url>https://github.com/balena-io/etcher/releases/download/v1.5.63/balenaEtcher-Setup-1.5.63.exe</url>
+  <hash-sum type="SHA-256">99ff0c128624f40b1722437a5d306ea822b786df6c33081fac7eea08cd68d71a</hash-sum>
  </version>
 
     <version name="1.3.4.686" package="everything64">
@@ -14492,6 +14603,15 @@ for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
   <hash-sum type="SHA-256">f65009afe762d86ea3322d9170277fbb1e3084622d4fd8575e3eca9418c921fc</hash-sum>
   <dependency package="com.microsoft.DotNetRedistributable" versions="[2, 3)"/>
  </version>
+ <version name="1.3" package="fr.handbrake.HandBrake64" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">uninst.exe /S _?=%CD%&#13;
+</file>
+  <url>https://download2.handbrake.fr/1.3.0/HandBrake-1.3.0-x86_64-Win_GUI.exe</url>
+  <hash-sum type="SHA-256">389ea825d7f5ff63d7af68daa701c25eee8126732e176686a6c065dad1334df4</hash-sum>
+  <dependency package="com.microsoft.DotNetRedistributable" versions="[2, 3)"/>
+ </version>
 
     <version name="1.21" package="fr.veracrypt.veracrypt" type="one-file">
   <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
@@ -15042,6 +15162,17 @@ if %err% neq 0 exit %err%&#13;
   </dependency>
  </version>
  <version name="2.24" package="git64" type="one-file">
+  <file path=".Npackd\Install.bat">call "%nih%\InstallInnoSetup.bat"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">call "%nih%\UninstallInnoSetup.bat" unins000.exe&#13;
+</file>
+  <url>https://github.com/git-for-windows/git/releases/download/v2.24.0.windows.1/Git-2.24.0-64-bit.exe</url>
+  <hash-sum type="SHA-256">cc3d151bcb5a30382d6e08b0e93f2370fd4b4debe81905e2008019c9d748f0fc</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
+ <version name="2.24.0.2" package="git64" type="one-file">
   <file path=".Npackd\Install.bat">call "%nih%\InstallInnoSetup.bat"&#13;
 </file>
   <file path=".Npackd\Uninstall.bat">call "%nih%\UninstallInnoSetup.bat" unins000.exe&#13;
@@ -19318,6 +19449,14 @@ rmdir "%name%"&#13;
 </file>
   <url>http://multicommander.com/files/updates/MultiCommander_x64_(9.0.0.2532).exe</url>
   <hash-sum type="SHA-256">029cd0a3f79a6d358059dd319ea18a72bffb2b8848d01ce8815e01b367cb86e6</hash-sum>
+ </version>
+ <version name="9.2.0.2555" package="multi-commander64" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">"Uninstall MultiCommander.exe" /S _?=%CD%&#13;
+</file>
+  <url>http://multicommander.com/files/updates/MultiCommander_x64_(9.2.0.2555).exe</url>
+  <hash-sum type="SHA-256">ccc5f4dfd6a58e6502a5eb8b98a60825539f4d3ffc6be79d74f55e020b6f6bdf</hash-sum>
  </version>
 
     <version name="3.1" package="musescore64" type="one-file">
@@ -23655,6 +23794,21 @@ reg add HKLM\SOFTWARE\OpenVPN-GUI /v allow_service /t REG_SZ /d 0 /f&#13;
 </file>
   <url>https://swupdate.openvpn.org/community/releases/openvpn-install-2.4.7-I603.exe</url>
   <hash-sum type="SHA-256">0237be0be0156f869f38fb2f38842e3ab5df46c79b914eba580de3031c116651</hash-sum>
+ </version>
+ <version name="2.4.8" package="openvpn64" type="one-file">
+  <file path=".Npackd\Install.bat">rem "%ProgramFiles%\GowData\bin\wget.exe" -O openvpn.p7b http://dl.dropboxusercontent.com/s/cqvn6qkvamwyjv4/openvpn.p7b&#13;
+rem certutil -addstore -f "TrustedPublisher" "%CD%\openvpn.p7b" &gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+&#13;
+for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
+"%setup%" /S /D=%CD%&#13;
+&#13;
+reg add HKLM\SOFTWARE\OpenVPN-GUI /v allow_service /t REG_SZ /d 0 /f&#13;
+&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">Uninstall.exe /S _?=%CD%&#13;
+</file>
+  <url>https://swupdate.openvpn.org/community/releases/openvpn-install-2.4.8-I602-Win10.exe</url>
+  <hash-sum type="SHA-256">d8f861de1519c680c4e506b4e08b4d80db7c385a4ccc2fcc56e2278d41c1cabe</hash-sum>
  </version>
 
     <version name="9.20" package="org.7-zip.SevenZIP64" type="one-file">
@@ -29252,6 +29406,14 @@ if %err% neq 0 exit %err%&#13;
   <file path=".Npackd\Install.bat">call "%npackdih%\InstallMSI.bat" INSTALLDIR yes</file>
   <url>https://github.com/keepassxreboot/keepassxc/releases/download/2.5.0/KeePassXC-2.5.0-Win64.msi</url>
   <hash-sum type="SHA-256">dc7190da9bb2e91aedd105abd7d78c61b8f184764de11bb4ee8bb640a1c77be7</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.22, 2)">
+   <variable>npackdih</variable>
+  </dependency>
+ </version>
+ <version name="2.5.1" package="org.keepassxc.keepassxc" type="one-file">
+  <file path=".Npackd\Install.bat">call "%npackdih%\InstallMSI.bat" INSTALLDIR yes</file>
+  <url>https://github.com/keepassxreboot/keepassxc/releases/download/2.5.1/KeePassXC-2.5.1-Win64.msi</url>
+  <hash-sum type="SHA-256">ebada0b8a45e2202df844db0f569df9e8e0b894423dbc49b04445000f17d4d50</hash-sum>
   <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.22, 2)">
    <variable>npackdih</variable>
   </dependency>
@@ -34962,6 +35124,20 @@ call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Np
    <variable>nih</variable>
   </dependency>
  </version>
+ <version name="8.1.2297" package="org.vim.Vim64">
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+if %errorlevel% neq 0 exit /b %errorlevel%&#13;
+&#13;
+for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+</file>
+  <url>https://github.com/vim/vim-win32-installer/releases/download/v8.1.2297/gvim_8.1.2297_x64.zip</url>
+  <hash-sum type="SHA-256">91253eba4d35309bcd9c5aefc40e3972d0b72dc6ca75bfb020aeca76f1e80835</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.19, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
 
     <version name="4.2.8.83876" package="org.virtualbox.virtualbox64" type="one-file">
   <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
@@ -39189,6 +39365,17 @@ if %err% neq 0 exit %err%&#13;
    <variable>nih</variable>
   </dependency>
  </version>
+ <version name="0.9.991" package="sigil64" type="one-file">
+  <file path=".Npackd\Install.bat">call "%nih%\InstallInnoSetup.bat"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">call "%nih%\UninstallInnoSetup.bat" unins000.exe&#13;
+</file>
+  <url>https://github.com/user-none/Sigil/releases/download/0.9.8/Sigil-0.9.8-Windows-x64-Setup.exe</url>
+  <sha1>1dc08743c8e7d7b9d956f345466a2745b2bc9d18</sha1>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
 
     <version name="4" package="skychart64" type="one-file">
   <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
@@ -40931,6 +41118,18 @@ if %err% neq 0 exit /b %err%&#13;
    <variable>ncl</variable>
   </dependency>
  </version>
+ <version name="2.9.1705.41" package="vivaldi-browser-64" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" --vivaldi-standalone --do-not-launch-chrome --vivaldi-install-dir="%CD%" &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
+&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">"%ncl%\ncl.exe" remove-scp --title "vivaldi-browser-64"&#13;
+</file>
+  <url>https://downloads.vivaldi.com/stable/Vivaldi.2.9.1705.41.x64.exe</url>
+  <hash-sum type="SHA-256">a16031df98dbdd9287727225b19ac79f977b037d43db0a3e52a38de4d6679176</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.24, 2)">
+   <variable>ncl</variable>
+  </dependency>
+ </version>
 
     <version name="15.0.2" package="vmware64" type="one-file">
   <file path=".Npackd\Install.bat">"%npackd_package_binary%" /a /s /v"/qn TARGETDIR=."&#13;
@@ -41265,6 +41464,21 @@ if %err% neq 0 exit %err%&#13;
   <url>https://az764295.vo.msecnd.net/insider/d28f096018e2673a8437c788e3eed781ddb505ce/VSCodeSetup-ia32-1.21.0-insider.exe</url>
   <sha1>88142b530a8fe71c8f4962c157244a45f18959fc</sha1>
  </version>
+ <version name="1.40" package="vs-code" type="one-file">
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
+"%setup%" /SP- /VERYSILENT /SUPPRESSMSGBOXES /NOCANCEL /NORESTART /DIR="%CD%" /SAVEINF="%CD%\.Npackd\InnoSetupInfo.ini" /LOG="%CD%\.Npackd\InnoSetupInstall.log"&#13;
+set err=%errorlevel%&#13;
+type .Npackd\InnoSetupInstall.log&#13;
+if %err% neq 0 exit %err%&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">unins000.exe /VERYSILENT /SUPPRESSMSGBOXES /NORESTART /LOG="%CD%\.Npackd\InnoSetupUninstall.log"&#13;
+set err=%errorlevel%&#13;
+type .Npackd\InnoSetupUninstall.log&#13;
+if %err% neq 0 exit %err%&#13;
+</file>
+  <url>https://az764295.vo.msecnd.net/insider/d28f096018e2673a8437c788e3eed781ddb505ce/VSCodeSetup-ia32-1.21.0-insider.exe</url>
+  <sha1>88142b530a8fe71c8f4962c157244a45f18959fc</sha1>
+ </version>
 
     <version name="1.17.2" package="vs-code64" type="one-file">
   <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
@@ -41567,6 +41781,21 @@ if %err% neq 0 exit %err%&#13;
   <sha1>f73db938cfee6ab1ab0f940c923e4e663962c795</sha1>
  </version>
  <version name="1.39" package="vs-code64" type="one-file">
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
+"%setup%" /SP- /VERYSILENT /SUPPRESSMSGBOXES /NOCANCEL /NORESTART /DIR="%CD%" /SAVEINF="%CD%\.Npackd\InnoSetupInfo.ini" /LOG="%CD%\.Npackd\InnoSetupInstall.log"&#13;
+set err=%errorlevel%&#13;
+type .Npackd\InnoSetupInstall.log&#13;
+if %err% neq 0 exit %err%&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">unins000.exe /VERYSILENT /SUPPRESSMSGBOXES /NORESTART /LOG="%CD%\.Npackd\InnoSetupUninstall.log"&#13;
+set err=%errorlevel%&#13;
+type .Npackd\InnoSetupUninstall.log&#13;
+if %err% neq 0 exit %err%&#13;
+</file>
+  <url>https://az764295.vo.msecnd.net/insider/d28f096018e2673a8437c788e3eed781ddb505ce/VSCodeSetup-x64-1.21.0-insider.exe</url>
+  <sha1>f73db938cfee6ab1ab0f940c923e4e663962c795</sha1>
+ </version>
+ <version name="1.40" package="vs-code64" type="one-file">
   <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
 "%setup%" /SP- /VERYSILENT /SUPPRESSMSGBOXES /NOCANCEL /NORESTART /DIR="%CD%" /SAVEINF="%CD%\.Npackd\InnoSetupInfo.ini" /LOG="%CD%\.Npackd\InnoSetupInstall.log"&#13;
 set err=%errorlevel%&#13;
