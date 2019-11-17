@@ -22,60 +22,33 @@ type Settings struct {
 	npackdcl    string
 }
 
-/*
-Error.prototype.toString = function() {
-  'use strict';
-
-  var obj = Object(this);
-  if (obj !== this) {
-    throw new TypeError();
-  }
-
-  var name = this.name;
-  name = (name === undefined) ? 'Error' : String(name);
-
-  var msg = this.message;
-  msg = (msg === undefined) ? '' : String(msg);
-
-  if (name === '') {
-    return msg;
-  }
-  if (msg === '') {
-    return name;
-  }
-
-  return name + ': ' + msg;
-};
-
-Array.prototype.contains = function(v) {
-    for (var i = 0; i < this.length; i++) {
-        if (this[i] == v)
-            return true;
-    }
-    return false;
+func indexOf(slice []string, item string) int {
+	for i, _ := range slice {
+		if slice[i] == item {
+			return i
+		}
+	}
+	return -1
 }
 
 // http://stackoverflow.com/questions/6274339/how-can-i-shuffle-an-array-in-javascript
-function shuffle(array) {
-    var counter = array.length, temp, index;
+func shuffle(array []string) {
+	counter := len(array)
 
-    // While there are elements in the array
-    while (counter > 0) {
-        // Pick a random index
-        index = Math.floor(Math.random() * counter);
+	// While there are elements in the array
+	for counter > 0 {
+		// Pick a random index
+		index := rand.Intn(counter)
 
-        // Decrease counter by 1
-        counter--;
+		// Decrease counter by 1
+		counter--
 
-        // And swap the last element with it
-        temp = array[counter];
-        array[counter] = array[index];
-        array[index] = temp;
-    }
-
-    return array;
+		// And swap the last element with it
+		temp := array[counter]
+		array[counter] = array[index]
+		array[index] = temp
+	}
 }
-*/
 
 func uploadAllToGithub(url string, releaseID int) {
 	/*    WScript.Echo("Re-uploading packages in " + url);
@@ -169,9 +142,9 @@ function uploadToGithub(from, package_, version, releaseID) {
 
 */
 
-func exec_(cmd string) int {
+func exec_(program string, cmd string) int {
 	fullcmd := "cmd.exe /s /c \"" + cmd + " 2>&1\""
-	exitCode, _ := exec2(fullcmd)
+	exitCode, _ := exec2(program, fullcmd)
 	return exitCode
 }
 
@@ -180,20 +153,19 @@ func exec_(cmd string) int {
  * @param version version number or null for "newest"
  * @return path to the specified package or "" if not installed
  */
-func getPath(package_ string, version string) string {
-	/*    cmd := "cmd.exe /c \"" + npackdcl + "\" path -p " + package_;
-	      if version != nil {
-	          cmd = cmd + " -v " + version
-	      }
-	      cmd = cmd + " 2>&1";
+func getPath(settings *Settings, package_ string, version string) string {
+	cmd := "cmd.exe /c \"" + settings.npackdcl + "\" path -p " + package_
+	if version != "" {
+		cmd = cmd + " -v " + version
+	}
+	cmd = cmd + " 2>&1"
 
-	      var res = exec2(cmd);
-	      var lines = res[1];
-	      if (lines.length > 0)
-	          return lines[0];
-	      else
-	          return "";
-	*/
+	_, lines := exec2("cmd.exe", cmd)
+	if len(lines) > 0 {
+		return lines[0]
+	} else {
+		return ""
+	}
 
 	return ""
 }
@@ -204,10 +176,10 @@ func getPath(package_ string, version string) string {
  * @param cmd this command should be executed
  * @return [exit code, [output line 1, output line2, ...]]
  */
-func exec2(command string) (exitCode int, output []string) {
+func exec2(program string, command string) (exitCode int, output []string) {
 	fmt.Println(command)
 
-	cmd := exec.Command("cmd.exe")
+	cmd := exec.Command(program)
 	cmd.SysProcAttr = &syscall.SysProcAttr{}
 	cmd.SysProcAttr.CmdLine = command
 
@@ -237,13 +209,27 @@ func exec2(command string) (exitCode int, output []string) {
  * @param install true if it was an installation, false if it was an
  *     un-installation
  * @param success true if the operation was successful
- *
-function apiNotify(package_, version, install, success) {
-    download("https://npackd.appspot.com/api/notify?package=" +
-            package_ + "&version=" + version +
-            "&password=" + password +
-            "&install=" + (install ? "1" : "0") +
-            "&success=" + (success ? "1" : "0"));
+ */
+func apiNotify(settings *Settings,
+	package_ string, version string, install bool, success bool) {
+	url := "https://npackd.appspot.com/api/notify?package=" +
+		package_ + "&version=" + version +
+		"&password=" + settings.password +
+		"&install="
+	if install {
+		url = url + "1"
+	} else {
+		url = url + "0"
+	}
+
+	url = url + "&success="
+	if success {
+		url = url + "1"
+	} else {
+		url = url + "0"
+	}
+
+	download(url)
 }
 
 /**
@@ -376,38 +362,6 @@ function countPackageFiles(Folder) {
     return n;
 }
 
-/**
- * Downloads a file.
- *
- * @param url URL
- * @return true if the download was OK
- *
-function download(url) {
-    var Object = WScript.CreateObject('MSXML2.XMLHTTP');
-
-    Object.Open('GET', url, false);
-    Object.Send();
-
-    return Object.Status == 200;
-}
-
-/**
- * Downloads a JSON file.
- *
- * @param url URL
- * @return [HTTP status, JSON]
- *
-function downloadJSON(url) {
-    var Object = WScript.CreateObject('MSXML2.XMLHTTP');
-
-    Object.Open('GET', url, false);
-    Object.Send();
-
-    if (Object.Status == 200)
-	return [Object.Status, eval(Object.responseText)];
-    else
-	return [Object.Status, null];
-}
 
 /**
  * @param a first version as a String
@@ -550,25 +504,25 @@ func processURL(url string, settings *Settings, onlyNewest bool) int {
 
 func downloadRepos(settings *Settings) {
 	// download the newest repository files and commit them to the project
-	exec_("\"" + settings.git + "\" checkout master")
+	exec_(settings.git, "\""+settings.git+"\" checkout master")
 
-	exec_("\"" + settings.curl + "\" -f -o repository\\RepUnstable.xml " +
+	exec_(settings.curl, "\""+settings.curl+"\" -f -o repository\\RepUnstable.xml "+
 		"https://www.npackd.org/rep/xml?tag=unstable")
-	exec_("\"" + settings.curl + "\" -f -o repository\\Rep.xml " +
+	exec_(settings.curl, "\""+settings.curl+"\" -f -o repository\\Rep.xml "+
 		"https://www.npackd.org/rep/xml?tag=stable")
-	exec_("\"" + settings.curl + "\" -f -o repository\\Rep64.xml " +
+	exec_(settings.curl, "\""+settings.curl+"\" -f -o repository\\Rep64.xml "+
 		"https://www.npackd.org/rep/xml?tag=stable64")
-	exec_("\"" + settings.curl + "\" -f -o repository\\Libs.xml " +
+	exec_(settings.curl, "\""+settings.curl+"\" -f -o repository\\Libs.xml "+
 		"https://www.npackd.org/rep/xml?tag=libs")
 
-	exec_("\"" + settings.git + "\" config user.email \"tim.lebedkov@gmail.com\"")
-	exec_("\"" + settings.git + "\" config user.name \"tim-lebedkov\"")
-	exec_("\"" + settings.git + "\" commit -a -m \"Automatic data transfer from https://www.npackd.org\"")
-	exec_("\"" + settings.git + "\" push https://tim-lebedkov:" + settings.githubToken +
+	exec_(settings.git, "\""+settings.git+"\" config user.email \"tim.lebedkov@gmail.com\"")
+	exec_(settings.git, "\""+settings.git+"\" config user.name \"tim-lebedkov\"")
+	exec_(settings.git, "\""+settings.git+"\" commit -a -m \"Automatic data transfer from https://www.npackd.org\"")
+	exec_(settings.git, "\""+settings.git+"\" push https://tim-lebedkov:"+settings.githubToken+
 		"@github.com/tim-lebedkov/npackd.git")
 }
 
-func DownloadFile(url string) (*bytes.Buffer, error) {
+func download(url string) (*bytes.Buffer, error) {
 	// Get the data
 	resp, err := http.Get(url)
 	if err != nil {
@@ -596,7 +550,7 @@ func process() error {
 	var settings Settings
 	settings.password = os.Getenv("PASSWORD")
 	settings.githubToken = os.Getenv("github_token")
-	settings.curl = getPath("se.haxx.curl.CURL64", "") + "\\bin\\curl.exe"
+	settings.curl = getPath(&settings, "se.haxx.curl.CURL64", "") + "\\bin\\curl.exe"
 	settings.git = "C:\\Program Files\\Git\\cmd\\git.exe"
 	settings.npackdcl = "C:\\Program Files (x86)\\NpackdCL\\ncl.exe"
 
@@ -604,7 +558,7 @@ func process() error {
 
 	reps := []string{"stable", "stable64", "libs"}
 
-	b, err := DownloadFile("https://api.github.com/repos/tim-lebedkov/packages/releases")
+	b, err := download("https://api.github.com/repos/tim-lebedkov/packages/releases")
 	if err != nil {
 		return err
 	}
@@ -631,7 +585,7 @@ func process() error {
 	fmt.Printf("Found release ID: %d\n", releaseID)
 
 	// print curl version
-	exec2("\"" + settings.curl + "\" --version")
+	exec2(settings.curl, "\""+settings.curl+"\" --version")
 
 	for _, rep := range reps {
 		uploadAllToGithub("https://npackd.appspot.com/rep/xml?tag="+rep, releaseID)
