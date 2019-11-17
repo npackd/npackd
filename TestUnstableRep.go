@@ -207,7 +207,7 @@ func getPath(package_ string, version string) string {
 func exec2(command string) (exitCode int, output []string) {
 	fmt.Println(command)
 
-	cmd := exec.Command(command)
+	cmd := exec.Command("cmd.exe")
 	cmd.SysProcAttr = &syscall.SysProcAttr{}
 	cmd.SysProcAttr.CmdLine = command
 
