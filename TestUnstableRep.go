@@ -8,8 +8,10 @@ import (
 	"io"
 	"math/rand"
 	"net/http"
+	"net/url"
 	"os"
 	"os/exec"
+	"strconv"
 	"strings"
 	"syscall"
 )
@@ -241,13 +243,23 @@ func apiNotify(settings *Settings,
  * @param set true if the tag should be added, false if the tag should be
  *     removed
  * @return true if the call to the web service succeeded, false otherwise
- *
-function apiTag(package_, version, tag, set) {
-    return download("https://npackd.appspot.com/api/tag?package=" +
-            package_ + "&version=" + version +
-            "&password=" + password +
-            "&name=" + tag +
-            "&value=" + (set ? "1" : "0"));
+ */
+func apiTag(settings *Settings, package_ string, version string, tag string,
+	set bool) error {
+	url := "https://npackd.appspot.com/api/tag?package=" +
+		package_ + "&version=" + version +
+		"&password=" + settings.password +
+		"&name=" + tag +
+		"&value="
+	if set {
+		url = url + "1"
+	} else {
+		url = url + "0"
+	}
+
+	_, err := download(url)
+
+	return err
 }
 
 /**
@@ -257,12 +269,15 @@ function apiTag(package_, version, tag, set) {
  * @param version version number
  * @param url new URL
  * @return true if the call to the web service succeeded, false otherwise
- *
-function apiSetURL(package_, version, url) {
-    return download("https://npackd.appspot.com/api/set-url?package=" +
-            package_ + "&version=" + version +
-            "&password=" + password +
-	    "&url=" + encodeURIComponent(url));
+ */
+func apiSetURL(settings *Settings, package_ string, version string, url_ string) error {
+	a := "https://npackd.appspot.com/api/set-url?package=" +
+		package_ + "&version=" + version +
+		"&password=" + settings.password +
+		"&url=" + url.QueryEscape(url_)
+	_, err := download(a)
+
+	return err
 }
 
 /**
@@ -271,133 +286,115 @@ function apiSetURL(package_, version, url) {
  * @param package_ package name
  * @param version version number
  * @return true if the test was successful
- *
-function process(package_, version) {
-    var ec = exec("\"" + npackdcl + "\" add --package="+package_
-                + " --version=" + version + " -t 600");
-    if (ec !== 0) {
-        WScript.Echo("npackdcl.exe add failed");
-        apiNotify(package_, version, true, false);
-        apiTag(package_, version, "test-failed", true);
+ */
+func process(settings *Settings, package_ string, version string) bool {
+	ec := exec_(settings.npackdcl, "\""+settings.npackdcl+"\" add --package="+package_+
+		" --version="+version+" -t 600")
+	if ec != 0 {
+		fmt.Println("npackdcl.exe add failed")
+		apiNotify(settings, package_, version, true, false)
+		apiTag(settings, package_, version, "test-failed", true)
 
-        var log = package_ + "-" + version + "-install.log";
-        exec("cmd.exe /C \"" + npackdcl + "\" add -d --package="+ package_
-					+ " --version=" + version + " -t 600 > " + log + " 2>&1");
-        exec("appveyor PushArtifact " + log);
+		log := package_ + "-" + version + "-install.log"
+		exec_("cmd.exe", "cmd.exe /C \""+settings.npackdcl+"\" add -d --package="+package_+
+			" --version="+version+" -t 600 > "+log+" 2>&1")
+		exec_("appveyor", "appveyor PushArtifact "+log)
 
-        return false;
-    }
-    apiNotify(package_, version, true, true);
+		return false
+	}
+	apiNotify(settings, package_, version, true, true)
 
-    var path = getPath(package_, version);
-    WScript.Echo("where=" + path);
-    if (path !== "") {
-        var tree = package_ + "-" + version + "-tree.txt";
-        exec2("cmd.exe /c tree \"" + path + "\" /F > " + tree + " 2>&1");
-        exec("appveyor PushArtifact " + tree);
+	var path = getPath(settings, package_, version)
+	fmt.Println("where=" + path)
+	if path != "" {
+		var tree = package_ + "-" + version + "-tree.txt"
+		exec2("cmd.exe", "cmd.exe /c tree \""+path+"\" /F > "+tree+" 2>&1")
+		exec_("appveyor", "appveyor PushArtifact "+tree)
 
-        exec("cmd.exe /c dir \"" + path + "\"");
+		exec_("cmd.exe", "cmd.exe /c dir \""+path+"\"")
 
-        var msilist = package_ + "-" + version + "-msilist.txt";
-        exec2("cmd.exe /c \"C:\\Program Files (x86)\\CLU\\clu.exe\" list-msi > " + msilist + " 2>&1");
-        exec("appveyor PushArtifact " + msilist);
+		var msilist = package_ + "-" + version + "-msilist.txt"
+		exec2("cmd.exe", "cmd.exe /c \"C:\\Program Files (x86)\\CLU\\clu.exe\" list-msi > "+msilist+" 2>&1")
+		exec_("appveyor", "appveyor PushArtifact "+msilist)
 
-        var info = package_ + "-" + version + "-info.txt";
-        exec("cmd.exe /C \"" + npackdcl + "\" info --package="+ package_
-					+ " --version=" + version + " > " + info + " 2>&1");
-        exec("appveyor PushArtifact " + info);
+		var info = package_ + "-" + version + "-info.txt"
+		exec_("cmd.exe", "cmd.exe /C \""+settings.npackdcl+"\" info --package="+package_+
+			" --version="+version+" > "+info+" 2>&1")
+		exec_("appveyor", "appveyor PushArtifact "+info)
 
-        var list = package_ + "-" + version + "-list.txt";
-        exec("cmd.exe /C \"" + npackdcl + "\" list > " + list + " 2>&1");
-        exec("appveyor PushArtifact " + list);
+		var list = package_ + "-" + version + "-list.txt"
+		exec_("cmd.exe", "cmd.exe /C \""+settings.npackdcl+"\" list > "+list+" 2>&1")
+		exec_("appveyor", "appveyor PushArtifact "+list)
 
-        var proglist = package_ + "-" + version + "-proglist.txt";
-        exec2("cmd.exe /c \"C:\\Program Files (x86)\\Sysinternals_suite\\psinfo.exe\" -s /accepteula > " + proglist + " 2>&1");
-        exec("appveyor PushArtifact " + proglist);
-    }
+		var proglist = package_ + "-" + version + "-proglist.txt"
+		exec2("cmd.exe", "cmd.exe /c \"C:\\Program Files (x86)\\Sysinternals_suite\\psinfo.exe\" -s /accepteula > "+proglist+" 2>&1")
+		exec_("appveyor", "appveyor PushArtifact "+proglist)
+	}
 
-    var ec = exec("\"" + npackdcl + "\" remove -e=ck --package="+package_
-                + " --version=" + version + " -t 600");
-    if (ec !== 0) {
-        WScript.Echo("npackdcl.exe remove failed");
-        apiNotify(package_, version, false, false);
-        apiTag(package_, version, "test-failed", true);
+	ec = exec_(settings.npackdcl, "\""+settings.npackdcl+"\" remove -e=ck --package="+package_+
+		" --version="+version+" -t 600")
+	if ec != 0 {
+		fmt.Println("npackdcl.exe remove failed")
+		apiNotify(settings, package_, version, false, false)
+		apiTag(settings, package_, version, "test-failed", true)
 
-        var log = package_ + "-" + version + "-uninstall.log";
-        exec("cmd.exe /C \"" + npackdcl +
-                "\" remove -d -e=ck --package=" + package_
-                + " --version=" + version + " -t 600 > " + log + " 2>&1");
-        exec("appveyor PushArtifact " + log);
+		var log = package_ + "-" + version + "-uninstall.log"
+		exec_("cmd.exe", "cmd.exe /C \""+settings.npackdcl+
+			"\" remove -d -e=ck --package="+package_+
+			" --version="+version+" -t 600 > "+log+" 2>&1")
+		exec_("appveyor", "appveyor PushArtifact "+log)
 
-        return false;
-    }
-    apiNotify(package_, version, false, true);
-    apiTag(package_, version, "test-failed", false);
-    return true;
+		return false
+	}
+	apiNotify(settings, package_, version, false, true)
+	apiTag(settings, package_, version, "test-failed", false)
+	return true
 }
 
-function countPackageFiles(Folder) {
-    var NF = 2;
-    var n = 0;
-
-    for (var objEnum = new Enumerator(Folder.Files); !objEnum.atEnd(); objEnum.moveNext()) {
-        n++;
-        if (n > NF)
-            break;
-    }
-
-
-    if (n <= NF) {
-        for (var objEnum = new Enumerator(Folder.SubFolders); !objEnum.atEnd(); objEnum.moveNext()) {
-            if (n > NF)
-                break;
-
-            var d = objEnum.item();
-            if (d.Name.toLowerCase() !== ".npackd") {
-                n += countPackageFiles(d);
-            }
-        }
-    }
-
-    return n;
+// Max returns the larger of x or y.
+func Max(x, y int) int {
+	if x < y {
+		return y
+	}
+	return x
 }
-
 
 /**
  * @param a first version as a String
  * @param b first version as a String
- *
-function compareVersions(a, b) {
-	a = a.split(".");
-	b = b.split(".");
+ */
+func compareVersions(a string, b string) int {
+	aparts := strings.Split(a, ".")
+	bparts := strings.Split(b, ".")
 
-	var len = Math.max(a.length, b.length);
+	var mlen = Max(len(aparts), len(bparts))
 
-	var r = 0;
+	var r = 0
 
-	for (var i = 0; i < len; i++) {
-		var ai = 0;
-		var bi = 0;
+	for i := 0; i < mlen; i++ {
+		var ai = 0
+		var bi = 0
 
-		if (i < a.length)
-			ai = parseInt(a[i]);
-		if (i < b.length)
-			bi = parseInt(b[i]);
+		if i < len(aparts) {
+			ai, _ = strconv.Atoi(aparts[i])
+		}
+		if i < len(bparts) {
+			bi, _ = strconv.Atoi(bparts[i])
+		}
 
 		// WScript.Echo("comparing " + ai + " and " + bi);
 
-		if (ai < bi) {
-			r = -1;
-			break;
-		} else if (ai > bi) {
-			r = 1;
-			break;
+		if ai < bi {
+			r = -1
+			break
+		} else if ai > bi {
+			r = 1
+			break
 		}
 	}
 
-	return r;
+	return r
 }
-*/
 
 /**
  * @param onlyNewest true = only test the newest versions
@@ -546,7 +543,7 @@ type Release struct {
 	Id       int
 }
 
-func process() error {
+func process2() error {
 	var settings Settings
 	settings.password = os.Getenv("PASSWORD")
 	settings.githubToken = os.Getenv("github_token")
@@ -614,7 +611,7 @@ func process() error {
 }
 
 func main() {
-	err := process()
+	err := process2()
 	if err != nil {
 		fmt.Println(err.Error())
 		os.Exit(1)
