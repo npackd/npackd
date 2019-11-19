@@ -53,96 +53,95 @@ func shuffle(array []string) {
 }
 
 func uploadAllToGithub(url string, releaseID int) {
-	/*    WScript.Echo("Re-uploading packages in " + url);
+    fmt.Println("Re-uploading packages in " + url)
 
-	    var xDoc = new ActiveXObject("MSXML2.DOMDocument.6.0");
-	    xDoc.async = false;
-	    xDoc.setProperty("SelectionLanguage", "XPath");
-	    WScript.Echo("Loading " + url);
-	    if (xDoc.load(url)) {
-	        var packages_ = xDoc.selectNodes("//package[category='reupload']");
+	type Package struct {
+		Name string `xml:"name,attr"`
+		Category string
+	}
+	
+	xDoc.setProperty("SelectionLanguage", "XPath");
+    WScript.Echo("Loading " + url);
+    if (xDoc.load(url)) {
+        var packages_ = xDoc.selectNodes("//package[category='reupload']");
 
-		// copy the nodes into a real array
-		var packages = [];
-	        for (var i = 0; i < packages_.length; i++) {
-	            packages.push(packages_[i].getAttribute("name"));
-	        }
+	// copy the nodes into a real array
+	var packages = [];
+        for (var i = 0; i < packages_.length; i++) {
+            packages.push(packages_[i].getAttribute("name"));
+        }
 
-	        var pvs_ = xDoc.selectNodes("//version");
+        var pvs_ = xDoc.selectNodes("//version");
 
-	        // copy the nodes into a real array
-	        var pvs = [];
-	        for (var i = 0; i < pvs_.length; i++) {
-	            pvs.push(pvs_[i]);
-	        }
+        // copy the nodes into a real array
+        var pvs = [];
+        for (var i = 0; i < pvs_.length; i++) {
+            pvs.push(pvs_[i]);
+        }
 
-	        for (var i = 0; i < pvs.length; i++) {
-	            var pv = pvs[i];
-	            var package_ = pv.getAttribute("package");
-	            var version = pv.getAttribute("name");
-		    var n = pv.selectSingleNode("url");
-		    var url = "";
-		    if (n !== null)
-			url = n.text;
+        for (var i = 0; i < pvs.length; i++) {
+            var pv = pvs[i];
+            var package_ = pv.getAttribute("package");
+            var version = pv.getAttribute("name");
+	    var n = pv.selectSingleNode("url");
+	    var url = "";
+	    if (n !== null)
+		url = n.text;
 
-		    if (packages.contains(package_) && url.indexOf(
-			"https://github.com/tim-lebedkov/packages/releases/download/") !== 0 &&
-			url !== "") {
-			WScript.Echo("https://www.npackd.org/p/" + package_ + "/" + version);
+	    if (packages.contains(package_) && url.indexOf(
+		"https://github.com/tim-lebedkov/packages/releases/download/") !== 0 &&
+		url !== "") {
+		WScript.Echo("https://www.npackd.org/p/" + package_ + "/" + version);
 
-			try {
-			    var newURL = uploadToGithub(url, package_, version, releaseID);
-	                    if (apiSetURL(package_, version, newURL)) {
-				WScript.Echo(package_ + " " + version + " changed URL");
-	                    } else {
-				WScript.Echo("Failed to change URL for " + package_ + " " + version);
-	                    }
-			} catch (e) {
-			    WScript.Echo(e.toString());
-			}
-			WScript.Echo("------------------------------------------------------------------");
-		    }
-	        }
-	    } else {
-	        WScript.Echo("Error loading XML");
-	        return 1;
+		try {
+		    var newURL = uploadToGithub(url, package_, version, releaseID);
+                    if (apiSetURL(package_, version, newURL)) {
+			WScript.Echo(package_ + " " + version + " changed URL");
+                    } else {
+			WScript.Echo("Failed to change URL for " + package_ + " " + version);
+                    }
+		} catch (e) {
+		    WScript.Echo(e.toString());
+		}
+		WScript.Echo("------------------------------------------------------------------");
 	    }
-	    WScript.Echo("==================================================================");
-	*/
+        }
+    } else {
+        WScript.Echo("Error loading XML");
+        return 1;
+    }
+    WScript.Echo("==================================================================");
 }
 
-/*
-function uploadToGithub(from, package_, version, releaseID) {
-    WScript.Echo("Re-uploading " + from + " to Github");
-    var mime = "application/vnd.microsoft.portable-executable"; // "application/octet-stream";
+func uploadToGithub(settings *Settings, from string, package_ string, version string, releaseID int) (string, error) {
+	fmt.Println("Re-uploading " + from + " to Github")
+	var mime = "application/vnd.microsoft.portable-executable" // "application/octet-stream";
 
-    var p = from.lastIndexOf("/");
-    var file = from.substring(p + 1);
+	var p = strings.LastIndex(from, "/")
+	var file = package_ + "-" + version + "-" + from[p+1:]
 
-    file = package_ + "-" + version + "-" + file;
+	var cmd = "\"" + settings.curl + "\" -f -L --connect-timeout 30 --max-time 900 " + from + " --output " + file
+	fmt.Println(cmd)
+	var result, _ = exec2(settings.curl, cmd)
+	if result != 0 {
+		return "", errors.New("Cannot download the file")
+	}
 
-    var cmd = "\"" + curl + "\" -f -L --connect-timeout 30 --max-time 900 " + from + " --output " + file;
-    WScript.Echo(cmd);
-    var result = exec2(cmd);
-    if (result[0] !== 0)
-	throw new Error("Cannot download the file");
+	var url = "https://uploads.github.com/repos/tim-lebedkov/packages/releases/" +
+		strconv.Itoa(releaseID) + "/assets?name=" + file
+	var downloadURL = "https://github.com/tim-lebedkov/packages/releases/download/2019_Q1/" + file
+	// WScript.Echo("Uploading to " + url);
+	fmt.Println("Download from " + downloadURL)
 
-    var url = "https://uploads.github.com/repos/tim-lebedkov/packages/releases/" +
-	    releaseID + "/assets?name=" + file;
-    var downloadURL = "https://github.com/tim-lebedkov/packages/releases/download/2019_Q1/" + file;
-    // WScript.Echo("Uploading to " + url);
-    WScript.Echo("Download from " + downloadURL);
+	result, _ = exec2(settings.curl, "\""+settings.curl+"\" -f -H \"Authorization: token "+settings.githubToken+"\""+
+		" -H \"Content-Type: "+mime+"\""+
+		" --data-binary @"+file+" \""+url+"\"")
+	if result != 0 {
+		return "", errors.New("Cannot upload the file to Github")
+	}
 
-    result = exec2("\"" + curl + "\" -f -H \"Authorization: token " + githubToken + "\"" +
-		       " -H \"Content-Type: " + mime + "\"" +
-		       " --data-binary @" + file + " \"" + url + "\"");
-    if (result[0] !== 0)
-	throw new Error("Cannot upload the file to Github");
-
-    return downloadURL;
+	return downloadURL, nil
 }
-
-*/
 
 func exec_(program string, cmd string) int {
 	fullcmd := "cmd.exe /s /c \"" + cmd + " 2>&1\""
