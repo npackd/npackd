@@ -7,6 +7,7 @@ import (
 	"errors"
 	"fmt"
 	"io"
+	"io/ioutil"
 	"math/rand"
 	"net/http"
 	"net/url"
@@ -53,32 +54,32 @@ func shuffle(array []string) {
 	}
 }
 
+type Package struct {
+	Name     string `xml:"name,attr"`
+	Category []string
+}
+
+type PackageVersion struct {
+	Name    string `xml:"name,attr"`
+	Package string `xml:"package,attr"`
+	Url     string `xml:"url"`
+}
+
+type Repository struct {
+	PackageVersion []PackageVersion `xml:"version"`
+	Package        []Package        `xml:"package"`
+}
+
 func uploadAllToGithub(settings *Settings, url string, releaseID int) error {
 	fmt.Println("Re-uploading packages in " + url)
 
-	type Package struct {
-		Name     string `xml:"name,attr"`
-		Category []string
-	}
-
-	type PackageVersion struct {
-		Name    string `xml:"name,attr"`
-		Package string `xml:"package,attr"`
-		Url     string `xml:"url"`
-	}
-
-	type Result struct {
-		PackageVersion []PackageVersion `xml:"version"`
-		Package        []Package        `xml:"package"`
-	}
-
 	fmt.Println("Loading " + url)
-	bytes, err := download(url)
+	bytes, err, _ := download(url)
 	if err != nil {
 		return err
 	}
 
-	v := Result{}
+	v := Repository{}
 	err = xml.Unmarshal(bytes.Bytes(), &v)
 	if err != nil {
 		return err
@@ -110,7 +111,7 @@ func uploadAllToGithub(settings *Settings, url string, releaseID int) error {
 			if err != nil {
 				fmt.Println(err.Error())
 			} else {
-				err = apiSetURL(settings, package_, version, newURL)
+				err, _ = apiSetURL(settings, package_, version, newURL)
 				if err == nil {
 					fmt.Println(package_ + " " + version + " changed URL")
 				} else {
@@ -268,7 +269,7 @@ func apiTag(settings *Settings, package_ string, version string, tag string,
 		url = url + "0"
 	}
 
-	_, err := download(url)
+	_, err, _ := download(url)
 
 	return err
 }
@@ -281,14 +282,14 @@ func apiTag(settings *Settings, package_ string, version string, tag string,
  * @param url new URL
  * @return true if the call to the web service succeeded, false otherwise
  */
-func apiSetURL(settings *Settings, package_ string, version string, url_ string) error {
+func apiSetURL(settings *Settings, package_ string, version string, url_ string) (error, int) {
 	a := "https://npackd.appspot.com/api/set-url?package=" +
 		package_ + "&version=" + version +
 		"&password=" + settings.password +
 		"&url=" + url.QueryEscape(url_)
-	_, err := download(a)
+	_, err, statusCode := download(a)
 
-	return err
+	return err, statusCode
 }
 
 /**
@@ -530,23 +531,30 @@ func downloadRepos(settings *Settings) {
 		"@github.com/tim-lebedkov/npackd.git")
 }
 
-func download(url string) (*bytes.Buffer, error) {
+func download(url string) (*bytes.Buffer, error, int) {
+	fmt.Println("Downloading " + url)
+
 	// Get the data
 	resp, err := http.Get(url)
 	if err != nil {
-		return nil, err
+		return nil, err, 0
 	}
 	defer resp.Body.Close()
+
+	// Check server response
+	if resp.StatusCode != http.StatusOK {
+		return nil, fmt.Errorf("bad status: %s", resp.Status), resp.StatusCode
+	}
 
 	b := new(bytes.Buffer)
 
 	// Write the body to file
 	_, err = io.Copy(b, resp.Body)
 	if err != nil {
-		return nil, err
+		return nil, err, resp.StatusCode
 	}
 
-	return b, nil
+	return b, nil, resp.StatusCode
 }
 
 type Release struct {
@@ -554,7 +562,7 @@ type Release struct {
 	Id       int
 }
 
-func process2() error {
+func createSettings() Settings {
 	var settings Settings
 	settings.password = os.Getenv("PASSWORD")
 	settings.githubToken = os.Getenv("github_token")
@@ -562,11 +570,17 @@ func process2() error {
 	settings.git = "C:\\Program Files\\Git\\cmd\\git.exe"
 	settings.npackdcl = "C:\\Program Files (x86)\\NpackdCL\\ncl.exe"
 
+	return settings
+}
+
+func process2() error {
+	var settings Settings = createSettings()
+
 	downloadRepos(&settings)
 
 	reps := []string{"stable", "stable64", "libs"}
 
-	b, err := download("https://api.github.com/repos/tim-lebedkov/packages/releases")
+	b, err, _ := download("https://api.github.com/repos/tim-lebedkov/packages/releases")
 	if err != nil {
 		return err
 	}
@@ -621,8 +635,42 @@ func process2() error {
 	return nil
 }
 
+// correct URLs on npackd.org from an XML file
+func correctURLs() error {
+	var settings Settings = createSettings()
+
+	// read Rep.xml
+	dat, err := ioutil.ReadFile("repository/Rep.xml")
+	if err != nil {
+		return err
+	}
+
+	// parse the repository XML
+	v := Repository{}
+	err = xml.Unmarshal(dat, &v)
+	if err != nil {
+		return err
+	}
+
+	// set URL for every package version
+	for _, pv := range v.PackageVersion {
+		if pv.Url != "" {
+			err, statusCode := apiSetURL(&settings, pv.Package, pv.Name, pv.Url)
+			fmt.Println("Setting URL for " + pv.Package + " " + pv.Name + " to " + pv.Url)
+			if err != nil && statusCode != http.StatusNotFound {
+				return err
+			}
+		}
+	}
+
+	return nil
+}
+
 func main() {
-	err := process2()
+	//err := process2()
+
+	// err := correctURLs()
+
 	if err != nil {
 		fmt.Println(err.Error())
 		os.Exit(1)
