@@ -58,7 +58,7 @@ func uploadAllToGithub(settings *Settings, url string, releaseID int) error {
 
 	type Package struct {
 		Name     string `xml:"name,attr"`
-		Category string
+		Category []string
 	}
 
 	type PackageVersion struct {
@@ -86,7 +86,11 @@ func uploadAllToGithub(settings *Settings, url string, releaseID int) error {
 
 	packages := make(map[string]bool)
 	for i := 0; i < len(v.Package); i++ {
-		packages[v.Package[i].Name] = true
+		p := v.Package[i]
+
+		if indexOf(p.Category, "reupload") >= 0 {
+			packages[v.Package[i].Name] = true
+		}
 	}
 
 	for i := 0; i < len(v.PackageVersion); i++ {
