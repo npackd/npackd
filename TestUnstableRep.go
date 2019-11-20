@@ -3,6 +3,7 @@ package main
 import (
 	"bytes"
 	"encoding/json"
+	"encoding/xml"
 	"errors"
 	"fmt"
 	"io"
@@ -52,65 +53,72 @@ func shuffle(array []string) {
 	}
 }
 
-func uploadAllToGithub(url string, releaseID int) {
-    fmt.Println("Re-uploading packages in " + url)
+func uploadAllToGithub(settings *Settings, url string, releaseID int) error {
+	fmt.Println("Re-uploading packages in " + url)
 
 	type Package struct {
-		Name string `xml:"name,attr"`
+		Name     string `xml:"name,attr"`
 		Category string
 	}
-	
-	xDoc.setProperty("SelectionLanguage", "XPath");
-    WScript.Echo("Loading " + url);
-    if (xDoc.load(url)) {
-        var packages_ = xDoc.selectNodes("//package[category='reupload']");
 
-	// copy the nodes into a real array
-	var packages = [];
-        for (var i = 0; i < packages_.length; i++) {
-            packages.push(packages_[i].getAttribute("name"));
-        }
+	type PackageVersion struct {
+		Name    string `xml:"name,attr"`
+		Package string `xml:"package,attr"`
+		Url     string `xml:"url"`
+	}
 
-        var pvs_ = xDoc.selectNodes("//version");
+	type Result struct {
+		PackageVersion []PackageVersion `xml:"version"`
+		Package        []Package        `xml:"package"`
+	}
 
-        // copy the nodes into a real array
-        var pvs = [];
-        for (var i = 0; i < pvs_.length; i++) {
-            pvs.push(pvs_[i]);
-        }
+	fmt.Println("Loading " + url)
+	bytes, err := download(url)
+	if err != nil {
+		return err
+	}
 
-        for (var i = 0; i < pvs.length; i++) {
-            var pv = pvs[i];
-            var package_ = pv.getAttribute("package");
-            var version = pv.getAttribute("name");
-	    var n = pv.selectSingleNode("url");
-	    var url = "";
-	    if (n !== null)
-		url = n.text;
+	v := Result{}
+	err = xml.Unmarshal(bytes.Bytes(), &v)
+	if err != nil {
+		return err
+	}
 
-	    if (packages.contains(package_) && url.indexOf(
-		"https://github.com/tim-lebedkov/packages/releases/download/") !== 0 &&
-		url !== "") {
-		WScript.Echo("https://www.npackd.org/p/" + package_ + "/" + version);
+	packages := make(map[string]bool)
+	for i := 0; i < len(v.Package); i++ {
+		packages[v.Package[i].Name] = true
+	}
 
-		try {
-		    var newURL = uploadToGithub(url, package_, version, releaseID);
-                    if (apiSetURL(package_, version, newURL)) {
-			WScript.Echo(package_ + " " + version + " changed URL");
-                    } else {
-			WScript.Echo("Failed to change URL for " + package_ + " " + version);
-                    }
-		} catch (e) {
-		    WScript.Echo(e.toString());
+	for i := 0; i < len(v.PackageVersion); i++ {
+		var pv = v.PackageVersion[i]
+		var package_ = pv.Package
+		var version = pv.Name
+		var url = pv.Url
+
+		_, ok := packages[package_]
+
+		if ok && strings.Index(url,
+			"https://github.com/tim-lebedkov/packages/releases/download/") != 0 &&
+			url != "" {
+			fmt.Println("https://www.npackd.org/p/" + package_ + "/" + version)
+
+			newURL, err := uploadToGithub(settings, url, package_, version, releaseID)
+			if err != nil {
+				fmt.Println(err.Error())
+			} else {
+				err = apiSetURL(settings, package_, version, newURL)
+				if err == nil {
+					fmt.Println(package_ + " " + version + " changed URL")
+				} else {
+					fmt.Println("Failed to change URL for " + package_ + " " + version)
+				}
+			}
+			fmt.Println("------------------------------------------------------------------")
 		}
-		WScript.Echo("------------------------------------------------------------------");
-	    }
-        }
-    } else {
-        WScript.Echo("Error loading XML");
-        return 1;
-    }
-    WScript.Echo("==================================================================");
+	}
+	fmt.Println("==================================================================")
+
+	return nil
 }
 
 func uploadToGithub(settings *Settings, from string, package_ string, version string, releaseID int) (string, error) {
@@ -130,7 +138,7 @@ func uploadToGithub(settings *Settings, from string, package_ string, version st
 	var url = "https://uploads.github.com/repos/tim-lebedkov/packages/releases/" +
 		strconv.Itoa(releaseID) + "/assets?name=" + file
 	var downloadURL = "https://github.com/tim-lebedkov/packages/releases/download/2019_Q1/" + file
-	// WScript.Echo("Uploading to " + url);
+	// fmt.Println("Uploading to " + url);
 	fmt.Println("Download from " + downloadURL)
 
 	result, _ = exec2(settings.curl, "\""+settings.curl+"\" -f -H \"Authorization: token "+settings.githubToken+"\""+
@@ -381,7 +389,7 @@ func compareVersions(a string, b string) int {
 			bi, _ = strconv.Atoi(bparts[i])
 		}
 
-		// WScript.Echo("comparing " + ai + " and " + bi);
+		// fmt.Println("comparing " + ai + " and " + bi);
 
 		if ai < bi {
 			r = -1
@@ -404,7 +412,7 @@ func processURL(url string, settings *Settings, onlyNewest bool) int {
 	    var xDoc = new ActiveXObject("MSXML2.DOMDocument.6.0");
 	    xDoc.async = false;
 	    xDoc.setProperty("SelectionLanguage", "XPath");
-	    WScript.Echo("Loading " + url);
+	    fmt.Println("Loading " + url);
 	    if (xDoc.load(url)) {
 	        var pvs_ = xDoc.selectNodes("//version");
 
@@ -416,7 +424,7 @@ func processURL(url string, settings *Settings, onlyNewest bool) int {
 
 		// only retain newest versions for each package
 		if (onlyNewest) {
-		    WScript.Echo("Only testing the newest versions out of " + pvs.length);
+		    fmt.Println("Only testing the newest versions out of " + pvs.length);
 		    var newest = {};
 		    for (var i = 0; i < pvs.length; i++) {
 			var pvi = pvs[i];
@@ -435,18 +443,18 @@ func processURL(url string, settings *Settings, onlyNewest bool) int {
 			pvs.push(newest[key]);
 
 			/*
-			  WScript.Echo("Newest: " + newest[key].getAttribute("package") +
+			  fmt.Println("Newest: " + newest[key].getAttribute("package") +
 			  " " +
 			  newest[key].getAttribute("name"));
 			* /
 		    }
 
-		    WScript.Echo("Only the newest versions: " + pvs.length);
+		    fmt.Println("Only the newest versions: " + pvs.length);
 		}
 
 	        shuffle(pvs);
 
-	        // WScript.Echo(pvs.length + " versions found");
+	        // fmt.Println(pvs.length + " versions found");
 	        var failed = [];
 
 	        for (var i = 0; i < pvs.length; i++) {
@@ -454,8 +462,8 @@ func processURL(url string, settings *Settings, onlyNewest bool) int {
 	            var package_ = pv.getAttribute("package");
 	            var version = pv.getAttribute("name");
 
-	            WScript.Echo(package_ + " " + version);
-	            WScript.Echo("https://www.npackd.org/p/" + package_ + "/" + version);
+	            fmt.Println(package_ + " " + version);
+	            fmt.Println("https://www.npackd.org/p/" + package_ + "/" + version);
 		// packages with the download size over 1 GiB
 		bigPackages = ["mevislab", "mevislab64", "nifi", "com.nokia.QtMinGWInstaller",
 			"urban-terror", "com.microsoft.VisualStudioExpressCD",
@@ -463,17 +471,17 @@ func processURL(url string, settings *Settings, onlyNewest bool) int {
 			"win10-edge-virtualbox", "win7-ie11-virtualbox"];
 	        * /
 		    if (bigPackages.contains(package_)) {
-	                WScript.Echo(package_ + " " + version + " ignored because of the download size");
+	                fmt.Println(package_ + " " + version + " ignored because of the download size");
 		    } else if (!process(package_, version)) {
 	                failed.push(package_ + "@" + version);
 	            } else {
 	                if (apiTag(package_, version, "untested", false)) {
-	                    WScript.Echo(package_ + " " + version + " was marked as tested");
+	                    fmt.Println(package_ + " " + version + " was marked as tested");
 	                } else {
-	                    WScript.Echo("Failed to mark " + package_ + " " + version + " as tested");
+	                    fmt.Println("Failed to mark " + package_ + " " + version + " as tested");
 	                }
 	            }
-	            WScript.Echo("==================================================================");
+	            fmt.Println("==================================================================");
 
 		    if ((new Date()).getTime() - start.getTime() > 45 * 60 * 1000) {
 			break;
@@ -481,16 +489,16 @@ func processURL(url string, settings *Settings, onlyNewest bool) int {
 	        }
 
 	        if (failed.length > 0) {
-	            WScript.Echo(failed.length + " packages failed:");
+	            fmt.Println(failed.length + " packages failed:");
 	            for (var i = 0; i < failed.length; i++) {
-	                WScript.Echo(failed[i]);
+	                fmt.Println(failed[i]);
 	            }
 	            return 1;
 	        } else {
-	            WScript.Echo("All packages are OK in " + url);
+	            fmt.Println("All packages are OK in " + url);
 	        }
 	    } else {
-	        WScript.Echo("Error loading XML");
+	        fmt.Println("Error loading XML");
 	        return 1;
 	    }
 	*/
@@ -584,7 +592,7 @@ func process2() error {
 	exec2(settings.curl, "\""+settings.curl+"\" --version")
 
 	for _, rep := range reps {
-		uploadAllToGithub("https://npackd.appspot.com/rep/xml?tag="+rep, releaseID)
+		uploadAllToGithub(&settings, "https://npackd.appspot.com/rep/xml?tag="+rep, releaseID)
 	}
 
 	processURL("https://npackd.appspot.com/rep/recent-xml?tag=untested",
