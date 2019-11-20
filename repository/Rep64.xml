@@ -10299,7 +10299,7 @@ del Q-Dir.ini&#13;
   <url>http://files.npackd.org/com.softwareok.QDir64-5.99.9.zip</url>
   <sha1>fb6060796fae3fc641ba34fe1f2f8530d7c985a8</sha1>
  </version>
- <version name="7.93" package="com.softwareok.QDir64">
+ <version name="7.95" package="com.softwareok.QDir64">
   <important-file path="Q-Dir.exe" title="Q-Dir"/>
   <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b Q*') do set name=%%x&#13;
 cd "%name%"        &#13;
@@ -15200,7 +15200,7 @@ if %err% neq 0 exit %err%&#13;
   <hash-sum type="SHA-256">cd94e96b6942156437c200a1855185bd7ab29dafd0ba8da921967176d82d19d2</hash-sum>
  </version>
 
-    <version name="78.0.3904.97" package="google-chrome-x64" type="one-file">
+    <version name="78.0.3904.108" package="google-chrome-x64" type="one-file">
   <file path=".Npackd\Install.bat">call "%npackdih%\InstallMSI.bat" TARGETDIR yes&#13;
 </file>
   <url>https://dl.google.com/tag/s/appguid%3D%7B8A69D345-D564-463C-AFF1-A69D9E530F96%7D%26iid%3D%7B0A558A36-0536-8B3F-0AE0-420553CC97F3%7D%26lang%3Den%26browser%3D4%26usagestats%3D0%26appname%3DGoogle%2520Chrome%26needsadmin%3DFalse/edgedl/chrome/install/GoogleChromeStandaloneEnterprise64.msi</url>
@@ -38482,6 +38482,14 @@ if %errorlevel% equ 3010 verify</file>
 </file>
   <url>https://download.racket-lang.org/installers/7.4/racket-7.4-x86_64-win32.exe</url>
   <hash-sum type="SHA-256">93d528b00733e801de331073770851803d1ba0fd7a45f2cb49708cc53cd0eb98</hash-sum>
+ </version>
+ <version name="7.5" package="racket64" type="one-file">
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
+"%setup%" /S /D=%CD%\Prog &amp;&amp; del /f /q "%setup%"</file>
+  <file path=".Npackd\Uninstall.bat">Prog\uninstall.exe /S _?=%CD%\Prog&#13;
+</file>
+  <url>https://download.racket-lang.org/installers/7.5/racket-7.5-x86_64-win32.exe</url>
+  <hash-sum type="SHA-256">e8d1bcb85e84dadb46ebe7a56507f807972a304d9f4e5b76731bf09ff9318984</hash-sum>
  </version>
 
     <version name="1.14.2" package="rainlendar-lite-64bit" type="one-file">
