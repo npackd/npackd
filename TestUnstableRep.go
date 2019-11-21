@@ -214,7 +214,7 @@ func getPath(settings *Settings, package_ string, version string) string {
  * @return [exit code, [output line 1, output line2, ...]]
  */
 func exec2(program string, command string) (exitCode int, output []string) {
-	// fmt.Println(command)
+	fmt.Println(command)
 
 	cmd := exec.Command(program)
 	cmd.SysProcAttr = &syscall.SysProcAttr{}
@@ -562,7 +562,7 @@ func downloadRepos(settings *Settings) {
 }
 
 func download(url string) (*bytes.Buffer, error, int) {
-	// fmt.Println("Downloading " + url)
+	fmt.Println("Downloading " + url)
 
 	// Get the data
 	resp, err := http.Get(url)
@@ -594,7 +594,8 @@ type Release struct {
 
 func createSettings() Settings {
 	var settings Settings
-	settings.password = os.Getenv("PASSWORD")
+	// settings.password = os.Getenv("PASSWORD")
+	settings.password = "abc"
 	settings.githubToken = os.Getenv("github_token")
 	settings.curl = getPath(&settings, "se.haxx.curl.CURL64", "") + "\\bin\\curl.exe"
 	settings.git = "C:\\Program Files\\Git\\cmd\\git.exe"
