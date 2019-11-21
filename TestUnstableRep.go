@@ -15,6 +15,7 @@ import (
 	"os/exec"
 	"strconv"
 	"strings"
+
 	"syscall"
 	"time"
 )
@@ -215,11 +216,11 @@ func getPath(settings *Settings, package_ string, version string) string {
  * @return [exit code, [output line 1, output line2, ...]]
  */
 func exec2(program string, params string) (exitCode int, output []string) {
-	fmt.Println(command)
+	fmt.Println(program + " " + params)
 
 	cmd := exec.Command(program)
 	cmd.SysProcAttr = &syscall.SysProcAttr{}
-	cmd.SysProcAttr.CmdLine = "\"" + cmd.Path + "\" " + params
+	cmd.SysProcAttr.CmdLine = " " + params
 
 	out, err := cmd.CombinedOutput()
 
@@ -603,11 +604,17 @@ func createSettings() Settings {
 	settings.curl = getPath(&settings, "se.haxx.curl.CURL64", "") + "\\bin\\curl.exe"
 	settings.git = "C:\\Program Files\\Git\\cmd\\git.exe"
 
+	fmt.Println("curl: " + settings.curl)
+
 	return settings
 }
 
 func process2() error {
 	var settings Settings = createSettings()
+
+	/*	if !changeData {
+		return nil
+	}*/
 
 	downloadRepos(&settings)
 
