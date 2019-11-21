@@ -598,9 +598,9 @@ func createSettings() Settings {
 	// settings.password = os.Getenv("PASSWORD")
 	settings.password = "abc"
 	settings.githubToken = os.Getenv("github_token")
+	settings.npackdcl = "C:\\Program Files (x86)\\NpackdCL\\ncl.exe"
 	settings.curl = getPath(&settings, "se.haxx.curl.CURL64", "") + "\\bin\\curl.exe"
 	settings.git = "C:\\Program Files\\Git\\cmd\\git.exe"
-	settings.npackdcl = "C:\\Program Files (x86)\\NpackdCL\\ncl.exe"
 
 	return settings
 }
