@@ -223,9 +223,9 @@ func exec2(program string, command string) (exitCode int, output []string) {
 
 	out, err := cmd.CombinedOutput()
 
-	lines := strings.Split(string(out), "\n")
+	lines := strings.Split(string(out), "\r\n")
 	for _, line := range lines {
-		fmt.Println(line)
+		fmt.Println("output:" + line)
 	}
 
 	if err != nil {
@@ -599,6 +599,7 @@ func createSettings() Settings {
 	settings.password = "abc"
 	settings.githubToken = os.Getenv("github_token")
 	settings.npackdcl = "C:\\Program Files (x86)\\NpackdCL\\ncl.exe"
+	//settings.npackdcl = "C:\\Program Files\\NpackdCL\\ncl.exe"
 	settings.curl = getPath(&settings, "se.haxx.curl.CURL64", "") + "\\bin\\curl.exe"
 	settings.git = "C:\\Program Files\\Git\\cmd\\git.exe"
 
