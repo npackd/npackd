@@ -16,7 +16,10 @@ import (
 	"strconv"
 	"strings"
 	"syscall"
+	"time"
 )
+
+var changeData = false
 
 type Settings struct {
 	curl        string
@@ -37,6 +40,24 @@ func indexOf(slice []string, item string) int {
 
 // http://stackoverflow.com/questions/6274339/how-can-i-shuffle-an-array-in-javascript
 func shuffle(array []string) {
+	counter := len(array)
+
+	// While there are elements in the array
+	for counter > 0 {
+		// Pick a random index
+		index := rand.Intn(counter)
+
+		// Decrease counter by 1
+		counter--
+
+		// And swap the last element with it
+		temp := array[counter]
+		array[counter] = array[index]
+		array[index] = temp
+	}
+}
+
+func shufflePackageVersions(array []PackageVersion) {
 	counter := len(array)
 
 	// While there are elements in the array
@@ -146,11 +167,13 @@ func uploadToGithub(settings *Settings, from string, package_ string, version st
 	// fmt.Println("Uploading to " + url);
 	fmt.Println("Download from " + downloadURL)
 
-	result, _ = exec2(settings.curl, "\""+settings.curl+"\" -f -H \"Authorization: token "+settings.githubToken+"\""+
-		" -H \"Content-Type: "+mime+"\""+
-		" --data-binary @"+file+" \""+url+"\"")
-	if result != 0 {
-		return "", errors.New("Cannot upload the file to Github")
+	if changeData {
+		result, _ = exec2(settings.curl, "\""+settings.curl+"\" -f -H \"Authorization: token "+settings.githubToken+"\""+
+			" -H \"Content-Type: "+mime+"\""+
+			" --data-binary @"+file+" \""+url+"\"")
+		if result != 0 {
+			return "", errors.New("Cannot upload the file to Github")
+		}
 	}
 
 	return downloadURL, nil
@@ -191,7 +214,7 @@ func getPath(settings *Settings, package_ string, version string) string {
  * @return [exit code, [output line 1, output line2, ...]]
  */
 func exec2(program string, command string) (exitCode int, output []string) {
-	fmt.Println(command)
+	// fmt.Println(command)
 
 	cmd := exec.Command(program)
 	cmd.SysProcAttr = &syscall.SysProcAttr{}
@@ -243,7 +266,9 @@ func apiNotify(settings *Settings,
 		url = url + "0"
 	}
 
-	download(url)
+	if changeData {
+		download(url)
+	}
 }
 
 /**
@@ -269,9 +294,12 @@ func apiTag(settings *Settings, package_ string, version string, tag string,
 		url = url + "0"
 	}
 
-	_, err, _ := download(url)
-
-	return err
+	if changeData {
+		_, err, _ := download(url)
+		return err
+	} else {
+		return nil
+	}
 }
 
 /**
@@ -287,9 +315,13 @@ func apiSetURL(settings *Settings, package_ string, version string, url_ string)
 		package_ + "&version=" + version +
 		"&password=" + settings.password +
 		"&url=" + url.QueryEscape(url_)
-	_, err, statusCode := download(a)
 
-	return err, statusCode
+	if changeData {
+		_, err, statusCode := download(a)
+		return err, statusCode
+	} else {
+		return nil, 0
+	}
 }
 
 /**
@@ -411,104 +443,99 @@ func compareVersions(a string, b string) int {
 /**
  * @param onlyNewest true = only test the newest versions
  */
-func processURL(url string, settings *Settings, onlyNewest bool) int {
-	/*    var start = new Date();
+func processURL(url string, settings *Settings, onlyNewest bool) error {
+	var start = time.Now()
 
-	    var xDoc = new ActiveXObject("MSXML2.DOMDocument.6.0");
-	    xDoc.async = false;
-	    xDoc.setProperty("SelectionLanguage", "XPath");
-	    fmt.Println("Loading " + url);
-	    if (xDoc.load(url)) {
-	        var pvs_ = xDoc.selectNodes("//version");
+	bytes, err, _ := download(url)
+	if err != nil {
+		return err
+	}
 
-	        // copy the nodes into a real array
-	        var pvs = [];
-	        for (var i = 0; i < pvs_.length; i++) {
-	            pvs.push(pvs_[i]);
-	        }
+	// parse the repository XML
+	v := Repository{}
+	err = xml.Unmarshal(bytes.Bytes(), &v)
+	if err != nil {
+		return err
+	}
 
-		// only retain newest versions for each package
-		if (onlyNewest) {
-		    fmt.Println("Only testing the newest versions out of " + pvs.length);
-		    var newest = {};
-		    for (var i = 0; i < pvs.length; i++) {
-			var pvi = pvs[i];
-			var pvip = pvi.getAttribute("package");
-			var pvj = newest[pvip];
+	var pvs = v.PackageVersion
 
-			if (((typeof pvj) === "undefined") ||
-			    compareVersions(pvi.getAttribute("name"),
-					    pvj.getAttribute("name")) > 0) {
-			    newest[pvip] = pvi;
+	// only retain newest versions for each package
+	if onlyNewest {
+		fmt.Println("Only testing the newest versions out of " + strconv.Itoa(len(pvs)))
+		var newest = make(map[string]PackageVersion)
+		for i := 0; i < len(pvs); i++ {
+			var pvi = pvs[i]
+			var pvip = pvi.Package
+			var pvj, found = newest[pvip]
+
+			if !found || compareVersions(pvi.Name, pvj.Name) > 0 {
+				newest[pvip] = pvi
 			}
-		    }
-
-		    pvs = [];
-		    for (var key in newest) {
-			pvs.push(newest[key]);
-
-			/*
-			  fmt.Println("Newest: " + newest[key].getAttribute("package") +
-			  " " +
-			  newest[key].getAttribute("name"));
-			* /
-		    }
-
-		    fmt.Println("Only the newest versions: " + pvs.length);
 		}
 
-	        shuffle(pvs);
+		pvs = nil
+		for _, value := range newest {
+			pvs = append(pvs, value)
 
-	        // fmt.Println(pvs.length + " versions found");
-	        var failed = [];
+			/*
+			   fmt.Println("Newest: " + newest[key].getAttribute("package") +
+			   " " +
+			   newest[key].getAttribute("name"))
+			*/
+		}
 
-	        for (var i = 0; i < pvs.length; i++) {
-	            var pv = pvs[i];
-	            var package_ = pv.getAttribute("package");
-	            var version = pv.getAttribute("name");
+		fmt.Println("Only the newest versions: " + strconv.Itoa(len(pvs)))
+	}
 
-	            fmt.Println(package_ + " " + version);
-	            fmt.Println("https://www.npackd.org/p/" + package_ + "/" + version);
-		// packages with the download size over 1 GiB
-		bigPackages = ["mevislab", "mevislab64", "nifi", "com.nokia.QtMinGWInstaller",
-			"urban-terror", "com.microsoft.VisualStudioExpressCD",
-			"com.microsoft.VisualCSharpExpress", "com.microsoft.VisualCPPExpress",
-			"win10-edge-virtualbox", "win7-ie11-virtualbox"];
-	        * /
-		    if (bigPackages.contains(package_)) {
-	                fmt.Println(package_ + " " + version + " ignored because of the download size");
-		    } else if (!process(package_, version)) {
-	                failed.push(package_ + "@" + version);
-	            } else {
-	                if (apiTag(package_, version, "untested", false)) {
-	                    fmt.Println(package_ + " " + version + " was marked as tested");
-	                } else {
-	                    fmt.Println("Failed to mark " + package_ + " " + version + " as tested");
-	                }
-	            }
-	            fmt.Println("==================================================================");
+	shufflePackageVersions(pvs)
 
-		    if ((new Date()).getTime() - start.getTime() > 45 * 60 * 1000) {
-			break;
-		    }
-	        }
+	// fmt.Println(pvs.length + " versions found")
+	var failed []string = nil
 
-	        if (failed.length > 0) {
-	            fmt.Println(failed.length + " packages failed:");
-	            for (var i = 0; i < failed.length; i++) {
-	                fmt.Println(failed[i]);
-	            }
-	            return 1;
-	        } else {
-	            fmt.Println("All packages are OK in " + url);
-	        }
-	    } else {
-	        fmt.Println("Error loading XML");
-	        return 1;
-	    }
-	*/
+	// packages with the download size over 1 GiB
+	var bigPackages = []string{"mevislab", "mevislab64", "nifi", "com.nokia.QtMinGWInstaller",
+		"urban-terror", "com.microsoft.VisualStudioExpressCD",
+		"com.microsoft.VisualCSharpExpress", "com.microsoft.VisualCPPExpress",
+		"win10-edge-virtualbox", "win7-ie11-virtualbox"}
 
-	return 0
+	for i := range pvs {
+		var pv = pvs[i]
+		var package_ = pv.Package
+		var version = pv.Name
+
+		fmt.Println(package_ + " " + version)
+		fmt.Println("https://www.npackd.org/p/" + package_ + "/" + version)
+
+		if indexOf(bigPackages, package_) >= 0 {
+			fmt.Println(package_ + " " + version + " ignored because of the download size")
+		} else if !process(settings, package_, version) {
+			failed = append(failed, package_+"@"+version)
+		} else {
+			if apiTag(settings, package_, version, "untested", false) == nil {
+				fmt.Println(package_ + " " + version + " was marked as tested")
+			} else {
+				fmt.Println("Failed to mark " + package_ + " " + version + " as tested")
+			}
+		}
+		fmt.Println("==================================================================")
+
+		if time.Since(start).Minutes() > 45 {
+			break
+		}
+	}
+
+	if len(failed) > 0 {
+		fmt.Println(strconv.Itoa(len(failed)) + " packages failed:")
+		for i := 0; i < len(failed); i++ {
+			fmt.Println(failed[i])
+		}
+		return errors.New("Some packages failed")
+	} else {
+		fmt.Println("All packages are OK in " + url)
+	}
+
+	return nil
 }
 
 func downloadRepos(settings *Settings) {
@@ -527,12 +554,15 @@ func downloadRepos(settings *Settings) {
 	exec_(settings.git, "\""+settings.git+"\" config user.email \"tim.lebedkov@gmail.com\"")
 	exec_(settings.git, "\""+settings.git+"\" config user.name \"tim-lebedkov\"")
 	exec_(settings.git, "\""+settings.git+"\" commit -a -m \"Automatic data transfer from https://www.npackd.org\"")
-	exec_(settings.git, "\""+settings.git+"\" push https://tim-lebedkov:"+settings.githubToken+
-		"@github.com/tim-lebedkov/npackd.git")
+
+	if changeData {
+		exec_(settings.git, "\""+settings.git+"\" push https://tim-lebedkov:"+settings.githubToken+
+			"@github.com/tim-lebedkov/npackd.git")
+	}
 }
 
 func download(url string) (*bytes.Buffer, error, int) {
-	fmt.Println("Downloading " + url)
+	// fmt.Println("Downloading " + url)
 
 	// Get the data
 	resp, err := http.Get(url)
@@ -667,7 +697,7 @@ func correctURLs() error {
 }
 
 func main() {
-	//err := process2()
+	err := process2()
 
 	// err := correctURLs()
 
