@@ -181,7 +181,7 @@ func uploadToGithub(settings *Settings, from string, package_ string, version st
 
 func exec_(program string, cmd string) int {
 	fullcmd := "cmd.exe /s /c \"" + cmd + " 2>&1\""
-	exitCode, _ := exec2(program, fullcmd)
+	exitCode, _ := exec2("cmd.exe", fullcmd)
 	return exitCode
 }
 
