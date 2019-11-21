@@ -13256,6 +13256,14 @@ if %err% neq 0 exit %err%&#13;
   <url>http://dbeaver.jkiss.org/files/6.2.4/dbeaver-ce-6.2.4-x86_64-setup.exe</url>
   <hash-sum type="SHA-256">01701d26bdd8047f7b68bc0caa88f3d73e3ee0cf1a13c93630764af9edf07795</hash-sum>
  </version>
+ <version name="6.2.5" package="dbeaver64" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" /allusers /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">uninstall.exe /allusers /S _?=%CD%&#13;
+</file>
+  <url>http://dbeaver.jkiss.org/files/6.2.5/dbeaver-ce-6.2.5-x86_64-setup.exe</url>
+  <hash-sum type="SHA-256">ea9b4b52a4a97f38d9b8838fa6152a6d60565858ffbc7a686d8867da7b8c5665</hash-sum>
+ </version>
 
     <version name="0.825" package="dcplusplus64">
   <important-file path="DCPlusPlus.exe" title="DC++"/>
@@ -16558,6 +16566,17 @@ if %err% neq 0 exit %err%&#13;
    <variable>nih</variable>
   </dependency>
  </version>
+ <version name="7.0.9.5" package="imagemagick64" type="one-file">
+  <file path=".Npackd\Install.bat">call "%nih%\InstallInnoSetup.bat"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">call "%nih%\UninstallInnoSetup.bat" unins000.exe&#13;
+</file>
+  <url>https://www.imagemagick.org/download/binaries/ImageMagick-7.0.9-5-Q16-x64-dll.exe</url>
+  <hash-sum type="SHA-256">7aa757ef1cd7b4657636e36261f503d947e49ba8912c2dd62ce86cda2d6bf9c2</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
 
     <version name="0.3.8" package="io.mpv.mpv-64" type="one-file">
   <file path=".Npackd\Install.bat">for /f %%x in ('dir /b *.7z') do set setup=%%x&#13;
@@ -19500,6 +19519,15 @@ rmdir "%name%"&#13;
 </file>
   <url>https://github.com/musescore/MuseScore/releases/download/v3.3/MuseScore-3.3.0-x86_64.msi</url>
   <hash-sum type="SHA-256">db645a10c7c34e591e49a1d12054f479a6c478e3c4c1ba3360e1a19edd702905</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.1, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
+ <version name="3.3.2" package="musescore64" type="one-file">
+  <file path=".Npackd\Install.bat">call "%nih%\InstallMSI.bat" INSTALLDIR yes&#13;
+</file>
+  <url>https://github.com/musescore/MuseScore/releases/download/v3.3.2/MuseScore-3.3.2-x86_64.msi</url>
+  <hash-sum type="SHA-256">8d0019e96e867412f9f1a97ec9afd1aefeeea4dc42cdf1dc9cf74f70074537c9</hash-sum>
   <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.1, 2)">
    <variable>nih</variable>
   </dependency>
@@ -35138,6 +35166,20 @@ call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Np
    <variable>nih</variable>
   </dependency>
  </version>
+ <version name="8.1.2321" package="org.vim.Vim64">
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+if %errorlevel% neq 0 exit /b %errorlevel%&#13;
+&#13;
+for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+</file>
+  <url>https://github.com/vim/vim-win32-installer/releases/download/v8.1.2321/gvim_8.1.2321_x64.zip</url>
+  <hash-sum type="SHA-256">23149dec1d4ef2e4c8b27d4f9ffce36b7c931a14a4505d90cc47a08f4f3838a8</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.19, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
 
     <version name="4.2.8.83876" package="org.virtualbox.virtualbox64" type="one-file">
   <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
@@ -38837,6 +38879,12 @@ if %errorlevel% equ 3010 verify</file>
   <hash-sum type="SHA-256">3c93d58a00636bb26500d5535775fa000a7fd5f6916c6a7c1ac3ab0849334fa7</hash-sum>
   <dependency package="com.microsoft.DotNetRedistributable" versions="[2.0, 5)"/>
  </version>
+ <version name="4.5.8.7128" package="se.cdburnerxp.CDBurnerXP64">
+  <important-file path="cdbxpp.exe" title="CDBurnerXP"/>
+  <url>https://download.cdburnerxp.se/portable/CDBurnerXP-x64-4.5.8.7128.zip</url>
+  <hash-sum type="SHA-256">9d45a76026b3d1dff9397fcda2dd81c60af8a2d105103f6e021a581e9b492d8f</hash-sum>
+  <dependency package="com.microsoft.DotNetRedistributable" versions="[2.0, 5)"/>
+ </version>
 
     <version name="7.27" package="se.haxx.curl.CURL64" type="one-file">
   <file path=".Npackd\Install.bat">for /f %%x in ('dir /b *.7z') do set setup=%%x&#13;
@@ -39096,6 +39144,16 @@ call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Np
 </file>
   <url>https://curl.haxx.se/windows/dl-7.66.0_2/curl-7.66.0_2-win64-mingw.zip</url>
   <hash-sum type="SHA-256">7f96e66447a85bfe0c9c517904284d464c36c31b20ef79a670a79d56eec3d003</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.19, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
+ <version name="7.67" package="se.haxx.curl.CURL64">
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b curl*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+</file>
+  <url>https://curl.haxx.se/windows/dl-7.67.0_4/curl-7.67.0_4-win64-mingw.zip</url>
+  <hash-sum type="SHA-256">1d50deeac7f945ed75149e6300f6d21f007a6b942ab851a119ed76cdef27d714</hash-sum>
   <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.19, 2)">
    <variable>nih</variable>
   </dependency>
