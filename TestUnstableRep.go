@@ -154,7 +154,7 @@ func uploadToGithub(settings *Settings, from string, package_ string, version st
 	var p = strings.LastIndex(from, "/")
 	var file = package_ + "-" + version + "-" + from[p+1:]
 
-	var cmd = "\"" + settings.curl + "\" -f -L --connect-timeout 30 --max-time 900 " + from + " --output " + file
+	var cmd = "-f -L --connect-timeout 30 --max-time 900 " + from + " --output " + file
 	fmt.Println(cmd)
 	var result, _ = exec2(settings.curl, cmd)
 	if result != 0 {
@@ -168,7 +168,7 @@ func uploadToGithub(settings *Settings, from string, package_ string, version st
 	fmt.Println("Download from " + downloadURL)
 
 	if changeData {
-		result, _ = exec2(settings.curl, "\""+settings.curl+"\" -f -H \"Authorization: token "+settings.githubToken+"\""+
+		result, _ = exec2(settings.curl, "-f -H \"Authorization: token "+settings.githubToken+"\""+
 			" -H \"Content-Type: "+mime+"\""+
 			" --data-binary @"+file+" \""+url+"\"")
 		if result != 0 {
@@ -180,7 +180,7 @@ func uploadToGithub(settings *Settings, from string, package_ string, version st
 }
 
 func exec_(program string, cmd string) int {
-	fullcmd := "cmd.exe /s /c \"" + cmd + " 2>&1\""
+	fullcmd := "/s /c \"" + cmd + " 2>&1\""
 	exitCode, _ := exec2("cmd.exe", fullcmd)
 	return exitCode
 }
@@ -196,7 +196,7 @@ func getPath(settings *Settings, package_ string, version string) string {
 		cmd = cmd + " -v " + version
 	}
 
-	fullcmd := "cmd.exe /s /c \"" + cmd + " 2>&1\""
+	fullcmd := "/s /c \"" + cmd + " 2>&1\""
 
 	_, lines := exec2("cmd.exe", fullcmd)
 	if len(lines) > 0 {
@@ -214,12 +214,12 @@ func getPath(settings *Settings, package_ string, version string) string {
  * @param cmd this command should be executed
  * @return [exit code, [output line 1, output line2, ...]]
  */
-func exec2(program string, command string) (exitCode int, output []string) {
+func exec2(program string, params string) (exitCode int, output []string) {
 	fmt.Println(command)
 
 	cmd := exec.Command(program)
 	cmd.SysProcAttr = &syscall.SysProcAttr{}
-	cmd.SysProcAttr.CmdLine = command
+	cmd.SysProcAttr.CmdLine = "\"" + cmd.Path + "\" " + params
 
 	out, err := cmd.CombinedOutput()
 
@@ -353,13 +353,13 @@ func process(settings *Settings, package_ string, version string) bool {
 	fmt.Println("where=" + path)
 	if path != "" {
 		var tree = package_ + "-" + version + "-tree.txt"
-		exec2("cmd.exe", "cmd.exe /c tree \""+path+"\" /F > "+tree+" 2>&1")
+		exec2("cmd.exe", "/c tree \""+path+"\" /F > "+tree+" 2>&1")
 		exec_("appveyor", "appveyor PushArtifact "+tree)
 
 		exec_("cmd.exe", "cmd.exe /c dir \""+path+"\"")
 
 		var msilist = package_ + "-" + version + "-msilist.txt"
-		exec2("cmd.exe", "cmd.exe /c \"C:\\Program Files (x86)\\CLU\\clu.exe\" list-msi > "+msilist+" 2>&1")
+		exec2("cmd.exe", "/c \"C:\\Program Files (x86)\\CLU\\clu.exe\" list-msi > "+msilist+" 2>&1")
 		exec_("appveyor", "appveyor PushArtifact "+msilist)
 
 		var info = package_ + "-" + version + "-info.txt"
@@ -372,7 +372,7 @@ func process(settings *Settings, package_ string, version string) bool {
 		exec_("appveyor", "appveyor PushArtifact "+list)
 
 		var proglist = package_ + "-" + version + "-proglist.txt"
-		exec2("cmd.exe", "cmd.exe /c \"C:\\Program Files (x86)\\Sysinternals_suite\\psinfo.exe\" -s /accepteula > "+proglist+" 2>&1")
+		exec2("cmd.exe", "/c \"C:\\Program Files (x86)\\Sysinternals_suite\\psinfo.exe\" -s /accepteula > "+proglist+" 2>&1")
 		exec_("appveyor", "appveyor PushArtifact "+proglist)
 	}
 
@@ -640,7 +640,7 @@ func process2() error {
 	fmt.Printf("Found release ID: %d\n", releaseID)
 
 	// print curl version
-	exec2(settings.curl, "\""+settings.curl+"\" --version")
+	exec2(settings.curl, "--version")
 
 	for _, rep := range reps {
 		uploadAllToGithub(&settings, "https://npackd.appspot.com/rep/xml?tag="+rep, releaseID)
