@@ -191,13 +191,14 @@ func exec_(program string, cmd string) int {
  * @return path to the specified package or "" if not installed
  */
 func getPath(settings *Settings, package_ string, version string) string {
-	cmd := "cmd.exe /c \"" + settings.npackdcl + "\" path -p " + package_
+	cmd := "\"" + settings.npackdcl + "\" path -p " + package_
 	if version != "" {
 		cmd = cmd + " -v " + version
 	}
-	cmd = cmd + " 2>&1"
 
-	_, lines := exec2("cmd.exe", cmd)
+	fullcmd := "cmd.exe /s /c \"" + cmd + " 2>&1\""
+
+	_, lines := exec2("cmd.exe", fullcmd)
 	if len(lines) > 0 {
 		return lines[0]
 	} else {
