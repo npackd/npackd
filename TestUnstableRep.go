@@ -337,7 +337,7 @@ func apiSetURL(settings *Settings, package_ string, version string, url_ string)
  * @return true if the test was successful
  */
 func process(settings *Settings, package_ string, version string) bool {
-	ec, _ := exec2(settings.npackdcl, "\""+settings.npackdcl+"\" add --package="+package_+
+	ec, _ := exec2(settings.npackdcl, "add --package="+package_+
 		" --version="+version+" -t 600", true)
 	if ec != 0 {
 		fmt.Println("npackdcl.exe add failed")
@@ -380,7 +380,7 @@ func process(settings *Settings, package_ string, version string) bool {
 		exec_("appveyor", "PushArtifact "+proglist, true)
 	}
 
-	ec = exec2(settings.npackdcl, "remove -e=ck --package="+package_+
+	ec, _ = exec2(settings.npackdcl, "remove -e=ck --package="+package_+
 		" --version="+version+" -t 600", true)
 	if ec != 0 {
 		fmt.Println("npackdcl.exe remove failed")
