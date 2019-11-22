@@ -157,7 +157,7 @@ func uploadToGithub(settings *Settings, from string, package_ string, version st
 
 	var cmd = "-f -L --connect-timeout 30 --max-time 900 " + from + " --output " + file
 	fmt.Println(cmd)
-	var result, _ = exec2(settings.curl, cmd)
+	var result, _ = exec2(settings.curl, cmd, true)
 	if result != 0 {
 		return "", errors.New("Cannot download the file")
 	}
@@ -171,7 +171,7 @@ func uploadToGithub(settings *Settings, from string, package_ string, version st
 	if changeData {
 		result, _ = exec2(settings.curl, "-f -H \"Authorization: token "+settings.githubToken+"\""+
 			" -H \"Content-Type: "+mime+"\""+
-			" --data-binary @"+file+" \""+url+"\"")
+			" --data-binary @"+file+" \""+url+"\"", false)
 		if result != 0 {
 			return "", errors.New("Cannot upload the file to Github")
 		}
@@ -180,9 +180,8 @@ func uploadToGithub(settings *Settings, from string, package_ string, version st
 	return downloadURL, nil
 }
 
-func exec_(program string, cmd string) int {
-	fullcmd := "/s /c \"" + cmd + " 2>&1\""
-	exitCode, _ := exec2("cmd.exe", fullcmd)
+func exec_(program string, cmd string, showParameters bool) int {
+	exitCode, _ := exec2("cmd.exe", "/s /c \""+cmd+" 2>&1\"", showParameters)
 	return exitCode
 }
 
@@ -199,7 +198,7 @@ func getPath(settings *Settings, package_ string, version string) string {
 
 	fullcmd := "/s /c \"" + cmd + " 2>&1\""
 
-	_, lines := exec2("cmd.exe", fullcmd)
+	_, lines := exec2("cmd.exe", fullcmd, true)
 	if len(lines) > 0 {
 		return lines[0]
 	} else {
@@ -209,14 +208,18 @@ func getPath(settings *Settings, package_ string, version string) string {
 	return ""
 }
 
-/**
- * Executes the specified command, prints its output on the default output.
- *
- * @param cmd this command should be executed
- * @return [exit code, [output line 1, output line2, ...]]
- */
-func exec2(program string, params string) (exitCode int, output []string) {
-	fmt.Println(program + " " + params)
+// Executes the specified command, prints its output on the default output.
+//
+// cmd: this command should be executed
+// showParameters: true = output the parameters,
+// 	false = hide the parameters (e.g. for passwords)
+// return: [exit code, [output line 1, output line2, ...]]
+func exec2(program string, params string, showParameters bool) (exitCode int, output []string) {
+	if showParameters {
+		fmt.Println(program + " " + params)
+	} else {
+		fmt.Println(program + " <<<parameters hidden>>>")
+	}
 
 	cmd := exec.Command(program)
 	cmd.SysProcAttr = &syscall.SysProcAttr{}
@@ -226,7 +229,7 @@ func exec2(program string, params string) (exitCode int, output []string) {
 
 	lines := strings.Split(string(out), "\r\n")
 	for _, line := range lines {
-		fmt.Println("output:" + line)
+		fmt.Println(line)
 	}
 
 	if err != nil {
@@ -334,17 +337,17 @@ func apiSetURL(settings *Settings, package_ string, version string, url_ string)
  * @return true if the test was successful
  */
 func process(settings *Settings, package_ string, version string) bool {
-	ec := exec_(settings.npackdcl, "\""+settings.npackdcl+"\" add --package="+package_+
-		" --version="+version+" -t 600")
+	ec, _ := exec2(settings.npackdcl, "\""+settings.npackdcl+"\" add --package="+package_+
+		" --version="+version+" -t 600", true)
 	if ec != 0 {
 		fmt.Println("npackdcl.exe add failed")
 		apiNotify(settings, package_, version, true, false)
 		apiTag(settings, package_, version, "test-failed", true)
 
 		log := package_ + "-" + version + "-install.log"
-		exec_("cmd.exe", "cmd.exe /C \""+settings.npackdcl+"\" add -d --package="+package_+
-			" --version="+version+" -t 600 > "+log+" 2>&1")
-		exec_("appveyor", "appveyor PushArtifact "+log)
+		exec2("cmd.exe", "/C \""+settings.npackdcl+"\" add -d --package="+package_+
+			" --version="+version+" -t 600 > "+log+" 2>&1", true)
+		exec_("appveyor", "PushArtifact "+log, true)
 
 		return false
 	}
@@ -354,41 +357,41 @@ func process(settings *Settings, package_ string, version string) bool {
 	fmt.Println("where=" + path)
 	if path != "" {
 		var tree = package_ + "-" + version + "-tree.txt"
-		exec2("cmd.exe", "/c tree \""+path+"\" /F > "+tree+" 2>&1")
-		exec_("appveyor", "appveyor PushArtifact "+tree)
+		exec2("cmd.exe", "/c tree \""+path+"\" /F > "+tree+" 2>&1", true)
+		exec_("appveyor", "PushArtifact "+tree, true)
 
-		exec_("cmd.exe", "cmd.exe /c dir \""+path+"\"")
+		exec_("cmd.exe", "/c dir \""+path+"\"", true)
 
 		var msilist = package_ + "-" + version + "-msilist.txt"
-		exec2("cmd.exe", "/c \"C:\\Program Files (x86)\\CLU\\clu.exe\" list-msi > "+msilist+" 2>&1")
-		exec_("appveyor", "appveyor PushArtifact "+msilist)
+		exec2("cmd.exe", "/c \"C:\\Program Files (x86)\\CLU\\clu.exe\" list-msi > "+msilist+" 2>&1", true)
+		exec_("appveyor", "PushArtifact "+msilist, true)
 
 		var info = package_ + "-" + version + "-info.txt"
-		exec_("cmd.exe", "cmd.exe /C \""+settings.npackdcl+"\" info --package="+package_+
-			" --version="+version+" > "+info+" 2>&1")
-		exec_("appveyor", "appveyor PushArtifact "+info)
+		exec2("cmd.exe", "/C \""+settings.npackdcl+"\" info --package="+package_+
+			" --version="+version+" > "+info+" 2>&1", true)
+		exec_("appveyor", "PushArtifact "+info, true)
 
 		var list = package_ + "-" + version + "-list.txt"
-		exec_("cmd.exe", "cmd.exe /C \""+settings.npackdcl+"\" list > "+list+" 2>&1")
-		exec_("appveyor", "appveyor PushArtifact "+list)
+		exec2("cmd.exe", "/C \""+settings.npackdcl+"\" list > "+list+" 2>&1", true)
+		exec_("appveyor", "PushArtifact "+list, true)
 
 		var proglist = package_ + "-" + version + "-proglist.txt"
-		exec2("cmd.exe", "/c \"C:\\Program Files (x86)\\Sysinternals_suite\\psinfo.exe\" -s /accepteula > "+proglist+" 2>&1")
-		exec_("appveyor", "appveyor PushArtifact "+proglist)
+		exec2("cmd.exe", "/c \"C:\\Program Files (x86)\\Sysinternals_suite\\psinfo.exe\" -s /accepteula > "+proglist+" 2>&1", true)
+		exec_("appveyor", "PushArtifact "+proglist, true)
 	}
 
-	ec = exec_(settings.npackdcl, "\""+settings.npackdcl+"\" remove -e=ck --package="+package_+
-		" --version="+version+" -t 600")
+	ec = exec2(settings.npackdcl, "remove -e=ck --package="+package_+
+		" --version="+version+" -t 600", true)
 	if ec != 0 {
 		fmt.Println("npackdcl.exe remove failed")
 		apiNotify(settings, package_, version, false, false)
 		apiTag(settings, package_, version, "test-failed", true)
 
 		var log = package_ + "-" + version + "-uninstall.log"
-		exec_("cmd.exe", "cmd.exe /C \""+settings.npackdcl+
+		exec2("cmd.exe", "/C \""+settings.npackdcl+
 			"\" remove -d -e=ck --package="+package_+
-			" --version="+version+" -t 600 > "+log+" 2>&1")
-		exec_("appveyor", "appveyor PushArtifact "+log)
+			" --version="+version+" -t 600 > "+log+" 2>&1", true)
+		exec_("appveyor", "PushArtifact "+log, true)
 
 		return false
 	}
@@ -542,24 +545,24 @@ func processURL(url string, settings *Settings, onlyNewest bool) error {
 
 func downloadRepos(settings *Settings) {
 	// download the newest repository files and commit them to the project
-	exec_(settings.git, "\""+settings.git+"\" checkout master")
+	exec_(settings.git, "checkout master", true)
 
-	exec_(settings.curl, "\""+settings.curl+"\" -f -o repository\\RepUnstable.xml "+
-		"https://www.npackd.org/rep/xml?tag=unstable")
-	exec_(settings.curl, "\""+settings.curl+"\" -f -o repository\\Rep.xml "+
-		"https://www.npackd.org/rep/xml?tag=stable")
-	exec_(settings.curl, "\""+settings.curl+"\" -f -o repository\\Rep64.xml "+
-		"https://www.npackd.org/rep/xml?tag=stable64")
-	exec_(settings.curl, "\""+settings.curl+"\" -f -o repository\\Libs.xml "+
-		"https://www.npackd.org/rep/xml?tag=libs")
+	exec2(settings.curl, "-f -o repository\\RepUnstable.xml "+
+		"https://www.npackd.org/rep/xml?tag=unstable", true)
+	exec2(settings.curl, "-f -o repository\\Rep.xml "+
+		"https://www.npackd.org/rep/xml?tag=stable", true)
+	exec2(settings.curl, "-f -o repository\\Rep64.xml "+
+		"https://www.npackd.org/rep/xml?tag=stable64", true)
+	exec2(settings.curl, "-f -o repository\\Libs.xml "+
+		"https://www.npackd.org/rep/xml?tag=libs", true)
 
-	exec_(settings.git, "\""+settings.git+"\" config user.email \"tim.lebedkov@gmail.com\"")
-	exec_(settings.git, "\""+settings.git+"\" config user.name \"tim-lebedkov\"")
-	exec_(settings.git, "\""+settings.git+"\" commit -a -m \"Automatic data transfer from https://www.npackd.org\"")
+	exec2(settings.git, "config user.email \"tim.lebedkov@gmail.com\"", true)
+	exec2(settings.git, "config user.name \"tim-lebedkov\"", true)
+	exec2(settings.git, "commit -a -m \"Automatic data transfer from https://www.npackd.org\"", true)
 
 	if changeData {
-		exec_(settings.git, "\""+settings.git+"\" push https://tim-lebedkov:"+settings.githubToken+
-			"@github.com/tim-lebedkov/npackd.git")
+		exec2(settings.git, "push https://tim-lebedkov:"+settings.githubToken+
+			"@github.com/tim-lebedkov/npackd.git", false)
 	}
 }
 
@@ -646,7 +649,7 @@ func process2() error {
 	fmt.Printf("Found release ID: %d\n", releaseID)
 
 	// print curl version
-	exec2(settings.curl, "--version")
+	exec2(settings.curl, "--version", true)
 
 	for _, rep := range reps {
 		uploadAllToGithub(&settings, "https://npackd.appspot.com/rep/xml?tag="+rep, releaseID)
