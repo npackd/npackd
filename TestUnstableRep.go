@@ -96,7 +96,7 @@ func uploadAllToGithub(settings *Settings, url string, releaseID int) error {
 	fmt.Println("Re-uploading packages in " + url)
 
 	fmt.Println("Loading " + url)
-	bytes, err, _ := download(url)
+	bytes, err, _ := download(url, true)
 	if err != nil {
 		return err
 	}
@@ -269,7 +269,7 @@ func apiNotify(settings *Settings,
 		url = url + "0"
 	}
 
-	download(url)
+	download(url, false)
 }
 
 /**
@@ -295,7 +295,7 @@ func apiTag(settings *Settings, package_ string, version string, tag string,
 		url = url + "0"
 	}
 
-	_, err, _ := download(url)
+	_, err, _ := download(url, false)
 	return err
 }
 
@@ -314,7 +314,7 @@ func apiSetURL(settings *Settings, package_ string, version string, url_ string)
 		"&url=" + url.QueryEscape(url_)
 
 	if changeData {
-		_, err, statusCode := download(a)
+		_, err, statusCode := download(a, false)
 		return err, statusCode
 	} else {
 		return nil, 0
@@ -352,7 +352,7 @@ func process(settings *Settings, package_ string, version string) bool {
 		exec2("cmd.exe", "/c tree \""+path+"\" /F > "+tree+" 2>&1", true)
 		exec2("appveyor", "PushArtifact "+tree, true)
 
-		exec_("cmd.exe", "/c dir \""+path+"\"", true)
+		exec2("cmd.exe", "/c dir \""+path+"\"", true)
 
 		var msilist = package_ + "-" + version + "-msilist.txt"
 		exec2("cmd.exe", "/c \"C:\\Program Files (x86)\\CLU\\clu.exe\" list-msi > "+msilist+" 2>&1", true)
@@ -443,7 +443,7 @@ func compareVersions(a string, b string) int {
 func processURL(url string, settings *Settings, onlyNewest bool) error {
 	var start = time.Now()
 
-	bytes, err, _ := download(url)
+	bytes, err, _ := download(url, true)
 	if err != nil {
 		return err
 	}
@@ -556,11 +556,19 @@ func downloadRepos(settings *Settings) {
 		"@github.com/tim-lebedkov/npackd.git", false)
 }
 
-func download(url string) (*bytes.Buffer, error, int) {
-	fmt.Println("Downloading " + url)
+func download(url_ string, showParameters bool) (*bytes.Buffer, error, int) {
+	if showParameters {
+		fmt.Println("Downloading " + url_)
+	} else {
+		u, err := url.Parse(url_)
+		if err != nil {
+			return nil, err, 0
+		}
+		fmt.Println("Downloading " + u.Scheme + "://" + u.Host + u.EscapedPath() + "?<<<parameters hidden>>>")
+	}
 
 	// Get the data
-	resp, err := http.Get(url)
+	resp, err := http.Get(url_)
 	if err != nil {
 		return nil, err, 0
 	}
@@ -608,7 +616,7 @@ func process2() error {
 
 	reps := []string{"stable", "stable64", "libs"}
 
-	b, err, _ := download("https://api.github.com/repos/tim-lebedkov/packages/releases")
+	b, err, _ := download("https://api.github.com/repos/tim-lebedkov/packages/releases", true)
 	if err != nil {
 		return err
 	}
