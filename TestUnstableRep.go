@@ -597,8 +597,7 @@ type Release struct {
 
 func createSettings() Settings {
 	var settings Settings
-	// settings.password = os.Getenv("PASSWORD")
-	settings.password = "abc"
+	settings.password = os.Getenv("PASSWORD")
 	settings.githubToken = os.Getenv("github_token")
 	settings.npackdcl = "C:\\Program Files\\NpackdCL\\ncl.exe"
 	settings.curl = getPath(&settings, "se.haxx.curl.CURL64", "") + "\\bin\\curl.exe"
