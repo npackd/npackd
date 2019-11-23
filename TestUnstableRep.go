@@ -180,8 +180,8 @@ func uploadToGithub(settings *Settings, from string, package_ string, version st
 	return downloadURL, nil
 }
 
-func exec_(program string, cmd string, showParameters bool) int {
-	exitCode, _ := exec2("cmd.exe", "/s /c \""+cmd+" 2>&1\"", showParameters)
+func exec_(program string, params string, showParameters bool) int {
+	exitCode, _ := exec2("cmd.exe", "/s /c \""+program+"\" "+params+" 2>&1\"", showParameters)
 	return exitCode
 }
 
@@ -360,7 +360,7 @@ func process(settings *Settings, package_ string, version string) bool {
 		exec2("cmd.exe", "/c tree \""+path+"\" /F > "+tree+" 2>&1", true)
 		exec_("appveyor", "PushArtifact "+tree, true)
 
-		exec_("cmd.exe", "/c dir \""+path+"\"", true)
+		exec_("dir", "\""+path+"\"", true)
 
 		var msilist = package_ + "-" + version + "-msilist.txt"
 		exec2("cmd.exe", "/c \"C:\\Program Files (x86)\\CLU\\clu.exe\" list-msi > "+msilist+" 2>&1", true)
@@ -545,7 +545,7 @@ func processURL(url string, settings *Settings, onlyNewest bool) error {
 
 func downloadRepos(settings *Settings) {
 	// download the newest repository files and commit them to the project
-	exec_(settings.git, "checkout master", true)
+	exec2(settings.git, "checkout master", true)
 
 	exec2(settings.curl, "-f -o repository\\RepUnstable.xml "+
 		"https://www.npackd.org/rep/xml?tag=unstable", true)

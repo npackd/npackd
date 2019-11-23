@@ -26,3 +26,5 @@ if %errorlevel% neq 0 exit /b %errorlevel%
 path
 
 where git
+
+where appveyor
