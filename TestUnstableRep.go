@@ -191,14 +191,12 @@ func exec_(program string, params string, showParameters bool) int {
  * @return path to the specified package or "" if not installed
  */
 func getPath(settings *Settings, package_ string, version string) string {
-	cmd := "\"" + settings.npackdcl + "\" path -p " + package_
+	params := "path -p " + package_
 	if version != "" {
-		cmd = cmd + " -v " + version
+		params = params + " -v " + version
 	}
 
-	fullcmd := "/s /c \"" + cmd + " 2>&1\""
-
-	_, lines := exec2("cmd.exe", fullcmd, true)
+	_, lines := exec2(settings.npackdcl, params, true)
 	if len(lines) > 0 {
 		return lines[0]
 	} else {
@@ -216,9 +214,9 @@ func getPath(settings *Settings, package_ string, version string) string {
 // return: [exit code, [output line 1, output line2, ...]]
 func exec2(program string, params string, showParameters bool) (exitCode int, output []string) {
 	if showParameters {
-		fmt.Println(program + " " + params)
+		fmt.Println("\"" + program + "\" " + params)
 	} else {
-		fmt.Println(program + " <<<parameters hidden>>>")
+		fmt.Println("\"" + program + "\" <<<parameters hidden>>>")
 	}
 
 	cmd := exec.Command(program)
@@ -271,9 +269,7 @@ func apiNotify(settings *Settings,
 		url = url + "0"
 	}
 
-	if changeData {
-		download(url)
-	}
+	download(url)
 }
 
 /**
@@ -299,12 +295,8 @@ func apiTag(settings *Settings, package_ string, version string, tag string,
 		url = url + "0"
 	}
 
-	if changeData {
-		_, err, _ := download(url)
-		return err
-	} else {
-		return nil
-	}
+	_, err, _ := download(url)
+	return err
 }
 
 /**
@@ -360,7 +352,7 @@ func process(settings *Settings, package_ string, version string) bool {
 		exec2("cmd.exe", "/c tree \""+path+"\" /F > "+tree+" 2>&1", true)
 		exec2("appveyor", "PushArtifact "+tree, true)
 
-		exec_("dir", "\""+path+"\"", true)
+		exec_("cmd.exe", "/c dir \""+path+"\"", true)
 
 		var msilist = package_ + "-" + version + "-msilist.txt"
 		exec2("cmd.exe", "/c \"C:\\Program Files (x86)\\CLU\\clu.exe\" list-msi > "+msilist+" 2>&1", true)
@@ -560,10 +552,8 @@ func downloadRepos(settings *Settings) {
 	exec2(settings.git, "config user.name \"tim-lebedkov\"", true)
 	exec2(settings.git, "commit -a -m \"Automatic data transfer from https://www.npackd.org\"", true)
 
-	if changeData {
-		exec2(settings.git, "push https://tim-lebedkov:"+settings.githubToken+
-			"@github.com/tim-lebedkov/npackd.git", false)
-	}
+	exec2(settings.git, "push https://tim-lebedkov:"+settings.githubToken+
+		"@github.com/tim-lebedkov/npackd.git", false)
 }
 
 func download(url string) (*bytes.Buffer, error, int) {
@@ -613,10 +603,6 @@ func createSettings() Settings {
 
 func process2() error {
 	var settings Settings = createSettings()
-
-	/*	if !changeData {
-		return nil
-	}*/
 
 	downloadRepos(&settings)
 
