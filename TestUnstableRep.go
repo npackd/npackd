@@ -347,7 +347,7 @@ func process(settings *Settings, package_ string, version string) bool {
 		log := package_ + "-" + version + "-install.log"
 		exec2("cmd.exe", "/C \""+settings.npackdcl+"\" add -d --package="+package_+
 			" --version="+version+" -t 600 > "+log+" 2>&1", true)
-		exec_("appveyor", "PushArtifact "+log, true)
+		exec2("appveyor", "PushArtifact "+log, true)
 
 		return false
 	}
@@ -358,26 +358,26 @@ func process(settings *Settings, package_ string, version string) bool {
 	if path != "" {
 		var tree = package_ + "-" + version + "-tree.txt"
 		exec2("cmd.exe", "/c tree \""+path+"\" /F > "+tree+" 2>&1", true)
-		exec_("appveyor", "PushArtifact "+tree, true)
+		exec2("appveyor", "PushArtifact "+tree, true)
 
 		exec_("dir", "\""+path+"\"", true)
 
 		var msilist = package_ + "-" + version + "-msilist.txt"
 		exec2("cmd.exe", "/c \"C:\\Program Files (x86)\\CLU\\clu.exe\" list-msi > "+msilist+" 2>&1", true)
-		exec_("appveyor", "PushArtifact "+msilist, true)
+		exec2("appveyor", "PushArtifact "+msilist, true)
 
 		var info = package_ + "-" + version + "-info.txt"
 		exec2("cmd.exe", "/C \""+settings.npackdcl+"\" info --package="+package_+
 			" --version="+version+" > "+info+" 2>&1", true)
-		exec_("appveyor", "PushArtifact "+info, true)
+		exec2("appveyor", "PushArtifact "+info, true)
 
 		var list = package_ + "-" + version + "-list.txt"
 		exec2("cmd.exe", "/C \""+settings.npackdcl+"\" list > "+list+" 2>&1", true)
-		exec_("appveyor", "PushArtifact "+list, true)
+		exec2("appveyor", "PushArtifact "+list, true)
 
 		var proglist = package_ + "-" + version + "-proglist.txt"
 		exec2("cmd.exe", "/c \"C:\\Program Files (x86)\\Sysinternals_suite\\psinfo.exe\" -s /accepteula > "+proglist+" 2>&1", true)
-		exec_("appveyor", "PushArtifact "+proglist, true)
+		exec2("appveyor", "PushArtifact "+proglist, true)
 	}
 
 	ec, _ = exec2(settings.npackdcl, "remove -e=ck --package="+package_+
@@ -391,7 +391,7 @@ func process(settings *Settings, package_ string, version string) bool {
 		exec2("cmd.exe", "/C \""+settings.npackdcl+
 			"\" remove -d -e=ck --package="+package_+
 			" --version="+version+" -t 600 > "+log+" 2>&1", true)
-		exec_("appveyor", "PushArtifact "+log, true)
+		exec2("appveyor", "PushArtifact "+log, true)
 
 		return false
 	}
