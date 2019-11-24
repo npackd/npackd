@@ -38674,6 +38674,17 @@ if %errorlevel% equ 3010 verify</file>
    <variable>myun</variable>
   </dependency>
  </version>
+ <version name="0.7" package="rambox-64-bit" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">"%myun%\myuninst.exe" /uninstall "rambox-64-bit"&#13;
+</file>
+  <url>https://github.com/saenzramiro/rambox/releases/download/0.7.0/Rambox-0.7.0-win.exe</url>
+  <hash-sum type="SHA-256">9be7f7df32696b6e107d9a3a1a31f216542acab3e98f0a497349fff3250e0644</hash-sum>
+  <dependency package="net.nirsoft.MyUninstaller" versions="[1.74, 2)">
+   <variable>myun</variable>
+  </dependency>
+ </version>
 
     <version name="2015.3.1" package="rdkit64">
   <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b RDKit*') do set name=%%x&#13;
