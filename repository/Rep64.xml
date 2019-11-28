@@ -3269,26 +3269,7 @@ x86_64</description>
   <hash-sum type="SHA-256">3565084e98525524f7b99c21a46dca82687a3b90622fca30be7faa246eb4364c</hash-sum>
  </version>
 
-    <version name="3.1.3" package="apple-application-support64" type="one-file">
-  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
-"%setup%" /extract&#13;
-&#13;
-msiexec /qn /norestart /lime .Npackd\MSI.log /i AppleApplicationSupport64.msi ALLUSERS=1&#13;
-set err=%errorlevel%&#13;
-type .Npackd\MSI.log&#13;
-rem 3010=restart required&#13;
-if %err% equ 3010 exit 0&#13;
-if %err% neq 0 exit %err%</file>
-  <file path=".Npackd\Uninstall.bat">msiexec /qn /norestart /lime .Npackd\MSI.log /x AppleApplicationSupport64.msi&#13;
-set err=%errorlevel%&#13;
-type .Npackd\MSI.log&#13;
-rem 3010=restart required&#13;
-if %err% equ 3010 exit 0&#13;
-if %err% neq 0 exit %err%</file>
-  <url>https://secure-appldnld.apple.com/itunes12/031-18340.20150409.OOmme/iTunesSetup.exe</url>
-  <sha1>27739bef42869f4af47acfaea44b99cbff8199e1</sha1>
- </version>
- <version name="5.0.1" package="apple-application-support64" type="one-file">
+    <version name="5.0.1" package="apple-application-support64" type="one-file">
   <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
 "%setup%" /extract&#13;
 &#13;
@@ -10299,7 +10280,7 @@ del Q-Dir.ini&#13;
   <url>http://files.npackd.org/com.softwareok.QDir64-5.99.9.zip</url>
   <sha1>fb6060796fae3fc641ba34fe1f2f8530d7c985a8</sha1>
  </version>
- <version name="7.95" package="com.softwareok.QDir64">
+ <version name="7.96" package="com.softwareok.QDir64">
   <important-file path="Q-Dir.exe" title="Q-Dir"/>
   <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b Q*') do set name=%%x&#13;
 cd "%name%"        &#13;
@@ -12111,7 +12092,7 @@ for %%g in (%extensions%) do reg add HKLM\SOFTWARE\Classes\.%%g\OpenWithList\%ke
   </dependency>
  </version>
 
-    <version name="1.80" package="com.xnconvert.XnConvert64" type="one-file">
+    <version name="1.82" package="com.xnconvert.XnConvert64" type="one-file">
   <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
 "%setup%" /SP- /VERYSILENT /SUPPRESSMSGBOXES /NOCANCEL /NORESTART /DIR="%CD%" /SAVEINF="%CD%\.Npackd\InnoSetupInfo.ini" /LOG="%CD%\.Npackd\InnoSetupInstall.log"&#13;
 set err=%errorlevel%&#13;
@@ -19799,7 +19780,7 @@ if %err% neq 0 exit %err%</file>
    <variable>npackdih</variable>
   </dependency>
  </version>
- <version name="4.2.5" package="net.getpaint.paintdotnet64">
+ <version name="4.2.7" package="net.getpaint.paintdotnet64">
   <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
 "%setup%" /auto "TARGETDIR=%CD%" CHECKFORUPDATES=0 JPGPNGBMPEDITOR=0 TGAEDITOR=0 DESKTOPSHORTCUT=0</file>
   <url>http://www.dotpdn.com/files/paint.net.4.1.4.install.zip</url>
