@@ -6478,6 +6478,15 @@ call "%npackdih%\InstallMSI.bat" APPLICATIONFOLDER yes&#13;
    <variable>npackdih</variable>
   </dependency>
  </version>
+ <version name="4.5" package="com.calibreebook.Calibre64" type="one-file">
+  <file path=".Npackd\Install.bat">call "%npackdih%\InstallMSI.bat" APPLICATIONFOLDER yes&#13;
+</file>
+  <url>https://download.calibre-ebook.com/4.5.0/calibre-64bit-4.5.0.msi</url>
+  <hash-sum type="SHA-256">82e0a37fbb556792ce091e63177260d47662a757b21c768e0fe9f7dd4c1b1c06</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.2, 2)">
+   <variable>npackdih</variable>
+  </dependency>
+ </version>
 
     <version name="5.12.256249.2599" package="com.comodo.comodoav64" type="one-file">
   <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.msi') do set setup=%%x&#13;
@@ -12669,6 +12678,17 @@ if %err% neq 0 exit %err%&#13;
    <variable>nih</variable>
   </dependency>
  </version>
+ <version name="1.20.5" package="conan64" type="one-file">
+  <cmd-file path="conan\conan.exe"/>
+  <file path=".Npackd\Install.bat">"%nih%\InstallInnoSetup.bat"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">"%nih%\UninstallInnoSetup.bat" unins000.exe</file>
+  <url>https://github.com/conan-io/conan/releases/download/1.20.5/conan-win-64_1_20_5.exe</url>
+  <hash-sum type="SHA-256">d82c0e13a48bfef60cdf6005339be3e32bce86396a710a13ea000199489b8ff2</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
 
     <version name="3.0.7" package="cygwin64" type="one-file">
   <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
@@ -13874,6 +13894,14 @@ rmdir "%name%"&#13;
 </file>
   <url>https://github.com/balena-io/etcher/releases/download/v1.5.63/balenaEtcher-Setup-1.5.63.exe</url>
   <hash-sum type="SHA-256">99ff0c128624f40b1722437a5d306ea822b786df6c33081fac7eea08cd68d71a</hash-sum>
+ </version>
+ <version name="1.5.66" package="etcher64" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">uninstall.exe /S _?=%CD%&#13;
+</file>
+  <url>https://github.com/balena-io/etcher/releases/download/v1.5.66/balenaEtcher-Setup-1.5.66.exe</url>
+  <hash-sum type="SHA-256">514e7bd07db5eab9e0010090e0961e55d31f23b518b47655430e7ebe8363155a</hash-sum>
  </version>
 
     <version name="1.3.4.686" package="everything64">
@@ -15231,6 +15259,21 @@ if %err% neq 0 exit %err%&#13;
 </file>
   <url>https://ayera.dl.sourceforge.net/project/gnuplot/gnuplot/5.2.7/gp527-win64-mingw.exe</url>
   <hash-sum type="SHA-256">cd94e96b6942156437c200a1855185bd7ab29dafd0ba8da921967176d82d19d2</hash-sum>
+ </version>
+ <version name="5.2.8" package="gnuplot64" type="one-file">
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
+"%setup%" /SP- /VERYSILENT /SUPPRESSMSGBOXES /NOCANCEL /NORESTART /DIR="%CD%" /SAVEINF="%CD%\.Npackd\InnoSetupInfo.ini" /LOG="%CD%\.Npackd\InnoSetupInstall.log"&#13;
+set err=%errorlevel%&#13;
+type .Npackd\InnoSetupInstall.log&#13;
+if %err% neq 0 exit %err%&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">unins000.exe /VERYSILENT /SUPPRESSMSGBOXES /NORESTART /LOG="%CD%\.Npackd\InnoSetupUninstall.log"&#13;
+set err=%errorlevel%&#13;
+type .Npackd\InnoSetupUninstall.log&#13;
+if %err% neq 0 exit %err%&#13;
+</file>
+  <url>https://ayera.dl.sourceforge.net/project/gnuplot/gnuplot/5.2.8/gp528-win64-mingw.exe</url>
+  <hash-sum type="SHA-256">9242bff87f2c3ffb560c74b43fd0525adcec86d6092eaeeb5fc271b0d086b924</hash-sum>
  </version>
 
     <version name="78.0.3904.108" package="google-chrome-x64" type="one-file">
@@ -16620,6 +16663,17 @@ if %err% neq 0 exit %err%&#13;
 </file>
   <url>https://www.imagemagick.org/download/binaries/ImageMagick-7.0.9-6-Q16-x64-dll.exe</url>
   <hash-sum type="SHA-256">f1f101c7164db296d2b64f24716a73b90ba84645b8e621685106d1a34fe191f0</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
+ <version name="7.0.9.7" package="imagemagick64" type="one-file">
+  <file path=".Npackd\Install.bat">call "%nih%\InstallInnoSetup.bat"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">call "%nih%\UninstallInnoSetup.bat" unins000.exe&#13;
+</file>
+  <url>https://www.imagemagick.org/download/binaries/ImageMagick-7.0.9-7-Q16-x64-dll.exe</url>
+  <hash-sum type="SHA-256">89be3382c58f37670050bb789d916f7f7ef821ace0b8f99694a5d5466634bc9a</hash-sum>
   <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
    <variable>nih</variable>
   </dependency>
@@ -21295,6 +21349,17 @@ if %err% neq 0 exit %err%&#13;
   </dependency>
  </version>
  <version name="6.9.2" package="net.sourceforge.peazip.PeaZip64" type="one-file">
+  <file path=".Npackd\Install.bat">call "%nih%\InstallInnoSetup.bat"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">call "%nih%\UninstallInnoSetup.bat" unins000.exe&#13;
+</file>
+  <url>https://ayera.dl.sourceforge.net/project/peazip/6.5.1/peazip-6.5.1.WINDOWS.exe</url>
+  <hash-sum type="SHA-256">49bc326c084e743acff1bdf2437d0b17cdeedb5bde67efee2fd86a613efa9031</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
+ <version name="7" package="net.sourceforge.peazip.PeaZip64" type="one-file">
   <file path=".Npackd\Install.bat">call "%nih%\InstallInnoSetup.bat"&#13;
 </file>
   <file path=".Npackd\Uninstall.bat">call "%nih%\UninstallInnoSetup.bat" unins000.exe&#13;
