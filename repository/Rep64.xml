@@ -350,7 +350,9 @@ x86_64</description>
  <package name="com.apple.itunes64">
   <title>iTunes 64 bit</title>
   <url>http://www.apple.com/itunes</url>
-  <description>media player
+  <description>media player&#13;
+&#13;
+iTunes is a trademark of Apple corporation.
 x86_64</description>
   <icon>http://alt2cdn.blob.core.windows.net/dist/icons/itunes_52830.png</icon>
   <license>org.wikipedia.Freeware</license>
@@ -675,7 +677,7 @@ x86_64</description>
   <license>com.oracle.JavaSELicense</license>
   <category>Development</category>
   <tag>stable64</tag>
-  <stars>1</stars>
+  <stars>2</stars>
   <link href="http://www.oracle.com/technetwork/java/javase/jdk-relnotes-index-2162236.html" rel="changelog"/>
  </package>
  <package name="com.oracle.JRE64">
@@ -800,7 +802,7 @@ x86_64</description>
   <license>org.gnu.GPLv2</license>
   <category>Video</category>
   <tag>stable64</tag>
-  <stars>5</stars>
+  <stars>6</stars>
  </package>
  <package name="com.whatsappinc.whatsapp-desktop-64">
   <title>Whatsapp Desktop 64 bit</title>
@@ -1023,7 +1025,7 @@ x86_64</description>
   <license>com.mozilla.MozillaFirefoxLicense2</license>
   <category>Communications</category>
   <tag>stable64</tag>
-  <stars>1</stars>
+  <stars>2</stars>
  </package>
  <package name="fr.handbrake.HandBrake64">
   <title>HandBrake 64 bit</title>
@@ -1126,7 +1128,7 @@ x86_64</description>
   <category>Communications</category>
   <tag>same-url</tag>
   <tag>stable64</tag>
-  <stars>7</stars>
+  <stars>8</stars>
  </package>
  <package name="google-cloud-sdk64">
   <title>Google Cloud SDK 64 bit</title>
@@ -1826,7 +1828,7 @@ x86_64</description>
   <category>Text</category>
   <tag>stable64</tag>
   <tag>reupload</tag>
-  <stars>5</stars>
+  <stars>6</stars>
   <link href="https://notepad-plus-plus.org/news/" rel="changelog"/>
  </package>
  <package name="nubasic64">
@@ -2038,7 +2040,7 @@ x86_64</description>
   <license>org.gnu.GPLv2</license>
   <category>Productivity</category>
   <tag>stable64</tag>
-  <stars>1</stars>
+  <stars>2</stars>
  </package>
  <package name="org.bluemars.ClipX64">
   <title>ClipX 64 bit</title>
@@ -12703,7 +12705,7 @@ if %err% neq 0 exit %err%&#13;
   </dependency>
  </version>
 
-    <version name="3.0.7" package="cygwin64" type="one-file">
+    <version name="3.1" package="cygwin64" type="one-file">
   <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
 "%setup%" -q -D -R "%CD%" -s http://box-soft.com -l "%CD%\packages"&#13;
 "%setup%" -q -L -R "%CD%" -l "%CD%\packages"</file>
@@ -15297,7 +15299,7 @@ if %err% neq 0 exit %err%&#13;
   <hash-sum type="SHA-256">9242bff87f2c3ffb560c74b43fd0525adcec86d6092eaeeb5fc271b0d086b924</hash-sum>
  </version>
 
-    <version name="79.0.3945.79" package="google-chrome-x64" type="one-file">
+    <version name="79.0.3945.88" package="google-chrome-x64" type="one-file">
   <file path=".Npackd\Install.bat">call "%npackdih%\InstallMSI.bat" TARGETDIR yes&#13;
 </file>
   <url>https://dl.google.com/tag/s/appguid%3D%7B8A69D345-D564-463C-AFF1-A69D9E530F96%7D%26iid%3D%7B0A558A36-0536-8B3F-0AE0-420553CC97F3%7D%26lang%3Den%26browser%3D4%26usagestats%3D0%26appname%3DGoogle%2520Chrome%26needsadmin%3DFalse/edgedl/chrome/install/GoogleChromeStandaloneEnterprise64.msi</url>
@@ -23271,6 +23273,53 @@ verify&#13;
 		</file>
   <url>http://download.notepad-plus-plus.org/repository/7.x/7.8.1/npp.7.8.1.Installer.x64.exe</url>
   <hash-sum type="SHA-256">51ea006fac7c7cf88dda19133fd2e701d53a774d0f9a6f094178db40424e2bd1</hash-sum>
+ </version>
+ <version name="7.8.2" package="notepadpp64" type="one-file">
+  <file path=".Npackd\Install.bat">xcopy "%allusersprofile%\Npackd\Config\net.sourceforge.NotepadPlusPlus" .  /E /C /I /F /H /R /Y &gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+&#13;
+for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
+"%setup%" /S /D=%CD%&#13;
+if %errorlevel% neq 0 exit /b %errorlevel%&#13;
+&#13;
+set package=net.sourceforge.NotepadPlusPlus&#13;
+set version=%NPACKD_PACKAGE_VERSION%&#13;
+set key=%package%&#13;
+&#13;
+reg add HKLM\SOFTWARE\Classes\Applications\%KEY%\shell\open /v FriendlyAppName /d "Notepad++ (%version%)" /f &gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+set c=\"%CD%\notepad++.exe\" \"%%1\"&#13;
+reg add HKLM\SOFTWARE\Classes\Applications\%KEY%\shell\open\command /d "%c%" /f &gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+for %%g in (txt log ini h hpp hxx c cpp cxx cc m java cs pas inc html htm php phtml properties js jsp asp css xml sh bsh nsi nsh lua pl pm py as mx vb vbs f for f90 f95 f2k tex sql nfo mak hgignore) do reg add HKLM\SOFTWARE\Classes\.%%g\OpenWithList\%key% /f &gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+&#13;
+reg add "HKCR\*\shell\Notepad++\command" /ve /f /d "\"%cd%\notepad++.exe\" %%1" &gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+&#13;
+verify</file>
+  <file path=".Npackd\Uninstall.bat">rmdir /s /q "%allusersprofile%\Npackd\Config\net.sourceforge.NotepadPlusPlus"&#13;
+xcopy Plugins "%allusersprofile%\Npackd\Config\net.sourceforge.NotepadPlusPlus\Plugins" /E /C /I /F /H /R /Y &gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+&#13;
+set package=net.sourceforge.NotepadPlusPlus&#13;
+set version=%NPACKD_PACKAGE_VERSION%&#13;
+set key=%package%&#13;
+&#13;
+set newname=%key%_%random%&#13;
+ren %appdata%\Notepad++ %newname%&#13;
+uninstall.exe /S _?=%CD%&#13;
+if %errorlevel% neq 0 exit /b %errorlevel%&#13;
+ren %appdata%\%newname% Notepad++&#13;
+&#13;
+rem unregister "Open With..." entries&#13;
+reg delete HKLM\SOFTWARE\Classes\Applications\%KEY% /f &gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+for %%g in (txt log ini h hpp hxx c cpp cxx cc m java cs pas inc html htm php phtml properties js jsp asp css xml sh bsh nsi nsh lua pl pm py as mx vb vbs f for f90 f95 f2k tex sql nfo mak hgignore) do reg delete HKLM\SOFTWARE\Classes\.%%g\OpenWithList\%key% /f &gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+&#13;
+reg delete HKCR\*\shell\Notepad++ /f &gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+&#13;
+rem remove Explorer extension&#13;
+set trash=..\.Trash\%key%_%random%&#13;
+mkdir %trash%&#13;
+move NppShell*.dll %trash%&#13;
+verify&#13;
+		</file>
+  <url>http://download.notepad-plus-plus.org/repository/7.x/7.8.2/npp.7.8.2.Installer.x64.exe</url>
+  <hash-sum type="SHA-256">56ff0f152f5f84314cd995c65b567becb1ddf0f5a248d76b5e968e85d62e62a0</hash-sum>
  </version>
 
     <version name="1.49" package="nubasic64">
@@ -38908,6 +38957,14 @@ if %errorlevel% equ 3010 verify</file>
   <url>http://www.rainlendar.net/download/Rainlendar-Lite-2.15-64bit.exe</url>
   <hash-sum type="SHA-256">097bfdb8e0329133eba758da04b2256954f8740beb58316bd89ad0245917b4e7</hash-sum>
  </version>
+ <version name="2.15.1" package="rainlendar-lite-64bit" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">uninst.exe /S _?=%CD%&#13;
+</file>
+  <url>http://www.rainlendar.net/download/Rainlendar-Lite-2.15.1-64bit.exe</url>
+  <hash-sum type="SHA-256">cade8c45ec4788fa5f178aec703019ca75eeb7f0d5390eaa40b881cbd86910f7</hash-sum>
+ </version>
 
     <version name="0.5.17" package="rambox-64-bit" type="one-file">
   <file path=".Npackd\Install.bat">"%npackd_package_binary%" &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
@@ -41048,6 +41105,14 @@ if %err% neq 0 exit %err%&#13;
 </file>
   <url>http://files.first-world.info/ultracopier/2.0.4.8/ultracopier-windows-x86_64-2.0.4.8-setup.exe</url>
   <hash-sum type="SHA-256">ea16556afa8bfa745178bf3ca636bd1d9c2fdab4051cd10af213a623611c8975</hash-sum>
+ </version>
+ <version name="2.2.0.4" package="ultracopier64" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">uninst.exe /S _?=%CD%&#13;
+</file>
+  <url>http://files.first-world.info/ultracopier/2.2.0.4/ultracopier-windows-x86_64-2.2.0.4-setup.exe</url>
+  <hash-sum type="SHA-256">7236326d7092c871b2607716ee7b8948dc6e1f17b8f2925b6d217b98ecb83ee1</hash-sum>
  </version>
 
     <version name="2.0.1" package="vagrant64" type="one-file">
