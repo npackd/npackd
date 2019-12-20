@@ -14550,6 +14550,17 @@ verify</file>
   <url>https://download-installer.cdn.mozilla.net/pub/firefox/releases/70.0/win64/en-US/Firefox%20Setup%2070.0.exe</url>
   <hash-sum type="SHA-256">9613e9c0c7689d15ccdecb36f84b64fb51c8824c3d10be0880d0bd0fe4bf9a62</hash-sum>
  </version>
+ <version name="71" package="firefox64" type="one-file">
+  <file path=".Npackd\Install.bat">echo [Install] &gt; .Npackd\FF.ini&#13;
+echo InstallDirectoryPath=%CD% &gt;&gt; .Npackd\FF.ini&#13;
+echo QuickLaunchShortcut=false &gt;&gt; .Npackd\FF.ini&#13;
+echo DesktopShortcut=false &gt;&gt; .Npackd\FF.ini&#13;
+"%npackd_package_binary%" /INI="%CD%\.Npackd\FF.ini" &amp;&amp; del /f /q "%npackd_package_binary%"</file>
+  <file path=".Npackd\Uninstall.bat">uninstall\helper.exe /S&#13;
+verify</file>
+  <url>https://download-installer.cdn.mozilla.net/pub/firefox/releases/71.0/win64/en-US/Firefox%20Setup%2071.0.exe</url>
+  <hash-sum type="SHA-256">46cc20ae7171e6d7a256fd72e1af5e9ab74b74112c164d1e947ecbbe36d68360</hash-sum>
+ </version>
 
     <version name="0.10" package="fr.handbrake.HandBrake64" type="one-file">
   <file path=".Npackd\Install.bat">ren rotation.php setup.exe&#13;
@@ -15263,6 +15274,17 @@ if %err% neq 0 exit %err%&#13;
 </file>
   <url>https://github.com/git-for-windows/git/releases/download/v2.24.0.windows.1/Git-2.24.0-64-bit.exe</url>
   <hash-sum type="SHA-256">cc3d151bcb5a30382d6e08b0e93f2370fd4b4debe81905e2008019c9d748f0fc</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
+ <version name="2.24.1.2" package="git64" type="one-file">
+  <file path=".Npackd\Install.bat">call "%nih%\InstallInnoSetup.bat"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">call "%nih%\UninstallInnoSetup.bat" unins000.exe&#13;
+</file>
+  <url>https://github.com/git-for-windows/git/releases/download/v2.24.1.windows.2/Git-2.24.1.2-64-bit.exe</url>
+  <hash-sum type="SHA-256">34e484936105713e7d0c2f421bf62e4cfe652f6638a9ecb5df2186c1918753e2</hash-sum>
   <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
    <variable>nih</variable>
   </dependency>
@@ -32229,6 +32251,10 @@ if %err% neq 0 exit %err%&#13;
   <url>https://github.com/mltframework/shotcut/releases/download/v19.10.20/shotcut-win64-191020.zip</url>
   <hash-sum type="SHA-256">f6a56c8ef1f115325b21abad3ab0a78351b4931031595eeb67d1b71433edf985</hash-sum>
  </version>
+ <version name="19.12.16" package="org.shotcut.shotcut">
+  <url>https://github.com/mltframework/shotcut/releases/download/v19.12.16/shotcut-win64-191216.zip</url>
+  <hash-sum type="SHA-256">d672c6206ac7bd68f4e2e384a2937fa19e2f788b46c5bd76cddc5357d75d90e7</hash-sum>
+ </version>
 
     <version name="4.4" package="org.sourceforge.ultradefrag.UltraDefrag64">
   <important-file path="ultradefrag.exe" title="UltraDefrag"/>
@@ -37603,6 +37629,16 @@ echo DesktopShortcut=false &gt;&gt; .Npackd\FF.ini&#13;
   </dependency>
   <dependency package="org.miktex.MiKTeX" versions="[2.9, 3)"/>
  </version>
+ <version name="2.9" package="pandoc64" type="one-file">
+  <file path=".Npackd\Install.bat">call "%nih%\InstallMSI.bat" INSTALLDIR yes&#13;
+</file>
+  <url>https://github.com/jgm/pandoc/releases/download/2.9/pandoc-2.9-windows-x86_64.msi</url>
+  <hash-sum type="SHA-256">e94efd39122bdffa31107f552523a9320fae8e74e186318c45680a7b4cef8e6c</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.1, 2)">
+   <variable>nih</variable>
+  </dependency>
+  <dependency package="org.miktex.MiKTeX" versions="[2.9, 3)"/>
+ </version>
 
     <version name="2.2.2" package="pdfsam64" type="one-file">
   <file path=".Npackd\Install.bat">&#13;
@@ -38097,6 +38133,22 @@ verify</file>
 verify</file>
   <url>https://downloads.sourceforge.net/project/qbittorrent/qbittorrent-win32/qbittorrent-4.1.9.1/qbittorrent_4.1.9.1_x64_setup.exe</url>
   <hash-sum type="SHA-256">b981598f9e4d43630b65c17a9fac7a1c1ebe5211a51b3699c7afda1cf04a13b2</hash-sum>
+ </version>
+ <version name="4.2" package="qbittorrent-64-bit" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD%&#13;
+verify</file>
+  <file path=".Npackd\Uninstall.bat">uninst.exe /S _?=%CD%&#13;
+verify</file>
+  <url>https://downloads.sourceforge.net/project/qbittorrent/qbittorrent-win32/qbittorrent-4.2.0/qbittorrent_4.2.0_x64_setup.exe</url>
+  <hash-sum type="SHA-256">a5416262372c9d9cf186611d10e3716fc65b5cfe570a1d6691c0dbb055e1f43f</hash-sum>
+ </version>
+ <version name="4.2.1" package="qbittorrent-64-bit" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD%&#13;
+verify</file>
+  <file path=".Npackd\Uninstall.bat">uninst.exe /S _?=%CD%&#13;
+verify</file>
+  <url>https://downloads.sourceforge.net/project/qbittorrent/qbittorrent-win32/qbittorrent-4.2.1/qbittorrent_4.2.1_x64_setup.exe</url>
+  <hash-sum type="SHA-256">f826a56d9deca1d673c64e36e7070f01b02de842e0a627b2f12bf28d864fb061</hash-sum>
  </version>
 
     <version name="3.12.4.1" package="qcad64" type="one-file">
@@ -38731,6 +38783,17 @@ if %errorlevel% equ 3010 verify</file>
    <variable>ncl</variable>
   </dependency>
  </version>
+ <version name="4.11" package="qt-creator64" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD%&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">"%ncl%\ncl.exe" remove-scp --title "/Qt Creator.*/"&#13;
+</file>
+  <url>http://download.qt-project.org/official_releases/qtcreator/4.11/4.11.0/qt-creator-opensource-windows-x86_64-4.11.0.exe</url>
+  <hash-sum type="SHA-256">0012c7b712fdec9b96512e9f06b5c9caf36626b265750388dee8e844a9db79b9</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.24, 2)">
+   <variable>ncl</variable>
+  </dependency>
+ </version>
 
     <version name="1.11" package="qtox64" type="one-file">
   <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
@@ -39072,6 +39135,17 @@ if %errorlevel% equ 3010 verify</file>
 </file>
   <url>https://github.com/saenzramiro/rambox/releases/download/0.7.2/Rambox-0.7.2-win.exe</url>
   <hash-sum type="SHA-256">d2102a927286a897e2f84ae1192a258dbf1745b14e010b6878e5f346a57ba43c</hash-sum>
+  <dependency package="net.nirsoft.MyUninstaller" versions="[1.74, 2)">
+   <variable>myun</variable>
+  </dependency>
+ </version>
+ <version name="0.7.3" package="rambox-64-bit" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">"%myun%\myuninst.exe" /uninstall "rambox-64-bit"&#13;
+</file>
+  <url>https://github.com/saenzramiro/rambox/releases/download/0.7.3/Rambox-0.7.3-win.exe</url>
+  <hash-sum type="SHA-256">618bc234f53a4dd152d4411af2da3d2cda37e1bb7c9a0e51195dd018b5df1720</hash-sum>
   <dependency package="net.nirsoft.MyUninstaller" versions="[1.74, 2)">
    <variable>myun</variable>
   </dependency>
@@ -39861,6 +39935,17 @@ if %err% neq 0 exit %err%&#13;
   </dependency>
  </version>
  <version name="0.9.991" package="sigil64" type="one-file">
+  <file path=".Npackd\Install.bat">call "%nih%\InstallInnoSetup.bat"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">call "%nih%\UninstallInnoSetup.bat" unins000.exe&#13;
+</file>
+  <url>https://github.com/user-none/Sigil/releases/download/0.9.8/Sigil-0.9.8-Windows-x64-Setup.exe</url>
+  <sha1>1dc08743c8e7d7b9d956f345466a2745b2bc9d18</sha1>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
+ <version name="1" package="sigil64" type="one-file">
   <file path=".Npackd\Install.bat">call "%nih%\InstallInnoSetup.bat"&#13;
 </file>
   <file path=".Npackd\Uninstall.bat">call "%nih%\UninstallInnoSetup.bat" unins000.exe&#13;
@@ -42007,6 +42092,21 @@ if %err% neq 0 exit %err%&#13;
   <sha1>88142b530a8fe71c8f4962c157244a45f18959fc</sha1>
  </version>
  <version name="1.40" package="vs-code" type="one-file">
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
+"%setup%" /SP- /VERYSILENT /SUPPRESSMSGBOXES /NOCANCEL /NORESTART /DIR="%CD%" /SAVEINF="%CD%\.Npackd\InnoSetupInfo.ini" /LOG="%CD%\.Npackd\InnoSetupInstall.log"&#13;
+set err=%errorlevel%&#13;
+type .Npackd\InnoSetupInstall.log&#13;
+if %err% neq 0 exit %err%&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">unins000.exe /VERYSILENT /SUPPRESSMSGBOXES /NORESTART /LOG="%CD%\.Npackd\InnoSetupUninstall.log"&#13;
+set err=%errorlevel%&#13;
+type .Npackd\InnoSetupUninstall.log&#13;
+if %err% neq 0 exit %err%&#13;
+</file>
+  <url>https://az764295.vo.msecnd.net/insider/d28f096018e2673a8437c788e3eed781ddb505ce/VSCodeSetup-ia32-1.21.0-insider.exe</url>
+  <sha1>88142b530a8fe71c8f4962c157244a45f18959fc</sha1>
+ </version>
+ <version name="1.41" package="vs-code" type="one-file">
   <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
 "%setup%" /SP- /VERYSILENT /SUPPRESSMSGBOXES /NOCANCEL /NORESTART /DIR="%CD%" /SAVEINF="%CD%\.Npackd\InnoSetupInfo.ini" /LOG="%CD%\.Npackd\InnoSetupInstall.log"&#13;
 set err=%errorlevel%&#13;
