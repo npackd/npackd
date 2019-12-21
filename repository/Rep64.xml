@@ -3387,6 +3387,18 @@ verify&#13;
   <url>https://bitcoin.org/bin/bitcoin-core-0.18.1/bitcoin-0.18.1-win64-setup.exe</url>
   <hash-sum type="SHA-256">3bac0674c0786689167be2b9f35d2d6e91d5477dee11de753fe3b6e22b93d47c</hash-sum>
  </version>
+ <version name="0.19.0.1" package="bitcoin-core64" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD%&#13;
+if %errorlevel% neq 0 exit /b %errorlevel%        &#13;
+&#13;
+del "%npackd_package_binary%"&#13;
+verify&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">uninstall.exe /S _?=%CD%&#13;
+</file>
+  <url>https://bitcoin.org/bin/bitcoin-core-0.19.0.1/bitcoin-0.19.0.1-win64-setup.exe</url>
+  <hash-sum type="SHA-256">4abca9419e83581209a3654a33da504998cf2f470993ee6d71f6b47fefe631a0</hash-sum>
+ </version>
 
     <version name="2.4.1" package="bittorrent-sync64" type="one-file">
   <url>https://download-cdn.resilio.com/stable/windows64/Resilio-Sync_x64.exe</url>
@@ -6477,6 +6489,15 @@ call "%npackdih%\InstallMSI.bat" APPLICATIONFOLDER yes&#13;
 </file>
   <url>https://download.calibre-ebook.com/4.5.0/calibre-64bit-4.5.0.msi</url>
   <hash-sum type="SHA-256">82e0a37fbb556792ce091e63177260d47662a757b21c768e0fe9f7dd4c1b1c06</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.2, 2)">
+   <variable>npackdih</variable>
+  </dependency>
+ </version>
+ <version name="4.6" package="com.calibreebook.Calibre64" type="one-file">
+  <file path=".Npackd\Install.bat">call "%npackdih%\InstallMSI.bat" APPLICATIONFOLDER yes&#13;
+</file>
+  <url>https://download.calibre-ebook.com/4.6.0/calibre-64bit-4.6.0.msi</url>
+  <hash-sum type="SHA-256">cda47d3b9c93ea52b984e26ad9d2a0859ef1f9a5b23fc59ca0104aa4b506fefd</hash-sum>
   <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.2, 2)">
    <variable>npackdih</variable>
   </dependency>
@@ -13324,6 +13345,14 @@ if %err% neq 0 exit %err%&#13;
   <url>http://dbeaver.jkiss.org/files/6.2.5/dbeaver-ce-6.2.5-x86_64-setup.exe</url>
   <hash-sum type="SHA-256">ea9b4b52a4a97f38d9b8838fa6152a6d60565858ffbc7a686d8867da7b8c5665</hash-sum>
  </version>
+ <version name="6.3" package="dbeaver64" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" /allusers /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">uninstall.exe /allusers /S _?=%CD%&#13;
+</file>
+  <url>http://dbeaver.jkiss.org/files/6.3.0/dbeaver-ce-6.3.0-x86_64-setup.exe</url>
+  <hash-sum type="SHA-256">2386cb12249129acb2d007841e95c46b4e6245b972f50236a3a9acd58b9e650b</hash-sum>
+ </version>
 
     <version name="0.825" package="dcplusplus64">
   <important-file path="DCPlusPlus.exe" title="DC++"/>
@@ -13925,6 +13954,14 @@ rmdir "%name%"&#13;
 </file>
   <url>https://github.com/balena-io/etcher/releases/download/v1.5.69/balenaEtcher-Setup-1.5.69.exe</url>
   <hash-sum type="SHA-256">0d6b97f9d5c1fb0500f2cd851dfdda928c47b210454946edbdb83795423b1d46</hash-sum>
+ </version>
+ <version name="1.5.70" package="etcher64" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">uninstall.exe /S _?=%CD%&#13;
+</file>
+  <url>https://github.com/balena-io/etcher/releases/download/v1.5.70/balenaEtcher-Setup-1.5.70.exe</url>
+  <hash-sum type="SHA-256">b37704580647bb0549165ab557b3d67d73ca537a7df68805f5f9b546efe62de6</hash-sum>
  </version>
 
     <version name="1.3.4.686" package="everything64">
@@ -17841,6 +17878,15 @@ call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Np
   <file path=".Npackd\Install.bat">call "%npackdih%\InstallMSI.bat" INSTALLLOCATION yes</file>
   <url>https://download.documentfoundation.org/libreoffice/stable/6.3.3/win/x86_64/LibreOffice_6.3.3_Win_x64.msi</url>
   <hash-sum type="SHA-256">64885837af4d4dfd6bdb311ea158acbd5858e2dd4853c75cfa84607278ca490e</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.1, 2)">
+   <variable>npackdih</variable>
+  </dependency>
+  <dependency package="com.oracle.JRE" versions="[1.6, 2)"/>
+ </version>
+ <version name="6.3.4" package="libreoffice64" type="one-file">
+  <file path=".Npackd\Install.bat">call "%npackdih%\InstallMSI.bat" INSTALLLOCATION yes</file>
+  <url>https://download.documentfoundation.org/libreoffice/stable/6.3.4/win/x86_64/LibreOffice_6.3.4_Win_x64.msi</url>
+  <hash-sum type="SHA-256">94b2b86b5688685233479d594e5760ce24d5b9a00e33058f4b86dffd08b54574</hash-sum>
   <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.1, 2)">
    <variable>npackdih</variable>
   </dependency>
@@ -31341,6 +31387,14 @@ verify</file>
    <variable>npackdih</variable>
   </dependency>
  </version>
+ <version name="12.14" package="org.nodejs.NodeJS64" type="one-file">
+  <file path=".Npackd\Install.bat">call "%npackdih%\InstallMSI.bat" INSTALLDIR yes</file>
+  <url>https://nodejs.org/dist/v12.14.0/node-v12.14.0-x64.msi</url>
+  <hash-sum type="SHA-256">bd0636856980c1fa855f1d517dcbd288a5619536286e4b1e452e19230355f7d9</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.1, 2)">
+   <variable>npackdih</variable>
+  </dependency>
+ </version>
 
     <version name="2.2" package="org.openshot.openshot64" type="one-file">
   <file path=".Npackd\Install.bat">"%nih%\InstallInnoSetup.bat"&#13;
@@ -35548,6 +35602,20 @@ call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Np
 </file>
   <url>https://github.com/vim/vim-win32-installer/releases/download/v8.1.2418/gvim_8.1.2418_x64.zip</url>
   <hash-sum type="SHA-256">6205b3adb445f46aaa621796ef5d285a868efb01ab73449f57d372633a7f9430</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.19, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
+ <version name="8.2.19" package="org.vim.Vim64">
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+if %errorlevel% neq 0 exit /b %errorlevel%&#13;
+&#13;
+for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+</file>
+  <url>https://github.com/vim/vim-win32-installer/releases/download/v8.2.0019/gvim_8.2.0019_x64.zip</url>
+  <hash-sum type="SHA-256">c9a382513cacf523b13e29bd960f1a049043fd27cebc64ab57e81ad04412a670</hash-sum>
   <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.19, 2)">
    <variable>nih</variable>
   </dependency>
@@ -42438,6 +42506,21 @@ if %err% neq 0 exit %err%&#13;
   <sha1>f73db938cfee6ab1ab0f940c923e4e663962c795</sha1>
  </version>
  <version name="1.40" package="vs-code64" type="one-file">
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
+"%setup%" /SP- /VERYSILENT /SUPPRESSMSGBOXES /NOCANCEL /NORESTART /DIR="%CD%" /SAVEINF="%CD%\.Npackd\InnoSetupInfo.ini" /LOG="%CD%\.Npackd\InnoSetupInstall.log"&#13;
+set err=%errorlevel%&#13;
+type .Npackd\InnoSetupInstall.log&#13;
+if %err% neq 0 exit %err%&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">unins000.exe /VERYSILENT /SUPPRESSMSGBOXES /NORESTART /LOG="%CD%\.Npackd\InnoSetupUninstall.log"&#13;
+set err=%errorlevel%&#13;
+type .Npackd\InnoSetupUninstall.log&#13;
+if %err% neq 0 exit %err%&#13;
+</file>
+  <url>https://az764295.vo.msecnd.net/insider/d28f096018e2673a8437c788e3eed781ddb505ce/VSCodeSetup-x64-1.21.0-insider.exe</url>
+  <sha1>f73db938cfee6ab1ab0f940c923e4e663962c795</sha1>
+ </version>
+ <version name="1.41" package="vs-code64" type="one-file">
   <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
 "%setup%" /SP- /VERYSILENT /SUPPRESSMSGBOXES /NOCANCEL /NORESTART /DIR="%CD%" /SAVEINF="%CD%\.Npackd\InnoSetupInfo.ini" /LOG="%CD%\.Npackd\InnoSetupInstall.log"&#13;
 set err=%errorlevel%&#13;
