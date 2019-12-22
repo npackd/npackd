@@ -14843,6 +14843,14 @@ if %err% neq 0 exit %err%</file>
   <url>https://github.com/fusioninventory/fusioninventory-agent/releases/download/2.4/fusioninventory-agent_windows-x86_2.4.exe</url>
   <sha1>d4ccd450e03510cb837e6c4b7956311401a9a0a1</sha1>
  </version>
+ <version name="2.5.2" package="fusioninventory-agent64" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">uninstall.exe /S _?=%CD%&#13;
+</file>
+  <url>https://github.com/fusioninventory/fusioninventory-agent/releases/download/2.4/fusioninventory-agent_windows-x86_2.4.exe</url>
+  <sha1>d4ccd450e03510cb837e6c4b7956311401a9a0a1</sha1>
+ </version>
 
     <version name="1.0.1" package="gajim64" type="one-file">
   <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
@@ -16767,6 +16775,17 @@ if %err% neq 0 exit %err%&#13;
 </file>
   <url>https://www.imagemagick.org/download/binaries/ImageMagick-7.0.9-8-Q16-x64-dll.exe</url>
   <hash-sum type="SHA-256">e275d7bb0c10c4964879a04e2f3be0b474ebc0082520cd3837f583fc68fb6e07</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
+ <version name="7.0.9.9" package="imagemagick64" type="one-file">
+  <file path=".Npackd\Install.bat">call "%nih%\InstallInnoSetup.bat"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">call "%nih%\UninstallInnoSetup.bat" unins000.exe&#13;
+</file>
+  <url>https://www.imagemagick.org/download/binaries/ImageMagick-7.0.9-9-Q16-x64-dll.exe</url>
+  <hash-sum type="SHA-256">ffe1106cfb827ebfaf2c3706aea5f9bbd1f3efce317b7d9dd6223e18b2d038e8</hash-sum>
   <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
    <variable>nih</variable>
   </dependency>
@@ -29925,6 +29944,14 @@ if %errorlevel% neq 0 exit /b %errorlevel%&#13;
   <url>https://miktex.org/download/ctan/systems/win32/miktex/setup/windows-x64/basic-miktex-2.9.7255-x64.exe</url>
   <hash-sum type="SHA-256">3e9946e0054e2b0b1116e483656e309b62ea9598b1cd7f6d38a375245816f419</hash-sum>
  </version>
+ <version name="2.9.7269" package="org.miktex.MiKTeX64" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" --common-install="%CD%" --shared --unattended&#13;
+</file>
+  <file path=".Npackd\Unnstall.bat">miktex\bin\miktexsetup.exe --verbose --shared uninstall&#13;
+</file>
+  <url>https://miktex.org/download/ctan/systems/win32/miktex/setup/windows-x64/basic-miktex-2.9.7269-x64.exe</url>
+  <hash-sum type="SHA-256">f71d44747d156a79631f68069ee3df1aba68360a97bbc0bb62f5ca9674b4b1c7</hash-sum>
+ </version>
 
     <version name="0.9.19" package="org.miranda-im.MirandaIM64" type="one-file">
   <important-file path="miranda64.exe" title="Miranda IM"/>
@@ -36982,6 +37009,41 @@ if %err% equ 3010 exit 0&#13;
 if %err% neq 0 exit %err%</file>
   <url>http://download.virtualbox.org/virtualbox/6.0.14/VirtualBox-6.0.14-133895-Win.exe</url>
   <hash-sum type="SHA-256">a24b3b3fd406766c409e5e2e8cf6d88cc7a50ad6694925e640c25e0d8d913063</hash-sum>
+  <dependency package="org.7-zip.SevenZIP64" versions="[9.20, 20)">
+   <variable>sevenzip</variable>
+  </dependency>
+ </version>
+ <version name="6.1.0.135406" package="org.virtualbox.virtualbox64" type="one-file">
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
+"%setup%" -x -s -p "%CD%"&#13;
+&#13;
+&#13;
+"%sevenzip%\7z.exe" x common.cab -aos -o"%CD%\common"&#13;
+"%sevenzip%\7z.exe" x "%CD%\common\file_VBoxGuestAdditions.iso" -aos -o"%CD%\common\file_VBoxGuestAdditions"&#13;
+&#13;
+certutil.exe -addstore -f "TrustedPublisher" "%CD%\common\file_VBoxGuestAdditions\cert\oracle-vbox.cer" &gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+&#13;
+for /f "delims=" %%x in ('dir /b *MultiArch_amd64.msi') do set setup=%%x&#13;
+msiexec.exe /qn /norestart /Lime .Npackd\MSI.log /i "%setup%"&#13;
+set err=%errorlevel%&#13;
+type .Npackd\MSI.log&#13;
+rem 3010=restart required&#13;
+if %err% equ 3010 exit 0&#13;
+if %err% neq 0 exit %err%&#13;
+&#13;
+for /f "delims=" %%x in ('dir /b *MultiArch_x86.msi') do set trash=%%x&#13;
+del /q /f "%trash%"&#13;
+&#13;
+if exist "%CD%\common" (rd /s /q "%CD%\common")</file>
+  <file path=".Npackd\Uninstall.bat">for /f "delims=" %%x in ('dir /b *.msi') do set setup=%%x&#13;
+msiexec.exe /qn /norestart /Lime .Npackd\MSI.log /x "%setup%"&#13;
+set err=%errorlevel%&#13;
+type .Npackd\MSI.log&#13;
+rem 3010=restart required&#13;
+if %err% equ 3010 exit 0&#13;
+if %err% neq 0 exit %err%</file>
+  <url>http://download.virtualbox.org/virtualbox/6.1.0/VirtualBox-6.1.0-135406-Win.exe</url>
+  <hash-sum type="SHA-256">66dddf8871ba10d9b3f88728dd2180af5e404c484fccddace6fc352aa29bab89</hash-sum>
   <dependency package="org.7-zip.SevenZIP64" versions="[9.20, 20)">
    <variable>sevenzip</variable>
   </dependency>
