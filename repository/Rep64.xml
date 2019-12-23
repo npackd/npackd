@@ -8399,6 +8399,16 @@ rmdir "%name%"&#13;
   <url>https://cdn.mysql.com/Downloads/MySQL-8.0/mysql-8.0.18-winx64.zip</url>
   <hash-sum type="SHA-256">683b7a901c6571951a3948f02f2d647cc7d10ca1a2dd645914a6064287a4d5f0</hash-sum>
  </version>
+ <version name="8.0.18.1" package="com.mysql.MySQLCommunityServer64">
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b mysql*') do set name=%%x&#13;
+"%clu%\clu" unwrap-dir -p "%name%"&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+</file>
+  <url>https://cdn.mysql.com/Downloads/MySQL-8.0/mysql-8.0.18-winx64.zip</url>
+  <hash-sum type="SHA-256">683b7a901c6571951a3948f02f2d647cc7d10ca1a2dd645914a6064287a4d5f0</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.CLU" versions="[1.25, 2)">
+   <variable>clu</variable>
+  </dependency>
+ </version>
 
     <version name="2014" package="com.mythicsoft.AgentRansack64" type="one-file">
   <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
@@ -33074,24 +33084,6 @@ rd /s /q "%ALLUSERSPROFILE%\Start Menu\Programs\WinCDEmu" || rd /s /q "%ALLUSERS
   <sha1>ab69a293680948da9bc865d29becb02bad5b2d94</sha1>
   <dependency package="com.github.bmatzelle.Gow" versions="[0.7, 2)"/>
  </version>
- <version name="4" package="org.sysprogs.WinCDEmu64" type="one-file">
-  <file path=".Npackd\Install.bat">rem "%ProgramFiles%\GowData\bin\wget.exe" -O wincdemu.cer http://dl.dropboxusercontent.com/s/x4u9hlz8o411c8w/wincdemu.cer&#13;
-rem certutil -addstore -f "TrustedPublisher" wincdemu.cer&#13;
-&#13;
-for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
-"%setup%" /UNATTENDED&#13;
-&#13;
-rd /s /q "%ProgramFiles(x86)%\WinCDEmu\x86"&#13;
-del /q /f "%ProgramFiles(x86)%\WinCDEmu\batchmnt.exe"&#13;
-del /q /f "%ProgramFiles(x86)%\WinCDEmu\vmnt.exe"&#13;
-del /q /f "%ProgramFiles(x86)%\WinCDEmu\uninstall.exe"</file>
-  <file path=".Npackd\Uninstall.bat">"%ProgramFiles(x86)%\WinCDEmu\uninstall64.exe" /UNATTENDED&#13;
-&#13;
-rd /s /q "%ALLUSERSPROFILE%\Start Menu\Programs\WinCDEmu" || rd /s /q "%ALLUSERSPROFILE%\Microsoft\Windows\Start Menu\Programs\WinCDEmu"</file>
-  <url>http://sysprogs.com/files/WinCDEmu/WinCDEmu-4.0.exe</url>
-  <sha1>f440ecc5abaab472467442c9abeaeb251a745e96</sha1>
-  <dependency package="com.github.bmatzelle.Gow" versions="[0.7, 2)"/>
- </version>
  <version name="4.1" package="org.sysprogs.WinCDEmu64" type="one-file">
   <file path=".Npackd\Install.bat">rem "%ProgramFiles%\GowData\bin\wget.exe" -O wincdemu.cer http://dl.dropboxusercontent.com/s/x4u9hlz8o411c8w/wincdemu.cer&#13;
 rem certutil -addstore -f "TrustedPublisher" wincdemu.cer&#13;
@@ -33106,8 +33098,8 @@ del /q /f "%ProgramFiles(x86)%\WinCDEmu\uninstall.exe"</file>
   <file path=".Npackd\Uninstall.bat">"%ProgramFiles(x86)%\WinCDEmu\uninstall64.exe" /UNATTENDED&#13;
 &#13;
 rd /s /q "%ALLUSERSPROFILE%\Start Menu\Programs\WinCDEmu" || rd /s /q "%ALLUSERSPROFILE%\Microsoft\Windows\Start Menu\Programs\WinCDEmu"</file>
-  <url>http://sysprogs.com/files/WinCDEmu/WinCDEmu-4.1.exe</url>
-  <sha1>9ff4f2ed41d5bd09496d2cfb6e09c4b31659dc19</sha1>
+  <url>https://github.com/sysprogs/WinCDEmu/releases/download/v4.1/WinCDEmu-4.1.exe</url>
+  <hash-sum type="SHA-256">c47763631d20120057766f2f71f781bf958e22712da4ac933b21db0d615dc93c</hash-sum>
   <dependency package="com.github.bmatzelle.Gow" versions="[0.7, 2)"/>
  </version>
 
