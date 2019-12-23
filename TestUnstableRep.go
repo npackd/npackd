@@ -79,6 +79,7 @@ func shufflePackageVersions(array []PackageVersion) {
 type Package struct {
 	Name     string `xml:"name,attr"`
 	Category []string
+	Tag      []string
 }
 
 type PackageVersion struct {
@@ -95,7 +96,6 @@ type Repository struct {
 func uploadAllToGithub(settings *Settings, url string, releaseID int) error {
 	fmt.Println("Re-uploading packages in " + url)
 
-	fmt.Println("Loading " + url)
 	bytes, err, _ := download(url, true)
 	if err != nil {
 		return err
@@ -111,7 +111,7 @@ func uploadAllToGithub(settings *Settings, url string, releaseID int) error {
 	for i := 0; i < len(v.Package); i++ {
 		p := v.Package[i]
 
-		if indexOf(p.Category, "reupload") >= 0 {
+		if indexOf(p.Tag, "reupload") >= 0 {
 			packages[v.Package[i].Name] = true
 		}
 	}
