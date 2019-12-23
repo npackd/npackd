@@ -312,12 +312,8 @@ func apiSetURL(settings *Settings, package_ string, version string, url_ string)
 		"&password=" + settings.password +
 		"&url=" + url.QueryEscape(url_)
 
-	if changeData {
-		_, err, statusCode := download(a, false)
-		return err, statusCode
-	} else {
-		return nil, 0
-	}
+	_, err, statusCode := download(a, false)
+	return err, statusCode
 }
 
 /**
