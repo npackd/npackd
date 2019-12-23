@@ -117,6 +117,7 @@ func uploadAllToGithub(settings *Settings, url string, releaseID int) error {
 		}
 	}
 
+	n := 0
 	for i := 0; i < len(v.PackageVersion); i++ {
 		var pv = v.PackageVersion[i]
 		var package_ = pv.Package
@@ -142,6 +143,11 @@ func uploadAllToGithub(settings *Settings, url string, releaseID int) error {
 				}
 			}
 			fmt.Println("------------------------------------------------------------------")
+			n = n + 1
+		}
+
+		if n > 2 {
+			break
 		}
 	}
 	fmt.Println("==================================================================")
