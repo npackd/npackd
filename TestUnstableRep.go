@@ -169,13 +169,11 @@ func uploadToGithub(settings *Settings, from string, package_ string, version st
 	// fmt.Println("Uploading to " + url);
 	fmt.Println("Download from " + downloadURL)
 
-	if changeData {
-		result, _ = exec2(settings.curl, "-f -H \"Authorization: token "+settings.githubToken+"\""+
-			" -H \"Content-Type: "+mime+"\""+
-			" --data-binary @"+file+" \""+url+"\"", false)
-		if result != 0 {
-			return "", errors.New("Cannot upload the file to Github")
-		}
+	result, _ = exec2(settings.curl, "-f -H \"Authorization: token "+settings.githubToken+"\""+
+		" -H \"Content-Type: "+mime+"\""+
+		" --data-binary @"+file+" \""+url+"\"", false)
+	if result != 0 {
+		return "", errors.New("Cannot upload the file to Github")
 	}
 
 	return downloadURL, nil
