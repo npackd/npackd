@@ -77,9 +77,9 @@ func shufflePackageVersions(array []PackageVersion) {
 }
 
 type Package struct {
-	Name     string `xml:"name,attr"`
-	Category []string
-	Tag      []string
+	Name     string   `xml:"name,attr"`
+	Category []string `xml:"category"`
+	Tag      []string `xml:"tag"`
 }
 
 type PackageVersion struct {
@@ -112,7 +112,8 @@ func uploadAllToGithub(settings *Settings, url string, releaseID int) error {
 		p := v.Package[i]
 
 		if indexOf(p.Tag, "reupload") >= 0 {
-			packages[v.Package[i].Name] = true
+			packages[p.Name] = true
+			fmt.Println("Found package for re-upload:" + p.Name)
 		}
 	}
 
