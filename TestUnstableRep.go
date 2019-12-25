@@ -593,44 +593,23 @@ func createRelease(settings *Settings) error {
   "draft": false,
   "prerelease": false
 }`
-
-	_, err, _ := postGithubAPI(settings,
+	req, err := http.NewRequest("POST",
 		"https://api.github.com/repos/tim-lebedkov/packages/releases",
-		strings.NewReader(body), false)
+		strings.NewReader(body))
 	if err != nil {
 		return err
-	}
-
-	return nil
-}
-
-func postGithubAPI(settings *Settings, url_ string, body io.Reader,
-	showParameters bool) (*bytes.Buffer, error, int) {
-	if showParameters {
-		fmt.Println("POST to " + url_)
-	} else {
-		u, err := url.Parse(url_)
-		if err != nil {
-			return nil, err, 0
-		}
-		fmt.Println("POST to " + u.Scheme + "://" + u.Host + u.EscapedPath() + "?<<<parameters hidden>>>")
-	}
-
-	req, err := http.NewRequest("POST", url_, body)
-	if err != nil {
-		return nil, err, 0
 	}
 	req.Header.Set("Content-Type", "application/json; charset=utf-8")
 	req.Header.Set("Authorization", "token "+settings.githubToken)
 	resp, err := http.DefaultClient.Do(req)
 	if err != nil {
-		return nil, err, 0
+		return err
 	}
 	defer resp.Body.Close()
 
 	// Check server response
-	if resp.StatusCode != http.StatusOK {
-		return nil, fmt.Errorf("bad status: %s", resp.Status), resp.StatusCode
+	if resp.StatusCode < 200 || resp.StatusCode >= 300 {
+		return fmt.Errorf("bad status: %s", resp.Status)
 	}
 
 	b := new(bytes.Buffer)
@@ -638,10 +617,10 @@ func postGithubAPI(settings *Settings, url_ string, body io.Reader,
 	// Write the body to file
 	_, err = io.Copy(b, resp.Body)
 	if err != nil {
-		return nil, err, resp.StatusCode
+		return err
 	}
 
-	return b, nil, resp.StatusCode
+	return nil
 }
 
 func download(url_ string, showParameters bool) (*bytes.Buffer, error, int) {
