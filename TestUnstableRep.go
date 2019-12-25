@@ -28,6 +28,7 @@ type Settings struct {
 	password    string
 	git         string
 	npackdcl    string
+	packagesTag string
 }
 
 func indexOf(slice []string, item string) int {
@@ -171,7 +172,7 @@ func uploadToGithub(settings *Settings, from string, package_ string, version st
 
 	var url = "https://uploads.github.com/repos/tim-lebedkov/packages/releases/" +
 		strconv.Itoa(releaseID) + "/assets?name=" + file
-	var downloadURL = "https://github.com/tim-lebedkov/packages/releases/download/2019_Q1/" + file
+	var downloadURL = "https://github.com/tim-lebedkov/packages/releases/download/" + settings.packagesTag + "/" + file
 	// fmt.Println("Uploading to " + url);
 	fmt.Println("Download from " + downloadURL)
 
@@ -539,13 +540,27 @@ func processURL(url string, settings *Settings, onlyNewest bool) error {
 	return nil
 }
 
-func updatePackagesProject(settings *Settings) {
-	exec2("", settings.git, "clone https://github.com/tim-lebedkov/packages.git C:\\projects\\packages", true)
+func updatePackagesProject(settings *Settings) error {
+	settings.packagesTag = time.Now().Format("2006_01")
 
-	exec2("C:\\projects\\packages", settings.git, "tag -a 2019_12 -m 2019_12", true)
+	ec, _ := exec2("", settings.git,
+		"clone https://github.com/tim-lebedkov/packages.git C:\\projects\\packages", true)
+	if ec != 0 {
+		return errors.New("Cannot clone the \"packages\" project")
+	}
 
-	exec2("C:\\projects\\packages", settings.git, "push https://tim-lebedkov:"+settings.githubToken+
-		"@github.com/tim-lebedkov/npackd.git --tags", false)
+	// ignore the exit code here as the tag may already exist
+	exec2("C:\\projects\\packages", settings.git, "tag -a "+
+		settings.packagesTag+" -m "+settings.packagesTag, true)
+
+	ec, _ = exec2("C:\\projects\\packages", settings.git,
+		"push https://tim-lebedkov:"+settings.githubToken+
+			"@github.com/tim-lebedkov/packages.git --tags", false)
+	if ec != 0 {
+		return errors.New("Cannot push the \"packages\" project")
+	}
+
+	return nil
 }
 
 func downloadRepos(settings *Settings) {
@@ -625,7 +640,10 @@ func process2() error {
 	var settings Settings = createSettings()
 
 	downloadRepos(&settings)
-	updatePackagesProject(&settings)
+	err := updatePackagesProject(&settings)
+	if err != nil {
+		return err
+	}
 
 	b, err, _ := download("https://api.github.com/repos/tim-lebedkov/packages/releases", true)
 	if err != nil {
@@ -641,7 +659,7 @@ func process2() error {
 
 	releaseID := 0
 	for _, r := range releases {
-		if r.Tag_name == "2019_Q1" {
+		if r.Tag_name == settings.packagesTag {
 			releaseID = r.Id
 			break
 		}
