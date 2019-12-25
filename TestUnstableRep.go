@@ -584,6 +584,66 @@ func downloadRepos(settings *Settings) {
 		"@github.com/tim-lebedkov/npackd.git", false)
 }
 
+func createRelease(settings *Settings) error {
+	body := `{
+  "tag_name": "` + settings.packagesTag + `",
+  "target_commitish": "master",
+  "name": "` + settings.packagesTag + `",
+  "body": "Description of the release",
+  "draft": false,
+  "prerelease": false
+}`
+
+	_, err, _ := postGithubAPI(settings,
+		"https://api.github.com/repos/tim-lebedkov/packages/releases",
+		strings.NewReader(body), false)
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
+
+func postGithubAPI(settings *Settings, url_ string, body io.Reader,
+	showParameters bool) (*bytes.Buffer, error, int) {
+	if showParameters {
+		fmt.Println("POST to " + url_)
+	} else {
+		u, err := url.Parse(url_)
+		if err != nil {
+			return nil, err, 0
+		}
+		fmt.Println("POST to " + u.Scheme + "://" + u.Host + u.EscapedPath() + "?<<<parameters hidden>>>")
+	}
+
+	req, err := http.NewRequest("POST", url_, body)
+	if err != nil {
+		return nil, err, 0
+	}
+	req.Header.Set("Content-Type", "application/json; charset=utf-8")
+	req.Header.Set("Authorization", "token "+settings.githubToken)
+	resp, err := http.DefaultClient.Do(req)
+	if err != nil {
+		return nil, err, 0
+	}
+	defer resp.Body.Close()
+
+	// Check server response
+	if resp.StatusCode != http.StatusOK {
+		return nil, fmt.Errorf("bad status: %s", resp.Status), resp.StatusCode
+	}
+
+	b := new(bytes.Buffer)
+
+	// Write the body to file
+	_, err = io.Copy(b, resp.Body)
+	if err != nil {
+		return nil, err, resp.StatusCode
+	}
+
+	return b, nil, resp.StatusCode
+}
+
 func download(url_ string, showParameters bool) (*bytes.Buffer, error, int) {
 	if showParameters {
 		fmt.Println("Downloading " + url_)
@@ -636,6 +696,34 @@ func createSettings() Settings {
 	return settings
 }
 
+func getReleases(settings *Settings) ([]Release, error) {
+	b, err, _ := download("https://api.github.com/repos/tim-lebedkov/packages/releases", true)
+	if err != nil {
+		return nil, err
+	}
+
+	var releases []Release
+
+	err = json.Unmarshal(b.Bytes(), &releases)
+	if err != nil {
+		return nil, err
+	}
+
+	return releases, nil
+}
+
+func findRelease(releases []Release, tag_name string) int {
+	releaseID := 0
+	for _, r := range releases {
+		if r.Tag_name == tag_name {
+			releaseID = r.Id
+			break
+		}
+	}
+
+	return releaseID
+}
+
 func process2() error {
 	var settings Settings = createSettings()
 
@@ -645,24 +733,18 @@ func process2() error {
 		return err
 	}
 
-	b, err, _ := download("https://api.github.com/repos/tim-lebedkov/packages/releases", true)
+	releases, err := getReleases(&settings)
 	if err != nil {
 		return err
 	}
 
-	var releases []Release
-
-	err = json.Unmarshal(b.Bytes(), &releases)
-	if err != nil {
-		return err
-	}
-
-	releaseID := 0
-	for _, r := range releases {
-		if r.Tag_name == settings.packagesTag {
-			releaseID = r.Id
-			break
+	releaseID := findRelease(releases, settings.packagesTag)
+	if releaseID == 0 {
+		err = createRelease(&settings)
+		if err != nil {
+			return err
 		}
+		releaseID = findRelease(releases, settings.packagesTag)
 	}
 
 	if releaseID == 0 {
