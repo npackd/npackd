@@ -10340,7 +10340,7 @@ del Q-Dir.ini&#13;
   <url>http://files.npackd.org/com.softwareok.QDir64-5.99.9.zip</url>
   <sha1>fb6060796fae3fc641ba34fe1f2f8530d7c985a8</sha1>
  </version>
- <version name="7.98" package="com.softwareok.QDir64">
+ <version name="7.99" package="com.softwareok.QDir64">
   <important-file path="Q-Dir.exe" title="Q-Dir"/>
   <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b Q*') do set name=%%x&#13;
 cd "%name%"        &#13;
@@ -12728,7 +12728,7 @@ if %err% neq 0 exit %err%&#13;
   </dependency>
  </version>
 
-    <version name="3.1" package="cygwin64" type="one-file">
+    <version name="3.1.2" package="cygwin64" type="one-file">
   <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
 "%setup%" -q -D -R "%CD%" -s http://box-soft.com -l "%CD%\packages"&#13;
 "%setup%" -q -L -R "%CD%" -l "%CD%\packages"</file>
@@ -13464,38 +13464,8 @@ verify</file>
 taskkill /im kded4.exe /f /t&#13;
 taskkill /im klauncher.exe /f /t&#13;
 verify</file>
-  <url>https://download.kde.org/stable/digikam/6.1.0/digiKam-6.1.0-Win64.exe</url>
+  <url>https://github.com/tim-lebedkov/packages/releases/download/2019_12/digikam64-6.1-digiKam-6.1.0-Win64.exe</url>
   <hash-sum type="SHA-256">35ca33728602702b4292d897b61649e31a87d56fece8d0b3c9aa3d8e75bdb2d2</hash-sum>
- </version>
- <version name="6.2" package="digikam64" type="one-file">
-  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
-"%setup%" /S /D=%ProgramFiles%\digiKamData&#13;
-</file>
-  <file path=".Npackd\Uninstall.bat">"%ProgramFiles%\digiKamData\Uninstall.exe" /S&#13;
-&#13;
-rd /s /q "APPDATA%\Start Menu\Programs\KDE Release" || rd /s /q "%ALLUSERSPROFILE%\Microsoft\Windows\Start Menu\Programs\KDE Release"&#13;
-verify</file>
-  <file path=".Npackd\Stop.bat">taskkill /im dbus-daemon.exe /f /t&#13;
-taskkill /im kded4.exe /f /t&#13;
-taskkill /im klauncher.exe /f /t&#13;
-verify</file>
-  <url>http://mirror.kumi.systems/kde/ftp/stable/digikam/6.2.0/digiKam-6.2.0-Win64.exe</url>
-  <hash-sum type="SHA-256">d8a194b62abb55baf9ca6a61aca6290bcecdf4cb9915208848c00843852c0c82</hash-sum>
- </version>
- <version name="6.3" package="digikam64" type="one-file">
-  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
-"%setup%" /S /D=%ProgramFiles%\digiKamData&#13;
-</file>
-  <file path=".Npackd\Uninstall.bat">"%ProgramFiles%\digiKamData\Uninstall.exe" /S&#13;
-&#13;
-rd /s /q "APPDATA%\Start Menu\Programs\KDE Release" || rd /s /q "%ALLUSERSPROFILE%\Microsoft\Windows\Start Menu\Programs\KDE Release"&#13;
-verify</file>
-  <file path=".Npackd\Stop.bat">taskkill /im dbus-daemon.exe /f /t&#13;
-taskkill /im kded4.exe /f /t&#13;
-taskkill /im klauncher.exe /f /t&#13;
-verify</file>
-  <url>http://mirror.kumi.systems/kde/ftp/stable/digikam/6.3.0/digiKam-6.3.0-Win64.exe</url>
-  <hash-sum type="SHA-256">a498d34bd72ce3428138ec2288a5287a781b00cb49b3eb7d93b400c2705ff449</hash-sum>
  </version>
  <version name="6.4" package="digikam64" type="one-file">
   <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
@@ -16096,6 +16066,17 @@ verify&#13;
    <variable>nih</variable>
   </dependency>
  </version>
+ <version name="2.14.3" package="hexchat64" type="one-file">
+  <file path=".Npackd\Install.bat">call "%nih%\InstallInnoSetup.bat"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">call "%nih%\UninstallInnoSetup.bat" unins000.exe&#13;
+</file>
+  <url>https://dl.hexchat.net/hexchat/HexChat%202.14.3%20x64.exe</url>
+  <hash-sum type="SHA-256">f9afe97fceb91685b0f4b1812663eff8460a7d16d6f626ce733193cd56993f23</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
 
     <version name="8" package="housecall64" type="one-file">
   <important-file path="HousecallLauncher64.exe" title="HouseCall"/>
@@ -16788,6 +16769,17 @@ if %err% neq 0 exit %err%&#13;
 </file>
   <url>https://www.imagemagick.org/download/binaries/ImageMagick-7.0.9-9-Q16-x64-dll.exe</url>
   <hash-sum type="SHA-256">ffe1106cfb827ebfaf2c3706aea5f9bbd1f3efce317b7d9dd6223e18b2d038e8</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
+ <version name="7.0.9.10" package="imagemagick64" type="one-file">
+  <file path=".Npackd\Install.bat">call "%nih%\InstallInnoSetup.bat"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">call "%nih%\UninstallInnoSetup.bat" unins000.exe&#13;
+</file>
+  <url>https://www.imagemagick.org/download/binaries/ImageMagick-7.0.9-10-Q16-x64-dll.exe</url>
+  <hash-sum type="SHA-256">640f262769db7b3f6a13f5a289334291cda208c6661e8ce4e46317cd7065286a</hash-sum>
   <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
    <variable>nih</variable>
   </dependency>
@@ -17655,6 +17647,19 @@ call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Np
 </file>
   <url>https://github.com/ldc-developers/ldc/releases/download/v1.18.0/ldc2-1.18.0-windows-x64.7z</url>
   <hash-sum type="SHA-256">285290ebdd916c5be47f854e5245a3f80e4d013da423b43af6b4f7087ee9743e</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.19, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
+ <version name="1.19" package="ldc64" type="one-file">
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.7z') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+&#13;
+for /f "delims=" %%x in ('dir /b ldc*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+</file>
+  <url>https://github.com/ldc-developers/ldc/releases/download/v1.19.0/ldc2-1.19.0-windows-x64.7z</url>
+  <hash-sum type="SHA-256">e0038e94174af64726fa713aa63d0fbf5290e911905e86901e74553604eb8a6c</hash-sum>
   <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.19, 2)">
    <variable>nih</variable>
   </dependency>
@@ -20636,6 +20641,17 @@ verify&#13;
   </dependency>
  </version>
  <version name="3.22.20" package="net.sourceforge.dittocp.Ditto64" type="one-file">
+  <file path=".Npackd\Install.bat">call "%nih%\InstallInnoSetup.bat"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">call "%nih%\UninstallInnoSetup.bat" unins000.exe&#13;
+</file>
+  <url>https://ayera.dl.sourceforge.net/project/ditto-cp/Ditto/3.21.134.0/DittoSetup_64bit_3_21_134_0.exe</url>
+  <sha1>828bed2c10a2a10fa1f152907cacf8eae1e287f7</sha1>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
+ <version name="3.22.88" package="net.sourceforge.dittocp.Ditto64" type="one-file">
   <file path=".Npackd\Install.bat">call "%nih%\InstallInnoSetup.bat"&#13;
 </file>
   <file path=".Npackd\Uninstall.bat">call "%nih%\UninstallInnoSetup.bat" unins000.exe&#13;
@@ -23859,6 +23875,29 @@ WshShell.SendKeys("{ESC}");&#13;
   <url>https://download.openmpt.org/OpenMPT-1.28.08.00-Setup-x64.exe</url>
   <hash-sum type="SHA-256">6a1ce0b90200e6a1b76a25e0e5f13391894d4c43f8edccbc6554a522f2284ff9</hash-sum>
  </version>
+ <version name="1.28.9" package="openmpt64" type="one-file">
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
+"%setup%" /SP- /VERYSILENT /SUPPRESSMSGBOXES /NOCANCEL /NORESTART /DIR="%CD%" /SAVEINF="%CD%\.Npackd\InnoSetupInfo.ini" /LOG="%CD%\.Npackd\InnoSetupInstall.log" &amp;&amp; del /f /q "%setup%"&#13;
+set err=%errorlevel%&#13;
+type .Npackd\InnoSetupInstall.log&#13;
+if %err% neq 0 exit %err%&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">start "Confirm Uninstall" cscript //Nologo //B //E:JScript //T:300 //U .Npackd\ConfirmUninstall.js&#13;
+&#13;
+unins000.exe /VERYSILENT /SUPPRESSMSGBOXES /NORESTART /LOG="%CD%\.Npackd\InnoSetupUninstall.log"&#13;
+set err=%errorlevel%&#13;
+type .Npackd\InnoSetupUninstall.log&#13;
+if %err% neq 0 exit %err%&#13;
+</file>
+  <file path=".Npackd\ConfirmUninstall.js">var WshShell = WScript.CreateObject("WScript.Shell");&#13;
+WScript.Sleep(60000);&#13;
+WshShell.AppActivate("Uninstall");&#13;
+WScript.Sleep(10000);&#13;
+WshShell.SendKeys("{ESC}");&#13;
+</file>
+  <url>https://download.openmpt.org/archive/openmpt/1.28/OpenMPT-1.28.09.00-Setup-x64.exe</url>
+  <hash-sum type="SHA-256">6dd62663a0bfbec73d5290b29d16090051af958b61c812a835931f9ebe075a40</hash-sum>
+ </version>
 
     <version name="2015.3.2" package="openscad64" type="one-file">
   <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
@@ -25447,6 +25486,21 @@ rmdir "%name%"
 </file>
   <url>http://archive.apache.org/dist/tomcat/tomcat-7/v7.0.96/bin/apache-tomcat-7.0.96-windows-x64.zip</url>
   <hash-sum type="SHA-256">a38b691e4fa57240bf23e80e6059359d4e49c713e7a1355dba455522c448edba</hash-sum>
+  <dependency package="com.oracle.JRE" versions="[1.5, 2)"/>
+ </version>
+ <version name="7.0.99" package="org.apache.tomcat.Tomcat64">
+  <important-file path="bin\startup.bat" title="Start"/>
+  <important-file path="bin\shutdown.bat" title="Stop"/>
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b apache*') do set name=%%x
+cd "%name%"        
+for /f "delims=" %%a in ('dir /b') do (
+  move "%%a" ..
+)
+cd ..
+rmdir "%name%"
+</file>
+  <url>http://archive.apache.org/dist/tomcat/tomcat-7/v7.0.99/bin/apache-tomcat-7.0.99-windows-x64.zip</url>
+  <hash-sum type="SHA-256">088e733427132755a1fad94e393dfe9562b76811b05a30968144c978cbb8aa00</hash-sum>
   <dependency package="com.oracle.JRE" versions="[1.5, 2)"/>
  </version>
 
@@ -32166,6 +32220,15 @@ if %err% neq 0 exit /b %err%&#13;
   <url>https://www.python.org/ftp/python/3.8.0/python-3.8.0-amd64.exe</url>
   <hash-sum type="SHA-256">a9bbc6088a3e4c7112826e21bfee6277f7b6d93259f7c57176139231bb7071e4</hash-sum>
  </version>
+ <version name="3.8.1" package="org.python.Python64" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" /quiet InstallAllUsers=1 "TargetDir=%cd%"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">for /f "delims=" %%x in ('dir /b python-*.exe') do set setup=%%x&#13;
+%setup% /uninstall /quiet InstallAllUsers=1&#13;
+</file>
+  <url>https://www.python.org/ftp/python/3.8.1/python-3.8.1-amd64.exe</url>
+  <hash-sum type="SHA-256">bebc242c11b8d83d8671c7b8e047e64dd78f7ae9aef29613b9ee176bf8e35367</hash-sum>
+ </version>
 
     <version name="2.0.0.247" package="org.rubylang.Ruby64" type="one-file">
   <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
@@ -35631,6 +35694,20 @@ call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Np
    <variable>nih</variable>
   </dependency>
  </version>
+ <version name="8.2.37" package="org.vim.Vim64">
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+if %errorlevel% neq 0 exit /b %errorlevel%&#13;
+&#13;
+for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+</file>
+  <url>https://github.com/vim/vim-win32-installer/releases/download/v8.2.0037/gvim_8.2.0037_x64.zip</url>
+  <hash-sum type="SHA-256">324fcccc763420313bd44d9d884d66ba9a381add9f1ca64e1597026c64626e57</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.19, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
 
     <version name="4.2.8.83876" package="org.virtualbox.virtualbox64" type="one-file">
   <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
@@ -37180,6 +37257,14 @@ if %err% neq 0 exit %err%</file>
   <url>https://1.eu.dl.wireshark.org/win64/Wireshark-win64-3.0.7.exe</url>
   <hash-sum type="SHA-256">b246db3ef635c5bf2ae25684f5f869c0d958c66021a5388a3fb1a38aa374b233</hash-sum>
  </version>
+ <version name="3.2" package="org.wireshark.Wireshark64" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD%&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">uninstall.exe /S _=%CD%&#13;
+</file>
+  <url>https://1.eu.dl.wireshark.org/win64/Wireshark-win64-3.2.0.exe</url>
+  <hash-sum type="SHA-256">373af8674889b446412fb4c34f9b0299c66724086343238ea2b3a99e9e8d80d7</hash-sum>
+ </version>
 
     <version name="26.0.3" package="pale-moon64" type="one-file">
   <file path=".Npackd\Install.bat">echo [Install] &gt; .Npackd\FF.ini&#13;
@@ -37748,6 +37833,16 @@ echo DesktopShortcut=false &gt;&gt; .Npackd\FF.ini&#13;
 </file>
   <url>https://github.com/jgm/pandoc/releases/download/2.9/pandoc-2.9-windows-x86_64.msi</url>
   <hash-sum type="SHA-256">e94efd39122bdffa31107f552523a9320fae8e74e186318c45680a7b4cef8e6c</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.1, 2)">
+   <variable>nih</variable>
+  </dependency>
+  <dependency package="org.miktex.MiKTeX" versions="[2.9, 3)"/>
+ </version>
+ <version name="2.9.1" package="pandoc64" type="one-file">
+  <file path=".Npackd\Install.bat">call "%nih%\InstallMSI.bat" INSTALLDIR yes&#13;
+</file>
+  <url>https://github.com/jgm/pandoc/releases/download/2.9.1/pandoc-2.9.1-windows-x86_64.msi</url>
+  <hash-sum type="SHA-256">55d46cf42cdf50d80234c03a12e886c8f060ea9749d2ff6216e52ab8031f5a8b</hash-sum>
   <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.1, 2)">
    <variable>nih</variable>
   </dependency>
@@ -38527,6 +38622,15 @@ lib.sendKeysToWindow("QCAD 3.12.4 Uninstall", "{ENTER}");&#13;
 </file>
   <url>http://www.qcad.org/archives/qcad/qcad-3.23.0-trial-win64-installer.msi</url>
   <hash-sum type="SHA-256">9a3954739c8198a6d59c294d8487fb2736713d189d528bc8fef0bee658f8fc18</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.1, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
+ <version name="3.24" package="qcad64" type="one-file">
+  <file path=".Npackd\Install.bat">call "%nih%\InstallMSI.bat" INSTALLDIR yes&#13;
+</file>
+  <url>http://www.qcad.org/archives/qcad/qcad-3.24.0-trial-win64-installer.msi</url>
+  <hash-sum type="SHA-256">ac46cf9a02899a3c9ef618d437a3d8bb9f9017f1d516e001f99d01cd67d3bcf4</hash-sum>
   <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.1, 2)">
    <variable>nih</variable>
   </dependency>
@@ -41057,6 +41161,21 @@ if %err% neq 0 exit %err%&#13;
   <url>https://bintray.com/artifact/download/tigervnc/stable/tigervnc64-1.8.0.exe</url>
   <sha1>f6ce938ee99fe5c1ca246628725065f438ef092c</sha1>
  </version>
+ <version name="1.10.1" package="tigervnc64" type="one-file">
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
+"%setup%" /SP- /VERYSILENT /SUPPRESSMSGBOXES /NOCANCEL /NORESTART /DIR="%CD%" /SAVEINF="%CD%\.Npackd\InnoSetupInfo.ini" /LOG="%CD%\.Npackd\InnoSetupInstall.log" &amp;&amp; del /f /q "%setup%"&#13;
+set err=%errorlevel%&#13;
+type .Npackd\InnoSetupInstall.log&#13;
+if %err% neq 0 exit %err%&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">unins000.exe /VERYSILENT /SUPPRESSMSGBOXES /NORESTART /LOG="%CD%\.Npackd\InnoSetupUninstall.log"&#13;
+set err=%errorlevel%&#13;
+type .Npackd\InnoSetupUninstall.log&#13;
+if %err% neq 0 exit %err%&#13;
+</file>
+  <url>https://bintray.com/artifact/download/tigervnc/stable/tigervnc64-1.8.0.exe</url>
+  <sha1>f6ce938ee99fe5c1ca246628725065f438ef092c</sha1>
+ </version>
 
     <version name="8.0.8" package="tor64" type="one-file">
   <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
@@ -41312,6 +41431,14 @@ if %err% neq 0 exit %err%&#13;
 </file>
   <url>http://files.first-world.info/ultracopier/2.2.0.4/ultracopier-windows-x86_64-2.2.0.4-setup.exe</url>
   <hash-sum type="SHA-256">7236326d7092c871b2607716ee7b8948dc6e1f17b8f2925b6d217b98ecb83ee1</hash-sum>
+ </version>
+ <version name="2.2.0.5" package="ultracopier64" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">uninst.exe /S _?=%CD%&#13;
+</file>
+  <url>http://files.first-world.info/ultracopier/2.2.0.5/ultracopier-windows-x86_64-2.2.0.5-setup.exe</url>
+  <hash-sum type="SHA-256">e79862902bf3e36a8520e039ed4288d241bb4dbd0c66343d94e8dd308dacbb80</hash-sum>
  </version>
 
     <version name="2.0.1" package="vagrant64" type="one-file">
