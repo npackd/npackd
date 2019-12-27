@@ -156,12 +156,19 @@ func uploadAllToGithub(settings *Settings, url string, releaseID int) error {
 	return nil
 }
 
-func uploadToGithub(settings *Settings, from string, package_ string, version string, releaseID int) (string, error) {
+// from: URL
+func uploadToGithub(settings *Settings, from string, package_ string,
+	version string, releaseID int) (string, error) {
 	fmt.Println("Re-uploading " + from + " to Github")
 	var mime = "application/vnd.microsoft.portable-executable" // "application/octet-stream";
 
-	var p = strings.LastIndex(from, "/")
-	var file = package_ + "-" + version + "-" + from[p+1:]
+	u, err := url.Parse(from)
+	if err != nil {
+		return "", err
+	}
+
+	var p = strings.LastIndex(u.Path, "/")
+	var file = package_ + "-" + version + "-" + u.Path[p+1:]
 
 	var cmd = "-f -L --connect-timeout 30 --max-time 900 " + from + " --output " + file
 	fmt.Println(cmd)
