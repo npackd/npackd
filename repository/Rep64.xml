@@ -5838,7 +5838,7 @@ rem "avgmfapx.exe" /AppMode=SETUP /Uninstall /UILevel=Silent /DontRestart&#13;
   </dependency>
  </version>
 
-    <version name="1.62" package="com.bitcomet.BitComet64" type="one-file">
+    <version name="1.63" package="com.bitcomet.BitComet64" type="one-file">
   <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
 </file>
   <file path=".Npackd\Uninstall.bat">%ncl%\ncl remove-scp --title "/BitComet.*/"</file>
@@ -12771,7 +12771,7 @@ if %err% neq 0 exit %err%&#13;
   <url>http://cygwin.com/setup-x86_64.exe</url>
  </version>
 
-    <version name="1.7.20977" package="daumpotplayer64" type="one-file">
+    <version name="1.7.21097" package="daumpotplayer64" type="one-file">
   <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
 </file>
   <file path=".Npackd\Uninstall.bat">uninstall.exe /S _?=%CD%&#13;
@@ -16184,6 +16184,15 @@ verify&#13;
    <variable>nih</variable>
   </dependency>
  </version>
+ <version name="2019.2" package="hugin64" type="one-file">
+  <file path=".Npackd\Install.bat">call "%nih%\InstallMSI.bat" INSTALLDIR yes&#13;
+</file>
+  <url>http://netix.dl.sourceforge.net/project/hugin/hugin/hugin-2018.0/Hugin-2018.0-win64.msi</url>
+  <sha1>4861dcdab43467be49f864926b410d38899c900d</sha1>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.1, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
 
     <version name="4.26" package="hwinfo64" type="one-file">
   <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
@@ -16652,6 +16661,17 @@ if %err% neq 0 exit %err%&#13;
    <variable>nih</variable>
   </dependency>
  </version>
+ <version name="7.0.9.13" package="imagemagick64" type="one-file">
+  <file path=".Npackd\Install.bat">call "%nih%\InstallInnoSetup.bat"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">call "%nih%\UninstallInnoSetup.bat" unins000.exe&#13;
+</file>
+  <url>https://www.imagemagick.org/download/binaries/ImageMagick-7.0.9-13-Q16-x64-dll.exe</url>
+  <hash-sum type="SHA-256">540e7c22c508e13e3ec0484f7a79eb7b8ac8ab8e26aa2ac16baae7c7636bffee</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
 
     <version name="0.3.8" package="io.mpv.mpv-64" type="one-file">
   <file path=".Npackd\Install.bat">for /f %%x in ('dir /b *.7z') do set setup=%%x&#13;
@@ -16693,7 +16713,7 @@ if %err% neq 0 exit %err%&#13;
   </dependency>
   <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.15.7, 2)"/>
  </version>
- <version name="0.30" package="io.mpv.mpv-64" type="one-file">
+ <version name="0.31" package="io.mpv.mpv-64" type="one-file">
   <file path=".Npackd\Install.bat">for /f %%x in ('dir /b *.7z') do set setup=%%x&#13;
 "%sevenzipa%\7za.exe" x "%setup%" &gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt</file>
   <url>http://mpv.srsfckn.biz/mpv-x86_64-latest.7z</url>
@@ -19600,6 +19620,14 @@ rmdir "%name%"&#13;
   <url>http://multicommander.com/files/updates/MultiCommander_x64_(9.2.0.2555).exe</url>
   <hash-sum type="SHA-256">ccc5f4dfd6a58e6502a5eb8b98a60825539f4d3ffc6be79d74f55e020b6f6bdf</hash-sum>
  </version>
+ <version name="9.5.0.2570" package="multi-commander64" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">"Uninstall MultiCommander.exe" /S _?=%CD%&#13;
+</file>
+  <url>http://multicommander.com/files/updates/MultiCommander_x64_(9.5.0.2570).exe</url>
+  <hash-sum type="SHA-256">77406a977bb98b3e3286bd7de7c69723ede4cde2deb608f2ef8befd4b5ff7f56</hash-sum>
+ </version>
 
     <version name="3.1" package="musescore64" type="one-file">
   <file path=".Npackd\Install.bat">call "%nih%\InstallMSI.bat" INSTALLDIR yes&#13;
@@ -21395,6 +21423,17 @@ if %err% neq 0 exit %err%&#13;
    <variable>nih</variable>
   </dependency>
  </version>
+ <version name="7.0.1" package="net.sourceforge.peazip.PeaZip64" type="one-file">
+  <file path=".Npackd\Install.bat">call "%nih%\InstallInnoSetup.bat"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">call "%nih%\UninstallInnoSetup.bat" unins000.exe&#13;
+</file>
+  <url>https://ayera.dl.sourceforge.net/project/peazip/6.5.1/peazip-6.5.1.WINDOWS.exe</url>
+  <hash-sum type="SHA-256">49bc326c084e743acff1bdf2437d0b17cdeedb5bde67efee2fd86a613efa9031</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
 
     <version name="2.6" package="net.sourceforge.shareaza.Shareaza64" type="one-file">
   <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x
@@ -22023,7 +22062,7 @@ if %err% neq 0 exit /b %err%
  <version name="1.12.2.28653" package="net.tortoisesvn.TortoiseSVN64" type="one-file">
   <file path=".Npackd\Install.bat">call "%nih%\InstallMSI.bat" INSTALLDIR yes&#13;
 </file>
-  <url>http://rwthaachen.dl.osdn.jp/storage/g/t/to/tortoisesvn/1.12.2/Application/TortoiseSVN-1.12.2.28653-x64-svn-1.12.2.msi</url>
+  <url>https://github.com/tim-lebedkov/packages/releases/download/2020_01/net.tortoisesvn.TortoiseSVN64-1.12.2.28653-TortoiseSVN-1.12.2.28653-x64-svn-1.12.2.msi</url>
   <hash-sum type="SHA-256">7b18ca830881fa7cd00ec629ff84ac81e0f79a5c9183f5d177bbadd55e119ccb</hash-sum>
   <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3.1, 2)">
    <variable>nih</variable>
@@ -39133,6 +39172,14 @@ if %errorlevel% equ 3010 verify</file>
 </file>
   <url>http://www.rainlendar.net/download/Rainlendar-Lite-2.15.1-64bit.exe</url>
   <hash-sum type="SHA-256">cade8c45ec4788fa5f178aec703019ca75eeb7f0d5390eaa40b881cbd86910f7</hash-sum>
+ </version>
+ <version name="2.15.2" package="rainlendar-lite-64bit" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">uninst.exe /S _?=%CD%&#13;
+</file>
+  <url>http://www.rainlendar.net/download/Rainlendar-Lite-2.15.2-64bit.exe</url>
+  <hash-sum type="SHA-256">6fd29369acecd73674590da509092ab036cd60b33d241a6087c964392197da83</hash-sum>
  </version>
 
     <version name="0.5.17" package="rambox-64-bit" type="one-file">
