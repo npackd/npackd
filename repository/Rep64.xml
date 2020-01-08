@@ -1946,6 +1946,7 @@ x86_64</description>
   <license>org.opensource.BSD3ClauseLicense</license>
   <category>Music</category>
   <tag>stable64</tag>
+  <tag>reupload</tag>
  </package>
  <package name="openscad64">
   <title>OpenSCAD 64 bit</title>
@@ -22163,7 +22164,7 @@ call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Np
   </dependency>
  </version>
 
-    <version name="7.5.3" package="notepadpp64" type="one-file">
+    <version name="7.5.4" package="notepadpp64" type="one-file">
   <file path=".Npackd\Install.bat">xcopy "%allusersprofile%\Npackd\Config\net.sourceforge.NotepadPlusPlus" .  /E /C /I /F /H /R /Y &gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
 &#13;
 for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
@@ -22207,102 +22208,8 @@ mkdir %trash%&#13;
 move NppShell*.dll %trash%&#13;
 verify&#13;
 		</file>
-  <url>https://notepad-plus-plus.org/repository/7.x/7.5.3/npp.7.5.3.Installer.x64.exe</url>
-  <sha1>a0f630b1688446798958c480703df4aea696af31</sha1>
- </version>
- <version name="7.5.4" package="notepadpp64" type="one-file">
-  <file path=".Npackd\Install.bat">xcopy "%allusersprofile%\Npackd\Config\net.sourceforge.NotepadPlusPlus" .  /E /C /I /F /H /R /Y &gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
-&#13;
-for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
-"%setup%" /S /D=%CD%&#13;
-if %errorlevel% neq 0 exit /b %errorlevel%&#13;
-&#13;
-set package=net.sourceforge.NotepadPlusPlus&#13;
-set version=%NPACKD_PACKAGE_VERSION%&#13;
-set key=%package%&#13;
-&#13;
-reg add HKLM\SOFTWARE\Classes\Applications\%KEY%\shell\open /v FriendlyAppName /d "Notepad++ (%version%)" /f &gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
-set c=\"%CD%\notepad++.exe\" \"%%1\"&#13;
-reg add HKLM\SOFTWARE\Classes\Applications\%KEY%\shell\open\command /d "%c%" /f &gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
-for %%g in (txt log ini h hpp hxx c cpp cxx cc m java cs pas inc html htm php phtml properties js jsp asp css xml sh bsh nsi nsh lua pl pm py as mx vb vbs f for f90 f95 f2k tex sql nfo mak hgignore) do reg add HKLM\SOFTWARE\Classes\.%%g\OpenWithList\%key% /f &gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
-&#13;
-reg add "HKCR\*\shell\Notepad++\command" /ve /f /d "\"%cd%\notepad++.exe\" %%1" &gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
-&#13;
-verify</file>
-  <file path=".Npackd\Uninstall.bat">rmdir /s /q "%allusersprofile%\Npackd\Config\net.sourceforge.NotepadPlusPlus"&#13;
-xcopy Plugins "%allusersprofile%\Npackd\Config\net.sourceforge.NotepadPlusPlus\Plugins" /E /C /I /F /H /R /Y &gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
-&#13;
-set package=net.sourceforge.NotepadPlusPlus&#13;
-set version=%NPACKD_PACKAGE_VERSION%&#13;
-set key=%package%&#13;
-&#13;
-set newname=%key%_%random%&#13;
-ren %appdata%\Notepad++ %newname%&#13;
-uninstall.exe /S _?=%CD%&#13;
-if %errorlevel% neq 0 exit /b %errorlevel%&#13;
-ren %appdata%\%newname% Notepad++&#13;
-&#13;
-rem unregister "Open With..." entries&#13;
-reg delete HKLM\SOFTWARE\Classes\Applications\%KEY% /f &gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
-for %%g in (txt log ini h hpp hxx c cpp cxx cc m java cs pas inc html htm php phtml properties js jsp asp css xml sh bsh nsi nsh lua pl pm py as mx vb vbs f for f90 f95 f2k tex sql nfo mak hgignore) do reg delete HKLM\SOFTWARE\Classes\.%%g\OpenWithList\%key% /f &gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
-&#13;
-reg delete HKCR\*\shell\Notepad++ /f &gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
-&#13;
-rem remove Explorer extension&#13;
-set trash=..\.Trash\%key%_%random%&#13;
-mkdir %trash%&#13;
-move NppShell*.dll %trash%&#13;
-verify&#13;
-		</file>
-  <url>https://notepad-plus-plus.org/repository/7.x/7.5.4/npp.7.5.4.Installer.x64.exe</url>
+  <url>https://github.com/tim-lebedkov/packages/releases/download/2020_01/notepadpp64-7.5.4-npp.7.5.4.Installer.x64.exe</url>
   <sha1>f6f63a8c489410f465ddbbd2d90f6ba97f590b48</sha1>
- </version>
- <version name="7.5.5" package="notepadpp64" type="one-file">
-  <file path=".Npackd\Install.bat">xcopy "%allusersprofile%\Npackd\Config\net.sourceforge.NotepadPlusPlus" .  /E /C /I /F /H /R /Y &gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
-&#13;
-for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
-"%setup%" /S /D=%CD%&#13;
-if %errorlevel% neq 0 exit /b %errorlevel%&#13;
-&#13;
-set package=net.sourceforge.NotepadPlusPlus&#13;
-set version=%NPACKD_PACKAGE_VERSION%&#13;
-set key=%package%&#13;
-&#13;
-reg add HKLM\SOFTWARE\Classes\Applications\%KEY%\shell\open /v FriendlyAppName /d "Notepad++ (%version%)" /f &gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
-set c=\"%CD%\notepad++.exe\" \"%%1\"&#13;
-reg add HKLM\SOFTWARE\Classes\Applications\%KEY%\shell\open\command /d "%c%" /f &gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
-for %%g in (txt log ini h hpp hxx c cpp cxx cc m java cs pas inc html htm php phtml properties js jsp asp css xml sh bsh nsi nsh lua pl pm py as mx vb vbs f for f90 f95 f2k tex sql nfo mak hgignore) do reg add HKLM\SOFTWARE\Classes\.%%g\OpenWithList\%key% /f &gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
-&#13;
-reg add "HKCR\*\shell\Notepad++\command" /ve /f /d "\"%cd%\notepad++.exe\" %%1" &gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
-&#13;
-verify</file>
-  <file path=".Npackd\Uninstall.bat">rmdir /s /q "%allusersprofile%\Npackd\Config\net.sourceforge.NotepadPlusPlus"&#13;
-xcopy Plugins "%allusersprofile%\Npackd\Config\net.sourceforge.NotepadPlusPlus\Plugins" /E /C /I /F /H /R /Y &gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
-&#13;
-set package=net.sourceforge.NotepadPlusPlus&#13;
-set version=%NPACKD_PACKAGE_VERSION%&#13;
-set key=%package%&#13;
-&#13;
-set newname=%key%_%random%&#13;
-ren %appdata%\Notepad++ %newname%&#13;
-uninstall.exe /S _?=%CD%&#13;
-if %errorlevel% neq 0 exit /b %errorlevel%&#13;
-ren %appdata%\%newname% Notepad++&#13;
-&#13;
-rem unregister "Open With..." entries&#13;
-reg delete HKLM\SOFTWARE\Classes\Applications\%KEY% /f &gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
-for %%g in (txt log ini h hpp hxx c cpp cxx cc m java cs pas inc html htm php phtml properties js jsp asp css xml sh bsh nsi nsh lua pl pm py as mx vb vbs f for f90 f95 f2k tex sql nfo mak hgignore) do reg delete HKLM\SOFTWARE\Classes\.%%g\OpenWithList\%key% /f &gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
-&#13;
-reg delete HKCR\*\shell\Notepad++ /f &gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
-&#13;
-rem remove Explorer extension&#13;
-set trash=..\.Trash\%key%_%random%&#13;
-mkdir %trash%&#13;
-move NppShell*.dll %trash%&#13;
-verify&#13;
-		</file>
-  <url>https://notepad-plus-plus.org/repository/7.x/7.5.5/npp.7.5.5.Installer.x64.exe</url>
-  <sha1>90e252fd88e7f7ce60f6c4ab0b4c8472cd658eff</sha1>
  </version>
  <version name="7.5.6" package="notepadpp64" type="one-file">
   <file path=".Npackd\Install.bat">xcopy "%allusersprofile%\Npackd\Config\net.sourceforge.NotepadPlusPlus" .  /E /C /I /F /H /R /Y &gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
