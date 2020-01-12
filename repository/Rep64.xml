@@ -6545,6 +6545,15 @@ call "%npackdih%\InstallMSI.bat" APPLICATIONFOLDER yes&#13;
    <variable>npackdih</variable>
   </dependency>
  </version>
+ <version name="4.8" package="com.calibreebook.Calibre64" type="one-file">
+  <file path=".Npackd\Install.bat">call "%npackdih%\InstallMSI.bat" APPLICATIONFOLDER yes&#13;
+</file>
+  <url>https://download.calibre-ebook.com/4.8.0/calibre-64bit-4.8.0.msi</url>
+  <hash-sum type="SHA-256">a5ce00df58fd639f99efdb98733d4355d5a5a2ffff40de362d16f0b9fcc9517c</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.2, 2)">
+   <variable>npackdih</variable>
+  </dependency>
+ </version>
 
     <version name="5.12.256249.2599" package="com.comodo.comodoav64" type="one-file">
   <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.msi') do set setup=%%x&#13;
@@ -14637,6 +14646,17 @@ verify</file>
   <url>https://download-installer.cdn.mozilla.net/pub/firefox/releases/71.0/win64/en-US/Firefox%20Setup%2071.0.exe</url>
   <hash-sum type="SHA-256">46cc20ae7171e6d7a256fd72e1af5e9ab74b74112c164d1e947ecbbe36d68360</hash-sum>
  </version>
+ <version name="72" package="firefox64" type="one-file">
+  <file path=".Npackd\Install.bat">echo [Install] &gt; .Npackd\FF.ini&#13;
+echo InstallDirectoryPath=%CD% &gt;&gt; .Npackd\FF.ini&#13;
+echo QuickLaunchShortcut=false &gt;&gt; .Npackd\FF.ini&#13;
+echo DesktopShortcut=false &gt;&gt; .Npackd\FF.ini&#13;
+"%npackd_package_binary%" /INI="%CD%\.Npackd\FF.ini" &amp;&amp; del /f /q "%npackd_package_binary%"</file>
+  <file path=".Npackd\Uninstall.bat">uninstall\helper.exe /S&#13;
+verify</file>
+  <url>https://download-installer.cdn.mozilla.net/pub/firefox/releases/72.0/win64/en-US/Firefox%20Setup%2072.0.exe</url>
+  <hash-sum type="SHA-256">cbbf0d2d9636109f1158b3ccfcb34e475e4adbb978ac9117a16eed3b1c281322</hash-sum>
+ </version>
 
     <version name="0.10" package="fr.handbrake.HandBrake64" type="one-file">
   <file path=".Npackd\Install.bat">ren rotation.php setup.exe&#13;
@@ -14781,6 +14801,15 @@ for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
 </file>
   <url>https://download2.handbrake.fr/1.3.0/HandBrake-1.3.0-x86_64-Win_GUI.exe</url>
   <hash-sum type="SHA-256">389ea825d7f5ff63d7af68daa701c25eee8126732e176686a6c065dad1334df4</hash-sum>
+  <dependency package="com.microsoft.DotNetRedistributable" versions="[2, 3)"/>
+ </version>
+ <version name="1.3.1" package="fr.handbrake.HandBrake64" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">uninst.exe /S _?=%CD%&#13;
+</file>
+  <url>https://download.handbrake.fr/releases/1.3.1/HandBrake-1.3.1-x86_64-Win_GUI.exe</url>
+  <hash-sum type="SHA-256">2f31591fd581240b466e32e27953afa34bf8ed86ef0767e2291956955691a4c3</hash-sum>
   <dependency package="com.microsoft.DotNetRedistributable" versions="[2, 3)"/>
  </version>
 
@@ -22276,147 +22305,6 @@ verify&#13;
 		</file>
   <url>https://github.com/tim-lebedkov/packages/releases/download/2020_01/notepadpp64-7.5.6-npp.7.5.6.Installer.x64.exe</url>
   <sha1>36b3ae08f58642ff65e04b0c314465a5094fbe67</sha1>
- </version>
- <version name="7.5.7" package="notepadpp64" type="one-file">
-  <file path=".Npackd\Install.bat">xcopy "%allusersprofile%\Npackd\Config\net.sourceforge.NotepadPlusPlus" .  /E /C /I /F /H /R /Y &gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
-&#13;
-for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
-"%setup%" /S /D=%CD%&#13;
-if %errorlevel% neq 0 exit /b %errorlevel%&#13;
-&#13;
-set package=net.sourceforge.NotepadPlusPlus&#13;
-set version=%NPACKD_PACKAGE_VERSION%&#13;
-set key=%package%&#13;
-&#13;
-reg add HKLM\SOFTWARE\Classes\Applications\%KEY%\shell\open /v FriendlyAppName /d "Notepad++ (%version%)" /f &gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
-set c=\"%CD%\notepad++.exe\" \"%%1\"&#13;
-reg add HKLM\SOFTWARE\Classes\Applications\%KEY%\shell\open\command /d "%c%" /f &gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
-for %%g in (txt log ini h hpp hxx c cpp cxx cc m java cs pas inc html htm php phtml properties js jsp asp css xml sh bsh nsi nsh lua pl pm py as mx vb vbs f for f90 f95 f2k tex sql nfo mak hgignore) do reg add HKLM\SOFTWARE\Classes\.%%g\OpenWithList\%key% /f &gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
-&#13;
-reg add "HKCR\*\shell\Notepad++\command" /ve /f /d "\"%cd%\notepad++.exe\" %%1" &gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
-&#13;
-verify</file>
-  <file path=".Npackd\Uninstall.bat">rmdir /s /q "%allusersprofile%\Npackd\Config\net.sourceforge.NotepadPlusPlus"&#13;
-xcopy Plugins "%allusersprofile%\Npackd\Config\net.sourceforge.NotepadPlusPlus\Plugins" /E /C /I /F /H /R /Y &gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
-&#13;
-set package=net.sourceforge.NotepadPlusPlus&#13;
-set version=%NPACKD_PACKAGE_VERSION%&#13;
-set key=%package%&#13;
-&#13;
-set newname=%key%_%random%&#13;
-ren %appdata%\Notepad++ %newname%&#13;
-uninstall.exe /S _?=%CD%&#13;
-if %errorlevel% neq 0 exit /b %errorlevel%&#13;
-ren %appdata%\%newname% Notepad++&#13;
-&#13;
-rem unregister "Open With..." entries&#13;
-reg delete HKLM\SOFTWARE\Classes\Applications\%KEY% /f &gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
-for %%g in (txt log ini h hpp hxx c cpp cxx cc m java cs pas inc html htm php phtml properties js jsp asp css xml sh bsh nsi nsh lua pl pm py as mx vb vbs f for f90 f95 f2k tex sql nfo mak hgignore) do reg delete HKLM\SOFTWARE\Classes\.%%g\OpenWithList\%key% /f &gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
-&#13;
-reg delete HKCR\*\shell\Notepad++ /f &gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
-&#13;
-rem remove Explorer extension&#13;
-set trash=..\.Trash\%key%_%random%&#13;
-mkdir %trash%&#13;
-move NppShell*.dll %trash%&#13;
-verify&#13;
-		</file>
-  <url>https://notepad-plus-plus.org/repository/7.x/7.5.7/npp.7.5.7.Installer.x64.exe</url>
-  <hash-sum type="SHA-256">0cdeea549c6f7f2bd4104882c33aca88fd88c1a2751595f300d0f9aace85d5d8</hash-sum>
- </version>
- <version name="7.5.8" package="notepadpp64" type="one-file">
-  <file path=".Npackd\Install.bat">xcopy "%allusersprofile%\Npackd\Config\net.sourceforge.NotepadPlusPlus" .  /E /C /I /F /H /R /Y &gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
-&#13;
-for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
-"%setup%" /S /D=%CD%&#13;
-if %errorlevel% neq 0 exit /b %errorlevel%&#13;
-&#13;
-set package=net.sourceforge.NotepadPlusPlus&#13;
-set version=%NPACKD_PACKAGE_VERSION%&#13;
-set key=%package%&#13;
-&#13;
-reg add HKLM\SOFTWARE\Classes\Applications\%KEY%\shell\open /v FriendlyAppName /d "Notepad++ (%version%)" /f &gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
-set c=\"%CD%\notepad++.exe\" \"%%1\"&#13;
-reg add HKLM\SOFTWARE\Classes\Applications\%KEY%\shell\open\command /d "%c%" /f &gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
-for %%g in (txt log ini h hpp hxx c cpp cxx cc m java cs pas inc html htm php phtml properties js jsp asp css xml sh bsh nsi nsh lua pl pm py as mx vb vbs f for f90 f95 f2k tex sql nfo mak hgignore) do reg add HKLM\SOFTWARE\Classes\.%%g\OpenWithList\%key% /f &gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
-&#13;
-reg add "HKCR\*\shell\Notepad++\command" /ve /f /d "\"%cd%\notepad++.exe\" %%1" &gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
-&#13;
-verify</file>
-  <file path=".Npackd\Uninstall.bat">rmdir /s /q "%allusersprofile%\Npackd\Config\net.sourceforge.NotepadPlusPlus"&#13;
-xcopy Plugins "%allusersprofile%\Npackd\Config\net.sourceforge.NotepadPlusPlus\Plugins" /E /C /I /F /H /R /Y &gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
-&#13;
-set package=net.sourceforge.NotepadPlusPlus&#13;
-set version=%NPACKD_PACKAGE_VERSION%&#13;
-set key=%package%&#13;
-&#13;
-set newname=%key%_%random%&#13;
-ren %appdata%\Notepad++ %newname%&#13;
-uninstall.exe /S _?=%CD%&#13;
-if %errorlevel% neq 0 exit /b %errorlevel%&#13;
-ren %appdata%\%newname% Notepad++&#13;
-&#13;
-rem unregister "Open With..." entries&#13;
-reg delete HKLM\SOFTWARE\Classes\Applications\%KEY% /f &gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
-for %%g in (txt log ini h hpp hxx c cpp cxx cc m java cs pas inc html htm php phtml properties js jsp asp css xml sh bsh nsi nsh lua pl pm py as mx vb vbs f for f90 f95 f2k tex sql nfo mak hgignore) do reg delete HKLM\SOFTWARE\Classes\.%%g\OpenWithList\%key% /f &gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
-&#13;
-reg delete HKCR\*\shell\Notepad++ /f &gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
-&#13;
-rem remove Explorer extension&#13;
-set trash=..\.Trash\%key%_%random%&#13;
-mkdir %trash%&#13;
-move NppShell*.dll %trash%&#13;
-verify&#13;
-		</file>
-  <url>https://notepad-plus-plus.org/repository/7.x/7.5.8/npp.7.5.8.Installer.x64.exe</url>
-  <hash-sum type="SHA-256">09d4cb9123c4aa8c91cb78a12cb8a35e56e337093aeb1600423cf4541be61031</hash-sum>
- </version>
- <version name="7.5.9" package="notepadpp64" type="one-file">
-  <file path=".Npackd\Install.bat">xcopy "%allusersprofile%\Npackd\Config\net.sourceforge.NotepadPlusPlus" .  /E /C /I /F /H /R /Y &gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
-&#13;
-for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
-"%setup%" /S /D=%CD%&#13;
-if %errorlevel% neq 0 exit /b %errorlevel%&#13;
-&#13;
-set package=net.sourceforge.NotepadPlusPlus&#13;
-set version=%NPACKD_PACKAGE_VERSION%&#13;
-set key=%package%&#13;
-&#13;
-reg add HKLM\SOFTWARE\Classes\Applications\%KEY%\shell\open /v FriendlyAppName /d "Notepad++ (%version%)" /f &gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
-set c=\"%CD%\notepad++.exe\" \"%%1\"&#13;
-reg add HKLM\SOFTWARE\Classes\Applications\%KEY%\shell\open\command /d "%c%" /f &gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
-for %%g in (txt log ini h hpp hxx c cpp cxx cc m java cs pas inc html htm php phtml properties js jsp asp css xml sh bsh nsi nsh lua pl pm py as mx vb vbs f for f90 f95 f2k tex sql nfo mak hgignore) do reg add HKLM\SOFTWARE\Classes\.%%g\OpenWithList\%key% /f &gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
-&#13;
-reg add "HKCR\*\shell\Notepad++\command" /ve /f /d "\"%cd%\notepad++.exe\" %%1" &gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
-&#13;
-verify</file>
-  <file path=".Npackd\Uninstall.bat">rmdir /s /q "%allusersprofile%\Npackd\Config\net.sourceforge.NotepadPlusPlus"&#13;
-xcopy Plugins "%allusersprofile%\Npackd\Config\net.sourceforge.NotepadPlusPlus\Plugins" /E /C /I /F /H /R /Y &gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
-&#13;
-set package=net.sourceforge.NotepadPlusPlus&#13;
-set version=%NPACKD_PACKAGE_VERSION%&#13;
-set key=%package%&#13;
-&#13;
-set newname=%key%_%random%&#13;
-ren %appdata%\Notepad++ %newname%&#13;
-uninstall.exe /S _?=%CD%&#13;
-if %errorlevel% neq 0 exit /b %errorlevel%&#13;
-ren %appdata%\%newname% Notepad++&#13;
-&#13;
-rem unregister "Open With..." entries&#13;
-reg delete HKLM\SOFTWARE\Classes\Applications\%KEY% /f &gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
-for %%g in (txt log ini h hpp hxx c cpp cxx cc m java cs pas inc html htm php phtml properties js jsp asp css xml sh bsh nsi nsh lua pl pm py as mx vb vbs f for f90 f95 f2k tex sql nfo mak hgignore) do reg delete HKLM\SOFTWARE\Classes\.%%g\OpenWithList\%key% /f &gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
-&#13;
-reg delete HKCR\*\shell\Notepad++ /f &gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
-&#13;
-rem remove Explorer extension&#13;
-set trash=..\.Trash\%key%_%random%&#13;
-mkdir %trash%&#13;
-move NppShell*.dll %trash%&#13;
-verify&#13;
-		</file>
-  <url>https://notepad-plus-plus.org/repository/7.x/7.5.9/npp.7.5.9.Installer.x64.exe</url>
-  <hash-sum type="SHA-256">6a773c8f3a9a8e2c2beaec25ee6a91c8aa35557ebc6d70e73478c3cc681c8209</hash-sum>
  </version>
  <version name="7.6" package="notepadpp64" type="one-file">
   <file path=".Npackd\Install.bat">xcopy "%allusersprofile%\Npackd\Config\net.sourceforge.NotepadPlusPlus" .  /E /C /I /F /H /R /Y &gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
@@ -35237,6 +35125,20 @@ call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Np
    <variable>nih</variable>
   </dependency>
  </version>
+ <version name="8.2.100" package="org.vim.Vim64">
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+if %errorlevel% neq 0 exit /b %errorlevel%&#13;
+&#13;
+for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+</file>
+  <url>https://github.com/vim/vim-win32-installer/releases/download/v8.2.0100/gvim_8.2.0100_x64.zip</url>
+  <hash-sum type="SHA-256">94601b3294aa8749ff85135b1dc6a5aa7930f075f8d1fbdca1f0d8d1cca6d2da</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.19, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
 
     <version name="4.2.8.83876" package="org.virtualbox.virtualbox64" type="one-file">
   <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
@@ -37377,6 +37279,16 @@ echo DesktopShortcut=false &gt;&gt; .Npackd\FF.ini&#13;
   </dependency>
   <dependency package="org.miktex.MiKTeX" versions="[2.9, 3)"/>
  </version>
+ <version name="2.9.1.1" package="pandoc64" type="one-file">
+  <file path=".Npackd\Install.bat">call "%nih%\InstallMSI.bat" INSTALLDIR yes&#13;
+</file>
+  <url>https://github.com/jgm/pandoc/releases/download/2.9.1.1/pandoc-2.9.1.1-windows-x86_64.msi</url>
+  <hash-sum type="SHA-256">70fa2826daa3486ea54415308f45dd903b1801f92cc487adfde5d07cd1679634</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.1, 2)">
+   <variable>nih</variable>
+  </dependency>
+  <dependency package="org.miktex.MiKTeX" versions="[2.9, 3)"/>
+ </version>
 
     <version name="2.2.2" package="pdfsam64" type="one-file">
   <file path=".Npackd\Install.bat">&#13;
@@ -37569,6 +37481,17 @@ call "%npackdih%\InstallMSI.bat" TARGETDIR yes</file>
 </file>
   <url>https://github.com/picotorrent/picotorrent/releases/download/v0.17.0/PicoTorrent-0.17.0-x64.exe</url>
   <hash-sum type="SHA-256">25e5ee74788ac8b45e13981a3ed96c98a74dd74f8fbd0baccbf4d93b9acc698c</hash-sum>
+  <dependency package="net.nirsoft.MyUninstaller" versions="[1.74, 2)">
+   <variable>myun</variable>
+  </dependency>
+ </version>
+ <version name="0.18" package="picotorrent-64-bit" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">"%myun%\myuninst.exe" /uninstall "picotorrent-64-bit"&#13;
+</file>
+  <url>https://github.com/picotorrent/picotorrent/releases/download/v0.18.0/PicoTorrent-0.18.0-x64.exe</url>
+  <hash-sum type="SHA-256">e0ed33724bbb7e269764753986f47a01687b7892d1c2d5f9efe38f0a27818e49</hash-sum>
   <dependency package="net.nirsoft.MyUninstaller" versions="[1.74, 2)">
    <variable>myun</variable>
   </dependency>
@@ -40988,6 +40911,14 @@ if %err% neq 0 exit %err%&#13;
 </file>
   <url>http://files.first-world.info/ultracopier/2.2.0.6/ultracopier-windows-x86_64-2.2.0.6-setup.exe</url>
   <hash-sum type="SHA-256">4024ec5365a55e3f36cf59f1578a47ba229ff9145761c850f0bd11aca08d80dc</hash-sum>
+ </version>
+ <version name="2.2.0.7" package="ultracopier64" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">uninst.exe /S _?=%CD%&#13;
+</file>
+  <url>http://files.first-world.info/ultracopier/2.2.0.7/ultracopier-windows-x86_64-2.2.0.7-setup.exe</url>
+  <hash-sum type="SHA-256">13b2ba7c7a78c35f82e3edb4d30dd0d097306e1019eb1235d490442006269fdb</hash-sum>
  </version>
 
     <version name="2.0.1" package="vagrant64" type="one-file">
