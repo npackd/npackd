@@ -15402,6 +15402,17 @@ if %err% neq 0 exit %err%&#13;
    <variable>nih</variable>
   </dependency>
  </version>
+ <version name="2.25" package="git64" type="one-file">
+  <file path=".Npackd\Install.bat">call "%nih%\InstallInnoSetup.bat"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">call "%nih%\UninstallInnoSetup.bat" unins000.exe&#13;
+</file>
+  <url>https://github.com/git-for-windows/git/releases/download/v2.25.0.windows.1/Git-2.25.0-64-bit.exe</url>
+  <hash-sum type="SHA-256">6ffb0674a5f5fec2a328dd40456ede87ed3c7de653ecd6950f9cf132bca2f94c</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
 
     <version name="5.2.7" package="gnuplot64" type="one-file">
   <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
@@ -19690,6 +19701,14 @@ rmdir "%name%"&#13;
 </file>
   <url>http://multicommander.com/files/updates/MultiCommander_x64_(9.5.0.2570).exe</url>
   <hash-sum type="SHA-256">77406a977bb98b3e3286bd7de7c69723ede4cde2deb608f2ef8befd4b5ff7f56</hash-sum>
+ </version>
+ <version name="9.5.3.2578" package="multi-commander64" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">"Uninstall MultiCommander.exe" /S _?=%CD%&#13;
+</file>
+  <url>http://multicommander.com/files/updates/MultiCommander_x64_(9.5.3.2578).exe</url>
+  <hash-sum type="SHA-256">5b5929b4737c928dde3d518ed15f7e552a5c76eb8cd504d13fee629089cd8272</hash-sum>
  </version>
 
     <version name="3.1" package="musescore64" type="one-file">
@@ -38003,6 +38022,15 @@ lib.sendKeysToWindow("QCAD 3.12.4 Uninstall", "{ENTER}");&#13;
    <variable>nih</variable>
   </dependency>
  </version>
+ <version name="3.24.2" package="qcad64" type="one-file">
+  <file path=".Npackd\Install.bat">call "%nih%\InstallMSI.bat" INSTALLDIR yes&#13;
+</file>
+  <url>http://www.qcad.org/archives/qcad/qcad-3.24.2-trial-win64-installer.msi</url>
+  <hash-sum type="SHA-256">83763c1a80e146dfc21713f11c6146eef5b871a5858a035ba87867922c06f67d</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.1, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
 
     <version name="2.10.1" package="qgis64" type="one-file">
   <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
@@ -40592,6 +40620,12 @@ if %err% neq 0 exit %err%&#13;
 </file>
   <url>https://dist.torproject.org/torbrowser/9.0.2/torbrowser-install-9.0.2_en-US.exe</url>
   <hash-sum type="SHA-256">56d2c61a932c02177e9afdafc9137dab2887d73077e47b6af3a12bc24a7e5c65</hash-sum>
+ </version>
+ <version name="9.0.4" package="tor64" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
+</file>
+  <url>https://dist.torproject.org/torbrowser/9.0.4/torbrowser-install-9.0.4_en-US.exe</url>
+  <hash-sum type="SHA-256">3766d6651c16b149fb9b80e322c82c144c229dd73ed7632d46534d417510660c</hash-sum>
  </version>
 
     <version name="2.84.9" package="transmission-qt64" type="one-file">
