@@ -8461,6 +8461,16 @@ rmdir "%name%"&#13;
    <variable>clu</variable>
   </dependency>
  </version>
+ <version name="8.0.19" package="com.mysql.MySQLCommunityServer64">
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b mysql*') do set name=%%x&#13;
+"%clu%\clu" unwrap-dir -p "%name%"&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+</file>
+  <url>https://cdn.mysql.com/Downloads/MySQL-8.0/mysql-8.0.19-winx64.zip</url>
+  <hash-sum type="SHA-256">e36d107c57b8382272396802d56564efa6f59b51cc011e1c5a05761b7157e74d</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.CLU" versions="[1.25, 2)">
+   <variable>clu</variable>
+  </dependency>
+ </version>
 
     <version name="2014" package="com.mythicsoft.AgentRansack64" type="one-file">
   <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
@@ -9782,6 +9792,16 @@ if %err% neq 0 exit %err%&#13;
   <file path=".Npackd\Uninstall.bat">call "%nih%\UninstallInnoSetup.bat" unins000.exe</file>
   <url>https://www.mercurial-scm.org/release/windows/Mercurial-5.2.1-x64.exe</url>
   <hash-sum type="SHA-256">de937461b5b0daec12bca6ee326e18082d49c32e6a3410f639cf291e3f755fdf</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.7, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
+ <version name="5.2.2" package="com.selenic.mercurial.Mercurial64" type="one-file">
+  <file path=".Npackd\Install.bat">call "%nih%\InstallInnoSetup.bat"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">call "%nih%\UninstallInnoSetup.bat" unins000.exe</file>
+  <url>https://www.mercurial-scm.org/release/windows/Mercurial-5.2.2-x64.exe</url>
+  <hash-sum type="SHA-256">ca75f9cec7b9ae9b05cf5394277f5e7de12cc4ecc1fde4575a908bdf1a7e073d</hash-sum>
   <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.7, 2)">
    <variable>nih</variable>
   </dependency>
@@ -12787,6 +12807,17 @@ if %err% neq 0 exit %err%&#13;
    <variable>nih</variable>
   </dependency>
  </version>
+ <version name="1.21.1" package="conan64" type="one-file">
+  <cmd-file path="conan\conan.exe"/>
+  <file path=".Npackd\Install.bat">"%nih%\InstallInnoSetup.bat"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">"%nih%\UninstallInnoSetup.bat" unins000.exe</file>
+  <url>https://github.com/conan-io/conan/releases/download/1.21.1/conan-win-64_1_21_1.exe</url>
+  <hash-sum type="SHA-256">b6ad12784f987d08574462e9ef1d79ed8df659e9701a489a9cc4edf34290b184</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
 
     <version name="3.1.2" package="cygwin64" type="one-file">
   <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
@@ -14010,6 +14041,14 @@ rmdir "%name%"&#13;
 </file>
   <url>https://github.com/balena-io/etcher/releases/download/v1.5.70/balenaEtcher-Setup-1.5.70.exe</url>
   <hash-sum type="SHA-256">b37704580647bb0549165ab557b3d67d73ca537a7df68805f5f9b546efe62de6</hash-sum>
+ </version>
+ <version name="1.5.71" package="etcher64" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">uninstall.exe /S _?=%CD%&#13;
+</file>
+  <url>https://github.com/balena-io/etcher/releases/download/v1.5.71/balenaEtcher-Setup-1.5.71.exe</url>
+  <hash-sum type="SHA-256">ba776a6c9e7baaa9aa092899f007e77edbfb671776dddd370a583970dbcf8c65</hash-sum>
  </version>
 
     <version name="1.3.4.686" package="everything64">
@@ -22929,75 +22968,6 @@ WshShell.SendKeys("{ESC}");&#13;
 </file>
   <url>https://github.com/tim-lebedkov/packages/releases/download/2020_01/openmpt64-1.23.5-openmpt64-1.23.5.exe</url>
   <sha1>5821a75aa2d9fc3588bc076bb8ae7932edee7da4</sha1>
- </version>
- <version name="1.27.10" package="openmpt64" type="one-file">
-  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
-"%setup%" /SP- /VERYSILENT /SUPPRESSMSGBOXES /NOCANCEL /NORESTART /DIR="%CD%" /SAVEINF="%CD%\.Npackd\InnoSetupInfo.ini" /LOG="%CD%\.Npackd\InnoSetupInstall.log" &amp;&amp; del /f /q "%setup%"&#13;
-set err=%errorlevel%&#13;
-type .Npackd\InnoSetupInstall.log&#13;
-if %err% neq 0 exit %err%&#13;
-</file>
-  <file path=".Npackd\Uninstall.bat">start "Confirm Uninstall" cscript //Nologo //B //E:JScript //T:300 //U .Npackd\ConfirmUninstall.js&#13;
-&#13;
-unins000.exe /VERYSILENT /SUPPRESSMSGBOXES /NORESTART /LOG="%CD%\.Npackd\InnoSetupUninstall.log"&#13;
-set err=%errorlevel%&#13;
-type .Npackd\InnoSetupUninstall.log&#13;
-if %err% neq 0 exit %err%&#13;
-</file>
-  <file path=".Npackd\ConfirmUninstall.js">var WshShell = WScript.CreateObject("WScript.Shell");&#13;
-WScript.Sleep(60000);&#13;
-WshShell.AppActivate("Uninstall");&#13;
-WScript.Sleep(10000);&#13;
-WshShell.SendKeys("{ESC}");&#13;
-</file>
-  <url>https://download.openmpt.org/OpenMPT-1.27.10.00-Setup-x64.exe</url>
-  <hash-sum type="SHA-256">46d0d16e78e71bd6e72d25182af734273057d9b40938f0f2cc631d76c5c5291c</hash-sum>
- </version>
- <version name="1.27.11" package="openmpt64" type="one-file">
-  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
-"%setup%" /SP- /VERYSILENT /SUPPRESSMSGBOXES /NOCANCEL /NORESTART /DIR="%CD%" /SAVEINF="%CD%\.Npackd\InnoSetupInfo.ini" /LOG="%CD%\.Npackd\InnoSetupInstall.log" &amp;&amp; del /f /q "%setup%"&#13;
-set err=%errorlevel%&#13;
-type .Npackd\InnoSetupInstall.log&#13;
-if %err% neq 0 exit %err%&#13;
-</file>
-  <file path=".Npackd\Uninstall.bat">start "Confirm Uninstall" cscript //Nologo //B //E:JScript //T:300 //U .Npackd\ConfirmUninstall.js&#13;
-&#13;
-unins000.exe /VERYSILENT /SUPPRESSMSGBOXES /NORESTART /LOG="%CD%\.Npackd\InnoSetupUninstall.log"&#13;
-set err=%errorlevel%&#13;
-type .Npackd\InnoSetupUninstall.log&#13;
-if %err% neq 0 exit %err%&#13;
-</file>
-  <file path=".Npackd\ConfirmUninstall.js">var WshShell = WScript.CreateObject("WScript.Shell");&#13;
-WScript.Sleep(60000);&#13;
-WshShell.AppActivate("Uninstall");&#13;
-WScript.Sleep(10000);&#13;
-WshShell.SendKeys("{ESC}");&#13;
-</file>
-  <url>https://download.openmpt.org/OpenMPT-1.27.11.00-Setup-x64.exe</url>
-  <hash-sum type="SHA-256">b338362fc0412ae89169186468883952960fe2dfb1b39b49683df31cac2f215c</hash-sum>
- </version>
- <version name="1.28.1" package="openmpt64" type="one-file">
-  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
-"%setup%" /SP- /VERYSILENT /SUPPRESSMSGBOXES /NOCANCEL /NORESTART /DIR="%CD%" /SAVEINF="%CD%\.Npackd\InnoSetupInfo.ini" /LOG="%CD%\.Npackd\InnoSetupInstall.log" &amp;&amp; del /f /q "%setup%"&#13;
-set err=%errorlevel%&#13;
-type .Npackd\InnoSetupInstall.log&#13;
-if %err% neq 0 exit %err%&#13;
-</file>
-  <file path=".Npackd\Uninstall.bat">start "Confirm Uninstall" cscript //Nologo //B //E:JScript //T:300 //U .Npackd\ConfirmUninstall.js&#13;
-&#13;
-unins000.exe /VERYSILENT /SUPPRESSMSGBOXES /NORESTART /LOG="%CD%\.Npackd\InnoSetupUninstall.log"&#13;
-set err=%errorlevel%&#13;
-type .Npackd\InnoSetupUninstall.log&#13;
-if %err% neq 0 exit %err%&#13;
-</file>
-  <file path=".Npackd\ConfirmUninstall.js">var WshShell = WScript.CreateObject("WScript.Shell");&#13;
-WScript.Sleep(60000);&#13;
-WshShell.AppActivate("Uninstall");&#13;
-WScript.Sleep(10000);&#13;
-WshShell.SendKeys("{ESC}");&#13;
-</file>
-  <url>https://download.openmpt.org/OpenMPT-1.28.01.00-Setup-x64.exe</url>
-  <hash-sum type="SHA-256">f3de7047c7d4c28310ddc6898c7ba993f9452214e802ce2c5e030088851729f5</hash-sum>
  </version>
  <version name="1.28.2" package="openmpt64" type="one-file">
   <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
@@ -39276,6 +39246,16 @@ call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Np
    <variable>nih</variable>
   </dependency>
  </version>
+ <version name="7.68" package="se.haxx.curl.CURL64">
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b curl*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+</file>
+  <url>https://curl.haxx.se/windows/dl-7.68.0/curl-7.68.0-win64-mingw.zip</url>
+  <hash-sum type="SHA-256">5e49e97ea3e3dd707f1f56985113b908b9a95e81c3212290c7fefbe4d79fb093</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.19, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
 
     <version name="2.1" package="sfml-dev-amd64-vc11">
   <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b SFML*') do set name=%%x&#13;
@@ -40869,6 +40849,14 @@ if %err% neq 0 exit %err%&#13;
 </file>
   <url>http://files.first-world.info/ultracopier/2.2.0.7/ultracopier-windows-x86_64-2.2.0.7-setup.exe</url>
   <hash-sum type="SHA-256">13b2ba7c7a78c35f82e3edb4d30dd0d097306e1019eb1235d490442006269fdb</hash-sum>
+ </version>
+ <version name="2.2.0.8" package="ultracopier64" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">uninst.exe /S _?=%CD%&#13;
+</file>
+  <url>http://files.first-world.info/ultracopier/2.2.0.8/ultracopier-windows-x86_64-2.2.0.8-setup.exe</url>
+  <hash-sum type="SHA-256">188ff1234cc8eaccc9ed99b98eab7d9b885638449e1603d88f86a977d2eb8485</hash-sum>
  </version>
 
     <version name="2.0.1" package="vagrant64" type="one-file">
