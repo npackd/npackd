@@ -13462,6 +13462,14 @@ if %err% neq 0 exit %err%&#13;
   <url>http://dbeaver.jkiss.org/files/6.3.2/dbeaver-ce-6.3.2-x86_64-setup.exe</url>
   <hash-sum type="SHA-256">ea357387ed84ec43ec29f0c75c45d02458b5ff0a2b928d3ff2e65707b7c9cd26</hash-sum>
  </version>
+ <version name="6.3.3" package="dbeaver64" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" /allusers /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">uninstall.exe /allusers /S _?=%CD%&#13;
+</file>
+  <url>http://dbeaver.jkiss.org/files/6.3.3/dbeaver-ce-6.3.3-x86_64-setup.exe</url>
+  <hash-sum type="SHA-256">6555c65640fbee5d9bafe68982ba575d30cb977e75392944cbd0b295a7f67042</hash-sum>
+ </version>
 
     <version name="0.825" package="dcplusplus64">
   <important-file path="DCPlusPlus.exe" title="DC++"/>
@@ -16790,7 +16798,7 @@ if %err% neq 0 exit %err%&#13;
 </file>
   <file path=".Npackd\Uninstall.bat">call "%nih%\UninstallInnoSetup.bat" unins000.exe&#13;
 </file>
-  <url>https://www.imagemagick.org/download/binaries/ImageMagick-7.0.9-17-Q16-x64-dll.exe</url>
+  <url>https://github.com/tim-lebedkov/packages/releases/download/2020_01/imagemagick64-7.0.9.17-ImageMagick-7.0.9-17-Q16-x64-dll.exe</url>
   <hash-sum type="SHA-256">8b00dbec9d0f9c51925e2bd8a7c79b0f6ab9908dae01f5afecb2058e18ed9148</hash-sum>
   <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
    <variable>nih</variable>
@@ -19544,6 +19552,15 @@ reg add HKCU\Software\mkvmergeGUI\GUI /v check_for_updates /t REG_DWORD /d 00000
    <variable>npackdih</variable>
   </dependency>
  </version>
+ <version name="6.8.0.96" package="mono64" type="one-file">
+  <file path=".Npackd\Install.bat">call "%npackdih%\InstallMSI.bat" INSTALLDIR yes&#13;
+</file>
+  <url>https://download.mono-project.com/archive/6.8.0/windows-installer/mono-6.8.0.96-x64-0.msi</url>
+  <hash-sum type="SHA-256">2d1671de6656d5fc83baf19022f4c9392e54f74628538d6a3788ea729a70bf6d</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.1, 2)">
+   <variable>npackdih</variable>
+  </dependency>
+ </version>
 
     <version name="2016.2.5" package="msys2_64" type="one-file">
   <file path=".Npackd\Install.bat">call "%nih%\Extract.bat" "%npackd_package_binary%" "."&#13;
@@ -19759,6 +19776,14 @@ rmdir "%name%"&#13;
 </file>
   <url>http://multicommander.com/files/updates/MultiCommander_x64_(9.5.3.2578).exe</url>
   <hash-sum type="SHA-256">5b5929b4737c928dde3d518ed15f7e552a5c76eb8cd504d13fee629089cd8272</hash-sum>
+ </version>
+ <version name="9.6.0.2580" package="multi-commander64" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">"Uninstall MultiCommander.exe" /S _?=%CD%&#13;
+</file>
+  <url>http://multicommander.com/files/updates/MultiCommander_x64_(9.6.0.2580).exe</url>
+  <hash-sum type="SHA-256">c2234b31f4ebee9da543bb0d4b2b98cf226ecfee343dbc3858263f754733dedf</hash-sum>
  </version>
 
     <version name="3.1" package="musescore64" type="one-file">
@@ -22816,7 +22841,7 @@ mkdir %trash%&#13;
 move NppShell*.dll %trash%&#13;
 verify&#13;
 		</file>
-  <url>http://download.notepad-plus-plus.org/repository/7.x/7.8.3/npp.7.8.3.Installer.x64.exe</url>
+  <url>https://github.com/tim-lebedkov/packages/releases/download/2020_01/notepadpp64-7.8.3-npp.7.8.3.Installer.x64.exe</url>
   <hash-sum type="SHA-256">fca6af8f9b3dc5bd93505785653375135e12f808d9b93f57d08542eab6d5ddc3</hash-sum>
  </version>
 
@@ -23037,29 +23062,6 @@ WshShell.SendKeys("{ESC}");&#13;
 </file>
   <url>https://github.com/tim-lebedkov/packages/releases/download/2020_01/openmpt64-1.23.5-openmpt64-1.23.5.exe</url>
   <sha1>5821a75aa2d9fc3588bc076bb8ae7932edee7da4</sha1>
- </version>
- <version name="1.28.5" package="openmpt64" type="one-file">
-  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
-"%setup%" /SP- /VERYSILENT /SUPPRESSMSGBOXES /NOCANCEL /NORESTART /DIR="%CD%" /SAVEINF="%CD%\.Npackd\InnoSetupInfo.ini" /LOG="%CD%\.Npackd\InnoSetupInstall.log" &amp;&amp; del /f /q "%setup%"&#13;
-set err=%errorlevel%&#13;
-type .Npackd\InnoSetupInstall.log&#13;
-if %err% neq 0 exit %err%&#13;
-</file>
-  <file path=".Npackd\Uninstall.bat">start "Confirm Uninstall" cscript //Nologo //B //E:JScript //T:300 //U .Npackd\ConfirmUninstall.js&#13;
-&#13;
-unins000.exe /VERYSILENT /SUPPRESSMSGBOXES /NORESTART /LOG="%CD%\.Npackd\InnoSetupUninstall.log"&#13;
-set err=%errorlevel%&#13;
-type .Npackd\InnoSetupUninstall.log&#13;
-if %err% neq 0 exit %err%&#13;
-</file>
-  <file path=".Npackd\ConfirmUninstall.js">var WshShell = WScript.CreateObject("WScript.Shell");&#13;
-WScript.Sleep(60000);&#13;
-WshShell.AppActivate("Uninstall");&#13;
-WScript.Sleep(10000);&#13;
-WshShell.SendKeys("{ESC}");&#13;
-</file>
-  <url>https://download.openmpt.org/OpenMPT-1.28.05.00-Setup-x64.exe</url>
-  <hash-sum type="SHA-256">033c31cd9b20924bbb36cbe52a889c042b13448b8ca38302b5ca128417b2e0c2</hash-sum>
  </version>
  <version name="1.28.6" package="openmpt64" type="one-file">
   <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
@@ -29181,6 +29183,14 @@ if %err% neq 0 exit %err%&#13;
    <variable>npackdih</variable>
   </dependency>
  </version>
+ <version name="2.5.3" package="org.keepassxc.keepassxc" type="one-file">
+  <file path=".Npackd\Install.bat">call "%npackdih%\InstallMSI.bat" INSTALLDIR yes</file>
+  <url>https://github.com/keepassxreboot/keepassxc/releases/download/2.5.3/KeePassXC-2.5.3-Win64.msi</url>
+  <hash-sum type="SHA-256">84213446e87725c0361730c4b01b8667d4e8a0726d85fe21697bf328eb1fef96</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.22, 2)">
+   <variable>npackdih</variable>
+  </dependency>
+ </version>
 
     <version name="2.9.4407" package="org.miktex.MiKTeX64" type="one-file">
   <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
@@ -31070,6 +31080,16 @@ rmdir /s /q "%name%"&#13;
 </file>
   <url>http://download.processing.org/processing-3.5.3-windows64.zip</url>
   <hash-sum type="SHA-256">af4db4af445c10e0b48be2d0ca4798fd44bfd94156a670ac15be2b275f975137</hash-sum>
+  <dependency package="com.oracle.JDK" versions="[1.5, 2)"/>
+ </version>
+ <version name="3.5.4" package="org.processing.Processing64">
+  <important-file path="processing.exe" title="Processing"/>
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b processing*') do set name=%%x&#13;
+xcopy "%name%\*" . /E /H&#13;
+rmdir /s /q "%name%"&#13;
+</file>
+  <url>http://download.processing.org/processing-3.5.4-windows64.zip</url>
+  <hash-sum type="SHA-256">e7a3f924bc265e926e63e1ea771d1379448b58c2d0671b0f8ddadef1aa6eda0e</hash-sum>
   <dependency package="com.oracle.JDK" versions="[1.5, 2)"/>
  </version>
 
@@ -35088,6 +35108,20 @@ call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Np
 </file>
   <url>https://github.com/vim/vim-win32-installer/releases/download/v8.2.0119/gvim_8.2.0119_x64.zip</url>
   <hash-sum type="SHA-256">f5af418dc4f40ab185e43c02ace0e4d36d43d6740756ef3073b12bb7ad069f43</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.19, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
+ <version name="8.2.140" package="org.vim.Vim64">
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+if %errorlevel% neq 0 exit /b %errorlevel%&#13;
+&#13;
+for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+</file>
+  <url>https://github.com/vim/vim-win32-installer/releases/download/v8.2.0140/gvim_8.2.0140_x64.zip</url>
+  <hash-sum type="SHA-256">a618f78064210bbf63b8dc4cd5f3a5915840bc72a39c11123a03a11431a6852a</hash-sum>
   <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.19, 2)">
    <variable>nih</variable>
   </dependency>
@@ -40956,6 +40990,14 @@ if %err% neq 0 exit %err%&#13;
 </file>
   <url>http://files.first-world.info/ultracopier/2.2.0.8/ultracopier-windows-x86_64-2.2.0.8-setup.exe</url>
   <hash-sum type="SHA-256">188ff1234cc8eaccc9ed99b98eab7d9b885638449e1603d88f86a977d2eb8485</hash-sum>
+ </version>
+ <version name="2.2.0.9" package="ultracopier64" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">uninst.exe /S _?=%CD%&#13;
+</file>
+  <url>http://files.first-world.info/ultracopier/2.2.0.9/ultracopier-windows-x86_64-2.2.0.9-setup.exe</url>
+  <hash-sum type="SHA-256">924c6de8b848e70aa55f188c890f9d1b8853c9f2212bad77936a0934a3e01e8d</hash-sum>
  </version>
 
     <version name="2.0.1" package="vagrant64" type="one-file">
