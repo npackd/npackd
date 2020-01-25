@@ -3254,6 +3254,14 @@ x86_64</description>
   <url>https://github.com/tim-lebedkov/packages/releases/download/2019_Q1/anki64-2.1.15-anki-2.1.15-windows.exe</url>
   <hash-sum type="SHA-256">5672638094c9b40ef6fa50236b4c4dcf938e028aeee79209dc0cda6ac4983b99</hash-sum>
  </version>
+ <version name="2.1.19" package="anki64" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD%&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">uninstall.exe /S&#13;
+</file>
+  <url>https://apps.ankiweb.net/downloads/current/anki-2.1.19-windows.exe</url>
+  <hash-sum type="SHA-256">90be6a3e5a6f4373ba3342bd3dfbe61e9013bb2a4acced2fcdd594b4c651a665</hash-sum>
+ </version>
 
     <version name="2.4.33" package="apache-httpd64">
   <url>http://de.apachehaus.com/downloads/httpd-2.4.33-lre-2.7.3-x64-vc14-r3.zip</url>
@@ -4110,6 +4118,45 @@ for /f "delims=" %%x in ('dir /b FlashUtil32*Plugin.exe') do set setup=%%x&#13;
 </file>
   <url>https://download.macromedia.com/get/flashplayer/pdc/32.0.0.303/install_flash_player_32_plugin.msi</url>
  </version>
+ <version name="32.0.0.321" package="com.adobe.FlashPlayer64" type="one-file">
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.msi') do set setup=%%x&#13;
+mkdir .Npackd&#13;
+move "%setup%" .Npackd&#13;
+set err=%errorlevel%&#13;
+if %err% neq 0 exit %err%&#13;
+&#13;
+rem MSIFASTINSTALL: http://msdn.microsoft.com/en-us/library/dd408005%28v=VS.85%29.aspx&#13;
+msiexec.exe /qn /norestart /Lime .Npackd\InstallMSI.log /i ".Npackd\%setup%" INSTALLDIR="%CD%" ALLUSERS=1 MSIFASTINSTALL=7&#13;
+set err=%errorlevel%&#13;
+type .Npackd\InstallMSI.log&#13;
+&#13;
+rem list of errors: http://msdn.microsoft.com/en-us/library/windows/desktop/aa368542(v=vs.85).aspx&#13;
+rem 3010=restart required&#13;
+if %err% equ 3010 goto cont&#13;
+if %err% neq 0 exit %err%&#13;
+&#13;
+:cont&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">move .Npackd\*.msi .&#13;
+for /f "delims=" %%x in ('dir /b *.msi') do set setup=%%x&#13;
+&#13;
+rem MSIFASTINSTALL: http://msdn.microsoft.com/en-us/library/dd408005%28v=VS.85%29.aspx&#13;
+msiexec.exe /qn /norestart /Lime .Npackd\UninstallMSI.log /x "%setup%" MSIFASTINSTALL=7&#13;
+set err=%errorlevel%&#13;
+type .Npackd\UninstallMSI.log&#13;
+rem 3010=restart required&#13;
+if %err% equ 3010 goto cont&#13;
+if %err% neq 0 exit %err%&#13;
+&#13;
+:cont&#13;
+if not exist "%ProgramFiles(x86)%" set d=%windir%\System32\Macromed\Flash&#13;
+if exist "%ProgramFiles(x86)%" set d=%windir%\SysWOW64\Macromed\Flash&#13;
+cd "%d%"&#13;
+for /f "delims=" %%x in ('dir /b FlashUtil32*Plugin.exe') do set setup=%%x&#13;
+"%setup%" -uninstall&#13;
+</file>
+  <url>https://download.macromedia.com/get/flashplayer/pdc/32.0.0.321/install_flash_player_32_plugin.msi</url>
+ </version>
 
     <version name="31.0.0.153" package="com.adobe.FlashPlayerActiveX64" type="one-file">
   <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.msi') do set setup=%%x&#13;
@@ -4670,6 +4717,46 @@ for /f "delims=" %%x in ('dir /b FlashUtil32*ActiveX.exe') do set setup=%%x&#13;
 if "%setup%" neq "" "%setup%" -uninstall&#13;
 </file>
   <url>https://download.macromedia.com/pub/flashplayer/pdc/32.0.0.303/install_flash_player_32_plugin.msi</url>
+ </version>
+ <version name="32.0.0.321" package="com.adobe.FlashPlayerActiveX64" type="one-file">
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.msi') do set setup=%%x&#13;
+mkdir .Npackd&#13;
+move "%setup%" .Npackd&#13;
+set err=%errorlevel%&#13;
+if %err% neq 0 exit %err%&#13;
+&#13;
+rem MSIFASTINSTALL: http://msdn.microsoft.com/en-us/library/dd408005%28v=VS.85%29.aspx&#13;
+msiexec.exe /qn /norestart /Lime .Npackd\InstallMSI.log /i ".Npackd\%setup%" INSTALLDIR="%CD%" ALLUSERS=1 MSIFASTINSTALL=7&#13;
+set err=%errorlevel%&#13;
+type .Npackd\InstallMSI.log&#13;
+&#13;
+rem list of errors: http://msdn.microsoft.com/en-us/library/windows/desktop/aa368542(v=vs.85).aspx&#13;
+rem 3010=restart required&#13;
+if %err% equ 3010 goto cont&#13;
+if %err% neq 0 exit %err%&#13;
+&#13;
+:cont&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">move .Npackd\*.msi .&#13;
+for /f "delims=" %%x in ('dir /b *.msi') do set setup=%%x&#13;
+&#13;
+rem MSIFASTINSTALL: http://msdn.microsoft.com/en-us/library/dd408005%28v=VS.85%29.aspx&#13;
+msiexec.exe /qn /norestart /Lime .Npackd\UninstallMSI.log /x "%setup%" MSIFASTINSTALL=7&#13;
+set err=%errorlevel%&#13;
+type .Npackd\UninstallMSI.log&#13;
+rem 3010=restart required&#13;
+if %err% equ 3010 goto cont&#13;
+if %err% neq 0 exit %err%&#13;
+&#13;
+:cont&#13;
+if not exist "%ProgramFiles(x86)%" set d=%windir%\System32\Macromed\Flash&#13;
+if exist "%ProgramFiles(x86)%" set d=%windir%\SysWOW64\Macromed\Flash&#13;
+cd "%d%"&#13;
+set setup=&#13;
+for /f "delims=" %%x in ('dir /b FlashUtil32*ActiveX.exe') do set setup=%%x&#13;
+if "%setup%" neq "" "%setup%" -uninstall&#13;
+</file>
+  <url>https://download.macromedia.com/pub/flashplayer/pdc/32.0.0.321/install_flash_player_32_plugin.msi</url>
  </version>
 
     <version name="1.15.1" package="com.alcpu.CoreTemp64">
@@ -8154,6 +8241,15 @@ if %err% neq 0 exit /b %err%&#13;
 		</file>
   <url>https://cdn.mysql.com//Downloads/Connector-ODBC/8.0/mysql-connector-odbc-8.0.18-winx64.msi</url>
   <hash-sum type="SHA-256">2ea69f60304ef7d33889d7d08a6f82fda33c916df81fc4abc9c7b3b2844d800f</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.1, 2)">
+   <variable>npackdih</variable>
+  </dependency>
+ </version>
+ <version name="8.0.19" package="com.mysql.dev.MySQLODBCConnector64bits" type="one-file">
+  <file path=".Npackd\Install.bat">call "%npackdih%\InstallMSI.bat" INSTALLDIR yes&#13;
+		</file>
+  <url>https://cdn.mysql.com//Downloads/Connector-ODBC/8.0/mysql-connector-odbc-8.0.19-winx64.msi</url>
+  <hash-sum type="SHA-256">8167d3c96a7b2bb3c36002c7e37e8e45d673f8cd37480bef8bafee66d8ae13fb</hash-sum>
   <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.1, 2)">
    <variable>npackdih</variable>
   </dependency>
