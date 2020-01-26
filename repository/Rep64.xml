@@ -3259,7 +3259,7 @@ x86_64</description>
 </file>
   <file path=".Npackd\Uninstall.bat">uninstall.exe /S&#13;
 </file>
-  <url>https://apps.ankiweb.net/downloads/current/anki-2.1.19-windows.exe</url>
+  <url>https://github.com/tim-lebedkov/packages/releases/download/2020_01/anki64-2.1.19-anki-2.1.19-windows.exe</url>
   <hash-sum type="SHA-256">90be6a3e5a6f4373ba3342bd3dfbe61e9013bb2a4acced2fcdd594b4c651a665</hash-sum>
  </version>
 
@@ -23159,52 +23159,6 @@ WshShell.SendKeys("{ESC}");&#13;
   <url>https://github.com/tim-lebedkov/packages/releases/download/2020_01/openmpt64-1.23.5-openmpt64-1.23.5.exe</url>
   <sha1>5821a75aa2d9fc3588bc076bb8ae7932edee7da4</sha1>
  </version>
- <version name="1.28.6" package="openmpt64" type="one-file">
-  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
-"%setup%" /SP- /VERYSILENT /SUPPRESSMSGBOXES /NOCANCEL /NORESTART /DIR="%CD%" /SAVEINF="%CD%\.Npackd\InnoSetupInfo.ini" /LOG="%CD%\.Npackd\InnoSetupInstall.log" &amp;&amp; del /f /q "%setup%"&#13;
-set err=%errorlevel%&#13;
-type .Npackd\InnoSetupInstall.log&#13;
-if %err% neq 0 exit %err%&#13;
-</file>
-  <file path=".Npackd\Uninstall.bat">start "Confirm Uninstall" cscript //Nologo //B //E:JScript //T:300 //U .Npackd\ConfirmUninstall.js&#13;
-&#13;
-unins000.exe /VERYSILENT /SUPPRESSMSGBOXES /NORESTART /LOG="%CD%\.Npackd\InnoSetupUninstall.log"&#13;
-set err=%errorlevel%&#13;
-type .Npackd\InnoSetupUninstall.log&#13;
-if %err% neq 0 exit %err%&#13;
-</file>
-  <file path=".Npackd\ConfirmUninstall.js">var WshShell = WScript.CreateObject("WScript.Shell");&#13;
-WScript.Sleep(60000);&#13;
-WshShell.AppActivate("Uninstall");&#13;
-WScript.Sleep(10000);&#13;
-WshShell.SendKeys("{ESC}");&#13;
-</file>
-  <url>https://download.openmpt.org/OpenMPT-1.28.06.00-Setup-x64.exe</url>
-  <hash-sum type="SHA-256">10ca7888c122337d293be580165f952a2903efc5b88cb31cbbac957efd7b705f</hash-sum>
- </version>
- <version name="1.28.7" package="openmpt64" type="one-file">
-  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
-"%setup%" /SP- /VERYSILENT /SUPPRESSMSGBOXES /NOCANCEL /NORESTART /DIR="%CD%" /SAVEINF="%CD%\.Npackd\InnoSetupInfo.ini" /LOG="%CD%\.Npackd\InnoSetupInstall.log" &amp;&amp; del /f /q "%setup%"&#13;
-set err=%errorlevel%&#13;
-type .Npackd\InnoSetupInstall.log&#13;
-if %err% neq 0 exit %err%&#13;
-</file>
-  <file path=".Npackd\Uninstall.bat">start "Confirm Uninstall" cscript //Nologo //B //E:JScript //T:300 //U .Npackd\ConfirmUninstall.js&#13;
-&#13;
-unins000.exe /VERYSILENT /SUPPRESSMSGBOXES /NORESTART /LOG="%CD%\.Npackd\InnoSetupUninstall.log"&#13;
-set err=%errorlevel%&#13;
-type .Npackd\InnoSetupUninstall.log&#13;
-if %err% neq 0 exit %err%&#13;
-</file>
-  <file path=".Npackd\ConfirmUninstall.js">var WshShell = WScript.CreateObject("WScript.Shell");&#13;
-WScript.Sleep(60000);&#13;
-WshShell.AppActivate("Uninstall");&#13;
-WScript.Sleep(10000);&#13;
-WshShell.SendKeys("{ESC}");&#13;
-</file>
-  <url>https://download.openmpt.org/OpenMPT-1.28.07.00-Setup-x64.exe</url>
-  <hash-sum type="SHA-256">7f559f8a041b0297c678a6adc79c3ad5d40927cf55dadf56244fdef419ff225e</hash-sum>
- </version>
  <version name="1.28.8" package="openmpt64" type="one-file">
   <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
 "%setup%" /SP- /VERYSILENT /SUPPRESSMSGBOXES /NOCANCEL /NORESTART /DIR="%CD%" /SAVEINF="%CD%\.Npackd\InnoSetupInfo.ini" /LOG="%CD%\.Npackd\InnoSetupInstall.log" &amp;&amp; del /f /q "%setup%"&#13;
@@ -41661,6 +41615,30 @@ if %err% neq 0 exit /b %err%&#13;
 </file>
   <url>https://downloads.vivaldi.com/stable/Vivaldi.2.10.1745.23.x64.exe</url>
   <hash-sum type="SHA-256">b26b1efb158def4b389d06ac3a5075c9febbe22341d4956e949e58ba709d275b</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.24, 2)">
+   <variable>ncl</variable>
+  </dependency>
+ </version>
+ <version name="2.10.1745.26" package="vivaldi-browser-64" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" --vivaldi-standalone --do-not-launch-chrome --vivaldi-install-dir="%CD%" &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
+&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">"%ncl%\ncl.exe" remove-scp --title "vivaldi-browser-64"&#13;
+</file>
+  <url>https://downloads.vivaldi.com/stable/Vivaldi.2.10.1745.26.x64.exe</url>
+  <hash-sum type="SHA-256">264406a3e69e4ff49558b788b0ea197c158fb649e3f9a40bf28cd416cd8adaf4</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.24, 2)">
+   <variable>ncl</variable>
+  </dependency>
+ </version>
+ <version name="2.10.1745.27" package="vivaldi-browser-64" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" --vivaldi-standalone --do-not-launch-chrome --vivaldi-install-dir="%CD%" &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
+&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">"%ncl%\ncl.exe" remove-scp --title "vivaldi-browser-64"&#13;
+</file>
+  <url>https://downloads.vivaldi.com/stable/Vivaldi.2.10.1745.27.x64.exe</url>
+  <hash-sum type="SHA-256">d81f72c42f0d3eaf721c5c4bf7aadd6c9249765636ef8b8da3f1904ec03e2c33</hash-sum>
   <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.24, 2)">
    <variable>ncl</variable>
   </dependency>
