@@ -3259,7 +3259,7 @@ x86_64</description>
 </file>
   <file path=".Npackd\Uninstall.bat">uninstall.exe /S&#13;
 </file>
-  <url>https://apps.ankiweb.net/downloads/current/anki-2.1.18-windows.exe</url>
+  <url>https://github.com/tim-lebedkov/packages/releases/download/2020_01/anki64-2.1.18-anki-2.1.18-windows.exe</url>
   <hash-sum type="SHA-256">e489b12e358192673eee49aad7a3321703218ac208aa797f81bb75c9a8369f30</hash-sum>
  </version>
  <version name="2.1.19" package="anki64" type="one-file">
@@ -9964,7 +9964,7 @@ del Q-Dir.ini&#13;
   <url>http://files.npackd.org/com.softwareok.QDir64-5.99.9.zip</url>
   <sha1>fb6060796fae3fc641ba34fe1f2f8530d7c985a8</sha1>
  </version>
- <version name="7.99" package="com.softwareok.QDir64">
+ <version name="8.1" package="com.softwareok.QDir64">
   <important-file path="Q-Dir.exe" title="Q-Dir"/>
   <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b Q*') do set name=%%x&#13;
 cd "%name%"        &#13;
@@ -11785,7 +11785,7 @@ for %%g in (%extensions%) do reg add HKLM\SOFTWARE\Classes\.%%g\OpenWithList\%ke
   </dependency>
  </version>
 
-    <version name="1.82" package="com.xnconvert.XnConvert64" type="one-file">
+    <version name="1.83" package="com.xnconvert.XnConvert64" type="one-file">
   <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
 "%setup%" /SP- /VERYSILENT /SUPPRESSMSGBOXES /NOCANCEL /NORESTART /DIR="%CD%" /SAVEINF="%CD%\.Npackd\InnoSetupInfo.ini" /LOG="%CD%\.Npackd\InnoSetupInstall.log"&#13;
 set err=%errorlevel%&#13;
@@ -16389,7 +16389,7 @@ if %err% neq 0 exit %err%&#13;
   </dependency>
   <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.15.7, 2)"/>
  </version>
- <version name="0.31" package="io.mpv.mpv-64" type="one-file">
+ <version name="0.32" package="io.mpv.mpv-64" type="one-file">
   <file path=".Npackd\Install.bat">for /f %%x in ('dir /b *.7z') do set setup=%%x&#13;
 "%sevenzipa%\7za.exe" x "%setup%" &gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt</file>
   <url>http://mpv.srsfckn.biz/mpv-x86_64-latest.7z</url>
@@ -17690,6 +17690,14 @@ if %err% neq 0 exit %err%&#13;
 </file>
   <url>https://ayera.dl.sourceforge.net/project/maxima/Maxima-Windows/5.43.0-Windows/maxima-clisp-sbcl-5.43.0-win64.exe</url>
   <hash-sum type="SHA-256">52cb2fe1218287a5381d71a14ac1466661748267f1c3bd959ff7c50df47f05fd</hash-sum>
+ </version>
+ <version name="5.43.2" package="maxima64" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">uninstall.exe /S _?=%CD%&#13;
+</file>
+  <url>https://ayera.dl.sourceforge.net/project/maxima/Maxima-Windows/5.43.2-Windows/maxima-clisp-sbcl-5.43.2-win64.exe</url>
+  <hash-sum type="SHA-256">75e34f693f5158063e698071eca6555fb8125dfd1f4f1f271a5504a1fc48305c</hash-sum>
  </version>
 
     <version name="3.1" package="mevislab64" type="one-file">
@@ -19329,6 +19337,14 @@ rmdir "%name%"&#13;
   <url>http://multicommander.com/files/updates/MultiCommander_x64_(9.6.0.2580).exe</url>
   <hash-sum type="SHA-256">c2234b31f4ebee9da543bb0d4b2b98cf226ecfee343dbc3858263f754733dedf</hash-sum>
  </version>
+ <version name="9.6.1.2582" package="multi-commander64" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">"Uninstall MultiCommander.exe" /S _?=%CD%&#13;
+</file>
+  <url>http://multicommander.com/files/updates/MultiCommander_x64_(9.6.1.2582).exe</url>
+  <hash-sum type="SHA-256">04399143fe36547f635bcafeeca11f706cb0261ee521bc4d97a9d509ec79c9b4</hash-sum>
+ </version>
 
     <version name="3.1" package="musescore64" type="one-file">
   <file path=".Npackd\Install.bat">call "%nih%\InstallMSI.bat" INSTALLDIR yes&#13;
@@ -19389,6 +19405,15 @@ rmdir "%name%"&#13;
 </file>
   <url>https://github.com/musescore/MuseScore/releases/download/v3.3.4/MuseScore-3.3.4-x86_64.msi</url>
   <hash-sum type="SHA-256">da35135538294f48a74419bf037414c402075342c4acc96ffe6149ceadeaf093</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.1, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
+ <version name="3.4.1" package="musescore64" type="one-file">
+  <file path=".Npackd\Install.bat">call "%nih%\InstallMSI.bat" INSTALLDIR yes&#13;
+</file>
+  <url>https://github.com/musescore/MuseScore/releases/download/v3.4.1/MuseScore-3.4.1-x86_64.msi</url>
+  <hash-sum type="SHA-256">7980797216c332c5eab6b702bdc2280933122fc5ef04a0fb9e970eabd2404e3f</hash-sum>
   <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.1, 2)">
    <variable>nih</variable>
   </dependency>
@@ -34585,6 +34610,20 @@ call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Np
    <variable>nih</variable>
   </dependency>
  </version>
+ <version name="8.2.172" package="org.vim.Vim64">
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+if %errorlevel% neq 0 exit /b %errorlevel%&#13;
+&#13;
+for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+</file>
+  <url>https://github.com/vim/vim-win32-installer/releases/download/v8.2.0172/gvim_8.2.0172_x64.zip</url>
+  <hash-sum type="SHA-256">ba8fa5aff89b066fa8fa3b3b2e921fbc724e4b320e5f44ec177dbc687b1b23d8</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.19, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
 
     <version name="4.2.8.83876" package="org.virtualbox.virtualbox64" type="one-file">
   <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
@@ -37861,6 +37900,13 @@ if %errorlevel% equ 3010 verify</file>
   <file path=".Npackd\Uninstall.bat">uninstall.exe /S _?=%CD%&#13;
 </file>
   <url>https://qgis.org/downloads/QGIS-OSGeo4W-3.10.1-1-Setup-x86_64.exe</url>
+ </version>
+ <version name="3.10.2" package="qgis64" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
+if %errorlevel% equ 3010 verify</file>
+  <file path=".Npackd\Uninstall.bat">uninstall.exe /S _?=%CD%&#13;
+</file>
+  <url>https://qgis.org/downloads/QGIS-OSGeo4W-3.10.2-1-Setup-x86_64.exe</url>
  </version>
 
     <version name="1.40.6" package="Qt-Bitcoin-Trader64" type="one-file">
