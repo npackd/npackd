@@ -12048,7 +12048,7 @@ if %err% neq 0 exit %err%&#13;
   <url>http://cygwin.com/setup-x86_64.exe</url>
  </version>
 
-    <version name="1.7.21097" package="daumpotplayer64" type="one-file">
+    <version name="1.7.21124" package="daumpotplayer64" type="one-file">
   <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
 </file>
   <file path=".Npackd\Uninstall.bat">uninstall.exe /S _?=%CD%&#13;
@@ -12691,6 +12691,14 @@ if %err% neq 0 exit %err%&#13;
 </file>
   <url>http://dbeaver.jkiss.org/files/6.3.3/dbeaver-ce-6.3.3-x86_64-setup.exe</url>
   <hash-sum type="SHA-256">6555c65640fbee5d9bafe68982ba575d30cb977e75392944cbd0b295a7f67042</hash-sum>
+ </version>
+ <version name="6.3.4" package="dbeaver64" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" /allusers /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">uninstall.exe /allusers /S _?=%CD%&#13;
+</file>
+  <url>http://dbeaver.jkiss.org/files/6.3.4/dbeaver-ce-6.3.4-x86_64-setup.exe</url>
+  <hash-sum type="SHA-256">f80daba5885590504cf08dbd0d21d9a0ca20e779aefe767903e554661b158bc5</hash-sum>
  </version>
 
     <version name="0.825" package="dcplusplus64">
@@ -14722,7 +14730,7 @@ if %err% neq 0 exit %err%&#13;
   <hash-sum type="SHA-256">9242bff87f2c3ffb560c74b43fd0525adcec86d6092eaeeb5fc271b0d086b924</hash-sum>
  </version>
 
-    <version name="79.0.3945.130" package="google-chrome-x64" type="one-file">
+    <version name="80.0.3987.87" package="google-chrome-x64" type="one-file">
   <file path=".Npackd\Install.bat">call "%npackdih%\InstallMSI.bat" TARGETDIR yes&#13;
 </file>
   <url>https://dl.google.com/tag/s/appguid%3D%7B8A69D345-D564-463C-AFF1-A69D9E530F96%7D%26iid%3D%7B0A558A36-0536-8B3F-0AE0-420553CC97F3%7D%26lang%3Den%26browser%3D4%26usagestats%3D0%26appname%3DGoogle%2520Chrome%26needsadmin%3DFalse/edgedl/chrome/install/GoogleChromeStandaloneEnterprise64.msi</url>
@@ -16045,6 +16053,17 @@ if %err% neq 0 exit %err%&#13;
    <variable>nih</variable>
   </dependency>
  </version>
+ <version name="7.0.9.21" package="imagemagick64" type="one-file">
+  <file path=".Npackd\Install.bat">call "%nih%\InstallInnoSetup.bat"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">call "%nih%\UninstallInnoSetup.bat" unins000.exe&#13;
+</file>
+  <url>https://www.imagemagick.org/download/binaries/ImageMagick-7.0.9-21-Q16-x64-dll.exe</url>
+  <hash-sum type="SHA-256">fe05189eefa2604541d8b7625842ed083a61cdf33b9fcb67246967d112dad1a1</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
 
     <version name="0.3.8" package="io.mpv.mpv-64" type="one-file">
   <file path=".Npackd\Install.bat">for /f %%x in ('dir /b *.7z') do set setup=%%x&#13;
@@ -16323,6 +16342,18 @@ rmdir "%name%"&#13;
 </file>
   <url>https://dist.ipfs.io/go-ipfs/v0.4.22/go-ipfs_v0.4.22_windows-amd64.zip</url>
   <hash-sum type="SHA-256">72fae399e089a7c20f16a300f7d937dc15ea9093a535daef6140cc0a63482c93</hash-sum>
+ </version>
+ <version name="0.4.23" package="ipfs64">
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b go-ipfs*') do set name=%%x&#13;
+cd "%name%"&#13;
+for /f "delims=" %%a in ('dir /b') do (&#13;
+  move "%%a" ..&#13;
+)&#13;
+cd ..&#13;
+rmdir "%name%"&#13;
+</file>
+  <url>https://dist.ipfs.io/go-ipfs/v0.4.23/go-ipfs_v0.4.23_windows-amd64.zip</url>
+  <hash-sum type="SHA-256">d12713895536ced8891a8ea4d1a615dc0fa1b4a4e0314e00c15c13e741d37126</hash-sum>
  </version>
 
     <version name="5" package="jclasslib64" type="one-file">
@@ -17186,6 +17217,15 @@ call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Np
   <file path=".Npackd\Install.bat">call "%npackdih%\InstallMSI.bat" INSTALLLOCATION yes</file>
   <url>https://download.documentfoundation.org/libreoffice/stable/6.3.4/win/x86_64/LibreOffice_6.3.4_Win_x64.msi</url>
   <hash-sum type="SHA-256">94b2b86b5688685233479d594e5760ce24d5b9a00e33058f4b86dffd08b54574</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.1, 2)">
+   <variable>npackdih</variable>
+  </dependency>
+  <dependency package="com.oracle.JRE" versions="[1.6, 2)"/>
+ </version>
+ <version name="6.4" package="libreoffice64" type="one-file">
+  <file path=".Npackd\Install.bat">call "%npackdih%\InstallMSI.bat" INSTALLLOCATION yes</file>
+  <url>https://download.documentfoundation.org/libreoffice/stable/6.4.0/win/x86_64/LibreOffice_6.4.0_Win_x64.msi</url>
+  <hash-sum type="SHA-256">4fd83acacebdaed54003804a7518224e205542d17bd517cb8b87fc2adb5e94b6</hash-sum>
   <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.1, 2)">
    <variable>npackdih</variable>
   </dependency>
@@ -19382,7 +19422,7 @@ if %err% neq 0 exit %err%</file>
    <variable>npackdih</variable>
   </dependency>
  </version>
- <version name="4.2.8" package="net.getpaint.paintdotnet64">
+ <version name="4.2.9" package="net.getpaint.paintdotnet64">
   <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
 "%setup%" /auto "TARGETDIR=%CD%" CHECKFORUPDATES=0 JPGPNGBMPEDITOR=0 TGAEDITOR=0 DESKTOPSHORTCUT=0</file>
   <url>http://www.dotpdn.com/files/paint.net.4.1.4.install.zip</url>
@@ -20889,6 +20929,17 @@ if %err% neq 0 exit %err%&#13;
   </dependency>
  </version>
  <version name="7.0.1" package="net.sourceforge.peazip.PeaZip64" type="one-file">
+  <file path=".Npackd\Install.bat">call "%nih%\InstallInnoSetup.bat"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">call "%nih%\UninstallInnoSetup.bat" unins000.exe&#13;
+</file>
+  <url>https://ayera.dl.sourceforge.net/project/peazip/6.5.1/peazip-6.5.1.WINDOWS.exe</url>
+  <hash-sum type="SHA-256">49bc326c084e743acff1bdf2437d0b17cdeedb5bde67efee2fd86a613efa9031</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
+ <version name="7.1" package="net.sourceforge.peazip.PeaZip64" type="one-file">
   <file path=".Npackd\Install.bat">call "%nih%\InstallInnoSetup.bat"&#13;
 </file>
   <file path=".Npackd\Uninstall.bat">call "%nih%\UninstallInnoSetup.bat" unins000.exe&#13;
@@ -39712,6 +39763,14 @@ rmdir "%name%"</file>
 </file>
   <url>https://www.sysgauge.com/setups_x64/sysgauge_setup_v6.6.24_x64.exe</url>
   <hash-sum type="SHA-256">eb9bc6e5987517e224d71a4d16776ea4aa9970ff32d095a47f466c3ee66b4e97</hash-sum>
+ </version>
+ <version name="6.7.14" package="sysgauge64" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">uninstall.exe /S _?=%CD%&#13;
+</file>
+  <url>https://www.sysgauge.com/setups_x64/sysgauge_setup_v6.7.14_x64.exe</url>
+  <hash-sum type="SHA-256">2c31568fecd82108562268bd7536683f9ebcb9ca003d0f1daa29fca387858352</hash-sum>
  </version>
 
     <version name="2" package="texniccenter64" type="one-file">
