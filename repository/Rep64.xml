@@ -22303,7 +22303,7 @@ verify&#13;
   </dependency>
  </version>
 
-    <version name="3.7.4" package="ocenaudio64" type="one-file">
+    <version name="3.7.9" package="ocenaudio64" type="one-file">
   <file path=".Npackd\Install.bat">"%npackd_package_binary%" /AllUsers /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
 </file>
   <file path=".Npackd\Uninstall.bat">"%ncl%\ncl" remove-scp --title "/ocenaudio.*/"</file>
@@ -29426,6 +29426,15 @@ rmdir "%name%"&#13;
 </file>
   <url>https://fastdl.mongodb.org/win32/mongodb-win32-x86_64-2012plus-4.2.0-signed.msi</url>
   <hash-sum type="SHA-256">f1a4f3771563a747a26d8a22990483dcfb6a0f68026672edd5996fdbee35cbcc</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.1, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
+ <version name="4.2.3" package="org.mongodb.MongoDB64" type="one-file">
+  <file path=".Npackd\Install.bat">call "%nih%\InstallMSI.bat" INSTALLDIR yes&#13;
+</file>
+  <url>https://fastdl.mongodb.org/win32/mongodb-win32-x86_64-2012plus-4.2.3-signed.msi</url>
+  <hash-sum type="SHA-256">234f6abf9c4947df94428f6ce648905dbf6b1269f48cc3239ebd4990bde1ca2a</hash-sum>
   <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.1, 2)">
    <variable>nih</variable>
   </dependency>
