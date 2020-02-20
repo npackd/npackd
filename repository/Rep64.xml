@@ -14770,7 +14770,7 @@ if %err% neq 0 exit %err%&#13;
   <hash-sum type="SHA-256">9242bff87f2c3ffb560c74b43fd0525adcec86d6092eaeeb5fc271b0d086b924</hash-sum>
  </version>
 
-    <version name="80.0.3987.100" package="google-chrome-x64" type="one-file">
+    <version name="80.0.3987.116" package="google-chrome-x64" type="one-file">
   <file path=".Npackd\Install.bat">call "%npackdih%\InstallMSI.bat" TARGETDIR yes&#13;
 </file>
   <url>https://dl.google.com/tag/s/appguid%3D%7B8A69D345-D564-463C-AFF1-A69D9E530F96%7D%26iid%3D%7B0A558A36-0536-8B3F-0AE0-420553CC97F3%7D%26lang%3Den%26browser%3D4%26usagestats%3D0%26appname%3DGoogle%2520Chrome%26needsadmin%3DFalse/edgedl/chrome/install/GoogleChromeStandaloneEnterprise64.msi</url>
@@ -16115,6 +16115,17 @@ if %err% neq 0 exit %err%&#13;
    <variable>nih</variable>
   </dependency>
  </version>
+ <version name="7.0.9.24" package="imagemagick64" type="one-file">
+  <file path=".Npackd\Install.bat">call "%nih%\InstallInnoSetup.bat"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">call "%nih%\UninstallInnoSetup.bat" unins000.exe&#13;
+</file>
+  <url>https://www.imagemagick.org/download/binaries/ImageMagick-7.0.9-24-Q16-x64-dll.exe</url>
+  <hash-sum type="SHA-256">92df5b160b85dd8ea891dcd0628107d1b86060b380b9c16c44e10d647959748e</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
 
     <version name="0.3.8" package="io.mpv.mpv-64" type="one-file">
   <file path=".Npackd\Install.bat">for /f %%x in ('dir /b *.7z') do set setup=%%x&#13;
@@ -17030,6 +17041,19 @@ call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Np
 </file>
   <url>https://github.com/ldc-developers/ldc/releases/download/v1.19.0/ldc2-1.19.0-windows-x64.7z</url>
   <hash-sum type="SHA-256">e0038e94174af64726fa713aa63d0fbf5290e911905e86901e74553604eb8a6c</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.19, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
+ <version name="1.20" package="ldc64" type="one-file">
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.7z') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+&#13;
+for /f "delims=" %%x in ('dir /b ldc*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+</file>
+  <url>https://github.com/ldc-developers/ldc/releases/download/v1.20.0/ldc2-1.20.0-windows-x64.7z</url>
+  <hash-sum type="SHA-256">95218ef73f7cabad8139e7fd4c165b8a2d05db3be3e996526bdaab78d220f0ad</hash-sum>
   <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.19, 2)">
    <variable>nih</variable>
   </dependency>
@@ -19056,6 +19080,19 @@ rmdir "%name%"&#13;
   <url>https://github.com/milostosic/MTuner/releases/download/v4.2.9/mtuner64.zip</url>
   <hash-sum type="SHA-256">8de4bd26c474886927ad8756edd6a3f7c42bce3dbc34af20abdc1bea8906fb34</hash-sum>
  </version>
+ <version name="4.3.3" package="mtuner">
+  <important-file path="MTuner.exe" title="MTuner"/>
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b MTuner*') do set name=%%x&#13;
+cd "%name%"&#13;
+for /f "delims=" %%a in ('dir /b') do (&#13;
+  move "%%a" ..&#13;
+)&#13;
+cd ..&#13;
+rmdir "%name%"&#13;
+</file>
+  <url>https://github.com/milostosic/MTuner/releases/download/v4.2.9/mtuner64.zip</url>
+  <hash-sum type="SHA-256">8de4bd26c474886927ad8756edd6a3f7c42bce3dbc34af20abdc1bea8906fb34</hash-sum>
+ </version>
 
     <version name="6.9.1" package="multi-commander64" type="one-file">
   <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
@@ -19506,7 +19543,7 @@ if %err% neq 0 exit %err%</file>
    <variable>npackdih</variable>
   </dependency>
  </version>
- <version name="4.2.9" package="net.getpaint.paintdotnet64">
+ <version name="4.2.10" package="net.getpaint.paintdotnet64">
   <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
 "%setup%" /auto "TARGETDIR=%CD%" CHECKFORUPDATES=0 JPGPNGBMPEDITOR=0 TGAEDITOR=0 DESKTOPSHORTCUT=0</file>
   <url>http://www.dotpdn.com/files/paint.net.4.1.4.install.zip</url>
@@ -36738,6 +36775,16 @@ echo DesktopShortcut=false &gt;&gt; .Npackd\FF.ini&#13;
   </dependency>
   <dependency package="org.miktex.MiKTeX" versions="[2.9, 3)"/>
  </version>
+ <version name="2.9.2" package="pandoc64" type="one-file">
+  <file path=".Npackd\Install.bat">call "%nih%\InstallMSI.bat" INSTALLDIR yes&#13;
+</file>
+  <url>https://github.com/jgm/pandoc/releases/download/2.9.2/pandoc-2.9.2-windows-x86_64.msi</url>
+  <hash-sum type="SHA-256">f92bb25f61ef39c2e6ae4fc36eec3575494609429b2690cd99eab3eb00594e19</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.1, 2)">
+   <variable>nih</variable>
+  </dependency>
+  <dependency package="org.miktex.MiKTeX" versions="[2.9, 3)"/>
+ </version>
 
     <version name="2.2.2" package="pdfsam64" type="one-file">
   <file path=".Npackd\Install.bat">&#13;
@@ -40185,6 +40232,12 @@ if %err% neq 0 exit %err%&#13;
 </file>
   <url>https://dist.torproject.org/torbrowser/9.0.4/torbrowser-install-9.0.4_en-US.exe</url>
   <hash-sum type="SHA-256">3766d6651c16b149fb9b80e322c82c144c229dd73ed7632d46534d417510660c</hash-sum>
+ </version>
+ <version name="9.0.5" package="tor64" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
+</file>
+  <url>https://dist.torproject.org/torbrowser/9.0.5/torbrowser-install-9.0.5_en-US.exe</url>
+  <hash-sum type="SHA-256">ea3d456bdd2c2735084fa28edb7237389525daf6accc980ff329d3eab5ca7073</hash-sum>
  </version>
 
     <version name="2.84.9" package="transmission-qt64" type="one-file">
