@@ -12063,6 +12063,17 @@ if %err% neq 0 exit %err%&#13;
    <variable>nih</variable>
   </dependency>
  </version>
+ <version name="1.22.2" package="conan64" type="one-file">
+  <cmd-file path="conan\conan.exe"/>
+  <file path=".Npackd\Install.bat">"%nih%\InstallInnoSetup.bat"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">"%nih%\UninstallInnoSetup.bat" unins000.exe</file>
+  <url>https://github.com/conan-io/conan/releases/download/1.22.2/conan-win-64_1_22_2.exe</url>
+  <hash-sum type="SHA-256">85dd695a7388d1d675dfa0e561098ff31b45703e54ee3414a95f5fd3616ed95e</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
 
     <version name="3.1.2" package="cygwin64" type="one-file">
   <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
@@ -13326,6 +13337,14 @@ rmdir "%name%"&#13;
 </file>
   <url>https://github.com/balena-io/etcher/releases/download/v1.5.74/balenaEtcher-Setup-1.5.74.exe</url>
   <hash-sum type="SHA-256">7753cb8809149c58d84b4ceecca967a6e75670043f474a6f08a74f81087029e8</hash-sum>
+ </version>
+ <version name="1.5.77" package="etcher64" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">uninstall.exe /S _?=%CD%&#13;
+</file>
+  <url>https://github.com/balena-io/etcher/releases/download/v1.5.77/balenaEtcher-Setup-1.5.77.exe</url>
+  <hash-sum type="SHA-256">0ee5ae5f7508675cf50f7d94e491adab4e1cf30451551aac215efdf12afdba9a</hash-sum>
  </version>
 
     <version name="1.3.4.686" package="everything64">
@@ -16120,7 +16139,7 @@ if %err% neq 0 exit %err%&#13;
 </file>
   <file path=".Npackd\Uninstall.bat">call "%nih%\UninstallInnoSetup.bat" unins000.exe&#13;
 </file>
-  <url>https://www.imagemagick.org/download/binaries/ImageMagick-7.0.9-24-Q16-x64-dll.exe</url>
+  <url>https://github.com/tim-lebedkov/packages/releases/download/2020_02/imagemagick64-7.0.9.24-ImageMagick-7.0.9-24-Q16-x64-dll.exe</url>
   <hash-sum type="SHA-256">92df5b160b85dd8ea891dcd0628107d1b86060b380b9c16c44e10d647959748e</hash-sum>
   <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
    <variable>nih</variable>
@@ -24154,6 +24173,21 @@ rmdir "%name%"
   <hash-sum type="SHA-256">088e733427132755a1fad94e393dfe9562b76811b05a30968144c978cbb8aa00</hash-sum>
   <dependency package="com.oracle.JRE" versions="[1.5, 2)"/>
  </version>
+ <version name="7.0.100" package="org.apache.tomcat.Tomcat64">
+  <important-file path="bin\startup.bat" title="Start"/>
+  <important-file path="bin\shutdown.bat" title="Stop"/>
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b apache*') do set name=%%x
+cd "%name%"        
+for /f "delims=" %%a in ('dir /b') do (
+  move "%%a" ..
+)
+cd ..
+rmdir "%name%"
+</file>
+  <url>http://archive.apache.org/dist/tomcat/tomcat-7/v7.0.100/bin/apache-tomcat-7.0.100-windows-x64.zip</url>
+  <hash-sum type="SHA-256">3909842f72d91f883cedfcca8fd12b465a31e3fd997f17f0b94c1286e8c0e3dc</hash-sum>
+  <dependency package="com.oracle.JRE" versions="[1.5, 2)"/>
+ </version>
 
     <version name="7.2.10" package="org.areca-backup.ArecaBackup64">
   <important-file path="areca.exe" title="Areca"/>
@@ -25445,6 +25479,17 @@ rmdir "%name%"&#13;
 "%NIH%\ExtractDir.bat" "%name%"</file>
   <url>https://download.blender.org/release/Blender2.81/blender-2.81-windows64.zip</url>
   <hash-sum type="SHA-256">b350533d23b678d870a3e78a2a0e27e952dc7db49ab801f00025a148dea0d2f5</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
+   <variable>NIH</variable>
+  </dependency>
+  <dependency package="com.microsoft.VisualCPPRedistributable64" versions="[9, 10)"/>
+ </version>
+ <version name="2.82" package="org.blender.Blender64">
+  <important-file path="blender.exe" title="Blender"/>
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b blender*') do set name=%%x&#13;
+"%NIH%\ExtractDir.bat" "%name%"</file>
+  <url>https://download.blender.org/release/Blender2.82/blender-2.82-windows64.zip</url>
+  <hash-sum type="SHA-256">cff722fc0eca42eecd7a423b80c830f11c6dcb9ddff09611b335fa8fc207f42e</hash-sum>
   <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
    <variable>NIH</variable>
   </dependency>
