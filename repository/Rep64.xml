@@ -2590,7 +2590,7 @@ x86_64</description>
   <url>https://puppet.com/product/open-source-projects</url>
   <description>declarative, model-based configuration management
 x86_64</description>
-  <icon>https://puppet.com/sites/default/files/favicon.ico</icon>
+  <icon>https://puppet.com/favicon.ico</icon>
   <license>org.apache.ApacheLicense2</license>
   <category>Tools</category>
   <tag>stable64</tag>
@@ -12733,6 +12733,14 @@ if %err% neq 0 exit %err%&#13;
 </file>
   <url>http://dbeaver.jkiss.org/files/6.3.4/dbeaver-ce-6.3.4-x86_64-setup.exe</url>
   <hash-sum type="SHA-256">f80daba5885590504cf08dbd0d21d9a0ca20e779aefe767903e554661b158bc5</hash-sum>
+ </version>
+ <version name="6.3.5" package="dbeaver64" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" /allusers /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">uninstall.exe /allusers /S _?=%CD%&#13;
+</file>
+  <url>http://dbeaver.jkiss.org/files/6.3.5/dbeaver-ce-6.3.5-x86_64-setup.exe</url>
+  <hash-sum type="SHA-256">f977edbb980e20bac57497d39edb1779c5c6c0ec5a0dc1efd9679db744304952</hash-sum>
  </version>
 
     <version name="0.825" package="dcplusplus64">
@@ -30263,6 +30271,14 @@ verify</file>
    <variable>npackdih</variable>
   </dependency>
  </version>
+ <version name="12.16.1" package="org.nodejs.NodeJS64" type="one-file">
+  <file path=".Npackd\Install.bat">call "%npackdih%\InstallMSI.bat" INSTALLDIR yes</file>
+  <url>https://nodejs.org/dist/v12.16.1/node-v12.16.1-x64.msi</url>
+  <hash-sum type="SHA-256">bb70e966062e860e3497b4c5cd490485b722f28ad8eb0abfda7fe91e987c59f1</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.1, 2)">
+   <variable>npackdih</variable>
+  </dependency>
+ </version>
 
     <version name="2.2" package="org.openshot.openshot64" type="one-file">
   <file path=".Npackd\Install.bat">"%nih%\InstallInnoSetup.bat"&#13;
@@ -34627,6 +34643,20 @@ call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Np
    <variable>nih</variable>
   </dependency>
  </version>
+ <version name="8.2.275" package="org.vim.Vim64">
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+if %errorlevel% neq 0 exit /b %errorlevel%&#13;
+&#13;
+for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+</file>
+  <url>https://github.com/vim/vim-win32-installer/releases/download/v8.2.0275/gvim_8.2.0275_x64.zip</url>
+  <hash-sum type="SHA-256">8fbb1562eeb72723f4005308d0422553289ccb54e855fa7e38c71073a0f84ec1</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.19, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
 
     <version name="4.2.8.83876" package="org.virtualbox.virtualbox64" type="one-file">
   <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
@@ -36629,6 +36659,16 @@ echo DesktopShortcut=false &gt;&gt; .Npackd\FF.ini&#13;
   <url>http://relmirror.palemoon.org/release/palemoon-28.7.2.win64.installer.exe</url>
   <hash-sum type="SHA-256">2a331b1804f044a4ffadfc52400c405085c4cadccb1c84d1c4879c7b081b27aa</hash-sum>
  </version>
+ <version name="28.8.3" package="pale-moon64" type="one-file">
+  <file path=".Npackd\Install.bat">echo [Install] &gt; .Npackd\FF.ini&#13;
+echo InstallDirectoryPath=%CD% &gt;&gt; .Npackd\FF.ini&#13;
+echo QuickLaunchShortcut=false &gt;&gt; .Npackd\FF.ini&#13;
+echo DesktopShortcut=false &gt;&gt; .Npackd\FF.ini&#13;
+"%npackd_package_binary%" /INI="%CD%\.Npackd\FF.ini" &amp;&amp; del /f /q "%npackd_package_binary%"</file>
+  <file path=".Npackd\Uninstall.bat">uninstall\helper.exe /S</file>
+  <url>http://relmirror.palemoon.org/release/palemoon-28.8.3.win64.installer.exe</url>
+  <hash-sum type="SHA-256">823a3bd77e82812afa3ff8a6ee9ee31e0a1022d7670e553c52312663f360403d</hash-sum>
+ </version>
 
     <version name="2.2.1" package="pandoc64" type="one-file">
   <file path=".Npackd\Install.bat">call "%nih%\InstallMSI.bat" INSTALLDIR yes&#13;
@@ -37048,7 +37088,7 @@ call "%npackdih%\InstallMSI.bat" TARGETDIR yes</file>
   </dependency>
  </version>
 
-    <version name="7.8" package="postman64" type="one-file">
+    <version name="7.18" package="postman64" type="one-file">
   <file path=".Npackd\Install.bat">ren "%npackd_package_binary%" setup.exe&#13;
 setup.exe &amp;&amp; del /f /q setup.exe&#13;
 </file>
