@@ -22407,8 +22407,6 @@ verify&#13;
   <sha1>8bc93731394d1b710e7f90608f847ecd7bed9a24</sha1>
  </version>
 
-    
-
     <version name="22.0.2" package="open-broadcaster-software64" type="one-file">
   <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
 "%setup%" /S /D=%CD% &amp;&amp; del /f /q "%setup%"&#13;
@@ -37450,100 +37448,7 @@ verify</file>
   <hash-sum type="SHA-256">f826a56d9deca1d673c64e36e7070f01b02de842e0a627b2f12bf28d864fb061</hash-sum>
  </version>
 
-    <version name="3.12.7" package="qcad64" type="one-file">
-  <file path=".Npackd\Install.bat">cscript //Nologo //E:JScript //T:300 //U .Npackd\Install.js&#13;
-&#13;
-</file>
-  <file path=".Npackd\Install.js">try {&#13;
-    var fs = new ActiveXObject("Scripting.FileSystemObject");&#13;
-    var sh = WScript.CreateObject("WScript.Shell");&#13;
-    var lib = eval(fs.OpenTextFile(&#13;
-            sh.ExpandEnvironmentStrings("%NIH%") + "\\Lib.js", 1).ReadAll());&#13;
-    lib.installerHelper = sh.ExpandEnvironmentStrings("%NIH%");&#13;
-&#13;
-    //var before = lib.listRegistryKeys("HKEY_LOCAL_MACHINE\\SOFTWARE\\Wow6432Node\\Microsoft\\Windows\\CurrentVersion\\Uninstall");&#13;
-    lib.exec(lib.findFile(".", /\.exe$/i) + " /S /D=" + sh.currentDirectory);&#13;
-    //var after = lib.listRegistryKeys("HKEY_LOCAL_MACHINE\\SOFTWARE\\Wow6432Node\\Microsoft\\Windows\\CurrentVersion\\Uninstall");&#13;
-    //WScript.Echo("Difference: " + before.length + " " + after.length + " " + lib.subArrays(after, before)[0]);&#13;
-    var c = sh.RegRead("HKEY_LOCAL_MACHINE\\SOFTWARE\\Wow6432Node\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\QCAD\\UninstallString");&#13;
-    var ts = fs.CreateTextFile(".Npackd\\Uninstall.bat", true, false);&#13;
-    ts.WriteLine("\"" + c + "\"");&#13;
-    ts.Close();&#13;
-} catch (e) {&#13;
-    WScript.Echo(e.name + ": " + e.message);&#13;
-    WScript.Echo(e.number + ": " + e.description);&#13;
-    WScript.Quit(1);&#13;
-}&#13;
-</file>
-  <url>http://www.qcad.org/archives/qcad/qcad-3.12.7-win64-installer.exe</url>
-  <sha1>16ea0ec36abf931736712db0f212912402771371</sha1>
-  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.15, 2)">
-   <variable>NIH</variable>
-  </dependency>
- </version>
- <version name="3.14.2" package="qcad64" type="one-file">
-  <file path=".Npackd\Install.bat">cscript //Nologo //E:JScript //T:300 //U .Npackd\Install.js&#13;
-&#13;
-</file>
-  <file path=".Npackd\Install.js">try {&#13;
-    var fs = new ActiveXObject("Scripting.FileSystemObject");&#13;
-    var sh = WScript.CreateObject("WScript.Shell");&#13;
-    var lib = eval(fs.OpenTextFile(&#13;
-            sh.ExpandEnvironmentStrings("%NIH%") + "\\Lib.js", 1).ReadAll());&#13;
-    lib.installerHelper = sh.ExpandEnvironmentStrings("%NIH%");&#13;
-&#13;
-    //var before = lib.listRegistryKeys("HKEY_LOCAL_MACHINE\\SOFTWARE\\Wow6432Node\\Microsoft\\Windows\\CurrentVersion\\Uninstall");&#13;
-    lib.exec(lib.findFile(".", /\.exe$/i) + " /S /D=" + sh.currentDirectory);&#13;
-    //var after = lib.listRegistryKeys("HKEY_LOCAL_MACHINE\\SOFTWARE\\Wow6432Node\\Microsoft\\Windows\\CurrentVersion\\Uninstall");&#13;
-    //WScript.Echo("Difference: " + before.length + " " + after.length + " " + lib.subArrays(after, before)[0]);&#13;
-    var c = sh.RegRead("HKEY_LOCAL_MACHINE\\SOFTWARE\\Wow6432Node\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\QCAD\\UninstallString");&#13;
-    var ts = fs.CreateTextFile(".Npackd\\Uninstall.bat", true, false);&#13;
-    ts.WriteLine("\"" + c + "\"");&#13;
-    ts.Close();&#13;
-} catch (e) {&#13;
-    WScript.Echo(e.name + ": " + e.message);&#13;
-    WScript.Echo(e.number + ": " + e.description);&#13;
-    WScript.Quit(1);&#13;
-}&#13;
-</file>
-  <url>http://www.qcad.org/archives/qcad/qcad-3.14.2-win64-installer.exe</url>
-  <sha1>e83ae11f10c7be56300d9742d99501d6dce6002e</sha1>
-  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.15, 2)">
-   <variable>NIH</variable>
-  </dependency>
- </version>
- <version name="3.15.4" package="qcad64" type="one-file">
-  <file path=".Npackd\Install.bat">cscript //Nologo //E:JScript //T:300 //U .Npackd\Install.js&#13;
-&#13;
-</file>
-  <file path=".Npackd\Install.js">try {&#13;
-    var fs = new ActiveXObject("Scripting.FileSystemObject");&#13;
-    var sh = WScript.CreateObject("WScript.Shell");&#13;
-    var lib = eval(fs.OpenTextFile(&#13;
-            sh.ExpandEnvironmentStrings("%NIH%") + "\\Lib.js", 1).ReadAll());&#13;
-    lib.installerHelper = sh.ExpandEnvironmentStrings("%NIH%");&#13;
-&#13;
-    //var before = lib.listRegistryKeys("HKEY_LOCAL_MACHINE\\SOFTWARE\\Wow6432Node\\Microsoft\\Windows\\CurrentVersion\\Uninstall");&#13;
-    lib.exec(lib.findFile(".", /\.exe$/i) + " /S /D=" + sh.currentDirectory);&#13;
-    //var after = lib.listRegistryKeys("HKEY_LOCAL_MACHINE\\SOFTWARE\\Wow6432Node\\Microsoft\\Windows\\CurrentVersion\\Uninstall");&#13;
-    //WScript.Echo("Difference: " + before.length + " " + after.length + " " + lib.subArrays(after, before)[0]);&#13;
-    var c = sh.RegRead("HKEY_LOCAL_MACHINE\\SOFTWARE\\Wow6432Node\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\QCAD\\UninstallString");&#13;
-    var ts = fs.CreateTextFile(".Npackd\\Uninstall.bat", true, false);&#13;
-    ts.WriteLine("\"" + c + "\"");&#13;
-    ts.Close();&#13;
-} catch (e) {&#13;
-    WScript.Echo(e.name + ": " + e.message);&#13;
-    WScript.Echo(e.number + ": " + e.description);&#13;
-    WScript.Quit(1);&#13;
-}&#13;
-</file>
-  <url>http://www.qcad.org/archives/qcad/qcad-3.15.4-win64-installer.exe</url>
-  <sha1>1c5357da90de0434c768346a26100c8702fbda5f</sha1>
-  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.15, 2)">
-   <variable>NIH</variable>
-  </dependency>
- </version>
- <version name="3.15.5" package="qcad64" type="one-file">
+    <version name="3.15.5" package="qcad64" type="one-file">
   <file path=".Npackd\Install.bat">cscript //Nologo //E:JScript //T:300 //U .Npackd\Install.js&#13;
 &#13;
 </file>
