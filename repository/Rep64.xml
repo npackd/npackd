@@ -5770,6 +5770,15 @@ call "%npackdih%\InstallMSI.bat" APPLICATIONFOLDER yes&#13;
    <variable>npackdih</variable>
   </dependency>
  </version>
+ <version name="4.11.2" package="com.calibreebook.Calibre64" type="one-file">
+  <file path=".Npackd\Install.bat">call "%npackdih%\InstallMSI.bat" APPLICATIONFOLDER yes&#13;
+</file>
+  <url>https://download.calibre-ebook.com/4.11.2/calibre-64bit-4.11.2.msi</url>
+  <hash-sum type="SHA-256">39fc80dd3f4c4428d44262885c418de6957e551796fe6fcbfb86668829c3acfa</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.2, 2)">
+   <variable>npackdih</variable>
+  </dependency>
+ </version>
 
     <version name="5.12.256249.2599" package="com.comodo.comodoav64" type="one-file">
   <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.msi') do set setup=%%x&#13;
@@ -31184,6 +31193,15 @@ if %err% neq 0 exit /b %err%&#13;
   <url>https://www.python.org/ftp/python/3.8.1/python-3.8.1-amd64.exe</url>
   <hash-sum type="SHA-256">bebc242c11b8d83d8671c7b8e047e64dd78f7ae9aef29613b9ee176bf8e35367</hash-sum>
  </version>
+ <version name="3.8.2" package="org.python.Python64" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" /quiet InstallAllUsers=1 "TargetDir=%cd%"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">for /f "delims=" %%x in ('dir /b python-*.exe') do set setup=%%x&#13;
+%setup% /uninstall /quiet InstallAllUsers=1&#13;
+</file>
+  <url>https://www.python.org/ftp/python/3.8.2/python-3.8.2-amd64.exe</url>
+  <hash-sum type="SHA-256">8e400e3f32cdcb746e62e0db4d3ae4cba1f927141ebc4d0d5a4006b0daee8921</hash-sum>
+ </version>
 
     <version name="2.0.0.247" package="org.rubylang.Ruby64" type="one-file">
   <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
@@ -36255,6 +36273,41 @@ if %err% neq 0 exit %err%</file>
    <variable>sevenzip</variable>
   </dependency>
  </version>
+ <version name="6.1.4.136177" package="org.virtualbox.virtualbox64" type="one-file">
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
+"%setup%" -x -s -p "%CD%"&#13;
+&#13;
+&#13;
+"%sevenzip%\7z.exe" x common.cab -aos -o"%CD%\common"&#13;
+"%sevenzip%\7z.exe" x "%CD%\common\file_VBoxGuestAdditions.iso" -aos -o"%CD%\common\file_VBoxGuestAdditions"&#13;
+&#13;
+certutil.exe -addstore -f "TrustedPublisher" "%CD%\common\file_VBoxGuestAdditions\cert\oracle-vbox.cer" &gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+&#13;
+for /f "delims=" %%x in ('dir /b *MultiArch_amd64.msi') do set setup=%%x&#13;
+msiexec.exe /qn /norestart /Lime .Npackd\MSI.log /i "%setup%"&#13;
+set err=%errorlevel%&#13;
+type .Npackd\MSI.log&#13;
+rem 3010=restart required&#13;
+if %err% equ 3010 exit 0&#13;
+if %err% neq 0 exit %err%&#13;
+&#13;
+for /f "delims=" %%x in ('dir /b *MultiArch_x86.msi') do set trash=%%x&#13;
+del /q /f "%trash%"&#13;
+&#13;
+if exist "%CD%\common" (rd /s /q "%CD%\common")</file>
+  <file path=".Npackd\Uninstall.bat">for /f "delims=" %%x in ('dir /b *.msi') do set setup=%%x&#13;
+msiexec.exe /qn /norestart /Lime .Npackd\MSI.log /x "%setup%"&#13;
+set err=%errorlevel%&#13;
+type .Npackd\MSI.log&#13;
+rem 3010=restart required&#13;
+if %err% equ 3010 exit 0&#13;
+if %err% neq 0 exit %err%</file>
+  <url>http://download.virtualbox.org/virtualbox/6.1.4/VirtualBox-6.1.4-136177-Win.exe</url>
+  <hash-sum type="SHA-256">66218bcdb4f118e7b5d50e1804e5ec7e0b26d20976415b56992ffb0143b8fa7c</hash-sum>
+  <dependency package="org.7-zip.SevenZIP64" versions="[9.20, 20)">
+   <variable>sevenzip</variable>
+  </dependency>
+ </version>
 
     <version name="1.9.11" package="org.virtualdub.VirtualDub64">
   <important-file path="Veedub64.exe" title="VirtualDub"/>
@@ -37565,51 +37618,7 @@ verify</file>
   <hash-sum type="SHA-256">f826a56d9deca1d673c64e36e7070f01b02de842e0a627b2f12bf28d864fb061</hash-sum>
  </version>
 
-    <version name="3.15.5" package="qcad64" type="one-file">
-  <file path=".Npackd\Install.bat">cscript //Nologo //E:JScript //T:300 //U .Npackd\Install.js&#13;
-&#13;
-</file>
-  <file path=".Npackd\Install.js">try {&#13;
-    var fs = new ActiveXObject("Scripting.FileSystemObject");&#13;
-    var sh = WScript.CreateObject("WScript.Shell");&#13;
-    var lib = eval(fs.OpenTextFile(&#13;
-            sh.ExpandEnvironmentStrings("%NIH%") + "\\Lib.js", 1).ReadAll());&#13;
-    lib.installerHelper = sh.ExpandEnvironmentStrings("%NIH%");&#13;
-&#13;
-    //var before = lib.listRegistryKeys("HKEY_LOCAL_MACHINE\\SOFTWARE\\Wow6432Node\\Microsoft\\Windows\\CurrentVersion\\Uninstall");&#13;
-    lib.exec(lib.findFile(".", /\.exe$/i) + " /S /D=" + sh.currentDirectory);&#13;
-    //var after = lib.listRegistryKeys("HKEY_LOCAL_MACHINE\\SOFTWARE\\Wow6432Node\\Microsoft\\Windows\\CurrentVersion\\Uninstall");&#13;
-    //WScript.Echo("Difference: " + before.length + " " + after.length + " " + lib.subArrays(after, before)[0]);&#13;
-    var c = sh.RegRead("HKEY_LOCAL_MACHINE\\SOFTWARE\\Wow6432Node\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\QCAD\\UninstallString");&#13;
-    var ts = fs.CreateTextFile(".Npackd\\Uninstall.bat", true, false);&#13;
-    ts.WriteLine("\"" + c + "\"");&#13;
-    ts.Close();&#13;
-} catch (e) {&#13;
-    WScript.Echo(e.name + ": " + e.message);&#13;
-    WScript.Echo(e.number + ": " + e.description);&#13;
-    WScript.Quit(1);&#13;
-}&#13;
-</file>
-  <url>http://www.qcad.org/archives/qcad/qcad-3.15.5-win64-installer.exe</url>
-  <sha1>952e7cb53b7186de29a22294ca91540ef19b83e8</sha1>
-  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.15, 2)">
-   <variable>NIH</variable>
-  </dependency>
- </version>
- <version name="3.16.4" package="qcad64" type="one-file">
-  <url>http://www.qcad.org/archives/qcad/qcad-3.16.4-trial-win64-installer.msi</url>
-  <sha1>6da94d946d1e79fd948ed8c372e5f8e2a5c559c1</sha1>
- </version>
- <version name="3.17.1" package="qcad64" type="one-file">
-  <file path=".Npackd\Install.bat">call "%nih%\InstallMSI.bat" INSTALLDIR yes&#13;
-</file>
-  <url>http://www.qcad.org/archives/qcad/qcad-3.17.1-trial-win64-installer.msi</url>
-  <sha1>bcba4a6d921f4b8be59734184474fcd074a05e5d</sha1>
-  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.1, 2)">
-   <variable>nih</variable>
-  </dependency>
- </version>
- <version name="3.17.3" package="qcad64" type="one-file">
+    <version name="3.17.3" package="qcad64" type="one-file">
   <file path=".Npackd\Install.bat">call "%nih%\InstallMSI.bat" INSTALLDIR yes&#13;
 </file>
   <url>http://www.qcad.org/archives/qcad/qcad-3.17.3-trial-win64-installer.msi</url>
@@ -40659,6 +40668,14 @@ if %err% neq 0 exit %err%&#13;
   <url>http://files.first-world.info/ultracopier/2.2.0.9/ultracopier-windows-x86_64-2.2.0.9-setup.exe</url>
   <hash-sum type="SHA-256">924c6de8b848e70aa55f188c890f9d1b8853c9f2212bad77936a0934a3e01e8d</hash-sum>
  </version>
+ <version name="2.2.3.2" package="ultracopier64" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">uninst.exe /S _?=%CD%&#13;
+</file>
+  <url>http://files.first-world.info/ultracopier/2.2.3.2/ultracopier-windows-x86_64-2.2.3.2-setup.exe</url>
+  <hash-sum type="SHA-256">668c41a48e60a91a078ce6b7d0f528fcda5d544c2e2763fecaffcb2ce079ce19</hash-sum>
+ </version>
 
     <version name="2.0.1" package="vagrant64" type="one-file">
   <file path=".Npackd\Install.bat">call "%nih%\InstallMSI.bat" INSTALLDIR yes&#13;
@@ -41258,6 +41275,18 @@ if %err% neq 0 exit /b %err%&#13;
 </file>
   <url>https://downloads.vivaldi.com/stable/Vivaldi.2.10.1745.27.x64.exe</url>
   <hash-sum type="SHA-256">d81f72c42f0d3eaf721c5c4bf7aadd6c9249765636ef8b8da3f1904ec03e2c33</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.24, 2)">
+   <variable>ncl</variable>
+  </dependency>
+ </version>
+ <version name="2.11.1811.41" package="vivaldi-browser-64" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" --vivaldi-standalone --do-not-launch-chrome --vivaldi-install-dir="%CD%" &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
+&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">"%ncl%\ncl.exe" remove-scp --title "vivaldi-browser-64"&#13;
+</file>
+  <url>https://downloads.vivaldi.com/stable/Vivaldi.2.11.1811.41.x64.exe</url>
+  <hash-sum type="SHA-256">1f8d6b550a4185b7a00b1d2168e758cd6721deb8eaac40f2ff3e771033b3decc</hash-sum>
   <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.24, 2)">
    <variable>ncl</variable>
   </dependency>
