@@ -3308,7 +3308,7 @@ x86_64</description>
 </file>
   <file path=".Npackd\Uninstall.bat">uninstall.exe /S&#13;
 </file>
-  <url>https://apps.ankiweb.net/downloads/current/anki-2.1.20-windows.exe</url>
+  <url>https://github.com/tim-lebedkov/packages/releases/download/2020_03/anki64-2.1.20-anki-2.1.20-windows.exe</url>
   <hash-sum type="SHA-256">4e11850c3208e4a0d71d71ad5381d74ca87233ca5f69b9e09f8763af9228b660</hash-sum>
  </version>
 
@@ -14843,7 +14843,7 @@ if %err% neq 0 exit %err%&#13;
   <hash-sum type="SHA-256">9242bff87f2c3ffb560c74b43fd0525adcec86d6092eaeeb5fc271b0d086b924</hash-sum>
  </version>
 
-    <version name="80.0.3987.122" package="google-chrome-x64" type="one-file">
+    <version name="80.0.3987.132" package="google-chrome-x64" type="one-file">
   <file path=".Npackd\Install.bat">call "%npackdih%\InstallMSI.bat" TARGETDIR yes&#13;
 </file>
   <url>https://dl.google.com/tag/s/appguid%3D%7B8A69D345-D564-463C-AFF1-A69D9E530F96%7D%26iid%3D%7B0A558A36-0536-8B3F-0AE0-420553CC97F3%7D%26lang%3Den%26browser%3D4%26usagestats%3D0%26appname%3DGoogle%2520Chrome%26needsadmin%3DFalse/edgedl/chrome/install/GoogleChromeStandaloneEnterprise64.msi</url>
@@ -17431,6 +17431,15 @@ call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Np
   </dependency>
   <dependency package="com.oracle.JRE" versions="[1.6, 2)"/>
  </version>
+ <version name="6.4.1" package="libreoffice64" type="one-file">
+  <file path=".Npackd\Install.bat">call "%npackdih%\InstallMSI.bat" INSTALLLOCATION yes</file>
+  <url>https://download.documentfoundation.org/libreoffice/stable/6.4.1/win/x86_64/LibreOffice_6.4.1_Win_x64.msi</url>
+  <hash-sum type="SHA-256">bb649638229128543e73999f07aa39941907632d300cfc5eb014fe2b2472b3c5</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.1, 2)">
+   <variable>npackdih</variable>
+  </dependency>
+  <dependency package="com.oracle.JRE" versions="[1.6, 2)"/>
+ </version>
 
     <version name="12.6" package="lightworks64" type="one-file">
   <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
@@ -19191,6 +19200,19 @@ rmdir "%name%"&#13;
   <hash-sum type="SHA-256">8de4bd26c474886927ad8756edd6a3f7c42bce3dbc34af20abdc1bea8906fb34</hash-sum>
  </version>
  <version name="4.3.3" package="mtuner">
+  <important-file path="MTuner.exe" title="MTuner"/>
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b MTuner*') do set name=%%x&#13;
+cd "%name%"&#13;
+for /f "delims=" %%a in ('dir /b') do (&#13;
+  move "%%a" ..&#13;
+)&#13;
+cd ..&#13;
+rmdir "%name%"&#13;
+</file>
+  <url>https://github.com/milostosic/MTuner/releases/download/v4.2.9/mtuner64.zip</url>
+  <hash-sum type="SHA-256">8de4bd26c474886927ad8756edd6a3f7c42bce3dbc34af20abdc1bea8906fb34</hash-sum>
+ </version>
+ <version name="4.3.4" package="mtuner">
   <important-file path="MTuner.exe" title="MTuner"/>
   <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b MTuner*') do set name=%%x&#13;
 cd "%name%"&#13;
@@ -36499,6 +36521,14 @@ if %err% neq 0 exit %err%</file>
 </file>
   <url>https://1.eu.dl.wireshark.org/win64/Wireshark-win64-3.2.1.exe</url>
   <hash-sum type="SHA-256">7c69778b9f35fa5335dc5b8e6e1cbbe2e18a7fdfe77b47edb7402206c93ee5d4</hash-sum>
+ </version>
+ <version name="3.2.2" package="org.wireshark.Wireshark64" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD%&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">uninstall.exe /S _=%CD%&#13;
+</file>
+  <url>https://1.eu.dl.wireshark.org/win64/Wireshark-win64-3.2.2.exe</url>
+  <hash-sum type="SHA-256">cc9b49c696219cc093debaae11febeb546b2a508f41150b983ae0af6954c0512</hash-sum>
  </version>
 
     <version name="26.0.3" package="pale-moon64" type="one-file">
