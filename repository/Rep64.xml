@@ -12780,6 +12780,14 @@ if %err% neq 0 exit %err%&#13;
   <url>http://dbeaver.jkiss.org/files/6.3.5/dbeaver-ce-6.3.5-x86_64-setup.exe</url>
   <hash-sum type="SHA-256">f977edbb980e20bac57497d39edb1779c5c6c0ec5a0dc1efd9679db744304952</hash-sum>
  </version>
+ <version name="7" package="dbeaver64" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" /allusers /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">uninstall.exe /allusers /S _?=%CD%&#13;
+</file>
+  <url>http://dbeaver.jkiss.org/files/7.0.0/dbeaver-ce-7.0.0-x86_64-setup.exe</url>
+  <hash-sum type="SHA-256">5a69b3aefb25929c9b0eee11507148686ba01bdbaa33c093cbec46e1fe48f0c8</hash-sum>
+ </version>
 
     <version name="0.825" package="dcplusplus64">
   <important-file path="DCPlusPlus.exe" title="DC++"/>
@@ -13440,6 +13448,11 @@ rmdir "%name%"&#13;
   <important-file path="Everything.exe" title="Everything"/>
   <url>http://www.voidtools.com/Everything-1.4.1.935.x64.zip</url>
   <hash-sum type="SHA-256">e6e4524d55745d55e1672893304257c45f106bbe63718a8e6568e8cfd63ba571</hash-sum>
+ </version>
+ <version name="1.4.1.965" package="everything64">
+  <important-file path="Everything.exe" title="Everything"/>
+  <url>http://www.voidtools.com/Everything-1.4.1.965.x64.zip</url>
+  <hash-sum type="SHA-256">b2afe2fd0c239ac9688f5897b096823293cc38c1f629ee2d39b3230c2be3e792</hash-sum>
  </version>
 
     <version name="3.0.3525" package="far-manager64" type="one-file">
@@ -15450,6 +15463,19 @@ rmdir "%name%"&#13;
   <hash-sum type="SHA-256">fae86285f666b5d71cff80ca04bf4ded92e99feb7c13331cdc328dfd4a6b4a21</hash-sum>
   <dependency package="org.python.Python" versions="[2.7, 2.8)"/>
  </version>
+ <version name="283" package="google-cloud-sdk64">
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b google-cloud-sdk*') do set name=%%x&#13;
+cd "%name%"&#13;
+for /f "delims=" %%a in ('dir /b') do (&#13;
+  move "%%a" ..&#13;
+)&#13;
+cd ..&#13;
+rmdir "%name%"&#13;
+</file>
+  <url>https://dl.google.com/dl/cloudsdk/channels/rapid/downloads/google-cloud-sdk-283.0.0-windows-x86_64.zip</url>
+  <hash-sum type="SHA-256">87603d6bd183979bf907e96139dc4e988999db09a5d0a4e44efac05e71ba3440</hash-sum>
+  <dependency package="org.python.Python" versions="[2.7, 2.8)"/>
+ </version>
 
     <version name="1.1.94" package="grisbi64" type="one-file">
   <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
@@ -16232,6 +16258,17 @@ if %err% neq 0 exit %err%&#13;
 </file>
   <url>https://github.com/tim-lebedkov/packages/releases/download/2020_02/imagemagick64-7.0.9.26-ImageMagick-7.0.9-26-Q16-x64-dll.exe</url>
   <hash-sum type="SHA-256">731927a2310b620bf5a44b2d779b04cbcea697bd5a2ac8fd9a58cd08c5c0e3c4</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
+ <version name="7.0.9.27" package="imagemagick64" type="one-file">
+  <file path=".Npackd\Install.bat">call "%nih%\InstallInnoSetup.bat"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">call "%nih%\UninstallInnoSetup.bat" unins000.exe&#13;
+</file>
+  <url>https://www.imagemagick.org/download/binaries/ImageMagick-7.0.9-27-Q16-x64-dll.exe</url>
+  <hash-sum type="SHA-256">121b5f5f51f020eb0b840ebde2d918e30e6e0d983fe642747542cd00641623a9</hash-sum>
   <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
    <variable>nih</variable>
   </dependency>
@@ -30555,6 +30592,16 @@ verify</file>
    <variable>nih</variable>
   </dependency>
  </version>
+ <version name="2.5.1" package="org.openshot.openshot64" type="one-file">
+  <file path=".Npackd\Install.bat">"%nih%\InstallInnoSetup.bat"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">"%nih%\UninstallInnoSetup.bat" unins000.exe</file>
+  <url>https://github.com/OpenShot/openshot-qt/releases/download/v2.5.1/OpenShot-v2.5.1-x86_64.exe</url>
+  <hash-sum type="SHA-256">cb9b7ea7b72d8147b85d0f881de819e4f81092f6cac605be2e61753da6dc9026</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
 
     <version name="2.7" package="org.owasp.zap64" type="one-file">
   <file path=".Npackd\customdir.varfile">sys.installationDir=C\:\\Program Files\\ZAP_64_bit</file>
@@ -34887,6 +34934,20 @@ call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Np
    <variable>nih</variable>
   </dependency>
  </version>
+ <version name="8.2.352" package="org.vim.Vim64">
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+if %errorlevel% neq 0 exit /b %errorlevel%&#13;
+&#13;
+for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+</file>
+  <url>https://github.com/vim/vim-win32-installer/releases/download/v8.2.0352/gvim_8.2.0352_x64.zip</url>
+  <hash-sum type="SHA-256">83885d997c9db982a3221b9333a169a388bfd61164128c143f840063bb8cd817</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.19, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
 
     <version name="4.2.8.83876" package="org.virtualbox.virtualbox64" type="one-file">
   <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
@@ -36942,6 +37003,16 @@ echo DesktopShortcut=false &gt;&gt; .Npackd\FF.ini&#13;
   <url>http://relmirror.palemoon.org/release/palemoon-28.8.3.win64.installer.exe</url>
   <hash-sum type="SHA-256">823a3bd77e82812afa3ff8a6ee9ee31e0a1022d7670e553c52312663f360403d</hash-sum>
  </version>
+ <version name="28.8.4" package="pale-moon64" type="one-file">
+  <file path=".Npackd\Install.bat">echo [Install] &gt; .Npackd\FF.ini&#13;
+echo InstallDirectoryPath=%CD% &gt;&gt; .Npackd\FF.ini&#13;
+echo QuickLaunchShortcut=false &gt;&gt; .Npackd\FF.ini&#13;
+echo DesktopShortcut=false &gt;&gt; .Npackd\FF.ini&#13;
+"%npackd_package_binary%" /INI="%CD%\.Npackd\FF.ini" &amp;&amp; del /f /q "%npackd_package_binary%"</file>
+  <file path=".Npackd\Uninstall.bat">uninstall\helper.exe /S</file>
+  <url>http://relmirror.palemoon.org/release/palemoon-28.8.4.win64.installer.exe</url>
+  <hash-sum type="SHA-256">e8d2c779ff4b1d32f37584c6ad0310feb78508b8a0fca473654802255eb6e99b</hash-sum>
+ </version>
 
     <version name="2.2.1" package="pandoc64" type="one-file">
   <file path=".Npackd\Install.bat">call "%nih%\InstallMSI.bat" INSTALLDIR yes&#13;
@@ -37676,34 +37747,7 @@ verify</file>
   <hash-sum type="SHA-256">f826a56d9deca1d673c64e36e7070f01b02de842e0a627b2f12bf28d864fb061</hash-sum>
  </version>
 
-    <version name="3.21.1" package="qcad64" type="one-file">
-  <file path=".Npackd\Install.bat">call "%nih%\InstallMSI.bat" INSTALLDIR yes&#13;
-</file>
-  <url>http://www.qcad.org/archives/qcad/qcad-3.21.1-trial-win64-installer.msi</url>
-  <hash-sum type="SHA-256">6f46d4aea48171ab12d751a04faa08595cdb90dcc67d50f1a60d1a81e7c8674a</hash-sum>
-  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.1, 2)">
-   <variable>nih</variable>
-  </dependency>
- </version>
- <version name="3.21.2" package="qcad64" type="one-file">
-  <file path=".Npackd\Install.bat">call "%nih%\InstallMSI.bat" INSTALLDIR yes&#13;
-</file>
-  <url>http://www.qcad.org/archives/qcad/qcad-3.21.2-trial-win64-installer.msi</url>
-  <hash-sum type="SHA-256">381684b1e92c9aec1e56711ff7ed9fbb7f2b5f4a85f2dcbfe4b1e52fb49dd068</hash-sum>
-  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.1, 2)">
-   <variable>nih</variable>
-  </dependency>
- </version>
- <version name="3.21.3" package="qcad64" type="one-file">
-  <file path=".Npackd\Install.bat">call "%nih%\InstallMSI.bat" INSTALLDIR yes&#13;
-</file>
-  <url>http://www.qcad.org/archives/qcad/qcad-3.21.3-trial-win64-installer.msi</url>
-  <hash-sum type="SHA-256">fa6c6ccd6b0bce7bf2122b91b3570cf61422a99fb57cf91851f53b686fb45660</hash-sum>
-  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.1, 2)">
-   <variable>nih</variable>
-  </dependency>
- </version>
- <version name="3.22" package="qcad64" type="one-file">
+    <version name="3.22" package="qcad64" type="one-file">
   <file path=".Npackd\Install.bat">call "%nih%\InstallMSI.bat" INSTALLDIR yes&#13;
 </file>
   <url>http://www.qcad.org/archives/qcad/qcad-3.22.0-trial-win64-installer.msi</url>
