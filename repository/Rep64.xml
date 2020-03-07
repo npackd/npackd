@@ -6755,6 +6755,16 @@ call "%npackdih%\InstallMSI.bat" INSTALLDIR yes&#13;
    <variable>npackdih</variable>
   </dependency>
  </version>
+ <version name="2.10" package="com.googlecode.tortoisegit.TortoiseGit64" type="one-file">
+  <file path=".Npackd\Install.bat">call "%npackdih%\InstallMSI.bat" INSTALLDIR yes&#13;
+</file>
+  <url>https://download.tortoisegit.org/tgit/2.10.0.0/TortoiseGit-2.10.0.0-64bit.msi</url>
+  <hash-sum type="SHA-256">bf7ae25b89502cef6e5f5f75b81cab88e534c3e8c5d7f502970ae8326a5db8f4</hash-sum>
+  <dependency package="git64" versions="[1.7.6.2011.7.8, 3)"/>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3.1, 2)">
+   <variable>npackdih</variable>
+  </dependency>
+ </version>
 
     <version name="1.18.7" package="com.googlecode.windows-package-manager.Npackd64">
   <important-file path="npackdg.exe" title="Npackd"/>
@@ -16267,7 +16277,7 @@ if %err% neq 0 exit %err%&#13;
 </file>
   <file path=".Npackd\Uninstall.bat">call "%nih%\UninstallInnoSetup.bat" unins000.exe&#13;
 </file>
-  <url>https://www.imagemagick.org/download/binaries/ImageMagick-7.0.9-27-Q16-x64-dll.exe</url>
+  <url>https://github.com/tim-lebedkov/packages/releases/download/2020_03/imagemagick64-7.0.9.27-ImageMagick-7.0.9-27-Q16-x64-dll.exe</url>
   <hash-sum type="SHA-256">121b5f5f51f020eb0b840ebde2d918e30e6e0d983fe642747542cd00641623a9</hash-sum>
   <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
    <variable>nih</variable>
@@ -37747,25 +37757,7 @@ verify</file>
   <hash-sum type="SHA-256">f826a56d9deca1d673c64e36e7070f01b02de842e0a627b2f12bf28d864fb061</hash-sum>
  </version>
 
-    <version name="3.22" package="qcad64" type="one-file">
-  <file path=".Npackd\Install.bat">call "%nih%\InstallMSI.bat" INSTALLDIR yes&#13;
-</file>
-  <url>http://www.qcad.org/archives/qcad/qcad-3.22.0-trial-win64-installer.msi</url>
-  <hash-sum type="SHA-256">fbb89c29825e14cac1fa21fd267c00c0c697f6d698ef7bcf339c7ae210a73bc4</hash-sum>
-  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.1, 2)">
-   <variable>nih</variable>
-  </dependency>
- </version>
- <version name="3.22.1" package="qcad64" type="one-file">
-  <file path=".Npackd\Install.bat">call "%nih%\InstallMSI.bat" INSTALLDIR yes&#13;
-</file>
-  <url>http://www.qcad.org/archives/qcad/qcad-3.22.1-trial-win64-installer.msi</url>
-  <hash-sum type="SHA-256">8d7bf9fa6e51465f6ecbea7976fb28df96d7f08e99a7fb26372b9858cf46dcd5</hash-sum>
-  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.1, 2)">
-   <variable>nih</variable>
-  </dependency>
- </version>
- <version name="3.23" package="qcad64" type="one-file">
+    <version name="3.23" package="qcad64" type="one-file">
   <file path=".Npackd\Install.bat">call "%nih%\InstallMSI.bat" INSTALLDIR yes&#13;
 </file>
   <url>http://www.qcad.org/archives/qcad/qcad-3.23.0-trial-win64-installer.msi</url>
@@ -41327,6 +41319,18 @@ if %err% neq 0 exit /b %err%&#13;
    <variable>ncl</variable>
   </dependency>
  </version>
+ <version name="2.11.1811.38" package="vivaldi-browser-64" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" --vivaldi-standalone --do-not-launch-chrome --vivaldi-install-dir="%CD%" &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
+&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">"%ncl%\ncl.exe" remove-scp --title "vivaldi-browser-64"&#13;
+</file>
+  <url>https://downloads.vivaldi.com/stable/Vivaldi.2.11.1811.38.x64.exe</url>
+  <hash-sum type="SHA-256">cfa4380ceb45326e28219d21c9944cbc06db3f32e8f5710316fbcae1e7e49312</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.24, 2)">
+   <variable>ncl</variable>
+  </dependency>
+ </version>
  <version name="2.11.1811.41" package="vivaldi-browser-64" type="one-file">
   <file path=".Npackd\Install.bat">"%npackd_package_binary%" --vivaldi-standalone --do-not-launch-chrome --vivaldi-install-dir="%CD%" &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
 &#13;
@@ -41335,6 +41339,18 @@ if %err% neq 0 exit /b %err%&#13;
 </file>
   <url>https://downloads.vivaldi.com/stable/Vivaldi.2.11.1811.41.x64.exe</url>
   <hash-sum type="SHA-256">1f8d6b550a4185b7a00b1d2168e758cd6721deb8eaac40f2ff3e771033b3decc</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.24, 2)">
+   <variable>ncl</variable>
+  </dependency>
+ </version>
+ <version name="2.11.1811.44" package="vivaldi-browser-64" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" --vivaldi-standalone --do-not-launch-chrome --vivaldi-install-dir="%CD%" &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
+&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">"%ncl%\ncl.exe" remove-scp --title "vivaldi-browser-64"&#13;
+</file>
+  <url>https://downloads.vivaldi.com/stable/Vivaldi.2.11.1811.44.x64.exe</url>
+  <hash-sum type="SHA-256">fd90c082763d328a8638bc1f2607d8446acd3eb47ae4a572322d06f2136d6647</hash-sum>
   <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.24, 2)">
    <variable>ncl</variable>
   </dependency>
