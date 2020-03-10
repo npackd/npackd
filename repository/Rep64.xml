@@ -12111,6 +12111,17 @@ if %err% neq 0 exit %err%&#13;
    <variable>nih</variable>
   </dependency>
  </version>
+ <version name="1.22.1" package="conan64" type="one-file">
+  <cmd-file path="conan\conan.exe"/>
+  <file path=".Npackd\Install.bat">"%nih%\InstallInnoSetup.bat"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">"%nih%\UninstallInnoSetup.bat" unins000.exe</file>
+  <url>https://github.com/conan-io/conan/releases/download/1.22.1/conan-win-64_1_22_1.exe</url>
+  <hash-sum type="SHA-256">c722e5da8653e741ab245b18f40aee84db0d805e55dd68b12ff12753f0af4d8f</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
  <version name="1.22.2" package="conan64" type="one-file">
   <cmd-file path="conan\conan.exe"/>
   <file path=".Npackd\Install.bat">"%nih%\InstallInnoSetup.bat"&#13;
@@ -13401,6 +13412,14 @@ rmdir "%name%"&#13;
 </file>
   <url>https://github.com/balena-io/etcher/releases/download/v1.5.74/balenaEtcher-Setup-1.5.74.exe</url>
   <hash-sum type="SHA-256">7753cb8809149c58d84b4ceecca967a6e75670043f474a6f08a74f81087029e8</hash-sum>
+ </version>
+ <version name="1.5.76" package="etcher64" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">uninstall.exe /S _?=%CD%&#13;
+</file>
+  <url>https://github.com/balena-io/etcher/releases/download/v1.5.76/balenaEtcher-Setup-1.5.76.exe</url>
+  <hash-sum type="SHA-256">8dc7bdc1bdb92f082f2402cf07625031c8d182245560ae3d38992e5d834a2f63</hash-sum>
  </version>
  <version name="1.5.77" package="etcher64" type="one-file">
   <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
@@ -29034,7 +29053,7 @@ if %errorlevel% neq 0 exit /b %errorlevel%&#13;
 </file>
   <file path=".Npackd\Unnstall.bat">miktex\bin\miktexsetup.exe --verbose --shared uninstall&#13;
 </file>
-  <url>https://miktex.org/download/ctan/systems/win32/miktex/setup/windows-x64/basic-miktex-2.9.7351-x64.exe</url>
+  <url>https://github.com/tim-lebedkov/packages/releases/download/2020_03/org.miktex.MiKTeX64-2.9.7351-basic-miktex-2.9.7351-x64.exe</url>
   <hash-sum type="SHA-256">af4957e70d450e760dc4f0292a1c44031189624ad31f075d22433d035ba26caf</hash-sum>
  </version>
 
@@ -34927,6 +34946,20 @@ call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Np
    <variable>nih</variable>
   </dependency>
  </version>
+ <version name="8.2.246" package="org.vim.Vim64">
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+if %errorlevel% neq 0 exit /b %errorlevel%&#13;
+&#13;
+for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+</file>
+  <url>https://github.com/vim/vim-win32-installer/releases/download/v8.2.0246/gvim_8.2.0246_x64.zip</url>
+  <hash-sum type="SHA-256">a6cb0a105cc0a5e5ea3e5d0fe34ea41fddfd84d00937c45ef3e92e40e1f37599</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.19, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
  <version name="8.2.275" package="org.vim.Vim64">
   <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
 call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
@@ -38193,6 +38226,17 @@ if %errorlevel% equ 3010 verify</file>
    <variable>ncl</variable>
   </dependency>
  </version>
+ <version name="4.11.1" package="qt-creator64" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD%&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">"%ncl%\ncl.exe" remove-scp --title "/Qt Creator.*/"&#13;
+</file>
+  <url>http://download.qt-project.org/official_releases/qtcreator/4.11/4.11.1/qt-creator-opensource-windows-x86_64-4.11.1.exe</url>
+  <hash-sum type="SHA-256">1ccd90d6b6139a0a39974db10952cd9050ea279fd2e8b38fa147c2e84235c5ae</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.24, 2)">
+   <variable>ncl</variable>
+  </dependency>
+ </version>
 
     <version name="1.11" package="qtox64" type="one-file">
   <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
@@ -38385,6 +38429,14 @@ if %errorlevel% equ 3010 verify</file>
 </file>
   <url>https://download.racket-lang.org/installers/7.5/racket-7.5-x86_64-win32.exe</url>
   <hash-sum type="SHA-256">e8d1bcb85e84dadb46ebe7a56507f807972a304d9f4e5b76731bf09ff9318984</hash-sum>
+ </version>
+ <version name="7.6" package="racket64" type="one-file">
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
+"%setup%" /S /D=%CD%\Prog &amp;&amp; del /f /q "%setup%"</file>
+  <file path=".Npackd\Uninstall.bat">Prog\uninstall.exe /S _?=%CD%\Prog&#13;
+</file>
+  <url>https://download.racket-lang.org/installers/7.6/racket-7.6-x86_64-win32.exe</url>
+  <hash-sum type="SHA-256">9c832ec2eefe387951668c17c2641e173bbc11462c0e4ba44773de0761ce327a</hash-sum>
  </version>
 
     <version name="1.14.2" package="rainlendar-lite-64bit" type="one-file">
@@ -39080,7 +39132,7 @@ call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Np
   <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b curl*') do set name=%%x&#13;
 call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
 </file>
-  <url>https://curl.haxx.se/windows/dl-7.68.0/curl-7.68.0-win64-mingw.zip</url>
+  <url>https://github.com/tim-lebedkov/packages/releases/download/2020_03/se.haxx.curl.CURL64-7.68-curl-7.68.0-win64-mingw.zip</url>
   <hash-sum type="SHA-256">5e49e97ea3e3dd707f1f56985113b908b9a95e81c3212290c7fefbe4d79fb093</hash-sum>
   <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.19, 2)">
    <variable>nih</variable>
@@ -40733,6 +40785,14 @@ if %err% neq 0 exit %err%&#13;
   <url>http://files.first-world.info/ultracopier/2.2.0.9/ultracopier-windows-x86_64-2.2.0.9-setup.exe</url>
   <hash-sum type="SHA-256">924c6de8b848e70aa55f188c890f9d1b8853c9f2212bad77936a0934a3e01e8d</hash-sum>
  </version>
+ <version name="2.2.3.1" package="ultracopier64" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">uninst.exe /S _?=%CD%&#13;
+</file>
+  <url>http://files.first-world.info/ultracopier/2.2.3.1/ultracopier-windows-x86_64-2.2.3.1-setup.exe</url>
+  <hash-sum type="SHA-256">79a33a295a2a84d75b4542a02c9aba7c41c31c1a8a62e72a4a80691a15598d87</hash-sum>
+ </version>
  <version name="2.2.3.2" package="ultracopier64" type="one-file">
   <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
 </file>
@@ -41344,6 +41404,18 @@ if %err% neq 0 exit /b %err%&#13;
    <variable>ncl</variable>
   </dependency>
  </version>
+ <version name="2.11.1811.33" package="vivaldi-browser-64" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" --vivaldi-standalone --do-not-launch-chrome --vivaldi-install-dir="%CD%" &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
+&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">"%ncl%\ncl.exe" remove-scp --title "vivaldi-browser-64"&#13;
+</file>
+  <url>https://downloads.vivaldi.com/stable/Vivaldi.2.11.1811.33.x64.exe</url>
+  <hash-sum type="SHA-256">d1f0caaf05da3817b1968062f1b021c8e299ed72be4d13ae974a9857ba057b5e</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.24, 2)">
+   <variable>ncl</variable>
+  </dependency>
+ </version>
  <version name="2.11.1811.38" package="vivaldi-browser-64" type="one-file">
   <file path=".Npackd\Install.bat">"%npackd_package_binary%" --vivaldi-standalone --do-not-launch-chrome --vivaldi-install-dir="%CD%" &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
 &#13;
@@ -41412,6 +41484,14 @@ if %err% neq 0 exit /b %err%&#13;
 </file>
   <url>https://download3.vmware.com/software/player/file/VMware-player-15.5.0-14665864.exe</url>
   <hash-sum type="SHA-256">7ee79c6537dfbc7c8b60f749bdaafc6d54925674af43bf177676044c3cd2217e</hash-sum>
+ </version>
+ <version name="15.5.1" package="vmware64" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" /a /s /v"/qn TARGETDIR=."&#13;
+&#13;
+&#13;
+</file>
+  <url>https://download3.vmware.com/software/player/file/VMware-player-15.5.1-15018445.exe</url>
+  <hash-sum type="SHA-256">458b23fb3dfaf394dfcede612275e8b60c6ce70b51d7cbc9333d2c1ff1d0e3bb</hash-sum>
  </version>
 
     <version name="1.18.1" package="vs-code" type="one-file">
@@ -42091,6 +42171,21 @@ if %err% neq 0 exit %err%&#13;
   <sha1>f73db938cfee6ab1ab0f940c923e4e663962c795</sha1>
  </version>
  <version name="1.41" package="vs-code64" type="one-file">
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
+"%setup%" /SP- /VERYSILENT /SUPPRESSMSGBOXES /NOCANCEL /NORESTART /DIR="%CD%" /SAVEINF="%CD%\.Npackd\InnoSetupInfo.ini" /LOG="%CD%\.Npackd\InnoSetupInstall.log"&#13;
+set err=%errorlevel%&#13;
+type .Npackd\InnoSetupInstall.log&#13;
+if %err% neq 0 exit %err%&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">unins000.exe /VERYSILENT /SUPPRESSMSGBOXES /NORESTART /LOG="%CD%\.Npackd\InnoSetupUninstall.log"&#13;
+set err=%errorlevel%&#13;
+type .Npackd\InnoSetupUninstall.log&#13;
+if %err% neq 0 exit %err%&#13;
+</file>
+  <url>https://az764295.vo.msecnd.net/insider/d28f096018e2673a8437c788e3eed781ddb505ce/VSCodeSetup-x64-1.21.0-insider.exe</url>
+  <sha1>f73db938cfee6ab1ab0f940c923e4e663962c795</sha1>
+ </version>
+ <version name="1.42" package="vs-code64" type="one-file">
   <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
 "%setup%" /SP- /VERYSILENT /SUPPRESSMSGBOXES /NOCANCEL /NORESTART /DIR="%CD%" /SAVEINF="%CD%\.Npackd\InnoSetupInfo.ini" /LOG="%CD%\.Npackd\InnoSetupInstall.log"&#13;
 set err=%errorlevel%&#13;
