@@ -3479,6 +3479,18 @@ verify&#13;
   <url>https://bitcoin.org/bin/bitcoin-core-0.19.0.1/bitcoin-0.19.0.1-win64-setup.exe</url>
   <hash-sum type="SHA-256">4abca9419e83581209a3654a33da504998cf2f470993ee6d71f6b47fefe631a0</hash-sum>
  </version>
+ <version name="0.19.1" package="bitcoin-core64" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD%&#13;
+if %errorlevel% neq 0 exit /b %errorlevel%        &#13;
+&#13;
+del "%npackd_package_binary%"&#13;
+verify&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">uninstall.exe /S _?=%CD%&#13;
+</file>
+  <url>https://bitcoin.org/bin/bitcoin-core-0.19.1/bitcoin-0.19.1-win64-setup.exe</url>
+  <hash-sum type="SHA-256">69e4d7f710a29be6ead2ef5da2905736b7cea107213ae6ddde3bcca8affbb8fd</hash-sum>
+ </version>
 
     <version name="2.4.1" package="bittorrent-sync64" type="one-file">
   <url>https://download-cdn.resilio.com/stable/windows64/Resilio-Sync_x64.exe</url>
@@ -3894,6 +3906,45 @@ for /f "delims=" %%x in ('dir /b FlashUtil32*Plugin.exe') do set setup=%%x&#13;
 </file>
   <url>https://download.macromedia.com/get/flashplayer/pdc/32.0.0.330/install_flash_player_32_plugin.msi</url>
  </version>
+ <version name="32.0.0.344" package="com.adobe.FlashPlayer64" type="one-file">
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.msi') do set setup=%%x&#13;
+mkdir .Npackd&#13;
+move "%setup%" .Npackd&#13;
+set err=%errorlevel%&#13;
+if %err% neq 0 exit %err%&#13;
+&#13;
+rem MSIFASTINSTALL: http://msdn.microsoft.com/en-us/library/dd408005%28v=VS.85%29.aspx&#13;
+msiexec.exe /qn /norestart /Lime .Npackd\InstallMSI.log /i ".Npackd\%setup%" INSTALLDIR="%CD%" ALLUSERS=1 MSIFASTINSTALL=7&#13;
+set err=%errorlevel%&#13;
+type .Npackd\InstallMSI.log&#13;
+&#13;
+rem list of errors: http://msdn.microsoft.com/en-us/library/windows/desktop/aa368542(v=vs.85).aspx&#13;
+rem 3010=restart required&#13;
+if %err% equ 3010 goto cont&#13;
+if %err% neq 0 exit %err%&#13;
+&#13;
+:cont&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">move .Npackd\*.msi .&#13;
+for /f "delims=" %%x in ('dir /b *.msi') do set setup=%%x&#13;
+&#13;
+rem MSIFASTINSTALL: http://msdn.microsoft.com/en-us/library/dd408005%28v=VS.85%29.aspx&#13;
+msiexec.exe /qn /norestart /Lime .Npackd\UninstallMSI.log /x "%setup%" MSIFASTINSTALL=7&#13;
+set err=%errorlevel%&#13;
+type .Npackd\UninstallMSI.log&#13;
+rem 3010=restart required&#13;
+if %err% equ 3010 goto cont&#13;
+if %err% neq 0 exit %err%&#13;
+&#13;
+:cont&#13;
+if not exist "%ProgramFiles(x86)%" set d=%windir%\System32\Macromed\Flash&#13;
+if exist "%ProgramFiles(x86)%" set d=%windir%\SysWOW64\Macromed\Flash&#13;
+cd "%d%"&#13;
+for /f "delims=" %%x in ('dir /b FlashUtil32*Plugin.exe') do set setup=%%x&#13;
+"%setup%" -uninstall&#13;
+</file>
+  <url>https://download.macromedia.com/get/flashplayer/pdc/32.0.0.344/install_flash_player_32_plugin.msi</url>
+ </version>
 
     <version name="32.0.0.321" package="com.adobe.FlashPlayerActiveX64" type="one-file">
   <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.msi') do set setup=%%x&#13;
@@ -3974,6 +4025,46 @@ for /f "delims=" %%x in ('dir /b FlashUtil32*ActiveX.exe') do set setup=%%x&#13;
 if "%setup%" neq "" "%setup%" -uninstall&#13;
 </file>
   <url>https://download.macromedia.com/pub/flashplayer/pdc/32.0.0.330/install_flash_player_32_plugin.msi</url>
+ </version>
+ <version name="32.0.0.344" package="com.adobe.FlashPlayerActiveX64" type="one-file">
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.msi') do set setup=%%x&#13;
+mkdir .Npackd&#13;
+move "%setup%" .Npackd&#13;
+set err=%errorlevel%&#13;
+if %err% neq 0 exit %err%&#13;
+&#13;
+rem MSIFASTINSTALL: http://msdn.microsoft.com/en-us/library/dd408005%28v=VS.85%29.aspx&#13;
+msiexec.exe /qn /norestart /Lime .Npackd\InstallMSI.log /i ".Npackd\%setup%" INSTALLDIR="%CD%" ALLUSERS=1 MSIFASTINSTALL=7&#13;
+set err=%errorlevel%&#13;
+type .Npackd\InstallMSI.log&#13;
+&#13;
+rem list of errors: http://msdn.microsoft.com/en-us/library/windows/desktop/aa368542(v=vs.85).aspx&#13;
+rem 3010=restart required&#13;
+if %err% equ 3010 goto cont&#13;
+if %err% neq 0 exit %err%&#13;
+&#13;
+:cont&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">move .Npackd\*.msi .&#13;
+for /f "delims=" %%x in ('dir /b *.msi') do set setup=%%x&#13;
+&#13;
+rem MSIFASTINSTALL: http://msdn.microsoft.com/en-us/library/dd408005%28v=VS.85%29.aspx&#13;
+msiexec.exe /qn /norestart /Lime .Npackd\UninstallMSI.log /x "%setup%" MSIFASTINSTALL=7&#13;
+set err=%errorlevel%&#13;
+type .Npackd\UninstallMSI.log&#13;
+rem 3010=restart required&#13;
+if %err% equ 3010 goto cont&#13;
+if %err% neq 0 exit %err%&#13;
+&#13;
+:cont&#13;
+if not exist "%ProgramFiles(x86)%" set d=%windir%\System32\Macromed\Flash&#13;
+if exist "%ProgramFiles(x86)%" set d=%windir%\SysWOW64\Macromed\Flash&#13;
+cd "%d%"&#13;
+set setup=&#13;
+for /f "delims=" %%x in ('dir /b FlashUtil32*ActiveX.exe') do set setup=%%x&#13;
+if "%setup%" neq "" "%setup%" -uninstall&#13;
+</file>
+  <url>https://download.macromedia.com/pub/flashplayer/pdc/32.0.0.344/install_flash_player_32_plugin.msi</url>
  </version>
 
     <version name="1.15.1" package="com.alcpu.CoreTemp64">
@@ -12240,6 +12331,17 @@ if %err% neq 0 exit %err%&#13;
    <variable>nih</variable>
   </dependency>
  </version>
+ <version name="1.23" package="conan64" type="one-file">
+  <cmd-file path="conan\conan.exe"/>
+  <file path=".Npackd\Install.bat">"%nih%\InstallInnoSetup.bat"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">"%nih%\UninstallInnoSetup.bat" unins000.exe</file>
+  <url>https://github.com/conan-io/conan/releases/download/1.23.0/conan-win-64_1_23_0.exe</url>
+  <hash-sum type="SHA-256">d98ba5cfe44a10d668410ff70c5a7413505473fbeb0b3b3902fb7d38271b3087</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
 
     <version name="3.1.4" package="cygwin64" type="one-file">
   <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
@@ -15644,6 +15746,19 @@ rmdir "%name%"&#13;
   <hash-sum type="SHA-256">87603d6bd183979bf907e96139dc4e988999db09a5d0a4e44efac05e71ba3440</hash-sum>
   <dependency package="org.python.Python" versions="[2.7, 2.8)"/>
  </version>
+ <version name="284" package="google-cloud-sdk64">
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b google-cloud-sdk*') do set name=%%x&#13;
+cd "%name%"&#13;
+for /f "delims=" %%a in ('dir /b') do (&#13;
+  move "%%a" ..&#13;
+)&#13;
+cd ..&#13;
+rmdir "%name%"&#13;
+</file>
+  <url>https://dl.google.com/dl/cloudsdk/channels/rapid/downloads/google-cloud-sdk-284.0.0-windows-x86_64.zip</url>
+  <hash-sum type="SHA-256">0ef3bcc45a87358b6a0abe6faafbe2562a83b284476afaae2c4d6ec91258a532</hash-sum>
+  <dependency package="org.python.Python" versions="[2.7, 2.8)"/>
+ </version>
 
     <version name="1.1.94" package="grisbi64" type="one-file">
   <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
@@ -16437,6 +16552,17 @@ if %err% neq 0 exit %err%&#13;
 </file>
   <url>https://github.com/tim-lebedkov/packages/releases/download/2020_03/imagemagick64-7.0.9.27-ImageMagick-7.0.9-27-Q16-x64-dll.exe</url>
   <hash-sum type="SHA-256">121b5f5f51f020eb0b840ebde2d918e30e6e0d983fe642747542cd00641623a9</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
+ <version name="7.0.10" package="imagemagick64" type="one-file">
+  <file path=".Npackd\Install.bat">call "%nih%\InstallInnoSetup.bat"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">call "%nih%\UninstallInnoSetup.bat" unins000.exe&#13;
+</file>
+  <url>https://www.imagemagick.org/download/binaries/ImageMagick-7.0.10-0-Q16-x64-dll.exe</url>
+  <hash-sum type="SHA-256">6b48e7e48bf823cd5410b93fb981a62d0bc5d8020c151362c7cd173226d2bfcb</hash-sum>
   <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
    <variable>nih</variable>
   </dependency>
@@ -21432,6 +21558,17 @@ if %err% neq 0 exit %err%&#13;
    <variable>nih</variable>
   </dependency>
  </version>
+ <version name="7.1.1" package="net.sourceforge.peazip.PeaZip64" type="one-file">
+  <file path=".Npackd\Install.bat">call "%nih%\InstallInnoSetup.bat"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">call "%nih%\UninstallInnoSetup.bat" unins000.exe&#13;
+</file>
+  <url>https://ayera.dl.sourceforge.net/project/peazip/6.5.1/peazip-6.5.1.WINDOWS.exe</url>
+  <hash-sum type="SHA-256">49bc326c084e743acff1bdf2437d0b17cdeedb5bde67efee2fd86a613efa9031</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
 
     <version name="2.6" package="net.sourceforge.shareaza.Shareaza64" type="one-file">
   <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x
@@ -22057,8 +22194,6 @@ if %err% neq 0 exit /b %err%
    <variable>nih</variable>
   </dependency>
  </version>
-
-    
 
     <version name="2.75" package="nircmd64">
   <url>http://files.npackd.org/nircmd64-2.75.zip</url>
@@ -22720,6 +22855,17 @@ verify&#13;
  </version>
 
     <version name="1.42" package="office365" type="one-file">
+  <file path=".Npackd\Install.bat">call "%nih%\InstallInnoSetup.bat"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">call "%nih%\UninstallInnoSetup.bat" unins000.exe&#13;
+</file>
+  <url>https://az764295.vo.msecnd.net/stable/c47d83b293181d9be64f27ff093689e8e7aed054/VSCodeUserSetup-x64-1.42.1.exe</url>
+  <hash-sum type="SHA-256">b8ebdbd85b1e760b6613ab4c0fdc7ac85253ebd8eecf809651d9bfe5746e2ab3</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
+ <version name="1.43" package="office365" type="one-file">
   <file path=".Npackd\Install.bat">call "%nih%\InstallInnoSetup.bat"&#13;
 </file>
   <file path=".Npackd\Uninstall.bat">call "%nih%\UninstallInnoSetup.bat" unins000.exe&#13;
@@ -39293,6 +39439,16 @@ call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Np
    <variable>nih</variable>
   </dependency>
  </version>
+ <version name="7.69" package="se.haxx.curl.CURL64">
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b curl*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+</file>
+  <url>https://curl.haxx.se/windows/dl-7.69.0/curl-7.69.0-win64-mingw.zip</url>
+  <hash-sum type="SHA-256">1c3caf39bf8ad2794b0515a09b3282f85a7ccfcf753ea639f2ef99e50351ade0</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.19, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
 
     <version name="2.1" package="sfml-dev-amd64-vc11">
   <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b SFML*') do set name=%%x&#13;
@@ -40420,6 +40576,14 @@ rmdir "%name%"</file>
   <url>https://www.sysgauge.com/setups_x64/sysgauge_setup_v6.7.14_x64.exe</url>
   <hash-sum type="SHA-256">2c31568fecd82108562268bd7536683f9ebcb9ca003d0f1daa29fca387858352</hash-sum>
  </version>
+ <version name="6.8.12" package="sysgauge64" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">uninstall.exe /S _?=%CD%&#13;
+</file>
+  <url>https://www.sysgauge.com/setups_x64/sysgauge_setup_v6.8.12_x64.exe</url>
+  <hash-sum type="SHA-256">e7077e2b5afcba6b43e12ab8ee0070d56020f6f615842bbe9fe1bfe402d23587</hash-sum>
+ </version>
 
     <version name="2" package="texniccenter64" type="one-file">
   <file path=".Npackd\Install.bat">for /f %%x in ('dir /b *.exe') do set setup=%%x&#13;
@@ -40955,6 +41119,14 @@ if %err% neq 0 exit %err%&#13;
 </file>
   <url>http://files.first-world.info/ultracopier/2.2.3.2/ultracopier-windows-x86_64-2.2.3.2-setup.exe</url>
   <hash-sum type="SHA-256">668c41a48e60a91a078ce6b7d0f528fcda5d544c2e2763fecaffcb2ce079ce19</hash-sum>
+ </version>
+ <version name="2.2.3.3" package="ultracopier64" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">uninst.exe /S _?=%CD%&#13;
+</file>
+  <url>http://files.first-world.info/ultracopier/2.2.3.3/ultracopier-windows-x86_64-2.2.3.3-setup.exe</url>
+  <hash-sum type="SHA-256">364e2d5bcb5be147f8a9c8d46afdbf30c07070d255bae9d2437ac8941563ac69</hash-sum>
  </version>
 
     <version name="2.0.1" package="vagrant64" type="one-file">
