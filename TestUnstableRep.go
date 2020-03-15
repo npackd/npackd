@@ -12,11 +12,9 @@ import (
 	"net/http"
 	"net/url"
 	"os"
-	"os/exec"
 	"strconv"
 	"strings"
 
-	"syscall"
 	"time"
 )
 
@@ -29,6 +27,34 @@ type Settings struct {
 	git         string
 	npackdcl    string
 	packagesTag string
+}
+
+type Release struct {
+	Tag_name string
+	Id       int
+}
+
+type Asset struct {
+	Browser_download_url string
+	Id       int
+	Name string
+}
+
+type Package struct {
+	Name     string   `xml:"name,attr"`
+	Category []string `xml:"category"`
+	Tag      []string `xml:"tag"`
+}
+
+type PackageVersion struct {
+	Name    string `xml:"name,attr"`
+	Package string `xml:"package,attr"`
+	Url     string `xml:"url"`
+}
+
+type Repository struct {
+	PackageVersion []PackageVersion `xml:"version"`
+	Package        []Package        `xml:"package"`
 }
 
 func indexOf(slice []string, item string) int {
@@ -75,23 +101,6 @@ func shufflePackageVersions(array []PackageVersion) {
 		array[counter] = array[index]
 		array[index] = temp
 	}
-}
-
-type Package struct {
-	Name     string   `xml:"name,attr"`
-	Category []string `xml:"category"`
-	Tag      []string `xml:"tag"`
-}
-
-type PackageVersion struct {
-	Name    string `xml:"name,attr"`
-	Package string `xml:"package,attr"`
-	Url     string `xml:"url"`
-}
-
-type Repository struct {
-	PackageVersion []PackageVersion `xml:"version"`
-	Package        []Package        `xml:"package"`
 }
 
 func uploadAllToGithub(settings *Settings, url string, releaseID int) error {
@@ -217,43 +226,6 @@ func getPath(settings *Settings, package_ string, version string) string {
 	}
 
 	return ""
-}
-
-// Executes the specified command, prints its output on the default output.
-//
-// dir: current directory or ""
-// cmd: this command should be executed
-// showParameters: true = output the parameters,
-// 	false = hide the parameters (e.g. for passwords)
-// return: [exit code, [output line 1, output line2, ...]]
-func exec2(dir string, program string, params string,
-	showParameters bool) (exitCode int, output []string) {
-	if showParameters {
-		fmt.Println("\"" + program + "\" " + params)
-	} else {
-		fmt.Println("\"" + program + "\" <<<parameters hidden>>>")
-	}
-
-	cmd := exec.Command(program)
-	cmd.SysProcAttr = &syscall.SysProcAttr{}
-	cmd.SysProcAttr.CmdLine = " " + params
-	cmd.Dir = dir
-
-	out, err := cmd.CombinedOutput()
-
-	lines := strings.Split(string(out), "\r\n")
-	for _, line := range lines {
-		fmt.Println(line)
-	}
-
-	if err != nil {
-		if exitError, ok := err.(*exec.ExitError); ok {
-			fmt.Printf("Exit code: %d\n", exitError.ExitCode())
-			return exitError.ExitCode(), nil
-		}
-	}
-
-	return 0, lines
 }
 
 /**
@@ -664,11 +636,6 @@ func download(url_ string, showParameters bool) (*bytes.Buffer, error, int) {
 	return b, nil, resp.StatusCode
 }
 
-type Release struct {
-	Tag_name string
-	Id       int
-}
-
 func createSettings() Settings {
 	var settings Settings
 	settings.password = os.Getenv("PASSWORD")
@@ -698,6 +665,24 @@ func getReleases(settings *Settings) ([]Release, error) {
 	return releases, nil
 }
 
+func getReleaseAssets(id int) ([]Asset, error) {
+	b, err, _ := download("https://api.github.com/repos/tim-lebedkov/packages/releases/" + 
+			strconv.Itoa(id) + "/assets", true)
+	if err != nil {
+		return nil, err
+	}
+
+	var releases []Asset
+
+	err = json.Unmarshal(b.Bytes(), &releases)
+	if err != nil {
+		return nil, err
+	}
+
+	return releases, nil
+	
+}
+
 func findRelease(releases []Release, tag_name string) int {
 	releaseID := 0
 	for _, r := range releases {
@@ -708,6 +693,46 @@ func findRelease(releases []Release, tag_name string) int {
 	}
 
 	return releaseID
+}
+
+// download all binaries from https://github.com/tim-lebedkov/packages
+// dir: target directory
+func downloadBinaries(dir string) error {
+	var settings Settings = createSettings()
+
+	releases, err := getReleases(&settings)
+	if err != nil {
+		return err
+	}
+	
+	for _, release := range releases  {
+		assets, err := getReleaseAssets(release.Id)
+		if err != nil {
+			return err
+		}
+		
+		for _, asset := range assets {
+			path := dir + "/" + release.Tag_name + "/" + asset.Name
+			if _, err := os.Stat(path); os.IsNotExist(err) {
+				bytes, err, _ := download(asset.Browser_download_url, true)
+				if err != nil {
+					return err
+				}
+				
+				err = os.MkdirAll(release.Tag_name, 0777)
+				if err != nil {
+					return err
+				}
+	
+				err = ioutil.WriteFile(path, bytes.Bytes(), 0644)
+				if err != nil {
+					return err
+				}
+			}
+		}
+	}
+	
+	return nil
 }
 
 func process2() error {
@@ -802,9 +827,16 @@ func correctURLs() error {
 }
 
 func main() {
-	err := process2()
+	var err error = nil
+	fmt.Println(os.Args[2])
+	if len(os.Args) > 2 && os.Args[2] == "download-binaries" {
+		downloadBinaries(os.Args[3])	
+	} else if len(os.Args) > 1 && os.Args[2] == "correct-urls" {
+		// err := correctURLs()
+	} else {
+		err = process2()
+	}
 
-	// err := correctURLs()
 
 	if err != nil {
 		fmt.Println(err.Error())
