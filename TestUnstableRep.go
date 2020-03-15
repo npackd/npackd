@@ -828,10 +828,9 @@ func correctURLs() error {
 
 func main() {
 	var err error = nil
-	fmt.Println(os.Args[2])
-	if len(os.Args) > 2 && os.Args[2] == "download-binaries" {
+	if len(os.Args) > 3 && os.Args[2] == "download-binaries" {
 		downloadBinaries(os.Args[3])	
-	} else if len(os.Args) > 1 && os.Args[2] == "correct-urls" {
+	} else if len(os.Args) > 2 && os.Args[2] == "correct-urls" {
 		// err := correctURLs()
 	} else {
 		err = process2()
