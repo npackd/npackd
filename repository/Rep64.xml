@@ -1944,7 +1944,7 @@ Open Broadcaster Software is free and open source software for video recording a
 - Windows 8 high speed monitor capture support.&#13;
 - Bilinear or lanczos3 resampling.&#13;
 &#13;
-kw: obs, screen, cast
+kw: obs, screen, cast, studio
 x86_64</description>
   <icon>https://obsproject.com/assets/images/new_icon_small.png</icon>
   <license>org.gnu.GPLv2</license>
@@ -2136,7 +2136,7 @@ Eclipse version names:&#13;
 * Oxygen - 4.7&#13;
 * Photon - 4.8&#13;
 &#13;
-kw: JEE, IDEJEE
+kw: JEE, IDEJEE, rcp
 x86_64</description>
   <icon>http://www.eclipse.org/downloads/images/java.png</icon>
   <license>org.eclipse.EPLv1</license>
@@ -16682,6 +16682,17 @@ if %err% neq 0 exit %err%&#13;
    <variable>nih</variable>
   </dependency>
  </version>
+ <version name="7.0.10.2" package="imagemagick64" type="one-file">
+  <file path=".Npackd\Install.bat">call "%nih%\InstallInnoSetup.bat"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">call "%nih%\UninstallInnoSetup.bat" unins000.exe&#13;
+</file>
+  <url>https://www.imagemagick.org/download/binaries/ImageMagick-7.0.10-2-Q16-x64-dll.exe</url>
+  <hash-sum type="SHA-256">8d00721b1f2bc68149a00d5619a93d006d673614ce158ef4126590b91eff0791</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
 
     <version name="0.3.8" package="io.mpv.mpv-64" type="one-file">
   <file path=".Npackd\Install.bat">for /f %%x in ('dir /b *.7z') do set setup=%%x&#13;
@@ -19672,6 +19683,19 @@ rmdir "%name%"&#13;
   <hash-sum type="SHA-256">8de4bd26c474886927ad8756edd6a3f7c42bce3dbc34af20abdc1bea8906fb34</hash-sum>
  </version>
  <version name="4.3.4" package="mtuner">
+  <important-file path="MTuner.exe" title="MTuner"/>
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b MTuner*') do set name=%%x&#13;
+cd "%name%"&#13;
+for /f "delims=" %%a in ('dir /b') do (&#13;
+  move "%%a" ..&#13;
+)&#13;
+cd ..&#13;
+rmdir "%name%"&#13;
+</file>
+  <url>https://github.com/milostosic/MTuner/releases/download/v4.2.9/mtuner64.zip</url>
+  <hash-sum type="SHA-256">8de4bd26c474886927ad8756edd6a3f7c42bce3dbc34af20abdc1bea8906fb34</hash-sum>
+ </version>
+ <version name="4.3.5" package="mtuner">
   <important-file path="MTuner.exe" title="MTuner"/>
   <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b MTuner*') do set name=%%x&#13;
 cd "%name%"&#13;
@@ -29596,6 +29620,14 @@ if %errorlevel% neq 0 exit /b %errorlevel%&#13;
   <url>https://github.com/tim-lebedkov/packages/releases/download/2020_03/org.miktex.MiKTeX64-2.9.7351-basic-miktex-2.9.7351-x64.exe</url>
   <hash-sum type="SHA-256">af4957e70d450e760dc4f0292a1c44031189624ad31f075d22433d035ba26caf</hash-sum>
  </version>
+ <version name="2.9.7386" package="org.miktex.MiKTeX64" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" --common-install="%CD%" --shared --unattended&#13;
+</file>
+  <file path=".Npackd\Unnstall.bat">miktex\bin\miktexsetup.exe --verbose --shared uninstall&#13;
+</file>
+  <url>https://miktex.org/download/ctan/systems/win32/miktex/setup/windows-x64/basic-miktex-2.9.7386-x64.exe</url>
+  <hash-sum type="SHA-256">ab831b4289fe2cc65fdd44fd853f570b454caaccda915dacdb8c8d4794306a6d</hash-sum>
+ </version>
 
     <version name="0.9.19" package="org.miranda-im.MirandaIM64" type="one-file">
   <important-file path="miranda64.exe" title="Miranda IM"/>
@@ -32701,6 +32733,19 @@ rmdir "%name%"</file>
   <hash-sum type="SHA-256">ea923284811c7f0b0ec5218c37039b353db77c8b6eec034e4e158e0f55bc4b0a</hash-sum>
   <dependency package="com.oracle.JRE64" versions="[1.7, 2)"/>
  </version>
+ <version name="4.6" package="org.springsource.STS64">
+  <important-file path="SpringToolSuite4.exe" title="Spring Tool Suite"/>
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b sts*') do set name=%%x&#13;
+cd "%name%"        &#13;
+for /f "delims=" %%a in ('dir /b') do (&#13;
+  move "%%a" ..&#13;
+)&#13;
+cd ..&#13;
+rmdir "%name%"</file>
+  <url>https://download.springsource.com/release/STS4/4.6.0.RELEASE/dist/e4.13/spring-tool-suite-4-4.6.0.RELEASE-e4.13.0-win32.win32.x86_64.zip</url>
+  <hash-sum type="SHA-256">4c081da9412ff9cb48a1a0b58cfd86c9844dde2965d39544e68bb51664ea4842</hash-sum>
+  <dependency package="com.oracle.JRE64" versions="[1.7, 2)"/>
+ </version>
 
     <version name="3.6.1" package="org.sqlexplorer.SQLExplorer64">
   <important-file path="sqlexplorer.exe" title="SQL Explorer"/>
@@ -35592,6 +35637,20 @@ call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Np
    <variable>nih</variable>
   </dependency>
  </version>
+ <version name="8.2.444" package="org.vim.Vim64">
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+if %errorlevel% neq 0 exit /b %errorlevel%&#13;
+&#13;
+for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+</file>
+  <url>https://github.com/vim/vim-win32-installer/releases/download/v8.2.0444/gvim_8.2.0444_x64.zip</url>
+  <hash-sum type="SHA-256">9dac69ea715b15b83399fef8ec2cd0dec37d6f0cfaf4ed452b5dbb748fa01090</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.19, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
 
     <version name="4.2.8.83876" package="org.virtualbox.virtualbox64" type="one-file">
   <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
@@ -37657,6 +37716,16 @@ echo DesktopShortcut=false &gt;&gt; .Npackd\FF.ini&#13;
   <url>http://relmirror.palemoon.org/release/palemoon-28.8.4.win64.installer.exe</url>
   <hash-sum type="SHA-256">e8d2c779ff4b1d32f37584c6ad0310feb78508b8a0fca473654802255eb6e99b</hash-sum>
  </version>
+ <version name="28.9.0.1" package="pale-moon64" type="one-file">
+  <file path=".Npackd\Install.bat">echo [Install] &gt; .Npackd\FF.ini&#13;
+echo InstallDirectoryPath=%CD% &gt;&gt; .Npackd\FF.ini&#13;
+echo QuickLaunchShortcut=false &gt;&gt; .Npackd\FF.ini&#13;
+echo DesktopShortcut=false &gt;&gt; .Npackd\FF.ini&#13;
+"%npackd_package_binary%" /INI="%CD%\.Npackd\FF.ini" &amp;&amp; del /f /q "%npackd_package_binary%"</file>
+  <file path=".Npackd\Uninstall.bat">uninstall\helper.exe /S</file>
+  <url>http://relmirror.palemoon.org/release/palemoon-28.9.0.win64.installer.exe</url>
+  <hash-sum type="SHA-256">6f814cc61a46ba35e63e803892c05a36f618868795effe139decf9ef79aed72a</hash-sum>
+ </version>
 
     <version name="2.2.1" package="pandoc64" type="one-file">
   <file path=".Npackd\Install.bat">call "%nih%\InstallMSI.bat" INSTALLDIR yes&#13;
@@ -37853,6 +37922,16 @@ echo DesktopShortcut=false &gt;&gt; .Npackd\FF.ini&#13;
 </file>
   <url>https://github.com/jgm/pandoc/releases/download/2.9.2/pandoc-2.9.2-windows-x86_64.msi</url>
   <hash-sum type="SHA-256">f92bb25f61ef39c2e6ae4fc36eec3575494609429b2690cd99eab3eb00594e19</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.1, 2)">
+   <variable>nih</variable>
+  </dependency>
+  <dependency package="org.miktex.MiKTeX" versions="[2.9, 3)"/>
+ </version>
+ <version name="2.9.2.1" package="pandoc64" type="one-file">
+  <file path=".Npackd\Install.bat">call "%nih%\InstallMSI.bat" INSTALLDIR yes&#13;
+</file>
+  <url>https://github.com/jgm/pandoc/releases/download/2.9.2.1/pandoc-2.9.2.1-windows-x86_64.msi</url>
+  <hash-sum type="SHA-256">9c9f5fbde483519bb4cc55df9ec54b537ce30593c45abdc7e7426a4ee5e229e4</hash-sum>
   <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.1, 2)">
    <variable>nih</variable>
   </dependency>
@@ -38390,6 +38469,14 @@ verify</file>
   <url>https://downloads.sourceforge.net/project/qbittorrent/qbittorrent-win32/qbittorrent-4.2.1/qbittorrent_4.2.1_x64_setup.exe</url>
   <hash-sum type="SHA-256">f826a56d9deca1d673c64e36e7070f01b02de842e0a627b2f12bf28d864fb061</hash-sum>
  </version>
+ <version name="4.2.2" package="qbittorrent-64-bit" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD%&#13;
+verify</file>
+  <file path=".Npackd\Uninstall.bat">uninst.exe /S _?=%CD%&#13;
+verify</file>
+  <url>https://downloads.sourceforge.net/project/qbittorrent/qbittorrent-win32/qbittorrent-4.2.2/qbittorrent_4.2.2_x64_setup.exe</url>
+  <hash-sum type="SHA-256">b6f84e27ce676b8068d96953063b166510c2660f4e146d1639f279d317fbe9b7</hash-sum>
+ </version>
 
     <version name="3.23" package="qcad64" type="one-file">
   <file path=".Npackd\Install.bat">call "%nih%\InstallMSI.bat" INSTALLDIR yes&#13;
@@ -38717,6 +38804,13 @@ if %errorlevel% equ 3010 verify</file>
   <file path=".Npackd\Uninstall.bat">uninstall.exe /S _?=%CD%&#13;
 </file>
   <url>https://qgis.org/downloads/QGIS-OSGeo4W-3.12.0-1-Setup-x86_64.exe</url>
+ </version>
+ <version name="3.12.1" package="qgis64" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
+if %errorlevel% equ 3010 verify</file>
+  <file path=".Npackd\Uninstall.bat">uninstall.exe /S _?=%CD%&#13;
+</file>
+  <url>https://qgis.org/downloads/QGIS-OSGeo4W-3.12.1-1-Setup-x86_64.exe</url>
  </version>
 
     <version name="1.40.6" package="Qt-Bitcoin-Trader64" type="one-file">
@@ -41144,6 +41238,12 @@ if %err% neq 0 exit %err%&#13;
 </file>
   <url>https://dist.torproject.org/torbrowser/9.0.6/torbrowser-install-9.0.6_en-US.exe</url>
   <hash-sum type="SHA-256">d7c6768d9ac76b690c669ff6ce90014e10549abcb9bb4c218bfe79983f3b9737</hash-sum>
+ </version>
+ <version name="9.0.7" package="tor64" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
+</file>
+  <url>https://dist.torproject.org/torbrowser/9.0.7/torbrowser-install-9.0.7_en-US.exe</url>
+  <hash-sum type="SHA-256">567d64672cf222c273c9ea0957b25f73bdcfa7bfc1b25517fa7558dabfe080ab</hash-sum>
  </version>
 
     <version name="2.84.9" package="transmission-qt64" type="one-file">
