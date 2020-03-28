@@ -13083,6 +13083,14 @@ if %err% neq 0 exit %err%&#13;
   <url>http://dbeaver.jkiss.org/files/7.0.0/dbeaver-ce-7.0.0-x86_64-setup.exe</url>
   <hash-sum type="SHA-256">5a69b3aefb25929c9b0eee11507148686ba01bdbaa33c093cbec46e1fe48f0c8</hash-sum>
  </version>
+ <version name="7.0.1" package="dbeaver64" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" /allusers /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">uninstall.exe /allusers /S _?=%CD%&#13;
+</file>
+  <url>http://dbeaver.jkiss.org/files/7.0.1/dbeaver-ce-7.0.1-x86_64-setup.exe</url>
+  <hash-sum type="SHA-256">ef79aa06d9b6cad4e8347233321d40ea29188c81eaf309c58a8948db8ee5d84d</hash-sum>
+ </version>
 
     <version name="0.825" package="dcplusplus64">
   <important-file path="DCPlusPlus.exe" title="DC++"/>
@@ -13718,6 +13726,14 @@ rmdir "%name%"&#13;
 </file>
   <url>https://github.com/balena-io/etcher/releases/download/v1.5.79/balenaEtcher-Setup-1.5.79.exe</url>
   <hash-sum type="SHA-256">64d6700b0dadcb61a4468f407ada2f73e9a297475dbec88e03bc58909c240441</hash-sum>
+ </version>
+ <version name="1.5.80" package="etcher64" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">uninstall.exe /S _?=%CD%&#13;
+</file>
+  <url>https://github.com/balena-io/etcher/releases/download/v1.5.80/balenaEtcher-Setup-1.5.80.exe</url>
+  <hash-sum type="SHA-256">4d6a20dbf34816e02d51a9ce280038f11001d08bd9613aa8c17c74b704461022</hash-sum>
  </version>
 
     <version name="1.3.4.686" package="everything64">
@@ -15185,6 +15201,17 @@ if %err% neq 0 exit %err%&#13;
    <variable>nih</variable>
   </dependency>
  </version>
+ <version name="2.26" package="git64" type="one-file">
+  <file path=".Npackd\Install.bat">call "%nih%\InstallInnoSetup.bat"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">call "%nih%\UninstallInnoSetup.bat" unins000.exe&#13;
+</file>
+  <url>https://github.com/git-for-windows/git/releases/download/v2.26.0.windows.1/Git-2.26.0-64-bit.exe</url>
+  <hash-sum type="SHA-256">c8cd522b8a1eacd421a10591227cc6279f31485876462cd9fc335914584429f5</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
 
     <version name="5.2.7" package="gnuplot64" type="one-file">
   <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
@@ -15861,6 +15888,19 @@ rmdir "%name%"&#13;
 </file>
   <url>https://dl.google.com/dl/cloudsdk/channels/rapid/downloads/google-cloud-sdk-284.0.0-windows-x86_64.zip</url>
   <hash-sum type="SHA-256">0ef3bcc45a87358b6a0abe6faafbe2562a83b284476afaae2c4d6ec91258a532</hash-sum>
+  <dependency package="org.python.Python" versions="[2.7, 2.8)"/>
+ </version>
+ <version name="286" package="google-cloud-sdk64">
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b google-cloud-sdk*') do set name=%%x&#13;
+cd "%name%"&#13;
+for /f "delims=" %%a in ('dir /b') do (&#13;
+  move "%%a" ..&#13;
+)&#13;
+cd ..&#13;
+rmdir "%name%"&#13;
+</file>
+  <url>https://dl.google.com/dl/cloudsdk/channels/rapid/downloads/google-cloud-sdk-286.0.0-windows-x86_64.zip</url>
+  <hash-sum type="SHA-256">cb4e19428d7a46e1a70e1454a00ce0b07e99f882877e59c6af46bf2474f73eec</hash-sum>
   <dependency package="org.python.Python" versions="[2.7, 2.8)"/>
  </version>
 
@@ -16687,7 +16727,7 @@ if %err% neq 0 exit %err%&#13;
 </file>
   <file path=".Npackd\Uninstall.bat">call "%nih%\UninstallInnoSetup.bat" unins000.exe&#13;
 </file>
-  <url>https://www.imagemagick.org/download/binaries/ImageMagick-7.0.10-2-Q16-x64-dll.exe</url>
+  <url>https://github.com/tim-lebedkov/packages/releases/download/2020_03/imagemagick64-7.0.10.2-ImageMagick-7.0.10-2-Q16-x64-dll.exe</url>
   <hash-sum type="SHA-256">8d00721b1f2bc68149a00d5619a93d006d673614ce158ef4126590b91eff0791</hash-sum>
   <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
    <variable>nih</variable>
@@ -23208,6 +23248,17 @@ verify&#13;
    <variable>myun</variable>
   </dependency>
  </version>
+ <version name="25.0.1" package="open-broadcaster-software64" type="one-file">
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
+"%setup%" /S /D=%CD% &amp;&amp; del /f /q "%setup%"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">"%myun%\myuninst.exe" /uninstall "Open Broadcaster Software"</file>
+  <url>https://cdn-fastly.obsproject.com/downloads/OBS-Studio-25.0.1-Full-Installer-x64.exe</url>
+  <hash-sum type="SHA-256">9c717693d0f334203d4f9d59e42226b417ead60ffac61ba64df2b77792f0354a</hash-sum>
+  <dependency package="net.nirsoft.MyUninstaller" versions="[1.74, 2)">
+   <variable>myun</variable>
+  </dependency>
+ </version>
 
     <version name="1.6.1" package="open-ttd64">
   <important-file path="openttd.exe" title="OpenTTD"/>
@@ -24929,6 +24980,21 @@ rmdir "%name%"
 </file>
   <url>http://archive.apache.org/dist/tomcat/tomcat-7/v7.0.100/bin/apache-tomcat-7.0.100-windows-x64.zip</url>
   <hash-sum type="SHA-256">3909842f72d91f883cedfcca8fd12b465a31e3fd997f17f0b94c1286e8c0e3dc</hash-sum>
+  <dependency package="com.oracle.JRE" versions="[1.5, 2)"/>
+ </version>
+ <version name="7.0.103" package="org.apache.tomcat.Tomcat64">
+  <important-file path="bin\startup.bat" title="Start"/>
+  <important-file path="bin\shutdown.bat" title="Stop"/>
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b apache*') do set name=%%x
+cd "%name%"        
+for /f "delims=" %%a in ('dir /b') do (
+  move "%%a" ..
+)
+cd ..
+rmdir "%name%"
+</file>
+  <url>http://archive.apache.org/dist/tomcat/tomcat-7/v7.0.103/bin/apache-tomcat-7.0.103-windows-x64.zip</url>
+  <hash-sum type="SHA-256">7bca40a9170e9bad9014dbb5d4c9a7e4c6e3356e5229a2f0e7226726941a58d3</hash-sum>
   <dependency package="com.oracle.JRE" versions="[1.5, 2)"/>
  </version>
 
@@ -29625,7 +29691,7 @@ if %errorlevel% neq 0 exit /b %errorlevel%&#13;
 </file>
   <file path=".Npackd\Unnstall.bat">miktex\bin\miktexsetup.exe --verbose --shared uninstall&#13;
 </file>
-  <url>https://miktex.org/download/ctan/systems/win32/miktex/setup/windows-x64/basic-miktex-2.9.7386-x64.exe</url>
+  <url>https://github.com/tim-lebedkov/packages/releases/download/2020_03/org.miktex.MiKTeX64-2.9.7386-basic-miktex-2.9.7386-x64.exe</url>
   <hash-sum type="SHA-256">ab831b4289fe2cc65fdd44fd853f570b454caaccda915dacdb8c8d4794306a6d</hash-sum>
  </version>
 
