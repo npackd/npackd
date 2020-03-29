@@ -1322,7 +1322,7 @@ x86_64</description>
  </package>
  <package name="jclasslib64">
   <title>jclasslib 64 bit</title>
-  <url>http://www.ej-technologies.com/products/jclasslib/overview.html</url>
+  <url>https://github.com/ingokegel/jclasslib</url>
   <description>Java bytecode viewer
 x86_64</description>
   <icon>https://lh5.googleusercontent.com/-ARZQklW7YWQ/USqT_unEYxI/AAAAAAAAA4M/tuvxfRENzO4/s800/jclasslib.png</icon>
@@ -1557,7 +1557,7 @@ x86_64</description>
  </package>
  <package name="msys2_64">
   <title>MSYS2 64 bit</title>
-  <url>http://msys2.github.io/</url>
+  <url>https://www.msys2.org/</url>
   <description>A Cygwin-derived software distro for Windows using Arch Linux's Pacman.&#13;
 &#13;
 MSYS2 is an independent rewrite of MSYS, based on modern Cygwin (POSIX compatibility layer) and MinGW-w64 with the aim of better interoperability with native Windows software.&#13;
@@ -1577,7 +1577,6 @@ x86_64</description>
   <icon>https://avatars3.githubusercontent.com/u/6759993?v=3&amp;s=200</icon>
   <category>Development</category>
   <tag>stable64</tag>
-  <link href="http://msys2.github.io/1_msys32-start.png" rel="screenshot"/>
  </package>
  <package name="mtuner">
   <title>MTuner</title>
@@ -3338,6 +3337,14 @@ x86_64</description>
 </file>
   <url>https://github.com/tim-lebedkov/packages/releases/download/2020_03/anki64-2.1.21-anki-2.1.21-windows.exe</url>
   <hash-sum type="SHA-256">b5b595309d3f50dcb51f4aef94cae8bd64187b52b1da2594f0bfa2bc3e99d661</hash-sum>
+ </version>
+ <version name="2.1.22" package="anki64" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD%&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">uninstall.exe /S&#13;
+</file>
+  <url>https://apps.ankiweb.net/downloads/current/anki-2.1.22-windows.exe</url>
+  <hash-sum type="SHA-256">841394109f003f04481fd5ef97ae9e8010bf4ae8d5b58e1b2b2cc753815fc7fa</hash-sum>
  </version>
 
     <version name="2.4.33" package="apache-httpd64">
@@ -6221,6 +6228,12 @@ if %err% neq 0 exit %err%</file>
   <url>https://github.com/ArtifexSoftware/ghostpdl-downloads/releases/download/gs951/gs951w64.exe</url>
   <hash-sum type="SHA-256">fe5b8d92e33547e2d71ebaca1f11d6db915566aea66e55c5887eae5a23142606</hash-sum>
  </version>
+ <version name="9.52" package="com.ghostscript.Ghostscript64" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD%</file>
+  <file path=".Npackd\Uninstall.bat">uninstgs.exe /S</file>
+  <url>https://github.com/ArtifexSoftware/ghostpdl-downloads/releases/download/gs952/gs952w64.exe</url>
+  <hash-sum type="SHA-256">02814c278be321dbd07c4540da138a9b7e58407e72aa046959bad07afbef53c5</hash-sum>
+ </version>
 
     <version name="12.7.27.3" package="com.googlecode.conemu-maximus5.ConEmu64" type="one-file">
   <important-file path="ConEmu64.exe" title="ConEmu"/>
@@ -6982,6 +6995,16 @@ call "%npackdih%\InstallMSI.bat" INSTALLDIR yes&#13;
 </file>
   <url>https://download.tortoisegit.org/tgit/2.10.0.0/TortoiseGit-2.10.0.0-64bit.msi</url>
   <hash-sum type="SHA-256">bf7ae25b89502cef6e5f5f75b81cab88e534c3e8c5d7f502970ae8326a5db8f4</hash-sum>
+  <dependency package="git64" versions="[1.7.6.2011.7.8, 3)"/>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3.1, 2)">
+   <variable>npackdih</variable>
+  </dependency>
+ </version>
+ <version name="2.10.0.2" package="com.googlecode.tortoisegit.TortoiseGit64" type="one-file">
+  <file path=".Npackd\Install.bat">call "%npackdih%\InstallMSI.bat" INSTALLDIR yes&#13;
+</file>
+  <url>https://download.tortoisegit.org/tgit/2.10.0.0/TortoiseGit-2.10.0.2-64bit.msi</url>
+  <hash-sum type="SHA-256">fd7c1c304b6b2b9ba77ce86e86900e76d93e3fad4367a1b5db4ff162f1d3ea50</hash-sum>
   <dependency package="git64" versions="[1.7.6.2011.7.8, 3)"/>
   <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3.1, 2)">
    <variable>npackdih</variable>
@@ -17133,6 +17156,18 @@ rmdir "%name%"&#13;
    <variable>myun</variable>
   </dependency>
  </version>
+ <version name="5.5.1" package="jclasslib64" type="one-file">
+  <important-file path="bin\jclasslib.exe" title="jclasslib"/>
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
+"%setup%" -q -dir "%CD%" &amp;&amp; del /f /q "%setup%"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">uninstall.exe -q</file>
+  <url>https://github.com/ingokegel/jclasslib/releases/download/5.5/jclasslib_win64_5_5.exe</url>
+  <hash-sum type="SHA-256">b69ef857fad6aebb2d41941eec7a5be978d512b5d5fc5b191c7f26f0ca96244d</hash-sum>
+  <dependency package="net.nirsoft.MyUninstaller" versions="[1.74, 2)">
+   <variable>myun</variable>
+  </dependency>
+ </version>
 
     <version name="18.1" package="kodi64" type="one-file">
   <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
@@ -26762,6 +26797,20 @@ rmdir "%name%"&#13;
   <hash-sum type="SHA-256">8e23fe1fde003a584187b5336d05d7e1dd050a148d92acf5cefb7779116c7d00</hash-sum>
   <dependency package="com.oracle.JRE64" versions="[1.6, 2)"/>
  </version>
+ <version name="2020.3" package="org.eclipse.EclipseIDEJava64">
+  <important-file path="eclipse.exe" title="Eclipse IDE for Java"/>
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b eclipse*') do set name=%%x&#13;
+cd "%name%"        &#13;
+for /f "delims=" %%a in ('dir /b') do (&#13;
+  move "%%a" ..&#13;
+)&#13;
+cd ..&#13;
+rmdir "%name%"&#13;
+</file>
+  <url>http://download.eclipse.org/technology/epp/downloads/release/2018-09/R/eclipse-java-2018-09-win32-x86_64.zip</url>
+  <hash-sum type="SHA-256">8e23fe1fde003a584187b5336d05d7e1dd050a148d92acf5cefb7779116c7d00</hash-sum>
+  <dependency package="com.oracle.JRE64" versions="[1.6, 2)"/>
+ </version>
 
     <version name="15.2" package="org.erlang.Erlang64" type="one-file">
   <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
@@ -29246,6 +29295,40 @@ Set view = Nothing&#13;
 </file>
   <url>https://golang.org/dl/go1.14.windows-amd64.msi</url>
   <hash-sum type="SHA-256">5d3b87736bf9e86e971055e5db61e8b4ec31405f42d954ad3a71ac758876685e</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1, 2)">
+   <variable>npackdih</variable>
+  </dependency>
+ </version>
+ <version name="1.14.1" package="org.golang.Go64" type="one-file">
+  <file path=".Npackd\Install.bat">.Npackd\AddProperty.vbs "%npackd_package_binary%"&#13;
+if %errorlevel% neq 0 exit %errorlevel%&#13;
+&#13;
+call "%npackdih%\InstallMSI.bat" INSTALLDIR</file>
+  <file path=".Npackd\Uninstall.bat">call "%npackdih%\UninstallMSI.bat"</file>
+  <file path=".Npackd\AddProperty.vbs">Option Explicit&#13;
+&#13;
+Dim MSI_FILE&#13;
+MSI_FILE = Wscript.Arguments(0)&#13;
+&#13;
+Dim installer, database, view&#13;
+&#13;
+Set installer = CreateObject("WindowsInstaller.Installer")&#13;
+Set database = installer.OpenDatabase(MSI_FILE, 1)&#13;
+&#13;
+Set view = database.OpenView("INSERT INTO Property (Property, Value) VALUES ('INSTALLDIR', 'C:\Go')")&#13;
+view.Execute&#13;
+'Set view = database.OpenView("DELETE FROM Directory WHERE Directory='TARGETDIR'")&#13;
+'view.Execute&#13;
+'Set view = database.OpenView("UPDATE Directory SET DefaultDir='INSTALLLOCATION' WHERE Directory='TARGETDIR'")&#13;
+'view.Execute&#13;
+database.Commit&#13;
+&#13;
+Set database = Nothing&#13;
+Set installer = Nothing&#13;
+Set view = Nothing&#13;
+</file>
+  <url>https://golang.org/dl/go1.14.1.windows-amd64.msi</url>
+  <hash-sum type="SHA-256">6ea82fd995a0a3b8ff08caae86e272c2a50878f7cb2d4d19775be3a7f527b6a7</hash-sum>
   <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1, 2)">
    <variable>npackdih</variable>
   </dependency>
@@ -39362,6 +39445,14 @@ if %errorlevel% equ 3010 verify</file>
    <variable>myun</variable>
   </dependency>
  </version>
+ <version name="0.7.4" package="rambox-64-bit" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">uninstall.exe /S _?=%CD%&#13;
+</file>
+  <url>https://github.com/saenzramiro/rambox/releases/download/0.7.4/Rambox-0.7.4-win.exe</url>
+  <hash-sum type="SHA-256">87a03e9a62e37417be6d4e1ce567821344f6acdc984d6cf5239f02d29871abd2</hash-sum>
+ </version>
 
     <version name="2015.3.1" package="rdkit64">
   <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b RDKit*') do set name=%%x&#13;
@@ -42253,6 +42344,18 @@ if %err% neq 0 exit /b %err%&#13;
 </file>
   <url>https://downloads.vivaldi.com/stable/Vivaldi.2.11.1811.47.x64.exe</url>
   <hash-sum type="SHA-256">8e026468e75f263ec6730c973b6c5644702c85dfd09b485c22e8a5f93deaf611</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.24, 2)">
+   <variable>ncl</variable>
+  </dependency>
+ </version>
+ <version name="2.11.1811.49" package="vivaldi-browser-64" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" --vivaldi-standalone --do-not-launch-chrome --vivaldi-install-dir="%CD%" &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
+&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">"%ncl%\ncl.exe" remove-scp --title "vivaldi-browser-64"&#13;
+</file>
+  <url>https://downloads.vivaldi.com/stable/Vivaldi.2.11.1811.49.x64.exe</url>
+  <hash-sum type="SHA-256">ea472a450f2a9d6670c9ba1a76bb907d95394a75a7bcb64cc1419a7e0d3dec7c</hash-sum>
   <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.24, 2)">
    <variable>ncl</variable>
   </dependency>
