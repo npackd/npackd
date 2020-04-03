@@ -16775,6 +16775,17 @@ if %err% neq 0 exit %err%&#13;
    <variable>nih</variable>
   </dependency>
  </version>
+ <version name="7.0.10.3" package="imagemagick64" type="one-file">
+  <file path=".Npackd\Install.bat">call "%nih%\InstallInnoSetup.bat"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">call "%nih%\UninstallInnoSetup.bat" unins000.exe&#13;
+</file>
+  <url>https://www.imagemagick.org/download/binaries/ImageMagick-7.0.10-3-Q16-x64-dll.exe</url>
+  <hash-sum type="SHA-256">46725d1bfc715a11c91f6a448dfa91e259911cd3ae806cae20cc2654895444f1</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
 
     <version name="0.3.8" package="io.mpv.mpv-64" type="one-file">
   <file path=".Npackd\Install.bat">for /f %%x in ('dir /b *.7z') do set setup=%%x&#13;
@@ -17486,6 +17497,14 @@ call "%nih%\InstallMSI.bat" TARGETDIR yes&#13;
   <url>https://download.kde.org/stable/krita/4.2.8/krita-x64-4.2.8-setup.exe</url>
   <hash-sum type="SHA-256">dca15dad13684622ae2704d77b34f0662bc109b7b6e3e7393a549b6418fcd419</hash-sum>
  </version>
+ <version name="4.2.9" package="krita64" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">uninstall.exe /S _?=%CD%&#13;
+</file>
+  <url>https://download.kde.org/stable/krita/4.2.9/krita-x64-4.2.9-setup.exe</url>
+  <hash-sum type="SHA-256">fd8345a4d4170c62e410f8cfe1547bb811eb312de953a540b3bf12bb79137b9f</hash-sum>
+ </version>
 
     <version name="1.2" package="ldc64">
   <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b ldc*') do set name=%%x&#13;
@@ -17999,6 +18018,15 @@ call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Np
   <file path=".Npackd\Install.bat">call "%npackdih%\InstallMSI.bat" INSTALLLOCATION yes</file>
   <url>https://download.documentfoundation.org/libreoffice/stable/6.4.1/win/x86_64/LibreOffice_6.4.1_Win_x64.msi</url>
   <hash-sum type="SHA-256">bb649638229128543e73999f07aa39941907632d300cfc5eb014fe2b2472b3c5</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.1, 2)">
+   <variable>npackdih</variable>
+  </dependency>
+  <dependency package="com.oracle.JRE" versions="[1.6, 2)"/>
+ </version>
+ <version name="6.4.2" package="libreoffice64" type="one-file">
+  <file path=".Npackd\Install.bat">call "%npackdih%\InstallMSI.bat" INSTALLLOCATION yes</file>
+  <url>https://download.documentfoundation.org/libreoffice/stable/6.4.2/win/x86_64/LibreOffice_6.4.2_Win_x64.msi</url>
+  <hash-sum type="SHA-256">853bf1e8b46b849a57d4643dbde8451280d7ff8140e68af355acc868e3a00bd1</hash-sum>
   <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.1, 2)">
    <variable>npackdih</variable>
   </dependency>
@@ -37894,6 +37922,16 @@ echo DesktopShortcut=false &gt;&gt; .Npackd\FF.ini&#13;
   <url>http://relmirror.palemoon.org/release/palemoon-28.9.0.win64.installer.exe</url>
   <hash-sum type="SHA-256">6f814cc61a46ba35e63e803892c05a36f618868795effe139decf9ef79aed72a</hash-sum>
  </version>
+ <version name="28.9.0.2" package="pale-moon64" type="one-file">
+  <file path=".Npackd\Install.bat">echo [Install] &gt; .Npackd\FF.ini&#13;
+echo InstallDirectoryPath=%CD% &gt;&gt; .Npackd\FF.ini&#13;
+echo QuickLaunchShortcut=false &gt;&gt; .Npackd\FF.ini&#13;
+echo DesktopShortcut=false &gt;&gt; .Npackd\FF.ini&#13;
+"%npackd_package_binary%" /INI="%CD%\.Npackd\FF.ini" &amp;&amp; del /f /q "%npackd_package_binary%"</file>
+  <file path=".Npackd\Uninstall.bat">uninstall\helper.exe /S</file>
+  <url>http://relmirror.palemoon.org/release/palemoon-28.9.0.win64.installer.exe</url>
+  <hash-sum type="SHA-256">6f814cc61a46ba35e63e803892c05a36f618868795effe139decf9ef79aed72a</hash-sum>
+ </version>
 
     <version name="2.2.1" package="pandoc64" type="one-file">
   <file path=".Npackd\Install.bat">call "%nih%\InstallMSI.bat" INSTALLDIR yes&#13;
@@ -38272,6 +38310,16 @@ call "%npackdih%\InstallMSI.bat" TARGETDIR yes</file>
 call "%npackdih%\InstallMSI.bat" TARGETDIR yes</file>
   <url>https://github.com/torakiki/pdfsam/releases/download/v4.1.1/pdfsam-4.1.1.msi</url>
   <hash-sum type="SHA-256">8e8cc58214e7996b0cec3a561dad134afff31661cd7b10c5c4b0a42e49e4be6b</hash-sum>
+  <dependency package="com.oracle.JRE64" versions="[1.6.0.23, 2)"/>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.1, 2)">
+   <variable>npackdih</variable>
+  </dependency>
+ </version>
+ <version name="4.1.2" package="pdfsam64" type="one-file">
+  <file path=".Npackd\Install.bat">rem un-installation tries to remove .Npackd and fails =&gt; 2 to install the program somewhere else&#13;
+call "%npackdih%\InstallMSI.bat" TARGETDIR yes</file>
+  <url>https://github.com/torakiki/pdfsam/releases/download/v4.1.2/pdfsam-4.1.2.msi</url>
+  <hash-sum type="SHA-256">52c8874df816c3e516730ce91fbb12e2ebf9aeb195d2eb0c153d8dd6e5b86144</hash-sum>
   <dependency package="com.oracle.JRE64" versions="[1.6.0.23, 2)"/>
   <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.1, 2)">
    <variable>npackdih</variable>
@@ -39084,6 +39132,17 @@ if %errorlevel% equ 3010 verify</file>
    <variable>ncl</variable>
   </dependency>
  </version>
+ <version name="4.11.2" package="qt-creator64" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD%&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">"%ncl%\ncl.exe" remove-scp --title "/Qt Creator.*/"&#13;
+</file>
+  <url>http://download.qt-project.org/official_releases/qtcreator/4.11/4.11.2/qt-creator-opensource-windows-x86_64-4.11.2.exe</url>
+  <hash-sum type="SHA-256">bd3241f79b4d583e15f6bb64ea1d099ea6548cc716e95b94ea0069f1ac20f79b</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.24, 2)">
+   <variable>ncl</variable>
+  </dependency>
+ </version>
 
     <version name="1.11" package="qtox64" type="one-file">
   <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
@@ -39471,6 +39530,14 @@ if %errorlevel% equ 3010 verify</file>
 </file>
   <url>https://github.com/saenzramiro/rambox/releases/download/0.7.4/Rambox-0.7.4-win.exe</url>
   <hash-sum type="SHA-256">87a03e9a62e37417be6d4e1ce567821344f6acdc984d6cf5239f02d29871abd2</hash-sum>
+ </version>
+ <version name="0.7.5" package="rambox-64-bit" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">uninstall.exe /S _?=%CD%&#13;
+</file>
+  <url>https://github.com/saenzramiro/rambox/releases/download/0.7.5/Rambox-0.7.5-win.exe</url>
+  <hash-sum type="SHA-256">b768f13b67c740ba1081d69f95f450a1f6c6e9d45e8a096bc5dd864fbddea464</hash-sum>
  </version>
 
     <version name="2015.3.1" package="rdkit64">
