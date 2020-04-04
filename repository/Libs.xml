@@ -1568,6 +1568,25 @@ rmdir "%name%"</file>
   </dependency>
   <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.15.7, 2)"/>
  </version>
+ <version name="5.14.2" package="com.nokia.QtSource" type="one-file">
+  <file path=".Npackd\Install.bat">for /f %%x in ('dir /b *.zip') do set setup=%%x&#13;
+"%sevenzipa%\7za.exe" x "%setup%" &gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+del "%setup%"&#13;
+&#13;
+for /f "delims=" %%x in ('dir /b qt*') do set name=%%x&#13;
+cd "%name%"        &#13;
+for /f "delims=" %%a in ('dir /b') do (&#13;
+  move "%%a" ..&#13;
+)&#13;
+cd ..&#13;
+rmdir "%name%"</file>
+  <url>https://download.qt.io/archive/qt/5.14/5.14.2/single/qt-everywhere-src-5.14.2.zip</url>
+  <hash-sum type="SHA-256">847f39c5b9db3eeee890a2aee3065ae81032287ab9d5812015ff9b37d19b64d6</hash-sum>
+  <dependency package="org.7-zip.SevenZIPA" versions="[9.20, 20)">
+   <variable>sevenzipa</variable>
+  </dependency>
+  <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.15.7, 2)"/>
+ </version>
 
     <version name="1.2.11" package="log4net">
   <url>https://ayera.dl.sourceforge.net/project/npackd/log4net-1.2.11.zip</url>
