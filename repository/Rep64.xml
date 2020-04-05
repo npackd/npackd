@@ -1915,17 +1915,6 @@ x86_64</description>
   <category>Development</category>
   <tag>stable64</tag>
  </package>
- <package name="office365">
-  <title>Visual Studio Code</title>
-  <url>https://code.visualstudio.com</url>
-  <description>
-x86_64</description>
-  <icon>https://code.visualstudio.com/favicon.ico</icon>
-  <license>edu.mit.web.MIT</license>
-  <category>Development</category>
-  <tag>stable64</tag>
-  <link href="https://code.visualstudio.com/assets/home/home-screenshot-win-lg.png" rel="screenshot"/>
- </package>
  <package name="open-broadcaster-software64">
   <title>Open Broadcaster Software 64 bit</title>
   <url>https://obsproject.com/</url>
@@ -3097,22 +3086,24 @@ x86_64</description>
  <package name="vs-code">
   <title>Microsoft Visual Studio Code</title>
   <url>https://code.visualstudio.com/</url>
-  <description>IDE
+  <description>IDE. Supported languages: Batch, C#, C++, Clojure, CoffeeScript, CSS, Dart, Dockerfile, F#, Go, Groovy, Handlebars.js, HTML, Ini, Java, JavaScript, JSON, Less, Lua, Makefile, Markdown, Objective-C, Perl, PowerShell, PHP, Python, R, Ruby, Rust, Sass, SQL, Swift, TypeScript, Visual Basic and XML.
 x86_64</description>
   <icon>https://code.visualstudio.com/favicon.ico</icon>
   <category>Development</category>
   <tag>stable64</tag>
   <stars>1</stars>
+  <link href="https://code.visualstudio.com/assets/home/home-screenshot-win-lg.png" rel="screenshot"/>
  </package>
  <package name="vs-code64">
   <title>Microsoft Visual Studio Code 64 Bit</title>
   <url>https://code.visualstudio.com/</url>
-  <description>IDE
+  <description>IDE. Supported languages: Batch, C#, C++, Clojure, CoffeeScript, CSS, Dart, Dockerfile, F#, Go, Groovy, Handlebars.js, HTML, Ini, Java, JavaScript, JSON, Less, Lua, Makefile, Markdown, Objective-C, Perl, PowerShell, PHP, Python, R, Ruby, Rust, Sass, SQL, Swift, TypeScript, Visual Basic and XML.
 x86_64</description>
   <icon>https://code.visualstudio.com/favicon.ico</icon>
   <category>Development</category>
   <tag>stable64</tag>
   <stars>2</stars>
+  <link href="https://code.visualstudio.com/assets/home/home-screenshot-win-lg.png" rel="screenshot"/>
  </package>
  <package name="vuze64">
   <title>Vuze 64 bit</title>
@@ -6024,6 +6015,15 @@ call "%npackdih%\InstallMSI.bat" APPLICATIONFOLDER yes&#13;
 </file>
   <url>https://download.calibre-ebook.com/4.12.0/calibre-64bit-4.12.0.msi</url>
   <hash-sum type="SHA-256">9c01f6534b97f9cf7676add709e1c781861a23a9502a67226cbc9b8f9eee87d6</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.2, 2)">
+   <variable>npackdih</variable>
+  </dependency>
+ </version>
+ <version name="4.13" package="com.calibreebook.Calibre64" type="one-file">
+  <file path=".Npackd\Install.bat">call "%npackdih%\InstallMSI.bat" APPLICATIONFOLDER yes&#13;
+</file>
+  <url>https://download.calibre-ebook.com/4.13.0/calibre-64bit-4.13.0.msi</url>
+  <hash-sum type="SHA-256">60a944da8226a4f1f8f7ca45d534fb985836b287bed2dc651a9b34352dcfc5cc</hash-sum>
   <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.2, 2)">
    <variable>npackdih</variable>
   </dependency>
@@ -23227,29 +23227,6 @@ verify&#13;
 </file>
   <url>http://www.ch-werner.de/sqliteodbc/sqliteodbc_w64_msvcr100.exe</url>
   <sha1>8bc93731394d1b710e7f90608f847ecd7bed9a24</sha1>
- </version>
-
-    <version name="1.42" package="office365" type="one-file">
-  <file path=".Npackd\Install.bat">call "%nih%\InstallInnoSetup.bat"&#13;
-</file>
-  <file path=".Npackd\Uninstall.bat">call "%nih%\UninstallInnoSetup.bat" unins000.exe&#13;
-</file>
-  <url>https://az764295.vo.msecnd.net/stable/c47d83b293181d9be64f27ff093689e8e7aed054/VSCodeUserSetup-x64-1.42.1.exe</url>
-  <hash-sum type="SHA-256">b8ebdbd85b1e760b6613ab4c0fdc7ac85253ebd8eecf809651d9bfe5746e2ab3</hash-sum>
-  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
-   <variable>nih</variable>
-  </dependency>
- </version>
- <version name="1.43" package="office365" type="one-file">
-  <file path=".Npackd\Install.bat">call "%nih%\InstallInnoSetup.bat"&#13;
-</file>
-  <file path=".Npackd\Uninstall.bat">call "%nih%\UninstallInnoSetup.bat" unins000.exe&#13;
-</file>
-  <url>https://az764295.vo.msecnd.net/stable/c47d83b293181d9be64f27ff093689e8e7aed054/VSCodeUserSetup-x64-1.42.1.exe</url>
-  <hash-sum type="SHA-256">b8ebdbd85b1e760b6613ab4c0fdc7ac85253ebd8eecf809651d9bfe5746e2ab3</hash-sum>
-  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
-   <variable>nih</variable>
-  </dependency>
  </version>
 
     <version name="22.0.2" package="open-broadcaster-software64" type="one-file">
@@ -40820,6 +40797,17 @@ Prog\setup.exe /Q /IACCEPTSQLSERVERLICENSETERMS /Q /ACTION=install &gt; .Npackd\
 </file>
   <url>https://github.com/Stellarium/stellarium/releases/download/v0.19.3/stellarium-0.19.3.1-win64.exe</url>
   <hash-sum type="SHA-256">26a16b86ac0c6486327e3f932da0c5d8dd0a44d06daa370cda98f362a19fa7eb</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
+ <version name="0.20.0.1" package="stellarium64" type="one-file">
+  <file path=".Npackd\Install.bat">call "%nih%\InstallInnoSetup.bat"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">call "%nih%\UninstallInnoSetup.bat" unins000.exe&#13;
+</file>
+  <url>https://github.com/Stellarium/stellarium/releases/download/v0.20.0/stellarium-0.20.0.1-win64.exe</url>
+  <hash-sum type="SHA-256">5de72af02eba92e965819dfc4ec604ebaae2c230331b09bd80a88e37d71b19ee</hash-sum>
   <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
    <variable>nih</variable>
   </dependency>
