@@ -88,6 +88,10 @@
   <title>Boost license</title>
   <url>http://www.boost.org/users/license.html</url>
  </license>
+ <license name="org.cmake.License">
+  <title>CMake license</title>
+  <url>http://www.cmake.org/cmake/project/license.html</url>
+ </license>
  <license name="org.eclipse.EPLv1">
   <title>EPLv1</title>
   <url>http://www.eclipse.org/legal/epl-v10.html</url>
@@ -308,6 +312,17 @@ x86_64</description>
   <license>org.gnu.GPLv3</license>
   <category>Communications</category>
   <tag>stable64</tag>
+ </package>
+ <package name="cmake64">
+  <title>CMake 64 bit</title>
+  <url>http://www.cmake.org</url>
+  <description>build tool
+x86_64</description>
+  <icon>https://lh5.googleusercontent.com/-0-hYPM5Lv4s/VC7YQmOsLzI/AAAAAAAAByI/1k3sirtcLq0/s232/cmake.png</icon>
+  <license>org.cmake.License</license>
+  <category>Development</category>
+  <tag>stable64</tag>
+  <link href="https://cmake.org/cmake/help/latest/release/index.html" rel="changelog"/>
  </package>
  <package name="com.activestate.ActivePerl64">
   <title>ActivePerl 64 bit</title>
@@ -3836,6 +3851,21 @@ verify
   <file path=".Npackd\Uninstall.bat">claws-mail-uninstall.exe /S _?=%CD%</file>
   <url>http://www.claws-mail.org//win32/claws-mail-3.15.0-1-64bit.exe</url>
   <sha1>fd5b3481ec60c4a3d8cdad1e4e7978a075a34587</sha1>
+ </version>
+
+    <version name="3.17" package="cmake64">
+  <cmd-file path="bin\cmake.exe"/>
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b cmake*') do set name=%%x&#13;
+cd "%name%"        &#13;
+for /f "delims=" %%a in ('dir /b') do (&#13;
+  move "%%a" ..&#13;
+)&#13;
+cd ..&#13;
+rmdir "%name%"&#13;
+if %errorlevel% neq 0 exit /b %errorlevel%&#13;
+</file>
+  <url>https://www.cmake.org/files/v3.17/cmake-3.17.0-win64-x64.zip</url>
+  <hash-sum type="SHA-256">d29ac4cdd10b1c205ff77e23580b89edb5eead10520edbafdba63a69d92b725b</hash-sum>
  </version>
 
     <version name="5.26.3.2603" package="com.activestate.ActivePerl64" type="one-file">
