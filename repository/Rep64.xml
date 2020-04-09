@@ -9413,6 +9413,16 @@ if %err% neq 0 exit %err%&#13;
    <variable>nih</variable>
   </dependency>
  </version>
+ <version name="5.3.2" package="com.selenic.mercurial.Mercurial64" type="one-file">
+  <file path=".Npackd\Install.bat">call "%nih%\InstallInnoSetup.bat"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">call "%nih%\UninstallInnoSetup.bat" unins000.exe</file>
+  <url>https://www.mercurial-scm.org/release/windows/Mercurial-5.3.2-x64.exe</url>
+  <hash-sum type="SHA-256">e4668f098da30ece283cff8a0f1046e687f8ebd966d88f34be91e48d2c9d76be</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.7, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
 
     <version name="2.11" package="com.sindresorhus.caprine" type="one-file">
   <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
@@ -10027,7 +10037,7 @@ del Q-Dir.ini&#13;
   <url>http://files.npackd.org/com.softwareok.QDir64-5.99.9.zip</url>
   <sha1>fb6060796fae3fc641ba34fe1f2f8530d7c985a8</sha1>
  </version>
- <version name="8.4" package="com.softwareok.QDir64">
+ <version name="8.6" package="com.softwareok.QDir64">
   <important-file path="Q-Dir.exe" title="Q-Dir"/>
   <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b Q*') do set name=%%x&#13;
 cd "%name%"        &#13;
@@ -13173,6 +13183,14 @@ if %err% neq 0 exit %err%&#13;
   <url>http://dbeaver.jkiss.org/files/7.0.1/dbeaver-ce-7.0.1-x86_64-setup.exe</url>
   <hash-sum type="SHA-256">ef79aa06d9b6cad4e8347233321d40ea29188c81eaf309c58a8948db8ee5d84d</hash-sum>
  </version>
+ <version name="7.0.2" package="dbeaver64" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" /allusers /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">uninstall.exe /allusers /S _?=%CD%&#13;
+</file>
+  <url>http://dbeaver.jkiss.org/files/7.0.2/dbeaver-ce-7.0.2-x86_64-setup.exe</url>
+  <hash-sum type="SHA-256">62e207f33d85e3a6fa4e07d1ca1727f5f8a4ebc083488925147cc7b0ee5d87b4</hash-sum>
+ </version>
 
     <version name="0.825" package="dcplusplus64">
   <important-file path="DCPlusPlus.exe" title="DC++"/>
@@ -15326,7 +15344,7 @@ if %err% neq 0 exit %err%&#13;
   <hash-sum type="SHA-256">9242bff87f2c3ffb560c74b43fd0525adcec86d6092eaeeb5fc271b0d086b924</hash-sum>
  </version>
 
-    <version name="80.0.3987.162" package="google-chrome-x64" type="one-file">
+    <version name="81.0.4044.92" package="google-chrome-x64" type="one-file">
   <file path=".Npackd\Install.bat">call "%npackdih%\InstallMSI.bat" TARGETDIR yes&#13;
 </file>
   <url>https://dl.google.com/tag/s/appguid%3D%7B8A69D345-D564-463C-AFF1-A69D9E530F96%7D%26iid%3D%7B0A558A36-0536-8B3F-0AE0-420553CC97F3%7D%26lang%3Den%26browser%3D4%26usagestats%3D0%26appname%3DGoogle%2520Chrome%26needsadmin%3DFalse/edgedl/chrome/install/GoogleChromeStandaloneEnterprise64.msi</url>
@@ -15983,6 +16001,19 @@ rmdir "%name%"&#13;
 </file>
   <url>https://dl.google.com/dl/cloudsdk/channels/rapid/downloads/google-cloud-sdk-286.0.0-windows-x86_64.zip</url>
   <hash-sum type="SHA-256">cb4e19428d7a46e1a70e1454a00ce0b07e99f882877e59c6af46bf2474f73eec</hash-sum>
+  <dependency package="org.python.Python" versions="[2.7, 2.8)"/>
+ </version>
+ <version name="288" package="google-cloud-sdk64">
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b google-cloud-sdk*') do set name=%%x&#13;
+cd "%name%"&#13;
+for /f "delims=" %%a in ('dir /b') do (&#13;
+  move "%%a" ..&#13;
+)&#13;
+cd ..&#13;
+rmdir "%name%"&#13;
+</file>
+  <url>https://dl.google.com/dl/cloudsdk/channels/rapid/downloads/google-cloud-sdk-288.0.0-windows-x86_64.zip</url>
+  <hash-sum type="SHA-256">d1d5a8e8af579bdbb3e113f973c973fd8bf84d47ff041a6210ddae236a6d0fa7</hash-sum>
   <dependency package="org.python.Python" versions="[2.7, 2.8)"/>
  </version>
 
@@ -16822,6 +16853,17 @@ if %err% neq 0 exit %err%&#13;
 </file>
   <url>https://github.com/tim-lebedkov/packages/releases/download/2020_04/imagemagick64-7.0.10.3-ImageMagick-7.0.10-3-Q16-x64-dll.exe</url>
   <hash-sum type="SHA-256">46725d1bfc715a11c91f6a448dfa91e259911cd3ae806cae20cc2654895444f1</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
+ <version name="7.0.10.6" package="imagemagick64" type="one-file">
+  <file path=".Npackd\Install.bat">call "%nih%\InstallInnoSetup.bat"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">call "%nih%\UninstallInnoSetup.bat" unins000.exe&#13;
+</file>
+  <url>https://www.imagemagick.org/download/binaries/ImageMagick-7.0.10-6-Q16-x64-dll.exe</url>
+  <hash-sum type="SHA-256">87e5a3446bdcd13d6c4a82b250445023b1f17403bfeb6b80600afee56bc7532e</hash-sum>
   <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
    <variable>nih</variable>
   </dependency>
@@ -20376,7 +20418,7 @@ del /q /f "CINEBENCH Windows 32 Bit.exe"</file>
   <url>http://files.npackd.org/net.nirsoft.FileTypesMan64-1.68.zip</url>
   <sha1>f9052bc7e5bc8287ecee16eaf6f2d20cafdefd97</sha1>
  </version>
- <version name="1.86" package="net.nirsoft.FileTypesMan64">
+ <version name="1.90" package="net.nirsoft.FileTypesMan64">
   <important-file path="FileTypesMan.exe" title="FileTypesMan"/>
   <url>http://www.nirsoft.net/utils/filetypesman-x64.zip</url>
  </version>
@@ -23366,6 +23408,17 @@ verify&#13;
    <variable>myun</variable>
   </dependency>
  </version>
+ <version name="25.0.4" package="open-broadcaster-software64" type="one-file">
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
+"%setup%" /S /D=%CD% &amp;&amp; del /f /q "%setup%"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">"%myun%\myuninst.exe" /uninstall "Open Broadcaster Software"</file>
+  <url>https://cdn-fastly.obsproject.com/downloads/OBS-Studio-25.0.4-Full-Installer-x64.exe</url>
+  <hash-sum type="SHA-256">30607330c39caabca23315512e7fcf5085fd488a56905ebee8f703950cc5eab7</hash-sum>
+  <dependency package="net.nirsoft.MyUninstaller" versions="[1.74, 2)">
+   <variable>myun</variable>
+  </dependency>
+ </version>
 
     <version name="1.6.1" package="open-ttd64">
   <important-file path="openttd.exe" title="OpenTTD"/>
@@ -23406,6 +23459,11 @@ verify&#13;
   <important-file path="openttd.exe" title="OpenTTD"/>
   <url>https://proxy.binaries.openttd.org/openttd-releases/1.9.3/openttd-1.9.3-windows-win64.zip</url>
   <hash-sum type="SHA-256">66ba42b28b4e1977f7ffd082af3a6d9f5d08458ded9959d2b0cf822d3776df2e</hash-sum>
+ </version>
+ <version name="1.10" package="open-ttd64">
+  <important-file path="openttd.exe" title="OpenTTD"/>
+  <url>https://proxy.binaries.openttd.org/openttd-releases/1.10.0/openttd-1.10.0-windows-win64.zip</url>
+  <hash-sum type="SHA-256">263f0b51d9630a1ef60538e822de064138ea3599f1ace4cc070943e81aa5bc4d</hash-sum>
  </version>
 
     <version name="1.23.4" package="openmpt64" type="one-file">
@@ -38731,6 +38789,14 @@ verify</file>
 verify</file>
   <url>https://downloads.sourceforge.net/project/qbittorrent/qbittorrent-win32/qbittorrent-4.2.2/qbittorrent_4.2.2_x64_setup.exe</url>
   <hash-sum type="SHA-256">b6f84e27ce676b8068d96953063b166510c2660f4e146d1639f279d317fbe9b7</hash-sum>
+ </version>
+ <version name="4.2.3" package="qbittorrent-64-bit" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD%&#13;
+verify</file>
+  <file path=".Npackd\Uninstall.bat">uninst.exe /S _?=%CD%&#13;
+verify</file>
+  <url>https://downloads.sourceforge.net/project/qbittorrent/qbittorrent-win32/qbittorrent-4.2.3/qbittorrent_4.2.3_x64_setup.exe</url>
+  <hash-sum type="SHA-256">8efb1bc153f4dc9091695388f6b6b1ac0ee5f15957bb6cb14e424c6c1166a6b2</hash-sum>
  </version>
 
     <version name="3.23" package="qcad64" type="one-file">
