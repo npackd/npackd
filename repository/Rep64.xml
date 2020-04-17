@@ -3991,6 +3991,45 @@ for /f "delims=" %%x in ('dir /b FlashUtil32*Plugin.exe') do set setup=%%x&#13;
 </file>
   <url>https://download.macromedia.com/get/flashplayer/pdc/32.0.0.344/install_flash_player_32_plugin.msi</url>
  </version>
+ <version name="32.0.0.363" package="com.adobe.FlashPlayer64" type="one-file">
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.msi') do set setup=%%x&#13;
+mkdir .Npackd&#13;
+move "%setup%" .Npackd&#13;
+set err=%errorlevel%&#13;
+if %err% neq 0 exit %err%&#13;
+&#13;
+rem MSIFASTINSTALL: http://msdn.microsoft.com/en-us/library/dd408005%28v=VS.85%29.aspx&#13;
+msiexec.exe /qn /norestart /Lime .Npackd\InstallMSI.log /i ".Npackd\%setup%" INSTALLDIR="%CD%" ALLUSERS=1 MSIFASTINSTALL=7&#13;
+set err=%errorlevel%&#13;
+type .Npackd\InstallMSI.log&#13;
+&#13;
+rem list of errors: http://msdn.microsoft.com/en-us/library/windows/desktop/aa368542(v=vs.85).aspx&#13;
+rem 3010=restart required&#13;
+if %err% equ 3010 goto cont&#13;
+if %err% neq 0 exit %err%&#13;
+&#13;
+:cont&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">move .Npackd\*.msi .&#13;
+for /f "delims=" %%x in ('dir /b *.msi') do set setup=%%x&#13;
+&#13;
+rem MSIFASTINSTALL: http://msdn.microsoft.com/en-us/library/dd408005%28v=VS.85%29.aspx&#13;
+msiexec.exe /qn /norestart /Lime .Npackd\UninstallMSI.log /x "%setup%" MSIFASTINSTALL=7&#13;
+set err=%errorlevel%&#13;
+type .Npackd\UninstallMSI.log&#13;
+rem 3010=restart required&#13;
+if %err% equ 3010 goto cont&#13;
+if %err% neq 0 exit %err%&#13;
+&#13;
+:cont&#13;
+if not exist "%ProgramFiles(x86)%" set d=%windir%\System32\Macromed\Flash&#13;
+if exist "%ProgramFiles(x86)%" set d=%windir%\SysWOW64\Macromed\Flash&#13;
+cd "%d%"&#13;
+for /f "delims=" %%x in ('dir /b FlashUtil32*Plugin.exe') do set setup=%%x&#13;
+"%setup%" -uninstall&#13;
+</file>
+  <url>https://download.macromedia.com/get/flashplayer/pdc/32.0.0.363/install_flash_player_32_plugin.msi</url>
+ </version>
 
     <version name="32.0.0.321" package="com.adobe.FlashPlayerActiveX64" type="one-file">
   <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.msi') do set setup=%%x&#13;
@@ -4111,6 +4150,46 @@ for /f "delims=" %%x in ('dir /b FlashUtil32*ActiveX.exe') do set setup=%%x&#13;
 if "%setup%" neq "" "%setup%" -uninstall&#13;
 </file>
   <url>https://download.macromedia.com/pub/flashplayer/pdc/32.0.0.344/install_flash_player_32_plugin.msi</url>
+ </version>
+ <version name="32.0.0.363" package="com.adobe.FlashPlayerActiveX64" type="one-file">
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.msi') do set setup=%%x&#13;
+mkdir .Npackd&#13;
+move "%setup%" .Npackd&#13;
+set err=%errorlevel%&#13;
+if %err% neq 0 exit %err%&#13;
+&#13;
+rem MSIFASTINSTALL: http://msdn.microsoft.com/en-us/library/dd408005%28v=VS.85%29.aspx&#13;
+msiexec.exe /qn /norestart /Lime .Npackd\InstallMSI.log /i ".Npackd\%setup%" INSTALLDIR="%CD%" ALLUSERS=1 MSIFASTINSTALL=7&#13;
+set err=%errorlevel%&#13;
+type .Npackd\InstallMSI.log&#13;
+&#13;
+rem list of errors: http://msdn.microsoft.com/en-us/library/windows/desktop/aa368542(v=vs.85).aspx&#13;
+rem 3010=restart required&#13;
+if %err% equ 3010 goto cont&#13;
+if %err% neq 0 exit %err%&#13;
+&#13;
+:cont&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">move .Npackd\*.msi .&#13;
+for /f "delims=" %%x in ('dir /b *.msi') do set setup=%%x&#13;
+&#13;
+rem MSIFASTINSTALL: http://msdn.microsoft.com/en-us/library/dd408005%28v=VS.85%29.aspx&#13;
+msiexec.exe /qn /norestart /Lime .Npackd\UninstallMSI.log /x "%setup%" MSIFASTINSTALL=7&#13;
+set err=%errorlevel%&#13;
+type .Npackd\UninstallMSI.log&#13;
+rem 3010=restart required&#13;
+if %err% equ 3010 goto cont&#13;
+if %err% neq 0 exit %err%&#13;
+&#13;
+:cont&#13;
+if not exist "%ProgramFiles(x86)%" set d=%windir%\System32\Macromed\Flash&#13;
+if exist "%ProgramFiles(x86)%" set d=%windir%\SysWOW64\Macromed\Flash&#13;
+cd "%d%"&#13;
+set setup=&#13;
+for /f "delims=" %%x in ('dir /b FlashUtil32*ActiveX.exe') do set setup=%%x&#13;
+if "%setup%" neq "" "%setup%" -uninstall&#13;
+</file>
+  <url>https://download.macromedia.com/pub/flashplayer/pdc/32.0.0.363/install_flash_player_32_plugin.msi</url>
  </version>
 
     <version name="1.15.1" package="com.alcpu.CoreTemp64">
@@ -15305,6 +15384,17 @@ if %err% neq 0 exit %err%&#13;
    <variable>nih</variable>
   </dependency>
  </version>
+ <version name="2.26.1" package="git64" type="one-file">
+  <file path=".Npackd\Install.bat">call "%nih%\InstallInnoSetup.bat"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">call "%nih%\UninstallInnoSetup.bat" unins000.exe&#13;
+</file>
+  <url>https://github.com/git-for-windows/git/releases/download/v2.26.1.windows.1/Git-2.26.1-64-bit.exe</url>
+  <hash-sum type="SHA-256">2f4595973f188d24a585e70e1cd77749dda05f6429f38ba37e5c4ca6b52fdb30</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
 
     <version name="5.2.7" package="gnuplot64" type="one-file">
   <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
@@ -16007,6 +16097,19 @@ rmdir "%name%"&#13;
 </file>
   <url>https://dl.google.com/dl/cloudsdk/channels/rapid/downloads/google-cloud-sdk-288.0.0-windows-x86_64.zip</url>
   <hash-sum type="SHA-256">d1d5a8e8af579bdbb3e113f973c973fd8bf84d47ff041a6210ddae236a6d0fa7</hash-sum>
+  <dependency package="org.python.Python" versions="[2.7, 2.8)"/>
+ </version>
+ <version name="289" package="google-cloud-sdk64">
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b google-cloud-sdk*') do set name=%%x&#13;
+cd "%name%"&#13;
+for /f "delims=" %%a in ('dir /b') do (&#13;
+  move "%%a" ..&#13;
+)&#13;
+cd ..&#13;
+rmdir "%name%"&#13;
+</file>
+  <url>https://dl.google.com/dl/cloudsdk/channels/rapid/downloads/google-cloud-sdk-289.0.0-windows-x86_64.zip</url>
+  <hash-sum type="SHA-256">c81e80040f7f609dbc50c42cd0cd402988a5c47f467372d40b5aaca0733f46f4</hash-sum>
   <dependency package="org.python.Python" versions="[2.7, 2.8)"/>
  </version>
 
@@ -21912,6 +22015,17 @@ if %err% neq 0 exit %err%&#13;
    <variable>nih</variable>
   </dependency>
  </version>
+ <version name="7.2" package="net.sourceforge.peazip.PeaZip64" type="one-file">
+  <file path=".Npackd\Install.bat">call "%nih%\InstallInnoSetup.bat"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">call "%nih%\UninstallInnoSetup.bat" unins000.exe&#13;
+</file>
+  <url>https://ayera.dl.sourceforge.net/project/peazip/6.5.1/peazip-6.5.1.WINDOWS.exe</url>
+  <hash-sum type="SHA-256">49bc326c084e743acff1bdf2437d0b17cdeedb5bde67efee2fd86a613efa9031</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
 
     <version name="2.6" package="net.sourceforge.shareaza.Shareaza64" type="one-file">
   <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x
@@ -22386,6 +22500,14 @@ if %err% neq 0 exit %err%&#13;
 </file>
   <url>http://downloads.sourceforge.net/project/smplayer/SMPlayer/19.10.0/smplayer-19.10.0-x64.exe</url>
   <hash-sum type="SHA-256">cc75d15d3c63137845c04d2737d9d0b90a7fe755e99bdd7415a5faf591fc47c5</hash-sum>
+ </version>
+ <version name="20.4.2" package="net.sourceforge.smplayer.SMPlayer64" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD%&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">uninst.exe /S _?=%CD%        &#13;
+</file>
+  <url>http://downloads.sourceforge.net/project/smplayer/SMPlayer/20.4.2/smplayer-20.4.2-x64.exe</url>
+  <hash-sum type="SHA-256">ebc293298111b7b4e0b3adbc19b8d43b1f2da506468b2bf95e4c65d5ff4f3046</hash-sum>
  </version>
 
     <version name="2.42" package="net.sourceforge.strongdc.StrongDCPlusPlus64" type="one-file">
@@ -23457,6 +23579,11 @@ verify&#13;
   <important-file path="openttd.exe" title="OpenTTD"/>
   <url>https://proxy.binaries.openttd.org/openttd-releases/1.10.0/openttd-1.10.0-windows-win64.zip</url>
   <hash-sum type="SHA-256">263f0b51d9630a1ef60538e822de064138ea3599f1ace4cc070943e81aa5bc4d</hash-sum>
+ </version>
+ <version name="1.10.1" package="open-ttd64">
+  <important-file path="openttd.exe" title="OpenTTD"/>
+  <url>https://proxy.binaries.openttd.org/openttd-releases/1.10.1/openttd-1.10.1-windows-win64.zip</url>
+  <hash-sum type="SHA-256">3355b651806efe608ff5e90009113fb21aecea644f935fc316cacee695d1b270</hash-sum>
  </version>
 
     <version name="1.23.4" package="openmpt64" type="one-file">
@@ -29456,6 +29583,40 @@ Set view = Nothing&#13;
    <variable>npackdih</variable>
   </dependency>
  </version>
+ <version name="1.14.2" package="org.golang.Go64" type="one-file">
+  <file path=".Npackd\Install.bat">.Npackd\AddProperty.vbs "%npackd_package_binary%"&#13;
+if %errorlevel% neq 0 exit %errorlevel%&#13;
+&#13;
+call "%npackdih%\InstallMSI.bat" INSTALLDIR</file>
+  <file path=".Npackd\Uninstall.bat">call "%npackdih%\UninstallMSI.bat"</file>
+  <file path=".Npackd\AddProperty.vbs">Option Explicit&#13;
+&#13;
+Dim MSI_FILE&#13;
+MSI_FILE = Wscript.Arguments(0)&#13;
+&#13;
+Dim installer, database, view&#13;
+&#13;
+Set installer = CreateObject("WindowsInstaller.Installer")&#13;
+Set database = installer.OpenDatabase(MSI_FILE, 1)&#13;
+&#13;
+Set view = database.OpenView("INSERT INTO Property (Property, Value) VALUES ('INSTALLDIR', 'C:\Go')")&#13;
+view.Execute&#13;
+'Set view = database.OpenView("DELETE FROM Directory WHERE Directory='TARGETDIR'")&#13;
+'view.Execute&#13;
+'Set view = database.OpenView("UPDATE Directory SET DefaultDir='INSTALLLOCATION' WHERE Directory='TARGETDIR'")&#13;
+'view.Execute&#13;
+database.Commit&#13;
+&#13;
+Set database = Nothing&#13;
+Set installer = Nothing&#13;
+Set view = Nothing&#13;
+</file>
+  <url>https://golang.org/dl/go1.14.2.windows-amd64.msi</url>
+  <hash-sum type="SHA-256">c07bbbe4c3bebab301cb77a390c405e6099ee58b9d3ab8206904fc6168fa33bb</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1, 2)">
+   <variable>npackdih</variable>
+  </dependency>
+ </version>
 
     <version name="2.22.1" package="org.gtk.GTKPlusBundle64">
   <file path="etc\gtk-2.0\gtkrc">gtk-theme-name = "MS-Windows"</file>
@@ -29610,6 +29771,15 @@ ren "%setup%" Psycopg.exe&#13;
   </dependency>
  </version>
  <version name="0.92.4" package="org.inkscape.Inkscape64" type="one-file">
+  <file path=".Npackd\Install.bat">call "%nih%\InstallMSI.bat" INSTALLDIR yes&#13;
+</file>
+  <url>https://media.inkscape.org/dl/resources/file/inkscape-0.92.3-x64.msi</url>
+  <hash-sum type="SHA-256">1d2f4d9edf221fe9dd1ad75c4a48c8809dd3adf5af0fb672f1383088b163516e</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.1, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
+ <version name="0.92.5" package="org.inkscape.Inkscape64" type="one-file">
   <file path=".Npackd\Install.bat">call "%nih%\InstallMSI.bat" INSTALLDIR yes&#13;
 </file>
   <url>https://media.inkscape.org/dl/resources/file/inkscape-0.92.3-x64.msi</url>
