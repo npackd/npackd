@@ -3849,6 +3849,20 @@ if %errorlevel% neq 0 exit /b %errorlevel%&#13;
   <url>https://www.cmake.org/files/v3.17/cmake-3.17.0-win64-x64.zip</url>
   <hash-sum type="SHA-256">d29ac4cdd10b1c205ff77e23580b89edb5eead10520edbafdba63a69d92b725b</hash-sum>
  </version>
+ <version name="3.17.1" package="cmake64">
+  <cmd-file path="bin\cmake.exe"/>
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b cmake*') do set name=%%x&#13;
+cd "%name%"        &#13;
+for /f "delims=" %%a in ('dir /b') do (&#13;
+  move "%%a" ..&#13;
+)&#13;
+cd ..&#13;
+rmdir "%name%"&#13;
+if %errorlevel% neq 0 exit /b %errorlevel%&#13;
+</file>
+  <url>https://www.cmake.org/files/v3.17/cmake-3.17.1-win64-x64.zip</url>
+  <hash-sum type="SHA-256">a5af7a2fe73f34070456397e940042e4469f072126c82974f44333ac43d478b1</hash-sum>
+ </version>
 
     <version name="5.26.3.2603" package="com.activestate.ActivePerl64" type="one-file">
   <file path=".Npackd\Install.bat">"%npackd_package_binary%" /quiet TARGETDIR="%cd%" PERL_PATH=Yes PERL_EXT=Yes</file>
@@ -10865,6 +10879,16 @@ if %err% neq 0 exit /b %err%&#13;
   <file path=".Npackd\Uninstall.bat">"%ncl%\ncl" remove-scp --title "/Twine %npackd_package_version%/i"&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt</file>
   <url>https://github.com/klembot/twinejs/releases/download/2.3.5/twine_2.3.5_win.exe</url>
   <hash-sum type="SHA-256">90ace2f128f028ac8d9c11060c63719f16d85753f51797a072df13d3e2bfa7b5</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.25, 2)">
+   <variable>ncl</variable>
+  </dependency>
+ </version>
+ <version name="2.3.7" package="com.twinery.twine64" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">"%ncl%\ncl" remove-scp --title "/Twine %npackd_package_version%/i"&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt</file>
+  <url>https://github.com/klembot/twinejs/releases/download/2.3.7/twine_2.3.7_win.exe</url>
+  <hash-sum type="SHA-256">34afd0619b6950a77f329cfd8c933f6417d7dec30364eba0e918dfae7e56a467</hash-sum>
   <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.25, 2)">
    <variable>ncl</variable>
   </dependency>
@@ -29930,6 +29954,14 @@ if %err% neq 0 exit %err%&#13;
   <file path=".Npackd\Install.bat">call "%npackdih%\InstallMSI.bat" INSTALLDIR yes</file>
   <url>https://github.com/keepassxreboot/keepassxc/releases/download/2.5.3/KeePassXC-2.5.3-Win64.msi</url>
   <hash-sum type="SHA-256">84213446e87725c0361730c4b01b8667d4e8a0726d85fe21697bf328eb1fef96</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.22, 2)">
+   <variable>npackdih</variable>
+  </dependency>
+ </version>
+ <version name="2.5.4" package="org.keepassxc.keepassxc" type="one-file">
+  <file path=".Npackd\Install.bat">call "%npackdih%\InstallMSI.bat" INSTALLDIR yes</file>
+  <url>https://github.com/keepassxreboot/keepassxc/releases/download/2.5.4/KeePassXC-2.5.4-Win64.msi</url>
+  <hash-sum type="SHA-256">01bf1b593efc4a9b92e0ca7148414f6d4f0e63521aefa64d1f8caa0327d35e91</hash-sum>
   <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.22, 2)">
    <variable>npackdih</variable>
   </dependency>
