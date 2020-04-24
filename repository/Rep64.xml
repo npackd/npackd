@@ -1080,8 +1080,16 @@ x86_64</description>
   <license>org.wikipedia.Freeware</license>
   <category>Photo</category>
   <tag>stable64</tag>
+  <stars>1</stars>
   <link href="http://www.pintosoft.com/en/post/foni1.23_en" rel="changelog"/>
   <link href="http://sg.pintosoft.com/site/images/foni.png" rel="screenshot"/>
+  <link href="https://www.bytesin.com/software/media/screens/267401.jpg" rel="screenshot"/>
+  <link href="https://www.softpaz.com/screenshots/focuson-image-viewer-pintosoft/1.png" rel="screenshot"/>
+  <link href="https://windows-cdn.softpedia.com/screenshots/Portable-FocusOn-Image-Viewer_1.png" rel="screenshot"/>
+  <link href="https://windows-cdn.softpedia.com/screenshots/Portable-FocusOn-Image-Viewer_3.png" rel="screenshot"/>
+  <link href="https://windows-cdn.softpedia.com/screenshots/Portable-FocusOn-Image-Viewer_5.png" rel="screenshot"/>
+  <link href="https://www.softpaz.com/screenshots/focuson-image-viewer-pintosoft/2.png" rel="screenshot"/>
+  <link href="https://www.softpaz.com/screenshots/focuson-image-viewer-pintosoft/3.png" rel="screenshot"/>
  </package>
  <package name="fr.handbrake.HandBrake64">
   <title>HandBrake 64 bit</title>
@@ -3165,6 +3173,7 @@ x86_64</description>
   <license>org.wikipedia.Freeware</license>
   <category>Music</category>
   <tag>stable64</tag>
+  <stars>1</stars>
   <link href="https://github.com/winyl-player/winyl/releases" rel="changelog"/>
   <link href="https://winyl-player.github.io/screen3/main.png" rel="screenshot"/>
   <link href="https://winyl-player.github.io/screen3/dark_main.png" rel="screenshot"/>
@@ -12600,6 +12609,17 @@ if %err% neq 0 exit %err%&#13;
    <variable>nih</variable>
   </dependency>
  </version>
+ <version name="1.24.1" package="conan64" type="one-file">
+  <cmd-file path="conan\conan.exe"/>
+  <file path=".Npackd\Install.bat">"%nih%\InstallInnoSetup.bat"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">"%nih%\UninstallInnoSetup.bat" unins000.exe</file>
+  <url>https://github.com/conan-io/conan/releases/download/1.24.1/conan-win-64_1_24_1.exe</url>
+  <hash-sum type="SHA-256">f5e96db4c9631ae480b814a4d84e039842f97bed2c21790d472b0f385e80f691</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
 
     <version name="3.1.4" package="cygwin64" type="one-file">
   <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
@@ -13291,6 +13311,14 @@ if %err% neq 0 exit %err%&#13;
 </file>
   <url>http://dbeaver.jkiss.org/files/7.0.2/dbeaver-ce-7.0.2-x86_64-setup.exe</url>
   <hash-sum type="SHA-256">62e207f33d85e3a6fa4e07d1ca1727f5f8a4ebc083488925147cc7b0ee5d87b4</hash-sum>
+ </version>
+ <version name="7.0.3" package="dbeaver64" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" /allusers /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">uninstall.exe /allusers /S _?=%CD%&#13;
+</file>
+  <url>http://dbeaver.jkiss.org/files/7.0.3/dbeaver-ce-7.0.3-x86_64-setup.exe</url>
+  <hash-sum type="SHA-256">4c0f614fecec09e3dcffba8350c8a81a300931488c2c62f93aaaff8b43385664</hash-sum>
  </version>
 
     <version name="0.825" package="dcplusplus64">
@@ -15443,6 +15471,17 @@ if %err% neq 0 exit %err%&#13;
    <variable>nih</variable>
   </dependency>
  </version>
+ <version name="2.26.2" package="git64" type="one-file">
+  <file path=".Npackd\Install.bat">call "%nih%\InstallInnoSetup.bat"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">call "%nih%\UninstallInnoSetup.bat" unins000.exe&#13;
+</file>
+  <url>https://github.com/git-for-windows/git/releases/download/v2.26.2.windows.1/Git-2.26.2-64-bit.exe</url>
+  <hash-sum type="SHA-256">cdf76510979dace4d3f5368e2f55d4289c405e249399e7ed09049765489da6e8</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
 
     <version name="5.2.7" package="gnuplot64" type="one-file">
   <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
@@ -17008,6 +17047,17 @@ if %err% neq 0 exit %err%&#13;
 </file>
   <url>https://github.com/tim-lebedkov/packages/releases/download/2020_04/imagemagick64-7.0.10.6-ImageMagick-7.0.10-6-Q16-x64-dll.exe</url>
   <hash-sum type="SHA-256">87e5a3446bdcd13d6c4a82b250445023b1f17403bfeb6b80600afee56bc7532e</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
+ <version name="7.0.10.7" package="imagemagick64" type="one-file">
+  <file path=".Npackd\Install.bat">call "%nih%\InstallInnoSetup.bat"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">call "%nih%\UninstallInnoSetup.bat" unins000.exe&#13;
+</file>
+  <url>https://www.imagemagick.org/download/binaries/ImageMagick-7.0.10-7-Q16-x64-dll.exe</url>
+  <hash-sum type="SHA-256">864d87b136a2806815a58c64e7b844bd6d029d2bbe97d0199600747a4f8e025c</hash-sum>
   <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
    <variable>nih</variable>
   </dependency>
@@ -23431,6 +23481,53 @@ verify&#13;
 		</file>
   <url>https://github.com/tim-lebedkov/packages/releases/download/2020_03/notepadpp64-7.8.5-npp.7.8.5.Installer.x64.exe</url>
   <hash-sum type="SHA-256">ab80b1b5405f09302e0e950eaeae2956b7f3c7bb2f463328cbb96e33746cc090</hash-sum>
+ </version>
+ <version name="7.8.6" package="notepadpp64" type="one-file">
+  <file path=".Npackd\Install.bat">xcopy "%allusersprofile%\Npackd\Config\net.sourceforge.NotepadPlusPlus" .  /E /C /I /F /H /R /Y &gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+&#13;
+for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
+"%setup%" /S /D=%CD%&#13;
+if %errorlevel% neq 0 exit /b %errorlevel%&#13;
+&#13;
+set package=net.sourceforge.NotepadPlusPlus&#13;
+set version=%NPACKD_PACKAGE_VERSION%&#13;
+set key=%package%&#13;
+&#13;
+reg add HKLM\SOFTWARE\Classes\Applications\%KEY%\shell\open /v FriendlyAppName /d "Notepad++ (%version%)" /f &gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+set c=\"%CD%\notepad++.exe\" \"%%1\"&#13;
+reg add HKLM\SOFTWARE\Classes\Applications\%KEY%\shell\open\command /d "%c%" /f &gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+for %%g in (txt log ini h hpp hxx c cpp cxx cc m java cs pas inc html htm php phtml properties js jsp asp css xml sh bsh nsi nsh lua pl pm py as mx vb vbs f for f90 f95 f2k tex sql nfo mak hgignore) do reg add HKLM\SOFTWARE\Classes\.%%g\OpenWithList\%key% /f &gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+&#13;
+reg add "HKCR\*\shell\Notepad++\command" /ve /f /d "\"%cd%\notepad++.exe\" %%1" &gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+&#13;
+verify</file>
+  <file path=".Npackd\Uninstall.bat">rmdir /s /q "%allusersprofile%\Npackd\Config\net.sourceforge.NotepadPlusPlus"&#13;
+xcopy Plugins "%allusersprofile%\Npackd\Config\net.sourceforge.NotepadPlusPlus\Plugins" /E /C /I /F /H /R /Y &gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+&#13;
+set package=net.sourceforge.NotepadPlusPlus&#13;
+set version=%NPACKD_PACKAGE_VERSION%&#13;
+set key=%package%&#13;
+&#13;
+set newname=%key%_%random%&#13;
+ren %appdata%\Notepad++ %newname%&#13;
+uninstall.exe /S _?=%CD%&#13;
+if %errorlevel% neq 0 exit /b %errorlevel%&#13;
+ren %appdata%\%newname% Notepad++&#13;
+&#13;
+rem unregister "Open With..." entries&#13;
+reg delete HKLM\SOFTWARE\Classes\Applications\%KEY% /f &gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+for %%g in (txt log ini h hpp hxx c cpp cxx cc m java cs pas inc html htm php phtml properties js jsp asp css xml sh bsh nsi nsh lua pl pm py as mx vb vbs f for f90 f95 f2k tex sql nfo mak hgignore) do reg delete HKLM\SOFTWARE\Classes\.%%g\OpenWithList\%key% /f &gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+&#13;
+reg delete HKCR\*\shell\Notepad++ /f &gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+&#13;
+rem remove Explorer extension&#13;
+set trash=..\.Trash\%key%_%random%&#13;
+mkdir %trash%&#13;
+move NppShell*.dll %trash%&#13;
+verify&#13;
+		</file>
+  <url>http://download.notepad-plus-plus.org/repository/7.x/7.8.6/npp.7.8.6.Installer.x64.exe</url>
+  <hash-sum type="SHA-256">03b3a8e2d0395b2dcaf7cd30cb47106ebac678cbcd72e81bb5ee0e618927d3dd</hash-sum>
  </version>
 
     <version name="1.49" package="nubasic64">
@@ -36107,6 +36204,20 @@ call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Np
 </file>
   <url>https://github.com/vim/vim-win32-installer/releases/download/v8.2.0579/gvim_8.2.0579_x64.zip</url>
   <hash-sum type="SHA-256">2bf5a701d3801c119ed590b06f0f85eeccb88476da5e68c24ba8d061c05f20b7</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.19, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
+ <version name="8.2.616" package="org.vim.Vim64">
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+if %errorlevel% neq 0 exit /b %errorlevel%&#13;
+&#13;
+for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+</file>
+  <url>https://github.com/vim/vim-win32-installer/releases/download/v8.2.0616/gvim_8.2.0616_x64.zip</url>
+  <hash-sum type="SHA-256">6c7ed11db4f9043d1115949cdab268803c18bcc48e6f96489052b914b27509b5</hash-sum>
   <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.19, 2)">
    <variable>nih</variable>
   </dependency>
