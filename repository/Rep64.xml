@@ -501,6 +501,7 @@ x86_64</description>
   <category>Development</category>
   <tag>end-of-life</tag>
   <tag>stable64</tag>
+  <stars>1</stars>
  </package>
  <package name="com.explorerplusplus.ExplorerPlusPlus64">
   <title>Explorer++ 64 bit</title>
@@ -9772,6 +9773,14 @@ if %err% neq 0 exit %err%&#13;
   <url>https://github.com/sindresorhus/caprine/releases/download/v2.36.0/caprine-setup-2.36.0.exe</url>
   <hash-sum type="SHA-256">2b76efd67d8e76041feeb3567d36b6b7bb9ce930038e9390ee90d70c7f2c4fc7</hash-sum>
  </version>
+ <version name="2.45" package="com.sindresorhus.caprine" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">uninstall.exe /S _?=%CD%&#13;
+</file>
+  <url>https://github.com/sindresorhus/caprine/releases/download/v2.45.0/caprine-setup-2.45.0.exe</url>
+  <hash-sum type="SHA-256">4dd0df8988796ea6833ce5a76c588af2f6387379470ac5c43e3794a386da0aac</hash-sum>
+ </version>
 
     <version name="4.51" package="com.softwareok.QDir64">
   <important-file path="Q-Dir.exe" title="Q-Dir"/>
@@ -14188,6 +14197,15 @@ call "%npackdih%\InstallMSI.bat" INSTALLDIR yes&#13;
 </file>
   <url>https://www.farmanager.com/files/Far30b5511.x64.20191120.msi</url>
   <hash-sum type="SHA-256">3c111cef537e3be30d3ac248b70669b6e33c2ab73a91db6ebf94247f077bcdf0</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.1, 2)">
+   <variable>npackdih</variable>
+  </dependency>
+ </version>
+ <version name="3.0.5577" package="far-manager64" type="one-file">
+  <file path=".Npackd\Install.bat">call "%npackdih%\InstallMSI.bat" INSTALLDIR yes&#13;
+</file>
+  <url>https://www.farmanager.com/files/Far30b5577.x64.20200327.msi</url>
+  <hash-sum type="SHA-256">60b60370a6a69468d88a701c4c346601403688a75201a27ebbb4190d8de9de62</hash-sum>
   <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.1, 2)">
    <variable>npackdih</variable>
   </dependency>
