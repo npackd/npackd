@@ -3889,6 +3889,20 @@ if %errorlevel% neq 0 exit /b %errorlevel%&#13;
   <url>https://www.cmake.org/files/v3.17/cmake-3.17.1-win64-x64.zip</url>
   <hash-sum type="SHA-256">a5af7a2fe73f34070456397e940042e4469f072126c82974f44333ac43d478b1</hash-sum>
  </version>
+ <version name="3.17.2" package="cmake64">
+  <cmd-file path="bin\cmake.exe"/>
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b cmake*') do set name=%%x&#13;
+cd "%name%"        &#13;
+for /f "delims=" %%a in ('dir /b') do (&#13;
+  move "%%a" ..&#13;
+)&#13;
+cd ..&#13;
+rmdir "%name%"&#13;
+if %errorlevel% neq 0 exit /b %errorlevel%&#13;
+</file>
+  <url>https://www.cmake.org/files/v3.17/cmake-3.17.2-win64-x64.zip</url>
+  <hash-sum type="SHA-256">cf82b1eb20b6fbe583487656fcd496490ffccdfbcbba0f26e19f1c9c63b0b041</hash-sum>
+ </version>
 
     <version name="5.26.3.2603" package="com.activestate.ActivePerl64" type="one-file">
   <file path=".Npackd\Install.bat">"%npackd_package_binary%" /quiet TARGETDIR="%cd%" PERL_PATH=Yes PERL_EXT=Yes</file>
@@ -7823,6 +7837,15 @@ if %err% neq 0 exit /b %err%&#13;
    <variable>npackdih</variable>
   </dependency>
  </version>
+ <version name="8.0.20" package="com.mysql.dev.MySQLODBCConnector64bits" type="one-file">
+  <file path=".Npackd\Install.bat">call "%npackdih%\InstallMSI.bat" INSTALLDIR yes&#13;
+		</file>
+  <url>https://cdn.mysql.com//Downloads/Connector-ODBC/8.0/mysql-connector-odbc-8.0.20-winx64.msi</url>
+  <hash-sum type="SHA-256">58af59b70e4a8c84ce926505a5f61b617ba3e39fd635b0b9b93c7971df143775</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.1, 2)">
+   <variable>npackdih</variable>
+  </dependency>
+ </version>
 
     <version name="5.5.16" package="com.mysql.MySQLCommunityServer64" type="one-file">
   <file path=".Npackd\Install.bat">call "%npackdih%\InstallMSI.bat" INSTALLDIR yes</file>
@@ -8132,6 +8155,16 @@ rmdir "%name%"&#13;
 </file>
   <url>https://cdn.mysql.com/Downloads/MySQL-8.0/mysql-8.0.19-winx64.zip</url>
   <hash-sum type="SHA-256">e36d107c57b8382272396802d56564efa6f59b51cc011e1c5a05761b7157e74d</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.CLU" versions="[1.25, 2)">
+   <variable>clu</variable>
+  </dependency>
+ </version>
+ <version name="8.0.20" package="com.mysql.MySQLCommunityServer64">
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b mysql*') do set name=%%x&#13;
+"%clu%\clu" unwrap-dir -p "%name%"&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+</file>
+  <url>https://cdn.mysql.com/Downloads/MySQL-8.0/mysql-8.0.20-winx64.zip</url>
+  <hash-sum type="SHA-256">b9a7592ac170a6c55ce4f20c16e120c789d3d89342ea5681362311e118103a8a</hash-sum>
   <dependency package="com.googlecode.windows-package-manager.CLU" versions="[1.25, 2)">
    <variable>clu</variable>
   </dependency>
