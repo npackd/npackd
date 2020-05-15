@@ -14077,6 +14077,14 @@ rmdir "%name%"&#13;
   <url>https://github.com/balena-io/etcher/releases/download/v1.5.82/balenaEtcher-Setup-1.5.82.exe</url>
   <hash-sum type="SHA-256">06bddd2c36f82ef24bbade213bd8685d69d5f53413022fce006433016618f9d3</hash-sum>
  </version>
+ <version name="1.5.88" package="etcher64" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">uninstall.exe /S _?=%CD%&#13;
+</file>
+  <url>https://github.com/balena-io/etcher/releases/download/v1.5.88/balenaEtcher-Setup-1.5.88.exe</url>
+  <hash-sum type="SHA-256">96960036a9b8dccbeed2f6e0b8950af9c0ec8f06f3ce3376b72110d38a49a02c</hash-sum>
+ </version>
 
     <version name="1.3.4.686" package="everything64">
   <important-file path="Everything.exe" title="Everything"/>
@@ -17200,6 +17208,17 @@ if %err% neq 0 exit %err%&#13;
    <variable>nih</variable>
   </dependency>
  </version>
+ <version name="7.0.10.11" package="imagemagick64" type="one-file">
+  <file path=".Npackd\Install.bat">call "%nih%\InstallInnoSetup.bat"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">call "%nih%\UninstallInnoSetup.bat" unins000.exe&#13;
+</file>
+  <url>https://www.imagemagick.org/download/binaries/ImageMagick-7.0.10-11-Q16-x64-dll.exe</url>
+  <hash-sum type="SHA-256">a32fa8678eb8f8d3957fc2f153e532e72e67e8caf2d7a08b5ad6d22460dd53e8</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
 
     <version name="0.3.8" package="io.mpv.mpv-64" type="one-file">
   <file path=".Npackd\Install.bat">for /f %%x in ('dir /b *.7z') do set setup=%%x&#13;
@@ -17490,6 +17509,18 @@ rmdir "%name%"&#13;
 </file>
   <url>https://dist.ipfs.io/go-ipfs/v0.4.23/go-ipfs_v0.4.23_windows-amd64.zip</url>
   <hash-sum type="SHA-256">d12713895536ced8891a8ea4d1a615dc0fa1b4a4e0314e00c15c13e741d37126</hash-sum>
+ </version>
+ <version name="0.5.1" package="ipfs64">
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b go-ipfs*') do set name=%%x&#13;
+cd "%name%"&#13;
+for /f "delims=" %%a in ('dir /b') do (&#13;
+  move "%%a" ..&#13;
+)&#13;
+cd ..&#13;
+rmdir "%name%"&#13;
+</file>
+  <url>https://dist.ipfs.io/go-ipfs/v0.5.1/go-ipfs_v0.5.1_windows-amd64.zip</url>
+  <hash-sum type="SHA-256">58afcad3b6a5444c66fc5e7ec29647a175d25686399a32906d7fca698eff8d23</hash-sum>
  </version>
 
     <version name="5" package="jclasslib64" type="one-file">
@@ -42644,6 +42675,15 @@ if %err% neq 0 exit %err%&#13;
 </file>
   <url>https://releases.hashicorp.com/vagrant/2.2.7/vagrant_2.2.7_x86_64.msi</url>
   <hash-sum type="SHA-256">6425e450ea180c00fbab17bca3e9cbd384072617a7acabff57c89b9ebc57feb5</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.1, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
+ <version name="2.2.9" package="vagrant64" type="one-file">
+  <file path=".Npackd\Install.bat">call "%nih%\InstallMSI.bat" INSTALLDIR yes&#13;
+</file>
+  <url>https://releases.hashicorp.com/vagrant/2.2.9/vagrant_2.2.9_x86_64.msi</url>
+  <hash-sum type="SHA-256">5d337db06a94870e01f8e8905455501b663268777e83783fe5d1f65e8543fb1a</hash-sum>
   <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.1, 2)">
    <variable>nih</variable>
   </dependency>
