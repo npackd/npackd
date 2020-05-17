@@ -160,6 +160,16 @@
   <title>cURL license</title>
   <url>http://curl.haxx.se/legal/licmix.html</url>
  </license>
+ <package name="4k-video-downloader64">
+  <title>4K Video Downloader 64 bit</title>
+  <url>https://www.4kdownload.com/products/product-videodownloader</url>
+  <description>allows downloading videos, playlists, channels and subtitles from YouTube, Facebook, Vimeo and other video sites in high quality
+x86_64</description>
+  <icon>https://www.4kdownload.com/favicon.ico</icon>
+  <category>Video</category>
+  <tag>stable64</tag>
+  <link href="https://static.4kdownload.com/main/img/redesign/product-screenshots/ubuntu/videodownloader/glav.webp?403eaa691ba3" rel="screenshot"/>
+ </package>
  <package name="ag64">
   <title>Silver Searcher 64 bit</title>
   <url>https://geoff.greer.fm/ag/</url>
@@ -3219,6 +3229,15 @@ x86_64</description>
   <tag>end-of-life</tag>
  </package>
 
+    <version name="4.12.2" package="4k-video-downloader64" type="one-file">
+  <file path=".Npackd\Install.bat">call "%nih%\InstallMSI.bat" INSTALLDIR yes&#13;
+</file>
+  <url>https://dl.4kdownload.com/app/4kvideodownloader_4.12.2_x64.msi</url>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.1, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
+
     <version name="2.2" package="ag64">
   <cmd-file path="ag.exe"/>
   <url>https://github.com/k-takata/the_silver_searcher-win32/releases/download/2019-03-23%2F2.2.0-19-g965f71d/ag-2019-03-23_2.2.0-19-g965f71d-x64.zip</url>
@@ -4083,6 +4102,45 @@ for /f "delims=" %%x in ('dir /b FlashUtil32*Plugin.exe') do set setup=%%x&#13;
 "%setup%" -uninstall&#13;
 </file>
   <url>https://download.macromedia.com/get/flashplayer/pdc/32.0.0.363/install_flash_player_32_plugin.msi</url>
+ </version>
+ <version name="32.0.0.371" package="com.adobe.FlashPlayer64" type="one-file">
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.msi') do set setup=%%x&#13;
+mkdir .Npackd&#13;
+move "%setup%" .Npackd&#13;
+set err=%errorlevel%&#13;
+if %err% neq 0 exit %err%&#13;
+&#13;
+rem MSIFASTINSTALL: http://msdn.microsoft.com/en-us/library/dd408005%28v=VS.85%29.aspx&#13;
+msiexec.exe /qn /norestart /Lime .Npackd\InstallMSI.log /i ".Npackd\%setup%" INSTALLDIR="%CD%" ALLUSERS=1 MSIFASTINSTALL=7&#13;
+set err=%errorlevel%&#13;
+type .Npackd\InstallMSI.log&#13;
+&#13;
+rem list of errors: http://msdn.microsoft.com/en-us/library/windows/desktop/aa368542(v=vs.85).aspx&#13;
+rem 3010=restart required&#13;
+if %err% equ 3010 goto cont&#13;
+if %err% neq 0 exit %err%&#13;
+&#13;
+:cont&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">move .Npackd\*.msi .&#13;
+for /f "delims=" %%x in ('dir /b *.msi') do set setup=%%x&#13;
+&#13;
+rem MSIFASTINSTALL: http://msdn.microsoft.com/en-us/library/dd408005%28v=VS.85%29.aspx&#13;
+msiexec.exe /qn /norestart /Lime .Npackd\UninstallMSI.log /x "%setup%" MSIFASTINSTALL=7&#13;
+set err=%errorlevel%&#13;
+type .Npackd\UninstallMSI.log&#13;
+rem 3010=restart required&#13;
+if %err% equ 3010 goto cont&#13;
+if %err% neq 0 exit %err%&#13;
+&#13;
+:cont&#13;
+if not exist "%ProgramFiles(x86)%" set d=%windir%\System32\Macromed\Flash&#13;
+if exist "%ProgramFiles(x86)%" set d=%windir%\SysWOW64\Macromed\Flash&#13;
+cd "%d%"&#13;
+for /f "delims=" %%x in ('dir /b FlashUtil32*Plugin.exe') do set setup=%%x&#13;
+"%setup%" -uninstall&#13;
+</file>
+  <url>https://download.macromedia.com/get/flashplayer/pdc/32.0.0.371/install_flash_player_32_plugin.msi</url>
  </version>
 
     <version name="32.0.0.321" package="com.adobe.FlashPlayerActiveX64" type="one-file">
@@ -9862,6 +9920,14 @@ if %err% neq 0 exit %err%&#13;
 </file>
   <url>https://github.com/sindresorhus/caprine/releases/download/v2.45.0/caprine-setup-2.45.0.exe</url>
   <hash-sum type="SHA-256">4dd0df8988796ea6833ce5a76c588af2f6387379470ac5c43e3794a386da0aac</hash-sum>
+ </version>
+ <version name="2.46" package="com.sindresorhus.caprine" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">uninstall.exe /S _?=%CD%&#13;
+</file>
+  <url>https://github.com/sindresorhus/caprine/releases/download/v2.46.0/caprine-setup-2.46.0.exe</url>
+  <hash-sum type="SHA-256">e85303f4f200b7c527008f4298da4485b3de232b8236b44c370488bfcb948df2</hash-sum>
  </version>
 
     <version name="4.51" package="com.softwareok.QDir64">
@@ -36574,6 +36640,20 @@ call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Np
    <variable>nih</variable>
   </dependency>
  </version>
+ <version name="8.2.745" package="org.vim.Vim64">
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+if %errorlevel% neq 0 exit /b %errorlevel%&#13;
+&#13;
+for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+</file>
+  <url>https://github.com/vim/vim-win32-installer/releases/download/v8.2.0745/gvim_8.2.0745_x64.zip</url>
+  <hash-sum type="SHA-256">2e994a53901296a4ec9bd0564c9b424e1992272a4c07812482ed5498359312b8</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.19, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
 
     <version name="4.2.8.83876" package="org.virtualbox.virtualbox64" type="one-file">
   <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
@@ -38676,6 +38756,16 @@ echo DesktopShortcut=false &gt;&gt; .Npackd\FF.ini&#13;
   <file path=".Npackd\Uninstall.bat">uninstall\helper.exe /S</file>
   <url>http://relmirror.palemoon.org/release/palemoon-28.9.1.win64.installer.exe</url>
   <hash-sum type="SHA-256">e2153b2faaacc54753a1c7d9e46fa959362617e7b39185a38bf50dbbe07cff70</hash-sum>
+ </version>
+ <version name="28.9.3" package="pale-moon64" type="one-file">
+  <file path=".Npackd\Install.bat">echo [Install] &gt; .Npackd\FF.ini&#13;
+echo InstallDirectoryPath=%CD% &gt;&gt; .Npackd\FF.ini&#13;
+echo QuickLaunchShortcut=false &gt;&gt; .Npackd\FF.ini&#13;
+echo DesktopShortcut=false &gt;&gt; .Npackd\FF.ini&#13;
+"%npackd_package_binary%" /INI="%CD%\.Npackd\FF.ini" &amp;&amp; del /f /q "%npackd_package_binary%"</file>
+  <file path=".Npackd\Uninstall.bat">uninstall\helper.exe /S</file>
+  <url>http://relmirror.palemoon.org/release/palemoon-28.9.3.win64.installer.exe</url>
+  <hash-sum type="SHA-256">491df6ce64a51d70cca337a6a81ba95b11b748e580d9f9ea9044d7e0f92ddb88</hash-sum>
  </version>
 
     <version name="2.2.1" package="pandoc64" type="one-file">
@@ -44123,6 +44213,21 @@ if %err% neq 0 exit %err%&#13;
   <sha1>f73db938cfee6ab1ab0f940c923e4e663962c795</sha1>
  </version>
  <version name="1.44" package="vs-code64" type="one-file">
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
+"%setup%" /SP- /VERYSILENT /SUPPRESSMSGBOXES /NOCANCEL /NORESTART /DIR="%CD%" /SAVEINF="%CD%\.Npackd\InnoSetupInfo.ini" /LOG="%CD%\.Npackd\InnoSetupInstall.log"&#13;
+set err=%errorlevel%&#13;
+type .Npackd\InnoSetupInstall.log&#13;
+if %err% neq 0 exit %err%&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">unins000.exe /VERYSILENT /SUPPRESSMSGBOXES /NORESTART /LOG="%CD%\.Npackd\InnoSetupUninstall.log"&#13;
+set err=%errorlevel%&#13;
+type .Npackd\InnoSetupUninstall.log&#13;
+if %err% neq 0 exit %err%&#13;
+</file>
+  <url>https://az764295.vo.msecnd.net/insider/d28f096018e2673a8437c788e3eed781ddb505ce/VSCodeSetup-x64-1.21.0-insider.exe</url>
+  <sha1>f73db938cfee6ab1ab0f940c923e4e663962c795</sha1>
+ </version>
+ <version name="1.45" package="vs-code64" type="one-file">
   <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
 "%setup%" /SP- /VERYSILENT /SUPPRESSMSGBOXES /NOCANCEL /NORESTART /DIR="%CD%" /SAVEINF="%CD%\.Npackd\InnoSetupInfo.ini" /LOG="%CD%\.Npackd\InnoSetupInstall.log"&#13;
 set err=%errorlevel%&#13;
