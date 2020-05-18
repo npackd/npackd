@@ -3399,6 +3399,14 @@ x86_64</description>
   <url>https://github.com/tim-lebedkov/packages/releases/download/2020_03/anki64-2.1.22-anki-2.1.22-windows.exe</url>
   <hash-sum type="SHA-256">841394109f003f04481fd5ef97ae9e8010bf4ae8d5b58e1b2b2cc753815fc7fa</hash-sum>
  </version>
+ <version name="2.1.26" package="anki64" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD%&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">uninstall.exe /S&#13;
+</file>
+  <url>https://apps.ankiweb.net/downloads/current/anki-2.1.26-windows.exe</url>
+  <hash-sum type="SHA-256">5881a7424530ef75a2afdd9f579a87be288dd6d8248a9670a55b28e4f6eae8a8</hash-sum>
+ </version>
 
     <version name="2.4.41" package="apache-httpd64">
   <url>https://github.com/tim-lebedkov/packages/releases/download/2020_04/apache-httpd64-2.4.41-httpd-2.4.41-o102s-x64-vc14-r2.zip</url>
@@ -16449,6 +16457,19 @@ rmdir "%name%"&#13;
 </file>
   <url>https://dl.google.com/dl/cloudsdk/channels/rapid/downloads/google-cloud-sdk-290.0.1-windows-x86_64.zip</url>
   <hash-sum type="SHA-256">ea38b63e7376b8d61a3fcc5db8d0be14a8ae583bef4bd06421c53282feb27659</hash-sum>
+  <dependency package="org.python.Python" versions="[2.7, 2.8)"/>
+ </version>
+ <version name="291" package="google-cloud-sdk64">
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b google-cloud-sdk*') do set name=%%x&#13;
+cd "%name%"&#13;
+for /f "delims=" %%a in ('dir /b') do (&#13;
+  move "%%a" ..&#13;
+)&#13;
+cd ..&#13;
+rmdir "%name%"&#13;
+</file>
+  <url>https://dl.google.com/dl/cloudsdk/channels/rapid/downloads/google-cloud-sdk-291.0.0-windows-x86_64.zip</url>
+  <hash-sum type="SHA-256">0e13bacda0d1ce4745f698e9ec974b12132b44debeef2947e65a0d76d7a5abc5</hash-sum>
   <dependency package="org.python.Python" versions="[2.7, 2.8)"/>
  </version>
  <version name="292" package="google-cloud-sdk64">
@@ -42708,6 +42729,14 @@ if %err% neq 0 exit %err%&#13;
   <url>http://files.first-world.info/ultracopier/2.2.3.3/ultracopier-windows-x86_64-2.2.3.3-setup.exe</url>
   <hash-sum type="SHA-256">364e2d5bcb5be147f8a9c8d46afdbf30c07070d255bae9d2437ac8941563ac69</hash-sum>
  </version>
+ <version name="2.2.4.1" package="ultracopier64" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">uninst.exe /S _?=%CD%&#13;
+</file>
+  <url>http://files.first-world.info/ultracopier/2.2.4.1/ultracopier-windows-x86_64-2.2.4.1-setup.exe</url>
+  <hash-sum type="SHA-256">d3a50bfd0ff22a3a4a4ba319c44e4958b9c50ca3b49ff2093b58c60a4c4b7e66</hash-sum>
+ </version>
 
     <version name="2.0.1" package="vagrant64" type="one-file">
   <file path=".Npackd\Install.bat">call "%nih%\InstallMSI.bat" INSTALLDIR yes&#13;
@@ -42840,6 +42869,15 @@ if %err% neq 0 exit %err%&#13;
 </file>
   <url>https://releases.hashicorp.com/vagrant/2.2.7/vagrant_2.2.7_x86_64.msi</url>
   <hash-sum type="SHA-256">6425e450ea180c00fbab17bca3e9cbd384072617a7acabff57c89b9ebc57feb5</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.1, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
+ <version name="2.2.8" package="vagrant64" type="one-file">
+  <file path=".Npackd\Install.bat">call "%nih%\InstallMSI.bat" INSTALLDIR yes&#13;
+</file>
+  <url>https://releases.hashicorp.com/vagrant/2.2.8/vagrant_2.2.8_x86_64.msi</url>
+  <hash-sum type="SHA-256">00089e197aca98b202dae02d8c17cff7cc58c049f96deb3ddf6b980c05c795ac</hash-sum>
   <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.1, 2)">
    <variable>nih</variable>
   </dependency>
@@ -43400,6 +43438,30 @@ if %err% neq 0 exit /b %err%&#13;
 </file>
   <url>https://downloads.vivaldi.com/stable/Vivaldi.2.11.1811.52.x64.exe</url>
   <hash-sum type="SHA-256">87697e0e2bc299a23115d69fbb922750612b550d8f395f888eacd907dbbbc14b</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.24, 2)">
+   <variable>ncl</variable>
+  </dependency>
+ </version>
+ <version name="3.0.1874.33" package="vivaldi-browser-64" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" --vivaldi-standalone --do-not-launch-chrome --vivaldi-install-dir="%CD%" &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
+&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">"%ncl%\ncl.exe" remove-scp --title "vivaldi-browser-64"&#13;
+</file>
+  <url>https://downloads.vivaldi.com/stable/Vivaldi.3.0.1874.33.x64.exe</url>
+  <hash-sum type="SHA-256">cc3fc6dc5f31b123c80682e387929ee5413c710a2517b46c2bb5f178224d3ce2</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.24, 2)">
+   <variable>ncl</variable>
+  </dependency>
+ </version>
+ <version name="3.0.1874.38" package="vivaldi-browser-64" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" --vivaldi-standalone --do-not-launch-chrome --vivaldi-install-dir="%CD%" &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
+&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">"%ncl%\ncl.exe" remove-scp --title "vivaldi-browser-64"&#13;
+</file>
+  <url>https://downloads.vivaldi.com/stable/Vivaldi.3.0.1874.38.x64.exe</url>
+  <hash-sum type="SHA-256">e7a00b0ce9419022e5232c65446b1f47d16e4884a350f8d4949bbee290958ad4</hash-sum>
   <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.24, 2)">
    <variable>ncl</variable>
   </dependency>
