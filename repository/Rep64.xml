@@ -10308,7 +10308,7 @@ del Q-Dir.ini&#13;
   <url>http://files.npackd.org/com.softwareok.QDir64-5.99.9.zip</url>
   <sha1>fb6060796fae3fc641ba34fe1f2f8530d7c985a8</sha1>
  </version>
- <version name="8.18" package="com.softwareok.QDir64">
+ <version name="8.25" package="com.softwareok.QDir64">
   <important-file path="Q-Dir.exe" title="Q-Dir"/>
   <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b Q*') do set name=%%x&#13;
 cd "%name%"        &#13;
@@ -15777,7 +15777,7 @@ if %err% neq 0 exit %err%&#13;
   <hash-sum type="SHA-256">9242bff87f2c3ffb560c74b43fd0525adcec86d6092eaeeb5fc271b0d086b924</hash-sum>
  </version>
 
-    <version name="81.0.4044.138" package="google-chrome-x64" type="one-file">
+    <version name="83.0.4103.61" package="google-chrome-x64" type="one-file">
   <file path=".Npackd\Install.bat">call "%npackdih%\InstallMSI.bat" TARGETDIR yes&#13;
 </file>
   <url>https://dl.google.com/tag/s/appguid%3D%7B8A69D345-D564-463C-AFF1-A69D9E530F96%7D%26iid%3D%7B0A558A36-0536-8B3F-0AE0-420553CC97F3%7D%26lang%3Den%26browser%3D4%26usagestats%3D0%26appname%3DGoogle%2520Chrome%26needsadmin%3DFalse/edgedl/chrome/install/GoogleChromeStandaloneEnterprise64.msi</url>
@@ -16499,6 +16499,19 @@ rmdir "%name%"&#13;
 </file>
   <url>https://dl.google.com/dl/cloudsdk/channels/rapid/downloads/google-cloud-sdk-292.0.0-windows-x86_64.zip</url>
   <hash-sum type="SHA-256">d43013ea31e1f192d921f5f2976ea49c705a71161d36a20145564c9315fde0d6</hash-sum>
+  <dependency package="org.python.Python" versions="[2.7, 2.8)"/>
+ </version>
+ <version name="293" package="google-cloud-sdk64">
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b google-cloud-sdk*') do set name=%%x&#13;
+cd "%name%"&#13;
+for /f "delims=" %%a in ('dir /b') do (&#13;
+  move "%%a" ..&#13;
+)&#13;
+cd ..&#13;
+rmdir "%name%"&#13;
+</file>
+  <url>https://dl.google.com/dl/cloudsdk/channels/rapid/downloads/google-cloud-sdk-293.0.0-windows-x86_64.zip</url>
+  <hash-sum type="SHA-256">3f2f2db80fd2359be44895d1945c315f2cf7f0f722e00c20f7d71efe9c3965e5</hash-sum>
   <dependency package="org.python.Python" versions="[2.7, 2.8)"/>
  </version>
 
@@ -17384,6 +17397,17 @@ if %err% neq 0 exit %err%&#13;
 </file>
   <url>https://github.com/tim-lebedkov/packages/releases/download/2020_05/imagemagick64-7.0.10.11-ImageMagick-7.0.10-11-Q16-x64-dll.exe</url>
   <hash-sum type="SHA-256">a32fa8678eb8f8d3957fc2f153e532e72e67e8caf2d7a08b5ad6d22460dd53e8</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
+ <version name="7.0.10.13" package="imagemagick64" type="one-file">
+  <file path=".Npackd\Install.bat">call "%nih%\InstallInnoSetup.bat"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">call "%nih%\UninstallInnoSetup.bat" unins000.exe&#13;
+</file>
+  <url>https://www.imagemagick.org/download/binaries/ImageMagick-7.0.10-13-Q16-x64-dll.exe</url>
+  <hash-sum type="SHA-256">53b93f73e3553bfa5684547992af75f0319e2e37315d34b4877636c7177ec00e</hash-sum>
   <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
    <variable>nih</variable>
   </dependency>
@@ -30692,6 +30716,14 @@ if %errorlevel% neq 0 exit /b %errorlevel%&#13;
   <url>https://github.com/tim-lebedkov/packages/releases/download/2020_05/org.miktex.MiKTeX64-2.9.7417-basic-miktex-2.9.7417-x64.exe</url>
   <hash-sum type="SHA-256">805d19ad8d9a1ef0d384f46fe45121730f06deffeb48ba694ed8843895ab13cc</hash-sum>
  </version>
+ <version name="2.9.7442" package="org.miktex.MiKTeX64" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" --common-install="%CD%" --shared --unattended&#13;
+</file>
+  <file path=".Npackd\Unnstall.bat">miktex\bin\miktexsetup.exe --verbose --shared uninstall&#13;
+</file>
+  <url>https://miktex.org/download/ctan/systems/win32/miktex/setup/windows-x64/basic-miktex-2.9.7442-x64.exe</url>
+  <hash-sum type="SHA-256">e31e54504550187b9259aa95f92157458690030d0059473238b8b587854a238b</hash-sum>
+ </version>
 
     <version name="0.9.19" package="org.miranda-im.MirandaIM64" type="one-file">
   <important-file path="miranda64.exe" title="Miranda IM"/>
@@ -32898,6 +32930,15 @@ if %err% neq 0 exit /b %err%&#13;
 </file>
   <url>https://www.python.org/ftp/python/3.8.2/python-3.8.2-amd64.exe</url>
   <hash-sum type="SHA-256">8e400e3f32cdcb746e62e0db4d3ae4cba1f927141ebc4d0d5a4006b0daee8921</hash-sum>
+ </version>
+ <version name="3.8.3" package="org.python.Python64" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" /quiet InstallAllUsers=1 "TargetDir=%cd%"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">for /f "delims=" %%x in ('dir /b python-*.exe') do set setup=%%x&#13;
+%setup% /uninstall /quiet InstallAllUsers=1&#13;
+</file>
+  <url>https://www.python.org/ftp/python/3.8.3/python-3.8.3-amd64.exe</url>
+  <hash-sum type="SHA-256">c74898382a5192d4b506767cbb4b41b8e80b734b8a7ce1fbb13e4aba8ffe5bf6</hash-sum>
  </version>
 
     <version name="2.0.0.247" package="org.rubylang.Ruby64" type="one-file">
@@ -36705,6 +36746,20 @@ call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Np
    <variable>nih</variable>
   </dependency>
  </version>
+ <version name="8.2.801" package="org.vim.Vim64">
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+if %errorlevel% neq 0 exit /b %errorlevel%&#13;
+&#13;
+for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+</file>
+  <url>https://github.com/vim/vim-win32-installer/releases/download/v8.2.0801/gvim_8.2.0801_x64.zip</url>
+  <hash-sum type="SHA-256">b78da2246aff0cc789ca540a51e5191b9f5673baadab6521c3fa55bbca6da9e1</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.19, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
 
     <version name="4.2.8.83876" package="org.virtualbox.virtualbox64" type="one-file">
   <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
@@ -38356,6 +38411,14 @@ if %err% neq 0 exit %err%</file>
   <url>https://1.eu.dl.wireshark.org/win64/Wireshark-win64-3.2.3.exe</url>
   <hash-sum type="SHA-256">e345963a475b79df937b41e297e8680f1f4f0cc8e8bee715fafc50834e6cc44d</hash-sum>
  </version>
+ <version name="3.2.4" package="org.wireshark.Wireshark64" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD%&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">uninstall.exe /S _=%CD%&#13;
+</file>
+  <url>https://1.eu.dl.wireshark.org/win64/Wireshark-win64-3.2.4.exe</url>
+  <hash-sum type="SHA-256">db2565ee6410b7c57f54aaac86954e4f6a98e2ea31ffbea83e60b981fff57301</hash-sum>
+ </version>
 
     
 
@@ -39954,6 +40017,13 @@ if %errorlevel% equ 3010 verify</file>
   <file path=".Npackd\Uninstall.bat">uninstall.exe /S _?=%CD%&#13;
 </file>
   <url>https://qgis.org/downloads/QGIS-OSGeo4W-3.12.2-1-Setup-x86_64.exe</url>
+ </version>
+ <version name="3.12.3" package="qgis64" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
+if %errorlevel% equ 3010 verify</file>
+  <file path=".Npackd\Uninstall.bat">uninstall.exe /S _?=%CD%&#13;
+</file>
+  <url>https://qgis.org/downloads/QGIS-OSGeo4W-3.12.3-1-Setup-x86_64.exe</url>
  </version>
 
     <version name="1.40.6" package="Qt-Bitcoin-Trader64" type="one-file">
