@@ -6294,6 +6294,15 @@ call "%npackdih%\InstallMSI.bat" APPLICATIONFOLDER yes&#13;
    <variable>npackdih</variable>
   </dependency>
  </version>
+ <version name="4.16" package="com.calibreebook.Calibre64" type="one-file">
+  <file path=".Npackd\Install.bat">call "%npackdih%\InstallMSI.bat" APPLICATIONFOLDER yes&#13;
+</file>
+  <url>https://download.calibre-ebook.com/4.16.0/calibre-64bit-4.16.0.msi</url>
+  <hash-sum type="SHA-256">9b8b6ac01fc83a385931ab19455812ab6581caea1ce8c732eb163ebab2164240</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.2, 2)">
+   <variable>npackdih</variable>
+  </dependency>
+ </version>
 
     <version name="5.12.256249.2599" package="com.comodo.comodoav64" type="one-file">
   <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.msi') do set setup=%%x&#13;
@@ -12850,6 +12859,17 @@ if %err% neq 0 exit %err%&#13;
    <variable>nih</variable>
   </dependency>
  </version>
+ <version name="1.25.2" package="conan64" type="one-file">
+  <cmd-file path="conan\conan.exe"/>
+  <file path=".Npackd\Install.bat">"%nih%\InstallInnoSetup.bat"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">"%nih%\UninstallInnoSetup.bat" unins000.exe</file>
+  <url>https://github.com/conan-io/conan/releases/download/1.25.2/conan-win-64_1_25_2.exe</url>
+  <hash-sum type="SHA-256">f9ec0ab78f9b62241fb090ae4f247d678fe9775bd7a390fa15ce94c983d9f5e6</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
 
     
 
@@ -13551,6 +13571,14 @@ if %err% neq 0 exit %err%&#13;
 </file>
   <url>http://dbeaver.jkiss.org/files/7.0.3/dbeaver-ce-7.0.3-x86_64-setup.exe</url>
   <hash-sum type="SHA-256">4c0f614fecec09e3dcffba8350c8a81a300931488c2c62f93aaaff8b43385664</hash-sum>
+ </version>
+ <version name="7.0.5" package="dbeaver64" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" /allusers /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">uninstall.exe /allusers /S _?=%CD%&#13;
+</file>
+  <url>http://dbeaver.jkiss.org/files/7.0.5/dbeaver-ce-7.0.5-x86_64-setup.exe</url>
+  <hash-sum type="SHA-256">5b0d2ec7c73f1e37c156ef1167262941512521046f341b5e2b1db9786fed0f8e</hash-sum>
  </version>
 
     <version name="0.825" package="dcplusplus64">
@@ -16524,6 +16552,8 @@ rmdir "%name%"&#13;
   <hash-sum type="SHA-256">8e7d8b75e6d8e052460b792b693963eab07e3fc3a9c313668d3ef8b2a22a742f</hash-sum>
  </version>
 
+    
+
     <version name="0.3.4" package="halite64" type="one-file">
   <file path=".Npackd\Install.bat">call "%npackdih%\InstallMSI.bat" INSTALLDIR yes</file>
   <url>https://ayera.dl.sourceforge.net/project/halite/Halite/v%200.3.4/Halite.0_3_4.x64.msi</url>
@@ -17406,7 +17436,7 @@ if %err% neq 0 exit %err%&#13;
 </file>
   <file path=".Npackd\Uninstall.bat">call "%nih%\UninstallInnoSetup.bat" unins000.exe&#13;
 </file>
-  <url>https://www.imagemagick.org/download/binaries/ImageMagick-7.0.10-13-Q16-x64-dll.exe</url>
+  <url>https://github.com/tim-lebedkov/packages/releases/download/2020_05/imagemagick64-7.0.10.13-ImageMagick-7.0.10-13-Q16-x64-dll.exe</url>
   <hash-sum type="SHA-256">53b93f73e3553bfa5684547992af75f0319e2e37315d34b4877636c7177ec00e</hash-sum>
   <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
    <variable>nih</variable>
@@ -22596,6 +22626,17 @@ if %err% neq 0 exit %err%&#13;
    <variable>nih</variable>
   </dependency>
  </version>
+ <version name="7.3" package="net.sourceforge.peazip.PeaZip64" type="one-file">
+  <file path=".Npackd\Install.bat">call "%nih%\InstallInnoSetup.bat"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">call "%nih%\UninstallInnoSetup.bat" unins000.exe&#13;
+</file>
+  <url>https://ayera.dl.sourceforge.net/project/peazip/6.5.1/peazip-6.5.1.WINDOWS.exe</url>
+  <hash-sum type="SHA-256">49bc326c084e743acff1bdf2437d0b17cdeedb5bde67efee2fd86a613efa9031</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
 
     <version name="2.6" package="net.sourceforge.shareaza.Shareaza64" type="one-file">
   <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x
@@ -25912,6 +25953,21 @@ rmdir "%name%"
   <hash-sum type="SHA-256">7bca40a9170e9bad9014dbb5d4c9a7e4c6e3356e5229a2f0e7226726941a58d3</hash-sum>
   <dependency package="com.oracle.JRE" versions="[1.5, 2)"/>
  </version>
+ <version name="7.0.104" package="org.apache.tomcat.Tomcat64">
+  <important-file path="bin\startup.bat" title="Start"/>
+  <important-file path="bin\shutdown.bat" title="Stop"/>
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b apache*') do set name=%%x
+cd "%name%"        
+for /f "delims=" %%a in ('dir /b') do (
+  move "%%a" ..
+)
+cd ..
+rmdir "%name%"
+</file>
+  <url>http://archive.apache.org/dist/tomcat/tomcat-7/v7.0.104/bin/apache-tomcat-7.0.104-windows-x64.zip</url>
+  <hash-sum type="SHA-256">a6826a5686a5d9f2564d17844c15033a9725869ab31eeef881133c64e4ee6ccc</hash-sum>
+  <dependency package="com.oracle.JRE" versions="[1.5, 2)"/>
+ </version>
 
     <version name="7.2.10" package="org.areca-backup.ArecaBackup64">
   <important-file path="areca.exe" title="Areca"/>
@@ -27890,6 +27946,12 @@ rmdir "%name%"&#13;
 </file>
   <url>https://www.erlang.org/download/otp_win64_22.3.exe</url>
   <hash-sum type="SHA-256">f6444c1229d05e866ea15dc8e372bd45cec822d229f6b06f34b0011121e8ca40</hash-sum>
+ </version>
+ <version name="23" package="org.erlang.Erlang64" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD%&#13;
+</file>
+  <url>https://www.erlang.org/download/otp_win64_23.0.exe</url>
+  <hash-sum type="SHA-256">4dcc123ffe7c93c3d04f3fc128bf7345857ff4f3f846d7baf1b933950e46ba1e</hash-sum>
  </version>
 
     <version name="0.9.2.1" package="org.flamerobin.FlameRobin64" type="one-file">
@@ -30247,6 +30309,40 @@ Set view = Nothing&#13;
    <variable>npackdih</variable>
   </dependency>
  </version>
+ <version name="1.14.3" package="org.golang.Go64" type="one-file">
+  <file path=".Npackd\Install.bat">.Npackd\AddProperty.vbs "%npackd_package_binary%"&#13;
+if %errorlevel% neq 0 exit %errorlevel%&#13;
+&#13;
+call "%npackdih%\InstallMSI.bat" INSTALLDIR</file>
+  <file path=".Npackd\Uninstall.bat">call "%npackdih%\UninstallMSI.bat"</file>
+  <file path=".Npackd\AddProperty.vbs">Option Explicit&#13;
+&#13;
+Dim MSI_FILE&#13;
+MSI_FILE = Wscript.Arguments(0)&#13;
+&#13;
+Dim installer, database, view&#13;
+&#13;
+Set installer = CreateObject("WindowsInstaller.Installer")&#13;
+Set database = installer.OpenDatabase(MSI_FILE, 1)&#13;
+&#13;
+Set view = database.OpenView("INSERT INTO Property (Property, Value) VALUES ('INSTALLDIR', 'C:\Go')")&#13;
+view.Execute&#13;
+'Set view = database.OpenView("DELETE FROM Directory WHERE Directory='TARGETDIR'")&#13;
+'view.Execute&#13;
+'Set view = database.OpenView("UPDATE Directory SET DefaultDir='INSTALLLOCATION' WHERE Directory='TARGETDIR'")&#13;
+'view.Execute&#13;
+database.Commit&#13;
+&#13;
+Set database = Nothing&#13;
+Set installer = Nothing&#13;
+Set view = Nothing&#13;
+</file>
+  <url>https://golang.org/dl/go1.14.3.windows-amd64.msi</url>
+  <hash-sum type="SHA-256">c4f0be14d69f85a2bf4d4fbfd9c879c2f8fcb4560f117df0e17aa1999f8a319e</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1, 2)">
+   <variable>npackdih</variable>
+  </dependency>
+ </version>
 
     <version name="2.22.1" package="org.gtk.GTKPlusBundle64">
   <file path="etc\gtk-2.0\gtkrc">gtk-theme-name = "MS-Windows"</file>
@@ -30721,7 +30817,7 @@ if %errorlevel% neq 0 exit /b %errorlevel%&#13;
 </file>
   <file path=".Npackd\Unnstall.bat">miktex\bin\miktexsetup.exe --verbose --shared uninstall&#13;
 </file>
-  <url>https://miktex.org/download/ctan/systems/win32/miktex/setup/windows-x64/basic-miktex-2.9.7442-x64.exe</url>
+  <url>https://github.com/tim-lebedkov/packages/releases/download/2020_05/org.miktex.MiKTeX64-2.9.7442-basic-miktex-2.9.7442-x64.exe</url>
   <hash-sum type="SHA-256">e31e54504550187b9259aa95f92157458690030d0059473238b8b587854a238b</hash-sum>
  </version>
 
