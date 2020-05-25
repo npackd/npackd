@@ -3400,6 +3400,14 @@ x86_64</description>
   <url>https://github.com/tim-lebedkov/packages/releases/download/2020_03/anki64-2.1.22-anki-2.1.22-windows.exe</url>
   <hash-sum type="SHA-256">841394109f003f04481fd5ef97ae9e8010bf4ae8d5b58e1b2b2cc753815fc7fa</hash-sum>
  </version>
+ <version name="2.1.25" package="anki64" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD%&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">uninstall.exe /S&#13;
+</file>
+  <url>https://apps.ankiweb.net/downloads/current/anki-2.1.25-windows.exe</url>
+  <hash-sum type="SHA-256">ed4d3ffc7a537e4a5c0c99f0cb38461d43fb3379ecf478ee114834fd7ba6584d</hash-sum>
+ </version>
  <version name="2.1.26" package="anki64" type="one-file">
   <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD%&#13;
 </file>
@@ -6291,6 +6299,15 @@ call "%npackdih%\InstallMSI.bat" APPLICATIONFOLDER yes&#13;
 </file>
   <url>https://download.calibre-ebook.com/4.14.0/calibre-64bit-4.14.0.msi</url>
   <hash-sum type="SHA-256">9ed012094c634ffdcef4717a1241604acec7c8b306d9f047b7e65245bd5fb97b</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.2, 2)">
+   <variable>npackdih</variable>
+  </dependency>
+ </version>
+ <version name="4.15" package="com.calibreebook.Calibre64" type="one-file">
+  <file path=".Npackd\Install.bat">call "%npackdih%\InstallMSI.bat" APPLICATIONFOLDER yes&#13;
+</file>
+  <url>https://download.calibre-ebook.com/4.15.0/calibre-64bit-4.15.0.msi</url>
+  <hash-sum type="SHA-256">d11a13956cb5eaedaa02f685eebe128f8b2c33c4620d3a0f95c47a33fa6b59e4</hash-sum>
   <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.2, 2)">
    <variable>npackdih</variable>
   </dependency>
@@ -9688,6 +9705,16 @@ if %err% neq 0 exit %err%&#13;
    <variable>nih</variable>
   </dependency>
  </version>
+ <version name="5.4" package="com.selenic.mercurial.Mercurial64" type="one-file">
+  <file path=".Npackd\Install.bat">call "%nih%\InstallInnoSetup.bat"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">call "%nih%\UninstallInnoSetup.bat" unins000.exe</file>
+  <url>https://www.mercurial-scm.org/release/windows/Mercurial-5.4-x64.exe</url>
+  <hash-sum type="SHA-256">75a000ee0ff511aa2be046153af9908c1db6a5ebc46a50f0375f302af8ce40fe</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.7, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
 
     <version name="2.11" package="com.sindresorhus.caprine" type="one-file">
   <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
@@ -11095,6 +11122,16 @@ if %err% neq 0 exit /b %err%&#13;
   <file path=".Npackd\Uninstall.bat">"%ncl%\ncl" remove-scp --title "/Twine %npackd_package_version%/i"&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt</file>
   <url>https://github.com/klembot/twinejs/releases/download/2.3.7/twine_2.3.7_win.exe</url>
   <hash-sum type="SHA-256">34afd0619b6950a77f329cfd8c933f6417d7dec30364eba0e918dfae7e56a467</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.25, 2)">
+   <variable>ncl</variable>
+  </dependency>
+ </version>
+ <version name="2.3.8" package="com.twinery.twine64" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">"%ncl%\ncl" remove-scp --title "/Twine %npackd_package_version%/i"&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt</file>
+  <url>https://github.com/klembot/twinejs/releases/download/2.3.8/twine_2.3.8_win.exe</url>
+  <hash-sum type="SHA-256">835f341b83602f644b42e48deece9497a1cfe756ee854aec348c90f9fc2891fc</hash-sum>
   <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.25, 2)">
    <variable>ncl</variable>
   </dependency>
@@ -14249,6 +14286,14 @@ rmdir "%name%"&#13;
   <url>https://github.com/balena-io/etcher/releases/download/v1.5.82/balenaEtcher-Setup-1.5.82.exe</url>
   <hash-sum type="SHA-256">06bddd2c36f82ef24bbade213bd8685d69d5f53413022fce006433016618f9d3</hash-sum>
  </version>
+ <version name="1.5.84" package="etcher64" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">uninstall.exe /S _?=%CD%&#13;
+</file>
+  <url>https://github.com/balena-io/etcher/releases/download/v1.5.84/balenaEtcher-Setup-1.5.84.exe</url>
+  <hash-sum type="SHA-256">29d9a4ac46eebe3d32a01975393134f6e5c5ad16de9a5e97200926d8af811c6c</hash-sum>
+ </version>
  <version name="1.5.88" package="etcher64" type="one-file">
   <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
 </file>
@@ -14978,6 +15023,17 @@ verify</file>
   <url>https://download-installer.cdn.mozilla.net/pub/firefox/releases/75.0/win64/en-US/Firefox%20Setup%2075.0.exe</url>
   <hash-sum type="SHA-256">ff029f6e59d9d92d3ac5f8e837c973b641b3400980624d3a830dcfe55d4c71fc</hash-sum>
  </version>
+ <version name="76" package="firefox64" type="one-file">
+  <file path=".Npackd\Install.bat">echo [Install] &gt; .Npackd\FF.ini&#13;
+echo InstallDirectoryPath=%CD% &gt;&gt; .Npackd\FF.ini&#13;
+echo QuickLaunchShortcut=false &gt;&gt; .Npackd\FF.ini&#13;
+echo DesktopShortcut=false &gt;&gt; .Npackd\FF.ini&#13;
+"%npackd_package_binary%" /INI="%CD%\.Npackd\FF.ini" &amp;&amp; del /f /q "%npackd_package_binary%"</file>
+  <file path=".Npackd\Uninstall.bat">uninstall\helper.exe /S&#13;
+verify</file>
+  <url>https://download-installer.cdn.mozilla.net/pub/firefox/releases/76.0/win64/en-US/Firefox%20Setup%2076.0.exe</url>
+  <hash-sum type="SHA-256">255bd391f2e53b6d911ea26d9820223000ed5e4d30b049b19682ff68e909fd36</hash-sum>
+ </version>
 
     <version name="1.22" package="focus-image-viewer" type="one-file">
   <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
@@ -15143,6 +15199,15 @@ for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
 </file>
   <url>https://download.handbrake.fr/releases/1.3.1/HandBrake-1.3.1-x86_64-Win_GUI.exe</url>
   <hash-sum type="SHA-256">2f31591fd581240b466e32e27953afa34bf8ed86ef0767e2291956955691a4c3</hash-sum>
+  <dependency package="com.microsoft.DotNetRedistributable" versions="[2, 3)"/>
+ </version>
+ <version name="1.3.2" package="fr.handbrake.HandBrake64" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">uninst.exe /S _?=%CD%&#13;
+</file>
+  <url>https://github.com/HandBrake/HandBrake/releases/download/1.3.2/HandBrake-1.3.2-x86_64-Win_GUI.exe</url>
+  <hash-sum type="SHA-256">78f6727431f9065eb3dc3297ffd5cf2822d8866e51a8915a3853633bcea32e8f</hash-sum>
   <dependency package="com.microsoft.DotNetRedistributable" versions="[2, 3)"/>
  </version>
 
@@ -18781,6 +18846,15 @@ call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Np
   <url>https://downloads.lwks.com/v14-5/lightworks_v14.5.0_full_64bit_setup.exe</url>
   <hash-sum type="SHA-256">55b75aa1d8c35a49920576f59c4a9f336c9fa0498c8a0c580e2c2004ece594af</hash-sum>
  </version>
+ <version name="2020.1" package="lightworks64" type="one-file">
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
+"%setup%" /S /D=%CD% &amp;&amp; del /f /q "%setup%"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">uninstall.exe /S _?=%CD%&#13;
+</file>
+  <url>https://lwks.s3.amazonaws.com/releases/lightworks_2020.1_r122068_64bit_setup.exe</url>
+  <hash-sum type="SHA-256">d55db9340de2566de69eedc468fa7e6d0e49e2a3643193adadb2283d5fcc683d</hash-sum>
+ </version>
 
     <version name="3.1.11.7100" package="Locate32_64">
   <url>http://locate32.cogit.net/download/locate32_x64-3.1.11.7100.zip</url>
@@ -20931,6 +21005,16 @@ rmdir "%name%"&#13;
   <file path=".Npackd\Install.bat">call "%npackdih%\InstallMSI.bat" INSTALLDIR yes&#13;
 		</file>
   <url>https://dev.mysql.com/get/Downloads/MySQLGUITools/mysql-workbench-community-8.0.19-winx64.msi</url>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.1, 2)">
+   <variable>npackdih</variable>
+  </dependency>
+  <dependency package="com.microsoft.DotNetRedistributable" versions="[4, 5)"/>
+  <dependency package="com.microsoft.VisualCPPRedistributable" versions="[10, 11)"/>
+ </version>
+ <version name="8.0.20" package="mysql-workbench64" type="one-file">
+  <file path=".Npackd\Install.bat">call "%npackdih%\InstallMSI.bat" INSTALLDIR yes&#13;
+		</file>
+  <url>https://dev.mysql.com/get/Downloads/MySQLGUITools/mysql-workbench-community-8.0.20-winx64.msi</url>
   <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.1, 2)">
    <variable>npackdih</variable>
   </dependency>
@@ -30531,6 +30615,15 @@ ren "%setup%" Psycopg.exe&#13;
    <variable>nih</variable>
   </dependency>
  </version>
+ <version name="1" package="org.inkscape.Inkscape64" type="one-file">
+  <file path=".Npackd\Install.bat">call "%nih%\InstallMSI.bat" INSTALLDIR yes&#13;
+</file>
+  <url>https://media.inkscape.org/dl/resources/file/inkscape-0.92.3-x64.msi</url>
+  <hash-sum type="SHA-256">1d2f4d9edf221fe9dd1ad75c4a48c8809dd3adf5af0fb672f1383088b163516e</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.1, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
 
     <version name="2.0.4506.10553" package="org.jitsi.Jitsi64" type="one-file">
   <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.msi') do set setup=%%x&#13;
@@ -36845,6 +36938,20 @@ call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Np
    <variable>nih</variable>
   </dependency>
  </version>
+ <version name="8.2.701" package="org.vim.Vim64">
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+if %errorlevel% neq 0 exit /b %errorlevel%&#13;
+&#13;
+for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+</file>
+  <url>https://github.com/vim/vim-win32-installer/releases/download/v8.2.0701/gvim_8.2.0701_x64.zip</url>
+  <hash-sum type="SHA-256">ff3905f47e8ca016a9f3c7934bf281f98297b89a9a728b171955a54cb8070c58</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.19, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
  <version name="8.2.745" package="org.vim.Vim64">
   <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
 call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
@@ -38986,6 +39093,16 @@ echo DesktopShortcut=false &gt;&gt; .Npackd\FF.ini&#13;
   <url>http://relmirror.palemoon.org/release/palemoon-28.9.1.win64.installer.exe</url>
   <hash-sum type="SHA-256">e2153b2faaacc54753a1c7d9e46fa959362617e7b39185a38bf50dbbe07cff70</hash-sum>
  </version>
+ <version name="28.9.2" package="pale-moon64" type="one-file">
+  <file path=".Npackd\Install.bat">echo [Install] &gt; .Npackd\FF.ini&#13;
+echo InstallDirectoryPath=%CD% &gt;&gt; .Npackd\FF.ini&#13;
+echo QuickLaunchShortcut=false &gt;&gt; .Npackd\FF.ini&#13;
+echo DesktopShortcut=false &gt;&gt; .Npackd\FF.ini&#13;
+"%npackd_package_binary%" /INI="%CD%\.Npackd\FF.ini" &amp;&amp; del /f /q "%npackd_package_binary%"</file>
+  <file path=".Npackd\Uninstall.bat">uninstall\helper.exe /S</file>
+  <url>http://relmirror.palemoon.org/release/palemoon-28.9.2.win64.installer.exe</url>
+  <hash-sum type="SHA-256">09ebfae6e3a89c0c23a74787b5f97a326d3bcfcc0981b3a502636c8aa3efafbf</hash-sum>
+ </version>
  <version name="28.9.3" package="pale-moon64" type="one-file">
   <file path=".Npackd\Install.bat">echo [Install] &gt; .Npackd\FF.ini&#13;
 echo InstallDirectoryPath=%CD% &gt;&gt; .Npackd\FF.ini&#13;
@@ -40453,6 +40570,14 @@ if %errorlevel% equ 3010 verify</file>
 </file>
   <url>https://download.racket-lang.org/installers/7.6/racket-7.6-x86_64-win32.exe</url>
   <hash-sum type="SHA-256">9c832ec2eefe387951668c17c2641e173bbc11462c0e4ba44773de0761ce327a</hash-sum>
+ </version>
+ <version name="7.7" package="racket64" type="one-file">
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
+"%setup%" /S /D=%CD%\Prog &amp;&amp; del /f /q "%setup%"</file>
+  <file path=".Npackd\Uninstall.bat">Prog\uninstall.exe /S _?=%CD%\Prog&#13;
+</file>
+  <url>https://download.racket-lang.org/installers/7.7/racket-7.7-x86_64-win32.exe</url>
+  <hash-sum type="SHA-256">23a63e0742be74432af528ba46f13ecee3417aa2e0e8a673bf0d1825f5b3cf4e</hash-sum>
  </version>
 
     <version name="1.14.2" package="rainlendar-lite-64bit" type="one-file">
@@ -43671,6 +43796,18 @@ if %err% neq 0 exit /b %err%&#13;
    <variable>ncl</variable>
   </dependency>
  </version>
+ <version name="3.0.1874.32" package="vivaldi-browser-64" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" --vivaldi-standalone --do-not-launch-chrome --vivaldi-install-dir="%CD%" &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
+&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">"%ncl%\ncl.exe" remove-scp --title "vivaldi-browser-64"&#13;
+</file>
+  <url>https://downloads.vivaldi.com/stable/Vivaldi.3.0.1874.32.x64.exe</url>
+  <hash-sum type="SHA-256">f85a04cd90cc566e58e0efba031df547d9f1c910bc454eb26b1418d7ac173c61</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.24, 2)">
+   <variable>ncl</variable>
+  </dependency>
+ </version>
  <version name="3.0.1874.33" package="vivaldi-browser-64" type="one-file">
   <file path=".Npackd\Install.bat">"%npackd_package_binary%" --vivaldi-standalone --do-not-launch-chrome --vivaldi-install-dir="%CD%" &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
 &#13;
@@ -44813,6 +44950,26 @@ sys.programGroupName=yEd Graph Editor&#13;
 sys.fileAssociation.extensions$StringArray="graphml","graphmlz","ygf","gml","xgml","tgf","ged"&#13;
 </file>
   <url>https://www.yworks.com/resources/yed/demo/yEd-3.19.1.1_with-JRE13_64-bit_setup.exe</url>
+ </version>
+ <version name="3.20" package="yed64" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" -q -console -dir "%CD%" -varfile .Npackd\response.varfile &gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+rem &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">uninstall.exe -q -console</file>
+  <file path=".Npackd\response.varfile">#install4j response file for yEd Graph Editor&#13;
+#Fri Jan 03 20:51:31 CET 2014&#13;
+sys.adminRights$Boolean=true&#13;
+sys.programGroupDisabled$Boolean=false&#13;
+createDesktopLinkAction$Boolean=false&#13;
+sys.fileAssociation.launchers$StringArray="2","2","2","2","2","2","2"&#13;
+sys.programGroupAllUsers$Boolean=true&#13;
+sys.languageId=en&#13;
+#sys.installationDir=C\:\\ProgramFiles\\yEd&#13;
+createQuicklaunchIconAction$Boolean=false&#13;
+sys.programGroupName=yEd Graph Editor&#13;
+sys.fileAssociation.extensions$StringArray="graphml","graphmlz","ygf","gml","xgml","tgf","ged"&#13;
+</file>
+  <url>https://www.yworks.com/resources/yed/demo/yEd-3.20_with-JRE13_64-bit_setup.exe</url>
  </version>
 
     <version name="8.0.0.3" package="zulu64">
