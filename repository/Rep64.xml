@@ -3230,10 +3230,26 @@ x86_64</description>
   <tag>end-of-life</tag>
  </package>
 
-    <version name="4.12.2" package="4k-video-downloader64" type="one-file">
+    <version name="4.12.1" package="4k-video-downloader64" type="one-file">
+  <file path=".Npackd\Install.bat">call "%nih%\InstallMSI.bat" INSTALLDIR yes&#13;
+</file>
+  <url>https://dl.4kdownload.com/app/4kvideodownloader_4.12.1_x64.msi</url>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.1, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
+ <version name="4.12.2" package="4k-video-downloader64" type="one-file">
   <file path=".Npackd\Install.bat">call "%nih%\InstallMSI.bat" INSTALLDIR yes&#13;
 </file>
   <url>https://dl.4kdownload.com/app/4kvideodownloader_4.12.2_x64.msi</url>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.1, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
+ <version name="4.12.3" package="4k-video-downloader64" type="one-file">
+  <file path=".Npackd\Install.bat">call "%nih%\InstallMSI.bat" INSTALLDIR yes&#13;
+</file>
+  <url>https://dl.4kdownload.com/app/4kvideodownloader_4.12.3_x64.msi</url>
   <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.1, 2)">
    <variable>nih</variable>
   </dependency>
@@ -3399,6 +3415,14 @@ x86_64</description>
 </file>
   <url>https://github.com/tim-lebedkov/packages/releases/download/2020_03/anki64-2.1.22-anki-2.1.22-windows.exe</url>
   <hash-sum type="SHA-256">841394109f003f04481fd5ef97ae9e8010bf4ae8d5b58e1b2b2cc753815fc7fa</hash-sum>
+ </version>
+ <version name="2.1.24" package="anki64" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD%&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">uninstall.exe /S&#13;
+</file>
+  <url>https://apps.ankiweb.net/downloads/current/anki-2.1.24-windows.exe</url>
+  <hash-sum type="SHA-256">41fd531ddee6e2a4105b4e058f035b147c44e178e8c176f07eb64d66fa48eb5a</hash-sum>
  </version>
  <version name="2.1.25" package="anki64" type="one-file">
   <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD%&#13;
@@ -13959,6 +13983,16 @@ rmdir "%name%"&#13;
    <variable>ncl</variable>
   </dependency>
  </version>
+ <version name="2021" package="dwg-trueview64" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">"%ncl%\ncl" remove-scp --title "DWG TrueView"&#13;
+</file>
+  <url>https://trial2.autodesk.com/NetSWDLD/2021/ACD/E6A1E1F6-4270-4D64-8BD5-CF3F3A09B77D/SFX/DWGTrueView_2021_English_64bit_dlm.sfx.exe</url>
+  <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.24, 2)">
+   <variable>ncl</variable>
+  </dependency>
+ </version>
 
     <version name="25.1" package="emacs64">
   <important-file path="bin\runemacs.exe" title="Emacs"/>
@@ -14318,6 +14352,14 @@ rmdir "%name%"&#13;
 </file>
   <url>https://github.com/balena-io/etcher/releases/download/v1.5.89/balenaEtcher-Setup-1.5.89.exe</url>
   <hash-sum type="SHA-256">3d8feb23be3abd1555265d903b8c28697732b31ce661f7b8bdbb054835ad233d</hash-sum>
+ </version>
+ <version name="1.5.93" package="etcher64" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">uninstall.exe /S _?=%CD%&#13;
+</file>
+  <url>https://github.com/balena-io/etcher/releases/download/v1.5.93/balenaEtcher-Setup-1.5.93.exe</url>
+  <hash-sum type="SHA-256">2b32ca7fd7ec1d81f72d97cdca012cd6ae9456530b5d07d67139097ffa40e7f7</hash-sum>
  </version>
 
     <version name="1.3.4.686" package="everything64">
@@ -17533,6 +17575,17 @@ if %err% neq 0 exit %err%&#13;
    <variable>nih</variable>
   </dependency>
  </version>
+ <version name="7.0.10.14" package="imagemagick64" type="one-file">
+  <file path=".Npackd\Install.bat">call "%nih%\InstallInnoSetup.bat"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">call "%nih%\UninstallInnoSetup.bat" unins000.exe&#13;
+</file>
+  <url>https://www.imagemagick.org/download/binaries/ImageMagick-7.0.10-14-Q16-x64-dll.exe</url>
+  <hash-sum type="SHA-256">38c49c2420552a6f28cd67b164c8472ce0fe2bf44780e635b722383eebad07ed</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
 
     <version name="0.3.8" package="io.mpv.mpv-64" type="one-file">
   <file path=".Npackd\Install.bat">for /f %%x in ('dir /b *.7z') do set setup=%%x&#13;
@@ -17823,6 +17876,18 @@ rmdir "%name%"&#13;
 </file>
   <url>https://dist.ipfs.io/go-ipfs/v0.4.23/go-ipfs_v0.4.23_windows-amd64.zip</url>
   <hash-sum type="SHA-256">d12713895536ced8891a8ea4d1a615dc0fa1b4a4e0314e00c15c13e741d37126</hash-sum>
+ </version>
+ <version name="0.5" package="ipfs64">
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b go-ipfs*') do set name=%%x&#13;
+cd "%name%"&#13;
+for /f "delims=" %%a in ('dir /b') do (&#13;
+  move "%%a" ..&#13;
+)&#13;
+cd ..&#13;
+rmdir "%name%"&#13;
+</file>
+  <url>https://github.com/ipfs/go-ipfs/releases/download/v0.5.0/go-ipfs_v0.5.0_windows-amd64.zip</url>
+  <hash-sum type="SHA-256">6b01fb605249800d0c4a6bc53f243527c4c4b518744f2ab9aeaee9c22ca287bd</hash-sum>
  </version>
  <version name="0.5.1" package="ipfs64">
   <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b go-ipfs*') do set name=%%x&#13;
@@ -24450,6 +24515,29 @@ WshShell.SendKeys("{ESC}");&#13;
   <url>https://github.com/tim-lebedkov/packages/releases/download/2020_01/openmpt64-1.28.9-OpenMPT-1.28.09.00-Setup-x64.exe</url>
   <hash-sum type="SHA-256">6dd62663a0bfbec73d5290b29d16090051af958b61c812a835931f9ebe075a40</hash-sum>
  </version>
+ <version name="1.29.1" package="openmpt64" type="one-file">
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
+"%setup%" /SP- /VERYSILENT /SUPPRESSMSGBOXES /NOCANCEL /NORESTART /DIR="%CD%" /SAVEINF="%CD%\.Npackd\InnoSetupInfo.ini" /LOG="%CD%\.Npackd\InnoSetupInstall.log" &amp;&amp; del /f /q "%setup%"&#13;
+set err=%errorlevel%&#13;
+type .Npackd\InnoSetupInstall.log&#13;
+if %err% neq 0 exit %err%&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">start "Confirm Uninstall" cscript //Nologo //B //E:JScript //T:300 //U .Npackd\ConfirmUninstall.js&#13;
+&#13;
+unins000.exe /VERYSILENT /SUPPRESSMSGBOXES /NORESTART /LOG="%CD%\.Npackd\InnoSetupUninstall.log"&#13;
+set err=%errorlevel%&#13;
+type .Npackd\InnoSetupUninstall.log&#13;
+if %err% neq 0 exit %err%&#13;
+</file>
+  <file path=".Npackd\ConfirmUninstall.js">var WshShell = WScript.CreateObject("WScript.Shell");&#13;
+WScript.Sleep(60000);&#13;
+WshShell.AppActivate("Uninstall");&#13;
+WScript.Sleep(10000);&#13;
+WshShell.SendKeys("{ESC}");&#13;
+</file>
+  <url>https://download.openmpt.org/archive/openmpt/1.29/OpenMPT-1.29.01.00-Setup-x64.exe</url>
+  <hash-sum type="SHA-256">362872a95249e80bbcac06005db9d544f1a0213feb3417d7446afa3a70332a9c</hash-sum>
+ </version>
 
     <version name="2015.3.2" package="openscad64" type="one-file">
   <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
@@ -28565,6 +28653,15 @@ verify&#13;
   <url>http://downloads.sourceforge.net/project/lazarus/Lazarus%20Windows%2064%20bits/Lazarus%202.0.6/lazarus-2.0.6-fpc-3.0.4-win64.exe</url>
   <hash-sum type="SHA-256">acf428903551097094ba4bb31209c1d160f911ffb507ebc52aaca09aa0ae10ee</hash-sum>
  </version>
+ <version name="2.0.8" package="org.freepascal.lazarus.Lazarus64" type="one-file">
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
+&#13;
+"%setup%" /SP- /VERYSILENT /SUPPRESSMSGBOXES /NOCANCEL /NORESTART /DIR="%CD%\Prog" /SAVEINF="%CD%\.Npackd\InnoSetupInfo.ini"</file>
+  <file path=".Npackd\Uninstall.bat">Prog\unins000.exe /VERYSILENT /SUPPRESSMSGBOXES /NORESTART&#13;
+</file>
+  <url>http://downloads.sourceforge.net/project/lazarus/Lazarus%20Windows%2064%20bits/Lazarus%202.0.8/lazarus-2.0.8-fpc-3.0.4-win64.exe</url>
+  <hash-sum type="SHA-256">a574f0a961770ee506764fb438bd5e3e5891428191e11fd8cd90bf7f41a1288a</hash-sum>
+ </version>
 
     <version name="7.1.90" package="org.gnu.GDB64">
   <file path=".WPM\Install.bat">for /f "delims=" %%x in ('dir /b mingw*') do set name=%%x
@@ -32480,6 +32577,14 @@ verify</file>
    <variable>npackdih</variable>
   </dependency>
  </version>
+ <version name="12.17" package="org.nodejs.NodeJS64" type="one-file">
+  <file path=".Npackd\Install.bat">call "%npackdih%\InstallMSI.bat" INSTALLDIR yes</file>
+  <url>https://nodejs.org/dist/v12.17.0/node-v12.17.0-x64.msi</url>
+  <hash-sum type="SHA-256">fcf7abaafd5dede76104527d064f88ec1f2d2131dc9a0f5387fe2c0abbd1ba94</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.1, 2)">
+   <variable>npackdih</variable>
+  </dependency>
+ </version>
 
     <version name="2.2" package="org.openshot.openshot64" type="one-file">
   <file path=".Npackd\Install.bat">"%nih%\InstallInnoSetup.bat"&#13;
@@ -33992,6 +34097,19 @@ cd ..&#13;
 rmdir "%name%"</file>
   <url>https://download.springsource.com/release/STS4/4.6.0.RELEASE/dist/e4.13/spring-tool-suite-4-4.6.0.RELEASE-e4.13.0-win32.win32.x86_64.zip</url>
   <hash-sum type="SHA-256">4c081da9412ff9cb48a1a0b58cfd86c9844dde2965d39544e68bb51664ea4842</hash-sum>
+  <dependency package="com.oracle.JRE64" versions="[1.7, 2)"/>
+ </version>
+ <version name="4.6.1" package="org.springsource.STS64">
+  <important-file path="SpringToolSuite4.exe" title="Spring Tool Suite"/>
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b sts*') do set name=%%x&#13;
+cd "%name%"        &#13;
+for /f "delims=" %%a in ('dir /b') do (&#13;
+  move "%%a" ..&#13;
+)&#13;
+cd ..&#13;
+rmdir "%name%"</file>
+  <url>https://download.springsource.com/release/STS4/4.6.2.RELEASE/dist/e4.15/spring-tool-suite-4-4.6.2.RELEASE-e4.15.0-win32.win32.x86_64.zip</url>
+  <hash-sum type="SHA-256">455687948057c918c0032d094c5a017d34b57451b813a6a77f9228afd1e428b0</hash-sum>
   <dependency package="com.oracle.JRE64" versions="[1.7, 2)"/>
  </version>
 
@@ -38496,6 +38614,76 @@ if %err% neq 0 exit %err%</file>
    <variable>sevenzip</variable>
   </dependency>
  </version>
+ <version name="6.1.6.137129" package="org.virtualbox.virtualbox64" type="one-file">
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
+"%setup%" -x -s -p "%CD%"&#13;
+&#13;
+&#13;
+"%sevenzip%\7z.exe" x common.cab -aos -o"%CD%\common"&#13;
+"%sevenzip%\7z.exe" x "%CD%\common\file_VBoxGuestAdditions.iso" -aos -o"%CD%\common\file_VBoxGuestAdditions"&#13;
+&#13;
+certutil.exe -addstore -f "TrustedPublisher" "%CD%\common\file_VBoxGuestAdditions\cert\oracle-vbox.cer" &gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+&#13;
+for /f "delims=" %%x in ('dir /b *MultiArch_amd64.msi') do set setup=%%x&#13;
+msiexec.exe /qn /norestart /Lime .Npackd\MSI.log /i "%setup%"&#13;
+set err=%errorlevel%&#13;
+type .Npackd\MSI.log&#13;
+rem 3010=restart required&#13;
+if %err% equ 3010 exit 0&#13;
+if %err% neq 0 exit %err%&#13;
+&#13;
+for /f "delims=" %%x in ('dir /b *MultiArch_x86.msi') do set trash=%%x&#13;
+del /q /f "%trash%"&#13;
+&#13;
+if exist "%CD%\common" (rd /s /q "%CD%\common")</file>
+  <file path=".Npackd\Uninstall.bat">for /f "delims=" %%x in ('dir /b *.msi') do set setup=%%x&#13;
+msiexec.exe /qn /norestart /Lime .Npackd\MSI.log /x "%setup%"&#13;
+set err=%errorlevel%&#13;
+type .Npackd\MSI.log&#13;
+rem 3010=restart required&#13;
+if %err% equ 3010 exit 0&#13;
+if %err% neq 0 exit %err%</file>
+  <url>http://download.virtualbox.org/virtualbox/6.1.6/VirtualBox-6.1.6-137129-Win.exe</url>
+  <hash-sum type="SHA-256">b3fcbf2b403f14d4e0d2f34703854032f76c125f3a8859d4778e6700293e2815</hash-sum>
+  <dependency package="org.7-zip.SevenZIP64" versions="[9.20, 20)">
+   <variable>sevenzip</variable>
+  </dependency>
+ </version>
+ <version name="6.1.8.137981" package="org.virtualbox.virtualbox64" type="one-file">
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
+"%setup%" -x -s -p "%CD%"&#13;
+&#13;
+&#13;
+"%sevenzip%\7z.exe" x common.cab -aos -o"%CD%\common"&#13;
+"%sevenzip%\7z.exe" x "%CD%\common\file_VBoxGuestAdditions.iso" -aos -o"%CD%\common\file_VBoxGuestAdditions"&#13;
+&#13;
+certutil.exe -addstore -f "TrustedPublisher" "%CD%\common\file_VBoxGuestAdditions\cert\oracle-vbox.cer" &gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+&#13;
+for /f "delims=" %%x in ('dir /b *MultiArch_amd64.msi') do set setup=%%x&#13;
+msiexec.exe /qn /norestart /Lime .Npackd\MSI.log /i "%setup%"&#13;
+set err=%errorlevel%&#13;
+type .Npackd\MSI.log&#13;
+rem 3010=restart required&#13;
+if %err% equ 3010 exit 0&#13;
+if %err% neq 0 exit %err%&#13;
+&#13;
+for /f "delims=" %%x in ('dir /b *MultiArch_x86.msi') do set trash=%%x&#13;
+del /q /f "%trash%"&#13;
+&#13;
+if exist "%CD%\common" (rd /s /q "%CD%\common")</file>
+  <file path=".Npackd\Uninstall.bat">for /f "delims=" %%x in ('dir /b *.msi') do set setup=%%x&#13;
+msiexec.exe /qn /norestart /Lime .Npackd\MSI.log /x "%setup%"&#13;
+set err=%errorlevel%&#13;
+type .Npackd\MSI.log&#13;
+rem 3010=restart required&#13;
+if %err% equ 3010 exit 0&#13;
+if %err% neq 0 exit %err%</file>
+  <url>http://download.virtualbox.org/virtualbox/6.1.8/VirtualBox-6.1.8-137981-Win.exe</url>
+  <hash-sum type="SHA-256">28f03359b9db46156628208dcb26572cf258d0803031a97c6533c49fff60dade</hash-sum>
+  <dependency package="org.7-zip.SevenZIP64" versions="[9.20, 20)">
+   <variable>sevenzip</variable>
+  </dependency>
+ </version>
 
     <version name="1.9.11" package="org.virtualdub.VirtualDub64">
   <important-file path="Veedub64.exe" title="VirtualDub"/>
@@ -40411,6 +40599,17 @@ if %errorlevel% equ 3010 verify</file>
 </file>
   <url>http://download.qt-project.org/official_releases/qtcreator/4.11/4.11.2/qt-creator-opensource-windows-x86_64-4.11.2.exe</url>
   <hash-sum type="SHA-256">bd3241f79b4d583e15f6bb64ea1d099ea6548cc716e95b94ea0069f1ac20f79b</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.24, 2)">
+   <variable>ncl</variable>
+  </dependency>
+ </version>
+ <version name="4.12.1" package="qt-creator64" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD%&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">"%ncl%\ncl.exe" remove-scp --title "/Qt Creator.*/"&#13;
+</file>
+  <url>http://download.qt-project.org/official_releases/qtcreator/4.12/4.12.1/qt-creator-opensource-windows-x86_64-4.12.1.exe</url>
+  <hash-sum type="SHA-256">6ad49426cdcf800ac1a6a86a0cabbd6506b87e6eaad668b6bb26a8d2ed418dc9</hash-sum>
   <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.24, 2)">
    <variable>ncl</variable>
   </dependency>
@@ -43139,6 +43338,14 @@ if %err% neq 0 exit %err%&#13;
 </file>
   <url>http://files.first-world.info/ultracopier/2.2.4.1/ultracopier-windows-x86_64-2.2.4.1-setup.exe</url>
   <hash-sum type="SHA-256">d3a50bfd0ff22a3a4a4ba319c44e4958b9c50ca3b49ff2093b58c60a4c4b7e66</hash-sum>
+ </version>
+ <version name="2.2.4.2" package="ultracopier64" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">uninst.exe /S _?=%CD%&#13;
+</file>
+  <url>http://files.first-world.info/ultracopier/2.2.4.2/ultracopier-windows-x86_64-2.2.4.2-setup.exe</url>
+  <hash-sum type="SHA-256">0c6f595ee6e205292b984ae391b6dfc6520fe9a0c7e6aaafcfe3ca168e7f4b13</hash-sum>
  </version>
 
     <version name="2.0.1" package="vagrant64" type="one-file">
