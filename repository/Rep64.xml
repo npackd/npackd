@@ -2397,7 +2397,7 @@ x86_64</description>
   <license>org.python.PSFLicense</license>
   <category>Development</category>
   <tag>stable64</tag>
-  <stars>1</stars>
+  <stars>2</stars>
  </package>
  <package name="org.rubylang.Ruby64">
   <title>Ruby 64 bit</title>
@@ -3036,7 +3036,7 @@ x86_64</description>
   <url>http://www.swi-prolog.org/</url>
   <description>Prolog environment
 x86_64</description>
-  <icon>http://cdn.portableapps.com/SWI-PrologPortable_128.png</icon>
+  <icon>https://www.swi-prolog.org/favicon.ico</icon>
   <category>Development</category>
   <tag>stable64</tag>
  </package>
@@ -7665,6 +7665,16 @@ verify&#13;
    <variable>nih</variable>
   </dependency>
  </version>
+ <version name="2.0.1" package="com.intilinux.mypaint.MyPaint64" type="one-file">
+  <file path=".Npackd\Install.bat">"%nih%\InstallInnoSetup.bat"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">"%nih%\UninstallInnoSetup.bat" unins000.exe</file>
+  <url>https://github.com/mypaint/mypaint/releases/download/v2.0.1/mypaint-w64-2.0.1-installer.exe</url>
+  <hash-sum type="SHA-256">7d1d94822e9cde8418cae0a0b78aed72f080a03633fe76eed20a71025debb23d</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
 
     <version name="1.0.3" package="com.lockhunter.LockHunter64" type="one-file">
   <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x
@@ -8845,6 +8855,15 @@ if %err% neq 0 exit /b %err%&#13;
   <file path=".Npackd\Install.bat">call "%nih%\InstallMSI.bat" INSTALLDIR yes&#13;
 </file>
   <url>https://github.com/AdoptOpenJDK/openjdk14-binaries/releases/download/jdk-14%2B36/OpenJDK14U-jre_x64_windows_hotspot_14_36.msi</url>
+  <hash-sum type="SHA-256">b04050c65ace822ee515c84b0856abf87deb2ff8c0586e18066eafde744233ed</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.8, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
+ <version name="14.0.1.7" package="com.oracle.JRE64" type="one-file">
+  <file path=".Npackd\Install.bat">call "%nih%\InstallMSI.bat" INSTALLDIR yes&#13;
+</file>
+  <url>https://github.com/AdoptOpenJDK/openjdk14-binaries/releases/download/jdk-14.0.1%2B7/OpenJDK14U-jre_x64_windows_hotspot_14_0_1_7.msi</url>
   <hash-sum type="SHA-256">b04050c65ace822ee515c84b0856abf87deb2ff8c0586e18066eafde744233ed</hash-sum>
   <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.8, 2)">
    <variable>nih</variable>
@@ -15227,6 +15246,17 @@ verify</file>
   <url>https://download-installer.cdn.mozilla.net/pub/firefox/releases/76.0/win64/en-US/Firefox%20Setup%2076.0.exe</url>
   <hash-sum type="SHA-256">255bd391f2e53b6d911ea26d9820223000ed5e4d30b049b19682ff68e909fd36</hash-sum>
  </version>
+ <version name="77" package="firefox64" type="one-file">
+  <file path=".Npackd\Install.bat">echo [Install] &gt; .Npackd\FF.ini&#13;
+echo InstallDirectoryPath=%CD% &gt;&gt; .Npackd\FF.ini&#13;
+echo QuickLaunchShortcut=false &gt;&gt; .Npackd\FF.ini&#13;
+echo DesktopShortcut=false &gt;&gt; .Npackd\FF.ini&#13;
+"%npackd_package_binary%" /INI="%CD%\.Npackd\FF.ini" &amp;&amp; del /f /q "%npackd_package_binary%"</file>
+  <file path=".Npackd\Uninstall.bat">uninstall\helper.exe /S&#13;
+verify</file>
+  <url>https://download-installer.cdn.mozilla.net/pub/firefox/releases/77.0/win64/en-US/Firefox%20Setup%2077.0.exe</url>
+  <hash-sum type="SHA-256">859efffc777b2260250c982036920baef79369cbce08822ba8700db1ec7e8b88</hash-sum>
+ </version>
 
     <version name="1.22" package="focus-image-viewer" type="one-file">
   <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
@@ -15246,6 +15276,14 @@ verify</file>
 </file>
   <url>http://sg.pintosoft.com/foni/1.23/FocusOnIV64_1.23.exe</url>
   <hash-sum type="SHA-256">aeb6141e890bc6905bdfb7e4028278fa47dfdcd39f6e17412458ee02dfb39ba0</hash-sum>
+ </version>
+ <version name="1.24" package="focus-image-viewer" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">uninstall.exe /S _?=%CD%&#13;
+</file>
+  <url>http://sg.pintosoft.com/foni/1.24/FocusOnIV64_1.24.exe</url>
+  <hash-sum type="SHA-256">c78d15554df8f1269136d546c056051c9e0a408317ffbf27a33dbce5c86f75e9</hash-sum>
  </version>
 
     <version name="0.10" package="fr.handbrake.HandBrake64" type="one-file">
