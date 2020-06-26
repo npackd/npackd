@@ -41110,6 +41110,13 @@ if %errorlevel% equ 3010 verify</file>
 </file>
   <url>https://qgis.org/downloads/QGIS-OSGeo4W-3.12.3-1-Setup-x86_64.exe</url>
  </version>
+ <version name="3.14" package="qgis64" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
+if %errorlevel% equ 3010 verify</file>
+  <file path=".Npackd\Uninstall.bat">uninstall.exe /S _?=%CD%&#13;
+</file>
+  <url>https://qgis.org/downloads/QGIS-OSGeo4W-3.14.0-1-Setup-x86_64.exe</url>
+ </version>
 
     <version name="1.40.6" package="Qt-Bitcoin-Trader64" type="one-file">
   <important-file path="qtbitcointrader.exe" title="Qt Bitcoin Trader"/>
@@ -42225,7 +42232,7 @@ call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Np
   <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b curl*') do set name=%%x&#13;
 call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
 </file>
-  <url>https://curl.haxx.se/windows/dl-7.71.0/curl-7.71.0-win64-mingw.zip</url>
+  <url>https://github.com/tim-lebedkov/packages/releases/download/2020_06/se.haxx.curl.CURL64-7.71-curl-7.71.0-win64-mingw.zip</url>
   <hash-sum type="SHA-256">e9c683a114fa118a302fbdd14a25d9f8ff19a09c18cd7ef568abc100c26a9e48</hash-sum>
   <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.19, 2)">
    <variable>nih</variable>
@@ -42997,6 +43004,17 @@ Prog\setup.exe /Q /IACCEPTSQLSERVERLICENSETERMS /Q /ACTION=install &gt; .Npackd\
 </file>
   <url>https://github.com/Stellarium/stellarium/releases/download/v0.20.1/stellarium-0.20.1-win64.exe</url>
   <hash-sum type="SHA-256">a06cd2ce8c34d791cbe7472d40c5520dd164bd790e5de30118b74e8ef718b934</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
+ <version name="0.20.2" package="stellarium64" type="one-file">
+  <file path=".Npackd\Install.bat">call "%nih%\InstallInnoSetup.bat"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">call "%nih%\UninstallInnoSetup.bat" unins000.exe&#13;
+</file>
+  <url>https://github.com/Stellarium/stellarium/releases/download/v0.20.2/stellarium-0.20.2-win64.exe</url>
+  <hash-sum type="SHA-256">6ab249b1ffe094f0ddfb3102a53f16f389d7fe7cd6756e47210e898b5a7863e2</hash-sum>
   <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
    <variable>nih</variable>
   </dependency>
