@@ -18721,6 +18721,14 @@ call "%nih%\InstallMSI.bat" TARGETDIR yes&#13;
   <url>https://download.kde.org/stable/krita/4.2.9/krita-x64-4.2.9-setup.exe</url>
   <hash-sum type="SHA-256">fd8345a4d4170c62e410f8cfe1547bb811eb312de953a540b3bf12bb79137b9f</hash-sum>
  </version>
+ <version name="4.3" package="krita64" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">uninstall.exe /S _?=%CD%&#13;
+</file>
+  <url>https://download.kde.org/stable/krita/4.3.0/krita-x64-4.3.0-setup.exe</url>
+  <hash-sum type="SHA-256">39346273dfa9397af61f4caf779e2d3d5d59a43d67248bc827b6704a08e9e59f</hash-sum>
+ </version>
 
     
 
@@ -21164,6 +21172,19 @@ rmdir "%name%"&#13;
   <hash-sum type="SHA-256">8de4bd26c474886927ad8756edd6a3f7c42bce3dbc34af20abdc1bea8906fb34</hash-sum>
  </version>
  <version name="4.4.5" package="mtuner">
+  <important-file path="MTuner.exe" title="MTuner"/>
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b MTuner*') do set name=%%x&#13;
+cd "%name%"&#13;
+for /f "delims=" %%a in ('dir /b') do (&#13;
+  move "%%a" ..&#13;
+)&#13;
+cd ..&#13;
+rmdir "%name%"&#13;
+</file>
+  <url>https://github.com/milostosic/MTuner/releases/download/v4.2.9/mtuner64.zip</url>
+  <hash-sum type="SHA-256">8de4bd26c474886927ad8756edd6a3f7c42bce3dbc34af20abdc1bea8906fb34</hash-sum>
+ </version>
+ <version name="4.4.6" package="mtuner">
   <important-file path="MTuner.exe" title="MTuner"/>
   <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b MTuner*') do set name=%%x&#13;
 cd "%name%"&#13;
