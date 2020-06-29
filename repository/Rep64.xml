@@ -1125,6 +1125,16 @@ x86_64</description>
   <stars>2</stars>
   <link href="https://www.veracrypt.fr/en/Release%20Notes.html" rel="changelog"/>
  </package>
+ <package name="freac64">
+  <title>fre:ac 64 bit</title>
+  <url>http://freac.org</url>
+  <description>audio converter and CD ripper
+x86_64</description>
+  <icon>https://lh6.googleusercontent.com/-mGq9cK-cQ1c/UQIYATZa9ZI/AAAAAAAAABk/3LrNMMsfPpg/s800/freac_32.png</icon>
+  <license>org.gnu.GPLv2</license>
+  <category>Music</category>
+  <tag>stable64</tag>
+ </package>
  <package name="fritzing64">
   <title>Fritzing 64 bit</title>
   <url>http://fritzing.org</url>
@@ -3373,6 +3383,11 @@ x86_64</description>
   <hash-sum type="SHA-256">aca9b259b07db3c799cf9acbe59256210fd8cdbfc60d54bf95fe1dc2cbf16495</hash-sum>
  </version>
  <version name="2.2.0.24" package="ag64">
+  <cmd-file path="ag.exe"/>
+  <url>https://github.com/k-takata/the_silver_searcher-win32/releases/download/2020-01-11%2F2.2.0-22-ga509a81/ag-2020-01-11_2.2.0-22-ga509a81-x64.zip</url>
+  <hash-sum type="SHA-256">aca9b259b07db3c799cf9acbe59256210fd8cdbfc60d54bf95fe1dc2cbf16495</hash-sum>
+ </version>
+ <version name="2.2.0.48" package="ag64">
   <cmd-file path="ag.exe"/>
   <url>https://github.com/k-takata/the_silver_searcher-win32/releases/download/2020-01-11%2F2.2.0-22-ga509a81/ag-2020-01-11_2.2.0-22-ga509a81-x64.zip</url>
   <hash-sum type="SHA-256">aca9b259b07db3c799cf9acbe59256210fd8cdbfc60d54bf95fe1dc2cbf16495</hash-sum>
@@ -14767,10 +14782,6 @@ rmdir "%name%"&#13;
   <hash-sum type="SHA-256">4dfe874836b1254cf6b8122874e03177b274d2c8d0b4576852c010758129a50c</hash-sum>
  </version>
 
-    
-
-    
-
     <version name="3.0.3525" package="far-manager64" type="one-file">
   <file path=".Npackd\Install.bat">set onecmd="%npackd_cl%\npackdcl.exe" "path" "--package=com.googlecode.windows-package-manager.NpackdInstallerHelper" "--versions=[1.1, 2)"&#13;
 for /f "usebackq delims=" %%x in (`%%onecmd%%`) do set npackdih=%%x&#13;
@@ -15695,6 +15706,22 @@ if %err% neq 0 exit %err%</file>
 "VeraCrypt Setup.exe" /u</file>
   <url>https://launchpad.net/veracrypt/trunk/1.24/+download/VeraCrypt%20Setup%201.24.exe</url>
   <hash-sum type="SHA-256">b85aaef5a6f6a8795f9954a3a45f6f190ac5ebd0c8da629c3f9ad7cb20514098</hash-sum>
+ </version>
+
+    <version name="1.1.2" package="freac64">
+  <important-file path="freac.exe" title="fre:ac"/>
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b fre*') do set name=%%x&#13;
+cd "%name%"        &#13;
+for /f "delims=" %%a in ('dir /b') do (&#13;
+  move "%%a" ..&#13;
+)&#13;
+cd ..&#13;
+rmdir "%name%"</file>
+  <url>https://github.com/enzo1982/freac/releases/download/v1.1.2/freac-1.1.2a-windows-x64.zip</url>
+  <hash-sum type="SHA-256">0b14a15f67e22e78d5e45aa650d98c292e243f405018a99c8da6df49df754b63</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.25, 2)">
+   <variable>ncl</variable>
+  </dependency>
  </version>
 
     <version name="0.9.3.2" package="fritzing64">
@@ -17100,6 +17127,19 @@ rmdir "%name%"&#13;
 </file>
   <url>https://dl.google.com/dl/cloudsdk/channels/rapid/downloads/google-cloud-sdk-296.0.0-windows-x86_64.zip</url>
   <hash-sum type="SHA-256">fc1e41139820a217e7247eeb8b3699672a82d5f9fab1cccb2af9bd4a09d94e82</hash-sum>
+  <dependency package="org.python.Python" versions="[2.7, 2.8)"/>
+ </version>
+ <version name="298" package="google-cloud-sdk64">
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b google-cloud-sdk*') do set name=%%x&#13;
+cd "%name%"&#13;
+for /f "delims=" %%a in ('dir /b') do (&#13;
+  move "%%a" ..&#13;
+)&#13;
+cd ..&#13;
+rmdir "%name%"&#13;
+</file>
+  <url>https://dl.google.com/dl/cloudsdk/channels/rapid/downloads/google-cloud-sdk-298.0.0-windows-x86_64.zip</url>
+  <hash-sum type="SHA-256">b117d95a4d9df50b20f037e0408c811b270a417b03c8f8a467d935e328d8e8b4</hash-sum>
   <dependency package="org.python.Python" versions="[2.7, 2.8)"/>
  </version>
 
@@ -28152,6 +28192,17 @@ rmdir "%name%"&#13;
   </dependency>
   <dependency package="com.microsoft.VisualCPPRedistributable64" versions="[9, 10)"/>
  </version>
+ <version name="2.83" package="org.blender.Blender64">
+  <important-file path="blender.exe" title="Blender"/>
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b blender*') do set name=%%x&#13;
+"%NIH%\ExtractDir.bat" "%name%"</file>
+  <url>https://download.blender.org/release/Blender2.83/blender-2.83.0-windows64.zip</url>
+  <hash-sum type="SHA-256">81c9ac55d30627a92f978f28c4682729c7c5dd1ca71bcd3d5701a69cfdcc690b</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
+   <variable>NIH</variable>
+  </dependency>
+  <dependency package="com.microsoft.VisualCPPRedistributable64" versions="[9, 10)"/>
+ </version>
 
     <version name="1.0.3.8" package="org.bluemars.ClipX64" type="one-file">
   <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x
@@ -28600,6 +28651,20 @@ rmdir "%name%"&#13;
   <dependency package="com.oracle.JRE64" versions="[1.6, 2)"/>
  </version>
  <version name="2020.3" package="org.eclipse.EclipseIDEJava64">
+  <important-file path="eclipse.exe" title="Eclipse IDE for Java"/>
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b eclipse*') do set name=%%x&#13;
+cd "%name%"        &#13;
+for /f "delims=" %%a in ('dir /b') do (&#13;
+  move "%%a" ..&#13;
+)&#13;
+cd ..&#13;
+rmdir "%name%"&#13;
+</file>
+  <url>http://download.eclipse.org/technology/epp/downloads/release/2018-09/R/eclipse-java-2018-09-win32-x86_64.zip</url>
+  <hash-sum type="SHA-256">8e23fe1fde003a584187b5336d05d7e1dd050a148d92acf5cefb7779116c7d00</hash-sum>
+  <dependency package="com.oracle.JRE64" versions="[1.6, 2)"/>
+ </version>
+ <version name="2020.6" package="org.eclipse.EclipseIDEJava64">
   <important-file path="eclipse.exe" title="Eclipse IDE for Java"/>
   <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b eclipse*') do set name=%%x&#13;
 cd "%name%"        &#13;
@@ -33273,6 +33338,14 @@ verify</file>
    <variable>npackdih</variable>
   </dependency>
  </version>
+ <version name="12.18.1" package="org.nodejs.NodeJS64" type="one-file">
+  <file path=".Npackd\Install.bat">call "%npackdih%\InstallMSI.bat" INSTALLDIR yes</file>
+  <url>https://nodejs.org/dist/v12.18.1/node-v12.18.1-x64.msi</url>
+  <hash-sum type="SHA-256">f318bb719bd956d4734247c58b3937daef04a01dbee4abdfe6217bdea87932f4</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.1, 2)">
+   <variable>npackdih</variable>
+  </dependency>
+ </version>
 
     <version name="2.2" package="org.openshot.openshot64" type="one-file">
   <file path=".Npackd\Install.bat">"%nih%\InstallInnoSetup.bat"&#13;
@@ -34815,6 +34888,19 @@ cd ..&#13;
 rmdir "%name%"</file>
   <url>https://download.springsource.com/release/STS4/4.6.2.RELEASE/dist/e4.15/spring-tool-suite-4-4.6.2.RELEASE-e4.15.0-win32.win32.x86_64.zip</url>
   <hash-sum type="SHA-256">455687948057c918c0032d094c5a017d34b57451b813a6a77f9228afd1e428b0</hash-sum>
+  <dependency package="com.oracle.JRE64" versions="[1.7, 2)"/>
+ </version>
+ <version name="4.7" package="org.springsource.STS64">
+  <important-file path="SpringToolSuite4.exe" title="Spring Tool Suite"/>
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b sts*') do set name=%%x&#13;
+cd "%name%"        &#13;
+for /f "delims=" %%a in ('dir /b') do (&#13;
+  move "%%a" ..&#13;
+)&#13;
+cd ..&#13;
+rmdir "%name%"</file>
+  <url>https://download.springsource.com/release/STS4/4.7.0.RELEASE/dist/e4.15/spring-tool-suite-4-4.7.0.RELEASE-e4.15.0-win32.win32.x86_64.zip</url>
+  <hash-sum type="SHA-256">481025cf7a3df8d4fbaa9067caf498bb723aebcfe7b8284360d2e256927e16ca</hash-sum>
   <dependency package="com.oracle.JRE64" versions="[1.7, 2)"/>
  </version>
 
