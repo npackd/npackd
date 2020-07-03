@@ -17142,6 +17142,19 @@ rmdir "%name%"&#13;
   <hash-sum type="SHA-256">b117d95a4d9df50b20f037e0408c811b270a417b03c8f8a467d935e328d8e8b4</hash-sum>
   <dependency package="org.python.Python" versions="[2.7, 2.8)"/>
  </version>
+ <version name="299" package="google-cloud-sdk64">
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b google-cloud-sdk*') do set name=%%x&#13;
+cd "%name%"&#13;
+for /f "delims=" %%a in ('dir /b') do (&#13;
+  move "%%a" ..&#13;
+)&#13;
+cd ..&#13;
+rmdir "%name%"&#13;
+</file>
+  <url>https://dl.google.com/dl/cloudsdk/channels/rapid/downloads/google-cloud-sdk-299.0.0-windows-x86_64.zip</url>
+  <hash-sum type="SHA-256">7ef58aa46aaca731e464a28c68905a9429ab9e37ef930525db33b33cb75c98dc</hash-sum>
+  <dependency package="org.python.Python" versions="[2.7, 2.8)"/>
+ </version>
 
     <version name="1.1.94" package="grisbi64" type="one-file">
   <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
@@ -24927,7 +24940,7 @@ mkdir %trash%&#13;
 move NppShell*.dll %trash%&#13;
 verify&#13;
 		</file>
-  <url>http://download.notepad-plus-plus.org/repository/7.x/7.8.8/npp.7.8.8.Installer.x64.exe</url>
+  <url>https://github.com/tim-lebedkov/packages/releases/download/2020_07/notepadpp64-7.8.8-npp.7.8.8.Installer.x64.exe</url>
   <hash-sum type="SHA-256">196f6f338e7e153f46204f6ec209f6aa8dc79ed05e75ab8ab5d74b6fd5db08cd</hash-sum>
  </version>
 
@@ -28245,6 +28258,17 @@ rmdir "%name%"&#13;
 "%NIH%\ExtractDir.bat" "%name%"</file>
   <url>https://download.blender.org/release/Blender2.83/blender-2.83.0-windows64.zip</url>
   <hash-sum type="SHA-256">81c9ac55d30627a92f978f28c4682729c7c5dd1ca71bcd3d5701a69cfdcc690b</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
+   <variable>NIH</variable>
+  </dependency>
+  <dependency package="com.microsoft.VisualCPPRedistributable64" versions="[9, 10)"/>
+ </version>
+ <version name="2.83.1" package="org.blender.Blender64">
+  <important-file path="blender.exe" title="Blender"/>
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b blender*') do set name=%%x&#13;
+"%NIH%\ExtractDir.bat" "%name%"</file>
+  <url>https://download.blender.org/release/Blender2.83/blender-2.83.1-windows64.zip</url>
+  <hash-sum type="SHA-256">69f107823f8e302e2f3f36512cad63c212eda1f44c731d76d0a8c8c7082db293</hash-sum>
   <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
    <variable>NIH</variable>
   </dependency>
@@ -35008,6 +35032,15 @@ rmdir "%name%"    &#13;
    <variable>nih</variable>
   </dependency>
  </version>
+ <version name="3.12" package="org.sqlitebrowser.sqlitebrowser" type="one-file">
+  <file path=".Npackd\Install.bat">call "%nih%\InstallMSI.bat" INSTALLDIR yes&#13;
+</file>
+  <url>https://github.com/sqlitebrowser/sqlitebrowser/releases/download/v3.12.0/DB.Browser.for.SQLite-3.12.0-win64.msi</url>
+  <hash-sum type="SHA-256">0298b9e441f619f6945e8c52878171790aaefd84df349d84770cdde6a639a583</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.1, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
 
     <version name="1.4.10" package="org.synergyfoss.Synergy64" type="one-file">
   <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
@@ -40512,6 +40545,16 @@ echo DesktopShortcut=false &gt;&gt; .Npackd\FF.ini&#13;
   </dependency>
   <dependency package="org.miktex.MiKTeX" versions="[2.9, 3)"/>
  </version>
+ <version name="2.10" package="pandoc64" type="one-file">
+  <file path=".Npackd\Install.bat">call "%nih%\InstallMSI.bat" INSTALLDIR yes&#13;
+</file>
+  <url>https://github.com/jgm/pandoc/releases/download/2.10/pandoc-2.10-windows-x86_64.msi</url>
+  <hash-sum type="SHA-256">fd469452fc5c0dddf5f4e5b1e0f6e6846c281dd6eb7e56933c69d03eb43b33ef</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.1, 2)">
+   <variable>nih</variable>
+  </dependency>
+  <dependency package="org.miktex.MiKTeX" versions="[2.9, 3)"/>
+ </version>
 
     <version name="2.2.2" package="pdfsam64" type="one-file">
   <file path=".Npackd\Install.bat">&#13;
@@ -43604,6 +43647,15 @@ rmdir "%name%"</file>
 </file>
   <url>http://www.swi-prolog.org/download/stable/bin/swipl-8.2.0-1.x64.exe</url>
   <hash-sum type="SHA-256">68390eb51309bf92710039310289f6ee45004220fc5609c030699774ecd87289</hash-sum>
+ </version>
+ <version name="8.2.1" package="swi-prolog64" type="one-file">
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
+"%setup%" /S /D=%CD% &amp;&amp; del /f /q "%setup%"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">uninstall.exe /S _?=%CD%&#13;
+</file>
+  <url>http://www.swi-prolog.org/download/stable/bin/swipl-8.2.1-1.x64.exe</url>
+  <hash-sum type="SHA-256">45fc082c3f39188657e21c0bd51173a0be1bdb7528f584913ac7f18b49fd0cb6</hash-sum>
  </version>
 
     <version name="0.64.3" package="synfig-studio64" type="one-file">
