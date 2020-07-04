@@ -22792,6 +22792,17 @@ if %err% neq 0 exit %err%</file>
    <variable>nih</variable>
   </dependency>
  </version>
+ <version name="0.9.9" package="net.sourceforge.Doublecmd64" type="one-file">
+  <file path=".Npackd\Install.bat">call "%nih%\InstallInnoSetup.bat"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">call "%nih%\UninstallInnoSetup.bat" unins000.exe&#13;
+</file>
+  <url>http://downloads.sourceforge.net/project/doublecmd/DC%20for%20Windows%2064%20bit/Double%20Commander%200.9.9%20beta/doublecmd-0.9.9.x86_64-win64.exe</url>
+  <hash-sum type="SHA-256">9a8a0e36c5daecf22e7a3743e086c6ed91c2aa7e802a96a710326672717139ce</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
 
     <version name="1.1" package="net.sourceforge.lmms.LMMS64" type="one-file">
   <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
@@ -31874,6 +31885,14 @@ if %errorlevel% neq 0 exit /b %errorlevel%&#13;
   <url>https://github.com/tim-lebedkov/packages/releases/download/2020_05/org.miktex.MiKTeX64-2.9.7442-basic-miktex-2.9.7442-x64.exe</url>
   <hash-sum type="SHA-256">e31e54504550187b9259aa95f92157458690030d0059473238b8b587854a238b</hash-sum>
  </version>
+ <version name="20.6" package="org.miktex.MiKTeX64" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" --common-install="%CD%" --shared --unattended&#13;
+</file>
+  <file path=".Npackd\Unnstall.bat">miktex\bin\miktexsetup.exe --verbose --shared uninstall&#13;
+</file>
+  <url>https://miktex.org/download/ctan/systems/win32/miktex/setup/windows-x64/basic-miktex-20.6-x64.exe</url>
+  <hash-sum type="SHA-256">b0f5467bb512a886b72a4c3f3475ccb7eb657d9357ba2d6aeb3154d503d4e22b</hash-sum>
+ </version>
 
     <version name="0.9.19" package="org.miranda-im.MirandaIM64" type="one-file">
   <important-file path="miranda64.exe" title="Miranda IM"/>
@@ -33413,6 +33432,14 @@ verify</file>
   <file path=".Npackd\Install.bat">call "%npackdih%\InstallMSI.bat" INSTALLDIR yes</file>
   <url>https://nodejs.org/dist/v12.18.1/node-v12.18.1-x64.msi</url>
   <hash-sum type="SHA-256">f318bb719bd956d4734247c58b3937daef04a01dbee4abdfe6217bdea87932f4</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.1, 2)">
+   <variable>npackdih</variable>
+  </dependency>
+ </version>
+ <version name="12.18.2" package="org.nodejs.NodeJS64" type="one-file">
+  <file path=".Npackd\Install.bat">call "%npackdih%\InstallMSI.bat" INSTALLDIR yes</file>
+  <url>https://nodejs.org/dist/v12.18.2/node-v12.18.2-x64.msi</url>
+  <hash-sum type="SHA-256">a9ab96c315c144ff876fb5e6552a7891795a83f26c43f8395d5dec1b004fee29</hash-sum>
   <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.1, 2)">
    <variable>npackdih</variable>
   </dependency>
