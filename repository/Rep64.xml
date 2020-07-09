@@ -32042,6 +32042,14 @@ if %errorlevel% neq 0 exit /b %errorlevel%&#13;
   <url>https://github.com/tim-lebedkov/packages/releases/download/2020_05/org.miktex.MiKTeX64-2.9.7442-basic-miktex-2.9.7442-x64.exe</url>
   <hash-sum type="SHA-256">e31e54504550187b9259aa95f92157458690030d0059473238b8b587854a238b</hash-sum>
  </version>
+ <version name="20.6.29" package="org.miktex.MiKTeX64" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" --common-install="%CD%" --shared --unattended&#13;
+</file>
+  <file path=".Npackd\Unnstall.bat">miktex\bin\miktexsetup.exe --verbose --shared uninstall&#13;
+</file>
+  <url>https://miktex.org/download/ctan/systems/win32/miktex/setup/windows-x64/basic-miktex-20.6.29-x64.exe</url>
+  <hash-sum type="SHA-256">b69f96e56a2a7c49f9cac106d743284ede86d18f986a6a202e9628ed30447885</hash-sum>
+ </version>
 
     <version name="0.9.19" package="org.miranda-im.MirandaIM64" type="one-file">
   <important-file path="miranda64.exe" title="Miranda IM"/>
@@ -38264,6 +38272,20 @@ call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Np
    <variable>nih</variable>
   </dependency>
  </version>
+ <version name="8.2.1153" package="org.vim.Vim64">
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+if %errorlevel% neq 0 exit /b %errorlevel%&#13;
+&#13;
+for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+</file>
+  <url>https://github.com/vim/vim-win32-installer/releases/download/v8.2.1153/gvim_8.2.1153_x64.zip</url>
+  <hash-sum type="SHA-256">758ef4d39a72947eebc7c09ec6214b051943e541d4aa3b678a7f8c1f81ce8600</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.19, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
 
     <version name="4.2.8.83876" package="org.virtualbox.virtualbox64" type="one-file">
   <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
@@ -40027,6 +40049,14 @@ if %err% neq 0 exit %err%</file>
 </file>
   <url>https://1.eu.dl.wireshark.org/win64/Wireshark-win64-3.2.4.exe</url>
   <hash-sum type="SHA-256">db2565ee6410b7c57f54aaac86954e4f6a98e2ea31ffbea83e60b981fff57301</hash-sum>
+ </version>
+ <version name="3.2.5" package="org.wireshark.Wireshark64" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD%&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">uninstall.exe /S _=%CD%&#13;
+</file>
+  <url>https://1.eu.dl.wireshark.org/win64/Wireshark-win64-3.2.5.exe</url>
+  <hash-sum type="SHA-256">b9626086253e00fbaf35c7d91c768aa4895d0d2e59b4e48b01331dce7cfeb510</hash-sum>
  </version>
 
     
@@ -42797,6 +42827,16 @@ call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Np
 </file>
   <url>https://github.com/tim-lebedkov/packages/releases/download/2020_06/se.haxx.curl.CURL64-7.71-curl-7.71.0-win64-mingw.zip</url>
   <hash-sum type="SHA-256">e9c683a114fa118a302fbdd14a25d9f8ff19a09c18cd7ef568abc100c26a9e48</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.19, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
+ <version name="7.71.1" package="se.haxx.curl.CURL64">
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b curl*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+</file>
+  <url>https://curl.haxx.se/windows/dl-7.71.1/curl-7.71.1-win64-mingw.zip</url>
+  <hash-sum type="SHA-256">7319939b0debaa2f96bfa89d6995c5c1deb98d90013f3685b79138a2b4ec8078</hash-sum>
   <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.19, 2)">
    <variable>nih</variable>
   </dependency>
