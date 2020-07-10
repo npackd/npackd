@@ -27,6 +27,7 @@ type Settings struct {
 	git         string
 	npackdcl    string
 	packagesTag string
+	virusTotalKey string // x-apikey
 }
 
 type Release struct {
