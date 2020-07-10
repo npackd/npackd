@@ -2,7 +2,7 @@
 
 # Npackd
 
-* Home page: https://npackd.appspot.com
+* Home page: https://npackd.org
 * Downloads: https://github.com/tim-lebedkov/npackd-cpp/releases
 * Forum: https://groups.google.com/forum/#!forum/npackd
 * GUI and command line source code: https://github.com/tim-lebedkov/npackd-cpp
@@ -11,7 +11,7 @@
 Npackd (pronounced "unpacked") is an application store/package manager/marketplace for applications for Windows. It helps you to find and install software, keep your system up-to-date and uninstall it if no longer necessary. You can watch [this short video](https://www.youtube.com/watch?v=ZLJ8sv6siKQ) to better understand how it works. The process of installing and uninstalling applications is completely automated (silent or unattended installation and un-installation). 
 
 ## Add your packages
-You can add you packages (a Google account is required) [here](https://npackd.appspot.com/package/new).
+You can add you packages (a Google account is required) [here](https://npackd.org/package/new).
 
 ## Suggest software
 You can [suggest](https://github.com/tim-lebedkov/npackd/issues/new) a package for inclusion if it is not yet available.
