@@ -2673,6 +2673,21 @@ x86_64</description>
   <tag>stable64</tag>
   <link href="https://picotorrent.org/images/screenshot1.png" rel="screenshot"/>
  </package>
+ <package name="pixia">
+  <title>Pixia</title>
+  <url>http://www.ne.jp/asahi/mighty/knight/index.html</url>
+  <description>Pixia is a full–feature digital painting program first created and published in 1998 by Isao Maruoka.  Pixia is a raster painting program and graphics editor specifically well–suited for many forms of digital painting.Pixia offers a lightweight painting environment for digital painting and artwork of all types! Unlike other digital painting and editing tools, Pixia strips the bloatware features away, leaving a fast, focused environment that ensures you can paint without any distraction.
+x86_64</description>
+  <icon>https://kolayindir.net/wp-content/uploads/2019/10/pixia-logo.png</icon>
+  <license>org.wikipedia.Freeware</license>
+  <category>Photo</category>
+  <tag>stable64</tag>
+  <link href="http://www.ne.jp/asahi/mighty/knight/history.html" rel="changelog"/>
+  <link href="http://www.ne.jp/asahi/mighty/knight/images/pixia-interface.jpg" rel="screenshot"/>
+  <link href="https://www.download.hr/pictures/windows/pixia-1.png" rel="screenshot"/>
+  <link href="https://img.utdstc.com/screen/1/pixia-001.jpg:800" rel="screenshot"/>
+  <link href="https://www.snapfiles.com/screenfiles/pixia.jpg" rel="screenshot"/>
+ </package>
  <package name="postman64">
   <title>Postman 64 bit</title>
   <url>https://www.getpostman.com/</url>
@@ -6674,6 +6689,15 @@ call "%npackdih%\InstallMSI.bat" APPLICATIONFOLDER yes&#13;
 </file>
   <url>https://download.calibre-ebook.com/4.19.0/calibre-64bit-4.19.0.msi</url>
   <hash-sum type="SHA-256">b8205fdca595a0a381a1b35f6cd3d07237b839c947a122c23d1d587d52338f62</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.2, 2)">
+   <variable>npackdih</variable>
+  </dependency>
+ </version>
+ <version name="4.20" package="com.calibreebook.Calibre64" type="one-file">
+  <file path=".Npackd\Install.bat">call "%npackdih%\InstallMSI.bat" APPLICATIONFOLDER yes&#13;
+</file>
+  <url>https://download.calibre-ebook.com/4.20.0/calibre-64bit-4.20.0.msi</url>
+  <hash-sum type="SHA-256">b8af547dc7470006c715e9b91fd8f3a7b3287ae760bc58ce3abf3f672ddeb645</hash-sum>
   <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.2, 2)">
    <variable>npackdih</variable>
   </dependency>
@@ -13357,6 +13381,17 @@ if %err% neq 0 exit %err%&#13;
    <variable>nih</variable>
   </dependency>
  </version>
+ <version name="1.27" package="conan64" type="one-file">
+  <cmd-file path="conan\conan.exe"/>
+  <file path=".Npackd\Install.bat">"%nih%\InstallInnoSetup.bat"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">"%nih%\UninstallInnoSetup.bat" unins000.exe</file>
+  <url>https://github.com/conan-io/conan/releases/download/1.27.0/conan-win-64_1_27_0.exe</url>
+  <hash-sum type="SHA-256">c340d8d4fc6e2febcfcf2680c2cea0fddc6954b9eb523682c3a08625f0eeb188</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
 
     
 
@@ -14090,6 +14125,14 @@ if %err% neq 0 exit %err%&#13;
 </file>
   <url>http://dbeaver.jkiss.org/files/7.1.1/dbeaver-ce-7.1.1-x86_64-setup.exe</url>
   <hash-sum type="SHA-256">4733e33edf6cc166a5c50cc7f16e2d402b7c35ba7c6b07816a6beef356b80ba6</hash-sum>
+ </version>
+ <version name="7.1.2" package="dbeaver64" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" /allusers /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">uninstall.exe /allusers /S _?=%CD%&#13;
+</file>
+  <url>http://dbeaver.jkiss.org/files/7.1.2/dbeaver-ce-7.1.2-x86_64-setup.exe</url>
+  <hash-sum type="SHA-256">4b51d9ea592d43ec92f94089186f17ca2c7f62e2b2983655a6920dde19ae91ea</hash-sum>
  </version>
 
     <version name="0.825" package="dcplusplus64">
@@ -17827,8 +17870,6 @@ if %err% neq 0 exit %err%</file>
   <dependency package="com.microsoft.DotNetRedistributable" versions="[3.5, 4)"/>
  </version>
 
-    
-
     <version name="6.8.7.8" package="imagemagick64" type="one-file">
   <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
 "%setup%" /SP- /VERYSILENT /SUPPRESSMSGBOXES /NOCANCEL /NORESTART /DIR="%CD%" /SAVEINF="%CD%\.Npackd\InnoSetupInfo.ini" /LOG="%CD%\.Npackd\InnoSetupInstall.log" &amp;&amp; del /f /q "%setup%"&#13;
@@ -19612,6 +19653,15 @@ call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Np
   <file path=".Npackd\Install.bat">call "%npackdih%\InstallMSI.bat" INSTALLLOCATION yes</file>
   <url>https://download.documentfoundation.org/libreoffice/stable/6.4.4/win/x86_64/LibreOffice_6.4.4_Win_x64.msi</url>
   <hash-sum type="SHA-256">f3ed5a1ac1d5e8b0ab0e60ee27b4da1ee45b286d51f84cb4ee1247d43aac0758</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.1, 2)">
+   <variable>npackdih</variable>
+  </dependency>
+  <dependency package="com.oracle.JRE" versions="[1.6, 2)"/>
+ </version>
+ <version name="6.4.5" package="libreoffice64" type="one-file">
+  <file path=".Npackd\Install.bat">call "%npackdih%\InstallMSI.bat" INSTALLLOCATION yes</file>
+  <url>https://download.documentfoundation.org/libreoffice/stable/6.4.5/win/x86_64/LibreOffice_6.4.5_Win_x64.msi</url>
+  <hash-sum type="SHA-256">3d80c1d8f3bf4540a6b845d43e54d3e6940058a9b2e5456234ac0fa39527ebcf</hash-sum>
   <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.1, 2)">
    <variable>npackdih</variable>
   </dependency>
@@ -22996,6 +23046,15 @@ if %err% neq 0 exit %err%</file>
 </file>
   <url>https://github.com/LMMS/lmms/releases/download/v1.2.1/lmms-1.2.1-win64.exe</url>
   <hash-sum type="SHA-256">6ec4c40df466e2b3d885c580fe0593915a766cb70cec8fcca19d5be59bdf80c5</hash-sum>
+ </version>
+ <version name="1.2.2" package="net.sourceforge.lmms.LMMS64" type="one-file">
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
+"%setup%" /S /D=%CD%&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">Uninstall.exe /S _?=%CD%&#13;
+</file>
+  <url>https://github.com/LMMS/lmms/releases/download/v1.2.2/lmms-1.2.2-win64.exe</url>
+  <hash-sum type="SHA-256">5f20af1d782468507417d0785826b1f064fadba88ed1691e2def269922ace56b</hash-sum>
  </version>
 
     <version name="1.5.0.2827" package="net.sourceforge.mpc-hc.MediaPlayerClassicHomeCinema64">
@@ -32047,7 +32106,7 @@ if %errorlevel% neq 0 exit /b %errorlevel%&#13;
 </file>
   <file path=".Npackd\Unnstall.bat">miktex\bin\miktexsetup.exe --verbose --shared uninstall&#13;
 </file>
-  <url>https://miktex.org/download/ctan/systems/win32/miktex/setup/windows-x64/basic-miktex-20.6.29-x64.exe</url>
+  <url>https://github.com/tim-lebedkov/packages/releases/download/2020_07/org.miktex.MiKTeX64-20.6.29-basic-miktex-20.6.29-x64.exe</url>
   <hash-sum type="SHA-256">b69f96e56a2a7c49f9cac106d743284ede86d18f986a6a202e9628ed30447885</hash-sum>
  </version>
 
@@ -41005,6 +41064,18 @@ call "%npackdih%\InstallMSI.bat" TARGETDIR yes</file>
   </dependency>
  </version>
 
+    <version name="6.50" package="pixia" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">"%ncl%\ncl.exe" remove-scp --title "/%npackd_package_name% %npackd_package_version%/i"&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+</file>
+  <url>http://www.ne.jp/asahi/mighty/knight/apps/pix650ke.exe</url>
+  <hash-sum type="SHA-256">2d27e68a52886cce677c286ea1ae0247acf62f6fab10812b2b38198e9885396a</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.25, 2)">
+   <variable>ncl</variable>
+  </dependency>
+ </version>
+
     <version name="7.18" package="postman64" type="one-file">
   <file path=".Npackd\Install.bat">ren "%npackd_package_binary%" setup.exe&#13;
 setup.exe &amp;&amp; del /f /q setup.exe&#13;
@@ -42835,7 +42906,7 @@ call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Np
   <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b curl*') do set name=%%x&#13;
 call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
 </file>
-  <url>https://curl.haxx.se/windows/dl-7.71.1/curl-7.71.1-win64-mingw.zip</url>
+  <url>https://github.com/tim-lebedkov/packages/releases/download/2020_07/se.haxx.curl.CURL64-7.71.1-curl-7.71.1-win64-mingw.zip</url>
   <hash-sum type="SHA-256">7319939b0debaa2f96bfa89d6995c5c1deb98d90013f3685b79138a2b4ec8078</hash-sum>
   <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.19, 2)">
    <variable>nih</variable>
