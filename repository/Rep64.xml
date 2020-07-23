@@ -2991,7 +2991,7 @@ x86_64</description>
   <url>http://www.ne.jp/asahi/mighty/knight/index.html</url>
   <description>Pixia is a full–feature digital painting program first created and published in 1998 by Isao Maruoka.  Pixia is a raster painting program and graphics editor specifically well–suited for many forms of digital painting.Pixia offers a lightweight painting environment for digital painting and artwork of all types! Unlike other digital painting and editing tools, Pixia strips the bloatware features away, leaving a fast, focused environment that ensures you can paint without any distraction.
 x86_64</description>
-  <icon>https://kolayindir.net/wp-content/uploads/2019/10/pixia-logo.png</icon>
+  <icon>http://www.pixia.jp/favicon.ico</icon>
   <license>org.wikipedia.Freeware</license>
   <category>Photo</category>
   <tag>stable64</tag>
@@ -4088,6 +4088,14 @@ x86_64</description>
 </file>
   <url>https://github.com/tim-lebedkov/packages/releases/download/2020_05/anki64-2.1.26-anki-2.1.26-windows.exe</url>
   <hash-sum type="SHA-256">5881a7424530ef75a2afdd9f579a87be288dd6d8248a9670a55b28e4f6eae8a8</hash-sum>
+ </version>
+ <version name="2.1.28" package="anki64" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD%&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">uninstall.exe /S&#13;
+</file>
+  <url>https://apps.ankiweb.net/downloads/current/anki-2.1.28-windows.exe</url>
+  <hash-sum type="SHA-256">184467a2124e8309daef939d2612433390818f931f1d5761897bffebc00f0e46</hash-sum>
  </version>
 
     <version name="2.4.41" package="apache-httpd64">
@@ -7268,6 +7276,15 @@ call "%npackdih%\InstallMSI.bat" APPLICATIONFOLDER yes&#13;
 </file>
   <url>https://download.calibre-ebook.com/4.20.0/calibre-64bit-4.20.0.msi</url>
   <hash-sum type="SHA-256">b8af547dc7470006c715e9b91fd8f3a7b3287ae760bc58ce3abf3f672ddeb645</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.2, 2)">
+   <variable>npackdih</variable>
+  </dependency>
+ </version>
+ <version name="4.21" package="com.calibreebook.Calibre64" type="one-file">
+  <file path=".Npackd\Install.bat">call "%npackdih%\InstallMSI.bat" APPLICATIONFOLDER yes&#13;
+</file>
+  <url>https://download.calibre-ebook.com/4.21.0/calibre-64bit-4.21.0.msi</url>
+  <hash-sum type="SHA-256">dbc37706256185eed804f682f6ac9fd4b9645317f820057a995d1e34f1ca1dc5</hash-sum>
   <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.2, 2)">
    <variable>npackdih</variable>
   </dependency>
@@ -11350,7 +11367,7 @@ del Q-Dir.ini&#13;
   <url>http://files.npackd.org/com.softwareok.QDir64-5.99.9.zip</url>
   <sha1>fb6060796fae3fc641ba34fe1f2f8530d7c985a8</sha1>
  </version>
- <version name="8.55" package="com.softwareok.QDir64">
+ <version name="8.61" package="com.softwareok.QDir64">
   <important-file path="Q-Dir.exe" title="Q-Dir"/>
   <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b Q*') do set name=%%x&#13;
 cd "%name%"        &#13;
@@ -14757,6 +14774,14 @@ if %err% neq 0 exit %err%&#13;
 </file>
   <url>http://dbeaver.jkiss.org/files/7.1.2/dbeaver-ce-7.1.2-x86_64-setup.exe</url>
   <hash-sum type="SHA-256">4b51d9ea592d43ec92f94089186f17ca2c7f62e2b2983655a6920dde19ae91ea</hash-sum>
+ </version>
+ <version name="7.1.3" package="dbeaver64" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" /allusers /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">uninstall.exe /allusers /S _?=%CD%&#13;
+</file>
+  <url>http://dbeaver.jkiss.org/files/7.1.3/dbeaver-ce-7.1.3-x86_64-setup.exe</url>
+  <hash-sum type="SHA-256">7321b7f19c2856c1192f50bd29baca0ee9582bfe5e8cebcbd9ed8d0f43bc1931</hash-sum>
  </version>
 
     <version name="0.825" package="dcplusplus64">
@@ -25093,6 +25118,17 @@ call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Np
    <variable>nih</variable>
   </dependency>
  </version>
+ <version name="3.16" package="nomacs64">
+  <important-file path="bin\nomacs.exe" title="nomacs"/>
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b nomacs*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+</file>
+  <url>http://download.nomacs.org/portable/nomacs-3.12.0.zip</url>
+  <hash-sum type="SHA-256">d32f243237d94b9355300eaf47521143e6f7b83051101fe3557fc6dbb9178c4b</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.19, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
 
     <version name="7.5.4" package="notepadpp64" type="one-file">
   <file path=".Npackd\Install.bat">xcopy "%allusersprofile%\Npackd\Config\net.sourceforge.NotepadPlusPlus" .  /E /C /I /F /H /R /Y &gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
@@ -25845,6 +25881,53 @@ verify&#13;
 		</file>
   <url>https://github.com/tim-lebedkov/packages/releases/download/2020_07/notepadpp64-7.8.8-npp.7.8.8.Installer.x64.exe</url>
   <hash-sum type="SHA-256">196f6f338e7e153f46204f6ec209f6aa8dc79ed05e75ab8ab5d74b6fd5db08cd</hash-sum>
+ </version>
+ <version name="7.8.9" package="notepadpp64" type="one-file">
+  <file path=".Npackd\Install.bat">xcopy "%allusersprofile%\Npackd\Config\net.sourceforge.NotepadPlusPlus" .  /E /C /I /F /H /R /Y &gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+&#13;
+for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
+"%setup%" /S /D=%CD%&#13;
+if %errorlevel% neq 0 exit /b %errorlevel%&#13;
+&#13;
+set package=net.sourceforge.NotepadPlusPlus&#13;
+set version=%NPACKD_PACKAGE_VERSION%&#13;
+set key=%package%&#13;
+&#13;
+reg add HKLM\SOFTWARE\Classes\Applications\%KEY%\shell\open /v FriendlyAppName /d "Notepad++ (%version%)" /f &gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+set c=\"%CD%\notepad++.exe\" \"%%1\"&#13;
+reg add HKLM\SOFTWARE\Classes\Applications\%KEY%\shell\open\command /d "%c%" /f &gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+for %%g in (txt log ini h hpp hxx c cpp cxx cc m java cs pas inc html htm php phtml properties js jsp asp css xml sh bsh nsi nsh lua pl pm py as mx vb vbs f for f90 f95 f2k tex sql nfo mak hgignore) do reg add HKLM\SOFTWARE\Classes\.%%g\OpenWithList\%key% /f &gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+&#13;
+reg add "HKCR\*\shell\Notepad++\command" /ve /f /d "\"%cd%\notepad++.exe\" %%1" &gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+&#13;
+verify</file>
+  <file path=".Npackd\Uninstall.bat">rmdir /s /q "%allusersprofile%\Npackd\Config\net.sourceforge.NotepadPlusPlus"&#13;
+xcopy Plugins "%allusersprofile%\Npackd\Config\net.sourceforge.NotepadPlusPlus\Plugins" /E /C /I /F /H /R /Y &gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+&#13;
+set package=net.sourceforge.NotepadPlusPlus&#13;
+set version=%NPACKD_PACKAGE_VERSION%&#13;
+set key=%package%&#13;
+&#13;
+set newname=%key%_%random%&#13;
+ren %appdata%\Notepad++ %newname%&#13;
+uninstall.exe /S _?=%CD%&#13;
+if %errorlevel% neq 0 exit /b %errorlevel%&#13;
+ren %appdata%\%newname% Notepad++&#13;
+&#13;
+rem unregister "Open With..." entries&#13;
+reg delete HKLM\SOFTWARE\Classes\Applications\%KEY% /f &gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+for %%g in (txt log ini h hpp hxx c cpp cxx cc m java cs pas inc html htm php phtml properties js jsp asp css xml sh bsh nsi nsh lua pl pm py as mx vb vbs f for f90 f95 f2k tex sql nfo mak hgignore) do reg delete HKLM\SOFTWARE\Classes\.%%g\OpenWithList\%key% /f &gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+&#13;
+reg delete HKCR\*\shell\Notepad++ /f &gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+&#13;
+rem remove Explorer extension&#13;
+set trash=..\.Trash\%key%_%random%&#13;
+mkdir %trash%&#13;
+move NppShell*.dll %trash%&#13;
+verify&#13;
+		</file>
+  <url>http://download.notepad-plus-plus.org/repository/7.x/7.8.9/npp.7.8.9.Installer.x64.exe</url>
+  <hash-sum type="SHA-256">e8e866aca5672e91446ce9d965250317e95d2a3d238ea32fa2c378cd315cb85f</hash-sum>
  </version>
 
     <version name="1.49" package="nubasic64">
@@ -35119,6 +35202,15 @@ if %err% neq 0 exit /b %err%&#13;
   <url>https://www.python.org/ftp/python/3.8.4/python-3.8.4-amd64.exe</url>
   <hash-sum type="SHA-256">24cead226c8b3de579e246aa4152bd6c2ff8a613a65998eac8b66920d9821919</hash-sum>
  </version>
+ <version name="3.8.5" package="org.python.Python64" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" /quiet InstallAllUsers=1 "TargetDir=%cd%"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">for /f "delims=" %%x in ('dir /b python-*.exe') do set setup=%%x&#13;
+%setup% /uninstall /quiet InstallAllUsers=1&#13;
+</file>
+  <url>https://www.python.org/ftp/python/3.8.5/python-3.8.5-amd64.exe</url>
+  <hash-sum type="SHA-256">cd427c7b17337d7c13761ca20877d2d8be661bd30415ddc17072a31a65a91b64</hash-sum>
+ </version>
 
     <version name="2.0.0.247" package="org.rubylang.Ruby64" type="one-file">
   <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
@@ -39125,6 +39217,20 @@ call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Np
    <variable>nih</variable>
   </dependency>
  </version>
+ <version name="8.2.1266" package="org.vim.Vim64">
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+if %errorlevel% neq 0 exit /b %errorlevel%&#13;
+&#13;
+for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+</file>
+  <url>https://github.com/vim/vim-win32-installer/releases/download/v8.2.1266/gvim_8.2.1266_x64.zip</url>
+  <hash-sum type="SHA-256">a7c06bb65a13c5acdf540d90c3019eb8a8a66e87bb6724ec5dc96eabe61bc0a2</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.19, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
 
     <version name="4.2.8.83876" package="org.virtualbox.virtualbox64" type="one-file">
   <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
@@ -41448,12 +41554,23 @@ echo DesktopShortcut=false &gt;&gt; .Npackd\FF.ini&#13;
  </version>
 
     <version name="28.10" package="palemoon64" type="one-file">
-  <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%"  -ms -ma &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
 </file>
   <file path=".Npackd\Uninstall.bat">uninstall\helper.exe /S&#13;
 verify</file>
   <url>https://rm-eu.palemoon.org/release/palemoon-28.10.0.win32.installer.exe</url>
   <hash-sum type="SHA-256">46fa2ce1786c51121f20b5d2eaa14020980cfd88ae728327c3af3529c5fcb72e</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.25, 2)">
+   <variable>ncl</variable>
+  </dependency>
+ </version>
+ <version name="28.11" package="palemoon64" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" -ms -ma &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">"%ncl%\ncl.exe" remove-scp --title "/Pale Moon/i"&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+</file>
+  <url>https://rm-eu.palemoon.org/release/palemoon-28.11.0.win32.installer.exe</url>
+  <hash-sum type="SHA-256">e4c678296dfe014dee46f3267ff2679605a9c83f0b1facb2b23f9169e2c608b4</hash-sum>
   <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.25, 2)">
    <variable>ncl</variable>
   </dependency>
@@ -41866,6 +41983,16 @@ call "%npackdih%\InstallMSI.bat" TARGETDIR yes</file>
 call "%npackdih%\InstallMSI.bat" TARGETDIR yes</file>
   <url>https://github.com/torakiki/pdfsam/releases/download/v4.1.3/pdfsam-4.1.3.msi</url>
   <hash-sum type="SHA-256">f6ca9bba8f41f317ace6d8af4c34bb623d8d3be05e5de49022a6d9ddfe0598a3</hash-sum>
+  <dependency package="com.oracle.JRE64" versions="[1.6.0.23, 2)"/>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.1, 2)">
+   <variable>npackdih</variable>
+  </dependency>
+ </version>
+ <version name="4.1.4" package="pdfsam64" type="one-file">
+  <file path=".Npackd\Install.bat">rem un-installation tries to remove .Npackd and fails =&gt; 2 to install the program somewhere else&#13;
+call "%npackdih%\InstallMSI.bat" TARGETDIR yes</file>
+  <url>https://github.com/torakiki/pdfsam/releases/download/v4.1.4/pdfsam-4.1.4.msi</url>
+  <hash-sum type="SHA-256">8fb5f22885bafeded489a57e278f6cea77a96aa36529cc4f9b3da84479215852</hash-sum>
   <dependency package="com.oracle.JRE64" versions="[1.6.0.23, 2)"/>
   <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.1, 2)">
    <variable>npackdih</variable>
@@ -42633,6 +42760,13 @@ if %errorlevel% equ 3010 verify</file>
   <file path=".Npackd\Uninstall.bat">uninstall.exe /S _?=%CD%&#13;
 </file>
   <url>https://qgis.org/downloads/QGIS-OSGeo4W-3.14.0-1-Setup-x86_64.exe</url>
+ </version>
+ <version name="3.14.1" package="qgis64" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
+if %errorlevel% equ 3010 verify</file>
+  <file path=".Npackd\Uninstall.bat">uninstall.exe /S _?=%CD%&#13;
+</file>
+  <url>https://qgis.org/downloads/QGIS-OSGeo4W-3.14.1-1-Setup-x86_64.exe</url>
  </version>
 
     <version name="1.40.6" package="Qt-Bitcoin-Trader64" type="one-file">
@@ -44104,6 +44238,17 @@ if %err% neq 0 exit %err%&#13;
    <variable>nih</variable>
   </dependency>
  </version>
+ <version name="1.3" package="sigil64" type="one-file">
+  <file path=".Npackd\Install.bat">call "%nih%\InstallInnoSetup.bat"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">call "%nih%\UninstallInnoSetup.bat" unins000.exe&#13;
+</file>
+  <url>https://github.com/user-none/Sigil/releases/download/0.9.8/Sigil-0.9.8-Windows-x64-Setup.exe</url>
+  <sha1>1dc08743c8e7d7b9d956f345466a2745b2bc9d18</sha1>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
 
     <version name="4" package="skychart64" type="one-file">
   <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
@@ -44179,7 +44324,7 @@ if %err% neq 0 exit %err%&#13;
   <url>https://www.slimjetbrowser.com/release/sjtsetup_x86.exe</url>
  </version>
 
-    <version name="27.0.2" package="slimjet64" type="one-file">
+    <version name="27.0.4" package="slimjet64" type="one-file">
   <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
 </file>
   <file path=".Npackd\Uninstall.bat">uninstall.exe /S _?=%CD%&#13;
