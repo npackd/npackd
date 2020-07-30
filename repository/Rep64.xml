@@ -11426,7 +11426,7 @@ del Q-Dir.ini&#13;
   <url>http://files.npackd.org/com.softwareok.QDir64-5.99.9.zip</url>
   <sha1>fb6060796fae3fc641ba34fe1f2f8530d7c985a8</sha1>
  </version>
- <version name="8.61" package="com.softwareok.QDir64">
+ <version name="8.66" package="com.softwareok.QDir64">
   <important-file path="Q-Dir.exe" title="Q-Dir"/>
   <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b Q*') do set name=%%x&#13;
 cd "%name%"        &#13;
@@ -17290,7 +17290,7 @@ if %err% neq 0 exit %err%&#13;
   <hash-sum type="SHA-256">9242bff87f2c3ffb560c74b43fd0525adcec86d6092eaeeb5fc271b0d086b924</hash-sum>
  </version>
 
-    <version name="84.0.4147.89" package="google-chrome-x64" type="one-file">
+    <version name="84.0.4147.105" package="google-chrome-x64" type="one-file">
   <file path=".Npackd\Install.bat">call "%npackdih%\InstallMSI.bat" TARGETDIR yes&#13;
 </file>
   <url>https://dl.google.com/tag/s/appguid%3D%7B8A69D345-D564-463C-AFF1-A69D9E530F96%7D%26iid%3D%7B0A558A36-0536-8B3F-0AE0-420553CC97F3%7D%26lang%3Den%26browser%3D4%26usagestats%3D0%26appname%3DGoogle%2520Chrome%26needsadmin%3DFalse/edgedl/chrome/install/GoogleChromeStandaloneEnterprise64.msi</url>
@@ -22093,6 +22093,15 @@ reg add HKCU\Software\mkvmergeGUI\GUI /v check_for_updates /t REG_DWORD /d 00000
 </file>
   <url>https://download.mono-project.com/archive/6.8.0/windows-installer/mono-6.8.0.123-x64-0.msi</url>
   <hash-sum type="SHA-256">81755fe866f2cdb8f697d35a70aecb17ea04694e20b4b2463ea617f2e1eac61d</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.1, 2)">
+   <variable>npackdih</variable>
+  </dependency>
+ </version>
+ <version name="6.10.0.104" package="mono64" type="one-file">
+  <file path=".Npackd\Install.bat">call "%npackdih%\InstallMSI.bat" INSTALLDIR yes&#13;
+</file>
+  <url>https://download.mono-project.com/archive/6.10.0/windows-installer/mono-6.10.0.104-x64-0.msi</url>
+  <hash-sum type="SHA-256">8c52108ac8cff1bd045601bdfbc3e93419b8a53f123c5cf4d2e597b7416b2fbf</hash-sum>
   <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.1, 2)">
    <variable>npackdih</variable>
   </dependency>
@@ -41898,6 +41907,16 @@ verify</file>
   </dependency>
   <dependency package="org.miktex.MiKTeX" versions="[2.9, 3)"/>
  </version>
+ <version name="2.10.1" package="pandoc64" type="one-file">
+  <file path=".Npackd\Install.bat">call "%nih%\InstallMSI.bat" INSTALLDIR yes&#13;
+</file>
+  <url>https://github.com/jgm/pandoc/releases/download/2.10.1/pandoc-2.10.1-windows-x86_64.msi</url>
+  <hash-sum type="SHA-256">8ae3b4dc783a9cc0ae60442de75b18b054177783e2b7da9efb2471383ad27b34</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.1, 2)">
+   <variable>nih</variable>
+  </dependency>
+  <dependency package="org.miktex.MiKTeX" versions="[2.9, 3)"/>
+ </version>
 
     <version name="2.2.2" package="pdfsam64" type="one-file">
   <file path=".Npackd\Install.bat">&#13;
@@ -44438,7 +44457,7 @@ if %err% neq 0 exit %err%&#13;
   <url>https://www.slimjetbrowser.com/release/sjtsetup_x86.exe</url>
  </version>
 
-    <version name="27.0.4" package="slimjet64" type="one-file">
+    <version name="27.0.5" package="slimjet64" type="one-file">
   <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
 </file>
   <file path=".Npackd\Uninstall.bat">uninstall.exe /S _?=%CD%&#13;
@@ -45648,6 +45667,12 @@ if %err% neq 0 exit %err%&#13;
 </file>
   <url>https://dist.torproject.org/torbrowser/9.5.1/torbrowser-install-9.5.1_en-US.exe</url>
   <hash-sum type="SHA-256">e24923fb9ef2c45082d3051f7907c0322837596a5afe927ddf05f0430341883b</hash-sum>
+ </version>
+ <version name="9.5.3" package="tor64" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
+</file>
+  <url>https://dist.torproject.org/torbrowser/9.5.3/torbrowser-install-9.5.3_en-US.exe</url>
+  <hash-sum type="SHA-256">e7fb69e3a7f7a4b4b404933e03b70ae7d47bbd8f0fef394e62167b5e45633151</hash-sum>
  </version>
 
     <version name="2.84.9" package="transmission-qt64" type="one-file">
