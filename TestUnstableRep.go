@@ -556,8 +556,8 @@ func downloadRepos(settings *Settings) {
 	exec2("", settings.curl, "-f -o repository\\Libs.xml "+
 		"https://www.npackd.org/rep/xml?tag=libs", true)
 
-	exec2("", settings.git, "config user.email \"tim.lebedkov@gmail.com\"", true)
-	exec2("", settings.git, "config user.name \"tim-lebedkov\"", true)
+	exec2("", settings.git, "config --global user.email \"tim.lebedkov@gmail.com\"", true)
+	exec2("", settings.git, "config --global user.name \"tim-lebedkov\"", true)
 	exec2("", settings.git, "commit -a -m \"Automatic data transfer from https://www.npackd.org\"", true)
 
 	exec2("", settings.git, "push https://tim-lebedkov:"+settings.githubToken+
