@@ -2620,19 +2620,12 @@ x86_64</description>
   <url>https://keepassxc.org</url>
   <description>KeePassXC is a community fork of KeePassX, a native cross-platform port of KeePass Password Safe, with the goal to extend and improve it with new features and bugfixes to provide a feature-rich, fully cross-platform and modern open-source password manager.
 x86_64</description>
-  <icon>https://keepassxc.org/logo-small.png</icon>
+  <icon>https://keepassxc.org/favicon.ico</icon>
   <license>org.gnu.GPLv2</license>
   <category>Security</category>
   <tag>stable64</tag>
   <stars>1</stars>
   <link href="https://github.com/keepassxreboot/keepassxc/wiki/KeePassXC-Changelog" rel="changelog"/>
-  <link href="https://keepassxc.org/images/screenshots/windows/screen_001.png" rel="screenshot"/>
-  <link href="https://keepassxc.org/images/screenshots/windows/screen_003.png" rel="screenshot"/>
-  <link href="https://keepassxc.org/images/screenshots/windows/screen_004.png" rel="screenshot"/>
-  <link href="https://keepassxc.org/images/screenshots/windows/screen_005.png" rel="screenshot"/>
-  <link href="https://keepassxc.org/images/screenshots/windows/screen_006.png" rel="screenshot"/>
-  <link href="https://keepassxc.org/images/screenshots/windows/screen_007.png" rel="screenshot"/>
-  <link href="https://keepassxc.org/images/screenshots/windows/screen_008.png" rel="screenshot"/>
  </package>
  <package name="org.miktex.MiKTeX64">
   <title>MiKTeX 64 bit</title>
@@ -16773,6 +16766,15 @@ rmdir "%name%"</file>
   <url>https://gajim.org/downloads/1.1/gajim-1.1.3-64bits-1.exe</url>
   <hash-sum type="SHA-256">1921a5ec774bc4ee5f20752e39fa1e00e1a87e7233c3cfefc07b9c497c3e34e6</hash-sum>
  </version>
+ <version name="1.2.1" package="gajim64" type="one-file">
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
+"%setup%" /S /D=%CD%&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">uninstall.exe /S _?=%CD%&#13;
+</file>
+  <url>https://gajim.org/downloads/1.2/Gajim-1.2.1-64bit-1.exe</url>
+  <hash-sum type="SHA-256">93e973e06e9c79e216babac820c8d6b7b70009573e8a05ed88ef5e7a7a9dc4ff</hash-sum>
+ </version>
 
     <version name="3.20.1" package="gedit64" type="one-file">
   <file path=".Npackd\Install.bat">call "%nih%\InstallMSI.bat" INSTALLDIR yes&#13;
@@ -19041,6 +19043,17 @@ if %err% neq 0 exit %err%&#13;
    <variable>nih</variable>
   </dependency>
  </version>
+ <version name="7.0.10.25" package="imagemagick64" type="one-file">
+  <file path=".Npackd\Install.bat">call "%nih%\InstallInnoSetup.bat"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">call "%nih%\UninstallInnoSetup.bat" unins000.exe&#13;
+</file>
+  <url>https://www.imagemagick.org/download/binaries/ImageMagick-7.0.10-25-Q16-HDRI-x64-dll.exe</url>
+  <hash-sum type="SHA-256">f74f08805288328bdf96882f371235b8898c20e88ca05ab61c231c1969a5ec83</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
 
     <version name="0.3.8" package="io.mpv.mpv-64" type="one-file">
   <file path=".Npackd\Install.bat">for /f %%x in ('dir /b *.7z') do set setup=%%x&#13;
@@ -19485,6 +19498,18 @@ rmdir "%name%"&#13;
   <file path=".Npackd\Uninstall.bat">uninstall.exe -q</file>
   <url>https://github.com/ingokegel/jclasslib/releases/download/5.5/jclasslib_win64_5_5.exe</url>
   <hash-sum type="SHA-256">b69ef857fad6aebb2d41941eec7a5be978d512b5d5fc5b191c7f26f0ca96244d</hash-sum>
+  <dependency package="net.nirsoft.MyUninstaller" versions="[1.74, 2)">
+   <variable>myun</variable>
+  </dependency>
+ </version>
+ <version name="5.6" package="jclasslib64" type="one-file">
+  <important-file path="bin\jclasslib.exe" title="jclasslib"/>
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
+"%setup%" -q -dir "%CD%" &amp;&amp; del /f /q "%setup%"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">uninstall.exe -q</file>
+  <url>https://github.com/ingokegel/jclasslib/releases/download/5.6/jclasslib_win64_5_6.exe</url>
+  <hash-sum type="SHA-256">23c4acdc42e20b9c9cd75c8074bbfd776275880a85bef67b396b31d780f0c411</hash-sum>
   <dependency package="net.nirsoft.MyUninstaller" versions="[1.74, 2)">
    <variable>myun</variable>
   </dependency>
@@ -22680,6 +22705,16 @@ rmdir "%name%"&#13;
   <file path=".Npackd\Install.bat">call "%npackdih%\InstallMSI.bat" INSTALLDIR yes&#13;
 		</file>
   <url>https://dev.mysql.com/get/Downloads/MySQLGUITools/mysql-workbench-community-8.0.20-winx64.msi</url>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.1, 2)">
+   <variable>npackdih</variable>
+  </dependency>
+  <dependency package="com.microsoft.DotNetRedistributable" versions="[4, 5)"/>
+  <dependency package="com.microsoft.VisualCPPRedistributable" versions="[10, 11)"/>
+ </version>
+ <version name="8.0.21" package="mysql-workbench64" type="one-file">
+  <file path=".Npackd\Install.bat">call "%npackdih%\InstallMSI.bat" INSTALLDIR yes&#13;
+		</file>
+  <url>https://dev.mysql.com/get/Downloads/MySQLGUITools/mysql-workbench-community-8.0.21-winx64.msi</url>
   <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.1, 2)">
    <variable>npackdih</variable>
   </dependency>
@@ -32735,66 +32770,10 @@ ren "%setup%" Psycopg.exe&#13;
   </dependency>
  </version>
 
-    <version name="2.0.4506.10553" package="org.jitsi.Jitsi64" type="one-file">
-  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.msi') do set setup=%%x&#13;
-msiexec.exe /qn /norestart /lime .Npackd\MSI.log /i "%setup%" TARGETDIR="%CD%" ALLUSERS=1&#13;
-set err=%errorlevel%&#13;
-type .Npackd\MSI.log&#13;
-rem 3010=restart required&#13;
-if %err% equ 3010 exit 0&#13;
-if %err% neq 0 exit %err%&#13;
-</file>
-  <file path=".Npackd\Uninstall.bat">for /f "delims=" %%x in ('dir /b *.msi') do set setup=%%x&#13;
-msiexec.exe /qn /norestart /lime .Npackd\MSI.log /x "%setup%"&#13;
-set err=%errorlevel%&#13;
-type .Npackd\MSI.log&#13;
-rem 3010=restart required&#13;
-if %err% equ 3010 exit 0&#13;
-if %err% neq 0 exit %err%&#13;
-</file>
-  <url>https://download.jitsi.org/jitsi/msi/jitsi-2.0.4506.10553-x64.msi</url>
-  <sha1>1dcaa6c2737d7706b54e00227190889278a7a3de</sha1>
- </version>
- <version name="2.2.4603.9615" package="org.jitsi.Jitsi64" type="one-file">
-  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.msi') do set setup=%%x&#13;
-msiexec.exe /qn /norestart /lime .Npackd\MSI.log /i "%setup%" TARGETDIR="%CD%" ALLUSERS=1&#13;
-set err=%errorlevel%&#13;
-type .Npackd\MSI.log&#13;
-rem 3010=restart required&#13;
-if %err% equ 3010 exit 0&#13;
-if %err% neq 0 exit %err%&#13;
-</file>
-  <file path=".Npackd\Uninstall.bat">for /f "delims=" %%x in ('dir /b *.msi') do set setup=%%x&#13;
-msiexec.exe /qn /norestart /lime .Npackd\MSI.log /x "%setup%"&#13;
-set err=%errorlevel%&#13;
-type .Npackd\MSI.log&#13;
-rem 3010=restart required&#13;
-if %err% equ 3010 exit 0&#13;
-if %err% neq 0 exit %err%&#13;
-</file>
-  <url>https://download.jitsi.org/jitsi/msi/jitsi-2.2.4603.9615-x64.msi</url>
-  <sha1>b52fa0741bac1db851f55e75f074b50e0bfa1d3d</sha1>
- </version>
- <version name="2.4.4997" package="org.jitsi.Jitsi64" type="one-file">
+    <version name="2.10.5550" package="org.jitsi.Jitsi64" type="one-file">
   <file path=".Npackd\Install.bat">call "%npackdih%\InstallMSI.bat" INSTALLDIR yes</file>
-  <url>https://download.jitsi.org/jitsi/msi/jitsi-2.4.4997-x64.msi</url>
-  <sha1>4cf3146612ccedafd8c85a1c98620aa8b1202718</sha1>
-  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.1, 2)">
-   <variable>npackdih</variable>
-  </dependency>
- </version>
- <version name="2.8.5426" package="org.jitsi.Jitsi64" type="one-file">
-  <file path=".Npackd\Install.bat">call "%npackdih%\InstallMSI.bat" INSTALLDIR yes</file>
-  <url>https://download.jitsi.org/jitsi/msi/jitsi-2.8.5426-x64.msi</url>
-  <sha1>7751bdd423688965b2a186909c4e9d13c74a0c5c</sha1>
-  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.1, 2)">
-   <variable>npackdih</variable>
-  </dependency>
- </version>
- <version name="2.10.5550" package="org.jitsi.Jitsi64" type="one-file">
-  <file path=".Npackd\Install.bat">call "%npackdih%\InstallMSI.bat" INSTALLDIR yes</file>
-  <url>https://download.jitsi.org/jitsi/msi/jitsi-2.10.5550-x64.msi</url>
-  <sha1>8ad4c3738211cb6bfeb5609af811287ca2125ff2</sha1>
+  <url>https://github.com/jitsi/jitsi/releases/download/Jitsi-2.10/jitsi-2.10.5550-x64.msi</url>
+  <hash-sum type="SHA-256">cf0afa658974af2ffc2683497419ba03a68448d69d3f972b0d29c89c629d0442</hash-sum>
   <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.1, 2)">
    <variable>npackdih</variable>
   </dependency>
