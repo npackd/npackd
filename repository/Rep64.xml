@@ -14103,7 +14103,7 @@ if %err% neq 0 exit %err%&#13;
   <url>http://cygwin.com/setup-x86_64.exe</url>
  </version>
 
-    <version name="1.7.21235" package="daumpotplayer64" type="one-file">
+    <version name="1.7.21278" package="daumpotplayer64" type="one-file">
   <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
 </file>
   <file path=".Npackd\Uninstall.bat">uninstall.exe /S _?=%CD%&#13;
@@ -22975,7 +22975,7 @@ if %err% neq 0 exit %err%</file>
    <variable>npackdih</variable>
   </dependency>
  </version>
- <version name="4.2.12" package="net.getpaint.paintdotnet64">
+ <version name="4.2.13" package="net.getpaint.paintdotnet64">
   <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
 "%setup%" /auto "TARGETDIR=%CD%" CHECKFORUPDATES=0 JPGPNGBMPEDITOR=0 TGAEDITOR=0 DESKTOPSHORTCUT=0</file>
   <url>http://www.dotpdn.com/files/paint.net.4.1.4.install.zip</url>
@@ -41847,6 +41847,17 @@ verify</file>
 </file>
   <url>https://rm-eu.palemoon.org/release/palemoon-28.11.0.win32.installer.exe</url>
   <hash-sum type="SHA-256">e4c678296dfe014dee46f3267ff2679605a9c83f0b1facb2b23f9169e2c608b4</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.25, 2)">
+   <variable>ncl</variable>
+  </dependency>
+ </version>
+ <version name="28.12" package="palemoon64" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" -ms -ma &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">"%ncl%\ncl.exe" remove-scp --title "/Pale Moon/i"&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+</file>
+  <url>https://rm-eu.palemoon.org/release/palemoon-28.12.0.win32.installer.exe</url>
+  <hash-sum type="SHA-256">7495bb292eee011bac5660a8ad4da8e643d3e235728beb4d676687f3de5c45db</hash-sum>
   <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.25, 2)">
    <variable>ncl</variable>
   </dependency>
