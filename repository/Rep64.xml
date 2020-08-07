@@ -7349,6 +7349,15 @@ call "%npackdih%\InstallMSI.bat" APPLICATIONFOLDER yes&#13;
    <variable>npackdih</variable>
   </dependency>
  </version>
+ <version name="4.22" package="com.calibreebook.Calibre64" type="one-file">
+  <file path=".Npackd\Install.bat">call "%npackdih%\InstallMSI.bat" APPLICATIONFOLDER yes&#13;
+</file>
+  <url>https://download.calibre-ebook.com/4.22.0/calibre-64bit-4.22.0.msi</url>
+  <hash-sum type="SHA-256">0af41d8da62659a56012c58b189f8d350e7a10993bc0fccaf28c13fe03dc2037</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.2, 2)">
+   <variable>npackdih</variable>
+  </dependency>
+ </version>
 
     <version name="5.12.256249.2599" package="com.comodo.comodoav64" type="one-file">
   <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.msi') do set setup=%%x&#13;
@@ -22323,6 +22332,19 @@ if %errorlevel% neq 0 exit /b %errorlevel%&#13;
 </file>
   <url>http://repo.msys2.org/distrib/x86_64/msys2-base-x86_64-20190524.tar.xz</url>
   <hash-sum type="SHA-256">168e156fa9f00d90a8445676c023c63be6e82f71487f4e2688ab5cb13b345383</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.19, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
+ <version name="2020.5.17" package="msys2_64" type="one-file">
+  <file path=".Npackd\Install.bat">call "%nih%\Extract.bat" "%npackd_package_binary%" "."&#13;
+if %errorlevel% neq 0 exit /b %errorlevel%&#13;
+&#13;
+call "%nih%\Extract.bat" "msys64" "."&#13;
+if %errorlevel% neq 0 exit /b %errorlevel%&#13;
+</file>
+  <url>http://repo.msys2.org/distrib/x86_64/msys2-base-x86_64-20200517.tar.xz</url>
+  <hash-sum type="SHA-256">c4443113497acb2d2e285d40b929fc55f33f8f669902595ecdf66a655b63dc60</hash-sum>
   <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.19, 2)">
    <variable>nih</variable>
   </dependency>
@@ -41827,6 +41849,16 @@ echo DesktopShortcut=false &gt;&gt; .Npackd\FF.ini&#13;
   <file path=".Npackd\Uninstall.bat">uninstall\helper.exe /S</file>
   <url>http://relmirror.palemoon.org/release/palemoon-28.11.0.win64.installer.exe</url>
   <hash-sum type="SHA-256">aea06dec9acd60812000a2a751d37005285b811c9eccff2bce62530caa39623f</hash-sum>
+ </version>
+ <version name="28.12" package="pale-moon64" type="one-file">
+  <file path=".Npackd\Install.bat">echo [Install] &gt; .Npackd\FF.ini&#13;
+echo InstallDirectoryPath=%CD% &gt;&gt; .Npackd\FF.ini&#13;
+echo QuickLaunchShortcut=false &gt;&gt; .Npackd\FF.ini&#13;
+echo DesktopShortcut=false &gt;&gt; .Npackd\FF.ini&#13;
+"%npackd_package_binary%" /INI="%CD%\.Npackd\FF.ini" &amp;&amp; del /f /q "%npackd_package_binary%"</file>
+  <file path=".Npackd\Uninstall.bat">uninstall\helper.exe /S</file>
+  <url>http://relmirror.palemoon.org/release/palemoon-28.12.0.win64.installer.exe</url>
+  <hash-sum type="SHA-256">aaa1cc8f9e508631bf01d65a978d2beb21d7f27e76bd01b72e2822b40718d7f5</hash-sum>
  </version>
 
     <version name="28.10" package="palemoon64" type="one-file">
