@@ -14852,6 +14852,14 @@ if %err% neq 0 exit %err%&#13;
   <url>http://dbeaver.jkiss.org/files/7.1.3/dbeaver-ce-7.1.3-x86_64-setup.exe</url>
   <hash-sum type="SHA-256">7321b7f19c2856c1192f50bd29baca0ee9582bfe5e8cebcbd9ed8d0f43bc1931</hash-sum>
  </version>
+ <version name="7.1.4" package="dbeaver64" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" /allusers /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">uninstall.exe /allusers /S _?=%CD%&#13;
+</file>
+  <url>http://dbeaver.jkiss.org/files/7.1.4/dbeaver-ce-7.1.4-x86_64-setup.exe</url>
+  <hash-sum type="SHA-256">43a8254b6b467a06fb495f453545af41bc505cf611b4f574e70b4dc03a249501</hash-sum>
+ </version>
 
     <version name="0.825" package="dcplusplus64">
   <important-file path="DCPlusPlus.exe" title="DC++"/>
@@ -15657,6 +15665,11 @@ rmdir "%name%"&#13;
   <url>http://www.voidtools.com/Everything-1.4.1.986.x64.zip</url>
   <hash-sum type="SHA-256">d5c560ffa25c8836fd76a897b5754339ca4ce06fc7c15a7a4a73983d8bb87bcb</hash-sum>
  </version>
+ <version name="1.4.1.988" package="everything64">
+  <important-file path="Everything.exe" title="Everything"/>
+  <url>http://www.voidtools.com/Everything-1.4.1.988.x64.zip</url>
+  <hash-sum type="SHA-256">76accfd008a05eec150d3a82950e2a1167b05d47cf70ff9d5b212763289ad69b</hash-sum>
+ </version>
 
     <version name="8.7" package="explzh" type="one-file">
   <file path=".Npackd\Install.bat">"%npackd_package_binary%" &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
@@ -15676,6 +15689,17 @@ rmdir "%name%"&#13;
 </file>
   <url>https://www.ponsoftware.com/en/archiver/explzh/explz812_en.exe</url>
   <hash-sum type="SHA-256">5a019415463230e467559615efb30291b6201fe03062f3616728c5090388e7ef</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.25, 2)">
+   <variable>ncl</variable>
+  </dependency>
+ </version>
+ <version name="8.15" package="explzh" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">"%ncl%\ncl.exe" remove-scp --title "/%npackd_package_name% %npackd_package_version%/i"&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+</file>
+  <url>https://www.ponsoftware.com/en/archiver/explzh/explz815_en.exe</url>
+  <hash-sum type="SHA-256">fa9f66ed7792c1ac858b3abdbb942051617cd94af7b069e99b97e7b181a5e769</hash-sum>
   <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.25, 2)">
    <variable>ncl</variable>
   </dependency>
@@ -15925,6 +15949,16 @@ rmdir "%name%"&#13;
    <variable>ncl</variable>
   </dependency>
  </version>
+ <version name="2.3.8" package="firealpaca" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">"%ncl%\ncl.exe" remove-scp --title "/%npackd_package_name% %npackd_package_version%/i"&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+</file>
+  <url>https://www.portalgraphics.net/firealpaca/bin/FireAlpaca32_setup_2_3_8.exe</url>
+  <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.25, 2)">
+   <variable>ncl</variable>
+  </dependency>
+ </version>
 
     <version name="2.3.5" package="firealpaca64" type="one-file">
   <file path=".Npackd\Install.bat">"%npackd_package_binary%" &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
@@ -15942,6 +15976,16 @@ rmdir "%name%"&#13;
   <file path=".Npackd\Uninstall.bat">"%ncl%\ncl.exe" remove-scp --title "/%npackd_package_name% %npackd_package_version%/i"&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
 </file>
   <url>https://www.portalgraphics.net/firealpaca/bin/FireAlpaca64_setup_2_3_7.exe</url>
+  <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.25, 2)">
+   <variable>ncl</variable>
+  </dependency>
+ </version>
+ <version name="2.3.8" package="firealpaca64" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">"%ncl%\ncl.exe" remove-scp --title "/%npackd_package_name% %npackd_package_version%/i"&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+</file>
+  <url>https://www.portalgraphics.net/firealpaca/bin/FireAlpaca64_setup_2_3_8.exe</url>
   <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.25, 2)">
    <variable>ncl</variable>
   </dependency>
@@ -18194,6 +18238,19 @@ rmdir "%name%"&#13;
 </file>
   <url>https://dl.google.com/dl/cloudsdk/channels/rapid/downloads/google-cloud-sdk-303.0.0-windows-x86_64.zip</url>
   <hash-sum type="SHA-256">39fc31d5eccce93b4f803baf183002a51c9f6ff243a65eb9ce6cfa7ab0eca905</hash-sum>
+  <dependency package="org.python.Python" versions="[2.7, 2.8)"/>
+ </version>
+ <version name="304" package="google-cloud-sdk64">
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b google-cloud-sdk*') do set name=%%x&#13;
+cd "%name%"&#13;
+for /f "delims=" %%a in ('dir /b') do (&#13;
+  move "%%a" ..&#13;
+)&#13;
+cd ..&#13;
+rmdir "%name%"&#13;
+</file>
+  <url>https://dl.google.com/dl/cloudsdk/channels/rapid/downloads/google-cloud-sdk-304.0.0-windows-x86_64.zip</url>
+  <hash-sum type="SHA-256">28f026083159dcd6894d98b9578ff01f08d0a7e04ac7004eead7368b81e21797</hash-sum>
   <dependency package="org.python.Python" versions="[2.7, 2.8)"/>
  </version>
 
@@ -43487,6 +43544,14 @@ if %errorlevel% equ 3010 verify</file>
 </file>
   <url>https://download.racket-lang.org/installers/7.7/racket-7.7-x86_64-win32.exe</url>
   <hash-sum type="SHA-256">23a63e0742be74432af528ba46f13ecee3417aa2e0e8a673bf0d1825f5b3cf4e</hash-sum>
+ </version>
+ <version name="7.8" package="racket64" type="one-file">
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
+"%setup%" /S /D=%CD%\Prog &amp;&amp; del /f /q "%setup%"</file>
+  <file path=".Npackd\Uninstall.bat">Prog\uninstall.exe /S _?=%CD%\Prog&#13;
+</file>
+  <url>https://download.racket-lang.org/installers/7.8/racket-7.8-x86_64-win32.exe</url>
+  <hash-sum type="SHA-256">575f82880f4416b5e7f355ae61888cf18120a9970798d0773d7fc6e2c80d4e20</hash-sum>
  </version>
 
     <version name="1.14.2" package="rainlendar-lite-64bit" type="one-file">
