@@ -13,9 +13,6 @@ Npackd (pronounced "unpacked") is an application store/package manager/marketpla
 ## Add your packages
 You can add you packages (a Google account is required) [here](https://npackd.org/package/new).
 
-## Suggest software
-You can [suggest](https://github.com/tim-lebedkov/npackd/issues/new) a package for inclusion if it is not yet available.
-
 ## Third party tools working with Npackd:
   * [npackd-repoeditor](http://krason.me/software/repoeditor.html) - Editor of small and medium size repositories of Npackd package manager.
   * [Puppet package provider for Npackd](http://forge.puppetlabs.com/badgerious/npackd)
