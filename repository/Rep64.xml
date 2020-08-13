@@ -2252,6 +2252,22 @@ x86_64</description>
   <tag>stable64</tag>
   <link href="https://sourceforge.net/projects/nubasic/" rel="changelog"/>
  </package>
+ <package name="ocenaudio64">
+  <title>Ocenaudio 64 bit</title>
+  <url>http://www.ocenaudio.com.br/</url>
+  <description>WARNING: this package always installs the newest version of the software.
+WARNING: this package always installs the newest version of the software.&#13;
+&#13;
+Easy, fast and powerful audio editor
+x86_64</description>
+  <icon>http://www.ocenaudio.com/imgs/logo.png</icon>
+  <license>org.wikipedia.Freeware</license>
+  <category>Music</category>
+  <tag>same-url</tag>
+  <tag>stable64</tag>
+  <link href="http://www.ocenaudio.com/changelog" rel="changelog"/>
+  <link href="http://www.ocenaudio.com/imgs/sc6058.win.en.png" rel="screenshot"/>
+ </package>
  <package name="odbc-sqlite3-driver64">
   <title>ODBC sqlite3 driver 64 bit</title>
   <url>http://www.ch-werner.de/sqliteodbc/</url>
@@ -5352,7 +5368,7 @@ if "%setup%" neq "" "%setup%" -uninstall&#13;
   <url>https://download.macromedia.com/pub/flashplayer/pdc/32.0.0.403/install_flash_player_32_plugin.msi</url>
  </version>
 
-    <version name="1.15.1" package="com.alcpu.CoreTemp64">
+    <version name="1.16" package="com.alcpu.CoreTemp64">
   <url>http://www.alcpu.com/CoreTemp/CoreTemp64.zip</url>
  </version>
 
@@ -11460,7 +11476,7 @@ del Q-Dir.ini&#13;
   <url>http://files.npackd.org/com.softwareok.QDir64-5.99.9.zip</url>
   <sha1>fb6060796fae3fc641ba34fe1f2f8530d7c985a8</sha1>
  </version>
- <version name="8.66" package="com.softwareok.QDir64">
+ <version name="8.69" package="com.softwareok.QDir64">
   <important-file path="Q-Dir.exe" title="Q-Dir"/>
   <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b Q*') do set name=%%x&#13;
 cd "%name%"        &#13;
@@ -14147,7 +14163,7 @@ if %err% neq 0 exit %err%&#13;
   <url>http://cygwin.com/setup-x86_64.exe</url>
  </version>
 
-    <version name="1.7.21278" package="daumpotplayer64" type="one-file">
+    <version name="1.7.21280" package="daumpotplayer64" type="one-file">
   <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
 </file>
   <file path=".Npackd\Uninstall.bat">uninstall.exe /S _?=%CD%&#13;
@@ -17543,7 +17559,7 @@ if %err% neq 0 exit %err%&#13;
   <hash-sum type="SHA-256">9242bff87f2c3ffb560c74b43fd0525adcec86d6092eaeeb5fc271b0d086b924</hash-sum>
  </version>
 
-    <version name="84.0.4147.105" package="google-chrome-x64" type="one-file">
+    <version name="84.0.4147.125" package="google-chrome-x64" type="one-file">
   <file path=".Npackd\Install.bat">call "%npackdih%\InstallMSI.bat" TARGETDIR yes&#13;
 </file>
   <url>https://dl.google.com/tag/s/appguid%3D%7B8A69D345-D564-463C-AFF1-A69D9E530F96%7D%26iid%3D%7B0A558A36-0536-8B3F-0AE0-420553CC97F3%7D%26lang%3Den%26browser%3D4%26usagestats%3D0%26appname%3DGoogle%2520Chrome%26needsadmin%3DFalse/edgedl/chrome/install/GoogleChromeStandaloneEnterprise64.msi</url>
@@ -19355,6 +19371,17 @@ if %err% neq 0 exit %err%&#13;
    <variable>nih</variable>
   </dependency>
  </version>
+ <version name="7.0.10.27" package="imagemagick64" type="one-file">
+  <file path=".Npackd\Install.bat">call "%nih%\InstallInnoSetup.bat"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">call "%nih%\UninstallInnoSetup.bat" unins000.exe&#13;
+</file>
+  <url>https://www.imagemagick.org/download/binaries/ImageMagick-7.0.10-27-Q16-HDRI-x64-dll.exe</url>
+  <hash-sum type="SHA-256">49301f4351622942e3688dc8e7cbafa1af943d4ea436920a2b6387663251c375</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
 
     <version name="0.3.8" package="io.mpv.mpv-64" type="one-file">
   <file path=".Npackd\Install.bat">for /f %%x in ('dir /b *.7z') do set setup=%%x&#13;
@@ -20741,6 +20768,15 @@ call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Np
   <file path=".Npackd\Install.bat">call "%npackdih%\InstallMSI.bat" INSTALLLOCATION yes</file>
   <url>https://download.documentfoundation.org/libreoffice/stable/6.4.5/win/x86_64/LibreOffice_6.4.5_Win_x64.msi</url>
   <hash-sum type="SHA-256">3d80c1d8f3bf4540a6b845d43e54d3e6940058a9b2e5456234ac0fa39527ebcf</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.1, 2)">
+   <variable>npackdih</variable>
+  </dependency>
+  <dependency package="com.oracle.JRE" versions="[1.6, 2)"/>
+ </version>
+ <version name="7" package="libreoffice64" type="one-file">
+  <file path=".Npackd\Install.bat">call "%npackdih%\InstallMSI.bat" INSTALLLOCATION yes</file>
+  <url>https://download.documentfoundation.org/libreoffice/stable/7.0.0/win/x86_64/LibreOffice_7.0.0_Win_x64.msi</url>
+  <hash-sum type="SHA-256">7e779fc8e0ec162fc3c6bbd96779ea7c4578e4ae43c2591516a24043752b78f6</hash-sum>
   <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.1, 2)">
    <variable>npackdih</variable>
   </dependency>
@@ -22897,6 +22933,15 @@ rmdir "%name%"&#13;
 </file>
   <url>https://github.com/musescore/MuseScore/releases/download/v3.4.2/MuseScore-3.4.2-x86_64.msi</url>
   <hash-sum type="SHA-256">8d2fc9d79cb0a5b0a8a5ccbb8ec80a972d1ecd264cb416c75ae42ab0b8b6d475</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.1, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
+ <version name="3.5" package="musescore64" type="one-file">
+  <file path=".Npackd\Install.bat">call "%nih%\InstallMSI.bat" INSTALLDIR yes&#13;
+</file>
+  <url>https://github.com/musescore/MuseScore/releases/download/v3.5/MuseScore-3.5.0-x86_64.msi</url>
+  <hash-sum type="SHA-256">f9f2eb01b5d5f67ac45a785d3cf252e557c41305c68b2578fe38b7852f3c727f</hash-sum>
   <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.1, 2)">
    <variable>nih</variable>
   </dependency>
@@ -26395,6 +26440,16 @@ verify&#13;
   <hash-sum type="SHA-256">763cb0e7c4dce849101fb9453b4f9cd130165f89cbeffadc84989e8e1e00b9b5</hash-sum>
   <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
    <variable>nih</variable>
+  </dependency>
+ </version>
+
+    <version name="3.7.20" package="ocenaudio64" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" /AllUsers /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">"%ncl%\ncl" remove-scp --title "/ocenaudio.*/"</file>
+  <url>http://www.ocenaudio.com/downloads/ocenaudio64.exe?</url>
+  <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.24, 2)">
+   <variable>ncl</variable>
   </dependency>
  </version>
 
@@ -39702,6 +39757,20 @@ call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Np
    <variable>nih</variable>
   </dependency>
  </version>
+ <version name="8.2.1424" package="org.vim.Vim64">
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+if %errorlevel% neq 0 exit /b %errorlevel%&#13;
+&#13;
+for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+</file>
+  <url>https://github.com/vim/vim-win32-installer/releases/download/v8.2.1424/gvim_8.2.1424_x64.zip</url>
+  <hash-sum type="SHA-256">c1837dfd2a072666cb2bed7b9f7c89885b921b884b9b30eed178242a6dcd2459</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.19, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
 
     <version name="4.2.8.83876" package="org.virtualbox.virtualbox64" type="one-file">
   <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
@@ -44846,7 +44915,7 @@ if %err% neq 0 exit %err%&#13;
   <url>https://www.slimjetbrowser.com/release/sjtsetup_x86.exe</url>
  </version>
 
-    <version name="27.0.5" package="slimjet64" type="one-file">
+    <version name="27.0.6" package="slimjet64" type="one-file">
   <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
 </file>
   <file path=".Npackd\Uninstall.bat">uninstall.exe /S _?=%CD%&#13;
@@ -48179,6 +48248,16 @@ verify</file>
  </version>
 
     <version name="6.5" package="wildbit-viewer64" type="one-file">
+  <file path=".Npackd\Install.bat">"%nih%\InstallInnoSetup.bat"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">"%nih%\UninstallInnoSetup.bat" unins000.exe</file>
+  <url>https://wildbit-soft.fi/download/dev/6_5/ViewerSetup_x64.exe</url>
+  <hash-sum type="SHA-256">c7d9700d58cf960f50e3e200a6b1e4d92227af6f41f98d8be0644a0e94c4179a</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
+ <version name="6.6" package="wildbit-viewer64" type="one-file">
   <file path=".Npackd\Install.bat">"%nih%\InstallInnoSetup.bat"&#13;
 </file>
   <file path=".Npackd\Uninstall.bat">"%nih%\UninstallInnoSetup.bat" unins000.exe</file>
