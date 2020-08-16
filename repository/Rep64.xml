@@ -3006,15 +3006,15 @@ x86_64</description>
  </package>
  <package name="pixia">
   <title>Pixia</title>
-  <url>http://www.ne.jp/asahi/mighty/knight/index.html</url>
+  <url>https://www.ne.jp/asahi/mighty/knight/index.html</url>
   <description>Pixia is a full–feature digital painting program first created and published in 1998 by Isao Maruoka.  Pixia is a raster painting program and graphics editor specifically well–suited for many forms of digital painting.Pixia offers a lightweight painting environment for digital painting and artwork of all types! Unlike other digital painting and editing tools, Pixia strips the bloatware features away, leaving a fast, focused environment that ensures you can paint without any distraction.
 x86_64</description>
   <icon>http://www.pixia.jp/favicon.ico</icon>
   <license>org.wikipedia.Freeware</license>
   <category>Photo</category>
   <tag>stable64</tag>
-  <link href="http://www.ne.jp/asahi/mighty/knight/history.html" rel="changelog"/>
-  <link href="http://www.ne.jp/asahi/mighty/knight/images/pixia-interface.jpg" rel="screenshot"/>
+  <link href="https://www.ne.jp/asahi/mighty/knight/history.html" rel="changelog"/>
+  <link href="https://www.ne.jp/asahi/mighty/knight/images/pixia-interface.jpg" rel="screenshot"/>
   <link href="https://www.download.hr/pictures/windows/pixia-1.png" rel="screenshot"/>
   <link href="https://img.utdstc.com/screen/1/pixia-001.jpg:800" rel="screenshot"/>
   <link href="https://www.snapfiles.com/screenfiles/pixia.jpg" rel="screenshot"/>
@@ -3042,7 +3042,7 @@ WARNING: this package always installs the newest version of the software.&#13;
 &#13;
 API development
 x86_64</description>
-  <icon>https://www.getpostman.com/favicon.ico</icon>
+  <icon>https://www.postman.com/icons/icon-48x48.png</icon>
   <category>Development</category>
   <tag>same-url</tag>
   <tag>stable64</tag>
@@ -5085,6 +5085,45 @@ for /f "delims=" %%x in ('dir /b FlashUtil32*Plugin.exe') do set setup=%%x&#13;
 "%setup%" -uninstall&#13;
 </file>
   <url>https://download.macromedia.com/get/flashplayer/pdc/32.0.0.403/install_flash_player_32_plugin.msi</url>
+ </version>
+ <version name="32.0.0.414" package="com.adobe.FlashPlayer64" type="one-file">
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.msi') do set setup=%%x&#13;
+mkdir .Npackd&#13;
+move "%setup%" .Npackd&#13;
+set err=%errorlevel%&#13;
+if %err% neq 0 exit %err%&#13;
+&#13;
+rem MSIFASTINSTALL: http://msdn.microsoft.com/en-us/library/dd408005%28v=VS.85%29.aspx&#13;
+msiexec.exe /qn /norestart /Lime .Npackd\InstallMSI.log /i ".Npackd\%setup%" INSTALLDIR="%CD%" ALLUSERS=1 MSIFASTINSTALL=7&#13;
+set err=%errorlevel%&#13;
+type .Npackd\InstallMSI.log&#13;
+&#13;
+rem list of errors: http://msdn.microsoft.com/en-us/library/windows/desktop/aa368542(v=vs.85).aspx&#13;
+rem 3010=restart required&#13;
+if %err% equ 3010 goto cont&#13;
+if %err% neq 0 exit %err%&#13;
+&#13;
+:cont&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">move .Npackd\*.msi .&#13;
+for /f "delims=" %%x in ('dir /b *.msi') do set setup=%%x&#13;
+&#13;
+rem MSIFASTINSTALL: http://msdn.microsoft.com/en-us/library/dd408005%28v=VS.85%29.aspx&#13;
+msiexec.exe /qn /norestart /Lime .Npackd\UninstallMSI.log /x "%setup%" MSIFASTINSTALL=7&#13;
+set err=%errorlevel%&#13;
+type .Npackd\UninstallMSI.log&#13;
+rem 3010=restart required&#13;
+if %err% equ 3010 goto cont&#13;
+if %err% neq 0 exit %err%&#13;
+&#13;
+:cont&#13;
+if not exist "%ProgramFiles(x86)%" set d=%windir%\System32\Macromed\Flash&#13;
+if exist "%ProgramFiles(x86)%" set d=%windir%\SysWOW64\Macromed\Flash&#13;
+cd "%d%"&#13;
+for /f "delims=" %%x in ('dir /b FlashUtil32*Plugin.exe') do set setup=%%x&#13;
+"%setup%" -uninstall&#13;
+</file>
+  <url>https://download.macromedia.com/get/flashplayer/pdc/32.0.0.414/install_flash_player_32_plugin.msi</url>
  </version>
 
     <version name="32.0.0.321" package="com.adobe.FlashPlayerActiveX64" type="one-file">
@@ -11516,7 +11555,7 @@ del Q-Dir.ini&#13;
   <url>http://files.npackd.org/com.softwareok.QDir64-5.99.9.zip</url>
   <sha1>fb6060796fae3fc641ba34fe1f2f8530d7c985a8</sha1>
  </version>
- <version name="8.69" package="com.softwareok.QDir64">
+ <version name="8.71" package="com.softwareok.QDir64">
   <important-file path="Q-Dir.exe" title="Q-Dir"/>
   <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b Q*') do set name=%%x&#13;
 cd "%name%"        &#13;
@@ -42764,7 +42803,7 @@ call "%npackdih%\InstallMSI.bat" TARGETDIR yes</file>
   </dependency>
  </version>
 
-    <version name="7.18" package="postman64" type="one-file">
+    <version name="7.30.1" package="postman64" type="one-file">
   <file path=".Npackd\Install.bat">ren "%npackd_package_binary%" setup.exe&#13;
 setup.exe &amp;&amp; del /f /q setup.exe&#13;
 </file>
