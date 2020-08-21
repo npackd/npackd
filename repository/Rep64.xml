@@ -15001,6 +15001,14 @@ if %err% neq 0 exit %err%&#13;
   <url>http://dbeaver.jkiss.org/files/7.1.4/dbeaver-ce-7.1.4-x86_64-setup.exe</url>
   <hash-sum type="SHA-256">43a8254b6b467a06fb495f453545af41bc505cf611b4f574e70b4dc03a249501</hash-sum>
  </version>
+ <version name="7.1.5" package="dbeaver64" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" /allusers /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">uninstall.exe /allusers /S _?=%CD%&#13;
+</file>
+  <url>http://dbeaver.jkiss.org/files/7.1.5/dbeaver-ce-7.1.5-x86_64-setup.exe</url>
+  <hash-sum type="SHA-256">822966a04f6cd50adc492bfe1c248b384e6e60fa51d2ba4826f9939358e3b47b</hash-sum>
+ </version>
 
     <version name="0.825" package="dcplusplus64">
   <important-file path="DCPlusPlus.exe" title="DC++"/>
@@ -18477,6 +18485,19 @@ rmdir "%name%"&#13;
   <hash-sum type="SHA-256">eb5f5500f93497a2f9ce9b803abd8f2d3f44e4c7feb5417b0e42001fb850d749</hash-sum>
   <dependency package="org.python.Python" versions="[2.7, 2.8)"/>
  </version>
+ <version name="306" package="google-cloud-sdk64">
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b google-cloud-sdk*') do set name=%%x&#13;
+cd "%name%"&#13;
+for /f "delims=" %%a in ('dir /b') do (&#13;
+  move "%%a" ..&#13;
+)&#13;
+cd ..&#13;
+rmdir "%name%"&#13;
+</file>
+  <url>https://dl.google.com/dl/cloudsdk/channels/rapid/downloads/google-cloud-sdk-306.0.0-windows-x86_64.zip</url>
+  <hash-sum type="SHA-256">988712872a3570b1d92919ac053e6ca79f2de4cec356a61ac44494b78ffb81b6</hash-sum>
+  <dependency package="org.python.Python" versions="[2.7, 2.8)"/>
+ </version>
 
     <version name="1.1.94" package="grisbi64" type="one-file">
   <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
@@ -19481,6 +19502,17 @@ if %err% neq 0 exit %err%&#13;
 </file>
   <url>https://github.com/tim-lebedkov/packages/releases/download/2020_08/imagemagick64-7.0.10.27-ImageMagick-7.0.10-27-Q16-HDRI-x64-dll.exe</url>
   <hash-sum type="SHA-256">49301f4351622942e3688dc8e7cbafa1af943d4ea436920a2b6387663251c375</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
+ <version name="7.0.10.28" package="imagemagick64" type="one-file">
+  <file path=".Npackd\Install.bat">call "%nih%\InstallInnoSetup.bat"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">call "%nih%\UninstallInnoSetup.bat" unins000.exe&#13;
+</file>
+  <url>https://www.imagemagick.org/download/binaries/ImageMagick-7.0.10-28-Q16-HDRI-x64-dll.exe</url>
+  <hash-sum type="SHA-256">2ff4942ccdcfe55b4f44e99632c95fa7a7f5640664979b3ec84dd3e3c6c89aad</hash-sum>
   <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
    <variable>nih</variable>
   </dependency>
@@ -39958,6 +39990,20 @@ call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Np
 </file>
   <url>https://github.com/vim/vim-win32-installer/releases/download/v8.2.1477/gvim_8.2.1477_x64.zip</url>
   <hash-sum type="SHA-256">650900415252278186183a8180932a7b2ea16fe7027f01db3dcc85a367ad3688</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.19, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
+ <version name="8.2.1490" package="org.vim.Vim64">
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+if %errorlevel% neq 0 exit /b %errorlevel%&#13;
+&#13;
+for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+</file>
+  <url>https://github.com/vim/vim-win32-installer/releases/download/v8.2.1490/gvim_8.2.1490_x64.zip</url>
+  <hash-sum type="SHA-256">5a946e257ec0dc90c0d88f7a45a85dcf30fa544e13d5fd7b603fe634ebf8e1e4</hash-sum>
   <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.19, 2)">
    <variable>nih</variable>
   </dependency>
