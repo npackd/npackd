@@ -706,12 +706,19 @@ func downloadBinaries(dir string) error {
 		return err
 	}
 	
+	fmt.Println(strconv.Itoa(len(releases)) + " releases found")
+	
 	for _, release := range releases  {
+		fmt.Println("Processing release " + release.Tag_name)
+
 		assets, err := getReleaseAssets(release.Id)
 		if err != nil {
 			return err
 		}
 		
+		fmt.Println("Found " + strconv.Itoa(len(assets)) + 
+			" assets in the release " + release.Tag_name)
+
 		for _, asset := range assets {
 			path := dir + "/" + release.Tag_name + "/" + asset.Name
 			if _, err := os.Stat(path); os.IsNotExist(err) {
@@ -720,7 +727,7 @@ func downloadBinaries(dir string) error {
 					return err
 				}
 				
-				err = os.MkdirAll(release.Tag_name, 0777)
+				err = os.MkdirAll(dir + "/" + release.Tag_name, 0777)
 				if err != nil {
 					return err
 				}
@@ -829,8 +836,9 @@ func correctURLs() error {
 
 func main() {
 	var err error = nil
-	if len(os.Args) > 3 && os.Args[2] == "download-binaries" {
-		downloadBinaries(os.Args[3])	
+
+	if len(os.Args) > 2 && os.Args[1] == "download-binaries" {
+		err = downloadBinaries(os.Args[2])	
 	} else if len(os.Args) > 2 && os.Args[2] == "correct-urls" {
 		// err := correctURLs()
 	} else {
