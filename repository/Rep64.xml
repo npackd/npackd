@@ -2528,7 +2528,7 @@ x86_64</description>
 x86_64</description>
   <icon>https://lh6.googleusercontent.com/-TnRhTCzXikk/URTFp-wKsNI/AAAAAAAAAb8/s_P_93GGk8U/s800/flamerobin.png</icon>
   <license>org.flamerobin.FlameRobinLicense</license>
-  <category>Tools</category>
+  <category>Development</category>
   <tag>stable64</tag>
  </package>
  <package name="org.freepascal.lazarus.Lazarus64">
@@ -2983,7 +2983,7 @@ Download queuing; Finding and downloading video from Youtube, Vimeo, DailyMotion
 x86_64</description>
   <icon>https://images.sftcdn.net/images/t_app-logo-xl,f_auto/p/db2d8e21-6c8e-4799-a344-c02ab70310b4/2708639456/persepolis-download-manager-68747470733a2f2f7065727365706f6c6973646d2e6769746875622e696f2f696d672f73637265656e2f7065727365706f6c6973d980726561646d652e706e67.png</icon>
   <license>org.wikipedia.Freeware</license>
-  <category>Tools</category>
+  <category>Communications</category>
   <tag>stable64</tag>
   <stars>1</stars>
   <link href="https://persepolisdm.github.io/#portfolioModal1" rel="changelog"/>
@@ -3000,7 +3000,7 @@ x86_64</description>
   <description>A tiny, hackable BitTorrent client written in modern C++. Based on Rasterbar-libtorrent to provide high performance and low memory usage.
 x86_64</description>
   <icon>https://picotorrent.org/images/logo.png</icon>
-  <category>Tools</category>
+  <category>Communications</category>
   <tag>stable64</tag>
   <link href="https://picotorrent.org/images/screenshot1.png" rel="screenshot"/>
  </package>
@@ -3094,7 +3094,7 @@ Features:&#13;
 * History of recently visited directories
 x86_64</description>
   <icon>https://a.fsdn.com/allura/p/pycmd/icon</icon>
-  <category>Tools</category>
+  <category>Development</category>
   <tag>stable64</tag>
  </package>
  <package name="qbittorrent-64-bit">
@@ -3531,7 +3531,7 @@ UDP Peer Connections and NAT router hole-punching; Advanced features such as RSS
 x86_64</description>
   <icon>https://www.tixati.com/favicon.ico</icon>
   <license>org.wikipedia.Freeware</license>
-  <category>Tools</category>
+  <category>Communications</category>
   <tag>stable64</tag>
   <link href="https://www.tixati.com/news/" rel="changelog"/>
   <link href="https://www.tixati.com/ss3/ss-xfers-detailstab.png" rel="screenshot"/>
@@ -3556,7 +3556,7 @@ UDP Peer Connections and NAT router hole-punching; Advanced features such as RSS
 x86_64</description>
   <icon>https://www.tixati.com/favicon.ico</icon>
   <license>org.wikipedia.Freeware</license>
-  <category>Tools</category>
+  <category>Communications</category>
   <tag>stable64</tag>
   <stars>1</stars>
   <link href="https://www.tixati.com/news/" rel="changelog"/>
@@ -22701,6 +22701,26 @@ if %errorlevel% neq 0 exit /b %errorlevel%&#13;
 </file>
   <url>http://repo.msys2.org/distrib/x86_64/msys2-base-x86_64-20200517.tar.xz</url>
   <hash-sum type="SHA-256">c4443113497acb2d2e285d40b929fc55f33f8f669902595ecdf66a655b63dc60</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.19, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
+ <version name="2020.7.20" package="msys2_64" type="one-file">
+  <file path=".Npackd\Install.bat">call "%nih%\Extract.bat" "%npackd_package_binary%" "."&#13;
+if %errorlevel% neq 0 exit /b %errorlevel%&#13;
+&#13;
+call "%nih%\Extract.bat" "msys64" "."&#13;
+if %errorlevel% neq 0 exit /b %errorlevel%&#13;
+&#13;
+rem see https://github.com/flavorjones/windows-ruby-dev-tools-release/blob/master/packages/ruby-2.4/packaging&#13;
+rem initialize ... things. like gpg keys. and skeleton files.&#13;
+rem see https://github.com/oneclick/rubyinstaller2/issues/79 for background&#13;
+usr\bin\bash.exe -lc 'true'&#13;
+usr\bin\bash.exe -lc 'pacman-key --init'&#13;
+usr\bin\bash.exe -lc 'pacman-key --populate msys2'&#13;
+</file>
+  <url>http://repo.msys2.org/distrib/x86_64/msys2-base-x86_64-20200720.tar.xz</url>
+  <hash-sum type="SHA-256">24f0a7a3f499d9309bb55bcde5d34a08e752922c3bee9de3a33d2c40896a1496</hash-sum>
   <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.19, 2)">
    <variable>nih</variable>
   </dependency>
