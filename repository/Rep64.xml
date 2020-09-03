@@ -1883,7 +1883,6 @@ x86_64</description>
   <tag>Tools</tag>
   <tag>stable64</tag>
   <stars>1</stars>
-  <link href="http://www.mixxx.org/static/images/splash1.png" rel="screenshot"/>
  </package>
  <package name="mkvtoolnix64">
   <title>MKVToolNix 64 bit</title>
@@ -3921,6 +3920,14 @@ x86_64</description>
    <variable>nih</variable>
   </dependency>
  </version>
+ <version name="4.13" package="4k-video-downloader64" type="one-file">
+  <file path=".Npackd\Install.bat">call "%nih%\InstallMSI.bat" INSTALLDIR yes&#13;
+</file>
+  <url>https://dl.4kdownload.com/app/4kvideodownloader_4.13.0_x64.msi</url>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.1, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
 
     <version name="2.2" package="ag64">
   <cmd-file path="ag.exe"/>
@@ -4149,6 +4156,14 @@ x86_64</description>
   <url>https://github.com/tim-lebedkov/packages/releases/download/2020_08/anki64-2.1.29-anki-2.1.29-windows.exe</url>
   <hash-sum type="SHA-256">0808d4686dbae237099b0be5d391d4eff9610726c902f8c827f8ab4519f5dcfc</hash-sum>
  </version>
+ <version name="2.1.30" package="anki64" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD%&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">uninstall.exe /S&#13;
+</file>
+  <url>https://apps.ankiweb.net/downloads/current/anki-2.1.30-windows.exe</url>
+  <hash-sum type="SHA-256">36690689bb4869956f801d126c47133a43c328c3b0adee2f8bba45d489e9405b</hash-sum>
+ </version>
 
     <version name="2.4.41" package="apache-httpd64">
   <url>https://github.com/tim-lebedkov/packages/releases/download/2020_04/apache-httpd64-2.4.41-httpd-2.4.41-o102s-x64-vc14-r2.zip</url>
@@ -4157,6 +4172,10 @@ x86_64</description>
  <version name="2.4.43" package="apache-httpd64">
   <url>https://github.com/tim-lebedkov/packages/releases/download/2020_04/apache-httpd64-2.4.43-httpd-2.4.43-o111f-x64-vc15.zip</url>
   <hash-sum type="SHA-256">ce572d0db47774645e76d3b6c1cc5f7fada02a8778a43c22cd0815035387f454</hash-sum>
+ </version>
+ <version name="2.4.46" package="apache-httpd64">
+  <url>https://de.apachehaus.com/downloads/httpd-2.4.46-o111g-x64-vc15.zip</url>
+  <hash-sum type="SHA-256">efbeda112c6e9056665a68f6683c7ac5e0608eb1c3a4cf3017f1282ce74eba6a</hash-sum>
  </version>
 
     <version name="0.3" package="aspia64">
@@ -11555,7 +11574,7 @@ del Q-Dir.ini&#13;
   <url>http://files.npackd.org/com.softwareok.QDir64-5.99.9.zip</url>
   <sha1>fb6060796fae3fc641ba34fe1f2f8530d7c985a8</sha1>
  </version>
- <version name="8.77" package="com.softwareok.QDir64">
+ <version name="8.81" package="com.softwareok.QDir64">
   <important-file path="Q-Dir.exe" title="Q-Dir"/>
   <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b Q*') do set name=%%x&#13;
 cd "%name%"        &#13;
@@ -22763,6 +22782,33 @@ usr\bin\bash.exe -lc 'pacman-key --populate msys2'&#13;
    <variable>nih</variable>
   </dependency>
  </version>
+ <version name="2020.7.20.1" package="msys2_64" type="one-file">
+  <file path=".Npackd\Install.bat">"%sevenzipa%\7za" x "%npackd_package_binary%"&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+if %errorlevel% neq 0 exit /b %errorlevel%&#13;
+&#13;
+for /f "delims=" %%x in ('dir /b *.tar') do set name=%%x&#13;
+"%sevenzipa%\7za" x "%name%"&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+if %errorlevel% neq 0 exit /b %errorlevel%&#13;
+&#13;
+"%clu%\clu" unwrap-dir -p msys64&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+if %errorlevel% neq 0 exit /b %errorlevel%&#13;
+&#13;
+rem see https://github.com/flavorjones/windows-ruby-dev-tools-release/blob/master/packages/ruby-2.4/packaging&#13;
+rem initialize ... things. like gpg keys. and skeleton files.&#13;
+rem see https://github.com/oneclick/rubyinstaller2/issues/79 for background&#13;
+usr\bin\bash.exe -lc 'true'&#13;
+usr\bin\bash.exe -lc 'pacman-key --init'&#13;
+usr\bin\bash.exe -lc 'pacman-key --populate msys2'&#13;
+</file>
+  <url>http://repo.msys2.org/distrib/x86_64/msys2-base-x86_64-20200720.tar.xz</url>
+  <hash-sum type="SHA-256">24f0a7a3f499d9309bb55bcde5d34a08e752922c3bee9de3a33d2c40896a1496</hash-sum>
+  <dependency package="org.7-zip.SevenZIPA" versions="[19, 100)">
+   <variable>sevenzipa</variable>
+  </dependency>
+  <dependency package="com.googlecode.windows-package-manager.CLU" versions="[1.25, 2)">
+   <variable>clu</variable>
+  </dependency>
+ </version>
 
     <version name="4.1.7" package="mtuner">
   <important-file path="MTuner.exe" title="MTuner"/>
@@ -26984,6 +27030,29 @@ WshShell.SendKeys("{ESC}");&#13;
 </file>
   <url>https://github.com/tim-lebedkov/packages/releases/download/2020_08/openmpt64-1.29.2-OpenMPT-1.29.02.00-Setup-x64.exe</url>
   <hash-sum type="SHA-256">065b594d03ab52ed10620920cac2ebc08624e4c9d378d3d298e808ad2f07d0c3</hash-sum>
+ </version>
+ <version name="1.29.3" package="openmpt64" type="one-file">
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
+"%setup%" /SP- /VERYSILENT /SUPPRESSMSGBOXES /NOCANCEL /NORESTART /DIR="%CD%" /SAVEINF="%CD%\.Npackd\InnoSetupInfo.ini" /LOG="%CD%\.Npackd\InnoSetupInstall.log" &amp;&amp; del /f /q "%setup%"&#13;
+set err=%errorlevel%&#13;
+type .Npackd\InnoSetupInstall.log&#13;
+if %err% neq 0 exit %err%&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">start "Confirm Uninstall" cscript //Nologo //B //E:JScript //T:300 //U .Npackd\ConfirmUninstall.js&#13;
+&#13;
+unins000.exe /VERYSILENT /SUPPRESSMSGBOXES /NORESTART /LOG="%CD%\.Npackd\InnoSetupUninstall.log"&#13;
+set err=%errorlevel%&#13;
+type .Npackd\InnoSetupUninstall.log&#13;
+if %err% neq 0 exit %err%&#13;
+</file>
+  <file path=".Npackd\ConfirmUninstall.js">var WshShell = WScript.CreateObject("WScript.Shell");&#13;
+WScript.Sleep(60000);&#13;
+WshShell.AppActivate("Uninstall");&#13;
+WScript.Sleep(10000);&#13;
+WshShell.SendKeys("{ESC}");&#13;
+</file>
+  <url>https://download.openmpt.org/archive/openmpt/1.29/OpenMPT-1.29.03.00-Setup-x64.exe</url>
+  <hash-sum type="SHA-256">6b56cce6b65f9ab27d9141fb6112ffdee0536c1749f040b7c315b8527059c587</hash-sum>
  </version>
 
     <version name="2015.3.2" package="openscad64" type="one-file">
@@ -47633,6 +47702,18 @@ if %err% neq 0 exit /b %err%&#13;
    <variable>ncl</variable>
   </dependency>
  </version>
+ <version name="3.2.1967.47" package="vivaldi-browser-64" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" --vivaldi-standalone --do-not-launch-chrome --vivaldi-install-dir="%CD%" &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
+&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">"%ncl%\ncl.exe" remove-scp --title "vivaldi-browser-64"&#13;
+</file>
+  <url>https://downloads.vivaldi.com/stable/Vivaldi.3.2.1967.47.x64.exe</url>
+  <hash-sum type="SHA-256">0d9c379b8ee91f352a0c9ca122797ea4d3c4dfc8e50b7d45c01a2303716e731d</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.24, 2)">
+   <variable>ncl</variable>
+  </dependency>
+ </version>
 
     <version name="15.0.2" package="vmware64" type="one-file">
   <file path=".Npackd\Install.bat">"%npackd_package_binary%" /a /s /v"/qn TARGETDIR=."&#13;
@@ -47765,6 +47846,21 @@ if %err% neq 0 exit %err%&#13;
 </file>
   <url>https://az764295.vo.msecnd.net/insider/d28f096018e2673a8437c788e3eed781ddb505ce/VSCodeSetup-x64-1.21.0-insider.exe</url>
   <sha1>f73db938cfee6ab1ab0f940c923e4e663962c795</sha1>
+ </version>
+ <version name="1.48.2" package="vs-code64" type="one-file">
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
+"%setup%" /SP- /VERYSILENT /SUPPRESSMSGBOXES /NOCANCEL /NORESTART /DIR="%CD%" /SAVEINF="%CD%\.Npackd\InnoSetupInfo.ini" /LOG="%CD%\.Npackd\InnoSetupInstall.log"&#13;
+set err=%errorlevel%&#13;
+type .Npackd\InnoSetupInstall.log&#13;
+if %err% neq 0 exit %err%&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">unins000.exe /VERYSILENT /SUPPRESSMSGBOXES /NORESTART /LOG="%CD%\.Npackd\InnoSetupUninstall.log"&#13;
+set err=%errorlevel%&#13;
+type .Npackd\InnoSetupUninstall.log&#13;
+if %err% neq 0 exit %err%&#13;
+</file>
+  <url>https://az764295.vo.msecnd.net/stable/a0479759d6e9ea56afa657e454193f72aef85bd0/VSCodeSetup-x64-1.48.2.exe</url>
+  <hash-sum type="SHA-256">3f8805a29fdd9fbfd7c0d7a9f354ed160256ec6f1f80410e367bf14f37908afb</hash-sum>
  </version>
 
     <version name="5" package="vuze64" type="one-file">
