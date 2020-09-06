@@ -22836,6 +22836,33 @@ usr\bin\bash.exe -lc 'pacman-key --populate msys2'&#13;
    <variable>clu</variable>
   </dependency>
  </version>
+ <version name="2020.9.3" package="msys2_64" type="one-file">
+  <file path=".Npackd\Install.bat">"%sevenzipa%\7za" x "%npackd_package_binary%"&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+if %errorlevel% neq 0 exit /b %errorlevel%&#13;
+&#13;
+for /f "delims=" %%x in ('dir /b *.tar') do set name=%%x&#13;
+"%sevenzipa%\7za" x "%name%"&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+if %errorlevel% neq 0 exit /b %errorlevel%&#13;
+&#13;
+"%clu%\clu" unwrap-dir -p msys64&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+if %errorlevel% neq 0 exit /b %errorlevel%&#13;
+&#13;
+rem see https://github.com/flavorjones/windows-ruby-dev-tools-release/blob/master/packages/ruby-2.4/packaging&#13;
+rem initialize ... things. like gpg keys. and skeleton files.&#13;
+rem see https://github.com/oneclick/rubyinstaller2/issues/79 for background&#13;
+usr\bin\bash.exe -lc 'true'&#13;
+usr\bin\bash.exe -lc 'pacman-key --init'&#13;
+usr\bin\bash.exe -lc 'pacman-key --populate msys2'&#13;
+</file>
+  <url>http://repo.msys2.org/distrib/x86_64/msys2-base-x86_64-20200903.tar.xz</url>
+  <hash-sum type="SHA-256">9d5700a2a8148837bd3869f4940f53d2e46ebfa4148de35c21ca49bf2c239f27</hash-sum>
+  <dependency package="org.7-zip.SevenZIPA" versions="[19, 100)">
+   <variable>sevenzipa</variable>
+  </dependency>
+  <dependency package="com.googlecode.windows-package-manager.CLU" versions="[1.25, 2)">
+   <variable>clu</variable>
+  </dependency>
+ </version>
 
     <version name="4.1.7" package="mtuner">
   <important-file path="MTuner.exe" title="MTuner"/>
