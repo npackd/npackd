@@ -4839,6 +4839,20 @@ if %errorlevel% neq 0 exit /b %errorlevel%&#13;
   <url>https://www.cmake.org/files/v3.18/cmake-3.18.1-win64-x64.zip</url>
   <hash-sum type="SHA-256">2c6c06da43c1088fc3a673e4440c8ebb1531bb6511134892c0589aa0b94f11ad</hash-sum>
  </version>
+ <version name="3.18.2" package="cmake64">
+  <cmd-file path="bin\cmake.exe"/>
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b cmake*') do set name=%%x&#13;
+cd "%name%"        &#13;
+for /f "delims=" %%a in ('dir /b') do (&#13;
+  move "%%a" ..&#13;
+)&#13;
+cd ..&#13;
+rmdir "%name%"&#13;
+if %errorlevel% neq 0 exit /b %errorlevel%&#13;
+</file>
+  <url>https://www.cmake.org/files/v3.18/cmake-3.18.2-win64-x64.zip</url>
+  <hash-sum type="SHA-256">5f4ec834fbd9b62fbf73bc48ed459fa2ea6a86c403106c90fedc2ac76d51612d</hash-sum>
+ </version>
 
     <version name="5.26.3.2603" package="com.activestate.ActivePerl64" type="one-file">
   <file path=".Npackd\Install.bat">"%npackd_package_binary%" /quiet TARGETDIR="%cd%" PERL_PATH=Yes PERL_EXT=Yes</file>
@@ -11914,6 +11928,15 @@ if %err% neq 0 exit %err%</file>
    <variable>npackdih</variable>
   </dependency>
  </version>
+ <version name="5.32.0.1" package="com.strawberryperl.StrawberryPerl64" type="one-file">
+  <file path=".Npackd\Install.bat">call "%npackdih%\InstallMSI.bat" INSTALLDIR yes&#13;
+</file>
+  <url>http://strawberryperl.com/download/5.32.0.1/strawberry-perl-5.32.0.1-64bit.msi</url>
+  <hash-sum type="SHA-256">e0e2c1a24b250750134f1b99ed51858c9193d3aafdb5b627dc753c54a01ee033</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.1, 2)">
+   <variable>npackdih</variable>
+  </dependency>
+ </version>
 
     <version name="2.5.1" package="com.tightvnc.TightVNC64" type="one-file">
   <file path=".Npackd\Install.bat">call "%npackdih%\InstallMSI.bat" INSTALLDIR yes</file>
@@ -15301,6 +15324,21 @@ taskkill /im klauncher.exe /f /t&#13;
 verify</file>
   <url>https://github.com/tim-lebedkov/packages/releases/download/2020_08/digikam64-7-digiKam-7.0.0-Win64.exe</url>
   <hash-sum type="SHA-256">3d0e264ca84176264a4db883e13ca20107e5ad7f0bf66053879b5888021082d9</hash-sum>
+ </version>
+ <version name="7.1" package="digikam64" type="one-file">
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
+"%setup%" /S /D=%ProgramFiles%\digiKamData&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">"%ProgramFiles%\digiKamData\Uninstall.exe" /S&#13;
+&#13;
+rd /s /q "APPDATA%\Start Menu\Programs\KDE Release" || rd /s /q "%ALLUSERSPROFILE%\Microsoft\Windows\Start Menu\Programs\KDE Release"&#13;
+verify</file>
+  <file path=".Npackd\Stop.bat">taskkill /im dbus-daemon.exe /f /t&#13;
+taskkill /im kded4.exe /f /t&#13;
+taskkill /im klauncher.exe /f /t&#13;
+verify</file>
+  <url>http://mirror.kumi.systems/kde/ftp/stable/digikam/7.1.0/digiKam-7.1.0-Win64.exe</url>
+  <hash-sum type="SHA-256">51ca55fbf608d42ea5fb81eeca9592a385755a33ab959dcfdf8d1d7151776cf3</hash-sum>
  </version>
 
     <version name="0.6.1" package="drmingw64">
@@ -29802,6 +29840,15 @@ if %err% neq 0 exit /b %err%&#13;
 </file>
   <url>https://www.mercurial-scm.org/release/tortoisehg/windows/tortoisehg-5.5.0-x64.msi</url>
   <hash-sum type="SHA-256">6267211299c317dd4c1b47a8bd92fe4b4edb9ac7784cc99234801521175b3c76</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3.1, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
+ <version name="5.5.1" package="org.bitbucket.tortoisehg.TortoiseHg64" type="one-file">
+  <file path=".Npackd\Install.bat">call "%nih%\InstallMSI.bat" INSTALLDIR yes&#13;
+</file>
+  <url>https://www.mercurial-scm.org/release/tortoisehg/windows/tortoisehg-5.5.1-x64.msi</url>
+  <hash-sum type="SHA-256">5dc11948dd2abeb1c31c307acc8849e6c926d03a5690594ec5e82c59a0b4ea03</hash-sum>
   <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3.1, 2)">
    <variable>nih</variable>
   </dependency>
@@ -46484,6 +46531,14 @@ rmdir "%name%"</file>
   <url>https://www.sysgauge.com/setups_x64/sysgauge_setup_v7.0.36_x64.exe</url>
   <hash-sum type="SHA-256">e262273a5d4a3416f37586d7a13c8b14d74d4d348891207473572d949d27baf3</hash-sum>
  </version>
+ <version name="7.3.18" package="sysgauge64" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">uninstall.exe /S _?=%CD%&#13;
+</file>
+  <url>https://www.sysgauge.com/setups_x64/sysgauge_setup_v7.3.18_x64.exe</url>
+  <hash-sum type="SHA-256">525fc01654f37b777d857a9ca3626209e9a5561a70eb9f9327d6e45e8347d093</hash-sum>
+ </version>
 
     <version name="2" package="texniccenter64" type="one-file">
   <file path=".Npackd\Install.bat">for /f %%x in ('dir /b *.exe') do set setup=%%x&#13;
@@ -46734,6 +46789,17 @@ if %err% neq 0 exit %err%&#13;
    <variable>ncl</variable>
   </dependency>
  </version>
+ <version name="2.75.1" package="tixati" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">"%ncl%\ncl.exe" remove-scp --title "/%npackd_package_name% %npackd_package_version%/i"&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+</file>
+  <url>https://download1.tixati.com/download/tixati-2.74-1.win32-install.exe</url>
+  <hash-sum type="SHA-256">f008f0301f4c62bc3347692f9f15559ca3465bf40d4dc34cc7bb78b7d9462db2</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.25, 2)">
+   <variable>ncl</variable>
+  </dependency>
+ </version>
 
     <version name="2.73" package="tixati64" type="one-file">
   <file path=".Npackd\Install.bat">"%npackd_package_binary%" &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
@@ -46747,6 +46813,17 @@ if %err% neq 0 exit %err%&#13;
   </dependency>
  </version>
  <version name="2.74.1" package="tixati64" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">"%ncl%\ncl.exe" remove-scp --title "/%npackd_package_name% %npackd_package_version%/i"&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+</file>
+  <url>https://download1.tixati.com/download/tixati-2.74-1.win64-install.exe</url>
+  <hash-sum type="SHA-256">42dea61b1470adcf5aaa79a954edc0f54f752afbfd7f3d2447e0fe90076f943b</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.25, 2)">
+   <variable>ncl</variable>
+  </dependency>
+ </version>
+ <version name="2.75.1" package="tixati64" type="one-file">
   <file path=".Npackd\Install.bat">"%npackd_package_binary%" &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
 </file>
   <file path=".Npackd\Uninstall.bat">"%ncl%\ncl.exe" remove-scp --title "/%npackd_package_name% %npackd_package_version%/i"&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
