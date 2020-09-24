@@ -4256,8 +4256,28 @@ verify</file>
    <variable>ncl</variable>
   </dependency>
  </version>
+ <version name="2.5" package="biglybt" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" -q -dir "%CD%" &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">uninstall.exe -q</file>
+  <url>https://github.com/BiglySoftware/BiglyBT/releases/download/v2.4.0.0/GitHub_BiglyBT_Installer32.exe</url>
+  <hash-sum type="SHA-256">80d28f46d0992fb9878f44aecd3cd01b997c9775f540dac906313ef855600319</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.25, 2)">
+   <variable>ncl</variable>
+  </dependency>
+ </version>
 
     <version name="2.4" package="biglybt64" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" -q -dir "%CD%" &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">uninstall.exe -q</file>
+  <url>https://github.com/BiglySoftware/BiglyBT/releases/download/v2.4.0.0/GitHub_BiglyBT_Installer64.exe</url>
+  <hash-sum type="SHA-256">a4168c7860307a6df8d8b5cfb9594405c11d131ad828d6f4beff1b66545b9596</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.25, 2)">
+   <variable>ncl</variable>
+  </dependency>
+ </version>
+ <version name="2.5" package="biglybt64" type="one-file">
   <file path=".Npackd\Install.bat">"%npackd_package_binary%" -q -dir "%CD%" &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
 </file>
   <file path=".Npackd\Uninstall.bat">uninstall.exe -q</file>
@@ -11709,7 +11729,7 @@ del Q-Dir.ini&#13;
   <url>http://files.npackd.org/com.softwareok.QDir64-5.99.9.zip</url>
   <sha1>fb6060796fae3fc641ba34fe1f2f8530d7c985a8</sha1>
  </version>
- <version name="8.88" package="com.softwareok.QDir64">
+ <version name="8.93" package="com.softwareok.QDir64">
   <important-file path="Q-Dir.exe" title="Q-Dir"/>
   <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b Q*') do set name=%%x&#13;
 cd "%name%"        &#13;
@@ -16030,6 +16050,11 @@ rmdir "%name%"&#13;
   <url>http://www.voidtools.com/Everything-1.4.1.988.x64.zip</url>
   <hash-sum type="SHA-256">76accfd008a05eec150d3a82950e2a1167b05d47cf70ff9d5b212763289ad69b</hash-sum>
  </version>
+ <version name="1.4.1.992" package="everything64">
+  <important-file path="Everything.exe" title="Everything"/>
+  <url>http://www.voidtools.com/Everything-1.4.1.992.x64.zip</url>
+  <hash-sum type="SHA-256">507fedd7ee14505cc93be3566bf92d24adc327d3c2a0d530d4b21affa1f49d1b</hash-sum>
+ </version>
 
     <version name="8.7" package="explzh" type="one-file">
   <file path=".Npackd\Install.bat">"%npackd_package_binary%" &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
@@ -17882,7 +17907,7 @@ if %err% neq 0 exit %err%&#13;
   <hash-sum type="SHA-256">9242bff87f2c3ffb560c74b43fd0525adcec86d6092eaeeb5fc271b0d086b924</hash-sum>
  </version>
 
-    <version name="84.0.4147.135" package="google-chrome-x64" type="one-file">
+    <version name="85.0.4183.121" package="google-chrome-x64" type="one-file">
   <file path=".Npackd\Install.bat">call "%npackdih%\InstallMSI.bat" TARGETDIR yes&#13;
 </file>
   <url>https://dl.google.com/tag/s/appguid%3D%7B8A69D345-D564-463C-AFF1-A69D9E530F96%7D%26iid%3D%7B0A558A36-0536-8B3F-0AE0-420553CC97F3%7D%26lang%3Den%26browser%3D4%26usagestats%3D0%26appname%3DGoogle%2520Chrome%26needsadmin%3DFalse/edgedl/chrome/install/GoogleChromeStandaloneEnterprise64.msi</url>
@@ -28949,6 +28974,21 @@ rmdir "%name%"
 </file>
   <url>http://archive.apache.org/dist/tomcat/tomcat-7/v7.0.105/bin/apache-tomcat-7.0.105-windows-x64.zip</url>
   <hash-sum type="SHA-256">525f1ace8f312d01cd87641596e21de553253693beae5b2712791708bd5d6801</hash-sum>
+  <dependency package="com.oracle.JRE" versions="[1.5, 2)"/>
+ </version>
+ <version name="7.0.106" package="org.apache.tomcat.Tomcat64">
+  <important-file path="bin\startup.bat" title="Start"/>
+  <important-file path="bin\shutdown.bat" title="Stop"/>
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b apache*') do set name=%%x
+cd "%name%"        
+for /f "delims=" %%a in ('dir /b') do (
+  move "%%a" ..
+)
+cd ..
+rmdir "%name%"
+</file>
+  <url>http://archive.apache.org/dist/tomcat/tomcat-7/v7.0.106/bin/apache-tomcat-7.0.106-windows-x64.zip</url>
+  <hash-sum type="SHA-256">5ff93004759ff8178dd5d33f4411e0d806026cc30aac7f0c77ec3432889fcd80</hash-sum>
   <dependency package="com.oracle.JRE" versions="[1.5, 2)"/>
  </version>
 
