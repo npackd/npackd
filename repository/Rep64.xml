@@ -3940,6 +3940,14 @@ x86_64</description>
    <variable>nih</variable>
   </dependency>
  </version>
+ <version name="4.13.1" package="4k-video-downloader64" type="one-file">
+  <file path=".Npackd\Install.bat">call "%nih%\InstallMSI.bat" INSTALLDIR yes&#13;
+</file>
+  <url>https://dl.4kdownload.com/app/4kvideodownloader_4.13.1_x64.msi</url>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.1, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
 
     <version name="2.2" package="ag64">
   <cmd-file path="ag.exe"/>
@@ -10038,11 +10046,11 @@ if %err% neq 0 exit /b %err%&#13;
    <variable>nih</variable>
   </dependency>
  </version>
- <version name="14.0.1.7" package="com.oracle.JRE64" type="one-file">
+ <version name="14.0.2.12" package="com.oracle.JRE64" type="one-file">
   <file path=".Npackd\Install.bat">call "%nih%\InstallMSI.bat" INSTALLDIR yes&#13;
 </file>
-  <url>https://github.com/AdoptOpenJDK/openjdk14-binaries/releases/download/jdk-14.0.1%2B7/OpenJDK14U-jre_x64_windows_hotspot_14_0_1_7.msi</url>
-  <hash-sum type="SHA-256">b04050c65ace822ee515c84b0856abf87deb2ff8c0586e18066eafde744233ed</hash-sum>
+  <url>https://github.com/AdoptOpenJDK/openjdk14-binaries/releases/download/jdk-14.0.2%2B12_openj9-0.21.0/OpenJDK14U-jre_x64_windows_openj9_14.0.2_12_openj9-0.21.0.msi</url>
+  <hash-sum type="SHA-256">12c883da9337470094993384c68f85effdd1752575fc2316459b50d541e35060</hash-sum>
   <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.8, 2)">
    <variable>nih</variable>
   </dependency>
@@ -15989,6 +15997,14 @@ rmdir "%name%"&#13;
   <url>https://github.com/balena-io/etcher/releases/download/v1.5.102/balenaEtcher-Setup-1.5.102.exe</url>
   <hash-sum type="SHA-256">33d1a7c0d0860382b86bed4dd0d8e4fa5e07a7bd424e4cc358238e58ba9f5e10</hash-sum>
  </version>
+ <version name="1.5.109" package="etcher64" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">uninstall.exe /S _?=%CD%&#13;
+</file>
+  <url>https://github.com/balena-io/etcher/releases/download/v1.5.109/balenaEtcher-Setup-1.5.109.exe</url>
+  <hash-sum type="SHA-256">818aef3c3f16864980410374b269672cd69d912a674ac471348e85e76ca86942</hash-sum>
+ </version>
 
     <version name="1.3.4.686" package="everything64">
   <important-file path="Everything.exe" title="Everything"/>
@@ -16405,6 +16421,16 @@ rmdir "%name%"&#13;
   <file path=".Npackd\Uninstall.bat">"%ncl%\ncl.exe" remove-scp --title "/%npackd_package_name% %npackd_package_version%/i"&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
 </file>
   <url>https://www.portalgraphics.net/firealpaca/bin/FireAlpaca32_setup_2_3_8.exe</url>
+  <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.25, 2)">
+   <variable>ncl</variable>
+  </dependency>
+ </version>
+ <version name="2.3.12" package="firealpaca" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">"%ncl%\ncl.exe" remove-scp --title "/%npackd_package_name% %npackd_package_version%/i"&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+</file>
+  <url>https://www.portalgraphics.net/firealpaca/bin/FireAlpaca32_setup_2_3_12.exe</url>
   <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.25, 2)">
    <variable>ncl</variable>
   </dependency>
@@ -16999,6 +17025,17 @@ verify</file>
   <url>https://download-installer.cdn.mozilla.net/pub/firefox/releases/79.0/win64/en-US/Firefox%20Setup%2079.0.exe</url>
   <hash-sum type="SHA-256">a762e56b7755966938b9584958415f663f8dd13003afe9cf3e2daf731346d87f</hash-sum>
  </version>
+ <version name="81" package="firefox64" type="one-file">
+  <file path=".Npackd\Install.bat">echo [Install] &gt; .Npackd\FF.ini&#13;
+echo InstallDirectoryPath=%CD% &gt;&gt; .Npackd\FF.ini&#13;
+echo QuickLaunchShortcut=false &gt;&gt; .Npackd\FF.ini&#13;
+echo DesktopShortcut=false &gt;&gt; .Npackd\FF.ini&#13;
+"%npackd_package_binary%" /INI="%CD%\.Npackd\FF.ini" &amp;&amp; del /f /q "%npackd_package_binary%"</file>
+  <file path=".Npackd\Uninstall.bat">uninstall\helper.exe /S&#13;
+verify</file>
+  <url>https://download-installer.cdn.mozilla.net/pub/firefox/releases/81.0/win64/en-US/Firefox%20Setup%2081.0.exe</url>
+  <hash-sum type="SHA-256">16dfb12e27acbc2c350849ded3e43676b7b984ddb7788232724b22c2d2bf93ef</hash-sum>
+ </version>
 
     <version name="1.22" package="focus-image-viewer" type="one-file">
   <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
@@ -17026,6 +17063,14 @@ verify</file>
 </file>
   <url>http://sg.pintosoft.com/foni/1.24/FocusOnIV64_1.24.exe</url>
   <hash-sum type="SHA-256">c78d15554df8f1269136d546c056051c9e0a408317ffbf27a33dbce5c86f75e9</hash-sum>
+ </version>
+ <version name="1.25.1" package="focus-image-viewer" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">uninstall.exe /S _?=%CD%&#13;
+</file>
+  <url>http://sg.pintosoft.com/foni/1.22/FocusOnIV64_1.22.exe</url>
+  <hash-sum type="SHA-256">50d1e494fea147c8d1473dc46f78e57b237092264914c6a215bf71ccd3a4390e</hash-sum>
  </version>
 
     <version name="0.10" package="fr.handbrake.HandBrake64" type="one-file">
@@ -47334,6 +47379,14 @@ if %err% neq 0 exit %err%&#13;
 </file>
   <url>http://files.first-world.info/ultracopier/2.2.4.4/ultracopier-windows-x86_64-2.2.4.4-setup.exe</url>
   <hash-sum type="SHA-256">d15bc427edc892c68e60cde2e7972df4aac0eca55a2a0bce9c425cad5ac3f016</hash-sum>
+ </version>
+ <version name="2.2.4.7" package="ultracopier64" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">uninst.exe /S _?=%CD%&#13;
+</file>
+  <url>http://files.first-world.info/ultracopier/2.2.4.7/ultracopier-windows-x86_64-2.2.4.7-setup.exe</url>
+  <hash-sum type="SHA-256">30b7b9dc158383298bcdcfb38d44764e813cfb226ed35ad40d5b8e40ee8d1c26</hash-sum>
  </version>
 
     <version name="2.0.1" package="vagrant64" type="one-file">
