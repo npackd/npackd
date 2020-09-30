@@ -823,10 +823,25 @@ func correctURLs() error {
 	// set URL for every package version
 	for _, pv := range v.PackageVersion {
 		if pv.Url != "" {
-			err, statusCode := apiSetURL(&settings, pv.Package, pv.Name, pv.Url)
-			fmt.Println("Setting URL for " + pv.Package + " " + pv.Name + " to " + pv.Url)
-			if err != nil && statusCode != http.StatusNotFound {
-				return err
+			url := pv.Url
+
+			prefix := "https://ayera.dl.sourceforge.net/project/"
+			if strings.HasPrefix(url, prefix) {
+				url = url[len(prefix):]
+				parts := strings.Split(url, "/")
+				url = url[len(parts[0]) + 1:]
+				url = "https://sourceforge.net/projects/" + parts[0] + "/files/" + url
+			}
+
+			if (url != pv.Url) {
+				fmt.Println("Changing URL for " + pv.Package + " " + pv.Name)
+				fmt.Println("    from " + pv.Url)
+				fmt.Println("    to " + url)
+
+				err, statusCode := apiSetURL(&settings, pv.Package, pv.Name, url)
+				if err != nil && statusCode != http.StatusNotFound {
+					return err
+				}
 			}
 		}
 	}
@@ -834,13 +849,15 @@ func correctURLs() error {
 	return nil
 }
 
+// run with the following command:
+// PASSWORD=xxxx go run TestUnstableRep.go TestUnstableRep_linux.go -- correct-urls
 func main() {
 	var err error = nil
 
 	if len(os.Args) > 2 && os.Args[1] == "download-binaries" {
 		err = downloadBinaries(os.Args[2])	
 	} else if len(os.Args) > 2 && os.Args[2] == "correct-urls" {
-		// err := correctURLs()
+		err = correctURLs()
 	} else {
 		err = process2()
 	}
