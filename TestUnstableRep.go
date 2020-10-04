@@ -21,12 +21,12 @@ import (
 var changeData = false
 
 type Settings struct {
-	curl        string
-	githubToken string
-	password    string
-	git         string
-	npackdcl    string
-	packagesTag string
+	curl          string
+	githubToken   string
+	password      string
+	git           string
+	npackdcl      string
+	packagesTag   string
 	virusTotalKey string // x-apikey
 }
 
@@ -37,8 +37,8 @@ type Release struct {
 
 type Asset struct {
 	Browser_download_url string
-	Id       int
-	Name string
+	Id                   int
+	Name                 string
 }
 
 type Package struct {
@@ -104,6 +104,11 @@ func shufflePackageVersions(array []PackageVersion) {
 	}
 }
 
+// Re-upload from an external page to Github
+//
+// settings: settings
+// url: repository URL
+// releaseID: ID of a Github project release
 func uploadAllToGithub(settings *Settings, url string, releaseID int) error {
 	fmt.Println("Re-uploading packages in " + url)
 
@@ -201,6 +206,77 @@ func uploadToGithub(settings *Settings, from string, package_ string,
 	}
 
 	return downloadURL, nil
+}
+
+// Uploads a file to Github
+//
+// user: Github user
+// project: Github project
+// from: source file name
+// file: target file name
+// mime: MIME type of the file
+// releaseID: ID of a Github release
+func createGithubReleaseAsset(settings *Settings, user string, project string, from string, file string, mime string,
+	releaseID int) error {
+	var url = "https://uploads.github.com/repos/" + user + "/" + project + "/releases/" +
+		strconv.Itoa(releaseID) + "/assets?name=" + file
+
+	result, _ := exec2("", settings.curl, "-f -H \"Authorization: token "+settings.githubToken+"\""+
+		" -H \"Content-Type: "+mime+"\""+
+		" --data-binary @"+from+" \""+url+"\"", false)
+	if result != 0 {
+		return errors.New("Cannot upload the file to Github")
+	}
+
+	return nil
+}
+
+// Delete a Github release asset.
+//
+// user: Github user
+// project: Github project
+// from: source file name
+// file: target file name
+// mime: MIME type of the file
+// releaseID: ID of a Github release
+func deleteGithubReleaseAsset(settings *Settings, user string, project string, assetID int) error {
+	var url = "https://api.github.com/repos/" + user + "/" + project + "/releases/assets/" +
+		strconv.Itoa(assetID)
+
+	// Create client
+	client := &http.Client{}
+
+	// Create request
+	req, err := http.NewRequest("DELETE", url, nil)
+	if err != nil {
+		return err
+	}
+
+	req.Header.Add("Authorization", "token "+settings.githubToken)
+
+	// Fetch Request
+	resp, err := client.Do(req)
+	if err != nil {
+		return err
+	}
+	defer resp.Body.Close()
+
+	// Read Response Body
+	_, err = ioutil.ReadAll(resp.Body)
+	if err != nil {
+		return err
+	}
+
+	// Display Results
+	//fmt.Println("response Status : ", resp.Status)
+	//fmt.Println("response Headers : ", resp.Header)
+	//fmt.Println("response Body : ", string(respBody))
+
+	if resp.StatusCode / 100 != 2 {
+		return errors.New("Cannot delete a Github release asset")
+	}
+
+	return nil
 }
 
 func exec_(program string, params string, showParameters bool) int {
@@ -313,7 +389,7 @@ func apiSetURL(settings *Settings, package_ string, version string, url_ string)
  * @param version version number
  * @return true if the test was successful
  */
-func process(settings *Settings, package_ string, version string) bool {
+func processPackageVersion(settings *Settings, package_ string, version string) bool {
 	ec, _ := exec2("", settings.npackdcl, "add --package="+package_+
 		" --version="+version+" -t 600", true)
 	if ec != 0 {
@@ -491,7 +567,7 @@ func processURL(url string, settings *Settings, onlyNewest bool) error {
 
 		if indexOf(bigPackages, package_) >= 0 {
 			fmt.Println(package_ + " " + version + " ignored because of the download size")
-		} else if !process(settings, package_, version) {
+		} else if !processPackageVersion(settings, package_, version) {
 			failed = append(failed, package_+"@"+version)
 		} else {
 			if apiTag(settings, package_, version, "untested", false) == nil {
@@ -543,18 +619,62 @@ func updatePackagesProject(settings *Settings) error {
 	return nil
 }
 
+// Uploads repositories from npackd.org to
+// https://github.com/tim-lebedkov/npackd/releases/tag/v1
+//
+// settings: settings
+func uploadReposToGithub(settings *Settings) error {
+	files := []string{"repository/Rep.xml", "repository/Libs.xml", "repository/Rep64.xml", "repository/RepUnstable.xml"}
+	targetFiles := []string{"stable.xml", "libs.xml", "stable64.xml", "unstable.xml"}
+
+	releases, err := getReleases("tim-lebedkov", "npackd")
+	if err != nil {
+		return err
+	}
+
+	releaseID := findRelease(releases, "v1")
+	if releaseID <= 0 {
+		return errors.New("Release not found")
+	}
+
+	assets, err := getReleaseAssets("tim-lebedkov", "npackd", releaseID)
+	if err != nil {
+		return err
+	}
+
+	for i := range files {
+		assetID := findAsset(assets, targetFiles[i])
+		if assetID > 0 {
+			println(targetFiles[i] + " deleting..." + strconv.Itoa(assetID))
+			deleteGithubReleaseAsset(settings, "tim-lebedkov", "npackd", assetID)
+		} else {
+			println(targetFiles[i] + " not found")
+		}
+
+		err := createGithubReleaseAsset(settings, "tim-lebedkov", "npackd", files[i], targetFiles[i], "application/xml", releaseID)
+		if err != nil {
+			return err
+		}
+	}
+
+	return nil
+}
+
 func downloadRepos(settings *Settings) {
 	// download the newest repository files and commit them to the project
 	exec2("", settings.git, "checkout master", true)
 
-	exec2("", settings.curl, "-f -o repository\\RepUnstable.xml "+
-		"https://www.npackd.org/rep/xml?tag=unstable", true)
-	exec2("", settings.curl, "-f -o repository\\Rep.xml "+
-		"https://www.npackd.org/rep/xml?tag=stable", true)
-	exec2("", settings.curl, "-f -o repository\\Rep64.xml "+
-		"https://www.npackd.org/rep/xml?tag=stable64", true)
-	exec2("", settings.curl, "-f -o repository\\Libs.xml "+
-		"https://www.npackd.org/rep/xml?tag=libs", true)
+	exec2("", settings.curl, "-f -o repository/RepUnstable.xml "+
+		"https://www.npackd.org/rep/xml?tag=unstable&create=true", true)
+
+	exec2("", settings.curl, "-f -o repository/Rep.xml "+
+		"https://www.npackd.org/rep/xml?tag=stable&create=true", true)
+
+	exec2("", settings.curl, "-f -o repository/Rep64.xml "+
+		"https://www.npackd.org/rep/xml?tag=stable64&create=true", true)
+
+	exec2("", settings.curl, "-f -o repository/Libs.xml "+
+		"https://www.npackd.org/rep/xml?tag=libs&create=true", true)
 
 	exec2("", settings.git, "config --global user.email \"tim.lebedkov@gmail.com\"", true)
 	exec2("", settings.git, "config --global user.name \"tim-lebedkov\"", true)
@@ -642,7 +762,12 @@ func createSettings() Settings {
 	settings.password = os.Getenv("PASSWORD")
 	settings.githubToken = os.Getenv("github_token")
 	settings.npackdcl = "C:\\Program Files\\NpackdCL\\ncl.exe"
-	settings.curl = getPath(&settings, "se.haxx.curl.CURL64", "") + "\\bin\\curl.exe"
+	settings.curl = getPath(&settings, "se.haxx.curl.CURL64", "")
+	if settings.curl == "" {
+		settings.curl = "curl"
+	} else {
+		settings.curl = settings.curl + "\\bin\\curl.exe"
+	}
 	settings.git = "C:\\Program Files\\Git\\cmd\\git.exe"
 
 	fmt.Println("curl: " + settings.curl)
@@ -650,8 +775,12 @@ func createSettings() Settings {
 	return settings
 }
 
-func getReleases(settings *Settings) ([]Release, error) {
-	b, err, _ := download("https://api.github.com/repos/tim-lebedkov/packages/releases", true)
+// List releases for a Github project.
+//
+// user: Github user name
+// project: Github project name
+func getReleases(user string, project string) ([]Release, error) {
+	b, err, _ := download("https://api.github.com/repos/"+user+"/"+project+"/releases", true)
 	if err != nil {
 		return nil, err
 	}
@@ -666,9 +795,13 @@ func getReleases(settings *Settings) ([]Release, error) {
 	return releases, nil
 }
 
-func getReleaseAssets(id int) ([]Asset, error) {
-	b, err, _ := download("https://api.github.com/repos/tim-lebedkov/packages/releases/" + 
-			strconv.Itoa(id) + "/assets", true)
+// List Github release assets
+//
+// id: release ID
+// Returns: (assets, error message)
+func getReleaseAssets(user string, project string, id int) ([]Asset, error) {
+	b, err, _ := download("https://api.github.com/repos/" + user + "/" + project + "/releases/"+
+		strconv.Itoa(id)+"/assets", true)
 	if err != nil {
 		return nil, err
 	}
@@ -681,7 +814,7 @@ func getReleaseAssets(id int) ([]Asset, error) {
 	}
 
 	return releases, nil
-	
+
 }
 
 func findRelease(releases []Release, tag_name string) int {
@@ -696,27 +829,37 @@ func findRelease(releases []Release, tag_name string) int {
 	return releaseID
 }
 
+func findAsset(assets []Asset, filename string) int {
+	id := 0
+	for _, r := range assets {
+		if r.Name == filename {
+			id = r.Id
+			break
+		}
+	}
+
+	return id
+}
+
 // download all binaries from https://github.com/tim-lebedkov/packages
 // dir: target directory
 func downloadBinaries(dir string) error {
-	var settings Settings = createSettings()
-
-	releases, err := getReleases(&settings)
+	releases, err := getReleases("tim-lebedkov", "packages")
 	if err != nil {
 		return err
 	}
-	
+
 	fmt.Println(strconv.Itoa(len(releases)) + " releases found")
-	
-	for _, release := range releases  {
+
+	for _, release := range releases {
 		fmt.Println("Processing release " + release.Tag_name)
 
-		assets, err := getReleaseAssets(release.Id)
+		assets, err := getReleaseAssets("tim-lebedkov", "packages", release.Id)
 		if err != nil {
 			return err
 		}
-		
-		fmt.Println("Found " + strconv.Itoa(len(assets)) + 
+
+		fmt.Println("Found " + strconv.Itoa(len(assets)) +
 			" assets in the release " + release.Tag_name)
 
 		for _, asset := range assets {
@@ -726,12 +869,12 @@ func downloadBinaries(dir string) error {
 				if err != nil {
 					return err
 				}
-				
-				err = os.MkdirAll(dir + "/" + release.Tag_name, 0777)
+
+				err = os.MkdirAll(dir+"/"+release.Tag_name, 0777)
 				if err != nil {
 					return err
 				}
-	
+
 				err = ioutil.WriteFile(path, bytes.Bytes(), 0644)
 				if err != nil {
 					return err
@@ -739,20 +882,26 @@ func downloadBinaries(dir string) error {
 			}
 		}
 	}
-	
+
 	return nil
 }
 
-func process2() error {
+func process() error {
 	var settings Settings = createSettings()
 
 	downloadRepos(&settings)
-	err := updatePackagesProject(&settings)
+
+	err := uploadReposToGithub(&settings)
 	if err != nil {
 		return err
 	}
 
-	releases, err := getReleases(&settings)
+	err = updatePackagesProject(&settings)
+	if err != nil {
+		return err
+	}
+
+	releases, err := getReleases("tim-lebedkov", "packages")
 	if err != nil {
 		return err
 	}
@@ -773,7 +922,7 @@ func process2() error {
 	fmt.Printf("Found release ID: %d\n", releaseID)
 
 	// print curl version
-	exec2("", settings.curl, "--version", true)
+	// exec2("", settings.curl, "--version", true)
 
 	reps := []string{"stable", "stable64", "libs"}
 
@@ -829,11 +978,11 @@ func correctURLs() error {
 			if strings.HasPrefix(url, prefix) {
 				url = url[len(prefix):]
 				parts := strings.Split(url, "/")
-				url = url[len(parts[0]) + 1:]
+				url = url[len(parts[0])+1:]
 				url = "https://sourceforge.net/projects/" + parts[0] + "/files/" + url
 			}
 
-			if (url != pv.Url) {
+			if url != pv.Url {
 				fmt.Println("Changing URL for " + pv.Package + " " + pv.Name)
 				fmt.Println("    from " + pv.Url)
 				fmt.Println("    to " + url)
@@ -849,19 +998,24 @@ func correctURLs() error {
 	return nil
 }
 
-// run with the following command:
+// Download binaries from Github to a directory:
+// PASSWORD=xxxx go run TestUnstableRep.go TestUnstableRep_linux.go -- download-binaries /target/directory
+//
+// Correct URLs for packages at npackd.org:
 // PASSWORD=xxxx go run TestUnstableRep.go TestUnstableRep_linux.go -- correct-urls
+//
+// Normal run on AppVeyor:
+// github_token=xxxxx PASSWORD=xxxx go run TestUnstableRep.go TestUnstableRep_linux.go
 func main() {
 	var err error = nil
 
 	if len(os.Args) > 2 && os.Args[1] == "download-binaries" {
-		err = downloadBinaries(os.Args[2])	
+		err = downloadBinaries(os.Args[2])
 	} else if len(os.Args) > 2 && os.Args[2] == "correct-urls" {
 		err = correctURLs()
 	} else {
-		err = process2()
+		err = process()
 	}
-
 
 	if err != nil {
 		fmt.Println(err.Error())
