@@ -43456,6 +43456,17 @@ call "%npackdih%\InstallMSI.bat" TARGETDIR yes</file>
    <variable>myun</variable>
   </dependency>
  </version>
+ <version name="0.21" package="picotorrent-64-bit" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">"%myun%\myuninst.exe" /uninstall "picotorrent-64-bit"&#13;
+</file>
+  <url>https://github.com/picotorrent/picotorrent/releases/download/v0.21.0/PicoTorrent-0.21.0-x64.exe</url>
+  <hash-sum type="SHA-256">275d152691825bd69fdae7c5e79ec0a1335765d2817c456aa989acd067ad4207</hash-sum>
+  <dependency package="net.nirsoft.MyUninstaller" versions="[1.74, 2)">
+   <variable>myun</variable>
+  </dependency>
+ </version>
 
     <version name="6.50" package="pixia" type="one-file">
   <file path=".Npackd\Install.bat">"%npackd_package_binary%" &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
