@@ -241,6 +241,16 @@ x86_64</description>
   <tag>end-of-life</tag>
   <tag>stable64</tag>
  </package>
+ <package name="atom64">
+  <title>Atom 64 bit</title>
+  <url>https://atom.io/</url>
+  <description>hackable text editor
+x86_64</description>
+  <icon>https://lh5.googleusercontent.com/-HJ7oKTmSqPw/VAoS--qvJ_I/AAAAAAAABtY/_BLh7G6gCwo/s32/atom.png</icon>
+  <category>Text</category>
+  <tag>stable64</tag>
+  <link href="https://github.com/atom/atom/releases" rel="changelog"/>
+ </package>
  <package name="barrier64">
   <title>Barrier 64 bit</title>
   <url>https://github.com/debauchee/barrier</url>
@@ -4214,6 +4224,40 @@ x86_64</description>
 </file>
   <url>http://www.aspia.ru/download/aspia/aspia-0.3.0.zip</url>
   <sha1>62209d84e2e3152badaaa6a5f22bab365af33cfc</sha1>
+ </version>
+
+    <version name="1.49" package="atom64">
+  <important-file path="atom.exe" title="Atom"/>
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b Atom*') do set name=%%x&#13;
+"%clu%\clu" unwrap-dir -p "%name%"&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+</file>
+  <url>https://github.com/atom/atom/releases/download/v1.49.0/atom-x64-windows.zip</url>
+  <hash-sum type="SHA-256">0065c9126d8428ffe56c25504be3699fe40360fcfd3a636f57ff07042755ed7c</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.CLU" versions="[1.25, 2)">
+   <variable>clu</variable>
+  </dependency>
+ </version>
+ <version name="1.50" package="atom64">
+  <important-file path="atom.exe" title="Atom"/>
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b Atom*') do set name=%%x&#13;
+"%clu%\clu" unwrap-dir -p "%name%"&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+</file>
+  <url>https://github.com/atom/atom/releases/download/v1.50.0/atom-x64-windows.zip</url>
+  <hash-sum type="SHA-256">cfb227a8844db0b02da48aac4de7aaf852a4419db8918adb5bf41b323c0b3e29</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.CLU" versions="[1.25, 2)">
+   <variable>clu</variable>
+  </dependency>
+ </version>
+ <version name="1.51" package="atom64">
+  <important-file path="atom.exe" title="Atom"/>
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b Atom*') do set name=%%x&#13;
+"%clu%\clu" unwrap-dir -p "%name%"&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+</file>
+  <url>https://github.com/atom/atom/releases/download/v1.51.0/atom-x64-windows.zip</url>
+  <hash-sum type="SHA-256">2a158e6f722438876d5075471ae736bfd7d389e0566b4b6a0b8825075ba7d5a1</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.CLU" versions="[1.25, 2)">
+   <variable>clu</variable>
+  </dependency>
  </version>
 
     <version name="2.1" package="barrier64" type="one-file">
@@ -20170,6 +20214,18 @@ rmdir "%name%"&#13;
   <url>https://github.com/ipfs/go-ipfs/releases/download/v0.6.0/go-ipfs_v0.6.0_windows-amd64.zip</url>
   <hash-sum type="SHA-256">0c4c6d2c897ee30d99ac8eca856e294e4d880d859a189fff4ecb603d05b098f2</hash-sum>
  </version>
+ <version name="0.7" package="ipfs64">
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b go-ipfs*') do set name=%%x&#13;
+cd "%name%"&#13;
+for /f "delims=" %%a in ('dir /b') do (&#13;
+  move "%%a" ..&#13;
+)&#13;
+cd ..&#13;
+rmdir "%name%"&#13;
+</file>
+  <url>https://github.com/ipfs/go-ipfs/releases/download/v0.7.0/go-ipfs_v0.7.0_windows-amd64.zip</url>
+  <hash-sum type="SHA-256">cfa44e09a4d035577c9f61f14f76744ae2afd5111713d538f5b38f00326f2dd6</hash-sum>
+ </version>
 
     <version name="5" package="jclasslib64" type="one-file">
   <important-file path="bin\jclasslib.exe" title="jclasslib"/>
@@ -20934,6 +20990,19 @@ call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Np
    <variable>nih</variable>
   </dependency>
  </version>
+ <version name="1.23" package="ldc64" type="one-file">
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.7z') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+&#13;
+for /f "delims=" %%x in ('dir /b ldc*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+</file>
+  <url>https://github.com/ldc-developers/ldc/releases/download/v1.23.0/ldc2-1.23.0-windows-x64.7z</url>
+  <hash-sum type="SHA-256">0aec6f6dba133e05a2723cf1c76c65001c3bdc20117e38a99d849a223bfbb448</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.19, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
 
     <version name="5.3.4" package="libreoffice64" type="one-file">
   <file path=".Npackd\Install.bat">call "%npackdih%\InstallMSI.bat" INSTALLLOCATION yes</file>
@@ -21251,6 +21320,15 @@ call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Np
   </dependency>
   <dependency package="com.oracle.JRE" versions="[1.6, 2)"/>
  </version>
+ <version name="7.0.1" package="libreoffice64" type="one-file">
+  <file path=".Npackd\Install.bat">call "%npackdih%\InstallMSI.bat" INSTALLLOCATION yes</file>
+  <url>https://download.documentfoundation.org/libreoffice/stable/7.0.1/win/x86_64/LibreOffice_7.0.1_Win_x64.msi</url>
+  <hash-sum type="SHA-256">a98ee61f915eb50853d08b0cfbefbb35bf610c0da4db8d4287415c64abce8c3c</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.1, 2)">
+   <variable>npackdih</variable>
+  </dependency>
+  <dependency package="com.oracle.JRE" versions="[1.6, 2)"/>
+ </version>
 
     <version name="12.6" package="lightworks64" type="one-file">
   <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
@@ -21287,6 +21365,15 @@ call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Np
 </file>
   <url>https://lwks.s3.amazonaws.com/releases/lightworks_2020.1_r122068_64bit_setup.exe</url>
   <hash-sum type="SHA-256">d55db9340de2566de69eedc468fa7e6d0e49e2a3643193adadb2283d5fcc683d</hash-sum>
+ </version>
+ <version name="2020.1.1" package="lightworks64" type="one-file">
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
+"%setup%" /S /D=%CD% &amp;&amp; del /f /q "%setup%"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">uninstall.exe /S _?=%CD%&#13;
+</file>
+  <url>https://cdn.lwks.com/releases/2020.1.1/lightworks_2020.1.1_r124942_64bit_setup.exe</url>
+  <hash-sum type="SHA-256">27d1f7ef922638a62fea38c7a1918d51a0e75c7408ab213835e1f09016f51b66</hash-sum>
  </version>
 
     <version name="3.1.11.7100" package="Locate32_64">
@@ -21502,6 +21589,16 @@ if %err% neq 0 exit %err%&#13;
   <file path=".Npackd\Uninstall.bat">"%nih%\UninstallInnoSetup.bat" unins000.exe</file>
   <url>https://medibangpaint.com/static/installer/MediBangPaintPro/MediBangPaintProSetup-25.3-64bit.exe</url>
   <hash-sum type="SHA-256">a5690974cc16e3d29fd75fb9202848af8a5ae744563bd01d05efab2555382e30</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
+ <version name="25.4" package="medibang-paint64" type="one-file">
+  <file path=".Npackd\Install.bat">"%nih%\InstallInnoSetup.bat"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">"%nih%\UninstallInnoSetup.bat" unins000.exe</file>
+  <url>https://medibangpaint.com/static/installer/MediBangPaintPro/MediBangPaintProSetup-25.4-64bit.exe</url>
+  <hash-sum type="SHA-256">893823a87f9cf7fab96ba8b2ab26c252fb9c85e24d4af4b45dad0a8fc64dcb45</hash-sum>
   <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
    <variable>nih</variable>
   </dependency>
@@ -44373,6 +44470,17 @@ if %errorlevel% equ 3010 verify</file>
 </file>
   <url>http://download.qt-project.org/official_releases/qtcreator/4.12/4.12.4/qt-creator-opensource-windows-x86_64-4.12.4.exe</url>
   <hash-sum type="SHA-256">7ed9ed196594937ad6f96f14fec2456f096cc9c048a6e15a934bff77081708dc</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.24, 2)">
+   <variable>ncl</variable>
+  </dependency>
+ </version>
+ <version name="4.13.1" package="qt-creator64" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD%&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">"%ncl%\ncl.exe" remove-scp --title "/Qt Creator.*/"&#13;
+</file>
+  <url>http://download.qt-project.org/official_releases/qtcreator/4.13/4.13.1/qt-creator-opensource-windows-x86_64-4.13.1.exe</url>
+  <hash-sum type="SHA-256">728780346bc8fea60c56fc269f456637fa0f4cfb4df74cad6a1eaf6fbb360d3c</hash-sum>
   <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.24, 2)">
    <variable>ncl</variable>
   </dependency>
