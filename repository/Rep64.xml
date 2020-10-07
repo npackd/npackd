@@ -16172,6 +16172,17 @@ rmdir "%name%"&#13;
    <variable>ncl</variable>
   </dependency>
  </version>
+ <version name="8.20" package="explzh" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">"%ncl%\ncl.exe" remove-scp --title "/%npackd_package_name% %npackd_package_version%/i"&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+</file>
+  <url>https://www.ponsoftware.com/en/archiver/explzh/explz820_en.exe</url>
+  <hash-sum type="SHA-256">0d89259a70c040bdee4f2e3209d6d32e099794f63962ad8589075f7ebc95759f</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.25, 2)">
+   <variable>ncl</variable>
+  </dependency>
+ </version>
 
     <version name="8.7" package="explzh64" type="one-file">
   <file path=".Npackd\Install.bat">"%npackd_package_binary%" &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
@@ -35876,6 +35887,15 @@ verify</file>
    <variable>npackdih</variable>
   </dependency>
  </version>
+ <version name="12.18.4" package="org.nodejs.NodeJS64" type="one-file">
+  <cmd-file path="node.exe"/>
+  <file path=".Npackd\Install.bat">call "%npackdih%\InstallMSI.bat" INSTALLDIR yes</file>
+  <url>https://nodejs.org/dist/v12.18.4/node-v12.18.4-x64.msi</url>
+  <hash-sum type="SHA-256">4bb3aebcc2d22191c2daaf4e419e923d891331f86a64cca468f689e7a12a7e3c</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.1, 2)">
+   <variable>npackdih</variable>
+  </dependency>
+ </version>
 
     <version name="2.2" package="org.openshot.openshot64" type="one-file">
   <file path=".Npackd\Install.bat">"%nih%\InstallInnoSetup.bat"&#13;
@@ -40691,6 +40711,20 @@ call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Np
    <variable>nih</variable>
   </dependency>
  </version>
+ <version name="8.2.1775" package="org.vim.Vim64">
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+if %errorlevel% neq 0 exit /b %errorlevel%&#13;
+&#13;
+for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+</file>
+  <url>https://github.com/vim/vim-win32-installer/releases/download/v8.2.1775/gvim_8.2.1775_x64.zip</url>
+  <hash-sum type="SHA-256">720540d7d112f74aad2bd700e1dce06565086111faf9d21f097ff738b46e7773</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.19, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
 
     <version name="4.2.8.83876" package="org.virtualbox.virtualbox64" type="one-file">
   <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
@@ -42506,6 +42540,14 @@ if %err% neq 0 exit %err%</file>
   <url>https://1.eu.dl.wireshark.org/win64/Wireshark-win64-3.2.6.exe</url>
   <hash-sum type="SHA-256">9c211a6eda5f69b2c10dd1a794f8a438c1dafbe5da4879b807be496d8f29a6c4</hash-sum>
  </version>
+ <version name="3.2.7" package="org.wireshark.Wireshark64" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD%&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">uninstall.exe /S _=%CD%&#13;
+</file>
+  <url>https://1.eu.dl.wireshark.org/win64/Wireshark-win64-3.2.7.exe</url>
+  <hash-sum type="SHA-256">d418b047d8f77d6ae804a5121d18d941bc45ca47c30f553d0034d6136c3069a4</hash-sum>
+ </version>
 
     <version name="1.0.81" package="otter-browser" type="one-file">
   <file path=".Npackd\Install.bat">"%nih%\InstallInnoSetup.bat"&#13;
@@ -43060,6 +43102,17 @@ verify</file>
 </file>
   <url>https://rm-eu.palemoon.org/release/palemoon-28.12.0.win32.installer.exe</url>
   <hash-sum type="SHA-256">7495bb292eee011bac5660a8ad4da8e643d3e235728beb4d676687f3de5c45db</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.25, 2)">
+   <variable>ncl</variable>
+  </dependency>
+ </version>
+ <version name="28.14.1" package="palemoon64" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" -ms -ma &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">"%ncl%\ncl.exe" remove-scp --title "/Pale Moon/i"&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+</file>
+  <url>https://rm-eu.palemoon.org/release/palemoon-28.14.1.win32.installer.exe</url>
+  <hash-sum type="SHA-256">c589bbbdeade7af663d6dcad3209dda80a8cbaa9bfd8ea74871ece6cf49e12e1</hash-sum>
   <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.25, 2)">
    <variable>ncl</variable>
   </dependency>
@@ -43960,6 +44013,15 @@ verify</file>
 </file>
   <url>https://github.com/tim-lebedkov/packages/releases/download/2020_03/qcad64-3.24.3-qcad-3.24.3-trial-win64-installer.msi</url>
   <hash-sum type="SHA-256">b386695531eb3b9c7e63340a7d2863f467b90ec5c7f151df56f0367e3295f8c5</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.1, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
+ <version name="3.25.2" package="qcad64" type="one-file">
+  <file path=".Npackd\Install.bat">call "%nih%\InstallMSI.bat" INSTALLDIR yes&#13;
+</file>
+  <url>http://www.qcad.org/archives/qcad/qcad-3.25.2-trial-win64-installer.msi</url>
+  <hash-sum type="SHA-256">eb51199fff267eb1396fd367a60ed5a09d50d58b5c7cf3d6562f4b3e693e3276</hash-sum>
   <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.1, 2)">
    <variable>nih</variable>
   </dependency>
@@ -44905,6 +44967,14 @@ if %errorlevel% equ 3010 verify</file>
 </file>
   <url>https://github.com/saenzramiro/rambox/releases/download/0.7.5/Rambox-0.7.5-win.exe</url>
   <hash-sum type="SHA-256">b768f13b67c740ba1081d69f95f450a1f6c6e9d45e8a096bc5dd864fbddea464</hash-sum>
+ </version>
+ <version name="0.7.6" package="rambox-64-bit" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">uninstall.exe /S _?=%CD%&#13;
+</file>
+  <url>https://github.com/saenzramiro/rambox/releases/download/0.7.6/Rambox-0.7.6-win.exe</url>
+  <hash-sum type="SHA-256">66aa53ddd64760fe3013c5f4c56e0b5d3bdbb55c2d5e6d7ea14ab20181acb9ae</hash-sum>
  </version>
 
     <version name="2015.3.1" package="rdkit64">
