@@ -1,4 +1,5 @@
 // +build linux
+
 package main
 
 import (
@@ -6,7 +7,6 @@ import (
 	"syscall"
 	"fmt"
 	"strings"
-	"errors"
 )
 
 func parseCommandLine(command string) ([]string, error) {
@@ -64,7 +64,7 @@ func parseCommandLine(command string) ([]string, error) {
     }
 
     if state == "quotes" {
-        return []string{}, errors.New(fmt.Sprintf("Unclosed quote in command line: %s", command))
+        return []string{}, fmt.Errorf("Unclosed quote in command line: %s", command)
     }
 
     if current != "" {
