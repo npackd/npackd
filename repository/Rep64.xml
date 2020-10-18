@@ -11782,7 +11782,7 @@ del Q-Dir.ini&#13;
   <url>http://files.npackd.org/com.softwareok.QDir64-5.99.9.zip</url>
   <sha1>fb6060796fae3fc641ba34fe1f2f8530d7c985a8</sha1>
  </version>
- <version name="8.94" package="com.softwareok.QDir64">
+ <version name="8.96" package="com.softwareok.QDir64">
   <important-file path="Q-Dir.exe" title="Q-Dir"/>
   <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b Q*') do set name=%%x&#13;
 cd "%name%"        &#13;
@@ -14470,6 +14470,17 @@ if %err% neq 0 exit %err%&#13;
   <file path=".Npackd\Uninstall.bat">"%nih%\UninstallInnoSetup.bat" unins000.exe</file>
   <url>https://github.com/conan-io/conan/releases/download/1.29.0/conan-win-64_1_29_0.exe</url>
   <hash-sum type="SHA-256">2b36e54b5c2357c9c471339242358e99301d664b1f6063e9d75483cf56e0230c</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
+ <version name="1.30.1" package="conan64" type="one-file">
+  <cmd-file path="conan\conan.exe"/>
+  <file path=".Npackd\Install.bat">"%nih%\InstallInnoSetup.bat"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">"%nih%\UninstallInnoSetup.bat" unins000.exe</file>
+  <url>https://github.com/conan-io/conan/releases/download/1.30.1/conan-win-64_1_30_1.exe</url>
+  <hash-sum type="SHA-256">e3e834717ce7d81e5b8a1be96a40ee3a5a6276c8cc19b1dce725549a4f705229</hash-sum>
   <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
    <variable>nih</variable>
   </dependency>
@@ -18038,7 +18049,7 @@ if %err% neq 0 exit %err%&#13;
   <hash-sum type="SHA-256">9242bff87f2c3ffb560c74b43fd0525adcec86d6092eaeeb5fc271b0d086b924</hash-sum>
  </version>
 
-    <version name="85.0.4183.121" package="google-chrome-x64" type="one-file">
+    <version name="86.0.4240.75" package="google-chrome-x64" type="one-file">
   <file path=".Npackd\Install.bat">call "%npackdih%\InstallMSI.bat" TARGETDIR yes&#13;
 </file>
   <url>https://dl.google.com/tag/s/appguid%3D%7B8A69D345-D564-463C-AFF1-A69D9E530F96%7D%26iid%3D%7B0A558A36-0536-8B3F-0AE0-420553CC97F3%7D%26lang%3Den%26browser%3D4%26usagestats%3D0%26appname%3DGoogle%2520Chrome%26needsadmin%3DFalse/edgedl/chrome/install/GoogleChromeStandaloneEnterprise64.msi</url>
@@ -18999,7 +19010,7 @@ verify&#13;
   <url>http://files.npackd.org/hashmyfiles64/hashmyfiles64-2.10.zip</url>
   <sha1>8848020689233adeffe2f4299085eb533e1495d5</sha1>
  </version>
- <version name="2.36" package="hashmyfiles64">
+ <version name="2.37" package="hashmyfiles64">
   <important-file path="HashMyFiles.exe" title="HashMyFiles"/>
   <url>http://www.nirsoft.net/utils/hashmyfiles-x64.zip</url>
  </version>
@@ -19414,6 +19425,30 @@ if %err% equ 3010 exit 0&#13;
 if %err% neq 0 exit %err%</file>
   <url>http://downloads.sourceforge.net/project/eraser/Eraser%206/6.2/Eraser%206.2.0.2990.exe</url>
   <hash-sum type="SHA-256">7c6294a14edabc8ab9d83edf7c1f75be530fa0a0be54d0094ef620860c49e907</hash-sum>
+  <dependency package="org.7-zip.SevenZIPA" versions="[9.20, 20)">
+   <variable>sevenzipa</variable>
+  </dependency>
+  <dependency package="com.microsoft.DotNetRedistributable" versions="[3.5, 4)"/>
+ </version>
+ <version name="6.2.0.2991" package="ie.heidi.eraser.eraser64" type="one-file">
+  <file path=".Npackd\Install.bat">for /f "delims=" %%y in ('dir /b *.exe') do set setup=%%y&#13;
+"%sevenzipa%\7za.exe" x "%setup%" -aos&#13;
+dir&#13;
+&#13;
+msiexec.exe /qn /norestart /lime .Npackd\MSI.log /i "Eraser (x64).msi" ALLUSERS=1&#13;
+set err=%errorlevel%&#13;
+type .Npackd\MSI.log&#13;
+rem 3010=restart required&#13;
+if %err% equ 3010 exit 0&#13;
+if %err% neq 0 exit %err%</file>
+  <file path=".Npackd\Uninstall.bat">msiexec.exe /qn /norestart /lime .Npackd\MSI.log /x "Eraser (x64).msi"&#13;
+set err=%errorlevel%&#13;
+type .Npackd\MSI.log&#13;
+rem 3010=restart required&#13;
+if %err% equ 3010 exit 0&#13;
+if %err% neq 0 exit %err%</file>
+  <url>http://downloads.sourceforge.net/project/eraser/Eraser%206/6.2/Eraser%206.2.0.2991.exe</url>
+  <hash-sum type="SHA-256">1ed5be170a48f563922daaa69ce8d5309c511d6e25946345f2586af3b16c66de</hash-sum>
   <dependency package="org.7-zip.SevenZIPA" versions="[9.20, 20)">
    <variable>sevenzipa</variable>
   </dependency>
@@ -20370,6 +20405,18 @@ rmdir "%name%"&#13;
    <variable>myun</variable>
   </dependency>
  </version>
+ <version name="5.7" package="jclasslib64" type="one-file">
+  <important-file path="bin\jclasslib.exe" title="jclasslib"/>
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
+"%setup%" -q -dir "%CD%" &amp;&amp; del /f /q "%setup%"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">uninstall.exe -q</file>
+  <url>https://github.com/ingokegel/jclasslib/releases/download/5.7/jclasslib_win64_5_7.exe</url>
+  <hash-sum type="SHA-256">1bbdefea5a7c58ea222c95d6e0dda3b88684edc08f047caf9b1a0d1ca5ce2f79</hash-sum>
+  <dependency package="net.nirsoft.MyUninstaller" versions="[1.74, 2)">
+   <variable>myun</variable>
+  </dependency>
+ </version>
 
     <version name="2020.5.15.20" package="kmplayer64" type="one-file">
   <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
@@ -20717,6 +20764,14 @@ call "%nih%\InstallMSI.bat" TARGETDIR yes&#13;
 </file>
   <url>https://download.kde.org/stable/krita/4.3.0/krita-x64-4.3.0-setup.exe</url>
   <hash-sum type="SHA-256">39346273dfa9397af61f4caf779e2d3d5d59a43d67248bc827b6704a08e9e59f</hash-sum>
+ </version>
+ <version name="4.4" package="krita64" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">uninstall.exe /S _?=%CD%&#13;
+</file>
+  <url>https://download.kde.org/stable/krita/4.4.0/krita-x64-4.4.0-setup.exe</url>
+  <hash-sum type="SHA-256">1bfe467cb5ce4e3ad69ec2ca18a35a708fbaa9ed7a4e4c04b73aa17e172bd20e</hash-sum>
  </version>
 
     <version name="7.1.3" package="lazpaint64" type="one-file">
@@ -21335,6 +21390,15 @@ call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Np
   <file path=".Npackd\Install.bat">call "%npackdih%\InstallMSI.bat" INSTALLLOCATION yes</file>
   <url>https://download.documentfoundation.org/libreoffice/stable/7.0.1/win/x86_64/LibreOffice_7.0.1_Win_x64.msi</url>
   <hash-sum type="SHA-256">a98ee61f915eb50853d08b0cfbefbb35bf610c0da4db8d4287415c64abce8c3c</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.1, 2)">
+   <variable>npackdih</variable>
+  </dependency>
+  <dependency package="com.oracle.JRE" versions="[1.6, 2)"/>
+ </version>
+ <version name="7.0.2" package="libreoffice64" type="one-file">
+  <file path=".Npackd\Install.bat">call "%npackdih%\InstallMSI.bat" INSTALLLOCATION yes</file>
+  <url>https://download.documentfoundation.org/libreoffice/stable/7.0.2/win/x86_64/LibreOffice_7.0.2_Win_x64.msi</url>
+  <hash-sum type="SHA-256">898feb8c784d049d646dae443ef49d55ffe2db78ebde73c963f84f77363e864e</hash-sum>
   <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.1, 2)">
    <variable>npackdih</variable>
   </dependency>
@@ -23071,6 +23135,15 @@ reg add HKCU\Software\mkvmergeGUI\GUI /v check_for_updates /t REG_DWORD /d 00000
    <variable>npackdih</variable>
   </dependency>
  </version>
+ <version name="6.12.0.98" package="mono64" type="one-file">
+  <file path=".Npackd\Install.bat">call "%npackdih%\InstallMSI.bat" INSTALLDIR yes&#13;
+</file>
+  <url>https://download.mono-project.com/archive/6.12.0/windows-installer/mono-6.12.0.98-x64-0.msi</url>
+  <hash-sum type="SHA-256">37d1d9b4a5d0590ead7b9c1f9f72b9b795271aa3fa3b409679222731ce83f849</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.1, 2)">
+   <variable>npackdih</variable>
+  </dependency>
+ </version>
 
     <version name="2016.2.5" package="msys2_64" type="one-file">
   <file path=".Npackd\Install.bat">call "%nih%\Extract.bat" "%npackd_package_binary%" "."&#13;
@@ -23628,6 +23701,15 @@ rmdir "%name%"&#13;
 </file>
   <url>https://github.com/musescore/MuseScore/releases/download/v3.5/MuseScore-3.5.0-x86_64.msi</url>
   <hash-sum type="SHA-256">f9f2eb01b5d5f67ac45a785d3cf252e557c41305c68b2578fe38b7852f3c727f</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.1, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
+ <version name="3.5.1" package="musescore64" type="one-file">
+  <file path=".Npackd\Install.bat">call "%nih%\InstallMSI.bat" INSTALLDIR yes&#13;
+</file>
+  <url>https://github.com/musescore/MuseScore/releases/download/v3.5.1/MuseScore-3.5.1-x86_64.msi</url>
+  <hash-sum type="SHA-256">eb25a5bc745969fd64c8d1cbb088b8f11de315aab703f26f42cc6aa1c17c09ce</hash-sum>
   <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.1, 2)">
    <variable>nih</variable>
   </dependency>
@@ -34318,6 +34400,14 @@ if %errorlevel% neq 0 exit /b %errorlevel%&#13;
   <url>https://github.com/tim-lebedkov/packages/releases/download/2020_07/org.miktex.MiKTeX64-20.6.29-basic-miktex-20.6.29-x64.exe</url>
   <hash-sum type="SHA-256">b69f96e56a2a7c49f9cac106d743284ede86d18f986a6a202e9628ed30447885</hash-sum>
  </version>
+ <version name="20.10" package="org.miktex.MiKTeX64" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" --common-install="%CD%" --shared --unattended&#13;
+</file>
+  <file path=".Npackd\Unnstall.bat">miktex\bin\miktexsetup.exe --verbose --shared uninstall&#13;
+</file>
+  <url>https://miktex.org/download/ctan/systems/win32/miktex/setup/windows-x64/basic-miktex-20.10-x64.exe</url>
+  <hash-sum type="SHA-256">cb9434d9ba0cedb480500f9bdfe437cd08fb57583704cabab5697e53bfba610b</hash-sum>
+ </version>
 
     <version name="0.9.19" package="org.miranda-im.MirandaIM64" type="one-file">
   <important-file path="miranda64.exe" title="Miranda IM"/>
@@ -35896,6 +35986,15 @@ verify</file>
    <variable>npackdih</variable>
   </dependency>
  </version>
+ <version name="12.19" package="org.nodejs.NodeJS64" type="one-file">
+  <cmd-file path="node.exe"/>
+  <file path=".Npackd\Install.bat">call "%npackdih%\InstallMSI.bat" INSTALLDIR yes</file>
+  <url>https://nodejs.org/dist/v12.19.0/node-v12.19.0-x64.msi</url>
+  <hash-sum type="SHA-256">5bd51bcc2017a1aca716e7b07cac5ed3e5ae0b475815f1eed084232cdf598004</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.1, 2)">
+   <variable>npackdih</variable>
+  </dependency>
+ </version>
 
     <version name="2.2" package="org.openshot.openshot64" type="one-file">
   <file path=".Npackd\Install.bat">"%nih%\InstallInnoSetup.bat"&#13;
@@ -36761,6 +36860,17 @@ if %err% neq 0 exit %err%&#13;
    <variable>nih</variable>
   </dependency>
  </version>
+ <version name="2.7.2.1" package="org.rubylang.Ruby64" type="one-file">
+  <file path=".Npackd\Install.bat">call "%nih%\InstallInnoSetup.bat"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">call "%nih%\UninstallInnoSetup.bat" unins000.exe&#13;
+</file>
+  <url>https://github.com/oneclick/rubyinstaller2/releases/download/RubyInstaller-2.7.2-1/rubyinstaller-2.7.2-1-x64.exe</url>
+  <hash-sum type="SHA-256">b9f67e655bf58797ae0a6acb7a5047e0180259b6dac6816756e93afaacc2eb82</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
 
     <version name="19.2.28" package="org.shotcut.shotcut">
   <url>https://github.com/mltframework/shotcut/releases/download/v19.02.28/shotcut-win64-190228.zip</url>
@@ -37501,6 +37611,19 @@ cd ..&#13;
 rmdir "%name%"</file>
   <url>https://download.springsource.com/release/STS4/4.7.1.RELEASE/dist/e4.15/spring-tool-suite-4-4.7.1.RELEASE-e4.15.0-win32.win32.x86_64.zip</url>
   <hash-sum type="SHA-256">1f440ce7fca0fceae551a45216322bb8cba9dc5976d3a7f136b7c891c975aa59</hash-sum>
+  <dependency package="com.oracle.JRE64" versions="[1.7, 2)"/>
+ </version>
+ <version name="4.8" package="org.springsource.STS64">
+  <important-file path="SpringToolSuite4.exe" title="Spring Tool Suite"/>
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b sts*') do set name=%%x&#13;
+cd "%name%"        &#13;
+for /f "delims=" %%a in ('dir /b') do (&#13;
+  move "%%a" ..&#13;
+)&#13;
+cd ..&#13;
+rmdir "%name%"</file>
+  <url>https://download.springsource.com/release/STS4/4.8.0.RELEASE/dist/e4.15/spring-tool-suite-4-4.8.0.RELEASE-e4.15.0-win32.win32.x86_64.zip</url>
+  <hash-sum type="SHA-256">7d60a8bcf67f3f7a510afed040e3a1e3cdb6b2a6db819b81d751e82f2a1e33e1</hash-sum>
   <dependency package="com.oracle.JRE64" versions="[1.7, 2)"/>
  </version>
 
@@ -40725,6 +40848,34 @@ call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Np
    <variable>nih</variable>
   </dependency>
  </version>
+ <version name="8.2.1807" package="org.vim.Vim64">
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+if %errorlevel% neq 0 exit /b %errorlevel%&#13;
+&#13;
+for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+</file>
+  <url>https://github.com/vim/vim-win32-installer/releases/download/v8.2.1807/gvim_8.2.1807_x64.zip</url>
+  <hash-sum type="SHA-256">d12fd8e41fc11015f4d2e55e626a0732001f0231eaded19b4fe1d5302bc68f7f</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.19, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
+ <version name="8.2.1844" package="org.vim.Vim64">
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+if %errorlevel% neq 0 exit /b %errorlevel%&#13;
+&#13;
+for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+</file>
+  <url>https://github.com/vim/vim-win32-installer/releases/download/v8.2.1844/gvim_8.2.1844_x64.zip</url>
+  <hash-sum type="SHA-256">e2e2381d71850f689de48f4e092bc0d57e8deea4f94d66348446a611cfac66e0</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.19, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
 
     <version name="4.2.8.83876" package="org.virtualbox.virtualbox64" type="one-file">
   <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
@@ -43348,6 +43499,16 @@ verify</file>
   </dependency>
   <dependency package="org.miktex.MiKTeX" versions="[2.9, 3)"/>
  </version>
+ <version name="2.11" package="pandoc64" type="one-file">
+  <file path=".Npackd\Install.bat">call "%nih%\InstallMSI.bat" INSTALLDIR yes&#13;
+</file>
+  <url>https://github.com/jgm/pandoc/releases/download/2.11/pandoc-2.11-windows-x86_64.msi</url>
+  <hash-sum type="SHA-256">2d9e27cdd92cf34ce2626416be4b5db04518e760c17a42a61ddf97a0e311ea31</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.1, 2)">
+   <variable>nih</variable>
+  </dependency>
+  <dependency package="org.miktex.MiKTeX" versions="[2.9, 3)"/>
+ </version>
 
     <version name="2.2.2" package="pdfsam64" type="one-file">
   <file path=".Npackd\Install.bat">&#13;
@@ -43613,6 +43774,17 @@ call "%npackdih%\InstallMSI.bat" TARGETDIR yes</file>
 </file>
   <url>https://github.com/picotorrent/picotorrent/releases/download/v0.21.0/PicoTorrent-0.21.0-x64.exe</url>
   <hash-sum type="SHA-256">275d152691825bd69fdae7c5e79ec0a1335765d2817c456aa989acd067ad4207</hash-sum>
+  <dependency package="net.nirsoft.MyUninstaller" versions="[1.74, 2)">
+   <variable>myun</variable>
+  </dependency>
+ </version>
+ <version name="0.22" package="picotorrent-64-bit" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">"%myun%\myuninst.exe" /uninstall "picotorrent-64-bit"&#13;
+</file>
+  <url>https://github.com/picotorrent/picotorrent/releases/download/v0.22.0/PicoTorrent-0.22.0-x64.exe</url>
+  <hash-sum type="SHA-256">d7f36b443dc81463a702caef67b3a1a9bf6539215cfcdd6943f769596f9afc4d</hash-sum>
   <dependency package="net.nirsoft.MyUninstaller" versions="[1.74, 2)">
    <variable>myun</variable>
   </dependency>
@@ -44020,7 +44192,7 @@ verify</file>
  <version name="3.25.2" package="qcad64" type="one-file">
   <file path=".Npackd\Install.bat">call "%nih%\InstallMSI.bat" INSTALLDIR yes&#13;
 </file>
-  <url>http://www.qcad.org/archives/qcad/qcad-3.25.2-trial-win64-installer.msi</url>
+  <url>https://github.com/tim-lebedkov/packages/releases/download/2020_10/qcad64-3.25.2-qcad-3.25.2-trial-win64-installer.msi</url>
   <hash-sum type="SHA-256">eb51199fff267eb1396fd367a60ed5a09d50d58b5c7cf3d6562f4b3e693e3276</hash-sum>
   <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.1, 2)">
    <variable>nih</variable>
@@ -44975,6 +45147,14 @@ if %errorlevel% equ 3010 verify</file>
 </file>
   <url>https://github.com/saenzramiro/rambox/releases/download/0.7.6/Rambox-0.7.6-win.exe</url>
   <hash-sum type="SHA-256">66aa53ddd64760fe3013c5f4c56e0b5d3bdbb55c2d5e6d7ea14ab20181acb9ae</hash-sum>
+ </version>
+ <version name="0.7.7" package="rambox-64-bit" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">uninstall.exe /S _?=%CD%&#13;
+</file>
+  <url>https://github.com/saenzramiro/rambox/releases/download/0.7.7/Rambox-0.7.7-win.exe</url>
+  <hash-sum type="SHA-256">c8327d9f693d930d492fb5985372da5ce6a182559df74d84c8d2dabd8ca421c9</hash-sum>
  </version>
 
     <version name="2015.3.1" package="rdkit64">

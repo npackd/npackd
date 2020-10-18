@@ -2042,6 +2042,60 @@ if %errorlevel% neq 0 exit /b %errorlevel%&#13;
   <hash-sum type="SHA-256">f67945933b8e2ecde3a7c07f216b4b43ea661ba7dc2e04417da6b375f9599e3f</hash-sum>
   <dependency package="net.zlib.ZLibSource" versions="[1.2.5, 1.3)"/>
  </version>
+ <version name="1.1" package="net.sourceforge.quazip.QuaZIPSource">
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b quazip*') do set name=%%x&#13;
+cd "%name%"        &#13;
+for /f "delims=" %%a in ('dir /b') do (&#13;
+  move "%%a" ..&#13;
+)&#13;
+cd ..&#13;
+rmdir "%name%"&#13;
+</file>
+  <file path=".Npackd\Build.bat">rem copy sources&#13;
+xcopy "%npackd_package_dir%" src /E /I /Q&#13;
+if %errorlevel% neq 0 exit /b %errorlevel%&#13;
+&#13;
+if "%npackd_output_package%" equ "quazip-dev-x86_64-w64_seh_posix_8.2-qt_5.12-static" (goto x86_64) else (goto i686)&#13;
+&#13;
+rem configure 64 bit&#13;
+:x86_64&#13;
+set path=C:\msys64\mingw64\bin&#13;
+cd src&#13;
+C:\msys64\mingw64\qt5-static\bin\qmake.exe LIBS+=-lz CONFIG+=staticlib CONFIG+=release DEFINES+=QUAZIP_STATIC&#13;
+if %errorlevel% neq 0 exit /b %errorlevel%&#13;
+goto build&#13;
+&#13;
+rem configure 32 bit&#13;
+:i686&#13;
+set path=C:\msys64\mingw32\bin&#13;
+cd src&#13;
+C:\msys64\mingw32\qt5-static\bin\qmake.exe LIBS+=-lz CONFIG+=staticlib CONFIG+=release DEFINES+=QUAZIP_STATIC&#13;
+if %errorlevel% neq 0 exit /b %errorlevel%&#13;
+goto build&#13;
+&#13;
+rem build&#13;
+:build&#13;
+mingw32-make&#13;
+if %errorlevel% neq 0 exit /b %errorlevel%&#13;
+&#13;
+rem copy the created libraries&#13;
+cd ..&#13;
+mkdir lib&#13;
+if %errorlevel% neq 0 exit /b %errorlevel%&#13;
+copy src\quazip\release\*.a lib&#13;
+if %errorlevel% neq 0 exit /b %errorlevel%&#13;
+&#13;
+rem copy the include files&#13;
+mkdir include&#13;
+if %errorlevel% neq 0 exit /b %errorlevel%&#13;
+copy src\quazip\*.h include&#13;
+if %errorlevel% neq 0 exit /b %errorlevel%&#13;
+		&#13;
+</file>
+  <url>https://github.com/stachenov/quazip/archive/v1.1.zip</url>
+  <hash-sum type="SHA-256">a1ebf43a74d73480db636cf6115196cd781fe94dc55274e1c7777f547b1662c5</hash-sum>
+  <dependency package="net.zlib.ZLibSource" versions="[1.2.5, 1.3)"/>
+ </version>
 
     <version name="1.2.5" package="net.zlib.ZLibSource">
   <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b zlib*') do set name=%%x&#13;
