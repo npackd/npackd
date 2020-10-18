@@ -20,6 +20,7 @@ import (
 
 var changeData = false
 
+// Settings is for global program settings
 type Settings struct {
 	curl          string
 	githubToken   string
@@ -30,36 +31,41 @@ type Settings struct {
 	virusTotalKey string // x-apikey
 }
 
+// Release is a Github release
 type Release struct {
-	Tag_name string
-	Id       int
+	TagName string `json:"tag_name"`
+	ID      int    `json:"id"`
 }
 
+// Asset is a Github release asset
 type Asset struct {
-	Browser_download_url string
-	Id                   int
-	Name                 string
+	BrowserDownloadURL string `json:"browser_download_url"`
+	ID                 int    `json:"id"`
+	Name               string `json:"name"`
 }
 
+// Package is an Npackd package declaration
 type Package struct {
 	Name     string   `xml:"name,attr"`
 	Category []string `xml:"category"`
 	Tag      []string `xml:"tag"`
 }
 
+// PackageVersion is an Npackd package version
 type PackageVersion struct {
 	Name    string `xml:"name,attr"`
 	Package string `xml:"package,attr"`
-	Url     string `xml:"url"`
+	URL     string `xml:"url"`
 }
 
+// Repository is an Npackd repository XML
 type Repository struct {
 	PackageVersion []PackageVersion `xml:"version"`
 	Package        []Package        `xml:"package"`
 }
 
 func indexOf(slice []string, item string) int {
-	for i, _ := range slice {
+	for i := range slice {
 		if slice[i] == item {
 			return i
 		}
@@ -112,7 +118,7 @@ func shufflePackageVersions(array []PackageVersion) {
 func uploadAllToGithub(settings *Settings, url string, releaseID int) error {
 	fmt.Println("Re-uploading packages in " + url)
 
-	bytes, err, _ := download(url, true)
+	bytes, _, err := download(url, true)
 	if err != nil {
 		return err
 	}
@@ -136,26 +142,26 @@ func uploadAllToGithub(settings *Settings, url string, releaseID int) error {
 	n := 0
 	for i := 0; i < len(v.PackageVersion); i++ {
 		var pv = v.PackageVersion[i]
-		var package_ = pv.Package
+		var p = pv.Package
 		var version = pv.Name
-		var url = pv.Url
+		var url = pv.URL
 
-		_, ok := packages[package_]
+		_, ok := packages[p]
 
 		if ok && strings.Index(url,
 			"https://github.com/tim-lebedkov/packages/releases/download/") != 0 &&
 			url != "" {
-			fmt.Println("https://www.npackd.org/p/" + package_ + "/" + version)
+			fmt.Println("https://www.npackd.org/p/" + p + "/" + version)
 
-			newURL, err := uploadToGithub(settings, url, package_, version, releaseID)
+			newURL, err := uploadToGithub(settings, url, p, version, releaseID)
 			if err != nil {
 				fmt.Println(err.Error())
 			} else {
-				err, _ = apiSetURL(settings, package_, version, newURL)
+				_, err = apiSetURL(settings, p, version, newURL)
 				if err == nil {
-					fmt.Println(package_ + " " + version + " changed URL")
+					fmt.Println(p + " " + version + " changed URL")
 				} else {
-					fmt.Println("Failed to change URL for " + package_ + " " + version)
+					fmt.Println("Failed to change URL for " + p + " " + version)
 				}
 			}
 			fmt.Println("------------------------------------------------------------------")
@@ -172,7 +178,7 @@ func uploadAllToGithub(settings *Settings, url string, releaseID int) error {
 }
 
 // from: URL
-func uploadToGithub(settings *Settings, from string, package_ string,
+func uploadToGithub(settings *Settings, from string, fullPackage string,
 	version string, releaseID int) (string, error) {
 	fmt.Println("Re-uploading " + from + " to Github")
 	var mime = "application/vnd.microsoft.portable-executable" // "application/octet-stream";
@@ -183,7 +189,7 @@ func uploadToGithub(settings *Settings, from string, package_ string,
 	}
 
 	var p = strings.LastIndex(u.Path, "/")
-	var file = package_ + "-" + version + "-" + u.Path[p+1:]
+	var file = fullPackage + "-" + version + "-" + u.Path[p+1:]
 
 	var cmd = "-f -L --connect-timeout 30 --max-time 900 " + from + " --output " + file
 	fmt.Println(cmd)
@@ -272,25 +278,25 @@ func deleteGithubReleaseAsset(settings *Settings, user string, project string, a
 	//fmt.Println("response Headers : ", resp.Header)
 	//fmt.Println("response Body : ", string(respBody))
 
-	if resp.StatusCode / 100 != 2 {
+	if resp.StatusCode/100 != 2 {
 		return errors.New("Cannot delete a Github release asset")
 	}
 
 	return nil
 }
 
-func exec_(program string, params string, showParameters bool) int {
+func exec3(program string, params string, showParameters bool) int {
 	exitCode, _ := exec2("", "cmd.exe", "/s /c \""+program+"\" "+params+" 2>&1\"", showParameters)
 	return exitCode
 }
 
 /**
- * @param package_ full package name
+ * @param packageName full package name
  * @param version version number or null for "newest"
  * @return path to the specified package or "" if not installed
  */
-func getPath(settings *Settings, package_ string, version string) string {
-	params := "path -p " + package_
+func getPath(settings *Settings, packageName string, version string) string {
+	params := "path -p " + packageName
 	if version != "" {
 		params = params + " -v " + version
 	}
@@ -298,10 +304,7 @@ func getPath(settings *Settings, package_ string, version string) string {
 	_, lines := exec2("", settings.npackdcl, params, true)
 	if len(lines) > 0 {
 		return lines[0]
-	} else {
-		return ""
 	}
-
 	return ""
 }
 
@@ -316,9 +319,9 @@ func getPath(settings *Settings, package_ string, version string) string {
  * @param success true if the operation was successful
  */
 func apiNotify(settings *Settings,
-	package_ string, version string, install bool, success bool) {
+	packageName string, version string, install bool, success bool) {
 	url := "https://npackd.appspot.com/api/notify?package=" +
-		package_ + "&version=" + version +
+		packageName + "&version=" + version +
 		"&password=" + settings.password +
 		"&install="
 	if install {
@@ -347,10 +350,10 @@ func apiNotify(settings *Settings,
  *     removed
  * @return true if the call to the web service succeeded, false otherwise
  */
-func apiTag(settings *Settings, package_ string, version string, tag string,
+func apiTag(settings *Settings, packageName string, version string, tag string,
 	set bool) error {
 	url := "https://npackd.appspot.com/api/tag?package=" +
-		package_ + "&version=" + version +
+		packageName + "&version=" + version +
 		"&password=" + settings.password +
 		"&name=" + tag +
 		"&value="
@@ -360,7 +363,7 @@ func apiTag(settings *Settings, package_ string, version string, tag string,
 		url = url + "0"
 	}
 
-	_, err, _ := download(url, false)
+	_, _, err := download(url, false)
 	return err
 }
 
@@ -372,14 +375,14 @@ func apiTag(settings *Settings, package_ string, version string, tag string,
  * @param url new URL
  * @return true if the call to the web service succeeded, false otherwise
  */
-func apiSetURL(settings *Settings, package_ string, version string, url_ string) (error, int) {
+func apiSetURL(settings *Settings, packageName string, version string, newURL string) (int, error) {
 	a := "https://npackd.appspot.com/api/set-url?package=" +
-		package_ + "&version=" + version +
+		packageName + "&version=" + version +
 		"&password=" + settings.password +
-		"&url=" + url.QueryEscape(url_)
+		"&url=" + url.QueryEscape(newURL)
 
-	_, err, statusCode := download(a, false)
-	return err, statusCode
+	_, statusCode, err := download(a, false)
+	return statusCode, err
 }
 
 /**
@@ -389,67 +392,67 @@ func apiSetURL(settings *Settings, package_ string, version string, url_ string)
  * @param version version number
  * @return true if the test was successful
  */
-func processPackageVersion(settings *Settings, package_ string, version string) bool {
-	ec, _ := exec2("", settings.npackdcl, "add --package="+package_+
+func processPackageVersion(settings *Settings, packageName string, version string) bool {
+	ec, _ := exec2("", settings.npackdcl, "add --package="+packageName+
 		" --version="+version+" -t 600", true)
 	if ec != 0 {
 		fmt.Println("npackdcl.exe add failed")
-		apiNotify(settings, package_, version, true, false)
-		apiTag(settings, package_, version, "test-failed", true)
+		apiNotify(settings, packageName, version, true, false)
+		apiTag(settings, packageName, version, "test-failed", true)
 
-		log := package_ + "-" + version + "-install.log"
-		exec2("", "cmd.exe", "/C \""+settings.npackdcl+"\" add -d --package="+package_+
+		log := packageName + "-" + version + "-install.log"
+		exec2("", "cmd.exe", "/C \""+settings.npackdcl+"\" add -d --package="+packageName+
 			" --version="+version+" -t 600 > "+log+" 2>&1", true)
 		exec2("", "appveyor", "PushArtifact "+log, true)
 
 		return false
 	}
-	apiNotify(settings, package_, version, true, true)
+	apiNotify(settings, packageName, version, true, true)
 
-	var path = getPath(settings, package_, version)
+	var path = getPath(settings, packageName, version)
 	fmt.Println("where=" + path)
 	if path != "" {
-		var tree = package_ + "-" + version + "-tree.txt"
+		var tree = packageName + "-" + version + "-tree.txt"
 		exec2("", "cmd.exe", "/c tree \""+path+"\" /F > "+tree+" 2>&1", true)
 		exec2("", "appveyor", "PushArtifact "+tree, true)
 
 		exec2("", "cmd.exe", "/c dir \""+path+"\"", true)
 
-		var msilist = package_ + "-" + version + "-msilist.txt"
+		var msilist = packageName + "-" + version + "-msilist.txt"
 		exec2("", "cmd.exe", "/c \"C:\\Program Files (x86)\\CLU\\clu.exe\" list-msi > "+msilist+" 2>&1", true)
 		exec2("", "appveyor", "PushArtifact "+msilist, true)
 
-		var info = package_ + "-" + version + "-info.txt"
-		exec2("", "cmd.exe", "/C \""+settings.npackdcl+"\" info --package="+package_+
+		var info = packageName + "-" + version + "-info.txt"
+		exec2("", "cmd.exe", "/C \""+settings.npackdcl+"\" info --package="+packageName+
 			" --version="+version+" > "+info+" 2>&1", true)
 		exec2("", "appveyor", "PushArtifact "+info, true)
 
-		var list = package_ + "-" + version + "-list.txt"
+		var list = packageName + "-" + version + "-list.txt"
 		exec2("", "cmd.exe", "/C \""+settings.npackdcl+"\" list > "+list+" 2>&1", true)
 		exec2("", "appveyor", "PushArtifact "+list, true)
 
-		var proglist = package_ + "-" + version + "-proglist.txt"
+		var proglist = packageName + "-" + version + "-proglist.txt"
 		exec2("", "cmd.exe", "/c \"C:\\Program Files (x86)\\Sysinternals_suite\\psinfo.exe\" -s /accepteula > "+proglist+" 2>&1", true)
 		exec2("", "appveyor", "PushArtifact "+proglist, true)
 	}
 
-	ec, _ = exec2("", settings.npackdcl, "remove -e=ck --package="+package_+
+	ec, _ = exec2("", settings.npackdcl, "remove -e=ck --package="+packageName+
 		" --version="+version+" -t 600", true)
 	if ec != 0 {
 		fmt.Println("npackdcl.exe remove failed")
-		apiNotify(settings, package_, version, false, false)
-		apiTag(settings, package_, version, "test-failed", true)
+		apiNotify(settings, packageName, version, false, false)
+		apiTag(settings, packageName, version, "test-failed", true)
 
-		var log = package_ + "-" + version + "-uninstall.log"
+		var log = packageName + "-" + version + "-uninstall.log"
 		exec2("", "cmd.exe", "/C \""+settings.npackdcl+
-			"\" remove -d -e=ck --package="+package_+
+			"\" remove -d -e=ck --package="+packageName+
 			" --version="+version+" -t 600 > "+log+" 2>&1", true)
 		exec2("", "appveyor", "PushArtifact "+log, true)
 
 		return false
 	}
-	apiNotify(settings, package_, version, false, true)
-	apiTag(settings, package_, version, "test-failed", false)
+	apiNotify(settings, packageName, version, false, true)
+	apiTag(settings, packageName, version, "test-failed", false)
 	return true
 }
 
@@ -504,7 +507,7 @@ func compareVersions(a string, b string) int {
 func processURL(url string, settings *Settings, onlyNewest bool) error {
 	var start = time.Now()
 
-	bytes, err, _ := download(url, true)
+	bytes, _, err := download(url, true)
 	if err != nil {
 		return err
 	}
@@ -559,21 +562,21 @@ func processURL(url string, settings *Settings, onlyNewest bool) error {
 
 	for i := range pvs {
 		var pv = pvs[i]
-		var package_ = pv.Package
+		var p = pv.Package
 		var version = pv.Name
 
-		fmt.Println(package_ + " " + version)
-		fmt.Println("https://www.npackd.org/p/" + package_ + "/" + version)
+		fmt.Println(p + " " + version)
+		fmt.Println("https://www.npackd.org/p/" + p + "/" + version)
 
-		if indexOf(bigPackages, package_) >= 0 {
-			fmt.Println(package_ + " " + version + " ignored because of the download size")
-		} else if !processPackageVersion(settings, package_, version) {
-			failed = append(failed, package_+"@"+version)
+		if indexOf(bigPackages, p) >= 0 {
+			fmt.Println(p + " " + version + " ignored because of the download size")
+		} else if !processPackageVersion(settings, p, version) {
+			failed = append(failed, p+"@"+version)
 		} else {
-			if apiTag(settings, package_, version, "untested", false) == nil {
-				fmt.Println(package_ + " " + version + " was marked as tested")
+			if apiTag(settings, p, version, "untested", false) == nil {
+				fmt.Println(p + " " + version + " was marked as tested")
 			} else {
-				fmt.Println("Failed to mark " + package_ + " " + version + " as tested")
+				fmt.Println("Failed to mark " + p + " " + version + " as tested")
 			}
 		}
 		fmt.Println("==================================================================")
@@ -589,13 +592,16 @@ func processURL(url string, settings *Settings, onlyNewest bool) error {
 			fmt.Println(failed[i])
 		}
 		return errors.New("Some packages failed")
-	} else {
-		fmt.Println("All packages are OK in " + url)
 	}
+
+	fmt.Println("All packages are OK in " + url)
 
 	return nil
 }
 
+// Creates a tag "YYYY_MM" in https://github.com/tim-lebedkov/packages
+//
+// settings: settings
 func updatePackagesProject(settings *Settings) error {
 	settings.packagesTag = time.Now().Format("2006_01")
 
@@ -723,27 +729,27 @@ func createRelease(settings *Settings) error {
 	return nil
 }
 
-func download(url_ string, showParameters bool) (*bytes.Buffer, error, int) {
+func download(address string, showParameters bool) (*bytes.Buffer, int, error) {
 	if showParameters {
-		fmt.Println("Downloading " + url_)
+		fmt.Println("Downloading " + address)
 	} else {
-		u, err := url.Parse(url_)
+		u, err := url.Parse(address)
 		if err != nil {
-			return nil, err, 0
+			return nil, 0, err
 		}
 		fmt.Println("Downloading " + u.Scheme + "://" + u.Host + u.EscapedPath() + "?<<<parameters hidden>>>")
 	}
 
 	// Get the data
-	resp, err := http.Get(url_)
+	resp, err := http.Get(address)
 	if err != nil {
-		return nil, err, 0
+		return nil, 0, err
 	}
 	defer resp.Body.Close()
 
 	// Check server response
 	if resp.StatusCode != http.StatusOK {
-		return nil, fmt.Errorf("bad status: %s", resp.Status), resp.StatusCode
+		return nil, resp.StatusCode, fmt.Errorf("bad status: %s", resp.Status)
 	}
 
 	b := new(bytes.Buffer)
@@ -751,10 +757,10 @@ func download(url_ string, showParameters bool) (*bytes.Buffer, error, int) {
 	// Write the body to file
 	_, err = io.Copy(b, resp.Body)
 	if err != nil {
-		return nil, err, resp.StatusCode
+		return nil, resp.StatusCode, err
 	}
 
-	return b, nil, resp.StatusCode
+	return b, resp.StatusCode, nil
 }
 
 func createSettings() Settings {
@@ -780,7 +786,7 @@ func createSettings() Settings {
 // user: Github user name
 // project: Github project name
 func getReleases(user string, project string) ([]Release, error) {
-	b, err, _ := download("https://api.github.com/repos/"+user+"/"+project+"/releases", true)
+	b, _, err := download("https://api.github.com/repos/"+user+"/"+project+"/releases", true)
 	if err != nil {
 		return nil, err
 	}
@@ -800,7 +806,7 @@ func getReleases(user string, project string) ([]Release, error) {
 // id: release ID
 // Returns: (assets, error message)
 func getReleaseAssets(user string, project string, id int) ([]Asset, error) {
-	b, err, _ := download("https://api.github.com/repos/" + user + "/" + project + "/releases/"+
+	b, _, err := download("https://api.github.com/repos/"+user+"/"+project+"/releases/"+
 		strconv.Itoa(id)+"/assets", true)
 	if err != nil {
 		return nil, err
@@ -817,11 +823,11 @@ func getReleaseAssets(user string, project string, id int) ([]Asset, error) {
 
 }
 
-func findRelease(releases []Release, tag_name string) int {
+func findRelease(releases []Release, tagName string) int {
 	releaseID := 0
 	for _, r := range releases {
-		if r.Tag_name == tag_name {
-			releaseID = r.Id
+		if r.TagName == tagName {
+			releaseID = r.ID
 			break
 		}
 	}
@@ -833,7 +839,7 @@ func findAsset(assets []Asset, filename string) int {
 	id := 0
 	for _, r := range assets {
 		if r.Name == filename {
-			id = r.Id
+			id = r.ID
 			break
 		}
 	}
@@ -852,25 +858,25 @@ func downloadBinaries(dir string) error {
 	fmt.Println(strconv.Itoa(len(releases)) + " releases found")
 
 	for _, release := range releases {
-		fmt.Println("Processing release " + release.Tag_name)
+		fmt.Println("Processing release " + release.TagName)
 
-		assets, err := getReleaseAssets("tim-lebedkov", "packages", release.Id)
+		assets, err := getReleaseAssets("tim-lebedkov", "packages", release.ID)
 		if err != nil {
 			return err
 		}
 
 		fmt.Println("Found " + strconv.Itoa(len(assets)) +
-			" assets in the release " + release.Tag_name)
+			" assets in the release " + release.TagName)
 
 		for _, asset := range assets {
-			path := dir + "/" + release.Tag_name + "/" + asset.Name
+			path := dir + "/" + release.TagName + "/" + asset.Name
 			if _, err := os.Stat(path); os.IsNotExist(err) {
-				bytes, err, _ := download(asset.Browser_download_url, true)
+				bytes, _, err := download(asset.BrowserDownloadURL, true)
 				if err != nil {
 					return err
 				}
 
-				err = os.MkdirAll(dir+"/"+release.Tag_name, 0777)
+				err = os.MkdirAll(dir+"/"+release.TagName, 0777)
 				if err != nil {
 					return err
 				}
@@ -930,6 +936,8 @@ func process() error {
 		uploadAllToGithub(&settings, "https://npackd.appspot.com/rep/xml?tag="+rep, releaseID)
 	}
 
+	// unsafe zone. Here we run code from external sites.
+
 	processURL("https://npackd.appspot.com/rep/recent-xml?tag=untested",
 		&settings, false)
 
@@ -949,6 +957,7 @@ func process() error {
 
 	processURL("https://npackd.appspot.com/rep/xml?tag="+reps[index],
 		&settings, newest)
+
 	return nil
 }
 
@@ -971,8 +980,8 @@ func correctURLs() error {
 
 	// set URL for every package version
 	for _, pv := range v.PackageVersion {
-		if pv.Url != "" {
-			url := pv.Url
+		if pv.URL != "" {
+			url := pv.URL
 
 			prefix := "https://ayera.dl.sourceforge.net/project/"
 			if strings.HasPrefix(url, prefix) {
@@ -982,12 +991,12 @@ func correctURLs() error {
 				url = "https://sourceforge.net/projects/" + parts[0] + "/files/" + url
 			}
 
-			if url != pv.Url {
+			if url != pv.URL {
 				fmt.Println("Changing URL for " + pv.Package + " " + pv.Name)
-				fmt.Println("    from " + pv.Url)
+				fmt.Println("    from " + pv.URL)
 				fmt.Println("    to " + url)
 
-				err, statusCode := apiSetURL(&settings, pv.Package, pv.Name, url)
+				statusCode, err := apiSetURL(&settings, pv.Package, pv.Name, url)
 				if err != nil && statusCode != http.StatusNotFound {
 					return err
 				}
