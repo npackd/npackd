@@ -5663,6 +5663,46 @@ if "%setup%" neq "" "%setup%" -uninstall&#13;
 </file>
   <url>https://download.macromedia.com/pub/flashplayer/pdc/32.0.0.433/install_flash_player_32_plugin.msi</url>
  </version>
+ <version name="32.0.0.445" package="com.adobe.FlashPlayerActiveX64" type="one-file">
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.msi') do set setup=%%x&#13;
+mkdir .Npackd&#13;
+move "%setup%" .Npackd&#13;
+set err=%errorlevel%&#13;
+if %err% neq 0 exit %err%&#13;
+&#13;
+rem MSIFASTINSTALL: http://msdn.microsoft.com/en-us/library/dd408005%28v=VS.85%29.aspx&#13;
+msiexec.exe /qn /norestart /Lime .Npackd\InstallMSI.log /i ".Npackd\%setup%" INSTALLDIR="%CD%" ALLUSERS=1 MSIFASTINSTALL=7&#13;
+set err=%errorlevel%&#13;
+type .Npackd\InstallMSI.log&#13;
+&#13;
+rem list of errors: http://msdn.microsoft.com/en-us/library/windows/desktop/aa368542(v=vs.85).aspx&#13;
+rem 3010=restart required&#13;
+if %err% equ 3010 goto cont&#13;
+if %err% neq 0 exit %err%&#13;
+&#13;
+:cont&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">move .Npackd\*.msi .&#13;
+for /f "delims=" %%x in ('dir /b *.msi') do set setup=%%x&#13;
+&#13;
+rem MSIFASTINSTALL: http://msdn.microsoft.com/en-us/library/dd408005%28v=VS.85%29.aspx&#13;
+msiexec.exe /qn /norestart /Lime .Npackd\UninstallMSI.log /x "%setup%" MSIFASTINSTALL=7&#13;
+set err=%errorlevel%&#13;
+type .Npackd\UninstallMSI.log&#13;
+rem 3010=restart required&#13;
+if %err% equ 3010 goto cont&#13;
+if %err% neq 0 exit %err%&#13;
+&#13;
+:cont&#13;
+if not exist "%ProgramFiles(x86)%" set d=%windir%\System32\Macromed\Flash&#13;
+if exist "%ProgramFiles(x86)%" set d=%windir%\SysWOW64\Macromed\Flash&#13;
+cd "%d%"&#13;
+set setup=&#13;
+for /f "delims=" %%x in ('dir /b FlashUtil32*ActiveX.exe') do set setup=%%x&#13;
+if "%setup%" neq "" "%setup%" -uninstall&#13;
+</file>
+  <url>https://download.macromedia.com/pub/flashplayer/pdc/32.0.0.445/install_flash_player_32_plugin.msi</url>
+ </version>
 
     <version name="1.16" package="com.alcpu.CoreTemp64">
   <url>http://www.alcpu.com/CoreTemp/CoreTemp64.zip</url>
@@ -18888,6 +18928,19 @@ rmdir "%name%"&#13;
 </file>
   <url>https://dl.google.com/dl/cloudsdk/channels/rapid/downloads/google-cloud-sdk-306.0.0-windows-x86_64.zip</url>
   <hash-sum type="SHA-256">988712872a3570b1d92919ac053e6ca79f2de4cec356a61ac44494b78ffb81b6</hash-sum>
+  <dependency package="org.python.Python" versions="[2.7, 2.8)"/>
+ </version>
+ <version name="314" package="google-cloud-sdk64">
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b google-cloud-sdk*') do set name=%%x&#13;
+cd "%name%"&#13;
+for /f "delims=" %%a in ('dir /b') do (&#13;
+  move "%%a" ..&#13;
+)&#13;
+cd ..&#13;
+rmdir "%name%"&#13;
+</file>
+  <url>https://dl.google.com/dl/cloudsdk/channels/rapid/downloads/google-cloud-sdk-314.0.0-windows-x86_64.zip</url>
+  <hash-sum type="SHA-256">faa7f49fc53d73c4a621863f3b150290cc92abe1f00548d125097b7844d65953</hash-sum>
   <dependency package="org.python.Python" versions="[2.7, 2.8)"/>
  </version>
 
@@ -34405,7 +34458,7 @@ if %errorlevel% neq 0 exit /b %errorlevel%&#13;
 </file>
   <file path=".Npackd\Unnstall.bat">miktex\bin\miktexsetup.exe --verbose --shared uninstall&#13;
 </file>
-  <url>https://miktex.org/download/ctan/systems/win32/miktex/setup/windows-x64/basic-miktex-20.10-x64.exe</url>
+  <url>https://github.com/tim-lebedkov/packages/releases/download/2020_10/org.miktex.MiKTeX64-20.10-basic-miktex-20.10-x64.exe</url>
   <hash-sum type="SHA-256">cb9434d9ba0cedb480500f9bdfe437cd08fb57583704cabab5697e53bfba610b</hash-sum>
  </version>
 
