@@ -5,6 +5,7 @@ import (
 	"encoding/json"
 	"encoding/xml"
 	"errors"
+	"flag"
 	"fmt"
 	"io"
 	"io/ioutil"
@@ -14,7 +15,6 @@ import (
 	"os"
 	"strconv"
 	"strings"
-
 	"time"
 )
 
@@ -892,7 +892,7 @@ func downloadBinaries(dir string) error {
 	return nil
 }
 
-func process() error {
+func downloadRepositories() error {
 	var settings Settings = createSettings()
 
 	downloadRepos(&settings)
@@ -927,16 +927,18 @@ func process() error {
 
 	fmt.Printf("Found release ID: %d\n", releaseID)
 
-	// print curl version
-	// exec2("", settings.curl, "--version", true)
-
 	reps := []string{"stable", "stable64", "libs"}
 
 	for _, rep := range reps {
 		uploadAllToGithub(&settings, "https://npackd.appspot.com/rep/xml?tag="+rep, releaseID)
 	}
 
-	// unsafe zone. Here we run code from external sites.
+	return nil
+}
+
+// unsafe zone. Here we run code from external sites.
+func testPackages() error {
+	var settings Settings = createSettings()
 
 	processURL("https://npackd.appspot.com/rep/recent-xml?tag=untested",
 		&settings, false)
@@ -954,6 +956,8 @@ func process() error {
 
 	// 9 of 10 times only check the newest versions
 	var newest = rand.Float32() < 0.9
+
+	reps := []string{"stable", "stable64", "libs"}
 
 	processURL("https://npackd.appspot.com/rep/xml?tag="+reps[index],
 		&settings, newest)
@@ -1007,23 +1011,33 @@ func correctURLs() error {
 	return nil
 }
 
+var command = flag.String("command", "test-packages", "the action that should be performed")
+var target = flag.String("target", "", "directory where the downloaded binaries are stored")
+
 // Download binaries from Github to a directory:
-// PASSWORD=xxxx go run TestUnstableRep.go TestUnstableRep_linux.go -- download-binaries /target/directory
+// go run TestUnstableRep.go TestUnstableRep_linux.go -- -command download-binaries -target /target/directory
 //
 // Correct URLs for packages at npackd.org:
-// PASSWORD=xxxx go run TestUnstableRep.go TestUnstableRep_linux.go -- correct-urls
+// PASSWORD=xxxx go run TestUnstableRep.go TestUnstableRep_linux.go -- -command correct-urls
 //
-// Normal run on AppVeyor:
+// Download repositories from npackd.org to github.com/tim-lebedkov/npackd:
+// github_token=xxxxx PASSWORD=xxxx go run TestUnstableRep.go TestUnstableRep_linux.go -- -command download-repositories
+//
+// Test packages on AppVeyor:
 // github_token=xxxxx PASSWORD=xxxx go run TestUnstableRep.go TestUnstableRep_linux.go
 func main() {
 	var err error = nil
 
-	if len(os.Args) > 2 && os.Args[1] == "download-binaries" {
-		err = downloadBinaries(os.Args[2])
-	} else if len(os.Args) > 2 && os.Args[2] == "correct-urls" {
+	flag.Parse()
+
+	if *command == "download-binaries" {
+		err = downloadBinaries(*target)
+	} else if *command == "correct-urls" {
 		err = correctURLs()
+	} else if *command == "download-repositories" {
+		err = downloadRepositories()
 	} else {
-		err = process()
+		err = testPackages()
 	}
 
 	if err != nil {
