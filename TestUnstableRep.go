@@ -1015,13 +1015,13 @@ var command = flag.String("command", "test-packages", "the action that should be
 var target = flag.String("target", "", "directory where the downloaded binaries are stored")
 
 // Download binaries from Github to a directory:
-// go run TestUnstableRep.go TestUnstableRep_linux.go -- -command download-binaries -target /target/directory
+// go run TestUnstableRep.go TestUnstableRep_linux.go -command download-binaries -target /target/directory
 //
 // Correct URLs for packages at npackd.org:
-// PASSWORD=xxxx go run TestUnstableRep.go TestUnstableRep_linux.go -- -command correct-urls
+// PASSWORD=xxxx go run TestUnstableRep.go TestUnstableRep_linux.go -command correct-urls
 //
 // Download repositories from npackd.org to github.com/tim-lebedkov/npackd:
-// github_token=xxxxx PASSWORD=xxxx go run TestUnstableRep.go TestUnstableRep_linux.go -- -command download-repositories
+// github_token=xxxxx PASSWORD=xxxx go run TestUnstableRep.go TestUnstableRep_linux.go -command download-repositories
 //
 // Test packages on AppVeyor:
 // github_token=xxxxx PASSWORD=xxxx go run TestUnstableRep.go TestUnstableRep_linux.go
