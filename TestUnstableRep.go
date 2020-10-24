@@ -285,11 +285,6 @@ func deleteGithubReleaseAsset(settings *Settings, user string, project string, a
 	return nil
 }
 
-func exec3(program string, params string, showParameters bool) int {
-	exitCode, _ := exec2("", "cmd.exe", "/s /c \""+program+"\" "+params+" 2>&1\"", showParameters)
-	return exitCode
-}
-
 /**
  * @param packageName full package name
  * @param version version number or null for "newest"
@@ -625,69 +620,50 @@ func updatePackagesProject(settings *Settings) error {
 	return nil
 }
 
-// Uploads repositories from npackd.org to
-// https://github.com/tim-lebedkov/npackd/releases/tag/v1
-//
-// settings: settings
-func uploadReposToGithub(settings *Settings) error {
-	files := []string{"repository/Rep.xml", "repository/Libs.xml", "repository/Rep64.xml", "repository/RepUnstable.xml"}
-	targetFiles := []string{"stable.xml", "libs.xml", "stable64.xml", "unstable.xml"}
-
-	releases, err := getReleases("tim-lebedkov", "npackd")
-	if err != nil {
-		return err
+func downloadRepos(settings *Settings) error {
+	// download the newest repository files and commit them to the project
+	ec, _ := exec2("", settings.git, "checkout master", true)
+	if ec != 0 {
+		return errors.New("Program execution failed")
 	}
 
-	releaseID := findRelease(releases, "v1")
-	if releaseID <= 0 {
-		return errors.New("Release not found")
-	}
-
-	assets, err := getReleaseAssets("tim-lebedkov", "npackd", releaseID)
-	if err != nil {
-		return err
-	}
-
-	for i := range files {
-		assetID := findAsset(assets, targetFiles[i])
-		if assetID > 0 {
-			println(targetFiles[i] + " deleting..." + strconv.Itoa(assetID))
-			deleteGithubReleaseAsset(settings, "tim-lebedkov", "npackd", assetID)
-		} else {
-			println(targetFiles[i] + " not found")
+	reps := []string{"unstable", "stable", "stable64", "libs"}
+	for _, s := range(reps) {
+		err := downloadToFile("https://www.npackd.org/rep/xml?tag=" + s + "&create=true", 
+			"repository/" + s + ".xml")
+		if err != nil {
+			return err
 		}
 
-		err := createGithubReleaseAsset(settings, "tim-lebedkov", "npackd", files[i], targetFiles[i], "application/xml", releaseID)
+		err = downloadToFile("https://www.npackd.org/rep/zip?tag=" + s + "&create=true", 
+			"repository/" + s + ".zip")
 		if err != nil {
 			return err
 		}
 	}
 
+	ec, _ = exec2("", settings.git, "config --global user.email \"tim.lebedkov@gmail.com\"", true)
+	if ec != 0 {
+		return errors.New("Program execution failed")
+	}
+
+	ec, _ = exec2("", settings.git, "config --global user.name \"tim-lebedkov\"", true)
+	if ec != 0 {
+		return errors.New("Program execution failed")
+	}
+
+	ec, _ = exec2("", settings.git, "commit -a -m \"Automatic data transfer from https://www.npackd.org\"", true)
+	if ec != 0 {
+		return errors.New("Program execution failed")
+	}
+
+	ec, _ = exec2("", settings.git, "push https://tim-lebedkov:"+settings.githubToken+
+		"@github.com/npackd/npackd.git", false)
+	if ec != 0 {
+		return errors.New("Program execution failed")
+	}
+	
 	return nil
-}
-
-func downloadRepos(settings *Settings) {
-	// download the newest repository files and commit them to the project
-	exec2("", settings.git, "checkout master", true)
-
-	exec2("", settings.curl, "-f -o repository/RepUnstable.xml "+
-		"https://www.npackd.org/rep/xml?tag=unstable&create=true", true)
-
-	exec2("", settings.curl, "-f -o repository/Rep.xml "+
-		"https://www.npackd.org/rep/xml?tag=stable&create=true", true)
-
-	exec2("", settings.curl, "-f -o repository/Rep64.xml "+
-		"https://www.npackd.org/rep/xml?tag=stable64&create=true", true)
-
-	exec2("", settings.curl, "-f -o repository/Libs.xml "+
-		"https://www.npackd.org/rep/xml?tag=libs&create=true", true)
-
-	exec2("", settings.git, "config --global user.email \"tim.lebedkov@gmail.com\"", true)
-	exec2("", settings.git, "config --global user.name \"tim-lebedkov\"", true)
-	exec2("", settings.git, "commit -a -m \"Automatic data transfer from https://www.npackd.org\"", true)
-
-	exec2("", settings.git, "push https://tim-lebedkov:"+settings.githubToken+
-		"@github.com/tim-lebedkov/npackd.git", false)
 }
 
 func createRelease(settings *Settings) error {
@@ -761,6 +737,25 @@ func download(address string, showParameters bool) (*bytes.Buffer, int, error) {
 	}
 
 	return b, resp.StatusCode, nil
+}
+
+// Download to a file
+//
+// url: URL for HTTP GET
+// path: output file
+// Returns: error message
+func downloadToFile(url, path string) error {
+	bytes, _, err := download(url, true)
+	if err != nil {
+		return err
+	}
+
+	err = ioutil.WriteFile(path, bytes.Bytes(), 0644)
+	if err != nil {
+		return err
+	}
+
+	return nil
 }
 
 func createSettings() Settings {
@@ -895,9 +890,7 @@ func downloadBinaries(dir string) error {
 func downloadRepositories() error {
 	var settings Settings = createSettings()
 
-	downloadRepos(&settings)
-
-	err := uploadReposToGithub(&settings)
+	err := downloadRepos(&settings)
 	if err != nil {
 		return err
 	}
@@ -1020,7 +1013,7 @@ var target = flag.String("target", "", "directory where the downloaded binaries 
 // Correct URLs for packages at npackd.org:
 // PASSWORD=xxxx go run TestUnstableRep.go TestUnstableRep_linux.go -command correct-urls
 //
-// Download repositories from npackd.org to github.com/tim-lebedkov/npackd:
+// Download repositories from npackd.org to github.com/npackd/npackd:
 // github_token=xxxxx PASSWORD=xxxx go run TestUnstableRep.go TestUnstableRep_linux.go -command download-repositories
 //
 // Test packages on AppVeyor:
