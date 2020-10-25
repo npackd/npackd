@@ -902,6 +902,8 @@ func downloadBinaries(dir string) error {
 }
 
 func uploadBinariesToGithub() error {
+	fmt.Println("Re-uploading binaries to github.com")
+
 	err := updatePackagesProject()
 	if err != nil {
 		return err
