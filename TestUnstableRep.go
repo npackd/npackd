@@ -997,7 +997,7 @@ func checkOneForUpdates(p *Package, maxVersion []int) ([]int, error) {
 			return nil, errors.New("No first sub-group is found for the regular expression")
 		}
 
-		version := string(f[0])
+		version := string(f[1])
 		v, err := parseVersion(version)
 		if err != nil {
 			return nil, err
