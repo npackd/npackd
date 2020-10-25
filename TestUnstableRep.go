@@ -1063,11 +1063,7 @@ func checkForUpdates() error {
 	return nil
 }
 
-func maintenance(password string, githubToken string) error {
-	createSettings()
-	settings.password = password
-	settings.githubToken = githubToken
-
+func maintenance() error {
 	err := downloadRepos()
 	if err != nil {
 		return err
@@ -1088,8 +1084,6 @@ func maintenance(password string, githubToken string) error {
 
 // unsafe zone. Here we run code from external sites.
 func testPackages() error {
-	createSettings()
-
 	processURL("https://npackd.appspot.com/rep/recent-xml?tag=untested",
 		false)
 
@@ -1116,12 +1110,7 @@ func testPackages() error {
 }
 
 // correct URLs on npackd.org from an XML file
-//
-// password: npackd.org password
-func correctURLs(password string) error {
-	createSettings()
-	settings.password = password
-
+func correctURLs() error {
 	dat, err := ioutil.ReadFile("repository/stable.xml")
 	if err != nil {
 		return err
@@ -1165,20 +1154,18 @@ func correctURLs(password string) error {
 
 var command = flag.String("command", "test-packages", "the action that should be performed")
 var target = flag.String("target", "", "directory where the downloaded binaries are stored")
-var password = flag.String("password", "", "npackd.org password")
-var githubToken = flag.String("github-token", "", "github.org token")
 
 // Download binaries from Github to a directory:
 // go run TestUnstableRep.go TestUnstableRep_linux.go -command download-binaries -target /target/directory
 //
 // Correct URLs for packages at npackd.org:
-// go run TestUnstableRep.go TestUnstableRep_linux.go -command correct-urls -password PASSWORD
+// PASSWORD=xxx go run TestUnstableRep.go TestUnstableRep_linux.go -command correct-urls -password PASSWORD
 //
 // Download repositories from npackd.org to github.com/npackd/npackd, re-upload packages to github.com/tim-lebedkov/packages:
-// go run TestUnstableRep.go TestUnstableRep_linux.go -command maintenance -password PASSWORD -github-token GITHUB_TOKEN
+// PASSWORD=xxx GITHUB_TOKEN=xxx go run TestUnstableRep.go TestUnstableRep_linux.go -command maintenance
 //
 // Test packages on AppVeyor:
-// go run TestUnstableRep.go TestUnstableRep_linux.go -password PASSWORD
+// PASSWORD=xxx go run TestUnstableRep.go TestUnstableRep_linux.go -password PASSWORD
 func main() {
 	var err error = nil
 
@@ -1186,12 +1173,14 @@ func main() {
 
 	rand.Seed(time.Now().UnixNano())
 
+	createSettings()
+
 	if *command == "download-binaries" {
 		err = downloadBinaries(*target)
 	} else if *command == "correct-urls" {
-		err = correctURLs(*password)
+		err = correctURLs()
 	} else if *command == "maintenance" {
-		err = maintenance(*password, *githubToken)
+		err = maintenance()
 	} else {
 		err = testPackages()
 	}
