@@ -591,17 +591,23 @@ func processURL(url string, onlyNewest bool) error {
 func updatePackagesProject() error {
 	settings.packagesTag = time.Now().Format("2006_01")
 
+	dir, err := ioutil.TempDir("dir", "prefix")
+	if err != nil {
+		return err
+	}
+	defer os.RemoveAll(dir)
+	
 	ec, _ := exec2("", settings.git,
-		"clone https://github.com/tim-lebedkov/packages.git C:\\projects\\packages", true)
+		"clone https://github.com/tim-lebedkov/packages.git " + dir, true)
 	if ec != 0 {
 		return errors.New("Cannot clone the \"packages\" project")
 	}
 
 	// ignore the exit code here as the tag may already exist
-	exec2("C:\\projects\\packages", settings.git, "tag -a "+
+	exec2(dir, settings.git, "tag -a "+
 		settings.packagesTag+" -m "+settings.packagesTag, true)
 
-	ec, _ = exec2("C:\\projects\\packages", settings.git,
+	ec, _ = exec2(dir, settings.git,
 		"push https://tim-lebedkov:"+settings.githubToken+
 			"@github.com/tim-lebedkov/packages.git --tags", false)
 	if ec != 0 {
