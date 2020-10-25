@@ -16,6 +16,7 @@ import (
 	"strconv"
 	"strings"
 	"time"
+	"regexp"
 )
 
 var changeData = false
@@ -49,6 +50,8 @@ type Package struct {
 	Name     string   `xml:"name,attr"`
 	Category []string `xml:"category"`
 	Tag      []string `xml:"tag"`
+	DiscoveryPage     string   `xml:"_discovery-page"`
+	DiscoveryRE     string   `xml:"_discovery-re"`
 }
 
 // PackageVersion is an Npackd package version
@@ -115,7 +118,7 @@ func shufflePackageVersions(array []PackageVersion) {
 // settings: settings
 // url: repository URL
 // releaseID: ID of a Github project release
-func uploadAllToGithub(settings *Settings, url string, releaseID int) error {
+func uploadRepositoryBinariesToGithub(settings *Settings, url string, releaseID int) error {
 	fmt.Println("Re-uploading packages in " + url)
 
 	bytes, _, err := download(url, true)
@@ -460,30 +463,17 @@ func Max(x, y int) int {
 }
 
 /**
- * @param a first version as a String
- * @param b first version as a String
+ * a: first version
+ * b: first version
  */
-func compareVersions(a string, b string) int {
-	aparts := strings.Split(a, ".")
-	bparts := strings.Split(b, ".")
-
-	var mlen = Max(len(aparts), len(bparts))
+func compareVersions(a []int, b []int) int {
+	var mlen = Max(len(a), len(b))
 
 	var r = 0
 
 	for i := 0; i < mlen; i++ {
-		var ai = 0
-		var bi = 0
-
-		if i < len(aparts) {
-			ai, _ = strconv.Atoi(aparts[i])
-		}
-		if i < len(bparts) {
-			bi, _ = strconv.Atoi(bparts[i])
-		}
-
-		// fmt.Println("comparing " + ai + " and " + bi);
-
+		var ai = a[i]
+		var bi = b[i]
 		if ai < bi {
 			r = -1
 			break
@@ -525,7 +515,10 @@ func processURL(url string, settings *Settings, onlyNewest bool) error {
 			var pvip = pvi.Package
 			var pvj, found = newest[pvip]
 
-			if !found || compareVersions(pvi.Name, pvj.Name) > 0 {
+			pviv, _ := parseVersion(pvi.Name)
+			pvjv, _ := parseVersion(pvj.Name)
+
+			if !found || compareVersions(pviv, pvjv) > 0 {
 				newest[pvip] = pvi
 			}
 		}
@@ -628,15 +621,15 @@ func downloadRepos(settings *Settings) error {
 	}
 
 	reps := []string{"unstable", "stable", "stable64", "libs"}
-	for _, s := range(reps) {
-		err := downloadToFile("https://www.npackd.org/rep/xml?tag=" + s + "&create=true", 
-			"repository/" + s + ".xml")
+	for _, s := range reps {
+		err := downloadToFile("https://www.npackd.org/rep/xml?tag="+s+"&create=true",
+			"repository/"+s+".xml")
 		if err != nil {
 			return err
 		}
 
-		err = downloadToFile("https://www.npackd.org/rep/zip?tag=" + s + "&create=true", 
-			"repository/" + s + ".zip")
+		err = downloadToFile("https://www.npackd.org/rep/zip?tag="+s+"&create=true",
+			"repository/"+s+".zip")
 		if err != nil {
 			return err
 		}
@@ -652,17 +645,15 @@ func downloadRepos(settings *Settings) error {
 		return errors.New("Program execution failed")
 	}
 
-	ec, _ = exec2("", settings.git, "commit -a -m \"Automatic data transfer from https://www.npackd.org\"", true)
-	if ec != 0 {
-		return errors.New("Program execution failed")
-	}
+	// ignore the exit code here as there may be no changes to commit
+	exec2("", settings.git, "commit -a -m \"Automatic data transfer from https://www.npackd.org\"", true)
 
 	ec, _ = exec2("", settings.git, "push https://tim-lebedkov:"+settings.githubToken+
 		"@github.com/npackd/npackd.git", false)
 	if ec != 0 {
 		return errors.New("Program execution failed")
 	}
-	
+
 	return nil
 }
 
@@ -745,17 +736,39 @@ func download(address string, showParameters bool) (*bytes.Buffer, int, error) {
 // path: output file
 // Returns: error message
 func downloadToFile(url, path string) error {
-	bytes, _, err := download(url, true)
+	fmt.Println("Downloading " + url)
+
+	// Get the data
+	resp, err := http.Get(url)
+	if err != nil {
+		return err
+	}
+	defer resp.Body.Close()
+
+	// Check server response
+	if resp.StatusCode != http.StatusOK {
+		return fmt.Errorf("bad status: %s", resp.Status)
+	}
+
+	// open file
+	f, err := os.OpenFile(path, os.O_RDWR|os.O_CREATE, 0644)
 	if err != nil {
 		return err
 	}
 
-	err = ioutil.WriteFile(path, bytes.Bytes(), 0644)
+	// Write the body to file
+	_, err = io.Copy(f, resp.Body)
 	if err != nil {
 		return err
 	}
 
 	return nil
+}
+
+// fileExists checks if a file exists.
+func fileExists(filename string) bool {
+    _, err := os.Stat(filename)
+    return !os.IsNotExist(err)
 }
 
 func createSettings() Settings {
@@ -769,7 +782,11 @@ func createSettings() Settings {
 	} else {
 		settings.curl = settings.curl + "\\bin\\curl.exe"
 	}
+
 	settings.git = "C:\\Program Files\\Git\\cmd\\git.exe"
+	if !fileExists(settings.git) {
+		settings.git = "git"
+	}
 
 	fmt.Println("curl: " + settings.curl)
 
@@ -887,15 +904,8 @@ func downloadBinaries(dir string) error {
 	return nil
 }
 
-func downloadRepositories() error {
-	var settings Settings = createSettings()
-
-	err := downloadRepos(&settings)
-	if err != nil {
-		return err
-	}
-
-	err = updatePackagesProject(&settings)
+func uploadBinariesToGithub(settings *Settings) error {
+	err := updatePackagesProject(settings)
 	if err != nil {
 		return err
 	}
@@ -907,7 +917,7 @@ func downloadRepositories() error {
 
 	releaseID := findRelease(releases, settings.packagesTag)
 	if releaseID == 0 {
-		err = createRelease(&settings)
+		err = createRelease(settings)
 		if err != nil {
 			return err
 		}
@@ -921,9 +931,142 @@ func downloadRepositories() error {
 	fmt.Printf("Found release ID: %d\n", releaseID)
 
 	reps := []string{"stable", "stable64", "libs"}
-
 	for _, rep := range reps {
-		uploadAllToGithub(&settings, "https://npackd.appspot.com/rep/xml?tag="+rep, releaseID)
+		err = uploadRepositoryBinariesToGithub(settings, "https://npackd.appspot.com/rep/xml?tag="+rep, releaseID)
+		if err != nil {
+			return err
+		}
+	}
+
+	return nil
+}
+
+func parseVersion(version string) ([]int, error) {
+	parts := strings.Split(version, ".")
+	if len(parts) == 0 {
+		return nil, errors.New("0 parts")
+	}
+
+	res := make([]int, len(parts))
+	for i, p := range(parts) {
+		v, err := strconv.Atoi(p)
+		if err != nil {
+			return nil, err
+		}
+		res[i] = v
+	}
+
+	return res, nil
+}
+
+func maxVersion(a []PackageVersion) []int {
+	res := []int{0}
+	for _, pv := range(a) {
+		v, _ := parseVersion(pv.Name)
+		if compareVersions(v, res) > 0 {
+			res = v
+		}
+	}
+	return res
+}
+
+func checkOneForUpdates(p *Package, maxVersion []int) (*PackageVersion, error) {
+	var pv *PackageVersion = nil
+
+	if p.DiscoveryPage != "" {
+		re, err := regexp.Compile(p.DiscoveryRE)
+		if err != nil {
+			return nil, err
+		}
+
+		data, _, err := download(p.DiscoveryPage, true)
+		if err != nil {
+			return nil, err
+		}
+
+		buf := data.Bytes()
+		f := re.Find(buf)
+		if f != nil {
+			version := string(f)
+			v, err := parseVersion(version)
+			if err != nil {
+				return nil, err
+			}
+
+			if compareVersions(v, maxVersion) > 0 {
+				// TODO
+			}
+		} else {
+			fmt.Println("No match found for the regular expression")
+		}
+	}
+
+	return pv, nil
+}
+
+func getPackageVersions(rep *Repository, packageName string) []PackageVersion {
+	res := []PackageVersion{}
+	for _, pv := range rep.PackageVersion {
+		if pv.Package == packageName {
+			res = append(res, pv)
+		}
+	}
+	return res
+}
+
+func checkForUpdates(settings *Settings) error {
+	dat, err := ioutil.ReadFile("repository/stable.xml")
+	if err != nil {
+		return err
+	}
+
+	// parse the repository XML
+	rep := Repository{}
+	err = xml.Unmarshal(dat, &rep)
+	if err != nil {
+		return err
+	}
+
+	for i := 0; i < 10; i++ {
+		index := rand.Intn(len(rep.Package))
+		p := rep.Package[index]
+		packageVersions := getPackageVersions(&rep, p.Name)
+		if len(packageVersions) > 0 {
+			m := maxVersion(packageVersions)
+
+			v, err := checkOneForUpdates(&p, m)
+			if err != nil {
+				fmt.Println(err.Error())
+			} else {
+				if v != nil {
+					// TODO
+					fmt.Println("Found new version")
+				}
+			}
+		}
+	}
+
+	return nil
+}
+
+func maintenance(password string, githubToken string) error {
+	var settings Settings = createSettings()
+	settings.password = password
+	settings.githubToken = githubToken
+
+	err := downloadRepos(&settings)
+	if err != nil {
+		return err
+	}
+
+	err = uploadBinariesToGithub(&settings)
+	if err != nil {
+		return err
+	}
+
+	err = checkForUpdates(&settings)
+	if err != nil {
+		return err
 	}
 
 	return nil
@@ -959,11 +1102,13 @@ func testPackages() error {
 }
 
 // correct URLs on npackd.org from an XML file
-func correctURLs() error {
+//
+// password: npackd.org password
+func correctURLs(password string) error {
 	var settings Settings = createSettings()
+	settings.password = password
 
-	// read Rep.xml
-	dat, err := ioutil.ReadFile("repository/Rep.xml")
+	dat, err := ioutil.ReadFile("repository/stable.xml")
 	if err != nil {
 		return err
 	}
@@ -1006,29 +1151,33 @@ func correctURLs() error {
 
 var command = flag.String("command", "test-packages", "the action that should be performed")
 var target = flag.String("target", "", "directory where the downloaded binaries are stored")
+var password = flag.String("password", "", "npackd.org password")
+var githubToken = flag.String("github-token", "", "github.org token")
 
 // Download binaries from Github to a directory:
 // go run TestUnstableRep.go TestUnstableRep_linux.go -command download-binaries -target /target/directory
 //
 // Correct URLs for packages at npackd.org:
-// PASSWORD=xxxx go run TestUnstableRep.go TestUnstableRep_linux.go -command correct-urls
+// go run TestUnstableRep.go TestUnstableRep_linux.go -command correct-urls -password PASSWORD
 //
-// Download repositories from npackd.org to github.com/npackd/npackd:
-// github_token=xxxxx PASSWORD=xxxx go run TestUnstableRep.go TestUnstableRep_linux.go -command download-repositories
+// Download repositories from npackd.org to github.com/npackd/npackd, re-upload packages to github.com/tim-lebedkov/packages:
+// go run TestUnstableRep.go TestUnstableRep_linux.go -command maintenance -password PASSWORD -github-token GITHUB_TOKEN
 //
 // Test packages on AppVeyor:
-// github_token=xxxxx PASSWORD=xxxx go run TestUnstableRep.go TestUnstableRep_linux.go
+// go run TestUnstableRep.go TestUnstableRep_linux.go -password PASSWORD
 func main() {
 	var err error = nil
 
 	flag.Parse()
 
+	rand.Seed(time.Now().UnixNano())
+
 	if *command == "download-binaries" {
 		err = downloadBinaries(*target)
 	} else if *command == "correct-urls" {
-		err = correctURLs()
-	} else if *command == "download-repositories" {
-		err = downloadRepositories()
+		err = correctURLs(*password)
+	} else if *command == "maintenance" {
+		err = maintenance(*password, *githubToken)
 	} else {
 		err = testPackages()
 	}
