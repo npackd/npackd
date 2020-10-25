@@ -9442,6 +9442,15 @@ if %err% neq 0 exit /b %err%&#13;
    <variable>npackdih</variable>
   </dependency>
  </version>
+ <version name="8.0.22" package="com.mysql.dev.MySQLODBCConnector64bits" type="one-file">
+  <file path=".Npackd\Install.bat">call "%npackdih%\InstallMSI.bat" INSTALLDIR yes&#13;
+		</file>
+  <url>https://cdn.mysql.com//Downloads/Connector-ODBC/8.0/mysql-connector-odbc-8.0.22-winx64.msi</url>
+  <hash-sum type="SHA-256">230977158ff46bb51b80759aca27ab2875e2e1deee18484e43dcc662d70c802e</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.1, 2)">
+   <variable>npackdih</variable>
+  </dependency>
+ </version>
 
     <version name="5.5.16" package="com.mysql.MySQLCommunityServer64" type="one-file">
   <file path=".Npackd\Install.bat">call "%npackdih%\InstallMSI.bat" INSTALLDIR yes</file>
@@ -15365,6 +15374,14 @@ if %err% neq 0 exit %err%&#13;
   <url>http://dbeaver.jkiss.org/files/7.1.5/dbeaver-ce-7.1.5-x86_64-setup.exe</url>
   <hash-sum type="SHA-256">822966a04f6cd50adc492bfe1c248b384e6e60fa51d2ba4826f9939358e3b47b</hash-sum>
  </version>
+ <version name="7.2.3" package="dbeaver64" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" /allusers /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">uninstall.exe /allusers /S _?=%CD%&#13;
+</file>
+  <url>http://dbeaver.jkiss.org/files/7.2.3/dbeaver-ce-7.2.3-x86_64-setup.exe</url>
+  <hash-sum type="SHA-256">35c8b2f4920e623e533b815a2c06e2d402d2123779676dca8775b7c7637e42d9</hash-sum>
+ </version>
 
     <version name="0.825" package="dcplusplus64">
   <important-file path="DCPlusPlus.exe" title="DC++"/>
@@ -16348,6 +16365,17 @@ rmdir "%name%"&#13;
    <variable>ncl</variable>
   </dependency>
  </version>
+ <version name="8.22" package="explzh64" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">"%ncl%\ncl.exe" remove-scp --title "/%npackd_package_name% %npackd_package_version%/i"&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+</file>
+  <url>https://www.ponsoftware.com/en/archiver/explzh/explz822_en_x64.exe</url>
+  <hash-sum type="SHA-256">3a06d71fcbdbc36bc6d9b036545b9a6b5b00efc2b510f5d0d1386a430f1cb45b</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.25, 2)">
+   <variable>ncl</variable>
+  </dependency>
+ </version>
 
     <version name="3.1" package="falkon64" type="one-file">
   <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
@@ -16687,6 +16715,16 @@ rmdir "%name%"&#13;
   <file path=".Npackd\Uninstall.bat">"%ncl%\ncl.exe" remove-scp --title "/%npackd_package_name% %npackd_package_version%/i"&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
 </file>
   <url>https://www.portalgraphics.net/firealpaca/bin/FireAlpaca64_setup_2_3_17.exe</url>
+  <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.25, 2)">
+   <variable>ncl</variable>
+  </dependency>
+ </version>
+ <version name="2.3.18" package="firealpaca64" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">"%ncl%\ncl.exe" remove-scp --title "/%npackd_package_name% %npackd_package_version%/i"&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+</file>
+  <url>https://www.portalgraphics.net/firealpaca/bin/FireAlpaca64_setup_2_3_18.exe</url>
   <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.25, 2)">
    <variable>ncl</variable>
   </dependency>
@@ -18150,6 +18188,17 @@ if %err% neq 0 exit %err%&#13;
    <variable>nih</variable>
   </dependency>
  </version>
+ <version name="2.29" package="git64" type="one-file">
+  <file path=".Npackd\Install.bat">call "%nih%\InstallInnoSetup.bat"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">call "%nih%\UninstallInnoSetup.bat" unins000.exe&#13;
+</file>
+  <url>https://github.com/git-for-windows/git/releases/download/v2.29.0.windows.1/Git-2.29.0-64-bit.exe</url>
+  <hash-sum type="SHA-256">a87a5b2abf44021cc61709218c6ffbb994a79126c5d3953368a45fecbc23cce0</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
 
     <version name="5.2.7" package="gnuplot64" type="one-file">
   <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
@@ -19034,6 +19083,19 @@ rmdir "%name%"&#13;
 </file>
   <url>https://dl.google.com/dl/cloudsdk/channels/rapid/downloads/google-cloud-sdk-314.0.0-windows-x86_64.zip</url>
   <hash-sum type="SHA-256">faa7f49fc53d73c4a621863f3b150290cc92abe1f00548d125097b7844d65953</hash-sum>
+  <dependency package="org.python.Python" versions="[2.7, 2.8)"/>
+ </version>
+ <version name="315" package="google-cloud-sdk64">
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b google-cloud-sdk*') do set name=%%x&#13;
+cd "%name%"&#13;
+for /f "delims=" %%a in ('dir /b') do (&#13;
+  move "%%a" ..&#13;
+)&#13;
+cd ..&#13;
+rmdir "%name%"&#13;
+</file>
+  <url>https://dl.google.com/dl/cloudsdk/channels/rapid/downloads/google-cloud-sdk-315.0.0-windows-x86_64.zip</url>
+  <hash-sum type="SHA-256">c9b283c9db4ed472111ccf32e6689fd467daf18ce3a77b8e601f9c646a83d86b</hash-sum>
   <dependency package="org.python.Python" versions="[2.7, 2.8)"/>
  </version>
 
@@ -23856,6 +23918,15 @@ rmdir "%name%"&#13;
 </file>
   <url>https://github.com/musescore/MuseScore/releases/download/v3.5.1/MuseScore-3.5.1-x86_64.msi</url>
   <hash-sum type="SHA-256">eb25a5bc745969fd64c8d1cbb088b8f11de315aab703f26f42cc6aa1c17c09ce</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.1, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
+ <version name="3.5.2" package="musescore64" type="one-file">
+  <file path=".Npackd\Install.bat">call "%nih%\InstallMSI.bat" INSTALLDIR yes&#13;
+</file>
+  <url>https://ftp.osuosl.org/pub/musescore-nightlies/windows/3x/stable/MuseScore-3.5.2.311459983-x86_64.msi</url>
+  <hash-sum type="SHA-256">0e3fb8e2c5d0aadd9a8981767794837c8494b2e317882f7c1542f2091a62e0c7</hash-sum>
   <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.1, 2)">
    <variable>nih</variable>
   </dependency>
@@ -34097,6 +34168,40 @@ Set view = Nothing&#13;
 </file>
   <url>https://golang.org/dl/go1.15.1.windows-amd64.msi</url>
   <hash-sum type="SHA-256">cb815d57ecc701c401a600c6d0d5ac1bae4b3569f47963b90c405e79196f2d7d</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1, 2)">
+   <variable>npackdih</variable>
+  </dependency>
+ </version>
+ <version name="1.15.3" package="org.golang.Go64" type="one-file">
+  <file path=".Npackd\Install.bat">.Npackd\AddProperty.vbs "%npackd_package_binary%"&#13;
+if %errorlevel% neq 0 exit %errorlevel%&#13;
+&#13;
+call "%npackdih%\InstallMSI.bat" INSTALLDIR</file>
+  <file path=".Npackd\Uninstall.bat">call "%npackdih%\UninstallMSI.bat"</file>
+  <file path=".Npackd\AddProperty.vbs">Option Explicit&#13;
+&#13;
+Dim MSI_FILE&#13;
+MSI_FILE = Wscript.Arguments(0)&#13;
+&#13;
+Dim installer, database, view&#13;
+&#13;
+Set installer = CreateObject("WindowsInstaller.Installer")&#13;
+Set database = installer.OpenDatabase(MSI_FILE, 1)&#13;
+&#13;
+Set view = database.OpenView("INSERT INTO Property (Property, Value) VALUES ('INSTALLDIR', 'C:\Go')")&#13;
+view.Execute&#13;
+'Set view = database.OpenView("DELETE FROM Directory WHERE Directory='TARGETDIR'")&#13;
+'view.Execute&#13;
+'Set view = database.OpenView("UPDATE Directory SET DefaultDir='INSTALLLOCATION' WHERE Directory='TARGETDIR'")&#13;
+'view.Execute&#13;
+database.Commit&#13;
+&#13;
+Set database = Nothing&#13;
+Set installer = Nothing&#13;
+Set view = Nothing&#13;
+</file>
+  <url>https://golang.org/dl/go1.15.3.windows-amd64.msi</url>
+  <hash-sum type="SHA-256">366791843f0f29db97eb4ebfc0fd49ee42ecee9272655ea56ca94a8027ae8bdd</hash-sum>
   <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1, 2)">
    <variable>npackdih</variable>
   </dependency>
@@ -45917,6 +46022,16 @@ call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Np
    <variable>nih</variable>
   </dependency>
  </version>
+ <version name="7.73" package="se.haxx.curl.CURL64">
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b curl*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+</file>
+  <url>https://curl.haxx.se/windows/dl-7.73.0/curl-7.73.0-win64-mingw.zip</url>
+  <hash-sum type="SHA-256">2e1ffdb6c25c8648a1243bb3a268120be442399b1c93d7da309bba235ecdab9a</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.19, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
 
     <version name="2.1" package="sfml-dev-amd64-vc11">
   <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b SFML*') do set name=%%x&#13;
@@ -47971,6 +48086,14 @@ if %err% neq 0 exit %err%&#13;
 </file>
   <url>http://files.first-world.info/ultracopier/2.2.4.7/ultracopier-windows-x86_64-2.2.4.7-setup.exe</url>
   <hash-sum type="SHA-256">30b7b9dc158383298bcdcfb38d44764e813cfb226ed35ad40d5b8e40ee8d1c26</hash-sum>
+ </version>
+ <version name="2.2.4.8" package="ultracopier64" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">uninst.exe /S _?=%CD%&#13;
+</file>
+  <url>http://files.first-world.info/ultracopier/2.2.4.8/ultracopier-windows-x86_64-2.2.4.8-setup.exe</url>
+  <hash-sum type="SHA-256">18cec14974ae908c5c249ce7fc5880db991a467f6be8fa24995ca665e4dd891d</hash-sum>
  </version>
 
     <version name="2.0.1" package="vagrant64" type="one-file">
