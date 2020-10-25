@@ -1020,6 +1020,8 @@ func getPackageVersions(rep *Repository, packageName string) []PackageVersion {
 }
 
 func checkForUpdates() error {
+	fmt.Println("Checking for new package versions")
+
 	dat, err := ioutil.ReadFile("repository/stable.xml")
 	if err != nil {
 		return err
