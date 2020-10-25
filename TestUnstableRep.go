@@ -746,7 +746,7 @@ func download(address string, showParameters bool) (*bytes.Buffer, int, error) {
 // path: output file
 // Returns: error message
 func downloadToFile(url, path string) error {
-	fmt.Println("Downloading " + url)
+	fmt.Println("Downloading " + url + " to " + path)
 
 	// Get the data
 	resp, err := http.Get(url)
@@ -761,7 +761,7 @@ func downloadToFile(url, path string) error {
 	}
 
 	// open file
-	f, err := os.OpenFile(path, os.O_RDWR|os.O_CREATE, 0644)
+	f, err := os.OpenFile(path, os.O_RDWR|os.O_CREATE|os.O_TRUNC, 0644)
 	if err != nil {
 		return err
 	}
