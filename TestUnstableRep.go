@@ -1051,8 +1051,12 @@ func checkForUpdates() error {
 				if v != nil {
 					// TODO
 					fmt.Println("Found new version")
+				} else {
+					fmt.Println("No new version found")
 				}
 			}
+		} else {
+			fmt.Println("No versions found")
 		}
 	}
 
