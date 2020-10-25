@@ -989,19 +989,22 @@ func checkOneForUpdates(p *Package, maxVersion []int) ([]int, error) {
 		}
 
 		buf := data.Bytes()
-		f := re.Find(buf)
-		if f != nil {
-			version := string(f)
-			v, err := parseVersion(version)
-			if err != nil {
-				return nil, err
-			}
+		f := re.FindSubmatch(buf)
+		if f == nil {
+			return nil, errors.New("No match found for the regular expression")
+		}
+		if len(f) < 2 {
+			return nil, errors.New("No first sub-group is found for the regular expression")
+		}
 
-			if compareVersions(v, maxVersion) > 0 {
-				return v, nil
-			}
-		} else {
-			fmt.Println("No match found for the regular expression")
+		version := string(f[0])
+		v, err := parseVersion(version)
+		if err != nil {
+			return nil, err
+		}
+
+		if compareVersions(v, maxVersion) > 0 {
+			return v, nil
 		}
 	}
 
