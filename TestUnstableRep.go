@@ -591,7 +591,7 @@ func processURL(url string, onlyNewest bool) error {
 func updatePackagesProject() error {
 	settings.packagesTag = time.Now().Format("2006_01")
 
-	dir, err := ioutil.TempDir("dir", "prefix")
+	dir, err := ioutil.TempDir("", "prefix")
 	if err != nil {
 		return err
 	}
