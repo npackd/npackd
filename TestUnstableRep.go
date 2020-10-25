@@ -472,8 +472,14 @@ func compareVersions(a []int, b []int) int {
 	var r = 0
 
 	for i := 0; i < mlen; i++ {
-		var ai = a[i]
-		var bi = b[i]
+		var ai int
+		if i < len(a) {
+			ai = a[i]
+		}
+		var bi int
+		if i < len(b) {
+			bi = b[i]
+		}
 		if ai < bi {
 			r = -1
 			break
