@@ -975,9 +975,8 @@ func maxVersion(a []PackageVersion) []int {
 	return res
 }
 
-func checkOneForUpdates(p *Package, maxVersion []int) (*PackageVersion, error) {
-	var pv *PackageVersion = nil
-
+// returns: (version number or nil, error or nil)
+func checkOneForUpdates(p *Package, maxVersion []int) ([]int, error) {
 	if p.DiscoveryPage != "" {
 		re, err := regexp.Compile(p.DiscoveryRE)
 		if err != nil {
@@ -999,14 +998,14 @@ func checkOneForUpdates(p *Package, maxVersion []int) (*PackageVersion, error) {
 			}
 
 			if compareVersions(v, maxVersion) > 0 {
-				// TODO
+				return v, nil
 			}
 		} else {
 			fmt.Println("No match found for the regular expression")
 		}
 	}
 
-	return pv, nil
+	return nil, nil
 }
 
 func getPackageVersions(rep *Repository, packageName string) []PackageVersion {
@@ -1015,6 +1014,17 @@ func getPackageVersions(rep *Repository, packageName string) []PackageVersion {
 		if pv.Package == packageName {
 			res = append(res, pv)
 		}
+	}
+	return res
+}
+
+func versionToString(version []int) string {
+	res := ""
+	for i, v := range(version) {
+		if i != 0 {
+			res = res + "."
+		}
+		res = res + strconv.Itoa(v)
 	}
 	return res
 }
@@ -1048,8 +1058,7 @@ func checkForUpdates() error {
 				fmt.Println(err.Error())
 			} else {
 				if v != nil {
-					// TODO
-					fmt.Println("Found new version")
+					fmt.Println("Found new version " + versionToString(v))
 				} else {
 					fmt.Println("No new version found")
 				}
