@@ -1051,9 +1051,23 @@ func checkForUpdates() error {
 
 		packageVersions := getPackageVersions(&rep, p.Name)
 		if len(packageVersions) > 0 {
+			// now we download the data from the same package, but also with
+			// additional fields for discovery
+			bytes, _, err := download("https://www.npackd.org/api/p/" + p.Name, true)
+			if err != nil {
+				return err
+			}
+
+			// unmarshal XML
+			var p2 Package
+			err = xml.Unmarshal(bytes.Bytes(), &p2)
+			if err != nil {
+				return err
+			}
+
 			m := maxVersion(packageVersions)
 
-			v, err := checkOneForUpdates(&p, m)
+			v, err := checkOneForUpdates(&p2, m)
 			if err != nil {
 				fmt.Println(err.Error())
 			} else {
