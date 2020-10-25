@@ -783,7 +783,7 @@ func fileExists(filename string) bool {
 
 func createSettings() {
 	settings.password = os.Getenv("PASSWORD")
-	settings.githubToken = os.Getenv("github_token")
+	settings.githubToken = os.Getenv("GITHUB_TOKEN")
 	if runtime.GOOS == "windows" {
 		settings.npackdcl = "C:\\Program Files\\NpackdCL\\ncl.exe"
 		settings.curl = getPath("se.haxx.curl.CURL64", "")
