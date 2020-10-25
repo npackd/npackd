@@ -1037,6 +1037,9 @@ func checkForUpdates() error {
 	for i := 0; i < 10; i++ {
 		index := rand.Intn(len(rep.Package))
 		p := rep.Package[index]
+
+		fmt.Println("Checking for new package versions in " + p.Name)
+
 		packageVersions := getPackageVersions(&rep, p.Name)
 		if len(packageVersions) > 0 {
 			m := maxVersion(packageVersions)
