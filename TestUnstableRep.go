@@ -419,7 +419,7 @@ func apiSetURL(packageName string, version string, newURL string) (int, error) {
  func apiCopyPackageVersion(packageName string, version string, newVersion string) error {
 	a := "https://npackd.appspot.com/api/copy?package=" +
 		packageName + "&from=" + version +
-		"&to=" + newVersion
+		"&to=" + newVersion + "&password=" + settings.password
 
 	_, statusCode, err := download(a, false)
 	if statusCode != 200 {
