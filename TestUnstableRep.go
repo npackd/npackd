@@ -62,6 +62,8 @@ type PackageVersion struct {
 	Name    string `xml:"name,attr"`
 	Package string `xml:"package,attr"`
 	URL     string `xml:"url"`
+	SHA1     string `xml:"sha1"`
+	HashSum     string `xml:"hash-sum"`
 }
 
 // Repository is an Npackd repository XML
@@ -381,6 +383,50 @@ func apiSetURL(packageName string, version string, newURL string) (int, error) {
 
 	_, statusCode, err := download(a, false)
 	return statusCode, err
+}
+
+/**
+ * Changes the URL for a package version at https://npackd.appspot.com .
+ *
+ * @param package_ package name
+ * @param version version number
+ * @param url new URL
+ * returns: error
+ */
+ func apiSetURLAndHashSum(packageName string, version string, newURL string, newHashSum string) error {
+	a := "https://npackd.appspot.com/api/set-url?package=" +
+		packageName + "&version=" + version +
+		"&password=" + settings.password +
+		"&url=" + url.QueryEscape(newURL) +
+		"&hash-sum=" + newHashSum
+
+	_, statusCode, err := download(a, false)
+	if statusCode != 200 {
+		return errors.New("Invalid HTTP code")
+	}
+
+	return err
+}
+
+/**
+ * Changes the URL for a package version at https://npackd.appspot.com .
+ *
+ * @param package_ package name
+ * @param version version number
+ * @param url new URL
+ * returns: error
+ */
+ func apiCopyPackageVersion(packageName string, version string, newVersion string) error {
+	a := "https://npackd.appspot.com/api/copy?package=" +
+		packageName + "&from=" + version +
+		"&to=" + newVersion
+
+	_, statusCode, err := download(a, false)
+	if statusCode != 200 {
+		return errors.New("Invalid HTTP status code")
+	}
+
+	return err
 }
 
 /**
@@ -964,51 +1010,94 @@ func parseVersion(version string) ([]int, error) {
 	return res, nil
 }
 
-func maxVersion(a []PackageVersion) []int {
-	res := []int{0}
+func maxVersion(a []PackageVersion) *PackageVersion {
+	var m []int = []int{}
+	var res *PackageVersion = nil
 	for _, pv := range(a) {
 		v, _ := parseVersion(pv.Name)
-		if compareVersions(v, res) > 0 {
-			res = v
+		if compareVersions(v, m) > 0 {
+			m = v
+			res = &pv
 		}
 	}
+
 	return res
 }
 
-// returns: (version number or nil, error or nil)
-func checkOneForUpdates(p *Package, maxVersion []int) ([]int, error) {
-	if p.DiscoveryPage != "" {
-		re, err := regexp.Compile(p.DiscoveryRE)
-		if err != nil {
-			return nil, err
-		}
+// returns: error or nil
+func detect(rep *Repository, p *Package) error {
+	fmt.Println("Checking for new package versions in " + p.Name)
 
-		data, _, err := download(p.DiscoveryPage, true)
-		if err != nil {
-			return nil, err
-		}
-
-		buf := data.Bytes()
-		f := re.FindSubmatch(buf)
-		if f == nil {
-			return nil, errors.New("No match found for the regular expression")
-		}
-		if len(f) < 2 {
-			return nil, errors.New("No first sub-group is found for the regular expression")
-		}
-
-		version := string(f[1])
-		v, err := parseVersion(version)
-		if err != nil {
-			return nil, err
-		}
-
-		if compareVersions(v, maxVersion) > 0 {
-			return v, nil
-		}
+	packageVersions := getPackageVersions(rep, p.Name)
+	if len(packageVersions) == 0 {
+		return errors.New("No versions found")
 	}
 
-	return nil, nil
+	// now we download the data from the same package, but also with
+	// additional fields for discovery
+	bytes, _, err := download("https://www.npackd.org/api/p/" + p.Name, true)
+	if err != nil {
+		return err
+	}
+
+	// unmarshal XML
+	var p2 Package
+	err = xml.Unmarshal(bytes.Bytes(), &p2)
+	if err != nil {
+		return err
+	}
+
+	if p.DiscoveryPage == "" {
+		return errors.New("No discovery page")
+	}
+
+	re, err := regexp.Compile(p.DiscoveryRE)
+	if err != nil {
+		return err
+	}
+
+	data, _, err := download(p.DiscoveryPage, true)
+	if err != nil {
+		return err
+	}
+
+	buf := data.Bytes()
+	f := re.FindSubmatch(buf)
+	if f == nil {
+		return errors.New("No match found for the regular expression")
+	}
+	if len(f) < 2 {
+		return errors.New("No first sub-group is found for the regular expression")
+	}
+
+	newVersion, err := parseVersion(string(f[1]))
+	if err != nil {
+		return err
+	}
+
+	pv := maxVersion(packageVersions)
+	version, err := parseVersion(pv.Name)
+	if err != nil {
+		return err
+	}
+
+	if compareVersions(newVersion, version) <= 0 {
+		return errors.New("No new version found")
+	}
+
+	fmt.Println("Found new version " + versionToString(newVersion))
+
+	err = apiCopyPackageVersion(p2.Name, versionToString(version), versionToString(newVersion))
+	if err != nil {
+		return err
+	} 
+	
+	err = apiSetURLAndHashSum(p2.Name, versionToString(newVersion), pv.URL, pv.HashSum)
+	if err != nil {
+		return err
+	} 
+	
+	return nil
 }
 
 func getPackageVersions(rep *Repository, packageName string) []PackageVersion {
@@ -1052,38 +1141,9 @@ func checkForUpdates() error {
 
 		p := rep.Package[index]
 
-		fmt.Println("Checking for new package versions in " + p.Name)
-
-		packageVersions := getPackageVersions(&rep, p.Name)
-		if len(packageVersions) > 0 {
-			// now we download the data from the same package, but also with
-			// additional fields for discovery
-			bytes, _, err := download("https://www.npackd.org/api/p/" + p.Name, true)
-			if err != nil {
-				return err
-			}
-
-			// unmarshal XML
-			var p2 Package
-			err = xml.Unmarshal(bytes.Bytes(), &p2)
-			if err != nil {
-				return err
-			}
-
-			m := maxVersion(packageVersions)
-
-			v, err := checkOneForUpdates(&p2, m)
-			if err != nil {
-				fmt.Println(err.Error())
-			} else {
-				if v != nil {
-					fmt.Println("Found new version " + versionToString(v))
-				} else {
-					fmt.Println("No new version found")
-				}
-			}
-		} else {
-			fmt.Println("No versions found")
+		err = detect(&rep, &p)
+		if err != nil {
+			fmt.Println(err.Error())
 		}
 	}
 
