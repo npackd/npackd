@@ -1047,16 +1047,16 @@ func detect(rep *Repository, p *Package) error {
 		return err
 	}
 
-	if p.DiscoveryPage == "" {
+	if p2.DiscoveryPage == "" {
 		return errors.New("No discovery page")
 	}
 
-	re, err := regexp.Compile(p.DiscoveryRE)
+	re, err := regexp.Compile(p2.DiscoveryRE)
 	if err != nil {
 		return err
 	}
 
-	data, _, err := download(p.DiscoveryPage, true)
+	data, _, err := download(p2.DiscoveryPage, true)
 	if err != nil {
 		return err
 	}
