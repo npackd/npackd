@@ -1136,7 +1136,7 @@ func detectNewVersions() error {
 		return err
 	}
 
-	for i := 0; i < 20; i++ {
+	for i := 0; i < 50; i++ {
 		index := rand.Intn(len(rep.Package))
 
 		p := rep.Package[index]
