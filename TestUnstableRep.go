@@ -1047,8 +1047,10 @@ func checkForUpdates() error {
 		return err
 	}
 
-	for i := 0; i < len(rep.Package); i++ {
-		p := rep.Package[i]
+	for i := 0; i < 10; i++ {
+		index := rand.Intn(len(rep.Package))
+
+		p := rep.Package[index]
 
 		fmt.Println("Checking for new package versions in " + p.Name)
 
