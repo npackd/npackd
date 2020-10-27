@@ -13,11 +13,11 @@ import (
 	"net/http"
 	"net/url"
 	"os"
+	"regexp"
+	"runtime"
 	"strconv"
 	"strings"
 	"time"
-	"regexp"
-	"runtime"
 )
 
 var changeData = false
@@ -50,11 +50,11 @@ type Asset struct {
 
 // Package is an Npackd package declaration
 type Package struct {
-	Name     string   `xml:"name,attr"`
-	Category []string `xml:"category"`
-	Tag      []string `xml:"tag"`
-	DiscoveryPage     string   `xml:"_discovery-page"`
-	DiscoveryRE     string   `xml:"_discovery-re"`
+	Name          string   `xml:"name,attr"`
+	Category      []string `xml:"category"`
+	Tag           []string `xml:"tag"`
+	DiscoveryPage string   `xml:"_discovery-page"`
+	DiscoveryRE   string   `xml:"_discovery-re"`
 }
 
 // PackageVersion is an Npackd package version
@@ -62,8 +62,8 @@ type PackageVersion struct {
 	Name    string `xml:"name,attr"`
 	Package string `xml:"package,attr"`
 	URL     string `xml:"url"`
-	SHA1     string `xml:"sha1"`
-	HashSum     string `xml:"hash-sum"`
+	SHA1    string `xml:"sha1"`
+	HashSum string `xml:"hash-sum"`
 }
 
 // Repository is an Npackd repository XML
@@ -393,7 +393,7 @@ func apiSetURL(packageName string, version string, newURL string) (int, error) {
  * @param url new URL
  * returns: error
  */
- func apiSetURLAndHashSum(packageName string, version string, newURL string, newHashSum string) error {
+func apiSetURLAndHashSum(packageName string, version string, newURL string, newHashSum string) error {
 	a := "https://npackd.appspot.com/api/set-url?package=" +
 		packageName + "&version=" + version +
 		"&password=" + settings.password +
@@ -416,7 +416,7 @@ func apiSetURL(packageName string, version string, newURL string) (int, error) {
  * @param url new URL
  * returns: error
  */
- func apiCopyPackageVersion(packageName string, version string, newVersion string) error {
+func apiCopyPackageVersion(packageName string, version string, newVersion string) error {
 	a := "https://npackd.appspot.com/api/copy?package=" +
 		packageName + "&from=" + version +
 		"&to=" + newVersion + "&password=" + settings.password
@@ -648,9 +648,9 @@ func updatePackagesProject() error {
 		return err
 	}
 	defer os.RemoveAll(dir)
-	
+
 	ec, _ := exec2("", settings.git,
-		"clone https://github.com/tim-lebedkov/packages.git " + dir, true)
+		"clone https://github.com/tim-lebedkov/packages.git "+dir, true)
 	if ec != 0 {
 		return errors.New("Cannot clone the \"packages\" project")
 	}
@@ -823,8 +823,8 @@ func downloadToFile(url, path string) error {
 
 // fileExists checks if a file exists.
 func fileExists(filename string) bool {
-    _, err := os.Stat(filename)
-    return !os.IsNotExist(err)
+	_, err := os.Stat(filename)
+	return !os.IsNotExist(err)
 }
 
 func createSettings() {
@@ -999,7 +999,7 @@ func parseVersion(version string) ([]int, error) {
 	}
 
 	res := make([]int, len(parts))
-	for i, p := range(parts) {
+	for i, p := range parts {
 		v, err := strconv.Atoi(p)
 		if err != nil {
 			return nil, err
@@ -1013,7 +1013,7 @@ func parseVersion(version string) ([]int, error) {
 func maxVersion(a []PackageVersion) *PackageVersion {
 	var m []int = []int{}
 	var res *PackageVersion = nil
-	for _, pv := range(a) {
+	for _, pv := range a {
 		v, _ := parseVersion(pv.Name)
 		if compareVersions(v, m) > 0 {
 			m = v
@@ -1035,7 +1035,7 @@ func detect(rep *Repository, p *Package) error {
 
 	// now we download the data from the same package, but also with
 	// additional fields for discovery
-	bytes, _, err := download("https://www.npackd.org/api/p/" + p.Name, true)
+	bytes, _, err := download("https://www.npackd.org/api/p/"+p.Name, true)
 	if err != nil {
 		return err
 	}
@@ -1090,13 +1090,13 @@ func detect(rep *Repository, p *Package) error {
 	err = apiCopyPackageVersion(p2.Name, versionToString(version), versionToString(newVersion))
 	if err != nil {
 		return err
-	} 
-	
+	}
+
 	err = apiSetURLAndHashSum(p2.Name, versionToString(newVersion), pv.URL, pv.HashSum)
 	if err != nil {
 		return err
-	} 
-	
+	}
+
 	return nil
 }
 
@@ -1112,7 +1112,7 @@ func getPackageVersions(rep *Repository, packageName string) []PackageVersion {
 
 func versionToString(version []int) string {
 	res := ""
-	for i, v := range(version) {
+	for i, v := range version {
 		if i != 0 {
 			res = res + "."
 		}
@@ -1121,7 +1121,7 @@ func versionToString(version []int) string {
 	return res
 }
 
-func checkForUpdates() error {
+func detectNewVersions() error {
 	fmt.Println("Checking for new package versions")
 
 	dat, err := ioutil.ReadFile("repository/stable.xml")
@@ -1136,7 +1136,7 @@ func checkForUpdates() error {
 		return err
 	}
 
-	for i := 0; i < 10; i++ {
+	for i := 0; i < 20; i++ {
 		index := rand.Intn(len(rep.Package))
 
 		p := rep.Package[index]
@@ -1161,7 +1161,7 @@ func maintenance() error {
 		return err
 	}
 
-	err = checkForUpdates()
+	err = detectNewVersions()
 	if err != nil {
 		return err
 	}
