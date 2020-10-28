@@ -1072,7 +1072,12 @@ func detect(packageName string) error {
 		return errors.New("No first sub-group is found for the regular expression")
 	}
 
-	newVersion, err := parseVersion(string(f[1]))
+	s := string(f[1])
+	s = strings.Replace(s, "-", ".", -1);
+	s = strings.Replace(s, "+", ".", -1);
+	s = strings.Replace(s, "_", ".", -1);
+
+	newVersion, err := parseVersion(s)
 	if err != nil {
 		return err
 	}
