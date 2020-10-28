@@ -1024,29 +1024,31 @@ func maxVersion(a []PackageVersion) *PackageVersion {
 	return res
 }
 
+// packageName: this package will be processed
 // returns: error or nil
-func detect(rep *Repository, p *Package) error {
-	fmt.Println("Checking for new package versions in " + p.Name)
+func detect(packageName string) error {
+	fmt.Println("Checking for new package versions in " + packageName)
 
-	packageVersions := getPackageVersions(rep, p.Name)
+	// now we download the data from the same package, but also with
+	// additional fields for discovery
+	bytes, _, err := download("https://www.npackd.org/rep/recent-xml?package="+packageName, true)
+	if err != nil {
+		return err
+	}
+
+	// parse the repository XML
+	rep := Repository{}
+	err = xml.Unmarshal(bytes.Bytes(), &rep)
+	if err != nil {
+		return err
+	}
+
+	packageVersions := getPackageVersions(&rep, packageName)
 	if len(packageVersions) == 0 {
 		return errors.New("No versions found")
 	}
 
-	// now we download the data from the same package, but also with
-	// additional fields for discovery
-	bytes, _, err := download("https://www.npackd.org/api/p/"+p.Name, true)
-	if err != nil {
-		return err
-	}
-
-	// unmarshal XML
-	var p2 Package
-	err = xml.Unmarshal(bytes.Bytes(), &p2)
-	if err != nil {
-		return err
-	}
-
+	p2 := getPackage(&rep, packageName)
 	if p2.DiscoveryPage == "" {
 		return errors.New("No discovery page")
 	}
@@ -1110,6 +1112,15 @@ func getPackageVersions(rep *Repository, packageName string) []PackageVersion {
 	return res
 }
 
+func getPackage(rep *Repository, packageName string) *Package {
+	for _, p := range rep.Package {
+		if p.Name == packageName {
+			return &p
+		}
+	}
+	return nil
+}
+
 func versionToString(version []int) string {
 	res := ""
 	for i, v := range version {
@@ -1141,7 +1152,7 @@ func detectNewVersions() error {
 
 		p := rep.Package[index]
 
-		err = detect(&rep, &p)
+		err = detect(p.Name)
 		if err != nil {
 			fmt.Println(err.Error())
 		}
