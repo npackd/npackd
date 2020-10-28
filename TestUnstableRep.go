@@ -1031,7 +1031,7 @@ func detect(packageName string) error {
 
 	// now we download the data from the same package, but also with
 	// additional fields for discovery
-	bytes, _, err := download("https://www.npackd.org/rep/recent-xml?package="+packageName, true)
+	bytes, _, err := download("https://www.npackd.org/rep/recent-xml?extra=true&package="+packageName, true)
 	if err != nil {
 		return err
 	}
@@ -1048,17 +1048,17 @@ func detect(packageName string) error {
 		return errors.New("No versions found")
 	}
 
-	p2 := getPackage(&rep, packageName)
-	if p2.DiscoveryPage == "" {
+	p := getPackage(&rep, packageName)
+	if p.DiscoveryPage == "" {
 		return errors.New("No discovery page")
 	}
 
-	re, err := regexp.Compile(p2.DiscoveryRE)
+	re, err := regexp.Compile(p.DiscoveryRE)
 	if err != nil {
 		return err
 	}
 
-	data, _, err := download(p2.DiscoveryPage, true)
+	data, _, err := download(p.DiscoveryPage, true)
 	if err != nil {
 		return err
 	}
@@ -1089,12 +1089,12 @@ func detect(packageName string) error {
 
 	fmt.Println("Found new version " + versionToString(newVersion))
 
-	err = apiCopyPackageVersion(p2.Name, versionToString(version), versionToString(newVersion))
+	err = apiCopyPackageVersion(p.Name, versionToString(version), versionToString(newVersion))
 	if err != nil {
 		return err
 	}
 
-	err = apiSetURLAndHashSum(p2.Name, versionToString(newVersion), pv.URL, pv.HashSum)
+	err = apiSetURLAndHashSum(p.Name, versionToString(newVersion), pv.URL, pv.HashSum)
 	if err != nil {
 		return err
 	}
