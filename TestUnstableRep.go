@@ -19,6 +19,7 @@ import (
 	"strconv"
 	"strings"
 	"time"
+	"crypto/sha256"
 )
 
 var changeData = false
@@ -813,6 +814,7 @@ func downloadToFile(url, path string) error {
 	if err != nil {
 		return err
 	}
+	defer f.Close()
 
 	// Write the body to file
 	_, err = io.Copy(f, resp.Body)
@@ -1125,6 +1127,35 @@ func detect(packageName string) error {
 			}
 			downloadURL = strings.Replace(downloadURL, "${v" + strconv.Itoa(i) + "}", repl, -1)
 		}
+	}
+
+	// compute the check sum
+	hashSum := pv.HashSum
+	if len(hashSum) > 0 && downloadURL != pv.URL {
+		file, err := ioutil.TempFile("dir", "prefix")
+		if err != nil {
+			return err
+		}
+
+		defer os.Remove(file.Name())
+
+		err = downloadToFile(downloadURL, file.Name())
+		if err != nil {
+			return err
+		}
+
+		f, err := os.Open(file.Name())
+		if err != nil {
+			return err
+		}
+		defer f.Close()
+
+		h := sha256.New()
+		if _, err := io.Copy(h, f); err != nil {
+			return err
+		}
+
+		hashSum = fmt.Sprintf("%x", h.Sum(nil))
 	}
 
 	err = apiSetURLAndHashSum(p.Name, versionToString(newVersion), downloadURL, pv.HashSum)
