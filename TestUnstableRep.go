@@ -1,6 +1,7 @@
 package main
 
 import (
+	"unicode/utf8"
 	"bytes"
 	"encoding/json"
 	"encoding/xml"
@@ -55,6 +56,7 @@ type Package struct {
 	Tag           []string `xml:"tag"`
 	DiscoveryPage string   `xml:"_discovery-page"`
 	DiscoveryRE   string   `xml:"_discovery-re"`
+	DiscoveryURLPattern string `xml:"_discovery-url-pattern"`
 }
 
 // PackageVersion is an Npackd package version
@@ -1077,6 +1079,14 @@ func detect(packageName string) error {
 	s = strings.Replace(s, "+", ".", -1);
 	s = strings.Replace(s, "_", ".", -1);
 
+	// process version numbers like 2.0.6b
+	if (len(s) > 0) {
+		c, _ := utf8.DecodeLastRuneInString(s)
+		if (c >= 'a') && (c <= 'z') {
+			s = s[0:len(s) - 1] + "." + strconv.Itoa(int(c) - 'a' + 1);
+		}
+	}
+
 	newVersion, err := parseVersion(s)
 	if err != nil {
 		return err
@@ -1099,7 +1109,25 @@ func detect(packageName string) error {
 		return err
 	}
 
-	err = apiSetURLAndHashSum(p.Name, versionToString(newVersion), pv.URL, pv.HashSum)
+	// create the new download URL from the template
+	downloadURL := pv.URL
+	if (len(p.DiscoveryURLPattern) > 0) {
+		downloadURL = strings.Replace(downloadURL, "-", ".", -1);
+
+		downloadURL = strings.Replace(downloadURL, "${version}", versionToString(version), -1)
+
+		for i := 0; i < 5; i++ {
+			var repl string
+			if len(version) > i {
+				repl = strconv.Itoa(version[i])
+			} else {
+				repl = "0"
+			}
+			downloadURL = strings.Replace(downloadURL, "${v" + strconv.Itoa(i) + "}", repl, -1)
+		}
+	}
+
+	err = apiSetURLAndHashSum(p.Name, versionToString(newVersion), downloadURL, pv.HashSum)
 	if err != nil {
 		return err
 	}
