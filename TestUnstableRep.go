@@ -1029,7 +1029,7 @@ func maxVersion(a []PackageVersion) *PackageVersion {
 // packageName: this package will be processed
 // returns: error or nil
 func detect(packageName string) error {
-	fmt.Println("Checking for new package versions in " + packageName)
+	fmt.Println("Checking for new package versions in https://www.npackd.org/p/" + packageName)
 
 	// now we download the data from the same package, but also with
 	// additional fields for discovery
