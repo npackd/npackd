@@ -1119,12 +1119,12 @@ func detect(packageName string) error {
 		// create the new download URL from the template
 		downloadURL := pv.URL
 		if (len(p.DiscoveryURLPattern) > 0) {
-			downloadURL = strings.Replace(p.DiscoveryURLPattern, "${version}", versionToString(version), -1)
+			downloadURL = strings.Replace(p.DiscoveryURLPattern, "${version}", versionToString(newVersion), -1)
 
 			for i := 0; i < 5; i++ {
 				var repl string
-				if len(version) > i {
-					repl = strconv.Itoa(version[i])
+				if len(newVersion) > i {
+					repl = strconv.Itoa(newVersion[i])
 				} else {
 					repl = "0"
 				}
