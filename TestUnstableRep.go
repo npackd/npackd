@@ -1158,7 +1158,8 @@ func detect(packageName string) error {
 		hashSum = fmt.Sprintf("%x", h.Sum(nil))
 	}
 
-	err = apiSetURLAndHashSum(p.Name, versionToString(newVersion), downloadURL, pv.HashSum)
+	fmt.Println("Set URL=" + downloadURL + " and hash sum=" + hashSum)
+	err = apiSetURLAndHashSum(p.Name, versionToString(newVersion), downloadURL, hashSum)
 	if err != nil {
 		return err
 	}
