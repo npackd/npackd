@@ -1135,7 +1135,7 @@ func detect(packageName string) error {
 		// compute the check sum
 		hashSum := pv.HashSum
 		if len(hashSum) > 0 && downloadURL != pv.URL {
-			file, err := ioutil.TempFile("dir", "prefix")
+			file, err := ioutil.TempFile("", "prefix")
 			if err != nil {
 				return err
 			}
@@ -1216,7 +1216,7 @@ func detectNewVersions() error {
 		return err
 	}
 
-	for i := 0; i < 50; i++ {
+	for i := 0; i < 200; i++ {
 		index := rand.Intn(len(rep.Package))
 
 		p := rep.Package[index]
