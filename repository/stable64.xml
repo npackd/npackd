@@ -3968,6 +3968,14 @@ x86_64</description>
    <variable>nih</variable>
   </dependency>
  </version>
+ <version name="4.13.3" package="4k-video-downloader64" type="one-file">
+  <file path=".Npackd\Install.bat">call "%nih%\InstallMSI.bat" INSTALLDIR yes&#13;
+</file>
+  <url>https://dl.4kdownload.com/app/4kvideodownloader_4.13.3_x64.msi</url>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.1, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
 
     <version name="2.2" package="ag64">
   <cmd-file path="ag.exe"/>
@@ -16327,6 +16335,17 @@ rmdir "%name%"&#13;
    <variable>ncl</variable>
   </dependency>
  </version>
+ <version name="8.23" package="explzh" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">"%ncl%\ncl.exe" remove-scp --title "/%npackd_package_name% %npackd_package_version%/i"&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+</file>
+  <url>https://www.ponsoftware.com/en/archiver/explzh/explz823_en.exe</url>
+  <hash-sum type="SHA-256">6bd90fecaff95a633fd4cab4f93975abb2b7d2a86aba4d5d385a7cb654e56b7e</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.25, 2)">
+   <variable>ncl</variable>
+  </dependency>
+ </version>
 
     <version name="8.7" package="explzh64" type="one-file">
   <file path=".Npackd\Install.bat">"%npackd_package_binary%" &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
@@ -16390,6 +16409,17 @@ rmdir "%name%"&#13;
 </file>
   <url>https://www.ponsoftware.com/en/archiver/explzh/explz822_en_x64.exe</url>
   <hash-sum type="SHA-256">3a06d71fcbdbc36bc6d9b036545b9a6b5b00efc2b510f5d0d1386a430f1cb45b</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.25, 2)">
+   <variable>ncl</variable>
+  </dependency>
+ </version>
+ <version name="8.23" package="explzh64" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">"%ncl%\ncl.exe" remove-scp --title "/%npackd_package_name% %npackd_package_version%/i"&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+</file>
+  <url>https://www.ponsoftware.com/en/archiver/explzh/explz823_en_x64.exe</url>
+  <hash-sum type="SHA-256">9d3dba2e0222b91b579927377f56416e4d1b06cf96916e5263815f79bbec1193</hash-sum>
   <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.25, 2)">
    <variable>ncl</variable>
   </dependency>
@@ -18213,6 +18243,17 @@ if %err% neq 0 exit %err%&#13;
 </file>
   <url>https://github.com/git-for-windows/git/releases/download/v2.29.0.windows.1/Git-2.29.0-64-bit.exe</url>
   <hash-sum type="SHA-256">a87a5b2abf44021cc61709218c6ffbb994a79126c5d3953368a45fecbc23cce0</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
+ <version name="2.29.1" package="git64" type="one-file">
+  <file path=".Npackd\Install.bat">call "%nih%\InstallInnoSetup.bat"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">call "%nih%\UninstallInnoSetup.bat" unins000.exe&#13;
+</file>
+  <url>https://github.com/git-for-windows/git/releases/download/v2.29.1.windows.1/Git-2.29.1-64-bit.exe</url>
+  <hash-sum type="SHA-256">a24d4069ae1267bc302556c49cad50a4f1672d70794e5d4d25b20d1cccf5c4c8</hash-sum>
   <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
    <variable>nih</variable>
   </dependency>
@@ -20708,6 +20749,14 @@ rmdir "%name%"&#13;
 </file>
   <url>http://mirrors.kodi.tv/releases/windows/win64/kodi-18.8-Leia-x64.exe</url>
   <hash-sum type="SHA-256">4b19cc378e4ed0d3149b54d827ef767e6c1f4a51e08cc8e475578a70f6e4177a</hash-sum>
+ </version>
+ <version name="18.9" package="kodi64" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">uninstall.exe /S _?=%CD%&#13;
+</file>
+  <url>http://mirrors.kodi.tv/releases/windows/win64/kodi-18.9-Leia-x64.exe</url>
+  <hash-sum type="SHA-256">1819c2bed5bf94b0491879c09e093a40eb358e8b0f5e024c54542d52a27fe78b</hash-sum>
  </version>
 
     <version name="1.0.9" package="kr.pe.nyam.Imagine64">
@@ -27819,6 +27868,29 @@ WshShell.SendKeys("{ESC}");&#13;
 </file>
   <url>https://github.com/tim-lebedkov/packages/releases/download/2020_09/openmpt64-1.29.3-OpenMPT-1.29.03.00-Setup-x64.exe</url>
   <hash-sum type="SHA-256">6b56cce6b65f9ab27d9141fb6112ffdee0536c1749f040b7c315b8527059c587</hash-sum>
+ </version>
+ <version name="1.29.5" package="openmpt64" type="one-file">
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
+"%setup%" /SP- /VERYSILENT /SUPPRESSMSGBOXES /NOCANCEL /NORESTART /DIR="%CD%" /SAVEINF="%CD%\.Npackd\InnoSetupInfo.ini" /LOG="%CD%\.Npackd\InnoSetupInstall.log" &amp;&amp; del /f /q "%setup%"&#13;
+set err=%errorlevel%&#13;
+type .Npackd\InnoSetupInstall.log&#13;
+if %err% neq 0 exit %err%&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">start "Confirm Uninstall" cscript //Nologo //B //E:JScript //T:300 //U .Npackd\ConfirmUninstall.js&#13;
+&#13;
+unins000.exe /VERYSILENT /SUPPRESSMSGBOXES /NORESTART /LOG="%CD%\.Npackd\InnoSetupUninstall.log"&#13;
+set err=%errorlevel%&#13;
+type .Npackd\InnoSetupUninstall.log&#13;
+if %err% neq 0 exit %err%&#13;
+</file>
+  <file path=".Npackd\ConfirmUninstall.js">var WshShell = WScript.CreateObject("WScript.Shell");&#13;
+WScript.Sleep(60000);&#13;
+WshShell.AppActivate("Uninstall");&#13;
+WScript.Sleep(10000);&#13;
+WshShell.SendKeys("{ESC}");&#13;
+</file>
+  <url>https://download.openmpt.org/archive/openmpt/1.29/OpenMPT-1.29.05.00-Setup-x64.exe</url>
+  <hash-sum type="SHA-256">ba22b9a6272db755ec4856b8005ed8a8dbb828b20e1668714ebbb7c1ad8116fb</hash-sum>
  </version>
 
     <version name="2015.3.2" package="openscad64" type="one-file">
@@ -46921,6 +46993,14 @@ Prog\setup.exe /Q /IACCEPTSQLSERVERLICENSETERMS /Q /ACTION=install &gt; .Npackd\
 </file>
   <url>https://github.com/strawberrymusicplayer/strawberry/releases/download/0.8.2/StrawberrySetup-0.8.2-x64.exe</url>
   <hash-sum type="SHA-256">d496702d0a5a845e0c40b28f0e10edc25b048b588d23921c39d76a0cf25ecbb3</hash-sum>
+ </version>
+ <version name="0.8.3" package="strawberry64" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">uninstall.exe /S _?=%CD%&#13;
+</file>
+  <url>https://github.com/strawberrymusicplayer/strawberry/releases/download/0.8.3/StrawberrySetup-0.8.3-x64.exe</url>
+  <hash-sum type="SHA-256">4c6f0c24c9a9924db9492bbb05b608b2b0104c67d4402e23ccca78aa726e40ad</hash-sum>
  </version>
 
     <version name="2.0.2" package="sublime-text64" type="one-file">
