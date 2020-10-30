@@ -391,17 +391,22 @@ func apiSetURL(packageName string, version string, newURL string) (int, error) {
 /**
  * Changes the URL for a package version at https://npackd.appspot.com .
  *
- * @param package_ package name
- * @param version version number
- * @param url new URL
+ * package_ package name
+ * version version number
+ * url new URL
+ * tags: set these tags
  * returns: error
  */
-func apiSetURLAndHashSum(packageName string, version string, newURL string, newHashSum string) error {
+func apiSetURLAndHashSum(packageName string, version string, newURL string, newHashSum string, tags []string) error {
 	a := "https://npackd.appspot.com/api/set-url?package=" +
-		packageName + "&version=" + version +
-		"&password=" + settings.password +
+		url.QueryEscape(packageName) + "&version=" + url.QueryEscape(version) +
+		"&password=" + url.QueryEscape(settings.password) +
 		"&url=" + url.QueryEscape(newURL) +
-		"&hash-sum=" + newHashSum
+		"&hash-sum=" + url.QueryEscape(newHashSum)
+
+	for _, tag := range(tags) {
+		a = a + "&tag=" + url.QueryEscape(tag)
+	}
 
 	_, statusCode, err := download(a, false)
 	if statusCode != 200 {
@@ -1109,57 +1114,58 @@ func detect(packageName string) error {
 		return err
 	}
 
-	// create the new download URL from the template
-	downloadURL := pv.URL
-	if (len(p.DiscoveryURLPattern) > 0) {
-		downloadURL = strings.Replace(downloadURL, "-", ".", -1);
+	// only change the URL and hash sum if the tag "same-url" is not present
+	if indexOf(p.Tag, "same-url") < 0 {
+		// create the new download URL from the template
+		downloadURL := pv.URL
+		if (len(p.DiscoveryURLPattern) > 0) {
+			downloadURL = strings.Replace(p.DiscoveryURLPattern, "${version}", versionToString(version), -1)
 
-		downloadURL = strings.Replace(downloadURL, "${version}", versionToString(version), -1)
-
-		for i := 0; i < 5; i++ {
-			var repl string
-			if len(version) > i {
-				repl = strconv.Itoa(version[i])
-			} else {
-				repl = "0"
+			for i := 0; i < 5; i++ {
+				var repl string
+				if len(version) > i {
+					repl = strconv.Itoa(version[i])
+				} else {
+					repl = "0"
+				}
+				downloadURL = strings.Replace(downloadURL, "${v" + strconv.Itoa(i) + "}", repl, -1)
 			}
-			downloadURL = strings.Replace(downloadURL, "${v" + strconv.Itoa(i) + "}", repl, -1)
 		}
-	}
 
-	// compute the check sum
-	hashSum := pv.HashSum
-	if len(hashSum) > 0 && downloadURL != pv.URL {
-		file, err := ioutil.TempFile("dir", "prefix")
+		// compute the check sum
+		hashSum := pv.HashSum
+		if len(hashSum) > 0 && downloadURL != pv.URL {
+			file, err := ioutil.TempFile("dir", "prefix")
+			if err != nil {
+				return err
+			}
+
+			defer os.Remove(file.Name())
+
+			err = downloadToFile(downloadURL, file.Name())
+			if err != nil {
+				return err
+			}
+
+			f, err := os.Open(file.Name())
+			if err != nil {
+				return err
+			}
+			defer f.Close()
+
+			h := sha256.New()
+			if _, err := io.Copy(h, f); err != nil {
+				return err
+			}
+
+			hashSum = fmt.Sprintf("%x", h.Sum(nil))
+		}
+
+		fmt.Println("Set URL=" + downloadURL + " and hash sum=" + hashSum)
+		err = apiSetURLAndHashSum(p.Name, versionToString(newVersion), downloadURL, hashSum, []string{"untested"})
 		if err != nil {
 			return err
 		}
-
-		defer os.Remove(file.Name())
-
-		err = downloadToFile(downloadURL, file.Name())
-		if err != nil {
-			return err
-		}
-
-		f, err := os.Open(file.Name())
-		if err != nil {
-			return err
-		}
-		defer f.Close()
-
-		h := sha256.New()
-		if _, err := io.Copy(h, f); err != nil {
-			return err
-		}
-
-		hashSum = fmt.Sprintf("%x", h.Sum(nil))
-	}
-
-	fmt.Println("Set URL=" + downloadURL + " and hash sum=" + hashSum)
-	err = apiSetURLAndHashSum(p.Name, versionToString(newVersion), downloadURL, hashSum)
-	if err != nil {
-		return err
 	}
 
 	return nil
