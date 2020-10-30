@@ -1031,8 +1031,6 @@ func maxVersion(a []PackageVersion) *PackageVersion {
 // packageName: this package will be processed
 // returns: error or nil
 func detect(packageName string) error {
-	fmt.Println("Checking for new package versions in https://www.npackd.org/p/" + packageName)
-
 	// now we download the data from the same package, but also with
 	// additional fields for discovery
 	bytes, _, err := download("https://www.npackd.org/rep/recent-xml?extra=true&package="+packageName, true)
@@ -1216,6 +1214,8 @@ func detectNewVersions() error {
 		index := rand.Intn(len(rep.Package))
 
 		p := rep.Package[index]
+
+		fmt.Println("https://www.npackd.org/p/" + p.Name)
 
 		err = detect(p.Name)
 		if err != nil {
