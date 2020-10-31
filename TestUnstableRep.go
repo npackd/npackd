@@ -1033,6 +1033,37 @@ func maxVersion(a []PackageVersion) *PackageVersion {
 	return res
 }
 
+// Download an URL and compute the SHA-256 of the data.
+//
+// address: URL
+// return: (SHA-256, error)
+func downloadAndHash(address string) ([]byte, error) {
+	file, err := ioutil.TempFile("", "prefix")
+	if err != nil {
+		return nil, err
+	}
+
+	defer os.Remove(file.Name())
+
+	err = downloadToFile(address, file.Name())
+	if err != nil {
+		return nil, err
+	}
+
+	f, err := os.Open(file.Name())
+	if err != nil {
+		return nil, err
+	}
+	defer f.Close()
+
+	h := sha256.New()
+	if _, err := io.Copy(h, f); err != nil {
+		return nil, err
+	}
+
+	return h.Sum(nil), nil
+}
+
 // packageName: this package will be processed
 // returns: error or nil
 func detect(packageName string) error {
@@ -1137,30 +1168,14 @@ func detect(packageName string) error {
 		// compute the check sum
 		hashSum := pv.HashSum
 		if len(hashSum) > 0 && downloadURL != pv.URL {
-			file, err := ioutil.TempFile("", "prefix")
-			if err != nil {
-				return err
+			hash, err := downloadAndHash(downloadURL)
+
+			// even if the download fails, we should still update the URL
+			if err == nil {
+				hashSum = fmt.Sprintf("%x", hash)
+			} else {
+				fmt.Println("Error downloading/computing hash sum: " + err.Error())
 			}
-
-			defer os.Remove(file.Name())
-
-			err = downloadToFile(downloadURL, file.Name())
-			if err != nil {
-				return err
-			}
-
-			f, err := os.Open(file.Name())
-			if err != nil {
-				return err
-			}
-			defer f.Close()
-
-			h := sha256.New()
-			if _, err := io.Copy(h, f); err != nil {
-				return err
-			}
-
-			hashSum = fmt.Sprintf("%x", h.Sum(nil))
 		}
 
 		fmt.Println("Set URL=" + downloadURL + " and hash sum=" + hashSum)
