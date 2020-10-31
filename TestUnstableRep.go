@@ -1216,10 +1216,8 @@ func detectNewVersions() error {
 		return err
 	}
 
-	for i := 0; i < 200; i++ {
-		index := rand.Intn(len(rep.Package))
-
-		p := rep.Package[index]
+	for i := 0; i < len(rep.Package); i++ {
+		p := rep.Package[i]
 
 		fmt.Println("https://www.npackd.org/p/" + p.Name)
 
