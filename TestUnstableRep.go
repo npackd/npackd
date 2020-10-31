@@ -1097,6 +1097,8 @@ func detect(packageName string) error {
 		return err
 	}
 
+	newVersion = normalizeVersion(newVersion)
+
 	pv := maxVersion(packageVersions)
 	version, err := parseVersion(pv.Name)
 	if err != nil {
@@ -1188,6 +1190,17 @@ func getPackage(rep *Repository, packageName string) *Package {
 		}
 	}
 	return nil
+}
+
+// normalize a version number
+// version: a non-normalized version number
+// return: normalized version number
+func normalizeVersion(version []int) []int {
+	res := version
+	for len(res) > 1 && res[len(res) - 1] == 0 {
+		res = res[:len(res)-1]
+	}
+	return res
 }
 
 func versionToString(version []int) string {
