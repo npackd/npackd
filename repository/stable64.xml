@@ -3741,11 +3741,13 @@ x86_64</description>
  <package name="vs-code64">
   <title>Visual Studio Code 64 Bit</title>
   <url>https://code.visualstudio.com/</url>
-  <description>IDE. Supported languages: Batch, C#, C++, Clojure, CoffeeScript, CSS, Dart, Dockerfile, F#, Go, Groovy, Handlebars.js, HTML, Ini, Java, JavaScript, JSON, Less, Lua, Makefile, Markdown, Objective-C, Perl, PowerShell, PHP, Python, R, Ruby, Rust, Sass, SQL, Swift, TypeScript, Visual Basic and XML.
+  <description>WARNING: this package always installs the newest version of the software.
+IDE. Supported languages: Batch, C#, C++, Clojure, CoffeeScript, CSS, Dart, Dockerfile, F#, Go, Groovy, Handlebars.js, HTML, Ini, Java, JavaScript, JSON, Less, Lua, Makefile, Markdown, Objective-C, Perl, PowerShell, PHP, Python, R, Ruby, Rust, Sass, SQL, Swift, TypeScript, Visual Basic and XML.
 x86_64</description>
   <icon>https://code.visualstudio.com/favicon.ico</icon>
   <category>Development</category>
   <tag>stable64</tag>
+  <tag>same-url</tag>
   <stars>4</stars>
   <link href="https://code.visualstudio.com/assets/home/home-screenshot-win-lg.png" rel="screenshot"/>
  </package>
@@ -9798,6 +9800,16 @@ rmdir "%name%"&#13;
 </file>
   <url>https://cdn.mysql.com/Downloads/MySQL-8.0/mysql-8.0.21-winx64.zip</url>
   <hash-sum type="SHA-256">0f0e2a8a20994acab3ec63b3a99eb914beadeaeb71cc9174faa2a7f1d0daaba9</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.CLU" versions="[1.25, 2)">
+   <variable>clu</variable>
+  </dependency>
+ </version>
+ <version name="8.0.22" package="com.mysql.MySQLCommunityServer64">
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b mysql*') do set name=%%x&#13;
+"%clu%\clu" unwrap-dir -p "%name%"&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+</file>
+  <url>https://cdn.mysql.com/Downloads/MySQL-8.0/mysql-8.0.22-winx64.zip</url>
+  <hash-sum type="SHA-256">faec240419fdd3c5b7fb450b5b59164396f1686cff7413a515008479ef4d4201</hash-sum>
   <dependency package="com.googlecode.windows-package-manager.CLU" versions="[1.25, 2)">
    <variable>clu</variable>
   </dependency>
@@ -16335,6 +16347,17 @@ rmdir "%name%"&#13;
    <variable>ncl</variable>
   </dependency>
  </version>
+ <version name="8.22" package="explzh" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">"%ncl%\ncl.exe" remove-scp --title "/%npackd_package_name% %npackd_package_version%/i"&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+</file>
+  <url>https://www.ponsoftware.com/en/archiver/explzh/explz822_en.exe</url>
+  <hash-sum type="SHA-256">0712b6160f2609aaa5c8a1c640d37deb994cc150cd23232ccdccb6816a222a16</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.25, 2)">
+   <variable>ncl</variable>
+  </dependency>
+ </version>
  <version name="8.23" package="explzh" type="one-file">
   <file path=".Npackd\Install.bat">"%npackd_package_binary%" &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
 </file>
@@ -16692,6 +16715,16 @@ rmdir "%name%"&#13;
   <file path=".Npackd\Uninstall.bat">"%ncl%\ncl.exe" remove-scp --title "/%npackd_package_name% %npackd_package_version%/i"&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
 </file>
   <url>https://www.portalgraphics.net/firealpaca/bin/FireAlpaca32_setup_2_3_17.exe</url>
+  <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.25, 2)">
+   <variable>ncl</variable>
+  </dependency>
+ </version>
+ <version name="2.3.18" package="firealpaca" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">"%ncl%\ncl.exe" remove-scp --title "/%npackd_package_name% %npackd_package_version%/i"&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+</file>
+  <url>https://www.portalgraphics.net/firealpaca/bin/FireAlpaca32_setup_2_3_18.exe</url>
   <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.25, 2)">
    <variable>ncl</variable>
   </dependency>
@@ -17306,6 +17339,17 @@ echo DesktopShortcut=false &gt;&gt; .Npackd\FF.ini&#13;
 verify</file>
   <url>https://download-installer.cdn.mozilla.net/pub/firefox/releases/81.0/win64/en-US/Firefox%20Setup%2081.0.exe</url>
   <hash-sum type="SHA-256">16dfb12e27acbc2c350849ded3e43676b7b984ddb7788232724b22c2d2bf93ef</hash-sum>
+ </version>
+ <version name="82" package="firefox64" type="one-file">
+  <file path=".Npackd\Install.bat">echo [Install] &gt; .Npackd\FF.ini&#13;
+echo InstallDirectoryPath=%CD% &gt;&gt; .Npackd\FF.ini&#13;
+echo QuickLaunchShortcut=false &gt;&gt; .Npackd\FF.ini&#13;
+echo DesktopShortcut=false &gt;&gt; .Npackd\FF.ini&#13;
+"%npackd_package_binary%" /INI="%CD%\.Npackd\FF.ini" &amp;&amp; del /f /q "%npackd_package_binary%"</file>
+  <file path=".Npackd\Uninstall.bat">uninstall\helper.exe /S&#13;
+verify</file>
+  <url>https://download-installer.cdn.mozilla.net/pub/firefox/releases/82.0/win64/en-US/Firefox%20Setup%2082.0.exe</url>
+  <hash-sum type="SHA-256">eb9671710bd9e92b12f50170b25535cef6cdbd4e38ed1ec1445defebf68dd580</hash-sum>
  </version>
 
     <version name="1.22" package="focus-image-viewer" type="one-file">
@@ -19155,6 +19199,19 @@ rmdir "%name%"&#13;
 </file>
   <url>https://dl.google.com/dl/cloudsdk/channels/rapid/downloads/google-cloud-sdk-315.0.0-windows-x86_64.zip</url>
   <hash-sum type="SHA-256">c9b283c9db4ed472111ccf32e6689fd467daf18ce3a77b8e601f9c646a83d86b</hash-sum>
+  <dependency package="org.python.Python" versions="[2.7, 2.8)"/>
+ </version>
+ <version name="316" package="google-cloud-sdk64">
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b google-cloud-sdk*') do set name=%%x&#13;
+cd "%name%"&#13;
+for /f "delims=" %%a in ('dir /b') do (&#13;
+  move "%%a" ..&#13;
+)&#13;
+cd ..&#13;
+rmdir "%name%"&#13;
+</file>
+  <url>https://dl.google.com/dl/cloudsdk/channels/rapid/downloads/google-cloud-sdk-316.0.0-windows-x86_64.zip</url>
+  <hash-sum type="SHA-256">242fceef24c8337d152d81f498f76723e36e6c310046ec00ab76ab6487490eed</hash-sum>
   <dependency package="org.python.Python" versions="[2.7, 2.8)"/>
  </version>
 
@@ -21340,6 +21397,19 @@ call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Np
 </file>
   <url>https://github.com/ldc-developers/ldc/releases/download/v1.23.0/ldc2-1.23.0-windows-x64.7z</url>
   <hash-sum type="SHA-256">0aec6f6dba133e05a2723cf1c76c65001c3bdc20117e38a99d849a223bfbb448</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.19, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
+ <version name="1.24" package="ldc64" type="one-file">
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.7z') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+&#13;
+for /f "delims=" %%x in ('dir /b ldc*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+</file>
+  <url>https://github.com/ldc-developers/ldc/releases/download/v1.24.0/ldc2-1.24.0-windows-x64.7z</url>
+  <hash-sum type="SHA-256">aee8bed54166872e0ec1f4d2c44744f81a34755dafa01f5ecad43f127a12925f</hash-sum>
   <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.19, 2)">
    <variable>nih</variable>
   </dependency>
@@ -24912,6 +24982,17 @@ verify&#13;
    <variable>nih</variable>
   </dependency>
  </version>
+ <version name="3.23.124" package="net.sourceforge.dittocp.Ditto64" type="one-file">
+  <file path=".Npackd\Install.bat">call "%nih%\InstallInnoSetup.bat"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">call "%nih%\UninstallInnoSetup.bat" unins000.exe&#13;
+</file>
+  <url>https://sourceforge.net/projects/ditto-cp/files/Ditto/3.23.124.0/DittoSetup_64bit_3_23_124_0.exe</url>
+  <hash-sum type="SHA-256">94b514f74d54fe77074c99cabedcecf2a671a4ec8ad0c0463627c9969b7265ef</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
 
     <version name="0.5.4" package="net.sourceforge.Doublecmd64" type="one-file">
   <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
@@ -27889,7 +27970,7 @@ WshShell.AppActivate("Uninstall");&#13;
 WScript.Sleep(10000);&#13;
 WshShell.SendKeys("{ESC}");&#13;
 </file>
-  <url>https://download.openmpt.org/archive/openmpt/1.29/OpenMPT-1.29.05.00-Setup-x64.exe</url>
+  <url>https://github.com/tim-lebedkov/packages/releases/download/2020_10/openmpt64-1.29.5-OpenMPT-1.29.05.00-Setup-x64.exe</url>
   <hash-sum type="SHA-256">ba22b9a6272db755ec4856b8005ed8a8dbb828b20e1668714ebbb7c1ad8116fb</hash-sum>
  </version>
 
@@ -34591,6 +34672,14 @@ ren "%setup%" Psycopg.exe&#13;
    <variable>npackdih</variable>
   </dependency>
  </version>
+ <version name="2.6.2" package="org.keepassxc.keepassxc" type="one-file">
+  <file path=".Npackd\Install.bat">call "%npackdih%\InstallMSI.bat" INSTALLDIR yes</file>
+  <url>https://github.com/keepassxreboot/keepassxc/releases/download/2.6.2/KeePassXC-2.6.2-Win64.msi</url>
+  <hash-sum type="SHA-256">3b95a44ecac25df638323c7b75789eb14497db50d25b67c90b170c2ba4b5fc85</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.22, 2)">
+   <variable>npackdih</variable>
+  </dependency>
+ </version>
 
     <version name="2.9.4407" package="org.miktex.MiKTeX64" type="one-file">
   <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
@@ -36346,6 +36435,15 @@ verify</file>
    <variable>npackdih</variable>
   </dependency>
  </version>
+ <version name="14.15" package="org.nodejs.NodeJS64" type="one-file">
+  <cmd-file path="node.exe"/>
+  <file path=".Npackd\Install.bat">call "%npackdih%\InstallMSI.bat" INSTALLDIR yes</file>
+  <url>https://nodejs.org/dist/v14.15.0/node-v14.15.0-x64.msi</url>
+  <hash-sum type="SHA-256">cafbd7ed129fb4a56a1751b674ba083d7681b72ae044c4976b3009cb796557af</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.1, 2)">
+   <variable>npackdih</variable>
+  </dependency>
+ </version>
 
     <version name="2.2" package="org.openshot.openshot64" type="one-file">
   <file path=".Npackd\Install.bat">"%nih%\InstallInnoSetup.bat"&#13;
@@ -37975,6 +38073,19 @@ cd ..&#13;
 rmdir "%name%"</file>
   <url>https://download.springsource.com/release/STS4/4.8.0.RELEASE/dist/e4.15/spring-tool-suite-4-4.8.0.RELEASE-e4.15.0-win32.win32.x86_64.zip</url>
   <hash-sum type="SHA-256">7d60a8bcf67f3f7a510afed040e3a1e3cdb6b2a6db819b81d751e82f2a1e33e1</hash-sum>
+  <dependency package="com.oracle.JRE64" versions="[1.7, 2)"/>
+ </version>
+ <version name="4.8.1" package="org.springsource.STS64">
+  <important-file path="SpringToolSuite4.exe" title="Spring Tool Suite"/>
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b sts*') do set name=%%x&#13;
+cd "%name%"        &#13;
+for /f "delims=" %%a in ('dir /b') do (&#13;
+  move "%%a" ..&#13;
+)&#13;
+cd ..&#13;
+rmdir "%name%"</file>
+  <url>https://download.springsource.com/release/STS4/4.8.1.RELEASE/dist/e4.17/spring-tool-suite-4-4.8.1.RELEASE-e4.17.0-win32.win32.x86_64.zip</url>
+  <hash-sum type="SHA-256">20f157466e16f01106359e8a1ad51f402ce9466daf5e24a1d5252ba8d995bd00</hash-sum>
   <dependency package="com.oracle.JRE64" versions="[1.7, 2)"/>
  </version>
 
@@ -41241,6 +41352,20 @@ call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Np
    <variable>nih</variable>
   </dependency>
  </version>
+ <version name="8.2.1913" package="org.vim.Vim64">
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+if %errorlevel% neq 0 exit /b %errorlevel%&#13;
+&#13;
+for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+</file>
+  <url>https://github.com/vim/vim-win32-installer/releases/download/v8.2.1913/gvim_8.2.1913_x64.zip</url>
+  <hash-sum type="SHA-256">ada5cbc5ffd668bfe5ad313236cad1820ed892673a66e3ef2f4b4c24df807639</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.19, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
 
     <version name="4.2.8.83876" package="org.virtualbox.virtualbox64" type="one-file">
   <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
@@ -42852,6 +42977,41 @@ if %err% neq 0 exit %err%</file>
    <variable>sevenzip</variable>
   </dependency>
  </version>
+ <version name="6.1.16.140961" package="org.virtualbox.virtualbox64" type="one-file">
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
+"%setup%" -x -s -p "%CD%"&#13;
+&#13;
+&#13;
+"%sevenzip%\7z.exe" x common.cab -aos -o"%CD%\common"&#13;
+"%sevenzip%\7z.exe" x "%CD%\common\file_VBoxGuestAdditions.iso" -aos -o"%CD%\common\file_VBoxGuestAdditions"&#13;
+&#13;
+certutil.exe -addstore -f "TrustedPublisher" "%CD%\common\file_VBoxGuestAdditions\cert\oracle-vbox.cer" &gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+&#13;
+for /f "delims=" %%x in ('dir /b *MultiArch_amd64.msi') do set setup=%%x&#13;
+msiexec.exe /qn /norestart /Lime .Npackd\MSI.log /i "%setup%"&#13;
+set err=%errorlevel%&#13;
+type .Npackd\MSI.log&#13;
+rem 3010=restart required&#13;
+if %err% equ 3010 exit 0&#13;
+if %err% neq 0 exit %err%&#13;
+&#13;
+for /f "delims=" %%x in ('dir /b *MultiArch_x86.msi') do set trash=%%x&#13;
+del /q /f "%trash%"&#13;
+&#13;
+if exist "%CD%\common" (rd /s /q "%CD%\common")</file>
+  <file path=".Npackd\Uninstall.bat">for /f "delims=" %%x in ('dir /b *.msi') do set setup=%%x&#13;
+msiexec.exe /qn /norestart /Lime .Npackd\MSI.log /x "%setup%"&#13;
+set err=%errorlevel%&#13;
+type .Npackd\MSI.log&#13;
+rem 3010=restart required&#13;
+if %err% equ 3010 exit 0&#13;
+if %err% neq 0 exit %err%</file>
+  <url>http://download.virtualbox.org/virtualbox/6.1.16/VirtualBox-6.1.16-140961-Win.exe</url>
+  <hash-sum type="SHA-256">7e50f236cdb9780ba08d9cc4ff1d48f17d1da6be81b566c840cd044fa8ec6d0a</hash-sum>
+  <dependency package="org.7-zip.SevenZIP64" versions="[9.20, 20)">
+   <variable>sevenzip</variable>
+  </dependency>
+ </version>
 
     <version name="1.9.11" package="org.virtualdub.VirtualDub64">
   <important-file path="Veedub64.exe" title="VirtualDub"/>
@@ -43588,6 +43748,16 @@ echo DesktopShortcut=false &gt;&gt; .Npackd\FF.ini&#13;
   <url>http://relmirror.palemoon.org/release/palemoon-28.12.0.win64.installer.exe</url>
   <hash-sum type="SHA-256">aaa1cc8f9e508631bf01d65a978d2beb21d7f27e76bd01b72e2822b40718d7f5</hash-sum>
  </version>
+ <version name="28.15" package="pale-moon64" type="one-file">
+  <file path=".Npackd\Install.bat">echo [Install] &gt; .Npackd\FF.ini&#13;
+echo InstallDirectoryPath=%CD% &gt;&gt; .Npackd\FF.ini&#13;
+echo QuickLaunchShortcut=false &gt;&gt; .Npackd\FF.ini&#13;
+echo DesktopShortcut=false &gt;&gt; .Npackd\FF.ini&#13;
+"%npackd_package_binary%" /INI="%CD%\.Npackd\FF.ini" &amp;&amp; del /f /q "%npackd_package_binary%"</file>
+  <file path=".Npackd\Uninstall.bat">uninstall\helper.exe /S</file>
+  <url>http://relmirror.palemoon.org/release/palemoon-28.15.0.win64.installer.exe</url>
+  <hash-sum type="SHA-256">68cb58bb04997e1adb9679ce777474d00db882cf21e4aede84d404843c0e18f4</hash-sum>
+ </version>
 
     <version name="28.10" package="palemoon64" type="one-file">
   <file path=".Npackd\Install.bat">"%npackd_package_binary%"  -ms -ma &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
@@ -43629,6 +43799,17 @@ verify</file>
 </file>
   <url>https://rm-eu.palemoon.org/release/palemoon-28.14.1.win32.installer.exe</url>
   <hash-sum type="SHA-256">c589bbbdeade7af663d6dcad3209dda80a8cbaa9bfd8ea74871ece6cf49e12e1</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.25, 2)">
+   <variable>ncl</variable>
+  </dependency>
+ </version>
+ <version name="28.15" package="palemoon64" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" -ms -ma &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">"%ncl%\ncl.exe" remove-scp --title "/Pale Moon/i"&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+</file>
+  <url>https://rm-eu.palemoon.org/release/palemoon-28.15.0.win32.installer.exe</url>
+  <hash-sum type="SHA-256">cdce26e2f8a4f63d621b76fa062715ebf4a311bb21c2eb8d93426bf75d7c0391</hash-sum>
   <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.25, 2)">
    <variable>ncl</variable>
   </dependency>
@@ -49043,6 +49224,18 @@ if %err% neq 0 exit /b %err%&#13;
    <variable>ncl</variable>
   </dependency>
  </version>
+ <version name="3.4.2066.86" package="vivaldi-browser-64" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" --vivaldi-standalone --do-not-launch-chrome --vivaldi-install-dir="%CD%" &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
+&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">"%ncl%\ncl.exe" remove-scp --title "vivaldi-browser-64"&#13;
+</file>
+  <url>https://downloads.vivaldi.com/stable/Vivaldi.3.4.2066.86.x64.exe</url>
+  <hash-sum type="SHA-256">3bcd8050a6abab3b3a63ad7303ce21136e299abbf7b0a366733088276d47f8b1</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.24, 2)">
+   <variable>ncl</variable>
+  </dependency>
+ </version>
 
     <version name="15.0.2" package="vmware64" type="one-file">
   <file path=".Npackd\Install.bat">"%npackd_package_binary%" /a /s /v"/qn TARGETDIR=."&#13;
@@ -49191,6 +49384,20 @@ if %err% neq 0 exit %err%&#13;
   <url>https://az764295.vo.msecnd.net/stable/a0479759d6e9ea56afa657e454193f72aef85bd0/VSCodeSetup-x64-1.48.2.exe</url>
   <hash-sum type="SHA-256">3f8805a29fdd9fbfd7c0d7a9f354ed160256ec6f1f80410e367bf14f37908afb</hash-sum>
  </version>
+ <version name="1.50" package="vs-code64" type="one-file">
+  <file path=".Npackd\Install.bat">ren "%npackd_package_binary%" setup.exe&#13;
+setup.exe /SP- /VERYSILENT /SUPPRESSMSGBOXES /NOCANCEL /NORESTART /DIR="%CD%" /SAVEINF="%CD%\.Npackd\InnoSetupInfo.ini" /LOG="%CD%\.Npackd\InnoSetupInstall.log"&#13;
+set err=%errorlevel%&#13;
+type .Npackd\InnoSetupInstall.log&#13;
+if %err% neq 0 exit %err%&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">unins000.exe /VERYSILENT /SUPPRESSMSGBOXES /NORESTART /LOG="%CD%\.Npackd\InnoSetupUninstall.log"&#13;
+set err=%errorlevel%&#13;
+type .Npackd\InnoSetupUninstall.log&#13;
+if %err% neq 0 exit %err%&#13;
+</file>
+  <url>https://update.code.visualstudio.com/latest/win32-x64-user/stable</url>
+ </version>
 
     <version name="5" package="vuze64" type="one-file">
   <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
@@ -49285,6 +49492,17 @@ echo DesktopShortcut=false &gt;&gt; .Npackd\FF.ini&#13;
 verify</file>
   <url>https://cdn.waterfox.net/releases/win64/installer/Waterfox%20Current%202020.08%20Setup.exe</url>
   <hash-sum type="SHA-256">85ef08ac08e3376fb90f88b8b8f8f3e23cb1b2c5424872f98d5b11ccbb18c0f5</hash-sum>
+ </version>
+ <version name="2020.10" package="waterfox-current" type="one-file">
+  <file path=".Npackd\Install.bat">echo [Install] &gt; .Npackd\FF.ini&#13;
+echo InstallDirectoryPath=%CD% &gt;&gt; .Npackd\FF.ini&#13;
+echo QuickLaunchShortcut=false &gt;&gt; .Npackd\FF.ini&#13;
+echo DesktopShortcut=false &gt;&gt; .Npackd\FF.ini&#13;
+"%npackd_package_binary%" /INI="%CD%\.Npackd\FF.ini" &amp;&amp; del /f /q "%npackd_package_binary%"</file>
+  <file path=".Npackd\Uninstall.bat">uninstall\helper.exe /S&#13;
+verify</file>
+  <url>https://cdn.waterfox.net/releases/win64/installer/Waterfox%20Current%202020.10%20Setup.exe</url>
+  <hash-sum type="SHA-256">9f6c948b625f20f7fd7ad9e7918743c5e06ba99bce7a7dffc3bb686b4e38b834</hash-sum>
  </version>
 
     <version name="4.6" package="webpi64" type="one-file">
