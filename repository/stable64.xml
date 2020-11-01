@@ -2349,7 +2349,7 @@ x86_64</description>
   <url>https://openmpt.org/</url>
   <description>OpenMPT (short hand for Open ModPlug Tracker) is a tracker software for Windows. OpenMPT allows you to create and play back some great music on your computer. Based on the original ModPlug Tracker written by Olivier Lapicque, OpenMPT is free software and supports a wide variety of module formats and offers an intuitive, native GUI as well as advanced features such as VST plugins and ASIO output.
 x86_64</description>
-  <icon>https://openmpt.org/sites/all/themes/openmpt/logo.png</icon>
+  <icon>https://openmpt.org/img/logo.png</icon>
   <license>org.opensource.BSD3ClauseLicense</license>
   <category>Music</category>
   <tag>stable64</tag>
@@ -3730,11 +3730,13 @@ x86_64</description>
  <package name="vs-code">
   <title>Visual Studio Code</title>
   <url>https://code.visualstudio.com/</url>
-  <description>IDE. Supported languages: Batch, C#, C++, Clojure, CoffeeScript, CSS, Dart, Dockerfile, F#, Go, Groovy, Handlebars.js, HTML, Ini, Java, JavaScript, JSON, Less, Lua, Makefile, Markdown, Objective-C, Perl, PowerShell, PHP, Python, R, Ruby, Rust, Sass, SQL, Swift, TypeScript, Visual Basic and XML.
+  <description>WARNING: this package always installs the newest version of the software.
+IDE. Supported languages: Batch, C#, C++, Clojure, CoffeeScript, CSS, Dart, Dockerfile, F#, Go, Groovy, Handlebars.js, HTML, Ini, Java, JavaScript, JSON, Less, Lua, Makefile, Markdown, Objective-C, Perl, PowerShell, PHP, Python, R, Ruby, Rust, Sass, SQL, Swift, TypeScript, Visual Basic and XML.
 x86_64</description>
   <icon>https://code.visualstudio.com/favicon.ico</icon>
   <category>Development</category>
   <tag>stable64</tag>
+  <tag>same-url</tag>
   <stars>1</stars>
   <link href="https://code.visualstudio.com/assets/home/home-screenshot-win-lg.png" rel="screenshot"/>
  </package>
@@ -4093,6 +4095,14 @@ x86_64</description>
   <url>https://repo.continuum.io/archive/Anaconda3-2020.02-Windows-x86_64.exe</url>
   <hash-sum type="SHA-256">83c2f53c7174253adcc2de7d1293a7408c37b295abbbb8feca32cb8428a26158</hash-sum>
  </version>
+ <version name="2020.7" package="anaconda64" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">Uninstall-Anaconda3.exe /S _?=%CD%&#13;
+</file>
+  <url>https://repo.continuum.io/archive/Anaconda3-2020.07-Windows-x86_64.exe</url>
+  <hash-sum type="SHA-256">66acb9bdf7d2d5925df8762311a85ad72f57dfd340447bf00636d35a28454244</hash-sum>
+ </version>
 
     <version name="2.1.11" package="anki64" type="one-file">
   <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD%&#13;
@@ -4222,6 +4232,22 @@ x86_64</description>
   <url>https://github.com/tim-lebedkov/packages/releases/download/2020_09/anki64-2.1.33-anki-2.1.33-windows.exe</url>
   <hash-sum type="SHA-256">d90a1ac70821da657006c05d00b8368fa61b9f2c1b0895c516542f093194d8f3</hash-sum>
  </version>
+ <version name="2.1.34" package="anki64" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD%&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">uninstall.exe /S&#13;
+</file>
+  <url>https://apps.ankiweb.net/downloads/current/anki-2.1.34-windows.exe</url>
+  <hash-sum type="SHA-256">4d72a43fa09d7462acfc57c53b1418f156a7aa3f0d4afebbbba908177d1b8b23</hash-sum>
+ </version>
+ <version name="2.1.35" package="anki64" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD%&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">uninstall.exe /S&#13;
+</file>
+  <url>https://apps.ankiweb.net/downloads/current/anki-2.1.35-windows.exe</url>
+  <hash-sum type="SHA-256">8ce954c481577c708e1ed1d526a1c010822adc6cdf06d33ffd8df439d8007241</hash-sum>
+ </version>
 
     <version name="2.4.41" package="apache-httpd64">
   <url>https://github.com/tim-lebedkov/packages/releases/download/2020_04/apache-httpd64-2.4.41-httpd-2.4.41-o102s-x64-vc14-r2.zip</url>
@@ -4274,6 +4300,17 @@ x86_64</description>
 </file>
   <url>https://github.com/atom/atom/releases/download/v1.51.0/atom-x64-windows.zip</url>
   <hash-sum type="SHA-256">2a158e6f722438876d5075471ae736bfd7d389e0566b4b6a0b8825075ba7d5a1</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.CLU" versions="[1.25, 2)">
+   <variable>clu</variable>
+  </dependency>
+ </version>
+ <version name="1.52" package="atom64">
+  <important-file path="atom.exe" title="Atom"/>
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b Atom*') do set name=%%x&#13;
+"%clu%\clu" unwrap-dir -p "%name%"&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+</file>
+  <url>https://github.com/atom/atom/releases/download/v1.52.0/atom-x64-windows.zip</url>
+  <hash-sum type="SHA-256">5cb83c7ffa5ff35b2e48eeb0471cb44d544e0808aaa2f2bc8a35e8b04c7bb66e</hash-sum>
   <dependency package="com.googlecode.windows-package-manager.CLU" versions="[1.25, 2)">
    <variable>clu</variable>
   </dependency>
@@ -4777,6 +4814,14 @@ verify
   <url>https://github.com/llvm/llvm-project/releases/download/llvmorg-10.0.0/LLVM-10.0.0-win64.exe</url>
   <hash-sum type="SHA-256">893f8a12506f8ad29ca464d868fb432fdadd782786a10655b86575fc7fc1a562</hash-sum>
  </version>
+ <version name="11" package="clang64" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">uninstall.exe /S _?=%CD%&#13;
+</file>
+  <url>https://github.com/llvm/llvm-project/releases/download/llvmorg-11.0.0/LLVM-11.0.0-win64.exe</url>
+  <hash-sum type="SHA-256">a773ee3519ecc8d68d91f0ec72ee939cbed8ded483ba8e10899dc19bccba1e22</hash-sum>
+ </version>
 
     <version name="3.15.0.1" package="claws-mail64" type="one-file">
   <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
@@ -4944,6 +4989,34 @@ if %errorlevel% neq 0 exit /b %errorlevel%&#13;
 </file>
   <url>https://www.cmake.org/files/v3.18/cmake-3.18.2-win64-x64.zip</url>
   <hash-sum type="SHA-256">5f4ec834fbd9b62fbf73bc48ed459fa2ea6a86c403106c90fedc2ac76d51612d</hash-sum>
+ </version>
+ <version name="3.18.3" package="cmake64">
+  <cmd-file path="bin\cmake.exe"/>
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b cmake*') do set name=%%x&#13;
+cd "%name%"        &#13;
+for /f "delims=" %%a in ('dir /b') do (&#13;
+  move "%%a" ..&#13;
+)&#13;
+cd ..&#13;
+rmdir "%name%"&#13;
+if %errorlevel% neq 0 exit /b %errorlevel%&#13;
+</file>
+  <url>https://www.cmake.org/files/v3.18/cmake-3.18.3-win64-x64.zip</url>
+  <hash-sum type="SHA-256">6b442a2e7877105ff80b8e5d116221ef37a5faea840d916658e2defe8551d4b3</hash-sum>
+ </version>
+ <version name="3.18.4" package="cmake64">
+  <cmd-file path="bin\cmake.exe"/>
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b cmake*') do set name=%%x&#13;
+cd "%name%"        &#13;
+for /f "delims=" %%a in ('dir /b') do (&#13;
+  move "%%a" ..&#13;
+)&#13;
+cd ..&#13;
+rmdir "%name%"&#13;
+if %errorlevel% neq 0 exit /b %errorlevel%&#13;
+</file>
+  <url>https://www.cmake.org/files/v3.18/cmake-3.18.4-win64-x64.zip</url>
+  <hash-sum type="SHA-256">a932bc0c8ee79f1003204466c525b38a840424d4ae29f9e5fb88959116f2407d</hash-sum>
  </version>
 
     <version name="5.26.3.2603" package="com.activestate.ActivePerl64" type="one-file">
@@ -7770,6 +7843,24 @@ call "%npackdih%\InstallMSI.bat" APPLICATIONFOLDER yes&#13;
    <variable>npackdih</variable>
   </dependency>
  </version>
+ <version name="5.0.1" package="com.calibreebook.Calibre64" type="one-file">
+  <file path=".Npackd\Install.bat">call "%npackdih%\InstallMSI.bat" APPLICATIONFOLDER yes&#13;
+</file>
+  <url>https://download.calibre-ebook.com/5.0.1/calibre-64bit-5.0.1.msi</url>
+  <hash-sum type="SHA-256">19680acc8027236cfad67854ec10b52b069e7438b94750474953a67bf3e21403</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.2, 2)">
+   <variable>npackdih</variable>
+  </dependency>
+ </version>
+ <version name="5.2" package="com.calibreebook.Calibre64" type="one-file">
+  <file path=".Npackd\Install.bat">call "%npackdih%\InstallMSI.bat" APPLICATIONFOLDER yes&#13;
+</file>
+  <url>https://download.calibre-ebook.com/5.2.0/calibre-64bit-5.2.0.msi</url>
+  <hash-sum type="SHA-256">62eff0c809b67194b104934a3363b0084ddcc3d172af8a0d74fdfdcb69178d21</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.2, 2)">
+   <variable>npackdih</variable>
+  </dependency>
+ </version>
  <version name="5.3" package="com.calibreebook.Calibre64" type="one-file">
   <file path=".Npackd\Install.bat">call "%npackdih%\InstallMSI.bat" APPLICATIONFOLDER yes&#13;
 </file>
@@ -8764,6 +8855,16 @@ call "%npackdih%\InstallMSI.bat" INSTALLDIR yes&#13;
 </file>
   <url>https://download.tortoisegit.org/tgit/2.10.0.0/TortoiseGit-2.10.0.2-64bit.msi</url>
   <hash-sum type="SHA-256">fd7c1c304b6b2b9ba77ce86e86900e76d93e3fad4367a1b5db4ff162f1d3ea50</hash-sum>
+  <dependency package="git64" versions="[1.7.6.2011.7.8, 3)"/>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3.1, 2)">
+   <variable>npackdih</variable>
+  </dependency>
+ </version>
+ <version name="2.11" package="com.googlecode.tortoisegit.TortoiseGit64" type="one-file">
+  <file path=".Npackd\Install.bat">call "%npackdih%\InstallMSI.bat" INSTALLDIR yes&#13;
+</file>
+  <url>https://download.tortoisegit.org/tgit/2.11.0.0/TortoiseGit-2.11.0.0-64bit.msi</url>
+  <hash-sum type="SHA-256">8a2576ec68e60f0cef7b0a9581e9018b954f265faf5fce1d7df97814ab36bf3a</hash-sum>
   <dependency package="git64" versions="[1.7.6.2011.7.8, 3)"/>
   <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3.1, 2)">
    <variable>npackdih</variable>
@@ -11258,6 +11359,16 @@ if %err% neq 0 exit %err%&#13;
   <file path=".Npackd\Uninstall.bat">call "%nih%\UninstallInnoSetup.bat" unins000.exe</file>
   <url>https://www.mercurial-scm.org/release/windows/Mercurial-5.5.1-x64-python2.exe</url>
   <hash-sum type="SHA-256">2f00543a6dc23f7769babe1d06621dc60e3dcc57febf61d15cc7468363b0eeca</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.7, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
+ <version name="5.5.2" package="com.selenic.mercurial.Mercurial64" type="one-file">
+  <file path=".Npackd\Install.bat">call "%nih%\InstallInnoSetup.bat"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">call "%nih%\UninstallInnoSetup.bat" unins000.exe</file>
+  <url>https://www.mercurial-scm.org/release/windows/Mercurial-5.5.2-x64-python2.exe</url>
+  <hash-sum type="SHA-256">cd2b6ea421556d9cdc51f951710fd80815498ec01963295b27f6db5a4f46e862</hash-sum>
   <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.7, 2)">
    <variable>nih</variable>
   </dependency>
@@ -14608,6 +14719,28 @@ if %err% neq 0 exit %err%&#13;
    <variable>nih</variable>
   </dependency>
  </version>
+ <version name="1.29.2" package="conan64" type="one-file">
+  <cmd-file path="conan\conan.exe"/>
+  <file path=".Npackd\Install.bat">"%nih%\InstallInnoSetup.bat"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">"%nih%\UninstallInnoSetup.bat" unins000.exe</file>
+  <url>https://github.com/conan-io/conan/releases/download/1.29.2/conan-win-64_1_29_2.exe</url>
+  <hash-sum type="SHA-256">8fb1f3c2a3d7e9f4269b477e205e75963484461d94f3cfa9751d672b6c7c422f</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
+ <version name="1.30" package="conan64" type="one-file">
+  <cmd-file path="conan\conan.exe"/>
+  <file path=".Npackd\Install.bat">"%nih%\InstallInnoSetup.bat"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">"%nih%\UninstallInnoSetup.bat" unins000.exe</file>
+  <url>https://github.com/conan-io/conan/releases/download/1.30.0/conan-win-64_1_30_0.exe</url>
+  <hash-sum type="SHA-256">71744e28a63d8447eaa977772e955821c346a60acdd0bc3ddc9c57f09c6d15ab</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
  <version name="1.30.1" package="conan64" type="one-file">
   <cmd-file path="conan\conan.exe"/>
   <file path=".Npackd\Install.bat">"%nih%\InstallInnoSetup.bat"&#13;
@@ -15411,6 +15544,14 @@ if %err% neq 0 exit %err%&#13;
 </file>
   <url>http://dbeaver.jkiss.org/files/7.1.5/dbeaver-ce-7.1.5-x86_64-setup.exe</url>
   <hash-sum type="SHA-256">822966a04f6cd50adc492bfe1c248b384e6e60fa51d2ba4826f9939358e3b47b</hash-sum>
+ </version>
+ <version name="7.2.2" package="dbeaver64" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" /allusers /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">uninstall.exe /allusers /S _?=%CD%&#13;
+</file>
+  <url>http://dbeaver.jkiss.org/files/7.2.2/dbeaver-ce-7.2.2-x86_64-setup.exe</url>
+  <hash-sum type="SHA-256">88e19ff2387d92002fd75be52002699a870b7847cc536100544b5d829826d506</hash-sum>
  </version>
  <version name="7.2.3" package="dbeaver64" type="one-file">
   <file path=".Npackd\Install.bat">"%npackd_package_binary%" /allusers /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
@@ -16347,6 +16488,17 @@ rmdir "%name%"&#13;
    <variable>ncl</variable>
   </dependency>
  </version>
+ <version name="8.21" package="explzh" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">"%ncl%\ncl.exe" remove-scp --title "/%npackd_package_name% %npackd_package_version%/i"&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+</file>
+  <url>https://www.ponsoftware.com/en/archiver/explzh/explz821_en.exe</url>
+  <hash-sum type="SHA-256">bb53683f072ea953f4bb75bbf78670098d4dcbd362ad340296a10da23e47a3b8</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.25, 2)">
+   <variable>ncl</variable>
+  </dependency>
+ </version>
  <version name="8.22" package="explzh" type="one-file">
   <file path=".Npackd\Install.bat">"%npackd_package_binary%" &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
 </file>
@@ -16421,6 +16573,17 @@ rmdir "%name%"&#13;
 </file>
   <url>https://www.ponsoftware.com/en/archiver/explzh/explz816_en_x64.exe</url>
   <hash-sum type="SHA-256">085ef42b93f28389f6a38dd46a9e69bedcf293994bab241b388e204555d53a85</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.25, 2)">
+   <variable>ncl</variable>
+  </dependency>
+ </version>
+ <version name="8.20" package="explzh64" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">"%ncl%\ncl.exe" remove-scp --title "/%npackd_package_name% %npackd_package_version%/i"&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+</file>
+  <url>https://www.ponsoftware.com/en/archiver/explzh/explz820_en_x64.exe</url>
+  <hash-sum type="SHA-256">c7b37205e6f7f1bc7dd2d21c0bda2eaa94a02f539760c5daea5ad3cfb6975502</hash-sum>
   <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.25, 2)">
    <variable>ncl</variable>
   </dependency>
@@ -16709,6 +16872,16 @@ rmdir "%name%"&#13;
    <variable>ncl</variable>
   </dependency>
  </version>
+ <version name="2.3.16" package="firealpaca" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">"%ncl%\ncl.exe" remove-scp --title "/%npackd_package_name% %npackd_package_version%/i"&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+</file>
+  <url>https://www.portalgraphics.net/firealpaca/bin/FireAlpaca32_setup_2_3_16.exe</url>
+  <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.25, 2)">
+   <variable>ncl</variable>
+  </dependency>
+ </version>
  <version name="2.3.17" package="firealpaca" type="one-file">
   <file path=".Npackd\Install.bat">"%npackd_package_binary%" &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
 </file>
@@ -16786,6 +16959,16 @@ rmdir "%name%"&#13;
   <file path=".Npackd\Uninstall.bat">"%ncl%\ncl.exe" remove-scp --title "/%npackd_package_name% %npackd_package_version%/i"&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
 </file>
   <url>https://www.portalgraphics.net/firealpaca/bin/FireAlpaca64_setup_2_3_13.exe</url>
+  <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.25, 2)">
+   <variable>ncl</variable>
+  </dependency>
+ </version>
+ <version name="2.3.16" package="firealpaca64" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">"%ncl%\ncl.exe" remove-scp --title "/%npackd_package_name% %npackd_package_version%/i"&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+</file>
+  <url>https://www.portalgraphics.net/firealpaca/bin/FireAlpaca64_setup_2_3_16.exe</url>
   <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.25, 2)">
    <variable>ncl</variable>
   </dependency>
@@ -19175,6 +19358,32 @@ rmdir "%name%"&#13;
   <hash-sum type="SHA-256">988712872a3570b1d92919ac053e6ca79f2de4cec356a61ac44494b78ffb81b6</hash-sum>
   <dependency package="org.python.Python" versions="[2.7, 2.8)"/>
  </version>
+ <version name="312" package="google-cloud-sdk64">
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b google-cloud-sdk*') do set name=%%x&#13;
+cd "%name%"&#13;
+for /f "delims=" %%a in ('dir /b') do (&#13;
+  move "%%a" ..&#13;
+)&#13;
+cd ..&#13;
+rmdir "%name%"&#13;
+</file>
+  <url>https://dl.google.com/dl/cloudsdk/channels/rapid/downloads/google-cloud-sdk-312.0.0-windows-x86_64.zip</url>
+  <hash-sum type="SHA-256">d46c1c6692c061934a83e4d7b71710be1d1367045af682cdbab2df8273edc0b5</hash-sum>
+  <dependency package="org.python.Python" versions="[2.7, 2.8)"/>
+ </version>
+ <version name="313" package="google-cloud-sdk64">
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b google-cloud-sdk*') do set name=%%x&#13;
+cd "%name%"&#13;
+for /f "delims=" %%a in ('dir /b') do (&#13;
+  move "%%a" ..&#13;
+)&#13;
+cd ..&#13;
+rmdir "%name%"&#13;
+</file>
+  <url>https://dl.google.com/dl/cloudsdk/channels/rapid/downloads/google-cloud-sdk-313.0.0-windows-x86_64.zip</url>
+  <hash-sum type="SHA-256">a905ab37b483fdeedff5a20b91f2710276d9863f19fb4d89885c21059b10b25a</hash-sum>
+  <dependency package="org.python.Python" versions="[2.7, 2.8)"/>
+ </version>
  <version name="314" package="google-cloud-sdk64">
   <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b google-cloud-sdk*') do set name=%%x&#13;
 cd "%name%"&#13;
@@ -20253,6 +20462,17 @@ if %err% neq 0 exit %err%&#13;
 </file>
   <url>https://github.com/tim-lebedkov/packages/releases/download/2020_08/imagemagick64-7.0.10.28-ImageMagick-7.0.10-28-Q16-HDRI-x64-dll.exe</url>
   <hash-sum type="SHA-256">2ff4942ccdcfe55b4f44e99632c95fa7a7f5640664979b3ec84dd3e3c6c89aad</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
+ <version name="7.0.10.34" package="imagemagick64" type="one-file">
+  <file path=".Npackd\Install.bat">call "%nih%\InstallInnoSetup.bat"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">call "%nih%\UninstallInnoSetup.bat" unins000.exe&#13;
+</file>
+  <url>https://www.imagemagick.org/download/binaries/ImageMagick-7.0.10-34-Q16-HDRI-x64-dll.exe</url>
+  <hash-sum type="SHA-256">9421e6db6f17c8a8a5d52828504d8440491f9e058a02aca6a2fba7995de862b4</hash-sum>
   <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
    <variable>nih</variable>
   </dependency>
@@ -25779,244 +25999,13 @@ if %err% neq 0 exit %err%&#13;
    <variable>nih</variable>
   </dependency>
  </version>
- <version name="6.6" package="net.sourceforge.peazip.PeaZip64" type="one-file">
+ <version name="7.4.2" package="net.sourceforge.peazip.PeaZip64" type="one-file">
   <file path=".Npackd\Install.bat">call "%nih%\InstallInnoSetup.bat"&#13;
 </file>
   <file path=".Npackd\Uninstall.bat">call "%nih%\UninstallInnoSetup.bat" unins000.exe&#13;
 </file>
-  <url>https://ayera.dl.sourceforge.net/project/peazip/6.5.1/peazip-6.5.1.WINDOWS.exe</url>
-  <sha1>871cf60f8fc8d1f3dfc48390b2f0ec90bc89a821</sha1>
-  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
-   <variable>nih</variable>
-  </dependency>
- </version>
- <version name="6.6.1" package="net.sourceforge.peazip.PeaZip64" type="one-file">
-  <file path=".Npackd\Install.bat">call "%nih%\InstallInnoSetup.bat"&#13;
-</file>
-  <file path=".Npackd\Uninstall.bat">call "%nih%\UninstallInnoSetup.bat" unins000.exe&#13;
-</file>
-  <url>https://ayera.dl.sourceforge.net/project/peazip/6.5.1/peazip-6.5.1.WINDOWS.exe</url>
-  <sha1>871cf60f8fc8d1f3dfc48390b2f0ec90bc89a821</sha1>
-  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
-   <variable>nih</variable>
-  </dependency>
- </version>
- <version name="6.7" package="net.sourceforge.peazip.PeaZip64" type="one-file">
-  <file path=".Npackd\Install.bat">call "%nih%\InstallInnoSetup.bat"&#13;
-</file>
-  <file path=".Npackd\Uninstall.bat">call "%nih%\UninstallInnoSetup.bat" unins000.exe&#13;
-</file>
-  <url>https://ayera.dl.sourceforge.net/project/peazip/6.5.1/peazip-6.5.1.WINDOWS.exe</url>
-  <sha1>871cf60f8fc8d1f3dfc48390b2f0ec90bc89a821</sha1>
-  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
-   <variable>nih</variable>
-  </dependency>
- </version>
- <version name="6.7.1" package="net.sourceforge.peazip.PeaZip64" type="one-file">
-  <file path=".Npackd\Install.bat">call "%nih%\InstallInnoSetup.bat"&#13;
-</file>
-  <file path=".Npackd\Uninstall.bat">call "%nih%\UninstallInnoSetup.bat" unins000.exe&#13;
-</file>
-  <url>https://ayera.dl.sourceforge.net/project/peazip/6.5.1/peazip-6.5.1.WINDOWS.exe</url>
-  <hash-sum type="SHA-256">49bc326c084e743acff1bdf2437d0b17cdeedb5bde67efee2fd86a613efa9031</hash-sum>
-  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
-   <variable>nih</variable>
-  </dependency>
- </version>
- <version name="6.7.2" package="net.sourceforge.peazip.PeaZip64" type="one-file">
-  <file path=".Npackd\Install.bat">call "%nih%\InstallInnoSetup.bat"&#13;
-</file>
-  <file path=".Npackd\Uninstall.bat">call "%nih%\UninstallInnoSetup.bat" unins000.exe&#13;
-</file>
-  <url>https://ayera.dl.sourceforge.net/project/peazip/6.5.1/peazip-6.5.1.WINDOWS.exe</url>
-  <hash-sum type="SHA-256">49bc326c084e743acff1bdf2437d0b17cdeedb5bde67efee2fd86a613efa9031</hash-sum>
-  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
-   <variable>nih</variable>
-  </dependency>
- </version>
- <version name="6.8" package="net.sourceforge.peazip.PeaZip64" type="one-file">
-  <file path=".Npackd\Install.bat">call "%nih%\InstallInnoSetup.bat"&#13;
-</file>
-  <file path=".Npackd\Uninstall.bat">call "%nih%\UninstallInnoSetup.bat" unins000.exe&#13;
-</file>
-  <url>https://ayera.dl.sourceforge.net/project/peazip/6.5.1/peazip-6.5.1.WINDOWS.exe</url>
-  <hash-sum type="SHA-256">49bc326c084e743acff1bdf2437d0b17cdeedb5bde67efee2fd86a613efa9031</hash-sum>
-  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
-   <variable>nih</variable>
-  </dependency>
- </version>
- <version name="6.8.1" package="net.sourceforge.peazip.PeaZip64" type="one-file">
-  <file path=".Npackd\Install.bat">call "%nih%\InstallInnoSetup.bat"&#13;
-</file>
-  <file path=".Npackd\Uninstall.bat">call "%nih%\UninstallInnoSetup.bat" unins000.exe&#13;
-</file>
-  <url>https://ayera.dl.sourceforge.net/project/peazip/6.5.1/peazip-6.5.1.WINDOWS.exe</url>
-  <hash-sum type="SHA-256">49bc326c084e743acff1bdf2437d0b17cdeedb5bde67efee2fd86a613efa9031</hash-sum>
-  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
-   <variable>nih</variable>
-  </dependency>
- </version>
- <version name="6.9" package="net.sourceforge.peazip.PeaZip64" type="one-file">
-  <file path=".Npackd\Install.bat">call "%nih%\InstallInnoSetup.bat"&#13;
-</file>
-  <file path=".Npackd\Uninstall.bat">call "%nih%\UninstallInnoSetup.bat" unins000.exe&#13;
-</file>
-  <url>https://ayera.dl.sourceforge.net/project/peazip/6.5.1/peazip-6.5.1.WINDOWS.exe</url>
-  <hash-sum type="SHA-256">49bc326c084e743acff1bdf2437d0b17cdeedb5bde67efee2fd86a613efa9031</hash-sum>
-  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
-   <variable>nih</variable>
-  </dependency>
- </version>
- <version name="6.9.1" package="net.sourceforge.peazip.PeaZip64" type="one-file">
-  <file path=".Npackd\Install.bat">call "%nih%\InstallInnoSetup.bat"&#13;
-</file>
-  <file path=".Npackd\Uninstall.bat">call "%nih%\UninstallInnoSetup.bat" unins000.exe&#13;
-</file>
-  <url>https://ayera.dl.sourceforge.net/project/peazip/6.5.1/peazip-6.5.1.WINDOWS.exe</url>
-  <hash-sum type="SHA-256">49bc326c084e743acff1bdf2437d0b17cdeedb5bde67efee2fd86a613efa9031</hash-sum>
-  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
-   <variable>nih</variable>
-  </dependency>
- </version>
- <version name="6.9.2" package="net.sourceforge.peazip.PeaZip64" type="one-file">
-  <file path=".Npackd\Install.bat">call "%nih%\InstallInnoSetup.bat"&#13;
-</file>
-  <file path=".Npackd\Uninstall.bat">call "%nih%\UninstallInnoSetup.bat" unins000.exe&#13;
-</file>
-  <url>https://ayera.dl.sourceforge.net/project/peazip/6.5.1/peazip-6.5.1.WINDOWS.exe</url>
-  <hash-sum type="SHA-256">49bc326c084e743acff1bdf2437d0b17cdeedb5bde67efee2fd86a613efa9031</hash-sum>
-  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
-   <variable>nih</variable>
-  </dependency>
- </version>
- <version name="7" package="net.sourceforge.peazip.PeaZip64" type="one-file">
-  <file path=".Npackd\Install.bat">call "%nih%\InstallInnoSetup.bat"&#13;
-</file>
-  <file path=".Npackd\Uninstall.bat">call "%nih%\UninstallInnoSetup.bat" unins000.exe&#13;
-</file>
-  <url>https://ayera.dl.sourceforge.net/project/peazip/6.5.1/peazip-6.5.1.WINDOWS.exe</url>
-  <hash-sum type="SHA-256">49bc326c084e743acff1bdf2437d0b17cdeedb5bde67efee2fd86a613efa9031</hash-sum>
-  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
-   <variable>nih</variable>
-  </dependency>
- </version>
- <version name="7.0.1" package="net.sourceforge.peazip.PeaZip64" type="one-file">
-  <file path=".Npackd\Install.bat">call "%nih%\InstallInnoSetup.bat"&#13;
-</file>
-  <file path=".Npackd\Uninstall.bat">call "%nih%\UninstallInnoSetup.bat" unins000.exe&#13;
-</file>
-  <url>https://ayera.dl.sourceforge.net/project/peazip/6.5.1/peazip-6.5.1.WINDOWS.exe</url>
-  <hash-sum type="SHA-256">49bc326c084e743acff1bdf2437d0b17cdeedb5bde67efee2fd86a613efa9031</hash-sum>
-  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
-   <variable>nih</variable>
-  </dependency>
- </version>
- <version name="7.1" package="net.sourceforge.peazip.PeaZip64" type="one-file">
-  <file path=".Npackd\Install.bat">call "%nih%\InstallInnoSetup.bat"&#13;
-</file>
-  <file path=".Npackd\Uninstall.bat">call "%nih%\UninstallInnoSetup.bat" unins000.exe&#13;
-</file>
-  <url>https://ayera.dl.sourceforge.net/project/peazip/6.5.1/peazip-6.5.1.WINDOWS.exe</url>
-  <hash-sum type="SHA-256">49bc326c084e743acff1bdf2437d0b17cdeedb5bde67efee2fd86a613efa9031</hash-sum>
-  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
-   <variable>nih</variable>
-  </dependency>
- </version>
- <version name="7.1.1" package="net.sourceforge.peazip.PeaZip64" type="one-file">
-  <file path=".Npackd\Install.bat">call "%nih%\InstallInnoSetup.bat"&#13;
-</file>
-  <file path=".Npackd\Uninstall.bat">call "%nih%\UninstallInnoSetup.bat" unins000.exe&#13;
-</file>
-  <url>https://ayera.dl.sourceforge.net/project/peazip/6.5.1/peazip-6.5.1.WINDOWS.exe</url>
-  <hash-sum type="SHA-256">49bc326c084e743acff1bdf2437d0b17cdeedb5bde67efee2fd86a613efa9031</hash-sum>
-  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
-   <variable>nih</variable>
-  </dependency>
- </version>
- <version name="7.2" package="net.sourceforge.peazip.PeaZip64" type="one-file">
-  <file path=".Npackd\Install.bat">call "%nih%\InstallInnoSetup.bat"&#13;
-</file>
-  <file path=".Npackd\Uninstall.bat">call "%nih%\UninstallInnoSetup.bat" unins000.exe&#13;
-</file>
-  <url>https://ayera.dl.sourceforge.net/project/peazip/6.5.1/peazip-6.5.1.WINDOWS.exe</url>
-  <hash-sum type="SHA-256">49bc326c084e743acff1bdf2437d0b17cdeedb5bde67efee2fd86a613efa9031</hash-sum>
-  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
-   <variable>nih</variable>
-  </dependency>
- </version>
- <version name="7.2.1" package="net.sourceforge.peazip.PeaZip64" type="one-file">
-  <file path=".Npackd\Install.bat">call "%nih%\InstallInnoSetup.bat"&#13;
-</file>
-  <file path=".Npackd\Uninstall.bat">call "%nih%\UninstallInnoSetup.bat" unins000.exe&#13;
-</file>
-  <url>https://ayera.dl.sourceforge.net/project/peazip/6.5.1/peazip-6.5.1.WINDOWS.exe</url>
-  <hash-sum type="SHA-256">49bc326c084e743acff1bdf2437d0b17cdeedb5bde67efee2fd86a613efa9031</hash-sum>
-  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
-   <variable>nih</variable>
-  </dependency>
- </version>
- <version name="7.2.2" package="net.sourceforge.peazip.PeaZip64" type="one-file">
-  <file path=".Npackd\Install.bat">call "%nih%\InstallInnoSetup.bat"&#13;
-</file>
-  <file path=".Npackd\Uninstall.bat">call "%nih%\UninstallInnoSetup.bat" unins000.exe&#13;
-</file>
-  <url>https://ayera.dl.sourceforge.net/project/peazip/6.5.1/peazip-6.5.1.WINDOWS.exe</url>
-  <hash-sum type="SHA-256">49bc326c084e743acff1bdf2437d0b17cdeedb5bde67efee2fd86a613efa9031</hash-sum>
-  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
-   <variable>nih</variable>
-  </dependency>
- </version>
- <version name="7.3" package="net.sourceforge.peazip.PeaZip64" type="one-file">
-  <file path=".Npackd\Install.bat">call "%nih%\InstallInnoSetup.bat"&#13;
-</file>
-  <file path=".Npackd\Uninstall.bat">call "%nih%\UninstallInnoSetup.bat" unins000.exe&#13;
-</file>
-  <url>https://ayera.dl.sourceforge.net/project/peazip/6.5.1/peazip-6.5.1.WINDOWS.exe</url>
-  <hash-sum type="SHA-256">49bc326c084e743acff1bdf2437d0b17cdeedb5bde67efee2fd86a613efa9031</hash-sum>
-  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
-   <variable>nih</variable>
-  </dependency>
- </version>
- <version name="7.3.1" package="net.sourceforge.peazip.PeaZip64" type="one-file">
-  <file path=".Npackd\Install.bat">call "%nih%\InstallInnoSetup.bat"&#13;
-</file>
-  <file path=".Npackd\Uninstall.bat">call "%nih%\UninstallInnoSetup.bat" unins000.exe&#13;
-</file>
-  <url>https://ayera.dl.sourceforge.net/project/peazip/6.5.1/peazip-6.5.1.WINDOWS.exe</url>
-  <hash-sum type="SHA-256">49bc326c084e743acff1bdf2437d0b17cdeedb5bde67efee2fd86a613efa9031</hash-sum>
-  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
-   <variable>nih</variable>
-  </dependency>
- </version>
- <version name="7.3.2" package="net.sourceforge.peazip.PeaZip64" type="one-file">
-  <file path=".Npackd\Install.bat">call "%nih%\InstallInnoSetup.bat"&#13;
-</file>
-  <file path=".Npackd\Uninstall.bat">call "%nih%\UninstallInnoSetup.bat" unins000.exe&#13;
-</file>
-  <url>https://ayera.dl.sourceforge.net/project/peazip/6.5.1/peazip-6.5.1.WINDOWS.exe</url>
-  <hash-sum type="SHA-256">49bc326c084e743acff1bdf2437d0b17cdeedb5bde67efee2fd86a613efa9031</hash-sum>
-  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
-   <variable>nih</variable>
-  </dependency>
- </version>
- <version name="7.4" package="net.sourceforge.peazip.PeaZip64" type="one-file">
-  <file path=".Npackd\Install.bat">call "%nih%\InstallInnoSetup.bat"&#13;
-</file>
-  <file path=".Npackd\Uninstall.bat">call "%nih%\UninstallInnoSetup.bat" unins000.exe&#13;
-</file>
-  <url>https://ayera.dl.sourceforge.net/project/peazip/6.5.1/peazip-6.5.1.WINDOWS.exe</url>
-  <hash-sum type="SHA-256">49bc326c084e743acff1bdf2437d0b17cdeedb5bde67efee2fd86a613efa9031</hash-sum>
-  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
-   <variable>nih</variable>
-  </dependency>
- </version>
- <version name="7.4.1" package="net.sourceforge.peazip.PeaZip64" type="one-file">
-  <file path=".Npackd\Install.bat">call "%nih%\InstallInnoSetup.bat"&#13;
-</file>
-  <file path=".Npackd\Uninstall.bat">call "%nih%\UninstallInnoSetup.bat" unins000.exe&#13;
-</file>
-  <url>https://ayera.dl.sourceforge.net/project/peazip/6.5.1/peazip-6.5.1.WINDOWS.exe</url>
-  <hash-sum type="SHA-256">49bc326c084e743acff1bdf2437d0b17cdeedb5bde67efee2fd86a613efa9031</hash-sum>
+  <url>https://github.com/peazip/PeaZip/releases/download/7.4.2/peazip-7.4.2.WINDOWS.exe</url>
+  <hash-sum type="SHA-256">c567eae0045d5d0179daa00121e295882562a8e712caecdc2a33d5bbcd8f22ea</hash-sum>
   <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
    <variable>nih</variable>
   </dependency>
@@ -27758,6 +27747,17 @@ verify&#13;
    <variable>myun</variable>
   </dependency>
  </version>
+ <version name="26.0.2" package="open-broadcaster-software64" type="one-file">
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
+"%setup%" /S /D=%CD% &amp;&amp; del /f /q "%setup%"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">"%myun%\myuninst.exe" /uninstall "Open Broadcaster Software"</file>
+  <url>https://cdn-fastly.obsproject.com/downloads/OBS-Studio-26.0.2-Full-Installer-x64.exe</url>
+  <hash-sum type="SHA-256">4962e5d2d5dc457dc337b839ebc837b55110d0383f14a2529fdca8a61983212f</hash-sum>
+  <dependency package="net.nirsoft.MyUninstaller" versions="[1.74, 2)">
+   <variable>myun</variable>
+  </dependency>
+ </version>
 
     <version name="1.6.1" package="open-ttd64">
   <important-file path="openttd.exe" title="OpenTTD"/>
@@ -27949,6 +27949,29 @@ WshShell.SendKeys("{ESC}");&#13;
 </file>
   <url>https://github.com/tim-lebedkov/packages/releases/download/2020_09/openmpt64-1.29.3-OpenMPT-1.29.03.00-Setup-x64.exe</url>
   <hash-sum type="SHA-256">6b56cce6b65f9ab27d9141fb6112ffdee0536c1749f040b7c315b8527059c587</hash-sum>
+ </version>
+ <version name="1.29.4" package="openmpt64" type="one-file">
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
+"%setup%" /SP- /VERYSILENT /SUPPRESSMSGBOXES /NOCANCEL /NORESTART /DIR="%CD%" /SAVEINF="%CD%\.Npackd\InnoSetupInfo.ini" /LOG="%CD%\.Npackd\InnoSetupInstall.log" &amp;&amp; del /f /q "%setup%"&#13;
+set err=%errorlevel%&#13;
+type .Npackd\InnoSetupInstall.log&#13;
+if %err% neq 0 exit %err%&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">start "Confirm Uninstall" cscript //Nologo //B //E:JScript //T:300 //U .Npackd\ConfirmUninstall.js&#13;
+&#13;
+unins000.exe /VERYSILENT /SUPPRESSMSGBOXES /NORESTART /LOG="%CD%\.Npackd\InnoSetupUninstall.log"&#13;
+set err=%errorlevel%&#13;
+type .Npackd\InnoSetupUninstall.log&#13;
+if %err% neq 0 exit %err%&#13;
+</file>
+  <file path=".Npackd\ConfirmUninstall.js">var WshShell = WScript.CreateObject("WScript.Shell");&#13;
+WScript.Sleep(60000);&#13;
+WshShell.AppActivate("Uninstall");&#13;
+WScript.Sleep(10000);&#13;
+WshShell.SendKeys("{ESC}");&#13;
+</file>
+  <url>https://download.openmpt.org/archive/openmpt/1.29/OpenMPT-1.29.04.00-Setup-x64.exe</url>
+  <hash-sum type="SHA-256">81ce26c5d1a43f9b7a0fab54c12b0d36b68372f64c90ba43b79d8e18b6f70849</hash-sum>
  </version>
  <version name="1.29.5" package="openmpt64" type="one-file">
   <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
@@ -30566,6 +30589,15 @@ if %err% neq 0 exit /b %err%&#13;
 </file>
   <url>https://www.mercurial-scm.org/release/tortoisehg/windows/tortoisehg-5.5.1-x64.msi</url>
   <hash-sum type="SHA-256">5dc11948dd2abeb1c31c307acc8849e6c926d03a5690594ec5e82c59a0b4ea03</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3.1, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
+ <version name="5.5.2" package="org.bitbucket.tortoisehg.TortoiseHg64" type="one-file">
+  <file path=".Npackd\Install.bat">call "%nih%\InstallMSI.bat" INSTALLDIR yes&#13;
+</file>
+  <url>https://www.mercurial-scm.org/release/tortoisehg/windows/tortoisehg-5.5.2-x64.msi</url>
+  <hash-sum type="SHA-256">7b9f0c815e986a2a29a45b65600926e8b5e7d665a85f1759046ec8e30ad86b76</hash-sum>
   <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3.1, 2)">
    <variable>nih</variable>
   </dependency>
@@ -34343,6 +34375,40 @@ Set view = Nothing&#13;
    <variable>npackdih</variable>
   </dependency>
  </version>
+ <version name="1.15.2" package="org.golang.Go64" type="one-file">
+  <file path=".Npackd\Install.bat">.Npackd\AddProperty.vbs "%npackd_package_binary%"&#13;
+if %errorlevel% neq 0 exit %errorlevel%&#13;
+&#13;
+call "%npackdih%\InstallMSI.bat" INSTALLDIR</file>
+  <file path=".Npackd\Uninstall.bat">call "%npackdih%\UninstallMSI.bat"</file>
+  <file path=".Npackd\AddProperty.vbs">Option Explicit&#13;
+&#13;
+Dim MSI_FILE&#13;
+MSI_FILE = Wscript.Arguments(0)&#13;
+&#13;
+Dim installer, database, view&#13;
+&#13;
+Set installer = CreateObject("WindowsInstaller.Installer")&#13;
+Set database = installer.OpenDatabase(MSI_FILE, 1)&#13;
+&#13;
+Set view = database.OpenView("INSERT INTO Property (Property, Value) VALUES ('INSTALLDIR', 'C:\Go')")&#13;
+view.Execute&#13;
+'Set view = database.OpenView("DELETE FROM Directory WHERE Directory='TARGETDIR'")&#13;
+'view.Execute&#13;
+'Set view = database.OpenView("UPDATE Directory SET DefaultDir='INSTALLLOCATION' WHERE Directory='TARGETDIR'")&#13;
+'view.Execute&#13;
+database.Commit&#13;
+&#13;
+Set database = Nothing&#13;
+Set installer = Nothing&#13;
+Set view = Nothing&#13;
+</file>
+  <url>https://golang.org/dl/go1.15.2.windows-amd64.msi</url>
+  <hash-sum type="SHA-256">e31682789439bcc8c24ef5129c56f1558647822a03feb0c3ed7d48b9a8e22d97</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1, 2)">
+   <variable>npackdih</variable>
+  </dependency>
+ </version>
  <version name="1.15.3" package="org.golang.Go64" type="one-file">
   <file path=".Npackd\Install.bat">.Npackd\AddProperty.vbs "%npackd_package_binary%"&#13;
 if %errorlevel% neq 0 exit %errorlevel%&#13;
@@ -35598,6 +35664,15 @@ rmdir "%name%"&#13;
 </file>
   <url>https://fastdl.mongodb.org/windows/mongodb-windows-x86_64-4.4.0-signed.msi</url>
   <hash-sum type="SHA-256">ab326721c480dfafe0d0c3c1489c25e3a411b86e830dd91151b5ae24b8c9d508</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.1, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
+ <version name="4.4.1" package="org.mongodb.MongoDB64" type="one-file">
+  <file path=".Npackd\Install.bat">call "%nih%\InstallMSI.bat" INSTALLDIR yes&#13;
+</file>
+  <url>https://fastdl.mongodb.org/windows/mongodb-windows-x86_64-4.4.1-signed.msi</url>
+  <hash-sum type="SHA-256">acc93c7d8b8c3c8994940bdf2640215a5d3114ca7838be3cfc2d5887e170eaf7</hash-sum>
   <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.1, 2)">
    <variable>nih</variable>
   </dependency>
@@ -42977,6 +43052,41 @@ if %err% neq 0 exit %err%</file>
    <variable>sevenzip</variable>
   </dependency>
  </version>
+ <version name="6.1.14.140239" package="org.virtualbox.virtualbox64" type="one-file">
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
+"%setup%" -x -s -p "%CD%"&#13;
+&#13;
+&#13;
+"%sevenzip%\7z.exe" x common.cab -aos -o"%CD%\common"&#13;
+"%sevenzip%\7z.exe" x "%CD%\common\file_VBoxGuestAdditions.iso" -aos -o"%CD%\common\file_VBoxGuestAdditions"&#13;
+&#13;
+certutil.exe -addstore -f "TrustedPublisher" "%CD%\common\file_VBoxGuestAdditions\cert\oracle-vbox.cer" &gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+&#13;
+for /f "delims=" %%x in ('dir /b *MultiArch_amd64.msi') do set setup=%%x&#13;
+msiexec.exe /qn /norestart /Lime .Npackd\MSI.log /i "%setup%"&#13;
+set err=%errorlevel%&#13;
+type .Npackd\MSI.log&#13;
+rem 3010=restart required&#13;
+if %err% equ 3010 exit 0&#13;
+if %err% neq 0 exit %err%&#13;
+&#13;
+for /f "delims=" %%x in ('dir /b *MultiArch_x86.msi') do set trash=%%x&#13;
+del /q /f "%trash%"&#13;
+&#13;
+if exist "%CD%\common" (rd /s /q "%CD%\common")</file>
+  <file path=".Npackd\Uninstall.bat">for /f "delims=" %%x in ('dir /b *.msi') do set setup=%%x&#13;
+msiexec.exe /qn /norestart /Lime .Npackd\MSI.log /x "%setup%"&#13;
+set err=%errorlevel%&#13;
+type .Npackd\MSI.log&#13;
+rem 3010=restart required&#13;
+if %err% equ 3010 exit 0&#13;
+if %err% neq 0 exit %err%</file>
+  <url>http://download.virtualbox.org/virtualbox/6.1.14/VirtualBox-6.1.14-140239-Win.exe</url>
+  <hash-sum type="SHA-256">50e5c9617143f98699962097da9fe94319feceb22f8c9c1ce6108796b971b92d</hash-sum>
+  <dependency package="org.7-zip.SevenZIP64" versions="[9.20, 20)">
+   <variable>sevenzip</variable>
+  </dependency>
+ </version>
  <version name="6.1.16.140961" package="org.virtualbox.virtualbox64" type="one-file">
   <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
 "%setup%" -x -s -p "%CD%"&#13;
@@ -43748,6 +43858,26 @@ echo DesktopShortcut=false &gt;&gt; .Npackd\FF.ini&#13;
   <url>http://relmirror.palemoon.org/release/palemoon-28.12.0.win64.installer.exe</url>
   <hash-sum type="SHA-256">aaa1cc8f9e508631bf01d65a978d2beb21d7f27e76bd01b72e2822b40718d7f5</hash-sum>
  </version>
+ <version name="28.14.1" package="pale-moon64" type="one-file">
+  <file path=".Npackd\Install.bat">echo [Install] &gt; .Npackd\FF.ini&#13;
+echo InstallDirectoryPath=%CD% &gt;&gt; .Npackd\FF.ini&#13;
+echo QuickLaunchShortcut=false &gt;&gt; .Npackd\FF.ini&#13;
+echo DesktopShortcut=false &gt;&gt; .Npackd\FF.ini&#13;
+"%npackd_package_binary%" /INI="%CD%\.Npackd\FF.ini" &amp;&amp; del /f /q "%npackd_package_binary%"</file>
+  <file path=".Npackd\Uninstall.bat">uninstall\helper.exe /S</file>
+  <url>http://relmirror.palemoon.org/release/palemoon-28.14.1.win64.installer.exe</url>
+  <hash-sum type="SHA-256">b4200e5ba30c390a059e0278a4dbedbf26545f78fc9c9e739fd74a9dc097bf16</hash-sum>
+ </version>
+ <version name="28.14.2" package="pale-moon64" type="one-file">
+  <file path=".Npackd\Install.bat">echo [Install] &gt; .Npackd\FF.ini&#13;
+echo InstallDirectoryPath=%CD% &gt;&gt; .Npackd\FF.ini&#13;
+echo QuickLaunchShortcut=false &gt;&gt; .Npackd\FF.ini&#13;
+echo DesktopShortcut=false &gt;&gt; .Npackd\FF.ini&#13;
+"%npackd_package_binary%" /INI="%CD%\.Npackd\FF.ini" &amp;&amp; del /f /q "%npackd_package_binary%"</file>
+  <file path=".Npackd\Uninstall.bat">uninstall\helper.exe /S</file>
+  <url>http://relmirror.palemoon.org/release/palemoon-28.14.2.win64.installer.exe</url>
+  <hash-sum type="SHA-256">9c1ef72b7d04a37ec5ff01dfca8b62c35b3b4f52ea323d3486f3a1a835549f92</hash-sum>
+ </version>
  <version name="28.15" package="pale-moon64" type="one-file">
   <file path=".Npackd\Install.bat">echo [Install] &gt; .Npackd\FF.ini&#13;
 echo InstallDirectoryPath=%CD% &gt;&gt; .Npackd\FF.ini&#13;
@@ -43799,6 +43929,17 @@ verify</file>
 </file>
   <url>https://rm-eu.palemoon.org/release/palemoon-28.14.1.win32.installer.exe</url>
   <hash-sum type="SHA-256">c589bbbdeade7af663d6dcad3209dda80a8cbaa9bfd8ea74871ece6cf49e12e1</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.25, 2)">
+   <variable>ncl</variable>
+  </dependency>
+ </version>
+ <version name="28.14.2" package="palemoon64" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" -ms -ma &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">"%ncl%\ncl.exe" remove-scp --title "/Pale Moon/i"&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+</file>
+  <url>https://rm-eu.palemoon.org/release/palemoon-28.14.2.win32.installer.exe</url>
+  <hash-sum type="SHA-256">1335fc7f0a329c3e8723041769fefb2583ecdd0c265f11cf0e1ee20792e61897</hash-sum>
   <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.25, 2)">
    <variable>ncl</variable>
   </dependency>
@@ -45296,6 +45437,17 @@ if %errorlevel% equ 3010 verify</file>
 </file>
   <url>http://download.qt-project.org/official_releases/qtcreator/4.13/4.13.1/qt-creator-opensource-windows-x86_64-4.13.1.exe</url>
   <hash-sum type="SHA-256">728780346bc8fea60c56fc269f456637fa0f4cfb4df74cad6a1eaf6fbb360d3c</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.24, 2)">
+   <variable>ncl</variable>
+  </dependency>
+ </version>
+ <version name="4.13.2" package="qt-creator64" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD%&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">"%ncl%\ncl.exe" remove-scp --title "/Qt Creator.*/"&#13;
+</file>
+  <url>http://download.qt-project.org/official_releases/qtcreator/4.13/4.13.2/qt-creator-opensource-windows-x86_64-4.13.2.exe</url>
+  <hash-sum type="SHA-256">ccf48b4b43b6886b10433acfb625bc26a7c066618a7b6842473fc022b12f717f</hash-sum>
   <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.24, 2)">
    <variable>ncl</variable>
   </dependency>
@@ -47134,6 +47286,17 @@ Prog\setup.exe /Q /IACCEPTSQLSERVERLICENSETERMS /Q /ACTION=install &gt; .Npackd\
    <variable>nih</variable>
   </dependency>
  </version>
+ <version name="0.20.3" package="stellarium64" type="one-file">
+  <file path=".Npackd\Install.bat">call "%nih%\InstallInnoSetup.bat"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">call "%nih%\UninstallInnoSetup.bat" unins000.exe&#13;
+</file>
+  <url>https://github.com/Stellarium/stellarium/releases/download/v0.20.3/stellarium-0.20.3-win64.exe</url>
+  <hash-sum type="SHA-256">4ac5ad74591b294cae6082aa253636ce5215e2e855ddec23526518b772f76176</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
 
     <version name="0.6.11" package="strawberry64" type="one-file">
   <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
@@ -47920,6 +48083,17 @@ if %err% neq 0 exit %err%&#13;
    <variable>ncl</variable>
   </dependency>
  </version>
+ <version name="2.76.1" package="tixati" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">"%ncl%\ncl.exe" remove-scp --title "/%npackd_package_name% %npackd_package_version%/i"&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+</file>
+  <url>https://download1.tixati.com/download/tixati-2.74-1.win32-install.exe</url>
+  <hash-sum type="SHA-256">f008f0301f4c62bc3347692f9f15559ca3465bf40d4dc34cc7bb78b7d9462db2</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.25, 2)">
+   <variable>ncl</variable>
+  </dependency>
+ </version>
 
     <version name="2.73" package="tixati64" type="one-file">
   <file path=".Npackd\Install.bat">"%npackd_package_binary%" &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
@@ -47944,6 +48118,17 @@ if %err% neq 0 exit %err%&#13;
   </dependency>
  </version>
  <version name="2.75.1" package="tixati64" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">"%ncl%\ncl.exe" remove-scp --title "/%npackd_package_name% %npackd_package_version%/i"&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+</file>
+  <url>https://download1.tixati.com/download/tixati-2.74-1.win64-install.exe</url>
+  <hash-sum type="SHA-256">42dea61b1470adcf5aaa79a954edc0f54f752afbfd7f3d2447e0fe90076f943b</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.25, 2)">
+   <variable>ncl</variable>
+  </dependency>
+ </version>
+ <version name="2.76.1" package="tixati64" type="one-file">
   <file path=".Npackd\Install.bat">"%npackd_package_binary%" &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
 </file>
   <file path=".Npackd\Uninstall.bat">"%ncl%\ncl.exe" remove-scp --title "/%npackd_package_name% %npackd_package_version%/i"&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
@@ -48056,6 +48241,18 @@ if %err% neq 0 exit %err%&#13;
 </file>
   <url>https://dist.torproject.org/torbrowser/10.0/torbrowser-install-10.0_en-US.exe</url>
   <hash-sum type="SHA-256">3d1a337da0e6eae32071e6de21963ba628a1a0939477bf823aa7df9051215410</hash-sum>
+ </version>
+ <version name="10.0.1" package="tor64" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
+</file>
+  <url>https://dist.torproject.org/torbrowser/10.0.1/torbrowser-install-10.0.1_en-US.exe</url>
+  <hash-sum type="SHA-256">11a3387fc1163f396a374157a8e505d5c0490b728888e956a87334add0e6f4a8</hash-sum>
+ </version>
+ <version name="10.0.2" package="tor64" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
+</file>
+  <url>https://dist.torproject.org/torbrowser/10.0.2/torbrowser-install-10.0.2_en-US.exe</url>
+  <hash-sum type="SHA-256">c685c550fc420c39cbe40e453f2201789af5f64e7b024c9339c2a3bd01e61c2d</hash-sum>
  </version>
 
     <version name="2.84.9" package="transmission-qt64" type="one-file">
@@ -49224,6 +49421,18 @@ if %err% neq 0 exit /b %err%&#13;
    <variable>ncl</variable>
   </dependency>
  </version>
+ <version name="3.4.2066.76" package="vivaldi-browser-64" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" --vivaldi-standalone --do-not-launch-chrome --vivaldi-install-dir="%CD%" &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
+&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">"%ncl%\ncl.exe" remove-scp --title "vivaldi-browser-64"&#13;
+</file>
+  <url>https://downloads.vivaldi.com/stable/Vivaldi.3.4.2066.76.x64.exe</url>
+  <hash-sum type="SHA-256">79f0ccb7d99481285f66880b0419aaeee448d3e88a347a6ab38681e201acb6bd</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.24, 2)">
+   <variable>ncl</variable>
+  </dependency>
+ </version>
  <version name="3.4.2066.86" package="vivaldi-browser-64" type="one-file">
   <file path=".Npackd\Install.bat">"%npackd_package_binary%" --vivaldi-standalone --do-not-launch-chrome --vivaldi-install-dir="%CD%" &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
 &#13;
@@ -49322,6 +49531,20 @@ if %err% neq 0 exit %err%&#13;
 </file>
   <url>https://az764295.vo.msecnd.net/stable/a0479759d6e9ea56afa657e454193f72aef85bd0/VSCodeSetup-ia32-1.48.2.exe</url>
   <hash-sum type="SHA-256">013d5ecdb44159c15047472512bef9c76ba934807dbb07a582655f4c5546866d</hash-sum>
+ </version>
+ <version name="1.50" package="vs-code" type="one-file">
+  <file path=".Npackd\Install.bat">ren "%npackd_package_binary%" setup.exe&#13;
+setup.exe /SP- /VERYSILENT /SUPPRESSMSGBOXES /NOCANCEL /NORESTART /DIR="%CD%" /SAVEINF="%CD%\.Npackd\InnoSetupInfo.ini" /LOG="%CD%\.Npackd\InnoSetupInstall.log"&#13;
+set err=%errorlevel%&#13;
+type .Npackd\InnoSetupInstall.log&#13;
+if %err% neq 0 exit %err%&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">unins000.exe /VERYSILENT /SUPPRESSMSGBOXES /NORESTART /LOG="%CD%\.Npackd\InnoSetupUninstall.log"&#13;
+set err=%errorlevel%&#13;
+type .Npackd\InnoSetupUninstall.log&#13;
+if %err% neq 0 exit %err%&#13;
+</file>
+  <url>https://update.code.visualstudio.com/latest/win32/stable</url>
  </version>
 
     <version name="1.17.2" package="vs-code64" type="one-file">
@@ -49603,6 +49826,21 @@ if %err% neq 0 exit %err%&#13;
   <url>https://sourceforge.net/projects/winmerge/files/stable/2.16.6/WinMerge-2.16.6-x64-Setup_no_support_for_per-user_installation.exe</url>
   <hash-sum type="SHA-256">4046cda07fc318aa678dcd216fc09a09af8a34514af1131a7dd39d34d828ee22</hash-sum>
  </version>
+ <version name="2.16.8" package="winmerge64" type="one-file">
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
+"%setup%" /SP- /VERYSILENT /SUPPRESSMSGBOXES /NOCANCEL /NORESTART /DIR="%CD%" /SAVEINF="%CD%\.Npackd\InnoSetupInfo.ini" /LOG="%CD%\.Npackd\InnoSetupInstall.log"&#13;
+set err=%errorlevel%&#13;
+type .Npackd\InnoSetupInstall.log&#13;
+if %err% neq 0 exit %err%&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">unins000.exe /VERYSILENT /SUPPRESSMSGBOXES /NORESTART /LOG="%CD%\.Npackd\InnoSetupUninstall.log"&#13;
+set err=%errorlevel%&#13;
+type .Npackd\InnoSetupUninstall.log&#13;
+if %err% neq 0 exit %err%&#13;
+</file>
+  <url>https://sourceforge.net/projects/winmerge/files/stable/2.16.8/WinMerge-2.16.8-x64-Setup.exe</url>
+  <hash-sum type="SHA-256">eeb07fc8252fa6e54a6998b216b028db38df92ce268e23f9c5183ff57b5e95b7</hash-sum>
+ </version>
 
     <version name="3.3.1" package="winyl">
   <file path=".Npackd\Install.bat">call "%nih%\InstallInnoSetup.bat"&#13;
@@ -49786,6 +50024,26 @@ sys.programGroupName=yEd Graph Editor&#13;
 sys.fileAssociation.extensions$StringArray="graphml","graphmlz","ygf","gml","xgml","tgf","ged"&#13;
 </file>
   <url>https://www.yworks.com/resources/yed/demo/yEd-3.20_with-JRE13_64-bit_setup.exe</url>
+ </version>
+ <version name="3.20.1" package="yed64" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" -q -console -dir "%CD%" -varfile .Npackd\response.varfile &gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+rem &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">uninstall.exe -q -console</file>
+  <file path=".Npackd\response.varfile">#install4j response file for yEd Graph Editor&#13;
+#Fri Jan 03 20:51:31 CET 2014&#13;
+sys.adminRights$Boolean=true&#13;
+sys.programGroupDisabled$Boolean=false&#13;
+createDesktopLinkAction$Boolean=false&#13;
+sys.fileAssociation.launchers$StringArray="2","2","2","2","2","2","2"&#13;
+sys.programGroupAllUsers$Boolean=true&#13;
+sys.languageId=en&#13;
+#sys.installationDir=C\:\\ProgramFiles\\yEd&#13;
+createQuicklaunchIconAction$Boolean=false&#13;
+sys.programGroupName=yEd Graph Editor&#13;
+sys.fileAssociation.extensions$StringArray="graphml","graphmlz","ygf","gml","xgml","tgf","ged"&#13;
+</file>
+  <url>https://www.yworks.com/resources/yed/demo/yEd-3.20.1_with-JRE13_64-bit_setup.exe</url>
  </version>
 
     <version name="8.0.0.3" package="zulu64">
