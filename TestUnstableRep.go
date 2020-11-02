@@ -383,8 +383,8 @@ func apiTag(packageName string, version string, tag string, set bool) error {
  */
 func apiSetURL(packageName string, version string, newURL string) (int, error) {
 	a := "https://npackd.appspot.com/api/set-url?package=" +
-		packageName + "&version=" + version +
-		"&password=" + settings.password +
+		url.QueryEscape(packageName) + "&version=" + url.QueryEscape(version) +
+		"&password=" + url.QueryEscape(settings.password) +
 		"&url=" + url.QueryEscape(newURL)
 
 	_, statusCode, err := download(a, false)
@@ -1378,12 +1378,13 @@ func correctURLs() error {
 		if pv.URL != "" {
 			url := pv.URL
 
-			prefix := "https://ayera.dl.sourceforge.net/project/"
+			prefix := "https://sourceforge.net/projects/"
 			if strings.HasPrefix(url, prefix) {
-				url = url[len(prefix):]
-				parts := strings.Split(url, "/")
-				url = url[len(parts[0])+1:]
-				url = "https://sourceforge.net/projects/" + parts[0] + "/files/" + url
+				s := url[len(prefix):]
+				parts := strings.Split(s, "/")
+				if len(parts) > 1 && parts[1] != "files" {
+					url = "https://sourceforge.net/projects/" + parts[0] + "/files/" + s[len(parts[0])+1:]
+				}
 			}
 
 			if url != pv.URL {
