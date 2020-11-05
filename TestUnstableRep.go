@@ -29,7 +29,6 @@ var changeData = false
 
 // Settings is for global program settings
 type Settings struct {
-	curl          string
 	githubToken   string
 	password      string
 	git           string
@@ -194,7 +193,6 @@ func uploadRepositoryBinariesToGithub(url string, releaseID int) error {
 func uploadToGithub(from string, fullPackage string,
 	version string, releaseID int) (string, error) {
 	fmt.Println("Re-uploading " + from + " to Github")
-	var mime = "application/vnd.microsoft.portable-executable" // "application/octet-stream";
 
 	u, err := url.Parse(from)
 	if err != nil {
@@ -204,10 +202,8 @@ func uploadToGithub(from string, fullPackage string,
 	var p = strings.LastIndex(u.Path, "/")
 	var file = fullPackage + "-" + version + "-" + u.Path[p+1:]
 
-	var cmd = "-f -L --connect-timeout 30 --max-time 900 " + from + " --output " + file
-	fmt.Println(cmd)
-	var result, _ = exec2("", settings.curl, cmd, true)
-	if result != 0 {
+	err = downloadToFile(from, file)
+	if err != nil {
 		return "", errors.New("Cannot download the file")
 	}
 
@@ -217,37 +213,13 @@ func uploadToGithub(from string, fullPackage string,
 	// fmt.Println("Uploading to " + url);
 	fmt.Println("Download from " + downloadURL)
 
-	result, _ = exec2("", settings.curl, "-H \"Authorization: token "+settings.githubToken+"\""+
-		" -H \"Content-Type: "+mime+"\""+
-		" --data-binary @"+file+" \""+url+"\"", false)
-	if result != 0 {
-		return "", errors.New("Cannot upload the file to Github")
+	var mime = "application/vnd.microsoft.portable-executable" // "application/octet-stream";
+	err = postFile(url, mime, file)
+	if err != nil {
+		return "", err
 	}
 
 	return downloadURL, nil
-}
-
-// Uploads a file to Github
-//
-// user: Github user
-// project: Github project
-// from: source file name
-// file: target file name
-// mime: MIME type of the file
-// releaseID: ID of a Github release
-func createGithubReleaseAsset(user string, project string, from string, file string, mime string,
-	releaseID int) error {
-	var url = "https://uploads.github.com/repos/" + user + "/" + project + "/releases/" +
-		strconv.Itoa(releaseID) + "/assets?name=" + file
-
-	result, _ := exec2("", settings.curl, "-f -H \"Authorization: token "+settings.githubToken+"\""+
-		" -H \"Content-Type: "+mime+"\""+
-		" --data-binary @"+from+" \""+url+"\"", false)
-	if result != 0 {
-		return errors.New("Cannot upload the file to Github")
-	}
-
-	return nil
 }
 
 // Delete a Github release asset.
@@ -797,6 +769,51 @@ func download(address string, showParameters bool) (*bytes.Buffer, int, error) {
 	return b, resp.StatusCode, nil
 }
 
+func postFile(url string, mime string, path string) error {
+	file, err := os.Open(path)
+	if err != nil {
+		return err
+	}
+	defer file.Close()
+
+	fi, err := file.Stat()
+	if err != nil {
+	  	return err
+	}
+
+	// Create request
+	req, err := http.NewRequest("POST", url, file)
+	if err != nil {
+		return err
+	}
+
+	req.Header.Add("Authorization", "token "+settings.githubToken)
+	req.ContentLength = fi.Size()
+	req.Header.Set("Content-Type", mime)
+
+	client := &http.Client{}
+	resp, err := client.Do(req)
+	if err != nil {
+		return err
+	}
+
+    defer resp.Body.Close()
+
+	data, err := ioutil.ReadAll(resp.Body)
+
+	if resp.StatusCode/100 != 2 {
+		fmt.Println(string(data))
+		return errors.New("HTTP status " + strconv.Itoa(resp.StatusCode))
+	}
+
+    if err != nil {
+		fmt.Println(string(data))
+        return err
+    }
+	
+	return nil
+}
+
 func uploadFileMultipart(url string, path string) (*http.Response, error) {
 	f, err := os.OpenFile(path, os.O_RDONLY, 0644)
 	if err != nil {
@@ -831,7 +848,7 @@ func uploadFileMultipart(url string, path string) (*http.Response, error) {
 		setErr(bodyWriter.Close())
 	}()
 
-	req, err := http.NewRequest(http.MethodPut, url, bodyReader)
+	req, err := http.NewRequest(http.MethodPost, url, bodyReader)
 	if err != nil {
 		return nil, err
 	}
@@ -896,14 +913,10 @@ func createSettings() {
 	settings.githubToken = os.Getenv("GITHUB_TOKEN")
 	if runtime.GOOS == "windows" {
 		settings.npackdcl = "C:\\Program Files\\NpackdCL\\ncl.exe"
-		settings.curl = getPath("se.haxx.curl.CURL64", "")
 		settings.git = "C:\\Program Files\\Git\\cmd\\git.exe"
 	} else {
-		settings.curl = "curl"
 		settings.git = "git"
 	}
-
-	fmt.Println("curl: " + settings.curl)
 }
 
 // List releases for a Github project.
@@ -1428,6 +1441,8 @@ func main() {
 
 	if *command == "download-binaries" {
 		err = downloadBinaries(*target)
+	} else if *command == "upload-binaries" {
+		err = uploadBinariesToGithub()
 	} else if *command == "correct-urls" {
 		err = correctURLs()
 	} else if *command == "maintenance" {
