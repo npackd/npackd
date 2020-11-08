@@ -1178,8 +1178,8 @@ func detect(packageName string) error {
 		return errors.New("No first sub-group is found for the regular expression")
 	}
 
-	s := string(f[1])
-	s = strings.Replace(s, "-", ".", -1);
+	match := string(f[1])
+	s := strings.Replace(match, "-", ".", -1);
 	s = strings.Replace(s, "+", ".", -1);
 	s = strings.Replace(s, "_", ".", -1);
 
@@ -1220,7 +1220,8 @@ func detect(packageName string) error {
 		// create the new download URL from the template
 		downloadURL := pv.URL
 		if (len(p.DiscoveryURLPattern) > 0) {
-			downloadURL = strings.Replace(p.DiscoveryURLPattern, "${version}", versionToString(newVersion), -1)
+			downloadURL = strings.Replace(p.DiscoveryURLPattern, "${match}", match, -1)
+			downloadURL = strings.Replace(downloadURL, "${version}", versionToString(newVersion), -1)
 
 			for i := 0; i < 5; i++ {
 				var repl string
