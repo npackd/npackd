@@ -1178,8 +1178,10 @@ func detect(packageName string) error {
 		return errors.New("No first sub-group is found for the regular expression")
 	}
 
-	match := string(f[1])
-	s := strings.Replace(match, "-", ".", -1);
+	match := string(f[0])
+
+	s := string(f[1])
+	s = strings.Replace(s, "-", ".", -1);
 	s = strings.Replace(s, "+", ".", -1);
 	s = strings.Replace(s, "_", ".", -1);
 
