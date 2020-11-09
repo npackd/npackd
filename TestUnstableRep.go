@@ -271,9 +271,9 @@ func deleteGithubReleaseAsset(user string, project string, assetID int) error {
 }
 
 /**
- * @param packageName full package name
- * @param version version number or null for "newest"
- * @return path to the specified package or "" if not installed
+ * packageName full package name
+ * version version number or null for "newest"
+ * path to the specified package or "" if not installed
  */
 func getPath(packageName string, version string) string {
 	params := "path -p " + packageName
@@ -292,11 +292,11 @@ func getPath(packageName string, version string) string {
  * Notifies the application at https://npackd.appspot.com about an installation
  * or an uninstallation.
  *
- * @param package_ package name
- * @param version version number
- * @param install true if it was an installation, false if it was an
+ * package_ package name
+ * version version number
+ * install true if it was an installation, false if it was an
  *     un-installation
- * @param success true if the operation was successful
+ * success true if the operation was successful
  */
 func apiNotify(packageName string, version string, install bool, success bool) {
 	url := "https://npackd.appspot.com/api/notify?package=" +
@@ -322,12 +322,12 @@ func apiNotify(packageName string, version string, install bool, success bool) {
 /**
  * Adds or removes a tag for a package version at https://npackd.appspot.com .
  *
- * @param package_ package name
- * @param version version number
- * @param tag the name of the tag
- * @param set true if the tag should be added, false if the tag should be
+ * package_ package name
+ * version version number
+ * tag the name of the tag
+ * set true if the tag should be added, false if the tag should be
  *     removed
- * @return true if the call to the web service succeeded, false otherwise
+ * returns true if the call to the web service succeeded, false otherwise
  */
 func apiTag(packageName string, version string, tag string, set bool) error {
 	url := "https://npackd.appspot.com/api/tag?package=" +
@@ -348,10 +348,10 @@ func apiTag(packageName string, version string, tag string, set bool) error {
 /**
  * Changes the URL for a package version at https://npackd.appspot.com .
  *
- * @param package_ package name
- * @param version version number
- * @param url new URL
- * @return true if the call to the web service succeeded, false otherwise
+ * package_ package name
+ * version version number
+ * url new URL
+ * returns true if the call to the web service succeeded, false otherwise
  */
 func apiSetURL(packageName string, version string, newURL string) (int, error) {
 	a := "https://npackd.appspot.com/api/set-url?package=" +
@@ -361,6 +361,53 @@ func apiSetURL(packageName string, version string, newURL string) (int, error) {
 
 	_, statusCode, err := download(a, false)
 	return statusCode, err
+}
+
+/**
+ * Changes the URL for a package version at https://npackd.appspot.com .
+ *
+ * package_ package name
+ * version version number
+ * url new URL
+ * returns true if the call to the web service succeeded, false otherwise
+ */
+ func apiDelete(packageName string, version string) error {
+	a := "https://npackd.appspot.com/api/set-url?package=" +
+		url.QueryEscape(packageName) + "&version=" + url.QueryEscape(version) +
+		"&password=" + url.QueryEscape(settings.password)
+
+	// Create client
+	client := &http.Client{}
+
+	// Create request
+	req, err := http.NewRequest("DELETE", a, nil)
+	if err != nil {
+		return err
+	}
+
+	// Fetch Request
+	resp, err := client.Do(req)
+	if err != nil {
+		return err
+	}
+	defer resp.Body.Close()
+
+	// Read Response Body
+	_, err = ioutil.ReadAll(resp.Body)
+	if err != nil {
+		return err
+	}
+
+	// Display Results
+	//fmt.Println("response Status : ", resp.Status)
+	//fmt.Println("response Headers : ", resp.Header)
+	//fmt.Println("response Body : ", string(respBody))
+
+	if resp.StatusCode/100 != 2 {
+		return errors.New("Cannot delete a package version")
+	}
+
+	return nil
 }
 
 /**
@@ -394,9 +441,9 @@ func apiSetURLAndHashSum(packageName string, version string, newURL string, newH
 /**
  * Changes the URL for a package version at https://npackd.appspot.com .
  *
- * @param package_ package name
- * @param version version number
- * @param url new URL
+ * package_ package name
+ * version version number
+ * url new URL
  * returns: error
  */
 func apiCopyPackageVersion(packageName string, version string, newVersion string) error {
@@ -415,9 +462,9 @@ func apiCopyPackageVersion(packageName string, version string, newVersion string
 /**
  * Processes one package version.
  *
- * @param package_ package name
- * @param version version number
- * @return true if the test was successful
+ * package_ package name
+ * version version number
+ * returns: true if the test was successful
  */
 func processPackageVersion(packageName string, version string) bool {
 	ec, _ := exec2("", settings.npackdcl, "add --package="+packageName+
@@ -522,7 +569,7 @@ func compareVersions(a []int, b []int) int {
 }
 
 /**
- * @param onlyNewest true = only test the newest versions
+ * onlyNewest true = only test the newest versions
  */
 func processURL(url string, onlyNewest bool) error {
 	var start = time.Now()
@@ -1251,6 +1298,11 @@ func detect(packageName string) error {
 
 		fmt.Println("Set URL=" + downloadURL + " and hash sum=" + hashSum)
 		err = apiSetURLAndHashSum(p.Name, versionToString(newVersion), downloadURL, hashSum, []string{"untested"})
+		if err != nil {
+			return err
+		}
+	} else {
+		err = apiDelete(p.Name, versionToString(version))
 		if err != nil {
 			return err
 		}
