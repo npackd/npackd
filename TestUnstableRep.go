@@ -401,10 +401,10 @@ func apiSetURL(packageName string, version string, newURL string) (int, error) {
 	// Display Results
 	//fmt.Println("response Status : ", resp.Status)
 	//fmt.Println("response Headers : ", resp.Header)
-	//fmt.Println("response Body : ", string(respBody))
+	//fmt.Println("response Body : ", string(data))
 
 	if resp.StatusCode/100 != 2 {
-		return errors.New("Cannot delete a package version")
+		return errors.New("HTTP status: " + strconv.Itoa(resp.StatusCode))
 	}
 
 	return nil
