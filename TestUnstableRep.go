@@ -23,6 +23,10 @@ import (
 	"mime/multipart"
 	"sync"	
 	"bufio"
+/*	"golang.org/x/oauth2"
+	"golang.org/x/oauth2/jwt"
+	"golang.org/x/oauth2/google"
+	*/
 )
 
 var changeData = false
@@ -35,6 +39,8 @@ type Settings struct {
 	npackdcl      string
 	packagesTag   string
 	virusTotalKey string // x-apikey
+	googleID	  string
+	googleSecret string
 }
 
 var settings Settings
@@ -958,6 +964,8 @@ func fileExists(filename string) bool {
 func createSettings() {
 	settings.password = os.Getenv("PASSWORD")
 	settings.githubToken = os.Getenv("GITHUB_TOKEN")
+	settings.googleID = os.Getenv("GOOGLE_ID")
+	settings.googleSecret = os.Getenv("GOOGLE_SECRET")
 	if runtime.GOOS == "windows" {
 		settings.npackdcl = "C:\\Program Files\\NpackdCL\\ncl.exe"
 		settings.git = "C:\\Program Files\\Git\\cmd\\git.exe"
@@ -1471,6 +1479,74 @@ func correctURLs() error {
 	return nil
 }
 
+func saveToFile(data io.Reader, filename string) error {
+	// open file
+	f, err := os.OpenFile(filename, os.O_RDWR|os.O_CREATE|os.O_TRUNC, 0644)
+	if err != nil {
+		return err
+	}
+	defer f.Close()
+
+	// Write the body to file
+	_, err = io.Copy(f, data)
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
+
+// go get golang.org/x/oauth2
+func login() error {
+	/*
+// Your credentials should be obtained from the Google
+	// Developer Console (https://console.developers.google.com).
+	conf := &jwt.Config{
+		Email: "appveyor@npackd.iam.gserviceaccount.com",
+		// The contents of your RSA private key or your PEM file
+		// that contains a private key.
+		// If you have a p12 file instead, you
+		// can use `openssl` to export the private key into a pem file.
+		//
+		//    $ openssl pkcs12 -in key.p12 -passin pass:notasecret -out key.pem -nodes
+		//
+		// The field only supports PEM containers with no passphrase.
+		// The openssl command will convert p12 keys to passphrase-less PEM containers.
+		PrivateKey: []byte("-----BEGIN PRIVATE KEY-----\n.........\n-----END PRIVATE KEY-----\n"),
+		Scopes: []string{
+			"https://www.googleapis.com/auth/userinfo.email",
+		},
+		TokenURL: google.JWTTokenURL,
+		// If you would like to impersonate a user, you can
+		// create a transport with a subject. The following GET
+		// request will be made on the behalf of user@example.com.
+		// Optional.
+		//Subject: "tim.lebedkov@gmail.com",
+	}
+
+	// Initiate an http.Client, the following GET request will be
+	// authorized and authenticated on the behalf of user@example.com.
+	client := conf.Client(oauth2.NoContext)
+	resp, err := client.Get("https://www.npackd.org/api/notify?package=org.7-zip.SevenZIP64&version=9.20&install=1&success=1")
+	if err != nil {
+		return err
+	}
+	defer resp.Body.Close()
+
+	saveToFile(resp.Body, "output.html")
+
+	// Display Results
+	//fmt.Println("response Status : ", resp.Status)
+	//fmt.Println("response Headers : ", resp.Header)
+	//fmt.Println("response Body : ", string(respBody))
+
+	if resp.StatusCode/100 != 2 {
+		return errors.New("HTTP status " + strconv.Itoa(resp.StatusCode))
+	}
+*/
+	return nil
+}
+
 var command = flag.String("command", "test-packages", "the action that should be performed")
 var target = flag.String("target", "", "directory where the downloaded binaries are stored")
 
@@ -1478,13 +1554,13 @@ var target = flag.String("target", "", "directory where the downloaded binaries 
 // go run TestUnstableRep.go TestUnstableRep_linux.go -command download-binaries -target /target/directory
 //
 // Correct URLs for packages at npackd.org:
-// PASSWORD=xxx go run TestUnstableRep.go TestUnstableRep_linux.go -command correct-urls -password PASSWORD
+// PASSWORD=xxx go run TestUnstableRep.go TestUnstableRep_linux.go -command correct-urls
 //
 // Download repositories from npackd.org to github.com/npackd/npackd, re-upload packages to github.com/tim-lebedkov/packages:
 // PASSWORD=xxx GITHUB_TOKEN=xxx go run TestUnstableRep.go TestUnstableRep_linux.go -command maintenance
 //
 // Test packages on AppVeyor:
-// PASSWORD=xxx go run TestUnstableRep.go TestUnstableRep_linux.go -password PASSWORD
+// PASSWORD=xxx go run TestUnstableRep.go TestUnstableRep_linux.go
 func main() {
 	var err error = nil
 
@@ -1494,7 +1570,9 @@ func main() {
 
 	createSettings()
 
-	if *command == "download-binaries" {
+	if *command == "login" {
+		err = login()
+	} else if *command == "download-binaries" {
 		err = downloadBinaries(*target)
 	} else if *command == "upload-binaries" {
 		err = uploadBinariesToGithub()
