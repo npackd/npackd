@@ -1437,40 +1437,44 @@ func testPackages() error {
 
 // correct URLs on npackd.org from an XML file
 func correctURLs() error {
-	dat, err := ioutil.ReadFile("repository/stable.xml")
-	if err != nil {
-		return err
-	}
+	reps := []string {"repository/stable.xml", "repository/stable64.xml", "repository/unstable.xml", "repository/libs.xml"}
 
-	// parse the repository XML
-	v := Repository{}
-	err = xml.Unmarshal(dat, &v)
-	if err != nil {
-		return err
-	}
+	for _, rep := range(reps) {
+		dat, err := ioutil.ReadFile(rep)
+		if err != nil {
+			return err
+		}
 
-	// set URL for every package version
-	for _, pv := range v.PackageVersion {
-		if pv.URL != "" {
-			url := pv.URL
+		// parse the repository XML
+		v := Repository{}
+		err = xml.Unmarshal(dat, &v)
+		if err != nil {
+			return err
+		}
 
-			prefix := "https://sourceforge.net/projects/"
-			if strings.HasPrefix(url, prefix) {
-				s := url[len(prefix):]
-				parts := strings.Split(s, "/")
-				if len(parts) > 1 && parts[1] != "files" {
-					url = "https://sourceforge.net/projects/" + parts[0] + "/files/" + s[len(parts[0])+1:]
+		// set URL for every package version
+		for _, pv := range v.PackageVersion {
+			if pv.URL != "" {
+				url := pv.URL
+
+				prefix := "https://sourceforge.net/projects/"
+				if strings.HasPrefix(url, prefix) {
+					s := url[len(prefix):]
+					parts := strings.Split(s, "/")
+					if len(parts) > 1 && parts[1] != "files" {
+						url = "https://sourceforge.net/projects/" + parts[0] + "/files/" + s[len(parts[0])+1:]
+					}
 				}
-			}
 
-			if url != pv.URL {
-				fmt.Println("Changing URL for " + pv.Package + " " + pv.Name)
-				fmt.Println("    from " + pv.URL)
-				fmt.Println("    to " + url)
+				if url != pv.URL {
+					fmt.Println("Changing URL for " + pv.Package + " " + pv.Name)
+					fmt.Println("    from " + pv.URL)
+					fmt.Println("    to " + url)
 
-				statusCode, err := apiSetURL(pv.Package, pv.Name, url)
-				if err != nil && statusCode != http.StatusNotFound {
-					return err
+					statusCode, err := apiSetURL(pv.Package, pv.Name, url)
+					if err != nil && statusCode != http.StatusNotFound {
+						return err
+					}
 				}
 			}
 		}
