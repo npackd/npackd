@@ -1466,6 +1466,15 @@ func correctURLs() error {
 					}
 				}
 
+				prefix = "https://ayera.dl.sourceforge.net/project/"
+				if strings.HasPrefix(url, prefix) {
+					s := url[len(prefix):]
+					parts := strings.Split(s, "/")
+					if len(parts) > 1 && parts[1] != "files" {
+						url = "https://sourceforge.net/projects/" + parts[0] + "/files/" + s[len(parts[0])+1:]
+					}
+				}
+
 				if url != pv.URL {
 					fmt.Println("Changing URL for " + pv.Package + " " + pv.Name)
 					fmt.Println("    from " + pv.URL)
