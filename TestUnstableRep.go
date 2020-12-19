@@ -1363,26 +1363,30 @@ func versionToString(version []int) string {
 func detectNewVersions() error {
 	fmt.Println("Checking for new package versions")
 
-	dat, err := ioutil.ReadFile("repository/stable.xml")
-	if err != nil {
-		return err
-	}
+	reps := []string {"repository/stable.xml", "repository/stable64.xml", "repository/libs.xml"}
 
-	// parse the repository XML
-	rep := Repository{}
-	err = xml.Unmarshal(dat, &rep)
-	if err != nil {
-		return err
-	}
-
-	for i := 0; i < len(rep.Package); i++ {
-		p := rep.Package[i]
-
-		fmt.Println("https://www.npackd.org/p/" + p.Name)
-
-		err = detect(p.Name)
+	for _, rep := range(reps) {
+		dat, err := ioutil.ReadFile(rep)
 		if err != nil {
-			fmt.Println(err.Error())
+			return err
+		}
+
+		// parse the repository XML
+		rep := Repository{}
+		err = xml.Unmarshal(dat, &rep)
+		if err != nil {
+			return err
+		}
+
+		for i := 0; i < len(rep.Package); i++ {
+			p := rep.Package[i]
+
+			fmt.Println("https://www.npackd.org/p/" + p.Name)
+
+			err = detect(p.Name)
+			if err != nil {
+				fmt.Println(err.Error())
+			}
 		}
 	}
 
