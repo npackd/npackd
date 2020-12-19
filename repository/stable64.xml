@@ -851,6 +851,7 @@ x86_64</description>
   <license>com.oracle.JavaSELicense</license>
   <category>Development</category>
   <tag>stable64</tag>
+  <tag>reupload</tag>
   <stars>2</stars>
  </package>
  <package name="com.selenic.mercurial.Mercurial64">
@@ -2390,8 +2391,6 @@ x86_64</description>
   <url>http://www.7-zip.org</url>
   <description>file archiver&#13;
 &#13;
-Most of the source code is under the GNU LGPL license. The unRAR code is under a mixed license: GNU LGPL + unRAR restrictions. &#13;
-&#13;
 The main features of 7-Zip:&#13;
 &#13;
 - High compression ratio in 7z format with LZMA and LZMA2 compression&#13;
@@ -2406,6 +2405,8 @@ The main features of 7-Zip:&#13;
 - command line version&#13;
 - Plugin for FAR Manager&#13;
 - Localizations for 79 languages&#13;
+&#13;
+Most of the source code is under the GNU LGPL license. The unRAR code is under a mixed license: GNU LGPL + unRAR restrictions. &#13;
 &#13;
 kw: 7zip
 x86_64</description>
@@ -8260,6 +8261,15 @@ if %err% neq 0 exit /b %err%&#13;
 </file>
   <url>https://sourceforge.net/projects/stefanstools/files/StExBar/StExBar64-1.9.0.msi</url>
   <sha1>a824b416e0a3a05b24d03d20075cfb2c1ac87396</sha1>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.1, 2)">
+   <variable>npackdih</variable>
+  </dependency>
+ </version>
+ <version name="1.11.1" package="com.googlecode.stexbar.StExBar64" type="one-file">
+  <file path=".Npackd\Install.bat">call "%npackdih%\InstallMSI.bat" INSTALLDIR yes&#13;
+</file>
+  <url>https://github.com/stefankueng/tools/releases/download/StExBar_1.11.1/StExBar64-1.11.1.msi</url>
+  <hash-sum type="SHA-256">22711255f28d2fcd08a8f4f7e773b7c1f63fd5b2f09405e8f9e3f009fbed63b8</hash-sum>
   <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.1, 2)">
    <variable>npackdih</variable>
   </dependency>
@@ -21667,8 +21677,16 @@ call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Np
 
     <version name="7.0.3" package="libreoffice64" type="one-file">
   <file path=".Npackd\Install.bat">call "%npackdih%\InstallMSI.bat" INSTALLLOCATION yes</file>
-  <url>https://download.documentfoundation.org/libreoffice/stable/7.0.3/win/x86_64/LibreOffice_7.0.3_Win_x64.msi</url>
+  <url>https://github.com/tim-lebedkov/packages/releases/download/2020_12/libreoffice64-7.0.3-LibreOffice_7.0.3_Win_x64.msi</url>
   <hash-sum type="SHA-256">01d787c90ca3fe738f313bc183adec7d3e7c05451d9add03a43618d6f25efe60</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.1, 2)">
+   <variable>npackdih</variable>
+  </dependency>
+ </version>
+ <version name="7.0.4" package="libreoffice64" type="one-file">
+  <file path=".Npackd\Install.bat">call "%npackdih%\InstallMSI.bat" INSTALLLOCATION yes</file>
+  <url>https://download.documentfoundation.org/libreoffice/stable/7.0.4/win/x86_64/LibreOffice_7.0.4_Win_x64.msi</url>
+  <hash-sum type="SHA-256">37a36b570a599b9c1e377b7c709155dd566a5eb1e8e857ca139b824d3a12e55b</hash-sum>
   <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.1, 2)">
    <variable>npackdih</variable>
   </dependency>
