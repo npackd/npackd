@@ -789,6 +789,7 @@ func createRelease() error {
 }
 
 func download(address string, showParameters bool) (*bytes.Buffer, int, error) {
+	/*
 	if showParameters {
 		fmt.Println("Downloading " + address)
 	} else {
@@ -798,6 +799,7 @@ func download(address string, showParameters bool) (*bytes.Buffer, int, error) {
 		}
 		fmt.Println("Downloading " + u.Scheme + "://" + u.Host + u.EscapedPath() + "?<<<parameters hidden>>>")
 	}
+	*/
 
 	// Get the data
 	resp, err := http.Get(address)
@@ -925,7 +927,7 @@ func uploadFileMultipart(url string, path string) (*http.Response, error) {
 // path: output file
 // Returns: error message
 func downloadToFile(url, path string) error {
-	fmt.Println("Downloading " + url + " to " + path)
+	//fmt.Println("Downloading " + url + " to " + path)
 
 	// Get the data
 	resp, err := http.Get(url)
