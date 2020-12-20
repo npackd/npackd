@@ -98,11 +98,13 @@ Please see https://github.com/tim-lebedkov/npackd-scripts for a complete build s
  <package name="com.nokia.QtMinGWInstaller">
   <title>Qt for MinGW installer</title>
   <url>http://qt-project.org/</url>
-  <description>C++ library (development)</description>
+  <description>WARNING: there will be no new versions of this package.
+C++ library (development)</description>
   <icon>https://lh4.googleusercontent.com/-M_yIydoQVxw/USjbka862GI/AAAAAAAAAws/UJAvKDOPwkY/s800/qt.png</icon>
   <license>org.gnu.GPLv3</license>
   <category>Development</category>
   <tag>libs</tag>
+  <tag>end-of-life</tag>
   <stars>1</stars>
  </package>
  <package name="com.nokia.QtSource">
@@ -1006,13 +1008,6 @@ ren "%setup%" qt-win-opensource-mingw.exe&#13;
   <url>http://download.qt.io/official_releases/qt/5.15/5.15.0/qt-opensource-windows-x86-5.15.0.exe</url>
   <hash-sum type="SHA-256">e285f619cfe1d10501ff160ad0f0bfdf5234c806bfd19a815e13f61946ab84c7</hash-sum>
  </version>
- <version name="5.15.1" package="com.nokia.QtMinGWInstaller" type="one-file">
-  <important-file path="qt-win-opensource-mingw.exe" title="Installer"/>
-  <file path=".Npackd\Install.bat">ren "%npackd_package_binary%" qt-win-opensource-mingw.exe&#13;
-</file>
-  <url>http://download.qt.io/official_releases/qt/5.15/5.15.1/qt-opensource-windows-x86-5.15.1.exe</url>
-  <hash-sum type="SHA-256">e285f619cfe1d10501ff160ad0f0bfdf5234c806bfd19a815e13f61946ab84c7</hash-sum>
- </version>
 
     <version name="4.7.3" package="com.nokia.QtSource">
   <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b qt*') do set name=%%x&#13;
@@ -1641,6 +1636,25 @@ cd ..&#13;
 rmdir "%name%"</file>
   <url>https://download.qt.io/archive/qt/5.15/5.15.1/single/qt-everywhere-src-5.15.1.zip</url>
   <hash-sum type="SHA-256">9110cfc92d58b0229761a7ab9adaa5d66b273b5a62d94384e640f5f49b05719f</hash-sum>
+  <dependency package="org.7-zip.SevenZIPA" versions="[9.20, 20)">
+   <variable>sevenzipa</variable>
+  </dependency>
+  <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.15.7, 2)"/>
+ </version>
+ <version name="6" package="com.nokia.QtSource" type="one-file">
+  <file path=".Npackd\Install.bat">for /f %%x in ('dir /b *.zip') do set setup=%%x&#13;
+"%sevenzipa%\7za.exe" x "%setup%" &gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+del "%setup%"&#13;
+&#13;
+for /f "delims=" %%x in ('dir /b qt*') do set name=%%x&#13;
+cd "%name%"        &#13;
+for /f "delims=" %%a in ('dir /b') do (&#13;
+  move "%%a" ..&#13;
+)&#13;
+cd ..&#13;
+rmdir "%name%"</file>
+  <url>https://download.qt.io/archive/qt/6.0/6.0.0/single/qt-everywhere-src-6.0.0.zip</url>
+  <hash-sum type="SHA-256">cea7dd73e5f5bfa0a3ccb3a4f033e0a6caad21641d883d9af786f10030efa499</hash-sum>
   <dependency package="org.7-zip.SevenZIPA" versions="[9.20, 20)">
    <variable>sevenzipa</variable>
   </dependency>

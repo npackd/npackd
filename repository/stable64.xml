@@ -183,12 +183,14 @@ x86_64</description>
  <package name="allplayer">
   <title>AllPlayer 64 Bit</title>
   <url>https://www.allplayer.org/</url>
-  <description>ALLPlayer 8.8.1 is the next build of the player, in which we have improved some functions (such as thumbnail view of the movie during scrolling), playing movies recorded with smartphones, and improved the radio and the list of the latest stations has been updated.
+  <description>WARNING: this package always installs the newest version of the software.
+ALLPlayer 8.8.1 is the next build of the player, in which we have improved some functions (such as thumbnail view of the movie during scrolling), playing movies recorded with smartphones, and improved the radio and the list of the latest stations has been updated.
 x86_64</description>
   <icon>https://www.allplayer.org/images/allplayer-group-logo.png</icon>
   <license>org.wikipedia.Freeware</license>
   <category>Video</category>
   <tag>stable64</tag>
+  <tag>same-url</tag>
   <stars>1</stars>
   <link href="https://www.allplayer.org/en/changelog" rel="changelog"/>
   <link href="https://www.allplayer.org/images/allplayer-8-8.jpg" rel="screenshot"/>
@@ -207,7 +209,7 @@ x86_64</description>
  </package>
  <package name="anki64">
   <title>Anki 64 bit</title>
-  <url>http://ankisrs.net</url>
+  <url>https://apps.ankiweb.net</url>
   <description>flashcard spaced repetition
 x86_64</description>
   <icon>https://lh5.googleusercontent.com/-LBrKYyZdcow/USU2z7pgKoI/AAAAAAAAAkE/hnhxIcSGgPw/s800/anki.png</icon>
@@ -1891,7 +1893,7 @@ x86_64</description>
   <url>https://www.mixxx.org/</url>
   <description>Advanced Free DJ software
 x86_64</description>
-  <icon>https://www.mixxx.org/static/images/favicon.ico</icon>
+  <icon>https://mixxx.org/theme/images/favicon.ico</icon>
   <license>org.gnu.GPLv2</license>
   <category>Music</category>
   <tag>Tools</tag>
@@ -2103,6 +2105,7 @@ x86_64</description>
   <license>org.gnu.GPLv2</license>
   <category>Video</category>
   <tag>stable64</tag>
+  <tag>reupload</tag>
  </package>
  <package name="net.sourceforge.dittocp.Ditto64">
   <title>Ditto 64 bit</title>
@@ -4027,12 +4030,11 @@ x86_64</description>
   <hash-sum type="SHA-256">aca9b259b07db3c799cf9acbe59256210fd8cdbfc60d54bf95fe1dc2cbf16495</hash-sum>
  </version>
 
-    <version name="8.8.2" package="allplayer" type="one-file">
+    <version name="8.8.4" package="allplayer" type="one-file">
   <file path=".Npackd\Install.bat">"%nih%\InstallInnoSetup.bat"&#13;
 </file>
   <file path=".Npackd\Uninstall.bat">"%nih%\UninstallInnoSetup.bat" unins000.exe</file>
   <url>http://allplayer.org/Download/ALLPlayerEN.exe</url>
-  <hash-sum type="SHA-256">78357f6e4b2c17580f65ce5aa3b1ef3e04e18aee868ba1b4e779db0bd2dfff9e</hash-sum>
   <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
    <variable>nih</variable>
   </dependency>
@@ -4363,16 +4365,6 @@ verify</file>
    <variable>ncl</variable>
   </dependency>
  </version>
- <version name="2.5" package="biglybt" type="one-file">
-  <file path=".Npackd\Install.bat">"%npackd_package_binary%" -q -dir "%CD%" &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
-</file>
-  <file path=".Npackd\Uninstall.bat">uninstall.exe -q</file>
-  <url>https://github.com/BiglySoftware/BiglyBT/releases/download/v2.4.0.0/GitHub_BiglyBT_Installer32.exe</url>
-  <hash-sum type="SHA-256">80d28f46d0992fb9878f44aecd3cd01b997c9775f540dac906313ef855600319</hash-sum>
-  <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.25, 2)">
-   <variable>ncl</variable>
-  </dependency>
- </version>
 
     <version name="2.4" package="biglybt64" type="one-file">
   <file path=".Npackd\Install.bat">"%npackd_package_binary%" -q -dir "%CD%" &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
@@ -4384,12 +4376,12 @@ verify</file>
    <variable>ncl</variable>
   </dependency>
  </version>
- <version name="2.5" package="biglybt64" type="one-file">
+ <version name="2.6" package="biglybt64" type="one-file">
   <file path=".Npackd\Install.bat">"%npackd_package_binary%" -q -dir "%CD%" &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
 </file>
   <file path=".Npackd\Uninstall.bat">uninstall.exe -q</file>
-  <url>https://github.com/BiglySoftware/BiglyBT/releases/download/v2.4.0.0/GitHub_BiglyBT_Installer64.exe</url>
-  <hash-sum type="SHA-256">a4168c7860307a6df8d8b5cfb9594405c11d131ad828d6f4beff1b66545b9596</hash-sum>
+  <url>https://github.com/BiglySoftware/BiglyBT/releases/download/v2.6.0.0/GitHub_BiglyBT_Installer64.exe</url>
+  <hash-sum type="SHA-256">34df4bd8303224d7d296312dd80011d35910698e807cd99fee3c3885a9771306</hash-sum>
   <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.25, 2)">
    <variable>ncl</variable>
   </dependency>
@@ -5014,6 +5006,20 @@ if %errorlevel% neq 0 exit /b %errorlevel%&#13;
 </file>
   <url>https://www.cmake.org/files/v3.18/cmake-3.18.4-win64-x64.zip</url>
   <hash-sum type="SHA-256">a932bc0c8ee79f1003204466c525b38a840424d4ae29f9e5fb88959116f2407d</hash-sum>
+ </version>
+ <version name="3.19.2" package="cmake64">
+  <cmd-file path="bin\cmake.exe"/>
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b cmake*') do set name=%%x&#13;
+cd "%name%"        &#13;
+for /f "delims=" %%a in ('dir /b') do (&#13;
+  move "%%a" ..&#13;
+)&#13;
+cd ..&#13;
+rmdir "%name%"&#13;
+if %errorlevel% neq 0 exit /b %errorlevel%&#13;
+</file>
+  <url>https://www.cmake.org/files/v3.19/cmake-3.19.2-win64-x64.zip</url>
+  <hash-sum type="SHA-256">a6fdf509d7a39f1c08b429eaa3ea0012744365a731d00fb770ae88b4d6549ff3</hash-sum>
  </version>
 
     <version name="5.26.3.2603" package="com.activestate.ActivePerl64" type="one-file">
@@ -7004,7 +7010,7 @@ rem "avgmfapx.exe" /AppMode=SETUP /Uninstall /UILevel=Silent /DontRestart&#13;
   </dependency>
  </version>
 
-    <version name="1.71" package="com.bitcomet.BitComet64" type="one-file">
+    <version name="1.73" package="com.bitcomet.BitComet64" type="one-file">
   <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
 </file>
   <file path=".Npackd\Uninstall.bat">%ncl%\ncl remove-scp --title "/BitComet.*/"</file>
@@ -10216,7 +10222,7 @@ set err=%errorlevel%
 type .Npackd\MSI.log
 if %err% neq 0 exit /b %err%
 </file>
-  <url>http://javadl.sun.com/webapps/download/AutoDL?BundleId=48346</url>
+  <url>https://github.com/tim-lebedkov/packages/releases/download/2020_12/com.oracle.JRE64-1.6.0.25-AutoDL</url>
   <sha1>FE7248273FF57960FC151BF96D814BC8A297063B</sha1>
  </version>
  <version name="1.6.0.26" package="com.oracle.JRE64" type="one-file">
@@ -10231,7 +10237,7 @@ set err=%errorlevel%
 type .Npackd\MSI.log
 if %err% neq 0 exit /b %err%
 </file>
-  <url>http://javadl.sun.com/webapps/download/AutoDL?BundleId=49026</url>
+  <url>https://github.com/tim-lebedkov/packages/releases/download/2020_12/com.oracle.JRE64-1.6.0.26-AutoDL</url>
   <sha1>835a055a8163cc712e1d602902d5ebffc91cfd30</sha1>
  </version>
  <version name="1.7" package="com.oracle.JRE64" type="one-file">
@@ -10246,7 +10252,7 @@ set err=%errorlevel%
 type .Npackd\MSI.log
 if %err% neq 0 exit /b %err%
 </file>
-  <url>http://javadl.sun.com/webapps/download/AutoDL?BundleId=51869</url>
+  <url>https://github.com/tim-lebedkov/packages/releases/download/2020_12/com.oracle.JRE64-1.7-AutoDL</url>
   <sha1>f0957d48fc9fb27f86f784b33549e90905640595</sha1>
  </version>
  <version name="1.7.0.1" package="com.oracle.JRE64" type="one-file">
@@ -12050,7 +12056,7 @@ del Q-Dir.ini&#13;
   <url>http://files.npackd.org/com.softwareok.QDir64-5.99.9.zip</url>
   <sha1>fb6060796fae3fc641ba34fe1f2f8530d7c985a8</sha1>
  </version>
- <version name="8.97" package="com.softwareok.QDir64">
+ <version name="9.5" package="com.softwareok.QDir64">
   <important-file path="Q-Dir.exe" title="Q-Dir"/>
   <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b Q*') do set name=%%x&#13;
 cd "%name%"        &#13;
@@ -14011,7 +14017,7 @@ for %%g in (%extensions%) do reg add HKLM\SOFTWARE\Classes\.%%g\OpenWithList\%ke
   </dependency>
  </version>
 
-    <version name="1.85.1" package="com.xnconvert.XnConvert64" type="one-file">
+    <version name="1.90" package="com.xnconvert.XnConvert64" type="one-file">
   <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
 "%setup%" /SP- /VERYSILENT /SUPPRESSMSGBOXES /NOCANCEL /NORESTART /DIR="%CD%" /SAVEINF="%CD%\.Npackd\InnoSetupInfo.ini" /LOG="%CD%\.Npackd\InnoSetupInstall.log"&#13;
 set err=%errorlevel%&#13;
@@ -14812,7 +14818,7 @@ if %err% neq 0 exit %err%&#13;
   <url>http://cygwin.com/setup-x86_64.exe</url>
  </version>
 
-    <version name="1.7.21309" package="daumpotplayer64" type="one-file">
+    <version name="1.7.21397" package="daumpotplayer64" type="one-file">
   <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
 </file>
   <file path=".Npackd\Uninstall.bat">uninstall.exe /S _?=%CD%&#13;
@@ -18568,7 +18574,7 @@ if %err% neq 0 exit %err%&#13;
   <hash-sum type="SHA-256">9242bff87f2c3ffb560c74b43fd0525adcec86d6092eaeeb5fc271b0d086b924</hash-sum>
  </version>
 
-    <version name="86.0.4240.111" package="google-chrome-x64" type="one-file">
+    <version name="87.0.4280.88" package="google-chrome-x64" type="one-file">
   <file path=".Npackd\Install.bat">call "%npackdih%\InstallMSI.bat" TARGETDIR yes&#13;
 </file>
   <url>https://dl.google.com/tag/s/appguid%3D%7B8A69D345-D564-463C-AFF1-A69D9E530F96%7D%26iid%3D%7B0A558A36-0536-8B3F-0AE0-420553CC97F3%7D%26lang%3Den%26browser%3D4%26usagestats%3D0%26appname%3DGoogle%2520Chrome%26needsadmin%3DFalse/edgedl/chrome/install/GoogleChromeStandaloneEnterprise64.msi</url>
@@ -20558,7 +20564,7 @@ if %err% neq 0 exit %err%&#13;
   </dependency>
   <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.15.7, 2)"/>
  </version>
- <version name="0.32" package="io.mpv.mpv-64" type="one-file">
+ <version name="0.33" package="io.mpv.mpv-64" type="one-file">
   <file path=".Npackd\Install.bat">for /f %%x in ('dir /b *.7z') do set setup=%%x&#13;
 "%sevenzipa%\7za.exe" x "%setup%" &gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt</file>
   <url>http://mpv.srsfckn.biz/mpv-x86_64-latest.7z</url>
@@ -41261,6 +41267,20 @@ call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Np
    <variable>nih</variable>
   </dependency>
  </version>
+ <version name="8.2.2160" package="org.vim.Vim64">
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+if %errorlevel% neq 0 exit /b %errorlevel%&#13;
+&#13;
+for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+</file>
+  <url>https://github.com/vim/vim-win32-installer/releases/download/v8.2.2160/gvim_8.2.2160_x64.zip</url>
+  <hash-sum type="SHA-256">a6c3528bae69ea25136ddf133bddd932710c486f16a18589d6dbb7139ea70489</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.19, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
 
     <version name="4.2.8.83876" package="org.virtualbox.virtualbox64" type="one-file">
   <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
@@ -43707,6 +43727,16 @@ echo DesktopShortcut=false &gt;&gt; .Npackd\FF.ini&#13;
   <file path=".Npackd\Uninstall.bat">uninstall\helper.exe /S</file>
   <url>http://relmirror.palemoon.org/release/palemoon-28.15.0.win64.installer.exe</url>
   <hash-sum type="SHA-256">68cb58bb04997e1adb9679ce777474d00db882cf21e4aede84d404843c0e18f4</hash-sum>
+ </version>
+ <version name="28.17" package="pale-moon64" type="one-file">
+  <file path=".Npackd\Install.bat">echo [Install] &gt; .Npackd\FF.ini&#13;
+echo InstallDirectoryPath=%CD% &gt;&gt; .Npackd\FF.ini&#13;
+echo QuickLaunchShortcut=false &gt;&gt; .Npackd\FF.ini&#13;
+echo DesktopShortcut=false &gt;&gt; .Npackd\FF.ini&#13;
+"%npackd_package_binary%" /INI="%CD%\.Npackd\FF.ini" &amp;&amp; del /f /q "%npackd_package_binary%"</file>
+  <file path=".Npackd\Uninstall.bat">uninstall\helper.exe /S</file>
+  <url>http://relmirror.palemoon.org/release/palemoon-28.17.0.win64.installer.exe</url>
+  <hash-sum type="SHA-256">f663dcbaaa8531271d89d6015bcb0effecc3f856e9378bf3685050ba6e1051f9</hash-sum>
  </version>
 
     <version name="28.10" package="palemoon64" type="one-file">
@@ -46552,7 +46582,7 @@ if %err% neq 0 exit %err%&#13;
   </dependency>
  </version>
 
-    <version name="27.0.7" package="slimjet" type="one-file">
+    <version name="28.0.3" package="slimjet" type="one-file">
   <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
 </file>
   <file path=".Npackd\Uninstall.bat">uninstall.exe /S _?=%CD%&#13;
@@ -46560,7 +46590,7 @@ if %err% neq 0 exit %err%&#13;
   <url>https://www.slimjetbrowser.com/release/sjtsetup_x86.exe</url>
  </version>
 
-    <version name="27.0.7" package="slimjet64" type="one-file">
+    <version name="28.0.3" package="slimjet64" type="one-file">
   <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
 </file>
   <file path=".Npackd\Uninstall.bat">uninstall.exe /S _?=%CD%&#13;
@@ -49230,7 +49260,7 @@ if %err% neq 0 exit %err%&#13;
   <url>https://az764295.vo.msecnd.net/stable/a0479759d6e9ea56afa657e454193f72aef85bd0/VSCodeSetup-ia32-1.48.2.exe</url>
   <hash-sum type="SHA-256">013d5ecdb44159c15047472512bef9c76ba934807dbb07a582655f4c5546866d</hash-sum>
  </version>
- <version name="1.50" package="vs-code" type="one-file">
+ <version name="1.52" package="vs-code" type="one-file">
   <file path=".Npackd\Install.bat">ren "%npackd_package_binary%" setup.exe&#13;
 setup.exe /SP- /VERYSILENT /SUPPRESSMSGBOXES /NOCANCEL /NORESTART /DIR="%CD%" /SAVEINF="%CD%\.Npackd\InnoSetupInfo.ini" /LOG="%CD%\.Npackd\InnoSetupInstall.log"&#13;
 set err=%errorlevel%&#13;
@@ -49305,7 +49335,7 @@ if %err% neq 0 exit %err%&#13;
   <url>https://az764295.vo.msecnd.net/stable/a0479759d6e9ea56afa657e454193f72aef85bd0/VSCodeSetup-x64-1.48.2.exe</url>
   <hash-sum type="SHA-256">3f8805a29fdd9fbfd7c0d7a9f354ed160256ec6f1f80410e367bf14f37908afb</hash-sum>
  </version>
- <version name="1.50" package="vs-code64" type="one-file">
+ <version name="1.52" package="vs-code64" type="one-file">
   <file path=".Npackd\Install.bat">ren "%npackd_package_binary%" setup.exe&#13;
 setup.exe /SP- /VERYSILENT /SUPPRESSMSGBOXES /NOCANCEL /NORESTART /DIR="%CD%" /SAVEINF="%CD%\.Npackd\InnoSetupInfo.ini" /LOG="%CD%\.Npackd\InnoSetupInstall.log"&#13;
 set err=%errorlevel%&#13;
