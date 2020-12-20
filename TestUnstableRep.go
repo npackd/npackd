@@ -1264,7 +1264,7 @@ func detect(packageName string) error {
 	}
 
 	if compareVersions(newVersion, version) <= 0 {
-		return errors.New("No new version found")
+		return nil
 	}
 
 	fmt.Println("Found new version " + versionToString(newVersion))
@@ -1383,11 +1383,12 @@ func detectNewVersions() error {
 		for i := 0; i < len(rep.Package); i++ {
 			p := rep.Package[i]
 
-			fmt.Println("https://www.npackd.org/p/" + p.Name)
-
-			err = detect(p.Name)
-			if err != nil {
-				fmt.Println(err.Error())
+			if indexOf(p.Tag, "end-of-life") < 0 {
+				err = detect(p.Name)
+				if err != nil {
+					fmt.Println("https://www.npackd.org/p/" + p.Name)
+					fmt.Println(err.Error())
+				}
 			}
 		}
 	}
