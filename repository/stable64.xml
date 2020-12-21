@@ -1006,7 +1006,8 @@ x86_64</description>
  <package name="cornplayer">
   <title>CornPlayer</title>
   <url>https://sourceforge.net/projects/cornplayer/</url>
-  <description>very simple Media Player. Youtube Viewer and audio/video Download. Powerful Playlists (Create and manage multiple playlist lists). Music Play UI (album Image and lyrics View). 32-bit and 64-bit Windows OS support&#13;
+  <description>WARNING: there will be no new versions of this package.
+very simple Media Player. Youtube Viewer and audio/video Download. Powerful Playlists (Create and manage multiple playlist lists). Music Play UI (album Image and lyrics View). 32-bit and 64-bit Windows OS support&#13;
 &#13;
 Language support for users of the English-speaking world. Support for various media formats. Seamless 4k video playback. 64bit Windows os support
 x86_64</description>
@@ -1014,6 +1015,7 @@ x86_64</description>
   <license>org.wikipedia.Freeware</license>
   <category>Video</category>
   <tag>stable64</tag>
+  <tag>end-of-life</tag>
   <link href="https://cdn.lo4d.com/t/screenshot/cornplayer.png" rel="screenshot"/>
   <link href="https://cdn.lo4d.com/t/screenshot/cornplayer-2.png" rel="screenshot"/>
   <link href="https://cdn.lo4d.com/t/screenshot/cornplayer-11.png" rel="screenshot"/>
@@ -1022,7 +1024,8 @@ x86_64</description>
  <package name="cornplayer64">
   <title>CornPlayer 64 Bit</title>
   <url>https://sourceforge.net/projects/cornplayer/</url>
-  <description>very simple Media Player. Youtube Viewer and audio/video Download. Powerful Playlists (Create and manage multiple playlist lists). Music Play UI (album Image and lyrics View). 32-bit and 64-bit Windows OS support&#13;
+  <description>WARNING: there will be no new versions of this package.
+very simple Media Player. Youtube Viewer and audio/video Download. Powerful Playlists (Create and manage multiple playlist lists). Music Play UI (album Image and lyrics View). 32-bit and 64-bit Windows OS support&#13;
 &#13;
 Language support for users of the English-speaking world. Support for various media formats. Seamless 4k video playback. 64bit Windows os support
 x86_64</description>
@@ -1030,6 +1033,7 @@ x86_64</description>
   <license>org.wikipedia.Freeware</license>
   <category>Video</category>
   <tag>stable64</tag>
+  <tag>end-of-life</tag>
   <stars>1</stars>
   <link href="https://cdn.lo4d.com/t/screenshot/cornplayer.png" rel="screenshot"/>
   <link href="https://cdn.lo4d.com/t/screenshot/cornplayer-2.png" rel="screenshot"/>
@@ -2718,10 +2722,6 @@ x86_64</description>
   <tag>stable64</tag>
   <stars>1</stars>
   <link href="https://github.com/zaproxy/zaproxy/commits/develop" rel="changelog"/>
-  <link href="https://www.owasp.org/images/6/6d/ZAP-ScreenShotAddAlert.png" rel="screenshot"/>
-  <link href="https://www.owasp.org/images/7/78/ZAP-ScreenShotHelp.png" rel="screenshot"/>
-  <link href="https://www.owasp.org/images/d/d0/ZAP-ScreenShotHistoryFilter.png" rel="screenshot"/>
-  <link href="https://www.owasp.org/images/b/bc/ZAP-ScreenShotSearchTab.png" rel="screenshot"/>
  </package>
  <package name="org.processing.Processing64">
   <title>Processing 64 bit</title>
@@ -4257,6 +4257,14 @@ x86_64</description>
   <url>https://github.com/tim-lebedkov/packages/releases/download/2020_11/anki64-2.1.34-anki-2.1.34-windows.exe</url>
   <hash-sum type="SHA-256">4d72a43fa09d7462acfc57c53b1418f156a7aa3f0d4afebbbba908177d1b8b23</hash-sum>
  </version>
+ <version name="2.1.37" package="anki64" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD%&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">uninstall.exe /S&#13;
+</file>
+  <url>https://github.com/ankitects/anki/releases/download/2.1.37/anki-2.1.37-windows.exe</url>
+  <hash-sum type="SHA-256">48e60500c0366f0fad691350c02f4cc0cfd9165f04576c37b6385f244c91a0f3</hash-sum>
+ </version>
 
     <version name="2.4.41" package="apache-httpd64">
   <url>https://github.com/tim-lebedkov/packages/releases/download/2020_04/apache-httpd64-2.4.41-httpd-2.4.41-o102s-x64-vc14-r2.zip</url>
@@ -4361,6 +4369,16 @@ verify</file>
   <file path=".Npackd\Uninstall.bat">uninstall.exe -q</file>
   <url>https://github.com/BiglySoftware/BiglyBT/releases/download/v2.4.0.0/GitHub_BiglyBT_Installer32.exe</url>
   <hash-sum type="SHA-256">80d28f46d0992fb9878f44aecd3cd01b997c9775f540dac906313ef855600319</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.25, 2)">
+   <variable>ncl</variable>
+  </dependency>
+ </version>
+ <version name="2.6" package="biglybt" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" -q -dir "%CD%" &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">uninstall.exe -q</file>
+  <url>https://github.com/BiglySoftware/BiglyBT/releases/download/v2.6.0.0/GitHub_BiglyBT_Installer32.exe</url>
+  <hash-sum type="SHA-256">92abf3a44b49303306c51c7382db79f39a3fc1b3a43e99f54853cb7f9f1a8a34</hash-sum>
   <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.25, 2)">
    <variable>ncl</variable>
   </dependency>
@@ -10267,7 +10285,7 @@ set err=%errorlevel%
 type .Npackd\MSI.log
 if %err% neq 0 exit /b %err%
 </file>
-  <url>http://javadl.sun.com/webapps/download/AutoDL?BundleId=56869</url>
+  <url>https://github.com/tim-lebedkov/packages/releases/download/2020_12/com.oracle.JRE64-1.7.0.1-AutoDL</url>
   <sha1>bd40f1dcd72326bb472cd131acb04d707566e706</sha1>
  </version>
  <version name="1.8.0.65" package="com.oracle.JRE64" type="one-file">
@@ -10281,7 +10299,7 @@ if %err% neq 0 exit /b %err%&#13;
 </file>
   <file path=".Npackd\Uninstall.bat">"%nih%\UninstallMSI.bat" {26A24AE4-039D-4CA4-87B4-2F86418065F0}&#13;
 </file>
-  <url>http://javadl.sun.com/webapps/download/AutoDL?BundleId=111689</url>
+  <url>https://github.com/tim-lebedkov/packages/releases/download/2020_12/com.oracle.JRE64-1.8.0.65-AutoDL</url>
   <sha1>85a8021af3299e5bc439a071e8b2cea6a137c6ad</sha1>
   <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.8, 2)">
    <variable>nih</variable>
@@ -10298,7 +10316,7 @@ if %err% neq 0 exit /b %err%&#13;
 </file>
   <file path=".Npackd\Uninstall.bat">"%nih%\UninstallMSI.bat" {26A24AE4-039D-4CA4-87B4-2F86418074F0}&#13;
 </file>
-  <url>http://javadl.sun.com/webapps/download/AutoDL?BundleId=116030</url>
+  <url>https://github.com/tim-lebedkov/packages/releases/download/2020_12/com.oracle.JRE64-1.8.0.74-AutoDL</url>
   <sha1>12c3e70c4348ba89e3817a5b48a41b26b1245550</sha1>
   <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.8, 2)">
    <variable>nih</variable>
@@ -24328,6 +24346,10 @@ del /q /f "CINEBENCH Windows 32 Bit.exe"</file>
  <version name="20" package="net.maxon.cinebench.Cinebench64">
   <url>http://http.maxon.net/pub/cinebench/CinebenchR20.zip</url>
  </version>
+ <version name="23" package="net.maxon.cinebench.Cinebench64">
+  <important-file path="Cinebench.exe" title="Cinebench"/>
+  <url>http://http.maxon.net/pub/cinebench/CinebenchR23.zip</url>
+ </version>
 
     <version name="1.62" package="net.nirsoft.FileTypesMan64">
   <important-file path="FileTypesMan.exe" title="FileTypesMan"/>
@@ -27793,6 +27815,29 @@ WshShell.SendKeys("{ESC}");&#13;
   <url>https://github.com/tim-lebedkov/packages/releases/download/2020_10/openmpt64-1.29.5-OpenMPT-1.29.05.00-Setup-x64.exe</url>
   <hash-sum type="SHA-256">ba22b9a6272db755ec4856b8005ed8a8dbb828b20e1668714ebbb7c1ad8116fb</hash-sum>
  </version>
+ <version name="1.29.6" package="openmpt64" type="one-file">
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
+"%setup%" /SP- /VERYSILENT /SUPPRESSMSGBOXES /NOCANCEL /NORESTART /DIR="%CD%" /SAVEINF="%CD%\.Npackd\InnoSetupInfo.ini" /LOG="%CD%\.Npackd\InnoSetupInstall.log" &amp;&amp; del /f /q "%setup%"&#13;
+set err=%errorlevel%&#13;
+type .Npackd\InnoSetupInstall.log&#13;
+if %err% neq 0 exit %err%&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">start "Confirm Uninstall" cscript //Nologo //B //E:JScript //T:300 //U .Npackd\ConfirmUninstall.js&#13;
+&#13;
+unins000.exe /VERYSILENT /SUPPRESSMSGBOXES /NORESTART /LOG="%CD%\.Npackd\InnoSetupUninstall.log"&#13;
+set err=%errorlevel%&#13;
+type .Npackd\InnoSetupUninstall.log&#13;
+if %err% neq 0 exit %err%&#13;
+</file>
+  <file path=".Npackd\ConfirmUninstall.js">var WshShell = WScript.CreateObject("WScript.Shell");&#13;
+WScript.Sleep(60000);&#13;
+WshShell.AppActivate("Uninstall");&#13;
+WScript.Sleep(10000);&#13;
+WshShell.SendKeys("{ESC}");&#13;
+</file>
+  <url>https://download.openmpt.org/archive/openmpt/1.29/OpenMPT-1.29.06.00-Setup-x64.exe</url>
+  <hash-sum type="SHA-256">35adba3222e5567bd302e4a4a0be5586000b69062a6d5b15455b4b412eb6455d</hash-sum>
+ </version>
 
     <version name="2015.3.2" package="openscad64" type="one-file">
   <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
@@ -29488,6 +29533,21 @@ rmdir "%name%"
   <hash-sum type="SHA-256">5ff93004759ff8178dd5d33f4411e0d806026cc30aac7f0c77ec3432889fcd80</hash-sum>
   <dependency package="com.oracle.JRE" versions="[1.5, 2)"/>
  </version>
+ <version name="7.0.107" package="org.apache.tomcat.Tomcat64">
+  <important-file path="bin\startup.bat" title="Start"/>
+  <important-file path="bin\shutdown.bat" title="Stop"/>
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b apache*') do set name=%%x
+cd "%name%"        
+for /f "delims=" %%a in ('dir /b') do (
+  move "%%a" ..
+)
+cd ..
+rmdir "%name%"
+</file>
+  <url>http://archive.apache.org/dist/tomcat/tomcat-7/v7.0.107/bin/apache-tomcat-7.0.107-windows-x64.zip</url>
+  <hash-sum type="SHA-256">331cf10d0ab443b411e2b3fb223672a8619a26b3852a31c33accb670d30435c2</hash-sum>
+  <dependency package="com.oracle.JRE" versions="[1.5, 2)"/>
+ </version>
 
     <version name="7.2.10" package="org.areca-backup.ArecaBackup64">
   <important-file path="areca.exe" title="Areca"/>
@@ -30395,6 +30455,15 @@ if %err% neq 0 exit /b %err%&#13;
 </file>
   <url>https://www.mercurial-scm.org/release/tortoisehg/windows/tortoisehg-5.5.2-x64.msi</url>
   <hash-sum type="SHA-256">7b9f0c815e986a2a29a45b65600926e8b5e7d665a85f1759046ec8e30ad86b76</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3.1, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
+ <version name="5.6.1" package="org.bitbucket.tortoisehg.TortoiseHg64" type="one-file">
+  <file path=".Npackd\Install.bat">call "%nih%\InstallMSI.bat" INSTALLDIR yes&#13;
+</file>
+  <url>https://www.mercurial-scm.org/release/tortoisehg/windows/tortoisehg-5.6.1-x64.msi</url>
+  <hash-sum type="SHA-256">080a8935c97af52fc463844b0eba1c9a3ae17ab1c2b933679b9fd64fbfb69f68</hash-sum>
   <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3.1, 2)">
    <variable>nih</variable>
   </dependency>
@@ -31610,6 +31679,12 @@ rmdir "%name%"&#13;
 </file>
   <url>https://www.erlang.org/download/otp_win64_23.1.exe</url>
   <hash-sum type="SHA-256">daa8243e82a8328ea87387c67db0af2ee19d2fd17f9e8ed4785da0b5cacd2e2d</hash-sum>
+ </version>
+ <version name="23.2" package="org.erlang.Erlang64" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD%&#13;
+</file>
+  <url>https://www.erlang.org/download/otp_win64_23.2.exe</url>
+  <hash-sum type="SHA-256">03cd5df23e1c7a9f94dbdc82ad68a2ff80f6e289e1b603d8c9b75803786af82f</hash-sum>
  </version>
 
     <version name="0.9.2.1" package="org.flamerobin.FlameRobin64" type="one-file">
@@ -35499,6 +35574,15 @@ rmdir "%name%"&#13;
    <variable>nih</variable>
   </dependency>
  </version>
+ <version name="4.4.2" package="org.mongodb.MongoDB64" type="one-file">
+  <file path=".Npackd\Install.bat">call "%nih%\InstallMSI.bat" INSTALLDIR yes&#13;
+</file>
+  <url>https://fastdl.mongodb.org/windows/mongodb-windows-x86_64-4.4.2-signed.msi</url>
+  <hash-sum type="SHA-256">84a1f6899e25f90a7d7c2b5996e9e15584a9af54c08832682c962c5794fcab0f</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.1, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
 
     <version name="0.8.1" package="org.nodejs.NodeJS64" type="one-file">
   <file path=".Npackd\AddProperty.vbs">Option Explicit&#13;
@@ -36337,6 +36421,15 @@ verify</file>
   <file path=".Npackd\Install.bat">call "%npackdih%\InstallMSI.bat" INSTALLDIR yes</file>
   <url>https://nodejs.org/dist/v14.15.0/node-v14.15.0-x64.msi</url>
   <hash-sum type="SHA-256">cafbd7ed129fb4a56a1751b674ba083d7681b72ae044c4976b3009cb796557af</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.1, 2)">
+   <variable>npackdih</variable>
+  </dependency>
+ </version>
+ <version name="14.15.3" package="org.nodejs.NodeJS64" type="one-file">
+  <cmd-file path="node.exe"/>
+  <file path=".Npackd\Install.bat">call "%npackdih%\InstallMSI.bat" INSTALLDIR yes</file>
+  <url>https://nodejs.org/dist/v14.15.3/node-v14.15.3-x64.msi</url>
+  <hash-sum type="SHA-256">36394f96a7e0266930ac7f6ec6602437f6ff9748500d80386e75fc0649d49c06</hash-sum>
   <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.1, 2)">
    <variable>npackdih</variable>
   </dependency>
@@ -37273,6 +37366,10 @@ if %err% neq 0 exit %err%&#13;
  <version name="20.9.27" package="org.shotcut.shotcut">
   <url>https://github.com/mltframework/shotcut/releases/download/v20.09.27/shotcut-win64-200927.zip</url>
   <hash-sum type="SHA-256">31caf6ec3644877d12aeadd60e3dea65cf3fad29dc6a2bb2e33e7c8fbad6e711</hash-sum>
+ </version>
+ <version name="20.11.28" package="org.shotcut.shotcut">
+  <url>https://github.com/mltframework/shotcut/releases/download/v20.11.28/shotcut-win64-201128.zip</url>
+  <hash-sum type="SHA-256">45cde8000364a9803776435918d7257aaf66fb5a848ee8d98ba55c395893ed9f</hash-sum>
  </version>
 
     <version name="4.4" package="org.sourceforge.ultradefrag.UltraDefrag64">
@@ -43174,6 +43271,14 @@ if %err% neq 0 exit %err%</file>
   <url>https://1.eu.dl.wireshark.org/win64/Wireshark-win64-3.2.7.exe</url>
   <hash-sum type="SHA-256">d418b047d8f77d6ae804a5121d18d941bc45ca47c30f553d0034d6136c3069a4</hash-sum>
  </version>
+ <version name="3.4.2" package="org.wireshark.Wireshark64" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD%&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">uninstall.exe /S _=%CD%&#13;
+</file>
+  <url>https://1.eu.dl.wireshark.org/win64/Wireshark-win64-3.4.2.exe</url>
+  <hash-sum type="SHA-256">faa98f833e10b450c24e42a42292ff894c36b97aec526bf259796488888fd57c</hash-sum>
+ </version>
 
     <version name="1.0.81" package="otter-browser" type="one-file">
   <file path=".Npackd\Install.bat">"%nih%\InstallInnoSetup.bat"&#13;
@@ -44066,6 +44171,16 @@ verify</file>
   </dependency>
   <dependency package="org.miktex.MiKTeX" versions="[2.9, 3)"/>
  </version>
+ <version name="2.11.3.1" package="pandoc64" type="one-file">
+  <file path=".Npackd\Install.bat">call "%nih%\InstallMSI.bat" INSTALLDIR yes&#13;
+</file>
+  <url>https://github.com/jgm/pandoc/releases/download/2.11.3.1/pandoc-2.11.3.1-windows-x86_64.msi</url>
+  <hash-sum type="SHA-256">f86e4b0595f5776621d99fb58fecd5e4c86e19297040cf3210c9490b14460da9</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.1, 2)">
+   <variable>nih</variable>
+  </dependency>
+  <dependency package="org.miktex.MiKTeX" versions="[2.9, 3)"/>
+ </version>
 
     <version name="2.2.2" package="pdfsam64" type="one-file">
   <file path=".Npackd\Install.bat">&#13;
@@ -44268,6 +44383,16 @@ call "%npackdih%\InstallMSI.bat" TARGETDIR yes</file>
    <variable>npackdih</variable>
   </dependency>
  </version>
+ <version name="4.2.1" package="pdfsam64" type="one-file">
+  <file path=".Npackd\Install.bat">rem un-installation tries to remove .Npackd and fails =&gt; 2 to install the program somewhere else&#13;
+call "%npackdih%\InstallMSI.bat" TARGETDIR yes</file>
+  <url>https://github.com/torakiki/pdfsam/releases/download/v4.2.1/pdfsam-4.2.1.msi</url>
+  <hash-sum type="SHA-256">060ebe759e8d1c8d38828b24f1dfcd6461ea19c64cff74ce6e400f0afe2ba44f</hash-sum>
+  <dependency package="com.oracle.JRE64" versions="[1.6.0.23, 2)"/>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.1, 2)">
+   <variable>npackdih</variable>
+  </dependency>
+ </version>
 
     <version name="3.2" package="persepolis64" type="one-file">
   <file path=".Npackd\Install.bat">"%nih%\InstallInnoSetup.bat"&#13;
@@ -44342,6 +44467,17 @@ call "%npackdih%\InstallMSI.bat" TARGETDIR yes</file>
 </file>
   <url>https://github.com/picotorrent/picotorrent/releases/download/v0.22.0/PicoTorrent-0.22.0-x64.exe</url>
   <hash-sum type="SHA-256">d7f36b443dc81463a702caef67b3a1a9bf6539215cfcdd6943f769596f9afc4d</hash-sum>
+  <dependency package="net.nirsoft.MyUninstaller" versions="[1.74, 2)">
+   <variable>myun</variable>
+  </dependency>
+ </version>
+ <version name="0.23" package="picotorrent-64-bit" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">"%myun%\myuninst.exe" /uninstall "picotorrent-64-bit"&#13;
+</file>
+  <url>https://github.com/picotorrent/picotorrent/releases/download/v0.23.0/PicoTorrent-0.23.0-x64.exe</url>
+  <hash-sum type="SHA-256">0e8e994b31046a4c5bf554999a66cf0d6a40d632685b2df0342838f9d8ce2a63</hash-sum>
   <dependency package="net.nirsoft.MyUninstaller" versions="[1.74, 2)">
    <variable>myun</variable>
   </dependency>
@@ -45110,6 +45246,13 @@ if %errorlevel% equ 3010 verify</file>
 </file>
   <url>https://qgis.org/downloads/QGIS-OSGeo4W-3.16.0-1-Setup-x86_64.exe</url>
  </version>
+ <version name="3.16.1" package="qgis64" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
+if %errorlevel% equ 3010 verify</file>
+  <file path=".Npackd\Uninstall.bat">uninstall.exe /S _?=%CD%&#13;
+</file>
+  <url>https://qgis.org/downloads/QGIS-OSGeo4W-3.16.1-1-Setup-x86_64.exe</url>
+ </version>
 
     <version name="1.40.6" package="Qt-Bitcoin-Trader64" type="one-file">
   <important-file path="qtbitcointrader.exe" title="Qt Bitcoin Trader"/>
@@ -45310,6 +45453,14 @@ if %errorlevel% equ 3010 verify</file>
 </file>
   <url>https://github.com/qTox/qTox/releases/download/v1.17.2/setup-qtox-i686-release.exe</url>
   <hash-sum type="SHA-256">53d457384f8a03867581d6ad5d9e83adef4abc42f61687a89a7ab3d301f8c222</hash-sum>
+ </version>
+ <version name="1.17.3" package="qtox64" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">uninstall.exe /S _?=%CD%&#13;
+</file>
+  <url>https://github.com/qTox/qTox/releases/download/v1.17.3/setup-qtox-i686-release.exe</url>
+  <hash-sum type="SHA-256">fe3158ed9fd5429506d2e96308ebe29f74786cb4b6b90836725cab38463067cf</hash-sum>
  </version>
 
     <version name="5.3.6" package="racket64" type="one-file">
@@ -46330,6 +46481,16 @@ call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Np
    <variable>nih</variable>
   </dependency>
  </version>
+ <version name="7.74" package="se.haxx.curl.CURL64">
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b curl*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+</file>
+  <url>https://curl.haxx.se/windows/dl-7.74.0/curl-7.74.0-win64-mingw.zip</url>
+  <hash-sum type="SHA-256">cf3badd2629faa1bd0307fd638cb86c78d5d218b4a8f2249edaaabcc2a69f5b2</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.19, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
 
     <version name="2.1" package="sfml-dev-amd64-vc11">
   <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b SFML*') do set name=%%x&#13;
@@ -46511,6 +46672,17 @@ if %err% neq 0 exit %err%&#13;
 </file>
   <url>https://github.com/user-none/Sigil/releases/download//1.4.0/Sigil-1.4.0-Windows-x64-Setup.exe</url>
   <hash-sum type="SHA-256">d70c167b6ec608e218c5ca5314e298253429dbaff80a08c9fa72449407434ddb</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
+ <version name="1.4.3" package="sigil64" type="one-file">
+  <file path=".Npackd\Install.bat">call "%nih%\InstallInnoSetup.bat"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">call "%nih%\UninstallInnoSetup.bat" unins000.exe&#13;
+</file>
+  <url>https://github.com/user-none/Sigil/releases/download//1.4.3/Sigil-1.4.3-Windows-x64-Setup.exe</url>
+  <hash-sum type="SHA-256">e36c4624e16e450a85fc524f672c772094e15e51db706a7ee4a68fad27f288f9</hash-sum>
   <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
    <variable>nih</variable>
   </dependency>
@@ -46764,6 +46936,10 @@ rem Install4j&#13;
  <version name="3.33" package="sqlite64">
   <url>https://www.sqlite.org/2020/sqlite-dll-win64-x64-3330000.zip</url>
   <hash-sum type="SHA-256">eb9901dc93b0537266e57f631717f0889b05c5a8f76a6a7565bd1af2d7001316</hash-sum>
+ </version>
+ <version name="3.34" package="sqlite64">
+  <url>https://www.sqlite.org/2020/sqlite-dll-win64-x64-3340000.zip</url>
+  <hash-sum type="SHA-256">c262ea98880c83a762a783e641aa5b076c54151085ba7c3177aa095d42a881d0</hash-sum>
  </version>
 
     <version name="10.50.1600.1" package="sqlncli64" type="one-file">
@@ -47529,6 +47705,14 @@ rmdir "%name%"</file>
   <url>https://www.sysgauge.com/setups_x64/sysgauge_setup_v7.3.18_x64.exe</url>
   <hash-sum type="SHA-256">525fc01654f37b777d857a9ca3626209e9a5561a70eb9f9327d6e45e8347d093</hash-sum>
  </version>
+ <version name="7.5.12" package="sysgauge64" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">uninstall.exe /S _?=%CD%&#13;
+</file>
+  <url>https://www.sysgauge.com/setups_x64/sysgauge_setup_v7.5.12_x64.exe</url>
+  <hash-sum type="SHA-256">b8609c09484c524b236461506db12ac4d459a541ba97c941cdaa2093a671b61d</hash-sum>
+ </version>
 
     <version name="2" package="texniccenter64" type="one-file">
   <file path=".Npackd\Install.bat">for /f %%x in ('dir /b *.exe') do set setup=%%x&#13;
@@ -47960,6 +48144,12 @@ if %err% neq 0 exit %err%&#13;
 </file>
   <url>https://dist.torproject.org/torbrowser/10.0.2/torbrowser-install-10.0.2_en-US.exe</url>
   <hash-sum type="SHA-256">c685c550fc420c39cbe40e453f2201789af5f64e7b024c9339c2a3bd01e61c2d</hash-sum>
+ </version>
+ <version name="10.0.7" package="tor64" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
+</file>
+  <url>https://dist.torproject.org/torbrowser/10.0.7/torbrowser-install-10.0.7_en-US.exe</url>
+  <hash-sum type="SHA-256">37aa2e3e7bb9c400a37922be8aa09eba71840f07f2b43dfd7e9cae3545daa0b8</hash-sum>
  </version>
 
     <version name="2.84.9" package="transmission-qt64" type="one-file">
