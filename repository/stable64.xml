@@ -741,12 +741,14 @@ x86_64</description>
  <package name="com.microsoft.SecurityEssentials64">
   <title>Security Essentials 64 bit</title>
   <url>http://windows.microsoft.com/en-US/windows/products/security-essentials</url>
-  <description>antivirus. WARNING: at least XP SP2 is required
+  <description>WARNING: there will be no new versions of this package.
+antivirus. WARNING: at least XP SP2 is required
 x86_64</description>
   <icon>http://c.s-microsoft.com/en-us/CMSImages/microsoft_logo_56x56.png?version=ad0d2fa7-0ee8-4e82-ddbf-8ea5dc9d9c23</icon>
   <license>com.microsoft.SecurityEssentialsLicense</license>
   <category>Security</category>
   <tag>stable64</tag>
+  <tag>end-of-life</tag>
  </package>
  <package name="com.microsoft.VisualCPPRedistributable64">
   <title>Visual C++ redistributable package 64 bit</title>
@@ -9407,6 +9409,24 @@ if %err% neq 0 exit /b %err%&#13;
   <url>http://download.microsoft.com/download/9/3/F/93FCF1E7-E6A4-478B-96E7-D4B285925B00/vc_redist.x64.exe</url>
   <sha1>3155cb0f146b927fcc30647c1a904cd162548c8c</sha1>
  </version>
+ <version name="14.28.29325" package="com.microsoft.VisualCPPRedistributable64" type="one-file">
+  <file path=".Npackd\Install.bat">vc_redist.x64.exe /q /log .Npackd\VCRInstall.log /norestart&#13;
+set err=%errorlevel%&#13;
+type .Npackd\VCRInstall.log&#13;
+rem 3010=restart required&#13;
+if %err% equ 3010 exit /b 0&#13;
+if %err% neq 0 exit /b %err%&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">vc_redist.x64.exe /q /uninstall /log .Npackd\VCRUninstall.log /norestart&#13;
+set err=%errorlevel%&#13;
+type .Npackd\VCRUninstall.log&#13;
+rem 3010=restart required&#13;
+if %err% equ 3010 exit /b 0&#13;
+if %err% neq 0 exit /b %err%&#13;
+</file>
+  <url>https://download.visualstudio.microsoft.com/download/pr/89a3b9df-4a09-492e-8474-8f92c115c51d/B1A32C71A6B7D5978904FB223763263EA5A7EB23B2C44A0D60E90D234AD99178/VC_redist.x64.exe</url>
+  <hash-sum type="SHA-256">b1a32c71a6b7d5978904fb223763263ea5a7eb23b2c44a0d60e90d234ad99178</hash-sum>
+ </version>
 
     <version name="6.2.9200" package="com.microsoft.Windows64"/>
 
@@ -10351,7 +10371,7 @@ if %err% neq 0 exit /b %err%&#13;
  <version name="14.0.2.12" package="com.oracle.JRE64" type="one-file">
   <file path=".Npackd\Install.bat">call "%nih%\InstallMSI.bat" INSTALLDIR yes&#13;
 </file>
-  <url>https://github.com/AdoptOpenJDK/openjdk14-binaries/releases/download/jdk-14.0.2%2B12_openj9-0.21.0/OpenJDK14U-jre_x64_windows_openj9_14.0.2_12_openj9-0.21.0.msi</url>
+  <url>https://github.com/tim-lebedkov/packages/releases/download/2020_12/com.oracle.JRE64-14.0.2.12-OpenJDK14U-jre_x64_windows_openj9_14.0.2_12_openj9-0.21.0.msi</url>
   <hash-sum type="SHA-256">12c883da9337470094993384c68f85effdd1752575fc2316459b50d541e35060</hash-sum>
   <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.8, 2)">
    <variable>nih</variable>
@@ -10360,7 +10380,7 @@ if %err% neq 0 exit /b %err%&#13;
  <version name="15.0.1.9" package="com.oracle.JRE64" type="one-file">
   <file path=".Npackd\Install.bat">call "%nih%\InstallMSI.bat" INSTALLDIR yes&#13;
 </file>
-  <url>https://github.com/AdoptOpenJDK/openjdk15-binaries/releases/download/jdk-15.0.1%2B9/OpenJDK15U-jre_x64_windows_hotspot_15.0.1_9.msi</url>
+  <url>https://github.com/tim-lebedkov/packages/releases/download/2020_12/com.oracle.JRE64-15.0.1.9-OpenJDK15U-jre_x64_windows_hotspot_15.0.1_9.msi</url>
   <hash-sum type="SHA-256">01bfb5bb0e73ae2a25ef55d727ef13871ac7b8fc69966ee9e817135853d63012</hash-sum>
   <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.8, 2)">
    <variable>nih</variable>
@@ -20563,7 +20583,7 @@ if %err% neq 0 exit %err%&#13;
 </file>
   <file path=".Npackd\Uninstall.bat">call "%nih%\UninstallInnoSetup.bat" unins000.exe&#13;
 </file>
-  <url>https://www.imagemagick.org/download/binaries/ImageMagick-7.0.10-52-Q16-HDRI-x64-dll.exe</url>
+  <url>https://github.com/tim-lebedkov/packages/releases/download/2020_12/imagemagick64-7.0.10.52-ImageMagick-7.0.10-52-Q16-HDRI-x64-dll.exe</url>
   <hash-sum type="SHA-256">7eb88fda2982df96007b22c5c1026841a1ee4d3ac1576de307f28abbc934b191</hash-sum>
   <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
    <variable>nih</variable>
@@ -21416,6 +21436,14 @@ call "%nih%\InstallMSI.bat" TARGETDIR yes&#13;
 </file>
   <url>https://download.kde.org/stable/krita/4.4.0/krita-x64-4.4.0-setup.exe</url>
   <hash-sum type="SHA-256">1bfe467cb5ce4e3ad69ec2ca18a35a708fbaa9ed7a4e4c04b73aa17e172bd20e</hash-sum>
+ </version>
+ <version name="4.4.1" package="krita64" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">uninstall.exe /S _?=%CD%&#13;
+</file>
+  <url>https://download.kde.org/stable/krita/4.4.1/krita-x64-4.4.1-setup.exe</url>
+  <hash-sum type="SHA-256">93df0091ff3b4c2eebb75af7ff5bab9d38af57f92a157edd4fe09c1f9fa10c0d</hash-sum>
  </version>
 
     <version name="7.1.3" package="lazpaint64" type="one-file">
@@ -34937,6 +34965,14 @@ if %errorlevel% neq 0 exit /b %errorlevel%&#13;
   <url>https://github.com/tim-lebedkov/packages/releases/download/2020_10/org.miktex.MiKTeX64-20.10-basic-miktex-20.10-x64.exe</url>
   <hash-sum type="SHA-256">cb9434d9ba0cedb480500f9bdfe437cd08fb57583704cabab5697e53bfba610b</hash-sum>
  </version>
+ <version name="20.12" package="org.miktex.MiKTeX64" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" --common-install="%CD%" --shared --unattended&#13;
+</file>
+  <file path=".Npackd\Unnstall.bat">miktex\bin\miktexsetup.exe --verbose --shared uninstall&#13;
+</file>
+  <url>https://miktex.org/download/ctan/systems/win32/miktex/setup/windows-x64/basic-miktex-20.12-x64.exe</url>
+  <hash-sum type="SHA-256">6c3e099daae0de27b26d72f4a78c111510c988f173d77a42b8f49360609f5558</hash-sum>
+ </version>
 
     <version name="0.9.19" package="org.miranda-im.MirandaIM64" type="one-file">
   <important-file path="miranda64.exe" title="Miranda IM"/>
@@ -41500,6 +41536,34 @@ call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Np
 </file>
   <url>https://github.com/vim/vim-win32-installer/releases/download/v8.2.2160/gvim_8.2.2160_x64.zip</url>
   <hash-sum type="SHA-256">a6c3528bae69ea25136ddf133bddd932710c486f16a18589d6dbb7139ea70489</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.19, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
+ <version name="8.2.2173" package="org.vim.Vim64">
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+if %errorlevel% neq 0 exit /b %errorlevel%&#13;
+&#13;
+for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+</file>
+  <url>https://github.com/vim/vim-win32-installer/releases/download/v8.2.2173/gvim_8.2.2173_x64.zip</url>
+  <hash-sum type="SHA-256">a49fef2ecf9929c8a1ee879a8c7836db57a7cc54d631d98698217000dbe41447</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.19, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
+ <version name="8.2.2184" package="org.vim.Vim64">
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+if %errorlevel% neq 0 exit /b %errorlevel%&#13;
+&#13;
+for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+</file>
+  <url>https://github.com/vim/vim-win32-installer/releases/download/v8.2.2184/gvim_8.2.2184_x64.zip</url>
+  <hash-sum type="SHA-256">4df2cfb5e8a484acd209b5c7733e98364cf23f2aa3038d6648d0ae733febdd3a</hash-sum>
   <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.19, 2)">
    <variable>nih</variable>
   </dependency>
