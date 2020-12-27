@@ -1066,17 +1066,14 @@ func downloadBinaries(dir string) error {
 		for _, asset := range assets {
 			path := dir + "/" + release.TagName + "/" + asset.Name
 			if _, err := os.Stat(path); os.IsNotExist(err) {
-				bytes, _, err := download(asset.BrowserDownloadURL, true)
-				if err != nil {
-					return err
-				}
+				fmt.Println(path)
 
 				err = os.MkdirAll(dir+"/"+release.TagName, 0777)
 				if err != nil {
 					return err
 				}
 
-				err = ioutil.WriteFile(path, bytes.Bytes(), 0644)
+				err = downloadToFile(asset.BrowserDownloadURL, path)
 				if err != nil {
 					return err
 				}
