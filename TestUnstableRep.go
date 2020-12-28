@@ -1239,6 +1239,14 @@ func detect(packageName string) error {
 	s = strings.Replace(s, "+", ".", -1);
 	s = strings.Replace(s, "_", ".", -1);
 
+	// remove the last dot
+	if (len(s) > 0) {
+		c, _ := utf8.DecodeLastRuneInString(s)
+		if c == '.' {
+			s = s[0:len(s) - 1];
+		}
+	}
+
 	// process version numbers like 2.0.6b
 	if (len(s) > 0) {
 		c, _ := utf8.DecodeLastRuneInString(s)
