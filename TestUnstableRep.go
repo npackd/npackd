@@ -27,6 +27,8 @@ import (
 	"golang.org/x/oauth2/jwt"
 	"golang.org/x/oauth2/google"
 	*/
+	"github.com/kbinani/screenshot"
+	"image/png"
 )
 
 var changeData = false
@@ -1422,6 +1424,8 @@ func maintenance() error {
 
 // unsafe zone. Here we run code from external sites.
 func testPackages() error {
+	go createScreenshots()
+
 	processURL("https://npackd.appspot.com/rep/recent-xml?tag=untested",
 		false)
 
@@ -1579,6 +1583,24 @@ func login() error {
 	}
 */
 	return nil
+}
+
+func createScreenshots() {
+	bounds := screenshot.GetDisplayBounds(0)
+
+	for min := 0;; min += 5 {
+		img, err := screenshot.CaptureRect(bounds)
+		if err != nil {
+			fmt.Println(err.Error())
+		}
+
+		fileName := fmt.Sprintf("screen%d.png", min)
+		file, _ := os.Create(fileName)
+		defer file.Close()
+		png.Encode(file, img)
+
+		time.Sleep(5 * time.Minute)
+	}
 }
 
 var command = flag.String("command", "test-packages", "the action that should be performed")
