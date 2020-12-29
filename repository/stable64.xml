@@ -1474,7 +1474,7 @@ x86_64</description>
  </package>
  <package name="grisbi64">
   <title>Grisbi 64 bit</title>
-  <url>http://www.grisbi.org</url>
+  <url>https://www.grisbi.org</url>
   <description>personal accounting
 x86_64</description>
   <icon>https://lh6.googleusercontent.com/-LayoRgzE8rY/USin2mtr9TI/AAAAAAAAAoc/x3AEOoaaSZs/s800/grisbi.png</icon>
@@ -3174,6 +3174,16 @@ x86_64</description>
   <category>Communications</category>
   <tag>stable64</tag>
   <link href="https://github.com/irungentoo/toxcore/commits/master" rel="changelog"/>
+ </package>
+ <package name="quassel64">
+  <title>Quassel 64 bit</title>
+  <url>http://www.quassel-irc.org</url>
+  <description>IRC client
+x86_64</description>
+  <icon>https://lh6.googleusercontent.com/-9dg5ODac570/UUSZVzQ2TqI/AAAAAAAABW4/6UpIS3_PVBo/s800/quassel.png</icon>
+  <license>org.gnu.GPLv3</license>
+  <category>Communications</category>
+  <tag>stable64</tag>
  </package>
  <package name="racket64">
   <title>Racket 64 bit</title>
@@ -10307,6 +10317,16 @@ call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Np
    <variable>clu</variable>
   </dependency>
  </version>
+ <version name="15.0.1" package="com.oracle.JDK64">
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b jdk*') do set name=%%x&#13;
+"%clu%\clu" unwrap-dir -p "%name%"&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+</file>
+  <url>https://download.java.net/java/GA/jdk15.0.1/51f4f36ad4ef43e39d0dfdbaf6549e32/9/GPL/openjdk-15.0.1_windows-x64_bin.zip</url>
+  <hash-sum type="SHA-256">0a27c733fc7ceaaae3856a9c03f5e2304af30a32de6b454b8762ec02447c5464</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.CLU" versions="[1.25, 2)">
+   <variable>clu</variable>
+  </dependency>
+ </version>
 
     <version name="1.6.0.25" package="com.oracle.JRE64" type="one-file">
   <file path=".Npackd\Install.bat">ren AutoDL Install.exe
@@ -15696,6 +15716,14 @@ if %err% neq 0 exit %err%&#13;
   <url>http://dbeaver.jkiss.org/files/7.2.3/dbeaver-ce-7.2.3-x86_64-setup.exe</url>
   <hash-sum type="SHA-256">35c8b2f4920e623e533b815a2c06e2d402d2123779676dca8775b7c7637e42d9</hash-sum>
  </version>
+ <version name="7.3.1" package="dbeaver64" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" /allusers /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">uninstall.exe /allusers /S _?=%CD%&#13;
+</file>
+  <url>http://dbeaver.jkiss.org/files/7.3.1/dbeaver-ce-7.3.1-x86_64-setup.exe</url>
+  <hash-sum type="SHA-256">27baa09e18e22cfbc47ff969e1f6df271744b2bb9feca6f7bc71683a43070ed2</hash-sum>
+ </version>
 
     <version name="0.825" package="dcplusplus64">
   <important-file path="DCPlusPlus.exe" title="DC++"/>
@@ -17144,6 +17172,16 @@ rmdir "%name%"&#13;
   <file path=".Npackd\Uninstall.bat">"%ncl%\ncl.exe" remove-scp --title "/%npackd_package_name% %npackd_package_version%/i"&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
 </file>
   <url>https://www.portalgraphics.net/firealpaca/bin/FireAlpaca64_setup_2_3_18.exe</url>
+  <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.25, 2)">
+   <variable>ncl</variable>
+  </dependency>
+ </version>
+ <version name="2.4.3" package="firealpaca64" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">"%ncl%\ncl.exe" remove-scp --title "/%npackd_package_name% %npackd_package_version%/i"&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+</file>
+  <url>https://www.portalgraphics.net/firealpaca/bin/FireAlpaca64_setup_2_4_3.exe</url>
   <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.25, 2)">
    <variable>ncl</variable>
   </dependency>
@@ -21150,6 +21188,14 @@ rmdir "%name%"&#13;
   <url>http://cdn.kmplayer.com/KMP/KMPX/download/KMP64_2020.06.09.40.exe</url>
   <hash-sum type="SHA-256">ec26a8d7e1d21702ac5c6041e05014ef9e91046a7b23bbebadd3ba0857569ab1</hash-sum>
  </version>
+ <version name="2020.12.22.30" package="kmplayer64" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">uninstall.exe /S _?=%CD%&#13;
+</file>
+  <url>http://cdn.kmplayer.com/KMP/KMPX/download/KMP64_2020.12.22.30.exe</url>
+  <hash-sum type="SHA-256">18e9a0256f7ab0fe0c193c6568ae9941973f10eed88a7e23569c7b3548d5d738</hash-sum>
+ </version>
 
     <version name="18.1" package="kodi64" type="one-file">
   <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
@@ -23742,6 +23788,8 @@ usr\bin\bash.exe -lc 'pacman-key --populate msys2'&#13;
   </dependency>
  </version>
  <version name="2020.9.3" package="msys2_64" type="one-file">
+  <important-file path="mingw64.exe" title="MinGW 64 bit"/>
+  <important-file path="mingw32.exe" title="MinGW"/>
   <file path=".Npackd\Install.bat">"%sevenzipa%\7za" x "%npackd_package_binary%"&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
 if %errorlevel% neq 0 exit /b %errorlevel%&#13;
 &#13;
@@ -37585,6 +37633,17 @@ if %err% neq 0 exit %err%&#13;
    <variable>nih</variable>
   </dependency>
  </version>
+ <version name="3.0.0.1" package="org.rubylang.Ruby64" type="one-file">
+  <file path=".Npackd\Install.bat">call "%nih%\InstallInnoSetup.bat"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">call "%nih%\UninstallInnoSetup.bat" unins000.exe&#13;
+</file>
+  <url>https://github.com/oneclick/rubyinstaller2/releases/download/RubyInstaller-3.0.0-1/rubyinstaller-3.0.0-1-x64.exe</url>
+  <hash-sum type="SHA-256">9bce78124f11c564b01196fa4d45b440197bb5b2faa97750391f52863b726bdf</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
 
     <version name="19.2.28" package="org.shotcut.shotcut">
   <url>https://github.com/mltframework/shotcut/releases/download/v19.02.28/shotcut-win64-190228.zip</url>
@@ -41751,6 +41810,20 @@ call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Np
    <variable>nih</variable>
   </dependency>
  </version>
+ <version name="8.2.2232" package="org.vim.Vim64">
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+if %errorlevel% neq 0 exit /b %errorlevel%&#13;
+&#13;
+for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+</file>
+  <url>https://github.com/vim/vim-win32-installer/releases/download/v8.2.2232/gvim_8.2.2232_x64.zip</url>
+  <hash-sum type="SHA-256">47d76994fb5dd9e1a7882b8be0036861de878f642a210ed3a6baf027385e7782</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.19, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
 
     <version name="4.2.8.83876" package="org.virtualbox.virtualbox64" type="one-file">
   <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
@@ -45214,6 +45287,14 @@ verify</file>
   <url>https://downloads.sourceforge.net/project/qbittorrent/qbittorrent-win32/qbittorrent-4.3.0.1/qbittorrent_4.3.0.1_x64_setup.exe</url>
   <hash-sum type="SHA-256">bb28f60f33d0ed0acb4c7f665077f8531e40649d2d0cf3c3d1043627cf99c480</hash-sum>
  </version>
+ <version name="4.3.2" package="qbittorrent-64-bit" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD%&#13;
+verify</file>
+  <file path=".Npackd\Uninstall.bat">uninst.exe /S _?=%CD%&#13;
+verify</file>
+  <url>https://downloads.sourceforge.net/project/qbittorrent/qbittorrent-win32/qbittorrent-4.3.2/qbittorrent_4.3.2_x64_setup.exe</url>
+  <hash-sum type="SHA-256">81fe1faa5e0c32f212d42589e888f583c2f8936d694a33f1dd4f83bb84669eaa</hash-sum>
+ </version>
 
     <version name="3.23" package="qcad64" type="one-file">
   <file path=".Npackd\Install.bat">call "%nih%\InstallMSI.bat" INSTALLDIR yes&#13;
@@ -45813,6 +45894,17 @@ if %errorlevel% equ 3010 verify</file>
    <variable>ncl</variable>
   </dependency>
  </version>
+ <version name="4.14" package="qt-creator64" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD%&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">"%ncl%\ncl.exe" remove-scp --title "/Qt Creator.*/"&#13;
+</file>
+  <url>http://download.qt-project.org/official_releases/qtcreator/4.14/4.14.0/qt-creator-opensource-windows-x86_64-4.14.0.exe</url>
+  <hash-sum type="SHA-256">eeb959ee29a497e67abed45b3cd6309bc4ff2f2db4e088ec59f1d0d40e35481b</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.24, 2)">
+   <variable>ncl</variable>
+  </dependency>
+ </version>
 
     <version name="1.17.2" package="qtox64" type="one-file">
   <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
@@ -45829,6 +45921,14 @@ if %errorlevel% equ 3010 verify</file>
 </file>
   <url>https://github.com/qTox/qTox/releases/download/v1.17.3/setup-qtox-i686-release.exe</url>
   <hash-sum type="SHA-256">fe3158ed9fd5429506d2e96308ebe29f74786cb4b6b90836725cab38463067cf</hash-sum>
+ </version>
+
+    <version name="0.13.1" package="quassel64" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%ProgramFiles%\QuasselData&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">"%ProgramFiles%\QuasselData\uninstall.exe" /S</file>
+  <url>https://www.quassel-irc.org/pub/quassel-x64-setup-0.13.1.exe</url>
+  <hash-sum type="SHA-256">11d67d1f54422c25a1ebdc6c0cb143b9ae9b997e2ed83368c53c15f56faf6a95</hash-sum>
  </version>
 
     <version name="5.3.6" package="racket64" type="one-file">
@@ -47548,6 +47648,17 @@ Prog\setup.exe /Q /IACCEPTSQLSERVERLICENSETERMS /Q /ACTION=install &gt; .Npackd\
    <variable>nih</variable>
   </dependency>
  </version>
+ <version name="0.20.4" package="stellarium64" type="one-file">
+  <file path=".Npackd\Install.bat">call "%nih%\InstallInnoSetup.bat"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">call "%nih%\UninstallInnoSetup.bat" unins000.exe&#13;
+</file>
+  <url>https://github.com/Stellarium/stellarium/releases/download/v0.20.4/stellarium-0.20.4-win64.exe</url>
+  <hash-sum type="SHA-256">47d0ea1e1b72123cd07dac1f34f131847d30de649b1dc5ba27a4feca1b212870</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
 
     <version name="0.6.11" package="strawberry64" type="one-file">
   <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
@@ -47840,6 +47951,15 @@ rmdir "%name%"</file>
 </file>
   <url>http://www.swi-prolog.org/download/stable/bin/swipl-8.2.1-1.x64.exe</url>
   <hash-sum type="SHA-256">45fc082c3f39188657e21c0bd51173a0be1bdb7528f584913ac7f18b49fd0cb6</hash-sum>
+ </version>
+ <version name="8.2.3" package="swi-prolog64" type="one-file">
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
+"%setup%" /S /D=%CD% &amp;&amp; del /f /q "%setup%"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">uninstall.exe /S _?=%CD%&#13;
+</file>
+  <url>http://www.swi-prolog.org/download/stable/bin/swipl-8.2.3-1.x64.exe</url>
+  <hash-sum type="SHA-256">b4297d1d60ce050daf0d07764487370ef475cad70b54a96b074f83138d792cd6</hash-sum>
  </version>
 
     <version name="0.64.3" package="synfig-studio64" type="one-file">
@@ -48361,6 +48481,17 @@ if %err% neq 0 exit %err%&#13;
    <variable>ncl</variable>
   </dependency>
  </version>
+ <version name="2.78.1" package="tixati" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">"%ncl%\ncl.exe" remove-scp --title "/%npackd_package_name% %npackd_package_version%/i"&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+</file>
+  <url>https://download1.tixati.com/download/tixati-2.74-1.win32-install.exe</url>
+  <hash-sum type="SHA-256">f008f0301f4c62bc3347692f9f15559ca3465bf40d4dc34cc7bb78b7d9462db2</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.25, 2)">
+   <variable>ncl</variable>
+  </dependency>
+ </version>
 
     <version name="2.73" package="tixati64" type="one-file">
   <file path=".Npackd\Install.bat">"%npackd_package_binary%" &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
@@ -48557,6 +48688,15 @@ if %err% neq 0 exit %err%&#13;
 </file>
   <url>https://github.com/transmission/transmission-releases/raw/master/transmission-2.94-x64.msi</url>
   <hash-sum type="SHA-256">a35672252661f16382072fd0ae87b8eafd47f5535439336fe2f161a542f9a1ab</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.1, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
+ <version name="3" package="transmission-qt64" type="one-file">
+  <file path=".Npackd\Install.bat">call "%nih%\InstallMSI.bat" INSTALLDIR yes&#13;
+</file>
+  <url>https://github.com/transmission/transmission/releases/download/3.00/transmission-3.00-x64.msi</url>
+  <hash-sum type="SHA-256">c34828a6d2c50c7c590d05ca50249b511d46e9a2a7223323fb3d1421e3f6b9d1</hash-sum>
   <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.1, 2)">
    <variable>nih</variable>
   </dependency>
