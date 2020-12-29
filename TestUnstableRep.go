@@ -1596,8 +1596,10 @@ func createScreenshots() {
 
 		fileName := fmt.Sprintf("screen%d.png", min)
 		file, _ := os.Create(fileName)
-		defer file.Close()
 		png.Encode(file, img)
+		file.Close()
+
+		exec2("", "appveyor",  "PushArtifact " + fileName, false)
 
 		time.Sleep(5 * time.Minute)
 	}
