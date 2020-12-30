@@ -20,11 +20,11 @@ environment:
 install:
 #- ps: iex ((new-object net.webclient).DownloadString('https://raw.githubusercontent.com/appveyor/ci/master/scripts/enable-desktop.ps1'))
 - msiexec.exe /qn /i https://github.com/tim-lebedkov/npackd-cpp/releases/download/version_1.25/NpackdCL64-1.25.0.msi
-- "C:\Program Files\NpackdCL\ncl" set-repo -u https://npackd.appspot.com/rep/recent-xml -u https://npackd.appspot.com/rep/xml?tag=stable -u https://npackd.appspot.com/rep/xml?tag=stable64 -u https://npackd.appspot.com/rep/recent-xml?tag=untested -u https://npackd.appspot.com/rep/xml?tag=libs -u https://npackd.appspot.com/rep/xml?tag=unstable
-- "C:\Program Files\NpackdCL\ncl" help
-- "C:\Program Files\NpackdCL\ncl" detect
-- "C:\Program Files\NpackdCL\ncl" set-install-dir -f "C:\Program Files (x86)"
-- "C:\Program Files\NpackdCL\ncl" add -p com.googlecode.windows-package-manager.NpackdCL -p com.googlecode.windows-package-manager.NpackdInstallerHelper -p com.googlecode.windows-package-manager.CLU -v 1.0.1 -p sysinternals-suite -p se.haxx.curl.CURL64
+- '"C:\Program Files\NpackdCL\ncl" set-repo -u https://npackd.appspot.com/rep/recent-xml -u https://npackd.appspot.com/rep/xml?tag=stable -u https://npackd.appspot.com/rep/xml?tag=stable64 -u https://npackd.appspot.com/rep/recent-xml?tag=untested -u https://npackd.appspot.com/rep/xml?tag=libs -u https://npackd.appspot.com/rep/xml?tag=unstable'
+- '"C:\Program Files\NpackdCL\ncl" help'
+- '"C:\Program Files\NpackdCL\ncl" detect'
+- '"C:\Program Files\NpackdCL\ncl" set-install-dir -f "C:\Program Files (x86)"'
+- '"C:\Program Files\NpackdCL\ncl" add -p com.googlecode.windows-package-manager.NpackdCL -p com.googlecode.windows-package-manager.NpackdInstallerHelper -p com.googlecode.windows-package-manager.CLU -v 1.0.1 -p sysinternals-suite -p se.haxx.curl.CURL64'
 - go get github.com/kbinani/screenshot
 
 build_script:
