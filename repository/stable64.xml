@@ -1269,7 +1269,7 @@ x86_64</description>
  </package>
  <package name="firealpaca">
   <title>FireAlpaca</title>
-  <url>https://firealpaca.com/</url>
+  <url>http://firealpaca.com/</url>
   <description>FireAlpaca is the free Digital Painting Software that is available in 10 languages and compatible with both Mac and Windows. Simple tools and controls let you draw an illustration easily. New convenient tools will be added one after another! Download FireAlpaca right now!
 x86_64</description>
   <icon>https://pa1.narvii.com/6442/3b74ba2b1c45c1f551f5069a972f0b2b33f85cfe_128.gif</icon>
@@ -1283,7 +1283,7 @@ x86_64</description>
  </package>
  <package name="firealpaca64">
   <title>FireAlpaca 64 Bit</title>
-  <url>https://firealpaca.com/</url>
+  <url>http://firealpaca.com/</url>
   <description>FireAlpaca is the free Digital Painting Software that is available in 10 languages and compatible with both Mac and Windows. Simple tools and controls let you draw an illustration easily. New convenient tools will be added one after another! Download FireAlpaca right now!
 x86_64</description>
   <icon>https://pa1.narvii.com/6442/3b74ba2b1c45c1f551f5069a972f0b2b33f85cfe_128.gif</icon>
@@ -4715,6 +4715,16 @@ verify&#13;
   <file path=".Npackd\Uninstall.bat">"%nih%\UninstallInnoSetup.bat" unins000.exe</file>
   <url>https://github.com/canton7/SyncTrayzor/releases/download/v1.1.25/SyncTrayzorSetup-x64.exe</url>
   <hash-sum type="SHA-256">a5984d184dbec8d1cf262edea95d0c26d05ff60009c532d3a65f23261d5db965</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
+ <version name="1.1.26" package="canton7.SyncTrayzor64" type="one-file">
+  <file path=".Npackd\Install.bat">"%nih%\InstallInnoSetup.bat"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">"%nih%\UninstallInnoSetup.bat" unins000.exe</file>
+  <url>https://github.com/canton7/SyncTrayzor/releases/download/v1.1.26/SyncTrayzorSetup-x64.exe</url>
+  <hash-sum type="SHA-256">1a6a6f7f1ee5793ff6b7745c50314151d505c4368bf8e093124b64bc0341824c</hash-sum>
   <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
    <variable>nih</variable>
   </dependency>
@@ -12356,7 +12366,7 @@ del Q-Dir.ini&#13;
   <url>http://files.npackd.org/com.softwareok.QDir64-5.99.9.zip</url>
   <sha1>fb6060796fae3fc641ba34fe1f2f8530d7c985a8</sha1>
  </version>
- <version name="9.7" package="com.softwareok.QDir64">
+ <version name="9.8" package="com.softwareok.QDir64">
   <important-file path="Q-Dir.exe" title="Q-Dir"/>
   <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b Q*') do set name=%%x&#13;
 cd "%name%"        &#13;
@@ -42375,6 +42385,20 @@ call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Np
 </file>
   <url>https://github.com/vim/vim-win32-installer/releases/download/v8.2.2246/gvim_8.2.2246_x64.zip</url>
   <hash-sum type="SHA-256">11aff16e61b8821a4e4351f0e347054de988bbda7f2986889e841b42efdaf685</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.19, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
+ <version name="8.2.2251" package="org.vim.Vim64">
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+if %errorlevel% neq 0 exit /b %errorlevel%&#13;
+&#13;
+for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+</file>
+  <url>https://github.com/vim/vim-win32-installer/releases/download/v8.2.2251/gvim_8.2.2251_x64.zip</url>
+  <hash-sum type="SHA-256">f6aa3559923d5fa1bbcc5b0f1250f5598d4176c716b6e0a3db4981ca8c2db23c</hash-sum>
   <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.19, 2)">
    <variable>nih</variable>
   </dependency>
