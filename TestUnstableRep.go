@@ -1105,6 +1105,7 @@ func uploadBinariesToGithub() error {
 		if err != nil {
 			return err
 		}
+		time.Sleep(1 * time.Minute)
 		releaseID = findRelease(releases, settings.packagesTag)
 	}
 
