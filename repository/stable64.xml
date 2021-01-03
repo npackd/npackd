@@ -390,6 +390,17 @@ x86_64</description>
   <tag>stable64</tag>
   <tag>end-of-life</tag>
  </package>
+ <package name="circle-dock64">
+  <title>Circle Dock 64 bit</title>
+  <url>http://circledock.wikidot.com/</url>
+  <description>WARNING: there will be no new versions of this package.
+A circular, oval, and spiral dock for Windows. It is based on the idea of pie menus but in a dock form
+x86_64</description>
+  <icon>http://circledock.wikidot.com/local--favicon/favicon.gif</icon>
+  <category>Tools</category>
+  <tag>stable64</tag>
+  <tag>end-of-life</tag>
+ </package>
  <package name="clang64">
   <title>clang 64 bit</title>
   <url>http://clang.llvm.org/</url>
@@ -4729,6 +4740,16 @@ verify&#13;
    <variable>nih</variable>
   </dependency>
  </version>
+ <version name="1.1.27" package="canton7.SyncTrayzor64" type="one-file">
+  <file path=".Npackd\Install.bat">"%nih%\InstallInnoSetup.bat"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">"%nih%\UninstallInnoSetup.bat" unins000.exe</file>
+  <url>https://github.com/canton7/SyncTrayzor/releases/download/v1.1.27/SyncTrayzorSetup-x64.exe</url>
+  <hash-sum type="SHA-256">4621a5279deeac45851ef5650632c6f47b69a128bd3f1dcc144cb1a61282b448</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
 
     <version name="4.2.25" package="ch.flos-freeware.Notepad264">
   <important-file path="Notepad2.exe" title="Notepad2"/>
@@ -4749,6 +4770,18 @@ verify
 </file>
   <url>http://www.flos-freeware.ch/zip/notepad2_4.2.25_x64.zip</url>
   <sha1>4210AF6AA57663BEA3AAD9C650575C625A57E5EA</sha1>
+ </version>
+
+    <version name="1.5.6.30" package="circle-dock64">
+  <file path=".Npackd\Install.bat">ren SetupCircleDock\SetupCircleDockX64.exe setup.exe&#13;
+call "%nih%\InstallInnoSetup.bat"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">call "%nih%\UninstallInnoSetup.bat" unins000.exe&#13;
+</file>
+  <url>https://sourceforge.net/projects/circle-dock-1-5-6-30/files/SetupCircleDock/SetupCircleDock.zip</url>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
+   <variable>nih</variable>
+  </dependency>
  </version>
 
     <version name="3.7" package="clang64" type="one-file">
@@ -28148,7 +28181,7 @@ mkdir %trash%&#13;
 move NppShell*.dll %trash%&#13;
 verify&#13;
 		</file>
-  <url>http://download.notepad-plus-plus.org/repository/7.x/7.9.2/npp.7.9.2.Installer.x64.exe</url>
+  <url>https://github.com/tim-lebedkov/packages/releases/download/2021_01/notepadpp64-7.9.2-npp.7.9.2.Installer.x64.exe</url>
   <hash-sum type="SHA-256">9eb36c992f1d4bb2d27cb9c0d14b9b0c762d59e544b27754afc2bc0a9b219dcd</hash-sum>
  </version>
 
@@ -42460,6 +42493,20 @@ call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Np
 </file>
   <url>https://github.com/vim/vim-win32-installer/releases/download/v8.2.2257/gvim_8.2.2257_x64.zip</url>
   <hash-sum type="SHA-256">0d065af13f06195e90cd90e88956ba13878d71f332b0cb3acc3bfd44ff74ba5c</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.19, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
+ <version name="8.2.2269" package="org.vim.Vim64">
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+if %errorlevel% neq 0 exit /b %errorlevel%&#13;
+&#13;
+for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+</file>
+  <url>https://github.com/vim/vim-win32-installer/releases/download/v8.2.2269/gvim_8.2.2269_x64.zip</url>
+  <hash-sum type="SHA-256">c9d1aa22d06637a6dba97498fe78304a91b95c4bcf3f8fa1a4c722a7260e586c</hash-sum>
   <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.19, 2)">
    <variable>nih</variable>
   </dependency>
