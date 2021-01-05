@@ -13216,6 +13216,16 @@ if %err% neq 0 exit /b %err%&#13;
    <variable>ncl</variable>
   </dependency>
  </version>
+ <version name="2.3.10" package="com.twinery.twine64" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">"%ncl%\ncl" remove-scp --title "/Twine %npackd_package_version%/i"&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt</file>
+  <url>https://github.com/klembot/twinejs/releases/download/2.3.10/twine_2.3.10_win.exe</url>
+  <hash-sum type="SHA-256">a77a92c188df2c2977f1b638015f5589a1694b72fd55cf40e5d433711882ead9</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.25, 2)">
+   <variable>ncl</variable>
+  </dependency>
+ </version>
 
     <version name="1.0.9.6" package="com.uvnc.UltraVNC64">
   <important-file path="winvnc.exe" title="UltraVNC Server"/>
@@ -15974,6 +15984,14 @@ if %err% neq 0 exit %err%&#13;
 </file>
   <url>http://dbeaver.jkiss.org/files/7.3.1/dbeaver-ce-7.3.1-x86_64-setup.exe</url>
   <hash-sum type="SHA-256">27baa09e18e22cfbc47ff969e1f6df271744b2bb9feca6f7bc71683a43070ed2</hash-sum>
+ </version>
+ <version name="7.3.2" package="dbeaver64" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" /allusers /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">uninstall.exe /allusers /S _?=%CD%&#13;
+</file>
+  <url>http://dbeaver.jkiss.org/files/7.3.2/dbeaver-ce-7.3.2-x86_64-setup.exe</url>
+  <hash-sum type="SHA-256">92035e280006f3fce437b8d4d3a90a144c45a2193132c5694b96ec304fcd06dc</hash-sum>
  </version>
 
     <version name="0.825" package="dcplusplus64">
@@ -21160,6 +21178,17 @@ if %err% neq 0 exit %err%&#13;
 </file>
   <url>https://www.imagemagick.org/download/binaries/ImageMagick-7.0.10-54-Q16-HDRI-x64-dll.exe</url>
   <hash-sum type="SHA-256">94918c30387e1720b082a70e70b67d8e2d0b5b14491110d097ee5ccd1865de1b</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
+ <version name="7.0.10.55" package="imagemagick64" type="one-file">
+  <file path=".Npackd\Install.bat">call "%nih%\InstallInnoSetup.bat"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">call "%nih%\UninstallInnoSetup.bat" unins000.exe&#13;
+</file>
+  <url>https://www.imagemagick.org/download/binaries/ImageMagick-7.0.10-55-Q16-HDRI-x64-dll.exe</url>
+  <hash-sum type="SHA-256">564e851c7c40e6db42a2127e8c353e2f84d45e0c979f845e2470a2f0f903293a</hash-sum>
   <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
    <variable>nih</variable>
   </dependency>
