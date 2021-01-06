@@ -4401,7 +4401,7 @@ x86_64</description>
   </dependency>
  </version>
 
-    <version name="2020.11.25" package="basilisk" type="one-file">
+    <version name="2021.1.5" package="basilisk" type="one-file">
   <file path=".Npackd\Install.bat">echo [Install] &gt; .Npackd\FF.ini&#13;
 echo InstallDirectoryPath=%CD% &gt;&gt; .Npackd\FF.ini&#13;
 echo QuickLaunchShortcut=false &gt;&gt; .Npackd\FF.ini&#13;
@@ -4415,7 +4415,7 @@ verify</file>
   </dependency>
  </version>
 
-    <version name="2020.11.25" package="basilisk64" type="one-file">
+    <version name="2021.1.5" package="basilisk64" type="one-file">
   <file path=".Npackd\Install.bat">echo [Install] &gt; .Npackd\FF.ini&#13;
 echo InstallDirectoryPath=%CD% &gt;&gt; .Npackd\FF.ini&#13;
 echo QuickLaunchShortcut=false &gt;&gt; .Npackd\FF.ini&#13;
@@ -21187,7 +21187,7 @@ if %err% neq 0 exit %err%&#13;
 </file>
   <file path=".Npackd\Uninstall.bat">call "%nih%\UninstallInnoSetup.bat" unins000.exe&#13;
 </file>
-  <url>https://www.imagemagick.org/download/binaries/ImageMagick-7.0.10-55-Q16-HDRI-x64-dll.exe</url>
+  <url>https://github.com/tim-lebedkov/packages/releases/download/2021_01/imagemagick64-7.0.10.55-ImageMagick-7.0.10-55-Q16-HDRI-x64-dll.exe</url>
   <hash-sum type="SHA-256">564e851c7c40e6db42a2127e8c353e2f84d45e0c979f845e2470a2f0f903293a</hash-sum>
   <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
    <variable>nih</variable>
@@ -37375,6 +37375,15 @@ verify</file>
    <variable>npackdih</variable>
   </dependency>
  </version>
+ <version name="14.15.4" package="org.nodejs.NodeJS64" type="one-file">
+  <cmd-file path="node.exe"/>
+  <file path=".Npackd\Install.bat">call "%npackdih%\InstallMSI.bat" INSTALLDIR yes</file>
+  <url>https://nodejs.org/dist/v14.15.4/node-v14.15.4-x64.msi</url>
+  <hash-sum type="SHA-256">346a053dcd7508f1e5fbb2da0e34cbb3da206ab2439c4bab5a219c3b75e62475</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.1, 2)">
+   <variable>npackdih</variable>
+  </dependency>
+ </version>
 
     <version name="2.2" package="org.openshot.openshot64" type="one-file">
   <file path=".Npackd\Install.bat">"%nih%\InstallInnoSetup.bat"&#13;
@@ -42561,6 +42570,34 @@ call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Np
 </file>
   <url>https://github.com/vim/vim-win32-installer/releases/download/v8.2.2282/gvim_8.2.2282_x64.zip</url>
   <hash-sum type="SHA-256">0e58812df780de58faee4c3c9226dab9d2ffa6127859b5fa3f7a8abb26c3dc74</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.19, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
+ <version name="8.2.2293" package="org.vim.Vim64">
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+if %errorlevel% neq 0 exit /b %errorlevel%&#13;
+&#13;
+for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+</file>
+  <url>https://github.com/vim/vim-win32-installer/releases/download/v8.2.2293/gvim_8.2.2293_x64.zip</url>
+  <hash-sum type="SHA-256">3e3fa2a18bdecf889436223a5d3ab0ebd4e1ea9cb393d1d7c52fd3206a83de2e</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.19, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
+ <version name="8.2.2301" package="org.vim.Vim64">
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+if %errorlevel% neq 0 exit /b %errorlevel%&#13;
+&#13;
+for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+</file>
+  <url>https://github.com/vim/vim-win32-installer/releases/download/v8.2.2301/gvim_8.2.2301_x64.zip</url>
+  <hash-sum type="SHA-256">1441b600f3fca539d7de2195c64097d73d6375267c1d9c726d68c54a5f8485f1</hash-sum>
   <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.19, 2)">
    <variable>nih</variable>
   </dependency>
