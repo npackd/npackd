@@ -8152,6 +8152,15 @@ call "%npackdih%\InstallMSI.bat" APPLICATIONFOLDER yes&#13;
    <variable>npackdih</variable>
   </dependency>
  </version>
+ <version name="5.9" package="com.calibreebook.Calibre64" type="one-file">
+  <file path=".Npackd\Install.bat">call "%npackdih%\InstallMSI.bat" APPLICATIONFOLDER yes&#13;
+</file>
+  <url>https://download.calibre-ebook.com/5.9.0/calibre-64bit-5.9.0.msi</url>
+  <hash-sum type="SHA-256">cde1b5ec27e0b56e5b2e618b9ebe7b62731872f020a04a3a1b55d17c43bd4f55</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.2, 2)">
+   <variable>npackdih</variable>
+  </dependency>
+ </version>
 
     <version name="5.12.256249.2599" package="com.comodo.comodoav64" type="one-file">
   <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.msi') do set setup=%%x&#13;
@@ -12399,7 +12408,7 @@ del Q-Dir.ini&#13;
   <url>http://files.npackd.org/com.softwareok.QDir64-5.99.9.zip</url>
   <sha1>fb6060796fae3fc641ba34fe1f2f8530d7c985a8</sha1>
  </version>
- <version name="9.8.1" package="com.softwareok.QDir64">
+ <version name="9.9" package="com.softwareok.QDir64">
   <important-file path="Q-Dir.exe" title="Q-Dir"/>
   <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b Q*') do set name=%%x&#13;
 cd "%name%"        &#13;
@@ -16322,6 +16331,14 @@ rmdir "%name%"&#13;
   <url>https://files.dev47apps.net/win/DroidCam.Setup.6.3.3.exe</url>
   <hash-sum type="SHA-256">0fb1f9b6526cbf0175d152017a99c050a87746948360c807297075117dd233e8</hash-sum>
  </version>
+ <version name="6.4.1" package="droidcam" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">uninstall.exe /S _?=%CD%&#13;
+</file>
+  <url>https://files.dev47apps.net/win/DroidCam.Setup.6.4.1.exe</url>
+  <hash-sum type="SHA-256">a272baaccc9e22f97a4b4497eca5a3ffb617cc3e86f5037686796275a1cad0ec</hash-sum>
+ </version>
 
     <version name="2017" package="dwg-trueview64" type="one-file">
   <file path=".Npackd\Install.bat">"%npackd_package_binary%" &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
@@ -17012,6 +17029,17 @@ rmdir "%name%"&#13;
 </file>
   <url>https://www.ponsoftware.com/en/archiver/explzh/explz827_en.exe</url>
   <hash-sum type="SHA-256">b8fe191c8077e0ed7eab613cce41e3bd6234af226578a1f7855db8e9910aaa70</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.25, 2)">
+   <variable>ncl</variable>
+  </dependency>
+ </version>
+ <version name="8.28" package="explzh" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" /quiet &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">"%ncl%\ncl.exe" remove-scp --title "/%npackd_package_name% %npackd_package_version%/i"&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+</file>
+  <url>https://www.ponsoftware.com/en/archiver/explzh/explz828_en.exe</url>
+  <hash-sum type="SHA-256">c9edf88f0d07ecda5228b6670e33eb68adfe04317db96c8012e090f5ed6b96be</hash-sum>
   <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.25, 2)">
    <variable>ncl</variable>
   </dependency>
@@ -26516,6 +26544,17 @@ if %err% neq 0 exit %err%&#13;
 </file>
   <url>https://github.com/peazip/PeaZip/releases/download//7.6.0/peazip-7.6.0.WIN64.exe</url>
   <hash-sum type="SHA-256">de09293cbbf45382b8be9ee6244545d22b4ef64e2b7ac3b9dcc9ab1be7fa1b3b</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
+ <version name="7.7" package="net.sourceforge.peazip.PeaZip64" type="one-file">
+  <file path=".Npackd\Install.bat">call "%nih%\InstallInnoSetup.bat"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">call "%nih%\UninstallInnoSetup.bat" unins000.exe&#13;
+</file>
+  <url>https://github.com/peazip/PeaZip/releases/download//7.7.0/peazip-7.7.0.WIN64.exe</url>
+  <hash-sum type="SHA-256">7c6b59fa67ee792bb4cc735353551823760dc6f60eabb8f19715cd9b4602d2c2</hash-sum>
   <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
    <variable>nih</variable>
   </dependency>
@@ -42630,6 +42669,20 @@ call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Np
    <variable>nih</variable>
   </dependency>
  </version>
+ <version name="8.2.2311" package="org.vim.Vim64">
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+if %errorlevel% neq 0 exit /b %errorlevel%&#13;
+&#13;
+for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+</file>
+  <url>https://github.com/vim/vim-win32-installer/releases/download/v8.2.2311/gvim_8.2.2311_x64.zip</url>
+  <hash-sum type="SHA-256">f71ab9da866b8948c599923e8be91eda02677f5ac1c7b530c74815437e1817ef</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.19, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
 
     <version name="4.2.8.83876" package="org.virtualbox.virtualbox64" type="one-file">
   <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
@@ -45751,6 +45804,17 @@ call "%npackdih%\InstallMSI.bat" TARGETDIR yes</file>
 </file>
   <url>https://github.com/picotorrent/picotorrent/releases/download/v0.23.0/PicoTorrent-0.23.0-x64.exe</url>
   <hash-sum type="SHA-256">0e8e994b31046a4c5bf554999a66cf0d6a40d632685b2df0342838f9d8ce2a63</hash-sum>
+  <dependency package="net.nirsoft.MyUninstaller" versions="[1.74, 2)">
+   <variable>myun</variable>
+  </dependency>
+ </version>
+ <version name="0.24" package="picotorrent-64-bit" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">"%myun%\myuninst.exe" /uninstall "picotorrent-64-bit"&#13;
+</file>
+  <url>https://github.com/picotorrent/picotorrent/releases/download/v0.24.0/PicoTorrent-0.24.0-x64.exe</url>
+  <hash-sum type="SHA-256">9871924eb6f62fa2e5d3b3d5b64fee1ff87100c25194645d1e85dde90536d509</hash-sum>
   <dependency package="net.nirsoft.MyUninstaller" versions="[1.74, 2)">
    <variable>myun</variable>
   </dependency>
