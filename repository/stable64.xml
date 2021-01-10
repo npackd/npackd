@@ -16900,6 +16900,11 @@ rmdir "%name%"&#13;
   <url>http://www.voidtools.com/Everything-1.4.1.1002.x64.zip</url>
   <hash-sum type="SHA-256">cb27d4b269b5ed3956eeae0ef61667960e8e5e993d82e678b1b91f9978775870</hash-sum>
  </version>
+ <version name="1.4.1.1003" package="everything64">
+  <important-file path="Everything.exe" title="Everything"/>
+  <url>http://www.voidtools.com/Everything-1.4.1.1003.x64.zip</url>
+  <hash-sum type="SHA-256">4a067fa79d1ed1d49947c76984e804cc9ad9f0a9325987af4c5db8e4b82092e0</hash-sum>
+ </version>
 
     <version name="8.7" package="explzh" type="one-file">
   <file path=".Npackd\Install.bat">"%npackd_package_binary%" &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
@@ -17173,6 +17178,17 @@ rmdir "%name%"&#13;
 </file>
   <url>https://www.ponsoftware.com/en/archiver/explzh/explz827_en_x64.exe</url>
   <hash-sum type="SHA-256">bb21954e22c69219711c04e515a9eea8b65cf57b254360fd280621182c1fecc4</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.25, 2)">
+   <variable>ncl</variable>
+  </dependency>
+ </version>
+ <version name="8.28" package="explzh64" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" /quiet &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">"%ncl%\ncl.exe" remove-scp --title "/%npackd_package_name% %npackd_package_version%/i"&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+</file>
+  <url>https://www.ponsoftware.com/en/archiver/explzh/explz828_en_x64.exe</url>
+  <hash-sum type="SHA-256">80a53067511662b5f29caaa3fb565953b55e1d65305be5c26f2c0b8f1967662e</hash-sum>
   <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.25, 2)">
    <variable>ncl</variable>
   </dependency>
@@ -20089,6 +20105,19 @@ rmdir "%name%"&#13;
   <hash-sum type="SHA-256">729cb1a0773994e3914870263c68e43980d38589bd4684ded94daddee5e8dd64</hash-sum>
   <dependency package="org.python.Python" versions="[2.7, 2.8)"/>
  </version>
+ <version name="322" package="google-cloud-sdk64">
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b google-cloud-sdk*') do set name=%%x&#13;
+cd "%name%"&#13;
+for /f "delims=" %%a in ('dir /b') do (&#13;
+  move "%%a" ..&#13;
+)&#13;
+cd ..&#13;
+rmdir "%name%"&#13;
+</file>
+  <url>https://dl.google.com/dl/cloudsdk/channels/rapid/downloads/google-cloud-sdk-322.0.0-windows-x86_64.zip</url>
+  <hash-sum type="SHA-256">14aa231270f4e39cbda2074c489190d7191b7f77e24f20ac393df56b0ca16edc</hash-sum>
+  <dependency package="org.python.Python" versions="[2.7, 2.8)"/>
+ </version>
 
     <version name="1.1.94" package="grisbi64" type="one-file">
   <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
@@ -21206,6 +21235,17 @@ if %err% neq 0 exit %err%&#13;
 </file>
   <url>https://github.com/tim-lebedkov/packages/releases/download/2021_01/imagemagick64-7.0.10.55-ImageMagick-7.0.10-55-Q16-HDRI-x64-dll.exe</url>
   <hash-sum type="SHA-256">564e851c7c40e6db42a2127e8c353e2f84d45e0c979f845e2470a2f0f903293a</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
+ <version name="7.0.10.56" package="imagemagick64" type="one-file">
+  <file path=".Npackd\Install.bat">call "%nih%\InstallInnoSetup.bat"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">call "%nih%\UninstallInnoSetup.bat" unins000.exe&#13;
+</file>
+  <url>https://www.imagemagick.org/download/binaries/ImageMagick-7.0.10-56-Q16-HDRI-x64-dll.exe</url>
+  <hash-sum type="SHA-256">e7d04804d9d3070910afa92a8d3ea5b46978adffed2a411cc05b924be372e99b</hash-sum>
   <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
    <variable>nih</variable>
   </dependency>
@@ -24359,6 +24399,35 @@ usr\bin\bash.exe -lc 'pacman-key --populate msys2'&#13;
 </file>
   <url>http://repo.msys2.org/distrib/x86_64/msys2-base-x86_64-20200903.tar.xz</url>
   <hash-sum type="SHA-256">9d5700a2a8148837bd3869f4940f53d2e46ebfa4148de35c21ca49bf2c239f27</hash-sum>
+  <dependency package="org.7-zip.SevenZIPA" versions="[19, 100)">
+   <variable>sevenzipa</variable>
+  </dependency>
+  <dependency package="com.googlecode.windows-package-manager.CLU" versions="[1.25, 2)">
+   <variable>clu</variable>
+  </dependency>
+ </version>
+ <version name="2020.11.9" package="msys2_64" type="one-file">
+  <important-file path="mingw64.exe" title="MinGW 64 bit"/>
+  <important-file path="mingw32.exe" title="MinGW"/>
+  <file path=".Npackd\Install.bat">"%sevenzipa%\7za" x "%npackd_package_binary%"&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+if %errorlevel% neq 0 exit /b %errorlevel%&#13;
+&#13;
+for /f "delims=" %%x in ('dir /b *.tar') do set name=%%x&#13;
+"%sevenzipa%\7za" x "%name%"&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+if %errorlevel% neq 0 exit /b %errorlevel%&#13;
+&#13;
+"%clu%\clu" unwrap-dir -p msys64&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+if %errorlevel% neq 0 exit /b %errorlevel%&#13;
+&#13;
+rem see https://github.com/flavorjones/windows-ruby-dev-tools-release/blob/master/packages/ruby-2.4/packaging&#13;
+rem initialize ... things. like gpg keys. and skeleton files.&#13;
+rem see https://github.com/oneclick/rubyinstaller2/issues/79 for background&#13;
+usr\bin\bash.exe -lc 'true'&#13;
+usr\bin\bash.exe -lc 'pacman-key --init'&#13;
+usr\bin\bash.exe -lc 'pacman-key --populate msys2'&#13;
+</file>
+  <url>http://repo.msys2.org/distrib/x86_64/msys2-base-x86_64-20201109.tar.xz</url>
+  <hash-sum type="SHA-256">ca10a72aa3df219fabeff117aa4b00c1ec700ea93c4febf4cfc03083f4b2cacb</hash-sum>
   <dependency package="org.7-zip.SevenZIPA" versions="[19, 100)">
    <variable>sevenzipa</variable>
   </dependency>
@@ -36563,6 +36632,15 @@ rmdir "%name%"&#13;
    <variable>nih</variable>
   </dependency>
  </version>
+ <version name="4.4.3" package="org.mongodb.MongoDB64" type="one-file">
+  <file path=".Npackd\Install.bat">call "%nih%\InstallMSI.bat" INSTALLDIR yes&#13;
+</file>
+  <url>https://fastdl.mongodb.org/windows/mongodb-windows-x86_64-4.4.3-signed.msi</url>
+  <hash-sum type="SHA-256">d811282527bbdc3266244209ad0971c0d375dbb209bb8eb4ae66ba576b19e9f6</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.1, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
 
     <version name="0.8.1" package="org.nodejs.NodeJS64" type="one-file">
   <file path=".Npackd\AddProperty.vbs">Option Explicit&#13;
@@ -42679,6 +42757,20 @@ call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Np
 </file>
   <url>https://github.com/vim/vim-win32-installer/releases/download/v8.2.2311/gvim_8.2.2311_x64.zip</url>
   <hash-sum type="SHA-256">f71ab9da866b8948c599923e8be91eda02677f5ac1c7b530c74815437e1817ef</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.19, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
+ <version name="8.2.2316" package="org.vim.Vim64">
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+if %errorlevel% neq 0 exit /b %errorlevel%&#13;
+&#13;
+for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+</file>
+  <url>https://github.com/vim/vim-win32-installer/releases/download/v8.2.2316/gvim_8.2.2316_x64.zip</url>
+  <hash-sum type="SHA-256">51a124b6369162338442842955f93f4590ccad5418f04252b7b189a5f57cd2f4</hash-sum>
   <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.19, 2)">
    <variable>nih</variable>
   </dependency>
