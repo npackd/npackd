@@ -21250,6 +21250,17 @@ if %err% neq 0 exit %err%&#13;
    <variable>nih</variable>
   </dependency>
  </version>
+ <version name="7.0.10.57" package="imagemagick64" type="one-file">
+  <file path=".Npackd\Install.bat">call "%nih%\InstallInnoSetup.bat"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">call "%nih%\UninstallInnoSetup.bat" unins000.exe&#13;
+</file>
+  <url>https://www.imagemagick.org/download/binaries/ImageMagick-7.0.10-57-Q16-HDRI-x64-dll.exe</url>
+  <hash-sum type="SHA-256">6a9b81a95b5d8de30b00795f3dfc1c515c4f3e3e637e9e9561d2615003da99c4</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
 
     <version name="0.3.8" package="io.mpv.mpv-64" type="one-file">
   <file path=".Npackd\Install.bat">for /f %%x in ('dir /b *.7z') do set setup=%%x&#13;
@@ -26138,6 +26149,17 @@ if %err% neq 0 exit %err%</file>
    <variable>nih</variable>
   </dependency>
  </version>
+ <version name="0.9.10" package="net.sourceforge.Doublecmd64" type="one-file">
+  <file path=".Npackd\Install.bat">call "%nih%\InstallInnoSetup.bat"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">call "%nih%\UninstallInnoSetup.bat" unins000.exe&#13;
+</file>
+  <url>http://downloads.sourceforge.net/project/doublecmd/DC%20for%20Windows%2064%20bit/Double%20Commander%200.9.10%20beta/doublecmd-0.9.10.x86_64-win64.exe</url>
+  <hash-sum type="SHA-256">7fc5667b053036234c4a701cc75de9da2d97a9f75b75db3a86092d49113483cb</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
 
     <version name="1.1" package="net.sourceforge.lmms.LMMS64" type="one-file">
   <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
@@ -27118,6 +27140,14 @@ if %err% neq 0 exit %err%&#13;
 </file>
   <url>http://downloads.sourceforge.net/project/smplayer/SMPlayer/20.6.0/smplayer-20.6.0-x64.exe</url>
   <hash-sum type="SHA-256">9959ed1fd381324476c213690fbf32aff5ca544a1dd60bf1d499bf1c1e682870</hash-sum>
+ </version>
+ <version name="21.1" package="net.sourceforge.smplayer.SMPlayer64" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD%&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">uninst.exe /S _?=%CD%        &#13;
+</file>
+  <url>http://downloads.sourceforge.net/project/smplayer/SMPlayer/21.1.0/smplayer-21.1.0-x64.exe</url>
+  <hash-sum type="SHA-256">9d956f4f868435fa4bdf7caa97dc12aa7d891ea36e088e57d88481328d6851c8</hash-sum>
  </version>
 
     <version name="2.42" package="net.sourceforge.strongdc.StrongDCPlusPlus64" type="one-file">
@@ -42771,6 +42801,20 @@ call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Np
 </file>
   <url>https://github.com/vim/vim-win32-installer/releases/download/v8.2.2316/gvim_8.2.2316_x64.zip</url>
   <hash-sum type="SHA-256">51a124b6369162338442842955f93f4590ccad5418f04252b7b189a5f57cd2f4</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.19, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
+ <version name="8.2.2320" package="org.vim.Vim64">
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+if %errorlevel% neq 0 exit /b %errorlevel%&#13;
+&#13;
+for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+</file>
+  <url>https://github.com/vim/vim-win32-installer/releases/download/v8.2.2320/gvim_8.2.2320_x64.zip</url>
+  <hash-sum type="SHA-256">138f03b1e85e45f4cd8a4f1777d5ec1e5b294ff6b7baffae3cb5e4a0b81b9bfb</hash-sum>
   <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.19, 2)">
    <variable>nih</variable>
   </dependency>
