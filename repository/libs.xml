@@ -44,6 +44,10 @@
   <title>BSD license</title>
   <url>http://www.opensource.org/licenses/bsd-license.html</url>
  </license>
+ <license name="org.wikipedia.Freeware">
+  <title>Freeware</title>
+  <url>http://en.wikipedia.org/wiki/Freeware</url>
+ </license>
  <package name="com.nokia.QtDev-i686-w64">
   <title>Qt for MinGW-w64 32 bit</title>
   <url>https://www.qt.io/</url>
@@ -306,6 +310,15 @@ Please see https://github.com/tim-lebedkov/npackd-scripts/tree/master/build-pack
   <category>Development</category>
   <tag>libs</tag>
   <link href="https://sourceforge.net/p/quazip/code/HEAD/tree/trunk/quazip/NEWS.txt" rel="changelog"/>
+ </package>
+ <package name="wxpython">
+  <title>wxPython</title>
+  <url>http://wxpython.org/</url>
+  <description>wxWidgets for Python</description>
+  <icon>https://lh3.googleusercontent.com/-VdxIL8EtxIk/U0-ZK-n5xQI/AAAAAAAABUo/R0ci56Vx2Gc/s16-no/wxpython.png</icon>
+  <license>org.wikipedia.Freeware</license>
+  <category>Development</category>
+  <tag>libs</tag>
  </package>
  <package name="wxwidgets-source">
   <title>wxWidgets source</title>
@@ -3085,6 +3098,10 @@ call "%npackdih%\InstallMSI.bat" INSTALLDIR yes&#13;
   <url>https://github.com/nunit/nunit/releases/download/v3.12/NUnit.Framework-3.12.0.zip</url>
   <hash-sum type="SHA-256">42b912d11f153b5fe780327a52a8421086e6a0ca6412af2872f604619cda2687</hash-sum>
  </version>
+ <version name="3.13" package="org.nunit.NUnit">
+  <url>https://github.com/nunit/nunit/releases/download/v3.13/NUnit.Framework-3.13.0.zip</url>
+  <hash-sum type="SHA-256">a0333efd81b9ec2a69556670acf4809ca4962e62dcf2b4f6bd6684fdaffb9515</hash-sum>
+ </version>
 
     <version name="1.2.7" package="org.xapian.XapianCore" type="one-file">
   <file path=".Npackd\Install.bat">&#13;
@@ -3817,6 +3834,27 @@ rmdir "%name%"</file>
    <variable>sevenzipa</variable>
   </dependency>
  </version>
+ <version name="1.4.18" package="org.xapian.XapianCore" type="one-file">
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.tar.xz') do set setup=%%x&#13;
+"%sevenzipa%\7za.exe" x "%setup%"&#13;
+del "%setup%"&#13;
+&#13;
+for /f "delims=" %%x in ('dir /b *.tar') do set setup=%%x&#13;
+"%sevenzipa%\7za.exe" x "%setup%"&#13;
+del "%setup%"&#13;
+&#13;
+for /f "delims=" %%x in ('dir /b xapian*') do set name=%%x&#13;
+cd "%name%"&#13;
+for /f "delims=" %%a in ('dir /b') do (&#13;
+  move "%%a" ..&#13;
+)&#13;
+cd ..&#13;
+rmdir "%name%"</file>
+  <url>http://oligarchy.co.uk/xapian/1.4.4/xapian-core-1.4.4.tar.xz</url>
+  <dependency package="org.7-zip.SevenZIPA" versions="[9.20, 9.20]">
+   <variable>sevenzipa</variable>
+  </dependency>
+ </version>
 
     <version name="0.5" package="quazip-dev-i686-w64-static">
   <url>https://sourceforge.net/projects/npackd/files/quazip-dev-i686-w64-static.zip</url>
@@ -3881,6 +3919,39 @@ rmdir "%name%"</file>
     <version name="0.7.6" package="quazip-dev-x86_64-w64_seh_posix_8.2-qt_5.12-static">
   <url>https://github.com/tim-lebedkov/packages/releases/download/2019_Q1/quazip-dev-x86_64-w64_seh_posix_8.2-qt_5.12-static.zip</url>
   <hash-sum type="SHA-256">6821332d789b38436f0a73ec67df10a20dd15b99553c22124b700026d96b2797</hash-sum>
+ </version>
+
+    <version name="3" package="wxpython" type="one-file">
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
+"%setup%" /SP- /VERYSILENT /SUPPRESSMSGBOXES /NOCANCEL /NORESTART /DIR="%CD%" /SAVEINF="%CD%\.Npackd\InnoSetupInfo.ini" /LOG="%CD%\.Npackd\InnoSetupInstall.log" &amp;&amp; del /f /q "%setup%"&#13;
+set err=%errorlevel%&#13;
+type .Npackd\InnoSetupInstall.log&#13;
+if %err% neq 0 exit %err%&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">wx-3.0-msw\unins000.exe /VERYSILENT /SUPPRESSMSGBOXES /NORESTART /LOG="%CD%\.Npackd\InnoSetupUninstall.log"&#13;
+set err=%errorlevel%&#13;
+type .Npackd\InnoSetupUninstall.log&#13;
+if %err% neq 0 exit %err%&#13;
+</file>
+  <url>https://downloads.sourceforge.net/project/wxpython/wxPython/3.0.0.0/wxPython3.0-win32-3.0.0.0-py27.exe</url>
+  <sha1>5f867973aced019438b90d4b8788f552f7a831aa</sha1>
+  <dependency package="org.python.Python" versions="[2.7, 3)"/>
+ </version>
+ <version name="3.0.2" package="wxpython" type="one-file">
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
+"%setup%" /SP- /VERYSILENT /SUPPRESSMSGBOXES /NOCANCEL /NORESTART /DIR="%CD%" /SAVEINF="%CD%\.Npackd\InnoSetupInfo.ini" /LOG="%CD%\.Npackd\InnoSetupInstall.log" &amp;&amp; del /f /q "%setup%"&#13;
+set err=%errorlevel%&#13;
+type .Npackd\InnoSetupInstall.log&#13;
+if %err% neq 0 exit %err%&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">wx-3.0-msw\unins000.exe /VERYSILENT /SUPPRESSMSGBOXES /NORESTART /LOG="%CD%\.Npackd\InnoSetupUninstall.log"&#13;
+set err=%errorlevel%&#13;
+type .Npackd\InnoSetupUninstall.log&#13;
+if %err% neq 0 exit %err%&#13;
+</file>
+  <url>https://downloads.sourceforge.net/project/wxpython/wxPython/3.0.2.0/wxPython3.0-win32-3.0.2.0-py27.exe</url>
+  <sha1>864d44e418a0859cabff71614a495bea57738c5d</sha1>
+  <dependency package="org.python.Python" versions="[2.7, 3)"/>
  </version>
 
     <version name="3.1.2" package="wxwidgets-source">
