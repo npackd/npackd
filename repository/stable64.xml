@@ -4389,6 +4389,17 @@ x86_64</description>
    <variable>clu</variable>
   </dependency>
  </version>
+ <version name="1.54" package="atom64">
+  <important-file path="atom.exe" title="Atom"/>
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b Atom*') do set name=%%x&#13;
+"%clu%\clu" unwrap-dir -p "%name%"&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+</file>
+  <url>https://github.com/atom/atom/releases/download/v1.54.0/atom-x64-windows.zip</url>
+  <hash-sum type="SHA-256">9952e4aff1d9c3a83621fff1ea0ff9ebb4fc9432e7ab2ce4bb9bd926aff0a1c9</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.CLU" versions="[1.25, 2)">
+   <variable>clu</variable>
+  </dependency>
+ </version>
 
     <version name="2.1" package="barrier64" type="one-file">
   <file path=".Npackd\Install.bat">"%nih%\InstallInnoSetup.bat"&#13;
@@ -5146,6 +5157,20 @@ if %errorlevel% neq 0 exit /b %errorlevel%&#13;
 </file>
   <url>https://www.cmake.org/files/v3.19/cmake-3.19.2-win64-x64.zip</url>
   <hash-sum type="SHA-256">a6fdf509d7a39f1c08b429eaa3ea0012744365a731d00fb770ae88b4d6549ff3</hash-sum>
+ </version>
+ <version name="3.19.3" package="cmake64">
+  <cmd-file path="bin\cmake.exe"/>
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b cmake*') do set name=%%x&#13;
+cd "%name%"        &#13;
+for /f "delims=" %%a in ('dir /b') do (&#13;
+  move "%%a" ..&#13;
+)&#13;
+cd ..&#13;
+rmdir "%name%"&#13;
+if %errorlevel% neq 0 exit /b %errorlevel%&#13;
+</file>
+  <url>https://www.cmake.org/files/v3.19/cmake-3.19.3-win64-x64.zip</url>
+  <hash-sum type="SHA-256">3838e11a0db08f97d687f061882a1e52807010a313f3ac716015b3587ca3f20e</hash-sum>
  </version>
 
     <version name="5.26.3.2603" package="com.activestate.ActivePerl64" type="one-file">
@@ -19129,6 +19154,17 @@ if %err% neq 0 exit %err%&#13;
   </dependency>
  </version>
  <version name="2.30" package="git64" type="one-file">
+  <file path=".Npackd\Install.bat">call "%nih%\InstallInnoSetup.bat"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">call "%nih%\UninstallInnoSetup.bat" unins000.exe&#13;
+</file>
+  <url>https://github.com/git-for-windows/git/releases/download/v2.30.0.windows.1/Git-2.30.0-64-bit.exe</url>
+  <hash-sum type="SHA-256">1f38fd19d5f36f1e3dffdf5b233c883cea4fb418a44cc1d980c9f14d284385c9</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
+ <version name="2.30.0.2" package="git64" type="one-file">
   <file path=".Npackd\Install.bat">call "%nih%\InstallInnoSetup.bat"&#13;
 </file>
   <file path=".Npackd\Uninstall.bat">call "%nih%\UninstallInnoSetup.bat" unins000.exe&#13;
@@ -35716,6 +35752,14 @@ ren "%setup%" Psycopg.exe&#13;
    <variable>npackdih</variable>
   </dependency>
  </version>
+ <version name="2.6.3" package="org.keepassxc.keepassxc" type="one-file">
+  <file path=".Npackd\Install.bat">call "%npackdih%\InstallMSI.bat" INSTALLDIR yes</file>
+  <url>https://github.com/keepassxreboot/keepassxc/releases/download/2.6.3/KeePassXC-2.6.3-Win64.msi</url>
+  <hash-sum type="SHA-256">4b7ee425400007f61783fc1d82a822f7ca79472caf9308d1712411facc5c6f3a</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.22, 2)">
+   <variable>npackdih</variable>
+  </dependency>
+ </version>
 
     <version name="2.9.4407" package="org.miktex.MiKTeX64" type="one-file">
   <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
@@ -42863,6 +42907,20 @@ call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Np
    <variable>nih</variable>
   </dependency>
  </version>
+ <version name="8.2.2344" package="org.vim.Vim64">
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+if %errorlevel% neq 0 exit /b %errorlevel%&#13;
+&#13;
+for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+</file>
+  <url>https://github.com/vim/vim-win32-installer/releases/download/v8.2.2344/gvim_8.2.2344_x64.zip</url>
+  <hash-sum type="SHA-256">433c318131e3ab449372b197b74f061ae93a97a079cba4b73a75307da1beb541</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.19, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
 
     <version name="4.2.8.83876" package="org.virtualbox.virtualbox64" type="one-file">
   <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
@@ -49806,6 +49864,12 @@ if %err% neq 0 exit %err%&#13;
 </file>
   <url>https://dist.torproject.org/torbrowser/10.0.7/torbrowser-install-10.0.7_en-US.exe</url>
   <hash-sum type="SHA-256">37aa2e3e7bb9c400a37922be8aa09eba71840f07f2b43dfd7e9cae3545daa0b8</hash-sum>
+ </version>
+ <version name="10.0.8" package="tor64" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
+</file>
+  <url>https://dist.torproject.org/torbrowser/10.0.8/torbrowser-install-10.0.8_en-US.exe</url>
+  <hash-sum type="SHA-256">99880a19b6fd3d6053d19499859577c8f966a92d06a46bf8b3253f6478889169</hash-sum>
  </version>
 
     <version name="2.84.9" package="transmission-qt64" type="one-file">
