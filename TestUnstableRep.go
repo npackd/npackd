@@ -1277,11 +1277,6 @@ func detect(packageName string) error {
 
 	fmt.Println("Found new version " + versionToString(newVersion))
 
-	err = apiCopyPackageVersion(p.Name, versionToString(version), versionToString(newVersion))
-	if err != nil {
-		return err
-	}
-
 	// only change the URL and hash sum if the tag "same-url" is not present
 	if indexOf(p.Tag, "same-url") < 0 {
 		// create the new download URL from the template
@@ -1306,20 +1301,29 @@ func detect(packageName string) error {
 		if len(hashSum) > 0 && downloadURL != pv.URL {
 			hash, err := downloadAndHash(downloadURL)
 
-			// even if the download fails, we should still update the URL
-			if err == nil {
-				hashSum = fmt.Sprintf("%x", hash)
-			} else {
-				fmt.Println("Error downloading/computing hash sum: " + err.Error())
+			if err != nil {
+				return err
 			}
+
+			hashSum = fmt.Sprintf("%x", hash)
 		}
 
+		err = apiCopyPackageVersion(p.Name, versionToString(version), versionToString(newVersion))
+		if err != nil {
+			return err
+		}
+	
 		fmt.Println("Set URL=" + downloadURL + " and hash sum=" + hashSum)
 		err = apiSetURLAndHashSum(p.Name, versionToString(newVersion), downloadURL, hashSum, []string{"untested"})
 		if err != nil {
 			return err
 		}
 	} else {
+		err = apiCopyPackageVersion(p.Name, versionToString(version), versionToString(newVersion))
+		if err != nil {
+			return err
+		}
+	
 		err = apiDelete(p.Name, versionToString(version))
 		if err != nil {
 			return err
