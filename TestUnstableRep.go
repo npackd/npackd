@@ -1275,6 +1275,7 @@ func detect(packageName string) error {
 		return nil
 	}
 
+	fmt.Println("https://www.npackd.org/p/" + packageName)
 	fmt.Println("Found new version " + versionToString(newVersion))
 
 	// only change the URL and hash sum if the tag "same-url" is not present
