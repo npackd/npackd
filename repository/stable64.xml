@@ -502,6 +502,7 @@ x86_64</description>
   <category>Tools</category>
   <tag>auto-create-versions</tag>
   <tag>stable64</tag>
+  <stars>1</stars>
  </package>
  <package name="com.alcpu.CoreTemp64">
   <title>Core Temp 64 bit</title>
@@ -1337,7 +1338,7 @@ x86_64</description>
   <license>com.mozilla.MozillaFirefoxLicense2</license>
   <category>Communications</category>
   <tag>stable64</tag>
-  <stars>4</stars>
+  <stars>5</stars>
  </package>
  <package name="focus-image-viewer">
   <title>FocusOn Image Viewer</title>
@@ -1470,7 +1471,7 @@ x86_64</description>
   <category>Communications</category>
   <tag>same-url</tag>
   <tag>stable64</tag>
-  <stars>11</stars>
+  <stars>12</stars>
  </package>
  <package name="google-cloud-sdk64">
   <title>Google Cloud SDK 64 bit</title>
@@ -2444,7 +2445,7 @@ x86_64</description>
   <category>Tools</category>
   <tag>auto-create-versions</tag>
   <tag>stable64</tag>
-  <stars>13</stars>
+  <stars>14</stars>
   <link href="http://www.7-zip.org/history.txt" rel="changelog"/>
   <link href="http://www.7-zip.org/7zfm.png" rel="screenshot"/>
  </package>
@@ -32267,6 +32268,17 @@ rmdir "%name%"&#13;
   </dependency>
   <dependency package="com.microsoft.VisualCPPRedistributable64" versions="[9, 10)"/>
  </version>
+ <version name="2.91.2" package="org.blender.Blender64">
+  <important-file path="blender.exe" title="Blender"/>
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b blender*') do set name=%%x&#13;
+"%NIH%\ExtractDir.bat" "%name%"</file>
+  <url>https://download.blender.org/release/Blender2.91/blender-2.91.2-windows64.zip</url>
+  <hash-sum type="SHA-256">52582e09379c36bd7a26d99ec72cbbe2d1d200773e63e73f57ebfc1c1a5918c4</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
+   <variable>NIH</variable>
+  </dependency>
+  <dependency package="com.microsoft.VisualCPPRedistributable64" versions="[9, 10)"/>
+ </version>
 
     <version name="1.0.3.8" package="org.bluemars.ClipX64" type="one-file">
   <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x
@@ -36211,7 +36223,7 @@ if %errorlevel% neq 0 exit /b %errorlevel%&#13;
 </file>
   <file path=".Npackd\Unnstall.bat">miktex\bin\miktexsetup.exe --verbose --shared uninstall&#13;
 </file>
-  <url>https://miktex.org/download/ctan/systems/win32/miktex/setup/windows-x64/basic-miktex-21.1-x64.exe</url>
+  <url>https://github.com/tim-lebedkov/packages/releases/download/2021_01/org.miktex.MiKTeX64-21.1-basic-miktex-21.1-x64.exe</url>
   <hash-sum type="SHA-256">6094e60920c31da14e9bcc56951572c79f05c3922f9192869df14aa80ed9cc31</hash-sum>
  </version>
 
@@ -43251,6 +43263,20 @@ call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Np
 </file>
   <url>https://github.com/vim/vim-win32-installer/releases/download/v8.2.2377/gvim_8.2.2377_x64.zip</url>
   <hash-sum type="SHA-256">3375343bcfda8079eee602ef41d11e47366deb947129b522b611c8556300a40c</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.19, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
+ <version name="8.2.2380" package="org.vim.Vim64">
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+if %errorlevel% neq 0 exit /b %errorlevel%&#13;
+&#13;
+for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+</file>
+  <url>https://github.com/vim/vim-win32-installer/releases/download/v8.2.2380/gvim_8.2.2380_x64.zip</url>
+  <hash-sum type="SHA-256">ea235f92d945fca98ea90bd6d98601d3b6cd8567ac0d1450070c28553291ff5a</hash-sum>
   <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.19, 2)">
    <variable>nih</variable>
   </dependency>
@@ -51499,6 +51525,19 @@ rmdir "%name%"&#13;
 </file>
   <url>https://github.com/xmake-io/xmake/releases/download/v2.3.9/xmake-v2.3.9.win64.zip</url>
   <hash-sum type="SHA-256">3ee3d14507dbf0eb1f10f52618b8d91290fef5363a9eeedd2763effd85495e98</hash-sum>
+ </version>
+ <version name="2.5.1" package="xmake64">
+  <cmd-file path="xmake.exe"/>
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b xmake*') do set name=%%x&#13;
+cd "%name%"&#13;
+for /f "delims=" %%a in ('dir /b') do (&#13;
+  move "%%a" ..&#13;
+)&#13;
+cd ..&#13;
+rmdir "%name%"&#13;
+</file>
+  <url>https://github.com/xmake-io/xmake/releases/download/v2.5.1/xmake-v2.5.1.win64.zip</url>
+  <hash-sum type="SHA-256">eb261176909e165cc5a500ec152a40ff633f47b2730a4da82d1e6aaa9b059c53</hash-sum>
  </version>
 
     <version name="3.18.1" package="yed64" type="one-file">
