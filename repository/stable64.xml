@@ -13356,6 +13356,16 @@ if %err% neq 0 exit /b %err%&#13;
    <variable>ncl</variable>
   </dependency>
  </version>
+ <version name="2.3.12" package="com.twinery.twine64" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">"%ncl%\ncl" remove-scp --title "/Twine %npackd_package_version%/i"&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt</file>
+  <url>https://github.com/klembot/twinejs/releases/download/2.3.12/twine_2.3.12_win.exe</url>
+  <hash-sum type="SHA-256">a4fbcda7b1cd96737a714c4922d4f73704b0451665eaf9747e979162569a4cb8</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.25, 2)">
+   <variable>ncl</variable>
+  </dependency>
+ </version>
 
     <version name="1.0.9.6" package="com.uvnc.UltraVNC64">
   <important-file path="winvnc.exe" title="UltraVNC Server"/>
@@ -17111,6 +17121,11 @@ rmdir "%name%"&#13;
   <important-file path="Everything.exe" title="Everything"/>
   <url>http://www.voidtools.com/Everything-1.4.1.1004.x64.zip</url>
   <hash-sum type="SHA-256">b5750368ba7fc474c0b0fdd6212dfd28211b08a0aedb91558e01c3f6acfbf7a5</hash-sum>
+ </version>
+ <version name="1.4.1.1005" package="everything64">
+  <important-file path="Everything.exe" title="Everything"/>
+  <url>http://www.voidtools.com/Everything-1.4.1.1005.x64.zip</url>
+  <hash-sum type="SHA-256">61b31d6d7837a10dc441b5c7616c053e019f198f9d0a67acaa19142176c5ca56</hash-sum>
  </version>
 
     <version name="8.7" package="explzh" type="one-file">
@@ -21527,6 +21542,17 @@ if %err% neq 0 exit %err%&#13;
    <variable>nih</variable>
   </dependency>
  </version>
+ <version name="7.0.10.59" package="imagemagick64" type="one-file">
+  <file path=".Npackd\Install.bat">call "%nih%\InstallInnoSetup.bat"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">call "%nih%\UninstallInnoSetup.bat" unins000.exe&#13;
+</file>
+  <url>https://www.imagemagick.org/download/binaries/ImageMagick-7.0.10-59-Q16-HDRI-x64-dll.exe</url>
+  <hash-sum type="SHA-256">63f8a34a83ed52ba34ee654f7f97dcf1034b3153e5c853c7f170c067240519de</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
 
     <version name="0.3.8" package="io.mpv.mpv-64" type="one-file">
   <file path=".Npackd\Install.bat">for /f %%x in ('dir /b *.7z') do set setup=%%x&#13;
@@ -25458,7 +25484,7 @@ if %err% neq 0 exit %err%</file>
    <variable>npackdih</variable>
   </dependency>
  </version>
- <version name="4.2.14" package="net.getpaint.paintdotnet64">
+ <version name="4.2.15" package="net.getpaint.paintdotnet64">
   <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
 "%setup%" /auto "TARGETDIR=%CD%" CHECKFORUPDATES=0 JPGPNGBMPEDITOR=0 TGAEDITOR=0 DESKTOPSHORTCUT=0</file>
   <url>http://www.dotpdn.com/files/paint.net.4.1.4.install.zip</url>
@@ -43336,6 +43362,20 @@ call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Np
    <variable>nih</variable>
   </dependency>
  </version>
+ <version name="8.2.2406" package="org.vim.Vim64">
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+if %errorlevel% neq 0 exit /b %errorlevel%&#13;
+&#13;
+for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+</file>
+  <url>https://github.com/vim/vim-win32-installer/releases/download/v8.2.2406/gvim_8.2.2406_x64.zip</url>
+  <hash-sum type="SHA-256">1381bd5eb5e8368ee0e2bcd857ed3fa350fd5c355c960ebf8c713657cb3b015d</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.19, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
 
     <version name="4.2.8.83876" package="org.virtualbox.virtualbox64" type="one-file">
   <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
@@ -45891,6 +45931,16 @@ call "%npackdih%\InstallMSI.bat" TARGETDIR yes</file>
 call "%npackdih%\InstallMSI.bat" TARGETDIR yes</file>
   <url>https://github.com/torakiki/pdfsam/releases/download/v4.2.1/pdfsam-4.2.1.msi</url>
   <hash-sum type="SHA-256">060ebe759e8d1c8d38828b24f1dfcd6461ea19c64cff74ce6e400f0afe2ba44f</hash-sum>
+  <dependency package="com.oracle.JRE64" versions="[1.6.0.23, 2)"/>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.1, 2)">
+   <variable>npackdih</variable>
+  </dependency>
+ </version>
+ <version name="4.2.2" package="pdfsam64" type="one-file">
+  <file path=".Npackd\Install.bat">rem un-installation tries to remove .Npackd and fails =&gt; 2 to install the program somewhere else&#13;
+call "%npackdih%\InstallMSI.bat" TARGETDIR yes</file>
+  <url>https://github.com/torakiki/pdfsam/releases/download/v4.2.2/pdfsam-4.2.2.msi</url>
+  <hash-sum type="SHA-256">c7ba5b61dcad5260c79ecad4fdd3917f83135236fc82f1bc4e65c334f3a161fb</hash-sum>
   <dependency package="com.oracle.JRE64" versions="[1.6.0.23, 2)"/>
   <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.1, 2)">
    <variable>npackdih</variable>
@@ -49307,6 +49357,14 @@ rmdir "%name%"</file>
 </file>
   <url>https://www.sysgauge.com/setups_x64/sysgauge_setup_v7.5.12_x64.exe</url>
   <hash-sum type="SHA-256">b8609c09484c524b236461506db12ac4d459a541ba97c941cdaa2093a671b61d</hash-sum>
+ </version>
+ <version name="7.6.38" package="sysgauge64" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">uninstall.exe /S _?=%CD%&#13;
+</file>
+  <url>https://www.sysgauge.com/setups_x64/sysgauge_setup_v7.6.38_x64.exe</url>
+  <hash-sum type="SHA-256">b178f33ce3d37c42ac10922a80b1b8e07287fc85bc4a87c9546f1acfe373020d</hash-sum>
  </version>
 
     <version name="2" package="texniccenter64" type="one-file">
