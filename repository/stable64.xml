@@ -251,23 +251,6 @@ x86_64</description>
   <tag>stable64</tag>
   <link href="https://github.com/debauchee/barrier/commits/master" rel="changelog"/>
  </package>
- <package name="basilisk">
-  <title>Basilisk</title>
-  <url>https://www.basilisk-browser.org/</url>
-  <description>WARNING: this package always installs the newest version of the software.
-Basilisk is a free and Open Source XUL-based web browser, featuring the well-known Firefox-style interface and operation. It is based on the Goanna layout and rendering engine (a fork of Gecko) and builds on the Unified XUL Platform (UXP), which in turn is a fork of the Mozilla code base without Servo or Rust. Basilisk is primarily a reference application for development of the XUL platform it builds upon, and additionally a potential replacement for Firefox. &#13;
-It supports a wide array of features required for the Modern Web, including advanced scripting, WebRTC, CSS v3, HTML5 and downloadable font support. It also fully supports all NPAPI plugins (e.g. Java, Unity web player, Media plugins, Authentication plugins). Further details can be found on the features page. This browser is created and maintained by the team behind Pale Moon, and is a fully independent fork of the Mozilla/Firefox code.
-x86_64</description>
-  <icon>https://www.basilisk-browser.org/bas-logo-300w.png</icon>
-  <license>org.wikipedia.Freeware</license>
-  <category>Communications</category>
-  <tag>stable64</tag>
-  <tag>same-url</tag>
-  <link href="https://www.basilisk-browser.org/releasenotes.shtml" rel="changelog"/>
-  <link href="https://www.basilisk-browser.org/assets/Basilisk_Win10_AOM_t.png" rel="screenshot"/>
-  <link href="https://www.basilisk-browser.org/assets/Basilisk_Win10_BMTB_t.png" rel="screenshot"/>
-  <link href="https://www.basilisk-browser.org/releasenotes.shtml" rel="issues"/>
- </package>
  <package name="basilisk64">
   <title>Basilisk 64 Bit</title>
   <url>https://www.basilisk-browser.org/</url>
@@ -285,23 +268,6 @@ x86_64</description>
   <link href="https://www.basilisk-browser.org/assets/Basilisk_Win10_AOM_t.png" rel="screenshot"/>
   <link href="https://www.basilisk-browser.org/assets/Basilisk_Win10_BMTB_t.png" rel="screenshot"/>
   <link href="https://github.com/MoonchildProductions/UXP/issues" rel="issues"/>
- </package>
- <package name="biglybt">
-  <title>BiglyBT</title>
-  <url>https://www.biglybt.com</url>
-  <description>BiglyBT is a feature-filled Bittorrent client based on the Azureus open source project.BiglyBT is the continuation of the Vuze/Azureus open source project first created in 2003, and is being actively developed by the original coders.We've kept all of the features you love, while dropping the ones you probably don't (such as ads and third party software).&#13;
-If you are already using Azureus or Vuze then see what features and fixes you are missing. You'll have the option to copy and migrate the configuration settings, downloads, and plugins.
-x86_64</description>
-  <icon>https://www.biglybt.com/android-chrome-256x256.png</icon>
-  <license>org.wikipedia.Freeware</license>
-  <category>Communications</category>
-  <tag>stable64</tag>
-  <link href="https://biglybt.tumblr.com/post/611738195996098560/2300-released" rel="changelog"/>
-  <link href="https://www.biglybt.com/img/ss/OpenTorrents.png" rel="screenshot"/>
-  <link href="https://www.biglybt.com/img/ss/Search.png" rel="screenshot"/>
-  <link href="https://www.biglybt.com/img/ss/BiglyBTFileTree.png" rel="screenshot"/>
-  <link href="https://www.biglybt.com/img/ss/I2P_Peers.png" rel="screenshot"/>
-  <link href="https://biglybt.tumblr.com/post/611738195996098560/2300-released" rel="issues"/>
  </package>
  <package name="biglybt64">
   <title>BiglyBT 64 Bit</title>
@@ -4421,20 +4387,6 @@ x86_64</description>
   </dependency>
  </version>
 
-    <version name="2021.1.5" package="basilisk" type="one-file">
-  <file path=".Npackd\Install.bat">echo [Install] &gt; .Npackd\FF.ini&#13;
-echo InstallDirectoryPath=%CD% &gt;&gt; .Npackd\FF.ini&#13;
-echo QuickLaunchShortcut=false &gt;&gt; .Npackd\FF.ini&#13;
-echo DesktopShortcut=false &gt;&gt; .Npackd\FF.ini&#13;
-"%npackd_package_binary%" /INI="%CD%\.Npackd\FF.ini" &amp;&amp; del /f /q "%npackd_package_binary%"</file>
-  <file path=".Npackd\Uninstall.bat">uninstall\helper.exe /S&#13;
-verify</file>
-  <url>http://us.basilisk-browser.org/release/basilisk-latest.win64.installer.exe</url>
-  <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.25, 2)">
-   <variable>ncl</variable>
-  </dependency>
- </version>
-
     <version name="2021.1.5" package="basilisk64" type="one-file">
   <file path=".Npackd\Install.bat">echo [Install] &gt; .Npackd\FF.ini&#13;
 echo InstallDirectoryPath=%CD% &gt;&gt; .Npackd\FF.ini&#13;
@@ -4444,27 +4396,6 @@ echo DesktopShortcut=false &gt;&gt; .Npackd\FF.ini&#13;
   <file path=".Npackd\Uninstall.bat">uninstall\helper.exe /S&#13;
 verify</file>
   <url>http://us.basilisk-browser.org/release/basilisk-latest.win64.installer.exe</url>
-  <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.25, 2)">
-   <variable>ncl</variable>
-  </dependency>
- </version>
-
-    <version name="2.4" package="biglybt" type="one-file">
-  <file path=".Npackd\Install.bat">"%npackd_package_binary%" -q -dir "%CD%" &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
-</file>
-  <file path=".Npackd\Uninstall.bat">uninstall.exe -q</file>
-  <url>https://github.com/BiglySoftware/BiglyBT/releases/download/v2.4.0.0/GitHub_BiglyBT_Installer32.exe</url>
-  <hash-sum type="SHA-256">80d28f46d0992fb9878f44aecd3cd01b997c9775f540dac906313ef855600319</hash-sum>
-  <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.25, 2)">
-   <variable>ncl</variable>
-  </dependency>
- </version>
- <version name="2.6" package="biglybt" type="one-file">
-  <file path=".Npackd\Install.bat">"%npackd_package_binary%" -q -dir "%CD%" &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
-</file>
-  <file path=".Npackd\Uninstall.bat">uninstall.exe -q</file>
-  <url>https://github.com/BiglySoftware/BiglyBT/releases/download/v2.6.0.0/GitHub_BiglyBT_Installer32.exe</url>
-  <hash-sum type="SHA-256">92abf3a44b49303306c51c7382db79f39a3fc1b3a43e99f54853cb7f9f1a8a34</hash-sum>
   <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.25, 2)">
    <variable>ncl</variable>
   </dependency>
@@ -21577,7 +21508,7 @@ if %err% neq 0 exit %err%&#13;
 </file>
   <file path=".Npackd\Uninstall.bat">call "%nih%\UninstallInnoSetup.bat" unins000.exe&#13;
 </file>
-  <url>https://www.imagemagick.org/download/binaries/ImageMagick-7.0.10-60-Q16-HDRI-x64-dll.exe</url>
+  <url>https://github.com/tim-lebedkov/packages/releases/download/2021_01/imagemagick64-7.0.10.60-ImageMagick-7.0.10-60-Q16-HDRI-x64-dll.exe</url>
   <hash-sum type="SHA-256">a2321839eab038e9a7632c5f166ba3eabdc868f1fd9663177a143ca0a502436f</hash-sum>
   <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
    <variable>nih</variable>
@@ -49140,6 +49071,15 @@ rmdir "%name%"</file>
   <url>http://www.swi-prolog.org/download/stable/bin/swipl-8.2.3-1.x64.exe</url>
   <hash-sum type="SHA-256">b4297d1d60ce050daf0d07764487370ef475cad70b54a96b074f83138d792cd6</hash-sum>
  </version>
+ <version name="8.2.4" package="swi-prolog64" type="one-file">
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
+"%setup%" /S /D=%CD% &amp;&amp; del /f /q "%setup%"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">uninstall.exe /S _?=%CD%&#13;
+</file>
+  <url>http://www.swi-prolog.org/download/stable/bin/swipl-8.2.4-1.x64.exe</url>
+  <hash-sum type="SHA-256">787bfb6f588479cbca2dfbb13011c738eff8935280287b62e40abc6e7c036839</hash-sum>
+ </version>
 
     <version name="0.64.3" package="synfig-studio64" type="one-file">
   <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
@@ -49934,6 +49874,12 @@ if %err% neq 0 exit %err%&#13;
 </file>
   <url>https://dist.torproject.org/torbrowser/10.0.8/torbrowser-install-10.0.8_en-US.exe</url>
   <hash-sum type="SHA-256">99880a19b6fd3d6053d19499859577c8f966a92d06a46bf8b3253f6478889169</hash-sum>
+ </version>
+ <version name="10.0.9" package="tor64" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
+</file>
+  <url>https://dist.torproject.org/torbrowser/10.0.9/torbrowser-install-10.0.9_en-US.exe</url>
+  <hash-sum type="SHA-256">de2c048bf7c3492d1d873f2143dac8dd6c91a639e2a45baa799226f473ce206b</hash-sum>
  </version>
 
     <version name="2.84.9" package="transmission-qt64" type="one-file">
