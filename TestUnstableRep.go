@@ -1,8 +1,9 @@
 package main
 
 import (
-	"unicode/utf8"
+	"bufio"
 	"bytes"
+	"crypto/sha256"
 	"encoding/json"
 	"encoding/xml"
 	"errors"
@@ -11,6 +12,7 @@ import (
 	"io"
 	"io/ioutil"
 	"math/rand"
+	"mime/multipart"
 	"net/http"
 	"net/url"
 	"os"
@@ -18,14 +20,12 @@ import (
 	"runtime"
 	"strconv"
 	"strings"
+	"sync"
 	"time"
-	"crypto/sha256"
-	"mime/multipart"
-	"sync"	
-	"bufio"
-/*	"golang.org/x/oauth2"
-	"golang.org/x/oauth2/jwt"
-	"golang.org/x/oauth2/google"
+	"unicode/utf8"
+	/*	"golang.org/x/oauth2"
+		"golang.org/x/oauth2/jwt"
+		"golang.org/x/oauth2/google"
 	*/
 	"github.com/kbinani/screenshot"
 	"image/png"
@@ -41,8 +41,8 @@ type Settings struct {
 	npackdcl      string
 	packagesTag   string
 	virusTotalKey string // x-apikey
-	googleID	  string
-	googleSecret string
+	googleID      string
+	googleSecret  string
 }
 
 var settings Settings
@@ -62,12 +62,12 @@ type Asset struct {
 
 // Package is an Npackd package declaration
 type Package struct {
-	Name          string   `xml:"name,attr"`
-	Category      []string `xml:"category"`
-	Tag           []string `xml:"tag"`
-	DiscoveryPage string   `xml:"_discovery-page"`
-	DiscoveryRE   string   `xml:"_discovery-re"`
-	DiscoveryURLPattern string `xml:"_discovery-url-pattern"`
+	Name                string   `xml:"name,attr"`
+	Category            []string `xml:"category"`
+	Tag                 []string `xml:"tag"`
+	DiscoveryPage       string   `xml:"_discovery-page"`
+	DiscoveryRE         string   `xml:"_discovery-re"`
+	DiscoveryURLPattern string   `xml:"_discovery-url-pattern"`
 }
 
 // PackageVersion is an Npackd package version
@@ -379,7 +379,7 @@ func apiSetURL(packageName string, version string, newURL string) (int, error) {
  * url new URL
  * returns true if the call to the web service succeeded, false otherwise
  */
- func apiDelete(packageName string, version string) error {
+func apiDelete(packageName string, version string) error {
 	a := "https://npackd.appspot.com/api/set-url?package=" +
 		url.QueryEscape(packageName) + "&version=" + url.QueryEscape(version) +
 		"&password=" + url.QueryEscape(settings.password)
@@ -434,7 +434,7 @@ func apiSetURLAndHashSum(packageName string, version string, newURL string, newH
 		"&url=" + url.QueryEscape(newURL) +
 		"&hash-sum=" + url.QueryEscape(newHashSum)
 
-	for _, tag := range(tags) {
+	for _, tag := range tags {
 		a = a + "&tag=" + url.QueryEscape(tag)
 	}
 
@@ -792,15 +792,15 @@ func createRelease() error {
 
 func download(address string, showParameters bool) (*bytes.Buffer, int, error) {
 	/*
-	if showParameters {
-		fmt.Println("Downloading " + address)
-	} else {
-		u, err := url.Parse(address)
-		if err != nil {
-			return nil, 0, err
+		if showParameters {
+			fmt.Println("Downloading " + address)
+		} else {
+			u, err := url.Parse(address)
+			if err != nil {
+				return nil, 0, err
+			}
+			fmt.Println("Downloading " + u.Scheme + "://" + u.Host + u.EscapedPath() + "?<<<parameters hidden>>>")
 		}
-		fmt.Println("Downloading " + u.Scheme + "://" + u.Host + u.EscapedPath() + "?<<<parameters hidden>>>")
-	}
 	*/
 
 	// Get the data
@@ -835,7 +835,7 @@ func postFile(url string, mime string, path string) error {
 
 	fi, err := file.Stat()
 	if err != nil {
-	  	return err
+		return err
 	}
 
 	// Create request
@@ -854,7 +854,7 @@ func postFile(url string, mime string, path string) error {
 		return err
 	}
 
-    defer resp.Body.Close()
+	defer resp.Body.Close()
 
 	data, err := ioutil.ReadAll(resp.Body)
 
@@ -863,11 +863,11 @@ func postFile(url string, mime string, path string) error {
 		return errors.New("HTTP status " + strconv.Itoa(resp.StatusCode))
 	}
 
-    if err != nil {
+	if err != nil {
 		fmt.Println(string(data))
-        return err
-    }
-	
+		return err
+	}
+
 	return nil
 }
 
@@ -1227,34 +1227,34 @@ func detect(packageName string) error {
 	}
 
 	buf := data.Bytes()
-	f := re.FindSubmatch(buf)
-	if f == nil {
+	matcher := re.FindSubmatch(buf)
+	if matcher == nil {
 		return errors.New("No match found for the regular expression")
 	}
-	if len(f) < 2 {
+	if len(matcher) < 2 {
 		return errors.New("No first sub-group is found for the regular expression")
 	}
 
-	match := string(f[0])
+	match := string(matcher[0])
 
-	s := string(f[1])
-	s = strings.Replace(s, "-", ".", -1);
-	s = strings.Replace(s, "+", ".", -1);
-	s = strings.Replace(s, "_", ".", -1);
+	s := string(matcher[1])
+	s = strings.Replace(s, "-", ".", -1)
+	s = strings.Replace(s, "+", ".", -1)
+	s = strings.Replace(s, "_", ".", -1)
 
 	// remove the last dot
-	if (len(s) > 0) {
+	if len(s) > 0 {
 		c, _ := utf8.DecodeLastRuneInString(s)
 		if c == '.' {
-			s = s[0:len(s) - 1];
+			s = s[0 : len(s)-1]
 		}
 	}
 
 	// process version numbers like 2.0.6b
-	if (len(s) > 0) {
+	if len(s) > 0 {
 		c, _ := utf8.DecodeLastRuneInString(s)
 		if (c >= 'a') && (c <= 'z') {
-			s = s[0:len(s) - 1] + "." + strconv.Itoa(int(c) - 'a' + 1);
+			s = s[0:len(s)-1] + "." + strconv.Itoa(int(c)-'a'+1)
 		}
 	}
 
@@ -1282,7 +1282,7 @@ func detect(packageName string) error {
 	if indexOf(p.Tag, "same-url") < 0 {
 		// create the new download URL from the template
 		downloadURL := pv.URL
-		if (len(p.DiscoveryURLPattern) > 0) {
+		if len(p.DiscoveryURLPattern) > 0 {
 			downloadURL = strings.Replace(p.DiscoveryURLPattern, "${match}", match, -1)
 			downloadURL = strings.Replace(downloadURL, "${version}", versionToString(newVersion), -1)
 
@@ -1293,7 +1293,11 @@ func detect(packageName string) error {
 				} else {
 					repl = "0"
 				}
-				downloadURL = strings.Replace(downloadURL, "${v" + strconv.Itoa(i) + "}", repl, -1)
+				downloadURL = strings.Replace(downloadURL, "${v"+strconv.Itoa(i)+"}", repl, -1)
+			}
+
+			for i := 1; i < len(matcher); i++ {
+				downloadURL = strings.Replace(downloadURL, "${g"+strconv.Itoa(i)+"}", string(matcher[i]), -1)
 			}
 		}
 
@@ -1313,7 +1317,7 @@ func detect(packageName string) error {
 		if err != nil {
 			return err
 		}
-	
+
 		fmt.Println("Set URL=" + downloadURL + " and hash sum=" + hashSum)
 		err = apiSetURLAndHashSum(p.Name, versionToString(newVersion), downloadURL, hashSum, []string{"untested"})
 		if err != nil {
@@ -1324,7 +1328,7 @@ func detect(packageName string) error {
 		if err != nil {
 			return err
 		}
-	
+
 		err = apiDelete(p.Name, versionToString(version))
 		if err != nil {
 			return err
@@ -1358,7 +1362,7 @@ func getPackage(rep *Repository, packageName string) *Package {
 // return: normalized version number
 func normalizeVersion(version []int) []int {
 	res := version
-	for len(res) > 1 && res[len(res) - 1] == 0 {
+	for len(res) > 1 && res[len(res)-1] == 0 {
 		res = res[:len(res)-1]
 	}
 	return res
@@ -1378,9 +1382,9 @@ func versionToString(version []int) string {
 func detectNewVersions() error {
 	fmt.Println("Checking for new package versions")
 
-	reps := []string {"repository/stable.xml", "repository/stable64.xml", "repository/libs.xml"}
+	reps := []string{"repository/stable.xml", "repository/stable64.xml", "repository/libs.xml"}
 
-	for _, rep := range(reps) {
+	for _, rep := range reps {
 		dat, err := ioutil.ReadFile(rep)
 		if err != nil {
 			return err
@@ -1459,9 +1463,9 @@ func testPackages() error {
 
 // correct URLs on npackd.org from an XML file
 func correctURLs() error {
-	reps := []string {"repository/stable.xml", "repository/stable64.xml", "repository/unstable.xml", "repository/libs.xml"}
+	reps := []string{"repository/stable.xml", "repository/stable64.xml", "repository/unstable.xml", "repository/libs.xml"}
 
-	for _, rep := range(reps) {
+	for _, rep := range reps {
 		dat, err := ioutil.ReadFile(rep)
 		if err != nil {
 			return err
@@ -1543,58 +1547,58 @@ func saveToFile(data io.Reader, filename string) error {
 // go get golang.org/x/oauth2
 func login() error {
 	/*
-// Your credentials should be obtained from the Google
-	// Developer Console (https://console.developers.google.com).
-	conf := &jwt.Config{
-		Email: "appveyor@npackd.iam.gserviceaccount.com",
-		// The contents of your RSA private key or your PEM file
-		// that contains a private key.
-		// If you have a p12 file instead, you
-		// can use `openssl` to export the private key into a pem file.
-		//
-		//    $ openssl pkcs12 -in key.p12 -passin pass:notasecret -out key.pem -nodes
-		//
-		// The field only supports PEM containers with no passphrase.
-		// The openssl command will convert p12 keys to passphrase-less PEM containers.
-		PrivateKey: []byte("-----BEGIN PRIVATE KEY-----\n.........\n-----END PRIVATE KEY-----\n"),
-		Scopes: []string{
-			"https://www.googleapis.com/auth/userinfo.email",
-		},
-		TokenURL: google.JWTTokenURL,
-		// If you would like to impersonate a user, you can
-		// create a transport with a subject. The following GET
-		// request will be made on the behalf of user@example.com.
-		// Optional.
-		//Subject: "tim.lebedkov@gmail.com",
-	}
+		// Your credentials should be obtained from the Google
+			// Developer Console (https://console.developers.google.com).
+			conf := &jwt.Config{
+				Email: "appveyor@npackd.iam.gserviceaccount.com",
+				// The contents of your RSA private key or your PEM file
+				// that contains a private key.
+				// If you have a p12 file instead, you
+				// can use `openssl` to export the private key into a pem file.
+				//
+				//    $ openssl pkcs12 -in key.p12 -passin pass:notasecret -out key.pem -nodes
+				//
+				// The field only supports PEM containers with no passphrase.
+				// The openssl command will convert p12 keys to passphrase-less PEM containers.
+				PrivateKey: []byte("-----BEGIN PRIVATE KEY-----\n.........\n-----END PRIVATE KEY-----\n"),
+				Scopes: []string{
+					"https://www.googleapis.com/auth/userinfo.email",
+				},
+				TokenURL: google.JWTTokenURL,
+				// If you would like to impersonate a user, you can
+				// create a transport with a subject. The following GET
+				// request will be made on the behalf of user@example.com.
+				// Optional.
+				//Subject: "tim.lebedkov@gmail.com",
+			}
 
-	// Initiate an http.Client, the following GET request will be
-	// authorized and authenticated on the behalf of user@example.com.
-	client := conf.Client(oauth2.NoContext)
-	resp, err := client.Get("https://www.npackd.org/api/notify?package=org.7-zip.SevenZIP64&version=9.20&install=1&success=1")
-	if err != nil {
-		return err
-	}
-	defer resp.Body.Close()
+			// Initiate an http.Client, the following GET request will be
+			// authorized and authenticated on the behalf of user@example.com.
+			client := conf.Client(oauth2.NoContext)
+			resp, err := client.Get("https://www.npackd.org/api/notify?package=org.7-zip.SevenZIP64&version=9.20&install=1&success=1")
+			if err != nil {
+				return err
+			}
+			defer resp.Body.Close()
 
-	saveToFile(resp.Body, "output.html")
+			saveToFile(resp.Body, "output.html")
 
-	// Display Results
-	//fmt.Println("response Status : ", resp.Status)
-	//fmt.Println("response Headers : ", resp.Header)
-	//fmt.Println("response Body : ", string(respBody))
+			// Display Results
+			//fmt.Println("response Status : ", resp.Status)
+			//fmt.Println("response Headers : ", resp.Header)
+			//fmt.Println("response Body : ", string(respBody))
 
-	if resp.StatusCode/100 != 2 {
-		return errors.New("HTTP status " + strconv.Itoa(resp.StatusCode))
-	}
-*/
+			if resp.StatusCode/100 != 2 {
+				return errors.New("HTTP status " + strconv.Itoa(resp.StatusCode))
+			}
+	*/
 	return nil
 }
 
 func createScreenshots() {
 	bounds := screenshot.GetDisplayBounds(0)
 
-	for min := 0;; min += 5 {
+	for min := 0; ; min += 5 {
 		img, err := screenshot.CaptureRect(bounds)
 		if err != nil {
 			fmt.Println(err.Error())
@@ -1605,7 +1609,7 @@ func createScreenshots() {
 		png.Encode(file, img)
 		file.Close()
 
-		exec2("", "appveyor",  "PushArtifact " + fileName, false)
+		exec2("", "appveyor", "PushArtifact "+fileName, false)
 
 		time.Sleep(5 * time.Minute)
 	}
