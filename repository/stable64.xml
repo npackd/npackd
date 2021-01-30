@@ -251,23 +251,6 @@ x86_64</description>
   <tag>stable64</tag>
   <link href="https://github.com/debauchee/barrier/commits/master" rel="changelog"/>
  </package>
- <package name="basilisk">
-  <title>Basilisk</title>
-  <url>https://www.basilisk-browser.org/</url>
-  <description>WARNING: this package always installs the newest version of the software.
-Basilisk is a free and Open Source XUL-based web browser, featuring the well-known Firefox-style interface and operation. It is based on the Goanna layout and rendering engine (a fork of Gecko) and builds on the Unified XUL Platform (UXP), which in turn is a fork of the Mozilla code base without Servo or Rust. Basilisk is primarily a reference application for development of the XUL platform it builds upon, and additionally a potential replacement for Firefox. &#13;
-It supports a wide array of features required for the Modern Web, including advanced scripting, WebRTC, CSS v3, HTML5 and downloadable font support. It also fully supports all NPAPI plugins (e.g. Java, Unity web player, Media plugins, Authentication plugins). Further details can be found on the features page. This browser is created and maintained by the team behind Pale Moon, and is a fully independent fork of the Mozilla/Firefox code.
-x86_64</description>
-  <icon>https://www.basilisk-browser.org/bas-logo-300w.png</icon>
-  <license>org.wikipedia.Freeware</license>
-  <category>Communications</category>
-  <tag>stable64</tag>
-  <tag>same-url</tag>
-  <link href="https://www.basilisk-browser.org/releasenotes.shtml" rel="changelog"/>
-  <link href="https://www.basilisk-browser.org/assets/Basilisk_Win10_AOM_t.png" rel="screenshot"/>
-  <link href="https://www.basilisk-browser.org/assets/Basilisk_Win10_BMTB_t.png" rel="screenshot"/>
-  <link href="https://www.basilisk-browser.org/releasenotes.shtml" rel="issues"/>
- </package>
  <package name="basilisk64">
   <title>Basilisk 64 Bit</title>
   <url>https://www.basilisk-browser.org/</url>
@@ -285,23 +268,6 @@ x86_64</description>
   <link href="https://www.basilisk-browser.org/assets/Basilisk_Win10_AOM_t.png" rel="screenshot"/>
   <link href="https://www.basilisk-browser.org/assets/Basilisk_Win10_BMTB_t.png" rel="screenshot"/>
   <link href="https://github.com/MoonchildProductions/UXP/issues" rel="issues"/>
- </package>
- <package name="biglybt">
-  <title>BiglyBT</title>
-  <url>https://www.biglybt.com</url>
-  <description>BiglyBT is a feature-filled Bittorrent client based on the Azureus open source project.BiglyBT is the continuation of the Vuze/Azureus open source project first created in 2003, and is being actively developed by the original coders.We've kept all of the features you love, while dropping the ones you probably don't (such as ads and third party software).&#13;
-If you are already using Azureus or Vuze then see what features and fixes you are missing. You'll have the option to copy and migrate the configuration settings, downloads, and plugins.
-x86_64</description>
-  <icon>https://www.biglybt.com/android-chrome-256x256.png</icon>
-  <license>org.wikipedia.Freeware</license>
-  <category>Communications</category>
-  <tag>stable64</tag>
-  <link href="https://biglybt.tumblr.com/post/611738195996098560/2300-released" rel="changelog"/>
-  <link href="https://www.biglybt.com/img/ss/OpenTorrents.png" rel="screenshot"/>
-  <link href="https://www.biglybt.com/img/ss/Search.png" rel="screenshot"/>
-  <link href="https://www.biglybt.com/img/ss/BiglyBTFileTree.png" rel="screenshot"/>
-  <link href="https://www.biglybt.com/img/ss/I2P_Peers.png" rel="screenshot"/>
-  <link href="https://biglybt.tumblr.com/post/611738195996098560/2300-released" rel="issues"/>
  </package>
  <package name="biglybt64">
   <title>BiglyBT 64 Bit</title>
@@ -502,6 +468,7 @@ x86_64</description>
   <category>Tools</category>
   <tag>auto-create-versions</tag>
   <tag>stable64</tag>
+  <stars>1</stars>
  </package>
  <package name="com.alcpu.CoreTemp64">
   <title>Core Temp 64 bit</title>
@@ -1337,7 +1304,7 @@ x86_64</description>
   <license>com.mozilla.MozillaFirefoxLicense2</license>
   <category>Communications</category>
   <tag>stable64</tag>
-  <stars>4</stars>
+  <stars>5</stars>
  </package>
  <package name="focus-image-viewer">
   <title>FocusOn Image Viewer</title>
@@ -1470,7 +1437,7 @@ x86_64</description>
   <category>Communications</category>
   <tag>same-url</tag>
   <tag>stable64</tag>
-  <stars>11</stars>
+  <stars>12</stars>
  </package>
  <package name="google-cloud-sdk64">
   <title>Google Cloud SDK 64 bit</title>
@@ -2444,7 +2411,7 @@ x86_64</description>
   <category>Tools</category>
   <tag>auto-create-versions</tag>
   <tag>stable64</tag>
-  <stars>13</stars>
+  <stars>14</stars>
   <link href="http://www.7-zip.org/history.txt" rel="changelog"/>
   <link href="http://www.7-zip.org/7zfm.png" rel="screenshot"/>
  </package>
@@ -4420,20 +4387,6 @@ x86_64</description>
   </dependency>
  </version>
 
-    <version name="2021.1.5" package="basilisk" type="one-file">
-  <file path=".Npackd\Install.bat">echo [Install] &gt; .Npackd\FF.ini&#13;
-echo InstallDirectoryPath=%CD% &gt;&gt; .Npackd\FF.ini&#13;
-echo QuickLaunchShortcut=false &gt;&gt; .Npackd\FF.ini&#13;
-echo DesktopShortcut=false &gt;&gt; .Npackd\FF.ini&#13;
-"%npackd_package_binary%" /INI="%CD%\.Npackd\FF.ini" &amp;&amp; del /f /q "%npackd_package_binary%"</file>
-  <file path=".Npackd\Uninstall.bat">uninstall\helper.exe /S&#13;
-verify</file>
-  <url>http://us.basilisk-browser.org/release/basilisk-latest.win64.installer.exe</url>
-  <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.25, 2)">
-   <variable>ncl</variable>
-  </dependency>
- </version>
-
     <version name="2021.1.5" package="basilisk64" type="one-file">
   <file path=".Npackd\Install.bat">echo [Install] &gt; .Npackd\FF.ini&#13;
 echo InstallDirectoryPath=%CD% &gt;&gt; .Npackd\FF.ini&#13;
@@ -4443,27 +4396,6 @@ echo DesktopShortcut=false &gt;&gt; .Npackd\FF.ini&#13;
   <file path=".Npackd\Uninstall.bat">uninstall\helper.exe /S&#13;
 verify</file>
   <url>http://us.basilisk-browser.org/release/basilisk-latest.win64.installer.exe</url>
-  <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.25, 2)">
-   <variable>ncl</variable>
-  </dependency>
- </version>
-
-    <version name="2.4" package="biglybt" type="one-file">
-  <file path=".Npackd\Install.bat">"%npackd_package_binary%" -q -dir "%CD%" &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
-</file>
-  <file path=".Npackd\Uninstall.bat">uninstall.exe -q</file>
-  <url>https://github.com/BiglySoftware/BiglyBT/releases/download/v2.4.0.0/GitHub_BiglyBT_Installer32.exe</url>
-  <hash-sum type="SHA-256">80d28f46d0992fb9878f44aecd3cd01b997c9775f540dac906313ef855600319</hash-sum>
-  <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.25, 2)">
-   <variable>ncl</variable>
-  </dependency>
- </version>
- <version name="2.6" package="biglybt" type="one-file">
-  <file path=".Npackd\Install.bat">"%npackd_package_binary%" -q -dir "%CD%" &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
-</file>
-  <file path=".Npackd\Uninstall.bat">uninstall.exe -q</file>
-  <url>https://github.com/BiglySoftware/BiglyBT/releases/download/v2.6.0.0/GitHub_BiglyBT_Installer32.exe</url>
-  <hash-sum type="SHA-256">92abf3a44b49303306c51c7382db79f39a3fc1b3a43e99f54853cb7f9f1a8a34</hash-sum>
   <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.25, 2)">
    <variable>ncl</variable>
   </dependency>
@@ -5191,6 +5123,20 @@ if %errorlevel% neq 0 exit /b %errorlevel%&#13;
 </file>
   <url>https://www.cmake.org/files/v3.19/cmake-3.19.3-win64-x64.zip</url>
   <hash-sum type="SHA-256">3838e11a0db08f97d687f061882a1e52807010a313f3ac716015b3587ca3f20e</hash-sum>
+ </version>
+ <version name="3.19.4" package="cmake64">
+  <cmd-file path="bin\cmake.exe"/>
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b cmake*') do set name=%%x&#13;
+cd "%name%"        &#13;
+for /f "delims=" %%a in ('dir /b') do (&#13;
+  move "%%a" ..&#13;
+)&#13;
+cd ..&#13;
+rmdir "%name%"&#13;
+if %errorlevel% neq 0 exit /b %errorlevel%&#13;
+</file>
+  <url>https://www.cmake.org/files/v3.19/cmake-3.19.4-win64-x64.zip</url>
+  <hash-sum type="SHA-256">24b03daf75ce59b542da38c829fe6944d3bf7cf99afaa8225cf29f7876823899</hash-sum>
  </version>
 
     <version name="5.26.3.2603" package="com.activestate.ActivePerl64" type="one-file">
@@ -8206,6 +8152,24 @@ call "%npackdih%\InstallMSI.bat" APPLICATIONFOLDER yes&#13;
    <variable>npackdih</variable>
   </dependency>
  </version>
+ <version name="5.10" package="com.calibreebook.Calibre64" type="one-file">
+  <file path=".Npackd\Install.bat">call "%npackdih%\InstallMSI.bat" APPLICATIONFOLDER yes&#13;
+</file>
+  <url>https://download.calibre-ebook.com/5.10.0/calibre-64bit-5.10.0.msi</url>
+  <hash-sum type="SHA-256">868832f61468efaba87603cf8809b8d77ec32f556612ce88e3a1815dad716d04</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.2, 2)">
+   <variable>npackdih</variable>
+  </dependency>
+ </version>
+ <version name="5.10.1" package="com.calibreebook.Calibre64" type="one-file">
+  <file path=".Npackd\Install.bat">call "%npackdih%\InstallMSI.bat" APPLICATIONFOLDER yes&#13;
+</file>
+  <url>https://download.calibre-ebook.com/5.10.1/calibre-64bit-5.10.1.msi</url>
+  <hash-sum type="SHA-256">b1cb96db1580b338cea5deb540f4c1f650feb0bc6c2eb77f52b3a68f14ec1797</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.2, 2)">
+   <variable>npackdih</variable>
+  </dependency>
+ </version>
 
     <version name="5.12.256249.2599" package="com.comodo.comodoav64" type="one-file">
   <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.msi') do set setup=%%x&#13;
@@ -10765,6 +10729,15 @@ if %err% neq 0 exit /b %err%&#13;
    <variable>nih</variable>
   </dependency>
  </version>
+ <version name="15.0.2.7" package="com.oracle.JRE64" type="one-file">
+  <file path=".Npackd\Install.bat">call "%nih%\InstallMSI.bat" INSTALLDIR yes&#13;
+</file>
+  <url>https://github.com/tim-lebedkov/packages/releases/download/2021_01/com.oracle.JRE64-15.0.2.7-OpenJDK15U-jre_x64_windows_hotspot_15.0.2_7.msi</url>
+  <hash-sum type="SHA-256">e78fb1b0ccb6413d27dd9ed487f09af3bd0ba204208305c3b20e58607f45a019</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.8, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
 
     <version name="1.8.2" package="com.selenic.mercurial.Mercurial64" type="one-file">
   <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.msi') do set setup=%%x&#13;
@@ -12126,6 +12099,14 @@ if %err% neq 0 exit %err%&#13;
   <url>https://github.com/sindresorhus/caprine/releases/download/v2.51.2/caprine-setup-2.51.2.exe</url>
   <hash-sum type="SHA-256">31f7164d72278f0e302e983ce158981254126c7010ae91832f6c0bc40ed949c1</hash-sum>
  </version>
+ <version name="2.52" package="com.sindresorhus.caprine" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">uninstall.exe /S _?=%CD%&#13;
+</file>
+  <url>https://github.com/sindresorhus/caprine/releases/download/v2.52.0/caprine-setup-2.52.0.exe</url>
+  <hash-sum type="SHA-256">2bd26ead7ff3b7193a65e0cfd37bb5486be70013fa2c5edd7f243552627a72d4</hash-sum>
+ </version>
 
     <version name="4.51" package="com.softwareok.QDir64">
   <important-file path="Q-Dir.exe" title="Q-Dir"/>
@@ -12715,6 +12696,15 @@ if %err% neq 0 exit %err%</file>
 </file>
   <url>http://strawberryperl.com/download/5.32.0.1/strawberry-perl-5.32.0.1-64bit.msi</url>
   <hash-sum type="SHA-256">e0e2c1a24b250750134f1b99ed51858c9193d3aafdb5b627dc753c54a01ee033</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.1, 2)">
+   <variable>npackdih</variable>
+  </dependency>
+ </version>
+ <version name="5.32.1.1" package="com.strawberryperl.StrawberryPerl64" type="one-file">
+  <file path=".Npackd\Install.bat">call "%npackdih%\InstallMSI.bat" INSTALLDIR yes&#13;
+</file>
+  <url>http://strawberryperl.com/download/5.32.1.1/strawberry-perl-5.32.1.1-64bit.msi</url>
+  <hash-sum type="SHA-256">241a881670164feb0b91bb69d39fbbf84c981bec0d9f8c19959f8f48fd177768</hash-sum>
   <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.1, 2)">
    <variable>npackdih</variable>
   </dependency>
@@ -13324,6 +13314,16 @@ if %err% neq 0 exit /b %err%&#13;
   <file path=".Npackd\Uninstall.bat">"%ncl%\ncl" remove-scp --title "/Twine %npackd_package_version%/i"&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt</file>
   <url>https://github.com/klembot/twinejs/releases/download/2.3.11/twine_2.3.11_win.exe</url>
   <hash-sum type="SHA-256">d09d2698fe0d5475f756d994b40c636d8f4f2713950ad4d0db2326be63918468</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.25, 2)">
+   <variable>ncl</variable>
+  </dependency>
+ </version>
+ <version name="2.3.12" package="com.twinery.twine64" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">"%ncl%\ncl" remove-scp --title "/Twine %npackd_package_version%/i"&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt</file>
+  <url>https://github.com/klembot/twinejs/releases/download/2.3.12/twine_2.3.12_win.exe</url>
+  <hash-sum type="SHA-256">a4fbcda7b1cd96737a714c4922d4f73704b0451665eaf9747e979162569a4cb8</hash-sum>
   <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.25, 2)">
    <variable>ncl</variable>
   </dependency>
@@ -15348,7 +15348,7 @@ if %err% neq 0 exit %err%&#13;
   <url>http://cygwin.com/setup-x86_64.exe</url>
  </version>
 
-    <version name="1.7.21397" package="daumpotplayer64" type="one-file">
+    <version name="1.7.21419" package="daumpotplayer64" type="one-file">
   <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
 </file>
   <file path=".Npackd\Uninstall.bat">uninstall.exe /S _?=%CD%&#13;
@@ -17084,6 +17084,11 @@ rmdir "%name%"&#13;
   <url>http://www.voidtools.com/Everything-1.4.1.1004.x64.zip</url>
   <hash-sum type="SHA-256">b5750368ba7fc474c0b0fdd6212dfd28211b08a0aedb91558e01c3f6acfbf7a5</hash-sum>
  </version>
+ <version name="1.4.1.1005" package="everything64">
+  <important-file path="Everything.exe" title="Everything"/>
+  <url>http://www.voidtools.com/Everything-1.4.1.1005.x64.zip</url>
+  <hash-sum type="SHA-256">61b31d6d7837a10dc441b5c7616c053e019f198f9d0a67acaa19142176c5ca56</hash-sum>
+ </version>
 
     <version name="8.7" package="explzh" type="one-file">
   <file path=".Npackd\Install.bat">"%npackd_package_binary%" &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
@@ -17239,6 +17244,17 @@ rmdir "%name%"&#13;
    <variable>ncl</variable>
   </dependency>
  </version>
+ <version name="8.30" package="explzh" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" /silent /q &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">"%ncl%\ncl.exe" remove-scp --title "/%npackd_package_name% %npackd_package_version%/i"&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+</file>
+  <url>https://www.ponsoftware.com/en/archiver/explzh/explz830_en_silent.exe</url>
+  <hash-sum type="SHA-256">0eb611785817cd8782fcaad823f941b9ea9a69549ed3137a2ad112f4f9f0e66c</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.25, 2)">
+   <variable>ncl</variable>
+  </dependency>
+ </version>
 
     <version name="8.7" package="explzh64" type="one-file">
   <file path=".Npackd\Install.bat">"%npackd_package_binary%" &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
@@ -17390,6 +17406,17 @@ rmdir "%name%"&#13;
 </file>
   <url>https://www.ponsoftware.com/en/archiver/explzh/explz829_en_x64.exe</url>
   <hash-sum type="SHA-256">d8703eea8701599538be70056ca82c2cc8f41b47e77df7a8456bf3419713af22</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.25, 2)">
+   <variable>ncl</variable>
+  </dependency>
+ </version>
+ <version name="8.30" package="explzh64" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" /silent /q &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">"%ncl%\ncl.exe" remove-scp --title "/%npackd_package_name% %npackd_package_version%/i"&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+</file>
+  <url>https://www.ponsoftware.com/en/archiver/explzh/explz830_en_x64.exe</url>
+  <hash-sum type="SHA-256">1cf2a8d8d764b802cbc5fb33bcab7d2d41d426fea97c0f56427707f597a51e6d</hash-sum>
   <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.25, 2)">
    <variable>ncl</variable>
   </dependency>
@@ -19398,7 +19425,7 @@ if %err% neq 0 exit %err%&#13;
   <hash-sum type="SHA-256">951c16d730bb70a8acc1af5d44d8d00ce828316b664253163f64667d026d7e67</hash-sum>
  </version>
 
-    <version name="88.0.4324.96" package="google-chrome-x64" type="one-file">
+    <version name="88.0.4324.104" package="google-chrome-x64" type="one-file">
   <file path=".Npackd\Install.bat">call "%npackdih%\InstallMSI.bat" TARGETDIR yes&#13;
 </file>
   <url>https://dl.google.com/tag/s/appguid%3D%7B8A69D345-D564-463C-AFF1-A69D9E530F96%7D%26iid%3D%7B0A558A36-0536-8B3F-0AE0-420553CC97F3%7D%26lang%3Den%26browser%3D4%26usagestats%3D0%26appname%3DGoogle%2520Chrome%26needsadmin%3DFalse/edgedl/chrome/install/GoogleChromeStandaloneEnterprise64.msi</url>
@@ -20354,6 +20381,19 @@ rmdir "%name%"&#13;
 </file>
   <url>https://dl.google.com/dl/cloudsdk/channels/rapid/downloads/google-cloud-sdk-324.0.0-windows-x86_64.zip</url>
   <hash-sum type="SHA-256">2f17685b09fe1f210cc14b0d0858e08496621a675e2e513d8ab529c0a3d20607</hash-sum>
+  <dependency package="org.python.Python" versions="[2.7, 2.8)"/>
+ </version>
+ <version name="325" package="google-cloud-sdk64">
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b google-cloud-sdk*') do set name=%%x&#13;
+cd "%name%"&#13;
+for /f "delims=" %%a in ('dir /b') do (&#13;
+  move "%%a" ..&#13;
+)&#13;
+cd ..&#13;
+rmdir "%name%"&#13;
+</file>
+  <url>https://dl.google.com/dl/cloudsdk/channels/rapid/downloads/google-cloud-sdk-325.0.0-windows-x86_64.zip</url>
+  <hash-sum type="SHA-256">9a37be41a339d5b1da7713b757cbf4a0cd629873e637d222c6206945de38b967</hash-sum>
   <dependency package="org.python.Python" versions="[2.7, 2.8)"/>
  </version>
 
@@ -21495,6 +21535,17 @@ if %err% neq 0 exit %err%&#13;
 </file>
   <url>https://github.com/tim-lebedkov/packages/releases/download/2021_01/imagemagick64-7.0.10.58-ImageMagick-7.0.10-58-Q16-HDRI-x64-dll.exe</url>
   <hash-sum type="SHA-256">18580332cf6f178c37b61eff307f66ea018d1062cfdfd0733871273b94677032</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
+ <version name="7.0.10.60" package="imagemagick64" type="one-file">
+  <file path=".Npackd\Install.bat">call "%nih%\InstallInnoSetup.bat"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">call "%nih%\UninstallInnoSetup.bat" unins000.exe&#13;
+</file>
+  <url>https://github.com/tim-lebedkov/packages/releases/download/2021_01/imagemagick64-7.0.10.60-ImageMagick-7.0.10-60-Q16-HDRI-x64-dll.exe</url>
+  <hash-sum type="SHA-256">a2321839eab038e9a7632c5f166ba3eabdc868f1fd9663177a143ca0a502436f</hash-sum>
   <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
    <variable>nih</variable>
   </dependency>
@@ -25135,6 +25186,15 @@ rmdir "%name%"&#13;
    <variable>nih</variable>
   </dependency>
  </version>
+ <version name="3.6.1.515740707" package="musescore64" type="one-file">
+  <file path=".Npackd\Install.bat">call "%nih%\InstallMSI.bat" INSTALLDIR yes&#13;
+</file>
+  <url>https://github.com//musescore/MuseScore/releases/download/v3.6.1/MuseScore-3.6.1.515740707-x86_64.msi</url>
+  <hash-sum type="SHA-256">20c13d00b14144afa33a3ee4b2192dad4eac615f6e4f3e1a9f6b40bd6c9a41bf</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.1, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
 
     <version name="2" package="myeventviewer64">
   <important-file path="MyEventViewer.exe" title="MyEventViewer"/>
@@ -25430,7 +25490,7 @@ if %err% neq 0 exit %err%</file>
    <variable>npackdih</variable>
   </dependency>
  </version>
- <version name="4.2.14" package="net.getpaint.paintdotnet64">
+ <version name="4.2.15" package="net.getpaint.paintdotnet64">
   <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
 "%setup%" /auto "TARGETDIR=%CD%" CHECKFORUPDATES=0 JPGPNGBMPEDITOR=0 TGAEDITOR=0 DESKTOPSHORTCUT=0</file>
   <url>http://www.dotpdn.com/files/paint.net.4.1.4.install.zip</url>
@@ -32267,6 +32327,17 @@ rmdir "%name%"&#13;
   </dependency>
   <dependency package="com.microsoft.VisualCPPRedistributable64" versions="[9, 10)"/>
  </version>
+ <version name="2.91.2" package="org.blender.Blender64">
+  <important-file path="blender.exe" title="Blender"/>
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b blender*') do set name=%%x&#13;
+"%NIH%\ExtractDir.bat" "%name%"</file>
+  <url>https://download.blender.org/release/Blender2.91/blender-2.91.2-windows64.zip</url>
+  <hash-sum type="SHA-256">52582e09379c36bd7a26d99ec72cbbe2d1d200773e63e73f57ebfc1c1a5918c4</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
+   <variable>NIH</variable>
+  </dependency>
+  <dependency package="com.microsoft.VisualCPPRedistributable64" versions="[9, 10)"/>
+ </version>
 
     <version name="1.0.3.8" package="org.bluemars.ClipX64" type="one-file">
   <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x
@@ -36211,7 +36282,7 @@ if %errorlevel% neq 0 exit /b %errorlevel%&#13;
 </file>
   <file path=".Npackd\Unnstall.bat">miktex\bin\miktexsetup.exe --verbose --shared uninstall&#13;
 </file>
-  <url>https://miktex.org/download/ctan/systems/win32/miktex/setup/windows-x64/basic-miktex-21.1-x64.exe</url>
+  <url>https://github.com/tim-lebedkov/packages/releases/download/2021_01/org.miktex.MiKTeX64-21.1-basic-miktex-21.1-x64.exe</url>
   <hash-sum type="SHA-256">6094e60920c31da14e9bcc56951572c79f05c3922f9192869df14aa80ed9cc31</hash-sum>
  </version>
 
@@ -43255,6 +43326,90 @@ call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Np
    <variable>nih</variable>
   </dependency>
  </version>
+ <version name="8.2.2380" package="org.vim.Vim64">
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+if %errorlevel% neq 0 exit /b %errorlevel%&#13;
+&#13;
+for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+</file>
+  <url>https://github.com/vim/vim-win32-installer/releases/download/v8.2.2380/gvim_8.2.2380_x64.zip</url>
+  <hash-sum type="SHA-256">ea235f92d945fca98ea90bd6d98601d3b6cd8567ac0d1450070c28553291ff5a</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.19, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
+ <version name="8.2.2389" package="org.vim.Vim64">
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+if %errorlevel% neq 0 exit /b %errorlevel%&#13;
+&#13;
+for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+</file>
+  <url>https://github.com/vim/vim-win32-installer/releases/download/v8.2.2389/gvim_8.2.2389_x64.zip</url>
+  <hash-sum type="SHA-256">bb62c10462dbaa280e7f7d975ae004b8a09d0525565b2a6c26ec9ebc8222f627</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.19, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
+ <version name="8.2.2398" package="org.vim.Vim64">
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+if %errorlevel% neq 0 exit /b %errorlevel%&#13;
+&#13;
+for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+</file>
+  <url>https://github.com/vim/vim-win32-installer/releases/download/v8.2.2398/gvim_8.2.2398_x64.zip</url>
+  <hash-sum type="SHA-256">ed45daeb9ba09b0174ae1b26ec1b6137cdb65b021bc0a2007cb59762ff7ae25d</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.19, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
+ <version name="8.2.2406" package="org.vim.Vim64">
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+if %errorlevel% neq 0 exit /b %errorlevel%&#13;
+&#13;
+for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+</file>
+  <url>https://github.com/vim/vim-win32-installer/releases/download/v8.2.2406/gvim_8.2.2406_x64.zip</url>
+  <hash-sum type="SHA-256">1381bd5eb5e8368ee0e2bcd857ed3fa350fd5c355c960ebf8c713657cb3b015d</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.19, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
+ <version name="8.2.2417" package="org.vim.Vim64">
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+if %errorlevel% neq 0 exit /b %errorlevel%&#13;
+&#13;
+for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+</file>
+  <url>https://github.com/vim/vim-win32-installer/releases/download/v8.2.2417/gvim_8.2.2417_x64.zip</url>
+  <hash-sum type="SHA-256">b4a3938a39f0750fe622e912c4e791dbc2a53308b6a2e3bad89336baea6565e0</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.19, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
+ <version name="8.2.2425" package="org.vim.Vim64">
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+if %errorlevel% neq 0 exit /b %errorlevel%&#13;
+&#13;
+for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+</file>
+  <url>https://github.com/vim/vim-win32-installer/releases/download/v8.2.2425/gvim_8.2.2425_x64.zip</url>
+  <hash-sum type="SHA-256">48767159559e71e411b9a6b108de5c18cf692e52cad4291925d8ac2118d7bd94</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.19, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
 
     <version name="4.2.8.83876" package="org.virtualbox.virtualbox64" type="one-file">
   <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
@@ -45593,6 +45748,16 @@ verify</file>
   </dependency>
   <dependency package="org.miktex.MiKTeX" versions="[2.9, 3)"/>
  </version>
+ <version name="2.11.4" package="pandoc64" type="one-file">
+  <file path=".Npackd\Install.bat">call "%nih%\InstallMSI.bat" INSTALLDIR yes&#13;
+</file>
+  <url>https://github.com/jgm/pandoc/releases/download/2.11.4/pandoc-2.11.4-windows-x86_64.msi</url>
+  <hash-sum type="SHA-256">344c1f1043e735e25ea54a1e9598b0a20fbb12c51cd71a7afde6f0e16d26907e</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.1, 2)">
+   <variable>nih</variable>
+  </dependency>
+  <dependency package="org.miktex.MiKTeX" versions="[2.9, 3)"/>
+ </version>
 
     <version name="2.2.2" package="pdfsam64" type="one-file">
   <file path=".Npackd\Install.bat">&#13;
@@ -45800,6 +45965,16 @@ call "%npackdih%\InstallMSI.bat" TARGETDIR yes</file>
 call "%npackdih%\InstallMSI.bat" TARGETDIR yes</file>
   <url>https://github.com/torakiki/pdfsam/releases/download/v4.2.1/pdfsam-4.2.1.msi</url>
   <hash-sum type="SHA-256">060ebe759e8d1c8d38828b24f1dfcd6461ea19c64cff74ce6e400f0afe2ba44f</hash-sum>
+  <dependency package="com.oracle.JRE64" versions="[1.6.0.23, 2)"/>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.1, 2)">
+   <variable>npackdih</variable>
+  </dependency>
+ </version>
+ <version name="4.2.2" package="pdfsam64" type="one-file">
+  <file path=".Npackd\Install.bat">rem un-installation tries to remove .Npackd and fails =&gt; 2 to install the program somewhere else&#13;
+call "%npackdih%\InstallMSI.bat" TARGETDIR yes</file>
+  <url>https://github.com/torakiki/pdfsam/releases/download/v4.2.2/pdfsam-4.2.2.msi</url>
+  <hash-sum type="SHA-256">c7ba5b61dcad5260c79ecad4fdd3917f83135236fc82f1bc4e65c334f3a161fb</hash-sum>
   <dependency package="com.oracle.JRE64" versions="[1.6.0.23, 2)"/>
   <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.1, 2)">
    <variable>npackdih</variable>
@@ -48230,7 +48405,7 @@ if %err% neq 0 exit %err%&#13;
   </dependency>
  </version>
 
-    <version name="29.0.1" package="slimjet" type="one-file">
+    <version name="29.0.2" package="slimjet" type="one-file">
   <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
 </file>
   <file path=".Npackd\Uninstall.bat">uninstall.exe /S _?=%CD%&#13;
@@ -48238,7 +48413,7 @@ if %err% neq 0 exit %err%&#13;
   <url>https://www.slimjetbrowser.com/release/sjtsetup_x86.exe</url>
  </version>
 
-    <version name="29.0.1" package="slimjet64" type="one-file">
+    <version name="29.0.2" package="slimjet64" type="one-file">
   <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
 </file>
   <file path=".Npackd\Uninstall.bat">uninstall.exe /S _?=%CD%&#13;
@@ -48969,6 +49144,15 @@ rmdir "%name%"</file>
   <url>http://www.swi-prolog.org/download/stable/bin/swipl-8.2.3-1.x64.exe</url>
   <hash-sum type="SHA-256">b4297d1d60ce050daf0d07764487370ef475cad70b54a96b074f83138d792cd6</hash-sum>
  </version>
+ <version name="8.2.4" package="swi-prolog64" type="one-file">
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
+"%setup%" /S /D=%CD% &amp;&amp; del /f /q "%setup%"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">uninstall.exe /S _?=%CD%&#13;
+</file>
+  <url>http://www.swi-prolog.org/download/stable/bin/swipl-8.2.4-1.x64.exe</url>
+  <hash-sum type="SHA-256">787bfb6f588479cbca2dfbb13011c738eff8935280287b62e40abc6e7c036839</hash-sum>
+ </version>
 
     <version name="0.64.3" package="synfig-studio64" type="one-file">
   <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
@@ -49216,6 +49400,14 @@ rmdir "%name%"</file>
 </file>
   <url>https://www.sysgauge.com/setups_x64/sysgauge_setup_v7.5.12_x64.exe</url>
   <hash-sum type="SHA-256">b8609c09484c524b236461506db12ac4d459a541ba97c941cdaa2093a671b61d</hash-sum>
+ </version>
+ <version name="7.6.38" package="sysgauge64" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">uninstall.exe /S _?=%CD%&#13;
+</file>
+  <url>https://www.sysgauge.com/setups_x64/sysgauge_setup_v7.6.38_x64.exe</url>
+  <hash-sum type="SHA-256">b178f33ce3d37c42ac10922a80b1b8e07287fc85bc4a87c9546f1acfe373020d</hash-sum>
  </version>
 
     <version name="2" package="texniccenter64" type="one-file">
@@ -49755,6 +49947,12 @@ if %err% neq 0 exit %err%&#13;
 </file>
   <url>https://dist.torproject.org/torbrowser/10.0.8/torbrowser-install-10.0.8_en-US.exe</url>
   <hash-sum type="SHA-256">99880a19b6fd3d6053d19499859577c8f966a92d06a46bf8b3253f6478889169</hash-sum>
+ </version>
+ <version name="10.0.9" package="tor64" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
+</file>
+  <url>https://dist.torproject.org/torbrowser/10.0.9/torbrowser-install-10.0.9_en-US.exe</url>
+  <hash-sum type="SHA-256">de2c048bf7c3492d1d873f2143dac8dd6c91a639e2a45baa799226f473ce206b</hash-sum>
  </version>
 
     <version name="2.84.9" package="transmission-qt64" type="one-file">
@@ -51028,6 +51226,18 @@ if %err% neq 0 exit /b %err%&#13;
    <variable>ncl</variable>
   </dependency>
  </version>
+ <version name="3.6.2165.34" package="vivaldi-browser-64" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" --vivaldi-standalone --do-not-launch-chrome --vivaldi-install-dir="%CD%" &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
+&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">"%ncl%\ncl.exe" remove-scp --title "vivaldi-browser-64"&#13;
+</file>
+  <url>https://downloads.vivaldi.com/stable/Vivaldi.3.6.2165.34.x64.exe</url>
+  <hash-sum type="SHA-256">e3112776d729ea9819fd26279ee740c9adb6bd30453cdfba14fcdc56ca6e70a9</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.24, 2)">
+   <variable>ncl</variable>
+  </dependency>
+ </version>
 
     <version name="15.0.2" package="vmware64" type="one-file">
   <file path=".Npackd\Install.bat">"%npackd_package_binary%" /a /s /v"/qn TARGETDIR=."&#13;
@@ -51499,6 +51709,19 @@ rmdir "%name%"&#13;
 </file>
   <url>https://github.com/xmake-io/xmake/releases/download/v2.3.9/xmake-v2.3.9.win64.zip</url>
   <hash-sum type="SHA-256">3ee3d14507dbf0eb1f10f52618b8d91290fef5363a9eeedd2763effd85495e98</hash-sum>
+ </version>
+ <version name="2.5.1" package="xmake64">
+  <cmd-file path="xmake.exe"/>
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b xmake*') do set name=%%x&#13;
+cd "%name%"&#13;
+for /f "delims=" %%a in ('dir /b') do (&#13;
+  move "%%a" ..&#13;
+)&#13;
+cd ..&#13;
+rmdir "%name%"&#13;
+</file>
+  <url>https://github.com/xmake-io/xmake/releases/download/v2.5.1/xmake-v2.5.1.win64.zip</url>
+  <hash-sum type="SHA-256">eb261176909e165cc5a500ec152a40ff633f47b2730a4da82d1e6aaa9b059c53</hash-sum>
  </version>
 
     <version name="3.18.1" package="yed64" type="one-file">
