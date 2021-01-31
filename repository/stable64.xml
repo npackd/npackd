@@ -2384,7 +2384,7 @@ x86_64</description>
  </package>
  <package name="org.7-zip.SevenZIP64">
   <title>7-ZIP 64 bit</title>
-  <url>http://www.7-zip.org</url>
+  <url>https://www.7-zip.org</url>
   <description>file archiver&#13;
 &#13;
 The main features of 7-Zip:&#13;
@@ -2412,7 +2412,7 @@ x86_64</description>
   <tag>auto-create-versions</tag>
   <tag>stable64</tag>
   <stars>14</stars>
-  <link href="http://www.7-zip.org/history.txt" rel="changelog"/>
+  <link href="https://www.7-zip.org/history.txt" rel="changelog"/>
   <link href="http://www.7-zip.org/7zfm.png" rel="screenshot"/>
  </package>
  <package name="org.apache.subversion.Subversion64">
@@ -43410,6 +43410,20 @@ call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Np
    <variable>nih</variable>
   </dependency>
  </version>
+ <version name="8.2.2427" package="org.vim.Vim64">
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+if %errorlevel% neq 0 exit /b %errorlevel%&#13;
+&#13;
+for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+</file>
+  <url>https://github.com/vim/vim-win32-installer/releases/download/v8.2.2427/gvim_8.2.2427_x64.zip</url>
+  <hash-sum type="SHA-256">d1c56891c045f38cd0d3b95f15bf7afe9677a37a82d83e7ab259bac3e3a0e279</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.19, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
 
     <version name="4.2.8.83876" package="org.virtualbox.virtualbox64" type="one-file">
   <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
@@ -45345,6 +45359,14 @@ if %err% neq 0 exit %err%</file>
 </file>
   <url>https://1.eu.dl.wireshark.org/win64/Wireshark-win64-3.4.2.exe</url>
   <hash-sum type="SHA-256">faa98f833e10b450c24e42a42292ff894c36b97aec526bf259796488888fd57c</hash-sum>
+ </version>
+ <version name="3.4.3" package="org.wireshark.Wireshark64" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD%&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">uninstall.exe /S _=%CD%&#13;
+</file>
+  <url>https://1.eu.dl.wireshark.org/win64/Wireshark-win64-3.4.3.exe</url>
+  <hash-sum type="SHA-256">3bb02427d9c29d7fc04bf011f2e4ebd4f23ebe68f275f51d4ae36ee167b6cb03</hash-sum>
  </version>
 
     <version name="1.0.81" package="otter-browser" type="one-file">
