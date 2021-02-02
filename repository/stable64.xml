@@ -12452,7 +12452,7 @@ del Q-Dir.ini&#13;
   <url>http://files.npackd.org/com.softwareok.QDir64-5.99.9.zip</url>
   <sha1>fb6060796fae3fc641ba34fe1f2f8530d7c985a8</sha1>
  </version>
- <version name="9.11" package="com.softwareok.QDir64">
+ <version name="9.12" package="com.softwareok.QDir64">
   <important-file path="Q-Dir.exe" title="Q-Dir"/>
   <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b Q*') do set name=%%x&#13;
 cd "%name%"        &#13;
@@ -16139,6 +16139,14 @@ if %err% neq 0 exit %err%&#13;
 </file>
   <url>http://dbeaver.jkiss.org/files/7.3.3/dbeaver-ce-7.3.3-x86_64-setup.exe</url>
   <hash-sum type="SHA-256">49ef9e92b63850f88b8a2200689ee94c24ebe2d486f8ff77aa213c03f0626c4b</hash-sum>
+ </version>
+ <version name="7.3.4" package="dbeaver64" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" /allusers /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">uninstall.exe /allusers /S _?=%CD%&#13;
+</file>
+  <url>http://dbeaver.jkiss.org/files/7.3.4/dbeaver-ce-7.3.4-x86_64-setup.exe</url>
+  <hash-sum type="SHA-256">190c47faca5b8e78aea93ee656a7358d8a6322c73ac43bdeea014681db5203ad</hash-sum>
  </version>
 
     <version name="0.825" package="dcplusplus64">
@@ -21546,7 +21554,7 @@ if %err% neq 0 exit %err%&#13;
 </file>
   <file path=".Npackd\Uninstall.bat">call "%nih%\UninstallInnoSetup.bat" unins000.exe&#13;
 </file>
-  <url>https://www.imagemagick.org/download/binaries/ImageMagick-7.0.10-61-Q16-HDRI-x64-dll.exe</url>
+  <url>https://github.com/tim-lebedkov/packages/releases/download/2021_02/imagemagick64-7.0.10.61-ImageMagick-7.0.10-61-Q16-HDRI-x64-dll.exe</url>
   <hash-sum type="SHA-256">68f5761cce29de35c4d62220b46f2b56cb044709eed471bbc93cb99da1209418</hash-sum>
   <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
    <variable>nih</variable>
@@ -29188,7 +29196,7 @@ WshShell.AppActivate("Uninstall");&#13;
 WScript.Sleep(10000);&#13;
 WshShell.SendKeys("{ESC}");&#13;
 </file>
-  <url>https://download.openmpt.org/archive/openmpt/1.29/OpenMPT-1.29.07.00-Setup-x64.exe</url>
+  <url>https://github.com/tim-lebedkov/packages/releases/download/2021_02/openmpt64-1.29.7-OpenMPT-1.29.07.00-Setup-x64.exe</url>
   <hash-sum type="SHA-256">560348bda97f16b3fc681f699927c58f8f43728ff146a9f5505d03ace40fa92d</hash-sum>
  </version>
 
@@ -36122,6 +36130,14 @@ ren "%setup%" Psycopg.exe&#13;
   <file path=".Npackd\Install.bat">call "%npackdih%\InstallMSI.bat" INSTALLDIR yes</file>
   <url>https://github.com/keepassxreboot/keepassxc/releases/download/2.6.3/KeePassXC-2.6.3-Win64.msi</url>
   <hash-sum type="SHA-256">4b7ee425400007f61783fc1d82a822f7ca79472caf9308d1712411facc5c6f3a</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.22, 2)">
+   <variable>npackdih</variable>
+  </dependency>
+ </version>
+ <version name="2.6.4" package="org.keepassxc.keepassxc" type="one-file">
+  <file path=".Npackd\Install.bat">call "%npackdih%\InstallMSI.bat" INSTALLDIR yes</file>
+  <url>https://github.com/keepassxreboot/keepassxc/releases/download/2.6.4/KeePassXC-2.6.4-Win64.msi</url>
+  <hash-sum type="SHA-256">5912aa09d1ffc35e12c6454ad156940f6440a2b9874e948c7315e79e84e709c0</hash-sum>
   <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.22, 2)">
    <variable>npackdih</variable>
   </dependency>
@@ -43459,6 +43475,20 @@ call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Np
 </file>
   <url>https://github.com/vim/vim-win32-installer/releases/download/v8.2.2434/gvim_8.2.2434_x64.zip</url>
   <hash-sum type="SHA-256">8f553aabcf7ad61510af85e66d241549b0c1ab883308782ec566ff6b0c65dd36</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.19, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
+ <version name="8.2.2445" package="org.vim.Vim64">
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+if %errorlevel% neq 0 exit /b %errorlevel%&#13;
+&#13;
+for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+</file>
+  <url>https://github.com/vim/vim-win32-installer/releases/download/v8.2.2445/gvim_8.2.2445_x64.zip</url>
+  <hash-sum type="SHA-256">88b508762a880c5341bd27e82b372041a12a72322aa36a1326919ee6482cabba</hash-sum>
   <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.19, 2)">
    <variable>nih</variable>
   </dependency>
