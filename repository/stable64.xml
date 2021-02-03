@@ -4275,6 +4275,14 @@ x86_64</description>
   <url>https://github.com/tim-lebedkov/packages/releases/download/2020_12/anki64-2.1.38-anki-2.1.38-windows.exe</url>
   <hash-sum type="SHA-256">960244cc4abeb95d94343e3748709d0d18d80fc63258c8839e60c82d836eb704</hash-sum>
  </version>
+ <version name="2.1.39" package="anki64" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD%&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">uninstall.exe /S&#13;
+</file>
+  <url>https://github.com/ankitects/anki/releases/download/2.1.39/anki-2.1.39-windows.exe</url>
+  <hash-sum type="SHA-256">568f8d3f8544e3f67c162a7803fb8b63dbb101dbe8dcd765a65e0995bf52534f</hash-sum>
+ </version>
 
     <version name="2.4.41" package="apache-httpd64">
   <url>https://github.com/tim-lebedkov/packages/releases/download/2020_04/apache-httpd64-2.4.41-httpd-2.4.41-o102s-x64-vc14-r2.zip</url>
@@ -15302,6 +15310,17 @@ if %err% neq 0 exit %err%&#13;
    <variable>nih</variable>
   </dependency>
  </version>
+ <version name="1.33.1" package="conan64" type="one-file">
+  <cmd-file path="conan\conan.exe"/>
+  <file path=".Npackd\Install.bat">"%nih%\InstallInnoSetup.bat"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">"%nih%\UninstallInnoSetup.bat" unins000.exe</file>
+  <url>https://github.com/conan-io/conan/releases/download/1.33.1/conan-win-64_1_33_1.exe</url>
+  <hash-sum type="SHA-256">24de5ae812f42b4b3049b0219642cb1ecccdf25c093f41ef448c368c3c665764</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
 
     <version name="1.0.3.62" package="cornplayer" type="one-file">
   <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
@@ -22813,6 +22832,15 @@ call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Np
 </file>
   <url>https://cdn.lwks.com/releases/2020.1.1/lightworks_2020.1.1_r124942_64bit_setup.exe</url>
   <hash-sum type="SHA-256">27d1f7ef922638a62fea38c7a1918d51a0e75c7408ab213835e1f09016f51b66</hash-sum>
+ </version>
+ <version name="2021.1" package="lightworks64" type="one-file">
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
+"%setup%" /S /D=%CD% &amp;&amp; del /f /q "%setup%"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">uninstall.exe /S _?=%CD%&#13;
+</file>
+  <url>https://cdn.lwks.com/releases/2021.1/lightworks_2021.1_r126716_64bit_setup.exe</url>
+  <hash-sum type="SHA-256">3a8007b452c06af52da3d447e5136b945bd20afa9d1a1972e76723260ad14dec</hash-sum>
  </version>
 
     <version name="37.3" package="liteide64">
@@ -43493,6 +43521,20 @@ call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Np
    <variable>nih</variable>
   </dependency>
  </version>
+ <version name="8.2.2451" package="org.vim.Vim64">
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+if %errorlevel% neq 0 exit /b %errorlevel%&#13;
+&#13;
+for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+</file>
+  <url>https://github.com/vim/vim-win32-installer/releases/download/v8.2.2451/gvim_8.2.2451_x64.zip</url>
+  <hash-sum type="SHA-256">4fcd7f9c1f609f3f0cf5f82086ec32f662fc8a17a507c2183e8dcafa2d63f2f7</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.19, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
 
     <version name="4.2.8.83876" package="org.virtualbox.virtualbox64" type="one-file">
   <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
@@ -45480,6 +45522,16 @@ echo DesktopShortcut=false &gt;&gt; .Npackd\FF.ini&#13;
   <url>http://relmirror.palemoon.org/release/palemoon-28.17.0.win64.installer.exe</url>
   <hash-sum type="SHA-256">f663dcbaaa8531271d89d6015bcb0effecc3f856e9378bf3685050ba6e1051f9</hash-sum>
  </version>
+ <version name="29" package="pale-moon64" type="one-file">
+  <file path=".Npackd\Install.bat">echo [Install] &gt; .Npackd\FF.ini&#13;
+echo InstallDirectoryPath=%CD% &gt;&gt; .Npackd\FF.ini&#13;
+echo QuickLaunchShortcut=false &gt;&gt; .Npackd\FF.ini&#13;
+echo DesktopShortcut=false &gt;&gt; .Npackd\FF.ini&#13;
+"%npackd_package_binary%" /INI="%CD%\.Npackd\FF.ini" &amp;&amp; del /f /q "%npackd_package_binary%"</file>
+  <file path=".Npackd\Uninstall.bat">uninstall\helper.exe /S</file>
+  <url>http://relmirror.palemoon.org/release/palemoon-29.0.0.win64.installer.exe</url>
+  <hash-sum type="SHA-256">4d180abf97dd3bca0e897224ecb765ab1ff1948d05e87232930d8a804fecd241</hash-sum>
+ </version>
 
     <version name="28.10" package="palemoon64" type="one-file">
   <file path=".Npackd\Install.bat">"%npackd_package_binary%"  -ms -ma &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
@@ -45554,6 +45606,17 @@ verify</file>
 </file>
   <url>https://rm-eu.palemoon.org/release/palemoon-28.17.0.win32.installer.exe</url>
   <hash-sum type="SHA-256">ea74da9bb029c8079ed437a3af1665f01c3c86259e5bb125faa6bfc7b2dec6d1</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.25, 2)">
+   <variable>ncl</variable>
+  </dependency>
+ </version>
+ <version name="29" package="palemoon64" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" -ms -ma &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">"%ncl%\ncl.exe" remove-scp --title "/Pale Moon/i"&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+</file>
+  <url>https://rm-eu.palemoon.org/release/palemoon-29.0.0.win32.installer.exe</url>
+  <hash-sum type="SHA-256">3b02a0ae18577965dd3933e1bc11e5db885c2dd3fcf8cfbb23c1af3af2c1c723</hash-sum>
   <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.25, 2)">
    <variable>ncl</variable>
   </dependency>
