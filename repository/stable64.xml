@@ -17280,6 +17280,17 @@ rmdir "%name%"&#13;
    <variable>ncl</variable>
   </dependency>
  </version>
+ <version name="8.31" package="explzh" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" /silent /q &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">"%ncl%\ncl.exe" remove-scp --title "/%npackd_package_name% %npackd_package_version%/i"&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+</file>
+  <url>https://www.ponsoftware.com/en/archiver/explzh/explz831_en.exe</url>
+  <hash-sum type="SHA-256">5bf691b229f86a5e6bf87af4567df1eb9418cc574a352ca519af53a5f949e30b</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.25, 2)">
+   <variable>ncl</variable>
+  </dependency>
+ </version>
 
     <version name="8.7" package="explzh64" type="one-file">
   <file path=".Npackd\Install.bat">"%npackd_package_binary%" &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
@@ -17442,6 +17453,17 @@ rmdir "%name%"&#13;
 </file>
   <url>https://www.ponsoftware.com/en/archiver/explzh/explz830_en_x64.exe</url>
   <hash-sum type="SHA-256">1cf2a8d8d764b802cbc5fb33bcab7d2d41d426fea97c0f56427707f597a51e6d</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.25, 2)">
+   <variable>ncl</variable>
+  </dependency>
+ </version>
+ <version name="8.31" package="explzh64" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" /silent /q &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">"%ncl%\ncl.exe" remove-scp --title "/%npackd_package_name% %npackd_package_version%/i"&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+</file>
+  <url>https://www.ponsoftware.com/en/archiver/explzh/explz831_en_x64.exe</url>
+  <hash-sum type="SHA-256">c60e74954850edcd163dd5ce7d8603cb595ad9d82f395e3513b0fd7b704bcbf3</hash-sum>
   <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.25, 2)">
    <variable>ncl</variable>
   </dependency>
@@ -28819,7 +28841,7 @@ verify&#13;
   </dependency>
  </version>
 
-    <version name="3.10.2" package="ocenaudio64" type="one-file">
+    <version name="3.10.3" package="ocenaudio64" type="one-file">
   <file path=".Npackd\Install.bat">"%npackd_package_binary%" /AllUsers /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
 </file>
   <file path=".Npackd\Uninstall.bat">"%ncl%\ncl" remove-scp --title "/ocenaudio.*/"</file>
@@ -45644,6 +45666,16 @@ echo DesktopShortcut=false &gt;&gt; .Npackd\FF.ini&#13;
   <url>http://relmirror.palemoon.org/release/palemoon-29.0.0.win64.installer.exe</url>
   <hash-sum type="SHA-256">4d180abf97dd3bca0e897224ecb765ab1ff1948d05e87232930d8a804fecd241</hash-sum>
  </version>
+ <version name="29.0.1" package="pale-moon64" type="one-file">
+  <file path=".Npackd\Install.bat">echo [Install] &gt; .Npackd\FF.ini&#13;
+echo InstallDirectoryPath=%CD% &gt;&gt; .Npackd\FF.ini&#13;
+echo QuickLaunchShortcut=false &gt;&gt; .Npackd\FF.ini&#13;
+echo DesktopShortcut=false &gt;&gt; .Npackd\FF.ini&#13;
+"%npackd_package_binary%" /INI="%CD%\.Npackd\FF.ini" &amp;&amp; del /f /q "%npackd_package_binary%"</file>
+  <file path=".Npackd\Uninstall.bat">uninstall\helper.exe /S</file>
+  <url>http://relmirror.palemoon.org/release/palemoon-29.0.1.win64.installer.exe</url>
+  <hash-sum type="SHA-256">cf228868378d16bb6dc31b4efa2c3591825db06eb01456bc5cac473a446c7f21</hash-sum>
+ </version>
 
     <version name="28.10" package="palemoon64" type="one-file">
   <file path=".Npackd\Install.bat">"%npackd_package_binary%"  -ms -ma &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
@@ -45729,6 +45761,17 @@ verify</file>
 </file>
   <url>https://rm-eu.palemoon.org/release/palemoon-29.0.0.win32.installer.exe</url>
   <hash-sum type="SHA-256">3b02a0ae18577965dd3933e1bc11e5db885c2dd3fcf8cfbb23c1af3af2c1c723</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.25, 2)">
+   <variable>ncl</variable>
+  </dependency>
+ </version>
+ <version name="29.0.1" package="palemoon64" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" -ms -ma &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">"%ncl%\ncl.exe" remove-scp --title "/Pale Moon/i"&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+</file>
+  <url>https://rm-eu.palemoon.org/release/palemoon-29.0.1.win32.installer.exe</url>
+  <hash-sum type="SHA-256">e2a6aa86a40a28b2898c28b9f6010d77f36ef9ad0ee661108f7c72f4791222df</hash-sum>
   <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.25, 2)">
    <variable>ncl</variable>
   </dependency>
@@ -51524,6 +51567,18 @@ if %err% neq 0 exit /b %err%&#13;
 </file>
   <url>https://downloads.vivaldi.com/stable/Vivaldi.3.6.2165.34.x64.exe</url>
   <hash-sum type="SHA-256">e3112776d729ea9819fd26279ee740c9adb6bd30453cdfba14fcdc56ca6e70a9</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.24, 2)">
+   <variable>ncl</variable>
+  </dependency>
+ </version>
+ <version name="3.6.2165.36" package="vivaldi-browser-64" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" --vivaldi-standalone --do-not-launch-chrome --vivaldi-install-dir="%CD%" &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
+&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">"%ncl%\ncl.exe" remove-scp --title "vivaldi-browser-64"&#13;
+</file>
+  <url>https://downloads.vivaldi.com/stable/Vivaldi.3.6.2165.36.x64.exe</url>
+  <hash-sum type="SHA-256">94268cb704ae2f464ad3644f757a72644eb76cb56374f759a5c63cf81fe12978</hash-sum>
   <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.24, 2)">
    <variable>ncl</variable>
   </dependency>
