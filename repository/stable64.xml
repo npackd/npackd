@@ -4283,6 +4283,14 @@ x86_64</description>
   <url>https://github.com/tim-lebedkov/packages/releases/download/2021_02/anki64-2.1.39-anki-2.1.39-windows.exe</url>
   <hash-sum type="SHA-256">568f8d3f8544e3f67c162a7803fb8b63dbb101dbe8dcd765a65e0995bf52534f</hash-sum>
  </version>
+ <version name="2.1.40" package="anki64" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD%&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">uninstall.exe /S&#13;
+</file>
+  <url>https://github.com/ankitects/anki/releases/download/2.1.40/anki-2.1.40-windows.exe</url>
+  <hash-sum type="SHA-256">5f24823235610f2a4a3555eada8a90dfcd0496bdb6ccf570b76f7699852a0b1a</hash-sum>
+ </version>
 
     <version name="2.4.41" package="apache-httpd64">
   <url>https://github.com/tim-lebedkov/packages/releases/download/2020_04/apache-httpd64-2.4.41-httpd-2.4.41-o102s-x64-vc14-r2.zip</url>
@@ -35926,6 +35934,40 @@ Set view = Nothing&#13;
    <variable>npackdih</variable>
   </dependency>
  </version>
+ <version name="1.15.8" package="org.golang.Go64" type="one-file">
+  <file path=".Npackd\Install.bat">.Npackd\AddProperty.vbs "%npackd_package_binary%"&#13;
+if %errorlevel% neq 0 exit %errorlevel%&#13;
+&#13;
+call "%npackdih%\InstallMSI.bat" INSTALLDIR</file>
+  <file path=".Npackd\Uninstall.bat">call "%npackdih%\UninstallMSI.bat"</file>
+  <file path=".Npackd\AddProperty.vbs">Option Explicit&#13;
+&#13;
+Dim MSI_FILE&#13;
+MSI_FILE = Wscript.Arguments(0)&#13;
+&#13;
+Dim installer, database, view&#13;
+&#13;
+Set installer = CreateObject("WindowsInstaller.Installer")&#13;
+Set database = installer.OpenDatabase(MSI_FILE, 1)&#13;
+&#13;
+Set view = database.OpenView("INSERT INTO Property (Property, Value) VALUES ('INSTALLDIR', 'C:\Go')")&#13;
+view.Execute&#13;
+'Set view = database.OpenView("DELETE FROM Directory WHERE Directory='TARGETDIR'")&#13;
+'view.Execute&#13;
+'Set view = database.OpenView("UPDATE Directory SET DefaultDir='INSTALLLOCATION' WHERE Directory='TARGETDIR'")&#13;
+'view.Execute&#13;
+database.Commit&#13;
+&#13;
+Set database = Nothing&#13;
+Set installer = Nothing&#13;
+Set view = Nothing&#13;
+</file>
+  <url>https://golang.org/dl/go1.15.8.windows-amd64.msi</url>
+  <hash-sum type="SHA-256">edc1bd458f090ac4823ec79181b350bd5446073b4432acaf2b326c85415d7daa</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1, 2)">
+   <variable>npackdih</variable>
+  </dependency>
+ </version>
 
     <version name="2.22.1" package="org.gtk.GTKPlusBundle64">
   <file path="etc\gtk-2.0\gtkrc">gtk-theme-name = "MS-Windows"</file>
@@ -39051,6 +39093,10 @@ if %err% neq 0 exit %err%&#13;
  <version name="20.11.28" package="org.shotcut.shotcut">
   <url>https://github.com/mltframework/shotcut/releases/download/v20.11.28/shotcut-win64-201128.zip</url>
   <hash-sum type="SHA-256">45cde8000364a9803776435918d7257aaf66fb5a848ee8d98ba55c395893ed9f</hash-sum>
+ </version>
+ <version name="21.1.29" package="org.shotcut.shotcut">
+  <url>https://github.com/mltframework/shotcut/releases/download/v21.01.29/shotcut-win64-210129.zip</url>
+  <hash-sum type="SHA-256">875db04ee31e2e8e04ba52e72d8a7468202836324f3a05d7ac91b1e62bfb9bf2</hash-sum>
  </version>
 
     <version name="4.4" package="org.sourceforge.ultradefrag.UltraDefrag64">
@@ -43665,6 +43711,20 @@ call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Np
 </file>
   <url>https://github.com/vim/vim-win32-installer/releases/download/v8.2.2466/gvim_8.2.2466_x64.zip</url>
   <hash-sum type="SHA-256">5c2a014bb71746532033e97d839876fcebb0cd08af06223536286763b661764d</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.19, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
+ <version name="8.2.2467" package="org.vim.Vim64">
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+if %errorlevel% neq 0 exit /b %errorlevel%&#13;
+&#13;
+for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+</file>
+  <url>https://github.com/vim/vim-win32-installer/releases/download/v8.2.2467/gvim_8.2.2467_x64.zip</url>
+  <hash-sum type="SHA-256">505c9c7ac1d9260b4fb615f2b557c08280908b3e9f4208a48d4e6fe82915073d</hash-sum>
   <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.19, 2)">
    <variable>nih</variable>
   </dependency>
@@ -48919,6 +48979,10 @@ rem Install4j&#13;
   <url>https://www.sqlite.org/2020/sqlite-dll-win64-x64-3340000.zip</url>
   <hash-sum type="SHA-256">c262ea98880c83a762a783e641aa5b076c54151085ba7c3177aa095d42a881d0</hash-sum>
  </version>
+ <version name="3.34.1" package="sqlite64">
+  <url>https://www.sqlite.org/2021/sqlite-dll-win64-x64-3340100.zip</url>
+  <hash-sum type="SHA-256">fc09503dcc2c7572d9c274c5318a8c260095a7cff31aacd1060d0f5712e138f3</hash-sum>
+ </version>
 
     <version name="10.50.1600.1" package="sqlncli64" type="one-file">
   <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.msi') do set setup=%%x&#13;
@@ -50286,6 +50350,12 @@ if %err% neq 0 exit %err%&#13;
 </file>
   <url>https://dist.torproject.org/torbrowser/10.0.10/torbrowser-install-10.0.10_en-US.exe</url>
   <hash-sum type="SHA-256">6cbd14a7232e4ae7f2718d9b7f377e1a7bb96506da21f1ac6f689a22fc5e53fe</hash-sum>
+ </version>
+ <version name="10.0.11" package="tor64" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
+</file>
+  <url>https://dist.torproject.org/torbrowser/10.0.11/torbrowser-install-10.0.11_en-US.exe</url>
+  <hash-sum type="SHA-256">bf51af3eb7e7597e5656c37c552142150a681ac1b2369babe7593ccbf8a873f8</hash-sum>
  </version>
 
     <version name="2.84.9" package="transmission-qt64" type="one-file">
