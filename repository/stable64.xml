@@ -4288,7 +4288,7 @@ x86_64</description>
 </file>
   <file path=".Npackd\Uninstall.bat">uninstall.exe /S&#13;
 </file>
-  <url>https://github.com/ankitects/anki/releases/download/2.1.40/anki-2.1.40-windows.exe</url>
+  <url>https://github.com/tim-lebedkov/packages/releases/download/2021_02/anki64-2.1.40-anki-2.1.40-windows.exe</url>
   <hash-sum type="SHA-256">5f24823235610f2a4a3555eada8a90dfcd0496bdb6ccf570b76f7699852a0b1a</hash-sum>
  </version>
 
@@ -21671,6 +21671,17 @@ if %err% neq 0 exit %err%&#13;
    <variable>nih</variable>
   </dependency>
  </version>
+ <version name="7.0.10.62" package="imagemagick64" type="one-file">
+  <file path=".Npackd\Install.bat">call "%nih%\InstallInnoSetup.bat"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">call "%nih%\UninstallInnoSetup.bat" unins000.exe&#13;
+</file>
+  <url>https://www.imagemagick.org/download/binaries/ImageMagick-7.0.10-62-Q16-HDRI-x64-dll.exe</url>
+  <hash-sum type="SHA-256">1b980c22bc73db9807a50f959fdae34ecd15f43492bc41647a022a31fabe0e3f</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
 
     <version name="0.3.8" package="io.mpv.mpv-64" type="one-file">
   <file path=".Npackd\Install.bat">for /f %%x in ('dir /b *.7z') do set setup=%%x&#13;
@@ -31046,6 +31057,21 @@ rmdir "%name%"
   <hash-sum type="SHA-256">331cf10d0ab443b411e2b3fb223672a8619a26b3852a31c33accb670d30435c2</hash-sum>
   <dependency package="com.oracle.JRE" versions="[1.5, 2)"/>
  </version>
+ <version name="7.0.108" package="org.apache.tomcat.Tomcat64">
+  <important-file path="bin\startup.bat" title="Start"/>
+  <important-file path="bin\shutdown.bat" title="Stop"/>
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b apache*') do set name=%%x
+cd "%name%"        
+for /f "delims=" %%a in ('dir /b') do (
+  move "%%a" ..
+)
+cd ..
+rmdir "%name%"
+</file>
+  <url>http://archive.apache.org/dist/tomcat/tomcat-7/v7.0.108/bin/apache-tomcat-7.0.108-windows-x64.zip</url>
+  <hash-sum type="SHA-256">66540c3f064f1385fe2855bce203c87500bdf543769cd6728da86f3a9e65359a</hash-sum>
+  <dependency package="com.oracle.JRE" versions="[1.5, 2)"/>
+ </version>
 
     <version name="7.2.10" package="org.areca-backup.ArecaBackup64">
   <important-file path="areca.exe" title="Areca"/>
@@ -31962,6 +31988,15 @@ if %err% neq 0 exit /b %err%&#13;
 </file>
   <url>https://www.mercurial-scm.org/release/tortoisehg/windows/tortoisehg-5.6.1-x64.msi</url>
   <hash-sum type="SHA-256">080a8935c97af52fc463844b0eba1c9a3ae17ab1c2b933679b9fd64fbfb69f68</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3.1, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
+ <version name="5.7" package="org.bitbucket.tortoisehg.TortoiseHg64" type="one-file">
+  <file path=".Npackd\Install.bat">call "%nih%\InstallMSI.bat" INSTALLDIR yes&#13;
+</file>
+  <url>https://www.mercurial-scm.org/release/tortoisehg/windows/tortoisehg-5.7.0-x64.msi</url>
+  <hash-sum type="SHA-256">7876fecdd0dfbf84cb956c1fcaa890167fa2a715389be650b36f4978ad4dd109</hash-sum>
   <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3.1, 2)">
    <variable>nih</variable>
   </dependency>
@@ -43725,6 +43760,20 @@ call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Np
 </file>
   <url>https://github.com/vim/vim-win32-installer/releases/download/v8.2.2467/gvim_8.2.2467_x64.zip</url>
   <hash-sum type="SHA-256">505c9c7ac1d9260b4fb615f2b557c08280908b3e9f4208a48d4e6fe82915073d</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.19, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
+ <version name="8.2.2486" package="org.vim.Vim64">
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+if %errorlevel% neq 0 exit /b %errorlevel%&#13;
+&#13;
+for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+</file>
+  <url>https://github.com/vim/vim-win32-installer/releases/download/v8.2.2486/gvim_8.2.2486_x64.zip</url>
+  <hash-sum type="SHA-256">9b3d31698735efcc969da97d5fa12cf2ed00c8c247436e7ede3319ccd34dd4ab</hash-sum>
   <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.19, 2)">
    <variable>nih</variable>
   </dependency>
