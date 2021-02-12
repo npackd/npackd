@@ -27826,6 +27826,15 @@ if %err% neq 0 exit /b %err%
    <variable>nih</variable>
   </dependency>
  </version>
+ <version name="1.14.1.29085" package="net.tortoisesvn.TortoiseSVN64" type="one-file">
+  <file path=".Npackd\Install.bat">call "%nih%\InstallMSI.bat" INSTALLDIR yes&#13;
+</file>
+  <url>http://rwthaachen.dl.osdn.jp/storage/g/t/to/tortoisesvn/1.14.1/Application/TortoiseSVN-1.14.1.29085-x64-svn-1.14.1.msi</url>
+  <hash-sum type="SHA-256">8a3b08ea8d87324c7d75f7ba07322a360bb70167a337a01a3470d27bcdbbd672</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3.1, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
 
     <version name="2.75" package="nircmd64">
   <url>http://files.npackd.org/nircmd64-2.75.zip</url>
@@ -43855,6 +43864,20 @@ call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Np
 </file>
   <url>https://github.com/vim/vim-win32-installer/releases/download/v8.2.2489/gvim_8.2.2489_x64.zip</url>
   <hash-sum type="SHA-256">93ce02c13b51f0a1e8b96cc454dfc1364d2027164df96cf565e24b73f556df74</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.19, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
+ <version name="8.2.2497" package="org.vim.Vim64">
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+if %errorlevel% neq 0 exit /b %errorlevel%&#13;
+&#13;
+for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+</file>
+  <url>https://github.com/vim/vim-win32-installer/releases/download/v8.2.2497/gvim_8.2.2497_x64.zip</url>
+  <hash-sum type="SHA-256">54b622f1878a6f288e6ae4b7bccdf21f4fd8237be377f75bcfea3511524042dc</hash-sum>
   <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.19, 2)">
    <variable>nih</variable>
   </dependency>
