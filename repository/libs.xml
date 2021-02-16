@@ -1696,6 +1696,25 @@ rmdir "%name%"</file>
   </dependency>
   <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.15.7, 2)"/>
  </version>
+ <version name="6.0.1" package="com.nokia.QtSource" type="one-file">
+  <file path=".Npackd\Install.bat">for /f %%x in ('dir /b *.zip') do set setup=%%x&#13;
+"%sevenzipa%\7za.exe" x "%setup%" &gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+del "%setup%"&#13;
+&#13;
+for /f "delims=" %%x in ('dir /b qt*') do set name=%%x&#13;
+cd "%name%"        &#13;
+for /f "delims=" %%a in ('dir /b') do (&#13;
+  move "%%a" ..&#13;
+)&#13;
+cd ..&#13;
+rmdir "%name%"</file>
+  <url>https://download.qt.io/archive/qt/6.0/6.0.1/single/qt-everywhere-src-6.0.1.zip</url>
+  <hash-sum type="SHA-256">9a4be8ae674f9fb816b872c57b24c30cc6b58d16671c16b29fb4ba3260805026</hash-sum>
+  <dependency package="org.7-zip.SevenZIPA" versions="[9.20, 20)">
+   <variable>sevenzipa</variable>
+  </dependency>
+  <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.15.7, 2)"/>
+ </version>
 
     <version name="2.0.12" package="log4net">
   <url>https://downloads.apache.org/logging/log4net/binaries/apache-log4net-binaries-2.0.12.zip</url>
@@ -3101,6 +3120,10 @@ call "%npackdih%\InstallMSI.bat" INSTALLDIR yes&#13;
  <version name="3.13" package="org.nunit.NUnit">
   <url>https://github.com/nunit/nunit/releases/download/v3.13/NUnit.Framework-3.13.0.zip</url>
   <hash-sum type="SHA-256">a0333efd81b9ec2a69556670acf4809ca4962e62dcf2b4f6bd6684fdaffb9515</hash-sum>
+ </version>
+ <version name="3.13.1" package="org.nunit.NUnit">
+  <url>https://github.com/nunit/nunit/releases/download/v3.13.1/NUnit.Framework-3.13.1.zip</url>
+  <hash-sum type="SHA-256">f41aa6df8cb0b58902f0a823d8ce4f1ce5d0104e3707a43392ec5b08fb259ad2</hash-sum>
  </version>
 
     <version name="1.2.7" package="org.xapian.XapianCore" type="one-file">
