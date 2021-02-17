@@ -5142,6 +5142,20 @@ if %errorlevel% neq 0 exit /b %errorlevel%&#13;
   <url>https://www.cmake.org/files/v3.19/cmake-3.19.4-win64-x64.zip</url>
   <hash-sum type="SHA-256">24b03daf75ce59b542da38c829fe6944d3bf7cf99afaa8225cf29f7876823899</hash-sum>
  </version>
+ <version name="3.19.5" package="cmake64">
+  <cmd-file path="bin\cmake.exe"/>
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b cmake*') do set name=%%x&#13;
+cd "%name%"        &#13;
+for /f "delims=" %%a in ('dir /b') do (&#13;
+  move "%%a" ..&#13;
+)&#13;
+cd ..&#13;
+rmdir "%name%"&#13;
+if %errorlevel% neq 0 exit /b %errorlevel%&#13;
+</file>
+  <url>https://www.cmake.org/files/v3.19/cmake-3.19.5-win64-x64.zip</url>
+  <hash-sum type="SHA-256">e2e12729ac43fb4702aedede0383601ea0d63b75d22f892f944d32749da123fd</hash-sum>
+ </version>
 
     <version name="5.26.3.2603" package="com.activestate.ActivePerl64" type="one-file">
   <file path=".Npackd\Install.bat">"%npackd_package_binary%" /quiet TARGETDIR="%cd%" PERL_PATH=Yes PERL_EXT=Yes</file>
@@ -13351,6 +13365,16 @@ if %err% neq 0 exit /b %err%&#13;
    <variable>ncl</variable>
   </dependency>
  </version>
+ <version name="2.3.13" package="com.twinery.twine64" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">"%ncl%\ncl" remove-scp --title "/Twine %npackd_package_version%/i"&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt</file>
+  <url>https://github.com/klembot/twinejs/releases/download/2.3.13/twine_2.3.13_win.exe</url>
+  <hash-sum type="SHA-256">dfc17d2d276ad9c1decca1d2cd799c7f2d8341de141da06c00312c79b9869d9b</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.25, 2)">
+   <variable>ncl</variable>
+  </dependency>
+ </version>
 
     <version name="1.0.9.6" package="com.uvnc.UltraVNC64">
   <important-file path="winvnc.exe" title="UltraVNC Server"/>
@@ -20601,6 +20625,19 @@ rmdir "%name%"&#13;
 </file>
   <url>https://dl.google.com/dl/cloudsdk/channels/rapid/downloads/google-cloud-sdk-327.0.0-windows-x86_64.zip</url>
   <hash-sum type="SHA-256">dee03be3aae1d4091b4e013838f57fe86faf1675bd953bd18de63e27e2f137bd</hash-sum>
+  <dependency package="org.python.Python" versions="[2.7, 2.8)"/>
+ </version>
+ <version name="328" package="google-cloud-sdk64">
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b google-cloud-sdk*') do set name=%%x&#13;
+cd "%name%"&#13;
+for /f "delims=" %%a in ('dir /b') do (&#13;
+  move "%%a" ..&#13;
+)&#13;
+cd ..&#13;
+rmdir "%name%"&#13;
+</file>
+  <url>https://dl.google.com/dl/cloudsdk/channels/rapid/downloads/google-cloud-sdk-328.0.0-windows-x86_64.zip</url>
+  <hash-sum type="SHA-256">44be44430de210a1aefb890bc92d4267bce931f65f652ee7cd5040db82f54417</hash-sum>
   <dependency package="org.python.Python" versions="[2.7, 2.8)"/>
  </version>
 
@@ -29006,7 +29043,7 @@ mkdir %trash%&#13;
 move NppShell*.dll %trash%&#13;
 verify&#13;
 		</file>
-  <url>https://github.com/notepad-plus-plus/notepad-plus-plus/releases/download/v7.9.3/npp.7.9.3.Installer.x64.exe</url>
+  <url>https://github.com/tim-lebedkov/packages/releases/download/2021_02/notepadpp64-7.9.3-npp.7.9.3.Installer.x64.exe</url>
   <hash-sum type="SHA-256">942a5fa284df6018aec19110b0d9e68742194bfd44dd984b515adf103d99775a</hash-sum>
  </version>
 
@@ -44065,6 +44102,20 @@ call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Np
 </file>
   <url>https://github.com/vim/vim-win32-installer/releases/download/v8.2.2517/gvim_8.2.2517_x64.zip</url>
   <hash-sum type="SHA-256">d4591a0c8f3e81f13c8445fb7e9d81c9f2c2dc06920c396882e762b9581c8c7e</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.19, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
+ <version name="8.2.2519" package="org.vim.Vim64">
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+if %errorlevel% neq 0 exit /b %errorlevel%&#13;
+&#13;
+for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+</file>
+  <url>https://github.com/vim/vim-win32-installer/releases/download/v8.2.2519/gvim_8.2.2519_x64.zip</url>
+  <hash-sum type="SHA-256">f07c1987f8929091d0874282ab965c13018bb13b7ed334a05862a13e4ff3df4f</hash-sum>
   <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.19, 2)">
    <variable>nih</variable>
   </dependency>
