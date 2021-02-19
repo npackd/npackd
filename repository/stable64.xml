@@ -1132,6 +1132,20 @@ x86_64</description>
   <category>Photo</category>
   <tag>stable64</tag>
  </package>
+ <package name="eiskaltdcpp-64-bit">
+  <title>EiskaltDC++ 64 bit</title>
+  <url>https://github.com/eiskaltdcpp/eiskaltdcpp</url>
+  <description>file sharing program using Direct Connect protocols. It is compatible with DC++, AirDC++, FlylinkDC++ and other DC clients. EiskaltDC++ also interoperates with all common DC hub software.
+x86_64</description>
+  <icon>https://lh3.googleusercontent.com/-xBecpARj_uo/UQIYAPyg3RI/AAAAAAAAABg/kOhtN5oNDU0/s800/eiskaltdc%252B%252B_32.png</icon>
+  <license>org.gnu.GPLv3</license>
+  <category>Communications</category>
+  <tag>stable64</tag>
+  <stars>1</stars>
+  <link href="https://github.com/eiskaltdcpp/eiskaltdcpp/blob/master/ChangeLog.txt" rel="changelog"/>
+  <link href="https://tehnick.github.io/eiskaltdcpp/eiskaltdcpp-qt-2.2.10-588_search_widget.png" rel="screenshot"/>
+  <link href="https://github.com/eiskaltdcpp/eiskaltdcpp/issues" rel="issues"/>
+ </package>
  <package name="emacs64">
   <title>Emacs 64 bit</title>
   <url>http://www.gnu.org/software/emacs/</url>
@@ -1437,7 +1451,7 @@ x86_64</description>
   <category>Communications</category>
   <tag>same-url</tag>
   <tag>stable64</tag>
-  <stars>12</stars>
+  <stars>13</stars>
  </package>
  <package name="google-cloud-sdk64">
   <title>Google Cloud SDK 64 bit</title>
@@ -2411,7 +2425,7 @@ x86_64</description>
   <category>Tools</category>
   <tag>auto-create-versions</tag>
   <tag>stable64</tag>
-  <stars>14</stars>
+  <stars>15</stars>
   <link href="https://www.7-zip.org/history.txt" rel="changelog"/>
   <link href="http://www.7-zip.org/7zfm.png" rel="screenshot"/>
  </package>
@@ -3056,6 +3070,21 @@ x86_64</description>
   <tag>end-of-life</tag>
   <tag>stable64</tag>
   <stars>1</stars>
+ </package>
+ <package name="psi-plus-64-bit">
+  <title>Psi+ 64 bit</title>
+  <url>https://psi-plus.com/</url>
+  <description>cross-platform powerful XMPP client designed for experienced users
+x86_64</description>
+  <icon>https://raw.githubusercontent.com/psi-plus/psi-plus-snapshots/master/iconsets/system/default/psiplus/logo_64.png</icon>
+  <license>org.gnu.GPLv2</license>
+  <category>Communications</category>
+  <tag>stable64</tag>
+  <stars>1</stars>
+  <link href="https://psi-plus.com/wi/psiplus_screen_orange_win_big.png" rel="screenshot"/>
+  <link href="https://psi-plus.com/wi/psiplus_screen_sky_win_big.png" rel="screenshot"/>
+  <link href="https://psi-plus.com/wi/psiplus_screen_neoncat_win_big.png" rel="screenshot"/>
+  <link href="https://github.com/psi-im/psi/issues" rel="issues"/>
  </package>
  <package name="ptsminer">
   <title>PTS miner</title>
@@ -16634,7 +16663,14 @@ rmdir "%name%"&#13;
   </dependency>
  </version>
 
-    
+    <version name="2.4.1" package="eiskaltdcpp-64-bit" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">uninstall.exe /S _?=%CD%&#13;
+</file>
+  <url>https://sourceforge.net/projects/eiskaltdcpp/files/Windows/EiskaltDC%2B%2B-2.4.1-x86_64-installer.exe</url>
+  <hash-sum type="SHA-256">ebf28d6d22a3ebe61f56d025d685960570e8ff529289e6bfbeafe407cec1a0bf</hash-sum>
+ </version>
 
     <version name="25.1" package="emacs64">
   <important-file path="bin\runemacs.exe" title="Emacs"/>
@@ -23350,6 +23386,16 @@ if %err% neq 0 exit %err%&#13;
   <file path=".Npackd\Uninstall.bat">"%nih%\UninstallInnoSetup.bat" unins000.exe</file>
   <url>https://medibangpaint.com/static/installer/MediBangPaintPro/MediBangPaintProSetup-26.0-64bit.exe</url>
   <hash-sum type="SHA-256">f5cdefe01977dae3d79980b51658f5c1d6574cfa2a9c9cf9de1a1a6efcfd8df3</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
+ <version name="26.1" package="medibang-paint64" type="one-file">
+  <file path=".Npackd\Install.bat">"%nih%\InstallInnoSetup.bat"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">"%nih%\UninstallInnoSetup.bat" unins000.exe</file>
+  <url>https://medibangpaint.com/static/installer/MediBangPaintPro/MediBangPaintProSetup-26.1-64bit.exe</url>
+  <hash-sum type="SHA-256">b59a21f53593b629e06a0b6d322a0d49d5f9936352e8a6addf62816ee942e80a</hash-sum>
   <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
    <variable>nih</variable>
   </dependency>
@@ -37562,6 +37608,15 @@ rmdir "%name%"&#13;
    <variable>nih</variable>
   </dependency>
  </version>
+ <version name="4.4.4" package="org.mongodb.MongoDB64" type="one-file">
+  <file path=".Npackd\Install.bat">call "%nih%\InstallMSI.bat" INSTALLDIR yes&#13;
+</file>
+  <url>https://fastdl.mongodb.org/windows/mongodb-windows-x86_64-4.4.4-signed.msi</url>
+  <hash-sum type="SHA-256">170eda3fb648ade8350a5bb0f1ffa367d81b020ea18e6e9e28107a77fff0d340</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.1, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
 
     <version name="0.8.1" package="org.nodejs.NodeJS64" type="one-file">
   <file path=".Npackd\AddProperty.vbs">Option Explicit&#13;
@@ -44171,6 +44226,20 @@ call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Np
    <variable>nih</variable>
   </dependency>
  </version>
+ <version name="8.2.2529" package="org.vim.Vim64">
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+if %errorlevel% neq 0 exit /b %errorlevel%&#13;
+&#13;
+for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+</file>
+  <url>https://github.com/vim/vim-win32-installer/releases/download/v8.2.2529/gvim_8.2.2529_x64.zip</url>
+  <hash-sum type="SHA-256">220132c58e2437194891342e150ecfa6bde1e8165e18c8503eab394d571f7535</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.19, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
 
     <version name="4.2.8.83876" package="org.virtualbox.virtualbox64" type="one-file">
   <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
@@ -46927,6 +46996,16 @@ setup.exe &amp;&amp; del /f /q setup.exe&#13;
   <important-file path="xolominer64.exe" title="Primerminer 64 bits"/>
   <url>https://sourceforge.net/projects/npackd/files/Primeminer/Primeminer-1.1.1.zip</url>
   <sha1>6dcdbbbb0767127922f94211dd4e1d765bc1e869</sha1>
+ </version>
+
+    <version name="1.5.1472" package="psi-plus-64-bit" type="one-file">
+  <file path=".Npackd\Install.bat">"%sevenzipa%\7za.exe" x "%npackd_package_binary%" &gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt &amp;&amp; del /f /q "%setup%"&#13;
+</file>
+  <url>https://sourceforge.net/projects/psiplus/files/Windows/Personal-Builds/tehnick/psi-plus-portable-1.5.1472_win7_x86_64.7z</url>
+  <hash-sum type="SHA-256">ddea43a293862db294e6bb6765d275d19eb0849c68f51a5c56469a546110ee7f</hash-sum>
+  <dependency package="org.7-zip.SevenZIPA" versions="[9.20, 20)">
+   <variable>sevenzipa</variable>
+  </dependency>
  </version>
 
     <version name="0.7" package="ptsminer">
