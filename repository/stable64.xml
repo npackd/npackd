@@ -3071,7 +3071,7 @@ x86_64</description>
   <tag>stable64</tag>
   <stars>1</stars>
  </package>
- <package name="psi-plus-64-bit">
+ <package name="psi-plus64">
   <title>Psi+ 64 bit</title>
   <url>https://psi-plus.com/</url>
   <description>cross-platform powerful XMPP client designed for experienced users
@@ -12539,7 +12539,7 @@ del Q-Dir.ini&#13;
   <url>http://files.npackd.org/com.softwareok.QDir64-5.99.9.zip</url>
   <sha1>fb6060796fae3fc641ba34fe1f2f8530d7c985a8</sha1>
  </version>
- <version name="9.17" package="com.softwareok.QDir64">
+ <version name="9.18" package="com.softwareok.QDir64">
   <important-file path="Q-Dir_x64.exe" title="Q-Dir"/>
   <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b Q*') do set name=%%x&#13;
 cd "%name%"        &#13;
@@ -16576,6 +16576,24 @@ rmdir "%name%"&#13;
    <variable>sevenzipa</variable>
   </dependency>
  </version>
+ <version name="0.9.3" package="drmingw64" type="one-file">
+  <file path=".Npackd\Install.bat">"%sevenzipa%\7za.exe" x "%npackd_package_binary%" &gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt &amp;&amp; del /f /q "%setup%"&#13;
+if %errorlevel% neq 0 exit /b %errorlevel%&#13;
+&#13;
+for /f "delims=" %%x in ('dir /b drmingw*') do set name=%%x&#13;
+cd "%name%"        &#13;
+for /f "delims=" %%a in ('dir /b') do (&#13;
+  move "%%a" ..&#13;
+)&#13;
+cd ..&#13;
+rmdir "%name%"&#13;
+</file>
+  <url>https://github.com/jrfonseca/drmingw/releases/download/0.9.3/drmingw-0.9.3-win64.7z</url>
+  <hash-sum type="SHA-256">abf891115a63c089e1767ca8ea93bbec676485ff37918a6a8fd57b7b05561087</hash-sum>
+  <dependency package="org.7-zip.SevenZIPA" versions="[9.20, 20)">
+   <variable>sevenzipa</variable>
+  </dependency>
+ </version>
 
     <version name="6.3.1" package="droidcam" type="one-file">
   <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
@@ -17402,6 +17420,17 @@ rmdir "%name%"&#13;
    <variable>ncl</variable>
   </dependency>
  </version>
+ <version name="8.33" package="explzh" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" /silent /q &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">"%ncl%\ncl.exe" remove-scp --title "/%npackd_package_name% %npackd_package_version%/i"&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+</file>
+  <url>https://www.ponsoftware.com/en/archiver/explzh/explz833_en.exe</url>
+  <hash-sum type="SHA-256">44054fe93440af9b64c3ac94c96e1f2147d9c4bf3849b977d384a742db35abcb</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.25, 2)">
+   <variable>ncl</variable>
+  </dependency>
+ </version>
 
     <version name="8.7" package="explzh64" type="one-file">
   <file path=".Npackd\Install.bat">"%npackd_package_binary%" &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
@@ -17586,6 +17615,17 @@ rmdir "%name%"&#13;
 </file>
   <url>https://www.ponsoftware.com/en/archiver/explzh/explz832_en_x64.exe</url>
   <hash-sum type="SHA-256">b1ff49b0fcab8d1e669284d55031bd54d316017e0b4d3e1ed8b38718b5061d3d</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.25, 2)">
+   <variable>ncl</variable>
+  </dependency>
+ </version>
+ <version name="8.33" package="explzh64" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" /silent /q &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">"%ncl%\ncl.exe" remove-scp --title "/%npackd_package_name% %npackd_package_version%/i"&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+</file>
+  <url>https://www.ponsoftware.com/en/archiver/explzh/explz833_en_x64.exe</url>
+  <hash-sum type="SHA-256">f279acc51c16cbcf92e9c766d33038f3872d287a7a7692ad93bdc35089993078</hash-sum>
   <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.25, 2)">
    <variable>ncl</variable>
   </dependency>
@@ -21866,6 +21906,17 @@ if %err% neq 0 exit %err%&#13;
 </file>
   <url>https://github.com/tim-lebedkov/packages/releases/download/2021_02/imagemagick64-7.0.11-ImageMagick-7.0.11-0-Q16-HDRI-x64-dll.exe</url>
   <hash-sum type="SHA-256">4e221af68608882cfa5eaaefc648e5772105756fb7686929d89d41a559bd2030</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
+ <version name="7.0.11.1" package="imagemagick64" type="one-file">
+  <file path=".Npackd\Install.bat">call "%nih%\InstallInnoSetup.bat"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">call "%nih%\UninstallInnoSetup.bat" unins000.exe&#13;
+</file>
+  <url>https://www.imagemagick.org/download/binaries/ImageMagick-7.0.11-1-Q16-HDRI-x64-dll.exe</url>
+  <hash-sum type="SHA-256">f62da62d5d48d25222503222dac90fa601f3e120e794e74b3bcef713545f0e53</hash-sum>
   <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
    <variable>nih</variable>
   </dependency>
@@ -44287,6 +44338,20 @@ call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Np
    <variable>nih</variable>
   </dependency>
  </version>
+ <version name="8.2.2536" package="org.vim.Vim64">
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+if %errorlevel% neq 0 exit /b %errorlevel%&#13;
+&#13;
+for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+</file>
+  <url>https://github.com/vim/vim-win32-installer/releases/download/v8.2.2536/gvim_8.2.2536_x64.zip</url>
+  <hash-sum type="SHA-256">0613ae312d68d2fb9a44503d8320993c9189b95afea82b7efc6fb7534f63768b</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.19, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
 
     <version name="4.2.8.83876" package="org.virtualbox.virtualbox64" type="one-file">
   <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
@@ -47045,13 +47110,29 @@ setup.exe &amp;&amp; del /f /q setup.exe&#13;
   <sha1>6dcdbbbb0767127922f94211dd4e1d765bc1e869</sha1>
  </version>
 
-    <version name="1.5.1472" package="psi-plus-64-bit" type="one-file">
+    <version name="1.5.1472" package="psi-plus64" type="one-file">
+  <important-file path="psi-plus.exe" title="Psi+"/>
+  <important-file path="psi-plus-webkit.exe" title="Psi+ WebKit"/>
   <file path=".Npackd\Install.bat">"%sevenzipa%\7za.exe" x "%npackd_package_binary%" &gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt &amp;&amp; del /f /q "%setup%"&#13;
+if %errorlevel% neq 0 exit /b %errorlevel%&#13;
+&#13;
+for /f "delims=" %%x in ('dir /b psi-plus*') do set name=%%x&#13;
+"%clu%\clu" unwrap-dir -p "%name%"&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+if %errorlevel% neq 0 exit /b %errorlevel%&#13;
+&#13;
+ren psi-plus-portable.exe psi-plus.exe&#13;
+if %errorlevel% neq 0 exit /b %errorlevel%&#13;
+&#13;
+ren psi-plus-webkit-portable.exe psi-plus-webkit.exe&#13;
+if %errorlevel% neq 0 exit /b %errorlevel%&#13;
 </file>
   <url>https://sourceforge.net/projects/psiplus/files/Windows/Personal-Builds/tehnick/psi-plus-portable-1.5.1472_win7_x86_64.7z</url>
   <hash-sum type="SHA-256">ddea43a293862db294e6bb6765d275d19eb0849c68f51a5c56469a546110ee7f</hash-sum>
   <dependency package="org.7-zip.SevenZIPA" versions="[9.20, 20)">
    <variable>sevenzipa</variable>
+  </dependency>
+  <dependency package="com.googlecode.windows-package-manager.CLU" versions="[1.25, 2)">
+   <variable>clu</variable>
   </dependency>
  </version>
 
