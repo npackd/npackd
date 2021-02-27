@@ -8249,6 +8249,15 @@ call "%npackdih%\InstallMSI.bat" APPLICATIONFOLDER yes&#13;
    <variable>npackdih</variable>
   </dependency>
  </version>
+ <version name="5.12" package="com.calibreebook.Calibre64" type="one-file">
+  <file path=".Npackd\Install.bat">call "%npackdih%\InstallMSI.bat" APPLICATIONFOLDER yes&#13;
+</file>
+  <url>https://download.calibre-ebook.com/5.12.0/calibre-64bit-5.12.0.msi</url>
+  <hash-sum type="SHA-256">841777fe9762d0fbc960b6613bfa1fff368b23110141ca3310a365bd736cd47a</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.2, 2)">
+   <variable>npackdih</variable>
+  </dependency>
+ </version>
 
     <version name="5.12.256249.2599" package="com.comodo.comodoav64" type="one-file">
   <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.msi') do set setup=%%x&#13;
@@ -12561,7 +12570,7 @@ del Q-Dir.ini&#13;
   <url>http://files.npackd.org/com.softwareok.QDir64-5.99.9.zip</url>
   <sha1>fb6060796fae3fc641ba34fe1f2f8530d7c985a8</sha1>
  </version>
- <version name="9.18" package="com.softwareok.QDir64">
+ <version name="9.21" package="com.softwareok.QDir64">
   <important-file path="Q-Dir_x64.exe" title="Q-Dir"/>
   <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b Q*') do set name=%%x&#13;
 cd "%name%"        &#13;
@@ -15428,6 +15437,17 @@ if %err% neq 0 exit %err%&#13;
   <file path=".Npackd\Uninstall.bat">"%nih%\UninstallInnoSetup.bat" unins000.exe</file>
   <url>https://github.com/conan-io/conan/releases/download/1.33.1/conan-win-64_1_33_1.exe</url>
   <hash-sum type="SHA-256">24de5ae812f42b4b3049b0219642cb1ecccdf25c093f41ef448c368c3c665764</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
+ <version name="1.34" package="conan64" type="one-file">
+  <cmd-file path="conan\conan.exe"/>
+  <file path=".Npackd\Install.bat">"%nih%\InstallInnoSetup.bat"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">"%nih%\UninstallInnoSetup.bat" unins000.exe</file>
+  <url>https://github.com/conan-io/conan/releases/download/1.34.0/conan-win-64_1_34_0.exe</url>
+  <hash-sum type="SHA-256">170afc58ee3011bb608c545838213e8bea7c8d0a8956fda09a6a92f30c5a81b7</hash-sum>
   <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
    <variable>nih</variable>
   </dependency>
@@ -21364,6 +21384,30 @@ if %err% neq 0 exit %err%</file>
   </dependency>
   <dependency package="com.microsoft.DotNetRedistributable" versions="[3.5, 4)"/>
  </version>
+ <version name="6.2.0.2992" package="ie.heidi.eraser.eraser64" type="one-file">
+  <file path=".Npackd\Install.bat">for /f "delims=" %%y in ('dir /b *.exe') do set setup=%%y&#13;
+"%sevenzipa%\7za.exe" x "%setup%" -aos&#13;
+dir&#13;
+&#13;
+msiexec.exe /qn /norestart /lime .Npackd\MSI.log /i "Eraser (x64).msi" ALLUSERS=1&#13;
+set err=%errorlevel%&#13;
+type .Npackd\MSI.log&#13;
+rem 3010=restart required&#13;
+if %err% equ 3010 exit 0&#13;
+if %err% neq 0 exit %err%</file>
+  <file path=".Npackd\Uninstall.bat">msiexec.exe /qn /norestart /lime .Npackd\MSI.log /x "Eraser (x64).msi"&#13;
+set err=%errorlevel%&#13;
+type .Npackd\MSI.log&#13;
+rem 3010=restart required&#13;
+if %err% equ 3010 exit 0&#13;
+if %err% neq 0 exit %err%</file>
+  <url>http://downloads.sourceforge.net/project/eraser/Eraser%206/6.2/Eraser%206.2.0.2992.exe</url>
+  <hash-sum type="SHA-256">ac33f037fc548bae5b287668a625009e5b11f6424babf742a2532458b55380f6</hash-sum>
+  <dependency package="org.7-zip.SevenZIPA" versions="[9.20, 20)">
+   <variable>sevenzipa</variable>
+  </dependency>
+  <dependency package="com.microsoft.DotNetRedistributable" versions="[3.5, 4)"/>
+ </version>
 
     <version name="7.6.4.30" package="imageglass" type="one-file">
   <file path=".Npackd\Install.bat">call "%nih%\InstallMSI.bat" INSTALLDIR yes&#13;
@@ -25552,6 +25596,14 @@ rmdir "%name%"&#13;
 </file>
   <url>http://multicommander.com/files/updates/MultiCommander_x64_(10.2.2745).exe</url>
   <hash-sum type="SHA-256">7b0c7a8c05c32fa2be81aec2d4ab12a607197076489c6a8f37e2b91b3530a9cc</hash-sum>
+ </version>
+ <version name="11.0.2770" package="multi-commander64" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">"Uninstall MultiCommander.exe" /S _?=%CD%&#13;
+</file>
+  <url>http://multicommander.com/files/updates/MultiCommander_x64_(11.0.2770).exe</url>
+  <hash-sum type="SHA-256">39f1221bcb51934d4de04a10d37c4d45cc79f945754c363947ee8e60491d8cbc</hash-sum>
  </version>
 
     <version name="3.1" package="musescore64" type="one-file">
@@ -32963,6 +33015,17 @@ rmdir "%name%"&#13;
   </dependency>
   <dependency package="com.microsoft.VisualCPPRedistributable64" versions="[9, 10)"/>
  </version>
+ <version name="2.92" package="org.blender.Blender64">
+  <important-file path="blender.exe" title="Blender"/>
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b blender*') do set name=%%x&#13;
+"%NIH%\ExtractDir.bat" "%name%"</file>
+  <url>https://download.blender.org/release/Blender2.92/blender-2.92.0-windows64.zip</url>
+  <hash-sum type="SHA-256">5ea980be32819e7cf68ecc53ee117aa1ad7da3cb191c8ff3ff3d776574aa3eb8</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
+   <variable>NIH</variable>
+  </dependency>
+  <dependency package="com.microsoft.VisualCPPRedistributable64" versions="[9, 10)"/>
+ </version>
 
     <version name="1.0.3.8" package="org.bluemars.ClipX64" type="one-file">
   <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x
@@ -34181,6 +34244,15 @@ verify&#13;
 </file>
   <url>http://downloads.sourceforge.net/project/lazarus/Lazarus%20Windows%2064%20bits/Lazarus%202.0.10/lazarus-2.0.10-fpc-3.2.0-win64.exe</url>
   <hash-sum type="SHA-256">1c0f9080123c7e44dc4e760f2d19fa315edf372a517bb385d069efdc6d4f5217</hash-sum>
+ </version>
+ <version name="2.0.12" package="org.freepascal.lazarus.Lazarus64" type="one-file">
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
+&#13;
+"%setup%" /SP- /VERYSILENT /SUPPRESSMSGBOXES /NOCANCEL /NORESTART /DIR="%CD%\Prog" /SAVEINF="%CD%\.Npackd\InnoSetupInfo.ini"</file>
+  <file path=".Npackd\Uninstall.bat">Prog\unins000.exe /VERYSILENT /SUPPRESSMSGBOXES /NORESTART&#13;
+</file>
+  <url>http://downloads.sourceforge.net/project/lazarus/Lazarus%20Windows%2064%20bits/Lazarus%202.0.12/lazarus-2.0.12-fpc-3.2.0-win64.exe</url>
+  <hash-sum type="SHA-256">303971550ae5370bdad4e5dac673ef3c8f9b438f3b7010d255b9772f89629314</hash-sum>
  </version>
 
     <version name="7.1.90" package="org.gnu.GDB64">
@@ -48269,6 +48341,17 @@ if %errorlevel% equ 3010 verify</file>
 </file>
   <url>http://download.qt-project.org/official_releases/qtcreator/4.14/4.14.0/qt-creator-opensource-windows-x86_64-4.14.0.exe</url>
   <hash-sum type="SHA-256">eeb959ee29a497e67abed45b3cd6309bc4ff2f2db4e088ec59f1d0d40e35481b</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.24, 2)">
+   <variable>ncl</variable>
+  </dependency>
+ </version>
+ <version name="4.14.1" package="qt-creator64" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD%&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">"%ncl%\ncl.exe" remove-scp --title "/Qt Creator.*/"&#13;
+</file>
+  <url>http://download.qt-project.org/official_releases/qtcreator/4.14/4.14.1/qt-creator-opensource-windows-x86_64-4.14.1.exe</url>
+  <hash-sum type="SHA-256">3cd16d7bc54b40210bc50da18141f6cc8778fda2585c9dc6bdd7c289f66b1615</hash-sum>
   <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.24, 2)">
    <variable>ncl</variable>
   </dependency>
