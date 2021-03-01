@@ -17473,6 +17473,17 @@ rmdir "%name%"&#13;
    <variable>ncl</variable>
   </dependency>
  </version>
+ <version name="8.34" package="explzh" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" /silent /q &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">"%ncl%\ncl.exe" remove-scp --title "/%npackd_package_name% %npackd_package_version%/i"&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+</file>
+  <url>https://www.ponsoftware.com/en/archiver/explzh/explz834_en.exe</url>
+  <hash-sum type="SHA-256">d2f8bfce88d98918bde5d0bd48c8996aa4e7d383d9b795a1cb20a3a774b2f633</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.25, 2)">
+   <variable>ncl</variable>
+  </dependency>
+ </version>
 
     <version name="8.7" package="explzh64" type="one-file">
   <file path=".Npackd\Install.bat">"%npackd_package_binary%" &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
@@ -17668,6 +17679,17 @@ rmdir "%name%"&#13;
 </file>
   <url>https://www.ponsoftware.com/en/archiver/explzh/explz833_en_x64.exe</url>
   <hash-sum type="SHA-256">f279acc51c16cbcf92e9c766d33038f3872d287a7a7692ad93bdc35089993078</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.25, 2)">
+   <variable>ncl</variable>
+  </dependency>
+ </version>
+ <version name="8.34" package="explzh64" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" /silent /q &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">"%ncl%\ncl.exe" remove-scp --title "/%npackd_package_name% %npackd_package_version%/i"&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+</file>
+  <url>https://www.ponsoftware.com/en/archiver/explzh/explz834_en_x64.exe</url>
+  <hash-sum type="SHA-256">bb4c8bd70feff4f28d20cea835c8924ab2194ddf9d1318d921d454938ae2c727</hash-sum>
   <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.25, 2)">
    <variable>ncl</variable>
   </dependency>
@@ -22011,6 +22033,17 @@ if %err% neq 0 exit %err%&#13;
 </file>
   <url>https://github.com/tim-lebedkov/packages/releases/download/2021_02/imagemagick64-7.0.11.1-ImageMagick-7.0.11-1-Q16-HDRI-x64-dll.exe</url>
   <hash-sum type="SHA-256">f62da62d5d48d25222503222dac90fa601f3e120e794e74b3bcef713545f0e53</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
+ <version name="7.0.11.2" package="imagemagick64" type="one-file">
+  <file path=".Npackd\Install.bat">call "%nih%\InstallInnoSetup.bat"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">call "%nih%\UninstallInnoSetup.bat" unins000.exe&#13;
+</file>
+  <url>https://www.imagemagick.org/download/binaries/ImageMagick-7.0.11-2-Q16-HDRI-x64-dll.exe</url>
+  <hash-sum type="SHA-256">b9f92ddddac6a612b4e966585e06ff8124a42b508883d28876490901e2f95877</hash-sum>
   <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
    <variable>nih</variable>
   </dependency>
@@ -26676,6 +26709,17 @@ verify&#13;
 </file>
   <url>https://sourceforge.net/projects/ditto-cp/files/Ditto/3.23.124.0/DittoSetup_64bit_3_23_124_0.exe</url>
   <hash-sum type="SHA-256">94b514f74d54fe77074c99cabedcecf2a671a4ec8ad0c0463627c9969b7265ef</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
+ <version name="3.24.184" package="net.sourceforge.dittocp.Ditto64" type="one-file">
+  <file path=".Npackd\Install.bat">call "%nih%\InstallInnoSetup.bat"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">call "%nih%\UninstallInnoSetup.bat" unins000.exe&#13;
+</file>
+  <url>https://sourceforge.net/projects/ditto-cp/files/Ditto/3.24.184.0/DittoSetup_64bit_3_24_184_0.exe</url>
+  <hash-sum type="SHA-256">f20f47db3c4591262bbe94449643fdb432ee3e425d5f2791ec2e01ce9575c9d2</hash-sum>
   <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
    <variable>nih</variable>
   </dependency>
@@ -39712,6 +39756,10 @@ if %err% neq 0 exit %err%&#13;
   <url>https://github.com/mltframework/shotcut/releases/download/v21.01.29/shotcut-win64-210129.zip</url>
   <hash-sum type="SHA-256">875db04ee31e2e8e04ba52e72d8a7468202836324f3a05d7ac91b1e62bfb9bf2</hash-sum>
  </version>
+ <version name="21.2.27" package="org.shotcut.shotcut">
+  <url>https://github.com/mltframework/shotcut/releases/download/v21.02.27/shotcut-win64-210227.zip</url>
+  <hash-sum type="SHA-256">216b3720d044ab7a9eb9e07fabf416d56e95b69dab4d2d95f2d61b972855644b</hash-sum>
+ </version>
 
     <version name="4.4" package="org.sourceforge.ultradefrag.UltraDefrag64">
   <important-file path="ultradefrag.exe" title="UltraDefrag"/>
@@ -44591,6 +44639,20 @@ call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Np
 </file>
   <url>https://github.com/vim/vim-win32-installer/releases/download/v8.2.2553/gvim_8.2.2553_x64.zip</url>
   <hash-sum type="SHA-256">cb24b5df40914ccc88cd3147e64d69ef812fb6d335d196ce62360ab19b9fd655</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.19, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
+ <version name="8.2.2557" package="org.vim.Vim64">
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+if %errorlevel% neq 0 exit /b %errorlevel%&#13;
+&#13;
+for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+</file>
+  <url>https://github.com/vim/vim-win32-installer/releases/download/v8.2.2557/gvim_8.2.2557_x64.zip</url>
+  <hash-sum type="SHA-256">87b92552f88a7f6370039961a4569c437c8dcfabaa263ef100d4e1b588f30fd3</hash-sum>
   <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.19, 2)">
    <variable>nih</variable>
   </dependency>
@@ -53091,6 +53153,19 @@ rmdir "%name%"&#13;
 </file>
   <url>https://github.com/xmake-io/xmake/releases/download/v2.5.1/xmake-v2.5.1.win64.zip</url>
   <hash-sum type="SHA-256">eb261176909e165cc5a500ec152a40ff633f47b2730a4da82d1e6aaa9b059c53</hash-sum>
+ </version>
+ <version name="2.5.2" package="xmake64">
+  <cmd-file path="xmake.exe"/>
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b xmake*') do set name=%%x&#13;
+cd "%name%"&#13;
+for /f "delims=" %%a in ('dir /b') do (&#13;
+  move "%%a" ..&#13;
+)&#13;
+cd ..&#13;
+rmdir "%name%"&#13;
+</file>
+  <url>https://github.com/xmake-io/xmake/releases/download/v2.5.2/xmake-v2.5.2.win64.zip</url>
+  <hash-sum type="SHA-256">149ea0a588e43474787ef31c497bfc9f480c05705ece45726c32a6a4b09f3a5c</hash-sum>
  </version>
 
     <version name="3.18.1" package="yed64" type="one-file">
