@@ -16306,6 +16306,14 @@ if %err% neq 0 exit %err%&#13;
   <url>http://dbeaver.jkiss.org/files/7.3.5/dbeaver-ce-7.3.5-x86_64-setup.exe</url>
   <hash-sum type="SHA-256">0ed676e656a1c2ff1b0a0233475af9045c94038a9c851cf6d490e6eb3f2dfb1d</hash-sum>
  </version>
+ <version name="21" package="dbeaver64" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" /allusers /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">uninstall.exe /allusers /S _?=%CD%&#13;
+</file>
+  <url>http://dbeaver.jkiss.org/files/21.0.0/dbeaver-ce-21.0.0-x86_64-setup.exe</url>
+  <hash-sum type="SHA-256">280af1feb31edf19e2b8aa35c5ba4dcd025688d93884a6ee0f40dee2baa8f3c7</hash-sum>
+ </version>
 
     <version name="0.825" package="dcplusplus64">
   <important-file path="DCPlusPlus.exe" title="DC++"/>
@@ -20954,7 +20962,7 @@ verify&#13;
   <url>http://files.npackd.org/hashmyfiles64/hashmyfiles64-2.10.zip</url>
   <sha1>8848020689233adeffe2f4299085eb533e1495d5</sha1>
  </version>
- <version name="2.37" package="hashmyfiles64">
+ <version name="2.38" package="hashmyfiles64">
   <important-file path="HashMyFiles.exe" title="HashMyFiles"/>
   <url>http://www.nirsoft.net/utils/hashmyfiles-x64.zip</url>
  </version>
@@ -22042,7 +22050,7 @@ if %err% neq 0 exit %err%&#13;
 </file>
   <file path=".Npackd\Uninstall.bat">call "%nih%\UninstallInnoSetup.bat" unins000.exe&#13;
 </file>
-  <url>https://www.imagemagick.org/download/binaries/ImageMagick-7.0.11-2-Q16-HDRI-x64-dll.exe</url>
+  <url>https://github.com/tim-lebedkov/packages/releases/download/2021_03/imagemagick64-7.0.11.2-ImageMagick-7.0.11-2-Q16-HDRI-x64-dll.exe</url>
   <hash-sum type="SHA-256">b9f92ddddac6a612b4e966585e06ff8124a42b508883d28876490901e2f95877</hash-sum>
   <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
    <variable>nih</variable>
@@ -23272,6 +23280,19 @@ call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Np
 </file>
   <url>https://github.com/ldc-developers/ldc/releases/download/v1.25.0/ldc2-1.25.0-windows-x64.7z</url>
   <hash-sum type="SHA-256">61cf6f83a52ec3b4a7f19f827e80ac80cf0aab1bdecd2dba8753513ac1d67ddd</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.19, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
+ <version name="1.25.1" package="ldc64" type="one-file">
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.7z') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+&#13;
+for /f "delims=" %%x in ('dir /b ldc*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+</file>
+  <url>https://github.com/ldc-developers/ldc/releases/download/v1.25.1/ldc2-1.25.1-windows-x64.7z</url>
+  <hash-sum type="SHA-256">849d473ba5a769cb19978bd0cca5925d72b72f5f33a6b4ebb76f69c4ad459d62</hash-sum>
   <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.19, 2)">
    <variable>nih</variable>
   </dependency>
@@ -44653,6 +44674,20 @@ call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Np
 </file>
   <url>https://github.com/vim/vim-win32-installer/releases/download/v8.2.2557/gvim_8.2.2557_x64.zip</url>
   <hash-sum type="SHA-256">87b92552f88a7f6370039961a4569c437c8dcfabaa263ef100d4e1b588f30fd3</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.19, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
+ <version name="8.2.2559" package="org.vim.Vim64">
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+if %errorlevel% neq 0 exit /b %errorlevel%&#13;
+&#13;
+for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+</file>
+  <url>https://github.com/vim/vim-win32-installer/releases/download/v8.2.2559/gvim_8.2.2559_x64.zip</url>
+  <hash-sum type="SHA-256">2d6b6e74997fdc839c80fea1e0fd984959d554698d8ffd497cc1e57f8cb47772</hash-sum>
   <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.19, 2)">
    <variable>nih</variable>
   </dependency>
