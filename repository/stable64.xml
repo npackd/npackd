@@ -16743,6 +16743,14 @@ rmdir "%name%"&#13;
   <url>https://sourceforge.net/projects/eiskaltdcpp/files/Windows/EiskaltDC%2B%2B-2.4.1-x86_64-installer.exe</url>
   <hash-sum type="SHA-256">ebf28d6d22a3ebe61f56d025d685960570e8ff529289e6bfbeafe407cec1a0bf</hash-sum>
  </version>
+ <version name="2.4.2" package="eiskaltdcpp-64-bit" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">uninstall.exe /S _?=%CD%&#13;
+</file>
+  <url>https://sourceforge.net/projects/eiskaltdcpp/files/Windows/EiskaltDC%2B%2B-2.4.2-x86_64-installer.exe</url>
+  <hash-sum type="SHA-256">5e81640b88bda1c4d6689c894ce5c8ea2c14a03ede4553c44fefcb0e421dc4d6</hash-sum>
+ </version>
 
     <version name="25.1" package="emacs64">
   <important-file path="bin\runemacs.exe" title="Emacs"/>
@@ -19800,7 +19808,7 @@ if %err% neq 0 exit %err%&#13;
   <hash-sum type="SHA-256">951c16d730bb70a8acc1af5d44d8d00ce828316b664253163f64667d026d7e67</hash-sum>
  </version>
 
-    <version name="88.0.4324.190" package="google-chrome-x64" type="one-file">
+    <version name="89.0.4389.72" package="google-chrome-x64" type="one-file">
   <file path=".Npackd\Install.bat">call "%npackdih%\InstallMSI.bat" TARGETDIR yes&#13;
 </file>
   <url>https://dl.google.com/tag/s/appguid%3D%7B8A69D345-D564-463C-AFF1-A69D9E530F96%7D%26iid%3D%7B0A558A36-0536-8B3F-0AE0-420553CC97F3%7D%26lang%3Den%26browser%3D4%26usagestats%3D0%26appname%3DGoogle%2520Chrome%26needsadmin%3DFalse/edgedl/chrome/install/GoogleChromeStandaloneEnterprise64.msi</url>
@@ -44733,6 +44741,20 @@ call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Np
    <variable>nih</variable>
   </dependency>
  </version>
+ <version name="8.2.2562" package="org.vim.Vim64">
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+if %errorlevel% neq 0 exit /b %errorlevel%&#13;
+&#13;
+for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+</file>
+  <url>https://github.com/vim/vim-win32-installer/releases/download/v8.2.2562/gvim_8.2.2562_x64.zip</url>
+  <hash-sum type="SHA-256">c4ec92c0b578f1696874fd7e534dd00c1d2c784c66a8b9a901ad6d14a664ea73</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.19, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
 
     <version name="4.2.8.83876" package="org.virtualbox.virtualbox64" type="one-file">
   <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
@@ -47943,7 +47965,7 @@ verify</file>
  <version name="3.26" package="qcad64" type="one-file">
   <file path=".Npackd\Install.bat">call "%nih%\InstallMSI.bat" INSTALLDIR yes&#13;
 </file>
-  <url>http://www.qcad.org/archives/qcad/qcad-3.26.0-trial-win64-installer.msi</url>
+  <url>https://github.com/tim-lebedkov/packages/releases/download/2021_03/qcad64-3.26-qcad-3.26.0-trial-win64-installer.msi</url>
   <hash-sum type="SHA-256">12c98f5558951e4d1ee8fd210cfed01e61bab0e9c49d0625e9e8869d56fc999b</hash-sum>
   <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.1, 2)">
    <variable>nih</variable>
