@@ -1305,6 +1305,20 @@ x86_64</description>
   <link href="https://developer.mozilla.org/en-US/Firefox/Releases" rel="changelog"/>
   <link href="https://www.mozilla.org/media/img/firefox/developer/page-image.5c2b5c5ce10a.png" rel="screenshot"/>
  </package>
+ <package name="firefox-esr64">
+  <title>Firefox ESR 64 Bit</title>
+  <url>https://www.mozilla.org/en-US/firefox/organizations/all.html</url>
+  <description>web browser&#13;
+&#13;
+This package installs Firefox in English. You can add languages after the installation by navigating to https://addons.mozilla.org/de/firefox/language-tools/ .&#13;
+&#13;
+kw: Mozilla
+x86_64</description>
+  <icon>https://lh5.googleusercontent.com/-fiLdJPeoq90/UcqWcTrNzmI/AAAAAAAACQs/2O0Dm0H6dlE/s800/firefox.png</icon>
+  <license>com.mozilla.MozillaFirefoxLicense2</license>
+  <category>Communications</category>
+  <tag>stable64</tag>
+ </package>
  <package name="firefox64">
   <title>Firefox 64 bit</title>
   <url>https://www.mozilla.com/en-US/firefox/new/</url>
@@ -18223,6 +18237,18 @@ verify</file>
   <hash-sum type="SHA-256">0c23ac4e0b69fa2f9ee4b0089d2b00b65239306159328ba4b83ba04b384e95da</hash-sum>
  </version>
 
+    <version name="78.8" package="firefox-esr64" type="one-file">
+  <file path=".Npackd\Install.bat">echo [Install] &gt; .Npackd\FF.ini&#13;
+echo InstallDirectoryPath=%CD% &gt;&gt; .Npackd\FF.ini&#13;
+echo QuickLaunchShortcut=false &gt;&gt; .Npackd\FF.ini&#13;
+echo DesktopShortcut=false &gt;&gt; .Npackd\FF.ini&#13;
+"%npackd_package_binary%" /INI="%CD%\.Npackd\FF.ini" &amp;&amp; del /f /q "%npackd_package_binary%"</file>
+  <file path=".Npackd\Uninstall.bat">uninstall\helper.exe /S&#13;
+verify</file>
+  <url>https://download-origin.cdn.mozilla.net/pub/mozilla.org/firefox/releases/78.8.0esr/win64/en-US/Firefox%20Setup%2078.8.0esr.exe</url>
+  <hash-sum type="SHA-256">cf9e4278d38dc7665c4877dedcd5eb869206619a8f7eebe7dece0a3eb490790e</hash-sum>
+ </version>
+
     <version name="43" package="firefox64" type="one-file">
   <file path=".Npackd\Install.bat">echo [Install] &gt; .Npackd\FF.ini&#13;
 echo InstallDirectoryPath=%CD% &gt;&gt; .Npackd\FF.ini&#13;
@@ -23345,7 +23371,7 @@ call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Np
  </version>
  <version name="7.1.1" package="libreoffice64" type="one-file">
   <file path=".Npackd\Install.bat">call "%npackdih%\InstallMSI.bat" INSTALLLOCATION yes</file>
-  <url>https://download.documentfoundation.org/libreoffice/stable/7.1.1/win/x86_64/LibreOffice_7.1.1_Win_x64.msi</url>
+  <url>https://github.com/tim-lebedkov/packages/releases/download/2021_03/libreoffice64-7.1.1-LibreOffice_7.1.1_Win_x64.msi</url>
   <hash-sum type="SHA-256">f009bf6551b926ef48362798b8c79ad7803bec2a27a3cd7b8a04420c0e51364f</hash-sum>
   <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.1, 2)">
    <variable>npackdih</variable>
@@ -44777,6 +44803,20 @@ call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Np
    <variable>nih</variable>
   </dependency>
  </version>
+ <version name="8.2.2569" package="org.vim.Vim64">
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+if %errorlevel% neq 0 exit /b %errorlevel%&#13;
+&#13;
+for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+</file>
+  <url>https://github.com/vim/vim-win32-installer/releases/download/v8.2.2569/gvim_8.2.2569_x64.zip</url>
+  <hash-sum type="SHA-256">c517f28db263bb2afae78ff1a615e4302c75f70c226f95b6f4790b21d1b0d8a2</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.19, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
 
     <version name="4.2.8.83876" package="org.virtualbox.virtualbox64" type="one-file">
   <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
@@ -52891,7 +52931,7 @@ if %err% neq 0 exit %err%&#13;
   <url>https://az764295.vo.msecnd.net/stable/a0479759d6e9ea56afa657e454193f72aef85bd0/VSCodeSetup-ia32-1.48.2.exe</url>
   <hash-sum type="SHA-256">013d5ecdb44159c15047472512bef9c76ba934807dbb07a582655f4c5546866d</hash-sum>
  </version>
- <version name="1.53" package="vs-code" type="one-file">
+ <version name="1.54" package="vs-code" type="one-file">
   <file path=".Npackd\Install.bat">ren "%npackd_package_binary%" setup.exe&#13;
 setup.exe /SP- /VERYSILENT /SUPPRESSMSGBOXES /NOCANCEL /NORESTART /DIR="%CD%" /SAVEINF="%CD%\.Npackd\InnoSetupInfo.ini" /LOG="%CD%\.Npackd\InnoSetupInstall.log"&#13;
 set err=%errorlevel%&#13;
@@ -52966,7 +53006,7 @@ if %err% neq 0 exit %err%&#13;
   <url>https://az764295.vo.msecnd.net/stable/a0479759d6e9ea56afa657e454193f72aef85bd0/VSCodeSetup-x64-1.48.2.exe</url>
   <hash-sum type="SHA-256">3f8805a29fdd9fbfd7c0d7a9f354ed160256ec6f1f80410e367bf14f37908afb</hash-sum>
  </version>
- <version name="1.53" package="vs-code64" type="one-file">
+ <version name="1.54" package="vs-code64" type="one-file">
   <file path=".Npackd\Install.bat">ren "%npackd_package_binary%" setup.exe&#13;
 setup.exe /SP- /VERYSILENT /SUPPRESSMSGBOXES /NOCANCEL /NORESTART /DIR="%CD%" /SAVEINF="%CD%\.Npackd\InnoSetupInfo.ini" /LOG="%CD%\.Npackd\InnoSetupInstall.log"&#13;
 set err=%errorlevel%&#13;
