@@ -4354,6 +4354,14 @@ x86_64</description>
   <url>https://github.com/tim-lebedkov/packages/releases/download/2021_02/anki64-2.1.40-anki-2.1.40-windows.exe</url>
   <hash-sum type="SHA-256">5f24823235610f2a4a3555eada8a90dfcd0496bdb6ccf570b76f7699852a0b1a</hash-sum>
  </version>
+ <version name="2.1.41" package="anki64" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD%&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">uninstall.exe /S&#13;
+</file>
+  <url>https://github.com/ankitects/anki/releases/download/2.1.41/anki-2.1.41-windows.exe</url>
+  <hash-sum type="SHA-256">4e1bdc17cfa5ea9b4d255a3b5f766bb682f7b376e6f7942b10835f761e9e2173</hash-sum>
+ </version>
 
     <version name="2.4.41" package="apache-httpd64">
   <url>https://github.com/tim-lebedkov/packages/releases/download/2020_04/apache-httpd64-2.4.41-httpd-2.4.41-o102s-x64-vc14-r2.zip</url>
@@ -5026,6 +5034,13 @@ call "%nih%\InstallInnoSetup.bat"&#13;
   <file path=".Npackd\Uninstall.bat">claws-mail-uninstall.exe /S _?=%CD%</file>
   <url>http://www.claws-mail.org//win32/claws-mail-3.15.0-1-64bit.exe</url>
   <sha1>fd5b3481ec60c4a3d8cdad1e4e7978a075a34587</sha1>
+ </version>
+ <version name="3.17.8.1" package="claws-mail64" type="one-file">
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
+"%setup%" /S /D=%CD% &amp;&amp; del /f /q "%setup%"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">claws-mail-uninstall.exe /S _?=%CD%</file>
+  <url>http://www.claws-mail.org//win32/claws-mail-3.15.0-1-64bit.exe</url>
  </version>
 
     <version name="1.36" package="cliqz" type="one-file">
@@ -22112,6 +22127,17 @@ if %err% neq 0 exit %err%&#13;
 </file>
   <url>https://github.com/tim-lebedkov/packages/releases/download/2021_03/imagemagick64-7.0.11.2-ImageMagick-7.0.11-2-Q16-HDRI-x64-dll.exe</url>
   <hash-sum type="SHA-256">b9f92ddddac6a612b4e966585e06ff8124a42b508883d28876490901e2f95877</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
+ <version name="7.0.11.3" package="imagemagick64" type="one-file">
+  <file path=".Npackd\Install.bat">call "%nih%\InstallInnoSetup.bat"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">call "%nih%\UninstallInnoSetup.bat" unins000.exe&#13;
+</file>
+  <url>https://www.imagemagick.org/download/binaries/ImageMagick-7.0.11-3-Q16-HDRI-x64-dll.exe</url>
+  <hash-sum type="SHA-256">e12b040d3297b73091b9b7326096ab0e1975d7cdb935aeaaa7cf7e4f447de129</hash-sum>
   <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
    <variable>nih</variable>
   </dependency>
@@ -44840,6 +44866,20 @@ call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Np
 </file>
   <url>https://github.com/vim/vim-win32-installer/releases/download/v8.2.2572/gvim_8.2.2572_x64.zip</url>
   <hash-sum type="SHA-256">f3ee0d90d524e1a02a9079f34a39456104020136040d5ef62a2db5939405e4ae</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.19, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
+ <version name="8.2.2576" package="org.vim.Vim64">
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+if %errorlevel% neq 0 exit /b %errorlevel%&#13;
+&#13;
+for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+</file>
+  <url>https://github.com/vim/vim-win32-installer/releases/download/v8.2.2576/gvim_8.2.2576_x64.zip</url>
+  <hash-sum type="SHA-256">5aa8a2d9da09e31575ae6f8d7dcb64db5fb801eb91a884f34f73e31af1f49805</hash-sum>
   <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.19, 2)">
    <variable>nih</variable>
   </dependency>
