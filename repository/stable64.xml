@@ -875,7 +875,7 @@ x86_64</description>
   <category>Tools/File Managers</category>
   <tag>same-url</tag>
   <tag>stable64</tag>
-  <stars>1</stars>
+  <stars>2</stars>
   <link href="http://www.softwareok.com/img/ss/g_en/Q-Dir1.jpg" rel="screenshot"/>
  </package>
  <package name="com.strawberryperl.StrawberryPerl64">
@@ -4359,7 +4359,7 @@ x86_64</description>
 </file>
   <file path=".Npackd\Uninstall.bat">uninstall.exe /S&#13;
 </file>
-  <url>https://github.com/ankitects/anki/releases/download/2.1.41/anki-2.1.41-windows.exe</url>
+  <url>https://github.com/tim-lebedkov/packages/releases/download/2021_03/anki64-2.1.41-anki-2.1.41-windows.exe</url>
   <hash-sum type="SHA-256">4e1bdc17cfa5ea9b4d255a3b5f766bb682f7b376e6f7942b10835f761e9e2173</hash-sum>
  </version>
 
@@ -22136,7 +22136,7 @@ if %err% neq 0 exit %err%&#13;
 </file>
   <file path=".Npackd\Uninstall.bat">call "%nih%\UninstallInnoSetup.bat" unins000.exe&#13;
 </file>
-  <url>https://www.imagemagick.org/download/binaries/ImageMagick-7.0.11-3-Q16-HDRI-x64-dll.exe</url>
+  <url>https://github.com/tim-lebedkov/packages/releases/download/2021_03/imagemagick64-7.0.11.3-ImageMagick-7.0.11-3-Q16-HDRI-x64-dll.exe</url>
   <hash-sum type="SHA-256">e12b040d3297b73091b9b7326096ab0e1975d7cdb935aeaaa7cf7e4f447de129</hash-sum>
   <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
    <variable>nih</variable>
@@ -47525,6 +47525,16 @@ call "%npackdih%\InstallMSI.bat" TARGETDIR yes</file>
    <variable>npackdih</variable>
   </dependency>
  </version>
+ <version name="4.2.3" package="pdfsam64" type="one-file">
+  <file path=".Npackd\Install.bat">rem un-installation tries to remove .Npackd and fails =&gt; 2 to install the program somewhere else&#13;
+call "%npackdih%\InstallMSI.bat" TARGETDIR yes</file>
+  <url>https://github.com/torakiki/pdfsam/releases/download/v4.2.3/pdfsam-4.2.3.msi</url>
+  <hash-sum type="SHA-256">b56ec2231bee641e34378f1e9def462ebf9aac27cacd93e16207dec54a032e4b</hash-sum>
+  <dependency package="com.oracle.JRE64" versions="[1.6.0.23, 2)"/>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.1, 2)">
+   <variable>npackdih</variable>
+  </dependency>
+ </version>
 
     <version name="3.2" package="persepolis64" type="one-file">
   <file path=".Npackd\Install.bat">"%nih%\InstallInnoSetup.bat"&#13;
@@ -48096,6 +48106,15 @@ verify</file>
 </file>
   <url>https://github.com/tim-lebedkov/packages/releases/download/2021_03/qcad64-3.26-qcad-3.26.0-trial-win64-installer.msi</url>
   <hash-sum type="SHA-256">12c98f5558951e4d1ee8fd210cfed01e61bab0e9c49d0625e9e8869d56fc999b</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.1, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
+ <version name="3.26.1" package="qcad64" type="one-file">
+  <file path=".Npackd\Install.bat">call "%nih%\InstallMSI.bat" INSTALLDIR yes&#13;
+</file>
+  <url>http://www.qcad.org/archives/qcad/qcad-3.26.1-trial-win64-installer.msi</url>
+  <hash-sum type="SHA-256">17ec4695e1558a56fa02ab6545025b967d04493bbae0ce95e123527823834030</hash-sum>
   <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.1, 2)">
    <variable>nih</variable>
   </dependency>
