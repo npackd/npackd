@@ -17599,6 +17599,17 @@ rmdir "%name%"&#13;
    <variable>ncl</variable>
   </dependency>
  </version>
+ <version name="8.35" package="explzh" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" /silent /q &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">"%ncl%\ncl.exe" remove-scp --title "/%npackd_package_name% %npackd_package_version%/i"&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+</file>
+  <url>https://www.ponsoftware.com/en/archiver/explzh/explz835_en.exe</url>
+  <hash-sum type="SHA-256">7b7cc0ca47de20522cf09655dc6f2dfd02042b242901d9e9b9be3276641ecb42</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.25, 2)">
+   <variable>ncl</variable>
+  </dependency>
+ </version>
 
     <version name="8.7" package="explzh64" type="one-file">
   <file path=".Npackd\Install.bat">"%npackd_package_binary%" &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
@@ -17805,6 +17816,17 @@ rmdir "%name%"&#13;
 </file>
   <url>https://www.ponsoftware.com/en/archiver/explzh/explz834_en_x64.exe</url>
   <hash-sum type="SHA-256">bb4c8bd70feff4f28d20cea835c8924ab2194ddf9d1318d921d454938ae2c727</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.25, 2)">
+   <variable>ncl</variable>
+  </dependency>
+ </version>
+ <version name="8.35" package="explzh64" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" /silent /q &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">"%ncl%\ncl.exe" remove-scp --title "/%npackd_package_name% %npackd_package_version%/i"&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+</file>
+  <url>https://www.ponsoftware.com/en/archiver/explzh/explz835_en_x64.exe</url>
+  <hash-sum type="SHA-256">05e858b1ffb5e71dd8ed12209ddab9ad66b96f6450ab163b7bbaf5cf5fc519c2</hash-sum>
   <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.25, 2)">
    <variable>ncl</variable>
   </dependency>
@@ -36837,6 +36859,40 @@ Set view = Nothing&#13;
    <variable>npackdih</variable>
   </dependency>
  </version>
+ <version name="1.16.2" package="org.golang.Go64" type="one-file">
+  <file path=".Npackd\Install.bat">.Npackd\AddProperty.vbs "%npackd_package_binary%"&#13;
+if %errorlevel% neq 0 exit %errorlevel%&#13;
+&#13;
+call "%npackdih%\InstallMSI.bat" INSTALLDIR</file>
+  <file path=".Npackd\Uninstall.bat">call "%npackdih%\UninstallMSI.bat"</file>
+  <file path=".Npackd\AddProperty.vbs">Option Explicit&#13;
+&#13;
+Dim MSI_FILE&#13;
+MSI_FILE = Wscript.Arguments(0)&#13;
+&#13;
+Dim installer, database, view&#13;
+&#13;
+Set installer = CreateObject("WindowsInstaller.Installer")&#13;
+Set database = installer.OpenDatabase(MSI_FILE, 1)&#13;
+&#13;
+Set view = database.OpenView("INSERT INTO Property (Property, Value) VALUES ('INSTALLDIR', 'C:\Go')")&#13;
+view.Execute&#13;
+'Set view = database.OpenView("DELETE FROM Directory WHERE Directory='TARGETDIR'")&#13;
+'view.Execute&#13;
+'Set view = database.OpenView("UPDATE Directory SET DefaultDir='INSTALLLOCATION' WHERE Directory='TARGETDIR'")&#13;
+'view.Execute&#13;
+database.Commit&#13;
+&#13;
+Set database = Nothing&#13;
+Set installer = Nothing&#13;
+Set view = Nothing&#13;
+</file>
+  <url>https://golang.org/dl/go1.16.2.windows-amd64.msi</url>
+  <hash-sum type="SHA-256">ad7c65aa63842e6a2ae15a32f01d1e0d8d79b032869203c7dd84e4891468719f</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1, 2)">
+   <variable>npackdih</variable>
+  </dependency>
+ </version>
 
     <version name="2.22.1" package="org.gtk.GTKPlusBundle64">
   <file path="etc\gtk-2.0\gtkrc">gtk-theme-name = "MS-Windows"</file>
@@ -45034,6 +45090,20 @@ call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Np
 </file>
   <url>https://github.com/vim/vim-win32-installer/releases/download/v8.2.2589/gvim_8.2.2589_x64.zip</url>
   <hash-sum type="SHA-256">fad6fcaff6bcc73c3e7b28ad46a1136b7f96e8bc5c646817075ec6b31cc5392f</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.19, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
+ <version name="8.2.2590" package="org.vim.Vim64">
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+if %errorlevel% neq 0 exit /b %errorlevel%&#13;
+&#13;
+for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+</file>
+  <url>https://github.com/vim/vim-win32-installer/releases/download/v8.2.2590/gvim_8.2.2590_x64.zip</url>
+  <hash-sum type="SHA-256">f92f7f39bc40b45c3ed7612585c23b97747d11963676e820832bf98d96970993</hash-sum>
   <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.19, 2)">
    <variable>nih</variable>
   </dependency>
