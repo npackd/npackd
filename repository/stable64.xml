@@ -19963,7 +19963,7 @@ if %err% neq 0 exit %err%&#13;
   <hash-sum type="SHA-256">951c16d730bb70a8acc1af5d44d8d00ce828316b664253163f64667d026d7e67</hash-sum>
  </version>
 
-    <version name="89.0.4389.82" package="google-chrome-x64" type="one-file">
+    <version name="89.0.4389.90" package="google-chrome-x64" type="one-file">
   <file path=".Npackd\Install.bat">call "%npackdih%\InstallMSI.bat" TARGETDIR yes&#13;
 </file>
   <url>https://dl.google.com/tag/s/appguid%3D%7B8A69D345-D564-463C-AFF1-A69D9E530F96%7D%26iid%3D%7B0A558A36-0536-8B3F-0AE0-420553CC97F3%7D%26lang%3Den%26browser%3D4%26usagestats%3D0%26appname%3DGoogle%2520Chrome%26needsadmin%3DFalse/edgedl/chrome/install/GoogleChromeStandaloneEnterprise64.msi</url>
@@ -45108,6 +45108,20 @@ call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Np
    <variable>nih</variable>
   </dependency>
  </version>
+ <version name="8.2.2591" package="org.vim.Vim64">
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+if %errorlevel% neq 0 exit /b %errorlevel%&#13;
+&#13;
+for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+</file>
+  <url>https://github.com/vim/vim-win32-installer/releases/download/v8.2.2591/gvim_8.2.2591_x64.zip</url>
+  <hash-sum type="SHA-256">370c6b98a72891344bb8263e289b364f1a2d43b0dd9a89394fb488c1de5fc650</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.19, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
 
     <version name="4.2.8.83876" package="org.virtualbox.virtualbox64" type="one-file">
   <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
@@ -50509,6 +50523,10 @@ rem Install4j&#13;
   <url>https://www.sqlite.org/2021/sqlite-dll-win64-x64-3340100.zip</url>
   <hash-sum type="SHA-256">fc09503dcc2c7572d9c274c5318a8c260095a7cff31aacd1060d0f5712e138f3</hash-sum>
  </version>
+ <version name="3.35" package="sqlite64">
+  <url>https://www.sqlite.org/2021/sqlite-dll-win64-x64-3350000.zip</url>
+  <hash-sum type="SHA-256">b2274549d61c817144964adc6918ac7b1c56974f01aeb1368c3c676ee2a323ad</hash-sum>
+ </version>
 
     <version name="10.50.1600.1" package="sqlncli64" type="one-file">
   <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.msi') do set setup=%%x&#13;
@@ -53858,6 +53876,26 @@ sys.programGroupName=yEd Graph Editor&#13;
 sys.fileAssociation.extensions$StringArray="graphml","graphmlz","ygf","gml","xgml","tgf","ged"&#13;
 </file>
   <url>https://www.yworks.com/resources/yed/demo/yEd-3.20.1_with-JRE13_64-bit_setup.exe</url>
+ </version>
+ <version name="3.21" package="yed64" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" -q -console -dir "%CD%" -varfile .Npackd\response.varfile &gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+rem &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">uninstall.exe -q -console</file>
+  <file path=".Npackd\response.varfile">#install4j response file for yEd Graph Editor&#13;
+#Fri Jan 03 20:51:31 CET 2014&#13;
+sys.adminRights$Boolean=true&#13;
+sys.programGroupDisabled$Boolean=false&#13;
+createDesktopLinkAction$Boolean=false&#13;
+sys.fileAssociation.launchers$StringArray="2","2","2","2","2","2","2"&#13;
+sys.programGroupAllUsers$Boolean=true&#13;
+sys.languageId=en&#13;
+#sys.installationDir=C\:\\ProgramFiles\\yEd&#13;
+createQuicklaunchIconAction$Boolean=false&#13;
+sys.programGroupName=yEd Graph Editor&#13;
+sys.fileAssociation.extensions$StringArray="graphml","graphmlz","ygf","gml","xgml","tgf","ged"&#13;
+</file>
+  <url>https://www.yworks.com//resources/yed/demo/yEd-3.21_with-JRE15_64-bit_setup.exe</url>
  </version>
 
     <version name="8.0.0.3" package="zulu64">
