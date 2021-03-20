@@ -4515,6 +4515,16 @@ verify</file>
    <variable>ncl</variable>
   </dependency>
  </version>
+ <version name="2.7" package="biglybt64" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" -q -dir "%CD%" &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">uninstall.exe -q</file>
+  <url>https://github.com/BiglySoftware/BiglyBT/releases/download/v2.7.0.0/GitHub_BiglyBT_Installer64.exe</url>
+  <hash-sum type="SHA-256">28049494b50e703168ebb0c8d7935b91a79890e8bfa9667bab49230894ab280c</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.25, 2)">
+   <variable>ncl</variable>
+  </dependency>
+ </version>
 
     <version name="0.11.1" package="bitcoin-core64" type="one-file">
   <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
@@ -12688,7 +12698,7 @@ del Q-Dir.ini&#13;
   <url>http://files.npackd.org/com.softwareok.QDir64-5.99.9.zip</url>
   <sha1>fb6060796fae3fc641ba34fe1f2f8530d7c985a8</sha1>
  </version>
- <version name="9.27" package="com.softwareok.QDir64">
+ <version name="9.31" package="com.softwareok.QDir64">
   <important-file path="Q-Dir_x64.exe" title="Q-Dir"/>
   <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b Q*') do set name=%%x&#13;
 cd "%name%"        &#13;
@@ -15607,7 +15617,7 @@ if %err% neq 0 exit %err%&#13;
   <url>http://cygwin.com/setup-x86_64.exe</url>
  </version>
 
-    <version name="1.7.21419" package="daumpotplayer64" type="one-file">
+    <version name="1.7.21465" package="daumpotplayer64" type="one-file">
   <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
 </file>
   <file path=".Npackd\Uninstall.bat">uninstall.exe /S _?=%CD%&#13;
@@ -45371,6 +45381,20 @@ call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Np
    <variable>nih</variable>
   </dependency>
  </version>
+ <version name="8.2.2622" package="org.vim.Vim64">
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+if %errorlevel% neq 0 exit /b %errorlevel%&#13;
+&#13;
+for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+</file>
+  <url>https://github.com/vim/vim-win32-installer/releases/download/v8.2.2622/gvim_8.2.2622_x64.zip</url>
+  <hash-sum type="SHA-256">871cc23828048ce54af6f27ae2704300263b5c12f79ce4815003c480c628addc</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.19, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
 
     <version name="4.2.8.83876" package="org.virtualbox.virtualbox64" type="one-file">
   <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
@@ -49552,6 +49576,14 @@ if %errorlevel% equ 3010 verify</file>
 </file>
   <url>http://www.rainlendar.net/download/Rainlendar-Lite-2.16-64bit.exe</url>
   <hash-sum type="SHA-256">53548ceb98baf48527ee7c73915abdfa00f1fd959ce05dc3d5fffe20ef29e6d9</hash-sum>
+ </version>
+ <version name="2.16.1" package="rainlendar-lite-64bit" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">uninst.exe /S _?=%CD%&#13;
+</file>
+  <url>http://www.rainlendar.net/download/Rainlendar-Lite-2.16.1-64bit.exe</url>
+  <hash-sum type="SHA-256">23781cb97c2cca66e218aae2be895da541aa2351776bfcb21a20fdc46bea0994</hash-sum>
  </version>
 
     <version name="0.5.17" package="rambox-64-bit" type="one-file">
