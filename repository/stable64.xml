@@ -16451,7 +16451,7 @@ if %err% neq 0 exit %err%&#13;
   <file path=".Npackd\Uninstall.bat">uninstall.exe /allusers /S _?=%CD%&#13;
 </file>
   <url>http://dbeaver.jkiss.org/files/21.0.0/dbeaver-ce-21.0.0-x86_64-setup.exe</url>
-  <hash-sum type="SHA-256">280af1feb31edf19e2b8aa35c5ba4dcd025688d93884a6ee0f40dee2baa8f3c7</hash-sum>
+  <hash-sum type="SHA-256">eda23128444183b8b392f5ef6290a25d8932d88e1659a6894a5d1d9866e59d12</hash-sum>
  </version>
 
     <version name="0.825" package="dcplusplus64">
@@ -45391,6 +45391,20 @@ call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Np
 </file>
   <url>https://github.com/vim/vim-win32-installer/releases/download/v8.2.2622/gvim_8.2.2622_x64.zip</url>
   <hash-sum type="SHA-256">871cc23828048ce54af6f27ae2704300263b5c12f79ce4815003c480c628addc</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.19, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
+ <version name="8.2.2625" package="org.vim.Vim64">
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+if %errorlevel% neq 0 exit /b %errorlevel%&#13;
+&#13;
+for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+</file>
+  <url>https://github.com/vim/vim-win32-installer/releases/download/v8.2.2625/gvim_8.2.2625_x64.zip</url>
+  <hash-sum type="SHA-256">b112b7c064cf60c9de0834587e3b868c7f706aeac771026877ed05b7daa5456e</hash-sum>
   <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.19, 2)">
    <variable>nih</variable>
   </dependency>
