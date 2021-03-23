@@ -7435,7 +7435,7 @@ rem "avgmfapx.exe" /AppMode=SETUP /Uninstall /UILevel=Silent /DontRestart&#13;
   </dependency>
  </version>
 
-    <version name="1.74" package="com.bitcomet.BitComet64" type="one-file">
+    <version name="1.75" package="com.bitcomet.BitComet64" type="one-file">
   <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
 </file>
   <file path=".Npackd\Uninstall.bat">%ncl%\ncl remove-scp --title "/BitComet.*/"</file>
@@ -17922,6 +17922,17 @@ rmdir "%name%"&#13;
    <variable>ncl</variable>
   </dependency>
  </version>
+ <version name="8.37" package="explzh64" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" /silent /q &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">"%ncl%\ncl.exe" remove-scp --title "/%npackd_package_name% %npackd_package_version%/i"&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+</file>
+  <url>https://www.ponsoftware.com/en/archiver/explzh/explz837_en_x64.exe</url>
+  <hash-sum type="SHA-256">a75e8502c58336c848138eed6dc262163c1172f959480473c6a7859849ed7e38</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.25, 2)">
+   <variable>ncl</variable>
+  </dependency>
+ </version>
 
     <version name="3.1" package="falkon64" type="one-file">
   <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
@@ -22396,7 +22407,7 @@ if %err% neq 0 exit %err%&#13;
 </file>
   <file path=".Npackd\Uninstall.bat">call "%nih%\UninstallInnoSetup.bat" unins000.exe&#13;
 </file>
-  <url>https://www.imagemagick.org/download/binaries/ImageMagick-7.0.11-4-Q16-HDRI-x64-dll.exe</url>
+  <url>https://github.com/tim-lebedkov/packages/releases/download/2021_03/imagemagick64-7.0.11.4-ImageMagick-7.0.11-4-Q16-HDRI-x64-dll.exe</url>
   <hash-sum type="SHA-256">57ace776454da035f782c3ae26ac672a8dbd3d3e400a8ef048de59972224d427</hash-sum>
   <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
    <variable>nih</variable>
@@ -40312,6 +40323,10 @@ if %err% neq 0 exit %err%&#13;
   <url>https://github.com/mltframework/shotcut/releases/download/v21.02.27/shotcut-win64-210227.zip</url>
   <hash-sum type="SHA-256">216b3720d044ab7a9eb9e07fabf416d56e95b69dab4d2d95f2d61b972855644b</hash-sum>
  </version>
+ <version name="21.3.21" package="org.shotcut.shotcut">
+  <url>https://github.com/mltframework/shotcut/releases/download/v21.03.21/shotcut-win64-210321.zip</url>
+  <hash-sum type="SHA-256">8ce9d389e52b157cdc0b5ee388d2bd5bfa27e9a2d2a3ae32f0592aca195d0de0</hash-sum>
+ </version>
 
     <version name="4.4" package="org.sourceforge.ultradefrag.UltraDefrag64">
   <important-file path="ultradefrag.exe" title="UltraDefrag"/>
@@ -45488,6 +45503,20 @@ call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Np
    <variable>nih</variable>
   </dependency>
  </version>
+ <version name="8.2.2637" package="org.vim.Vim64">
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+if %errorlevel% neq 0 exit /b %errorlevel%&#13;
+&#13;
+for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+</file>
+  <url>https://github.com/vim/vim-win32-installer/releases/download/v8.2.2637/gvim_8.2.2637_x64.zip</url>
+  <hash-sum type="SHA-256">9f780a9bd1930726f60e6298cba9c4559a96c014b09abfc4c781baea063e090c</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.19, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
 
     <version name="4.2.8.83876" package="org.virtualbox.virtualbox64" type="one-file">
   <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
@@ -49365,6 +49394,17 @@ if %errorlevel% equ 3010 verify</file>
    <variable>ncl</variable>
   </dependency>
  </version>
+ <version name="4.14.2" package="qt-creator64" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD%&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">"%ncl%\ncl.exe" remove-scp --title "/Qt Creator.*/"&#13;
+</file>
+  <url>http://download.qt-project.org/official_releases/qtcreator/4.14/4.14.2/qt-creator-opensource-windows-x86_64-4.14.2.exe</url>
+  <hash-sum type="SHA-256">f97595e30138c9420e0e35e8ddeac0684ef81288ac02c966a87151177c65031b</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.24, 2)">
+   <variable>ncl</variable>
+  </dependency>
+ </version>
 
     <version name="1.17.2" package="qtox64" type="one-file">
   <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
@@ -50716,7 +50756,7 @@ if %err% neq 0 exit %err%&#13;
   </dependency>
  </version>
 
-    <version name="29.0.2" package="slimjet" type="one-file">
+    <version name="29.0.3" package="slimjet" type="one-file">
   <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
 </file>
   <file path=".Npackd\Uninstall.bat">uninstall.exe /S _?=%CD%&#13;
@@ -50724,7 +50764,7 @@ if %err% neq 0 exit %err%&#13;
   <url>https://www.slimjetbrowser.com/release/sjtsetup_x86.exe</url>
  </version>
 
-    <version name="29.0.2" package="slimjet64" type="one-file">
+    <version name="29.0.3" package="slimjet64" type="one-file">
   <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
 </file>
   <file path=".Npackd\Uninstall.bat">uninstall.exe /S _?=%CD%&#13;
