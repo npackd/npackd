@@ -23344,6 +23344,14 @@ call "%nih%\InstallMSI.bat" TARGETDIR yes&#13;
   <url>https://download.kde.org/stable/krita/4.4.2/krita-x64-4.4.2-setup.exe</url>
   <hash-sum type="SHA-256">17d5a6f7881e01e8e89ec138fb3bb088dad45acaf7df21cc0a2fdbd04d74206b</hash-sum>
  </version>
+ <version name="4.4.3" package="krita64" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">uninstall.exe /S _?=%CD%&#13;
+</file>
+  <url>https://download.kde.org/stable/krita/4.4.3/krita-x64-4.4.3-setup.exe</url>
+  <hash-sum type="SHA-256">a2861265853789dfa6f973ba7d2ee664d14c5852acae623898535e862fd69afd</hash-sum>
+ </version>
 
     <version name="7.1.3" package="lazpaint64" type="one-file">
   <file path=".Npackd\Install.bat">"%nih%\InstallInnoSetup.bat"&#13;
@@ -29870,7 +29878,7 @@ mkdir %trash%&#13;
 move NppShell*.dll %trash%&#13;
 verify&#13;
 		</file>
-  <url>https://github.com/notepad-plus-plus/notepad-plus-plus/releases/download/v7.9.5/npp.7.9.5.Installer.x64.exe</url>
+  <url>https://github.com/tim-lebedkov/packages/releases/download/2021_03/notepadpp64-7.9.5-npp.7.9.5.Installer.x64.exe</url>
   <hash-sum type="SHA-256">4881548cd86491b453520e83c19292c93b9c6ce485a1f9eb9301e3913a9baced</hash-sum>
  </version>
 
@@ -34367,6 +34375,12 @@ rmdir "%name%"&#13;
 </file>
   <url>https://www.erlang.org/download/otp_win64_23.2.exe</url>
   <hash-sum type="SHA-256">03cd5df23e1c7a9f94dbdc82ad68a2ff80f6e289e1b603d8c9b75803786af82f</hash-sum>
+ </version>
+ <version name="23.3" package="org.erlang.Erlang64" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD%&#13;
+</file>
+  <url>https://www.erlang.org/download/otp_win64_23.3.exe</url>
+  <hash-sum type="SHA-256">1a05661a881e55be69bfcc7faefb7cda9f7552369a08695e18a1433e249f3c0f</hash-sum>
  </version>
 
     <version name="0.9.2.1" package="org.flamerobin.FlameRobin64" type="one-file">
@@ -45609,6 +45623,20 @@ call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Np
 </file>
   <url>https://github.com/vim/vim-win32-installer/releases/download/v8.2.2646/gvim_8.2.2646_x64.zip</url>
   <hash-sum type="SHA-256">397a251a5b9bccdaa218b7e6727678d61b4466624efb288d9f65d41cc7473216</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.19, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
+ <version name="8.2.2648" package="org.vim.Vim64">
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+if %errorlevel% neq 0 exit /b %errorlevel%&#13;
+&#13;
+for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+</file>
+  <url>https://github.com/vim/vim-win32-installer/releases/download/v8.2.2648/gvim_8.2.2648_x64.zip</url>
+  <hash-sum type="SHA-256">66875762c36accecfbab9a4daea82cd621611887b9b19c39b5639389a38bb01c</hash-sum>
   <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.19, 2)">
    <variable>nih</variable>
   </dependency>
