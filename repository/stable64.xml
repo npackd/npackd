@@ -16463,6 +16463,14 @@ if %err% neq 0 exit %err%&#13;
   <url>http://dbeaver.jkiss.org/files/21.0.0/dbeaver-ce-21.0.0-x86_64-setup.exe</url>
   <hash-sum type="SHA-256">eda23128444183b8b392f5ef6290a25d8932d88e1659a6894a5d1d9866e59d12</hash-sum>
  </version>
+ <version name="21.0.1" package="dbeaver64" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" /allusers /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">uninstall.exe /allusers /S _?=%CD%&#13;
+</file>
+  <url>http://dbeaver.jkiss.org/files/21.0.1/dbeaver-ce-21.0.1-x86_64-setup.exe</url>
+  <hash-sum type="SHA-256">905e8b119e0403a63e0b25504f820c0df9aadb25886428e608e7cf0618920b5b</hash-sum>
+ </version>
 
     <version name="0.825" package="dcplusplus64">
   <important-file path="DCPlusPlus.exe" title="DC++"/>
@@ -48865,6 +48873,14 @@ verify</file>
   <url>https://downloads.sourceforge.net/project/qbittorrent/qbittorrent-win32/qbittorrent-4.3.3/qbittorrent_4.3.3_x64_setup.exe</url>
   <hash-sum type="SHA-256">b5c0902db1e36baaf42a26dcc4ee517cefbd46098b0fc2a05578c1c24437a404</hash-sum>
  </version>
+ <version name="4.3.4" package="qbittorrent-64-bit" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD%&#13;
+verify</file>
+  <file path=".Npackd\Uninstall.bat">uninst.exe /S _?=%CD%&#13;
+verify</file>
+  <url>https://downloads.sourceforge.net/project/qbittorrent/qbittorrent-win32/qbittorrent-4.3.4/qbittorrent_4.3.4_x64_setup.exe</url>
+  <hash-sum type="SHA-256">be1b85c73631beed09abf3ea3abe16d6471a22978cf89f8e24bf50ff42e57c9a</hash-sum>
+ </version>
 
     <version name="3.23" package="qcad64" type="one-file">
   <file path=".Npackd\Install.bat">call "%nih%\InstallMSI.bat" INSTALLDIR yes&#13;
@@ -52486,6 +52502,12 @@ if %err% neq 0 exit %err%&#13;
   <url>https://dist.torproject.org/torbrowser/10.0.12/torbrowser-install-10.0.12_en-US.exe</url>
   <hash-sum type="SHA-256">29f6fec8ffb6cdfeed42ed4e41f54545c8cd4fe6e54a8d75ae73e2e74645edfd</hash-sum>
  </version>
+ <version name="10.0.14" package="tor64" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
+</file>
+  <url>https://dist.torproject.org/torbrowser/10.0.14/torbrowser-install-10.0.14_en-US.exe</url>
+  <hash-sum type="SHA-256">294f20187e238de1030dad4f823d3f19f5cabecd04cd828c39f98fe484749cef</hash-sum>
+ </version>
 
     <version name="2.84.9" package="transmission-qt64" type="one-file">
   <file path=".Npackd\Install.bat">"%npackd_package_binary%" --mode unattended --prefix "%CD%"</file>
@@ -53802,6 +53824,18 @@ if %err% neq 0 exit /b %err%&#13;
 </file>
   <url>https://downloads.vivaldi.com/stable/Vivaldi.3.7.2218.45.x64.exe</url>
   <hash-sum type="SHA-256">23e76e7f2ef2d6b8b628dbbcb7cec8b2a206c8be431d554dc980204ca399aa0a</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.24, 2)">
+   <variable>ncl</variable>
+  </dependency>
+ </version>
+ <version name="3.7.2218.49" package="vivaldi-browser-64" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" --vivaldi-standalone --do-not-launch-chrome --vivaldi-install-dir="%CD%" &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
+&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">"%ncl%\ncl.exe" remove-scp --title "vivaldi-browser-64"&#13;
+</file>
+  <url>https://downloads.vivaldi.com/stable/Vivaldi.3.7.2218.49.x64.exe</url>
+  <hash-sum type="SHA-256">ff43216aef1a7bc953f86463c48be6af0ab1a43fe05e7f5ed9d93600eb963e48</hash-sum>
   <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.24, 2)">
    <variable>ncl</variable>
   </dependency>
