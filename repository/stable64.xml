@@ -20079,6 +20079,17 @@ if %err% neq 0 exit %err%&#13;
    <variable>nih</variable>
   </dependency>
  </version>
+ <version name="2.31.1" package="git64" type="one-file">
+  <file path=".Npackd\Install.bat">call "%nih%\InstallInnoSetup.bat"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">call "%nih%\UninstallInnoSetup.bat" unins000.exe&#13;
+</file>
+  <url>https://github.com/git-for-windows/git/releases/download/v2.31.1.windows.1/Git-2.31.1-64-bit.exe</url>
+  <hash-sum type="SHA-256">c43611eb73ad1f17f5c8cc82ae51c3041a2e7279e0197ccf5f739e9129ce426e</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
 
     <version name="5.2.7" package="gnuplot64" type="one-file">
   <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
@@ -45663,6 +45674,20 @@ call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Np
    <variable>nih</variable>
   </dependency>
  </version>
+ <version name="8.2.2661" package="org.vim.Vim64">
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+if %errorlevel% neq 0 exit /b %errorlevel%&#13;
+&#13;
+for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+</file>
+  <url>https://github.com/vim/vim-win32-installer/releases/download/v8.2.2661/gvim_8.2.2661_x64.zip</url>
+  <hash-sum type="SHA-256">375f3a957749b5c10afc2ea7a8df2dc0c5e36d6180e42271296011826014dc33</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.19, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
 
     <version name="4.2.8.83876" package="org.virtualbox.virtualbox64" type="one-file">
   <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
@@ -50850,6 +50875,17 @@ if %err% neq 0 exit %err%&#13;
    <variable>nih</variable>
   </dependency>
  </version>
+ <version name="1.5.1" package="sigil64" type="one-file">
+  <file path=".Npackd\Install.bat">call "%nih%\InstallInnoSetup.bat"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">call "%nih%\UninstallInnoSetup.bat" unins000.exe&#13;
+</file>
+  <url>https://github.com/user-none/Sigil/releases/download//1.5.1/Sigil-1.5.1-Windows-x64-Setup.exe</url>
+  <hash-sum type="SHA-256">b3cfd5100774fa9b1ec8703ee0dfdc43008c9ce96ea79333e995f6abd69c2e50</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
 
     <version name="4" package="skychart64" type="one-file">
   <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
@@ -51119,6 +51155,10 @@ rem Install4j&#13;
  <version name="3.35.2" package="sqlite64">
   <url>https://www.sqlite.org/2021/sqlite-dll-win64-x64-3350200.zip</url>
   <hash-sum type="SHA-256">5f89091799e289a8ab9fbe52228a3840d87d92eb86e56fba5b2ed13789733e9b</hash-sum>
+ </version>
+ <version name="3.35.3" package="sqlite64">
+  <url>https://www.sqlite.org/2021/sqlite-dll-win64-x64-3350300.zip</url>
+  <hash-sum type="SHA-256">800a83235cb028f93b508236d67ab154f68e558744290f82152313c37ded408b</hash-sum>
  </version>
 
     <version name="10.50.1600.1" package="sqlncli64" type="one-file">
