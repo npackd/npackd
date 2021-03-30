@@ -5311,6 +5311,20 @@ if %errorlevel% neq 0 exit /b %errorlevel%&#13;
   <url>https://www.cmake.org/files/v3.19/cmake-3.19.7-win64-x64.zip</url>
   <hash-sum type="SHA-256">e6788d6e23b3026c37fcfa7658075d6b5f9113f26fae17fe372ad4a7ee62d5fd</hash-sum>
  </version>
+ <version name="3.20" package="cmake64">
+  <cmd-file path="bin\cmake.exe"/>
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b cmake*') do set name=%%x&#13;
+cd "%name%"        &#13;
+for /f "delims=" %%a in ('dir /b') do (&#13;
+  move "%%a" ..&#13;
+)&#13;
+cd ..&#13;
+rmdir "%name%"&#13;
+if %errorlevel% neq 0 exit /b %errorlevel%&#13;
+</file>
+  <url>https://github.com/Kitware/CMake/releases/download/v3.20.0/cmake-3.20.0-windows-x86_64.zip</url>
+  <hash-sum type="SHA-256">056378cb599353479c3a8aa2654454b8a3eaa3c8c0872928ba7e09c3ec50774c</hash-sum>
+ </version>
 
     <version name="5.26.3.2603" package="com.activestate.ActivePerl64" type="one-file">
   <file path=".Npackd\Install.bat">"%npackd_package_binary%" /quiet TARGETDIR="%cd%" PERL_PATH=Yes PERL_EXT=Yes</file>
@@ -16649,7 +16663,7 @@ verify</file>
 taskkill /im kded4.exe /f /t&#13;
 taskkill /im klauncher.exe /f /t&#13;
 verify</file>
-  <url>http://mirror.kumi.systems/kde/ftp/stable/digikam/7.2.0/digiKam-7.2.0-Win64.exe</url>
+  <url>https://github.com/tim-lebedkov/packages/releases/download/2021_03/digikam64-7.2-digiKam-7.2.0-Win64.exe</url>
   <hash-sum type="SHA-256">76d83bc50c30da90c86b3efa1fec4eed77a055f1b1cfaca2271db74d8d511ffb</hash-sum>
  </version>
 
@@ -17961,6 +17975,17 @@ rmdir "%name%"&#13;
 </file>
   <url>https://www.ponsoftware.com/en/archiver/explzh/explz837_en_x64.exe</url>
   <hash-sum type="SHA-256">a75e8502c58336c848138eed6dc262163c1172f959480473c6a7859849ed7e38</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.25, 2)">
+   <variable>ncl</variable>
+  </dependency>
+ </version>
+ <version name="8.38" package="explzh64" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" /silent /q &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">"%ncl%\ncl.exe" remove-scp --title "/%npackd_package_name% %npackd_package_version%/i"&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+</file>
+  <url>https://www.ponsoftware.com/en/archiver/explzh/explz838_en_x64.exe</url>
+  <hash-sum type="SHA-256">801a6fa4ecb90231c7d2079e12e39cdb1ee3acb2854611f039b7c0dd3bc15ba7</hash-sum>
   <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.25, 2)">
    <variable>ncl</variable>
   </dependency>
@@ -24101,6 +24126,16 @@ if %err% neq 0 exit %err%&#13;
   <file path=".Npackd\Uninstall.bat">"%nih%\UninstallInnoSetup.bat" unins000.exe</file>
   <url>https://medibangpaint.com/static/installer/MediBangPaintPro/MediBangPaintProSetup-26.1-64bit.exe</url>
   <hash-sum type="SHA-256">b59a21f53593b629e06a0b6d322a0d49d5f9936352e8a6addf62816ee942e80a</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
+ <version name="26.2" package="medibang-paint64" type="one-file">
+  <file path=".Npackd\Install.bat">"%nih%\InstallInnoSetup.bat"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">"%nih%\UninstallInnoSetup.bat" unins000.exe</file>
+  <url>https://medibangpaint.com/static/installer/MediBangPaintPro/MediBangPaintProSetup-26.2-64bit.exe</url>
+  <hash-sum type="SHA-256">99bec692dc9410ff9bd95a8e7b48b8776e9ff68190957269bf0b1ead1830969f</hash-sum>
   <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
    <variable>nih</variable>
   </dependency>
@@ -45740,6 +45775,20 @@ call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Np
    <variable>nih</variable>
   </dependency>
  </version>
+ <version name="8.2.2673" package="org.vim.Vim64">
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+if %errorlevel% neq 0 exit /b %errorlevel%&#13;
+&#13;
+for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+</file>
+  <url>https://github.com/vim/vim-win32-installer/releases/download/v8.2.2673/gvim_8.2.2673_x64.zip</url>
+  <hash-sum type="SHA-256">db717d890d5b0a0ea576ee50d6230cd248cf84ba7f8e8cb03c2b71fba952bfa3</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.19, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
 
     <version name="4.2.8.83876" package="org.virtualbox.virtualbox64" type="one-file">
   <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
@@ -51466,6 +51515,17 @@ Prog\setup.exe /Q /IACCEPTSQLSERVERLICENSETERMS /Q /ACTION=install &gt; .Npackd\
 </file>
   <url>https://github.com/Stellarium/stellarium/releases/download/v0.20.4/stellarium-0.20.4-win64.exe</url>
   <hash-sum type="SHA-256">47d0ea1e1b72123cd07dac1f34f131847d30de649b1dc5ba27a4feca1b212870</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
+ <version name="0.21" package="stellarium64" type="one-file">
+  <file path=".Npackd\Install.bat">call "%nih%\InstallInnoSetup.bat"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">call "%nih%\UninstallInnoSetup.bat" unins000.exe&#13;
+</file>
+  <url>https://github.com/Stellarium/stellarium/releases/download/v0.21.0/stellarium-0.21.0-win64.exe</url>
+  <hash-sum type="SHA-256">f492e4967b525cd3e4652cf86b68eb0d3b954cd5aa8d4cbac3a452d4936e9d66</hash-sum>
   <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
    <variable>nih</variable>
   </dependency>
