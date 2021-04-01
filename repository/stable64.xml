@@ -12737,7 +12737,7 @@ del Q-Dir.ini&#13;
   <url>http://files.npackd.org/com.softwareok.QDir64-5.99.9.zip</url>
   <sha1>fb6060796fae3fc641ba34fe1f2f8530d7c985a8</sha1>
  </version>
- <version name="9.31" package="com.softwareok.QDir64">
+ <version name="9.33" package="com.softwareok.QDir64">
   <important-file path="Q-Dir_x64.exe" title="Q-Dir"/>
   <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b Q*') do set name=%%x&#13;
 cd "%name%"        &#13;
@@ -15630,6 +15630,17 @@ if %err% neq 0 exit %err%&#13;
    <variable>nih</variable>
   </dependency>
  </version>
+ <version name="1.35" package="conan64" type="one-file">
+  <cmd-file path="conan\conan.exe"/>
+  <file path=".Npackd\Install.bat">"%nih%\InstallInnoSetup.bat"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">"%nih%\UninstallInnoSetup.bat" unins000.exe</file>
+  <url>https://github.com/conan-io/conan/releases/download/1.35.0/conan-win-64_1_35_0.exe</url>
+  <hash-sum type="SHA-256">f826de4c3f4c934e64edcb16c496e20bbebb55f47c9ed8b37521369b16dce53d</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
 
     <version name="1.0.3.62" package="cornplayer" type="one-file">
   <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
@@ -16995,6 +17006,11 @@ rmdir "%name%"&#13;
   <important-file path="bin\runemacs.exe" title="Emacs"/>
   <url>https://ftp.gnu.org/gnu/emacs/windows/emacs-27/emacs-27.1-x86_64.zip</url>
   <hash-sum type="SHA-256">65f1b01bcd14e59d7da0ebad3979c5df9f9bd8d24b2ff2e32a5af3aacb226229</hash-sum>
+ </version>
+ <version name="27.2" package="emacs64">
+  <important-file path="bin\runemacs.exe" title="Emacs"/>
+  <url>https://ftp.gnu.org/gnu/emacs/windows/emacs-27/emacs-27.2-x86_64.zip</url>
+  <hash-sum type="SHA-256">5396aa4239c9ac2f65a6b084ccf588d01bdd6ddb701419b7fda5b97b45846093</hash-sum>
  </version>
 
     <version name="1.4.4" package="etcher64" type="one-file">
@@ -20220,7 +20236,7 @@ if %err% neq 0 exit %err%&#13;
   <hash-sum type="SHA-256">951c16d730bb70a8acc1af5d44d8d00ce828316b664253163f64667d026d7e67</hash-sum>
  </version>
 
-    <version name="89.0.4389.90" package="google-chrome-x64" type="one-file">
+    <version name="89.0.4389.114" package="google-chrome-x64" type="one-file">
   <file path=".Npackd\Install.bat">call "%npackdih%\InstallMSI.bat" TARGETDIR yes&#13;
 </file>
   <url>https://dl.google.com/tag/s/appguid%3D%7B8A69D345-D564-463C-AFF1-A69D9E530F96%7D%26iid%3D%7B0A558A36-0536-8B3F-0AE0-420553CC97F3%7D%26lang%3Den%26browser%3D4%26usagestats%3D0%26appname%3DGoogle%2520Chrome%26needsadmin%3DFalse/edgedl/chrome/install/GoogleChromeStandaloneEnterprise64.msi</url>
@@ -22568,7 +22584,7 @@ if %err% neq 0 exit %err%&#13;
 </file>
   <file path=".Npackd\Uninstall.bat">call "%nih%\UninstallInnoSetup.bat" unins000.exe&#13;
 </file>
-  <url>https://www.imagemagick.org/download/binaries/ImageMagick-7.0.11-5-Q16-HDRI-x64-dll.exe</url>
+  <url>https://github.com/tim-lebedkov/packages/releases/download/2021_03/imagemagick64-7.0.11.5-ImageMagick-7.0.11-5-Q16-HDRI-x64-dll.exe</url>
   <hash-sum type="SHA-256">955dc91ae50375977ec647514278e8f10c3aba14072b48dea4de3b17de6fde42</hash-sum>
   <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
    <variable>nih</variable>
@@ -45861,6 +45877,20 @@ call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Np
    <variable>nih</variable>
   </dependency>
  </version>
+ <version name="8.2.2679" package="org.vim.Vim64">
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+if %errorlevel% neq 0 exit /b %errorlevel%&#13;
+&#13;
+for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+</file>
+  <url>https://github.com/vim/vim-win32-installer/releases/download/v8.2.2679/gvim_8.2.2679_x64.zip</url>
+  <hash-sum type="SHA-256">13871b2632f16edec5d1b399de86ee6287855847cc7c4851d5f500ca26234e7b</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.19, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
 
     <version name="4.2.8.83876" package="org.virtualbox.virtualbox64" type="one-file">
   <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
@@ -53330,6 +53360,15 @@ if %err% neq 0 exit %err%&#13;
    <variable>nih</variable>
   </dependency>
  </version>
+ <version name="2.2.15" package="vagrant64" type="one-file">
+  <file path=".Npackd\Install.bat">call "%nih%\InstallMSI.bat" INSTALLDIR yes&#13;
+</file>
+  <url>https://releases.hashicorp.com/vagrant/2.2.15/vagrant_2.2.15_x86_64.msi</url>
+  <hash-sum type="SHA-256">8ded539894c687f24167dc29452730346e882ba76eba3e37e55d2e64dd4a3680</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.1, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
 
     <version name="2007.6.0.192" package="virtual-pc64" type="one-file">
   <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.msi') do set setup=%%x&#13;
@@ -54117,6 +54156,18 @@ if %err% neq 0 exit /b %err%&#13;
 </file>
   <url>https://downloads.vivaldi.com/stable/Vivaldi.3.7.2218.49.x64.exe</url>
   <hash-sum type="SHA-256">ff43216aef1a7bc953f86463c48be6af0ab1a43fe05e7f5ed9d93600eb963e48</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.24, 2)">
+   <variable>ncl</variable>
+  </dependency>
+ </version>
+ <version name="3.7.2218.52" package="vivaldi-browser-64" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" --vivaldi-standalone --do-not-launch-chrome --vivaldi-install-dir="%CD%" &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
+&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">"%ncl%\ncl.exe" remove-scp --title "vivaldi-browser-64"&#13;
+</file>
+  <url>https://downloads.vivaldi.com/stable/Vivaldi.3.7.2218.52.x64.exe</url>
+  <hash-sum type="SHA-256">74f8b0bf6bc90c86c1c478bf48736acab051aa233f6f1936dbce61169ccbd813</hash-sum>
   <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.24, 2)">
    <variable>ncl</variable>
   </dependency>
