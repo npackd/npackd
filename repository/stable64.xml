@@ -2375,7 +2375,6 @@ x86_64</description>
   <category>Games</category>
   <tag>stable64</tag>
   <stars>1</stars>
-  <link href="http://media.openttd.org/images/screens/1.4/02-opengfx-1920x1200.png" rel="screenshot"/>
  </package>
  <package name="openmpt64">
   <title>OpenMPT 64 bit</title>
@@ -23884,7 +23883,7 @@ call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Np
  </version>
  <version name="7.1.2" package="libreoffice64" type="one-file">
   <file path=".Npackd\Install.bat">call "%npackdih%\InstallMSI.bat" INSTALLLOCATION yes</file>
-  <url>https://download.documentfoundation.org/libreoffice/stable/7.1.2/win/x86_64/LibreOffice_7.1.2_Win_x64.msi</url>
+  <url>https://github.com/tim-lebedkov/packages/releases/download/2021_04/libreoffice64-7.1.2-LibreOffice_7.1.2_Win_x64.msi</url>
   <hash-sum type="SHA-256">3131ce7d052706feffef3121f9a77d0d6c6c894fe6dee9141dc4aa3a68641c0b</hash-sum>
   <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.1, 2)">
    <variable>npackdih</variable>
@@ -30340,6 +30339,17 @@ verify&#13;
   <important-file path="openttd.exe" title="OpenTTD"/>
   <url>https://proxy.binaries.openttd.org/openttd-releases/1.10.3/openttd-1.10.3-windows-win64.zip</url>
   <hash-sum type="SHA-256">2c603771356203240697720f3661dd43e0c3391847ebaaf019a52f8d03129b91</hash-sum>
+ </version>
+ <version name="1.11" package="open-ttd64">
+  <important-file path="openttd.exe" title="OpenTTD"/>
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b openttd*') do set name=%%x&#13;
+"%clu%\clu" unwrap-dir -p "%name%"&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+</file>
+  <url>https://proxy.binaries.openttd.org/openttd-releases/1.11.0/openttd-1.11.0-windows-win64.zip</url>
+  <hash-sum type="SHA-256">5ad2efded690ded3a2b8a796067c77ffa1967a5d2f156e00985dbdbee6729183</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.CLU" versions="[1.25, 2)">
+   <variable>clu</variable>
+  </dependency>
  </version>
 
     <version name="1.23.4" package="openmpt64" type="one-file">
@@ -37407,6 +37417,40 @@ Set view = Nothing&#13;
 </file>
   <url>https://golang.org/dl/go1.16.2.windows-amd64.msi</url>
   <hash-sum type="SHA-256">ad7c65aa63842e6a2ae15a32f01d1e0d8d79b032869203c7dd84e4891468719f</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1, 2)">
+   <variable>npackdih</variable>
+  </dependency>
+ </version>
+ <version name="1.16.3" package="org.golang.Go64" type="one-file">
+  <file path=".Npackd\Install.bat">.Npackd\AddProperty.vbs "%npackd_package_binary%"&#13;
+if %errorlevel% neq 0 exit %errorlevel%&#13;
+&#13;
+call "%npackdih%\InstallMSI.bat" INSTALLDIR</file>
+  <file path=".Npackd\Uninstall.bat">call "%npackdih%\UninstallMSI.bat"</file>
+  <file path=".Npackd\AddProperty.vbs">Option Explicit&#13;
+&#13;
+Dim MSI_FILE&#13;
+MSI_FILE = Wscript.Arguments(0)&#13;
+&#13;
+Dim installer, database, view&#13;
+&#13;
+Set installer = CreateObject("WindowsInstaller.Installer")&#13;
+Set database = installer.OpenDatabase(MSI_FILE, 1)&#13;
+&#13;
+Set view = database.OpenView("INSERT INTO Property (Property, Value) VALUES ('INSTALLDIR', 'C:\Go')")&#13;
+view.Execute&#13;
+'Set view = database.OpenView("DELETE FROM Directory WHERE Directory='TARGETDIR'")&#13;
+'view.Execute&#13;
+'Set view = database.OpenView("UPDATE Directory SET DefaultDir='INSTALLLOCATION' WHERE Directory='TARGETDIR'")&#13;
+'view.Execute&#13;
+database.Commit&#13;
+&#13;
+Set database = Nothing&#13;
+Set installer = Nothing&#13;
+Set view = Nothing&#13;
+</file>
+  <url>https://golang.org/dl/go1.16.3.windows-amd64.msi</url>
+  <hash-sum type="SHA-256">850cf9e4b0ab0369ab2750c6ab25725b6a298490d09bf3fde61b08f770328f4c</hash-sum>
   <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1, 2)">
    <variable>npackdih</variable>
   </dependency>
@@ -50947,7 +50991,7 @@ call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Np
   <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b curl*') do set name=%%x&#13;
 call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
 </file>
-  <url>https://curl.haxx.se/windows/dl-7.76.0/curl-7.76.0-win64-mingw.zip</url>
+  <url>https://github.com/tim-lebedkov/packages/releases/download/2021_04/se.haxx.curl.CURL64-7.76-curl-7.76.0-win64-mingw.zip</url>
   <hash-sum type="SHA-256">87705e703c554c4f9f28b6c972fa7e7c1bca60062ff925bd0d560379cfe2488b</hash-sum>
   <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.19, 2)">
    <variable>nih</variable>
@@ -52285,6 +52329,14 @@ rmdir "%name%"</file>
 </file>
   <url>https://www.sysgauge.com/setups_x64/sysgauge_setup_v7.7.28_x64.exe</url>
   <hash-sum type="SHA-256">6a525701c129bf1fe774dc02626aebfbd42cbe0dfb80f4197d37cac471fb7510</hash-sum>
+ </version>
+ <version name="7.8.16" package="sysgauge64" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">uninstall.exe /S _?=%CD%&#13;
+</file>
+  <url>https://www.sysgauge.com/setups_x64/sysgauge_setup_v7.8.16_x64.exe</url>
+  <hash-sum type="SHA-256">b0404823d353dd7095ee37509b6211ddbe9a5dbff451db10dd40c373e91caa11</hash-sum>
  </version>
 
     <version name="2" package="texniccenter64" type="one-file">
