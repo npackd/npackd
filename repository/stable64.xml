@@ -3061,20 +3061,6 @@ x86_64</description>
   <link href="https://img.utdstc.com/screen/1/pixia-001.jpg:800" rel="screenshot"/>
   <link href="https://www.snapfiles.com/screenfiles/pixia.jpg" rel="screenshot"/>
  </package>
- <package name="postman64">
-  <title>Postman 64 bit</title>
-  <url>https://www.getpostman.com/</url>
-  <description>WARNING: this package always installs the newest version of the software.
-WARNING: this package always installs the newest version of the software.&#13;
-&#13;
-API development
-x86_64</description>
-  <icon>https://www.postman.com/icons/icon-48x48.png</icon>
-  <category>Development</category>
-  <tag>same-url</tag>
-  <tag>stable64</tag>
-  <stars>1</stars>
- </package>
  <package name="Primeminer">
   <title>Primeminer</title>
   <url>http://www.peercointalk.org/index.php?topic=485.msg3304#msg3304</url>
@@ -46081,6 +46067,20 @@ call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Np
    <variable>nih</variable>
   </dependency>
  </version>
+ <version name="8.2.2730" package="org.vim.Vim64">
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+if %errorlevel% neq 0 exit /b %errorlevel%&#13;
+&#13;
+for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+</file>
+  <url>https://github.com/vim/vim-win32-installer/releases/download/v8.2.2730/gvim_8.2.2730_x64.zip</url>
+  <hash-sum type="SHA-256">257ca271d971b8724680aed41341d62c995ccd4c717edb0d67847a4731c0643b</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.19, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
 
     <version name="4.2.8.83876" package="org.virtualbox.virtualbox64" type="one-file">
   <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
@@ -48891,18 +48891,6 @@ call "%npackdih%\InstallMSI.bat" TARGETDIR yes</file>
   <hash-sum type="SHA-256">28594735a60445af67846e89ba054badb00e20d000dfd854509c82b5e56f22b1</hash-sum>
   <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.25, 2)">
    <variable>ncl</variable>
-  </dependency>
- </version>
-
-    <version name="7.30.1" package="postman64" type="one-file">
-  <file path=".Npackd\Install.bat">ren "%npackd_package_binary%" setup.exe&#13;
-setup.exe &amp;&amp; del /f /q setup.exe&#13;
-</file>
-  <file path=".Npackd\Uninstall.bat">"%myun%\myuninst.exe" /uninstall "postman"&#13;
-</file>
-  <url>https://dl.pstmn.io/download/latest/win64</url>
-  <dependency package="net.nirsoft.MyUninstaller" versions="[1.74, 2)">
-   <variable>myun</variable>
   </dependency>
  </version>
 
