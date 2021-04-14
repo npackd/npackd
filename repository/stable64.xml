@@ -9485,6 +9485,11 @@ call "%npackdih%\InstallMSI.bat" INSTALLDIR yes&#13;
   <url>https://github.com/tim-lebedkov/npackd-cpp/releases/download/version_1.25/Npackd64-1.25.0.zip</url>
   <hash-sum type="SHA-256">91e38dc4762da13251cd7771ff62c8cc82b41f7e7d2015c2fbd9ec02fbb09b96</hash-sum>
  </version>
+ <version name="1.26.9" package="com.googlecode.windows-package-manager.Npackd64">
+  <important-file path="npackdg.exe" title="Npackd"/>
+  <url>https://github.com/tim-lebedkov/npackd-cpp/releases/download/version_1.26.9/Npackd64-1.26.9.zip</url>
+  <hash-sum type="SHA-256">89a1432c4324bb7d238a7eba0d86440d6ae82607a312d85b96db18e57a10759b</hash-sum>
+ </version>
 
     <version name="3.47.21" package="com.httrack.HTTrack64" type="one-file">
   <file path=".WPM\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
@@ -15666,6 +15671,17 @@ if %err% neq 0 exit %err%&#13;
   <file path=".Npackd\Uninstall.bat">"%nih%\UninstallInnoSetup.bat" unins000.exe</file>
   <url>https://github.com/conan-io/conan/releases/download/1.35.0/conan-win-64_1_35_0.exe</url>
   <hash-sum type="SHA-256">f826de4c3f4c934e64edcb16c496e20bbebb55f47c9ed8b37521369b16dce53d</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
+ <version name="1.35.1" package="conan64" type="one-file">
+  <cmd-file path="conan\conan.exe"/>
+  <file path=".Npackd\Install.bat">"%nih%\InstallInnoSetup.bat"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">"%nih%\UninstallInnoSetup.bat" unins000.exe</file>
+  <url>https://github.com/conan-io/conan/releases/download/1.35.1/conan-win-64_1_35_1.exe</url>
+  <hash-sum type="SHA-256">9a8fc682aa683ec4995701cef51598af91e727b4f8d33fa95c5cc25a091a8423</hash-sum>
   <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
    <variable>nih</variable>
   </dependency>
@@ -22709,6 +22725,17 @@ if %err% neq 0 exit %err%&#13;
    <variable>nih</variable>
   </dependency>
  </version>
+ <version name="7.0.11.7" package="imagemagick64" type="one-file">
+  <file path=".Npackd\Install.bat">call "%nih%\InstallInnoSetup.bat"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">call "%nih%\UninstallInnoSetup.bat" unins000.exe&#13;
+</file>
+  <url>https://www.imagemagick.org/download/binaries/ImageMagick-7.0.11-7-Q16-HDRI-x64-dll.exe</url>
+  <hash-sum type="SHA-256">a10c4b540d61a6698eb3edfb81c5bcea7819a4e43054758c7921a82241f03ada</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
 
     <version name="0.3.8" package="io.mpv.mpv-64" type="one-file">
   <file path=".Npackd\Install.bat">for /f %%x in ('dir /b *.7z') do set setup=%%x&#13;
@@ -25514,6 +25541,16 @@ reg add HKCU\Software\mkvmergeGUI\GUI /v check_for_updates /t REG_DWORD /d 00000
   <file path=".Npackd\Uninstall.bat">"%nih%\UninstallInnoSetup.bat" unins000.exe</file>
   <url>https://github.com/moneymanagerex/moneymanagerex/releases/download/v1.3.6/mmex-1.3.6-win64.exe</url>
   <hash-sum type="SHA-256">25118a25f3cc7982ce8326f3feff73a909be50c8ac85cdf1be04756e820121e6</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
+ <version name="1.5" package="money-manager-ex64" type="one-file">
+  <file path=".Npackd\Install.bat">"%nih%\InstallInnoSetup.bat"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">"%nih%\UninstallInnoSetup.bat" unins000.exe</file>
+  <url>https://github.com/moneymanagerex/moneymanagerex/releases/download/v1.5.0/mmex-1.5.0-win64.exe</url>
+  <hash-sum type="SHA-256">ac4bc3dc642e8738d6ff84af95d376c09620ff5389460b86dafa631199567cff</hash-sum>
   <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
    <variable>nih</variable>
   </dependency>
@@ -30729,7 +30766,7 @@ WshShell.AppActivate("Uninstall");&#13;
 WScript.Sleep(10000);&#13;
 WshShell.SendKeys("{ESC}");&#13;
 </file>
-  <url>https://download.openmpt.org/archive/openmpt/1.29/OpenMPT-1.29.09.00-Setup-x64.exe</url>
+  <url>https://github.com/tim-lebedkov/packages/releases/download/2021_04/openmpt64-1.29.9-OpenMPT-1.29.09.00-Setup-x64.exe</url>
   <hash-sum type="SHA-256">7877750f5cefbfefe3038c4631e10766675d57d2bbbcabfb35b7dee57bae93e8</hash-sum>
  </version>
 
@@ -46209,6 +46246,20 @@ call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Np
 </file>
   <url>https://github.com/vim/vim-win32-installer/releases/download/v8.2.2738/gvim_8.2.2738_x64.zip</url>
   <hash-sum type="SHA-256">9d5ad8a830765277ea73d58b2206ff8e5982c3b87d53e9ac5af7ce4b9570e080</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.19, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
+ <version name="8.2.2741" package="org.vim.Vim64">
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+if %errorlevel% neq 0 exit /b %errorlevel%&#13;
+&#13;
+for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+</file>
+  <url>https://github.com/vim/vim-win32-installer/releases/download/v8.2.2741/gvim_8.2.2741_x64.zip</url>
+  <hash-sum type="SHA-256">bf05324405013c95a3dd65960746b45dde246816affeb645d28ff732eb381443</hash-sum>
   <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.19, 2)">
    <variable>nih</variable>
   </dependency>
