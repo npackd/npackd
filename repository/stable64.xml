@@ -20347,7 +20347,7 @@ if %err% neq 0 exit %err%&#13;
   <hash-sum type="SHA-256">951c16d730bb70a8acc1af5d44d8d00ce828316b664253163f64667d026d7e67</hash-sum>
  </version>
 
-    <version name="89.0.4389.114" package="google-chrome-x64" type="one-file">
+    <version name="89.0.4389.128" package="google-chrome-x64" type="one-file">
   <file path=".Npackd\Install.bat">call "%npackdih%\InstallMSI.bat" TARGETDIR yes&#13;
 </file>
   <url>https://dl.google.com/tag/s/appguid%3D%7B8A69D345-D564-463C-AFF1-A69D9E530F96%7D%26iid%3D%7B0A558A36-0536-8B3F-0AE0-420553CC97F3%7D%26lang%3Den%26browser%3D4%26usagestats%3D0%26appname%3DGoogle%2520Chrome%26needsadmin%3DFalse/edgedl/chrome/install/GoogleChromeStandaloneEnterprise64.msi</url>
@@ -21446,6 +21446,19 @@ rmdir "%name%"&#13;
 </file>
   <url>https://dl.google.com/dl/cloudsdk/channels/rapid/downloads/google-cloud-sdk-335.0.0-windows-x86_64.zip</url>
   <hash-sum type="SHA-256">0ebf0c6e83529dd3b4d6b82baad68c2ff4a000f65a3b21b8219281a0b03984b2</hash-sum>
+  <dependency package="org.python.Python" versions="[2.7, 2.8)"/>
+ </version>
+ <version name="336" package="google-cloud-sdk64">
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b google-cloud-sdk*') do set name=%%x&#13;
+cd "%name%"&#13;
+for /f "delims=" %%a in ('dir /b') do (&#13;
+  move "%%a" ..&#13;
+)&#13;
+cd ..&#13;
+rmdir "%name%"&#13;
+</file>
+  <url>https://dl.google.com/dl/cloudsdk/channels/rapid/downloads/google-cloud-sdk-336.0.0-windows-x86_64.zip</url>
+  <hash-sum type="SHA-256">598cdb185e4c08f0a6700d93c35da94dc73492d184c1fa5381dd4b5008d0f952</hash-sum>
   <dependency package="org.python.Python" versions="[2.7, 2.8)"/>
  </version>
 
@@ -22730,7 +22743,7 @@ if %err% neq 0 exit %err%&#13;
 </file>
   <file path=".Npackd\Uninstall.bat">call "%nih%\UninstallInnoSetup.bat" unins000.exe&#13;
 </file>
-  <url>https://www.imagemagick.org/download/binaries/ImageMagick-7.0.11-7-Q16-HDRI-x64-dll.exe</url>
+  <url>https://github.com/tim-lebedkov/packages/releases/download/2021_04/imagemagick64-7.0.11.7-ImageMagick-7.0.11-7-Q16-HDRI-x64-dll.exe</url>
   <hash-sum type="SHA-256">a10c4b540d61a6698eb3edfb81c5bcea7819a4e43054758c7921a82241f03ada</hash-sum>
   <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
    <variable>nih</variable>
@@ -46278,6 +46291,48 @@ call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Np
    <variable>nih</variable>
   </dependency>
  </version>
+ <version name="8.2.2756" package="org.vim.Vim64">
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+if %errorlevel% neq 0 exit /b %errorlevel%&#13;
+&#13;
+for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+</file>
+  <url>https://github.com/vim/vim-win32-installer/releases/download/v8.2.2756/gvim_8.2.2756_x64.zip</url>
+  <hash-sum type="SHA-256">dcce8d29757f7c5814091a2aeb1a814d0aea39eef9510c4573aaefd08e88e217</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.19, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
+ <version name="8.2.2758" package="org.vim.Vim64">
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+if %errorlevel% neq 0 exit /b %errorlevel%&#13;
+&#13;
+for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+</file>
+  <url>https://github.com/vim/vim-win32-installer/releases/download/v8.2.2758/gvim_8.2.2758_x64.zip</url>
+  <hash-sum type="SHA-256">72693c90d1675903dc1b6857388e2f82466038cc2adfb6edc660ad35a4615c0c</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.19, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
+ <version name="8.2.2760" package="org.vim.Vim64">
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+if %errorlevel% neq 0 exit /b %errorlevel%&#13;
+&#13;
+for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+</file>
+  <url>https://github.com/vim/vim-win32-installer/releases/download/v8.2.2760/gvim_8.2.2760_x64.zip</url>
+  <hash-sum type="SHA-256">f894cf03e7e8ad66b1c77553a5780c5f405c53280eda68bc31845ee7bd844aae</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.19, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
 
     <version name="4.2.8.83876" package="org.virtualbox.virtualbox64" type="one-file">
   <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
@@ -50476,6 +50531,14 @@ if %errorlevel% equ 3010 verify</file>
   <url>https://download.racket-lang.org/installers/7.9/racket-7.9-x86_64-win32.exe</url>
   <hash-sum type="SHA-256">575f82880f4416b5e7f355ae61888cf18120a9970798d0773d7fc6e2c80d4e20</hash-sum>
  </version>
+ <version name="8" package="racket64" type="one-file">
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
+"%setup%" /S /D=%CD%\Prog &amp;&amp; del /f /q "%setup%"</file>
+  <file path=".Npackd\Uninstall.bat">Prog\uninstall.exe /S _?=%CD%\Prog&#13;
+</file>
+  <url>https://mirror.racket-lang.org/installers/8.0/racket-8.0-x86_64-win32-cs.exe</url>
+  <hash-sum type="SHA-256">329d601ee0e61e88b9b7e8d128ac6da2acceb315a9af4b9b6c571c8959dbeb56</hash-sum>
+ </version>
 
     <version name="1.14.2" package="rainlendar-lite-64bit" type="one-file">
   <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
@@ -51328,6 +51391,16 @@ call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Np
 </file>
   <url>https://github.com/tim-lebedkov/packages/releases/download/2021_04/se.haxx.curl.CURL64-7.76-curl-7.76.0-win64-mingw.zip</url>
   <hash-sum type="SHA-256">87705e703c554c4f9f28b6c972fa7e7c1bca60062ff925bd0d560379cfe2488b</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.19, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
+ <version name="7.76.1" package="se.haxx.curl.CURL64">
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b curl*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+</file>
+  <url>https://curl.haxx.se/windows/dl-7.76.1/curl-7.76.1-win64-mingw.zip</url>
+  <hash-sum type="SHA-256">3e12cbc7a2d68b063dc242f9acc73424e8e1d5ede35245a693283152af1f62de</hash-sum>
   <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.19, 2)">
    <variable>nih</variable>
   </dependency>
