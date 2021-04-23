@@ -480,7 +480,6 @@ func processPackageVersion(packageName string, version string) bool {
 	if ec != 0 {
 		fmt.Println("npackdcl.exe add failed")
 		apiNotify(packageName, version, true, false)
-		apiTag(packageName, version, "test-failed", true)
 
 		log := packageName + "-" + version + "-install.log"
 		exec2("", "cmd.exe", "/C \""+settings.npackdcl+"\" add -d --package="+packageName+
@@ -523,7 +522,6 @@ func processPackageVersion(packageName string, version string) bool {
 	if ec != 0 {
 		fmt.Println("npackdcl.exe remove failed")
 		apiNotify(packageName, version, false, false)
-		apiTag(packageName, version, "test-failed", true)
 
 		var log = packageName + "-" + version + "-uninstall.log"
 		exec2("", "cmd.exe", "/C \""+settings.npackdcl+
@@ -534,7 +532,6 @@ func processPackageVersion(packageName string, version string) bool {
 		return false
 	}
 	apiNotify(packageName, version, false, true)
-	apiTag(packageName, version, "test-failed", false)
 	return true
 }
 
