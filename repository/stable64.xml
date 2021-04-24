@@ -3615,6 +3615,20 @@ x86_64</description>
   <stars>1</stars>
   <link href="http://trqtw.sourceforge.net/blog/newsfeed/" rel="changelog"/>
  </package>
+ <package name="treecomp64">
+  <title>TreeComp 64 bit</title>
+  <url>https://lploeger.home.xs4all.nl/TreeComp.htm</url>
+  <description>An interactive utility to keep 2 directory trees and the files within the directories in sync.
+x86_64</description>
+  <icon>https://img.informer.com/icons/png/128/37/37073.png</icon>
+  <license>org.wikipedia.Freeware</license>
+  <tag>stable64</tag>
+  <link href="https://windows-cdn.softpedia.com/screenshots/TreeComp_1.png" rel="screenshot"/>
+  <link href="https://windows-cdn.softpedia.com/screenshots/TreeComp_2.png" rel="screenshot"/>
+  <link href="https://windows-cdn.softpedia.com/screenshots/TreeComp_3.png" rel="screenshot"/>
+  <link href="https://windows-cdn.softpedia.com/screenshots/TreeComp_4.png" rel="screenshot"/>
+  <link href="https://windows-cdn.softpedia.com/screenshots/TreeComp_5.png" rel="screenshot"/>
+ </package>
  <package name="tuniac64">
   <title>Tuniac 64 Bit</title>
   <url>https://tuni.ac</url>
@@ -4694,8 +4708,6 @@ verify&#13;
   <url>https://download-cdn.resilio.com/stable/windows64/Resilio-Sync_x64.exe</url>
  </version>
 
-    
-
     <version name="1.3.99" package="brave64" type="one-file">
   <file path=".Npackd\Install.bat">"%npackd_package_binary%" &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
 </file>
@@ -4828,6 +4840,8 @@ verify&#13;
    <variable>nih</variable>
   </dependency>
  </version>
+
+    
 
     <version name="4.2.25" package="ch.flos-freeware.Notepad264">
   <important-file path="Notepad2.exe" title="Notepad2"/>
@@ -10878,6 +10892,16 @@ call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Np
    <variable>clu</variable>
   </dependency>
  </version>
+ <version name="16.0.1" package="com.oracle.JDK64">
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b jdk*') do set name=%%x&#13;
+"%clu%\clu" unwrap-dir -p "%name%"&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+</file>
+  <url>https://download.java.net/java/GA/jdk16.0.1/7147401fd7354114ac51ef3e1328291f/9/GPL/openjdk-16.0.1_windows-x64_bin.zip</url>
+  <hash-sum type="SHA-256">733b45b09463c97133d70c2368f1b9505da58e88f2c8a84358dd4accfd06a7a4</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.CLU" versions="[1.25, 2)">
+   <variable>clu</variable>
+  </dependency>
+ </version>
 
     <version name="1.6.0.25" package="com.oracle.JRE64" type="one-file">
   <file path=".Npackd\Install.bat">ren AutoDL Install.exe
@@ -12804,7 +12828,7 @@ del Q-Dir.ini&#13;
   <url>http://files.npackd.org/com.softwareok.QDir64-5.99.9.zip</url>
   <sha1>fb6060796fae3fc641ba34fe1f2f8530d7c985a8</sha1>
  </version>
- <version name="9.39" package="com.softwareok.QDir64">
+ <version name="9.41" package="com.softwareok.QDir64">
   <important-file path="Q-Dir_x64.exe" title="Q-Dir"/>
   <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b Q*') do set name=%%x&#13;
 cd "%name%"        &#13;
@@ -18151,6 +18175,17 @@ rmdir "%name%"&#13;
 </file>
   <url>https://www.ponsoftware.com/en/archiver/explzh/explz839_en_x64.exe</url>
   <hash-sum type="SHA-256">80df4252cc9bf84f43c527fb231334d7db9383a7bcf3d0ffd0b1013daeab3218</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.25, 2)">
+   <variable>ncl</variable>
+  </dependency>
+ </version>
+ <version name="8.40" package="explzh64" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" /silent /q &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">"%ncl%\ncl.exe" remove-scp --title "/%npackd_package_name% %npackd_package_version%/i"&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+</file>
+  <url>https://www.ponsoftware.com/en/archiver/explzh/explz840_en_x64.exe</url>
+  <hash-sum type="SHA-256">cbdbc8d2630c1fdd10e28af7ed33b94f92fca3050f8354f6cd94c26aad08f190</hash-sum>
   <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.25, 2)">
    <variable>ncl</variable>
   </dependency>
@@ -26926,7 +26961,7 @@ if %err% neq 0 exit %err%</file>
    <variable>npackdih</variable>
   </dependency>
  </version>
- <version name="4.2.15" package="net.getpaint.paintdotnet64">
+ <version name="4.2.16" package="net.getpaint.paintdotnet64">
   <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
 "%setup%" /auto "TARGETDIR=%CD%" CHECKFORUPDATES=0 JPGPNGBMPEDITOR=0 TGAEDITOR=0 DESKTOPSHORTCUT=0</file>
   <url>http://www.dotpdn.com/files/paint.net.4.1.4.install.zip</url>
@@ -46544,6 +46579,20 @@ call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Np
    <variable>nih</variable>
   </dependency>
  </version>
+ <version name="8.2.2800" package="org.vim.Vim64">
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+if %errorlevel% neq 0 exit /b %errorlevel%&#13;
+&#13;
+for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+</file>
+  <url>https://github.com/vim/vim-win32-installer/releases/download/v8.2.2800/gvim_8.2.2800_x64.zip</url>
+  <hash-sum type="SHA-256">a8455583eb70a7ace8809db93c388c89ae8e58f6f53507739060643fe11532db</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.19, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
 
     <version name="4.2.8.83876" package="org.virtualbox.virtualbox64" type="one-file">
   <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
@@ -53496,6 +53545,18 @@ if %err% neq 0 exit %err%&#13;
   <url>https://github.com/transmission/transmission/releases/download/3.00/transmission-3.00-x64.msi</url>
   <hash-sum type="SHA-256">c34828a6d2c50c7c590d05ca50249b511d46e9a2a7223323fb3d1421e3f6b9d1</hash-sum>
   <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.1, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
+
+    <version name="4.0.57" package="treecomp64">
+  <file path=".Npackd\Install.bat">call "%nih%\InstallInnoSetup.bat"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">call "%nih%\UninstallInnoSetup.bat" unins000.exe&#13;
+</file>
+  <url>https://lploeger.home.xs4all.nl/TreeCompx64_20191106.zip</url>
+  <hash-sum type="SHA-256">778ea36a45ba88c261ab5b836c2baebc583c79242095c9209471a30856281f2d</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
    <variable>nih</variable>
   </dependency>
  </version>
