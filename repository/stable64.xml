@@ -191,7 +191,7 @@ x86_64</description>
   <category>Video</category>
   <tag>stable64</tag>
   <tag>same-url</tag>
-  <stars>1</stars>
+  <stars>2</stars>
   <link href="https://www.allplayer.org/en/changelog" rel="changelog"/>
   <link href="https://www.allplayer.org/images/allplayer-8-8.jpg" rel="screenshot"/>
   <link href="http://www.allplayer.org/images/screen/en/1.jpg" rel="screenshot"/>
@@ -1687,6 +1687,7 @@ x86_64</description>
   <icon>https://upload.wikimedia.org/wikipedia/commons/thumb/d/d7/The_KMPlayer_icon_%28since_v3.2%29.png/220px-The_KMPlayer_icon_%28since_v3.2%29.png</icon>
   <category>Video</category>
   <tag>stable64</tag>
+  <stars>1</stars>
   <link href="http://imgcdn.pandora.tv/publishing/kmp_rt/images/pc64x_img1.png" rel="screenshot"/>
   <link href="https://www.snapfiles.com/screenfiles/kmplayer.jpg" rel="screenshot"/>
   <link href="https://www.snapfiles.com/screenfiles/kmplayer3.jpg" rel="screenshot"/>
@@ -4086,6 +4087,8 @@ x86_64</description>
    <variable>nih</variable>
   </dependency>
  </version>
+
+    
 
     <version name="5.1" package="anaconda64" type="one-file">
   <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
@@ -15773,6 +15776,8 @@ if %err% neq 0 exit %err%&#13;
   <url>http://cygwin.com/setup-x86_64.exe</url>
  </version>
 
+    
+
     <version name="1.7.21465" package="daumpotplayer64" type="one-file">
   <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
 </file>
@@ -17918,6 +17923,17 @@ rmdir "%name%"&#13;
    <variable>ncl</variable>
   </dependency>
  </version>
+ <version name="8.40" package="explzh" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" /silent /q &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">"%ncl%\ncl.exe" remove-scp --title "/%npackd_package_name% %npackd_package_version%/i"&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+</file>
+  <url>https://www.ponsoftware.com/en/archiver/explzh/explz840_en.exe</url>
+  <hash-sum type="SHA-256">a924fd3a69af288eb8408a8975695bc9643b6df301509de75d71f2d9db53e016</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.25, 2)">
+   <variable>ncl</variable>
+  </dependency>
+ </version>
 
     <version name="8.7" package="explzh64" type="one-file">
   <file path=".Npackd\Install.bat">"%npackd_package_binary%" &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
@@ -19376,6 +19392,8 @@ verify</file>
   <hash-sum type="SHA-256">63c33fa7b7d8db285c6effcced61cba9864afded8459c7411fe558260b7a111a</hash-sum>
  </version>
 
+    
+
     <version name="0.10" package="fr.handbrake.HandBrake64" type="one-file">
   <file path=".Npackd\Install.bat">ren rotation.php setup.exe&#13;
 for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
@@ -19806,6 +19824,15 @@ rmdir "%name%"</file>
 </file>
   <url>https://gajim.org/downloads/1.3/Gajim-1.3.1-64bit-1.exe</url>
   <hash-sum type="SHA-256">ab3ad907dfc4583d8e59bda90f511a142cfc70c42197f47c0275d1be859da874</hash-sum>
+ </version>
+ <version name="1.3.2" package="gajim64" type="one-file">
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
+"%setup%" /S /D=%CD%&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">uninstall.exe /S _?=%CD%&#13;
+</file>
+  <url>https://gajim.org/downloads/1.3/Gajim-1.3.2-64bit-1.exe</url>
+  <hash-sum type="SHA-256">98d51bcad3a614e7628f954fadd8e1e4203fd58ecba8765915a60a35e5a5abdd</hash-sum>
  </version>
 
     <version name="3.20.1" package="gedit64" type="one-file">
@@ -21581,6 +21608,8 @@ rmdir "%name%"&#13;
   <hash-sum type="SHA-256">31eaacd03ea911523e7b81a1873c653c5deba770aa1e0dcc4f3b9c2264cfe5e6</hash-sum>
  </version>
 
+    
+
     <version name="0.3.4" package="halite64" type="one-file">
   <file path=".Npackd\Install.bat">call "%npackdih%\InstallMSI.bat" INSTALLDIR yes</file>
   <url>https://sourceforge.net/projects/halite/files/Halite/v%200.3.4/Halite.0_3_4.x64.msi</url>
@@ -22871,6 +22900,8 @@ if %err% neq 0 exit %err%&#13;
    <variable>nih</variable>
   </dependency>
  </version>
+
+    
 
     <version name="0.3.8" package="io.mpv.mpv-64" type="one-file">
   <file path=".Npackd\Install.bat">for /f %%x in ('dir /b *.7z') do set setup=%%x&#13;
@@ -46583,6 +46614,20 @@ call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Np
    <variable>nih</variable>
   </dependency>
  </version>
+ <version name="8.2.2799" package="org.vim.Vim64">
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+if %errorlevel% neq 0 exit /b %errorlevel%&#13;
+&#13;
+for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+</file>
+  <url>https://github.com/vim/vim-win32-installer/releases/download/v8.2.2799/gvim_8.2.2799_x64.zip</url>
+  <hash-sum type="SHA-256">eb2588438f8090b07e74a7b0e5fde7cfe7c92a6c7b962cc4af0f58d693f6b49e</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.19, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
  <version name="8.2.2800" package="org.vim.Vim64">
   <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
 call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
@@ -46593,6 +46638,20 @@ call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Np
 </file>
   <url>https://github.com/vim/vim-win32-installer/releases/download/v8.2.2800/gvim_8.2.2800_x64.zip</url>
   <hash-sum type="SHA-256">a8455583eb70a7ace8809db93c388c89ae8e58f6f53507739060643fe11532db</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.19, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
+ <version name="8.2.2803" package="org.vim.Vim64">
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+if %errorlevel% neq 0 exit /b %errorlevel%&#13;
+&#13;
+for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+</file>
+  <url>https://github.com/vim/vim-win32-installer/releases/download/v8.2.2803/gvim_8.2.2803_x64.zip</url>
+  <hash-sum type="SHA-256">d3f29422462fda2b45eb634ff8f3d17acc1788d882d8288ec4a93c9e41537590</hash-sum>
   <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.19, 2)">
    <variable>nih</variable>
   </dependency>
