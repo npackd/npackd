@@ -308,6 +308,20 @@ x86_64</description>
   <tag>same-url</tag>
   <tag>stable64</tag>
  </package>
+ <package name="bowpad64">
+  <title>BowPad 64 Bit</title>
+  <url>https://tools.stefankueng.com/BowPad.html</url>
+  <description>small and fast text editor with a ribbon user interface and syntax highlighting.
+x86_64</description>
+  <icon>https://img.utdstc.com/icon/fac/007/fac0074a61f956e6bdba7a38b3c21fc351edb730d1942eabfe8333fdf171037f:200</icon>
+  <license>org.gnu.GPLv3</license>
+  <category>Text</category>
+  <tag>stable64</tag>
+  <link href="https://tools.stefankueng.com/BowPad_history.html" rel="changelog"/>
+  <link href="https://windows-cdn.softpedia.com/screenshots/BowPad_5.png" rel="screenshot"/>
+  <link href="https://windows-cdn.softpedia.com/screenshots/BowPad_6.png" rel="screenshot"/>
+  <link href="https://github.com/stefankueng/BowPad/issues" rel="issues"/>
+ </package>
  <package name="brave64">
   <title>Brave 64 bit</title>
   <url>https://brave.com/features/</url>
@@ -4711,6 +4725,16 @@ verify&#13;
 
     <version name="2.4.1" package="bittorrent-sync64" type="one-file">
   <url>https://download-cdn.resilio.com/stable/windows64/Resilio-Sync_x64.exe</url>
+ </version>
+
+    <version name="2.7" package="bowpad64" type="one-file">
+  <file path=".Npackd\Install.bat">call "%nih%\InstallMSI.bat" INSTALLDIR yes&#13;
+</file>
+  <url>https://github.com/stefankueng/BowPad/releases/download/2.7.0/BowPad64-2.7.0.msi</url>
+  <hash-sum type="SHA-256">4c7ae239ae7ad5e8ddda9283e6bc4b839529b5223e5c1110c6c58c9fbfc32d14</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.1, 2)">
+   <variable>nih</variable>
+  </dependency>
  </version>
 
     <version name="1.3.99" package="brave64" type="one-file">
@@ -10220,6 +10244,15 @@ if %err% neq 0 exit /b %err%&#13;
    <variable>npackdih</variable>
   </dependency>
  </version>
+ <version name="8.0.24" package="com.mysql.dev.MySQLODBCConnector64bits" type="one-file">
+  <file path=".Npackd\Install.bat">call "%npackdih%\InstallMSI.bat" INSTALLDIR yes&#13;
+		</file>
+  <url>https://cdn.mysql.com//Downloads/Connector-ODBC/8.0/mysql-connector-odbc-8.0.24-winx64.msi</url>
+  <hash-sum type="SHA-256">bf7655a3346af7bb4986ed9b046f2ff36effec6a3e2e98223aff0d91bb48e31f</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.1, 2)">
+   <variable>npackdih</variable>
+  </dependency>
+ </version>
 
     <version name="5.5.16" package="com.mysql.MySQLCommunityServer64" type="one-file">
   <file path=".Npackd\Install.bat">call "%npackdih%\InstallMSI.bat" INSTALLDIR yes</file>
@@ -12467,6 +12500,14 @@ if %err% neq 0 exit %err%&#13;
 </file>
   <url>https://github.com/sindresorhus/caprine/releases/download/v2.52.3/caprine-setup-2.52.3.exe</url>
   <hash-sum type="SHA-256">a49ede6e5c230792453fd2486ee0492006a0b09fd4a5b007ea0e0529de05cee4</hash-sum>
+ </version>
+ <version name="2.52.4" package="com.sindresorhus.caprine" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">uninstall.exe /S _?=%CD%&#13;
+</file>
+  <url>https://github.com/sindresorhus/caprine/releases/download/v2.52.4/caprine-setup-2.52.4.exe</url>
+  <hash-sum type="SHA-256">5d27608381ab56864d734e0e084c9b9344066e9f241322199b6e80a7416751c4</hash-sum>
  </version>
 
     <version name="4.51" package="com.softwareok.QDir64">
@@ -15775,8 +15816,6 @@ if %err% neq 0 exit %err%&#13;
 "%setup%" -q -L -R "%CD%" -l "%CD%\packages"</file>
   <url>http://cygwin.com/setup-x86_64.exe</url>
  </version>
-
-    
 
     <version name="1.7.21465" package="daumpotplayer64" type="one-file">
   <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
@@ -21590,6 +21629,19 @@ rmdir "%name%"&#13;
   <hash-sum type="SHA-256">598cdb185e4c08f0a6700d93c35da94dc73492d184c1fa5381dd4b5008d0f952</hash-sum>
   <dependency package="org.python.Python" versions="[2.7, 2.8)"/>
  </version>
+ <version name="337" package="google-cloud-sdk64">
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b google-cloud-sdk*') do set name=%%x&#13;
+cd "%name%"&#13;
+for /f "delims=" %%a in ('dir /b') do (&#13;
+  move "%%a" ..&#13;
+)&#13;
+cd ..&#13;
+rmdir "%name%"&#13;
+</file>
+  <url>https://dl.google.com/dl/cloudsdk/channels/rapid/downloads/google-cloud-sdk-337.0.0-windows-x86_64.zip</url>
+  <hash-sum type="SHA-256">aa0c40deb821e8ab3541edf98ceb18e861e2930696ad05358ea8faa77a6a72ce</hash-sum>
+  <dependency package="org.python.Python" versions="[2.7, 2.8)"/>
+ </version>
 
     <version name="1.1.94" package="grisbi64" type="one-file">
   <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
@@ -21714,6 +21766,17 @@ verify&#13;
   <file path=".Npackd\Uninstall.bat">uninstall.exe /mode silent</file>
   <url>https://github.com/TPC-Council/HammerDB/releases/download/v4.0/HammerDB-4.0-Win-x64-Signed-Setup.exe</url>
   <hash-sum type="SHA-256">73dea4c07c657cb8ebb903ab3e9aec21c1939aaa20ca47462d810fc10b1bb0fd</hash-sum>
+ </version>
+ <version name="4.1" package="hammerdb64" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" /mode silent /prefix "%cd%"&#13;
+if %errorlevel% neq 0 exit /b %errorlevel%&#13;
+&#13;
+del /f /q "%npackd_package_binary%"&#13;
+verify&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">uninstall.exe /mode silent</file>
+  <url>https://github.com/TPC-Council/HammerDB/releases/download/v4.1/HammerDB-4.1-Win-x64-Setup.exe</url>
+  <hash-sum type="SHA-256">889905d4f49b64e8f77382de733f70f0f1d37af58fb42715f9f51832df07eef2</hash-sum>
  </version>
 
     <version name="2.2" package="hashmyfiles64">
@@ -46656,6 +46719,34 @@ call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Np
    <variable>nih</variable>
   </dependency>
  </version>
+ <version name="8.2.2808" package="org.vim.Vim64">
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+if %errorlevel% neq 0 exit /b %errorlevel%&#13;
+&#13;
+for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+</file>
+  <url>https://github.com/vim/vim-win32-installer/releases/download/v8.2.2808/gvim_8.2.2808_x64.zip</url>
+  <hash-sum type="SHA-256">59f8268d765c114df781c90a75aff269c8f17a0d01ea6573068f0a34022f893a</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.19, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
+ <version name="8.2.2811" package="org.vim.Vim64">
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+if %errorlevel% neq 0 exit /b %errorlevel%&#13;
+&#13;
+for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+</file>
+  <url>https://github.com/vim/vim-win32-installer/releases/download/v8.2.2811/gvim_8.2.2811_x64.zip</url>
+  <hash-sum type="SHA-256">c8167367e3cf733a26308bfbafd907f3702fedc4fd60652f20f4f9c04d13fd1f</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.19, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
 
     <version name="4.2.8.83876" package="org.virtualbox.virtualbox64" type="one-file">
   <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
@@ -48368,6 +48459,41 @@ if %err% equ 3010 exit 0&#13;
 if %err% neq 0 exit %err%</file>
   <url>http://download.virtualbox.org/virtualbox/6.1.18/VirtualBox-6.1.18-142142-Win.exe</url>
   <hash-sum type="SHA-256">c04e452b2f3f79d25d3084eb10c9aa9dd71c2efb33fad0282c7e8b206b3324df</hash-sum>
+  <dependency package="org.7-zip.SevenZIP64" versions="[9.20, 20)">
+   <variable>sevenzip</variable>
+  </dependency>
+ </version>
+ <version name="6.1.20.143896" package="org.virtualbox.virtualbox64" type="one-file">
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
+"%setup%" -x -s -p "%CD%"&#13;
+&#13;
+&#13;
+"%sevenzip%\7z.exe" x common.cab -aos -o"%CD%\common"&#13;
+"%sevenzip%\7z.exe" x "%CD%\common\file_VBoxGuestAdditions.iso" -aos -o"%CD%\common\file_VBoxGuestAdditions"&#13;
+&#13;
+certutil.exe -addstore -f "TrustedPublisher" "%CD%\common\file_VBoxGuestAdditions\cert\oracle-vbox.cer" &gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+&#13;
+for /f "delims=" %%x in ('dir /b *MultiArch_amd64.msi') do set setup=%%x&#13;
+msiexec.exe /qn /norestart /Lime .Npackd\MSI.log /i "%setup%"&#13;
+set err=%errorlevel%&#13;
+type .Npackd\MSI.log&#13;
+rem 3010=restart required&#13;
+if %err% equ 3010 exit 0&#13;
+if %err% neq 0 exit %err%&#13;
+&#13;
+for /f "delims=" %%x in ('dir /b *MultiArch_x86.msi') do set trash=%%x&#13;
+del /q /f "%trash%"&#13;
+&#13;
+if exist "%CD%\common" (rd /s /q "%CD%\common")</file>
+  <file path=".Npackd\Uninstall.bat">for /f "delims=" %%x in ('dir /b *.msi') do set setup=%%x&#13;
+msiexec.exe /qn /norestart /Lime .Npackd\MSI.log /x "%setup%"&#13;
+set err=%errorlevel%&#13;
+type .Npackd\MSI.log&#13;
+rem 3010=restart required&#13;
+if %err% equ 3010 exit 0&#13;
+if %err% neq 0 exit %err%</file>
+  <url>http://download.virtualbox.org/virtualbox/6.1.20/VirtualBox-6.1.20-143896-Win.exe</url>
+  <hash-sum type="SHA-256">9e969c60ab0a92f54c45b910d18c0cfb0937009dabc0c3382a51329d699e29f9</hash-sum>
   <dependency package="org.7-zip.SevenZIP64" versions="[9.20, 20)">
    <variable>sevenzip</variable>
   </dependency>
