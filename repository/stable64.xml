@@ -708,6 +708,7 @@ x86_64</description>
   <license>org.wikipedia.Freeware</license>
   <category>Tools</category>
   <tag>stable64</tag>
+  <tag>reupload</tag>
   <stars>1</stars>
  </package>
  <package name="com.microsoft.Mathematics64">
@@ -20515,7 +20516,7 @@ if %err% neq 0 exit %err%&#13;
   <hash-sum type="SHA-256">951c16d730bb70a8acc1af5d44d8d00ce828316b664253163f64667d026d7e67</hash-sum>
  </version>
 
-    <version name="90.0.4430.85" package="google-chrome-x64" type="one-file">
+    <version name="90.0.4430.93" package="google-chrome-x64" type="one-file">
   <file path=".Npackd\Install.bat">call "%npackdih%\InstallMSI.bat" TARGETDIR yes&#13;
 </file>
   <url>https://dl.google.com/tag/s/appguid%3D%7B8A69D345-D564-463C-AFF1-A69D9E530F96%7D%26iid%3D%7B0A558A36-0536-8B3F-0AE0-420553CC97F3%7D%26lang%3Den%26browser%3D4%26usagestats%3D0%26appname%3DGoogle%2520Chrome%26needsadmin%3DFalse/edgedl/chrome/install/GoogleChromeStandaloneEnterprise64.msi</url>
@@ -26935,6 +26936,17 @@ rmdir "%name%"&#13;
   <dependency package="com.microsoft.DotNetRedistributable" versions="[4, 5)"/>
   <dependency package="com.microsoft.VisualCPPRedistributable" versions="[10, 11)"/>
  </version>
+ <version name="8.0.24" package="mysql-workbench64" type="one-file">
+  <file path=".Npackd\Install.bat">call "%npackdih%\InstallMSI.bat" INSTALLDIR yes&#13;
+		</file>
+  <url>https://dev.mysql.com/get/Downloads/MySQLGUITools/mysql-workbench-community-8.0.24-winx64.msi</url>
+  <hash-sum type="SHA-256">02c60db1d1127b75bdc731c580612bb9cc7427369918039fa5182e6a5dda2852</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.1, 2)">
+   <variable>npackdih</variable>
+  </dependency>
+  <dependency package="com.microsoft.DotNetRedistributable" versions="[4, 5)"/>
+  <dependency package="com.microsoft.VisualCPPRedistributable" versions="[10, 11)"/>
+ </version>
 
     <version name="3" package="net.blat.Blat64">
   <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b blat*') do set name=%%x&#13;
@@ -32780,6 +32792,21 @@ rmdir "%name%"
 </file>
   <url>http://archive.apache.org/dist/tomcat/tomcat-7/v7.0.108/bin/apache-tomcat-7.0.108-windows-x64.zip</url>
   <hash-sum type="SHA-256">66540c3f064f1385fe2855bce203c87500bdf543769cd6728da86f3a9e65359a</hash-sum>
+  <dependency package="com.oracle.JRE" versions="[1.5, 2)"/>
+ </version>
+ <version name="7.0.109" package="org.apache.tomcat.Tomcat64">
+  <important-file path="bin\startup.bat" title="Start"/>
+  <important-file path="bin\shutdown.bat" title="Stop"/>
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b apache*') do set name=%%x
+cd "%name%"        
+for /f "delims=" %%a in ('dir /b') do (
+  move "%%a" ..
+)
+cd ..
+rmdir "%name%"
+</file>
+  <url>http://archive.apache.org/dist/tomcat/tomcat-7/v7.0.109/bin/apache-tomcat-7.0.109-windows-x64.zip</url>
+  <hash-sum type="SHA-256">2c0f2d6d76bd4fedf4e11400fdae8bbd05c0b5c8c2a5b45f3baf82f45d4eff27</hash-sum>
   <dependency package="com.oracle.JRE" versions="[1.5, 2)"/>
  </version>
 
@@ -46747,6 +46774,20 @@ call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Np
    <variable>nih</variable>
   </dependency>
  </version>
+ <version name="8.2.2814" package="org.vim.Vim64">
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+if %errorlevel% neq 0 exit /b %errorlevel%&#13;
+&#13;
+for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+</file>
+  <url>https://github.com/vim/vim-win32-installer/releases/download/v8.2.2814/gvim_8.2.2814_x64.zip</url>
+  <hash-sum type="SHA-256">84bc410889e85f50feb440bbaae79993218fe071883b4554b896935308b8692d</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.19, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
 
     <version name="4.2.8.83876" package="org.virtualbox.virtualbox64" type="one-file">
   <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
@@ -49363,6 +49404,16 @@ call "%npackdih%\InstallMSI.bat" TARGETDIR yes</file>
 call "%npackdih%\InstallMSI.bat" TARGETDIR yes</file>
   <url>https://github.com/torakiki/pdfsam/releases/download/v4.2.3/pdfsam-4.2.3.msi</url>
   <hash-sum type="SHA-256">b56ec2231bee641e34378f1e9def462ebf9aac27cacd93e16207dec54a032e4b</hash-sum>
+  <dependency package="com.oracle.JRE64" versions="[1.6.0.23, 2)"/>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.1, 2)">
+   <variable>npackdih</variable>
+  </dependency>
+ </version>
+ <version name="4.2.4" package="pdfsam64" type="one-file">
+  <file path=".Npackd\Install.bat">rem un-installation tries to remove .Npackd and fails =&gt; 2 to install the program somewhere else&#13;
+call "%npackdih%\InstallMSI.bat" TARGETDIR yes</file>
+  <url>https://github.com/torakiki/pdfsam/releases/download/v4.2.4/pdfsam-4.2.4.msi</url>
+  <hash-sum type="SHA-256">f96d90f457ef138a6dd4bea797a29fc28614fe9c866f1362d52a5095e7200c88</hash-sum>
   <dependency package="com.oracle.JRE64" versions="[1.6.0.23, 2)"/>
   <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.1, 2)">
    <variable>npackdih</variable>
