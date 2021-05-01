@@ -199,6 +199,22 @@ x86_64</description>
   <link href="https://s.softdeluxe.com/screenshots/6228/6228303_1.jpg" rel="screenshot"/>
   <link href="https://rocketfiles.com/storage/thumb/screenshot/19/12/4b/allplayer_screenshot_7.png" rel="screenshot"/>
  </package>
+ <package name="altap-salamander">
+  <title>Altap Salamander</title>
+  <url>https://www.altap.cz/</url>
+  <description>Altap Salamander is a fast and reliable two-panel file manager for Windows.
+x86_64</description>
+  <icon>https://community.chocolatey.org/content/packageimages/altap-salamander.4.0.png</icon>
+  <license>org.wikipedia.Freeware</license>
+  <category>Tools</category>
+  <tag>stable64</tag>
+  <link href="https://cdn.afterdawn.fi/screenshots/normal/290.jpg" rel="screenshot"/>
+  <link href="https://cdn.afterdawn.fi/screenshots/normal/293.jpg" rel="screenshot"/>
+  <link href="https://cdn.afterdawn.fi/screenshots/normal/292.jpg" rel="screenshot"/>
+  <link href="https://cdn.afterdawn.fi/screenshots/normal/291.jpg" rel="screenshot"/>
+  <link href="https://www.altap.cz/images/salamander/screenshots/find-files-directories-advanced-options.png" rel="screenshot"/>
+  <link href="https://www.altap.cz/images/salamander/screenshots/database-viewer.png" rel="screenshot"/>
+ </package>
  <package name="anaconda64">
   <title>Anaconda 64 bit</title>
   <url>https://www.anaconda.com/</url>
@@ -4214,6 +4230,18 @@ x86_64</description>
   <url>http://allplayer.org/Download/ALLPlayerEN.exe</url>
   <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
    <variable>nih</variable>
+  </dependency>
+ </version>
+
+    <version name="4" package="altap-salamander" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">"%ncl%\ncl.exe" remove-scp --title "/%npackd_package_name% %npackd_package_version%/i"&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+</file>
+  <url>https://www.altap.cz/ftp/salamand/as40x86.exe</url>
+  <hash-sum type="SHA-256">33b4bc46588dc4b122819148da2f167b17ac55baa3a88e0e7c41fb08fd532885</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.25, 2)">
+   <variable>ncl</variable>
   </dependency>
  </version>
 
@@ -8597,6 +8625,15 @@ call "%npackdih%\InstallMSI.bat" APPLICATIONFOLDER yes&#13;
    <variable>npackdih</variable>
   </dependency>
  </version>
+ <version name="5.17" package="com.calibreebook.Calibre64" type="one-file">
+  <file path=".Npackd\Install.bat">call "%npackdih%\InstallMSI.bat" APPLICATIONFOLDER yes&#13;
+</file>
+  <url>https://download.calibre-ebook.com/5.17.0/calibre-64bit-5.17.0.msi</url>
+  <hash-sum type="SHA-256">afadcfb0d101d6a320e8eb85dbe5087902d6ed04fd81f5aa8ce40dd4f72e5651</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.2, 2)">
+   <variable>npackdih</variable>
+  </dependency>
+ </version>
 
     <version name="5.12.256249.2599" package="com.comodo.comodoav64" type="one-file">
   <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.msi') do set setup=%%x&#13;
@@ -9958,7 +9995,7 @@ set err=%errorlevel%&#13;
 type .Npackd\InnoSetupUninstall.log&#13;
 if %err% neq 0 exit %err%&#13;
 </file>
-  <url>https://lockhunter.com/assets/exe/lockhuntersetup_3-4-2.exe</url>
+  <url>https://github.com/tim-lebedkov/packages/releases/download/2021_04/com.lockhunter.LockHunter64-3.4.2-lockhuntersetup_3-4-2.exe</url>
   <hash-sum type="SHA-256">ceccb8a91ff02b64ec45c0718f292759ce6f49cb7a8dff934111e69a454e3778</hash-sum>
  </version>
 
@@ -23127,13 +23164,13 @@ if %err% neq 0 exit %err%&#13;
    <variable>nih</variable>
   </dependency>
  </version>
- <version name="7.0.11.9" package="imagemagick64" type="one-file">
+ <version name="7.0.11.10" package="imagemagick64" type="one-file">
   <file path=".Npackd\Install.bat">call "%nih%\InstallInnoSetup.bat"&#13;
 </file>
   <file path=".Npackd\Uninstall.bat">call "%nih%\UninstallInnoSetup.bat" unins000.exe&#13;
 </file>
-  <url>https://www.imagemagick.org/download/binaries/ImageMagick-7.0.11-9-Q16-HDRI-x64-dll.exe</url>
-  <hash-sum type="SHA-256">9191696ee18b64cc764b7378e529db27d6277f721b04419865d8c95ebdf73f4e</hash-sum>
+  <url>https://www.imagemagick.org/download/binaries/ImageMagick-7.0.11-10-Q16-HDRI-x64-dll.exe</url>
+  <hash-sum type="SHA-256">8c19ceca4c18382673c721df7207606ec668e0e42a318d4449dbd11dfcb126e6</hash-sum>
   <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
    <variable>nih</variable>
   </dependency>
@@ -30675,7 +30712,7 @@ verify&#13;
   </dependency>
  </version>
 
-    <version name="3.10.5" package="ocenaudio64" type="one-file">
+    <version name="3.10.6" package="ocenaudio64" type="one-file">
   <file path=".Npackd\Install.bat">"%npackd_package_binary%" /AllUsers /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
 </file>
   <file path=".Npackd\Uninstall.bat">"%ncl%\ncl" remove-scp --title "/ocenaudio.*/"</file>
@@ -46977,6 +47014,20 @@ call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Np
    <variable>nih</variable>
   </dependency>
  </version>
+ <version name="8.2.2818" package="org.vim.Vim64">
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+if %errorlevel% neq 0 exit /b %errorlevel%&#13;
+&#13;
+for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+</file>
+  <url>https://github.com/vim/vim-win32-installer/releases/download/v8.2.2818/gvim_8.2.2818_x64.zip</url>
+  <hash-sum type="SHA-256">00139c371b583bc3b4d60368e28ca1b22f19c05e8293f0b5ba920607c4750a2c</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.19, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
 
     <version name="4.2.8.83876" package="org.virtualbox.virtualbox64" type="one-file">
   <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
@@ -52290,7 +52341,7 @@ if %err% neq 0 exit %err%&#13;
   </dependency>
  </version>
 
-    <version name="30.0.3" package="slimjet" type="one-file">
+    <version name="30.0.4" package="slimjet" type="one-file">
   <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
 </file>
   <file path=".Npackd\Uninstall.bat">uninstall.exe /S _?=%CD%&#13;
@@ -52298,7 +52349,7 @@ if %err% neq 0 exit %err%&#13;
   <url>https://www.slimjetbrowser.com/release/sjtsetup_x86.exe</url>
  </version>
 
-    <version name="30.0.3" package="slimjet64" type="one-file">
+    <version name="30.0.4" package="slimjet64" type="one-file">
   <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
 </file>
   <file path=".Npackd\Uninstall.bat">uninstall.exe /S _?=%CD%&#13;
@@ -55333,6 +55384,18 @@ if %err% neq 0 exit /b %err%&#13;
 </file>
   <url>https://downloads.vivaldi.com/stable/Vivaldi.3.7.2218.55.x64.exe</url>
   <hash-sum type="SHA-256">95a6a66092e8194a5f472a11cff85983171ef7785d736edbe73a4a34176a5325</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.24, 2)">
+   <variable>ncl</variable>
+  </dependency>
+ </version>
+ <version name="3.7.2218.58" package="vivaldi-browser-64" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" --vivaldi-standalone --do-not-launch-chrome --vivaldi-install-dir="%CD%" &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
+&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">"%ncl%\ncl.exe" remove-scp --title "vivaldi-browser-64"&#13;
+</file>
+  <url>https://downloads.vivaldi.com/stable/Vivaldi.3.7.2218.58.x64.exe</url>
+  <hash-sum type="SHA-256">df0a7b32187bae2f6feb3f5ee8a9522245739bbb2112016077aaac362a9188a3</hash-sum>
   <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.24, 2)">
    <variable>ncl</variable>
   </dependency>
