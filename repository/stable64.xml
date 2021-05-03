@@ -55837,6 +55837,21 @@ if %err% neq 0 exit %err%&#13;
   <url>https://sourceforge.net/projects/winmerge/files/stable/2.16.10/WinMerge-2.16.10-x64-Setup.exe</url>
   <hash-sum type="SHA-256">6e9cd0d92eb721bd40974de4cc1cfb0b69e497dcfffbbc50638cf931603247cb</hash-sum>
  </version>
+ <version name="2.16.12" package="winmerge64" type="one-file">
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
+"%setup%" /SP- /VERYSILENT /SUPPRESSMSGBOXES /NOCANCEL /NORESTART /DIR="%CD%" /SAVEINF="%CD%\.Npackd\InnoSetupInfo.ini" /LOG="%CD%\.Npackd\InnoSetupInstall.log"&#13;
+set err=%errorlevel%&#13;
+type .Npackd\InnoSetupInstall.log&#13;
+if %err% neq 0 exit %err%&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">unins000.exe /VERYSILENT /SUPPRESSMSGBOXES /NORESTART /LOG="%CD%\.Npackd\InnoSetupUninstall.log"&#13;
+set err=%errorlevel%&#13;
+type .Npackd\InnoSetupUninstall.log&#13;
+if %err% neq 0 exit %err%&#13;
+</file>
+  <url>https://sourceforge.net/projects/winmerge/files/stable/2.16.12/WinMerge-2.16.12-x64-Setup.exe</url>
+  <hash-sum type="SHA-256">e4b790136347dabf959dfd342f11558569de07aee7680a439645621cf388940e</hash-sum>
+ </version>
 
     <version name="3.3.1" package="winyl">
   <file path=".Npackd\Install.bat">call "%nih%\InstallInnoSetup.bat"&#13;
