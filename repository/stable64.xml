@@ -2431,7 +2431,25 @@ x86_64</description>
  <package name="oooplayer64">
   <title>OooPlayer 64 bit</title>
   <url>https://github.com/ozok/OooPlayer</url>
-  <description>
+  <description>audio player&#13;
+&#13;
+Supported formats&#13;
+&#13;
+Audio formats: mp3, aac, alac, flac, ogg, opus, ape, mpc, tta, tak, wav, ofr, wv, wma, ac3 and spx&#13;
+Playlist formats: m3u, m3u8, ppf (OooPlayer's own playlist format)&#13;
+&#13;
+Features&#13;
+&#13;
+- Several playback modes: Normal, Random, Repeat Track, Shuffle&#13;
+- can display both embedded and external cover art&#13;
+- has a very fast search mechanism&#13;
+- supports gapless playback&#13;
+- supports multiple playlists&#13;
+- has a song queue&#13;
+- has an online radio player that has more than 1500 radio stations&#13;
+- You can record radios to mp3, ogg vorbis, aac and opus or record without encoding&#13;
+- can download lyrics automatically from many sources&#13;
+- has a very simple interface that offers sufficient functionality
 x86_64</description>
   <icon>http://img.findmysoft.com/ico/132864.png</icon>
   <license>org.wikipedia.Freeware</license>
@@ -4888,6 +4906,8 @@ verify&#13;
    <variable>ncl</variable>
   </dependency>
  </version>
+
+    
 
     
 
@@ -18169,6 +18189,17 @@ rmdir "%name%"&#13;
    <variable>ncl</variable>
   </dependency>
  </version>
+ <version name="8.42" package="explzh" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" /silent /q &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">"%ncl%\ncl.exe" remove-scp --title "/%npackd_package_name% %npackd_package_version%/i"&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+</file>
+  <url>https://www.ponsoftware.com/en/archiver/explzh/explz842_en.exe</url>
+  <hash-sum type="SHA-256">818d4b664373b6619e7ee8e1d0448d94f3e1268721ddf6852af1ffaf8a782177</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.25, 2)">
+   <variable>ncl</variable>
+  </dependency>
+ </version>
 
     <version name="8.7" package="explzh64" type="one-file">
   <file path=".Npackd\Install.bat">"%npackd_package_binary%" &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
@@ -18441,6 +18472,17 @@ rmdir "%name%"&#13;
 </file>
   <url>https://www.ponsoftware.com/en/archiver/explzh/explz840_en_x64.exe</url>
   <hash-sum type="SHA-256">cbdbc8d2630c1fdd10e28af7ed33b94f92fca3050f8354f6cd94c26aad08f190</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.25, 2)">
+   <variable>ncl</variable>
+  </dependency>
+ </version>
+ <version name="8.42" package="explzh64" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" /silent /q &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">"%ncl%\ncl.exe" remove-scp --title "/%npackd_package_name% %npackd_package_version%/i"&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+</file>
+  <url>https://www.ponsoftware.com/en/archiver/explzh/explz842_en_x64.exe</url>
+  <hash-sum type="SHA-256">2ad55ec963c9c750ac7b6e96417130f5e881c92b6744e68fa2fe0d051aa33cce</hash-sum>
   <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.25, 2)">
    <variable>ncl</variable>
   </dependency>
@@ -19030,6 +19072,17 @@ echo DesktopShortcut=false &gt;&gt; .Npackd\FF.ini&#13;
 verify</file>
   <url>https://download-origin.cdn.mozilla.net/pub/mozilla.org/firefox/releases/78.10.0esr/win64/en-US/Firefox%20Setup%2078.10.0esr.exe</url>
   <hash-sum type="SHA-256">6466126fa6908cea030f1bfdff30e21b691c684ff7fd8ccbcfbaa1a133207ce6</hash-sum>
+ </version>
+ <version name="78.10.1" package="firefox-esr64" type="one-file">
+  <file path=".Npackd\Install.bat">echo [Install] &gt; .Npackd\FF.ini&#13;
+echo InstallDirectoryPath=%CD% &gt;&gt; .Npackd\FF.ini&#13;
+echo QuickLaunchShortcut=false &gt;&gt; .Npackd\FF.ini&#13;
+echo DesktopShortcut=false &gt;&gt; .Npackd\FF.ini&#13;
+"%npackd_package_binary%" /INI="%CD%\.Npackd\FF.ini" &amp;&amp; del /f /q "%npackd_package_binary%"</file>
+  <file path=".Npackd\Uninstall.bat">uninstall\helper.exe /S&#13;
+verify</file>
+  <url>https://download-origin.cdn.mozilla.net/pub/mozilla.org/firefox/releases/78.10.1esr/win64/en-US/Firefox%20Setup%2078.10.1esr.exe</url>
+  <hash-sum type="SHA-256">69078b0ad117533652121008ad5d03e30fe357e280a4a83e9a9b40b3c84a9987</hash-sum>
  </version>
 
     <version name="43" package="firefox64" type="one-file">
@@ -30999,6 +31052,17 @@ verify&#13;
    <variable>clu</variable>
   </dependency>
  </version>
+ <version name="1.11.2" package="open-ttd64">
+  <important-file path="openttd.exe" title="OpenTTD"/>
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b openttd*') do set name=%%x&#13;
+"%clu%\clu" unwrap-dir -p "%name%"&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+</file>
+  <url>https://proxy.binaries.openttd.org/openttd-releases/1.11.2/openttd-1.11.2-windows-win64.zip</url>
+  <hash-sum type="SHA-256">dcb3df1833cfb5d9caac99d09c08c0cb7f16aa5ffede8e2d129e93b4dc2a0721</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.CLU" versions="[1.25, 2)">
+   <variable>clu</variable>
+  </dependency>
+ </version>
 
     <version name="1.23.4" package="openmpt64" type="one-file">
   <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
@@ -41114,6 +41178,15 @@ if %err% neq 0 exit /b %err%&#13;
   <url>https://www.python.org/ftp/python/3.9.4/python-3.9.4-amd64.exe</url>
   <hash-sum type="SHA-256">afc13fa2a0ec48950d320b425693a97eca70258da9e614fb3256e5279fe2f930</hash-sum>
  </version>
+ <version name="3.9.5" package="org.python.Python64" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" /quiet InstallAllUsers=1 "TargetDir=%cd%"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">for /f "delims=" %%x in ('dir /b python-*.exe') do set setup=%%x&#13;
+%setup% /uninstall /quiet InstallAllUsers=1&#13;
+</file>
+  <url>https://www.python.org/ftp/python/3.9.5/python-3.9.5-amd64.exe</url>
+  <hash-sum type="SHA-256">84d5243088ba00c11e51905c704dbe041040dfff044f4e1ce5476844ee2e6eac</hash-sum>
+ </version>
 
     <version name="2.0.0.247" package="org.rubylang.Ruby64" type="one-file">
   <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
@@ -47092,6 +47165,20 @@ call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Np
 </file>
   <url>https://github.com/vim/vim-win32-installer/releases/download/v8.2.2825/gvim_8.2.2825_x64.zip</url>
   <hash-sum type="SHA-256">643096bb8b26eaa2b37adad94414998a5f9d0046ba6f9112614665a401a12abe</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.19, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
+ <version name="8.2.2831" package="org.vim.Vim64">
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+if %errorlevel% neq 0 exit /b %errorlevel%&#13;
+&#13;
+for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+</file>
+  <url>https://github.com/vim/vim-win32-installer/releases/download/v8.2.2831/gvim_8.2.2831_x64.zip</url>
+  <hash-sum type="SHA-256">f3d7531d834bcd274e8bb5fcfedde3512d76bfe4919d6409751509101ef80f7c</hash-sum>
   <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.19, 2)">
    <variable>nih</variable>
   </dependency>
@@ -54162,6 +54249,8 @@ if %err% neq 0 exit %err%&#13;
   </dependency>
  </version>
 
+    
+
     <version name="1.2.2.2" package="ultracopier64" type="one-file">
   <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
 </file>
@@ -54643,6 +54732,15 @@ if %err% neq 0 exit %err%&#13;
 </file>
   <url>https://releases.hashicorp.com/vagrant/2.2.15/vagrant_2.2.15_x86_64.msi</url>
   <hash-sum type="SHA-256">8ded539894c687f24167dc29452730346e882ba76eba3e37e55d2e64dd4a3680</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.1, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
+ <version name="2.2.16" package="vagrant64" type="one-file">
+  <file path=".Npackd\Install.bat">call "%nih%\InstallMSI.bat" INSTALLDIR yes&#13;
+</file>
+  <url>https://releases.hashicorp.com/vagrant/2.2.16/vagrant_2.2.16_x86_64.msi</url>
+  <hash-sum type="SHA-256">bfa036fd1562c296c9a6200f312314f348cb5a8edd3de8b9843761afa1c371b7</hash-sum>
   <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.1, 2)">
    <variable>nih</variable>
   </dependency>
