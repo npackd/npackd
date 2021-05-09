@@ -1262,28 +1262,12 @@ x86_64</description>
   <tag>stable64</tag>
   <stars>1</stars>
  </package>
- <package name="explzh">
-  <title>Explzh</title>
-  <url>https://www.ponsoftware.com/en/</url>
-  <description>Powerful explorer-like archive software for Windows
-x86_64</description>
-  <icon>https://windows-cdn.softpedia.com/screenshots/ico/Explzh.gif</icon>
-  <license>org.wikipedia.Freeware</license>
-  <category>Tools</category>
-  <tag>stable64</tag>
-  <link href="https://www.ponsoftware.com/archiver/whatnew.htm" rel="changelog"/>
-  <link href="https://img.creativemark.co.uk/uploads/images/929/16929/img3File.png" rel="screenshot"/>
-  <link href="https://www.filecroco.com/wp-content/uploads/2020/01/explzh-1-1024x772.jpg" rel="screenshot"/>
-  <link href="https://windows-cdn.softpedia.com/screenshots/explzh_30.png" rel="screenshot"/>
-  <link href="https://www.ponsoftware.com/en/archiver/product/expimg2.gif" rel="screenshot"/>
-  <link href="https://www.ponsoftware.com/archiver/whatnew.htm" rel="issues"/>
- </package>
  <package name="explzh64">
   <title>Explzh 64 Bit</title>
   <url>https://www.ponsoftware.com/en/</url>
   <description>Powerful explorer-like archive software for Windows
 x86_64</description>
-  <icon>https://windows-cdn.softpedia.com/screenshots/ico/Explzh.gif</icon>
+  <icon>https://www.ponsoftware.com/archiver/img/explzh.gif</icon>
   <license>org.wikipedia.Freeware</license>
   <category>Tools</category>
   <tag>stable64</tag>
@@ -1291,7 +1275,6 @@ x86_64</description>
   <link href="https://www.ponsoftware.com/archiver/whatnew.htm" rel="changelog"/>
   <link href="https://img.creativemark.co.uk/uploads/images/929/16929/img3File.png" rel="screenshot"/>
   <link href="https://www.filecroco.com/wp-content/uploads/2020/01/explzh-1-1024x772.jpg" rel="screenshot"/>
-  <link href="https://windows-cdn.softpedia.com/screenshots/explzh_30.png" rel="screenshot"/>
   <link href="https://www.ponsoftware.com/en/archiver/product/expimg2.gif" rel="screenshot"/>
   <link href="https://www.ponsoftware.com/archiver/bug.htm" rel="issues"/>
  </package>
@@ -12719,6 +12702,14 @@ if %err% neq 0 exit %err%&#13;
   <url>https://github.com/sindresorhus/caprine/releases/download/v2.52.4/caprine-setup-2.52.4.exe</url>
   <hash-sum type="SHA-256">5d27608381ab56864d734e0e084c9b9344066e9f241322199b6e80a7416751c4</hash-sum>
  </version>
+ <version name="2.53" package="com.sindresorhus.caprine" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">uninstall.exe /S _?=%CD%&#13;
+</file>
+  <url>https://github.com/sindresorhus/caprine/releases/download/v2.53.0/caprine-setup-2.53.0.exe</url>
+  <hash-sum type="SHA-256">1c7f8d00c00781683c85d072713b7586bbc76d107fbd1b6c554c9e65426dfc47</hash-sum>
+ </version>
 
     <version name="4.51" package="com.softwareok.QDir64">
   <important-file path="Q-Dir.exe" title="Q-Dir"/>
@@ -16036,7 +16027,7 @@ if %err% neq 0 exit %err%&#13;
   <hash-sum type="SHA-256">251453a776b7749b7f7701b7b58e6b9eba7747370c228bfa298f2053200d9fec</hash-sum>
  </version>
 
-    <version name="1.7.21482" package="daumpotplayer64" type="one-file">
+    <version name="1.7.21486" package="daumpotplayer64" type="one-file">
   <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
 </file>
   <file path=".Npackd\Uninstall.bat">uninstall.exe /S _?=%CD%&#13;
@@ -17925,558 +17916,7 @@ rmdir "%name%"&#13;
   <hash-sum type="SHA-256">61b31d6d7837a10dc441b5c7616c053e019f198f9d0a67acaa19142176c5ca56</hash-sum>
  </version>
 
-    <version name="8.7" package="explzh" type="one-file">
-  <file path=".Npackd\Install.bat">"%npackd_package_binary%" &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
-</file>
-  <file path=".Npackd\Uninstall.bat">"%ncl%\ncl.exe" remove-scp --title "/%npackd_package_name% %npackd_package_version%/i"&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
-</file>
-  <url>https://www.ponsoftware.com/en/archiver/explzh/explz807_en_x64.exe</url>
-  <hash-sum type="SHA-256">234829ff90bc7ee40f31761126d8f2873f121bbf4f2631cd9e370432b3a2c4b6</hash-sum>
-  <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.25, 2)">
-   <variable>ncl</variable>
-  </dependency>
- </version>
- <version name="8.12" package="explzh" type="one-file">
-  <file path=".Npackd\Install.bat">"%npackd_package_binary%" &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
-</file>
-  <file path=".Npackd\Uninstall.bat">"%ncl%\ncl.exe" remove-scp --title "/%npackd_package_name% %npackd_package_version%/i"&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
-</file>
-  <url>https://www.ponsoftware.com/en/archiver/explzh/explz812_en.exe</url>
-  <hash-sum type="SHA-256">5a019415463230e467559615efb30291b6201fe03062f3616728c5090388e7ef</hash-sum>
-  <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.25, 2)">
-   <variable>ncl</variable>
-  </dependency>
- </version>
- <version name="8.14" package="explzh" type="one-file">
-  <file path=".Npackd\Install.bat">"%npackd_package_binary%" &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
-</file>
-  <file path=".Npackd\Uninstall.bat">"%ncl%\ncl.exe" remove-scp --title "/%npackd_package_name% %npackd_package_version%/i"&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
-</file>
-  <url>https://www.ponsoftware.com/en/archiver/explzh/explz814_en.exe</url>
-  <hash-sum type="SHA-256">3fb1013a8c4932f1ac102f02e5f79424f8964e9a06e00c4f1ec93606f829e928</hash-sum>
-  <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.25, 2)">
-   <variable>ncl</variable>
-  </dependency>
- </version>
- <version name="8.15" package="explzh" type="one-file">
-  <file path=".Npackd\Install.bat">"%npackd_package_binary%" &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
-</file>
-  <file path=".Npackd\Uninstall.bat">"%ncl%\ncl.exe" remove-scp --title "/%npackd_package_name% %npackd_package_version%/i"&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
-</file>
-  <url>https://www.ponsoftware.com/en/archiver/explzh/explz815_en.exe</url>
-  <hash-sum type="SHA-256">fa9f66ed7792c1ac858b3abdbb942051617cd94af7b069e99b97e7b181a5e769</hash-sum>
-  <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.25, 2)">
-   <variable>ncl</variable>
-  </dependency>
- </version>
- <version name="8.16" package="explzh" type="one-file">
-  <file path=".Npackd\Install.bat">"%npackd_package_binary%" &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
-</file>
-  <file path=".Npackd\Uninstall.bat">"%ncl%\ncl.exe" remove-scp --title "/%npackd_package_name% %npackd_package_version%/i"&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
-</file>
-  <url>https://www.ponsoftware.com/en/archiver/explzh/explz816_en.exe</url>
-  <hash-sum type="SHA-256">737b60ca2ddb11d9bd2223c59b983257ec27d4290a910958d5495e45158e84f8</hash-sum>
-  <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.25, 2)">
-   <variable>ncl</variable>
-  </dependency>
- </version>
- <version name="8.20" package="explzh" type="one-file">
-  <file path=".Npackd\Install.bat">"%npackd_package_binary%" &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
-</file>
-  <file path=".Npackd\Uninstall.bat">"%ncl%\ncl.exe" remove-scp --title "/%npackd_package_name% %npackd_package_version%/i"&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
-</file>
-  <url>https://www.ponsoftware.com/en/archiver/explzh/explz820_en.exe</url>
-  <hash-sum type="SHA-256">0d89259a70c040bdee4f2e3209d6d32e099794f63962ad8589075f7ebc95759f</hash-sum>
-  <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.25, 2)">
-   <variable>ncl</variable>
-  </dependency>
- </version>
- <version name="8.21" package="explzh" type="one-file">
-  <file path=".Npackd\Install.bat">"%npackd_package_binary%" &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
-</file>
-  <file path=".Npackd\Uninstall.bat">"%ncl%\ncl.exe" remove-scp --title "/%npackd_package_name% %npackd_package_version%/i"&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
-</file>
-  <url>https://www.ponsoftware.com/en/archiver/explzh/explz821_en.exe</url>
-  <hash-sum type="SHA-256">bb53683f072ea953f4bb75bbf78670098d4dcbd362ad340296a10da23e47a3b8</hash-sum>
-  <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.25, 2)">
-   <variable>ncl</variable>
-  </dependency>
- </version>
- <version name="8.22" package="explzh" type="one-file">
-  <file path=".Npackd\Install.bat">"%npackd_package_binary%" &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
-</file>
-  <file path=".Npackd\Uninstall.bat">"%ncl%\ncl.exe" remove-scp --title "/%npackd_package_name% %npackd_package_version%/i"&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
-</file>
-  <url>https://www.ponsoftware.com/en/archiver/explzh/explz822_en.exe</url>
-  <hash-sum type="SHA-256">0712b6160f2609aaa5c8a1c640d37deb994cc150cd23232ccdccb6816a222a16</hash-sum>
-  <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.25, 2)">
-   <variable>ncl</variable>
-  </dependency>
- </version>
- <version name="8.23" package="explzh" type="one-file">
-  <file path=".Npackd\Install.bat">"%npackd_package_binary%" &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
-</file>
-  <file path=".Npackd\Uninstall.bat">"%ncl%\ncl.exe" remove-scp --title "/%npackd_package_name% %npackd_package_version%/i"&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
-</file>
-  <url>https://www.ponsoftware.com/en/archiver/explzh/explz823_en.exe</url>
-  <hash-sum type="SHA-256">6bd90fecaff95a633fd4cab4f93975abb2b7d2a86aba4d5d385a7cb654e56b7e</hash-sum>
-  <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.25, 2)">
-   <variable>ncl</variable>
-  </dependency>
- </version>
- <version name="8.25" package="explzh" type="one-file">
-  <file path=".Npackd\Install.bat">"%npackd_package_binary%" &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
-</file>
-  <file path=".Npackd\Uninstall.bat">"%ncl%\ncl.exe" remove-scp --title "/%npackd_package_name% %npackd_package_version%/i"&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
-</file>
-  <url>https://www.ponsoftware.com/en/archiver/explzh/explz825_en.exe</url>
-  <hash-sum type="SHA-256">ac6e6ad4e40a1a6fc5b959e45ff01a68fdd01248358d0c77083cc84edc081d7f</hash-sum>
-  <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.25, 2)">
-   <variable>ncl</variable>
-  </dependency>
- </version>
- <version name="8.26" package="explzh" type="one-file">
-  <file path=".Npackd\Install.bat">"%npackd_package_binary%" /quiet &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
-</file>
-  <file path=".Npackd\Uninstall.bat">"%ncl%\ncl.exe" remove-scp --title "/%npackd_package_name% %npackd_package_version%/i"&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
-</file>
-  <url>https://www.ponsoftware.com/en/archiver/explzh/explz826_en.exe</url>
-  <hash-sum type="SHA-256">f2d45877599bf2b5eca68e0a95d9e6c1bdc905ae419c9651c8a08ee0b82af706</hash-sum>
-  <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.25, 2)">
-   <variable>ncl</variable>
-  </dependency>
- </version>
- <version name="8.27" package="explzh" type="one-file">
-  <file path=".Npackd\Install.bat">"%npackd_package_binary%" /quiet &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
-</file>
-  <file path=".Npackd\Uninstall.bat">"%ncl%\ncl.exe" remove-scp --title "/%npackd_package_name% %npackd_package_version%/i"&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
-</file>
-  <url>https://www.ponsoftware.com/en/archiver/explzh/explz827_en.exe</url>
-  <hash-sum type="SHA-256">b8fe191c8077e0ed7eab613cce41e3bd6234af226578a1f7855db8e9910aaa70</hash-sum>
-  <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.25, 2)">
-   <variable>ncl</variable>
-  </dependency>
- </version>
- <version name="8.28" package="explzh" type="one-file">
-  <file path=".Npackd\Install.bat">"%npackd_package_binary%" /quiet &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
-</file>
-  <file path=".Npackd\Uninstall.bat">"%ncl%\ncl.exe" remove-scp --title "/%npackd_package_name% %npackd_package_version%/i"&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
-</file>
-  <url>https://www.ponsoftware.com/en/archiver/explzh/explz828_en.exe</url>
-  <hash-sum type="SHA-256">c9edf88f0d07ecda5228b6670e33eb68adfe04317db96c8012e090f5ed6b96be</hash-sum>
-  <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.25, 2)">
-   <variable>ncl</variable>
-  </dependency>
- </version>
- <version name="8.29" package="explzh" type="one-file">
-  <file path=".Npackd\Install.bat">"%npackd_package_binary%" /silent /q &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
-</file>
-  <file path=".Npackd\Uninstall.bat">"%ncl%\ncl.exe" remove-scp --title "/%npackd_package_name% %npackd_package_version%/i"&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
-</file>
-  <url>https://www.ponsoftware.com/en/archiver/explzh/explz829_en.exe</url>
-  <hash-sum type="SHA-256">c37bbf997220f2e6456de8f531c1fd17c65c2e218357b0a1f497fa9f3894a386</hash-sum>
-  <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.25, 2)">
-   <variable>ncl</variable>
-  </dependency>
- </version>
- <version name="8.30" package="explzh" type="one-file">
-  <file path=".Npackd\Install.bat">"%npackd_package_binary%" /silent /q &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
-</file>
-  <file path=".Npackd\Uninstall.bat">"%ncl%\ncl.exe" remove-scp --title "/%npackd_package_name% %npackd_package_version%/i"&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
-</file>
-  <url>https://www.ponsoftware.com/en/archiver/explzh/explz830_en_silent.exe</url>
-  <hash-sum type="SHA-256">0eb611785817cd8782fcaad823f941b9ea9a69549ed3137a2ad112f4f9f0e66c</hash-sum>
-  <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.25, 2)">
-   <variable>ncl</variable>
-  </dependency>
- </version>
- <version name="8.31" package="explzh" type="one-file">
-  <file path=".Npackd\Install.bat">"%npackd_package_binary%" /silent /q &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
-</file>
-  <file path=".Npackd\Uninstall.bat">"%ncl%\ncl.exe" remove-scp --title "/%npackd_package_name% %npackd_package_version%/i"&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
-</file>
-  <url>https://www.ponsoftware.com/en/archiver/explzh/explz831_en.exe</url>
-  <hash-sum type="SHA-256">5bf691b229f86a5e6bf87af4567df1eb9418cc574a352ca519af53a5f949e30b</hash-sum>
-  <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.25, 2)">
-   <variable>ncl</variable>
-  </dependency>
- </version>
- <version name="8.32" package="explzh" type="one-file">
-  <file path=".Npackd\Install.bat">"%npackd_package_binary%" /silent /q &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
-</file>
-  <file path=".Npackd\Uninstall.bat">"%ncl%\ncl.exe" remove-scp --title "/%npackd_package_name% %npackd_package_version%/i"&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
-</file>
-  <url>https://www.ponsoftware.com/en/archiver/explzh/explz832_en.exe</url>
-  <hash-sum type="SHA-256">b310148d1195478fce1d81613a2443aaa6affbd43baa3b7bb30c8b0c1563cbeb</hash-sum>
-  <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.25, 2)">
-   <variable>ncl</variable>
-  </dependency>
- </version>
- <version name="8.33" package="explzh" type="one-file">
-  <file path=".Npackd\Install.bat">"%npackd_package_binary%" /silent /q &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
-</file>
-  <file path=".Npackd\Uninstall.bat">"%ncl%\ncl.exe" remove-scp --title "/%npackd_package_name% %npackd_package_version%/i"&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
-</file>
-  <url>https://www.ponsoftware.com/en/archiver/explzh/explz833_en.exe</url>
-  <hash-sum type="SHA-256">44054fe93440af9b64c3ac94c96e1f2147d9c4bf3849b977d384a742db35abcb</hash-sum>
-  <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.25, 2)">
-   <variable>ncl</variable>
-  </dependency>
- </version>
- <version name="8.34" package="explzh" type="one-file">
-  <file path=".Npackd\Install.bat">"%npackd_package_binary%" /silent /q &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
-</file>
-  <file path=".Npackd\Uninstall.bat">"%ncl%\ncl.exe" remove-scp --title "/%npackd_package_name% %npackd_package_version%/i"&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
-</file>
-  <url>https://www.ponsoftware.com/en/archiver/explzh/explz834_en.exe</url>
-  <hash-sum type="SHA-256">d2f8bfce88d98918bde5d0bd48c8996aa4e7d383d9b795a1cb20a3a774b2f633</hash-sum>
-  <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.25, 2)">
-   <variable>ncl</variable>
-  </dependency>
- </version>
- <version name="8.35" package="explzh" type="one-file">
-  <file path=".Npackd\Install.bat">"%npackd_package_binary%" /silent /q &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
-</file>
-  <file path=".Npackd\Uninstall.bat">"%ncl%\ncl.exe" remove-scp --title "/%npackd_package_name% %npackd_package_version%/i"&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
-</file>
-  <url>https://www.ponsoftware.com/en/archiver/explzh/explz835_en.exe</url>
-  <hash-sum type="SHA-256">7b7cc0ca47de20522cf09655dc6f2dfd02042b242901d9e9b9be3276641ecb42</hash-sum>
-  <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.25, 2)">
-   <variable>ncl</variable>
-  </dependency>
- </version>
- <version name="8.36" package="explzh" type="one-file">
-  <file path=".Npackd\Install.bat">"%npackd_package_binary%" /silent /q &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
-</file>
-  <file path=".Npackd\Uninstall.bat">"%ncl%\ncl.exe" remove-scp --title "/%npackd_package_name% %npackd_package_version%/i"&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
-</file>
-  <url>https://www.ponsoftware.com/en/archiver/explzh/explz836_en.exe</url>
-  <hash-sum type="SHA-256">7d6ee399fded13eab1010d6f9eea1b72b68b5b710a6d1696e56a9af82df0a213</hash-sum>
-  <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.25, 2)">
-   <variable>ncl</variable>
-  </dependency>
- </version>
- <version name="8.37" package="explzh" type="one-file">
-  <file path=".Npackd\Install.bat">"%npackd_package_binary%" /silent /q &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
-</file>
-  <file path=".Npackd\Uninstall.bat">"%ncl%\ncl.exe" remove-scp --title "/%npackd_package_name% %npackd_package_version%/i"&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
-</file>
-  <url>https://www.ponsoftware.com/en/archiver/explzh/explz837_en.exe</url>
-  <hash-sum type="SHA-256">26cfc15292be33831ab2c0c973e2c11df92153079c931699db4744392e21b8bd</hash-sum>
-  <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.25, 2)">
-   <variable>ncl</variable>
-  </dependency>
- </version>
- <version name="8.38" package="explzh" type="one-file">
-  <file path=".Npackd\Install.bat">"%npackd_package_binary%" /silent /q &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
-</file>
-  <file path=".Npackd\Uninstall.bat">"%ncl%\ncl.exe" remove-scp --title "/%npackd_package_name% %npackd_package_version%/i"&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
-</file>
-  <url>https://www.ponsoftware.com/en/archiver/explzh/explz838_en.exe</url>
-  <hash-sum type="SHA-256">5e59941263743eba223f794f7e6274be3b4b7eef917e2b45272edf972b8c82cc</hash-sum>
-  <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.25, 2)">
-   <variable>ncl</variable>
-  </dependency>
- </version>
- <version name="8.39" package="explzh" type="one-file">
-  <file path=".Npackd\Install.bat">"%npackd_package_binary%" /silent /q &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
-</file>
-  <file path=".Npackd\Uninstall.bat">"%ncl%\ncl.exe" remove-scp --title "/%npackd_package_name% %npackd_package_version%/i"&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
-</file>
-  <url>https://www.ponsoftware.com/en/archiver/explzh/explz839_en.exe</url>
-  <hash-sum type="SHA-256">3752f4d6450cf9361400fac72b8abc246440e6d2cfa2eab2a762294e2385b36c</hash-sum>
-  <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.25, 2)">
-   <variable>ncl</variable>
-  </dependency>
- </version>
- <version name="8.40" package="explzh" type="one-file">
-  <file path=".Npackd\Install.bat">"%npackd_package_binary%" /silent /q &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
-</file>
-  <file path=".Npackd\Uninstall.bat">"%ncl%\ncl.exe" remove-scp --title "/%npackd_package_name% %npackd_package_version%/i"&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
-</file>
-  <url>https://www.ponsoftware.com/en/archiver/explzh/explz840_en.exe</url>
-  <hash-sum type="SHA-256">a924fd3a69af288eb8408a8975695bc9643b6df301509de75d71f2d9db53e016</hash-sum>
-  <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.25, 2)">
-   <variable>ncl</variable>
-  </dependency>
- </version>
- <version name="8.41" package="explzh" type="one-file">
-  <file path=".Npackd\Install.bat">"%npackd_package_binary%" /silent /q &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
-</file>
-  <file path=".Npackd\Uninstall.bat">"%ncl%\ncl.exe" remove-scp --title "/%npackd_package_name% %npackd_package_version%/i"&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
-</file>
-  <url>https://www.ponsoftware.com/en/archiver/explzh/explz841_en.exe</url>
-  <hash-sum type="SHA-256">fbbfb042809de1a74d51decf79aba46d8438fc3b5f88697fb7e480ede81595cf</hash-sum>
-  <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.25, 2)">
-   <variable>ncl</variable>
-  </dependency>
- </version>
- <version name="8.42" package="explzh" type="one-file">
-  <file path=".Npackd\Install.bat">"%npackd_package_binary%" /silent /q &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
-</file>
-  <file path=".Npackd\Uninstall.bat">"%ncl%\ncl.exe" remove-scp --title "/%npackd_package_name% %npackd_package_version%/i"&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
-</file>
-  <url>https://www.ponsoftware.com/en/archiver/explzh/explz842_en.exe</url>
-  <hash-sum type="SHA-256">818d4b664373b6619e7ee8e1d0448d94f3e1268721ddf6852af1ffaf8a782177</hash-sum>
-  <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.25, 2)">
-   <variable>ncl</variable>
-  </dependency>
- </version>
-
-    <version name="8.7" package="explzh64" type="one-file">
-  <file path=".Npackd\Install.bat">"%npackd_package_binary%" &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
-</file>
-  <file path=".Npackd\Uninstall.bat">"%ncl%\ncl.exe" remove-scp --title "/%npackd_package_name% %npackd_package_version%/i"&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
-</file>
-  <url>https://www.ponsoftware.com/en/archiver/explzh/explz807_en_x64.exe</url>
-  <hash-sum type="SHA-256">234829ff90bc7ee40f31761126d8f2873f121bbf4f2631cd9e370432b3a2c4b6</hash-sum>
-  <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.25, 2)">
-   <variable>ncl</variable>
-  </dependency>
- </version>
- <version name="8.12" package="explzh64" type="one-file">
-  <file path=".Npackd\Install.bat">"%npackd_package_binary%" &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
-</file>
-  <file path=".Npackd\Uninstall.bat">"%ncl%\ncl.exe" remove-scp --title "/%npackd_package_name% %npackd_package_version%/i"&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
-</file>
-  <url>https://www.ponsoftware.com/en/archiver/explzh/explz812_en_x64.exe</url>
-  <hash-sum type="SHA-256">c2e56473d0122a7bc508f5f581c65a9ac93e710309316967e2bf2d02ea922825</hash-sum>
-  <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.25, 2)">
-   <variable>ncl</variable>
-  </dependency>
- </version>
- <version name="8.14" package="explzh64" type="one-file">
-  <file path=".Npackd\Install.bat">"%npackd_package_binary%" &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
-</file>
-  <file path=".Npackd\Uninstall.bat">"%ncl%\ncl.exe" remove-scp --title "/%npackd_package_name% %npackd_package_version%/i"&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
-</file>
-  <url>https://www.ponsoftware.com/en/archiver/explzh/explz814_en_x64.exe</url>
-  <hash-sum type="SHA-256">8c2d8b046764dc7330149aaec339d76113745a3970edcc4220c007225c5525c5</hash-sum>
-  <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.25, 2)">
-   <variable>ncl</variable>
-  </dependency>
- </version>
- <version name="8.15" package="explzh64" type="one-file">
-  <file path=".Npackd\Install.bat">"%npackd_package_binary%" &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
-</file>
-  <file path=".Npackd\Uninstall.bat">"%ncl%\ncl.exe" remove-scp --title "/%npackd_package_name% %npackd_package_version%/i"&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
-</file>
-  <url>https://www.ponsoftware.com/en/archiver/explzh/explz815_en_x64.exe</url>
-  <hash-sum type="SHA-256">44ec60f951ffee9f37627076b16a7c3ea587aaa0fdb2816122f7a34217c345d5</hash-sum>
-  <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.25, 2)">
-   <variable>ncl</variable>
-  </dependency>
- </version>
- <version name="8.16" package="explzh64" type="one-file">
-  <file path=".Npackd\Install.bat">"%npackd_package_binary%" &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
-</file>
-  <file path=".Npackd\Uninstall.bat">"%ncl%\ncl.exe" remove-scp --title "/%npackd_package_name% %npackd_package_version%/i"&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
-</file>
-  <url>https://www.ponsoftware.com/en/archiver/explzh/explz816_en_x64.exe</url>
-  <hash-sum type="SHA-256">085ef42b93f28389f6a38dd46a9e69bedcf293994bab241b388e204555d53a85</hash-sum>
-  <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.25, 2)">
-   <variable>ncl</variable>
-  </dependency>
- </version>
- <version name="8.20" package="explzh64" type="one-file">
-  <file path=".Npackd\Install.bat">"%npackd_package_binary%" &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
-</file>
-  <file path=".Npackd\Uninstall.bat">"%ncl%\ncl.exe" remove-scp --title "/%npackd_package_name% %npackd_package_version%/i"&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
-</file>
-  <url>https://www.ponsoftware.com/en/archiver/explzh/explz820_en_x64.exe</url>
-  <hash-sum type="SHA-256">c7b37205e6f7f1bc7dd2d21c0bda2eaa94a02f539760c5daea5ad3cfb6975502</hash-sum>
-  <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.25, 2)">
-   <variable>ncl</variable>
-  </dependency>
- </version>
- <version name="8.21" package="explzh64" type="one-file">
-  <file path=".Npackd\Install.bat">"%npackd_package_binary%" &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
-</file>
-  <file path=".Npackd\Uninstall.bat">"%ncl%\ncl.exe" remove-scp --title "/%npackd_package_name% %npackd_package_version%/i"&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
-</file>
-  <url>https://www.ponsoftware.com/en/archiver/explzh/explz821_en_x64.exe</url>
-  <hash-sum type="SHA-256">329e575d10ab2d590dbf60e109052d1b1eceab11b90094f531a27d819f17dd84</hash-sum>
-  <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.25, 2)">
-   <variable>ncl</variable>
-  </dependency>
- </version>
- <version name="8.22" package="explzh64" type="one-file">
-  <file path=".Npackd\Install.bat">"%npackd_package_binary%" &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
-</file>
-  <file path=".Npackd\Uninstall.bat">"%ncl%\ncl.exe" remove-scp --title "/%npackd_package_name% %npackd_package_version%/i"&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
-</file>
-  <url>https://www.ponsoftware.com/en/archiver/explzh/explz822_en_x64.exe</url>
-  <hash-sum type="SHA-256">3a06d71fcbdbc36bc6d9b036545b9a6b5b00efc2b510f5d0d1386a430f1cb45b</hash-sum>
-  <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.25, 2)">
-   <variable>ncl</variable>
-  </dependency>
- </version>
- <version name="8.23" package="explzh64" type="one-file">
-  <file path=".Npackd\Install.bat">"%npackd_package_binary%" &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
-</file>
-  <file path=".Npackd\Uninstall.bat">"%ncl%\ncl.exe" remove-scp --title "/%npackd_package_name% %npackd_package_version%/i"&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
-</file>
-  <url>https://www.ponsoftware.com/en/archiver/explzh/explz823_en_x64.exe</url>
-  <hash-sum type="SHA-256">9d3dba2e0222b91b579927377f56416e4d1b06cf96916e5263815f79bbec1193</hash-sum>
-  <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.25, 2)">
-   <variable>ncl</variable>
-  </dependency>
- </version>
- <version name="8.25" package="explzh64" type="one-file">
-  <file path=".Npackd\Install.bat">"%npackd_package_binary%" &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
-</file>
-  <file path=".Npackd\Uninstall.bat">"%ncl%\ncl.exe" remove-scp --title "/%npackd_package_name% %npackd_package_version%/i"&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
-</file>
-  <url>https://www.ponsoftware.com/en/archiver/explzh/explz825_en_x64.exe</url>
-  <hash-sum type="SHA-256">85aa55bd726d4c1ddb5b96ae45719d1019e5ac6d51ab5fab5b29fd4c1cfb9096</hash-sum>
-  <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.25, 2)">
-   <variable>ncl</variable>
-  </dependency>
- </version>
- <version name="8.26" package="explzh64" type="one-file">
-  <file path=".Npackd\Install.bat">"%npackd_package_binary%" /quiet &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
-</file>
-  <file path=".Npackd\Uninstall.bat">"%ncl%\ncl.exe" remove-scp --title "/%npackd_package_name% %npackd_package_version%/i"&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
-</file>
-  <url>https://www.ponsoftware.com/en/archiver/explzh/explz826_en_x64.exe</url>
-  <hash-sum type="SHA-256">cce6ff3dc3e10bdd0297ef69fe505a1a76b4e11430f969daa6d70a085f72bf97</hash-sum>
-  <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.25, 2)">
-   <variable>ncl</variable>
-  </dependency>
- </version>
- <version name="8.27" package="explzh64" type="one-file">
-  <file path=".Npackd\Install.bat">"%npackd_package_binary%" /quiet &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
-</file>
-  <file path=".Npackd\Uninstall.bat">"%ncl%\ncl.exe" remove-scp --title "/%npackd_package_name% %npackd_package_version%/i"&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
-</file>
-  <url>https://www.ponsoftware.com/en/archiver/explzh/explz827_en_x64.exe</url>
-  <hash-sum type="SHA-256">bb21954e22c69219711c04e515a9eea8b65cf57b254360fd280621182c1fecc4</hash-sum>
-  <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.25, 2)">
-   <variable>ncl</variable>
-  </dependency>
- </version>
- <version name="8.28" package="explzh64" type="one-file">
-  <file path=".Npackd\Install.bat">"%npackd_package_binary%" /quiet &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
-</file>
-  <file path=".Npackd\Uninstall.bat">"%ncl%\ncl.exe" remove-scp --title "/%npackd_package_name% %npackd_package_version%/i"&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
-</file>
-  <url>https://www.ponsoftware.com/en/archiver/explzh/explz828_en_x64.exe</url>
-  <hash-sum type="SHA-256">80a53067511662b5f29caaa3fb565953b55e1d65305be5c26f2c0b8f1967662e</hash-sum>
-  <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.25, 2)">
-   <variable>ncl</variable>
-  </dependency>
- </version>
- <version name="8.29" package="explzh64" type="one-file">
-  <file path=".Npackd\Install.bat">"%npackd_package_binary%" /silent /q &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
-</file>
-  <file path=".Npackd\Uninstall.bat">"%ncl%\ncl.exe" remove-scp --title "/%npackd_package_name% %npackd_package_version%/i"&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
-</file>
-  <url>https://www.ponsoftware.com/en/archiver/explzh/explz829_en_x64.exe</url>
-  <hash-sum type="SHA-256">d8703eea8701599538be70056ca82c2cc8f41b47e77df7a8456bf3419713af22</hash-sum>
-  <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.25, 2)">
-   <variable>ncl</variable>
-  </dependency>
- </version>
- <version name="8.30" package="explzh64" type="one-file">
-  <file path=".Npackd\Install.bat">"%npackd_package_binary%" /silent /q &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
-</file>
-  <file path=".Npackd\Uninstall.bat">"%ncl%\ncl.exe" remove-scp --title "/%npackd_package_name% %npackd_package_version%/i"&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
-</file>
-  <url>https://www.ponsoftware.com/en/archiver/explzh/explz830_en_x64.exe</url>
-  <hash-sum type="SHA-256">1cf2a8d8d764b802cbc5fb33bcab7d2d41d426fea97c0f56427707f597a51e6d</hash-sum>
-  <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.25, 2)">
-   <variable>ncl</variable>
-  </dependency>
- </version>
- <version name="8.31" package="explzh64" type="one-file">
-  <file path=".Npackd\Install.bat">"%npackd_package_binary%" /silent /q &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
-</file>
-  <file path=".Npackd\Uninstall.bat">"%ncl%\ncl.exe" remove-scp --title "/%npackd_package_name% %npackd_package_version%/i"&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
-</file>
-  <url>https://www.ponsoftware.com/en/archiver/explzh/explz831_en_x64.exe</url>
-  <hash-sum type="SHA-256">c60e74954850edcd163dd5ce7d8603cb595ad9d82f395e3513b0fd7b704bcbf3</hash-sum>
-  <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.25, 2)">
-   <variable>ncl</variable>
-  </dependency>
- </version>
- <version name="8.32" package="explzh64" type="one-file">
-  <file path=".Npackd\Install.bat">"%npackd_package_binary%" /silent /q &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
-</file>
-  <file path=".Npackd\Uninstall.bat">"%ncl%\ncl.exe" remove-scp --title "/%npackd_package_name% %npackd_package_version%/i"&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
-</file>
-  <url>https://www.ponsoftware.com/en/archiver/explzh/explz832_en_x64.exe</url>
-  <hash-sum type="SHA-256">b1ff49b0fcab8d1e669284d55031bd54d316017e0b4d3e1ed8b38718b5061d3d</hash-sum>
-  <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.25, 2)">
-   <variable>ncl</variable>
-  </dependency>
- </version>
- <version name="8.33" package="explzh64" type="one-file">
-  <file path=".Npackd\Install.bat">"%npackd_package_binary%" /silent /q &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
-</file>
-  <file path=".Npackd\Uninstall.bat">"%ncl%\ncl.exe" remove-scp --title "/%npackd_package_name% %npackd_package_version%/i"&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
-</file>
-  <url>https://www.ponsoftware.com/en/archiver/explzh/explz833_en_x64.exe</url>
-  <hash-sum type="SHA-256">f279acc51c16cbcf92e9c766d33038f3872d287a7a7692ad93bdc35089993078</hash-sum>
-  <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.25, 2)">
-   <variable>ncl</variable>
-  </dependency>
- </version>
- <version name="8.34" package="explzh64" type="one-file">
-  <file path=".Npackd\Install.bat">"%npackd_package_binary%" /silent /q &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
-</file>
-  <file path=".Npackd\Uninstall.bat">"%ncl%\ncl.exe" remove-scp --title "/%npackd_package_name% %npackd_package_version%/i"&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
-</file>
-  <url>https://www.ponsoftware.com/en/archiver/explzh/explz834_en_x64.exe</url>
-  <hash-sum type="SHA-256">bb4c8bd70feff4f28d20cea835c8924ab2194ddf9d1318d921d454938ae2c727</hash-sum>
-  <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.25, 2)">
-   <variable>ncl</variable>
-  </dependency>
- </version>
- <version name="8.35" package="explzh64" type="one-file">
-  <file path=".Npackd\Install.bat">"%npackd_package_binary%" /silent /q &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
-</file>
-  <file path=".Npackd\Uninstall.bat">"%ncl%\ncl.exe" remove-scp --title "/%npackd_package_name% %npackd_package_version%/i"&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
-</file>
-  <url>https://www.ponsoftware.com/en/archiver/explzh/explz835_en_x64.exe</url>
-  <hash-sum type="SHA-256">05e858b1ffb5e71dd8ed12209ddab9ad66b96f6450ab163b7bbaf5cf5fc519c2</hash-sum>
-  <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.25, 2)">
-   <variable>ncl</variable>
-  </dependency>
- </version>
- <version name="8.36" package="explzh64" type="one-file">
-  <file path=".Npackd\Install.bat">"%npackd_package_binary%" /silent /q &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
-</file>
-  <file path=".Npackd\Uninstall.bat">"%ncl%\ncl.exe" remove-scp --title "/%npackd_package_name% %npackd_package_version%/i"&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
-</file>
-  <url>https://www.ponsoftware.com/en/archiver/explzh/explz836_en_x64.exe</url>
-  <hash-sum type="SHA-256">975dcbffe96503fd3c1f616ad887f67ea103997215c962d6cee82d5bc5549a1c</hash-sum>
-  <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.25, 2)">
-   <variable>ncl</variable>
-  </dependency>
- </version>
- <version name="8.37" package="explzh64" type="one-file">
-  <file path=".Npackd\Install.bat">"%npackd_package_binary%" /silent /q &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
-</file>
-  <file path=".Npackd\Uninstall.bat">"%ncl%\ncl.exe" remove-scp --title "/%npackd_package_name% %npackd_package_version%/i"&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
-</file>
-  <url>https://www.ponsoftware.com/en/archiver/explzh/explz837_en_x64.exe</url>
-  <hash-sum type="SHA-256">a75e8502c58336c848138eed6dc262163c1172f959480473c6a7859849ed7e38</hash-sum>
-  <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.25, 2)">
-   <variable>ncl</variable>
-  </dependency>
- </version>
- <version name="8.38" package="explzh64" type="one-file">
-  <file path=".Npackd\Install.bat">"%npackd_package_binary%" /silent /q &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
-</file>
-  <file path=".Npackd\Uninstall.bat">"%ncl%\ncl.exe" remove-scp --title "/%npackd_package_name% %npackd_package_version%/i"&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
-</file>
-  <url>https://www.ponsoftware.com/en/archiver/explzh/explz838_en_x64.exe</url>
-  <hash-sum type="SHA-256">801a6fa4ecb90231c7d2079e12e39cdb1ee3acb2854611f039b7c0dd3bc15ba7</hash-sum>
-  <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.25, 2)">
-   <variable>ncl</variable>
-  </dependency>
- </version>
- <version name="8.39" package="explzh64" type="one-file">
+    <version name="8.39" package="explzh64" type="one-file">
   <file path=".Npackd\Install.bat">"%npackd_package_binary%" /silent /q &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
 </file>
   <file path=".Npackd\Uninstall.bat">"%ncl%\ncl.exe" remove-scp --title "/%npackd_package_name% %npackd_package_version%/i"&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
@@ -18494,6 +17934,17 @@ rmdir "%name%"&#13;
 </file>
   <url>https://www.ponsoftware.com/en/archiver/explzh/explz840_en_x64.exe</url>
   <hash-sum type="SHA-256">cbdbc8d2630c1fdd10e28af7ed33b94f92fca3050f8354f6cd94c26aad08f190</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.25, 2)">
+   <variable>ncl</variable>
+  </dependency>
+ </version>
+ <version name="8.41" package="explzh64" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" /silent /q &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">"%ncl%\ncl.exe" remove-scp --title "/%npackd_package_name% %npackd_package_version%/i"&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+</file>
+  <url>https://www.ponsoftware.com/en/archiver/explzh/explz841_en_x64.exe</url>
+  <hash-sum type="SHA-256">79af8651fd3a1f4cca01936f8ac770a9f735d7481d6b956e3eb14d1eaf9a7dff</hash-sum>
   <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.25, 2)">
    <variable>ncl</variable>
   </dependency>
@@ -19656,6 +19107,17 @@ echo DesktopShortcut=false &gt;&gt; .Npackd\FF.ini&#13;
 verify</file>
   <url>https://download-installer.cdn.mozilla.net/pub/firefox/releases/88.0/win64/en-US/Firefox%20Setup%2088.0.exe</url>
   <hash-sum type="SHA-256">d223e38a6e0f49395bece511c65fb8601abda8dd4b29038dd444a23e6dc175b0</hash-sum>
+ </version>
+ <version name="88.0.1" package="firefox64" type="one-file">
+  <file path=".Npackd\Install.bat">echo [Install] &gt; .Npackd\FF.ini&#13;
+echo InstallDirectoryPath=%CD% &gt;&gt; .Npackd\FF.ini&#13;
+echo QuickLaunchShortcut=false &gt;&gt; .Npackd\FF.ini&#13;
+echo DesktopShortcut=false &gt;&gt; .Npackd\FF.ini&#13;
+"%npackd_package_binary%" /INI="%CD%\.Npackd\FF.ini" &amp;&amp; del /f /q "%npackd_package_binary%"</file>
+  <file path=".Npackd\Uninstall.bat">uninstall\helper.exe /S&#13;
+verify</file>
+  <url>https://download-installer.cdn.mozilla.net/pub/firefox/releases/88.0.1/win64/en-US/Firefox%20Setup%2088.0.1.exe</url>
+  <hash-sum type="SHA-256">a6121fb9607ec3202edbac0e367f7fac61643b2781ba4bc7e355dbb670836800</hash-sum>
  </version>
 
     <version name="1.22" package="focus-image-viewer" type="one-file">
@@ -23273,6 +22735,17 @@ if %err% neq 0 exit %err%&#13;
    <variable>nih</variable>
   </dependency>
  </version>
+ <version name="7.0.11.11" package="imagemagick64" type="one-file">
+  <file path=".Npackd\Install.bat">call "%nih%\InstallInnoSetup.bat"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">call "%nih%\UninstallInnoSetup.bat" unins000.exe&#13;
+</file>
+  <url>https://www.imagemagick.org/download/binaries/ImageMagick-7.0.11-11-Q16-HDRI-x64-dll.exe</url>
+  <hash-sum type="SHA-256">960123b673e8138ae0b1c856bf23b30ff2489d096f8b31c925afd093a8cfcbde</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
 
     
 
@@ -23868,6 +23341,14 @@ rmdir "%name%"&#13;
 </file>
   <url>http://mirrors.kodi.tv/releases/windows/win64/kodi-18.9-Leia-x64.exe</url>
   <hash-sum type="SHA-256">1819c2bed5bf94b0491879c09e093a40eb358e8b0f5e024c54542d52a27fe78b</hash-sum>
+ </version>
+ <version name="19" package="kodi64" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">uninstall.exe /S _?=%CD%&#13;
+</file>
+  <url>https://mirrors.kodi.tv/releases/windows/win64/kodi-19.0-Matrix-x64.exe</url>
+  <hash-sum type="SHA-256">387cbfd00ebe64ec9ebd02ea1f7271fdec9ef7fde75843501623b8e4348969a6</hash-sum>
  </version>
 
     <version name="1.0.9" package="kr.pe.nyam.Imagine64">
@@ -24644,6 +24125,14 @@ call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Np
 </file>
   <url>https://cdn.lwks.com/releases/2021.1/lightworks_2021.1_r126716_64bit_setup.exe</url>
   <hash-sum type="SHA-256">3a8007b452c06af52da3d447e5136b945bd20afa9d1a1972e76723260ad14dec</hash-sum>
+ </version>
+ <version name="2021.2" package="lightworks64" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">uninstall.exe /S _?=%CD%&#13;
+</file>
+  <url>https://cdn.lwks.com/releases/2021.2/lightworks_2021.2_r128258_64bit_setup.exe</url>
+  <hash-sum type="SHA-256">9f3dfa9e375e975359d637179cb60ba23c999c8855ad109af129bb7ace2234e3</hash-sum>
  </version>
 
     <version name="37.3" package="liteide64">
@@ -26121,6 +25610,16 @@ reg add HKCU\Software\mkvmergeGUI\GUI /v check_for_updates /t REG_DWORD /d 00000
    <variable>nih</variable>
   </dependency>
  </version>
+ <version name="1.5.1" package="money-manager-ex64" type="one-file">
+  <file path=".Npackd\Install.bat">"%nih%\InstallInnoSetup.bat"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">"%nih%\UninstallInnoSetup.bat" unins000.exe</file>
+  <url>https://github.com/moneymanagerex/moneymanagerex/releases/download/v1.5.1/mmex-1.5.1-win64.exe</url>
+  <hash-sum type="SHA-256">f10294fcf1542a1165a63367f5c0fdae7d2208cdddd9706b21f99f91f5710ca5</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
 
     <version name="4.4.1" package="mono64" type="one-file">
   <file path=".Npackd\Install.bat">call "%npackdih%\InstallMSI.bat" INSTALLDIR yes&#13;
@@ -26623,6 +26122,64 @@ usr\bin\bash.exe -lc 'pacman-key --populate msys2'&#13;
 </file>
   <url>http://repo.msys2.org/distrib/x86_64/msys2-base-x86_64-20201109.tar.xz</url>
   <hash-sum type="SHA-256">ca10a72aa3df219fabeff117aa4b00c1ec700ea93c4febf4cfc03083f4b2cacb</hash-sum>
+  <dependency package="org.7-zip.SevenZIPA" versions="[19, 100)">
+   <variable>sevenzipa</variable>
+  </dependency>
+  <dependency package="com.googlecode.windows-package-manager.CLU" versions="[1.25, 2)">
+   <variable>clu</variable>
+  </dependency>
+ </version>
+ <version name="2021.2.28" package="msys2_64" type="one-file">
+  <important-file path="mingw64.exe" title="MinGW 64 bit"/>
+  <important-file path="mingw32.exe" title="MinGW"/>
+  <file path=".Npackd\Install.bat">"%sevenzipa%\7za" x "%npackd_package_binary%"&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+if %errorlevel% neq 0 exit /b %errorlevel%&#13;
+&#13;
+for /f "delims=" %%x in ('dir /b *.tar') do set name=%%x&#13;
+"%sevenzipa%\7za" x "%name%"&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+if %errorlevel% neq 0 exit /b %errorlevel%&#13;
+&#13;
+"%clu%\clu" unwrap-dir -p msys64&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+if %errorlevel% neq 0 exit /b %errorlevel%&#13;
+&#13;
+rem see https://github.com/flavorjones/windows-ruby-dev-tools-release/blob/master/packages/ruby-2.4/packaging&#13;
+rem initialize ... things. like gpg keys. and skeleton files.&#13;
+rem see https://github.com/oneclick/rubyinstaller2/issues/79 for background&#13;
+usr\bin\bash.exe -lc 'true'&#13;
+usr\bin\bash.exe -lc 'pacman-key --init'&#13;
+usr\bin\bash.exe -lc 'pacman-key --populate msys2'&#13;
+</file>
+  <url>https://repo.msys2.org/distrib/x86_64/msys2-base-x86_64-20210228.tar.xz</url>
+  <hash-sum type="SHA-256">3f2ceb097a081789d9d497e0d3df8d99c16a1591b9984b0469440cd5bfa65092</hash-sum>
+  <dependency package="org.7-zip.SevenZIPA" versions="[19, 100)">
+   <variable>sevenzipa</variable>
+  </dependency>
+  <dependency package="com.googlecode.windows-package-manager.CLU" versions="[1.25, 2)">
+   <variable>clu</variable>
+  </dependency>
+ </version>
+ <version name="2021.4.19" package="msys2_64" type="one-file">
+  <important-file path="mingw64.exe" title="MinGW 64 bit"/>
+  <important-file path="mingw32.exe" title="MinGW"/>
+  <file path=".Npackd\Install.bat">"%sevenzipa%\7za" x "%npackd_package_binary%"&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+if %errorlevel% neq 0 exit /b %errorlevel%&#13;
+&#13;
+for /f "delims=" %%x in ('dir /b *.tar') do set name=%%x&#13;
+"%sevenzipa%\7za" x "%name%"&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+if %errorlevel% neq 0 exit /b %errorlevel%&#13;
+&#13;
+"%clu%\clu" unwrap-dir -p msys64&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+if %errorlevel% neq 0 exit /b %errorlevel%&#13;
+&#13;
+rem see https://github.com/flavorjones/windows-ruby-dev-tools-release/blob/master/packages/ruby-2.4/packaging&#13;
+rem initialize ... things. like gpg keys. and skeleton files.&#13;
+rem see https://github.com/oneclick/rubyinstaller2/issues/79 for background&#13;
+usr\bin\bash.exe -lc 'true'&#13;
+usr\bin\bash.exe -lc 'pacman-key --init'&#13;
+usr\bin\bash.exe -lc 'pacman-key --populate msys2'&#13;
+</file>
+  <url>https://repo.msys2.org/distrib/x86_64/msys2-base-x86_64-20210419.tar.xz</url>
+  <hash-sum type="SHA-256">3d014d6f5ae519ea5de5b586bff505309c1f42fd8148996d63ba132b24146c85</hash-sum>
   <dependency package="org.7-zip.SevenZIPA" versions="[19, 100)">
    <variable>sevenzipa</variable>
   </dependency>
@@ -38263,6 +37820,40 @@ Set view = Nothing&#13;
    <variable>npackdih</variable>
   </dependency>
  </version>
+ <version name="1.16.4" package="org.golang.Go64" type="one-file">
+  <file path=".Npackd\Install.bat">.Npackd\AddProperty.vbs "%npackd_package_binary%"&#13;
+if %errorlevel% neq 0 exit %errorlevel%&#13;
+&#13;
+call "%npackdih%\InstallMSI.bat" INSTALLDIR</file>
+  <file path=".Npackd\Uninstall.bat">call "%npackdih%\UninstallMSI.bat"</file>
+  <file path=".Npackd\AddProperty.vbs">Option Explicit&#13;
+&#13;
+Dim MSI_FILE&#13;
+MSI_FILE = Wscript.Arguments(0)&#13;
+&#13;
+Dim installer, database, view&#13;
+&#13;
+Set installer = CreateObject("WindowsInstaller.Installer")&#13;
+Set database = installer.OpenDatabase(MSI_FILE, 1)&#13;
+&#13;
+Set view = database.OpenView("INSERT INTO Property (Property, Value) VALUES ('INSTALLDIR', 'C:\Go')")&#13;
+view.Execute&#13;
+'Set view = database.OpenView("DELETE FROM Directory WHERE Directory='TARGETDIR'")&#13;
+'view.Execute&#13;
+'Set view = database.OpenView("UPDATE Directory SET DefaultDir='INSTALLLOCATION' WHERE Directory='TARGETDIR'")&#13;
+'view.Execute&#13;
+database.Commit&#13;
+&#13;
+Set database = Nothing&#13;
+Set installer = Nothing&#13;
+Set view = Nothing&#13;
+</file>
+  <url>https://golang.org/dl/go1.16.4.windows-amd64.msi</url>
+  <hash-sum type="SHA-256">9ae1cafad5f206f004cfe4e9e9b64e4710cb69c83f6221da89c113b6f2e8dec8</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1, 2)">
+   <variable>npackdih</variable>
+  </dependency>
+ </version>
 
     <version name="2.22.1" package="org.gtk.GTKPlusBundle64">
   <file path="etc\gtk-2.0\gtkrc">gtk-theme-name = "MS-Windows"</file>
@@ -47260,6 +46851,34 @@ call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Np
    <variable>nih</variable>
   </dependency>
  </version>
+ <version name="8.2.2840" package="org.vim.Vim64">
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+if %errorlevel% neq 0 exit /b %errorlevel%&#13;
+&#13;
+for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+</file>
+  <url>https://github.com/vim/vim-win32-installer/releases/download/v8.2.2840/gvim_8.2.2840_x64.zip</url>
+  <hash-sum type="SHA-256">6e2fe2d7b921dfc482f0fc50d7c85c3b5340b18acb3f9c4e45538bd3265b175b</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.19, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
+ <version name="8.2.2844" package="org.vim.Vim64">
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+if %errorlevel% neq 0 exit /b %errorlevel%&#13;
+&#13;
+for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+</file>
+  <url>https://github.com/vim/vim-win32-installer/releases/download/v8.2.2844/gvim_8.2.2844_x64.zip</url>
+  <hash-sum type="SHA-256">a5dda973b8930d29268e84000cd0fed1bd4438b9a0173c1e95c72e1bfd6e5934</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.19, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
 
     <version name="4.2.8.83876" package="org.virtualbox.virtualbox64" type="one-file">
   <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
@@ -49011,6 +48630,41 @@ if %err% neq 0 exit %err%</file>
    <variable>sevenzip</variable>
   </dependency>
  </version>
+ <version name="6.1.22.144080" package="org.virtualbox.virtualbox64" type="one-file">
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
+"%setup%" -x -s -p "%CD%"&#13;
+&#13;
+&#13;
+"%sevenzip%\7z.exe" x common.cab -aos -o"%CD%\common"&#13;
+"%sevenzip%\7z.exe" x "%CD%\common\file_VBoxGuestAdditions.iso" -aos -o"%CD%\common\file_VBoxGuestAdditions"&#13;
+&#13;
+certutil.exe -addstore -f "TrustedPublisher" "%CD%\common\file_VBoxGuestAdditions\cert\oracle-vbox.cer" &gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+&#13;
+for /f "delims=" %%x in ('dir /b *MultiArch_amd64.msi') do set setup=%%x&#13;
+msiexec.exe /qn /norestart /Lime .Npackd\MSI.log /i "%setup%"&#13;
+set err=%errorlevel%&#13;
+type .Npackd\MSI.log&#13;
+rem 3010=restart required&#13;
+if %err% equ 3010 exit 0&#13;
+if %err% neq 0 exit %err%&#13;
+&#13;
+for /f "delims=" %%x in ('dir /b *MultiArch_x86.msi') do set trash=%%x&#13;
+del /q /f "%trash%"&#13;
+&#13;
+if exist "%CD%\common" (rd /s /q "%CD%\common")</file>
+  <file path=".Npackd\Uninstall.bat">for /f "delims=" %%x in ('dir /b *.msi') do set setup=%%x&#13;
+msiexec.exe /qn /norestart /Lime .Npackd\MSI.log /x "%setup%"&#13;
+set err=%errorlevel%&#13;
+type .Npackd\MSI.log&#13;
+rem 3010=restart required&#13;
+if %err% equ 3010 exit 0&#13;
+if %err% neq 0 exit %err%</file>
+  <url>http://download.virtualbox.org/virtualbox/6.1.22/VirtualBox-6.1.22-144080-Win.exe</url>
+  <hash-sum type="SHA-256">ed5796aeb5d143bb4bb59a70bd976411dee79d583deb7a95f621992dd3c6864f</hash-sum>
+  <dependency package="org.7-zip.SevenZIP64" versions="[9.20, 20)">
+   <variable>sevenzip</variable>
+  </dependency>
+ </version>
 
     <version name="1.9.11" package="org.virtualdub.VirtualDub64">
   <important-file path="Veedub64.exe" title="VirtualDub"/>
@@ -50106,6 +49760,26 @@ if %errorlevel% neq 0 exit /b %errorlevel%&#13;
   </dependency>
   <dependency package="com.googlecode.windows-package-manager.CLU" versions="[1.25, 2)">
    <variable>clu</variable>
+  </dependency>
+ </version>
+ <version name="1.5.1500" package="psi-plus64" type="one-file">
+  <file path=".Npackd\Install.bat">"%nih%\InstallInnoSetup.bat"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">"%nih%\UninstallInnoSetup.bat" unins000.exe</file>
+  <url>https://master.dl.sourceforge.net/project/psiplus/Windows/Personal-Builds/KukuRuzo/psi-plus-1.5.1500.0-x64-setup.exe</url>
+  <hash-sum type="SHA-256">8fb08dcc063c6661bbe313379e08bafbcbd56cb017107048979418dfd169eb41</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
+ <version name="1.5.1503" package="psi-plus64" type="one-file">
+  <file path=".Npackd\Install.bat">"%nih%\InstallInnoSetup.bat"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">"%nih%\UninstallInnoSetup.bat" unins000.exe</file>
+  <url>https://master.dl.sourceforge.net/project/psiplus/Windows/Personal-Builds/KukuRuzo/psi-plus-1.5.1503.0-x64-setup.exe</url>
+  <hash-sum type="SHA-256">76a8072f0b8b93f55a7f9b23b5f1ff7065aa9a19f4d78c91d043d0569f4b628f</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
+   <variable>nih</variable>
   </dependency>
  </version>
 
