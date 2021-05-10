@@ -22740,7 +22740,7 @@ if %err% neq 0 exit %err%&#13;
 </file>
   <file path=".Npackd\Uninstall.bat">call "%nih%\UninstallInnoSetup.bat" unins000.exe&#13;
 </file>
-  <url>https://www.imagemagick.org/download/binaries/ImageMagick-7.0.11-11-Q16-HDRI-x64-dll.exe</url>
+  <url>https://github.com/tim-lebedkov/packages/releases/download/2021_05/imagemagick64-7.0.11.11-ImageMagick-7.0.11-11-Q16-HDRI-x64-dll.exe</url>
   <hash-sum type="SHA-256">960123b673e8138ae0b1c856bf23b30ff2489d096f8b31c925afd093a8cfcbde</hash-sum>
   <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
    <variable>nih</variable>
@@ -49755,6 +49755,31 @@ if %errorlevel% neq 0 exit /b %errorlevel%&#13;
 </file>
   <url>https://sourceforge.net/projects/psiplus/files/Windows/Personal-Builds/tehnick/psi-plus-portable-1.5.1484_win7_x86_64.7z</url>
   <hash-sum type="SHA-256">24b111dae6ecfc6d7f939882524bfba8d647fa39f958eabb8f30ede3a1e561f4</hash-sum>
+  <dependency package="org.7-zip.SevenZIPA" versions="[9.20, 20)">
+   <variable>sevenzipa</variable>
+  </dependency>
+  <dependency package="com.googlecode.windows-package-manager.CLU" versions="[1.25, 2)">
+   <variable>clu</variable>
+  </dependency>
+ </version>
+ <version name="1.5.1487" package="psi-plus64" type="one-file">
+  <important-file path="psi-plus.exe" title="Psi+"/>
+  <important-file path="psi-plus-webkit.exe" title="Psi+ WebKit"/>
+  <file path=".Npackd\Install.bat">"%sevenzipa%\7za.exe" x "%npackd_package_binary%" &gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt &amp;&amp; del /f /q "%setup%"&#13;
+if %errorlevel% neq 0 exit /b %errorlevel%&#13;
+&#13;
+for /f "delims=" %%x in ('dir /b psi-plus*') do set name=%%x&#13;
+"%clu%\clu" unwrap-dir -p "%name%"&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+if %errorlevel% neq 0 exit /b %errorlevel%&#13;
+&#13;
+ren psi-plus-portable.exe psi-plus.exe&#13;
+if %errorlevel% neq 0 exit /b %errorlevel%&#13;
+&#13;
+ren psi-plus-webkit-portable.exe psi-plus-webkit.exe&#13;
+if %errorlevel% neq 0 exit /b %errorlevel%&#13;
+</file>
+  <url>https://sourceforge.net/projects/psiplus/files/Windows/Personal-Builds/tehnick/psi-plus-portable-1.5.1487_win7_x86_64.7z</url>
+  <hash-sum type="SHA-256">062e43595b46211b1b2ebf490b11743f7872c4a4359855dc2c0d1aa7728f3b24</hash-sum>
   <dependency package="org.7-zip.SevenZIPA" versions="[9.20, 20)">
    <variable>sevenzipa</variable>
   </dependency>
