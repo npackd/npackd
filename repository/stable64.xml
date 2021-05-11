@@ -7610,6 +7610,63 @@ if %err% equ 3010 exit 0&#13;
 if %err% neq 0 exit %err%</file>
   <url>https://secure-appldnld.apple.com/itunes12/091-45357-20180123-72201840-FFEA-11E7-92F9-85B67CCC33A9/iTunes64Setup.exe</url>
  </version>
+ <version name="12.11.3" package="com.apple.itunes64" type="one-file">
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
+"%setup%" /extract&#13;
+&#13;
+del /q /f SetupAdmin.exe&#13;
+del /q /f AppleSoftwareUpdate.msi&#13;
+&#13;
+msiexec.exe /qn /norestart /Lime .Npackd\MSI.log /i AppleApplicationSupport64.msi ALLUSERS=1&#13;
+set err=%errorlevel%&#13;
+type .Npackd\MSI.log&#13;
+rem 3010=restart required&#13;
+if %err% equ 3010 exit 0&#13;
+if %err% neq 0 exit %err%&#13;
+&#13;
+msiexec.exe /qn /norestart /Lime .Npackd\MSI.log /i iTunes6464.msi ALLUSERS=1&#13;
+set err=%errorlevel%&#13;
+type .Npackd\MSI.log&#13;
+rem 3010=restart required&#13;
+if %err% equ 3010 exit 0&#13;
+if %err% neq 0 exit %err%&#13;
+&#13;
+msiexec.exe /qn /norestart /Lime .Npackd\MSI.log /i Bonjour64.msi ALLUSERS=1&#13;
+set err=%errorlevel%&#13;
+type .Npackd\MSI.log&#13;
+rem 3010=restart required&#13;
+if %err% equ 3010 exit 0&#13;
+if %err% neq 0 exit %err%&#13;
+&#13;
+msiexec.exe /qn /norestart /Lime .Npackd\MSI.log /i AppleMobileDeviceSupport6464.msi ALLUSERS=1&#13;
+set err=%errorlevel%&#13;
+type .Npackd\MSI.log&#13;
+rem 3010=restart required&#13;
+if %err% equ 3010 exit 0&#13;
+if %err% neq 0 exit %err%</file>
+  <file path=".Npackd\Uninstall.bat">msiexec.exe /qn /norestart /Lime .Npackd\MSI.log /x iTunes6464.msi&#13;
+set err=%errorlevel%&#13;
+type .Npackd\MSI.log&#13;
+rem 3010=restart required&#13;
+if %err% equ 3010 exit 0&#13;
+if %err% neq 0 exit %err%&#13;
+&#13;
+msiexec.exe /qn /norestart /Lime .Npackd\MSI.log /x Bonjour64.msi&#13;
+set err=%errorlevel%&#13;
+type .Npackd\MSI.log&#13;
+rem 3010=restart required&#13;
+if %err% equ 3010 exit 0&#13;
+if %err% neq 0 exit %err%&#13;
+&#13;
+msiexec.exe /qn /norestart /Lime .Npackd\MSI.log /x AppleMobileDeviceSupport6464.msi&#13;
+set err=%errorlevel%&#13;
+type .Npackd\MSI.log&#13;
+rem 3010=restart required&#13;
+if %err% equ 3010 exit 0&#13;
+if %err% neq 0 exit %err%</file>
+  <url>https://secure-appldnld.apple.com/itunes12/001-97787-20210421-F0E5A3C2-A2C9-11EB-A40B-A128318AD179/iTunes64Setup.exe</url>
+  <hash-sum type="SHA-256">07c0c72f364f8c5ffdc4a4d60ddba7081fa82971eabcfcb25d4e6b223690527a</hash-sum>
+ </version>
 
     <version name="2015.5645" package="com.avg.AVGAntiVirusFree64" type="one-file">
   <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
@@ -13075,7 +13132,7 @@ del Q-Dir.ini&#13;
   <url>http://files.npackd.org/com.softwareok.QDir64-5.99.9.zip</url>
   <sha1>fb6060796fae3fc641ba34fe1f2f8530d7c985a8</sha1>
  </version>
- <version name="9.41" package="com.softwareok.QDir64">
+ <version name="9.44" package="com.softwareok.QDir64">
   <important-file path="Q-Dir_x64.exe" title="Q-Dir"/>
   <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b Q*') do set name=%%x&#13;
 cd "%name%"        &#13;
@@ -15115,6 +15172,52 @@ goto out&#13;
 for %%g in (%extensions%) do reg add HKLM\SOFTWARE\Classes\.%%g\OpenWithList\%key% /f</file>
   <url>https://download.videolan.org/pub/videolan/vlc/3.0.12/win64/vlc-3.0.12-win64.zip</url>
   <hash-sum type="SHA-256">7b7ad4ba64b1ead4a755ebdf00669eec4a7564efd156d011767f9bfc441dd64b</hash-sum>
+ </version>
+ <version name="3.0.13" package="com.videolan.VLCMediaPlayer64">
+  <important-file path="vlc.exe" title="VLC Media Player"/>
+  <file path=".Npackd\Extensions.txt">a52 aac ac3 adt adts aif ifc iff mr aob ape cda dts flac it m4a m4p mid mka mlp mod mp1 mp2 mp3 mpc oga ogg oma rmi s3m spx tta voc vqf w64 wav wma wv xa xm 3g2 3gp 3gp2 3gpp amv asf avi bin cue divx dv flv gxf iso m1v m2v m2t m2ts m4v mkv mov mp2 mp2v mp4 mp4v mpa mpe mpeg mpeg1 mpeg2 mpeg4 mpg mpv2 mts mxf nsv nuv ogg ogm ogv ogx ps rec rm rmvb tod ts tts vob vro webm wmv asx b4s ifo m3u m3u8 pls ram rar sdp vlc xspf zip cdg idx srt sub utf ass ssa aqt jss psb rt smi&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">set package=com.videolan.VLCMediaPlayer64&#13;
+set version=%NPACKD_PACKAGE_VERSION%&#13;
+set key=%package%-%version%&#13;
+&#13;
+reg delete HKLM\SOFTWARE\Classes\Applications\%key% /f&#13;
+&#13;
+rem read extensions from the file&#13;
+for /f "usebackq delims=" %%a in (.Npackd\Extensions.txt) do (&#13;
+set extensions=%%a&#13;
+goto out&#13;
+)&#13;
+:out&#13;
+&#13;
+for %%g in (%extensions%) do reg delete HKLM\SOFTWARE\Classes\.%%g\OpenWithList\%key% /f</file>
+  <file path=".Npackd\Install.bat">for /f %%x in ('dir /b vlc*') do set name=%%x&#13;
+for /f "delims=" %%x in ('dir /b aria*') do set name=%%x&#13;
+cd "%name%"        &#13;
+for /f "delims=" %%a in ('dir /b') do (&#13;
+  move "%%a" ..&#13;
+)&#13;
+cd ..&#13;
+rmdir "%name%"&#13;
+&#13;
+set package=com.videolan.VLCMediaPlayer64&#13;
+set version=%NPACKD_PACKAGE_VERSION%&#13;
+set key=%package%-%version%&#13;
+&#13;
+reg add HKLM\SOFTWARE\Classes\Applications\%key%\shell\open /v FriendlyAppName /d "VLC Media Player (%version%)" /f&#13;
+set c=\"%CD%\vlc.exe\" \"%%1\"&#13;
+reg add HKLM\SOFTWARE\Classes\Applications\%KEY%\shell\open\command /d "%c%" /f&#13;
+&#13;
+rem read extensions from the file&#13;
+for /f "usebackq delims=" %%a in (.Npackd\Extensions.txt) do (&#13;
+set extensions=%%a&#13;
+goto out&#13;
+)&#13;
+:out&#13;
+&#13;
+for %%g in (%extensions%) do reg add HKLM\SOFTWARE\Classes\.%%g\OpenWithList\%key% /f</file>
+  <url>https://download.videolan.org/pub/videolan/vlc/3.0.13/win64/vlc-3.0.13-win64.zip</url>
+  <hash-sum type="SHA-256">e357186b4f7f0c62a1b0f8ca7f0429e1a9db785d7d3e23a7847225b1ec203a70</hash-sum>
  </version>
 
     <version name="0.5" package="com.whatsappinc.whatsapp-desktop-64" type="one-file">
@@ -22742,6 +22845,17 @@ if %err% neq 0 exit %err%&#13;
 </file>
   <url>https://github.com/tim-lebedkov/packages/releases/download/2021_05/imagemagick64-7.0.11.11-ImageMagick-7.0.11-11-Q16-HDRI-x64-dll.exe</url>
   <hash-sum type="SHA-256">960123b673e8138ae0b1c856bf23b30ff2489d096f8b31c925afd093a8cfcbde</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
+ <version name="7.0.11.12" package="imagemagick64" type="one-file">
+  <file path=".Npackd\Install.bat">call "%nih%\InstallInnoSetup.bat"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">call "%nih%\UninstallInnoSetup.bat" unins000.exe&#13;
+</file>
+  <url>https://www.imagemagick.org/download/binaries/ImageMagick-7.0.11-12-Q16-HDRI-x64-dll.exe</url>
+  <hash-sum type="SHA-256">80e90100bd565eec9f7717c01c2efdec86f640115590e5f2d3c87c887a4280e6</hash-sum>
   <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
    <variable>nih</variable>
   </dependency>
@@ -46879,6 +46993,34 @@ call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Np
    <variable>nih</variable>
   </dependency>
  </version>
+ <version name="8.2.2845" package="org.vim.Vim64">
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+if %errorlevel% neq 0 exit /b %errorlevel%&#13;
+&#13;
+for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+</file>
+  <url>https://github.com/vim/vim-win32-installer/releases/download/v8.2.2845/gvim_8.2.2845_x64.zip</url>
+  <hash-sum type="SHA-256">f7850f0d7da914d4bfd5003ae13fea8b9e90265ff4f3212ba4b56fd99541aabb</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.19, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
+ <version name="8.2.2846" package="org.vim.Vim64">
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+if %errorlevel% neq 0 exit /b %errorlevel%&#13;
+&#13;
+for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+</file>
+  <url>https://github.com/vim/vim-win32-installer/releases/download/v8.2.2846/gvim_8.2.2846_x64.zip</url>
+  <hash-sum type="SHA-256">bfe9ed926d76028a0a54f6c90f12aa8561027786cea92085bcb3891c50374b45</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.19, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
 
     <version name="4.2.8.83876" package="org.virtualbox.virtualbox64" type="one-file">
   <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
@@ -49807,6 +49949,16 @@ if %errorlevel% neq 0 exit /b %errorlevel%&#13;
    <variable>nih</variable>
   </dependency>
  </version>
+ <version name="1.5.1513" package="psi-plus64" type="one-file">
+  <file path=".Npackd\Install.bat">"%nih%\InstallInnoSetup.bat"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">"%nih%\UninstallInnoSetup.bat" unins000.exe</file>
+  <url>https://master.dl.sourceforge.net/project/psiplus/Windows/Personal-Builds/KukuRuzo/psi-plus-1.5.1513.0-x64-setup.exe</url>
+  <hash-sum type="SHA-256">18e9e8615270b8372867bb9b76cc7a2180f9199ea663f8c0ead8b77ecf8660ba</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
 
     <version name="0.7" package="ptsminer">
   <important-file path="ptsminer_EDIT-ME.bat" title="Run ptsminer"/>
@@ -50882,6 +51034,17 @@ if %errorlevel% equ 3010 verify</file>
 </file>
   <url>http://download.qt-project.org/official_releases/qtcreator/4.14/4.14.2/qt-creator-opensource-windows-x86_64-4.14.2.exe</url>
   <hash-sum type="SHA-256">f97595e30138c9420e0e35e8ddeac0684ef81288ac02c966a87151177c65031b</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.24, 2)">
+   <variable>ncl</variable>
+  </dependency>
+ </version>
+ <version name="4.15" package="qt-creator64" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD%&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">"%ncl%\ncl.exe" remove-scp --title "/Qt Creator.*/"&#13;
+</file>
+  <url>http://download.qt-project.org/official_releases/qtcreator/4.15/4.15.0/qt-creator-opensource-windows-x86_64-4.15.0.exe</url>
+  <hash-sum type="SHA-256">ec0d13c102f63b47aeb530386950484974ec1e54f598f1b6591039b26816041c</hash-sum>
   <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.24, 2)">
    <variable>ncl</variable>
   </dependency>
@@ -53151,6 +53314,14 @@ rmdir "%name%"</file>
 </file>
   <url>https://sourceforge.net/projects/synfig/files/releases/1.2.2/SynfigStudio-1.2.2-18.09.14-win64-286f1.exe</url>
   <sha1>ad5d2af4d1873adbc434464c6eca82414dccc239</sha1>
+ </version>
+ <version name="1.4.1" package="synfig-studio64" type="one-file">
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
+"%setup%" /S /D=%CD% &amp;&amp; del /f /q "%setup%"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">uninstall-synfigstudio.exe /S _?=%CD%&#13;
+</file>
+  <url>https://sourceforge.net/projects/synfig/files/releases/1.2.2/SynfigStudio-1.2.2-18.09.14-win64-286f1.exe</url>
  </version>
 
     <version name="5.0.12" package="sysgauge64" type="one-file">
