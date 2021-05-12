@@ -215,6 +215,23 @@ x86_64</description>
   <link href="https://www.altap.cz/images/salamander/screenshots/find-files-directories-advanced-options.png" rel="screenshot"/>
   <link href="https://www.altap.cz/images/salamander/screenshots/database-viewer.png" rel="screenshot"/>
  </package>
+ <package name="altap-salamander64">
+  <title>Altap Salamander 64 Bit</title>
+  <url>https://www.altap.cz/</url>
+  <description>Altap Salamander is a fast and reliable two-panel file manager for Windows.
+x86_64</description>
+  <icon>https://community.chocolatey.org/content/packageimages/altap-salamander.4.0.png</icon>
+  <license>org.wikipedia.Freeware</license>
+  <category>Tools</category>
+  <tag>stable64</tag>
+  <stars>1</stars>
+  <link href="https://cdn.afterdawn.fi/screenshots/normal/290.jpg" rel="screenshot"/>
+  <link href="https://cdn.afterdawn.fi/screenshots/normal/293.jpg" rel="screenshot"/>
+  <link href="https://cdn.afterdawn.fi/screenshots/normal/292.jpg" rel="screenshot"/>
+  <link href="https://cdn.afterdawn.fi/screenshots/normal/291.jpg" rel="screenshot"/>
+  <link href="https://www.altap.cz/images/salamander/screenshots/find-files-directories-advanced-options.png" rel="screenshot"/>
+  <link href="https://www.altap.cz/images/salamander/screenshots/database-viewer.png" rel="screenshot"/>
+ </package>
  <package name="anaconda64">
   <title>Anaconda 64 bit</title>
   <url>https://www.anaconda.com/</url>
@@ -1327,6 +1344,7 @@ x86_64</description>
   <license>org.wikipedia.Freeware</license>
   <category>Photo</category>
   <tag>stable64</tag>
+  <stars>1</stars>
   <link href="https://firealpaca.com/images/fa/fb_en.jpg" rel="screenshot"/>
   <link href="https://www.bytesin.com/software/media/screens/267284.jpg" rel="screenshot"/>
   <link href="https://static.filehorse.com/screenshots/imaging-and-digital-photo/firealpaca-screenshot-02.png" rel="screenshot"/>
@@ -2325,17 +2343,6 @@ x86_64</description>
   <icon>https://lh3.googleusercontent.com/-2CFHUCZ2_9c/U_oWx3nRoqI/AAAAAAAABoA/19quWbjyiLU/s16/net.nirsoft.NirCmd.png</icon>
   <license>net.nirsoft.FreewareLicense</license>
   <category>Tools</category>
-  <tag>stable64</tag>
-  <stars>1</stars>
- </package>
- <package name="nitro-pdf-reader64">
-  <title>Nitro PDF Reader 64 bit</title>
-  <url>https://www.gonitro.com/</url>
-  <description>PDF viewer
-x86_64</description>
-  <icon>https://www.gonitro.com/img/favicon.ico</icon>
-  <license>org.wikipedia.Freeware</license>
-  <category>Text</category>
   <tag>stable64</tag>
   <stars>1</stars>
  </package>
@@ -4242,6 +4249,18 @@ x86_64</description>
 </file>
   <url>https://www.altap.cz/ftp/salamand/as40x86.exe</url>
   <hash-sum type="SHA-256">33b4bc46588dc4b122819148da2f167b17ac55baa3a88e0e7c41fb08fd532885</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.25, 2)">
+   <variable>ncl</variable>
+  </dependency>
+ </version>
+
+    <version name="4" package="altap-salamander64" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">"%ncl%\ncl.exe" remove-scp --title "/%npackd_package_name% %npackd_package_version%/i"&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+</file>
+  <url>https://www.altap.cz/ftp/salamand/as40x64.exe</url>
+  <hash-sum type="SHA-256">b5ceb790912681524b47f2f5603d8162ef696ef23b02db0e2bd2d25b9567078a</hash-sum>
   <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.25, 2)">
    <variable>ncl</variable>
   </dependency>
@@ -10493,6 +10512,15 @@ if %err% neq 0 exit /b %err%&#13;
    <variable>npackdih</variable>
   </dependency>
  </version>
+ <version name="8.0.25" package="com.mysql.dev.MySQLODBCConnector64bits" type="one-file">
+  <file path=".Npackd\Install.bat">call "%npackdih%\InstallMSI.bat" INSTALLDIR yes&#13;
+		</file>
+  <url>https://cdn.mysql.com//Downloads/Connector-ODBC/8.0/mysql-connector-odbc-8.0.25-winx64.msi</url>
+  <hash-sum type="SHA-256">4d7947429f0184aa3f0019bf778549fc1489b2cec11bb22e206bd154986924f3</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.1, 2)">
+   <variable>npackdih</variable>
+  </dependency>
+ </version>
 
     <version name="5.5.16" package="com.mysql.MySQLCommunityServer64" type="one-file">
   <file path=".Npackd\Install.bat">call "%npackdih%\InstallMSI.bat" INSTALLDIR yes</file>
@@ -15219,6 +15247,52 @@ for %%g in (%extensions%) do reg add HKLM\SOFTWARE\Classes\.%%g\OpenWithList\%ke
   <url>https://download.videolan.org/pub/videolan/vlc/3.0.13/win64/vlc-3.0.13-win64.zip</url>
   <hash-sum type="SHA-256">e357186b4f7f0c62a1b0f8ca7f0429e1a9db785d7d3e23a7847225b1ec203a70</hash-sum>
  </version>
+ <version name="3.0.14" package="com.videolan.VLCMediaPlayer64">
+  <important-file path="vlc.exe" title="VLC Media Player"/>
+  <file path=".Npackd\Extensions.txt">a52 aac ac3 adt adts aif ifc iff mr aob ape cda dts flac it m4a m4p mid mka mlp mod mp1 mp2 mp3 mpc oga ogg oma rmi s3m spx tta voc vqf w64 wav wma wv xa xm 3g2 3gp 3gp2 3gpp amv asf avi bin cue divx dv flv gxf iso m1v m2v m2t m2ts m4v mkv mov mp2 mp2v mp4 mp4v mpa mpe mpeg mpeg1 mpeg2 mpeg4 mpg mpv2 mts mxf nsv nuv ogg ogm ogv ogx ps rec rm rmvb tod ts tts vob vro webm wmv asx b4s ifo m3u m3u8 pls ram rar sdp vlc xspf zip cdg idx srt sub utf ass ssa aqt jss psb rt smi&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">set package=com.videolan.VLCMediaPlayer64&#13;
+set version=%NPACKD_PACKAGE_VERSION%&#13;
+set key=%package%-%version%&#13;
+&#13;
+reg delete HKLM\SOFTWARE\Classes\Applications\%key% /f&#13;
+&#13;
+rem read extensions from the file&#13;
+for /f "usebackq delims=" %%a in (.Npackd\Extensions.txt) do (&#13;
+set extensions=%%a&#13;
+goto out&#13;
+)&#13;
+:out&#13;
+&#13;
+for %%g in (%extensions%) do reg delete HKLM\SOFTWARE\Classes\.%%g\OpenWithList\%key% /f</file>
+  <file path=".Npackd\Install.bat">for /f %%x in ('dir /b vlc*') do set name=%%x&#13;
+for /f "delims=" %%x in ('dir /b aria*') do set name=%%x&#13;
+cd "%name%"        &#13;
+for /f "delims=" %%a in ('dir /b') do (&#13;
+  move "%%a" ..&#13;
+)&#13;
+cd ..&#13;
+rmdir "%name%"&#13;
+&#13;
+set package=com.videolan.VLCMediaPlayer64&#13;
+set version=%NPACKD_PACKAGE_VERSION%&#13;
+set key=%package%-%version%&#13;
+&#13;
+reg add HKLM\SOFTWARE\Classes\Applications\%key%\shell\open /v FriendlyAppName /d "VLC Media Player (%version%)" /f&#13;
+set c=\"%CD%\vlc.exe\" \"%%1\"&#13;
+reg add HKLM\SOFTWARE\Classes\Applications\%KEY%\shell\open\command /d "%c%" /f&#13;
+&#13;
+rem read extensions from the file&#13;
+for /f "usebackq delims=" %%a in (.Npackd\Extensions.txt) do (&#13;
+set extensions=%%a&#13;
+goto out&#13;
+)&#13;
+:out&#13;
+&#13;
+for %%g in (%extensions%) do reg add HKLM\SOFTWARE\Classes\.%%g\OpenWithList\%key% /f</file>
+  <url>https://download.videolan.org/pub/videolan/vlc/3.0.14/win64/vlc-3.0.14-win64.zip</url>
+  <hash-sum type="SHA-256">11e4cdea586b385a43e6c6032c3723649783142c5ff5111e1e6dd311234fd195</hash-sum>
+ </version>
 
     <version name="0.5" package="com.whatsappinc.whatsapp-desktop-64" type="one-file">
   <file path=".Npackd\Install.bat">"%npackd_package_binary%" &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
@@ -18395,6 +18469,16 @@ rmdir "%name%"&#13;
    <variable>ncl</variable>
   </dependency>
  </version>
+ <version name="2.5" package="firealpaca" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">"%ncl%\ncl.exe" remove-scp --title "/%npackd_package_name% %npackd_package_version%/i"&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+</file>
+  <url>https://www.portalgraphics.net/firealpaca/bin/FireAlpaca32_setup_2_5_0.exe</url>
+  <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.25, 2)">
+   <variable>ncl</variable>
+  </dependency>
+ </version>
 
     <version name="2.3.5" package="firealpaca64" type="one-file">
   <file path=".Npackd\Install.bat">"%npackd_package_binary%" &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
@@ -20351,7 +20435,7 @@ if %err% neq 0 exit %err%&#13;
   <hash-sum type="SHA-256">951c16d730bb70a8acc1af5d44d8d00ce828316b664253163f64667d026d7e67</hash-sum>
  </version>
 
-    <version name="90.0.4430.93" package="google-chrome-x64" type="one-file">
+    <version name="90.0.4430.212" package="google-chrome-x64" type="one-file">
   <file path=".Npackd\Install.bat">call "%npackdih%\InstallMSI.bat" TARGETDIR yes&#13;
 </file>
   <url>https://dl.google.com/tag/s/appguid%3D%7B8A69D345-D564-463C-AFF1-A69D9E530F96%7D%26iid%3D%7B0A558A36-0536-8B3F-0AE0-420553CC97F3%7D%26lang%3Den%26browser%3D4%26usagestats%3D0%26appname%3DGoogle%2520Chrome%26needsadmin%3DFalse/edgedl/chrome/install/GoogleChromeStandaloneEnterprise64.msi</url>
@@ -22854,7 +22938,7 @@ if %err% neq 0 exit %err%&#13;
 </file>
   <file path=".Npackd\Uninstall.bat">call "%nih%\UninstallInnoSetup.bat" unins000.exe&#13;
 </file>
-  <url>https://www.imagemagick.org/download/binaries/ImageMagick-7.0.11-12-Q16-HDRI-x64-dll.exe</url>
+  <url>https://github.com/tim-lebedkov/packages/releases/download/2021_05/imagemagick64-7.0.11.12-ImageMagick-7.0.11-12-Q16-HDRI-x64-dll.exe</url>
   <hash-sum type="SHA-256">80e90100bd565eec9f7717c01c2efdec86f640115590e5f2d3c87c887a4280e6</hash-sum>
   <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
    <variable>nih</variable>
@@ -26954,6 +27038,17 @@ rmdir "%name%"&#13;
   <dependency package="com.microsoft.DotNetRedistributable" versions="[4, 5)"/>
   <dependency package="com.microsoft.VisualCPPRedistributable" versions="[10, 11)"/>
  </version>
+ <version name="8.0.25" package="mysql-workbench64" type="one-file">
+  <file path=".Npackd\Install.bat">call "%npackdih%\InstallMSI.bat" INSTALLDIR yes&#13;
+		</file>
+  <url>https://dev.mysql.com/get/Downloads/MySQLGUITools/mysql-workbench-community-8.0.25-winx64.msi</url>
+  <hash-sum type="SHA-256">b5be94e76ea87f0290b720e54829228db6c1101dd505682790006f3aa3cf3c75</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.1, 2)">
+   <variable>npackdih</variable>
+  </dependency>
+  <dependency package="com.microsoft.DotNetRedistributable" versions="[4, 5)"/>
+  <dependency package="com.microsoft.VisualCPPRedistributable" versions="[10, 11)"/>
+ </version>
 
     <version name="3" package="net.blat.Blat64">
   <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b blat*') do set name=%%x&#13;
@@ -29298,16 +29393,6 @@ if %err% neq 0 exit /b %err%
  <version name="2.86" package="nircmd64">
   <url>http://files.npackd.org/nircmd64/nircmd-x64-2.81.zip</url>
   <sha1>31fda8eee9fe628ee35bcce6c4833fd0e07503bc</sha1>
- </version>
-
-    <version name="5" package="nitro-pdf-reader64" type="one-file">
-  <file path=".Npackd\Install.bat">"%npackd_package_binary%"</file>
-  <file path=".Npackd\Uninstall.bat">"%myun%\myuninst.exe" /quninstall "Nitro Reader 5"&#13;
-</file>
-  <url>http://install.nitropdf.com/reader5/en/nitro_reader5_64.exe</url>
-  <dependency package="net.nirsoft.MyUninstaller" versions="[1.74, 2)">
-   <variable>myun</variable>
-  </dependency>
  </version>
 
     <version name="3.6.1" package="nomacs64">
