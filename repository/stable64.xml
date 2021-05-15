@@ -11297,7 +11297,7 @@ if %err% neq 0 exit /b %err%
   <sha1>bd40f1dcd72326bb472cd131acb04d707566e706</sha1>
  </version>
  <version name="1.8.0.65" package="com.oracle.JRE64" type="one-file">
-  <file path=".Npackd\Install.bat">ren AutoDL setup.exe&#13;
+  <file path=".Npackd\Install.bat">ren com.oracle.JRE64-1.8.0.65-AutoDL setup.exe&#13;
 &#13;
 for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
 "%setup%" /s /L .Npackd\MSI.log INSTALLDIR="%CD%" STATIC=1 &amp;&amp; del /f /q "%setup%"&#13;
@@ -23616,6 +23616,14 @@ rmdir "%name%"&#13;
   <url>https://mirrors.kodi.tv/releases/windows/win64/kodi-19.0-Matrix-x64.exe</url>
   <hash-sum type="SHA-256">387cbfd00ebe64ec9ebd02ea1f7271fdec9ef7fde75843501623b8e4348969a6</hash-sum>
  </version>
+ <version name="19.1" package="kodi64" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">uninstall.exe /S _?=%CD%&#13;
+</file>
+  <url>https://mirrors.kodi.tv/releases/windows/win64/kodi-19.1-Matrix-x64.exe</url>
+  <hash-sum type="SHA-256">ecbb43dad45d3442d3dec14c66429766f19ea86ac050ad86c2edd7e20313b4df</hash-sum>
+ </version>
 
     <version name="1.0.9" package="kr.pe.nyam.Imagine64">
   <important-file path="Imagine64.exe" title="Imagine"/>
@@ -35193,6 +35201,12 @@ rmdir "%name%"&#13;
 </file>
   <url>https://www.erlang.org/download/otp_win64_23.3.exe</url>
   <hash-sum type="SHA-256">1a05661a881e55be69bfcc7faefb7cda9f7552369a08695e18a1433e249f3c0f</hash-sum>
+ </version>
+ <version name="24" package="org.erlang.Erlang64" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD%&#13;
+</file>
+  <url>https://www.erlang.org/download/otp_win64_24.0.exe</url>
+  <hash-sum type="SHA-256">f13311ae26d5260566740f8a7f124d0ba3589a1f52aada84b236825641f53225</hash-sum>
  </version>
 
     <version name="0.9.2.1" package="org.flamerobin.FlameRobin64" type="one-file">
@@ -47197,6 +47211,20 @@ call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Np
    <variable>nih</variable>
   </dependency>
  </version>
+ <version name="8.2.2850" package="org.vim.Vim64">
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+if %errorlevel% neq 0 exit /b %errorlevel%&#13;
+&#13;
+for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+</file>
+  <url>https://github.com/vim/vim-win32-installer/releases/download/v8.2.2850/gvim_8.2.2850_x64.zip</url>
+  <hash-sum type="SHA-256">8c092c706a6fdf8d5bd4aa1edc51549d517e1f90ce4e59759f4aac9669429a71</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.19, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
 
     <version name="4.2.8.83876" package="org.virtualbox.virtualbox64" type="one-file">
   <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
@@ -49975,6 +50003,17 @@ call "%npackdih%\InstallMSI.bat" TARGETDIR yes</file>
 </file>
   <url>https://github.com/picotorrent/picotorrent/releases/download/v0.24.0/PicoTorrent-0.24.0-x64.exe</url>
   <hash-sum type="SHA-256">9871924eb6f62fa2e5d3b3d5b64fee1ff87100c25194645d1e85dde90536d509</hash-sum>
+  <dependency package="net.nirsoft.MyUninstaller" versions="[1.74, 2)">
+   <variable>myun</variable>
+  </dependency>
+ </version>
+ <version name="0.25" package="picotorrent-64-bit" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">"%myun%\myuninst.exe" /uninstall "picotorrent-64-bit"&#13;
+</file>
+  <url>https://github.com/picotorrent/picotorrent/releases/download/v0.25.0/PicoTorrent-0.25.0-x64.exe</url>
+  <hash-sum type="SHA-256">3b034ac4eff0fc296634c27c8b41b2629d57284a4bb1e366150fd04cfa23d801</hash-sum>
   <dependency package="net.nirsoft.MyUninstaller" versions="[1.74, 2)">
    <variable>myun</variable>
   </dependency>
@@ -53717,6 +53756,14 @@ rmdir "%name%"</file>
 </file>
   <url>https://www.sysgauge.com/setups_x64/sysgauge_setup_v7.8.16_x64.exe</url>
   <hash-sum type="SHA-256">b0404823d353dd7095ee37509b6211ddbe9a5dbff451db10dd40c373e91caa11</hash-sum>
+ </version>
+ <version name="7.9.18" package="sysgauge64" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">uninstall.exe /S _?=%CD%&#13;
+</file>
+  <url>https://www.sysgauge.com/setups_x64/sysgauge_setup_v7.9.18_x64.exe</url>
+  <hash-sum type="SHA-256">e8df1011340e80fb34dc94b87dceda2aeca2e8be037fd5c87076005afa412ed4</hash-sum>
  </version>
 
     <version name="2" package="texniccenter64" type="one-file">
