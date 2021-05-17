@@ -22340,6 +22340,15 @@ if %err% neq 0 exit %err%</file>
    <variable>nih</variable>
   </dependency>
  </version>
+ <version name="8.2.5.16" package="imageglass" type="one-file">
+  <file path=".Npackd\Install.bat">call "%nih%\InstallMSI.bat" INSTALLDIR yes&#13;
+</file>
+  <url>https://github.com/d2phap/ImageGlass/releases/download/7.6.4.30/ImageGlass_7.6.4.30_x86.msi</url>
+  <hash-sum type="SHA-256">475788f256cf4223fd7cc8213e9536e918d4a911f0db6cebe1bb9bb4b20e7c0f</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.1, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
 
     <version name="7.6.4.30" package="imageglass64" type="one-file">
   <file path=".Npackd\Install.bat">call "%nih%\InstallMSI.bat" INSTALLDIR yes&#13;
@@ -32605,6 +32614,14 @@ verify</file>
   <file path=".Npackd\Install.bat">call "%npackdih%\InstallMSI.bat" INSTALLLOCATION yes</file>
   <url>https://www.sliksvn.com/pub/Slik-Subversion-1.12.0-x64.msi</url>
   <hash-sum type="SHA-256">66c432172fdd490ef8b5adadb95d37c06ecafc68aa93b2cecfa763eaf63126f1</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.1, 2)">
+   <variable>npackdih</variable>
+  </dependency>
+ </version>
+ <version name="1.14.1" package="org.apache.subversion.Subversion64" type="one-file">
+  <file path=".Npackd\Install.bat">call "%npackdih%\InstallMSI.bat" INSTALLLOCATION yes</file>
+  <url>https://www.sliksvn.com/pub/Slik-Subversion-1.14.1-x64.msi</url>
+  <hash-sum type="SHA-256">db82f788dda35b5374b7383722935067af56f7b4420956ee9a2ece526bca5d3d</hash-sum>
   <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.1, 2)">
    <variable>npackdih</variable>
   </dependency>
@@ -47256,6 +47273,20 @@ call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Np
 </file>
   <url>https://github.com/vim/vim-win32-installer/releases/download/v8.2.2850/gvim_8.2.2850_x64.zip</url>
   <hash-sum type="SHA-256">8c092c706a6fdf8d5bd4aa1edc51549d517e1f90ce4e59759f4aac9669429a71</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.19, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
+ <version name="8.2.2856" package="org.vim.Vim64">
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+if %errorlevel% neq 0 exit /b %errorlevel%&#13;
+&#13;
+for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+</file>
+  <url>https://github.com/vim/vim-win32-installer/releases/download/v8.2.2856/gvim_8.2.2856_x64.zip</url>
+  <hash-sum type="SHA-256">ac24aac282955c61fb02a461ac6d972d37b835fe90e8634fd5a356adf9e8a8cc</hash-sum>
   <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.19, 2)">
    <variable>nih</variable>
   </dependency>
