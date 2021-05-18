@@ -474,6 +474,19 @@ x86_64</description>
   <stars>1</stars>
   <link href="https://cmake.org/cmake/help/latest/release/index.html" rel="changelog"/>
  </package>
+ <package name="codelite">
+  <title>CodeLite</title>
+  <url>https://codelite.org/</url>
+  <description>WARNING: this package always installs the newest version of the software.
+CodeLite is an open source, free, cross platform IDE specialized in C, C++, PHP and JavaScript (mainly for backend developers using Node.js) programming languages which runs best on all major Platforms ( OSX, Windows and Linux )
+x86_64</description>
+  <icon>https://topbestalternative.com/wp-content/uploads/2020/01/code-lite-logo.png</icon>
+  <license>org.gnu.GPLv2</license>
+  <category>Productivity</category>
+  <tag>stable64</tag>
+  <tag>same-url</tag>
+  <link href="https://wiki.codelite.org/pmwiki.php/Main/ReleaseNotesCodeLite15" rel="changelog"/>
+ </package>
  <package name="codelite64">
   <title>CodeLite 64 bit</title>
   <url>https://codelite.org/</url>
@@ -4368,6 +4381,14 @@ x86_64</description>
   <url>https://repo.continuum.io/archive/Anaconda3-2020.11-Windows-x86_64.exe</url>
   <hash-sum type="SHA-256">aa523115daf31c431bb392faf75e70d35ada935e36dc7b1dd8902baee240bcc1</hash-sum>
  </version>
+ <version name="2021.5" package="anaconda64" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">Uninstall-Anaconda3.exe /S _?=%CD%&#13;
+</file>
+  <url>https://repo.anaconda.com/archive/Anaconda3-2021.05-Windows-x86_64.exe</url>
+  <hash-sum type="SHA-256">93db42390444019e98b442ab281e1091671b6dce64daf08928d337ffc83cf3d2</hash-sum>
+ </version>
 
     <version name="2.1.11" package="anki64" type="one-file">
   <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD%&#13;
@@ -5583,6 +5604,18 @@ if %errorlevel% neq 0 exit /b %errorlevel%&#13;
 </file>
   <url>https://github.com/Kitware/CMake/releases/download/v3.20.2/cmake-3.20.2-windows-x86_64.zip</url>
   <hash-sum type="SHA-256">15a49e2ab81c1822d75b1b1a92f7863f58e31f6d6aac1c4103eef2b071be3112</hash-sum>
+ </version>
+
+    <version name="15" package="codelite" type="one-file">
+  <file path=".Npackd\Install.bat">ren downloads.php setup.exe&#13;
+call "%nih%\InstallInnoSetup.bat"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">call "%nih%\UninstallInnoSetup.bat" unins000.exe&#13;
+</file>
+  <url>https://downloads.codelite.org/downloads.php?windows</url>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
+   <variable>nih</variable>
+  </dependency>
  </version>
 
     <version name="15" package="codelite64" type="one-file">
@@ -17135,6 +17168,14 @@ if %err% neq 0 exit %err%&#13;
   <url>http://dbeaver.jkiss.org/files/21.0.4/dbeaver-ce-21.0.4-x86_64-setup.exe</url>
   <hash-sum type="SHA-256">a71c7e05ce5500808d449ccccddc292e276c79d25317599b3adaa0525bb9a260</hash-sum>
  </version>
+ <version name="21.0.5" package="dbeaver64" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" /allusers /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">uninstall.exe /allusers /S _?=%CD%&#13;
+</file>
+  <url>http://dbeaver.jkiss.org/files/21.0.5/dbeaver-ce-21.0.5-x86_64-setup.exe</url>
+  <hash-sum type="SHA-256">e39eeac104ba28e780eb641075fa2740d6f677d3503cf1ef13f3af94bee35ae3</hash-sum>
+ </version>
 
     <version name="0.825" package="dcplusplus64">
   <important-file path="DCPlusPlus.exe" title="DC++"/>
@@ -22341,6 +22382,15 @@ if %err% neq 0 exit %err%</file>
   </dependency>
  </version>
  <version name="8.2.5.16" package="imageglass" type="one-file">
+  <file path=".Npackd\Install.bat">call "%nih%\InstallMSI.bat" INSTALLDIR yes&#13;
+</file>
+  <url>https://github.com/d2phap/ImageGlass/releases/download/7.6.4.30/ImageGlass_7.6.4.30_x86.msi</url>
+  <hash-sum type="SHA-256">475788f256cf4223fd7cc8213e9536e918d4a911f0db6cebe1bb9bb4b20e7c0f</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.1, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
+ <version name="8.2.6.6" package="imageglass" type="one-file">
   <file path=".Npackd\Install.bat">call "%nih%\InstallMSI.bat" INSTALLDIR yes&#13;
 </file>
   <url>https://github.com/d2phap/ImageGlass/releases/download/7.6.4.30/ImageGlass_7.6.4.30_x86.msi</url>
@@ -47287,6 +47337,20 @@ call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Np
 </file>
   <url>https://github.com/vim/vim-win32-installer/releases/download/v8.2.2856/gvim_8.2.2856_x64.zip</url>
   <hash-sum type="SHA-256">ac24aac282955c61fb02a461ac6d972d37b835fe90e8634fd5a356adf9e8a8cc</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.19, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
+ <version name="8.2.2860" package="org.vim.Vim64">
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+if %errorlevel% neq 0 exit /b %errorlevel%&#13;
+&#13;
+for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+</file>
+  <url>https://github.com/vim/vim-win32-installer/releases/download/v8.2.2860/gvim_8.2.2860_x64.zip</url>
+  <hash-sum type="SHA-256">a9961ed94f796fd760d0911795c6fbb3f2932102447dfae69f28a8019724007b</hash-sum>
   <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.19, 2)">
    <variable>nih</variable>
   </dependency>
