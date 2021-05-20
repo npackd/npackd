@@ -7825,7 +7825,7 @@ rem "avgmfapx.exe" /AppMode=SETUP /Uninstall /UILevel=Silent /DontRestart&#13;
   </dependency>
  </version>
 
-    <version name="1.76" package="com.bitcomet.BitComet64" type="one-file">
+    <version name="1.77" package="com.bitcomet.BitComet64" type="one-file">
   <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
 </file>
   <file path=".Npackd\Uninstall.bat">%ncl%\ncl remove-scp --title "/BitComet.*/"</file>
@@ -13261,7 +13261,7 @@ del Q-Dir.ini&#13;
   <url>http://files.npackd.org/com.softwareok.QDir64-5.99.9.zip</url>
   <sha1>fb6060796fae3fc641ba34fe1f2f8530d7c985a8</sha1>
  </version>
- <version name="9.44" package="com.softwareok.QDir64">
+ <version name="9.49" package="com.softwareok.QDir64">
   <important-file path="Q-Dir_x64.exe" title="Q-Dir"/>
   <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b Q*') do set name=%%x&#13;
 cd "%name%"        &#13;
@@ -21779,6 +21779,14 @@ rmdir "%name%"&#13;
   <url>https://sourceforge.net/projects/grisbi/files/grisbi%20stable/1.2.x/1.2.2/Grisbi-64bit-1.2.2-setup.exe</url>
   <hash-sum type="SHA-256">31eaacd03ea911523e7b81a1873c653c5deba770aa1e0dcc4f3b9c2264cfe5e6</hash-sum>
  </version>
+ <version name="2.0.3" package="grisbi64" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">uninstall.exe /S _?=%CD%&#13;
+</file>
+  <url>https://sourceforge.net/projects/grisbi/files/grisbi%20stable/2.0.x/2.0.3/Grisbi-64bit-2.0.3-2021.05.05-setup.exe</url>
+  <hash-sum type="SHA-256">141f797b696e6baa985dabf8bb7a1604289e906c87f0b749a2cf9aca53a4b5e1</hash-sum>
+ </version>
 
     
 
@@ -23132,6 +23140,17 @@ if %err% neq 0 exit %err%&#13;
 </file>
   <url>https://github.com/tim-lebedkov/packages/releases/download/2021_05/imagemagick64-7.0.11.12-ImageMagick-7.0.11-12-Q16-HDRI-x64-dll.exe</url>
   <hash-sum type="SHA-256">80e90100bd565eec9f7717c01c2efdec86f640115590e5f2d3c87c887a4280e6</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
+ <version name="7.0.11.13" package="imagemagick64" type="one-file">
+  <file path=".Npackd\Install.bat">call "%nih%\InstallInnoSetup.bat"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">call "%nih%\UninstallInnoSetup.bat" unins000.exe&#13;
+</file>
+  <url>https://www.imagemagick.org/download/binaries/ImageMagick-7.0.11-13-Q16-HDRI-x64-dll.exe</url>
+  <hash-sum type="SHA-256">d451971d419c8fb58607fe255ebc31ff8d4a9c5b1fca45d25a122a73b5f1ef10</hash-sum>
   <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
    <variable>nih</variable>
   </dependency>
@@ -31357,7 +31376,7 @@ WshShell.AppActivate("Uninstall");&#13;
 WScript.Sleep(10000);&#13;
 WshShell.SendKeys("{ESC}");&#13;
 </file>
-  <url>https://download.openmpt.org/archive/openmpt/1.29/OpenMPT-1.29.10.00-Setup-x64.exe</url>
+  <url>https://github.com/tim-lebedkov/packages/releases/download/2021_05/openmpt64-1.29.10-OpenMPT-1.29.10.00-Setup-x64.exe</url>
   <hash-sum type="SHA-256">2ed94e31913da0df9333f340680c6cd5b93264d55ea5a23722e28a281c660076</hash-sum>
  </version>
 
@@ -42358,6 +42377,15 @@ rmdir "%name%"    &#13;
    <variable>nih</variable>
   </dependency>
  </version>
+ <version name="3.12.2" package="org.sqlitebrowser.sqlitebrowser" type="one-file">
+  <file path=".Npackd\Install.bat">call "%nih%\InstallMSI.bat" INSTALLDIR yes&#13;
+</file>
+  <url>https://github.com/sqlitebrowser/sqlitebrowser/releases/download/v3.12.2/DB.Browser.for.SQLite-3.12.2-win64.msi</url>
+  <hash-sum type="SHA-256">723d601f125b0d2402d9ea191e4b310345ec52f76b61e117bf49004a2ff9b8ae</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.1, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
 
     <version name="1.4.10" package="org.synergyfoss.Synergy64" type="one-file">
   <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
@@ -47431,6 +47459,20 @@ call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Np
    <variable>nih</variable>
   </dependency>
  </version>
+ <version name="8.2.2871" package="org.vim.Vim64">
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+if %errorlevel% neq 0 exit /b %errorlevel%&#13;
+&#13;
+for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+</file>
+  <url>https://github.com/vim/vim-win32-installer/releases/download/v8.2.2871/gvim_8.2.2871_x64.zip</url>
+  <hash-sum type="SHA-256">f244664ab40e47001db0e6ad4e691870b089570f2ee6f42ad2f340b9a589306d</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.19, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
 
     <version name="4.2.8.83876" package="org.virtualbox.virtualbox64" type="one-file">
   <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
@@ -50106,6 +50148,16 @@ call "%npackdih%\InstallMSI.bat" TARGETDIR yes</file>
 call "%npackdih%\InstallMSI.bat" TARGETDIR yes</file>
   <url>https://github.com/torakiki/pdfsam/releases/download/v4.2.4/pdfsam-4.2.4.msi</url>
   <hash-sum type="SHA-256">f96d90f457ef138a6dd4bea797a29fc28614fe9c866f1362d52a5095e7200c88</hash-sum>
+  <dependency package="com.oracle.JRE64" versions="[1.6.0.23, 2)"/>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.1, 2)">
+   <variable>npackdih</variable>
+  </dependency>
+ </version>
+ <version name="4.2.5" package="pdfsam64" type="one-file">
+  <file path=".Npackd\Install.bat">rem un-installation tries to remove .Npackd and fails =&gt; 2 to install the program somewhere else&#13;
+call "%npackdih%\InstallMSI.bat" TARGETDIR yes</file>
+  <url>https://github.com/torakiki/pdfsam/releases/download/v4.2.5/pdfsam-4.2.5.msi</url>
+  <hash-sum type="SHA-256">0754e23b433a0441d8d20348b9b34ad6ae1261a86159d1ebdad4cb6adf48a234</hash-sum>
   <dependency package="com.oracle.JRE64" versions="[1.6.0.23, 2)"/>
   <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.1, 2)">
    <variable>npackdih</variable>
@@ -54322,6 +54374,17 @@ if %err% neq 0 exit %err%&#13;
    <variable>ncl</variable>
   </dependency>
  </version>
+ <version name="2.83.1" package="tixati" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">"%ncl%\ncl.exe" remove-scp --title "/%npackd_package_name% %npackd_package_version%/i"&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+</file>
+  <url>https://download1.tixati.com/download/tixati-2.74-1.win32-install.exe</url>
+  <hash-sum type="SHA-256">f008f0301f4c62bc3347692f9f15559ca3465bf40d4dc34cc7bb78b7d9462db2</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.25, 2)">
+   <variable>ncl</variable>
+  </dependency>
+ </version>
 
     <version name="2.73" package="tixati64" type="one-file">
   <file path=".Npackd\Install.bat">"%npackd_package_binary%" &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
@@ -54412,6 +54475,17 @@ if %err% neq 0 exit %err%&#13;
   </dependency>
  </version>
  <version name="2.82.1" package="tixati64" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">"%ncl%\ncl.exe" remove-scp --title "/%npackd_package_name% %npackd_package_version%/i"&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+</file>
+  <url>https://download1.tixati.com/download/tixati-2.74-1.win64-install.exe</url>
+  <hash-sum type="SHA-256">42dea61b1470adcf5aaa79a954edc0f54f752afbfd7f3d2447e0fe90076f943b</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.25, 2)">
+   <variable>ncl</variable>
+  </dependency>
+ </version>
+ <version name="2.83.1" package="tixati64" type="one-file">
   <file path=".Npackd\Install.bat">"%npackd_package_binary%" &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
 </file>
   <file path=".Npackd\Uninstall.bat">"%ncl%\ncl.exe" remove-scp --title "/%npackd_package_name% %npackd_package_version%/i"&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
@@ -54973,6 +55047,14 @@ if %err% neq 0 exit %err%&#13;
 </file>
   <url>http://files.first-world.info/ultracopier/2.2.4.9/ultracopier-windows-x86_64-2.2.4.9-setup.exe</url>
   <hash-sum type="SHA-256">ba4018e7f251c80d7ddd6a413b3e7f4cfc813d2c5624741780b94cb7db5d771f</hash-sum>
+ </version>
+ <version name="2.2.4.10" package="ultracopier64" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">uninst.exe /S _?=%CD%&#13;
+</file>
+  <url>http://files.first-world.info/ultracopier/2.2.4.10/ultracopier-windows-x86_64-2.2.4.10-setup.exe</url>
+  <hash-sum type="SHA-256">0db948c724d2cdd2f5c32ee061f4969eb97a074a41b32192fd791cbb15866dd1</hash-sum>
  </version>
 
     <version name="2.0.1" package="vagrant64" type="one-file">
