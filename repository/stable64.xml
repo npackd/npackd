@@ -1043,7 +1043,7 @@ x86_64</description>
   <license>org.gnu.GPLv2</license>
   <category>Video</category>
   <tag>stable64</tag>
-  <stars>9</stars>
+  <stars>10</stars>
  </package>
  <package name="com.whatsappinc.whatsapp-desktop-64">
   <title>Whatsapp Desktop 64 bit</title>
@@ -1319,7 +1319,7 @@ x86_64</description>
   <license>org.wikipedia.Freeware</license>
   <category>Tools</category>
   <tag>stable64</tag>
-  <stars>1</stars>
+  <stars>2</stars>
  </package>
  <package name="explzh64">
   <title>Explzh 64 Bit</title>
@@ -1564,7 +1564,7 @@ x86_64</description>
   <license>org.gnu.GPLv2</license>
   <category>Development</category>
   <tag>stable64</tag>
-  <stars>2</stars>
+  <stars>3</stars>
  </package>
  <package name="gnuplot64">
   <title>gnuplot 64 bit</title>
@@ -1589,7 +1589,7 @@ x86_64</description>
   <category>Communications</category>
   <tag>same-url</tag>
   <tag>stable64</tag>
-  <stars>15</stars>
+  <stars>16</stars>
  </package>
  <package name="google-cloud-sdk64">
   <title>Google Cloud SDK 64 bit</title>
@@ -2210,7 +2210,7 @@ x86_64</description>
   <category>Photo</category>
   <tag>same-url</tag>
   <tag>stable64</tag>
-  <stars>1</stars>
+  <stars>2</stars>
  </package>
  <package name="net.maxon.cinebench.Cinebench64">
   <title>Cinebench 64 bit</title>
@@ -2599,7 +2599,7 @@ x86_64</description>
   <category>Tools</category>
   <tag>auto-create-versions</tag>
   <tag>stable64</tag>
-  <stars>16</stars>
+  <stars>17</stars>
   <link href="https://www.7-zip.org/history.txt" rel="changelog"/>
   <link href="http://www.7-zip.org/7zfm.png" rel="screenshot"/>
  </package>
@@ -2941,7 +2941,7 @@ x86_64</description>
   <license>org.python.PSFLicense</license>
   <category>Development</category>
   <tag>stable64</tag>
-  <stars>3</stars>
+  <stars>4</stars>
  </package>
  <package name="org.rubylang.Ruby64">
   <title>Ruby 64 bit</title>
@@ -8839,6 +8839,15 @@ call "%npackdih%\InstallMSI.bat" APPLICATIONFOLDER yes&#13;
 </file>
   <url>https://download.calibre-ebook.com/5.18.0/calibre-64bit-5.18.0.msi</url>
   <hash-sum type="SHA-256">664551f1c860977af4b10867eba881df122cf00c43714dd261f0ef68cb34c4cd</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.2, 2)">
+   <variable>npackdih</variable>
+  </dependency>
+ </version>
+ <version name="5.19" package="com.calibreebook.Calibre64" type="one-file">
+  <file path=".Npackd\Install.bat">call "%npackdih%\InstallMSI.bat" APPLICATIONFOLDER yes&#13;
+</file>
+  <url>https://download.calibre-ebook.com/5.19.0/calibre-64bit-5.19.0.msi</url>
+  <hash-sum type="SHA-256">1ddaa00d6376fda5902abf7e0586d21c0f14df1706e5c4cb6ec3d5a46f11583c</hash-sum>
   <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.2, 2)">
    <variable>npackdih</variable>
   </dependency>
@@ -47683,6 +47692,20 @@ call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Np
 </file>
   <url>https://github.com/vim/vim-win32-installer/releases/download/v8.2.2890/gvim_8.2.2890_x64.zip</url>
   <hash-sum type="SHA-256">e8d69f3df68047d566d2616b35afb056ee9f420b3dd67c0f79aa308ba48e5079</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.19, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
+ <version name="8.2.2891" package="org.vim.Vim64">
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+if %errorlevel% neq 0 exit /b %errorlevel%&#13;
+&#13;
+for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+</file>
+  <url>https://github.com/vim/vim-win32-installer/releases/download/v8.2.2891/gvim_8.2.2891_x64.zip</url>
+  <hash-sum type="SHA-256">e071676ac511727d1a9389450c901362f9e03a7d3dd82d300ec68bbd797d9630</hash-sum>
   <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.19, 2)">
    <variable>nih</variable>
   </dependency>
