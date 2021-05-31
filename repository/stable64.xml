@@ -3723,17 +3723,6 @@ x86_64</description>
   <link href="https://www.texniccenter.org/wp-content/uploads/2013/08/build-errors.png" rel="screenshot"/>
   <link href="https://www.texniccenter.org/wp-content/uploads/2013/08/profiles-viewer.png" rel="screenshot"/>
  </package>
- <package name="tigervnc64">
-  <title>TigerVNC 64 bit</title>
-  <url>http://tigervnc.org/</url>
-  <description>a client/server application that allows users to launch and interact with graphical applications on remote machines.
-x86_64</description>
-  <icon>http://tigervnc.org/images/tigerlogo.png</icon>
-  <license>org.gnu.GPLv2</license>
-  <category>Communications</category>
-  <tag>stable64</tag>
-  <stars>1</stars>
- </package>
  <package name="tixati">
   <title>Tixati</title>
   <url>https://www.tixati.com</url>
@@ -3816,13 +3805,10 @@ x86_64</description>
 x86_64</description>
   <icon>https://img.informer.com/icons/png/128/37/37073.png</icon>
   <license>org.wikipedia.Freeware</license>
+  <category>Security</category>
   <tag>stable64</tag>
   <stars>1</stars>
-  <link href="https://windows-cdn.softpedia.com/screenshots/TreeComp_1.png" rel="screenshot"/>
-  <link href="https://windows-cdn.softpedia.com/screenshots/TreeComp_2.png" rel="screenshot"/>
-  <link href="https://windows-cdn.softpedia.com/screenshots/TreeComp_3.png" rel="screenshot"/>
-  <link href="https://windows-cdn.softpedia.com/screenshots/TreeComp_4.png" rel="screenshot"/>
-  <link href="https://windows-cdn.softpedia.com/screenshots/TreeComp_5.png" rel="screenshot"/>
+  <link href="https://lploeger.home.xs4all.nl/TCScreen4.gif" rel="screenshot"/>
  </package>
  <package name="tuniac64">
   <title>Tuniac 64 Bit</title>
@@ -10285,32 +10271,7 @@ if %err% neq 0 exit /b %err%
   <url>http://mse.dlservice.microsoft.com/download/0/2/C/02C8AB73-0774-4975-826F-9E8A0FD7F65D/dede/amd64/mseinstall.exe</url>
  </version>
 
-    <version name="8.0.51011" package="com.microsoft.VisualCPPRedistributable64"/>
- <version name="8.0.56336" package="com.microsoft.VisualCPPRedistributable64"/>
- <version name="8.0.61000" package="com.microsoft.VisualCPPRedistributable64"/>
- <version name="9.0.0.623" package="com.microsoft.VisualCPPRedistributable64"/>
- <version name="9.0.21022" package="com.microsoft.VisualCPPRedistributable64" type="one-file">
-  <file path=".Npackd\Install.bat">vcredist_x64.exe /q /log .Npackd\VCRInstall.log /norestart&#13;
-set err=%errorlevel%&#13;
-type .Npackd\VCRInstall.log&#13;
-rem 3010=restart required&#13;
-if %err% equ 3010 exit /b 0&#13;
-if %err% neq 0 exit /b %err%&#13;
-</file>
-  <file path=".Npackd\Uninstall.bat">vcredist_x64.exe /q /uninstall /log .Npackd\VCRUninstall.log /norestart&#13;
-set err=%errorlevel%&#13;
-type .Npackd\VCRUninstall.log&#13;
-rem 3010=restart required&#13;
-if %err% equ 3010 exit /b 0&#13;
-if %err% neq 0 exit /b %err%&#13;
-</file>
-  <url>http://download.microsoft.com/download/d/2/4/d242c3fb-da5a-4542-ad66-f9661d0a8d19/vcredist_x64.exe</url>
-  <sha1>5580072a056fdd50cdf93d470239538636f8f3a9</sha1>
- </version>
- <version name="9.0.30729" package="com.microsoft.VisualCPPRedistributable64"/>
- <version name="9.0.30729.6161" package="com.microsoft.VisualCPPRedistributable64"/>
- <version name="10.0.30319" package="com.microsoft.VisualCPPRedistributable64"/>
- <version name="10.0.30319.1" package="com.microsoft.VisualCPPRedistributable64" type="one-file">
+    <version name="10.0.30319.1" package="com.microsoft.VisualCPPRedistributable64" type="one-file">
   <file path=".Npackd\Install.bat">vcredist_x64.exe /q /log .Npackd\VCRInstall.log /norestart
 set err=%errorlevel%
 type .Npackd\VCRInstall.log
@@ -47779,6 +47740,20 @@ call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Np
    <variable>nih</variable>
   </dependency>
  </version>
+ <version name="8.2.2907" package="org.vim.Vim64">
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+if %errorlevel% neq 0 exit /b %errorlevel%&#13;
+&#13;
+for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+</file>
+  <url>https://github.com/vim/vim-win32-installer/releases/download/v8.2.2907/gvim_8.2.2907_x64.zip</url>
+  <hash-sum type="SHA-256">06be8c22bca46e9101acbcf5b5ad2c4afe72a050bb9f4eeb56f68081787c6981</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.19, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
 
     <version name="4.2.8.83876" package="org.virtualbox.virtualbox64" type="one-file">
   <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
@@ -54418,202 +54393,6 @@ if %err% neq 0 exit %err%&#13;
  </version>
 
     
-
-    <version name="1.4.2" package="tigervnc64" type="one-file">
-  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
-"%setup%" /SP- /VERYSILENT /SUPPRESSMSGBOXES /NOCANCEL /NORESTART /DIR="%CD%" /SAVEINF="%CD%\.Npackd\InnoSetupInfo.ini" /LOG="%CD%\.Npackd\InnoSetupInstall.log" &amp;&amp; del /f /q "%setup%"&#13;
-set err=%errorlevel%&#13;
-type .Npackd\InnoSetupInstall.log&#13;
-if %err% neq 0 exit %err%&#13;
-</file>
-  <file path=".Npackd\Uninstall.bat">unins000.exe /VERYSILENT /SUPPRESSMSGBOXES /NORESTART /LOG="%CD%\.Npackd\InnoSetupUninstall.log"&#13;
-set err=%errorlevel%&#13;
-type .Npackd\InnoSetupUninstall.log&#13;
-if %err% neq 0 exit %err%&#13;
-</file>
-  <url>https://bintray.com/artifact/download/tigervnc/stable/tigervnc64-1.4.2.exe</url>
-  <sha1>66ff9f60d9586bde0772a2f8ce7cc44e2c8a894f</sha1>
- </version>
- <version name="1.4.3" package="tigervnc64" type="one-file">
-  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
-"%setup%" /SP- /VERYSILENT /SUPPRESSMSGBOXES /NOCANCEL /NORESTART /DIR="%CD%" /SAVEINF="%CD%\.Npackd\InnoSetupInfo.ini" /LOG="%CD%\.Npackd\InnoSetupInstall.log" &amp;&amp; del /f /q "%setup%"&#13;
-set err=%errorlevel%&#13;
-type .Npackd\InnoSetupInstall.log&#13;
-if %err% neq 0 exit %err%&#13;
-</file>
-  <file path=".Npackd\Uninstall.bat">unins000.exe /VERYSILENT /SUPPRESSMSGBOXES /NORESTART /LOG="%CD%\.Npackd\InnoSetupUninstall.log"&#13;
-set err=%errorlevel%&#13;
-type .Npackd\InnoSetupUninstall.log&#13;
-if %err% neq 0 exit %err%&#13;
-</file>
-  <url>https://bintray.com/artifact/download/tigervnc/stable/tigervnc64-1.4.3.exe</url>
-  <sha1>d74c7ce8b2b0f034d7ebb9d758437e996fb5b452</sha1>
- </version>
- <version name="1.5" package="tigervnc64" type="one-file">
-  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
-"%setup%" /SP- /VERYSILENT /SUPPRESSMSGBOXES /NOCANCEL /NORESTART /DIR="%CD%" /SAVEINF="%CD%\.Npackd\InnoSetupInfo.ini" /LOG="%CD%\.Npackd\InnoSetupInstall.log" &amp;&amp; del /f /q "%setup%"&#13;
-set err=%errorlevel%&#13;
-type .Npackd\InnoSetupInstall.log&#13;
-if %err% neq 0 exit %err%&#13;
-</file>
-  <file path=".Npackd\Uninstall.bat">unins000.exe /VERYSILENT /SUPPRESSMSGBOXES /NORESTART /LOG="%CD%\.Npackd\InnoSetupUninstall.log"&#13;
-set err=%errorlevel%&#13;
-type .Npackd\InnoSetupUninstall.log&#13;
-if %err% neq 0 exit %err%&#13;
-</file>
-  <url>https://bintray.com/artifact/download/tigervnc/stable/tigervnc64-1.5.0.exe</url>
-  <sha1>bf40e5bef62c849e5bdc6e92864546f99a940563</sha1>
- </version>
- <version name="1.6" package="tigervnc64" type="one-file">
-  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
-"%setup%" /SP- /VERYSILENT /SUPPRESSMSGBOXES /NOCANCEL /NORESTART /DIR="%CD%" /SAVEINF="%CD%\.Npackd\InnoSetupInfo.ini" /LOG="%CD%\.Npackd\InnoSetupInstall.log" &amp;&amp; del /f /q "%setup%"&#13;
-set err=%errorlevel%&#13;
-type .Npackd\InnoSetupInstall.log&#13;
-if %err% neq 0 exit %err%&#13;
-</file>
-  <file path=".Npackd\Uninstall.bat">unins000.exe /VERYSILENT /SUPPRESSMSGBOXES /NORESTART /LOG="%CD%\.Npackd\InnoSetupUninstall.log"&#13;
-set err=%errorlevel%&#13;
-type .Npackd\InnoSetupUninstall.log&#13;
-if %err% neq 0 exit %err%&#13;
-</file>
-  <url>https://bintray.com/artifact/download/tigervnc/stable/tigervnc64-1.6.0.exe</url>
-  <sha1>72b763986e9fbd76adf156b2eed10052dff25c37</sha1>
- </version>
- <version name="1.7" package="tigervnc64" type="one-file">
-  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
-"%setup%" /SP- /VERYSILENT /SUPPRESSMSGBOXES /NOCANCEL /NORESTART /DIR="%CD%" /SAVEINF="%CD%\.Npackd\InnoSetupInfo.ini" /LOG="%CD%\.Npackd\InnoSetupInstall.log" &amp;&amp; del /f /q "%setup%"&#13;
-set err=%errorlevel%&#13;
-type .Npackd\InnoSetupInstall.log&#13;
-if %err% neq 0 exit %err%&#13;
-</file>
-  <file path=".Npackd\Uninstall.bat">unins000.exe /VERYSILENT /SUPPRESSMSGBOXES /NORESTART /LOG="%CD%\.Npackd\InnoSetupUninstall.log"&#13;
-set err=%errorlevel%&#13;
-type .Npackd\InnoSetupUninstall.log&#13;
-if %err% neq 0 exit %err%&#13;
-</file>
-  <url>https://bintray.com/artifact/download/tigervnc/stable/tigervnc64-1.7.0.exe</url>
-  <sha1>114f95c4dc692f46dcf205620f9947ae61bd3890</sha1>
- </version>
- <version name="1.7.1" package="tigervnc64" type="one-file">
-  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
-"%setup%" /SP- /VERYSILENT /SUPPRESSMSGBOXES /NOCANCEL /NORESTART /DIR="%CD%" /SAVEINF="%CD%\.Npackd\InnoSetupInfo.ini" /LOG="%CD%\.Npackd\InnoSetupInstall.log" &amp;&amp; del /f /q "%setup%"&#13;
-set err=%errorlevel%&#13;
-type .Npackd\InnoSetupInstall.log&#13;
-if %err% neq 0 exit %err%&#13;
-</file>
-  <file path=".Npackd\Uninstall.bat">unins000.exe /VERYSILENT /SUPPRESSMSGBOXES /NORESTART /LOG="%CD%\.Npackd\InnoSetupUninstall.log"&#13;
-set err=%errorlevel%&#13;
-type .Npackd\InnoSetupUninstall.log&#13;
-if %err% neq 0 exit %err%&#13;
-</file>
-  <url>https://bintray.com/artifact/download/tigervnc/stable/tigervnc64-1.7.1.exe</url>
-  <sha1>94360e688f7964b684f24c4b5f359e1053957a51</sha1>
- </version>
- <version name="1.8" package="tigervnc64" type="one-file">
-  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
-"%setup%" /SP- /VERYSILENT /SUPPRESSMSGBOXES /NOCANCEL /NORESTART /DIR="%CD%" /SAVEINF="%CD%\.Npackd\InnoSetupInfo.ini" /LOG="%CD%\.Npackd\InnoSetupInstall.log" &amp;&amp; del /f /q "%setup%"&#13;
-set err=%errorlevel%&#13;
-type .Npackd\InnoSetupInstall.log&#13;
-if %err% neq 0 exit %err%&#13;
-</file>
-  <file path=".Npackd\Uninstall.bat">unins000.exe /VERYSILENT /SUPPRESSMSGBOXES /NORESTART /LOG="%CD%\.Npackd\InnoSetupUninstall.log"&#13;
-set err=%errorlevel%&#13;
-type .Npackd\InnoSetupUninstall.log&#13;
-if %err% neq 0 exit %err%&#13;
-</file>
-  <url>https://bintray.com/artifact/download/tigervnc/stable/tigervnc64-1.8.0.exe</url>
-  <sha1>f6ce938ee99fe5c1ca246628725065f438ef092c</sha1>
- </version>
- <version name="1.8.90" package="tigervnc64" type="one-file">
-  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
-"%setup%" /SP- /VERYSILENT /SUPPRESSMSGBOXES /NOCANCEL /NORESTART /DIR="%CD%" /SAVEINF="%CD%\.Npackd\InnoSetupInfo.ini" /LOG="%CD%\.Npackd\InnoSetupInstall.log" &amp;&amp; del /f /q "%setup%"&#13;
-set err=%errorlevel%&#13;
-type .Npackd\InnoSetupInstall.log&#13;
-if %err% neq 0 exit %err%&#13;
-</file>
-  <file path=".Npackd\Uninstall.bat">unins000.exe /VERYSILENT /SUPPRESSMSGBOXES /NORESTART /LOG="%CD%\.Npackd\InnoSetupUninstall.log"&#13;
-set err=%errorlevel%&#13;
-type .Npackd\InnoSetupUninstall.log&#13;
-if %err% neq 0 exit %err%&#13;
-</file>
-  <url>https://bintray.com/artifact/download/tigervnc/stable/tigervnc64-1.8.0.exe</url>
-  <sha1>f6ce938ee99fe5c1ca246628725065f438ef092c</sha1>
- </version>
- <version name="1.9" package="tigervnc64" type="one-file">
-  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
-"%setup%" /SP- /VERYSILENT /SUPPRESSMSGBOXES /NOCANCEL /NORESTART /DIR="%CD%" /SAVEINF="%CD%\.Npackd\InnoSetupInfo.ini" /LOG="%CD%\.Npackd\InnoSetupInstall.log" &amp;&amp; del /f /q "%setup%"&#13;
-set err=%errorlevel%&#13;
-type .Npackd\InnoSetupInstall.log&#13;
-if %err% neq 0 exit %err%&#13;
-</file>
-  <file path=".Npackd\Uninstall.bat">unins000.exe /VERYSILENT /SUPPRESSMSGBOXES /NORESTART /LOG="%CD%\.Npackd\InnoSetupUninstall.log"&#13;
-set err=%errorlevel%&#13;
-type .Npackd\InnoSetupUninstall.log&#13;
-if %err% neq 0 exit %err%&#13;
-</file>
-  <url>https://bintray.com/artifact/download/tigervnc/stable/tigervnc64-1.8.0.exe</url>
-  <sha1>f6ce938ee99fe5c1ca246628725065f438ef092c</sha1>
- </version>
- <version name="1.9.90" package="tigervnc64" type="one-file">
-  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
-"%setup%" /SP- /VERYSILENT /SUPPRESSMSGBOXES /NOCANCEL /NORESTART /DIR="%CD%" /SAVEINF="%CD%\.Npackd\InnoSetupInfo.ini" /LOG="%CD%\.Npackd\InnoSetupInstall.log" &amp;&amp; del /f /q "%setup%"&#13;
-set err=%errorlevel%&#13;
-type .Npackd\InnoSetupInstall.log&#13;
-if %err% neq 0 exit %err%&#13;
-</file>
-  <file path=".Npackd\Uninstall.bat">unins000.exe /VERYSILENT /SUPPRESSMSGBOXES /NORESTART /LOG="%CD%\.Npackd\InnoSetupUninstall.log"&#13;
-set err=%errorlevel%&#13;
-type .Npackd\InnoSetupUninstall.log&#13;
-if %err% neq 0 exit %err%&#13;
-</file>
-  <url>https://bintray.com/artifact/download/tigervnc/stable/tigervnc64-1.8.0.exe</url>
-  <sha1>f6ce938ee99fe5c1ca246628725065f438ef092c</sha1>
- </version>
- <version name="1.10" package="tigervnc64" type="one-file">
-  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
-"%setup%" /SP- /VERYSILENT /SUPPRESSMSGBOXES /NOCANCEL /NORESTART /DIR="%CD%" /SAVEINF="%CD%\.Npackd\InnoSetupInfo.ini" /LOG="%CD%\.Npackd\InnoSetupInstall.log" &amp;&amp; del /f /q "%setup%"&#13;
-set err=%errorlevel%&#13;
-type .Npackd\InnoSetupInstall.log&#13;
-if %err% neq 0 exit %err%&#13;
-</file>
-  <file path=".Npackd\Uninstall.bat">unins000.exe /VERYSILENT /SUPPRESSMSGBOXES /NORESTART /LOG="%CD%\.Npackd\InnoSetupUninstall.log"&#13;
-set err=%errorlevel%&#13;
-type .Npackd\InnoSetupUninstall.log&#13;
-if %err% neq 0 exit %err%&#13;
-</file>
-  <url>https://bintray.com/artifact/download/tigervnc/stable/tigervnc64-1.8.0.exe</url>
-  <sha1>f6ce938ee99fe5c1ca246628725065f438ef092c</sha1>
- </version>
- <version name="1.10.1" package="tigervnc64" type="one-file">
-  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
-"%setup%" /SP- /VERYSILENT /SUPPRESSMSGBOXES /NOCANCEL /NORESTART /DIR="%CD%" /SAVEINF="%CD%\.Npackd\InnoSetupInfo.ini" /LOG="%CD%\.Npackd\InnoSetupInstall.log" &amp;&amp; del /f /q "%setup%"&#13;
-set err=%errorlevel%&#13;
-type .Npackd\InnoSetupInstall.log&#13;
-if %err% neq 0 exit %err%&#13;
-</file>
-  <file path=".Npackd\Uninstall.bat">unins000.exe /VERYSILENT /SUPPRESSMSGBOXES /NORESTART /LOG="%CD%\.Npackd\InnoSetupUninstall.log"&#13;
-set err=%errorlevel%&#13;
-type .Npackd\InnoSetupUninstall.log&#13;
-if %err% neq 0 exit %err%&#13;
-</file>
-  <url>https://bintray.com/artifact/download/tigervnc/stable/tigervnc64-1.8.0.exe</url>
-  <sha1>f6ce938ee99fe5c1ca246628725065f438ef092c</sha1>
- </version>
- <version name="1.11" package="tigervnc64" type="one-file">
-  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
-"%setup%" /SP- /VERYSILENT /SUPPRESSMSGBOXES /NOCANCEL /NORESTART /DIR="%CD%" /SAVEINF="%CD%\.Npackd\InnoSetupInfo.ini" /LOG="%CD%\.Npackd\InnoSetupInstall.log" &amp;&amp; del /f /q "%setup%"&#13;
-set err=%errorlevel%&#13;
-type .Npackd\InnoSetupInstall.log&#13;
-if %err% neq 0 exit %err%&#13;
-</file>
-  <file path=".Npackd\Uninstall.bat">unins000.exe /VERYSILENT /SUPPRESSMSGBOXES /NORESTART /LOG="%CD%\.Npackd\InnoSetupUninstall.log"&#13;
-set err=%errorlevel%&#13;
-type .Npackd\InnoSetupUninstall.log&#13;
-if %err% neq 0 exit %err%&#13;
-</file>
-  <url>https://bintray.com/artifact/download/tigervnc/stable/tigervnc64-1.8.0.exe</url>
-  <sha1>f6ce938ee99fe5c1ca246628725065f438ef092c</sha1>
- </version>
 
     <version name="2.73" package="tixati" type="one-file">
   <file path=".Npackd\Install.bat">"%npackd_package_binary%" &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
