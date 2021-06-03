@@ -21913,6 +21913,19 @@ rmdir "%name%"&#13;
   <hash-sum type="SHA-256">d810d5b0fc41bef5d1a2caf35cbe7b02ba68f82ab73857e57e86d5e1a652d66d</hash-sum>
   <dependency package="org.python.Python" versions="[2.7, 2.8)"/>
  </version>
+ <version name="343" package="google-cloud-sdk64">
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b google-cloud-sdk*') do set name=%%x&#13;
+cd "%name%"&#13;
+for /f "delims=" %%a in ('dir /b') do (&#13;
+  move "%%a" ..&#13;
+)&#13;
+cd ..&#13;
+rmdir "%name%"&#13;
+</file>
+  <url>https://dl.google.com/dl/cloudsdk/channels/rapid/downloads/google-cloud-sdk-343.0.0-windows-x86_64.zip</url>
+  <hash-sum type="SHA-256">3f5c0afdae5fbceddd9852284003465a5225bb7602f3cf27c44c5e85078b0bb1</hash-sum>
+  <dependency package="org.python.Python" versions="[2.7, 2.8)"/>
+ </version>
 
     <version name="1.1.94" package="grisbi64" type="one-file">
   <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
@@ -47834,6 +47847,20 @@ call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Np
    <variable>nih</variable>
   </dependency>
  </version>
+ <version name="8.2.2920" package="org.vim.Vim64">
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+if %errorlevel% neq 0 exit /b %errorlevel%&#13;
+&#13;
+for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+</file>
+  <url>https://github.com/vim/vim-win32-installer/releases/download/v8.2.2920/gvim_8.2.2920_x64.zip</url>
+  <hash-sum type="SHA-256">f3ed50f6b6b73db1ce5a1d3ab220a6bf686964ad828b075fda0d533c7fea6dc5</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.19, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
 
     <version name="4.2.8.83876" package="org.virtualbox.virtualbox64" type="one-file">
   <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
@@ -54901,6 +54928,12 @@ if %err% neq 0 exit %err%&#13;
 </file>
   <url>https://dist.torproject.org/torbrowser/10.0.16/torbrowser-install-10.0.16_en-US.exe</url>
   <hash-sum type="SHA-256">1f93d756b4aee1b2df7d85c8d58b626b0d38d89c974c0a02f324ff51f5b23ee1</hash-sum>
+ </version>
+ <version name="10.0.17" package="tor64" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
+</file>
+  <url>https://dist.torproject.org/torbrowser/10.0.17/torbrowser-install-10.0.17_en-US.exe</url>
+  <hash-sum type="SHA-256">fa8eb3dd082f531f2651ab5a58b7cd16d6c1059c01b6ccf8d5a7ba346977a20a</hash-sum>
  </version>
 
     <version name="2.84.9" package="transmission-qt64" type="one-file">
