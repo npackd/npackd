@@ -8878,6 +8878,15 @@ call "%npackdih%\InstallMSI.bat" APPLICATIONFOLDER yes&#13;
    <variable>npackdih</variable>
   </dependency>
  </version>
+ <version name="5.20" package="com.calibreebook.Calibre64" type="one-file">
+  <file path=".Npackd\Install.bat">call "%npackdih%\InstallMSI.bat" APPLICATIONFOLDER yes&#13;
+</file>
+  <url>https://download.calibre-ebook.com/5.20.0/calibre-64bit-5.20.0.msi</url>
+  <hash-sum type="SHA-256">ea309cc9ea9dba0e2b943b18e69626b25bb665908a3467aa030b1f5a683dbb82</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.2, 2)">
+   <variable>npackdih</variable>
+  </dependency>
+ </version>
 
     <version name="5.12.256249.2599" package="com.comodo.comodoav64" type="one-file">
   <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.msi') do set setup=%%x&#13;
@@ -26222,6 +26231,16 @@ reg add HKCU\Software\mkvmergeGUI\GUI /v check_for_updates /t REG_DWORD /d 00000
   <file path=".Npackd\Uninstall.bat">"%nih%\UninstallInnoSetup.bat" unins000.exe</file>
   <url>https://github.com/moneymanagerex/moneymanagerex/releases/download/v1.5.1/mmex-1.5.1-win64.exe</url>
   <hash-sum type="SHA-256">f10294fcf1542a1165a63367f5c0fdae7d2208cdddd9706b21f99f91f5710ca5</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
+ <version name="1.5.2" package="money-manager-ex64" type="one-file">
+  <file path=".Npackd\Install.bat">"%nih%\InstallInnoSetup.bat"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">"%nih%\UninstallInnoSetup.bat" unins000.exe</file>
+  <url>https://github.com/moneymanagerex/moneymanagerex/releases/download/v1.5.2/mmex-1.5.2-win64.exe</url>
+  <hash-sum type="SHA-256">24029e054352888a80da3e393df8be33507a7fbbac22c1df49846f84f5b303d4</hash-sum>
   <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
    <variable>nih</variable>
   </dependency>
@@ -47880,6 +47899,20 @@ call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Np
    <variable>nih</variable>
   </dependency>
  </version>
+ <version name="8.2.2932" package="org.vim.Vim64">
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+if %errorlevel% neq 0 exit /b %errorlevel%&#13;
+&#13;
+for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+</file>
+  <url>https://github.com/vim/vim-win32-installer/releases/download/v8.2.2932/gvim_8.2.2932_x64.zip</url>
+  <hash-sum type="SHA-256">3d4ea285c19d4309515d30ad7d37ffdba77f6d5069738a92bf16333f762d1837</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.19, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
 
     <version name="4.2.8.83876" package="org.virtualbox.virtualbox64" type="one-file">
   <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
@@ -51349,6 +51382,15 @@ verify</file>
 </file>
   <url>https://github.com/tim-lebedkov/packages/releases/download/2021_06/qcad64-3.26.3-qcad-3.26.3-trial-win64-installer.msi</url>
   <hash-sum type="SHA-256">94308c157488711eb23bed60ff6674864865b76d1561df2f329ae22116f5e459</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.1, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
+ <version name="3.26.4" package="qcad64" type="one-file">
+  <file path=".Npackd\Install.bat">call "%nih%\InstallMSI.bat" INSTALLDIR yes&#13;
+</file>
+  <url>http://www.qcad.org/archives/qcad/qcad-3.26.4-trial-win64-installer.msi</url>
+  <hash-sum type="SHA-256">e17fe68a89cd4ebdb2dc521759d5325f144f68f4e55e744e0e1282e6717d0dee</hash-sum>
   <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.1, 2)">
    <variable>nih</variable>
   </dependency>
@@ -55352,6 +55394,14 @@ if %err% neq 0 exit %err%&#13;
 </file>
   <url>http://files.first-world.info/ultracopier/2.2.4.10/ultracopier-windows-x86_64-2.2.4.10-setup.exe</url>
   <hash-sum type="SHA-256">0db948c724d2cdd2f5c32ee061f4969eb97a074a41b32192fd791cbb15866dd1</hash-sum>
+ </version>
+ <version name="2.2.4.11" package="ultracopier64" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">uninst.exe /S _?=%CD%&#13;
+</file>
+  <url>http://files.first-world.info/ultracopier/2.2.4.11/ultracopier-windows-x86_64-2.2.4.11-setup.exe</url>
+  <hash-sum type="SHA-256">f4f73676fef6bb413e650c85e3ca3a9309dd6878b5c933cb73c54603e8e2dc91</hash-sum>
  </version>
 
     <version name="2.0.1" package="vagrant64" type="one-file">
