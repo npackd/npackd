@@ -4640,6 +4640,10 @@ x86_64</description>
   <url>https://github.com/tim-lebedkov/packages/releases/download/2020_09/apache-httpd64-2.4.46-httpd-2.4.46-o111g-x64-vc15.zip</url>
   <hash-sum type="SHA-256">efbeda112c6e9056665a68f6683c7ac5e0608eb1c3a4cf3017f1282ce74eba6a</hash-sum>
  </version>
+ <version name="2.4.48" package="apache-httpd64">
+  <url>https://de.apachehaus.com/downloads/httpd-2.4.48-o111k-x64-vs16.zip</url>
+  <hash-sum type="SHA-256">bd5ae4f8d7fe1c6b6d22c9348fa1e1bac2fc7ba01ab47c9b95714ec0bfe052c0</hash-sum>
+ </version>
 
     <version name="1.49" package="atom64">
   <important-file path="atom.exe" title="Atom"/>
@@ -22100,7 +22104,7 @@ verify&#13;
   <url>http://files.npackd.org/hashmyfiles64/hashmyfiles64-2.10.zip</url>
   <sha1>8848020689233adeffe2f4299085eb533e1495d5</sha1>
  </version>
- <version name="2.38" package="hashmyfiles64">
+ <version name="2.40" package="hashmyfiles64">
   <important-file path="HashMyFiles.exe" title="HashMyFiles"/>
   <url>http://www.nirsoft.net/utils/hashmyfiles-x64.zip</url>
  </version>
@@ -38526,6 +38530,40 @@ Set view = Nothing&#13;
    <variable>npackdih</variable>
   </dependency>
  </version>
+ <version name="1.16.5" package="org.golang.Go64" type="one-file">
+  <file path=".Npackd\Install.bat">.Npackd\AddProperty.vbs "%npackd_package_binary%"&#13;
+if %errorlevel% neq 0 exit %errorlevel%&#13;
+&#13;
+call "%npackdih%\InstallMSI.bat" INSTALLDIR</file>
+  <file path=".Npackd\Uninstall.bat">call "%npackdih%\UninstallMSI.bat"</file>
+  <file path=".Npackd\AddProperty.vbs">Option Explicit&#13;
+&#13;
+Dim MSI_FILE&#13;
+MSI_FILE = Wscript.Arguments(0)&#13;
+&#13;
+Dim installer, database, view&#13;
+&#13;
+Set installer = CreateObject("WindowsInstaller.Installer")&#13;
+Set database = installer.OpenDatabase(MSI_FILE, 1)&#13;
+&#13;
+Set view = database.OpenView("INSERT INTO Property (Property, Value) VALUES ('INSTALLDIR', 'C:\Go')")&#13;
+view.Execute&#13;
+'Set view = database.OpenView("DELETE FROM Directory WHERE Directory='TARGETDIR'")&#13;
+'view.Execute&#13;
+'Set view = database.OpenView("UPDATE Directory SET DefaultDir='INSTALLLOCATION' WHERE Directory='TARGETDIR'")&#13;
+'view.Execute&#13;
+database.Commit&#13;
+&#13;
+Set database = Nothing&#13;
+Set installer = Nothing&#13;
+Set view = Nothing&#13;
+</file>
+  <url>https://golang.org/dl/go1.16.5.windows-amd64.msi</url>
+  <hash-sum type="SHA-256">322dd8c585f37b62c9e603c84747b97a7a65b56fcef56b64e3021ccad90785b2</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1, 2)">
+   <variable>npackdih</variable>
+  </dependency>
+ </version>
 
     <version name="2.22.1" package="org.gtk.GTKPlusBundle64">
   <file path="etc\gtk-2.0\gtkrc">gtk-theme-name = "MS-Windows"</file>
@@ -47913,6 +47951,20 @@ call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Np
    <variable>nih</variable>
   </dependency>
  </version>
+ <version name="8.2.2938" package="org.vim.Vim64">
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+if %errorlevel% neq 0 exit /b %errorlevel%&#13;
+&#13;
+for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+</file>
+  <url>https://github.com/vim/vim-win32-installer/releases/download/v8.2.2938/gvim_8.2.2938_x64.zip</url>
+  <hash-sum type="SHA-256">43305068bfc51493247a6f89fea148e94b5420229127b10e6f80bcb920d30ada</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.19, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
 
     <version name="4.2.8.83876" package="org.virtualbox.virtualbox64" type="one-file">
   <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
@@ -51389,7 +51441,7 @@ verify</file>
  <version name="3.26.4" package="qcad64" type="one-file">
   <file path=".Npackd\Install.bat">call "%nih%\InstallMSI.bat" INSTALLDIR yes&#13;
 </file>
-  <url>http://www.qcad.org/archives/qcad/qcad-3.26.4-trial-win64-installer.msi</url>
+  <url>https://github.com/tim-lebedkov/packages/releases/download/2021_06/qcad64-3.26.4-qcad-3.26.4-trial-win64-installer.msi</url>
   <hash-sum type="SHA-256">e17fe68a89cd4ebdb2dc521759d5325f144f68f4e55e744e0e1282e6717d0dee</hash-sum>
   <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.1, 2)">
    <variable>nih</variable>
