@@ -4641,7 +4641,7 @@ x86_64</description>
   <hash-sum type="SHA-256">efbeda112c6e9056665a68f6683c7ac5e0608eb1c3a4cf3017f1282ce74eba6a</hash-sum>
  </version>
  <version name="2.4.48" package="apache-httpd64">
-  <url>https://de.apachehaus.com/downloads/httpd-2.4.48-o111k-x64-vs16.zip</url>
+  <url>https://github.com/tim-lebedkov/packages/releases/download/2021_06/apache-httpd64-2.4.48-httpd-2.4.48-o111k-x64-vs16.zip</url>
   <hash-sum type="SHA-256">bd5ae4f8d7fe1c6b6d22c9348fa1e1bac2fc7ba01ab47c9b95714ec0bfe052c0</hash-sum>
  </version>
 
@@ -47961,6 +47961,20 @@ call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Np
 </file>
   <url>https://github.com/vim/vim-win32-installer/releases/download/v8.2.2938/gvim_8.2.2938_x64.zip</url>
   <hash-sum type="SHA-256">43305068bfc51493247a6f89fea148e94b5420229127b10e6f80bcb920d30ada</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.19, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
+ <version name="8.2.2946" package="org.vim.Vim64">
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+if %errorlevel% neq 0 exit /b %errorlevel%&#13;
+&#13;
+for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+</file>
+  <url>https://github.com/vim/vim-win32-installer/releases/download/v8.2.2946/gvim_8.2.2946_x64.zip</url>
+  <hash-sum type="SHA-256">79031d4457e1fda92e2ae30cc675925e1229a9f3d6e83aaa7247d4af69a533c9</hash-sum>
   <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.19, 2)">
    <variable>nih</variable>
   </dependency>
