@@ -18892,6 +18892,16 @@ rmdir "%name%"&#13;
    <variable>ncl</variable>
   </dependency>
  </version>
+ <version name="2.5.4" package="firealpaca64" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">"%ncl%\ncl.exe" remove-scp --title "/%npackd_package_name% %npackd_package_version%/i"&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+</file>
+  <url>https://www.portalgraphics.net/firealpaca/bin/FireAlpaca64_setup_2_5_4.exe</url>
+  <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.25, 2)">
+   <variable>ncl</variable>
+  </dependency>
+ </version>
 
     <version name="60.0.8" package="firefox-developer-edition64" type="one-file">
   <file path=".Npackd\Install.bat">echo [Install] &gt; .Npackd\FF.ini&#13;
@@ -20688,6 +20698,17 @@ if %err% neq 0 exit %err%&#13;
 </file>
   <url>https://github.com/git-for-windows/git/releases/download/v2.31.1.windows.1/Git-2.31.1-64-bit.exe</url>
   <hash-sum type="SHA-256">c43611eb73ad1f17f5c8cc82ae51c3041a2e7279e0197ccf5f739e9129ce426e</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
+ <version name="2.32" package="git64" type="one-file">
+  <file path=".Npackd\Install.bat">call "%nih%\InstallInnoSetup.bat"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">call "%nih%\UninstallInnoSetup.bat" unins000.exe&#13;
+</file>
+  <url>https://github.com/git-for-windows/git/releases/download/v2.32.0.windows.1/Git-2.32.0-64-bit.exe</url>
+  <hash-sum type="SHA-256">eed601ef835c3dac08d2e27f6f38b5db7998747c753c87a45b326fbd6c710309</hash-sum>
   <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
    <variable>nih</variable>
   </dependency>
@@ -31018,7 +31039,7 @@ mkdir %trash%&#13;
 move NppShell*.dll %trash%&#13;
 verify&#13;
 		</file>
-  <url>https://github.com/notepad-plus-plus/notepad-plus-plus/releases/download/v8/npp.8.0.Installer.x64.exe</url>
+  <url>https://github.com/tim-lebedkov/packages/releases/download/2021_06/notepadpp64-8-npp.8.0.Installer.x64.exe</url>
   <hash-sum type="SHA-256">20309ac329ea5af92a561176bc522555eb0c277f5a4321b003a3e2de2a31cb25</hash-sum>
  </version>
 
@@ -31056,7 +31077,7 @@ verify&#13;
   </dependency>
  </version>
 
-    <version name="3.10.7" package="ocenaudio64" type="one-file">
+    <version name="3.10.8" package="ocenaudio64" type="one-file">
   <file path=".Npackd\Install.bat">"%npackd_package_binary%" /AllUsers /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
 </file>
   <file path=".Npackd\Uninstall.bat">"%ncl%\ncl" remove-scp --title "/ocenaudio.*/"</file>
@@ -39147,6 +39168,14 @@ if %errorlevel% neq 0 exit /b %errorlevel%&#13;
 </file>
   <url>https://github.com/tim-lebedkov/packages/releases/download/2021_02/org.miktex.MiKTeX64-21.2-basic-miktex-21.2-x64.exe</url>
   <hash-sum type="SHA-256">cb4160f7d3f310ff3490b51004596c2e42d272c08e8a1143d0757ece1ebf9d07</hash-sum>
+ </version>
+ <version name="21.6" package="org.miktex.MiKTeX64" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" --common-install="%CD%" --shared --unattended&#13;
+</file>
+  <file path=".Npackd\Unnstall.bat">miktex\bin\miktexsetup.exe --verbose --shared uninstall&#13;
+</file>
+  <url>https://miktex.org/download/ctan/systems/win32/miktex/setup/windows-x64/basic-miktex-21.6-x64.exe</url>
+  <hash-sum type="SHA-256">299f2eb278409c672ba38941388c9d9e70182b7b1ba61319bc7128bbb9051a6d</hash-sum>
  </version>
 
     <version name="0.9.19" package="org.miranda-im.MirandaIM64" type="one-file">
@@ -48040,6 +48069,20 @@ call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Np
    <variable>nih</variable>
   </dependency>
  </version>
+ <version name="8.2.2961" package="org.vim.Vim64">
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+if %errorlevel% neq 0 exit /b %errorlevel%&#13;
+&#13;
+for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+</file>
+  <url>https://github.com/vim/vim-win32-installer/releases/download/v8.2.2961/gvim_8.2.2961_x64.zip</url>
+  <hash-sum type="SHA-256">3c8c7105921ed050982f5b384bc5765689b17466ed971bc3cc10effd9bf074fb</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.19, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
 
     <version name="4.2.8.83876" package="org.virtualbox.virtualbox64" type="one-file">
   <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
@@ -50170,6 +50213,16 @@ echo DesktopShortcut=false &gt;&gt; .Npackd\FF.ini&#13;
   <file path=".Npackd\Uninstall.bat">uninstall\helper.exe /S</file>
   <url>http://relmirror.palemoon.org/release/palemoon-29.2.0.win64.installer.exe</url>
   <hash-sum type="SHA-256">f3714768041fa46b14bc2f4ae34f48678f1abc26537a0e3d72ccb26edca8b914</hash-sum>
+ </version>
+ <version name="29.2.1" package="pale-moon64" type="one-file">
+  <file path=".Npackd\Install.bat">echo [Install] &gt; .Npackd\FF.ini&#13;
+echo InstallDirectoryPath=%CD% &gt;&gt; .Npackd\FF.ini&#13;
+echo QuickLaunchShortcut=false &gt;&gt; .Npackd\FF.ini&#13;
+echo DesktopShortcut=false &gt;&gt; .Npackd\FF.ini&#13;
+"%npackd_package_binary%" /INI="%CD%\.Npackd\FF.ini" &amp;&amp; del /f /q "%npackd_package_binary%"</file>
+  <file path=".Npackd\Uninstall.bat">uninstall\helper.exe /S</file>
+  <url>http://relmirror.palemoon.org/release/palemoon-29.2.1.win64.installer.exe</url>
+  <hash-sum type="SHA-256">dca237ca219bdcc0f6259baa72f5a26eca4fa24b8896839ae5f7e7cee153ced1</hash-sum>
  </version>
 
     <version name="2.2.1" package="pandoc64" type="one-file">
