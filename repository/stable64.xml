@@ -15473,6 +15473,52 @@ for %%g in (%extensions%) do reg add HKLM\SOFTWARE\Classes\.%%g\OpenWithList\%ke
   <url>https://download.videolan.org/pub/videolan/vlc/3.0.14/win64/vlc-3.0.14-win64.zip</url>
   <hash-sum type="SHA-256">11e4cdea586b385a43e6c6032c3723649783142c5ff5111e1e6dd311234fd195</hash-sum>
  </version>
+ <version name="3.0.15" package="com.videolan.VLCMediaPlayer64">
+  <important-file path="vlc.exe" title="VLC Media Player"/>
+  <file path=".Npackd\Extensions.txt">a52 aac ac3 adt adts aif ifc iff mr aob ape cda dts flac it m4a m4p mid mka mlp mod mp1 mp2 mp3 mpc oga ogg oma rmi s3m spx tta voc vqf w64 wav wma wv xa xm 3g2 3gp 3gp2 3gpp amv asf avi bin cue divx dv flv gxf iso m1v m2v m2t m2ts m4v mkv mov mp2 mp2v mp4 mp4v mpa mpe mpeg mpeg1 mpeg2 mpeg4 mpg mpv2 mts mxf nsv nuv ogg ogm ogv ogx ps rec rm rmvb tod ts tts vob vro webm wmv asx b4s ifo m3u m3u8 pls ram rar sdp vlc xspf zip cdg idx srt sub utf ass ssa aqt jss psb rt smi&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">set package=com.videolan.VLCMediaPlayer64&#13;
+set version=%NPACKD_PACKAGE_VERSION%&#13;
+set key=%package%-%version%&#13;
+&#13;
+reg delete HKLM\SOFTWARE\Classes\Applications\%key% /f&#13;
+&#13;
+rem read extensions from the file&#13;
+for /f "usebackq delims=" %%a in (.Npackd\Extensions.txt) do (&#13;
+set extensions=%%a&#13;
+goto out&#13;
+)&#13;
+:out&#13;
+&#13;
+for %%g in (%extensions%) do reg delete HKLM\SOFTWARE\Classes\.%%g\OpenWithList\%key% /f</file>
+  <file path=".Npackd\Install.bat">for /f %%x in ('dir /b vlc*') do set name=%%x&#13;
+for /f "delims=" %%x in ('dir /b aria*') do set name=%%x&#13;
+cd "%name%"        &#13;
+for /f "delims=" %%a in ('dir /b') do (&#13;
+  move "%%a" ..&#13;
+)&#13;
+cd ..&#13;
+rmdir "%name%"&#13;
+&#13;
+set package=com.videolan.VLCMediaPlayer64&#13;
+set version=%NPACKD_PACKAGE_VERSION%&#13;
+set key=%package%-%version%&#13;
+&#13;
+reg add HKLM\SOFTWARE\Classes\Applications\%key%\shell\open /v FriendlyAppName /d "VLC Media Player (%version%)" /f&#13;
+set c=\"%CD%\vlc.exe\" \"%%1\"&#13;
+reg add HKLM\SOFTWARE\Classes\Applications\%KEY%\shell\open\command /d "%c%" /f&#13;
+&#13;
+rem read extensions from the file&#13;
+for /f "usebackq delims=" %%a in (.Npackd\Extensions.txt) do (&#13;
+set extensions=%%a&#13;
+goto out&#13;
+)&#13;
+:out&#13;
+&#13;
+for %%g in (%extensions%) do reg add HKLM\SOFTWARE\Classes\.%%g\OpenWithList\%key% /f</file>
+  <url>https://download.videolan.org/pub/videolan/vlc/3.0.15/win64/vlc-3.0.15-win64.zip</url>
+  <hash-sum type="SHA-256">f4448f12d55dbc3c98833701b588889824b505e361679d82e628148c5e17a1a8</hash-sum>
+ </version>
 
     <version name="0.5" package="com.whatsappinc.whatsapp-desktop-64" type="one-file">
   <file path=".Npackd\Install.bat">"%npackd_package_binary%" &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
@@ -20768,7 +20814,7 @@ if %err% neq 0 exit %err%&#13;
   <hash-sum type="SHA-256">951c16d730bb70a8acc1af5d44d8d00ce828316b664253163f64667d026d7e67</hash-sum>
  </version>
 
-    <version name="91.0.4472.77" package="google-chrome-x64" type="one-file">
+    <version name="91.0.4472.101" package="google-chrome-x64" type="one-file">
   <file path=".Npackd\Install.bat">call "%npackdih%\InstallMSI.bat" TARGETDIR yes&#13;
 </file>
   <url>https://dl.google.com/tag/s/appguid%3D%7B8A69D345-D564-463C-AFF1-A69D9E530F96%7D%26iid%3D%7B0A558A36-0536-8B3F-0AE0-420553CC97F3%7D%26lang%3Den%26browser%3D4%26usagestats%3D0%26appname%3DGoogle%2520Chrome%26needsadmin%3DFalse/edgedl/chrome/install/GoogleChromeStandaloneEnterprise64.msi</url>
@@ -24728,6 +24774,14 @@ call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Np
   <file path=".Npackd\Install.bat">call "%npackdih%\InstallMSI.bat" INSTALLLOCATION yes</file>
   <url>https://github.com/tim-lebedkov/packages/releases/download/2021_05/libreoffice64-7.1.3-LibreOffice_7.1.3_Win_x64.msi</url>
   <hash-sum type="SHA-256">b5ececf9df20cc3628046a44d725400188ac83957043d28ebdccb3ce5aa83e0b</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.1, 2)">
+   <variable>npackdih</variable>
+  </dependency>
+ </version>
+ <version name="7.1.4" package="libreoffice64" type="one-file">
+  <file path=".Npackd\Install.bat">call "%npackdih%\InstallMSI.bat" INSTALLLOCATION yes</file>
+  <url>https://download.documentfoundation.org/libreoffice/stable/7.1.4/win/x86_64/LibreOffice_7.1.4_Win_x64.msi</url>
+  <hash-sum type="SHA-256">a7f0c4573085d0aa8f1dac7dbaf03764e4cf082a56ca95551630828f3a33f44d</hash-sum>
   <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.1, 2)">
    <variable>npackdih</variable>
   </dependency>
@@ -48125,6 +48179,20 @@ call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Np
 </file>
   <url>https://github.com/vim/vim-win32-installer/releases/download/v8.2.2965/gvim_8.2.2965_x64.zip</url>
   <hash-sum type="SHA-256">36ecd0e890e3d95b2e1e9a650a0bed38dba7d0e823bfb1e66d0455fd68a0735d</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.19, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
+ <version name="8.2.2968" package="org.vim.Vim64">
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+if %errorlevel% neq 0 exit /b %errorlevel%&#13;
+&#13;
+for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+</file>
+  <url>https://github.com/vim/vim-win32-installer/releases/download/v8.2.2968/gvim_8.2.2968_x64.zip</url>
+  <hash-sum type="SHA-256">a3c4830e703b5fb7a44e635e78c2ba5bce934325bae631371066ef0d34a0aa34</hash-sum>
   <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.19, 2)">
    <variable>nih</variable>
   </dependency>
