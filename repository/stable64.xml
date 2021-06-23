@@ -1588,7 +1588,7 @@ x86_64</description>
   <category>Communications</category>
   <tag>same-url</tag>
   <tag>stable64</tag>
-  <stars>17</stars>
+  <stars>16</stars>
  </package>
  <package name="google-cloud-sdk64">
   <title>Google Cloud SDK 64 bit</title>
@@ -2672,7 +2672,6 @@ x86_64</description>
   <category>Tools</category>
   <tag>stable64</tag>
   <tag>end-of-life</tag>
-  <stars>1</stars>
  </package>
  <package name="org.cgsecurity.testdisk.TestDisk64">
   <title>TestDisk &amp; PhotoRec 64 bit</title>
@@ -5700,6 +5699,20 @@ if %errorlevel% neq 0 exit /b %errorlevel%&#13;
 </file>
   <url>https://github.com/Kitware/CMake/releases/download/v3.20.4/cmake-3.20.4-windows-x86_64.zip</url>
   <hash-sum type="SHA-256">965d2f001c3ca807d288f2b6b15c42b25579a0e73ef12c2a72c95f4c69123638</hash-sum>
+ </version>
+ <version name="3.20.5" package="cmake64">
+  <cmd-file path="bin\cmake.exe"/>
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b cmake*') do set name=%%x&#13;
+cd "%name%"        &#13;
+for /f "delims=" %%a in ('dir /b') do (&#13;
+  move "%%a" ..&#13;
+)&#13;
+cd ..&#13;
+rmdir "%name%"&#13;
+if %errorlevel% neq 0 exit /b %errorlevel%&#13;
+</file>
+  <url>https://github.com/Kitware/CMake/releases/download/v3.20.5/cmake-3.20.5-windows-x86_64.zip</url>
+  <hash-sum type="SHA-256">d064e3b4f76d9b8c63ea119c545f769d7bdbf19b484dc94df11508c4f3e05d6d</hash-sum>
  </version>
 
     <version name="15" package="codelite" type="one-file">
@@ -17336,6 +17349,14 @@ if %err% neq 0 exit %err%&#13;
 </file>
   <url>http://dbeaver.jkiss.org/files/21.1.0/dbeaver-ce-21.1.0-x86_64-setup.exe</url>
   <hash-sum type="SHA-256">32722b55f1dd3bf54225f253d05fa1169c08568b5c6c12afd85e75f18a1fea39</hash-sum>
+ </version>
+ <version name="21.1.1" package="dbeaver64" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" /allusers /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">uninstall.exe /allusers /S _?=%CD%&#13;
+</file>
+  <url>http://dbeaver.jkiss.org/files/21.1.1/dbeaver-ce-21.1.1-x86_64-setup.exe</url>
+  <hash-sum type="SHA-256">e0992ef60de08f9ad2f82f78751035bf7877ca09ffc5e992ca5c8851c6d87e21</hash-sum>
  </version>
 
     <version name="0.825" package="dcplusplus64">
@@ -34790,7 +34811,6 @@ rmdir "%name%"&#13;
 </file>
   <url>http://ftp.nluug.nl/pub/graphics/blender/release//Blender2.66/blender-2.66-windows64.zip</url>
   <sha1>965545c37874fce6495c2ab4903158c581356230</sha1>
-  <dependency package="com.microsoft.VisualCPPRedistributable64" versions="[9, 10)"/>
  </version>
  <version name="2.66.1" package="org.blender.Blender64">
   <important-file path="blender.exe" title="Blender"/>
@@ -34804,7 +34824,6 @@ rmdir "%name%"&#13;
 </file>
   <url>http://ftp.nluug.nl/pub/graphics/blender/release//Blender2.66/blender-2.66a-windows64.zip</url>
   <sha1>7eebe344696bbc4c20667cf13acb672299ae6ccc</sha1>
-  <dependency package="com.microsoft.VisualCPPRedistributable64" versions="[9, 10)"/>
  </version>
  <version name="2.67.2" package="org.blender.Blender64">
   <important-file path="blender.exe" title="Blender"/>
@@ -34818,7 +34837,6 @@ rmdir "%name%"&#13;
 </file>
   <url>http://ftp.nluug.nl/pub/graphics/blender/release//Blender2.67/blender-2.67b-windows64.zip</url>
   <sha1>329e369a416fa79a08cfabcbdf035865116c29ab</sha1>
-  <dependency package="com.microsoft.VisualCPPRedistributable64" versions="[9, 10)"/>
  </version>
  <version name="2.68.1" package="org.blender.Blender64">
   <important-file path="blender.exe" title="Blender"/>
@@ -34832,7 +34850,6 @@ rmdir "%name%"&#13;
 </file>
   <url>http://ftp.nluug.nl/pub/graphics/blender/release//Blender2.68/blender-2.68a-windows64.zip</url>
   <sha1>5da7dbd0edeecff1fb3d1a38b77f32bed20cd6d9</sha1>
-  <dependency package="com.microsoft.VisualCPPRedistributable64" versions="[9, 10)"/>
  </version>
  <version name="2.69" package="org.blender.Blender64">
   <important-file path="blender.exe" title="Blender"/>
@@ -34846,7 +34863,6 @@ rmdir "%name%"&#13;
 </file>
   <url>http://ftp.nluug.nl/pub/graphics/blender/release//Blender2.69/blender-2.69-windows64.zip</url>
   <sha1>eb9ccfe3c2b70ee89c9616810f253fbff72c6b34</sha1>
-  <dependency package="com.microsoft.VisualCPPRedistributable64" versions="[9, 10)"/>
  </version>
  <version name="2.70" package="org.blender.Blender64">
   <important-file path="blender.exe" title="Blender"/>
@@ -34860,7 +34876,6 @@ rmdir "%name%"&#13;
 </file>
   <url>http://ftp.nluug.nl/pub/graphics/blender/release//Blender2.70/blender-2.70-windows64.zip</url>
   <sha1>8b668f98ca83b0eaf4519f499b1ed609924940ca</sha1>
-  <dependency package="com.microsoft.VisualCPPRedistributable64" versions="[9, 10)"/>
  </version>
  <version name="2.71" package="org.blender.Blender64">
   <important-file path="blender.exe" title="Blender"/>
@@ -34874,7 +34889,6 @@ rmdir "%name%"&#13;
 </file>
   <url>http://ftp.nluug.nl/pub/graphics/blender/release//Blender2.71/blender-2.71-windows64.zip</url>
   <sha1>cd58fa996f9c73f1b7cfb79a3a8449b9c5cdc44a</sha1>
-  <dependency package="com.microsoft.VisualCPPRedistributable64" versions="[9, 10)"/>
  </version>
  <version name="2.72.2" package="org.blender.Blender64">
   <important-file path="blender.exe" title="Blender"/>
@@ -34888,7 +34902,6 @@ rmdir "%name%"&#13;
 </file>
   <url>http://ftp.nluug.nl/pub/graphics/blender/release//Blender2.72/blender-2.72b-windows64.zip</url>
   <sha1>7fa4d3381c3790ef2b2001b574bdc3a05bc7c73d</sha1>
-  <dependency package="com.microsoft.VisualCPPRedistributable64" versions="[9, 10)"/>
  </version>
  <version name="2.74" package="org.blender.Blender64">
   <important-file path="blender.exe" title="Blender"/>
@@ -34902,7 +34915,6 @@ rmdir "%name%"&#13;
 </file>
   <url>http://ftp.nluug.nl/pub/graphics/blender/release//Blender2.74/blender-2.74-windows64.zip</url>
   <sha1>cf9620461bb7707e511bef51f7a522c563d60492</sha1>
-  <dependency package="com.microsoft.VisualCPPRedistributable64" versions="[9, 10)"/>
  </version>
  <version name="2.75.1" package="org.blender.Blender64">
   <important-file path="blender.exe" title="Blender"/>
@@ -34916,7 +34928,6 @@ rmdir "%name%"&#13;
 </file>
   <url>http://download.blender.org/release/Blender2.75/blender-2.75a-windows64.zip</url>
   <sha1>914443e04f8d7520a95e8c499ab0e890beaed65b</sha1>
-  <dependency package="com.microsoft.VisualCPPRedistributable64" versions="[9, 10)"/>
  </version>
  <version name="2.76" package="org.blender.Blender64">
   <important-file path="blender.exe" title="Blender"/>
@@ -34930,7 +34941,6 @@ rmdir "%name%"&#13;
 </file>
   <url>http://download.blender.org/release/Blender2.76/blender-2.76-windows64.zip</url>
   <sha1>6c419cfaed8a52f0bf9d12b16f0fa7dfefbba874</sha1>
-  <dependency package="com.microsoft.VisualCPPRedistributable64" versions="[9, 10)"/>
  </version>
  <version name="2.76.2" package="org.blender.Blender64">
   <important-file path="blender.exe" title="Blender"/>
@@ -34944,7 +34954,6 @@ rmdir "%name%"&#13;
 </file>
   <url>http://download.blender.org/release/Blender2.76/blender-2.76b-windows64.zip</url>
   <sha1>110f92a2a74753899ecce1d1a79340f01fdb6a8d</sha1>
-  <dependency package="com.microsoft.VisualCPPRedistributable64" versions="[9, 10)"/>
  </version>
  <version name="2.77.1" package="org.blender.Blender64">
   <important-file path="blender.exe" title="Blender"/>
@@ -34958,7 +34967,6 @@ rmdir "%name%"&#13;
 </file>
   <url>https://download.blender.org/release/Blender2.77/blender-2.77a-windows64.zip</url>
   <sha1>2330128276e4531697732af022c9382cbc685fdd</sha1>
-  <dependency package="com.microsoft.VisualCPPRedistributable64" versions="[9, 10)"/>
  </version>
  <version name="2.78" package="org.blender.Blender64">
   <important-file path="blender.exe" title="Blender"/>
@@ -34972,18 +34980,16 @@ rmdir "%name%"&#13;
 </file>
   <url>https://download.blender.org/release/Blender2.78/blender-2.78-windows64.zip</url>
   <sha1>d096efe7da163cc96d4ceef219d894353a6cf16a</sha1>
-  <dependency package="com.microsoft.VisualCPPRedistributable64" versions="[9, 10)"/>
  </version>
  <version name="2.78.1" package="org.blender.Blender64">
   <important-file path="blender.exe" title="Blender"/>
-  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b blender*') do set name=%%x
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b blender*') do set name=%%x&#13;
 "%NIH%\ExtractDir.bat" "%name%"</file>
   <url>https://download.blender.org/release/Blender2.78/blender-2.78a-windows64.zip</url>
   <sha1>ddbcf3fe5cd120dd0b445fafd97db147128c4673</sha1>
   <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
    <variable>NIH</variable>
   </dependency>
-  <dependency package="com.microsoft.VisualCPPRedistributable64" versions="[9, 10)"/>
  </version>
  <version name="2.78.3" package="org.blender.Blender64">
   <important-file path="blender.exe" title="Blender"/>
@@ -34994,7 +35000,6 @@ rmdir "%name%"&#13;
   <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
    <variable>NIH</variable>
   </dependency>
-  <dependency package="com.microsoft.VisualCPPRedistributable64" versions="[9, 10)"/>
  </version>
  <version name="2.79" package="org.blender.Blender64">
   <important-file path="blender.exe" title="Blender"/>
@@ -35005,7 +35010,6 @@ rmdir "%name%"&#13;
   <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
    <variable>NIH</variable>
   </dependency>
-  <dependency package="com.microsoft.VisualCPPRedistributable64" versions="[9, 10)"/>
  </version>
  <version name="2.79.1" package="org.blender.Blender64">
   <important-file path="blender.exe" title="Blender"/>
@@ -35016,7 +35020,6 @@ rmdir "%name%"&#13;
   <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
    <variable>NIH</variable>
   </dependency>
-  <dependency package="com.microsoft.VisualCPPRedistributable64" versions="[9, 10)"/>
  </version>
  <version name="2.79.2" package="org.blender.Blender64">
   <important-file path="blender.exe" title="Blender"/>
@@ -35027,7 +35030,6 @@ rmdir "%name%"&#13;
   <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
    <variable>NIH</variable>
   </dependency>
-  <dependency package="com.microsoft.VisualCPPRedistributable64" versions="[9, 10)"/>
  </version>
  <version name="2.80" package="org.blender.Blender64">
   <important-file path="blender.exe" title="Blender"/>
@@ -35038,7 +35040,6 @@ rmdir "%name%"&#13;
   <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
    <variable>NIH</variable>
   </dependency>
-  <dependency package="com.microsoft.VisualCPPRedistributable64" versions="[9, 10)"/>
  </version>
  <version name="2.81" package="org.blender.Blender64">
   <important-file path="blender.exe" title="Blender"/>
@@ -35049,7 +35050,6 @@ rmdir "%name%"&#13;
   <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
    <variable>NIH</variable>
   </dependency>
-  <dependency package="com.microsoft.VisualCPPRedistributable64" versions="[9, 10)"/>
  </version>
  <version name="2.81.1" package="org.blender.Blender64">
   <important-file path="blender.exe" title="Blender"/>
@@ -35060,7 +35060,6 @@ rmdir "%name%"&#13;
   <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
    <variable>NIH</variable>
   </dependency>
-  <dependency package="com.microsoft.VisualCPPRedistributable64" versions="[9, 10)"/>
  </version>
  <version name="2.82" package="org.blender.Blender64">
   <important-file path="blender.exe" title="Blender"/>
@@ -35071,7 +35070,6 @@ rmdir "%name%"&#13;
   <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
    <variable>NIH</variable>
   </dependency>
-  <dependency package="com.microsoft.VisualCPPRedistributable64" versions="[9, 10)"/>
  </version>
  <version name="2.82.1" package="org.blender.Blender64">
   <important-file path="blender.exe" title="Blender"/>
@@ -35082,7 +35080,6 @@ rmdir "%name%"&#13;
   <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
    <variable>NIH</variable>
   </dependency>
-  <dependency package="com.microsoft.VisualCPPRedistributable64" versions="[9, 10)"/>
  </version>
  <version name="2.83" package="org.blender.Blender64">
   <important-file path="blender.exe" title="Blender"/>
@@ -35093,7 +35090,6 @@ rmdir "%name%"&#13;
   <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
    <variable>NIH</variable>
   </dependency>
-  <dependency package="com.microsoft.VisualCPPRedistributable64" versions="[9, 10)"/>
  </version>
  <version name="2.83.1" package="org.blender.Blender64">
   <important-file path="blender.exe" title="Blender"/>
@@ -35104,7 +35100,6 @@ rmdir "%name%"&#13;
   <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
    <variable>NIH</variable>
   </dependency>
-  <dependency package="com.microsoft.VisualCPPRedistributable64" versions="[9, 10)"/>
  </version>
  <version name="2.83.2" package="org.blender.Blender64">
   <important-file path="blender.exe" title="Blender"/>
@@ -35115,7 +35110,6 @@ rmdir "%name%"&#13;
   <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
    <variable>NIH</variable>
   </dependency>
-  <dependency package="com.microsoft.VisualCPPRedistributable64" versions="[9, 10)"/>
  </version>
  <version name="2.83.3" package="org.blender.Blender64">
   <important-file path="blender.exe" title="Blender"/>
@@ -35126,7 +35120,6 @@ rmdir "%name%"&#13;
   <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
    <variable>NIH</variable>
   </dependency>
-  <dependency package="com.microsoft.VisualCPPRedistributable64" versions="[9, 10)"/>
  </version>
  <version name="2.83.4" package="org.blender.Blender64">
   <important-file path="blender.exe" title="Blender"/>
@@ -35137,7 +35130,6 @@ rmdir "%name%"&#13;
   <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
    <variable>NIH</variable>
   </dependency>
-  <dependency package="com.microsoft.VisualCPPRedistributable64" versions="[9, 10)"/>
  </version>
  <version name="2.90" package="org.blender.Blender64">
   <important-file path="blender.exe" title="Blender"/>
@@ -35148,7 +35140,6 @@ rmdir "%name%"&#13;
   <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
    <variable>NIH</variable>
   </dependency>
-  <dependency package="com.microsoft.VisualCPPRedistributable64" versions="[9, 10)"/>
  </version>
  <version name="2.90.1" package="org.blender.Blender64">
   <important-file path="blender.exe" title="Blender"/>
@@ -35159,7 +35150,6 @@ rmdir "%name%"&#13;
   <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
    <variable>NIH</variable>
   </dependency>
-  <dependency package="com.microsoft.VisualCPPRedistributable64" versions="[9, 10)"/>
  </version>
  <version name="2.91" package="org.blender.Blender64">
   <important-file path="blender.exe" title="Blender"/>
@@ -35170,7 +35160,6 @@ rmdir "%name%"&#13;
   <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
    <variable>NIH</variable>
   </dependency>
-  <dependency package="com.microsoft.VisualCPPRedistributable64" versions="[9, 10)"/>
  </version>
  <version name="2.91.2" package="org.blender.Blender64">
   <important-file path="blender.exe" title="Blender"/>
@@ -35181,7 +35170,6 @@ rmdir "%name%"&#13;
   <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
    <variable>NIH</variable>
   </dependency>
-  <dependency package="com.microsoft.VisualCPPRedistributable64" versions="[9, 10)"/>
  </version>
  <version name="2.92" package="org.blender.Blender64">
   <important-file path="blender.exe" title="Blender"/>
@@ -35192,7 +35180,6 @@ rmdir "%name%"&#13;
   <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
    <variable>NIH</variable>
   </dependency>
-  <dependency package="com.microsoft.VisualCPPRedistributable64" versions="[9, 10)"/>
  </version>
 
     <version name="1.0.3.8" package="org.bluemars.ClipX64" type="one-file">
@@ -39257,6 +39244,14 @@ ren "%setup%" Psycopg.exe&#13;
   <file path=".Npackd\Install.bat">call "%npackdih%\InstallMSI.bat" INSTALLDIR yes</file>
   <url>https://github.com/keepassxreboot/keepassxc/releases/download/2.6.4/KeePassXC-2.6.4-Win64.msi</url>
   <hash-sum type="SHA-256">5912aa09d1ffc35e12c6454ad156940f6440a2b9874e948c7315e79e84e709c0</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.22, 2)">
+   <variable>npackdih</variable>
+  </dependency>
+ </version>
+ <version name="2.6.6" package="org.keepassxc.keepassxc" type="one-file">
+  <file path=".Npackd\Install.bat">call "%npackdih%\InstallMSI.bat" INSTALLDIR yes</file>
+  <url>https://github.com/keepassxreboot/keepassxc/releases/download/2.6.6/KeePassXC-2.6.6-Win64.msi</url>
+  <hash-sum type="SHA-256">41ab0337bc630fe7c0f91b89e3fd868e75ba8c10e4bc6011aa5799f1a0a738e4</hash-sum>
   <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.22, 2)">
    <variable>npackdih</variable>
   </dependency>
@@ -48512,6 +48507,20 @@ call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Np
 </file>
   <url>https://github.com/vim/vim-win32-installer/releases/download/v8.2.3020/gvim_8.2.3020_x64.zip</url>
   <hash-sum type="SHA-256">ff380f390c7aa2adbc4e1876888fe0040e230118983e14c62a9076e765e6ef4a</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.19, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
+ <version name="8.2.3027" package="org.vim.Vim64">
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+if %errorlevel% neq 0 exit /b %errorlevel%&#13;
+&#13;
+for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+</file>
+  <url>https://github.com/vim/vim-win32-installer/releases/download/v8.2.3027/gvim_8.2.3027_x64.zip</url>
+  <hash-sum type="SHA-256">96ad03ccb8325be07add454c4f364ebb246c5b8f644ba8b8452848eae6500409</hash-sum>
   <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.19, 2)">
    <variable>nih</variable>
   </dependency>
