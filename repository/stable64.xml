@@ -20145,6 +20145,21 @@ rmdir "%name%"</file>
    <variable>ncl</variable>
   </dependency>
  </version>
+ <version name="1.1.5" package="freac64">
+  <important-file path="freac.exe" title="fre:ac"/>
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b fre*') do set name=%%x&#13;
+cd "%name%"        &#13;
+for /f "delims=" %%a in ('dir /b') do (&#13;
+  move "%%a" ..&#13;
+)&#13;
+cd ..&#13;
+rmdir "%name%"</file>
+  <url>https://github.com/enzo1982/freac/releases/download/v1.1.5/freac-1.1.5-windows-x64.zip</url>
+  <hash-sum type="SHA-256">46fdc6b17035687d0335698017acf25fc9d8c2c9764763c62c82046a7fcef1aa</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.25, 2)">
+   <variable>ncl</variable>
+  </dependency>
+ </version>
 
     <version name="0.9.3.2" package="fritzing64">
   <url>http://fritzing.org/download/0.9.3b/windows-64bit/fritzing.0.9.3b.64.pc.zip</url>
@@ -48722,6 +48737,34 @@ call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Np
    <variable>nih</variable>
   </dependency>
  </version>
+ <version name="8.2.3060" package="org.vim.Vim64">
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+if %errorlevel% neq 0 exit /b %errorlevel%&#13;
+&#13;
+for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+</file>
+  <url>https://github.com/vim/vim-win32-installer/releases/download/v8.2.3060/gvim_8.2.3060_x64.zip</url>
+  <hash-sum type="SHA-256">b6ad37400554560e1569adf631a226aa3bd11ca60e043b3a05eeac54c3674252</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.19, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
+ <version name="8.2.3070" package="org.vim.Vim64">
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+if %errorlevel% neq 0 exit /b %errorlevel%&#13;
+&#13;
+for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+</file>
+  <url>https://github.com/vim/vim-win32-installer/releases/download/v8.2.3070/gvim_8.2.3070_x64.zip</url>
+  <hash-sum type="SHA-256">f8dab339e296ff215d42921d89df3aa2986921e2ecb40730080fc0b67b9fc64c</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.19, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
 
     <version name="4.2.8.83876" package="org.virtualbox.virtualbox64" type="one-file">
   <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
@@ -52152,6 +52195,14 @@ verify</file>
 verify</file>
   <url>https://downloads.sourceforge.net/project/qbittorrent/qbittorrent-win32/qbittorrent-4.3.5/qbittorrent_4.3.5_x64_setup.exe</url>
   <hash-sum type="SHA-256">724f12ca08716e3cb179a00ded6212deaac05394c52e6b3ed735dbeb73e080ab</hash-sum>
+ </version>
+ <version name="4.3.6" package="qbittorrent-64-bit" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD%&#13;
+verify</file>
+  <file path=".Npackd\Uninstall.bat">uninst.exe /S _?=%CD%&#13;
+verify</file>
+  <url>https://downloads.sourceforge.net/project/qbittorrent/qbittorrent-win32/qbittorrent-4.3.6/qbittorrent_4.3.6_x64_setup.exe</url>
+  <hash-sum type="SHA-256">9b2474f119a21e8b65f600f3069a5eb998974dd5d05df6003af3ff7b26abc5b5</hash-sum>
  </version>
 
     <version name="3.23" package="qcad64" type="one-file">
