@@ -22241,6 +22241,19 @@ rmdir "%name%"&#13;
   <hash-sum type="SHA-256">d2aa49ddb3ada1c13bbbfefa47338f4f6686e9614494abc0bd6c0f86a8843f56</hash-sum>
   <dependency package="org.python.Python" versions="[2.7, 2.8)"/>
  </version>
+ <version name="347" package="google-cloud-sdk64">
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b google-cloud-sdk*') do set name=%%x&#13;
+cd "%name%"&#13;
+for /f "delims=" %%a in ('dir /b') do (&#13;
+  move "%%a" ..&#13;
+)&#13;
+cd ..&#13;
+rmdir "%name%"&#13;
+</file>
+  <url>https://dl.google.com/dl/cloudsdk/channels/rapid/downloads/google-cloud-sdk-347.0.0-windows-x86_64.zip</url>
+  <hash-sum type="SHA-256">8b73ffb7af1bef455c9783c39f83728bd256253f0cf88891d323616e37dd6e65</hash-sum>
+  <dependency package="org.python.Python" versions="[2.7, 2.8)"/>
+ </version>
 
     <version name="1.1.94" package="grisbi64" type="one-file">
   <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
@@ -23681,7 +23694,7 @@ if %err% neq 0 exit %err%&#13;
 </file>
   <file path=".Npackd\Uninstall.bat">call "%nih%\UninstallInnoSetup.bat" unins000.exe&#13;
 </file>
-  <url>https://www.imagemagick.org/download/binaries/ImageMagick-7.1.0-2-Q16-HDRI-x64-dll.exe</url>
+  <url>https://github.com/tim-lebedkov/packages/releases/download/2021_06/imagemagick64-7.1.0.2-ImageMagick-7.1.0-2-Q16-HDRI-x64-dll.exe</url>
   <hash-sum type="SHA-256">a6a6c4956064bcf46ff2f853f5c9aede854258391c597c3f74d6cde57a05f1b5</hash-sum>
   <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
    <variable>nih</variable>
@@ -48792,6 +48805,34 @@ call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Np
    <variable>nih</variable>
   </dependency>
  </version>
+ <version name="8.2.3072" package="org.vim.Vim64">
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+if %errorlevel% neq 0 exit /b %errorlevel%&#13;
+&#13;
+for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+</file>
+  <url>https://github.com/vim/vim-win32-installer/releases/download/v8.2.3072/gvim_8.2.3072_x64.zip</url>
+  <hash-sum type="SHA-256">fec5be007607352208f999fcb422e821e634cb7a889d85b6a8194db25a6e3ab6</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.19, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
+ <version name="8.2.3075" package="org.vim.Vim64">
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+if %errorlevel% neq 0 exit /b %errorlevel%&#13;
+&#13;
+for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+</file>
+  <url>https://github.com/vim/vim-win32-installer/releases/download/v8.2.3075/gvim_8.2.3075_x64.zip</url>
+  <hash-sum type="SHA-256">0160d2ecb348e8af14e0a392ef7a648834924c423d2fc8ec3d098e41780942e8</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.19, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
 
     <version name="4.2.8.83876" package="org.virtualbox.virtualbox64" type="one-file">
   <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
@@ -55496,6 +55537,14 @@ rmdir "%name%"</file>
 </file>
   <url>https://www.sysgauge.com/setups_x64/sysgauge_setup_v7.9.18_x64.exe</url>
   <hash-sum type="SHA-256">e8df1011340e80fb34dc94b87dceda2aeca2e8be037fd5c87076005afa412ed4</hash-sum>
+ </version>
+ <version name="8.0.16" package="sysgauge64" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">uninstall.exe /S _?=%CD%&#13;
+</file>
+  <url>https://www.sysgauge.com/setups_x64/sysgauge_setup_v8.0.16_x64.exe</url>
+  <hash-sum type="SHA-256">22ec928644389d35a45ea2ef51a88e6101e4d22c999bc6206eb645e68d61fe79</hash-sum>
  </version>
 
     <version name="2" package="texniccenter64" type="one-file">
