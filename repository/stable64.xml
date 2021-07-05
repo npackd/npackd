@@ -41339,6 +41339,15 @@ verify</file>
    <variable>npackdih</variable>
   </dependency>
  </version>
+ <version name="14.17.2" package="org.nodejs.NodeJS64" type="one-file">
+  <cmd-file path="node.exe"/>
+  <file path=".Npackd\Install.bat">call "%npackdih%\InstallMSI.bat" INSTALLDIR yes</file>
+  <url>https://nodejs.org/dist/v14.17.2/node-v14.17.2-x64.msi</url>
+  <hash-sum type="SHA-256">452a94f6db29ea6ef298cb731765c615624eed2c8bd8746c827d5abbed89a5de</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.1, 2)">
+   <variable>npackdih</variable>
+  </dependency>
+ </version>
 
     <version name="2.2" package="org.openshot.openshot64" type="one-file">
   <file path=".Npackd\Install.bat">"%nih%\InstallInnoSetup.bat"&#13;
@@ -42370,6 +42379,10 @@ if %err% neq 0 exit %err%&#13;
  <version name="21.5.18" package="org.shotcut.shotcut">
   <url>https://github.com/mltframework/shotcut/releases/download/v21.05.18/shotcut-win64-210518.zip</url>
   <hash-sum type="SHA-256">657d0ef6703a2609c222daadfe466a78a930d2fc34a4b20eb4ca4c6bb8a36d7f</hash-sum>
+ </version>
+ <version name="21.6.29" package="org.shotcut.shotcut">
+  <url>https://github.com/mltframework/shotcut/releases/download/v21.06.29/shotcut-win64-210629.zip</url>
+  <hash-sum type="SHA-256">7f7ec6026f910ee4aa9b4b5203acb49111a2014fcca95fdedb0206e0e1437960</hash-sum>
  </version>
 
     <version name="4.4" package="org.sourceforge.ultradefrag.UltraDefrag64">
@@ -48867,6 +48880,20 @@ call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Np
 </file>
   <url>https://github.com/vim/vim-win32-installer/releases/download/v8.2.3083/gvim_8.2.3083_x64.zip</url>
   <hash-sum type="SHA-256">b0739da4388eb09df9b84bbde098086aecdc9dc6653daf1fe2e092aacf73c162</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.19, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
+ <version name="8.2.3095" package="org.vim.Vim64">
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+if %errorlevel% neq 0 exit /b %errorlevel%&#13;
+&#13;
+for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+</file>
+  <url>https://github.com/vim/vim-win32-installer/releases/download/v8.2.3095/gvim_8.2.3095_x64.zip</url>
+  <hash-sum type="SHA-256">6b20146f6b1e194cc6e2df9aedb8a5565e076bab104d3f13229e962b3673f8d9</hash-sum>
   <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.19, 2)">
    <variable>nih</variable>
   </dependency>
