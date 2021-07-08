@@ -20984,6 +20984,17 @@ if %err% neq 0 exit %err%&#13;
    <variable>nih</variable>
   </dependency>
  </version>
+ <version name="2.32.0.2" package="git64" type="one-file">
+  <file path=".Npackd\Install.bat">call "%nih%\InstallInnoSetup.bat"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">call "%nih%\UninstallInnoSetup.bat" unins000.exe&#13;
+</file>
+  <url>https://github.com/git-for-windows/git/releases/download/v2.32.0.windows.1/Git-2.32.0-64-bit.exe</url>
+  <hash-sum type="SHA-256">eed601ef835c3dac08d2e27f6f38b5db7998747c753c87a45b326fbd6c710309</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
 
     <version name="5.2.7" package="gnuplot64" type="one-file">
   <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
@@ -41442,6 +41453,15 @@ verify</file>
   <file path=".Npackd\Install.bat">call "%npackdih%\InstallMSI.bat" INSTALLDIR yes</file>
   <url>https://nodejs.org/dist/v14.17.2/node-v14.17.2-x64.msi</url>
   <hash-sum type="SHA-256">452a94f6db29ea6ef298cb731765c615624eed2c8bd8746c827d5abbed89a5de</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.1, 2)">
+   <variable>npackdih</variable>
+  </dependency>
+ </version>
+ <version name="14.17.3" package="org.nodejs.NodeJS64" type="one-file">
+  <cmd-file path="node.exe"/>
+  <file path=".Npackd\Install.bat">call "%npackdih%\InstallMSI.bat" INSTALLDIR yes</file>
+  <url>https://nodejs.org/dist/v14.17.3/node-v14.17.3-x64.msi</url>
+  <hash-sum type="SHA-256">964e36aa518b17ab04c3a49a0f5641a6bd8a9dc2b57c18272b6f90edf026f5dc</hash-sum>
   <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.1, 2)">
    <variable>npackdih</variable>
   </dependency>
