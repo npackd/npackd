@@ -3660,6 +3660,16 @@ x86_64</description>
   <stars>1</stars>
   <link href="http://www.sublimetext.com/2" rel="changelog"/>
  </package>
+ <package name="sumatrapdf64">
+  <title>Sumatra PDF 64 bit</title>
+  <url>https://www.sumatrapdfreader.org</url>
+  <description>PDF, eBook (ePub, Mobi), XPS, DjVu, CHM, Comic Book (CBZ and CBR) reader
+x86_64</description>
+  <icon>https://lh3.googleusercontent.com/-eJE-cCZaiKo/UQIYIvmaciI/AAAAAAAAAC4/ddEJ3yJ78wc/s800/sumatrapdf_32.png</icon>
+  <license>org.gnu.GPLv2</license>
+  <category>Text</category>
+  <tag>stable64</tag>
+ </package>
  <package name="superf4-64">
   <title>SuperF4 64 bit</title>
   <url>https://github.com/stefansundin/superf4</url>
@@ -22459,7 +22469,7 @@ verify&#13;
   <url>http://files.npackd.org/hashmyfiles64/hashmyfiles64-2.10.zip</url>
   <sha1>8848020689233adeffe2f4299085eb533e1495d5</sha1>
  </version>
- <version name="2.40" package="hashmyfiles64">
+ <version name="2.41" package="hashmyfiles64">
   <important-file path="HashMyFiles.exe" title="HashMyFiles"/>
   <url>http://www.nirsoft.net/utils/hashmyfiles-x64.zip</url>
  </version>
@@ -49058,6 +49068,20 @@ call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Np
    <variable>nih</variable>
   </dependency>
  </version>
+ <version name="8.2.3119" package="org.vim.Vim64">
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+if %errorlevel% neq 0 exit /b %errorlevel%&#13;
+&#13;
+for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+</file>
+  <url>https://github.com/vim/vim-win32-installer/releases/download/v8.2.3119/gvim_8.2.3119_x64.zip</url>
+  <hash-sum type="SHA-256">74f3f79c3e6935de7fe4a6e13e4d9ab2d572d5f4a0bca9fdde8a9025517c868c</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.19, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
 
     <version name="4.2.8.83876" package="org.virtualbox.virtualbox64" type="one-file">
   <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
@@ -55283,6 +55307,15 @@ Prog\setup.exe /Q /IACCEPTSQLSERVERLICENSETERMS /Q /ACTION=install &gt; .Npackd\
   </dependency>
  </version>
 
+    <version name="3.3" package="sumatrapdf64" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">uninstall.exe /S _?=%CD%&#13;
+</file>
+  <url>https://kjkpubsf.sfo2.digitaloceanspaces.com/software/sumatrapdf/rel/SumatraPDF-3.3-64-install.exe</url>
+  <hash-sum type="SHA-256">989310db119afc4c097beb58fd3f3b69127ff2407367211cd1500e039e3eda2b</hash-sum>
+ </version>
+
     <version name="1.2" package="superf4-64" type="one-file">
   <important-file path="SuperF4.exe" title="SuperF4 64 bit"/>
   <file path=".Npackd\Install.bat">set setup=SuperF4-1.2 (x64).7z&#13;
@@ -57729,6 +57762,30 @@ if %err% neq 0 exit /b %err%&#13;
 </file>
   <url>https://downloads.vivaldi.com/stable/Vivaldi.4.0.2312.27.x64.exe</url>
   <hash-sum type="SHA-256">270b34029f7358cea1f728e571ae427904e09f055c1b638d8e1a16bc9b6c4730</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.24, 2)">
+   <variable>ncl</variable>
+  </dependency>
+ </version>
+ <version name="4.0.2312.36" package="vivaldi-browser-64" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" --vivaldi-standalone --do-not-launch-chrome --vivaldi-install-dir="%CD%" &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
+&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">"%ncl%\ncl.exe" remove-scp --title "vivaldi-browser-64"&#13;
+</file>
+  <url>https://downloads.vivaldi.com/stable/Vivaldi.4.0.2312.36.x64.exe</url>
+  <hash-sum type="SHA-256">832461eab831660f6cd2b79d600164c60745cec48b2091fa725b72d61c947902</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.24, 2)">
+   <variable>ncl</variable>
+  </dependency>
+ </version>
+ <version name="4.0.2312.38" package="vivaldi-browser-64" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" --vivaldi-standalone --do-not-launch-chrome --vivaldi-install-dir="%CD%" &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
+&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">"%ncl%\ncl.exe" remove-scp --title "vivaldi-browser-64"&#13;
+</file>
+  <url>https://downloads.vivaldi.com/stable/Vivaldi.4.0.2312.38.x64.exe</url>
+  <hash-sum type="SHA-256">09867cd5b0074a078021279721a4732926aac43b7ea94ca29de49681f5b376ad</hash-sum>
   <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.24, 2)">
    <variable>ncl</variable>
   </dependency>
