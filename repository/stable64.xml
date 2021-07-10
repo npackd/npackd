@@ -425,7 +425,7 @@ x86_64</description>
   <url>http://clang.llvm.org/</url>
   <description>C language family frontend for LLVM
 x86_64</description>
-  <icon>http://upload.wikimedia.org/wikipedia/en/thumb/4/4c/LLVM_Logo.svg/225px-LLVM_Logo.svg.png</icon>
+  <icon>https://llvm.org/img/LLVMWyvernSmall.png</icon>
   <license>org.opensource.BSD2ClauseLicense</license>
   <category>Development</category>
   <tag>stable64</tag>
@@ -8965,6 +8965,15 @@ call "%npackdih%\InstallMSI.bat" APPLICATIONFOLDER yes&#13;
 </file>
   <url>https://download.calibre-ebook.com/5.22.1/calibre-64bit-5.22.1.msi</url>
   <hash-sum type="SHA-256">4fa8724aa756b738b9da4c2c2c2ba0a514b65f7b6f3c7fa9556a006b93a58e62</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.2, 2)">
+   <variable>npackdih</variable>
+  </dependency>
+ </version>
+ <version name="5.23" package="com.calibreebook.Calibre64" type="one-file">
+  <file path=".Npackd\Install.bat">call "%npackdih%\InstallMSI.bat" APPLICATIONFOLDER yes&#13;
+</file>
+  <url>https://download.calibre-ebook.com/5.23.0/calibre-64bit-5.23.0.msi</url>
+  <hash-sum type="SHA-256">97eccc3202f0618b23bb87c5f19d0575ec6fde5c9a50a0305f2fec4968bd027a</hash-sum>
   <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.2, 2)">
    <variable>npackdih</variable>
   </dependency>
@@ -24277,6 +24286,18 @@ rmdir "%name%"&#13;
    <variable>myun</variable>
   </dependency>
  </version>
+ <version name="6" package="jclasslib64" type="one-file">
+  <important-file path="bin\jclasslib.exe" title="jclasslib"/>
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
+"%setup%" -q -dir "%CD%" &amp;&amp; del /f /q "%setup%"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">uninstall.exe -q</file>
+  <url>https://github.com/ingokegel/jclasslib/releases/download/6.0/jclasslib_win64_6_0.exe</url>
+  <hash-sum type="SHA-256">4dfa1f4c161f18961375906dd923ac9044f9fba4087632bb64a91ea0a92e8f46</hash-sum>
+  <dependency package="net.nirsoft.MyUninstaller" versions="[1.74, 2)">
+   <variable>myun</variable>
+  </dependency>
+ </version>
 
     
 
@@ -27256,6 +27277,35 @@ usr\bin\bash.exe -lc 'pacman-key --populate msys2'&#13;
 </file>
   <url>https://repo.msys2.org/distrib/x86_64/msys2-base-x86_64-20210419.tar.xz</url>
   <hash-sum type="SHA-256">3d014d6f5ae519ea5de5b586bff505309c1f42fd8148996d63ba132b24146c85</hash-sum>
+  <dependency package="org.7-zip.SevenZIPA" versions="[19, 100)">
+   <variable>sevenzipa</variable>
+  </dependency>
+  <dependency package="com.googlecode.windows-package-manager.CLU" versions="[1.25, 2)">
+   <variable>clu</variable>
+  </dependency>
+ </version>
+ <version name="2021.6.4" package="msys2_64" type="one-file">
+  <important-file path="mingw64.exe" title="MinGW 64 bit"/>
+  <important-file path="mingw32.exe" title="MinGW"/>
+  <file path=".Npackd\Install.bat">"%sevenzipa%\7za" x "%npackd_package_binary%"&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+if %errorlevel% neq 0 exit /b %errorlevel%&#13;
+&#13;
+for /f "delims=" %%x in ('dir /b *.tar') do set name=%%x&#13;
+"%sevenzipa%\7za" x "%name%"&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+if %errorlevel% neq 0 exit /b %errorlevel%&#13;
+&#13;
+"%clu%\clu" unwrap-dir -p msys64&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+if %errorlevel% neq 0 exit /b %errorlevel%&#13;
+&#13;
+rem see https://github.com/flavorjones/windows-ruby-dev-tools-release/blob/master/packages/ruby-2.4/packaging&#13;
+rem initialize ... things. like gpg keys. and skeleton files.&#13;
+rem see https://github.com/oneclick/rubyinstaller2/issues/79 for background&#13;
+usr\bin\bash.exe -lc 'true'&#13;
+usr\bin\bash.exe -lc 'pacman-key --init'&#13;
+usr\bin\bash.exe -lc 'pacman-key --populate msys2'&#13;
+</file>
+  <url>https://repo.msys2.org/distrib/x86_64/msys2-base-x86_64-20210604.tar.xz</url>
+  <hash-sum type="SHA-256">ebbdb74d54f8ea1eeb1a744d50e47cc649785e9b4328435f290aca5a0a58bd4f</hash-sum>
   <dependency package="org.7-zip.SevenZIPA" versions="[19, 100)">
    <variable>sevenzipa</variable>
   </dependency>
@@ -49068,6 +49118,20 @@ call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Np
    <variable>nih</variable>
   </dependency>
  </version>
+ <version name="8.2.3114" package="org.vim.Vim64">
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+if %errorlevel% neq 0 exit /b %errorlevel%&#13;
+&#13;
+for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+</file>
+  <url>https://github.com/vim/vim-win32-installer/releases/download/v8.2.3114/gvim_8.2.3114_x64.zip</url>
+  <hash-sum type="SHA-256">007645a1aa46cfa167ee07c561ac3e52fa503cf8c9ca1282ecb4b7dbab1c24d4</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.19, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
  <version name="8.2.3119" package="org.vim.Vim64">
   <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
 call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
@@ -49078,6 +49142,20 @@ call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Np
 </file>
   <url>https://github.com/vim/vim-win32-installer/releases/download/v8.2.3119/gvim_8.2.3119_x64.zip</url>
   <hash-sum type="SHA-256">74f3f79c3e6935de7fe4a6e13e4d9ab2d572d5f4a0bca9fdde8a9025517c868c</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.19, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
+ <version name="8.2.3131" package="org.vim.Vim64">
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+if %errorlevel% neq 0 exit /b %errorlevel%&#13;
+&#13;
+for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+</file>
+  <url>https://github.com/vim/vim-win32-installer/releases/download/v8.2.3131/gvim_8.2.3131_x64.zip</url>
+  <hash-sum type="SHA-256">57cdc7222af10a9f05ef50133546a3e182ab0a4a795f68b9269ef7e7ee62fbaf</hash-sum>
   <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.19, 2)">
    <variable>nih</variable>
   </dependency>
@@ -57877,7 +57955,7 @@ if %err% neq 0 exit %err%&#13;
   <url>https://az764295.vo.msecnd.net/stable/a0479759d6e9ea56afa657e454193f72aef85bd0/VSCodeSetup-ia32-1.48.2.exe</url>
   <hash-sum type="SHA-256">013d5ecdb44159c15047472512bef9c76ba934807dbb07a582655f4c5546866d</hash-sum>
  </version>
- <version name="1.57.1" package="vs-code" type="one-file">
+ <version name="1.58" package="vs-code" type="one-file">
   <file path=".Npackd\Install.bat">ren "%npackd_package_binary%" setup.exe&#13;
 setup.exe /SP- /VERYSILENT /SUPPRESSMSGBOXES /NOCANCEL /NORESTART /DIR="%CD%" /SAVEINF="%CD%\.Npackd\InnoSetupInfo.ini" /LOG="%CD%\.Npackd\InnoSetupInstall.log"&#13;
 set err=%errorlevel%&#13;
@@ -57952,7 +58030,7 @@ if %err% neq 0 exit %err%&#13;
   <url>https://az764295.vo.msecnd.net/stable/a0479759d6e9ea56afa657e454193f72aef85bd0/VSCodeSetup-x64-1.48.2.exe</url>
   <hash-sum type="SHA-256">3f8805a29fdd9fbfd7c0d7a9f354ed160256ec6f1f80410e367bf14f37908afb</hash-sum>
  </version>
- <version name="1.57.1" package="vs-code64" type="one-file">
+ <version name="1.58" package="vs-code64" type="one-file">
   <file path=".Npackd\Install.bat">ren "%npackd_package_binary%" setup.exe&#13;
 setup.exe /SP- /VERYSILENT /SUPPRESSMSGBOXES /NOCANCEL /NORESTART /DIR="%CD%" /SAVEINF="%CD%\.Npackd\InnoSetupInfo.ini" /LOG="%CD%\.Npackd\InnoSetupInstall.log"&#13;
 set err=%errorlevel%&#13;
