@@ -17683,7 +17683,7 @@ verify</file>
 taskkill /im kded4.exe /f /t&#13;
 taskkill /im klauncher.exe /f /t&#13;
 verify</file>
-  <url>http://mirror.kumi.systems/kde/ftp/stable/digikam/7.3.0/digiKam-7.3.0-Win64.exe</url>
+  <url>https://github.com/tim-lebedkov/packages/releases/download/2021_07/digikam64-7.3-digiKam-7.3.0-Win64.exe</url>
   <hash-sum type="SHA-256">a5b4e01244cef3c9cf2a5c32fbd03066e70e6905faf371c4081b9f5fd4cf9007</hash-sum>
  </version>
 
@@ -49406,6 +49406,20 @@ call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Np
    <variable>nih</variable>
   </dependency>
  </version>
+ <version name="8.2.3159" package="org.vim.Vim64">
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+if %errorlevel% neq 0 exit /b %errorlevel%&#13;
+&#13;
+for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+</file>
+  <url>https://github.com/vim/vim-win32-installer/releases/download/v8.2.3159/gvim_8.2.3159_x64.zip</url>
+  <hash-sum type="SHA-256">ac0f8dc0278075d74fac090a24546ea1c849d57dc776dd567298b1df1f8bf7e2</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.19, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
 
     <version name="4.2.8.83876" package="org.virtualbox.virtualbox64" type="one-file">
   <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
@@ -56630,6 +56644,12 @@ if %err% neq 0 exit %err%&#13;
 </file>
   <url>https://dist.torproject.org/torbrowser/10.5/torbrowser-install-10.5_en-US.exe</url>
   <hash-sum type="SHA-256">427e9235546196945c4d81f5e1af512c3b61e6e5431c0df91a9c5a22fced2df7</hash-sum>
+ </version>
+ <version name="10.5.2" package="tor64" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
+</file>
+  <url>https://dist.torproject.org/torbrowser/10.5.2/torbrowser-install-10.5.2_en-US.exe</url>
+  <hash-sum type="SHA-256">89c271f578f2ae3b461754db2b783423b3765b6d38db926f5332fb96e7ab6ada</hash-sum>
  </version>
 
     <version name="2.84.9" package="transmission-qt64" type="one-file">
