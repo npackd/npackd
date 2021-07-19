@@ -19263,6 +19263,16 @@ rmdir "%name%"&#13;
    <variable>ncl</variable>
   </dependency>
  </version>
+ <version name="2.5.8" package="firealpaca64" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">"%ncl%\ncl.exe" remove-scp --title "/%npackd_package_name% %npackd_package_version%/i"&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+</file>
+  <url>https://www.portalgraphics.net/firealpaca/bin/FireAlpaca64_setup_2_5_8.exe</url>
+  <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.25, 2)">
+   <variable>ncl</variable>
+  </dependency>
+ </version>
 
     <version name="60.0.8" package="firefox-developer-edition64" type="one-file">
   <file path=".Npackd\Install.bat">echo [Install] &gt; .Npackd\FF.ini&#13;
@@ -20242,6 +20252,15 @@ for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
 </file>
   <url>https://github.com/HandBrake/HandBrake/releases/download/1.3.3/HandBrake-1.3.3-x86_64-Win_GUI.exe</url>
   <hash-sum type="SHA-256">cd71e213d3d334215aa7b56199b62189bf1b64a75c04ea17dc2a7d0469c0aab6</hash-sum>
+  <dependency package="com.microsoft.DotNetRedistributable" versions="[2, 3)"/>
+ </version>
+ <version name="1.4" package="fr.handbrake.HandBrake64" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">uninst.exe /S _?=%CD%&#13;
+</file>
+  <url>https://github.com/HandBrake/HandBrake/releases/download/1.4.0/HandBrake-1.4.0-x86_64-Win_GUI.exe</url>
+  <hash-sum type="SHA-256">6a11ff32517b79a39c28bd969b0f93ac28336d338311c983fee7aac0bfbb84ca</hash-sum>
   <dependency package="com.microsoft.DotNetRedistributable" versions="[2, 3)"/>
  </version>
 
@@ -23938,7 +23957,7 @@ if %err% neq 0 exit %err%&#13;
 </file>
   <file path=".Npackd\Uninstall.bat">call "%nih%\UninstallInnoSetup.bat" unins000.exe&#13;
 </file>
-  <url>https://www.imagemagick.org/download/binaries/ImageMagick-7.1.0-3-Q16-HDRI-x64-dll.exe</url>
+  <url>https://github.com/tim-lebedkov/packages/releases/download/2021_07/imagemagick64-7.1.0.3-ImageMagick-7.1.0-3-Q16-HDRI-x64-dll.exe</url>
   <hash-sum type="SHA-256">6b5d350df7528ec63b6b863b617c472ed17fcf41b928e67724ad1b578474e8f9</hash-sum>
   <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
    <variable>nih</variable>
@@ -58305,6 +58324,18 @@ if %err% neq 0 exit /b %err%&#13;
 </file>
   <url>https://downloads.vivaldi.com/stable/Vivaldi.4.0.2312.38.x64.exe</url>
   <hash-sum type="SHA-256">09867cd5b0074a078021279721a4732926aac43b7ea94ca29de49681f5b376ad</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.24, 2)">
+   <variable>ncl</variable>
+  </dependency>
+ </version>
+ <version name="4.0.2312.41" package="vivaldi-browser-64" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" --vivaldi-standalone --do-not-launch-chrome --vivaldi-install-dir="%CD%" &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
+&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">"%ncl%\ncl.exe" remove-scp --title "vivaldi-browser-64"&#13;
+</file>
+  <url>https://downloads.vivaldi.com/stable/Vivaldi.4.0.2312.41.x64.exe</url>
+  <hash-sum type="SHA-256">651b8a96142a4d0b115ddc52a103444af6a844791ac6b6c1c153406ca1a0857a</hash-sum>
   <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.24, 2)">
    <variable>ncl</variable>
   </dependency>
