@@ -20102,6 +20102,17 @@ verify</file>
   <url>https://download-installer.cdn.mozilla.net/pub/firefox/releases/90.0.1/win64/en-US/Firefox%20Setup%2090.0.1.exe</url>
   <hash-sum type="SHA-256">5af2fb880fa4a8bbadfacc8acf83c5404f3b3bf1b12cd82a77bd6f09697347f0</hash-sum>
  </version>
+ <version name="90.0.2" package="firefox64" type="one-file">
+  <file path=".Npackd\Install.bat">echo [Install] &gt; .Npackd\FF.ini&#13;
+echo InstallDirectoryPath=%CD% &gt;&gt; .Npackd\FF.ini&#13;
+echo QuickLaunchShortcut=false &gt;&gt; .Npackd\FF.ini&#13;
+echo DesktopShortcut=false &gt;&gt; .Npackd\FF.ini&#13;
+"%npackd_package_binary%" /INI="%CD%\.Npackd\FF.ini" &amp;&amp; del /f /q "%npackd_package_binary%"</file>
+  <file path=".Npackd\Uninstall.bat">uninstall\helper.exe /S&#13;
+verify</file>
+  <url>https://download-installer.cdn.mozilla.net/pub/firefox/releases/90.0.2/win64/en-US/Firefox%20Setup%2090.0.2.exe</url>
+  <hash-sum type="SHA-256">f84f83179d0c1811ec448ea565bebdce1282d6c0eed634f740e7befc4173d399</hash-sum>
+ </version>
 
     <version name="1.22" package="focus-image-viewer" type="one-file">
   <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
@@ -24423,6 +24434,18 @@ rmdir "%name%"&#13;
   <url>https://github.com/ipfs/go-ipfs/releases/download/v0.9.0/go-ipfs_v0.9.0_windows-amd64.zip</url>
   <hash-sum type="SHA-256">02f6b513af6d32aeddf948dec2e74fd877f900278ba36881ca284ae45a3ab751</hash-sum>
  </version>
+ <version name="0.9.1" package="ipfs64">
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b go-ipfs*') do set name=%%x&#13;
+cd "%name%"&#13;
+for /f "delims=" %%a in ('dir /b') do (&#13;
+  move "%%a" ..&#13;
+)&#13;
+cd ..&#13;
+rmdir "%name%"&#13;
+</file>
+  <url>https://github.com/ipfs/go-ipfs/releases/download/v0.9.1/go-ipfs_v0.9.1_windows-amd64.zip</url>
+  <hash-sum type="SHA-256">17f324a85de057aefe805e882b42dc3e274768ae59fc9f93e5dc89ca92f7e9c0</hash-sum>
+ </version>
 
     <version name="5" package="jclasslib64" type="one-file">
   <important-file path="bin\jclasslib.exe" title="jclasslib"/>
@@ -25439,6 +25462,14 @@ call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Np
   <file path=".Npackd\Install.bat">call "%npackdih%\InstallMSI.bat" INSTALLLOCATION yes</file>
   <url>https://github.com/tim-lebedkov/packages/releases/download/2021_06/libreoffice64-7.1.4-LibreOffice_7.1.4_Win_x64.msi</url>
   <hash-sum type="SHA-256">a7f0c4573085d0aa8f1dac7dbaf03764e4cf082a56ca95551630828f3a33f44d</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.1, 2)">
+   <variable>npackdih</variable>
+  </dependency>
+ </version>
+ <version name="7.1.5" package="libreoffice64" type="one-file">
+  <file path=".Npackd\Install.bat">call "%npackdih%\InstallMSI.bat" INSTALLLOCATION yes</file>
+  <url>https://download.documentfoundation.org/libreoffice/stable/7.1.5/win/x86_64/LibreOffice_7.1.5_Win_x64.msi</url>
+  <hash-sum type="SHA-256">0512d1015473956b501b695ff003edc942b1ea0d52595934f0ce4beb9929d8b7</hash-sum>
   <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.1, 2)">
    <variable>npackdih</variable>
   </dependency>
@@ -41058,6 +41089,15 @@ rmdir "%name%"&#13;
    <variable>nih</variable>
   </dependency>
  </version>
+ <version name="5.0.1" package="org.mongodb.MongoDB64" type="one-file">
+  <file path=".Npackd\Install.bat">call "%nih%\InstallMSI.bat" INSTALLDIR yes&#13;
+</file>
+  <url>https://fastdl.mongodb.org/windows/mongodb-windows-x86_64-5.0.1-signed.msi</url>
+  <hash-sum type="SHA-256">c0476ee7f9c28547fa60db24fe44ef61fa9c18b0951d9b2ce99727a69b254244</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.1, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
 
     <version name="0.8.1" package="org.nodejs.NodeJS64" type="one-file">
   <file path=".Npackd\AddProperty.vbs">Option Explicit&#13;
@@ -49766,6 +49806,20 @@ call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Np
    <variable>nih</variable>
   </dependency>
  </version>
+ <version name="8.2.3197" package="org.vim.Vim64">
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+if %errorlevel% neq 0 exit /b %errorlevel%&#13;
+&#13;
+for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+</file>
+  <url>https://github.com/vim/vim-win32-installer/releases/download/v8.2.3197/gvim_8.2.3197_x64.zip</url>
+  <hash-sum type="SHA-256">83eab8b9d93328bf3a29afd1fc622ce82c04dd62156829b920897b9c16f5bad1</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.19, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
 
     <version name="4.2.8.83876" package="org.virtualbox.virtualbox64" type="one-file">
   <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
@@ -55168,7 +55222,7 @@ call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Np
   <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b curl*') do set name=%%x&#13;
 call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
 </file>
-  <url>https://curl.haxx.se/windows/dl-7.78.0/curl-7.78.0-win64-mingw.zip</url>
+  <url>https://github.com/tim-lebedkov/packages/releases/download/2021_07/se.haxx.curl.CURL64-7.78-curl-7.78.0-win64-mingw.zip</url>
   <hash-sum type="SHA-256">ed88a2567c76095b12becce481da6040b13a9edb1cdc7e8ad520d58d6cb80eaa</hash-sum>
   <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.19, 2)">
    <variable>nih</variable>
@@ -55388,6 +55442,17 @@ if %err% neq 0 exit %err%&#13;
 </file>
   <url>https://github.com/user-none/Sigil/releases/download//1.6.0/Sigil-1.6.0-Windows-x64-Setup.exe</url>
   <hash-sum type="SHA-256">4685b1d8c741d26394a9c8e8f55d6c7753080da94386e488d03d347c551faf55</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
+ <version name="1.7" package="sigil64" type="one-file">
+  <file path=".Npackd\Install.bat">call "%nih%\InstallInnoSetup.bat"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">call "%nih%\UninstallInnoSetup.bat" unins000.exe&#13;
+</file>
+  <url>https://github.com/user-none/Sigil/releases/download//1.7.0/Sigil-1.7.0-Windows-x64-Setup.exe</url>
+  <hash-sum type="SHA-256">4ad3164927b4c581d9857c4383652046b2363281a7a3b8af1e3addcb92ed760d</hash-sum>
   <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
    <variable>nih</variable>
   </dependency>
