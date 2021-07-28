@@ -1589,7 +1589,7 @@ x86_64</description>
   <category>Communications</category>
   <tag>same-url</tag>
   <tag>stable64</tag>
-  <stars>17</stars>
+  <stars>16</stars>
  </package>
  <package name="google-cloud-sdk64">
   <title>Google Cloud SDK 64 bit</title>
@@ -4772,6 +4772,17 @@ x86_64</description>
    <variable>clu</variable>
   </dependency>
  </version>
+ <version name="1.58" package="atom64">
+  <important-file path="atom.exe" title="Atom"/>
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b Atom*') do set name=%%x&#13;
+"%clu%\clu" unwrap-dir -p "%name%"&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+</file>
+  <url>https://github.com/atom/atom/releases/download/v1.58.0/atom-x64-windows.zip</url>
+  <hash-sum type="SHA-256">5f367cee0eda74e6a47278d0e2b6e0fafd359c5fda9f5d9e5fce194d91e0ea94</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.CLU" versions="[1.25, 2)">
+   <variable>clu</variable>
+  </dependency>
+ </version>
 
     <version name="2.1" package="barrier64" type="one-file">
   <file path=".Npackd\Install.bat">"%nih%\InstallInnoSetup.bat"&#13;
@@ -5782,6 +5793,20 @@ if %errorlevel% neq 0 exit /b %errorlevel%&#13;
 </file>
   <url>https://github.com/Kitware/CMake/releases/download/v3.21.0/cmake-3.21.0-windows-x86_64.zip</url>
   <hash-sum type="SHA-256">c7b88c907a753f4ec86e43ddc89f91f70bf1b011859142f7f29e6d51ea4abb3c</hash-sum>
+ </version>
+ <version name="3.21.1" package="cmake64">
+  <cmd-file path="bin\cmake.exe"/>
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b cmake*') do set name=%%x&#13;
+cd "%name%"        &#13;
+for /f "delims=" %%a in ('dir /b') do (&#13;
+  move "%%a" ..&#13;
+)&#13;
+cd ..&#13;
+rmdir "%name%"&#13;
+if %errorlevel% neq 0 exit /b %errorlevel%&#13;
+</file>
+  <url>https://github.com/Kitware/CMake/releases/download/v3.21.1/cmake-3.21.1-windows-x86_64.zip</url>
+  <hash-sum type="SHA-256">9fba6df0b89be0dc0377f2e77ca272b3f8c38691fe237699de275ea0c2254242</hash-sum>
  </version>
 
     <version name="15" package="codelite" type="one-file">
@@ -22614,6 +22639,19 @@ rmdir "%name%"&#13;
 </file>
   <url>https://dl.google.com/dl/cloudsdk/channels/rapid/downloads/google-cloud-sdk-349.0.0-windows-x86_64.zip</url>
   <hash-sum type="SHA-256">80c742bff07cdd55bfef503690a5babea2c98fed862e94a79644d1ac7e35e54f</hash-sum>
+  <dependency package="org.python.Python" versions="[2.7, 2.8)"/>
+ </version>
+ <version name="350" package="google-cloud-sdk64">
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b google-cloud-sdk*') do set name=%%x&#13;
+cd "%name%"&#13;
+for /f "delims=" %%a in ('dir /b') do (&#13;
+  move "%%a" ..&#13;
+)&#13;
+cd ..&#13;
+rmdir "%name%"&#13;
+</file>
+  <url>https://dl.google.com/dl/cloudsdk/channels/rapid/downloads/google-cloud-sdk-350.0.0-windows-x86_64.zip</url>
+  <hash-sum type="SHA-256">0c0f3a71aebb3aa0ba5371f0cc27f805e11370efe75c06ffb443768489c58c07</hash-sum>
   <dependency package="org.python.Python" versions="[2.7, 2.8)"/>
  </version>
 
@@ -49909,6 +49947,20 @@ call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Np
 </file>
   <url>https://github.com/vim/vim-win32-installer/releases/download/v8.2.3223/gvim_8.2.3223_x64.zip</url>
   <hash-sum type="SHA-256">c00d2149ed5c78633aef1a071916b3753634fb34ad2523a0a239782727d2b6ef</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.19, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
+ <version name="8.2.3227" package="org.vim.Vim64">
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+if %errorlevel% neq 0 exit /b %errorlevel%&#13;
+&#13;
+for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+</file>
+  <url>https://github.com/vim/vim-win32-installer/releases/download/v8.2.3227/gvim_8.2.3227_x64.zip</url>
+  <hash-sum type="SHA-256">49f35780340ba4a0c287ffe41418dd22f3e097059763322d1d45dc58cf7cb9f8</hash-sum>
   <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.19, 2)">
    <variable>nih</variable>
   </dependency>
