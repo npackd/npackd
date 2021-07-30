@@ -277,6 +277,16 @@ x86_64</description>
   <stars>1</stars>
   <link href="https://github.com/atom/atom/releases" rel="changelog"/>
  </package>
+ <package name="audacity64">
+  <title>Audacity 64 bit</title>
+  <url>https://www.audacityteam.org/</url>
+  <description>audio editor
+x86_64</description>
+  <icon>https://lh5.googleusercontent.com/-xKnCkJ9aSr4/UQIX_UvpSBI/AAAAAAAAABQ/U8pBgvn6gW4/s800/audacity_32.png</icon>
+  <license>org.gnu.GPLv2</license>
+  <category>Music</category>
+  <tag>stable64</tag>
+ </package>
  <package name="barrier64">
   <title>Barrier 64 bit</title>
   <url>https://github.com/debauchee/barrier</url>
@@ -4781,6 +4791,19 @@ x86_64</description>
   <hash-sum type="SHA-256">5f367cee0eda74e6a47278d0e2b6e0fafd359c5fda9f5d9e5fce194d91e0ea94</hash-sum>
   <dependency package="com.googlecode.windows-package-manager.CLU" versions="[1.25, 2)">
    <variable>clu</variable>
+  </dependency>
+ </version>
+
+    <version name="3.0.3" package="audacity64" type="one-file">
+  <file path=".Npackd\Install.bat">call "%nih%\InstallInnoSetup.bat"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">call "%nih%\UninstallInnoSetup.bat" unins000.exe&#13;
+</file>
+  <url>https://github.com/audacity/audacity/releases/download/Audacity-3.0.3/audacity-win-3.0.3-64bit.exe</url>
+  <hash-sum type="SHA-256">585c23d3ce19be2e60584004d03ad23af981f2681c0ae9ea22117376bff58d3c</hash-sum>
+  <dependency package="ar.com.buanzo.lame.LameForAudacity" versions="[3.98.3, 4)"/>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
+   <variable>nih</variable>
   </dependency>
  </version>
 
@@ -13198,6 +13221,14 @@ if %err% neq 0 exit %err%&#13;
   <url>https://github.com/sindresorhus/caprine/releases/download/v2.53.0/caprine-setup-2.53.0.exe</url>
   <hash-sum type="SHA-256">1c7f8d00c00781683c85d072713b7586bbc76d107fbd1b6c554c9e65426dfc47</hash-sum>
  </version>
+ <version name="2.54" package="com.sindresorhus.caprine" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">uninstall.exe /S _?=%CD%&#13;
+</file>
+  <url>https://github.com/sindresorhus/caprine/releases/download/v2.54.0/caprine-setup-2.54.0.exe</url>
+  <hash-sum type="SHA-256">dc12abd1ab7f751188b405fd35d24b3b6405943f27b41badff0941015d4cd1a2</hash-sum>
+ </version>
 
     <version name="4.51" package="com.softwareok.QDir64">
   <important-file path="Q-Dir.exe" title="Q-Dir"/>
@@ -16717,7 +16748,7 @@ if %err% neq 0 exit %err%&#13;
   <hash-sum type="SHA-256">986b7bd1bea817013f8b7ab6e93907ac3b8b93f66671612e3f36a5c40d321eea</hash-sum>
  </version>
 
-    <version name="1.7.21486" package="daumpotplayer64" type="one-file">
+    <version name="1.7.21523" package="daumpotplayer64" type="one-file">
   <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
 </file>
   <file path=".Npackd\Uninstall.bat">uninstall.exe /S _?=%CD%&#13;
@@ -51800,6 +51831,41 @@ if %err% neq 0 exit %err%</file>
    <variable>sevenzip</variable>
   </dependency>
  </version>
+ <version name="6.1.26.145957" package="org.virtualbox.virtualbox64" type="one-file">
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
+"%setup%" -x -s -p "%CD%"&#13;
+&#13;
+&#13;
+"%sevenzip%\7z.exe" x common.cab -aos -o"%CD%\common"&#13;
+"%sevenzip%\7z.exe" x "%CD%\common\file_VBoxGuestAdditions.iso" -aos -o"%CD%\common\file_VBoxGuestAdditions"&#13;
+&#13;
+certutil.exe -addstore -f "TrustedPublisher" "%CD%\common\file_VBoxGuestAdditions\cert\oracle-vbox.cer" &gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+&#13;
+for /f "delims=" %%x in ('dir /b *MultiArch_amd64.msi') do set setup=%%x&#13;
+msiexec.exe /qn /norestart /Lime .Npackd\MSI.log /i "%setup%"&#13;
+set err=%errorlevel%&#13;
+type .Npackd\MSI.log&#13;
+rem 3010=restart required&#13;
+if %err% equ 3010 exit 0&#13;
+if %err% neq 0 exit %err%&#13;
+&#13;
+for /f "delims=" %%x in ('dir /b *MultiArch_x86.msi') do set trash=%%x&#13;
+del /q /f "%trash%"&#13;
+&#13;
+if exist "%CD%\common" (rd /s /q "%CD%\common")</file>
+  <file path=".Npackd\Uninstall.bat">for /f "delims=" %%x in ('dir /b *.msi') do set setup=%%x&#13;
+msiexec.exe /qn /norestart /Lime .Npackd\MSI.log /x "%setup%"&#13;
+set err=%errorlevel%&#13;
+type .Npackd\MSI.log&#13;
+rem 3010=restart required&#13;
+if %err% equ 3010 exit 0&#13;
+if %err% neq 0 exit %err%</file>
+  <url>http://download.virtualbox.org/virtualbox/6.1.26/VirtualBox-6.1.26-145957-Win.exe</url>
+  <hash-sum type="SHA-256">eed44e66d898c17cae46a14dff1fc86ac5c321372a7fc46efcef454c1e454307</hash-sum>
+  <dependency package="org.7-zip.SevenZIP64" versions="[9.20, 20)">
+   <variable>sevenzip</variable>
+  </dependency>
+ </version>
 
     <version name="1.9.11" package="org.virtualdub.VirtualDub64">
   <important-file path="Veedub64.exe" title="VirtualDub"/>
@@ -56625,6 +56691,14 @@ rmdir "%name%"</file>
 </file>
   <url>https://sourceforge.net/projects/synfig/files/releases/1.2.2/SynfigStudio-1.2.2-18.09.14-win64-286f1.exe</url>
  </version>
+ <version name="1.4.2" package="synfig-studio64" type="one-file">
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
+"%setup%" /S /D=%CD% &amp;&amp; del /f /q "%setup%"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">uninstall-synfigstudio.exe /S _?=%CD%&#13;
+</file>
+  <url>https://sourceforge.net/projects/synfig/files/releases/1.2.2/SynfigStudio-1.2.2-18.09.14-win64-286f1.exe</url>
+ </version>
 
     <version name="5.0.12" package="sysgauge64" type="one-file">
   <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
@@ -58911,6 +58985,18 @@ if %err% neq 0 exit /b %err%&#13;
    <variable>ncl</variable>
   </dependency>
  </version>
+ <version name="4.1.2369.11" package="vivaldi-browser-64" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" --vivaldi-standalone --do-not-launch-chrome --vivaldi-install-dir="%CD%" &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
+&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">"%ncl%\ncl.exe" remove-scp --title "vivaldi-browser-64"&#13;
+</file>
+  <url>https://downloads.vivaldi.com/stable/Vivaldi.4.1.2369.11.x64.exe</url>
+  <hash-sum type="SHA-256">a267ee8cf20bb83540006eae25fa1e84e94d5eaecbc75e78bb91f89cfaf786b3</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.24, 2)">
+   <variable>ncl</variable>
+  </dependency>
+ </version>
 
     <version name="15.0.2" package="vmware64" type="one-file">
   <file path=".Npackd\Install.bat">"%npackd_package_binary%" /a /s /v"/qn TARGETDIR=."&#13;
@@ -59338,6 +59424,21 @@ if %err% neq 0 exit %err%&#13;
 </file>
   <url>https://sourceforge.net/projects/winmerge/files/stable/2.16.12/WinMerge-2.16.12-x64-Setup.exe</url>
   <hash-sum type="SHA-256">e4b790136347dabf959dfd342f11558569de07aee7680a439645621cf388940e</hash-sum>
+ </version>
+ <version name="2.16.14" package="winmerge64" type="one-file">
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
+"%setup%" /SP- /VERYSILENT /SUPPRESSMSGBOXES /NOCANCEL /NORESTART /DIR="%CD%" /SAVEINF="%CD%\.Npackd\InnoSetupInfo.ini" /LOG="%CD%\.Npackd\InnoSetupInstall.log"&#13;
+set err=%errorlevel%&#13;
+type .Npackd\InnoSetupInstall.log&#13;
+if %err% neq 0 exit %err%&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">unins000.exe /VERYSILENT /SUPPRESSMSGBOXES /NORESTART /LOG="%CD%\.Npackd\InnoSetupUninstall.log"&#13;
+set err=%errorlevel%&#13;
+type .Npackd\InnoSetupUninstall.log&#13;
+if %err% neq 0 exit %err%&#13;
+</file>
+  <url>https://sourceforge.net/projects/winmerge/files/stable/2.16.14/WinMerge-2.16.14-x64-Setup.exe</url>
+  <hash-sum type="SHA-256">d7178d74b363357c37731926d64afc41941aba01b8b687ff4ee7b85a5f6089dc</hash-sum>
  </version>
 
     <version name="3.3.1" package="winyl">
