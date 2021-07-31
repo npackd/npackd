@@ -859,6 +859,7 @@ x86_64</description>
   <license>com.microsoft.VisualCPPRedistributableLicense</license>
   <category>Development</category>
   <tag>stable64</tag>
+  <stars>1</stars>
  </package>
  <package name="com.microsoft.Windows64">
   <title>Windows/64 bit</title>
@@ -9079,6 +9080,15 @@ call "%npackdih%\InstallMSI.bat" APPLICATIONFOLDER yes&#13;
    <variable>npackdih</variable>
   </dependency>
  </version>
+ <version name="5.24" package="com.calibreebook.Calibre64" type="one-file">
+  <file path=".Npackd\Install.bat">call "%npackdih%\InstallMSI.bat" APPLICATIONFOLDER yes&#13;
+</file>
+  <url>https://download.calibre-ebook.com/5.24.0/calibre-64bit-5.24.0.msi</url>
+  <hash-sum type="SHA-256">a151e9181fb7dcb7e86a8b130bd0cf8a8f4bd26652bec44be89499d1eaf9bf78</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.2, 2)">
+   <variable>npackdih</variable>
+  </dependency>
+ </version>
 
     <version name="5.12.256249.2599" package="com.comodo.comodoav64" type="one-file">
   <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.msi') do set setup=%%x&#13;
@@ -13594,7 +13604,7 @@ del Q-Dir.ini&#13;
   <url>http://files.npackd.org/com.softwareok.QDir64-5.99.9.zip</url>
   <sha1>fb6060796fae3fc641ba34fe1f2f8530d7c985a8</sha1>
  </version>
- <version name="9.79" package="com.softwareok.QDir64">
+ <version name="9.81" package="com.softwareok.QDir64">
   <important-file path="Q-Dir_x64.exe" title="Q-Dir"/>
   <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b Q*') do set name=%%x&#13;
 cd "%name%"        &#13;
@@ -16748,7 +16758,7 @@ if %err% neq 0 exit %err%&#13;
   <hash-sum type="SHA-256">986b7bd1bea817013f8b7ab6e93907ac3b8b93f66671612e3f36a5c40d321eea</hash-sum>
  </version>
 
-    <version name="1.7.21523" package="daumpotplayer64" type="one-file">
+    <version name="1.7.21524" package="daumpotplayer64" type="one-file">
   <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
 </file>
   <file path=".Npackd\Uninstall.bat">uninstall.exe /S _?=%CD%&#13;
@@ -27748,6 +27758,35 @@ usr\bin\bash.exe -lc 'pacman-key --populate msys2'&#13;
 </file>
   <url>https://repo.msys2.org/distrib/x86_64/msys2-base-x86_64-20210604.tar.xz</url>
   <hash-sum type="SHA-256">ebbdb74d54f8ea1eeb1a744d50e47cc649785e9b4328435f290aca5a0a58bd4f</hash-sum>
+  <dependency package="org.7-zip.SevenZIPA" versions="[19, 100)">
+   <variable>sevenzipa</variable>
+  </dependency>
+  <dependency package="com.googlecode.windows-package-manager.CLU" versions="[1.25, 2)">
+   <variable>clu</variable>
+  </dependency>
+ </version>
+ <version name="2021.7.25" package="msys2_64" type="one-file">
+  <important-file path="mingw64.exe" title="MinGW 64 bit"/>
+  <important-file path="mingw32.exe" title="MinGW"/>
+  <file path=".Npackd\Install.bat">"%sevenzipa%\7za" x "%npackd_package_binary%"&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+if %errorlevel% neq 0 exit /b %errorlevel%&#13;
+&#13;
+for /f "delims=" %%x in ('dir /b *.tar') do set name=%%x&#13;
+"%sevenzipa%\7za" x "%name%"&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+if %errorlevel% neq 0 exit /b %errorlevel%&#13;
+&#13;
+"%clu%\clu" unwrap-dir -p msys64&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+if %errorlevel% neq 0 exit /b %errorlevel%&#13;
+&#13;
+rem see https://github.com/flavorjones/windows-ruby-dev-tools-release/blob/master/packages/ruby-2.4/packaging&#13;
+rem initialize ... things. like gpg keys. and skeleton files.&#13;
+rem see https://github.com/oneclick/rubyinstaller2/issues/79 for background&#13;
+usr\bin\bash.exe -lc 'true'&#13;
+usr\bin\bash.exe -lc 'pacman-key --init'&#13;
+usr\bin\bash.exe -lc 'pacman-key --populate msys2'&#13;
+</file>
+  <url>https://repo.msys2.org/distrib/x86_64/msys2-base-x86_64-20210725.tar.xz</url>
+  <hash-sum type="SHA-256">4013a9d5e51b448343efc24fc6a324cc999bb96b4c01b13a6bd3c661bb5c8a82</hash-sum>
   <dependency package="org.7-zip.SevenZIPA" versions="[19, 100)">
    <variable>sevenzipa</variable>
   </dependency>
@@ -42123,6 +42162,15 @@ verify</file>
   <file path=".Npackd\Install.bat">call "%npackdih%\InstallMSI.bat" INSTALLDIR yes</file>
   <url>https://nodejs.org/dist/v14.17.3/node-v14.17.3-x64.msi</url>
   <hash-sum type="SHA-256">964e36aa518b17ab04c3a49a0f5641a6bd8a9dc2b57c18272b6f90edf026f5dc</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.1, 2)">
+   <variable>npackdih</variable>
+  </dependency>
+ </version>
+ <version name="14.17.4" package="org.nodejs.NodeJS64" type="one-file">
+  <cmd-file path="node.exe"/>
+  <file path=".Npackd\Install.bat">call "%npackdih%\InstallMSI.bat" INSTALLDIR yes</file>
+  <url>https://nodejs.org/dist/v14.17.4/node-v14.17.4-x64.msi</url>
+  <hash-sum type="SHA-256">e889da1ee06e576de4f31c3e6e0f12c73cfec495a53db4dd166fd58b0fea9f22</hash-sum>
   <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.1, 2)">
    <variable>npackdih</variable>
   </dependency>
