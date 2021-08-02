@@ -1034,8 +1034,7 @@ x86_64</description>
  <package name="com.uvnc.UltraVNC64">
   <title>UltraVNC 64 bit</title>
   <url>http://www.uvnc.com</url>
-  <description>WARNING: there will be no new versions of this package.
-WARNING: this package will not be updated anymore as there are no direct downloads available.&#13;
+  <description>WARNING: this package will not be updated anymore as there are no direct downloads available.&#13;
 &#13;
 remote control
 x86_64</description>
@@ -1043,7 +1042,6 @@ x86_64</description>
   <license>org.gnu.GPLv2</license>
   <category>Communications</category>
   <tag>stable64</tag>
-  <tag>end-of-life</tag>
  </package>
  <package name="com.videolan.VLCMediaPlayer64">
   <title>VLC Media Player 64 bit</title>
@@ -4663,6 +4661,14 @@ x86_64</description>
 </file>
   <url>https://github.com/tim-lebedkov/packages/releases/download/2021_05/anki64-2.1.44-anki-2.1.44-windows.exe</url>
   <hash-sum type="SHA-256">0d71b91cd82416a6f5b02142ed54290f3689abe0261b0ba8406110dd93421be5</hash-sum>
+ </version>
+ <version name="2.1.45" package="anki64" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD%&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">uninstall.exe /S&#13;
+</file>
+  <url>https://github.com/ankitects/anki/releases/download/2.1.45/anki-2.1.45-windows.exe</url>
+  <hash-sum type="SHA-256">750ffd0894dec55b8e152ec2eb178945345a2cb2d8acd40e533a709c262c1ee3</hash-sum>
  </version>
 
     
@@ -14591,6 +14597,21 @@ if %err% neq 0 exit %err%&#13;
 </file>
   <url>http://www.uvnc.eu/download/1206/UltraVNC_1_2_06_X64_Setup.exe</url>
   <sha1>89ee67aa8f1b4fc637bddd83d182fc56352af5f5</sha1>
+ </version>
+ <version name="1.3.2" package="com.uvnc.UltraVNC64" type="one-file">
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
+"%setup%" /SP- /VERYSILENT /SUPPRESSMSGBOXES /NOCANCEL /NORESTART /DIR="%CD%" /SAVEINF="%CD%\.Npackd\InnoSetupInfo.ini" /LOG="%CD%\.Npackd\InnoSetupInstall.log"&#13;
+set err=%errorlevel%&#13;
+type .Npackd\InnoSetupInstall.log&#13;
+if %err% neq 0 exit %err%&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">unins000.exe /VERYSILENT /SUPPRESSMSGBOXES /NORESTART /LOG="%CD%\.Npackd\InnoSetupUninstall.log"&#13;
+set err=%errorlevel%&#13;
+type .Npackd\InnoSetupUninstall.log&#13;
+if %err% neq 0 exit %err%&#13;
+</file>
+  <url>https://www.uvnc.eu/download/132/UltraVNC_1_3_2_X64_Setup.exe</url>
+  <hash-sum type="SHA-256">a4d5764862051e2651a955858f2e643ec7458bf0dd58bad545d1b366787cf9bb</hash-sum>
  </version>
 
     <version name="2.0.6" package="com.videolan.VLCMediaPlayer64">
@@ -25530,6 +25551,19 @@ call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Np
 </file>
   <url>https://github.com/ldc-developers/ldc/releases/download/v1.26.0/ldc2-1.26.0-windows-x64.7z</url>
   <hash-sum type="SHA-256">dd4297095d07aca4d221bdb42315662d3968daec8887379c48fdcac0ca6304bb</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.19, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
+ <version name="1.27" package="ldc64" type="one-file">
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.7z') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+&#13;
+for /f "delims=" %%x in ('dir /b ldc*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+</file>
+  <url>https://github.com/ldc-developers/ldc/releases/download/v1.27.0/ldc2-1.27.0-windows-x64.7z</url>
+  <hash-sum type="SHA-256">a57cb73f4871b0ecccfe0ad489d432c728f249109ccf4a67aaa9602c8e1cf91d</hash-sum>
   <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.19, 2)">
    <variable>nih</variable>
   </dependency>
