@@ -1599,7 +1599,7 @@ x86_64</description>
   <category>Communications</category>
   <tag>same-url</tag>
   <tag>stable64</tag>
-  <stars>17</stars>
+  <stars>18</stars>
  </package>
  <package name="google-cloud-sdk64">
   <title>Google Cloud SDK 64 bit</title>
@@ -10693,6 +10693,24 @@ if %err% neq 0 exit /b %err%&#13;
 </file>
   <url>https://download.visualstudio.microsoft.com/download/pr/8ed43637-a368-42e7-92ff-a4f6085b71ee/7D6F51D1615639B5634E49335BBE14B8A09074EDEA4599B9732AF94D9188A22A/VC_redist.x64.exe</url>
   <hash-sum type="SHA-256">7d6f51d1615639b5634e49335bbe14b8a09074edea4599b9732af94d9188a22a</hash-sum>
+ </version>
+ <version name="14.30.30423" package="com.microsoft.VisualCPPRedistributable64" type="one-file">
+  <file path=".Npackd\Install.bat">vc_redist.x64.exe /q /log .Npackd\VCRInstall.log /norestart&#13;
+set err=%errorlevel%&#13;
+type .Npackd\VCRInstall.log&#13;
+rem 3010=restart required&#13;
+if %err% equ 3010 exit /b 0&#13;
+if %err% neq 0 exit /b %err%&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">vc_redist.x64.exe /q /uninstall /log .Npackd\VCRUninstall.log /norestart&#13;
+set err=%errorlevel%&#13;
+type .Npackd\VCRUninstall.log&#13;
+rem 3010=restart required&#13;
+if %err% equ 3010 exit /b 0&#13;
+if %err% neq 0 exit /b %err%&#13;
+</file>
+  <url>https://download.visualstudio.microsoft.com/download/pr/fc92a69f-aa16-4f81-afbc-bfbd2613a119/597D784B9EDD3E342CAB173436A814AF15C42B16EFC6F631A369C4FC06F6E0F9/VC_redist.x64.exe</url>
+  <hash-sum type="SHA-256">597d784b9edd3e342cab173436a814af15c42b16efc6f631a369c4fc06f6e0f9</hash-sum>
  </version>
 
     <version name="6.2.9200" package="com.microsoft.Windows64"/>
@@ -21463,7 +21481,7 @@ if %err% neq 0 exit %err%&#13;
   <hash-sum type="SHA-256">9ea1de71109eb5f1b41be08cf2f509ad952ba8cdae8ed82507452f2f772686d3</hash-sum>
  </version>
 
-    <version name="92.0.4515.107" package="google-chrome-x64" type="one-file">
+    <version name="92.0.4515.131" package="google-chrome-x64" type="one-file">
   <file path=".Npackd\Install.bat">call "%npackdih%\InstallMSI.bat" TARGETDIR yes&#13;
 </file>
   <url>https://dl.google.com/tag/s/appguid%3D%7B8A69D345-D564-463C-AFF1-A69D9E530F96%7D%26iid%3D%7B0A558A36-0536-8B3F-0AE0-420553CC97F3%7D%26lang%3Den%26browser%3D4%26usagestats%3D0%26appname%3DGoogle%2520Chrome%26needsadmin%3DFalse/edgedl/chrome/install/GoogleChromeStandaloneEnterprise64.msi</url>
@@ -22757,6 +22775,19 @@ rmdir "%name%"&#13;
 </file>
   <url>https://dl.google.com/dl/cloudsdk/channels/rapid/downloads/google-cloud-sdk-350.0.0-windows-x86_64.zip</url>
   <hash-sum type="SHA-256">0c0f3a71aebb3aa0ba5371f0cc27f805e11370efe75c06ffb443768489c58c07</hash-sum>
+  <dependency package="org.python.Python" versions="[2.7, 2.8)"/>
+ </version>
+ <version name="351" package="google-cloud-sdk64">
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b google-cloud-sdk*') do set name=%%x&#13;
+cd "%name%"&#13;
+for /f "delims=" %%a in ('dir /b') do (&#13;
+  move "%%a" ..&#13;
+)&#13;
+cd ..&#13;
+rmdir "%name%"&#13;
+</file>
+  <url>https://dl.google.com/dl/cloudsdk/channels/rapid/downloads/google-cloud-sdk-351.0.0-windows-x86_64.zip</url>
+  <hash-sum type="SHA-256">58badbec4e9b98b4d6355800499a0e9c1d9c816e7e25df1e3a8749798aed41b1</hash-sum>
   <dependency package="org.python.Python" versions="[2.7, 2.8)"/>
  </version>
 
@@ -50183,6 +50214,20 @@ call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Np
 </file>
   <url>https://github.com/vim/vim-win32-installer/releases/download/v8.2.3273/gvim_8.2.3273_x64.zip</url>
   <hash-sum type="SHA-256">684f976661128e79d24726d1eb50b962300fc6d6ed3f0acd15a9900fcb585961</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.19, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
+ <version name="8.2.3279" package="org.vim.Vim64">
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+if %errorlevel% neq 0 exit /b %errorlevel%&#13;
+&#13;
+for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+</file>
+  <url>https://github.com/vim/vim-win32-installer/releases/download/v8.2.3279/gvim_8.2.3279_x64.zip</url>
+  <hash-sum type="SHA-256">805977a288fdd3b002645f6d5c5a75ba020bda9bfcd91357ab713edff9d37499</hash-sum>
   <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.19, 2)">
    <variable>nih</variable>
   </dependency>
