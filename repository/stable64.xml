@@ -4671,6 +4671,14 @@ x86_64</description>
   <url>https://github.com/tim-lebedkov/packages/releases/download/2021_08/anki64-2.1.45-anki-2.1.45-windows.exe</url>
   <hash-sum type="SHA-256">750ffd0894dec55b8e152ec2eb178945345a2cb2d8acd40e533a709c262c1ee3</hash-sum>
  </version>
+ <version name="2.1.46" package="anki64" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD%&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">uninstall.exe /S&#13;
+</file>
+  <url>https://github.com/ankitects/anki/releases/download/2.1.46/anki-2.1.46-windows.exe</url>
+  <hash-sum type="SHA-256">4c72018a76e7919401d2a5fa3377a76d15e6855878b5435c84396dfe534364e9</hash-sum>
+ </version>
 
     
 
@@ -5501,6 +5509,13 @@ call "%nih%\InstallInnoSetup.bat"&#13;
   <url>http://www.claws-mail.org//win32/claws-mail-3.15.0-1-64bit.exe</url>
  </version>
  <version name="3.18.0.1" package="claws-mail64" type="one-file">
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
+"%setup%" /S /D=%CD% &amp;&amp; del /f /q "%setup%"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">claws-mail-uninstall.exe /S _?=%CD%</file>
+  <url>http://www.claws-mail.org//win32/claws-mail-3.15.0-1-64bit.exe</url>
+ </version>
+ <version name="4.0.0.1" package="claws-mail64" type="one-file">
   <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
 "%setup%" /S /D=%CD% &amp;&amp; del /f /q "%setup%"&#13;
 </file>
@@ -16800,7 +16815,7 @@ if %err% neq 0 exit %err%&#13;
   <hash-sum type="SHA-256">986b7bd1bea817013f8b7ab6e93907ac3b8b93f66671612e3f36a5c40d321eea</hash-sum>
  </version>
 
-    <version name="1.7.21524" package="daumpotplayer64" type="one-file">
+    <version name="1.7.21526" package="daumpotplayer64" type="one-file">
   <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
 </file>
   <file path=".Npackd\Uninstall.bat">uninstall.exe /S _?=%CD%&#13;
@@ -36226,6 +36241,16 @@ rmdir "%name%"&#13;
    <variable>NIH</variable>
   </dependency>
  </version>
+ <version name="2.93.2" package="org.blender.Blender64">
+  <important-file path="blender.exe" title="Blender"/>
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b blender*') do set name=%%x&#13;
+"%NIH%\ExtractDir.bat" "%name%"</file>
+  <url>https://download.blender.org/release/Blender2.93/blender-2.93.2-windows-x64.zip</url>
+  <hash-sum type="SHA-256">5911e354b88306348ef28dc16d378ed33d5313fb0cc9adef126b4dfa6b621334</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
+   <variable>NIH</variable>
+  </dependency>
+ </version>
 
     <version name="1.0.3.8" package="org.bluemars.ClipX64" type="one-file">
   <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x
@@ -50232,6 +50257,20 @@ call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Np
    <variable>nih</variable>
   </dependency>
  </version>
+ <version name="8.2.3281" package="org.vim.Vim64">
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+if %errorlevel% neq 0 exit /b %errorlevel%&#13;
+&#13;
+for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+</file>
+  <url>https://github.com/vim/vim-win32-installer/releases/download/v8.2.3281/gvim_8.2.3281_x64.zip</url>
+  <hash-sum type="SHA-256">235af3cbf9e2609dcce19ecd2e32599d6f3b01509241fc8913611b4d7107541e</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.19, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
 
     <version name="4.2.8.83876" package="org.virtualbox.virtualbox64" type="one-file">
   <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
@@ -53778,6 +53817,14 @@ verify</file>
 verify</file>
   <url>https://downloads.sourceforge.net/project/qbittorrent/qbittorrent-win32/qbittorrent-4.3.6/qbittorrent_4.3.6_x64_setup.exe</url>
   <hash-sum type="SHA-256">9b2474f119a21e8b65f600f3069a5eb998974dd5d05df6003af3ff7b26abc5b5</hash-sum>
+ </version>
+ <version name="4.3.7" package="qbittorrent-64-bit" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD%&#13;
+verify</file>
+  <file path=".Npackd\Uninstall.bat">uninst.exe /S _?=%CD%&#13;
+verify</file>
+  <url>https://downloads.sourceforge.net/project/qbittorrent/qbittorrent-win32/qbittorrent-4.3.7/qbittorrent_4.3.7_x64_setup.exe</url>
+  <hash-sum type="SHA-256">d5ac29880966fd8e05daf6c9f95c303ba36caf505767c512d6e4d2f19d802f29</hash-sum>
  </version>
 
     <version name="3.23" package="qcad64" type="one-file">
