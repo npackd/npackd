@@ -25276,6 +25276,14 @@ call "%nih%\InstallMSI.bat" TARGETDIR yes&#13;
   <url>https://download.kde.org/stable/krita/4.4.5/krita-x64-4.4.5-setup.exe</url>
   <hash-sum type="SHA-256">81d13d3e7b950b6d0a2405e419618eb51f02da51f3413eb1e2d8d96af0e45a4a</hash-sum>
  </version>
+ <version name="4.4.7" package="krita64" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">uninstall.exe /S _?=%CD%&#13;
+</file>
+  <url>https://download.kde.org/stable/krita/4.4.7/krita-x64-4.4.7-setup.exe</url>
+  <hash-sum type="SHA-256">e2abad0f03b4e0645e23914b97fb93b44fcd7a96e11445bd9bb19dbdf8d9a4fb</hash-sum>
+ </version>
 
     <version name="7.1.3" package="lazpaint64" type="one-file">
   <file path=".Npackd\Install.bat">"%nih%\InstallInnoSetup.bat"&#13;
@@ -41430,6 +41438,15 @@ rmdir "%name%"&#13;
    <variable>nih</variable>
   </dependency>
  </version>
+ <version name="5.0.2" package="org.mongodb.MongoDB64" type="one-file">
+  <file path=".Npackd\Install.bat">call "%nih%\InstallMSI.bat" INSTALLDIR yes&#13;
+</file>
+  <url>https://fastdl.mongodb.org/windows/mongodb-windows-x86_64-5.0.2-signed.msi</url>
+  <hash-sum type="SHA-256">8c517e4b1598d627ee16c2dd45be90397bf040cf2845eef2aff0b9bc25062228</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.1, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
 
     <version name="0.8.1" package="org.nodejs.NodeJS64" type="one-file">
   <file path=".Npackd\AddProperty.vbs">Option Explicit&#13;
@@ -50339,6 +50356,20 @@ call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Np
 </file>
   <url>https://github.com/vim/vim-win32-installer/releases/download/v8.2.3299/gvim_8.2.3299_x64.zip</url>
   <hash-sum type="SHA-256">ed505cb9827bd54e0d43197b821aaf664e4ff35d154beef4d152a1b3fdb91f37</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.19, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
+ <version name="8.2.3301" package="org.vim.Vim64">
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+if %errorlevel% neq 0 exit /b %errorlevel%&#13;
+&#13;
+for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+</file>
+  <url>https://github.com/vim/vim-win32-installer/releases/download/v8.2.3301/gvim_8.2.3301_x64.zip</url>
+  <hash-sum type="SHA-256">e64dd895aaa1e6d993f60179eec306e5b2d4607a0946cd8d9d64048b4b8d1032</hash-sum>
   <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.19, 2)">
    <variable>nih</variable>
   </dependency>
