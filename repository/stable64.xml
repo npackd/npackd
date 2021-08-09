@@ -5254,6 +5254,16 @@ verify&#13;
    <variable>nih</variable>
   </dependency>
  </version>
+ <version name="1.1.29" package="canton7.SyncTrayzor64" type="one-file">
+  <file path=".Npackd\Install.bat">"%nih%\InstallInnoSetup.bat"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">"%nih%\UninstallInnoSetup.bat" unins000.exe</file>
+  <url>https://github.com/canton7/SyncTrayzor/releases/download/v1.1.29/SyncTrayzorSetup-x64.exe</url>
+  <hash-sum type="SHA-256">bd9631c18b6b0bede73fdb80481784d2e21820e9dbb1d3d7f1b98b5d89745209</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
 
     
 
@@ -50374,6 +50384,20 @@ call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Np
    <variable>nih</variable>
   </dependency>
  </version>
+ <version name="8.2.3313" package="org.vim.Vim64">
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+if %errorlevel% neq 0 exit /b %errorlevel%&#13;
+&#13;
+for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+</file>
+  <url>https://github.com/vim/vim-win32-installer/releases/download/v8.2.3313/gvim_8.2.3313_x64.zip</url>
+  <hash-sum type="SHA-256">b684a78d753951ea8b87a75c0c127bb6a32e22026fc774d470c9c3fa0b52a5e9</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.19, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
 
     <version name="4.2.8.83876" package="org.virtualbox.virtualbox64" type="one-file">
   <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
@@ -59383,6 +59407,18 @@ if %err% neq 0 exit /b %err%&#13;
 </file>
   <url>https://downloads.vivaldi.com/stable/Vivaldi.4.1.2369.11.x64.exe</url>
   <hash-sum type="SHA-256">a267ee8cf20bb83540006eae25fa1e84e94d5eaecbc75e78bb91f89cfaf786b3</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.24, 2)">
+   <variable>ncl</variable>
+  </dependency>
+ </version>
+ <version name="4.1.2369.15" package="vivaldi-browser-64" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" --vivaldi-standalone --do-not-launch-chrome --vivaldi-install-dir="%CD%" &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
+&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">"%ncl%\ncl.exe" remove-scp --title "vivaldi-browser-64"&#13;
+</file>
+  <url>https://downloads.vivaldi.com/stable/Vivaldi.4.1.2369.15.x64.exe</url>
+  <hash-sum type="SHA-256">1a981de8adf132c8fc433e5330890033dc9647ba4edfd82a0e02c344d8705f21</hash-sum>
   <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.24, 2)">
    <variable>ncl</variable>
   </dependency>
