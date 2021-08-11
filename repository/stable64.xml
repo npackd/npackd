@@ -20320,6 +20320,17 @@ verify</file>
   <url>https://download-installer.cdn.mozilla.net/pub/firefox/releases/90.0.2/win64/en-US/Firefox%20Setup%2090.0.2.exe</url>
   <hash-sum type="SHA-256">f84f83179d0c1811ec448ea565bebdce1282d6c0eed634f740e7befc4173d399</hash-sum>
  </version>
+ <version name="91" package="firefox64" type="one-file">
+  <file path=".Npackd\Install.bat">echo [Install] &gt; .Npackd\FF.ini&#13;
+echo InstallDirectoryPath=%CD% &gt;&gt; .Npackd\FF.ini&#13;
+echo QuickLaunchShortcut=false &gt;&gt; .Npackd\FF.ini&#13;
+echo DesktopShortcut=false &gt;&gt; .Npackd\FF.ini&#13;
+"%npackd_package_binary%" /INI="%CD%\.Npackd\FF.ini" &amp;&amp; del /f /q "%npackd_package_binary%"</file>
+  <file path=".Npackd\Uninstall.bat">uninstall\helper.exe /S&#13;
+verify</file>
+  <url>https://download-installer.cdn.mozilla.net/pub/firefox/releases/91.0/win64/en-US/Firefox%20Setup%2091.0.exe</url>
+  <hash-sum type="SHA-256">faf96b5057a48efb21becc33b3a1ddc78938cf83273e1f5da9798b52550e9be5</hash-sum>
+ </version>
 
     
 
@@ -22827,6 +22838,19 @@ rmdir "%name%"&#13;
 </file>
   <url>https://dl.google.com/dl/cloudsdk/channels/rapid/downloads/google-cloud-sdk-351.0.0-windows-x86_64.zip</url>
   <hash-sum type="SHA-256">58badbec4e9b98b4d6355800499a0e9c1d9c816e7e25df1e3a8749798aed41b1</hash-sum>
+  <dependency package="org.python.Python" versions="[2.7, 2.8)"/>
+ </version>
+ <version name="352" package="google-cloud-sdk64">
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b google-cloud-sdk*') do set name=%%x&#13;
+cd "%name%"&#13;
+for /f "delims=" %%a in ('dir /b') do (&#13;
+  move "%%a" ..&#13;
+)&#13;
+cd ..&#13;
+rmdir "%name%"&#13;
+</file>
+  <url>https://dl.google.com/dl/cloudsdk/channels/rapid/downloads/google-cloud-sdk-352.0.0-windows-x86_64.zip</url>
+  <hash-sum type="SHA-256">1de864958cd9199f3efaba0953b4a6744d2214420ed4b5a31f7396b43970bc50</hash-sum>
   <dependency package="org.python.Python" versions="[2.7, 2.8)"/>
  </version>
 
@@ -50416,6 +50440,20 @@ call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Np
    <variable>nih</variable>
   </dependency>
  </version>
+ <version name="8.2.3322" package="org.vim.Vim64">
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+if %errorlevel% neq 0 exit /b %errorlevel%&#13;
+&#13;
+for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+</file>
+  <url>https://github.com/vim/vim-win32-installer/releases/download/v8.2.3322/gvim_8.2.3322_x64.zip</url>
+  <hash-sum type="SHA-256">df9d5507de462f511d5f5c405925897b0331b207c73647c59837c959baf25287</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.19, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
 
     <version name="4.2.8.83876" package="org.virtualbox.virtualbox64" type="one-file">
   <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
@@ -57868,6 +57906,12 @@ if %err% neq 0 exit %err%&#13;
 </file>
   <url>https://dist.torproject.org/torbrowser/10.5.2/torbrowser-install-10.5.2_en-US.exe</url>
   <hash-sum type="SHA-256">89c271f578f2ae3b461754db2b783423b3765b6d38db926f5332fb96e7ab6ada</hash-sum>
+ </version>
+ <version name="10.5.4" package="tor64" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
+</file>
+  <url>https://dist.torproject.org/torbrowser/10.5.4/torbrowser-install-10.5.4_en-US.exe</url>
+  <hash-sum type="SHA-256">76ce8f569eb7d38294a4b55a4600aa754f949e0b213455f928cfa5f846ca4532</hash-sum>
  </version>
 
     <version name="2.84.9" package="transmission-qt64" type="one-file">
