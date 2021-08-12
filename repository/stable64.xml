@@ -670,15 +670,12 @@ x86_64</description>
  <package name="com.cpuid.CPUZ64">
   <title>CPU-Z 64 bit</title>
   <url>http://www.cpuid.com/softwares/cpu-z.html</url>
-  <description>WARNING: there will be no new versions of this package.
-WARNING: there will be no updates to this package anymore. Since 1.69.2 the installer contains unrelated software.&#13;
-system profiler that detects the central processing unit, RAM, motherboard chipset and other hardware features
+  <description>system profiler that detects the central processing unit, RAM, motherboard chipset and other hardware features
 x86_64</description>
   <icon>https://lh4.googleusercontent.com/-CuqRcl9NOMc/URN5R0wtVmI/AAAAAAAAAY0/A2-mU7IdIKo/s800/-cpuz.png</icon>
   <license>org.wikipedia.Freeware</license>
   <category>Tools</category>
   <tag>stable64</tag>
-  <tag>end-of-life</tag>
   <stars>2</stars>
  </package>
  <package name="com.dependencywalker.DependencyWalker64">
@@ -1694,15 +1691,11 @@ x86_64</description>
  <package name="hwinfo64">
   <title>HWiNFO 64 bit</title>
   <url>http://www.hwinfo.com/</url>
-  <description>WARNING: there will be no new versions of this package.
-WARNING: there will be no updates to this package anymore as there are no direct downloads available.&#13;
-&#13;
-professional hardware information and diagnostic tools supporting latest components, industry technologies and standards. Both tools are designed to collect and present the maximum amount of information possible about computers hardware which makes them suitable for users searching for driver updates, computer manufacturers, system integrators and technical experts as well. Retrieved information is presented in a logical and easily understandable form and can be exported into various types of reports.
+  <description>professional hardware information and diagnostic tools supporting latest components, industry technologies and standards. Both tools are designed to collect and present the maximum amount of information possible about computers hardware which makes them suitable for users searching for driver updates, computer manufacturers, system integrators and technical experts as well. Retrieved information is presented in a logical and easily understandable form and can be exported into various types of reports.
 x86_64</description>
   <icon>https://www.hwinfo.com/favicon.ico</icon>
   <category>Tools</category>
   <tag>stable64</tag>
-  <tag>end-of-life</tag>
  </package>
  <package name="ie.heidi.eraser.eraser64">
   <title>Eraser 64 bit</title>
@@ -2861,15 +2854,13 @@ x86_64</description>
  </package>
  <package name="org.miranda-im.MirandaIM64">
   <title>Miranda IM 64 bit</title>
-  <url>http://www.miranda-im.org</url>
-  <description>WARNING: there will be no new versions of this package.
-instant messenger
+  <url>https://www.miranda-ng.org/en/</url>
+  <description>instant messenger
 x86_64</description>
   <icon>https://lh6.googleusercontent.com/-8kKZgb5Ll0I/UQt6U0y7o-I/AAAAAAAAAOw/R_uWp5ZdjDs/s800/miranda_32.png</icon>
   <license>org.gnu.GPLv2</license>
   <category>Communications</category>
   <tag>stable64</tag>
-  <tag>end-of-life</tag>
  </package>
  <package name="org.mongodb.MongoDB64">
   <title>MongoDB 64 bit</title>
@@ -9261,6 +9252,11 @@ if %err% neq 0 exit %err%</file>
   <important-file path="cpuz_x64.exe" title="CPU-Z"/>
   <url>http://files.npackd.org/com.cpuid.CPUZ64-1.69.zip</url>
   <sha1>55f7ef5a45005d8c008942aa63a5f58ea2c60ef2</sha1>
+ </version>
+ <version name="1.96" package="com.cpuid.CPUZ64">
+  <important-file path="cpuz_x64.exe" title="CPU-Z"/>
+  <url>https://download.cpuid.com/cpu-z/cpu-z_1.96-en.zip</url>
+  <hash-sum type="SHA-256">c8445a136b2a63a356e558dfc6e500d625859f05afe36e75391e94f407382f61</hash-sum>
  </version>
 
     <version name="2.2.6000" package="com.dependencywalker.DependencyWalker64">
@@ -23234,6 +23230,16 @@ if %err% neq 0 exit %err%&#13;
 </file>
   <url>https://sourceforge.net/projects/npackd/files/hwinfo64/hwinfo64-4.62.exe</url>
   <sha1>da73cbb15556d83e2042edea4143001ff9045150</sha1>
+ </version>
+ <version name="7.6" package="hwinfo64" type="one-file">
+  <file path=".Npackd\Install.bat">"%nih%\InstallInnoSetup.bat"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">"%nih%\UninstallInnoSetup.bat" unins000.exe</file>
+  <url>https://www.hwinfo.com/files/hwi_706.exe</url>
+  <hash-sum type="SHA-256">7920e39ebb373101829ecda3f7a209a09552275d99c729d2f9c365c60b8dcb07</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
+   <variable>nih</variable>
+  </dependency>
  </version>
 
     <version name="6.0.10.2620" package="ie.heidi.eraser.eraser64" type="one-file">
@@ -41031,6 +41037,16 @@ if %errorlevel% neq 0 exit /b %errorlevel%&#13;
    <variable>sevenzipa</variable>
   </dependency>
  </version>
+ <version name="0.95.13.1" package="org.miranda-im.MirandaIM64" type="one-file">
+  <important-file path="miranda64.exe" title="Miranda IM"/>
+  <file path=".Npackd\Install.bat">"%sevenzipa%\7za" x "%npackd_package_binary%"&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
+</file>
+  <url>https://www.miranda-ng.org/distr/stable/miranda-ng-v0.95.13.1_x64.7z</url>
+  <hash-sum type="SHA-256">2a738e2e1cc25c3325a1a367f5fb60f3ef8208687d34ddd7da599d9964cd91a7</hash-sum>
+  <dependency package="org.7-zip.SevenZIPA" versions="[19, 100)">
+   <variable>sevenzipa</variable>
+  </dependency>
+ </version>
 
     <version name="2.2" package="org.mongodb.MongoDB64">
   <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b mongo*') do set name=%%x
@@ -50450,6 +50466,20 @@ call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Np
 </file>
   <url>https://github.com/vim/vim-win32-installer/releases/download/v8.2.3322/gvim_8.2.3322_x64.zip</url>
   <hash-sum type="SHA-256">df9d5507de462f511d5f5c405925897b0331b207c73647c59837c959baf25287</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.19, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
+ <version name="8.2.3326" package="org.vim.Vim64">
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+if %errorlevel% neq 0 exit /b %errorlevel%&#13;
+&#13;
+for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+</file>
+  <url>https://github.com/vim/vim-win32-installer/releases/download/v8.2.3326/gvim_8.2.3326_x64.zip</url>
+  <hash-sum type="SHA-256">e48ef7834d19f621524b3c533c3ab86f0a3ace60f34c079a8720901ddea319dd</hash-sum>
   <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.19, 2)">
    <variable>nih</variable>
   </dependency>
