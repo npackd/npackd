@@ -25716,6 +25716,19 @@ call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Np
    <variable>nih</variable>
   </dependency>
  </version>
+ <version name="1.27.1" package="ldc64" type="one-file">
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.7z') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+&#13;
+for /f "delims=" %%x in ('dir /b ldc*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+</file>
+  <url>https://github.com/ldc-developers/ldc/releases/download/v1.27.1/ldc2-1.27.1-windows-x64.7z</url>
+  <hash-sum type="SHA-256">9ce8ce8f50fbdce57dfa55a846eb103274bb6022ef6e2c06ed08b61fb8b5daf4</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.19, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
 
     <version name="7.0.3" package="libreoffice64" type="one-file">
   <file path=".Npackd\Install.bat">call "%npackdih%\InstallMSI.bat" INSTALLLOCATION yes</file>
@@ -50599,6 +50612,20 @@ call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Np
    <variable>nih</variable>
   </dependency>
  </version>
+ <version name="8.2.3346" package="org.vim.Vim64">
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+if %errorlevel% neq 0 exit /b %errorlevel%&#13;
+&#13;
+for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+</file>
+  <url>https://github.com/vim/vim-win32-installer/releases/download/v8.2.3346/gvim_8.2.3346_x64.zip</url>
+  <hash-sum type="SHA-256">a64a974461e27dee0901785705d83472c45bd4646a7f619833948d161558fdf2</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.19, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
 
     <version name="4.2.8.83876" package="org.virtualbox.virtualbox64" type="one-file">
   <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
@@ -54925,6 +54952,7 @@ if %errorlevel% equ 3010 verify</file>
   <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.24, 2)">
    <variable>ncl</variable>
   </dependency>
+  <dependency package="com.microsoft.VisualCPPRedistributable" versions="[14,15)"/>
  </version>
 
     <version name="1.17.2" package="qtox64" type="one-file">
@@ -60251,8 +60279,6 @@ rmdir "%name%"&#13;
   <url>https://github.com/xmake-io/xmake/releases/download/v2.5.6/xmake-v2.5.6.win64.zip</url>
   <hash-sum type="SHA-256">69be3076824f05a47fea33cd329f5c72b764e8a4f2fb0aa73afc43f3418ee0f9</hash-sum>
  </version>
-
-    
 
     <version name="3.18.1" package="yed64" type="one-file">
   <file path=".Npackd\Install.bat">"%npackd_package_binary%" -q -console -dir "%CD%" -varfile .Npackd\response.varfile &gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
