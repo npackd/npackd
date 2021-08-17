@@ -4105,6 +4105,35 @@ x86_64</description>
   <link href="https://xmake.io/#/about/changelog" rel="changelog"/>
   <link href="https://github.com/xmake-io/xmake/issues" rel="issues"/>
  </package>
+ <package name="xmedia-recode">
+  <title>Xmedia Recode</title>
+  <url>https://www.xmedia-recode.de/en/index.php</url>
+  <description>XMedia Recode is a free video and audio converter.
+x86_64</description>
+  <icon>https://img.utdstc.com/icon/104/74c/10474cbd50370b7d0ccdaac8a617825bb2d3805814e845ac608dc54b5cc7a10d:200</icon>
+  <license>org.wikipedia.Freeware</license>
+  <category>Video</category>
+  <tag>stable64</tag>
+  <link href="https://img.utdstc.com/screen/dec/f1c/decf1c84e0046e0a58dae091831b737f23afd77b6797f741e01a3ae17b60501d:800" rel="screenshot"/>
+  <link href="https://img.utdstc.com/screen/b89/be9/b89be9ccbdc4d2361e9233827060bdb59d9763c7b362fa002ffd32d9db279c9f:800" rel="screenshot"/>
+  <link href="https://img.utdstc.com/screen/5fd/cf7/5fdcf7fc7934901bfcfaa9376993e04f6745de2fab7c775eeee4dabb52c4780d:800" rel="screenshot"/>
+  <link href="https://img.utdstc.com/screen/a86/f69/a86f69404e8c24cebcab37def43800c7e6319ba09424a937472d6b080f242832:800" rel="screenshot"/>
+ </package>
+ <package name="xmedia-recode64">
+  <title>Xmedia Recode 64 bit</title>
+  <url>https://www.xmedia-recode.de/en/index.php</url>
+  <description>XMedia Recode is a free video and audio converter.
+x86_64</description>
+  <icon>https://img.utdstc.com/icon/104/74c/10474cbd50370b7d0ccdaac8a617825bb2d3805814e845ac608dc54b5cc7a10d:200</icon>
+  <license>org.wikipedia.Freeware</license>
+  <category>Video</category>
+  <tag>stable64</tag>
+  <stars>1</stars>
+  <link href="https://img.utdstc.com/screen/dec/f1c/decf1c84e0046e0a58dae091831b737f23afd77b6797f741e01a3ae17b60501d:800" rel="screenshot"/>
+  <link href="https://img.utdstc.com/screen/b89/be9/b89be9ccbdc4d2361e9233827060bdb59d9763c7b362fa002ffd32d9db279c9f:800" rel="screenshot"/>
+  <link href="https://img.utdstc.com/screen/5fd/cf7/5fdcf7fc7934901bfcfaa9376993e04f6745de2fab7c775eeee4dabb52c4780d:800" rel="screenshot"/>
+  <link href="https://img.utdstc.com/screen/a86/f69/a86f69404e8c24cebcab37def43800c7e6319ba09424a937472d6b080f242832:800" rel="screenshot"/>
+ </package>
  <package name="yed64">
   <title>yEd 64 bit</title>
   <url>http://www.yworks.com/de/products_yed_about.html</url>
@@ -17764,6 +17793,14 @@ if %err% neq 0 exit %err%&#13;
   <url>http://dbeaver.jkiss.org/files/21.1.4/dbeaver-ce-21.1.4-x86_64-setup.exe</url>
   <hash-sum type="SHA-256">f8bda1a198dd097f4cc093c1d4eb56c6a552441373fe6777eabe38001fcb3357</hash-sum>
  </version>
+ <version name="21.1.5" package="dbeaver64" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" /allusers /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">uninstall.exe /allusers /S _?=%CD%&#13;
+</file>
+  <url>http://dbeaver.jkiss.org/files/21.1.5/dbeaver-ce-21.1.5-x86_64-setup.exe</url>
+  <hash-sum type="SHA-256">16c039292b896f3ccefde7ac2e81841ba39d5beab8c1a27297a91412579643b6</hash-sum>
+ </version>
 
     <version name="0.825" package="dcplusplus64">
   <important-file path="DCPlusPlus.exe" title="DC++"/>
@@ -30875,6 +30912,14 @@ if %err% neq 0 exit %err%&#13;
 </file>
   <url>http://downloads.sourceforge.net/project/smplayer/SMPlayer/21.1.0/smplayer-21.1.0-x64.exe</url>
   <hash-sum type="SHA-256">9d956f4f868435fa4bdf7caa97dc12aa7d891ea36e088e57d88481328d6851c8</hash-sum>
+ </version>
+ <version name="21.8" package="net.sourceforge.smplayer.SMPlayer64" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD%&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">uninst.exe /S _?=%CD%        &#13;
+</file>
+  <url>http://downloads.sourceforge.net/project/smplayer/SMPlayer/21.8.0/smplayer-21.8.0-x64.exe</url>
+  <hash-sum type="SHA-256">53222ad52cb2144231773c49877d2ad2bcdfbc55e5c4c6b50805621e2149d8bc</hash-sum>
  </version>
 
     <version name="2.42" package="net.sourceforge.strongdc.StrongDCPlusPlus64" type="one-file">
@@ -50626,6 +50671,20 @@ call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Np
    <variable>nih</variable>
   </dependency>
  </version>
+ <version name="8.2.3354" package="org.vim.Vim64">
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+if %errorlevel% neq 0 exit /b %errorlevel%&#13;
+&#13;
+for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+</file>
+  <url>https://github.com/vim/vim-win32-installer/releases/download/v8.2.3354/gvim_8.2.3354_x64.zip</url>
+  <hash-sum type="SHA-256">e40e260aae5a404f19b3e989c70c5b7fe2a2f7c01c75d7e7544e2b86364732e1</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.19, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
 
     <version name="4.2.8.83876" package="org.virtualbox.virtualbox64" type="one-file">
   <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
@@ -60278,6 +60337,48 @@ rmdir "%name%"&#13;
 </file>
   <url>https://github.com/xmake-io/xmake/releases/download/v2.5.6/xmake-v2.5.6.win64.zip</url>
   <hash-sum type="SHA-256">69be3076824f05a47fea33cd329f5c72b764e8a4f2fb0aa73afc43f3418ee0f9</hash-sum>
+ </version>
+
+    <version name="3.5.3.4" package="xmedia-recode" type="one-file">
+  <file path=".Npackd\Install.bat">"%nih%\InstallInnoSetup.bat"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">"%nih%\UninstallInnoSetup.bat" unins000.exe</file>
+  <url>https://www.xmedia-recode.de/download/XMediaRecode3534_setup.exe</url>
+  <hash-sum type="SHA-256">3b714ae97d37e1f0bfb1ee23afd44a045c862150866d59302ff141730f983dcb</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
+ <version name="3.5.4.3" package="xmedia-recode" type="one-file">
+  <file path=".Npackd\Install.bat">"%nih%\InstallInnoSetup.bat"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">"%nih%\UninstallInnoSetup.bat" unins000.exe</file>
+  <url>https://www.xmedia-recode.de/download/XMediaRecode3543_setup.exe</url>
+  <hash-sum type="SHA-256">606f0f3160d968667327b9fed1a60a4970bfca5ff2219013905ca75e54920814</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
+
+    <version name="3.5.3.4" package="xmedia-recode64" type="one-file">
+  <file path=".Npackd\Install.bat">"%nih%\InstallInnoSetup.bat"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">"%nih%\UninstallInnoSetup.bat" unins000.exe</file>
+  <url>https://www.xmedia-recode.de/download/XMediaRecode3534_x64_setup.exe</url>
+  <hash-sum type="SHA-256">493a4ee4112e2f13195fb21fd8de0f1e0226f51fecc221cefde301e800e8ab77</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
+ <version name="3.5.4.3" package="xmedia-recode64" type="one-file">
+  <file path=".Npackd\Install.bat">"%nih%\InstallInnoSetup.bat"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">"%nih%\UninstallInnoSetup.bat" unins000.exe</file>
+  <url>https://www.xmedia-recode.de/download/XMediaRecode3543_x64_setup.exe</url>
+  <hash-sum type="SHA-256">97134ff3e6c72f45de18e726b0ddc18979af51093dae036af3a13c0f0320bb11</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
+   <variable>nih</variable>
+  </dependency>
  </version>
 
     <version name="3.18.1" package="yed64" type="one-file">
