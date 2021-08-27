@@ -9316,6 +9316,11 @@ if %err% neq 0 exit %err%</file>
   <url>https://download.cpuid.com/cpu-z/cpu-z_1.96-en.zip</url>
   <hash-sum type="SHA-256">c8445a136b2a63a356e558dfc6e500d625859f05afe36e75391e94f407382f61</hash-sum>
  </version>
+ <version name="1.97" package="com.cpuid.CPUZ64">
+  <important-file path="cpuz_x64.exe" title="CPU-Z"/>
+  <url>https://download.cpuid.com/cpu-z/cpu-z_1.97-en.zip</url>
+  <hash-sum type="SHA-256">0557b7c27f4fc63face40028a96d7c651a1af23de5f89b088fbeb6c5350595bb</hash-sum>
+ </version>
 
     <version name="2.2.6000" package="com.dependencywalker.DependencyWalker64">
   <important-file path="depends.exe" title="Dependency Walker"/>
@@ -32631,7 +32636,7 @@ mkdir %trash%&#13;
 move NppShell*.dll %trash%&#13;
 verify&#13;
 		</file>
-  <url>https://github.com/notepad-plus-plus/notepad-plus-plus/releases/download/v8.1.4/npp.8.1.4.Installer.x64.exe</url>
+  <url>https://github.com/tim-lebedkov/packages/releases/download/2021_08/notepadpp64-8.1.4-npp.8.1.4.Installer.x64.exe</url>
   <hash-sum type="SHA-256">27e6e296dbe7c5d5f069604c1f0f97a4d5e09f9c4bbb4e98f328ca0d77179e9b</hash-sum>
  </version>
 
@@ -33316,7 +33321,7 @@ WshShell.AppActivate("Uninstall");&#13;
 WScript.Sleep(10000);&#13;
 WshShell.SendKeys("{ESC}");&#13;
 </file>
-  <url>https://download.openmpt.org/archive/openmpt/1.29/OpenMPT-1.29.12.00-Setup-x64.exe</url>
+  <url>https://github.com/tim-lebedkov/packages/releases/download/2021_08/openmpt64-1.29.12-OpenMPT-1.29.12.00-Setup-x64.exe</url>
   <hash-sum type="SHA-256">8f21c1136ef6408c794062cb810d60952c4c20dcf382c97eda06f27f44f798ab</hash-sum>
  </version>
 
@@ -50969,6 +50974,20 @@ call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Np
 </file>
   <url>https://github.com/vim/vim-win32-installer/releases/download/v8.2.3370/gvim_8.2.3370_x64.zip</url>
   <hash-sum type="SHA-256">88face1e5c35f09221ab36930426a8ee3e8e020834db2035f893b0eadb61ab71</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.19, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
+ <version name="8.2.3376" package="org.vim.Vim64">
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+if %errorlevel% neq 0 exit /b %errorlevel%&#13;
+&#13;
+for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+</file>
+  <url>https://github.com/vim/vim-win32-installer/releases/download/v8.2.3376/gvim_8.2.3376_x64.zip</url>
+  <hash-sum type="SHA-256">553dfea5e6d5bc7a653ac9719acd7ffc1a32733c3ed6fe478f522c50c9e734cc</hash-sum>
   <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.19, 2)">
    <variable>nih</variable>
   </dependency>
