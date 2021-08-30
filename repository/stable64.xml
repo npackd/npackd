@@ -4729,6 +4729,14 @@ x86_64</description>
   <url>https://github.com/tim-lebedkov/packages/releases/download/2021_08/anki64-2.1.46-anki-2.1.46-windows.exe</url>
   <hash-sum type="SHA-256">4c72018a76e7919401d2a5fa3377a76d15e6855878b5435c84396dfe534364e9</hash-sum>
  </version>
+ <version name="2.1.47" package="anki64" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD%&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">uninstall.exe /S&#13;
+</file>
+  <url>https://github.com/ankitects/anki/releases/download/2.1.47/anki-2.1.47-windows.exe</url>
+  <hash-sum type="SHA-256">2dd0a9a9b0bc003558f608cabd30c2e51ccae95146517da8a91f6698c7660816</hash-sum>
+ </version>
 
     
 
@@ -19394,6 +19402,16 @@ rmdir "%name%"&#13;
    <variable>ncl</variable>
   </dependency>
  </version>
+ <version name="2.6.2" package="firealpaca" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">"%ncl%\ncl.exe" remove-scp --title "/%npackd_package_name% %npackd_package_version%/i"&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+</file>
+  <url>https://www.portalgraphics.net/firealpaca/bin/FireAlpaca32_setup_2_6_2.exe</url>
+  <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.25, 2)">
+   <variable>ncl</variable>
+  </dependency>
+ </version>
 
     <version name="2.3.5" package="firealpaca64" type="one-file">
   <file path=".Npackd\Install.bat">"%npackd_package_binary%" &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
@@ -29359,6 +29377,15 @@ rmdir /s /q "%name%"&#13;
 </file>
   <url>https://github.com/aria2/aria2/releases/download/release-1.35.0/aria2-1.35.0-win-64bit-build1.zip</url>
   <hash-sum type="SHA-256">81a231aa72966cf9a7a63bf40de9053261ff6b176877685e054591849c28eafa</hash-sum>
+ </version>
+ <version name="1.36" package="net.sourceforge.aria2.Aria2_64">
+  <important-file path="README.html" title="Read Me"/>
+  <file path=".Npackd\Install.bat">for /f %%x in ('dir /b aria*') do set name=%%x&#13;
+xcopy "%name%\*" . /E /H&#13;
+rmdir /s /q "%name%"&#13;
+</file>
+  <url>https://github.com/aria2/aria2/releases/download/release-1.36.0/aria2-1.36.0-win-64bit-build1.zip</url>
+  <hash-sum type="SHA-256">c82df5415125b438d72443923fea7f5f9fda1f326d0dbfac6aab16d58dbb7bf0</hash-sum>
  </version>
 
     <version name="2.6.1" package="net.sourceforge.avidemux.Avidemux64" type="one-file">
@@ -51043,6 +51070,20 @@ call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Np
    <variable>nih</variable>
   </dependency>
  </version>
+ <version name="8.2.3367" package="org.vim.Vim64">
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+if %errorlevel% neq 0 exit /b %errorlevel%&#13;
+&#13;
+for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+</file>
+  <url>https://github.com/vim/vim-win32-installer/releases/download/v8.2.3367/gvim_8.2.3367_x64.zip</url>
+  <hash-sum type="SHA-256">29e747afabbe6a9d2fdda13935c3ed396cb19b4b2e692ba49da49f37883aa049</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.19, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
  <version name="8.2.3370" package="org.vim.Vim64">
   <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
 call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
@@ -60696,6 +60737,19 @@ rmdir "%name%"&#13;
 </file>
   <url>https://github.com/xmake-io/xmake/releases/download/v2.5.6/xmake-v2.5.6.win64.zip</url>
   <hash-sum type="SHA-256">69be3076824f05a47fea33cd329f5c72b764e8a4f2fb0aa73afc43f3418ee0f9</hash-sum>
+ </version>
+ <version name="2.5.7" package="xmake64">
+  <cmd-file path="xmake.exe"/>
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b xmake*') do set name=%%x&#13;
+cd "%name%"&#13;
+for /f "delims=" %%a in ('dir /b') do (&#13;
+  move "%%a" ..&#13;
+)&#13;
+cd ..&#13;
+rmdir "%name%"&#13;
+</file>
+  <url>https://github.com/xmake-io/xmake/releases/download/v2.5.7/xmake-v2.5.7.win64.zip</url>
+  <hash-sum type="SHA-256">7d8b3c4daa914677a05aa6d40d8e48fa72b91ba01bcbb267dd12a0a32d91246d</hash-sum>
  </version>
 
     <version name="3.5.3.4" package="xmedia-recode" type="one-file">
