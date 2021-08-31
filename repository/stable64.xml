@@ -4365,6 +4365,14 @@ x86_64</description>
    <variable>nih</variable>
   </dependency>
  </version>
+ <version name="4.17.2" package="4k-video-downloader64" type="one-file">
+  <file path=".Npackd\Install.bat">call "%nih%\InstallMSI.bat" INSTALLDIR yes&#13;
+</file>
+  <url>https://dl.4kdownload.com/app/4kvideodownloader_4.17.2_x64.msi</url>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.1, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
 
     <version name="2.2" package="ag64">
   <cmd-file path="ag.exe"/>
@@ -4734,7 +4742,7 @@ x86_64</description>
 </file>
   <file path=".Npackd\Uninstall.bat">uninstall.exe /S&#13;
 </file>
-  <url>https://github.com/ankitects/anki/releases/download/2.1.47/anki-2.1.47-windows.exe</url>
+  <url>https://github.com/tim-lebedkov/packages/releases/download/2021_08/anki64-2.1.47-anki-2.1.47-windows.exe</url>
   <hash-sum type="SHA-256">2dd0a9a9b0bc003558f608cabd30c2e51ccae95146517da8a91f6698c7660816</hash-sum>
  </version>
 
@@ -51140,6 +51148,20 @@ call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Np
    <variable>nih</variable>
   </dependency>
  </version>
+ <version name="8.2.3386" package="org.vim.Vim64">
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+if %errorlevel% neq 0 exit /b %errorlevel%&#13;
+&#13;
+for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+</file>
+  <url>https://github.com/vim/vim-win32-installer/releases/download/v8.2.3386/gvim_8.2.3386_x64.zip</url>
+  <hash-sum type="SHA-256">501edabb494b6942559d6a6f26969182ff5a53695e41d50dae976f88ddafe3d2</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.19, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
 
     <version name="4.2.8.83876" package="org.virtualbox.virtualbox64" type="one-file">
   <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
@@ -53288,6 +53310,16 @@ echo DesktopShortcut=false &gt;&gt; .Npackd\FF.ini&#13;
   <file path=".Npackd\Uninstall.bat">uninstall\helper.exe /S</file>
   <url>http://rm-eu.palemoon.org/release/palemoon-29.3.0.win64.installer.exe</url>
   <hash-sum type="SHA-256">7791d58979f50e7aac25cb13c6b7d42f6512df83ec8a9ba530e2156c0c5233e5</hash-sum>
+ </version>
+ <version name="29.4.0.2" package="pale-moon64" type="one-file">
+  <file path=".Npackd\Install.bat">echo [Install] &gt; .Npackd\FF.ini&#13;
+echo InstallDirectoryPath=%CD% &gt;&gt; .Npackd\FF.ini&#13;
+echo QuickLaunchShortcut=false &gt;&gt; .Npackd\FF.ini&#13;
+echo DesktopShortcut=false &gt;&gt; .Npackd\FF.ini&#13;
+"%npackd_package_binary%" /INI="%CD%\.Npackd\FF.ini" &amp;&amp; del /f /q "%npackd_package_binary%"</file>
+  <file path=".Npackd\Uninstall.bat">uninstall\helper.exe /S</file>
+  <url>http://rm-eu.palemoon.org/release/palemoon-29.4.0.win64.installer.exe</url>
+  <hash-sum type="SHA-256">3494c709d0f41cfb78cfe5baf860a5efcf4c00cfb9c32bcc98f245f09d4354fa</hash-sum>
  </version>
 
     <version name="2.2.1" package="pandoc64" type="one-file">
