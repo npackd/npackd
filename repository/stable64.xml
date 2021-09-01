@@ -9212,6 +9212,15 @@ call "%npackdih%\InstallMSI.bat" APPLICATIONFOLDER yes&#13;
    <variable>npackdih</variable>
   </dependency>
  </version>
+ <version name="5.26" package="com.calibreebook.Calibre64" type="one-file">
+  <file path=".Npackd\Install.bat">call "%npackdih%\InstallMSI.bat" APPLICATIONFOLDER yes&#13;
+</file>
+  <url>https://download.calibre-ebook.com/5.26.0/calibre-64bit-5.26.0.msi</url>
+  <hash-sum type="SHA-256">cece1e5722af59435642a7b072255081581138d8ff3622ca6d5588066e916898</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.2, 2)">
+   <variable>npackdih</variable>
+  </dependency>
+ </version>
 
     <version name="5.12.256249.2599" package="com.comodo.comodoav64" type="one-file">
   <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.msi') do set setup=%%x&#13;
@@ -21644,6 +21653,17 @@ if %err% neq 0 exit %err%&#13;
   </dependency>
  </version>
  <version name="2.33" package="git64" type="one-file">
+  <file path=".Npackd\Install.bat">call "%nih%\InstallInnoSetup.bat"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">call "%nih%\UninstallInnoSetup.bat" unins000.exe&#13;
+</file>
+  <url>https://github.com/git-for-windows/git/releases/download/v2.33.0.windows.1/Git-2.33.0-64-bit.exe</url>
+  <hash-sum type="SHA-256">4e6e0efbb7d35653907175f2735386f55b72d37d442b3a1be9656c26f69c693d</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
+ <version name="2.33.0.2" package="git64" type="one-file">
   <file path=".Npackd\Install.bat">call "%nih%\InstallInnoSetup.bat"&#13;
 </file>
   <file path=".Npackd\Uninstall.bat">call "%nih%\UninstallInnoSetup.bat" unins000.exe&#13;
@@ -53277,6 +53297,14 @@ if %err% neq 0 exit %err%</file>
 </file>
   <url>https://1.eu.dl.wireshark.org/win64/Wireshark-win64-3.4.7.exe</url>
   <hash-sum type="SHA-256">b61fcdb21a5a1f40d267748300d29b04562277175d827312202c6ea918065238</hash-sum>
+ </version>
+ <version name="3.4.8" package="org.wireshark.Wireshark64" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD%&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">uninstall.exe /S _=%CD%&#13;
+</file>
+  <url>https://1.eu.dl.wireshark.org/win64/Wireshark-win64-3.4.8.exe</url>
+  <hash-sum type="SHA-256">7f65c2edb7ea53e6abce513e2dc5b4c3dc323738d49b54718255c2944c776c5a</hash-sum>
  </version>
 
     <version name="1.0.81" package="otter-browser" type="one-file">
