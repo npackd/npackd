@@ -13050,6 +13050,16 @@ if %err% neq 0 exit %err%&#13;
    <variable>nih</variable>
   </dependency>
  </version>
+ <version name="5.9" package="com.selenic.mercurial.Mercurial64" type="one-file">
+  <file path=".Npackd\Install.bat">call "%nih%\InstallInnoSetup.bat"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">call "%nih%\UninstallInnoSetup.bat" unins000.exe</file>
+  <url>https://www.mercurial-scm.org/release/windows/Mercurial-5.9-x64-python2.exe</url>
+  <hash-sum type="SHA-256">1424638dab734477932255dcc4cdb664632c8dbee70a95cfe5b1411569edf59b</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.7, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
  <version name="5.9.1" package="com.selenic.mercurial.Mercurial64" type="one-file">
   <file path=".Npackd\Install.bat">call "%nih%\InstallInnoSetup.bat"&#13;
 </file>
@@ -42919,6 +42929,15 @@ verify</file>
    <variable>npackdih</variable>
   </dependency>
  </version>
+ <version name="14.17.6" package="org.nodejs.NodeJS64" type="one-file">
+  <cmd-file path="node.exe"/>
+  <file path=".Npackd\Install.bat">call "%npackdih%\InstallMSI.bat" INSTALLDIR yes</file>
+  <url>https://nodejs.org/dist/v14.17.6/node-v14.17.6-x64.msi</url>
+  <hash-sum type="SHA-256">e72ceb05c7596a6e381172369dce1c374a2b09ee739dca330be58f3977b5c03d</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.1, 2)">
+   <variable>npackdih</variable>
+  </dependency>
+ </version>
 
     <version name="2.2" package="org.openshot.openshot64" type="one-file">
   <file path=".Npackd\Install.bat">"%nih%\InstallInnoSetup.bat"&#13;
@@ -43975,6 +43994,10 @@ if %err% neq 0 exit %err%&#13;
  <version name="21.6.29" package="org.shotcut.shotcut">
   <url>https://github.com/mltframework/shotcut/releases/download/v21.06.29/shotcut-win64-210629.zip</url>
   <hash-sum type="SHA-256">7f7ec6026f910ee4aa9b4b5203acb49111a2014fcca95fdedb0206e0e1437960</hash-sum>
+ </version>
+ <version name="21.8.29" package="org.shotcut.shotcut">
+  <url>https://github.com/mltframework/shotcut/releases/download/v21.08.29/shotcut-win64-210829.zip</url>
+  <hash-sum type="SHA-256">97d24edc10714e2dbef74943f6420d3cdd15d8a5d8f748eb704254b562f312a6</hash-sum>
  </version>
 
     <version name="4.4" package="org.sourceforge.ultradefrag.UltraDefrag64">
@@ -60320,7 +60343,7 @@ if %err% neq 0 exit %err%&#13;
   <url>https://az764295.vo.msecnd.net/stable/a0479759d6e9ea56afa657e454193f72aef85bd0/VSCodeSetup-ia32-1.48.2.exe</url>
   <hash-sum type="SHA-256">013d5ecdb44159c15047472512bef9c76ba934807dbb07a582655f4c5546866d</hash-sum>
  </version>
- <version name="1.59.1" package="vs-code" type="one-file">
+ <version name="1.60" package="vs-code" type="one-file">
   <file path=".Npackd\Install.bat">ren "%npackd_package_binary%" setup.exe&#13;
 setup.exe /SP- /VERYSILENT /SUPPRESSMSGBOXES /NOCANCEL /NORESTART /DIR="%CD%" /SAVEINF="%CD%\.Npackd\InnoSetupInfo.ini" /LOG="%CD%\.Npackd\InnoSetupInstall.log"&#13;
 set err=%errorlevel%&#13;
@@ -60395,7 +60418,7 @@ if %err% neq 0 exit %err%&#13;
   <url>https://az764295.vo.msecnd.net/stable/a0479759d6e9ea56afa657e454193f72aef85bd0/VSCodeSetup-x64-1.48.2.exe</url>
   <hash-sum type="SHA-256">3f8805a29fdd9fbfd7c0d7a9f354ed160256ec6f1f80410e367bf14f37908afb</hash-sum>
  </version>
- <version name="1.59.1" package="vs-code64" type="one-file">
+ <version name="1.60" package="vs-code64" type="one-file">
   <file path=".Npackd\Install.bat">ren "%npackd_package_binary%" setup.exe&#13;
 setup.exe /SP- /VERYSILENT /SUPPRESSMSGBOXES /NOCANCEL /NORESTART /DIR="%CD%" /SAVEINF="%CD%\.Npackd\InnoSetupInfo.ini" /LOG="%CD%\.Npackd\InnoSetupInstall.log"&#13;
 set err=%errorlevel%&#13;
