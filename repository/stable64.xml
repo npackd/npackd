@@ -2081,7 +2081,7 @@ x86_64</description>
   <category>Music</category>
   <tag>Tools</tag>
   <tag>stable64</tag>
-  <stars>2</stars>
+  <stars>3</stars>
  </package>
  <package name="mkvtoolnix64">
   <title>MKVToolNix 64 bit</title>
@@ -18894,6 +18894,14 @@ rmdir "%name%"&#13;
   <url>https://github.com/balena-io/etcher/releases/download/v1.5.121/balenaEtcher-Setup-1.5.121.exe</url>
   <hash-sum type="SHA-256">6f9ff111d7b546cb75f7a90af571b080bd2bc5fba5753c46a405fc9aae01e6aa</hash-sum>
  </version>
+ <version name="1.5.122" package="etcher64" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">uninstall.exe /S _?=%CD%&#13;
+</file>
+  <url>https://github.com/balena-io/etcher/releases/download/v1.5.122/balenaEtcher-Setup-1.5.122.exe</url>
+  <hash-sum type="SHA-256">81fbfddb91f5a7591c4217487956ca07aeed66d84cdc0bf29e8bc8963eb60e78</hash-sum>
+ </version>
 
     <version name="1.3.4.686" package="everything64">
   <important-file path="Everything.exe" title="Everything"/>
@@ -23125,6 +23133,19 @@ rmdir "%name%"&#13;
 </file>
   <url>https://dl.google.com/dl/cloudsdk/channels/rapid/downloads/google-cloud-sdk-354.0.0-windows-x86_64.zip</url>
   <hash-sum type="SHA-256">36fb35e24c9a2f38597c70b01b64ede69497cc8a19150d3e45eb095af1ea6071</hash-sum>
+  <dependency package="org.python.Python" versions="[2.7, 2.8)"/>
+ </version>
+ <version name="355" package="google-cloud-sdk64">
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b google-cloud-sdk*') do set name=%%x&#13;
+cd "%name%"&#13;
+for /f "delims=" %%a in ('dir /b') do (&#13;
+  move "%%a" ..&#13;
+)&#13;
+cd ..&#13;
+rmdir "%name%"&#13;
+</file>
+  <url>https://dl.google.com/dl/cloudsdk/channels/rapid/downloads/google-cloud-sdk-355.0.0-windows-x86_64.zip</url>
+  <hash-sum type="SHA-256">408832bbd8ad8e154a2e834e6f3c8168d7c40c3b228148e01dad5498c3c9bab7</hash-sum>
   <dependency package="org.python.Python" versions="[2.7, 2.8)"/>
  </version>
 
@@ -43083,6 +43104,16 @@ verify</file>
    <variable>nih</variable>
   </dependency>
  </version>
+ <version name="2.6.1" package="org.openshot.openshot64" type="one-file">
+  <file path=".Npackd\Install.bat">"%nih%\InstallInnoSetup.bat"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">"%nih%\UninstallInnoSetup.bat" unins000.exe</file>
+  <url>https://github.com/OpenShot/openshot-qt/releases/download/v2.6.1/OpenShot-v2.6.1-x86_64.exe</url>
+  <hash-sum type="SHA-256">f712c58127be99b2a5f8ce51ac0377ad0e8a1931ee20979199b71f22f51aa047</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
 
     <version name="2.7" package="org.owasp.zap64" type="one-file">
   <file path=".Npackd\customdir.varfile">sys.installationDir=C\:\\Program Files\\ZAP_64_bit</file>
@@ -55611,6 +55642,18 @@ if %errorlevel% equ 3010 verify</file>
 </file>
   <url>http://download.qt-project.org/official_releases/qtcreator/4.15/4.15.2/qt-creator-opensource-windows-x86_64-4.15.2.exe</url>
   <hash-sum type="SHA-256">d89f9afc5ccfb8976d97f21a226597e741810b0cde6d7631bbdf6d01f360aa55</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.24, 2)">
+   <variable>ncl</variable>
+  </dependency>
+  <dependency package="com.microsoft.VisualCPPRedistributable" versions="[14,15)"/>
+ </version>
+ <version name="5" package="qt-creator64" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD%&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">"%ncl%\ncl.exe" remove-scp --title "/Qt Creator.*/"&#13;
+</file>
+  <url>http://download.qt-project.org/official_releases/qtcreator/5.0/5.0.0/qt-creator-opensource-windows-x86_64-5.0.0.exe</url>
+  <hash-sum type="SHA-256">d28f757015e0681442138f43130f611992f1215f042da3f06d84bb5a9311a0f6</hash-sum>
   <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.24, 2)">
    <variable>ncl</variable>
   </dependency>
