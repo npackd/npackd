@@ -23148,6 +23148,19 @@ rmdir "%name%"&#13;
   <hash-sum type="SHA-256">408832bbd8ad8e154a2e834e6f3c8168d7c40c3b228148e01dad5498c3c9bab7</hash-sum>
   <dependency package="org.python.Python" versions="[2.7, 2.8)"/>
  </version>
+ <version name="356" package="google-cloud-sdk64">
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b google-cloud-sdk*') do set name=%%x&#13;
+cd "%name%"&#13;
+for /f "delims=" %%a in ('dir /b') do (&#13;
+  move "%%a" ..&#13;
+)&#13;
+cd ..&#13;
+rmdir "%name%"&#13;
+</file>
+  <url>https://dl.google.com/dl/cloudsdk/channels/rapid/downloads/google-cloud-sdk-356.0.0-windows-x86_64.zip</url>
+  <hash-sum type="SHA-256">1510d8ef164ef8f63bc03c410ea09a2581a580f995e6e58975a4e8ca2bdf9771</hash-sum>
+  <dependency package="org.python.Python" versions="[2.7, 2.8)"/>
+ </version>
 
     <version name="1.1.94" package="grisbi64" type="one-file">
   <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
@@ -24644,6 +24657,17 @@ if %err% neq 0 exit %err%&#13;
 </file>
   <url>https://github.com/tim-lebedkov/packages/releases/download/2021_08/imagemagick64-7.1.0.5-ImageMagick-7.1.0-5-Q16-HDRI-x64-dll.exe</url>
   <hash-sum type="SHA-256">8b740d91004786e2f896960cab9ce183e6007cfb3dc3e4288f88195f07d51b24</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
+ <version name="7.1.0.6" package="imagemagick64" type="one-file">
+  <file path=".Npackd\Install.bat">call "%nih%\InstallInnoSetup.bat"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">call "%nih%\UninstallInnoSetup.bat" unins000.exe&#13;
+</file>
+  <url>https://www.imagemagick.org/download/binaries/ImageMagick-7.1.0-6-Q16-HDRI-x64-dll.exe</url>
+  <hash-sum type="SHA-256">ac3357993f9c9bf9c2bd5e1c42601d232464e48cc98c0bfb99cc204e632c93d6</hash-sum>
   <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
    <variable>nih</variable>
   </dependency>
@@ -43781,6 +43805,15 @@ if %err% neq 0 exit /b %err%&#13;
   <url>https://www.python.org/ftp/python/3.9.6/python-3.9.6-amd64.exe</url>
   <hash-sum type="SHA-256">3924caa094f70fd3ea667a27ad494d57941a487aa72d8b6b79ce60e81f1e497c</hash-sum>
  </version>
+ <version name="3.9.7" package="org.python.Python64" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" /quiet InstallAllUsers=1 "TargetDir=%cd%"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">for /f "delims=" %%x in ('dir /b python-*.exe') do set setup=%%x&#13;
+%setup% /uninstall /quiet InstallAllUsers=1&#13;
+</file>
+  <url>https://www.python.org/ftp/python/3.9.7/python-3.9.7-amd64.exe</url>
+  <hash-sum type="SHA-256">3f63f4c77a6da13f9bae715eb6644a48bd5f900601e0f1f233862e8ca1a96dd8</hash-sum>
+ </version>
 
     <version name="2.0.0.247" package="org.rubylang.Ruby64" type="one-file">
   <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
@@ -51334,6 +51367,20 @@ call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Np
    <variable>nih</variable>
   </dependency>
  </version>
+ <version name="8.2.3394" package="org.vim.Vim64">
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+if %errorlevel% neq 0 exit /b %errorlevel%&#13;
+&#13;
+for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+</file>
+  <url>https://github.com/vim/vim-win32-installer/releases/download/v8.2.3394/gvim_8.2.3394_x64.zip</url>
+  <hash-sum type="SHA-256">c63402b6b74b6e765dd160113d080319980c111abb48f44872d54fd4cb7a6821</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.19, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
  <version name="8.2.3397" package="org.vim.Vim64">
   <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
 call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
@@ -51358,6 +51405,20 @@ call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Np
 </file>
   <url>https://github.com/vim/vim-win32-installer/releases/download/v8.2.3399/gvim_8.2.3399_x64.zip</url>
   <hash-sum type="SHA-256">01f08b02f1220889f98b78b2fa3fb5ecb83194a9e2273e386c36b6828157b021</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.19, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
+ <version name="8.2.3408" package="org.vim.Vim64">
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+if %errorlevel% neq 0 exit /b %errorlevel%&#13;
+&#13;
+for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+</file>
+  <url>https://github.com/vim/vim-win32-installer/releases/download/v8.2.3408/gvim_8.2.3408_x64.zip</url>
+  <hash-sum type="SHA-256">3469f2a0f2719f8572ab180e69f191c5783d0db7b254d74752297096b6f11e58</hash-sum>
   <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.19, 2)">
    <variable>nih</variable>
   </dependency>
@@ -54864,6 +54925,14 @@ verify</file>
 verify</file>
   <url>https://downloads.sourceforge.net/project/qbittorrent/qbittorrent-win32/qbittorrent-4.3.7/qbittorrent_4.3.7_x64_setup.exe</url>
   <hash-sum type="SHA-256">d5ac29880966fd8e05daf6c9f95c303ba36caf505767c512d6e4d2f19d802f29</hash-sum>
+ </version>
+ <version name="4.3.8" package="qbittorrent-64-bit" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD%&#13;
+verify</file>
+  <file path=".Npackd\Uninstall.bat">uninst.exe /S _?=%CD%&#13;
+verify</file>
+  <url>https://downloads.sourceforge.net/project/qbittorrent/qbittorrent-win32/qbittorrent-4.3.8/qbittorrent_4.3.8_x64_setup.exe</url>
+  <hash-sum type="SHA-256">fd507bade63f51241d77d26ab48449281576287f44c560b9ec913981b0f99abf</hash-sum>
  </version>
 
     <version name="3.23" package="qcad64" type="one-file">
@@ -58797,6 +58866,12 @@ if %err% neq 0 exit %err%&#13;
   <url>https://dist.torproject.org/torbrowser/10.5.5/torbrowser-install-10.5.5_en-US.exe</url>
   <hash-sum type="SHA-256">5a0248f6be61e94467fd6f951eb85d653138dea5a8793de42c6edad1507f1ae7</hash-sum>
  </version>
+ <version name="10.5.6" package="tor64" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
+</file>
+  <url>https://dist.torproject.org/torbrowser/10.5.6/torbrowser-install-10.5.6_en-US.exe</url>
+  <hash-sum type="SHA-256">ed931e0494504953cb429703aecad66058032a983e35f2dd7c49d15bd7670914</hash-sum>
+ </version>
 
     <version name="2.84.9" package="transmission-qt64" type="one-file">
   <file path=".Npackd\Install.bat">"%npackd_package_binary%" --mode unattended --prefix "%CD%"</file>
@@ -61061,6 +61136,16 @@ rmdir "%name%"&#13;
   <file path=".Npackd\Uninstall.bat">"%nih%\UninstallInnoSetup.bat" unins000.exe</file>
   <url>https://www.xmedia-recode.de/download/XMediaRecode3543_x64_setup.exe</url>
   <hash-sum type="SHA-256">97134ff3e6c72f45de18e726b0ddc18979af51093dae036af3a13c0f0320bb11</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
+ <version name="3.5.4.4" package="xmedia-recode64" type="one-file">
+  <file path=".Npackd\Install.bat">"%nih%\InstallInnoSetup.bat"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">"%nih%\UninstallInnoSetup.bat" unins000.exe</file>
+  <url>https://www.xmedia-recode.de/download/XMediaRecode3544_x64_setup.exe</url>
+  <hash-sum type="SHA-256">7a78344f26193b8dfe497358eff760a6e07e6fbab2671c36d1c034969e709ecc</hash-sum>
   <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
    <variable>nih</variable>
   </dependency>
