@@ -26244,7 +26244,7 @@ call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Np
  </version>
  <version name="7.2.1" package="libreoffice64" type="one-file">
   <file path=".Npackd\Install.bat">call "%npackdih%\InstallMSI.bat" INSTALLLOCATION yes</file>
-  <url>https://download.documentfoundation.org/libreoffice/stable/7.2.1/win/x86_64/LibreOffice_7.2.1_Win_x64.msi</url>
+  <url>https://github.com/tim-lebedkov/packages/releases/download/2021_09/libreoffice64-7.2.1-LibreOffice_7.2.1_Win_x64.msi</url>
   <hash-sum type="SHA-256">f7e0b30399ebfe52d4ab9c81cdb5dd3a015f1837cad898ad520221b12f06c694</hash-sum>
   <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.1, 2)">
    <variable>npackdih</variable>
@@ -51730,6 +51730,20 @@ call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Np
 </file>
   <url>https://github.com/vim/vim-win32-installer/releases/download/v8.2.3437/gvim_8.2.3437_x64.zip</url>
   <hash-sum type="SHA-256">83c73ecc27a44101a76e7727cddb9fdbb6bdd464e6c5cde54a63c083ca927de7</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.19, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
+ <version name="8.2.3440" package="org.vim.Vim64">
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+if %errorlevel% neq 0 exit /b %errorlevel%&#13;
+&#13;
+for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+</file>
+  <url>https://github.com/vim/vim-win32-installer/releases/download/v8.2.3440/gvim_8.2.3440_x64.zip</url>
+  <hash-sum type="SHA-256">4a16b42b8d4a92110eb322f3736be5930d12a54e79015015dd467840016d7ae5</hash-sum>
   <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.19, 2)">
    <variable>nih</variable>
   </dependency>
