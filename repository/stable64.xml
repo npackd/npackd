@@ -290,7 +290,7 @@ x86_64</description>
   <license>org.gnu.GPLv2</license>
   <category>Music</category>
   <tag>stable64</tag>
-  <stars>1</stars>
+  <stars>2</stars>
  </package>
  <package name="barrier64">
   <title>Barrier 64 bit</title>
@@ -1694,6 +1694,23 @@ x86_64</description>
   <link href="https://www.jam-software.com/sites/default/files/heavyload/online_manual/EN/EN-HL-mainform_0.png" rel="screenshot"/>
   <link href="https://www.jam-software.com/sites/default/files/heavyload/online_manual/EN/EN-HL-open-options_0.png" rel="screenshot"/>
  </package>
+ <package name="heavyload64">
+  <title>HeavyLoad 64 Bit</title>
+  <url>https://www.jam-software.com/heavyload?language=EN</url>
+  <description>WARNING: this package always installs the newest version of the software.
+Test the performance of your computer components like CPU, RAM, read and write speed with the help of this intuitive, practical application
+x86_64</description>
+  <icon>https://www.jam-software.com/sites/default/files/2017-10/HeavyLoad.png</icon>
+  <license>org.wikipedia.Freeware</license>
+  <category>Tools</category>
+  <tag>stable64</tag>
+  <tag>same-url</tag>
+  <stars>1</stars>
+  <link href="https://www.jam-software.com/heavyload/changes.shtml" rel="changelog"/>
+  <link href="https://www.jam-software.com/sites/default/files/heavyload/online_manual/EN/EN-HL-taskmanager_0.png" rel="screenshot"/>
+  <link href="https://www.jam-software.com/sites/default/files/heavyload/online_manual/EN/EN-HL-mainform_0.png" rel="screenshot"/>
+  <link href="https://www.jam-software.com/sites/default/files/heavyload/online_manual/EN/EN-HL-open-options_0.png" rel="screenshot"/>
+ </package>
  <package name="hexchat64">
   <title>HexChat 64 bit</title>
   <url>http://hexchat.github.io</url>
@@ -2468,13 +2485,14 @@ x86_64</description>
  </package>
  <package name="nubasic64">
   <title>Nubasic 64 bit</title>
-  <url>http://www.nubasic.eu</url>
+  <url>https://sourceforge.net/projects/nubasic/</url>
   <description>programming language from the BASIC family
 x86_64</description>
-  <icon>http://www.nubasic.eu/_/rsrc/1468855535525/config/customLogo.gif?revision=9</icon>
+  <icon>https://a.fsdn.com/allura/p/nubasic/icon?1572017525</icon>
   <license>org.wikipedia.Freeware</license>
   <category>Development</category>
   <tag>stable64</tag>
+  <stars>1</stars>
   <link href="https://sourceforge.net/projects/nubasic/" rel="changelog"/>
  </package>
  <package name="ocenaudio64">
@@ -3712,6 +3730,7 @@ x86_64</description>
   <license>org.gnu.GPLv2</license>
   <category>Text</category>
   <tag>stable64</tag>
+  <stars>1</stars>
  </package>
  <package name="superf4-64">
   <title>SuperF4 64 bit</title>
@@ -4404,6 +4423,14 @@ x86_64</description>
   <file path=".Npackd\Install.bat">call "%nih%\InstallMSI.bat" INSTALLDIR yes&#13;
 </file>
   <url>https://dl.4kdownload.com/app/4kvideodownloader_4.18.0_x64.msi</url>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.1, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
+ <version name="4.18.1" package="4k-video-downloader64" type="one-file">
+  <file path=".Npackd\Install.bat">call "%nih%\InstallMSI.bat" INSTALLDIR yes&#13;
+</file>
+  <url>https://dl.4kdownload.com/app/4kvideodownloader_4.18.1_x64.msi</url>
   <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.1, 2)">
    <variable>nih</variable>
   </dependency>
@@ -9287,6 +9314,15 @@ call "%npackdih%\InstallMSI.bat" APPLICATIONFOLDER yes&#13;
 </file>
   <url>https://download.calibre-ebook.com/5.27.0/calibre-64bit-5.27.0.msi</url>
   <hash-sum type="SHA-256">738aaf1056eb39484aceb4adeb9f610569dacb52317180b337658e1683e0ae28</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.2, 2)">
+   <variable>npackdih</variable>
+  </dependency>
+ </version>
+ <version name="5.28" package="com.calibreebook.Calibre64" type="one-file">
+  <file path=".Npackd\Install.bat">call "%npackdih%\InstallMSI.bat" APPLICATIONFOLDER yes&#13;
+</file>
+  <url>https://download.calibre-ebook.com/5.28.0/calibre-64bit-5.28.0.msi</url>
+  <hash-sum type="SHA-256">97524771821a6d8badb270fec4f08b61aaf993144628de37c82db256677c4e20</hash-sum>
   <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.2, 2)">
    <variable>npackdih</variable>
   </dependency>
@@ -19146,6 +19182,17 @@ rmdir "%name%"&#13;
    <variable>ncl</variable>
   </dependency>
  </version>
+ <version name="8.45" package="explzh64" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" /silent /q &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">"%ncl%\ncl.exe" remove-scp --title "/%npackd_package_name% %npackd_package_version%/i"&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+</file>
+  <url>https://www.ponsoftware.com/en/archiver/explzh/explz845_en_x64.exe</url>
+  <hash-sum type="SHA-256">db5ca169d66eda9a2caa5ad6ad131bfa93250999d30f4f3957c438a9d1eee98b</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.25, 2)">
+   <variable>ncl</variable>
+  </dependency>
+ </version>
 
     <version name="3.1" package="falkon64" type="one-file">
   <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
@@ -20669,6 +20716,17 @@ verify</file>
   <url>https://download-installer.cdn.mozilla.net/pub/firefox/releases/92.0/win64/en-US/Firefox%20Setup%2092.0.exe</url>
   <hash-sum type="SHA-256">fb2a1ae356544978332460a1b6d64c982fe09868063e64971e4ffe5a734bac20</hash-sum>
  </version>
+ <version name="92.0.1" package="firefox64" type="one-file">
+  <file path=".Npackd\Install.bat">echo [Install] &gt; .Npackd\FF.ini&#13;
+echo InstallDirectoryPath=%CD% &gt;&gt; .Npackd\FF.ini&#13;
+echo QuickLaunchShortcut=false &gt;&gt; .Npackd\FF.ini&#13;
+echo DesktopShortcut=false &gt;&gt; .Npackd\FF.ini&#13;
+"%npackd_package_binary%" /INI="%CD%\.Npackd\FF.ini" &amp;&amp; del /f /q "%npackd_package_binary%"</file>
+  <file path=".Npackd\Uninstall.bat">uninstall\helper.exe /S&#13;
+verify</file>
+  <url>https://download-installer.cdn.mozilla.net/pub/firefox/releases/92.0.1/win64/en-US/Firefox%20Setup%2092.0.1.exe</url>
+  <hash-sum type="SHA-256">ea76f2dcc680bad2cb3bac371af6640e7f8be9e06f3050c296d71957710492d0</hash-sum>
+ </version>
 
     <version name="0.5" package="firefoxpwa" type="one-file">
   <file path=".Npackd\Install.bat">call "%nih%\InstallMSI.bat" APPLICATIONFOLDER yes</file>
@@ -21926,7 +21984,7 @@ if %err% neq 0 exit %err%&#13;
   <hash-sum type="SHA-256">9ea1de71109eb5f1b41be08cf2f509ad952ba8cdae8ed82507452f2f772686d3</hash-sum>
  </version>
 
-    <version name="94.0.4606.54" package="google-chrome-x64" type="one-file">
+    <version name="94.0.4606.61" package="google-chrome-x64" type="one-file">
   <file path=".Npackd\Install.bat">call "%npackdih%\InstallMSI.bat" TARGETDIR yes&#13;
 </file>
   <url>https://dl.google.com/tag/s/appguid%3D%7B8A69D345-D564-463C-AFF1-A69D9E530F96%7D%26iid%3D%7B0A558A36-0536-8B3F-0AE0-420553CC97F3%7D%26lang%3Den%26browser%3D4%26usagestats%3D0%26appname%3DGoogle%2520Chrome%26needsadmin%3DFalse/edgedl/chrome/install/GoogleChromeStandaloneEnterprise64.msi</url>
@@ -23507,6 +23565,16 @@ verify&#13;
 </file>
   <file path=".Npackd\Uninstall.bat">"%nih%\UninstallInnoSetup.bat" unins000.exe</file>
   <url>https://downloads.jam-software.de/heavyload/HeavyLoad-x86-Setup.exe</url>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
+
+    <version name="3.6.0.270" package="heavyload64" type="one-file">
+  <file path=".Npackd\Install.bat">"%nih%\InstallInnoSetup.bat"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">"%nih%\UninstallInnoSetup.bat" unins000.exe</file>
+  <url>https://downloads.jam-software.de/heavyload/HeavyLoad-x64-Setup.exe</url>
   <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
    <variable>nih</variable>
   </dependency>
@@ -37843,6 +37911,12 @@ rmdir "%name%"&#13;
   <url>https://www.erlang.org/download/otp_win64_24.0.exe</url>
   <hash-sum type="SHA-256">f13311ae26d5260566740f8a7f124d0ba3589a1f52aada84b236825641f53225</hash-sum>
  </version>
+ <version name="24.1" package="org.erlang.Erlang64" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD%&#13;
+</file>
+  <url>https://www.erlang.org/download/otp_win64_24.1.exe</url>
+  <hash-sum type="SHA-256">1200035410422d366954eebaefe37f213483bf1f2888a1b316ad3479acb56505</hash-sum>
+ </version>
 
     <version name="0.9.2.1" package="org.flamerobin.FlameRobin64" type="one-file">
   <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
@@ -51865,6 +51939,20 @@ call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Np
    <variable>nih</variable>
   </dependency>
  </version>
+ <version name="8.2.3446" package="org.vim.Vim64">
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+if %errorlevel% neq 0 exit /b %errorlevel%&#13;
+&#13;
+for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+</file>
+  <url>https://github.com/vim/vim-win32-installer/releases/download/v8.2.3446/gvim_8.2.3446_x64.zip</url>
+  <hash-sum type="SHA-256">57355e19235e1b6f90c298602f111d39be293c18dc27e80d510017eb05690687</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.19, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
  <version name="8.2.3448" package="org.vim.Vim64">
   <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
 call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
@@ -51889,6 +51977,34 @@ call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Np
 </file>
   <url>https://github.com/vim/vim-win32-installer/releases/download/v8.2.3450/gvim_8.2.3450_x64.zip</url>
   <hash-sum type="SHA-256">f56b703de9766048418b5bc54da3663fde6b94f412a18dd76c57f3da84da78f4</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.19, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
+ <version name="8.2.3451" package="org.vim.Vim64">
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+if %errorlevel% neq 0 exit /b %errorlevel%&#13;
+&#13;
+for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+</file>
+  <url>https://github.com/vim/vim-win32-installer/releases/download/v8.2.3451/gvim_8.2.3451_x64.zip</url>
+  <hash-sum type="SHA-256">5983b5443191b92d5cde3aae83502e96d65df607488db0a7975a84e5f1897dd7</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.19, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
+ <version name="8.2.3452" package="org.vim.Vim64">
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+if %errorlevel% neq 0 exit /b %errorlevel%&#13;
+&#13;
+for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+</file>
+  <url>https://github.com/vim/vim-win32-installer/releases/download/v8.2.3452/gvim_8.2.3452_x64.zip</url>
+  <hash-sum type="SHA-256">c13fc6bd1d737365a9f7c6d3883d4756f947c819c305ac9611688a75d9107f18</hash-sum>
   <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.19, 2)">
    <variable>nih</variable>
   </dependency>
@@ -60967,6 +61083,18 @@ if %err% neq 0 exit /b %err%&#13;
 </file>
   <url>https://downloads.vivaldi.com/stable/Vivaldi.4.1.2369.16.x64.exe</url>
   <hash-sum type="SHA-256">215f363e1c8c6970f470c5f61453208f8cacacbdd0447464846b5b44b5e51637</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.24, 2)">
+   <variable>ncl</variable>
+  </dependency>
+ </version>
+ <version name="4.2.2406.48" package="vivaldi-browser-64" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" --vivaldi-standalone --do-not-launch-chrome --vivaldi-install-dir="%CD%" &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
+&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">"%ncl%\ncl.exe" remove-scp --title "vivaldi-browser-64"&#13;
+</file>
+  <url>https://downloads.vivaldi.com/stable/Vivaldi.4.2.2406.48.x64.exe</url>
+  <hash-sum type="SHA-256">bd85144dfd46604cbd349332efd52a00d2ad2caf9f02f621085e59d7a7b377aa</hash-sum>
   <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.24, 2)">
    <variable>ncl</variable>
   </dependency>
