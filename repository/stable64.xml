@@ -307,6 +307,7 @@ x86_64</description>
   <title>Basilisk 64 Bit</title>
   <url>https://www.basilisk-browser.org/</url>
   <description>WARNING: this package always installs the newest version of the software.
+WARNING: there will be no new versions of this package.
 Basilisk is a free and Open Source XUL-based web browser, featuring the well-known Firefox-style interface and operation. It is based on the Goanna layout and rendering engine (a fork of Gecko) and builds on the Unified XUL Platform (UXP), which in turn is a fork of the Mozilla code base without Servo or Rust. Basilisk is primarily a reference application for development of the XUL platform it builds upon, and additionally a potential replacement for Firefox. &#13;
 It supports a wide array of features required for the Modern Web, including advanced scripting, WebRTC, CSS v3, HTML5 and downloadable font support. It also fully supports all NPAPI plugins (e.g. Java, Unity web player, Media plugins, Authentication plugins). Further details can be found on the features page. This browser is created and maintained by the team behind Pale Moon, and is a fully independent fork of the Mozilla/Firefox code.
 x86_64</description>
@@ -315,6 +316,7 @@ x86_64</description>
   <category>Communications</category>
   <tag>stable64</tag>
   <tag>same-url</tag>
+  <tag>end-of-life</tag>
   <stars>1</stars>
   <link href="https://www.basilisk-browser.org/releasenotes.shtml" rel="changelog"/>
   <link href="https://www.basilisk-browser.org/assets/Basilisk_Win10_AOM_t.png" rel="screenshot"/>
@@ -1095,6 +1097,17 @@ x86_64</description>
   <tag>stable64</tag>
   <stars>1</stars>
   <link href="https://github.com/conan-io/conan/commits/develop" rel="changelog"/>
+ </package>
+ <package name="copymastro64">
+  <title>CopyMastro 64 Bit</title>
+  <url>https://copymastro.sourceforge.io/</url>
+  <description>CopyMastro is an open source copy and backup utility developed by Marco Mastroddi.
+x86_64</description>
+  <icon>https://copymastro.sourceforge.io/images/copymastro.png</icon>
+  <license>org.wikipedia.Freeware</license>
+  <category>Tools</category>
+  <tag>stable64</tag>
+  <stars>1</stars>
  </package>
  <package name="cornplayer">
   <title>CornPlayer</title>
@@ -4812,7 +4825,7 @@ x86_64</description>
 </file>
   <file path=".Npackd\Uninstall.bat">uninstall.exe /S&#13;
 </file>
-  <url>https://github.com/ankitects/anki/releases/download/2.1.48/anki-2.1.48-windows.exe</url>
+  <url>https://github.com/tim-lebedkov/packages/releases/download/2021_09/anki64-2.1.48-anki-2.1.48-windows.exe</url>
   <hash-sum type="SHA-256">6ee8222f6a383e52bb45c8583c6e61288824cdc811ed54e7ebb6b2ce687c28a9</hash-sum>
  </version>
 
@@ -14262,6 +14275,13 @@ if %err% neq 0 exit %err%</file>
    <variable>npackdih</variable>
   </dependency>
  </version>
+ <version name="2.8.63" package="com.tightvnc.TightVNC64" type="one-file">
+  <file path=".Npackd\Install.bat">call "%npackdih%\InstallMSI.bat" INSTALLDIR yes</file>
+  <url>https://www.tightvnc.com/download/2.8.8/tightvnc-2.8.8-gpl-setup-64bit.msi</url>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.1, 2)">
+   <variable>npackdih</variable>
+  </dependency>
+ </version>
 
     <version name="2.5.192" package="com.tracker-software.PDFXChangeViewer64" type="one-file">
   <file path=".Npackd\Install.bat">for /f %%x in ('dir /b *.msi') do set setup=%%x
@@ -17085,6 +17105,17 @@ if %err% neq 0 exit %err%&#13;
   <file path=".Npackd\Uninstall.bat">"%nih%\UninstallInnoSetup.bat" unins000.exe</file>
   <url>https://github.com/conan-io/conan/releases/download/1.40.2/conan-win-64.exe</url>
   <hash-sum type="SHA-256">fdd9af5a568225a1d22779f6426fd520208e184e948583d1d3f423f66b086fa2</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
+
+    <version name="4.2.3" package="copymastro64" type="one-file">
+  <file path=".Npackd\Install.bat">"%nih%\InstallInnoSetup.bat"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">"%nih%\UninstallInnoSetup.bat" unins000.exe</file>
+  <url>http://sourceforge.net/projects/copymastro/files/Windows/copymastro-setup-4.2.3.exe</url>
+  <hash-sum type="SHA-256">45065f7729e890af28e7aac9929547d0faafcb75ca9942b6681fc896c5f17b52</hash-sum>
   <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
    <variable>nih</variable>
   </dependency>
@@ -51968,6 +51999,20 @@ call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Np
    <variable>nih</variable>
   </dependency>
  </version>
+ <version name="8.2.3444" package="org.vim.Vim64">
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+if %errorlevel% neq 0 exit /b %errorlevel%&#13;
+&#13;
+for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+</file>
+  <url>https://github.com/vim/vim-win32-installer/releases/download/v8.2.3444/gvim_8.2.3444_x64.zip</url>
+  <hash-sum type="SHA-256">98b7a3d29956d5390481ea4753a8e24a725a925694ee32ebe6afe0c99fade57d</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.19, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
  <version name="8.2.3446" package="org.vim.Vim64">
   <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
 call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
@@ -59181,6 +59226,17 @@ if %err% neq 0 exit %err%&#13;
   </dependency>
  </version>
  <version name="2.84.1" package="tixati" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">"%ncl%\ncl.exe" remove-scp --title "/%npackd_package_name% %npackd_package_version%/i"&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+</file>
+  <url>https://download1.tixati.com/download/tixati-2.74-1.win32-install.exe</url>
+  <hash-sum type="SHA-256">f008f0301f4c62bc3347692f9f15559ca3465bf40d4dc34cc7bb78b7d9462db2</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.25, 2)">
+   <variable>ncl</variable>
+  </dependency>
+ </version>
+ <version name="2.85.1" package="tixati" type="one-file">
   <file path=".Npackd\Install.bat">"%npackd_package_binary%" &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
 </file>
   <file path=".Npackd\Uninstall.bat">"%ncl%\ncl.exe" remove-scp --title "/%npackd_package_name% %npackd_package_version%/i"&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
