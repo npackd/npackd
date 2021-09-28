@@ -1098,6 +1098,16 @@ x86_64</description>
   <stars>1</stars>
   <link href="https://github.com/conan-io/conan/commits/develop" rel="changelog"/>
  </package>
+ <package name="copymastro">
+  <title>CopyMastro</title>
+  <url>https://copymastro.sourceforge.io/</url>
+  <description>CopyMastro is an open source copy and backup utility developed by Marco Mastroddi.
+x86_64</description>
+  <icon>https://copymastro.sourceforge.io/images/copymastro.png</icon>
+  <license>org.wikipedia.Freeware</license>
+  <category>Tools</category>
+  <tag>stable64</tag>
+ </package>
  <package name="copymastro64">
   <title>CopyMastro 64 Bit</title>
   <url>https://copymastro.sourceforge.io/</url>
@@ -17110,6 +17120,23 @@ if %err% neq 0 exit %err%&#13;
   </dependency>
  </version>
 
+    <version name="4.2.3" package="copymastro">
+  <important-file path="CopyMastro.exe" title="CopyMastro"/>
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b copymastro*') do set name=%%x&#13;
+cd "%name%"&#13;
+for /f "delims=" %%a in ('dir /b') do (&#13;
+  move "%%a" ..&#13;
+)&#13;
+cd ..&#13;
+rmdir "%name%"&#13;
+</file>
+  <url>http://sourceforge.net/projects/copymastro/files/Windows/copymastro-4.2.3-32bit-portable.zip</url>
+  <hash-sum type="SHA-256">58d7cb8487063e258c0b418102819d5c214f265c9c73e1409c8e60d6b316ca14</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
+
     <version name="4.2.3" package="copymastro64" type="one-file">
   <file path=".Npackd\Install.bat">"%nih%\InstallInnoSetup.bat"&#13;
 </file>
@@ -19101,6 +19128,14 @@ rmdir "%name%"&#13;
 </file>
   <url>https://github.com/balena-io/etcher/releases/download/v1.5.122/balenaEtcher-Setup-1.5.122.exe</url>
   <hash-sum type="SHA-256">81fbfddb91f5a7591c4217487956ca07aeed66d84cdc0bf29e8bc8963eb60e78</hash-sum>
+ </version>
+ <version name="1.6" package="etcher64" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">uninstall.exe /S _?=%CD%&#13;
+</file>
+  <url>https://github.com/balena-io/etcher/releases/download/v1.6.0/balenaEtcher-Setup-1.6.0.exe</url>
+  <hash-sum type="SHA-256">9d96cf06a03293a5b11280be1502d7d030b31b2d3fe91a90ff3c9ed22c13d7be</hash-sum>
  </version>
 
     <version name="1.3.4.686" package="everything64">
@@ -57589,6 +57624,16 @@ call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Np
 </file>
   <url>https://github.com/tim-lebedkov/packages/releases/download/2021_09/se.haxx.curl.CURL64-7.79-curl-7.79.0_1-win64-mingw.zip</url>
   <hash-sum type="SHA-256">162d410f1c49ea6b3af1e3cc4e85686bf02519e1469ae600cacc12c775a12d40</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.19, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
+ <version name="7.79.1" package="se.haxx.curl.CURL64">
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b curl*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+</file>
+  <url>https://curl.haxx.se/windows/dl-7.79.1/curl-7.79.1-win64-mingw.zip</url>
+  <hash-sum type="SHA-256">ca67484fc85277ec91123bd190f57c9343ca1baad89ca92d33dad811e581f43a</hash-sum>
   <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.19, 2)">
    <variable>nih</variable>
   </dependency>
