@@ -8270,7 +8270,7 @@ rem "avgmfapx.exe" /AppMode=SETUP /Uninstall /UILevel=Silent /DontRestart&#13;
   </dependency>
  </version>
 
-    <version name="1.79" package="com.bitcomet.BitComet64" type="one-file">
+    <version name="1.80" package="com.bitcomet.BitComet64" type="one-file">
   <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
 </file>
   <file path=".Npackd\Uninstall.bat">%ncl%\ncl remove-scp --title "/BitComet.*/"</file>
@@ -17119,6 +17119,17 @@ if %err% neq 0 exit %err%&#13;
    <variable>nih</variable>
   </dependency>
  </version>
+ <version name="1.40.3" package="conan64" type="one-file">
+  <cmd-file path="conan\conan.exe"/>
+  <file path=".Npackd\Install.bat">"%nih%\InstallInnoSetup.bat"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">"%nih%\UninstallInnoSetup.bat" unins000.exe</file>
+  <url>https://github.com/conan-io/conan/releases/download/1.40.3/conan-win-64.exe</url>
+  <hash-sum type="SHA-256">20b87289dda2c0e7397ddd6d83c24d60cd2cce2116400335b4e2268125c7bf13</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
 
     <version name="4.2.3" package="copymastro">
   <important-file path="CopyMastro.exe" title="CopyMastro"/>
@@ -17198,7 +17209,7 @@ rmdir "%name%"&#13;
   <hash-sum type="SHA-256">34b4c1748ffe7ac66c3c79ad474b86a7aaa01ba296f8cd21929fe8024ebf3262</hash-sum>
  </version>
 
-    <version name="1.7.21555" package="daumpotplayer64" type="one-file">
+    <version name="1.7.21556" package="daumpotplayer64" type="one-file">
   <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
 </file>
   <file path=".Npackd\Uninstall.bat">uninstall.exe /S _?=%CD%&#13;
@@ -33489,6 +33500,17 @@ verify&#13;
    <variable>myun</variable>
   </dependency>
  </version>
+ <version name="27.1.1" package="open-broadcaster-software64" type="one-file">
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
+"%setup%" /S /D=%CD% &amp;&amp; del /f /q "%setup%"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">"%myun%\myuninst.exe" /uninstall "Open Broadcaster Software"</file>
+  <url>https://cdn-fastly.obsproject.com/downloads/OBS-Studio-27.1.1-Full-Installer-x64.exe</url>
+  <hash-sum type="SHA-256">6211501ce1fd15fe9f73da5555ca9a5b8a8b523ea6f685d4f81059727ed9165a</hash-sum>
+  <dependency package="net.nirsoft.MyUninstaller" versions="[1.74, 2)">
+   <variable>myun</variable>
+  </dependency>
+ </version>
 
     <version name="1.6.1" package="open-ttd64">
   <important-file path="openttd.exe" title="OpenTTD"/>
@@ -43462,6 +43484,15 @@ verify</file>
   <file path=".Npackd\Install.bat">call "%npackdih%\InstallMSI.bat" INSTALLDIR yes</file>
   <url>https://nodejs.org/dist/v14.17.6/node-v14.17.6-x64.msi</url>
   <hash-sum type="SHA-256">e72ceb05c7596a6e381172369dce1c374a2b09ee739dca330be58f3977b5c03d</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.1, 2)">
+   <variable>npackdih</variable>
+  </dependency>
+ </version>
+ <version name="14.18" package="org.nodejs.NodeJS64" type="one-file">
+  <cmd-file path="node.exe"/>
+  <file path=".Npackd\Install.bat">call "%npackdih%\InstallMSI.bat" INSTALLDIR yes</file>
+  <url>https://nodejs.org/dist/v14.18.0/node-v14.18.0-x64.msi</url>
+  <hash-sum type="SHA-256">35aafc1b10f7041b1f361fb042f32a6484482ff8633cb9c5ffca36c10ef97536</hash-sum>
   <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.1, 2)">
    <variable>npackdih</variable>
   </dependency>
@@ -58454,6 +58485,17 @@ Prog\setup.exe /Q /IACCEPTSQLSERVERLICENSETERMS /Q /ACTION=install &gt; .Npackd\
    <variable>nih</variable>
   </dependency>
  </version>
+ <version name="0.21.2" package="stellarium64" type="one-file">
+  <file path=".Npackd\Install.bat">call "%nih%\InstallInnoSetup.bat"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">call "%nih%\UninstallInnoSetup.bat" unins000.exe&#13;
+</file>
+  <url>https://github.com/Stellarium/stellarium/releases/download/v0.21.2/stellarium-0.21.2-win64.exe</url>
+  <hash-sum type="SHA-256">eff51315b0d3200ef0ecbb8deb8ffc3fe649162b32d577bf5701953709588af0</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
 
     <version name="0.6.11" package="strawberry64" type="one-file">
   <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
@@ -58821,6 +58863,15 @@ rmdir "%name%"</file>
 </file>
   <url>http://www.swi-prolog.org/download/stable/bin/swipl-8.2.4-1.x64.exe</url>
   <hash-sum type="SHA-256">787bfb6f588479cbca2dfbb13011c738eff8935280287b62e40abc6e7c036839</hash-sum>
+ </version>
+ <version name="8.4" package="swi-prolog64" type="one-file">
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
+"%setup%" /S /D=%CD% &amp;&amp; del /f /q "%setup%"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">uninstall.exe /S _?=%CD%&#13;
+</file>
+  <url>http://www.swi-prolog.org/download/stable/bin/swipl-8.4.0-1.x64.exe</url>
+  <hash-sum type="SHA-256">707f0de518dba327a6776e755470e49ee39917c443b4707b30f7fe44e6b5cecb</hash-sum>
  </version>
 
     <version name="0.64.3" package="synfig-studio64" type="one-file">
