@@ -415,6 +415,25 @@ x86_64</description>
   <link href="https://github.com/canton7/SyncTrayzor/releases/latest" rel="changelog"/>
   <link href="https://github.com/canton7/SyncTrayzor/blob/master/readme/screenshot.png?raw=true" rel="screenshot"/>
  </package>
+ <package name="centbrowser64">
+  <title>CentBrowser 64 Bit</title>
+  <url>https://www.centbrowser.com/</url>
+  <description>Cent Browser is a Chromium-based browser that functions similarly with Google Chrome but offers a set of unique features.
+x86_64</description>
+  <icon>https://images.sftcdn.net/images/t_app-logo-xl,f_auto/p/1b299650-a4d4-11e6-950f-00163ec9f5fa/2633426425/cent-browser-logo.png</icon>
+  <license>org.wikipedia.Freeware</license>
+  <category>Communications</category>
+  <tag>stable64</tag>
+  <stars>1</stars>
+  <link href="https://www.centbrowser.com/history.html" rel="changelog"/>
+  <link href="https://images.sftcdn.net/images/t_app-cover-l,f_auto/p/1b299650-a4d4-11e6-950f-00163ec9f5fa/3016960159/cent-browser-screenshot.png" rel="screenshot"/>
+  <link href="https://images.sftcdn.net/images/t_app-cover-l,f_auto/p/1b299650-a4d4-11e6-950f-00163ec9f5fa/3770067121/cent-browser-screenshot.png" rel="screenshot"/>
+  <link href="https://images.sftcdn.net/images/t_app-cover-l,f_auto/p/1b299650-a4d4-11e6-950f-00163ec9f5fa/1277967175/cent-browser-screenshot.png" rel="screenshot"/>
+  <link href="https://images.sftcdn.net/images/t_app-cover-l,f_auto/p/1b299650-a4d4-11e6-950f-00163ec9f5fa/1475154545/cent-browser-screenshot.png" rel="screenshot"/>
+  <link href="https://images.sftcdn.net/images/t_app-cover-l,f_auto/p/1b299650-a4d4-11e6-950f-00163ec9f5fa/1783603447/cent-browser-screenshot.png" rel="screenshot"/>
+  <link href="https://images.sftcdn.net/images/t_app-cover-l,f_auto/p/1b299650-a4d4-11e6-950f-00163ec9f5fa/1441626946/cent-browser-screenshot.png" rel="screenshot"/>
+  <link href="https://images.sftcdn.net/images/t_app-cover-l,f_auto/p/1b299650-a4d4-11e6-950f-00163ec9f5fa/2755561341/cent-browser-screenshot.png" rel="screenshot"/>
+ </package>
  <package name="ch.flos-freeware.Notepad264">
   <title>Notepad2 64 bit</title>
   <url>http://www.flos-freeware.ch/notepad2.html</url>
@@ -988,7 +1007,7 @@ x86_64</description>
  </package>
  <package name="com.strawberryperl.StrawberryPerl64">
   <title>Strawberry Perl 64 bit</title>
-  <url>http://strawberryperl.com</url>
+  <url>https://strawberryperl.com</url>
   <description>Perl programming language for the Microsoft Windows platform
 x86_64</description>
   <icon>https://lh3.googleusercontent.com/-Ay9Gh6eA420/UV6Gz30J9hI/AAAAAAAABlE/4XU3ZkWzV40/s800/strawberryperl.png</icon>
@@ -5298,8 +5317,6 @@ verify&#13;
 
     
 
-    
-
     <version name="2.9.6" package="calligra-suite64" type="one-file">
   <file path=".Npackd\Install.bat">call "%npackdih%\InstallMSI.bat" INSTALLDIR yes</file>
   <url>https://github.com/tim-lebedkov/packages/releases/download/2019_Q1/calligra-suite64-2.9.6-calligragemini_x64_2.9.6.0.msi</url>
@@ -5427,6 +5444,17 @@ verify&#13;
   <hash-sum type="SHA-256">bd9631c18b6b0bede73fdb80481784d2e21820e9dbb1d3d7f1b98b5d89745209</hash-sum>
   <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
    <variable>nih</variable>
+  </dependency>
+ </version>
+
+    <version name="4.3.9.248" package="centbrowser64" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">"%ncl%\ncl.exe" remove-scp --title "/%npackd_package_name% %npackd_package_version%/i"&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+</file>
+  <url>http://static.centbrowser.com/win_stable/4.3.9.248/centbrowser_4.3.9.248_x64.exe</url>
+  <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.25, 2)">
+   <variable>ncl</variable>
   </dependency>
  </version>
 
@@ -8272,7 +8300,7 @@ rem "avgmfapx.exe" /AppMode=SETUP /Uninstall /UILevel=Silent /DontRestart&#13;
   </dependency>
  </version>
 
-    <version name="1.80" package="com.bitcomet.BitComet64" type="one-file">
+    <version name="1.81" package="com.bitcomet.BitComet64" type="one-file">
   <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
 </file>
   <file path=".Npackd\Uninstall.bat">%ncl%\ncl remove-scp --title "/BitComet.*/"</file>
@@ -14995,6 +15023,21 @@ if %err% neq 0 exit %err%&#13;
   <url>http://www.uvnc.eu/download/134/UltraVNC_1_3_4_X64_Setup.exe</url>
   <hash-sum type="SHA-256">3580b8c1edba58610f0fab5bb3da1f4cf7d5ff27304dcaf5e6b3d23e8b56a4b6</hash-sum>
  </version>
+ <version name="1.3.4.2" package="com.uvnc.UltraVNC64" type="one-file">
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
+"%setup%" /SP- /VERYSILENT /SUPPRESSMSGBOXES /NOCANCEL /NORESTART /DIR="%CD%" /SAVEINF="%CD%\.Npackd\InnoSetupInfo.ini" /LOG="%CD%\.Npackd\InnoSetupInstall.log"&#13;
+set err=%errorlevel%&#13;
+type .Npackd\InnoSetupInstall.log&#13;
+if %err% neq 0 exit %err%&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">unins000.exe /VERYSILENT /SUPPRESSMSGBOXES /NORESTART /LOG="%CD%\.Npackd\InnoSetupUninstall.log"&#13;
+set err=%errorlevel%&#13;
+type .Npackd\InnoSetupUninstall.log&#13;
+if %err% neq 0 exit %err%&#13;
+</file>
+  <url>http://www.uvnc.eu/download/134/UltraVNC_1_3_4_X64_Setup.exe</url>
+  <hash-sum type="SHA-256">3580b8c1edba58610f0fab5bb3da1f4cf7d5ff27304dcaf5e6b3d23e8b56a4b6</hash-sum>
+ </version>
 
     <version name="2.0.6" package="com.videolan.VLCMediaPlayer64">
   <important-file path="vlc.exe" title="VLC Media Player"/>
@@ -18575,6 +18618,14 @@ rmdir "%name%"&#13;
 </file>
   <url>https://files.dev47apps.net/win/DroidCam.Setup.6.4.3.exe</url>
   <hash-sum type="SHA-256">c70ce7a36e8b81d061e720ff45cd94e59c232e1a6e0ad421b1dd8004853ab68a</hash-sum>
+ </version>
+ <version name="6.5.1" package="droidcam" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">uninstall.exe /S _?=%CD%&#13;
+</file>
+  <url>https://files.dev47apps.net/win/DroidCam.Setup.6.5.1.exe</url>
+  <hash-sum type="SHA-256">9cd8d4d9bbadbcf39be38abb1168ff6a3bb6b63e5840814bc55d5281ea058d5e</hash-sum>
  </version>
 
     <version name="2017" package="dwg-trueview64" type="one-file">
@@ -27894,6 +27945,15 @@ rmdir "%name%"&#13;
    <variable>nih</variable>
   </dependency>
  </version>
+ <version name="2.3.1" package="mixxx" type="one-file">
+  <file path=".Npackd\Install.bat">call "%nih%\InstallMSI.bat" INSTALLDIR yes&#13;
+</file>
+  <url>https://downloads.mixxx.org/releases/2.3.1/mixxx-2.3.1-win64.msi</url>
+  <hash-sum type="SHA-256">c624f5ba54f1e7711a4cd9a92a623bddf3439d339082544c2855fe4f7d285b3c</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.1, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
 
     <version name="6.7" package="mkvtoolnix64" type="one-file">
   <file path=".Npackd\Install.bat">for /f %%x in ('dir /b *.exe') do set setup=%%x&#13;
@@ -28140,6 +28200,16 @@ reg add HKCU\Software\mkvmergeGUI\GUI /v check_for_updates /t REG_DWORD /d 00000
   <file path=".Npackd\Uninstall.bat">"%nih%\UninstallInnoSetup.bat" unins000.exe</file>
   <url>https://github.com/moneymanagerex/moneymanagerex/releases/download/v1.5.5/mmex-1.5.5-win64.exe</url>
   <hash-sum type="SHA-256">ee69cb79b91d912edf573bb12d12abb2767b28320e0e0572797bd8e069a1e097</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
+ <version name="1.5.7" package="money-manager-ex64" type="one-file">
+  <file path=".Npackd\Install.bat">"%nih%\InstallInnoSetup.bat"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">"%nih%\UninstallInnoSetup.bat" unins000.exe</file>
+  <url>https://github.com/moneymanagerex/moneymanagerex/releases/download/v1.5.7/mmex-1.5.7-win64.exe</url>
+  <hash-sum type="SHA-256">5698945eb795fef4a53859063c38f4f5e7fde0a384c2ce4505a6a278bde72c45</hash-sum>
   <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
    <variable>nih</variable>
   </dependency>
@@ -41425,6 +41495,15 @@ ren "%setup%" Psycopg.exe&#13;
    <variable>nih</variable>
   </dependency>
  </version>
+ <version name="1.1.1" package="org.inkscape.Inkscape64" type="one-file">
+  <file path=".Npackd\Install.bat">call "%nih%\InstallMSI.bat" INSTALLDIR yes&#13;
+</file>
+  <url>https://media.inkscape.org/dl/resources/file/inkscape-0.92.3-x64.msi</url>
+  <hash-sum type="SHA-256">1d2f4d9edf221fe9dd1ad75c4a48c8809dd3adf5af0fb672f1383088b163516e</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.1, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
 
     <version name="2.10.5550" package="org.jitsi.Jitsi64" type="one-file">
   <file path=".Npackd\Install.bat">call "%npackdih%\InstallMSI.bat" INSTALLDIR yes</file>
@@ -52254,6 +52333,20 @@ call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Np
    <variable>nih</variable>
   </dependency>
  </version>
+ <version name="8.2.3463" package="org.vim.Vim64">
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+if %errorlevel% neq 0 exit /b %errorlevel%&#13;
+&#13;
+for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+</file>
+  <url>https://github.com/vim/vim-win32-installer/releases/download/v8.2.3463/gvim_8.2.3463_x64.zip</url>
+  <hash-sum type="SHA-256">5a2913c68387d91c15a0fefb2cc1edde6d2f5706e38c941695eaecde1ecb1a35</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.19, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
 
     <version name="4.2.8.83876" package="org.virtualbox.virtualbox64" type="one-file">
   <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
@@ -55063,6 +55156,16 @@ call "%npackdih%\InstallMSI.bat" TARGETDIR yes</file>
 call "%npackdih%\InstallMSI.bat" TARGETDIR yes</file>
   <url>https://github.com/torakiki/pdfsam/releases/download/v4.2.6/pdfsam-4.2.6.msi</url>
   <hash-sum type="SHA-256">d333ff88c9139232ce83b277caa35e528fccbc2d196d55e603a5b02de26407fc</hash-sum>
+  <dependency package="com.oracle.JRE64" versions="[1.6.0.23, 2)"/>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.1, 2)">
+   <variable>npackdih</variable>
+  </dependency>
+ </version>
+ <version name="4.2.7" package="pdfsam64" type="one-file">
+  <file path=".Npackd\Install.bat">rem un-installation tries to remove .Npackd and fails =&gt; 2 to install the program somewhere else&#13;
+call "%npackdih%\InstallMSI.bat" TARGETDIR yes</file>
+  <url>https://github.com/torakiki/pdfsam/releases/download/v4.2.7/pdfsam-4.2.7.msi</url>
+  <hash-sum type="SHA-256">6bf746ed9a1bfd5fa7768090a1453deb524b973b9281d1a7f8343a7184236d15</hash-sum>
   <dependency package="com.oracle.JRE64" versions="[1.6.0.23, 2)"/>
   <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.1, 2)">
    <variable>npackdih</variable>
