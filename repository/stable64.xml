@@ -390,6 +390,22 @@ x86_64</description>
   <tag>same-url</tag>
   <stars>3</stars>
  </package>
+ <package name="brl-cad64">
+  <title>BRL-CAD 64 Bit</title>
+  <url>https://brlcad.org/</url>
+  <description>BRL-CAD is a constructive solid geometry (CSG) solid modeling computer-aided design (CAD) system.
+x86_64</description>
+  <icon>https://brlcad.org/favicon.ico</icon>
+  <license>org.wikipedia.Freeware</license>
+  <category>Productivity</category>
+  <tag>stable64</tag>
+  <stars>2</stars>
+  <link href="https://sourceforge.net/p/brlcad/code/commit_browser" rel="changelog"/>
+  <link href="http://bzflag.bz/~starseeker/nirt_mockup.png" rel="screenshot"/>
+  <link href="https://brlcad.org/gallery/_data/i/galleries/screenshots/ronja_screenshot-me.png" rel="screenshot"/>
+  <link href="https://brlcad.org/gallery/_data/i/galleries/screenshots/MGED-me.jpg" rel="screenshot"/>
+  <link href="https://brlcad.org/gallery/_data/i/galleries/screenshots/Archer_0_5prototype-me.png" rel="screenshot"/>
+ </package>
  <package name="calligra-suite64">
   <title>Calligra Suite 64 bit</title>
   <url>http://www.calligra.org</url>
@@ -5325,6 +5341,15 @@ verify&#13;
   <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.25, 2)">
    <variable>ncl</variable>
   </dependency>
+ </version>
+
+    <version name="7.32.2" package="brl-cad64" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">uninstall.exe /S _?=%CD%&#13;
+</file>
+  <url>https://sourceforge.net/projects/brlcad/files/BRL-CAD%20for%20Windows/7.32.2/BRL-CAD_7.32.2_win64.exe</url>
+  <hash-sum type="SHA-256">9a9c15ccd64a9cb8ed070838e09824b9fbc97fca47eeeeece7877feb06e37258</hash-sum>
  </version>
 
     
@@ -17193,6 +17218,17 @@ if %err% neq 0 exit %err%&#13;
    <variable>nih</variable>
   </dependency>
  </version>
+ <version name="1.41" package="conan64" type="one-file">
+  <cmd-file path="conan\conan.exe"/>
+  <file path=".Npackd\Install.bat">"%nih%\InstallInnoSetup.bat"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">"%nih%\UninstallInnoSetup.bat" unins000.exe</file>
+  <url>https://github.com/conan-io/conan/releases/download/1.41.0/conan-win-64.exe</url>
+  <hash-sum type="SHA-256">7f4accc6083d8ee94214297d663bef6ee2754bfbb435d2eef75502c9c7e328f5</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
 
     <version name="4.2.3" package="copymastro">
   <important-file path="CopyMastro.exe" title="CopyMastro"/>
@@ -23610,6 +23646,19 @@ rmdir "%name%"&#13;
 </file>
   <url>https://dl.google.com/dl/cloudsdk/channels/rapid/downloads/google-cloud-sdk-359.0.0-windows-x86_64.zip</url>
   <hash-sum type="SHA-256">fc733fd39a73fb2855f0b6df7f679558d9020b94eb50f3acf12536042ec1518b</hash-sum>
+  <dependency package="org.python.Python" versions="[2.7, 2.8)"/>
+ </version>
+ <version name="360" package="google-cloud-sdk64">
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b google-cloud-sdk*') do set name=%%x&#13;
+cd "%name%"&#13;
+for /f "delims=" %%a in ('dir /b') do (&#13;
+  move "%%a" ..&#13;
+)&#13;
+cd ..&#13;
+rmdir "%name%"&#13;
+</file>
+  <url>https://dl.google.com/dl/cloudsdk/channels/rapid/downloads/google-cloud-sdk-360.0.0-windows-x86_64.zip</url>
+  <hash-sum type="SHA-256">71480cad1b8b522cc34196b1d5677df93d8bcef1cf23a15e592444f8a438329c</hash-sum>
   <dependency package="org.python.Python" versions="[2.7, 2.8)"/>
  </version>
 
@@ -34200,7 +34249,7 @@ WshShell.AppActivate("Uninstall");&#13;
 WScript.Sleep(10000);&#13;
 WshShell.SendKeys("{ESC}");&#13;
 </file>
-  <url>https://download.openmpt.org/archive/openmpt/1.29/OpenMPT-1.29.13.00-Setup-x64.exe</url>
+  <url>https://github.com/tim-lebedkov/packages/releases/download/2021_10/openmpt64-1.29.13-OpenMPT-1.29.13.00-Setup-x64.exe</url>
   <hash-sum type="SHA-256">5a04dd88bd17cab73b8ba6fe5195f59e9f6e4110206e0b086ac22dbdd7b532c4</hash-sum>
  </version>
 
@@ -37518,6 +37567,16 @@ rmdir "%name%"&#13;
 "%NIH%\ExtractDir.bat" "%name%"</file>
   <url>https://download.blender.org/release/Blender2.93/blender-2.93.4-windows-x64.zip</url>
   <hash-sum type="SHA-256">e4c598891ef2e58910f90a9308829bdc187d962a53a14f544c9f1528f9a1772c</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
+   <variable>NIH</variable>
+  </dependency>
+ </version>
+ <version name="2.93.5" package="org.blender.Blender64">
+  <important-file path="blender.exe" title="Blender"/>
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b blender*') do set name=%%x&#13;
+"%NIH%\ExtractDir.bat" "%name%"</file>
+  <url>https://download.blender.org/release/Blender2.93/blender-2.93.5-windows-x64.zip</url>
+  <hash-sum type="SHA-256">99a4187ef7a10846051a5f5cccc2a5931611670004893465eabfc249ab98cede</hash-sum>
   <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
    <variable>NIH</variable>
   </dependency>
@@ -52505,6 +52564,20 @@ call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Np
 </file>
   <url>https://github.com/vim/vim-win32-installer/releases/download/v8.2.3475/gvim_8.2.3475_x64.zip</url>
   <hash-sum type="SHA-256">e780c8efbc62cd4664cca5c29572bee3ad6c1032112cb59590f4cbe6f22b0ea5</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.19, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
+ <version name="8.2.3482" package="org.vim.Vim64">
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+if %errorlevel% neq 0 exit /b %errorlevel%&#13;
+&#13;
+for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+</file>
+  <url>https://github.com/vim/vim-win32-installer/releases/download/v8.2.3482/gvim_8.2.3482_x64.zip</url>
+  <hash-sum type="SHA-256">41fb317ab83a8e30aa3d98644d738ee66f76d883a8088bd77147eb393c415a28</hash-sum>
   <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.19, 2)">
    <variable>nih</variable>
   </dependency>
