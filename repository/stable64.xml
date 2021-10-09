@@ -1547,7 +1547,7 @@ x86_64</description>
   <url>http://www.pintosoft.com/en/foni</url>
   <description>Lightweight and fast free image viewer for Windows. Quickly view and simply edit photos. Free for everyone - personal and commercial use. Automatically organize your photos by date. Maintain photo editing without damaging the original. Sharing photos on Blogs, Twitter, Facebook. Over 100 image formats supported
 x86_64</description>
-  <icon>https://dl1.cbsistatic.com/i/2020/02/18/2467491a-264b-46fe-89d6-304a2a45a3a5/8ea2c736536eee128ceb109a725aa186/imgingest-8081177551817099211.png</icon>
+  <icon>https://img.apponic.com/85/213/93dc51ef72240a5a2951ec2593103b0b.png</icon>
   <license>org.wikipedia.Freeware</license>
   <category>Photo</category>
   <tag>stable64</tag>
@@ -1556,9 +1556,6 @@ x86_64</description>
   <link href="http://sg.pintosoft.com/site/images/foni.png" rel="screenshot"/>
   <link href="https://www.bytesin.com/software/media/screens/267401.jpg" rel="screenshot"/>
   <link href="https://www.softpaz.com/screenshots/focuson-image-viewer-pintosoft/1.png" rel="screenshot"/>
-  <link href="https://windows-cdn.softpedia.com/screenshots/Portable-FocusOn-Image-Viewer_1.png" rel="screenshot"/>
-  <link href="https://windows-cdn.softpedia.com/screenshots/Portable-FocusOn-Image-Viewer_3.png" rel="screenshot"/>
-  <link href="https://windows-cdn.softpedia.com/screenshots/Portable-FocusOn-Image-Viewer_5.png" rel="screenshot"/>
   <link href="https://www.softpaz.com/screenshots/focuson-image-viewer-pintosoft/2.png" rel="screenshot"/>
   <link href="https://www.softpaz.com/screenshots/focuson-image-viewer-pintosoft/3.png" rel="screenshot"/>
  </package>
@@ -9425,6 +9422,15 @@ call "%npackdih%\InstallMSI.bat" APPLICATIONFOLDER yes&#13;
    <variable>npackdih</variable>
   </dependency>
  </version>
+ <version name="5.29" package="com.calibreebook.Calibre64" type="one-file">
+  <file path=".Npackd\Install.bat">call "%npackdih%\InstallMSI.bat" APPLICATIONFOLDER yes&#13;
+</file>
+  <url>https://download.calibre-ebook.com/5.29.0/calibre-64bit-5.29.0.msi</url>
+  <hash-sum type="SHA-256">acd8ee05b05311739dee47e65c0f732a99098fbc1d3a2b1d416ac2fde86610c1</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.2, 2)">
+   <variable>npackdih</variable>
+  </dependency>
+ </version>
 
     <version name="5.12.256249.2599" package="com.comodo.comodoav64" type="one-file">
   <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.msi') do set setup=%%x&#13;
@@ -17218,6 +17224,17 @@ if %err% neq 0 exit %err%&#13;
    <variable>nih</variable>
   </dependency>
  </version>
+ <version name="1.40.4" package="conan64" type="one-file">
+  <cmd-file path="conan\conan.exe"/>
+  <file path=".Npackd\Install.bat">"%nih%\InstallInnoSetup.bat"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">"%nih%\UninstallInnoSetup.bat" unins000.exe</file>
+  <url>https://github.com/conan-io/conan/releases/download/1.40.4/conan-win-64.exe</url>
+  <hash-sum type="SHA-256">47633f82d901577f1f54bf75173fb6b2353190003b9058b1aa60f6f1f7e8877a</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
  <version name="1.41" package="conan64" type="one-file">
   <cmd-file path="conan\conan.exe"/>
   <file path=".Npackd\Install.bat">"%nih%\InstallInnoSetup.bat"&#13;
@@ -22235,7 +22252,7 @@ if %err% neq 0 exit %err%&#13;
   <hash-sum type="SHA-256">9ea1de71109eb5f1b41be08cf2f509ad952ba8cdae8ed82507452f2f772686d3</hash-sum>
  </version>
 
-    <version name="94.0.4606.71" package="google-chrome-x64" type="one-file">
+    <version name="94.0.4606.81" package="google-chrome-x64" type="one-file">
   <file path=".Npackd\Install.bat">call "%npackdih%\InstallMSI.bat" TARGETDIR yes&#13;
 </file>
   <url>https://dl.google.com/tag/s/appguid%3D%7B8A69D345-D564-463C-AFF1-A69D9E530F96%7D%26iid%3D%7B0A558A36-0536-8B3F-0AE0-420553CC97F3%7D%26lang%3Den%26browser%3D4%26usagestats%3D0%26appname%3DGoogle%2520Chrome%26needsadmin%3DFalse/edgedl/chrome/install/GoogleChromeStandaloneEnterprise64.msi</url>
@@ -33797,6 +33814,17 @@ verify&#13;
    <variable>myun</variable>
   </dependency>
  </version>
+ <version name="27.1.3" package="open-broadcaster-software64" type="one-file">
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
+"%setup%" /S /D=%CD% &amp;&amp; del /f /q "%setup%"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">"%myun%\myuninst.exe" /uninstall "Open Broadcaster Software"</file>
+  <url>https://cdn-fastly.obsproject.com/downloads/OBS-Studio-27.1.3-Full-Installer-x64.exe</url>
+  <hash-sum type="SHA-256">853cba5a0225cf5f8a578c610594e6752ad7f0f4efaf01f5986bb2eace1ced22</hash-sum>
+  <dependency package="net.nirsoft.MyUninstaller" versions="[1.74, 2)">
+   <variable>myun</variable>
+  </dependency>
+ </version>
 
     <version name="1.6.1" package="open-ttd64">
   <important-file path="openttd.exe" title="OpenTTD"/>
@@ -34594,6 +34622,15 @@ reg add HKLM\SOFTWARE\OpenVPN-GUI /v allow_service /t REG_SZ /d 0 /f&#13;
 </file>
   <url>https://swupdate.openvpn.org/community/releases/OpenVPN-2.5.3-I601-amd64.msi</url>
   <hash-sum type="SHA-256">3b51e9d0ee2a859a9dd4f0124683340161ac5fc9bf499129a81a13b28ddb21ce</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.1, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
+ <version name="2.5.4" package="openvpn64" type="one-file">
+  <file path=".Npackd\Install.bat">call "%nih%\InstallMSI.bat" INSTALLDIR yes&#13;
+</file>
+  <url>https://swupdate.openvpn.org/community/releases/OpenVPN-2.5.4-I601-amd64.msi</url>
+  <hash-sum type="SHA-256">0de66f5a06a084ddb8216c14664fa0a0e41b66a102fab5e4a700d15f5b2c9dd6</hash-sum>
   <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.1, 2)">
    <variable>nih</variable>
   </dependency>
@@ -44629,6 +44666,15 @@ if %err% neq 0 exit /b %err%&#13;
 </file>
   <url>https://www.python.org/ftp/python/3.9.7/python-3.9.7-amd64.exe</url>
   <hash-sum type="SHA-256">3f63f4c77a6da13f9bae715eb6644a48bd5f900601e0f1f233862e8ca1a96dd8</hash-sum>
+ </version>
+ <version name="3.10" package="org.python.Python64" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" /quiet InstallAllUsers=1 "TargetDir=%cd%"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">for /f "delims=" %%x in ('dir /b python-*.exe') do set setup=%%x&#13;
+%setup% /uninstall /quiet InstallAllUsers=1&#13;
+</file>
+  <url>https://www.python.org/ftp/python/3.10.0/python-3.10.0-amd64.exe</url>
+  <hash-sum type="SHA-256">cb580eb7dc55f9198e650f016645023e8b2224cf7d033857d12880b46c5c94ef</hash-sum>
  </version>
 
     <version name="2.0.0.247" package="org.rubylang.Ruby64" type="one-file">
@@ -61825,7 +61871,7 @@ if %err% neq 0 exit %err%&#13;
   <url>https://az764295.vo.msecnd.net/stable/a0479759d6e9ea56afa657e454193f72aef85bd0/VSCodeSetup-ia32-1.48.2.exe</url>
   <hash-sum type="SHA-256">013d5ecdb44159c15047472512bef9c76ba934807dbb07a582655f4c5546866d</hash-sum>
  </version>
- <version name="1.60.2" package="vs-code" type="one-file">
+ <version name="1.61" package="vs-code" type="one-file">
   <file path=".Npackd\Install.bat">ren "%npackd_package_binary%" setup.exe&#13;
 setup.exe /SP- /VERYSILENT /SUPPRESSMSGBOXES /NOCANCEL /NORESTART /DIR="%CD%" /SAVEINF="%CD%\.Npackd\InnoSetupInfo.ini" /LOG="%CD%\.Npackd\InnoSetupInstall.log"&#13;
 set err=%errorlevel%&#13;
@@ -61900,7 +61946,7 @@ if %err% neq 0 exit %err%&#13;
   <url>https://az764295.vo.msecnd.net/stable/a0479759d6e9ea56afa657e454193f72aef85bd0/VSCodeSetup-x64-1.48.2.exe</url>
   <hash-sum type="SHA-256">3f8805a29fdd9fbfd7c0d7a9f354ed160256ec6f1f80410e367bf14f37908afb</hash-sum>
  </version>
- <version name="1.60.2" package="vs-code64" type="one-file">
+ <version name="1.61" package="vs-code64" type="one-file">
   <file path=".Npackd\Install.bat">ren "%npackd_package_binary%" setup.exe&#13;
 setup.exe /SP- /VERYSILENT /SUPPRESSMSGBOXES /NOCANCEL /NORESTART /DIR="%CD%" /SAVEINF="%CD%\.Npackd\InnoSetupInfo.ini" /LOG="%CD%\.Npackd\InnoSetupInstall.log"&#13;
 set err=%errorlevel%&#13;
