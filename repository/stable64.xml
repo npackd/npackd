@@ -307,7 +307,6 @@ x86_64</description>
   <title>Basilisk 64 Bit</title>
   <url>https://www.basilisk-browser.org/</url>
   <description>WARNING: this package always installs the newest version of the software.
-WARNING: there will be no new versions of this package.
 Basilisk is a free and Open Source XUL-based web browser, featuring the well-known Firefox-style interface and operation. It is based on the Goanna layout and rendering engine (a fork of Gecko) and builds on the Unified XUL Platform (UXP), which in turn is a fork of the Mozilla code base without Servo or Rust. Basilisk is primarily a reference application for development of the XUL platform it builds upon, and additionally a potential replacement for Firefox. &#13;
 It supports a wide array of features required for the Modern Web, including advanced scripting, WebRTC, CSS v3, HTML5 and downloadable font support. It also fully supports all NPAPI plugins (e.g. Java, Unity web player, Media plugins, Authentication plugins). Further details can be found on the features page. This browser is created and maintained by the team behind Pale Moon, and is a fully independent fork of the Mozilla/Firefox code.
 x86_64</description>
@@ -316,7 +315,6 @@ x86_64</description>
   <category>Communications</category>
   <tag>stable64</tag>
   <tag>same-url</tag>
-  <tag>end-of-life</tag>
   <stars>1</stars>
   <link href="https://www.basilisk-browser.org/releasenotes.shtml" rel="changelog"/>
   <link href="https://www.basilisk-browser.org/assets/Basilisk_Win10_AOM_t.png" rel="screenshot"/>
@@ -5688,6 +5686,14 @@ call "%nih%\InstallInnoSetup.bat"&#13;
 </file>
   <url>https://github.com/llvm/llvm-project/releases/download/llvmorg-12.0.1/LLVM-12.0.1-win64.exe</url>
   <hash-sum type="SHA-256">fcbabc9a170208bb344f7bba8366cca57ff103d72a316781bbb77d634b9e9433</hash-sum>
+ </version>
+ <version name="13" package="clang64" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">uninstall.exe /S _?=%CD%&#13;
+</file>
+  <url>https://github.com/llvm/llvm-project/releases/download/llvmorg-13.0.0/LLVM-13.0.0-win64.exe</url>
+  <hash-sum type="SHA-256">f81f08a8bd9d787ec0505a7475cdff9653516cbbc5804e973f8749a2139fa1cb</hash-sum>
  </version>
 
     <version name="3.15.0.1" package="claws-mail64" type="one-file">
@@ -18256,6 +18262,14 @@ rmdir "%name%"&#13;
 </file>
   <url>http://dbeaver.jkiss.org/files/21.2.1/dbeaver-ce-21.2.1-x86_64-setup.exe</url>
   <hash-sum type="SHA-256">9e46c6e78669623df4fe6da8f06867f7a0140f1396ac2c64ece95585e6f8ade4</hash-sum>
+ </version>
+ <version name="21.2.2" package="dbeaver64" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" /allusers /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">uninstall.exe /allusers /S _?=%CD%&#13;
+</file>
+  <url>http://dbeaver.jkiss.org/files/21.2.2/dbeaver-ce-21.2.2-x86_64-setup.exe</url>
+  <hash-sum type="SHA-256">eb96513c543f0c32eda2edc5a29ec38620a60658726795319fe6c23ad21def3b</hash-sum>
  </version>
 
     <version name="0.825" package="dcplusplus64">
@@ -41496,6 +41510,40 @@ Set view = Nothing&#13;
    <variable>npackdih</variable>
   </dependency>
  </version>
+ <version name="1.17.2" package="org.golang.Go64" type="one-file">
+  <file path=".Npackd\Install.bat">.Npackd\AddProperty.vbs "%npackd_package_binary%"&#13;
+if %errorlevel% neq 0 exit %errorlevel%&#13;
+&#13;
+call "%npackdih%\InstallMSI.bat" INSTALLDIR</file>
+  <file path=".Npackd\Uninstall.bat">call "%npackdih%\UninstallMSI.bat"</file>
+  <file path=".Npackd\AddProperty.vbs">Option Explicit&#13;
+&#13;
+Dim MSI_FILE&#13;
+MSI_FILE = Wscript.Arguments(0)&#13;
+&#13;
+Dim installer, database, view&#13;
+&#13;
+Set installer = CreateObject("WindowsInstaller.Installer")&#13;
+Set database = installer.OpenDatabase(MSI_FILE, 1)&#13;
+&#13;
+Set view = database.OpenView("INSERT INTO Property (Property, Value) VALUES ('INSTALLDIR', 'C:\Go')")&#13;
+view.Execute&#13;
+'Set view = database.OpenView("DELETE FROM Directory WHERE Directory='TARGETDIR'")&#13;
+'view.Execute&#13;
+'Set view = database.OpenView("UPDATE Directory SET DefaultDir='INSTALLLOCATION' WHERE Directory='TARGETDIR'")&#13;
+'view.Execute&#13;
+database.Commit&#13;
+&#13;
+Set database = Nothing&#13;
+Set installer = Nothing&#13;
+Set view = Nothing&#13;
+</file>
+  <url>https://golang.org/dl/go1.17.2.windows-amd64.msi</url>
+  <hash-sum type="SHA-256">f7d54883e9bb653b1a50061a7fa42a6503c680a25cee32f16ccba51a77b0c83b</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1, 2)">
+   <variable>npackdih</variable>
+  </dependency>
+ </version>
 
     <version name="2.22.1" package="org.gtk.GTKPlusBundle64">
   <file path="etc\gtk-2.0\gtkrc">gtk-theme-name = "MS-Windows"</file>
@@ -54752,6 +54800,14 @@ if %err% neq 0 exit %err%</file>
   <url>https://1.eu.dl.wireshark.org/win64/Wireshark-win64-3.4.8.exe</url>
   <hash-sum type="SHA-256">7f65c2edb7ea53e6abce513e2dc5b4c3dc323738d49b54718255c2944c776c5a</hash-sum>
  </version>
+ <version name="3.4.9" package="org.wireshark.Wireshark64" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD%&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">uninstall.exe /S _=%CD%&#13;
+</file>
+  <url>https://1.eu.dl.wireshark.org/win64/Wireshark-win64-3.4.9.exe</url>
+  <hash-sum type="SHA-256">dca0db950d1a9dca9f5653ab0f1110a454d812c9d4224f9acdb1e7e74d8e4513</hash-sum>
+ </version>
 
     <version name="1.0.81" package="otter-browser" type="one-file">
   <file path=".Npackd\Install.bat">"%nih%\InstallInnoSetup.bat"&#13;
@@ -57310,6 +57366,14 @@ if %errorlevel% equ 3010 verify</file>
 </file>
   <url>http://www.rainlendar.net/download/Rainlendar-Lite-2.17-64bit.exe</url>
   <hash-sum type="SHA-256">1af9b0542bdeb65f1e7ba3f5b9aff63ddab3a4f39b503f74810c330cea0f1760</hash-sum>
+ </version>
+ <version name="2.17.1" package="rainlendar-lite-64bit" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">uninst.exe /S _?=%CD%&#13;
+</file>
+  <url>http://www.rainlendar.net/download/Rainlendar-Lite-2.17.1-64bit.exe</url>
+  <hash-sum type="SHA-256">3d8ce2f1fb5f6bcaaf9d298493b1867204485b31b21f0d4b14ac02f9988cd91a</hash-sum>
  </version>
 
     <version name="0.5.17" package="rambox-64-bit" type="one-file">
@@ -62397,6 +62461,19 @@ rmdir "%name%"&#13;
 </file>
   <url>https://github.com/xmake-io/xmake/releases/download/v2.5.7/xmake-v2.5.7.win64.zip</url>
   <hash-sum type="SHA-256">7d8b3c4daa914677a05aa6d40d8e48fa72b91ba01bcbb267dd12a0a32d91246d</hash-sum>
+ </version>
+ <version name="2.5.8" package="xmake64">
+  <cmd-file path="xmake.exe"/>
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b xmake*') do set name=%%x&#13;
+cd "%name%"&#13;
+for /f "delims=" %%a in ('dir /b') do (&#13;
+  move "%%a" ..&#13;
+)&#13;
+cd ..&#13;
+rmdir "%name%"&#13;
+</file>
+  <url>https://github.com/xmake-io/xmake/releases/download/v2.5.8/xmake-v2.5.8.win64.zip</url>
+  <hash-sum type="SHA-256">829c44b603062f5a8eeb02a89f42dbbf5913ef55c6d47d43a885e2b2344f38bc</hash-sum>
  </version>
 
     <version name="3.5.3.4" package="xmedia-recode" type="one-file">
