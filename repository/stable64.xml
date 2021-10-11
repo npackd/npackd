@@ -14032,7 +14032,7 @@ del Q-Dir.ini&#13;
   <url>http://files.npackd.org/com.softwareok.QDir64-5.99.9.zip</url>
   <sha1>fb6060796fae3fc641ba34fe1f2f8530d7c985a8</sha1>
  </version>
- <version name="9.92" package="com.softwareok.QDir64">
+ <version name="9.93" package="com.softwareok.QDir64">
   <important-file path="Q-Dir_x64.exe" title="Q-Dir"/>
   <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b Q*') do set name=%%x&#13;
 cd "%name%"        &#13;
@@ -21564,6 +21564,15 @@ rmdir "%name%"</file>
 </file>
   <url>https://gajim.org/downloads/1.3/Gajim-1.3.2-64bit-1.exe</url>
   <hash-sum type="SHA-256">98d51bcad3a614e7628f954fadd8e1e4203fd58ecba8765915a60a35e5a5abdd</hash-sum>
+ </version>
+ <version name="1.3.3" package="gajim64" type="one-file">
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
+"%setup%" /S /D=%CD%&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">uninstall.exe /S _?=%CD%&#13;
+</file>
+  <url>https://gajim.org/downloads/1.3/Gajim-1.3.3-64bit-1.exe</url>
+  <hash-sum type="SHA-256">50a693c5edfb62f624b63ad96e81133c734c4257854acb132f24fa6bac99bb89</hash-sum>
  </version>
 
     <version name="3.20.1" package="gedit64" type="one-file">
@@ -36123,6 +36132,21 @@ rmdir "%name%"
 </file>
   <url>http://archive.apache.org/dist/tomcat/tomcat-8/v8.5.70/bin/apache-tomcat-8.5.70-windows-x64.zip</url>
   <hash-sum type="SHA-256">8d3840bd24cd98c8e2e4e64dfa99df15a80f3a1c65ad8a516134ce96a68c690d</hash-sum>
+  <dependency package="com.oracle.JRE" versions="[1.5, 2)"/>
+ </version>
+ <version name="8.5.72" package="org.apache.tomcat.Tomcat64">
+  <important-file path="bin\startup.bat" title="Start"/>
+  <important-file path="bin\shutdown.bat" title="Stop"/>
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b apache*') do set name=%%x
+cd "%name%"        
+for /f "delims=" %%a in ('dir /b') do (
+  move "%%a" ..
+)
+cd ..
+rmdir "%name%"
+</file>
+  <url>http://archive.apache.org/dist/tomcat/tomcat-8/v8.5.72/bin/apache-tomcat-8.5.72-windows-x64.zip</url>
+  <hash-sum type="SHA-256">c8b8d2733c7d822b03c4c6a4615c224d3417ed8afafab45e93e725ba41136433</hash-sum>
   <dependency package="com.oracle.JRE" versions="[1.5, 2)"/>
  </version>
 
