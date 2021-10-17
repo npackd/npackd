@@ -14042,7 +14042,7 @@ del Q-Dir.ini&#13;
   <url>http://files.npackd.org/com.softwareok.QDir64-5.99.9.zip</url>
   <sha1>fb6060796fae3fc641ba34fe1f2f8530d7c985a8</sha1>
  </version>
- <version name="9.94" package="com.softwareok.QDir64">
+ <version name="9.94.1" package="com.softwareok.QDir64">
   <important-file path="Q-Dir_x64.exe" title="Q-Dir"/>
   <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b Q*') do set name=%%x&#13;
 cd "%name%"        &#13;
@@ -26803,6 +26803,14 @@ call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Np
    <variable>npackdih</variable>
   </dependency>
  </version>
+ <version name="7.2.2" package="libreoffice64" type="one-file">
+  <file path=".Npackd\Install.bat">call "%npackdih%\InstallMSI.bat" INSTALLLOCATION yes</file>
+  <url>https://download.documentfoundation.org/libreoffice/stable/7.2.2/win/x86_64/LibreOffice_7.2.2_Win_x64.msi</url>
+  <hash-sum type="SHA-256">422e733813bd853f37ef7731d75e554e73d3230c78b9bd58e39c0a8c2b6a45d0</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.1, 2)">
+   <variable>npackdih</variable>
+  </dependency>
+ </version>
 
     <version name="12.6" package="lightworks64" type="one-file">
   <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
@@ -33655,7 +33663,7 @@ mkdir %trash%&#13;
 move NppShell*.dll %trash%&#13;
 verify&#13;
 		</file>
-  <url>https://github.com/notepad-plus-plus/notepad-plus-plus/releases/download/v8.1.7/npp.8.1.7.Installer.x64.exe</url>
+  <url>https://github.com/tim-lebedkov/packages/releases/download/2021_10/notepadpp64-8.1.7-npp.8.1.7.Installer.x64.exe</url>
   <hash-sum type="SHA-256">18107fa059cf457b0b351b683e08e01a3b029ba277f5ca4583a4e3322df21622</hash-sum>
  </version>
 
@@ -52860,6 +52868,20 @@ call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Np
 </file>
   <url>https://github.com/vim/vim-win32-installer/releases/download/v8.2.3499/gvim_8.2.3499_x64.zip</url>
   <hash-sum type="SHA-256">3cad007826f8eede3c07d5a55efc0c56eb1e6e56d11d6b5d6e005d8bc6accf6d</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.19, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
+ <version name="8.2.3526" package="org.vim.Vim64">
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+if %errorlevel% neq 0 exit /b %errorlevel%&#13;
+&#13;
+for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+</file>
+  <url>https://github.com/vim/vim-win32-installer/releases/download/v8.2.3526/gvim_8.2.3526_x64.zip</url>
+  <hash-sum type="SHA-256">5e4c2777ddefa147df88501b79ae721b16696ac514ebe9541c22b3db8025014e</hash-sum>
   <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.19, 2)">
    <variable>nih</variable>
   </dependency>
