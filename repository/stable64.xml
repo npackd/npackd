@@ -11089,6 +11089,24 @@ if %err% neq 0 exit /b %err%&#13;
   <url>https://download.visualstudio.microsoft.com/download/pr/3b11b293-efb3-4d32-9024-c86df077dd3b/36D098A6AEB72956F8FC6A1ABF868E5831FBD1EFF5A4AD1D98DDD6A9E563FF84/VC_redist.x64.exe</url>
   <hash-sum type="SHA-256">36d098a6aeb72956f8fc6a1abf868e5831fbd1eff5a4ad1d98ddd6a9e563ff84</hash-sum>
  </version>
+ <version name="14.30.30704" package="com.microsoft.VisualCPPRedistributable64" type="one-file">
+  <file path=".Npackd\Install.bat">vc_redist.x64.exe /q /log .Npackd\VCRInstall.log /norestart&#13;
+set err=%errorlevel%&#13;
+type .Npackd\VCRInstall.log&#13;
+rem 3010=restart required&#13;
+if %err% equ 3010 exit /b 0&#13;
+if %err% neq 0 exit /b %err%&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">vc_redist.x64.exe /q /uninstall /log .Npackd\VCRUninstall.log /norestart&#13;
+set err=%errorlevel%&#13;
+type .Npackd\VCRUninstall.log&#13;
+rem 3010=restart required&#13;
+if %err% equ 3010 exit /b 0&#13;
+if %err% neq 0 exit /b %err%&#13;
+</file>
+  <url>https://download.visualstudio.microsoft.com/download/pr/c627417f-7c6d-44a6-86c3-95c1acbbd5f5/A9F5D2EAF67BF0DB0178B6552A71C523C707DF0E2CC66C06BFBC08BDC53387E7/VC_redist.x64.exe</url>
+  <hash-sum type="SHA-256">a9f5d2eaf67bf0db0178b6552a71c523c707df0e2cc66c06bfbc08bdc53387e7</hash-sum>
+ </version>
 
     <version name="6.2.9200" package="com.microsoft.Windows64"/>
 
@@ -30926,6 +30944,17 @@ if %err% neq 0 exit %err%</file>
    <variable>nih</variable>
   </dependency>
  </version>
+ <version name="1" package="net.sourceforge.Doublecmd64" type="one-file">
+  <file path=".Npackd\Install.bat">call "%nih%\InstallInnoSetup.bat"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">call "%nih%\UninstallInnoSetup.bat" unins000.exe&#13;
+</file>
+  <url>http://downloads.sourceforge.net/project/doublecmd/DC%20for%20Windows%2064%20bit/Double%20Commander%201.0.0%20beta/doublecmd-1.0.0.x86_64-win64.exe</url>
+  <hash-sum type="SHA-256">19fda72f35973e6b3e6f47b70fe6478318fd3bb38b3385e8b472cbf795fd98df</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
 
     <version name="1.1" package="net.sourceforge.lmms.LMMS64" type="one-file">
   <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
@@ -34072,6 +34101,17 @@ verify&#13;
 </file>
   <url>https://proxy.binaries.openttd.org/openttd-releases/1.11.2/openttd-1.11.2-windows-win64.zip</url>
   <hash-sum type="SHA-256">dcb3df1833cfb5d9caac99d09c08c0cb7f16aa5ffede8e2d129e93b4dc2a0721</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.CLU" versions="[1.25, 2)">
+   <variable>clu</variable>
+  </dependency>
+ </version>
+ <version name="12" package="open-ttd64">
+  <important-file path="openttd.exe" title="OpenTTD"/>
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b openttd*') do set name=%%x&#13;
+"%clu%\clu" unwrap-dir -p "%name%"&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+</file>
+  <url>https://cdn.openttd.org/openttd-releases/12.0/openttd-12.0-windows-win64.zip</url>
+  <hash-sum type="SHA-256">872afdbba74fce18dd6f0d3ba2a7baef8800fe0ef486b383b997a0f3b285c7a4</hash-sum>
   <dependency package="com.googlecode.windows-package-manager.CLU" versions="[1.25, 2)">
    <variable>clu</variable>
   </dependency>
@@ -52938,6 +52978,20 @@ call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Np
    <variable>nih</variable>
   </dependency>
  </version>
+ <version name="8.2.3516" package="org.vim.Vim64">
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+if %errorlevel% neq 0 exit /b %errorlevel%&#13;
+&#13;
+for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+</file>
+  <url>https://github.com/vim/vim-win32-installer/releases/download/v8.2.3516/gvim_8.2.3516_x64.zip</url>
+  <hash-sum type="SHA-256">67af0035c5d5ffa220c358ce0e3b53c214f7f6a68dec434a9ae295a3a2e6c8dd</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.19, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
  <version name="8.2.3526" package="org.vim.Vim64">
   <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
 call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
@@ -52948,6 +53002,20 @@ call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Np
 </file>
   <url>https://github.com/vim/vim-win32-installer/releases/download/v8.2.3526/gvim_8.2.3526_x64.zip</url>
   <hash-sum type="SHA-256">5e4c2777ddefa147df88501b79ae721b16696ac514ebe9541c22b3db8025014e</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.19, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
+ <version name="8.2.3536" package="org.vim.Vim64">
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+if %errorlevel% neq 0 exit /b %errorlevel%&#13;
+&#13;
+for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+</file>
+  <url>https://github.com/vim/vim-win32-installer/releases/download/v8.2.3536/gvim_8.2.3536_x64.zip</url>
+  <hash-sum type="SHA-256">81e4a3763c007e7b39927c9a46b11fcb5bfc28660a6649e4653b1f1b2049b59c</hash-sum>
   <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.19, 2)">
    <variable>nih</variable>
   </dependency>
