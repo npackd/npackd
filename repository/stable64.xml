@@ -4882,6 +4882,14 @@ x86_64</description>
   <url>https://github.com/tim-lebedkov/packages/releases/download/2021_09/anki64-2.1.48-anki-2.1.48-windows.exe</url>
   <hash-sum type="SHA-256">6ee8222f6a383e52bb45c8583c6e61288824cdc811ed54e7ebb6b2ce687c28a9</hash-sum>
  </version>
+ <version name="2.1.49" package="anki64" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD%&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">uninstall.exe /S&#13;
+</file>
+  <url>https://github.com/ankitects/anki/releases/download/2.1.49/anki-2.1.49-windows.exe</url>
+  <hash-sum type="SHA-256">3c9764cb4746cfa4059633678b9dcdc0ae5754e61d99855cb0c40fa6bfd33f5e</hash-sum>
+ </version>
 
     
 
@@ -14091,7 +14099,7 @@ del Q-Dir.ini&#13;
   <url>http://files.npackd.org/com.softwareok.QDir64-5.99.9.zip</url>
   <sha1>fb6060796fae3fc641ba34fe1f2f8530d7c985a8</sha1>
  </version>
- <version name="9.95" package="com.softwareok.QDir64">
+ <version name="9.96" package="com.softwareok.QDir64">
   <important-file path="Q-Dir_x64.exe" title="Q-Dir"/>
   <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b Q*') do set name=%%x&#13;
 cd "%name%"        &#13;
@@ -25445,6 +25453,17 @@ if %err% neq 0 exit %err%&#13;
 </file>
   <url>https://www.imagemagick.org/download/binaries/ImageMagick-7.1.0-11-Q16-HDRI-x64-dll.exe</url>
   <hash-sum type="SHA-256">735323ab0bd9f51ae8dd3796bba582688aa62cfaad9959c45b0d438f019dc622</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
+ <version name="7.1.0.12" package="imagemagick64" type="one-file">
+  <file path=".Npackd\Install.bat">call "%nih%\InstallInnoSetup.bat"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">call "%nih%\UninstallInnoSetup.bat" unins000.exe&#13;
+</file>
+  <url>https://www.imagemagick.org/download/binaries/ImageMagick-7.1.0-12-Q16-HDRI-x64-dll.exe</url>
+  <hash-sum type="SHA-256">672a95e0c57f7045249b107297ba3974d0c262dd4e1655a4fcde8c489e7039c6</hash-sum>
   <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
    <variable>nih</variable>
   </dependency>
@@ -53277,6 +53296,20 @@ call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Np
    <variable>nih</variable>
   </dependency>
  </version>
+ <version name="8.2.3557" package="org.vim.Vim64">
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+if %errorlevel% neq 0 exit /b %errorlevel%&#13;
+&#13;
+for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+</file>
+  <url>https://github.com/vim/vim-win32-installer/releases/download/v8.2.3557/gvim_8.2.3557_x64.zip</url>
+  <hash-sum type="SHA-256">a25be3205bd996559273c1b0e0d508e0b2c482fc14ee938fa13f60df035b69e3</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.19, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
  <version name="8.2.3562" package="org.vim.Vim64">
   <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
 call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
@@ -53287,6 +53320,20 @@ call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Np
 </file>
   <url>https://github.com/vim/vim-win32-installer/releases/download/v8.2.3562/gvim_8.2.3562_x64.zip</url>
   <hash-sum type="SHA-256">98493fea23ec30685dd017e5ec4f0cb5705af414e6c2d7b35efa2f257fbcff2f</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.19, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
+ <version name="8.2.3564" package="org.vim.Vim64">
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+if %errorlevel% neq 0 exit /b %errorlevel%&#13;
+&#13;
+for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+</file>
+  <url>https://github.com/vim/vim-win32-installer/releases/download/v8.2.3564/gvim_8.2.3564_x64.zip</url>
+  <hash-sum type="SHA-256">18c9906824e76f16f6adaf54becd29293d27aacc471203287cfe039d3a0dc0de</hash-sum>
   <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.19, 2)">
    <variable>nih</variable>
   </dependency>
