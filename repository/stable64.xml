@@ -4887,7 +4887,7 @@ x86_64</description>
 </file>
   <file path=".Npackd\Uninstall.bat">uninstall.exe /S&#13;
 </file>
-  <url>https://github.com/ankitects/anki/releases/download/2.1.49/anki-2.1.49-windows.exe</url>
+  <url>https://github.com/tim-lebedkov/packages/releases/download/2021_10/anki64-2.1.49-anki-2.1.49-windows.exe</url>
   <hash-sum type="SHA-256">3c9764cb4746cfa4059633678b9dcdc0ae5754e61d99855cb0c40fa6bfd33f5e</hash-sum>
  </version>
 
@@ -8360,7 +8360,7 @@ rem "avgmfapx.exe" /AppMode=SETUP /Uninstall /UILevel=Silent /DontRestart&#13;
   </dependency>
  </version>
 
-    <version name="1.81" package="com.bitcomet.BitComet64" type="one-file">
+    <version name="1.82" package="com.bitcomet.BitComet64" type="one-file">
   <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
 </file>
   <file path=".Npackd\Uninstall.bat">%ncl%\ncl remove-scp --title "/BitComet.*/"</file>
@@ -9604,6 +9604,11 @@ if %err% neq 0 exit %err%</file>
   <important-file path="cpuz_x64.exe" title="CPU-Z"/>
   <url>https://download.cpuid.com/cpu-z/cpu-z_1.97-en.zip</url>
   <hash-sum type="SHA-256">0557b7c27f4fc63face40028a96d7c651a1af23de5f89b088fbeb6c5350595bb</hash-sum>
+ </version>
+ <version name="1.98" package="com.cpuid.CPUZ64">
+  <important-file path="cpuz_x64.exe" title="CPU-Z"/>
+  <url>https://download.cpuid.com/cpu-z/cpu-z_1.98-en.zip</url>
+  <hash-sum type="SHA-256">faea7cc753bb655f64121f32932f622f9064f8ce080de1f25d5e69d1e1a69474</hash-sum>
  </version>
 
     <version name="2.2.6000" package="com.dependencywalker.DependencyWalker64">
@@ -25446,23 +25451,12 @@ if %err% neq 0 exit %err%&#13;
    <variable>nih</variable>
   </dependency>
  </version>
- <version name="7.1.0.11" package="imagemagick64" type="one-file">
-  <file path=".Npackd\Install.bat">call "%nih%\InstallInnoSetup.bat"&#13;
-</file>
-  <file path=".Npackd\Uninstall.bat">call "%nih%\UninstallInnoSetup.bat" unins000.exe&#13;
-</file>
-  <url>https://www.imagemagick.org/download/binaries/ImageMagick-7.1.0-11-Q16-HDRI-x64-dll.exe</url>
-  <hash-sum type="SHA-256">735323ab0bd9f51ae8dd3796bba582688aa62cfaad9959c45b0d438f019dc622</hash-sum>
-  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
-   <variable>nih</variable>
-  </dependency>
- </version>
  <version name="7.1.0.12" package="imagemagick64" type="one-file">
   <file path=".Npackd\Install.bat">call "%nih%\InstallInnoSetup.bat"&#13;
 </file>
   <file path=".Npackd\Uninstall.bat">call "%nih%\UninstallInnoSetup.bat" unins000.exe&#13;
 </file>
-  <url>https://www.imagemagick.org/download/binaries/ImageMagick-7.1.0-12-Q16-HDRI-x64-dll.exe</url>
+  <url>https://github.com/tim-lebedkov/packages/releases/download/2021_10/imagemagick64-7.1.0.12-ImageMagick-7.1.0-12-Q16-HDRI-x64-dll.exe</url>
   <hash-sum type="SHA-256">672a95e0c57f7045249b107297ba3974d0c262dd4e1655a4fcde8c489e7039c6</hash-sum>
   <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
    <variable>nih</variable>
@@ -44342,6 +44336,15 @@ verify</file>
    <variable>npackdih</variable>
   </dependency>
  </version>
+ <version name="16.13" package="org.nodejs.NodeJS64" type="one-file">
+  <cmd-file path="node.exe"/>
+  <file path=".Npackd\Install.bat">call "%npackdih%\InstallMSI.bat" INSTALLDIR yes</file>
+  <url>https://nodejs.org/dist/v16.13.0/node-v16.13.0-x64.msi</url>
+  <hash-sum type="SHA-256">bf55b68293b163423ea4856c1d330be23158e78aea18a8756cfdff6fb6ffcd88</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.1, 2)">
+   <variable>npackdih</variable>
+  </dependency>
+ </version>
 
     <version name="2.2" package="org.openshot.openshot64" type="one-file">
   <file path=".Npackd\Install.bat">"%nih%\InstallInnoSetup.bat"&#13;
@@ -53334,6 +53337,20 @@ call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Np
 </file>
   <url>https://github.com/vim/vim-win32-installer/releases/download/v8.2.3564/gvim_8.2.3564_x64.zip</url>
   <hash-sum type="SHA-256">18c9906824e76f16f6adaf54becd29293d27aacc471203287cfe039d3a0dc0de</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.19, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
+ <version name="8.2.3565" package="org.vim.Vim64">
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+if %errorlevel% neq 0 exit /b %errorlevel%&#13;
+&#13;
+for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+</file>
+  <url>https://github.com/vim/vim-win32-installer/releases/download/v8.2.3565/gvim_8.2.3565_x64.zip</url>
+  <hash-sum type="SHA-256">3f60ada7d00da1534aa5cb8fe88743e3af7c46a268a1ff7f5f99275e3f1cfcb4</hash-sum>
   <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.19, 2)">
    <variable>nih</variable>
   </dependency>
