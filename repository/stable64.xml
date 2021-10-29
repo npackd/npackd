@@ -1191,7 +1191,7 @@ x86_64</description>
  </package>
  <package name="cygwin64">
   <title>Cygwin 64 bit</title>
-  <url>http://www.cygwin.com</url>
+  <url>https://www.cygwin.com</url>
   <description>WARNING: this package always installs the newest version of the software.
 WARNING: shows download tools process and installation process.&#13;
 &#13;
@@ -4500,6 +4500,14 @@ x86_64</description>
    <variable>nih</variable>
   </dependency>
  </version>
+ <version name="4.18.3" package="4k-video-downloader64" type="one-file">
+  <file path=".Npackd\Install.bat">call "%nih%\InstallMSI.bat" INSTALLDIR yes&#13;
+</file>
+  <url>https://dl.4kdownload.com/app/4kvideodownloader_4.18.3_x64.msi</url>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.1, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
 
     
 
@@ -5052,6 +5060,18 @@ x86_64</description>
 </file>
   <url>https://github.com/audacity/audacity/releases/download/Audacity-3.0.5/audacity-win-3.0.5-64bit.exe</url>
   <hash-sum type="SHA-256">de2fed286a819090ec416c02a0593f586a4527ab145c81c0ce108e0d7fc79bee</hash-sum>
+  <dependency package="ar.com.buanzo.lame.LameForAudacity" versions="[3.98.3, 4)"/>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
+ <version name="3.1" package="audacity64" type="one-file">
+  <file path=".Npackd\Install.bat">call "%nih%\InstallInnoSetup.bat"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">call "%nih%\UninstallInnoSetup.bat" unins000.exe&#13;
+</file>
+  <url>https://github.com/audacity/audacity/releases/download/Audacity-3.1.0/audacity-win-3.1.0-64bit.exe</url>
+  <hash-sum type="SHA-256">20e6f18397d32c0ecdcb39eedb31a19fde01da55c1facbfbff1b79dec86b205c</hash-sum>
   <dependency package="ar.com.buanzo.lame.LameForAudacity" versions="[3.98.3, 4)"/>
   <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
    <variable>nih</variable>
@@ -6154,6 +6174,20 @@ if %errorlevel% neq 0 exit /b %errorlevel%&#13;
 </file>
   <url>https://github.com/Kitware/CMake/releases/download/v3.21.3/cmake-3.21.3-windows-x86_64.zip</url>
   <hash-sum type="SHA-256">e28178103fad901a99fb201fac04e4787d4cd4f664c5db88998c57eed68843b9</hash-sum>
+ </version>
+ <version name="3.21.4" package="cmake64">
+  <cmd-file path="bin\cmake.exe"/>
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b cmake*') do set name=%%x&#13;
+cd "%name%"        &#13;
+for /f "delims=" %%a in ('dir /b') do (&#13;
+  move "%%a" ..&#13;
+)&#13;
+cd ..&#13;
+rmdir "%name%"&#13;
+if %errorlevel% neq 0 exit /b %errorlevel%&#13;
+</file>
+  <url>https://github.com/Kitware/CMake/releases/download/v3.21.4/cmake-3.21.4-windows-x86_64.zip</url>
+  <hash-sum type="SHA-256">360ee9bf77cd891d4a33997e4e214d0cd6a0fd7ae6051d023f403a74248914a8</hash-sum>
  </version>
 
     <version name="15" package="codelite" type="one-file">
@@ -17381,11 +17415,11 @@ rmdir "%name%"&#13;
   <hash-sum type="SHA-256">00b79617c58ae73b8b7848be8e10cdd6ba9ded9d92a0c0f720488839c57d2cdb</hash-sum>
  </version>
 
-    <version name="3.2" package="cygwin64" type="one-file">
+    <version name="3.3" package="cygwin64" type="one-file">
   <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
 "%setup%" -q -D -R "%CD%" -s https://mirrors.kernel.org -l "%CD%\packages"&#13;
 "%setup%" -q -L -R "%CD%" -l "%CD%\packages"</file>
-  <url>http://cygwin.com/setup-x86_64.exe</url>
+  <url>https://cygwin.com/setup-x86_64.exe</url>
  </version>
 
     <version name="3.4.1.1" package="darktable64" type="one-file">
@@ -21142,6 +21176,15 @@ verify</file>
    <variable>nih</variable>
   </dependency>
  </version>
+ <version name="1.2" package="firefoxpwa" type="one-file">
+  <file path=".Npackd\Install.bat">call "%nih%\InstallMSI.bat" APPLICATIONFOLDER yes</file>
+  <url>https://github.com/filips123/FirefoxPWA/releases/download/v1.2.0/firefoxpwa-1.2.0-x86_64.msi</url>
+  <hash-sum type="SHA-256">05ffdabf7f7d026455a2bd2fe171fe0d02199af18dde67cf7eab0963effdf2a1</hash-sum>
+  <dependency package="com.microsoft.VisualCPPRedistributable64" versions="[14,15)"/>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.1, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
 
     <version name="1.22" package="focus-image-viewer" type="one-file">
   <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
@@ -23839,6 +23882,19 @@ rmdir "%name%"&#13;
 </file>
   <url>https://dl.google.com/dl/cloudsdk/channels/rapid/downloads/google-cloud-sdk-361.0.0-windows-x86_64.zip</url>
   <hash-sum type="SHA-256">5508163fb31ea6be564bbcf2b64fd52d2b10144128f62ae82ebaf29d67fc9d09</hash-sum>
+  <dependency package="org.python.Python" versions="[2.7, 2.8)"/>
+ </version>
+ <version name="362" package="google-cloud-sdk64">
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b google-cloud-sdk*') do set name=%%x&#13;
+cd "%name%"&#13;
+for /f "delims=" %%a in ('dir /b') do (&#13;
+  move "%%a" ..&#13;
+)&#13;
+cd ..&#13;
+rmdir "%name%"&#13;
+</file>
+  <url>https://dl.google.com/dl/cloudsdk/channels/rapid/downloads/google-cloud-sdk-362.0.0-windows-x86_64.zip</url>
+  <hash-sum type="SHA-256">03f68d85fcdfffe9908d70264cffe8671a8b89f3418c99c1531340eb7bc21423</hash-sum>
   <dependency package="org.python.Python" versions="[2.7, 2.8)"/>
  </version>
 
@@ -46209,6 +46265,19 @@ rmdir "%name%"</file>
   <hash-sum type="SHA-256">aa84ec325b0cd1efc30608eb1cdaa8a96d2cee49cada8cccf39560ed73edc540</hash-sum>
   <dependency package="com.oracle.JRE64" versions="[1.7, 2)"/>
  </version>
+ <version name="4.12.1" package="org.springsource.STS64">
+  <important-file path="SpringToolSuite4.exe" title="Spring Tool Suite"/>
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b sts*') do set name=%%x&#13;
+cd "%name%"        &#13;
+for /f "delims=" %%a in ('dir /b') do (&#13;
+  move "%%a" ..&#13;
+)&#13;
+cd ..&#13;
+rmdir "%name%"</file>
+  <url>https://download.springsource.com/release/STS4/4.12.1.RELEASE/dist/e4.20/spring-tool-suite-4-4.12.1.RELEASE-e4.20.0-win32.win32.x86_64.zip</url>
+  <hash-sum type="SHA-256">b04d82490f746101b6c999ccda7a85af91b96f1a83b88e533bc308a472086d22</hash-sum>
+  <dependency package="com.oracle.JRE64" versions="[1.7, 2)"/>
+ </version>
 
     <version name="3.6.1" package="org.sqlexplorer.SQLExplorer64">
   <important-file path="sqlexplorer.exe" title="SQL Explorer"/>
@@ -60953,6 +61022,12 @@ if %err% neq 0 exit %err%&#13;
 </file>
   <url>https://dist.torproject.org/torbrowser/10.5.8/torbrowser-install-10.5.8_en-US.exe</url>
   <hash-sum type="SHA-256">1b778b9c0abfd01cf949e69e6de2af2438a2253812c4d25a7f28e7f30a8740a7</hash-sum>
+ </version>
+ <version name="10.5.10" package="tor64" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
+</file>
+  <url>https://dist.torproject.org/torbrowser/10.5.10/torbrowser-install-10.5.10_en-US.exe</url>
+  <hash-sum type="SHA-256">90f319c53c1e832cef3f30a70713ba5d39b843a3188a6d0c2d903405edeebd70</hash-sum>
  </version>
 
     <version name="2.84.9" package="transmission-qt64" type="one-file">
