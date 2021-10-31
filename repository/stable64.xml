@@ -825,7 +825,7 @@ x86_64</description>
  </package>
  <package name="com.lockhunter.LockHunter64">
   <title>LockHunter 64 bit</title>
-  <url>http://lockhunter.com</url>
+  <url>https://lockhunter.com</url>
   <description>finds out which process blocked a file or a directory and allows to un-lock it
 x86_64</description>
   <icon>https://lh4.googleusercontent.com/-sDuLaIHqJYs/UQ5iakBzHaI/AAAAAAAAARY/oyeFr5X0UDo/s800/lockhunter_32.png</icon>
@@ -17376,6 +17376,17 @@ if %err% neq 0 exit %err%&#13;
    <variable>nih</variable>
   </dependency>
  </version>
+ <version name="1.42" package="conan64" type="one-file">
+  <cmd-file path="conan\conan.exe"/>
+  <file path=".Npackd\Install.bat">"%nih%\InstallInnoSetup.bat"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">"%nih%\UninstallInnoSetup.bat" unins000.exe</file>
+  <url>https://github.com/conan-io/conan/releases/download/1.42.0/conan-win-64.exe</url>
+  <hash-sum type="SHA-256">71c54bf742f8ffab76847582522d1e35ae25ee56748c98c49480fb3c96bc68e5</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
 
     <version name="4.2.3" package="copymastro">
   <important-file path="CopyMastro.exe" title="CopyMastro"/>
@@ -25522,6 +25533,17 @@ if %err% neq 0 exit %err%&#13;
 </file>
   <url>https://github.com/tim-lebedkov/packages/releases/download/2021_10/imagemagick64-7.1.0.12-ImageMagick-7.1.0-12-Q16-HDRI-x64-dll.exe</url>
   <hash-sum type="SHA-256">672a95e0c57f7045249b107297ba3974d0c262dd4e1655a4fcde8c489e7039c6</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
+ <version name="7.1.0.13" package="imagemagick64" type="one-file">
+  <file path=".Npackd\Install.bat">call "%nih%\InstallInnoSetup.bat"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">call "%nih%\UninstallInnoSetup.bat" unins000.exe&#13;
+</file>
+  <url>https://www.imagemagick.org/download/binaries/ImageMagick-7.1.0-13-Q16-HDRI-x64-dll.exe</url>
+  <hash-sum type="SHA-256">c4607f68794f9e8e5ed73b1c0a295aae8e612c4b63b163e65c5f2669068b78d0</hash-sum>
   <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
    <variable>nih</variable>
   </dependency>
