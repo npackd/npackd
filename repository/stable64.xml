@@ -3009,7 +3009,7 @@ x86_64</description>
   <url>http://www.openshot.org/</url>
   <description>video editor
 x86_64</description>
-  <icon>https://raw.githubusercontent.com/OpenShot/openshot-qt/master/src/images/openshot-arrow.png</icon>
+  <icon>https://www.openshot.org/favicon.ico</icon>
   <category>Video</category>
   <tag>stable64</tag>
   <stars>1</stars>
@@ -4113,7 +4113,7 @@ x86_64</description>
   <tag>end-of-life</tag>
  </package>
  <package name="waterfox-current">
-  <title>Waterfox Current</title>
+  <title>Waterfox</title>
   <url>https://www.waterfox.net/</url>
   <description>Browse the web your way, with the indie web browser. Waterfox was one of the first widely distributed 64-Bit browsers on the web and quickly gained a loyal following. At a time Waterfox had one thing in mind: speed, but now Waterfox also attempts to be an ethical, user-oriented browser. Waterfox focuses on giving users choice. The browser is focused on power users, which lets you make the important decisions. There is no plugin whitelist (meaning you can run Java Applets and Silverlight apps), you can run whichever extensions you like (including bootstrapped add-ons that can completely change functionality of the browser) and absolutely no data or telemetry is sent back to Mozilla or the Waterfox project.
 x86_64</description>
@@ -9500,6 +9500,24 @@ call "%npackdih%\InstallMSI.bat" APPLICATIONFOLDER yes&#13;
    <variable>npackdih</variable>
   </dependency>
  </version>
+ <version name="5.31" package="com.calibreebook.Calibre64" type="one-file">
+  <file path=".Npackd\Install.bat">call "%npackdih%\InstallMSI.bat" APPLICATIONFOLDER yes&#13;
+</file>
+  <url>https://download.calibre-ebook.com/5.31.0/calibre-64bit-5.31.0.msi</url>
+  <hash-sum type="SHA-256">80a71456b866bc62ecc23171bc90a5f68e72bf6bf499a01fee35b70b6f3bbab0</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.2, 2)">
+   <variable>npackdih</variable>
+  </dependency>
+ </version>
+ <version name="5.31.1" package="com.calibreebook.Calibre64" type="one-file">
+  <file path=".Npackd\Install.bat">call "%npackdih%\InstallMSI.bat" APPLICATIONFOLDER yes&#13;
+</file>
+  <url>https://download.calibre-ebook.com/5.31.1/calibre-64bit-5.31.1.msi</url>
+  <hash-sum type="SHA-256">6755bcc962490aef4f3a7f55282042cf800bbaa953a81e99a31d87a5f5577e0c</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.2, 2)">
+   <variable>npackdih</variable>
+  </dependency>
+ </version>
 
     <version name="5.12.256249.2599" package="com.comodo.comodoav64" type="one-file">
   <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.msi') do set setup=%%x&#13;
@@ -10884,6 +10902,21 @@ if %err% neq 0 exit %err%&#13;
 </file>
   <url>https://github.com/tim-lebedkov/packages/releases/download/2021_04/com.lockhunter.LockHunter64-3.4.2-lockhuntersetup_3-4-2.exe</url>
   <hash-sum type="SHA-256">ceccb8a91ff02b64ec45c0718f292759ce6f49cb7a8dff934111e69a454e3778</hash-sum>
+ </version>
+ <version name="3.4.3" package="com.lockhunter.LockHunter64" type="one-file">
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
+"%setup%" /SP- /VERYSILENT /SUPPRESSMSGBOXES /NOCANCEL /NORESTART /DIR="%CD%" /SAVEINF="%CD%\.Npackd\InnoSetupInfo.ini" /LOG="%CD%\.Npackd\InnoSetupInstall.log"&#13;
+set err=%errorlevel%&#13;
+type .Npackd\InnoSetupInstall.log&#13;
+if %err% neq 0 exit %err%&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">unins000.exe /VERYSILENT /SUPPRESSMSGBOXES /NORESTART /LOG="%CD%\.Npackd\InnoSetupUninstall.log"&#13;
+set err=%errorlevel%&#13;
+type .Npackd\InnoSetupUninstall.log&#13;
+if %err% neq 0 exit %err%&#13;
+</file>
+  <url>https://lockhunter.com/assets/exe/lockhuntersetup_3-4-3.exe</url>
+  <hash-sum type="SHA-256">2c0d52dca3e5ce9cfc8062cb72c7235e3c6ff650242fcb7d46a892d602dd3dd1</hash-sum>
  </version>
 
     <version name="4.71.1015" package="com.microsoft.Mathematics64" type="one-file">
@@ -25542,7 +25575,7 @@ if %err% neq 0 exit %err%&#13;
 </file>
   <file path=".Npackd\Uninstall.bat">call "%nih%\UninstallInnoSetup.bat" unins000.exe&#13;
 </file>
-  <url>https://www.imagemagick.org/download/binaries/ImageMagick-7.1.0-13-Q16-HDRI-x64-dll.exe</url>
+  <url>https://github.com/tim-lebedkov/packages/releases/download/2021_10/imagemagick64-7.1.0.13-ImageMagick-7.1.0-13-Q16-HDRI-x64-dll.exe</url>
   <hash-sum type="SHA-256">c4607f68794f9e8e5ed73b1c0a295aae8e612c4b63b163e65c5f2669068b78d0</hash-sum>
   <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
    <variable>nih</variable>
@@ -62671,6 +62704,18 @@ if %err% neq 0 exit /b %err%&#13;
 </file>
   <url>https://downloads.vivaldi.com/stable/Vivaldi.4.3.2439.44.x64.exe</url>
   <hash-sum type="SHA-256">4e7e3ae5c0455904df185103a6d401b8a78732191962d2bd77a3718dfc6c6791</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.24, 2)">
+   <variable>ncl</variable>
+  </dependency>
+ </version>
+ <version name="4.3.2439.56" package="vivaldi-browser-64" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" --vivaldi-standalone --do-not-launch-chrome --vivaldi-install-dir="%CD%" &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
+&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">"%ncl%\ncl.exe" remove-scp --title "vivaldi-browser-64"&#13;
+</file>
+  <url>https://downloads.vivaldi.com/stable/Vivaldi.4.3.2439.56.x64.exe</url>
+  <hash-sum type="SHA-256">c339664a3628d9a1d2946e932477bedd50ffa661bde0c44507e31d4a5558aad9</hash-sum>
   <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.24, 2)">
    <variable>ncl</variable>
   </dependency>
