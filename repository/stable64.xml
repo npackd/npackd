@@ -10915,7 +10915,7 @@ set err=%errorlevel%&#13;
 type .Npackd\InnoSetupUninstall.log&#13;
 if %err% neq 0 exit %err%&#13;
 </file>
-  <url>https://lockhunter.com/assets/exe/lockhuntersetup_3-4-3.exe</url>
+  <url>https://github.com/tim-lebedkov/packages/releases/download/2021_11/com.lockhunter.LockHunter64-3.4.3-lockhuntersetup_3-4-3.exe</url>
   <hash-sum type="SHA-256">2c0d52dca3e5ce9cfc8062cb72c7235e3c6ff650242fcb7d46a892d602dd3dd1</hash-sum>
  </version>
 
@@ -21237,6 +21237,15 @@ verify</file>
    <variable>nih</variable>
   </dependency>
  </version>
+ <version name="1.2.1" package="firefoxpwa" type="one-file">
+  <file path=".Npackd\Install.bat">call "%nih%\InstallMSI.bat" APPLICATIONFOLDER yes</file>
+  <url>https://github.com/filips123/FirefoxPWA/releases/download/v1.2.1/firefoxpwa-1.2.1-x86_64.msi</url>
+  <hash-sum type="SHA-256">b6a52aa30c9c82539041aa10695a5c8d04b57e3b0ac5fee02c6b3f76442d1bda</hash-sum>
+  <dependency package="com.microsoft.VisualCPPRedistributable64" versions="[14,15)"/>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.1, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
 
     <version name="1.22" package="focus-image-viewer" type="one-file">
   <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
@@ -25624,7 +25633,7 @@ if %err% neq 0 exit %err%&#13;
   </dependency>
   <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.15.7, 2)"/>
  </version>
- <version name="0.33.1" package="io.mpv.mpv-64" type="one-file">
+ <version name="0.34" package="io.mpv.mpv-64" type="one-file">
   <file path=".Npackd\Install.bat">for /f %%x in ('dir /b *.7z') do set setup=%%x&#13;
 "%sevenzipa%\7za.exe" x "%setup%" &gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt</file>
   <url>http://mpv.srsfckn.biz/mpv-x86_64-latest.7z</url>
@@ -45561,6 +45570,10 @@ if %err% neq 0 exit %err%&#13;
   <url>https://github.com/mltframework/shotcut/releases/download/v21.09.20/shotcut-win64-210920.zip</url>
   <hash-sum type="SHA-256">61db68612895987a1b841a96c66b2c02bcbd49b15a7d882038c49f02f0f16253</hash-sum>
  </version>
+ <version name="21.10.31" package="org.shotcut.shotcut">
+  <url>https://github.com/mltframework/shotcut/releases/download/v21.10.31/shotcut-win64-211031.zip</url>
+  <hash-sum type="SHA-256">1bdd80b31e070079696f11d8b3cef21771b42af222b2ecc07ec6737bddcde06a</hash-sum>
+ </version>
 
     <version name="4.4" package="org.sourceforge.ultradefrag.UltraDefrag64">
   <important-file path="ultradefrag.exe" title="UltraDefrag"/>
@@ -53487,6 +53500,20 @@ call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Np
    <variable>nih</variable>
   </dependency>
  </version>
+ <version name="8.2.3568" package="org.vim.Vim64">
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+if %errorlevel% neq 0 exit /b %errorlevel%&#13;
+&#13;
+for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+</file>
+  <url>https://github.com/vim/vim-win32-installer/releases/download/v8.2.3568/gvim_8.2.3568_x64.zip</url>
+  <hash-sum type="SHA-256">d3f4902c0c39402248f0b54210b809dbaaf4bda0aab4bb1a2ab37ff3cc22c49b</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.19, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
 
     <version name="4.2.8.83876" package="org.virtualbox.virtualbox64" type="one-file">
   <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
@@ -57566,6 +57593,15 @@ if %errorlevel% equ 3010 verify</file>
 </file>
   <url>https://qgis.org/downloads/QGIS-OSGeo4W-3.20.3-1.msi</url>
   <hash-sum type="SHA-256">c2301f8d7b477c55990bf869aeff5ec7ec3302c0bdd46dbd83f39d8ade70dc39</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.1, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
+ <version name="3.22.0.1" package="qgis64" type="one-file">
+  <file path=".Npackd\Install.bat">call "%nih%\InstallMSI.bat" INSTALLDIR yes&#13;
+</file>
+  <url>https://qgis.org/downloads/QGIS-OSGeo4W-3.22.0-1.msi</url>
+  <hash-sum type="SHA-256">78472288f4302d8b8d4fcdea498a1fb7d3ebf49a712b73b6c98664634158be4d</hash-sum>
   <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.1, 2)">
    <variable>nih</variable>
   </dependency>
@@ -63348,6 +63384,19 @@ rmdir "%name%"&#13;
 </file>
   <url>https://github.com/xmake-io/xmake/releases/download/v2.5.8/xmake-v2.5.8.win64.zip</url>
   <hash-sum type="SHA-256">829c44b603062f5a8eeb02a89f42dbbf5913ef55c6d47d43a885e2b2344f38bc</hash-sum>
+ </version>
+ <version name="2.5.9" package="xmake64">
+  <cmd-file path="xmake.exe"/>
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b xmake*') do set name=%%x&#13;
+cd "%name%"&#13;
+for /f "delims=" %%a in ('dir /b') do (&#13;
+  move "%%a" ..&#13;
+)&#13;
+cd ..&#13;
+rmdir "%name%"&#13;
+</file>
+  <url>https://github.com/xmake-io/xmake/releases/download/v2.5.9/xmake-v2.5.9.win64.zip</url>
+  <hash-sum type="SHA-256">64c033965d8d42a54a600a6e8ce62bb6c0531c2f0e01fc0b2b4c9c32046c89f9</hash-sum>
  </version>
 
     <version name="3.5.3.4" package="xmedia-recode" type="one-file">
