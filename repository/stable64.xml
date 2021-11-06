@@ -5112,6 +5112,8 @@ verify</file>
   </dependency>
  </version>
 
+    
+
     <version name="2.4" package="biglybt64" type="one-file">
   <file path=".Npackd\Install.bat">"%npackd_package_binary%" -q -dir "%CD%" &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
 </file>
@@ -17575,6 +17577,8 @@ rmdir "%name%"&#13;
   <hash-sum type="SHA-256">34b4c1748ffe7ac66c3c79ad474b86a7aaa01ba296f8cd21929fe8024ebf3262</hash-sum>
  </version>
 
+    
+
     <version name="1.7.21556" package="daumpotplayer64" type="one-file">
   <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
 </file>
@@ -18522,6 +18526,14 @@ rmdir "%name%"&#13;
 </file>
   <url>http://dbeaver.jkiss.org/files/21.2.3/dbeaver-ce-21.2.3-x86_64-setup.exe</url>
   <hash-sum type="SHA-256">6070351eb3d478f7a5c61351caed157536559dcd794748868aa571a95899404b</hash-sum>
+ </version>
+ <version name="21.2.4" package="dbeaver64" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" /allusers /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">uninstall.exe /allusers /S _?=%CD%&#13;
+</file>
+  <url>http://dbeaver.jkiss.org/files/21.2.4/dbeaver-ce-21.2.4-x86_64-setup.exe</url>
+  <hash-sum type="SHA-256">4c00f801351a2360a5497573f916a94e6f13605c38e6980e20df85dab5f95327</hash-sum>
  </version>
 
     <version name="0.825" package="dcplusplus64">
@@ -21707,6 +21719,10 @@ rmdir "%name%"</file>
    <variable>ncl</variable>
   </dependency>
  </version>
+
+    
+
+    
 
     <version name="0.9.3.2" package="fritzing64">
   <url>http://fritzing.org/download/0.9.3b/windows-64bit/fritzing.0.9.3b.64.pc.zip</url>
@@ -27307,6 +27323,8 @@ rmdir "%name%"&#13;
   <dependency package="org.golang.Go" versions="[1, 2)"/>
  </version>
 
+    
+
     <version name="3.1.11.7100" package="Locate32_64">
   <url>http://locate32.cogit.net/download/locate32_x64-3.1.11.7100.zip</url>
   <hash-sum type="SHA-256">38e7fdf19b027ae3a4d03fe612ce69ea1dfd68a181f76099c16a32ccdb858116</hash-sum>
@@ -27360,6 +27378,8 @@ if %err% neq 0 exit %err%&#13;
    <variable>nih</variable>
   </dependency>
  </version>
+
+    
 
     <version name="3.1.99" package="manisandro.gImageReader64" type="one-file">
   <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
@@ -32565,6 +32585,8 @@ if %err% neq 0 exit /b %err%
    <variable>nih</variable>
   </dependency>
  </version>
+
+    
 
     <version name="2.75" package="nircmd64">
   <url>http://files.npackd.org/nircmd64-2.75.zip</url>
@@ -42224,6 +42246,40 @@ Set view = Nothing&#13;
 </file>
   <url>https://golang.org/dl/go1.17.2.windows-amd64.msi</url>
   <hash-sum type="SHA-256">f7d54883e9bb653b1a50061a7fa42a6503c680a25cee32f16ccba51a77b0c83b</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1, 2)">
+   <variable>npackdih</variable>
+  </dependency>
+ </version>
+ <version name="1.17.3" package="org.golang.Go64" type="one-file">
+  <file path=".Npackd\Install.bat">.Npackd\AddProperty.vbs "%npackd_package_binary%"&#13;
+if %errorlevel% neq 0 exit %errorlevel%&#13;
+&#13;
+call "%npackdih%\InstallMSI.bat" INSTALLDIR</file>
+  <file path=".Npackd\Uninstall.bat">call "%npackdih%\UninstallMSI.bat"</file>
+  <file path=".Npackd\AddProperty.vbs">Option Explicit&#13;
+&#13;
+Dim MSI_FILE&#13;
+MSI_FILE = Wscript.Arguments(0)&#13;
+&#13;
+Dim installer, database, view&#13;
+&#13;
+Set installer = CreateObject("WindowsInstaller.Installer")&#13;
+Set database = installer.OpenDatabase(MSI_FILE, 1)&#13;
+&#13;
+Set view = database.OpenView("INSERT INTO Property (Property, Value) VALUES ('INSTALLDIR', 'C:\Go')")&#13;
+view.Execute&#13;
+'Set view = database.OpenView("DELETE FROM Directory WHERE Directory='TARGETDIR'")&#13;
+'view.Execute&#13;
+'Set view = database.OpenView("UPDATE Directory SET DefaultDir='INSTALLLOCATION' WHERE Directory='TARGETDIR'")&#13;
+'view.Execute&#13;
+database.Commit&#13;
+&#13;
+Set database = Nothing&#13;
+Set installer = Nothing&#13;
+Set view = Nothing&#13;
+</file>
+  <url>https://golang.org/dl/go1.17.3.windows-amd64.msi</url>
+  <hash-sum type="SHA-256">bf3c475726c9165eb5d809e1bb4ce33550a25850495aac0a5df6d0df05930936</hash-sum>
   <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1, 2)">
    <variable>npackdih</variable>
   </dependency>
@@ -53689,6 +53745,20 @@ call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Np
    <variable>nih</variable>
   </dependency>
  </version>
+ <version name="8.2.3582" package="org.vim.Vim64">
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+if %errorlevel% neq 0 exit /b %errorlevel%&#13;
+&#13;
+for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+</file>
+  <url>https://github.com/vim/vim-win32-installer/releases/download/v8.2.3582/gvim_8.2.3582_x64.zip</url>
+  <hash-sum type="SHA-256">e27413bfc0364909c73ea4e11853ad4d904aa6110dd06079a49e3534b7ede03c</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.19, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
 
     <version name="4.2.8.83876" package="org.virtualbox.virtualbox64" type="one-file">
   <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
@@ -56265,6 +56335,16 @@ echo DesktopShortcut=false &gt;&gt; .Npackd\FF.ini&#13;
   </dependency>
   <dependency package="org.miktex.MiKTeX" versions="[2.9, 3)"/>
  </version>
+ <version name="2.16.1" package="pandoc64" type="one-file">
+  <file path=".Npackd\Install.bat">call "%nih%\InstallMSI.bat" INSTALLDIR yes&#13;
+</file>
+  <url>https://github.com/jgm/pandoc/releases/download/2.16.1/pandoc-2.16.1-windows-x86_64.msi</url>
+  <hash-sum type="SHA-256">b20ea000c51b84db983a74d81407010ed01f7e7a99a857e007eed94f6dca9eeb</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.1, 2)">
+   <variable>nih</variable>
+  </dependency>
+  <dependency package="org.miktex.MiKTeX" versions="[2.9, 3)"/>
+ </version>
 
     
 
@@ -57043,6 +57123,8 @@ rmdir "%name%"&#13;
 </file>
   <url>https://sourceforge.net/projects/pycmd/files/pycmd/snapshots/PyCmd-20170512-w64.zip</url>
  </version>
+
+    
 
     <version name="4.0.4" package="qbittorrent-64-bit" type="one-file">
   <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD%&#13;
@@ -58635,6 +58717,8 @@ if %errorlevel% equ 3010 verify</file>
 
     
 
+    
+
     <version name="4.3.8.2523" package="se.cdburnerxp.CDBurnerXP64">
   <important-file path="cdbxpp.exe" title="CDBurnerXP"/>
   <url>http://download.cdburnerxp.se/portable/CDBurnerXP-x64-4.3.8.2523.zip</url>
@@ -59892,6 +59976,8 @@ if %err% neq 0 exit %err%</file>
   <dependency package="com.microsoft.Windows64" versions="[1, 1000)"/>
  </version>
 
+    
+
     <version name="12.0.2000.8" package="ssms64" type="one-file">
   <file path=".Npackd\Install.bat">"%npackd_package_binary%" /Q /x:"%cd%\Prog" &gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
 if %errorlevel% neq 0 exit %err%&#13;
@@ -60801,6 +60887,8 @@ rmdir "%name%"</file>
   <url>https://www.sysgauge.com/setups_x64/sysgauge_setup_v8.1.12_x64.exe</url>
   <hash-sum type="SHA-256">889ae639fa241e01792f12daef5a6744fb86418cce1dba8b11e4e6c47c343740</hash-sum>
  </version>
+
+    
 
     <version name="2" package="texniccenter64" type="one-file">
   <file path=".Npackd\Install.bat">for /f %%x in ('dir /b *.exe') do set setup=%%x&#13;
