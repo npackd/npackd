@@ -14278,7 +14278,7 @@ del Q-Dir.ini&#13;
   <url>http://files.npackd.org/com.softwareok.QDir64-5.99.9.zip</url>
   <sha1>fb6060796fae3fc641ba34fe1f2f8530d7c985a8</sha1>
  </version>
- <version name="9.97" package="com.softwareok.QDir64">
+ <version name="9.98" package="com.softwareok.QDir64">
   <important-file path="Q-Dir_x64.exe" title="Q-Dir"/>
   <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b Q*') do set name=%%x&#13;
 cd "%name%"        &#13;
@@ -17515,6 +17515,17 @@ if %err% neq 0 exit %err%&#13;
   <file path=".Npackd\Uninstall.bat">"%nih%\UninstallInnoSetup.bat" unins000.exe</file>
   <url>https://github.com/conan-io/conan/releases/download/1.42.0/conan-win-64.exe</url>
   <hash-sum type="SHA-256">71c54bf742f8ffab76847582522d1e35ae25ee56748c98c49480fb3c96bc68e5</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
+ <version name="1.42.1" package="conan64" type="one-file">
+  <cmd-file path="conan\conan.exe"/>
+  <file path=".Npackd\Install.bat">"%nih%\InstallInnoSetup.bat"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">"%nih%\UninstallInnoSetup.bat" unins000.exe</file>
+  <url>https://github.com/conan-io/conan/releases/download/1.42.1/conan-win-64.exe</url>
+  <hash-sum type="SHA-256">16b8317c286131beafe1a0af7ff9aa26c5758fa7ecf645758cec61304265ce58</hash-sum>
   <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
    <variable>nih</variable>
   </dependency>
@@ -34291,7 +34302,7 @@ verify&#13;
   </dependency>
  </version>
 
-    <version name="3.10.13" package="ocenaudio64" type="one-file">
+    <version name="3.10.14" package="ocenaudio64" type="one-file">
   <file path=".Npackd\Install.bat">"%npackd_package_binary%" /AllUsers /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
 </file>
   <file path=".Npackd\Uninstall.bat">"%ncl%\ncl" remove-scp --title "/ocenaudio.*/"</file>
@@ -34632,6 +34643,17 @@ verify&#13;
 </file>
   <url>https://cdn.openttd.org/openttd-releases/12.0/openttd-12.0-windows-win64.zip</url>
   <hash-sum type="SHA-256">872afdbba74fce18dd6f0d3ba2a7baef8800fe0ef486b383b997a0f3b285c7a4</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.CLU" versions="[1.25, 2)">
+   <variable>clu</variable>
+  </dependency>
+ </version>
+ <version name="12.1" package="open-ttd64">
+  <important-file path="openttd.exe" title="OpenTTD"/>
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b openttd*') do set name=%%x&#13;
+"%clu%\clu" unwrap-dir -p "%name%"&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+</file>
+  <url>https://cdn.openttd.org/openttd-releases/12.1/openttd-12.1-windows-win64.zip</url>
+  <hash-sum type="SHA-256">fe909797a3aa9ef1f7080b28685f7a668b8b47fed4db427109e65c3de9468304</hash-sum>
   <dependency package="com.googlecode.windows-package-manager.CLU" versions="[1.25, 2)">
    <variable>clu</variable>
   </dependency>
@@ -55969,6 +55991,16 @@ echo DesktopShortcut=false &gt;&gt; .Npackd\FF.ini&#13;
   <url>http://rm-eu.palemoon.org/release/palemoon-29.4.1.win64.installer.exe</url>
   <hash-sum type="SHA-256">d06b78df63bbd0e86c382d0e47d3d55bd9e0ba9b7e626f8ba5f76ecc2b109df8</hash-sum>
  </version>
+ <version name="29.4.2" package="pale-moon64" type="one-file">
+  <file path=".Npackd\Install.bat">echo [Install] &gt; .Npackd\FF.ini&#13;
+echo InstallDirectoryPath=%CD% &gt;&gt; .Npackd\FF.ini&#13;
+echo QuickLaunchShortcut=false &gt;&gt; .Npackd\FF.ini&#13;
+echo DesktopShortcut=false &gt;&gt; .Npackd\FF.ini&#13;
+"%npackd_package_binary%" /INI="%CD%\.Npackd\FF.ini" &amp;&amp; del /f /q "%npackd_package_binary%"</file>
+  <file path=".Npackd\Uninstall.bat">uninstall\helper.exe /S</file>
+  <url>http://rm-eu.palemoon.org/release/palemoon-29.4.2.win64.installer.exe</url>
+  <hash-sum type="SHA-256">dabbde0d26c7e0fde1181e8acddb426e532ea076b13cd4819c9047139745e33e</hash-sum>
+ </version>
 
     <version name="2.2.1" package="pandoc64" type="one-file">
   <file path=".Npackd\Install.bat">call "%nih%\InstallMSI.bat" INSTALLDIR yes&#13;
@@ -57912,6 +57944,15 @@ if %errorlevel% equ 3010 verify</file>
 </file>
   <url>https://qgis.org/downloads/QGIS-OSGeo4W-3.22.0-1.msi</url>
   <hash-sum type="SHA-256">78472288f4302d8b8d4fcdea498a1fb7d3ebf49a712b73b6c98664634158be4d</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.1, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
+ <version name="3.22.0.3" package="qgis64" type="one-file">
+  <file path=".Npackd\Install.bat">call "%nih%\InstallMSI.bat" INSTALLDIR yes&#13;
+</file>
+  <url>https://qgis.org/downloads/QGIS-OSGeo4W-3.22.0-3.msi</url>
+  <hash-sum type="SHA-256">34e36e671ffbc37317c25958f0024f716a37ffc8d8819f255975e420fd38ca43</hash-sum>
   <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.1, 2)">
    <variable>nih</variable>
   </dependency>
@@ -62047,6 +62088,15 @@ if %err% neq 0 exit %err%&#13;
 </file>
   <url>https://releases.hashicorp.com/vagrant/2.2.18/vagrant_2.2.18_x86_64.msi</url>
   <hash-sum type="SHA-256">aed44d72e72d2183354c7e2e0f6118e289becba0491a67eb2e5551701b70d359</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.1, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
+ <version name="2.2.19" package="vagrant64" type="one-file">
+  <file path=".Npackd\Install.bat">call "%nih%\InstallMSI.bat" INSTALLDIR yes&#13;
+</file>
+  <url>https://releases.hashicorp.com/vagrant/2.2.19/vagrant_2.2.19_x86_64.msi</url>
+  <hash-sum type="SHA-256">95b4c9195ad62f06e13e68f2f0814d9a8b3a37f9e24a7bfe71b64f44ac6307c8</hash-sum>
   <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.1, 2)">
    <variable>nih</variable>
   </dependency>
