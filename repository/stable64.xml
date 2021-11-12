@@ -34309,7 +34309,7 @@ verify&#13;
   </dependency>
  </version>
 
-    <version name="3.10.14" package="ocenaudio64" type="one-file">
+    <version name="3.10.15" package="ocenaudio64" type="one-file">
   <file path=".Npackd\Install.bat">"%npackd_package_binary%" /AllUsers /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
 </file>
   <file path=".Npackd\Uninstall.bat">"%ncl%\ncl" remove-scp --title "/ocenaudio.*/"</file>
@@ -59437,6 +59437,16 @@ call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Np
 </file>
   <url>https://github.com/tim-lebedkov/packages/releases/download/2021_09/se.haxx.curl.CURL64-7.79.1-curl-7.79.1-win64-mingw.zip</url>
   <hash-sum type="SHA-256">ca67484fc85277ec91123bd190f57c9343ca1baad89ca92d33dad811e581f43a</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.19, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
+ <version name="7.80" package="se.haxx.curl.CURL64">
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b curl*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+</file>
+  <url>https://curl.haxx.se/windows/dl-7.80.0/curl-7.80.0-win64-mingw.zip</url>
+  <hash-sum type="SHA-256">75b2f64ae1dc6d2cc47bc59a33eb0f863f29f3b4423a9ad174905103818edb6f</hash-sum>
   <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.19, 2)">
    <variable>nih</variable>
   </dependency>
