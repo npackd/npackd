@@ -1577,6 +1577,18 @@ x86_64</description>
   <link href="https://www.softpaz.com/screenshots/focuson-image-viewer-pintosoft/2.png" rel="screenshot"/>
   <link href="https://www.softpaz.com/screenshots/focuson-image-viewer-pintosoft/3.png" rel="screenshot"/>
  </package>
+ <package name="fotosketcher64">
+  <title>FotoSketcher 64 Bit</title>
+  <url>https://fotosketcher.com/</url>
+  <description>Turn your digital photos into beautiful pencil sketches in seconds by applying several graphic effects, and create scripts to automate photo processing for future images
+x86_64</description>
+  <icon>https://cdn.lo4d.com/t/icon/128/fotosketcher.png</icon>
+  <license>org.wikipedia.Freeware</license>
+  <category>Photo</category>
+  <tag>stable64</tag>
+  <stars>1</stars>
+  <link href="http://fotosketcher.blogspot.com/" rel="changelog"/>
+ </package>
  <package name="fr.handbrake.HandBrake64">
   <title>HandBrake 64 bit</title>
   <url>http://handbrake.fr</url>
@@ -4531,6 +4543,14 @@ x86_64</description>
   <file path=".Npackd\Install.bat">call "%nih%\InstallMSI.bat" INSTALLDIR yes&#13;
 </file>
   <url>https://dl.4kdownload.com/app/4kvideodownloader_4.18.4_x64.msi</url>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.1, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
+ <version name="4.18.5" package="4k-video-downloader64" type="one-file">
+  <file path=".Npackd\Install.bat">call "%nih%\InstallMSI.bat" INSTALLDIR yes&#13;
+</file>
+  <url>https://dl.4kdownload.com/app/4kvideodownloader_4.18.5_x64.msi</url>
   <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.1, 2)">
    <variable>nih</variable>
   </dependency>
@@ -21476,7 +21496,16 @@ verify</file>
   <hash-sum type="SHA-256">63c33fa7b7d8db285c6effcced61cba9864afded8459c7411fe558260b7a111a</hash-sum>
  </version>
 
-    
+    <version name="3.70" package="fotosketcher64" type="one-file">
+  <file path=".Npackd\Install.bat">"%nih%\InstallInnoSetup.bat"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">"%nih%\UninstallInnoSetup.bat" unins000.exe</file>
+  <url>https://www.fotosketcher.com/FotoSketcher_3.70_setup_64bit.exe</url>
+  <hash-sum type="SHA-256">4402492630b20e8da7528af68fc4345a91c279ab7ca68bc927085f5631865925</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
 
     <version name="0.10" package="fr.handbrake.HandBrake64" type="one-file">
   <file path=".Npackd\Install.bat">ren rotation.php setup.exe&#13;
