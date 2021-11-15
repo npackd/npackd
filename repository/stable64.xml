@@ -861,7 +861,6 @@ x86_64</description>
   <description>WARNING: there will be no new versions of this package.
 antivirus. WARNING: at least XP SP2 is required
 x86_64</description>
-  <icon>http://c.s-microsoft.com/en-us/CMSImages/microsoft_logo_56x56.png?version=ad0d2fa7-0ee8-4e82-ddbf-8ea5dc9d9c23</icon>
   <license>com.microsoft.SecurityEssentialsLicense</license>
   <category>Security</category>
   <tag>stable64</tag>
@@ -5136,8 +5135,6 @@ x86_64</description>
    <variable>nih</variable>
   </dependency>
  </version>
-
-    
 
     <version name="2.1" package="barrier64" type="one-file">
   <file path=".Npackd\Install.bat">"%nih%\InstallInnoSetup.bat"&#13;
@@ -21506,6 +21503,16 @@ verify</file>
    <variable>nih</variable>
   </dependency>
  </version>
+ <version name="3.80" package="fotosketcher64" type="one-file">
+  <file path=".Npackd\Install.bat">"%nih%\InstallInnoSetup.bat"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">"%nih%\UninstallInnoSetup.bat" unins000.exe</file>
+  <url>https://www.fotosketcher.com/FotoSketcher_3.80_setup_64bit.exe</url>
+  <hash-sum type="SHA-256">e242c5d28ae7b89552332acb0ed6d88106f93f98b59bef96fc2802cb7a8c3648</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
 
     <version name="0.10" package="fr.handbrake.HandBrake64" type="one-file">
   <file path=".Npackd\Install.bat">ren rotation.php setup.exe&#13;
@@ -34336,6 +34343,53 @@ verify&#13;
 		</file>
   <url>https://github.com/tim-lebedkov/packages/releases/download/2021_10/notepadpp64-8.1.9-npp.8.1.9.Installer.x64.exe</url>
   <hash-sum type="SHA-256">23bde004114ee4d17b11608da2c78fda365874fd64194a6ea167dd3050576b42</hash-sum>
+ </version>
+ <version name="8.1.9.1" package="notepadpp64" type="one-file">
+  <file path=".Npackd\Install.bat">xcopy "%allusersprofile%\Npackd\Config\net.sourceforge.NotepadPlusPlus" .  /E /C /I /F /H /R /Y &gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+&#13;
+for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
+"%setup%" /S /D=%CD%&#13;
+if %errorlevel% neq 0 exit /b %errorlevel%&#13;
+&#13;
+set package=net.sourceforge.NotepadPlusPlus&#13;
+set version=%NPACKD_PACKAGE_VERSION%&#13;
+set key=%package%&#13;
+&#13;
+reg add HKLM\SOFTWARE\Classes\Applications\%KEY%\shell\open /v FriendlyAppName /d "Notepad++ (%version%)" /f &gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+set c=\"%CD%\notepad++.exe\" \"%%1\"&#13;
+reg add HKLM\SOFTWARE\Classes\Applications\%KEY%\shell\open\command /d "%c%" /f &gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+for %%g in (txt log ini h hpp hxx c cpp cxx cc m java cs pas inc html htm php phtml properties js jsp asp css xml sh bsh nsi nsh lua pl pm py as mx vb vbs f for f90 f95 f2k tex sql nfo mak hgignore) do reg add HKLM\SOFTWARE\Classes\.%%g\OpenWithList\%key% /f &gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+&#13;
+reg add "HKCR\*\shell\Notepad++\command" /ve /f /d "\"%cd%\notepad++.exe\" %%1" &gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+&#13;
+verify</file>
+  <file path=".Npackd\Uninstall.bat">rmdir /s /q "%allusersprofile%\Npackd\Config\net.sourceforge.NotepadPlusPlus"&#13;
+xcopy Plugins "%allusersprofile%\Npackd\Config\net.sourceforge.NotepadPlusPlus\Plugins" /E /C /I /F /H /R /Y &gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+&#13;
+set package=net.sourceforge.NotepadPlusPlus&#13;
+set version=%NPACKD_PACKAGE_VERSION%&#13;
+set key=%package%&#13;
+&#13;
+set newname=%key%_%random%&#13;
+ren %appdata%\Notepad++ %newname%&#13;
+uninstall.exe /S _?=%CD%&#13;
+if %errorlevel% neq 0 exit /b %errorlevel%&#13;
+ren %appdata%\%newname% Notepad++&#13;
+&#13;
+rem unregister "Open With..." entries&#13;
+reg delete HKLM\SOFTWARE\Classes\Applications\%KEY% /f &gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+for %%g in (txt log ini h hpp hxx c cpp cxx cc m java cs pas inc html htm php phtml properties js jsp asp css xml sh bsh nsi nsh lua pl pm py as mx vb vbs f for f90 f95 f2k tex sql nfo mak hgignore) do reg delete HKLM\SOFTWARE\Classes\.%%g\OpenWithList\%key% /f &gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+&#13;
+reg delete HKCR\*\shell\Notepad++ /f &gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+&#13;
+rem remove Explorer extension&#13;
+set trash=..\.Trash\%key%_%random%&#13;
+mkdir %trash%&#13;
+move NppShell*.dll %trash%&#13;
+verify&#13;
+		</file>
+  <url>https://github.com/notepad-plus-plus/notepad-plus-plus/releases/download/v8.1.9.1/npp.8.1.9.1.Installer.x64.exe</url>
+  <hash-sum type="SHA-256">5c65894c0de1326df5ca68c84280d3c39a0ec9f79489f8611f76e4e0e60b922e</hash-sum>
  </version>
 
     <version name="1.49" package="nubasic64">
@@ -56071,6 +56125,16 @@ echo DesktopShortcut=false &gt;&gt; .Npackd\FF.ini&#13;
   <url>http://rm-eu.palemoon.org/release/palemoon-29.4.2.win64.installer.exe</url>
   <hash-sum type="SHA-256">dabbde0d26c7e0fde1181e8acddb426e532ea076b13cd4819c9047139745e33e</hash-sum>
  </version>
+ <version name="29.4.2.1" package="pale-moon64" type="one-file">
+  <file path=".Npackd\Install.bat">echo [Install] &gt; .Npackd\FF.ini&#13;
+echo InstallDirectoryPath=%CD% &gt;&gt; .Npackd\FF.ini&#13;
+echo QuickLaunchShortcut=false &gt;&gt; .Npackd\FF.ini&#13;
+echo DesktopShortcut=false &gt;&gt; .Npackd\FF.ini&#13;
+"%npackd_package_binary%" /INI="%CD%\.Npackd\FF.ini" &amp;&amp; del /f /q "%npackd_package_binary%"</file>
+  <file path=".Npackd\Uninstall.bat">uninstall\helper.exe /S</file>
+  <url>http://rm-eu.palemoon.org/release/palemoon-29.4.2.win64.installer.exe</url>
+  <hash-sum type="SHA-256">dabbde0d26c7e0fde1181e8acddb426e532ea076b13cd4819c9047139745e33e</hash-sum>
+ </version>
 
     <version name="2.2.1" package="pandoc64" type="one-file">
   <file path=".Npackd\Install.bat">call "%nih%\InstallMSI.bat" INSTALLDIR yes&#13;
@@ -59823,7 +59887,7 @@ if %err% neq 0 exit %err%&#13;
   </dependency>
  </version>
 
-    <version name="32.0.3" package="slimjet" type="one-file">
+    <version name="32.0.4" package="slimjet" type="one-file">
   <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
 </file>
   <file path=".Npackd\Uninstall.bat">uninstall.exe /S _?=%CD%&#13;
@@ -59831,7 +59895,7 @@ if %err% neq 0 exit %err%&#13;
   <url>https://www.slimjetbrowser.com/release/sjtsetup_x86.exe</url>
  </version>
 
-    <version name="32.0.3" package="slimjet64" type="one-file">
+    <version name="32.0.4" package="slimjet64" type="one-file">
   <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
 </file>
   <file path=".Npackd\Uninstall.bat">uninstall.exe /S _?=%CD%&#13;
