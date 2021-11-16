@@ -1585,7 +1585,7 @@ x86_64</description>
   <license>org.wikipedia.Freeware</license>
   <category>Photo</category>
   <tag>stable64</tag>
-  <stars>1</stars>
+  <stars>2</stars>
   <link href="http://fotosketcher.blogspot.com/" rel="changelog"/>
  </package>
  <package name="fr.handbrake.HandBrake64">
@@ -1871,6 +1871,7 @@ x86_64</description>
   <license>org.gnu.GPLv3</license>
   <category>Photo</category>
   <tag>stable64</tag>
+  <stars>1</stars>
   <link href="https://imageglass.org/news/announcing-imageglass-7-5-68" rel="changelog"/>
   <link href="https://imageglass.org/upload/photo/release/7.5_1.jpg" rel="screenshot"/>
   <link href="https://www.snapfiles.com/screenfiles/imageglass.jpg" rel="screenshot"/>
@@ -14315,7 +14316,7 @@ del Q-Dir.ini&#13;
   <url>http://files.npackd.org/com.softwareok.QDir64-5.99.9.zip</url>
   <sha1>fb6060796fae3fc641ba34fe1f2f8530d7c985a8</sha1>
  </version>
- <version name="9.98" package="com.softwareok.QDir64">
+ <version name="9.99" package="com.softwareok.QDir64">
   <important-file path="Q-Dir_x64.exe" title="Q-Dir"/>
   <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b Q*') do set name=%%x&#13;
 cd "%name%"        &#13;
@@ -22731,7 +22732,7 @@ if %err% neq 0 exit %err%&#13;
   <hash-sum type="SHA-256">9ea1de71109eb5f1b41be08cf2f509ad952ba8cdae8ed82507452f2f772686d3</hash-sum>
  </version>
 
-    <version name="95.0.4638.69" package="google-chrome-x64" type="one-file">
+    <version name="96.0.4664.45" package="google-chrome-x64" type="one-file">
   <file path=".Npackd\Install.bat">call "%npackdih%\InstallMSI.bat" TARGETDIR yes&#13;
 </file>
   <url>https://dl.google.com/tag/s/appguid%3D%7B8A69D345-D564-463C-AFF1-A69D9E530F96%7D%26iid%3D%7B0A558A36-0536-8B3F-0AE0-420553CC97F3%7D%26lang%3Den%26browser%3D4%26usagestats%3D0%26appname%3DGoogle%2520Chrome%26needsadmin%3DFalse/edgedl/chrome/install/GoogleChromeStandaloneEnterprise64.msi</url>
@@ -25837,6 +25838,17 @@ if %err% neq 0 exit %err%&#13;
 </file>
   <url>https://github.com/tim-lebedkov/packages/releases/download/2021_10/imagemagick64-7.1.0.13-ImageMagick-7.1.0-13-Q16-HDRI-x64-dll.exe</url>
   <hash-sum type="SHA-256">c4607f68794f9e8e5ed73b1c0a295aae8e612c4b63b163e65c5f2669068b78d0</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
+ <version name="7.1.0.14" package="imagemagick64" type="one-file">
+  <file path=".Npackd\Install.bat">call "%nih%\InstallInnoSetup.bat"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">call "%nih%\UninstallInnoSetup.bat" unins000.exe&#13;
+</file>
+  <url>https://www.imagemagick.org/download/binaries/ImageMagick-7.1.0-14-Q16-HDRI-x64-dll.exe</url>
+  <hash-sum type="SHA-256">970f54f23d5b029d27df7269c279483761f868a9cb7b74d084b48fa3b7cafc4a</hash-sum>
   <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
    <variable>nih</variable>
   </dependency>
