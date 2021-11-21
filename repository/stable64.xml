@@ -19776,51 +19776,7 @@ rmdir "%name%"&#13;
   <hash-sum type="SHA-256">f61b601acba59d61fb0631a654e48a564db34e279b6f2cc45e20a42ce9d9c466</hash-sum>
  </version>
 
-    <version name="8.39" package="explzh64" type="one-file">
-  <file path=".Npackd\Install.bat">"%npackd_package_binary%" /silent /q &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
-</file>
-  <file path=".Npackd\Uninstall.bat">"%ncl%\ncl.exe" remove-scp --title "/%npackd_package_name% %npackd_package_version%/i"&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
-</file>
-  <url>https://www.ponsoftware.com/en/archiver/explzh/explz839_en_x64.exe</url>
-  <hash-sum type="SHA-256">80df4252cc9bf84f43c527fb231334d7db9383a7bcf3d0ffd0b1013daeab3218</hash-sum>
-  <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.25, 2)">
-   <variable>ncl</variable>
-  </dependency>
- </version>
- <version name="8.40" package="explzh64" type="one-file">
-  <file path=".Npackd\Install.bat">"%npackd_package_binary%" /silent /q &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
-</file>
-  <file path=".Npackd\Uninstall.bat">"%ncl%\ncl.exe" remove-scp --title "/%npackd_package_name% %npackd_package_version%/i"&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
-</file>
-  <url>https://www.ponsoftware.com/en/archiver/explzh/explz840_en_x64.exe</url>
-  <hash-sum type="SHA-256">cbdbc8d2630c1fdd10e28af7ed33b94f92fca3050f8354f6cd94c26aad08f190</hash-sum>
-  <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.25, 2)">
-   <variable>ncl</variable>
-  </dependency>
- </version>
- <version name="8.41" package="explzh64" type="one-file">
-  <file path=".Npackd\Install.bat">"%npackd_package_binary%" /silent /q &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
-</file>
-  <file path=".Npackd\Uninstall.bat">"%ncl%\ncl.exe" remove-scp --title "/%npackd_package_name% %npackd_package_version%/i"&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
-</file>
-  <url>https://www.ponsoftware.com/en/archiver/explzh/explz841_en_x64.exe</url>
-  <hash-sum type="SHA-256">79af8651fd3a1f4cca01936f8ac770a9f735d7481d6b956e3eb14d1eaf9a7dff</hash-sum>
-  <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.25, 2)">
-   <variable>ncl</variable>
-  </dependency>
- </version>
- <version name="8.42" package="explzh64" type="one-file">
-  <file path=".Npackd\Install.bat">"%npackd_package_binary%" /silent /q &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
-</file>
-  <file path=".Npackd\Uninstall.bat">"%ncl%\ncl.exe" remove-scp --title "/%npackd_package_name% %npackd_package_version%/i"&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
-</file>
-  <url>https://www.ponsoftware.com/en/archiver/explzh/explz842_en_x64.exe</url>
-  <hash-sum type="SHA-256">2ad55ec963c9c750ac7b6e96417130f5e881c92b6744e68fa2fe0d051aa33cce</hash-sum>
-  <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.25, 2)">
-   <variable>ncl</variable>
-  </dependency>
- </version>
- <version name="8.45" package="explzh64" type="one-file">
+    <version name="8.45" package="explzh64" type="one-file">
   <file path=".Npackd\Install.bat">"%npackd_package_binary%" /silent /q &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
 </file>
   <file path=".Npackd\Uninstall.bat">"%ncl%\ncl.exe" remove-scp --title "/%npackd_package_name% %npackd_package_version%/i"&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
@@ -54128,6 +54084,20 @@ call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Np
 </file>
   <url>https://github.com/vim/vim-win32-installer/releases/download/v8.2.3614/gvim_8.2.3614_x64.zip</url>
   <hash-sum type="SHA-256">0264a39ba83542cb65a2ea8ba91251e208c73193d5e5504a1006066a56981e64</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.19, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
+ <version name="8.2.3625" package="org.vim.Vim64">
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+if %errorlevel% neq 0 exit /b %errorlevel%&#13;
+&#13;
+for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+</file>
+  <url>https://github.com/vim/vim-win32-installer/releases/download/v8.2.3625/gvim_8.2.3625_x64.zip</url>
+  <hash-sum type="SHA-256">8fe5b9670eb966de52ea5796eaf492842623fb52cf48a4044abb47c0017fd0f2</hash-sum>
   <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.19, 2)">
    <variable>nih</variable>
   </dependency>
