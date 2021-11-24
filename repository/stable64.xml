@@ -303,6 +303,7 @@ x86_64</description>
   <category>Tools</category>
   <tag>stable64</tag>
   <tag>same-url</tag>
+  <stars>1</stars>
   <link href="http://www.ukrebs-software.de/english/back4sure/graphics/main_window.gif" rel="screenshot"/>
   <link href="http://www.ukrebs-software.de/english/back4sure/graphics/filter_edit.gif" rel="screenshot"/>
   <link href="http://www.ukrebs-software.de/english/back4sure/graphics/progress_success.gif" rel="screenshot"/>
@@ -5479,6 +5480,18 @@ verify&#13;
 </file>
   <url>https://bitcoin.org/bin/bitcoin-core-0.21.1/bitcoin-0.21.1-win64-setup-unsigned.exe</url>
   <hash-sum type="SHA-256">afdd0f1717a74af01b88631d17a2f29f89d21ca2e3be0fec0678e7a1e20712d5</hash-sum>
+ </version>
+ <version name="22" package="bitcoin-core64" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD%&#13;
+if %errorlevel% neq 0 exit /b %errorlevel%        &#13;
+&#13;
+del "%npackd_package_binary%"&#13;
+verify&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">uninstall.exe /S _?=%CD%&#13;
+</file>
+  <url>https://bitcoin.org/bin/bitcoin-core-22.0/bitcoin-22.0-win64-setup.exe</url>
+  <hash-sum type="SHA-256">9169989d649937c0f9ebccd3ab088501328aa319fe9e91fc7ea8e8cf0fcccede</hash-sum>
  </version>
 
     <version name="2.4.1" package="bittorrent-sync64" type="one-file">
@@ -11432,6 +11445,24 @@ if %err% neq 0 exit /b %err%&#13;
   <url>https://download.visualstudio.microsoft.com/download/pr/c627417f-7c6d-44a6-86c3-95c1acbbd5f5/A9F5D2EAF67BF0DB0178B6552A71C523C707DF0E2CC66C06BFBC08BDC53387E7/VC_redist.x64.exe</url>
   <hash-sum type="SHA-256">a9f5d2eaf67bf0db0178b6552a71c523c707df0e2cc66c06bfbc08bdc53387e7</hash-sum>
  </version>
+ <version name="14.31.30818" package="com.microsoft.VisualCPPRedistributable64" type="one-file">
+  <file path=".Npackd\Install.bat">vc_redist.x64.exe /q /log .Npackd\VCRInstall.log /norestart&#13;
+set err=%errorlevel%&#13;
+type .Npackd\VCRInstall.log&#13;
+rem 3010=restart required&#13;
+if %err% equ 3010 exit /b 0&#13;
+if %err% neq 0 exit /b %err%&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">vc_redist.x64.exe /q /uninstall /log .Npackd\VCRUninstall.log /norestart&#13;
+set err=%errorlevel%&#13;
+type .Npackd\VCRUninstall.log&#13;
+rem 3010=restart required&#13;
+if %err% equ 3010 exit /b 0&#13;
+if %err% neq 0 exit /b %err%&#13;
+</file>
+  <url>https://download.visualstudio.microsoft.com/download/pr/ad322fe0-1435-4fa2-9ea4-c6208b41e7d8/66E0B36ACE18FFFF26EC93035CD1D16DA7294D1A9179FC494F1A6DA3F1AE5183/VC_redist.x64.exe</url>
+  <hash-sum type="SHA-256">66e0b36ace18ffff26ec93035cd1d16da7294d1a9179fc494f1a6da3f1ae5183</hash-sum>
+ </version>
 
     <version name="6.2.9200" package="com.microsoft.Windows64"/>
 
@@ -14417,7 +14448,7 @@ del Q-Dir.ini&#13;
   <url>http://files.npackd.org/com.softwareok.QDir64-5.99.9.zip</url>
   <sha1>fb6060796fae3fc641ba34fe1f2f8530d7c985a8</sha1>
  </version>
- <version name="9.99" package="com.softwareok.QDir64">
+ <version name="10.1" package="com.softwareok.QDir64">
   <important-file path="Q-Dir_x64.exe" title="Q-Dir"/>
   <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b Q*') do set name=%%x&#13;
 cd "%name%"        &#13;
@@ -26025,7 +26056,7 @@ if %err% neq 0 exit %err%&#13;
 </file>
   <file path=".Npackd\Uninstall.bat">call "%nih%\UninstallInnoSetup.bat" unins000.exe&#13;
 </file>
-  <url>https://www.imagemagick.org/download/binaries/ImageMagick-7.1.0-16-Q16-HDRI-x64-dll.exe</url>
+  <url>https://github.com/tim-lebedkov/packages/releases/download/2021_11/imagemagick64-7.1.0.16-ImageMagick-7.1.0-16-Q16-HDRI-x64-dll.exe</url>
   <hash-sum type="SHA-256">7312c3ff7c2bfb22d264e0d40c4d0c8ffe3827db5a5b4d5f4d3f2c1e58df1326</hash-sum>
   <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
    <variable>nih</variable>
@@ -34592,6 +34623,53 @@ verify&#13;
   <url>https://github.com/notepad-plus-plus/notepad-plus-plus/releases/download/v8.1.9.1/npp.8.1.9.1.Installer.x64.exe</url>
   <hash-sum type="SHA-256">5c65894c0de1326df5ca68c84280d3c39a0ec9f79489f8611f76e4e0e60b922e</hash-sum>
  </version>
+ <version name="8.1.9.2" package="notepadpp64" type="one-file">
+  <file path=".Npackd\Install.bat">xcopy "%allusersprofile%\Npackd\Config\net.sourceforge.NotepadPlusPlus" .  /E /C /I /F /H /R /Y &gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+&#13;
+for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
+"%setup%" /S /D=%CD%&#13;
+if %errorlevel% neq 0 exit /b %errorlevel%&#13;
+&#13;
+set package=net.sourceforge.NotepadPlusPlus&#13;
+set version=%NPACKD_PACKAGE_VERSION%&#13;
+set key=%package%&#13;
+&#13;
+reg add HKLM\SOFTWARE\Classes\Applications\%KEY%\shell\open /v FriendlyAppName /d "Notepad++ (%version%)" /f &gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+set c=\"%CD%\notepad++.exe\" \"%%1\"&#13;
+reg add HKLM\SOFTWARE\Classes\Applications\%KEY%\shell\open\command /d "%c%" /f &gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+for %%g in (txt log ini h hpp hxx c cpp cxx cc m java cs pas inc html htm php phtml properties js jsp asp css xml sh bsh nsi nsh lua pl pm py as mx vb vbs f for f90 f95 f2k tex sql nfo mak hgignore) do reg add HKLM\SOFTWARE\Classes\.%%g\OpenWithList\%key% /f &gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+&#13;
+reg add "HKCR\*\shell\Notepad++\command" /ve /f /d "\"%cd%\notepad++.exe\" %%1" &gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+&#13;
+verify</file>
+  <file path=".Npackd\Uninstall.bat">rmdir /s /q "%allusersprofile%\Npackd\Config\net.sourceforge.NotepadPlusPlus"&#13;
+xcopy Plugins "%allusersprofile%\Npackd\Config\net.sourceforge.NotepadPlusPlus\Plugins" /E /C /I /F /H /R /Y &gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+&#13;
+set package=net.sourceforge.NotepadPlusPlus&#13;
+set version=%NPACKD_PACKAGE_VERSION%&#13;
+set key=%package%&#13;
+&#13;
+set newname=%key%_%random%&#13;
+ren %appdata%\Notepad++ %newname%&#13;
+uninstall.exe /S _?=%CD%&#13;
+if %errorlevel% neq 0 exit /b %errorlevel%&#13;
+ren %appdata%\%newname% Notepad++&#13;
+&#13;
+rem unregister "Open With..." entries&#13;
+reg delete HKLM\SOFTWARE\Classes\Applications\%KEY% /f &gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+for %%g in (txt log ini h hpp hxx c cpp cxx cc m java cs pas inc html htm php phtml properties js jsp asp css xml sh bsh nsi nsh lua pl pm py as mx vb vbs f for f90 f95 f2k tex sql nfo mak hgignore) do reg delete HKLM\SOFTWARE\Classes\.%%g\OpenWithList\%key% /f &gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+&#13;
+reg delete HKCR\*\shell\Notepad++ /f &gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+&#13;
+rem remove Explorer extension&#13;
+set trash=..\.Trash\%key%_%random%&#13;
+mkdir %trash%&#13;
+move NppShell*.dll %trash%&#13;
+verify&#13;
+		</file>
+  <url>https://github.com/notepad-plus-plus/notepad-plus-plus/releases/download/v8.1.9.2/npp.8.1.9.2.Installer.x64.exe</url>
+  <hash-sum type="SHA-256">2bb2c7bca2b2ad54701c15cabcbc336643f3829d33d3411c0fb8f75ab1bfa1a0</hash-sum>
+ </version>
 
     <version name="1.49" package="nubasic64">
   <file path=".Npackd\Install.bat">call "%nih%\InstallInnoSetup.bat"&#13;
@@ -34627,7 +34705,7 @@ verify&#13;
   </dependency>
  </version>
 
-    <version name="3.10.15" package="ocenaudio64" type="one-file">
+    <version name="3.11" package="ocenaudio64" type="one-file">
   <file path=".Npackd\Install.bat">"%npackd_package_binary%" /AllUsers /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
 </file>
   <file path=".Npackd\Uninstall.bat">"%ncl%\ncl" remove-scp --title "/ocenaudio.*/"</file>
@@ -54369,6 +54447,20 @@ call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Np
    <variable>nih</variable>
   </dependency>
  </version>
+ <version name="8.2.3640" package="org.vim.Vim64">
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+if %errorlevel% neq 0 exit /b %errorlevel%&#13;
+&#13;
+for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+</file>
+  <url>https://github.com/vim/vim-win32-installer/releases/download/v8.2.3640/gvim_8.2.3640_x64.zip</url>
+  <hash-sum type="SHA-256">c688a298c3c708a05489e091ba8e8770e6a978e37f35f86f9504499d13bd8f68</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.19, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
 
     <version name="4.2.8.83876" package="org.virtualbox.virtualbox64" type="one-file">
   <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
@@ -56508,6 +56600,14 @@ if %err% neq 0 exit %err%</file>
 </file>
   <url>https://1.eu.dl.wireshark.org/win64/Wireshark-win64-3.4.10.exe</url>
   <hash-sum type="SHA-256">faa83ac4f289d07d8e1bacb7e7611758b231a9c00b18e816654f40e7437529fd</hash-sum>
+ </version>
+ <version name="3.6" package="org.wireshark.Wireshark64" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD%&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">uninstall.exe /S _=%CD%&#13;
+</file>
+  <url>https://1.eu.dl.wireshark.org/win64/Wireshark-win64-3.6.0.exe</url>
+  <hash-sum type="SHA-256">8ffa9f2c7943d1e8ed8020d7d08c8015ec649c3e3af901808a9ec858564cd255</hash-sum>
  </version>
 
     <version name="1.0.81" package="otter-browser" type="one-file">
