@@ -212,6 +212,7 @@ x86_64</description>
   <license>org.wikipedia.Freeware</license>
   <category>Tools</category>
   <tag>stable64</tag>
+  <stars>1</stars>
   <link href="https://cdn.afterdawn.fi/screenshots/normal/290.jpg" rel="screenshot"/>
   <link href="https://cdn.afterdawn.fi/screenshots/normal/293.jpg" rel="screenshot"/>
   <link href="https://cdn.afterdawn.fi/screenshots/normal/292.jpg" rel="screenshot"/>
@@ -1111,7 +1112,7 @@ x86_64</description>
   <license>org.gnu.GPLv2</license>
   <category>Communications</category>
   <tag>stable64</tag>
-  <stars>1</stars>
+  <stars>2</stars>
  </package>
  <package name="com.videolan.VLCMediaPlayer64">
   <title>VLC Media Player 64 bit</title>
@@ -17758,7 +17759,7 @@ rmdir "%name%"&#13;
   <hash-sum type="SHA-256">00b79617c58ae73b8b7848be8e10cdd6ba9ded9d92a0c0f720488839c57d2cdb</hash-sum>
  </version>
 
-    <version name="3.3.1" package="cygwin64" type="one-file">
+    <version name="3.3.2" package="cygwin64" type="one-file">
   <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
 "%setup%" -q -D -R "%CD%" -s https://mirrors.kernel.org -l "%CD%\packages"&#13;
 "%setup%" -q -L -R "%CD%" -l "%CD%\packages"</file>
@@ -19325,6 +19326,8 @@ rmdir "%name%"&#13;
   <hash-sum type="SHA-256">5396aa4239c9ac2f65a6b084ccf588d01bdd6ddb701419b7fda5b97b45846093</hash-sum>
  </version>
 
+    
+
     <version name="1.4.4" package="etcher64" type="one-file">
   <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
 </file>
@@ -19921,6 +19924,17 @@ rmdir "%name%"&#13;
 </file>
   <url>https://www.ponsoftware.com/en/archiver/explzh/explz852_en_x64.exe</url>
   <hash-sum type="SHA-256">b2c56dac774605533675f4edaacab4ef6b8b16fb80674163842ce87c7c7b0156</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.25, 2)">
+   <variable>ncl</variable>
+  </dependency>
+ </version>
+ <version name="8.53" package="explzh64" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" /silent /q &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">"%ncl%\ncl.exe" remove-scp --title "/%npackd_package_name% %npackd_package_version%/i"&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+</file>
+  <url>https://www.ponsoftware.com/en/archiver/explzh/explz853_en_x64.exe</url>
+  <hash-sum type="SHA-256">71facec7983dd753a4cb2c02264fe0c668c9b442717db1c307ae6bac4528164c</hash-sum>
   <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.25, 2)">
    <variable>ncl</variable>
   </dependency>
@@ -58679,6 +58693,15 @@ if %errorlevel% equ 3010 verify</file>
 </file>
   <url>https://qgis.org/downloads/QGIS-OSGeo4W-3.22.0-4.msi</url>
   <hash-sum type="SHA-256">099b9d87f65870e50a5c26c7bde68e158744759142a5a121342ef2c7984c3080</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.1, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
+ <version name="3.22.1.1" package="qgis64" type="one-file">
+  <file path=".Npackd\Install.bat">call "%nih%\InstallMSI.bat" INSTALLDIR yes&#13;
+</file>
+  <url>https://qgis.org/downloads/QGIS-OSGeo4W-3.22.1-1.msi</url>
+  <hash-sum type="SHA-256">f7659a97945d1cd21021240a48eb4f863ca6d70682c1b6db5bc37a31a6d87fd4</hash-sum>
   <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.1, 2)">
    <variable>nih</variable>
   </dependency>
