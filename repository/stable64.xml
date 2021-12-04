@@ -14123,6 +14123,14 @@ if %err% neq 0 exit %err%&#13;
   <url>https://github.com/sindresorhus/caprine/releases/download/v2.55.0/caprine-setup-2.55.0.exe</url>
   <hash-sum type="SHA-256">66c6fd6310c549c4b2899e055a78d1919a6b3c11d0b59689af58c4340940768a</hash-sum>
  </version>
+ <version name="2.55.1" package="com.sindresorhus.caprine" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">uninstall.exe /S _?=%CD%&#13;
+</file>
+  <url>https://github.com/sindresorhus/caprine/releases/download/v2.55.1/caprine-setup-2.55.1.exe</url>
+  <hash-sum type="SHA-256">d1d2b1514cfe93c708c0d1879e61a62971f590039e084ee26285a20fc34d107e</hash-sum>
+ </version>
 
     <version name="4.51" package="com.softwareok.QDir64">
   <important-file path="Q-Dir.exe" title="Q-Dir"/>
@@ -17798,7 +17806,7 @@ rmdir "%name%"&#13;
   <hash-sum type="SHA-256">00b79617c58ae73b8b7848be8e10cdd6ba9ded9d92a0c0f720488839c57d2cdb</hash-sum>
  </version>
 
-    <version name="3.3.2" package="cygwin64" type="one-file">
+    <version name="3.3.3" package="cygwin64" type="one-file">
   <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
 "%setup%" -q -D -R "%CD%" -s https://mirrors.kernel.org -l "%CD%\packages"&#13;
 "%setup%" -q -L -R "%CD%" -l "%CD%\packages"</file>
@@ -54798,6 +54806,20 @@ call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Np
    <variable>nih</variable>
   </dependency>
  </version>
+ <version name="8.2.3709" package="org.vim.Vim64">
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+if %errorlevel% neq 0 exit /b %errorlevel%&#13;
+&#13;
+for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+</file>
+  <url>https://github.com/vim/vim-win32-installer/releases/download/v8.2.3709/gvim_8.2.3709_x64.zip</url>
+  <hash-sum type="SHA-256">6dbbbc5986440b5c9d6de1180cbc4ceac1ca78995361a368b6d5a09261468cab</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.19, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
  <version name="8.2.3717" package="org.vim.Vim64">
   <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
 call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
@@ -54808,6 +54830,20 @@ call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Np
 </file>
   <url>https://github.com/vim/vim-win32-installer/releases/download/v8.2.3717/gvim_8.2.3717_x64.zip</url>
   <hash-sum type="SHA-256">5c89aa5f7701959429c9618e4fc61b0d156edd1dc65fd93708d1cef9b0ae5a5a</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.19, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
+ <version name="8.2.3724" package="org.vim.Vim64">
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+if %errorlevel% neq 0 exit /b %errorlevel%&#13;
+&#13;
+for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+</file>
+  <url>https://github.com/vim/vim-win32-installer/releases/download/v8.2.3724/gvim_8.2.3724_x64.zip</url>
+  <hash-sum type="SHA-256">46f3e6f914c65c77b8efe2844b73f7950ba8e5032cd39afb501fc6abab0ca22f</hash-sum>
   <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.19, 2)">
    <variable>nih</variable>
   </dependency>
@@ -58553,7 +58589,7 @@ verify</file>
  <version name="3.27" package="qcad64" type="one-file">
   <file path=".Npackd\Install.bat">call "%nih%\InstallMSI.bat" INSTALLDIR yes&#13;
 </file>
-  <url>http://www.qcad.org/archives/qcad/qcad-3.27.0-trial-win64-installer.msi</url>
+  <url>https://github.com/tim-lebedkov/packages/releases/download/2021_12/qcad64-3.27-qcad-3.27.0-trial-win64-installer.msi</url>
   <hash-sum type="SHA-256">fe0753c7ecd93168104f052b147da654eee2fb761674f21071f2e7a80361fdd1</hash-sum>
   <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.1, 2)">
    <variable>nih</variable>
