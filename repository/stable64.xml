@@ -1587,21 +1587,21 @@ x86_64</description>
   <stars>6</stars>
  </package>
  <package name="firefoxpwa">
-  <title>FirefoxPWA</title>
-  <url>https://github.com/filips123/FirefoxPWA</url>
+  <title>Progressive Web Apps for Firefox</title>
+  <url>https://github.com/filips123/PWAsForFirefox</url>
   <description>Progressive Web Apps (PWAs) are web apps that use web APIs and features along with progressive enhancement strategy to bring a native app-like user experience to cross-platform web applications. Although Firefox supports many of Progressive Web App APIs, it does not support functionality to install them as a standalone system app with an app-like experience.&#13;
 &#13;
 This project creates a custom modified Firefox runtime to allow websites to be installed as standalone apps and provides a console tool and browser extension to install, manage and use them.&#13;
 &#13;
-This package contains only the native part of the FirefoxPWA project. You should also install the browser extension if you haven't already. You can download it from &lt;https://addons.mozilla.org/firefox/addon/firefoxpwa/&gt;.
+This package contains only the native part of the FirefoxPWA project. You should also install the browser extension if you haven't already. You can download it from &lt;https://addons.mozilla.org/firefox/addon/pwas-for-firefox/&gt;.
 x86_64</description>
-  <icon>https://gist.githubusercontent.com/filips123/6f2a9eaf9261754110b361aabe6dff62/raw/1a16c2aa1d801bfd015b2a343e55b52d796642b4/firefoxpwa.png</icon>
+  <icon>https://rawcdn.githack.com/wiki/filips123/PWAsForFirefox/images/icon.png</icon>
   <license>mpl-2</license>
   <category>Tools</category>
   <tag>stable64</tag>
   <stars>3</stars>
-  <link href="https://github.com/filips123/FirefoxPWA/releases" rel="changelog"/>
-  <link href="https://github.com/filips123/FirefoxPWA/issues" rel="issues"/>
+  <link href="https://github.com/filips123/PWAsForFirefox/releases" rel="changelog"/>
+  <link href="https://github.com/filips123/PWAsForFirefox/issues" rel="issues"/>
  </package>
  <package name="focus-image-viewer">
   <title>FocusOn Image Viewer</title>
@@ -6393,6 +6393,20 @@ if %errorlevel% neq 0 exit /b %errorlevel%&#13;
 </file>
   <url>https://github.com/Kitware/CMake/releases/download/v3.22.0/cmake-3.22.0-windows-x86_64.zip</url>
   <hash-sum type="SHA-256">fcce74d1d7eaf825234c036702df3f0874dcd3cee8fdf90b56d0c7bfedd29465</hash-sum>
+ </version>
+ <version name="3.22.1" package="cmake64">
+  <cmd-file path="bin\cmake.exe"/>
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b cmake*') do set name=%%x&#13;
+cd "%name%"        &#13;
+for /f "delims=" %%a in ('dir /b') do (&#13;
+  move "%%a" ..&#13;
+)&#13;
+cd ..&#13;
+rmdir "%name%"&#13;
+if %errorlevel% neq 0 exit /b %errorlevel%&#13;
+</file>
+  <url>https://github.com/Kitware/CMake/releases/download/v3.22.1/cmake-3.22.1-windows-x86_64.zip</url>
+  <hash-sum type="SHA-256">35fbbb7d9ffa491834bbc79cdfefc6c360088a3c9bf55c29d111a5afa04cdca3</hash-sum>
  </version>
 
     <version name="15" package="codelite" type="one-file">
@@ -21662,6 +21676,17 @@ verify</file>
   <url>https://download-installer.cdn.mozilla.net/pub/firefox/releases/94.0.2/win64/en-US/Firefox%20Setup%2094.0.2.exe</url>
   <hash-sum type="SHA-256">78b58b9d01288ab2fb4602ae752111680c2ce0e13e4b2378e4dbde22d1dd6aaf</hash-sum>
  </version>
+ <version name="95" package="firefox64" type="one-file">
+  <file path=".Npackd\Install.bat">echo [Install] &gt; .Npackd\FF.ini&#13;
+echo InstallDirectoryPath=%CD% &gt;&gt; .Npackd\FF.ini&#13;
+echo QuickLaunchShortcut=false &gt;&gt; .Npackd\FF.ini&#13;
+echo DesktopShortcut=false &gt;&gt; .Npackd\FF.ini&#13;
+"%npackd_package_binary%" /INI="%CD%\.Npackd\FF.ini" &amp;&amp; del /f /q "%npackd_package_binary%"</file>
+  <file path=".Npackd\Uninstall.bat">uninstall\helper.exe /S&#13;
+verify</file>
+  <url>https://download-installer.cdn.mozilla.net/pub/firefox/releases/95.0/win64/en-US/Firefox%20Setup%2095.0.exe</url>
+  <hash-sum type="SHA-256">5ade40ff43c62f08cd7d2073964f00fe341fb050005963bc199768e2a58addde</hash-sum>
+ </version>
 
     <version name="0.5" package="firefoxpwa" type="one-file">
   <file path=".Npackd\Install.bat">call "%nih%\InstallMSI.bat" APPLICATIONFOLDER yes</file>
@@ -21721,6 +21746,15 @@ verify</file>
   <file path=".Npackd\Install.bat">call "%nih%\InstallMSI.bat" APPLICATIONFOLDER yes</file>
   <url>https://github.com/filips123/FirefoxPWA/releases/download/v1.2.2/firefoxpwa-1.2.2-x86_64.msi</url>
   <hash-sum type="SHA-256">1620bcabe190ed4d41cb3d8655370fd47e30f0e5d652c7c4599ee8db74c5f904</hash-sum>
+  <dependency package="com.microsoft.VisualCPPRedistributable64" versions="[14,15)"/>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.1, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
+ <version name="1.3" package="firefoxpwa" type="one-file">
+  <file path=".Npackd\Install.bat">call "%nih%\InstallMSI.bat" APPLICATIONFOLDER yes</file>
+  <url>https://github.com/filips123/PWAsForFirefox/releases/download/v1.3.0/firefoxpwa-1.3.0-x86_64.msi</url>
+  <hash-sum type="SHA-256">676885b9a65ec75854212ccb2f38cd95734b2d8e2c2ddd55db855a1ac911fee7</hash-sum>
   <dependency package="com.microsoft.VisualCPPRedistributable64" versions="[14,15)"/>
   <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.1, 2)">
    <variable>nih</variable>
@@ -23035,7 +23069,7 @@ if %err% neq 0 exit %err%&#13;
   <hash-sum type="SHA-256">9ea1de71109eb5f1b41be08cf2f509ad952ba8cdae8ed82507452f2f772686d3</hash-sum>
  </version>
 
-    <version name="96.0.4664.45" package="google-chrome-x64" type="one-file">
+    <version name="96.0.4664.93" package="google-chrome-x64" type="one-file">
   <file path=".Npackd\Install.bat">call "%npackdih%\InstallMSI.bat" TARGETDIR yes&#13;
 </file>
   <url>https://dl.google.com/tag/s/appguid%3D%7B8A69D345-D564-463C-AFF1-A69D9E530F96%7D%26iid%3D%7B0A558A36-0536-8B3F-0AE0-420553CC97F3%7D%26lang%3Den%26browser%3D4%26usagestats%3D0%26appname%3DGoogle%2520Chrome%26needsadmin%3DFalse/edgedl/chrome/install/GoogleChromeStandaloneEnterprise64.msi</url>
@@ -27755,6 +27789,14 @@ call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Np
    <variable>npackdih</variable>
   </dependency>
  </version>
+ <version name="7.2.4" package="libreoffice64" type="one-file">
+  <file path=".Npackd\Install.bat">call "%npackdih%\InstallMSI.bat" INSTALLLOCATION yes</file>
+  <url>https://download.documentfoundation.org/libreoffice/stable/7.2.4/win/x86_64/LibreOffice_7.2.4_Win_x64.msi</url>
+  <hash-sum type="SHA-256">d8a4b685144c26fe57766f24eb9037fc9a53a82e6c7dfdac6b54ea212e063b05</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.1, 2)">
+   <variable>npackdih</variable>
+  </dependency>
+ </version>
 
     <version name="12.6" package="lightworks64" type="one-file">
   <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
@@ -28111,6 +28153,16 @@ if %err% neq 0 exit %err%&#13;
   <file path=".Npackd\Uninstall.bat">"%nih%\UninstallInnoSetup.bat" unins000.exe</file>
   <url>https://medibangpaint.com/static/installer/MediBangPaintPro/MediBangPaintProSetup-26.2-64bit.exe</url>
   <hash-sum type="SHA-256">99bec692dc9410ff9bd95a8e7b48b8776e9ff68190957269bf0b1ead1830969f</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
+ <version name="27.1" package="medibang-paint64" type="one-file">
+  <file path=".Npackd\Install.bat">"%nih%\InstallInnoSetup.bat"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">"%nih%\UninstallInnoSetup.bat" unins000.exe</file>
+  <url>https://medibangpaint.com/static/installer/MediBangPaintPro/MediBangPaintProSetup-27.1-64bit.exe</url>
+  <hash-sum type="SHA-256">ba71d8a50c1d1588f8dc2ffc9e246b3d3acbc761a88a6fa533ed13c55149cf1f</hash-sum>
   <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
    <variable>nih</variable>
   </dependency>
@@ -35668,7 +35720,7 @@ WshShell.AppActivate("Uninstall");&#13;
 WScript.Sleep(10000);&#13;
 WshShell.SendKeys("{ESC}");&#13;
 </file>
-  <url>https://download.openmpt.org/archive/openmpt/1.29/OpenMPT-1.29.15.00-Setup-x64.exe</url>
+  <url>https://github.com/tim-lebedkov/packages/releases/download/2021_12/openmpt64-1.29.15-OpenMPT-1.29.15.00-Setup-x64.exe</url>
   <hash-sum type="SHA-256">8e36da199dfe63197df7f591299f262e4f84661ee7024099cd5c8b421dfa8059</hash-sum>
  </version>
 
@@ -39988,6 +40040,12 @@ rmdir "%name%"&#13;
 </file>
   <url>https://www.erlang.org/download/otp_win64_24.1.exe</url>
   <hash-sum type="SHA-256">1200035410422d366954eebaefe37f213483bf1f2888a1b316ad3479acb56505</hash-sum>
+ </version>
+ <version name="24.1.7" package="org.erlang.Erlang64" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD%&#13;
+</file>
+  <url>https://github.com/erlang/otp/releases/download/OTP-24.1.7/otp_win64_24.1.7.exe</url>
+  <hash-sum type="SHA-256">0aa8b3a636dc8eb800643c770a303d0b3b62e2955dfe73cf7ef7433dcd0bb654</hash-sum>
  </version>
 
     <version name="0.9.2.1" package="org.flamerobin.FlameRobin64" type="one-file">
@@ -44612,6 +44670,15 @@ rmdir "%name%"&#13;
    <variable>nih</variable>
   </dependency>
  </version>
+ <version name="5.0.5" package="org.mongodb.MongoDB64" type="one-file">
+  <file path=".Npackd\Install.bat">call "%nih%\InstallMSI.bat" INSTALLDIR yes&#13;
+</file>
+  <url>https://fastdl.mongodb.org/windows/mongodb-windows-x86_64-5.0.5-signed.msi</url>
+  <hash-sum type="SHA-256">a791d7197849516381b3dc5b2ebb988432b95b52e347a3ce3d70d026d108886a</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.1, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
 
     <version name="0.8.1" package="org.nodejs.NodeJS64" type="one-file">
   <file path=".Npackd\AddProperty.vbs">Option Explicit&#13;
@@ -46403,6 +46470,15 @@ if %err% neq 0 exit /b %err%&#13;
 </file>
   <url>https://www.python.org/ftp/python/3.10.0/python-3.10.0-amd64.exe</url>
   <hash-sum type="SHA-256">cb580eb7dc55f9198e650f016645023e8b2224cf7d033857d12880b46c5c94ef</hash-sum>
+ </version>
+ <version name="3.10.1" package="org.python.Python64" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" /quiet InstallAllUsers=1 "TargetDir=%cd%"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">for /f "delims=" %%x in ('dir /b python-*.exe') do set setup=%%x&#13;
+%setup% /uninstall /quiet InstallAllUsers=1&#13;
+</file>
+  <url>https://www.python.org/ftp/python/3.10.1/python-3.10.1-amd64.exe</url>
+  <hash-sum type="SHA-256">8b89b75032ddfbdac80225dc288f5ec276f5cda00d4000226abda1158f90f7a4</hash-sum>
  </version>
 
     <version name="2.0.0.247" package="org.rubylang.Ruby64" type="one-file">
@@ -54986,6 +55062,20 @@ call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Np
    <variable>nih</variable>
   </dependency>
  </version>
+ <version name="8.2.3754" package="org.vim.Vim64">
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+if %errorlevel% neq 0 exit /b %errorlevel%&#13;
+&#13;
+for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+</file>
+  <url>https://github.com/vim/vim-win32-installer/releases/download/v8.2.3754/gvim_8.2.3754_x64.zip</url>
+  <hash-sum type="SHA-256">9bb018513f69a0a2da47562b16cfc3f1143fd6eeebc552de4356cc4a6b6f471d</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.19, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
 
     <version name="4.2.8.83876" package="org.virtualbox.virtualbox64" type="one-file">
   <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
@@ -56842,6 +56932,41 @@ if %err% neq 0 exit %err%</file>
    <variable>sevenzip</variable>
   </dependency>
  </version>
+ <version name="6.1.30.148432" package="org.virtualbox.virtualbox64" type="one-file">
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
+"%setup%" -x -s -p "%CD%"&#13;
+&#13;
+&#13;
+"%sevenzip%\7z.exe" x common.cab -aos -o"%CD%\common"&#13;
+"%sevenzip%\7z.exe" x "%CD%\common\file_VBoxGuestAdditions.iso" -aos -o"%CD%\common\file_VBoxGuestAdditions"&#13;
+&#13;
+certutil.exe -addstore -f "TrustedPublisher" "%CD%\common\file_VBoxGuestAdditions\cert\oracle-vbox.cer" &gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+&#13;
+for /f "delims=" %%x in ('dir /b *MultiArch_amd64.msi') do set setup=%%x&#13;
+msiexec.exe /qn /norestart /Lime .Npackd\MSI.log /i "%setup%"&#13;
+set err=%errorlevel%&#13;
+type .Npackd\MSI.log&#13;
+rem 3010=restart required&#13;
+if %err% equ 3010 exit 0&#13;
+if %err% neq 0 exit %err%&#13;
+&#13;
+for /f "delims=" %%x in ('dir /b *MultiArch_x86.msi') do set trash=%%x&#13;
+del /q /f "%trash%"&#13;
+&#13;
+if exist "%CD%\common" (rd /s /q "%CD%\common")</file>
+  <file path=".Npackd\Uninstall.bat">for /f "delims=" %%x in ('dir /b *.msi') do set setup=%%x&#13;
+msiexec.exe /qn /norestart /Lime .Npackd\MSI.log /x "%setup%"&#13;
+set err=%errorlevel%&#13;
+type .Npackd\MSI.log&#13;
+rem 3010=restart required&#13;
+if %err% equ 3010 exit 0&#13;
+if %err% neq 0 exit %err%</file>
+  <url>http://download.virtualbox.org/virtualbox/6.1.30/VirtualBox-6.1.30-148432-Win.exe</url>
+  <hash-sum type="SHA-256">1d085322564f039bf4f46fcb42735516b1a04629ec83da5b97f759e27fecbcdf</hash-sum>
+  <dependency package="org.7-zip.SevenZIP64" versions="[9.20, 20)">
+   <variable>sevenzip</variable>
+  </dependency>
+ </version>
 
     <version name="1.9.11" package="org.virtualdub.VirtualDub64">
   <important-file path="Veedub64.exe" title="VirtualDub"/>
@@ -58193,6 +58318,16 @@ if %errorlevel% neq 0 exit /b %errorlevel%&#13;
   <file path=".Npackd\Uninstall.bat">"%nih%\UninstallInnoSetup.bat" unins000.exe</file>
   <url>https://master.dl.sourceforge.net/project/psiplus/Windows/Personal-Builds/KukuRuzo/psi-plus-1.5.1549.0-x64-setup.exe</url>
   <hash-sum type="SHA-256">430efdf3d3ca90f778d8ace2fdd8b187269ae35b19bcb3c8dd03130f84212a12</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
+ <version name="1.5.1569" package="psi-plus64" type="one-file">
+  <file path=".Npackd\Install.bat">"%nih%\InstallInnoSetup.bat"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">"%nih%\UninstallInnoSetup.bat" unins000.exe</file>
+  <url>https://master.dl.sourceforge.net/project/psiplus/Windows/Personal-Builds/KukuRuzo/psi-plus-1.5.1569.0-x64-setup.exe</url>
+  <hash-sum type="SHA-256">ccc1b98862a1888b9e2a211c9f5f23c24a0dc0178c4c91fffe9de746f93e7e1b</hash-sum>
   <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
    <variable>nih</variable>
   </dependency>
