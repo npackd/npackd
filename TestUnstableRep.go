@@ -929,10 +929,20 @@ func downloadToFile(url, path string) error {
 	//fmt.Println("Downloading " + url + " to " + path)
 
 	// Get the data
-	resp, err := http.Get(url)
+	client := &http.Client{}
+
+	req, err := http.NewRequest("GET", url, nil)
 	if err != nil {
 		return err
 	}
+
+	req.Header.Set("User-Agent", "NpackdWeb/1 (compatible; MSIE 9.0)")
+
+	resp, err := client.Do(req)
+	if err != nil {
+		return err
+	}
+
 	defer resp.Body.Close()
 
 	// Check server response
