@@ -5047,7 +5047,7 @@ x86_64</description>
   <hash-sum type="SHA-256">bd5ae4f8d7fe1c6b6d22c9348fa1e1bac2fc7ba01ab47c9b95714ec0bfe052c0</hash-sum>
  </version>
  <version name="2.4.51" package="apache-httpd64">
-  <url>https://de.apachehaus.com/downloads/httpd-2.4.51-o111l-x64-vs16.zip</url>
+  <url>https://github.com/tim-lebedkov/packages/releases/download/2021_12/apache-httpd64-2.4.51-httpd-2.4.51-o111l-x64-vs16.zip</url>
   <hash-sum type="SHA-256">a73a39e48bf6298db026caf7a7b455081b3644ad5fe4195b887454bf0596176b</hash-sum>
  </version>
 
@@ -16931,7 +16931,7 @@ for %%g in (%extensions%) do reg add HKLM\SOFTWARE\Classes\.%%g\OpenWithList\%ke
   </dependency>
  </version>
 
-    <version name="1.94" package="com.xnconvert.XnConvert64" type="one-file">
+    <version name="1.95" package="com.xnconvert.XnConvert64" type="one-file">
   <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
 "%setup%" /SP- /VERYSILENT /SUPPRESSMSGBOXES /NOCANCEL /NORESTART /DIR="%CD%" /SAVEINF="%CD%\.Npackd\InnoSetupInfo.ini" /LOG="%CD%\.Npackd\InnoSetupInstall.log"&#13;
 set err=%errorlevel%&#13;
@@ -55548,6 +55548,20 @@ call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Np
 </file>
   <url>https://github.com/vim/vim-win32-installer/releases/download/v8.2.3786/gvim_8.2.3786_x64.zip</url>
   <hash-sum type="SHA-256">61f975ec7f63ed758f7fe61ff045b9dba0b66da826432a1aacad536de25b8031</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.19, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
+ <version name="8.2.3793" package="org.vim.Vim64">
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+if %errorlevel% neq 0 exit /b %errorlevel%&#13;
+&#13;
+for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+</file>
+  <url>https://github.com/vim/vim-win32-installer/releases/download/v8.2.3793/gvim_8.2.3793_x64.zip</url>
+  <hash-sum type="SHA-256">aa67c177b468e491d209328a356021548253100561741427a23bea89de3925b5</hash-sum>
   <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.19, 2)">
    <variable>nih</variable>
   </dependency>
