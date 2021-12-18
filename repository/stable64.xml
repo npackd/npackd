@@ -2800,7 +2800,7 @@ x86_64</description>
   <license>org.7-zip.License</license>
   <category>Tools</category>
   <tag>stable64</tag>
-  <stars>20</stars>
+  <stars>21</stars>
   <link href="https://www.7-zip.org/history.txt" rel="changelog"/>
   <link href="http://www.7-zip.org/7zfm.png" rel="screenshot"/>
  </package>
@@ -9854,6 +9854,15 @@ call "%npackdih%\InstallMSI.bat" APPLICATIONFOLDER yes&#13;
    <variable>npackdih</variable>
   </dependency>
  </version>
+ <version name="5.34" package="com.calibreebook.Calibre64" type="one-file">
+  <file path=".Npackd\Install.bat">call "%npackdih%\InstallMSI.bat" APPLICATIONFOLDER yes&#13;
+</file>
+  <url>https://download.calibre-ebook.com/5.34.0/calibre-64bit-5.34.0.msi</url>
+  <hash-sum type="SHA-256">4d203a9368456f662892e1d4ce1aa9fb40bc6dba68ee0647729307729a9f3244</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.2, 2)">
+   <variable>npackdih</variable>
+  </dependency>
+ </version>
 
     <version name="5.12.256249.2599" package="com.comodo.comodoav64" type="one-file">
   <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.msi') do set setup=%%x&#13;
@@ -14607,7 +14616,7 @@ del Q-Dir.ini&#13;
   <url>http://files.npackd.org/com.softwareok.QDir64-5.99.9.zip</url>
   <sha1>fb6060796fae3fc641ba34fe1f2f8530d7c985a8</sha1>
  </version>
- <version name="10.44" package="com.softwareok.QDir64">
+ <version name="10.45" package="com.softwareok.QDir64">
   <important-file path="Q-Dir_x64.exe" title="Q-Dir"/>
   <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b Q*') do set name=%%x&#13;
 cd "%name%"        &#13;
@@ -55734,6 +55743,20 @@ call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Np
    <variable>nih</variable>
   </dependency>
  </version>
+ <version name="8.2.3832" package="org.vim.Vim64">
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+if %errorlevel% neq 0 exit /b %errorlevel%&#13;
+&#13;
+for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+</file>
+  <url>https://github.com/vim/vim-win32-installer/releases/download/v8.2.3832/gvim_8.2.3832_x64.zip</url>
+  <hash-sum type="SHA-256">8662555e252ec6e02a2737834b79a71b3238f7b9e6d627ebb7a4d04060189533</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.19, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
 
     <version name="4.2.8.83876" package="org.virtualbox.virtualbox64" type="one-file">
   <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
@@ -59624,7 +59647,7 @@ verify</file>
  <version name="3.27.1" package="qcad64" type="one-file">
   <file path=".Npackd\Install.bat">call "%nih%\InstallMSI.bat" INSTALLDIR yes&#13;
 </file>
-  <url>http://www.qcad.org/archives/qcad/qcad-3.27.1-trial-win64-installer.msi</url>
+  <url>https://github.com/tim-lebedkov/packages/releases/download/2021_12/qcad64-3.27.1-qcad-3.27.1-trial-win64-installer.msi</url>
   <hash-sum type="SHA-256">3040169e45e68b7f43572957dab181f855764b93b9dd6f3f438d42b2644b1b50</hash-sum>
   <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.1, 2)">
    <variable>nih</variable>
@@ -60442,6 +60465,14 @@ if %errorlevel% equ 3010 verify</file>
 </file>
   <url>https://github.com/qTox/qTox/releases/download/v1.17.3/setup-qtox-i686-release.exe</url>
   <hash-sum type="SHA-256">fe3158ed9fd5429506d2e96308ebe29f74786cb4b6b90836725cab38463067cf</hash-sum>
+ </version>
+ <version name="1.17.4" package="qtox64" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">uninstall.exe /S _?=%CD%&#13;
+</file>
+  <url>https://github.com/qTox/qTox/releases/download/v1.17.4/setup-qtox-i686-release.exe</url>
+  <hash-sum type="SHA-256">f8ae0cae5a6285639282b81456affe36f3ea2223dbe14ea3e98761bb28d8e855</hash-sum>
  </version>
 
     <version name="0.13.1" package="quassel64" type="one-file">
@@ -64180,6 +64211,14 @@ if %err% neq 0 exit %err%&#13;
   <url>http://files.first-world.info/ultracopier/2.2.4.11/ultracopier-windows-x86_64-2.2.4.11-setup.exe</url>
   <hash-sum type="SHA-256">f4f73676fef6bb413e650c85e3ca3a9309dd6878b5c933cb73c54603e8e2dc91</hash-sum>
  </version>
+ <version name="2.2.4.13" package="ultracopier64" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">uninst.exe /S _?=%CD%&#13;
+</file>
+  <url>http://files.first-world.info/ultracopier/2.2.4.13/ultracopier-windows-x86_64-2.2.4.13-setup.exe</url>
+  <hash-sum type="SHA-256">d84f9d2b31711bad68516d295a788b2452c4e9ab97cbce60e1f090e75c12d68a</hash-sum>
+ </version>
  <version name="2.2.4.14" package="ultracopier64" type="one-file">
   <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
 </file>
@@ -65530,6 +65569,18 @@ if %err% neq 0 exit /b %err%&#13;
 </file>
   <url>https://downloads.vivaldi.com/stable/Vivaldi.5.0.2497.30.x64.exe</url>
   <hash-sum type="SHA-256">744352e9939a8193e05fa1f34d7ad1831a8ecd36f116b316208e8347d13eac9e</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.24, 2)">
+   <variable>ncl</variable>
+  </dependency>
+ </version>
+ <version name="5.0.2497.32" package="vivaldi-browser-64" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" --vivaldi-silent --vivaldi-standalone --vivaldi-silent --do-not-launch-chrome --vivaldi-install-dir="%CD%" &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
+&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">"%ncl%\ncl.exe" remove-scp --title "vivaldi-browser-64"&#13;
+</file>
+  <url>https://downloads.vivaldi.com/stable/Vivaldi.5.0.2497.32.x64.exe</url>
+  <hash-sum type="SHA-256">ca3aa4643867c1f50ad6dd4c6ef207c55e4672b4108a86f6b0c938e3ffcc6462</hash-sum>
   <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.24, 2)">
    <variable>ncl</variable>
   </dependency>
