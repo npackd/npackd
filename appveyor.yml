@@ -1,32 +1,32 @@
 version: 1.0.{build}
+image: Visual Studio 2017
 skip_non_tags: true
 build:
   verbosity: detailed
 environment:
   matrix:
-  - what: maintenance
-    github_token:
-      secure: qFyROGp9we0D/CfiUCzEur8uIxnRiuZnFV+qCwWSqe+EZAdQwGGhZp23+Dko+mcx
-    password:
-      secure: H1HXpTD6gugn7P9+cS/CpvvgilpIV5c9gXdgW7QU+c+Af/wwHqJoKqWB5y6RNk/B
-  - what: test-packages
-    password:
-      secure: arvBMKlrMziJ1FuFLBserjuPMaoRFotnP0taHpcR5JI=
-    virustotal_key:
-      secure: aNItImrmTcvg9A+nbuTAZvN9FFPYiEy54qenOsBBlzCHxpgVAyEv72bcnEoTBvS1F6uPaesSxLf1G4+c0UzPoqAQC9T3J+o/UHxooEuhEHI=
+    - what: maintenance
+      github_token:
+        secure: qFyROGp9we0D/CfiUCzEur8uIxnRiuZnFV+qCwWSqe+EZAdQwGGhZp23+Dko+mcx
+      password:
+        secure: H1HXpTD6gugn7P9+cS/CpvvgilpIV5c9gXdgW7QU+c+Af/wwHqJoKqWB5y6RNk/B
+    - what: test-packages
+      password:
+        secure: arvBMKlrMziJ1FuFLBserjuPMaoRFotnP0taHpcR5JI=
+      virustotal_key:
+        secure: aNItImrmTcvg9A+nbuTAZvN9FFPYiEy54qenOsBBlzCHxpgVAyEv72bcnEoTBvS1F6uPaesSxLf1G4+c0UzPoqAQC9T3J+o/UHxooEuhEHI=
 #init:
 #- ps: iex ((new-object net.webclient).DownloadString('https://raw.githubusercontent.com/appveyor/ci/master/scripts/enable-rdp.ps1'))
 
 install:
-#- ps: iex ((new-object net.webclient).DownloadString('https://raw.githubusercontent.com/appveyor/ci/master/scripts/enable-desktop.ps1'))
-- msiexec.exe /qn /i https://github.com/tim-lebedkov/npackd-cpp/releases/download/version_1.26.9/NpackdCL64-1.26.9.msi
-- '"C:\Program Files\NpackdCL\ncl" set-repo -u https://npackd.appspot.com/rep/recent-xml -u https://npackd.appspot.com/rep/xml?tag=stable -u https://npackd.appspot.com/rep/xml?tag=stable64 -u https://npackd.appspot.com/rep/recent-xml?tag=untested -u https://npackd.appspot.com/rep/xml?tag=libs -u https://npackd.appspot.com/rep/xml?tag=unstable'
-- '"C:\Program Files\NpackdCL\ncl" help'
-- '"C:\Program Files\NpackdCL\ncl" detect'
-- '"C:\Program Files\NpackdCL\ncl" set-install-dir -f "C:\Program Files (x86)"'
-- '"C:\Program Files\NpackdCL\ncl" add -p com.googlecode.windows-package-manager.NpackdCL -p com.googlecode.windows-package-manager.NpackdInstallerHelper -p com.googlecode.windows-package-manager.CLU -v 1.0.1 -p sysinternals-suite'
-- go get github.com/kbinani/screenshot
+  #- ps: iex ((new-object net.webclient).DownloadString('https://raw.githubusercontent.com/appveyor/ci/master/scripts/enable-desktop.ps1'))
+  - msiexec.exe /qn /i https://github.com/tim-lebedkov/npackd-cpp/releases/download/version_1.26.9/NpackdCL64-1.26.9.msi
+  - '"C:\Program Files\NpackdCL\ncl" set-repo -u https://npackd.appspot.com/rep/recent-xml -u https://npackd.appspot.com/rep/xml?tag=stable -u https://npackd.appspot.com/rep/xml?tag=stable64 -u https://npackd.appspot.com/rep/recent-xml?tag=untested -u https://npackd.appspot.com/rep/xml?tag=libs -u https://npackd.appspot.com/rep/xml?tag=unstable'
+  - '"C:\Program Files\NpackdCL\ncl" help'
+  - '"C:\Program Files\NpackdCL\ncl" detect'
+  - '"C:\Program Files\NpackdCL\ncl" set-install-dir -f "C:\Program Files (x86)"'
+  - '"C:\Program Files\NpackdCL\ncl" add -p com.googlecode.windows-package-manager.NpackdCL -p com.googlecode.windows-package-manager.NpackdInstallerHelper -p com.googlecode.windows-package-manager.CLU -v 1.0.1 -p sysinternals-suite'
+  - go get github.com/kbinani/screenshot
 
 build_script:
-- go run TestUnstableRep.go TestUnstableRep_windows.go -command %what%
-
+  - go run TestUnstableRep.go TestUnstableRep_windows.go -command %what%
