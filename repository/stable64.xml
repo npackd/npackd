@@ -4636,6 +4636,14 @@ x86_64</description>
    <variable>nih</variable>
   </dependency>
  </version>
+ <version name="4.19.1" package="4k-video-downloader64" type="one-file">
+  <file path=".Npackd\Install.bat">call "%nih%\InstallMSI.bat" INSTALLDIR yes&#13;
+</file>
+  <url>https://dl.4kdownload.com/app/4kvideodownloader_4.19.1_x64.msi</url>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.1, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
 
     
 
@@ -5054,12 +5062,20 @@ x86_64</description>
   <hash-sum type="SHA-256">bd5ae4f8d7fe1c6b6d22c9348fa1e1bac2fc7ba01ab47c9b95714ec0bfe052c0</hash-sum>
  </version>
  <version name="2.4.49" package="apache-httpd64">
-  <url>https://de.apachehaus.com/downloads/httpd-2.4.49-o111l-x64-vs16.zip</url>
+  <url>https://github.com/tim-lebedkov/packages/releases/download/2021_12/apache-httpd64-2.4.49-httpd-2.4.49-o111l-x64-vs16.zip</url>
   <hash-sum type="SHA-256">69d321cc37e634fd44c4e70a09bb1c17b3bb1b919619398e59e7f0d1286da8c1</hash-sum>
+ </version>
+ <version name="2.4.50" package="apache-httpd64">
+  <url>https://de.apachehaus.com/downloads/httpd-2.4.50-o111l-x64-vs16.zip</url>
+  <hash-sum type="SHA-256">a87393ec9cbfefe44a202d460dd1534824cbed27ef2c073da00de2b9ce41c37a</hash-sum>
  </version>
  <version name="2.4.51" package="apache-httpd64">
   <url>https://github.com/tim-lebedkov/packages/releases/download/2021_12/apache-httpd64-2.4.51-httpd-2.4.51-o111l-x64-vs16.zip</url>
   <hash-sum type="SHA-256">a73a39e48bf6298db026caf7a7b455081b3644ad5fe4195b887454bf0596176b</hash-sum>
+ </version>
+ <version name="2.4.52" package="apache-httpd64">
+  <url>https://de.apachehaus.com/downloads/httpd-2.4.52-o111m-x64-vs16.zip</url>
+  <hash-sum type="SHA-256">d812ed5444c66207dd125a7c3d3b8ada82b79288ae4212f0d5b6d061c796552c</hash-sum>
  </version>
 
     <version name="1.49" package="atom64">
@@ -20780,6 +20796,16 @@ rmdir "%name%"&#13;
    <variable>ncl</variable>
   </dependency>
  </version>
+ <version name="2.6.1" package="firealpaca" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">"%ncl%\ncl.exe" remove-scp --title "/%npackd_package_name% %npackd_package_version%/i"&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+</file>
+  <url>https://www.portalgraphics.net/firealpaca/bin/FireAlpaca32_setup_2_6_1.exe</url>
+  <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.25, 2)">
+   <variable>ncl</variable>
+  </dependency>
+ </version>
  <version name="2.6.2" package="firealpaca" type="one-file">
   <file path=".Npackd\Install.bat">"%npackd_package_binary%" &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
 </file>
@@ -22208,6 +22234,15 @@ verify</file>
   <file path=".Npackd\Install.bat">call "%nih%\InstallMSI.bat" APPLICATIONFOLDER yes</file>
   <url>https://github.com/filips123/PWAsForFirefox/releases/download/v1.3.1/firefoxpwa-1.3.1-x86_64.msi</url>
   <hash-sum type="SHA-256">913d08405d6a1e03267156adc22df04a9cd8df02d861c2b57b36fd1eb4888d1f</hash-sum>
+  <dependency package="com.microsoft.VisualCPPRedistributable64" versions="[14,15)"/>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.1, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
+ <version name="1.3.2" package="firefoxpwa" type="one-file">
+  <file path=".Npackd\Install.bat">call "%nih%\InstallMSI.bat" APPLICATIONFOLDER yes</file>
+  <url>https://github.com/filips123/PWAsForFirefox/releases/download/v1.3.2/firefoxpwa-1.3.2-x86_64.msi</url>
+  <hash-sum type="SHA-256">c1394ab626c9e923507e4b5c45250b17c50e9511dea8f88004e4381520eeeb8d</hash-sum>
   <dependency package="com.microsoft.VisualCPPRedistributable64" versions="[14,15)"/>
   <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.1, 2)">
    <variable>nih</variable>
@@ -26771,7 +26806,7 @@ if %err% neq 0 exit %err%&#13;
 </file>
   <file path=".Npackd\Uninstall.bat">call "%nih%\UninstallInnoSetup.bat" unins000.exe&#13;
 </file>
-  <url>https://www.imagemagick.org/download/binaries/ImageMagick-7.1.0-18-Q16-HDRI-x64-dll.exe</url>
+  <url>https://github.com/tim-lebedkov/packages/releases/download/2021_12/imagemagick64-7.1.0.18-ImageMagick-7.1.0-18-Q16-HDRI-x64-dll.exe</url>
   <hash-sum type="SHA-256">b257c712d4e216a1303f6fd009e36f7bae191b518e4213edecdc55f584a86f63</hash-sum>
   <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
    <variable>nih</variable>
@@ -33154,6 +33189,17 @@ if %err% neq 0 exit %err%&#13;
 </file>
   <url>https://github.com/peazip/PeaZip/releases/download//8.3.0/peazip-8.3.0.WIN64.exe</url>
   <hash-sum type="SHA-256">cd8f822bea7265637480b506deee94c0b9870b1060add148774afdbb2f4eeb92</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
+ <version name="8.4" package="net.sourceforge.peazip.PeaZip64" type="one-file">
+  <file path=".Npackd\Install.bat">call "%nih%\InstallInnoSetup.bat"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">call "%nih%\UninstallInnoSetup.bat" unins000.exe&#13;
+</file>
+  <url>https://github.com/peazip/PeaZip/releases/download//8.4.0/peazip-8.4.0.WIN64.exe</url>
+  <hash-sum type="SHA-256">a1bd79aa0fa46b2041ce807202e9bba9f1bbb2dc3efda76c1db93c146dfc83fd</hash-sum>
   <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
    <variable>nih</variable>
   </dependency>
@@ -59100,6 +59146,16 @@ call "%npackdih%\InstallMSI.bat" TARGETDIR yes</file>
    <variable>npackdih</variable>
   </dependency>
  </version>
+ <version name="4.2.10" package="pdfsam64" type="one-file">
+  <file path=".Npackd\Install.bat">rem un-installation tries to remove .Npackd and fails =&gt; 2 to install the program somewhere else&#13;
+call "%npackdih%\InstallMSI.bat" TARGETDIR yes</file>
+  <url>https://github.com/torakiki/pdfsam/releases/download/v4.2.10/pdfsam-4.2.10.msi</url>
+  <hash-sum type="SHA-256">989aba97ab55fc6558064556bc29ac8f3d5eef9925aba663e9d69248b08e7447</hash-sum>
+  <dependency package="com.oracle.JRE64" versions="[1.6.0.23, 2)"/>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.1, 2)">
+   <variable>npackdih</variable>
+  </dependency>
+ </version>
 
     <version name="3.2" package="persepolis64" type="one-file">
   <file path=".Npackd\Install.bat">"%nih%\InstallInnoSetup.bat"&#13;
@@ -59393,6 +59449,16 @@ if %errorlevel% neq 0 exit /b %errorlevel%&#13;
    <variable>nih</variable>
   </dependency>
  </version>
+ <version name="1.5.1552" package="psi-plus64" type="one-file">
+  <file path=".Npackd\Install.bat">"%nih%\InstallInnoSetup.bat"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">"%nih%\UninstallInnoSetup.bat" unins000.exe</file>
+  <url>https://master.dl.sourceforge.net/project/psiplus/Windows/Personal-Builds/KukuRuzo/psi-plus-1.5.1552.0-x64-setup.exe</url>
+  <hash-sum type="SHA-256">f694a07c892a4202d44eea4c18ae9463dfe89f65538cb1b142c9d37c39755e30</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
  <version name="1.5.1555" package="psi-plus64" type="one-file">
   <file path=".Npackd\Install.bat">"%nih%\InstallInnoSetup.bat"&#13;
 </file>
@@ -59449,6 +59515,16 @@ if %errorlevel% neq 0 exit /b %errorlevel%&#13;
   <file path=".Npackd\Uninstall.bat">"%nih%\UninstallInnoSetup.bat" unins000.exe</file>
   <url>https://master.dl.sourceforge.net/project/psiplus/Windows/Personal-Builds/KukuRuzo/psi-plus-1.5.1573.0-x64-setup.exe</url>
   <hash-sum type="SHA-256">f5c0b0873d9e282fc1817d6d605bed83fbc4c0b1264ad9e4eb40798861092222</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
+ <version name="1.5.1595" package="psi-plus64" type="one-file">
+  <file path=".Npackd\Install.bat">"%nih%\InstallInnoSetup.bat"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">"%nih%\UninstallInnoSetup.bat" unins000.exe</file>
+  <url>https://master.dl.sourceforge.net/project/psiplus/Windows/Personal-Builds/KukuRuzo/psi-plus-1.5.1595.0-x64-setup.exe</url>
+  <hash-sum type="SHA-256">9836b58586a58c8501b4f708251fb5fda462d26acb08034cc4d9c0d27bfa2f35</hash-sum>
   <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
    <variable>nih</variable>
   </dependency>
@@ -64166,6 +64242,12 @@ if %err% neq 0 exit %err%&#13;
 </file>
   <url>https://dist.torproject.org/torbrowser/11.0.2/torbrowser-install-11.0.2_en-US.exe</url>
   <hash-sum type="SHA-256">a08cd349871c8afc50a456210737132632bd3cd48e721d4bb54a58cb57786a7b</hash-sum>
+ </version>
+ <version name="11.0.3" package="tor64" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
+</file>
+  <url>https://dist.torproject.org/torbrowser/11.0.3/torbrowser-install-11.0.3_en-US.exe</url>
+  <hash-sum type="SHA-256">dfd935b0547275a4cd85be256daa527080c6916c8af416e50265faf25e746418</hash-sum>
  </version>
 
     <version name="2.84.9" package="transmission-qt64" type="one-file">
