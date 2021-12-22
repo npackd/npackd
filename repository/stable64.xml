@@ -5066,7 +5066,7 @@ x86_64</description>
   <hash-sum type="SHA-256">69d321cc37e634fd44c4e70a09bb1c17b3bb1b919619398e59e7f0d1286da8c1</hash-sum>
  </version>
  <version name="2.4.50" package="apache-httpd64">
-  <url>https://de.apachehaus.com/downloads/httpd-2.4.50-o111l-x64-vs16.zip</url>
+  <url>https://github.com/tim-lebedkov/packages/releases/download/2021_12/apache-httpd64-2.4.50-httpd-2.4.50-o111l-x64-vs16.zip</url>
   <hash-sum type="SHA-256">a87393ec9cbfefe44a202d460dd1534824cbed27ef2c073da00de2b9ce41c37a</hash-sum>
  </version>
  <version name="2.4.51" package="apache-httpd64">
@@ -5074,7 +5074,7 @@ x86_64</description>
   <hash-sum type="SHA-256">a73a39e48bf6298db026caf7a7b455081b3644ad5fe4195b887454bf0596176b</hash-sum>
  </version>
  <version name="2.4.52" package="apache-httpd64">
-  <url>https://de.apachehaus.com/downloads/httpd-2.4.52-o111m-x64-vs16.zip</url>
+  <url>https://github.com/tim-lebedkov/packages/releases/download/2021_12/apache-httpd64-2.4.52-httpd-2.4.52-o111m-x64-vs16.zip</url>
   <hash-sum type="SHA-256">d812ed5444c66207dd125a7c3d3b8ada82b79288ae4212f0d5b6d061c796552c</hash-sum>
  </version>
 
@@ -17985,6 +17985,17 @@ if %err% neq 0 exit %err%&#13;
    <variable>nih</variable>
   </dependency>
  </version>
+ <version name="1.43.2" package="conan64" type="one-file">
+  <cmd-file path="conan\conan.exe"/>
+  <file path=".Npackd\Install.bat">"%nih%\InstallInnoSetup.bat"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">"%nih%\UninstallInnoSetup.bat" unins000.exe</file>
+  <url>https://github.com/conan-io/conan/releases/download/1.43.2/conan-win-64.exe</url>
+  <hash-sum type="SHA-256">7eb23950e09cd99906a8f122b0c3f26709d1a6b8dd21b24d7cf21a7c12dd9b78</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
 
     <version name="4.2.3" package="copymastro">
   <important-file path="CopyMastro.exe" title="CopyMastro"/>
@@ -20130,6 +20141,14 @@ rmdir "%name%"&#13;
 </file>
   <url>https://github.com/balena-io/etcher/releases/download/v1.7.1/balenaEtcher-Setup-1.7.1.exe</url>
   <hash-sum type="SHA-256">fb786f8069c0f5be319b1da8251a2721809e60f16ea39b99f2dd3ee9d86f6f31</hash-sum>
+ </version>
+ <version name="1.7.2" package="etcher64" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">uninstall.exe /S _?=%CD%&#13;
+</file>
+  <url>https://github.com/balena-io/etcher/releases/download/v1.7.2/balenaEtcher-Setup-1.7.2.exe</url>
+  <hash-sum type="SHA-256">c627be7b587900240f253aadf7e751c1149fd3c5f0be382ad9efa1db10c9c5f2</hash-sum>
  </version>
 
     <version name="1.3.4.686" package="everything64">
@@ -25535,6 +25554,16 @@ if %err% neq 0 exit %err%&#13;
   <file path=".Npackd\Uninstall.bat">"%nih%\UninstallInnoSetup.bat" unins000.exe</file>
   <url>https://www.hwinfo.com/files/hwi_7.14.exe</url>
   <hash-sum type="SHA-256">f1688d34d4496d9eeed343a04f86069e67fb9809509feee19e86a436e814e68c</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
+ <version name="7.16" package="hwinfo64" type="one-file">
+  <file path=".Npackd\Install.bat">"%nih%\InstallInnoSetup.bat"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">"%nih%\UninstallInnoSetup.bat" unins000.exe</file>
+  <url>https://www.hwinfo.com/files/hwi_7.16.exe</url>
+  <hash-sum type="SHA-256">e8af22f0d622aa6e8bcc391f1d18dba16837b1a1a1e3cc5ddffa4b539175bc97</hash-sum>
   <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
    <variable>nih</variable>
   </dependency>
@@ -35701,7 +35730,7 @@ verify&#13;
   </dependency>
  </version>
 
-    <version name="3.11.1" package="ocenaudio64" type="one-file">
+    <version name="3.11.2" package="ocenaudio64" type="one-file">
   <file path=".Npackd\Install.bat">"%npackd_package_binary%" /AllUsers /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
 </file>
   <file path=".Npackd\Uninstall.bat">"%ncl%\ncl" remove-scp --title "/ocenaudio.*/"</file>
@@ -47640,6 +47669,10 @@ if %err% neq 0 exit %err%&#13;
   <url>https://github.com/mltframework/shotcut/releases/download/v21.10.31/shotcut-win64-211031.zip</url>
   <hash-sum type="SHA-256">1bdd80b31e070079696f11d8b3cef21771b42af222b2ecc07ec6737bddcde06a</hash-sum>
  </version>
+ <version name="21.12.21" package="org.shotcut.shotcut">
+  <url>https://github.com/mltframework/shotcut/releases/download/v21.12.21/shotcut-win64-211221.zip</url>
+  <hash-sum type="SHA-256">432dc83a7c11c9899ab198bf9eff35c757bc3eaf15f4407fb8e612be4755febf</hash-sum>
+ </version>
 
     <version name="4.4" package="org.sourceforge.ultradefrag.UltraDefrag64">
   <important-file path="ultradefrag.exe" title="UltraDefrag"/>
@@ -56138,6 +56171,20 @@ call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Np
    <variable>nih</variable>
   </dependency>
  </version>
+ <version name="8.2.3856" package="org.vim.Vim64">
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+if %errorlevel% neq 0 exit /b %errorlevel%&#13;
+&#13;
+for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+</file>
+  <url>https://github.com/vim/vim-win32-installer/releases/download/v8.2.3856/gvim_8.2.3856_x64.zip</url>
+  <hash-sum type="SHA-256">0a0e344e4ab343eb7fff4d21dbf4e3d1e279d5759fd932df699a5531777ec41b</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.19, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
 
     <version name="4.2.8.83876" package="org.virtualbox.virtualbox64" type="one-file">
   <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
@@ -62478,6 +62525,15 @@ rem Install4j&#13;
 </file>
   <url>https://s3.amazonaws.com/downloads.eviware/soapuios/5.4.0/SoapUI-x64-5.4.0.exe</url>
   <sha1>76139fc7cee7f343315720d8c6d29965cd5dfee2</sha1>
+ </version>
+ <version name="5.6.1" package="soapui64" type="one-file">
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
+rem Install4j&#13;
+"%setup%" -q -dir "%CD%"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">uninstall.exe -q&#13;
+</file>
+  <url>https://s3.amazonaws.com/downloads.eviware/soapuios/5.4.0/SoapUI-x64-5.4.0.exe</url>
  </version>
 
     <version name="3.9.1" package="sqlite64">
