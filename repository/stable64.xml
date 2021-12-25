@@ -18094,6 +18094,14 @@ rmdir "%name%"&#13;
   <url>https://github.com/darktable-org/darktable/releases/download/release-3.6.1/darktable-3.6.1-win64.exe</url>
   <hash-sum type="SHA-256">34b4c1748ffe7ac66c3c79ad474b86a7aaa01ba296f8cd21929fe8024ebf3262</hash-sum>
  </version>
+ <version name="3.8" package="darktable64" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">uninstall.exe /S _?=%CD%&#13;
+</file>
+  <url>https://github.com/darktable-org/darktable/releases/download/release-3.8.0/darktable-3.8.0-win64.exe</url>
+  <hash-sum type="SHA-256">c74d76f9feefc5648c41938bf430b261d3a3308df0ef87085be590b5a5d1110d</hash-sum>
+ </version>
 
     <version name="1.7.21566" package="daumpotplayer64" type="one-file">
   <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
@@ -26877,7 +26885,7 @@ if %err% neq 0 exit %err%&#13;
 </file>
   <file path=".Npackd\Uninstall.bat">call "%nih%\UninstallInnoSetup.bat" unins000.exe&#13;
 </file>
-  <url>https://www.imagemagick.org/download/binaries/ImageMagick-7.1.0-19-Q16-HDRI-x64-dll.exe</url>
+  <url>https://github.com/tim-lebedkov/packages/releases/download/2021_12/imagemagick64-7.1.0.19-ImageMagick-7.1.0-19-Q16-HDRI-x64-dll.exe</url>
   <hash-sum type="SHA-256">40de58930e0f41e3f71bebe12befc326fade7d953b552936ea4a88a1267cf451</hash-sum>
   <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
    <variable>nih</variable>
@@ -56259,6 +56267,20 @@ call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Np
 </file>
   <url>https://github.com/vim/vim-win32-installer/releases/download/v8.2.3877/gvim_8.2.3877_x64.zip</url>
   <hash-sum type="SHA-256">ff7d459d28fbc5374f5ffd0677f418fb9e4e071af80b148df7a174f403d6ff1d</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.19, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
+ <version name="8.2.3878" package="org.vim.Vim64">
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+if %errorlevel% neq 0 exit /b %errorlevel%&#13;
+&#13;
+for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+</file>
+  <url>https://github.com/vim/vim-win32-installer/releases/download/v8.2.3878/gvim_8.2.3878_x64.zip</url>
+  <hash-sum type="SHA-256">0dfd336cacbfee0077fe451132055deda9d02a4184524915eaae0c1f9040ddec</hash-sum>
   <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.19, 2)">
    <variable>nih</variable>
   </dependency>
