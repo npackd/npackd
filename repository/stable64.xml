@@ -47731,6 +47731,10 @@ if %err% neq 0 exit %err%&#13;
   <url>https://github.com/mltframework/shotcut/releases/download/v21.12.21/shotcut-win64-211221.zip</url>
   <hash-sum type="SHA-256">432dc83a7c11c9899ab198bf9eff35c757bc3eaf15f4407fb8e612be4755febf</hash-sum>
  </version>
+ <version name="21.12.24" package="org.shotcut.shotcut">
+  <url>https://github.com/mltframework/shotcut/releases/download/v21.12.24/shotcut-win64-211224.zip</url>
+  <hash-sum type="SHA-256">abebbdc16e79a255ae21df6de8478386c9650b9912261f28abdb45fb5d3c4efa</hash-sum>
+ </version>
 
     <version name="4.4" package="org.sourceforge.ultradefrag.UltraDefrag64">
   <important-file path="ultradefrag.exe" title="UltraDefrag"/>
@@ -56285,6 +56289,20 @@ call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Np
    <variable>nih</variable>
   </dependency>
  </version>
+ <version name="8.2.3890" package="org.vim.Vim64">
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+if %errorlevel% neq 0 exit /b %errorlevel%&#13;
+&#13;
+for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+</file>
+  <url>https://github.com/vim/vim-win32-installer/releases/download/v8.2.3890/gvim_8.2.3890_x64.zip</url>
+  <hash-sum type="SHA-256">0a5c94e0b69e3672d1bfc27162e48a02a2d45d629153787053bce889ed6b4bce</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.19, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
 
     <version name="4.2.8.83876" package="org.virtualbox.virtualbox64" type="one-file">
   <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
@@ -63082,6 +63100,17 @@ Prog\setup.exe /Q /IACCEPTSQLSERVERLICENSETERMS /Q /ACTION=install &gt; .Npackd\
 </file>
   <url>https://github.com/Stellarium/stellarium/releases/download/v0.21.2/stellarium-0.21.2-win64.exe</url>
   <hash-sum type="SHA-256">eff51315b0d3200ef0ecbb8deb8ffc3fe649162b32d577bf5701953709588af0</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
+ <version name="0.21.3" package="stellarium64" type="one-file">
+  <file path=".Npackd\Install.bat">call "%nih%\InstallInnoSetup.bat"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">call "%nih%\UninstallInnoSetup.bat" unins000.exe&#13;
+</file>
+  <url>https://github.com/Stellarium/stellarium/releases/download/v0.21.3/stellarium-0.21.3-win64.exe</url>
+  <hash-sum type="SHA-256">6d4279e4ec13368115fe0c0acb0b862f856b7b1d9560dc07f0791c44937873a6</hash-sum>
   <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
    <variable>nih</variable>
   </dependency>
