@@ -5746,7 +5746,7 @@ verify&#13;
  </version>
 
     <version name="4.3.9.248" package="centbrowser" type="one-file">
-  <file path=".Npackd\Install.bat">"%npackd_package_binary%" &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" --cb-auto-update --do-not-launch-chrome --system-level &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
 </file>
   <file path=".Npackd\Uninstall.bat">"%ncl%\ncl.exe" remove-scp --title "/%npackd_package_name% %npackd_package_version%/i"&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
 </file>
@@ -5758,7 +5758,7 @@ verify&#13;
  </version>
 
     <version name="4.3.9.248" package="centbrowser64" type="one-file">
-  <file path=".Npackd\Install.bat">"%npackd_package_binary%" &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" --cb-auto-update --do-not-launch-chrome --system-level &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
 </file>
   <file path=".Npackd\Uninstall.bat">"%ncl%\ncl.exe" remove-scp --title "/%npackd_package_name% %npackd_package_version%/i"&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
 </file>
@@ -20361,6 +20361,17 @@ rmdir "%name%"&#13;
 </file>
   <url>https://www.ponsoftware.com/en/archiver/explzh/explz857_en_x64.exe</url>
   <hash-sum type="SHA-256">35c2aa5eabba48774534471c7a3c2f641124e0813a8c9041c04f41783c43ac7d</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.25, 2)">
+   <variable>ncl</variable>
+  </dependency>
+ </version>
+ <version name="8.58" package="explzh64" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" /silent /q &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">"%ncl%\ncl.exe" remove-scp --title "/%npackd_package_name% %npackd_package_version%/i"&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+</file>
+  <url>https://www.ponsoftware.com/en/archiver/explzh/explz858_en_x64.exe</url>
+  <hash-sum type="SHA-256">6def8a65e5ea460487ad078962c092d55b609e13ebeb6a2c6e4e823078241321</hash-sum>
   <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.25, 2)">
    <variable>ncl</variable>
   </dependency>
@@ -62964,8 +62975,8 @@ rem 1605=unknown product&#13;
 if %err% equ 1605 exit 0&#13;
 &#13;
 if %err% neq 0 exit %err%</file>
-  <url>http://download.microsoft.com/download/4/B/1/4B1E9B0E-A4F3-4715-B417-31C82302A70A/ENU/x64/sqlncli.msi</url>
-  <sha1>789cd5f898f80a799f0288f140f3fbcdf0473de8</sha1>
+  <url>https://download.microsoft.com/download/F/3/C/F3C64941-22A0-47E9-BC9B-1A19B4CA3E88/ENU/x64/sqlncli.msi</url>
+  <hash-sum type="SHA-256">3f48f58dcf9855b4c0f7c23c946a67ae0800abd2e561216eb60e623b61a30fe1</hash-sum>
   <dependency package="com.microsoft.Windows64" versions="[1, 1000)"/>
  </version>
 
@@ -63907,6 +63918,14 @@ rmdir "%name%"</file>
 </file>
   <url>https://www.sysgauge.com/setups_x64/sysgauge_setup_v8.2.36_x64.exe</url>
   <hash-sum type="SHA-256">6a07ea06dfa998d2d6d668234aa3d2ea4da301aa05b1d71b826b19c3c03803ed</hash-sum>
+ </version>
+ <version name="8.3.12" package="sysgauge64" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">uninstall.exe /S _?=%CD%&#13;
+</file>
+  <url>https://www.sysgauge.com/setups_x64/sysgauge_setup_v8.3.12_x64.exe</url>
+  <hash-sum type="SHA-256">9c6f66239257add17c32db773a9d8e000973507bf3319d616add92dfda6491d8</hash-sum>
  </version>
 
     
