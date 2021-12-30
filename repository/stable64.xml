@@ -3906,7 +3906,7 @@ x86_64</description>
  <package name="tigervnc64">
   <title>TigerVNC 64 bit</title>
   <url>http://tigervnc.org/</url>
-  <description>a client/server application that allows users to launch and interact with graphical applications on remote machines.
+  <description>a client application that allows users to launch and interact with graphical applications on remote machines.
 x86_64</description>
   <icon>http://tigervnc.org/images/tigerlogo.png</icon>
   <license>org.gnu.GPLv2</license>
@@ -4617,6 +4617,14 @@ x86_64</description>
   <file path=".Npackd\Install.bat">call "%nih%\InstallMSI.bat" INSTALLDIR yes&#13;
 </file>
   <url>https://dl.4kdownload.com/app/4kvideodownloader_4.19.2_x64.msi</url>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.1, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
+ <version name="4.19.3" package="4k-video-downloader64" type="one-file">
+  <file path=".Npackd\Install.bat">call "%nih%\InstallMSI.bat" INSTALLDIR yes&#13;
+</file>
+  <url>https://dl.4kdownload.com/app/4kvideodownloader_4.19.3_x64.msi</url>
   <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.1, 2)">
    <variable>nih</variable>
   </dependency>
@@ -17961,6 +17969,17 @@ if %err% neq 0 exit %err%&#13;
    <variable>nih</variable>
   </dependency>
  </version>
+ <version name="1.44" package="conan64" type="one-file">
+  <cmd-file path="conan\conan.exe"/>
+  <file path=".Npackd\Install.bat">"%nih%\InstallInnoSetup.bat"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">"%nih%\UninstallInnoSetup.bat" unins000.exe</file>
+  <url>https://github.com/conan-io/conan/releases/download/1.44.0/conan-win-64.exe</url>
+  <hash-sum type="SHA-256">2d3714332aa8c54192bc6f50702c0cb387f16e950535055ef88137c6b7f3a717</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
 
     <version name="4.2.3" package="copymastro">
   <important-file path="CopyMastro.exe" title="CopyMastro"/>
@@ -20130,6 +20149,14 @@ rmdir "%name%"&#13;
 </file>
   <url>https://github.com/balena-io/etcher/releases/download/v1.7.2/balenaEtcher-Setup-1.7.2.exe</url>
   <hash-sum type="SHA-256">c627be7b587900240f253aadf7e751c1149fd3c5f0be382ad9efa1db10c9c5f2</hash-sum>
+ </version>
+ <version name="1.7.3" package="etcher64" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">uninstall.exe /S _?=%CD%&#13;
+</file>
+  <url>https://github.com/balena-io/etcher/releases/download/v1.7.3/balenaEtcher-Setup-1.7.3.exe</url>
+  <hash-sum type="SHA-256">28b6b055096913af60b9df814cd1b1ca003b3b13c97b825bc9cb9f8322e7978b</hash-sum>
  </version>
 
     <version name="1.3.4.686" package="everything64">
@@ -56384,6 +56411,20 @@ call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Np
    <variable>nih</variable>
   </dependency>
  </version>
+ <version name="8.2.3930" package="org.vim.Vim64">
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+if %errorlevel% neq 0 exit /b %errorlevel%&#13;
+&#13;
+for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+</file>
+  <url>https://github.com/vim/vim-win32-installer/releases/download/v8.2.3930/gvim_8.2.3930_x64.zip</url>
+  <hash-sum type="SHA-256">efb7cd1dc4cf60a9afbc1e40fbcb4c2a2fafff53d07ec2a4316ba62a3879ebd3</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.19, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
 
     <version name="4.2.8.83876" package="org.virtualbox.virtualbox64" type="one-file">
   <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
@@ -63964,15 +64005,10 @@ if %err% neq 0 exit %err%&#13;
     
 
     <version name="1.11" package="tigervnc64" type="one-file">
-  <file path=".Npackd\Install.bat">call "%nih%\InstallInnoSetup.bat"&#13;
-</file>
-  <file path=".Npackd\Uninstall.bat">call "%nih%\UninstallInnoSetup.bat" unins000.exe&#13;
-</file>
+  <important-file path="vncviewer64.exe" title="VNC Viewer"/>
+  <file path=".Npackd\Install.bat">ren "%npackd_package_binary%" vncviewer64.exe</file>
   <url>https://sourceforge.net/projects/tigervnc/files/stable/1.11.0/vncviewer64-1.11.0.exe</url>
   <hash-sum type="SHA-256">9d8b2fb3f451f7e2160500068df12b0792afca89d999dfb62d4d9bc591a5d910</hash-sum>
-  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
-   <variable>nih</variable>
-  </dependency>
  </version>
 
     <version name="2.73" package="tixati" type="one-file">
