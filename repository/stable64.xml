@@ -10064,6 +10064,11 @@ if %err% neq 0 exit %err%</file>
   <url>https://download.cpuid.com/cpu-z/cpu-z_1.98-en.zip</url>
   <hash-sum type="SHA-256">faea7cc753bb655f64121f32932f622f9064f8ce080de1f25d5e69d1e1a69474</hash-sum>
  </version>
+ <version name="1.99" package="com.cpuid.CPUZ64">
+  <important-file path="cpuz_x64.exe" title="CPU-Z"/>
+  <url>https://download.cpuid.com/cpu-z/cpu-z_1.99-en.zip</url>
+  <hash-sum type="SHA-256">707c3da75de690d35d8c671a624440e91834e41afe3ee64720d599bc91f0dbed</hash-sum>
+ </version>
 
     <version name="2.2.6000" package="com.dependencywalker.DependencyWalker64">
   <important-file path="depends.exe" title="Dependency Walker"/>
@@ -26951,7 +26956,7 @@ if %err% neq 0 exit %err%&#13;
   </dependency>
   <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.15.7, 2)"/>
  </version>
- <version name="0.34" package="io.mpv.mpv-64" type="one-file">
+ <version name="0.34.1" package="io.mpv.mpv-64" type="one-file">
   <file path=".Npackd\Install.bat">for /f %%x in ('dir /b *.7z') do set setup=%%x&#13;
 "%sevenzipa%\7za.exe" x "%setup%" &gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt</file>
   <url>http://mpv.srsfckn.biz/mpv-x86_64-latest.7z</url>
@@ -31671,7 +31676,7 @@ if %err% neq 0 exit %err%</file>
    <variable>npackdih</variable>
   </dependency>
  </version>
- <version name="4.3.4" package="net.getpaint.paintdotnet64">
+ <version name="4.3.6" package="net.getpaint.paintdotnet64">
   <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
 "%setup%" /auto "TARGETDIR=%CD%" CHECKFORUPDATES=0 JPGPNGBMPEDITOR=0 TGAEDITOR=0 DESKTOPSHORTCUT=0</file>
   <url>http://www.dotpdn.com/files/paint.net.4.1.4.install.zip</url>
@@ -56541,6 +56546,20 @@ call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Np
 </file>
   <url>https://github.com/vim/vim-win32-installer/releases/download/v8.2.3988/gvim_8.2.3988_x64.zip</url>
   <hash-sum type="SHA-256">4bcfd7ff5fcd06d6b2661c62421e14f6b78c5081138f6755f7fff95764f915fb</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.19, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
+ <version name="8.2.3995" package="org.vim.Vim64">
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+if %errorlevel% neq 0 exit /b %errorlevel%&#13;
+&#13;
+for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+</file>
+  <url>https://github.com/vim/vim-win32-installer/releases/download/v8.2.3995/gvim_8.2.3995_x64.zip</url>
+  <hash-sum type="SHA-256">ab83336785294f1a6ffa05543f454f5038211cdfaac7afebc66ae07d3ec9b7cf</hash-sum>
   <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.19, 2)">
    <variable>nih</variable>
   </dependency>
