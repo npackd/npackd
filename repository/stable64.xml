@@ -18070,7 +18070,7 @@ rmdir "%name%"&#13;
   <hash-sum type="SHA-256">c74d76f9feefc5648c41938bf430b261d3a3308df0ef87085be590b5a5d1110d</hash-sum>
  </version>
 
-    <version name="1.7.21566" package="daumpotplayer64" type="one-file">
+    <version name="1.7.21589" package="daumpotplayer64" type="one-file">
   <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
 </file>
   <file path=".Npackd\Uninstall.bat">uninstall.exe /S _?=%CD%&#13;
@@ -27977,6 +27977,14 @@ call "%nih%\InstallMSI.bat" TARGETDIR yes&#13;
   <url>https://download.kde.org/stable/krita/5.0.0/krita-x64-5.0.0-setup.exe</url>
   <hash-sum type="SHA-256">75b308e8b024486b81199082820d99971adb18aefd0d154c767fad3d7c4cef34</hash-sum>
  </version>
+ <version name="5.0.2" package="krita64" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">uninstall.exe /S _?=%CD%&#13;
+</file>
+  <url>https://download.kde.org/stable/krita/5.0.2/krita-x64-5.0.2-setup.exe</url>
+  <hash-sum type="SHA-256">9c55e78bb2548cedd2e6caf0a7cefaedfc46fb55d4d188193bbaffff94da7aa4</hash-sum>
+ </version>
 
     <version name="7.1.3" package="lazpaint64" type="one-file">
   <file path=".Npackd\Install.bat">"%nih%\InstallInnoSetup.bat"&#13;
@@ -28481,7 +28489,7 @@ call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Np
  </version>
  <version name="7.2.5" package="libreoffice64" type="one-file">
   <file path=".Npackd\Install.bat">call "%npackdih%\InstallMSI.bat" INSTALLLOCATION yes</file>
-  <url>https://download.documentfoundation.org/libreoffice/stable/7.2.5/win/x86_64/LibreOffice_7.2.5_Win_x64.msi</url>
+  <url>https://github.com/tim-lebedkov/packages/releases/download/2022_01/libreoffice64-7.2.5-LibreOffice_7.2.5_Win_x64.msi</url>
   <hash-sum type="SHA-256">dfbf02fd97515e06e55c53d5dc0108fb680f92146b093cd4ba9c43e87fdd0dc5</hash-sum>
   <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.1, 2)">
    <variable>npackdih</variable>
@@ -32747,6 +32755,17 @@ if %err% neq 0 exit %err%</file>
 </file>
   <url>http://downloads.sourceforge.net/project/doublecmd/DC%20for%20Windows%2064%20bit/Double%20Commander%201.0.2%20beta/doublecmd-1.0.2.x86_64-win64.exe</url>
   <hash-sum type="SHA-256">c76845f34267ff10e7c29b563034148b05ead298542f201684647cc57e45b97c</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
+ <version name="1.0.3" package="net.sourceforge.Doublecmd64" type="one-file">
+  <file path=".Npackd\Install.bat">call "%nih%\InstallInnoSetup.bat"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">call "%nih%\UninstallInnoSetup.bat" unins000.exe&#13;
+</file>
+  <url>http://downloads.sourceforge.net/project/doublecmd/DC%20for%20Windows%2064%20bit/Double%20Commander%201.0.3%20beta/doublecmd-1.0.3.x86_64-win64.exe</url>
+  <hash-sum type="SHA-256">6673c72c1571bc1f775ff31e333027ebcdbf6696c981496db8e799d0a3ff6cc4</hash-sum>
   <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
    <variable>nih</variable>
   </dependency>
@@ -44304,6 +44323,40 @@ Set view = Nothing&#13;
 </file>
   <url>https://golang.org/dl/go1.17.5.windows-amd64.msi</url>
   <hash-sum type="SHA-256">93de2b6b56b21940bc061a9c5d68c8b32ca6dff6f947c3d2ac8d3e54728f6d18</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1, 2)">
+   <variable>npackdih</variable>
+  </dependency>
+ </version>
+ <version name="1.17.6" package="org.golang.Go64" type="one-file">
+  <file path=".Npackd\Install.bat">.Npackd\AddProperty.vbs "%npackd_package_binary%"&#13;
+if %errorlevel% neq 0 exit %errorlevel%&#13;
+&#13;
+call "%npackdih%\InstallMSI.bat" INSTALLDIR</file>
+  <file path=".Npackd\Uninstall.bat">call "%npackdih%\UninstallMSI.bat"</file>
+  <file path=".Npackd\AddProperty.vbs">Option Explicit&#13;
+&#13;
+Dim MSI_FILE&#13;
+MSI_FILE = Wscript.Arguments(0)&#13;
+&#13;
+Dim installer, database, view&#13;
+&#13;
+Set installer = CreateObject("WindowsInstaller.Installer")&#13;
+Set database = installer.OpenDatabase(MSI_FILE, 1)&#13;
+&#13;
+Set view = database.OpenView("INSERT INTO Property (Property, Value) VALUES ('INSTALLDIR', 'C:\Go')")&#13;
+view.Execute&#13;
+'Set view = database.OpenView("DELETE FROM Directory WHERE Directory='TARGETDIR'")&#13;
+'view.Execute&#13;
+'Set view = database.OpenView("UPDATE Directory SET DefaultDir='INSTALLLOCATION' WHERE Directory='TARGETDIR'")&#13;
+'view.Execute&#13;
+database.Commit&#13;
+&#13;
+Set database = Nothing&#13;
+Set installer = Nothing&#13;
+Set view = Nothing&#13;
+</file>
+  <url>https://golang.org/dl/go1.17.6.windows-amd64.msi</url>
+  <hash-sum type="SHA-256">43a67c37be6699f3fc58c3d7f52cd0d6117d8777f65c79f73c44a58c6ed98f22</hash-sum>
   <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1, 2)">
    <variable>npackdih</variable>
   </dependency>
@@ -56604,6 +56657,20 @@ call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Np
 </file>
   <url>https://github.com/vim/vim-win32-installer/releases/download/v8.2.4014/gvim_8.2.4014_x64.zip</url>
   <hash-sum type="SHA-256">9a9504501919173656555c562699da9c611d041a082d6467b91cbb0b48850d95</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.19, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
+ <version name="8.2.4023" package="org.vim.Vim64">
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+if %errorlevel% neq 0 exit /b %errorlevel%&#13;
+&#13;
+for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+</file>
+  <url>https://github.com/vim/vim-win32-installer/releases/download/v8.2.4023/gvim_8.2.4023_x64.zip</url>
+  <hash-sum type="SHA-256">4b246fa86432c7d8955b10c770d76289373d087da4422c5680dac811aaac5720</hash-sum>
   <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.19, 2)">
    <variable>nih</variable>
   </dependency>
