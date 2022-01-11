@@ -22595,6 +22595,15 @@ for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
   <hash-sum type="SHA-256">8c5a719a2a6677b37641e39853f17ef6134345fa21fd89bac50566b132f48306</hash-sum>
   <dependency package="com.microsoft.DotNetRedistributable" versions="[2, 3)"/>
  </version>
+ <version name="1.5" package="fr.handbrake.HandBrake64" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">uninst.exe /S _?=%CD%&#13;
+</file>
+  <url>https://github.com/HandBrake/HandBrake/releases/download/1.5.0/HandBrake-1.5.0-x86_64-Win_GUI.exe</url>
+  <hash-sum type="SHA-256">a9be0870c7da8f4653d450db2a3d2812663cd6605fb544467aba9fbf9f07f7aa</hash-sum>
+  <dependency package="com.microsoft.DotNetRedistributable" versions="[2, 3)"/>
+ </version>
 
     <version name="1.21" package="fr.veracrypt.veracrypt" type="one-file">
   <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
@@ -22650,6 +22659,30 @@ if %err% neq 0 exit %err%</file>
 "VeraCrypt Setup.exe" /u</file>
   <url>https://launchpad.net/veracrypt/trunk/1.25.4/+download/VeraCrypt%20Setup%201.25.4.exe</url>
   <hash-sum type="SHA-256">94efbf75cbd4b526f4030b746ae3d4bbb8741b6629603568478fd10e6930a3a5</hash-sum>
+ </version>
+ <version name="1.25.7" package="fr.veracrypt.veracrypt" type="one-file">
+  <file path=".Npackd\Install.bat">move "%npackd_package_binary%" .Npackd\setup.msi&#13;
+if %errorlevel% neq 0 exit /b %errorlevel%&#13;
+&#13;
+msiexec.exe /qn /norestart /Lime .Npackd\InstallMSI.log /i ".Npackd\setup.msi" INSTALLDIR="%CD%" ALLUSERS=1 MSIFASTINSTALL=7 ACCEPTLICENSE=YES&#13;
+set err=%errorlevel%&#13;
+type .Npackd\InstallMSI.log&#13;
+&#13;
+if %err% equ 3010 exit 0&#13;
+&#13;
+if %err% neq 0 exit %err%</file>
+  <file path=".Npackd\Uninstall.bat">msiexec.exe /qn /norestart /Lime .Npackd\UninstallMSI.log /x ".Npackd\setup.msi" MSIFASTINSTALL=7&#13;
+&#13;
+set err=%errorlevel%&#13;
+type .Npackd\UninstallMSI.log&#13;
+&#13;
+if %err% equ 3010 exit 0&#13;
+&#13;
+if %err% equ 1605 exit 0&#13;
+&#13;
+if %err% neq 0 exit %err%</file>
+  <url>https://launchpad.net/veracrypt/trunk/1.25.7/+download/VeraCrypt_Setup_x64_1.25.7.msi</url>
+  <hash-sum type="SHA-256">12d999bca2b97a4f268087139d1606183e0cdb11c4b046b6c6dc5f0f965c3fd2</hash-sum>
  </version>
 
     <version name="1.1.2" package="freac64">
@@ -56709,6 +56742,20 @@ call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Np
 </file>
   <url>https://github.com/vim/vim-win32-installer/releases/download/v8.2.4046/gvim_8.2.4046_x64.zip</url>
   <hash-sum type="SHA-256">0a060f9a051ed70c89e4ba1be36421d763c6edc1b0fef2140e33bc8b7d2756e5</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.19, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
+ <version name="8.2.4050" package="org.vim.Vim64">
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+if %errorlevel% neq 0 exit /b %errorlevel%&#13;
+&#13;
+for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+</file>
+  <url>https://github.com/vim/vim-win32-installer/releases/download/v8.2.4050/gvim_8.2.4050_x64.zip</url>
+  <hash-sum type="SHA-256">944d76b8afaae20e13ad3acced14ff431c93ced48b7d26c64c253a7074791423</hash-sum>
   <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.19, 2)">
    <variable>nih</variable>
   </dependency>
