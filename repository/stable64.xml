@@ -22230,6 +22230,17 @@ verify</file>
   <url>https://download-installer.cdn.mozilla.net/pub/firefox/releases/95.0.2/win64/en-US/Firefox%20Setup%2095.0.2.exe</url>
   <hash-sum type="SHA-256">9d6d2a4a973d191cda395d39aef43071d624a483c132130ee1669ab516d28054</hash-sum>
  </version>
+ <version name="96" package="firefox64" type="one-file">
+  <file path=".Npackd\Install.bat">echo [Install] &gt; .Npackd\FF.ini&#13;
+echo InstallDirectoryPath=%CD% &gt;&gt; .Npackd\FF.ini&#13;
+echo QuickLaunchShortcut=false &gt;&gt; .Npackd\FF.ini&#13;
+echo DesktopShortcut=false &gt;&gt; .Npackd\FF.ini&#13;
+"%npackd_package_binary%" /INI="%CD%\.Npackd\FF.ini" &amp;&amp; del /f /q "%npackd_package_binary%"</file>
+  <file path=".Npackd\Uninstall.bat">uninstall\helper.exe /S&#13;
+verify</file>
+  <url>https://download-installer.cdn.mozilla.net/pub/firefox/releases/96.0/win64/en-US/Firefox%20Setup%2096.0.exe</url>
+  <hash-sum type="SHA-256">51f2fa4531af111ac2c9b0327ed45869cee384549f68d1d97d0aba4a5a425ff8</hash-sum>
+ </version>
 
     <version name="0.5" package="firefoxpwa" type="one-file">
   <file path=".Npackd\Install.bat">call "%nih%\InstallMSI.bat" APPLICATIONFOLDER yes</file>
@@ -22602,6 +22613,15 @@ for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
 </file>
   <url>https://github.com/HandBrake/HandBrake/releases/download/1.5.0/HandBrake-1.5.0-x86_64-Win_GUI.exe</url>
   <hash-sum type="SHA-256">a9be0870c7da8f4653d450db2a3d2812663cd6605fb544467aba9fbf9f07f7aa</hash-sum>
+  <dependency package="com.microsoft.DotNetRedistributable" versions="[2, 3)"/>
+ </version>
+ <version name="1.5.1" package="fr.handbrake.HandBrake64" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">uninst.exe /S _?=%CD%&#13;
+</file>
+  <url>https://github.com/HandBrake/HandBrake/releases/download/1.5.1/HandBrake-1.5.1-x86_64-Win_GUI.exe</url>
+  <hash-sum type="SHA-256">01167a96a338cb394ee2e339545379cd156dfe4b1837af64764a08279f8af33e</hash-sum>
   <dependency package="com.microsoft.DotNetRedistributable" versions="[2, 3)"/>
  </version>
 
@@ -25666,8 +25686,8 @@ if %err% neq 0 exit %err%&#13;
   <file path=".Npackd\Install.bat">"%nih%\InstallInnoSetup.bat"&#13;
 </file>
   <file path=".Npackd\Uninstall.bat">"%nih%\UninstallInnoSetup.bat" unins000.exe</file>
-  <url>https://www.hwinfo.com/files/hwi_7.16.exe</url>
-  <hash-sum type="SHA-256">e8af22f0d622aa6e8bcc391f1d18dba16837b1a1a1e3cc5ddffa4b539175bc97</hash-sum>
+  <url>https://www.hwinfo.com/files/hwi_716.exe</url>
+  <hash-sum type="SHA-256">95c8ab8b9f58a083a7d6bb75b16d4e14d9a7ec9655208cdce8aa1f7b8df42e51</hash-sum>
   <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
    <variable>nih</variable>
   </dependency>
@@ -46840,6 +46860,15 @@ verify</file>
    <variable>npackdih</variable>
   </dependency>
  </version>
+ <version name="16.13.2" package="org.nodejs.NodeJS64" type="one-file">
+  <cmd-file path="node.exe"/>
+  <file path=".Npackd\Install.bat">call "%npackdih%\InstallMSI.bat" INSTALLDIR yes</file>
+  <url>https://nodejs.org/dist/v16.13.2/node-v16.13.2-x64.msi</url>
+  <hash-sum type="SHA-256">1690d6c4947e9b998b183b8eca3056729763e63d2306bc38fc1170b4f0de0689</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.1, 2)">
+   <variable>npackdih</variable>
+  </dependency>
+ </version>
 
     <version name="2.2" package="org.openshot.openshot64" type="one-file">
   <file path=".Npackd\Install.bat">"%nih%\InstallInnoSetup.bat"&#13;
@@ -56756,6 +56785,20 @@ call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Np
 </file>
   <url>https://github.com/vim/vim-win32-installer/releases/download/v8.2.4050/gvim_8.2.4050_x64.zip</url>
   <hash-sum type="SHA-256">944d76b8afaae20e13ad3acced14ff431c93ced48b7d26c64c253a7074791423</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.19, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
+ <version name="8.2.4058" package="org.vim.Vim64">
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+if %errorlevel% neq 0 exit /b %errorlevel%&#13;
+&#13;
+for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+</file>
+  <url>https://github.com/vim/vim-win32-installer/releases/download/v8.2.4058/gvim_8.2.4058_x64.zip</url>
+  <hash-sum type="SHA-256">4bc49d2ff05146ab9193f3ac7a133a06a825376e2805cc62e8b000062ce10f3c</hash-sum>
   <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.19, 2)">
    <variable>nih</variable>
   </dependency>
