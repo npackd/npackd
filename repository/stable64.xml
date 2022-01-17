@@ -4157,7 +4157,9 @@ x86_64</description>
   <title>Visual Studio Code</title>
   <url>https://code.visualstudio.com/</url>
   <description>WARNING: this package always installs the newest version of the software.
-IDE. Supported languages: Batch, C#, C++, Clojure, CoffeeScript, CSS, Dart, Dockerfile, F#, Go, Groovy, Handlebars.js, HTML, Ini, Java, JavaScript, JSON, Less, Lua, Makefile, Markdown, Objective-C, Perl, PowerShell, PHP, Python, R, Ruby, Rust, Sass, SQL, Swift, TypeScript, Visual Basic and XML.
+IDE. Supported languages: Batch, C#, C++, Clojure, CoffeeScript, CSS, Dart, Dockerfile, F#, Go, Groovy, Handlebars.js, HTML, Ini, Java, JavaScript, JSON, Less, Lua, Makefile, Markdown, Objective-C, Perl, PowerShell, PHP, Python, R, Ruby, Rust, Sass, SQL, Swift, TypeScript, Visual Basic and XML.&#13;
+&#13;
+kw: vscode
 x86_64</description>
   <icon>https://code.visualstudio.com/favicon.ico</icon>
   <category>Development</category>
@@ -4171,7 +4173,9 @@ x86_64</description>
   <title>Visual Studio Code 64 Bit</title>
   <url>https://code.visualstudio.com/</url>
   <description>WARNING: this package always installs the newest version of the software.
-IDE. Supported languages: Batch, C#, C++, Clojure, CoffeeScript, CSS, Dart, Dockerfile, F#, Go, Groovy, Handlebars.js, HTML, Ini, Java, JavaScript, JSON, Less, Lua, Makefile, Markdown, Objective-C, Perl, PowerShell, PHP, Python, R, Ruby, Rust, Sass, SQL, Swift, TypeScript, Visual Basic and XML.
+IDE. Supported languages: Batch, C#, C++, Clojure, CoffeeScript, CSS, Dart, Dockerfile, F#, Go, Groovy, Handlebars.js, HTML, Ini, Java, JavaScript, JSON, Less, Lua, Makefile, Markdown, Objective-C, Perl, PowerShell, PHP, Python, R, Ruby, Rust, Sass, SQL, Swift, TypeScript, Visual Basic and XML.&#13;
+&#13;
+kw: vscode
 x86_64</description>
   <icon>https://code.visualstudio.com/favicon.ico</icon>
   <category>Development</category>
@@ -56994,6 +56998,20 @@ call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Np
    <variable>nih</variable>
   </dependency>
  </version>
+ <version name="8.2.4103" package="org.vim.Vim64">
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+if %errorlevel% neq 0 exit /b %errorlevel%&#13;
+&#13;
+for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+</file>
+  <url>https://github.com/vim/vim-win32-installer/releases/download/v8.2.4103/gvim_8.2.4103_x64.zip</url>
+  <hash-sum type="SHA-256">e5d4a8ae10fee0cdbad022c710a47af506a6bc3c2a13d3a0ddd41e5fe1b2a249</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.19, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
 
     <version name="4.2.8.83876" package="org.virtualbox.virtualbox64" type="one-file">
   <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
@@ -60398,6 +60416,16 @@ if %errorlevel% neq 0 exit /b %errorlevel%&#13;
   <file path=".Npackd\Uninstall.bat">"%nih%\UninstallInnoSetup.bat" unins000.exe</file>
   <url>https://master.dl.sourceforge.net/project/psiplus/Windows/Personal-Builds/KukuRuzo/psi-plus-1.5.1595.0-x64-setup.exe</url>
   <hash-sum type="SHA-256">9836b58586a58c8501b4f708251fb5fda462d26acb08034cc4d9c0d27bfa2f35</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
+ <version name="1.5.1597" package="psi-plus64" type="one-file">
+  <file path=".Npackd\Install.bat">"%nih%\InstallInnoSetup.bat"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">"%nih%\UninstallInnoSetup.bat" unins000.exe</file>
+  <url>https://master.dl.sourceforge.net/project/psiplus/Windows/Personal-Builds/KukuRuzo/psi-plus-1.5.1597.0-x64-setup.exe</url>
+  <hash-sum type="SHA-256">8a506bdcc290ffd5b315dff6c6b826ae780f8baab49dba7719807419d138d67c</hash-sum>
   <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
    <variable>nih</variable>
   </dependency>
@@ -64781,6 +64809,17 @@ if %err% neq 0 exit %err%&#13;
    <variable>ncl</variable>
   </dependency>
  </version>
+ <version name="2.88.1" package="tixati" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">"%ncl%\ncl.exe" remove-scp --title "/%npackd_package_name% %npackd_package_version%/i"&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+</file>
+  <url>https://download1.tixati.com/download/tixati-2.74-1.win32-install.exe</url>
+  <hash-sum type="SHA-256">f008f0301f4c62bc3347692f9f15559ca3465bf40d4dc34cc7bb78b7d9462db2</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.25, 2)">
+   <variable>ncl</variable>
+  </dependency>
+ </version>
 
     <version name="2.73" package="tixati64" type="one-file">
   <file path=".Npackd\Install.bat">"%npackd_package_binary%" &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
@@ -64926,6 +64965,17 @@ if %err% neq 0 exit %err%&#13;
   </dependency>
  </version>
  <version name="2.87.1" package="tixati64" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">"%ncl%\ncl.exe" remove-scp --title "/%npackd_package_name% %npackd_package_version%/i"&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+</file>
+  <url>https://download1.tixati.com/download/tixati-2.74-1.win64-install.exe</url>
+  <hash-sum type="SHA-256">42dea61b1470adcf5aaa79a954edc0f54f752afbfd7f3d2447e0fe90076f943b</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.25, 2)">
+   <variable>ncl</variable>
+  </dependency>
+ </version>
+ <version name="2.88.1" package="tixati64" type="one-file">
   <file path=".Npackd\Install.bat">"%npackd_package_binary%" &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
 </file>
   <file path=".Npackd\Uninstall.bat">"%ncl%\ncl.exe" remove-scp --title "/%npackd_package_name% %npackd_package_version%/i"&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
@@ -67176,6 +67226,12 @@ if %err% neq 0 exit %err%&#13;
 set err=%errorlevel%&#13;
 type .Npackd\InnoSetupUninstall.log&#13;
 if %err% neq 0 exit %err%&#13;
+</file>
+  <file path=".Npackd\ExportUserSettings.bat">xcopy /y /e /i "%localappdata%\CMakeTools" LocalAppData\CMakeTools&#13;
+&#13;
+</file>
+  <file path=".Npackd\ExportUserSettings.bat">xcopy /y /e /i LocalAppData "%localappdata%"&#13;
+&#13;
 </file>
   <url>https://update.code.visualstudio.com/latest/win32-x64-user/stable</url>
  </version>
