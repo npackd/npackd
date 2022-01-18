@@ -19345,6 +19345,21 @@ verify</file>
   <url>https://github.com/tim-lebedkov/packages/releases/download/2021_12/digikam64-7.4-digiKam-7.4.0-Win64.exe</url>
   <hash-sum type="SHA-256">a15f9b2660055929b1f5555c77f728330a5d7495c5708e66c7b9bf84036b4ca1</hash-sum>
  </version>
+ <version name="7.5" package="digikam64" type="one-file">
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
+"%setup%" /S /D=%ProgramFiles%\digiKamData&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">"%ProgramFiles%\digiKamData\Uninstall.exe" /S&#13;
+&#13;
+rd /s /q "APPDATA%\Start Menu\Programs\KDE Release" || rd /s /q "%ALLUSERSPROFILE%\Microsoft\Windows\Start Menu\Programs\KDE Release"&#13;
+verify</file>
+  <file path=".Npackd\Stop.bat">taskkill /im dbus-daemon.exe /f /t&#13;
+taskkill /im kded4.exe /f /t&#13;
+taskkill /im klauncher.exe /f /t&#13;
+verify</file>
+  <url>http://mirror.kumi.systems/kde/ftp/stable/digikam/7.5.0/digiKam-7.5.0-Win64.exe</url>
+  <hash-sum type="SHA-256">a6de9f68e8a39607253a651deae3bf43d6c5a17aac630dd8fa3ad28ef4978d82</hash-sum>
+ </version>
 
     
 
@@ -21000,6 +21015,16 @@ rmdir "%name%"&#13;
    <variable>nih</variable>
   </dependency>
  </version>
+ <version name="2.7.2" package="firealpaca" type="one-file">
+  <file path=".Npackd\Install.bat">call "%nih%\InstallInnoSetup.bat"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">call "%nih%\UninstallInnoSetup.bat" unins000.exe&#13;
+</file>
+  <url>https://www.portalgraphics.net/firealpaca/bin/FireAlpaca32_setup_2_7_2.exe</url>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
 
     <version name="2.3.5" package="firealpaca64" type="one-file">
   <file path=".Npackd\Install.bat">"%npackd_package_binary%" &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
@@ -21327,6 +21352,16 @@ rmdir "%name%"&#13;
   <file path=".Npackd\Uninstall.bat">call "%nih%\UninstallInnoSetup.bat" unins000.exe&#13;
 </file>
   <url>https://www.portalgraphics.net/firealpaca/bin/FireAlpaca64_setup_2_7_1.exe</url>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
+ <version name="2.7.2" package="firealpaca64" type="one-file">
+  <file path=".Npackd\Install.bat">call "%nih%\InstallInnoSetup.bat"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">call "%nih%\UninstallInnoSetup.bat" unins000.exe&#13;
+</file>
+  <url>https://www.portalgraphics.net/firealpaca/bin/FireAlpaca64_setup_2_7_2.exe</url>
   <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
    <variable>nih</variable>
   </dependency>
@@ -31977,7 +32012,7 @@ set key=net.scribus.Scribus-1.4.2&#13;
 reg delete HKLM\SOFTWARE\Classes\Applications\%key% /f&#13;
 for %%g in (pdf ps eps svg svgz sxd odg sla sla.gz scd scd.gz) do reg delete HKLM\SOFTWARE\Classes\.%%g\OpenWithList\%key% /f</file>
   <url>https://sourceforge.net/projects/scribus/files/scribus/1.4.2/scribus-1.4.2-windows-x64.exe</url>
-  <sha1>9490d5ad2b4b5667274f60011eb2f69e570f6757</sha1>
+  <hash-sum type="SHA-256">7475fb0b2c4fbeb0ffbeefbe59b829fc42bb3df1c04b5aeb9ce0a04c89d70523</hash-sum>
   <dependency package="com.ghostscript.Ghostscript64" versions="[9.06, 10)"/>
  </version>
  <version name="1.4.3" package="net.scribus.Scribus64" type="one-file">
@@ -46598,7 +46633,7 @@ verify</file>
  <version name="8.11" package="org.nodejs.NodeJS64" type="one-file">
   <file path=".Npackd\Install.bat">call "%npackdih%\InstallMSI.bat" INSTALLDIR yes</file>
   <url>https://nodejs.org/dist/v8.11.0/node-v8.11.0-x64.msi</url>
-  <sha1>c77214aa91476fd4169aeb8237f55d0092d8d25d</sha1>
+  <hash-sum type="SHA-256">2bf06d6dedcff62fa0e14fdf29c643a21ff2dd8767842a3766b31f9927223ac6</hash-sum>
   <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.1, 2)">
    <variable>npackdih</variable>
   </dependency>
@@ -47838,6 +47873,15 @@ if %err% neq 0 exit /b %err%&#13;
 </file>
   <url>https://www.python.org/ftp/python/3.10.1/python-3.10.1-amd64.exe</url>
   <hash-sum type="SHA-256">8b89b75032ddfbdac80225dc288f5ec276f5cda00d4000226abda1158f90f7a4</hash-sum>
+ </version>
+ <version name="3.10.2" package="org.python.Python64" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" /quiet InstallAllUsers=1 "TargetDir=%cd%"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">for /f "delims=" %%x in ('dir /b python-*.exe') do set setup=%%x&#13;
+%setup% /uninstall /quiet InstallAllUsers=1&#13;
+</file>
+  <url>https://www.python.org/ftp/python/3.10.2/python-3.10.2-amd64.exe</url>
+  <hash-sum type="SHA-256">42b181e9b5f424472212742a187260d4edc73b7683ae83460c974508130e08ad</hash-sum>
  </version>
 
     <version name="2.0.0.247" package="org.rubylang.Ruby64" type="one-file">
@@ -57012,6 +57056,20 @@ call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Np
    <variable>nih</variable>
   </dependency>
  </version>
+ <version name="8.2.4118" package="org.vim.Vim64">
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+if %errorlevel% neq 0 exit /b %errorlevel%&#13;
+&#13;
+for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+</file>
+  <url>https://github.com/vim/vim-win32-installer/releases/download/v8.2.4118/gvim_8.2.4118_x64.zip</url>
+  <hash-sum type="SHA-256">f07707fab28f9feeff183c203611d99d6b6be519d2be45108a40423554fbf8fe</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.19, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
 
     <version name="4.2.8.83876" package="org.virtualbox.virtualbox64" type="one-file">
   <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
@@ -61447,6 +61505,15 @@ if %errorlevel% equ 3010 verify</file>
 </file>
   <url>https://qgis.org/downloads/QGIS-OSGeo4W-3.22.2-1.msi</url>
   <hash-sum type="SHA-256">06e2c9233f0f1e94fdf9169a3afa11aed09940ab3f306a917424685e24988605</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.1, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
+ <version name="3.22.3.1" package="qgis64" type="one-file">
+  <file path=".Npackd\Install.bat">call "%nih%\InstallMSI.bat" INSTALLDIR yes&#13;
+</file>
+  <url>https://qgis.org/downloads/QGIS-OSGeo4W-3.22.3-1.msi</url>
+  <hash-sum type="SHA-256">9e6199d6a93b48531991ee45fd6578aa5c31ee62d589496dec35cebec52ad8eb</hash-sum>
   <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.1, 2)">
    <variable>nih</variable>
   </dependency>
