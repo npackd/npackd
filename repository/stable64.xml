@@ -26265,6 +26265,15 @@ if %err% neq 0 exit %err%</file>
    <variable>nih</variable>
   </dependency>
  </version>
+ <version name="8.5.1.22" package="imageglass" type="one-file">
+  <file path=".Npackd\Install.bat">call "%nih%\InstallMSI.bat" INSTALLDIR yes&#13;
+</file>
+  <url>https://github.com/d2phap/ImageGlass/releases/download/7.6.4.30/ImageGlass_7.6.4.30_x86.msi</url>
+  <hash-sum type="SHA-256">475788f256cf4223fd7cc8213e9536e918d4a911f0db6cebe1bb9bb4b20e7c0f</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.1, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
 
     <version name="7.6.4.30" package="imageglass64" type="one-file">
   <file path=".Npackd\Install.bat">call "%nih%\InstallMSI.bat" INSTALLDIR yes&#13;
@@ -26303,6 +26312,15 @@ if %err% neq 0 exit %err%</file>
   </dependency>
  </version>
  <version name="8.4.1.22" package="imageglass64" type="one-file">
+  <file path=".Npackd\Install.bat">call "%nih%\InstallMSI.bat" INSTALLDIR yes&#13;
+</file>
+  <url>https://github.com/d2phap/ImageGlass/releases/download/7.6.4.30/ImageGlass_7.6.4.30_x64.msi</url>
+  <hash-sum type="SHA-256">3c0a4fbca03ef28dac2a23a36beb0e79211dc6fab8f0fc88f0809b809900a11d</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.1, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
+ <version name="8.5.1.22" package="imageglass64" type="one-file">
   <file path=".Npackd\Install.bat">call "%nih%\InstallMSI.bat" INSTALLDIR yes&#13;
 </file>
   <url>https://github.com/d2phap/ImageGlass/releases/download/7.6.4.30/ImageGlass_7.6.4.30_x64.msi</url>
@@ -27206,6 +27224,17 @@ if %err% neq 0 exit %err%&#13;
 </file>
   <url>https://github.com/tim-lebedkov/packages/releases/download/2021_12/imagemagick64-7.1.0.19-ImageMagick-7.1.0-19-Q16-HDRI-x64-dll.exe</url>
   <hash-sum type="SHA-256">40de58930e0f41e3f71bebe12befc326fade7d953b552936ea4a88a1267cf451</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
+ <version name="7.1.0.20" package="imagemagick64" type="one-file">
+  <file path=".Npackd\Install.bat">call "%nih%\InstallInnoSetup.bat"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">call "%nih%\UninstallInnoSetup.bat" unins000.exe&#13;
+</file>
+  <url>https://www.imagemagick.org/download/binaries/ImageMagick-7.1.0-20-Q16-HDRI-x64-dll.exe</url>
+  <hash-sum type="SHA-256">d17933d5e52ccbc671669a338435402eafd3d9ebfbf1bc99aa9ce35aa4a753f8</hash-sum>
   <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
    <variable>nih</variable>
   </dependency>
@@ -57244,6 +57273,20 @@ call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Np
    <variable>nih</variable>
   </dependency>
  </version>
+ <version name="8.2.4174" package="org.vim.Vim64">
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+if %errorlevel% neq 0 exit /b %errorlevel%&#13;
+&#13;
+for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+</file>
+  <url>https://github.com/vim/vim-win32-installer/releases/download/v8.2.4174/gvim_8.2.4174_x64.zip</url>
+  <hash-sum type="SHA-256">f8373df1e3c471770364aee53bd4efa8df5041f06fb9617df31260bd582489a9</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.19, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
 
     <version name="4.2.8.83876" package="org.virtualbox.virtualbox64" type="one-file">
   <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
@@ -61779,7 +61822,7 @@ if %errorlevel% equ 3010 verify</file>
 </file>
   <file path=".Npackd\Uninstall.bat">"%ncl%\ncl.exe" remove-scp --title "/Qt Creator.*/"&#13;
 </file>
-  <url>http://download.qt-project.org/official_releases/qtcreator/4.15/4.15.2/qt-creator-opensource-windows-x86_64-4.15.2.exe</url>
+  <url>https://github.com/tim-lebedkov/packages/releases/download/2022_01/qt-creator64-4.15.2-qt-creator-opensource-windows-x86_64-4.15.2.exe</url>
   <hash-sum type="SHA-256">d89f9afc5ccfb8976d97f21a226597e741810b0cde6d7631bbdf6d01f360aa55</hash-sum>
   <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.24, 2)">
    <variable>ncl</variable>
@@ -61791,7 +61834,7 @@ if %errorlevel% equ 3010 verify</file>
 </file>
   <file path=".Npackd\Uninstall.bat">"%ncl%\ncl.exe" remove-scp --title "/Qt Creator.*/"&#13;
 </file>
-  <url>http://download.qt-project.org/official_releases/qtcreator/5.0/5.0.0/qt-creator-opensource-windows-x86_64-5.0.0.exe</url>
+  <url>https://github.com/tim-lebedkov/packages/releases/download/2022_01/qt-creator64-5-qt-creator-opensource-windows-x86_64-5.0.0.exe</url>
   <hash-sum type="SHA-256">d28f757015e0681442138f43130f611992f1215f042da3f06d84bb5a9311a0f6</hash-sum>
   <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.24, 2)">
    <variable>ncl</variable>
@@ -67137,6 +67180,19 @@ type .Npackd\Output.txt</file>
    <variable>ncl</variable>
   </dependency>
  </version>
+ <version name="5.0.2497.48" package="vivaldi-browser-64" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" --system-level --vivaldi-silent --vivaldi-standalone --do-not-launch-chrome --vivaldi-install-dir="%CD%" &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">for /f "delims=" %%x in ('dir /b application\5*') do set name=%%x&#13;
+&#13;
+Application\%name%\Installer\setup.exe --uninstall --vivaldi --force-uninstall --system-level &gt; .Npackd\Output.txt 2&gt;&amp;1 &#13;
+type .Npackd\Output.txt</file>
+  <url>https://downloads.vivaldi.com/stable/Vivaldi.5.0.2497.48.x64.exe</url>
+  <hash-sum type="SHA-256">7c6f32787093690fe34600e6fc8ffc8b2e2b9cb5149484981bdf3f10dc885119</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.24, 2)">
+   <variable>ncl</variable>
+  </dependency>
+ </version>
 
     <version name="15.0.2" package="vmware64" type="one-file">
   <file path=".Npackd\Install.bat">"%npackd_package_binary%" /a /s /v"/qn TARGETDIR=."&#13;
@@ -67826,6 +67882,19 @@ rmdir "%name%"&#13;
 </file>
   <url>https://github.com/xmake-io/xmake/releases/download/v2.6.2/xmake-v2.6.2.win64.zip</url>
   <hash-sum type="SHA-256">b8b559b2fc334d262ed8d37fd7216c67774ce00dff33937dce5270ff9115c7e4</hash-sum>
+ </version>
+ <version name="2.6.3" package="xmake64">
+  <cmd-file path="xmake.exe"/>
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b xmake*') do set name=%%x&#13;
+cd "%name%"&#13;
+for /f "delims=" %%a in ('dir /b') do (&#13;
+  move "%%a" ..&#13;
+)&#13;
+cd ..&#13;
+rmdir "%name%"&#13;
+</file>
+  <url>https://github.com/xmake-io/xmake/releases/download/v2.6.3/xmake-v2.6.3.win64.zip</url>
+  <hash-sum type="SHA-256">0ddc1315294f5f83580650ca5971018ad1119edecec8a4d9e618bb38f2a509f4</hash-sum>
  </version>
 
     <version name="3.5.3.4" package="xmedia-recode" type="one-file">
