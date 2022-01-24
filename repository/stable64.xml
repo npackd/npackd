@@ -22955,6 +22955,21 @@ rmdir "%name%"</file>
    <variable>ncl</variable>
   </dependency>
  </version>
+ <version name="1.1.6" package="freac64">
+  <important-file path="freac.exe" title="fre:ac"/>
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b fre*') do set name=%%x&#13;
+cd "%name%"        &#13;
+for /f "delims=" %%a in ('dir /b') do (&#13;
+  move "%%a" ..&#13;
+)&#13;
+cd ..&#13;
+rmdir "%name%"</file>
+  <url>https://github.com/enzo1982/freac/releases/download/v1.1.6/freac-1.1.6-windows-x64.zip</url>
+  <hash-sum type="SHA-256">1b9af77be45efbbefa6f97e7d38e76a46f0eab66e98754b6b49de75d28dcfd2f</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.25, 2)">
+   <variable>ncl</variable>
+  </dependency>
+ </version>
 
     
 
@@ -27233,7 +27248,7 @@ if %err% neq 0 exit %err%&#13;
 </file>
   <file path=".Npackd\Uninstall.bat">call "%nih%\UninstallInnoSetup.bat" unins000.exe&#13;
 </file>
-  <url>https://www.imagemagick.org/download/binaries/ImageMagick-7.1.0-20-Q16-HDRI-x64-dll.exe</url>
+  <url>https://github.com/tim-lebedkov/packages/releases/download/2022_01/imagemagick64-7.1.0.20-ImageMagick-7.1.0-20-Q16-HDRI-x64-dll.exe</url>
   <hash-sum type="SHA-256">d17933d5e52ccbc671669a338435402eafd3d9ebfbf1bc99aa9ce35aa4a753f8</hash-sum>
   <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
    <variable>nih</variable>
@@ -57287,6 +57302,20 @@ call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Np
    <variable>nih</variable>
   </dependency>
  </version>
+ <version name="8.2.4186" package="org.vim.Vim64">
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+if %errorlevel% neq 0 exit /b %errorlevel%&#13;
+&#13;
+for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+</file>
+  <url>https://github.com/vim/vim-win32-installer/releases/download/v8.2.4186/gvim_8.2.4186_x64.zip</url>
+  <hash-sum type="SHA-256">004720b615a5567bdc810f058dc71481fef8ec735ad4b65621e7227f81502926</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.19, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
 
     <version name="4.2.8.83876" package="org.virtualbox.virtualbox64" type="one-file">
   <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
@@ -61846,7 +61875,7 @@ if %errorlevel% equ 3010 verify</file>
 </file>
   <file path=".Npackd\Uninstall.bat">"%ncl%\ncl.exe" remove-scp --title "/Qt Creator.*/"&#13;
 </file>
-  <url>http://download.qt-project.org/official_releases/qtcreator/5.0/5.0.1/qt-creator-opensource-windows-x86_64-5.0.1.exe</url>
+  <url>https://github.com/tim-lebedkov/packages/releases/download/2022_01/qt-creator64-5.0.1-qt-creator-opensource-windows-x86_64-5.0.1.exe</url>
   <hash-sum type="SHA-256">bd32adbb2e9ac87c91637f405046ef62ebe1293923a21fe06db77d92bdc32ab4</hash-sum>
   <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.24, 2)">
    <variable>ncl</variable>
