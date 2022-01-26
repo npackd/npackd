@@ -1661,7 +1661,7 @@ x86_64</description>
   <url>http://fusioninventory.org/</url>
   <description>Fusion Inventory agent
 x86_64</description>
-  <icon>http://fusioninventory.org/images/fusioninventory.png</icon>
+  <icon>http://fusioninventory.org/assets/images/favicon-32x32.png</icon>
   <license>org.gnu.GPLv2</license>
   <category>Tools</category>
   <tag>stable64</tag>
@@ -2794,7 +2794,7 @@ x86_64</description>
   <license>org.7-zip.License</license>
   <category>Tools</category>
   <tag>stable64</tag>
-  <stars>21</stars>
+  <stars>20</stars>
   <link href="https://www.7-zip.org/history.txt" rel="changelog"/>
   <link href="http://www.7-zip.org/7zfm.png" rel="screenshot"/>
  </package>
@@ -6495,6 +6495,20 @@ if %errorlevel% neq 0 exit /b %errorlevel%&#13;
 </file>
   <url>https://github.com/Kitware/CMake/releases/download/v3.22.1/cmake-3.22.1-windows-x86_64.zip</url>
   <hash-sum type="SHA-256">35fbbb7d9ffa491834bbc79cdfefc6c360088a3c9bf55c29d111a5afa04cdca3</hash-sum>
+ </version>
+ <version name="3.22.2" package="cmake64">
+  <cmd-file path="bin\cmake.exe"/>
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b cmake*') do set name=%%x&#13;
+cd "%name%"        &#13;
+for /f "delims=" %%a in ('dir /b') do (&#13;
+  move "%%a" ..&#13;
+)&#13;
+cd ..&#13;
+rmdir "%name%"&#13;
+if %errorlevel% neq 0 exit /b %errorlevel%&#13;
+</file>
+  <url>https://github.com/Kitware/CMake/releases/download/v3.22.2/cmake-3.22.2-windows-x86_64.zip</url>
+  <hash-sum type="SHA-256">192d62eaecb0600e743f01058dfbd5b6bed91504fe8f56416febf54c38ce096e</hash-sum>
  </version>
 
     <version name="15" package="codelite" type="one-file">
@@ -23851,6 +23865,17 @@ if %err% neq 0 exit %err%&#13;
    <variable>nih</variable>
   </dependency>
  </version>
+ <version name="2.35" package="git64" type="one-file">
+  <file path=".Npackd\Install.bat">call "%nih%\InstallInnoSetup.bat"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">call "%nih%\UninstallInnoSetup.bat" unins000.exe&#13;
+</file>
+  <url>https://github.com/git-for-windows/git/releases/download/v2.35.0.windows.1/Git-2.35.0-64-bit.exe</url>
+  <hash-sum type="SHA-256">1f59a96ca29c98260c36ccac594cf5c362160d442e0c7197d36cc99ecc6c3447</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
 
     
 
@@ -25471,6 +25496,19 @@ rmdir "%name%"&#13;
   <hash-sum type="SHA-256">79cb52e3a880f9da01bdbdc690582facf184e1819f7a43db283c628959440c3c</hash-sum>
   <dependency package="org.python.Python" versions="[2.7, 2.8)"/>
  </version>
+ <version name="370" package="google-cloud-sdk64">
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b google-cloud-sdk*') do set name=%%x&#13;
+cd "%name%"&#13;
+for /f "delims=" %%a in ('dir /b') do (&#13;
+  move "%%a" ..&#13;
+)&#13;
+cd ..&#13;
+rmdir "%name%"&#13;
+</file>
+  <url>https://dl.google.com/dl/cloudsdk/channels/rapid/downloads/google-cloud-sdk-370.0.0-windows-x86_64.zip</url>
+  <hash-sum type="SHA-256">1037108e2b7d2a0d49d7b632cf237e854c0d6ce27a4163920429c5d9395114a9</hash-sum>
+  <dependency package="org.python.Python" versions="[2.7, 2.8)"/>
+ </version>
 
     <version name="1.1.94" package="grisbi64" type="one-file">
   <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
@@ -25658,7 +25696,7 @@ verify&#13;
   <url>http://www.nirsoft.net/utils/hashmyfiles-x64.zip</url>
  </version>
 
-    <version name="3.6.0.270" package="heavyload" type="one-file">
+    <version name="3.7" package="heavyload" type="one-file">
   <file path=".Npackd\Install.bat">"%nih%\InstallInnoSetup.bat"&#13;
 </file>
   <file path=".Npackd\Uninstall.bat">"%nih%\UninstallInnoSetup.bat" unins000.exe</file>
@@ -25668,7 +25706,7 @@ verify&#13;
   </dependency>
  </version>
 
-    <version name="3.6.0.270" package="heavyload64" type="one-file">
+    <version name="3.7" package="heavyload64" type="one-file">
   <file path=".Npackd\Install.bat">"%nih%\InstallInnoSetup.bat"&#13;
 </file>
   <file path=".Npackd\Uninstall.bat">"%nih%\UninstallInnoSetup.bat" unins000.exe</file>
@@ -57415,6 +57453,20 @@ call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Np
    <variable>nih</variable>
   </dependency>
  </version>
+ <version name="8.2.4212" package="org.vim.Vim64">
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+if %errorlevel% neq 0 exit /b %errorlevel%&#13;
+&#13;
+for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+</file>
+  <url>https://github.com/vim/vim-win32-installer/releases/download/v8.2.4212/gvim_8.2.4212_x64.zip</url>
+  <hash-sum type="SHA-256">e10b0c8b0822a80ca29e576f94bfc474620118e10f1d6028d88f2dd4849cc173</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.19, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
 
     <version name="4.2.8.83876" package="org.virtualbox.virtualbox64" type="one-file">
   <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
@@ -62010,7 +62062,7 @@ if %errorlevel% equ 3010 verify</file>
 </file>
   <file path=".Npackd\Uninstall.bat">"%ncl%\ncl.exe" remove-scp --title "/Qt Creator.*/"&#13;
 </file>
-  <url>http://download.qt-project.org/official_releases/qtcreator/6.0/6.0.0/qt-creator-opensource-windows-x86_64-6.0.0.exe</url>
+  <url>https://github.com/tim-lebedkov/packages/releases/download/2022_01/qt-creator64-6-qt-creator-opensource-windows-x86_64-6.0.0.exe</url>
   <hash-sum type="SHA-256">b57e7828b6f6aafa83f984c8c137cb46f993d73481bc9fbc923a127004fc26eb</hash-sum>
   <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.24, 2)">
    <variable>ncl</variable>
@@ -62022,7 +62074,7 @@ if %errorlevel% equ 3010 verify</file>
 </file>
   <file path=".Npackd\Uninstall.bat">"%ncl%\ncl.exe" remove-scp --title "/Qt Creator.*/"&#13;
 </file>
-  <url>http://download.qt-project.org/official_releases/qtcreator/6.0/6.0.1/qt-creator-opensource-windows-x86_64-6.0.1.exe</url>
+  <url>https://github.com/tim-lebedkov/packages/releases/download/2022_01/qt-creator64-6.0.1-qt-creator-opensource-windows-x86_64-6.0.1.exe</url>
   <hash-sum type="SHA-256">fa19efb76bfc21ed12c1b4c786a2aefbce81a1538c2f8a486681cd5bffed991f</hash-sum>
   <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.24, 2)">
    <variable>ncl</variable>
