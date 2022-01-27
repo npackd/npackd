@@ -40809,6 +40809,16 @@ rmdir "%name%"&#13;
    <variable>NIH</variable>
   </dependency>
  </version>
+ <version name="3.0.1" package="org.blender.Blender64">
+  <important-file path="blender.exe" title="Blender"/>
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b blender*') do set name=%%x&#13;
+"%NIH%\ExtractDir.bat" "%name%"</file>
+  <url>https://download.blender.org/release/Blender3.0/blender-3.0.1-windows-x64.zip</url>
+  <hash-sum type="SHA-256">e456894573781d16755168a2c492350035680f51ee1664c666b6a5b40204848b</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
+   <variable>NIH</variable>
+  </dependency>
+ </version>
 
     <version name="1.0.3.8" package="org.bluemars.ClipX64" type="one-file">
   <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x
@@ -41615,6 +41625,12 @@ rmdir "%name%"&#13;
 </file>
   <url>https://github.com/erlang/otp/releases/download/OTP-24.2/otp_win64_24.2.exe</url>
   <hash-sum type="SHA-256">c22052c4920f06a9044f514a427b1c4116da6db6d6d6070eedeb2955f1f6869b</hash-sum>
+ </version>
+ <version name="24.2.1" package="org.erlang.Erlang64" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD%&#13;
+</file>
+  <url>https://github.com/erlang/otp/releases/download/OTP-24.2.1/otp_win64_24.2.1.exe</url>
+  <hash-sum type="SHA-256">741db39435d7cae0d1af7095c5753c1473f870b22e1b7ca95db1f805e288a77b</hash-sum>
  </version>
 
     <version name="0.9.2.1" package="org.flamerobin.FlameRobin64" type="one-file">
@@ -57467,6 +57483,20 @@ call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Np
    <variable>nih</variable>
   </dependency>
  </version>
+ <version name="8.2.4219" package="org.vim.Vim64">
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+if %errorlevel% neq 0 exit /b %errorlevel%&#13;
+&#13;
+for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+</file>
+  <url>https://github.com/vim/vim-win32-installer/releases/download/v8.2.4219/gvim_8.2.4219_x64.zip</url>
+  <hash-sum type="SHA-256">2c55dbaacdc116dd30596117d64f1f204bcc027302edcf8b3fc48642aad348b8</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.19, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
 
     <version name="4.2.8.83876" package="org.virtualbox.virtualbox64" type="one-file">
   <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
@@ -62085,7 +62115,7 @@ if %errorlevel% equ 3010 verify</file>
   <important-file path="bin\qtcreator.exe" title="Qt Creator"/>
   <file path=".Npackd\Install.bat">"%sevenzipa%\7za" x "%npackd_package_binary%"&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
 </file>
-  <url>https://download.qt.io/official_releases/qtcreator/6.0/6.0.2/installer_source/windows_x64/qtcreator.7z</url>
+  <url>https://github.com/tim-lebedkov/packages/releases/download/2022_01/qt-creator64-6.0.2-qtcreator.7z</url>
   <hash-sum type="SHA-256">1b76a4f42df668691f84ee79c258d8e25efb5a42cbd197e92f5cc150ebce5dfe</hash-sum>
   <dependency package="org.7-zip.SevenZIPA" versions="[19, 100)">
    <variable>sevenzipa</variable>
