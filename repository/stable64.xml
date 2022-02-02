@@ -257,7 +257,7 @@ x86_64</description>
   <category>Education</category>
   <tag>stable64</tag>
   <tag>reupload</tag>
-  <stars>2</stars>
+  <stars>1</stars>
  </package>
  <package name="apache-httpd64">
   <title>Apache HTTP Server 64 bit</title>
@@ -291,7 +291,7 @@ x86_64</description>
   <license>org.gnu.GPLv2</license>
   <category>Music</category>
   <tag>stable64</tag>
-  <stars>2</stars>
+  <stars>3</stars>
  </package>
  <package name="back4sure">
   <title>Back4Sure</title>
@@ -825,7 +825,7 @@ x86_64</description>
   <license>org.gnu.GPLv3</license>
   <category>Tools</category>
   <tag>stable64</tag>
-  <stars>4</stars>
+  <stars>5</stars>
   <link href="https://github.com/tim-lebedkov/npackd/wiki/ChangeLog" rel="changelog"/>
   <link href="http://npackd.appspot.com/Npackd.png" rel="screenshot"/>
  </package>
@@ -1005,7 +1005,7 @@ x86_64</description>
   <category>Development</category>
   <tag>stable64</tag>
   <tag>reupload</tag>
-  <stars>3</stars>
+  <stars>4</stars>
  </package>
  <package name="com.selenic.mercurial.Mercurial64">
   <title>Mercurial 64 bit</title>
@@ -1121,7 +1121,7 @@ x86_64</description>
   <license>org.gnu.GPLv2</license>
   <category>Video</category>
   <tag>stable64</tag>
-  <stars>10</stars>
+  <stars>11</stars>
  </package>
  <package name="com.whatsappinc.whatsapp-desktop-64">
   <title>Whatsapp Desktop 64 bit</title>
@@ -1574,7 +1574,7 @@ x86_64</description>
   <license>com.mozilla.MozillaFirefoxLicense2</license>
   <category>Communications</category>
   <tag>stable64</tag>
-  <stars>6</stars>
+  <stars>7</stars>
  </package>
  <package name="firefoxpwa">
   <title>Progressive Web Apps for Firefox</title>
@@ -1642,7 +1642,7 @@ x86_64</description>
   <license>org.apache.ApacheLicense2</license>
   <category>Security</category>
   <tag>stable64</tag>
-  <stars>3</stars>
+  <stars>4</stars>
   <link href="https://www.veracrypt.fr/en/Release%20Notes.html" rel="changelog"/>
  </package>
  <package name="freac64">
@@ -1727,7 +1727,7 @@ x86_64</description>
   <category>Communications</category>
   <tag>same-url</tag>
   <tag>stable64</tag>
-  <stars>20</stars>
+  <stars>21</stars>
  </package>
  <package name="google-cloud-sdk64">
   <title>Google Cloud SDK 64 bit</title>
@@ -2064,7 +2064,7 @@ x86_64</description>
   <tag>auto-create-versions</tag>
   <tag>stable64</tag>
   <tag>reupload</tag>
-  <stars>2</stars>
+  <stars>3</stars>
   <link href="https://www.libreoffice.org/download/release-notes/" rel="changelog"/>
  </package>
  <package name="lightworks64">
@@ -2400,7 +2400,7 @@ x86_64</description>
   <category>Photo</category>
   <tag>same-url</tag>
   <tag>stable64</tag>
-  <stars>2</stars>
+  <stars>3</stars>
  </package>
  <package name="net.maxon.cinebench.Cinebench64">
   <title>Cinebench 64 bit</title>
@@ -2794,7 +2794,7 @@ x86_64</description>
   <license>org.7-zip.License</license>
   <category>Tools</category>
   <tag>stable64</tag>
-  <stars>20</stars>
+  <stars>21</stars>
   <link href="https://www.7-zip.org/history.txt" rel="changelog"/>
   <link href="http://www.7-zip.org/7zfm.png" rel="screenshot"/>
  </package>
@@ -3484,7 +3484,7 @@ x86_64</description>
   <license>org.gnu.GPLv2</license>
   <category>Communications</category>
   <tag>stable64</tag>
-  <stars>3</stars>
+  <stars>4</stars>
  </package>
  <package name="qcad64">
   <title>QCAD 64 bit</title>
@@ -11035,6 +11035,16 @@ call "%npackdih%\InstallMSI.bat" INSTALLDIR yes&#13;
 </file>
   <url>https://download.tortoisegit.org/tgit/2.12.0.0/TortoiseGit-2.12.0.0-64bit.msi</url>
   <hash-sum type="SHA-256">eb5d8a986e74e9af582138617048fa7a7876eaf833999f7b271dd4c919ca0fee</hash-sum>
+  <dependency package="git64" versions="[1.7.6.2011.7.8, 3)"/>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3.1, 2)">
+   <variable>npackdih</variable>
+  </dependency>
+ </version>
+ <version name="2.13" package="com.googlecode.tortoisegit.TortoiseGit64" type="one-file">
+  <file path=".Npackd\Install.bat">call "%npackdih%\InstallMSI.bat" INSTALLDIR yes&#13;
+</file>
+  <url>https://download.tortoisegit.org/tgit/2.13.0.0/TortoiseGit-2.13.0.0-64bit.msi</url>
+  <hash-sum type="SHA-256">5ae28426fad5088ad266d941d51a72d1fab57a98479904ad47f946edc4d13ab9</hash-sum>
   <dependency package="git64" versions="[1.7.6.2011.7.8, 3)"/>
   <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3.1, 2)">
    <variable>npackdih</variable>
@@ -23910,6 +23920,17 @@ if %err% neq 0 exit %err%&#13;
   </dependency>
  </version>
  <version name="2.35.1" package="git64" type="one-file">
+  <file path=".Npackd\Install.bat">call "%nih%\InstallInnoSetup.bat"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">call "%nih%\UninstallInnoSetup.bat" unins000.exe&#13;
+</file>
+  <url>https://github.com/git-for-windows/git/releases/download/v2.35.1.windows.1/Git-2.35.1-64-bit.exe</url>
+  <hash-sum type="SHA-256">5d66948e7ada0ab184b2745fdf6e11843443a97655891c3c6268b5985b88bf4f</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
+ <version name="2.35.1.2" package="git64" type="one-file">
   <file path=".Npackd\Install.bat">call "%nih%\InstallInnoSetup.bat"&#13;
 </file>
   <file path=".Npackd\Uninstall.bat">call "%nih%\UninstallInnoSetup.bat" unins000.exe&#13;
@@ -57660,6 +57681,20 @@ call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Np
 </file>
   <url>https://github.com/vim/vim-win32-installer/releases/download/v8.2.4266/gvim_8.2.4266_x64.zip</url>
   <hash-sum type="SHA-256">279cc0821c2b29e0ddd80b3f96a7201f15d72c253c866b74ea9ec0eadfb433ef</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.19, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
+ <version name="8.2.4277" package="org.vim.Vim64">
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+if %errorlevel% neq 0 exit /b %errorlevel%&#13;
+&#13;
+for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+</file>
+  <url>https://github.com/vim/vim-win32-installer/releases/download/v8.2.4277/gvim_8.2.4277_x64.zip</url>
+  <hash-sum type="SHA-256">26f5dcea226a70be7177e0c28c7497d947140b2c42cfcf991f2e9e1ce6b950be</hash-sum>
   <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.19, 2)">
    <variable>nih</variable>
   </dependency>
