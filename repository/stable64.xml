@@ -499,6 +499,23 @@ x86_64</description>
   <link href="https://images.sftcdn.net/images/t_app-cover-l,f_auto/p/1b299650-a4d4-11e6-950f-00163ec9f5fa/1441626946/cent-browser-screenshot.png" rel="screenshot"/>
   <link href="https://images.sftcdn.net/images/t_app-cover-l,f_auto/p/1b299650-a4d4-11e6-950f-00163ec9f5fa/2755561341/cent-browser-screenshot.png" rel="screenshot"/>
  </package>
+ <package name="cevelop64">
+  <title>Cevelop 64 Bit</title>
+  <url>https://www.cevelop.com/</url>
+  <description>The C++ IDE for professional developers.
+x86_64</description>
+  <icon>https://avatars.githubusercontent.com/u/7921725?s=200&amp;v=4</icon>
+  <license>org.wikipedia.Freeware</license>
+  <category>Development</category>
+  <tag>stable64</tag>
+  <stars>1</stars>
+  <link href="https://www.cevelop.com/img/templator-variadic-large.png" rel="screenshot"/>
+  <link href="https://www.cevelop.com/img/link_static_library3.png" rel="screenshot"/>
+  <link href="https://www.cevelop.com/img/link_static_library1.png" rel="screenshot"/>
+  <link href="https://www.cevelop.com/img/link_static_library2.png" rel="screenshot"/>
+  <link href="https://www.cevelop.com/img/code-analysis-suppression.png" rel="screenshot"/>
+  <link href="https://www.cevelop.com/img/code-analysis-suppression-pattern.png" rel="screenshot"/>
+ </package>
  <package name="ch.flos-freeware.Notepad264">
   <title>Notepad2 64 bit</title>
   <url>http://www.flos-freeware.ch/notepad2.html</url>
@@ -5815,7 +5832,17 @@ verify&#13;
   </dependency>
  </version>
 
-    
+    <version name="1.14.1" package="cevelop64">
+  <important-file path="cevelop.exe" title="Cevelop"/>
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b cevelop*') do set name=%%x&#13;
+"%clu%\clu" unwrap-dir -p "%name%"&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+</file>
+  <url>https://www.cevelop.com/cevelop/downloads/cevelop-1.14.1-202002280945-win32.win32.x86_64.zip</url>
+  <hash-sum type="SHA-256">faab8c00827f202226763075cf20eef0726c4fd30d893a8e048d68f4a3ce9fca</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.CLU" versions="[1.25, 2)">
+   <variable>clu</variable>
+  </dependency>
+ </version>
 
     <version name="4.2.25" package="ch.flos-freeware.Notepad264">
   <important-file path="Notepad2.exe" title="Notepad2"/>
@@ -9986,6 +10013,15 @@ call "%npackdih%\InstallMSI.bat" APPLICATIONFOLDER yes&#13;
 </file>
   <url>https://download.calibre-ebook.com/5.35.0/calibre-64bit-5.35.0.msi</url>
   <hash-sum type="SHA-256">3871232bfb90e6fe30d9e1b9fb13887697aa0ce25f59972d8c76f69482e0a643</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.2, 2)">
+   <variable>npackdih</variable>
+  </dependency>
+ </version>
+ <version name="5.36" package="com.calibreebook.Calibre64" type="one-file">
+  <file path=".Npackd\Install.bat">call "%npackdih%\InstallMSI.bat" APPLICATIONFOLDER yes&#13;
+</file>
+  <url>https://download.calibre-ebook.com/5.36.0/calibre-64bit-5.36.0.msi</url>
+  <hash-sum type="SHA-256">dc88074a90d3acafb4c9aeb56245a5853ad3fcc10f31a77ce22eeb1feb3a7941</hash-sum>
   <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.2, 2)">
    <variable>npackdih</variable>
   </dependency>
@@ -36536,6 +36572,55 @@ verify&#13;
   <url>https://github.com/notepad-plus-plus/notepad-plus-plus/releases/download/v8.2.1/npp.8.2.1.Installer.x64.exe</url>
   <hash-sum type="SHA-256">0144a77a7a406cac8c9d1f09edb72498a17ccfa1772ed62c1e357c7b87f54537</hash-sum>
  </version>
+ <version name="8.3" package="notepadpp64" type="one-file">
+  <file path=".Npackd\Install.bat">xcopy "%allusersprofile%\Npackd\Config\net.sourceforge.NotepadPlusPlus" .  /E /C /I /F /H /R /Y &gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+&#13;
+for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
+"%setup%" /S /D=%CD%&#13;
+if %errorlevel% neq 0 exit /b %errorlevel%&#13;
+&#13;
+set package=net.sourceforge.NotepadPlusPlus&#13;
+set version=%NPACKD_PACKAGE_VERSION%&#13;
+set key=%package%&#13;
+&#13;
+reg add HKLM\SOFTWARE\Classes\Applications\%KEY%\shell\open /v FriendlyAppName /d "Notepad++ (%version%)" /f &gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+set c=\"%CD%\notepad++.exe\" \"%%1\"&#13;
+reg add HKLM\SOFTWARE\Classes\Applications\%KEY%\shell\open\command /d "%c%" /f &gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+for %%g in (txt log ini h hpp hxx c cpp cxx cc m java cs pas inc html htm php phtml properties js jsp asp css xml sh bsh nsi nsh lua pl pm py as mx vb vbs f for f90 f95 f2k tex sql nfo mak hgignore) do reg add HKLM\SOFTWARE\Classes\.%%g\OpenWithList\%key% /f &gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+&#13;
+reg add "HKCR\*\shell\Notepad++\command" /ve /f /d "\"%cd%\notepad++.exe\" %%1" &gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+&#13;
+verify</file>
+  <file path=".Npackd\Uninstall.bat">rmdir /s /q "%allusersprofile%\Npackd\Config\net.sourceforge.NotepadPlusPlus"&#13;
+xcopy Plugins "%allusersprofile%\Npackd\Config\net.sourceforge.NotepadPlusPlus\Plugins" /E /C /I /F /H /R /Y &gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+&#13;
+set package=net.sourceforge.NotepadPlusPlus&#13;
+set version=%NPACKD_PACKAGE_VERSION%&#13;
+set key=%package%&#13;
+&#13;
+set newname=%key%_%random%&#13;
+ren %appdata%\Notepad++ %newname%&#13;
+uninstall.exe /S _?=%CD%&#13;
+if %errorlevel% neq 0 exit /b %errorlevel%&#13;
+ren %appdata%\%newname% Notepad++&#13;
+&#13;
+rem unregister "Open With..." entries&#13;
+reg delete HKLM\SOFTWARE\Classes\Applications\%KEY% /f &gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+for %%g in (txt log ini h hpp hxx c cpp cxx cc m java cs pas inc html htm php phtml properties js jsp asp css xml sh bsh nsi nsh lua pl pm py as mx vb vbs f for f90 f95 f2k tex sql nfo mak hgignore) do reg delete HKLM\SOFTWARE\Classes\.%%g\OpenWithList\%key% /f &gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+&#13;
+reg delete HKCR\*\shell\Notepad++ /f &gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+&#13;
+rem remove Explorer extension&#13;
+set trash=..\.Trash\%key%_%random%&#13;
+mkdir %trash%&#13;
+move NppShell*.dll %trash%&#13;
+verify&#13;
+		</file>
+  <file path=".Npackd\ExportUserSettings.bat">copy "%appdata%\Notepad++\config.xml" .</file>
+  <file path=".Npackd\ImportUserSettings.bat">copy /y config.xml "%appdata%\Notepad++"</file>
+  <url>https://github.com/notepad-plus-plus/notepad-plus-plus/releases/download/v8.3/npp.8.3.Installer.x64.exe</url>
+  <hash-sum type="SHA-256">c52528f8f0573547201f49f02d4cd35fb186718e74064d35c0537375e8d71398</hash-sum>
+ </version>
 
     <version name="1.49" package="nubasic64">
   <file path=".Npackd\Install.bat">call "%nih%\InstallInnoSetup.bat"&#13;
@@ -57794,6 +57879,34 @@ call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Np
    <variable>nih</variable>
   </dependency>
  </version>
+ <version name="8.2.4293" package="org.vim.Vim64">
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+if %errorlevel% neq 0 exit /b %errorlevel%&#13;
+&#13;
+for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+</file>
+  <url>https://github.com/vim/vim-win32-installer/releases/download/v8.2.4293/gvim_8.2.4293_x64.zip</url>
+  <hash-sum type="SHA-256">8b0c1d6aac8544bb77a4e46a5854aa7377a8a7185c6d062967edd228a553eae2</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.19, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
+ <version name="8.2.4297" package="org.vim.Vim64">
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+if %errorlevel% neq 0 exit /b %errorlevel%&#13;
+&#13;
+for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+</file>
+  <url>https://github.com/vim/vim-win32-installer/releases/download/v8.2.4297/gvim_8.2.4297_x64.zip</url>
+  <hash-sum type="SHA-256">924a3435b477fd2187c94dcd99d35fb7af3e6ae987417102a1332e0dc91627a2</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.19, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
 
     <version name="4.2.8.83876" package="org.virtualbox.virtualbox64" type="one-file">
   <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
@@ -67819,7 +67932,7 @@ if %err% neq 0 exit %err%&#13;
   <url>https://az764295.vo.msecnd.net/stable/a0479759d6e9ea56afa657e454193f72aef85bd0/VSCodeSetup-ia32-1.48.2.exe</url>
   <hash-sum type="SHA-256">013d5ecdb44159c15047472512bef9c76ba934807dbb07a582655f4c5546866d</hash-sum>
  </version>
- <version name="1.63.2" package="vs-code" type="one-file">
+ <version name="1.64" package="vs-code" type="one-file">
   <file path=".Npackd\Install.bat">ren "%npackd_package_binary%" setup.exe&#13;
 setup.exe /SP- /VERYSILENT /SUPPRESSMSGBOXES /NOCANCEL /NORESTART /DIR="%CD%" /SAVEINF="%CD%\.Npackd\InnoSetupInfo.ini" /LOG="%CD%\.Npackd\InnoSetupInstall.log"&#13;
 set err=%errorlevel%&#13;
@@ -67894,7 +68007,7 @@ if %err% neq 0 exit %err%&#13;
   <url>https://az764295.vo.msecnd.net/stable/a0479759d6e9ea56afa657e454193f72aef85bd0/VSCodeSetup-x64-1.48.2.exe</url>
   <hash-sum type="SHA-256">3f8805a29fdd9fbfd7c0d7a9f354ed160256ec6f1f80410e367bf14f37908afb</hash-sum>
  </version>
- <version name="1.63.2" package="vs-code64" type="one-file">
+ <version name="1.64" package="vs-code64" type="one-file">
   <file path=".Npackd\Install.bat">ren "%npackd_package_binary%" setup.exe&#13;
 setup.exe /SP- /VERYSILENT /SUPPRESSMSGBOXES /NOCANCEL /NORESTART /DIR="%CD%" /SAVEINF="%CD%\.Npackd\InnoSetupInfo.ini" /LOG="%CD%\.Npackd\InnoSetupInstall.log"&#13;
 set err=%errorlevel%&#13;
