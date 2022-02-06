@@ -21785,6 +21785,17 @@ verify</file>
   <url>https://download-origin.cdn.mozilla.net/pub/mozilla.org/firefox/releases/91.5.0esr/win64/en-US/Firefox%20Setup%2091.5.0esr.exe</url>
   <hash-sum type="SHA-256">ee82d8319d46a19be871e7c68f6332527604e90e741fcf00ffe2b34240483345</hash-sum>
  </version>
+ <version name="91.5.1" package="firefox-esr64" type="one-file">
+  <file path=".Npackd\Install.bat">echo [Install] &gt; .Npackd\FF.ini&#13;
+echo InstallDirectoryPath=%CD% &gt;&gt; .Npackd\FF.ini&#13;
+echo QuickLaunchShortcut=false &gt;&gt; .Npackd\FF.ini&#13;
+echo DesktopShortcut=false &gt;&gt; .Npackd\FF.ini&#13;
+"%npackd_package_binary%" /INI="%CD%\.Npackd\FF.ini" &amp;&amp; del /f /q "%npackd_package_binary%"</file>
+  <file path=".Npackd\Uninstall.bat">uninstall\helper.exe /S&#13;
+verify</file>
+  <url>https://download-origin.cdn.mozilla.net/pub/mozilla.org/firefox/releases/91.5.1esr/win64/en-US/Firefox%20Setup%2091.5.1esr.exe</url>
+  <hash-sum type="SHA-256">c1686e42c973696ab6a31d16843c763939db4cbadbcdf26c66c5d267a2cb33f4</hash-sum>
+ </version>
 
     <version name="43" package="firefox64" type="one-file">
   <file path=".Npackd\Install.bat">echo [Install] &gt; .Npackd\FF.ini&#13;
@@ -27427,17 +27438,6 @@ if %err% neq 0 exit %err%&#13;
    <variable>nih</variable>
   </dependency>
  </version>
- <version name="7.1.0.17" package="imagemagick64" type="one-file">
-  <file path=".Npackd\Install.bat">call "%nih%\InstallInnoSetup.bat"&#13;
-</file>
-  <file path=".Npackd\Uninstall.bat">call "%nih%\UninstallInnoSetup.bat" unins000.exe&#13;
-</file>
-  <url>https://www.imagemagick.org/download/binaries/ImageMagick-7.1.0-17-Q16-HDRI-x64-dll.exe</url>
-  <hash-sum type="SHA-256">327733a845f2a0ccb31b89565472259f1068e600b937d2053158ce175b8403f7</hash-sum>
-  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
-   <variable>nih</variable>
-  </dependency>
- </version>
  <version name="7.1.0.18" package="imagemagick64" type="one-file">
   <file path=".Npackd\Install.bat">call "%nih%\InstallInnoSetup.bat"&#13;
 </file>
@@ -27471,17 +27471,6 @@ if %err% neq 0 exit %err%&#13;
    <variable>nih</variable>
   </dependency>
  </version>
- <version name="7.1.0.21" package="imagemagick64" type="one-file">
-  <file path=".Npackd\Install.bat">call "%nih%\InstallInnoSetup.bat"&#13;
-</file>
-  <file path=".Npackd\Uninstall.bat">call "%nih%\UninstallInnoSetup.bat" unins000.exe&#13;
-</file>
-  <url>https://www.imagemagick.org/download/binaries/ImageMagick-7.1.0-21-Q16-HDRI-x64-dll.exe</url>
-  <hash-sum type="SHA-256">a432f1bc6caf3c7d2b12a15fbead5f7792b38b9cc34fb9814b353da5ad3ff77b</hash-sum>
-  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
-   <variable>nih</variable>
-  </dependency>
- </version>
  <version name="7.1.0.22" package="imagemagick64" type="one-file">
   <file path=".Npackd\Install.bat">call "%nih%\InstallInnoSetup.bat"&#13;
 </file>
@@ -27489,6 +27478,17 @@ if %err% neq 0 exit %err%&#13;
 </file>
   <url>https://github.com/tim-lebedkov/packages/releases/download/2022_01/imagemagick64-7.1.0.22-ImageMagick-7.1.0-22-Q16-HDRI-x64-dll.exe</url>
   <hash-sum type="SHA-256">c765da1881b209f550ae6ed2b2ac3fda23e79c90ad8238eb0b05f50240bcf541</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
+ <version name="7.1.0.23" package="imagemagick64" type="one-file">
+  <file path=".Npackd\Install.bat">call "%nih%\InstallInnoSetup.bat"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">call "%nih%\UninstallInnoSetup.bat" unins000.exe&#13;
+</file>
+  <url>https://www.imagemagick.org/download/binaries/ImageMagick-7.1.0-23-Q16-HDRI-x64-dll.exe</url>
+  <hash-sum type="SHA-256">084f7b56bdfd9382bf774b9122f27df03b1a8ba6d61cbc702001b55ed9de2f16</hash-sum>
   <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
    <variable>nih</variable>
   </dependency>
@@ -33430,6 +33430,17 @@ if %err% neq 0 exit %err%</file>
 </file>
   <url>http://downloads.sourceforge.net/project/doublecmd/DC%20for%20Windows%2064%20bit/Double%20Commander%201.0.3%20beta/doublecmd-1.0.3.x86_64-win64.exe</url>
   <hash-sum type="SHA-256">6673c72c1571bc1f775ff31e333027ebcdbf6696c981496db8e799d0a3ff6cc4</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
+ <version name="1.0.4" package="net.sourceforge.Doublecmd64" type="one-file">
+  <file path=".Npackd\Install.bat">call "%nih%\InstallInnoSetup.bat"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">call "%nih%\UninstallInnoSetup.bat" unins000.exe&#13;
+</file>
+  <url>http://downloads.sourceforge.net/project/doublecmd/DC%20for%20Windows%2064%20bit/Double%20Commander%201.0.4%20beta/doublecmd-1.0.4.x86_64-win64.exe</url>
+  <hash-sum type="SHA-256">88dd42a67f3866890325f082cd09f9318731911d04079c1641dadd12c472a742</hash-sum>
   <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
    <variable>nih</variable>
   </dependency>
