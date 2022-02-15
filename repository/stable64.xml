@@ -27533,7 +27533,7 @@ if %err% neq 0 exit %err%&#13;
 </file>
   <file path=".Npackd\Uninstall.bat">call "%nih%\UninstallInnoSetup.bat" unins000.exe&#13;
 </file>
-  <url>https://www.imagemagick.org/download/binaries/ImageMagick-7.1.0-24-Q16-HDRI-x64-dll.exe</url>
+  <url>https://github.com/tim-lebedkov/packages/releases/download/2022_02/imagemagick64-7.1.0.24-ImageMagick-7.1.0-24-Q16-HDRI-x64-dll.exe</url>
   <hash-sum type="SHA-256">1ab0f6a398a001b85d965da0eb6a775011adbc793ed560d3ae6b69b79e2197c8</hash-sum>
   <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
    <variable>nih</variable>
@@ -28273,6 +28273,13 @@ rmdir "%name%"&#13;
   <hash-sum type="SHA-256">478b816fcb808ae5638a687a0f8248ded87b9b07fc4727f3950e9d1a39fedcf7</hash-sum>
  </version>
  <version name="1.1.1" package="kr.pe.nyam.Imagine64">
+  <important-file path="Imagine64.exe" title="Imagine"/>
+  <file path=".Npackd\Install.bat">Imagine64.exe /assocext</file>
+  <file path=".Npackd\Uninstall.bat">Imagine64.exe /dissocext</file>
+  <url>http://www.nyam.pe.kr/dev/imagine/download/x64/Imagine_1.1.0_x64_Unicode.zip</url>
+  <hash-sum type="SHA-256">478b816fcb808ae5638a687a0f8248ded87b9b07fc4727f3950e9d1a39fedcf7</hash-sum>
+ </version>
+ <version name="1.1.2" package="kr.pe.nyam.Imagine64">
   <important-file path="Imagine64.exe" title="Imagine"/>
   <file path=".Npackd\Install.bat">Imagine64.exe /assocext</file>
   <file path=".Npackd\Uninstall.bat">Imagine64.exe /dissocext</file>
@@ -58076,6 +58083,20 @@ call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Np
 </file>
   <url>https://github.com/vim/vim-win32-installer/releases/download/v8.2.4365/gvim_8.2.4365_x64.zip</url>
   <hash-sum type="SHA-256">e861635192b54bf7e0d4a6dc3ba7cd8faeff915104192131ced2167d5e5189a1</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.19, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
+ <version name="8.2.4375" package="org.vim.Vim64">
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+if %errorlevel% neq 0 exit /b %errorlevel%&#13;
+&#13;
+for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+</file>
+  <url>https://github.com/vim/vim-win32-installer/releases/download/v8.2.4375/gvim_8.2.4375_x64.zip</url>
+  <hash-sum type="SHA-256">537ed97b286a794817079920200673bd92e600139e4061f8738482cdb8fee773</hash-sum>
   <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.19, 2)">
    <variable>nih</variable>
   </dependency>
