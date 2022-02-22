@@ -19282,6 +19282,14 @@ rmdir "%name%"&#13;
   <url>http://dbeaver.jkiss.org/files/21.3.4/dbeaver-ce-21.3.4-x86_64-setup.exe</url>
   <hash-sum type="SHA-256">6efe8b111b77bce9ed5033c1b5de91168b30a21b319f9ccc01b3007fb334b3d5</hash-sum>
  </version>
+ <version name="21.3.5" package="dbeaver64" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" /allusers /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">uninstall.exe /allusers /S _?=%CD%&#13;
+</file>
+  <url>http://dbeaver.jkiss.org/files/21.3.5/dbeaver-ce-21.3.5-x86_64-setup.exe</url>
+  <hash-sum type="SHA-256">68834eca5bd86669b79b76558e9dae1f08d808d9335e1690af984749c1d132cf</hash-sum>
+ </version>
 
     <version name="0.825" package="dcplusplus64">
   <important-file path="DCPlusPlus.exe" title="DC++"/>
@@ -23123,6 +23131,30 @@ if %err% equ 1605 exit 0&#13;
 if %err% neq 0 exit %err%</file>
   <url>https://launchpad.net/veracrypt/trunk/1.25.7/+download/VeraCrypt_Setup_x64_1.25.7.msi</url>
   <hash-sum type="SHA-256">12d999bca2b97a4f268087139d1606183e0cdb11c4b046b6c6dc5f0f965c3fd2</hash-sum>
+ </version>
+ <version name="1.25.9" package="fr.veracrypt.veracrypt" type="one-file">
+  <file path=".Npackd\Install.bat">move "%npackd_package_binary%" .Npackd\setup.msi&#13;
+if %errorlevel% neq 0 exit /b %errorlevel%&#13;
+&#13;
+msiexec.exe /qn /norestart /Lime .Npackd\InstallMSI.log /i ".Npackd\setup.msi" INSTALLDIR="%CD%" ALLUSERS=1 MSIFASTINSTALL=7 ACCEPTLICENSE=YES&#13;
+set err=%errorlevel%&#13;
+type .Npackd\InstallMSI.log&#13;
+&#13;
+if %err% equ 3010 exit 0&#13;
+&#13;
+if %err% neq 0 exit %err%</file>
+  <file path=".Npackd\Uninstall.bat">msiexec.exe /qn /norestart /Lime .Npackd\UninstallMSI.log /x ".Npackd\setup.msi" MSIFASTINSTALL=7&#13;
+&#13;
+set err=%errorlevel%&#13;
+type .Npackd\UninstallMSI.log&#13;
+&#13;
+if %err% equ 3010 exit 0&#13;
+&#13;
+if %err% equ 1605 exit 0&#13;
+&#13;
+if %err% neq 0 exit %err%</file>
+  <url>https://launchpad.net/veracrypt/trunk/1.25.9/+download/VeraCrypt_Setup_x64_1.25.9.msi</url>
+  <hash-sum type="SHA-256">206d31c2ed1a2b0390d4dfa12e74a9b9dae88658d1f9bfa1bb433b23e2b24fd8</hash-sum>
  </version>
 
     <version name="1.1.2" package="freac64">
@@ -27619,6 +27651,17 @@ if %err% neq 0 exit %err%&#13;
 </file>
   <url>https://github.com/tim-lebedkov/packages/releases/download/2022_02/imagemagick64-7.1.0.25-ImageMagick-7.1.0-25-Q16-HDRI-x64-dll.exe</url>
   <hash-sum type="SHA-256">e6f660f822b3f1262ea362c564f936d7f8a28650bfe0eb5e4d5cc6360be294b9</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
+ <version name="7.1.0.26" package="imagemagick64" type="one-file">
+  <file path=".Npackd\Install.bat">call "%nih%\InstallInnoSetup.bat"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">call "%nih%\UninstallInnoSetup.bat" unins000.exe&#13;
+</file>
+  <url>https://www.imagemagick.org/download/binaries/ImageMagick-7.1.0-26-Q16-HDRI-x64-dll.exe</url>
+  <hash-sum type="SHA-256">2becafb53b4124f3a769bcf19d5fee1625253fc45db9b55292a707445948ea4f</hash-sum>
   <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
    <variable>nih</variable>
   </dependency>
@@ -58366,6 +58409,20 @@ call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Np
 </file>
   <url>https://github.com/vim/vim-win32-installer/releases/download/v8.2.4424/gvim_8.2.4424_x64.zip</url>
   <hash-sum type="SHA-256">8452d99a1e8d1a222efa5d7d93bd831d83dddb919307fced8e35d22f1cdeb7ec</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.19, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
+ <version name="8.2.4428" package="org.vim.Vim64">
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+if %errorlevel% neq 0 exit /b %errorlevel%&#13;
+&#13;
+for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+</file>
+  <url>https://github.com/vim/vim-win32-installer/releases/download/v8.2.4428/gvim_8.2.4428_x64.zip</url>
+  <hash-sum type="SHA-256">ed5aba86b51349fbfbdd4dab09858de76724605a0a7c9767ddc56969008aa0bf</hash-sum>
   <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.19, 2)">
    <variable>nih</variable>
   </dependency>
