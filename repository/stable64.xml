@@ -20400,6 +20400,14 @@ rmdir "%name%"&#13;
   <url>https://github.com/balena-io/etcher/releases/download/v1.7.3/balenaEtcher-Setup-1.7.3.exe</url>
   <hash-sum type="SHA-256">28b6b055096913af60b9df814cd1b1ca003b3b13c97b825bc9cb9f8322e7978b</hash-sum>
  </version>
+ <version name="1.7.6" package="etcher64" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">uninstall.exe /S _?=%CD%&#13;
+</file>
+  <url>https://github.com/balena-io/etcher/releases/download/v1.7.6/balenaEtcher-Setup-1.7.6.exe</url>
+  <hash-sum type="SHA-256">9d2c2a76bba5c115bc062c3eb76f0052f4b919319d9178c4cec312c0bc32b9b3</hash-sum>
+ </version>
 
     <version name="1.3.4.686" package="everything64">
   <important-file path="Everything.exe" title="Everything"/>
@@ -27660,7 +27668,7 @@ if %err% neq 0 exit %err%&#13;
 </file>
   <file path=".Npackd\Uninstall.bat">call "%nih%\UninstallInnoSetup.bat" unins000.exe&#13;
 </file>
-  <url>https://www.imagemagick.org/download/binaries/ImageMagick-7.1.0-26-Q16-HDRI-x64-dll.exe</url>
+  <url>https://github.com/tim-lebedkov/packages/releases/download/2022_02/imagemagick64-7.1.0.26-ImageMagick-7.1.0-26-Q16-HDRI-x64-dll.exe</url>
   <hash-sum type="SHA-256">2becafb53b4124f3a769bcf19d5fee1625253fc45db9b55292a707445948ea4f</hash-sum>
   <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
    <variable>nih</variable>
@@ -37181,6 +37189,17 @@ verify&#13;
   <file path=".Npackd\Uninstall.bat">"%myun%\myuninst.exe" /uninstall "Open Broadcaster Software"</file>
   <url>https://cdn-fastly.obsproject.com/downloads/OBS-Studio-27.2-Full-Installer-x64.exe</url>
   <hash-sum type="SHA-256">6129f46128ff5533c6b46b25b535981add22f8a48d63b6a42d102ad6a832dd2b</hash-sum>
+  <dependency package="net.nirsoft.MyUninstaller" versions="[1.74, 2)">
+   <variable>myun</variable>
+  </dependency>
+ </version>
+ <version name="27.2.1" package="open-broadcaster-software64" type="one-file">
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
+"%setup%" /S /D=%CD% &amp;&amp; del /f /q "%setup%"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">"%myun%\myuninst.exe" /uninstall "Open Broadcaster Software"</file>
+  <url>https://cdn-fastly.obsproject.com/downloads/OBS-Studio-27.2.1-Full-Installer-x64.exe</url>
+  <hash-sum type="SHA-256">e1277a2a7ba6252d2029667d70bc2e79cc9ed15e2823e6c1ffbf355debe98d63</hash-sum>
   <dependency package="net.nirsoft.MyUninstaller" versions="[1.74, 2)">
    <variable>myun</variable>
   </dependency>
