@@ -5663,6 +5663,15 @@ verify&#13;
    <variable>nih</variable>
   </dependency>
  </version>
+ <version name="2.8.2" package="bowpad64" type="one-file">
+  <file path=".Npackd\Install.bat">call "%nih%\InstallMSI.bat" INSTALLDIR yes&#13;
+</file>
+  <url>https://github.com/stefankueng/BowPad/releases/download/2.8.2/BowPad64-2.8.2.msi</url>
+  <hash-sum type="SHA-256">610a8b1cb96c1451086bdcca4f5bd7610451ea61ad8bc5103c4b3dae1a020d43</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.1, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
 
     <version name="1.3.99" package="brave64" type="one-file">
   <file path=".Npackd\Install.bat">"%npackd_package_binary%" &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
@@ -36936,6 +36945,55 @@ verify&#13;
   <url>https://github.com/notepad-plus-plus/notepad-plus-plus/releases/download/v8.3.1/npp.8.3.1.Installer.x64.exe</url>
   <hash-sum type="SHA-256">425a9d98918349ccc70e795e59f302759faa51650e7742a36abf7ddcf5748b85</hash-sum>
  </version>
+ <version name="8.3.2" package="notepadpp64" type="one-file">
+  <file path=".Npackd\Install.bat">xcopy "%allusersprofile%\Npackd\Config\net.sourceforge.NotepadPlusPlus" .  /E /C /I /F /H /R /Y &gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+&#13;
+for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
+"%setup%" /S /D=%CD%&#13;
+if %errorlevel% neq 0 exit /b %errorlevel%&#13;
+&#13;
+set package=net.sourceforge.NotepadPlusPlus&#13;
+set version=%NPACKD_PACKAGE_VERSION%&#13;
+set key=%package%&#13;
+&#13;
+reg add HKLM\SOFTWARE\Classes\Applications\%KEY%\shell\open /v FriendlyAppName /d "Notepad++ (%version%)" /f &gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+set c=\"%CD%\notepad++.exe\" \"%%1\"&#13;
+reg add HKLM\SOFTWARE\Classes\Applications\%KEY%\shell\open\command /d "%c%" /f &gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+for %%g in (txt log ini h hpp hxx c cpp cxx cc m java cs pas inc html htm php phtml properties js jsp asp css xml sh bsh nsi nsh lua pl pm py as mx vb vbs f for f90 f95 f2k tex sql nfo mak hgignore) do reg add HKLM\SOFTWARE\Classes\.%%g\OpenWithList\%key% /f &gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+&#13;
+reg add "HKCR\*\shell\Notepad++\command" /ve /f /d "\"%cd%\notepad++.exe\" %%1" &gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+&#13;
+verify</file>
+  <file path=".Npackd\Uninstall.bat">rmdir /s /q "%allusersprofile%\Npackd\Config\net.sourceforge.NotepadPlusPlus"&#13;
+xcopy Plugins "%allusersprofile%\Npackd\Config\net.sourceforge.NotepadPlusPlus\Plugins" /E /C /I /F /H /R /Y &gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+&#13;
+set package=net.sourceforge.NotepadPlusPlus&#13;
+set version=%NPACKD_PACKAGE_VERSION%&#13;
+set key=%package%&#13;
+&#13;
+set newname=%key%_%random%&#13;
+ren %appdata%\Notepad++ %newname%&#13;
+uninstall.exe /S _?=%CD%&#13;
+if %errorlevel% neq 0 exit /b %errorlevel%&#13;
+ren %appdata%\%newname% Notepad++&#13;
+&#13;
+rem unregister "Open With..." entries&#13;
+reg delete HKLM\SOFTWARE\Classes\Applications\%KEY% /f &gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+for %%g in (txt log ini h hpp hxx c cpp cxx cc m java cs pas inc html htm php phtml properties js jsp asp css xml sh bsh nsi nsh lua pl pm py as mx vb vbs f for f90 f95 f2k tex sql nfo mak hgignore) do reg delete HKLM\SOFTWARE\Classes\.%%g\OpenWithList\%key% /f &gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+&#13;
+reg delete HKCR\*\shell\Notepad++ /f &gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+&#13;
+rem remove Explorer extension&#13;
+set trash=..\.Trash\%key%_%random%&#13;
+mkdir %trash%&#13;
+move NppShell*.dll %trash%&#13;
+verify&#13;
+		</file>
+  <file path=".Npackd\ExportUserSettings.bat">copy "%appdata%\Notepad++\config.xml" .</file>
+  <file path=".Npackd\ImportUserSettings.bat">copy /y config.xml "%appdata%\Notepad++"</file>
+  <url>https://github.com/notepad-plus-plus/notepad-plus-plus/releases/download/v8.3.2/npp.8.3.2.Installer.x64.exe</url>
+  <hash-sum type="SHA-256">c4fc3e77d0835c62a76b12e5c4f402073208bc68a9ae2412730a85d44e994d0a</hash-sum>
+ </version>
 
     <version name="1.49" package="nubasic64">
   <file path=".Npackd\Install.bat">call "%nih%\InstallInnoSetup.bat"&#13;
@@ -38670,75 +38728,6 @@ cscript //Nologo //E:JScript //T:300 //U .Npackd\Install.js&#13;
    <variable>nih</variable>
   </dependency>
  </version>
- <version name="21.5" package="org.7-zip.SevenZIP64" type="one-file">
-  <cmd-file path="7z.exe"/>
-  <cmd-file path="7zG.exe"/>
-  <file path=".Npackd\Install.bat">cscript //Nologo //E:JScript //T:300 //U .Npackd\AddProperty.js&#13;
-if %errorlevel% neq 0 exit /b %errorlevel%&#13;
-&#13;
-cscript //Nologo //E:JScript //T:300 //U .Npackd\Install.js&#13;
-</file>
-  <file path=".Npackd\Uninstall.bat">cscript //Nologo //E:JScript //T:300 //U .Npackd\Uninstall.js&#13;
-</file>
-  <file path=".Npackd\Install.js">try {&#13;
-    var fs = new ActiveXObject("Scripting.FileSystemObject");&#13;
-    var sh = WScript.CreateObject("WScript.Shell");&#13;
-    var lib = eval(fs.OpenTextFile(&#13;
-          sh.ExpandEnvironmentStrings("%NIH%") + "\\Lib.js", 1).ReadAll());&#13;
-&#13;
-    if (!lib.installMSI(null, "INSTALLDIR"))&#13;
-        throw new Error("MSI installation failed");&#13;
-&#13;
-    var extensions = fs.OpenTextFile(".Npackd\\Extensions.txt", 1).ReadAll().split(" ");&#13;
-    var key = sh.ExpandEnvironmentStrings("org.7-zip.SevenZIP64-%NPACKD_PACKAGE_VERSION%");&#13;
-    var curDir = sh.currentDirectory;&#13;
-    var cmd = "\"" + curDir + "\\7zFM.exe\" \"%1\"";&#13;
-    var title = "7-Zip File Manager (7-ZIP/64 bit " + sh.ExpandEnvironmentStrings("%NPACKD_PACKAGE_VERSION%") + ")";&#13;
-    lib.registerOpenWith(key, cmd, title, extensions);&#13;
-} catch (e) {&#13;
-    WScript.Echo(e.name + ": " + e.message);&#13;
-    WScript.Echo(e.number + ": " + e.description);&#13;
-    WScript.Quit(1);&#13;
-}&#13;
-</file>
-  <file path=".Npackd\Extensions.txt">.001 .7z .arj .bz2 .bzip2 .cab .cpio .deb .dmg .egg .fat .gz .gzip .hfs .iso .lha .lzh .lzma .ntfs .rar .rpm .squashfs .swm .tar .taz .tbz .tbz2 .tgz .tpz .txz .vhd .wim .xar .xz .z .zip</file>
-  <file path=".Npackd\Uninstall.js">try {&#13;
-    var fs = new ActiveXObject("Scripting.FileSystemObject");&#13;
-    var sh = WScript.CreateObject("WScript.Shell");&#13;
-    var lib = eval(fs.OpenTextFile(&#13;
-          sh.ExpandEnvironmentStrings("%NIH%") + "\\Lib.js", 1).ReadAll());&#13;
-&#13;
-    if (!lib.uninstallMSI(null))&#13;
-        throw new Error("MSI uninstallation failed");&#13;
-&#13;
-    var extensions = fs.OpenTextFile(".Npackd\\Extensions.txt", 1).ReadAll().split(" ");&#13;
-    var key = sh.ExpandEnvironmentStrings("org.7-zip.SevenZIP64-%NPACKD_PACKAGE_VERSION%");&#13;
-    lib.unregisterOpenWith(key, extensions);&#13;
-} catch (e) {&#13;
-    WScript.Echo(e.name + ": " + e.message);&#13;
-    WScript.Echo(e.number + ": " + e.description);&#13;
-    WScript.Quit(1);&#13;
-}&#13;
-</file>
-  <file path=".Npackd\AddProperty.js">try {&#13;
-    var fs = new ActiveXObject("Scripting.FileSystemObject");&#13;
-    var sh = WScript.CreateObject("WScript.Shell");&#13;
-    var lib = eval(fs.OpenTextFile(&#13;
-          sh.ExpandEnvironmentStrings("%NIH%") + "\\Lib.js", 1).ReadAll());&#13;
-&#13;
-    lib.addPropertyToMSI(lib.findFile(".", /\.msi$/i), "INSTALLDIR", "C:\\");&#13;
-} catch (e) {&#13;
-    WScript.Echo(e.name + ": " + e.message);&#13;
-    WScript.Echo(e.number + ": " + e.description);&#13;
-    WScript.Quit(1);&#13;
-}&#13;
-</file>
-  <url>https://www.7-zip.org/a/7z1900-x64.msi</url>
-  <hash-sum type="SHA-256">a7803233eedb6a4b59b3024ccf9292a6fffb94507dc998aa67c5b745d197a5dc</hash-sum>
-  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.12, 2)">
-   <variable>nih</variable>
-  </dependency>
- </version>
  <version name="21.6" package="org.7-zip.SevenZIP64" type="one-file">
   <cmd-file path="7z.exe"/>
   <cmd-file path="7zG.exe"/>
@@ -38802,8 +38791,8 @@ cscript //Nologo //E:JScript //T:300 //U .Npackd\Install.js&#13;
     WScript.Quit(1);&#13;
 }&#13;
 </file>
-  <url>https://www.7-zip.org/a/7z1900-x64.msi</url>
-  <hash-sum type="SHA-256">a7803233eedb6a4b59b3024ccf9292a6fffb94507dc998aa67c5b745d197a5dc</hash-sum>
+  <url>https://www.7-zip.org/a/7z2106-x64.msi</url>
+  <hash-sum type="SHA-256">3a18c7ed102778c1735def84d88c1abeec6919436aee4c4d852acaea90101dd7</hash-sum>
   <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.12, 2)">
    <variable>nih</variable>
   </dependency>
@@ -38871,8 +38860,8 @@ cscript //Nologo //E:JScript //T:300 //U .Npackd\Install.js&#13;
     WScript.Quit(1);&#13;
 }&#13;
 </file>
-  <url>https://www.7-zip.org/a/7z1900-x64.msi</url>
-  <hash-sum type="SHA-256">a7803233eedb6a4b59b3024ccf9292a6fffb94507dc998aa67c5b745d197a5dc</hash-sum>
+  <url>https://www.7-zip.org/a/7z2107-x64.msi</url>
+  <hash-sum type="SHA-256">5447c9ac39c48f1bc7c88359b0520396a8c9707b307c107236a93a68e6fd3eb6</hash-sum>
   <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.12, 2)">
    <variable>nih</variable>
   </dependency>
@@ -58505,6 +58494,20 @@ call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Np
 </file>
   <url>https://github.com/vim/vim-win32-installer/releases/download/v8.2.4473/gvim_8.2.4473_x64.zip</url>
   <hash-sum type="SHA-256">6ea437d2008154dd814e44b1150d0bfc73bc018f82cdfa6c31bdc88e64e0de39</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.19, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
+ <version name="8.2.4478" package="org.vim.Vim64">
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+if %errorlevel% neq 0 exit /b %errorlevel%&#13;
+&#13;
+for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+</file>
+  <url>https://github.com/vim/vim-win32-installer/releases/download/v8.2.4478/gvim_8.2.4478_x64.zip</url>
+  <hash-sum type="SHA-256">38d50a5697c60655982dfaa5d864b47359ff53050850c090de4e9d51964ad3e7</hash-sum>
   <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.19, 2)">
    <variable>nih</variable>
   </dependency>
