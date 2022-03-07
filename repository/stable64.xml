@@ -26107,6 +26107,17 @@ verify&#13;
   <url>https://github.com/TPC-Council/HammerDB/releases/download/v4.3/HammerDB-4.3-Win-x64-Setup.exe</url>
   <hash-sum type="SHA-256">3a398b646aa0288460e6910462a8647f81c5cab1f54cd81c5bd31fe032884fda</hash-sum>
  </version>
+ <version name="4.4" package="hammerdb64" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" /mode silent /prefix "%cd%"&#13;
+if %errorlevel% neq 0 exit /b %errorlevel%&#13;
+&#13;
+del /f /q "%npackd_package_binary%"&#13;
+verify&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">uninstall.exe /mode silent</file>
+  <url>https://github.com/TPC-Council/HammerDB/releases/download/v4.4/HammerDB-4.4-Win-x64-Setup.exe</url>
+  <hash-sum type="SHA-256">a9a686d9826c6d6f3e341cd9eaf4242c5dbcf3ac0bf460fd1e3c0d2b6f255b2c</hash-sum>
+ </version>
 
     <version name="2.2" package="hashmyfiles64">
   <important-file path="HashMyFiles.exe" title="HashMyFiles"/>
@@ -27822,7 +27833,7 @@ if %err% neq 0 exit %err%&#13;
 </file>
   <file path=".Npackd\Uninstall.bat">call "%nih%\UninstallInnoSetup.bat" unins000.exe&#13;
 </file>
-  <url>https://www.imagemagick.org/download/binaries/ImageMagick-7.1.0-27-Q16-HDRI-x64-dll.exe</url>
+  <url>https://github.com/tim-lebedkov/packages/releases/download/2022_03/imagemagick64-7.1.0.27-ImageMagick-7.1.0-27-Q16-HDRI-x64-dll.exe</url>
   <hash-sum type="SHA-256">dd3c5c55b3a9cc3e30eea984c1c38a3203f269eae3c124d40b00f15921582474</hash-sum>
   <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
    <variable>nih</variable>
@@ -58755,6 +58766,20 @@ call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Np
    <variable>nih</variable>
   </dependency>
  </version>
+ <version name="8.2.4516" package="org.vim.Vim64">
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+if %errorlevel% neq 0 exit /b %errorlevel%&#13;
+&#13;
+for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+</file>
+  <url>https://github.com/vim/vim-win32-installer/releases/download/v8.2.4516/gvim_8.2.4516_x64.zip</url>
+  <hash-sum type="SHA-256">85d28cd427f689c9cc31f226c5238fe4091b0fc483ee654cdc0f3e3f00df8dcc</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.19, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
 
     <version name="4.2.8.83876" package="org.virtualbox.virtualbox64" type="one-file">
   <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
@@ -64710,7 +64735,7 @@ call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Np
   <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b curl*') do set name=%%x&#13;
 call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
 </file>
-  <url>https://curl.haxx.se/windows/dl-7.82.0/curl-7.82.0-win64-mingw.zip</url>
+  <url>https://github.com/tim-lebedkov/packages/releases/download/2022_03/se.haxx.curl.CURL64-7.82-curl-7.82.0-win64-mingw.zip</url>
   <hash-sum type="SHA-256">8bab7714cb015af505d4dcf9218847b84442ccf6816a63f552c70e9cf1079cc6</hash-sum>
   <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.19, 2)">
    <variable>nih</variable>
