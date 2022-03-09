@@ -1124,7 +1124,7 @@ x86_64</description>
   <license>org.gnu.GPLv2</license>
   <category>Video</category>
   <tag>stable64</tag>
-  <stars>12</stars>
+  <stars>11</stars>
  </package>
  <package name="com.whatsappinc.whatsapp-desktop-64">
   <title>Whatsapp Desktop 64 bit</title>
@@ -5230,6 +5230,17 @@ x86_64</description>
 </file>
   <url>https://github.com/atom/atom/releases/download/v1.59.0/atom-x64-windows.zip</url>
   <hash-sum type="SHA-256">1032b1d86368a4458d83923eb7f6e37c5decb22188d93086c8bc256452981198</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.CLU" versions="[1.25, 2)">
+   <variable>clu</variable>
+  </dependency>
+ </version>
+ <version name="1.60" package="atom64">
+  <important-file path="atom.exe" title="Atom"/>
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b Atom*') do set name=%%x&#13;
+"%clu%\clu" unwrap-dir -p "%name%"&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+</file>
+  <url>https://github.com/atom/atom/releases/download/v1.60.0/atom-x64-windows.zip</url>
+  <hash-sum type="SHA-256">6a687a7ae5b64e1b78d44a45d0ede1ac4575d46f3021df33f3c55fd06b52692c</hash-sum>
   <dependency package="com.googlecode.windows-package-manager.CLU" versions="[1.25, 2)">
    <variable>clu</variable>
   </dependency>
@@ -18462,16 +18473,6 @@ rmdir "%name%"&#13;
    <variable>nih</variable>
   </dependency>
  </version>
- <version name="4.2.2" package="dbeaver64">
-  <important-file path="dbeaver.exe" title="DBeaver 64 bit"/>
-  <file path=".Npackd\Install.bat">"%NIH%\ExtractDir.bat" dbeaver</file>
-  <url>http://dbeaver.jkiss.org/files/4.2.2/dbeaver-ce-4.2.2-win32.win32.x86_64.zip</url>
-  <sha1>6664cb9710dc667f3b88f1524336358bcca9ad1b</sha1>
-  <dependency package="com.oracle.JRE64" versions="[1.7, 2)"/>
-  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
-   <variable>nih</variable>
-  </dependency>
- </version>
  <version name="4.2.3" package="dbeaver64">
   <important-file path="dbeaver.exe" title="DBeaver 64 bit"/>
   <file path=".Npackd\Install.bat">"%NIH%\ExtractDir.bat" dbeaver</file>
@@ -21987,6 +21988,17 @@ verify</file>
   <url>https://download-origin.cdn.mozilla.net/pub/mozilla.org/firefox/releases/91.6.1esr/win64/en-US/Firefox%20Setup%2091.6.1esr.exe</url>
   <hash-sum type="SHA-256">da9d5e4fad1771049bad1fe9a25adc5b7424ddf3670ab448a2df5c1a93eb509b</hash-sum>
  </version>
+ <version name="91.7" package="firefox-esr64" type="one-file">
+  <file path=".Npackd\Install.bat">echo [Install] &gt; .Npackd\FF.ini&#13;
+echo InstallDirectoryPath=%CD% &gt;&gt; .Npackd\FF.ini&#13;
+echo QuickLaunchShortcut=false &gt;&gt; .Npackd\FF.ini&#13;
+echo DesktopShortcut=false &gt;&gt; .Npackd\FF.ini&#13;
+"%npackd_package_binary%" /INI="%CD%\.Npackd\FF.ini" &amp;&amp; del /f /q "%npackd_package_binary%"</file>
+  <file path=".Npackd\Uninstall.bat">uninstall\helper.exe /S&#13;
+verify</file>
+  <url>https://download-origin.cdn.mozilla.net/pub/mozilla.org/firefox/releases/91.7.0esr/win64/en-US/Firefox%20Setup%2091.7.0esr.exe</url>
+  <hash-sum type="SHA-256">accebb00961a97a66cd29d0c90431f110e863c8eb214d348cc3c6299bfe7776a</hash-sum>
+ </version>
 
     <version name="43" package="firefox64" type="one-file">
   <file path=".Npackd\Install.bat">echo [Install] &gt; .Npackd\FF.ini&#13;
@@ -22823,6 +22835,17 @@ echo DesktopShortcut=false &gt;&gt; .Npackd\FF.ini&#13;
 verify</file>
   <url>https://download-installer.cdn.mozilla.net/pub/firefox/releases/97.0.2/win64/en-US/Firefox%20Setup%2097.0.2.exe</url>
   <hash-sum type="SHA-256">68c40b3f98c7d095cea5dbfd049dd2972e4d7a72758a5ec82d9a19e1f6e10865</hash-sum>
+ </version>
+ <version name="98" package="firefox64" type="one-file">
+  <file path=".Npackd\Install.bat">echo [Install] &gt; .Npackd\FF.ini&#13;
+echo InstallDirectoryPath=%CD% &gt;&gt; .Npackd\FF.ini&#13;
+echo QuickLaunchShortcut=false &gt;&gt; .Npackd\FF.ini&#13;
+echo DesktopShortcut=false &gt;&gt; .Npackd\FF.ini&#13;
+"%npackd_package_binary%" /INI="%CD%\.Npackd\FF.ini" &amp;&amp; del /f /q "%npackd_package_binary%"</file>
+  <file path=".Npackd\Uninstall.bat">uninstall\helper.exe /S&#13;
+verify</file>
+  <url>https://download-installer.cdn.mozilla.net/pub/firefox/releases/98.0/win64/en-US/Firefox%20Setup%2098.0.exe</url>
+  <hash-sum type="SHA-256">a702da8dc7d60dcd3d5304acd1fbcca312f3760b0a8a1545523af60001c24fcf</hash-sum>
  </version>
 
     <version name="0.5" package="firefoxpwa" type="one-file">
@@ -25969,6 +25992,19 @@ rmdir "%name%"&#13;
 </file>
   <url>https://dl.google.com/dl/cloudsdk/channels/rapid/downloads/google-cloud-sdk-375.0.0-windows-x86_64.zip</url>
   <hash-sum type="SHA-256">58625c39b91056d1bbb0c2398d25231c951c27003a1998108f5368c204cd3936</hash-sum>
+  <dependency package="org.python.Python" versions="[2.7, 2.8)"/>
+ </version>
+ <version name="376" package="google-cloud-sdk64">
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b google-cloud-sdk*') do set name=%%x&#13;
+cd "%name%"&#13;
+for /f "delims=" %%a in ('dir /b') do (&#13;
+  move "%%a" ..&#13;
+)&#13;
+cd ..&#13;
+rmdir "%name%"&#13;
+</file>
+  <url>https://dl.google.com/dl/cloudsdk/channels/rapid/downloads/google-cloud-sdk-376.0.0-windows-x86_64.zip</url>
+  <hash-sum type="SHA-256">196294caec16c0d5d505e5edc06cf61be2a1553f90cc75c0ef16c0f579a9c237</hash-sum>
   <dependency package="org.python.Python" versions="[2.7, 2.8)"/>
  </version>
 
@@ -58824,6 +58860,20 @@ call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Np
    <variable>nih</variable>
   </dependency>
  </version>
+ <version name="8.2.4525" package="org.vim.Vim64">
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+if %errorlevel% neq 0 exit /b %errorlevel%&#13;
+&#13;
+for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+</file>
+  <url>https://github.com/vim/vim-win32-installer/releases/download/v8.2.4525/gvim_8.2.4525_x64.zip</url>
+  <hash-sum type="SHA-256">826931c1de271f05837e94731ef3d3a5e5f0086e6fbc4433642e3f6ab33f84f4</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.19, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
 
     <version name="4.2.8.83876" package="org.virtualbox.virtualbox64" type="one-file">
   <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
@@ -63557,6 +63607,14 @@ if %errorlevel% equ 3010 verify</file>
 </file>
   <url>https://github.com/qTox/qTox/releases/download/v1.17.4/setup-qtox-i686-release.exe</url>
   <hash-sum type="SHA-256">f8ae0cae5a6285639282b81456affe36f3ea2223dbe14ea3e98761bb28d8e855</hash-sum>
+ </version>
+ <version name="1.17.6" package="qtox64" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">uninstall.exe /S _?=%CD%&#13;
+</file>
+  <url>https://github.com/qTox/qTox/releases/download/v1.17.6/setup-qtox-i686-release.exe</url>
+  <hash-sum type="SHA-256">e969755b9a50522c49938d809218d3b55f3a9c62de50a62d537f33b2d7eda9a2</hash-sum>
  </version>
 
     <version name="0.13.1" package="quassel64" type="one-file">
@@ -69011,7 +69069,7 @@ if %err% neq 0 exit %err%&#13;
   <url>https://az764295.vo.msecnd.net/stable/a0479759d6e9ea56afa657e454193f72aef85bd0/VSCodeSetup-ia32-1.48.2.exe</url>
   <hash-sum type="SHA-256">013d5ecdb44159c15047472512bef9c76ba934807dbb07a582655f4c5546866d</hash-sum>
  </version>
- <version name="1.65" package="vs-code" type="one-file">
+ <version name="1.65.1" package="vs-code" type="one-file">
   <file path=".Npackd\Install.bat">ren "%npackd_package_binary%" setup.exe&#13;
 setup.exe /SP- /VERYSILENT /SUPPRESSMSGBOXES /NOCANCEL /NORESTART /DIR="%CD%" /SAVEINF="%CD%\.Npackd\InnoSetupInfo.ini" /LOG="%CD%\.Npackd\InnoSetupInstall.log"&#13;
 set err=%errorlevel%&#13;
@@ -69086,7 +69144,7 @@ if %err% neq 0 exit %err%&#13;
   <url>https://az764295.vo.msecnd.net/stable/a0479759d6e9ea56afa657e454193f72aef85bd0/VSCodeSetup-x64-1.48.2.exe</url>
   <hash-sum type="SHA-256">3f8805a29fdd9fbfd7c0d7a9f354ed160256ec6f1f80410e367bf14f37908afb</hash-sum>
  </version>
- <version name="1.65" package="vs-code64" type="one-file">
+ <version name="1.65.1" package="vs-code64" type="one-file">
   <file path=".Npackd\Install.bat">ren "%npackd_package_binary%" setup.exe&#13;
 setup.exe /SP- /VERYSILENT /SUPPRESSMSGBOXES /NOCANCEL /NORESTART /DIR="%CD%" /SAVEINF="%CD%\.Npackd\InnoSetupInfo.ini" /LOG="%CD%\.Npackd\InnoSetupInstall.log"&#13;
 set err=%errorlevel%&#13;
