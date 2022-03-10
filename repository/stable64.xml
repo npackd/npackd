@@ -19632,8 +19632,6 @@ verify</file>
   <hash-sum type="SHA-256">25b07971a0995f6440abb0084f3a3e2c40e01746282c45f60e076eb8cd4edda9</hash-sum>
  </version>
 
-    
-
     <version name="5" package="dolphin-emu" type="one-file">
   <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
 </file>
@@ -32826,7 +32824,7 @@ if %err% neq 0 exit %err%</file>
    <variable>npackdih</variable>
   </dependency>
  </version>
- <version name="4.3.8" package="net.getpaint.paintdotnet64">
+ <version name="4.3.10" package="net.getpaint.paintdotnet64">
   <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
 "%setup%" /auto "TARGETDIR=%CD%" CHECKFORUPDATES=0 JPGPNGBMPEDITOR=0 TGAEDITOR=0 DESKTOPSHORTCUT=0</file>
   <url>http://www.dotpdn.com/files/paint.net.4.1.4.install.zip</url>
@@ -58874,6 +58872,20 @@ call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Np
    <variable>nih</variable>
   </dependency>
  </version>
+ <version name="8.2.4529" package="org.vim.Vim64">
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+if %errorlevel% neq 0 exit /b %errorlevel%&#13;
+&#13;
+for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+</file>
+  <url>https://github.com/vim/vim-win32-installer/releases/download/v8.2.4529/gvim_8.2.4529_x64.zip</url>
+  <hash-sum type="SHA-256">b040c720df81cb23e6fbc3a288a89a741706ad18e04228b3078001e7f9b7abfd</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.19, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
 
     <version name="4.2.8.83876" package="org.virtualbox.virtualbox64" type="one-file">
   <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
@@ -67096,6 +67108,12 @@ if %err% neq 0 exit %err%&#13;
 </file>
   <url>https://dist.torproject.org/torbrowser/11.0.6/torbrowser-install-11.0.6_en-US.exe</url>
   <hash-sum type="SHA-256">0341decbd524241889bb5e559289736ec21d00cac8ace31c0322b4e858dc7ba9</hash-sum>
+ </version>
+ <version name="11.0.7" package="tor64" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
+</file>
+  <url>https://dist.torproject.org/torbrowser/11.0.7/torbrowser-install-11.0.7_en-US.exe</url>
+  <hash-sum type="SHA-256">f550b3332bed4dbf8b0c1152131f06a97e728efa276b12b42c13fae61e4e5cfc</hash-sum>
  </version>
 
     <version name="2.84.9" package="transmission-qt64" type="one-file">
