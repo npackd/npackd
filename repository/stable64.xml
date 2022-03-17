@@ -5112,6 +5112,10 @@ x86_64</description>
   <url>https://github.com/tim-lebedkov/packages/releases/download/2021_12/apache-httpd64-2.4.52-httpd-2.4.52-o111m-x64-vs16.zip</url>
   <hash-sum type="SHA-256">d812ed5444c66207dd125a7c3d3b8ada82b79288ae4212f0d5b6d061c796552c</hash-sum>
  </version>
+ <version name="2.4.53" package="apache-httpd64">
+  <url>https://de.apachehaus.com/downloads/httpd-2.4.53-o111n-x64-vs16.zip</url>
+  <hash-sum type="SHA-256">ab54c8ea94745f8475da42bda3d3195d814dbb42be4b62dcf31067a818e93900</hash-sum>
+ </version>
 
     <version name="1.49" package="atom64">
   <important-file path="atom.exe" title="Atom"/>
@@ -24380,7 +24384,7 @@ if %err% neq 0 exit %err%&#13;
   <hash-sum type="SHA-256">9ea1de71109eb5f1b41be08cf2f509ad952ba8cdae8ed82507452f2f772686d3</hash-sum>
  </version>
 
-    <version name="99.0.4844.51" package="google-chrome-x64" type="one-file">
+    <version name="99.0.4844.74" package="google-chrome-x64" type="one-file">
   <file path=".Npackd\Install.bat">call "%npackdih%\InstallMSI.bat" TARGETDIR yes&#13;
 </file>
   <url>https://dl.google.com/tag/s/appguid%3D%7B8A69D345-D564-463C-AFF1-A69D9E530F96%7D%26iid%3D%7B0A558A36-0536-8B3F-0AE0-420553CC97F3%7D%26lang%3Den%26browser%3D4%26usagestats%3D0%26appname%3DGoogle%2520Chrome%26needsadmin%3DFalse/edgedl/chrome/install/GoogleChromeStandaloneEnterprise64.msi</url>
@@ -38493,6 +38497,15 @@ reg add HKLM\SOFTWARE\OpenVPN-GUI /v allow_service /t REG_SZ /d 0 /f&#13;
    <variable>nih</variable>
   </dependency>
  </version>
+ <version name="2.5.6" package="openvpn64" type="one-file">
+  <file path=".Npackd\Install.bat">call "%nih%\InstallMSI.bat" INSTALLDIR yes&#13;
+</file>
+  <url>https://swupdate.openvpn.org/community/releases/OpenVPN-2.5.6-I601-amd64.msi</url>
+  <hash-sum type="SHA-256">bda1e8039649990d8198d949f4da73142035ab8c37338d2818a8bd469c4ed86e</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.1, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
 
     
 
@@ -42298,6 +42311,20 @@ rmdir "%name%"&#13;
   <dependency package="com.oracle.JRE64" versions="[1.6, 2)"/>
  </version>
  <version name="2021.12" package="org.eclipse.EclipseIDEJava64">
+  <important-file path="eclipse.exe" title="Eclipse IDE for Java"/>
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b eclipse*') do set name=%%x&#13;
+cd "%name%"        &#13;
+for /f "delims=" %%a in ('dir /b') do (&#13;
+  move "%%a" ..&#13;
+)&#13;
+cd ..&#13;
+rmdir "%name%"&#13;
+</file>
+  <url>http://download.eclipse.org/technology/epp/downloads/release/2018-09/R/eclipse-java-2018-09-win32-x86_64.zip</url>
+  <hash-sum type="SHA-256">8e23fe1fde003a584187b5336d05d7e1dd050a148d92acf5cefb7779116c7d00</hash-sum>
+  <dependency package="com.oracle.JRE64" versions="[1.6, 2)"/>
+ </version>
+ <version name="2022.3" package="org.eclipse.EclipseIDEJava64">
   <important-file path="eclipse.exe" title="Eclipse IDE for Java"/>
   <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b eclipse*') do set name=%%x&#13;
 cd "%name%"        &#13;
@@ -48424,6 +48451,15 @@ verify</file>
    <variable>npackdih</variable>
   </dependency>
  </version>
+ <version name="16.14.1" package="org.nodejs.NodeJS64" type="one-file">
+  <cmd-file path="node.exe"/>
+  <file path=".Npackd\Install.bat">call "%npackdih%\InstallMSI.bat" INSTALLDIR yes</file>
+  <url>https://nodejs.org/dist/v16.14.1/node-v16.14.1-x64.msi</url>
+  <hash-sum type="SHA-256">e14febf43b622c963b4d149057c4252548ab0807fb3d90f8734ab0a092b9a2b7</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.1, 2)">
+   <variable>npackdih</variable>
+  </dependency>
+ </version>
 
     <version name="2.2" package="org.openshot.openshot64" type="one-file">
   <file path=".Npackd\Install.bat">"%nih%\InstallInnoSetup.bat"&#13;
@@ -49263,6 +49299,15 @@ if %err% neq 0 exit /b %err%&#13;
 </file>
   <url>https://www.python.org/ftp/python/3.10.2/python-3.10.2-amd64.exe</url>
   <hash-sum type="SHA-256">42b181e9b5f424472212742a187260d4edc73b7683ae83460c974508130e08ad</hash-sum>
+ </version>
+ <version name="3.10.3" package="org.python.Python64" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" /quiet InstallAllUsers=1 "TargetDir=%cd%"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">for /f "delims=" %%x in ('dir /b python-*.exe') do set setup=%%x&#13;
+%setup% /uninstall /quiet InstallAllUsers=1&#13;
+</file>
+  <url>https://www.python.org/ftp/python/3.10.3/python-3.10.3-amd64.exe</url>
+  <hash-sum type="SHA-256">48aea4b9f6315a6544f82480b2caf1e29fd6687abb5b756930ad98a1e9b9a847</hash-sum>
  </version>
 
     <version name="2.0.0.247" package="org.rubylang.Ruby64" type="one-file">
@@ -59106,6 +59151,20 @@ call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Np
 </file>
   <url>https://github.com/vim/vim-win32-installer/releases/download/v8.2.4567/gvim_8.2.4567_x64.zip</url>
   <hash-sum type="SHA-256">f583ccf61baca7a81ee4eda2aeaa6996114e39cb5698a99b74dc8e4dcb3b00ca</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.19, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
+ <version name="8.2.4576" package="org.vim.Vim64">
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+if %errorlevel% neq 0 exit /b %errorlevel%&#13;
+&#13;
+for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+</file>
+  <url>https://github.com/vim/vim-win32-installer/releases/download/v8.2.4576/gvim_8.2.4576_x64.zip</url>
+  <hash-sum type="SHA-256">cbe69d0f0f0282036aa50a728b69d864451a4515d9ae9d8f3a15a7fea77ba1fa</hash-sum>
   <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.19, 2)">
    <variable>nih</variable>
   </dependency>
