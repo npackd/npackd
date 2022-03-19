@@ -1907,6 +1907,25 @@ rmdir "%name%"</file>
   </dependency>
   <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.15.7, 2)"/>
  </version>
+ <version name="6.2.4" package="com.nokia.QtSource" type="one-file">
+  <file path=".Npackd\Install.bat">for /f %%x in ('dir /b *.zip') do set setup=%%x&#13;
+"%sevenzipa%\7za.exe" x "%setup%" &gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+del "%setup%"&#13;
+&#13;
+for /f "delims=" %%x in ('dir /b qt*') do set name=%%x&#13;
+cd "%name%"        &#13;
+for /f "delims=" %%a in ('dir /b') do (&#13;
+  move "%%a" ..&#13;
+)&#13;
+cd ..&#13;
+rmdir "%name%"</file>
+  <url>https://download.qt.io/archive/qt/6.2/6.2.4/single/qt-everywhere-src-6.2.4.zip</url>
+  <hash-sum type="SHA-256">af722a77d2acf07f48291fa8e720f8004e1e0738914ad89ab98142ec55b80fd3</hash-sum>
+  <dependency package="org.7-zip.SevenZIPA" versions="[9.20, 20)">
+   <variable>sevenzipa</variable>
+  </dependency>
+  <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.15.7, 2)"/>
+ </version>
 
     <version name="2.0.14" package="log4net">
   <url>https://downloads.apache.org/logging/log4net/binaries/apache-log4net-binaries-2.0.14.zip</url>
