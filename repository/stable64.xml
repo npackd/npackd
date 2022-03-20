@@ -20547,6 +20547,14 @@ rmdir "%name%"&#13;
   <url>https://github.com/balena-io/etcher/releases/download/v1.7.7/balenaEtcher-Setup-1.7.7.exe</url>
   <hash-sum type="SHA-256">d8ffa86e0c460e1aa6ee0cf6f326b79fecc0f57b4e1fdb15860a3f7e9ea868cb</hash-sum>
  </version>
+ <version name="1.7.8" package="etcher64" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">uninstall.exe /S _?=%CD%&#13;
+</file>
+  <url>https://github.com/balena-io/etcher/releases/download/v1.7.8/balenaEtcher-Setup-1.7.8.exe</url>
+  <hash-sum type="SHA-256">c4455e411bc5ffa5e0d20f99a68855e75f3b013c800c4ecd2cb3a06b4c67a4bd</hash-sum>
+ </version>
 
     <version name="1.3.4.686" package="everything64">
   <important-file path="Everything.exe" title="Everything"/>
@@ -28385,6 +28393,18 @@ rmdir "%name%"&#13;
 </file>
   <url>https://github.com/ipfs/go-ipfs/releases/download/v0.12.0/go-ipfs_v0.12.0_windows-amd64.zip</url>
   <hash-sum type="SHA-256">fc344317a73ad87a737ba38c0e3974275ee56e1a2348c39ff55773f9d04cfe87</hash-sum>
+ </version>
+ <version name="0.12.1" package="ipfs64">
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b go-ipfs*') do set name=%%x&#13;
+cd "%name%"&#13;
+for /f "delims=" %%a in ('dir /b') do (&#13;
+  move "%%a" ..&#13;
+)&#13;
+cd ..&#13;
+rmdir "%name%"&#13;
+</file>
+  <url>https://github.com/ipfs/go-ipfs/releases/download/v0.12.1/go-ipfs_v0.12.1_windows-amd64.zip</url>
+  <hash-sum type="SHA-256">efb25b57fe438c24ab82d2537fdedaeaaf08a011fe2e7a3dcf0cd7f5879170fd</hash-sum>
  </version>
 
     
@@ -46623,7 +46643,7 @@ if %errorlevel% neq 0 exit /b %errorlevel%&#13;
 </file>
   <file path=".Npackd\Unnstall.bat">miktex\bin\miktexsetup.exe --verbose --shared uninstall&#13;
 </file>
-  <url>https://miktex.org/download/ctan/systems/win32/miktex/setup/windows-x64/basic-miktex-22.3-x64.exe</url>
+  <url>https://github.com/tim-lebedkov/packages/releases/download/2022_03/org.miktex.MiKTeX64-22.3-basic-miktex-22.3-x64.exe</url>
   <hash-sum type="SHA-256">17d1ccad25e7182b07872c11d3440f66281ea64782c4cd6fa0850ef75d3aaa59</hash-sum>
  </version>
 
@@ -59266,6 +59286,20 @@ call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Np
    <variable>nih</variable>
   </dependency>
  </version>
+ <version name="8.2.4590" package="org.vim.Vim64">
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+if %errorlevel% neq 0 exit /b %errorlevel%&#13;
+&#13;
+for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+</file>
+  <url>https://github.com/vim/vim-win32-installer/releases/download/v8.2.4590/gvim_8.2.4590_x64.zip</url>
+  <hash-sum type="SHA-256">a6fb04f1774393e26f67221a11f5176ba50635c80da2d276a1299236a9d765ee</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.19, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
 
     <version name="4.2.8.83876" package="org.virtualbox.virtualbox64" type="one-file">
   <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
@@ -67525,6 +67559,12 @@ if %err% neq 0 exit %err%&#13;
 </file>
   <url>https://dist.torproject.org/torbrowser/11.0.7/torbrowser-install-11.0.7_en-US.exe</url>
   <hash-sum type="SHA-256">f550b3332bed4dbf8b0c1152131f06a97e728efa276b12b42c13fae61e4e5cfc</hash-sum>
+ </version>
+ <version name="11.0.9" package="tor64" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
+</file>
+  <url>https://dist.torproject.org/torbrowser/11.0.9/torbrowser-install-11.0.9_en-US.exe</url>
+  <hash-sum type="SHA-256">e938433028b6ffb5d312db6268b19e419626b071f08209684c8e5b9f3d3df2bc</hash-sum>
  </version>
 
     <version name="2.84.9" package="transmission-qt64" type="one-file">
