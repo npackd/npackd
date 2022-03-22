@@ -840,7 +840,7 @@ x86_64</description>
   <license>org.gnu.GPLv3</license>
   <category>Tools</category>
   <tag>stable64</tag>
-  <stars>5</stars>
+  <stars>6</stars>
   <link href="https://github.com/tim-lebedkov/npackd/wiki/ChangeLog" rel="changelog"/>
   <link href="http://npackd.appspot.com/Npackd.png" rel="screenshot"/>
  </package>
@@ -1008,7 +1008,7 @@ x86_64</description>
   <category>Development</category>
   <tag>stable64</tag>
   <tag>reupload</tag>
-  <stars>4</stars>
+  <stars>5</stars>
  </package>
  <package name="com.selenic.mercurial.Mercurial64">
   <title>Mercurial 64 bit</title>
@@ -1124,7 +1124,7 @@ x86_64</description>
   <license>org.gnu.GPLv2</license>
   <category>Video</category>
   <tag>stable64</tag>
-  <stars>11</stars>
+  <stars>12</stars>
  </package>
  <package name="com.whatsappinc.whatsapp-desktop-64">
   <title>Whatsapp Desktop 64 bit</title>
@@ -1577,7 +1577,7 @@ x86_64</description>
   <license>com.mozilla.MozillaFirefoxLicense2</license>
   <category>Communications</category>
   <tag>stable64</tag>
-  <stars>7</stars>
+  <stars>8</stars>
  </package>
  <package name="firefoxpwa">
   <title>Progressive Web Apps for Firefox</title>
@@ -1730,7 +1730,7 @@ x86_64</description>
   <category>Communications</category>
   <tag>same-url</tag>
   <tag>stable64</tag>
-  <stars>23</stars>
+  <stars>24</stars>
  </package>
  <package name="google-cloud-sdk64">
   <title>Google Cloud SDK 64 bit</title>
@@ -2616,7 +2616,7 @@ x86_64</description>
   <license>org.gnu.GPLv2</license>
   <category>Text</category>
   <tag>stable64</tag>
-  <stars>12</stars>
+  <stars>13</stars>
   <link href="https://notepad-plus-plus.org/news/" rel="changelog"/>
  </package>
  <package name="nubasic64">
@@ -2797,7 +2797,7 @@ x86_64</description>
   <license>org.7-zip.License</license>
   <category>Tools</category>
   <tag>stable64</tag>
-  <stars>24</stars>
+  <stars>25</stars>
   <link href="https://www.7-zip.org/history.txt" rel="changelog"/>
   <link href="http://www.7-zip.org/7zfm.png" rel="screenshot"/>
  </package>
@@ -19425,6 +19425,14 @@ rmdir "%name%"&#13;
   <url>http://dbeaver.jkiss.org/files/22.0.0/dbeaver-ce-22.0.0-x86_64-setup.exe</url>
   <hash-sum type="SHA-256">6b8fa2b9557d7e174340a51c2099cef4034aa4bdebeb92821bafbf4382422535</hash-sum>
  </version>
+ <version name="22.0.1" package="dbeaver64" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" /allusers /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">uninstall.exe /allusers /S _?=%CD%&#13;
+</file>
+  <url>http://dbeaver.jkiss.org/files/22.0.1/dbeaver-ce-22.0.1-x86_64-setup.exe</url>
+  <hash-sum type="SHA-256">4ac5e8360f238d52c16ac230c8c3ac832ab8f325588540fb944f373532f5df99</hash-sum>
+ </version>
 
     <version name="0.825" package="dcplusplus64">
   <important-file path="DCPlusPlus.exe" title="DC++"/>
@@ -27994,6 +28002,17 @@ if %err% neq 0 exit %err%&#13;
 </file>
   <url>https://github.com/tim-lebedkov/packages/releases/download/2022_03/imagemagick64-7.1.0.27-ImageMagick-7.1.0-27-Q16-HDRI-x64-dll.exe</url>
   <hash-sum type="SHA-256">dd3c5c55b3a9cc3e30eea984c1c38a3203f269eae3c124d40b00f15921582474</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
+ <version name="7.1.0.28" package="imagemagick64" type="one-file">
+  <file path=".Npackd\Install.bat">call "%nih%\InstallInnoSetup.bat"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">call "%nih%\UninstallInnoSetup.bat" unins000.exe&#13;
+</file>
+  <url>https://www.imagemagick.org/download/binaries/ImageMagick-7.1.0-28-Q16-HDRI-x64-dll.exe</url>
+  <hash-sum type="SHA-256">1c63617b309154711db36134c755beb644d788a62f33a48e4bef211bfca5f921</hash-sum>
   <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
    <variable>nih</variable>
   </dependency>
@@ -59327,6 +59346,20 @@ call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Np
 </file>
   <url>https://github.com/vim/vim-win32-installer/releases/download/v8.2.4594/gvim_8.2.4594_x64.zip</url>
   <hash-sum type="SHA-256">be26cac59b875afd49fb7bb877a701538f8aeb9fb40879c1c9a11242194d2cde</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.19, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
+ <version name="8.2.4602" package="org.vim.Vim64">
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+if %errorlevel% neq 0 exit /b %errorlevel%&#13;
+&#13;
+for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+</file>
+  <url>https://github.com/vim/vim-win32-installer/releases/download/v8.2.4602/gvim_8.2.4602_x64.zip</url>
+  <hash-sum type="SHA-256">4ecd9338efc07774db8fff6da850e43d31bc1144d8b6c835bdfc064ba4efe273</hash-sum>
   <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.19, 2)">
    <variable>nih</variable>
   </dependency>
