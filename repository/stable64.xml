@@ -1049,7 +1049,7 @@ x86_64</description>
   <category>Tools/File Managers</category>
   <tag>same-url</tag>
   <tag>stable64</tag>
-  <stars>4</stars>
+  <stars>3</stars>
   <link href="http://www.softwareok.com/img/ss/g_en/Q-Dir1.jpg" rel="screenshot"/>
  </package>
  <package name="com.strawberryperl.StrawberryPerl64">
@@ -28011,7 +28011,7 @@ if %err% neq 0 exit %err%&#13;
 </file>
   <file path=".Npackd\Uninstall.bat">call "%nih%\UninstallInnoSetup.bat" unins000.exe&#13;
 </file>
-  <url>https://www.imagemagick.org/download/binaries/ImageMagick-7.1.0-28-Q16-HDRI-x64-dll.exe</url>
+  <url>https://github.com/tim-lebedkov/packages/releases/download/2022_03/imagemagick64-7.1.0.28-ImageMagick-7.1.0-28-Q16-HDRI-x64-dll.exe</url>
   <hash-sum type="SHA-256">1c63617b309154711db36134c755beb644d788a62f33a48e4bef211bfca5f921</hash-sum>
   <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
    <variable>nih</variable>
@@ -46458,6 +46458,14 @@ ren "%setup%" Psycopg.exe&#13;
    <variable>npackdih</variable>
   </dependency>
  </version>
+ <version name="2.7" package="org.keepassxc.keepassxc" type="one-file">
+  <file path=".Npackd\Install.bat">call "%npackdih%\InstallMSI.bat" INSTALLDIR yes</file>
+  <url>https://github.com/keepassxreboot/keepassxc/releases/download/2.7.0/KeePassXC-2.7.0-Win64.msi</url>
+  <hash-sum type="SHA-256">9474b9afba75043886d0e02e62ae17b9433b9ad0777023a2d753b00c418a9b86</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.22, 2)">
+   <variable>npackdih</variable>
+  </dependency>
+ </version>
 
     <version name="2.9.4407" package="org.miktex.MiKTeX64" type="one-file">
   <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
@@ -61734,6 +61742,16 @@ echo DesktopShortcut=false &gt;&gt; .Npackd\FF.ini&#13;
   <url>http://rm-eu.palemoon.org/release/palemoon-30.0.0.win64.installer.exe</url>
   <hash-sum type="SHA-256">cecb33f8c238c82d9a4fd0076b573624d35b476fd984d0ee2c6747b8724d1304</hash-sum>
  </version>
+ <version name="30.0.1" package="pale-moon64" type="one-file">
+  <file path=".Npackd\Install.bat">echo [Install] &gt; .Npackd\FF.ini&#13;
+echo InstallDirectoryPath=%CD% &gt;&gt; .Npackd\FF.ini&#13;
+echo QuickLaunchShortcut=false &gt;&gt; .Npackd\FF.ini&#13;
+echo DesktopShortcut=false &gt;&gt; .Npackd\FF.ini&#13;
+"%npackd_package_binary%" /INI="%CD%\.Npackd\FF.ini" &amp;&amp; del /f /q "%npackd_package_binary%"</file>
+  <file path=".Npackd\Uninstall.bat">uninstall\helper.exe /S</file>
+  <url>http://rm-eu.palemoon.org/release/palemoon-30.0.1.win64.installer.exe</url>
+  <hash-sum type="SHA-256">f2adf999be923d2c426f233d59d92ac0ce01b9ce4c8672bff597c462f49c1e7f</hash-sum>
+ </version>
 
     <version name="2.2.1" package="pandoc64" type="one-file">
   <file path=".Npackd\Install.bat">call "%nih%\InstallMSI.bat" INSTALLDIR yes&#13;
@@ -63967,6 +63985,15 @@ if %errorlevel% equ 3010 verify</file>
 </file>
   <url>https://qgis.org/downloads/QGIS-OSGeo4W-3.24.0-2.msi</url>
   <hash-sum type="SHA-256">58bde6d908d17b4435efa9b15d80187ec140a6b59c137f74677ff82a152a6cbf</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.1, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
+ <version name="3.24.1.1" package="qgis64" type="one-file">
+  <file path=".Npackd\Install.bat">call "%nih%\InstallMSI.bat" INSTALLDIR yes&#13;
+</file>
+  <url>https://qgis.org/downloads/QGIS-OSGeo4W-3.24.1-1.msi</url>
+  <hash-sum type="SHA-256">fe59f7707aca1885346ec01e165d6cdf99579375718b2cd9f55585ec4708d5fd</hash-sum>
   <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.1, 2)">
    <variable>nih</variable>
   </dependency>
