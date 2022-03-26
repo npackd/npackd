@@ -4706,7 +4706,7 @@ x86_64</description>
   <hash-sum type="SHA-256">ca1988c611872fd73affe95bd20652bc6ec51a31bb72ff8b8c28f0c1b9ecd25a</hash-sum>
  </version>
 
-    <version name="8.9" package="allplayer" type="one-file">
+    <version name="8.9.1" package="allplayer" type="one-file">
   <file path=".Npackd\Install.bat">"%nih%\InstallInnoSetup.bat"&#13;
 </file>
   <file path=".Npackd\Uninstall.bat">"%nih%\UninstallInnoSetup.bat" unins000.exe</file>
@@ -59471,6 +59471,20 @@ call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Np
    <variable>nih</variable>
   </dependency>
  </version>
+ <version name="8.2.4621" package="org.vim.Vim64">
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+if %errorlevel% neq 0 exit /b %errorlevel%&#13;
+&#13;
+for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+</file>
+  <url>https://github.com/vim/vim-win32-installer/releases/download/v8.2.4621/gvim_8.2.4621_x64.zip</url>
+  <hash-sum type="SHA-256">eef3a8a3a2382c05fcabba28dc3f51d5c55583321e6e30392fb6817b08b56fa7</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.19, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
 
     <version name="4.2.8.83876" package="org.virtualbox.virtualbox64" type="one-file">
   <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
@@ -63482,6 +63496,14 @@ verify</file>
 verify</file>
   <url>https://downloads.sourceforge.net/project/qbittorrent/qbittorrent-win32/qbittorrent-4.4.1/qbittorrent_4.4.1_x64_setup.exe</url>
   <hash-sum type="SHA-256">d75395193afcd161281a24b01ef523aa012b8cb2c116579081d7c6664425acfe</hash-sum>
+ </version>
+ <version name="4.4.2" package="qbittorrent-64-bit" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD%&#13;
+verify</file>
+  <file path=".Npackd\Uninstall.bat">uninst.exe /S _?=%CD%&#13;
+verify</file>
+  <url>https://downloads.sourceforge.net/project/qbittorrent/qbittorrent-win32/qbittorrent-4.4.2/qbittorrent_4.4.2_x64_setup.exe</url>
+  <hash-sum type="SHA-256">05cbcc72e6e2ccee0b6cfa2dd508c3b9a2c1eac0568d51f042c59612e72ec1d9</hash-sum>
  </version>
 
     <version name="3.23" package="qcad64" type="one-file">
