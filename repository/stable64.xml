@@ -3692,7 +3692,7 @@ x86_64</description>
   <category>Communications</category>
   <tag>same-url</tag>
   <tag>stable64</tag>
-  <stars>3</stars>
+  <stars>4</stars>
  </package>
  <package name="slimjet">
   <title>Slimjet Browser</title>
@@ -6621,6 +6621,20 @@ if %errorlevel% neq 0 exit /b %errorlevel%&#13;
 </file>
   <url>https://github.com/Kitware/CMake/releases/download/v3.22.3/cmake-3.22.3-windows-x86_64.zip</url>
   <hash-sum type="SHA-256">0018b369f06646d4784fad131a155333c9d59a03dee6390324f81b9df72a2f00</hash-sum>
+ </version>
+ <version name="3.23" package="cmake64">
+  <cmd-file path="bin\cmake.exe"/>
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b cmake*') do set name=%%x&#13;
+cd "%name%"        &#13;
+for /f "delims=" %%a in ('dir /b') do (&#13;
+  move "%%a" ..&#13;
+)&#13;
+cd ..&#13;
+rmdir "%name%"&#13;
+if %errorlevel% neq 0 exit /b %errorlevel%&#13;
+</file>
+  <url>https://github.com/Kitware/CMake/releases/download/v3.23.0/cmake-3.23.0-windows-x86_64.zip</url>
+  <hash-sum type="SHA-256">aedbbd88bdd866dccf34280ba26b05e1bc930e26ddc2ebba50e3667cdf4594b8</hash-sum>
  </version>
 
     <version name="15" package="codelite" type="one-file">
@@ -10387,6 +10401,12 @@ if %err% neq 0 exit %err%</file>
   <file path=".Npackd\Uninstall.bat">uninstgs.exe /S</file>
   <url>https://github.com/ArtifexSoftware/ghostpdl-downloads/releases/download/gs9550/gs9550w64.exe</url>
   <hash-sum type="SHA-256">77f8c660fdbde42929c7d07af0faf9015fa11ddf5a13f5f0caf9c6f23b28211b</hash-sum>
+ </version>
+ <version name="9.56" package="com.ghostscript.Ghostscript64" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD%</file>
+  <file path=".Npackd\Uninstall.bat">uninstgs.exe /S</file>
+  <url>https://github.com/ArtifexSoftware/ghostpdl-downloads/releases/download/gs9560/gs9560w64.exe</url>
+  <hash-sum type="SHA-256">f110e9c4aae675d420561ea256929be46ac400803ba5dcb428d2cbcff2c213bf</hash-sum>
  </version>
 
     <version name="12.7.27.3" package="com.googlecode.conemu-maximus5.ConEmu64" type="one-file">
@@ -24523,7 +24543,7 @@ if %err% neq 0 exit %err%&#13;
   <hash-sum type="SHA-256">9ea1de71109eb5f1b41be08cf2f509ad952ba8cdae8ed82507452f2f772686d3</hash-sum>
  </version>
 
-    <version name="99.0.4844.84" package="google-chrome-x64" type="one-file">
+    <version name="100.0.4896.60" package="google-chrome-x64" type="one-file">
   <file path=".Npackd\Install.bat">call "%npackdih%\InstallMSI.bat" TARGETDIR yes&#13;
 </file>
   <url>https://dl.google.com/tag/s/appguid%3D%7B8A69D345-D564-463C-AFF1-A69D9E530F96%7D%26iid%3D%7B0A558A36-0536-8B3F-0AE0-420553CC97F3%7D%26lang%3Den%26browser%3D4%26usagestats%3D0%26appname%3DGoogle%2520Chrome%26needsadmin%3DFalse/edgedl/chrome/install/GoogleChromeStandaloneEnterprise64.msi</url>
@@ -26196,6 +26216,19 @@ rmdir "%name%"&#13;
   <hash-sum type="SHA-256">9efbccf31e3428dd97148ff88560caa978bb827d4bca6c78f356098130dd24cc</hash-sum>
   <dependency package="org.python.Python" versions="[2.7, 2.8)"/>
  </version>
+ <version name="379" package="google-cloud-sdk64">
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b google-cloud-sdk*') do set name=%%x&#13;
+cd "%name%"&#13;
+for /f "delims=" %%a in ('dir /b') do (&#13;
+  move "%%a" ..&#13;
+)&#13;
+cd ..&#13;
+rmdir "%name%"&#13;
+</file>
+  <url>https://dl.google.com/dl/cloudsdk/channels/rapid/downloads/google-cloud-sdk-379.0.0-windows-x86_64.zip</url>
+  <hash-sum type="SHA-256">a3e2575324db380bb8a94ea7fea89559814537c7349f725a2f179954aefc4115</hash-sum>
+  <dependency package="org.python.Python" versions="[2.7, 2.8)"/>
+ </version>
 
     <version name="1.1.94" package="grisbi64" type="one-file">
   <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
@@ -26704,6 +26737,16 @@ if %err% neq 0 exit %err%&#13;
   <file path=".Npackd\Uninstall.bat">"%nih%\UninstallInnoSetup.bat" unins000.exe</file>
   <url>https://www.hwinfo.com/files/hwi_720.exe</url>
   <hash-sum type="SHA-256">4674a4b328396c1644d611ed5db5c58e73fe7714d41b3031547ffe9dcd13d2d0</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
+ <version name="7.22" package="hwinfo64" type="one-file">
+  <file path=".Npackd\Install.bat">"%nih%\InstallInnoSetup.bat"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">"%nih%\UninstallInnoSetup.bat" unins000.exe</file>
+  <url>https://www.hwinfo.com/files/hwi_722.exe</url>
+  <hash-sum type="SHA-256">a3cfa130ef6a5b2aaa19372dbfdc9c944ef8071030f2410c080e2046a25fd9d4</hash-sum>
   <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
    <variable>nih</variable>
   </dependency>
@@ -37779,6 +37822,17 @@ verify&#13;
   <file path=".Npackd\Uninstall.bat">"%myun%\myuninst.exe" /uninstall "Open Broadcaster Software"</file>
   <url>https://cdn-fastly.obsproject.com/downloads/OBS-Studio-27.2.3-Full-Installer-x64.exe</url>
   <hash-sum type="SHA-256">a72ea0df0ec38da30b6122cbb8aba09b6871a2272e30e52a10cb6c23b6ccb5ce</hash-sum>
+  <dependency package="net.nirsoft.MyUninstaller" versions="[1.74, 2)">
+   <variable>myun</variable>
+  </dependency>
+ </version>
+ <version name="27.2.4" package="open-broadcaster-software64" type="one-file">
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
+"%setup%" /S /D=%CD% &amp;&amp; del /f /q "%setup%"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">"%myun%\myuninst.exe" /uninstall "Open Broadcaster Software"</file>
+  <url>https://cdn-fastly.obsproject.com/downloads/OBS-Studio-27.2.4-Full-Installer-x64.exe</url>
+  <hash-sum type="SHA-256">4c7f82fd2ecc532cbdb7b279702b28b252a38bbc462c65086f53938cd8d4c43b</hash-sum>
   <dependency package="net.nirsoft.MyUninstaller" versions="[1.74, 2)">
    <variable>myun</variable>
   </dependency>
@@ -59587,6 +59641,20 @@ call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Np
    <variable>nih</variable>
   </dependency>
  </version>
+ <version name="8.2.4647" package="org.vim.Vim64">
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+if %errorlevel% neq 0 exit /b %errorlevel%&#13;
+&#13;
+for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+</file>
+  <url>https://github.com/vim/vim-win32-installer/releases/download/v8.2.4647/gvim_8.2.4647_x64.zip</url>
+  <hash-sum type="SHA-256">5b585f8a78532179083ca77a278ac9f8e415a430e4e8dc6f6d656a2e55e8d573</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.19, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
 
     <version name="4.2.8.83876" package="org.virtualbox.virtualbox64" type="one-file">
   <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
@@ -63161,6 +63229,16 @@ if %errorlevel% neq 0 exit /b %errorlevel%&#13;
   <file path=".Npackd\Uninstall.bat">"%nih%\UninstallInnoSetup.bat" unins000.exe</file>
   <url>https://master.dl.sourceforge.net/project/psiplus/Windows/Personal-Builds/KukuRuzo/psi-plus-1.5.1615.0-x64-setup.exe</url>
   <hash-sum type="SHA-256">1f7c257e17b41c753df0dd2e8baedd3cc0d8de8736df1412f988415438193bf4</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
+ <version name="1.5.1618" package="psi-plus64" type="one-file">
+  <file path=".Npackd\Install.bat">"%nih%\InstallInnoSetup.bat"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">"%nih%\UninstallInnoSetup.bat" unins000.exe</file>
+  <url>https://master.dl.sourceforge.net/project/psiplus/Windows/Personal-Builds/KukuRuzo/psi-plus-1.5.1618.0-x64-setup.exe</url>
+  <hash-sum type="SHA-256">a0446d88e26df7efb6485a3bf738cd4c62cfcd1d0d8fdf53474b36e9ceb78dd1</hash-sum>
   <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
    <variable>nih</variable>
   </dependency>
