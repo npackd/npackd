@@ -26290,6 +26290,19 @@ rmdir "%name%"&#13;
   <hash-sum type="SHA-256">a3e2575324db380bb8a94ea7fea89559814537c7349f725a2f179954aefc4115</hash-sum>
   <dependency package="org.python.Python" versions="[2.7, 2.8)"/>
  </version>
+ <version name="380" package="google-cloud-sdk64">
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b google-cloud-sdk*') do set name=%%x&#13;
+cd "%name%"&#13;
+for /f "delims=" %%a in ('dir /b') do (&#13;
+  move "%%a" ..&#13;
+)&#13;
+cd ..&#13;
+rmdir "%name%"&#13;
+</file>
+  <url>https://dl.google.com/dl/cloudsdk/channels/rapid/downloads/google-cloud-sdk-380.0.0-windows-x86_64.zip</url>
+  <hash-sum type="SHA-256">1c100d6821aedeb81d2cb2795a51b9c9d4b7bedfced7fe1d085af6d5c0b8852f</hash-sum>
+  <dependency package="org.python.Python" versions="[2.7, 2.8)"/>
+ </version>
 
     <version name="1.1.94" package="grisbi64" type="one-file">
   <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
@@ -66157,7 +66170,7 @@ if %err% neq 0 exit %err%&#13;
   </dependency>
  </version>
 
-    <version name="34.0.1" package="slimjet" type="one-file">
+    <version name="34.0.2" package="slimjet" type="one-file">
   <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
 </file>
   <file path=".Npackd\Uninstall.bat">uninstall.exe /S _?=%CD%&#13;
@@ -66165,7 +66178,7 @@ if %err% neq 0 exit %err%&#13;
   <url>https://www.slimjetbrowser.com/release/sjtsetup_x86.exe</url>
  </version>
 
-    <version name="34.0.1" package="slimjet64" type="one-file">
+    <version name="34.0.2" package="slimjet64" type="one-file">
   <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
 </file>
   <file path=".Npackd\Uninstall.bat">uninstall.exe /S _?=%CD%&#13;
@@ -70036,6 +70049,19 @@ type .Npackd\Output.txt</file>
    <variable>ncl</variable>
   </dependency>
  </version>
+ <version name="5.2.2623.24" package="vivaldi-browser-64" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" --system-level --vivaldi-silent --vivaldi-standalone --do-not-launch-chrome --vivaldi-install-dir="%CD%" &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">for /f "delims=" %%x in ('dir /b application\5*') do set name=%%x&#13;
+&#13;
+Application\%name%\Installer\setup.exe --uninstall --vivaldi --force-uninstall --system-level &gt; .Npackd\Output.txt 2&gt;&amp;1 &#13;
+type .Npackd\Output.txt</file>
+  <url>https://downloads.vivaldi.com/stable/Vivaldi.5.2.2623.24.x64.exe</url>
+  <hash-sum type="SHA-256">1581685db94e7ae32ccaacb4938d88d1e27c733bca83ae0daef8638774fde937</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.24, 2)">
+   <variable>ncl</variable>
+  </dependency>
+ </version>
 
     <version name="15.0.2" package="vmware64" type="one-file">
   <file path=".Npackd\Install.bat">"%npackd_package_binary%" /a /s /v"/qn TARGETDIR=."&#13;
@@ -71194,6 +71220,26 @@ sys.programGroupName=yEd Graph Editor&#13;
 sys.fileAssociation.extensions$StringArray="graphml","graphmlz","ygf","gml","xgml","tgf","ged"&#13;
 </file>
   <url>https://www.yworks.com//resources/yed/demo/yEd-3.21.1_with-JRE15_64-bit_setup.exe</url>
+ </version>
+ <version name="3.22" package="yed64" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" -q -console -dir "%CD%" -varfile .Npackd\response.varfile &gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+rem &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">uninstall.exe -q -console</file>
+  <file path=".Npackd\response.varfile">#install4j response file for yEd Graph Editor&#13;
+#Fri Jan 03 20:51:31 CET 2014&#13;
+sys.adminRights$Boolean=true&#13;
+sys.programGroupDisabled$Boolean=false&#13;
+createDesktopLinkAction$Boolean=false&#13;
+sys.fileAssociation.launchers$StringArray="2","2","2","2","2","2","2"&#13;
+sys.programGroupAllUsers$Boolean=true&#13;
+sys.languageId=en&#13;
+#sys.installationDir=C\:\\ProgramFiles\\yEd&#13;
+createQuicklaunchIconAction$Boolean=false&#13;
+sys.programGroupName=yEd Graph Editor&#13;
+sys.fileAssociation.extensions$StringArray="graphml","graphmlz","ygf","gml","xgml","tgf","ged"&#13;
+</file>
+  <url>https://www.yworks.com//resources/yed/demo/yEd-3.22_with-JRE15_64-bit_setup.exe</url>
  </version>
 
     <version name="8.0.0.3" package="zulu64">
