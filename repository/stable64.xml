@@ -28666,6 +28666,18 @@ rmdir "%name%"&#13;
   <url>https://github.com/ipfs/go-ipfs/releases/download/v0.12.1/go-ipfs_v0.12.1_windows-amd64.zip</url>
   <hash-sum type="SHA-256">efb25b57fe438c24ab82d2537fdedaeaaf08a011fe2e7a3dcf0cd7f5879170fd</hash-sum>
  </version>
+ <version name="0.12.2" package="ipfs64">
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b go-ipfs*') do set name=%%x&#13;
+cd "%name%"&#13;
+for /f "delims=" %%a in ('dir /b') do (&#13;
+  move "%%a" ..&#13;
+)&#13;
+cd ..&#13;
+rmdir "%name%"&#13;
+</file>
+  <url>https://github.com/ipfs/go-ipfs/releases/download/v0.12.2/go-ipfs_v0.12.2_windows-amd64.zip</url>
+  <hash-sum type="SHA-256">efd8c53ca875f35f09790042de94b5b9cf580cc7b3a36484832e292aae48ca48</hash-sum>
+ </version>
 
     
 
@@ -34268,6 +34280,17 @@ if %err% neq 0 exit %err%</file>
 </file>
   <url>http://downloads.sourceforge.net/project/doublecmd/DC%20for%20Windows%2064%20bit/Double%20Commander%201.0.4%20beta/doublecmd-1.0.4.x86_64-win64.exe</url>
   <hash-sum type="SHA-256">88dd42a67f3866890325f082cd09f9318731911d04079c1641dadd12c472a742</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
+ <version name="1.0.5" package="net.sourceforge.Doublecmd64" type="one-file">
+  <file path=".Npackd\Install.bat">call "%nih%\InstallInnoSetup.bat"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">call "%nih%\UninstallInnoSetup.bat" unins000.exe&#13;
+</file>
+  <url>http://downloads.sourceforge.net/project/doublecmd/DC%20for%20Windows%2064%20bit/Double%20Commander%201.0.5%20beta/doublecmd-1.0.5.x86_64-win64.exe</url>
+  <hash-sum type="SHA-256">d6f34b43698cbeb1bad83624967a7bdbaea1c72946ba4fc6b40608f677af5e9f</hash-sum>
   <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
    <variable>nih</variable>
   </dependency>
@@ -59823,6 +59846,20 @@ call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Np
 </file>
   <url>https://github.com/vim/vim-win32-installer/releases/download/v8.2.4710/gvim_8.2.4710_x64.zip</url>
   <hash-sum type="SHA-256">874b8cb5f8c06fb32dc895fdf4794acf2a256109ae522fb38fee793eb0ffe30d</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.19, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
+ <version name="8.2.4715" package="org.vim.Vim64">
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+if %errorlevel% neq 0 exit /b %errorlevel%&#13;
+&#13;
+for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+</file>
+  <url>https://github.com/vim/vim-win32-installer/releases/download/v8.2.4715/gvim_8.2.4715_x64.zip</url>
+  <hash-sum type="SHA-256">1d1e63030023bfa0566bd1049370fcf99f572955430d533c3c0a5a956022a268</hash-sum>
   <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.19, 2)">
    <variable>nih</variable>
   </dependency>
