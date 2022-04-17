@@ -24710,7 +24710,7 @@ if %err% neq 0 exit %err%&#13;
   <hash-sum type="SHA-256">9ea1de71109eb5f1b41be08cf2f509ad952ba8cdae8ed82507452f2f772686d3</hash-sum>
  </version>
 
-    <version name="100.0.4896.88" package="google-chrome-x64" type="one-file">
+    <version name="100.0.4896.127" package="google-chrome-x64" type="one-file">
   <file path=".Npackd\Install.bat">call "%npackdih%\InstallMSI.bat" TARGETDIR yes&#13;
 </file>
   <url>https://dl.google.com/tag/s/appguid%3D%7B8A69D345-D564-463C-AFF1-A69D9E530F96%7D%26iid%3D%7B0A558A36-0536-8B3F-0AE0-420553CC97F3%7D%26lang%3Den%26browser%3D4%26usagestats%3D0%26appname%3DGoogle%2520Chrome%26needsadmin%3DFalse/edgedl/chrome/install/GoogleChromeStandaloneEnterprise64.msi</url>
@@ -60109,6 +60109,20 @@ call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Np
    <variable>nih</variable>
   </dependency>
  </version>
+ <version name="8.2.4755" package="org.vim.Vim64">
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+if %errorlevel% neq 0 exit /b %errorlevel%&#13;
+&#13;
+for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+</file>
+  <url>https://github.com/vim/vim-win32-installer/releases/download/v8.2.4755/gvim_8.2.4755_x64.zip</url>
+  <hash-sum type="SHA-256">2766f1983a42bb9a0571810211dd5c0efb72f4314b9b9f2f52b771d68e2ebd05</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.19, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
 
     <version name="4.2.8.83876" package="org.virtualbox.virtualbox64" type="one-file">
   <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
@@ -67045,6 +67059,17 @@ Prog\setup.exe /Q /IACCEPTSQLSERVERLICENSETERMS /Q /ACTION=install &gt; .Npackd\
 </file>
   <url>https://github.com/Stellarium/stellarium/releases/download/v0.22.0/stellarium-0.22.0-win64.exe</url>
   <hash-sum type="SHA-256">4f29c947940dfb9953f2386c3bfb4b0e91114223c969eba9447187896fe40e9f</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
+ <version name="0.22.1" package="stellarium64" type="one-file">
+  <file path=".Npackd\Install.bat">call "%nih%\InstallInnoSetup.bat"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">call "%nih%\UninstallInnoSetup.bat" unins000.exe&#13;
+</file>
+  <url>https://github.com/Stellarium/stellarium/releases/download/v0.22.1/stellarium-0.22.1-win64.exe</url>
+  <hash-sum type="SHA-256">769e647a6b977ae6b03bc6b9290552bc5ad6a9071b53a7fee7f5291b9229e396</hash-sum>
   <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
    <variable>nih</variable>
   </dependency>
