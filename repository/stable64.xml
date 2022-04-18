@@ -2002,7 +2002,6 @@ x86_64</description>
   <link href="https://www.snapfiles.com/screenfiles/kmplayer.jpg" rel="screenshot"/>
   <link href="https://www.snapfiles.com/screenfiles/kmplayer2.jpg" rel="screenshot"/>
   <link href="https://www.snapfiles.com/screenfiles/kmplayer3.jpg" rel="screenshot"/>
-  <link href="https://img.kmplayer.com/kmp_rt/images/pc64x_img1.png" rel="screenshot"/>
   <link href="https://img.kmplayer.com/kmp_rt/images/bg_1.jpg" rel="screenshot"/>
  </package>
  <package name="kodi64">
@@ -24646,6 +24645,17 @@ if %err% neq 0 exit %err%&#13;
    <variable>nih</variable>
   </dependency>
  </version>
+ <version name="2.35.3" package="git64" type="one-file">
+  <file path=".Npackd\Install.bat">call "%nih%\InstallInnoSetup.bat"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">call "%nih%\UninstallInnoSetup.bat" unins000.exe&#13;
+</file>
+  <url>https://github.com/git-for-windows/git/releases/download/v2.35.3.windows.1/Git-2.35.3-64-bit.exe</url>
+  <hash-sum type="SHA-256">5862bd6f4f4619d3bfeb4f9c2cdfdf62fd45658650debd535c6af10a8695e181</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
 
     
 
@@ -31781,6 +31791,14 @@ reg add HKCU\Software\mkvmergeGUI\GUI /v check_for_updates /t REG_DWORD /d 00000
 </file>
   <url>https://github.com/moneymanagerex/moneymanagerex/releases/download/v1.5.13/mmex-1.5.13-win64.exe</url>
   <hash-sum type="SHA-256">c57cfd8675f52c1d810acd0cebb88f7532a8e2962a27dc6e275848402b04d65e</hash-sum>
+ </version>
+ <version name="1.5.14" package="money-manager-ex64" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">uninstall.exe /S _?=%CD%&#13;
+</file>
+  <url>https://github.com/moneymanagerex/moneymanagerex/releases/download/v1.5.14/mmex-1.5.14-win64.exe</url>
+  <hash-sum type="SHA-256">d69429294e937917271cf0384eba6e5b1c33e745a6cc2868b6b019b18db628f0</hash-sum>
  </version>
 
     <version name="4.4.1" package="mono64" type="one-file">
@@ -60123,6 +60141,20 @@ call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Np
    <variable>nih</variable>
   </dependency>
  </version>
+ <version name="8.2.4768" package="org.vim.Vim64">
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+if %errorlevel% neq 0 exit /b %errorlevel%&#13;
+&#13;
+for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+</file>
+  <url>https://github.com/vim/vim-win32-installer/releases/download/v8.2.4768/gvim_8.2.4768_x64.zip</url>
+  <hash-sum type="SHA-256">c9f51e402f67f27ec1ecfb4b05b2d5b4099678d7491b40752dc6f7838aeec90d</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.19, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
 
     <version name="4.2.8.83876" package="org.virtualbox.virtualbox64" type="one-file">
   <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
@@ -70448,6 +70480,19 @@ Application\%name%\Installer\setup.exe --uninstall --vivaldi --force-uninstall -
 type .Npackd\Output.txt</file>
   <url>https://downloads.vivaldi.com/stable/Vivaldi.5.2.2623.33.x64.exe</url>
   <hash-sum type="SHA-256">dba213082f9c1272dda0b398da602d7381769c08500be74b5998f895209712d5</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.24, 2)">
+   <variable>ncl</variable>
+  </dependency>
+ </version>
+ <version name="5.2.2623.39" package="vivaldi-browser-64" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" --system-level --vivaldi-silent --vivaldi-standalone --do-not-launch-chrome --vivaldi-install-dir="%CD%" &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">for /f "delims=" %%x in ('dir /b application\5*') do set name=%%x&#13;
+&#13;
+Application\%name%\Installer\setup.exe --uninstall --vivaldi --force-uninstall --system-level &gt; .Npackd\Output.txt 2&gt;&amp;1 &#13;
+type .Npackd\Output.txt</file>
+  <url>https://downloads.vivaldi.com/stable/Vivaldi.5.2.2623.39.x64.exe</url>
+  <hash-sum type="SHA-256">568ae7f591e65f935189628f0d32564655988e55f9a3bfa2a12baec66d143379</hash-sum>
   <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.24, 2)">
    <variable>ncl</variable>
   </dependency>
