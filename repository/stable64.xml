@@ -6692,7 +6692,7 @@ if %errorlevel% neq 0 exit /b %errorlevel%&#13;
   <hash-sum type="SHA-256">9b509cc4eb7191dc128cfa3f2170036f9cbc7d9d5f93ff7fafc5b2d77b3b40dc</hash-sum>
  </version>
 
-    <version name="15" package="codelite" type="one-file">
+    <version name="16" package="codelite" type="one-file">
   <file path=".Npackd\Install.bat">ren downloads.php setup.exe&#13;
 call "%nih%\InstallInnoSetup.bat"&#13;
 </file>
@@ -6704,7 +6704,7 @@ call "%nih%\InstallInnoSetup.bat"&#13;
   </dependency>
  </version>
 
-    <version name="15" package="codelite64" type="one-file">
+    <version name="16" package="codelite64" type="one-file">
   <file path=".Npackd\Install.bat">ren downloads.php setup.exe&#13;
 call "%nih%\InstallInnoSetup.bat"&#13;
 </file>
@@ -19590,6 +19590,14 @@ rmdir "%name%"&#13;
   <url>http://dbeaver.jkiss.org/files/22.0.2/dbeaver-ce-22.0.2-x86_64-setup.exe</url>
   <hash-sum type="SHA-256">8b85fa25fdadb4996922a313b50428bface72ce9fec3c53ecc8682aa3949c1a0</hash-sum>
  </version>
+ <version name="22.0.3" package="dbeaver64" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" /allusers /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">uninstall.exe /allusers /S _?=%CD%&#13;
+</file>
+  <url>http://dbeaver.jkiss.org/files/22.0.3/dbeaver-ce-22.0.3-x86_64-setup.exe</url>
+  <hash-sum type="SHA-256">3f3a82ecaa5101c8d3cd2689cfcb547dd1eb785a111861e1304e71ad06e6af89</hash-sum>
+ </version>
 
     <version name="0.825" package="dcplusplus64">
   <important-file path="DCPlusPlus.exe" title="DC++"/>
@@ -21016,6 +21024,17 @@ rmdir "%name%"&#13;
 </file>
   <url>https://www.ponsoftware.com/en/archiver/explzh/explz861_en_x64.exe</url>
   <hash-sum type="SHA-256">df9063406ae7b8989fe29467d58da70b3f57acb2dc60da7eeb3d1be8fe3751ee</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.25, 2)">
+   <variable>ncl</variable>
+  </dependency>
+ </version>
+ <version name="8.62" package="explzh64" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" /silent /q &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">"%ncl%\ncl.exe" remove-scp --title "/%npackd_package_name% %npackd_package_version%/i"&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+</file>
+  <url>https://www.ponsoftware.com/en/archiver/explzh/explz862_en_x64.exe</url>
+  <hash-sum type="SHA-256">b28d19c45e9d9a7b5f08982f45eec41a76a0d71ca036992e52968c2eb56383da</hash-sum>
   <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.25, 2)">
    <variable>ncl</variable>
   </dependency>
@@ -28362,6 +28381,17 @@ if %err% neq 0 exit %err%&#13;
    <variable>nih</variable>
   </dependency>
  </version>
+ <version name="7.1.0.30" package="imagemagick64" type="one-file">
+  <file path=".Npackd\Install.bat">call "%nih%\InstallInnoSetup.bat"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">call "%nih%\UninstallInnoSetup.bat" unins000.exe&#13;
+</file>
+  <url>https://www.imagemagick.org/download/binaries/ImageMagick-7.1.0-30-Q16-HDRI-x64-dll.exe</url>
+  <hash-sum type="SHA-256">64b2ebe4a5f333459c64df1bf348e064424515aacf96f351e027221b2a80399f</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
 
     
 
@@ -29498,6 +29528,14 @@ call "%nih%\InstallMSI.bat" TARGETDIR yes&#13;
 </file>
   <url>https://download.kde.org/stable/krita/5.0.2/krita-x64-5.0.2-setup.exe</url>
   <hash-sum type="SHA-256">9c55e78bb2548cedd2e6caf0a7cefaedfc46fb55d4d188193bbaffff94da7aa4</hash-sum>
+ </version>
+ <version name="5.0.5" package="krita64" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">uninstall.exe /S _?=%CD%&#13;
+</file>
+  <url>https://download.kde.org/stable/krita/5.0.5/krita-x64-5.0.5-setup.exe</url>
+  <hash-sum type="SHA-256">eb957e404371c1a220b17e8d2f9b361c80413c075685329bddfa229914f2a984</hash-sum>
  </version>
 
     <version name="7.1.3" package="lazpaint64" type="one-file">
@@ -60151,6 +60189,20 @@ call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Np
 </file>
   <url>https://github.com/vim/vim-win32-installer/releases/download/v8.2.4768/gvim_8.2.4768_x64.zip</url>
   <hash-sum type="SHA-256">c9f51e402f67f27ec1ecfb4b05b2d5b4099678d7491b40752dc6f7838aeec90d</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.19, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
+ <version name="8.2.4779" package="org.vim.Vim64">
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+if %errorlevel% neq 0 exit /b %errorlevel%&#13;
+&#13;
+for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+</file>
+  <url>https://github.com/vim/vim-win32-installer/releases/download/v8.2.4779/gvim_8.2.4779_x64.zip</url>
+  <hash-sum type="SHA-256">82c12cb5b76459a68224531f241545ebf42a7544d2eb4e416e8fdf87ec70fcbd</hash-sum>
   <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.19, 2)">
    <variable>nih</variable>
   </dependency>
