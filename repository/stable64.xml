@@ -15076,7 +15076,7 @@ del Q-Dir.ini&#13;
   <url>http://files.npackd.org/com.softwareok.QDir64-5.99.9.zip</url>
   <sha1>fb6060796fae3fc641ba34fe1f2f8530d7c985a8</sha1>
  </version>
- <version name="10.66" package="com.softwareok.QDir64">
+ <version name="10.67" package="com.softwareok.QDir64">
   <important-file path="Q-Dir_x64.exe" title="Q-Dir"/>
   <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b Q*') do set name=%%x&#13;
 cd "%name%"        &#13;
@@ -17398,6 +17398,52 @@ for %%g in (%extensions%) do reg add HKLM\SOFTWARE\Classes\.%%g\OpenWithList\%ke
   <url>https://download.videolan.org/pub/videolan/vlc/3.0.16/win64/vlc-3.0.16-win64.zip</url>
   <hash-sum type="SHA-256">2bdf56dc9a9914e2232c30362a342a8340e75d7036ac91074facc9d35cd40568</hash-sum>
  </version>
+ <version name="3.0.17.4" package="com.videolan.VLCMediaPlayer64">
+  <important-file path="vlc.exe" title="VLC Media Player"/>
+  <file path=".Npackd\Extensions.txt">a52 aac ac3 adt adts aif ifc iff mr aob ape cda dts flac it m4a m4p mid mka mlp mod mp1 mp2 mp3 mpc oga ogg oma rmi s3m spx tta voc vqf w64 wav wma wv xa xm 3g2 3gp 3gp2 3gpp amv asf avi bin cue divx dv flv gxf iso m1v m2v m2t m2ts m4v mkv mov mp2 mp2v mp4 mp4v mpa mpe mpeg mpeg1 mpeg2 mpeg4 mpg mpv2 mts mxf nsv nuv ogg ogm ogv ogx ps rec rm rmvb tod ts tts vob vro webm wmv asx b4s ifo m3u m3u8 pls ram rar sdp vlc xspf zip cdg idx srt sub utf ass ssa aqt jss psb rt smi&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">set package=com.videolan.VLCMediaPlayer64&#13;
+set version=%NPACKD_PACKAGE_VERSION%&#13;
+set key=%package%-%version%&#13;
+&#13;
+reg delete HKLM\SOFTWARE\Classes\Applications\%key% /f&#13;
+&#13;
+rem read extensions from the file&#13;
+for /f "usebackq delims=" %%a in (.Npackd\Extensions.txt) do (&#13;
+set extensions=%%a&#13;
+goto out&#13;
+)&#13;
+:out&#13;
+&#13;
+for %%g in (%extensions%) do reg delete HKLM\SOFTWARE\Classes\.%%g\OpenWithList\%key% /f</file>
+  <file path=".Npackd\Install.bat">for /f %%x in ('dir /b vlc*') do set name=%%x&#13;
+for /f "delims=" %%x in ('dir /b aria*') do set name=%%x&#13;
+cd "%name%"        &#13;
+for /f "delims=" %%a in ('dir /b') do (&#13;
+  move "%%a" ..&#13;
+)&#13;
+cd ..&#13;
+rmdir "%name%"&#13;
+&#13;
+set package=com.videolan.VLCMediaPlayer64&#13;
+set version=%NPACKD_PACKAGE_VERSION%&#13;
+set key=%package%-%version%&#13;
+&#13;
+reg add HKLM\SOFTWARE\Classes\Applications\%key%\shell\open /v FriendlyAppName /d "VLC Media Player (%version%)" /f&#13;
+set c=\"%CD%\vlc.exe\" \"%%1\"&#13;
+reg add HKLM\SOFTWARE\Classes\Applications\%KEY%\shell\open\command /d "%c%" /f&#13;
+&#13;
+rem read extensions from the file&#13;
+for /f "usebackq delims=" %%a in (.Npackd\Extensions.txt) do (&#13;
+set extensions=%%a&#13;
+goto out&#13;
+)&#13;
+:out&#13;
+&#13;
+for %%g in (%extensions%) do reg add HKLM\SOFTWARE\Classes\.%%g\OpenWithList\%key% /f</file>
+  <url>https://download.videolan.org/pub/videolan/vlc/3.0.17.4/win64/vlc-3.0.17.4-win64.zip</url>
+  <hash-sum type="SHA-256">f6cc32e59caa2dc17a7ff305feacfdac795f91eff20c6ab747cfee32d322a4a2</hash-sum>
+ </version>
 
     <version name="0.5" package="com.whatsappinc.whatsapp-desktop-64" type="one-file">
   <file path=".Npackd\Install.bat">"%npackd_package_binary%" &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
@@ -18556,7 +18602,7 @@ rmdir "%name%"&#13;
   <hash-sum type="SHA-256">9ed13cc0972c4473c7e5ac69b3393e6636ba9e2a2cf8b8b9e2a51882288235d1</hash-sum>
  </version>
 
-    <version name="1.7.21612" package="daumpotplayer64" type="one-file">
+    <version name="1.7.21625" package="daumpotplayer64" type="one-file">
   <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
 </file>
   <file path=".Npackd\Uninstall.bat">uninstall.exe /S _?=%CD%&#13;
@@ -24671,6 +24717,17 @@ if %err% neq 0 exit %err%&#13;
 </file>
   <url>https://github.com/git-for-windows/git/releases/download/v2.35.3.windows.1/Git-2.35.3-64-bit.exe</url>
   <hash-sum type="SHA-256">5862bd6f4f4619d3bfeb4f9c2cdfdf62fd45658650debd535c6af10a8695e181</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
+ <version name="2.36" package="git64" type="one-file">
+  <file path=".Npackd\Install.bat">call "%nih%\InstallInnoSetup.bat"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">call "%nih%\UninstallInnoSetup.bat" unins000.exe&#13;
+</file>
+  <url>https://github.com/git-for-windows/git/releases/download/v2.36.0.windows.1/Git-2.36.0-64-bit.exe</url>
+  <hash-sum type="SHA-256">5196563ba07031257d972c0b3c2ebd3227d98a40587278e11930dbc2f78d4e69</hash-sum>
   <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
    <variable>nih</variable>
   </dependency>
@@ -50247,6 +50304,17 @@ if %err% neq 0 exit %err%&#13;
    <variable>nih</variable>
   </dependency>
  </version>
+ <version name="3.1.2.1" package="org.rubylang.Ruby64" type="one-file">
+  <file path=".Npackd\Install.bat">call "%nih%\InstallInnoSetup.bat"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">call "%nih%\UninstallInnoSetup.bat" unins000.exe&#13;
+</file>
+  <url>https://github.com/oneclick/rubyinstaller2/releases/download/RubyInstaller-3.1.2-1/rubyinstaller-3.1.2-1-x64.exe</url>
+  <hash-sum type="SHA-256">fc96dfa66c1c09b0f28a6156754da5a4a63edd77f4ee15b27bfab67f9871bb3f</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
 
     <version name="19.2.28" package="org.shotcut.shotcut">
   <url>https://github.com/mltframework/shotcut/releases/download/v19.02.28/shotcut-win64-190228.zip</url>
@@ -60230,6 +60298,20 @@ call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Np
 </file>
   <url>https://github.com/vim/vim-win32-installer/releases/download/v8.2.4787/gvim_8.2.4787_x64.zip</url>
   <hash-sum type="SHA-256">aae5fe1bdacc344e6c32649b6a13b19ad50df1222896c0d2b642580df74ed054</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.19, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
+ <version name="8.2.4793" package="org.vim.Vim64">
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+if %errorlevel% neq 0 exit /b %errorlevel%&#13;
+&#13;
+for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+</file>
+  <url>https://github.com/vim/vim-win32-installer/releases/download/v8.2.4793/gvim_8.2.4793_x64.zip</url>
+  <hash-sum type="SHA-256">28ec87f41132cf42283a28c46aefe46e7ff884038dce78c92d205d8f23af3251</hash-sum>
   <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.19, 2)">
    <variable>nih</variable>
   </dependency>
