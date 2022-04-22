@@ -1743,7 +1743,7 @@ x86_64</description>
   <category>Communications</category>
   <tag>same-url</tag>
   <tag>stable64</tag>
-  <stars>24</stars>
+  <stars>25</stars>
  </package>
  <package name="google-cloud-sdk64">
   <title>Google Cloud SDK 64 bit</title>
@@ -2820,7 +2820,7 @@ x86_64</description>
   <license>org.7-zip.License</license>
   <category>Tools</category>
   <tag>stable64</tag>
-  <stars>27</stars>
+  <stars>28</stars>
   <link href="https://www.7-zip.org/history.txt" rel="changelog"/>
   <link href="http://www.7-zip.org/7zfm.png" rel="screenshot"/>
  </package>
@@ -18602,7 +18602,7 @@ rmdir "%name%"&#13;
   <hash-sum type="SHA-256">9ed13cc0972c4473c7e5ac69b3393e6636ba9e2a2cf8b8b9e2a51882288235d1</hash-sum>
  </version>
 
-    <version name="1.7.21625" package="daumpotplayer64" type="one-file">
+    <version name="1.7.21628" package="daumpotplayer64" type="one-file">
   <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
 </file>
   <file path=".Npackd\Uninstall.bat">uninstall.exe /S _?=%CD%&#13;
@@ -21272,6 +21272,8 @@ call "%npackdih%\InstallMSI.bat" INSTALLDIR yes&#13;
    <variable>npackdih</variable>
   </dependency>
  </version>
+
+    
 
     <version name="3.41.2" package="filezilla64">
   <important-file path="filezilla.exe" title="FileZilla Client"/>
@@ -60316,6 +60318,20 @@ call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Np
    <variable>nih</variable>
   </dependency>
  </version>
+ <version name="8.2.4801" package="org.vim.Vim64">
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+if %errorlevel% neq 0 exit /b %errorlevel%&#13;
+&#13;
+for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+</file>
+  <url>https://github.com/vim/vim-win32-installer/releases/download/v8.2.4801/gvim_8.2.4801_x64.zip</url>
+  <hash-sum type="SHA-256">09ceec2851bf3dfa23e72ebda9f03d958ed8f2c50b874c4c34ef5f6d37fb0a3f</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.19, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
 
     <version name="4.2.8.83876" package="org.virtualbox.virtualbox64" type="one-file">
   <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
@@ -62271,6 +62287,40 @@ if %err% equ 3010 exit 0&#13;
 if %err% neq 0 exit %err%</file>
   <url>http://download.virtualbox.org/virtualbox/6.1.32/VirtualBox-6.1.32-149290-Win.exe</url>
   <hash-sum type="SHA-256">f5f695da9e34f77b55b61f0eabb3644d5daad99117d896c837ef996a41e57c33</hash-sum>
+  <dependency package="org.7-zip.SevenZIP64" versions="[9.20, 20)">
+   <variable>sevenzip</variable>
+  </dependency>
+ </version>
+ <version name="6.1.34.150636" package="org.virtualbox.virtualbox64" type="one-file">
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
+"%setup%" -x -s -p "%CD%" &gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+&#13;
+"%sevenzip%\7z.exe" x common.cab -aos -o"%CD%\common" &gt; .Npackd\Output.txt 2&gt;&amp;1 &amp;&amp; type .Npackd\Output.txt&#13;
+"%sevenzip%\7z.exe" x "%CD%\common\file_VBoxGuestAdditions.iso" -aos -o"%CD%\common\file_VBoxGuestAdditions" &gt; .Npackd\Output.txt 2&gt;&amp;1 &amp;&amp; type .Npackd\Output.txt&#13;
+&#13;
+certutil.exe -addstore -f "TrustedPublisher" "%CD%\common\file_VBoxGuestAdditions\cert\oracle-vbox.cer" &gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+&#13;
+for /f "delims=" %%x in ('dir /b *MultiArch_amd64.msi') do set setup=%%x&#13;
+msiexec.exe /qn /norestart /Lime .Npackd\MSI.log /i "%setup%"&#13;
+set err=%errorlevel%&#13;
+type .Npackd\MSI.log&#13;
+rem 3010=restart required&#13;
+if %err% equ 3010 exit 0&#13;
+if %err% neq 0 exit %err%&#13;
+&#13;
+for /f "delims=" %%x in ('dir /b *MultiArch_x86.msi') do set trash=%%x&#13;
+del /q /f "%trash%"&#13;
+&#13;
+if exist "%CD%\common" (rd /s /q "%CD%\common")</file>
+  <file path=".Npackd\Uninstall.bat">for /f "delims=" %%x in ('dir /b *.msi') do set setup=%%x&#13;
+msiexec.exe /qn /norestart /Lime .Npackd\MSI.log /x "%setup%"&#13;
+set err=%errorlevel%&#13;
+type .Npackd\MSI.log&#13;
+rem 3010=restart required&#13;
+if %err% equ 3010 exit 0&#13;
+if %err% neq 0 exit %err%</file>
+  <url>http://download.virtualbox.org/virtualbox/6.1.34/VirtualBox-6.1.34-150636-Win.exe</url>
+  <hash-sum type="SHA-256">e84b0895fb0eede215a7d3b5ad2c92a2a3ed5cbc4eede2e2ee5c981eccb5f80e</hash-sum>
   <dependency package="org.7-zip.SevenZIP64" versions="[9.20, 20)">
    <variable>sevenzip</variable>
   </dependency>
@@ -64964,6 +65014,15 @@ if %errorlevel% equ 3010 verify</file>
 </file>
   <url>https://qgis.org/downloads/QGIS-OSGeo4W-3.24.1-1.msi</url>
   <hash-sum type="SHA-256">fe59f7707aca1885346ec01e165d6cdf99579375718b2cd9f55585ec4708d5fd</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.1, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
+ <version name="3.24.2.1" package="qgis64" type="one-file">
+  <file path=".Npackd\Install.bat">call "%nih%\InstallMSI.bat" INSTALLDIR yes&#13;
+</file>
+  <url>https://qgis.org/downloads/QGIS-OSGeo4W-3.24.2-1.msi</url>
+  <hash-sum type="SHA-256">5d8123657ddaaca505e021260f123eb8213ab9bc9ca2a2f67b6638fbc1abd597</hash-sum>
   <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.1, 2)">
    <variable>nih</variable>
   </dependency>
