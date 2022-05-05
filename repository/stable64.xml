@@ -12234,6 +12234,16 @@ if %err% neq 0 exit /b %err%&#13;
   </dependency>
   <dependency package="com.microsoft.VisualCPPRedistributable" versions="[14,15)"/>
  </version>
+ <version name="8.0.29" package="com.mysql.dev.MySQLODBCConnector64bits" type="one-file">
+  <file path=".Npackd\Install.bat">call "%npackdih%\InstallMSI.bat" INSTALLDIR yes&#13;
+		</file>
+  <url>https://cdn.mysql.com//Downloads/Connector-ODBC/8.0/mysql-connector-odbc-8.0.29-winx64.msi</url>
+  <hash-sum type="SHA-256">41cff009f9c805da61b43311f8f09f4545afc1dac8e4ed43d68397135e623af8</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.1, 2)">
+   <variable>npackdih</variable>
+  </dependency>
+  <dependency package="com.microsoft.VisualCPPRedistributable" versions="[14,15)"/>
+ </version>
 
     <version name="5.5.16" package="com.mysql.MySQLCommunityServer64" type="one-file">
   <file path=".Npackd\Install.bat">call "%npackdih%\InstallMSI.bat" INSTALLDIR yes</file>
@@ -22456,6 +22466,17 @@ echo DesktopShortcut=false &gt;&gt; .Npackd\FF.ini&#13;
 verify</file>
   <url>https://download-origin.cdn.mozilla.net/pub/mozilla.org/firefox/releases/91.8.0esr/win64/en-US/Firefox%20Setup%2091.8.0esr.exe</url>
   <hash-sum type="SHA-256">5318cb03493b7efe5989cb8d4340df96a277276f874873a783f5372931e0050a</hash-sum>
+ </version>
+ <version name="91.9" package="firefox-esr64" type="one-file">
+  <file path=".Npackd\Install.bat">echo [Install] &gt; .Npackd\FF.ini&#13;
+echo InstallDirectoryPath=%CD% &gt;&gt; .Npackd\FF.ini&#13;
+echo QuickLaunchShortcut=false &gt;&gt; .Npackd\FF.ini&#13;
+echo DesktopShortcut=false &gt;&gt; .Npackd\FF.ini&#13;
+"%npackd_package_binary%" /INI="%CD%\.Npackd\FF.ini" &amp;&amp; del /f /q "%npackd_package_binary%"</file>
+  <file path=".Npackd\Uninstall.bat">uninstall\helper.exe /S&#13;
+verify</file>
+  <url>https://download-origin.cdn.mozilla.net/pub/mozilla.org/firefox/releases/91.9.0esr/win64/en-US/Firefox%20Setup%2091.9.0esr.exe</url>
+  <hash-sum type="SHA-256">c6b2cee761fa34dec7e3469ab635ebb3140904d30dc567acfe2cb3ef565fadcd</hash-sum>
  </version>
 
     <version name="43" package="firefox64" type="one-file">
@@ -60736,6 +60757,20 @@ call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Np
    <variable>nih</variable>
   </dependency>
  </version>
+ <version name="8.2.4860" package="org.vim.Vim64">
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+if %errorlevel% neq 0 exit /b %errorlevel%&#13;
+&#13;
+for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+</file>
+  <url>https://github.com/vim/vim-win32-installer/releases/download/v8.2.4860/gvim_8.2.4860_x64.zip</url>
+  <hash-sum type="SHA-256">ac04f1138ebc6b1128a113a9551f14f21150b77c30a469bce9083741f4051d95</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.19, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
 
     <version name="4.2.8.83876" package="org.virtualbox.virtualbox64" type="one-file">
   <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
@@ -64923,6 +64958,15 @@ verify</file>
 </file>
   <url>https://github.com/tim-lebedkov/packages/releases/download/2022_04/qcad64-3.27.3-qcad-3.27.3-trial-win64-installer.msi</url>
   <hash-sum type="SHA-256">f55e47e68458833b7cc0d74672401f37e2ff8d010ab5cfa18f93faa681707f7c</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.1, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
+ <version name="3.27.4" package="qcad64" type="one-file">
+  <file path=".Npackd\Install.bat">call "%nih%\InstallMSI.bat" INSTALLDIR yes&#13;
+</file>
+  <url>http://www.qcad.org/archives/qcad/qcad-3.27.4-trial-win64-installer.msi</url>
+  <hash-sum type="SHA-256">9136b2f8721290a20f115080a63e19fe1ee668de29c1f0397b464e1b5bdb5591</hash-sum>
   <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.1, 2)">
    <variable>nih</variable>
   </dependency>
@@ -69206,6 +69250,12 @@ if %err% neq 0 exit %err%&#13;
   <url>https://dist.torproject.org/torbrowser/11.0.10/torbrowser-install-11.0.10_en-US.exe</url>
   <hash-sum type="SHA-256">4c29accaea10321091b90e810919112e12eb9aa3eb35df53b6e116e87aa890c4</hash-sum>
  </version>
+ <version name="11.0.11" package="tor64" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
+</file>
+  <url>https://dist.torproject.org/torbrowser/11.0.11/torbrowser-install-11.0.11_en-US.exe</url>
+  <hash-sum type="SHA-256">c8d1401ebec521ba8bc5154f2f321175cc413cd157f1cbf81abed64fc41ca5b4</hash-sum>
+ </version>
 
     <version name="2.84.9" package="transmission-qt64" type="one-file">
   <file path=".Npackd\Install.bat">"%npackd_package_binary%" --mode unattended --prefix "%CD%"</file>
@@ -72177,6 +72227,16 @@ rmdir "%name%"&#13;
   <file path=".Npackd\Uninstall.bat">"%nih%\UninstallInnoSetup.bat" unins000.exe</file>
   <url>https://www.xmedia-recode.de/download/XMediaRecode3556_x64_setup.exe</url>
   <hash-sum type="SHA-256">13dc0a136cf86cf63bc74a286e2b7f765483a6c8d802c70a755712b081cdf25b</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
+ <version name="3.5.5.7" package="xmedia-recode64" type="one-file">
+  <file path=".Npackd\Install.bat">"%nih%\InstallInnoSetup.bat"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">"%nih%\UninstallInnoSetup.bat" unins000.exe</file>
+  <url>https://www.xmedia-recode.de/download/XMediaRecode3557_x64_setup.exe</url>
+  <hash-sum type="SHA-256">37b3350cf139a59a449a6bddd7f6c856083eb89d5b431689da01341da00d238a</hash-sum>
   <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
    <variable>nih</variable>
   </dependency>
