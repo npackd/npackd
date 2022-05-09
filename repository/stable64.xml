@@ -28669,7 +28669,7 @@ if %err% neq 0 exit %err%&#13;
 </file>
   <file path=".Npackd\Uninstall.bat">call "%nih%\UninstallInnoSetup.bat" unins000.exe&#13;
 </file>
-  <url>https://www.imagemagick.org/download/binaries/ImageMagick-7.1.0-33-Q16-HDRI-x64-dll.exe</url>
+  <url>https://github.com/tim-lebedkov/packages/releases/download/2022_05/imagemagick64-7.1.0.33-ImageMagick-7.1.0-33-Q16-HDRI-x64-dll.exe</url>
   <hash-sum type="SHA-256">af4060ce7f0b9f6ca10c1d1aca3886503270058d1ad6c0f508131cf5bbc78f50</hash-sum>
   <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
    <variable>nih</variable>
@@ -33752,7 +33752,7 @@ del /q /f "CINEBENCH Windows 32 Bit.exe"</file>
   <url>http://files.npackd.org/net.nirsoft.FileTypesMan64-1.68.zip</url>
   <sha1>f9052bc7e5bc8287ecee16eaf6f2d20cafdefd97</sha1>
  </version>
- <version name="1.95" package="net.nirsoft.FileTypesMan64">
+ <version name="1.96" package="net.nirsoft.FileTypesMan64">
   <important-file path="FileTypesMan.exe" title="FileTypesMan"/>
   <url>http://www.nirsoft.net/utils/filetypesman-x64.zip</url>
  </version>
@@ -60885,6 +60885,20 @@ call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Np
    <variable>nih</variable>
   </dependency>
  </version>
+ <version name="8.2.4912" package="org.vim.Vim64">
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+if %errorlevel% neq 0 exit /b %errorlevel%&#13;
+&#13;
+for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+</file>
+  <url>https://github.com/vim/vim-win32-installer/releases/download/v8.2.4912/gvim_8.2.4912_x64.zip</url>
+  <hash-sum type="SHA-256">fb814729c77a6179a87d713825864225a1f2ab8f396dc9c52fc7c6674885f606</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.19, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
 
     <version name="4.2.8.83876" package="org.virtualbox.virtualbox64" type="one-file">
   <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
@@ -63225,95 +63239,15 @@ if %err% neq 0 exit %err%</file>
   </dependency>
  </version>
 
-    <version name="29.3" package="pale-moon64" type="one-file">
+    <version name="29.4.6" package="pale-moon64" type="one-file">
   <file path=".Npackd\Install.bat">echo [Install] &gt; .Npackd\FF.ini&#13;
 echo InstallDirectoryPath=%CD% &gt;&gt; .Npackd\FF.ini&#13;
 echo QuickLaunchShortcut=false &gt;&gt; .Npackd\FF.ini&#13;
 echo DesktopShortcut=false &gt;&gt; .Npackd\FF.ini&#13;
 "%npackd_package_binary%" /INI="%CD%\.Npackd\FF.ini" &amp;&amp; del /f /q "%npackd_package_binary%"</file>
   <file path=".Npackd\Uninstall.bat">uninstall\helper.exe /S</file>
-  <url>http://rm-eu.palemoon.org/release/palemoon-29.3.0.win64.installer.exe</url>
-  <hash-sum type="SHA-256">7791d58979f50e7aac25cb13c6b7d42f6512df83ec8a9ba530e2156c0c5233e5</hash-sum>
- </version>
- <version name="29.4.0.2" package="pale-moon64" type="one-file">
-  <file path=".Npackd\Install.bat">echo [Install] &gt; .Npackd\FF.ini&#13;
-echo InstallDirectoryPath=%CD% &gt;&gt; .Npackd\FF.ini&#13;
-echo QuickLaunchShortcut=false &gt;&gt; .Npackd\FF.ini&#13;
-echo DesktopShortcut=false &gt;&gt; .Npackd\FF.ini&#13;
-"%npackd_package_binary%" /INI="%CD%\.Npackd\FF.ini" &amp;&amp; del /f /q "%npackd_package_binary%"</file>
-  <file path=".Npackd\Uninstall.bat">uninstall\helper.exe /S</file>
-  <url>http://rm-eu.palemoon.org/release/palemoon-29.4.0.win64.installer.exe</url>
-  <hash-sum type="SHA-256">3494c709d0f41cfb78cfe5baf860a5efcf4c00cfb9c32bcc98f245f09d4354fa</hash-sum>
- </version>
- <version name="29.4.1" package="pale-moon64" type="one-file">
-  <file path=".Npackd\Install.bat">echo [Install] &gt; .Npackd\FF.ini&#13;
-echo InstallDirectoryPath=%CD% &gt;&gt; .Npackd\FF.ini&#13;
-echo QuickLaunchShortcut=false &gt;&gt; .Npackd\FF.ini&#13;
-echo DesktopShortcut=false &gt;&gt; .Npackd\FF.ini&#13;
-"%npackd_package_binary%" /INI="%CD%\.Npackd\FF.ini" &amp;&amp; del /f /q "%npackd_package_binary%"</file>
-  <file path=".Npackd\Uninstall.bat">uninstall\helper.exe /S</file>
-  <url>http://rm-eu.palemoon.org/release/palemoon-29.4.1.win64.installer.exe</url>
-  <hash-sum type="SHA-256">d06b78df63bbd0e86c382d0e47d3d55bd9e0ba9b7e626f8ba5f76ecc2b109df8</hash-sum>
- </version>
- <version name="29.4.2" package="pale-moon64" type="one-file">
-  <file path=".Npackd\Install.bat">echo [Install] &gt; .Npackd\FF.ini&#13;
-echo InstallDirectoryPath=%CD% &gt;&gt; .Npackd\FF.ini&#13;
-echo QuickLaunchShortcut=false &gt;&gt; .Npackd\FF.ini&#13;
-echo DesktopShortcut=false &gt;&gt; .Npackd\FF.ini&#13;
-"%npackd_package_binary%" /INI="%CD%\.Npackd\FF.ini" &amp;&amp; del /f /q "%npackd_package_binary%"</file>
-  <file path=".Npackd\Uninstall.bat">uninstall\helper.exe /S</file>
-  <url>http://rm-eu.palemoon.org/release/palemoon-29.4.2.win64.installer.exe</url>
-  <hash-sum type="SHA-256">dabbde0d26c7e0fde1181e8acddb426e532ea076b13cd4819c9047139745e33e</hash-sum>
- </version>
- <version name="29.4.2.1" package="pale-moon64" type="one-file">
-  <file path=".Npackd\Install.bat">echo [Install] &gt; .Npackd\FF.ini&#13;
-echo InstallDirectoryPath=%CD% &gt;&gt; .Npackd\FF.ini&#13;
-echo QuickLaunchShortcut=false &gt;&gt; .Npackd\FF.ini&#13;
-echo DesktopShortcut=false &gt;&gt; .Npackd\FF.ini&#13;
-"%npackd_package_binary%" /INI="%CD%\.Npackd\FF.ini" &amp;&amp; del /f /q "%npackd_package_binary%"</file>
-  <file path=".Npackd\Uninstall.bat">uninstall\helper.exe /S</file>
-  <url>http://rm-eu.palemoon.org/release/palemoon-29.4.2.win64.installer.exe</url>
-  <hash-sum type="SHA-256">dabbde0d26c7e0fde1181e8acddb426e532ea076b13cd4819c9047139745e33e</hash-sum>
- </version>
- <version name="29.4.3" package="pale-moon64" type="one-file">
-  <file path=".Npackd\Install.bat">echo [Install] &gt; .Npackd\FF.ini&#13;
-echo InstallDirectoryPath=%CD% &gt;&gt; .Npackd\FF.ini&#13;
-echo QuickLaunchShortcut=false &gt;&gt; .Npackd\FF.ini&#13;
-echo DesktopShortcut=false &gt;&gt; .Npackd\FF.ini&#13;
-"%npackd_package_binary%" /INI="%CD%\.Npackd\FF.ini" &amp;&amp; del /f /q "%npackd_package_binary%"</file>
-  <file path=".Npackd\Uninstall.bat">uninstall\helper.exe /S</file>
-  <url>http://rm-eu.palemoon.org/release/palemoon-29.4.3.win64.installer.exe</url>
-  <hash-sum type="SHA-256">2870e715137289f17279618908056fcb59f62b851b6d5c80be076bdd71dd5ba5</hash-sum>
- </version>
- <version name="29.4.4" package="pale-moon64" type="one-file">
-  <file path=".Npackd\Install.bat">echo [Install] &gt; .Npackd\FF.ini&#13;
-echo InstallDirectoryPath=%CD% &gt;&gt; .Npackd\FF.ini&#13;
-echo QuickLaunchShortcut=false &gt;&gt; .Npackd\FF.ini&#13;
-echo DesktopShortcut=false &gt;&gt; .Npackd\FF.ini&#13;
-"%npackd_package_binary%" /INI="%CD%\.Npackd\FF.ini" &amp;&amp; del /f /q "%npackd_package_binary%"</file>
-  <file path=".Npackd\Uninstall.bat">uninstall\helper.exe /S</file>
-  <url>http://rm-eu.palemoon.org/release/palemoon-29.4.4.win64.installer.exe</url>
-  <hash-sum type="SHA-256">916f89f56a65ec299a0be4a191f8892e0b953a5445f12291b06466c31838e30e</hash-sum>
- </version>
- <version name="30" package="pale-moon64" type="one-file">
-  <file path=".Npackd\Install.bat">echo [Install] &gt; .Npackd\FF.ini&#13;
-echo InstallDirectoryPath=%CD% &gt;&gt; .Npackd\FF.ini&#13;
-echo QuickLaunchShortcut=false &gt;&gt; .Npackd\FF.ini&#13;
-echo DesktopShortcut=false &gt;&gt; .Npackd\FF.ini&#13;
-"%npackd_package_binary%" /INI="%CD%\.Npackd\FF.ini" &amp;&amp; del /f /q "%npackd_package_binary%"</file>
-  <file path=".Npackd\Uninstall.bat">uninstall\helper.exe /S</file>
-  <url>http://rm-eu.palemoon.org/release/palemoon-30.0.0.win64.installer.exe</url>
-  <hash-sum type="SHA-256">cecb33f8c238c82d9a4fd0076b573624d35b476fd984d0ee2c6747b8724d1304</hash-sum>
- </version>
- <version name="30.0.1" package="pale-moon64" type="one-file">
-  <file path=".Npackd\Install.bat">echo [Install] &gt; .Npackd\FF.ini&#13;
-echo InstallDirectoryPath=%CD% &gt;&gt; .Npackd\FF.ini&#13;
-echo QuickLaunchShortcut=false &gt;&gt; .Npackd\FF.ini&#13;
-echo DesktopShortcut=false &gt;&gt; .Npackd\FF.ini&#13;
-"%npackd_package_binary%" /INI="%CD%\.Npackd\FF.ini" &amp;&amp; del /f /q "%npackd_package_binary%"</file>
-  <file path=".Npackd\Uninstall.bat">uninstall\helper.exe /S</file>
-  <url>http://rm-eu.palemoon.org/release/palemoon-30.0.1.win64.installer.exe</url>
-  <hash-sum type="SHA-256">f2adf999be923d2c426f233d59d92ac0ce01b9ce4c8672bff597c462f49c1e7f</hash-sum>
+  <url>https://rm-eu.palemoon.org/release/palemoon-29.4.6.win64.installer.exe</url>
+  <hash-sum type="SHA-256">21b9b5f3e27bd1fe5f3121aeefd1662cbdd21a04a6b5c8d1dd0070221e5d50a7</hash-sum>
  </version>
 
     <version name="2.2.1" package="pandoc64" type="one-file">
@@ -65096,7 +65030,7 @@ verify</file>
  <version name="3.27.5" package="qcad64" type="one-file">
   <file path=".Npackd\Install.bat">call "%nih%\InstallMSI.bat" INSTALLDIR yes&#13;
 </file>
-  <url>http://www.qcad.org/archives/qcad/qcad-3.27.5-trial-win64-installer.msi</url>
+  <url>https://github.com/tim-lebedkov/packages/releases/download/2022_05/qcad64-3.27.5-qcad-3.27.5-trial-win64-installer.msi</url>
   <hash-sum type="SHA-256">5c0f85ebaed98055c3c916cabb674eab7b89823a4f5f8578197d89efb694c807</hash-sum>
   <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.1, 2)">
    <variable>nih</variable>
