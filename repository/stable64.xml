@@ -1996,6 +1996,7 @@ x86_64</description>
   <description>Play all the world's videos, KMPlayer! The new KMPlayer is a player optimized for high-end PCs such as 8K and 60FPS. It is a powerful player that plays all the files such as 4K, 8K, 60FPS, and has greatly improved performance to increase the playback speed of high quality content in high-end PC. We also removed all advertisements to provide the best viewing experience for our users, and reorganized them into a more streamlined menu structure.
 x86_64</description>
   <icon>https://upload.wikimedia.org/wikipedia/commons/thumb/d/d7/The_KMPlayer_icon_%28since_v3.2%29.png/220px-The_KMPlayer_icon_%28since_v3.2%29.png</icon>
+  <license>org.wikipedia.Freeware</license>
   <category>Video</category>
   <tag>stable64</tag>
   <stars>1</stars>
@@ -15157,7 +15158,7 @@ del Q-Dir.ini&#13;
   <url>http://files.npackd.org/com.softwareok.QDir64-5.99.9.zip</url>
   <sha1>fb6060796fae3fc641ba34fe1f2f8530d7c985a8</sha1>
  </version>
- <version name="10.71" package="com.softwareok.QDir64">
+ <version name="10.73.1" package="com.softwareok.QDir64">
   <important-file path="Q-Dir_x64.exe" title="Q-Dir"/>
   <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b Q*') do set name=%%x&#13;
 cd "%name%"        &#13;
@@ -60895,6 +60896,20 @@ call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Np
 </file>
   <url>https://github.com/vim/vim-win32-installer/releases/download/v8.2.4912/gvim_8.2.4912_x64.zip</url>
   <hash-sum type="SHA-256">fb814729c77a6179a87d713825864225a1f2ab8f396dc9c52fc7c6674885f606</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.19, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
+ <version name="8.2.4922" package="org.vim.Vim64">
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+if %errorlevel% neq 0 exit /b %errorlevel%&#13;
+&#13;
+for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+</file>
+  <url>https://github.com/vim/vim-win32-installer/releases/download/v8.2.4922/gvim_8.2.4922_x64.zip</url>
+  <hash-sum type="SHA-256">88635cd112e5eb5c35f061bffaec760276a209c1679ceaaa21905ae44565ddf2</hash-sum>
   <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.19, 2)">
    <variable>nih</variable>
   </dependency>
