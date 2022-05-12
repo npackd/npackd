@@ -1672,6 +1672,28 @@ x86_64</description>
   <tag>stable64</tag>
   <stars>1</stars>
  </package>
+ <package name="freecad">
+  <title>FreeCAD 64 Bit</title>
+  <url>https://www.freecadweb.org/</url>
+  <description>An open-source parametric 3D modeler
+x86_64</description>
+  <icon>https://upload.wikimedia.org/wikipedia/commons/thumb/f/f7/FreeCAD-logo.svg/1200px-FreeCAD-logo.svg.png</icon>
+  <license>org.wikipedia.Freeware</license>
+  <category>Productivity</category>
+  <tag>stable64</tag>
+  <stars>1</stars>
+  <link href="https://wiki.freecad.org/Feature_list#Release_notes" rel="changelog"/>
+  <link href="https://wiki.freecad.org/images/d/d8/FreeCAD_interface_base_divisions.svg" rel="screenshot"/>
+  <link href="https://wiki.freecad.org/images/thumb/9/98/216.png/1024px-216.png" rel="screenshot"/>
+  <link href="https://wiki.freecad.org/images/8/81/Freecad09.jpg" rel="screenshot"/>
+  <link href="https://wiki.freecad.org/images/b/b3/Freecad010.png" rel="screenshot"/>
+  <link href="https://wiki.freecad.org/images/2/2d/FreeCAD011.png" rel="screenshot"/>
+  <link href="https://wiki.freecad.org/images/thumb/7/7e/TaskPanel.jpg/800px-TaskPanel.jpg" rel="screenshot"/>
+  <link href="https://wiki.freecad.org/images/thumb/f/f4/Drawing_extraction.png/800px-Drawing_extraction.png" rel="screenshot"/>
+  <link href="https://wiki.freecad.org/images/9/97/Freecad-vista02.jpg" rel="screenshot"/>
+  <link href="https://wiki.freecad.org/images/c/c4/Screenshot_draft.jpg" rel="screenshot"/>
+  <link href="https://github.com/FreeCAD/FreeCAD/issues" rel="issues"/>
+ </package>
  <package name="fusioninventory-agent64">
   <title>FusionInventory Agent 64 bit</title>
   <url>http://fusioninventory.org/</url>
@@ -15158,7 +15180,7 @@ del Q-Dir.ini&#13;
   <url>http://files.npackd.org/com.softwareok.QDir64-5.99.9.zip</url>
   <sha1>fb6060796fae3fc641ba34fe1f2f8530d7c985a8</sha1>
  </version>
- <version name="10.73.1" package="com.softwareok.QDir64">
+ <version name="10.74" package="com.softwareok.QDir64">
   <important-file path="Q-Dir_x64.exe" title="Q-Dir"/>
   <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b Q*') do set name=%%x&#13;
 cd "%name%"        &#13;
@@ -20189,6 +20211,24 @@ rmdir "%name%"&#13;
    <variable>sevenzipa</variable>
   </dependency>
  </version>
+ <version name="0.9.5" package="drmingw64" type="one-file">
+  <file path=".Npackd\Install.bat">"%sevenzipa%\7za.exe" x "%npackd_package_binary%" &gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt &amp;&amp; del /f /q "%setup%"&#13;
+if %errorlevel% neq 0 exit /b %errorlevel%&#13;
+&#13;
+for /f "delims=" %%x in ('dir /b drmingw*') do set name=%%x&#13;
+cd "%name%"        &#13;
+for /f "delims=" %%a in ('dir /b') do (&#13;
+  move "%%a" ..&#13;
+)&#13;
+cd ..&#13;
+rmdir "%name%"&#13;
+</file>
+  <url>https://github.com/jrfonseca/drmingw/releases/download/0.9.5/drmingw-0.9.5-win64.7z</url>
+  <hash-sum type="SHA-256">3df44c929864b3dc33862adf77eb295b3c378934dd084b89b951b1c6a09dc184</hash-sum>
+  <dependency package="org.7-zip.SevenZIPA" versions="[9.20, 20)">
+   <variable>sevenzipa</variable>
+  </dependency>
+ </version>
 
     <version name="6.3.1" package="droidcam" type="one-file">
   <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
@@ -21799,6 +21839,16 @@ rmdir "%name%"&#13;
    <variable>nih</variable>
   </dependency>
  </version>
+ <version name="2.7.8" package="firealpaca" type="one-file">
+  <file path=".Npackd\Install.bat">call "%nih%\InstallInnoSetup.bat"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">call "%nih%\UninstallInnoSetup.bat" unins000.exe&#13;
+</file>
+  <url>https://www.portalgraphics.net/firealpaca/bin/FireAlpaca32_setup_2_7_8.exe</url>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
 
     <version name="2.3.5" package="firealpaca64" type="one-file">
   <file path=".Npackd\Install.bat">"%npackd_package_binary%" &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
@@ -22186,6 +22236,16 @@ rmdir "%name%"&#13;
   <file path=".Npackd\Uninstall.bat">call "%nih%\UninstallInnoSetup.bat" unins000.exe&#13;
 </file>
   <url>https://www.portalgraphics.net/firealpaca/bin/FireAlpaca64_setup_2_7_7.exe</url>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
+ <version name="2.7.8" package="firealpaca64" type="one-file">
+  <file path=".Npackd\Install.bat">call "%nih%\InstallInnoSetup.bat"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">call "%nih%\UninstallInnoSetup.bat" unins000.exe&#13;
+</file>
+  <url>https://www.portalgraphics.net/firealpaca/bin/FireAlpaca64_setup_2_7_8.exe</url>
   <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
    <variable>nih</variable>
   </dependency>
@@ -23960,7 +24020,13 @@ rmdir "%name%"</file>
 
     
 
-    
+    <version name="0.19.4" package="freecad" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">uninstall.exe /S _?=%CD%&#13;
+</file>
+  <url>https://github.com/FreeCAD/FreeCAD/releases/download/0.19.4/FreeCAD-0.19.4-WIN-x64-installer-2.exe</url>
+ </version>
 
     <version name="2.4" package="fusioninventory-agent64" type="one-file">
   <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
@@ -24949,7 +25015,7 @@ if %err% neq 0 exit %err%&#13;
   <hash-sum type="SHA-256">9ea1de71109eb5f1b41be08cf2f509ad952ba8cdae8ed82507452f2f772686d3</hash-sum>
  </version>
 
-    <version name="101.0.4951.54" package="google-chrome-x64" type="one-file">
+    <version name="101.0.4951.64" package="google-chrome-x64" type="one-file">
   <file path=".Npackd\Install.bat">call "%npackdih%\InstallMSI.bat" TARGETDIR yes&#13;
 </file>
   <url>https://dl.google.com/tag/s/appguid%3D%7B8A69D345-D564-463C-AFF1-A69D9E530F96%7D%26iid%3D%7B0A558A36-0536-8B3F-0AE0-420553CC97F3%7D%26lang%3Den%26browser%3D4%26usagestats%3D0%26appname%3DGoogle%2520Chrome%26needsadmin%3DFalse/edgedl/chrome/install/GoogleChromeStandaloneEnterprise64.msi</url>
@@ -38222,6 +38288,55 @@ verify&#13;
   <url>https://github.com/notepad-plus-plus/notepad-plus-plus/releases/download/v8.4/npp.8.4.Installer.x64.exe</url>
   <hash-sum type="SHA-256">662450bbbe1d642bddd5501f65de830341ac4c7846b4fe9ad8512c9e2888d129</hash-sum>
  </version>
+ <version name="8.4.1" package="notepadpp64" type="one-file">
+  <file path=".Npackd\Install.bat">xcopy "%allusersprofile%\Npackd\Config\net.sourceforge.NotepadPlusPlus" .  /E /C /I /F /H /R /Y &gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+&#13;
+for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
+"%setup%" /S /D=%CD%&#13;
+if %errorlevel% neq 0 exit /b %errorlevel%&#13;
+&#13;
+set package=net.sourceforge.NotepadPlusPlus&#13;
+set version=%NPACKD_PACKAGE_VERSION%&#13;
+set key=%package%&#13;
+&#13;
+reg add HKLM\SOFTWARE\Classes\Applications\%KEY%\shell\open /v FriendlyAppName /d "Notepad++ (%version%)" /f &gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+set c=\"%CD%\notepad++.exe\" \"%%1\"&#13;
+reg add HKLM\SOFTWARE\Classes\Applications\%KEY%\shell\open\command /d "%c%" /f &gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+for %%g in (txt log ini h hpp hxx c cpp cxx cc m java cs pas inc html htm php phtml properties js jsp asp css xml sh bsh nsi nsh lua pl pm py as mx vb vbs f for f90 f95 f2k tex sql nfo mak hgignore) do reg add HKLM\SOFTWARE\Classes\.%%g\OpenWithList\%key% /f &gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+&#13;
+reg add "HKCR\*\shell\Notepad++\command" /ve /f /d "\"%cd%\notepad++.exe\" %%1" &gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+&#13;
+verify</file>
+  <file path=".Npackd\Uninstall.bat">rmdir /s /q "%allusersprofile%\Npackd\Config\net.sourceforge.NotepadPlusPlus"&#13;
+xcopy Plugins "%allusersprofile%\Npackd\Config\net.sourceforge.NotepadPlusPlus\Plugins" /E /C /I /F /H /R /Y &gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+&#13;
+set package=net.sourceforge.NotepadPlusPlus&#13;
+set version=%NPACKD_PACKAGE_VERSION%&#13;
+set key=%package%&#13;
+&#13;
+set newname=%key%_%random%&#13;
+ren %appdata%\Notepad++ %newname%&#13;
+uninstall.exe /S _?=%CD%&#13;
+if %errorlevel% neq 0 exit /b %errorlevel%&#13;
+ren %appdata%\%newname% Notepad++&#13;
+&#13;
+rem unregister "Open With..." entries&#13;
+reg delete HKLM\SOFTWARE\Classes\Applications\%KEY% /f &gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+for %%g in (txt log ini h hpp hxx c cpp cxx cc m java cs pas inc html htm php phtml properties js jsp asp css xml sh bsh nsi nsh lua pl pm py as mx vb vbs f for f90 f95 f2k tex sql nfo mak hgignore) do reg delete HKLM\SOFTWARE\Classes\.%%g\OpenWithList\%key% /f &gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+&#13;
+reg delete HKCR\*\shell\Notepad++ /f &gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+&#13;
+rem remove Explorer extension&#13;
+set trash=..\.Trash\%key%_%random%&#13;
+mkdir %trash%&#13;
+move NppShell*.dll %trash%&#13;
+verify&#13;
+		</file>
+  <file path=".Npackd\ExportUserSettings.bat">copy "%appdata%\Notepad++\config.xml" .</file>
+  <file path=".Npackd\ImportUserSettings.bat">copy /y config.xml "%appdata%\Notepad++"</file>
+  <url>https://github.com/notepad-plus-plus/notepad-plus-plus/releases/download/v8.4.1/npp.8.4.1.Installer.x64.exe</url>
+  <hash-sum type="SHA-256">6d80dcfdb5a979eb11de1ebbf5733a101fbe4cd8f7c1ac10f651e71fadf52e4a</hash-sum>
+ </version>
 
     <version name="1.49" package="nubasic64">
   <file path=".Npackd\Install.bat">call "%nih%\InstallInnoSetup.bat"&#13;
@@ -38257,7 +38372,7 @@ verify&#13;
   </dependency>
  </version>
 
-    <version name="3.11.10" package="ocenaudio64" type="one-file">
+    <version name="3.11.11" package="ocenaudio64" type="one-file">
   <file path=".Npackd\Install.bat">"%npackd_package_binary%" /AllUsers /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
 </file>
   <file path=".Npackd\Uninstall.bat">"%ncl%\ncl" remove-scp --title "/ocenaudio.*/"</file>
@@ -47022,6 +47137,40 @@ Set view = Nothing&#13;
 </file>
   <url>https://golang.org/dl/go1.18.1.windows-amd64.msi</url>
   <hash-sum type="SHA-256">9a3e9636eb5f9af4b3b29b116b7d28b8d6092c690ee4b88cfb9613b8851d4a66</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1, 2)">
+   <variable>npackdih</variable>
+  </dependency>
+ </version>
+ <version name="1.18.2" package="org.golang.Go64" type="one-file">
+  <file path=".Npackd\Install.bat">.Npackd\AddProperty.vbs "%npackd_package_binary%"&#13;
+if %errorlevel% neq 0 exit %errorlevel%&#13;
+&#13;
+call "%npackdih%\InstallMSI.bat" INSTALLDIR</file>
+  <file path=".Npackd\Uninstall.bat">call "%npackdih%\UninstallMSI.bat"</file>
+  <file path=".Npackd\AddProperty.vbs">Option Explicit&#13;
+&#13;
+Dim MSI_FILE&#13;
+MSI_FILE = Wscript.Arguments(0)&#13;
+&#13;
+Dim installer, database, view&#13;
+&#13;
+Set installer = CreateObject("WindowsInstaller.Installer")&#13;
+Set database = installer.OpenDatabase(MSI_FILE, 1)&#13;
+&#13;
+Set view = database.OpenView("INSERT INTO Property (Property, Value) VALUES ('INSTALLDIR', 'C:\Go')")&#13;
+view.Execute&#13;
+'Set view = database.OpenView("DELETE FROM Directory WHERE Directory='TARGETDIR'")&#13;
+'view.Execute&#13;
+'Set view = database.OpenView("UPDATE Directory SET DefaultDir='INSTALLLOCATION' WHERE Directory='TARGETDIR'")&#13;
+'view.Execute&#13;
+database.Commit&#13;
+&#13;
+Set database = Nothing&#13;
+Set installer = Nothing&#13;
+Set view = Nothing&#13;
+</file>
+  <url>https://golang.org/dl/go1.18.2.windows-amd64.msi</url>
+  <hash-sum type="SHA-256">3c6ecea0966aedac4dd2e21a8db5d67b984d979f69670cb4a6d767c5e0160296</hash-sum>
   <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1, 2)">
    <variable>npackdih</variable>
   </dependency>
@@ -60952,6 +61101,20 @@ call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Np
    <variable>nih</variable>
   </dependency>
  </version>
+ <version name="8.2.4937" package="org.vim.Vim64">
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+if %errorlevel% neq 0 exit /b %errorlevel%&#13;
+&#13;
+for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+</file>
+  <url>https://github.com/vim/vim-win32-installer/releases/download/v8.2.4937/gvim_8.2.4937_x64.zip</url>
+  <hash-sum type="SHA-256">a5cecd3dc3d8336339f282fc7cb510106c8a5e6c80602c6766bf928618609522</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.19, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
 
     <version name="4.2.8.83876" package="org.virtualbox.virtualbox64" type="one-file">
   <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
@@ -63748,6 +63911,16 @@ echo DesktopShortcut=false &gt;&gt; .Npackd\FF.ini&#13;
 </file>
   <url>https://github.com/jgm/pandoc/releases/download/2.17.1.1/pandoc-2.17.1.1-windows-x86_64.msi</url>
   <hash-sum type="SHA-256">3d7ae712c6a007633c2285e5e1680858b1cc13e2b9c9e77c57a075f5c14f48b9</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.1, 2)">
+   <variable>nih</variable>
+  </dependency>
+  <dependency package="org.miktex.MiKTeX" versions="[2.9, 3)"/>
+ </version>
+ <version name="2.18" package="pandoc64" type="one-file">
+  <file path=".Npackd\Install.bat">call "%nih%\InstallMSI.bat" INSTALLDIR yes&#13;
+</file>
+  <url>https://github.com/jgm/pandoc/releases/download/2.18/pandoc-2.18-windows-x86_64.msi</url>
+  <hash-sum type="SHA-256">afbcaa39a85bd44be89346036e09fe31db5712281c42ef384f1f86c97eea9745</hash-sum>
   <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.1, 2)">
    <variable>nih</variable>
   </dependency>
@@ -67037,6 +67210,16 @@ call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Np
 </file>
   <url>https://github.com/tim-lebedkov/packages/releases/download/2022_04/se.haxx.curl.CURL64-7.83-curl-7.83.0-win64-mingw.zip</url>
   <hash-sum type="SHA-256">28b49949e246c17a2ff0f9309145a110888e8cdad50316048762d1e27266b226</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.19, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
+ <version name="7.83.1" package="se.haxx.curl.CURL64">
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b curl*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+</file>
+  <url>https://curl.haxx.se/windows/dl-7.83.1/curl-7.83.1-win64-mingw.zip</url>
+  <hash-sum type="SHA-256">edf6fc47ebf151e65e17269a2117ce7aa7fb1afb352ab5938b48eaeaf8cff9d9</hash-sum>
   <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.19, 2)">
    <variable>nih</variable>
   </dependency>
@@ -71358,6 +71541,19 @@ type .Npackd\Output.txt</file>
    <variable>ncl</variable>
   </dependency>
  </version>
+ <version name="5.2.2623.46" package="vivaldi-browser-64" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" --system-level --vivaldi-silent --vivaldi-standalone --do-not-launch-chrome --vivaldi-install-dir="%CD%" &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">for /f "delims=" %%x in ('dir /b application\5*') do set name=%%x&#13;
+&#13;
+Application\%name%\Installer\setup.exe --uninstall --vivaldi --force-uninstall --system-level &gt; .Npackd\Output.txt 2&gt;&amp;1 &#13;
+type .Npackd\Output.txt</file>
+  <url>https://downloads.vivaldi.com/stable/Vivaldi.5.2.2623.46.x64.exe</url>
+  <hash-sum type="SHA-256">5cb84aaa045a8cc26650a40e34ff127162a79886e3349ddd71fc9bf03aa2b188</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.24, 2)">
+   <variable>ncl</variable>
+  </dependency>
+ </version>
 
     <version name="15.0.2" package="vmware64" type="one-file">
   <file path=".Npackd\Install.bat">"%npackd_package_binary%" /a /s /v"/qn TARGETDIR=."&#13;
@@ -71447,7 +71643,7 @@ if %err% neq 0 exit %err%&#13;
   <url>https://az764295.vo.msecnd.net/stable/a0479759d6e9ea56afa657e454193f72aef85bd0/VSCodeSetup-ia32-1.48.2.exe</url>
   <hash-sum type="SHA-256">013d5ecdb44159c15047472512bef9c76ba934807dbb07a582655f4c5546866d</hash-sum>
  </version>
- <version name="1.67" package="vs-code" type="one-file">
+ <version name="1.67.1" package="vs-code" type="one-file">
   <file path=".Npackd\Install.bat">ren "%npackd_package_binary%" setup.exe&#13;
 setup.exe /SP- /VERYSILENT /SUPPRESSMSGBOXES /NOCANCEL /NORESTART /DIR="%CD%" /SAVEINF="%CD%\.Npackd\InnoSetupInfo.ini" /LOG="%CD%\.Npackd\InnoSetupInstall.log"&#13;
 set err=%errorlevel%&#13;
@@ -71542,7 +71738,7 @@ if %err% neq 0 exit %err%&#13;
 </file>
   <url>https://update.code.visualstudio.com/1.65.0/win32-x64/stable</url>
  </version>
- <version name="1.67" package="vs-code64" type="one-file">
+ <version name="1.67.1" package="vs-code64" type="one-file">
   <file path=".Npackd\Install.bat">ren "%npackd_package_binary%" setup.exe&#13;
 setup.exe /SP- /VERYSILENT /SUPPRESSMSGBOXES /NOCANCEL /NORESTART /DIR="%CD%" /SAVEINF="%CD%\.Npackd\InnoSetupInfo.ini" /LOG="%CD%\.Npackd\InnoSetupInstall.log"&#13;
 set err=%errorlevel%&#13;
