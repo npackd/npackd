@@ -843,7 +843,7 @@ x86_64</description>
   <license>org.gnu.GPLv3</license>
   <category>Tools</category>
   <tag>stable64</tag>
-  <stars>6</stars>
+  <stars>7</stars>
   <link href="https://github.com/tim-lebedkov/npackd/wiki/ChangeLog" rel="changelog"/>
   <link href="http://npackd.appspot.com/Npackd.png" rel="screenshot"/>
  </package>
@@ -881,7 +881,7 @@ x86_64</description>
   <category>Tools</category>
   <tag>stable64</tag>
   <tag>reupload</tag>
-  <stars>4</stars>
+  <stars>5</stars>
  </package>
  <package name="com.microsoft.MSXML64">
   <title>Microsoft Core XML Services MSXML 64 bit</title>
@@ -1127,7 +1127,7 @@ x86_64</description>
   <license>org.gnu.GPLv2</license>
   <category>Video</category>
   <tag>stable64</tag>
-  <stars>14</stars>
+  <stars>15</stars>
  </package>
  <package name="com.whatsappinc.whatsapp-desktop-64">
   <title>Whatsapp Desktop 64 bit</title>
@@ -1582,7 +1582,7 @@ x86_64</description>
   <license>com.mozilla.MozillaFirefoxLicense2</license>
   <category>Communications</category>
   <tag>stable64</tag>
-  <stars>8</stars>
+  <stars>9</stars>
  </package>
  <package name="firefoxpwa">
   <title>Progressive Web Apps for Firefox</title>
@@ -1658,7 +1658,7 @@ x86_64</description>
   <license>org.apache.ApacheLicense2</license>
   <category>Security</category>
   <tag>stable64</tag>
-  <stars>4</stars>
+  <stars>5</stars>
   <link href="https://www.veracrypt.fr/en/Release%20Notes.html" rel="changelog"/>
  </package>
  <package name="freac64">
@@ -1740,7 +1740,7 @@ x86_64</description>
   <license>org.gnu.GPLv2</license>
   <category>Development</category>
   <tag>stable64</tag>
-  <stars>4</stars>
+  <stars>5</stars>
  </package>
  <package name="gnuplot64">
   <title>gnuplot 64 bit</title>
@@ -1765,7 +1765,7 @@ x86_64</description>
   <category>Communications</category>
   <tag>same-url</tag>
   <tag>stable64</tag>
-  <stars>25</stars>
+  <stars>26</stars>
  </package>
  <package name="google-cloud-sdk64">
   <title>Google Cloud SDK 64 bit</title>
@@ -1898,7 +1898,7 @@ x86_64</description>
   <icon>https://www.hwinfo.com/favicon.ico</icon>
   <category>Tools</category>
   <tag>stable64</tag>
-  <stars>5</stars>
+  <stars>6</stars>
  </package>
  <package name="ie.heidi.eraser.eraser64">
   <title>Eraser 64 bit</title>
@@ -2662,7 +2662,7 @@ x86_64</description>
   <license>org.gnu.GPLv2</license>
   <category>Text</category>
   <tag>stable64</tag>
-  <stars>12</stars>
+  <stars>13</stars>
   <link href="https://notepad-plus-plus.org/news/" rel="changelog"/>
  </package>
  <package name="nubasic64">
@@ -4231,7 +4231,7 @@ x86_64</description>
   <category>Development</category>
   <tag>stable64</tag>
   <tag>same-url</tag>
-  <stars>7</stars>
+  <stars>8</stars>
   <link href="https://code.visualstudio.com/updates" rel="changelog"/>
   <link href="https://code.visualstudio.com/assets/home/home-screenshot-win-lg.png" rel="screenshot"/>
  </package>
@@ -19857,6 +19857,16 @@ rmdir "%name%"&#13;
   <file path=".Npackd\Uninstall.bat">"%nih%\UninstallInnoSetup.bat" unins000.exe</file>
   <url>https://sourceforge.net/projects/deadbeef/files/travis/windows/1.8.8/deadbeef-1.8.8-windows-x86_64.exe</url>
   <hash-sum type="SHA-256">baba51057247f64020c6f59078ed4e44fb46a585c29ab5028abb86bafcb5f6e1</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
+ <version name="1.9" package="deadbeef" type="one-file">
+  <file path=".Npackd\Install.bat">"%nih%\InstallInnoSetup.bat"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">"%nih%\UninstallInnoSetup.bat" unins000.exe</file>
+  <url>https://sourceforge.net/projects/deadbeef/files/travis/windows/1.9.0/deadbeef-1.9.0-windows-x86_64.exe</url>
+  <hash-sum type="SHA-256">2340fb6e6120b0b10e2ecfb1f180e4b6a5fc0bd920991295c8744bfd60f03494</hash-sum>
   <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
    <variable>nih</variable>
   </dependency>
@@ -61345,6 +61355,20 @@ call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Np
 </file>
   <url>https://github.com/vim/vim-win32-installer/releases/download/v8.2.4981/gvim_8.2.4981_x64.zip</url>
   <hash-sum type="SHA-256">c04ca07708a66910549ccf559aeefbc84d08a568bae1f5d0b810df4052923078</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.19, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
+ <version name="8.2.4987" package="org.vim.Vim64">
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+if %errorlevel% neq 0 exit /b %errorlevel%&#13;
+&#13;
+for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+</file>
+  <url>https://github.com/vim/vim-win32-installer/releases/download/v8.2.4987/gvim_8.2.4987_x64.zip</url>
+  <hash-sum type="SHA-256">684458e283f5ebe4337bdd2ef76604144d617d95006697fec212e6a1155ab740</hash-sum>
   <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.19, 2)">
    <variable>nih</variable>
   </dependency>
