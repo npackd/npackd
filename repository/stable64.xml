@@ -29311,6 +29311,8 @@ rmdir "%name%"&#13;
 
     
 
+    
+
     <version name="5" package="jclasslib64" type="one-file">
   <important-file path="bin\jclasslib.exe" title="jclasslib"/>
   <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
@@ -30680,6 +30682,20 @@ rmdir "%name%"&#13;
 </file>
   <url>https://github.com/visualfc/liteide/releases/download/x37.4/liteidex37.4.win64-qt5.14.2.zip</url>
   <hash-sum type="SHA-256">9acd6fd879252691118cd6cc04f57a5fb4b9f0d2973501a033f3a408b940a0cf</hash-sum>
+  <dependency package="org.golang.Go" versions="[1, 2)"/>
+ </version>
+ <version name="38" package="liteide64">
+  <important-file path="bin\liteide.exe" title="Go LiteIDE"/>
+  <file path=".Npackd\Install.bat">set name=liteide&#13;
+cd "%name%" &#13;
+for /f "delims=" %%a in ('dir /b') do (&#13;
+  move "%%a" ..&#13;
+)&#13;
+cd ..&#13;
+rmdir "%name%"&#13;
+</file>
+  <url>https://github.com/visualfc/liteide/releases/download/x38.0/liteidex38.0.win64-qt5.15.2.zip</url>
+  <hash-sum type="SHA-256">074ab5392f40143760cae7b36b7d7706ef9eed3161bbbcb80b7f03f3a8dfc069</hash-sum>
   <dependency package="org.golang.Go" versions="[1, 2)"/>
  </version>
 
@@ -61369,6 +61385,20 @@ call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Np
 </file>
   <url>https://github.com/vim/vim-win32-installer/releases/download/v8.2.4987/gvim_8.2.4987_x64.zip</url>
   <hash-sum type="SHA-256">684458e283f5ebe4337bdd2ef76604144d617d95006697fec212e6a1155ab740</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.19, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
+ <version name="8.2.4995" package="org.vim.Vim64">
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+if %errorlevel% neq 0 exit /b %errorlevel%&#13;
+&#13;
+for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+</file>
+  <url>https://github.com/vim/vim-win32-installer/releases/download/v8.2.4995/gvim_8.2.4995_x64.zip</url>
+  <hash-sum type="SHA-256">de6122cf51712418bf8a86156c071d8fd02ca012316898ada263dbc36be95ac4</hash-sum>
   <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.19, 2)">
    <variable>nih</variable>
   </dependency>
