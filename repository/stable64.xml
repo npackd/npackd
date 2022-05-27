@@ -6754,6 +6754,20 @@ if %errorlevel% neq 0 exit /b %errorlevel%&#13;
   <url>https://github.com/Kitware/CMake/releases/download/v3.23.1/cmake-3.23.1-windows-x86_64.zip</url>
   <hash-sum type="SHA-256">9b509cc4eb7191dc128cfa3f2170036f9cbc7d9d5f93ff7fafc5b2d77b3b40dc</hash-sum>
  </version>
+ <version name="3.23.2" package="cmake64">
+  <cmd-file path="bin\cmake.exe"/>
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b cmake*') do set name=%%x&#13;
+cd "%name%"        &#13;
+for /f "delims=" %%a in ('dir /b') do (&#13;
+  move "%%a" ..&#13;
+)&#13;
+cd ..&#13;
+rmdir "%name%"&#13;
+if %errorlevel% neq 0 exit /b %errorlevel%&#13;
+</file>
+  <url>https://github.com/Kitware/CMake/releases/download/v3.23.2/cmake-3.23.2-windows-x86_64.zip</url>
+  <hash-sum type="SHA-256">2329387f3166b84c25091c86389fb891193967740c9bcf01e7f6d3306f7ffda0</hash-sum>
+ </version>
 
     <version name="16" package="codelite" type="one-file">
   <file path=".Npackd\Install.bat">ren downloads.php setup.exe&#13;
@@ -21108,6 +21122,11 @@ rmdir "%name%"&#13;
   <important-file path="Everything.exe" title="Everything"/>
   <url>http://www.voidtools.com/Everything-1.4.1.1015.x64.zip</url>
   <hash-sum type="SHA-256">656ff3946222048a5558160023da6fd8abc6fa9569f7ac1dff058410a3db6f28</hash-sum>
+ </version>
+ <version name="1.4.1.1017" package="everything64">
+  <important-file path="Everything.exe" title="Everything"/>
+  <url>http://www.voidtools.com/Everything-1.4.1.1017.x64.zip</url>
+  <hash-sum type="SHA-256">fe12e92c479683a690c5f83d64a6136d1e6170ca4bb4f9e9f53f2e0cf0d87a9b</hash-sum>
  </version>
 
     <version name="8.45" package="explzh64" type="one-file">
@@ -61529,6 +61548,20 @@ call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Np
    <variable>nih</variable>
   </dependency>
  </version>
+ <version name="8.2.5018" package="org.vim.Vim64">
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+if %errorlevel% neq 0 exit /b %errorlevel%&#13;
+&#13;
+for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+</file>
+  <url>https://github.com/vim/vim-win32-installer/releases/download/v8.2.5018/gvim_8.2.5018_x64.zip</url>
+  <hash-sum type="SHA-256">df44b4dc33ad84f0669da189469deee5535ad5d4945d9a0a889e5eeefb913a9d</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.19, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
 
     <version name="4.2.8.83876" package="org.virtualbox.virtualbox64" type="one-file">
   <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
@@ -65558,6 +65591,14 @@ verify</file>
 verify</file>
   <url>https://downloads.sourceforge.net/project/qbittorrent/qbittorrent-win32/qbittorrent-4.4.3/qbittorrent_4.4.3_x64_setup.exe</url>
   <hash-sum type="SHA-256">38c98176965974676f8e77f9c1cce4a2bd4c2e234d460d45313698b588a3c3ca</hash-sum>
+ </version>
+ <version name="4.4.3.1" package="qbittorrent-64-bit" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD%&#13;
+verify</file>
+  <file path=".Npackd\Uninstall.bat">uninst.exe /S _?=%CD%&#13;
+verify</file>
+  <url>https://downloads.sourceforge.net/project/qbittorrent/qbittorrent-win32/qbittorrent-4.4.3.1/qbittorrent_4.4.3.1_x64_setup.exe</url>
+  <hash-sum type="SHA-256">07f1777b4508c5629e26bb592050dfd4421169b76de79001d2f0350f92010f23</hash-sum>
  </version>
 
     <version name="3.23" package="qcad64" type="one-file">
