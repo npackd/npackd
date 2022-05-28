@@ -2200,7 +2200,6 @@ x86_64</description>
   <tag>stable64</tag>
   <stars>2</stars>
   <link href="https://medibangpaint.com/en/pc/releasenote/" rel="changelog"/>
-  <link href="https://medibangpaint.com/en/wp-content/themes/cloudalpaca.com/images/pc/product-point-main.jpg" rel="screenshot"/>
   <link href="https://static.filehorse.com/screenshots/imaging-and-digital-photo/medibang-paint-pro-screenshot-04.png" rel="screenshot"/>
   <link href="https://medibangpaint.com/en/wp-content/uploads/2017/04/iPad-How-to-Use-Materials-2.png" rel="screenshot"/>
   <link href="https://d22blwhp6neszm.cloudfront.net/79/787711/MediBang_Paint_Pro_download_for_windows.png" rel="screenshot"/>
@@ -4102,17 +4101,6 @@ x86_64</description>
   <link href="https://tuni.ac/Guide/Images/MainScreen.jpg" rel="screenshot"/>
   <link href="https://tuni.ac/screenshot.png" rel="screenshot"/>
   <link href="https://www.bytesin.com/software/media/screens/43963.jpg" rel="screenshot"/>
- </package>
- <package name="ultracopier64">
-  <title>UltraCopier 64 bit</title>
-  <url>http://ultracopier.first-world.info/</url>
-  <description>replacement for files copy dialogs
-x86_64</description>
-  <icon>http://ultracopier.first-world.info/favicon.ico</icon>
-  <license>org.gnu.GPLv3</license>
-  <category>Tools</category>
-  <tag>stable64</tag>
-  <stars>2</stars>
  </package>
  <package name="vagrant64">
   <title>Vagrant 64 bit</title>
@@ -10300,6 +10288,15 @@ call "%npackdih%\InstallMSI.bat" APPLICATIONFOLDER yes&#13;
 </file>
   <url>https://download.calibre-ebook.com/5.42.0/calibre-64bit-5.42.0.msi</url>
   <hash-sum type="SHA-256">8c1e0108f0f29d45434bbda8837793081988089c9fe53690d79b18fa02c1f839</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.2, 2)">
+   <variable>npackdih</variable>
+  </dependency>
+ </version>
+ <version name="5.43" package="com.calibreebook.Calibre64" type="one-file">
+  <file path=".Npackd\Install.bat">call "%npackdih%\InstallMSI.bat" APPLICATIONFOLDER yes&#13;
+</file>
+  <url>https://download.calibre-ebook.com/5.43.0/calibre-64bit-5.43.0.msi</url>
+  <hash-sum type="SHA-256">9eeda5079ccbb61e8ca1d65a30d43fae12b750ff0299c5a185c61df74bd3ed65</hash-sum>
   <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.2, 2)">
    <variable>npackdih</variable>
   </dependency>
@@ -29390,8 +29387,6 @@ rmdir "%name%"&#13;
 
     
 
-    
-
     <version name="5" package="jclasslib64" type="one-file">
   <important-file path="bin\jclasslib.exe" title="jclasslib"/>
   <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
@@ -31089,6 +31084,16 @@ if %err% neq 0 exit %err%&#13;
   <file path=".Npackd\Uninstall.bat">"%nih%\UninstallInnoSetup.bat" unins000.exe</file>
   <url>https://medibangpaint.com/static/installer/MediBangPaintPro/MediBangPaintProSetup-28.0-64bit.exe</url>
   <hash-sum type="SHA-256">f862cad4bb326cabbb081f78a42d7570c140a7b721df748299bace72d72f1ffc</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
+ <version name="28.1" package="medibang-paint64" type="one-file">
+  <file path=".Npackd\Install.bat">"%nih%\InstallInnoSetup.bat"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">"%nih%\UninstallInnoSetup.bat" unins000.exe</file>
+  <url>https://medibangpaint.com/static/installer/MediBangPaintPro/MediBangPaintProSetup-28.1-64bit.exe</url>
+  <hash-sum type="SHA-256">8f91c53a11c2251060f1d3fc4d43b70cd7cfa9a5e847a557c2fe9d628fd74e3a</hash-sum>
   <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
    <variable>nih</variable>
   </dependency>
@@ -61562,6 +61567,20 @@ call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Np
    <variable>nih</variable>
   </dependency>
  </version>
+ <version name="8.2.5026" package="org.vim.Vim64">
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+if %errorlevel% neq 0 exit /b %errorlevel%&#13;
+&#13;
+for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+</file>
+  <url>https://github.com/vim/vim-win32-installer/releases/download/v8.2.5026/gvim_8.2.5026_x64.zip</url>
+  <hash-sum type="SHA-256">f19c0b9f31c36aa26980a52b1f8a6739463d1ba60e9929a1dd6d1bcfcddc9590</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.19, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
 
     <version name="4.2.8.83876" package="org.virtualbox.virtualbox64" type="one-file">
   <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
@@ -70170,351 +70189,6 @@ if %err% neq 0 exit %err%&#13;
   <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
    <variable>nih</variable>
   </dependency>
- </version>
-
-    <version name="1.2.2.2" package="ultracopier64" type="one-file">
-  <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
-</file>
-  <file path=".Npackd\Uninstall.bat">uninst.exe /S _?=%CD%&#13;
-</file>
-  <url>http://files.first-world.info/ultracopier/1.2.2.2/ultracopier-windows-x86_64-1.2.2.2-setup.exe</url>
-  <sha1>6929d96dbe024514be95f5caa6b18cc4d642bc80</sha1>
- </version>
- <version name="1.2.3.2" package="ultracopier64" type="one-file">
-  <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
-</file>
-  <file path=".Npackd\Uninstall.bat">uninst.exe /S _?=%CD%&#13;
-</file>
-  <url>http://files.first-world.info/ultracopier/1.2.3.2/ultracopier-windows-x86_64-1.2.3.2-setup.exe</url>
-  <sha1>eb26dd344e258f2fb11846a2a266dfe4602a78c4</sha1>
- </version>
- <version name="1.2.3.5" package="ultracopier64" type="one-file">
-  <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
-</file>
-  <file path=".Npackd\Uninstall.bat">uninst.exe /S _?=%CD%&#13;
-</file>
-  <url>http://files.first-world.info/ultracopier/1.2.3.5/ultracopier-windows-x86_64-1.2.3.5-setup.exe</url>
-  <sha1>280909ed235029d19e4cbcc3a2e5fc8656c1abaf</sha1>
- </version>
- <version name="1.2.3.6" package="ultracopier64" type="one-file">
-  <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
-</file>
-  <file path=".Npackd\Uninstall.bat">uninst.exe /S _?=%CD%&#13;
-</file>
-  <url>http://files.first-world.info/ultracopier/1.2.3.6/ultracopier-windows-x86_64-1.2.3.6-setup.exe</url>
-  <sha1>5ed44022bf47fc8b38ad7832c9f4d5e3b95cce2e</sha1>
- </version>
- <version name="1.4.0.6" package="ultracopier64" type="one-file">
-  <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
-</file>
-  <file path=".Npackd\Uninstall.bat">uninst.exe /S _?=%CD%&#13;
-</file>
-  <url>http://files.first-world.info/ultracopier/1.4.0.6/ultracopier-windows-x86_64-1.4.0.6-setup.exe</url>
-  <hash-sum type="SHA-256">8c17fd7f14bcc305d0131829c8816bd28ced728e939882d16e1f803b4b1aa15c</hash-sum>
- </version>
- <version name="1.4.0.8" package="ultracopier64" type="one-file">
-  <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
-</file>
-  <file path=".Npackd\Uninstall.bat">uninst.exe /S _?=%CD%&#13;
-</file>
-  <url>http://files.first-world.info/ultracopier/1.4.0.8/ultracopier-windows-x86_64-1.4.0.8-setup.exe</url>
-  <hash-sum type="SHA-256">2ae32a1d5ef7ee4954558fc0082572d5f38178a3215763bebf57dae32e8bfbed</hash-sum>
- </version>
- <version name="1.4.1.3" package="ultracopier64" type="one-file">
-  <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
-</file>
-  <file path=".Npackd\Uninstall.bat">uninst.exe /S _?=%CD%&#13;
-</file>
-  <url>http://files.first-world.info/ultracopier/1.4.1.3/ultracopier-windows-x86_64-1.4.1.3-setup.exe</url>
-  <hash-sum type="SHA-256">625f76ee68026b9551fcd03d8be29a790f443be155abb1c2c91ff70df47b7548</hash-sum>
- </version>
- <version name="1.6.0.1" package="ultracopier64" type="one-file">
-  <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
-</file>
-  <file path=".Npackd\Uninstall.bat">uninst.exe /S _?=%CD%&#13;
-</file>
-  <url>http://files.first-world.info/ultracopier/1.6.0.1/ultracopier-windows-x86_64-1.6.0.1-setup.exe</url>
-  <hash-sum type="SHA-256">ddb8d27548513870aec3b8a96e86698f7333cb3b409b4d7ffafdcb0904949b62</hash-sum>
- </version>
- <version name="1.6.0.2" package="ultracopier64" type="one-file">
-  <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
-</file>
-  <file path=".Npackd\Uninstall.bat">uninst.exe /S _?=%CD%&#13;
-</file>
-  <url>http://files.first-world.info/ultracopier/1.6.0.2/ultracopier-windows-x86_64-1.6.0.2-setup.exe</url>
-  <hash-sum type="SHA-256">0dfb9b37dbfbf89aa17b1716a9ea29e8598d26d258199787df61f7c374eb8119</hash-sum>
- </version>
- <version name="1.6.1.1" package="ultracopier64" type="one-file">
-  <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
-</file>
-  <file path=".Npackd\Uninstall.bat">uninst.exe /S _?=%CD%&#13;
-</file>
-  <url>http://files.first-world.info/ultracopier/1.6.1.1/ultracopier-windows-x86_64-1.6.1.1-setup.exe</url>
-  <hash-sum type="SHA-256">0a08beedca42a202e4cfc8daf93a18d0d003dbb8e7ddac78f4aa30c8867daf96</hash-sum>
- </version>
- <version name="1.6.1.2" package="ultracopier64" type="one-file">
-  <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
-</file>
-  <file path=".Npackd\Uninstall.bat">uninst.exe /S _?=%CD%&#13;
-</file>
-  <url>http://files.first-world.info/ultracopier/1.6.1.2/ultracopier-windows-x86_64-1.6.1.2-setup.exe</url>
-  <hash-sum type="SHA-256">7f730e1217294ae66e269d5da86499bbd73f7ff0173b61c65bdd38f579a49d5d</hash-sum>
- </version>
- <version name="1.6.1.3" package="ultracopier64" type="one-file">
-  <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
-</file>
-  <file path=".Npackd\Uninstall.bat">uninst.exe /S _?=%CD%&#13;
-</file>
-  <url>http://files.first-world.info/ultracopier/1.6.1.3/ultracopier-windows-x86_64-1.6.1.3-setup.exe</url>
-  <hash-sum type="SHA-256">2471b7e249582e0bba984e08eecfbc8615dd5617bd0eb31254216e509fa5f9cb</hash-sum>
- </version>
- <version name="1.6.1.4" package="ultracopier64" type="one-file">
-  <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
-</file>
-  <file path=".Npackd\Uninstall.bat">uninst.exe /S _?=%CD%&#13;
-</file>
-  <url>http://files.first-world.info/ultracopier/1.6.1.4/ultracopier-windows-x86_64-1.6.1.4-setup.exe</url>
-  <hash-sum type="SHA-256">3cbdae5d4b9a7fc1d1e48591c30794bd9453e3a70fa9f7d23af10131cc91c532</hash-sum>
- </version>
- <version name="1.6.1.5" package="ultracopier64" type="one-file">
-  <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
-</file>
-  <file path=".Npackd\Uninstall.bat">uninst.exe /S _?=%CD%&#13;
-</file>
-  <url>http://files.first-world.info/ultracopier/1.6.1.5/ultracopier-windows-x86_64-1.6.1.5-setup.exe</url>
-  <hash-sum type="SHA-256">73f2ad4fee637898fd539b64b96308bd6d28473dcdddea4fe8c801803c586ae3</hash-sum>
- </version>
- <version name="2.0.3.4" package="ultracopier64" type="one-file">
-  <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
-</file>
-  <file path=".Npackd\Uninstall.bat">uninst.exe /S _?=%CD%&#13;
-</file>
-  <url>http://files.first-world.info/ultracopier/2.0.3.4/ultracopier-windows-x86_64-2.0.3.4-setup.exe</url>
-  <hash-sum type="SHA-256">361fcd90ba908eefdfda28acf5d249fca8e97ce68e16095b464f29205a41d114</hash-sum>
- </version>
- <version name="2.0.3.8" package="ultracopier64" type="one-file">
-  <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
-</file>
-  <file path=".Npackd\Uninstall.bat">uninst.exe /S _?=%CD%&#13;
-</file>
-  <url>http://files.first-world.info/ultracopier/2.0.3.8/ultracopier-windows-x86_64-2.0.3.8-setup.exe</url>
-  <hash-sum type="SHA-256">d7d01846e57dc9c6a731bd54d3630f0e24afda6b3018517299b14e2827523ee5</hash-sum>
- </version>
- <version name="2.0.3.11" package="ultracopier64" type="one-file">
-  <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
-</file>
-  <file path=".Npackd\Uninstall.bat">uninst.exe /S _?=%CD%&#13;
-</file>
-  <url>http://files.first-world.info/ultracopier/2.0.3.11/ultracopier-windows-x86_64-2.0.3.11-setup.exe</url>
-  <hash-sum type="SHA-256">1297d1991ce69c7d6289649cee4d1417932f73014ebce4d4ce528b8e4933f4ef</hash-sum>
- </version>
- <version name="2.0.4.2" package="ultracopier64" type="one-file">
-  <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
-</file>
-  <file path=".Npackd\Uninstall.bat">uninst.exe /S _?=%CD%&#13;
-</file>
-  <url>http://files.first-world.info/ultracopier/2.0.4.2/ultracopier-windows-x86_64-2.0.4.2-setup.exe</url>
-  <hash-sum type="SHA-256">d5cafeeafb70d5e92a893db7ac975440cae6fcef350148e91ef975c17e265bfe</hash-sum>
- </version>
- <version name="2.0.4.5" package="ultracopier64" type="one-file">
-  <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
-</file>
-  <file path=".Npackd\Uninstall.bat">uninst.exe /S _?=%CD%&#13;
-</file>
-  <url>http://files.first-world.info/ultracopier/2.0.4.5/ultracopier-windows-x86_64-2.0.4.5-setup.exe</url>
-  <hash-sum type="SHA-256">358a3796f3266c86c2b515ae98467d9976e467756d9c55825434f1d8a70f5c4f</hash-sum>
- </version>
- <version name="2.0.4.6" package="ultracopier64" type="one-file">
-  <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
-</file>
-  <file path=".Npackd\Uninstall.bat">uninst.exe /S _?=%CD%&#13;
-</file>
-  <url>http://files.first-world.info/ultracopier/2.0.4.6/ultracopier-windows-x86_64-2.0.4.6-setup.exe</url>
-  <hash-sum type="SHA-256">686ccce0bfd031fb0f3b32284ec72dc7c1289224b148fef825327e97229d946c</hash-sum>
- </version>
- <version name="2.0.4.7" package="ultracopier64" type="one-file">
-  <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
-</file>
-  <file path=".Npackd\Uninstall.bat">uninst.exe /S _?=%CD%&#13;
-</file>
-  <url>http://files.first-world.info/ultracopier/2.0.4.7/ultracopier-windows-x86_64-2.0.4.7-setup.exe</url>
-  <hash-sum type="SHA-256">afa957112d2a57dced363a2b115fbddb768a87a284ef93f1069bd357b121b9c2</hash-sum>
- </version>
- <version name="2.0.4.8" package="ultracopier64" type="one-file">
-  <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
-</file>
-  <file path=".Npackd\Uninstall.bat">uninst.exe /S _?=%CD%&#13;
-</file>
-  <url>http://files.first-world.info/ultracopier/2.0.4.8/ultracopier-windows-x86_64-2.0.4.8-setup.exe</url>
-  <hash-sum type="SHA-256">ea16556afa8bfa745178bf3ca636bd1d9c2fdab4051cd10af213a623611c8975</hash-sum>
- </version>
- <version name="2.2.0.4" package="ultracopier64" type="one-file">
-  <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
-</file>
-  <file path=".Npackd\Uninstall.bat">uninst.exe /S _?=%CD%&#13;
-</file>
-  <url>http://files.first-world.info/ultracopier/2.2.0.4/ultracopier-windows-x86_64-2.2.0.4-setup.exe</url>
-  <hash-sum type="SHA-256">7236326d7092c871b2607716ee7b8948dc6e1f17b8f2925b6d217b98ecb83ee1</hash-sum>
- </version>
- <version name="2.2.0.5" package="ultracopier64" type="one-file">
-  <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
-</file>
-  <file path=".Npackd\Uninstall.bat">uninst.exe /S _?=%CD%&#13;
-</file>
-  <url>http://files.first-world.info/ultracopier/2.2.0.5/ultracopier-windows-x86_64-2.2.0.5-setup.exe</url>
-  <hash-sum type="SHA-256">e79862902bf3e36a8520e039ed4288d241bb4dbd0c66343d94e8dd308dacbb80</hash-sum>
- </version>
- <version name="2.2.0.6" package="ultracopier64" type="one-file">
-  <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
-</file>
-  <file path=".Npackd\Uninstall.bat">uninst.exe /S _?=%CD%&#13;
-</file>
-  <url>http://files.first-world.info/ultracopier/2.2.0.6/ultracopier-windows-x86_64-2.2.0.6-setup.exe</url>
-  <hash-sum type="SHA-256">4024ec5365a55e3f36cf59f1578a47ba229ff9145761c850f0bd11aca08d80dc</hash-sum>
- </version>
- <version name="2.2.0.7" package="ultracopier64" type="one-file">
-  <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
-</file>
-  <file path=".Npackd\Uninstall.bat">uninst.exe /S _?=%CD%&#13;
-</file>
-  <url>http://files.first-world.info/ultracopier/2.2.0.7/ultracopier-windows-x86_64-2.2.0.7-setup.exe</url>
-  <hash-sum type="SHA-256">13b2ba7c7a78c35f82e3edb4d30dd0d097306e1019eb1235d490442006269fdb</hash-sum>
- </version>
- <version name="2.2.0.8" package="ultracopier64" type="one-file">
-  <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
-</file>
-  <file path=".Npackd\Uninstall.bat">uninst.exe /S _?=%CD%&#13;
-</file>
-  <url>http://files.first-world.info/ultracopier/2.2.0.8/ultracopier-windows-x86_64-2.2.0.8-setup.exe</url>
-  <hash-sum type="SHA-256">188ff1234cc8eaccc9ed99b98eab7d9b885638449e1603d88f86a977d2eb8485</hash-sum>
- </version>
- <version name="2.2.0.9" package="ultracopier64" type="one-file">
-  <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
-</file>
-  <file path=".Npackd\Uninstall.bat">uninst.exe /S _?=%CD%&#13;
-</file>
-  <url>http://files.first-world.info/ultracopier/2.2.0.9/ultracopier-windows-x86_64-2.2.0.9-setup.exe</url>
-  <hash-sum type="SHA-256">924c6de8b848e70aa55f188c890f9d1b8853c9f2212bad77936a0934a3e01e8d</hash-sum>
- </version>
- <version name="2.2.3.1" package="ultracopier64" type="one-file">
-  <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
-</file>
-  <file path=".Npackd\Uninstall.bat">uninst.exe /S _?=%CD%&#13;
-</file>
-  <url>http://files.first-world.info/ultracopier/2.2.3.1/ultracopier-windows-x86_64-2.2.3.1-setup.exe</url>
-  <hash-sum type="SHA-256">79a33a295a2a84d75b4542a02c9aba7c41c31c1a8a62e72a4a80691a15598d87</hash-sum>
- </version>
- <version name="2.2.3.2" package="ultracopier64" type="one-file">
-  <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
-</file>
-  <file path=".Npackd\Uninstall.bat">uninst.exe /S _?=%CD%&#13;
-</file>
-  <url>http://files.first-world.info/ultracopier/2.2.3.2/ultracopier-windows-x86_64-2.2.3.2-setup.exe</url>
-  <hash-sum type="SHA-256">668c41a48e60a91a078ce6b7d0f528fcda5d544c2e2763fecaffcb2ce079ce19</hash-sum>
- </version>
- <version name="2.2.3.3" package="ultracopier64" type="one-file">
-  <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
-</file>
-  <file path=".Npackd\Uninstall.bat">uninst.exe /S _?=%CD%&#13;
-</file>
-  <url>http://files.first-world.info/ultracopier/2.2.3.3/ultracopier-windows-x86_64-2.2.3.3-setup.exe</url>
-  <hash-sum type="SHA-256">364e2d5bcb5be147f8a9c8d46afdbf30c07070d255bae9d2437ac8941563ac69</hash-sum>
- </version>
- <version name="2.2.4.1" package="ultracopier64" type="one-file">
-  <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
-</file>
-  <file path=".Npackd\Uninstall.bat">uninst.exe /S _?=%CD%&#13;
-</file>
-  <url>http://files.first-world.info/ultracopier/2.2.4.1/ultracopier-windows-x86_64-2.2.4.1-setup.exe</url>
-  <hash-sum type="SHA-256">d3a50bfd0ff22a3a4a4ba319c44e4958b9c50ca3b49ff2093b58c60a4c4b7e66</hash-sum>
- </version>
- <version name="2.2.4.2" package="ultracopier64" type="one-file">
-  <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
-</file>
-  <file path=".Npackd\Uninstall.bat">uninst.exe /S _?=%CD%&#13;
-</file>
-  <url>http://files.first-world.info/ultracopier/2.2.4.2/ultracopier-windows-x86_64-2.2.4.2-setup.exe</url>
-  <hash-sum type="SHA-256">0c6f595ee6e205292b984ae391b6dfc6520fe9a0c7e6aaafcfe3ca168e7f4b13</hash-sum>
- </version>
- <version name="2.2.4.3" package="ultracopier64" type="one-file">
-  <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
-</file>
-  <file path=".Npackd\Uninstall.bat">uninst.exe /S _?=%CD%&#13;
-</file>
-  <url>http://files.first-world.info/ultracopier/2.2.4.3/ultracopier-windows-x86_64-2.2.4.3-setup.exe</url>
-  <hash-sum type="SHA-256">c34f04a8f44be05d39ebb0aad096500f5a8730695add604e6bf9421ae1529319</hash-sum>
- </version>
- <version name="2.2.4.4" package="ultracopier64" type="one-file">
-  <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
-</file>
-  <file path=".Npackd\Uninstall.bat">uninst.exe /S _?=%CD%&#13;
-</file>
-  <url>http://files.first-world.info/ultracopier/2.2.4.4/ultracopier-windows-x86_64-2.2.4.4-setup.exe</url>
-  <hash-sum type="SHA-256">d15bc427edc892c68e60cde2e7972df4aac0eca55a2a0bce9c425cad5ac3f016</hash-sum>
- </version>
- <version name="2.2.4.7" package="ultracopier64" type="one-file">
-  <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
-</file>
-  <file path=".Npackd\Uninstall.bat">uninst.exe /S _?=%CD%&#13;
-</file>
-  <url>http://files.first-world.info/ultracopier/2.2.4.7/ultracopier-windows-x86_64-2.2.4.7-setup.exe</url>
-  <hash-sum type="SHA-256">30b7b9dc158383298bcdcfb38d44764e813cfb226ed35ad40d5b8e40ee8d1c26</hash-sum>
- </version>
- <version name="2.2.4.8" package="ultracopier64" type="one-file">
-  <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
-</file>
-  <file path=".Npackd\Uninstall.bat">uninst.exe /S _?=%CD%&#13;
-</file>
-  <url>http://files.first-world.info/ultracopier/2.2.4.8/ultracopier-windows-x86_64-2.2.4.8-setup.exe</url>
-  <hash-sum type="SHA-256">18cec14974ae908c5c249ce7fc5880db991a467f6be8fa24995ca665e4dd891d</hash-sum>
- </version>
- <version name="2.2.4.9" package="ultracopier64" type="one-file">
-  <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
-</file>
-  <file path=".Npackd\Uninstall.bat">uninst.exe /S _?=%CD%&#13;
-</file>
-  <url>http://files.first-world.info/ultracopier/2.2.4.9/ultracopier-windows-x86_64-2.2.4.9-setup.exe</url>
-  <hash-sum type="SHA-256">ba4018e7f251c80d7ddd6a413b3e7f4cfc813d2c5624741780b94cb7db5d771f</hash-sum>
- </version>
- <version name="2.2.4.10" package="ultracopier64" type="one-file">
-  <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
-</file>
-  <file path=".Npackd\Uninstall.bat">uninst.exe /S _?=%CD%&#13;
-</file>
-  <url>http://files.first-world.info/ultracopier/2.2.4.10/ultracopier-windows-x86_64-2.2.4.10-setup.exe</url>
-  <hash-sum type="SHA-256">0db948c724d2cdd2f5c32ee061f4969eb97a074a41b32192fd791cbb15866dd1</hash-sum>
- </version>
- <version name="2.2.4.11" package="ultracopier64" type="one-file">
-  <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
-</file>
-  <file path=".Npackd\Uninstall.bat">uninst.exe /S _?=%CD%&#13;
-</file>
-  <url>http://files.first-world.info/ultracopier/2.2.4.11/ultracopier-windows-x86_64-2.2.4.11-setup.exe</url>
-  <hash-sum type="SHA-256">f4f73676fef6bb413e650c85e3ca3a9309dd6878b5c933cb73c54603e8e2dc91</hash-sum>
- </version>
- <version name="2.2.4.12" package="ultracopier64" type="one-file">
-  <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
-</file>
-  <file path=".Npackd\Uninstall.bat">uninst.exe /S _?=%CD%&#13;
-</file>
-  <url>http://files.first-world.info/ultracopier/2.2.4.12/ultracopier-windows-x86_64-2.2.4.12-setup.exe</url>
-  <hash-sum type="SHA-256">542e9f43873ea6dca02a71d8ca64e6d152e2c62c56d120a22dc75490e8414c45</hash-sum>
- </version>
- <version name="2.2.4.13" package="ultracopier64" type="one-file">
-  <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
-</file>
-  <file path=".Npackd\Uninstall.bat">uninst.exe /S _?=%CD%&#13;
-</file>
-  <url>http://files.first-world.info/ultracopier/2.2.4.13/ultracopier-windows-x86_64-2.2.4.13-setup.exe</url>
-  <hash-sum type="SHA-256">d84f9d2b31711bad68516d295a788b2452c4e9ab97cbce60e1f090e75c12d68a</hash-sum>
- </version>
- <version name="2.2.4.14" package="ultracopier64" type="one-file">
-  <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
-</file>
-  <file path=".Npackd\Uninstall.bat">uninst.exe /S _?=%CD%&#13;
-</file>
-  <url>http://files.first-world.info/ultracopier/2.2.4.14/ultracopier-windows-x86_64-2.2.4.14-setup.exe</url>
-  <hash-sum type="SHA-256">8ba1fd332f98570738332089348c60854e7f3f0a64ab953373d6eb219efb5516</hash-sum>
  </version>
 
     <version name="2.0.1" package="vagrant64" type="one-file">
