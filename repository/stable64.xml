@@ -1505,7 +1505,7 @@ x86_64</description>
   <category>Communications</category>
   <tag>stable64</tag>
   <tag>end-of-life</tag>
-  <stars>2</stars>
+  <stars>1</stars>
  </package>
  <package name="firealpaca">
   <title>FireAlpaca</title>
@@ -23592,6 +23592,17 @@ verify</file>
   <url>https://download-installer.cdn.mozilla.net/pub/firefox/releases/100.0.2/win64/en-US/Firefox%20Setup%20100.0.2.exe</url>
   <hash-sum type="SHA-256">00c4dfe5af432208bc3cd5c069a493e4b432b95739d5a3b4ec3d3bc0f8a96047</hash-sum>
  </version>
+ <version name="101" package="firefox64" type="one-file">
+  <file path=".Npackd\Install.bat">echo [Install] &gt; .Npackd\FF.ini&#13;
+echo InstallDirectoryPath=%CD% &gt;&gt; .Npackd\FF.ini&#13;
+echo QuickLaunchShortcut=false &gt;&gt; .Npackd\FF.ini&#13;
+echo DesktopShortcut=false &gt;&gt; .Npackd\FF.ini&#13;
+"%npackd_package_binary%" /INI="%CD%\.Npackd\FF.ini" &amp;&amp; del /f /q "%npackd_package_binary%"</file>
+  <file path=".Npackd\Uninstall.bat">uninstall\helper.exe /S&#13;
+verify</file>
+  <url>https://download-installer.cdn.mozilla.net/pub/firefox/releases/101.0/win64/en-US/Firefox%20Setup%20101.0.exe</url>
+  <hash-sum type="SHA-256">e06c6143eb3da3405f0aae690566e65ee887021ede9c52b480090d9389f425a6</hash-sum>
+ </version>
 
     <version name="0.5" package="firefoxpwa" type="one-file">
   <file path=".Npackd\Install.bat">call "%nih%\InstallMSI.bat" APPLICATIONFOLDER yes</file>
@@ -28960,6 +28971,17 @@ if %err% neq 0 exit %err%&#13;
 </file>
   <url>https://github.com/tim-lebedkov/packages/releases/download/2022_05/imagemagick64-7.1.0.35-ImageMagick-7.1.0-35-Q16-HDRI-x64-dll.exe</url>
   <hash-sum type="SHA-256">55b068003f5bff410845058e1eb149363eefc66d5e3ce8da316f6a33ddacf51c</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
+ <version name="7.1.0.36" package="imagemagick64" type="one-file">
+  <file path=".Npackd\Install.bat">call "%nih%\InstallInnoSetup.bat"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">call "%nih%\UninstallInnoSetup.bat" unins000.exe&#13;
+</file>
+  <url>https://www.imagemagick.org/download/binaries/ImageMagick-7.1.0-36-Q16-HDRI-x64-dll.exe</url>
+  <hash-sum type="SHA-256">5a3132c63103150f5440e8bee3d71a1feb2f365057fe9e792467a376d29d8c18</hash-sum>
   <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
    <variable>nih</variable>
   </dependency>
@@ -39803,6 +39825,15 @@ reg add HKLM\SOFTWARE\OpenVPN-GUI /v allow_service /t REG_SZ /d 0 /f&#13;
 </file>
   <url>https://swupdate.openvpn.org/community/releases/OpenVPN-2.5.6-I601-amd64.msi</url>
   <hash-sum type="SHA-256">bda1e8039649990d8198d949f4da73142035ab8c37338d2818a8bd469c4ed86e</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.1, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
+ <version name="2.5.7" package="openvpn64" type="one-file">
+  <file path=".Npackd\Install.bat">call "%nih%\InstallMSI.bat" INSTALLDIR yes&#13;
+</file>
+  <url>https://swupdate.openvpn.org/community/releases/OpenVPN-2.5.7-I602-amd64.msi</url>
+  <hash-sum type="SHA-256">5212a707c137cf8b133a21cab458a03d81592a4b713cfb7bc668a661e604313f</hash-sum>
   <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.1, 2)">
    <variable>nih</variable>
   </dependency>
@@ -61638,6 +61669,20 @@ call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Np
 </file>
   <url>https://github.com/vim/vim-win32-installer/releases/download/v8.2.5041/gvim_8.2.5041_x64.zip</url>
   <hash-sum type="SHA-256">01baaa3e63db3fe3d2a87a5ca60364c6fd3776bc5fa5d49ff7c5e15f9579b9f9</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.19, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
+ <version name="8.2.5046" package="org.vim.Vim64">
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+if %errorlevel% neq 0 exit /b %errorlevel%&#13;
+&#13;
+for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+</file>
+  <url>https://github.com/vim/vim-win32-installer/releases/download/v8.2.5046/gvim_8.2.5046_x64.zip</url>
+  <hash-sum type="SHA-256">2d738ca899dcd101ef47c8880acad296a7d7fdb0997f4e2a74373328c6ed9123</hash-sum>
   <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.19, 2)">
    <variable>nih</variable>
   </dependency>
