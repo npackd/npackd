@@ -5420,7 +5420,7 @@ x86_64</description>
   </dependency>
  </version>
 
-    <version name="3.7.7" package="back4sure" type="one-file">
+    <version name="3.7.8" package="back4sure" type="one-file">
   <file path=".Npackd\Install.bat">"%nih%\InstallInnoSetup.bat"&#13;
 </file>
   <file path=".Npackd\Uninstall.bat">"%nih%\UninstallInnoSetup.bat" unins000.exe</file>
@@ -5431,7 +5431,7 @@ x86_64</description>
   </dependency>
  </version>
 
-    <version name="3.7.7" package="back4sure64" type="one-file">
+    <version name="3.7.8" package="back4sure64" type="one-file">
   <file path=".Npackd\Install.bat">"%nih%\InstallInnoSetup.bat"&#13;
 </file>
   <file path=".Npackd\Uninstall.bat">"%nih%\UninstallInnoSetup.bat" unins000.exe</file>
@@ -14448,6 +14448,16 @@ if %err% neq 0 exit %err%&#13;
   <file path=".Npackd\Uninstall.bat">call "%nih%\UninstallInnoSetup.bat" unins000.exe</file>
   <url>https://www.mercurial-scm.org/release/windows/Mercurial-6.1.2-x64-python2.exe</url>
   <hash-sum type="SHA-256">9b69f948a3961eb3b4b28df5d006b73d59260d82ebc5a9c0a6261dfe7e0b9784</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.7, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
+ <version name="6.1.3" package="com.selenic.mercurial.Mercurial64" type="one-file">
+  <file path=".Npackd\Install.bat">call "%nih%\InstallInnoSetup.bat"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">call "%nih%\UninstallInnoSetup.bat" unins000.exe</file>
+  <url>https://www.mercurial-scm.org/release/windows/Mercurial-6.1.3-x64-python2.exe</url>
+  <hash-sum type="SHA-256">9c9d2e6df639e902bb33238ae388654b7c144e469bcf4a18a0a10d7e68f08eeb</hash-sum>
   <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.7, 2)">
    <variable>nih</variable>
   </dependency>
@@ -29073,6 +29083,17 @@ if %err% neq 0 exit %err%&#13;
 </file>
   <url>https://github.com/tim-lebedkov/packages/releases/download/2022_06/imagemagick64-7.1.0.36-ImageMagick-7.1.0-36-Q16-HDRI-x64-dll.exe</url>
   <hash-sum type="SHA-256">5a3132c63103150f5440e8bee3d71a1feb2f365057fe9e792467a376d29d8c18</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
+ <version name="7.1.0.37" package="imagemagick64" type="one-file">
+  <file path=".Npackd\Install.bat">call "%nih%\InstallInnoSetup.bat"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">call "%nih%\UninstallInnoSetup.bat" unins000.exe&#13;
+</file>
+  <url>https://www.imagemagick.org/download/binaries/ImageMagick-7.1.0-37-Q16-HDRI-x64-dll.exe</url>
+  <hash-sum type="SHA-256">374a55ea9d3b5fea17058bacb917322f66a45281282d6eeab6e9c5d5989b4e7b</hash-sum>
   <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
    <variable>nih</variable>
   </dependency>
@@ -61928,6 +61949,20 @@ call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Np
 </file>
   <url>https://github.com/vim/vim-win32-installer/releases/download/v8.2.5054/gvim_8.2.5054_x64.zip</url>
   <hash-sum type="SHA-256">a0edaa76dea8dae8e0ffa1824d2be999344b611e015d0a8dc8f176deca45b3a6</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.19, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
+ <version name="8.2.5056" package="org.vim.Vim64">
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+if %errorlevel% neq 0 exit /b %errorlevel%&#13;
+&#13;
+for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+</file>
+  <url>https://github.com/vim/vim-win32-installer/releases/download/v8.2.5056/gvim_8.2.5056_x64.zip</url>
+  <hash-sum type="SHA-256">a5c802d4ee3fc3dc3b57e8a3312c9a0a0bd0890e62f7a89fb9cf4986195fd035</hash-sum>
   <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.19, 2)">
    <variable>nih</variable>
   </dependency>
