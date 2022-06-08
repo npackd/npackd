@@ -3738,7 +3738,7 @@ x86_64</description>
   <category>Communications</category>
   <tag>same-url</tag>
   <tag>stable64</tag>
-  <stars>4</stars>
+  <stars>3</stars>
  </package>
  <package name="slimjet">
   <title>Slimjet Browser</title>
@@ -5776,6 +5776,15 @@ verify&#13;
 </file>
   <url>https://github.com/stefankueng/BowPad/releases/download/2.8.2/BowPad64-2.8.2.msi</url>
   <hash-sum type="SHA-256">610a8b1cb96c1451086bdcca4f5bd7610451ea61ad8bc5103c4b3dae1a020d43</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.1, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
+ <version name="2.8.3" package="bowpad64" type="one-file">
+  <file path=".Npackd\Install.bat">call "%nih%\InstallMSI.bat" INSTALLDIR yes&#13;
+</file>
+  <url>https://github.com/stefankueng/BowPad/releases/download/2.8.3/BowPad64-2.8.3.msi</url>
+  <hash-sum type="SHA-256">01bf8ec92c64142386a30c2c23a70f4de07ca2e450b8db78f25940efaa5a1cd9</hash-sum>
   <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.1, 2)">
    <variable>nih</variable>
   </dependency>
@@ -21357,6 +21366,17 @@ rmdir "%name%"&#13;
 </file>
   <url>https://www.ponsoftware.com/archiver/explzh/explz864_x64.exe</url>
   <hash-sum type="SHA-256">0c5e6bf48e464685bab774992b53dae296bba9980fe473c617f9e5334ce3b6b0</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.25, 2)">
+   <variable>ncl</variable>
+  </dependency>
+ </version>
+ <version name="8.65" package="explzh64" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" /silent /q &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">"%ncl%\ncl.exe" remove-scp --title "/%npackd_package_name% %npackd_package_version%/i"&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+</file>
+  <url>https://www.ponsoftware.com/en/archiver/explzh/explz865_en_x64.exe</url>
+  <hash-sum type="SHA-256">48858254c757a84a989d6179c0933954bd4d0dc2190dee24dca60527277e96da</hash-sum>
   <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.25, 2)">
    <variable>ncl</variable>
   </dependency>
@@ -51118,6 +51138,15 @@ if %err% neq 0 exit /b %err%&#13;
   <url>https://www.python.org/ftp/python/3.10.4/python-3.10.4-amd64.exe</url>
   <hash-sum type="SHA-256">a81fc4180f34e5733c3f15526c668ff55de096366f9006d8a44c0336704e50f1</hash-sum>
  </version>
+ <version name="3.10.5" package="org.python.Python64" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" /quiet InstallAllUsers=1 "TargetDir=%cd%"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">for /f "delims=" %%x in ('dir /b python-*.exe') do set setup=%%x&#13;
+%setup% /uninstall /quiet InstallAllUsers=1&#13;
+</file>
+  <url>https://www.python.org/ftp/python/3.10.5/python-3.10.5-amd64.exe</url>
+  <hash-sum type="SHA-256">69165821dad57c6d8d29ec8598933db7c4498f8ef9d477fa13c677fd82567b58</hash-sum>
+ </version>
 
     <version name="2.0.0.247" package="org.rubylang.Ruby64" type="one-file">
   <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
@@ -64368,6 +64397,16 @@ echo DesktopShortcut=false &gt;&gt; .Npackd\FF.ini&#13;
   <file path=".Npackd\Uninstall.bat">uninstall\helper.exe /S</file>
   <url>https://rm-eu.palemoon.org/release/palemoon-31.0.0.win64.installer.exe</url>
   <hash-sum type="SHA-256">063bc50c431a352f69387815c6076c806961c08c61785539ca6f610e7fdfdd38</hash-sum>
+ </version>
+ <version name="31.1" package="pale-moon64" type="one-file">
+  <file path=".Npackd\Install.bat">echo [Install] &gt; .Npackd\FF.ini&#13;
+echo InstallDirectoryPath=%CD% &gt;&gt; .Npackd\FF.ini&#13;
+echo QuickLaunchShortcut=false &gt;&gt; .Npackd\FF.ini&#13;
+echo DesktopShortcut=false &gt;&gt; .Npackd\FF.ini&#13;
+"%npackd_package_binary%" /INI="%CD%\.Npackd\FF.ini" &amp;&amp; del /f /q "%npackd_package_binary%"</file>
+  <file path=".Npackd\Uninstall.bat">uninstall\helper.exe /S</file>
+  <url>https://rm-eu.palemoon.org/release/palemoon-31.1.0.win64.installer.exe</url>
+  <hash-sum type="SHA-256">9b76d7cfaefa41e62853e67b2b9d26e2d432fdcc63959db3d7f14e4db0001df3</hash-sum>
  </version>
 
     <version name="2.2.1" package="pandoc64" type="one-file">
