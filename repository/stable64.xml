@@ -27100,6 +27100,19 @@ rmdir "%name%"&#13;
   <hash-sum type="SHA-256">81e9e3c1f528158b3e73026bca892ce5112c57a429b2e5a8b607a93f981f663d</hash-sum>
   <dependency package="org.python.Python" versions="[2.7, 2.8)"/>
  </version>
+ <version name="389" package="google-cloud-sdk64">
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b google-cloud-sdk*') do set name=%%x&#13;
+cd "%name%"&#13;
+for /f "delims=" %%a in ('dir /b') do (&#13;
+  move "%%a" ..&#13;
+)&#13;
+cd ..&#13;
+rmdir "%name%"&#13;
+</file>
+  <url>https://dl.google.com/dl/cloudsdk/channels/rapid/downloads/google-cloud-sdk-389.0.0-windows-x86_64.zip</url>
+  <hash-sum type="SHA-256">94cb098b9bef7666d434800345507e3ad74dc128ecd06f595b0b8a6993f1e80c</hash-sum>
+  <dependency package="org.python.Python" versions="[2.7, 2.8)"/>
+ </version>
 
     <version name="1.1.94" package="grisbi64" type="one-file">
   <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
@@ -43368,6 +43381,16 @@ rmdir "%name%"&#13;
 "%NIH%\ExtractDir.bat" "%name%"</file>
   <url>https://download.blender.org/release/Blender3.1/blender-3.1.2-windows-x64.zip</url>
   <hash-sum type="SHA-256">eccd07ebd43e6a6e2a8236277d08a63d8ea78a4a2ebc4b10b6ca67418e0e966e</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
+   <variable>NIH</variable>
+  </dependency>
+ </version>
+ <version name="3.2" package="org.blender.Blender64">
+  <important-file path="blender.exe" title="Blender"/>
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b blender*') do set name=%%x&#13;
+"%NIH%\ExtractDir.bat" "%name%"</file>
+  <url>https://download.blender.org/release/Blender3.2/blender-3.2.0-windows-x64.zip</url>
+  <hash-sum type="SHA-256">396b6905914041697de590ab07c1ed92d790b9d155902465932d49f04e339038</hash-sum>
   <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
    <variable>NIH</variable>
   </dependency>
@@ -70578,6 +70601,12 @@ if %err% neq 0 exit %err%&#13;
 </file>
   <url>https://dist.torproject.org/torbrowser/11.0.13/torbrowser-install-11.0.13_en-US.exe</url>
   <hash-sum type="SHA-256">20dd6c7ec6caed5ec793e351bd025d8cd9819ddbb7a87b11a3b3128e92b7baa4</hash-sum>
+ </version>
+ <version name="11.0.14" package="tor64" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
+</file>
+  <url>https://dist.torproject.org/torbrowser/11.0.14/torbrowser-install-11.0.14_en-US.exe</url>
+  <hash-sum type="SHA-256">c14b979c81310ad039985e047dbb5b8058662bb3105b9022f7b9e0d18a29d0d6</hash-sum>
  </version>
 
     <version name="2.84.9" package="transmission-qt64" type="one-file">
