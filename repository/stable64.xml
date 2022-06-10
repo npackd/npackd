@@ -23703,6 +23703,17 @@ verify</file>
   <url>https://download-installer.cdn.mozilla.net/pub/firefox/releases/101.0/win64/en-US/Firefox%20Setup%20101.0.exe</url>
   <hash-sum type="SHA-256">e06c6143eb3da3405f0aae690566e65ee887021ede9c52b480090d9389f425a6</hash-sum>
  </version>
+ <version name="101.0.1" package="firefox64" type="one-file">
+  <file path=".Npackd\Install.bat">echo [Install] &gt; .Npackd\FF.ini&#13;
+echo InstallDirectoryPath=%CD% &gt;&gt; .Npackd\FF.ini&#13;
+echo QuickLaunchShortcut=false &gt;&gt; .Npackd\FF.ini&#13;
+echo DesktopShortcut=false &gt;&gt; .Npackd\FF.ini&#13;
+"%npackd_package_binary%" /INI="%CD%\.Npackd\FF.ini" &amp;&amp; del /f /q "%npackd_package_binary%"</file>
+  <file path=".Npackd\Uninstall.bat">uninstall\helper.exe /S&#13;
+verify</file>
+  <url>https://download-installer.cdn.mozilla.net/pub/firefox/releases/101.0.1/win64/en-US/Firefox%20Setup%20101.0.1.exe</url>
+  <hash-sum type="SHA-256">a1b06247e143ff5fc09adaf08d97edc9c8da7a1eae25c2d050a4e9f53e48bbef</hash-sum>
+ </version>
 
     <version name="0.5" package="firefoxpwa" type="one-file">
   <file path=".Npackd\Install.bat">call "%nih%\InstallMSI.bat" APPLICATIONFOLDER yes</file>
@@ -30876,6 +30887,14 @@ call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Np
   <file path=".Npackd\Install.bat">call "%npackdih%\InstallMSI.bat" INSTALLLOCATION yes</file>
   <url>https://github.com/tim-lebedkov/packages/releases/download/2022_05/libreoffice64-7.3.3-LibreOffice_7.3.3_Win_x64.msi</url>
   <hash-sum type="SHA-256">867a365e1a9155d1790a085e988e218cebcbe9e96c46b1c07dd1c08442f3abba</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.1, 2)">
+   <variable>npackdih</variable>
+  </dependency>
+ </version>
+ <version name="7.3.4" package="libreoffice64" type="one-file">
+  <file path=".Npackd\Install.bat">call "%npackdih%\InstallMSI.bat" INSTALLLOCATION yes</file>
+  <url>https://download.documentfoundation.org/libreoffice/stable/7.3.4/win/x86_64/LibreOffice_7.3.4_Win_x64.msi</url>
+  <hash-sum type="SHA-256">509c70c1c8136805480146b55e4bad5dc73b11ee47b4682b43cf07670109e176</hash-sum>
   <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.1, 2)">
    <variable>npackdih</variable>
   </dependency>
@@ -44263,6 +44282,12 @@ rmdir "%name%"&#13;
 </file>
   <url>https://github.com/erlang/otp/releases/download/OTP-25.0/otp_win64_25.0.exe</url>
   <hash-sum type="SHA-256">f720bf4eb5f98304007252bd11816fc973aa5e9f53d0c4060f6875d0fdc40818</hash-sum>
+ </version>
+ <version name="25.0.1" package="org.erlang.Erlang64" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD%&#13;
+</file>
+  <url>https://github.com/erlang/otp/releases/download/OTP-25.0.1/otp_win64_25.0.1.exe</url>
+  <hash-sum type="SHA-256">fc2ddb5f7e0295521d831fa6d3b3facc2d61ea54e18592730fe6e15f6696700e</hash-sum>
  </version>
 
     <version name="0.9.2.1" package="org.flamerobin.FlameRobin64" type="one-file">
@@ -62061,6 +62086,20 @@ call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Np
    <variable>nih</variable>
   </dependency>
  </version>
+ <version name="8.2.5069" package="org.vim.Vim64">
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+if %errorlevel% neq 0 exit /b %errorlevel%&#13;
+&#13;
+for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+</file>
+  <url>https://github.com/vim/vim-win32-installer/releases/download/v8.2.5069/gvim_8.2.5069_x64.zip</url>
+  <hash-sum type="SHA-256">eaf8f523d5f357de8d60b7588bc3df2d83c3f872757e72bf34324fac8196e6b5</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.19, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
 
     <version name="4.2.8.83876" package="org.virtualbox.virtualbox64" type="one-file">
   <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
@@ -72307,6 +72346,19 @@ Application\%name%\Installer\setup.exe --uninstall --vivaldi --force-uninstall -
 type .Npackd\Output.txt</file>
   <url>https://downloads.vivaldi.com/stable/Vivaldi.5.3.2679.38.x64.exe</url>
   <hash-sum type="SHA-256">a56be01cd1729e852f143a5f2b64fe1fd862fa76e8774f8e3694c8a4be20d0ac</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.24, 2)">
+   <variable>ncl</variable>
+  </dependency>
+ </version>
+ <version name="5.3.2679.51" package="vivaldi-browser-64" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" --system-level --vivaldi-silent --vivaldi-standalone --do-not-launch-chrome --vivaldi-install-dir="%CD%" &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">for /f "delims=" %%x in ('dir /b application\5*') do set name=%%x&#13;
+&#13;
+Application\%name%\Installer\setup.exe --uninstall --vivaldi --force-uninstall --system-level &gt; .Npackd\Output.txt 2&gt;&amp;1 &#13;
+type .Npackd\Output.txt</file>
+  <url>https://downloads.vivaldi.com/stable/Vivaldi.5.3.2679.51.x64.exe</url>
+  <hash-sum type="SHA-256">873d5ef55b7bb43ee5657e48d16105c36d121143fc2ef5f372e0136563a42b5c</hash-sum>
   <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.24, 2)">
    <variable>ncl</variable>
   </dependency>
