@@ -1765,7 +1765,7 @@ x86_64</description>
   <category>Communications</category>
   <tag>same-url</tag>
   <tag>stable64</tag>
-  <stars>26</stars>
+  <stars>27</stars>
  </package>
  <package name="google-cloud-sdk64">
   <title>Google Cloud SDK 64 bit</title>
@@ -18784,7 +18784,7 @@ rmdir "%name%"&#13;
 
     
 
-    <version name="3.3.4" package="cygwin64" type="one-file">
+    <version name="3.3.5" package="cygwin64" type="one-file">
   <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
 "%setup%" -q -D -R "%CD%" -s https://mirrors.kernel.org -l "%CD%\packages"&#13;
 "%setup%" -q -L -R "%CD%" -l "%CD%\packages"</file>
@@ -62104,6 +62104,20 @@ call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Np
 </file>
   <url>https://github.com/vim/vim-win32-installer/releases/download/v8.2.5076/gvim_8.2.5076_x64.zip</url>
   <hash-sum type="SHA-256">4dabfacff691f56b0fb8a6665de421ee6c0be7e34a993c9893a91d451e764f93</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.19, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
+ <version name="8.2.5085" package="org.vim.Vim64">
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+if %errorlevel% neq 0 exit /b %errorlevel%&#13;
+&#13;
+for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+</file>
+  <url>https://github.com/vim/vim-win32-installer/releases/download/v8.2.5085/gvim_8.2.5085_x64.zip</url>
+  <hash-sum type="SHA-256">0c5c15d1b11c8eaa72ce3a2eac8e4d03a4a1d98ef80aa4c0f3194d680546240c</hash-sum>
   <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.19, 2)">
    <variable>nih</variable>
   </dependency>
