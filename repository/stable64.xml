@@ -9091,7 +9091,7 @@ rem "avgmfapx.exe" /AppMode=SETUP /Uninstall /UILevel=Silent /DontRestart&#13;
   </dependency>
  </version>
 
-    <version name="1.89" package="com.bitcomet.BitComet64" type="one-file">
+    <version name="1.90" package="com.bitcomet.BitComet64" type="one-file">
   <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
 </file>
   <file path=".Npackd\Uninstall.bat">%ncl%\ncl remove-scp --title "/BitComet.*/"</file>
@@ -27144,6 +27144,19 @@ rmdir "%name%"&#13;
   <hash-sum type="SHA-256">94cb098b9bef7666d434800345507e3ad74dc128ecd06f595b0b8a6993f1e80c</hash-sum>
   <dependency package="org.python.Python" versions="[2.7, 2.8)"/>
  </version>
+ <version name="390" package="google-cloud-sdk64">
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b google-cloud-sdk*') do set name=%%x&#13;
+cd "%name%"&#13;
+for /f "delims=" %%a in ('dir /b') do (&#13;
+  move "%%a" ..&#13;
+)&#13;
+cd ..&#13;
+rmdir "%name%"&#13;
+</file>
+  <url>https://dl.google.com/dl/cloudsdk/channels/rapid/downloads/google-cloud-sdk-390.0.0-windows-x86_64.zip</url>
+  <hash-sum type="SHA-256">0a12cc9208efd30430b22153eea4773d68c01f84ac88685c9d6e26893a87fde2</hash-sum>
+  <dependency package="org.python.Python" versions="[2.7, 2.8)"/>
+ </version>
 
     <version name="1.1.94" package="grisbi64" type="one-file">
   <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
@@ -33714,6 +33727,16 @@ rmdir "%name%"&#13;
 </file>
   <url>https://mupdf.com/downloads/archive/mupdf-1.19.1-windows.zip</url>
   <hash-sum type="SHA-256">a369b09655b22dff3394dde40350deae8763f0f1deb52801220acee70a4360ad</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.CLU" versions="[1.25, 2)">
+   <variable>clu</variable>
+  </dependency>
+ </version>
+ <version name="1.20" package="mupdf64">
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b mupdf*') do set name=%%x&#13;
+"%clu%\clu" unwrap-dir -p "%name%"&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+</file>
+  <url>https://mupdf.com/downloads/archive/mupdf-1.20.0-windows.zip</url>
+  <hash-sum type="SHA-256">a847eb233fcbbbb8b8fe1425bc57c3701542036b71dc32188d622fba94b0d4e0</hash-sum>
   <dependency package="com.googlecode.windows-package-manager.CLU" versions="[1.25, 2)">
    <variable>clu</variable>
   </dependency>
@@ -43968,6 +43991,20 @@ rmdir "%name%"&#13;
   <dependency package="com.oracle.JRE64" versions="[1.6, 2)"/>
  </version>
  <version name="2022.3" package="org.eclipse.EclipseIDEJava64">
+  <important-file path="eclipse.exe" title="Eclipse IDE for Java"/>
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b eclipse*') do set name=%%x&#13;
+cd "%name%"        &#13;
+for /f "delims=" %%a in ('dir /b') do (&#13;
+  move "%%a" ..&#13;
+)&#13;
+cd ..&#13;
+rmdir "%name%"&#13;
+</file>
+  <url>http://download.eclipse.org/technology/epp/downloads/release/2018-09/R/eclipse-java-2018-09-win32-x86_64.zip</url>
+  <hash-sum type="SHA-256">8e23fe1fde003a584187b5336d05d7e1dd050a148d92acf5cefb7779116c7d00</hash-sum>
+  <dependency package="com.oracle.JRE64" versions="[1.6, 2)"/>
+ </version>
+ <version name="2022.6" package="org.eclipse.EclipseIDEJava64">
   <important-file path="eclipse.exe" title="Eclipse IDE for Java"/>
   <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b eclipse*') do set name=%%x&#13;
 cd "%name%"        &#13;
@@ -62118,6 +62155,20 @@ call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Np
 </file>
   <url>https://github.com/vim/vim-win32-installer/releases/download/v8.2.5085/gvim_8.2.5085_x64.zip</url>
   <hash-sum type="SHA-256">0c5c15d1b11c8eaa72ce3a2eac8e4d03a4a1d98ef80aa4c0f3194d680546240c</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.19, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
+ <version name="8.2.5096" package="org.vim.Vim64">
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+if %errorlevel% neq 0 exit /b %errorlevel%&#13;
+&#13;
+for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+</file>
+  <url>https://github.com/vim/vim-win32-installer/releases/download/v8.2.5096/gvim_8.2.5096_x64.zip</url>
+  <hash-sum type="SHA-256">2de2d0c037186e5664a32b36f343ef30d73cd5d4d4cac70d77926fe333fb334c</hash-sum>
   <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.19, 2)">
    <variable>nih</variable>
   </dependency>
