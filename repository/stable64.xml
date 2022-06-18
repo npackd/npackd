@@ -3346,6 +3346,7 @@ x86_64</description>
   <license>org.gnu.GPLv2</license>
   <category>Security</category>
   <tag>stable64</tag>
+  <tag>reupload</tag>
   <stars>3</stars>
  </package>
  <package name="otter-browser">
@@ -3479,6 +3480,7 @@ x86_64</description>
   <license>org.gnu.GPLv2</license>
   <category>Communications</category>
   <tag>stable64</tag>
+  <tag>reupload</tag>
   <stars>1</stars>
   <link href="https://psi-plus.com/wi/psiplus_screen_orange_win_big.png" rel="screenshot"/>
   <link href="https://psi-plus.com/wi/psiplus_screen_sky_win_big.png" rel="screenshot"/>
@@ -10337,6 +10339,15 @@ call "%npackdih%\InstallMSI.bat" APPLICATIONFOLDER yes&#13;
 </file>
   <url>https://download.calibre-ebook.com/5.43.0/calibre-64bit-5.43.0.msi</url>
   <hash-sum type="SHA-256">9eeda5079ccbb61e8ca1d65a30d43fae12b750ff0299c5a185c61df74bd3ed65</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.2, 2)">
+   <variable>npackdih</variable>
+  </dependency>
+ </version>
+ <version name="5.44" package="com.calibreebook.Calibre64" type="one-file">
+  <file path=".Npackd\Install.bat">call "%npackdih%\InstallMSI.bat" APPLICATIONFOLDER yes&#13;
+</file>
+  <url>https://download.calibre-ebook.com/5.44.0/calibre-64bit-5.44.0.msi</url>
+  <hash-sum type="SHA-256">708ba7db84ae9db684b643f81a4fb6b1c65f5e6dac0adc4721e6ed7d20677798</hash-sum>
   <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.2, 2)">
    <variable>npackdih</variable>
   </dependency>
@@ -62193,6 +62204,20 @@ call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Np
    <variable>nih</variable>
   </dependency>
  </version>
+ <version name="8.2.5114" package="org.vim.Vim64">
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+if %errorlevel% neq 0 exit /b %errorlevel%&#13;
+&#13;
+for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+</file>
+  <url>https://github.com/vim/vim-win32-installer/releases/download/v8.2.5114/gvim_8.2.5114_x64.zip</url>
+  <hash-sum type="SHA-256">b1aa879fc971e8c947456120e7a5777c9358ac6e0591e6ac83d8259488e813a2</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.19, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
 
     <version name="4.2.8.83876" package="org.virtualbox.virtualbox64" type="one-file">
   <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
@@ -64238,270 +64263,6 @@ if %err% neq 0 exit %err%</file>
   <url>https://sourceforge.net/projects/npackd/files/org.wireshark.Wireshark64-1.8.exe</url>
   <sha1>5813b3e271f1a384025dcc668aff951fd2a44079</sha1>
  </version>
- <version name="2.0.3" package="org.wireshark.Wireshark64" type="one-file">
-  <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD%&#13;
-</file>
-  <file path=".Npackd\Uninstall.bat">uninstall.exe /S _=%CD%&#13;
-</file>
-  <url>http://wiresharkdownloads.riverbed.com/wireshark/win64/all-versions/Wireshark-win64-2.0.3.exe</url>
-  <sha1>169cdb7e25582fa0c35bc04c049bb1d8fd0fecba</sha1>
- </version>
- <version name="2.6.4" package="org.wireshark.Wireshark64" type="one-file">
-  <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD%&#13;
-</file>
-  <file path=".Npackd\Uninstall.bat">uninstall.exe /S _=%CD%&#13;
-</file>
-  <url>https://1.eu.dl.wireshark.org/win64/Wireshark-win64-2.6.4.exe</url>
-  <hash-sum type="SHA-256">3ca543a311a9ec3f9b2045768ead78af3acd19f8fa447aae9885712c5f8aaddb</hash-sum>
- </version>
- <version name="2.6.5" package="org.wireshark.Wireshark64" type="one-file">
-  <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD%&#13;
-</file>
-  <file path=".Npackd\Uninstall.bat">uninstall.exe /S _=%CD%&#13;
-</file>
-  <url>https://1.eu.dl.wireshark.org/win64/Wireshark-win64-2.6.5.exe</url>
-  <hash-sum type="SHA-256">1ee5afdc18efda2781a88da6a360a28ae88feaaecdc7c3246fb98767abcc7654</hash-sum>
- </version>
- <version name="2.6.6" package="org.wireshark.Wireshark64" type="one-file">
-  <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD%&#13;
-</file>
-  <file path=".Npackd\Uninstall.bat">uninstall.exe /S _=%CD%&#13;
-</file>
-  <url>https://1.eu.dl.wireshark.org/win64/Wireshark-win64-2.6.6.exe</url>
-  <hash-sum type="SHA-256">e440a059fba3572000b5695ca89438d5765b9d73d830556344d7e8cdad071617</hash-sum>
- </version>
- <version name="3" package="org.wireshark.Wireshark64" type="one-file">
-  <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD%&#13;
-</file>
-  <file path=".Npackd\Uninstall.bat">uninstall.exe /S _=%CD%&#13;
-</file>
-  <url>https://1.eu.dl.wireshark.org/win64/Wireshark-win64-3.0.0.exe</url>
-  <hash-sum type="SHA-256">b5d30a9c0b2835a41e8132b1d9246a01ad6f1461a4de14fa3ccbdf4919c70eac</hash-sum>
- </version>
- <version name="3.0.1" package="org.wireshark.Wireshark64" type="one-file">
-  <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD%&#13;
-</file>
-  <file path=".Npackd\Uninstall.bat">uninstall.exe /S _=%CD%&#13;
-</file>
-  <url>https://1.eu.dl.wireshark.org/win64/Wireshark-win64-3.0.1.exe</url>
-  <hash-sum type="SHA-256">80e9bdfcb3bfb3800c202efcdfbb286a2b89d0bf2b8d94f2727d117b0013c821</hash-sum>
- </version>
- <version name="3.0.2" package="org.wireshark.Wireshark64" type="one-file">
-  <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD%&#13;
-</file>
-  <file path=".Npackd\Uninstall.bat">uninstall.exe /S _=%CD%&#13;
-</file>
-  <url>https://1.eu.dl.wireshark.org/win64/Wireshark-win64-3.0.2.exe</url>
-  <hash-sum type="SHA-256">27d15f43091e002d454fb63f8c438fe4b32a86b57c02c6cb83ef36bdbfaefe09</hash-sum>
- </version>
- <version name="3.0.3" package="org.wireshark.Wireshark64" type="one-file">
-  <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD%&#13;
-</file>
-  <file path=".Npackd\Uninstall.bat">uninstall.exe /S _=%CD%&#13;
-</file>
-  <url>https://1.eu.dl.wireshark.org/win64/Wireshark-win64-3.0.3.exe</url>
-  <hash-sum type="SHA-256">824cbeeb48ed720a24b70725cb8db2353ed331e05f3d0a832ff96acb02292d62</hash-sum>
- </version>
- <version name="3.0.4" package="org.wireshark.Wireshark64" type="one-file">
-  <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD%&#13;
-</file>
-  <file path=".Npackd\Uninstall.bat">uninstall.exe /S _=%CD%&#13;
-</file>
-  <url>https://1.eu.dl.wireshark.org/win64/Wireshark-win64-3.0.4.exe</url>
-  <hash-sum type="SHA-256">abe83ebcdf817bd5c97106670fe0e7e52b88c2b5978dfb66db10e7f780beb2e5</hash-sum>
- </version>
- <version name="3.0.5" package="org.wireshark.Wireshark64" type="one-file">
-  <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD%&#13;
-</file>
-  <file path=".Npackd\Uninstall.bat">uninstall.exe /S _=%CD%&#13;
-</file>
-  <url>https://1.eu.dl.wireshark.org/win64/Wireshark-win64-3.0.5.exe</url>
-  <hash-sum type="SHA-256">888ff1269fe7ad887fe03d066094933df5c721100035ae76a85278b1380f8616</hash-sum>
- </version>
- <version name="3.0.6" package="org.wireshark.Wireshark64" type="one-file">
-  <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD%&#13;
-</file>
-  <file path=".Npackd\Uninstall.bat">uninstall.exe /S _=%CD%&#13;
-</file>
-  <url>https://1.eu.dl.wireshark.org/win64/Wireshark-win64-3.0.6.exe</url>
-  <hash-sum type="SHA-256">6cd2b1474d5a031b85fca00538d45487144b36d8e1db1d565fd35d251ac261d0</hash-sum>
- </version>
- <version name="3.0.7" package="org.wireshark.Wireshark64" type="one-file">
-  <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD%&#13;
-</file>
-  <file path=".Npackd\Uninstall.bat">uninstall.exe /S _=%CD%&#13;
-</file>
-  <url>https://1.eu.dl.wireshark.org/win64/Wireshark-win64-3.0.7.exe</url>
-  <hash-sum type="SHA-256">b246db3ef635c5bf2ae25684f5f869c0d958c66021a5388a3fb1a38aa374b233</hash-sum>
- </version>
- <version name="3.2" package="org.wireshark.Wireshark64" type="one-file">
-  <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD%&#13;
-</file>
-  <file path=".Npackd\Uninstall.bat">uninstall.exe /S _=%CD%&#13;
-</file>
-  <url>https://1.eu.dl.wireshark.org/win64/Wireshark-win64-3.2.0.exe</url>
-  <hash-sum type="SHA-256">373af8674889b446412fb4c34f9b0299c66724086343238ea2b3a99e9e8d80d7</hash-sum>
- </version>
- <version name="3.2.1" package="org.wireshark.Wireshark64" type="one-file">
-  <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD%&#13;
-</file>
-  <file path=".Npackd\Uninstall.bat">uninstall.exe /S _=%CD%&#13;
-</file>
-  <url>https://1.eu.dl.wireshark.org/win64/Wireshark-win64-3.2.1.exe</url>
-  <hash-sum type="SHA-256">7c69778b9f35fa5335dc5b8e6e1cbbe2e18a7fdfe77b47edb7402206c93ee5d4</hash-sum>
- </version>
- <version name="3.2.2" package="org.wireshark.Wireshark64" type="one-file">
-  <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD%&#13;
-</file>
-  <file path=".Npackd\Uninstall.bat">uninstall.exe /S _=%CD%&#13;
-</file>
-  <url>https://1.eu.dl.wireshark.org/win64/Wireshark-win64-3.2.2.exe</url>
-  <hash-sum type="SHA-256">cc9b49c696219cc093debaae11febeb546b2a508f41150b983ae0af6954c0512</hash-sum>
- </version>
- <version name="3.2.3" package="org.wireshark.Wireshark64" type="one-file">
-  <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD%&#13;
-</file>
-  <file path=".Npackd\Uninstall.bat">uninstall.exe /S _=%CD%&#13;
-</file>
-  <url>https://1.eu.dl.wireshark.org/win64/Wireshark-win64-3.2.3.exe</url>
-  <hash-sum type="SHA-256">e345963a475b79df937b41e297e8680f1f4f0cc8e8bee715fafc50834e6cc44d</hash-sum>
- </version>
- <version name="3.2.4" package="org.wireshark.Wireshark64" type="one-file">
-  <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD%&#13;
-</file>
-  <file path=".Npackd\Uninstall.bat">uninstall.exe /S _=%CD%&#13;
-</file>
-  <url>https://1.eu.dl.wireshark.org/win64/Wireshark-win64-3.2.4.exe</url>
-  <hash-sum type="SHA-256">db2565ee6410b7c57f54aaac86954e4f6a98e2ea31ffbea83e60b981fff57301</hash-sum>
- </version>
- <version name="3.2.5" package="org.wireshark.Wireshark64" type="one-file">
-  <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD%&#13;
-</file>
-  <file path=".Npackd\Uninstall.bat">uninstall.exe /S _=%CD%&#13;
-</file>
-  <url>https://1.eu.dl.wireshark.org/win64/Wireshark-win64-3.2.5.exe</url>
-  <hash-sum type="SHA-256">b9626086253e00fbaf35c7d91c768aa4895d0d2e59b4e48b01331dce7cfeb510</hash-sum>
- </version>
- <version name="3.2.6" package="org.wireshark.Wireshark64" type="one-file">
-  <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD%&#13;
-</file>
-  <file path=".Npackd\Uninstall.bat">uninstall.exe /S _=%CD%&#13;
-</file>
-  <url>https://1.eu.dl.wireshark.org/win64/Wireshark-win64-3.2.6.exe</url>
-  <hash-sum type="SHA-256">9c211a6eda5f69b2c10dd1a794f8a438c1dafbe5da4879b807be496d8f29a6c4</hash-sum>
- </version>
- <version name="3.2.7" package="org.wireshark.Wireshark64" type="one-file">
-  <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD%&#13;
-</file>
-  <file path=".Npackd\Uninstall.bat">uninstall.exe /S _=%CD%&#13;
-</file>
-  <url>https://1.eu.dl.wireshark.org/win64/Wireshark-win64-3.2.7.exe</url>
-  <hash-sum type="SHA-256">d418b047d8f77d6ae804a5121d18d941bc45ca47c30f553d0034d6136c3069a4</hash-sum>
- </version>
- <version name="3.4.2" package="org.wireshark.Wireshark64" type="one-file">
-  <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD%&#13;
-</file>
-  <file path=".Npackd\Uninstall.bat">uninstall.exe /S _=%CD%&#13;
-</file>
-  <url>https://1.eu.dl.wireshark.org/win64/Wireshark-win64-3.4.2.exe</url>
-  <hash-sum type="SHA-256">faa98f833e10b450c24e42a42292ff894c36b97aec526bf259796488888fd57c</hash-sum>
- </version>
- <version name="3.4.3" package="org.wireshark.Wireshark64" type="one-file">
-  <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD%&#13;
-</file>
-  <file path=".Npackd\Uninstall.bat">uninstall.exe /S _=%CD%&#13;
-</file>
-  <url>https://1.eu.dl.wireshark.org/win64/Wireshark-win64-3.4.3.exe</url>
-  <hash-sum type="SHA-256">3bb02427d9c29d7fc04bf011f2e4ebd4f23ebe68f275f51d4ae36ee167b6cb03</hash-sum>
- </version>
- <version name="3.4.4" package="org.wireshark.Wireshark64" type="one-file">
-  <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD%&#13;
-</file>
-  <file path=".Npackd\Uninstall.bat">uninstall.exe /S _=%CD%&#13;
-</file>
-  <url>https://1.eu.dl.wireshark.org/win64/Wireshark-win64-3.4.4.exe</url>
-  <hash-sum type="SHA-256">568d5b3f7dcca301d4f4069b72fd458cd6fb9562c4f06227ccb2a1804b260b26</hash-sum>
- </version>
- <version name="3.4.5" package="org.wireshark.Wireshark64" type="one-file">
-  <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD%&#13;
-</file>
-  <file path=".Npackd\Uninstall.bat">uninstall.exe /S _=%CD%&#13;
-</file>
-  <url>https://1.eu.dl.wireshark.org/win64/Wireshark-win64-3.4.5.exe</url>
-  <hash-sum type="SHA-256">e6a7f8b48221b642b8b0911dd1519d3436a5a90e99525e80f1764bf4938b35e5</hash-sum>
- </version>
- <version name="3.4.6" package="org.wireshark.Wireshark64" type="one-file">
-  <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD%&#13;
-</file>
-  <file path=".Npackd\Uninstall.bat">uninstall.exe /S _=%CD%&#13;
-</file>
-  <url>https://1.eu.dl.wireshark.org/win64/Wireshark-win64-3.4.6.exe</url>
-  <hash-sum type="SHA-256">9021124cd54bbd3301dcd98dbfa32f989ce9631e37cb652c2722bb8a3e561a33</hash-sum>
- </version>
- <version name="3.4.7" package="org.wireshark.Wireshark64" type="one-file">
-  <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD%&#13;
-</file>
-  <file path=".Npackd\Uninstall.bat">uninstall.exe /S _=%CD%&#13;
-</file>
-  <url>https://1.eu.dl.wireshark.org/win64/Wireshark-win64-3.4.7.exe</url>
-  <hash-sum type="SHA-256">b61fcdb21a5a1f40d267748300d29b04562277175d827312202c6ea918065238</hash-sum>
- </version>
- <version name="3.4.8" package="org.wireshark.Wireshark64" type="one-file">
-  <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD%&#13;
-</file>
-  <file path=".Npackd\Uninstall.bat">uninstall.exe /S _=%CD%&#13;
-</file>
-  <url>https://1.eu.dl.wireshark.org/win64/Wireshark-win64-3.4.8.exe</url>
-  <hash-sum type="SHA-256">7f65c2edb7ea53e6abce513e2dc5b4c3dc323738d49b54718255c2944c776c5a</hash-sum>
- </version>
- <version name="3.4.9" package="org.wireshark.Wireshark64" type="one-file">
-  <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD%&#13;
-</file>
-  <file path=".Npackd\Uninstall.bat">uninstall.exe /S _=%CD%&#13;
-</file>
-  <url>https://1.eu.dl.wireshark.org/win64/Wireshark-win64-3.4.9.exe</url>
-  <hash-sum type="SHA-256">dca0db950d1a9dca9f5653ab0f1110a454d812c9d4224f9acdb1e7e74d8e4513</hash-sum>
- </version>
- <version name="3.4.10" package="org.wireshark.Wireshark64" type="one-file">
-  <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD%&#13;
-</file>
-  <file path=".Npackd\Uninstall.bat">uninstall.exe /S _=%CD%&#13;
-</file>
-  <url>https://1.eu.dl.wireshark.org/win64/Wireshark-win64-3.4.10.exe</url>
-  <hash-sum type="SHA-256">faa83ac4f289d07d8e1bacb7e7611758b231a9c00b18e816654f40e7437529fd</hash-sum>
- </version>
- <version name="3.6" package="org.wireshark.Wireshark64" type="one-file">
-  <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD%&#13;
-</file>
-  <file path=".Npackd\Uninstall.bat">uninstall.exe /S _=%CD%&#13;
-</file>
-  <url>https://1.eu.dl.wireshark.org/win64/Wireshark-win64-3.6.0.exe</url>
-  <hash-sum type="SHA-256">8ffa9f2c7943d1e8ed8020d7d08c8015ec649c3e3af901808a9ec858564cd255</hash-sum>
- </version>
- <version name="3.6.1" package="org.wireshark.Wireshark64" type="one-file">
-  <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD%&#13;
-</file>
-  <file path=".Npackd\Uninstall.bat">uninstall.exe /S _=%CD%&#13;
-</file>
-  <url>https://1.eu.dl.wireshark.org/win64/Wireshark-win64-3.6.1.exe</url>
-  <hash-sum type="SHA-256">1bec695388724ce8d40d0403b150706daa9991e088d240779b9b16e60241ec31</hash-sum>
- </version>
- <version name="3.6.2" package="org.wireshark.Wireshark64" type="one-file">
-  <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD%&#13;
-</file>
-  <file path=".Npackd\Uninstall.bat">uninstall.exe /S _=%CD%&#13;
-</file>
-  <url>https://1.eu.dl.wireshark.org/win64/Wireshark-win64-3.6.2.exe</url>
-  <hash-sum type="SHA-256">8b02c49d60e1e5261fe95ad27e5f5f3ae81990332dd2621959daad7ba84e5388</hash-sum>
- </version>
- <version name="3.6.3" package="org.wireshark.Wireshark64" type="one-file">
-  <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD%&#13;
-</file>
-  <file path=".Npackd\Uninstall.bat">uninstall.exe /S _=%CD%&#13;
-</file>
-  <url>https://1.eu.dl.wireshark.org/win64/Wireshark-win64-3.6.3.exe</url>
-  <hash-sum type="SHA-256">b87ee22f981c033e6a075193c2a9a4cf699ec1a5bde7ec4851b9344a27b73eb7</hash-sum>
- </version>
  <version name="3.6.5" package="org.wireshark.Wireshark64" type="one-file">
   <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD%&#13;
 </file>
@@ -65481,317 +65242,7 @@ call "%npackdih%\InstallMSI.bat" TARGETDIR yes</file>
 
     
 
-    <version name="1.5.1472" package="psi-plus64" type="one-file">
-  <important-file path="psi-plus.exe" title="Psi+"/>
-  <important-file path="psi-plus-webkit.exe" title="Psi+ WebKit"/>
-  <file path=".Npackd\Install.bat">"%sevenzipa%\7za.exe" x "%npackd_package_binary%" &gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt &amp;&amp; del /f /q "%setup%"&#13;
-if %errorlevel% neq 0 exit /b %errorlevel%&#13;
-&#13;
-for /f "delims=" %%x in ('dir /b psi-plus*') do set name=%%x&#13;
-"%clu%\clu" unwrap-dir -p "%name%"&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
-if %errorlevel% neq 0 exit /b %errorlevel%&#13;
-&#13;
-ren psi-plus-portable.exe psi-plus.exe&#13;
-if %errorlevel% neq 0 exit /b %errorlevel%&#13;
-&#13;
-ren psi-plus-webkit-portable.exe psi-plus-webkit.exe&#13;
-if %errorlevel% neq 0 exit /b %errorlevel%&#13;
-</file>
-  <url>https://sourceforge.net/projects/psiplus/files/Windows/Personal-Builds/tehnick/psi-plus-portable-1.5.1472_win7_x86_64.7z</url>
-  <hash-sum type="SHA-256">ddea43a293862db294e6bb6765d275d19eb0849c68f51a5c56469a546110ee7f</hash-sum>
-  <dependency package="org.7-zip.SevenZIPA" versions="[9.20, 20)">
-   <variable>sevenzipa</variable>
-  </dependency>
-  <dependency package="com.googlecode.windows-package-manager.CLU" versions="[1.25, 2)">
-   <variable>clu</variable>
-  </dependency>
- </version>
- <version name="1.5.1482" package="psi-plus64" type="one-file">
-  <important-file path="psi-plus.exe" title="Psi+"/>
-  <important-file path="psi-plus-webkit.exe" title="Psi+ WebKit"/>
-  <file path=".Npackd\Install.bat">"%sevenzipa%\7za.exe" x "%npackd_package_binary%" &gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt &amp;&amp; del /f /q "%setup%"&#13;
-if %errorlevel% neq 0 exit /b %errorlevel%&#13;
-&#13;
-for /f "delims=" %%x in ('dir /b psi-plus*') do set name=%%x&#13;
-"%clu%\clu" unwrap-dir -p "%name%"&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
-if %errorlevel% neq 0 exit /b %errorlevel%&#13;
-&#13;
-ren psi-plus-portable.exe psi-plus.exe&#13;
-if %errorlevel% neq 0 exit /b %errorlevel%&#13;
-&#13;
-ren psi-plus-webkit-portable.exe psi-plus-webkit.exe&#13;
-if %errorlevel% neq 0 exit /b %errorlevel%&#13;
-</file>
-  <url>https://sourceforge.net/projects/psiplus/files/Windows/Personal-Builds/tehnick/psi-plus-portable-1.5.1482_win7_x86_64.7z</url>
-  <hash-sum type="SHA-256">52eae5e64e9d2f6049fb6363734062b055741e9fb20919241b1cb125caf34aac</hash-sum>
-  <dependency package="org.7-zip.SevenZIPA" versions="[9.20, 20)">
-   <variable>sevenzipa</variable>
-  </dependency>
-  <dependency package="com.googlecode.windows-package-manager.CLU" versions="[1.25, 2)">
-   <variable>clu</variable>
-  </dependency>
- </version>
- <version name="1.5.1484" package="psi-plus64" type="one-file">
-  <important-file path="psi-plus.exe" title="Psi+"/>
-  <important-file path="psi-plus-webkit.exe" title="Psi+ WebKit"/>
-  <file path=".Npackd\Install.bat">"%sevenzipa%\7za.exe" x "%npackd_package_binary%" &gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt &amp;&amp; del /f /q "%setup%"&#13;
-if %errorlevel% neq 0 exit /b %errorlevel%&#13;
-&#13;
-for /f "delims=" %%x in ('dir /b psi-plus*') do set name=%%x&#13;
-"%clu%\clu" unwrap-dir -p "%name%"&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
-if %errorlevel% neq 0 exit /b %errorlevel%&#13;
-&#13;
-ren psi-plus-portable.exe psi-plus.exe&#13;
-if %errorlevel% neq 0 exit /b %errorlevel%&#13;
-&#13;
-ren psi-plus-webkit-portable.exe psi-plus-webkit.exe&#13;
-if %errorlevel% neq 0 exit /b %errorlevel%&#13;
-</file>
-  <url>https://sourceforge.net/projects/psiplus/files/Windows/Personal-Builds/tehnick/psi-plus-portable-1.5.1484_win7_x86_64.7z</url>
-  <hash-sum type="SHA-256">24b111dae6ecfc6d7f939882524bfba8d647fa39f958eabb8f30ede3a1e561f4</hash-sum>
-  <dependency package="org.7-zip.SevenZIPA" versions="[9.20, 20)">
-   <variable>sevenzipa</variable>
-  </dependency>
-  <dependency package="com.googlecode.windows-package-manager.CLU" versions="[1.25, 2)">
-   <variable>clu</variable>
-  </dependency>
- </version>
- <version name="1.5.1487" package="psi-plus64" type="one-file">
-  <important-file path="psi-plus.exe" title="Psi+"/>
-  <important-file path="psi-plus-webkit.exe" title="Psi+ WebKit"/>
-  <file path=".Npackd\Install.bat">"%sevenzipa%\7za.exe" x "%npackd_package_binary%" &gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt &amp;&amp; del /f /q "%setup%"&#13;
-if %errorlevel% neq 0 exit /b %errorlevel%&#13;
-&#13;
-for /f "delims=" %%x in ('dir /b psi-plus*') do set name=%%x&#13;
-"%clu%\clu" unwrap-dir -p "%name%"&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
-if %errorlevel% neq 0 exit /b %errorlevel%&#13;
-&#13;
-ren psi-plus-portable.exe psi-plus.exe&#13;
-if %errorlevel% neq 0 exit /b %errorlevel%&#13;
-&#13;
-ren psi-plus-webkit-portable.exe psi-plus-webkit.exe&#13;
-if %errorlevel% neq 0 exit /b %errorlevel%&#13;
-</file>
-  <url>https://sourceforge.net/projects/psiplus/files/Windows/Personal-Builds/tehnick/psi-plus-portable-1.5.1487_win7_x86_64.7z</url>
-  <hash-sum type="SHA-256">062e43595b46211b1b2ebf490b11743f7872c4a4359855dc2c0d1aa7728f3b24</hash-sum>
-  <dependency package="org.7-zip.SevenZIPA" versions="[9.20, 20)">
-   <variable>sevenzipa</variable>
-  </dependency>
-  <dependency package="com.googlecode.windows-package-manager.CLU" versions="[1.25, 2)">
-   <variable>clu</variable>
-  </dependency>
- </version>
- <version name="1.5.1500" package="psi-plus64" type="one-file">
-  <file path=".Npackd\Install.bat">"%nih%\InstallInnoSetup.bat"&#13;
-</file>
-  <file path=".Npackd\Uninstall.bat">"%nih%\UninstallInnoSetup.bat" unins000.exe</file>
-  <url>https://master.dl.sourceforge.net/project/psiplus/Windows/Personal-Builds/KukuRuzo/psi-plus-1.5.1500.0-x64-setup.exe</url>
-  <hash-sum type="SHA-256">8fb08dcc063c6661bbe313379e08bafbcbd56cb017107048979418dfd169eb41</hash-sum>
-  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
-   <variable>nih</variable>
-  </dependency>
- </version>
- <version name="1.5.1503" package="psi-plus64" type="one-file">
-  <file path=".Npackd\Install.bat">"%nih%\InstallInnoSetup.bat"&#13;
-</file>
-  <file path=".Npackd\Uninstall.bat">"%nih%\UninstallInnoSetup.bat" unins000.exe</file>
-  <url>https://master.dl.sourceforge.net/project/psiplus/Windows/Personal-Builds/KukuRuzo/psi-plus-1.5.1503.0-x64-setup.exe</url>
-  <hash-sum type="SHA-256">76a8072f0b8b93f55a7f9b23b5f1ff7065aa9a19f4d78c91d043d0569f4b628f</hash-sum>
-  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
-   <variable>nih</variable>
-  </dependency>
- </version>
- <version name="1.5.1513" package="psi-plus64" type="one-file">
-  <file path=".Npackd\Install.bat">"%nih%\InstallInnoSetup.bat"&#13;
-</file>
-  <file path=".Npackd\Uninstall.bat">"%nih%\UninstallInnoSetup.bat" unins000.exe</file>
-  <url>https://master.dl.sourceforge.net/project/psiplus/Windows/Personal-Builds/KukuRuzo/psi-plus-1.5.1513.0-x64-setup.exe</url>
-  <hash-sum type="SHA-256">18e9e8615270b8372867bb9b76cc7a2180f9199ea663f8c0ead8b77ecf8660ba</hash-sum>
-  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
-   <variable>nih</variable>
-  </dependency>
- </version>
- <version name="1.5.1524" package="psi-plus64" type="one-file">
-  <file path=".Npackd\Install.bat">"%nih%\InstallInnoSetup.bat"&#13;
-</file>
-  <file path=".Npackd\Uninstall.bat">"%nih%\UninstallInnoSetup.bat" unins000.exe</file>
-  <url>https://master.dl.sourceforge.net/project/psiplus/Windows/Personal-Builds/KukuRuzo/psi-plus-1.5.1524.0-x64-setup.exe</url>
-  <hash-sum type="SHA-256">8fcb4af0500ec8012a5031e75b4ad7a31138f7611e60d33919c1543328b45e86</hash-sum>
-  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
-   <variable>nih</variable>
-  </dependency>
- </version>
- <version name="1.5.1549" package="psi-plus64" type="one-file">
-  <file path=".Npackd\Install.bat">"%nih%\InstallInnoSetup.bat"&#13;
-</file>
-  <file path=".Npackd\Uninstall.bat">"%nih%\UninstallInnoSetup.bat" unins000.exe</file>
-  <url>https://master.dl.sourceforge.net/project/psiplus/Windows/Personal-Builds/KukuRuzo/psi-plus-1.5.1549.0-x64-setup.exe</url>
-  <hash-sum type="SHA-256">430efdf3d3ca90f778d8ace2fdd8b187269ae35b19bcb3c8dd03130f84212a12</hash-sum>
-  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
-   <variable>nih</variable>
-  </dependency>
- </version>
- <version name="1.5.1552" package="psi-plus64" type="one-file">
-  <file path=".Npackd\Install.bat">"%nih%\InstallInnoSetup.bat"&#13;
-</file>
-  <file path=".Npackd\Uninstall.bat">"%nih%\UninstallInnoSetup.bat" unins000.exe</file>
-  <url>https://master.dl.sourceforge.net/project/psiplus/Windows/Personal-Builds/KukuRuzo/psi-plus-1.5.1552.0-x64-setup.exe</url>
-  <hash-sum type="SHA-256">f694a07c892a4202d44eea4c18ae9463dfe89f65538cb1b142c9d37c39755e30</hash-sum>
-  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
-   <variable>nih</variable>
-  </dependency>
- </version>
- <version name="1.5.1555" package="psi-plus64" type="one-file">
-  <file path=".Npackd\Install.bat">"%nih%\InstallInnoSetup.bat"&#13;
-</file>
-  <file path=".Npackd\Uninstall.bat">"%nih%\UninstallInnoSetup.bat" unins000.exe</file>
-  <url>https://master.dl.sourceforge.net/project/psiplus/Windows/Personal-Builds/KukuRuzo/psi-plus-1.5.1555.0-x64-setup.exe</url>
-  <hash-sum type="SHA-256">bffb2d0a04cb14eeb575e6a412dbb0ccfed21266001b732c29daea12d6d28b7d</hash-sum>
-  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
-   <variable>nih</variable>
-  </dependency>
- </version>
- <version name="1.5.1556" package="psi-plus64" type="one-file">
-  <file path=".Npackd\Install.bat">"%nih%\InstallInnoSetup.bat"&#13;
-</file>
-  <file path=".Npackd\Uninstall.bat">"%nih%\UninstallInnoSetup.bat" unins000.exe</file>
-  <url>https://master.dl.sourceforge.net/project/psiplus/Windows/Personal-Builds/KukuRuzo/psi-plus-1.5.1556.0-x64-setup.exe</url>
-  <hash-sum type="SHA-256">6f15ca4d27165a7c9a74c5b52e2e7eab1d94fd9f490881ad03f6b7f829ea98a0</hash-sum>
-  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
-   <variable>nih</variable>
-  </dependency>
- </version>
- <version name="1.5.1557" package="psi-plus64" type="one-file">
-  <file path=".Npackd\Install.bat">"%nih%\InstallInnoSetup.bat"&#13;
-</file>
-  <file path=".Npackd\Uninstall.bat">"%nih%\UninstallInnoSetup.bat" unins000.exe</file>
-  <url>https://master.dl.sourceforge.net/project/psiplus/Windows/Personal-Builds/KukuRuzo/psi-plus-1.5.1557.0-x64-setup.exe</url>
-  <hash-sum type="SHA-256">5b6517632144918b95480dacbf1afb5e573833ac573fe91642eaf16594daba66</hash-sum>
-  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
-   <variable>nih</variable>
-  </dependency>
- </version>
- <version name="1.5.1559" package="psi-plus64" type="one-file">
-  <file path=".Npackd\Install.bat">"%nih%\InstallInnoSetup.bat"&#13;
-</file>
-  <file path=".Npackd\Uninstall.bat">"%nih%\UninstallInnoSetup.bat" unins000.exe</file>
-  <url>https://master.dl.sourceforge.net/project/psiplus/Windows/Personal-Builds/KukuRuzo/psi-plus-1.5.1559.0-x64-setup.exe</url>
-  <hash-sum type="SHA-256">6b692507d674f72db94dce6c8b2cb1b3bdc027b496f21d8e307a84599bbbc9c1</hash-sum>
-  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
-   <variable>nih</variable>
-  </dependency>
- </version>
- <version name="1.5.1569" package="psi-plus64" type="one-file">
-  <file path=".Npackd\Install.bat">"%nih%\InstallInnoSetup.bat"&#13;
-</file>
-  <file path=".Npackd\Uninstall.bat">"%nih%\UninstallInnoSetup.bat" unins000.exe</file>
-  <url>https://master.dl.sourceforge.net/project/psiplus/Windows/Personal-Builds/KukuRuzo/psi-plus-1.5.1569.0-x64-setup.exe</url>
-  <hash-sum type="SHA-256">ccc1b98862a1888b9e2a211c9f5f23c24a0dc0178c4c91fffe9de746f93e7e1b</hash-sum>
-  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
-   <variable>nih</variable>
-  </dependency>
- </version>
- <version name="1.5.1573" package="psi-plus64" type="one-file">
-  <file path=".Npackd\Install.bat">"%nih%\InstallInnoSetup.bat"&#13;
-</file>
-  <file path=".Npackd\Uninstall.bat">"%nih%\UninstallInnoSetup.bat" unins000.exe</file>
-  <url>https://master.dl.sourceforge.net/project/psiplus/Windows/Personal-Builds/KukuRuzo/psi-plus-1.5.1573.0-x64-setup.exe</url>
-  <hash-sum type="SHA-256">f5c0b0873d9e282fc1817d6d605bed83fbc4c0b1264ad9e4eb40798861092222</hash-sum>
-  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
-   <variable>nih</variable>
-  </dependency>
- </version>
- <version name="1.5.1595" package="psi-plus64" type="one-file">
-  <file path=".Npackd\Install.bat">"%nih%\InstallInnoSetup.bat"&#13;
-</file>
-  <file path=".Npackd\Uninstall.bat">"%nih%\UninstallInnoSetup.bat" unins000.exe</file>
-  <url>https://master.dl.sourceforge.net/project/psiplus/Windows/Personal-Builds/KukuRuzo/psi-plus-1.5.1595.0-x64-setup.exe</url>
-  <hash-sum type="SHA-256">9836b58586a58c8501b4f708251fb5fda462d26acb08034cc4d9c0d27bfa2f35</hash-sum>
-  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
-   <variable>nih</variable>
-  </dependency>
- </version>
- <version name="1.5.1597" package="psi-plus64" type="one-file">
-  <file path=".Npackd\Install.bat">"%nih%\InstallInnoSetup.bat"&#13;
-</file>
-  <file path=".Npackd\Uninstall.bat">"%nih%\UninstallInnoSetup.bat" unins000.exe</file>
-  <url>https://master.dl.sourceforge.net/project/psiplus/Windows/Personal-Builds/KukuRuzo/psi-plus-1.5.1597.0-x64-setup.exe</url>
-  <hash-sum type="SHA-256">8a506bdcc290ffd5b315dff6c6b826ae780f8baab49dba7719807419d138d67c</hash-sum>
-  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
-   <variable>nih</variable>
-  </dependency>
- </version>
- <version name="1.5.1599" package="psi-plus64" type="one-file">
-  <file path=".Npackd\Install.bat">"%nih%\InstallInnoSetup.bat"&#13;
-</file>
-  <file path=".Npackd\Uninstall.bat">"%nih%\UninstallInnoSetup.bat" unins000.exe</file>
-  <url>https://master.dl.sourceforge.net/project/psiplus/Windows/Personal-Builds/KukuRuzo/psi-plus-1.5.1599.0-x64-setup.exe</url>
-  <hash-sum type="SHA-256">bf8a5ba08513efdb56ad2d2dcac52d2af30ec13161f51f6c66fc68bd102eab9b</hash-sum>
-  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
-   <variable>nih</variable>
-  </dependency>
- </version>
- <version name="1.5.1601" package="psi-plus64" type="one-file">
-  <file path=".Npackd\Install.bat">"%nih%\InstallInnoSetup.bat"&#13;
-</file>
-  <file path=".Npackd\Uninstall.bat">"%nih%\UninstallInnoSetup.bat" unins000.exe</file>
-  <url>https://master.dl.sourceforge.net/project/psiplus/Windows/Personal-Builds/KukuRuzo/psi-plus-1.5.1601.0-x64-setup.exe</url>
-  <hash-sum type="SHA-256">70129328a1697a91e74091acbc9622e0d8cafa9a00b5887f7727ee16cae6a949</hash-sum>
-  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
-   <variable>nih</variable>
-  </dependency>
- </version>
- <version name="1.5.1602" package="psi-plus64" type="one-file">
-  <file path=".Npackd\Install.bat">"%nih%\InstallInnoSetup.bat"&#13;
-</file>
-  <file path=".Npackd\Uninstall.bat">"%nih%\UninstallInnoSetup.bat" unins000.exe</file>
-  <url>https://master.dl.sourceforge.net/project/psiplus/Windows/Personal-Builds/KukuRuzo/psi-plus-1.5.1602.0-x64-setup.exe</url>
-  <hash-sum type="SHA-256">aef4d30111f1adda059a1e740f2f031dac0faf3dfc87954ae99c9037716a2cec</hash-sum>
-  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
-   <variable>nih</variable>
-  </dependency>
- </version>
- <version name="1.5.1605" package="psi-plus64" type="one-file">
-  <file path=".Npackd\Install.bat">"%nih%\InstallInnoSetup.bat"&#13;
-</file>
-  <file path=".Npackd\Uninstall.bat">"%nih%\UninstallInnoSetup.bat" unins000.exe</file>
-  <url>https://master.dl.sourceforge.net/project/psiplus/Windows/Personal-Builds/KukuRuzo/psi-plus-1.5.1605.0-x64-setup.exe</url>
-  <hash-sum type="SHA-256">5c7c6de6e01acff4776108447d675b6c181244ca5bd98d2a78532cd477e32812</hash-sum>
-  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
-   <variable>nih</variable>
-  </dependency>
- </version>
- <version name="1.5.1615" package="psi-plus64" type="one-file">
-  <file path=".Npackd\Install.bat">"%nih%\InstallInnoSetup.bat"&#13;
-</file>
-  <file path=".Npackd\Uninstall.bat">"%nih%\UninstallInnoSetup.bat" unins000.exe</file>
-  <url>https://master.dl.sourceforge.net/project/psiplus/Windows/Personal-Builds/KukuRuzo/psi-plus-1.5.1615.0-x64-setup.exe</url>
-  <hash-sum type="SHA-256">1f7c257e17b41c753df0dd2e8baedd3cc0d8de8736df1412f988415438193bf4</hash-sum>
-  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
-   <variable>nih</variable>
-  </dependency>
- </version>
- <version name="1.5.1618" package="psi-plus64" type="one-file">
-  <file path=".Npackd\Install.bat">"%nih%\InstallInnoSetup.bat"&#13;
-</file>
-  <file path=".Npackd\Uninstall.bat">"%nih%\UninstallInnoSetup.bat" unins000.exe</file>
-  <url>https://master.dl.sourceforge.net/project/psiplus/Windows/Personal-Builds/KukuRuzo/psi-plus-1.5.1618.0-x64-setup.exe</url>
-  <hash-sum type="SHA-256">a0446d88e26df7efb6485a3bf738cd4c62cfcd1d0d8fdf53474b36e9ceb78dd1</hash-sum>
-  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
-   <variable>nih</variable>
-  </dependency>
- </version>
- <version name="1.5.1626" package="psi-plus64" type="one-file">
-  <file path=".Npackd\Install.bat">"%nih%\InstallInnoSetup.bat"&#13;
-</file>
-  <file path=".Npackd\Uninstall.bat">"%nih%\UninstallInnoSetup.bat" unins000.exe</file>
-  <url>https://master.dl.sourceforge.net/project/psiplus/Windows/Personal-Builds/KukuRuzo/psi-plus-1.5.1626.0-x64-setup.exe</url>
-  <hash-sum type="SHA-256">ba7e7ffde8e3e864c14c3350ce72430c54b25fd763723b6781c6a97607f19e67</hash-sum>
-  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
-   <variable>nih</variable>
-  </dependency>
- </version>
- <version name="1.5.1629" package="psi-plus64" type="one-file">
+    <version name="1.5.1629" package="psi-plus64" type="one-file">
   <file path=".Npackd\Install.bat">"%nih%\InstallInnoSetup.bat"&#13;
 </file>
   <file path=".Npackd\Uninstall.bat">"%nih%\UninstallInnoSetup.bat" unins000.exe</file>
