@@ -1623,20 +1623,20 @@ x86_64</description>
   <url>https://fotosketcher.com/</url>
   <description>Turn your digital photos into beautiful pencil sketches in seconds by applying several graphic effects, and create scripts to automate photo processing for future images
 x86_64</description>
-  <icon>https://cdn.lo4d.com/t/icon/128/fotosketcher.png</icon>
+  <icon>https://www.snapfiles.com/images/appicons/i_fotosketcher.gif</icon>
   <license>org.wikipedia.Freeware</license>
   <category>Photo</category>
   <tag>stable64</tag>
   <stars>2</stars>
   <link href="http://fotosketcher.blogspot.com/" rel="changelog"/>
-  <link href="https://1.bp.blogspot.com/-bHjtxp7DcvE/UXKmuVlLM4I/AAAAAAAAAlI/ZS-nVjAfM3o/s1600/UI_tricks.png" rel="screenshot"/>
-  <link href="https://2.bp.blogspot.com/-FO89DyOKbD0/UXKvCCUFu0I/AAAAAAAAAlo/DjkCMQ7d14o/s1600/Reset.png" rel="screenshot"/>
-  <link href="https://1.bp.blogspot.com/-RL1r-MhfElI/UXKvxou0FmI/AAAAAAAAAlw/DhLueEBzuRA/s1600/Max.png" rel="screenshot"/>
-  <link href="https://1.bp.blogspot.com/-FnV7llaF0m8/UXKrNSuC6VI/AAAAAAAAAlU/MnZvgLqZb-o/s1600/Menu2.png" rel="screenshot"/>
-  <link href="https://1.bp.blogspot.com/-Pj7DTGnMPGI/UgElan1nQvI/AAAAAAAAAp0/ioiMQqskEJs/s1600/Image8.png" rel="screenshot"/>
-  <link href="https://4.bp.blogspot.com/-8AXydSvjp5Y/UgEla07NUlI/AAAAAAAAAqI/mKwBv3m9hLc/s1600/Image9.png" rel="screenshot"/>
-  <link href="https://4.bp.blogspot.com/-5ujSrrlrHCg/UgElYxxSLqI/AAAAAAAAAo8/vhDiSOhznjE/s1600/Image11.png" rel="screenshot"/>
-  <link href="https://1.bp.blogspot.com/-OJHAPJCZzn0/UgEpbYP_dxI/AAAAAAAAAqk/gSi5pDm9Cs8/s1600/FotoSketcher+Gondola+painting.jpg" rel="screenshot"/>
+  <link href="https://static.filehorse.com/screenshots/imaging-and-digital-photo/fotosketcher-screenshot-01.jpg" rel="screenshot"/>
+  <link href="https://static.filehorse.com/screenshots/imaging-and-digital-photo/fotosketcher-screenshot-02.jpg" rel="screenshot"/>
+  <link href="https://static.filehorse.com/screenshots/imaging-and-digital-photo/fotosketcher-screenshot-03.jpg" rel="screenshot"/>
+  <link href="https://static.filehorse.com/screenshots/imaging-and-digital-photo/fotosketcher-screenshot-04.jpg" rel="screenshot"/>
+  <link href="https://static.filehorse.com/screenshots/imaging-and-digital-photo/fotosketcher-screenshot-05.jpg" rel="screenshot"/>
+  <link href="https://www.snapfiles.com/screenfiles/fotosketcher.jpg" rel="screenshot"/>
+  <link href="https://www.snapfiles.com/screenfiles/fotosketcher2.jpg" rel="screenshot"/>
+  <link href="https://www.snapfiles.com/screenfiles/fotosketcher3.jpg" rel="screenshot"/>
  </package>
  <package name="fr.handbrake.HandBrake64">
   <title>HandBrake 64 bit</title>
@@ -21214,6 +21214,8 @@ rmdir "%name%"&#13;
   <hash-sum type="SHA-256">fe12e92c479683a690c5f83d64a6136d1e6170ca4bb4f9e9f53f2e0cf0d87a9b</hash-sum>
  </version>
 
+    
+
     <version name="8.45" package="explzh64" type="one-file">
   <file path=".Npackd\Install.bat">"%npackd_package_binary%" /silent /q &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
 </file>
@@ -33357,6 +33359,35 @@ usr\bin\bash.exe -lc 'pacman-key --populate msys2'&#13;
 </file>
   <url>https://repo.msys2.org/distrib/x86_64/msys2-base-x86_64-20211130.tar.xz</url>
   <hash-sum type="SHA-256">cad07ef0ae2492006c9457b26806351607f168c2fb6a71cd002223c2c395bfc7</hash-sum>
+  <dependency package="org.7-zip.SevenZIPA" versions="[19, 100)">
+   <variable>sevenzipa</variable>
+  </dependency>
+  <dependency package="com.googlecode.windows-package-manager.CLU" versions="[1.25, 2)">
+   <variable>clu</variable>
+  </dependency>
+ </version>
+ <version name="2022.6.3" package="msys2_64" type="one-file">
+  <important-file path="mingw64.exe" title="MinGW 64 bit"/>
+  <important-file path="mingw32.exe" title="MinGW"/>
+  <file path=".Npackd\Install.bat">"%sevenzipa%\7za" x "%npackd_package_binary%"&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+if %errorlevel% neq 0 exit /b %errorlevel%&#13;
+&#13;
+for /f "delims=" %%x in ('dir /b *.tar') do set name=%%x&#13;
+"%sevenzipa%\7za" x "%name%"&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+if %errorlevel% neq 0 exit /b %errorlevel%&#13;
+&#13;
+"%clu%\clu" unwrap-dir -p msys64&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+if %errorlevel% neq 0 exit /b %errorlevel%&#13;
+&#13;
+rem see https://github.com/flavorjones/windows-ruby-dev-tools-release/blob/master/packages/ruby-2.4/packaging&#13;
+rem initialize ... things. like gpg keys. and skeleton files.&#13;
+rem see https://github.com/oneclick/rubyinstaller2/issues/79 for background&#13;
+usr\bin\bash.exe -lc 'true'&#13;
+usr\bin\bash.exe -lc 'pacman-key --init'&#13;
+usr\bin\bash.exe -lc 'pacman-key --populate msys2'&#13;
+</file>
+  <url>https://repo.msys2.org/distrib/x86_64/msys2-base-x86_64-20220603.tar.xz</url>
+  <hash-sum type="SHA-256">7a94529d2e88614424212897c963244733de758185cb615c7bb3efbad55190da</hash-sum>
   <dependency package="org.7-zip.SevenZIPA" versions="[19, 100)">
    <variable>sevenzipa</variable>
   </dependency>
@@ -62218,6 +62249,20 @@ call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Np
    <variable>nih</variable>
   </dependency>
  </version>
+ <version name="8.2.5119" package="org.vim.Vim64">
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+if %errorlevel% neq 0 exit /b %errorlevel%&#13;
+&#13;
+for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+</file>
+  <url>https://github.com/vim/vim-win32-installer/releases/download/v8.2.5119/gvim_8.2.5119_x64.zip</url>
+  <hash-sum type="SHA-256">0b6aabb6be97acb762cf6020d38680bbe8e1d28c8df9e2126c2d1a20ff08beb8</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.19, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
 
     <version name="4.2.8.83876" package="org.virtualbox.virtualbox64" type="one-file">
   <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
@@ -64228,7 +64273,7 @@ if %err% neq 0 exit %err%</file>
 "%setup%" /S /D=%CD%
 </file>
   <file path=".Npackd\Uninstall.bat">uninstall.exe /S _=%CD%</file>
-  <url>https://storage.googleapis.com/google-code-archive-downloads/v2/code.google.com/npackd/org.wireshark.Wireshark64-1.6.4.exe</url>
+  <url>https://github.com/tim-lebedkov/packages/releases/download/2022_06/org.wireshark.Wireshark64-1.6.4-org.wireshark.Wireshark64-1.6.4.exe</url>
   <sha1>7aa31293a5ce2f1697f9ddc010f416bc4447f413</sha1>
  </version>
  <version name="1.6.5" package="org.wireshark.Wireshark64" type="one-file">
@@ -64236,7 +64281,7 @@ if %err% neq 0 exit %err%</file>
 "%setup%" /S /D=%CD%
 </file>
   <file path=".Npackd\Uninstall.bat">uninstall.exe /S _=%CD%</file>
-  <url>https://storage.googleapis.com/google-code-archive-downloads/v2/code.google.com/npackd/org.wireshark.Wireshark64-1.6.5.exe</url>
+  <url>https://github.com/tim-lebedkov/packages/releases/download/2022_06/org.wireshark.Wireshark64-1.6.5-org.wireshark.Wireshark64-1.6.5.exe</url>
   <sha1>dcfb6d406b681bb548ed919aa7a26b8452a54fcd</sha1>
  </version>
  <version name="1.6.7" package="org.wireshark.Wireshark64" type="one-file">
@@ -64244,7 +64289,7 @@ if %err% neq 0 exit %err%</file>
 "%setup%" /S /D=%CD%
 </file>
   <file path=".Npackd\Uninstall.bat">uninstall.exe /S _=%CD%</file>
-  <url>https://storage.googleapis.com/google-code-archive-downloads/v2/code.google.com/npackd/org.wireshark.Wireshark64-1.6.7.exe</url>
+  <url>https://github.com/tim-lebedkov/packages/releases/download/2022_06/org.wireshark.Wireshark64-1.6.7-org.wireshark.Wireshark64-1.6.7.exe</url>
   <sha1>70cdb6ee24bc9867d036da4bb91074cea1ecd467</sha1>
  </version>
  <version name="1.6.8" package="org.wireshark.Wireshark64" type="one-file">
@@ -72156,9 +72201,29 @@ type .Npackd\InnoSetupUninstall.log&#13;
 if %err% neq 0 exit %err%&#13;
 </file>
   <file path=".Npackd\ExportUserSettings.bat">xcopy /y /e /i "%localappdata%\CMakeTools" LocalAppData\CMakeTools&#13;
+if %errorlevel% neq 0 exit /b %errorlevel%&#13;
 &#13;
+mkdir AppData\Code\User\&#13;
+if %errorlevel% neq 0 exit /b %errorlevel%&#13;
+&#13;
+copy /b /y %appdata%\Code\User\keybindings.json AppData\Code\User\&#13;
+if %errorlevel% neq 0 exit /b %errorlevel%&#13;
+&#13;
+copy /b /y %appdata%\Code\User\settings.json AppData\Code\User\&#13;
+if %errorlevel% neq 0 exit /b %errorlevel%&#13;
 </file>
-  <file path=".Npackd\ExportUserSettings.bat">xcopy /y /e /i LocalAppData "%localappdata%"&#13;
+  <file path=".Npackd\ImportUserSettings.bat">xcopy /y /e /i LocalAppData "%localappdata%"&#13;
+if %errorlevel% neq 0 exit /b %errorlevel%&#13;
+&#13;
+mkdir "%appdata%\Code\User\"&#13;
+if %errorlevel% neq 0 exit /b %errorlevel%&#13;
+&#13;
+copy /b /y AppData\Code\User\keybindings.json "%appdata%\Code\User\"&#13;
+if %errorlevel% neq 0 exit /b %errorlevel%&#13;
+&#13;
+copy /b /y AppData\Code\User\settings.json "%appdata%\Code\User\"&#13;
+if %errorlevel% neq 0 exit /b %errorlevel%&#13;
+&#13;
 &#13;
 </file>
   <url>https://update.code.visualstudio.com/latest/win32-x64-user/stable</url>
