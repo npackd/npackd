@@ -62263,6 +62263,20 @@ call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Np
    <variable>nih</variable>
   </dependency>
  </version>
+ <version name="8.2.5126" package="org.vim.Vim64">
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+if %errorlevel% neq 0 exit /b %errorlevel%&#13;
+&#13;
+for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+</file>
+  <url>https://github.com/vim/vim-win32-installer/releases/download/v8.2.5126/gvim_8.2.5126_x64.zip</url>
+  <hash-sum type="SHA-256">9a1ba4b9ab0ce91cf8ebe0fe41e3644c6bca5d7d02f92994aabad6427ca4ccae</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.19, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
 
     <version name="4.2.8.83876" package="org.virtualbox.virtualbox64" type="one-file">
   <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
@@ -64297,7 +64311,7 @@ if %err% neq 0 exit %err%</file>
 "%setup%" /S /D=%CD%
 </file>
   <file path=".Npackd\Uninstall.bat">uninstall.exe /S _=%CD%</file>
-  <url>https://sourceforge.net/projects/npackd/files/org.wireshark.Wireshark64-1.6.8.exe</url>
+  <url>https://github.com/tim-lebedkov/packages/releases/download/2022_06/org.wireshark.Wireshark64-1.6.8-org.wireshark.Wireshark64-1.6.8.exe</url>
   <sha1>4134f492fdb4c965cc6cf50eddd5998a7dd0faf2</sha1>
  </version>
  <version name="1.8" package="org.wireshark.Wireshark64" type="one-file">
@@ -64305,7 +64319,7 @@ if %err% neq 0 exit %err%</file>
 "%setup%" /S /D=%CD%
 </file>
   <file path=".Npackd\Uninstall.bat">uninstall.exe /S _=%CD%</file>
-  <url>https://sourceforge.net/projects/npackd/files/org.wireshark.Wireshark64-1.8.exe</url>
+  <url>https://github.com/tim-lebedkov/packages/releases/download/2022_06/org.wireshark.Wireshark64-1.8-org.wireshark.Wireshark64-1.8.exe</url>
   <sha1>5813b3e271f1a384025dcc668aff951fd2a44079</sha1>
  </version>
  <version name="3.6.5" package="org.wireshark.Wireshark64" type="one-file">
@@ -64313,7 +64327,7 @@ if %err% neq 0 exit %err%</file>
 </file>
   <file path=".Npackd\Uninstall.bat">uninstall.exe /S _=%CD%&#13;
 </file>
-  <url>https://1.eu.dl.wireshark.org/win64/Wireshark-win64-3.6.5.exe</url>
+  <url>https://github.com/tim-lebedkov/packages/releases/download/2022_06/org.wireshark.Wireshark64-3.6.5-Wireshark-win64-3.6.5.exe</url>
   <hash-sum type="SHA-256">042b59e0d28ec9147dd3f94c3f3c82e6e5c3303de50a8fbc06878de9bd3b5e68</hash-sum>
  </version>
  <version name="3.6.6" package="org.wireshark.Wireshark64" type="one-file">
