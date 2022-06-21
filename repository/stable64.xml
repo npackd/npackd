@@ -13278,6 +13278,15 @@ if %err% neq 0 exit /b %err%&#13;
    <variable>nih</variable>
   </dependency>
  </version>
+ <version name="18.0.1.10" package="com.oracle.JRE64" type="one-file">
+  <file path=".Npackd\Install.bat">call "%nih%\InstallMSI.bat" INSTALLDIR yes&#13;
+</file>
+  <url>https://github.com/adoptium/temurin18-binaries/releases/download/jdk-18.0.1%2B10/OpenJDK18U-jre_x64_windows_hotspot_18.0.1_10.msi</url>
+  <hash-sum type="SHA-256">75a0749dfdec3f7238b0ba2572ff9b2f7debbb56710531b960d60769b1b070f5</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.8, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
 
     <version name="1.8.2" package="com.selenic.mercurial.Mercurial64" type="one-file">
   <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.msi') do set setup=%%x&#13;
@@ -21410,6 +21419,17 @@ rmdir "%name%"&#13;
 </file>
   <url>https://www.ponsoftware.com/en/archiver/explzh/explz865_en_x64.exe</url>
   <hash-sum type="SHA-256">48858254c757a84a989d6179c0933954bd4d0dc2190dee24dca60527277e96da</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.25, 2)">
+   <variable>ncl</variable>
+  </dependency>
+ </version>
+ <version name="8.66" package="explzh64" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" /silent /q &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">"%ncl%\ncl.exe" remove-scp --title "/%npackd_package_name% %npackd_package_version%/i"&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+</file>
+  <url>https://www.ponsoftware.com/en/archiver/explzh/explz866_en_x64.exe</url>
+  <hash-sum type="SHA-256">a4e6146c6c49d1cd7a075d1c4ec617a7c4f5c16f583dc55649bbcb9ec5e2b2ba</hash-sum>
   <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.25, 2)">
    <variable>ncl</variable>
   </dependency>
@@ -62277,6 +62297,20 @@ call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Np
    <variable>nih</variable>
   </dependency>
  </version>
+ <version name="8.2.5136" package="org.vim.Vim64">
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+if %errorlevel% neq 0 exit /b %errorlevel%&#13;
+&#13;
+for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+</file>
+  <url>https://github.com/vim/vim-win32-installer/releases/download/v8.2.5136/gvim_8.2.5136_x64.zip</url>
+  <hash-sum type="SHA-256">103865516d88a8be714b02ea0f51aee81ad8d1df292cd4146eb0fcf789cc2df7</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.19, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
 
     <version name="4.2.8.83876" package="org.virtualbox.virtualbox64" type="one-file">
   <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
@@ -64335,7 +64369,7 @@ if %err% neq 0 exit %err%</file>
 </file>
   <file path=".Npackd\Uninstall.bat">uninstall.exe /S _=%CD%&#13;
 </file>
-  <url>https://1.eu.dl.wireshark.org/win64/Wireshark-win64-3.6.6.exe</url>
+  <url>https://github.com/tim-lebedkov/packages/releases/download/2022_06/org.wireshark.Wireshark64-3.6.6-Wireshark-win64-3.6.6.exe</url>
   <hash-sum type="SHA-256">abce9b1004ddd992cb6ffe80e755919bcd12646b008163bde6a7d684aa6b9374</hash-sum>
  </version>
 
@@ -65305,7 +65339,7 @@ call "%npackdih%\InstallMSI.bat" TARGETDIR yes</file>
   <file path=".Npackd\Install.bat">"%nih%\InstallInnoSetup.bat"&#13;
 </file>
   <file path=".Npackd\Uninstall.bat">"%nih%\UninstallInnoSetup.bat" unins000.exe</file>
-  <url>https://master.dl.sourceforge.net/project/psiplus/Windows/Personal-Builds/KukuRuzo/psi-plus-1.5.1629.0-x64-setup.exe</url>
+  <url>https://github.com/tim-lebedkov/packages/releases/download/2022_06/psi-plus64-1.5.1629-psi-plus-1.5.1629.0-x64-setup.exe</url>
   <hash-sum type="SHA-256">2ff4a389c53bd709dfca6b98960e5ba0a869d3c4dbbd6967ef6273dbf3b57409</hash-sum>
   <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
    <variable>nih</variable>
