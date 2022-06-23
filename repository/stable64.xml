@@ -12083,6 +12083,24 @@ if %err% neq 0 exit /b %err%&#13;
   <url>https://download.visualstudio.microsoft.com/download/pr/8c1c2dbb-0856-4dc3-b863-b16c637bc245/C527CE426B8D25CB7D4F577476E984C73E84AAAC3E84730BC118A4E0E0FA3CB0/VC_redist.x64.exe</url>
   <hash-sum type="SHA-256">c527ce426b8d25cb7d4f577476e984c73e84aaac3e84730bc118a4e0e0fa3cb0</hash-sum>
  </version>
+ <version name="14.32.31332" package="com.microsoft.VisualCPPRedistributable64" type="one-file">
+  <file path=".Npackd\Install.bat">vc_redist.x64.exe /q /log .Npackd\VCRInstall.log /norestart&#13;
+set err=%errorlevel%&#13;
+type .Npackd\VCRInstall.log&#13;
+rem 3010=restart required&#13;
+if %err% equ 3010 exit /b 0&#13;
+if %err% neq 0 exit /b %err%&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">vc_redist.x64.exe /q /uninstall /log .Npackd\VCRUninstall.log /norestart&#13;
+set err=%errorlevel%&#13;
+type .Npackd\VCRUninstall.log&#13;
+rem 3010=restart required&#13;
+if %err% equ 3010 exit /b 0&#13;
+if %err% neq 0 exit /b %err%&#13;
+</file>
+  <url>https://download.visualstudio.microsoft.com/download/pr/ed95ef9e-da02-4735-9064-bd1f7f69b6ed/CE6593A1520591E7DEA2B93FD03116E3FC3B3821A0525322B0A430FAA6B3C0B4/VC_redist.x64.exe</url>
+  <hash-sum type="SHA-256">ce6593a1520591e7dea2b93fd03116e3fc3b3821a0525322b0a430faa6b3c0b4</hash-sum>
+ </version>
 
     <version name="6.2.9200" package="com.microsoft.Windows64"/>
 
@@ -25375,7 +25393,7 @@ if %err% neq 0 exit %err%&#13;
   <hash-sum type="SHA-256">9ea1de71109eb5f1b41be08cf2f509ad952ba8cdae8ed82507452f2f772686d3</hash-sum>
  </version>
 
-    <version name="102.0.5005.115" package="google-chrome-x64" type="one-file">
+    <version name="103.0.5060.53" package="google-chrome-x64" type="one-file">
   <file path=".Npackd\Install.bat">call "%npackdih%\InstallMSI.bat" TARGETDIR yes&#13;
 </file>
   <url>https://dl.google.com/tag/s/appguid%3D%7B8A69D345-D564-463C-AFF1-A69D9E530F96%7D%26iid%3D%7B0A558A36-0536-8B3F-0AE0-420553CC97F3%7D%26lang%3Den%26browser%3D4%26usagestats%3D0%26appname%3DGoogle%2520Chrome%26needsadmin%3DFalse/edgedl/chrome/install/GoogleChromeStandaloneEnterprise64.msi</url>
@@ -27215,6 +27233,19 @@ rmdir "%name%"&#13;
 </file>
   <url>https://dl.google.com/dl/cloudsdk/channels/rapid/downloads/google-cloud-sdk-390.0.0-windows-x86_64.zip</url>
   <hash-sum type="SHA-256">0a12cc9208efd30430b22153eea4773d68c01f84ac88685c9d6e26893a87fde2</hash-sum>
+  <dependency package="org.python.Python" versions="[2.7, 2.8)"/>
+ </version>
+ <version name="391" package="google-cloud-sdk64">
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b google-cloud-sdk*') do set name=%%x&#13;
+cd "%name%"&#13;
+for /f "delims=" %%a in ('dir /b') do (&#13;
+  move "%%a" ..&#13;
+)&#13;
+cd ..&#13;
+rmdir "%name%"&#13;
+</file>
+  <url>https://dl.google.com/dl/cloudsdk/channels/rapid/downloads/google-cloud-sdk-391.0.0-windows-x86_64.zip</url>
+  <hash-sum type="SHA-256">39e2b3261dd3ae15594e49790c1c4809b8e409ef848c652cf73f0979acadbb86</hash-sum>
   <dependency package="org.python.Python" versions="[2.7, 2.8)"/>
  </version>
 
@@ -32397,6 +32428,15 @@ rmdir "%name%"&#13;
 </file>
   <url>https://downloads.mixxx.org/releases/2.3.2/mixxx-2.3.2-win64.msi</url>
   <hash-sum type="SHA-256">eb5b800f76a4dbe8bb1ecc2e6df4605b3d55ddd735cf81bbe80d3d759dfb57a8</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.1, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
+ <version name="2.3.3" package="mixxx" type="one-file">
+  <file path=".Npackd\Install.bat">call "%nih%\InstallMSI.bat" INSTALLDIR yes&#13;
+</file>
+  <url>https://downloads.mixxx.org/releases/2.3.3/mixxx-2.3.3-win64.msi</url>
+  <hash-sum type="SHA-256">24d00585d4fc9a7d703ea63efe0230d5a2663c3cdf65be0a890ca3c6f59b85a7</hash-sum>
   <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.1, 2)">
    <variable>nih</variable>
   </dependency>
@@ -62362,6 +62402,20 @@ call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Np
    <variable>nih</variable>
   </dependency>
  </version>
+ <version name="8.2.5147" package="org.vim.Vim64">
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+if %errorlevel% neq 0 exit /b %errorlevel%&#13;
+&#13;
+for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+</file>
+  <url>https://github.com/vim/vim-win32-installer/releases/download/v8.2.5147/gvim_8.2.5147_x64.zip</url>
+  <hash-sum type="SHA-256">62d06cac60da3e85df9fa7b92e0a2050773e50b41b6a325df70be3d9dad6ca50</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.19, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
 
     <version name="4.2.8.83876" package="org.virtualbox.virtualbox64" type="one-file">
   <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
@@ -72906,6 +72960,19 @@ rmdir "%name%"&#13;
 </file>
   <url>https://github.com/xmake-io/xmake/releases/download/v2.6.7/xmake-v2.6.7.win64.zip</url>
   <hash-sum type="SHA-256">47c6bda129738ff48181cbb42b5629cf101630cfac9dc4aae569c826aecd7895</hash-sum>
+ </version>
+ <version name="2.6.8" package="xmake64">
+  <cmd-file path="xmake.exe"/>
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b xmake*') do set name=%%x&#13;
+cd "%name%"&#13;
+for /f "delims=" %%a in ('dir /b') do (&#13;
+  move "%%a" ..&#13;
+)&#13;
+cd ..&#13;
+rmdir "%name%"&#13;
+</file>
+  <url>https://github.com/xmake-io/xmake/releases/download/v2.6.8/xmake-v2.6.8.win64.zip</url>
+  <hash-sum type="SHA-256">e4cf8213d116a50ea526495fb1d89904bd20042b2cc5b28012bbb7ea48d7603b</hash-sum>
  </version>
 
     <version name="3.5.3.4" package="xmedia-recode" type="one-file">
