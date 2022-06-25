@@ -15331,7 +15331,7 @@ del Q-Dir.ini&#13;
   <url>http://files.npackd.org/com.softwareok.QDir64-5.99.9.zip</url>
   <sha1>fb6060796fae3fc641ba34fe1f2f8530d7c985a8</sha1>
  </version>
- <version name="10.86" package="com.softwareok.QDir64">
+ <version name="10.88" package="com.softwareok.QDir64">
   <important-file path="Q-Dir_x64.exe" title="Q-Dir"/>
   <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b Q*') do set name=%%x&#13;
 cd "%name%"        &#13;
@@ -32784,6 +32784,14 @@ reg add HKCU\Software\mkvmergeGUI\GUI /v check_for_updates /t REG_DWORD /d 00000
 </file>
   <url>https://github.com/moneymanagerex/moneymanagerex/releases/download/v1.5.15/mmex-1.5.15-win64.exe</url>
   <hash-sum type="SHA-256">0c7d122b1104bf187731db89e348088cdd5fa3bed7508f55ab082bb181ef488e</hash-sum>
+ </version>
+ <version name="1.5.16" package="money-manager-ex64" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">uninstall.exe /S _?=%CD%&#13;
+</file>
+  <url>https://github.com/moneymanagerex/moneymanagerex/releases/download/v1.5.16/mmex-1.5.16-win64.exe</url>
+  <hash-sum type="SHA-256">795d9652abf1d396f703622185b9771fb317e00c4ff67185a4853752c68fa24f</hash-sum>
  </version>
 
     <version name="4.4.1" package="mono64" type="one-file">
@@ -62430,6 +62438,20 @@ call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Np
    <variable>nih</variable>
   </dependency>
  </version>
+ <version name="8.2.5154" package="org.vim.Vim64">
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+if %errorlevel% neq 0 exit /b %errorlevel%&#13;
+&#13;
+for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+</file>
+  <url>https://github.com/vim/vim-win32-installer/releases/download/v8.2.5154/gvim_8.2.5154_x64.zip</url>
+  <hash-sum type="SHA-256">0d15ad411fe652fd4bcc10d72dd0cf27a9c2cb1206e831ffcd9281b05e28978a</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.19, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
 
     <version name="4.2.8.83876" package="org.virtualbox.virtualbox64" type="one-file">
   <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
@@ -66603,6 +66625,15 @@ if %errorlevel% equ 3010 verify</file>
 </file>
   <url>https://qgis.org/downloads/QGIS-OSGeo4W-3.24.3-1.msi</url>
   <hash-sum type="SHA-256">6ff55a0cc5619757221881ac3aa91fb13d53e1948788fc689b2309b135ce2dc4</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.1, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
+ <version name="3.26.0.3" package="qgis64" type="one-file">
+  <file path=".Npackd\Install.bat">call "%nih%\InstallMSI.bat" INSTALLDIR yes&#13;
+</file>
+  <url>https://qgis.org/downloads/QGIS-OSGeo4W-3.26.0-3.msi</url>
+  <hash-sum type="SHA-256">726f36469d2c10b14d99f3d23a1f97e7da9c0d5f8ef9b723b1d205419026deb3</hash-sum>
   <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.1, 2)">
    <variable>nih</variable>
   </dependency>
