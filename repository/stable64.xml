@@ -20239,6 +20239,21 @@ verify</file>
   <url>https://github.com/tim-lebedkov/packages/releases/download/2022_03/digikam64-7.6-digiKam-7.6.0-Win64.exe</url>
   <hash-sum type="SHA-256">25b07971a0995f6440abb0084f3a3e2c40e01746282c45f60e076eb8cd4edda9</hash-sum>
  </version>
+ <version name="7.7" package="digikam64" type="one-file">
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
+"%setup%" /S /D=%ProgramFiles%\digiKamData&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">"%ProgramFiles%\digiKamData\Uninstall.exe" /S&#13;
+&#13;
+rd /s /q "APPDATA%\Start Menu\Programs\KDE Release" || rd /s /q "%ALLUSERSPROFILE%\Microsoft\Windows\Start Menu\Programs\KDE Release"&#13;
+verify</file>
+  <file path=".Npackd\Stop.bat">taskkill /im dbus-daemon.exe /f /t&#13;
+taskkill /im kded4.exe /f /t&#13;
+taskkill /im klauncher.exe /f /t&#13;
+verify</file>
+  <url>http://mirror.kumi.systems/kde/ftp/stable/digikam/7.7.0/digiKam-7.7.0-Win64.exe</url>
+  <hash-sum type="SHA-256">e2b8969913dac8c45f32b1fadfb802b7218d85236318d7d9bcd4d218f0b3db78</hash-sum>
+ </version>
 
     <version name="5" package="dolphin-emu" type="one-file">
   <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
@@ -62477,6 +62492,20 @@ call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Np
 </file>
   <url>https://github.com/vim/vim-win32-installer/releases/download/v8.2.5157/gvim_8.2.5157_x64.zip</url>
   <hash-sum type="SHA-256">997eab8219c24b37d9bddee5127dabf2ddb218cbc885d637d3fe24b10587180a</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.19, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
+ <version name="8.2.5160" package="org.vim.Vim64">
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+if %errorlevel% neq 0 exit /b %errorlevel%&#13;
+&#13;
+for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+</file>
+  <url>https://github.com/vim/vim-win32-installer/releases/download/v8.2.5160/gvim_8.2.5160_x64.zip</url>
+  <hash-sum type="SHA-256">4a9654e7a0a9383a471f0ef7c08dc5d55aaede2d7860cd5c8cacaa2898dda17d</hash-sum>
   <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.19, 2)">
    <variable>nih</variable>
   </dependency>
