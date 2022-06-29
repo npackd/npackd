@@ -22901,6 +22901,17 @@ verify</file>
   <url>https://download-origin.cdn.mozilla.net/pub/mozilla.org/firefox/releases/91.10.0esr/win64/en-US/Firefox%20Setup%2091.10.0esr.exe</url>
   <hash-sum type="SHA-256">8d1fcb4ec4371a5df4e9092a127c2da4ed9468b425987d7ed98e438974451f2c</hash-sum>
  </version>
+ <version name="102" package="firefox-esr64" type="one-file">
+  <file path=".Npackd\Install.bat">echo [Install] &gt; .Npackd\FF.ini&#13;
+echo InstallDirectoryPath=%CD% &gt;&gt; .Npackd\FF.ini&#13;
+echo QuickLaunchShortcut=false &gt;&gt; .Npackd\FF.ini&#13;
+echo DesktopShortcut=false &gt;&gt; .Npackd\FF.ini&#13;
+"%npackd_package_binary%" /INI="%CD%\.Npackd\FF.ini" &amp;&amp; del /f /q "%npackd_package_binary%"</file>
+  <file path=".Npackd\Uninstall.bat">uninstall\helper.exe /S&#13;
+verify</file>
+  <url>https://download-origin.cdn.mozilla.net/pub/mozilla.org/firefox/releases/102.0esr/win64/en-US/Firefox%20Setup%20102.0esr.exe</url>
+  <hash-sum type="SHA-256">51e68d7aea40d2fc28918dfa5f25e789740e0b87b21c220bf34898919c12667d</hash-sum>
+ </version>
 
     <version name="43" package="firefox64" type="one-file">
   <file path=".Npackd\Install.bat">echo [Install] &gt; .Npackd\FF.ini&#13;
@@ -23847,6 +23858,17 @@ echo DesktopShortcut=false &gt;&gt; .Npackd\FF.ini&#13;
 verify</file>
   <url>https://download-installer.cdn.mozilla.net/pub/firefox/releases/101.0.1/win64/en-US/Firefox%20Setup%20101.0.1.exe</url>
   <hash-sum type="SHA-256">a1b06247e143ff5fc09adaf08d97edc9c8da7a1eae25c2d050a4e9f53e48bbef</hash-sum>
+ </version>
+ <version name="102" package="firefox64" type="one-file">
+  <file path=".Npackd\Install.bat">echo [Install] &gt; .Npackd\FF.ini&#13;
+echo InstallDirectoryPath=%CD% &gt;&gt; .Npackd\FF.ini&#13;
+echo QuickLaunchShortcut=false &gt;&gt; .Npackd\FF.ini&#13;
+echo DesktopShortcut=false &gt;&gt; .Npackd\FF.ini&#13;
+"%npackd_package_binary%" /INI="%CD%\.Npackd\FF.ini" &amp;&amp; del /f /q "%npackd_package_binary%"</file>
+  <file path=".Npackd\Uninstall.bat">uninstall\helper.exe /S&#13;
+verify</file>
+  <url>https://download-installer.cdn.mozilla.net/pub/firefox/releases/102.0/win64/en-US/Firefox%20Setup%20102.0.exe</url>
+  <hash-sum type="SHA-256">7813fcc68f0626720362d1c425a3d7e08785c38fffb1a6281b608b991e52b777</hash-sum>
  </version>
 
     <version name="0.5" package="firefoxpwa" type="one-file">
@@ -25372,6 +25394,17 @@ if %err% neq 0 exit %err%&#13;
    <variable>nih</variable>
   </dependency>
  </version>
+ <version name="2.37" package="git64" type="one-file">
+  <file path=".Npackd\Install.bat">call "%nih%\InstallInnoSetup.bat"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">call "%nih%\UninstallInnoSetup.bat" unins000.exe&#13;
+</file>
+  <url>https://github.com/git-for-windows/git/releases/download/v2.37.0.windows.1/Git-2.37.0-64-bit.exe</url>
+  <hash-sum type="SHA-256">f234cbcb7bc123b8219bc1692b1a44acc0fd805b1c6fccacd1e28d4672499ef8</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
 
     
 
@@ -25436,7 +25469,7 @@ if %err% neq 0 exit %err%&#13;
   <hash-sum type="SHA-256">9ea1de71109eb5f1b41be08cf2f509ad952ba8cdae8ed82507452f2f772686d3</hash-sum>
  </version>
 
-    <version name="103.0.5060.53" package="google-chrome-x64" type="one-file">
+    <version name="103.0.5060.66" package="google-chrome-x64" type="one-file">
   <file path=".Npackd\Install.bat">call "%npackdih%\InstallMSI.bat" TARGETDIR yes&#13;
 </file>
   <url>https://dl.google.com/tag/s/appguid%3D%7B8A69D345-D564-463C-AFF1-A69D9E530F96%7D%26iid%3D%7B0A558A36-0536-8B3F-0AE0-420553CC97F3%7D%26lang%3Den%26browser%3D4%26usagestats%3D0%26appname%3DGoogle%2520Chrome%26needsadmin%3DFalse/edgedl/chrome/install/GoogleChromeStandaloneEnterprise64.msi</url>
@@ -62552,6 +62585,20 @@ call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Np
    <variable>nih</variable>
   </dependency>
  </version>
+ <version name="8.2.5171" package="org.vim.Vim64">
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+if %errorlevel% neq 0 exit /b %errorlevel%&#13;
+&#13;
+for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+</file>
+  <url>https://github.com/vim/vim-win32-installer/releases/download/v8.2.5171/gvim_8.2.5171_x64.zip</url>
+  <hash-sum type="SHA-256">044b26e9e86b9b646fa19d26e400addb494309d72dd22484a81e392b742ddf32</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.19, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
 
     <version name="4.2.8.83876" package="org.virtualbox.virtualbox64" type="one-file">
   <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
@@ -68192,7 +68239,7 @@ call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Np
   <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b curl*') do set name=%%x&#13;
 call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
 </file>
-  <url>https://curl.haxx.se/windows/dl-7.84.0/curl-7.84.0-win64-mingw.zip</url>
+  <url>https://github.com/tim-lebedkov/packages/releases/download/2022_06/se.haxx.curl.CURL64-7.84-curl-7.84.0-win64-mingw.zip</url>
   <hash-sum type="SHA-256">037e10b5fac1a340a08214a4344a8cd941c544d15b804c612d01279383ae2744</hash-sum>
   <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.19, 2)">
    <variable>nih</variable>
