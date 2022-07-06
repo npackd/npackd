@@ -3821,7 +3821,6 @@ x86_64</description>
   <license>org.gnu.LGPLv2_1</license>
   <category>Development</category>
   <tag>stable64</tag>
-  <stars>1</stars>
  </package>
  <package name="sqlite64">
   <title>SQLite 64 bit</title>
@@ -15339,7 +15338,7 @@ del Q-Dir.ini&#13;
   <url>http://files.npackd.org/com.softwareok.QDir64-5.99.9.zip</url>
   <sha1>fb6060796fae3fc641ba34fe1f2f8530d7c985a8</sha1>
  </version>
- <version name="10.88" package="com.softwareok.QDir64">
+ <version name="10.91" package="com.softwareok.QDir64">
   <important-file path="Q-Dir_x64.exe" title="Q-Dir"/>
   <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b Q*') do set name=%%x&#13;
 cd "%name%"        &#13;
@@ -39145,7 +39144,7 @@ verify&#13;
   </dependency>
  </version>
 
-    <version name="3.11.12" package="ocenaudio64" type="one-file">
+    <version name="3.11.13" package="ocenaudio64" type="one-file">
   <file path=".Npackd\Install.bat">"%npackd_package_binary%" /AllUsers /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
 </file>
   <file path=".Npackd\Uninstall.bat">"%ncl%\ncl" remove-scp --title "/ocenaudio.*/"</file>
@@ -72425,6 +72424,19 @@ Application\%name%\Installer\setup.exe --uninstall --vivaldi --force-uninstall -
 type .Npackd\Output.txt</file>
   <url>https://downloads.vivaldi.com/stable/Vivaldi.5.3.2679.61.x64.exe</url>
   <hash-sum type="SHA-256">75485c7969c08e50319c51c98465b6ddac7379a7f53bf81d5d00a4d08e3802ca</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.24, 2)">
+   <variable>ncl</variable>
+  </dependency>
+ </version>
+ <version name="5.3.2679.68" package="vivaldi-browser-64" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" --system-level --vivaldi-silent --vivaldi-standalone --do-not-launch-chrome --vivaldi-install-dir="%CD%" &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">for /f "delims=" %%x in ('dir /b application\5*') do set name=%%x&#13;
+&#13;
+Application\%name%\Installer\setup.exe --uninstall --vivaldi --force-uninstall --system-level &gt; .Npackd\Output.txt 2&gt;&amp;1 &#13;
+type .Npackd\Output.txt</file>
+  <url>https://downloads.vivaldi.com/stable/Vivaldi.5.3.2679.68.x64.exe</url>
+  <hash-sum type="SHA-256">a24d4aa03b2e8aa004de0e7d7045ec8c8a76e1d303661bdc8db74331d9228f9e</hash-sum>
   <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.24, 2)">
    <variable>ncl</variable>
   </dependency>
