@@ -18916,7 +18916,7 @@ rmdir "%name%"&#13;
   <hash-sum type="SHA-256">d0e09efb2f74beae9f5387a296d366c160d9fb87e571c9559c53cd0111b7b955</hash-sum>
  </version>
 
-    <version name="1.7.21632" package="daumpotplayer64" type="one-file">
+    <version name="1.7.21759" package="daumpotplayer64" type="one-file">
   <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
 </file>
   <file path=".Npackd\Uninstall.bat">uninstall.exe /S _?=%CD%&#13;
@@ -50663,6 +50663,15 @@ verify</file>
    <variable>npackdih</variable>
   </dependency>
  </version>
+ <version name="16.16" package="org.nodejs.NodeJS64" type="one-file">
+  <cmd-file path="node.exe"/>
+  <file path=".Npackd\Install.bat">call "%npackdih%\InstallMSI.bat" INSTALLDIR yes</file>
+  <url>https://nodejs.org/dist/v16.16.0/node-v16.16.0-x64.msi</url>
+  <hash-sum type="SHA-256">c94f794d56ab6b5ba817a7a2efcc3ea9e81893126f6a925963542aa8ad34f798</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.1, 2)">
+   <variable>npackdih</variable>
+  </dependency>
+ </version>
 
     <version name="2.2" package="org.openshot.openshot64" type="one-file">
   <file path=".Npackd\Install.bat">"%nih%\InstallInnoSetup.bat"&#13;
@@ -64777,6 +64786,16 @@ echo DesktopShortcut=false &gt;&gt; .Npackd\FF.ini&#13;
   <url>https://rm-eu.palemoon.org/release/palemoon-31.1.0.win64.installer.exe</url>
   <hash-sum type="SHA-256">9b76d7cfaefa41e62853e67b2b9d26e2d432fdcc63959db3d7f14e4db0001df3</hash-sum>
  </version>
+ <version name="31.1.1" package="pale-moon64" type="one-file">
+  <file path=".Npackd\Install.bat">echo [Install] &gt; .Npackd\FF.ini&#13;
+echo InstallDirectoryPath=%CD% &gt;&gt; .Npackd\FF.ini&#13;
+echo QuickLaunchShortcut=false &gt;&gt; .Npackd\FF.ini&#13;
+echo DesktopShortcut=false &gt;&gt; .Npackd\FF.ini&#13;
+"%npackd_package_binary%" /INI="%CD%\.Npackd\FF.ini" &amp;&amp; del /f /q "%npackd_package_binary%"</file>
+  <file path=".Npackd\Uninstall.bat">uninstall\helper.exe /S</file>
+  <url>https://rm-eu.palemoon.org/release/palemoon-31.1.1.win64.installer.exe</url>
+  <hash-sum type="SHA-256">4f67a44182286d9dd44c5629b35fa49c0d04ecf7fd356bda93bf18a5e627e576</hash-sum>
+ </version>
 
     <version name="2.2.1" package="pandoc64" type="one-file">
   <file path=".Npackd\Install.bat">call "%nih%\InstallMSI.bat" INSTALLDIR yes&#13;
@@ -66855,6 +66874,15 @@ if %errorlevel% equ 3010 verify</file>
 </file>
   <url>https://qgis.org/downloads/QGIS-OSGeo4W-3.26.0-3.msi</url>
   <hash-sum type="SHA-256">726f36469d2c10b14d99f3d23a1f97e7da9c0d5f8ef9b723b1d205419026deb3</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.1, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
+ <version name="3.26.0.4" package="qgis64" type="one-file">
+  <file path=".Npackd\Install.bat">call "%nih%\InstallMSI.bat" INSTALLDIR yes&#13;
+</file>
+  <url>https://qgis.org/downloads/QGIS-OSGeo4W-3.26.0-4.msi</url>
+  <hash-sum type="SHA-256">5590a71d3d0763e37338702554b9fc6e18e6b262a7473dc577a72e386c6f90dd</hash-sum>
   <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.1, 2)">
    <variable>nih</variable>
   </dependency>
@@ -69223,6 +69251,17 @@ Prog\setup.exe /Q /IACCEPTSQLSERVERLICENSETERMS /Q /ACTION=install &gt; .Npackd\
 </file>
   <url>https://github.com/Stellarium/stellarium/releases/download/v0.22.1/stellarium-0.22.1-win64.exe</url>
   <hash-sum type="SHA-256">769e647a6b977ae6b03bc6b9290552bc5ad6a9071b53a7fee7f5291b9229e396</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
+ <version name="0.22.2" package="stellarium64" type="one-file">
+  <file path=".Npackd\Install.bat">call "%nih%\InstallInnoSetup.bat"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">call "%nih%\UninstallInnoSetup.bat" unins000.exe&#13;
+</file>
+  <url>https://github.com/Stellarium/stellarium/releases/download/v0.22.2/stellarium-0.22.2-win64.exe</url>
+  <hash-sum type="SHA-256">1e14810e7d4eb90e60b842cadb32cb26a9e67ced75aa987bddb2c3bb280b3084</hash-sum>
   <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
    <variable>nih</variable>
   </dependency>
