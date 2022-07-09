@@ -18916,7 +18916,7 @@ rmdir "%name%"&#13;
   <hash-sum type="SHA-256">d0e09efb2f74beae9f5387a296d366c160d9fb87e571c9559c53cd0111b7b955</hash-sum>
  </version>
 
-    <version name="1.7.21759" package="daumpotplayer64" type="one-file">
+    <version name="1.7.21761" package="daumpotplayer64" type="one-file">
   <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
 </file>
   <file path=".Npackd\Uninstall.bat">uninstall.exe /S _?=%CD%&#13;
@@ -39131,6 +39131,55 @@ verify&#13;
   <file path=".Npackd\ImportUserSettings.bat">copy /y config.xml "%appdata%\Notepad++"</file>
   <url>https://github.com/notepad-plus-plus/notepad-plus-plus/releases/download/v8.4.2/npp.8.4.2.Installer.x64.exe</url>
   <hash-sum type="SHA-256">a34a30aab41929ca6de366025baf1d993c269aaece7ee04a031977c38eaf8c17</hash-sum>
+ </version>
+ <version name="8.4.3" package="notepadpp64" type="one-file">
+  <file path=".Npackd\Install.bat">xcopy "%allusersprofile%\Npackd\Config\net.sourceforge.NotepadPlusPlus" .  /E /C /I /F /H /R /Y &gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+&#13;
+for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
+"%setup%" /S /D=%CD%&#13;
+if %errorlevel% neq 0 exit /b %errorlevel%&#13;
+&#13;
+set package=net.sourceforge.NotepadPlusPlus&#13;
+set version=%NPACKD_PACKAGE_VERSION%&#13;
+set key=%package%&#13;
+&#13;
+reg add HKLM\SOFTWARE\Classes\Applications\%KEY%\shell\open /v FriendlyAppName /d "Notepad++ (%version%)" /f &gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+set c=\"%CD%\notepad++.exe\" \"%%1\"&#13;
+reg add HKLM\SOFTWARE\Classes\Applications\%KEY%\shell\open\command /d "%c%" /f &gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+for %%g in (txt log ini h hpp hxx c cpp cxx cc m java cs pas inc html htm php phtml properties js jsp asp css xml sh bsh nsi nsh lua pl pm py as mx vb vbs f for f90 f95 f2k tex sql nfo mak hgignore) do reg add HKLM\SOFTWARE\Classes\.%%g\OpenWithList\%key% /f &gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+&#13;
+reg add "HKCR\*\shell\Notepad++\command" /ve /f /d "\"%cd%\notepad++.exe\" %%1" &gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+&#13;
+verify</file>
+  <file path=".Npackd\Uninstall.bat">rmdir /s /q "%allusersprofile%\Npackd\Config\net.sourceforge.NotepadPlusPlus"&#13;
+xcopy Plugins "%allusersprofile%\Npackd\Config\net.sourceforge.NotepadPlusPlus\Plugins" /E /C /I /F /H /R /Y &gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+&#13;
+set package=net.sourceforge.NotepadPlusPlus&#13;
+set version=%NPACKD_PACKAGE_VERSION%&#13;
+set key=%package%&#13;
+&#13;
+set newname=%key%_%random%&#13;
+ren %appdata%\Notepad++ %newname%&#13;
+uninstall.exe /S _?=%CD%&#13;
+if %errorlevel% neq 0 exit /b %errorlevel%&#13;
+ren %appdata%\%newname% Notepad++&#13;
+&#13;
+rem unregister "Open With..." entries&#13;
+reg delete HKLM\SOFTWARE\Classes\Applications\%KEY% /f &gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+for %%g in (txt log ini h hpp hxx c cpp cxx cc m java cs pas inc html htm php phtml properties js jsp asp css xml sh bsh nsi nsh lua pl pm py as mx vb vbs f for f90 f95 f2k tex sql nfo mak hgignore) do reg delete HKLM\SOFTWARE\Classes\.%%g\OpenWithList\%key% /f &gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+&#13;
+reg delete HKCR\*\shell\Notepad++ /f &gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+&#13;
+rem remove Explorer extension&#13;
+set trash=..\.Trash\%key%_%random%&#13;
+mkdir %trash%&#13;
+move NppShell*.dll %trash%&#13;
+verify&#13;
+		</file>
+  <file path=".Npackd\ExportUserSettings.bat">copy "%appdata%\Notepad++\config.xml" .</file>
+  <file path=".Npackd\ImportUserSettings.bat">copy /y config.xml "%appdata%\Notepad++"</file>
+  <url>https://github.com/notepad-plus-plus/notepad-plus-plus/releases/download/v8.4.3/npp.8.4.3.Installer.x64.exe</url>
+  <hash-sum type="SHA-256">4499f826cc18b91d2a264bbf9a7e5795eeba3b41a13df92e8c78f34dd10a5b25</hash-sum>
  </version>
 
     <version name="1.49" package="nubasic64">
@@ -72602,7 +72651,7 @@ if %err% neq 0 exit %err%&#13;
   <url>https://az764295.vo.msecnd.net/stable/a0479759d6e9ea56afa657e454193f72aef85bd0/VSCodeSetup-ia32-1.48.2.exe</url>
   <hash-sum type="SHA-256">013d5ecdb44159c15047472512bef9c76ba934807dbb07a582655f4c5546866d</hash-sum>
  </version>
- <version name="1.68.1" package="vs-code" type="one-file">
+ <version name="1.69" package="vs-code" type="one-file">
   <file path=".Npackd\Install.bat">ren "%npackd_package_binary%" setup.exe&#13;
 setup.exe /SP- /VERYSILENT /SUPPRESSMSGBOXES /NOCANCEL /NORESTART /DIR="%CD%" /SAVEINF="%CD%\.Npackd\InnoSetupInfo.ini" /LOG="%CD%\.Npackd\InnoSetupInstall.log"&#13;
 set err=%errorlevel%&#13;
@@ -72697,7 +72746,7 @@ if %err% neq 0 exit %err%&#13;
 </file>
   <url>https://update.code.visualstudio.com/1.65.0/win32-x64/stable</url>
  </version>
- <version name="1.68.1" package="vs-code64" type="one-file">
+ <version name="1.69" package="vs-code64" type="one-file">
   <file path=".Npackd\Install.bat">ren "%npackd_package_binary%" setup.exe&#13;
 setup.exe /SP- /VERYSILENT /SUPPRESSMSGBOXES /NOCANCEL /NORESTART /DIR="%CD%" /SAVEINF="%CD%\.Npackd\InnoSetupInfo.ini" /LOG="%CD%\.Npackd\InnoSetupInstall.log"&#13;
 set err=%errorlevel%&#13;
