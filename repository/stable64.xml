@@ -3185,7 +3185,7 @@ x86_64</description>
   <license>org.python.PSFLicense</license>
   <category>Development</category>
   <tag>stable64</tag>
-  <stars>4</stars>
+  <stars>3</stars>
  </package>
  <package name="org.rubylang.Ruby64">
   <title>Ruby 64 bit</title>
@@ -18925,7 +18925,7 @@ rmdir "%name%"&#13;
   <hash-sum type="SHA-256">d0e09efb2f74beae9f5387a296d366c160d9fb87e571c9559c53cd0111b7b955</hash-sum>
  </version>
 
-    <version name="1.7.21761" package="daumpotplayer64" type="one-file">
+    <version name="1.7.21765" package="daumpotplayer64" type="one-file">
   <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
 </file>
   <file path=".Npackd\Uninstall.bat">uninstall.exe /S _?=%CD%&#13;
@@ -65642,6 +65642,16 @@ call "%npackdih%\InstallMSI.bat" TARGETDIR yes</file>
    <variable>npackdih</variable>
   </dependency>
  </version>
+ <version name="4.3.2" package="pdfsam64" type="one-file">
+  <file path=".Npackd\Install.bat">rem un-installation tries to remove .Npackd and fails =&gt; 2 to install the program somewhere else&#13;
+call "%npackdih%\InstallMSI.bat" TARGETDIR yes</file>
+  <url>https://github.com/torakiki/pdfsam/releases/download/v4.3.2/pdfsam-4.3.2.msi</url>
+  <hash-sum type="SHA-256">a8beb290536e8085b74d64ed786f189ffc6c770170ea631876488080ecbf4db1</hash-sum>
+  <dependency package="com.oracle.JRE64" versions="[1.6.0.23, 2)"/>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.1, 2)">
+   <variable>npackdih</variable>
+  </dependency>
+ </version>
 
     <version name="3.2" package="persepolis64" type="one-file">
   <file path=".Npackd\Install.bat">"%nih%\InstallInnoSetup.bat"&#13;
@@ -70116,6 +70126,14 @@ rmdir "%name%"</file>
   <url>https://www.sysgauge.com/setups_x64/sysgauge_setup_v8.5.12_x64.exe</url>
   <hash-sum type="SHA-256">23a0d964dc1b9fbf868f5f7dba1db0598592bcec6e19f3ad3d3063d773e40142</hash-sum>
  </version>
+ <version name="8.6.24" package="sysgauge64" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">uninstall.exe /S _?=%CD%&#13;
+</file>
+  <url>https://www.sysgauge.com/setups_x64/sysgauge_setup_v8.6.24_x64.exe</url>
+  <hash-sum type="SHA-256">9e08fb164691e12779d09c412e2dd17c6a91cbdff4528df644c28594f3fc7457</hash-sum>
+ </version>
 
     
 
@@ -72671,7 +72689,7 @@ if %err% neq 0 exit %err%&#13;
   <url>https://az764295.vo.msecnd.net/stable/a0479759d6e9ea56afa657e454193f72aef85bd0/VSCodeSetup-ia32-1.48.2.exe</url>
   <hash-sum type="SHA-256">013d5ecdb44159c15047472512bef9c76ba934807dbb07a582655f4c5546866d</hash-sum>
  </version>
- <version name="1.69" package="vs-code" type="one-file">
+ <version name="1.69.1" package="vs-code" type="one-file">
   <file path=".Npackd\Install.bat">ren "%npackd_package_binary%" setup.exe&#13;
 setup.exe /SP- /VERYSILENT /SUPPRESSMSGBOXES /NOCANCEL /NORESTART /DIR="%CD%" /SAVEINF="%CD%\.Npackd\InnoSetupInfo.ini" /LOG="%CD%\.Npackd\InnoSetupInstall.log"&#13;
 set err=%errorlevel%&#13;
@@ -72766,7 +72784,7 @@ if %err% neq 0 exit %err%&#13;
 </file>
   <url>https://update.code.visualstudio.com/1.65.0/win32-x64/stable</url>
  </version>
- <version name="1.69" package="vs-code64" type="one-file">
+ <version name="1.69.1" package="vs-code64" type="one-file">
   <file path=".Npackd\Install.bat">ren "%npackd_package_binary%" setup.exe&#13;
 setup.exe /SP- /VERYSILENT /SUPPRESSMSGBOXES /NOCANCEL /NORESTART /DIR="%CD%" /SAVEINF="%CD%\.Npackd\InnoSetupInfo.ini" /LOG="%CD%\.Npackd\InnoSetupInstall.log"&#13;
 set err=%errorlevel%&#13;
