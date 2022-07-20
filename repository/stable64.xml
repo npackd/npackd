@@ -2842,7 +2842,7 @@ x86_64</description>
   <license>org.7-zip.License</license>
   <category>Tools</category>
   <tag>stable64</tag>
-  <stars>28</stars>
+  <stars>27</stars>
   <link href="https://www.7-zip.org/history.txt" rel="changelog"/>
   <link href="http://www.7-zip.org/7zfm.png" rel="screenshot"/>
  </package>
@@ -3871,7 +3871,6 @@ x86_64</description>
   <icon>https://c.s-microsoft.com/en-us/CMSImages/microsoft_logo_56x56.png?version=ad0d2fa7-0ee8-4e82-ddbf-8ea5dc9d9c23</icon>
   <category>Development</category>
   <tag>stable64</tag>
-  <stars>1</stars>
   <link href="https://msdn.microsoft.com/en-US/library/mt588477.aspx" rel="changelog"/>
  </package>
  <package name="stellarium64">
@@ -9108,7 +9107,7 @@ rem "avgmfapx.exe" /AppMode=SETUP /Uninstall /UILevel=Silent /DontRestart&#13;
   </dependency>
  </version>
 
-    <version name="1.91" package="com.bitcomet.BitComet64" type="one-file">
+    <version name="1.92" package="com.bitcomet.BitComet64" type="one-file">
   <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
 </file>
   <file path=".Npackd\Uninstall.bat">%ncl%\ncl remove-scp --title "/BitComet.*/"</file>
@@ -13173,6 +13172,16 @@ call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Np
    <variable>clu</variable>
   </dependency>
  </version>
+ <version name="18.0.2" package="com.oracle.JDK64">
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b jdk*') do set name=%%x&#13;
+"%clu%\clu" unwrap-dir -p "%name%"&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+</file>
+  <url>https://download.java.net/java/GA/jdk18.0.2/f6ad4b4450fd4d298113270ec84f30ee/9/GPL/openjdk-18.0.2_windows-x64_bin.zip</url>
+  <hash-sum type="SHA-256">441f2bfa18f318995d305d06c2326b1145b27dd08521cef5dacc561867cfee5c</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.CLU" versions="[1.25, 2)">
+   <variable>clu</variable>
+  </dependency>
+ </version>
 
     <version name="1.6.0.25" package="com.oracle.JRE64" type="one-file">
   <file path=".Npackd\Install.bat">ren AutoDL Install.exe
@@ -15364,7 +15373,7 @@ del Q-Dir.ini&#13;
   <url>http://files.npackd.org/com.softwareok.QDir64-5.99.9.zip</url>
   <sha1>fb6060796fae3fc641ba34fe1f2f8530d7c985a8</sha1>
  </version>
- <version name="10.91" package="com.softwareok.QDir64">
+ <version name="10.95" package="com.softwareok.QDir64">
   <important-file path="Q-Dir_x64.exe" title="Q-Dir"/>
   <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b Q*') do set name=%%x&#13;
 cd "%name%"        &#13;
@@ -48956,7 +48965,7 @@ if %errorlevel% neq 0 exit /b %errorlevel%&#13;
 </file>
   <file path=".Npackd\Unnstall.bat">miktex\bin\miktexsetup.exe --verbose --shared uninstall&#13;
 </file>
-  <url>https://miktex.org/download/ctan/systems/win32/miktex/setup/windows-x64/basic-miktex-22.7-x64.exe</url>
+  <url>https://github.com/tim-lebedkov/packages/releases/download/2022_07/org.miktex.MiKTeX64-22.7-basic-miktex-22.7-x64.exe</url>
   <hash-sum type="SHA-256">e75688ff885ef4139012e781550eac7fff16be6969093baa5b0c0b5ba7631498</hash-sum>
  </version>
 
@@ -49863,6 +49872,15 @@ rmdir "%name%"&#13;
 </file>
   <url>https://fastdl.mongodb.org/windows/mongodb-windows-x86_64-5.0.9-signed.msi</url>
   <hash-sum type="SHA-256">0e8032c352253173e9d1683ac7b39c79a4eaed0682e8c0655ca0b3ebd6b11d74</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.1, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
+ <version name="6" package="org.mongodb.MongoDB64" type="one-file">
+  <file path=".Npackd\Install.bat">call "%nih%\InstallMSI.bat" INSTALLDIR yes&#13;
+</file>
+  <url>https://fastdl.mongodb.org/windows/mongodb-windows-x86_64-6.0.0-signed.msi</url>
+  <hash-sum type="SHA-256">0a30a72e5c39cd54250148c39e3912713671cf0e68c77833cd8a980f83b26c09</hash-sum>
   <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.1, 2)">
    <variable>nih</variable>
   </dependency>
@@ -67151,6 +67169,15 @@ if %errorlevel% equ 3010 verify</file>
    <variable>nih</variable>
   </dependency>
  </version>
+ <version name="3.26.1.2" package="qgis64" type="one-file">
+  <file path=".Npackd\Install.bat">call "%nih%\InstallMSI.bat" INSTALLDIR yes&#13;
+</file>
+  <url>https://qgis.org/downloads/QGIS-OSGeo4W-3.26.1-2.msi</url>
+  <hash-sum type="SHA-256">fe331f5467aa0d1d58b78fbb4fcd72af6823ca9d4c9a5d1ec5eb6b9eaf683342</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.1, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
 
     <version name="8" package="Qt-Bitcoin-Trader64" type="one-file">
   <important-file path="qtbitcointrader.exe" title="Qt Bitcoin Trader"/>
@@ -72888,7 +72915,7 @@ if %err% neq 0 exit %err%&#13;
   <url>https://az764295.vo.msecnd.net/stable/a0479759d6e9ea56afa657e454193f72aef85bd0/VSCodeSetup-ia32-1.48.2.exe</url>
   <hash-sum type="SHA-256">013d5ecdb44159c15047472512bef9c76ba934807dbb07a582655f4c5546866d</hash-sum>
  </version>
- <version name="1.69.1" package="vs-code" type="one-file">
+ <version name="1.69.2" package="vs-code" type="one-file">
   <file path=".Npackd\Install.bat">ren "%npackd_package_binary%" setup.exe&#13;
 setup.exe /SP- /VERYSILENT /SUPPRESSMSGBOXES /NOCANCEL /NORESTART /DIR="%CD%" /SAVEINF="%CD%\.Npackd\InnoSetupInfo.ini" /LOG="%CD%\.Npackd\InnoSetupInstall.log"&#13;
 set err=%errorlevel%&#13;
@@ -72983,7 +73010,7 @@ if %err% neq 0 exit %err%&#13;
 </file>
   <url>https://update.code.visualstudio.com/1.65.0/win32-x64/stable</url>
  </version>
- <version name="1.69.1" package="vs-code64" type="one-file">
+ <version name="1.69.2" package="vs-code64" type="one-file">
   <file path=".Npackd\Install.bat">ren "%npackd_package_binary%" setup.exe&#13;
 setup.exe /SP- /VERYSILENT /SUPPRESSMSGBOXES /NOCANCEL /NORESTART /DIR="%CD%" /SAVEINF="%CD%\.Npackd\InnoSetupInfo.ini" /LOG="%CD%\.Npackd\InnoSetupInstall.log"&#13;
 set err=%errorlevel%&#13;
