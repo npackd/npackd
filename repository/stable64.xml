@@ -998,7 +998,7 @@ x86_64</description>
   <license>com.oracle.JavaSELicense</license>
   <category>Development</category>
   <tag>stable64</tag>
-  <stars>2</stars>
+  <stars>3</stars>
   <link href="http://www.oracle.com/technetwork/java/javase/jdk-relnotes-index-2162236.html" rel="changelog"/>
  </package>
  <package name="com.oracle.JRE64">
@@ -1582,7 +1582,7 @@ x86_64</description>
   <license>com.mozilla.MozillaFirefoxLicense2</license>
   <category>Communications</category>
   <tag>stable64</tag>
-  <stars>9</stars>
+  <stars>10</stars>
  </package>
  <package name="firefoxpwa">
   <title>Progressive Web Apps for Firefox</title>
@@ -1765,7 +1765,7 @@ x86_64</description>
   <category>Communications</category>
   <tag>same-url</tag>
   <tag>stable64</tag>
-  <stars>29</stars>
+  <stars>30</stars>
  </package>
  <package name="google-cloud-sdk64">
   <title>Google Cloud SDK 64 bit</title>
@@ -2842,7 +2842,7 @@ x86_64</description>
   <license>org.7-zip.License</license>
   <category>Tools</category>
   <tag>stable64</tag>
-  <stars>27</stars>
+  <stars>28</stars>
   <link href="https://www.7-zip.org/history.txt" rel="changelog"/>
   <link href="http://www.7-zip.org/7zfm.png" rel="screenshot"/>
  </package>
@@ -25575,7 +25575,7 @@ if %err% neq 0 exit %err%&#13;
   <hash-sum type="SHA-256">9ea1de71109eb5f1b41be08cf2f509ad952ba8cdae8ed82507452f2f772686d3</hash-sum>
  </version>
 
-    <version name="103.0.5060.114" package="google-chrome-x64" type="one-file">
+    <version name="103.0.5060.134" package="google-chrome-x64" type="one-file">
   <file path=".Npackd\Install.bat">call "%npackdih%\InstallMSI.bat" TARGETDIR yes&#13;
 </file>
   <url>https://dl.google.com/tag/s/appguid%3D%7B8A69D345-D564-463C-AFF1-A69D9E530F96%7D%26iid%3D%7B0A558A36-0536-8B3F-0AE0-420553CC97F3%7D%26lang%3Den%26browser%3D4%26usagestats%3D0%26appname%3DGoogle%2520Chrome%26needsadmin%3DFalse/edgedl/chrome/install/GoogleChromeStandaloneEnterprise64.msi</url>
@@ -27454,6 +27454,19 @@ rmdir "%name%"&#13;
 </file>
   <url>https://dl.google.com/dl/cloudsdk/channels/rapid/downloads/google-cloud-sdk-393.0.0-windows-x86_64.zip</url>
   <hash-sum type="SHA-256">809d3ced0b0d4f99b094192d8975a75140c2face7316d0cec6af1f3bc882e385</hash-sum>
+  <dependency package="org.python.Python" versions="[2.7, 2.8)"/>
+ </version>
+ <version name="394" package="google-cloud-sdk64">
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b google-cloud-sdk*') do set name=%%x&#13;
+cd "%name%"&#13;
+for /f "delims=" %%a in ('dir /b') do (&#13;
+  move "%%a" ..&#13;
+)&#13;
+cd ..&#13;
+rmdir "%name%"&#13;
+</file>
+  <url>https://dl.google.com/dl/cloudsdk/channels/rapid/downloads/google-cloud-sdk-394.0.0-windows-x86_64.zip</url>
+  <hash-sum type="SHA-256">253983164cc6da30b4093d3789ac78a8c36f2b07989ad68d7b361a7af4deca86</hash-sum>
   <dependency package="org.python.Python" versions="[2.7, 2.8)"/>
  </version>
 
