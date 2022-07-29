@@ -4764,6 +4764,14 @@ x86_64</description>
    <variable>nih</variable>
   </dependency>
  </version>
+ <version name="4.21.1" package="4k-video-downloader64" type="one-file">
+  <file path=".Npackd\Install.bat">call "%nih%\InstallMSI.bat" INSTALLDIR yes&#13;
+</file>
+  <url>https://dl.4kdownload.com/app/4kvideodownloader_4.21.1_x64.msi</url>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.1, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
 
     
 
@@ -5547,6 +5555,16 @@ verify</file>
   <file path=".Npackd\Uninstall.bat">uninstall.exe -q</file>
   <url>https://github.com/BiglySoftware/BiglyBT/releases/download/v3.0.0.0/GitHub_BiglyBT_Installer64.exe</url>
   <hash-sum type="SHA-256">22bf85a7dbbfe5c2cc3841cde687ac5ece6e7828eb4fad6e658ba9c413707ffb</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.25, 2)">
+   <variable>ncl</variable>
+  </dependency>
+ </version>
+ <version name="3.1" package="biglybt64" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" -q -dir "%CD%" &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">uninstall.exe -q</file>
+  <url>https://github.com/BiglySoftware/BiglyBT/releases/download/v3.1.0.0/Github_BiglyBT_Installer64.exe</url>
+  <hash-sum type="SHA-256">506c78561c6302370e2f466e3ea4b8723d588ba49a097d8aa9793c3a51f43310</hash-sum>
   <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.25, 2)">
    <variable>ncl</variable>
   </dependency>
@@ -18871,6 +18889,17 @@ if %err% neq 0 exit %err%&#13;
   <file path=".Npackd\Uninstall.bat">"%nih%\UninstallInnoSetup.bat" unins000.exe</file>
   <url>https://github.com/conan-io/conan/releases/download/1.50.0/conan-win-64.exe</url>
   <hash-sum type="SHA-256">da8a5df0f6fc9d542acd9b93f8f31a084a398ee6ac7ddcfb46ffe8754cceaa13</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
+ <version name="1.51" package="conan64" type="one-file">
+  <cmd-file path="conan\conan.exe"/>
+  <file path=".Npackd\Install.bat">"%nih%\InstallInnoSetup.bat"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">"%nih%\UninstallInnoSetup.bat" unins000.exe</file>
+  <url>https://github.com/conan-io/conan/releases/download/1.51.0/conan-win-64.exe</url>
+  <hash-sum type="SHA-256">1ccf46336a5e89b8d1ae3d49864bf5c97710e7e821605873c3000af5d86d5de5</hash-sum>
   <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
    <variable>nih</variable>
   </dependency>
@@ -32993,6 +33022,14 @@ reg add HKCU\Software\mkvmergeGUI\GUI /v check_for_updates /t REG_DWORD /d 00000
 </file>
   <url>https://github.com/moneymanagerex/moneymanagerex/releases/download/v1.5.17/mmex-1.5.17-win64.exe</url>
   <hash-sum type="SHA-256">dc8067d85576f5f9cf16d1d1e388c18e2ddefad820a5ae2b35d9d017b6e93231</hash-sum>
+ </version>
+ <version name="1.5.18" package="money-manager-ex64" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">uninstall.exe /S _?=%CD%&#13;
+</file>
+  <url>https://github.com/moneymanagerex/moneymanagerex/releases/download/v1.5.18/mmex-1.5.18-win64.exe</url>
+  <hash-sum type="SHA-256">2a3f40f6a650477677edf7b0331ac00e64b56a490469495f3edc792eeb5238bd</hash-sum>
  </version>
 
     <version name="4.4.1" package="mono64" type="one-file">
@@ -65013,6 +65050,14 @@ if %err% neq 0 exit %err%</file>
   <url>https://github.com/tim-lebedkov/packages/releases/download/2022_06/org.wireshark.Wireshark64-3.6.6-Wireshark-win64-3.6.6.exe</url>
   <hash-sum type="SHA-256">abce9b1004ddd992cb6ffe80e755919bcd12646b008163bde6a7d684aa6b9374</hash-sum>
  </version>
+ <version name="3.6.7" package="org.wireshark.Wireshark64" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD%&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">uninstall.exe /S _=%CD%&#13;
+</file>
+  <url>https://1.eu.dl.wireshark.org/win64/Wireshark-win64-3.6.7.exe</url>
+  <hash-sum type="SHA-256">941ca74d6afe8f163ee1d71ae645ecb5f57e0d10228616e5201feefde33e7517</hash-sum>
+ </version>
 
     <version name="1.0.81" package="otter-browser" type="one-file">
   <file path=".Npackd\Install.bat">"%nih%\InstallInnoSetup.bat"&#13;
@@ -69019,7 +69064,7 @@ if %err% neq 0 exit %err%&#13;
   </dependency>
  </version>
 
-    <version name="35.0.1" package="slimjet" type="one-file">
+    <version name="35.0.2" package="slimjet" type="one-file">
   <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
 </file>
   <file path=".Npackd\Uninstall.bat">uninstall.exe /S _?=%CD%&#13;
@@ -69027,7 +69072,7 @@ if %err% neq 0 exit %err%&#13;
   <url>https://www.slimjetbrowser.com/release/sjtsetup_x86.exe</url>
  </version>
 
-    <version name="35.0.1" package="slimjet64" type="one-file">
+    <version name="35.0.2" package="slimjet64" type="one-file">
   <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
 </file>
   <file path=".Npackd\Uninstall.bat">uninstall.exe /S _?=%CD%&#13;
@@ -73262,6 +73307,8 @@ verify</file>
    <variable>nih</variable>
   </dependency>
  </version>
+
+    
 
     <version name="2.16" package="winmerge64" type="one-file">
   <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
