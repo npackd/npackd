@@ -24047,6 +24047,15 @@ verify</file>
    <variable>nih</variable>
   </dependency>
  </version>
+ <version name="2.0.1" package="firefoxpwa" type="one-file">
+  <file path=".Npackd\Install.bat">call "%nih%\InstallMSI.bat" APPLICATIONFOLDER yes</file>
+  <url>https://github.com/filips123/PWAsForFirefox/releases/download/v2.0.1/firefoxpwa-2.0.1-x86_64.msi</url>
+  <hash-sum type="SHA-256">4ca8f7fb836f5d9e6dfbf31c80844b42f0b71f5fb9ea4d0b2e5d9d968917533f</hash-sum>
+  <dependency package="com.microsoft.VisualCPPRedistributable64" versions="[14,15)"/>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.1, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
 
     <version name="1.22" package="focus-image-viewer" type="one-file">
   <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
@@ -67426,6 +67435,32 @@ if %errorlevel% equ 3010 verify</file>
  <version name="8" package="qt-creator64" type="one-file">
   <important-file path="bin\qtcreator.exe" title="Qt Creator"/>
   <file path=".Npackd\Install.bat">"%sevenzipa%\7za" x "%npackd_package_binary%"&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
+</file>
+  <file path=".Npackd\ExportUserSettings.bat">xcopy /y /e /i "%localappdata%\CMakeTools" LocalAppData\CMakeTools&#13;
+if %errorlevel% neq 0 exit /b %errorlevel%&#13;
+&#13;
+mkdir AppData\Code\User\&#13;
+if %errorlevel% neq 0 exit /b %errorlevel%&#13;
+&#13;
+copy /b /y %appdata%\Code\User\keybindings.json AppData\Code\User\&#13;
+if %errorlevel% neq 0 exit /b %errorlevel%&#13;
+&#13;
+copy /b /y %appdata%\Code\User\settings.json AppData\Code\User\&#13;
+if %errorlevel% neq 0 exit /b %errorlevel%&#13;
+</file>
+  <file path=".Npackd\ImportUserSettings.bat">xcopy /y /e /i LocalAppData "%localappdata%"&#13;
+if %errorlevel% neq 0 exit /b %errorlevel%&#13;
+&#13;
+mkdir "%appdata%\Code\User\"&#13;
+if %errorlevel% neq 0 exit /b %errorlevel%&#13;
+&#13;
+copy /b /y AppData\Code\User\keybindings.json "%appdata%\Code\User\"&#13;
+if %errorlevel% neq 0 exit /b %errorlevel%&#13;
+&#13;
+copy /b /y AppData\Code\User\settings.json "%appdata%\Code\User\"&#13;
+if %errorlevel% neq 0 exit /b %errorlevel%&#13;
+&#13;
+&#13;
 </file>
   <url>https://github.com/tim-lebedkov/packages/releases/download/2022_07/qt-creator64-8-qtcreator.7z</url>
   <hash-sum type="SHA-256">1d8e9f3f35440b7e14becf1818c26b03ab44ed908205d043949e06f57f2dafe8</hash-sum>
