@@ -1227,6 +1227,18 @@ x86_64</description>
   <link href="https://cdn.lo4d.com/t/screenshot/cornplayer-11.png" rel="screenshot"/>
   <link href="https://cdn.lo4d.com/t/screenshot/cornplayer-12.png" rel="screenshot"/>
  </package>
+ <package name="csv-viewer-free">
+  <title>CSV Viewer Free</title>
+  <url>http://lebedkov-soft.de/csv-viewer.html</url>
+  <description>graphical user interface for viewing CSV files. The program presents the beginning of the file immediately and scans the rest in the background. Only a small portion of a file is loaded into memory. Very large files (tested with 14 GB) can be opened this way without consuming much memory.
+x86_64</description>
+  <icon>http://lebedkov-soft.de/csv_viewer.png</icon>
+  <license>org.wikipedia.Freeware</license>
+  <category>Text</category>
+  <tag>stable64</tag>
+  <stars>1</stars>
+  <link href="http://lebedkov-soft.de/csv-viewer.png" rel="screenshot"/>
+ </package>
  <package name="cygwin64">
   <title>Cygwin 64 bit</title>
   <url>https://www.cygwin.com</url>
@@ -18996,6 +19008,12 @@ rmdir "%name%"&#13;
   <hash-sum type="SHA-256">00b79617c58ae73b8b7848be8e10cdd6ba9ded9d92a0c0f720488839c57d2cdb</hash-sum>
  </version>
 
+    <version name="1.1" package="csv-viewer-free">
+  <important-file path="csv_viewer.exe" title="CSV Viewer"/>
+  <url>http://lebedkov-soft.de/csv-viewer-free-1.1.zip</url>
+  <hash-sum type="SHA-256">e2e817b33f6d3aec1518fce9acb83f27bcad5930a2b69062c4b7b18c4acc55a3</hash-sum>
+ </version>
+
     
 
     <version name="3.3.5" package="cygwin64" type="one-file">
@@ -21486,6 +21504,17 @@ rmdir "%name%"&#13;
    <variable>ncl</variable>
   </dependency>
  </version>
+ <version name="8.70" package="explzh64" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" /silent /q &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">"%ncl%\ncl.exe" remove-scp --title "/%npackd_package_name% %npackd_package_version%/i"&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+</file>
+  <url>https://www.ponsoftware.com/en/archiver/explzh/explz870_en_x64.exe</url>
+  <hash-sum type="SHA-256">11faeb28bbcc06ceaab4b12e806f1f2dd5b826fcdc6ea6ebeab084d1e2994563</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.25, 2)">
+   <variable>ncl</variable>
+  </dependency>
+ </version>
 
     <version name="3.1" package="falkon64" type="one-file">
   <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
@@ -22160,6 +22189,16 @@ rmdir "%name%"&#13;
    <variable>nih</variable>
   </dependency>
  </version>
+ <version name="2.8.7" package="firealpaca" type="one-file">
+  <file path=".Npackd\Install.bat">call "%nih%\InstallInnoSetup.bat"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">call "%nih%\UninstallInnoSetup.bat" unins000.exe&#13;
+</file>
+  <url>https://www.portalgraphics.net/firealpaca/bin/FireAlpaca32_setup_2_8_7.exe</url>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
 
     <version name="2.3.5" package="firealpaca64" type="one-file">
   <file path=".Npackd\Install.bat">"%npackd_package_binary%" &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
@@ -22627,6 +22666,16 @@ rmdir "%name%"&#13;
   <file path=".Npackd\Uninstall.bat">call "%nih%\UninstallInnoSetup.bat" unins000.exe&#13;
 </file>
   <url>https://www.portalgraphics.net/firealpaca/bin/FireAlpaca64_setup_2_8_6.exe</url>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
+ <version name="2.8.7" package="firealpaca64" type="one-file">
+  <file path=".Npackd\Install.bat">call "%nih%\InstallInnoSetup.bat"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">call "%nih%\UninstallInnoSetup.bat" unins000.exe&#13;
+</file>
+  <url>https://www.portalgraphics.net/firealpaca/bin/FireAlpaca64_setup_2_8_7.exe</url>
   <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
    <variable>nih</variable>
   </dependency>
@@ -27522,6 +27571,19 @@ rmdir "%name%"&#13;
 </file>
   <url>https://dl.google.com/dl/cloudsdk/channels/rapid/downloads/google-cloud-sdk-396.0.0-windows-x86_64.zip</url>
   <hash-sum type="SHA-256">929c8933009ca2ac59f13d3ffb3f6f6ac2d62c4ff4cb6a5af946d1986ba36a2b</hash-sum>
+  <dependency package="org.python.Python" versions="[2.7, 2.8)"/>
+ </version>
+ <version name="397" package="google-cloud-sdk64">
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b google-cloud-sdk*') do set name=%%x&#13;
+cd "%name%"&#13;
+for /f "delims=" %%a in ('dir /b') do (&#13;
+  move "%%a" ..&#13;
+)&#13;
+cd ..&#13;
+rmdir "%name%"&#13;
+</file>
+  <url>https://dl.google.com/dl/cloudsdk/channels/rapid/downloads/google-cloud-sdk-397.0.0-windows-x86_64.zip</url>
+  <hash-sum type="SHA-256">9638478f9607aeebd01c0d6526d0606a248f7df8902741ebca0ab2959a7aad64</hash-sum>
   <dependency package="org.python.Python" versions="[2.7, 2.8)"/>
  </version>
 
@@ -34210,6 +34272,14 @@ rmdir "%name%"&#13;
 </file>
   <url>http://multicommander.com/files/updates/MultiCommander_x64_(11.6.2845).exe</url>
   <hash-sum type="SHA-256">b5ef831770546f3d02b8019e60dade06dd5c3200f2249cff7d0745e160603bfb</hash-sum>
+ </version>
+ <version name="12.0.2903" package="multi-commander64" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">"Uninstall MultiCommander.exe" /S _?=%CD%&#13;
+</file>
+  <url>http://multicommander.com/files/updates/MultiCommander_x64_(12.0.2903).exe</url>
+  <hash-sum type="SHA-256">e9104253d33846511eb82ef7536eb5b89e9bd4a5f5f206ca9bc5514462c6781a</hash-sum>
  </version>
 
     <version name="1.19" package="mupdf64">
@@ -69305,7 +69375,7 @@ if %err% neq 0 exit %err%&#13;
   </dependency>
  </version>
 
-    <version name="35.0.2" package="slimjet" type="one-file">
+    <version name="35.0.3" package="slimjet" type="one-file">
   <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
 </file>
   <file path=".Npackd\Uninstall.bat">uninstall.exe /S _?=%CD%&#13;
@@ -69313,7 +69383,7 @@ if %err% neq 0 exit %err%&#13;
   <url>https://www.slimjetbrowser.com/release/sjtsetup_x86.exe</url>
  </version>
 
-    <version name="35.0.2" package="slimjet64" type="one-file">
+    <version name="35.0.3" package="slimjet64" type="one-file">
   <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
 </file>
   <file path=".Npackd\Uninstall.bat">uninstall.exe /S _?=%CD%&#13;
