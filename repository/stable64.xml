@@ -10448,6 +10448,15 @@ call "%npackdih%\InstallMSI.bat" APPLICATIONFOLDER yes&#13;
    <variable>npackdih</variable>
   </dependency>
  </version>
+ <version name="6.3" package="com.calibreebook.Calibre64" type="one-file">
+  <file path=".Npackd\Install.bat">call "%npackdih%\InstallMSI.bat" APPLICATIONFOLDER yes&#13;
+</file>
+  <url>https://download.calibre-ebook.com/6.3.0/calibre-64bit-6.3.0.msi</url>
+  <hash-sum type="SHA-256">5bef08b765c0d4f370f6677d80c2e9f06c2e4b43270eafcb9d77cace0edcecf2</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.2, 2)">
+   <variable>npackdih</variable>
+  </dependency>
+ </version>
 
     <version name="5.12.256249.2599" package="com.comodo.comodoav64" type="one-file">
   <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.msi') do set setup=%%x&#13;
@@ -21515,6 +21524,28 @@ rmdir "%name%"&#13;
    <variable>ncl</variable>
   </dependency>
  </version>
+ <version name="8.71" package="explzh64" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" /silent /q &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">"%ncl%\ncl.exe" remove-scp --title "/%npackd_package_name% %npackd_package_version%/i"&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+</file>
+  <url>https://www.ponsoftware.com/en/archiver/explzh/explz871_en_x64.exe</url>
+  <hash-sum type="SHA-256">ba84d3562f59e31c6e881b01793741888726817eee3793677a905bc1c41fd278</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.25, 2)">
+   <variable>ncl</variable>
+  </dependency>
+ </version>
+ <version name="8.72" package="explzh64" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" /silent /q &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">"%ncl%\ncl.exe" remove-scp --title "/%npackd_package_name% %npackd_package_version%/i"&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+</file>
+  <url>https://www.ponsoftware.com/en/archiver/explzh/explz872_en_x64.exe</url>
+  <hash-sum type="SHA-256">84104ca693e6049878856b6bc4fb2449ed8a0669331b04c5c12a8cf34da91222</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.25, 2)">
+   <variable>ncl</variable>
+  </dependency>
+ </version>
 
     <version name="3.1" package="falkon64" type="one-file">
   <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
@@ -25585,6 +25616,17 @@ if %err% neq 0 exit %err%&#13;
 </file>
   <url>https://github.com/git-for-windows/git/releases/download/v2.37.1.windows.1/Git-2.37.1-64-bit.exe</url>
   <hash-sum type="SHA-256">1966761ad2c9e4cbd38f9e583b1125949b011a5a250a99d65e9bb21958e6ef8b</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
+ <version name="2.37.2.2" package="git64" type="one-file">
+  <file path=".Npackd\Install.bat">call "%nih%\InstallInnoSetup.bat"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">call "%nih%\UninstallInnoSetup.bat" unins000.exe&#13;
+</file>
+  <url>https://github.com/git-for-windows/git/releases/download/v2.37.2.windows.1/Git-2.37.2-64-bit.exe</url>
+  <hash-sum type="SHA-256">9020623e95e8f250a6298aa98d4bce395adc121998a65bef143556c3fbd2462c</hash-sum>
   <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
    <variable>nih</variable>
   </dependency>
@@ -67764,7 +67806,7 @@ if %errorlevel% neq 0 exit /b %errorlevel%&#13;
 &#13;
 &#13;
 </file>
-  <url>https://download.qt.io/official_releases/qtcreator/8.0/8.0.1/installer_source/windows_x64/qtcreator.7z</url>
+  <url>https://github.com/tim-lebedkov/packages/releases/download/2022_08/qt-creator64-8.0.1-qtcreator.7z</url>
   <hash-sum type="SHA-256">c1a8d8ef6003ec5059833280b6a36d5abe80c034e1c09cf26b07644546a7848e</hash-sum>
   <dependency package="org.7-zip.SevenZIPA" versions="[19, 100)">
    <variable>sevenzipa</variable>
@@ -73302,6 +73344,19 @@ Application\%name%\Installer\setup.exe --uninstall --vivaldi --force-uninstall -
 type .Npackd\Output.txt</file>
   <url>https://downloads.vivaldi.com/stable/Vivaldi.5.4.2753.28.x64.exe</url>
   <hash-sum type="SHA-256">6a9307ed3b880432cbbccea51ae1e7c5b8e486166e1ae2fc615672051d83c069</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.24, 2)">
+   <variable>ncl</variable>
+  </dependency>
+ </version>
+ <version name="5.4.2753.33" package="vivaldi-browser-64" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" --system-level --vivaldi-silent --vivaldi-standalone --do-not-launch-chrome --vivaldi-install-dir="%CD%" &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">for /f "delims=" %%x in ('dir /b application\5*') do set name=%%x&#13;
+&#13;
+Application\%name%\Installer\setup.exe --uninstall --vivaldi --force-uninstall --system-level &gt; .Npackd\Output.txt 2&gt;&amp;1 &#13;
+type .Npackd\Output.txt</file>
+  <url>https://downloads.vivaldi.com/stable/Vivaldi.5.4.2753.33.x64.exe</url>
+  <hash-sum type="SHA-256">555c96cfdf02c52bbf6929f7e3ca4a3a36e1adb98f8db29eaac8036b306756e8</hash-sum>
   <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.24, 2)">
    <variable>ncl</variable>
   </dependency>
