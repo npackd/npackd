@@ -42580,6 +42580,21 @@ rmdir "%name%"
   <hash-sum type="SHA-256">02ebd10f14771bfbc8901123d41430804a11df9f238cc10f367beb20dd24d83d</hash-sum>
   <dependency package="com.oracle.JRE" versions="[1.5, 2)"/>
  </version>
+ <version name="8.5.82" package="org.apache.tomcat.Tomcat64">
+  <important-file path="bin\startup.bat" title="Start"/>
+  <important-file path="bin\shutdown.bat" title="Stop"/>
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b apache*') do set name=%%x
+cd "%name%"        
+for /f "delims=" %%a in ('dir /b') do (
+  move "%%a" ..
+)
+cd ..
+rmdir "%name%"
+</file>
+  <url>http://archive.apache.org/dist/tomcat/tomcat-8/v8.5.82/bin/apache-tomcat-8.5.82-windows-x64.zip</url>
+  <hash-sum type="SHA-256">f6ff30a3ed08de81fd007161321c24e21ead141488eca9a435a57859a3e252cf</hash-sum>
+  <dependency package="com.oracle.JRE" versions="[1.5, 2)"/>
+ </version>
 
     <version name="7.2.10" package="org.areca-backup.ArecaBackup64">
   <important-file path="areca.exe" title="Areca"/>
@@ -70843,6 +70858,14 @@ rmdir "%name%"</file>
 </file>
   <url>https://www.sysgauge.com/setups_x64/sysgauge_setup_v8.6.24_x64.exe</url>
   <hash-sum type="SHA-256">9e08fb164691e12779d09c412e2dd17c6a91cbdff4528df644c28594f3fc7457</hash-sum>
+ </version>
+ <version name="8.7.14" package="sysgauge64" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">uninstall.exe /S _?=%CD%&#13;
+</file>
+  <url>https://www.sysgauge.com/setups_x64/sysgauge_setup_v8.7.14_x64.exe</url>
+  <hash-sum type="SHA-256">047089d143c7fc5ef2f855319784d989246040642890d40830834f7aeab65284</hash-sum>
  </version>
 
     
