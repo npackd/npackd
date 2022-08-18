@@ -15110,6 +15110,14 @@ if %err% neq 0 exit %err%&#13;
   <url>https://github.com/sindresorhus/caprine/releases/download/v2.55.6/caprine-setup-2.55.6.exe</url>
   <hash-sum type="SHA-256">fbcd193132f05cf4b78c24747fc8a785704e275ade02952471dc8ccecad3d6f1</hash-sum>
  </version>
+ <version name="2.56" package="com.sindresorhus.caprine" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">uninstall.exe /S _?=%CD%&#13;
+</file>
+  <url>https://github.com/sindresorhus/caprine/releases/download/v2.56.0/caprine-setup-2.56.0.exe</url>
+  <hash-sum type="SHA-256">da6e19841da887fb8616d654628510aa3e3912c2ebe17648671d7a712cc030be</hash-sum>
+ </version>
 
     <version name="4.51" package="com.softwareok.QDir64">
   <important-file path="Q-Dir.exe" title="Q-Dir"/>
@@ -21466,6 +21474,11 @@ rmdir "%name%"&#13;
   <url>http://www.voidtools.com/Everything-1.4.1.1017.x64.zip</url>
   <hash-sum type="SHA-256">fe12e92c479683a690c5f83d64a6136d1e6170ca4bb4f9e9f53f2e0cf0d87a9b</hash-sum>
  </version>
+ <version name="1.4.1.1018" package="everything64">
+  <important-file path="Everything.exe" title="Everything"/>
+  <url>http://www.voidtools.com/Everything-1.4.1.1018.x64.zip</url>
+  <hash-sum type="SHA-256">e1bf13ce8765bbca4e8d7dda8ce07b25471090ff222701789f816e7bf3fd552e</hash-sum>
+ </version>
 
     
 
@@ -25695,7 +25708,7 @@ if %err% neq 0 exit %err%&#13;
   <hash-sum type="SHA-256">9ea1de71109eb5f1b41be08cf2f509ad952ba8cdae8ed82507452f2f772686d3</hash-sum>
  </version>
 
-    <version name="104.0.5112.81" package="google-chrome-x64" type="one-file">
+    <version name="104.0.5112.102" package="google-chrome-x64" type="one-file">
   <file path=".Npackd\Install.bat">call "%npackdih%\InstallMSI.bat" TARGETDIR yes&#13;
 </file>
   <url>https://dl.google.com/tag/s/appguid%3D%7B8A69D345-D564-463C-AFF1-A69D9E530F96%7D%26iid%3D%7B0A558A36-0536-8B3F-0AE0-420553CC97F3%7D%26lang%3Den%26browser%3D4%26usagestats%3D0%26appname%3DGoogle%2520Chrome%26needsadmin%3DFalse/edgedl/chrome/install/GoogleChromeStandaloneEnterprise64.msi</url>
@@ -67625,6 +67638,15 @@ if %errorlevel% equ 3010 verify</file>
    <variable>nih</variable>
   </dependency>
  </version>
+ <version name="3.26.2.1" package="qgis64" type="one-file">
+  <file path=".Npackd\Install.bat">call "%nih%\InstallMSI.bat" INSTALLDIR yes&#13;
+</file>
+  <url>https://qgis.org/downloads/QGIS-OSGeo4W-3.26.2-1.msi</url>
+  <hash-sum type="SHA-256">ab13c80a6dbed2f8743d737da4686e20d3b50773713f86efd02d083f91c860e1</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.1, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
 
     <version name="8" package="Qt-Bitcoin-Trader64" type="one-file">
   <important-file path="qtbitcointrader.exe" title="Qt Bitcoin Trader"/>
@@ -73402,6 +73424,19 @@ Application\%name%\Installer\setup.exe --uninstall --vivaldi --force-uninstall -
 type .Npackd\Output.txt</file>
   <url>https://downloads.vivaldi.com/stable/Vivaldi.5.4.2753.33.x64.exe</url>
   <hash-sum type="SHA-256">555c96cfdf02c52bbf6929f7e3ca4a3a36e1adb98f8db29eaac8036b306756e8</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.24, 2)">
+   <variable>ncl</variable>
+  </dependency>
+ </version>
+ <version name="5.4.2753.37" package="vivaldi-browser-64" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" --system-level --vivaldi-silent --vivaldi-standalone --do-not-launch-chrome --vivaldi-install-dir="%CD%" &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">for /f "delims=" %%x in ('dir /b application\5*') do set name=%%x&#13;
+&#13;
+Application\%name%\Installer\setup.exe --uninstall --vivaldi --force-uninstall --system-level &gt; .Npackd\Output.txt 2&gt;&amp;1 &#13;
+type .Npackd\Output.txt</file>
+  <url>https://downloads.vivaldi.com/stable/Vivaldi.5.4.2753.37.x64.exe</url>
+  <hash-sum type="SHA-256">29eed135672590a4745f7c32a333253e7a3dd310bdcc88cc313e5179c96858af</hash-sum>
   <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.24, 2)">
    <variable>ncl</variable>
   </dependency>
