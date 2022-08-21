@@ -33328,6 +33328,14 @@ reg add HKCU\Software\mkvmergeGUI\GUI /v check_for_updates /t REG_DWORD /d 00000
   <url>https://github.com/moneymanagerex/moneymanagerex/releases/download/v1.5.18/mmex-1.5.18-win64.exe</url>
   <hash-sum type="SHA-256">2a3f40f6a650477677edf7b0331ac00e64b56a490469495f3edc792eeb5238bd</hash-sum>
  </version>
+ <version name="1.5.19" package="money-manager-ex64" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">uninstall.exe /S _?=%CD%&#13;
+</file>
+  <url>https://github.com/moneymanagerex/moneymanagerex/releases/download/v1.5.19/mmex-1.5.19-win64.exe</url>
+  <hash-sum type="SHA-256">3ff681ca01a051266885fadd7382be92d527252f9483e6074c51182ccd8e5bf0</hash-sum>
+ </version>
 
     <version name="4.4.1" package="mono64" type="one-file">
   <file path=".Npackd\Install.bat">call "%npackdih%\InstallMSI.bat" INSTALLDIR yes&#13;
@@ -36649,6 +36657,17 @@ if %err% neq 0 exit %err%&#13;
 </file>
   <url>https://github.com/peazip/PeaZip/releases/download//8.7.0/peazip-8.7.0.WIN64.exe</url>
   <hash-sum type="SHA-256">78faf86c7a0e3ce70deef0c867f861681bb3d7aec26c03dce1ff7f0f6a512993</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
+ <version name="8.8" package="net.sourceforge.peazip.PeaZip64" type="one-file">
+  <file path=".Npackd\Install.bat">call "%nih%\InstallInnoSetup.bat"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">call "%nih%\UninstallInnoSetup.bat" unins000.exe&#13;
+</file>
+  <url>https://github.com/peazip/PeaZip/releases/download//8.8.0/peazip-8.8.0.WIN64.exe</url>
+  <hash-sum type="SHA-256">6a58e80e0f0aab18be7791b6dfb1cb887e82ff2622388f1c19920b09e4f052c5</hash-sum>
   <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
    <variable>nih</variable>
   </dependency>
@@ -50306,6 +50325,15 @@ rmdir "%name%"&#13;
 </file>
   <url>https://fastdl.mongodb.org/windows/mongodb-windows-x86_64-6.0.0-signed.msi</url>
   <hash-sum type="SHA-256">0a30a72e5c39cd54250148c39e3912713671cf0e68c77833cd8a980f83b26c09</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.1, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
+ <version name="6.0.1" package="org.mongodb.MongoDB64" type="one-file">
+  <file path=".Npackd\Install.bat">call "%nih%\InstallMSI.bat" INSTALLDIR yes&#13;
+</file>
+  <url>https://fastdl.mongodb.org/windows/mongodb-windows-x86_64-6.0.1-signed.msi</url>
+  <hash-sum type="SHA-256">999b39df67a77eda3198f8412dc159b0cd8aa6677b901a0cf287921884306ac3</hash-sum>
   <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.1, 2)">
    <variable>nih</variable>
   </dependency>
