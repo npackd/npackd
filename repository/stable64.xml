@@ -9175,7 +9175,7 @@ rem "avgmfapx.exe" /AppMode=SETUP /Uninstall /UILevel=Silent /DontRestart&#13;
   </dependency>
  </version>
 
-    <version name="1.92" package="com.bitcomet.BitComet64" type="one-file">
+    <version name="1.93" package="com.bitcomet.BitComet64" type="one-file">
   <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
 </file>
   <file path=".Npackd\Uninstall.bat">%ncl%\ncl remove-scp --title "/BitComet.*/"</file>
@@ -23128,6 +23128,17 @@ echo DesktopShortcut=false &gt;&gt; .Npackd\FF.ini&#13;
 verify</file>
   <url>https://download-origin.cdn.mozilla.net/pub/mozilla.org/firefox/releases/102.1.0esr/win64/en-US/Firefox%20Setup%20102.1.0esr.exe</url>
   <hash-sum type="SHA-256">ba58df32dcc979169164a4bfee3f8ba82539145f3b571ea4cd1e4252840bf870</hash-sum>
+ </version>
+ <version name="102.2" package="firefox-esr64" type="one-file">
+  <file path=".Npackd\Install.bat">echo [Install] &gt; .Npackd\FF.ini&#13;
+echo InstallDirectoryPath=%CD% &gt;&gt; .Npackd\FF.ini&#13;
+echo QuickLaunchShortcut=false &gt;&gt; .Npackd\FF.ini&#13;
+echo DesktopShortcut=false &gt;&gt; .Npackd\FF.ini&#13;
+"%npackd_package_binary%" /INI="%CD%\.Npackd\FF.ini" &amp;&amp; del /f /q "%npackd_package_binary%"</file>
+  <file path=".Npackd\Uninstall.bat">uninstall\helper.exe /S&#13;
+verify</file>
+  <url>https://download-origin.cdn.mozilla.net/pub/mozilla.org/firefox/releases/102.2.0esr/win64/en-US/Firefox%20Setup%20102.2.0esr.exe</url>
+  <hash-sum type="SHA-256">a0ea4dbd947586b22b02a12487c1692a2cde0bbe1c889783a62620d9c61c98c2</hash-sum>
  </version>
 
     <version name="43" package="firefox64" type="one-file">
