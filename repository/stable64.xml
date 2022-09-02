@@ -19156,7 +19156,7 @@ rmdir "%name%"&#13;
   <hash-sum type="SHA-256">d0e09efb2f74beae9f5387a296d366c160d9fb87e571c9559c53cd0111b7b955</hash-sum>
  </version>
 
-    <version name="1.7.21765" package="daumpotplayer64" type="one-file">
+    <version name="1.7.21795" package="daumpotplayer64" type="one-file">
   <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
 </file>
   <file path=".Npackd\Uninstall.bat">uninstall.exe /S _?=%CD%&#13;
@@ -20519,6 +20519,21 @@ taskkill /im klauncher.exe /f /t&#13;
 verify</file>
   <url>https://github.com/tim-lebedkov/packages/releases/download/2022_06/digikam64-7.7-digiKam-7.7.0-Win64.exe</url>
   <hash-sum type="SHA-256">e2b8969913dac8c45f32b1fadfb802b7218d85236318d7d9bcd4d218f0b3db78</hash-sum>
+ </version>
+ <version name="7.8" package="digikam64" type="one-file">
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
+"%setup%" /S /D=%ProgramFiles%\digiKamData&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">"%ProgramFiles%\digiKamData\Uninstall.exe" /S&#13;
+&#13;
+rd /s /q "APPDATA%\Start Menu\Programs\KDE Release" || rd /s /q "%ALLUSERSPROFILE%\Microsoft\Windows\Start Menu\Programs\KDE Release"&#13;
+verify</file>
+  <file path=".Npackd\Stop.bat">taskkill /im dbus-daemon.exe /f /t&#13;
+taskkill /im kded4.exe /f /t&#13;
+taskkill /im klauncher.exe /f /t&#13;
+verify</file>
+  <url>http://mirror.kumi.systems/kde/ftp/stable/digikam/7.8.0/digiKam-7.8.0-Win64.exe</url>
+  <hash-sum type="SHA-256">39c46825b4c7472d9d71eab885d6bcbdd5ac5228bf7c0a91e2d59a3c9fc9fa3c</hash-sum>
  </version>
 
     <version name="5" package="dolphin-emu" type="one-file">
@@ -40121,6 +40136,17 @@ verify&#13;
   <file path=".Npackd\Uninstall.bat">"%myun%\myuninst.exe" /uninstall "Open Broadcaster Software"</file>
   <url>https://cdn-fastly.obsproject.com/downloads/OBS-Studio-27.2.4-Full-Installer-x64.exe</url>
   <hash-sum type="SHA-256">4c7f82fd2ecc532cbdb7b279702b28b252a38bbc462c65086f53938cd8d4c43b</hash-sum>
+  <dependency package="net.nirsoft.MyUninstaller" versions="[1.74, 2)">
+   <variable>myun</variable>
+  </dependency>
+ </version>
+ <version name="28" package="open-broadcaster-software64" type="one-file">
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
+"%setup%" /S /D=%CD% &amp;&amp; del /f /q "%setup%"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">"%myun%\myuninst.exe" /uninstall "Open Broadcaster Software"</file>
+  <url>https://cdn-fastly.obsproject.com/downloads/OBS-Studio-28.0-Full-Installer-x64.exe</url>
+  <hash-sum type="SHA-256">6d0a0b69291fcb844a1f535b1cce31cea10eb52899c71de828b82b214c43d568</hash-sum>
   <dependency package="net.nirsoft.MyUninstaller" versions="[1.74, 2)">
    <variable>myun</variable>
   </dependency>
@@ -69434,7 +69460,7 @@ call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Np
   <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b curl*') do set name=%%x&#13;
 call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
 </file>
-  <url>https://curl.haxx.se/windows/dl-7.85.0/curl-7.85.0-win64-mingw.zip</url>
+  <url>https://github.com/tim-lebedkov/packages/releases/download/2022_09/se.haxx.curl.CURL64-7.85-curl-7.85.0-win64-mingw.zip</url>
   <hash-sum type="SHA-256">d46c42a1c248824a9d3f394969ba63097a49abe79209b1dcaba4d4ca3767e600</hash-sum>
   <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.19, 2)">
    <variable>nih</variable>
@@ -73735,6 +73761,19 @@ Application\%name%\Installer\setup.exe --uninstall --vivaldi --force-uninstall -
 type .Npackd\Output.txt</file>
   <url>https://downloads.vivaldi.com/stable/Vivaldi.5.4.2753.40.x64.exe</url>
   <hash-sum type="SHA-256">2a5e4df788092ba603eb9890f4c1a8d9b431041446282fafe513ee5ef508cc9a</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.24, 2)">
+   <variable>ncl</variable>
+  </dependency>
+ </version>
+ <version name="5.4.2753.45" package="vivaldi-browser-64" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" --system-level --vivaldi-silent --vivaldi-standalone --do-not-launch-chrome --vivaldi-install-dir="%CD%" &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">for /f "delims=" %%x in ('dir /b application\5*') do set name=%%x&#13;
+&#13;
+Application\%name%\Installer\setup.exe --uninstall --vivaldi --force-uninstall --system-level &gt; .Npackd\Output.txt 2&gt;&amp;1 &#13;
+type .Npackd\Output.txt</file>
+  <url>https://downloads.vivaldi.com/stable/Vivaldi.5.4.2753.45.x64.exe</url>
+  <hash-sum type="SHA-256">44d9e7f0c1009da4243b0e86123771f54a5aabc8df6e5118140a79f63f182a3d</hash-sum>
   <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.24, 2)">
    <variable>ncl</variable>
   </dependency>
