@@ -19173,7 +19173,7 @@ rmdir "%name%"&#13;
   <hash-sum type="SHA-256">d0e09efb2f74beae9f5387a296d366c160d9fb87e571c9559c53cd0111b7b955</hash-sum>
  </version>
 
-    <version name="1.7.21795" package="daumpotplayer64" type="one-file">
+    <version name="1.7.21796" package="daumpotplayer64" type="one-file">
   <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
 </file>
   <file path=".Npackd\Uninstall.bat">uninstall.exe /S _?=%CD%&#13;
@@ -25869,7 +25869,7 @@ if %err% neq 0 exit %err%&#13;
   <hash-sum type="SHA-256">9ea1de71109eb5f1b41be08cf2f509ad952ba8cdae8ed82507452f2f772686d3</hash-sum>
  </version>
 
-    <version name="105.0.5195.54" package="google-chrome-x64" type="one-file">
+    <version name="105.0.5195.102" package="google-chrome-x64" type="one-file">
   <file path=".Npackd\Install.bat">call "%npackdih%\InstallMSI.bat" TARGETDIR yes&#13;
 </file>
   <url>https://dl.google.com/tag/s/appguid%3D%7B8A69D345-D564-463C-AFF1-A69D9E530F96%7D%26iid%3D%7B0A558A36-0536-8B3F-0AE0-420553CC97F3%7D%26lang%3Den%26browser%3D4%26usagestats%3D0%26appname%3DGoogle%2520Chrome%26needsadmin%3DFalse/edgedl/chrome/install/GoogleChromeStandaloneEnterprise64.msi</url>
@@ -33490,6 +33490,14 @@ reg add HKCU\Software\mkvmergeGUI\GUI /v check_for_updates /t REG_DWORD /d 00000
   <url>https://github.com/moneymanagerex/moneymanagerex/releases/download/v1.5.19/mmex-1.5.19-win64.exe</url>
   <hash-sum type="SHA-256">3ff681ca01a051266885fadd7382be92d527252f9483e6074c51182ccd8e5bf0</hash-sum>
  </version>
+ <version name="1.5.20" package="money-manager-ex64" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">uninstall.exe /S _?=%CD%&#13;
+</file>
+  <url>https://github.com/moneymanagerex/moneymanagerex/releases/download/v1.5.20/mmex-1.5.20-win64.exe</url>
+  <hash-sum type="SHA-256">163e017cdc1b1d24fcbb9571a8d491406cbdb9b7de938a809b9538c828f50481</hash-sum>
+ </version>
 
     <version name="4.4.1" package="mono64" type="one-file">
   <file path=".Npackd\Install.bat">call "%npackdih%\InstallMSI.bat" INSTALLDIR yes&#13;
@@ -40164,6 +40172,17 @@ verify&#13;
   <file path=".Npackd\Uninstall.bat">"%myun%\myuninst.exe" /uninstall "Open Broadcaster Software"</file>
   <url>https://cdn-fastly.obsproject.com/downloads/OBS-Studio-28.0-Full-Installer-x64.exe</url>
   <hash-sum type="SHA-256">6d0a0b69291fcb844a1f535b1cce31cea10eb52899c71de828b82b214c43d568</hash-sum>
+  <dependency package="net.nirsoft.MyUninstaller" versions="[1.74, 2)">
+   <variable>myun</variable>
+  </dependency>
+ </version>
+ <version name="28.0.1" package="open-broadcaster-software64" type="one-file">
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
+"%setup%" /S /D=%CD% &amp;&amp; del /f /q "%setup%"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">"%myun%\myuninst.exe" /uninstall "Open Broadcaster Software"</file>
+  <url>https://cdn-fastly.obsproject.com/downloads/OBS-Studio-28.0.1-Full-Installer-x64.exe</url>
+  <hash-sum type="SHA-256">16e298b3c04f070573c8f3843413624a2a5ef0b504f53e3fc86cfa22daa266a3</hash-sum>
   <dependency package="net.nirsoft.MyUninstaller" versions="[1.74, 2)">
    <variable>myun</variable>
   </dependency>
@@ -65607,6 +65626,40 @@ if %err% neq 0 exit %err%</file>
    <variable>sevenzip</variable>
   </dependency>
  </version>
+ <version name="6.1.38.153438" package="org.virtualbox.virtualbox64" type="one-file">
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
+"%setup%" -x -s -p "%CD%" &gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+&#13;
+"%sevenzip%\7z.exe" x common.cab -aos -o"%CD%\common" &gt; .Npackd\Output.txt 2&gt;&amp;1 &amp;&amp; type .Npackd\Output.txt&#13;
+"%sevenzip%\7z.exe" x "%CD%\common\file_VBoxGuestAdditions.iso" -aos -o"%CD%\common\file_VBoxGuestAdditions" &gt; .Npackd\Output.txt 2&gt;&amp;1 &amp;&amp; type .Npackd\Output.txt&#13;
+&#13;
+certutil.exe -addstore -f "TrustedPublisher" "%CD%\common\file_VBoxGuestAdditions\cert\oracle-vbox.cer" &gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+&#13;
+for /f "delims=" %%x in ('dir /b *MultiArch_amd64.msi') do set setup=%%x&#13;
+msiexec.exe /qn /norestart /Lime .Npackd\MSI.log /i "%setup%"&#13;
+set err=%errorlevel%&#13;
+type .Npackd\MSI.log&#13;
+rem 3010=restart required&#13;
+if %err% equ 3010 exit 0&#13;
+if %err% neq 0 exit %err%&#13;
+&#13;
+for /f "delims=" %%x in ('dir /b *MultiArch_x86.msi') do set trash=%%x&#13;
+del /q /f "%trash%"&#13;
+&#13;
+if exist "%CD%\common" (rd /s /q "%CD%\common")</file>
+  <file path=".Npackd\Uninstall.bat">for /f "delims=" %%x in ('dir /b *.msi') do set setup=%%x&#13;
+msiexec.exe /qn /norestart /Lime .Npackd\MSI.log /x "%setup%"&#13;
+set err=%errorlevel%&#13;
+type .Npackd\MSI.log&#13;
+rem 3010=restart required&#13;
+if %err% equ 3010 exit 0&#13;
+if %err% neq 0 exit %err%</file>
+  <url>http://download.virtualbox.org/virtualbox/6.1.38/VirtualBox-6.1.38-153438-Win.exe</url>
+  <hash-sum type="SHA-256">e987f1705d8779959320a4d968be53d98dd5389425ebc66292a1b1d5241153f7</hash-sum>
+  <dependency package="org.7-zip.SevenZIP64" versions="[9.20, 20)">
+   <variable>sevenzip</variable>
+  </dependency>
+ </version>
 
     <version name="1.9.11" package="org.virtualdub.VirtualDub64">
   <important-file path="Veedub64.exe" title="VirtualDub"/>
@@ -73791,6 +73844,19 @@ Application\%name%\Installer\setup.exe --uninstall --vivaldi --force-uninstall -
 type .Npackd\Output.txt</file>
   <url>https://downloads.vivaldi.com/stable/Vivaldi.5.4.2753.45.x64.exe</url>
   <hash-sum type="SHA-256">44d9e7f0c1009da4243b0e86123771f54a5aabc8df6e5118140a79f63f182a3d</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.24, 2)">
+   <variable>ncl</variable>
+  </dependency>
+ </version>
+ <version name="5.4.2753.47" package="vivaldi-browser-64" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" --system-level --vivaldi-silent --vivaldi-standalone --do-not-launch-chrome --vivaldi-install-dir="%CD%" &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">for /f "delims=" %%x in ('dir /b application\5*') do set name=%%x&#13;
+&#13;
+Application\%name%\Installer\setup.exe --uninstall --vivaldi --force-uninstall --system-level &gt; .Npackd\Output.txt 2&gt;&amp;1 &#13;
+type .Npackd\Output.txt</file>
+  <url>https://downloads.vivaldi.com/stable/Vivaldi.5.4.2753.47.x64.exe</url>
+  <hash-sum type="SHA-256">2f4102b09a0f29c2a5621186cf9619e25438551acd2fe7af70dc1869e2b3be7f</hash-sum>
   <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.24, 2)">
    <variable>ncl</variable>
   </dependency>
