@@ -21586,6 +21586,11 @@ rmdir "%name%"&#13;
   <url>http://www.voidtools.com/Everything-1.4.1.1018.x64.zip</url>
   <hash-sum type="SHA-256">e1bf13ce8765bbca4e8d7dda8ce07b25471090ff222701789f816e7bf3fd552e</hash-sum>
  </version>
+ <version name="1.4.1.1020" package="everything64">
+  <important-file path="Everything.exe" title="Everything"/>
+  <url>http://www.voidtools.com/Everything-1.4.1.1020.x64.zip</url>
+  <hash-sum type="SHA-256">b00aa85255ddb518dfccdaca6834417b71ba3c1a39e92212a3863d6cef88400c</hash-sum>
+ </version>
 
     
 
@@ -27918,6 +27923,19 @@ rmdir "%name%"&#13;
 </file>
   <url>https://dl.google.com/dl/cloudsdk/channels/rapid/downloads/google-cloud-sdk-400.0.0-windows-x86_64.zip</url>
   <hash-sum type="SHA-256">557bcb5a38ff17fdeef7ed8e62ca4cc59c2591ab1279e5cc48e530f53b14e1ec</hash-sum>
+  <dependency package="org.python.Python" versions="[2.7, 2.8)"/>
+ </version>
+ <version name="401" package="google-cloud-sdk64">
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b google-cloud-sdk*') do set name=%%x&#13;
+cd "%name%"&#13;
+for /f "delims=" %%a in ('dir /b') do (&#13;
+  move "%%a" ..&#13;
+)&#13;
+cd ..&#13;
+rmdir "%name%"&#13;
+</file>
+  <url>https://dl.google.com/dl/cloudsdk/channels/rapid/downloads/google-cloud-sdk-401.0.0-windows-x86_64.zip</url>
+  <hash-sum type="SHA-256">de6c9476030ca21ea9708e8f285ee5af0871d0913d309103bdc821b44d908ea4</hash-sum>
   <dependency package="org.python.Python" versions="[2.7, 2.8)"/>
  </version>
 
@@ -65925,6 +65943,14 @@ if %err% neq 0 exit %err%</file>
 </file>
   <url>https://github.com/tim-lebedkov/packages/releases/download/2022_07/org.wireshark.Wireshark64-3.6.7-Wireshark-win64-3.6.7.exe</url>
   <hash-sum type="SHA-256">941ca74d6afe8f163ee1d71ae645ecb5f57e0d10228616e5201feefde33e7517</hash-sum>
+ </version>
+ <version name="3.6.8" package="org.wireshark.Wireshark64" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD%&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">uninstall.exe /S _=%CD%&#13;
+</file>
+  <url>https://1.eu.dl.wireshark.org/win64/Wireshark-win64-3.6.8.exe</url>
+  <hash-sum type="SHA-256">17ce19def77592d4c0fb0b680e77e4712dd6c8c4af79c6d58a281eb509a4f34b</hash-sum>
  </version>
 
     <version name="1.0.81" package="otter-browser" type="one-file">
