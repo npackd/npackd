@@ -209,7 +209,7 @@ x86_64</description>
   <url>https://www.altap.cz/</url>
   <description>Altap Salamander is a fast and reliable two-panel file manager for Windows.
 x86_64</description>
-  <icon>https://community.chocolatey.org/content/packageimages/altap-salamander.4.0.png</icon>
+  <icon>https://www.altap.cz/favicon.ico</icon>
   <license>org.wikipedia.Freeware</license>
   <category>Tools</category>
   <tag>stable64</tag>
@@ -226,7 +226,7 @@ x86_64</description>
   <url>https://www.altap.cz/</url>
   <description>Altap Salamander is a fast and reliable two-panel file manager for Windows.
 x86_64</description>
-  <icon>https://community.chocolatey.org/content/packageimages/altap-salamander.4.0.png</icon>
+  <icon>https://www.altap.cz/favicon.ico</icon>
   <license>org.wikipedia.Freeware</license>
   <category>Tools</category>
   <tag>stable64</tag>
@@ -1137,7 +1137,6 @@ x86_64</description>
   <description>WARNING: this package always installs the newest version of the software.
 64 bit desktop client for Whatsapp
 x86_64</description>
-  <icon>https://faq.whatsapp.com/favicon.ico</icon>
   <category>Communications</category>
   <tag>stable64</tag>
   <tag>same-url</tag>
@@ -1779,7 +1778,7 @@ x86_64</description>
   <category>Communications</category>
   <tag>same-url</tag>
   <tag>stable64</tag>
-  <stars>32</stars>
+  <stars>33</stars>
  </package>
  <package name="google-cloud-sdk64">
   <title>Google Cloud SDK 64 bit</title>
@@ -2308,7 +2307,7 @@ x86_64</description>
 &#13;
 Money Manager includes all the basic features that 90% of users would want to see in a personal finance application. The design goals are to concentrate on simplicity and user-friendliness - something one can use everyday.
 x86_64</description>
-  <icon>https://www.moneymanagerex.org/images/headers/MMEX_Logo.png</icon>
+  <icon>https://moneymanagerex.org/favicon.ico</icon>
   <license>org.gnu.GPLv2</license>
   <category>Finance</category>
   <tag>stable64</tag>
@@ -4118,10 +4117,10 @@ x86_64</description>
  </package>
  <package name="ultracopier64">
   <title>UltraCopier 64 bit</title>
-  <url>http://ultracopier.first-world.info/</url>
+  <url>https://ultracopier.herman-brule.com/</url>
   <description>replacement for files copy dialogs
 x86_64</description>
-  <icon>http://ultracopier.first-world.info/favicon.ico</icon>
+  <icon>https://ultracopier.herman-brule.com/images/favicon.ico</icon>
   <license>org.gnu.GPLv3</license>
   <category>Tools</category>
   <tag>stable64</tag>
@@ -74335,31 +74334,31 @@ set err=%errorlevel%&#13;
 type .Npackd\InnoSetupUninstall.log&#13;
 if %err% neq 0 exit %err%&#13;
 </file>
-  <file path=".Npackd\ExportUserSettings.bat">xcopy /y /e /i "%localappdata%\CMakeTools" LocalAppData\CMakeTools&#13;
-if %errorlevel% neq 0 exit /b %errorlevel%&#13;
+  <file path=".Npackd\ExportUserSettings.bat">rem copy directories to LocalAppData&#13;
+for %%d in ("CMakeTools") do @( &#13;
+    if exist "%localappdata%\%%d" (&#13;
+	    xcopy /y /e /i "%localappdata%\%%d" "LocalAppData\%%d"&#13;
+		if %errorlevel% neq 0 exit /b %errorlevel%&#13;
+	)&#13;
+)&#13;
 &#13;
-mkdir AppData\Code\User\&#13;
-if %errorlevel% neq 0 exit /b %errorlevel%&#13;
+rem copy directories to AppData&#13;
+for %%d in ("Code\User\snippets") do @( &#13;
+    if exist "%appdata%\%%d" (xcopy /y /e /i "%appdata%\%%d" "AppData\%%d")&#13;
+    if %errorlevel% neq 0 exit /b %errorlevel%&#13;
+)&#13;
 &#13;
-copy /b /y %appdata%\Code\User\keybindings.json AppData\Code\User\&#13;
-if %errorlevel% neq 0 exit /b %errorlevel%&#13;
-&#13;
-copy /b /y %appdata%\Code\User\settings.json AppData\Code\User\&#13;
-if %errorlevel% neq 0 exit /b %errorlevel%&#13;
+rem copy files to AppData&#13;
+for %%d in ("Code\User\keybindings.json" "Code\User\settings.json") do @( &#13;
+    if exist "%appdata%\%%d" (copy /b /y "%appdata%\%%d" "AppData\%%d")&#13;
+    if %errorlevel% neq 0 exit /b %errorlevel%&#13;
+)&#13;
 </file>
-  <file path=".Npackd\ImportUserSettings.bat">xcopy /y /e /i LocalAppData "%localappdata%"&#13;
+  <file path=".Npackd\ImportUserSettings.bat">if exist LocalAppData (xcopy /y /e /i LocalAppData "%localappdata%")&#13;
 if %errorlevel% neq 0 exit /b %errorlevel%&#13;
 &#13;
-mkdir "%appdata%\Code\User\"&#13;
+if exist AppData (xcopy /y /e /i AppData "%appdata%")&#13;
 if %errorlevel% neq 0 exit /b %errorlevel%&#13;
-&#13;
-copy /b /y AppData\Code\User\keybindings.json "%appdata%\Code\User\"&#13;
-if %errorlevel% neq 0 exit /b %errorlevel%&#13;
-&#13;
-copy /b /y AppData\Code\User\settings.json "%appdata%\Code\User\"&#13;
-if %errorlevel% neq 0 exit /b %errorlevel%&#13;
-&#13;
-&#13;
 </file>
   <url>https://update.code.visualstudio.com/latest/win32-x64-user/stable</url>
  </version>
