@@ -4373,6 +4373,27 @@ rmdir "%name%"</file>
    <variable>sevenzipa</variable>
   </dependency>
  </version>
+ <version name="1.4.21" package="org.xapian.XapianCore" type="one-file">
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.tar.xz') do set setup=%%x&#13;
+"%sevenzipa%\7za.exe" x "%setup%"&#13;
+del "%setup%"&#13;
+&#13;
+for /f "delims=" %%x in ('dir /b *.tar') do set setup=%%x&#13;
+"%sevenzipa%\7za.exe" x "%setup%"&#13;
+del "%setup%"&#13;
+&#13;
+for /f "delims=" %%x in ('dir /b xapian*') do set name=%%x&#13;
+cd "%name%"&#13;
+for /f "delims=" %%a in ('dir /b') do (&#13;
+  move "%%a" ..&#13;
+)&#13;
+cd ..&#13;
+rmdir "%name%"</file>
+  <url>http://oligarchy.co.uk/xapian/1.4.4/xapian-core-1.4.4.tar.xz</url>
+  <dependency package="org.7-zip.SevenZIPA" versions="[9.20, 9.20]">
+   <variable>sevenzipa</variable>
+  </dependency>
+ </version>
 
     <version name="0.5" package="quazip-dev-i686-w64-static">
   <url>https://sourceforge.net/projects/npackd/files/quazip-dev-i686-w64-static.zip</url>
