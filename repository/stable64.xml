@@ -15577,7 +15577,7 @@ del Q-Dir.ini&#13;
   <url>http://files.npackd.org/com.softwareok.QDir64-5.99.9.zip</url>
   <sha1>fb6060796fae3fc641ba34fe1f2f8530d7c985a8</sha1>
  </version>
- <version name="11.3" package="com.softwareok.QDir64">
+ <version name="11.11" package="com.softwareok.QDir64">
   <important-file path="Q-Dir_x64.exe" title="Q-Dir"/>
   <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b Q*') do set name=%%x&#13;
 cd "%name%"        &#13;
@@ -67215,6 +67215,16 @@ call "%npackdih%\InstallMSI.bat" TARGETDIR yes</file>
   <file path=".Npackd\Uninstall.bat">"%nih%\UninstallInnoSetup.bat" unins000.exe</file>
   <url>https://github.com/tim-lebedkov/packages/releases/download/2022_07/psi-plus64-1.5.1634-psi-plus-1.5.1634.0-x64-setup.exe</url>
   <hash-sum type="SHA-256">da9b7ffdc33d8aec511a7e98ae30612e35aa45b45ccc3d898f831de35321f626</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
+ <version name="1.5.1641" package="psi-plus64" type="one-file">
+  <file path=".Npackd\Install.bat">"%nih%\InstallInnoSetup.bat"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">"%nih%\UninstallInnoSetup.bat" unins000.exe</file>
+  <url>https://master.dl.sourceforge.net/project/psiplus/Windows/Personal-Builds/KukuRuzo/psi-plus-1.5.1641.0-x64-setup.exe</url>
+  <hash-sum type="SHA-256">e4da24e48f9d79cefe6ea80d58fabc103be12950a31cb7498617db3634eb2e52</hash-sum>
   <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
    <variable>nih</variable>
   </dependency>
