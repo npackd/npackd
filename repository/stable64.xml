@@ -40551,6 +40551,17 @@ verify&#13;
    <variable>myun</variable>
   </dependency>
  </version>
+ <version name="28.0.3" package="open-broadcaster-software64" type="one-file">
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
+"%setup%" /S /D=%CD% &amp;&amp; del /f /q "%setup%"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">"%myun%\myuninst.exe" /uninstall "Open Broadcaster Software"</file>
+  <url>https://cdn-fastly.obsproject.com/downloads/OBS-Studio-28.0.3-Full-Installer-x64.exe</url>
+  <hash-sum type="SHA-256">7a760d5e797131671b6fbdf97288efb875a668113ef559985da09527116d70a8</hash-sum>
+  <dependency package="net.nirsoft.MyUninstaller" versions="[1.74, 2)">
+   <variable>myun</variable>
+  </dependency>
+ </version>
 
     <version name="1.6.1" package="open-ttd64">
   <important-file path="openttd.exe" title="OpenTTD"/>
