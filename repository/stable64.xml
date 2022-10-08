@@ -66308,6 +66308,14 @@ if %err% neq 0 exit %err%</file>
   <url>https://github.com/tim-lebedkov/packages/releases/download/2022_09/org.wireshark.Wireshark64-3.6.8-Wireshark-win64-3.6.8.exe</url>
   <hash-sum type="SHA-256">17ce19def77592d4c0fb0b680e77e4712dd6c8c4af79c6d58a281eb509a4f34b</hash-sum>
  </version>
+ <version name="4" package="org.wireshark.Wireshark64" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD%&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">uninstall.exe /S _=%CD%&#13;
+</file>
+  <url>https://1.eu.dl.wireshark.org/win64/Wireshark-win64-4.0.0.exe</url>
+  <hash-sum type="SHA-256">aa4c3ae9d50113785c83b441cfdfdf484a308aa7d37bacb5803561e4d1c12902</hash-sum>
+ </version>
 
     <version name="1.0.81" package="otter-browser" type="one-file">
   <file path=".Npackd\Install.bat">"%nih%\InstallInnoSetup.bat"&#13;
@@ -68051,7 +68059,7 @@ verify</file>
  <version name="3.27.8" package="qcad64" type="one-file">
   <file path=".Npackd\Install.bat">call "%nih%\InstallMSI.bat" INSTALLDIR yes&#13;
 </file>
-  <url>http://www.qcad.org/archives/qcad/qcad-3.27.8-trial-win64-installer.msi</url>
+  <url>https://github.com/tim-lebedkov/packages/releases/download/2022_10/qcad64-3.27.8-qcad-3.27.8-trial-win64-installer.msi</url>
   <hash-sum type="SHA-256">c9f42bb4d0d156792195095e4c6e004cf35d7580017885743042c5d8f9606de5</hash-sum>
   <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.1, 2)">
    <variable>nih</variable>
@@ -74558,6 +74566,19 @@ type .Npackd\Output.txt</file>
    <variable>ncl</variable>
   </dependency>
  </version>
+ <version name="5.5.2805.35" package="vivaldi-browser-64" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" --system-level --vivaldi-silent --vivaldi-standalone --do-not-launch-chrome --vivaldi-install-dir="%CD%" &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">for /f "delims=" %%x in ('dir /b application\5*') do set name=%%x&#13;
+&#13;
+Application\%name%\Installer\setup.exe --uninstall --vivaldi --force-uninstall --system-level &gt; .Npackd\Output.txt 2&gt;&amp;1 &#13;
+type .Npackd\Output.txt</file>
+  <url>https://downloads.vivaldi.com/stable/Vivaldi.5.5.2805.35.x64.exe</url>
+  <hash-sum type="SHA-256">459b1f761fc8c72d34a7a8773aab9b6755f0eea2d19168e1bff34079920374d9</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.24, 2)">
+   <variable>ncl</variable>
+  </dependency>
+ </version>
 
     <version name="15.0.2" package="vmware64" type="one-file">
   <file path=".Npackd\Install.bat">"%npackd_package_binary%" /a /s /v"/qn TARGETDIR=."&#13;
@@ -74647,7 +74668,7 @@ if %err% neq 0 exit %err%&#13;
   <url>https://az764295.vo.msecnd.net/stable/a0479759d6e9ea56afa657e454193f72aef85bd0/VSCodeSetup-ia32-1.48.2.exe</url>
   <hash-sum type="SHA-256">013d5ecdb44159c15047472512bef9c76ba934807dbb07a582655f4c5546866d</hash-sum>
  </version>
- <version name="1.71.2" package="vs-code" type="one-file">
+ <version name="1.72" package="vs-code" type="one-file">
   <file path=".Npackd\Install.bat">ren "%npackd_package_binary%" setup.exe&#13;
 setup.exe /SP- /VERYSILENT /SUPPRESSMSGBOXES /NOCANCEL /NORESTART /DIR="%CD%" /SAVEINF="%CD%\.Npackd\InnoSetupInfo.ini" /LOG="%CD%\.Npackd\InnoSetupInstall.log"&#13;
 set err=%errorlevel%&#13;
@@ -74742,7 +74763,7 @@ if %err% neq 0 exit %err%&#13;
 </file>
   <url>https://update.code.visualstudio.com/1.65.0/win32-x64/stable</url>
  </version>
- <version name="1.71.2" package="vs-code64" type="one-file">
+ <version name="1.72" package="vs-code64" type="one-file">
   <file path=".Npackd\Install.bat">ren "%npackd_package_binary%" setup.exe&#13;
 setup.exe /SP- /VERYSILENT /SUPPRESSMSGBOXES /NOCANCEL /NORESTART /DIR="%CD%" /SAVEINF="%CD%\.Npackd\InnoSetupInfo.ini" /LOG="%CD%\.Npackd\InnoSetupInstall.log"&#13;
 set err=%errorlevel%&#13;
