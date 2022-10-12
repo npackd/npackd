@@ -12588,6 +12588,16 @@ if %err% neq 0 exit /b %err%&#13;
   </dependency>
   <dependency package="com.microsoft.VisualCPPRedistributable" versions="[14,15)"/>
  </version>
+ <version name="8.0.31" package="com.mysql.dev.MySQLODBCConnector64bits" type="one-file">
+  <file path=".Npackd\Install.bat">call "%npackdih%\InstallMSI.bat" INSTALLDIR yes&#13;
+		</file>
+  <url>https://cdn.mysql.com//Downloads/Connector-ODBC/8.0/mysql-connector-odbc-8.0.31-winx64.msi</url>
+  <hash-sum type="SHA-256">e75f2a9b0b31abe7c803f5aaa9031d838e55652a12c12550ed45758d844cdd48</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.1, 2)">
+   <variable>npackdih</variable>
+  </dependency>
+  <dependency package="com.microsoft.VisualCPPRedistributable" versions="[14,15)"/>
+ </version>
 
     <version name="5.5.16" package="com.mysql.MySQLCommunityServer64" type="one-file">
   <file path=".Npackd\Install.bat">call "%npackdih%\InstallMSI.bat" INSTALLDIR yes</file>
@@ -13007,6 +13017,16 @@ rmdir "%name%"&#13;
 </file>
   <url>https://cdn.mysql.com/Downloads/MySQL-8.0/mysql-8.0.30-winx64.zip</url>
   <hash-sum type="SHA-256">250126206946700777170f4d8998831479c11ce6cbad84cef562a4b20178b90f</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.CLU" versions="[1.25, 2)">
+   <variable>clu</variable>
+  </dependency>
+ </version>
+ <version name="8.0.31" package="com.mysql.MySQLCommunityServer64">
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b mysql*') do set name=%%x&#13;
+"%clu%\clu" unwrap-dir -p "%name%"&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+</file>
+  <url>https://cdn.mysql.com/Downloads/MySQL-8.0/mysql-8.0.31-winx64.zip</url>
+  <hash-sum type="SHA-256">f51ceeed82756df4f4251400aa2078c1024e71bdd9d03f9b919c8a796a000d89</hash-sum>
   <dependency package="com.googlecode.windows-package-manager.CLU" versions="[1.25, 2)">
    <variable>clu</variable>
   </dependency>
@@ -15611,7 +15631,7 @@ del Q-Dir.ini&#13;
   <url>http://files.npackd.org/com.softwareok.QDir64-5.99.9.zip</url>
   <sha1>fb6060796fae3fc641ba34fe1f2f8530d7c985a8</sha1>
  </version>
- <version name="11.12" package="com.softwareok.QDir64">
+ <version name="11.13" package="com.softwareok.QDir64">
   <important-file path="Q-Dir_x64.exe" title="Q-Dir"/>
   <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b Q*') do set name=%%x&#13;
 cd "%name%"        &#13;
@@ -21681,6 +21701,11 @@ rmdir "%name%"&#13;
   <important-file path="Everything.exe" title="Everything"/>
   <url>http://www.voidtools.com/Everything-1.4.1.1021.x64.zip</url>
   <hash-sum type="SHA-256">bae602d35f55d646c608da89035c3d154d136d1b90aa04ab1b583b8d18712ca9</hash-sum>
+ </version>
+ <version name="1.4.1.1022" package="everything64">
+  <important-file path="Everything.exe" title="Everything"/>
+  <url>http://www.voidtools.com/Everything-1.4.1.1022.x64.zip</url>
+  <hash-sum type="SHA-256">c718bcd73d341e64c8cb47e97eb0c45d010fdcc45c2488d4a3a3c51acc775889</hash-sum>
  </version>
 
     
@@ -35367,6 +35392,17 @@ rmdir "%name%"&#13;
   <dependency package="com.microsoft.DotNetRedistributable" versions="[4, 5)"/>
   <dependency package="com.microsoft.VisualCPPRedistributable" versions="[14.30, 15)"/>
  </version>
+ <version name="8.0.31" package="mysql-workbench64" type="one-file">
+  <file path=".Npackd\Install.bat">call "%npackdih%\InstallMSI.bat" INSTALLDIR yes&#13;
+		</file>
+  <url>https://dev.mysql.com/get/Downloads/MySQLGUITools/mysql-workbench-community-8.0.31-winx64.msi</url>
+  <hash-sum type="SHA-256">aa08256733cf84069366d7a98996dbc1d757674aabadcc8faa3c899cc66fafb1</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.1, 2)">
+   <variable>npackdih</variable>
+  </dependency>
+  <dependency package="com.microsoft.DotNetRedistributable" versions="[4, 5)"/>
+  <dependency package="com.microsoft.VisualCPPRedistributable" versions="[14.30, 15)"/>
+ </version>
 
     <version name="3" package="net.blat.Blat64">
   <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b blat*') do set name=%%x&#13;
@@ -43329,6 +43365,21 @@ rmdir "%name%"
   <hash-sum type="SHA-256">f6ff30a3ed08de81fd007161321c24e21ead141488eca9a435a57859a3e252cf</hash-sum>
   <dependency package="com.oracle.JRE" versions="[1.5, 2)"/>
  </version>
+ <version name="8.5.83" package="org.apache.tomcat.Tomcat64">
+  <important-file path="bin\startup.bat" title="Start"/>
+  <important-file path="bin\shutdown.bat" title="Stop"/>
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b apache*') do set name=%%x
+cd "%name%"        
+for /f "delims=" %%a in ('dir /b') do (
+  move "%%a" ..
+)
+cd ..
+rmdir "%name%"
+</file>
+  <url>http://archive.apache.org/dist/tomcat/tomcat-8/v8.5.83/bin/apache-tomcat-8.5.83-windows-x64.zip</url>
+  <hash-sum type="SHA-256">bd3a6199fee5ca229344a46578875c3517ff8cb2bf81b61bfb50deaef5719e5c</hash-sum>
+  <dependency package="com.oracle.JRE" versions="[1.5, 2)"/>
+ </version>
 
     <version name="7.2.10" package="org.areca-backup.ArecaBackup64">
   <important-file path="areca.exe" title="Areca"/>
@@ -44290,6 +44341,15 @@ if %err% neq 0 exit /b %err%&#13;
 </file>
   <url>https://www.mercurial-scm.org/release/tortoisehg/windows/tortoisehg-6.2.2-x64.msi</url>
   <hash-sum type="SHA-256">b92f4f06778292757a4c168583092d622a95d498a19c166dea3eac84ac1cc567</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3.1, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
+ <version name="6.2.3" package="org.bitbucket.tortoisehg.TortoiseHg64" type="one-file">
+  <file path=".Npackd\Install.bat">call "%nih%\InstallMSI.bat" INSTALLDIR yes&#13;
+</file>
+  <url>https://www.mercurial-scm.org/release/tortoisehg/windows/tortoisehg-6.2.3-x64.msi</url>
+  <hash-sum type="SHA-256">b10173c2ac22bdbc2f6e44fdbb46a59f94291682c23a34da1b7f9f694b91f583</hash-sum>
   <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3.1, 2)">
    <variable>nih</variable>
   </dependency>
