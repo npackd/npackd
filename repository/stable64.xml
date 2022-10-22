@@ -69163,6 +69163,42 @@ if %errorlevel% neq 0 exit /b %errorlevel%&#13;
    <variable>sevenzipa</variable>
   </dependency>
  </version>
+ <version name="8.0.2" package="qt-creator64" type="one-file">
+  <important-file path="bin\qtcreator.exe" title="Qt Creator"/>
+  <file path=".Npackd\Install.bat">"%sevenzipa%\7za" x "%npackd_package_binary%"&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
+</file>
+  <file path=".Npackd\ExportUserSettings.bat">xcopy /y /e /i "%localappdata%\CMakeTools" LocalAppData\CMakeTools&#13;
+if %errorlevel% neq 0 exit /b %errorlevel%&#13;
+&#13;
+mkdir AppData\Code\User\&#13;
+if %errorlevel% neq 0 exit /b %errorlevel%&#13;
+&#13;
+copy /b /y %appdata%\Code\User\keybindings.json AppData\Code\User\&#13;
+if %errorlevel% neq 0 exit /b %errorlevel%&#13;
+&#13;
+copy /b /y %appdata%\Code\User\settings.json AppData\Code\User\&#13;
+if %errorlevel% neq 0 exit /b %errorlevel%&#13;
+</file>
+  <file path=".Npackd\ImportUserSettings.bat">xcopy /y /e /i LocalAppData "%localappdata%"&#13;
+if %errorlevel% neq 0 exit /b %errorlevel%&#13;
+&#13;
+mkdir "%appdata%\Code\User\"&#13;
+if %errorlevel% neq 0 exit /b %errorlevel%&#13;
+&#13;
+copy /b /y AppData\Code\User\keybindings.json "%appdata%\Code\User\"&#13;
+if %errorlevel% neq 0 exit /b %errorlevel%&#13;
+&#13;
+copy /b /y AppData\Code\User\settings.json "%appdata%\Code\User\"&#13;
+if %errorlevel% neq 0 exit /b %errorlevel%&#13;
+&#13;
+&#13;
+</file>
+  <url>https://download.qt.io/official_releases/qtcreator/8.0/8.0.2/installer_source/windows_x64/qtcreator.7z</url>
+  <hash-sum type="SHA-256">fac9ec9baaa76705ddae005f0760354af545bcaa416dd594337f507418df2305</hash-sum>
+  <dependency package="org.7-zip.SevenZIPA" versions="[19, 100)">
+   <variable>sevenzipa</variable>
+  </dependency>
+ </version>
 
     <version name="1.17.2" package="qtox64" type="one-file">
   <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
