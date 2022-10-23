@@ -500,23 +500,6 @@ x86_64</description>
   <link href="https://images.sftcdn.net/images/t_app-cover-l,f_auto/p/1b299650-a4d4-11e6-950f-00163ec9f5fa/1441626946/cent-browser-screenshot.png" rel="screenshot"/>
   <link href="https://images.sftcdn.net/images/t_app-cover-l,f_auto/p/1b299650-a4d4-11e6-950f-00163ec9f5fa/2755561341/cent-browser-screenshot.png" rel="screenshot"/>
  </package>
- <package name="cevelop64">
-  <title>Cevelop 64 Bit</title>
-  <url>https://www.cevelop.com/</url>
-  <description>The C++ IDE for professional developers.
-x86_64</description>
-  <icon>https://avatars.githubusercontent.com/u/7921725?s=200&amp;v=4</icon>
-  <license>org.wikipedia.Freeware</license>
-  <category>Development</category>
-  <tag>stable64</tag>
-  <stars>1</stars>
-  <link href="https://www.cevelop.com/img/templator-variadic-large.png" rel="screenshot"/>
-  <link href="https://www.cevelop.com/img/link_static_library3.png" rel="screenshot"/>
-  <link href="https://www.cevelop.com/img/link_static_library1.png" rel="screenshot"/>
-  <link href="https://www.cevelop.com/img/link_static_library2.png" rel="screenshot"/>
-  <link href="https://www.cevelop.com/img/code-analysis-suppression.png" rel="screenshot"/>
-  <link href="https://www.cevelop.com/img/code-analysis-suppression-pattern.png" rel="screenshot"/>
- </package>
  <package name="ch.flos-freeware.Notepad264">
   <title>Notepad2 64 bit</title>
   <url>http://www.flos-freeware.ch/notepad2.html</url>
@@ -1013,7 +996,7 @@ x86_64</description>
   <category>Development</category>
   <tag>stable64</tag>
   <tag>reupload</tag>
-  <stars>5</stars>
+  <stars>6</stars>
  </package>
  <package name="com.selenic.mercurial.Mercurial64">
   <title>Mercurial 64 bit</title>
@@ -1778,7 +1761,7 @@ x86_64</description>
   <category>Communications</category>
   <tag>same-url</tag>
   <tag>stable64</tag>
-  <stars>34</stars>
+  <stars>35</stars>
  </package>
  <package name="google-cloud-sdk64">
   <title>Google Cloud SDK 64 bit</title>
@@ -2674,7 +2657,7 @@ x86_64</description>
   <license>org.gnu.GPLv2</license>
   <category>Text</category>
   <tag>stable64</tag>
-  <stars>14</stars>
+  <stars>15</stars>
   <link href="https://notepad-plus-plus.org/news/" rel="changelog"/>
  </package>
  <package name="nubasic64">
@@ -2855,7 +2838,7 @@ x86_64</description>
   <license>org.7-zip.License</license>
   <category>Tools</category>
   <tag>stable64</tag>
-  <stars>31</stars>
+  <stars>32</stars>
   <link href="https://www.7-zip.org/history.txt" rel="changelog"/>
   <link href="http://www.7-zip.org/7zfm.png" rel="screenshot"/>
  </package>
@@ -3548,7 +3531,7 @@ x86_64</description>
   <license>org.gnu.GPLv2</license>
   <category>Communications</category>
   <tag>stable64</tag>
-  <stars>5</stars>
+  <stars>6</stars>
  </package>
  <package name="qcad64">
   <title>QCAD 64 bit</title>
@@ -6063,18 +6046,6 @@ verify&#13;
   <url>http://static.centbrowser.com/win_stable/4.3.9.248/centbrowser_4.3.9.248_x64.exe</url>
   <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.25, 2)">
    <variable>ncl</variable>
-  </dependency>
- </version>
-
-    <version name="1.14.1" package="cevelop64">
-  <important-file path="cevelop.exe" title="Cevelop"/>
-  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b cevelop*') do set name=%%x&#13;
-"%clu%\clu" unwrap-dir -p "%name%"&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
-</file>
-  <url>https://www.cevelop.com/cevelop/downloads/cevelop-1.14.1-202002280945-win32.win32.x86_64.zip</url>
-  <hash-sum type="SHA-256">faab8c00827f202226763075cf20eef0726c4fd30d893a8e048d68f4a3ce9fca</hash-sum>
-  <dependency package="com.googlecode.windows-package-manager.CLU" versions="[1.25, 2)">
-   <variable>clu</variable>
   </dependency>
  </version>
 
@@ -66512,6 +66483,40 @@ if %err% neq 0 exit %err%</file>
    <variable>sevenzip</variable>
   </dependency>
  </version>
+ <version name="7.0.2.154219" package="org.virtualbox.virtualbox64" type="one-file">
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
+"%setup%" -x -s -p "%CD%" &gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+&#13;
+"%sevenzip%\7z.exe" x common.cab -aos -o"%CD%\common" &gt; .Npackd\Output.txt 2&gt;&amp;1 &amp;&amp; type .Npackd\Output.txt&#13;
+"%sevenzip%\7z.exe" x "%CD%\common\file_VBoxGuestAdditions.iso" -aos -o"%CD%\common\file_VBoxGuestAdditions" &gt; .Npackd\Output.txt 2&gt;&amp;1 &amp;&amp; type .Npackd\Output.txt&#13;
+&#13;
+certutil.exe -addstore -f "TrustedPublisher" "%CD%\common\file_VBoxGuestAdditions\cert\oracle-vbox.cer" &gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+&#13;
+for /f "delims=" %%x in ('dir /b *MultiArch_amd64.msi') do set setup=%%x&#13;
+msiexec.exe /qn /norestart /Lime .Npackd\MSI.log /i "%setup%"&#13;
+set err=%errorlevel%&#13;
+type .Npackd\MSI.log&#13;
+rem 3010=restart required&#13;
+if %err% equ 3010 exit 0&#13;
+if %err% neq 0 exit %err%&#13;
+&#13;
+for /f "delims=" %%x in ('dir /b *MultiArch_x86.msi') do set trash=%%x&#13;
+del /q /f "%trash%"&#13;
+&#13;
+if exist "%CD%\common" (rd /s /q "%CD%\common")</file>
+  <file path=".Npackd\Uninstall.bat">for /f "delims=" %%x in ('dir /b *.msi') do set setup=%%x&#13;
+msiexec.exe /qn /norestart /Lime .Npackd\MSI.log /x "%setup%"&#13;
+set err=%errorlevel%&#13;
+type .Npackd\MSI.log&#13;
+rem 3010=restart required&#13;
+if %err% equ 3010 exit 0&#13;
+if %err% neq 0 exit %err%</file>
+  <url>http://download.virtualbox.org/virtualbox/7.0.2/VirtualBox-7.0.2-154219-Win.exe</url>
+  <hash-sum type="SHA-256">41d4f3ba691da9d0c0e7a269f8d3fff7c843c3f8249131dcf112cb149499ec73</hash-sum>
+  <dependency package="org.7-zip.SevenZIP64" versions="[9.20, 20)">
+   <variable>sevenzip</variable>
+  </dependency>
+ </version>
 
     <version name="1.9.11" package="org.virtualdub.VirtualDub64">
   <important-file path="Veedub64.exe" title="VirtualDub"/>
@@ -69193,7 +69198,7 @@ if %errorlevel% neq 0 exit /b %errorlevel%&#13;
 &#13;
 &#13;
 </file>
-  <url>https://download.qt.io/official_releases/qtcreator/8.0/8.0.2/installer_source/windows_x64/qtcreator.7z</url>
+  <url>https://github.com/tim-lebedkov/packages/releases/download/2022_10/qt-creator64-8.0.2-qtcreator.7z</url>
   <hash-sum type="SHA-256">fac9ec9baaa76705ddae005f0760354af545bcaa416dd594337f507418df2305</hash-sum>
   <dependency package="org.7-zip.SevenZIPA" versions="[19, 100)">
    <variable>sevenzipa</variable>
