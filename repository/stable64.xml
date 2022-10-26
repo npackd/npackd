@@ -28498,7 +28498,7 @@ verify&#13;
   <url>http://www.nirsoft.net/utils/hashmyfiles-x64.zip</url>
  </version>
 
-    <version name="3.7" package="heavyload" type="one-file">
+    <version name="3.8" package="heavyload" type="one-file">
   <file path=".Npackd\Install.bat">"%nih%\InstallInnoSetup.bat"&#13;
 </file>
   <file path=".Npackd\Uninstall.bat">"%nih%\UninstallInnoSetup.bat" unins000.exe</file>
@@ -28508,7 +28508,7 @@ verify&#13;
   </dependency>
  </version>
 
-    <version name="3.7" package="heavyload64" type="one-file">
+    <version name="3.8" package="heavyload64" type="one-file">
   <file path=".Npackd\Install.bat">"%nih%\InstallInnoSetup.bat"&#13;
 </file>
   <file path=".Npackd\Uninstall.bat">"%nih%\UninstallInnoSetup.bat" unins000.exe</file>
@@ -29163,6 +29163,15 @@ if %err% neq 0 exit %err%</file>
    <variable>nih</variable>
   </dependency>
  </version>
+ <version name="8.7.10.26" package="imageglass" type="one-file">
+  <file path=".Npackd\Install.bat">call "%nih%\InstallMSI.bat" INSTALLDIR yes&#13;
+</file>
+  <url>https://github.com/d2phap/ImageGlass/releases/download/7.6.4.30/ImageGlass_7.6.4.30_x86.msi</url>
+  <hash-sum type="SHA-256">475788f256cf4223fd7cc8213e9536e918d4a911f0db6cebe1bb9bb4b20e7c0f</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.1, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
 
     <version name="7.6.4.30" package="imageglass64" type="one-file">
   <file path=".Npackd\Install.bat">call "%nih%\InstallMSI.bat" INSTALLDIR yes&#13;
@@ -29228,6 +29237,15 @@ if %err% neq 0 exit %err%</file>
   </dependency>
  </version>
  <version name="8.6.7.13" package="imageglass64" type="one-file">
+  <file path=".Npackd\Install.bat">call "%nih%\InstallMSI.bat" INSTALLDIR yes&#13;
+</file>
+  <url>https://github.com/d2phap/ImageGlass/releases/download/7.6.4.30/ImageGlass_7.6.4.30_x64.msi</url>
+  <hash-sum type="SHA-256">3c0a4fbca03ef28dac2a23a36beb0e79211dc6fab8f0fc88f0809b809900a11d</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.1, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
+ <version name="8.7.10.26" package="imageglass64" type="one-file">
   <file path=".Npackd\Install.bat">call "%nih%\InstallMSI.bat" INSTALLDIR yes&#13;
 </file>
   <url>https://github.com/d2phap/ImageGlass/releases/download/7.6.4.30/ImageGlass_7.6.4.30_x64.msi</url>
@@ -53274,6 +53292,15 @@ if %err% neq 0 exit /b %err%&#13;
   <url>https://www.python.org/ftp/python/3.10.8/python-3.10.8-amd64.exe</url>
   <hash-sum type="SHA-256">725f50f912d297812d98f251aa87dcf1035745e0c5c267d97736a1af41d7c782</hash-sum>
  </version>
+ <version name="3.11" package="org.python.Python64" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" /quiet InstallAllUsers=1 "TargetDir=%cd%"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">for /f "delims=" %%x in ('dir /b python-*.exe') do set setup=%%x&#13;
+%setup% /uninstall /quiet InstallAllUsers=1&#13;
+</file>
+  <url>https://www.python.org/ftp/python/3.11.0/python-3.11.0-amd64.exe</url>
+  <hash-sum type="SHA-256">b5884fa3f05f88bbb617d08584930770c00bbcf675f2865a9161c2358829b605</hash-sum>
+ </version>
 
     <version name="2.0.0.247" package="org.rubylang.Ruby64" type="one-file">
   <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
@@ -73066,6 +73093,12 @@ if %err% neq 0 exit %err%&#13;
 </file>
   <url>https://dist.torproject.org/torbrowser/11.5.4/torbrowser-install-11.5.4_en-US.exe</url>
   <hash-sum type="SHA-256">5179df98761d7c52c03cbea41af75148e9164fccc0f5ad89962f05f9cd8c6261</hash-sum>
+ </version>
+ <version name="11.5.5" package="tor64" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
+</file>
+  <url>https://dist.torproject.org/torbrowser/11.5.5/torbrowser-install-11.5.5_en-US.exe</url>
+  <hash-sum type="SHA-256">82732b4c85916d4ef82b3bef89beb49cc9643f91dc14c816062127c987f3bc5a</hash-sum>
  </version>
 
     <version name="2.84.9" package="transmission-qt64" type="one-file">
