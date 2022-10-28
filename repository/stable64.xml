@@ -1819,22 +1819,6 @@ x86_64</description>
   <tag>stable64</tag>
   <stars>1</stars>
  </package>
- <package name="heavyload">
-  <title>HeavyLoad</title>
-  <url>https://www.jam-software.com/heavyload?language=EN</url>
-  <description>WARNING: this package always installs the newest version of the software.
-Test the performance of your computer components like CPU, RAM, read and write speed with the help of this intuitive, practical application
-x86_64</description>
-  <icon>https://www.jam-software.com/sites/default/files/2017-10/HeavyLoad.png</icon>
-  <license>org.wikipedia.Freeware</license>
-  <category>Tools</category>
-  <tag>stable64</tag>
-  <tag>same-url</tag>
-  <link href="https://www.jam-software.com/heavyload/changes.shtml" rel="changelog"/>
-  <link href="https://www.jam-software.com/sites/default/files/heavyload/online_manual/EN/EN-HL-taskmanager_0.png" rel="screenshot"/>
-  <link href="https://www.jam-software.com/sites/default/files/heavyload/online_manual/EN/EN-HL-mainform_0.png" rel="screenshot"/>
-  <link href="https://www.jam-software.com/sites/default/files/heavyload/online_manual/EN/EN-HL-open-options_0.png" rel="screenshot"/>
- </package>
  <package name="heavyload64">
   <title>HeavyLoad 64 Bit</title>
   <url>https://www.jam-software.com/heavyload?language=EN</url>
@@ -28531,16 +28515,6 @@ verify&#13;
  <version name="2.43" package="hashmyfiles64">
   <important-file path="HashMyFiles.exe" title="HashMyFiles"/>
   <url>http://www.nirsoft.net/utils/hashmyfiles-x64.zip</url>
- </version>
-
-    <version name="3.8" package="heavyload" type="one-file">
-  <file path=".Npackd\Install.bat">"%nih%\InstallInnoSetup.bat"&#13;
-</file>
-  <file path=".Npackd\Uninstall.bat">"%nih%\UninstallInnoSetup.bat" unins000.exe</file>
-  <url>https://downloads.jam-software.de/heavyload/HeavyLoad-x86-Setup.exe</url>
-  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
-   <variable>nih</variable>
-  </dependency>
  </version>
 
     <version name="3.8" package="heavyload64" type="one-file">
@@ -66709,6 +66683,14 @@ if %err% neq 0 exit %err%</file>
   <url>https://github.com/tim-lebedkov/packages/releases/download/2022_10/org.wireshark.Wireshark64-4-Wireshark-win64-4.0.0.exe</url>
   <hash-sum type="SHA-256">aa4c3ae9d50113785c83b441cfdfdf484a308aa7d37bacb5803561e4d1c12902</hash-sum>
  </version>
+ <version name="4.0.1" package="org.wireshark.Wireshark64" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD%&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">uninstall.exe /S _=%CD%&#13;
+</file>
+  <url>https://1.eu.dl.wireshark.org/win64/Wireshark-win64-4.0.1.exe</url>
+  <hash-sum type="SHA-256">39a544884be9fd40eb2c83f2440cd5efdc43a04f8ccd230379905c157c9b532e</hash-sum>
+ </version>
 
     <version name="1.0.81" package="otter-browser" type="one-file">
   <file path=".Npackd\Install.bat">"%nih%\InstallInnoSetup.bat"&#13;
@@ -70625,7 +70607,7 @@ call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Np
   <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b curl*') do set name=%%x&#13;
 call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
 </file>
-  <url>https://curl.haxx.se/windows/dl-7.86.0/curl-7.86.0-win64-mingw.zip</url>
+  <url>https://github.com/tim-lebedkov/packages/releases/download/2022_10/se.haxx.curl.CURL64-7.86-curl-7.86.0-win64-mingw.zip</url>
   <hash-sum type="SHA-256">7e501eb78f8840ce25ecd5ee605bb4e35d66e243d33acb6c314eeed8790aec19</hash-sum>
   <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.19, 2)">
    <variable>nih</variable>
@@ -72401,6 +72383,14 @@ rmdir "%name%"</file>
   <url>https://www.sysgauge.com/setups_x64/sysgauge_setup_v8.7.14_x64.exe</url>
   <hash-sum type="SHA-256">047089d143c7fc5ef2f855319784d989246040642890d40830834f7aeab65284</hash-sum>
  </version>
+ <version name="8.8.16" package="sysgauge64" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">uninstall.exe /S _?=%CD%&#13;
+</file>
+  <url>https://www.sysgauge.com/setups_x64/sysgauge_setup_v8.8.16_x64.exe</url>
+  <hash-sum type="SHA-256">a53bc73292ebb06cbf2573bc1a73af461fdf838b3a265544a23ade7349e6c494</hash-sum>
+ </version>
 
     
 
@@ -73172,6 +73162,12 @@ if %err% neq 0 exit %err%&#13;
 </file>
   <url>https://dist.torproject.org/torbrowser/11.5.5/torbrowser-install-11.5.5_en-US.exe</url>
   <hash-sum type="SHA-256">82732b4c85916d4ef82b3bef89beb49cc9643f91dc14c816062127c987f3bc5a</hash-sum>
+ </version>
+ <version name="11.5.6" package="tor64" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
+</file>
+  <url>https://dist.torproject.org/torbrowser/11.5.6/torbrowser-install-11.5.6_en-US.exe</url>
+  <hash-sum type="SHA-256">2d4360573e5385f4ddcad7cf2f76a7ee47d9eed751493cf3dc904cab285de844</hash-sum>
  </version>
 
     <version name="2.84.9" package="transmission-qt64" type="one-file">
