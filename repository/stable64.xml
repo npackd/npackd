@@ -19302,7 +19302,7 @@ rmdir "%name%"&#13;
   <hash-sum type="SHA-256">d0e09efb2f74beae9f5387a296d366c160d9fb87e571c9559c53cd0111b7b955</hash-sum>
  </version>
 
-    <version name="1.7.21801" package="daumpotplayer64" type="one-file">
+    <version name="1.7.21831" package="daumpotplayer64" type="one-file">
   <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
 </file>
   <file path=".Npackd\Uninstall.bat">uninstall.exe /S _?=%CD%&#13;
@@ -28383,6 +28383,19 @@ rmdir "%name%"&#13;
 </file>
   <url>https://dl.google.com/dl/cloudsdk/channels/rapid/downloads/google-cloud-sdk-407.0.0-windows-x86_64.zip</url>
   <hash-sum type="SHA-256">eb7492eb6eb9eea2789b867839c1f1c53e9fb178391e0942c6df5f8132ba587b</hash-sum>
+  <dependency package="org.python.Python" versions="[2.7, 2.8)"/>
+ </version>
+ <version name="408" package="google-cloud-sdk64">
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b google-cloud-sdk*') do set name=%%x&#13;
+cd "%name%"&#13;
+for /f "delims=" %%a in ('dir /b') do (&#13;
+  move "%%a" ..&#13;
+)&#13;
+cd ..&#13;
+rmdir "%name%"&#13;
+</file>
+  <url>https://dl.google.com/dl/cloudsdk/channels/rapid/downloads/google-cloud-sdk-408.0.0-windows-x86_64.zip</url>
+  <hash-sum type="SHA-256">1851fb8fcfa5d56f18864e2beae3834a05e23b36d25bee2a9ca16e6033c0ad8d</hash-sum>
   <dependency package="org.python.Python" versions="[2.7, 2.8)"/>
  </version>
 
@@ -40917,6 +40930,17 @@ verify&#13;
   <file path=".Npackd\Uninstall.bat">"%myun%\myuninst.exe" /uninstall "Open Broadcaster Software"</file>
   <url>https://cdn-fastly.obsproject.com/downloads/OBS-Studio-28.1-Full-Installer-x64.exe</url>
   <hash-sum type="SHA-256">9cc9292068d089852d656bcad5b364b06b645ce681d112a0824a680669e4fc26</hash-sum>
+  <dependency package="net.nirsoft.MyUninstaller" versions="[1.74, 2)">
+   <variable>myun</variable>
+  </dependency>
+ </version>
+ <version name="28.1.1" package="open-broadcaster-software64" type="one-file">
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
+"%setup%" /S /D=%CD% &amp;&amp; del /f /q "%setup%"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">"%myun%\myuninst.exe" /uninstall "Open Broadcaster Software"</file>
+  <url>https://cdn-fastly.obsproject.com/downloads/OBS-Studio-28.1.1-Full-Installer-x64.exe</url>
+  <hash-sum type="SHA-256">5844665efc1e200f642470dbc98330b169ef5bf869a2f9cae91a9c40ad1e8410</hash-sum>
   <dependency package="net.nirsoft.MyUninstaller" versions="[1.74, 2)">
    <variable>myun</variable>
   </dependency>
