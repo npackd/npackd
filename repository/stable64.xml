@@ -19302,7 +19302,7 @@ rmdir "%name%"&#13;
   <hash-sum type="SHA-256">d0e09efb2f74beae9f5387a296d366c160d9fb87e571c9559c53cd0111b7b955</hash-sum>
  </version>
 
-    <version name="1.7.21831" package="daumpotplayer64" type="one-file">
+    <version name="1.7.21833" package="daumpotplayer64" type="one-file">
   <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
 </file>
   <file path=".Npackd\Uninstall.bat">uninstall.exe /S _?=%CD%&#13;
@@ -24634,6 +24634,17 @@ verify</file>
   <url>https://download-installer.cdn.mozilla.net/pub/firefox/releases/106.0.3/win64/en-US/Firefox%20Setup%20106.0.3.exe</url>
   <hash-sum type="SHA-256">2e21bb9dd800420633ae28ec92e1fa44aabef51930d34246435cedef1210dbe3</hash-sum>
  </version>
+ <version name="106.0.4" package="firefox64" type="one-file">
+  <file path=".Npackd\Install.bat">echo [Install] &gt; .Npackd\FF.ini&#13;
+echo InstallDirectoryPath=%CD% &gt;&gt; .Npackd\FF.ini&#13;
+echo QuickLaunchShortcut=false &gt;&gt; .Npackd\FF.ini&#13;
+echo DesktopShortcut=false &gt;&gt; .Npackd\FF.ini&#13;
+"%npackd_package_binary%" /INI="%CD%\.Npackd\FF.ini" &amp;&amp; del /f /q "%npackd_package_binary%"</file>
+  <file path=".Npackd\Uninstall.bat">uninstall\helper.exe /S&#13;
+verify</file>
+  <url>https://download-installer.cdn.mozilla.net/pub/firefox/releases/106.0.4/win64/en-US/Firefox%20Setup%20106.0.4.exe</url>
+  <hash-sum type="SHA-256">ac0f8f9a5947a02b0bb9be51c9037cfd744f431c94a4a00e27259f5e65859d17</hash-sum>
+ </version>
 
     <version name="0.5" package="firefoxpwa" type="one-file">
   <file path=".Npackd\Install.bat">call "%nih%\InstallMSI.bat" APPLICATIONFOLDER yes</file>
@@ -28398,6 +28409,19 @@ rmdir "%name%"&#13;
   <hash-sum type="SHA-256">1851fb8fcfa5d56f18864e2beae3834a05e23b36d25bee2a9ca16e6033c0ad8d</hash-sum>
   <dependency package="org.python.Python" versions="[2.7, 2.8)"/>
  </version>
+ <version name="408.0.1" package="google-cloud-sdk64">
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b google-cloud-sdk*') do set name=%%x&#13;
+cd "%name%"&#13;
+for /f "delims=" %%a in ('dir /b') do (&#13;
+  move "%%a" ..&#13;
+)&#13;
+cd ..&#13;
+rmdir "%name%"&#13;
+</file>
+  <url>https://dl.google.com/dl/cloudsdk/channels/rapid/downloads/google-cloud-sdk-408.0.1-windows-x86_64.zip</url>
+  <hash-sum type="SHA-256">0231fb9e522b40a086285ec663ebd1982c8833de94a0a6c4942f83b37b8079b2</hash-sum>
+  <dependency package="org.python.Python" versions="[2.7, 2.8)"/>
+ </version>
 
     <version name="1.1.94" package="grisbi64" type="one-file">
   <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
@@ -29273,6 +29297,15 @@ if %err% neq 0 exit %err%</file>
    <variable>nih</variable>
   </dependency>
  </version>
+ <version name="8.7.11.6" package="imageglass" type="one-file">
+  <file path=".Npackd\Install.bat">call "%nih%\InstallMSI.bat" INSTALLDIR yes&#13;
+</file>
+  <url>https://github.com/d2phap/ImageGlass/releases/download/7.6.4.30/ImageGlass_7.6.4.30_x86.msi</url>
+  <hash-sum type="SHA-256">475788f256cf4223fd7cc8213e9536e918d4a911f0db6cebe1bb9bb4b20e7c0f</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.1, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
 
     <version name="7.6.4.30" package="imageglass64" type="one-file">
   <file path=".Npackd\Install.bat">call "%nih%\InstallMSI.bat" INSTALLDIR yes&#13;
@@ -29347,6 +29380,15 @@ if %err% neq 0 exit %err%</file>
   </dependency>
  </version>
  <version name="8.7.10.26" package="imageglass64" type="one-file">
+  <file path=".Npackd\Install.bat">call "%nih%\InstallMSI.bat" INSTALLDIR yes&#13;
+</file>
+  <url>https://github.com/d2phap/ImageGlass/releases/download/7.6.4.30/ImageGlass_7.6.4.30_x64.msi</url>
+  <hash-sum type="SHA-256">3c0a4fbca03ef28dac2a23a36beb0e79211dc6fab8f0fc88f0809b809900a11d</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.1, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
+ <version name="8.7.11.6" package="imageglass64" type="one-file">
   <file path=".Npackd\Install.bat">call "%nih%\InstallMSI.bat" INSTALLDIR yes&#13;
 </file>
   <url>https://github.com/d2phap/ImageGlass/releases/download/7.6.4.30/ImageGlass_7.6.4.30_x64.msi</url>
@@ -41859,6 +41901,15 @@ reg add HKLM\SOFTWARE\OpenVPN-GUI /v allow_service /t REG_SZ /d 0 /f&#13;
 </file>
   <url>https://swupdate.openvpn.org/community/releases/OpenVPN-2.5.7-I602-amd64.msi</url>
   <hash-sum type="SHA-256">5212a707c137cf8b133a21cab458a03d81592a4b713cfb7bc668a661e604313f</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.1, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
+ <version name="2.5.8" package="openvpn64" type="one-file">
+  <file path=".Npackd\Install.bat">call "%nih%\InstallMSI.bat" INSTALLDIR yes&#13;
+</file>
+  <url>https://swupdate.openvpn.org/community/releases/OpenVPN-2.5.8-I601-amd64.msi</url>
+  <hash-sum type="SHA-256">a688312c65862d131ef9c291913353c62635995e65441a8d1392f343da1fd232</hash-sum>
   <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.1, 2)">
    <variable>nih</variable>
   </dependency>
@@ -75351,7 +75402,7 @@ if %err% neq 0 exit %err%&#13;
   <url>https://az764295.vo.msecnd.net/stable/a0479759d6e9ea56afa657e454193f72aef85bd0/VSCodeSetup-ia32-1.48.2.exe</url>
   <hash-sum type="SHA-256">013d5ecdb44159c15047472512bef9c76ba934807dbb07a582655f4c5546866d</hash-sum>
  </version>
- <version name="1.72.2" package="vs-code" type="one-file">
+ <version name="1.73" package="vs-code" type="one-file">
   <file path=".Npackd\Install.bat">ren "%npackd_package_binary%" setup.exe&#13;
 setup.exe /SP- /VERYSILENT /SUPPRESSMSGBOXES /NOCANCEL /NORESTART /DIR="%CD%" /SAVEINF="%CD%\.Npackd\InnoSetupInfo.ini" /LOG="%CD%\.Npackd\InnoSetupInstall.log"&#13;
 set err=%errorlevel%&#13;
@@ -75446,7 +75497,7 @@ if %err% neq 0 exit %err%&#13;
 </file>
   <url>https://update.code.visualstudio.com/1.65.0/win32-x64/stable</url>
  </version>
- <version name="1.72.2" package="vs-code64" type="one-file">
+ <version name="1.73" package="vs-code64" type="one-file">
   <file path=".Npackd\Install.bat">ren "%npackd_package_binary%" setup.exe&#13;
 setup.exe /SP- /VERYSILENT /SUPPRESSMSGBOXES /NOCANCEL /NORESTART /DIR="%CD%" /SAVEINF="%CD%\.Npackd\InnoSetupInfo.ini" /LOG="%CD%\.Npackd\InnoSetupInstall.log"&#13;
 set err=%errorlevel%&#13;
