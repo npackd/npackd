@@ -10600,6 +10600,15 @@ call "%npackdih%\InstallMSI.bat" APPLICATIONFOLDER yes&#13;
    <variable>npackdih</variable>
   </dependency>
  </version>
+ <version name="6.8" package="com.calibreebook.Calibre64" type="one-file">
+  <file path=".Npackd\Install.bat">call "%npackdih%\InstallMSI.bat" APPLICATIONFOLDER yes&#13;
+</file>
+  <url>https://download.calibre-ebook.com/6.8.0/calibre-64bit-6.8.0.msi</url>
+  <hash-sum type="SHA-256">644aa27a9055cac764c71a38e98af3456c8af95b2fa74c514c1b2de630eb1b8b</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.2, 2)">
+   <variable>npackdih</variable>
+  </dependency>
+ </version>
 
     <version name="5.12.256249.2599" package="com.comodo.comodoav64" type="one-file">
   <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.msi') do set setup=%%x&#13;
@@ -30468,6 +30477,17 @@ if %err% neq 0 exit %err%&#13;
 </file>
   <url>https://github.com/tim-lebedkov/packages/releases/download/2022_06/imagemagick64-7.1.0.37-ImageMagick-7.1.0-37-Q16-HDRI-x64-dll.exe</url>
   <hash-sum type="SHA-256">374a55ea9d3b5fea17058bacb917322f66a45281282d6eeab6e9c5d5989b4e7b</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
+ <version name="7.1.0.51" package="imagemagick64" type="one-file">
+  <file path=".Npackd\Install.bat">call "%nih%\InstallInnoSetup.bat"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">call "%nih%\UninstallInnoSetup.bat" unins000.exe&#13;
+</file>
+  <url>https://www.imagemagick.org/download/binaries/ImageMagick-7.1.0-51-Q16-HDRI-x64-dll.exe</url>
+  <hash-sum type="SHA-256">3b4dd48eab57b6d478505f596a014f57bb69193f2d3ba450d036786a716ba4d9</hash-sum>
   <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
    <variable>nih</variable>
   </dependency>
@@ -73388,6 +73408,12 @@ if %err% neq 0 exit %err%&#13;
 </file>
   <url>https://dist.torproject.org/torbrowser/11.5.6/torbrowser-install-11.5.6_en-US.exe</url>
   <hash-sum type="SHA-256">2d4360573e5385f4ddcad7cf2f76a7ee47d9eed751493cf3dc904cab285de844</hash-sum>
+ </version>
+ <version name="11.5.7" package="tor64" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
+</file>
+  <url>https://dist.torproject.org/torbrowser/11.5.7/torbrowser-install-11.5.7_en-US.exe</url>
+  <hash-sum type="SHA-256">aded0c2dd1d8cc25638cd648bcc3e06f1114b4f2c93e147db5a37752d23780b8</hash-sum>
  </version>
 
     <version name="2.84.9" package="transmission-qt64" type="one-file">
