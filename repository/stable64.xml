@@ -2636,7 +2636,7 @@ x86_64</description>
   <license>org.gnu.GPLv2</license>
   <category>Text</category>
   <tag>stable64</tag>
-  <stars>16</stars>
+  <stars>17</stars>
   <link href="https://notepad-plus-plus.org/news/" rel="changelog"/>
  </package>
  <package name="nubasic64">
@@ -2817,7 +2817,7 @@ x86_64</description>
   <license>org.7-zip.License</license>
   <category>Tools</category>
   <tag>stable64</tag>
-  <stars>34</stars>
+  <stars>35</stars>
   <link href="https://www.7-zip.org/history.txt" rel="changelog"/>
   <link href="http://www.7-zip.org/7zfm.png" rel="screenshot"/>
  </package>
@@ -5876,6 +5876,15 @@ verify&#13;
 </file>
   <url>https://github.com/stefankueng/BowPad/releases/download/2.8.3/BowPad64-2.8.3.msi</url>
   <hash-sum type="SHA-256">01bf8ec92c64142386a30c2c23a70f4de07ca2e450b8db78f25940efaa5a1cd9</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.1, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
+ <version name="2.8.5" package="bowpad64" type="one-file">
+  <file path=".Npackd\Install.bat">call "%nih%\InstallMSI.bat" INSTALLDIR yes&#13;
+</file>
+  <url>https://github.com/stefankueng/BowPad/releases/download/2.8.5/BowPad64-2.8.5.msi</url>
+  <hash-sum type="SHA-256">ca44aa8d4ad70e1c354bc18782e49edaeacad3cb7150756b43f8791a92132f8a</hash-sum>
   <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.1, 2)">
    <variable>nih</variable>
   </dependency>
@@ -21640,6 +21649,14 @@ rmdir "%name%"&#13;
   <url>https://github.com/balena-io/etcher/releases/download/v1.8.14/balenaEtcher-Setup-1.8.14.exe</url>
   <hash-sum type="SHA-256">d202ce7228b209ee209ef4269625dd3234b40d5a4d434a473b01c197e4c066ed</hash-sum>
  </version>
+ <version name="1.9" package="etcher64" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">uninstall.exe /S _?=%CD%&#13;
+</file>
+  <url>https://github.com/balena-io/etcher/releases/download/v1.9.0/balenaEtcher-Setup-1.9.0.exe</url>
+  <hash-sum type="SHA-256">de39c5c6ac6b21eb3a0851739258344007ec7b940e2283fe5c12c700de0c1341</hash-sum>
+ </version>
 
     <version name="1.3.4.686" package="everything64">
   <important-file path="Everything.exe" title="Everything"/>
@@ -26360,7 +26377,7 @@ if %err% neq 0 exit %err%&#13;
   <hash-sum type="SHA-256">9ea1de71109eb5f1b41be08cf2f509ad952ba8cdae8ed82507452f2f772686d3</hash-sum>
  </version>
 
-    <version name="107.0.5304.88" package="google-chrome-x64" type="one-file">
+    <version name="107.0.5304.107" package="google-chrome-x64" type="one-file">
   <file path=".Npackd\Install.bat">call "%npackdih%\InstallMSI.bat" TARGETDIR yes&#13;
 </file>
   <url>https://dl.google.com/tag/s/appguid%3D%7B8A69D345-D564-463C-AFF1-A69D9E530F96%7D%26iid%3D%7B0A558A36-0536-8B3F-0AE0-420553CC97F3%7D%26lang%3Den%26browser%3D4%26usagestats%3D0%26appname%3DGoogle%2520Chrome%26needsadmin%3DFalse/edgedl/chrome/install/GoogleChromeStandaloneEnterprise64.msi</url>
@@ -28447,6 +28464,19 @@ rmdir "%name%"&#13;
 </file>
   <url>https://dl.google.com/dl/cloudsdk/channels/rapid/downloads/google-cloud-sdk-408.0.1-windows-x86_64.zip</url>
   <hash-sum type="SHA-256">0231fb9e522b40a086285ec663ebd1982c8833de94a0a6c4942f83b37b8079b2</hash-sum>
+  <dependency package="org.python.Python" versions="[2.7, 2.8)"/>
+ </version>
+ <version name="409" package="google-cloud-sdk64">
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b google-cloud-sdk*') do set name=%%x&#13;
+cd "%name%"&#13;
+for /f "delims=" %%a in ('dir /b') do (&#13;
+  move "%%a" ..&#13;
+)&#13;
+cd ..&#13;
+rmdir "%name%"&#13;
+</file>
+  <url>https://dl.google.com/dl/cloudsdk/channels/rapid/downloads/google-cloud-sdk-409.0.0-windows-x86_64.zip</url>
+  <hash-sum type="SHA-256">25ca36ed9c0cb7d585b3f9982953978c9fdb90da641393c3903fd481468bc2cd</hash-sum>
   <dependency package="org.python.Python" versions="[2.7, 2.8)"/>
  </version>
 
