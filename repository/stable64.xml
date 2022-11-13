@@ -2607,26 +2607,6 @@ x86_64</description>
   <tag>stable64</tag>
   <stars>1</stars>
  </package>
- <package name="nomacs64">
-  <title>nomacs 64 bit</title>
-  <url>https://nomacs.org/</url>
-  <description>image viewer, which supports multiple platforms. You can use it for viewing all common image formats including RAW and psd images.&#13;
-&#13;
-nomacs features semi-transparent widgets that display additional information such as thumbnails, metadata or histogram. It is able to browse images in zip or MS Office files which can be extracted to a directory. Metadata stored with the image can be displayed and you can add notes to images. A thumbnail preview of the current folder is included as well as a file explorer panel which allows switching between folders. Within a directory you can apply a file filter, so that only images are displayed whose filenames have a certain string or match a regular expression. Activating the cacher allows for instantly switching between images.&#13;
-&#13;
-nomacs includes image manipulation methods for adjusting brightness, contrast, saturation, hue, gamma, exposure. It has a pseudo color function which allows creating false color images. A unique feature of nomacs is the synchronization of multiple instances. With this feature you can easily compare images by zooming and/or panning at the exactly same position or even by overlaying them with different opacities.&#13;
-&#13;
-nomacs is licensed under the GNU General Public License v3 and available for Windows, Linux, FreeBSD, Mac, and OS/2. If you want to report any bugs or request new features please use our tracker.
-x86_64</description>
-  <icon>https://nomacs.org/favicon.ico</icon>
-  <license>org.gnu.GPLv3</license>
-  <category>Photo</category>
-  <tag>stable64</tag>
-  <stars>1</stars>
-  <link href="https://nomacs.org/" rel="changelog"/>
-  <link href="https://nomacs.org/wp-content/uploads/2014/11/uluwatu-nomacs-note.png" rel="screenshot"/>
-  <link href="https://nomacs.org/wp-content/uploads/2013/07/crop.png" rel="screenshot"/>
- </package>
  <package name="notepadpp64">
   <title>Notepad++ 64 bit</title>
   <url>https://notepad-plus-plus.org/</url>
@@ -11675,6 +11655,16 @@ call "%npackdih%\InstallMSI.bat" INSTALLDIR yes&#13;
 </file>
   <url>https://download.tortoisegit.org/tgit/2.13.0.0/TortoiseGit-2.13.0.0-64bit.msi</url>
   <hash-sum type="SHA-256">5ae28426fad5088ad266d941d51a72d1fab57a98479904ad47f946edc4d13ab9</hash-sum>
+  <dependency package="git64" versions="[1.7.6.2011.7.8, 3)"/>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3.1, 2)">
+   <variable>npackdih</variable>
+  </dependency>
+ </version>
+ <version name="2.13.0.1" package="com.googlecode.tortoisegit.TortoiseGit64" type="one-file">
+  <file path=".Npackd\Install.bat">call "%npackdih%\InstallMSI.bat" INSTALLDIR yes&#13;
+</file>
+  <url>https://download.tortoisegit.org/tgit/2.13.0.0/TortoiseGit-2.13.0.1-64bit.msi</url>
+  <hash-sum type="SHA-256">35e56c66124ab6f776c48da24b82ef044743c3619e1eacb40bc38b6a178a6f98</hash-sum>
   <dependency package="git64" versions="[1.7.6.2011.7.8, 3)"/>
   <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3.1, 2)">
    <variable>npackdih</variable>
@@ -21656,6 +21646,14 @@ rmdir "%name%"&#13;
 </file>
   <url>https://github.com/balena-io/etcher/releases/download/v1.9.0/balenaEtcher-Setup-1.9.0.exe</url>
   <hash-sum type="SHA-256">de39c5c6ac6b21eb3a0851739258344007ec7b940e2283fe5c12c700de0c1341</hash-sum>
+ </version>
+ <version name="1.10" package="etcher64" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D="%CD%" &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">"Uninstall balenaEtcher.exe" /S&#13;
+</file>
+  <url>https://github.com/balena-io/etcher/releases/download/v1.10.0/balenaEtcher-Setup-1.10.0.exe</url>
+  <hash-sum type="SHA-256">448df95460e7b21d9b159226ca55b59ff46c5cbde65ced307ed22a6778c4601d</hash-sum>
  </version>
 
     <version name="1.3.4.686" package="everything64">
@@ -38324,73 +38322,6 @@ if %err% neq 0 exit /b %err%
  <version name="2.86" package="nircmd64">
   <url>http://files.npackd.org/nircmd64/nircmd-x64-2.81.zip</url>
   <sha1>31fda8eee9fe628ee35bcce6c4833fd0e07503bc</sha1>
- </version>
-
-    <version name="3.6.1" package="nomacs64">
-  <important-file path="nomacs.exe" title="nomacs"/>
-  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b nomacs*') do set name=%%x&#13;
-call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
-</file>
-  <url>http://download.nomacs.org/portable/nomacs-3.6.1.zip</url>
-  <sha1>252748d8975a634bcb64461849bd9775a316f01d</sha1>
-  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.19, 2)">
-   <variable>nih</variable>
-  </dependency>
- </version>
- <version name="3.8" package="nomacs64">
-  <important-file path="nomacs.exe" title="nomacs"/>
-  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b nomacs*') do set name=%%x&#13;
-call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
-</file>
-  <url>http://download.nomacs.org/portable/nomacs-3.8.0.zip</url>
-  <sha1>a18b2de7dd76c9e26bd923007a1d72b8f86132c0</sha1>
-  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.19, 2)">
-   <variable>nih</variable>
-  </dependency>
- </version>
- <version name="3.10" package="nomacs64">
-  <important-file path="nomacs.exe" title="nomacs"/>
-  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b nomacs*') do set name=%%x&#13;
-call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
-</file>
-  <url>http://download.nomacs.org/portable/nomacs-3.10.0.zip</url>
-  <hash-sum type="SHA-256">ba10049784246e34164373568596cfecf4b6f565e993750bab5222c59cb9d904</hash-sum>
-  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.19, 2)">
-   <variable>nih</variable>
-  </dependency>
- </version>
- <version name="3.12" package="nomacs64">
-  <important-file path="bin\nomacs.exe" title="nomacs"/>
-  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b nomacs*') do set name=%%x&#13;
-call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
-</file>
-  <url>http://download.nomacs.org/portable/nomacs-3.12.0.zip</url>
-  <hash-sum type="SHA-256">d32f243237d94b9355300eaf47521143e6f7b83051101fe3557fc6dbb9178c4b</hash-sum>
-  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.19, 2)">
-   <variable>nih</variable>
-  </dependency>
- </version>
- <version name="3.14" package="nomacs64">
-  <important-file path="bin\nomacs.exe" title="nomacs"/>
-  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b nomacs*') do set name=%%x&#13;
-call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
-</file>
-  <url>http://download.nomacs.org/portable/nomacs-3.12.0.zip</url>
-  <hash-sum type="SHA-256">d32f243237d94b9355300eaf47521143e6f7b83051101fe3557fc6dbb9178c4b</hash-sum>
-  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.19, 2)">
-   <variable>nih</variable>
-  </dependency>
- </version>
- <version name="3.16" package="nomacs64">
-  <important-file path="bin\nomacs.exe" title="nomacs"/>
-  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b nomacs*') do set name=%%x&#13;
-call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
-</file>
-  <url>http://download.nomacs.org/portable/nomacs-3.12.0.zip</url>
-  <hash-sum type="SHA-256">d32f243237d94b9355300eaf47521143e6f7b83051101fe3557fc6dbb9178c4b</hash-sum>
-  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.19, 2)">
-   <variable>nih</variable>
-  </dependency>
  </version>
 
     <version name="7.5.4" package="notepadpp64" type="one-file">
