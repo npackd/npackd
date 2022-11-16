@@ -560,10 +560,8 @@ x86_64</description>
   <tag>stable</tag>
   <stars>1</stars>
   <link href="https://cliqz.com/en/magazine/cliqz-browser-release-notes-1-33-0" rel="changelog"/>
-  <link href="https://static.cliqz.com/wp-content/uploads/2016/08/Cliqz-Theme-Visual-Win10-Translucent-DE-Desktop_1920px.jpg" rel="screenshot"/>
   <link href="https://static.filehorse.com/screenshots/browsers-and-plugins/cliqz-screenshot-01.png" rel="screenshot"/>
   <link href="https://static.filehorse.com/screenshots/browsers-and-plugins/cliqz-screenshot-05.png" rel="screenshot"/>
-  <link href="https://mac-cdn.softpedia.com/screenshots/CLIQZ_11.jpg" rel="screenshot"/>
   <link href="https://cliqz.com/en/contact" rel="issues"/>
  </package>
  <package name="cmake64">
@@ -6435,6 +6433,7 @@ call "%nih%\InstallInnoSetup.bat"&#13;
   <file path=".Npackd\Uninstall.bat">"%ncl%\ncl.exe" remove-scp --title "/%npackd_package_name% %npackd_package_version%/i"&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
 </file>
   <url>https://cdn.cliqz.com/browser-f/download/web0001/CLIQZ.en-US.win64.installer.exe</url>
+  <hash-sum type="SHA-256">42251b2a2bcd54c7e1b7c51fb57fd57a256a843ce159d3a12da49e4bdd507b6e</hash-sum>
   <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.25, 2)">
    <variable>ncl</variable>
   </dependency>
@@ -10747,7 +10746,7 @@ if %err% neq 0 exit %err%</file>
  <version name="2.3" package="com.cpuid.CPUZ64">
   <important-file path="cpuz_x64.exe" title="CPU-Z"/>
   <url>https://download.cpuid.com/cpu-z/cpu-z_2.03-en.zip</url>
-  <hash-sum type="SHA-256">eca1739058726f6ce2cebf3bd39fae1a3b4e76334fb62b8d8f4042d338bb15d1</hash-sum>
+  <hash-sum type="SHA-256">cce36729a38af3e6aa055d0466f117c306cce37d443add282da4482d4a8ec13d</hash-sum>
  </version>
 
     <version name="2.2.6000" package="com.dependencywalker.DependencyWalker64">
@@ -18067,7 +18066,7 @@ type .Npackd\InnoSetupUninstall.log&#13;
 if %err% neq 0 exit %err%&#13;
 </file>
   <url>http://download.xnview.com/XnConvert-win-x64.exe</url>
-  <dependency package="com.microsoft.VisualCPPRedistributable64" versions="[9.0.21022, 9.0.21022]"/>
+  <dependency package="com.microsoft.VisualCPPRedistributable64" versions="[9, 11)"/>
  </version>
 
     <version name="1.0.4" package="conan64" type="one-file">
@@ -24720,6 +24719,17 @@ echo DesktopShortcut=false &gt;&gt; .Npackd\FF.ini&#13;
 verify</file>
   <url>https://download-installer.cdn.mozilla.net/pub/firefox/releases/106.0.5/win64/en-US/Firefox%20Setup%20106.0.5.exe</url>
   <hash-sum type="SHA-256">8ba92570fd71d45fb99c5cee7596149eed7ba3c1c07783fc0fbd6ec8b0233e29</hash-sum>
+ </version>
+ <version name="107" package="firefox64" type="one-file">
+  <file path=".Npackd\Install.bat">echo [Install] &gt; .Npackd\FF.ini&#13;
+echo InstallDirectoryPath=%CD% &gt;&gt; .Npackd\FF.ini&#13;
+echo QuickLaunchShortcut=false &gt;&gt; .Npackd\FF.ini&#13;
+echo DesktopShortcut=false &gt;&gt; .Npackd\FF.ini&#13;
+"%npackd_package_binary%" /INI="%CD%\.Npackd\FF.ini" &amp;&amp; del /f /q "%npackd_package_binary%"</file>
+  <file path=".Npackd\Uninstall.bat">uninstall\helper.exe /S&#13;
+verify</file>
+  <url>https://download-installer.cdn.mozilla.net/pub/firefox/releases/107.0/win64/en-US/Firefox%20Setup%20107.0.exe</url>
+  <hash-sum type="SHA-256">9e6a95bd8482804bb35d1741e54b6ecb878ef59e98b6ed7db4472feea32f476d</hash-sum>
  </version>
 
     <version name="0.5" package="firefoxpwa" type="one-file">
@@ -51601,6 +51611,15 @@ rmdir "%name%"&#13;
 </file>
   <url>https://fastdl.mongodb.org/windows/mongodb-windows-x86_64-6.0.2-signed.msi</url>
   <hash-sum type="SHA-256">964a7e33927a8c01a6177daf0bf49f3ec17560b1b78f8be60ec641a03c55cb18</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.1, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
+ <version name="6.0.3" package="org.mongodb.MongoDB64" type="one-file">
+  <file path=".Npackd\Install.bat">call "%nih%\InstallMSI.bat" INSTALLDIR yes&#13;
+</file>
+  <url>https://fastdl.mongodb.org/windows/mongodb-windows-x86_64-6.0.3-signed.msi</url>
+  <hash-sum type="SHA-256">6557ae0360747d348aefdf30d1360f577804c446579c2012e0b04e5ec2489c49</hash-sum>
   <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.1, 2)">
    <variable>nih</variable>
   </dependency>
