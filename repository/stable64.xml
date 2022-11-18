@@ -15298,6 +15298,14 @@ if %err% neq 0 exit %err%&#13;
   <url>https://github.com/sindresorhus/caprine/releases/download/v2.56.1/caprine-setup-2.56.1.exe</url>
   <hash-sum type="SHA-256">e96969e8b32ca5f595f38a07467159064ac9f4c54679186e83b62da32a6bc722</hash-sum>
  </version>
+ <version name="2.57" package="com.sindresorhus.caprine" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D="%CD%" &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">"Uninstall Caprine.exe" /S&#13;
+</file>
+  <url>https://github.com/sindresorhus/caprine/releases/download/v2.57.0/caprine-setup-2.57.0.exe</url>
+  <hash-sum type="SHA-256">8a7cd9f01bf5d7fbaaffbc319d48b60df5a4ed2b62839c03cf0332fb410f67ad</hash-sum>
+ </version>
 
     <version name="4.51" package="com.softwareok.QDir64">
   <important-file path="Q-Dir.exe" title="Q-Dir"/>
@@ -23574,6 +23582,17 @@ echo DesktopShortcut=false &gt;&gt; .Npackd\FF.ini&#13;
 verify</file>
   <url>https://download-origin.cdn.mozilla.net/pub/mozilla.org/firefox/releases/102.4.0esr/win64/en-US/Firefox%20Setup%20102.4.0esr.exe</url>
   <hash-sum type="SHA-256">d321633eec978284148502c87736f0145ae89c3a546371217ed33634227531a6</hash-sum>
+ </version>
+ <version name="102.5" package="firefox-esr64" type="one-file">
+  <file path=".Npackd\Install.bat">echo [Install] &gt; .Npackd\FF.ini&#13;
+echo InstallDirectoryPath=%CD% &gt;&gt; .Npackd\FF.ini&#13;
+echo QuickLaunchShortcut=false &gt;&gt; .Npackd\FF.ini&#13;
+echo DesktopShortcut=false &gt;&gt; .Npackd\FF.ini&#13;
+"%npackd_package_binary%" /INI="%CD%\.Npackd\FF.ini" &amp;&amp; del /f /q "%npackd_package_binary%"</file>
+  <file path=".Npackd\Uninstall.bat">uninstall\helper.exe /S&#13;
+verify</file>
+  <url>https://download-origin.cdn.mozilla.net/pub/mozilla.org/firefox/releases/102.5.0esr/win64/en-US/Firefox%20Setup%20102.5.0esr.exe</url>
+  <hash-sum type="SHA-256">cddbace11676e21de3d6609c66c859009f68e05badc1206d88d8b9478b920225</hash-sum>
  </version>
 
     <version name="43" package="firefox64" type="one-file">
@@ -72714,6 +72733,14 @@ rmdir "%name%"</file>
 </file>
   <url>https://www.sysgauge.com/setups_x64/sysgauge_setup_v8.8.16_x64.exe</url>
   <hash-sum type="SHA-256">a53bc73292ebb06cbf2573bc1a73af461fdf838b3a265544a23ade7349e6c494</hash-sum>
+ </version>
+ <version name="8.9.12" package="sysgauge64" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">uninstall.exe /S _?=%CD%&#13;
+</file>
+  <url>https://www.sysgauge.com/setups_x64/sysgauge_setup_v8.9.12_x64.exe</url>
+  <hash-sum type="SHA-256">805a452e1a374d27284fd813ac3dbff8d5b873ee0b22c03aa69e619e52753df5</hash-sum>
  </version>
 
     
