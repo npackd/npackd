@@ -21709,6 +21709,14 @@ rmdir "%name%"&#13;
   <url>https://github.com/balena-io/etcher/releases/download/v1.10.0/balenaEtcher-Setup-1.10.0.exe</url>
   <hash-sum type="SHA-256">448df95460e7b21d9b159226ca55b59ff46c5cbde65ced307ed22a6778c4601d</hash-sum>
  </version>
+ <version name="1.10.1" package="etcher64" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D="%CD%" &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">"Uninstall balenaEtcher.exe" /S&#13;
+</file>
+  <url>https://github.com/balena-io/etcher/releases/download/v1.10.1/balenaEtcher-Setup-1.10.1.exe</url>
+  <hash-sum type="SHA-256">53f92c2c9aafd579358832fe5468086401f8c6c393c75235cf73dea57c15b859</hash-sum>
+ </version>
 
     <version name="1.3.4.686" package="everything64">
   <important-file path="Everything.exe" title="Everything"/>
@@ -69431,6 +69439,15 @@ if %errorlevel% equ 3010 verify</file>
 </file>
   <url>https://qgis.org/downloads/QGIS-OSGeo4W-3.28.0-2.msi</url>
   <hash-sum type="SHA-256">d0325580053ee4133ad5399abd37afce9e9d2faeb3a38568ca092341044b8d87</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.1, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
+ <version name="3.28.1.1" package="qgis64" type="one-file">
+  <file path=".Npackd\Install.bat">call "%nih%\InstallMSI.bat" INSTALLDIR yes&#13;
+</file>
+  <url>https://qgis.org/downloads/QGIS-OSGeo4W-3.28.1-1.msi</url>
+  <hash-sum type="SHA-256">ce6366af5b6c776350ad0d476d8b30afc991d3b9d99c4a678ed90716e9d68f98</hash-sum>
   <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.1, 2)">
    <variable>nih</variable>
   </dependency>
