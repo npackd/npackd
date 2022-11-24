@@ -5426,6 +5426,17 @@ x86_64</description>
    <variable>clu</variable>
   </dependency>
  </version>
+ <version name="1.63.1" package="atom64">
+  <important-file path="atom.exe" title="Atom"/>
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b Atom*') do set name=%%x&#13;
+"%clu%\clu" unwrap-dir -p "%name%"&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+</file>
+  <url>https://github.com/atom/atom/releases/download/v1.63.1/atom-x64-windows.zip</url>
+  <hash-sum type="SHA-256">3e5c2b3c9c249ed76b6fbdd0b054567da36181ed39a8fc1d1c2c93f5f8383397</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.CLU" versions="[1.25, 2)">
+   <variable>clu</variable>
+  </dependency>
+ </version>
 
     <version name="3.0.3" package="audacity64" type="one-file">
   <file path=".Npackd\Install.bat">call "%nih%\InstallInnoSetup.bat"&#13;
@@ -43842,6 +43853,21 @@ rmdir "%name%"
   <hash-sum type="SHA-256">bd3a6199fee5ca229344a46578875c3517ff8cb2bf81b61bfb50deaef5719e5c</hash-sum>
   <dependency package="com.oracle.JRE" versions="[1.5, 2)"/>
  </version>
+ <version name="8.5.84" package="org.apache.tomcat.Tomcat64">
+  <important-file path="bin\startup.bat" title="Start"/>
+  <important-file path="bin\shutdown.bat" title="Stop"/>
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b apache*') do set name=%%x
+cd "%name%"        
+for /f "delims=" %%a in ('dir /b') do (
+  move "%%a" ..
+)
+cd ..
+rmdir "%name%"
+</file>
+  <url>http://archive.apache.org/dist/tomcat/tomcat-8/v8.5.84/bin/apache-tomcat-8.5.84-windows-x64.zip</url>
+  <hash-sum type="SHA-256">357622e70cb04239feae762e0556c28b5ff456b4bc1a32fd9280651c7664a75d</hash-sum>
+  <dependency package="com.oracle.JRE" versions="[1.5, 2)"/>
+ </version>
 
     <version name="7.2.10" package="org.areca-backup.ArecaBackup64">
   <important-file path="areca.exe" title="Areca"/>
@@ -73629,6 +73655,12 @@ if %err% neq 0 exit %err%&#13;
 </file>
   <url>https://dist.torproject.org/torbrowser/11.5.7/torbrowser-install-11.5.7_en-US.exe</url>
   <hash-sum type="SHA-256">aded0c2dd1d8cc25638cd648bcc3e06f1114b4f2c93e147db5a37752d23780b8</hash-sum>
+ </version>
+ <version name="11.5.8" package="tor64" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
+</file>
+  <url>https://dist.torproject.org/torbrowser/11.5.8/torbrowser-install-11.5.8_en-US.exe</url>
+  <hash-sum type="SHA-256">e0c94264ff06076d95a7b769b1de22e97790ca402341adff96e5a472345ade8a</hash-sum>
  </version>
 
     <version name="2.84.9" package="transmission-qt64" type="one-file">
