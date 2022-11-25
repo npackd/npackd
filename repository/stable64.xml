@@ -32477,6 +32477,14 @@ call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Np
    <variable>npackdih</variable>
   </dependency>
  </version>
+ <version name="7.4.3" package="libreoffice64" type="one-file">
+  <file path=".Npackd\Install.bat">call "%npackdih%\InstallMSI.bat" INSTALLLOCATION yes</file>
+  <url>https://download.documentfoundation.org/libreoffice/stable/7.4.3/win/x86_64/LibreOffice_7.4.3_Win_x64.msi</url>
+  <hash-sum type="SHA-256">f4cf0fe2ff0b9716d3622202c4dcbd7aedabce03e135a159d747f9bbeb92da01</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.1, 2)">
+   <variable>npackdih</variable>
+  </dependency>
+ </version>
 
     <version name="12.6" package="lightworks64" type="one-file">
   <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
@@ -69752,6 +69760,42 @@ if %errorlevel% neq 0 exit /b %errorlevel%&#13;
    <variable>sevenzipa</variable>
   </dependency>
  </version>
+ <version name="9" package="qt-creator64" type="one-file">
+  <important-file path="bin\qtcreator.exe" title="Qt Creator"/>
+  <file path=".Npackd\Install.bat">"%sevenzipa%\7za" x "%npackd_package_binary%"&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
+</file>
+  <file path=".Npackd\ExportUserSettings.bat">xcopy /y /e /i "%localappdata%\CMakeTools" LocalAppData\CMakeTools&#13;
+if %errorlevel% neq 0 exit /b %errorlevel%&#13;
+&#13;
+mkdir AppData\Code\User\&#13;
+if %errorlevel% neq 0 exit /b %errorlevel%&#13;
+&#13;
+copy /b /y %appdata%\Code\User\keybindings.json AppData\Code\User\&#13;
+if %errorlevel% neq 0 exit /b %errorlevel%&#13;
+&#13;
+copy /b /y %appdata%\Code\User\settings.json AppData\Code\User\&#13;
+if %errorlevel% neq 0 exit /b %errorlevel%&#13;
+</file>
+  <file path=".Npackd\ImportUserSettings.bat">xcopy /y /e /i LocalAppData "%localappdata%"&#13;
+if %errorlevel% neq 0 exit /b %errorlevel%&#13;
+&#13;
+mkdir "%appdata%\Code\User\"&#13;
+if %errorlevel% neq 0 exit /b %errorlevel%&#13;
+&#13;
+copy /b /y AppData\Code\User\keybindings.json "%appdata%\Code\User\"&#13;
+if %errorlevel% neq 0 exit /b %errorlevel%&#13;
+&#13;
+copy /b /y AppData\Code\User\settings.json "%appdata%\Code\User\"&#13;
+if %errorlevel% neq 0 exit /b %errorlevel%&#13;
+&#13;
+&#13;
+</file>
+  <url>https://download.qt.io/official_releases/qtcreator/9.0/9.0.0/installer_source/windows_x64/qtcreator.7z</url>
+  <hash-sum type="SHA-256">12f5dd5dc78f1c74bc1be8e169ba79ef3c36a993c7fe84316d446b90fba7aab3</hash-sum>
+  <dependency package="org.7-zip.SevenZIPA" versions="[19, 100)">
+   <variable>sevenzipa</variable>
+  </dependency>
+ </version>
 
     <version name="1.17.2" package="qtox64" type="one-file">
   <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
@@ -72474,6 +72518,15 @@ rmdir "%name%"</file>
 </file>
   <url>http://www.swi-prolog.org/download/stable/bin/swipl-8.4.3-1.x64.exe</url>
   <hash-sum type="SHA-256">f85518a2d13aadf4778bcb32ccd4b47b0be40b17e91db8975b383ad5b6051951</hash-sum>
+ </version>
+ <version name="9.0.0.1" package="swi-prolog64" type="one-file">
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
+"%setup%" /S /D=%CD% &amp;&amp; del /f /q "%setup%"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">uninstall.exe /S _?=%CD%&#13;
+</file>
+  <url>http://www.swi-prolog.org/download/stable/bin/swipl-9.0.0-1.x64.exe</url>
+  <hash-sum type="SHA-256">195e249759cf12fc1fd8330e25a83f4701c3d5937ed3c09022da4ef75633adcf</hash-sum>
  </version>
 
     <version name="0.64.3" package="synfig-studio64" type="one-file">
