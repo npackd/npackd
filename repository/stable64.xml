@@ -9246,7 +9246,7 @@ rem "avgmfapx.exe" /AppMode=SETUP /Uninstall /UILevel=Silent /DontRestart&#13;
   </dependency>
  </version>
 
-    <version name="1.96" package="com.bitcomet.BitComet64" type="one-file">
+    <version name="1.97" package="com.bitcomet.BitComet64" type="one-file">
   <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
 </file>
   <file path=".Npackd\Uninstall.bat">%ncl%\ncl remove-scp --title "/BitComet.*/"</file>
@@ -10609,6 +10609,15 @@ call "%npackdih%\InstallMSI.bat" APPLICATIONFOLDER yes&#13;
 </file>
   <url>https://download.calibre-ebook.com/6.8.0/calibre-64bit-6.8.0.msi</url>
   <hash-sum type="SHA-256">644aa27a9055cac764c71a38e98af3456c8af95b2fa74c514c1b2de630eb1b8b</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.2, 2)">
+   <variable>npackdih</variable>
+  </dependency>
+ </version>
+ <version name="6.9" package="com.calibreebook.Calibre64" type="one-file">
+  <file path=".Npackd\Install.bat">call "%npackdih%\InstallMSI.bat" APPLICATIONFOLDER yes&#13;
+</file>
+  <url>https://download.calibre-ebook.com/6.9.0/calibre-64bit-6.9.0.msi</url>
+  <hash-sum type="SHA-256">be9b029370e9ce75557a240e8e5375be04e1bbeffdf26a261f3527e3410aa163</hash-sum>
   <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.2, 2)">
    <variable>npackdih</variable>
   </dependency>
@@ -26474,7 +26483,7 @@ if %err% neq 0 exit %err%&#13;
   <hash-sum type="SHA-256">9ea1de71109eb5f1b41be08cf2f509ad952ba8cdae8ed82507452f2f772686d3</hash-sum>
  </version>
 
-    <version name="107.0.5304.107" package="google-chrome-x64" type="one-file">
+    <version name="107.0.5304.122" package="google-chrome-x64" type="one-file">
   <file path=".Npackd\Install.bat">call "%npackdih%\InstallMSI.bat" TARGETDIR yes&#13;
 </file>
   <url>https://dl.google.com/tag/s/appguid%3D%7B8A69D345-D564-463C-AFF1-A69D9E530F96%7D%26iid%3D%7B0A558A36-0536-8B3F-0AE0-420553CC97F3%7D%26lang%3Den%26browser%3D4%26usagestats%3D0%26appname%3DGoogle%2520Chrome%26needsadmin%3DFalse/edgedl/chrome/install/GoogleChromeStandaloneEnterprise64.msi</url>
@@ -31326,6 +31335,9 @@ rmdir "%name%"&#13;
     <version name="2022.10.26.13" package="kmplayer64" type="one-file">
   <url>https://dn.kmplayer.com/Dn/kmp64x/KMP64_2022.10.26.13.exe</url>
  </version>
+ <version name="2022.11.25.17" package="kmplayer64" type="one-file">
+  <url>https://dn.kmplayer.com/Dn/kmp64x/KMP64_2022.11.25.17.exe</url>
+ </version>
 
     <version name="18.1" package="kodi64" type="one-file">
   <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
@@ -32479,7 +32491,7 @@ call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Np
  </version>
  <version name="7.4.3" package="libreoffice64" type="one-file">
   <file path=".Npackd\Install.bat">call "%npackdih%\InstallMSI.bat" INSTALLLOCATION yes</file>
-  <url>https://download.documentfoundation.org/libreoffice/stable/7.4.3/win/x86_64/LibreOffice_7.4.3_Win_x64.msi</url>
+  <url>https://github.com/tim-lebedkov/packages/releases/download/2022_11/libreoffice64-7.4.3-LibreOffice_7.4.3_Win_x64.msi</url>
   <hash-sum type="SHA-256">f4cf0fe2ff0b9716d3622202c4dcbd7aedabce03e135a159d747f9bbeb92da01</hash-sum>
   <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.1, 2)">
    <variable>npackdih</variable>
@@ -69790,7 +69802,7 @@ if %errorlevel% neq 0 exit /b %errorlevel%&#13;
 &#13;
 &#13;
 </file>
-  <url>https://download.qt.io/official_releases/qtcreator/9.0/9.0.0/installer_source/windows_x64/qtcreator.7z</url>
+  <url>https://github.com/tim-lebedkov/packages/releases/download/2022_11/qt-creator64-9-qtcreator.7z</url>
   <hash-sum type="SHA-256">12f5dd5dc78f1c74bc1be8e169ba79ef3c36a993c7fe84316d446b90fba7aab3</hash-sum>
   <dependency package="org.7-zip.SevenZIPA" versions="[19, 100)">
    <variable>sevenzipa</variable>
@@ -75646,6 +75658,19 @@ Application\%name%\Installer\setup.exe --uninstall --vivaldi --force-uninstall -
 type .Npackd\Output.txt</file>
   <url>https://downloads.vivaldi.com/stable/Vivaldi.5.5.2805.44.x64.exe</url>
   <hash-sum type="SHA-256">84c04fb8ba371ab56575b55ab1f5f43e313bc9300598926339e03930706ecf6b</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.24, 2)">
+   <variable>ncl</variable>
+  </dependency>
+ </version>
+ <version name="5.5.2805.48" package="vivaldi-browser-64" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" --system-level --vivaldi-silent --vivaldi-standalone --do-not-launch-chrome --vivaldi-install-dir="%CD%" &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">for /f "delims=" %%x in ('dir /b application\5*') do set name=%%x&#13;
+&#13;
+Application\%name%\Installer\setup.exe --uninstall --vivaldi --force-uninstall --system-level &gt; .Npackd\Output.txt 2&gt;&amp;1 &#13;
+type .Npackd\Output.txt</file>
+  <url>https://downloads.vivaldi.com/stable/Vivaldi.5.5.2805.48.x64.exe</url>
+  <hash-sum type="SHA-256">696f442ea914486d7d3c1c34684d03b85fd45591ff5db8638eb1bf7671692647</hash-sum>
   <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.24, 2)">
    <variable>ncl</variable>
   </dependency>
