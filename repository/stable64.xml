@@ -3297,7 +3297,7 @@ x86_64</description>
   <license>org.gnu.GPLv2</license>
   <category>Tools</category>
   <tag>stable64</tag>
-  <stars>2</stars>
+  <stars>1</stars>
  </package>
  <package name="org.virtualdub.VirtualDub64">
   <title>VirtualDub 64 bit</title>
@@ -24808,6 +24808,17 @@ echo DesktopShortcut=false &gt;&gt; .Npackd\FF.ini&#13;
 verify</file>
   <url>https://download-installer.cdn.mozilla.net/pub/firefox/releases/107.0/win64/en-US/Firefox%20Setup%20107.0.exe</url>
   <hash-sum type="SHA-256">9e6a95bd8482804bb35d1741e54b6ecb878ef59e98b6ed7db4472feea32f476d</hash-sum>
+ </version>
+ <version name="107.0.1" package="firefox64" type="one-file">
+  <file path=".Npackd\Install.bat">echo [Install] &gt; .Npackd\FF.ini&#13;
+echo InstallDirectoryPath=%CD% &gt;&gt; .Npackd\FF.ini&#13;
+echo QuickLaunchShortcut=false &gt;&gt; .Npackd\FF.ini&#13;
+echo DesktopShortcut=false &gt;&gt; .Npackd\FF.ini&#13;
+"%npackd_package_binary%" /INI="%CD%\.Npackd\FF.ini" &amp;&amp; del /f /q "%npackd_package_binary%"</file>
+  <file path=".Npackd\Uninstall.bat">uninstall\helper.exe /S&#13;
+verify</file>
+  <url>https://download-installer.cdn.mozilla.net/pub/firefox/releases/107.0.1/win64/en-US/Firefox%20Setup%20107.0.1.exe</url>
+  <hash-sum type="SHA-256">5e4f166f31450276b90a8063c16763872fa823b2bd86e4e0112f9b34a23f2023</hash-sum>
  </version>
 
     <version name="0.5" package="firefoxpwa" type="one-file">
@@ -67275,6 +67286,16 @@ echo DesktopShortcut=false &gt;&gt; .Npackd\FF.ini&#13;
   <file path=".Npackd\Uninstall.bat">uninstall\helper.exe /S</file>
   <url>https://rm-eu.palemoon.org/release/palemoon-31.4.0.win64.installer.exe</url>
   <hash-sum type="SHA-256">9a313bc196d855668b34d4cf32fa93d7e72207a638899b6f20a7eb33df6527f7</hash-sum>
+ </version>
+ <version name="31.4.1" package="pale-moon64" type="one-file">
+  <file path=".Npackd\Install.bat">echo [Install] &gt; .Npackd\FF.ini&#13;
+echo InstallDirectoryPath=%CD% &gt;&gt; .Npackd\FF.ini&#13;
+echo QuickLaunchShortcut=false &gt;&gt; .Npackd\FF.ini&#13;
+echo DesktopShortcut=false &gt;&gt; .Npackd\FF.ini&#13;
+"%npackd_package_binary%" /INI="%CD%\.Npackd\FF.ini" &amp;&amp; del /f /q "%npackd_package_binary%"</file>
+  <file path=".Npackd\Uninstall.bat">uninstall\helper.exe /S</file>
+  <url>https://rm-eu.palemoon.org/release/palemoon-31.4.1.win64.installer.exe</url>
+  <hash-sum type="SHA-256">cd1db112c39745f711f1cdc5b6235f6646c3f0d339e414405e16dbb616e7765a</hash-sum>
  </version>
 
     <version name="2.2.1" package="pandoc64" type="one-file">
