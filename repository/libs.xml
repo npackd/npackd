@@ -2554,6 +2554,60 @@ if %errorlevel% neq 0 exit /b %errorlevel%&#13;
   <hash-sum type="SHA-256">c811e45491a3ea0803a1dcc8e1cdbb000db6418d9ecd59b0e3c8166543563859</hash-sum>
   <dependency package="net.zlib.ZLibSource" versions="[1.2.5, 1.3)"/>
  </version>
+ <version name="1.4" package="net.sourceforge.quazip.QuaZIPSource">
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b quazip*') do set name=%%x&#13;
+cd "%name%"        &#13;
+for /f "delims=" %%a in ('dir /b') do (&#13;
+  move "%%a" ..&#13;
+)&#13;
+cd ..&#13;
+rmdir "%name%"&#13;
+</file>
+  <file path=".Npackd\Build.bat">rem copy sources&#13;
+xcopy "%npackd_package_dir%" src /E /I /Q&#13;
+if %errorlevel% neq 0 exit /b %errorlevel%&#13;
+&#13;
+if "%npackd_output_package%" equ "quazip-dev-x86_64-w64_seh_posix_8.2-qt_5.12-static" (goto x86_64) else (goto i686)&#13;
+&#13;
+rem configure 64 bit&#13;
+:x86_64&#13;
+set path=C:\msys64\mingw64\bin&#13;
+cd src&#13;
+C:\msys64\mingw64\qt5-static\bin\qmake.exe LIBS+=-lz CONFIG+=staticlib CONFIG+=release DEFINES+=QUAZIP_STATIC&#13;
+if %errorlevel% neq 0 exit /b %errorlevel%&#13;
+goto build&#13;
+&#13;
+rem configure 32 bit&#13;
+:i686&#13;
+set path=C:\msys64\mingw32\bin&#13;
+cd src&#13;
+C:\msys64\mingw32\qt5-static\bin\qmake.exe LIBS+=-lz CONFIG+=staticlib CONFIG+=release DEFINES+=QUAZIP_STATIC&#13;
+if %errorlevel% neq 0 exit /b %errorlevel%&#13;
+goto build&#13;
+&#13;
+rem build&#13;
+:build&#13;
+mingw32-make&#13;
+if %errorlevel% neq 0 exit /b %errorlevel%&#13;
+&#13;
+rem copy the created libraries&#13;
+cd ..&#13;
+mkdir lib&#13;
+if %errorlevel% neq 0 exit /b %errorlevel%&#13;
+copy src\quazip\release\*.a lib&#13;
+if %errorlevel% neq 0 exit /b %errorlevel%&#13;
+&#13;
+rem copy the include files&#13;
+mkdir include&#13;
+if %errorlevel% neq 0 exit /b %errorlevel%&#13;
+copy src\quazip\*.h include&#13;
+if %errorlevel% neq 0 exit /b %errorlevel%&#13;
+		&#13;
+</file>
+  <url>https://github.com/stachenov/quazip/archive/v1.4.zip</url>
+  <hash-sum type="SHA-256">485e0366cf17aa3945a069aad14b0dc037c5cb994164504c4c0f406f68610be9</hash-sum>
+  <dependency package="net.zlib.ZLibSource" versions="[1.2.5, 1.3)"/>
+ </version>
 
     <version name="1.2.5" package="net.zlib.ZLibSource">
   <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b zlib*') do set name=%%x&#13;
@@ -3163,6 +3217,10 @@ rmdir "%name%"&#13;
  <version name="3.39.3" package="org.bitbucket.xerial.SQLiteJDBCDriver" type="one-file">
   <url>https://github.com/xerial/sqlite-jdbc/releases/download/3.39.3.0/sqlite-jdbc-3.39.3.0.jar</url>
   <hash-sum type="SHA-256">7abc3c24d94af944794ccf31b2d3ac706c018dcc99cbfa17150f631593dfadf5</hash-sum>
+ </version>
+ <version name="3.41" package="org.bitbucket.xerial.SQLiteJDBCDriver" type="one-file">
+  <url>https://github.com/xerial/sqlite-jdbc/releases/download/3.41.0.0/sqlite-jdbc-3.41.0.0.jar</url>
+  <hash-sum type="SHA-256">e5ecb1443030799330836594a9dcab56ff7b23ff54228343546448a69610a36c</hash-sum>
  </version>
 
     <version name="1.47" package="org.boost.Boost">
@@ -4574,6 +4632,10 @@ rmdir "%name%"</file>
  <version name="3.2.1" package="wxwidgets-source">
   <url>https://github.com/wxWidgets/wxWidgets/releases/download/v3.2.1/wxWidgets-3.2.1.zip</url>
   <hash-sum type="SHA-256">cc8868c3c8ec4eddaf659a8b81589a3d83126d5afde012350f61031a607a56d8</hash-sum>
+ </version>
+ <version name="3.2.2.1" package="wxwidgets-source">
+  <url>https://github.com/wxWidgets/wxWidgets/releases/download/v3.2.2.1/wxWidgets-3.2.2.1.zip</url>
+  <hash-sum type="SHA-256">f1a7e31ea59afafeb5de487ff5a27b2ee2784e8ec955e895519f77d888b8cbc2</hash-sum>
  </version>
 
     <version name="1.2.11" package="z-dev-i686-w64_dw2_posix_7.2-static">
