@@ -23,12 +23,14 @@ import (
 	"sync"
 	"time"
 	"unicode/utf8"
+
 	/*	"golang.org/x/oauth2"
 		"golang.org/x/oauth2/jwt"
 		"golang.org/x/oauth2/google"
 	*/
-	"github.com/kbinani/screenshot"
 	"image/png"
+
+	"github.com/kbinani/screenshot"
 )
 
 var changeData = false
@@ -1420,6 +1422,48 @@ func detectNewVersions() error {
 	return nil
 }
 
+func detectDuplicateURLs() error {
+	fmt.Println("Checking for duplicate URLs for different versions of a package")
+
+	reps := []string{"repository/stable.xml", "repository/stable64.xml", "repository/libs.xml"}
+
+	for _, rep := range reps {
+		dat, err := ioutil.ReadFile(rep)
+		if err != nil {
+			return err
+		}
+
+		// parse the repository XML
+		rep := Repository{}
+		err = xml.Unmarshal(dat, &rep)
+		if err != nil {
+			return err
+		}
+
+		// package -> [URL, version]
+		urls := make(map[string]map[string]string)
+
+		for i := 0; i < len(rep.PackageVersion); i++ {
+			pv := rep.PackageVersion[i]
+			if pv.URL != "" {
+				m, ok := urls[pv.Package]
+				if ok {
+					v, ok := m[pv.URL]
+					if ok {
+						fmt.Println("Duplicate URL " + pv.URL + " for package " + pv.Package + " versions " + pv.Name + " and " + v)
+					}
+				} else {
+					m = make(map[string]string)
+					m[pv.URL] = pv.Name
+					urls[pv.Package] = m
+				}
+			}
+		}
+	}
+
+	return nil
+}
+
 func maintenance() error {
 	err := downloadRepos()
 	if err != nil {
@@ -1432,6 +1476,11 @@ func maintenance() error {
 	}
 
 	err = detectNewVersions()
+	if err != nil {
+		return err
+	}
+
+	err = detectDuplicateURLs()
 	if err != nil {
 		return err
 	}
@@ -1631,6 +1680,9 @@ var target = flag.String("target", "", "directory where the downloaded binaries 
 // Correct URLs for packages at npackd.org:
 // PASSWORD=xxx go run TestUnstableRep.go TestUnstableRep_linux.go -command correct-urls
 //
+// Detect duplicated URLs in different versions of a package at npackd.org:
+// go run TestUnstableRep.go TestUnstableRep_linux.go -command detect-duplicate-urls
+//
 // Download repositories from npackd.org to github.com/npackd/npackd, re-upload packages to github.com/tim-lebedkov/packages:
 // PASSWORD=xxx GITHUB_TOKEN=xxx go run TestUnstableRep.go TestUnstableRep_linux.go -command maintenance
 //
@@ -1653,6 +1705,8 @@ func main() {
 		err = uploadBinariesToGithub()
 	} else if *command == "correct-urls" {
 		err = correctURLs()
+	} else if *command == "detect-duplicate-urls" {
+		err = detectDuplicateURLs()
 	} else if *command == "maintenance" {
 		err = maintenance()
 	} else {
