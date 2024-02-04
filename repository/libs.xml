@@ -508,25 +508,6 @@ rmdir "%name%"</file>
   </dependency>
   <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.15.7, 2)"/>
  </version>
- <version name="5.9.4" package="com.nokia.QtDev-i686-w64" type="one-file">
-  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.7z') do set setup=%%x&#13;
-"%sevenzipa%\7za.exe" x "%setup%" &gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
-del "%setup%"&#13;
-&#13;
-for /f "delims=" %%x in ('dir /b qt5.*') do set name=%%x&#13;
-cd "%name%"&#13;
-for /f "delims=" %%a in ('dir /b') do (&#13;
-  move "%%a" ..&#13;
-)&#13;
-cd ..&#13;
-rmdir "%name%"</file>
-  <url>https://downloads.sourceforge.net/project/mingw-w64-dgn/others/qt-5.8.0-w32-bin-i686-20170513.7z</url>
-  <sha1>fff9f2a3398d739bdab4c10d654a1780ede5f9b4</sha1>
-  <dependency package="org.7-zip.SevenZIPA" versions="[9.20, 20)">
-   <variable>sevenzipa</variable>
-  </dependency>
-  <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.15.7, 2)"/>
- </version>
  <version name="5.14.1" package="com.nokia.QtDev-i686-w64" type="one-file">
   <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.7z') do set setup=%%x&#13;
 "%sevenzipa%\7za.exe" x "%setup%" &gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
