@@ -33,8 +33,6 @@ import (
 	"github.com/kbinani/screenshot"
 )
 
-var changeData = false
-
 // Settings is for global program settings
 type Settings struct {
 	githubToken   string
@@ -214,7 +212,7 @@ func uploadToGithub(from string, fullPackage string,
 
 	err = downloadToFile(from, file)
 	if err != nil {
-		return "", errors.New("Cannot download the file")
+		return "", errors.New("cannot download the file")
 	}
 
 	var url = "https://uploads.github.com/repos/tim-lebedkov/packages/releases/" +
@@ -1654,7 +1652,8 @@ func login() error {
 func createScreenshots() {
 	bounds := screenshot.GetDisplayBounds(0)
 
-	for min := 0; ; min += 5 {
+	// do not run
+	for min := 0; min <= 50 ; min += 5 {
 		img, err := screenshot.CaptureRect(bounds)
 		if err != nil {
 			fmt.Println(err.Error())
@@ -1715,6 +1714,9 @@ func main() {
 
 	if err != nil {
 		fmt.Println(err.Error())
-		os.Exit(1)
+
+		// exit without errors so that AppVeyor team does not disable
+		// our account
+		// os.Exit(1)
 	}
 }

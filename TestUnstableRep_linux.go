@@ -1,12 +1,13 @@
+//go:build linux
 // +build linux
 
 package main
 
 import (
-	"os/exec"
-	"syscall"
 	"fmt"
+	"os/exec"
 	"strings"
+	"syscall"
 )
 
 func parseCommandLine(command string) ([]string, error) {
@@ -64,7 +65,7 @@ func parseCommandLine(command string) ([]string, error) {
     }
 
     if state == "quotes" {
-        return []string{}, fmt.Errorf("Unclosed quote in command line: %s", command)
+        return []string{}, fmt.Errorf("unclosed quote in command line: %s", command)
     }
 
     if current != "" {
