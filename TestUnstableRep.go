@@ -576,7 +576,7 @@ func compareVersions(a []int, b []int) int {
 /**
  * onlyNewest true = only test the newest versions
  */
-func processURL(url string, onlyNewest bool) error {
+func processURL(url string, onlyNewest bool, maxDurationMinutes int) error {
 	var start = time.Now()
 
 	bytes, _, err := download(url, true)
@@ -656,7 +656,7 @@ func processURL(url string, onlyNewest bool) error {
 		}
 		fmt.Println("==================================================================")
 
-		if time.Since(start).Minutes() > 45 {
+		if time.Since(start).Minutes() > float64(maxDurationMinutes) {
 			break
 		}
 	}
@@ -1490,8 +1490,9 @@ func maintenance() error {
 func testPackages() error {
 	go createScreenshots()
 
+	var start = time.Now()
 	processURL("https://npackd.appspot.com/rep/recent-xml?tag=untested",
-		false)
+		false, 30)
 
 	// the stable repository is about 3900 KiB
 	// and should be tested more often
@@ -1509,8 +1510,11 @@ func testPackages() error {
 
 	reps := []string{"stable", "stable64", "libs"}
 
-	processURL("https://npackd.appspot.com/rep/xml?tag="+reps[index],
-		newest)
+	remaining := float64(50) - time.Since(start).Minutes()
+	if (remaining > 0) {
+		processURL("https://npackd.appspot.com/rep/xml?tag="+reps[index],
+			newest, int(remaining))
+	}
 
 	return nil
 }
