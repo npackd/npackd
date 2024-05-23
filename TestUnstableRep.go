@@ -713,13 +713,13 @@ func downloadRepos() error {
 
 	reps := []string{"unstable", "stable", "stable64", "libs"}
 	for _, s := range reps {
-		err := downloadToFile("https://www.npackd.org/rep/xml?tag="+s+"&create=true",
+		err := downloadToFile("https://npackd.appspot.com/rep/xml?tag="+s+"&create=true",
 			"repository/"+s+".xml")
 		if err != nil {
 			return err
 		}
 
-		err = downloadToFile("https://www.npackd.org/rep/zip?tag="+s+"&create=true",
+		err = downloadToFile("https://npackd.appspot.com/rep/zip?tag="+s+"&create=true",
 			"repository/"+s+".zip")
 		if err != nil {
 			return err
@@ -1201,7 +1201,7 @@ func downloadAndHash(address string) ([]byte, error) {
 func detect(packageName string) error {
 	// now we download the data from the same package, but also with
 	// additional fields for discovery
-	bytes, _, err := download("https://www.npackd.org/rep/recent-xml?extra=true&package="+packageName, true)
+	bytes, _, err := download("https://npackd.appspot.com/rep/recent-xml?extra=true&package="+packageName, true)
 	if err != nil {
 		return err
 	}
