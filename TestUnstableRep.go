@@ -171,7 +171,7 @@ func uploadRepositoryBinariesToGithub(url string, releaseID int) error {
 		if ok && strings.Index(url,
 			"https://github.com/tim-lebedkov/packages/releases/download/") != 0 &&
 			url != "" {
-			fmt.Println("https://www.npackd.org/p/" + p + "/" + version)
+			fmt.Println("https://npackd.appspot.com/p/" + p + "/" + version)
 
 			newURL, err := uploadToGithub(url, p, version, releaseID)
 			if err != nil {
@@ -641,7 +641,7 @@ func processURL(url string, onlyNewest bool, maxDurationMinutes int) error {
 		var version = pv.Name
 
 		fmt.Println(p + " " + version)
-		fmt.Println("https://www.npackd.org/p/" + p + "/" + version)
+		fmt.Println("https://npackd.appspot.com/p/" + p + "/" + version)
 
 		if indexOf(bigPackages, p) >= 0 {
 			fmt.Println(p + " " + version + " ignored because of the download size")
@@ -737,7 +737,7 @@ func downloadRepos() error {
 	}
 
 	// ignore the exit code here as there may be no changes to commit
-	exec2("", settings.git, "commit -a -m \"Automatic data transfer from https://www.npackd.org\"", true)
+	exec2("", settings.git, "commit -a -m \"Automatic data transfer from https://npackd.appspot.com\"", true)
 
 	ec, _ = exec2("", settings.git, "push https://tim-lebedkov:"+settings.githubToken+
 		"@github.com/npackd/npackd.git", false)
@@ -1282,7 +1282,7 @@ func detect(packageName string) error {
 		return nil
 	}
 
-	fmt.Println("https://www.npackd.org/p/" + packageName)
+	fmt.Println("https://npackd.appspot.com/p/" + packageName)
 	fmt.Println("Found new version " + versionToString(newVersion))
 
 	// only change the URL and hash sum if the tag "same-url" is not present
@@ -1410,7 +1410,7 @@ func detectNewVersions() error {
 			if indexOf(p.Tag, "end-of-life") < 0 {
 				err = detect(p.Name)
 				if err != nil {
-					fmt.Println("https://www.npackd.org/p/" + p.Name)
+					fmt.Println("https://npackd.appspot.com/p/" + p.Name)
 					fmt.Println(err.Error())
 				}
 			}
