@@ -374,7 +374,6 @@ compression library in C</description>
   <tag>end-of-life</tag>
   <link href="https://zlib.net/" rel="changelog"/>
  </package>
-
  <version name="4.8.1" package="com.nokia.QtDev-i686-w64" type="one-file">
   <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.7z') do set setup=%%x&#13;
 "%sevenzipa%\7za.exe" x "%setup%"&#13;
@@ -2206,6 +2205,25 @@ cd ..&#13;
 rmdir "%name%"</file>
   <url>https://download.qt.io/archive/qt/6.7/6.7.1/single/qt-everywhere-src-6.7.1.zip</url>
   <hash-sum type="SHA-256">ac9816bcc4a9bdf0886769811ae2685a2f7e39c8de9c87048e0c51b7b75b8d5c</hash-sum>
+  <dependency package="org.7-zip.SevenZIPA" versions="[9.20, 20)">
+   <variable>sevenzipa</variable>
+  </dependency>
+  <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.15.7, 2)"/>
+ </version>
+ <version name="6.7.2" package="com.nokia.QtSource" type="one-file">
+  <file path=".Npackd\Install.bat">for /f %%x in ('dir /b *.zip') do set setup=%%x&#13;
+"%sevenzipa%\7za.exe" x "%setup%" &gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+del "%setup%"&#13;
+&#13;
+for /f "delims=" %%x in ('dir /b qt*') do set name=%%x&#13;
+cd "%name%"        &#13;
+for /f "delims=" %%a in ('dir /b') do (&#13;
+  move "%%a" ..&#13;
+)&#13;
+cd ..&#13;
+rmdir "%name%"</file>
+  <url>https://download.qt.io/archive/qt/6.7/6.7.2/single/qt-everywhere-src-6.7.2.zip</url>
+  <hash-sum type="SHA-256">e71c1f1b453b2b5a34173307d2ba9d35d3383e9727fbc34dc7eef189f351bca5</hash-sum>
   <dependency package="org.7-zip.SevenZIPA" versions="[9.20, 20)">
    <variable>sevenzipa</variable>
   </dependency>
@@ -4583,4 +4601,5 @@ rmdir "%name%"</file>
   <url>https://github.com/tim-lebedkov/npackd-scripts/releases/download/release_2018.01.01/z-dev-x86_64-w64_seh_posix_7.2-static-1.2.11.zip</url>
   <sha1>4bf136b3b2cda6712a7e32b9ab5091f8cdd7a2f2</sha1>
  </version>
+
 </root>
