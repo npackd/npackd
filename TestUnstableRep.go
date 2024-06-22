@@ -12,6 +12,7 @@ import (
 	"io"
 	"io/ioutil"
 	"math/rand"
+	"mime"
 	"mime/multipart"
 	"net/http"
 	"net/url"
@@ -138,7 +139,7 @@ func shufflePackageVersions(array []PackageVersion) {
 func uploadRepositoryBinariesToGithub(url string, releaseID int) error {
 	fmt.Println("Re-uploading packages in " + url)
 
-	bytes, _, err := download(url, true)
+	bytes, _, _, err := download(url, true)
 	if err != nil {
 		return err
 	}
@@ -210,7 +211,7 @@ func uploadToGithub(from string, fullPackage string,
 	var p = strings.LastIndex(u.Path, "/")
 	var file = fullPackage + "-" + version + "-" + u.Path[p+1:]
 
-	err = downloadToFile(from, file)
+	_, err = downloadToFile(from, file)
 	if err != nil {
 		return "", errors.New("cannot download the file")
 	}
@@ -349,7 +350,7 @@ func apiTag(packageName string, version string, tag string, set bool) error {
 		url = url + "0"
 	}
 
-	_, _, err := download(url, false)
+	_, _, _, err := download(url, false)
 	return err
 }
 
@@ -367,7 +368,7 @@ func apiSetURL(packageName string, version string, newURL string) (int, error) {
 		"&password=" + url.QueryEscape(settings.password) +
 		"&url=" + url.QueryEscape(newURL)
 
-	_, statusCode, err := download(a, false)
+	_, statusCode, _, err := download(a, false)
 	return statusCode, err
 }
 
@@ -438,7 +439,7 @@ func apiSetURLAndHashSum(packageName string, version string, newURL string, newH
 		a = a + "&tag=" + url.QueryEscape(tag)
 	}
 
-	_, statusCode, err := download(a, false)
+	_, statusCode, _, err := download(a, false)
 	if statusCode != 200 {
 		return errors.New("Invalid HTTP code")
 	}
@@ -459,7 +460,7 @@ func apiCopyPackageVersion(packageName string, version string, newVersion string
 		packageName + "&from=" + version +
 		"&to=" + newVersion + "&password=" + settings.password
 
-	_, statusCode, err := download(a, false)
+	_, statusCode, _, err := download(a, false)
 	if statusCode != 200 {
 		return errors.New("Invalid HTTP status code")
 	}
@@ -579,7 +580,7 @@ func compareVersions(a []int, b []int) int {
 func processURL(url string, onlyNewest bool, maxDurationMinutes int) error {
 	var start = time.Now()
 
-	bytes, _, err := download(url, true)
+	bytes, _, _, err := download(url, true)
 	if err != nil {
 		return err
 	}
@@ -708,18 +709,18 @@ func downloadRepos() error {
 	// download the newest repository files and commit them to the project
 	ec, _ := exec2("", settings.git, "checkout master", true)
 	if ec != 0 {
-		return errors.New("Program execution failed")
+		return errors.New("program execution failed")
 	}
 
 	reps := []string{"unstable", "stable", "stable64", "libs"}
 	for _, s := range reps {
-		err := downloadToFile("https://npackd.appspot.com/rep/xml?tag="+s+"&create=true",
+		_, err := downloadToFile("https://npackd.appspot.com/rep/xml?tag="+s+"&create=true",
 			"repository/"+s+".xml")
 		if err != nil {
 			return err
 		}
 
-		err = downloadToFile("https://npackd.appspot.com/rep/zip?tag="+s+"&create=true",
+		_, err = downloadToFile("https://npackd.appspot.com/rep/zip?tag="+s+"&create=true",
 			"repository/"+s+".zip")
 		if err != nil {
 			return err
@@ -787,7 +788,7 @@ func createRelease() error {
 	return nil
 }
 
-func download(address string, showParameters bool) (*bytes.Buffer, int, error) {
+func download(address string, showParameters bool) (*bytes.Buffer, int, string, error) {
 	/*
 		if showParameters {
 			fmt.Println("Downloading " + address)
@@ -803,13 +804,26 @@ func download(address string, showParameters bool) (*bytes.Buffer, int, error) {
 	// Get the data
 	resp, err := http.Get(address)
 	if err != nil {
-		return nil, 0, err
+		return nil, 0, "", err
 	}
 	defer resp.Body.Close()
 
+	// determine the content type
+	contentType := resp.Header.Get("Content-type")
+	if contentType == "" {
+		contentType = "application/octet-stream"
+	} else {
+		ct, _, err := mime.ParseMediaType(contentType)
+		if err == nil {
+			contentType = ct
+		} else {
+			contentType = "application/octet-stream"
+		}
+	}
+	
 	// Check server response
 	if resp.StatusCode != http.StatusOK {
-		return nil, resp.StatusCode, fmt.Errorf("bad status: %s", resp.Status)
+		return nil, resp.StatusCode, contentType, fmt.Errorf("bad status: %s", resp.Status)
 	}
 
 	b := new(bytes.Buffer)
@@ -817,10 +831,10 @@ func download(address string, showParameters bool) (*bytes.Buffer, int, error) {
 	// Write the body to file
 	_, err = io.Copy(b, resp.Body)
 	if err != nil {
-		return nil, resp.StatusCode, err
+		return nil, resp.StatusCode, contentType, err
 	}
 
-	return b, resp.StatusCode, nil
+	return b, resp.StatusCode, contentType, nil
 }
 
 func postFile(url string, mime string, path string) error {
@@ -924,8 +938,8 @@ func uploadFileMultipart(url string, path string) (*http.Response, error) {
 //
 // url: URL for HTTP GET
 // path: output file
-// Returns: error message
-func downloadToFile(url, path string) error {
+// Returns: (content type, error message)
+func downloadToFile(url, path string) (string, error) {
 	//fmt.Println("Downloading " + url + " to " + path)
 
 	// Get the data
@@ -933,37 +947,50 @@ func downloadToFile(url, path string) error {
 
 	req, err := http.NewRequest("GET", url, nil)
 	if err != nil {
-		return err
+		return "", err
 	}
 
 	req.Header.Set("User-Agent", "NpackdWeb/1 (compatible; MSIE 9.0)")
 
 	resp, err := client.Do(req)
 	if err != nil {
-		return err
+		return "", err
 	}
 
 	defer resp.Body.Close()
 
+	// determine the content type
+	contentType := resp.Header.Get("Content-type")
+	if contentType == "" {
+		contentType = "application/octet-stream"
+	} else {
+		ct, _, err := mime.ParseMediaType(contentType)
+		if err == nil {
+			contentType = ct
+		} else {
+			contentType = "application/octet-stream"
+		}
+	}
+
 	// Check server response
 	if resp.StatusCode != http.StatusOK {
-		return fmt.Errorf("bad status: %s", resp.Status)
+		return contentType, fmt.Errorf("bad status: %s", resp.Status)
 	}
 
 	// open file
 	f, err := os.OpenFile(path, os.O_RDWR|os.O_CREATE|os.O_TRUNC, 0644)
 	if err != nil {
-		return err
+		return contentType, err
 	}
 	defer f.Close()
 
 	// Write the body to file
 	_, err = io.Copy(f, resp.Body)
 	if err != nil {
-		return err
+		return contentType, err
 	}
 
-	return nil
+	return contentType, nil
 }
 
 // fileExists checks if a file exists.
@@ -990,7 +1017,7 @@ func createSettings() {
 // user: Github user name
 // project: Github project name
 func getReleases(user string, project string) ([]Release, error) {
-	b, _, err := download("https://api.github.com/repos/"+user+"/"+project+"/releases", true)
+	b, _, _, err := download("https://api.github.com/repos/"+user+"/"+project+"/releases", true)
 	if err != nil {
 		return nil, err
 	}
@@ -1010,7 +1037,7 @@ func getReleases(user string, project string) ([]Release, error) {
 // id: release ID
 // Returns: (assets, error message)
 func getReleaseAssets(user string, project string, id int) ([]Asset, error) {
-	b, _, err := download("https://api.github.com/repos/"+user+"/"+project+"/releases/"+
+	b, _, _, err := download("https://api.github.com/repos/"+user+"/"+project+"/releases/"+
 		strconv.Itoa(id)+"/assets", true)
 	if err != nil {
 		return nil, err
@@ -1082,7 +1109,7 @@ func downloadBinaries(dir string) error {
 					return err
 				}
 
-				err = downloadToFile(asset.BrowserDownloadURL, path)
+				_, err = downloadToFile(asset.BrowserDownloadURL, path)
 				if err != nil {
 					return err
 				}
@@ -1168,32 +1195,33 @@ func maxVersion(a []PackageVersion) *PackageVersion {
 // Download an URL and compute the SHA-256 of the data.
 //
 // address: URL
-// return: (SHA-256, error)
-func downloadAndHash(address string) ([]byte, error) {
-	file, err := ioutil.TempFile("", "prefix")
+// return: (content type, SHA-256, error)
+func downloadAndHash(address string) (string, []byte, error) {
+	file, err := os.CreateTemp("", "prefix")
 	if err != nil {
-		return nil, err
+		return "", nil, err
 	}
 
 	defer os.Remove(file.Name())
 
-	err = downloadToFile(address, file.Name())
+	var contentType string
+	contentType, err = downloadToFile(address, file.Name())
 	if err != nil {
-		return nil, err
+		return contentType, nil, err
 	}
 
 	f, err := os.Open(file.Name())
 	if err != nil {
-		return nil, err
+		return contentType, nil, err
 	}
 	defer f.Close()
 
 	h := sha256.New()
 	if _, err := io.Copy(h, f); err != nil {
-		return nil, err
+		return contentType, nil, err
 	}
 
-	return h.Sum(nil), nil
+	return contentType, h.Sum(nil), nil
 }
 
 // packageName: this package will be processed
@@ -1201,7 +1229,7 @@ func downloadAndHash(address string) ([]byte, error) {
 func detect(packageName string) error {
 	// now we download the data from the same package, but also with
 	// additional fields for discovery
-	bytes, _, err := download("https://npackd.appspot.com/rep/recent-xml?extra=true&package="+packageName, true)
+	bytes, _, _, err := download("https://npackd.appspot.com/rep/recent-xml?extra=true&package="+packageName, true)
 	if err != nil {
 		return err
 	}
@@ -1228,7 +1256,7 @@ func detect(packageName string) error {
 		return err
 	}
 
-	data, _, err := download(p.DiscoveryPage, true)
+	data, _, _, err := download(p.DiscoveryPage, true)
 	if err != nil {
 		return err
 	}
@@ -1311,7 +1339,8 @@ func detect(packageName string) error {
 		// compute the check sum
 		hashSum := pv.HashSum
 		if len(hashSum) > 0 && downloadURL != pv.URL {
-			hash, err := downloadAndHash(downloadURL)
+			contentType, hash, err := downloadAndHash(downloadURL)
+			fmt.Println("Download content type " + contentType)
 
 			if err != nil {
 				return err
@@ -1392,7 +1421,7 @@ func detectNewVersions() error {
 	reps := []string{"repository/stable.xml", "repository/stable64.xml", "repository/libs.xml"}
 
 	for _, rep := range reps {
-		dat, err := ioutil.ReadFile(rep)
+		dat, err := os.ReadFile(rep)
 		if err != nil {
 			return err
 		}
