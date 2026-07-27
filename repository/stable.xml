@@ -19385,7 +19385,7 @@ verify&#13;
  </version>
 
 
- <version name="1.92.143" package="brave" type="one-file">
+ <version name="1.92.144" package="brave" type="one-file">
   <file path=".Npackd\Install.bat">"%npackd_package_binary%" &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
 </file>
   <file path=".Npackd\Uninstall.bat">"%ncl%\ncl.exe" remove-scp --title "/%npackd_package_name% %npackd_package_version%/i"&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
@@ -52847,6 +52847,17 @@ if %err% neq 0 exit %err%&#13;
    <variable>nih</variable>
   </dependency>
  </version>
+ <version name="2.31.1" package="conan" type="one-file">
+  <cmd-file path="conan\conan.exe"/>
+  <file path=".Npackd\Install.bat">"%nih%\InstallInnoSetup.bat"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">"%nih%\UninstallInnoSetup.bat" unins000.exe</file>
+  <url>https://github.com/conan-io/conan/releases/download/2.31.1/conan-2.31.1-windows-i686-installer.exe</url>
+  <hash-sum type="SHA-256">41d5dea16023460ab4e2158fa692b261059fa3618ff89f543e99c47825d66861</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
 
  <version name="1.46" package="copy-handler" type="one-file">
   <file path=".Npackd\Install.bat">"%nih%\InstallInnoSetup.bat"&#13;
@@ -73454,6 +73465,18 @@ rmdir "%name%"</file>
   <url>http://downloads.sourceforge.net/project/kid3/kid3/3.10.0/kid3-3.10.0-win32-x64.zip</url>
   <hash-sum type="SHA-256">c58c2aa6d96c4884b000523ac33f990211122c5e19a10f54940ee14256485ab0</hash-sum>
  </version>
+ <version name="3.10.1" package="kid3_64">
+  <important-file path="kid3.exe" title="Kid3"/>
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b kid3*') do set name=%%x&#13;
+cd "%name%"        &#13;
+for /f "delims=" %%a in ('dir /b') do (&#13;
+  move "%%a" ..&#13;
+)&#13;
+cd ..&#13;
+rmdir "%name%"</file>
+  <url>http://downloads.sourceforge.net/project/kid3/kid3/3.10.1/kid3-3.10.1-win32-x64.zip</url>
+  <hash-sum type="SHA-256">da144878c94e3e33da6f2fea3610793836d6473cb97b9f4492d25350c7de8836</hash-sum>
+ </version>
 
  <version name="3.9.1.135" package="kmplayer" type="one-file">
   <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
@@ -79536,6 +79559,14 @@ for /f "delims=" %%x in ('dir /b *.tar') do set name=%%x&#13;
   <url>http://multicommander.com/files/updates/MultiCommander_win32_(16.1.0.3198).exe</url>
   <hash-sum type="SHA-256">97e298c4f0f3ef5e96235a1509a01a5fbf439fc7e3314fe6c26ad4f6e1cee8f4</hash-sum>
  </version>
+ <version name="16.1.0.3200" package="multi-commander" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">"Uninstall MultiCommander.exe" /S _?=%CD%&#13;
+</file>
+  <url>http://multicommander.com/files/updates/MultiCommander_win32_(16.1.0.3200).exe</url>
+  <hash-sum type="SHA-256">e309b9f4bcf4a609a73645b301bde492ae80d6debb5ef443e8dd229c29dcd0be</hash-sum>
+ </version>
 
  <version name="2.0.3" package="musescore" type="one-file">
   <file path=".Npackd\Install.bat">call "%nih%\InstallMSI.bat" INSTALLDIR yes&#13;
@@ -81435,7 +81466,7 @@ if %err% neq 0 exit %err%&#13;
   <url>http://files.npackd.org/net.nirsoft.FileTypesMan-1.68.zip</url>
   <sha1>d74d7335c1e8cf91993cc70dd5bcfc13b9f8bdcb</sha1>
  </version>
- <version name="2" package="net.nirsoft.FileTypesMan">
+ <version name="2.1" package="net.nirsoft.FileTypesMan">
   <important-file path="FileTypesMan.exe" title="FileTypesMan"/>
   <url>http://www.nirsoft.net/utils/filetypesman.zip</url>
  </version>
@@ -95641,7 +95672,7 @@ rmdir "%name%"&#13;
   <sha1>635e4b4a489aa91acc10726b8e2cf469037a58a3</sha1>
  </version>
 
- <version name="3.20" package="ocenaudio" type="one-file">
+ <version name="3.20.1" package="ocenaudio" type="one-file">
   <file path=".Npackd\Install.bat">"%npackd_package_binary%" /AllUsers /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
 </file>
   <file path=".Npackd\Uninstall.bat">"%ncl%\ncl" remove-scp --title "/ocenaudio.*/i"</file>
@@ -169140,6 +169171,19 @@ Application\%name%\Installer\setup.exe --uninstall --vivaldi --force-uninstall -
 type .Npackd\Output.txt</file>
   <url>https://downloads.vivaldi.com/stable/Vivaldi.8.1.4087.56.exe</url>
   <hash-sum type="SHA-256">19f8ae80530c0e237add45c20ed65d5e95fea1ac3cbca85169b5d7d8575ef267</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.24, 2)">
+   <variable>ncl</variable>
+  </dependency>
+ </version>
+ <version name="8.1.4087.58" package="vivaldi-browser" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" --system-level --vivaldi-silent --vivaldi-standalone --do-not-launch-chrome --vivaldi-install-dir="%CD%" &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">for /f "delims=" %%x in ('dir /b application\5*') do set name=%%x&#13;
+&#13;
+Application\%name%\Installer\setup.exe --uninstall --vivaldi --force-uninstall --system-level &gt; .Npackd\Output.txt 2&gt;&amp;1 &#13;
+type .Npackd\Output.txt</file>
+  <url>https://downloads.vivaldi.com/stable/Vivaldi.8.1.4087.58.exe</url>
+  <hash-sum type="SHA-256">e5c011931f1eafc648d8703002080a40a0a77c5958d986e26b8797c008fdec57</hash-sum>
   <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.24, 2)">
    <variable>ncl</variable>
   </dependency>
