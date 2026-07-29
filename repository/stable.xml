@@ -10872,7 +10872,7 @@ i686</description>
   <license>org.gnu.GPLv3</license>
   <category>Tools</category>
   <tag>stable</tag>
-  <stars>2</stars>
+  <stars>1</stars>
  </package>
  <package name="org.xmlsoft.LibXML">
   <title>LibXML</title>
@@ -63741,6 +63741,19 @@ rmdir "%name%"&#13;
   <hash-sum type="SHA-256">3ba368f90194f5ff1ef0ad865e05adf4c9dd21f211c9ab4c52f4af0128a18b87</hash-sum>
   <dependency package="org.python.Python" versions="[2.7, 2.8)"/>
  </version>
+ <version name="578" package="google-cloud-sdk">
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b google-cloud-sdk*') do set name=%%x&#13;
+cd "%name%"&#13;
+for /f "delims=" %%a in ('dir /b') do (&#13;
+  move "%%a" ..&#13;
+)&#13;
+cd ..&#13;
+rmdir "%name%"&#13;
+</file>
+  <url>https://dl.google.com/dl/cloudsdk/channels/rapid/downloads/google-cloud-sdk-578.0.0-windows-x86.zip</url>
+  <hash-sum type="SHA-256">8a0c1bb95e962ea3697f4784fc49b1307a01ad61765844d46aca3b2e14cf84aa</hash-sum>
+  <dependency package="org.python.Python" versions="[2.7, 2.8)"/>
+ </version>
 
 
  <version name="0.2.5" package="gpick" type="one-file">
@@ -67099,6 +67112,20 @@ if %err% neq 0 exit %err%&#13;
 </file>
   <url>http://www.heidisql.com/installers/HeidiSQL_12.20.0.7337_Setup.exe</url>
   <hash-sum type="SHA-256">fbbac2527412d5520899579c0e56124a9d2af490e288f4905c81e6c742dc6a6b</hash-sum>
+ </version>
+ <version name="12.20.0.7340" package="heidisql" type="one-file">
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
+"%setup%" /SP- /VERYSILENT /SUPPRESSMSGBOXES /NOCANCEL /NORESTART /DIR="%CD%" /SAVEINF="%CD%\.Npackd\InnoSetupInfo.ini" /LOG="%CD%\.Npackd\InnoSetupInstall.log" &amp;&amp; del /f /q "%setup%"&#13;
+set err=%errorlevel%&#13;
+type .Npackd\InnoSetupInstall.log&#13;
+if %err% neq 0 exit %err%</file>
+  <file path=".Npackd\Uninstall.bat">unins000.exe /VERYSILENT /SUPPRESSMSGBOXES /NORESTART /LOG="%CD%\.Npackd\InnoSetupUninstall.log"&#13;
+set err=%errorlevel%&#13;
+type .Npackd\InnoSetupUninstall.log&#13;
+if %err% neq 0 exit %err%&#13;
+</file>
+  <url>http://www.heidisql.com/installers/HeidiSQL_12.20.0.7340_Setup.exe</url>
+  <hash-sum type="SHA-256">ee92cf088e8c8497ab11320901ad8ecbbda2bfe94f74a8e8de7055d7532a453a</hash-sum>
  </version>
 
  <version name="3.1" package="heob" type="one-file">
@@ -128595,6 +128622,18 @@ for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
   <url>https://download.cdn.mozilla.net/pub/mozilla.org/thunderbird/releases/115.12.2/win32/en-US/Thunderbird%20Setup%20115.12.2.exe</url>
   <hash-sum type="SHA-256">abcd7261504eb9c2479c8ee8a9b0d4eac92514a14d1b09557a9557b1b30e0f98</hash-sum>
  </version>
+ <version name="153.0.1" package="org.mozilla.Thunderbird" type="one-file">
+  <file path=".Npackd\Install.bat">echo [Install] &gt; .Npackd\FF.ini&#13;
+echo InstallDirectoryPath=%CD% &gt;&gt; .Npackd\FF.ini&#13;
+echo QuickLaunchShortcut=false &gt;&gt; .Npackd\FF.ini&#13;
+echo DesktopShortcut=false &gt;&gt; .Npackd\FF.ini&#13;
+for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
+"%setup%" /INI="%CD%\.Npackd\FF.ini"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">uninstall\helper.exe /S</file>
+  <url>https://download.cdn.mozilla.net/pub/mozilla.org/thunderbird/releases/153.0.1/win32/en-US/Thunderbird%20Setup%20153.0.1.exe</url>
+  <hash-sum type="SHA-256">e22343c89a38fe686228c3e1c823854269e7ced864475abe9f88d1884fe1f707</hash-sum>
+ </version>
 
  <version name="12" package="org.mozilla.XULRunner">
   <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b xulrunner*') do set name=%%x
@@ -162159,6 +162198,16 @@ if %err% neq 0 exit %err%&#13;
   <file path=".Npackd\Uninstall.bat">"%nih%\UninstallInnoSetup.bat" unins000.exe</file>
   <url>https://updates.tdesktop.com/tsetup/tsetup.7.0.4.exe</url>
   <hash-sum type="SHA-256">13d24b37396c12ee52239967a3f74e85aa93447c93683ae2be18278076b78677</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
+ <version name="7.0.5" package="telegram" type="one-file">
+  <file path=".Npackd\Install.bat">"%nih%\InstallInnoSetup.bat"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">"%nih%\UninstallInnoSetup.bat" unins000.exe</file>
+  <url>https://updates.tdesktop.com/tsetup/tsetup.7.0.5.exe</url>
+  <hash-sum type="SHA-256">bcca32a788bad58002b70ea4b962668d6ccf40eb8bc09e84c2dfd698497c70a2</hash-sum>
   <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
    <variable>nih</variable>
   </dependency>
