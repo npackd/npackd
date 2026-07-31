@@ -32585,7 +32585,7 @@ rmdir "%name%"&#13;
   <dependency package="org.python.Python" versions="[2.5, 2.8)"/>
  </version>
 
- <version name="151.0.7922.47" package="com.google.Chrome" type="one-file">
+ <version name="151.0.7922.72" package="com.google.Chrome" type="one-file">
   <file path=".Npackd\Install.bat">call "%npackdih%\InstallMSI.bat" TARGETDIR yes&#13;
 </file>
   <url>https://dl.google.com/tag/s/appguid%3D%7B8A69D345-D564-463C-AFF1-A69D9E530F96%7D%26iid%3D%7B0A558A36-0536-8B3F-0AE0-420553CC97F3%7D%26lang%3Den%26browser%3D4%26usagestats%3D0%26appname%3DGoogle%2520Chrome%26needsadmin%3DFalse/edgedl/chrome/install/GoogleChromeStandaloneEnterprise.msi</url>
@@ -56932,7 +56932,7 @@ rmdir "%name%"&#13;
  </version>
 
 
- <version name="10.4.5642" package="em-client" type="one-file">
+ <version name="10.4.5647" package="em-client" type="one-file">
   <file path=".Npackd\Install.bat">call "%nih%\InstallMSI.bat" INSTALLDIR yes&#13;
 </file>
   <url>https://www.emclient.com/dist/v8.1.979/setup.msi</url>
@@ -67119,6 +67119,20 @@ if %err% neq 0 exit %err%&#13;
   <url>http://www.heidisql.com/installers/HeidiSQL_12.20.0.7337_Setup.exe</url>
   <hash-sum type="SHA-256">fbbac2527412d5520899579c0e56124a9d2af490e288f4905c81e6c742dc6a6b</hash-sum>
  </version>
+ <version name="12.20.0.7339" package="heidisql" type="one-file">
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
+"%setup%" /SP- /VERYSILENT /SUPPRESSMSGBOXES /NOCANCEL /NORESTART /DIR="%CD%" /SAVEINF="%CD%\.Npackd\InnoSetupInfo.ini" /LOG="%CD%\.Npackd\InnoSetupInstall.log" &amp;&amp; del /f /q "%setup%"&#13;
+set err=%errorlevel%&#13;
+type .Npackd\InnoSetupInstall.log&#13;
+if %err% neq 0 exit %err%</file>
+  <file path=".Npackd\Uninstall.bat">unins000.exe /VERYSILENT /SUPPRESSMSGBOXES /NORESTART /LOG="%CD%\.Npackd\InnoSetupUninstall.log"&#13;
+set err=%errorlevel%&#13;
+type .Npackd\InnoSetupUninstall.log&#13;
+if %err% neq 0 exit %err%&#13;
+</file>
+  <url>https://www.heidisql.com/installers/HeidiSQL_12.20.0.7339_Setup.exe</url>
+  <hash-sum type="SHA-256">740aefb23bd4a99aa4d0ab92e8dbcd57543d370e859baf6976feba66f9661ff9</hash-sum>
+ </version>
  <version name="12.20.0.7340" package="heidisql" type="one-file">
   <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
 "%setup%" /SP- /VERYSILENT /SUPPRESSMSGBOXES /NOCANCEL /NORESTART /DIR="%CD%" /SAVEINF="%CD%\.Npackd\InnoSetupInfo.ini" /LOG="%CD%\.Npackd\InnoSetupInstall.log" &amp;&amp; del /f /q "%setup%"&#13;
@@ -71837,7 +71851,7 @@ rmdir "%name%"&#13;
   </dependency>
  </version>
 
- <version name="147" package="iron64" type="one-file">
+ <version name="150" package="iron64" type="one-file">
   <file path=".Npackd\Install.bat">call "%nih%\InstallInnoSetup.bat"&#13;
 </file>
   <file path=".Npackd\Uninstall.bat">call "%nih%\UninstallInnoSetup.bat" unins000.exe&#13;
@@ -92996,7 +93010,7 @@ if %err% neq 0 exit %err%</file>
   <url>https://sourceforge.net/projects/npackd/files/net.srware.Iron-30.0.1650.exe</url>
   <sha1>40ac4b6d98e0fdd94700632f87f47d66cee37ff7</sha1>
  </version>
- <version name="147" package="net.srware.Iron" type="one-file">
+ <version name="150" package="net.srware.Iron" type="one-file">
   <file path=".Npackd\Install.bat">call "%nih%\InstallInnoSetup.bat"&#13;
 </file>
   <file path=".Npackd\Uninstall.bat">call "%nih%\UninstallInnoSetup.bat" unins000.exe&#13;
@@ -105940,6 +105954,20 @@ if %errorlevel% neq 0 exit /b %errorlevel%&#13;
 </file>
   <url>https://github.com/Kitware/CMake/releases/download/v4.3.3/cmake-4.3.3-windows-i386.zip</url>
   <hash-sum type="SHA-256">7edb486ab7f58d802a73890f217faae7e4f95634cbc271f5e4c2428288812444</hash-sum>
+ </version>
+ <version name="4.4.1" package="org.cmake.CMake">
+  <cmd-file path="bin\cmake.exe"/>
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b cmake*') do set name=%%x&#13;
+cd "%name%"        &#13;
+for /f "delims=" %%a in ('dir /b') do (&#13;
+  move "%%a" ..&#13;
+)&#13;
+cd ..&#13;
+rmdir "%name%"&#13;
+if %errorlevel% neq 0 exit /b %errorlevel%&#13;
+</file>
+  <url>https://github.com/Kitware/CMake/releases/download/v4.4.1/cmake-4.4.1-windows-i386.zip</url>
+  <hash-sum type="SHA-256">36f9807fa26f36a2a9ab8abac359ad34140401c2fd82c3f5673a93dfa45c4e24</hash-sum>
  </version>
 
  <version name="12.11" package="org.codeblocks.CodeBlocks" type="one-file">
@@ -159386,6 +159414,14 @@ if %err% neq 0 exit %err%&#13;
   <url>https://www.sysgauge.com/setups/sysgauge_setup_v13.2.18.exe</url>
   <hash-sum type="SHA-256">2f6d462f1c6fbd1ee1fb6ea5c3582ee89bd7a91439526aec3ebe02f172ac48cf</hash-sum>
  </version>
+ <version name="13.3.24" package="sysgauge" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">uninstall.exe /S _?=%CD%&#13;
+</file>
+  <url>https://www.sysgauge.com/setups/sysgauge_setup_v13.3.24.exe</url>
+  <hash-sum type="SHA-256">5ba8e237c7c0150d761fe9a89431a5d72cd91749e4f8a9c77953a877c7436231</hash-sum>
+ </version>
 
  <version name="1" package="sysinternals-suite">
   <url>https://download.sysinternals.com/files/SysinternalsSuite.zip</url>
@@ -169371,7 +169407,7 @@ if %err% neq 0 exit %err%&#13;
   <url>https://az764295.vo.msecnd.net/stable/a0479759d6e9ea56afa657e454193f72aef85bd0/VSCodeSetup-ia32-1.48.2.exe</url>
   <hash-sum type="SHA-256">013d5ecdb44159c15047472512bef9c76ba934807dbb07a582655f4c5546866d</hash-sum>
  </version>
- <version name="1.130" package="vs-code" type="one-file">
+ <version name="1.131" package="vs-code" type="one-file">
   <file path=".Npackd\Install.bat">ren "%npackd_package_binary%" setup.exe&#13;
 setup.exe /SP- /VERYSILENT /SUPPRESSMSGBOXES /NOCANCEL /NORESTART /DIR="%CD%" /SAVEINF="%CD%\.Npackd\InnoSetupInfo.ini" /LOG="%CD%\.Npackd\InnoSetupInstall.log"&#13;
 set err=%errorlevel%&#13;
@@ -173183,6 +173219,15 @@ ZAP_2_8_0_windows-x32.exe -q -varfile "C:\Program Files\ZAP_64_bit\.Npackd\custo
 </file>
   <url>https://github.com/zealdocs/zeal/releases/download/v0.8.1/zeal-0.8.1-windows-x64.msi</url>
   <hash-sum type="SHA-256">bb7cae7eb5be62a7f1830f257e19a06612890f2e3bd0e89f7dcb63ee29965727</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.1, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
+ <version name="0.9.1" package="zeal64" type="one-file">
+  <file path=".Npackd\Install.bat">call "%nih%\InstallMSI.bat" INSTALLDIR yes&#13;
+</file>
+  <url>https://github.com/zealdocs/zeal/releases/download/v0.9.1/zeal-0.9.1-windows-x64.msi</url>
+  <hash-sum type="SHA-256">cc6108100167637e60595c8c7372e2406ff5cb5d3954b40f130121e6d0fd20c9</hash-sum>
   <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.1, 2)">
    <variable>nih</variable>
   </dependency>

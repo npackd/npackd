@@ -17635,6 +17635,16 @@ call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Np
    <variable>clu</variable>
   </dependency>
  </version>
+ <version name="21.0.12.8" package="com.oracle.JDK64">
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b jdk*') do set name=%%x&#13;
+"%clu%\clu" unwrap-dir -p "%name%"&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+</file>
+  <url>https://github.com/adoptium/temurin21-binaries/releases/download/jdk-21.0.12%2B8/OpenJDK21U-jdk_x64_windows_hotspot_21.0.12_8.zip</url>
+  <hash-sum type="SHA-256">9ba963ee2371874a74185d18bc7bb2ab9407df7683300855ed7606e0662321d0</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.CLU" versions="[1.25, 2)">
+   <variable>clu</variable>
+  </dependency>
+ </version>
 
  <version name="1.6.0.25" package="com.oracle.JRE64" type="one-file">
   <file path=".Npackd\Install.bat">ren AutoDL Install.exe
@@ -35217,7 +35227,7 @@ if %err% neq 0 exit %err%&#13;
   <hash-sum type="SHA-256">fffa4ed1d298a7a1f2df91f52dd13af31314a54058aed53c2bccae77705ee714</hash-sum>
  </version>
 
- <version name="151.0.7922.47" package="google-chrome-x64" type="one-file">
+ <version name="151.0.7922.72" package="google-chrome-x64" type="one-file">
   <file path=".Npackd\Install.bat">call "%npackdih%\InstallMSI.bat" TARGETDIR yes&#13;
 </file>
   <url>https://dl.google.com/tag/s/appguid%3D%7B8A69D345-D564-463C-AFF1-A69D9E530F96%7D%26iid%3D%7B0A558A36-0536-8B3F-0AE0-420553CC97F3%7D%26lang%3Den%26browser%3D4%26usagestats%3D0%26appname%3DGoogle%2520Chrome%26needsadmin%3DFalse/edgedl/chrome/install/GoogleChromeStandaloneEnterprise64.msi</url>
@@ -101075,6 +101085,14 @@ rmdir "%name%"</file>
   <url>https://www.sysgauge.com/setups_x64/sysgauge_setup_v13.2.18_x64.exe</url>
   <hash-sum type="SHA-256">c32a3c6e47fd124c384fe42274b744df579eebe48f2869df5c3fe70a9a23c5f0</hash-sum>
  </version>
+ <version name="13.3.24" package="sysgauge64" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">uninstall.exe /S _?=%CD%&#13;
+</file>
+  <url>https://www.sysgauge.com/setups_x64/sysgauge_setup_v13.3.24_x64.exe</url>
+  <hash-sum type="SHA-256">bb6be3b510068e58d7d27bfeaeadb0393eaac68c422f73b9b91edb6be03b567a</hash-sum>
+ </version>
 
 
  <version name="3.6" package="telegram64" type="one-file">
@@ -102636,6 +102654,15 @@ if %err% neq 0 exit %err%&#13;
 </file>
   <url>https://github.com/transmission/transmission/releases/download/4.1.2/transmission-4.1.2-x64.msi</url>
   <hash-sum type="SHA-256">f36fd9c245f3c298597ac238b319c86f00eacfd1984881aa8eca3a0943f53008</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.1, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
+ <version name="4.1.3" package="transmission-qt64" type="one-file">
+  <file path=".Npackd\Install.bat">call "%nih%\InstallMSI.bat" INSTALLDIR yes&#13;
+</file>
+  <url>https://github.com/transmission/transmission/releases/download/4.1.3/transmission-4.1.3-x64.msi</url>
+  <hash-sum type="SHA-256">c8ea492d8f46fadac26e0c05b244cabba556201d5fe348dfcf1cf036621741f8</hash-sum>
   <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.1, 2)">
    <variable>nih</variable>
   </dependency>
@@ -106684,6 +106711,19 @@ Application\%name%\Installer\setup.exe --uninstall --vivaldi --force-uninstall -
 type .Npackd\Output.txt</file>
   <url>https://downloads.vivaldi.com/stable/Vivaldi.8.1.4087.58.x64.exe</url>
   <hash-sum type="SHA-256">66faca87b1c726deced21779417b594c1fbe55660af97f24b2b0bb263090298b</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.24, 2)">
+   <variable>ncl</variable>
+  </dependency>
+ </version>
+ <version name="8.1.4087.61" package="vivaldi-browser-64" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" --system-level --vivaldi-silent --vivaldi-standalone --do-not-launch-chrome --vivaldi-install-dir="%CD%" &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">for /f "delims=" %%x in ('dir /b application\5*') do set name=%%x&#13;
+&#13;
+Application\%name%\Installer\setup.exe --uninstall --vivaldi --force-uninstall --system-level &gt; .Npackd\Output.txt 2&gt;&amp;1 &#13;
+type .Npackd\Output.txt</file>
+  <url>https://downloads.vivaldi.com/stable/Vivaldi.8.1.4087.61.x64.exe</url>
+  <hash-sum type="SHA-256">5f897427cb9caee96751b8b4a08eefb83898008fb5d9ad7e5d1323a1b4b55179</hash-sum>
   <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.24, 2)">
    <variable>ncl</variable>
   </dependency>
