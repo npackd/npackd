@@ -7987,7 +7987,7 @@ i686</description>
   <category>Tools</category>
   <tag>stable</tag>
   <tag>end-of-life</tag>
-  <stars>3</stars>
+  <stars>2</stars>
  </package>
  <package name="net.sourceforge.gnuwin32.GetText">
   <title>GetText</title>
@@ -25337,7 +25337,7 @@ verify</file>
   <hash-sum type="SHA-256">c53c10aa509780c508299f49d510dc810ac4c620f18884fc67849155294a3e73</hash-sum>
  </version>
 
- <version name="12.2.0.6" package="com.auslogics.DiskDefrag" type="one-file">
+ <version name="12.3.0.1" package="com.auslogics.DiskDefrag" type="one-file">
   <file path=".Npackd\Install.bat">call "%nih%\InstallInnoSetup.bat"&#13;
 </file>
   <file path=".Npackd\Uninstall.bat">call "%nih%\UninstallInnoSetup.bat" unins000.exe&#13;
@@ -27870,6 +27870,10 @@ type .Npackd\InnoSetupUninstall.log&#13;
   </dependency>
  </version>
 
+ <version name="2.5" package="com.codesector.TeraCopy" type="one-file">
+  <url>https://github.com/acdvorak/old-windows-software/releases/download/2026-03-12/TeraCopy.v2.05.2009-10-06.portable.paf.exe</url>
+  <hash-sum type="SHA-256">b93fd6af156dec8d36db26dd1e421fd781650d3f2342259883172b6fbdfc93da</hash-sum>
+ </version>
  <version name="2.12" package="com.codesector.TeraCopy" type="one-file">
   <url>https://github.com/acdvorak/old-windows-software/releases/download/2026-03-12/TeraCopy.v2.12.2010-01-30.setup.exe</url>
   <hash-sum type="SHA-256">21814b637beecc4bbb6097cf5a4747b89d466a7ab21f50c38ab45b1f976833b0</hash-sum>
@@ -30233,7 +30237,7 @@ verify</file>
   <sha1>2b0ec317b04c24848500cadec1105dc065651e24</sha1>
   <dependency package="com.microsoft.DotNetRedistributable" versions="[2.0, 3)"/>
  </version>
- <version name="5.0.20262" package="com.fiddler2.Fiddler" type="one-file">
+ <version name="6.0.20261" package="com.fiddler2.Fiddler" type="one-file">
   <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
 verify</file>
   <file path=".Npackd\Uninstall.bat">uninst.exe /S _?=%CD%&#13;
@@ -50804,7 +50808,7 @@ reg import uget-path.reg</file>
   </dependency>
  </version>
 
- <version name="1.112" package="com.xnconvert.XnConvert" type="one-file">
+ <version name="1.114" package="com.xnconvert.XnConvert" type="one-file">
   <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
 "%setup%" /SP- /VERYSILENT /SUPPRESSMSGBOXES /NOCANCEL /NORESTART /DIR="%CD%" /SAVEINF="%CD%\.Npackd\InnoSetupInfo.ini" /LOG="%CD%\.Npackd\InnoSetupInstall.log"&#13;
 set err=%errorlevel%&#13;
@@ -55173,7 +55177,7 @@ if %err% neq 0 exit %err%&#13;
   <sha1>1a6a7b97b4113ef4f3f1d67e88a97a7d260f1801</sha1>
  </version>
 
- <version name="4.23" package="dk.software.hulubulu.advancedrenamer" type="one-file">
+ <version name="4.24" package="dk.software.hulubulu.advancedrenamer" type="one-file">
   <file path=".Npackd\Install.bat">ren down Setup.exe&#13;
 "%nih%\InstallInnoSetup.bat"&#13;
 </file>
@@ -67144,6 +67148,20 @@ if %err% neq 0 exit %err%&#13;
 </file>
   <url>http://www.heidisql.com/installers/HeidiSQL_12.20.0.7340_Setup.exe</url>
   <hash-sum type="SHA-256">268e9d84f4d106f5df12dfb40cde275ad20e19de27279902f2ece957ac8bdbab</hash-sum>
+ </version>
+ <version name="12.21.0.7344" package="heidisql" type="one-file">
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
+"%setup%" /SP- /VERYSILENT /SUPPRESSMSGBOXES /NOCANCEL /NORESTART /DIR="%CD%" /SAVEINF="%CD%\.Npackd\InnoSetupInfo.ini" /LOG="%CD%\.Npackd\InnoSetupInstall.log" &amp;&amp; del /f /q "%setup%"&#13;
+set err=%errorlevel%&#13;
+type .Npackd\InnoSetupInstall.log&#13;
+if %err% neq 0 exit %err%</file>
+  <file path=".Npackd\Uninstall.bat">unins000.exe /VERYSILENT /SUPPRESSMSGBOXES /NORESTART /LOG="%CD%\.Npackd\InnoSetupUninstall.log"&#13;
+set err=%errorlevel%&#13;
+type .Npackd\InnoSetupUninstall.log&#13;
+if %err% neq 0 exit %err%&#13;
+</file>
+  <url>https://www.heidisql.com/installers/HeidiSQL_12.21.0.7344_Setup.exe</url>
+  <hash-sum type="SHA-256">97acf0344313c11bb89c001425a615722b745669e5ffd542e732c418a00e22ed</hash-sum>
  </version>
 
  <version name="3.1" package="heob" type="one-file">
@@ -95717,7 +95735,7 @@ rmdir "%name%"&#13;
   <sha1>635e4b4a489aa91acc10726b8e2cf469037a58a3</sha1>
  </version>
 
- <version name="3.20.1" package="ocenaudio" type="one-file">
+ <version name="3.20.2" package="ocenaudio" type="one-file">
   <file path=".Npackd\Install.bat">"%npackd_package_binary%" /AllUsers /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
 </file>
   <file path=".Npackd\Uninstall.bat">"%ncl%\ncl" remove-scp --title "/ocenaudio.*/i"</file>
@@ -147405,6 +147423,16 @@ echo DesktopShortcut=false &gt;&gt; .Npackd\FF.ini&#13;
   <file path=".Npackd\Uninstall.bat">uninstall\helper.exe /S</file>
   <url>https://rm-eu.palemoon.org/release/palemoon-34.3.1.win32.installer.exe</url>
   <hash-sum type="SHA-256">8186c3d653790a4408f470cd2bd234eda0cc0399ddffeec4006420785dc0a3f2</hash-sum>
+ </version>
+ <version name="34.3.2" package="pale-moon" type="one-file">
+  <file path=".Npackd\Install.bat">echo [Install] &gt; .Npackd\FF.ini&#13;
+echo InstallDirectoryPath=%CD% &gt;&gt; .Npackd\FF.ini&#13;
+echo QuickLaunchShortcut=false &gt;&gt; .Npackd\FF.ini&#13;
+echo DesktopShortcut=false &gt;&gt; .Npackd\FF.ini&#13;
+"%npackd_package_binary%" /INI="%CD%\.Npackd\FF.ini" &amp;&amp; del /f /q "%npackd_package_binary%"</file>
+  <file path=".Npackd\Uninstall.bat">uninstall\helper.exe /S</file>
+  <url>https://rm-eu.palemoon.org/release/palemoon-34.3.2.win32.installer.exe</url>
+  <hash-sum type="SHA-256">bb6265a257796459a704679042fb508fd3a222eb6225d6dbdb6169d45de74a64</hash-sum>
  </version>
 
 
