@@ -35263,7 +35263,7 @@ if %err% neq 0 exit %err%&#13;
   <hash-sum type="SHA-256">fffa4ed1d298a7a1f2df91f52dd13af31314a54058aed53c2bccae77705ee714</hash-sum>
  </version>
 
- <version name="151.0.7922.72" package="google-chrome-x64" type="one-file">
+ <version name="151.0.7922.76" package="google-chrome-x64" type="one-file">
   <file path=".Npackd\Install.bat">call "%npackdih%\InstallMSI.bat" TARGETDIR yes&#13;
 </file>
   <url>https://dl.google.com/tag/s/appguid%3D%7B8A69D345-D564-463C-AFF1-A69D9E530F96%7D%26iid%3D%7B0A558A36-0536-8B3F-0AE0-420553CC97F3%7D%26lang%3Den%26browser%3D4%26usagestats%3D0%26appname%3DGoogle%2520Chrome%26needsadmin%3DFalse/edgedl/chrome/install/GoogleChromeStandaloneEnterprise64.msi</url>
@@ -93061,6 +93061,16 @@ echo DesktopShortcut=false &gt;&gt; .Npackd\FF.ini&#13;
   <file path=".Npackd\Uninstall.bat">uninstall\helper.exe /S</file>
   <url>https://rm-eu.palemoon.org/release/palemoon-34.3.1.win64.installer.exe</url>
   <hash-sum type="SHA-256">2040d0b1a454e57b38ed9b9020f85bc057469ef34629538bf0e02b1f17887478</hash-sum>
+ </version>
+ <version name="34.3.2" package="pale-moon64" type="one-file">
+  <file path=".Npackd\Install.bat">echo [Install] &gt; .Npackd\FF.ini&#13;
+echo InstallDirectoryPath=%CD% &gt;&gt; .Npackd\FF.ini&#13;
+echo QuickLaunchShortcut=false &gt;&gt; .Npackd\FF.ini&#13;
+echo DesktopShortcut=false &gt;&gt; .Npackd\FF.ini&#13;
+"%npackd_package_binary%" /INI="%CD%\.Npackd\FF.ini" &amp;&amp; del /f /q "%npackd_package_binary%"</file>
+  <file path=".Npackd\Uninstall.bat">uninstall\helper.exe /S</file>
+  <url>https://rm-eu.palemoon.org/release/palemoon-34.3.2.win64.installer.exe</url>
+  <hash-sum type="SHA-256">5141b4716abcab4789c4f425395b1f2b5a3d99c094ea75e4382daed6ec67ab25</hash-sum>
  </version>
 
  <version name="2.2.1" package="pandoc64" type="one-file">

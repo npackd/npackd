@@ -20734,6 +20734,13 @@ rmdir "%name%"</file>
   <hash-sum type="SHA-256">d3c6c2654fb864c4f2b956fd9e444f445e4b4d7aedaf011cd7ab388544e9b023</hash-sum>
   <dependency package="com.microsoft.DotNetRedistributable" versions="[3.5, 4)"/>
  </version>
+ <version name="9.5.3.45464" package="ch.cyberduck.Cyberduck" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
+</file>
+  <url>https://update.cyberduck.io/windows/Cyberduck-Installer-9.5.3.45464.exe</url>
+  <hash-sum type="SHA-256">5455f973852e44972e0c6e274555b6cefa559a833c870c4b217e512d1f91c3ce</hash-sum>
+  <dependency package="com.microsoft.DotNetRedistributable" versions="[3.5, 4)"/>
+ </version>
 
  <version name="5.5" package="ch.elby.vclonedrive" type="one-file">
   <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
@@ -32614,7 +32621,7 @@ ViewReadme: No&#13;
   <dependency package="com.oracle.JRE" versions="[1.6, 2)"/>
  </version>
 
- <version name="128" package="com.google.Drive" type="one-file">
+ <version name="129.0.1" package="com.google.Drive" type="one-file">
   <file path=".Npackd\Install.bat">call "%npackdih%\InstallMSI.bat" TARGETDIR yes</file>
   <url>https://dl.google.com/drive/gsync_enterprise.msi</url>
   <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.1, 2)">
@@ -47468,6 +47475,16 @@ if %err% neq 0 exit %err%&#13;
    <variable>nih</variable>
   </dependency>
  </version>
+ <version name="26.1.50" package="com.syntevo.smartgit">
+  <file path=".Npackd\Install.bat">call "%nih%\InstallInnoSetup.bat"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">call "%nih%\UninstallInnoSetup.bat" unins000.exe&#13;
+</file>
+  <url>https://download.smartgit.dev/smartgit/smartgit-26_1_050-win-installer.zip</url>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
 
  <version name="4.33" package="com.sysinternals.BgInfo">
   <important-file path="Bginfo.exe" title="BgInfo"/>
@@ -52862,6 +52879,17 @@ if %err% neq 0 exit %err%&#13;
   <file path=".Npackd\Uninstall.bat">"%nih%\UninstallInnoSetup.bat" unins000.exe</file>
   <url>https://github.com/conan-io/conan/releases/download/2.31.1/conan-2.31.1-windows-i686-installer.exe</url>
   <hash-sum type="SHA-256">41d5dea16023460ab4e2158fa692b261059fa3618ff89f543e99c47825d66861</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
+ <version name="2.31.2" package="conan" type="one-file">
+  <cmd-file path="conan\conan.exe"/>
+  <file path=".Npackd\Install.bat">"%nih%\InstallInnoSetup.bat"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">"%nih%\UninstallInnoSetup.bat" unins000.exe</file>
+  <url>https://github.com/conan-io/conan/releases/download/2.31.2/conan-2.31.2-windows-i686-installer.exe</url>
+  <hash-sum type="SHA-256">6cb76ac19f6fb44ad83f42ac3e8c4d62475bc57d1d58831ee034561b94d75dfa</hash-sum>
   <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
    <variable>nih</variable>
   </dependency>
@@ -63762,6 +63790,19 @@ rmdir "%name%"&#13;
   <hash-sum type="SHA-256">8a0c1bb95e962ea3697f4784fc49b1307a01ad61765844d46aca3b2e14cf84aa</hash-sum>
   <dependency package="org.python.Python" versions="[2.7, 2.8)"/>
  </version>
+ <version name="579" package="google-cloud-sdk">
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b google-cloud-sdk*') do set name=%%x&#13;
+cd "%name%"&#13;
+for /f "delims=" %%a in ('dir /b') do (&#13;
+  move "%%a" ..&#13;
+)&#13;
+cd ..&#13;
+rmdir "%name%"&#13;
+</file>
+  <url>https://dl.google.com/dl/cloudsdk/channels/rapid/downloads/google-cloud-sdk-579.0.0-windows-x86.zip</url>
+  <hash-sum type="SHA-256">14c8ef2cee66bbc909c22f8550691115662796cd7a20fda15ee58e465547c6bf</hash-sum>
+  <dependency package="org.python.Python" versions="[2.7, 2.8)"/>
+ </version>
 
 
  <version name="0.2.5" package="gpick" type="one-file">
@@ -70370,6 +70411,11 @@ if %err% neq 0 exit %err%&#13;
   <important-file path="x86\windirstat.exe" title="WinDirStat"/>
   <url>https://github.com/windirstat/windirstat/releases/download/release/v2.7.0/WinDirStat.zip</url>
   <hash-sum type="SHA-256">3aad34ab829ddbfc7f859c22554981b19b1b04dd4cb87b643901e4eb9e2d85c4</hash-sum>
+ </version>
+ <version name="2.8" package="info.windirstat.WinDirStat">
+  <important-file path="x86\windirstat.exe" title="WinDirStat"/>
+  <url>https://github.com/windirstat/windirstat/releases/download/release/v2.8.0/WinDirStat.zip</url>
+  <hash-sum type="SHA-256">462d60796a793d333abeee79aa188debd444061a51f1abf8745340f902c3e047</hash-sum>
  </version>
 
  <version name="5.5.4" package="innosetup" type="one-file">
@@ -124758,6 +124804,17 @@ verify</file>
   <url>https://download-origin.cdn.mozilla.net/pub/mozilla.org/firefox/releases/153.0.1/win32/en-US/Firefox%20Setup%20153.0.1.exe</url>
   <hash-sum type="SHA-256">f48ec001b52f91cdf84b34b2743db13d2fe6a21f20344c89b2eafc3f963eb10c</hash-sum>
  </version>
+ <version name="153.0.3" package="org.mozilla.Firefox" type="one-file">
+  <file path=".Npackd\Install.bat">echo [Install] &gt; .Npackd\FF.ini&#13;
+echo InstallDirectoryPath=%CD% &gt;&gt; .Npackd\FF.ini&#13;
+echo QuickLaunchShortcut=false &gt;&gt; .Npackd\FF.ini&#13;
+echo DesktopShortcut=false &gt;&gt; .Npackd\FF.ini&#13;
+"%npackd_package_binary%" /INI="%CD%\.Npackd\FF.ini" &amp;&amp; del /f /q "%npackd_package_binary%"</file>
+  <file path=".Npackd\Uninstall.bat">uninstall\helper.exe /S&#13;
+verify</file>
+  <url>https://download-origin.cdn.mozilla.net/pub/mozilla.org/firefox/releases/153.0.3/win32/en-US/Firefox%20Setup%20153.0.3.exe</url>
+  <hash-sum type="SHA-256">8165fc4569aa9ea9843f3c800d019e4ebdd84d7ddd08866b800cd4518460257f</hash-sum>
+ </version>
 
  <version name="24.4" package="org.mozilla.FirefoxESR" type="one-file">
   <file path=".Npackd\Install.bat">echo [Install] &gt; .Npackd\FF.ini&#13;
@@ -153814,6 +153871,18 @@ rmdir "%name%"</file>
   <url>http://downloads.sourceforge.net/project/scintilla/SciTE/5.6.4/wscite564.zip</url>
   <hash-sum type="SHA-256">db573fb65c7c1979eda11f36045a59446f87eb282e3dcaa47475f8a19074c094</hash-sum>
  </version>
+ <version name="5.6.5" package="scite">
+  <important-file path="SciTE.exe" title="SciTE"/>
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b wscite*') do set name=%%x&#13;
+cd "%name%"        &#13;
+for /f "delims=" %%a in ('dir /b') do (&#13;
+  move "%%a" ..&#13;
+)&#13;
+cd ..&#13;
+rmdir "%name%"</file>
+  <url>http://downloads.sourceforge.net/project/scintilla/SciTE/5.6.5/wscite565.zip</url>
+  <hash-sum type="SHA-256">9b5a7af4beb2d61ba6a5f62fa678ff68c96d175d19664fc1a801f444b357303b</hash-sum>
+ </version>
 
  <version name="3.1" package="scite4autohotkey" type="one-file">
   <important-file path="SciTE\SciTE.exe" title="SciTE"/>
@@ -162333,6 +162402,16 @@ if %err% neq 0 exit %err%&#13;
   <file path=".Npackd\Uninstall.bat">"%nih%\UninstallInnoSetup.bat" unins000.exe</file>
   <url>https://updates.tdesktop.com/tsetup/tsetup.7.0.7.exe</url>
   <hash-sum type="SHA-256">f2d500691598544bf97a96fc57da9bb87d32b38beeb5249e39235084df94b3c0</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
+ <version name="7.0.8" package="telegram" type="one-file">
+  <file path=".Npackd\Install.bat">"%nih%\InstallInnoSetup.bat"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">"%nih%\UninstallInnoSetup.bat" unins000.exe</file>
+  <url>https://updates.tdesktop.com/tsetup/tsetup.7.0.8.exe</url>
+  <hash-sum type="SHA-256">07eb4ce02fcd0b9d62d5afc1afc7d5630aa4975336ac89ba409284d7cdfa0832</hash-sum>
   <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
    <variable>nih</variable>
   </dependency>
