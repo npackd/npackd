@@ -32436,6 +32436,17 @@ verify</file>
   <url>https://download-installer.cdn.mozilla.net/pub/firefox/releases/153.0.1/win64/en-US/Firefox%20Setup%20153.0.1.exe</url>
   <hash-sum type="SHA-256">0b557b2983d63278be98daf7582fbb7050f93310f2a9381e804e0ba14fe2892e</hash-sum>
  </version>
+ <version name="153.0.3" package="firefox64" type="one-file">
+  <file path=".Npackd\Install.bat">echo [Install] &gt; .Npackd\FF.ini&#13;
+echo InstallDirectoryPath=%CD% &gt;&gt; .Npackd\FF.ini&#13;
+echo QuickLaunchShortcut=false &gt;&gt; .Npackd\FF.ini&#13;
+echo DesktopShortcut=false &gt;&gt; .Npackd\FF.ini&#13;
+"%npackd_package_binary%" /INI="%CD%\.Npackd\FF.ini" &amp;&amp; del /f /q "%npackd_package_binary%"</file>
+  <file path=".Npackd\Uninstall.bat">uninstall\helper.exe /S&#13;
+verify</file>
+  <url>https://download-installer.cdn.mozilla.net/pub/firefox/releases/153.0.3/win64/en-US/Firefox%20Setup%20153.0.3.exe</url>
+  <hash-sum type="SHA-256">8de41917930c35937a46eac6d0e16c633ed7456c771b32b89dc6fd65d55e512e</hash-sum>
+ </version>
 
  <version name="0.5" package="firefoxpwa" type="one-file">
   <file path=".Npackd\Install.bat">call "%nih%\InstallMSI.bat" APPLICATIONFOLDER yes</file>
@@ -57358,6 +57369,15 @@ reg add HKLM\SOFTWARE\OpenVPN-GUI /v allow_service /t REG_SZ /d 0 /f&#13;
    <variable>nih</variable>
   </dependency>
  </version>
+ <version name="2.7.6" package="openvpn64" type="one-file">
+  <file path=".Npackd\Install.bat">call "%nih%\InstallMSI.bat" INSTALLDIR yes&#13;
+</file>
+  <url>https://swupdate.openvpn.org/community/releases/OpenVPN-2.7.6-I001-amd64.msi</url>
+  <hash-sum type="SHA-256">48c96ac092a81c6303f059eace51c7bf878794e9575b329e82894848e0e529fc</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.1, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
 
 
  <version name="9.20" package="org.7-zip.SevenZIP64" type="one-file">
@@ -61764,6 +61784,12 @@ rmdir "%name%"&#13;
 </file>
   <url>https://github.com/erlang/otp/releases/download/OTP-29.0.4/otp_win64_29.0.4.exe</url>
   <hash-sum type="SHA-256">c119a52ac90363ea4526840fc0d421be13b6e1afe6703a81ec546cbe6160899a</hash-sum>
+ </version>
+ <version name="29.0.5" package="org.erlang.Erlang64" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD%&#13;
+</file>
+  <url>https://github.com/erlang/otp/releases/download/OTP-29.0.5/otp_win64_29.0.5.exe</url>
+  <hash-sum type="SHA-256">24958095a89f0ec76dc9f6e381fa671b940afce2b9187c5c6859b193fe8922fe</hash-sum>
  </version>
 
  <version name="0.9.2.1" package="org.flamerobin.FlameRobin64" type="one-file">
