@@ -359,7 +359,6 @@ i686</description>
   <category>Tools</category>
   <tag>stable</tag>
   <link href="https://yd.3dyd.com/changelog/" rel="changelog"/>
-  <link href="https://yd.3dyd.com/home/main.png" rel="screenshot"/>
  </package>
  <package name="3utools">
   <title>3uTools</title>
@@ -19389,7 +19388,7 @@ verify&#13;
  </version>
 
 
- <version name="1.93.132" package="brave" type="one-file">
+ <version name="1.93.134" package="brave" type="one-file">
   <file path=".Npackd\Install.bat">"%npackd_package_binary%" &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
 </file>
   <file path=".Npackd\Uninstall.bat">"%ncl%\ncl.exe" remove-scp --title "/%npackd_package_name% %npackd_package_version%/i"&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
@@ -44250,7 +44249,7 @@ del Q-Dir.ini&#13;
   <url>http://files.npackd.org/com.softwareok.QDir-5.99.4.zip</url>
   <sha1>fc2a90da7e924da41d2382673f0d4426af21c5be</sha1>
  </version>
- <version name="12.72" package="com.softwareok.QDir">
+ <version name="12.73" package="com.softwareok.QDir">
   <important-file path="Q-Dir.exe" title="Q-Dir"/>
   <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b Q*') do set name=%%x&#13;
 cd "%name%"        &#13;
@@ -145984,6 +145983,40 @@ if %err% neq 0 exit %err%</file>
   </dependency>
   <dependency package="com.microsoft.Windows32" versions="[5, 15)"/>
  </version>
+ <version name="7.2.10.174163" package="org.virtualbox.virtualbox" type="one-file">
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
+"%setup%" -x -s -p "%CD%"&#13;
+&#13;
+"%sevenzip%\7z.exe" x common.cab -aos -o"%CD%\common" &gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+"%sevenzip%\7z.exe" x "%CD%\common\file_VBoxGuestAdditions.iso" -aos -o"%CD%\common\file_VBoxGuestAdditions" &gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+&#13;
+certutil.exe -addstore -f "TrustedPublisher" "%CD%\common\file_VBoxGuestAdditions\cert\oracle-vbox.cer" &gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+&#13;
+for /f "delims=" %%x in ('dir /b *MultiArch_x86.msi') do set setup=%%x&#13;
+msiexec.exe /qn /norestart /Lime .Npackd\MSI.log /i "%setup%"&#13;
+set err=%errorlevel%&#13;
+type .Npackd\MSI.log&#13;
+rem 3010=restart required&#13;
+if %err% equ 3010 exit 0&#13;
+if %err% neq 0 exit %err%&#13;
+for /f "delims=" %%x in ('dir /b *MultiArch_amd64.msi') do set trash=%%x&#13;
+del /q /f "%trash%"&#13;
+&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">for /f "delims=" %%x in ('dir /b *.msi') do set setup=%%x&#13;
+msiexec.exe /qn /norestart /Lime .Npackd\MSI.log /x "%setup%"&#13;
+set err=%errorlevel%&#13;
+type .Npackd\MSI.log&#13;
+rem 3010=restart required&#13;
+if %err% equ 3010 exit 0&#13;
+if %err% neq 0 exit %err%</file>
+  <url>http://download.virtualbox.org/virtualbox/7.2.10/VirtualBox-7.2.10-174163-Win.exe</url>
+  <hash-sum type="SHA-256">f4750f6f64c44df03ee2921de77e63c30e84e03a3aad07fd00f292265ff164c7</hash-sum>
+  <dependency package="org.7-zip.SevenZIP" versions="[9.20, 20)">
+   <variable>sevenzip</variable>
+  </dependency>
+  <dependency package="com.microsoft.Windows32" versions="[5, 15)"/>
+ </version>
 
  <version name="1.9.9" package="org.virtualdub.VirtualDub">
   <important-file path="VirtualDub.exe" title="VirtualDub"/>
@@ -169474,6 +169507,19 @@ Application\%name%\Installer\setup.exe --uninstall --vivaldi --force-uninstall -
 type .Npackd\Output.txt</file>
   <url>https://downloads.vivaldi.com/stable/Vivaldi.8.1.4087.61.exe</url>
   <hash-sum type="SHA-256">da068470013a49b39114c9fc6c40424f6535b38157c534ecf0dab2b777c71883</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.24, 2)">
+   <variable>ncl</variable>
+  </dependency>
+ </version>
+ <version name="8.1.4087.62" package="vivaldi-browser" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" --system-level --vivaldi-silent --vivaldi-standalone --do-not-launch-chrome --vivaldi-install-dir="%CD%" &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">for /f "delims=" %%x in ('dir /b application\5*') do set name=%%x&#13;
+&#13;
+Application\%name%\Installer\setup.exe --uninstall --vivaldi --force-uninstall --system-level &gt; .Npackd\Output.txt 2&gt;&amp;1 &#13;
+type .Npackd\Output.txt</file>
+  <url>https://downloads.vivaldi.com/stable/Vivaldi.8.1.4087.62.exe</url>
+  <hash-sum type="SHA-256">6fe8d36c518d06c85b809b16af8356d42b77f9f502763d8a9cbf248f1a8a2a41</hash-sum>
   <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.24, 2)">
    <variable>ncl</variable>
   </dependency>
