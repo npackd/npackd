@@ -14480,6 +14480,15 @@ call "%npackdih%\InstallMSI.bat" APPLICATIONFOLDER yes&#13;
    <variable>npackdih</variable>
   </dependency>
  </version>
+ <version name="9.13" package="com.calibreebook.Calibre64" type="one-file">
+  <file path=".Npackd\Install.bat">call "%npackdih%\InstallMSI.bat" APPLICATIONFOLDER yes&#13;
+</file>
+  <url>https://download.calibre-ebook.com/9.13.0/calibre-64bit-9.13.0.msi</url>
+  <hash-sum type="SHA-256">f5f19e870163c20ec63a656d6f5d0c123e07c4254899380ebeec51b00766e615</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.2, 2)">
+   <variable>npackdih</variable>
+  </dependency>
+ </version>
 
  <version name="5.12.256249.2599" package="com.comodo.comodoav64" type="one-file">
   <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.msi') do set setup=%%x&#13;
@@ -40699,6 +40708,15 @@ if %err% neq 0 exit %err%</file>
    <variable>nih</variable>
   </dependency>
  </version>
+ <version name="9.6.1.807" package="imageglass64" type="one-file">
+  <file path=".Npackd\Install.bat">call "%nih%\InstallMSI.bat" INSTALLDIR yes&#13;
+</file>
+  <url>https://github.com/d2phap/ImageGlass/releases/download/9.6.1.807/ImageGlass_9.6.1.807_x64.msi</url>
+  <hash-sum type="SHA-256">1f08209adb9456860ac2a71a74395456ccdf1bd9fc640f43d44b3b34788ddc0a</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.1, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
 
  <version name="6.8.7.8" package="imagemagick64" type="one-file">
   <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
@@ -43168,6 +43186,13 @@ rmdir "%name%"&#13;
   <file path=".Npackd\Uninstall.bat">Imagine64.exe /dissocext</file>
   <url>http://www.nyam.pe.kr/dev/imagine/download/x64/Imagine_2.5.6_x64_Unicode.zip</url>
   <hash-sum type="SHA-256">f325a9f9409367da8833812e6fc15bedf71609a1dd14152680e3e4c2a4e10eb3</hash-sum>
+ </version>
+ <version name="2.6.3" package="kr.pe.nyam.Imagine64">
+  <important-file path="Imagine64.exe" title="Imagine"/>
+  <file path=".Npackd\Install.bat">Imagine64.exe /assocext</file>
+  <file path=".Npackd\Uninstall.bat">Imagine64.exe /dissocext</file>
+  <url>http://www.nyam.pe.kr/dev/imagine/download/x64/Imagine_2.6.3_x64_Unicode.zip</url>
+  <hash-sum type="SHA-256">4fe87c70d3528f967dd4a6bd2c48684df9bd38be08590c09c5bbc150b2e7d9d0</hash-sum>
  </version>
 
  <version name="2.9.4.2" package="krita64" type="one-file">
@@ -101184,6 +101209,14 @@ rmdir "%name%"</file>
 </file>
   <url>https://www.sysgauge.com/setups_x64/sysgauge_setup_v13.3.24_x64.exe</url>
   <hash-sum type="SHA-256">bb6be3b510068e58d7d27bfeaeadb0393eaac68c422f73b9b91edb6be03b567a</hash-sum>
+ </version>
+ <version name="13.4.12" package="sysgauge64" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">uninstall.exe /S _?=%CD%&#13;
+</file>
+  <url>https://www.sysgauge.com/setups_x64/sysgauge_setup_v13.4.12_x64.exe</url>
+  <hash-sum type="SHA-256">853d3cf50639d155945cd33ed8e7bb5a8cb6f4797f3750002beeb2654d128b30</hash-sum>
  </version>
 
 
