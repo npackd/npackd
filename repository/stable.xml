@@ -6632,7 +6632,6 @@ i686</description>
   <icon>https://raw.githubusercontent.com/Tyrrrz/LightBulb/master/favicon.png</icon>
   <category>Tools</category>
   <tag>stable</tag>
-  <stars>1</stars>
   <link href="https://github.com/Tyrrrz/LightBulb/commits/master" rel="changelog"/>
  </package>
  <package name="lightscreen">
@@ -59197,7 +59196,7 @@ verify</file>
   </dependency>
  </version>
 
- <version name="6.45" package="glary-utilities" type="one-file">
+ <version name="6.46" package="glary-utilities" type="one-file">
   <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
 </file>
   <file path=".Npackd\Uninstall.bat">Uninstaller.exe /S _?=%CD%&#13;
@@ -85242,6 +85241,15 @@ rmdir /s /q "%name%"&#13;
   <url>https://github.com/clsid2/mpc-hc/releases/download/2.7.4/MPC-HC.2.7.4.x86.zip</url>
   <hash-sum type="SHA-256">de5e9467f81d92a6ded4081f7ce95d5c7d38e99e932d3cfc178fced7919e8a73</hash-sum>
  </version>
+ <version name="2.8" package="net.sourceforge.mpc-hc.MediaPlayerClassicHomeCinema">
+  <important-file path="mpc-hc.exe" title="Media Player Classic - Home Cinema"/>
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b MPC*') do set name=%%x&#13;
+xcopy "%name%\*" . /E /H&#13;
+rmdir /s /q "%name%"&#13;
+</file>
+  <url>https://github.com/clsid2/mpc-hc/releases/download/2.8.0/MPC-HC.2.8.0.x86.zip</url>
+  <hash-sum type="SHA-256">263b633237382e1c9f864f34097d3aa594d67baa2371ce2200941da22fb3cef9</hash-sum>
+ </version>
 
  <version name="1.0.17.126" package="net.sourceforge.MultiFileRenamer" type="one-file">
   <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
@@ -95806,7 +95814,7 @@ rmdir "%name%"&#13;
   <sha1>635e4b4a489aa91acc10726b8e2cf469037a58a3</sha1>
  </version>
 
- <version name="3.20.2" package="ocenaudio" type="one-file">
+ <version name="3.20.3" package="ocenaudio" type="one-file">
   <file path=".Npackd\Install.bat">"%npackd_package_binary%" /AllUsers /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
 </file>
   <file path=".Npackd\Uninstall.bat">"%ncl%\ncl" remove-scp --title "/ocenaudio.*/i"</file>
