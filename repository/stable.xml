@@ -38601,6 +38601,24 @@ if %err% neq 0 exit /b %err%&#13;
   <url>https://download.visualstudio.microsoft.com/download/pr/b86d5241-2797-47b2-97c1-6208a9acdcae/A32DD41EAAB0C5E1EAA78BE3C0BB73B48593DE8D97A7510B97DE3FD993538600/VC_redist.x86.exe</url>
   <hash-sum type="SHA-256">a32dd41eaab0c5e1eaa78be3c0bb73b48593de8d97a7510b97de3fd993538600</hash-sum>
  </version>
+ <version name="14.44.34918.1" package="com.microsoft.VisualCPPRedistributable" type="one-file">
+  <file path=".Npackd\Install.bat">vc_redist.x86.exe /q /log .Npackd\VCRInstall.log /norestart&#13;
+set err=%errorlevel%&#13;
+type .Npackd\VCRInstall.log&#13;
+rem 3010=restart required&#13;
+if %err% equ 3010 exit /b 0&#13;
+if %err% neq 0 exit /b %err%&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">vc_redist.x86.exe /q /uninstall /log .Npackd\VCRUninstall.log /norestart&#13;
+set err=%errorlevel%&#13;
+type .Npackd\VCRUninstall.log&#13;
+rem 3010=restart required&#13;
+if %err% equ 3010 exit /b 0&#13;
+if %err% neq 0 exit /b %err%&#13;
+</file>
+  <url>https://download.visualstudio.microsoft.com/download/pr/68313702-0d44-4e2b-9368-9b97f9f06be4/2C63F0BBB4641DFFDE98F52832BBAA168B2AFFE411AADEB279B254ACC349A386/VC_redist.x86.exe</url>
+  <hash-sum type="SHA-256">a32dd41eaab0c5e1eaa78be3c0bb73b48593de8d97a7510b97de3fd993538600</hash-sum>
+ </version>
 
  <version name="11" package="com.microsoft.VisualStudioExpressCD" type="one-file">
   <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.iso') do set setup=%%x&#13;
@@ -47313,6 +47331,16 @@ if %err% neq 0 exit %err%&#13;
   <file path=".Npackd\Uninstall.bat">call "%nih%\UninstallInnoSetup.bat" unins000.exe&#13;
 </file>
   <url>https://download.smartgit.dev/smartgit/smartgit-26_1_051-win-installer.zip</url>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
+ <version name="26.1.52" package="com.syntevo.smartgit">
+  <file path=".Npackd\Install.bat">call "%nih%\InstallInnoSetup.bat"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">call "%nih%\UninstallInnoSetup.bat" unins000.exe&#13;
+</file>
+  <url>https://download.smartgit.dev/smartgit/smartgit-26_1_052-win-installer.zip</url>
   <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
    <variable>nih</variable>
   </dependency>
@@ -67034,6 +67062,20 @@ if %err% neq 0 exit %err%&#13;
 </file>
   <url>http://www.heidisql.com/installers/HeidiSQL_12.20.0.7340_Setup.exe</url>
   <hash-sum type="SHA-256">268e9d84f4d106f5df12dfb40cde275ad20e19de27279902f2ece957ac8bdbab</hash-sum>
+ </version>
+ <version name="12.20.0.7342" package="heidisql" type="one-file">
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
+"%setup%" /SP- /VERYSILENT /SUPPRESSMSGBOXES /NOCANCEL /NORESTART /DIR="%CD%" /SAVEINF="%CD%\.Npackd\InnoSetupInfo.ini" /LOG="%CD%\.Npackd\InnoSetupInstall.log" &amp;&amp; del /f /q "%setup%"&#13;
+set err=%errorlevel%&#13;
+type .Npackd\InnoSetupInstall.log&#13;
+if %err% neq 0 exit %err%</file>
+  <file path=".Npackd\Uninstall.bat">unins000.exe /VERYSILENT /SUPPRESSMSGBOXES /NORESTART /LOG="%CD%\.Npackd\InnoSetupUninstall.log"&#13;
+set err=%errorlevel%&#13;
+type .Npackd\InnoSetupUninstall.log&#13;
+if %err% neq 0 exit %err%&#13;
+</file>
+  <url>https://www.heidisql.com/installers/HeidiSQL_12.20.0.7342_Setup.exe</url>
+  <hash-sum type="SHA-256">020c47ade890b1980abd135282e133f48f1cdf8cb1e28bb9a001dcd8abb11182</hash-sum>
  </version>
  <version name="12.21.0.7344" package="heidisql" type="one-file">
   <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
@@ -94888,7 +94930,7 @@ for /f "delims=" %%a in ('dir /b') do (&#13;
 cd ..&#13;
 rmdir "%name%"&#13;
 </file>
-  <url>https://downloads.apache.org/netbeans/netbeans/31/netbeans-31-bin.zip</url>
+  <url>https://github.com/tim-lebedkov/packages/releases/download/2026_08/netbeans-31-netbeans-31-bin.zip</url>
   <hash-sum type="SHA-256">1d5f3eb40f588c5a2df19569bc9d99fd0f8028eeb9e08bfc8c89c682c3a1b5fb</hash-sum>
   <dependency package="com.oracle.JDK64" versions="[8, 100)"/>
  </version>
@@ -169493,6 +169535,19 @@ Application\%name%\Installer\setup.exe --uninstall --vivaldi --force-uninstall -
 type .Npackd\Output.txt</file>
   <url>https://downloads.vivaldi.com/stable/Vivaldi.8.1.4087.62.exe</url>
   <hash-sum type="SHA-256">6fe8d36c518d06c85b809b16af8356d42b77f9f502763d8a9cbf248f1a8a2a41</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.24, 2)">
+   <variable>ncl</variable>
+  </dependency>
+ </version>
+ <version name="8.1.4087.64" package="vivaldi-browser" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" --system-level --vivaldi-silent --vivaldi-standalone --do-not-launch-chrome --vivaldi-install-dir="%CD%" &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">for /f "delims=" %%x in ('dir /b application\5*') do set name=%%x&#13;
+&#13;
+Application\%name%\Installer\setup.exe --uninstall --vivaldi --force-uninstall --system-level &gt; .Npackd\Output.txt 2&gt;&amp;1 &#13;
+type .Npackd\Output.txt</file>
+  <url>https://downloads.vivaldi.com/stable/Vivaldi.8.1.4087.64.exe</url>
+  <hash-sum type="SHA-256">7f81678e6ad223df668c026e15f085908b11c62dc6e9164a6cbcec66a7bb0599</hash-sum>
   <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.24, 2)">
    <variable>ncl</variable>
   </dependency>

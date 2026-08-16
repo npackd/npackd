@@ -108025,6 +108025,19 @@ rmdir "%name%"&#13;
   <url>https://github.com/xmake-io/xmake/releases/download/v3.0.9/xmake-v3.0.9.win64.zip</url>
   <hash-sum type="SHA-256">0f2c57a29f358e4f9f059cd823f40c3213750dcb13d5b6e9f6e5b29910992d65</hash-sum>
  </version>
+ <version name="3.1" package="xmake64">
+  <cmd-file path="xmake.exe"/>
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b xmake*') do set name=%%x&#13;
+cd "%name%"&#13;
+for /f "delims=" %%a in ('dir /b') do (&#13;
+  move "%%a" ..&#13;
+)&#13;
+cd ..&#13;
+rmdir "%name%"&#13;
+</file>
+  <url>https://github.com/xmake-io/xmake/releases/download/v3.1.0/xmake-v3.1.0.win64.zip</url>
+  <hash-sum type="SHA-256">92c320923a0ba52d21934d107ae7fa4cbf03ea5ce972177e7abc2fb7905bd8bd</hash-sum>
+ </version>
 
  <version name="3.5.3.4" package="xmedia-recode" type="one-file">
   <file path=".Npackd\Install.bat">"%nih%\InstallInnoSetup.bat"&#13;
