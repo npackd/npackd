@@ -97604,6 +97604,14 @@ if %errorlevel% neq 0 exit /b %errorlevel%&#13;
   <url>https://mirror.racket-lang.org/installers/9.2/racket-9.2-x86_64-win32-cs.exe</url>
   <hash-sum type="SHA-256">0cb5bd97c248db73a0ec6e00dc69542aac3cc1128516f8a0397e47706669d5ce</hash-sum>
  </version>
+ <version name="9.3" package="racket64" type="one-file">
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
+"%setup%" /S /D=%CD%\Prog &amp;&amp; del /f /q "%setup%"</file>
+  <file path=".Npackd\Uninstall.bat">Prog\uninstall.exe /S _?=%CD%\Prog&#13;
+</file>
+  <url>https://mirror.racket-lang.org/installers/9.3/racket-9.3-x86_64-win32-cs.exe</url>
+  <hash-sum type="SHA-256">8e3a788f4c30f4275182003aa980770fdf2548883738c8e96a08dfce4bd4afab</hash-sum>
+ </version>
 
  <version name="2.14.1" package="rainlendar-lite-64bit" type="one-file">
   <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
