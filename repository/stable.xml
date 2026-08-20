@@ -2127,7 +2127,6 @@ i686</description>
   <tag>same-url</tag>
   <tag>stable</tag>
   <tag>end-of-life</tag>
-  <stars>1</stars>
  </package>
  <package name="com.dosbox.DOSBox">
   <title>DOSBox</title>
@@ -28009,6 +28008,11 @@ if %err% neq 0 exit %err%</file>
   <url>https://download.cpuid.com/cpu-z/cpu-z_2.20.1-en.zip</url>
   <hash-sum type="SHA-256">8a277400c04cef3950c77f1c944e31e2d0caa3e6b7b957ad7dd25ecbf43e169e</hash-sum>
  </version>
+ <version name="2.21" package="com.cpuid.CPUZ">
+  <important-file path="cpuz_x32.exe" title="CPU-Z"/>
+  <url>https://download.cpuid.com/cpu-z/cpu-z_2.21-en.zip</url>
+  <hash-sum type="SHA-256">8a5531ca46c9c7ef045972ca0c5fa355874f30c3eef6dda1e29148a2995510ec</hash-sum>
+ </version>
 
  <version name="1.99" package="com.crystalreality.cp.CrystalPlayer" type="one-file">
   <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
@@ -41034,7 +41038,7 @@ call "%npackdih%\InstallMSI.bat" INSTALLDIR yes&#13;
    <variable>NIH</variable>
   </dependency>
  </version>
- <version name="18.0.76" package="com.phraseexpress.PhraseExpressPE">
+ <version name="18.0.79" package="com.phraseexpress.PhraseExpressPE">
   <file path=".Npackd\Install.bat">"%NIH%\InstallInnoSetup.bat"</file>
   <file path=".Npackd\Uninstall.bat">"%NIH%\UninstallInnoSetup.bat" unins000.exe</file>
   <url>http://www.phraseexpress.com/PhraseExpressSetup.zip</url>
@@ -50685,7 +50689,7 @@ reg import uget-path.reg</file>
   </dependency>
  </version>
 
- <version name="1.114" package="com.xnconvert.XnConvert" type="one-file">
+ <version name="1.115" package="com.xnconvert.XnConvert" type="one-file">
   <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
 "%setup%" /SP- /VERYSILENT /SUPPRESSMSGBOXES /NOCANCEL /NORESTART /DIR="%CD%" /SAVEINF="%CD%\.Npackd\InnoSetupInfo.ini" /LOG="%CD%\.Npackd\InnoSetupInstall.log"&#13;
 set err=%errorlevel%&#13;
@@ -63674,6 +63678,19 @@ rmdir "%name%"&#13;
 </file>
   <url>https://dl.google.com/dl/cloudsdk/channels/rapid/downloads/google-cloud-sdk-580.0.0-windows-x86.zip</url>
   <hash-sum type="SHA-256">8290091ec7e0cb2c1b2cc81e3e1e75eaa0d73c213f4386fb579a538941537f1b</hash-sum>
+  <dependency package="org.python.Python" versions="[2.7, 2.8)"/>
+ </version>
+ <version name="581" package="google-cloud-sdk">
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b google-cloud-sdk*') do set name=%%x&#13;
+cd "%name%"&#13;
+for /f "delims=" %%a in ('dir /b') do (&#13;
+  move "%%a" ..&#13;
+)&#13;
+cd ..&#13;
+rmdir "%name%"&#13;
+</file>
+  <url>https://dl.google.com/dl/cloudsdk/channels/rapid/downloads/google-cloud-sdk-581.0.0-windows-x86.zip</url>
+  <hash-sum type="SHA-256">56274354b7dd9fbe801682d24a7826864ad91487214df540d77b486a7f66cb87</hash-sum>
   <dependency package="org.python.Python" versions="[2.7, 2.8)"/>
  </version>
 
@@ -98217,6 +98234,29 @@ WshShell.SendKeys("y");&#13;
   <url>https://github.com/tim-lebedkov/packages/releases/download/2026_05/openmpt-1.32.10-OpenMPT-1.32.10.00-Setup.exe</url>
   <hash-sum type="SHA-256">07edfc6a49432e01ce9468ae519ccfd1087c68db9a3af0a22801a0287f502030</hash-sum>
  </version>
+ <version name="1.32.11" package="openmpt" type="one-file">
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
+"%setup%" /SP- /VERYSILENT /SUPPRESSMSGBOXES /NOCANCEL /NORESTART /DIR="%CD%" /SAVEINF="%CD%\.Npackd\InnoSetupInfo.ini" /LOG="%CD%\.Npackd\InnoSetupInstall.log" &amp;&amp; del /f /q "%setup%"&#13;
+set err=%errorlevel%&#13;
+type .Npackd\InnoSetupInstall.log&#13;
+if %err% neq 0 exit %err%&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">start "Confirm Uninstall" cscript //Nologo //B //E:JScript //T:300 //U .Npackd\ConfirmUninstall.js&#13;
+&#13;
+unins000.exe /VERYSILENT /SUPPRESSMSGBOXES /NORESTART /LOG="%CD%\.Npackd\InnoSetupUninstall.log"&#13;
+set err=%errorlevel%&#13;
+type .Npackd\InnoSetupUninstall.log&#13;
+if %err% neq 0 exit %err%&#13;
+</file>
+  <file path=".Npackd\ConfirmUninstall.js">var WshShell = WScript.CreateObject("WScript.Shell");&#13;
+WScript.Sleep(60000);&#13;
+WshShell.AppActivate("Uninstall");&#13;
+WScript.Sleep(10000);&#13;
+WshShell.SendKeys("y");&#13;
+</file>
+  <url>https://download.openmpt.org/archive/openmpt/1.32/OpenMPT-1.32.11.00-Setup.exe</url>
+  <hash-sum type="SHA-256">ed1de11610be5a155c757ac7eecd327535a237d800b849842c8d319c2977cd91</hash-sum>
+ </version>
 
  <version name="1.4" package="openproj" type="one-file">
   <file path=".Npackd\Install.bat">call "%npackdih%\InstallMSI.bat" APPDIR yes</file>
@@ -116905,6 +116945,40 @@ Set view = Nothing&#13;
    <variable>npackdih</variable>
   </dependency>
  </version>
+ <version name="1.26.6" package="org.golang.Go" type="one-file">
+  <file path=".Npackd\Install.bat">.Npackd\AddProperty.vbs "%npackd_package_binary%"&#13;
+if %errorlevel% neq 0 exit %errorlevel%&#13;
+&#13;
+call "%npackdih%\InstallMSI.bat" INSTALLDIR</file>
+  <file path=".Npackd\Uninstall.bat">call "%npackdih%\UninstallMSI.bat"</file>
+  <file path=".Npackd\AddProperty.vbs">Option Explicit&#13;
+&#13;
+Dim MSI_FILE&#13;
+MSI_FILE = Wscript.Arguments(0)&#13;
+&#13;
+Dim installer, database, view&#13;
+&#13;
+Set installer = CreateObject("WindowsInstaller.Installer")&#13;
+Set database = installer.OpenDatabase(MSI_FILE, 1)&#13;
+&#13;
+Set view = database.OpenView("INSERT INTO Property (Property, Value) VALUES ('INSTALLDIR', 'C:\Go')")&#13;
+view.Execute&#13;
+'Set view = database.OpenView("DELETE FROM Directory WHERE Directory='TARGETDIR'")&#13;
+'view.Execute&#13;
+'Set view = database.OpenView("UPDATE Directory SET DefaultDir='INSTALLLOCATION' WHERE Directory='TARGETDIR'")&#13;
+'view.Execute&#13;
+database.Commit&#13;
+&#13;
+Set database = Nothing&#13;
+Set installer = Nothing&#13;
+Set view = Nothing&#13;
+</file>
+  <url>https://golang.org/dl/go1.26.6.windows-386.msi</url>
+  <hash-sum type="SHA-256">5afc79412fe097060653a7cf46ca99a39727eae02a9660bb3295ab7a12bf2f0d</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1, 2)">
+   <variable>npackdih</variable>
+  </dependency>
+ </version>
 
  <version name="1.0.1" package="org.goldendict.GoldenDict">
   <important-file path="GoldenDict\GoldenDict.exe" title="GoldenDict"/>
@@ -124750,6 +124824,17 @@ echo DesktopShortcut=false &gt;&gt; .Npackd\FF.ini&#13;
 verify</file>
   <url>https://download-origin.cdn.mozilla.net/pub/mozilla.org/firefox/releases/153.0.4/win32/en-US/Firefox%20Setup%20153.0.4.exe</url>
   <hash-sum type="SHA-256">feb867354fcca5d6f6397bd4eb9ec638ca5027b39b1f9d24f99f644e6e01cd54</hash-sum>
+ </version>
+ <version name="154" package="org.mozilla.Firefox" type="one-file">
+  <file path=".Npackd\Install.bat">echo [Install] &gt; .Npackd\FF.ini&#13;
+echo InstallDirectoryPath=%CD% &gt;&gt; .Npackd\FF.ini&#13;
+echo QuickLaunchShortcut=false &gt;&gt; .Npackd\FF.ini&#13;
+echo DesktopShortcut=false &gt;&gt; .Npackd\FF.ini&#13;
+"%npackd_package_binary%" /INI="%CD%\.Npackd\FF.ini" &amp;&amp; del /f /q "%npackd_package_binary%"</file>
+  <file path=".Npackd\Uninstall.bat">uninstall\helper.exe /S&#13;
+verify</file>
+  <url>https://download-origin.cdn.mozilla.net/pub/mozilla.org/firefox/releases/154.0/win32/en-US/Firefox%20Setup%20154.0.exe</url>
+  <hash-sum type="SHA-256">9ce769fae731095515bac513dead0d30eaee47a50a3a1ebc56bc1b0697158583</hash-sum>
  </version>
 
  <version name="24.4" package="org.mozilla.FirefoxESR" type="one-file">
@@ -164413,6 +164498,15 @@ if %err% neq 0 exit %err%&#13;
 </file>
   <url>https://the.earth.li/~sgtatham/putty/latest/w32/putty-0.84-installer.msi</url>
   <hash-sum type="SHA-256">586f65e1f13b86399aa61f384666128dd84246fcf66b37564837f0c6bc1bdcad</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.1, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
+ <version name="0.85" package="uk.org.greenend.chiark.sgtatham.Putty" type="one-file">
+  <file path=".Npackd\Install.bat">call "%nih%\InstallMSI.bat" INSTALLDIR yes&#13;
+</file>
+  <url>https://the.earth.li/~sgtatham/putty/latest/w32/putty-0.85-installer.msi</url>
+  <hash-sum type="SHA-256">cbc48af94f6462fa3c1859f4185a1ffda360c3c760def9ad5b1e0ec1430b2e09</hash-sum>
   <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.1, 2)">
    <variable>nih</variable>
   </dependency>
