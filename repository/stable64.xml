@@ -14738,6 +14738,11 @@ if %err% neq 0 exit %err%</file>
   <url>https://download.cpuid.com/cpu-z/cpu-z_2.20.2-en.zip</url>
   <hash-sum type="SHA-256">320e073a6f387464ac3faac5f010b5fe70e31fab30745883d023c8372e80f3c5</hash-sum>
  </version>
+ <version name="3.1" package="com.cpuid.CPUZ64">
+  <important-file path="cpuz_x64.exe" title="CPU-Z"/>
+  <url>https://download.cpuid.com/cpu-z/cpu-z_3.01-en.zip</url>
+  <hash-sum type="SHA-256">8ae3b45d43d97e6ce19535c045cd1e5394c7a3a5334dc01f63edd760ace40827</hash-sum>
+ </version>
 
  <version name="2.2.6000" package="com.dependencywalker.DependencyWalker64">
   <important-file path="depends.exe" title="Dependency Walker"/>
@@ -25540,6 +25545,11 @@ rmdir "%name%"&#13;
   <url>http://downloads.sourceforge.net/project/dcplusplus/DC%2B%2B%200.883/DCPlusPlus-0.883-x64.zip</url>
   <hash-sum type="SHA-256">59563e1e125377065639fefe75095af0c07789063b71597298ecd984e7567e5a</hash-sum>
  </version>
+ <version name="0.884" package="dcplusplus64">
+  <important-file path="DCPlusPlus.exe" title="DC++"/>
+  <url>http://downloads.sourceforge.net/project/dcplusplus/DC%2B%2B%200.884/DCPlusPlus-0.884-x64.zip</url>
+  <hash-sum type="SHA-256">5b41bf4ee4575fb9e35c3724dbebf30ce05d0d9c80fc673c81800d7de9cab2b1</hash-sum>
+ </version>
 
  <version name="1.8.7" package="deadbeef" type="one-file">
   <file path=".Npackd\Install.bat">"%nih%\InstallInnoSetup.bat"&#13;
@@ -35311,7 +35321,7 @@ if %err% neq 0 exit %err%&#13;
   <hash-sum type="SHA-256">fffa4ed1d298a7a1f2df91f52dd13af31314a54058aed53c2bccae77705ee714</hash-sum>
  </version>
 
- <version name="152.0.7977.42" package="google-chrome-x64" type="one-file">
+ <version name="152.0.7977.54" package="google-chrome-x64" type="one-file">
   <file path=".Npackd\Install.bat">call "%npackdih%\InstallMSI.bat" TARGETDIR yes&#13;
 </file>
   <url>https://dl.google.com/tag/s/appguid%3D%7B8A69D345-D564-463C-AFF1-A69D9E530F96%7D%26iid%3D%7B0A558A36-0536-8B3F-0AE0-420553CC97F3%7D%26lang%3Den%26browser%3D4%26usagestats%3D0%26appname%3DGoogle%2520Chrome%26needsadmin%3DFalse/edgedl/chrome/install/GoogleChromeStandaloneEnterprise64.msi</url>
@@ -47624,6 +47634,14 @@ rmdir "%name%"&#13;
   <url>http://multicommander.com/files/updates/MultiCommander_x64_(16.1.0.3200).exe</url>
   <hash-sum type="SHA-256">dc1936388c6b8cb719ff41fc785e24c23d95eef0bfcb5b386de4ca0bc4d29c6c</hash-sum>
  </version>
+ <version name="16.2.0.3205" package="multi-commander64" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">"Uninstall MultiCommander.exe" /S _?=%CD%&#13;
+</file>
+  <url>http://multicommander.com/files/updates/MultiCommander_x64_(16.2.0.3205).exe</url>
+  <hash-sum type="SHA-256">cd24ce9c6e17189cd618ff7ab4dd77be4587da947294169e15d797c342afeee9</hash-sum>
+ </version>
 
  <version name="1.19" package="mupdf64">
   <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b mupdf*') do set name=%%x&#13;
@@ -55539,7 +55557,7 @@ verify&#13;
   </dependency>
  </version>
 
- <version name="3.20.4" package="ocenaudio64" type="one-file">
+ <version name="3.20.5" package="ocenaudio64" type="one-file">
   <file path=".Npackd\Install.bat">"%npackd_package_binary%" /AllUsers /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
 </file>
   <file path=".Npackd\Uninstall.bat">"%ncl%\ncl" remove-scp --title "/ocenaudio.*/"</file>
@@ -106708,7 +106726,7 @@ if %errorlevel% neq 0 exit /b %errorlevel%&#13;
 </file>
   <url>https://update.code.visualstudio.com/1.84.2/win32-x64/stable</url>
  </version>
- <version name="1.133" package="vs-code64" type="one-file">
+ <version name="1.134" package="vs-code64" type="one-file">
   <file path=".Npackd\Install.bat">ren "%npackd_package_binary%" setup.exe&#13;
 setup.exe /SP- /VERYSILENT /SUPPRESSMSGBOXES /NOCANCEL /NORESTART /DIR="%CD%" /SAVEINF="%CD%\.Npackd\InnoSetupInfo.ini" /LOG="%CD%\.Npackd\InnoSetupInstall.log"&#13;
 set err=%errorlevel%&#13;
