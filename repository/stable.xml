@@ -13765,6 +13765,14 @@ i686</description>
   <url>https://yd.3dyd.com/download/3dyd_1.26.7.exe</url>
   <hash-sum type="SHA-256">3d07b909daed9a4d39831582207970765c6fef2fdfec74a4292433ba4704d9dc</hash-sum>
  </version>
+ <version name="1.26.8" package="3d-youtube-downloader" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">uninstall.exe /S _?=%CD%&#13;
+</file>
+  <url>https://yd.3dyd.com/download/3dyd_1.26.8.exe</url>
+  <hash-sum type="SHA-256">d6bbb32fcb7b61b61942c25f89de79910f300173234708c94c94b2de95f295b0</hash-sum>
+ </version>
 
  <version name="2.21" package="3utools" type="one-file">
   <file path=".Npackd\Install.bat">"%npackd_package_binary%" &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
@@ -56826,7 +56834,7 @@ rmdir "%name%"&#13;
  </version>
 
 
- <version name="11.0.79" package="em-client" type="one-file">
+ <version name="11.0.108" package="em-client" type="one-file">
   <file path=".Npackd\Install.bat">call "%nih%\InstallMSI.bat" INSTALLDIR yes&#13;
 </file>
   <url>https://www.emclient.com/dist/v8.1.979/setup.msi</url>
@@ -79587,6 +79595,14 @@ for /f "delims=" %%x in ('dir /b *.tar') do set name=%%x&#13;
 </file>
   <url>http://multicommander.com/files/updates/MultiCommander_win32_(16.1.0.3200).exe</url>
   <hash-sum type="SHA-256">e309b9f4bcf4a609a73645b301bde492ae80d6debb5ef443e8dd229c29dcd0be</hash-sum>
+ </version>
+ <version name="16.2.0.3205" package="multi-commander" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">"Uninstall MultiCommander.exe" /S _?=%CD%&#13;
+</file>
+  <url>http://multicommander.com/files/updates/MultiCommander_win32_(16.2.0.3205).exe</url>
+  <hash-sum type="SHA-256">abe4966b39e303f504914169edc220a021536660645fa1779b2323098fbd7833</hash-sum>
  </version>
 
  <version name="2.0.3" package="musescore" type="one-file">
@@ -130801,6 +130817,18 @@ rmdir "%name%"&#13;
 </file>
   <url>https://nginx.org/download/nginx-1.31.3.zip</url>
   <hash-sum type="SHA-256">934a8fedd91646a4d7c51079ac9b71397d1caf7a6aeb81ccfd361250c04ace2c</hash-sum>
+ </version>
+ <version name="1.31.4" package="org.nginx.Nginx">
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b nginx*') do set name=%%x&#13;
+cd "%name%"        &#13;
+for /f "delims=" %%a in ('dir /b') do (&#13;
+  move "%%a" ..&#13;
+)&#13;
+cd ..&#13;
+rmdir "%name%"&#13;
+</file>
+  <url>https://nginx.org/download/nginx-1.31.4.zip</url>
+  <hash-sum type="SHA-256">9217d06a62a357784bc7fee6740ccec985661e8caa511444911350f04668e16a</hash-sum>
  </version>
 
  <version name="6.25" package="org.nmap.nmap" type="one-file">

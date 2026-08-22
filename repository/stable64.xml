@@ -16774,6 +16774,16 @@ if %err% neq 0 exit /b %err%&#13;
   </dependency>
   <dependency package="com.microsoft.VisualCPPRedistributable" versions="[14,15)"/>
  </version>
+ <version name="26.7.1" package="com.mysql.dev.MySQLODBCConnector64bits" type="one-file">
+  <file path=".Npackd\Install.bat">call "%npackdih%\InstallMSI.bat" INSTALLDIR yes&#13;
+		</file>
+  <url>https://cdn.mysql.com//Downloads/Connector-ODBC/26.7/mysql-connector-odbc-26.7.1-winx64.msi</url>
+  <hash-sum type="SHA-256">ab63653c7ff4be296b22c412d2fb28d0408e9dbdfc80a6b627ec7146934e30f0</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.1, 2)">
+   <variable>npackdih</variable>
+  </dependency>
+  <dependency package="com.microsoft.VisualCPPRedistributable" versions="[14,15)"/>
+ </version>
 
  <version name="5.5.16" package="com.mysql.MySQLCommunityServer64" type="one-file">
   <file path=".Npackd\Install.bat">call "%npackdih%\InstallMSI.bat" INSTALLDIR yes</file>
@@ -102358,6 +102368,12 @@ if %err% neq 0 exit %err%&#13;
   </dependency>
  </version>
 
+ <version name="15.0.20" package="tor64" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
+</file>
+  <url>https://www.torproject.org/dist/torbrowser/15.0.20/tor-browser-windows-x86_64-portable-15.0.20.exe</url>
+  <hash-sum type="SHA-256">508331e09a3484993cb018ac7c62b927f3b4b4feb901f2be2252efe7b4da6620</hash-sum>
+ </version>
 
  <version name="2.84.9" package="transmission-qt64" type="one-file">
   <file path=".Npackd\Install.bat">"%npackd_package_binary%" --mode unattended --prefix "%CD%"</file>
@@ -106574,6 +106590,19 @@ Application\%name%\Installer\setup.exe --uninstall --vivaldi --force-uninstall -
 type .Npackd\Output.txt</file>
   <url>https://downloads.vivaldi.com/stable/Vivaldi.8.1.4087.64.x64.exe</url>
   <hash-sum type="SHA-256">6c2c5c04f110ff4688ed63e98dc484dfa3b6aadb4a908006476f6ced200f9cff</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.24, 2)">
+   <variable>ncl</variable>
+  </dependency>
+ </version>
+ <version name="8.1.4087.68" package="vivaldi-browser-64" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" --system-level --vivaldi-silent --vivaldi-standalone --do-not-launch-chrome --vivaldi-install-dir="%CD%" &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">for /f "delims=" %%x in ('dir /b application\5*') do set name=%%x&#13;
+&#13;
+Application\%name%\Installer\setup.exe --uninstall --vivaldi --force-uninstall --system-level &gt; .Npackd\Output.txt 2&gt;&amp;1 &#13;
+type .Npackd\Output.txt</file>
+  <url>https://downloads.vivaldi.com/stable/Vivaldi.8.1.4087.68.x64.exe</url>
+  <hash-sum type="SHA-256">f7acc44ab2d3ce7c88e38c2c0da38673e46f72bea9c649f8190e7d3f0d9d54c8</hash-sum>
   <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.24, 2)">
    <variable>ncl</variable>
   </dependency>
