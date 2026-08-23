@@ -39812,6 +39812,19 @@ rmdir "%name%"&#13;
   <hash-sum type="SHA-256">37f78d7be1d2d9f2e90c407c4f4d745c177e4b8d87868684564766921b449a07</hash-sum>
   <dependency package="org.python.Python" versions="[2.7, 2.8)"/>
  </version>
+ <version name="581" package="google-cloud-sdk64">
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b google-cloud-sdk*') do set name=%%x&#13;
+cd "%name%"&#13;
+for /f "delims=" %%a in ('dir /b') do (&#13;
+  move "%%a" ..&#13;
+)&#13;
+cd ..&#13;
+rmdir "%name%"&#13;
+</file>
+  <url>https://dl.google.com/dl/cloudsdk/channels/rapid/downloads/google-cloud-sdk-581.0.0-windows-x86_64.zip</url>
+  <hash-sum type="SHA-256">979fb2196009d54188b074f1d94d21f64779929f0f622c03a379f6a4bf056d35</hash-sum>
+  <dependency package="org.python.Python" versions="[2.7, 2.8)"/>
+ </version>
 
  <version name="1.1.94" package="grisbi64" type="one-file">
   <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
@@ -43140,6 +43153,13 @@ rmdir "%name%"&#13;
   <file path=".Npackd\Uninstall.bat">Imagine64.exe /dissocext</file>
   <url>http://www.nyam.pe.kr/dev/imagine/download/x64/Imagine_2.6.3_x64_Unicode.zip</url>
   <hash-sum type="SHA-256">4fe87c70d3528f967dd4a6bd2c48684df9bd38be08590c09c5bbc150b2e7d9d0</hash-sum>
+ </version>
+ <version name="2.6.4" package="kr.pe.nyam.Imagine64">
+  <important-file path="Imagine64.exe" title="Imagine"/>
+  <file path=".Npackd\Install.bat">Imagine64.exe /assocext</file>
+  <file path=".Npackd\Uninstall.bat">Imagine64.exe /dissocext</file>
+  <url>http://www.nyam.pe.kr/dev/imagine/download/x64/Imagine_2.6.4_x64_Unicode.zip</url>
+  <hash-sum type="SHA-256">babe02583602c2bedf627215437287dabd07de9e2fffe1ce036bb2cdb929945d</hash-sum>
  </version>
 
  <version name="2.9.4.2" package="krita64" type="one-file">
@@ -102371,7 +102391,7 @@ if %err% neq 0 exit %err%&#13;
  <version name="15.0.20" package="tor64" type="one-file">
   <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
 </file>
-  <url>https://www.torproject.org/dist/torbrowser/15.0.20/tor-browser-windows-x86_64-portable-15.0.20.exe</url>
+  <url>https://github.com/tim-lebedkov/packages/releases/download/2026_08/tor64-15.0.20-tor-browser-windows-x86_64-portable-15.0.20.exe</url>
   <hash-sum type="SHA-256">508331e09a3484993cb018ac7c62b927f3b4b4feb901f2be2252efe7b4da6620</hash-sum>
  </version>
 
