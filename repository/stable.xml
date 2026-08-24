@@ -19375,7 +19375,7 @@ verify&#13;
  </version>
 
 
- <version name="1.93.137" package="brave" type="one-file">
+ <version name="1.93.138" package="brave" type="one-file">
   <file path=".Npackd\Install.bat">"%npackd_package_binary%" &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
 </file>
   <file path=".Npackd\Uninstall.bat">"%ncl%\ncl.exe" remove-scp --title "/%npackd_package_name% %npackd_package_version%/i"&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
@@ -28020,6 +28020,11 @@ if %err% neq 0 exit %err%</file>
   <important-file path="cpuz_x32.exe" title="CPU-Z"/>
   <url>https://download.cpuid.com/cpu-z/cpu-z_2.21-en.zip</url>
   <hash-sum type="SHA-256">8a5531ca46c9c7ef045972ca0c5fa355874f30c3eef6dda1e29148a2995510ec</hash-sum>
+ </version>
+ <version name="3.1" package="com.cpuid.CPUZ">
+  <important-file path="cpuz_x32.exe" title="CPU-Z"/>
+  <url>https://download.cpuid.com/cpu-z/cpu-z_3.01-en.zip</url>
+  <hash-sum type="SHA-256">8ae3b45d43d97e6ce19535c045cd1e5394c7a3a5334dc01f63edd760ace40827</hash-sum>
  </version>
 
  <version name="1.99" package="com.crystalreality.cp.CrystalPlayer" type="one-file">
@@ -85153,6 +85158,15 @@ rmdir /s /q "%name%"&#13;
 </file>
   <url>https://github.com/clsid2/mpc-hc/releases/download/2.8.0/MPC-HC.2.8.0.x86.zip</url>
   <hash-sum type="SHA-256">263b633237382e1c9f864f34097d3aa594d67baa2371ce2200941da22fb3cef9</hash-sum>
+ </version>
+ <version name="2.8.1" package="net.sourceforge.mpc-hc.MediaPlayerClassicHomeCinema">
+  <important-file path="mpc-hc.exe" title="Media Player Classic - Home Cinema"/>
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b MPC*') do set name=%%x&#13;
+xcopy "%name%\*" . /E /H&#13;
+rmdir /s /q "%name%"&#13;
+</file>
+  <url>https://github.com/clsid2/mpc-hc/releases/download/2.8.1/MPC-HC.2.8.1.x86.zip</url>
+  <hash-sum type="SHA-256">5f90a4f089a4379e5f103e35fffadbb01fff4597759acc49e9a657870c8be910</hash-sum>
  </version>
 
  <version name="1.0.17.126" package="net.sourceforge.MultiFileRenamer" type="one-file">
@@ -169670,6 +169684,32 @@ Application\%name%\Installer\setup.exe --uninstall --vivaldi --force-uninstall -
 type .Npackd\Output.txt</file>
   <url>https://downloads.vivaldi.com/stable/Vivaldi.8.1.4087.64.exe</url>
   <hash-sum type="SHA-256">7f81678e6ad223df668c026e15f085908b11c62dc6e9164a6cbcec66a7bb0599</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.24, 2)">
+   <variable>ncl</variable>
+  </dependency>
+ </version>
+ <version name="8.1.4087.68" package="vivaldi-browser" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" --system-level --vivaldi-silent --vivaldi-standalone --do-not-launch-chrome --vivaldi-install-dir="%CD%" &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">for /f "delims=" %%x in ('dir /b application\5*') do set name=%%x&#13;
+&#13;
+Application\%name%\Installer\setup.exe --uninstall --vivaldi --force-uninstall --system-level &gt; .Npackd\Output.txt 2&gt;&amp;1 &#13;
+type .Npackd\Output.txt</file>
+  <url>https://downloads.vivaldi.com/stable/Vivaldi.8.1.4087.68.exe</url>
+  <hash-sum type="SHA-256">d3b11cebaa13f137bec02d46a98fecc33bb40be310eaa5e19e96192caa14a6e2</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.24, 2)">
+   <variable>ncl</variable>
+  </dependency>
+ </version>
+ <version name="8.1.4087.70" package="vivaldi-browser" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" --system-level --vivaldi-silent --vivaldi-standalone --do-not-launch-chrome --vivaldi-install-dir="%CD%" &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">for /f "delims=" %%x in ('dir /b application\5*') do set name=%%x&#13;
+&#13;
+Application\%name%\Installer\setup.exe --uninstall --vivaldi --force-uninstall --system-level &gt; .Npackd\Output.txt 2&gt;&amp;1 &#13;
+type .Npackd\Output.txt</file>
+  <url>https://downloads.vivaldi.com/stable/Vivaldi.8.1.4087.70.exe</url>
+  <hash-sum type="SHA-256">b018feced3af28ebe8eb2e589968ff39fc0526d4630734d91a601b61c28562c6</hash-sum>
   <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.24, 2)">
    <variable>ncl</variable>
   </dependency>
