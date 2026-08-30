@@ -61035,6 +61035,16 @@ rmdir "%name%"&#13;
    <variable>NIH</variable>
   </dependency>
  </version>
+ <version name="5.2.1" package="org.blender.Blender64">
+  <important-file path="blender.exe" title="Blender"/>
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b blender*') do set name=%%x&#13;
+"%NIH%\ExtractDir.bat" "%name%"</file>
+  <url>https://download.blender.org/release/Blender5.2/blender-5.2.1-windows-x64.zip</url>
+  <hash-sum type="SHA-256">0e631dad7d0cad6d5d18abdd2e2550f6c0213215334eda00ddbd3d22b96ecb2c</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
+   <variable>NIH</variable>
+  </dependency>
+ </version>
 
  <version name="6.14" package="org.cgsecurity.testdisk.TestDisk64">
   <important-file path="testdisk_win.exe" title="TestDisk"/>
@@ -108398,6 +108408,19 @@ rmdir "%name%"&#13;
 </file>
   <url>https://github.com/xmake-io/xmake/releases/download/v3.1.0/xmake-v3.1.0.win64.zip</url>
   <hash-sum type="SHA-256">92c320923a0ba52d21934d107ae7fa4cbf03ea5ce972177e7abc2fb7905bd8bd</hash-sum>
+ </version>
+ <version name="3.1.1" package="xmake64">
+  <cmd-file path="xmake.exe"/>
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b xmake*') do set name=%%x&#13;
+cd "%name%"&#13;
+for /f "delims=" %%a in ('dir /b') do (&#13;
+  move "%%a" ..&#13;
+)&#13;
+cd ..&#13;
+rmdir "%name%"&#13;
+</file>
+  <url>https://github.com/xmake-io/xmake/releases/download/v3.1.1/xmake-v3.1.1.win64.zip</url>
+  <hash-sum type="SHA-256">33fdf2f34a0e45fa731c000d59590d27b13dec7011f69cbf575004ed9279b4a2</hash-sum>
  </version>
 
  <version name="3.5.3.4" package="xmedia-recode" type="one-file">
