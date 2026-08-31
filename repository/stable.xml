@@ -79659,6 +79659,14 @@ for /f "delims=" %%x in ('dir /b *.tar') do set name=%%x&#13;
   <url>http://multicommander.com/files/updates/MultiCommander_win32_(16.2.0.3210).exe</url>
   <hash-sum type="SHA-256">2717d02f4688714be5f9a53fd5f627970959f2622157bf8a1556bc75a31a7e5b</hash-sum>
  </version>
+ <version name="16.2.0.3211" package="multi-commander" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">"Uninstall MultiCommander.exe" /S _?=%CD%&#13;
+</file>
+  <url>http://multicommander.com/files/updates/MultiCommander_win32_(16.2.0.3211).exe</url>
+  <hash-sum type="SHA-256">e8f9f0001e2367beb385d602eeb502cda831e6ba074f8ad84d04147d27b55b7d</hash-sum>
+ </version>
 
  <version name="2.0.3" package="musescore" type="one-file">
   <file path=".Npackd\Install.bat">call "%nih%\InstallMSI.bat" INSTALLDIR yes&#13;
@@ -169877,6 +169885,19 @@ Application\%name%\Installer\setup.exe --uninstall --vivaldi --force-uninstall -
 type .Npackd\Output.txt</file>
   <url>https://downloads.vivaldi.com/stable/Vivaldi.8.1.4087.70.exe</url>
   <hash-sum type="SHA-256">b018feced3af28ebe8eb2e589968ff39fc0526d4630734d91a601b61c28562c6</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.24, 2)">
+   <variable>ncl</variable>
+  </dependency>
+ </version>
+ <version name="8.1.4087.75" package="vivaldi-browser" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" --system-level --vivaldi-silent --vivaldi-standalone --do-not-launch-chrome --vivaldi-install-dir="%CD%" &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">for /f "delims=" %%x in ('dir /b application\5*') do set name=%%x&#13;
+&#13;
+Application\%name%\Installer\setup.exe --uninstall --vivaldi --force-uninstall --system-level &gt; .Npackd\Output.txt 2&gt;&amp;1 &#13;
+type .Npackd\Output.txt</file>
+  <url>https://downloads.vivaldi.com/stable/Vivaldi.8.1.4087.75.exe</url>
+  <hash-sum type="SHA-256">9b13b494fe77e5a7191d090ab64ed670f8ddc7accc7ce51ecfb44c7857b81fd3</hash-sum>
   <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.24, 2)">
    <variable>ncl</variable>
   </dependency>
