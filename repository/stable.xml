@@ -56857,7 +56857,7 @@ rmdir "%name%"&#13;
  </version>
 
 
- <version name="11.0.158" package="em-client" type="one-file">
+ <version name="11.0.196" package="em-client" type="one-file">
   <file path=".Npackd\Install.bat">call "%nih%\InstallMSI.bat" INSTALLDIR yes&#13;
 </file>
   <url>https://www.emclient.com/dist/v8.1.979/setup.msi</url>
@@ -59086,7 +59086,7 @@ verify</file>
   </dependency>
  </version>
 
- <version name="6.46" package="glary-utilities" type="one-file">
+ <version name="6.47" package="glary-utilities" type="one-file">
   <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
 </file>
   <file path=".Npackd\Uninstall.bat">Uninstaller.exe /S _?=%CD%&#13;
@@ -67162,6 +67162,20 @@ if %err% neq 0 exit %err%&#13;
 </file>
   <url>https://www.heidisql.com/installers/HeidiSQL_12.21.0.7344_Setup.exe</url>
   <hash-sum type="SHA-256">97acf0344313c11bb89c001425a615722b745669e5ffd542e732c418a00e22ed</hash-sum>
+ </version>
+ <version name="12.21.0.7346" package="heidisql" type="one-file">
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
+"%setup%" /SP- /VERYSILENT /SUPPRESSMSGBOXES /NOCANCEL /NORESTART /DIR="%CD%" /SAVEINF="%CD%\.Npackd\InnoSetupInfo.ini" /LOG="%CD%\.Npackd\InnoSetupInstall.log" &amp;&amp; del /f /q "%setup%"&#13;
+set err=%errorlevel%&#13;
+type .Npackd\InnoSetupInstall.log&#13;
+if %err% neq 0 exit %err%</file>
+  <file path=".Npackd\Uninstall.bat">unins000.exe /VERYSILENT /SUPPRESSMSGBOXES /NORESTART /LOG="%CD%\.Npackd\InnoSetupUninstall.log"&#13;
+set err=%errorlevel%&#13;
+type .Npackd\InnoSetupUninstall.log&#13;
+if %err% neq 0 exit %err%&#13;
+</file>
+  <url>https://www.heidisql.com/installers/HeidiSQL_12.21.0.7346_Setup.exe</url>
+  <hash-sum type="SHA-256">31539b3e845ea6c17c28ffb32abf86e8b0e264cd0257be0bb276212065f27d26</hash-sum>
  </version>
 
  <version name="3.1" package="heob" type="one-file">
@@ -83626,6 +83640,11 @@ rmdir "%name%"&#13;
   <important-file path="DCPlusPlus.exe" title="DC++"/>
   <url>http://downloads.sourceforge.net/project/dcplusplus/DC%2B%2B%200.883/DCPlusPlus-0.883.zip</url>
   <hash-sum type="SHA-256">34d5e31c0f48a991391b4b6c6a2849863b0d97c93461af1f743bc92cf32fa86a</hash-sum>
+ </version>
+ <version name="0.884" package="net.sourceforge.dcplusplus.DCPlusPlus">
+  <important-file path="DCPlusPlus.exe" title="DC++"/>
+  <url>http://downloads.sourceforge.net/project/dcplusplus/DC%2B%2B%200.884/DCPlusPlus-0.884.zip</url>
+  <hash-sum type="SHA-256">fff14d4c7e457a6e5334f512ec6e1239dd642bdf53814970b44bcd10965cb137</hash-sum>
  </version>
 
  <version name="2.9" package="net.sourceforge.discoverd.Discover">
