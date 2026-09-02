@@ -715,7 +715,7 @@ i686</description>
   <category>Development</category>
   <tag>stable</tag>
   <tag>end-of-life</tag>
-  <stars>2</stars>
+  <stars>1</stars>
  </package>
  <package name="arora">
   <title>Arora</title>
@@ -52789,6 +52789,17 @@ if %err% neq 0 exit %err%&#13;
    <variable>nih</variable>
   </dependency>
  </version>
+ <version name="2.32" package="conan" type="one-file">
+  <cmd-file path="conan\conan.exe"/>
+  <file path=".Npackd\Install.bat">"%nih%\InstallInnoSetup.bat"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">"%nih%\UninstallInnoSetup.bat" unins000.exe</file>
+  <url>https://github.com/conan-io/conan/releases/download/2.32.0/conan-2.32.0-windows-i686-installer.exe</url>
+  <hash-sum type="SHA-256">721a524e1e8c179ad171d88ebf75bccf8efee2907db8bbbdf407e2b2a712be95</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
 
  <version name="1.46" package="copy-handler" type="one-file">
   <file path=".Npackd\Install.bat">"%nih%\InstallInnoSetup.bat"&#13;
@@ -77680,6 +77691,14 @@ rmdir "%name%"&#13;
   <url>https://github.com/moneymanagerex/moneymanagerex/releases/download/v1.9.3/mmex-1.9.3-win32.exe</url>
   <hash-sum type="SHA-256">6414fefaaa221fced5419daa7877b6c40dd7320cfd439ee0c9cbcbf483346d6b</hash-sum>
  </version>
+ <version name="1.9.4" package="money-manager-ex" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">uninstall.exe /S _?=%CD%&#13;
+</file>
+  <url>https://github.com/moneymanagerex/moneymanagerex/releases/download/v1.9.4/mmex-1.9.4-win32.exe</url>
+  <hash-sum type="SHA-256">3638d4ee5ce9e0eab8dbed44d63ca2453c12cc5a0e4ed6a451734834f06b9201</hash-sum>
+ </version>
 
  <version name="4.0.1" package="monodevelop" type="one-file">
   <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.msi') do set setup=%%x&#13;
@@ -98763,6 +98782,16 @@ WshShell.SendKeys("y");&#13;
   <file path=".Npackd\Uninstall.bat">"%nih%\UninstallInnoSetup.bat" unins000.exe</file>
   <url>https://github.com/OpenShot/openshot-qt/releases/download/v3.5.1/OpenShot-v3.5.1-x86.exe</url>
   <hash-sum type="SHA-256">205127c2e477564e3cd03d1e2edf73f61d8071d04a37c195bcefa5b8f60e945c</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
+ <version name="4" package="openshot" type="one-file">
+  <file path=".Npackd\Install.bat">"%nih%\InstallInnoSetup.bat"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">"%nih%\UninstallInnoSetup.bat" unins000.exe</file>
+  <url>https://github.com/OpenShot/openshot-qt/releases/download/v4.0.0/OpenShot-v4.0.0-x86.exe</url>
+  <hash-sum type="SHA-256">0b06acf0d1b1c75a053dd34975be15202400aa3f1fa1de12d69894ce3e3fb3f2</hash-sum>
   <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
    <variable>nih</variable>
   </dependency>
