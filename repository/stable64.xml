@@ -7516,6 +7516,18 @@ x86_64</description>
    <variable>nih</variable>
   </dependency>
  </version>
+ <version name="3.7.9" package="audacity64" type="one-file">
+  <file path=".Npackd\Install.bat">call "%nih%\InstallInnoSetup.bat"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">call "%nih%\UninstallInnoSetup.bat" unins000.exe&#13;
+</file>
+  <url>https://github.com/audacity/audacity/releases/download/Audacity-3.7.9/audacity-win-3.7.9-64bit.exe</url>
+  <hash-sum type="SHA-256">e3096847ac4270d304e9b112d153642a72b66b42e13f83a32f06eecfb4ce7e48</hash-sum>
+  <dependency package="ar.com.buanzo.lame.LameForAudacity" versions="[3.98.3, 4)"/>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
 
  <version name="3.8.1" package="back4sure" type="one-file">
   <file path=".Npackd\Install.bat">"%nih%\InstallInnoSetup.bat"&#13;
@@ -17926,7 +17938,7 @@ if %err% neq 0 exit /b %err%&#13;
  <version name="21.0.12.1.1" package="com.oracle.JRE64" type="one-file">
   <file path=".Npackd\Install.bat">call "%nih%\InstallMSI.bat" INSTALLDIR yes&#13;
 </file>
-  <url>https://github.com/adoptium/temurin21-binaries/releases/download/jdk-21.0.12.1%2B1/OpenJDK21U-jre_x64_windows_hotspot_21.0.12.1_1.msi</url>
+  <url>https://github.com/tim-lebedkov/packages/releases/download/2026_09/com.oracle.JRE64-21.0.12.1.1-OpenJDK21U-jre_x64_windows_hotspot_21.0.12.1_1.msi</url>
   <hash-sum type="SHA-256">536eeb1dc3f743e5932a92e3549430fc75392c5d379101c1456a1c201aa6e66b</hash-sum>
   <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.8, 2)">
    <variable>nih</variable>
@@ -22679,7 +22691,7 @@ for %%g in (%extensions%) do reg add HKLM\SOFTWARE\Classes\.%%g\OpenWithList\%ke
   </dependency>
  </version>
 
- <version name="1.115" package="com.xnconvert.XnConvert64" type="one-file">
+ <version name="1.116" package="com.xnconvert.XnConvert64" type="one-file">
   <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
 "%setup%" /SP- /VERYSILENT /SUPPRESSMSGBOXES /NOCANCEL /NORESTART /DIR="%CD%" /SAVEINF="%CD%\.Npackd\InnoSetupInfo.ini" /LOG="%CD%\.Npackd\InnoSetupInstall.log"&#13;
 set err=%errorlevel%&#13;
@@ -46753,6 +46765,14 @@ reg add HKCU\Software\mkvmergeGUI\GUI /v check_for_updates /t REG_DWORD /d 00000
   <url>https://github.com/moneymanagerex/moneymanagerex/releases/download/v1.9.3/mmex-1.9.3-win64.exe</url>
   <hash-sum type="SHA-256">47aef01c9e8c5c478faa34fd93c9cbcffc2dee392f716ed3c1e1702b0e2a19b7</hash-sum>
  </version>
+ <version name="1.9.4" package="money-manager-ex64" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">uninstall.exe /S _?=%CD%&#13;
+</file>
+  <url>https://github.com/moneymanagerex/moneymanagerex/releases/download/v1.9.4/mmex-1.9.4-win64.exe</url>
+  <hash-sum type="SHA-256">95daa954201c834c6eeaff1d03aa41d50d3e7f1c5466cd79c98f28c1a5949f74</hash-sum>
+ </version>
 
  <version name="4.4.1" package="mono64" type="one-file">
   <file path=".Npackd\Install.bat">call "%npackdih%\InstallMSI.bat" INSTALLDIR yes&#13;
@@ -55757,7 +55777,7 @@ verify&#13;
   </dependency>
  </version>
 
- <version name="3.20.5" package="ocenaudio64" type="one-file">
+ <version name="3.21" package="ocenaudio64" type="one-file">
   <file path=".Npackd\Install.bat">"%npackd_package_binary%" /AllUsers /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
 </file>
   <file path=".Npackd\Uninstall.bat">"%ncl%\ncl" remove-scp --title "/ocenaudio.*/"</file>
@@ -67270,6 +67290,40 @@ Set view = Nothing&#13;
    <variable>npackdih</variable>
   </dependency>
  </version>
+ <version name="1.27.1" package="org.golang.Go64" type="one-file">
+  <file path=".Npackd\Install.bat">.Npackd\AddProperty.vbs "%npackd_package_binary%"&#13;
+if %errorlevel% neq 0 exit %errorlevel%&#13;
+&#13;
+call "%npackdih%\InstallMSI.bat" INSTALLDIR</file>
+  <file path=".Npackd\Uninstall.bat">call "%npackdih%\UninstallMSI.bat"</file>
+  <file path=".Npackd\AddProperty.vbs">Option Explicit&#13;
+&#13;
+Dim MSI_FILE&#13;
+MSI_FILE = Wscript.Arguments(0)&#13;
+&#13;
+Dim installer, database, view&#13;
+&#13;
+Set installer = CreateObject("WindowsInstaller.Installer")&#13;
+Set database = installer.OpenDatabase(MSI_FILE, 1)&#13;
+&#13;
+Set view = database.OpenView("INSERT INTO Property (Property, Value) VALUES ('INSTALLDIR', 'C:\Go')")&#13;
+view.Execute&#13;
+'Set view = database.OpenView("DELETE FROM Directory WHERE Directory='TARGETDIR'")&#13;
+'view.Execute&#13;
+'Set view = database.OpenView("UPDATE Directory SET DefaultDir='INSTALLLOCATION' WHERE Directory='TARGETDIR'")&#13;
+'view.Execute&#13;
+database.Commit&#13;
+&#13;
+Set database = Nothing&#13;
+Set installer = Nothing&#13;
+Set view = Nothing&#13;
+</file>
+  <url>https://golang.org/dl/go1.27.1.windows-amd64.msi</url>
+  <hash-sum type="SHA-256">54dbabbc910840fce0028779e896cd99a22bdf89463354a1ca0d9288044dc6e7</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1, 2)">
+   <variable>npackdih</variable>
+  </dependency>
+ </version>
 
  <version name="2.22.1" package="org.gtk.GTKPlusBundle64">
   <file path="etc\gtk-2.0\gtkrc">gtk-theme-name = "MS-Windows"</file>
@@ -70656,6 +70710,16 @@ verify</file>
   <file path=".Npackd\Uninstall.bat">"%nih%\UninstallInnoSetup.bat" unins000.exe</file>
   <url>https://github.com/OpenShot/openshot-qt/releases/download/v3.5.1/OpenShot-v3.5.1-x86_64.exe</url>
   <hash-sum type="SHA-256">f7894bbf87ec77f37ea46407fef0ae444cd8db52dfc9fd52d969b8a8bde55685</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
+ <version name="4" package="org.openshot.openshot64" type="one-file">
+  <file path=".Npackd\Install.bat">"%nih%\InstallInnoSetup.bat"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">"%nih%\UninstallInnoSetup.bat" unins000.exe</file>
+  <url>https://github.com/OpenShot/openshot-qt/releases/download/v4.0.0/OpenShot-v4.0.0-x86_64.exe</url>
+  <hash-sum type="SHA-256">fcecfcfd616447797d46edcca6d8fe5ca70ea19b387ae257ec24f11811f715ef</hash-sum>
   <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
    <variable>nih</variable>
   </dependency>
@@ -90317,6 +90381,20 @@ call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Np
    <variable>nih</variable>
   </dependency>
  </version>
+ <version name="9.2.1031" package="org.vim.Vim64">
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+if %errorlevel% neq 0 exit /b %errorlevel%&#13;
+&#13;
+for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+</file>
+  <url>https://github.com/vim/vim-win32-installer/releases/download/v9.2.1031/gvim_9.2.1031_x64.zip</url>
+  <hash-sum type="SHA-256">27ad8a764df97d447e1b512a20b12bd0f66880222dea339d7c7e5c3fcc7eafdd</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.19, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
 
  <version name="4.2.8.83876" package="org.virtualbox.virtualbox64" type="one-file">
   <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
@@ -102683,6 +102761,12 @@ if %err% neq 0 exit %err%&#13;
 </file>
   <url>https://github.com/tim-lebedkov/packages/releases/download/2026_08/tor64-15.0.20-tor-browser-windows-x86_64-portable-15.0.20.exe</url>
   <hash-sum type="SHA-256">508331e09a3484993cb018ac7c62b927f3b4b4feb901f2be2252efe7b4da6620</hash-sum>
+ </version>
+ <version name="15.0.21" package="tor64" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
+</file>
+  <url>https://www.torproject.org/dist/torbrowser/15.0.21/tor-browser-windows-x86_64-portable-15.0.21.exe</url>
+  <hash-sum type="SHA-256">85997f863265119435af3feb88ff617f1801119bccbed8283a56f64eb1ee462f</hash-sum>
  </version>
 
  <version name="2.84.9" package="transmission-qt64" type="one-file">

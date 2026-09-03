@@ -19374,7 +19374,7 @@ verify&#13;
  </version>
 
 
- <version name="1.94.117" package="brave" type="one-file">
+ <version name="1.94.119" package="brave" type="one-file">
   <file path=".Npackd\Install.bat">"%npackd_package_binary%" &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
 </file>
   <file path=".Npackd\Uninstall.bat">"%ncl%\ncl.exe" remove-scp --title "/%npackd_package_name% %npackd_package_version%/i"&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
@@ -23323,7 +23323,7 @@ if "%setup%" neq "" "%setup%" -uninstall&#13;
   <url>http://fpdownload.macromedia.com/get/shockwave/default/english/win95nt/latest/Shockwave_Installer_Slim.exe</url>
  </version>
 
- <version name="23.9" package="com.advancedinstaller.AdvancedInstallerFreeware" type="one-file">
+ <version name="24" package="com.advancedinstaller.AdvancedInstallerFreeware" type="one-file">
   <file path=".Npackd\Install.bat">cscript //Nologo //E:JScript //T:300 //U .Npackd\Install.js&#13;
 &#13;
 call "%nih%\InstallMSI.bat" APPDIR yes</file>
@@ -50720,7 +50720,7 @@ reg import uget-path.reg</file>
   </dependency>
  </version>
 
- <version name="1.115" package="com.xnconvert.XnConvert" type="one-file">
+ <version name="1.116" package="com.xnconvert.XnConvert" type="one-file">
   <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
 "%setup%" /SP- /VERYSILENT /SUPPRESSMSGBOXES /NOCANCEL /NORESTART /DIR="%CD%" /SAVEINF="%CD%\.Npackd\InnoSetupInfo.ini" /LOG="%CD%\.Npackd\InnoSetupInstall.log"&#13;
 set err=%errorlevel%&#13;
@@ -55111,7 +55111,7 @@ if %err% neq 0 exit %err%&#13;
   <sha1>1a6a7b97b4113ef4f3f1d67e88a97a7d260f1801</sha1>
  </version>
 
- <version name="4.24" package="dk.software.hulubulu.advancedrenamer" type="one-file">
+ <version name="4.25" package="dk.software.hulubulu.advancedrenamer" type="one-file">
   <file path=".Npackd\Install.bat">ren down Setup.exe&#13;
 "%nih%\InstallInnoSetup.bat"&#13;
 </file>
@@ -59073,7 +59073,7 @@ verify</file>
   </dependency>
  </version>
 
- <version name="3.6.4" package="github" type="one-file">
+ <version name="3.6.5" package="github" type="one-file">
   <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
 "%setup%" &amp;&amp; del /f /q "%setup%"&#13;
 </file>
@@ -83263,6 +83263,22 @@ if %err% neq 0 exit %err%&#13;
   <hash-sum type="SHA-256">c0482d84a05ddd26905d010daff32b79eba18673489d2cb90ee87a386d24c74f</hash-sum>
   <dependency package="ar.com.buanzo.lame.LameForAudacity" versions="[3.98.3, 4)"/>
  </version>
+ <version name="3.7.9" package="net.sourceforge.audacity.Audacity" type="one-file">
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
+"%setup%" /SP- /VERYSILENT /SUPPRESSMSGBOXES /NOCANCEL /NORESTART /DIR="%CD%" /SAVEINF="%CD%\.Npackd\InnoSetupInfo.ini" /LOG="%CD%\.Npackd\InnoSetupInstall.log"&#13;
+set err=%errorlevel%&#13;
+type .Npackd\InnoSetupInstall.log&#13;
+if %err% neq 0 exit %err%&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">unins000.exe /VERYSILENT /SUPPRESSMSGBOXES /NORESTART /LOG="%CD%\.Npackd\InnoSetupUninstall.log"&#13;
+set err=%errorlevel%&#13;
+type .Npackd\InnoSetupUninstall.log&#13;
+if %err% neq 0 exit %err%&#13;
+</file>
+  <url>https://github.com/audacity/audacity/releases/download/Audacity-3.7.9/audacity-win-3.7.9-32bit.exe</url>
+  <hash-sum type="SHA-256">ed3c6881bfc002ea7d3099f61332865d146ac58521947c2db892fd9a0d5ec1c8</hash-sum>
+  <dependency package="ar.com.buanzo.lame.LameForAudacity" versions="[3.98.3, 4)"/>
+ </version>
 
  <version name="2.6.1" package="net.sourceforge.avidemux.Avidemux" type="one-file">
   <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
@@ -95904,7 +95920,7 @@ rmdir "%name%"&#13;
   <sha1>635e4b4a489aa91acc10726b8e2cf469037a58a3</sha1>
  </version>
 
- <version name="3.20.5" package="ocenaudio" type="one-file">
+ <version name="3.21" package="ocenaudio" type="one-file">
   <file path=".Npackd\Install.bat">"%npackd_package_binary%" /AllUsers /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
 </file>
   <file path=".Npackd\Uninstall.bat">"%ncl%\ncl" remove-scp --title "/ocenaudio.*/i"</file>
@@ -117191,6 +117207,40 @@ Set view = Nothing&#13;
    <variable>npackdih</variable>
   </dependency>
  </version>
+ <version name="1.27.1" package="org.golang.Go" type="one-file">
+  <file path=".Npackd\Install.bat">.Npackd\AddProperty.vbs "%npackd_package_binary%"&#13;
+if %errorlevel% neq 0 exit %errorlevel%&#13;
+&#13;
+call "%npackdih%\InstallMSI.bat" INSTALLDIR</file>
+  <file path=".Npackd\Uninstall.bat">call "%npackdih%\UninstallMSI.bat"</file>
+  <file path=".Npackd\AddProperty.vbs">Option Explicit&#13;
+&#13;
+Dim MSI_FILE&#13;
+MSI_FILE = Wscript.Arguments(0)&#13;
+&#13;
+Dim installer, database, view&#13;
+&#13;
+Set installer = CreateObject("WindowsInstaller.Installer")&#13;
+Set database = installer.OpenDatabase(MSI_FILE, 1)&#13;
+&#13;
+Set view = database.OpenView("INSERT INTO Property (Property, Value) VALUES ('INSTALLDIR', 'C:\Go')")&#13;
+view.Execute&#13;
+'Set view = database.OpenView("DELETE FROM Directory WHERE Directory='TARGETDIR'")&#13;
+'view.Execute&#13;
+'Set view = database.OpenView("UPDATE Directory SET DefaultDir='INSTALLLOCATION' WHERE Directory='TARGETDIR'")&#13;
+'view.Execute&#13;
+database.Commit&#13;
+&#13;
+Set database = Nothing&#13;
+Set installer = Nothing&#13;
+Set view = Nothing&#13;
+</file>
+  <url>https://golang.org/dl/go1.27.1.windows-386.msi</url>
+  <hash-sum type="SHA-256">c617339b397ba5c0d6bf785e68febeef46c8fceeadeebb81ddcb296d40fefac0</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1, 2)">
+   <variable>npackdih</variable>
+  </dependency>
+ </version>
 
  <version name="1.0.1" package="org.goldendict.GoldenDict">
   <important-file path="GoldenDict\GoldenDict.exe" title="GoldenDict"/>
@@ -125058,6 +125108,17 @@ echo DesktopShortcut=false &gt;&gt; .Npackd\FF.ini&#13;
 verify</file>
   <url>https://download-origin.cdn.mozilla.net/pub/mozilla.org/firefox/releases/154.0.1/win32/en-US/Firefox%20Setup%20154.0.1.exe</url>
   <hash-sum type="SHA-256">221a23c1322bab5b8f3f6b45ef2ae000fd7328b51c653a15cf4ae0449450d89e</hash-sum>
+ </version>
+ <version name="155" package="org.mozilla.Firefox" type="one-file">
+  <file path=".Npackd\Install.bat">echo [Install] &gt; .Npackd\FF.ini&#13;
+echo InstallDirectoryPath=%CD% &gt;&gt; .Npackd\FF.ini&#13;
+echo QuickLaunchShortcut=false &gt;&gt; .Npackd\FF.ini&#13;
+echo DesktopShortcut=false &gt;&gt; .Npackd\FF.ini&#13;
+"%npackd_package_binary%" /INI="%CD%\.Npackd\FF.ini" &amp;&amp; del /f /q "%npackd_package_binary%"</file>
+  <file path=".Npackd\Uninstall.bat">uninstall\helper.exe /S&#13;
+verify</file>
+  <url>https://download-origin.cdn.mozilla.net/pub/mozilla.org/firefox/releases/155.0/win32/en-US/Firefox%20Setup%20155.0.exe</url>
+  <hash-sum type="SHA-256">5ecfbc8aaedb111afb9bde5f2eb361f9283519fc15aa4dc5d6c47dcae834fb6e</hash-sum>
  </version>
 
  <version name="24.4" package="org.mozilla.FirefoxESR" type="one-file">
@@ -149712,6 +149773,15 @@ rmdir "%name%"&#13;
 </file>
   <url>https://github.com/tim-lebedkov/packages/releases/download/2026_05/qcad-3.32.9-qcad-3.32.9-trial-win32-installer.msi</url>
   <hash-sum type="SHA-256">288f56bc7de8dea5eaedd295094267d35dd913cff473ee14b06264f9fe5ce141</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.1, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
+ <version name="3.33" package="qcad" type="one-file">
+  <file path=".Npackd\Install.bat">call "%nih%\InstallMSI.bat" INSTALLDIR yes&#13;
+</file>
+  <url>http://www.qcad.org/archives/qcad/qcad-3.33.0-trial-win32-installer.msi</url>
+  <hash-sum type="SHA-256">ebf2c3a3d49c0f8fac87e5422503f9fcb48f4e76c524f668a3b8d9bf656388c3</hash-sum>
   <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.1, 2)">
    <variable>nih</variable>
   </dependency>
