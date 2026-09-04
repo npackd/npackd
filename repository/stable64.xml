@@ -32555,6 +32555,17 @@ verify</file>
   <url>https://download-installer.cdn.mozilla.net/pub/firefox/releases/154.0.1/win64/en-US/Firefox%20Setup%20154.0.1.exe</url>
   <hash-sum type="SHA-256">ec27c770aa951b8f11541ce5c4fa2d15ec8d7fe613662505ce9ab00b196a100e</hash-sum>
  </version>
+ <version name="155" package="firefox64" type="one-file">
+  <file path=".Npackd\Install.bat">echo [Install] &gt; .Npackd\FF.ini&#13;
+echo InstallDirectoryPath=%CD% &gt;&gt; .Npackd\FF.ini&#13;
+echo QuickLaunchShortcut=false &gt;&gt; .Npackd\FF.ini&#13;
+echo DesktopShortcut=false &gt;&gt; .Npackd\FF.ini&#13;
+"%npackd_package_binary%" /INI="%CD%\.Npackd\FF.ini" &amp;&amp; del /f /q "%npackd_package_binary%"</file>
+  <file path=".Npackd\Uninstall.bat">uninstall\helper.exe /S&#13;
+verify</file>
+  <url>https://download-installer.cdn.mozilla.net/pub/firefox/releases/155.0/win64/en-US/Firefox%20Setup%20155.0.exe</url>
+  <hash-sum type="SHA-256">2718d4cc4b2cf089aa8ac370111652bc763838e1d2ed6d635d465fc17ab6327c</hash-sum>
+ </version>
 
  <version name="0.5" package="firefoxpwa" type="one-file">
   <file path=".Npackd\Install.bat">call "%nih%\InstallMSI.bat" APPLICATIONFOLDER yes</file>
@@ -39918,6 +39929,19 @@ rmdir "%name%"&#13;
 </file>
   <url>https://dl.google.com/dl/cloudsdk/channels/rapid/downloads/google-cloud-sdk-582.0.0-windows-x86_64.zip</url>
   <hash-sum type="SHA-256">72fe577f151ae33d7ff480a5bea516be7316bbcf08205733755bce2468e99577</hash-sum>
+  <dependency package="org.python.Python" versions="[2.7, 2.8)"/>
+ </version>
+ <version name="583" package="google-cloud-sdk64">
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b google-cloud-sdk*') do set name=%%x&#13;
+cd "%name%"&#13;
+for /f "delims=" %%a in ('dir /b') do (&#13;
+  move "%%a" ..&#13;
+)&#13;
+cd ..&#13;
+rmdir "%name%"&#13;
+</file>
+  <url>https://dl.google.com/dl/cloudsdk/channels/rapid/downloads/google-cloud-sdk-583.0.0-windows-x86_64.zip</url>
+  <hash-sum type="SHA-256">c2743ef6d8c10d0e262dec2a78f5eb1700f26ca29385f20b7151faecfbaacada</hash-sum>
   <dependency package="org.python.Python" versions="[2.7, 2.8)"/>
  </version>
 
@@ -62016,6 +62040,12 @@ rmdir "%name%"&#13;
 </file>
   <url>https://github.com/erlang/otp/releases/download/OTP-29.0.5/otp_win64_29.0.5.exe</url>
   <hash-sum type="SHA-256">24958095a89f0ec76dc9f6e381fa671b940afce2b9187c5c6859b193fe8922fe</hash-sum>
+ </version>
+ <version name="29.0.6" package="org.erlang.Erlang64" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD%&#13;
+</file>
+  <url>https://github.com/erlang/otp/releases/download/OTP-29.0.6/otp_win64_29.0.6.exe</url>
+  <hash-sum type="SHA-256">d2f4fd611501a581b278439ddacfdf7a95f61e4a393dfa095cb6eff9b38fd3ff</hash-sum>
  </version>
 
  <version name="0.9.2.1" package="org.flamerobin.FlameRobin64" type="one-file">
@@ -90353,6 +90383,20 @@ call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Np
    <variable>nih</variable>
   </dependency>
  </version>
+ <version name="9.2.1015" package="org.vim.Vim64">
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+if %errorlevel% neq 0 exit /b %errorlevel%&#13;
+&#13;
+for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+</file>
+  <url>https://github.com/vim/vim-win32-installer/releases/download/v9.2.1015/gvim_9.2.1015_x64.zip</url>
+  <hash-sum type="SHA-256">a5422d747682841878fc11daa8ac275fb9372673f1c981ec5020d743a28bea1e</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.19, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
  <version name="9.2.1021" package="org.vim.Vim64">
   <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
 call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
@@ -96090,6 +96134,15 @@ verify</file>
 </file>
   <url>https://github.com/tim-lebedkov/packages/releases/download/2026_05/qcad64-3.32.9-qcad-3.32.9-trial-win64-installer.msi</url>
   <hash-sum type="SHA-256">dffc264bbebd7694ccce36da10ed0e57534f5a7284823f7a5f75359f43168a07</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.1, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
+ <version name="3.33" package="qcad64" type="one-file">
+  <file path=".Npackd\Install.bat">call "%nih%\InstallMSI.bat" INSTALLDIR yes&#13;
+</file>
+  <url>http://www.qcad.org/archives/qcad/qcad-3.33.0-trial-win64-installer.msi</url>
+  <hash-sum type="SHA-256">89f7630871059cfb2082160644554bf167cc7e88790734b48dc1388e76c26aa3</hash-sum>
   <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.1, 2)">
    <variable>nih</variable>
   </dependency>
@@ -102765,7 +102818,7 @@ if %err% neq 0 exit %err%&#13;
  <version name="15.0.21" package="tor64" type="one-file">
   <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
 </file>
-  <url>https://www.torproject.org/dist/torbrowser/15.0.21/tor-browser-windows-x86_64-portable-15.0.21.exe</url>
+  <url>https://github.com/tim-lebedkov/packages/releases/download/2026_09/tor64-15.0.21-tor-browser-windows-x86_64-portable-15.0.21.exe</url>
   <hash-sum type="SHA-256">85997f863265119435af3feb88ff617f1801119bccbed8283a56f64eb1ee462f</hash-sum>
  </version>
 

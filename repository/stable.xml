@@ -131098,6 +131098,18 @@ rmdir "%name%"&#13;
   <url>https://nginx.org/download/nginx-1.31.4.zip</url>
   <hash-sum type="SHA-256">9217d06a62a357784bc7fee6740ccec985661e8caa511444911350f04668e16a</hash-sum>
  </version>
+ <version name="1.31.5" package="org.nginx.Nginx">
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b nginx*') do set name=%%x&#13;
+cd "%name%"        &#13;
+for /f "delims=" %%a in ('dir /b') do (&#13;
+  move "%%a" ..&#13;
+)&#13;
+cd ..&#13;
+rmdir "%name%"&#13;
+</file>
+  <url>https://nginx.org/download/nginx-1.31.5.zip</url>
+  <hash-sum type="SHA-256">00ad32a2bf66cee0ec8eb194347e8e79917f47017ccd3ad4bebf5574fabe002c</hash-sum>
+ </version>
 
  <version name="6.25" package="org.nmap.nmap" type="one-file">
   <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
@@ -149780,7 +149792,7 @@ rmdir "%name%"&#13;
  <version name="3.33" package="qcad" type="one-file">
   <file path=".Npackd\Install.bat">call "%nih%\InstallMSI.bat" INSTALLDIR yes&#13;
 </file>
-  <url>http://www.qcad.org/archives/qcad/qcad-3.33.0-trial-win32-installer.msi</url>
+  <url>https://github.com/tim-lebedkov/packages/releases/download/2026_09/qcad-3.33-qcad-3.33.0-trial-win32-installer.msi</url>
   <hash-sum type="SHA-256">ebf2c3a3d49c0f8fac87e5422503f9fcb48f4e76c524f668a3b8d9bf656388c3</hash-sum>
   <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.1, 2)">
    <variable>nih</variable>
@@ -170115,7 +170127,7 @@ if %err% neq 0 exit %err%&#13;
   <url>https://az764295.vo.msecnd.net/stable/a0479759d6e9ea56afa657e454193f72aef85bd0/VSCodeSetup-ia32-1.48.2.exe</url>
   <hash-sum type="SHA-256">013d5ecdb44159c15047472512bef9c76ba934807dbb07a582655f4c5546866d</hash-sum>
  </version>
- <version name="1.135" package="vs-code" type="one-file">
+ <version name="1.136.1" package="vs-code" type="one-file">
   <file path=".Npackd\Install.bat">ren "%npackd_package_binary%" setup.exe&#13;
 setup.exe /SP- /VERYSILENT /SUPPRESSMSGBOXES /NOCANCEL /NORESTART /DIR="%CD%" /SAVEINF="%CD%\.Npackd\InnoSetupInfo.ini" /LOG="%CD%\.Npackd\InnoSetupInstall.log"&#13;
 set err=%errorlevel%&#13;
