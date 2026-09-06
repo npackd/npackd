@@ -57618,6 +57618,15 @@ reg add HKLM\SOFTWARE\OpenVPN-GUI /v allow_service /t REG_SZ /d 0 /f&#13;
    <variable>nih</variable>
   </dependency>
  </version>
+ <version name="2.7.7" package="openvpn64" type="one-file">
+  <file path=".Npackd\Install.bat">call "%nih%\InstallMSI.bat" INSTALLDIR yes&#13;
+</file>
+  <url>https://swupdate.openvpn.org/community/releases/OpenVPN-2.7.7-I001-amd64.msi</url>
+  <hash-sum type="SHA-256">9069a48397c4fd4135fb9c9baea4863c74a465651f67e55a423a433e503100bb</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.1, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
 
 
  <version name="9.20" package="org.7-zip.SevenZIP64" type="one-file">
@@ -58503,6 +58512,18 @@ cscript //Nologo //E:JScript //T:300 //U .Npackd\Install.js&#13;
 </file>
   <url>https://www.7-zip.org/a/7z2602-x64.msi</url>
   <hash-sum type="SHA-256">db407a4f6d4999e5c7bc00ce8a882be94717b56e7fa68140fe3f12605d91643e</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.1, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
+ <version name="26.3" package="org.7-zip.SevenZIP64" type="one-file">
+  <cmd-file path="7z.exe"/>
+  <cmd-file path="7zG.exe"/>
+  <file path=".Npackd\Extensions.txt">.001 .7z .arj .bz2 .bzip2 .cab .cpio .deb .dmg .egg .fat .gz .gzip .hfs .iso .lha .lzh .lzma .ntfs .rar .rpm .squashfs .swm .tar .taz .tbz .tbz2 .tgz .tpz .txz .vhd .wim .xar .xz .z .zip</file>
+  <file path=".Npackd\Install.bat">call "%nih%\InstallMSI.bat" INSTALLDIR yes&#13;
+</file>
+  <url>https://www.7-zip.org/a/7z2603-x64.msi</url>
+  <hash-sum type="SHA-256">c0680064d698a62dd4a5a47f403db356a6531a5473e4c4b1d090ea2590513926</hash-sum>
   <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.1, 2)">
    <variable>nih</variable>
   </dependency>
@@ -107090,6 +107111,19 @@ Application\%name%\Installer\setup.exe --uninstall --vivaldi --force-uninstall -
 type .Npackd\Output.txt</file>
   <url>https://downloads.vivaldi.com/stable/Vivaldi.8.1.4087.75.x64.exe</url>
   <hash-sum type="SHA-256">4550b384494aac87252cd4ac483a02fbd1cdaf72048958e29bd2a71b553a04b9</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.24, 2)">
+   <variable>ncl</variable>
+  </dependency>
+ </version>
+ <version name="8.2.4133.47" package="vivaldi-browser-64" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" --system-level --vivaldi-silent --vivaldi-standalone --do-not-launch-chrome --vivaldi-install-dir="%CD%" &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">for /f "delims=" %%x in ('dir /b application\5*') do set name=%%x&#13;
+&#13;
+Application\%name%\Installer\setup.exe --uninstall --vivaldi --force-uninstall --system-level &gt; .Npackd\Output.txt 2&gt;&amp;1 &#13;
+type .Npackd\Output.txt</file>
+  <url>https://downloads.vivaldi.com/stable/Vivaldi.8.2.4133.47.x64.exe</url>
+  <hash-sum type="SHA-256">65590b549db6d3300319a2fdb18cab3d774fed5ccb67e0442ab3b2ca55d06854</hash-sum>
   <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.24, 2)">
    <variable>ncl</variable>
   </dependency>
