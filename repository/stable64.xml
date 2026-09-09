@@ -2275,6 +2275,17 @@ x86_64</description>
   <tag>stable64</tag>
   <stars>1</stars>
  </package>
+ <package name="ilspy64">
+  <title>ILSpy 64 Bit</title>
+  <url>http://ilspy.net</url>
+  <description>.NET assembly browser and decompiler.
+x86_64</description>
+  <icon>https://raw.githubusercontent.com/icsharpcode/ILSpy/refs/heads/master/ILSpy/Assets/ILSpy-Large.ico</icon>
+  <license>edu.mit.web.MIT</license>
+  <category>Development</category>
+  <tag>stable64</tag>
+  <link href="http://ilspy.net/" rel="changelog"/>
+ </package>
  <package name="image-eye">
   <title>Image Eye 64 Bit</title>
   <url>https://www.fmjsoft.com/imageeye.html#main</url>
@@ -5460,7 +5471,6 @@ x86_64</description>
   <icon>https://www.microsoft.com/favicon.ico</icon>
   <category>Development</category>
   <tag>stable64</tag>
-  <stars>1</stars>
  </package>
  <package name="whale-naver64">
   <title>Whale Naver 64 Bit</title>
@@ -14511,6 +14521,15 @@ call "%npackdih%\InstallMSI.bat" APPLICATIONFOLDER yes&#13;
 </file>
   <url>https://download.calibre-ebook.com/9.13.0/calibre-64bit-9.13.0.msi</url>
   <hash-sum type="SHA-256">f5f19e870163c20ec63a656d6f5d0c123e07c4254899380ebeec51b00766e615</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.2, 2)">
+   <variable>npackdih</variable>
+  </dependency>
+ </version>
+ <version name="9.14" package="com.calibreebook.Calibre64" type="one-file">
+  <file path=".Npackd\Install.bat">call "%npackdih%\InstallMSI.bat" APPLICATIONFOLDER yes&#13;
+</file>
+  <url>https://download.calibre-ebook.com/9.14.0/calibre-64bit-9.14.0.msi</url>
+  <hash-sum type="SHA-256">4ccaf2a49a0069b5e78291ee7248dcd8967896d316d6432ddf657b6feae8f32d</hash-sum>
   <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.2, 2)">
    <variable>npackdih</variable>
   </dependency>
@@ -40788,6 +40807,7 @@ if %err% neq 0 exit %err%</file>
  </version>
 
 
+
  <version name="7.6.4.30" package="imageglass" type="one-file">
   <file path=".Npackd\Install.bat">call "%nih%\InstallMSI.bat" INSTALLDIR yes&#13;
 </file>
@@ -55820,7 +55840,7 @@ verify&#13;
   </dependency>
  </version>
 
- <version name="3.21" package="ocenaudio64" type="one-file">
+ <version name="3.21.1" package="ocenaudio64" type="one-file">
   <file path=".Npackd\Install.bat">"%npackd_package_binary%" /AllUsers /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
 </file>
   <file path=".Npackd\Uninstall.bat">"%ncl%\ncl" remove-scp --title "/ocenaudio.*/"</file>
@@ -90493,6 +90513,34 @@ call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Np
    <variable>nih</variable>
   </dependency>
  </version>
+ <version name="9.2.1037" package="org.vim.Vim64">
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+if %errorlevel% neq 0 exit /b %errorlevel%&#13;
+&#13;
+for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+</file>
+  <url>https://github.com/vim/vim-win32-installer/releases/download/v9.2.1037/gvim_9.2.1037_x64.zip</url>
+  <hash-sum type="SHA-256">9181674d4077ae4b4892071c0612057bcff9bab9c1e904f8e45ff598fe4fd44d</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.19, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
+ <version name="9.2.1046" package="org.vim.Vim64">
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+if %errorlevel% neq 0 exit /b %errorlevel%&#13;
+&#13;
+for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+</file>
+  <url>https://github.com/vim/vim-win32-installer/releases/download/v9.2.1046/gvim_9.2.1046_x64.zip</url>
+  <hash-sum type="SHA-256">a1030dc9a270befed19c8327b1b86ee938e673444d4d9e6aadc512666f27c046</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.19, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
 
  <version name="4.2.8.83876" package="org.virtualbox.virtualbox64" type="one-file">
   <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
@@ -102762,6 +102810,16 @@ rmdir "%name%"</file>
   <file path=".Npackd\Uninstall.bat">"%nih%\UninstallInnoSetup.bat" unins000.exe</file>
   <url>https://updates.tdesktop.com/tx64/tsetup-x64.7.1.3.exe</url>
   <hash-sum type="SHA-256">6c7bc17459f2ec1dee05a0006cc2afd46e2cb65cd573e33d746d181257c67f31</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
+ <version name="7.2.5" package="telegram64" type="one-file">
+  <file path=".Npackd\Install.bat">"%nih%\InstallInnoSetup.bat"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">"%nih%\UninstallInnoSetup.bat" unins000.exe</file>
+  <url>https://updates.tdesktop.com/tx64/tsetup-x64.7.2.5.exe</url>
+  <hash-sum type="SHA-256">59897de089444462a1799372cf21a7c0e04e4a4ca558ce81cf7ed81568cb7ae9</hash-sum>
   <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
    <variable>nih</variable>
   </dependency>

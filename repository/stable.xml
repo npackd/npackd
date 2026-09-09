@@ -5823,12 +5823,14 @@ i686</description>
  <package name="icsharpcode.ilspy">
   <title>ILSpy</title>
   <url>http://ilspy.net</url>
-  <description>Open-source .NET assembly browser and decompiler.
+  <description>WARNING: there will be no new versions of this package.
+Open-source .NET assembly browser and decompiler.
 i686</description>
-  <icon>https://raw.githubusercontent.com/icsharpcode/ILSpy/master/ILSpy/Images/ILSpy.ico</icon>
+  <icon>https://raw.githubusercontent.com/icsharpcode/ILSpy/refs/heads/master/ILSpy/Assets/ILSpy-Large.ico</icon>
   <license>edu.mit.web.MIT</license>
   <category>Development</category>
   <tag>stable</tag>
+  <tag>end-of-life</tag>
   <link href="http://ilspy.net/" rel="changelog"/>
  </package>
  <package name="ie.heidi.eraser.eraser">
@@ -36547,6 +36549,14 @@ verify&#13;
   <hash-sum type="SHA-256">866716adf456f29f279ee78c447e72e14146795d50d74b8697f80ef4182b7986</hash-sum>
   <dependency package="com.oracle.JRE" versions="[1.5, 2)"/>
  </version>
+ <version name="2.5.250" package="com.h2database.H2" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD%\Program&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">Program\Uninstall.exe /S _?=%CD%\Program</file>
+  <url>https://github.com/h2database/h2database/releases/download/version-2.5.250/h2-setup-2026-08-29.exe</url>
+  <hash-sum type="SHA-256">7d620fcb8116cecabc3e611df5316dde6e8c0e67f3dd9f665e27453aeb16ab0e</hash-sum>
+  <dependency package="com.oracle.JRE" versions="[1.5, 2)"/>
+ </version>
 
  <version name="2.55" package="com.hdtune.hdtune" type="one-file">
   <file path=".Npackd\Install.bat">"%nih%\InstallInnoSetup.bat"&#13;
@@ -40966,6 +40976,15 @@ verify&#13;
 </file>
   <url>https://download.owncloud.com/desktop/ownCloud/stable/7.1/win/ownCloud-7.1.0.19041.x64.msi</url>
   <hash-sum type="SHA-256">70a75705251dfec278ca80c937028145b06a09604d8566c5f39c8d0c75109d9b</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.1, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
+ <version name="7.1.1.19543" package="com.owncloud.OwnCloudClient" type="one-file">
+  <file path=".Npackd\Install.bat">call "%nih%\InstallMSI.bat" INSTALLDIR yes&#13;
+</file>
+  <url>https://download.owncloud.com/desktop/ownCloud/stable/7.1.1.19543/win/ownCloud-7.1.1.19543.x64.msi</url>
+  <hash-sum type="SHA-256">91520fe07de44348f5df258863c3b1d57686c451ee40341cd02504768e2b235a</hash-sum>
   <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.1, 2)">
    <variable>nih</variable>
   </dependency>
@@ -67256,7 +67275,7 @@ if %err% neq 0 exit %err%&#13;
   </dependency>
  </version>
 
- <version name="14.0.0.370" package="hisuite">
+ <version name="14.0.0.380" package="hisuite">
   <url>http://download-c.huawei.com/download/downloadCenter?downloadId=91283&amp;version=356266&amp;siteCode=worldwide</url>
  </version>
 
@@ -67498,6 +67517,7 @@ if %err% neq 0 exit %err%&#13;
   <dependency package="com.microsoft.DotNetRedistributable" versions="[4, 20)"/>
  </version>
  <version name="8.0.0.7345" package="icsharpcode.ilspy">
+  <important-file path="ILSpy.exe" title="ILSpy"/>
   <url>https://github.com/icsharpcode/ILSpy/releases/download/v8.0/ILSpy_binaries_8.0.0.7345.zip</url>
   <hash-sum type="SHA-256">2f3cb188eac706c08ea278201b4854030fd091697fb41f1b5654cb3a5835ae37</hash-sum>
   <dependency package="com.microsoft.DotNetRedistributable" versions="[4, 20)"/>
@@ -74644,6 +74664,21 @@ for /f "delims=" %%x in ('dir /b ldc*') do set name=%%x&#13;
    <variable>clu</variable>
   </dependency>
  </version>
+ <version name="1.43" package="ldc" type="one-file">
+  <file path=".Npackd\Install.bat">"%sevenzipa%\7za" x "%npackd_package_binary%"&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
+&#13;
+for /f "delims=" %%x in ('dir /b ldc*') do set name=%%x&#13;
+"%clu%\clu" unwrap-dir -p "%name%"&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+</file>
+  <url>https://github.com/ldc-developers/ldc/releases/download/v1.43.0/ldc2-1.43.0-windows-x86.7z</url>
+  <hash-sum type="SHA-256">a062697d0324911c82c01a2a1810247de9423aca368390556ba7577bef4e07db</hash-sum>
+  <dependency package="org.7-zip.SevenZIPA" versions="[19, 100)">
+   <variable>sevenzipa</variable>
+  </dependency>
+  <dependency package="com.googlecode.windows-package-manager.CLU" versions="[1.25, 2)">
+   <variable>clu</variable>
+  </dependency>
+ </version>
 
  <version name="1.4.2" package="lego-mindstorms" type="one-file">
   <file path=".Npackd\Install.bat">"%npackd_package_binary%" &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
@@ -79712,6 +79747,14 @@ for /f "delims=" %%x in ('dir /b *.tar') do set name=%%x&#13;
 </file>
   <url>http://multicommander.com/files/updates/MultiCommander_win32_(16.2.0.3211).exe</url>
   <hash-sum type="SHA-256">e8f9f0001e2367beb385d602eeb502cda831e6ba074f8ad84d04147d27b55b7d</hash-sum>
+ </version>
+ <version name="16.2.0.3213" package="multi-commander" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">"Uninstall MultiCommander.exe" /S _?=%CD%&#13;
+</file>
+  <url>http://multicommander.com/files/updates/MultiCommander_win32_(16.2.0.3213).exe</url>
+  <hash-sum type="SHA-256">fa3d20a72d5be09db4cf619143d411e9a7422c34b425f9e71dc9056722b90d53</hash-sum>
  </version>
 
  <version name="2.0.3" package="musescore" type="one-file">
@@ -95933,7 +95976,7 @@ rmdir "%name%"&#13;
   <sha1>635e4b4a489aa91acc10726b8e2cf469037a58a3</sha1>
  </version>
 
- <version name="3.21" package="ocenaudio" type="one-file">
+ <version name="3.21.1" package="ocenaudio" type="one-file">
   <file path=".Npackd\Install.bat">"%npackd_package_binary%" /AllUsers /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
 </file>
   <file path=".Npackd\Uninstall.bat">"%ncl%\ncl" remove-scp --title "/ocenaudio.*/i"</file>
@@ -100059,6 +100102,17 @@ echo clear the error code&#13;
 </file>
   <url>https://www.7-zip.org/a/7z2602.msi</url>
   <hash-sum type="SHA-256">55171bb369d0375ae0e6e8f6cccfffb112c8b13e5c991c4d1f6b21ad968c1af0</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.1, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
+ <version name="26.3" package="org.7-zip.SevenZIP" type="one-file">
+  <cmd-file path="7z.exe"/>
+  <cmd-file path="7zG.exe"/>
+  <file path=".Npackd\Install.bat">call "%nih%\InstallMSI.bat" INSTALLDIR yes&#13;
+</file>
+  <url>https://www.7-zip.org/a/7z2603.msi</url>
+  <hash-sum type="SHA-256">23b5a8843b09db629b6f6a63364bae5430f66d6ecd4b38e11e1661bfaff5d2c6</hash-sum>
   <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.1, 2)">
    <variable>nih</variable>
   </dependency>
@@ -125132,6 +125186,17 @@ echo DesktopShortcut=false &gt;&gt; .Npackd\FF.ini&#13;
 verify</file>
   <url>https://download-origin.cdn.mozilla.net/pub/mozilla.org/firefox/releases/155.0/win32/en-US/Firefox%20Setup%20155.0.exe</url>
   <hash-sum type="SHA-256">5ecfbc8aaedb111afb9bde5f2eb361f9283519fc15aa4dc5d6c47dcae834fb6e</hash-sum>
+ </version>
+ <version name="155.0.1" package="org.mozilla.Firefox" type="one-file">
+  <file path=".Npackd\Install.bat">echo [Install] &gt; .Npackd\FF.ini&#13;
+echo InstallDirectoryPath=%CD% &gt;&gt; .Npackd\FF.ini&#13;
+echo QuickLaunchShortcut=false &gt;&gt; .Npackd\FF.ini&#13;
+echo DesktopShortcut=false &gt;&gt; .Npackd\FF.ini&#13;
+"%npackd_package_binary%" /INI="%CD%\.Npackd\FF.ini" &amp;&amp; del /f /q "%npackd_package_binary%"</file>
+  <file path=".Npackd\Uninstall.bat">uninstall\helper.exe /S&#13;
+verify</file>
+  <url>https://download-origin.cdn.mozilla.net/pub/mozilla.org/firefox/releases/155.0.1/win32/en-US/Firefox%20Setup%20155.0.1.exe</url>
+  <hash-sum type="SHA-256">45f93b45121abe514116a2b392b683be83cd65a5d5dc8fdaa549e3d67e6be39c</hash-sum>
  </version>
 
  <version name="24.4" package="org.mozilla.FirefoxESR" type="one-file">
@@ -162928,6 +162993,16 @@ if %err% neq 0 exit %err%&#13;
    <variable>nih</variable>
   </dependency>
  </version>
+ <version name="7.2.5" package="telegram" type="one-file">
+  <file path=".Npackd\Install.bat">"%nih%\InstallInnoSetup.bat"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">"%nih%\UninstallInnoSetup.bat" unins000.exe</file>
+  <url>https://updates.tdesktop.com/tsetup/tsetup.7.2.5.exe</url>
+  <hash-sum type="SHA-256">abfc6a14f1b9b8b97757420a551ae37a785c9191d4c7f4d86512373b75be72de</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
 
 
  <version name="4.5" package="texmaker" type="one-file">
@@ -170054,6 +170129,19 @@ Application\%name%\Installer\setup.exe --uninstall --vivaldi --force-uninstall -
 type .Npackd\Output.txt</file>
   <url>https://downloads.vivaldi.com/stable/Vivaldi.8.2.4133.45.exe</url>
   <hash-sum type="SHA-256">7fc6853da44e59f93b9a1ae6737a43078b408f3f3e85e58a63bd6cae150892ea</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.24, 2)">
+   <variable>ncl</variable>
+  </dependency>
+ </version>
+ <version name="8.2.4133.47" package="vivaldi-browser" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" --system-level --vivaldi-silent --vivaldi-standalone --do-not-launch-chrome --vivaldi-install-dir="%CD%" &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">for /f "delims=" %%x in ('dir /b application\5*') do set name=%%x&#13;
+&#13;
+Application\%name%\Installer\setup.exe --uninstall --vivaldi --force-uninstall --system-level &gt; .Npackd\Output.txt 2&gt;&amp;1 &#13;
+type .Npackd\Output.txt</file>
+  <url>https://downloads.vivaldi.com/stable/Vivaldi.8.2.4133.47.exe</url>
+  <hash-sum type="SHA-256">5fc5a6ead36207c94925e3a42e0db9de26f0a774f231896a283d2f2f8b1aac19</hash-sum>
   <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.24, 2)">
    <variable>ncl</variable>
   </dependency>
