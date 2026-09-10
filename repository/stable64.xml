@@ -35454,7 +35454,7 @@ if %err% neq 0 exit %err%&#13;
   <hash-sum type="SHA-256">fffa4ed1d298a7a1f2df91f52dd13af31314a54058aed53c2bccae77705ee714</hash-sum>
  </version>
 
- <version name="153.0.8010.27" package="google-chrome-x64" type="one-file">
+ <version name="153.0.8010.37" package="google-chrome-x64" type="one-file">
   <file path=".Npackd\Install.bat">call "%npackdih%\InstallMSI.bat" TARGETDIR yes&#13;
 </file>
   <url>https://dl.google.com/tag/s/appguid%3D%7B8A69D345-D564-463C-AFF1-A69D9E530F96%7D%26iid%3D%7B0A558A36-0536-8B3F-0AE0-420553CC97F3%7D%26lang%3Den%26browser%3D4%26usagestats%3D0%26appname%3DGoogle%2520Chrome%26needsadmin%3DFalse/edgedl/chrome/install/GoogleChromeStandaloneEnterprise64.msi</url>
@@ -39972,6 +39972,19 @@ rmdir "%name%"&#13;
 </file>
   <url>https://dl.google.com/dl/cloudsdk/channels/rapid/downloads/google-cloud-sdk-583.0.0-windows-x86_64.zip</url>
   <hash-sum type="SHA-256">c2743ef6d8c10d0e262dec2a78f5eb1700f26ca29385f20b7151faecfbaacada</hash-sum>
+  <dependency package="org.python.Python" versions="[2.7, 2.8)"/>
+ </version>
+ <version name="584" package="google-cloud-sdk64">
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b google-cloud-sdk*') do set name=%%x&#13;
+cd "%name%"&#13;
+for /f "delims=" %%a in ('dir /b') do (&#13;
+  move "%%a" ..&#13;
+)&#13;
+cd ..&#13;
+rmdir "%name%"&#13;
+</file>
+  <url>https://dl.google.com/dl/cloudsdk/channels/rapid/downloads/google-cloud-sdk-584.0.0-windows-x86_64.zip</url>
+  <hash-sum type="SHA-256">ad701e3d1d039e78089e034cd3c0d161f2793e58d8f9d43ac950bbcee3c3dbd8</hash-sum>
   <dependency package="org.python.Python" versions="[2.7, 2.8)"/>
  </version>
 
@@ -55840,7 +55853,7 @@ verify&#13;
   </dependency>
  </version>
 
- <version name="3.21.1" package="ocenaudio64" type="one-file">
+ <version name="3.21.2" package="ocenaudio64" type="one-file">
   <file path=".Npackd\Install.bat">"%npackd_package_binary%" /AllUsers /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
 </file>
   <file path=".Npackd\Uninstall.bat">"%ncl%\ncl" remove-scp --title "/ocenaudio.*/"</file>
