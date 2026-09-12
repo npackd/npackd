@@ -90574,6 +90574,20 @@ call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Np
    <variable>nih</variable>
   </dependency>
  </version>
+ <version name="9.2.1061" package="org.vim.Vim64">
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+if %errorlevel% neq 0 exit /b %errorlevel%&#13;
+&#13;
+for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+</file>
+  <url>https://github.com/vim/vim-win32-installer/releases/download/v9.2.1061/gvim_9.2.1061_x64.zip</url>
+  <hash-sum type="SHA-256">553fcd0b1ff56426316b7caa7ad50d52387e07665d457d70c8317953c9008614</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.19, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
 
  <version name="4.2.8.83876" package="org.virtualbox.virtualbox64" type="one-file">
   <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
@@ -96278,6 +96292,15 @@ verify</file>
 </file>
   <url>https://github.com/tim-lebedkov/packages/releases/download/2026_09/qcad64-3.33-qcad-3.33.0-trial-win64-installer.msi</url>
   <hash-sum type="SHA-256">89f7630871059cfb2082160644554bf167cc7e88790734b48dc1388e76c26aa3</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.1, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
+ <version name="3.33.1" package="qcad64" type="one-file">
+  <file path=".Npackd\Install.bat">call "%nih%\InstallMSI.bat" INSTALLDIR yes&#13;
+</file>
+  <url>http://www.qcad.org/archives/qcad/qcad-3.33.1-trial-win64-installer.msi</url>
+  <hash-sum type="SHA-256">97738db4c6ec87820cfd5cecad66ccb86b9933938d960e6312f94509d9ec761f</hash-sum>
   <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.1, 2)">
    <variable>nih</variable>
   </dependency>
@@ -102966,6 +102989,12 @@ if %err% neq 0 exit %err%&#13;
   <url>https://github.com/tim-lebedkov/packages/releases/download/2026_09/tor64-15.0.21-tor-browser-windows-x86_64-portable-15.0.21.exe</url>
   <hash-sum type="SHA-256">85997f863265119435af3feb88ff617f1801119bccbed8283a56f64eb1ee462f</hash-sum>
  </version>
+ <version name="15.0.22" package="tor64" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
+</file>
+  <url>https://www.torproject.org/dist/torbrowser/15.0.22/tor-browser-windows-x86_64-portable-15.0.22.exe</url>
+  <hash-sum type="SHA-256">1bca1c74798f6624e35ef6bd2713c51d92f71e51f2897d8f203991aa310476db</hash-sum>
+ </version>
 
  <version name="2.84.9" package="transmission-qt64" type="one-file">
   <file path=".Npackd\Install.bat">"%npackd_package_binary%" --mode unattended --prefix "%CD%"</file>
@@ -107247,6 +107276,19 @@ Application\%name%\Installer\setup.exe --uninstall --vivaldi --force-uninstall -
 type .Npackd\Output.txt</file>
   <url>https://downloads.vivaldi.com/stable/Vivaldi.8.2.4133.47.x64.exe</url>
   <hash-sum type="SHA-256">65590b549db6d3300319a2fdb18cab3d774fed5ccb67e0442ab3b2ca55d06854</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.24, 2)">
+   <variable>ncl</variable>
+  </dependency>
+ </version>
+ <version name="8.2.4133.52" package="vivaldi-browser-64" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" --system-level --vivaldi-silent --vivaldi-standalone --do-not-launch-chrome --vivaldi-install-dir="%CD%" &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">for /f "delims=" %%x in ('dir /b application\5*') do set name=%%x&#13;
+&#13;
+Application\%name%\Installer\setup.exe --uninstall --vivaldi --force-uninstall --system-level &gt; .Npackd\Output.txt 2&gt;&amp;1 &#13;
+type .Npackd\Output.txt</file>
+  <url>https://downloads.vivaldi.com/stable/Vivaldi.8.2.4133.52.x64.exe</url>
+  <hash-sum type="SHA-256">68124557ae03a28e5669ad4c62eb2c8a1771740d8a7866385d2cf3a33b379614</hash-sum>
   <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.24, 2)">
    <variable>ncl</variable>
   </dependency>

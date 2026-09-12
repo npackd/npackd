@@ -2655,12 +2655,14 @@ i686</description>
  <package name="com.googlecode.golangide.GoLangIDE">
   <title>Go LiteIDE</title>
   <url>https://github.com/visualfc/liteide</url>
-  <description>Go IDE
+  <description>WARNING: there will be no new versions of this package.
+Go IDE
 i686</description>
   <icon>https://lh5.googleusercontent.com/-ns4Z5kwK25k/USihcAv0B4I/AAAAAAAAAnM/MzyBxMHGkcI/s800/golangide.png</icon>
   <license>org.gnu.LGPLv2_1</license>
   <category>Development</category>
   <tag>stable</tag>
+  <tag>end-of-life</tag>
  </package>
  <package name="com.googlecode.gps-gimp-paint-studio.GPS">
   <title>GPS Gimp Paint Studio</title>
@@ -19384,7 +19386,7 @@ verify&#13;
  </version>
 
 
- <version name="1.94.121" package="brave" type="one-file">
+ <version name="1.95.101" package="brave" type="one-file">
   <file path=".Npackd\Install.bat">"%npackd_package_binary%" &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
 </file>
   <file path=".Npackd\Uninstall.bat">"%ncl%\ncl.exe" remove-scp --title "/%npackd_package_name% %npackd_package_version%/i"&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
@@ -28195,7 +28197,7 @@ if %err% neq 0 exit %err%&#13;
   </dependency>
  </version>
 
- <version name="3.6.9" package="com.cygwin.cygwin" type="one-file">
+ <version name="3.6.10" package="com.cygwin.cygwin" type="one-file">
   <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
 "%setup%" -q -D -R "%CD%" -s https://mirrors.kernel.org -l "%CD%\packages"&#13;
 "%setup%" -q -L -R "%CD%" -l "%CD%\packages"</file>
@@ -32461,7 +32463,7 @@ rmdir "%name%"&#13;
   <dependency package="org.python.Python" versions="[2.5, 2.8)"/>
  </version>
 
- <version name="153.0.8010.37" package="com.google.Chrome" type="one-file">
+ <version name="154.0.8037.17" package="com.google.Chrome" type="one-file">
   <file path=".Npackd\Install.bat">call "%npackdih%\InstallMSI.bat" TARGETDIR yes&#13;
 </file>
   <url>https://dl.google.com/tag/s/appguid%3D%7B8A69D345-D564-463C-AFF1-A69D9E530F96%7D%26iid%3D%7B0A558A36-0536-8B3F-0AE0-420553CC97F3%7D%26lang%3Den%26browser%3D4%26usagestats%3D0%26appname%3DGoogle%2520Chrome%26needsadmin%3DFalse/edgedl/chrome/install/GoogleChromeStandaloneEnterprise.msi</url>
@@ -37922,12 +37924,12 @@ if %err% neq 0 exit /b %err%
   <sha1>07ee66105f30884b2daa12c6d46c83e201a98f38</sha1>
  </version>
 
- <version name="17.13" package="com.microsoft.ProcessExplorer">
+ <version name="17.14" package="com.microsoft.ProcessExplorer">
   <important-file path="procexp.exe" title="Process Explorer"/>
   <url>https://download.sysinternals.com/files/ProcessExplorer.zip</url>
  </version>
 
- <version name="4.5" package="com.microsoft.ProcessMonitor">
+ <version name="4.11" package="com.microsoft.ProcessMonitor">
   <important-file path="Procmon.exe" title="Process Monitor"/>
   <url>https://download.sysinternals.com/files/ProcessMonitor.zip</url>
  </version>
@@ -38735,7 +38737,7 @@ if %errorlevel% neq 0 exit /b %errorlevel%</file>
  <version name="5.0.10586.713" package="com.microsoft.WindowsInstaller">
  </version>
 
- <version name="12.21" package="com.microsoft.ZoomIt">
+ <version name="12.22" package="com.microsoft.ZoomIt">
   <important-file path="ZoomIt.exe" title="ZoomIt"/>
   <url>http://download.sysinternals.com/files/ZoomIt.zip</url>
  </version>
@@ -67227,6 +67229,20 @@ if %err% neq 0 exit %err%&#13;
 </file>
   <url>https://www.heidisql.com/installers/HeidiSQL_12.21.0.7346_Setup.exe</url>
   <hash-sum type="SHA-256">31539b3e845ea6c17c28ffb32abf86e8b0e264cd0257be0bb276212065f27d26</hash-sum>
+ </version>
+ <version name="12.21.0.7347" package="heidisql" type="one-file">
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
+"%setup%" /SP- /VERYSILENT /SUPPRESSMSGBOXES /NOCANCEL /NORESTART /DIR="%CD%" /SAVEINF="%CD%\.Npackd\InnoSetupInfo.ini" /LOG="%CD%\.Npackd\InnoSetupInstall.log" &amp;&amp; del /f /q "%setup%"&#13;
+set err=%errorlevel%&#13;
+type .Npackd\InnoSetupInstall.log&#13;
+if %err% neq 0 exit %err%</file>
+  <file path=".Npackd\Uninstall.bat">unins000.exe /VERYSILENT /SUPPRESSMSGBOXES /NORESTART /LOG="%CD%\.Npackd\InnoSetupUninstall.log"&#13;
+set err=%errorlevel%&#13;
+type .Npackd\InnoSetupUninstall.log&#13;
+if %err% neq 0 exit %err%&#13;
+</file>
+  <url>https://www.heidisql.com/installers/HeidiSQL_12.21.0.7347_Setup.exe</url>
+  <hash-sum type="SHA-256">e655b1bd69291c999d15a5745a3460f47b212a62ccefbc1e999d146408dc5023</hash-sum>
  </version>
 
  <version name="3.1" package="heob" type="one-file">
@@ -95984,7 +96000,7 @@ rmdir "%name%"&#13;
   <sha1>635e4b4a489aa91acc10726b8e2cf469037a58a3</sha1>
  </version>
 
- <version name="3.21.2" package="ocenaudio" type="one-file">
+ <version name="3.21.3" package="ocenaudio" type="one-file">
   <file path=".Npackd\Install.bat">"%npackd_package_binary%" /AllUsers /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
 </file>
   <file path=".Npackd\Uninstall.bat">"%ncl%\ncl" remove-scp --title "/ocenaudio.*/i"</file>
@@ -149887,7 +149903,7 @@ rmdir "%name%"&#13;
  <version name="3.33.1" package="qcad" type="one-file">
   <file path=".Npackd\Install.bat">call "%nih%\InstallMSI.bat" INSTALLDIR yes&#13;
 </file>
-  <url>http://www.qcad.org/archives/qcad/qcad-3.33.1-trial-win32-installer.msi</url>
+  <url>https://github.com/tim-lebedkov/packages/releases/download/2026_09/qcad-3.33.1-qcad-3.33.1-trial-win32-installer.msi</url>
   <hash-sum type="SHA-256">318afa60c103555cb060bfc1a1c2f644af9e70b2d62bb5923b957e7df8c9812c</hash-sum>
   <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.1, 2)">
    <variable>nih</variable>
