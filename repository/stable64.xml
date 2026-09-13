@@ -5519,6 +5519,18 @@ x86_64</description>
   <link href="https://www.snapfiles.com/screenfiles/wbviewer.jpg" rel="screenshot"/>
   <link href="https://www.free-codecs.com/pictures/screenshots/wildbit_viewer_2.jpg" rel="screenshot"/>
  </package>
+ <package name="windepends">
+  <title>WinDepends</title>
+  <url>https://github.com/hfiref0x/WinDepends</url>
+  <description>Windows PE files analysis and building a hierarchical tree diagram of all dependent modules
+x86_64</description>
+  <license>edu.mit.web.MIT</license>
+  <category>Development</category>
+  <tag>stable64</tag>
+  <link href="https://github.com/hfiref0x/WinDepends/releases" rel="changelog"/>
+  <link href="https://raw.githubusercontent.com/hfiref0x/WinDepends.Docs/master/help/img/MainWindowConsent.png" rel="screenshot"/>
+  <link href="https://github.com/hfiref0x/WinDepends/issues" rel="issues"/>
+ </package>
  <package name="windirstat64">
   <title>WinDirStat 64 bit</title>
   <url>http://windirstat.info</url>
@@ -16014,6 +16026,16 @@ if %err% neq 0 exit %err%&#13;
 </file>
   <url>https://mirror.httrack.com/httrack_x64-3.49.2.exe</url>
   <sha1>019b8b956910529218e92f2a92b14cd159e82095</sha1>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
+ <version name="3.50.2" package="com.httrack.HTTrack64" type="one-file">
+  <file path=".Npackd\Install.bat">call "%nih%\InstallInnoSetup.bat"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">call "%nih%\UninstallInnoSetup.bat" unins000.exe&#13;
+</file>
+  <url>https://mirror.httrack.com/httrack_x64-3.50.2.exe</url>
   <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
    <variable>nih</variable>
   </dependency>
@@ -96299,7 +96321,7 @@ verify</file>
  <version name="3.33.1" package="qcad64" type="one-file">
   <file path=".Npackd\Install.bat">call "%nih%\InstallMSI.bat" INSTALLDIR yes&#13;
 </file>
-  <url>http://www.qcad.org/archives/qcad/qcad-3.33.1-trial-win64-installer.msi</url>
+  <url>https://github.com/tim-lebedkov/packages/releases/download/2026_09/qcad64-3.33.1-qcad-3.33.1-trial-win64-installer.msi</url>
   <hash-sum type="SHA-256">97738db4c6ec87820cfd5cecad66ccb86b9933938d960e6312f94509d9ec761f</hash-sum>
   <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.1, 2)">
    <variable>nih</variable>
@@ -102992,7 +103014,7 @@ if %err% neq 0 exit %err%&#13;
  <version name="15.0.22" package="tor64" type="one-file">
   <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
 </file>
-  <url>https://www.torproject.org/dist/torbrowser/15.0.22/tor-browser-windows-x86_64-portable-15.0.22.exe</url>
+  <url>https://github.com/tim-lebedkov/packages/releases/download/2026_09/tor64-15.0.22-tor-browser-windows-x86_64-portable-15.0.22.exe</url>
   <hash-sum type="SHA-256">1bca1c74798f6624e35ef6bd2713c51d92f71e51f2897d8f203991aa310476db</hash-sum>
  </version>
 
@@ -107907,6 +107929,7 @@ verify</file>
    <variable>nih</variable>
   </dependency>
  </version>
+
 
  <version name="2.2" package="windirstat64">
   <important-file path="x64\windirstat.exe" title="WinDirStat"/>
