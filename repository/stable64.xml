@@ -32618,6 +32618,17 @@ verify</file>
   <url>https://download-installer.cdn.mozilla.net/pub/firefox/releases/155.0.1/win64/en-US/Firefox%20Setup%20155.0.1.exe</url>
   <hash-sum type="SHA-256">27a24fcdde805cb6a34c5c102e98ebfe5f0302078202376d2828f8797ed80298</hash-sum>
  </version>
+ <version name="156" package="firefox64" type="one-file">
+  <file path=".Npackd\Install.bat">echo [Install] &gt; .Npackd\FF.ini&#13;
+echo InstallDirectoryPath=%CD% &gt;&gt; .Npackd\FF.ini&#13;
+echo QuickLaunchShortcut=false &gt;&gt; .Npackd\FF.ini&#13;
+echo DesktopShortcut=false &gt;&gt; .Npackd\FF.ini&#13;
+"%npackd_package_binary%" /INI="%CD%\.Npackd\FF.ini" &amp;&amp; del /f /q "%npackd_package_binary%"</file>
+  <file path=".Npackd\Uninstall.bat">uninstall\helper.exe /S&#13;
+verify</file>
+  <url>https://download-installer.cdn.mozilla.net/pub/firefox/releases/156.0/win64/en-US/Firefox%20Setup%20156.0.exe</url>
+  <hash-sum type="SHA-256">86a027237f7408e8a4d18637c57d487455a704cbb2466a32d0d14c2207d2699a</hash-sum>
+ </version>
 
  <version name="0.5" package="firefoxpwa" type="one-file">
   <file path=".Npackd\Install.bat">call "%nih%\InstallMSI.bat" APPLICATIONFOLDER yes</file>
@@ -61228,6 +61239,16 @@ rmdir "%name%"&#13;
    <variable>NIH</variable>
   </dependency>
  </version>
+ <version name="5.2.2" package="org.blender.Blender64">
+  <important-file path="blender.exe" title="Blender"/>
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b blender*') do set name=%%x&#13;
+"%NIH%\ExtractDir.bat" "%name%"</file>
+  <url>https://download.blender.org/release/Blender5.2/blender-5.2.2-windows-x64.zip</url>
+  <hash-sum type="SHA-256">3849d17a682cba006075aaa3f3597ecb5c9c30ec31035b2e092c53e40679b535</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
+   <variable>NIH</variable>
+  </dependency>
+ </version>
 
  <version name="6.14" package="org.cgsecurity.testdisk.TestDisk64">
   <important-file path="testdisk_win.exe" title="TestDisk"/>
@@ -72483,6 +72504,17 @@ if %err% neq 0 exit %err%&#13;
 </file>
   <url>https://github.com/oneclick/rubyinstaller2/releases/download/RubyInstaller-4.0.6-1/rubyinstaller-4.0.6-1-x64.exe</url>
   <hash-sum type="SHA-256">eff475dddbf57b1e9914b952da6c3cc6ae12269eaf52f505561cb220e9636fd8</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
+ <version name="4.0.7.1" package="org.rubylang.Ruby64" type="one-file">
+  <file path=".Npackd\Install.bat">call "%nih%\InstallInnoSetup.bat"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">call "%nih%\UninstallInnoSetup.bat" unins000.exe&#13;
+</file>
+  <url>https://github.com/oneclick/rubyinstaller2/releases/download/RubyInstaller-4.0.7-1/rubyinstaller-4.0.7-1-x64.exe</url>
+  <hash-sum type="SHA-256">552911af94cbc419b9d631a29ee1f09ea75eb541e030c4cb6ea62a50d05f12fa</hash-sum>
   <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
    <variable>nih</variable>
   </dependency>
@@ -90618,6 +90650,20 @@ call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Np
    <variable>nih</variable>
   </dependency>
  </version>
+ <version name="9.2.1112" package="org.vim.Vim64">
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+if %errorlevel% neq 0 exit /b %errorlevel%&#13;
+&#13;
+for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+</file>
+  <url>https://github.com/vim/vim-win32-installer/releases/download/v9.2.1112/gvim_9.2.1112_x64.zip</url>
+  <hash-sum type="SHA-256">723c325c7741bb15a354868d086f96a8fcd12f151498773f93ef83da2d3c5a78</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.19, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
 
  <version name="4.2.8.83876" package="org.virtualbox.virtualbox64" type="one-file">
   <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
@@ -107471,7 +107517,7 @@ if %errorlevel% neq 0 exit /b %errorlevel%&#13;
 </file>
   <url>https://update.code.visualstudio.com/1.84.2/win32-x64/stable</url>
  </version>
- <version name="1.136.1" package="vs-code64" type="one-file">
+ <version name="1.138" package="vs-code64" type="one-file">
   <file path=".Npackd\Install.bat">ren "%npackd_package_binary%" setup.exe&#13;
 setup.exe /SP- /VERYSILENT /SUPPRESSMSGBOXES /NOCANCEL /NORESTART /DIR="%CD%" /SAVEINF="%CD%\.Npackd\InnoSetupInfo.ini" /LOG="%CD%\.Npackd\InnoSetupInstall.log"&#13;
 set err=%errorlevel%&#13;
