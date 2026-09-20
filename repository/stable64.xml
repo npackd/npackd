@@ -14572,6 +14572,15 @@ call "%npackdih%\InstallMSI.bat" APPLICATIONFOLDER yes&#13;
    <variable>npackdih</variable>
   </dependency>
  </version>
+ <version name="9.15" package="com.calibreebook.Calibre64" type="one-file">
+  <file path=".Npackd\Install.bat">call "%npackdih%\InstallMSI.bat" APPLICATIONFOLDER yes&#13;
+</file>
+  <url>https://download.calibre-ebook.com/9.15.0/calibre-64bit-9.15.0.msi</url>
+  <hash-sum type="SHA-256">0f96ae06165c2419607c1c66726c091a78e89e08ea69f077cf3e2c884e800853</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.2, 2)">
+   <variable>npackdih</variable>
+  </dependency>
+ </version>
 
  <version name="5.12.256249.2599" package="com.comodo.comodoav64" type="one-file">
   <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.msi') do set setup=%%x&#13;
@@ -44922,6 +44931,9 @@ rmdir "%name%"&#13;
   <dependency package="org.golang.Go" versions="[1, 2)"/>
  </version>
 
+ <version name="0.4.1" package="llama-cpp">
+  <url>https://github.com/ggml-org/llama.cpp/releases/download/b10964/llama-b10964-bin-win-vulkan-x64.zip</url>
+ </version>
 
 
  <version name="3.1.11.7100" package="Locate32_64">
@@ -55946,6 +55958,16 @@ verify&#13;
  </version>
 
 
+ <version name="1" package="ollama" type="one-file">
+  <cmd-file path="ollama.exe"/>
+  <file path=".Npackd\Install.bat">"%nih%\InstallInnoSetup.bat"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">"%nih%\UninstallInnoSetup.bat" unins000.exe</file>
+  <url>https://ollama.com/download/OllamaSetup.exe</url>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
 
  <version name="9.0.4" package="onlyoffice64" type="one-file">
   <file path=".Npackd\Install.bat">call "%nih%\InstallMSI.bat" INSTALLDIR yes&#13;
