@@ -35588,7 +35588,7 @@ if %err% neq 0 exit %err%&#13;
   <hash-sum type="SHA-256">fffa4ed1d298a7a1f2df91f52dd13af31314a54058aed53c2bccae77705ee714</hash-sum>
  </version>
 
- <version name="154.0.8037.58" package="google-chrome-x64" type="one-file">
+ <version name="155.0.8059.12" package="google-chrome-x64" type="one-file">
   <file path=".Npackd\Install.bat">call "%npackdih%\InstallMSI.bat" TARGETDIR yes&#13;
 </file>
   <url>https://dl.google.com/tag/s/appguid%3D%7B8A69D345-D564-463C-AFF1-A69D9E530F96%7D%26iid%3D%7B0A558A36-0536-8B3F-0AE0-420553CC97F3%7D%26lang%3Den%26browser%3D4%26usagestats%3D0%26appname%3DGoogle%2520Chrome%26needsadmin%3DFalse/edgedl/chrome/install/GoogleChromeStandaloneEnterprise64.msi</url>
@@ -40957,6 +40957,12 @@ if %err% neq 0 exit %err%</file>
   <important-file path="ILSpy.exe" title="ILSpy"/>
   <url>https://github.com/icsharpcode/ILSpy/releases/download/v11.0/ILSpy_windows_11.0.0.9375-x64.zip</url>
   <hash-sum type="SHA-256">6d97e8519d5666e1e9d9b187644f1b507094b2ef9bc9da18ea880cff3774b785</hash-sum>
+  <dependency package="com.microsoft.DotNetRedistributable" versions="[10, 20)"/>
+ </version>
+ <version name="11.1.0.9782" package="ilspy64">
+  <important-file path="ILSpy.exe" title="ILSpy"/>
+  <url>https://github.com/icsharpcode/ILSpy/releases/download/v11.1/ILSpy_windows_11.1.0.9782-x64.zip</url>
+  <hash-sum type="SHA-256">37a9a19220f7621d9bc7ad9a00ed6f98e6a7a90f582165e52170e90b1b22138a</hash-sum>
   <dependency package="com.microsoft.DotNetRedistributable" versions="[10, 20)"/>
  </version>
 
@@ -50283,6 +50289,15 @@ rmdir /s /q "%name%"&#13;
 </file>
   <url>https://github.com/clsid2/mpc-hc/releases/download/2.8.1/MPC-HC.2.8.1.x64.zip</url>
   <hash-sum type="SHA-256">b57afd92d7db4f09a2a878c945509fba3ad21847a03851224152a0342286eadc</hash-sum>
+ </version>
+ <version name="2.8.2" package="net.sourceforge.mpc-hc.MediaPlayerClassicHomeCinema64">
+  <important-file path="mpc-hc64.exe" title="Media Player Classic - Home Cinema"/>
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b MPC*') do set name=%%x&#13;
+xcopy "%name%\*" . /E /H&#13;
+rmdir /s /q "%name%"&#13;
+</file>
+  <url>https://github.com/clsid2/mpc-hc/releases/download/2.8.2/MPC-HC.2.8.2.x64.zip</url>
+  <hash-sum type="SHA-256">eefee5ac29fc33e6031e34e0e163e157212d272c1bcf576149d40c0c7abb32f4</hash-sum>
  </version>
 
  <version name="5.1" package="net.sourceforge.peazip.PeaZip64" type="one-file">
