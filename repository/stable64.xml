@@ -48046,6 +48046,14 @@ rmdir "%name%"&#13;
   <url>http://multicommander.com/files/updates/MultiCommander_x64_(16.5.0.3220).exe</url>
   <hash-sum type="SHA-256">66e435cfce50e028aa7e0a7e00a5ebf4a9e5a55b25e6f90c3430c06acf897e0c</hash-sum>
  </version>
+ <version name="16.5.0.3221" package="multi-commander64" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">"Uninstall MultiCommander.exe" /S _?=%CD%&#13;
+</file>
+  <url>http://multicommander.com/files/updates/MultiCommander_x64_(16.5.0.3221).exe</url>
+  <hash-sum type="SHA-256">d3d6a44d0e1bb4d4818af968037190e112e123b3dccae8ff81083c00f3f604b0</hash-sum>
+ </version>
 
  <version name="1.19" package="mupdf64">
   <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b mupdf*') do set name=%%x&#13;
@@ -107589,6 +107597,19 @@ Application\%name%\Installer\setup.exe --uninstall --vivaldi --force-uninstall -
 type .Npackd\Output.txt</file>
   <url>https://downloads.vivaldi.com/stable/Vivaldi.8.2.4133.68.x64.exe</url>
   <hash-sum type="SHA-256">09418bcc6c41af38bad50ee1300408b6dccfc491384f0ff58c36c7adf397c610</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.24, 2)">
+   <variable>ncl</variable>
+  </dependency>
+ </version>
+ <version name="8.2.4133.76" package="vivaldi-browser-64" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" --system-level --vivaldi-silent --vivaldi-standalone --do-not-launch-chrome --vivaldi-install-dir="%CD%" &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">for /f "delims=" %%x in ('dir /b application\5*') do set name=%%x&#13;
+&#13;
+Application\%name%\Installer\setup.exe --uninstall --vivaldi --force-uninstall --system-level &gt; .Npackd\Output.txt 2&gt;&amp;1 &#13;
+type .Npackd\Output.txt</file>
+  <url>https://downloads.vivaldi.com/stable/Vivaldi.8.2.4133.76.x64.exe</url>
+  <hash-sum type="SHA-256">0eafb0acc705a04a6ff757f3c5c3284afcc5de06ba1abe5543a13d44659741ce</hash-sum>
   <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.24, 2)">
    <variable>ncl</variable>
   </dependency>
