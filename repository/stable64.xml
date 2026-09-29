@@ -4688,24 +4688,6 @@ x86_64</description>
   <link href="https://www.filecroco.com/wp-content/uploads/2018/01/rj-texted-1.jpg" rel="screenshot"/>
   <link href="https://www.filecroco.com/wp-content/uploads/2018/01/rj-texted-10.jpg" rel="screenshot"/>
  </package>
- <package name="rust64">
-  <title>Rust 64 Bit</title>
-  <url>https://www.rust-lang.org/</url>
-  <description>A language empowering everyone to build reliable and efficient software.
-x86_64</description>
-  <icon>https://www.rust-lang.org/static/images/rust-logo-blk.svg</icon>
-  <license>org.wikipedia.Freeware</license>
-  <category>Development</category>
-  <tag>stable64</tag>
-  <stars>1</stars>
-  <link href="https://upload.wikimedia.org/wikipedia/commons/6/6b/Rustc_building_paru_with_cargo_screenshot.png" rel="screenshot"/>
-  <link href="https://www.bluefruit.co.uk/content/uploads/2019/09/rust-code-v1-030919.jpg" rel="screenshot"/>
-  <link href="https://user-images.githubusercontent.com/33961674/54274380-3c3cd800-4588-11e9-857d-c62287359959.png" rel="screenshot"/>
-  <link href="https://www.intacs.com/wp-content/uploads/2018/12/what-is-rust-safe-fast-and-easy-software-development-1.jpg" rel="screenshot"/>
-  <link href="https://www.mediaclick.com.tr/uploads/2019/09/rust.png" rel="screenshot"/>
-  <link href="https://i.ytimg.com/vi/_5dhv8a7_3U/maxresdefault.jpg" rel="screenshot"/>
-  <link href="https://camo.githubusercontent.com/36ec1ac69b907202b4f465f58aba65d1053d4711f71b170aa6b3e52fa98c8bd6/68747470733a2f2f692e696d6775722e636f6d2f555a3756586b352e706e67" rel="screenshot"/>
- </package>
  <package name="rustdesk">
   <title>RustDesk</title>
   <url>https://rustdesk.com/</url>
@@ -4721,6 +4703,21 @@ x86_64</description>
   <link href="https://user-images.githubusercontent.com/71636191/113112857-3fbd5d80-923c-11eb-9836-768325faf906.png" rel="screenshot"/>
   <link href="https://user-images.githubusercontent.com/71636191/135385039-38fdbd72-379a-422d-b97f-33df71fb1cec.png" rel="screenshot"/>
   <link href="https://github.com/rustdesk/rustdesk/issues" rel="issues"/>
+ </package>
+ <package name="rustup64">
+  <title>Rust 64 Bit</title>
+  <url>https://www.rust-lang.org/</url>
+  <description>A language empowering everyone to build reliable and efficient software.
+x86_64</description>
+  <icon>https://www.rust-lang.org/static/images/rust-logo-blk.svg</icon>
+  <license>org.wikipedia.Freeware</license>
+  <category>Development</category>
+  <tag>stable64</tag>
+  <stars>1</stars>
+  <link href="https://upload.wikimedia.org/wikipedia/commons/6/6b/Rustc_building_paru_with_cargo_screenshot.png" rel="screenshot"/>
+  <link href="https://www.bluefruit.co.uk/content/uploads/2019/09/rust-code-v1-030919.jpg" rel="screenshot"/>
+  <link href="https://user-images.githubusercontent.com/33961674/54274380-3c3cd800-4588-11e9-857d-c62287359959.png" rel="screenshot"/>
+  <link href="https://i.ytimg.com/vi/_5dhv8a7_3U/maxresdefault.jpg" rel="screenshot"/>
  </package>
  <package name="sabnzbd64">
   <title>SABnzbd 64 bit</title>
@@ -90952,6 +90949,20 @@ call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Np
    <variable>nih</variable>
   </dependency>
  </version>
+ <version name="9.2.1135" package="org.vim.Vim64">
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+if %errorlevel% neq 0 exit /b %errorlevel%&#13;
+&#13;
+for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+</file>
+  <url>https://github.com/vim/vim-win32-installer/releases/download/v9.2.1135/gvim_9.2.1135_x64.zip</url>
+  <hash-sum type="SHA-256">0821a0896092d9ed4d8a41de4a21608d3d5dadf8d71908f07287055954b559a6</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.19, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
 
  <version name="4.2.8.83876" package="org.virtualbox.virtualbox64" type="one-file">
   <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
@@ -98942,7 +98953,6 @@ if %errorlevel% neq 0 exit /b %errorlevel%&#13;
  </version>
 
 
-
  <version name="1.2.1" package="rustdesk" type="one-file">
   <file path=".Npackd\Install.bat">"%npackd_package_binary%" &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
 </file>
@@ -99173,6 +99183,10 @@ if %errorlevel% neq 0 exit /b %errorlevel%&#13;
   <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.25, 2)">
    <variable>ncl</variable>
   </dependency>
+ </version>
+
+ <version name="1" package="rustup64">
+  <url>https://static.rust-lang.org/rustup/dist/x86_64-pc-windows-msvc/rustup-init.exe</url>
  </version>
 
 

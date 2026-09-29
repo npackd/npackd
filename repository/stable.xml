@@ -9928,13 +9928,15 @@ i686</description>
  </package>
  <package name="org.inkscape.Inkscape">
   <title>Inkscape</title>
-  <url>http://www.inkscape.org/</url>
-  <description>vector graphics editor
+  <url>https://www.inkscape.org/</url>
+  <description>WARNING: there will be no new versions of this package.
+vector graphics editor
 i686</description>
   <icon>https://lh5.googleusercontent.com/-lDyi0CDWwb8/UlxZKrL7IWI/AAAAAAAABNA/XWcMN8VuMXw/s100-no/org.inkscape.Inkscape.png</icon>
   <license>org.gnu.GPLv2</license>
   <category>Productivity</category>
   <tag>stable</tag>
+  <tag>end-of-life</tag>
   <stars>1</stars>
  </package>
  <package name="org.jitsi.Jitsi">
@@ -9950,12 +9952,14 @@ i686</description>
  <package name="org.kde.amarok.Amarok">
   <title>Amarok</title>
   <url>https://amarok.kde.org</url>
-  <description>audio player
+  <description>WARNING: there will be no new versions of this package.
+audio player
 i686</description>
   <icon>https://lh5.googleusercontent.com/-WQGlXFKtOZc/UVkxnM4zTfI/AAAAAAAABg4/dDkMUL--xpQ/s800/amarok.png</icon>
   <license>org.gnu.GPLv2</license>
   <category>Music</category>
   <tag>stable</tag>
+  <tag>end-of-life</tag>
   <stars>1</stars>
  </package>
  <package name="org.keepassx.KeePassX">
@@ -9987,32 +9991,37 @@ i686</description>
  <package name="org.ldapadmin.ldapadmin">
   <title>LDAP Admin</title>
   <url>http://www.ldapadmin.org</url>
-  <description>Ldap Admin is a free Windows LDAP client and administration tool for LDAP directory management. This application lets you browse, search, modify, create and delete objects on LDAP server. It also supports more complex operations such as directory copy and move between remote servers and extends the common edit functions to support specific object types (such as groups and accounts).&#13;
+  <description>WARNING: there will be no new versions of this package.
+Ldap Admin is a free Windows LDAP client and administration tool for LDAP directory management. This application lets you browse, search, modify, create and delete objects on LDAP server. It also supports more complex operations such as directory copy and move between remote servers and extends the common edit functions to support specific object types (such as groups and accounts).&#13;
 &#13;
 You can use it to manage Posix groups and accounts, Samba accounts and it even includes support for Postfix MTA. Ldap Admin is free Open Source software distributed under the GNU General Public License.
 i686</description>
   <license>org.gnu.GPLv3</license>
   <category>Productivity</category>
   <tag>stable</tag>
+  <tag>end-of-life</tag>
   <link href="http://www.ldapadmin.org/news/index.html" rel="changelog"/>
  </package>
  <package name="org.ldapadmin.ldapadmin64">
   <title>LDAP Admin 64bit</title>
   <url>http://www.ldapadmin.org</url>
-  <description>Ldap Admin is a free Windows LDAP client and administration tool for LDAP directory management. This application lets you browse, search, modify, create and delete objects on LDAP server. It also supports more complex operations such as directory copy and move between remote servers and extends the common edit functions to support specific object types (such as groups and accounts).&#13;
+  <description>WARNING: there will be no new versions of this package.
+Ldap Admin is a free Windows LDAP client and administration tool for LDAP directory management. This application lets you browse, search, modify, create and delete objects on LDAP server. It also supports more complex operations such as directory copy and move between remote servers and extends the common edit functions to support specific object types (such as groups and accounts).&#13;
 &#13;
 You can use it to manage Posix groups and accounts, Samba accounts and it even includes support for Postfix MTA. Ldap Admin is free Open Source software distributed under the GNU General Public License.
 i686</description>
   <license>org.gnu.GPLv3</license>
   <category>Productivity</category>
   <tag>stable</tag>
+  <tag>end-of-life</tag>
   <stars>1</stars>
   <link href="http://www.ldapadmin.org/news/index.html" rel="changelog"/>
  </package>
  <package name="org.libreoffice.LibreOffice">
   <title>LibreOffice</title>
   <url>https://www.libreoffice.org</url>
-  <description>office suite (Writer, Calc, Impress, Draw, Math and Base)
+  <description>WARNING: there will be no new versions of this package.
+office suite (Writer, Calc, Impress, Draw, Math and Base)
 i686</description>
   <icon>https://lh3.googleusercontent.com/-QEjl3YvSGo0/UQJfml6yzNI/AAAAAAAAAEI/688nH9frhAI/s800/libreoffice.png</icon>
   <license>org.gnu.LGPLv3</license>
@@ -10020,6 +10029,7 @@ i686</description>
   <tag>auto-create-versions</tag>
   <tag>stable</tag>
   <tag>reupload</tag>
+  <tag>end-of-life</tag>
   <stars>5</stars>
   <link href="https://www.libreoffice.org/download/release-notes" rel="changelog"/>
  </package>
@@ -67374,6 +67384,20 @@ if %err% neq 0 exit %err%&#13;
   <url>https://www.heidisql.com/installers/HeidiSQL_12.21.0.7347_Setup.exe</url>
   <hash-sum type="SHA-256">e655b1bd69291c999d15a5745a3460f47b212a62ccefbc1e999d146408dc5023</hash-sum>
  </version>
+ <version name="12.21.0.7348" package="heidisql" type="one-file">
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
+"%setup%" /SP- /VERYSILENT /SUPPRESSMSGBOXES /NOCANCEL /NORESTART /DIR="%CD%" /SAVEINF="%CD%\.Npackd\InnoSetupInfo.ini" /LOG="%CD%\.Npackd\InnoSetupInstall.log" &amp;&amp; del /f /q "%setup%"&#13;
+set err=%errorlevel%&#13;
+type .Npackd\InnoSetupInstall.log&#13;
+if %err% neq 0 exit %err%</file>
+  <file path=".Npackd\Uninstall.bat">unins000.exe /VERYSILENT /SUPPRESSMSGBOXES /NORESTART /LOG="%CD%\.Npackd\InnoSetupUninstall.log"&#13;
+set err=%errorlevel%&#13;
+type .Npackd\InnoSetupUninstall.log&#13;
+if %err% neq 0 exit %err%&#13;
+</file>
+  <url>https://www.heidisql.com/installers/HeidiSQL_12.21.0.7348_Setup.exe</url>
+  <hash-sum type="SHA-256">eb328f46d7b3372f8cf899116819b061be4db12a75bb2882e65f7c31e9a16985</hash-sum>
+ </version>
 
  <version name="3.1" package="heob" type="one-file">
   <cmd-file path="heob32.exe"/>
@@ -91425,6 +91449,17 @@ if %err% neq 0 exit %err%&#13;
 </file>
   <url>https://github.com/peazip/PeaZip/releases/download//11.2.0/peazip-11.2.0.WINDOWS.exe</url>
   <hash-sum type="SHA-256">4281734c48c0c0f7f3d044cbc2450c3a685fd2527d016aa89928a8186078d1d1</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
+ <version name="11.3" package="net.sourceforge.peazip.PeaZip" type="one-file">
+  <file path=".Npackd\Install.bat">call "%nih%\InstallInnoSetup.bat"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">call "%nih%\UninstallInnoSetup.bat" unins000.exe&#13;
+</file>
+  <url>https://github.com/peazip/PeaZip/releases/download//11.3.0/peazip-11.3.0.WINDOWS.exe</url>
+  <hash-sum type="SHA-256">08443087ef9f6368b650d28a24c601a31732b742920e31a26cd047d5795e1973</hash-sum>
   <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
    <variable>nih</variable>
   </dependency>
