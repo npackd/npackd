@@ -50971,6 +50971,17 @@ if %err% neq 0 exit %err%&#13;
    <variable>nih</variable>
   </dependency>
  </version>
+ <version name="11.3" package="net.sourceforge.peazip.PeaZip64" type="one-file">
+  <file path=".Npackd\Install.bat">call "%nih%\InstallInnoSetup.bat"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">call "%nih%\UninstallInnoSetup.bat" unins000.exe&#13;
+</file>
+  <url>https://github.com/peazip/PeaZip/releases/download//11.3.0/peazip-11.3.0.WIN64.exe</url>
+  <hash-sum type="SHA-256">cb52763da39ef44f6b8ce3619eb76817aa8b2e4c3518c406dc5cc2857bcaeb76</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
 
  <version name="2.6" package="net.sourceforge.shareaza.Shareaza64" type="one-file">
   <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x
@@ -107687,6 +107698,19 @@ Application\%name%\Installer\setup.exe --uninstall --vivaldi --force-uninstall -
 type .Npackd\Output.txt</file>
   <url>https://downloads.vivaldi.com/stable/Vivaldi.8.2.4133.52.x64.exe</url>
   <hash-sum type="SHA-256">68124557ae03a28e5669ad4c62eb2c8a1771740d8a7866385d2cf3a33b379614</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.24, 2)">
+   <variable>ncl</variable>
+  </dependency>
+ </version>
+ <version name="8.2.4133.64" package="vivaldi-browser-64" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" --system-level --vivaldi-silent --vivaldi-standalone --do-not-launch-chrome --vivaldi-install-dir="%CD%" &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">for /f "delims=" %%x in ('dir /b application\5*') do set name=%%x&#13;
+&#13;
+Application\%name%\Installer\setup.exe --uninstall --vivaldi --force-uninstall --system-level &gt; .Npackd\Output.txt 2&gt;&amp;1 &#13;
+type .Npackd\Output.txt</file>
+  <url>https://downloads.vivaldi.com/stable/Vivaldi.8.2.4133.64.x64.exe</url>
+  <hash-sum type="SHA-256">1a343ef0bac62536bc11cc781fd2bd20f5d471049ab6bec346d70433b86c32ee</hash-sum>
   <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.24, 2)">
    <variable>ncl</variable>
   </dependency>
