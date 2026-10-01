@@ -3099,7 +3099,7 @@ i686</description>
   <category>Development</category>
   <tag>auto-create-versions</tag>
   <tag>stable</tag>
-  <stars>15</stars>
+  <stars>16</stars>
   <link href="https://msdn.microsoft.com/en-us/library/ms171868(v=vs.110).aspx" rel="changelog"/>
  </package>
  <package name="com.microsoft.LogParser">
@@ -48019,7 +48019,7 @@ ren "%setup%" GPU-Z.exe&#13;
   </dependency>
   <dependency package="com.microsoft.Windows32" versions="[5, 15)"/>
  </version>
- <version name="11.0.1" package="com.tracker-software.PDFXChangeViewer" type="one-file">
+ <version name="11.1" package="com.tracker-software.PDFXChangeViewer" type="one-file">
   <file path=".Npackd\Install.bat">call "%npackdih%\InstallMSI.bat" INSTALLLOCATION yes&#13;
 </file>
   <url>https://www.tracker-software.com/downloads/PXCViewer_x86.msi</url>
@@ -52943,6 +52943,17 @@ if %err% neq 0 exit %err%&#13;
   <file path=".Npackd\Uninstall.bat">"%nih%\UninstallInnoSetup.bat" unins000.exe</file>
   <url>https://github.com/conan-io/conan/releases/download/2.32.0/conan-2.32.0-windows-i686-installer.exe</url>
   <hash-sum type="SHA-256">721a524e1e8c179ad171d88ebf75bccf8efee2907db8bbbdf407e2b2a712be95</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
+ <version name="2.33" package="conan" type="one-file">
+  <cmd-file path="conan\conan.exe"/>
+  <file path=".Npackd\Install.bat">"%nih%\InstallInnoSetup.bat"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">"%nih%\UninstallInnoSetup.bat" unins000.exe</file>
+  <url>https://github.com/conan-io/conan/releases/download/2.33.0/conan-2.33.0-windows-i686-installer.exe</url>
+  <hash-sum type="SHA-256">d2e29c5fb6c0fff4b9f5b2055e345e3e622da0c1a30464a5abc338de932895b0</hash-sum>
   <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
    <variable>nih</variable>
   </dependency>
@@ -67398,6 +67409,20 @@ if %err% neq 0 exit %err%&#13;
   <url>https://www.heidisql.com/installers/HeidiSQL_12.21.0.7348_Setup.exe</url>
   <hash-sum type="SHA-256">eb328f46d7b3372f8cf899116819b061be4db12a75bb2882e65f7c31e9a16985</hash-sum>
  </version>
+ <version name="12.21.0.7350" package="heidisql" type="one-file">
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
+"%setup%" /SP- /VERYSILENT /SUPPRESSMSGBOXES /NOCANCEL /NORESTART /DIR="%CD%" /SAVEINF="%CD%\.Npackd\InnoSetupInfo.ini" /LOG="%CD%\.Npackd\InnoSetupInstall.log" &amp;&amp; del /f /q "%setup%"&#13;
+set err=%errorlevel%&#13;
+type .Npackd\InnoSetupInstall.log&#13;
+if %err% neq 0 exit %err%</file>
+  <file path=".Npackd\Uninstall.bat">unins000.exe /VERYSILENT /SUPPRESSMSGBOXES /NORESTART /LOG="%CD%\.Npackd\InnoSetupUninstall.log"&#13;
+set err=%errorlevel%&#13;
+type .Npackd\InnoSetupUninstall.log&#13;
+if %err% neq 0 exit %err%&#13;
+</file>
+  <url>https://www.heidisql.com/installers/HeidiSQL_12.21.0.7350_Setup.exe</url>
+  <hash-sum type="SHA-256">ed0e8cb39f3673f48b432549a6b2856c4fc4fe201496d6f0efe38a830e610a30</hash-sum>
+ </version>
 
  <version name="3.1" package="heob" type="one-file">
   <cmd-file path="heob32.exe"/>
@@ -70611,6 +70636,11 @@ if %err% neq 0 exit %err%&#13;
   <important-file path="x86\windirstat.exe" title="WinDirStat"/>
   <url>https://github.com/windirstat/windirstat/releases/download/release/v2.8.0/WinDirStat.zip</url>
   <hash-sum type="SHA-256">462d60796a793d333abeee79aa188debd444061a51f1abf8745340f902c3e047</hash-sum>
+ </version>
+ <version name="2.9" package="info.windirstat.WinDirStat">
+  <important-file path="x86\windirstat.exe" title="WinDirStat"/>
+  <url>https://github.com/windirstat/windirstat/releases/download/release/v2.9.0/WinDirStat.zip</url>
+  <hash-sum type="SHA-256">0d04d9f716b70502658595956ac3af5192f591c6d2636662eea170655546b891</hash-sum>
  </version>
 
  <version name="5.5.4" package="innosetup" type="one-file">
@@ -99153,6 +99183,16 @@ WshShell.SendKeys("y");&#13;
    <variable>nih</variable>
   </dependency>
  </version>
+ <version name="4.0.1" package="openshot" type="one-file">
+  <file path=".Npackd\Install.bat">"%nih%\InstallInnoSetup.bat"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">"%nih%\UninstallInnoSetup.bat" unins000.exe</file>
+  <url>https://github.com/OpenShot/openshot-qt/releases/download/v4.0.1/OpenShot-v4.0.1-x86.exe</url>
+  <hash-sum type="SHA-256">8ba8f67bc7d275a5b0bda11d29a7ba6f264b0794f58a1b945ab1e5dc3e0c0e4e</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
 
  <version name="2.3.2" package="openvpn" type="one-file">
   <file path=".Npackd\Install.bat">rem "%ProgramFiles%\GowData\bin\wget.exe" -O openvpn.p7b http://dl.dropboxusercontent.com/s/cqvn6qkvamwyjv4/openvpn.p7b&#13;
@@ -112477,6 +112517,17 @@ if %err% neq 0 exit %err%&#13;
    <variable>nih</variable>
   </dependency>
  </version>
+ <version name="5.17" package="org.gnucash.GNUCash" type="one-file">
+  <file path=".Npackd\Install.bat">call "%nih%\InstallInnoSetup.bat"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">call "%nih%\UninstallInnoSetup.bat" uninstall\gnucash\unins000.exe&#13;
+</file>
+  <url>https://downloads.sourceforge.net/project/gnucash/gnucash%20%28stable%29/5.17/gnucash-5.17.setup.exe</url>
+  <hash-sum type="SHA-256">a3e8049755e536f647640762a483ebe1b6c79cc50cc81a746fa64a404e98d271</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
 
  <version name="2.2.1" package="org.gnupg.GnuPG" type="one-file">
   <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
@@ -125545,6 +125596,17 @@ echo DesktopShortcut=false &gt;&gt; .Npackd\FF.ini&#13;
 verify</file>
   <url>https://download-origin.cdn.mozilla.net/pub/mozilla.org/firefox/releases/156.0.1/win32/en-US/Firefox%20Setup%20156.0.1.exe</url>
   <hash-sum type="SHA-256">a9c641b3e5dbd8b8ab545f3e18ca2c43d740669a8a03e60076ca58a3ac38a84c</hash-sum>
+ </version>
+ <version name="157" package="org.mozilla.Firefox" type="one-file">
+  <file path=".Npackd\Install.bat">echo [Install] &gt; .Npackd\FF.ini&#13;
+echo InstallDirectoryPath=%CD% &gt;&gt; .Npackd\FF.ini&#13;
+echo QuickLaunchShortcut=false &gt;&gt; .Npackd\FF.ini&#13;
+echo DesktopShortcut=false &gt;&gt; .Npackd\FF.ini&#13;
+"%npackd_package_binary%" /INI="%CD%\.Npackd\FF.ini" &amp;&amp; del /f /q "%npackd_package_binary%"</file>
+  <file path=".Npackd\Uninstall.bat">uninstall\helper.exe /S&#13;
+verify</file>
+  <url>https://download-origin.cdn.mozilla.net/pub/mozilla.org/firefox/releases/157.0/win32/en-US/Firefox%20Setup%20157.0.exe</url>
+  <hash-sum type="SHA-256">e74c47e51599631ed9513df97375f2731082f2e7fbe624a539ef9f038ec7f79a</hash-sum>
  </version>
 
  <version name="24.4" package="org.mozilla.FirefoxESR" type="one-file">
@@ -154811,6 +154873,18 @@ cd ..&#13;
 rmdir "%name%"</file>
   <url>http://downloads.sourceforge.net/project/scintilla/SciTE/5.6.6/wscite566.zip</url>
   <hash-sum type="SHA-256">2e8f2952e45f18b56ed94b3738f3129c61ea4ee833a1cb86a6a4005295d19b3f</hash-sum>
+ </version>
+ <version name="5.6.7" package="scite">
+  <important-file path="SciTE.exe" title="SciTE"/>
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b wscite*') do set name=%%x&#13;
+cd "%name%"        &#13;
+for /f "delims=" %%a in ('dir /b') do (&#13;
+  move "%%a" ..&#13;
+)&#13;
+cd ..&#13;
+rmdir "%name%"</file>
+  <url>http://downloads.sourceforge.net/project/scintilla/SciTE/5.6.7/wscite567.zip</url>
+  <hash-sum type="SHA-256">24b6c63fc61d8fb57b782bac6149352dde262212a9588367bde4b2def599f353</hash-sum>
  </version>
 
  <version name="3.1" package="scite4autohotkey" type="one-file">
