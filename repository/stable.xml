@@ -30135,7 +30135,7 @@ verify</file>
   <sha1>2b0ec317b04c24848500cadec1105dc065651e24</sha1>
   <dependency package="com.microsoft.DotNetRedistributable" versions="[2.0, 3)"/>
  </version>
- <version name="6.0.20261" package="com.fiddler2.Fiddler" type="one-file">
+ <version name="6.0.20262" package="com.fiddler2.Fiddler" type="one-file">
   <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
 verify</file>
   <file path=".Npackd\Uninstall.bat">uninst.exe /S _?=%CD%&#13;
@@ -47803,6 +47803,13 @@ ren "%setup%" GPU-Z.exe&#13;
    <variable>npackdih</variable>
   </dependency>
  </version>
+ <version name="2.8.89" package="com.tightvnc.TightVNC" type="one-file">
+  <file path=".Npackd\Install.bat">call "%npackdih%\InstallMSI.bat" INSTALLDIR yes</file>
+  <url>https://www.tightvnc.com/download/2.8.89/tightvnc-2.8.89-gpl-setup-32bit.msi</url>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.1, 2)">
+   <variable>npackdih</variable>
+  </dependency>
+ </version>
 
  <version name="2.5.5" package="com.tracker-software.PDFXChangeViewer" type="one-file">
   <file path=".Npackd\Install.bat">call "%npackdih%\InstallMSI.bat" INSTALLLOCATION yes</file>
@@ -55288,7 +55295,7 @@ if %err% neq 0 exit %err%&#13;
   <sha1>1a6a7b97b4113ef4f3f1d67e88a97a7d260f1801</sha1>
  </version>
 
- <version name="4.26" package="dk.software.hulubulu.advancedrenamer" type="one-file">
+ <version name="4.27" package="dk.software.hulubulu.advancedrenamer" type="one-file">
   <file path=".Npackd\Install.bat">ren down Setup.exe&#13;
 "%nih%\InstallInnoSetup.bat"&#13;
 </file>
@@ -160588,6 +160595,14 @@ if %err% neq 0 exit %err%&#13;
 </file>
   <url>https://www.sysgauge.com/setups/sysgauge_setup_v13.4.12.exe</url>
   <hash-sum type="SHA-256">41673d907e8552443bbe9d98cfce7f54aa9b3131bf134e3f9a1cb9b467fff9ce</hash-sum>
+ </version>
+ <version name="13.5.48" package="sysgauge" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">uninstall.exe /S _?=%CD%&#13;
+</file>
+  <url>https://www.sysgauge.com/setups/sysgauge_setup_v13.5.48.exe</url>
+  <hash-sum type="SHA-256">742e623eb661109dea0bc6e4fb3a985f6c1814f86cb63ee8b2d16bdc3b8a9b08</hash-sum>
  </version>
 
  <version name="1" package="sysinternals-suite">
