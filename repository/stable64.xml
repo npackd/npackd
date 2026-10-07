@@ -16096,6 +16096,16 @@ if %err% neq 0 exit %err%&#13;
    <variable>nih</variable>
   </dependency>
  </version>
+ <version name="3.50.5" package="com.httrack.HTTrack64" type="one-file">
+  <file path=".Npackd\Install.bat">call "%nih%\InstallInnoSetup.bat"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">call "%nih%\UninstallInnoSetup.bat" unins000.exe&#13;
+</file>
+  <url>https://mirror.httrack.com/httrack_x64-3.50.5.exe</url>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
 
  <version name="1" package="com.intilinux.mypaint.MyPaint64" type="one-file">
   <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
@@ -20545,6 +20555,13 @@ if %err% neq 0 exit %err%</file>
    <variable>npackdih</variable>
   </dependency>
  </version>
+ <version name="2.8.90" package="com.tightvnc.TightVNC64" type="one-file">
+  <file path=".Npackd\Install.bat">call "%npackdih%\InstallMSI.bat" INSTALLDIR yes</file>
+  <url>https://www.tightvnc.com/download/2.8.90/tightvnc-2.8.90-gpl-setup-64bit.msi</url>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.1, 2)">
+   <variable>npackdih</variable>
+  </dependency>
+ </version>
 
  <version name="2.5.192" package="com.tracker-software.PDFXChangeViewer64" type="one-file">
   <file path=".Npackd\Install.bat">for /f %%x in ('dir /b *.msi') do set setup=%%x
@@ -22841,7 +22858,7 @@ for %%g in (%extensions%) do reg add HKLM\SOFTWARE\Classes\.%%g\OpenWithList\%ke
   </dependency>
  </version>
 
- <version name="1.116" package="com.xnconvert.XnConvert64" type="one-file">
+ <version name="1.117" package="com.xnconvert.XnConvert64" type="one-file">
   <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
 "%setup%" /SP- /VERYSILENT /SUPPRESSMSGBOXES /NOCANCEL /NORESTART /DIR="%CD%" /SAVEINF="%CD%\.Npackd\InnoSetupInfo.ini" /LOG="%CD%\.Npackd\InnoSetupInstall.log"&#13;
 set err=%errorlevel%&#13;
@@ -35535,6 +35552,17 @@ if %err% neq 0 exit %err%&#13;
   </dependency>
  </version>
  <version name="2.56" package="git64" type="one-file">
+  <file path=".Npackd\Install.bat">call "%nih%\InstallInnoSetup.bat"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">call "%nih%\UninstallInnoSetup.bat" unins000.exe&#13;
+</file>
+  <url>https://github.com/git-for-windows/git/releases/download/v2.56.0.windows.1/Git-2.56.0-64-bit.exe</url>
+  <hash-sum type="SHA-256">bfe94e7b419b16eee9fecbd1253a98e3d4f49ba8f029630549052278ffe286a6</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
+ <version name="2.56.0.2" package="git64" type="one-file">
   <file path=".Npackd\Install.bat">call "%nih%\InstallInnoSetup.bat"&#13;
 </file>
   <file path=".Npackd\Uninstall.bat">call "%nih%\UninstallInnoSetup.bat" unins000.exe&#13;
@@ -56146,7 +56174,7 @@ verify&#13;
   </dependency>
  </version>
 
- <version name="3.21.4" package="ocenaudio64" type="one-file">
+ <version name="3.22" package="ocenaudio64" type="one-file">
   <file path=".Npackd\Install.bat">"%npackd_package_binary%" /AllUsers /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
 </file>
   <file path=".Npackd\Uninstall.bat">"%ncl%\ncl" remove-scp --title "/ocenaudio.*/"</file>
@@ -71149,6 +71177,16 @@ verify</file>
   <file path=".Npackd\Uninstall.bat">"%nih%\UninstallInnoSetup.bat" unins000.exe</file>
   <url>https://github.com/OpenShot/openshot-qt/releases/download/v4.0.0/OpenShot-v4.0.0-x86_64.exe</url>
   <hash-sum type="SHA-256">fcecfcfd616447797d46edcca6d8fe5ca70ea19b387ae257ec24f11811f715ef</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
+ <version name="4.0.1" package="org.openshot.openshot64" type="one-file">
+  <file path=".Npackd\Install.bat">"%nih%\InstallInnoSetup.bat"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">"%nih%\UninstallInnoSetup.bat" unins000.exe</file>
+  <url>https://github.com/OpenShot/openshot-qt/releases/download/v4.0.1/OpenShot-v4.0.1-x86_64.exe</url>
+  <hash-sum type="SHA-256">70eacf59edef65cfb0c73678a1195ebd1cef3a328d202e4d915b7feeb4294416</hash-sum>
   <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
    <variable>nih</variable>
   </dependency>
@@ -91073,6 +91111,34 @@ call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Np
    <variable>nih</variable>
   </dependency>
  </version>
+ <version name="9.2.1164" package="org.vim.Vim64">
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+if %errorlevel% neq 0 exit /b %errorlevel%&#13;
+&#13;
+for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+</file>
+  <url>https://github.com/vim/vim-win32-installer/releases/download/v9.2.1164/gvim_9.2.1164_x64.zip</url>
+  <hash-sum type="SHA-256">e31358ac30dd03f8ffa2f359d1a32120b15704f1a16c9d935d1c7390a24096f2</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.19, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
+ <version name="9.2.1167" package="org.vim.Vim64">
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+if %errorlevel% neq 0 exit /b %errorlevel%&#13;
+&#13;
+for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+</file>
+  <url>https://github.com/vim/vim-win32-installer/releases/download/v9.2.1167/gvim_9.2.1167_x64.zip</url>
+  <hash-sum type="SHA-256">259e099ad6dc688f3234c449cdcc658ad6f01778ac0c9cce277ecd970bcb1331</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.19, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
 
  <version name="4.2.8.83876" package="org.virtualbox.virtualbox64" type="one-file">
   <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
@@ -102346,6 +102412,14 @@ rmdir "%name%"</file>
   <url>https://www.sysgauge.com/setups_x64/sysgauge_setup_v13.4.12_x64.exe</url>
   <hash-sum type="SHA-256">853d3cf50639d155945cd33ed8e7bb5a8cb6f4797f3750002beeb2654d128b30</hash-sum>
  </version>
+ <version name="13.5.48" package="sysgauge64" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">uninstall.exe /S _?=%CD%&#13;
+</file>
+  <url>https://www.sysgauge.com/setups_x64/sysgauge_setup_v13.5.48_x64.exe</url>
+  <hash-sum type="SHA-256">af0b0ae086a15c13fd37a41b8b5af7397b44187e8710cf3e9e939de2681b77ae</hash-sum>
+ </version>
 
 
  <version name="3.6" package="telegram64" type="one-file">
@@ -108541,6 +108615,11 @@ verify</file>
   <important-file path="x64\windirstat.exe" title="WinDirStat"/>
   <url>https://github.com/windirstat/windirstat/releases/download/release/v2.9.0/WinDirStat.zip</url>
   <hash-sum type="SHA-256">0d04d9f716b70502658595956ac3af5192f591c6d2636662eea170655546b891</hash-sum>
+ </version>
+ <version name="2.9.2" package="windirstat64">
+  <important-file path="x64\windirstat.exe" title="WinDirStat"/>
+  <url>https://github.com/windirstat/windirstat/releases/download/release/v2.9.2/WinDirStat.zip</url>
+  <hash-sum type="SHA-256">fff0e103418d595f6c2d9d81ead03f75b87271737d8f9033a3c828769a6c028a</hash-sum>
  </version>
 
  <version name="22.12" package="windows-virtualbox">
