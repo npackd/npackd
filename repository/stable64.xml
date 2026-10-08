@@ -32777,6 +32777,17 @@ verify</file>
   <url>https://download-installer.cdn.mozilla.net/pub/firefox/releases/157.0/win64/en-US/Firefox%20Setup%20157.0.exe</url>
   <hash-sum type="SHA-256">58c90afab6e4b9a6b34d2958fe06d1a143dd9226ea8834377e5cd45e815936d7</hash-sum>
  </version>
+ <version name="157.0.1" package="firefox64" type="one-file">
+  <file path=".Npackd\Install.bat">echo [Install] &gt; .Npackd\FF.ini&#13;
+echo InstallDirectoryPath=%CD% &gt;&gt; .Npackd\FF.ini&#13;
+echo QuickLaunchShortcut=false &gt;&gt; .Npackd\FF.ini&#13;
+echo DesktopShortcut=false &gt;&gt; .Npackd\FF.ini&#13;
+"%npackd_package_binary%" /INI="%CD%\.Npackd\FF.ini" &amp;&amp; del /f /q "%npackd_package_binary%"</file>
+  <file path=".Npackd\Uninstall.bat">uninstall\helper.exe /S&#13;
+verify</file>
+  <url>https://download-installer.cdn.mozilla.net/pub/firefox/releases/157.0.1/win64/en-US/Firefox%20Setup%20157.0.1.exe</url>
+  <hash-sum type="SHA-256">71dc620e7749bb65be6df67b99261a303805a804f9c787b76b81c095cfa7d9ca</hash-sum>
+ </version>
 
  <version name="0.5" package="firefoxpwa" type="one-file">
   <file path=".Npackd\Install.bat">call "%nih%\InstallMSI.bat" APPLICATIONFOLDER yes</file>
@@ -35666,7 +35677,7 @@ if %err% neq 0 exit %err%&#13;
   <hash-sum type="SHA-256">fffa4ed1d298a7a1f2df91f52dd13af31314a54058aed53c2bccae77705ee714</hash-sum>
  </version>
 
- <version name="155.0.8059.26" package="google-chrome-x64" type="one-file">
+ <version name="155.0.8059.40" package="google-chrome-x64" type="one-file">
   <file path=".Npackd\Install.bat">call "%npackdih%\InstallMSI.bat" TARGETDIR yes&#13;
 </file>
   <url>https://dl.google.com/tag/s/appguid%3D%7B8A69D345-D564-463C-AFF1-A69D9E530F96%7D%26iid%3D%7B0A558A36-0536-8B3F-0AE0-420553CC97F3%7D%26lang%3Den%26browser%3D4%26usagestats%3D0%26appname%3DGoogle%2520Chrome%26needsadmin%3DFalse/edgedl/chrome/install/GoogleChromeStandaloneEnterprise64.msi</url>
@@ -58908,6 +58919,18 @@ cscript //Nologo //E:JScript //T:300 //U .Npackd\Install.js&#13;
 </file>
   <url>https://www.7-zip.org/a/7z2603-x64.msi</url>
   <hash-sum type="SHA-256">c0680064d698a62dd4a5a47f403db356a6531a5473e4c4b1d090ea2590513926</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.1, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
+ <version name="26.4" package="org.7-zip.SevenZIP64" type="one-file">
+  <cmd-file path="7z.exe"/>
+  <cmd-file path="7zG.exe"/>
+  <file path=".Npackd\Extensions.txt">.001 .7z .arj .bz2 .bzip2 .cab .cpio .deb .dmg .egg .fat .gz .gzip .hfs .iso .lha .lzh .lzma .ntfs .rar .rpm .squashfs .swm .tar .taz .tbz .tbz2 .tgz .tpz .txz .vhd .wim .xar .xz .z .zip</file>
+  <file path=".Npackd\Install.bat">call "%nih%\InstallMSI.bat" INSTALLDIR yes&#13;
+</file>
+  <url>https://www.7-zip.org/a/7z2604-x64.msi</url>
+  <hash-sum type="SHA-256">0b01334a418654293513449f61d6bfc99e5196ca371e3c3dc961eda57cd535c6</hash-sum>
   <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.1, 2)">
    <variable>nih</variable>
   </dependency>
@@ -94258,6 +94281,16 @@ echo DesktopShortcut=false &gt;&gt; .Npackd\FF.ini&#13;
   <file path=".Npackd\Uninstall.bat">uninstall\helper.exe /S</file>
   <url>https://rm-eu.palemoon.org/release/palemoon-35.0.1.win64.installer.exe</url>
   <hash-sum type="SHA-256">ea349ec3cce206ed036c4efad1f362a1ab23b6b431103616256c5b8006fb9152</hash-sum>
+ </version>
+ <version name="35.0.2" package="pale-moon64" type="one-file">
+  <file path=".Npackd\Install.bat">echo [Install] &gt; .Npackd\FF.ini&#13;
+echo InstallDirectoryPath=%CD% &gt;&gt; .Npackd\FF.ini&#13;
+echo QuickLaunchShortcut=false &gt;&gt; .Npackd\FF.ini&#13;
+echo DesktopShortcut=false &gt;&gt; .Npackd\FF.ini&#13;
+"%npackd_package_binary%" /INI="%CD%\.Npackd\FF.ini" &amp;&amp; del /f /q "%npackd_package_binary%"</file>
+  <file path=".Npackd\Uninstall.bat">uninstall\helper.exe /S</file>
+  <url>https://rm-eu.palemoon.org/release/palemoon-35.0.2.win64.installer.exe</url>
+  <hash-sum type="SHA-256">c15e0458e2e65d4cbc91b24452a9a9d745c9a1f0264c570ef4e1b75eee190529</hash-sum>
  </version>
 
  <version name="2.2.1" package="pandoc64" type="one-file">
