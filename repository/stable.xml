@@ -19396,7 +19396,7 @@ verify&#13;
  </version>
 
 
- <version name="1.96.61" package="brave" type="one-file">
+ <version name="1.97.56" package="brave" type="one-file">
   <file path=".Npackd\Install.bat">"%npackd_package_binary%" &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
 </file>
   <file path=".Npackd\Uninstall.bat">"%ncl%\ncl.exe" remove-scp --title "/%npackd_package_name% %npackd_package_version%/i"&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
@@ -32485,7 +32485,7 @@ rmdir "%name%"&#13;
   <dependency package="org.python.Python" versions="[2.5, 2.8)"/>
  </version>
 
- <version name="155.0.8059.26" package="com.google.Chrome" type="one-file">
+ <version name="156.0.8078.12" package="com.google.Chrome" type="one-file">
   <file path=".Npackd\Install.bat">call "%npackdih%\InstallMSI.bat" TARGETDIR yes&#13;
 </file>
   <url>https://dl.google.com/tag/s/appguid%3D%7B8A69D345-D564-463C-AFF1-A69D9E530F96%7D%26iid%3D%7B0A558A36-0536-8B3F-0AE0-420553CC97F3%7D%26lang%3Den%26browser%3D4%26usagestats%3D0%26appname%3DGoogle%2520Chrome%26needsadmin%3DFalse/edgedl/chrome/install/GoogleChromeStandaloneEnterprise.msi</url>
@@ -32512,7 +32512,7 @@ ViewReadme: No&#13;
   <dependency package="com.oracle.JRE" versions="[1.6, 2)"/>
  </version>
 
- <version name="131.0.2" package="com.google.Drive" type="one-file">
+ <version name="132" package="com.google.Drive" type="one-file">
   <file path=".Npackd\Install.bat">call "%npackdih%\InstallMSI.bat" TARGETDIR yes</file>
   <url>https://dl.google.com/drive/gsync_enterprise.msi</url>
   <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.1, 2)">
@@ -36826,6 +36826,16 @@ if %err% neq 0 exit %err%&#13;
   <file path=".Npackd\Uninstall.bat">call "%nih%\UninstallInnoSetup.bat" unins000.exe&#13;
 </file>
   <url>https://mirror.httrack.com/httrack-3.50.4.exe</url>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
+ <version name="3.50.5" package="com.httrack.HTTrack" type="one-file">
+  <file path=".Npackd\Install.bat">call "%nih%\InstallInnoSetup.bat"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">call "%nih%\UninstallInnoSetup.bat" unins000.exe&#13;
+</file>
+  <url>https://mirror.httrack.com/httrack-3.50.5.exe</url>
   <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
    <variable>nih</variable>
   </dependency>
@@ -53451,6 +53461,16 @@ if %err% neq 0 exit %err%&#13;
    <variable>nih</variable>
   </dependency>
  </version>
+ <version name="17" package="copyq" type="one-file">
+  <file path=".Npackd\Install.bat">"%nih%\InstallInnoSetup.bat"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">"%nih%\UninstallInnoSetup.bat" unins000.exe</file>
+  <url>https://github.com/hluk/CopyQ/releases/download/v17.0.0/copyq-17.0.0-setup.exe</url>
+  <hash-sum type="SHA-256">33585174067273b391df13c0332adb60a3797ec47bfff9c26ff7c26e7dcd85d8</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
 
  <version name="1.64" package="cppcheck" type="one-file">
   <file path=".Npackd\Install.bat">call "%npackdih%\InstallMSI.bat" INSTALLDIR yes</file>
@@ -59274,7 +59294,7 @@ verify</file>
   </dependency>
  </version>
 
- <version name="3.6.6" package="github" type="one-file">
+ <version name="3.6.7" package="github" type="one-file">
   <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
 "%setup%" &amp;&amp; del /f /q "%setup%"&#13;
 </file>
@@ -70689,6 +70709,11 @@ if %err% neq 0 exit %err%&#13;
   <important-file path="x86\windirstat.exe" title="WinDirStat"/>
   <url>https://github.com/windirstat/windirstat/releases/download/release/v2.9.0/WinDirStat.zip</url>
   <hash-sum type="SHA-256">0d04d9f716b70502658595956ac3af5192f591c6d2636662eea170655546b891</hash-sum>
+ </version>
+ <version name="2.9.2" package="info.windirstat.WinDirStat">
+  <important-file path="x86\windirstat.exe" title="WinDirStat"/>
+  <url>https://github.com/windirstat/windirstat/releases/download/release/v2.9.2/WinDirStat.zip</url>
+  <hash-sum type="SHA-256">fff0e103418d595f6c2d9d81ead03f75b87271737d8f9033a3c828769a6c028a</hash-sum>
  </version>
 
  <version name="5.5.4" package="innosetup" type="one-file">
@@ -120278,6 +120303,14 @@ if %err% neq 0 exit %err%
   <url>http://www.microsip.org/download/MicroSIP-3.22.16.exe</url>
   <hash-sum type="SHA-256">e351bbac5e0337091cc0e55a80715208e5550e758028f36efa266c604304daaa</hash-sum>
  </version>
+ <version name="3.22.18" package="org.microsip.MicroSIP" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">uninstall.exe /S _?=%CD%&#13;
+</file>
+  <url>http://www.microsip.org/download/MicroSIP-3.22.18.exe</url>
+  <hash-sum type="SHA-256">0190e51fe9e80e9f1bba39e7754fe6afa7c63a3ec7e929a6dabedb8e3214f73d</hash-sum>
+ </version>
 
  <version name="3.6.3" package="org.microsip.MicroSIPLite" type="one-file">
   <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
@@ -125669,6 +125702,17 @@ echo DesktopShortcut=false &gt;&gt; .Npackd\FF.ini&#13;
 verify</file>
   <url>https://download-origin.cdn.mozilla.net/pub/mozilla.org/firefox/releases/157.0/win32/en-US/Firefox%20Setup%20157.0.exe</url>
   <hash-sum type="SHA-256">e74c47e51599631ed9513df97375f2731082f2e7fbe624a539ef9f038ec7f79a</hash-sum>
+ </version>
+ <version name="157.0.1" package="org.mozilla.Firefox" type="one-file">
+  <file path=".Npackd\Install.bat">echo [Install] &gt; .Npackd\FF.ini&#13;
+echo InstallDirectoryPath=%CD% &gt;&gt; .Npackd\FF.ini&#13;
+echo QuickLaunchShortcut=false &gt;&gt; .Npackd\FF.ini&#13;
+echo DesktopShortcut=false &gt;&gt; .Npackd\FF.ini&#13;
+"%npackd_package_binary%" /INI="%CD%\.Npackd\FF.ini" &amp;&amp; del /f /q "%npackd_package_binary%"</file>
+  <file path=".Npackd\Uninstall.bat">uninstall\helper.exe /S&#13;
+verify</file>
+  <url>https://download-origin.cdn.mozilla.net/pub/mozilla.org/firefox/releases/157.0.1/win32/en-US/Firefox%20Setup%20157.0.1.exe</url>
+  <hash-sum type="SHA-256">1cc3e56ceacb222446d8057c75baf078c616c3e5be6a862c50c1e1a0ec09697a</hash-sum>
  </version>
 
  <version name="24.4" package="org.mozilla.FirefoxESR" type="one-file">
@@ -170767,6 +170811,19 @@ type .Npackd\Output.txt</file>
    <variable>ncl</variable>
   </dependency>
  </version>
+ <version name="8.2.4133.80" package="vivaldi-browser" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" --system-level --vivaldi-silent --vivaldi-standalone --do-not-launch-chrome --vivaldi-install-dir="%CD%" &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">for /f "delims=" %%x in ('dir /b application\5*') do set name=%%x&#13;
+&#13;
+Application\%name%\Installer\setup.exe --uninstall --vivaldi --force-uninstall --system-level &gt; .Npackd\Output.txt 2&gt;&amp;1 &#13;
+type .Npackd\Output.txt</file>
+  <url>https://downloads.vivaldi.com/stable/Vivaldi.8.2.4133.80.exe</url>
+  <hash-sum type="SHA-256">05d45f7dde45c49cc5489d2857ec03cd281e8b698c0b465e3b788930f3fadf0a</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.24, 2)">
+   <variable>ncl</variable>
+  </dependency>
+ </version>
  <version name="8.2.4133.83" package="vivaldi-browser" type="one-file">
   <file path=".Npackd\Install.bat">"%npackd_package_binary%" --system-level --vivaldi-silent --vivaldi-standalone --do-not-launch-chrome --vivaldi-install-dir="%CD%" &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
 </file>
@@ -170776,6 +170833,19 @@ Application\%name%\Installer\setup.exe --uninstall --vivaldi --force-uninstall -
 type .Npackd\Output.txt</file>
   <url>https://downloads.vivaldi.com/stable/Vivaldi.8.2.4133.83.exe</url>
   <hash-sum type="SHA-256">957f7226d675217a207a6553d1cfecc92552bd56132eef89b6f56682b0f80f6e</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.24, 2)">
+   <variable>ncl</variable>
+  </dependency>
+ </version>
+ <version name="8.2.4133.84" package="vivaldi-browser" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" --system-level --vivaldi-silent --vivaldi-standalone --do-not-launch-chrome --vivaldi-install-dir="%CD%" &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">for /f "delims=" %%x in ('dir /b application\5*') do set name=%%x&#13;
+&#13;
+Application\%name%\Installer\setup.exe --uninstall --vivaldi --force-uninstall --system-level &gt; .Npackd\Output.txt 2&gt;&amp;1 &#13;
+type .Npackd\Output.txt</file>
+  <url>https://downloads.vivaldi.com/stable/Vivaldi.8.2.4133.84.exe</url>
+  <hash-sum type="SHA-256">447fa699e161e2d24e84d04bf3857991eab45158913ecc1bb862fe98b06418db</hash-sum>
   <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.24, 2)">
    <variable>ncl</variable>
   </dependency>
@@ -170875,7 +170945,7 @@ if %err% neq 0 exit %err%&#13;
   <url>https://az764295.vo.msecnd.net/stable/a0479759d6e9ea56afa657e454193f72aef85bd0/VSCodeSetup-ia32-1.48.2.exe</url>
   <hash-sum type="SHA-256">013d5ecdb44159c15047472512bef9c76ba934807dbb07a582655f4c5546866d</hash-sum>
  </version>
- <version name="1.140" package="vs-code" type="one-file">
+ <version name="1.141" package="vs-code" type="one-file">
   <file path=".Npackd\Install.bat">ren "%npackd_package_binary%" setup.exe&#13;
 setup.exe /SP- /VERYSILENT /SUPPRESSMSGBOXES /NOCANCEL /NORESTART /DIR="%CD%" /SAVEINF="%CD%\.Npackd\InnoSetupInfo.ini" /LOG="%CD%\.Npackd\InnoSetupInstall.log"&#13;
 set err=%errorlevel%&#13;

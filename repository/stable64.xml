@@ -35677,7 +35677,7 @@ if %err% neq 0 exit %err%&#13;
   <hash-sum type="SHA-256">fffa4ed1d298a7a1f2df91f52dd13af31314a54058aed53c2bccae77705ee714</hash-sum>
  </version>
 
- <version name="155.0.8059.40" package="google-chrome-x64" type="one-file">
+ <version name="156.0.8078.12" package="google-chrome-x64" type="one-file">
   <file path=".Npackd\Install.bat">call "%npackdih%\InstallMSI.bat" TARGETDIR yes&#13;
 </file>
   <url>https://dl.google.com/tag/s/appguid%3D%7B8A69D345-D564-463C-AFF1-A69D9E530F96%7D%26iid%3D%7B0A558A36-0536-8B3F-0AE0-420553CC97F3%7D%26lang%3Den%26browser%3D4%26usagestats%3D0%26appname%3DGoogle%2520Chrome%26needsadmin%3DFalse/edgedl/chrome/install/GoogleChromeStandaloneEnterprise64.msi</url>
@@ -58022,6 +58022,15 @@ reg add HKLM\SOFTWARE\OpenVPN-GUI /v allow_service /t REG_SZ /d 0 /f&#13;
    <variable>nih</variable>
   </dependency>
  </version>
+ <version name="2.7.8" package="openvpn64" type="one-file">
+  <file path=".Npackd\Install.bat">call "%nih%\InstallMSI.bat" INSTALLDIR yes&#13;
+</file>
+  <url>https://swupdate.openvpn.org/community/releases/OpenVPN-2.7.8-I001-amd64.msi</url>
+  <hash-sum type="SHA-256">1ea61a3056905b90607d4b0f084c04e5cf3043e07cf192d9cd44b0474f29cc49</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.1, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
 
 
  <version name="9.20" package="org.7-zip.SevenZIP64" type="one-file">
@@ -72280,6 +72289,15 @@ if %err% neq 0 exit /b %err%&#13;
 </file>
   <url>https://www.python.org/ftp/python/3.14.7/python-3.14.7-amd64.exe</url>
   <hash-sum type="SHA-256">9d9eb2709ef81bf5cd30db3c2096bdbc4ea10087c22e62f27d356b36f6ae9649</hash-sum>
+ </version>
+ <version name="3.14.8" package="org.python.Python64" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" /quiet InstallAllUsers=1 "TargetDir=%cd%"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">for /f "delims=" %%x in ('dir /b python-*.exe') do set setup=%%x&#13;
+%setup% /uninstall /quiet InstallAllUsers=1&#13;
+</file>
+  <url>https://www.python.org/ftp/python/3.14.8/python-3.14.8-amd64.exe</url>
+  <hash-sum type="SHA-256">759be887b96e736a3ca886daf8d575f18fcae1a09efab6902f42d59e8999f8ef</hash-sum>
  </version>
 
  <version name="2.0.0.247" package="org.rubylang.Ruby64" type="one-file">
@@ -91162,6 +91180,20 @@ call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Np
    <variable>nih</variable>
   </dependency>
  </version>
+ <version name="9.2.1172" package="org.vim.Vim64">
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+if %errorlevel% neq 0 exit /b %errorlevel%&#13;
+&#13;
+for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+</file>
+  <url>https://github.com/vim/vim-win32-installer/releases/download/v9.2.1172/gvim_9.2.1172_x64.zip</url>
+  <hash-sum type="SHA-256">03e37f348a0fe5ccc61e3e2d9ffa43d3a3d0e8068f14d6d17b241bee31b38626</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.19, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
 
  <version name="4.2.8.83876" package="org.virtualbox.virtualbox64" type="one-file">
   <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
@@ -95238,6 +95270,16 @@ echo DesktopShortcut=false &gt;&gt; .Npackd\FF.ini&#13;
 </file>
   <url>https://github.com/jgm/pandoc/releases/download/3.12/pandoc-3.12-windows-x86_64.msi</url>
   <hash-sum type="SHA-256">a1342617c3ec4adb2e005284b566a9fde5dc20ee67012bbd9694fdda93fdfd61</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.1, 2)">
+   <variable>nih</variable>
+  </dependency>
+  <dependency package="org.miktex.MiKTeX" versions="[2.9, 3)"/>
+ </version>
+ <version name="3.12.1" package="pandoc64" type="one-file">
+  <file path=".Npackd\Install.bat">call "%nih%\InstallMSI.bat" INSTALLDIR yes&#13;
+</file>
+  <url>https://github.com/jgm/pandoc/releases/download/3.12.1/pandoc-3.12.1-windows-x86_64.msi</url>
+  <hash-sum type="SHA-256">b6bf9f2c8408a1689272be5722e45f93ed9da17ba74321d0f7ef4e5a196605e8</hash-sum>
   <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.1, 2)">
    <variable>nih</variable>
   </dependency>
@@ -108131,7 +108173,7 @@ if %errorlevel% neq 0 exit /b %errorlevel%&#13;
 </file>
   <url>https://update.code.visualstudio.com/1.84.2/win32-x64/stable</url>
  </version>
- <version name="1.140" package="vs-code64" type="one-file">
+ <version name="1.141" package="vs-code64" type="one-file">
   <file path=".Npackd\Install.bat">ren "%npackd_package_binary%" setup.exe&#13;
 setup.exe /SP- /VERYSILENT /SUPPRESSMSGBOXES /NOCANCEL /NORESTART /DIR="%CD%" /SAVEINF="%CD%\.Npackd\InnoSetupInfo.ini" /LOG="%CD%\.Npackd\InnoSetupInstall.log"&#13;
 set err=%errorlevel%&#13;
