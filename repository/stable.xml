@@ -25913,6 +25913,18 @@ verify&#13;
   <url>https://github.com/AutoHotkey/AutoHotkey/releases/download/v2.0.28/AutoHotkey_2.0.28_setup.exe</url>
   <hash-sum type="SHA-256">aca3f50a66ac4c6fcee5bd168c90929c70f3ea9e12fc62b6699a26ea1e087dc3</hash-sum>
  </version>
+ <version name="2.0.30" package="com.autohotkey.AutoHotKey" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%"  /silent /installto "%CD%"&#13;
+if %errorlevel% neq 0 exit /b %errorlevel%        &#13;
+&#13;
+del "%npackd_package_binary%"&#13;
+verify&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">v2\AutoHotkey32.exe UX\install.ahk /uninstall /silent&#13;
+</file>
+  <url>https://github.com/AutoHotkey/AutoHotkey/releases/download/v2.0.30/AutoHotkey_2.0.30_setup.exe</url>
+  <hash-sum type="SHA-256">ecfb26b4cc90cd1e5440ed491cde486e728541d63f3a4c24159e8ddae77ab772</hash-sum>
+ </version>
 
  <version name="3.3.8" package="com.autoitscript.AutoItFull" type="one-file">
   <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x
@@ -41170,7 +41182,7 @@ call "%npackdih%\InstallMSI.bat" INSTALLDIR yes&#13;
    <variable>NIH</variable>
   </dependency>
  </version>
- <version name="18.0.83" package="com.phraseexpress.PhraseExpressPE">
+ <version name="18.0.84" package="com.phraseexpress.PhraseExpressPE">
   <file path=".Npackd\Install.bat">"%NIH%\InstallInnoSetup.bat"</file>
   <file path=".Npackd\Uninstall.bat">"%NIH%\UninstallInnoSetup.bat" unins000.exe</file>
   <url>http://www.phraseexpress.com/PhraseExpressSetup.zip</url>
@@ -130417,6 +130429,15 @@ rmdir "%name%"&#13;
 </file>
   <url>http://ftp.musicbrainz.org/pub/musicbrainz/picard/picard-setup-2.13.3.exe</url>
   <hash-sum type="SHA-256">cfe7fb0957f9bd561dfd97b4685cbd26adeb6d9485d25bbbdf39d86c552e1fec</hash-sum>
+  <dependency package="com.microsoft.VisualCPPRedistributable" versions="[9.0.30729.4148, 10)"/>
+ </version>
+ <version name="3.0.1" package="org.musicbrainz.musicbrainzpicard.MusicBrainzPicard" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%ProgramFiles%\MusicBrainzPicardData&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">"%ProgramFiles%\MusicBrainzPicardData\uninst.exe" /S&#13;
+</file>
+  <url>http://ftp.musicbrainz.org/pub/musicbrainz/picard/picard-setup-3.0.1.exe</url>
+  <hash-sum type="SHA-256">aa16490405bf51bb56517fe5d5a66099d8a4b77d6ab5fb7e937ae1534956d842</hash-sum>
   <dependency package="com.microsoft.VisualCPPRedistributable" versions="[9.0.30729.4148, 10)"/>
  </version>
 

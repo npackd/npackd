@@ -14592,6 +14592,15 @@ call "%npackdih%\InstallMSI.bat" APPLICATIONFOLDER yes&#13;
    <variable>npackdih</variable>
   </dependency>
  </version>
+ <version name="9.16" package="com.calibreebook.Calibre64" type="one-file">
+  <file path=".Npackd\Install.bat">call "%npackdih%\InstallMSI.bat" APPLICATIONFOLDER yes&#13;
+</file>
+  <url>https://download.calibre-ebook.com/9.16.0/calibre-64bit-9.16.0.msi</url>
+  <hash-sum type="SHA-256">99ba538ca701c7c3b234d19b2236349c3aff3b55244ab9016072f74e6294e40a</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.2, 2)">
+   <variable>npackdih</variable>
+  </dependency>
+ </version>
 
  <version name="5.12.256249.2599" package="com.comodo.comodoav64" type="one-file">
   <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.msi') do set setup=%%x&#13;
@@ -50395,6 +50404,15 @@ rmdir /s /q "%name%"&#13;
 </file>
   <url>https://github.com/clsid2/mpc-hc/releases/download/2.8.2/MPC-HC.2.8.2.x64.zip</url>
   <hash-sum type="SHA-256">eefee5ac29fc33e6031e34e0e163e157212d272c1bcf576149d40c0c7abb32f4</hash-sum>
+ </version>
+ <version name="2.8.3" package="net.sourceforge.mpc-hc.MediaPlayerClassicHomeCinema64">
+  <important-file path="mpc-hc64.exe" title="Media Player Classic - Home Cinema"/>
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b MPC*') do set name=%%x&#13;
+xcopy "%name%\*" . /E /H&#13;
+rmdir /s /q "%name%"&#13;
+</file>
+  <url>https://github.com/clsid2/mpc-hc/releases/download/2.8.3/MPC-HC.2.8.3.x64.zip</url>
+  <hash-sum type="SHA-256">b7f63edfa2bc5a68936ae126a960fca2630abeb8797d0b95a12227aafe1470c2</hash-sum>
  </version>
 
  <version name="5.1" package="net.sourceforge.peazip.PeaZip64" type="one-file">
@@ -91176,6 +91194,20 @@ call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Np
 </file>
   <url>https://github.com/vim/vim-win32-installer/releases/download/v9.2.1167/gvim_9.2.1167_x64.zip</url>
   <hash-sum type="SHA-256">259e099ad6dc688f3234c449cdcc658ad6f01778ac0c9cce277ecd970bcb1331</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.19, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
+ <version name="9.2.1169" package="org.vim.Vim64">
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+if %errorlevel% neq 0 exit /b %errorlevel%&#13;
+&#13;
+for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+</file>
+  <url>https://github.com/vim/vim-win32-installer/releases/download/v9.2.1169/gvim_9.2.1169_x64.zip</url>
+  <hash-sum type="SHA-256">fdef7c9706428965041db130a302540837430e36638bf0c101833f8d4e4a317d</hash-sum>
   <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.19, 2)">
    <variable>nih</variable>
   </dependency>
