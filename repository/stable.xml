@@ -16170,7 +16170,7 @@ verify</file>
   <dependency package="com.oracle.JRE" versions="[1.6, 2)"/>
  </version>
 
- <version name="7.2.1" package="aomei-backupper" type="one-file">
+ <version name="8.5" package="aomei-backupper" type="one-file">
   <file path=".Npackd\Install.bat">"%nih%\InstallInnoSetup.bat"&#13;
 </file>
   <file path=".Npackd\Uninstall.bat">"%nih%\UninstallInnoSetup.bat" unins000.exe</file>
@@ -44250,7 +44250,7 @@ del Q-Dir.ini&#13;
   <url>http://files.npackd.org/com.softwareok.QDir-5.99.4.zip</url>
   <sha1>fc2a90da7e924da41d2382673f0d4426af21c5be</sha1>
  </version>
- <version name="12.77" package="com.softwareok.QDir">
+ <version name="12.79" package="com.softwareok.QDir">
   <important-file path="Q-Dir.exe" title="Q-Dir"/>
   <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b Q*') do set name=%%x&#13;
 cd "%name%"        &#13;
@@ -50935,7 +50935,7 @@ reg import uget-path.reg</file>
   </dependency>
  </version>
 
- <version name="1.117" package="com.xnconvert.XnConvert" type="one-file">
+ <version name="1.118" package="com.xnconvert.XnConvert" type="one-file">
   <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
 "%setup%" /SP- /VERYSILENT /SUPPRESSMSGBOXES /NOCANCEL /NORESTART /DIR="%CD%" /SAVEINF="%CD%\.Npackd\InnoSetupInfo.ini" /LOG="%CD%\.Npackd\InnoSetupInstall.log"&#13;
 set err=%errorlevel%&#13;
@@ -70739,6 +70739,11 @@ if %err% neq 0 exit %err%&#13;
   <url>https://github.com/windirstat/windirstat/releases/download/release/v2.9.2/WinDirStat.zip</url>
   <hash-sum type="SHA-256">fff0e103418d595f6c2d9d81ead03f75b87271737d8f9033a3c828769a6c028a</hash-sum>
  </version>
+ <version name="2.9.3" package="info.windirstat.WinDirStat">
+  <important-file path="x86\windirstat.exe" title="WinDirStat"/>
+  <url>https://github.com/windirstat/windirstat/releases/download/release/v2.9.3/WinDirStat.zip</url>
+  <hash-sum type="SHA-256">c980fee14389eb3a160415b0a07361900f3630f232501884863fec40f369a4a4</hash-sum>
+ </version>
 
  <version name="5.5.4" package="innosetup" type="one-file">
   <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
@@ -85688,6 +85693,15 @@ rmdir /s /q "%name%"&#13;
 </file>
   <url>https://github.com/clsid2/mpc-hc/releases/download/2.8.2/MPC-HC.2.8.2.x86.zip</url>
   <hash-sum type="SHA-256">fd8e668fc239cd19bf764ccdfb787176a749315180a6470680511d2c8cad2675</hash-sum>
+ </version>
+ <version name="2.8.3" package="net.sourceforge.mpc-hc.MediaPlayerClassicHomeCinema">
+  <important-file path="mpc-hc.exe" title="Media Player Classic - Home Cinema"/>
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b MPC*') do set name=%%x&#13;
+xcopy "%name%\*" . /E /H&#13;
+rmdir /s /q "%name%"&#13;
+</file>
+  <url>https://github.com/clsid2/mpc-hc/releases/download/2.8.3/MPC-HC.2.8.3.x86.zip</url>
+  <hash-sum type="SHA-256">beb1b410e361f07951fea346c942512dc20c7015bf6ab678810f86a703c0c808</hash-sum>
  </version>
 
  <version name="1.0.17.126" package="net.sourceforge.MultiFileRenamer" type="one-file">
@@ -117780,6 +117794,40 @@ Set view = Nothing&#13;
    <variable>npackdih</variable>
   </dependency>
  </version>
+ <version name="1.27.2" package="org.golang.Go" type="one-file">
+  <file path=".Npackd\Install.bat">.Npackd\AddProperty.vbs "%npackd_package_binary%"&#13;
+if %errorlevel% neq 0 exit %errorlevel%&#13;
+&#13;
+call "%npackdih%\InstallMSI.bat" INSTALLDIR</file>
+  <file path=".Npackd\Uninstall.bat">call "%npackdih%\UninstallMSI.bat"</file>
+  <file path=".Npackd\AddProperty.vbs">Option Explicit&#13;
+&#13;
+Dim MSI_FILE&#13;
+MSI_FILE = Wscript.Arguments(0)&#13;
+&#13;
+Dim installer, database, view&#13;
+&#13;
+Set installer = CreateObject("WindowsInstaller.Installer")&#13;
+Set database = installer.OpenDatabase(MSI_FILE, 1)&#13;
+&#13;
+Set view = database.OpenView("INSERT INTO Property (Property, Value) VALUES ('INSTALLDIR', 'C:\Go')")&#13;
+view.Execute&#13;
+'Set view = database.OpenView("DELETE FROM Directory WHERE Directory='TARGETDIR'")&#13;
+'view.Execute&#13;
+'Set view = database.OpenView("UPDATE Directory SET DefaultDir='INSTALLLOCATION' WHERE Directory='TARGETDIR'")&#13;
+'view.Execute&#13;
+database.Commit&#13;
+&#13;
+Set database = Nothing&#13;
+Set installer = Nothing&#13;
+Set view = Nothing&#13;
+</file>
+  <url>https://golang.org/dl/go1.27.2.windows-386.msi</url>
+  <hash-sum type="SHA-256">c0765105821d2fb884439fccd95befc7bd6e29a60bdf1e790464a68e6a888143</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1, 2)">
+   <variable>npackdih</variable>
+  </dependency>
+ </version>
 
  <version name="1.0.1" package="org.goldendict.GoldenDict">
   <important-file path="GoldenDict\GoldenDict.exe" title="GoldenDict"/>
@@ -135025,6 +135073,15 @@ if %errorlevel% neq 0 exit /b %errorlevel%</file>
 </file>
   <url>https://www.python.org/ftp/python/3.14.8/python-3.14.8.exe</url>
   <hash-sum type="SHA-256">963def30c7ebc6381a1ee9056d251ddc4520b18391da2cf0602cfb58f5b80568</hash-sum>
+ </version>
+ <version name="3.15" package="org.python.Python" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" /quiet InstallAllUsers=1 "TargetDir=%cd%"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">for /f "delims=" %%x in ('dir /b python-*.exe') do set setup=%%x&#13;
+%setup% /uninstall /quiet InstallAllUsers=1&#13;
+</file>
+  <url>https://www.python.org/ftp/python/3.15.0/python-3.15.0.exe</url>
+  <hash-sum type="SHA-256">222f79df7d2d5653871c09aef73dd77623514a356ca7f4a4f3ba5b9217e55e8a</hash-sum>
  </version>
 
  <version name="3.0.5" package="org.qbittorrent.QBittorrent" type="one-file">
