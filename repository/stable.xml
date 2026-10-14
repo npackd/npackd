@@ -108,10 +108,6 @@
   <title>.NET Framework Redistributable license</title>
   <url>http://msdn.microsoft.com/en-us/library/ms994405.aspx</url>
  </license>
- <license name="com.microsoft.IEVMLicense">
-  <title>Microsoft Software License Terms for the IE VMs</title>
-  <url>http://modernievirt.blob.core.windows.net/vhd/release_notes_license_terms_1_5_15.pdf</url>
- </license>
  <license name="com.microsoft.OLEViewLicense">
   <title>OLE/COM Object Viewer license</title>
   <url>http://files.npackd.org/license/com.microsoft.OLEViewLicense.txt</url>
@@ -3985,7 +3981,7 @@ i686</description>
   <category>Communications</category>
   <tag>same-url</tag>
   <tag>stable</tag>
-  <stars>4</stars>
+  <stars>3</stars>
  </package>
  <package name="com.techpowerup.GPUZ">
   <title>GPU-Z</title>
@@ -12523,7 +12519,7 @@ File and Disk Utilities, Networking Utilities,  Process Utilities, Security Util
 &#13;
 AccessChk, AccessEnum, AdExplorer, AdInsight, AdRestore, Autologon, Autoruns, BgInfo, CacheSet, ClockRes, Contig, Coreinfo, Ctrl2Cap, DebugView, Desktops, Disk2vhd, DiskExt, DiskMon, DiskView, Disk Usage (DU), EFSDump, FindLinks, Handle, Hex2dec, Junction, LDMDump, ListDLLs, LiveKd, LoadOrder, LogonSessions, MoveFile, NTFSInfo, PendMoves, PipeList, PortMon, ProcDump, Process Explorer, Process Monitor, PsExec, PsFile, PsGetSid, PsInfo, PsPing, PsKill, PsList, IsLoggedOn, PsLogList, PsPasswd, PsService, PsShutdown, PsSuspend, RAMMap, RegDelNull, Registry Usage (RU), RegJump, SDelete, ShareEnum, ShellRunas, Sigcheck, Streams, Strings, Sync, Sysmon, TCPView, VMMap, VolumeID, WhoIs, WinObj, ZoomIt
 i686</description>
-  <icon>https://upload.wikimedia.org/wikipedia/commons/thumb/4/44/Microsoft_logo.svg/32px-Microsoft_logo.svg.png</icon>
+  <icon>https://learn.microsoft.com/favicon.ico</icon>
   <license>com.microsoft.SysinternalsLicense</license>
   <category>Tools</category>
   <tag>same-url</tag>
@@ -13305,16 +13301,6 @@ i686</description>
   <tag>stable</tag>
   <link href="https://github.com/apaka/win-sshfs/commits/master" rel="changelog"/>
  </package>
- <package name="win10-edge-virtualbox">
-  <title>Windows 10 MSEdge VirtualBox Image</title>
-  <url>https://developer.microsoft.com/en-us/microsoft-edge/tools/vms/</url>
-  <description>Virtual machine for testing from Microsoft. Please note that this VM will expire after 90 days of usage. It is recommended to create a snapshot of the VM before first start.
-i686</description>
-  <icon>https://c.s-microsoft.com/en-us/CMSImages/microsoft_logo_56x56.png?version=ad0d2fa7-0ee8-4e82-ddbf-8ea5dc9d9c23</icon>
-  <license>com.microsoft.IEVMLicense</license>
-  <category>Development</category>
-  <tag>stable</tag>
- </package>
  <package name="win32-disk-imager">
   <title>Win32 Disk Imager</title>
   <url>http://sourceforge.net/projects/win32diskimager/</url>
@@ -13522,18 +13508,6 @@ i686</description>
   <category>Development</category>
   <tag>end-of-life</tag>
   <tag>stable</tag>
- </package>
- <package name="wsus-offline-updater">
-  <title>WSUS Offline Updater</title>
-  <url>http://www.wsusoffline.net/</url>
-  <description>WARNING: there will be no new versions of this package.
-Create offline update media for any computer running Microsoft Windows or Office.
-i686</description>
-  <license>org.gnu.GPLv3</license>
-  <category>Tools</category>
-  <tag>stable</tag>
-  <tag>end-of-life</tag>
-  <stars>3</stars>
  </package>
  <package name="x64dbg">
   <title>x64dbg</title>
@@ -73913,6 +73887,18 @@ rmdir "%name%"</file>
   <url>http://downloads.sourceforge.net/project/kid3/kid3/3.10.1/kid3-3.10.1-win32-x64.zip</url>
   <hash-sum type="SHA-256">da144878c94e3e33da6f2fea3610793836d6473cb97b9f4492d25350c7de8836</hash-sum>
  </version>
+ <version name="3.10.2" package="kid3_64">
+  <important-file path="kid3.exe" title="Kid3"/>
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b kid3*') do set name=%%x&#13;
+cd "%name%"        &#13;
+for /f "delims=" %%a in ('dir /b') do (&#13;
+  move "%%a" ..&#13;
+)&#13;
+cd ..&#13;
+rmdir "%name%"</file>
+  <url>http://downloads.sourceforge.net/project/kid3/kid3/3.10.2/kid3-3.10.2-win32-x64.zip</url>
+  <hash-sum type="SHA-256">a274a4c28d07ca6405491e3b008dc163cf9fe4194b88a851b3946a6705286ee7</hash-sum>
+ </version>
 
  <version name="3.9.1.135" package="kmplayer" type="one-file">
   <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
@@ -120941,6 +120927,14 @@ if %err% neq 0 exit %err%
   <url>http://www.microsip.org/download/MicroSIP-Lite-3.22.16.exe</url>
   <hash-sum type="SHA-256">17bceea5e046bb000ab1b7b3e05585df35a0d81eab9801d0156310691961ef26</hash-sum>
  </version>
+ <version name="3.22.18" package="org.microsip.MicroSIPLite" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">uninstall.exe /S _?=%CD%&#13;
+</file>
+  <url>http://www.microsip.org/download/MicroSIP-Lite-3.22.18.exe</url>
+  <hash-sum type="SHA-256">773822f0c56aca17caa936bffe92bb3b8b1500fb4fdd2e344a1ec83cf0bc41c0</hash-sum>
+ </version>
 
  <version name="4.8.4.159" package="org.midnightcommander.MidnightCommander" type="one-file">
   <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
@@ -137326,58 +137320,33 @@ taskkill /im synergy.exe /f /t&#13;
  </version>
 
  <version name="3.6" package="org.sysprogs.WinCDEmu" type="one-file">
-  <file path=".Npackd\Install.bat">rem "%ProgramFiles%\GowData\bin\wget.exe" -O wincdemu.cer http://dl.dropboxusercontent.com/s/x4u9hlz8o411c8w/wincdemu.cer&#13;
-rem certutil -addstore -f "TrustedPublisher" wincdemu.cer&#13;
-&#13;
-for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
 "%setup%" /UNATTENDED&#13;
-&#13;
-rd /s /q "%ProgramFiles%\WinCDEmu\x64"&#13;
-del /q /f "%ProgramFiles%\WinCDEmu\batchmnt64.exe"&#13;
-del /q /f "%ProgramFiles%\WinCDEmu\vmnt64.exe"&#13;
-del /q /f "%ProgramFiles%\WinCDEmu\uninstall64.exe"</file>
+</file>
   <file path=".Npackd\Uninstall.bat">"%ProgramFiles%\WinCDEmu\uninstall.exe" /UNATTENDED&#13;
 &#13;
 rd /s /q "%ALLUSERSPROFILE%\Start Menu\Programs\WinCDEmu" || rd /s /q "%ALLUSERSPROFILE%\Microsoft\Windows\Start Menu\Programs\WinCDEmu"</file>
   <url>http://files.npackd.org/WinCDEmu-3.6.exe</url>
   <sha1>ab69a293680948da9bc865d29becb02bad5b2d94</sha1>
-  <dependency package="com.github.bmatzelle.Gow" versions="[0.7, 2)"/>
  </version>
  <version name="4" package="org.sysprogs.WinCDEmu" type="one-file">
-  <file path=".Npackd\Install.bat">rem "%ProgramFiles%\GowData\bin\wget.exe" -O wincdemu.cer http://dl.dropboxusercontent.com/s/x4u9hlz8o411c8w/wincdemu.cer&#13;
-rem certutil -addstore -f "TrustedPublisher" wincdemu.cer&#13;
-&#13;
-for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
 "%setup%" /UNATTENDED&#13;
-&#13;
-rd /s /q "%ProgramFiles%\WinCDEmu\x64"&#13;
-del /q /f "%ProgramFiles%\WinCDEmu\batchmnt64.exe"&#13;
-del /q /f "%ProgramFiles%\WinCDEmu\vmnt64.exe"&#13;
-del /q /f "%ProgramFiles%\WinCDEmu\uninstall64.exe"</file>
+</file>
   <file path=".Npackd\Uninstall.bat">"%ProgramFiles%\WinCDEmu\uninstall.exe" /UNATTENDED&#13;
 &#13;
 rd /s /q "%ALLUSERSPROFILE%\Start Menu\Programs\WinCDEmu" || rd /s /q "%ALLUSERSPROFILE%\Microsoft\Windows\Start Menu\Programs\WinCDEmu"</file>
   <url>http://sysprogs.com/files/WinCDEmu/WinCDEmu-4.0.exe</url>
   <sha1>f440ecc5abaab472467442c9abeaeb251a745e96</sha1>
-  <dependency package="com.github.bmatzelle.Gow" versions="[0.7, 2)"/>
  </version>
  <version name="4.1" package="org.sysprogs.WinCDEmu" type="one-file">
-  <file path=".Npackd\Install.bat">rem "%ProgramFiles%\GowData\bin\wget.exe" -O wincdemu.cer http://dl.dropboxusercontent.com/s/x4u9hlz8o411c8w/wincdemu.cer&#13;
-rem certutil -addstore -f "TrustedPublisher" wincdemu.cer&#13;
-&#13;
-for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
-"%setup%" /UNATTENDED&#13;
-&#13;
-rd /s /q "%ProgramFiles%\WinCDEmu\x64"&#13;
-del /q /f "%ProgramFiles%\WinCDEmu\batchmnt64.exe"&#13;
-del /q /f "%ProgramFiles%\WinCDEmu\vmnt64.exe"&#13;
-del /q /f "%ProgramFiles%\WinCDEmu\uninstall64.exe"</file>
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
+"%setup%" /UNATTENDED</file>
   <file path=".Npackd\Uninstall.bat">"%ProgramFiles%\WinCDEmu\uninstall.exe" /UNATTENDED&#13;
 &#13;
 rd /s /q "%ALLUSERSPROFILE%\Start Menu\Programs\WinCDEmu" || rd /s /q "%ALLUSERSPROFILE%\Microsoft\Windows\Start Menu\Programs\WinCDEmu"</file>
   <url>http://sysprogs.com/files/WinCDEmu/WinCDEmu-4.1.exe</url>
   <hash-sum type="SHA-256">c47763631d20120057766f2f71f781bf958e22712da4ac933b21db0d615dc93c</hash-sum>
-  <dependency package="com.github.bmatzelle.Gow" versions="[0.7, 2)"/>
  </version>
 
  <version name="1.0.1" package="org.texniccenter.TeXnicCenter" type="one-file">
@@ -171237,28 +171206,6 @@ if %err% neq 0 exit %err%&#13;
   <dependency package="dokan-library" versions="[0.6, 0.7)"/>
  </version>
 
- <version name="2015.08.01" package="win10-edge-virtualbox">
-  <url>https://az792536.vo.msecnd.net/vms/VMBuild_20150801/VirtualBox/MSEdge/Windows/Microsoft%20Edge.Win10.For.Windows.VirtualBox.zip</url>
- </version>
- <version name="2016.3.22" package="win10-edge-virtualbox">
-  <url>https://az792536.vo.msecnd.net/vms/VMBuild_20160322/VirtualBox/MSEdge/MSEdge.Win10TH2.VirtualBox.zip</url>
- </version>
- <version name="2016.8.2" package="win10-edge-virtualbox">
-  <url>https://az792536.vo.msecnd.net/vms/VMBuild_20160802/VirtualBox/MSEdge/MSEdge.Win10_RS1.VirtualBox.zip</url>
- </version>
- <version name="2017.3.20" package="win10-edge-virtualbox">
-  <url>https://az792536.vo.msecnd.net/vms/VMBuild_20170320/VirtualBox/MSEdge/MSEdge.Win10.RS2.VirtualBox.zip</url>
- </version>
- <version name="2017.10.19" package="win10-edge-virtualbox">
-  <url>https://az792536.vo.msecnd.net/vms/VMBuild_20171019/VirtualBox/MSEdge/MSEdge.Win10.VirtualBox.zip</url>
- </version>
- <version name="2018.4.25" package="win10-edge-virtualbox">
-  <url>https://az792536.vo.msecnd.net/vms/VMBuild_20180425/VirtualBox/MSEdge/MSEdge.Win10.VirtualBox.zip</url>
- </version>
- <version name="2019.3.11" package="win10-edge-virtualbox">
-  <url>https://az792536.vo.msecnd.net/vms/VMBuild_20190311/VirtualBox/MSEdge/MSEdge.Win10.VirtualBox.zip</url>
- </version>
-
  <version name="0.9" package="win32-disk-imager">
   <important-file path="Win32DiskImager.exe" title="Win32 Disk Imager"/>
   <url>https://sourceforge.net/projects/win32diskimager/files/Archive/win32diskimager-v0.9-binary.zip</url>
@@ -171566,308 +171513,6 @@ if %err% neq 0 exit %err%&#13;
 </file>
   <url>https://download.microsoft.com/download/winscript56/Install/5.6/W982KMeXP/EN-US/scrdoc56en.exe</url>
   <hash-sum type="SHA-256">1cea9e97ac4f35685a7bcbac53b1a1331f21e5b5c4023489f31047d84d9f4dcc</hash-sum>
- </version>
-
- <version name="9.5.3" package="wsus-offline-updater">
-  <file path=".Npackd\Install.bat">"%nih%\ExtractDir.bat" wsusoffline&#13;
-</file>
-  <url>http://download.wsusoffline.net/wsusoffline953.zip</url>
-  <sha1>b013dcc731755face8cbfbf2c752997927db2216</sha1>
-  <dependency package="org.7-zip.SevenZIPA" versions="[9.20, 20)"/>
-  <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.15.7, 2)"/>
-  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
-   <variable>nih</variable>
-  </dependency>
- </version>
- <version name="9.6" package="wsus-offline-updater">
-  <file path=".Npackd\Install.bat">"%nih%\ExtractDir.bat" wsusoffline&#13;
-</file>
-  <url>http://download.wsusoffline.net/wsusoffline96.zip</url>
-  <sha1>e973f2f2b1b56f885cb570426b417eec8e10556f</sha1>
-  <dependency package="org.7-zip.SevenZIPA" versions="[9.20, 20)"/>
-  <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.15.7, 2)"/>
-  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
-   <variable>nih</variable>
-  </dependency>
- </version>
- <version name="9.8" package="wsus-offline-updater">
-  <file path=".Npackd\Install.bat">"%nih%\ExtractDir.bat" wsusoffline&#13;
-</file>
-  <url>http://download.wsusoffline.net/wsusoffline98.zip</url>
-  <sha1>ffc3dc362773fca9bd44695a43afaf1e592e26ac</sha1>
-  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
-   <variable>nih</variable>
-  </dependency>
- </version>
- <version name="10.2" package="wsus-offline-updater">
-  <file path=".Npackd\Install.bat">"%nih%\ExtractDir.bat" wsusoffline&#13;
-</file>
-  <url>http://download.wsusoffline.net/wsusoffline102.zip</url>
-  <sha1>c565036378d236829d1da2f157f3bd337d21a554</sha1>
-  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
-   <variable>nih</variable>
-  </dependency>
- </version>
- <version name="10.5" package="wsus-offline-updater">
-  <file path=".Npackd\Install.bat">"%nih%\ExtractDir.bat" wsusoffline&#13;
-</file>
-  <url>http://download.wsusoffline.net/wsusoffline105.zip</url>
-  <sha1>17b15fe50ca35da02baa45eedb689837607e67c3</sha1>
-  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
-   <variable>nih</variable>
-  </dependency>
- </version>
- <version name="10.6.2" package="wsus-offline-updater">
-  <file path=".Npackd\Install.bat">"%nih%\ExtractDir.bat" wsusoffline&#13;
-</file>
-  <url>http://download.wsusoffline.net/wsusoffline1062.zip</url>
-  <sha1>e6f0d4dc661cbf685f3dde4162121c0ecaa47d4d</sha1>
-  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
-   <variable>nih</variable>
-  </dependency>
- </version>
- <version name="10.7.1" package="wsus-offline-updater">
-  <file path=".Npackd\Install.bat">"%nih%\ExtractDir.bat" wsusoffline&#13;
-</file>
-  <url>http://download.wsusoffline.net/wsusoffline1071.zip</url>
-  <sha1>0885652d3365b5b0db493d6ec418ad20362bc060</sha1>
-  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
-   <variable>nih</variable>
-  </dependency>
- </version>
- <version name="10.8" package="wsus-offline-updater">
-  <file path=".Npackd\Install.bat">"%nih%\ExtractDir.bat" wsusoffline&#13;
-</file>
-  <url>http://download.wsusoffline.net/wsusoffline108.zip</url>
-  <sha1>8067b278007e4eb59e80d88b818750fb999e4cfd</sha1>
-  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
-   <variable>nih</variable>
-  </dependency>
- </version>
- <version name="10.9.1" package="wsus-offline-updater">
-  <file path=".Npackd\Install.bat">"%nih%\ExtractDir.bat" wsusoffline&#13;
-</file>
-  <url>http://download.wsusoffline.net/wsusoffline1091.zip</url>
-  <sha1>355a7920672181d0b026e1122da8ac5003929388</sha1>
-  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
-   <variable>nih</variable>
-  </dependency>
- </version>
- <version name="10.9.2" package="wsus-offline-updater">
-  <file path=".Npackd\Install.bat">"%nih%\ExtractDir.bat" wsusoffline&#13;
-</file>
-  <url>http://download.wsusoffline.net/wsusoffline1092.zip</url>
-  <sha1>347c4b1fa83af65346649a206db4fa7a6d5a99c0</sha1>
-  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
-   <variable>nih</variable>
-  </dependency>
- </version>
- <version name="11" package="wsus-offline-updater">
-  <file path=".Npackd\Install.bat">"%nih%\ExtractDir.bat" wsusoffline&#13;
-</file>
-  <url>http://download.wsusoffline.net/wsusoffline110.zip</url>
-  <sha1>bb887cfb0610410ed841689b2a28ca8cae7a823a</sha1>
-  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
-   <variable>nih</variable>
-  </dependency>
- </version>
- <version name="11.0.1" package="wsus-offline-updater">
-  <file path=".Npackd\Install.bat">"%nih%\ExtractDir.bat" wsusoffline&#13;
-</file>
-  <url>http://download.wsusoffline.net/wsusoffline1101.zip</url>
-  <sha1>d4cccdda60612a6ea765ef601c9f42956497a2a0</sha1>
-  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
-   <variable>nih</variable>
-  </dependency>
- </version>
- <version name="11.0.2" package="wsus-offline-updater">
-  <file path=".Npackd\Install.bat">"%nih%\ExtractDir.bat" wsusoffline&#13;
-</file>
-  <url>http://download.wsusoffline.net/wsusoffline1102.zip</url>
-  <sha1>8d80aebb3b15525a30fea188a9f1ca340ae28950</sha1>
-  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
-   <variable>nih</variable>
-  </dependency>
- </version>
- <version name="11.0.3" package="wsus-offline-updater">
-  <file path=".Npackd\Install.bat">"%nih%\ExtractDir.bat" wsusoffline&#13;
-</file>
-  <url>http://download.wsusoffline.net/wsusoffline1103.zip</url>
-  <sha1>35c6831003e987fd8f513a097524b1cc96f63c1f</sha1>
-  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
-   <variable>nih</variable>
-  </dependency>
- </version>
- <version name="11.1" package="wsus-offline-updater">
-  <file path=".Npackd\Install.bat">"%nih%\ExtractDir.bat" wsusoffline&#13;
-</file>
-  <url>http://download.wsusoffline.net/wsusoffline111.zip</url>
-  <sha1>949b086bf8dcc495de70080ede59ed8072d4b0e6</sha1>
-  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
-   <variable>nih</variable>
-  </dependency>
- </version>
- <version name="11.1.1" package="wsus-offline-updater">
-  <file path=".Npackd\Install.bat">"%nih%\ExtractDir.bat" wsusoffline&#13;
-</file>
-  <url>http://download.wsusoffline.net/wsusoffline1111.zip</url>
-  <sha1>d44c16338d66f734ae2717e366a2560d08dc0b20</sha1>
-  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
-   <variable>nih</variable>
-  </dependency>
- </version>
- <version name="11.2" package="wsus-offline-updater">
-  <file path=".Npackd\Install.bat">"%nih%\ExtractDir.bat" wsusoffline&#13;
-</file>
-  <url>http://download.wsusoffline.net/wsusoffline1102.zip</url>
-  <hash-sum type="SHA-256">b87152a1064a14dc424e283e01330a91075c6f0903442400609b8d04ab8beb6b</hash-sum>
-  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
-   <variable>nih</variable>
-  </dependency>
- </version>
- <version name="11.2.1" package="wsus-offline-updater">
-  <file path=".Npackd\Install.bat">"%nih%\ExtractDir.bat" wsusoffline&#13;
-</file>
-  <url>http://download.wsusoffline.net/wsusoffline1121.zip</url>
-  <sha1>42daa691d195ba4a009f203a13c0cd023caca8c6</sha1>
-  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
-   <variable>nih</variable>
-  </dependency>
- </version>
- <version name="11.3" package="wsus-offline-updater">
-  <file path=".Npackd\Install.bat">"%nih%\ExtractDir.bat" wsusoffline&#13;
-</file>
-  <url>http://download.wsusoffline.net/wsusoffline113.zip</url>
-  <hash-sum type="SHA-256">75eabb62e3b5a0ecf5a72fba1ca96ce9d1a1f6494775cde5cc550ee10c21b46f</hash-sum>
-  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
-   <variable>nih</variable>
-  </dependency>
- </version>
- <version name="11.4" package="wsus-offline-updater">
-  <file path=".Npackd\Install.bat">"%nih%\ExtractDir.bat" wsusoffline&#13;
-</file>
-  <url>http://download.wsusoffline.net/wsusoffline114.zip</url>
-  <hash-sum type="SHA-256">d712c0a896f673219ff1681204856514d70d28d48c69a2f4a163c5e2417ba2d2</hash-sum>
-  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
-   <variable>nih</variable>
-  </dependency>
- </version>
- <version name="11.5" package="wsus-offline-updater">
-  <file path=".Npackd\Install.bat">"%nih%\ExtractDir.bat" wsusoffline&#13;
-</file>
-  <url>http://download.wsusoffline.net/wsusoffline115.zip</url>
-  <hash-sum type="SHA-256">a44387a301a181843270720fcfd414b50496d9bd3f25e4336086b814b6fb84cb</hash-sum>
-  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
-   <variable>nih</variable>
-  </dependency>
- </version>
- <version name="11.6" package="wsus-offline-updater">
-  <file path=".Npackd\Install.bat">"%nih%\ExtractDir.bat" wsusoffline&#13;
-</file>
-  <url>http://download.wsusoffline.net/wsusoffline116.zip</url>
-  <hash-sum type="SHA-256">f69d542f815ed2a7055fc98dbb5525a47b655429089a976a368ea27b8e883472</hash-sum>
-  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
-   <variable>nih</variable>
-  </dependency>
- </version>
- <version name="11.6.1" package="wsus-offline-updater">
-  <file path=".Npackd\Install.bat">"%nih%\ExtractDir.bat" wsusoffline&#13;
-</file>
-  <url>http://download.wsusoffline.net/wsusoffline1161.zip</url>
-  <hash-sum type="SHA-256">40a7d17eb7ff7e7adb9220a73180ec71044ea395e569d64cdc29e2333a33022f</hash-sum>
-  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
-   <variable>nih</variable>
-  </dependency>
- </version>
- <version name="11.6.2" package="wsus-offline-updater">
-  <file path=".Npackd\Install.bat">"%nih%\ExtractDir.bat" wsusoffline&#13;
-</file>
-  <url>http://download.wsusoffline.net/wsusoffline1162.zip</url>
-  <hash-sum type="SHA-256">2d1638f567ba6181148992d92212627147cbb41305bd0083f8fded6f42b5fa4c</hash-sum>
-  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
-   <variable>nih</variable>
-  </dependency>
- </version>
- <version name="11.7.1" package="wsus-offline-updater">
-  <file path=".Npackd\Install.bat">"%nih%\ExtractDir.bat" wsusoffline&#13;
-</file>
-  <url>http://download.wsusoffline.net/wsusoffline1171.zip</url>
-  <hash-sum type="SHA-256">cfddef3abe5a947c1164175d0fc8ff6b6424469938d6c08473600f91fb5c5cbe</hash-sum>
-  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
-   <variable>nih</variable>
-  </dependency>
- </version>
- <version name="11.7.2" package="wsus-offline-updater">
-  <file path=".Npackd\Install.bat">"%nih%\ExtractDir.bat" wsusoffline&#13;
-</file>
-  <url>http://download.wsusoffline.net/wsusoffline1172.zip</url>
-  <hash-sum type="SHA-256">c97f054600e5b375fae685ac0d9c8c3e7958f0e16e2985708316ee9f78ae5aae</hash-sum>
-  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
-   <variable>nih</variable>
-  </dependency>
- </version>
- <version name="11.7.3" package="wsus-offline-updater">
-  <file path=".Npackd\Install.bat">"%nih%\ExtractDir.bat" wsusoffline&#13;
-</file>
-  <url>http://download.wsusoffline.net/wsusoffline1173.zip</url>
-  <hash-sum type="SHA-256">7dcdd092a7280c64d8ae7ed5aed8e635190051a63fda39ba0cd27624b73c90d7</hash-sum>
-  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
-   <variable>nih</variable>
-  </dependency>
- </version>
- <version name="11.7.4" package="wsus-offline-updater">
-  <file path=".Npackd\Install.bat">"%nih%\ExtractDir.bat" wsusoffline&#13;
-</file>
-  <url>http://download.wsusoffline.net/wsusoffline1174.zip</url>
-  <hash-sum type="SHA-256">aaf74926f1b0747779cc27f8903d29e3f32b3147e496f9ebd2403b3873d3b8b1</hash-sum>
-  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
-   <variable>nih</variable>
-  </dependency>
- </version>
- <version name="11.8.1" package="wsus-offline-updater">
-  <file path=".Npackd\Install.bat">"%nih%\ExtractDir.bat" wsusoffline&#13;
-</file>
-  <url>http://download.wsusoffline.net/wsusoffline1181.zip</url>
-  <hash-sum type="SHA-256">8e6326dcd8dffe6ef2a0d05a82390ddf5446f30eb9ebc12c34c7c09d1f696dbd</hash-sum>
-  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
-   <variable>nih</variable>
-  </dependency>
- </version>
- <version name="11.8.2" package="wsus-offline-updater">
-  <file path=".Npackd\Install.bat">"%nih%\ExtractDir.bat" wsusoffline&#13;
-</file>
-  <url>http://download.wsusoffline.net/wsusoffline1182.zip</url>
-  <hash-sum type="SHA-256">901abb926ff9d229cf31e7c6ba53c59137431827b21aff450dda3f832ef62012</hash-sum>
-  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
-   <variable>nih</variable>
-  </dependency>
- </version>
- <version name="11.8.3" package="wsus-offline-updater">
-  <file path=".Npackd\Install.bat">"%nih%\ExtractDir.bat" wsusoffline&#13;
-</file>
-  <url>http://download.wsusoffline.net/wsusoffline1183.zip</url>
-  <hash-sum type="SHA-256">76da19eb4829fe1655e5c858d1e0757b1df57e32608631d6241f5c6d5444790b</hash-sum>
-  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
-   <variable>nih</variable>
-  </dependency>
- </version>
- <version name="11.9" package="wsus-offline-updater">
-  <file path=".Npackd\Install.bat">"%nih%\ExtractDir.bat" wsusoffline&#13;
-</file>
-  <url>http://download.wsusoffline.net/wsusoffline119.zip</url>
-  <hash-sum type="SHA-256">452bf9dfa499d686026c9f4729ec7e93bea42d69465d8da679bd063358e372ff</hash-sum>
-  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
-   <variable>nih</variable>
-  </dependency>
- </version>
- <version name="12" package="wsus-offline-updater">
-  <file path=".Npackd\Install.bat">"%nih%\ExtractDir.bat" wsusoffline&#13;
-</file>
-  <url>http://download.wsusoffline.net/wsusoffline120.zip</url>
-  <hash-sum type="SHA-256">4d6a2ee08864e8f6338d71b2a8627038073db5fc5c2be9424e00c50c20a38fb2</hash-sum>
-  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
-   <variable>nih</variable>
-  </dependency>
  </version>
 
  <version name="2017.1.9" package="x64dbg">

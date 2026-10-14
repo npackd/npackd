@@ -3864,7 +3864,7 @@ x86_64</description>
   <license>org.gnu.GPLv2</license>
   <category>Productivity</category>
   <tag>stable64</tag>
-  <stars>3</stars>
+  <stars>2</stars>
   <link href="http://wiki.inkscape.org/wiki/index.php/Release_notes" rel="changelog"/>
  </package>
  <package name="org.jitsi.Jitsi64">
@@ -4744,16 +4744,16 @@ x86_64</description>
  </package>
  <package name="se.haxx.curl.CURL64">
   <title>cURL 64 bit</title>
-  <url>http://curl.haxx.se/</url>
+  <url>http://curl.se/</url>
   <description>data transfer utility
 x86_64</description>
-  <icon>https://curl.haxx.se/favicon.ico</icon>
+  <icon>https://curl.se/favicon.ico</icon>
   <license>se.haxx.curl.CURLLicense</license>
   <category>Communications</category>
   <tag>stable64</tag>
   <tag>reupload</tag>
   <stars>2</stars>
-  <link href="https://curl.haxx.se/changes.html" rel="changelog"/>
+  <link href="https://curl.se/changes.html" rel="changelog"/>
  </package>
  <package name="sfml-dev-amd64-vc11">
   <title>SFML AMD64 for Visual C++ 11</title>
@@ -5361,7 +5361,7 @@ x86_64</description>
   <url>http://www.microsoft.com/download/en/details.aspx?id=21701</url>
   <description>Visio viewer
 x86_64</description>
-  <icon>https://upload.wikimedia.org/wikipedia/commons/thumb/4/44/Microsoft_logo.svg/32px-Microsoft_logo.svg.png</icon>
+  <icon>https://learn.microsoft.com/favicon.ico</icon>
   <license>org.wikipedia.Freeware</license>
   <category>Tools</category>
   <tag>stable64</tag>
@@ -5572,7 +5572,7 @@ x86_64</description>
   <url>https://developer.microsoft.com/en-US/windows/downloads/virtual-machines/</url>
   <description>Virtual machine for testing and development from Microsoft. Please note that this VM will expire after 90 days of usage.
 x86_64</description>
-  <icon>https://c.s-microsoft.com/en-us/CMSImages/microsoft_logo_56x56.png?version=ad0d2fa7-0ee8-4e82-ddbf-8ea5dc9d9c23</icon>
+  <icon>https://learn.microsoft.com/favicon.ico</icon>
   <license>com.microsoft.IEVMLicense</license>
   <category>Development</category>
   <tag>stable64</tag>
@@ -32796,6 +32796,17 @@ echo DesktopShortcut=false &gt;&gt; .Npackd\FF.ini&#13;
 verify</file>
   <url>https://download-installer.cdn.mozilla.net/pub/firefox/releases/157.0.1/win64/en-US/Firefox%20Setup%20157.0.1.exe</url>
   <hash-sum type="SHA-256">71dc620e7749bb65be6df67b99261a303805a804f9c787b76b81c095cfa7d9ca</hash-sum>
+ </version>
+ <version name="158" package="firefox64" type="one-file">
+  <file path=".Npackd\Install.bat">echo [Install] &gt; .Npackd\FF.ini&#13;
+echo InstallDirectoryPath=%CD% &gt;&gt; .Npackd\FF.ini&#13;
+echo QuickLaunchShortcut=false &gt;&gt; .Npackd\FF.ini&#13;
+echo DesktopShortcut=false &gt;&gt; .Npackd\FF.ini&#13;
+"%npackd_package_binary%" /INI="%CD%\.Npackd\FF.ini" &amp;&amp; del /f /q "%npackd_package_binary%"</file>
+  <file path=".Npackd\Uninstall.bat">uninstall\helper.exe /S&#13;
+verify</file>
+  <url>https://download-installer.cdn.mozilla.net/pub/firefox/releases/158.0/win64/en-US/Firefox%20Setup%20158.0.exe</url>
+  <hash-sum type="SHA-256">450ab1c772e02f0c9ef02f489b153d86c45bd9311b202d10dc233f3c0206f8d1</hash-sum>
  </version>
 
  <version name="0.5" package="firefoxpwa" type="one-file">
@@ -74087,40 +74098,24 @@ taskkill /im synergy.exe /f /t</file>
  </version>
 
  <version name="3.6" package="org.sysprogs.WinCDEmu64" type="one-file">
-  <file path=".Npackd\Install.bat">rem "%ProgramFiles%\GowData\bin\wget.exe" -O wincdemu.cer http://dl.dropboxusercontent.com/s/x4u9hlz8o411c8w/wincdemu.cer&#13;
-rem certutil -addstore -f "TrustedPublisher" wincdemu.cer&#13;
-&#13;
-for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
 "%setup%" /UNATTENDED&#13;
-&#13;
-rd /s /q "%ProgramFiles(x86)%\WinCDEmu\x86"&#13;
-del /q /f "%ProgramFiles(x86)%\WinCDEmu\batchmnt.exe"&#13;
-del /q /f "%ProgramFiles(x86)%\WinCDEmu\vmnt.exe"&#13;
-del /q /f "%ProgramFiles(x86)%\WinCDEmu\uninstall.exe"</file>
+</file>
   <file path=".Npackd\Uninstall.bat">"%ProgramFiles(x86)%\WinCDEmu\uninstall64.exe" /UNATTENDED&#13;
 &#13;
 rd /s /q "%ALLUSERSPROFILE%\Start Menu\Programs\WinCDEmu" || rd /s /q "%ALLUSERSPROFILE%\Microsoft\Windows\Start Menu\Programs\WinCDEmu"</file>
   <url>http://files.npackd.org/WinCDEmu-3.6.exe</url>
   <sha1>ab69a293680948da9bc865d29becb02bad5b2d94</sha1>
-  <dependency package="com.github.bmatzelle.Gow" versions="[0.7, 2)"/>
  </version>
  <version name="4.1" package="org.sysprogs.WinCDEmu64" type="one-file">
-  <file path=".Npackd\Install.bat">rem "%ProgramFiles%\GowData\bin\wget.exe" -O wincdemu.cer http://dl.dropboxusercontent.com/s/x4u9hlz8o411c8w/wincdemu.cer&#13;
-rem certutil -addstore -f "TrustedPublisher" wincdemu.cer&#13;
-&#13;
-for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
 "%setup%" /UNATTENDED&#13;
-&#13;
-rd /s /q "%ProgramFiles(x86)%\WinCDEmu\x86"&#13;
-del /q /f "%ProgramFiles(x86)%\WinCDEmu\batchmnt.exe"&#13;
-del /q /f "%ProgramFiles(x86)%\WinCDEmu\vmnt.exe"&#13;
-del /q /f "%ProgramFiles(x86)%\WinCDEmu\uninstall.exe"</file>
+</file>
   <file path=".Npackd\Uninstall.bat">"%ProgramFiles(x86)%\WinCDEmu\uninstall64.exe" /UNATTENDED&#13;
 &#13;
 rd /s /q "%ALLUSERSPROFILE%\Start Menu\Programs\WinCDEmu" || rd /s /q "%ALLUSERSPROFILE%\Microsoft\Windows\Start Menu\Programs\WinCDEmu"</file>
   <url>https://github.com/sysprogs/WinCDEmu/releases/download/v4.1/WinCDEmu-4.1.exe</url>
   <hash-sum type="SHA-256">c47763631d20120057766f2f71f781bf958e22712da4ac933b21db0d615dc93c</hash-sum>
-  <dependency package="com.github.bmatzelle.Gow" versions="[0.7, 2)"/>
  </version>
 
  <version name="7.3" package="org.vim.Vim64">
@@ -91275,6 +91270,34 @@ call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Np
    <variable>nih</variable>
   </dependency>
  </version>
+ <version name="9.2.1176" package="org.vim.Vim64">
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+if %errorlevel% neq 0 exit /b %errorlevel%&#13;
+&#13;
+for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+</file>
+  <url>https://github.com/vim/vim-win32-installer/releases/download/v9.2.1176/gvim_9.2.1176_x64.zip</url>
+  <hash-sum type="SHA-256">8e11da5a95c92f52c1b30dadcfaa7d4b683ffc3d053dfb8819622aa056498375</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.19, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
+ <version name="9.2.1178" package="org.vim.Vim64">
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+if %errorlevel% neq 0 exit /b %errorlevel%&#13;
+&#13;
+for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+</file>
+  <url>https://github.com/vim/vim-win32-installer/releases/download/v9.2.1178/gvim_9.2.1178_x64.zip</url>
+  <hash-sum type="SHA-256">e5fd12ce954c93e417aa5b2e81c99207b350dd3a5bec6c7671aadf82333f64d4</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.19, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
 
  <version name="4.2.8.83876" package="org.virtualbox.virtualbox64" type="one-file">
   <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
@@ -104188,7 +104211,7 @@ type .Npackd\MSI.log&#13;
 if %err% neq 0 exit /b %err%&#13;
 </file>
   <url>https://download.microsoft.com/download/D/B/7/DB790874-4414-417F-ADF6-348B29572B9F/visioviewer_4339-1001_x64_en-us.exe</url>
-  <sha1>a87c34189bbbfc6ed64a31202bf6d9316a2feb04</sha1>
+  <hash-sum type="SHA-256">b8ff91c1d37284ef4ec8380045a48e915cfe75536c700d5a8bbe229f1f1fafa1</hash-sum>
  </version>
 
  <version name="12.0.21005" package="visual-cpp-additional-runtime64">
