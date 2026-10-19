@@ -18899,6 +18899,14 @@ echo DesktopShortcut=false &gt;&gt; .Npackd\FF.ini &#13;
   <url>https://download.bleachbit.org/BleachBit-6.0.4-setup.exe</url>
   <hash-sum type="SHA-256">c4cd6bb1f4b163dc28b13cef2995423de69e6776f16387f54943dcc6e7267a6d</hash-sum>
  </version>
+ <version name="6.0.6" package="bleachbit" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" /allusers /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">uninstall.exe /allusers /S _?=%CD%&#13;
+</file>
+  <url>https://download.bleachbit.org/BleachBit-6.0.6-setup.exe</url>
+  <hash-sum type="SHA-256">a8d27535cdc53e89c21090eabca6026d32c4d385863f8dfc6fc8814bda7881c4</hash-sum>
+ </version>
 
  <version name="2.2.4" package="bluefish" type="one-file">
   <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
@@ -44224,7 +44232,7 @@ del Q-Dir.ini&#13;
   <url>http://files.npackd.org/com.softwareok.QDir-5.99.4.zip</url>
   <sha1>fc2a90da7e924da41d2382673f0d4426af21c5be</sha1>
  </version>
- <version name="12.79" package="com.softwareok.QDir">
+ <version name="12.81" package="com.softwareok.QDir">
   <important-file path="Q-Dir.exe" title="Q-Dir"/>
   <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b Q*') do set name=%%x&#13;
 cd "%name%"        &#13;
@@ -125813,6 +125821,17 @@ verify</file>
   <url>https://download-origin.cdn.mozilla.net/pub/mozilla.org/firefox/releases/157.0.1/win32/en-US/Firefox%20Setup%20157.0.1.exe</url>
   <hash-sum type="SHA-256">1cc3e56ceacb222446d8057c75baf078c616c3e5be6a862c50c1e1a0ec09697a</hash-sum>
  </version>
+ <version name="158" package="org.mozilla.Firefox" type="one-file">
+  <file path=".Npackd\Install.bat">echo [Install] &gt; .Npackd\FF.ini&#13;
+echo InstallDirectoryPath=%CD% &gt;&gt; .Npackd\FF.ini&#13;
+echo QuickLaunchShortcut=false &gt;&gt; .Npackd\FF.ini&#13;
+echo DesktopShortcut=false &gt;&gt; .Npackd\FF.ini&#13;
+"%npackd_package_binary%" /INI="%CD%\.Npackd\FF.ini" &amp;&amp; del /f /q "%npackd_package_binary%"</file>
+  <file path=".Npackd\Uninstall.bat">uninstall\helper.exe /S&#13;
+verify</file>
+  <url>https://download-origin.cdn.mozilla.net/pub/mozilla.org/firefox/releases/158.0/win32/en-US/Firefox%20Setup%20158.0.exe</url>
+  <hash-sum type="SHA-256">8a6ca25e8c522bd82324269fd8b79da3784426a84c96260f1c017e60cadff777</hash-sum>
+ </version>
 
  <version name="24.4" package="org.mozilla.FirefoxESR" type="one-file">
   <file path=".Npackd\Install.bat">echo [Install] &gt; .Npackd\FF.ini&#13;
@@ -131823,6 +131842,18 @@ rmdir "%name%"&#13;
 </file>
   <url>https://nginx.org/download/nginx-1.31.6.zip</url>
   <hash-sum type="SHA-256">bb65edcfc22a2214a4afaac59f038f560c02b98d4b49c5dca1206d3cc5d631c9</hash-sum>
+ </version>
+ <version name="1.31.7" package="org.nginx.Nginx">
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b nginx*') do set name=%%x&#13;
+cd "%name%"        &#13;
+for /f "delims=" %%a in ('dir /b') do (&#13;
+  move "%%a" ..&#13;
+)&#13;
+cd ..&#13;
+rmdir "%name%"&#13;
+</file>
+  <url>https://nginx.org/download/nginx-1.31.7.zip</url>
+  <hash-sum type="SHA-256">7c717ccf861f8925be64431d06d57634512a5014bcc8d149f279928f5e8151bf</hash-sum>
  </version>
 
  <version name="6.25" package="org.nmap.nmap" type="one-file">
@@ -170942,6 +170973,19 @@ type .Npackd\Output.txt</file>
    <variable>ncl</variable>
   </dependency>
  </version>
+ <version name="8.2.4133.87" package="vivaldi-browser" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" --system-level --vivaldi-silent --vivaldi-standalone --do-not-launch-chrome --vivaldi-install-dir="%CD%" &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">for /f "delims=" %%x in ('dir /b application\5*') do set name=%%x&#13;
+&#13;
+Application\%name%\Installer\setup.exe --uninstall --vivaldi --force-uninstall --system-level &gt; .Npackd\Output.txt 2&gt;&amp;1 &#13;
+type .Npackd\Output.txt</file>
+  <url>https://downloads.vivaldi.com/stable/Vivaldi.8.2.4133.87.exe</url>
+  <hash-sum type="SHA-256">e3bde6e1445296d9462019585e3ed1eaae974428302474f3bf1c1cc30e0981e3</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.24, 2)">
+   <variable>ncl</variable>
+  </dependency>
+ </version>
  <version name="8.2.4133.89" package="vivaldi-browser" type="one-file">
   <file path=".Npackd\Install.bat">"%npackd_package_binary%" --system-level --vivaldi-silent --vivaldi-standalone --do-not-launch-chrome --vivaldi-install-dir="%CD%" &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
 </file>
@@ -174041,6 +174085,19 @@ rmdir "%name%"&#13;
 </file>
   <url>https://github.com/xmake-io/xmake/releases/download/v3.1.1/xmake-v3.1.1.win32.zip</url>
   <hash-sum type="SHA-256">fec180eca7a17e80dbf680390ea1fada838fb046b0f80306d534603327b72caa</hash-sum>
+ </version>
+ <version name="3.1.2" package="xmake">
+  <cmd-file path="xmake.exe"/>
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b xmake*') do set name=%%x&#13;
+cd "%name%"&#13;
+for /f "delims=" %%a in ('dir /b') do (&#13;
+  move "%%a" ..&#13;
+)&#13;
+cd ..&#13;
+rmdir "%name%"&#13;
+</file>
+  <url>https://github.com/xmake-io/xmake/releases/download/v3.1.2/xmake-v3.1.2.win32.zip</url>
+  <hash-sum type="SHA-256">c292456adb37202c4c6a652804bd7d91342f9a0bfade780a2484ee87bcdd475d</hash-sum>
  </version>
 
  <version name="7.6" package="xmenutools-settings" type="one-file">
