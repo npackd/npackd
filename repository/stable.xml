@@ -1402,7 +1402,7 @@ i686</description>
   <license>org.wikipedia.Freeware</license>
   <category>Video</category>
   <tag>stable</tag>
-  <stars>3</stars>
+  <stars>2</stars>
   <link href="https://www.cherryplayer.com/wp-content/uploads/2019/03/1-2-1.jpg" rel="screenshot"/>
   <link href="https://www.cherryplayer.com/wp-content/uploads/2019/03/2-2-1.jpg" rel="screenshot"/>
   <link href="https://www.cherryplayer.com/wp-content/uploads/2019/03/3-2-1.jpg" rel="screenshot"/>
@@ -5923,7 +5923,7 @@ i686</description>
   <license>org.gnu.GPLv2</license>
   <category>Security</category>
   <tag>stable</tag>
-  <stars>5</stars>
+  <stars>4</stars>
  </package>
  <package name="info.kowalczyk.blog.SumatraPDF">
   <title>Sumatra PDF</title>
@@ -16144,7 +16144,7 @@ verify</file>
   <dependency package="com.oracle.JRE" versions="[1.6, 2)"/>
  </version>
 
- <version name="8.5" package="aomei-backupper" type="one-file">
+ <version name="8.5.1" package="aomei-backupper" type="one-file">
   <file path=".Npackd\Install.bat">"%nih%\InstallInnoSetup.bat"&#13;
 </file>
   <file path=".Npackd\Uninstall.bat">"%nih%\UninstallInnoSetup.bat" unins000.exe</file>
@@ -85711,6 +85711,15 @@ rmdir /s /q "%name%"&#13;
   <url>https://github.com/clsid2/mpc-hc/releases/download/2.8.3/MPC-HC.2.8.3.x86.zip</url>
   <hash-sum type="SHA-256">beb1b410e361f07951fea346c942512dc20c7015bf6ab678810f86a703c0c808</hash-sum>
  </version>
+ <version name="2.8.4" package="net.sourceforge.mpc-hc.MediaPlayerClassicHomeCinema">
+  <important-file path="mpc-hc.exe" title="Media Player Classic - Home Cinema"/>
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b MPC*') do set name=%%x&#13;
+xcopy "%name%\*" . /E /H&#13;
+rmdir /s /q "%name%"&#13;
+</file>
+  <url>https://github.com/clsid2/mpc-hc/releases/download/2.8.4/MPC-HC.2.8.4.x86.zip</url>
+  <hash-sum type="SHA-256">b0bebdb3eac9ad749623913933b9d3143aec2ad995ed0e8f967ccafb2e000f10</hash-sum>
+ </version>
 
  <version name="1.0.17.126" package="net.sourceforge.MultiFileRenamer" type="one-file">
   <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
@@ -120984,6 +120993,14 @@ if %err% neq 0 exit %err%
   <url>http://www.microsip.org/download/MicroSIP-Lite-3.22.19.exe</url>
   <hash-sum type="SHA-256">711b2a4dc282302ccd067d27a89b336d4edfe41b582b263299f412f84c98faf4</hash-sum>
  </version>
+ <version name="3.22.20" package="org.microsip.MicroSIPLite" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">uninstall.exe /S _?=%CD%&#13;
+</file>
+  <url>http://www.microsip.org/download/MicroSIP-Lite-3.22.20.exe</url>
+  <hash-sum type="SHA-256">7f6a438ebf2d82a3b725eedd65d533aae8e27b959de2b5e0c66dab86295179ea</hash-sum>
+ </version>
 
  <version name="4.8.4.159" package="org.midnightcommander.MidnightCommander" type="one-file">
   <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
@@ -125839,6 +125856,17 @@ echo DesktopShortcut=false &gt;&gt; .Npackd\FF.ini&#13;
 verify</file>
   <url>https://download-origin.cdn.mozilla.net/pub/mozilla.org/firefox/releases/158.0/win32/en-US/Firefox%20Setup%20158.0.exe</url>
   <hash-sum type="SHA-256">8a6ca25e8c522bd82324269fd8b79da3784426a84c96260f1c017e60cadff777</hash-sum>
+ </version>
+ <version name="158.0.1" package="org.mozilla.Firefox" type="one-file">
+  <file path=".Npackd\Install.bat">echo [Install] &gt; .Npackd\FF.ini&#13;
+echo InstallDirectoryPath=%CD% &gt;&gt; .Npackd\FF.ini&#13;
+echo QuickLaunchShortcut=false &gt;&gt; .Npackd\FF.ini&#13;
+echo DesktopShortcut=false &gt;&gt; .Npackd\FF.ini&#13;
+"%npackd_package_binary%" /INI="%CD%\.Npackd\FF.ini" &amp;&amp; del /f /q "%npackd_package_binary%"</file>
+  <file path=".Npackd\Uninstall.bat">uninstall\helper.exe /S&#13;
+verify</file>
+  <url>https://download-origin.cdn.mozilla.net/pub/mozilla.org/firefox/releases/158.0.1/win32/en-US/Firefox%20Setup%20158.0.1.exe</url>
+  <hash-sum type="SHA-256">798c87934e70bb2748982fc39ff81b9369dc8b4979e3766448c7ccc59c9a4e51</hash-sum>
  </version>
 
  <version name="24.4" package="org.mozilla.FirefoxESR" type="one-file">
