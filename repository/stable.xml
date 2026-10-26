@@ -82037,6 +82037,10 @@ if %err% neq 0 exit %err%&#13;
   <file path=".Npackd\Install.bat"></file>
   <url>https://download.mobatek.net/2652026082870834/MobaXterm_Portable_v26.5.zip</url>
  </version>
+ <version name="26.6" package="net.mobatek.mobaxterm.MobaXterm">
+  <file path=".Npackd\Install.bat"></file>
+  <url>https://download.mobatek.net/2662026100713843/MobaXterm_Portable_v26.6.zip</url>
+ </version>
 
  <version name="1.12" package="net.nirsoft.ActiveXHelper">
   <important-file path="axhelper.exe" title="ActiveXHelper"/>
@@ -100640,6 +100644,17 @@ echo clear the error code&#13;
 </file>
   <url>https://www.7-zip.org/a/7z2604.msi</url>
   <hash-sum type="SHA-256">cdacbb1396ca43da6dacafa22f7007a6c6f9911c42683d71ba23cc88d7028b49</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.1, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
+ <version name="26.5" package="org.7-zip.SevenZIP" type="one-file">
+  <cmd-file path="7z.exe"/>
+  <cmd-file path="7zG.exe"/>
+  <file path=".Npackd\Install.bat">call "%nih%\InstallMSI.bat" INSTALLDIR yes&#13;
+</file>
+  <url>https://www.7-zip.org/a/7z2605.msi</url>
+  <hash-sum type="SHA-256">4c2dab7e18696f25f98348fd981db664a982fb159a5f2dd77c9d985a847c6acd</hash-sum>
   <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.1, 2)">
    <variable>nih</variable>
   </dependency>
