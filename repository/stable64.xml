@@ -24071,7 +24071,7 @@ rmdir "%name%"&#13;
  </version>
 
 
- <version name="3.6.11" package="cygwin64" type="one-file">
+ <version name="3.6.12" package="cygwin64" type="one-file">
   <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
 "%setup%" -q -D -R "%CD%" -s https://mirrors.kernel.org -l "%CD%\packages"&#13;
 "%setup%" -q -L -R "%CD%" -l "%CD%\packages"</file>
@@ -48820,6 +48820,16 @@ rmdir "%name%"&#13;
   <dependency package="com.microsoft.VisualCPPRedistributable" versions="[14.30, 15)"/>
  </version>
 
+ <version name="8.6" package="naps2_64" type="one-file">
+  <file path=".Npackd\Install.bat">call "%nih%\InstallMSI.bat" INSTALLDIR yes&#13;
+</file>
+  <url>https://github.com/cyanfish/naps2/releases/download/v8.6.0/naps2-8.6.0-win-x64.msi</url>
+  <hash-sum type="SHA-256">37ca3798bfd414aa2d101d64f1f249a05cc6a1710a7f5b90bfe7303ef3537f26</hash-sum>
+  <dependency package="com.microsoft.DotNetRedistributable" versions="[4,5]"/>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.1, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
 
  <version name="3" package="net.blat.Blat64">
   <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b blat*') do set name=%%x&#13;
@@ -96462,7 +96472,7 @@ call "%npackdih%\InstallMSI.bat" TARGETDIR yes</file>
   <file path=".Npackd\Install.bat">"%nih%\InstallInnoSetup.bat"&#13;
 </file>
   <file path=".Npackd\Uninstall.bat">"%nih%\UninstallInnoSetup.bat" unins000.exe</file>
-  <url>https://master.dl.sourceforge.net/project/psiplus/Windows/Personal-Builds/KukuRuzo/psi-plus-1.5.2270.0-x64-setup.exe</url>
+  <url>https://github.com/tim-lebedkov/packages/releases/download/2026_10/psi-plus64-1.5.2270-psi-plus-1.5.2270.0-x64-setup.exe</url>
   <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
    <variable>nih</variable>
   </dependency>
@@ -96471,7 +96481,7 @@ call "%npackdih%\InstallMSI.bat" TARGETDIR yes</file>
   <file path=".Npackd\Install.bat">"%nih%\InstallInnoSetup.bat"&#13;
 </file>
   <file path=".Npackd\Uninstall.bat">"%nih%\UninstallInnoSetup.bat" unins000.exe</file>
-  <url>https://master.dl.sourceforge.net/project/psiplus/Windows/Personal-Builds/KukuRuzo/psi-plus-1.5.2286.0-x64-setup.exe</url>
+  <url>https://github.com/tim-lebedkov/packages/releases/download/2026_10/psi-plus64-1.5.2286-psi-plus-1.5.2286.0-x64-setup.exe</url>
   <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
    <variable>nih</variable>
   </dependency>
@@ -100975,7 +100985,7 @@ if %err% neq 0 exit %err%&#13;
   </dependency>
  </version>
 
- <version name="51" package="slimjet" type="one-file">
+ <version name="51.0.1" package="slimjet" type="one-file">
   <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
 </file>
   <file path=".Npackd\Uninstall.bat">uninstall.exe /S _?=%CD%&#13;
@@ -100983,7 +100993,7 @@ if %err% neq 0 exit %err%&#13;
   <url>https://www.slimjetbrowser.com/release/sjtsetup_x86.exe</url>
  </version>
 
- <version name="51" package="slimjet64" type="one-file">
+ <version name="51.0.1" package="slimjet64" type="one-file">
   <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
 </file>
   <file path=".Npackd\Uninstall.bat">uninstall.exe /S _?=%CD%&#13;
@@ -108468,6 +108478,19 @@ Application\%name%\Installer\setup.exe --uninstall --vivaldi --force-uninstall -
 type .Npackd\Output.txt</file>
   <url>https://downloads.vivaldi.com/stable/Vivaldi.8.2.4133.91.x64.exe</url>
   <hash-sum type="SHA-256">0532149b9b40d3daa6bb4d333e4cc5ffc484ee0a325fed2b03b6233c3f75d5f8</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.24, 2)">
+   <variable>ncl</variable>
+  </dependency>
+ </version>
+ <version name="8.2.4133.94" package="vivaldi-browser-64" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" --system-level --vivaldi-silent --vivaldi-standalone --do-not-launch-chrome --vivaldi-install-dir="%CD%" &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">for /f "delims=" %%x in ('dir /b application\5*') do set name=%%x&#13;
+&#13;
+Application\%name%\Installer\setup.exe --uninstall --vivaldi --force-uninstall --system-level &gt; .Npackd\Output.txt 2&gt;&amp;1 &#13;
+type .Npackd\Output.txt</file>
+  <url>https://downloads.vivaldi.com/stable/Vivaldi.8.2.4133.94.x64.exe</url>
+  <hash-sum type="SHA-256">6f2eee78fd43c9cb5d04150487aa786625c3361c96c43e6032f753909850a893</hash-sum>
   <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.24, 2)">
    <variable>ncl</variable>
   </dependency>
