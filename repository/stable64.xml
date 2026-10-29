@@ -10141,6 +10141,20 @@ if %errorlevel% neq 0 exit /b %errorlevel%&#13;
   <url>https://github.com/Kitware/CMake/releases/download/v4.4.4/cmake-4.4.4-windows-x86_64.zip</url>
   <hash-sum type="SHA-256">bace36e94b31c68ab6fa295f26dfa11219e0701cf7c94b0284a7d1cb13dac536</hash-sum>
  </version>
+ <version name="4.4.5" package="cmake64">
+  <cmd-file path="bin\cmake.exe"/>
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b cmake*') do set name=%%x&#13;
+cd "%name%"        &#13;
+for /f "delims=" %%a in ('dir /b') do (&#13;
+  move "%%a" ..&#13;
+)&#13;
+cd ..&#13;
+rmdir "%name%"&#13;
+if %errorlevel% neq 0 exit /b %errorlevel%&#13;
+</file>
+  <url>https://github.com/Kitware/CMake/releases/download/v4.4.5/cmake-4.4.5-windows-x86_64.zip</url>
+  <hash-sum type="SHA-256">326c826486d46a23cf9d5a1c9ee3a567d427bdd02c4a34071937a2a675cff004</hash-sum>
+ </version>
 
  <version name="16" package="codelite64" type="one-file">
   <file path=".Npackd\Install.bat">ren downloads.php setup.exe&#13;
@@ -32841,6 +32855,17 @@ verify</file>
   <url>https://download-installer.cdn.mozilla.net/pub/firefox/releases/158.0.1/win64/en-US/Firefox%20Setup%20158.0.1.exe</url>
   <hash-sum type="SHA-256">3259a2f8508e58cf2e383b6c99bfc64d6ddc86d1407b7c2f86f660af955b5d10</hash-sum>
  </version>
+ <version name="159" package="firefox64" type="one-file">
+  <file path=".Npackd\Install.bat">echo [Install] &gt; .Npackd\FF.ini&#13;
+echo InstallDirectoryPath=%CD% &gt;&gt; .Npackd\FF.ini&#13;
+echo QuickLaunchShortcut=false &gt;&gt; .Npackd\FF.ini&#13;
+echo DesktopShortcut=false &gt;&gt; .Npackd\FF.ini&#13;
+"%npackd_package_binary%" /INI="%CD%\.Npackd\FF.ini" &amp;&amp; del /f /q "%npackd_package_binary%"</file>
+  <file path=".Npackd\Uninstall.bat">uninstall\helper.exe /S&#13;
+verify</file>
+  <url>https://download-installer.cdn.mozilla.net/pub/firefox/releases/159.0/win64/en-US/Firefox%20Setup%20159.0.exe</url>
+  <hash-sum type="SHA-256">8776887b79925abbdd407fcdfe257d8382b54e24be52a6466426b95a804d6790</hash-sum>
+ </version>
 
  <version name="0.5" package="firefoxpwa" type="one-file">
   <file path=".Npackd\Install.bat">call "%nih%\InstallMSI.bat" APPLICATIONFOLDER yes</file>
@@ -35647,6 +35672,17 @@ if %err% neq 0 exit %err%&#13;
   </dependency>
  </version>
  <version name="2.56.0.3" package="git64" type="one-file">
+  <file path=".Npackd\Install.bat">call "%nih%\InstallInnoSetup.bat"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">call "%nih%\UninstallInnoSetup.bat" unins000.exe&#13;
+</file>
+  <url>https://github.com/git-for-windows/git/releases/download/v2.56.0.windows.1/Git-2.56.0-64-bit.exe</url>
+  <hash-sum type="SHA-256">bfe94e7b419b16eee9fecbd1253a98e3d4f49ba8f029630549052278ffe286a6</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
+ <version name="2.56.0.4" package="git64" type="one-file">
   <file path=".Npackd\Install.bat">call "%nih%\InstallInnoSetup.bat"&#13;
 </file>
   <file path=".Npackd\Uninstall.bat">call "%nih%\UninstallInnoSetup.bat" unins000.exe&#13;
@@ -41125,6 +41161,12 @@ if %err% neq 0 exit %err%</file>
   <important-file path="ILSpy.exe" title="ILSpy"/>
   <url>https://github.com/icsharpcode/ILSpy/releases/download/v11.1/ILSpy_windows_11.1.0.9782-x64.zip</url>
   <hash-sum type="SHA-256">37a9a19220f7621d9bc7ad9a00ed6f98e6a7a90f582165e52170e90b1b22138a</hash-sum>
+  <dependency package="com.microsoft.DotNetRedistributable" versions="[10, 20)"/>
+ </version>
+ <version name="11.2.0.10050" package="ilspy64">
+  <important-file path="ILSpy.exe" title="ILSpy"/>
+  <url>https://github.com/icsharpcode/ILSpy/releases/download/v11.2/ILSpy_windows_11.2.0.10050-x64.zip</url>
+  <hash-sum type="SHA-256">828cf2796e35ffb2f3b56e9736a4c8a711520dde3f781a7bf47cb460c17db980</hash-sum>
   <dependency package="com.microsoft.DotNetRedistributable" versions="[10, 20)"/>
  </version>
 
@@ -48820,6 +48862,16 @@ rmdir "%name%"&#13;
   <dependency package="com.microsoft.VisualCPPRedistributable" versions="[14.30, 15)"/>
  </version>
 
+ <version name="8.5.1" package="naps2_64" type="one-file">
+  <file path=".Npackd\Install.bat">call "%nih%\InstallMSI.bat" INSTALLDIR yes&#13;
+</file>
+  <url>https://github.com/cyanfish/naps2/releases/download/v8.5.1/naps2-8.5.1-win-x64.msi</url>
+  <hash-sum type="SHA-256">2e035c9b9b1c0e9ece8f8f7262a84fb41750d585650366b746ba8cff15ff93cd</hash-sum>
+  <dependency package="com.microsoft.DotNetRedistributable" versions="[4,5]"/>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.1, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
  <version name="8.6" package="naps2_64" type="one-file">
   <file path=".Npackd\Install.bat">call "%nih%\InstallMSI.bat" INSTALLDIR yes&#13;
 </file>
@@ -72558,6 +72610,15 @@ if %err% neq 0 exit /b %err%&#13;
   <url>https://www.python.org/ftp/python/3.15.1/python-3.15.1-amd64.exe</url>
   <hash-sum type="SHA-256">8b23839c6b2f3076fdff44c78d219a5393c7205f666cd95bd0c9a562bf8ea5db</hash-sum>
  </version>
+ <version name="3.15.2" package="org.python.Python64" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" /quiet InstallAllUsers=1 "TargetDir=%cd%"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">for /f "delims=" %%x in ('dir /b python-*.exe') do set setup=%%x&#13;
+%setup% /uninstall /quiet InstallAllUsers=1&#13;
+</file>
+  <url>https://www.python.org/ftp/python/3.15.2/python-3.15.2-amd64.exe</url>
+  <hash-sum type="SHA-256">06e225a228191b0f4d1dcf6905fbb21bf9f6970d13a2ec63137ab9bee76f15aa</hash-sum>
+ </version>
 
  <version name="2.0.0.247" package="org.rubylang.Ruby64" type="one-file">
   <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
@@ -91585,6 +91646,20 @@ call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Np
    <variable>nih</variable>
   </dependency>
  </version>
+ <version name="9.2.1252" package="org.vim.Vim64">
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+if %errorlevel% neq 0 exit /b %errorlevel%&#13;
+&#13;
+for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+</file>
+  <url>https://github.com/vim/vim-win32-installer/releases/download/v9.2.1252/gvim_9.2.1252_x64.zip</url>
+  <hash-sum type="SHA-256">d97b3633f5619ed3b66baeb3e074bcb6e7d107f4003a3738a41e52b134842b13</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.19, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
 
  <version name="4.2.8.83876" package="org.virtualbox.virtualbox64" type="one-file">
   <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
@@ -94714,6 +94789,16 @@ echo DesktopShortcut=false &gt;&gt; .Npackd\FF.ini&#13;
   <file path=".Npackd\Uninstall.bat">uninstall\helper.exe /S</file>
   <url>https://rm-eu.palemoon.org/release/palemoon-35.0.2.win64.installer.exe</url>
   <hash-sum type="SHA-256">c15e0458e2e65d4cbc91b24452a9a9d745c9a1f0264c570ef4e1b75eee190529</hash-sum>
+ </version>
+ <version name="35.0.3" package="pale-moon64" type="one-file">
+  <file path=".Npackd\Install.bat">echo [Install] &gt; .Npackd\FF.ini&#13;
+echo InstallDirectoryPath=%CD% &gt;&gt; .Npackd\FF.ini&#13;
+echo QuickLaunchShortcut=false &gt;&gt; .Npackd\FF.ini&#13;
+echo DesktopShortcut=false &gt;&gt; .Npackd\FF.ini&#13;
+"%npackd_package_binary%" /INI="%CD%\.Npackd\FF.ini" &amp;&amp; del /f /q "%npackd_package_binary%"</file>
+  <file path=".Npackd\Uninstall.bat">uninstall\helper.exe /S</file>
+  <url>https://rm-eu.palemoon.org/release/palemoon-35.0.3.win64.installer.exe</url>
+  <hash-sum type="SHA-256">585c2fa5cda8f717f942ca66c13144f17feeabcc788f3b5eaa5c432d849131a9</hash-sum>
  </version>
 
  <version name="2.2.1" package="pandoc64" type="one-file">
@@ -108476,6 +108561,19 @@ Application\%name%\Installer\setup.exe --uninstall --vivaldi --force-uninstall -
 type .Npackd\Output.txt</file>
   <url>https://downloads.vivaldi.com/stable/Vivaldi.8.2.4133.87.x64.exe</url>
   <hash-sum type="SHA-256">94d73d60da7a50466eb7f3b4a18425c447f1f6a5a27c856162210617ffe46e23</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.24, 2)">
+   <variable>ncl</variable>
+  </dependency>
+ </version>
+ <version name="8.2.4133.89" package="vivaldi-browser-64" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" --system-level --vivaldi-silent --vivaldi-standalone --do-not-launch-chrome --vivaldi-install-dir="%CD%" &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">for /f "delims=" %%x in ('dir /b application\5*') do set name=%%x&#13;
+&#13;
+Application\%name%\Installer\setup.exe --uninstall --vivaldi --force-uninstall --system-level &gt; .Npackd\Output.txt 2&gt;&amp;1 &#13;
+type .Npackd\Output.txt</file>
+  <url>https://downloads.vivaldi.com/stable/Vivaldi.8.2.4133.89.x64.exe</url>
+  <hash-sum type="SHA-256">6f91a1cd31c3f9d550458da0c5912509212ea4bb72d6b30ac355cc749f42ea7d</hash-sum>
   <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.24, 2)">
    <variable>ncl</variable>
   </dependency>

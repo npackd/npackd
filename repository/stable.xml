@@ -19380,7 +19380,7 @@ verify&#13;
  </version>
 
 
- <version name="1.98.60" package="brave" type="one-file">
+ <version name="1.98.62" package="brave" type="one-file">
   <file path=".Npackd\Install.bat">"%npackd_package_binary%" &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
 </file>
   <file path=".Npackd\Uninstall.bat">"%ncl%\ncl.exe" remove-scp --title "/%npackd_package_name% %npackd_package_version%/i"&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
@@ -32532,7 +32532,7 @@ ViewReadme: No&#13;
   <dependency package="com.oracle.JRE" versions="[1.6, 2)"/>
  </version>
 
- <version name="132" package="com.google.Drive" type="one-file">
+ <version name="133.0.2" package="com.google.Drive" type="one-file">
   <file path=".Npackd\Install.bat">call "%npackdih%\InstallMSI.bat" TARGETDIR yes</file>
   <url>https://dl.google.com/drive/gsync_enterprise.msi</url>
   <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.1, 2)">
@@ -67567,6 +67567,20 @@ if %err% neq 0 exit %err%&#13;
   <url>https://www.heidisql.com/installers/HeidiSQL_12.21.0.7381_Setup.exe</url>
   <hash-sum type="SHA-256">9f9d42c5d37404ae84b034532706e152dc16516bfda903678ca91b71f5d92b98</hash-sum>
  </version>
+ <version name="12.22.0.7382" package="heidisql" type="one-file">
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
+"%setup%" /SP- /VERYSILENT /SUPPRESSMSGBOXES /NOCANCEL /NORESTART /DIR="%CD%" /SAVEINF="%CD%\.Npackd\InnoSetupInfo.ini" /LOG="%CD%\.Npackd\InnoSetupInstall.log" &amp;&amp; del /f /q "%setup%"&#13;
+set err=%errorlevel%&#13;
+type .Npackd\InnoSetupInstall.log&#13;
+if %err% neq 0 exit %err%</file>
+  <file path=".Npackd\Uninstall.bat">unins000.exe /VERYSILENT /SUPPRESSMSGBOXES /NORESTART /LOG="%CD%\.Npackd\InnoSetupUninstall.log"&#13;
+set err=%errorlevel%&#13;
+type .Npackd\InnoSetupUninstall.log&#13;
+if %err% neq 0 exit %err%&#13;
+</file>
+  <url>https://www.heidisql.com/installers/HeidiSQL_12.22.0.7382_Setup.exe</url>
+  <hash-sum type="SHA-256">468055814dcedc057821f2692d28cfdde181332265240538b9acb320cae49904</hash-sum>
+ </version>
 
  <version name="3.1" package="heob" type="one-file">
   <cmd-file path="heob32.exe"/>
@@ -93211,6 +93225,20 @@ if %errorlevel% neq 0 exit /b %errorlevel%&#13;
 </file>
   <url>https://github.com/upx/upx/releases/download/v5.2.1/upx-5.2.1-win32.zip</url>
   <hash-sum type="SHA-256">4a06f247b0184976c1e7fd5af9293977cdb1bf4ba9416ae58e3560bd62d871ff</hash-sum>
+ </version>
+ <version name="5.3" package="net.sourceforge.upx.UPX">
+  <important-file path="upx-doc.html" title="Man Page"/>
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b upx*') do set name=%%x&#13;
+cd "%name%"        &#13;
+for /f "delims=" %%a in ('dir /b') do (&#13;
+  move "%%a" ..&#13;
+)&#13;
+cd ..&#13;
+rmdir "%name%"&#13;
+if %errorlevel% neq 0 exit /b %errorlevel%&#13;
+</file>
+  <url>https://github.com/upx/upx/releases/download/v5.3.0/upx-5.3.0-win32.zip</url>
+  <hash-sum type="SHA-256">36a740f077637d66da90a133a2a166e90dd692be5d08b2350fec97ed23809d53</hash-sum>
  </version>
 
  <version name="2.0.1" package="net.sourceforge.wikidpad.WikidPad" type="one-file">
@@ -126000,6 +126028,17 @@ verify</file>
   <url>https://download-origin.cdn.mozilla.net/pub/mozilla.org/firefox/releases/158.0.1/win32/en-US/Firefox%20Setup%20158.0.1.exe</url>
   <hash-sum type="SHA-256">798c87934e70bb2748982fc39ff81b9369dc8b4979e3766448c7ccc59c9a4e51</hash-sum>
  </version>
+ <version name="159" package="org.mozilla.Firefox" type="one-file">
+  <file path=".Npackd\Install.bat">echo [Install] &gt; .Npackd\FF.ini&#13;
+echo InstallDirectoryPath=%CD% &gt;&gt; .Npackd\FF.ini&#13;
+echo QuickLaunchShortcut=false &gt;&gt; .Npackd\FF.ini&#13;
+echo DesktopShortcut=false &gt;&gt; .Npackd\FF.ini&#13;
+"%npackd_package_binary%" /INI="%CD%\.Npackd\FF.ini" &amp;&amp; del /f /q "%npackd_package_binary%"</file>
+  <file path=".Npackd\Uninstall.bat">uninstall\helper.exe /S&#13;
+verify</file>
+  <url>https://download-origin.cdn.mozilla.net/pub/mozilla.org/firefox/releases/159.0/win32/en-US/Firefox%20Setup%20159.0.exe</url>
+  <hash-sum type="SHA-256">2f0943a2cb926ca532bfd0e5ca87b0ffad21919dfd858cfd2c7252e53e17fa85</hash-sum>
+ </version>
 
  <version name="24.4" package="org.mozilla.FirefoxESR" type="one-file">
   <file path=".Npackd\Install.bat">echo [Install] &gt; .Npackd\FF.ini&#13;
@@ -135352,6 +135391,15 @@ if %errorlevel% neq 0 exit /b %errorlevel%</file>
 </file>
   <url>https://www.python.org/ftp/python/3.15.1/python-3.15.1.exe</url>
   <hash-sum type="SHA-256">477dbb986b66a1ffd3e4f3bdab08f5f3d5855bb5c72f20a4adde767801cfd533</hash-sum>
+ </version>
+ <version name="3.15.2" package="org.python.Python" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" /quiet InstallAllUsers=1 "TargetDir=%cd%"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">for /f "delims=" %%x in ('dir /b python-*.exe') do set setup=%%x&#13;
+%setup% /uninstall /quiet InstallAllUsers=1&#13;
+</file>
+  <url>https://www.python.org/ftp/python/3.15.2/python-3.15.2.exe</url>
+  <hash-sum type="SHA-256">a1040151c8af7a31dcfa3d4da2648040806dfe86050622166cbebc7747f23027</hash-sum>
  </version>
 
  <version name="3.0.5" package="org.qbittorrent.QBittorrent" type="one-file">
