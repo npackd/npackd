@@ -13762,6 +13762,14 @@ i686</description>
   <url>https://yd.3dyd.com/download/3dyd_1.26.8.exe</url>
   <hash-sum type="SHA-256">d6bbb32fcb7b61b61942c25f89de79910f300173234708c94c94b2de95f295b0</hash-sum>
  </version>
+ <version name="1.26.9" package="3d-youtube-downloader" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">uninstall.exe /S _?=%CD%&#13;
+</file>
+  <url>https://yd.3dyd.com/download/3dyd_1.26.9.exe</url>
+  <hash-sum type="SHA-256">87932d7366ff85ad96b00fe53ab9144362d3243e23bf768a77e7ac42f5eb3c16</hash-sum>
+ </version>
 
  <version name="2.21" package="3utools" type="one-file">
   <file path=".Npackd\Install.bat">"%npackd_package_binary%" &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
@@ -19380,7 +19388,7 @@ verify&#13;
  </version>
 
 
- <version name="1.98.62" package="brave" type="one-file">
+ <version name="1.98.63" package="brave" type="one-file">
   <file path=".Npackd\Install.bat">"%npackd_package_binary%" &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
 </file>
   <file path=".Npackd\Uninstall.bat">"%ncl%\ncl.exe" remove-scp --title "/%npackd_package_name% %npackd_package_version%/i"&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
@@ -130787,6 +130795,15 @@ rmdir "%name%"&#13;
   <hash-sum type="SHA-256">9e5e8488849280df2aa9003f3009881ebe1b1c59567745201da65f3891c0ea63</hash-sum>
   <dependency package="com.microsoft.VisualCPPRedistributable" versions="[9.0.30729.4148, 10)"/>
  </version>
+ <version name="3.0.3" package="org.musicbrainz.musicbrainzpicard.MusicBrainzPicard" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%ProgramFiles%\MusicBrainzPicardData&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">"%ProgramFiles%\MusicBrainzPicardData\uninst.exe" /S&#13;
+</file>
+  <url>http://ftp.musicbrainz.org/pub/musicbrainz/picard/picard-setup-3.0.3.exe</url>
+  <hash-sum type="SHA-256">5a80fc98a6b3791ecb0571c253c4334640aad75a369fde4d86f94628a076158d</hash-sum>
+  <dependency package="com.microsoft.VisualCPPRedistributable" versions="[9.0.30729.4148, 10)"/>
+ </version>
 
  <version name="1.2.3" package="org.nginx.Nginx">
   <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b nginx*') do set name=%%x
@@ -149007,6 +149024,16 @@ echo DesktopShortcut=false &gt;&gt; .Npackd\FF.ini&#13;
   <url>https://rm-eu.palemoon.org/release/palemoon-35.0.2.win32.installer.exe</url>
   <hash-sum type="SHA-256">5d0f30cc665e4db101637a16368b35d7a0ad4193848cf66fbac7b05c33389c20</hash-sum>
  </version>
+ <version name="35.0.3" package="pale-moon" type="one-file">
+  <file path=".Npackd\Install.bat">echo [Install] &gt; .Npackd\FF.ini&#13;
+echo InstallDirectoryPath=%CD% &gt;&gt; .Npackd\FF.ini&#13;
+echo QuickLaunchShortcut=false &gt;&gt; .Npackd\FF.ini&#13;
+echo DesktopShortcut=false &gt;&gt; .Npackd\FF.ini&#13;
+"%npackd_package_binary%" /INI="%CD%\.Npackd\FF.ini" &amp;&amp; del /f /q "%npackd_package_binary%"</file>
+  <file path=".Npackd\Uninstall.bat">uninstall\helper.exe /S</file>
+  <url>https://rm-eu.palemoon.org/release/palemoon-35.0.3.win32.installer.exe</url>
+  <hash-sum type="SHA-256">72d4ac8a46f54716efb40b7da364404f20676fc5d2a21a8785c682bcb65dcbe6</hash-sum>
+ </version>
 
 
 
@@ -161105,6 +161132,14 @@ if %err% neq 0 exit %err%&#13;
   <url>https://www.sysgauge.com/setups/sysgauge_setup_v13.5.48.exe</url>
   <hash-sum type="SHA-256">742e623eb661109dea0bc6e4fb3a985f6c1814f86cb63ee8b2d16bdc3b8a9b08</hash-sum>
  </version>
+ <version name="13.6.12" package="sysgauge" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">uninstall.exe /S _?=%CD%&#13;
+</file>
+  <url>https://www.sysgauge.com/setups/sysgauge_setup_v13.6.12.exe</url>
+  <hash-sum type="SHA-256">97b8da497f5590d6da7d9cf84053e3cff5e59178a2d409b5f8b96ef81ddc7fa3</hash-sum>
+ </version>
 
  <version name="1" package="sysinternals-suite">
   <url>https://download.sysinternals.com/files/SysinternalsSuite.zip</url>
@@ -171328,6 +171363,19 @@ Application\%name%\Installer\setup.exe --uninstall --vivaldi --force-uninstall -
 type .Npackd\Output.txt</file>
   <url>https://downloads.vivaldi.com/stable/Vivaldi.8.2.4133.94.exe</url>
   <hash-sum type="SHA-256">7433061b3ed88ef1893a6e61fb55c50b48a96ee1d78c557d259f879c9dbbf78b</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.24, 2)">
+   <variable>ncl</variable>
+  </dependency>
+ </version>
+ <version name="8.2.4133.96" package="vivaldi-browser" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" --system-level --vivaldi-silent --vivaldi-standalone --do-not-launch-chrome --vivaldi-install-dir="%CD%" &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">for /f "delims=" %%x in ('dir /b application\5*') do set name=%%x&#13;
+&#13;
+Application\%name%\Installer\setup.exe --uninstall --vivaldi --force-uninstall --system-level &gt; .Npackd\Output.txt 2&gt;&amp;1 &#13;
+type .Npackd\Output.txt</file>
+  <url>https://downloads.vivaldi.com/stable/Vivaldi.8.2.4133.96.exe</url>
+  <hash-sum type="SHA-256">86a7c228916419d05018def72b25da67f837fe3e1e25eb06e2f28ea1bb0a1496</hash-sum>
   <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.24, 2)">
    <variable>ncl</variable>
   </dependency>

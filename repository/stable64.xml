@@ -91646,6 +91646,20 @@ call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Np
    <variable>nih</variable>
   </dependency>
  </version>
+ <version name="9.2.1240" package="org.vim.Vim64">
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+if %errorlevel% neq 0 exit /b %errorlevel%&#13;
+&#13;
+for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+</file>
+  <url>https://github.com/vim/vim-win32-installer/releases/download/v9.2.1240/gvim_9.2.1240_x64.zip</url>
+  <hash-sum type="SHA-256">db9304b76c89215c4671c1f5fab23f108d7f4a013a6eff39568eedecd9af6940</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.19, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
  <version name="9.2.1252" package="org.vim.Vim64">
   <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
 call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
@@ -95761,6 +95775,16 @@ echo DesktopShortcut=false &gt;&gt; .Npackd\FF.ini&#13;
   </dependency>
   <dependency package="org.miktex.MiKTeX" versions="[2.9, 3)"/>
  </version>
+ <version name="3.13" package="pandoc64" type="one-file">
+  <file path=".Npackd\Install.bat">call "%nih%\InstallMSI.bat" INSTALLDIR yes&#13;
+</file>
+  <url>https://github.com/jgm/pandoc/releases/download/3.13/pandoc-3.13-windows-x86_64.msi</url>
+  <hash-sum type="SHA-256">208eeef81b3d734a24f999afb5bf49db4dcf0be4fb72307bebf9ad02353f9a73</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.1, 2)">
+   <variable>nih</variable>
+  </dependency>
+  <dependency package="org.miktex.MiKTeX" versions="[2.9, 3)"/>
+ </version>
 
 
 
@@ -96586,7 +96610,7 @@ call "%npackdih%\InstallMSI.bat" TARGETDIR yes</file>
   <file path=".Npackd\Install.bat">"%nih%\InstallInnoSetup.bat"&#13;
 </file>
   <file path=".Npackd\Uninstall.bat">"%nih%\UninstallInnoSetup.bat" unins000.exe</file>
-  <url>https://master.dl.sourceforge.net/project/psiplus/Windows/Personal-Builds/KukuRuzo/psi-plus-1.6.1.12-x64-setup.exe</url>
+  <url>https://github.com/tim-lebedkov/packages/releases/download/2026_10/psi-plus64-1.6.1.12-psi-plus-1.6.1.12-x64-setup.exe</url>
   <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
    <variable>nih</variable>
   </dependency>
@@ -101090,7 +101114,7 @@ if %err% neq 0 exit %err%&#13;
   </dependency>
  </version>
 
- <version name="51.0.1" package="slimjet" type="one-file">
+ <version name="51.0.2" package="slimjet" type="one-file">
   <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
 </file>
   <file path=".Npackd\Uninstall.bat">uninstall.exe /S _?=%CD%&#13;
@@ -101098,7 +101122,7 @@ if %err% neq 0 exit %err%&#13;
   <url>https://www.slimjetbrowser.com/release/sjtsetup_x86.exe</url>
  </version>
 
- <version name="51.0.1" package="slimjet64" type="one-file">
+ <version name="51.0.2" package="slimjet64" type="one-file">
   <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
 </file>
   <file path=".Npackd\Uninstall.bat">uninstall.exe /S _?=%CD%&#13;
@@ -103017,6 +103041,14 @@ rmdir "%name%"</file>
 </file>
   <url>https://www.sysgauge.com/setups_x64/sysgauge_setup_v13.5.48_x64.exe</url>
   <hash-sum type="SHA-256">af0b0ae086a15c13fd37a41b8b5af7397b44187e8710cf3e9e939de2681b77ae</hash-sum>
+ </version>
+ <version name="13.6.12" package="sysgauge64" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">uninstall.exe /S _?=%CD%&#13;
+</file>
+  <url>https://www.sysgauge.com/setups_x64/sysgauge_setup_v13.6.12_x64.exe</url>
+  <hash-sum type="SHA-256">b804ead52b028102853bd6e75f66b75515e7987568947aafd7d79b6a21d30957</hash-sum>
  </version>
 
 
@@ -108609,6 +108641,19 @@ Application\%name%\Installer\setup.exe --uninstall --vivaldi --force-uninstall -
 type .Npackd\Output.txt</file>
   <url>https://downloads.vivaldi.com/stable/Vivaldi.8.2.4133.94.x64.exe</url>
   <hash-sum type="SHA-256">6f2eee78fd43c9cb5d04150487aa786625c3361c96c43e6032f753909850a893</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.24, 2)">
+   <variable>ncl</variable>
+  </dependency>
+ </version>
+ <version name="8.2.4133.96" package="vivaldi-browser-64" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" --system-level --vivaldi-silent --vivaldi-standalone --do-not-launch-chrome --vivaldi-install-dir="%CD%" &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">for /f "delims=" %%x in ('dir /b application\5*') do set name=%%x&#13;
+&#13;
+Application\%name%\Installer\setup.exe --uninstall --vivaldi --force-uninstall --system-level &gt; .Npackd\Output.txt 2&gt;&amp;1 &#13;
+type .Npackd\Output.txt</file>
+  <url>https://downloads.vivaldi.com/stable/Vivaldi.8.2.4133.96.x64.exe</url>
+  <hash-sum type="SHA-256">cd3374dbbffe20ccc8dd1f621c171831ae4e79548af1d41db4dadadf3decb034</hash-sum>
   <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.24, 2)">
    <variable>ncl</variable>
   </dependency>
