@@ -40578,7 +40578,7 @@ verify&#13;
   <url>http://files.npackd.org/hashmyfiles64/hashmyfiles64-2.10.zip</url>
   <sha1>8848020689233adeffe2f4299085eb533e1495d5</sha1>
  </version>
- <version name="2.51" package="hashmyfiles64">
+ <version name="2.52" package="hashmyfiles64">
   <important-file path="HashMyFiles.exe" title="HashMyFiles"/>
   <url>http://www.nirsoft.net/utils/hashmyfiles-x64.zip</url>
  </version>
@@ -45072,6 +45072,14 @@ call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Np
    <variable>npackdih</variable>
   </dependency>
  </version>
+ <version name="26.8.2" package="libreoffice64" type="one-file">
+  <file path=".Npackd\Install.bat">call "%npackdih%\InstallMSI.bat" INSTALLLOCATION yes</file>
+  <url>https://download.documentfoundation.org/libreoffice/stable/26.8.2/win/x86_64/LibreOffice_26.8.2_Win_x86-64.msi</url>
+  <hash-sum type="SHA-256">ff4b911403b67ee9e6249f820f9782c44bb32c94fdaa45b0da53a8e419e5307a</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.1, 2)">
+   <variable>npackdih</variable>
+  </dependency>
+ </version>
 
 
  <version name="12.6" package="lightworks64" type="one-file">
@@ -48280,6 +48288,14 @@ rmdir "%name%"&#13;
 </file>
   <url>http://multicommander.com/files/updates/MultiCommander_x64_(16.6.0.3230).exe</url>
   <hash-sum type="SHA-256">119f8f56d3fccf9294b02f6ca85fb720a20622e6a7d9d814641718ff06874c8d</hash-sum>
+ </version>
+ <version name="16.6.0.3233" package="multi-commander64" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">"Uninstall MultiCommander.exe" /S _?=%CD%&#13;
+</file>
+  <url>http://multicommander.com/files/updates/MultiCommander_x64_(16.6.0.3233).exe</url>
+  <hash-sum type="SHA-256">3a0a254e9f4ae9322e0ab01f559fb7defd8970d48d5b72d0acb1e3e6cbb776f7</hash-sum>
  </version>
 
  <version name="1.19" package="mupdf64">
@@ -96611,6 +96627,15 @@ call "%npackdih%\InstallMSI.bat" TARGETDIR yes</file>
 </file>
   <file path=".Npackd\Uninstall.bat">"%nih%\UninstallInnoSetup.bat" unins000.exe</file>
   <url>https://github.com/tim-lebedkov/packages/releases/download/2026_10/psi-plus64-1.6.1.12-psi-plus-1.6.1.12-x64-setup.exe</url>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
+ <version name="1.6.1.28" package="psi-plus64" type="one-file">
+  <file path=".Npackd\Install.bat">"%nih%\InstallInnoSetup.bat"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">"%nih%\UninstallInnoSetup.bat" unins000.exe</file>
+  <url>https://master.dl.sourceforge.net/project/psiplus/Windows/Personal-Builds/KukuRuzo/psi-plus-1.6.1.28-x64-setup.exe</url>
   <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
    <variable>nih</variable>
   </dependency>
