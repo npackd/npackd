@@ -55363,7 +55363,7 @@ directx\dxsetup.exe /silent || exit /b %errorlevel%&#13;
   <sha1>8ed95f694c01b3093bf4cc5d612c3135535093a3</sha1>
  </version>
 
- <version name="1.0.11" package="dk.executor.Executor" type="one-file">
+ <version name="2.4.5" package="dk.executor.Executor" type="one-file">
   <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
 "%setup%" /SP- /VERYSILENT /SUPPRESSMSGBOXES /NOCANCEL /NORESTART /DIR="%CD%" /SAVEINF="%CD%\.Npackd\InnoSetupInfo.ini" /LOG="%CD%\.Npackd\InnoSetupInstall.log"&#13;
 set err=%errorlevel%&#13;
@@ -155467,6 +155467,18 @@ cd ..&#13;
 rmdir "%name%"</file>
   <url>http://downloads.sourceforge.net/project/scintilla/SciTE/5.6.7/wscite567.zip</url>
   <hash-sum type="SHA-256">24b6c63fc61d8fb57b782bac6149352dde262212a9588367bde4b2def599f353</hash-sum>
+ </version>
+ <version name="5.6.8" package="scite">
+  <important-file path="SciTE.exe" title="SciTE"/>
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b wscite*') do set name=%%x&#13;
+cd "%name%"        &#13;
+for /f "delims=" %%a in ('dir /b') do (&#13;
+  move "%%a" ..&#13;
+)&#13;
+cd ..&#13;
+rmdir "%name%"</file>
+  <url>http://downloads.sourceforge.net/project/scintilla/SciTE/5.6.8/wscite568.zip</url>
+  <hash-sum type="SHA-256">a4832b34883679c8c56894c68daad41ed03c0d40b6da5f1d6e34d761c5e6921d</hash-sum>
  </version>
 
  <version name="3.1" package="scite4autohotkey" type="one-file">
