@@ -55363,7 +55363,7 @@ directx\dxsetup.exe /silent || exit /b %errorlevel%&#13;
   <sha1>8ed95f694c01b3093bf4cc5d612c3135535093a3</sha1>
  </version>
 
- <version name="2.4.5" package="dk.executor.Executor" type="one-file">
+ <version name="2.4.6" package="dk.executor.Executor" type="one-file">
   <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
 "%setup%" /SP- /VERYSILENT /SUPPRESSMSGBOXES /NOCANCEL /NORESTART /DIR="%CD%" /SAVEINF="%CD%\.Npackd\InnoSetupInfo.ini" /LOG="%CD%\.Npackd\InnoSetupInstall.log"&#13;
 set err=%errorlevel%&#13;
@@ -80206,6 +80206,14 @@ for /f "delims=" %%x in ('dir /b *.tar') do set name=%%x&#13;
   <url>http://multicommander.com/files/updates/MultiCommander_win32_(16.6.0.3230).exe</url>
   <hash-sum type="SHA-256">d47f0b4fcbdff27f487cdfac3dd257966e7c75921eaa94d375ed856861d7c680</hash-sum>
  </version>
+ <version name="16.6.0.3233" package="multi-commander" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">"Uninstall MultiCommander.exe" /S _?=%CD%&#13;
+</file>
+  <url>http://multicommander.com/files/updates/MultiCommander_win32_(16.6.0.3233).exe</url>
+  <hash-sum type="SHA-256">d2ed1942d508c54678d50601dc88b70ea0a6defbafe3d971c3e648e640aa1c1b</hash-sum>
+ </version>
 
  <version name="2.0.3" package="musescore" type="one-file">
   <file path=".Npackd\Install.bat">call "%nih%\InstallMSI.bat" INSTALLDIR yes&#13;
@@ -99443,6 +99451,16 @@ WshShell.SendKeys("y");&#13;
   <file path=".Npackd\Uninstall.bat">"%nih%\UninstallInnoSetup.bat" unins000.exe</file>
   <url>https://github.com/OpenShot/openshot-qt/releases/download/v4.0.1/OpenShot-v4.0.1-x86.exe</url>
   <hash-sum type="SHA-256">8ba8f67bc7d275a5b0bda11d29a7ba6f264b0794f58a1b945ab1e5dc3e0c0e4e</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
+ <version name="4.1.1" package="openshot" type="one-file">
+  <file path=".Npackd\Install.bat">"%nih%\InstallInnoSetup.bat"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">"%nih%\UninstallInnoSetup.bat" unins000.exe</file>
+  <url>https://github.com/OpenShot/openshot-qt/releases/download/v4.1.1/OpenShot-v4.1.1-x86.exe</url>
+  <hash-sum type="SHA-256">f2eab57398555453a62ae75730a92cca9b004c94c9b0c768281da0ec99ee42b5</hash-sum>
   <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
    <variable>nih</variable>
   </dependency>
@@ -121193,6 +121211,14 @@ if %err% neq 0 exit %err%
 </file>
   <url>http://www.microsip.org/download/MicroSIP-Lite-3.22.20.exe</url>
   <hash-sum type="SHA-256">7f6a438ebf2d82a3b725eedd65d533aae8e27b959de2b5e0c66dab86295179ea</hash-sum>
+ </version>
+ <version name="3.22.22" package="org.microsip.MicroSIPLite" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">uninstall.exe /S _?=%CD%&#13;
+</file>
+  <url>http://www.microsip.org/download/MicroSIP-Lite-3.22.22.exe</url>
+  <hash-sum type="SHA-256">998b021ba9a30b22d13c11378a213bc98492b9d205f5b9c4f8621bedffa6f8de</hash-sum>
  </version>
 
  <version name="4.8.4.159" package="org.midnightcommander.MidnightCommander" type="one-file">
@@ -155479,6 +155505,18 @@ cd ..&#13;
 rmdir "%name%"</file>
   <url>http://downloads.sourceforge.net/project/scintilla/SciTE/5.6.8/wscite568.zip</url>
   <hash-sum type="SHA-256">a4832b34883679c8c56894c68daad41ed03c0d40b6da5f1d6e34d761c5e6921d</hash-sum>
+ </version>
+ <version name="5.6.9" package="scite">
+  <important-file path="SciTE.exe" title="SciTE"/>
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b wscite*') do set name=%%x&#13;
+cd "%name%"        &#13;
+for /f "delims=" %%a in ('dir /b') do (&#13;
+  move "%%a" ..&#13;
+)&#13;
+cd ..&#13;
+rmdir "%name%"</file>
+  <url>http://downloads.sourceforge.net/project/scintilla/SciTE/5.6.9/wscite569.zip</url>
+  <hash-sum type="SHA-256">68dabc521837f548298d584831c81b0fa5cddc7c21c2ef253f5b3cc56289a747</hash-sum>
  </version>
 
  <version name="3.1" package="scite4autohotkey" type="one-file">
