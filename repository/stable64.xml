@@ -14906,6 +14906,11 @@ if %err% neq 0 exit %err%</file>
   <url>https://download.cpuid.com/cpu-z/cpu-z_3.01-en.zip</url>
   <hash-sum type="SHA-256">8ae3b45d43d97e6ce19535c045cd1e5394c7a3a5334dc01f63edd760ace40827</hash-sum>
  </version>
+ <version name="3.2" package="com.cpuid.CPUZ64">
+  <important-file path="cpuz_x64.exe" title="CPU-Z"/>
+  <url>https://download.cpuid.com/cpu-z/cpu-z_3.02-en.zip</url>
+  <hash-sum type="SHA-256">faf62f6e883056a40f291bf9f3f348f51a2ab339d0a512f4724fdae964f35d8b</hash-sum>
+ </version>
 
  <version name="2.2.6000" package="com.dependencywalker.DependencyWalker64">
   <important-file path="depends.exe" title="Dependency Walker"/>
@@ -32908,6 +32913,17 @@ verify</file>
   <url>https://download-installer.cdn.mozilla.net/pub/firefox/releases/159.0/win64/en-US/Firefox%20Setup%20159.0.exe</url>
   <hash-sum type="SHA-256">8776887b79925abbdd407fcdfe257d8382b54e24be52a6466426b95a804d6790</hash-sum>
  </version>
+ <version name="159.0.1" package="firefox64" type="one-file">
+  <file path=".Npackd\Install.bat">echo [Install] &gt; .Npackd\FF.ini&#13;
+echo InstallDirectoryPath=%CD% &gt;&gt; .Npackd\FF.ini&#13;
+echo QuickLaunchShortcut=false &gt;&gt; .Npackd\FF.ini&#13;
+echo DesktopShortcut=false &gt;&gt; .Npackd\FF.ini&#13;
+"%npackd_package_binary%" /INI="%CD%\.Npackd\FF.ini" &amp;&amp; del /f /q "%npackd_package_binary%"</file>
+  <file path=".Npackd\Uninstall.bat">uninstall\helper.exe /S&#13;
+verify</file>
+  <url>https://download-installer.cdn.mozilla.net/pub/firefox/releases/159.0.1/win64/en-US/Firefox%20Setup%20159.0.1.exe</url>
+  <hash-sum type="SHA-256">729af643b8e0a3809d6153a57a448cb96a01e6fa5e2e7ff782152ede6202eadd</hash-sum>
+ </version>
 
  <version name="0.5" package="firefoxpwa" type="one-file">
   <file path=".Npackd\Install.bat">call "%nih%\InstallMSI.bat" APPLICATIONFOLDER yes</file>
@@ -35828,7 +35844,7 @@ if %err% neq 0 exit %err%&#13;
   <hash-sum type="SHA-256">fffa4ed1d298a7a1f2df91f52dd13af31314a54058aed53c2bccae77705ee714</hash-sum>
  </version>
 
- <version name="157.0.8103.39" package="google-chrome-x64" type="one-file">
+ <version name="158.0.8127.18" package="google-chrome-x64" type="one-file">
   <file path=".Npackd\Install.bat">call "%npackdih%\InstallMSI.bat" TARGETDIR yes&#13;
 </file>
   <url>https://dl.google.com/tag/s/appguid%3D%7B8A69D345-D564-463C-AFF1-A69D9E530F96%7D%26iid%3D%7B0A558A36-0536-8B3F-0AE0-420553CC97F3%7D%26lang%3Den%26browser%3D4%26usagestats%3D0%26appname%3DGoogle%2520Chrome%26needsadmin%3DFalse/edgedl/chrome/install/GoogleChromeStandaloneEnterprise64.msi</url>
@@ -42896,7 +42912,7 @@ if %err% neq 0 exit %err%&#13;
   </dependency>
   <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.15.7, 2)"/>
  </version>
- <version name="0.41" package="io.mpv.mpv-64" type="one-file">
+ <version name="0.42" package="io.mpv.mpv-64" type="one-file">
   <file path=".Npackd\Install.bat">for /f %%x in ('dir /b *.7z') do set setup=%%x&#13;
 "%sevenzipa%\7za.exe" x "%setup%" &gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt</file>
   <url>https://github.com/mpv-player/mpv/releases/download/v0.4.0/mpv_v0.4.0_windows_64bit.7z</url>
@@ -58273,6 +58289,15 @@ reg add HKLM\SOFTWARE\OpenVPN-GUI /v allow_service /t REG_SZ /d 0 /f&#13;
 </file>
   <url>https://swupdate.openvpn.org/community/releases/OpenVPN-2.7.8-I001-amd64.msi</url>
   <hash-sum type="SHA-256">1ea61a3056905b90607d4b0f084c04e5cf3043e07cf192d9cd44b0474f29cc49</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.1, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
+ <version name="2.7.9" package="openvpn64" type="one-file">
+  <file path=".Npackd\Install.bat">call "%nih%\InstallMSI.bat" INSTALLDIR yes&#13;
+</file>
+  <url>https://swupdate.openvpn.org/community/releases/OpenVPN-2.7.9-I001-amd64.msi</url>
+  <hash-sum type="SHA-256">47abc38a15c217b848fe099332a8523500fcbf2ebf8a1eaa7d5648c6e75079aa</hash-sum>
   <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.1, 2)">
    <variable>nih</variable>
   </dependency>
@@ -91742,6 +91767,20 @@ call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Np
    <variable>nih</variable>
   </dependency>
  </version>
+ <version name="9.2.1254" package="org.vim.Vim64">
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+if %errorlevel% neq 0 exit /b %errorlevel%&#13;
+&#13;
+for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+</file>
+  <url>https://github.com/vim/vim-win32-installer/releases/download/v9.2.1254/gvim_9.2.1254_x64.zip</url>
+  <hash-sum type="SHA-256">f2ab08136e2dbf51212441a685e8b71667c14b20f772e8ad12dae6ab0748a3ed</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.19, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
  <version name="9.2.1276" package="org.vim.Vim64">
   <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
 call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
@@ -96706,6 +96745,15 @@ call "%npackdih%\InstallMSI.bat" TARGETDIR yes</file>
    <variable>nih</variable>
   </dependency>
  </version>
+ <version name="1.6.1.54" package="psi-plus64" type="one-file">
+  <file path=".Npackd\Install.bat">"%nih%\InstallInnoSetup.bat"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">"%nih%\UninstallInnoSetup.bat" unins000.exe</file>
+  <url>https://master.dl.sourceforge.net/project/psiplus/Windows/Personal-Builds/KukuRuzo/psi-plus-1.6.1.54-x64-setup.exe</url>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
 
  <version name="0.7" package="ptsminer">
   <important-file path="ptsminer_EDIT-ME.bat" title="Run ptsminer"/>
@@ -101216,7 +101264,7 @@ if %err% neq 0 exit %err%&#13;
   </dependency>
  </version>
 
- <version name="51.0.2" package="slimjet" type="one-file">
+ <version name="51.0.3" package="slimjet" type="one-file">
   <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
 </file>
   <file path=".Npackd\Uninstall.bat">uninstall.exe /S _?=%CD%&#13;
@@ -101224,7 +101272,7 @@ if %err% neq 0 exit %err%&#13;
   <url>https://www.slimjetbrowser.com/release/sjtsetup_x86.exe</url>
  </version>
 
- <version name="51.0.2" package="slimjet64" type="one-file">
+ <version name="51.0.3" package="slimjet64" type="one-file">
   <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
 </file>
   <file path=".Npackd\Uninstall.bat">uninstall.exe /S _?=%CD%&#13;
@@ -108756,6 +108804,19 @@ Application\%name%\Installer\setup.exe --uninstall --vivaldi --force-uninstall -
 type .Npackd\Output.txt</file>
   <url>https://downloads.vivaldi.com/stable/Vivaldi.8.2.4133.96.x64.exe</url>
   <hash-sum type="SHA-256">cd3374dbbffe20ccc8dd1f621c171831ae4e79548af1d41db4dadadf3decb034</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.24, 2)">
+   <variable>ncl</variable>
+  </dependency>
+ </version>
+ <version name="8.3.4191.26" package="vivaldi-browser-64" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" --system-level --vivaldi-silent --vivaldi-standalone --do-not-launch-chrome --vivaldi-install-dir="%CD%" &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">for /f "delims=" %%x in ('dir /b application\5*') do set name=%%x&#13;
+&#13;
+Application\%name%\Installer\setup.exe --uninstall --vivaldi --force-uninstall --system-level &gt; .Npackd\Output.txt 2&gt;&amp;1 &#13;
+type .Npackd\Output.txt</file>
+  <url>https://downloads.vivaldi.com/stable/Vivaldi.8.3.4191.26.x64.exe</url>
+  <hash-sum type="SHA-256">97c6e6b3d8d01351994ec88623ccfdc370317a1c5b89758746d615a60490363e</hash-sum>
   <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.24, 2)">
    <variable>ncl</variable>
   </dependency>

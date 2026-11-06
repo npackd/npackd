@@ -32518,7 +32518,7 @@ rmdir "%name%"&#13;
   <dependency package="org.python.Python" versions="[2.5, 2.8)"/>
  </version>
 
- <version name="157.0.8103.39" package="com.google.Chrome" type="one-file">
+ <version name="158.0.8127.18" package="com.google.Chrome" type="one-file">
   <file path=".Npackd\Install.bat">call "%npackdih%\InstallMSI.bat" TARGETDIR yes&#13;
 </file>
   <url>https://dl.google.com/tag/s/appguid%3D%7B8A69D345-D564-463C-AFF1-A69D9E530F96%7D%26iid%3D%7B0A558A36-0536-8B3F-0AE0-420553CC97F3%7D%26lang%3Den%26browser%3D4%26usagestats%3D0%26appname%3DGoogle%2520Chrome%26needsadmin%3DFalse/edgedl/chrome/install/GoogleChromeStandaloneEnterprise.msi</url>
@@ -38377,6 +38377,10 @@ rmdir "%name%"&#13;
  <version name="13.6" package="com.microsoft.SQLServerJDBCDriver" type="one-file">
   <url>https://github.com/microsoft/mssql-jdbc/releases/download/v13.6.0/mssql-jdbc-13.6.0.jre11.jar</url>
   <hash-sum type="SHA-256">4c566e4022c4dcf1489aeb639fe49a0f6ffae3d796fdc2f56b5b8882d4c3bf5a</hash-sum>
+ </version>
+ <version name="13.6.2" package="com.microsoft.SQLServerJDBCDriver" type="one-file">
+  <url>https://github.com/microsoft/mssql-jdbc/releases/download/v13.6.2/mssql-jdbc-13.6.2.jre11.jar</url>
+  <hash-sum type="SHA-256">5fbc0a70fe4d1d563d431a41b23f493d68807571f0bb49db0bb1737e83e9161f</hash-sum>
  </version>
 
  <version name="4.19" package="com.microsoft.TCPView">
@@ -70646,6 +70650,17 @@ if %err% neq 0 exit %err%&#13;
    <variable>nih</variable>
   </dependency>
  </version>
+ <version name="1.44" package="info.keepass.KeePassClassic" type="one-file">
+  <file path=".Npackd\Install.bat">call "%nih%\InstallInnoSetup.bat"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">call "%nih%\UninstallInnoSetup.bat" unins000.exe&#13;
+</file>
+  <url>https://downloads.sourceforge.net/project/keepass/KeePass%201.x/1.44/KeePass-1.44-Setup.exe</url>
+  <hash-sum type="SHA-256">eb7d823609005903857c1eedce61ffe3a444eb86adf191f7e20a9c1b3cc50072</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
 
  <version name="2.1.1" package="info.kowalczyk.blog.SumatraPDF" type="one-file">
   <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
@@ -71813,7 +71828,7 @@ if %err% neq 0 exit %err%&#13;
   </dependency>
   <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.15.7, 2)"/>
  </version>
- <version name="0.41" package="io.mpv.mpv" type="one-file">
+ <version name="0.42" package="io.mpv.mpv" type="one-file">
   <file path=".Npackd\Install.bat">for /f %%x in ('dir /b *.7z') do set setup=%%x&#13;
 "%sevenzipa%\7za.exe" x "%setup%" &gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt</file>
   <url>https://github.com/mpv-player/mpv/releases/download/v0.4.0/mpv_v0.4.0_windows_32bit.7z</url>
@@ -99099,6 +99114,29 @@ WshShell.SendKeys("y");&#13;
   <url>https://github.com/tim-lebedkov/packages/releases/download/2026_08/openmpt-1.32.11-OpenMPT-1.32.11.00-Setup.exe</url>
   <hash-sum type="SHA-256">ed1de11610be5a155c757ac7eecd327535a237d800b849842c8d319c2977cd91</hash-sum>
  </version>
+ <version name="1.32.12" package="openmpt" type="one-file">
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
+"%setup%" /SP- /VERYSILENT /SUPPRESSMSGBOXES /NOCANCEL /NORESTART /DIR="%CD%" /SAVEINF="%CD%\.Npackd\InnoSetupInfo.ini" /LOG="%CD%\.Npackd\InnoSetupInstall.log" &amp;&amp; del /f /q "%setup%"&#13;
+set err=%errorlevel%&#13;
+type .Npackd\InnoSetupInstall.log&#13;
+if %err% neq 0 exit %err%&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">start "Confirm Uninstall" cscript //Nologo //B //E:JScript //T:300 //U .Npackd\ConfirmUninstall.js&#13;
+&#13;
+unins000.exe /VERYSILENT /SUPPRESSMSGBOXES /NORESTART /LOG="%CD%\.Npackd\InnoSetupUninstall.log"&#13;
+set err=%errorlevel%&#13;
+type .Npackd\InnoSetupUninstall.log&#13;
+if %err% neq 0 exit %err%&#13;
+</file>
+  <file path=".Npackd\ConfirmUninstall.js">var WshShell = WScript.CreateObject("WScript.Shell");&#13;
+WScript.Sleep(60000);&#13;
+WshShell.AppActivate("Uninstall");&#13;
+WScript.Sleep(10000);&#13;
+WshShell.SendKeys("y");&#13;
+</file>
+  <url>https://download.openmpt.org/archive/openmpt/1.32/OpenMPT-1.32.12.00-Setup.exe</url>
+  <hash-sum type="SHA-256">7fd1248aa3964a89e2233819595013c78295be788defbe8f3410faa1b358c8aa</hash-sum>
+ </version>
 
  <version name="1.4" package="openproj" type="one-file">
   <file path=".Npackd\Install.bat">call "%npackdih%\InstallMSI.bat" APPDIR yes</file>
@@ -111649,6 +111687,31 @@ for %%g in (xcf pix matte mask alpha als fli flc xcf.bz2 bz2 xcfbz2 desktop dcm 
   <url>https://download.gimp.org/mirror/pub/gimp/v3.2/windows/gimp-3.2.6-setup.exe</url>
   <hash-sum type="SHA-256">9337cccbc01d4098ee7a3dab215b3afbe6ece99c5287c92441d6f12cf541ebca</hash-sum>
  </version>
+ <version name="3.2.8" package="org.gimp.Gimp" type="one-file">
+  <file path=".Npackd\Install.bat">path&#13;
+&#13;
+for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
+"%setup%" /SP- /VERYSILENT /SUPPRESSMSGBOXES /NOCANCEL /NORESTART /DIR="%CD%"&#13;
+set err=%errorlevel%&#13;
+if %err% neq 0 exit /b %err%&#13;
+&#13;
+set key=org.gimp.Gimp-%NPACKD_PACKAGE_VERSION%&#13;
+reg add HKLM\SOFTWARE\Classes\Applications\%key%\shell\open /v FriendlyAppName /d "Gimp (%NPACKD_PACKAGE_VERSION%)" /f&#13;
+set c=\"%CD%\bin\gimp-2.10.exe\" \"%%1\"&#13;
+reg add HKLM\SOFTWARE\Classes\Applications\%KEY%\shell\open\command /d "%c%" /f&#13;
+for %%g in (xcf pix matte mask alpha als fli flc xcf.bz2 bz2 xcfbz2 desktop dcm dicom eps fit fits g3 gif pat gbr gpb gih xcf.gz gz xcfgz jpg jpeg jpe cel ico wmf apm psp tub pspimage psd png pnm ppm pgm pbm pdf ps sgi rgb rgba bw ico im1 im8 im24 im32 rs ras svg tga vda icb vst tif tiff bmp xbm icon bitmap xpm xwd pcx pcc) do reg add HKLM\SOFTWARE\Classes\.%%g\OpenWithList\%key% /f&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">uninst\unins000.exe /VERYSILENT /SUPPRESSMSGBOXES /NORESTART&#13;
+set err=%errorlevel%&#13;
+if %err% neq 0 exit /b %err%&#13;
+&#13;
+set key=org.gimp.Gimp-%NPACKD_PACKAGE_VERSION%&#13;
+reg delete HKLM\SOFTWARE\Classes\Applications\%key% /f&#13;
+for %%g in (xcf pix matte mask alpha als fli flc xcf.bz2 bz2 xcfbz2 desktop dcm dicom eps fit fits g3 gif pat gbr gpb gih xcf.gz gz xcfgz jpg jpeg jpe cel ico wmf apm psp tub pspimage psd png pnm ppm pgm pbm pdf ps sgi rgb rgba bw ico im1 im8 im24 im32 rs ras svg tga vda icb vst tif tiff bmp xbm icon bitmap xpm xwd pcx pcc) do reg delete HKLM\SOFTWARE\Classes\.%%g\OpenWithList\%key% /f&#13;
+</file>
+  <url>https://download.gimp.org/mirror/pub/gimp/v3.2/windows/gimp-3.2.8-setup.exe</url>
+  <hash-sum type="SHA-256">1d78874295661d791eaf149982e9b3564888631ea29186da5ff99e8114020a5b</hash-sum>
+ </version>
 
  <version name="3.2.2" package="org.glest.Glest" type="one-file">
   <file path=".Npackd\Install.bat">glest_3.2.2.exe /SP- /VERYSILENT /SUPPRESSMSGBOXES /NOCANCEL /NORESTART /DIR="%CD%"</file>
@@ -120635,6 +120698,14 @@ if %err% neq 0 exit %err%
   <url>http://www.microsip.org/download/MicroSIP-3.22.20.exe</url>
   <hash-sum type="SHA-256">19a8a7aa6647e6aaa3c386a037b603c158ef82e19f084eb7569bc36baef1f26d</hash-sum>
  </version>
+ <version name="3.22.22" package="org.microsip.MicroSIP" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">uninstall.exe /S _?=%CD%&#13;
+</file>
+  <url>http://www.microsip.org/download/MicroSIP-3.22.22.exe</url>
+  <hash-sum type="SHA-256">f12acc6cb3694dd11d2c172a78f58a2238c86dc754bdcf3e4ca4343e50d9fb42</hash-sum>
+ </version>
 
  <version name="3.6.3" package="org.microsip.MicroSIPLite" type="one-file">
   <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
@@ -121224,6 +121295,14 @@ if %err% neq 0 exit %err%
 </file>
   <url>http://www.microsip.org/download/MicroSIP-Lite-3.22.22.exe</url>
   <hash-sum type="SHA-256">998b021ba9a30b22d13c11378a213bc98492b9d205f5b9c4f8621bedffa6f8de</hash-sum>
+ </version>
+ <version name="3.22.23" package="org.microsip.MicroSIPLite" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">uninstall.exe /S _?=%CD%&#13;
+</file>
+  <url>http://www.microsip.org/download/MicroSIP-Lite-3.22.23.exe</url>
+  <hash-sum type="SHA-256">ea385aca3354fa0ca0ff802da45223ce601ddc82addd907c07fbe6acb8206872</hash-sum>
  </version>
 
  <version name="4.8.4.159" package="org.midnightcommander.MidnightCommander" type="one-file">
@@ -126102,6 +126181,17 @@ echo DesktopShortcut=false &gt;&gt; .Npackd\FF.ini&#13;
 verify</file>
   <url>https://download-origin.cdn.mozilla.net/pub/mozilla.org/firefox/releases/159.0/win32/en-US/Firefox%20Setup%20159.0.exe</url>
   <hash-sum type="SHA-256">2f0943a2cb926ca532bfd0e5ca87b0ffad21919dfd858cfd2c7252e53e17fa85</hash-sum>
+ </version>
+ <version name="159.0.1" package="org.mozilla.Firefox" type="one-file">
+  <file path=".Npackd\Install.bat">echo [Install] &gt; .Npackd\FF.ini&#13;
+echo InstallDirectoryPath=%CD% &gt;&gt; .Npackd\FF.ini&#13;
+echo QuickLaunchShortcut=false &gt;&gt; .Npackd\FF.ini&#13;
+echo DesktopShortcut=false &gt;&gt; .Npackd\FF.ini&#13;
+"%npackd_package_binary%" /INI="%CD%\.Npackd\FF.ini" &amp;&amp; del /f /q "%npackd_package_binary%"</file>
+  <file path=".Npackd\Uninstall.bat">uninstall\helper.exe /S&#13;
+verify</file>
+  <url>https://download-origin.cdn.mozilla.net/pub/mozilla.org/firefox/releases/159.0.1/win32/en-US/Firefox%20Setup%20159.0.1.exe</url>
+  <hash-sum type="SHA-256">782633008ae6810823f2db29b1ffb925154dad123806ca709b355e3f63a51371</hash-sum>
  </version>
 
  <version name="24.4" package="org.mozilla.FirefoxESR" type="one-file">
@@ -152044,6 +152134,17 @@ if %err% neq 0 exit %err%&#13;
    <variable>nih</variable>
   </dependency>
  </version>
+ <version name="4.6.2" package="r" type="one-file">
+  <file path=".Npackd\Install.bat">call "%nih%\InstallInnoSetup.bat"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">call "%nih%\UninstallInnoSetup.bat" unins000.exe&#13;
+</file>
+  <url>http://cran.r-project.org/bin/windows/base/R-4.6.2-win.exe</url>
+  <hash-sum type="SHA-256">b0b0053baa1963b6d8a28c9642d50107ef9ce2f41c8b9a90e952846c8918b38a</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
 
  <version name="5.3.6" package="racket" type="one-file">
   <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
@@ -171539,7 +171640,7 @@ if %err% neq 0 exit %err%&#13;
   <url>https://az764295.vo.msecnd.net/stable/a0479759d6e9ea56afa657e454193f72aef85bd0/VSCodeSetup-ia32-1.48.2.exe</url>
   <hash-sum type="SHA-256">013d5ecdb44159c15047472512bef9c76ba934807dbb07a582655f4c5546866d</hash-sum>
  </version>
- <version name="1.144" package="vs-code" type="one-file">
+ <version name="1.145" package="vs-code" type="one-file">
   <file path=".Npackd\Install.bat">ren "%npackd_package_binary%" setup.exe&#13;
 setup.exe /SP- /VERYSILENT /SUPPRESSMSGBOXES /NOCANCEL /NORESTART /DIR="%CD%" /SAVEINF="%CD%\.Npackd\InnoSetupInfo.ini" /LOG="%CD%\.Npackd\InnoSetupInstall.log"&#13;
 set err=%errorlevel%&#13;
