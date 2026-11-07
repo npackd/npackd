@@ -19388,7 +19388,7 @@ verify&#13;
  </version>
 
 
- <version name="1.98.63" package="brave" type="one-file">
+ <version name="1.99.55" package="brave" type="one-file">
   <file path=".Npackd\Install.bat">"%npackd_package_binary%" &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
 </file>
   <file path=".Npackd\Uninstall.bat">"%ncl%\ncl.exe" remove-scp --title "/%npackd_package_name% %npackd_package_version%/i"&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
@@ -38025,12 +38025,12 @@ if %err% neq 0 exit /b %err%
   <sha1>07ee66105f30884b2daa12c6d46c83e201a98f38</sha1>
  </version>
 
- <version name="17.14" package="com.microsoft.ProcessExplorer">
+ <version name="17.21" package="com.microsoft.ProcessExplorer">
   <important-file path="procexp.exe" title="Process Explorer"/>
   <url>https://download.sysinternals.com/files/ProcessExplorer.zip</url>
  </version>
 
- <version name="4.12" package="com.microsoft.ProcessMonitor">
+ <version name="4.13" package="com.microsoft.ProcessMonitor">
   <important-file path="Procmon.exe" title="Process Monitor"/>
   <url>https://download.sysinternals.com/files/ProcessMonitor.zip</url>
  </version>
@@ -38846,7 +38846,7 @@ if %errorlevel% neq 0 exit /b %errorlevel%</file>
  <version name="5.0.10586.713" package="com.microsoft.WindowsInstaller">
  </version>
 
- <version name="12.22" package="com.microsoft.ZoomIt">
+ <version name="12.31" package="com.microsoft.ZoomIt">
   <important-file path="ZoomIt.exe" title="ZoomIt"/>
   <url>http://download.sysinternals.com/files/ZoomIt.zip</url>
  </version>
@@ -67609,6 +67609,20 @@ if %err% neq 0 exit %err%&#13;
   <url>https://www.heidisql.com/installers/HeidiSQL_12.22.0.7382_Setup.exe</url>
   <hash-sum type="SHA-256">468055814dcedc057821f2692d28cfdde181332265240538b9acb320cae49904</hash-sum>
  </version>
+ <version name="12.22.0.7398" package="heidisql" type="one-file">
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
+"%setup%" /SP- /VERYSILENT /SUPPRESSMSGBOXES /NOCANCEL /NORESTART /DIR="%CD%" /SAVEINF="%CD%\.Npackd\InnoSetupInfo.ini" /LOG="%CD%\.Npackd\InnoSetupInstall.log" &amp;&amp; del /f /q "%setup%"&#13;
+set err=%errorlevel%&#13;
+type .Npackd\InnoSetupInstall.log&#13;
+if %err% neq 0 exit %err%</file>
+  <file path=".Npackd\Uninstall.bat">unins000.exe /VERYSILENT /SUPPRESSMSGBOXES /NORESTART /LOG="%CD%\.Npackd\InnoSetupUninstall.log"&#13;
+set err=%errorlevel%&#13;
+type .Npackd\InnoSetupUninstall.log&#13;
+if %err% neq 0 exit %err%&#13;
+</file>
+  <url>https://www.heidisql.com/installers/HeidiSQL_12.22.0.7398_Setup.exe</url>
+  <hash-sum type="SHA-256">d7c2b1025489c3c1401a05eed1d5d2bb8a07917bd928f6074392851737f0e963</hash-sum>
+ </version>
 
  <version name="3.1" package="heob" type="one-file">
   <cmd-file path="heob32.exe"/>
@@ -73217,7 +73231,7 @@ if %err% neq 0 exit %err%&#13;
   </dependency>
  </version>
 
- <version name="1.7" package="junction">
+ <version name="1.8" package="junction">
   <url>https://download.sysinternals.com/files/Junction.zip</url>
  </version>
 
@@ -99134,7 +99148,7 @@ WshShell.AppActivate("Uninstall");&#13;
 WScript.Sleep(10000);&#13;
 WshShell.SendKeys("y");&#13;
 </file>
-  <url>https://download.openmpt.org/archive/openmpt/1.32/OpenMPT-1.32.12.00-Setup.exe</url>
+  <url>https://github.com/tim-lebedkov/packages/releases/download/2026_11/openmpt-1.32.12-OpenMPT-1.32.12.00-Setup.exe</url>
   <hash-sum type="SHA-256">7fd1248aa3964a89e2233819595013c78295be788defbe8f3410faa1b358c8aa</hash-sum>
  </version>
 
@@ -152139,7 +152153,7 @@ if %err% neq 0 exit %err%&#13;
 </file>
   <file path=".Npackd\Uninstall.bat">call "%nih%\UninstallInnoSetup.bat" unins000.exe&#13;
 </file>
-  <url>http://cran.r-project.org/bin/windows/base/R-4.6.2-win.exe</url>
+  <url>https://github.com/tim-lebedkov/packages/releases/download/2026_11/r-4.6.2-R-4.6.2-win.exe</url>
   <hash-sum type="SHA-256">b0b0053baa1963b6d8a28c9642d50107ef9ce2f41c8b9a90e952846c8918b38a</hash-sum>
   <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
    <variable>nih</variable>
@@ -152851,7 +152865,7 @@ WshShell.SendKeys("{ENTER}");&#13;
   </dependency>
  </version>
 
- <version name="3.22" package="rdcman">
+ <version name="3.23" package="rdcman">
   <important-file path="RDCMan.exe" title="Remote Desktop Connection Manager"/>
   <url>https://download.sysinternals.com/files/RDCMan.zip</url>
  </version>
@@ -171545,6 +171559,19 @@ type .Npackd\Output.txt</file>
    <variable>ncl</variable>
   </dependency>
  </version>
+ <version name="8.3.4191.26" package="vivaldi-browser" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" --system-level --vivaldi-silent --vivaldi-standalone --do-not-launch-chrome --vivaldi-install-dir="%CD%" &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">for /f "delims=" %%x in ('dir /b application\5*') do set name=%%x&#13;
+&#13;
+Application\%name%\Installer\setup.exe --uninstall --vivaldi --force-uninstall --system-level &gt; .Npackd\Output.txt 2&gt;&amp;1 &#13;
+type .Npackd\Output.txt</file>
+  <url>https://downloads.vivaldi.com/stable/Vivaldi.8.3.4191.26.exe</url>
+  <hash-sum type="SHA-256">817c956479cb5ce808f27db0c921ee871248e655571d288fe644dbfe057e2b19</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.24, 2)">
+   <variable>ncl</variable>
+  </dependency>
+ </version>
 
  <version name="2.0.3" package="vn.evolus.pencil.Pencil" type="one-file">
   <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
@@ -171640,7 +171667,7 @@ if %err% neq 0 exit %err%&#13;
   <url>https://az764295.vo.msecnd.net/stable/a0479759d6e9ea56afa657e454193f72aef85bd0/VSCodeSetup-ia32-1.48.2.exe</url>
   <hash-sum type="SHA-256">013d5ecdb44159c15047472512bef9c76ba934807dbb07a582655f4c5546866d</hash-sum>
  </version>
- <version name="1.145" package="vs-code" type="one-file">
+ <version name="1.145.2" package="vs-code" type="one-file">
   <file path=".Npackd\Install.bat">ren "%npackd_package_binary%" setup.exe&#13;
 setup.exe /SP- /VERYSILENT /SUPPRESSMSGBOXES /NOCANCEL /NORESTART /DIR="%CD%" /SAVEINF="%CD%\.Npackd\InnoSetupInfo.ini" /LOG="%CD%\.Npackd\InnoSetupInstall.log"&#13;
 set err=%errorlevel%&#13;
