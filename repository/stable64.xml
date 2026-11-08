@@ -50656,6 +50656,15 @@ rmdir /s /q "%name%"&#13;
   <url>https://github.com/clsid2/mpc-hc/releases/download/2.8.4/MPC-HC.2.8.4.x64.zip</url>
   <hash-sum type="SHA-256">9feb91e27407ec048d7fe3722db0f5f06debf9841d7879bd920ab787f9b098ae</hash-sum>
  </version>
+ <version name="2.8.5" package="net.sourceforge.mpc-hc.MediaPlayerClassicHomeCinema64">
+  <important-file path="mpc-hc64.exe" title="Media Player Classic - Home Cinema"/>
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b MPC*') do set name=%%x&#13;
+xcopy "%name%\*" . /E /H&#13;
+rmdir /s /q "%name%"&#13;
+</file>
+  <url>https://github.com/clsid2/mpc-hc/releases/download/2.8.5/MPC-HC.2.8.5.x64.zip</url>
+  <hash-sum type="SHA-256">164372dc972c3980ba4bbe89df68e2afa517dca6f3a7613b21039db0ffc98db6</hash-sum>
+ </version>
 
  <version name="5.1" package="net.sourceforge.peazip.PeaZip64" type="one-file">
   <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
@@ -59232,6 +59241,18 @@ cscript //Nologo //E:JScript //T:300 //U .Npackd\Install.js&#13;
 </file>
   <url>https://www.7-zip.org/a/7z2605-x64.msi</url>
   <hash-sum type="SHA-256">3fe4ab99fa15629c652944309a2b2bc6e41fc933fc6b63f5df1ebcf3aea68263</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.1, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
+ <version name="26.6" package="org.7-zip.SevenZIP64" type="one-file">
+  <cmd-file path="7z.exe"/>
+  <cmd-file path="7zG.exe"/>
+  <file path=".Npackd\Extensions.txt">.001 .7z .arj .bz2 .bzip2 .cab .cpio .deb .dmg .egg .fat .gz .gzip .hfs .iso .lha .lzh .lzma .ntfs .rar .rpm .squashfs .swm .tar .taz .tbz .tbz2 .tgz .tpz .txz .vhd .wim .xar .xz .z .zip</file>
+  <file path=".Npackd\Install.bat">call "%nih%\InstallMSI.bat" INSTALLDIR yes&#13;
+</file>
+  <url>https://www.7-zip.org/a/7z2606-x64.msi</url>
+  <hash-sum type="SHA-256">6dc822569e777d9a3ecd5ffcbc22b55600af87e6c5d9810a64e8566cf5a4af9f</hash-sum>
   <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.1, 2)">
    <variable>nih</variable>
   </dependency>
@@ -91804,6 +91825,20 @@ call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Np
    <variable>nih</variable>
   </dependency>
  </version>
+ <version name="9.2.1302" package="org.vim.Vim64">
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+if %errorlevel% neq 0 exit /b %errorlevel%&#13;
+&#13;
+for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+</file>
+  <url>https://github.com/vim/vim-win32-installer/releases/download/v9.2.1302/gvim_9.2.1302_x64.zip</url>
+  <hash-sum type="SHA-256">06dc54e0ea8cc9306b29d75bd0ed406a9a5479e5c2479518f2b8925c760e98e4</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.19, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
 
  <version name="4.2.8.83876" package="org.virtualbox.virtualbox64" type="one-file">
   <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
@@ -108830,6 +108865,19 @@ type .Npackd\Output.txt</file>
    <variable>ncl</variable>
   </dependency>
  </version>
+ <version name="8.3.4191.30" package="vivaldi-browser-64" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" --system-level --vivaldi-silent --vivaldi-standalone --do-not-launch-chrome --vivaldi-install-dir="%CD%" &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">for /f "delims=" %%x in ('dir /b application\5*') do set name=%%x&#13;
+&#13;
+Application\%name%\Installer\setup.exe --uninstall --vivaldi --force-uninstall --system-level &gt; .Npackd\Output.txt 2&gt;&amp;1 &#13;
+type .Npackd\Output.txt</file>
+  <url>https://downloads.vivaldi.com/stable/Vivaldi.8.3.4191.30.x64.exe</url>
+  <hash-sum type="SHA-256">40ddf5a0a73e93b79e2f741d7538bad497cee59be159bebfccb0a35fb0c9cf6a</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.24, 2)">
+   <variable>ncl</variable>
+  </dependency>
+ </version>
 
  <version name="15.0.2" package="vmware64" type="one-file">
   <file path=".Npackd\Install.bat">"%npackd_package_binary%" /a /s /v"/qn TARGETDIR=."&#13;
@@ -108978,7 +109026,7 @@ if %errorlevel% neq 0 exit /b %errorlevel%&#13;
 </file>
   <url>https://update.code.visualstudio.com/1.84.2/win32-x64/stable</url>
  </version>
- <version name="1.145" package="vs-code64" type="one-file">
+ <version name="1.145.2" package="vs-code64" type="one-file">
   <file path=".Npackd\Install.bat">ren "%npackd_package_binary%" setup.exe&#13;
 setup.exe /SP- /VERYSILENT /SUPPRESSMSGBOXES /NOCANCEL /NORESTART /DIR="%CD%" /SAVEINF="%CD%\.Npackd\InnoSetupInfo.ini" /LOG="%CD%\.Npackd\InnoSetupInstall.log"&#13;
 set err=%errorlevel%&#13;
