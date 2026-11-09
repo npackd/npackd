@@ -728,13 +728,15 @@ i686</description>
  <package name="artweaver-free">
   <title>Artweaver Free</title>
   <url>http://www.artweaver.de/products-en/artweaver-free</url>
-  <description>raster graphics editor
+  <description>WARNING: this package always installs the newest version of the software.
+raster graphics editor
 i686</description>
   <icon>https://lh6.googleusercontent.com/-ZZ-k3mDsWF8/UZyVHSQ4r4I/AAAAAAAACBk/KCYr7fld0bw/s800/artweaver.png</icon>
   <license>org.wikipedia.Freeware</license>
   <category>Photo</category>
   <tag>stable</tag>
   <tag>reupload</tag>
+  <tag>same-url</tag>
   <stars>1</stars>
   <link href="http://www.artweaver.de/en/changelog" rel="changelog"/>
  </package>
@@ -120777,6 +120779,14 @@ if %err% neq 0 exit %err%
   <url>http://www.microsip.org/download/MicroSIP-3.22.22.exe</url>
   <hash-sum type="SHA-256">f12acc6cb3694dd11d2c172a78f58a2238c86dc754bdcf3e4ca4343e50d9fb42</hash-sum>
  </version>
+ <version name="3.22.23" package="org.microsip.MicroSIP" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">uninstall.exe /S _?=%CD%&#13;
+</file>
+  <url>http://www.microsip.org/download/MicroSIP-3.22.23.exe</url>
+  <hash-sum type="SHA-256">c28b6e1222260b5c18da594c6c6008755325df639ed1c620dfaf31b03fcac3df</hash-sum>
+ </version>
 
  <version name="3.6.3" package="org.microsip.MicroSIPLite" type="one-file">
   <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
@@ -167606,7 +167616,7 @@ call "%npackdih%\InstallMSI.bat" INSTALLDIR yes&#13;
   <file path=".Npackd\Uninstall.bat">"%myun%\myuninst.exe" /uninstall "vistumbler"&#13;
 </file>
   <url>https://github.com/acalcutt/Vistumbler/releases/download/v10.10.1/Vistumbler_v10-10-1.exe</url>
-  <hash-sum type="SHA-256">92a4e48c2a6f9482419d7d72ed3a11bc7f5313c1465888e915792ba5ce4a1c35</hash-sum>
+  <hash-sum type="SHA-256">4ece15f2c878dbd602d4c6071161a6c5ae532f37246ccc3e899f484e327b0460</hash-sum>
   <dependency package="net.nirsoft.MyUninstaller" versions="[1.74, 2)">
    <variable>myun</variable>
   </dependency>
