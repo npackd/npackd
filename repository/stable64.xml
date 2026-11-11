@@ -5502,7 +5502,6 @@ x86_64</description>
   <link href="https://www.waterfox.net/blog/waterfox-2020.03-release/" rel="changelog"/>
   <link href="https://cdn.lo4d.com/t/screenshot/waterfox.png" rel="screenshot"/>
   <link href="https://www.snapfiles.com/screenfiles/waterfox3.png" rel="screenshot"/>
-  <link href="https://cdn.dribbble.com/users/1288612/screenshots/10422276/dd_ruby-001_4x.png" rel="screenshot"/>
   <link href="https://cdn.lo4d.com/t/screenshot/waterfox-2.png" rel="screenshot"/>
   <link href="https://www.snapfiles.com/screenfiles/waterfox.png" rel="screenshot"/>
   <link href="https://static.filehorse.com/screenshots-mac/browsers-and-plugins/waterfox-mac-screenshot-01.png" rel="screenshot"/>
@@ -32933,6 +32932,17 @@ verify</file>
   <url>https://download-installer.cdn.mozilla.net/pub/firefox/releases/159.0.1/win64/en-US/Firefox%20Setup%20159.0.1.exe</url>
   <hash-sum type="SHA-256">729af643b8e0a3809d6153a57a448cb96a01e6fa5e2e7ff782152ede6202eadd</hash-sum>
  </version>
+ <version name="160" package="firefox64" type="one-file">
+  <file path=".Npackd\Install.bat">echo [Install] &gt; .Npackd\FF.ini&#13;
+echo InstallDirectoryPath=%CD% &gt;&gt; .Npackd\FF.ini&#13;
+echo QuickLaunchShortcut=false &gt;&gt; .Npackd\FF.ini&#13;
+echo DesktopShortcut=false &gt;&gt; .Npackd\FF.ini&#13;
+"%npackd_package_binary%" /INI="%CD%\.Npackd\FF.ini" &amp;&amp; del /f /q "%npackd_package_binary%"</file>
+  <file path=".Npackd\Uninstall.bat">uninstall\helper.exe /S&#13;
+verify</file>
+  <url>https://download-installer.cdn.mozilla.net/pub/firefox/releases/160.0/win64/en-US/Firefox%20Setup%20160.0.exe</url>
+  <hash-sum type="SHA-256">8732312ee2d7960c6ea830a4e0d3c0ff5fe0b10856dab44e2c432fcdeb63ff63</hash-sum>
+ </version>
 
  <version name="0.5" package="firefoxpwa" type="one-file">
   <file path=".Npackd\Install.bat">call "%nih%\InstallMSI.bat" APPLICATIONFOLDER yes</file>
@@ -33485,7 +33495,9 @@ verify</file>
   <hash-sum type="SHA-256">63c33fa7b7d8db285c6effcced61cba9864afded8459c7411fe558260b7a111a</hash-sum>
  </version>
  <version name="1.28" package="focus-image-viewer" type="one-file">
-  <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
+  <file path=".Npackd\Install.bat">rem installation fails with the error code 1223&#13;
+rem maybe deleting the binary is the problem?&#13;
+"%npackd_package_binary%" /S /D=%CD%&#13;
 </file>
   <file path=".Npackd\Uninstall.bat">uninstall.exe /S _?=%CD%&#13;
 </file>
@@ -40628,6 +40640,17 @@ verify&#13;
   <file path=".Npackd\Uninstall.bat">uninstall.exe /mode silent</file>
   <url>https://github.com/TPC-Council/HammerDB/releases/download/v4.11/HammerDB-4.11-Win-x64-Setup.exe</url>
   <hash-sum type="SHA-256">e6a3e905b9a96e542e12dd8868e6b3568a18a67c0448f68005b3e9adadde3c4b</hash-sum>
+ </version>
+ <version name="6.1.1" package="hammerdb64" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" /mode silent /prefix "%cd%" &gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+if %errorlevel% neq 0 exit /b %errorlevel%&#13;
+&#13;
+del /f /q "%npackd_package_binary%"&#13;
+verify&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">uninstall.exe /mode silent</file>
+  <url>https://github.com/TPC-Council/HammerDB/releases/download/v6.1.1/HammerDB-6.1.1-Win-x64-Setup.exe</url>
+  <hash-sum type="SHA-256">248fbbae0b94e6bbe3b92fcea4dae216b0dd53a2e94b5ed37d9eb11b0eee2805</hash-sum>
  </version>
 
  <version name="2.2" package="hashmyfiles64">
@@ -91860,6 +91883,20 @@ call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Np
    <variable>nih</variable>
   </dependency>
  </version>
+ <version name="9.2.1259" package="org.vim.Vim64">
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+if %errorlevel% neq 0 exit /b %errorlevel%&#13;
+&#13;
+for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+</file>
+  <url>https://github.com/vim/vim-win32-installer/releases/download/v9.2.1259/gvim_9.2.1259_x64.zip</url>
+  <hash-sum type="SHA-256">86d17c662662d538c9741aa8ccad7f9db8843eb719a27d72b0448f356a55f930</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.19, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
  <version name="9.2.1276" package="org.vim.Vim64">
   <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
 call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
@@ -101303,6 +101340,17 @@ if %err% neq 0 exit %err%&#13;
    <variable>nih</variable>
   </dependency>
  </version>
+ <version name="2.8.6" package="sigil64" type="one-file">
+  <file path=".Npackd\Install.bat">call "%nih%\InstallInnoSetup.bat"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">call "%nih%\UninstallInnoSetup.bat" unins000.exe&#13;
+</file>
+  <url>https://github.com/user-none/Sigil/releases/download//2.8.6/Sigil-2.8.6-Windows-x64-Setup.exe</url>
+  <hash-sum type="SHA-256">95cf12e2611f5cbf38ba079281f7806f696c6e7c81ba5c52112508be2a482d6b</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
 
 
  <version name="4" package="skychart64" type="one-file">
@@ -104603,6 +104651,15 @@ if %err% neq 0 exit %err%&#13;
 </file>
   <url>https://github.com/transmission/transmission/releases/download/4.1.3/transmission-4.1.3-x64.msi</url>
   <hash-sum type="SHA-256">c8ea492d8f46fadac26e0c05b244cabba556201d5fe348dfcf1cf036621741f8</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.1, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
+ <version name="4.1.4" package="transmission-qt64" type="one-file">
+  <file path=".Npackd\Install.bat">call "%nih%\InstallMSI.bat" INSTALLDIR yes&#13;
+</file>
+  <url>https://github.com/transmission/transmission/releases/download/4.1.4/transmission-4.1.4-x64.msi</url>
+  <hash-sum type="SHA-256">cf51e5772f39a3ead3c8f763b689399b9b4b8b016a4c0ca68ab5d6c634be2e1c</hash-sum>
   <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.1, 2)">
    <variable>nih</variable>
   </dependency>
@@ -108941,6 +108998,19 @@ type .Npackd\Output.txt</file>
    <variable>ncl</variable>
   </dependency>
  </version>
+ <version name="8.3.4191.35" package="vivaldi-browser-64" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" --system-level --vivaldi-silent --vivaldi-standalone --do-not-launch-chrome --vivaldi-install-dir="%CD%" &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">for /f "delims=" %%x in ('dir /b application\5*') do set name=%%x&#13;
+&#13;
+Application\%name%\Installer\setup.exe --uninstall --vivaldi --force-uninstall --system-level &gt; .Npackd\Output.txt 2&gt;&amp;1 &#13;
+type .Npackd\Output.txt</file>
+  <url>https://downloads.vivaldi.com/stable/Vivaldi.8.3.4191.35.x64.exe</url>
+  <hash-sum type="SHA-256">d9cd421314ff8fd0f5a8b2a7dbb6818ac1dfe26882426253b26b89f09a66afdc</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.24, 2)">
+   <variable>ncl</variable>
+  </dependency>
+ </version>
 
  <version name="15.0.2" package="vmware64" type="one-file">
   <file path=".Npackd\Install.bat">"%npackd_package_binary%" /a /s /v"/qn TARGETDIR=."&#13;
@@ -109089,7 +109159,7 @@ if %errorlevel% neq 0 exit /b %errorlevel%&#13;
 </file>
   <url>https://update.code.visualstudio.com/1.84.2/win32-x64/stable</url>
  </version>
- <version name="1.145.2" package="vs-code64" type="one-file">
+ <version name="1.145.3" package="vs-code64" type="one-file">
   <file path=".Npackd\Install.bat">ren "%npackd_package_binary%" setup.exe&#13;
 setup.exe /SP- /VERYSILENT /SUPPRESSMSGBOXES /NOCANCEL /NORESTART /DIR="%CD%" /SAVEINF="%CD%\.Npackd\InnoSetupInfo.ini" /LOG="%CD%\.Npackd\InnoSetupInstall.log"&#13;
 set err=%errorlevel%&#13;
@@ -109191,7 +109261,7 @@ if %errorlevel% neq 0 exit /b %errorlevel%&#13;
   <dependency package="com.oracle.JRE64" versions="[1.6.0.23, 2)"/>
  </version>
 
- <version name="2020.7" package="waterfox-current" type="one-file">
+ <version name="6.7.8" package="waterfox-current" type="one-file">
   <file path=".Npackd\Install.bat">echo [Install] &gt; .Npackd\FF.ini&#13;
 echo InstallDirectoryPath=%CD% &gt;&gt; .Npackd\FF.ini&#13;
 echo QuickLaunchShortcut=false &gt;&gt; .Npackd\FF.ini&#13;
@@ -109199,41 +109269,8 @@ echo DesktopShortcut=false &gt;&gt; .Npackd\FF.ini&#13;
 "%npackd_package_binary%" /INI="%CD%\.Npackd\FF.ini" &amp;&amp; del /f /q "%npackd_package_binary%"</file>
   <file path=".Npackd\Uninstall.bat">uninstall\helper.exe /S&#13;
 verify</file>
-  <url>https://cdn.waterfox.net/releases/win64/installer/Waterfox%20Current%202020.07%20Setup.exe</url>
-  <hash-sum type="SHA-256">0b7b791bba69151ae98734378ab514e55a66b218c4758feb05f0b2a7a4cf9864</hash-sum>
- </version>
- <version name="2020.7.1" package="waterfox-current" type="one-file">
-  <file path=".Npackd\Install.bat">echo [Install] &gt; .Npackd\FF.ini&#13;
-echo InstallDirectoryPath=%CD% &gt;&gt; .Npackd\FF.ini&#13;
-echo QuickLaunchShortcut=false &gt;&gt; .Npackd\FF.ini&#13;
-echo DesktopShortcut=false &gt;&gt; .Npackd\FF.ini&#13;
-"%npackd_package_binary%" /INI="%CD%\.Npackd\FF.ini" &amp;&amp; del /f /q "%npackd_package_binary%"</file>
-  <file path=".Npackd\Uninstall.bat">uninstall\helper.exe /S&#13;
-verify</file>
-  <url>https://cdn.waterfox.net/releases/win64/installer/Waterfox%20Current%202020.07.1%20Setup.exe</url>
-  <hash-sum type="SHA-256">d4df3b799172fea2c6555a34e029ef1c81c0736ff1db200bb880c0d6654328ba</hash-sum>
- </version>
- <version name="2020.8" package="waterfox-current" type="one-file">
-  <file path=".Npackd\Install.bat">echo [Install] &gt; .Npackd\FF.ini&#13;
-echo InstallDirectoryPath=%CD% &gt;&gt; .Npackd\FF.ini&#13;
-echo QuickLaunchShortcut=false &gt;&gt; .Npackd\FF.ini&#13;
-echo DesktopShortcut=false &gt;&gt; .Npackd\FF.ini&#13;
-"%npackd_package_binary%" /INI="%CD%\.Npackd\FF.ini" &amp;&amp; del /f /q "%npackd_package_binary%"</file>
-  <file path=".Npackd\Uninstall.bat">uninstall\helper.exe /S&#13;
-verify</file>
-  <url>https://cdn.waterfox.net/releases/win64/installer/Waterfox%20Current%202020.08%20Setup.exe</url>
-  <hash-sum type="SHA-256">85ef08ac08e3376fb90f88b8b8f8f3e23cb1b2c5424872f98d5b11ccbb18c0f5</hash-sum>
- </version>
- <version name="2020.10" package="waterfox-current" type="one-file">
-  <file path=".Npackd\Install.bat">echo [Install] &gt; .Npackd\FF.ini&#13;
-echo InstallDirectoryPath=%CD% &gt;&gt; .Npackd\FF.ini&#13;
-echo QuickLaunchShortcut=false &gt;&gt; .Npackd\FF.ini&#13;
-echo DesktopShortcut=false &gt;&gt; .Npackd\FF.ini&#13;
-"%npackd_package_binary%" /INI="%CD%\.Npackd\FF.ini" &amp;&amp; del /f /q "%npackd_package_binary%"</file>
-  <file path=".Npackd\Uninstall.bat">uninstall\helper.exe /S&#13;
-verify</file>
-  <url>https://cdn.waterfox.net/releases/win64/installer/Waterfox%20Current%202020.10%20Setup.exe</url>
-  <hash-sum type="SHA-256">9f6c948b625f20f7fd7ad9e7918743c5e06ba99bce7a7dffc3bb686b4e38b834</hash-sum>
+  <url>https://cdn.waterfox.com/waterfox/releases/6.7.8/WINNT_x86_64/Waterfox%20Setup%206.7.8.exe</url>
+  <hash-sum type="SHA-256">956c532f4811dc261dd48d68fb98f54e8a22ec989c0f6f2dd7798bfa1149869c</hash-sum>
  </version>
 
  <version name="4.6" package="webpi64" type="one-file">
