@@ -369,11 +369,13 @@ i686</description>
  <package name="4k-video-downloader">
   <title>4K Video Downloader</title>
   <url>https://www.4kdownload.com/products/product-videodownloader</url>
-  <description>allows downloading videos, playlists, channels and subtitles from YouTube, Facebook, Vimeo and other video sites in high quality
+  <description>WARNING: there will be no new versions of this package.
+allows downloading videos, playlists, channels and subtitles from YouTube, Facebook, Vimeo and other video sites in high quality
 i686</description>
   <icon>https://www.4kdownload.com/favicon.ico</icon>
   <category>Video</category>
   <tag>stable</tag>
+  <tag>end-of-life</tag>
   <link href="https://static.4kdownload.com/main/img/redesign/product-screenshots/ubuntu/videodownloader/glav.webp?403eaa691ba3" rel="screenshot"/>
  </package>
  <package name="8x8-virtual-office-desktop">
@@ -1537,10 +1539,10 @@ i686</description>
  </package>
  <package name="cmder">
   <title>cmder</title>
-  <url>http://cmder.net/</url>
+  <url>https://cmder.app/</url>
   <description>console emulator. It is spiced up with the Monokai color scheme and a custom prompt layout.
 i686</description>
-  <icon>http://cmder.net/favicon.ico</icon>
+  <icon>https://cmder.app/favicon.ico</icon>
   <license>edu.mit.web.MIT</license>
   <category>Development</category>
   <tag>stable</tag>
@@ -4226,7 +4228,6 @@ i686</description>
   <title>XnView</title>
   <url>https://www.xnview.com</url>
   <description>WARNING: this package always installs the newest version of the software.
-WARNING: this package always installs the newest version.&#13;
 viewing and converting graphic files
 i686</description>
   <icon>https://lh4.googleusercontent.com/-JhC9hx52F0s/UQZO6E1ZXWI/AAAAAAAAAGc/zyVyYrIuHdI/s800/xnview_32.png</icon>
@@ -6549,7 +6550,7 @@ i686</description>
   <license>org.gnu.GPLv2</license>
   <category>Productivity</category>
   <tag>stable</tag>
-  <stars>4</stars>
+  <stars>3</stars>
   <link href="http://blog.librecad.org/" rel="changelog"/>
   <link href="https://librecad.org/img/welcome.png" rel="screenshot"/>
  </package>
@@ -8595,6 +8596,18 @@ i686</description>
   <tag>end-of-life</tag>
   <tag>stable</tag>
   <link href="https://github.com/tim-lebedkov/npackd-scripts/commits/master" rel="changelog"/>
+ </package>
+ <package name="npcap">
+  <title>Npcap</title>
+  <url>https://npcap.com/</url>
+  <description>Nmap Project's packet capture (and sending) library for Microsoft Windows. It implements the open Pcap API using a custom Windows kernel driver alongside our Windows build of the excellent libpcap library. This allows Windows software to capture raw network traffic (including wireless networks, wired ethernet, localhost traffic, and many VPNs) using a simple, portable API. Npcap allows for sending raw packets as well.
+i686</description>
+  <icon>https://npcap.com/favicon.ico</icon>
+  <license>org.wikipedia.Freeware</license>
+  <category>Development</category>
+  <tag>stable</tag>
+  <link href="https://npcap.com/changelog" rel="changelog"/>
+  <link href="https://github.com/nmap/npcap/issues/" rel="issues"/>
  </package>
  <package name="nubasic">
   <title>Nubasic</title>
@@ -10926,7 +10939,7 @@ i686</description>
   <category>Games</category>
   <tag>same-url</tag>
   <tag>stable</tag>
-  <stars>2</stars>
+  <stars>1</stars>
  </package>
  <package name="orwelldevcpp">
   <title>Orwell Dev-C++</title>
@@ -14011,6 +14024,17 @@ i686</description>
 </file>
   <url>https://dl.3u.com/update/v300/dl/3uTools_v3.08.025_Setup_x86.exe</url>
   <hash-sum type="SHA-256">1e63885a3da5bd20ca4c5444f587e0ee491b3c4dd56844319a4fb2bcdf8c8aa2</hash-sum>
+  <dependency package="net.nirsoft.MyUninstaller" versions="[1.74, 2)">
+   <variable>myun</variable>
+  </dependency>
+ </version>
+ <version name="9.12.5" package="3utools" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">"%myun%\myuninst.exe" /uninstall "3utools"&#13;
+</file>
+  <url>https://dl.3u.com/update/v900/dl/3uTools_v9.12.005_Setup_x86.exe</url>
+  <hash-sum type="SHA-256">22d18e4967d51959a3d1efc867cecea7c7b961f4de476ec2785f0ff1ce84dcd6</hash-sum>
   <dependency package="net.nirsoft.MyUninstaller" versions="[1.74, 2)">
    <variable>myun</variable>
   </dependency>
@@ -19390,7 +19414,7 @@ verify&#13;
  </version>
 
 
- <version name="1.99.55" package="brave" type="one-file">
+ <version name="1.99.56" package="brave" type="one-file">
   <file path=".Npackd\Install.bat">"%npackd_package_binary%" &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
 </file>
   <file path=".Npackd\Uninstall.bat">"%ncl%\ncl.exe" remove-scp --title "/%npackd_package_name% %npackd_package_version%/i"&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
@@ -20749,6 +20773,13 @@ rmdir "%name%"</file>
   <hash-sum type="SHA-256">b432b6d683ec2495a9042b668218522d3bac9aef0bd613ccd17b57b983092049</hash-sum>
   <dependency package="com.microsoft.DotNetRedistributable" versions="[3.5, 4)"/>
  </version>
+ <version name="9.6.0.46406" package="ch.cyberduck.Cyberduck" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
+</file>
+  <url>https://update.cyberduck.io/windows/Cyberduck-Installer-9.6.0.46406.exe</url>
+  <hash-sum type="SHA-256">9a66f8fb400feaa5f7f390f9e4100e873f6be06cbf7c61f1651fca8b1f31c930</hash-sum>
+  <dependency package="com.microsoft.DotNetRedistributable" versions="[3.5, 4)"/>
+ </version>
 
  <version name="5.5" package="ch.elby.vclonedrive" type="one-file">
   <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
@@ -21722,7 +21753,7 @@ call "%nih%\InstallMSI.bat" INSTALLDIR yes&#13;
   </dependency>
  </version>
  <version name="1.3.25" package="cmder" type="one-file">
-  <file path=".Npackd\Install.bat">"%sevenzipa%\7za.exe" x "%npackd_package_binary%" &gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt &amp;&amp; del /f /q "%setup%"&#13;
+  <file path=".Npackd\Install.bat">"%sevenzipa%\7za.exe" x "%npackd_package_binary%" &gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
 </file>
   <url>https://github.com/cmderdev/cmder/releases/download/v1.3.25/cmder.7z</url>
   <hash-sum type="SHA-256">72e42fb57c5cb098f468bf5ee3a48c3ce0b53f6bb99d30719817bee796b38446</hash-sum>
@@ -41209,7 +41240,7 @@ call "%npackdih%\InstallMSI.bat" INSTALLDIR yes&#13;
    <variable>NIH</variable>
   </dependency>
  </version>
- <version name="18.0.84" package="com.phraseexpress.PhraseExpressPE">
+ <version name="18.0.86" package="com.phraseexpress.PhraseExpressPE">
   <file path=".Npackd\Install.bat">"%NIH%\InstallInnoSetup.bat"</file>
   <file path=".Npackd\Uninstall.bat">"%NIH%\UninstallInnoSetup.bat" unins000.exe</file>
   <url>http://www.phraseexpress.com/PhraseExpressSetup.zip</url>
@@ -48116,7 +48147,7 @@ ren "%setup%" GPU-Z.exe&#13;
   </dependency>
   <dependency package="com.microsoft.Windows32" versions="[5, 15)"/>
  </version>
- <version name="11.1.1" package="com.tracker-software.PDFXChangeViewer" type="one-file">
+ <version name="11.1.2" package="com.tracker-software.PDFXChangeViewer" type="one-file">
   <file path=".Npackd\Install.bat">call "%npackdih%\InstallMSI.bat" INSTALLLOCATION yes&#13;
 </file>
   <url>https://www.tracker-software.com/downloads/PXCViewer_x86.msi</url>
@@ -51054,7 +51085,7 @@ if %err% neq 0 exit %err%&#13;
   <url>http://files.npackd.org/com.xnview.XnView-2.22.exe</url>
   <sha1>836f64363d3e8423825012d54a515047918bb8ef</sha1>
  </version>
- <version name="2.52.1" package="com.xnview.XnView" type="one-file">
+ <version name="2.52.7" package="com.xnview.XnView" type="one-file">
   <file path=".Npackd/Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
 "%setup%" /SP- /VERYSILENT /SUPPRESSMSGBOXES /NOCANCEL /NORESTART /DIR="%CD%" /SAVEINF="%CD%\.Npackd\InnoSetupInfo.ini" /LOG="%CD%\.Npackd\InnoSetupInstall.log"&#13;
 set err=%errorlevel%&#13;
@@ -59358,7 +59389,7 @@ verify</file>
   </dependency>
  </version>
 
- <version name="3.6.10" package="github" type="one-file">
+ <version name="3.6.11" package="github" type="one-file">
   <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
 "%setup%" &amp;&amp; del /f /q "%setup%"&#13;
 </file>
@@ -67625,6 +67656,20 @@ if %err% neq 0 exit %err%&#13;
   <url>https://www.heidisql.com/installers/HeidiSQL_12.22.0.7398_Setup.exe</url>
   <hash-sum type="SHA-256">d7c2b1025489c3c1401a05eed1d5d2bb8a07917bd928f6074392851737f0e963</hash-sum>
  </version>
+ <version name="12.22.0.7407" package="heidisql" type="one-file">
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
+"%setup%" /SP- /VERYSILENT /SUPPRESSMSGBOXES /NOCANCEL /NORESTART /DIR="%CD%" /SAVEINF="%CD%\.Npackd\InnoSetupInfo.ini" /LOG="%CD%\.Npackd\InnoSetupInstall.log" &amp;&amp; del /f /q "%setup%"&#13;
+set err=%errorlevel%&#13;
+type .Npackd\InnoSetupInstall.log&#13;
+if %err% neq 0 exit %err%</file>
+  <file path=".Npackd\Uninstall.bat">unins000.exe /VERYSILENT /SUPPRESSMSGBOXES /NORESTART /LOG="%CD%\.Npackd\InnoSetupUninstall.log"&#13;
+set err=%errorlevel%&#13;
+type .Npackd\InnoSetupUninstall.log&#13;
+if %err% neq 0 exit %err%&#13;
+</file>
+  <url>https://www.heidisql.com/installers/HeidiSQL_12.22.0.7407_Setup.exe</url>
+  <hash-sum type="SHA-256">aa2f06d520af5c2350ba98b245db3254fd597024f77fe20ed9b63cbdcc6b9cd9</hash-sum>
+ </version>
 
  <version name="3.1" package="heob" type="one-file">
   <cmd-file path="heob32.exe"/>
@@ -75294,6 +75339,10 @@ for /f "delims=" %%x in ('dir /b ldc*') do set name=%%x&#13;
  <version name="2.2.9.1701" package="letsencrypt-win-simple">
   <url>https://github.com/win-acme/win-acme/releases/download/v2.2.9.1701/win-acme.v2.2.9.1701.x86.pluggable.zip</url>
   <hash-sum type="SHA-256">5d9159c0c47db815534ebaa6d0252eb6e81d4d574549e6bb8a50a4f7a9319d30</hash-sum>
+ </version>
+ <version name="2.4.1.2444" package="letsencrypt-win-simple">
+  <url>https://github.com/win-acme/win-acme/releases/download/v2.4.1/win-acme.v2.4.1.2444.x86.pluggable.zip</url>
+  <hash-sum type="SHA-256">ddf33ca91895b0c248cf0afa38f588e48a7cf978ba0f28914ee8a90511ef99f6</hash-sum>
  </version>
 
  <version name="2.50" package="liblinear">
@@ -96077,6 +96126,7 @@ rmdir "%name%"&#13;
   <url>https://codeload.github.com/tim-lebedkov/npackd-scripts/zip/version_0.2</url>
   <sha1>5cbef56d5be02175b36f7392454e2d6999fa3230</sha1>
  </version>
+
 
  <version name="1.32" package="nubasic">
   <file path=".Npackd\Install.bat">call "%nih%\InstallInnoSetup.bat"&#13;
@@ -126274,6 +126324,17 @@ verify</file>
   <url>https://download-origin.cdn.mozilla.net/pub/mozilla.org/firefox/releases/159.0.1/win32/en-US/Firefox%20Setup%20159.0.1.exe</url>
   <hash-sum type="SHA-256">782633008ae6810823f2db29b1ffb925154dad123806ca709b355e3f63a51371</hash-sum>
  </version>
+ <version name="160" package="org.mozilla.Firefox" type="one-file">
+  <file path=".Npackd\Install.bat">echo [Install] &gt; .Npackd\FF.ini&#13;
+echo InstallDirectoryPath=%CD% &gt;&gt; .Npackd\FF.ini&#13;
+echo QuickLaunchShortcut=false &gt;&gt; .Npackd\FF.ini&#13;
+echo DesktopShortcut=false &gt;&gt; .Npackd\FF.ini&#13;
+"%npackd_package_binary%" /INI="%CD%\.Npackd\FF.ini" &amp;&amp; del /f /q "%npackd_package_binary%"</file>
+  <file path=".Npackd\Uninstall.bat">uninstall\helper.exe /S&#13;
+verify</file>
+  <url>https://download-origin.cdn.mozilla.net/pub/mozilla.org/firefox/releases/160.0/win32/en-US/Firefox%20Setup%20160.0.exe</url>
+  <hash-sum type="SHA-256">c73132278e5fc8b47224b443557ac3b4b2aa6c092b981fb4321c2df5cc956800</hash-sum>
+ </version>
 
  <version name="24.4" package="org.mozilla.FirefoxESR" type="one-file">
   <file path=".Npackd\Install.bat">echo [Install] &gt; .Npackd\FF.ini&#13;
@@ -132494,6 +132555,15 @@ rmdir "%name%"&#13;
 </file>
   <url>https://nmap.org/dist/nmap-7.98-setup.exe</url>
   <hash-sum type="SHA-256">5a52826b45600c34662012cc70f35df8dde590b83c14d0f3c7be04bbb4087d32</hash-sum>
+ </version>
+ <version name="7.993" package="org.nmap.nmap" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD%&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">Uninstall.exe /S _?=%CD%&#13;
+</file>
+  <url>https://nmap.org/dist/nmap-7.993-setup.exe</url>
+  <hash-sum type="SHA-256">22e5928d1738a1b94ffd3643014f52cb87d467dbec4cff9e5f721fe0b3782f1b</hash-sum>
+  <dependency package="npcap" versions="[1.90,2)"/>
  </version>
 
  <version name="6.0.1" package="org.nmap.Zenmap" type="one-file">
@@ -161386,6 +161456,14 @@ if %err% neq 0 exit %err%&#13;
   <url>https://www.sysgauge.com/setups/sysgauge_setup_v13.6.12.exe</url>
   <hash-sum type="SHA-256">97b8da497f5590d6da7d9cf84053e3cff5e59178a2d409b5f8b96ef81ddc7fa3</hash-sum>
  </version>
+ <version name="13.7.14" package="sysgauge" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">uninstall.exe /S _?=%CD%&#13;
+</file>
+  <url>https://www.sysgauge.com/setups/sysgauge_setup_v13.7.14.exe</url>
+  <hash-sum type="SHA-256">8d992f8618310e09227008b96379486a4aed19af10f072feaea0c281e5d780e2</hash-sum>
+ </version>
 
  <version name="1" package="sysinternals-suite">
   <url>https://download.sysinternals.com/files/SysinternalsSuite.zip</url>
@@ -171652,6 +171730,19 @@ type .Npackd\Output.txt</file>
    <variable>ncl</variable>
   </dependency>
  </version>
+ <version name="8.3.4191.35" package="vivaldi-browser" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" --system-level --vivaldi-silent --vivaldi-standalone --do-not-launch-chrome --vivaldi-install-dir="%CD%" &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">for /f "delims=" %%x in ('dir /b application\5*') do set name=%%x&#13;
+&#13;
+Application\%name%\Installer\setup.exe --uninstall --vivaldi --force-uninstall --system-level &gt; .Npackd\Output.txt 2&gt;&amp;1 &#13;
+type .Npackd\Output.txt</file>
+  <url>https://downloads.vivaldi.com/stable/Vivaldi.8.3.4191.35.exe</url>
+  <hash-sum type="SHA-256">86ab9838ab0a491d60f6f0fee408bfb9afdba546c2c7d577ac94dfab97211ede</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.24, 2)">
+   <variable>ncl</variable>
+  </dependency>
+ </version>
 
  <version name="2.0.3" package="vn.evolus.pencil.Pencil" type="one-file">
   <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
@@ -171747,7 +171838,7 @@ if %err% neq 0 exit %err%&#13;
   <url>https://az764295.vo.msecnd.net/stable/a0479759d6e9ea56afa657e454193f72aef85bd0/VSCodeSetup-ia32-1.48.2.exe</url>
   <hash-sum type="SHA-256">013d5ecdb44159c15047472512bef9c76ba934807dbb07a582655f4c5546866d</hash-sum>
  </version>
- <version name="1.145.2" package="vs-code" type="one-file">
+ <version name="1.146" package="vs-code" type="one-file">
   <file path=".Npackd\Install.bat">ren "%npackd_package_binary%" setup.exe&#13;
 setup.exe /SP- /VERYSILENT /SUPPRESSMSGBOXES /NOCANCEL /NORESTART /DIR="%CD%" /SAVEINF="%CD%\.Npackd\InnoSetupInfo.ini" /LOG="%CD%\.Npackd\InnoSetupInstall.log"&#13;
 set err=%errorlevel%&#13;

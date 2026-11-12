@@ -35772,6 +35772,17 @@ if %err% neq 0 exit %err%&#13;
    <variable>nih</variable>
   </dependency>
  </version>
+ <version name="2.56.1" package="git64" type="one-file">
+  <file path=".Npackd\Install.bat">call "%nih%\InstallInnoSetup.bat"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">call "%nih%\UninstallInnoSetup.bat" unins000.exe&#13;
+</file>
+  <url>https://github.com/git-for-windows/git/releases/download/v2.56.1.windows.1/Git-2.56.1-64-bit.exe</url>
+  <hash-sum type="SHA-256">c330c72e10b408cc39994bfefdb63542b0d93d21699325c3e0bd874af8a5a559</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
 
 
  <version name="5.2.7" package="gnuplot64" type="one-file">
@@ -40640,6 +40651,17 @@ verify&#13;
   <file path=".Npackd\Uninstall.bat">uninstall.exe /mode silent</file>
   <url>https://github.com/TPC-Council/HammerDB/releases/download/v4.11/HammerDB-4.11-Win-x64-Setup.exe</url>
   <hash-sum type="SHA-256">e6a3e905b9a96e542e12dd8868e6b3568a18a67c0448f68005b3e9adadde3c4b</hash-sum>
+ </version>
+ <version name="6.1" package="hammerdb64" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" /mode silent /prefix "%cd%" &gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+if %errorlevel% neq 0 exit /b %errorlevel%&#13;
+&#13;
+del /f /q "%npackd_package_binary%"&#13;
+verify&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">uninstall.exe /mode silent</file>
+  <url>https://github.com/TPC-Council/HammerDB/releases/download/v6.1/HammerDB-6.1-Win-x64-Setup.exe</url>
+  <hash-sum type="SHA-256">8767703f928d5600a5e4bb099ecab56db5f9cdc59f802624081f84fa556a656a</hash-sum>
  </version>
  <version name="6.1.1" package="hammerdb64" type="one-file">
   <file path=".Npackd\Install.bat">"%npackd_package_binary%" /mode silent /prefix "%cd%" &gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
@@ -61957,6 +61979,16 @@ rmdir "%name%"&#13;
 "%NIH%\ExtractDir.bat" "%name%"</file>
   <url>https://download.blender.org/release/Blender5.2/blender-5.2.3-windows-x64.zip</url>
   <hash-sum type="SHA-256">723f08a4401502561eb763cdeacf8745b31e5f3f154d287d3830d97cf75dc2fb</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
+   <variable>NIH</variable>
+  </dependency>
+ </version>
+ <version name="5.3" package="org.blender.Blender64">
+  <important-file path="blender.exe" title="Blender"/>
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b blender*') do set name=%%x&#13;
+"%NIH%\ExtractDir.bat" "%name%"</file>
+  <url>https://download.blender.org/release/Blender5.3/blender-5.3.0-windows-x64.zip</url>
+  <hash-sum type="SHA-256">3ac567a63d59d9934f7b9213bfb27ba05760e1fb366f8f55c381573ec3eabfa8</hash-sum>
   <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
    <variable>NIH</variable>
   </dependency>
@@ -91939,6 +91971,34 @@ call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Np
    <variable>nih</variable>
   </dependency>
  </version>
+ <version name="9.2.1310" package="org.vim.Vim64">
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+if %errorlevel% neq 0 exit /b %errorlevel%&#13;
+&#13;
+for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+</file>
+  <url>https://github.com/vim/vim-win32-installer/releases/download/v9.2.1310/gvim_9.2.1310_x64.zip</url>
+  <hash-sum type="SHA-256">e9b089986307f9ed2f4934a4bacc88a6935a2780c72b1180eb7aeb3328a9f2c9</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.19, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
+ <version name="9.2.1316" package="org.vim.Vim64">
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+if %errorlevel% neq 0 exit /b %errorlevel%&#13;
+&#13;
+for /f "delims=" %%x in ('dir /b vim*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+</file>
+  <url>https://github.com/vim/vim-win32-installer/releases/download/v9.2.1316/gvim_9.2.1316_x64.zip</url>
+  <hash-sum type="SHA-256">2ebb2efd8e697b8913f573633bd44c3595184b666f5964c06b0c232d74e05a98</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.19, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
 
  <version name="4.2.8.83876" package="org.virtualbox.virtualbox64" type="one-file">
   <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
@@ -96889,6 +96949,15 @@ call "%npackdih%\InstallMSI.bat" TARGETDIR yes</file>
    <variable>nih</variable>
   </dependency>
  </version>
+ <version name="1.6.1.44" package="psi-plus64" type="one-file">
+  <file path=".Npackd\Install.bat">"%nih%\InstallInnoSetup.bat"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">"%nih%\UninstallInnoSetup.bat" unins000.exe</file>
+  <url>https://master.dl.sourceforge.net/project/psiplus/Windows/Personal-Builds/KukuRuzo/psi-plus-1.6.1.44-x64-setup.exe</url>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
  <version name="1.6.1.54" package="psi-plus64" type="one-file">
   <file path=".Npackd\Install.bat">"%nih%\InstallInnoSetup.bat"&#13;
 </file>
@@ -100286,6 +100355,17 @@ if %errorlevel% neq 0 exit /b %errorlevel%&#13;
    <variable>ncl</variable>
   </dependency>
  </version>
+ <version name="1.5.3" package="rustdesk" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">"%ncl%\ncl.exe" remove-scp --title "/%npackd_package_name% %npackd_package_version%/i"&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+</file>
+  <url>https://github.com/rustdesk/rustdesk/releases/download/1.5.3/rustdesk-1.5.3-x86_64.exe</url>
+  <hash-sum type="SHA-256">523ba0efbf62a21739961b62c7daaffb44d3da86139c546b364fd4e1333ed249</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.25, 2)">
+   <variable>ncl</variable>
+  </dependency>
+ </version>
 
  <version name="1" package="rustup64">
   <url>https://static.rust-lang.org/rustup/dist/x86_64-pc-windows-msvc/rustup-init.exe</url>
@@ -100830,6 +100910,16 @@ call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Np
 </file>
   <url>https://github.com/tim-lebedkov/packages/releases/download/2023_02/se.haxx.curl.CURL64-7.88.1-curl-7.88.1-win64-mingw.zip</url>
   <hash-sum type="SHA-256">e44d247197955c78d9e9fb7b96c0f57d0241e5bafb68c613f777ee5e1602a7bd</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.19, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
+ <version name="8.23.0.8" package="se.haxx.curl.CURL64">
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b curl*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+</file>
+  <url>https://curl.se/windows/dl-8.23.0_8/curl-8.23.0_8-win64-mingw.zip</url>
+  <hash-sum type="SHA-256">ca5b0fd6e7a6dbde210281f545c73a89784f2e88104a2cdfe0b73ea3dfed5b3a</hash-sum>
   <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.19, 2)">
    <variable>nih</variable>
   </dependency>
@@ -104933,6 +105023,14 @@ if %err% neq 0 exit %err%&#13;
 </file>
   <url>https://github.com/Vencord/Vesktop/releases/download/v1.5.1/Vesktop-Setup-1.5.1.exe</url>
   <hash-sum type="SHA-256">147203f26c82657c17393230142901d92618a433731d66ba76c3f7b5faf220ee</hash-sum>
+ </version>
+ <version name="1.6.8" package="vesktop" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">"Uninstall vesktop.exe" /S _?=%CD%&#13;
+</file>
+  <url>https://github.com/Vencord/Vesktop/releases/download/v1.6.8/Vesktop-Setup-1.6.8.exe</url>
+  <hash-sum type="SHA-256">2b46707c2c9e780e7d41d376fe810687a6252a65a320c6e1e3deb63966702ea5</hash-sum>
  </version>
 
 
@@ -109159,7 +109257,7 @@ if %errorlevel% neq 0 exit /b %errorlevel%&#13;
 </file>
   <url>https://update.code.visualstudio.com/1.84.2/win32-x64/stable</url>
  </version>
- <version name="1.145.3" package="vs-code64" type="one-file">
+ <version name="1.146" package="vs-code64" type="one-file">
   <file path=".Npackd\Install.bat">ren "%npackd_package_binary%" setup.exe&#13;
 setup.exe /SP- /VERYSILENT /SUPPRESSMSGBOXES /NOCANCEL /NORESTART /DIR="%CD%" /SAVEINF="%CD%\.Npackd\InnoSetupInfo.ini" /LOG="%CD%\.Npackd\InnoSetupInstall.log"&#13;
 set err=%errorlevel%&#13;
