@@ -96953,7 +96953,7 @@ call "%npackdih%\InstallMSI.bat" TARGETDIR yes</file>
   <file path=".Npackd\Install.bat">"%nih%\InstallInnoSetup.bat"&#13;
 </file>
   <file path=".Npackd\Uninstall.bat">"%nih%\UninstallInnoSetup.bat" unins000.exe</file>
-  <url>https://master.dl.sourceforge.net/project/psiplus/Windows/Personal-Builds/KukuRuzo/psi-plus-1.6.1.44-x64-setup.exe</url>
+  <url>https://github.com/tim-lebedkov/packages/releases/download/2026_11/psi-plus64-1.6.1.44-psi-plus-1.6.1.44-x64-setup.exe</url>
   <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
    <variable>nih</variable>
   </dependency>
@@ -100918,8 +100918,18 @@ call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Np
   <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b curl*') do set name=%%x&#13;
 call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
 </file>
-  <url>https://curl.se/windows/dl-8.23.0_8/curl-8.23.0_8-win64-mingw.zip</url>
+  <url>https://github.com/tim-lebedkov/packages/releases/download/2026_11/se.haxx.curl.CURL64-8.23.0.8-curl-8.23.0_8-win64-mingw.zip</url>
   <hash-sum type="SHA-256">ca5b0fd6e7a6dbde210281f545c73a89784f2e88104a2cdfe0b73ea3dfed5b3a</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.19, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
+ <version name="8.23.0.9" package="se.haxx.curl.CURL64">
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b curl*') do set name=%%x&#13;
+call "%nih%\Extract.bat" "%name%" "."&gt; .Npackd\Output.txt &amp;&amp; type .Npackd\Output.txt&#13;
+</file>
+  <url>https://curl.se/windows/dl-8.23.0_9/curl-8.23.0_9-win64-mingw.zip</url>
+  <hash-sum type="SHA-256">89cb71930f4242d884e8e349463455932ab1d089b20f4f99318261a3cbff9167</hash-sum>
   <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.19, 2)">
    <variable>nih</variable>
   </dependency>
@@ -103444,6 +103454,14 @@ rmdir "%name%"</file>
 </file>
   <url>https://www.sysgauge.com/setups_x64/sysgauge_setup_v13.6.12_x64.exe</url>
   <hash-sum type="SHA-256">b804ead52b028102853bd6e75f66b75515e7987568947aafd7d79b6a21d30957</hash-sum>
+ </version>
+ <version name="13.7.14" package="sysgauge64" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">uninstall.exe /S _?=%CD%&#13;
+</file>
+  <url>https://www.sysgauge.com/setups_x64/sysgauge_setup_v13.7.14_x64.exe</url>
+  <hash-sum type="SHA-256">487a8d32b00c36f92afc4ceec0ee6726e6951667461011f988c69cffc34b726f</hash-sum>
  </version>
 
 
