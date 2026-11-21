@@ -9302,7 +9302,8 @@ i686</description>
  <package name="org.eclipse.EclipseIDEJava">
   <title>Eclipse</title>
   <url>https://www.eclipse.org/?category=ide</url>
-  <description>IDE. Many programming languages are supported. Choose "Eclipse Marketplace" from the "Help" menu and install the plugins you need after the installation of this package.&#13;
+  <description>WARNING: there will be no new versions of this package.
+IDE. Many programming languages are supported. Choose "Eclipse Marketplace" from the "Help" menu and install the plugins you need after the installation of this package.&#13;
 &#13;
 Eclipse version names:&#13;
 * Callisto - 3.2&#13;
@@ -9325,6 +9326,7 @@ i686</description>
   <license>org.eclipse.EPLv1</license>
   <category>Development</category>
   <tag>stable</tag>
+  <tag>end-of-life</tag>
  </package>
  <package name="org.electricsheep.ElectricSheep">
   <title>Electric Sheep</title>
@@ -16044,6 +16046,19 @@ verify</file>
 </file>
   <url>https://redirector.gvt1.com/edgedl/android/studio/install/2025.2.3.9/android-studio-2025.2.3.9-windows.exe</url>
   <hash-sum type="SHA-256">7ed9bf16ad849b478d13df3630a2010f29e7b01f64f6fd188a67f2820abe5fd7</hash-sum>
+  <dependency package="com.oracle.JDK" versions="[1.7.0.17, 2)"/>
+  <dependency package="com.microsoft.VisualCPPRedistributable" versions="[9, 10)"/>
+  <dependency package="net.nirsoft.MyUninstaller" versions="[1.74, 2)">
+   <variable>myun</variable>
+  </dependency>
+ </version>
+ <version name="2026.2.2.10" package="android-studio" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
+&#13;
+verify</file>
+  <file path=".Npackd\Uninstall.bat">"%myun%\myuninst.exe" /uninstall "Android Studio"&#13;
+</file>
+  <url>https://edgedl.me.gvt1.com/android/studio/install/2026.2.2.10/android-studio-rabbit2-patch2-windows.exe</url>
   <dependency package="com.oracle.JDK" versions="[1.7.0.17, 2)"/>
   <dependency package="com.microsoft.VisualCPPRedistributable" versions="[9, 10)"/>
   <dependency package="net.nirsoft.MyUninstaller" versions="[1.74, 2)">
@@ -47522,6 +47537,16 @@ if %err% neq 0 exit %err%&#13;
    <variable>nih</variable>
   </dependency>
  </version>
+ <version name="26.1.59" package="com.syntevo.smartgit">
+  <file path=".Npackd\Install.bat">call "%nih%\InstallInnoSetup.bat"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">call "%nih%\UninstallInnoSetup.bat" unins000.exe&#13;
+</file>
+  <url>https://download.smartgit.dev/smartgit/smartgit-26_1_059-win-installer.zip</url>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
 
  <version name="4.34" package="com.sysinternals.BgInfo">
   <important-file path="Bginfo.exe" title="BgInfo"/>
@@ -67637,6 +67662,19 @@ if %err% neq 0 exit %err%&#13;
 </file>
   <url>https://www.heidisql.com/installers/HeidiSQL_12.22.0.7409_Setup.exe</url>
   <hash-sum type="SHA-256">8b53b178a2909ea79b50f05c3e540d2c595a0d138db96476bde22e2f1075f0e3</hash-sum>
+ </version>
+ <version name="12.22.0.7423" package="heidisql" type="one-file">
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
+"%setup%" /SP- /VERYSILENT /SUPPRESSMSGBOXES /NOCANCEL /NORESTART /DIR="%CD%" /SAVEINF="%CD%\.Npackd\InnoSetupInfo.ini" /LOG="%CD%\.Npackd\InnoSetupInstall.log" &amp;&amp; del /f /q "%setup%"&#13;
+set err=%errorlevel%&#13;
+type .Npackd\InnoSetupInstall.log&#13;
+if %err% neq 0 exit %err%</file>
+  <file path=".Npackd\Uninstall.bat">unins000.exe /VERYSILENT /SUPPRESSMSGBOXES /NORESTART /LOG="%CD%\.Npackd\InnoSetupUninstall.log"&#13;
+set err=%errorlevel%&#13;
+type .Npackd\InnoSetupUninstall.log&#13;
+if %err% neq 0 exit %err%&#13;
+</file>
+  <url>https://www.heidisql.com/installers/HeidiSQL_12.22.0.7423_Setup.exe</url>
  </version>
 
  <version name="3.1" package="heob" type="one-file">
@@ -165430,6 +165468,13 @@ if %err% neq 0 exit %err%</file>
 </file>
   <url>https://github.com/texstudio-org/texstudio/releases/download/4.9.9/texstudio-4.9.9-win-qt6-signed.exe</url>
  </version>
+ <version name="4.9.10" package="texstudio" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">uninstall.exe /S _?=%CD%&#13;
+</file>
+  <url>https://github.com/texstudio-org/texstudio/releases/download/4.9.10/texstudio-4.9.10-win-qt6-signed.exe</url>
+ </version>
 
  <version name="1.6.1" package="textify" type="one-file">
   <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
@@ -172055,6 +172100,18 @@ type .Npackd\Output.txt</file>
 Application\%name%\Installer\setup.exe --uninstall --vivaldi --force-uninstall --system-level &gt; .Npackd\Output.txt 2&gt;&amp;1 &#13;
 type .Npackd\Output.txt</file>
   <url>https://downloads.vivaldi.com/stable/Vivaldi.8.3.4191.45.exe</url>
+  <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.24, 2)">
+   <variable>ncl</variable>
+  </dependency>
+ </version>
+ <version name="8.3.4191.47" package="vivaldi-browser" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" --system-level --vivaldi-silent --vivaldi-standalone --do-not-launch-chrome --vivaldi-install-dir="%CD%" &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">for /f "delims=" %%x in ('dir /b application\5*') do set name=%%x&#13;
+&#13;
+Application\%name%\Installer\setup.exe --uninstall --vivaldi --force-uninstall --system-level &gt; .Npackd\Output.txt 2&gt;&amp;1 &#13;
+type .Npackd\Output.txt</file>
+  <url>https://downloads.vivaldi.com/stable/Vivaldi.8.3.4191.47.exe</url>
   <dependency package="com.googlecode.windows-package-manager.NpackdCL" versions="[1.24, 2)">
    <variable>ncl</variable>
   </dependency>
