@@ -1174,7 +1174,7 @@ x86_64</description>
 x86_64</description>
   <icon>https://ricuicui.com/icone-192.png</icon>
   <license>org.wikipedia.Freeware</license>
-  <category>Internet/Browsers</category>
+  <category>Communications</category>
   <tag>stable64</tag>
  </package>
  <package name="com.selenic.mercurial.Mercurial64">
@@ -1816,9 +1816,7 @@ x86_64</description>
   <url>https://www.mozilla.org/en-GB/firefox/developer/</url>
   <description>Firefox browser that offers cutting edge developer tools and latest features like CSS Grid support and framework debugging.&#13;
 &#13;
-This package installs Firefox in English. You can add languages after the installation by navigating to https://addons.mozilla.org/de/firefox/language-tools/ .&#13;
-&#13;
-kw: Mozilla
+This package installs Firefox in English. You can add languages after the installation by navigating to https://addons.mozilla.org/de/firefox/language-tools/ .
 x86_64</description>
   <icon>https://lh5.googleusercontent.com/-fiLdJPeoq90/UcqWcTrNzmI/AAAAAAAACQs/2O0Dm0H6dlE/s800/firefox.png</icon>
   <license>com.mozilla.MozillaFirefoxLicense2</license>
@@ -1832,9 +1830,7 @@ x86_64</description>
   <url>https://www.mozilla.org/en-US/firefox/organizations/all.html</url>
   <description>web browser&#13;
 &#13;
-This package installs Firefox in English. You can add languages after the installation by navigating to https://addons.mozilla.org/de/firefox/language-tools/ .&#13;
-&#13;
-kw: Mozilla
+This package installs Firefox in English. You can add languages after the installation by navigating to https://addons.mozilla.org/de/firefox/language-tools/ .
 x86_64</description>
   <icon>https://lh5.googleusercontent.com/-fiLdJPeoq90/UcqWcTrNzmI/AAAAAAAACQs/2O0Dm0H6dlE/s800/firefox.png</icon>
   <license>com.mozilla.MozillaFirefoxLicense2</license>
@@ -1847,9 +1843,7 @@ x86_64</description>
   <url>https://www.mozilla.com/en-US/firefox/new/</url>
   <description>web browser&#13;
 &#13;
-This package installs Firefox in English. You can add languages after the installation by navigating to https://addons.mozilla.org/de/firefox/language-tools/ .&#13;
-&#13;
-kw: Mozilla
+This package installs Firefox in English. You can add languages after the installation by navigating to https://addons.mozilla.org/de/firefox/language-tools/ .
 x86_64</description>
   <icon>https://lh5.googleusercontent.com/-fiLdJPeoq90/UcqWcTrNzmI/AAAAAAAACQs/2O0Dm0H6dlE/s800/firefox.png</icon>
   <license>com.mozilla.MozillaFirefoxLicense2</license>
@@ -2581,6 +2575,16 @@ x86_64</description>
   <category>Photo</category>
   <tag>stable64</tag>
   <stars>5</stars>
+ </package>
+ <package name="kvirc64">
+  <title>KVIrc 64 Bit</title>
+  <url>http://www.kvirc.net</url>
+  <description>IRC client
+x86_64</description>
+  <icon>https://lh4.googleusercontent.com/-YfnEPuCJg0E/UVb9u9GelgI/AAAAAAAABgE/UdX_2XO3R6k/s800/kvIrc.png</icon>
+  <license>org.gnu.GPLv2</license>
+  <category>Communications</category>
+  <tag>stable64</tag>
  </package>
  <package name="lazpaint64">
   <title>LazPaint 64 Bit</title>
@@ -3922,7 +3926,7 @@ x86_64</description>
   <license>org.gnu.GPLv2</license>
   <category>Security</category>
   <tag>stable64</tag>
-  <stars>3</stars>
+  <stars>4</stars>
   <link href="https://github.com/keepassxreboot/keepassxc/blob/develop/CHANGELOG.md" rel="changelog"/>
  </package>
  <package name="org.miktex.MiKTeX64">
@@ -14695,6 +14699,14 @@ call "%npackdih%\InstallMSI.bat" APPLICATIONFOLDER yes&#13;
    <variable>npackdih</variable>
   </dependency>
  </version>
+ <version name="9.19" package="com.calibreebook.Calibre64" type="one-file">
+  <file path=".Npackd\Install.bat">call "%npackdih%\InstallMSI.bat" APPLICATIONFOLDER yes&#13;
+</file>
+  <url>https://download.calibre-ebook.com/9.19.0/calibre-64bit-9.19.0.msi</url>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.2, 2)">
+   <variable>npackdih</variable>
+  </dependency>
+ </version>
 
  <version name="5.12.256249.2599" package="com.comodo.comodoav64" type="one-file">
   <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.msi') do set setup=%%x&#13;
@@ -20385,7 +20397,7 @@ del Q-Dir.ini&#13;
   <url>http://files.npackd.org/com.softwareok.QDir64-5.99.9.zip</url>
   <sha1>fb6060796fae3fc641ba34fe1f2f8530d7c985a8</sha1>
  </version>
- <version name="12.84" package="com.softwareok.QDir64">
+ <version name="12.85" package="com.softwareok.QDir64">
   <important-file path="Q-Dir_x64.exe" title="Q-Dir"/>
   <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b Q*') do set name=%%x&#13;
 cd "%name%"        &#13;
@@ -43676,6 +43688,18 @@ rmdir "%name%"&#13;
    <variable>myun</variable>
   </dependency>
  </version>
+ <version name="7.1" package="jclasslib64" type="one-file">
+  <important-file path="bin\jclasslib.exe" title="jclasslib"/>
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
+"%setup%" -q -dir "%CD%" &amp;&amp; del /f /q "%setup%"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">uninstall.exe -q</file>
+  <url>https://github.com/ingokegel/jclasslib/releases/download/7.1/jclasslib_win64_7_1.exe</url>
+  <hash-sum type="SHA-256">ed1e607f7208af38ab01c829d8ee1d0848c96a9b53c524ea2dd37c9f18f2c53a</hash-sum>
+  <dependency package="net.nirsoft.MyUninstaller" versions="[1.74, 2)">
+   <variable>myun</variable>
+  </dependency>
+ </version>
 
 
 
@@ -44332,6 +44356,7 @@ call "%nih%\InstallMSI.bat" TARGETDIR yes&#13;
   <url>https://download.kde.org/stable/krita/5.2.2/krita-x64-5.2.2-setup.exe</url>
   <hash-sum type="SHA-256">f4fe0a3edf163d7154a6f6b7e9634494be84a666a465dd59751e27659dfe3c50</hash-sum>
  </version>
+
 
  <version name="7.1.3" package="lazpaint64" type="one-file">
   <file path=".Npackd\Install.bat">"%nih%\InstallInnoSetup.bat"&#13;
@@ -103054,6 +103079,14 @@ rmdir "%name%"</file>
 </file>
   <url>http://www.swi-prolog.org/download/stable/bin/swipl-10.0.2-1.x64.exe</url>
   <hash-sum type="SHA-256">2ec1f25be0eafb92e559004782b130774c12573fb4b7e8a917e534754a641ad6</hash-sum>
+ </version>
+ <version name="11.0.0.1" package="swi-prolog64" type="one-file">
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
+"%setup%" /S /D=%CD% &amp;&amp; del /f /q "%setup%"&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">uninstall.exe /S _?=%CD%&#13;
+</file>
+  <url>http://www.swi-prolog.org/download/stable/bin/swipl-11.0.0-1.x64.exe</url>
  </version>
 
 

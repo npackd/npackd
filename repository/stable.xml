@@ -5132,9 +5132,7 @@ i686</description>
   <url>https://www.mozilla.org/en-GB/firefox/developer/</url>
   <description>Firefox browser that offers cutting edge developer tools and latest features like CSS Grid support and framework debugging.&#13;
 &#13;
-This package installs Firefox in English. You can add languages after the installation by navigating to https://addons.mozilla.org/de/firefox/language-tools/ .&#13;
-&#13;
-kw: Mozilla
+This package installs Firefox in English. You can add languages after the installation by navigating to https://addons.mozilla.org/de/firefox/language-tools/ .
 i686</description>
   <icon>https://lh5.googleusercontent.com/-fiLdJPeoq90/UcqWcTrNzmI/AAAAAAAACQs/2O0Dm0H6dlE/s800/firefox.png</icon>
   <license>com.mozilla.MozillaFirefoxLicense2</license>
@@ -6783,12 +6781,14 @@ i686</description>
  <package name="manisandro.gImageReader">
   <title>gImageReader</title>
   <url>https://github.com/manisandro/gImageReader</url>
-  <description>gImageReader is a simple Gtk/Qt front-end to Tesseract OCR Engine.
+  <description>WARNING: there will be no new versions of this package.
+gImageReader is a simple Gtk/Qt front-end to Tesseract OCR Engine.
 i686</description>
   <icon>https://raw.githubusercontent.com/manisandro/gImageReader/master/packaging/win32/gimagereader.ico</icon>
   <license>org.gnu.GPLv3</license>
   <category>Photo</category>
   <tag>stable</tag>
+  <tag>end-of-life</tag>
   <link href="https://github.com/manisandro/gImageReader/commits/master" rel="changelog"/>
   <link href="https://raw.githubusercontent.com/manisandro/gImageReader/gh-pages/gimagereader.jpg" rel="screenshot"/>
  </package>
@@ -10187,9 +10187,7 @@ i686</description>
   <url>https://www.mozilla.com/en-US/firefox/new/</url>
   <description>web browser&#13;
 &#13;
-This package installs Firefox in English. You can add languages after the installation by navigating to https://addons.mozilla.org/de/firefox/language-tools/ .&#13;
-&#13;
-kw: Mozilla
+This package installs Firefox in English. You can add languages after the installation by navigating to https://addons.mozilla.org/de/firefox/language-tools/ .
 i686</description>
   <icon>https://lh5.googleusercontent.com/-fiLdJPeoq90/UcqWcTrNzmI/AAAAAAAACQs/2O0Dm0H6dlE/s800/firefox.png</icon>
   <license>com.mozilla.MozillaFirefoxLicense2</license>
@@ -10201,9 +10199,7 @@ i686</description>
   <url>https://www.mozilla.org/en-US/firefox/organizations/all.html</url>
   <description>web browser&#13;
 &#13;
-This package installs Firefox in English. You can add languages after the installation by navigating to https://addons.mozilla.org/de/firefox/language-tools/ .&#13;
-&#13;
-kw: Mozilla
+This package installs Firefox in English. You can add languages after the installation by navigating to https://addons.mozilla.org/de/firefox/language-tools/ .
 i686</description>
   <icon>https://lh5.googleusercontent.com/-fiLdJPeoq90/UcqWcTrNzmI/AAAAAAAACQs/2O0Dm0H6dlE/s800/firefox.png</icon>
   <license>com.mozilla.MozillaFirefoxLicense2</license>
@@ -11293,10 +11289,10 @@ i686</description>
  </package>
  <package name="primecoin">
   <title>Primecoin Wallet</title>
-  <url>http://primecoin.io/</url>
+  <url>https://primecoin.io/</url>
   <description>Primecoin is the first scientific computing cryptocurrency, a project derived from Bitcoin but with novel non-hashcash proof-of-work that mines prime numbers.
 i686</description>
-  <icon>http://upload.wikimedia.org/wikipedia/commons/thumb/c/cd/Primecoin_Logo.png/200px-Primecoin_Logo.png</icon>
+  <icon>https://primecoin.io/images/icons/primecoin.png</icon>
   <category>Finance</category>
   <tag>stable</tag>
  </package>
@@ -24846,7 +24842,7 @@ if %err% neq 0 exit %err%</file>
   <hash-sum type="SHA-256">b8dc7922cfc2dc5704f1e64037db0366465ed1a37e5c405587825f04ea629ae8</hash-sum>
   <dependency package="com.microsoft.Windows32" versions="[1, 1000)"/>
  </version>
- <version name="12.12" package="com.apple.itunes" type="one-file">
+ <version name="12.13.11" package="com.apple.itunes" type="one-file">
   <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
 "%setup%" /extract&#13;
 &#13;
@@ -24900,66 +24896,7 @@ type .Npackd\MSI.log&#13;
 rem 3010=restart required&#13;
 if %err% equ 3010 exit 0&#13;
 if %err% neq 0 exit %err%</file>
-  <url>https://secure-appldnld.apple.com/itunes12/002-06910-20210923-55AE9DCC-1CC3-11EC-916B-326B1236DAE3/iTunesSetup.exe</url>
-  <hash-sum type="SHA-256">30bd56c7b1467ebfeb7ef01458f5d14f83e9b0c1cb84b73a10eb4b98413e55a1</hash-sum>
-  <dependency package="com.microsoft.Windows32" versions="[1, 1000)"/>
- </version>
- <version name="12.12.1" package="com.apple.itunes" type="one-file">
-  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
-"%setup%" /extract&#13;
-&#13;
-del /q /f SetupAdmin.exe&#13;
-del /q /f AppleSoftwareUpdate.msi&#13;
-&#13;
-msiexec.exe /qn /norestart /Lime .Npackd\MSI.log /i AppleApplicationSupport.msi ALLUSERS=1&#13;
-set err=%errorlevel%&#13;
-type .Npackd\MSI.log&#13;
-rem 3010=restart required&#13;
-if %err% equ 3010 exit 0&#13;
-if %err% neq 0 exit %err%&#13;
-&#13;
-msiexec.exe /qn /norestart /Lime .Npackd\MSI.log /i iTunes.msi ALLUSERS=1&#13;
-set err=%errorlevel%&#13;
-type .Npackd\MSI.log&#13;
-rem 3010=restart required&#13;
-if %err% equ 3010 exit 0&#13;
-if %err% neq 0 exit %err%&#13;
-&#13;
-msiexec.exe /qn /norestart /Lime .Npackd\MSI.log /i Bonjour.msi ALLUSERS=1&#13;
-set err=%errorlevel%&#13;
-type .Npackd\MSI.log&#13;
-rem 3010=restart required&#13;
-if %err% equ 3010 exit 0&#13;
-if %err% neq 0 exit %err%&#13;
-&#13;
-msiexec.exe /qn /norestart /Lime .Npackd\MSI.log /i AppleMobileDeviceSupport.msi ALLUSERS=1&#13;
-set err=%errorlevel%&#13;
-type .Npackd\MSI.log&#13;
-rem 3010=restart required&#13;
-if %err% equ 3010 exit 0&#13;
-if %err% neq 0 exit %err%</file>
-  <file path=".Npackd\Uninstall.bat">msiexec.exe /qn /norestart /Lime .Npackd\MSI.log /x iTunes.msi&#13;
-set err=%errorlevel%&#13;
-type .Npackd\MSI.log&#13;
-rem 3010=restart required&#13;
-if %err% equ 3010 exit 0&#13;
-if %err% neq 0 exit %err%&#13;
-&#13;
-msiexec.exe /qn /norestart /Lime .Npackd\MSI.log /x Bonjour.msi&#13;
-set err=%errorlevel%&#13;
-type .Npackd\MSI.log&#13;
-rem 3010=restart required&#13;
-if %err% equ 3010 exit 0&#13;
-if %err% neq 0 exit %err%&#13;
-&#13;
-msiexec.exe /qn /norestart /Lime .Npackd\MSI.log /x AppleMobileDeviceSupport.msi&#13;
-set err=%errorlevel%&#13;
-type .Npackd\MSI.log&#13;
-rem 3010=restart required&#13;
-if %err% equ 3010 exit 0&#13;
-if %err% neq 0 exit %err%</file>
-  <url>https://secure-appldnld.apple.com/itunes12/002-06910-20210923-55AE9DCC-1CC3-11EC-916B-326B1236DAE3/iTunesSetup.exe</url>
-  <hash-sum type="SHA-256">30bd56c7b1467ebfeb7ef01458f5d14f83e9b0c1cb84b73a10eb4b98413e55a1</hash-sum>
+  <url>https://www.apple.com/itunes/download/win32?12.13.11</url>
   <dependency package="com.microsoft.Windows32" versions="[1, 1000)"/>
  </version>
 
@@ -25905,6 +25842,17 @@ verify&#13;
 </file>
   <url>https://github.com/AutoHotkey/AutoHotkey/releases/download/v2.0.31/AutoHotkey_2.0.31_setup.exe</url>
   <hash-sum type="SHA-256">9224a3bd1757088320bf04c51efa43511160766bfee8d6555168293cd54b4c16</hash-sum>
+ </version>
+ <version name="2.0.32" package="com.autohotkey.AutoHotKey" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%"  /silent /installto "%CD%"&#13;
+if %errorlevel% neq 0 exit /b %errorlevel%        &#13;
+&#13;
+del "%npackd_package_binary%"&#13;
+verify&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">v2\AutoHotkey32.exe UX\install.ahk /uninstall /silent&#13;
+</file>
+  <url>https://github.com/AutoHotkey/AutoHotkey/releases/download/v2.0.32/AutoHotkey_2.0.32_setup.exe</url>
  </version>
 
  <version name="3.3.8" package="com.autoitscript.AutoItFull" type="one-file">
@@ -44238,7 +44186,7 @@ del Q-Dir.ini&#13;
   <url>http://files.npackd.org/com.softwareok.QDir-5.99.4.zip</url>
   <sha1>fc2a90da7e924da41d2382673f0d4426af21c5be</sha1>
  </version>
- <version name="12.84" package="com.softwareok.QDir">
+ <version name="12.85" package="com.softwareok.QDir">
   <important-file path="Q-Dir.exe" title="Q-Dir"/>
   <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b Q*') do set name=%%x&#13;
 cd "%name%"        &#13;
@@ -75499,6 +75447,18 @@ rmdir "%name%"&#13;
 </file>
   <url>https://codeload.github.com/cjlin1/libsvm/zip/v325</url>
   <hash-sum type="SHA-256">aefd370361ca9593f959fd24c7d9b2e36a5ebf621ce93e52d5dad704b51eed5a</hash-sum>
+ </version>
+ <version name="3.37" package="libsvm">
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b libsvm-*') do set name=%%x&#13;
+cd "%name%"&#13;
+for /f "delims=" %%a in ('dir /b') do (&#13;
+  move "%%a" ..&#13;
+)&#13;
+cd ..&#13;
+rmdir "%name%"&#13;
+</file>
+  <url>https://www.csie.ntu.edu.tw/~cjlin/libsvm/libsvm-3.37.zip</url>
+  <hash-sum type="SHA-256">14134f5ffb70494caede905febc6c4f910c8b924f557ec0cc5284379b9ce5b7c</hash-sum>
  </version>
 
  <version name="4.7.3" package="light-alloy">
@@ -107336,6 +107296,16 @@ rd /s /q "%ALLUSERSPROFILE%\Start Menu\Programs\CodeBlocks" || rd /s /q "%ALLUSE
 verify</file>
   <url>http://downloads.sourceforge.net/project/codeblocks/Binaries/20.03/Windows/codeblocks-20.03-setup.exe</url>
   <hash-sum type="SHA-256">0e5f140c9371c39f46dc00cd75d6a7a8782814baefdf604f923e9ac647c59e09</hash-sum>
+ </version>
+ <version name="25.3" package="org.codeblocks.CodeBlocks" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%ProgramFiles%\CodeBlocksData&#13;
+</file>
+  <file path=".Npackd\Uninstall.bat">"%ProgramFiles%\CodeBlocksData\uninstall.exe" /S&#13;
+&#13;
+rd /s /q "%ALLUSERSPROFILE%\Start Menu\Programs\CodeBlocks" || rd /s /q "%ALLUSERSPROFILE%\Microsoft\Windows\Start Menu\Programs\CodeBlocks"&#13;
+verify</file>
+  <url>https://sourceforge.net/projects/codeblocks/files/Binaries/25.03/Windows/codeblocks-25.03-setup.exe</url>
+  <hash-sum type="SHA-256">88bca802df27fd9a9bae77453cf3bca36a7b69cbb3863e62d70a42f204f28df2</hash-sum>
  </version>
 
  <version name="12.11" package="org.codeblocks.CodeBlocksmingw" type="one-file">
@@ -154651,6 +154621,15 @@ verify</file>
 </file>
   <url>https://github.com/SafeExamBrowser/seb-win-refactoring/releases/download//3.3.2/SEB_3.3.2.413_x86_Setup.msi</url>
   <hash-sum type="SHA-256">2681eb326636c8d56d3ba0285f21a1fc7d3535002a47b86e9b379c46cfd7a4c2</hash-sum>
+  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.1, 2)">
+   <variable>nih</variable>
+  </dependency>
+ </version>
+ <version name="3.10.3.960" package="safeexambrowser" type="one-file">
+  <file path=".Npackd\Install.bat">call "%nih%\InstallMSI.bat" INSTALLDIR yes&#13;
+</file>
+  <url>https://github.com/SafeExamBrowser/seb-win-refactoring/releases/download/v3.10.3/SEB_3.10.3.960_x86_Setup.msi</url>
+  <hash-sum type="SHA-256">9800140481b0d5b55a92ab7253b120117ed616f60db4b71435c6252e0cf6af27</hash-sum>
   <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.1, 2)">
    <variable>nih</variable>
   </dependency>
