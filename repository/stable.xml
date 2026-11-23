@@ -55305,7 +55305,7 @@ directx\dxsetup.exe /silent || exit /b %errorlevel%&#13;
   <sha1>8ed95f694c01b3093bf4cc5d612c3135535093a3</sha1>
  </version>
 
- <version name="2.5.1" package="dk.executor.Executor" type="one-file">
+ <version name="2.5.2" package="dk.executor.Executor" type="one-file">
   <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
 "%setup%" /SP- /VERYSILENT /SUPPRESSMSGBOXES /NOCANCEL /NORESTART /DIR="%CD%" /SAVEINF="%CD%\.Npackd\InnoSetupInfo.ini" /LOG="%CD%\.Npackd\InnoSetupInstall.log"&#13;
 set err=%errorlevel%&#13;
@@ -64028,6 +64028,30 @@ rmdir "%name%"&#13;
   <hash-sum type="SHA-256">e757d1f72143ed960b26993aadf43899b8a2280fc0f751149790900b12009f98</hash-sum>
   <dependency package="org.python.Python" versions="[2.7, 2.8)"/>
  </version>
+ <version name="594" package="google-cloud-sdk">
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b google-cloud-sdk*') do set name=%%x&#13;
+cd "%name%"&#13;
+for /f "delims=" %%a in ('dir /b') do (&#13;
+  move "%%a" ..&#13;
+)&#13;
+cd ..&#13;
+rmdir "%name%"&#13;
+</file>
+  <url>https://dl.google.com/dl/cloudsdk/channels/rapid/downloads/google-cloud-sdk-594.0.0-windows-x86.zip</url>
+  <dependency package="org.python.Python" versions="[2.7, 2.8)"/>
+ </version>
+ <version name="594.0.1" package="google-cloud-sdk">
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b google-cloud-sdk*') do set name=%%x&#13;
+cd "%name%"&#13;
+for /f "delims=" %%a in ('dir /b') do (&#13;
+  move "%%a" ..&#13;
+)&#13;
+cd ..&#13;
+rmdir "%name%"&#13;
+</file>
+  <url>https://dl.google.com/dl/cloudsdk/channels/rapid/downloads/google-cloud-sdk-594.0.1-windows-x86.zip</url>
+  <dependency package="org.python.Python" versions="[2.7, 2.8)"/>
+ </version>
 
 
  <version name="0.2.5" package="gpick" type="one-file">
@@ -67611,6 +67635,19 @@ if %err% neq 0 exit %err%&#13;
   <url>https://www.heidisql.com/installers/HeidiSQL_12.22.0.7409_Setup.exe</url>
   <hash-sum type="SHA-256">8b53b178a2909ea79b50f05c3e540d2c595a0d138db96476bde22e2f1075f0e3</hash-sum>
  </version>
+ <version name="12.22.0.7417" package="heidisql" type="one-file">
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
+"%setup%" /SP- /VERYSILENT /SUPPRESSMSGBOXES /NOCANCEL /NORESTART /DIR="%CD%" /SAVEINF="%CD%\.Npackd\InnoSetupInfo.ini" /LOG="%CD%\.Npackd\InnoSetupInstall.log" &amp;&amp; del /f /q "%setup%"&#13;
+set err=%errorlevel%&#13;
+type .Npackd\InnoSetupInstall.log&#13;
+if %err% neq 0 exit %err%</file>
+  <file path=".Npackd\Uninstall.bat">unins000.exe /VERYSILENT /SUPPRESSMSGBOXES /NORESTART /LOG="%CD%\.Npackd\InnoSetupUninstall.log"&#13;
+set err=%errorlevel%&#13;
+type .Npackd\InnoSetupUninstall.log&#13;
+if %err% neq 0 exit %err%&#13;
+</file>
+  <url>https://www.heidisql.com/installers/HeidiSQL_12.22.0.7417_Setup.exe</url>
+ </version>
  <version name="12.22.0.7423" package="heidisql" type="one-file">
   <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
 "%setup%" /SP- /VERYSILENT /SUPPRESSMSGBOXES /NOCANCEL /NORESTART /DIR="%CD%" /SAVEINF="%CD%\.Npackd\InnoSetupInfo.ini" /LOG="%CD%\.Npackd\InnoSetupInstall.log" &amp;&amp; del /f /q "%setup%"&#13;
@@ -67832,6 +67869,10 @@ if %err% neq 0 exit %err%&#13;
  <version name="8.30" package="hwinfo">
   <important-file path="HWiNFO32.exe" title="HWiNFO"/>
   <url>https://www.sac.sk/download/utildiag/hwi_830.zip</url>
+ </version>
+ <version name="8.60" package="hwinfo">
+  <important-file path="HWiNFO32.exe" title="HWiNFO"/>
+  <url>https://www.sac.sk/download/utildiag/hwi_860.zip</url>
  </version>
 
 
@@ -110189,6 +110230,14 @@ verify</file>
   <file path=".Npackd\Uninstall.bat">Prog\unins000.exe /VERYSILENT /SUPPRESSMSGBOXES /NORESTART /LOG="%CD%\.Npackd\InnoSetupUninstall.log"&#13;
 </file>
   <url>https://sourceforge.net/projects/lazarus/files/Lazarus%20Windows%2032%20bits/Lazarus%202.0.12/lazarus-2.0.12-fpc-3.2.0-win32.exe</url>
+  <hash-sum type="SHA-256">f2fdaa7d412625aff08b38d7f4073ccbf8724db6c4e5678181cfdf92de697f8b</hash-sum>
+ </version>
+ <version name="4.8" package="org.freepascal.lazarus.Lazarus" type="one-file">
+  <file path=".Npackd\Install.bat">"%npackd_package_binary%" /SP- /VERYSILENT /SUPPRESSMSGBOXES /NOCANCEL /NORESTART /DIR="%CD%\Prog" /SAVEINF="%CD%\.Npackd\InnoSetupInfo.ini" /LOG="%CD%\.Npackd\InnoSetupInstall.log"&#13;
+verify</file>
+  <file path=".Npackd\Uninstall.bat">Prog\unins000.exe /VERYSILENT /SUPPRESSMSGBOXES /NORESTART /LOG="%CD%\.Npackd\InnoSetupUninstall.log"&#13;
+</file>
+  <url>https://sourceforge.net/projects/lazarus/files/Lazarus%20Windows%2032%20bits/Lazarus%204.8/lazarus-4.8-fpc-3.2.2-win32.exe</url>
   <hash-sum type="SHA-256">f2fdaa7d412625aff08b38d7f4073ccbf8724db6c4e5678181cfdf92de697f8b</hash-sum>
  </version>
 
@@ -160336,6 +160385,18 @@ rmdir "%name%"&#13;
 </file>
   <url>https://www.sqlite.org/2021/sqlite-amalgamation-3370000.zip</url>
   <hash-sum type="SHA-256">a443aaf5cf345613492efa679ef1c9cc31ba109dcdf37ee377f61ab500d042fe</hash-sum>
+ </version>
+ <version name="3.54.1" package="sqlite-source">
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b sqlite-amalgamation-*') do set name=%%x&#13;
+cd "%name%"&#13;
+for /f "delims=" %%a in ('dir /b') do (&#13;
+  move "%%a" ..&#13;
+)&#13;
+cd ..&#13;
+rmdir "%name%"&#13;
+</file>
+  <url>https://www.sqlite.org/2026/sqlite-amalgamation-3540100.zip</url>
+  <hash-sum type="SHA-256">0a9c8e34352dad46006aa82836d5383bff9dc6bc9ce5a60553c05aa30e6ad1f9</hash-sum>
  </version>
 
  <version name="11.1.3000" package="sqlncli" type="one-file">
