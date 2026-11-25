@@ -67661,6 +67661,32 @@ if %err% neq 0 exit %err%&#13;
 </file>
   <url>https://www.heidisql.com/installers/HeidiSQL_12.22.0.7423_Setup.exe</url>
  </version>
+ <version name="12.22.0.7429" package="heidisql" type="one-file">
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
+"%setup%" /SP- /VERYSILENT /SUPPRESSMSGBOXES /NOCANCEL /NORESTART /DIR="%CD%" /SAVEINF="%CD%\.Npackd\InnoSetupInfo.ini" /LOG="%CD%\.Npackd\InnoSetupInstall.log" &amp;&amp; del /f /q "%setup%"&#13;
+set err=%errorlevel%&#13;
+type .Npackd\InnoSetupInstall.log&#13;
+if %err% neq 0 exit %err%</file>
+  <file path=".Npackd\Uninstall.bat">unins000.exe /VERYSILENT /SUPPRESSMSGBOXES /NORESTART /LOG="%CD%\.Npackd\InnoSetupUninstall.log"&#13;
+set err=%errorlevel%&#13;
+type .Npackd\InnoSetupUninstall.log&#13;
+if %err% neq 0 exit %err%&#13;
+</file>
+  <url>https://www.heidisql.com/installers/HeidiSQL_12.22.0.7429_Setup.exe</url>
+ </version>
+ <version name="12.22.0.7433" package="heidisql" type="one-file">
+  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b *.exe') do set setup=%%x&#13;
+"%setup%" /SP- /VERYSILENT /SUPPRESSMSGBOXES /NOCANCEL /NORESTART /DIR="%CD%" /SAVEINF="%CD%\.Npackd\InnoSetupInfo.ini" /LOG="%CD%\.Npackd\InnoSetupInstall.log" &amp;&amp; del /f /q "%setup%"&#13;
+set err=%errorlevel%&#13;
+type .Npackd\InnoSetupInstall.log&#13;
+if %err% neq 0 exit %err%</file>
+  <file path=".Npackd\Uninstall.bat">unins000.exe /VERYSILENT /SUPPRESSMSGBOXES /NORESTART /LOG="%CD%\.Npackd\InnoSetupUninstall.log"&#13;
+set err=%errorlevel%&#13;
+type .Npackd\InnoSetupUninstall.log&#13;
+if %err% neq 0 exit %err%&#13;
+</file>
+  <url>https://www.heidisql.com/installers/HeidiSQL_12.22.0.7433_Setup.exe</url>
+ </version>
 
  <version name="3.1" package="heob" type="one-file">
   <cmd-file path="heob32.exe"/>
@@ -75488,18 +75514,6 @@ rmdir "%name%"&#13;
 </file>
   <url>https://codeload.github.com/cjlin1/libsvm/zip/v325</url>
   <hash-sum type="SHA-256">aefd370361ca9593f959fd24c7d9b2e36a5ebf621ce93e52d5dad704b51eed5a</hash-sum>
- </version>
- <version name="3.37" package="libsvm">
-  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b libsvm-*') do set name=%%x&#13;
-cd "%name%"&#13;
-for /f "delims=" %%a in ('dir /b') do (&#13;
-  move "%%a" ..&#13;
-)&#13;
-cd ..&#13;
-rmdir "%name%"&#13;
-</file>
-  <url>https://www.csie.ntu.edu.tw/~cjlin/libsvm/libsvm-3.37.zip</url>
-  <hash-sum type="SHA-256">14134f5ffb70494caede905febc6c4f910c8b924f557ec0cc5284379b9ce5b7c</hash-sum>
  </version>
 
  <version name="4.7.3" package="light-alloy">
@@ -94228,15 +94242,6 @@ if %err% neq 0 exit %err%&#13;
   </dependency>
   <dependency package="com.microsoft.Windows32" versions="[1, 1000)"/>
  </version>
- <version name="1.15.0.29830" package="net.tortoisesvn.TortoiseSVN" type="one-file">
-  <file path=".Npackd\Install.bat">call "%nih%\InstallMSI.bat" INSTALLDIR yes&#13;
-</file>
-  <url>http://rwthaachen.dl.osdn.jp/storage/g/t/to/tortoisesvn/1.15.0/Application/TortoiseSVN-1.15.0.29830-win32-svn-1.15.0.msi</url>
-  <dependency package="com.googlecode.windows-package-manager.NpackdInstallerHelper" versions="[1.3.1, 2)">
-   <variable>nih</variable>
-  </dependency>
-  <dependency package="com.microsoft.Windows32" versions="[1, 1000)"/>
- </version>
 
  <version name="4.2.7" package="net.winscp.WinSCP">
   <important-file path="winscp.exe" title="WinSCP"/>
@@ -96031,19 +96036,6 @@ rmdir "%name%"&#13;
   <hash-sum type="SHA-256">1d5f3eb40f588c5a2df19569bc9d99fd0f8028eeb9e08bfc8c89c682c3a1b5fb</hash-sum>
   <dependency package="com.oracle.JDK64" versions="[8, 100)"/>
  </version>
- <version name="32" package="netbeans">
-  <important-file path="bin\netbeans.exe" title="NetBeans"/>
-  <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b netbeans*') do set name=%%x&#13;
-cd "%name%"        &#13;
-for /f "delims=" %%a in ('dir /b') do (&#13;
-  move "%%a" ..&#13;
-)&#13;
-cd ..&#13;
-rmdir "%name%"&#13;
-</file>
-  <url>https://downloads.apache.org/netbeans/netbeans/32/netbeans-32-bin.zip</url>
-  <dependency package="com.oracle.JDK64" versions="[8, 100)"/>
- </version>
 
  <version name="3.7.7.9" package="netsurf-browser" type="one-file">
   <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
@@ -96832,7 +96824,7 @@ rmdir "%name%"&#13;
   <sha1>635e4b4a489aa91acc10726b8e2cf469037a58a3</sha1>
  </version>
 
- <version name="3.22.2" package="ocenaudio" type="one-file">
+ <version name="3.22.3" package="ocenaudio" type="one-file">
   <file path=".Npackd\Install.bat">"%npackd_package_binary%" /AllUsers /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
 </file>
   <file path=".Npackd\Uninstall.bat">"%ncl%\ncl" remove-scp --title "/ocenaudio.*/i"</file>
@@ -101099,6 +101091,11 @@ echo clear the error code&#13;
   <cmd-file path="7za.exe"/>
   <url>https://github.com/tim-lebedkov/packages/releases/download/2024_02/7z2301-extra.zip</url>
   <hash-sum type="SHA-256">0792a0ae03d48fe21a74ef8887460b4acde94b84ac81aaf86a587f4b986b319c</hash-sum>
+ </version>
+ <version name="26.6" package="org.7-zip.SevenZIPA" type="one-file">
+  <cmd-file path="7za.exe"/>
+  <url>https://github.com/tim-lebedkov/packages/releases/download/2026_11/7z2606-extra.zip</url>
+  <hash-sum type="SHA-256">ff87a9055f2f5b59814d400c9ab386432d50ec91e23a3576c00e13a01de003e3</hash-sum>
  </version>
 
  <version name="1.8.2" package="org.apache.Ant">
@@ -112452,6 +112449,11 @@ rmdir "%name%"</file>
   <important-file path="bin\runemacs.exe" title="Emacs"/>
   <url>https://ftp.gnu.org/gnu/emacs/windows/emacs-26/emacs-26.1-i686.zip</url>
   <hash-sum type="SHA-256">d8c1486304462a368911acc4628ba5433d5d6af6a25511504f324a3cd405131b</hash-sum>
+ </version>
+ <version name="31.1.1" package="org.gnu.Emacs">
+  <important-file path="bin\runemacs.exe" title="Emacs"/>
+  <url>https://ftp.gnu.org/gnu/emacs/windows/emacs-31/emacs-31.1_1-nodeps.zip</url>
+  <hash-sum type="SHA-256">3aa5a4d34f1a7dd3a1ac90ded15ee392f4fe77e06618a25a65f368af16f0706c</hash-sum>
  </version>
 
  <version name="7.1.90" package="org.gnu.GDB">
@@ -132679,7 +132681,7 @@ rmdir "%name%"&#13;
   <url>https://nginx.org/download/nginx-1.31.8.zip</url>
   <hash-sum type="SHA-256">fbb1501009be34655cc238d460714cf20391b639013f4c73859813d7938783fd</hash-sum>
  </version>
- <version name="1.31.9" package="org.nginx.Nginx">
+ <version name="1.31.10" package="org.nginx.Nginx">
   <file path=".Npackd\Install.bat">for /f "delims=" %%x in ('dir /b nginx*') do set name=%%x&#13;
 cd "%name%"        &#13;
 for /f "delims=" %%a in ('dir /b') do (&#13;
@@ -132688,7 +132690,8 @@ for /f "delims=" %%a in ('dir /b') do (&#13;
 cd ..&#13;
 rmdir "%name%"&#13;
 </file>
-  <url>https://nginx.org/download/nginx-1.31.9.zip</url>
+  <url>https://nginx.org/download/nginx-1.31.10.zip</url>
+  <hash-sum type="SHA-256">f1ce5ab677b51bff3f40be1a696b7aa8c959897d8148ed824faee8f0a3a3a22a</hash-sum>
  </version>
 
  <version name="6.25" package="org.nmap.nmap" type="one-file">
@@ -161136,7 +161139,6 @@ if %err% neq 0 exit %err%&#13;
   <file path=".Npackd\Uninstall.bat">uninstall.exe /S _?=%CD%&#13;
 </file>
   <url>https://www.sysgauge.com/setups/sysgauge_setup_v5.0.12.exe</url>
-  <hash-sum type="SHA-256">9fc642f869871860c8865c4e4c8efcb0cd2e33770195d9ed5c4946bbcfe27dae</hash-sum>
  </version>
  <version name="5.1.14" package="sysgauge" type="one-file">
   <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
@@ -161272,7 +161274,6 @@ if %err% neq 0 exit %err%&#13;
   <file path=".Npackd\Uninstall.bat">uninstall.exe /S _?=%CD%&#13;
 </file>
   <url>https://www.sysgauge.com/setups/sysgauge_setup_v6.7.14.exe</url>
-  <hash-sum type="SHA-256">1a5fb536ceb7e893ad852de4e90e672b5a60748a96e9da964a7ae74abbf90508</hash-sum>
  </version>
  <version name="6.8.12" package="sysgauge" type="one-file">
   <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
@@ -161296,7 +161297,6 @@ if %err% neq 0 exit %err%&#13;
   <file path=".Npackd\Uninstall.bat">uninstall.exe /S _?=%CD%&#13;
 </file>
   <url>https://www.sysgauge.com/setups/sysgauge_setup_v7.0.36.exe</url>
-  <hash-sum type="SHA-256">fbc2f9663ef2b7b2af0aaf59ec930a627c37975f717de9588174afcc11abbd10</hash-sum>
  </version>
  <version name="7.2.16" package="sysgauge" type="one-file">
   <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
@@ -161344,7 +161344,6 @@ if %err% neq 0 exit %err%&#13;
   <file path=".Npackd\Uninstall.bat">uninstall.exe /S _?=%CD%&#13;
 </file>
   <url>https://www.sysgauge.com/setups/sysgauge_setup_v7.7.28.exe</url>
-  <hash-sum type="SHA-256">ec8834cb2132709810c5edaa1ce332560a418a1b4239376ffaf5ffb54ec3d54b</hash-sum>
  </version>
  <version name="7.8.16" package="sysgauge" type="one-file">
   <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
@@ -161784,7 +161783,6 @@ if %err% neq 0 exit %err%&#13;
   <file path=".Npackd\Uninstall.bat">uninstall.exe /S _?=%CD%&#13;
 </file>
   <url>https://www.sysgauge.com/setups/sysgauge_setup_v13.2.18.exe</url>
-  <hash-sum type="SHA-256">2f6d462f1c6fbd1ee1fb6ea5c3582ee89bd7a91439526aec3ebe02f172ac48cf</hash-sum>
  </version>
  <version name="13.3.24" package="sysgauge" type="one-file">
   <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
@@ -161792,7 +161790,6 @@ if %err% neq 0 exit %err%&#13;
   <file path=".Npackd\Uninstall.bat">uninstall.exe /S _?=%CD%&#13;
 </file>
   <url>https://www.sysgauge.com/setups/sysgauge_setup_v13.3.24.exe</url>
-  <hash-sum type="SHA-256">5ba8e237c7c0150d761fe9a89431a5d72cd91749e4f8a9c77953a877c7436231</hash-sum>
  </version>
  <version name="13.4.12" package="sysgauge" type="one-file">
   <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
@@ -161800,7 +161797,6 @@ if %err% neq 0 exit %err%&#13;
   <file path=".Npackd\Uninstall.bat">uninstall.exe /S _?=%CD%&#13;
 </file>
   <url>https://www.sysgauge.com/setups/sysgauge_setup_v13.4.12.exe</url>
-  <hash-sum type="SHA-256">41673d907e8552443bbe9d98cfce7f54aa9b3131bf134e3f9a1cb9b467fff9ce</hash-sum>
  </version>
  <version name="13.5.48" package="sysgauge" type="one-file">
   <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
@@ -161808,7 +161804,6 @@ if %err% neq 0 exit %err%&#13;
   <file path=".Npackd\Uninstall.bat">uninstall.exe /S _?=%CD%&#13;
 </file>
   <url>https://www.sysgauge.com/setups/sysgauge_setup_v13.5.48.exe</url>
-  <hash-sum type="SHA-256">742e623eb661109dea0bc6e4fb3a985f6c1814f86cb63ee8b2d16bdc3b8a9b08</hash-sum>
  </version>
  <version name="13.6.12" package="sysgauge" type="one-file">
   <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
@@ -161816,7 +161811,6 @@ if %err% neq 0 exit %err%&#13;
   <file path=".Npackd\Uninstall.bat">uninstall.exe /S _?=%CD%&#13;
 </file>
   <url>https://www.sysgauge.com/setups/sysgauge_setup_v13.6.12.exe</url>
-  <hash-sum type="SHA-256">97b8da497f5590d6da7d9cf84053e3cff5e59178a2d409b5f8b96ef81ddc7fa3</hash-sum>
  </version>
  <version name="13.7.14" package="sysgauge" type="one-file">
   <file path=".Npackd\Install.bat">"%npackd_package_binary%" /S /D=%CD% &amp;&amp; del /f /q "%npackd_package_binary%"&#13;
@@ -161824,7 +161818,6 @@ if %err% neq 0 exit %err%&#13;
   <file path=".Npackd\Uninstall.bat">uninstall.exe /S _?=%CD%&#13;
 </file>
   <url>https://www.sysgauge.com/setups/sysgauge_setup_v13.7.14.exe</url>
-  <hash-sum type="SHA-256">8d992f8618310e09227008b96379486a4aed19af10f072feaea0c281e5d780e2</hash-sum>
  </version>
 
  <version name="1" package="sysinternals-suite">
@@ -163408,6 +163401,12 @@ if %err% neq 0 exit %err%&#13;
   <important-file path="TE64.exe" title="Tablacus Explorer 64 bit"/>
   <url>https://github.com/tablacus/TablacusExplorer/releases/download/26.9.20/te260920.zip</url>
   <hash-sum type="SHA-256">eeec9af13377a52316ed4aa902921c23a42e57aa5964380279dfb2b71a4cf41f</hash-sum>
+ </version>
+ <version name="26.10.13" package="tablacus-explorer">
+  <important-file path="TE32.exe" title="Tablacus Explorer 32 bit"/>
+  <important-file path="TE64.exe" title="Tablacus Explorer 64 bit"/>
+  <url>https://github.com/tablacus/TablacusExplorer/releases/download/26.10.13/te261013.zip</url>
+  <hash-sum type="SHA-256">0f1f2a08174b27e3997642d187d25225f537d65d3d42695294e370e67a0dcc42</hash-sum>
  </version>
 
  <version name="0.8.4" package="tad" type="one-file">
